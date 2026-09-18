@@ -25,7 +25,7 @@ Small-preset rows marked **Preset files only** retain exact files from the prese
 
 **Add the human topic atlas** starts checked and adds `--navigation-dir catalog/navigation`. **Build only currently verified files (partial library)** starts unchecked and adds `--allow-incomplete` only when explicitly checked. The page distinguishes intended collection storage from selected verified asset sizes and includes search, scratch, metadata, and reserve in its peak estimates. The CLI checks real free space and existing-file reuse. Refresh the page after recipe changes with `python scripts/build_selector.py`; use `--check` to detect a stale page without rewriting it.
 
-The `flash-16gb` preset selects 436 pinned files totaling **9,696,060,616 bytes**, with 360 PDFs, 23 direct textbooks, 50 illustrated teaching works, children's EPUBs and five practical archives. Its 1 GB search, 3 GB scratch, 16 MiB metadata and 1.5 GB reserve allowances give a **15,212,837,832-byte** in-place planning peak. The `critical-64gb` preset expands this to **40,272,521,791 bytes** of sources and a **62,289,299,007-byte** planning peak. Both bundle four platform readers. All production sizes retain the same 427-document ordinary-format foundation; no special reader is needed for its PDFs and HTML. Search budgets still need checking against actual extraction results.
+The `flash-16gb` preset selects 436 pinned files totaling **9,696,060,616 bytes**, with 360 PDFs, 23 direct textbooks, 50 illustrated teaching works, children's EPUBs and five practical archives. Its 2 GB search, 4.5 GB scratch, 16 MiB metadata and 1.5 GB reserve allowances give a **15,712,837,832-byte** in-place planning peak. Extraction workspace is released after a verified raw-index checkpoint, before browser packaging; the two phases do not coexist. The `critical-64gb` preset expands this to **40,272,521,791 bytes** of sources and a **58,289,299,007-byte** planning peak. Both bundle four platform readers. All production sizes retain the same 427-document ordinary-format foundation; no special reader is needed for its PDFs and HTML. Search budgets still need checking against actual extraction results.
 
 `catalog/resources.yaml` describes the 46 numbered resources and three support collections: `owl-direct-core`, `archive-readers`, and `direct-reading-expansion`. Actual downloadable files, licenses, sizes, and hashes live in `catalog/library.yaml`. A resource can be ready, partial, or unresolved. Review the plan's resource coverage as well as its byte totals; a plausible size estimate is not proof that the requested collection is available.
 
@@ -106,9 +106,10 @@ kill or power cut cannot run cleanup, but prior durable checkpoints remain.
 | --- | --- |
 | Download | Reuse verified files; resume `.part` bytes with HTTP Range where supported. A server that ignores ranges causes that file to restart safely. |
 | Local/cache copy | Compare the saved prefix with the source, append the missing suffix, then check the completed file's SHA-256 before promotion. |
-| PDF, EPUB, or ZIM extraction | Resume at the saved page, member, or raw archive-entry cursor. Checkpoints occur every 50 units or five seconds at a unit boundary. Work after the last durable checkpoint repeats. |
+| PDF, EPUB, or ZIM extraction | Resume at the saved page, member, or raw archive-entry cursor. Checkpoints occur every 50 text-bearing units or five seconds at any raw-unit boundary. Work after the last durable checkpoint repeats. |
 | Plain text or HTML extraction | Resume after completed files; the current file restarts. |
 | Final search-index assembly | Reassemble from retained extracted text and postings; extraction does not repeat. |
+| Browser search packaging | Verify the durable raw-index checkpoint and reuse matching script chunks. Extraction does not repeat, even though its workspace has been reclaimed. |
 | Unchanged completed search index | Verify input bytes, metadata/toolchain fingerprint, and index hash, then reuse. |
 | Static pages, checksums, final verification | Regenerate small pages and repeat integrity checks as needed. Hashing itself is not checkpointed. |
 

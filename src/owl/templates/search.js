@@ -5,7 +5,7 @@ const OWLSearch = (() => {
   const decoder = new TextDecoder("utf-8", {fatal: true});
   const encoder = new TextEncoder();
   const MAX_READ = 1024 * 1024;
-  const POSTING_BLOCK = 4096; // 48 KiB per query term; at most 32 terms.
+  const POSTING_BYTES = 48 * 1024; // Per query term; at most 32 terms.
   const FLAG_BLOCK = 65536; // One 64 KiB cache; one byte per passage.
   const SHELVES = {all: 0, textbooks: 1, "illustrated-guides": 2};
   function tokens(text) {
@@ -26,6 +26,42 @@ const OWLSearch = (() => {
   }
   function offset64(view, position) {
     return checkInt(view.getUint32(position, true) + view.getUint32(position + 4, true) * 4294967296);
+  }
+  async function documentBytes(compressed) {
+    const input = new Uint8Array(compressed);
+    if (input.length < 6 || (input[0] & 15) !== 8 || (input[0] >> 4) > 7 ||
+        (input[0] * 256 + input[1]) % 31 || (input[1] & 32)) throw new Error("Invalid compressed document: unsupported zlib header.");
+    const expectedChecksum = new DataView(compressed).getUint32(input.length - 4, false);
+    let position = 0;
+    // Small inputs bound work queued inside the native inflater as well as the
+    // output retained here. Do not collect an unbounded Response.arrayBuffer().
+    const source = new ReadableStream({pull(controller) {
+      if (position === input.length) { controller.close(); return; }
+      const end = Math.min(position + 1024, input.length);
+      controller.enqueue(input.subarray(position, end)); position = end;
+    }});
+    const reader = source.pipeThrough(new DecompressionStream("deflate")).getReader();
+    const chunks = []; let length = 0, checksumA = 1, checksumB = 0;
+    try {
+      for (;;) {
+        const {done, value} = await reader.read();
+        if (done) break;
+        length += value.byteLength;
+        if (length > MAX_READ) throw new Error("Decompressed document exceeds the 1 MiB record limit.");
+        for (let i = 0; i < value.byteLength; i++) { checksumA += value[i]; checksumB += checksumA; }
+        checksumA %= 65521; checksumB %= 65521;
+        chunks.push(value);
+      }
+      // Independently check the physical trailer. Some older native stream
+      // implementations accept trailing bytes rather than rejecting them.
+      if (checksumB * 65536 + checksumA !== expectedChecksum) throw new Error("Zlib checksum or trailing bytes do not match the document.");
+    } catch (error) {
+      await reader.cancel().catch(() => {});
+      throw new Error("Invalid compressed document: " + error.message);
+    } finally { reader.releaseLock(); }
+    const result = new Uint8Array(length); let at = 0;
+    for (const chunk of chunks) { result.set(chunk, at); at += chunk.byteLength; }
+    return result;
   }
   function safeLink(record) {
     const path = record.destination;
@@ -78,19 +114,32 @@ const OWLSearch = (() => {
     }
     async open() {
       const prefix = await this.read(0, 12);
-      if (decoder.decode(prefix.slice(0, 8)) !== "OWLIDX2\n") throw new Error("Search data does not match this viewer. Rebuild the drive if its index format differs.");
+      if (decoder.decode(prefix.slice(0, 8)) !== "OWLIDX3\n") throw new Error("Search data does not match this viewer. Rebuild the drive if its index format differs.");
       const size = new DataView(prefix).getUint32(8, true);
       if (size > 4084) throw new Error("Invalid index header.");
       const h = JSON.parse(decoder.decode(await this.read(12, size)));
-      if (h.version !== 2 || h.tokenizer !== "NFKC-lower-unicode-letter-number-v1") throw new Error("This index needs its matching SEARCH.html.");
+      if (h.version !== 3 || h.document_encoding !== "zlib-json-v1" || h.postings_encoding !== "delta-uvarint-v1" ||
+          h.tokenizer !== "NFKC-lower-unicode-letter-number-v1") throw new Error("This index needs its matching search viewer. Rebuild the drive.");
       for (const key of ["documents", "terms", "docs_offset", "flags_offset", "lexicon_offset", "size"]) checkInt(h[key]);
-      if (h.size !== this.file.size || h.docs_offset < 4096 || h.docs_offset + h.documents * 12 !== h.flags_offset || h.flags_offset + h.documents > h.lexicon_offset || h.lexicon_offset + h.terms * 12 !== h.size || !Number.isFinite(h.average_length) || h.average_length < 0) throw new Error("Invalid or truncated index. Run the drive verifier.");
+      if (h.documents > 4294967296 || h.size !== this.file.size || h.docs_offset < 4096 || h.docs_offset + h.documents * 12 !== h.flags_offset || h.flags_offset + h.documents > h.lexicon_offset || h.lexicon_offset + h.terms * 12 !== h.size || !Number.isFinite(h.average_length) || h.average_length < 0) throw new Error("Invalid or truncated index. Run the drive verifier.");
+      try {
+        if (typeof DecompressionStream !== "function") throw new Error("unavailable");
+        new DecompressionStream("deflate");
+      } catch (_) { throw new Error("This browser lacks native deflate decompression. Use the static indexes or a newer full browser; no server or installation is required for ordinary documents."); }
       this.header = h;
       return h;
     }
     async record(table, id) {
+      checkInt(id);
+      const document = table === this.header.docs_offset;
+      if ((!document && table !== this.header.lexicon_offset) || id >= (document ? this.header.documents : this.header.terms))
+        throw new Error("Invalid record reference.");
       const pointer = new DataView(await this.read(table + id * 12, 12));
-      return JSON.parse(decoder.decode(await this.read(offset64(pointer, 0), pointer.getUint32(8, true))));
+      const offset = offset64(pointer, 0), length = pointer.getUint32(8, true);
+      if (!length || offset < (document ? 4096 : this.header.flags_offset + this.header.documents) ||
+          offset + length > (document ? this.header.docs_offset : this.header.lexicon_offset)) throw new Error("Invalid record range.");
+      const bytes = await this.read(offset, length);
+      return JSON.parse(decoder.decode(document ? await documentBytes(bytes) : bytes));
     }
     async term(word) {
       if (this.cache.has(word)) return this.cache.get(word);
@@ -98,9 +147,14 @@ const OWLSearch = (() => {
       while (low <= high) {
         const middle = Math.floor((low + high) / 2);
         const value = await this.record(this.header.lexicon_offset, middle);
-        if (!Array.isArray(value) || typeof value[0] !== "string") throw new Error("Invalid lexicon record.");
+        if (!Array.isArray(value) || value.length !== 4 || typeof value[0] !== "string") throw new Error("Invalid lexicon record.");
         const order = compare(value[0], word);
-        if (!order) { checkInt(value[1], this.header.flags_offset + this.header.documents); checkInt(value[2], 1); if (value[2] > this.header.documents || value[1] + value[2] * 12 > this.header.lexicon_offset) throw new Error("Invalid posting list."); result = value; break; }
+        if (!order) {
+          checkInt(value[1], this.header.flags_offset + this.header.documents); checkInt(value[2], 1); checkInt(value[3], 1);
+          if (value[2] > this.header.documents || value[3] < value[2] * 3 || value[3] > value[2] * 15 ||
+              value[1] + value[3] > this.header.lexicon_offset) throw new Error("Invalid posting list.");
+          result = value; break;
+        }
         if (order < 0) low = middle + 1; else high = middle - 1;
       }
       if (this.cache.size >= 128) this.cache.delete(this.cache.keys().next().value);
@@ -172,17 +226,36 @@ const OWLSearch = (() => {
     }
   }
   class PostingList {
-    constructor(index, term) { this.index = index; this.offset = term[1]; this.count = term[2]; this.position = 0; this.block = null; this.blockStart = 0; this.blockLength = 0; this.current = null; this.previous = -1; }
-    async next() {
-      if (this.position >= this.count) { this.current = null; return; }
-      if (!this.block || this.position >= this.blockStart + this.blockLength) {
-        this.blockStart = this.position;
-        this.blockLength = Math.min(POSTING_BLOCK, this.count - this.position);
-        this.block = new DataView(await this.index.read(this.offset + this.position * 12, this.blockLength * 12));
+    constructor(index, term) { this.index = index; this.offset = term[1]; this.count = term[2]; this.length = term[3]; this.position = 0; this.consumed = 0; this.block = null; this.blockStart = 0; this.current = null; this.previous = -1; }
+    integer() {
+      let value = 0, multiplier = 1;
+      for (let i = 0; i < 5; i++) {
+        if (this.consumed >= this.length || this.consumed - this.blockStart >= this.block.length) throw new Error("Truncated posting integer.");
+        const byte = this.block[this.consumed++ - this.blockStart];
+        if (i === 4 && byte > 15) throw new Error("Posting integer overflow or overlong encoding.");
+        value += (byte & 127) * multiplier;
+        if (byte < 128) {
+          if (i && byte === 0) throw new Error("Overlong posting integer.");
+          return value;
+        }
+        multiplier *= 128;
       }
-      const at = (this.position - this.blockStart) * 12;
-      const id = this.block.getUint32(at, true), tf = this.block.getUint32(at + 4, true), dl = this.block.getUint32(at + 8, true);
-      if (id <= this.previous || id >= this.index.header.documents || !tf || !dl) throw new Error("Invalid posting data.");
+      throw new Error("Overlong posting integer.");
+    }
+    async next() {
+      if (this.position >= this.count) {
+        if (this.consumed !== this.length) throw new Error("Trailing bytes in posting list.");
+        this.current = null; return;
+      }
+      // At most 15 bytes encode one complete triple. Re-read up to 14 bytes at
+      // a window edge so the inner varint decoder stays synchronous and small.
+      if (!this.block || this.block.length - (this.consumed - this.blockStart) < Math.min(15, this.length - this.consumed)) {
+        this.blockStart = this.consumed;
+        this.block = new Uint8Array(await this.index.read(this.offset + this.consumed, Math.min(POSTING_BYTES, this.length - this.consumed)));
+      }
+      const delta = this.integer(), tf = this.integer(), dl = this.integer();
+      const id = this.position ? this.previous + delta : delta;
+      if (id <= this.previous || id > 4294967295 || id >= this.index.header.documents || !tf || !dl) throw new Error("Invalid posting data.");
       this.current = {id, tf, dl}; this.previous = id; this.position++;
     }
   }

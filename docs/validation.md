@@ -301,3 +301,36 @@ errors or horizontal overflow.
 The real expanded SSD build is recorded separately once full extraction and
 independent verification finish. Small-fixture success alone does not establish
 that a large archive index fits its allowance.
+
+## Compact search and phased working space (2026-09-18)
+
+The full local suite passed **374 tests** after the OWLIDX3 change. The logical
+index now uses independently zlib-compressed document records and delta-coded
+unsigned-varint postings. Streaming whitespace normalization preserves searchable
+tokens while avoiding passages made mostly from HTML indentation. Tests cover
+malformed/truncated/oversized data, multi-window posting lists, Unicode, ranking,
+filters and attribution, including native decompression on Node 20 and 24.
+
+A raw-index checkpoint is saved after serialization and SHA-256 verification.
+Directory updates are synchronized where supported before owned extraction files
+are reclaimed; real I/O errors preserve the extraction workspace. Tests interrupt
+before the marker, during reclamation and during browser packaging, then resume
+without re-extraction. Exact matching partial chunks receive space credit only
+for their verified generation. A tight-free-space integration test confirms that
+raw-ready restart does not reserve another extraction workspace. Separate-device
+phase tests prevent reclaimed storage on one filesystem from crediting another.
+
+A fresh strict-atlas demo independently verified **89 OK, 0 missing, 0 failed,
+0 unknown**. Fresh offline Chrome 153 passed **18 search/navigation checks** on
+both generated search pages at desktop and phone widths, including JavaScript-
+disabled fallback. The regenerated selector passed all five presets at 390px,
+with matching phase totals and CLI selections, no network requests or overflow.
+These browser checks did not grant file access or relax browser security.
+
+Bounded uniform archive samples exposed the old uncompressed format's excessive
+space requirements. Normalized V3 samples estimate 1.35–1.58 GB of packaged search
+and 2.60 GB of extraction workspace for the five flash archives alone, excluding
+ordinary documents and shared tables. The 2 GB search and 4.5 GB phased scratch
+allowances are therefore still subject to the real full-build measurement.
+The expanded SSD build is in progress; the above results do not claim that it
+has completed or that larger corpora have been performance-tested.

@@ -76,7 +76,15 @@ process.stdout.write(JSON.stringify(results));
         final = intended + profile["search_budget_bytes"] + 16 * 1024**2
         self.assertEqual(estimate["finalBytes"], final)
         scratch = profile.get("index_scratch_budget_bytes", 2 * profile["search_budget_bytes"])
-        self.assertEqual(estimate["peakBytes"], final + scratch + profile["reserve_bytes"])
+        raw = (3 * profile["search_budget_bytes"] + 3) // 4
+        extraction = scratch - raw
+        working = raw + max(extraction, profile["search_budget_bytes"])
+        self.assertEqual(estimate["scratchBytes"], scratch)
+        self.assertEqual(estimate["serializationBytes"], raw)
+        self.assertEqual(estimate["extractionBytes"], extraction)
+        self.assertEqual(estimate["phaseWorkingBytes"], working)
+        self.assertEqual(estimate["peakBytes"], intended + 16 * 1024**2 + working + profile["reserve_bytes"])
+        self.assertEqual(estimate["actualPeakBytes"], known + 16 * 1024**2 + working + profile["reserve_bytes"])
         coverage = report["coverage"]
         readers_actual = sum(a["size_bytes"] for a in assets if a["destination"].startswith("SOFTWARE/"))
         self.assertEqual(coverage["knowledgeBytes"], known - readers_actual)
@@ -88,6 +96,8 @@ process.stdout.write(JSON.stringify(results));
             self.assertFalse(report["canBuild"])
         else:
             self.assertEqual(estimate["finalBytes"], plan.get("planned_final_bytes", plan["estimated_final_bytes"]))
+            self.assertEqual(estimate["phaseWorkingBytes"], plan["index_working_peak_bytes"])
+            self.assertEqual(estimate["peakBytes"], plan["in_place_peak_budget_bytes"])
 
     def test_all_presets_match_cli_selection_and_storage(self):
         results = self.javascript([{"profile": p["id"]} for p in self.model["profiles"]])
@@ -115,6 +125,37 @@ process.stdout.write(JSON.stringify(results));
         for result in self.javascript(cases):
             with self.subTest(profile=result["state"]["profile"], args=result["report"]["selectionArgs"]):
                 self.compare_to_python(result)
+
+    def test_phase_peak_reclaims_extraction_before_search_publication(self):
+        # Planning-only fixture: no large files are created. Cover both possible
+        # peak phases, integer rounding, and the real proposed 16 GB allocation.
+        model = {"profiles": [{"id": "test", "capacity_bytes": 16_000_000_000,
+                  "reserve_bytes": 1_500_000_000, "search_budget_bytes": 2_000_000_000,
+                  "index_scratch_budget_bytes": 4_500_000_000,
+                  "baseline_asset_ids": ["book"], "preset_resource_ids": []}],
+                 "resources": [], "assets": [{"id": "book", "status": "resolved",
+                  "size_bytes": 9_696_060_616, "destination": "BOOKS/book.pdf", "format": "pdf",
+                  "category": "reference", "critical": True, "required": True}]}
+        result = self.javascript([{"profile": "test"}], model)[0]
+        estimate = result["report"]["estimates"]
+        self.assertEqual(estimate["scratchBytes"], 4_500_000_000)
+        self.assertEqual(estimate["serializationBytes"], 1_500_000_000)
+        self.assertEqual(estimate["extractionBytes"], 3_000_000_000)
+        self.assertEqual(estimate["peakBytes"], 15_712_837_832)
+        self.assertEqual(estimate["actualPeakBytes"], 15_712_837_832)
+        self.assertTrue(result["build"])
+        model["profiles"][0]["capacity_bytes"] = estimate["peakBytes"] - 1
+        too_small = self.javascript([{"profile": "test"}], model)[0]
+        self.assertFalse(too_small["build"])
+        self.assertTrue(any("in-place build budget" in error for error in too_small["report"]["errors"]))
+        profile = model["profiles"][0]
+        profile.update(capacity_bytes=16_000_000_000, search_budget_bytes=4001,
+                       index_scratch_budget_bytes=3500)
+        publication = self.javascript([{"profile": "test"}], model)[0]["report"]["estimates"]
+        self.assertEqual(publication["serializationBytes"], 3001)
+        self.assertEqual(publication["extractionBytes"], 499)
+        self.assertEqual(publication["phaseWorkingBytes"], 7002)
+        self.assertEqual(publication["peakBytes"], 11_212_844_834)
 
     def test_small_preset_expansion_is_explicit_and_exclusion_reduces_bytes(self):
         results = self.javascript([

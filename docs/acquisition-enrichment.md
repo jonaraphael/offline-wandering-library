@@ -91,3 +91,40 @@ and Range support. The active catalog now prefers this approved mirror and
 retains the original Kiwix URL as fallback. Versions and SHA-256 pins are unchanged;
 a faster mirror is trusted only after the whole-file checksum passes. Downloaded
 binaries are not executed by the build.
+
+## Survivor individual PDF check — 18 September 2026
+
+The individual download route works despite the category ZIP failures above.
+The [official category index](https://www.survivorlibrary.com/index.php/main-category-index/)
+links ordinary HTML tables containing book titles, displayed sizes and direct
+PDF URLs; collecting these candidate records requires no browser automation or
+account. A bounded check of 12 categories—Smithing, Machine Tools, Forging and
+Casting, Construction, Wood Carpentry, Wind and Water, Steam Engines, Farming,
+Cheese and Butter, Bookbinding, Leather and Chemistry—found 1,019 PDF rows and
+**1,014 unique PDF URLs**. Their rounded publisher size labels total approximately
+**17.693 GB** when interpreted as decimal units. These labels are not exact byte
+counts, and unique URLs do not establish unique books or editions. The sample
+does not establish the requested curated 75 GB or 100 GB Tier A collection.
+
+Six individual downloads were probed with HEAD and a request for bytes 0–1023.
+All returned HTTP 200 to HEAD, HTTP 206 to the range request, matching total sizes
+in `Content-Range`, and a PDF signature in the returned prefix:
+
+| Official PDF link | HEAD size, bytes |
+|---|---:|
+| [Practical sheet iron and tin plate workers, 1904](https://www.survivorlibrary.com/library/a_new_and_original_treatise_for_practical_sheet_iron_and_tin_plate_workers1904.pdf) | 1,767,771 |
+| [Engineering and building foundations, 1920](https://www.survivorlibrary.com/library/a_practical_treatise_on_engineering_and_building_foundations_1920.pdf) | 24,168,267 |
+| [Conveyance and distribution of water, 1918](https://www.survivorlibrary.com/library/conveyance_and_distribution_of_water_for_water_supply_1918.pdf) | 57,600,290 |
+| [Angora goat raising, 1903](https://www.survivorlibrary.com/library/a_manual_of_angora_goat_raising__with_a_chapter_on_milch_goats-1903.pdf) | 14,593,684 |
+| [History of bookbinding, 1894](https://www.survivorlibrary.com/library/a_history_of_the_art_of_bookbinding-with_some_account_of_the_books_of_the_ancients_1894.pdf) | 21,769,057 |
+| [Industrial organic chemistry, 1900](https://www.survivorlibrary.com/library/a_handbook_of_industrial_organic_chemistry_1900.pdf) | 39,063,372 |
+
+This check transferred 1,102,624 bytes of HTML and 6,144 bytes of PDF prefixes;
+it did not download complete books, inspect their scans or verify whole-file
+hashes. No new catalog pins were added. A reproducible acquisition can freeze
+selected table rows, remove unwanted titles and duplicate editions, then obtain
+exact sizes, download the selected PDFs resumably and compute SHA-256 hashes.
+The site's offered downloads provide the acquisition route for the intended
+personal offline library. This availability check does not establish a blanket
+redistribution license: preserve each volume's source, author, publisher and
+existing notices, and record its actual rights metadata when cataloging it.

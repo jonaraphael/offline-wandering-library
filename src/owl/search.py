@@ -7,6 +7,7 @@ The browser reads requested ranges from bounded local script chunks automaticall
 from __future__ import annotations
 
 import codecs
+import errno
 import hashlib
 import importlib.metadata
 import importlib.util
@@ -22,13 +23,14 @@ import sys
 import time
 import unicodedata
 import zipfile
+import zlib
 from collections import Counter
 from contextlib import contextmanager
 from html.parser import HTMLParser
 from typing import BinaryIO, Callable, Iterable, Iterator
 
 
-MAGIC = b"OWLIDX2\n"
+MAGIC = b"OWLIDX3\n"
 HEADER_SIZE = 4096
 PASSAGE_CHARS = 8192
 MAX_ZIM_ITEM = 64 * 1024 * 1024
@@ -112,7 +114,16 @@ def _html_chunks(chunks: Iterable[str]) -> Iterator[str]:
 
 def _passages(chunks: Iterable[str]) -> Iterator[str]:
     buffer = ""
+    previous_space = False
     for chunk in chunks:
+        # Whitespace belongs to the search representation, not the source file.
+        # Collapse across chunk boundaries without ever joining distinct words
+        # or inserting a boundary into a word split between incoming chunks.
+        chunk = re.sub(r"\s+", " ", chunk)
+        if previous_space and chunk.startswith(" "):
+            chunk = chunk[1:]
+        if chunk:
+            previous_space = chunk.endswith(" ")
         buffer += chunk
         while len(buffer) > PASSAGE_CHARS:
             # Preserve normal words at passage boundaries. Pathological unbroken
@@ -244,10 +255,13 @@ def _units(path: Path, asset: dict, coverage: dict, start: int = 0
 def _add_record(db: sqlite3.Connection, output: BinaryIO, record: dict, doc_id: int,
                 flags: int) -> int:
     if doc_id >= 2**32:
-        raise SearchError("Index exceeds version 2's 2^32 passage limit")
+        raise SearchError("Index exceeds version 3's 2^32 passage limit")
     data = _json(record)
     if len(data) > 1024 * 1024:
         raise SearchError("Search record exceeds 1 MiB: shorten catalog metadata")
+    data = zlib.compress(data, 6)
+    if len(data) > 1024 * 1024:
+        raise SearchError("Compressed search record exceeds 1 MiB: shorten catalog metadata")
     db.execute("INSERT INTO docs VALUES (?, ?, ?, ?)", (doc_id, output.tell(), len(data), flags))
     output.write(data)
     counts = Counter(tokens(record["text"]))
@@ -276,8 +290,9 @@ def _job_paths(target: Path, work_dir: Path | None) -> tuple[Path, Path, dict]:
     return job, _safe_path(target, relative), owner
 
 
-_JOB_FILES = ('build.sqlite3', 'build.sqlite3-journal', 'build.sqlite3-wal',
-              'build.sqlite3-shm', 'records.bin')
+_EXTRACTION_FILES = ('build.sqlite3', 'build.sqlite3-journal', 'build.sqlite3-wal',
+                     'build.sqlite3-shm', 'records.bin')
+_JOB_FILES = (*_EXTRACTION_FILES, 'serialized.json')
 
 
 def _owned_job(job: Path, owner: dict) -> bool:
@@ -306,12 +321,19 @@ def checkpoint_usage(target: Path, *, work_dir: Path | None = None) -> dict:
     """
     job, part, owner = _job_paths(Path(target), work_dir)
     if not _owned_job(job, owner):
-        return {'scratch_bytes': 0, 'output_bytes': 0}
+        return {'scratch_bytes': 0, 'output_bytes': 0, 'raw_checkpoint_present': False}
     if part.exists() and not part.is_file():
         raise SearchError(f'Search output part is not a regular file: {part}')
     return {'scratch_bytes': sum(_safe_path(job, name).stat().st_size
-                                 for name in _JOB_FILES if _safe_path(job, name).exists()),
-            'output_bytes': part.stat().st_size if part.exists() else 0}
+                                 for name in _EXTRACTION_FILES if _safe_path(job, name).exists()),
+            'output_bytes': part.stat().st_size if part.exists() else 0,
+            'raw_checkpoint_present': _safe_path(job, 'serialized.json').is_file()}
+
+
+def _clear_extraction(job: Path) -> None:
+    # Caller has verified the durable raw checkpoint and closed its connection.
+    for name in _EXTRACTION_FILES:
+        _safe_path(job, name).unlink(missing_ok=True)
 
 
 def _clear_job(job: Path, part: Path) -> None:
@@ -376,11 +398,82 @@ def _completed_report(target: Path, report_path: Path, fingerprint: str) -> dict
         if size > HEADER_SIZE - 12:
             return None
         header = json.loads(data[12:12 + size])
-        if header.get('size') != report['index_bytes'] or header.get('documents') != report['documents']:
+        if (header.get('version') != 3 or report.get('format_version') != 3 or
+                header.get('document_encoding') != 'zlib-json-v1' or
+                header.get('postings_encoding') != 'delta-uvarint-v1' or
+                header.get('size') != report['index_bytes'] or header.get('documents') != report['documents']):
             return None
         return report
     except (OSError, ValueError, KeyError, TypeError):
         return None
+
+
+def _ready_report(job: Path, part: Path, fingerprint: str) -> dict | None:
+    """Verify a durable serialized checkpoint before trusting extraction cleanup."""
+    from .safety import sha256_file
+    marker = _safe_path(job, 'serialized.json')
+    if not marker.is_file() or not part.is_file():
+        return None
+    try:
+        saved = json.loads(marker.read_text(encoding='utf-8'))
+        report = saved['report']
+        if (saved.get('schema_version') != 1 or saved.get('fingerprint') != fingerprint or
+                not isinstance(report, dict) or report.get('build_fingerprint') != fingerprint or
+                report.get('format_version') != 3 or type(report.get('index_bytes')) is not int or
+                part.stat().st_size != report['index_bytes'] or
+                not isinstance(report.get('index_sha256'), str) or
+                not re.fullmatch(r'[0-9a-f]{64}', report['index_sha256'])):
+            return None
+        with part.open('rb') as stream:
+            data = stream.read(HEADER_SIZE)
+        if len(data) != HEADER_SIZE or data[:8] != MAGIC:
+            return None
+        size = struct.unpack_from('<I', data, 8)[0]
+        if size > HEADER_SIZE - 12:
+            return None
+        header = json.loads(data[12:12 + size])
+        if (header.get('version') != 3 or header.get('document_encoding') != 'zlib-json-v1' or
+                header.get('postings_encoding') != 'delta-uvarint-v1' or
+                header.get('size') != report['index_bytes'] or header.get('documents') != report.get('documents') or
+                sha256_file(part) != report['index_sha256']):
+            return None
+        return report
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        return None
+
+
+def _sync_directory(path: Path) -> bool:
+    """Order directory updates where supported; never suppress real I/O faults."""
+    from .safety import reject_symlinks
+    reject_symlinks(path)
+    if os.name == 'nt':
+        # Python's portable os.open/fsync interface cannot sync a Windows
+        # directory handle. Process-interruption recovery still works there.
+        return False
+    descriptor = os.open(path, os.O_RDONLY | getattr(os, 'O_DIRECTORY', 0))
+    try:
+        try:
+            os.fsync(descriptor)
+        except OSError as error:
+            unsupported = {errno.EINVAL, getattr(errno, 'ENOTSUP', errno.EINVAL),
+                           getattr(errno, 'EOPNOTSUPP', errno.EINVAL)}
+            if error.errno in unsupported:
+                return False
+            raise
+        return True
+    finally:
+        os.close(descriptor)
+
+
+def _save_ready(job: Path, part: Path, fingerprint: str, report: dict) -> bool:
+    from .safety import atomic_write
+    # The raw file itself was fsynced by serialization. Order its directory
+    # entry before publishing the recovery marker in a possibly different FS.
+    raw_synced = _sync_directory(part.parent)
+    atomic_write(_safe_path(job, 'serialized.json'), _json({
+        'schema_version': 1, 'fingerprint': fingerprint, 'report': report}) + b'\n')
+    marker_synced = _sync_directory(job)
+    return raw_synced and marker_synced
 
 
 def _prepare_ui(report: dict) -> dict[str, bytes]:
@@ -422,6 +515,32 @@ def probe_completed_search(target: Path, assets: list[dict], *, progress: Callab
     return {'generated_bytes': sum(item['size_bytes'] for item in report['file_integrity'].values()) + len(coverage),
             'rewrite_bytes': sum(map(len, ui.values())) + len(coverage),
             'index_bytes': report['index_bytes'], 'index_sha256': report['index_sha256']}
+
+
+def probe_raw_checkpoint(target: Path, assets: list[dict], *, work_dir: Path | None = None,
+                         progress: Callable | None = None) -> dict | None:
+    """Verify raw staging and exact partial-package credit, without writing."""
+    from .search_pack import probe_pack
+    target = Path(target)
+    job, part, owner = _job_paths(target, work_dir)
+    if not _owned_job(job, owner) or not _safe_path(job, 'serialized.json').is_file():
+        return None
+    notify = lambda message, **_kwargs: progress(message) if progress is not None else None
+    fingerprint, signatures = _input_fingerprint(target, sorted(assets, key=lambda a: a['destination']), notify)
+    report = _ready_report(job, part, fingerprint)
+    if report is None:
+        return None
+    package = probe_pack(target, part, report['index_sha256'])
+    if any(signature != _signature(path) for path, signature in signatures):
+        return None
+    report.update(package['report'])
+    ui = _prepare_ui(report)
+    coverage = json.dumps(report, ensure_ascii=False, indent=2).encode('utf-8') + b'\n'
+    rewrites = sum(map(len, ui.values())) + len(coverage)
+    return {'index_bytes': report['index_bytes'], 'index_sha256': report['index_sha256'],
+            'generated_bytes': report['transport_bytes'] + rewrites,
+            'retained_transport_bytes': package['retained_transport_bytes'],
+            'remaining_pack_allocation_bytes': package['remaining_bytes'] + rewrites}
 
 
 def _database(path: Path) -> sqlite3.Connection:
@@ -485,6 +604,17 @@ class _BoundedIndexWriter:
         return getattr(self.handle, name)
 
 
+def _uvarint(value: int) -> bytes:
+    if type(value) is not int or not 0 <= value < 2**32:
+        raise SearchError('Posting value exceeds the unsigned 32-bit format limit')
+    output = bytearray()
+    while value >= 128:
+        output.append((value & 127) | 128)
+        value >>= 7
+    output.append(value)
+    return bytes(output)
+
+
 def _serialize_index(db: sqlite3.Connection, records: BinaryIO, part: Path,
                      report: dict, total_length: int, notify: Callable,
                      maximum: int | None = None, check_budget: Callable = lambda: None) -> None:
@@ -511,27 +641,35 @@ def _serialize_index(db: sqlite3.Connection, records: BinaryIO, part: Path,
         terms = 0
         previous = None
         posting_offset = count = 0
+        previous_doc = 0
         postings_written = 0
         notify('INDEX writing sorted postings', force=True)
         for term, doc_id, tf, dl in db.execute('SELECT term,doc,tf,dl FROM postings ORDER BY term,doc'):
             if term != previous:
                 if previous is not None:
-                    db.execute('INSERT INTO lexicon VALUES (?,?,?,?)', (terms, previous, posting_offset, count))
+                    db.execute('INSERT INTO lexicon VALUES (?,?,?,?,?)',
+                               (terms, previous, posting_offset, count, output.tell() - posting_offset))
                     terms += 1
                 previous, posting_offset, count = term, output.tell(), 0
-            output.write(struct.pack('<III', doc_id, tf, dl))
+                previous_doc = 0
+            delta = doc_id - previous_doc
+            if (count and delta <= 0) or tf <= 0 or dl <= 0:
+                raise SearchError('Invalid sorted posting in extraction checkpoint')
+            output.write(_uvarint(delta) + _uvarint(tf) + _uvarint(dl))
+            previous_doc = doc_id
             count += 1
             postings_written += 1
             if postings_written % 100000 == 0:
                 db.commit()
                 notify(f'INDEX {postings_written:,} postings, {terms:,} terms written')
         if previous is not None:
-            db.execute('INSERT INTO lexicon VALUES (?,?,?,?)', (terms, previous, posting_offset, count))
+            db.execute('INSERT INTO lexicon VALUES (?,?,?,?,?)',
+                       (terms, previous, posting_offset, count, output.tell() - posting_offset))
             terms += 1
         db.commit()
         notify(f'INDEX writing lexicon ({terms:,} terms)', force=True)
-        for term_id, term, offset, count in db.execute('SELECT * FROM lexicon ORDER BY id'):
-            record = _json([term, offset, count])
+        for term_id, term, offset, count, length in db.execute('SELECT * FROM lexicon ORDER BY id'):
+            record = _json([term, offset, count, length])
             db.execute('INSERT INTO lex_offsets VALUES (?,?,?)', (term_id, output.tell(), len(record)))
             output.write(record)
             if term_id % 100000 == 0:
@@ -541,7 +679,8 @@ def _serialize_index(db: sqlite3.Connection, records: BinaryIO, part: Path,
         lexicon_offset = output.tell()
         for offset, size in db.execute('SELECT offset,size FROM lex_offsets ORDER BY id'):
             output.write(struct.pack('<QI', offset, size))
-        header = {'version': 2, 'documents': report['documents'], 'terms': terms,
+        header = {'version': 3, 'document_encoding': 'zlib-json-v1', 'postings_encoding': 'delta-uvarint-v1',
+                  'documents': report['documents'], 'terms': terms,
                   'average_length': total_length / max(1, report['documents']),
                   'docs_offset': docs_offset, 'flags_offset': flags_offset,
                   'lexicon_offset': lexicon_offset,
@@ -560,14 +699,16 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
                  progress: Callable[[str], None] | None = None,
                  search_budget_bytes: int | None = None,
                  index_scratch_budget_bytes: int | None = None,
-                 reserve_bytes: int = 0, reuse_only: bool = False) -> dict:
+                 reserve_bytes: int = 0, reuse_only: bool = False,
+                 raw_reuse_only: bool = False) -> dict:
     """Build or resume full-text extraction and atomically replace the index.
 
-    Durable checkpoints cover at most 50 PDF pages, EPUB members, or raw ZIM
-    entries, or five seconds at a unit boundary. An interrupted plain text/HTML
-    file restarts that file. Serialization restarts from retained extracted text
-    and postings. Actual input bytes, metadata, and extractor versions determine
-    reuse; a previous complete index remains usable until replacement is ready.
+    Durable extraction checkpoints cover at most 50 text-bearing units, or five
+    seconds at any raw-unit boundary, including skipped archive entries. An
+    interrupted plain text/HTML file restarts that file. After a verified durable
+    serialized checkpoint, extraction files are reclaimed and packaging resumes
+    from that raw index. Input bytes, metadata, and extractor versions determine
+    reuse; budgets do not invalidate retained work.
     """
     from .catalog import learning_shelves
     from .runtime import file_lock
@@ -622,6 +763,27 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
         job.mkdir(parents=True, exist_ok=True)
         atomic_write(_safe_path(job, 'owner.json'), _json(owner))
     directory.mkdir(parents=True, exist_ok=True)
+
+    def publish_report(report: dict) -> None:
+        from .search_pack import publish_pack
+        for path, signature in signatures:
+            if signature != _signature(path):
+                raise SearchError(f'Search source changed during extraction: {path}; rerun to invalidate its checkpoint')
+        report.update(publish_pack(target, part, report['index_sha256'], notify=notify,
+                                   max_bytes=search_budget_bytes))
+        ui = _prepare_ui(report)
+        coverage_data = json.dumps(report, ensure_ascii=False, indent=2).encode('utf-8') + b'\n'
+        check_outputs(report, coverage_data, ui)
+        _publish_ui(target, report, ui)
+        atomic_write(report_path, coverage_data)
+
+    def directory_sync_notice(supported: bool) -> None:
+        if not supported:
+            notify('INDEX DURABILITY NOTICE: directory sync is unavailable on this platform or filesystem. '
+                   'Process-interruption resume remains supported; power-loss ordering of directory updates '
+                   'is unconfirmed. Use safe eject; exFAT and USB hardware can still lose data after sudden removal.',
+                   force=True)
+
     with file_lock(_safe_path(job, 'lock')):
         _owned_job(job, owner)
         if part.exists() and not part.is_file():
@@ -638,6 +800,22 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
             return reusable
         if reuse_only:
             raise SearchError('Verified search changed after space preflight; rerun to reserve replacement-index space. '
+                              'No extraction was started.')
+        ready = _ready_report(job, part, fingerprint)
+        if ready is not None:
+            if raw_limit is not None and ready['index_bytes'] > raw_limit:
+                raise SearchError('Verified raw index exceeds its serialization allowance; increase search_budget_bytes and rerun.')
+            notify(f"INDEX RAW REUSE: {ready['documents']:,} verified passages; completing local script packaging", force=True)
+            raw_synced = _sync_directory(part.parent)
+            marker_synced = _sync_directory(job)
+            directory_sync_notice(raw_synced and marker_synced)
+            _clear_extraction(job)
+            publish_report(ready)
+            _clear_job(job, part)
+            notify(f"INDEX COMPLETE: {ready['documents']:,} passages; {ready['transport_bytes']:,} local script bytes", force=True)
+            return ready
+        if raw_reuse_only:
+            raise SearchError('Verified raw checkpoint changed after space preflight; rerun to reserve extraction space. '
                               'No extraction was started.')
         db_path = _safe_path(job, 'build.sqlite3')
         records_path = _safe_path(job, 'records.bin')
@@ -660,11 +838,11 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
                     CREATE TABLE docs (id INTEGER PRIMARY KEY, offset INTEGER, size INTEGER, flags INTEGER);
                     CREATE TABLE postings (term TEXT, doc INTEGER, tf INTEGER, dl INTEGER,
                                            PRIMARY KEY (term,doc)) WITHOUT ROWID;
-                    CREATE TABLE lexicon (id INTEGER PRIMARY KEY, term TEXT, offset INTEGER, count INTEGER);
+                    CREATE TABLE lexicon (id INTEGER PRIMARY KEY, term TEXT, offset INTEGER, count INTEGER, length INTEGER);
                     CREATE TABLE lex_offsets (id INTEGER PRIMARY KEY, offset INTEGER, size INTEGER);
                     CREATE TABLE checkpoint (id INTEGER PRIMARY KEY, data TEXT NOT NULL);
                 ''')
-                report = {'format_version': 2, 'documents': 0, 'assets': [], 'warnings': [],
+                report = {'format_version': 3, 'documents': 0, 'assets': [], 'warnings': [],
                           'generated_files': []}
                 state = {'fingerprint': fingerprint, 'asset_index': 0, 'unit_cursor': 0,
                          'coverage': None, 'report': report, 'total_length': 0,
@@ -743,7 +921,8 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
                                 if not nonempty:
                                     coverage['empty_units'] += 1
                             state['unit_cursor'] = unit_id + 1
-                            units_since_checkpoint += 1
+                            if metadata is not None:
+                                units_since_checkpoint += 1
                             now = time.monotonic()
                             if units_since_checkpoint >= CHECKPOINT_UNITS or now - last_checkpoint >= CHECKPOINT_SECONDS:
                                 _save_checkpoint(db, records, state, check_budget)
@@ -782,22 +961,24 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
             report['build_fingerprint'] = fingerprint
             report['index_bytes'] = part.stat().st_size
             report['index_sha256'] = sha256_file(part)
-            # coverage.json is the completion marker, written last. An interrupted
-            # publication never makes a mismatched old report reusable.
-            from .search_pack import publish_pack
-            report.update(publish_pack(target, part, report['index_sha256'], notify=notify,
-                                       max_bytes=search_budget_bytes))
-            ui = _prepare_ui(report)
-            coverage_data = json.dumps(report, ensure_ascii=False, indent=2).encode('utf-8') + b'\n'
-            check_outputs(report, coverage_data, ui)
-            _publish_ui(target, report, ui)
-            atomic_write(report_path, coverage_data)
+            for path, signature in signatures:
+                if signature != _signature(path):
+                    raise SearchError(f'Search source changed while verifying raw index: {path}; rerun')
+            # Raw output has been fsynced, hashed and checked against unchanged
+            # source signatures. Publish its durable marker before any cleanup.
+            directory_sync_notice(_save_ready(job, part, fingerprint, report))
+            db.close()
+            db = None
+            monitor_workspace = False
+            _clear_extraction(job)
+            publish_report(report)
             success = True
         except sqlite3.Error as error:
             raise SearchError(f'Search checkpoint database failed: {error}. Check scratch space; '
                               f'verified sources and durable extraction checkpoints remain in {job}.') from error
         finally:
-            db.close()
+            if db is not None:
+                db.close()
             if success:
                 _clear_job(job, part)
         notify(f"INDEX COMPLETE: {report['documents']:,} passages; {report['transport_bytes']:,} local script bytes", force=True)

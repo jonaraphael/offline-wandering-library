@@ -59,7 +59,7 @@ class FlashProfileTests(unittest.TestCase):
             profile = self.profiles[name]
             assets, _, _ = self.selection(profile)
             plan = capacity_plan(assets, profile)
-            peak = plan['estimated_final_bytes'] + plan['index_scratch_budget_bytes'] + plan['reserve_bytes']
+            peak = plan['in_place_peak_budget_bytes']
             self.assertLessEqual(peak, plan['capacity_bytes'])
             self.assertGreaterEqual(plan['reserve_bytes'], 1_500_000_000)
             self.assertEqual(plan['content_bytes'], sum(a['size_bytes'] for a in assets))

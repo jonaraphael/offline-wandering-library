@@ -84,6 +84,7 @@
             <div class="estimate-row"><dt>Available-file peak estimate</dt><dd id="actual-peak-bytes">—</dd></div>
           </dl>
           <p class="estimate-foot">Unmet budget is an allowance for missing scope, not downloadable files or an exact size for missing documents. Temporary search work also lives on the SSD by default. Estimates cannot read your free space or guarantee the final index size. Run the plan command first.</p>
+          <p class="estimate-foot">Search is built in phases. After verifying the temporary index, OWL releases its extraction database before generating browser search files. The peak uses the larger phase; the search and temporary-work rows are not simultaneous allocations.</p>
           <div id="selection-status" class="status-box" role="status" aria-live="polite"><strong id="status-title">Loading the catalog…</strong><p id="status-description"></p><ul id="errors" hidden></ul></div>
           <details id="warnings-details" class="warning-details" hidden><summary id="warnings-title">Planning notes</summary><ul id="warnings"></ul></details>
           <details id="incomplete-details" class="warning-details" hidden><summary id="incomplete-title">Incomplete collections</summary><ul id="incomplete-list"></ul></details>

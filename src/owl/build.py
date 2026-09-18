@@ -92,8 +92,27 @@ def check_space_groups(allocations: list[tuple[Path, int]]) -> list[dict]:
         group["required_bytes"] += amount
         group["uses"].append(str(path))
     for group in groups.values():
+        group["required_bytes"] = max(0, group["required_bytes"])
         check_space(group["path"], group["required_bytes"])
     return [{**g, "path": str(g["path"])} for g in groups.values()]
+
+
+def check_space_phases(phases: dict[str, list[tuple[Path, int]]]) -> list[dict]:
+    """Check each sequential phase, taking its peak separately per filesystem.
+
+    A negative allocation is an owned checkpoint released before that phase;
+    it can offset requirements only on the same filesystem.
+    """
+    combined = {}
+    for phase, allocations in phases.items():
+        for group in check_space_groups(allocations):
+            path, _ = _directory_anchor(Path(group["path"]))
+            item = combined.setdefault(path.stat().st_dev, {
+                "path": group["path"], "required_bytes": 0, "uses": [], "phases": {}})
+            item["required_bytes"] = max(item["required_bytes"], group["required_bytes"])
+            item["phases"][phase] = group["required_bytes"]
+            item["uses"] = sorted(set(item["uses"]) | set(group["uses"]))
+    return list(combined.values())
 
 
 def _expected(asset: dict, state: dict, spool: Path | None = None) -> str | None:
@@ -155,7 +174,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
           allow_incomplete: bool = False, navigation_dir: Path | None = None,
           strict_coverage: bool = False, progress=print) -> dict:
     from .navigation import GENERATED_PATHS, generate_navigation
-    from .search import build_search, check_extractors, checkpoint_usage, probe_completed_search
+    from .search import (build_search, check_extractors, checkpoint_usage,
+                         probe_completed_search, probe_raw_checkpoint)
 
     profiles = load_profiles(profiles_dir)
     if profile_name not in profiles:
@@ -212,9 +232,6 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     if not assets and not plan_only:
         raise CatalogError(f"Profile {profile_name} has no resolved content")
     plan = capacity_plan(assets, profile, selection)
-    plan["in_place_peak_budget_bytes"] = (plan.get("planned_final_bytes", plan["estimated_final_bytes"])
-                                          + plan["index_scratch_budget_bytes"] + plan["reserve_bytes"])
-    plan["in_place_target_budget_fits"] = plan["in_place_peak_budget_bytes"] <= profile["capacity_bytes"]
     content_complete = (not selection or not selection["incomplete_resources"]) and plan["content_floor_met"]
     target = _root(target)
     cache = _root(cache_dir) / "owl-v1" if cache_dir else None
@@ -251,7 +268,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             progress("CONTENT INCOMPLETE: available files do not fulfill the selected resource collection targets.")
     progress(f"Estimated final ceiling: {plan['estimated_final_bytes']:,} bytes; reserve: {plan['reserve_bytes']:,}; indexing scratch budget: {plan['index_scratch_budget_bytes']:,}")
     progress(f"In-place peak planning allowance for selected content: {plan['in_place_peak_budget_bytes']:,} bytes "
-             "(content, index, scratch and reserve; excludes pre-existing old versions)")
+             "(content, peak indexing phase and reserve; excludes pre-existing old versions)")
     if not plan["in_place_target_budget_fits"]:
         progress("SPACE WARNING: the complete selected content targets plus current scratch allowances exceed "
                  "this profile's nominal drive size. The include list/index budget needs tuning before those "
@@ -297,11 +314,13 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     raw_bytes = max(0, raw_budget - checkpoint["output_bytes"])
     search_bytes = plan["search_budget_bytes"]
     scratch_bytes = max(0, plan["index_extraction_budget_bytes"] - checkpoint["scratch_bytes"])
-    search_reuse = None
+    search_reuse = raw_reuse = None
     if assets and all(reusable.values()):
         inputs = [{**asset, "sha256": _expected(asset, state, spool),
                    "verification": "pinned" if asset["sha256"] else "observed"} for asset in assets]
         search_reuse = probe_completed_search(target, inputs, progress=progress)
+        if search_reuse is None:
+            raw_reuse = probe_raw_checkpoint(target, inputs, work_dir=work, progress=progress)
     if search_reuse is not None:
         if search_reuse["generated_bytes"] > plan["search_budget_bytes"]:
             raise SafetyError("Verified existing search exceeds search_budget_bytes; increase the allowance "
@@ -313,19 +332,34 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         raw_bytes = scratch_bytes = 0
         progress(f"Verified complete search reuse: {search_reuse['index_bytes']:,} logical bytes; "
                  f"reserving {search_bytes:,} bytes for UI/coverage rewrites, without new index scratch.")
-    required = transfer_bytes + search_bytes + raw_bytes + plan["reserve_bytes"] + 16 * 1024 * 1024
+    elif raw_reuse is not None:
+        if raw_reuse['generated_bytes'] > plan['search_budget_bytes']:
+            raise SafetyError("Serialized search exceeds search_budget_bytes; increase the allowance "
+                              "or change the selected content before rebuilding")
+        search_bytes = raw_reuse['remaining_pack_allocation_bytes']
+        raw_bytes = scratch_bytes = 0
+        progress(f"Verified serialized search checkpoint: {raw_reuse['index_bytes']:,} bytes; "
+                 "only browser packaging remains.")
+    common = [(target, transfer_bytes + plan["reserve_bytes"] + 16 * 1024 * 1024)]
+    if cache:
+        common.append((cache, cache_bytes))
     plan["index_serialization_budget_bytes"] = raw_budget
     plan["remaining_transfer_allocation_bytes"] = transfer_bytes
     plan["remaining_cache_allocation_bytes"] = cache_bytes
     plan["retained_search_checkpoint_bytes"] = checkpoint
     plan["search_reuse_verified"] = search_reuse is not None
+    plan["raw_search_reuse_verified"] = raw_reuse is not None
     plan["remaining_search_output_allocation_bytes"] = search_bytes
     plan["remaining_index_serialization_allocation_bytes"] = raw_bytes
     plan["remaining_index_scratch_allocation_bytes"] = scratch_bytes
-    allocations = [(target, required), (work, scratch_bytes)]
-    if cache:
-        allocations.append((cache, cache_bytes))
-    plan["filesystem_allocations"] = check_space_groups(allocations)
+    phases = {"packaging": [*common, (target, raw_bytes + search_bytes)]}
+    if search_reuse is None:
+        # These files are deleted only after a durable raw-index checkpoint.
+        # Do not transfer their space credit onto another filesystem.
+        phases["packaging"].append((work, -min(checkpoint["scratch_bytes"], plan["index_extraction_budget_bytes"])))
+        if raw_reuse is None:
+            phases["extraction"] = [*common, (target, raw_bytes), (work, scratch_bytes)]
+    plan["filesystem_allocations"] = check_space_phases(phases)
     plan["required_free_bytes"] = sum(item["required_bytes"] for item in plan["filesystem_allocations"] if str(target) in item["uses"])
     if plan_only:
         progress("Plan only: no files created or downloaded. Index and scratch allowances are checked during building; "
@@ -412,7 +446,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         search_report = build_search(target, inventory_assets, work_dir=work, progress=progress,
                                      search_budget_bytes=plan["search_budget_bytes"],
                                      index_scratch_budget_bytes=plan["index_scratch_budget_bytes"],
-                                     reserve_bytes=plan["reserve_bytes"], reuse_only=search_reuse is not None)
+                                     reserve_bytes=plan["reserve_bytes"], reuse_only=search_reuse is not None,
+                                     raw_reuse_only=raw_reuse is not None)
         state["managed"] = sorted(set(state["managed"]) | set(search_report["generated_files"]))
         state["phase"] = "navigation"
         atomic_write(state_path, _json(state))

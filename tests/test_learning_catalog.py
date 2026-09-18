@@ -68,8 +68,7 @@ class ProductionLearningCatalogTests(unittest.TestCase):
             self.assertLess(plan['content_bytes'], report['content_target_bytes'])
             self.assertFalse(plan['content_complete'])
             self.assertLessEqual(plan['planned_final_bytes']+plan['reserve_bytes'],plan['capacity_bytes'])
-            self.assertLessEqual(plan['planned_final_bytes'] + plan['index_scratch_budget_bytes'] +
-                                 plan['reserve_bytes'], plan['capacity_bytes'])
+            self.assertLessEqual(plan['in_place_peak_budget_bytes'], plan['capacity_bytes'])
         # Remaining 1TB budget funds ordinary directly readable copies, rather
         # than unwanted languages or non-core Khan material.
         assets,_,report=self.selection('full-1tb')

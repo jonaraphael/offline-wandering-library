@@ -15,11 +15,11 @@ of future defaults.
 
 | Preset | Pinned sources, including readers | Planning peak, including scratch and reserve |
 | --- | ---: | ---: |
-| 16 GB | 9.696 GB | 15.213 GB |
-| 64 GB | 40.273 GB | 62.289 GB |
-| 256 GB | 195.141 GB | 250.939 GB |
-| 512 GB | 261.614 GB | 482.342 GB |
-| 1 TB | 393.589 GB | 965.969 GB |
+| 16 GB | 9.696 GB | 15.713 GB |
+| 64 GB | 40.273 GB | 58.289 GB |
+| 256 GB | 195.141 GB | 240.939 GB |
+| 512 GB | 261.614 GB | 462.342 GB |
+| 1 TB | 393.589 GB | 925.969 GB |
 
 Decimal GB are used throughout. The last three planning peaks reserve space for
 still-unresolved collection scope; their numbers are **not** acquired byte totals.
@@ -43,8 +43,9 @@ not reviewed current clinical protocols. Their classifications select published
 collections, not question-level safety or quality ratings.
 
 The 512 GB and 1 TB presets still lack enough acquired content to meet their
-390–420 GB and 750–820 GB targets. In particular, Survivor's checked category ZIP
-links returned 404; durable Stack Overflow filtering, Khan STEM-only acquisition,
+390–420 GB and 750–820 GB targets. Survivor's checked category ZIP links returned
+404, but individual PDF downloads work; title curation and complete-file hashes
+remain unfinished. Durable Stack Overflow filtering, Khan STEM-only acquisition,
 local topo selection and curated direct exports remain unfinished. OWL neither
 adds unrelated languages/videos as filler nor counts those missing collections
 as present. See [source evidence](acquisition-enrichment.md).
@@ -56,6 +57,13 @@ User-customized smaller selections bypass this editorial floor. The build still
 records any incomplete collection scopes. Tests protect minimum useful bytes,
 medical/textbook coverage, nested small presets, inclusion/exclusion, exact
 edition locks and nominal in-place planning peaks.
+
+Search uses independently compressed text records and delta-coded postings.
+Whitespace from source layout is normalized for indexing; the original illustrated
+documents stay intact. A verified, durable raw-index checkpoint permits extraction
+files to be removed before browser packaging, reducing peak temporary space.
+The in-place peak reserves raw assembly plus the larger of extraction workspace
+or published search output, rather than adding both nonconcurrent phases.
 
 Published search output and temporary raw-index writes have explicit byte
 limits. Extraction work and free-space reserves are checked at checkpoints;

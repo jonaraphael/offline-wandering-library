@@ -19,6 +19,7 @@ import unittest
 from contextlib import closing, redirect_stderr
 from unittest.mock import Mock, patch
 import zipfile
+import zlib
 
 from owl.search import (HEADER_SIZE, SearchError, build_search, checkpoint_usage,
                         check_extractors, tokens)
@@ -51,12 +52,13 @@ class SearchTests(unittest.TestCase):
 
     def read_index(self):
         data = self.index_bytes(self.target)
-        self.assertEqual(data[:8], b"OWLIDX2\n")
+        self.assertEqual(data[:8], b"OWLIDX3\n")
         header = json.loads(data[12:12 + struct.unpack_from("<I", data, 8)[0]])
         self.assertEqual(header["size"], len(data))
         def record(table, index):
             start, length = struct.unpack_from("<QI", data, table + index * 12)
-            return json.loads(data[start:start + length])
+            value = data[start:start + length]
+            return json.loads(zlib.decompress(value) if table == header['docs_offset'] else value)
         docs = [record(header["docs_offset"], n) for n in range(header["documents"])]
         terms = [record(header["lexicon_offset"], n) for n in range(header["terms"])]
         return data, header, docs, terms
@@ -152,7 +154,7 @@ class SearchTests(unittest.TestCase):
         self.add("REFERENCE/special.txt", "hydration", title="Hydration",
                  resource_type="textbook", illustrated=True, reader_required=True)
         report = build_search(self.target, self.assets)
-        self.assertEqual(report["format_version"], 2)
+        self.assertEqual(report["format_version"], 3)
         data, header, docs, _ = self.read_index()
         self.assertEqual(header["flags_offset"], header["docs_offset"] + len(docs) * 12)
         flags = {doc["destination"]: data[header["flags_offset"] + i] for i, doc in enumerate(docs)}
@@ -188,7 +190,7 @@ class SearchTests(unittest.TestCase):
         self.add("textbook.txt", "water", resource_type="textbook")
         build_search(self.target, self.assets)
         _, _, docs, _ = self.read_index()
-        document = json.dumps(docs[0]).encode("utf-8")
+        document = zlib.compress(json.dumps(docs[0]).encode("utf-8"), 6)
         count = 65540
         data = bytearray(HEADER_SIZE) + document
         docs_offset = len(data)
@@ -197,17 +199,19 @@ class SearchTests(unittest.TestCase):
         data.extend(b"\x00" * count)
         data[flags_offset] = data[flags_offset + count - 1] = 1
         postings_offset = len(data)
-        data.extend(struct.pack("<III", 0, 1, 1) + struct.pack("<III", count - 1, 1, 1))
-        term = json.dumps(["water", postings_offset, 2]).encode("utf-8")
+        postings = b'\x00\x01\x01' + search._uvarint(count - 1) + b'\x01\x01'
+        data.extend(postings)
+        term = json.dumps(["water", postings_offset, 2, len(postings)]).encode("utf-8")
         term_offset = len(data)
         data.extend(term)
         lexicon_offset = len(data)
         data.extend(struct.pack("<QI", term_offset, len(term)))
-        header = json.dumps({"version": 2, "documents": count, "terms": 1, "average_length": 1,
+        header = json.dumps({"version": 3, "document_encoding": "zlib-json-v1", "postings_encoding": "delta-uvarint-v1",
+                             "documents": count, "terms": 1, "average_length": 1,
                              "docs_offset": docs_offset, "flags_offset": flags_offset,
                              "lexicon_offset": lexicon_offset, "size": len(data),
                              "tokenizer": "NFKC-lower-unicode-letter-number-v1"}).encode("utf-8")
-        data[:12 + len(header)] = b"OWLIDX2\n" + struct.pack("<I", len(header)) + header
+        data[:12 + len(header)] = b"OWLIDX3\n" + struct.pack("<I", len(header)) + header
         self.index_override = bytes(data)
         result = self.run_js("""
           const blocks = [];
@@ -466,7 +470,8 @@ class SearchTests(unittest.TestCase):
         self.assertEqual(starts, [2])
         self.assertEqual(resumed["documents"], 6)
         self.assertEqual(self.index_bytes(self.target), self.clean_index_bytes())
-        self.assertEqual(checkpoint_usage(self.target), {"scratch_bytes": 0, "output_bytes": 0})
+        self.assertEqual(checkpoint_usage(self.target), {"scratch_bytes": 0, "output_bytes": 0,
+                                                       "raw_checkpoint_present": False})
         self.assertEqual(unrelated.read_text(encoding="utf-8"), "keep this")
 
     def test_hard_process_exit_recovers_last_committed_extraction(self):
@@ -537,7 +542,7 @@ search.build_search(Path(sys.argv[1]), json.loads(sys.argv[2]))
         rebuilt = build_search(self.target, self.assets)
         self.assertEqual(rebuilt["index_sha256"], original["index_sha256"])
 
-    def test_interruption_before_completion_report_keeps_extraction_for_resume(self):
+    def test_interruption_before_completion_report_keeps_verified_raw_for_resume(self):
         from owl.safety import atomic_write
         self.add("plain.txt", "publication checkpoint body")
         def write(path, data):
@@ -548,7 +553,9 @@ search.build_search(Path(sys.argv[1]), json.loads(sys.argv[2]))
             with self.assertRaises(KeyboardInterrupt):
                 build_search(self.target, self.assets)
         self.assertFalse((self.target / "SEARCH/coverage.json").exists())
-        self.assertGreater(checkpoint_usage(self.target)["scratch_bytes"], 0)
+        self.assertEqual(checkpoint_usage(self.target)["scratch_bytes"], 0)
+        self.assertTrue(checkpoint_usage(self.target)['raw_checkpoint_present'])
+        self.assertGreater(checkpoint_usage(self.target)['output_bytes'], 0)
         with patch("owl.search._units", side_effect=AssertionError("already extracted")):
             report = build_search(self.target, self.assets)
         self.assertEqual(report["documents"], 1)

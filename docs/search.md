@@ -73,13 +73,16 @@ hostile documents; use approved, pinned sources and current extraction libraries
 
 ## Index construction
 
-The builder stores complete extracted text in passages of roughly 8 KiB. Normal
-words are preserved at boundaries. Pathological uninterrupted strings longer
+The builder collapses layout whitespace in a streaming pass, then stores the
+complete normalized extracted text in passages of roughly 8 KiB. Whitespace
+normalization crosses input-chunk boundaries without adding or losing tokens;
+original source files remain unchanged. Normal words are preserved at boundaries. Pathological uninterrupted strings longer
 than 8 KiB are divided into segments. Passages retain document title, category,
 source, destination and, where applicable, page or archive-entry identity.
 Repeated passages from the same document can appear separately in results.
 Resource type, illustration status, license, and attribution are retained on
-every passage. Attribution and license notices are displayed beneath each search
+every passage. Each document record is individually zlib-compressed when written,
+retaining the complete passage and metadata. Attribution and license notices are displayed beneath each search
 snippet as ordinary text, including publisher-required notices such as
 “Access for free at openstax.org.” The original source's licensing conditions
 still apply to text incorporated into the search index and its displayed results.
@@ -102,9 +105,13 @@ storage. The final index duplicates extracted text and adds postings; it can be
 larger than the compressed source archive. Profile space budgets are planning
 allowances, not measured bounds. A corpus containing highly compressible data
 can exceed any fixed source-size multiplier. Keep additional space available and
-check the actual build. Peak space includes extracted records, postings in the
-checkpoint database, a temporary serialized binary index, and the published
-script chunks. Base64 increases the binary index size by roughly one third, plus
+check the actual build. During extraction and serialization, space includes
+compressed records, postings in the checkpoint database, and a temporary raw
+binary index. After that raw index is durable and independently verified, owned
+extraction files are removed before browser chunks are generated. The active
+search stages therefore need raw-index space plus the larger of extraction
+scratch or browser-package space, rather than retaining all three together.
+Base64 increases the binary index size by roughly one third, plus
 small script wrappers. The profile's search budget covers this **published output**,
 not a raw-binary quota. The scratch allowance includes temporary binary assembly
 on the SSD even when `--work-dir` moves the database elsewhere. An existing final
@@ -115,20 +122,26 @@ Extraction checkpoints store the current asset, page/member/raw-entry cursor,
 coverage report, passage count, and durable record-file offset together with
 postings in a SQLite transaction. Records are flushed before committing the
 transaction. On restart, SQLite rolls back unfinished transactions and the record
-file is truncated to the last committed offset. Checkpoints occur every 50 units
-or five seconds at a unit boundary, plus every completed asset. PDF pages, EPUB
+file is truncated to the last committed offset. Checkpoints occur every 50
+text-bearing units or five seconds at a raw-unit boundary, plus every completed
+asset. The timer includes archive entries that yield no text. PDF pages, EPUB
 members, and ZIM raw entries resume within the current archive; the current plain
 HTML/TXT file restarts. Very slow individual units can delay a checkpoint.
 
-Final index assembly restarts from the retained records and postings after an
-interruption, without extracting the corpus again. On success, only registered
-scratch files are removed; unrelated files in a workspace are preserved. Search
-workspace ownership markers and OS-held locks prevent conflicting writers.
+Final index assembly restarts from retained records and postings after an
+interruption. Once the raw binary has been flushed, fsynced, hashed, and checked
+against its source inputs, the builder saves a durable `serialized.json`
+checkpoint. Only then does it close the database and remove its owned database,
+journal, and record files. An interrupted browser-package stage can reuse this
+verified raw checkpoint and matching completed chunks without extracting the
+corpus again. Only registered scratch files are removed; unrelated files in a
+workspace are preserved. Search workspace ownership markers and OS-held locks
+prevent conflicting writers.
 
 Actual source SHA-256 values, catalog metadata, extractor code, Python/Unicode,
 and extraction dependencies form a build fingerprint. Changes invalidate the
 extraction job deliberately. An unchanged completed index is reused only after
-checking the fingerprint and the completed index's SHA-256. Space preflight can credit a complete unchanged index only after verifying every source and search chunk. It then reserves just UI/coverage rewrites, metadata and free-space reserve, without a second index/workspace allocation. Search rechecks this proof after locking and refuses fallback extraction if it changed. Integrity hashing repeats on restart and can take substantial time; hashing itself is not
+checking the fingerprint and the completed index's SHA-256. Space preflight can credit a complete unchanged index only after verifying every source and search chunk. It then reserves just UI/coverage rewrites, metadata and free-space reserve, without a second index/workspace allocation. A durable raw checkpoint and independently checked partial package chunks can likewise reduce the remaining work allocation. Search rechecks these proofs after locking and refuses unbudgeted fallback extraction if a proof changed. Integrity hashing repeats on restart and can take substantial time; hashing itself is not
 checkpointed. Keep the same work directory and target path to retain an unfinished
 extraction job. See the [pause/resume guide](usage.md#pause-and-resume).
 
@@ -149,12 +162,15 @@ Queries consider passages matching any query word. Use up to 32 distinct words;
 longer queries are rejected with an explanation.
 
 The browser binary-searches the sorted lexicon through a range-read interface
-backed by local script chunks. For each query word it streams postings in blocks
-of at most 4,096 records (48 KiB).
+backed by local script chunks. For each query word it streams variable-length
+postings through windows of at most 48 KiB.
 Sorted posting lists are merged and scored, retaining only the best 50 results
 in a bounded heap. This is exact top-K ranking for the implemented query model,
 not a fixed candidate cutoff that loses later matches. Only those result records
-are read for snippets. It never loads the entire index or scans the corpus text.
+are read and decompressed for snippets. Each document record is separately
+compressed with zlib; the browser rejects either a compressed read or a
+decompressed result exceeding 1 MiB. Output is counted while streaming, before
+assembling the final record. It never loads the entire index or scans the corpus text.
 For a selected learning collection, a separate table supplies one byte of flags
 per passage. The browser reads this table through a single 64 KiB cache. Candidate
 IDs increase during posting-list merging, so each relevant flag block is read at
@@ -210,7 +226,7 @@ Content Security Policy permits local script files and prohibits network
 connections. No source document or archive is scanned when someone types a query.
 
 A fresh completed library contains the chunked output, not a second standalone
-binary index. The binary OWLIDX2 layout below describes the decoded byte stream.
+binary index. The binary OWLIDX3 layout below describes the decoded byte stream.
 Chunk generation and the manifest are covered by the drive's checksum manifest.
 Updates retain previously managed search files rather than automatically deleting
 them; the new manifest selects only the current generation. Allow room for
@@ -221,6 +237,26 @@ at production scale with this transport. Small local chunks avoid a single huge
 file read, but loading many chunks can still be slow and consume browser memory.
 
 ## Platforms and testing
+
+Full-text search requires native `DecompressionStream('deflate')`, as well as
+permission to run local scripts. The native API avoids another bundled
+compression dependency. Browser vendors document support in
+[Chromium 80 and later](https://developer.chrome.com/blog/compression-streams-api/),
+[Safari and iOS 16.4](https://webkit.org/blog/13966/webkit-features-in-safari-16-4/),
+and [Firefox 113](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/113).
+Those API versions do not certify the whole OWL interface, external-storage
+permissions, or file-provider behavior. Older browsers get an explicit message
+directing them to static navigation; there is no server, network, or picker fallback.
+
+The [Compression Standard](https://compression.spec.whatwg.org/#supported-formats)
+defines `deflate` as the zlib-wrapped format used by Python's `zlib.compress`.
+Its decoder checks the checksum and rejects truncated, dictionary-dependent, or
+trailing data. OWL independently validates the zlib header and the physical
+trailer checksum, caps decompressed record size, and rejects invalid UTF-8/JSON.
+A fresh Chrome 153 `file://` fixture with the local-script CSP verified
+successful Unicode decoding and rejection of truncated, damaged, trailing, and
+oversized records with zero network requests. That focused test does not replace
+an actual completed-library search test or certify other browsers.
 
 | Platform | Expected behavior |
 | --- | --- |
@@ -248,21 +284,30 @@ headless fixture does not establish compatibility with an in-app preview or a
 physical phone. If HTML links or local scripts are unavailable, browse the SSD's
 folders and open ordinary PDF or text files with a compatible viewer.
 
-## Durable file format: OWLIDX2
+## Durable file format: OWLIDX3
 
 All integer records use little endian. The first 4,096 bytes are reserved for a
-header: eight-byte `OWLIDX2\n` magic, a uint32 JSON length, then UTF-8 JSON. The
+header: eight-byte `OWLIDX3\n` magic, a uint32 JSON length, then UTF-8 JSON. The
 header includes document/term counts, average weighted length, offset-table
 locations, tokenizer identity, and final file size. It has no timestamps.
+`version` is 3, `document_encoding` is `zlib-json-v1`, and `postings_encoding`
+is `delta-uvarint-v1`. Earlier formats require rebuilding with the matching
+writer and reader; there is no hidden compatibility parser.
 
-Document records are variable-length UTF-8 JSON. Their table contains one
-`uint64 offset, uint32 length` pair per passage ID. Immediately after that table,
+Document records are independently zlib-compressed UTF-8 JSON, compressed at level
+6 by the builder. Their table contains one `uint64 offset, uint32 compressed_length`
+pair per passage ID. Compressed and decompressed records are limited to 1 MiB.
+Immediately after that table,
 `flags_offset` locates one byte per passage: bit 0 means textbook and bit 1 means
 illustrated guide; both bits may be set. Other bits are reserved and rejected.
-Each term has a contiguous
-posting list of `uint32 passage_id, uint32 weighted_frequency, uint32 length`
-records ordered by passage ID. Lexicon records are JSON arrays
-`[term, posting_offset, posting_count]`, sorted by UTF-8 bytes; a second fixed-width
+Each term has a contiguous posting list of unsigned LEB128 triples:
+`passage_id_delta, weighted_frequency, document_length`. Each value fits uint32;
+the first delta is an absolute passage ID (zero is valid), and subsequent deltas
+must be positive. Frequency and document length must be positive. Encodings
+longer than five bytes, nonminimal encodings, overflow, truncation, invalid
+ordering, and bytes left after the declared posting count are rejected.
+Lexicon records remain plain UTF-8 JSON arrays
+`[term, posting_offset, posting_count, posting_byte_length]`, sorted by UTF-8 bytes; a second fixed-width
 offset table permits random-access binary search. The browser validates ranges
 before reading and refuses any individual read over 1 MiB. The format supports
 up to 2^32 passages and browser-safe integer byte offsets (below 2^53).

@@ -129,8 +129,11 @@ python scripts/build_drive.py /path/to/drive --profile standard-512gb --plan
 ```
 
 `--plan` checks actual available filesystem space too. It does not create the
-target. Space allocations for output, cache and indexing scratch are added when
-they share a filesystem. Budgets are deliberately conservative and are not
+target. Simultaneous allocations for output, cache and indexing scratch are added when
+they share a filesystem, then the peak of sequential extraction and packaging
+phases is checked separately on each filesystem. Owned extraction files are
+released only after a durable, verified raw-index checkpoint. Their space never
+credits a different filesystem. Budgets are deliberately conservative and are not
 benchmarks of a full Wikipedia build. A separate `--work-dir` can place indexing
 scratch on a larger disk. An existing cache is still budgeted conservatively;
 reduce a reviewed profile's allowance only with measured evidence.

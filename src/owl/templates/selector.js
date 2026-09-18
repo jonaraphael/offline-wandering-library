@@ -118,10 +118,14 @@
     const readerBytes = rowsById[READERS] ? Math.max(profile.readers_budget_bytes || 0, rowsById[READERS].targetBytes) : 0;
     const intendedBytes = Math.max(knownBytes, contentTargetBytes + readerBytes);
     const finalBytes = intendedBytes + profile.search_budget_bytes + OVERHEAD;
-    const actualFinalBytes = knownBytes + profile.search_budget_bytes + OVERHEAD;
     const scratchBytes = profile.index_scratch_budget_bytes ?? 2 * profile.search_budget_bytes;
-    const peakBytes = finalBytes + scratchBytes + profile.reserve_bytes;
-    const actualPeakBytes = actualFinalBytes + scratchBytes + profile.reserve_bytes;
+    const serializationBytes = Math.ceil(3 * profile.search_budget_bytes / 4);
+    const extractionBytes = scratchBytes - serializationBytes;
+    // The verified raw index survives both phases. The owned extraction
+    // database/records are released before browser search files are written.
+    const phaseWorkingBytes = serializationBytes + Math.max(extractionBytes, profile.search_budget_bytes);
+    const peakBytes = intendedBytes + OVERHEAD + profile.reserve_bytes + phaseWorkingBytes;
+    const actualPeakBytes = knownBytes + OVERHEAD + profile.reserve_bytes + phaseWorkingBytes;
     if (finalBytes + profile.reserve_bytes > profile.capacity_bytes) errors.push("Selected content plus search and reserve exceeds this drive size.");
     if (!pinnedIds.length) errors.push("No verified downloadable files are selected.");
     if (actualPeakBytes > profile.capacity_bytes) errors.push("Even the verified files exceed the conservative in-place build budget. Select less content or a larger drive.");
@@ -192,6 +196,7 @@
     });
     const canBuild = errors.length === 0 && (!incomplete.length || state.allowIncomplete);
     return {rows, estimates:{contentTargetBytes, knownBytes, readerBytes, searchBytes:profile.search_budget_bytes, scratchBytes,
+      serializationBytes, extractionBytes, phaseWorkingBytes,
       metadataBytes:OVERHEAD, reserveBytes:profile.reserve_bytes, finalBytes, peakBytes, actualPeakBytes, capacityBytes:profile.capacity_bytes},
       coverage, errors, warnings, incomplete, canBuild, selectedAssetIds:pinnedIds.sort(), selectionArgs:args};
   }

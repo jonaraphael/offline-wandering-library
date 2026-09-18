@@ -21,13 +21,13 @@ All values are decimal GB. Planning targets include unresolved collections and a
 
 | Profile | Content target | Known available files | Search | Scratch | Reserve |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| `flash-16gb` | 9.696 GB | 9.696 GB | 1 GB | 3 GB | 1.5 GB |
+| `flash-16gb` | 9.696 GB | 9.696 GB | 2 GB | 4.5 GB | 1.5 GB |
 | `critical-64gb` | 40.273 GB | 40.273 GB | 4 GB | 12 GB | 6 GB |
 | `compact-256gb` | 206.422 GB | 195.141 GB | 10 GB | 18 GB | 16 GB |
 | `standard-512gb` | 396.325 GB | 261.614 GB | 20 GB | 35 GB | 30 GB |
 | `full-1tb` | 779.952 GB | 393.589 GB | 40 GB | 75 GB | 70 GB |
 
-Known available files include selected reader binaries; content targets exclude their separate allowance. Metadata is additional. All five default planning peaks fit their nominal capacities with the explicit search/scratch/reserve allowances. Full-corpus index measurements for the larger profiles are still outstanding. Use the CLI `--plan` for the complete calculation and real free-space/reuse checks; do not assume the final content target proves the build fits.
+Known available files include selected reader binaries; content targets exclude their separate allowance. Metadata is additional. Scratch covers raw assembly plus extraction workspace; a verified raw-index checkpoint releases extraction files before browser packaging. Peak indexing space is raw assembly plus the larger of extraction workspace or search output. All five default planning peaks fit their nominal capacities with the explicit search/scratch/reserve allowances. Full-corpus index measurements for the larger profiles are still outstanding. Use the CLI `--plan` for the complete calculation and real free-space/reuse checks; do not assume the final content target proves the build fits.
 
 Compact includes #1–18 plus all acquired OpenStax textbooks, PhET circuit simulations, preparedness and programming manuals; it keeps a 10 GB local topographic allocation instead of North America OSM. Standard includes #1–31 and a 75 GB Survivor Tier A target. Full includes #1–36, #42–44 and #46, with full Tier A and a 60 GB direct-reading allowance. Spanish is the default additional Wikipedia; other languages and remaining Khan content are opt-in. A world map replaces the North America archive while retaining local topo.
 

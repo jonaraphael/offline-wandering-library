@@ -371,6 +371,14 @@ def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = No
             actual = selection["content_target_bytes"]
             result["target_window_status"] = ("below-target" if actual < profile["content_target_min_bytes"]
                 else "above-target" if actual > profile["content_target_max_bytes"] else "in-range")
+    # Extraction files are released after a durable, verified raw-index
+    # checkpoint, before the browser transport is packaged. They never need
+    # to coexist with the finished transport on a fresh build.
+    working_peak = raw + max(scratch - raw, profile["search_budget_bytes"])
+    result["index_working_peak_bytes"] = working_peak
+    result["in_place_peak_budget_bytes"] = (result.get("planned_final_bytes", final)
+        - profile["search_budget_bytes"] + working_peak + profile["reserve_bytes"])
+    result["in_place_target_budget_fits"] = result["in_place_peak_budget_bytes"] <= profile["capacity_bytes"]
     return result
 
 

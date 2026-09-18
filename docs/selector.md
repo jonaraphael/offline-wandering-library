@@ -76,7 +76,8 @@ All capacities and GB totals use decimal units. The selector distinguishes:
 - **Additional reader allowance:** reader budget beyond already pinned software.
 - **Search and metadata allowances:** planned index space and 16 MiB for metadata.
 - **Temporary search work:** the profile's explicit scratch budget, or twice its
-  search budget when not specified; needed during the default in-place build.
+  search budget when not specified. It covers the extraction database and records
+  plus a temporary binary index during the default in-place build.
 - **Free-space reserve:** space deliberately left outside the build allocations.
 
 The green meter measures exact downloadable files as a fraction of nominal drive
@@ -87,9 +88,34 @@ is at least 250 MB. An unchanged preset below its configured minimum knowledge
 size also warns and requires explicit partial-library acceptance before building.
 The minimum excludes software, search, temporary files, and reserved space.
 
-The in-place peak combines content, readers where applicable, search, metadata,
-scratch, and reserve. The page reports both the intended selection and the
-currently verified files. The current default plans fit nominal capacities, including their explicit scratch allowances. Custom selections or larger measured indexes can exceed them even when final-content targets appear to fit. Missing content and excess peak storage are separate problems.
+The in-place peak follows two search phases. Extraction first produces a
+temporary binary index. Once that index has been durably saved and verified,
+OWL releases the owned extraction database and records before publishing the
+browser search files. The temporary index remains available until publication
+finishes. The larger of those phases determines peak working space.
+
+The calculation is explicit, in bytes:
+
+```text
+raw index allowance = ceil(0.75 × search allowance)
+extraction allowance = scratch allowance − raw index allowance
+search build peak = raw index allowance + max(extraction allowance, search allowance)
+in-place peak = content and reader files + metadata + reserve + search build peak
+```
+
+The displayed scratch allowance keeps its configured value; it is not added
+again to the finished search allowance. The page calculates separate peaks for
+the intended collection and currently verified files. For example, 9,696,060,616
+source bytes, 2 GB search, 4.5 GB scratch, 1.5 GB reserve, and 16 MiB metadata
+produce a **15,712,837,832-byte** planned peak. The 4.5 GB scratch allocation
+contains 1.5 GB for the temporary index and 3 GB for extraction. This fits the
+nominal 16 GB budget; it does not establish that an unmeasured corpus's actual
+index or extraction database fits those allowances.
+
+Custom selections or larger measured indexes can exceed the allowances even
+when final-content targets appear to fit. Missing content and excess peak
+storage are separate problems. Retained old versions and an optional cache
+consume additional space, which the CLI checks on the actual filesystem.
 
 The remaining capacity is not automatically filled by a number on the page. Search and scratch budgets
 are estimates rather than measured upper bounds. The browser cannot check the
