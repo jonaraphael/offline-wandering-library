@@ -4,7 +4,7 @@
 
 1. Use a dependable SSD and cable. Format it with your operating system’s ordinary disk tools if needed; OWL does not format drives. exFAT is the intended cross-platform filesystem.
 2. Identify the SSD’s mount location carefully. Use a dedicated `EMERGENCY_LIBRARY` directory so the library is easy to find.
-3. Install Python 3.11+ and OWL on the build computer. Install the `.[zim]` extra for profiles containing ZIM archives; the minimal installation is sufficient for `flash-16gb` and `critical-64gb`.
+3. Install Python 3.11+ and OWL on the build computer. Install with `python -m pip install -e '.[zim]'`; every production preset now includes archives.
 4. Review the resource registry, asset catalog, and source notes. The larger profiles describe planned selections with unresolved or partial collections; the small presets retain the verified directly readable collection. Use a profile that fits the actual available space. Reserve space for search output and build scratch storage as well as downloads.
 5. Run a plan and inspect its selected files, source sizes, and warnings.
 
@@ -21,15 +21,15 @@ Mount locations differ by operating system. Typical roots include `/Volumes/` on
 
 Open [`SELECT.html`](../SELECT.html) locally for the [offline selection tool](selector.md). Choose a 16 GB, 64 GB, 256 GB, 512 GB, or 1 TB preset, adjust inclusion controls, and inspect live totals. Enter the destination without adding shell quotes and choose POSIX shell or PowerShell. Copy the planning command and run it from the installed repository before running the build command. The browser page needs no installation or network; Python builds and fresh downloads still require their normal dependencies and internet access.
 
-Small-preset rows marked **Preset files only · direct** retain exact files from the preset. Selecting **Published collection** adds the full intended resource with `--include`; it can introduce unresolved scope and a much larger budget. Unchecking a selected row produces `--exclude`. Direct-readable and compact editions require registered alternatives; none exist in the production registry yet, so their controls are disabled. No compression ratio, conversion, or download is performed by the page.
+Small-preset rows marked **Preset files only** retain exact files from the preset. Selecting **Published collection** adds the full intended resource with `--include`; it can introduce unresolved scope and a much larger budget. Unchecking a selected row produces `--exclude`. Direct-readable and compact editions require registered alternatives. Larger profiles default to the verified compact Gutenberg/children editions; standard and full add compact practical Stack Exchange, and full adds compact science Stack Exchange. Other unavailable alternatives remain disabled. No compression ratio, conversion, or download is performed by the page.
 
 **Add the human topic atlas** starts checked and adds `--navigation-dir catalog/navigation`. **Build only currently verified files (partial library)** starts unchecked and adds `--allow-incomplete` only when explicitly checked. The page distinguishes intended collection storage from selected verified asset sizes and includes search, scratch, metadata, and reserve in its peak estimates. The CLI checks real free space and existing-file reuse. Refresh the page after recipe changes with `python scripts/build_selector.py`; use `--check` to detect a stale page without rewriting it.
 
-The `flash-16gb` preset selects 25 verified PDFs totaling 1,574,545,596 bytes, including seven textbooks and thirteen illustrated works. It has no unresolved files or reader dependency. Its 2 GB search, 4 GB scratch, 16 MiB metadata, and 2 GB reserve allowances bring the planned peak to 9,591,322,812 bytes. The preset leaves the remaining nominal 16 GB capacity unallocated. The 64 GB preset keeps the same PDF selection with a larger reserve.
+The `flash-16gb` preset selects 436 pinned files totaling **9,696,060,616 bytes**, with 360 PDFs, 23 direct textbooks, 50 illustrated teaching works, children's EPUBs and five practical archives. Its 1 GB search, 3 GB scratch, 16 MiB metadata and 1.5 GB reserve allowances give a **15,212,837,832-byte** in-place planning peak. The `critical-64gb` preset expands this to **40,272,521,791 bytes** of sources and a **62,289,299,007-byte** planning peak. Both bundle four platform readers. All production sizes retain the same 427-document ordinary-format foundation; no special reader is needed for its PDFs and HTML. Search budgets still need checking against actual extraction results.
 
 `catalog/resources.yaml` describes the 46 numbered resources and three support collections: `owl-direct-core`, `archive-readers`, and `direct-reading-expansion`. Actual downloadable files, licenses, sizes, and hashes live in `catalog/library.yaml`. A resource can be ready, partial, or unresolved. Review the plan's resource coverage as well as its byte totals; a plausible size estimate is not proof that the requested collection is available.
 
-The larger content targets are 190–210 GB for compact, 390–420 GB for standard, and 750–820 GB for full, before search, reader, and free-space budgets. All three select full English Wikipedia. Compact selects the 10 GB topographic-map allocation without North America OSM; standard adds North American coverage; full uses world maps in place of North America. OpenStax defaults to standard/full, Spanish Wikipedia to full, and the science Stack Exchange collection to full. Additional languages and noncore Khan material are opt-in. The small profiles' existing files remain separate from these larger target selections.
+The larger content targets are 190–210 GB for compact, 390–420 GB for standard, and 750–820 GB for full, before search, reader, and free-space budgets. All three select full English Wikipedia. Compact selects the 10 GB topographic-map allocation without North America OSM; standard adds North American coverage; full uses world maps in place of North America. All five sizes include the complete acquired OpenStax core. Spanish Wikipedia and the compact science Stack Exchange edition default to full. Additional languages and noncore Khan material are opt-in. All sizes retain the same acquired ordinary-format foundation, with additional archives chosen by available capacity.
 
 The full profile also allocates 60 GB of its planned content budget to `direct-reading-expansion`: additional ordinary HTML, PDFs, and images from selected Appropedia, CD3WD, iFixit, LibreTexts, and Wikibooks material, plus an expanded small directly readable Wikipedia subset. The [in-place exporter](direct-export.md) is implemented, but curated selections and complete reviewed output editions remain unresolved. It does not automatically turn the full Wikipedia archive into millions of local HTML pages. Preferences apply to selected resources, and any future exports require reviewed source selection, licensing, attribution, and verified files. To omit the allocation, add `--exclude direct-reading-expansion`.
 
@@ -79,16 +79,11 @@ budget, scratch allowance, and free-space reserve. Allocations on the same
 filesystem are added together. Existing owned partials and search checkpoints
 are credited against new allocation needs, while retained previous versions
 still occupy space. The plan distinguishes final size from peak in-place build
-space. Current complete proposed larger selections exceed nominal-drive capacity
-under the conservative scratch allowances, even though their final-content
-budgets fit. The final include list and working-space requirements must be
-measured and reconciled before calling those complete targets achievable in
-place. Available-file partial builds are checked against their actual allocations.
+space. The five default planning peaks fit nominal capacity with the explicit allowances in each profile. Full-corpus indexing for the larger presets remains unmeasured: the plan is a reservation, not proof that the index will fit. Available-file partial builds are checked against their actual allocations.
 The builder neither redirects scratch to the computer automatically nor shrinks
 or silently omits selected content to force a fit.
 
-Search size can exceed the compressed source size. Budgets are estimates, not
-hard upper bounds; insufficient space can still stop a build. Files and durable
+Search size can exceed the compressed source size. Published-index and raw-assembly writes are checked against their budgets. Extraction workspace and free-space reserves are checked at progress/checkpoint boundaries; a SQLite transaction can grow between checks. Insufficient space or an exceeded allowance stops the build with its checkpoints retained. Files and durable
 checkpoints remain for a later retry after freeing unrelated space yourself or
 choosing a fitting recipe. OWL never automatically prunes personal files.
 

@@ -817,7 +817,8 @@ assets:
   license: CC-BY-SA-4.0; media licenses vary
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Wikimedia contributors
@@ -842,7 +843,8 @@ assets:
   license: CC-BY-SA-4.0; individual notices apply
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Wikimedia contributors
@@ -867,7 +869,8 @@ assets:
   license: CC-BY-SA-4.0; individual notices apply
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Wikimedia contributors
@@ -892,7 +895,9 @@ assets:
   license: CC-BY-NC-SA-3.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: iFixit and contributors
@@ -917,7 +922,9 @@ assets:
   license: CC-BY-SA-4.0; individual notices apply
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Appropedia contributors
@@ -934,7 +941,7 @@ assets:
   title: Kiwix Windows x64 portable reader
   category: software
   format: zip
-  source_url: https://download.kiwix.org/release/kiwix-desktop/kiwix-desktop_windows_x64_2.5.1.zip
+  source_url: https://ny.mirror.driftle.ss/kiwix/release/kiwix-desktop/kiwix-desktop_windows_x64_2.5.1.zip
   destination: SOFTWARE/WINDOWS/kiwix-desktop_windows_x64_2.5.1.zip
   version: 2.5.1
   size_bytes: 157265310
@@ -942,7 +949,9 @@ assets:
   license: GPL-3.0-or-later; bundled components retain their licenses
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Kiwix contributors
@@ -953,14 +962,17 @@ assets:
     with GPL corresponding-source obligations; see docs/sources.md.
   description: Official pinned offline package; downloaded over HTTPS, local SHA-256 computed, upstream
     MD5 additionally compared. Never executed by OWL. Check OS, architecture, installation permissions
-    and runtime requirements before relying on it.
+    and runtime requirements before relying on it. Downloaded from a Kiwix-listed mirror; original Kiwix
+    release URL retained as fallback. Version, size and whole-file SHA-256 are unchanged.
   resource_type: software
   illustrated: false
+  mirrors:
+  - https://download.kiwix.org/release/kiwix-desktop/kiwix-desktop_windows_x64_2.5.1.zip
 - id: kiwix_linux
   title: Kiwix Linux x86_64 AppImage
   category: software
   format: appimage
-  source_url: https://download.kiwix.org/release/kiwix-desktop/kiwix-desktop_x86_64_2.5.1.appimage
+  source_url: https://ny.mirror.driftle.ss/kiwix/release/kiwix-desktop/kiwix-desktop_x86_64_2.5.1.appimage
   destination: SOFTWARE/LINUX/kiwix-desktop_x86_64_2.5.1.appimage
   version: 2.5.1
   size_bytes: 168125632
@@ -968,7 +980,9 @@ assets:
   license: GPL-3.0-or-later; bundled components retain their licenses
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Kiwix contributors
@@ -979,14 +993,17 @@ assets:
     with GPL corresponding-source obligations; see docs/sources.md.
   description: Official pinned offline package; downloaded over HTTPS, local SHA-256 computed, upstream
     MD5 additionally compared. Never executed by OWL. Check OS, architecture, installation permissions
-    and runtime requirements before relying on it.
+    and runtime requirements before relying on it. Downloaded from a Kiwix-listed mirror; original Kiwix
+    release URL retained as fallback. Version, size and whole-file SHA-256 are unchanged.
   resource_type: software
   illustrated: false
+  mirrors:
+  - https://download.kiwix.org/release/kiwix-desktop/kiwix-desktop_x86_64_2.5.1.appimage
 - id: kiwix_macos
   title: Kiwix macOS disk image
   category: software
   format: dmg
-  source_url: https://download.kiwix.org/release/kiwix-macos/kiwix-macos_3.14.0.dmg
+  source_url: https://ny.mirror.driftle.ss/kiwix/release/kiwix-macos/kiwix-macos_3.14.0.dmg
   destination: SOFTWARE/MACOS/kiwix-macos_3.14.0.dmg
   version: 3.14.0
   size_bytes: 6082767
@@ -994,7 +1011,9 @@ assets:
   license: GPL-3.0; bundled components retain their licenses
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Kiwix contributors
@@ -1005,14 +1024,17 @@ assets:
     with GPL corresponding-source obligations; see docs/sources.md.
   description: Official pinned offline package; downloaded over HTTPS, local SHA-256 computed, upstream
     MD5 additionally compared. Never executed by OWL. Check OS, architecture, installation permissions
-    and runtime requirements before relying on it.
+    and runtime requirements before relying on it. Downloaded from a Kiwix-listed mirror; original Kiwix
+    release URL retained as fallback. Version, size and whole-file SHA-256 are unchanged.
   resource_type: software
   illustrated: false
+  mirrors:
+  - https://download.kiwix.org/release/kiwix-macos/kiwix-macos_3.14.0.dmg
 - id: kiwix_android
   title: Kiwix Android standalone APK
   category: software
   format: apk
-  source_url: https://download.kiwix.org/release/kiwix-android/org.kiwix.kiwixmobile.standalone-3.14.0.apk
+  source_url: https://ny.mirror.driftle.ss/kiwix/release/kiwix-android/org.kiwix.kiwixmobile.standalone-3.14.0.apk
   destination: SOFTWARE/ANDROID/org.kiwix.kiwixmobile.standalone-3.14.0.apk
   version: 3.14.0
   size_bytes: 108265861
@@ -1020,7 +1042,9 @@ assets:
   license: GPL-3.0-or-later; bundled components retain their licenses
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Kiwix contributors
@@ -1031,9 +1055,12 @@ assets:
     with GPL corresponding-source obligations; see docs/sources.md.
   description: Official pinned offline package; downloaded over HTTPS, local SHA-256 computed, upstream
     MD5 additionally compared. Never executed by OWL. Check OS, architecture, installation permissions
-    and runtime requirements before relying on it.
+    and runtime requirements before relying on it. Downloaded from a Kiwix-listed mirror; original Kiwix
+    release URL retained as fallback. Version, size and whole-file SHA-256 are unchanged.
   resource_type: software
   illustrated: false
+  mirrors:
+  - https://download.kiwix.org/release/kiwix-android/org.kiwix.kiwixmobile.standalone-3.14.0.apk
 - id: regional_topographic_maps
   title: Local topographic and evacuation maps (choose your region)
   category: maps
@@ -1046,8 +1073,7 @@ assets:
   license: Unresolved until a regional map is selected
   redistributable: false
   required: false
-  profiles:
-  - critical-64gb
+  profiles: []
   critical: false
   reader_required: false
   source_page: https://store.usgs.gov/map-locator
@@ -1128,7 +1154,9 @@ assets:
   license: CC-BY-SA-4.0; individual media notices apply
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: WikEM contributors
@@ -1158,7 +1186,9 @@ assets:
     redistribution license asserted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: CD3WD Project and original publication authors
@@ -1189,7 +1219,8 @@ assets:
   license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: LibreTexts and original authors
@@ -1219,7 +1250,8 @@ assets:
   license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: LibreTexts and original authors
@@ -1249,7 +1281,8 @@ assets:
   license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: LibreTexts and original authors
@@ -1279,7 +1312,8 @@ assets:
   license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: LibreTexts and original authors
@@ -1309,7 +1343,8 @@ assets:
   license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: LibreTexts and original authors
@@ -1339,7 +1374,8 @@ assets:
   license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: LibreTexts and original authors
@@ -1369,7 +1405,8 @@ assets:
   license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: LibreTexts and original authors
@@ -1399,7 +1436,8 @@ assets:
   license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: LibreTexts and original authors
@@ -1429,7 +1467,8 @@ assets:
   license: CC-BY-SA-4.0; individual content and media notices apply
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Wikimedia contributors
@@ -1458,7 +1497,8 @@ assets:
   license: CC-BY-SA-4.0; individual content and media notices apply
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Wikimedia contributors
@@ -1515,7 +1555,8 @@ assets:
   license: Public domain (US Government work); retain credited third-party and archive software notices
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: US Central Intelligence Agency; archive by Kiwix/openZIM
@@ -1753,7 +1794,9 @@ assets:
   license: Public domain - United States federal government work
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Federal Emergency Management Agency
@@ -1778,7 +1821,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -1804,7 +1849,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -1830,7 +1877,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -1856,7 +1905,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -1882,7 +1933,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -1908,7 +1961,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -1934,7 +1989,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -1960,7 +2017,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -1986,7 +2045,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2012,7 +2073,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2038,7 +2101,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2064,7 +2129,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2090,7 +2157,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2116,7 +2185,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2142,7 +2213,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2168,7 +2241,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2194,7 +2269,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2220,7 +2297,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2246,7 +2325,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2272,7 +2353,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2298,7 +2381,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2324,7 +2409,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2350,7 +2437,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2376,7 +2465,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2403,7 +2494,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2429,7 +2522,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2455,7 +2550,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2481,7 +2578,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2507,7 +2606,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2533,7 +2634,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2559,7 +2662,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2585,7 +2690,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2611,7 +2718,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2637,7 +2746,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2663,7 +2774,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2689,7 +2802,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2715,7 +2830,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2741,7 +2858,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2767,7 +2886,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2793,7 +2914,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2819,7 +2942,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2845,7 +2970,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2871,7 +2998,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2897,7 +3026,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2923,7 +3054,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2949,7 +3082,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -2975,7 +3110,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3001,7 +3138,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3027,7 +3166,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3053,7 +3194,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3079,7 +3222,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3105,7 +3250,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3131,7 +3278,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3157,7 +3306,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3184,7 +3335,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3211,7 +3364,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3237,7 +3392,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3263,7 +3420,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3289,7 +3448,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3315,7 +3476,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3341,7 +3504,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3367,7 +3532,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3393,7 +3560,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3419,7 +3588,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3445,7 +3616,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3471,7 +3644,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3497,7 +3672,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3524,7 +3701,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3550,7 +3729,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3576,7 +3757,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3602,7 +3785,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3628,7 +3813,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3654,7 +3841,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3680,7 +3869,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3706,7 +3897,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3732,7 +3925,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3758,7 +3953,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3784,7 +3981,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3810,7 +4009,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3836,7 +4037,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3862,7 +4065,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3888,7 +4093,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3914,7 +4121,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3940,7 +4149,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3966,7 +4177,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -3992,7 +4205,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4018,7 +4233,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4044,7 +4261,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4070,7 +4289,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4097,7 +4318,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4123,7 +4346,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4149,7 +4374,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4176,7 +4403,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4202,7 +4431,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4228,7 +4459,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4254,7 +4487,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4280,7 +4515,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4306,7 +4543,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4333,7 +4572,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4359,7 +4600,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4385,7 +4628,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4411,7 +4656,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4437,7 +4684,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4463,7 +4712,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4490,7 +4741,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4516,7 +4769,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4542,7 +4797,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4568,7 +4825,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4594,7 +4853,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4620,7 +4881,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4646,7 +4909,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4672,7 +4937,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4698,7 +4965,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4724,7 +4993,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4750,7 +5021,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4776,7 +5049,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4802,7 +5077,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4828,7 +5105,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4854,7 +5133,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4880,7 +5161,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4906,7 +5189,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4932,7 +5217,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4958,7 +5245,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -4984,7 +5273,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5010,7 +5301,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5036,7 +5329,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5062,7 +5357,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5088,7 +5385,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5114,7 +5413,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5140,7 +5441,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5166,7 +5469,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5192,7 +5497,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5218,7 +5525,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5244,7 +5553,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5270,7 +5581,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5296,7 +5609,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5322,7 +5637,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5348,7 +5665,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5374,7 +5693,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5400,7 +5721,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5426,7 +5749,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5452,7 +5777,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5478,7 +5805,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5504,7 +5833,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5530,7 +5861,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5556,7 +5889,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5582,7 +5917,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5608,7 +5945,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5634,7 +5973,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5660,7 +6001,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5686,7 +6029,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5712,7 +6057,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5738,7 +6085,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5764,7 +6113,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5790,7 +6141,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5816,7 +6169,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5842,7 +6197,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5868,7 +6225,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5894,7 +6253,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5920,7 +6281,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5946,7 +6309,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5972,7 +6337,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -5999,7 +6366,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6025,7 +6394,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6051,7 +6422,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6078,7 +6451,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6104,7 +6479,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6130,7 +6507,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6156,7 +6535,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6182,7 +6563,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6208,7 +6591,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6234,7 +6619,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6260,7 +6647,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6286,7 +6675,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6312,7 +6703,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6338,7 +6731,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6364,7 +6759,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6390,7 +6787,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6416,7 +6815,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6442,7 +6843,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6468,7 +6871,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6494,7 +6899,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6520,7 +6927,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6546,7 +6955,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6572,7 +6983,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6598,7 +7011,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6624,7 +7039,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6650,7 +7067,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6676,7 +7095,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6702,7 +7123,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6728,7 +7151,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6754,7 +7179,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6780,7 +7207,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6806,7 +7235,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6832,7 +7263,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6858,7 +7291,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6884,7 +7319,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6910,7 +7347,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6936,7 +7375,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6962,7 +7403,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -6988,7 +7431,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7014,7 +7459,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7040,7 +7487,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7066,7 +7515,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7092,7 +7543,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7118,7 +7571,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7144,7 +7599,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7170,7 +7627,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7196,7 +7655,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7222,7 +7683,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7248,7 +7711,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7274,7 +7739,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7300,7 +7767,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7326,7 +7795,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7352,7 +7823,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7378,7 +7851,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7404,7 +7879,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7430,7 +7907,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7456,7 +7935,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7482,7 +7963,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7508,7 +7991,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7534,7 +8019,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7560,7 +8047,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7586,7 +8075,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7612,7 +8103,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7638,7 +8131,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7664,7 +8159,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7690,7 +8187,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7716,7 +8215,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7742,7 +8243,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7768,7 +8271,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7794,7 +8299,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7820,7 +8327,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7846,7 +8355,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7872,7 +8383,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7898,7 +8411,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7924,7 +8439,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7950,7 +8467,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -7976,7 +8495,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8002,7 +8523,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8028,7 +8551,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8054,7 +8579,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8080,7 +8607,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8106,7 +8635,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8132,7 +8663,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8158,7 +8691,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8184,7 +8719,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8210,7 +8747,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8236,7 +8775,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8262,7 +8803,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8288,7 +8831,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8314,7 +8859,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8340,7 +8887,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8366,7 +8915,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8392,7 +8943,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8418,7 +8971,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8444,7 +8999,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8470,7 +9027,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8496,7 +9055,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8522,7 +9083,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8548,7 +9111,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8574,7 +9139,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8600,7 +9167,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8626,7 +9195,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8652,7 +9223,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8678,7 +9251,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8704,7 +9279,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8730,7 +9307,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8756,7 +9335,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8782,7 +9363,9 @@ assets:
     redistribution not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Hesperian Health Guides
@@ -8808,7 +9391,9 @@ assets:
     not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Montana State University Extension
@@ -8833,7 +9418,9 @@ assets:
   license: Copyright Medecins Sans Frontieres; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Medecins Sans Frontieres
@@ -8858,7 +9445,9 @@ assets:
   license: Copyright Medecins Sans Frontieres; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Medecins Sans Frontieres
@@ -8883,7 +9472,9 @@ assets:
   license: Copyright Medecins Sans Frontieres; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Medecins Sans Frontieres
@@ -8908,7 +9499,9 @@ assets:
   license: Copyright Medecins Sans Frontieres; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Medecins Sans Frontieres
@@ -8933,7 +9526,9 @@ assets:
   license: Copyright Medecins Sans Frontieres; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Medecins Sans Frontieres
@@ -8958,7 +9553,9 @@ assets:
   license: Copyright Medecins Sans Frontieres; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Medecins Sans Frontieres
@@ -8984,7 +9581,9 @@ assets:
   license: Copyright Medecins Sans Frontieres; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Medecins Sans Frontieres
@@ -9010,7 +9609,9 @@ assets:
     not granted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: University of Georgia Extension
@@ -9036,7 +9637,9 @@ assets:
     grant verified
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization
@@ -9061,7 +9664,9 @@ assets:
     grant verified
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization
@@ -9086,7 +9691,9 @@ assets:
     grant verified
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization
@@ -9111,7 +9718,9 @@ assets:
     grant verified
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization
@@ -9136,7 +9745,9 @@ assets:
     grant verified
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization
@@ -9161,7 +9772,9 @@ assets:
     grant verified
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization
@@ -9187,7 +9800,9 @@ assets:
     grant verified
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization
@@ -9213,7 +9828,9 @@ assets:
     grant verified
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization
@@ -9238,7 +9855,9 @@ assets:
     grant verified
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization
@@ -9263,7 +9882,9 @@ assets:
     grant verified
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization
@@ -9288,7 +9909,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9311,7 +9934,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9335,7 +9960,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9359,7 +9986,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9383,7 +10012,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9407,7 +10038,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9430,7 +10063,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9453,7 +10088,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9476,7 +10113,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9499,7 +10138,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9522,7 +10163,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9545,7 +10188,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9568,7 +10213,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9591,7 +10238,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9614,7 +10263,9 @@ assets:
   license: Copyright WHO 2013; all rights reserved; official personal reference download
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: World Health Organization / WEDC
@@ -9637,7 +10288,9 @@ assets:
   license: GFDL-1.3-or-later
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Free Software Foundation and documentation authors
@@ -9668,7 +10321,9 @@ assets:
   license: GFDL-1.3-or-later
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Free Software Foundation and documentation authors
@@ -9699,7 +10354,9 @@ assets:
   license: GFDL-1.3-or-later; retain cover texts
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Free Software Foundation and documentation authors
@@ -9730,7 +10387,9 @@ assets:
   license: GFDL-1.3-or-later; retain invariant section and cover texts
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Free Software Foundation and documentation authors
@@ -9759,7 +10418,9 @@ assets:
   license: GFDL-1.3-or-later; retain cover texts
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Free Software Foundation and documentation authors
@@ -9788,7 +10449,9 @@ assets:
   license: GFDL-1.3-or-later
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Free Software Foundation and documentation authors
@@ -9817,7 +10480,9 @@ assets:
   license: GFDL-1.3-or-later
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Free Software Foundation and documentation authors
@@ -9846,7 +10511,9 @@ assets:
   license: GFDL-1.3-or-later; retain invariant sections and cover texts
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Free Software Foundation and documentation authors
@@ -9875,7 +10542,9 @@ assets:
   license: CC-BY-NC-SA-3.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: Scott Chacon and Ben Straub
@@ -9904,7 +10573,9 @@ assets:
   license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Python Software Foundation
@@ -9934,7 +10605,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -9964,7 +10637,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -9993,7 +10668,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10022,7 +10699,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10051,7 +10730,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10080,7 +10761,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10109,7 +10792,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10138,7 +10823,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10167,7 +10854,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10197,7 +10886,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10226,7 +10917,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10255,7 +10948,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10284,7 +10979,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10315,7 +11012,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10345,7 +11044,9 @@ assets:
   license: CC-BY-NC-SA-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: OpenStax, Rice University
@@ -10375,7 +11076,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10405,7 +11108,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10435,7 +11140,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10465,7 +11172,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10496,7 +11205,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10526,7 +11237,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10556,7 +11269,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10586,7 +11301,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10616,7 +11333,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10647,7 +11366,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10677,7 +11398,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10707,7 +11430,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10737,7 +11462,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10767,7 +11494,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10797,7 +11526,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10828,7 +11559,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10858,7 +11591,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10888,7 +11623,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10919,7 +11656,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10949,7 +11688,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -10979,7 +11720,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11009,7 +11752,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11039,7 +11784,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11070,7 +11817,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11100,7 +11849,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11130,7 +11881,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11161,7 +11914,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11191,7 +11946,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11221,7 +11978,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11251,7 +12010,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11281,7 +12042,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11311,7 +12074,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11341,7 +12106,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11372,7 +12139,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11402,7 +12171,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11432,7 +12203,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11463,7 +12236,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11493,7 +12268,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11523,7 +12300,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11553,7 +12332,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11583,7 +12364,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11613,7 +12396,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11644,7 +12429,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11674,7 +12461,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11704,7 +12493,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11735,7 +12526,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11766,7 +12559,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11796,7 +12591,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11827,7 +12624,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11857,7 +12656,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11887,7 +12688,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11917,7 +12720,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11947,7 +12752,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -11977,7 +12784,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -12008,7 +12817,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -12038,7 +12849,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -12068,7 +12881,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -12099,7 +12914,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -12129,7 +12946,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -12159,7 +12978,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -12189,7 +13010,9 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Book Dash
@@ -12219,7 +13042,9 @@ assets:
   license: CC-BY-NC-SA-3.0-IGO
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Food and Agriculture Organization of the United Nations
@@ -12252,7 +13077,9 @@ assets:
   license: FAO noncommercial copying permission; adaptation and commercial use require permission
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Food and Agriculture Organization of the United Nations
@@ -12283,7 +13110,9 @@ assets:
   license: Copyright FAO; no redistribution permission verified
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Food and Agriculture Organization of the United Nations
@@ -12315,7 +13144,9 @@ assets:
   license: CC-BY-NC-SA-3.0-IGO
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Food and Agriculture Organization of the United Nations
@@ -12345,7 +13176,9 @@ assets:
   license: Copyright FAO SAFR; no redistribution permission verified
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Food and Agriculture Organization of the United Nations
@@ -12378,7 +13211,9 @@ assets:
   license: FAO noncommercial copying permission; adaptation and commercial use require permission
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Food and Agriculture Organization of the United Nations
@@ -12409,7 +13244,9 @@ assets:
   license: FAO noncommercial copying permission; adaptation and commercial use require permission
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Food and Agriculture Organization of the United Nations
@@ -12442,7 +13279,9 @@ assets:
   license: CC-BY-NC-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: PhET Interactive Simulations, University of Colorado Boulder
@@ -12473,7 +13312,9 @@ assets:
   license: CC-BY-NC-4.0
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: false
   publisher: PhET Interactive Simulations, University of Colorado Boulder
@@ -12505,7 +13346,9 @@ assets:
     redistribution grant asserted
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Low-tech Magazine; archived by Kiwix/openZIM
@@ -12534,7 +13377,9 @@ assets:
   license: Public domain - United States federal government work; explicit notice in the PDF
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: National Institute for Occupational Safety and Health
@@ -12561,7 +13406,9 @@ assets:
     other reuse requires permission
   redistributable: false
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: true
   reader_required: false
   publisher: Sphere Association
@@ -12576,3 +13423,687 @@ assets:
   description: Complete 458-page publisher PDF offered by the IFRC Disaster Law repository. Original educational-use
     permission, copyright, attribution, chapters, annexes and index remain intact. No unrestricted online
     redistribution or resale permission is claimed.
+- id: gutenberg_en_lcc_q
+  title: Project Gutenberg — Science (English LCC Q)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-q_2026-03.zim
+  version: 2026-03
+  size_bytes: 17724714270
+  sha256: bf3ffab926136be517d3253addfbe20e0c90a840aefb8d1c5fbf76c58d85a9bf
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class Q: Science. Published class
+    selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published archive
+    intact. Historical technical material requires modern safety context; not operational medical guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim
+- id: gutenberg_en_lcc_t
+  title: Project Gutenberg — Technology (English LCC T)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-t_2026-03.zim
+  version: 2026-03
+  size_bytes: 13154803470
+  sha256: 362c9f07d79363802fe2b2e5e97c1b8e717d730bbcfaff478938652dbf12a2fd
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class T: Technology. Published class
+    selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published archive
+    intact. Historical technical material requires modern safety context; not operational medical guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim
+- id: gutenberg_en_lcc_s
+  title: Project Gutenberg — Agriculture (English LCC S)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-s_2026-03.zim
+  version: 2026-03
+  size_bytes: 4532683039
+  sha256: 3012dfb7936d5bc8a5c3bdd0c9f864cd81e9514c28c40afc548415fd95272fcc
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class S: Agriculture. Published
+    class selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published
+    archive intact. Historical technical material requires modern safety context; not operational medical
+    guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim
+- id: gutenberg_en_lcc_l
+  title: Project Gutenberg — Education (English LCC L)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-l_2026-03.zim
+  version: 2026-03
+  size_bytes: 628986048
+  sha256: 689bbb2afc1977e855f48bf0557548f7aba46d6526ff596aba9571aaeeb40638
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class L: Education. Published class
+    selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published archive
+    intact. Historical technical material requires modern safety context; not operational medical guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim
+- id: gutenberg_en_lcc_pz
+  title: Project Gutenberg — Juvenile literature (English LCC PZ)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-pz_2026-03.zim
+  version: 2026-03
+  size_bytes: 19770263119
+  sha256: 0b3a0c46e80bf56064f85a7db993f183fa481b98686342890c6d4b2e8c071775
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class PZ: Juvenile literature. Published
+    class selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published
+    archive intact. Historical technical material requires modern safety context; not operational medical
+    guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim
+- id: stackexchange_diy
+  title: Home Improvement — Stack Exchange published archive
+  category: shelter
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/diy.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 2062547155
+  sha256: 94cbd4daeebe180bb8908b767d3c1477753049a29c2c092f6a752b6f691863da
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_electronics
+  title: Electrical Engineering — Stack Exchange published archive
+  category: electrical
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/electronics.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 4214186044
+  sha256: 5a23c08a3c1275128c247b0c67ec8ed03a953a504c6a23e2cd6a9ac5422b88c1
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_gardening
+  title: Gardening and Landscaping — Stack Exchange published archive
+  category: agriculture
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/gardening.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 926805273
+  sha256: b8a3e0db65d8a678b47accefd8565f78af0caeb454672fe0d5f365336c71c25e
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_gis
+  title: Geographic Information Systems — Stack Exchange published archive
+  category: navigation
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/gis.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 2129919887
+  sha256: 346102fc29c823f7c971811c7aedaf84db2dba735aa84c1bd369edf048b553e8
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_ham
+  title: Amateur Radio — Stack Exchange published archive
+  category: electrical
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/ham.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 75931239
+  sha256: 71480bd280ffaede3084fa2c9f47f87c3178f8ce8d67cdb19fb66a8025a7b93e
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_mechanics
+  title: Motor Vehicle Maintenance and Repair — Stack Exchange published archive
+  category: mechanical
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/mechanics.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 339833641
+  sha256: 20f1547c29c621b3d44ccdc46ac9047cfa99df75227cc68c5284ce7850eac864
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_outdoors
+  title: The Great Outdoors — Stack Exchange published archive
+  category: navigation
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/outdoors.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 141407927
+  sha256: 78dccd2b5f784b17d1a22b1f65e64a74c53fa473e08f995440ff38bd8417cf1b
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_sustainability
+  title: Sustainable Living — Stack Exchange published archive
+  category: reference
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/sustainability.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 27666982
+  sha256: e9a00e1d1032bc1a5859e1a7553e6b243fcecd0c82ba372548af517119ebd75d
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_unix
+  title: Unix and Linux — Stack Exchange published archive
+  category: computing
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/unix.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 1312634563
+  sha256: 738326e81abe0f50edbaa3e4a002d0ca221e5dfb66e4954bb64e370756f602d3
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_woodworking
+  title: Woodworking — Stack Exchange published archive
+  category: mechanical
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/woodworking.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 105570459
+  sha256: a41140515d25c9906ceed8a818dd4a0645b7c040a9dc4a8419a2d729af7c3ccb
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_3dprinting
+  title: 3D Printing — Stack Exchange published archive
+  category: mechanical
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim
+  destination: ZIM/OTHER/3dprinting.stackexchange.com_en_all_2026-07a.zim
+  version: 2026-07a
+  size_bytes: 120138274
+  sha256: c47a5b4d9fce51598f5008c2046eb9f42aa5194ec1b25592a6514efccec93561
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-07a site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim
+- id: stackexchange_math
+  title: Mathematics — Stack Exchange published archive
+  category: science
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/math.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 7417271999
+  sha256: 9b06975bba543aa5fd4a0ff82497349c061aacde394a0d2120c6898271063238
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_physics
+  title: Physics — Stack Exchange published archive
+  category: science
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/physics.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 1827690763
+  sha256: 440e50c991709012e7436e2a965566fee61f118ff9e98d1ce44961d162e1a753
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_biology
+  title: Biology — Stack Exchange published archive
+  category: science
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim
+  destination: ZIM/OTHER/biology.stackexchange.com_en_all_2026-07.zim
+  version: 2026-07
+  size_bytes: 422849825
+  sha256: e195995da99e219251316d7ca6ebc7698558032ed17f32de9cb95ea0a6e9ee68
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-07 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim
+- id: stackexchange_chemistry
+  title: Chemistry — Stack Exchange published archive
+  category: science
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim
+  destination: ZIM/OTHER/chemistry.stackexchange.com_en_all_2026-07.zim
+  version: 2026-07
+  size_bytes: 417260049
+  sha256: bc99e888d3d9e02eddd470b9a00e351c00436c79b039ee6c4009905160f280dd
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-07 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim
+- id: stackexchange_superuser
+  title: Super User — published archive
+  category: computing
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/superuser.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/superuser.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 4003118644
+  sha256: 9bfddc8e569e0163ecc6facea4ec9dc347e6b2ace10e06745968559256b926d9
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix August 2026 Super User archive. Includes broad computer troubleshooting,
+    not only the selected durable questions originally planned. No OWL question-level quality filter or
+    direct HTML export has been performed.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/superuser.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/superuser.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/superuser.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/superuser.com_en_all_2026-08.zim

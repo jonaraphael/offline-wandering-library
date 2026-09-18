@@ -3,8 +3,8 @@ title: Survive + read + repair
 capacity_bytes: 256000000000
 content_target_min_bytes: 190000000000
 content_target_max_bytes: 210000000000
-search_budget_bytes: 24000000000
-readers_budget_bytes: 5000000000
+search_budget_bytes: 10000000000
+readers_budget_bytes: 500000000
 reserve_bytes: 16000000000
 default_resources:
 - owl-direct-core
@@ -26,8 +26,20 @@ default_resources:
 - cd3wd
 - ifixit
 - low-tech-magazine
+- openstax-core
+- phet
+- linux-programming-docs
+- civilian-preparedness
 resource_overrides:
   regional-maps:
     target_bytes: 10000000000
     exclude_asset_ids:
     - map_osm_north_america
+  phet:
+    target_bytes: 5089284
+  linux-programming-docs:
+    target_bytes: 41537243
+index_scratch_budget_bytes: 18000000000
+default_editions:
+  gutenberg-core: compact
+  childrens-library: compact

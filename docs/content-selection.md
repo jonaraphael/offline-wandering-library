@@ -4,7 +4,7 @@ Generated from `catalog/resources.yaml` and `catalog/library.yaml` by `python sc
 
 The registry enumerates **46 numbered collections and three support resources**. The catalog contains exact downloadable file records; the registry describes intended scope. The repository contains metadata, not these datasets.
 
-Current status: **25 ready, 13 partial, 11 unresolved**. There are **461 pinned available file records**. Large archive pins were checked against publisher whole-file SHA-256 metadata and exact HTTP byte counts; the archive bodies have not all been downloaded or device-tested.
+Current status: **25 ready, 13 partial, 11 unresolved**. There are **482 pinned available file records**. Large archive pins were checked against publisher whole-file SHA-256 metadata and exact HTTP byte counts; the archive bodies have not all been downloaded or device-tested.
 
 - **Ready:** the declared acquisition scope has usable pinned files.
 - **Partial:** usable files are available, but specific requested content or representations remain missing.
@@ -13,23 +13,23 @@ Current status: **25 ready, 13 partial, 11 unresolved**. There are **461 pinned 
 
 Original notices and attribution remain intact. Private acquisition and public redistribution are recorded separately; personal use does not change a publication’s stated license or its download availability.
 
-Evidence: [medical and emergency](acquisition-medical.md), [education and agriculture](acquisition-education.md), [large archives](acquisition-archives.md), [programming and Low-tech](acquisition-reference.md).
+Evidence: [medical and emergency](acquisition-medical.md), [education and agriculture](acquisition-education.md), [large archives](acquisition-archives.md), [programming and Low-tech](acquisition-reference.md), [Gutenberg and Stack Exchange](acquisition-enrichment.md).
 
 ## Profiles and capacity
 
-All values are decimal GB. Planning targets include unresolved collections and are not downloaded byte counts. Smaller presets retain their 25 directly readable PDFs (1.5745 GB), including seven textbooks and thirteen illustrated works.
+All values are decimal GB. Planning targets include unresolved collections and are not downloaded byte counts. Every production preset retains the expanded ordinary-format foundation: 427 documents, including 360 PDFs, 23 direct textbooks and 50 illustrated teaching works. Small presets add bounded practical archives and bundled readers; their totals below are exact pinned bytes.
 
 | Profile | Content target | Known available files | Search | Scratch | Reserve |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| `flash-16gb` | 1.575 GB | 1.575 GB | 2 GB | 4 GB | 2 GB |
-| `critical-64gb` | 1.575 GB | 1.575 GB | 2 GB | 4 GB | 8 GB |
-| `compact-256gb` | 209.186 GB | 136.449 GB | 24 GB | 48 GB | 16 GB |
-| `standard-512gb` | 408.176 GB | 190.343 GB | 48 GB | 96 GB | 38 GB |
-| `full-1tb` | 790.718 GB | 312.233 GB | 90 GB | 180 GB | 80 GB |
+| `flash-16gb` | 9.696 GB | 9.696 GB | 1 GB | 3 GB | 1.5 GB |
+| `critical-64gb` | 40.273 GB | 40.273 GB | 4 GB | 12 GB | 6 GB |
+| `compact-256gb` | 206.422 GB | 195.141 GB | 10 GB | 18 GB | 16 GB |
+| `standard-512gb` | 396.325 GB | 261.614 GB | 20 GB | 35 GB | 30 GB |
+| `full-1tb` | 779.952 GB | 393.589 GB | 40 GB | 75 GB | 70 GB |
 
-Reader and metadata allowances are additional. Complete large-profile targets currently exceed nominal capacity during in-place indexing under the conservative scratch allowances. Use the CLI `--plan` for the complete calculation and real free-space/reuse checks; do not assume the final content target proves the build fits.
+Known available files include selected reader binaries; content targets exclude their separate allowance. Metadata is additional. All five default planning peaks fit their nominal capacities with the explicit search/scratch/reserve allowances. Full-corpus index measurements for the larger profiles are still outstanding. Use the CLI `--plan` for the complete calculation and real free-space/reuse checks; do not assume the final content target proves the build fits.
 
-Compact includes #1–18, with a 10 GB local topographic allocation instead of North America OSM. Standard includes #1–31 and a 75 GB Survivor Tier A target. Full includes #1–36, #42–44 and #46, with full Tier A and a 60 GB direct-reading allowance. Spanish is the default additional Wikipedia; other languages and remaining Khan content are opt-in. A world map replaces the North America archive while retaining local topo.
+Compact includes #1–18 plus all acquired OpenStax textbooks, PhET circuit simulations, preparedness and programming manuals; it keeps a 10 GB local topographic allocation instead of North America OSM. Standard includes #1–31 and a 75 GB Survivor Tier A target. Full includes #1–36, #42–44 and #46, with full Tier A and a 60 GB direct-reading allowance. Spanish is the default additional Wikipedia; other languages and remaining Khan content are opt-in. A world map replaces the North America archive while retaining local topo.
 
 Use [SELECT.html](../SELECT.html) or repeat `--include RESOURCE` / `--exclude RESOURCE` (IDs or list numbers). Exclusion never deletes existing files. A normal build stops for partial/unresolved collections; `--allow-incomplete` explicitly builds the available subset and records the gaps.
 
@@ -37,7 +37,7 @@ Use [SELECT.html](../SELECT.html) or repeat `--include RESOURCE` / `--exclude RE
 
 The [in-place ZIM exporter](direct-export.md) converts explicit article selections and supported local images/styles/fonts into ordinary files on the SSD. Import its completed manifest with `build_drive.py --extra-catalog PATH --allow-local` to refresh global search, navigation, inventory and checksums without copying those files again. Excluding a source collection also excludes its derivatives; an export from a different source checksum is rejected.
 
-A conversion mechanism does not establish a curated or visually checked edition. The 60 GB direct-reading expansion remains unresolved until article/book selections are reviewed and their output is verified. No production alternative direct/compact editions are registered yet, so the selector disables those alternatives. It does not invent compression savings or automatically expand Wikipedia.
+A conversion mechanism does not establish a curated or visually checked edition. The 60 GB direct-reading expansion remains unresolved until article/book selections are reviewed and their output is verified. Verified compact editions are registered for Gutenberg nonfiction, children, practical Stack Exchange and science Stack Exchange. Profile default_editions selects these without concealing the unfinished direct/curated scopes. Historical Gutenberg publications are not current safety or clinical instructions. It does not invent compression savings or automatically expand Wikipedia.
 
 Additional manifests count their actual bytes on top of selected planning targets. When actual exports replace the separate 60 GB estimate, explicitly exclude `direct-reading-expansion` to avoid reserving that estimate as well; other collection gaps remain reported.
 
@@ -66,7 +66,7 @@ Additional manifests count their actual bytes on top of selected planning target
 | 19 | `survivor-tier-a` | unresolved | 100 | 0 |
 | 20 | `stackoverflow-durable` | unresolved | 25 | 0 |
 | 21 | `stackexchange-practical` | unresolved | 12 | 0 |
-| 22 | `openstax-core` | ready | 12 | 20 |
+| 22 | `openstax-core` | ready | 2.82892 | 20 |
 | 23 | `libretexts-stem` | ready | 8.5 | 8 |
 | 24 | `wikibooks-en` | ready | 5.8 | 1 |
 | 25 | `wiktionary-en` | ready | 8.5 | 1 |
@@ -279,7 +279,7 @@ Sources: [source 1](https://www.fao.org/sustainable-food-value-chains/training-a
 
 `gutenberg-core` · **unresolved** · planning target 40 GB
 
-Gutenberg supports selective mirrors, but a reproducible book-ID selection, deduplication and pinned direct-format export are not implemented. A seed book would not fulfill the 40 GB collection.
+The requested book-level deduplication, preferred direct HTML/EPUB representations and broad curated selection remain unfinished. The compact edition is a smaller, explicitly selected historical nonfiction archive set; the whole English archive is a pinned optional input only.
 
 **Include:**
 
@@ -300,6 +300,8 @@ Gutenberg supports selective mirrors, but a reproducible book-ID selection, dedu
 - Older technical books complementing Survivor Library
 - One preferred reading representation per work; HTML with images when useful, UTF-8 TXT fallback and an EPUB where it adds phone-reading value
 - Retain book-level rights notices and country-specific public-domain limitations
+
+**Compact edition:** ready; 36.041 GB; 4 pinned files. Published English LCC Science, Technology, Agriculture and Education archives (36.041 GB). This selected nonfiction edition requires Kiwix; it is neither the whole English corpus nor the planned directly readable, book-deduplicated edition.
 
 **Exclude:**
 
@@ -326,6 +328,8 @@ All 61 complete EPUBs at the publisher Book Dash archive commit are pinned in En
 - Deduplicate titles already represented better by another source
 - Top-level navigation alongside Gutenberg, health, food/water, repair, maps and search
 - Preserve illustrations and per-book author, illustrator, translator and license credits
+
+**Compact edition:** ready; 19.819 GB; 62 pinned files. A bounded published selection: all 61 pinned Book Dash EPUBs plus the English Gutenberg juvenile-literature archive. Preserves the existing books. EPUB and ZIM readers are required; this does not claim complete African Storybook or a direct PDF export.
 
 **Exclude:**
 
@@ -561,7 +565,7 @@ Sources: [source 1](https://ftp.fau.de/kiwix/zim/stack_exchange/).
 
 `stackexchange-practical` · **unresolved** · planning target 12 GB
 
-Selected site dumps, quality rules, licensing metadata and deterministic static HTML exports have not been pinned or generated.
+The original quality-filtered direct HTML corpus remains unfinished. A ready compact alternative contains twelve complete published site archives, with broad Super User and GIS coverage rather than a hand-selected subset.
 
 **Include:**
 
@@ -581,6 +585,8 @@ Selected site dumps, quality rules, licensing metadata and deterministic static 
 - Question/answer context, dates, correction comments and per-post attribution
 - Generated static HTML
 
+**Compact edition:** ready; 15.460 GB; 12 pinned files. Twelve pinned published Kiwix site archives: DIY, electrical engineering, gardening, GIS, amateur radio, mechanics, outdoors, sustainability, Unix/Linux, woodworking, 3D printing and Super User. Requires Kiwix; no OWL question-level quality filtering is claimed.
+
 **Exclude:**
 
 - Junk
@@ -592,7 +598,7 @@ Sources: [source 1](https://ftp.fau.de/kiwix/zim/stack_exchange/).
 
 ### 22. OpenStax core textbooks
 
-`openstax-core` · **ready** · planning target 12 GB
+`openstax-core` · **ready** · planning target 2.82892 GB
 
 
 
@@ -792,7 +798,7 @@ Sources: [source 1](https://www.kernel.org/doc/man-pages/), [source 2](https://d
 
 `stackexchange-science` · **unresolved** · planning target 9 GB
 
-Site selection, minimum quality thresholds, legally obtained input snapshots and static exports remain to be implemented.
+The original quality-filtered direct HTML corpus remains unfinished. A ready compact alternative contains the complete published mathematics, physics, biology and chemistry archives.
 
 **Include:**
 
@@ -802,6 +808,8 @@ Site selection, minimum quality thresholds, legally obtained input snapshots and
 - Chemistry optionally
 - Question/answer context, dates, corrections and attribution
 - Generated static HTML
+
+**Compact edition:** ready; 10.085 GB; 4 pinned files. Four pinned published Kiwix archives covering mathematics, physics, biology and chemistry; includes the published answers and context without OWL question-level filtering. Requires Kiwix.
 
 **Exclude:**
 

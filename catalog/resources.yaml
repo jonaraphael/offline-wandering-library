@@ -518,8 +518,9 @@ resources:
   title: Project Gutenberg core library
   target_bytes: 40000000000
   status: unresolved
-  reason: Gutenberg supports selective mirrors, but a reproducible book-ID selection, deduplication and
-    pinned direct-format export are not implemented. A seed book would not fulfill the 40 GB collection.
+  reason: The requested book-level deduplication, preferred direct HTML/EPUB representations and broad
+    curated selection remain unfinished. The compact edition is a smaller, explicitly selected historical
+    nonfiction archive set; the whole English archive is a pinned optional input only.
   asset_ids: []
   preferred_formats:
   - html
@@ -553,6 +554,18 @@ resources:
   - Periodicals without clear utility
   source_pages:
   - https://www.gutenberg.org/help/mirroring.html
+  editions:
+    compact:
+      asset_ids:
+      - gutenberg_en_lcc_q
+      - gutenberg_en_lcc_t
+      - gutenberg_en_lcc_s
+      - gutenberg_en_lcc_l
+      target_bytes: 36041186827
+      status: ready
+      reason: Published English LCC Science, Technology, Agriculture and Education archives (36.041 GB).
+        This selected nonfiction edition requires Kiwix; it is neither the whole English corpus nor the
+        planned directly readable, book-deduplicated edition.
 - id: childrens-library
   number: 10
   title: Children's Library
@@ -650,6 +663,76 @@ resources:
   - https://www.africanstorybook.org/
   - https://www.gutenberg.org/help/mirroring.html
   - https://ftp.fau.de/kiwix/zim/other/
+  editions:
+    compact:
+      asset_ids:
+      - bookdash_a_beautiful_day_en
+      - bookdash_a_dancers_tale_en
+      - bookdash_a_fish_and_a_gift_en
+      - bookdash_a_fish_and_a_gift_fr
+      - bookdash_a_fish_and_a_gift_xh
+      - bookdash_a_house_for_mouse_en
+      - bookdash_a_house_for_mouse_xh
+      - bookdash_a_tiny_seed_en
+      - bookdash_a_tiny_seed_fr
+      - bookdash_a_tiny_seed_xh
+      - bookdash_amazing_daisy_en
+      - bookdash_amazing_daisy_xh
+      - bookdash_bathtub_safari_en
+      - bookdash_come_back_cat_en
+      - bookdash_come_back_cat_fr
+      - bookdash_come_back_cat_xh
+      - bookdash_gracas_dream_en
+      - bookdash_gracas_dream_xh
+      - bookdash_grandpas_gold_en
+      - bookdash_how_about_you_en
+      - bookdash_i_will_help_you_en
+      - bookdash_is_there_anyone_like_me_en
+      - bookdash_is_there_anyone_like_me_xh
+      - bookdash_karabos_question_en
+      - bookdash_little_ants_big_plan_en
+      - bookdash_little_ants_big_plan_xh
+      - bookdash_londi_the_dreaming_girl_en
+      - bookdash_lory_dory_en
+      - bookdash_maddy_moona_en
+      - bookdash_miss_helens_magical_world_en
+      - bookdash_queen_of_soweto_en
+      - bookdash_rafikis_style_en
+      - bookdash_rafikis_style_xh
+      - bookdash_sbus_special_shoes_en
+      - bookdash_searching_for_the_spirit_of_spring_en
+      - bookdash_searching_for_the_spirit_of_spring_xh
+      - bookdash_sima_and_siza_en
+      - bookdash_sindi_and_the_moon_en
+      - bookdash_sindiwe_and_the_fireflies_en
+      - bookdash_sindiwe_and_the_fireflies_xh
+      - bookdash_singing_the_truth_en
+      - bookdash_singing_the_truth_fr
+      - bookdash_singing_the_truth_xh
+      - bookdash_sizwes_smile_en
+      - bookdash_sizwes_smile_fr
+      - bookdash_sizwes_smile_xh
+      - bookdash_sleepy_mr_sloth_en
+      - bookdash_sleepy_mr_sloth_fr
+      - bookdash_sleepy_mr_sloth_xh
+      - bookdash_thatos_birthday_surprise_en
+      - bookdash_there_must_be_a_rainbow_en
+      - bookdash_together_were_strong_en
+      - bookdash_tortoise_finds_his_home_en
+      - bookdash_tortoise_finds_his_home_fr
+      - bookdash_tortoise_finds_his_home_xh
+      - bookdash_walking_together_en
+      - bookdash_walking_together_xh
+      - bookdash_what_if_en
+      - bookdash_whose_button_is_this_en
+      - bookdash_why_is_nita_upside_down_en
+      - bookdash_zanele_situ_my_story_en
+      - gutenberg_en_lcc_pz
+      target_bytes: 19818807444
+      status: ready
+      reason: 'A bounded published selection: all 61 pinned Book Dash EPUBs plus the English Gutenberg
+        juvenile-literature archive. Preserves the existing books. EPUB and ZIM readers are required;
+        this does not claim complete African Storybook or a direct PDF export.'
 - id: wikipedia-en
   number: 11
   title: English Wikipedia, full
@@ -911,8 +994,9 @@ resources:
   title: Practical Stack Exchange bundle
   target_bytes: 12000000000
   status: unresolved
-  reason: Selected site dumps, quality rules, licensing metadata and deterministic static HTML exports
-    have not been pinned or generated.
+  reason: The original quality-filtered direct HTML corpus remains unfinished. A ready compact alternative
+    contains twelve complete published site archives, with broad Super User and GIS coverage rather than
+    a hand-selected subset.
   asset_ids: []
   preferred_formats:
   - html
@@ -939,10 +1023,30 @@ resources:
   - ZIM as the primary delivered representation
   source_pages:
   - https://ftp.fau.de/kiwix/zim/stack_exchange/
+  editions:
+    compact:
+      asset_ids:
+      - stackexchange_diy
+      - stackexchange_electronics
+      - stackexchange_gardening
+      - stackexchange_gis
+      - stackexchange_ham
+      - stackexchange_mechanics
+      - stackexchange_outdoors
+      - stackexchange_sustainability
+      - stackexchange_unix
+      - stackexchange_woodworking
+      - stackexchange_3dprinting
+      - stackexchange_superuser
+      target_bytes: 15459760088
+      status: ready
+      reason: 'Twelve pinned published Kiwix site archives: DIY, electrical engineering, gardening, GIS,
+        amateur radio, mechanics, outdoors, sustainability, Unix/Linux, woodworking, 3D printing and Super
+        User. Requires Kiwix; no OWL question-level quality filtering is claimed.'
 - id: openstax-core
   number: 22
   title: OpenStax core textbooks
-  target_bytes: 12000000000
+  target_bytes: 2828918470
   status: ready
   asset_ids:
   - openstax_prealgebra_2e
@@ -1192,8 +1296,8 @@ resources:
   title: Math, Physics and Biology Stack Exchange
   target_bytes: 9000000000
   status: unresolved
-  reason: Site selection, minimum quality thresholds, legally obtained input snapshots and static exports
-    remain to be implemented.
+  reason: The original quality-filtered direct HTML corpus remains unfinished. A ready compact alternative
+    contains the complete published mathematics, physics, biology and chemistry archives.
   asset_ids: []
   preferred_formats:
   - html
@@ -1208,6 +1312,17 @@ resources:
   - Junk, unanswered questions and canonical duplicates
   source_pages:
   - https://ftp.fau.de/kiwix/zim/stack_exchange/
+  editions:
+    compact:
+      asset_ids:
+      - stackexchange_math
+      - stackexchange_physics
+      - stackexchange_biology
+      - stackexchange_chemistry
+      target_bytes: 10085072636
+      status: ready
+      reason: Four pinned published Kiwix archives covering mathematics, physics, biology and chemistry;
+        includes the published answers and context without OWL question-level filtering. Requires Kiwix.
 - id: wikisource-en
   number: 33
   title: English Wikisource

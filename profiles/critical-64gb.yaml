@@ -1,8 +1,11 @@
 id: critical-64gb
-title: Emergency essentials, textbooks and illustrated guides
+title: Expanded medical, engineering and education library
 capacity_bytes: 64000000000
-reserve_bytes: 8000000000
-search_budget_bytes: 2000000000
+reserve_bytes: 6000000000
+search_budget_bytes: 4000000000
 minimum_coverage:
-  textbooks: 7
-  illustrated-guides: 8
+  textbooks: 22
+  illustrated-guides: 40
+index_scratch_budget_bytes: 12000000000
+content_target_min_bytes: 38000000000
+content_target_max_bytes: 45000000000

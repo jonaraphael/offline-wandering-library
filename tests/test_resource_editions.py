@@ -34,7 +34,7 @@ class EditionTests(unittest.TestCase):
         self.readers = {"id": "archive-readers", "title": "Readers", "target_bytes": 0,
                         "asset_ids": ["reader"], "status": "ready"}
         self.profile = {"id": "test", "default_resources": ["collection"], "readers_budget_bytes": 5,
-                        "capacity_bytes": 10**8, "reserve_bytes": 100, "search_budget_bytes": 1000}
+                        "capacity_bytes": 10**8, "reserve_bytes": 100, "search_budget_bytes": 1_000_000, "index_scratch_budget_bytes": 3_000_000}
 
     @staticmethod
     def asset(identity, size, **changes):
@@ -70,6 +70,31 @@ class EditionTests(unittest.TestCase):
         self.assertEqual(result["resource_rows"][1]["edition"], "published")
         with self.assertRaisesRegex(CatalogError, "need archive-readers"):
             self.resolve(editions="1=compact", exclude="archive-readers")
+
+    def test_profile_editions_are_defaults_not_customizations_and_are_locked(self):
+        self.profile['default_editions'] = {'collection': 'direct'}
+        result = self.resolve()
+        self.assertFalse(result['customized'])
+        self.assertEqual(result['explicit_editions'], {})
+        self.assertEqual(result['effective_editions'], {'collection': 'direct'})
+        self.assertEqual({a['id'] for a in result['assets']}, {'critical', 'direct'})
+        assets = result.pop('assets')
+        # A future change to the live profile must not alter this locked edition.
+        self.profile['default_editions']['collection'] = 'compact'
+        locked, _, report = resolve_locked_content(assets, self.profile,
+            {'profile_id': 'test', 'content_selection': result})
+        self.assertEqual({a['id'] for a in locked}, {'critical', 'direct'})
+        self.assertEqual(report['effective_editions'], {'collection': 'direct'})
+        self.assertEqual(self.resolve(editions='collection=published')['resource_rows'][0]['edition'], 'published')
+        excluded = self.resolve(exclude='collection')
+        self.assertEqual(excluded['effective_editions'], {})
+        self.assertEqual(excluded['assets'], [])
+
+    def test_invalid_profile_editions_fail_before_selection(self):
+        for defaults in ([], {'unknown': 'direct'}, {'collection': 'missing'}, {'collection': True}):
+            self.profile['default_editions'] = defaults
+            with self.subTest(defaults=defaults), self.assertRaises(CatalogError):
+                self.resolve()
 
     def test_published_keeps_profile_target_and_membership_overrides(self):
         self.profile["resource_overrides"] = {"collection": {"target_bytes": 17, "exclude_asset_ids": ["archive"]}}

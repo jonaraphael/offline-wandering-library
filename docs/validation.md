@@ -277,3 +277,27 @@ no picker events, network attempts, or browser errors. Independent strict drive
 verification reported **199 OK, 0 missing, 0 failed, 0 unknown**. The prior owned
 binary index was retained and checksum-covered during this in-place upgrade;
 fresh builds do not produce that duplicate.
+
+
+## Content-density and budget regression pass (2026-09-18)
+
+The expanded defaults select 9.696 GB, 40.273 GB, 195.141 GB, 261.614 GB and
+393.589 GB of SHA-pinned sources for 16/64/256/512/1000 GB respectively. The
+larger two remain explicitly partial against their requested content floors.
+All five keep the same 427-file ordinary-format foundation; 365 of these are
+reader-free PDFs/HTML, while 62 EPUBs need device support. The 16 GB preset's
+436 files all have whole-document topic routes. No source datasets were added
+to Git.
+
+The complete local suite passed **352 tests**, including all existing atlas
+policy tests and new minimum-content, edition-lock, exact-byte, search-budget,
+UI-repair and low-free-space unchanged-rebuild regressions. A fresh demo build
+with strict topic coverage verified **89 OK, 0 missing, 0 failed, 0 unknown**.
+Fresh Chrome with networking disabled passed 18 search/navigation checks across
+desktop/phone layouts and JavaScript-disabled fallback pages. The selector also
+passed all five presets at phone width, with no network requests, JavaScript
+errors or horizontal overflow.
+
+The real expanded SSD build is recorded separately once full extraction and
+independent verification finish. Small-fixture success alone does not establish
+that a large archive index fits its allowance.

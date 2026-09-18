@@ -3,7 +3,7 @@
 `catalog/library.yaml` is the production recipe. `catalog/demo.yaml` is a tiny,
 original fixture for a network-free demonstration; it is not an emergency manual.
 Profiles in `profiles/*.yaml` declare decimal capacity, free-space reserve and a
-search-output allowance. The three large profiles select ordered collections
+search-output allowance. An optional `index_scratch_budget_bytes` overrides the default scratch allowance of twice the search allowance; it must at least cover the temporary raw-index serialization share (ceil(0.75 × search)). The three large profiles select ordered collections
 from `catalog/resources.yaml` through `default_resources`; `resource_overrides`
 specifies smaller map or Survivor allocations. Their asset selection is derived
 from the selected resources, not duplicated in each file's `profiles` list.
@@ -13,8 +13,7 @@ An empty asset `profiles` list means it is selected only through a named resourc
 The fixed flash/critical/demo profiles declare `minimum_coverage` for `textbooks` and
 `illustrated-guides`. These floors count **resolved, required, critical, directly
 readable** assets. The large-profile defaults follow the explicit acquisition
-list: OpenStax begins at 512 GB, while electrical textbooks and illustrated
-practical material remain in the complementary direct core. Explicit resource
+list, supplemented by the expanded direct foundation: all sizes now include the complete acquired OpenStax core, electrical textbooks and illustrated practical material. Explicit resource
 include/exclude customization overrides fixed-profile learning floors so a user
 can remove unwanted books deliberately. Critical-format rules and reader
 dependencies still apply. An illustrated textbook belongs to both learning
@@ -45,8 +44,7 @@ selects the original definition. Reader dependencies are recomputed from the
 resulting files. Editions and exact selected assets are recorded in locked build
 metadata. Explicit `--exclude RESOURCE` covers all of its registered editions.
 
-The current production registry has no alternate editions. After registering
-verified alternatives, run `python scripts/build_selector.py` to expose them in
+The production registry has verified compact Gutenberg, children, practical Stack Exchange and science Stack Exchange editions. `default_editions` maps a profile’s default resource IDs to registered edition names. These choices are not user customizations; an explicit `--edition` takes precedence. The locked catalog records defaults and explicit overrides so a future profile change cannot alter an old selection. After registering verified alternatives, run `python scripts/build_selector.py` to expose them in
 [the offline selector](selector.md). The same command refreshes resource choices,
 profile defaults, and estimates after any recipe change. CI checks that the
 committed `SELECT.html` matches its inputs.
@@ -57,7 +55,7 @@ replaces the North America archive and credits its 21 GB allocation only when
 that archive was otherwise selected; regional topography remains. Exclusion
 changes the next build's inventory but does not delete old drive content.
 
-Selected incomplete collections block a normal build before downloads or writes.
+Selected incomplete collections and unchanged presets below `content_target_min_bytes` of pinned knowledge block a normal build before downloads or writes. Software bytes do not satisfy this content floor. Explicit user customizations can intentionally select a smaller library. A target is never counted as an acquired source.
 `--allow-incomplete` explicitly builds only available verified assets and records
 `content_complete: false` in the inventory, build metadata, and
 `CONTENT_SELECTION.json`, with prominent navigation notices. It does not bypass

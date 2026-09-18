@@ -383,16 +383,45 @@ def _completed_report(target: Path, report_path: Path, fingerprint: str) -> dict
         return None
 
 
-def _publish_ui(target: Path, report: dict) -> None:
+def _prepare_ui(report: dict) -> dict[str, bytes]:
     from .search_ui import render_search_page
-    from .safety import atomic_write
     outputs = {'SEARCH.html': render_search_page().encode('utf-8'),
                'SEARCH/search.js': (Path(__file__).parent / 'templates/search.js').read_bytes()}
     for relative, data in outputs.items():
-        atomic_write(_safe_path(target, relative), data)
         report['file_integrity'][relative] = {'sha256': hashlib.sha256(data).hexdigest(),
                                             'size_bytes': len(data)}
     report['generated_files'] = sorted([*report['file_integrity'], 'SEARCH/coverage.json'])
+    return outputs
+
+
+def _publish_ui(target: Path, report: dict, outputs: dict[str, bytes] | None = None) -> None:
+    from .safety import atomic_write
+    for relative, data in (_prepare_ui(report) if outputs is None else outputs).items():
+        atomic_write(_safe_path(target, relative), data)
+
+
+def probe_completed_search(target: Path, assets: list[dict], *, progress: Callable | None = None) -> dict | None:
+    """Read-only reuse proof for space planning, including every input and chunk.
+
+    The builder must use the same inventory metadata as build_search. This probe
+    grants no trust to an old completion flag: current extraction dependencies,
+    source bytes/metadata and the entire logical index must match. Search checks
+    them again after preflight before reusing the result.
+    """
+    target = Path(target)
+    report_path = _safe_path(target, 'SEARCH/coverage.json')
+    if not report_path.is_file():
+        return None
+    notify = lambda message, **_kwargs: progress(message) if progress is not None else None
+    fingerprint, signatures = _input_fingerprint(target, sorted(assets, key=lambda a: a['destination']), notify)
+    report = _completed_report(target, report_path, fingerprint)
+    if report is None or any(signature != _signature(path) for path, signature in signatures):
+        return None
+    ui = _prepare_ui(report)
+    coverage = _json(report) + b'\n'
+    return {'generated_bytes': sum(item['size_bytes'] for item in report['file_integrity'].values()) + len(coverage),
+            'rewrite_bytes': sum(map(len, ui.values())) + len(coverage),
+            'index_bytes': report['index_bytes'], 'index_sha256': report['index_sha256']}
 
 
 def _database(path: Path) -> sqlite3.Connection:
@@ -419,18 +448,46 @@ def _database(path: Path) -> sqlite3.Connection:
         raise
 
 
-def _save_checkpoint(db: sqlite3.Connection, records: BinaryIO, state: dict) -> None:
+def _save_checkpoint(db: sqlite3.Connection, records: BinaryIO, state: dict,
+                     check_budget: Callable = lambda: None) -> None:
     from .safety import reject_symlinks
     reject_symlinks(Path(records.name))
     records.flush()
     os.fsync(records.fileno())
+    check_budget()
     state['record_bytes'] = records.tell()
     db.execute('INSERT OR REPLACE INTO checkpoint VALUES (1,?)', (_json(state).decode('utf-8'),))
     db.commit()
 
 
+class _BoundedIndexWriter:
+    """Reject an individual raw-index write before it exceeds its allocation."""
+    def __init__(self, handle: BinaryIO, maximum: int | None):
+        self.handle, self.maximum = handle, maximum
+        self.position = handle.tell()
+
+    def write(self, data):
+        if self.maximum is not None and self.position + len(data) > self.maximum:
+            raise SearchError('Raw search index exceeds its serialization allowance; increase search_budget_bytes '
+                              'and index_scratch_budget_bytes or reduce content, then rerun. Checkpoint retained.')
+        count = self.handle.write(data)
+        self.position += count
+        return count
+
+    def tell(self):
+        return self.position
+
+    def seek(self, offset, whence=0):
+        self.position = self.handle.seek(offset, whence)
+        return self.position
+
+    def __getattr__(self, name):
+        return getattr(self.handle, name)
+
+
 def _serialize_index(db: sqlite3.Connection, records: BinaryIO, part: Path,
-                     report: dict, total_length: int, notify: Callable) -> None:
+                     report: dict, total_length: int, notify: Callable,
+                     maximum: int | None = None, check_budget: Callable = lambda: None) -> None:
     # Serialization can be repeated from durable records/postings. Intermediate
     # lexicon rows are not extraction checkpoints and are always recreated.
     from .safety import reject_symlinks
@@ -438,9 +495,12 @@ def _serialize_index(db: sqlite3.Connection, records: BinaryIO, part: Path,
     db.execute('DELETE FROM lexicon')
     db.execute('DELETE FROM lex_offsets')
     db.commit()
-    with part.open('w+b') as output:
+    with part.open('w+b') as handle:
+        output = _BoundedIndexWriter(handle, maximum)
         records.seek(0)
-        shutil.copyfileobj(records, output, 1024 * 1024)
+        while block := records.read(1024 * 1024):
+            check_budget()
+            output.write(block)
         notify('INDEX writing document offsets', force=True)
         docs_offset = output.tell()
         for offset, size in db.execute('SELECT offset,size FROM docs ORDER BY id'):
@@ -497,7 +557,10 @@ def _serialize_index(db: sqlite3.Connection, records: BinaryIO, part: Path,
 
 
 def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = None,
-                 progress: Callable[[str], None] | None = None) -> dict:
+                 progress: Callable[[str], None] | None = None,
+                 search_budget_bytes: int | None = None,
+                 index_scratch_budget_bytes: int | None = None,
+                 reserve_bytes: int = 0, reuse_only: bool = False) -> dict:
     """Build or resume full-text extraction and atomically replace the index.
 
     Durable checkpoints cover at most 50 PDF pages, EPUB members, or raw ZIM
@@ -510,12 +573,40 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
     from .runtime import file_lock
     from .safety import atomic_write, sha256_file
     check_extractors(assets)
+    for name, value in (('search_budget_bytes', search_budget_bytes),
+                        ('index_scratch_budget_bytes', index_scratch_budget_bytes), ('reserve_bytes', reserve_bytes)):
+        if value is not None and (type(value) is not int or value < 0):
+            raise SearchError(f'{name} must be a nonnegative integer')
     target = Path(target)
     assets = sorted(assets, key=lambda a: a['destination'])
     last_progress = time.monotonic()
+    raw_limit = None if search_budget_bytes is None else (search_budget_bytes * 3 + 3) // 4
+    monitor_workspace = False
+
+    def check_budget() -> None:
+        if monitor_workspace and index_scratch_budget_bytes is not None:
+            usage = checkpoint_usage(target, work_dir=work_dir)
+            extraction_limit = index_scratch_budget_bytes - (raw_limit or 0)
+            if usage['scratch_bytes'] > extraction_limit:
+                raise SearchError('Search extraction workspace exceeds index_scratch_budget_bytes; '
+                                  'increase the allowance or reduce content and rerun. Checkpoint retained.')
+        if reserve_bytes and target.exists() and shutil.disk_usage(target).free < reserve_bytes:
+            raise SearchError('Search reached the drive free-space reserve; reconnect a drive with more space '
+                              'or reduce content and rerun. Checkpoint retained.')
+
+    def check_outputs(report: dict, coverage: bytes | None = None, ui: dict[str, bytes] | None = None) -> None:
+        if search_budget_bytes is not None:
+            total = sum(len(coverage) if name == 'SEARCH/coverage.json' and coverage is not None
+                        else len(ui[name]) if ui is not None and name in ui
+                        else _safe_path(target, name).stat().st_size for name in report['generated_files'])
+            if total > search_budget_bytes:
+                raise SearchError(f'Search outputs require {total:,} bytes, exceeding search_budget_bytes '
+                                  f'({search_budget_bytes:,}); increase the allowance or reduce content and rerun.')
+        check_budget()
 
     def notify(message: str, *, force: bool = False) -> None:
         nonlocal last_progress
+        check_budget()
         now = time.monotonic()
         if progress is not None and (force or now - last_progress >= 5):
             progress(message)
@@ -537,11 +628,17 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
             raise SearchError(f'Search output part is not a regular file: {part}')
         reusable = _completed_report(target, report_path, fingerprint)
         if reusable is not None:
-            _publish_ui(target, reusable)
-            atomic_write(report_path, _json(reusable) + b'\n')
+            ui = _prepare_ui(reusable)
+            coverage_data = _json(reusable) + b'\n'
+            check_outputs(reusable, coverage_data, ui)
+            _publish_ui(target, reusable, ui)
+            atomic_write(report_path, coverage_data)
             _clear_job(job, part)
             notify(f"INDEX REUSE: {reusable['documents']:,} verified passages", force=True)
             return reusable
+        if reuse_only:
+            raise SearchError('Verified search changed after space preflight; rerun to reserve replacement-index space. '
+                              'No extraction was started.')
         db_path = _safe_path(job, 'build.sqlite3')
         records_path = _safe_path(job, 'records.bin')
         db = _database(db_path)
@@ -574,7 +671,7 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
                          'record_bytes': HEADER_SIZE, 'extracted': False}
                 with records_path.open('w+b') as records:
                     records.write(b'\0' * HEADER_SIZE)
-                    _save_checkpoint(db, records, state)
+                    _save_checkpoint(db, records, state, check_budget)
             else:
                 if (any(type(state.get(key)) is not int or state[key] < 0
                         for key in ('asset_index', 'unit_cursor', 'total_length', 'record_bytes'))
@@ -600,6 +697,8 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
             with records_path.open('r+b') as records:
                 records.truncate(state['record_bytes'])
                 records.seek(state['record_bytes'])
+                monitor_workspace = True
+                check_budget()
                 last_checkpoint = time.monotonic()
                 units_since_checkpoint = 0
                 for asset_index in range(state['asset_index'], len(assets)):
@@ -647,7 +746,7 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
                             units_since_checkpoint += 1
                             now = time.monotonic()
                             if units_since_checkpoint >= CHECKPOINT_UNITS or now - last_checkpoint >= CHECKPOINT_SECONDS:
-                                _save_checkpoint(db, records, state)
+                                _save_checkpoint(db, records, state, check_budget)
                                 units_since_checkpoint = 0
                                 last_checkpoint = now
                     finally:
@@ -668,14 +767,15 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
                         report['warnings'].append(f"{coverage['destination']}: {coverage['status']} ({coverage['warning_count']} notices)")
                     report['assets'].append(coverage)
                     state.update(asset_index=asset_index + 1, unit_cursor=0, coverage=None)
-                    _save_checkpoint(db, records, state)
+                    _save_checkpoint(db, records, state, check_budget)
                     units_since_checkpoint = 0
                     last_checkpoint = time.monotonic()
                     notify(f"INDEXED {asset['destination']}: {coverage['passages']:,} passages, "
                            f"{coverage['status']}, {coverage['warning_count']:,} notices", force=True)
                 state['extracted'] = True
-                _save_checkpoint(db, records, state)
-                _serialize_index(db, records, part, report, state['total_length'], notify)
+                _save_checkpoint(db, records, state, check_budget)
+                _serialize_index(db, records, part, report, state['total_length'], notify,
+                                 maximum=raw_limit, check_budget=check_budget)
             for path, signature in signatures:
                 if signature != _signature(path):
                     raise SearchError(f'Search source changed during extraction: {path}; rerun to invalidate its checkpoint')
@@ -685,9 +785,13 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
             # coverage.json is the completion marker, written last. An interrupted
             # publication never makes a mismatched old report reusable.
             from .search_pack import publish_pack
-            report.update(publish_pack(target, part, report['index_sha256'], notify=notify))
-            _publish_ui(target, report)
-            atomic_write(report_path, json.dumps(report, ensure_ascii=False, indent=2).encode('utf-8') + b'\n')
+            report.update(publish_pack(target, part, report['index_sha256'], notify=notify,
+                                       max_bytes=search_budget_bytes))
+            ui = _prepare_ui(report)
+            coverage_data = json.dumps(report, ensure_ascii=False, indent=2).encode('utf-8') + b'\n'
+            check_outputs(report, coverage_data, ui)
+            _publish_ui(target, report, ui)
+            atomic_write(report_path, coverage_data)
             success = True
         except sqlite3.Error as error:
             raise SearchError(f'Search checkpoint database failed: {error}. Check scratch space; '

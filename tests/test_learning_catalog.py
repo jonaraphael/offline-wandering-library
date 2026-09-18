@@ -22,7 +22,7 @@ class ProductionLearningCatalogTests(unittest.TestCase):
 
     def test_all_numbered_resources_and_defaults_match_acquisition_list(self):
         self.assertEqual({r['number'] for r in self.resources.values() if r['number']}, set(range(1,47)))
-        expected = [set(range(1,19)), set(range(1,32)), set(range(1,37)) | {42,43,44,46}]
+        expected = [set(range(1,19)) | {22,26,28,31}, set(range(1,32)), set(range(1,37)) | {42,43,44,46}]
         for name, numbers in zip(LARGE, expected):
             _, _, report = self.selection(name)
             actual = {self.resources[r]['number'] for r in report['selected_ids'] if self.resources[r]['number']}
@@ -41,7 +41,7 @@ class ProductionLearningCatalogTests(unittest.TestCase):
             self.assertTrue(report['incomplete_resources'])
 
     def test_books_follow_requested_defaults_and_critical_baseline_survives(self):
-        for name, count in [('critical-64gb',7), ('compact-256gb',2), ('standard-512gb',22), ('full-1tb',22)]:
+        for name, count in [('critical-64gb',22), ('compact-256gb',22), ('standard-512gb',22), ('full-1tb',22)]:
             assets, _, _ = self.selection(name)
             coverage = learning_coverage(assets)
             self.assertEqual(coverage['textbooks']['required_critical_count'], count)
@@ -68,11 +68,32 @@ class ProductionLearningCatalogTests(unittest.TestCase):
             self.assertLess(plan['content_bytes'], report['content_target_bytes'])
             self.assertFalse(plan['content_complete'])
             self.assertLessEqual(plan['planned_final_bytes']+plan['reserve_bytes'],plan['capacity_bytes'])
+            self.assertLessEqual(plan['planned_final_bytes'] + plan['index_scratch_budget_bytes'] +
+                                 plan['reserve_bytes'], plan['capacity_bytes'])
         # Remaining 1TB budget funds ordinary directly readable copies, rather
         # than unwanted languages or non-core Khan material.
         assets,_,report=self.selection('full-1tb')
         self.assertEqual(capacity_plan(assets,self.profiles['full-1tb'],report)['target_window_status'],'in-range')
         self.assertIn('direct-reading-expansion',report['selected_ids'])
+
+    def test_larger_defaults_acquire_useful_archives_and_report_real_shortfalls(self):
+        for name, floor in [('compact-256gb', 190_000_000_000),
+                            ('standard-512gb', 260_000_000_000), ('full-1tb', 390_000_000_000)]:
+            assets, _, report = self.selection(name)
+            ids = {a['id'] for a in assets}
+            plan = capacity_plan(assets, self.profiles[name], report)
+            self.assertGreaterEqual(plan['pinned_knowledge_bytes'], floor)
+            self.assertTrue({'gutenberg_en_lcc_q', 'gutenberg_en_lcc_t', 'gutenberg_en_lcc_s',
+                             'gutenberg_en_lcc_l', 'gutenberg_en_lcc_pz'} <= ids)
+            self.assertNotIn('gutenberg_en_all', ids)  # Do not duplicate the same books in a whole-corpus archive.
+            self.assertNotIn('stackoverflow_en_all', ids)  # User requested a durable selection.
+            self.assertEqual(report['explicit_editions'], {})
+            self.assertEqual(report['effective_editions']['gutenberg-core'], 'compact')
+            self.assertFalse(report['customized'])
+            self.assertEqual(plan['content_floor_met'], name == 'compact-256gb')
+            if name != 'compact-256gb':
+                self.assertIn('stackexchange_diy', ids)
+                self.assertGreater(plan['target_shortfall_bytes'], 0)
 
     def test_personal_selection_can_remove_books_or_replace_language(self):
         assets,_,report=self.selection('full-1tb',include=['37'],exclude=['22,36'])
@@ -80,7 +101,7 @@ class ProductionLearningCatalogTests(unittest.TestCase):
         self.assertIn('wikipedia-fr',report['selected_ids'])
         self.assertFalse(any(a['id'].startswith('openstax_') for a in assets))
         assets,_,report=self.selection('critical-64gb',exclude=['22'])
-        self.assertEqual(learning_coverage(assets)['textbooks']['count'],2)
+        self.assertEqual(learning_coverage(assets)['textbooks']['count'],3)
         self.assertTrue(report['customized'])
 
 

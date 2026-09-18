@@ -12,14 +12,17 @@ Choose the 16 GB, 64 GB, 256 GB, 512 GB, or 1 TB preset; the page initially sele
 groups. Totals and warnings update immediately. Enter the destination directory
 on the drive and choose the shell you will use: POSIX shell or PowerShell.
 
-The 16 GB and 64 GB presets keep the current 25 verified PDFs, including seven
-textbooks and thirteen illustrated works. Their content totals 1,574,545,596 bytes.
-This is a useful fixed selection, not a promise to fill the drive. Larger presets
-describe intended collections, many of which remain incomplete or unresolved.
+The 16 GB and 64 GB presets select fixed sets of pinned files: ordinary emergency,
+medical, public-health, repair, and reference documents; complete illustrated
+textbooks; useful smaller ZIM archives; and bundled readers. The 64 GB selection
+adds larger medical, engineering, educational, dictionary, and travel references.
+The live summary reports their exact cataloged sizes and document counts.
+Larger presets also describe intended collection scope that can remain incomplete
+or unresolved. A capacity label alone never means that much knowledge is available.
 
-For a small preset, a selected row can say **Preset files only · direct**. This
+For a fixed preset, a selected row can say **Preset files only**. This
 keeps only the resource's exact files in that preset. For example, the current WHO
-manual and five OpenStax books do not fulfill the broader WHO or OpenStax
+manual and selected OpenStax books do not necessarily fulfill the broader WHO or OpenStax
 collection plans. Leaving those rows selected does not expand them. Choosing
 **Published collection** explicitly selects the full intended collection and adds
 the corresponding `--include` argument; its larger estimate and unresolved scope
@@ -38,50 +41,57 @@ be ordinary files, archives, or a mixture. **Direct-readable edition** and
 optional `editions` mapping, with exact asset references and explicit size and
 availability information.
 
-The production registry currently has no alternate editions. The selector shows
-these unsupported choices as disabled. It does not compress PDFs, decompress ZIMs,
-invent exports, or assume a percentage saving. The unresolved 60 GB
-`direct-reading-expansion` is a separate content plan, not an implemented
-conversion button. Critical directly readable files must remain available when
-a registered compact edition is selected.
+The selector enables an alternate edition only when its actual pinned files are
+registered. Unsupported choices stay disabled. It does not compress PDFs,
+decompress ZIMs, invent exports, or assume a percentage saving. The
+`direct-reading-expansion` collection is a separate content allowance, not an
+automatic conversion button; selected derivative files require the separate
+[direct-export workflow](direct-export.md). Critical directly readable files
+remain available when a registered compact edition is selected.
 
-An available alternate edition produces `--edition RESOURCE=direct` or
-`--edition RESOURCE=compact` alongside the resource selection. The CLI rejects an
-edition that is not registered; changing the command text cannot create it.
+A profile can default to a verified compact edition while preserving the ordinary
+document foundation. The selector displays that choice. Keeping a profile's
+default emits no redundant edition flag; changing it produces
+`--edition RESOURCE=direct`, `--edition RESOURCE=compact`, or
+`--edition RESOURCE=published`. The CLI rejects an edition that is not registered;
+changing the command text cannot create it.
 
 ## Read the totals before copying a command
 
 All capacities and GB totals use decimal units. The selector distinguishes:
 
-- **Intended collection storage:** includes planning estimates for missing scope
-  and uses larger known asset sizes where needed. These bytes are not all
-  downloadable today.
-- **Verified file bytes:** exact sizes of selected resolved asset definitions.
-  This does not mean those files already exist on the destination drive.
+- **Downloadable knowledge:** exact cataloged sizes of selected resolved knowledge
+  files, excluding reader/software packages. Each unique asset is counted once,
+  even when several collections include it. This is not a claim that the files
+  already exist on the drive; the builder verifies downloaded bytes.
+- **Directly readable knowledge:** the portion available in ordinary formats
+  without a specialized reader. The summary also shows direct file, textbook,
+  illustrated book/guide, and category counts. Archive contents are not counted
+  as thousands of separate directly readable files.
+- **Reader / software files, exact:** separately counted downloadable packages.
+  These and knowledge files make up **All downloadable files, exact**.
+- **Knowledge allocation, planned:** includes budget for missing collection scope.
+  **Unmet knowledge budget** is its difference from pinned knowledge bytes; it is
+  neither downloadable content nor an exact prediction of the missing files' size.
+- **Additional reader allowance:** reader budget beyond already pinned software.
 - **Search and metadata allowances:** planned index space and 16 MiB for metadata.
-- **Temporary search files:** the current scratch allowance is twice the search
-  budget and is needed during the default in-place build.
+- **Temporary search work:** the profile's explicit scratch budget, or twice its
+  search budget when not specified; needed during the default in-place build.
 - **Free-space reserve:** space deliberately left outside the build allocations.
+
+The green meter measures exact downloadable files as a fraction of nominal drive
+capacity; gray marks reserved free space. Search and temporary work are listed
+separately and are not presented as knowledge. A prominent content-gap warning
+appears when less than 80% of a planned knowledge allocation is pinned and the gap
+is at least 250 MB. An unchanged preset below its configured minimum knowledge
+size also warns and requires explicit partial-library acceptance before building.
+The minimum excludes software, search, temporary files, and reserved space.
 
 The in-place peak combines content, readers where applicable, search, metadata,
 scratch, and reserve. The page reports both the intended selection and the
-currently verified files. The larger default collections can exceed nominal
-drive capacity during building even when their final-content targets appear to
-fit. Missing content and excess peak storage are separate problems.
+currently verified files. The current default plans fit nominal capacities, including their explicit scratch allowances. Custom selections or larger measured indexes can exceed them even when final-content targets appear to fit. Missing content and excess peak storage are separate problems.
 
-For the unchanged `flash-16gb` preset:
-
-| Allocation | Bytes |
-| --- | ---: |
-| Verified PDF content | 1,574,545,596 |
-| Search budget | 2,000,000,000 |
-| Metadata allowance | 16,777,216 |
-| Temporary search files | 4,000,000,000 |
-| Free-space reserve | 2,000,000,000 |
-| Total peak including reserve | 9,591,322,812 |
-| Nominal capacity | 16,000,000,000 |
-
-The remaining capacity is not automatically filled. Search and scratch budgets
+The remaining capacity is not automatically filled by a number on the page. Search and scratch budgets
 are estimates rather than measured upper bounds. The browser cannot check the
 drive's real free space, filesystem, existing verified files, partial downloads,
 old versions, or search checkpoints. The CLI performs those checks and computes
@@ -90,9 +100,10 @@ reuse on the actual target.
 ## Copy and run the command
 
 Install Python 3.11+ and OWL on the build computer, then run copied commands from
-the repository root with its environment active. `python -m pip install -e .` is
-sufficient for the small direct-reading presets; use `python -m pip install -e '.[zim]'`
-when selected archives need ZIM indexing. New source downloads require
+the repository root with its environment active. Use
+`python -m pip install -e '.[zim]'` to index the ZIM archives included in the
+enriched presets; `python -m pip install -e .` supports custom selections of only
+ordinary documents. New source downloads require
 internet access even though the selector itself works offline.
 
 Use **Copy plan command** first. It ends in `--plan` and creates no library files.

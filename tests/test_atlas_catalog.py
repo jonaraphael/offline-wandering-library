@@ -148,5 +148,36 @@ class ProductionAtlasCatalogTests(unittest.TestCase):
         self.assertNotIn("maintenance", report["included_topic_ids"])
 
 
+class ProductionAtlasCoverageTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        profiles = load_profiles(ROOT / "profiles")
+        cls.assets = load_catalog(ROOT / "catalog/library.yaml", profiles)
+        cls.navigation = load_navigation(ROOT / "catalog/navigation", cls.assets)
+
+    def test_every_pocket_preset_file_has_a_topic_route(self):
+        selected = {asset["id"] for asset in self.assets
+                    if "flash-16gb" in asset["profiles"] and asset["status"] == "resolved"}
+        mapped = {row["asset_id"] for row in self.navigation["assignments"]}
+        self.assertTrue(selected)
+        self.assertEqual(selected - mapped, set())
+
+    def test_whole_document_routes_do_not_invent_unreviewed_sections(self):
+        expected = {asset["id"]: "books" for asset in self.assets
+                    if asset["id"].startswith("bookdash_") and "flash-16gb" in asset["profiles"]}
+        expected.update({identity: "computing" for identity in (
+            "docs_bash", "docs_coreutils", "docs_make", "docs_gcc", "docs_cpp",
+            "docs_binutils", "docs_ld", "docs_libc", "docs_python")})
+        expected.update({"phet_ohms_law": "electric-circuits",
+                         "phet_circuit_construction_kit_dc": "electric-circuits",
+                         "wikem_en": "emergency-care", "cd3wd_en": "appropriate-technology",
+                         "lowtech_magazine": "appropriate-technology"})
+        routes = {(row["asset_id"], row["topic_id"], row.get("section_id"))
+                  for row in self.navigation["assignments"]}
+        for identity, topic in expected.items():
+            with self.subTest(asset=identity):
+                self.assertIn((identity, topic, None), routes)
+
+
 if __name__ == "__main__":
     unittest.main()

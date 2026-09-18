@@ -155,7 +155,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
           allow_incomplete: bool = False, navigation_dir: Path | None = None,
           strict_coverage: bool = False, progress=print) -> dict:
     from .navigation import GENERATED_PATHS, generate_navigation
-    from .search import build_search, check_extractors, checkpoint_usage
+    from .search import build_search, check_extractors, checkpoint_usage, probe_completed_search
 
     profiles = load_profiles(profiles_dir)
     if profile_name not in profiles:
@@ -215,7 +215,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     plan["in_place_peak_budget_bytes"] = (plan.get("planned_final_bytes", plan["estimated_final_bytes"])
                                           + plan["index_scratch_budget_bytes"] + plan["reserve_bytes"])
     plan["in_place_target_budget_fits"] = plan["in_place_peak_budget_bytes"] <= profile["capacity_bytes"]
-    content_complete = not selection or not selection["incomplete_resources"]
+    content_complete = (not selection or not selection["incomplete_resources"]) and plan["content_floor_met"]
     target = _root(target)
     cache = _root(cache_dir) / "owl-v1" if cache_dir else None
     work = _root(work_dir) if work_dir else target / ".owl/work"
@@ -224,6 +224,14 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     anchors = [_directory_anchor(path) for path in (target, work, cache) if path is not None]
     progress(f"OWL {__version__} | {profile_name} | {target}")
     progress(f"Content/download total: {plan['content_bytes']:,} bytes ({plan['content_bytes'] / 1e9:.2f} GB)")
+    progress(f"Pinned knowledge: {plan['pinned_knowledge_bytes']:,} bytes; readers: {plan['pinned_reader_bytes']:,}; "
+             f"directly readable: {plan['direct_readable_bytes']:,}")
+    if not plan["content_floor_met"]:
+        progress(f"CONTENT BELOW MINIMUM: {plan['target_shortfall_bytes']:,} knowledge bytes remain below this profile's "
+                 "minimum; unresolved plans do not count as installed content.")
+        if not plan_only and not allow_incomplete:
+            raise CatalogError("Pinned knowledge does not meet the default profile content minimum. "
+                               "Resolve more sources or explicitly use --allow-incomplete. No files were written.")
     if selection:
         progress(f"Selected resource content target: {selection['content_target_bytes']:,} bytes; "
                  f"reader allowance: {selection['readers_budget_bytes']:,}; "
@@ -285,22 +293,43 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     # Finished script chunks include base64 overhead. Their raw intermediate
     # remains on the target even when the extraction workspace is elsewhere.
     # Divide the existing scratch allowance between these two filesystems.
-    raw_budget = min(plan["index_scratch_budget_bytes"], (plan["search_budget_bytes"] * 3 + 3) // 4)
+    raw_budget = plan["index_serialization_budget_bytes"]
     raw_bytes = max(0, raw_budget - checkpoint["output_bytes"])
     search_bytes = plan["search_budget_bytes"]
-    scratch_bytes = max(0, plan["index_scratch_budget_bytes"] - raw_budget - checkpoint["scratch_bytes"])
+    scratch_bytes = max(0, plan["index_extraction_budget_bytes"] - checkpoint["scratch_bytes"])
+    search_reuse = None
+    if assets and all(reusable.values()):
+        inputs = [{**asset, "sha256": _expected(asset, state, spool),
+                   "verification": "pinned" if asset["sha256"] else "observed"} for asset in assets]
+        search_reuse = probe_completed_search(target, inputs, progress=progress)
+    if search_reuse is not None:
+        if search_reuse["generated_bytes"] > plan["search_budget_bytes"]:
+            raise SafetyError("Verified existing search exceeds search_budget_bytes; increase the allowance "
+                              "or change the selected content before rebuilding")
+        # Existing source/index bytes already reduce filesystem free space. Only
+        # freshly generated UI/coverage need replacement space for proven reuse.
+        # build_search independently verifies this proof again after locking.
+        search_bytes = search_reuse["rewrite_bytes"]
+        raw_bytes = scratch_bytes = 0
+        progress(f"Verified complete search reuse: {search_reuse['index_bytes']:,} logical bytes; "
+                 f"reserving {search_bytes:,} bytes for UI/coverage rewrites, without new index scratch.")
     required = transfer_bytes + search_bytes + raw_bytes + plan["reserve_bytes"] + 16 * 1024 * 1024
     plan["index_serialization_budget_bytes"] = raw_budget
     plan["remaining_transfer_allocation_bytes"] = transfer_bytes
     plan["remaining_cache_allocation_bytes"] = cache_bytes
     plan["retained_search_checkpoint_bytes"] = checkpoint
+    plan["search_reuse_verified"] = search_reuse is not None
+    plan["remaining_search_output_allocation_bytes"] = search_bytes
+    plan["remaining_index_serialization_allocation_bytes"] = raw_bytes
+    plan["remaining_index_scratch_allocation_bytes"] = scratch_bytes
     allocations = [(target, required), (work, scratch_bytes)]
     if cache:
         allocations.append((cache, cache_bytes))
     plan["filesystem_allocations"] = check_space_groups(allocations)
     plan["required_free_bytes"] = sum(item["required_bytes"] for item in plan["filesystem_allocations"] if str(target) in item["uses"])
     if plan_only:
-        progress("Plan only: no files created or downloaded. Index budget is a planning allowance, not a measured bound.")
+        progress("Plan only: no files created or downloaded. Index and scratch allowances are checked during building; "
+                 "compressed archive size does not predict the required index space.")
         return plan
     check_extractors(assets)
     private = target / ".owl"
@@ -380,7 +409,10 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         state["phase"] = "search"
         atomic_write(state_path, _json(state))
         progress("Building full-text search and static navigation; large archives may take many hours.")
-        search_report = build_search(target, inventory_assets, work_dir=work, progress=progress)
+        search_report = build_search(target, inventory_assets, work_dir=work, progress=progress,
+                                     search_budget_bytes=plan["search_budget_bytes"],
+                                     index_scratch_budget_bytes=plan["index_scratch_budget_bytes"],
+                                     reserve_bytes=plan["reserve_bytes"], reuse_only=search_reuse is not None)
         state["managed"] = sorted(set(state["managed"]) | set(search_report["generated_files"]))
         state["phase"] = "navigation"
         atomic_write(state_path, _json(state))

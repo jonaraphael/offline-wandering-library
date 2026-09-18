@@ -224,10 +224,18 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
     explicit_include = _selections(include, resources, "include")
     explicit_exclude = _selections(exclude, resources, "exclude")
     explicit_editions = _edition_selections(editions, resources)
+    configured = profile.get("default_editions", {})
+    if (not isinstance(configured, dict) or set(configured) - set(defaults) or
+            any(not isinstance(value, str) for value in configured.values())):
+        raise CatalogError("default_editions must map default resources to registered editions")
+    default_editions = _edition_selections(
+        [f"{identity}={edition}" for identity, edition in configured.items()], resources)
     collisions = set(explicit_include) & set(explicit_exclude)
     if collisions:
         raise CatalogError(f"Resources both included and excluded: {', '.join(sorted(collisions))}")
     selected = (set(defaults) | set(explicit_include)) - set(explicit_exclude)
+    effective_editions = {identity: edition for identity, edition in
+                          {**default_editions, **explicit_editions}.items() if identity in selected}
     for identity in explicit_editions:
         if identity not in selected:
             raise CatalogError(f"{identity}: an edition requires a selected resource; use --include and remove any exclusion")
@@ -246,7 +254,7 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
         _integer(profile["readers_budget_bytes"], "readers_budget_bytes")
 
     def edition_data(identity: str) -> dict:
-        name = explicit_editions.get(identity, "published")
+        name = effective_editions.get(identity, "published")
         return resources[identity] if name == "published" else resources[identity]["editions"][name]
 
     def members(identity: str) -> list[str]:
@@ -294,7 +302,7 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
     rows, owners = [], {}
     for identity in selected_ids:
         resource = resources[identity]
-        edition = explicit_editions.get(identity, "published")
+        edition = effective_editions.get(identity, "published")
         mapping = edition_data(identity)
         group = memberships[identity]
         resolved = [member for member in group if asset_map[member].get("status", "resolved") == "resolved"]
@@ -337,6 +345,9 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
     return {"assets": copies, "selected_ids": selected_ids, "excluded_ids": explicit_exclude,
             "explicit_include": explicit_include, "explicit_exclude": explicit_exclude,
             "explicit_editions": explicit_editions,
+            "default_editions": {identity: edition for identity, edition in default_editions.items()
+                                 if identity in selected},
+            "effective_editions": effective_editions,
             "auto_included_ids": auto_included, "customized": bool(explicit_include or explicit_exclude or explicit_editions),
             "resource_rows": rows, "incomplete_resources": [row for row in rows if row["status"] != "ready"],
             "declared_content_target_bytes": declared, "content_target_bytes": content,

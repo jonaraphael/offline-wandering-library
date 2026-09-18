@@ -93,7 +93,23 @@ def read_chunk(target: Path, manifest: dict, number: int) -> tuple[bytes, dict]:
     return data, _integrity(script)
 
 
-def publish_pack(target: Path, index: Path, digest: str, *, notify=lambda *_a, **_k: None) -> dict:
+def packed_size(size: int, digest: str) -> int:
+    """Exact generated chunk/manifest/owner bytes, without reading the corpus."""
+    count = (size + CHUNK_BYTES - 1) // CHUNK_BYTES
+    manifest = {"version": TRANSPORT_VERSION, "index_sha256": digest, "size": size,
+                "chunk_bytes": CHUNK_BYTES, "chunk_count": count}
+    _validate(manifest)
+    total = len(_owner(manifest)[1]) + len(_manifest_script(manifest))
+    # Each callback contains its decimal chunk number; no giant placeholder
+    # strings or index-sized buffers are constructed for this calculation.
+    total += sum(len(_chunk_prefix(manifest, number)) + 4 for number in range(count))
+    total += (count - 1) * (4 * ((CHUNK_BYTES + 2) // 3))
+    total += 4 * ((size - (count - 1) * CHUNK_BYTES + 2) // 3)
+    return total
+
+
+def publish_pack(target: Path, index: Path, digest: str, *, notify=lambda *_a, **_k: None,
+                 max_bytes: int | None = None) -> dict:
     """Write/resume this owned generation, then atomically switch the manifest.
 
     No previous generation or unrelated file is removed. Existing chunk scripts
@@ -103,6 +119,9 @@ def publish_pack(target: Path, index: Path, digest: str, *, notify=lambda *_a, *
     manifest = {"version": TRANSPORT_VERSION, "index_sha256": digest, "size": size,
                 "chunk_bytes": CHUNK_BYTES, "chunk_count": (size + CHUNK_BYTES - 1) // CHUNK_BYTES}
     _validate(manifest)
+    if max_bytes is not None and packed_size(size, digest) > max_bytes:
+        raise ValueError(f"Search script output exceeds search_budget_bytes ({max_bytes:,}); "
+                         "increase the allowance or reduce selected content and rerun. The extraction checkpoint is retained.")
     owner_path, owner_data = _owner(manifest)
     marker = safe_path(target, owner_path)
     directory = marker.parent

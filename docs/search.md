@@ -108,10 +108,8 @@ script chunks. Base64 increases the binary index size by roughly one third, plus
 small script wrappers. The profile's search budget covers this **published output**,
 not a raw-binary quota. The scratch allowance includes temporary binary assembly
 on the SSD even when `--work-dir` moves the database elsewhere. An existing final
-index remains until its replacement is complete. The current conservative
-working-space budgets exceed the headroom of the fully populated larger target
-profiles; final-corpus sizing is still unproven. Building in place is supported,
-but a final-content target alone does not guarantee enough temporary space.
+index remains until its replacement is complete. The default plans fit nominal capacities with explicit per-profile scratch allowances, but final-corpus sizing for the larger presets is still unproven. Building in place is supported,
+but a final-content target alone does not guarantee enough temporary space. Raw serialization writes and exact script-pack sizes are checked before exceeding their allowances; the full generated search output is checked before completion. Extraction scratch and free-space reserves are monitored at checkpoint/progress boundaries. A SQLite transaction can grow between checks, so this is not a filesystem quota. Budget failures retain checkpoints for a reviewed retry.
 
 Extraction checkpoints store the current asset, page/member/raw-entry cursor,
 coverage report, passage count, and durable record-file offset together with
@@ -130,8 +128,7 @@ workspace ownership markers and OS-held locks prevent conflicting writers.
 Actual source SHA-256 values, catalog metadata, extractor code, Python/Unicode,
 and extraction dependencies form a build fingerprint. Changes invalidate the
 extraction job deliberately. An unchanged completed index is reused only after
-checking the fingerprint and the completed index's SHA-256. Integrity hashing
-repeats on restart and can take substantial time; hashing itself is not
+checking the fingerprint and the completed index's SHA-256. Space preflight can credit a complete unchanged index only after verifying every source and search chunk. It then reserves just UI/coverage rewrites, metadata and free-space reserve, without a second index/workspace allocation. Search rechecks this proof after locking and refuses fallback extraction if it changed. Integrity hashing repeats on restart and can take substantial time; hashing itself is not
 checkpointed. Keep the same work directory and target path to retain an unfinished
 extraction job. See the [pause/resume guide](usage.md#pause-and-resume).
 

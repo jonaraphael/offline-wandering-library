@@ -75,7 +75,13 @@ process.stdout.write(JSON.stringify(results));
         intended = max(known, content + readers)
         final = intended + profile["search_budget_bytes"] + 16 * 1024**2
         self.assertEqual(estimate["finalBytes"], final)
-        self.assertEqual(estimate["peakBytes"], final + 2 * profile["search_budget_bytes"] + profile["reserve_bytes"])
+        scratch = profile.get("index_scratch_budget_bytes", 2 * profile["search_budget_bytes"])
+        self.assertEqual(estimate["peakBytes"], final + scratch + profile["reserve_bytes"])
+        coverage = report["coverage"]
+        readers_actual = sum(a["size_bytes"] for a in assets if a["destination"].startswith("SOFTWARE/"))
+        self.assertEqual(coverage["knowledgeBytes"], known - readers_actual)
+        self.assertEqual(coverage["softwareBytes"], readers_actual)
+        self.assertEqual(sum(row["assetCount"] for row in coverage["categories"]), coverage["knowledgeCount"])
         try:
             plan = capacity_plan(assets, profile, selection)
         except CatalogError:
@@ -89,10 +95,13 @@ process.stdout.write(JSON.stringify(results));
         for result in results:
             with self.subTest(profile=result["state"]["profile"]):
                 self.compare_to_python(result)
-        flash = next(r for r in results if r["state"]["profile"] == "flash-16gb")
-        self.assertTrue(flash["build"])
-        self.assertEqual(len(flash["report"]["selectedAssetIds"]), 25)
-        self.assertEqual(flash["report"]["estimates"]["peakBytes"], 9_591_322_812)
+        for identity in ("flash-16gb", "critical-64gb"):
+            fixed = next(r for r in results if r["state"]["profile"] == identity)
+            self.assertTrue(fixed["build"], fixed["report"]["errors"])
+            baseline = [a for a in self.assets if identity in a["profiles"] and a["status"] == "resolved"]
+            self.assertEqual(set(fixed["report"]["selectedAssetIds"]), {a["id"] for a in baseline})
+            self.assertGreaterEqual(fixed["report"]["coverage"]["knowledgeBytes"], self.profiles[identity]["content_target_min_bytes"])
+            self.assertFalse(fixed["report"]["coverage"]["underfilled"])
         self.assertTrue(all(not r["build"] for r in results if r["report"]["incomplete"]))
 
     def test_many_custom_selections_match_python_without_network(self):
@@ -117,8 +126,8 @@ process.stdout.write(JSON.stringify(results));
             self.compare_to_python(result)
         self.assertLess(results[1]["report"]["estimates"]["knownBytes"], results[0]["report"]["estimates"]["knownBytes"])
         self.assertIn("openstax-core", results[2]["report"]["selectionArgs"]["include"])
-        self.assertGreater(results[2]["report"]["estimates"]["contentTargetBytes"], 12 * 10**9)
-        self.assertFalse(results[2]["build"])
+        self.assertGreaterEqual(results[2]["report"]["estimates"]["contentTargetBytes"], results[0]["report"]["estimates"]["contentTargetBytes"])
+        self.assertEqual(bool(results[2]["build"]), results[2]["report"]["canBuild"])
 
     def test_missing_editions_never_invent_savings_or_emit_a_build(self):
         result = self.javascript([{"profile":"compact-256gb", "items":{"wikipedia-en":{"edition":"direct"}}, "allowIncomplete":True}])[0]
@@ -133,7 +142,7 @@ process.stdout.write(JSON.stringify(results));
         self.assertFalse(before["build"])
         self.assertIn("--allow-incomplete", after["build"])
         self.assertEqual(before["report"]["estimates"], after["report"]["estimates"])
-        self.assertGreater(after["report"]["estimates"]["peakBytes"], 512 * 10**9)
+        self.assertGreaterEqual(after["report"]["estimates"]["peakBytes"], after["report"]["estimates"]["actualPeakBytes"])
         self.assertLess(after["report"]["estimates"]["actualPeakBytes"], 512 * 10**9)
 
     def test_registered_editions_use_exact_files_and_recalculate_readers(self):
@@ -155,6 +164,83 @@ process.stdout.write(JSON.stringify(results));
         self.assertIn("--edition collection=direct", results[1]["build"])
         self.assertEqual(results[1]["report"]["selectedAssetIds"], ["critical", "direct"])
         self.assertEqual(results[2]["report"]["selectedAssetIds"], ["archive", "critical", "reader"])
+
+    def test_exact_coverage_deduplicates_assets_and_separates_source_gaps(self):
+        from test_resource_editions import EditionTests
+        fixture = EditionTests()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        fixture.assets[0].update(resource_type="textbook", illustrated=True, category="electrical")
+        fixture.assets[2].update(resource_type="textbook", illustrated=True, category="reference")
+        fixture.profile.update(capacity_bytes=10**10, search_budget_bytes=1000,
+                               index_scratch_budget_bytes=3500, readers_budget_bytes=5)
+        fixture.resource["target_bytes"] = 2 * 10**9
+        resources = list(fixture.registry().values())
+        # Two resource routes to one document must not inflate actual content or learning counts.
+        resources.append({"id":"duplicate", "title":"Another route", "target_bytes":10,
+                          "status":"ready", "asset_ids":["critical"]})
+        fixture.profile["default_resources"].append("duplicate")
+        model = {"profiles":[{**fixture.profile, "preset_resource_ids":["collection", "duplicate"], "baseline_asset_ids":[]}],
+                 "resources":resources, "assets":fixture.assets}
+        report = self.javascript([{"profile":"test", "allowIncomplete":True}], model)[0]["report"]
+        coverage = report["coverage"]
+        self.assertEqual((coverage["knowledgeBytes"], coverage["softwareBytes"]), (30, 2))
+        self.assertEqual((coverage["knowledgeCount"], coverage["assetCount"]), (2, 3))
+        self.assertEqual((coverage["directCount"], coverage["directBytes"]), (1, 10))
+        self.assertEqual((coverage["archiveCount"], coverage["archiveBytes"]), (1, 20))
+        self.assertEqual((coverage["textbookCount"], coverage["illustratedCount"]), (1, 1))
+        self.assertEqual(coverage["unmetContentBytes"], coverage["knowledgeTargetBytes"] - 30)
+        self.assertTrue(coverage["underfilled"])
+        self.assertEqual(report["estimates"]["scratchBytes"], 3500)
+        self.assertEqual(coverage["capacityFraction"], 32 / 10**10)
+        self.assertEqual(coverage["categories"], [
+            {"id":"electrical", "assetCount":1, "directCount":1, "bytes":10},
+            {"id":"reference", "assetCount":1, "directCount":0, "bytes":20}])
+
+    def test_fixed_preset_floor_uses_knowledge_not_reader_or_reserved_bytes(self):
+        from test_resource_editions import EditionTests
+        fixture = EditionTests()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        fixture.profile.pop("default_resources")
+        fixture.profile.update(content_target_min_bytes=31, content_target_max_bytes=100)
+        model = {"profiles":[{**fixture.profile, "preset_resource_ids":["collection", "archive-readers"],
+                             "baseline_asset_ids":["critical", "archive", "reader"]}],
+                 "resources":list(fixture.registry().values()), "assets":fixture.assets}
+        before, partial = self.javascript([{"profile":"test"}, {"profile":"test", "allowIncomplete":True}], model)
+        self.assertEqual(before["report"]["estimates"]["knownBytes"], 32)
+        self.assertEqual(before["report"]["coverage"]["knowledgeBytes"], 30)
+        self.assertTrue(before["report"]["coverage"]["presetBelowTarget"])
+        self.assertTrue(before["report"]["coverage"]["underfilled"])
+        self.assertFalse(before["build"])
+        self.assertTrue(partial["build"])
+        self.assertEqual(before["report"]["coverage"], partial["report"]["coverage"])
+        self.assertFalse(any("direct" in option["label"] for option in before["report"]["rows"][0]["options"] if option["value"] == "preset"))
+
+    def test_default_editions_are_not_customizations_and_can_be_overridden(self):
+        from test_resource_editions import EditionTests
+        fixture = EditionTests()
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        fixture.profile["default_editions"] = {"collection":"compact"}
+        resources = fixture.registry()
+        model = {"profiles":[{**fixture.profile, "preset_resource_ids":["collection"], "baseline_asset_ids":[]}],
+                 "resources":list(resources.values()), "assets":fixture.assets}
+        default, published, direct = self.javascript([{"profile":"test"},
+            {"profile":"test", "items":{"collection":{"edition":"published"}}, "allowIncomplete":True},
+            {"profile":"test", "items":{"collection":{"edition":"direct"}}}], model)
+        self.assertEqual(default["state"]["items"]["collection"]["edition"], "compact")
+        self.assertEqual(default["report"]["selectionArgs"]["editions"], {})
+        self.assertNotIn("--edition", default["build"])
+        self.assertEqual(default["report"]["estimates"]["contentTargetBytes"], 30)
+        self.assertIn("--edition collection=published", published["build"])
+        self.assertIn("--edition collection=direct", direct["build"])
+        for result in (default, published, direct):
+            editions = [f"{key}={value}" for key, value in result["report"]["selectionArgs"]["editions"].items()]
+            selected, _, selection = resolve_content(fixture.assets, fixture.profile,
+                resources_path=fixture.registry_path, editions=editions)
+            self.assertEqual(result["report"]["selectedAssetIds"], sorted(asset["id"] for asset in selected))
+            self.assertEqual(result["report"]["estimates"]["contentTargetBytes"], selection["content_target_bytes"])
 
     def test_fixed_preset_edition_only_members_are_visible_and_excludable(self):
         from test_resource_editions import EditionTests
@@ -210,6 +296,15 @@ process.stdout.write(JSON.stringify(results));
         result = self.javascript([{"profile":"flash-16gb", "items":changes}])[0]
         self.assertEqual(result["report"]["selectedAssetIds"], [])
         self.assertFalse(result["build"])
+
+    def test_rich_fixed_presets_cannot_drop_readers_while_keeping_archives(self):
+        for result in self.javascript([{"profile":identity, "items":{"archive-readers":{"included":False}}}
+                                       for identity in ("flash-16gb", "critical-64gb")]):
+            self.compare_to_python(result)
+            self.assertFalse(result["build"])
+            self.assertTrue(any("without a verified bundled reader" in error for error in result["report"]["errors"]))
+            self.assertEqual(result["report"]["coverage"]["softwareBytes"], 0)
+            self.assertGreater(result["report"]["coverage"]["archiveCount"], 0)
 
     def test_default_coverage_floor_matches_cli_and_customization_can_remove_it(self):
         model = deepcopy(self.model)

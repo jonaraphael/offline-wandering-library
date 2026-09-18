@@ -85,9 +85,13 @@ def load_profiles(directory: Path) -> dict:
                 raise CatalogError(f"{name}: {field} must be a nonnegative integer")
         if profile["capacity_bytes"] <= profile["reserve_bytes"]:
             raise CatalogError(f"{name}: no usable capacity")
-        for field in ("content_target_min_bytes", "content_target_max_bytes", "readers_budget_bytes"):
+        for field in ("content_target_min_bytes", "content_target_max_bytes", "readers_budget_bytes",
+                      "index_scratch_budget_bytes"):
             if field in profile and (type(profile[field]) is not int or profile[field] < 0):
                 raise CatalogError(f"{name}: {field} must be a nonnegative integer")
+        if ("index_scratch_budget_bytes" in profile and
+                profile["index_scratch_budget_bytes"] < (profile["search_budget_bytes"] * 3 + 3) // 4):
+            raise CatalogError(f"{name}: index_scratch_budget_bytes must cover the raw-index serialization allowance")
         if ("content_target_min_bytes" in profile) != ("content_target_max_bytes" in profile):
             raise CatalogError(f"{name}: content target requires both minimum and maximum")
         if profile.get("content_target_min_bytes", 0) > profile.get("content_target_max_bytes", 0):
@@ -294,10 +298,13 @@ def resolve_locked_content(assets: list[dict], profile: dict, lock: dict):
         if len(set(ids)) != len(ids) or sorted(r['id'] for r in rows) != sorted(ids):
             raise CatalogError("Locked resource coverage must describe every selected resource exactly once")
         editions = selection.get("explicit_editions", {})
-        if (not isinstance(editions, dict) or set(editions) - set(ids) or
+        defaults = selection.get("default_editions", {})
+        effective_editions = selection.get("effective_editions", editions)
+        if (any(not isinstance(mapping, dict) or set(mapping) - set(ids) or
                 any(not isinstance(value, str) or value not in {"published", "direct", "compact"}
-                    for value in editions.values()) or
-                any(row.get("edition", "published") != editions.get(row["id"], "published") for row in rows)):
+                    for value in mapping.values()) for mapping in (editions, defaults, effective_editions)) or
+                effective_editions != {**defaults, **editions} or
+                any(row.get("edition", "published") != effective_editions.get(row["id"], "published") for row in rows)):
             raise CatalogError("Invalid locked resource editions")
         resolved_ids = set()
         for row in rows:
@@ -321,14 +328,35 @@ def resolve_locked_content(assets: list[dict], profile: dict, lock: dict):
 
 def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = None) -> dict:
     content = sum(a["size_bytes"] for a in assets)
+    readers = sum(a["size_bytes"] for a in assets if a["destination"].startswith("SOFTWARE/"))
+    knowledge = content - readers
+    direct = sum(a["size_bytes"] for a in assets if a["format"].lower() in DIRECT
+                 and not a.get("reader_required") and not a["destination"].startswith(("SOFTWARE/", "ZIM/")))
     overhead = 16 * 1024 * 1024
     final = content + profile["search_budget_bytes"] + overhead
     if final + profile["reserve_bytes"] > profile["capacity_bytes"]:
         raise CatalogError(f"Profile exceeds capacity: {final:,} bytes plus {profile['reserve_bytes']:,} reserve")
+    scratch = profile.get("index_scratch_budget_bytes", profile["search_budget_bytes"] * 2)
+    raw = (profile["search_budget_bytes"] * 3 + 3) // 4
+    if type(scratch) is not int or scratch < raw:
+        raise CatalogError("index_scratch_budget_bytes must be an integer covering the raw-index serialization allowance")
     result = {"download_bytes": content, "content_bytes": content, "estimated_final_bytes": final,
             "search_budget_bytes": profile["search_budget_bytes"], "reserve_bytes": profile["reserve_bytes"],
-            "capacity_bytes": profile["capacity_bytes"], "index_scratch_budget_bytes": profile["search_budget_bytes"] * 2,
+            "capacity_bytes": profile["capacity_bytes"], "index_scratch_budget_bytes": scratch,
+            "index_serialization_budget_bytes": raw, "index_extraction_budget_bytes": scratch - raw,
+            "pinned_knowledge_bytes": knowledge, "pinned_reader_bytes": readers,
+            "direct_readable_bytes": direct,
+            "actual_content_utilization_percent": knowledge * 100 // profile["capacity_bytes"],
+            "target_shortfall_bytes": max(0, profile.get("content_target_min_bytes", 0) - knowledge),
             "learning_coverage": learning_coverage(assets)}
+    actual_status = ("not-specified" if "content_target_min_bytes" not in profile else
+                     "below-target" if knowledge < profile["content_target_min_bytes"] else
+                     "above-target" if knowledge > profile["content_target_max_bytes"] else "in-range")
+    result["actual_target_window_status"] = actual_status
+    result["target_window_status"] = actual_status
+    result["content_floor_applies"] = "content_target_min_bytes" in profile and not (selection and selection.get("customized") is True)
+    result["content_floor_met"] = not result["content_floor_applies"] or result["target_shortfall_bytes"] == 0
+    result["content_complete"] = result["content_floor_met"] and (not selection or not selection["incomplete_resources"])
     if selection is not None:
         target = max(content, selection["planned_total_bytes"])
         planned_final = target + profile["search_budget_bytes"] + overhead
@@ -338,7 +366,7 @@ def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = No
         result.update(content_selection=selection, planned_final_bytes=planned_final,
                       content_target_min_bytes=profile.get("content_target_min_bytes"),
                       content_target_max_bytes=profile.get("content_target_max_bytes"),
-                      content_complete=not selection["incomplete_resources"])
+                      content_complete=result["content_floor_met"] and not selection["incomplete_resources"])
         if "content_target_min_bytes" in profile:
             actual = selection["content_target_bytes"]
             result["target_window_status"] = ("below-target" if actual < profile["content_target_min_bytes"]

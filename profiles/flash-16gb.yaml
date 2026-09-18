@@ -1,8 +1,11 @@
 id: flash-16gb
-title: Direct-reading essentials, textbooks and illustrated guides
+title: Medical, repair and rebuilding library with complete illustrated textbooks
 capacity_bytes: 16000000000
-reserve_bytes: 2000000000
-search_budget_bytes: 2000000000
+reserve_bytes: 1500000000
+search_budget_bytes: 1000000000
 minimum_coverage:
-  textbooks: 7
-  illustrated-guides: 8
+  textbooks: 22
+  illustrated-guides: 40
+index_scratch_budget_bytes: 3000000000
+content_target_min_bytes: 9000000000
+content_target_max_bytes: 11000000000

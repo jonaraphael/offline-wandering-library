@@ -1,0 +1,1602 @@
+schema_version: 1
+assets:
+- id: gutenberg_en_lcc_q
+  title: Project Gutenberg — Science (English LCC Q)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-q_2026-03.zim
+  version: 2026-03
+  size_bytes: 17724714270
+  sha256: bf3ffab926136be517d3253addfbe20e0c90a840aefb8d1c5fbf76c58d85a9bf
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class Q: Science. Published class
+    selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published archive
+    intact. Historical technical material requires modern safety context; not operational medical guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim
+- id: gutenberg_en_lcc_t
+  title: Project Gutenberg — Technology (English LCC T)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-t_2026-03.zim
+  version: 2026-03
+  size_bytes: 13154803470
+  sha256: 362c9f07d79363802fe2b2e5e97c1b8e717d730bbcfaff478938652dbf12a2fd
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class T: Technology. Published class
+    selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published archive
+    intact. Historical technical material requires modern safety context; not operational medical guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim
+- id: gutenberg_en_lcc_s
+  title: Project Gutenberg — Agriculture (English LCC S)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-s_2026-03.zim
+  version: 2026-03
+  size_bytes: 4532683039
+  sha256: 3012dfb7936d5bc8a5c3bdd0c9f864cd81e9514c28c40afc548415fd95272fcc
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class S: Agriculture. Published
+    class selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published
+    archive intact. Historical technical material requires modern safety context; not operational medical
+    guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim
+- id: gutenberg_en_lcc_l
+  title: Project Gutenberg — Education (English LCC L)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-l_2026-03.zim
+  version: 2026-03
+  size_bytes: 628986048
+  sha256: 689bbb2afc1977e855f48bf0557548f7aba46d6526ff596aba9571aaeeb40638
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class L: Education. Published class
+    selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published archive
+    intact. Historical technical material requires modern safety context; not operational medical guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim
+- id: gutenberg_en_lcc_pr
+  title: Project Gutenberg — English literature (English LCC PR)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-pr_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-pr_2026-03.zim
+  version: 2026-03
+  size_bytes: 16152121320
+  sha256: 439daa227e59e52c9f3b9b3d81a49c518583c799bd0bf15780e93e101a0a429d
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class PR: English literature. Published
+    class selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published
+    archive intact. Historical technical material requires modern safety context; not operational medical
+    guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-pr_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-pr_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-pr_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-pr_2026-03.zim
+- id: gutenberg_en_lcc_ps
+  title: Project Gutenberg — American literature (English LCC PS)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-ps_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-ps_2026-03.zim
+  version: 2026-03
+  size_bytes: 16022294302
+  sha256: a82d1fa3add5a126645cada4da34e4321c22284fd0fd61707841bcf2eec90124
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class PS: American literature. Published
+    class selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published
+    archive intact. Historical technical material requires modern safety context; not operational medical
+    guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-ps_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-ps_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-ps_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-ps_2026-03.zim
+- id: gutenberg_en_lcc_b
+  title: Project Gutenberg — Philosophy, psychology and religion (English LCC B)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-b_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-b_2026-03.zim
+  version: 2026-03
+  size_bytes: 6365165314
+  sha256: 62ae584ad7f178e313bc045c22aae58a7149515644eb7e8e70853a3ad6eb4a28
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class B: Philosophy, psychology
+    and religion. Published class selection, not OWL book-level curation or a deduplicated direct HTML
+    export. Keeps the published archive intact. Historical technical material requires modern safety context;
+    not operational medical guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-b_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-b_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-b_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-b_2026-03.zim
+- id: gutenberg_en_lcc_p
+  title: Project Gutenberg — Language and literature (general) (English LCC P)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-p_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-p_2026-03.zim
+  version: 2026-03
+  size_bytes: 38549776
+  sha256: 5df3a075f7febcfdd33c2647246b62a128017826c1f307a761a174caf601f45f
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class P: Language and literature
+    (general). Published class selection, not OWL book-level curation or a deduplicated direct HTML export.
+    Keeps the published archive intact. Historical technical material requires modern safety context;
+    not operational medical guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-p_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-p_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-p_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-p_2026-03.zim
+- id: gutenberg_en_lcc_pz
+  title: Project Gutenberg — Juvenile literature (English LCC PZ)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim
+  destination: ZIM/OTHER/gutenberg_en_lcc-pz_2026-03.zim
+  version: 2026-03
+  size_bytes: 19770263119
+  sha256: 0b3a0c46e80bf56064f85a7db993f183fa481b98686342890c6d4b2e8c071775
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: 'Kiwix March 2026 English books in Library of Congress class PZ: Juvenile literature. Published
+    class selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published
+    archive intact. Historical technical material requires modern safety context; not operational medical
+    guidance.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim
+- id: gutenberg_en_all
+  title: Project Gutenberg — English published archive
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_all_2025-11.zim
+  destination: ZIM/OTHER/gutenberg_en_all_2025-11.zim
+  version: 2025-11
+  size_bytes: 221251590584
+  sha256: 01677c8d554a1cab2cbfd020ac99ebca7dd6c74d3ce0d13f266a2ba603dfaf28
+  license: Project Gutenberg License and individual book notices; predominantly public domain in the United
+    States, with some separately licensed works
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Project Gutenberg contributors; Kiwix/openZIM
+  source_page: https://www.gutenberg.org/policy/permission
+  language: en
+  attribution: Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer
+    and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.
+  description: November 2025 Kiwix archive described by its catalog as all English books. This is the
+    published snapshot, not a claim that every current Gutenberg book is included, or that alternate editions
+    and representations were deduplicated. Requires Kiwix; no direct HTML extraction has been implemented.
+    Historical medical and industrial texts are not current operational guidance.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_all_2025-11.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_all_2025-11.zim
+  - https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_all_2025-11.zim
+  - https://mirror-sites-in.mblibrary.info/mirror-sites/download.kiwix.org/zim/gutenberg/gutenberg_en_all_2025-11.zim
+- id: stackexchange_diy
+  title: Home Improvement — Stack Exchange published archive
+  category: shelter
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/diy.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 2062547155
+  sha256: 94cbd4daeebe180bb8908b767d3c1477753049a29c2c092f6a752b6f691863da
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_electronics
+  title: Electrical Engineering — Stack Exchange published archive
+  category: electrical
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/electronics.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 4214186044
+  sha256: 5a23c08a3c1275128c247b0c67ec8ed03a953a504c6a23e2cd6a9ac5422b88c1
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_gardening
+  title: Gardening and Landscaping — Stack Exchange published archive
+  category: agriculture
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/gardening.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 926805273
+  sha256: b8a3e0db65d8a678b47accefd8565f78af0caeb454672fe0d5f365336c71c25e
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_gis
+  title: Geographic Information Systems — Stack Exchange published archive
+  category: navigation
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/gis.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 2129919887
+  sha256: 346102fc29c823f7c971811c7aedaf84db2dba735aa84c1bd369edf048b553e8
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_ham
+  title: Amateur Radio — Stack Exchange published archive
+  category: electrical
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/ham.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 75931239
+  sha256: 71480bd280ffaede3084fa2c9f47f87c3178f8ce8d67cdb19fb66a8025a7b93e
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_mechanics
+  title: Motor Vehicle Maintenance and Repair — Stack Exchange published archive
+  category: mechanical
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/mechanics.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 339833641
+  sha256: 20f1547c29c621b3d44ccdc46ac9047cfa99df75227cc68c5284ce7850eac864
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_outdoors
+  title: The Great Outdoors — Stack Exchange published archive
+  category: navigation
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/outdoors.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 141407927
+  sha256: 78dccd2b5f784b17d1a22b1f65e64a74c53fa473e08f995440ff38bd8417cf1b
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_sustainability
+  title: Sustainable Living — Stack Exchange published archive
+  category: reference
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/sustainability.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 27666982
+  sha256: e9a00e1d1032bc1a5859e1a7553e6b243fcecd0c82ba372548af517119ebd75d
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_unix
+  title: Unix and Linux — Stack Exchange published archive
+  category: computing
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/unix.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 1312634563
+  sha256: 738326e81abe0f50edbaa3e4a002d0ca221e5dfb66e4954bb64e370756f602d3
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_woodworking
+  title: Woodworking — Stack Exchange published archive
+  category: mechanical
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/woodworking.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 105570459
+  sha256: a41140515d25c9906ceed8a818dd4a0645b7c040a9dc4a8419a2d729af7c3ccb
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_3dprinting
+  title: 3D Printing — Stack Exchange published archive
+  category: mechanical
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim
+  destination: ZIM/OTHER/3dprinting.stackexchange.com_en_all_2026-07a.zim
+  version: 2026-07a
+  size_bytes: 120138274
+  sha256: c47a5b4d9fce51598f5008c2046eb9f42aa5194ec1b25592a6514efccec93561
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-07a site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim
+- id: stackexchange_math
+  title: Mathematics — Stack Exchange published archive
+  category: science
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/math.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 7417271999
+  sha256: 9b06975bba543aa5fd4a0ff82497349c061aacde394a0d2120c6898271063238
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_physics
+  title: Physics — Stack Exchange published archive
+  category: science
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/physics.stackexchange.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 1827690763
+  sha256: 440e50c991709012e7436e2a965566fee61f118ff9e98d1ce44961d162e1a753
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-08 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim
+- id: stackexchange_biology
+  title: Biology — Stack Exchange published archive
+  category: science
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim
+  destination: ZIM/OTHER/biology.stackexchange.com_en_all_2026-07.zim
+  version: 2026-07
+  size_bytes: 422849825
+  sha256: e195995da99e219251316d7ca6ebc7698558032ed17f32de9cb95ea0a6e9ee68
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-07 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim
+- id: stackexchange_chemistry
+  title: Chemistry — Stack Exchange published archive
+  category: science
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim
+  destination: ZIM/OTHER/chemistry.stackexchange.com_en_all_2026-07.zim
+  version: 2026-07
+  size_bytes: 417260049
+  sha256: bc99e888d3d9e02eddd470b9a00e351c00436c79b039ee6c4009905160f280dd
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix 2026-07 site archive, packaged from Stack Exchange data dumps. Retains
+    the published corpus rather than applying OWL answer-quality or durable-topic filtering. Snapshot
+    packaging date does not establish the last contribution date. Requires a ZIM reader; direct HTML export
+    remains separate work.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim
+- id: stackexchange_superuser
+  title: Super User — published archive
+  category: computing
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/superuser.com_en_all_2026-08.zim
+  destination: ZIM/OTHER/superuser.com_en_all_2026-08.zim
+  version: 2026-08
+  size_bytes: 4003118644
+  sha256: 9bfddc8e569e0163ecc6facea4ec9dc347e6b2ace10e06745968559256b926d9
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: Published Kiwix August 2026 Super User archive. Includes broad computer troubleshooting,
+    not only the selected durable questions originally planned. No OWL question-level quality filter or
+    direct HTML export has been performed.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/superuser.com_en_all_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/superuser.com_en_all_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/superuser.com_en_all_2026-08.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/superuser.com_en_all_2026-08.zim
+- id: stackoverflow_en_all
+  title: Stack Overflow — full published archive (optional, uncurated)
+  category: computing
+  format: zim
+  source_url: https://download.kiwix.org/zim/stack_exchange/stackoverflow.com_en_all_2026-07.zim
+  destination: ZIM/OTHER/stackoverflow.com_en_all_2026-07.zim
+  version: 2026-07
+  size_bytes: 114855633696
+  sha256: 2878fd0bbc4d0d7a05249bc04f45b71f183c09929a843308b923190f1d15436f
+  license: CC-BY-SA-2.5, CC-BY-SA-3.0 or CC-BY-SA-4.0 by contribution date; individual third-party notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Stack Exchange contributors; Kiwix/openZIM
+  source_page: https://stackoverflow.com/help/licensing
+  language: en
+  attribution: Preserve each question and answer author, original post URL, license and revision date,
+    and third-party notices. Contributions before 2011-04-08 use CC-BY-SA-2.5; 2011-04-08 through 2018-05-01
+    use CC-BY-SA-3.0; from 2018-05-02 use CC-BY-SA-4.0. Packaged by Kiwix/openZIM.
+  description: 'Optional July 2026 published full Stack Overflow archive. This is not the planned 25 GB
+    durable-topic selection: it includes framework/platform churn and other out-of-scope questions. Do
+    not select by default or present it as curated. No OWL answer-quality filtering or direct HTML export
+    has been performed.'
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/stackoverflow.com_en_all_2026-07.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/stack_exchange/stackoverflow.com_en_all_2026-07.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/stackoverflow.com_en_all_2026-07.zim
+  - https://mirror.download.kiwix.org/zim/stack_exchange/stackoverflow.com_en_all_2026-07.zim
+resource_updates:
+- id: gutenberg-core
+  asset_ids: []
+  status: unresolved
+  reason: The requested book-level deduplication, preferred direct HTML/EPUB representations and broad
+    curated selection remain unfinished. The compact edition is a smaller, explicitly selected historical
+    nonfiction archive set; the whole English archive is a pinned optional input only.
+  editions:
+    compact:
+      asset_ids:
+      - gutenberg_en_lcc_q
+      - gutenberg_en_lcc_t
+      - gutenberg_en_lcc_s
+      - gutenberg_en_lcc_l
+      target_bytes: 36041186827
+      status: ready
+      reason: Published English LCC Science, Technology, Agriculture and Education archives (36.041 GB).
+        This selected nonfiction edition requires Kiwix; it is neither the whole English corpus nor the
+        planned directly readable, book-deduplicated edition.
+- id: stackexchange-practical
+  asset_ids: []
+  status: unresolved
+  reason: The original quality-filtered direct HTML corpus remains unfinished. A ready compact alternative
+    contains twelve complete published site archives, with broad Super User and GIS coverage rather than
+    a hand-selected subset.
+  editions:
+    compact:
+      asset_ids:
+      - stackexchange_diy
+      - stackexchange_electronics
+      - stackexchange_gardening
+      - stackexchange_gis
+      - stackexchange_ham
+      - stackexchange_mechanics
+      - stackexchange_outdoors
+      - stackexchange_sustainability
+      - stackexchange_unix
+      - stackexchange_woodworking
+      - stackexchange_3dprinting
+      - stackexchange_superuser
+      target_bytes: 15459760088
+      status: ready
+      reason: 'Twelve pinned published Kiwix site archives: DIY, electrical engineering, gardening, GIS,
+        amateur radio, mechanics, outdoors, sustainability, Unix/Linux, woodworking, 3D printing and Super
+        User. Requires Kiwix; no OWL question-level quality filtering is claimed.'
+- id: stackexchange-science
+  asset_ids: []
+  status: unresolved
+  reason: The original quality-filtered direct HTML corpus remains unfinished. A ready compact alternative
+    contains the complete published mathematics, physics, biology and chemistry archives.
+  editions:
+    compact:
+      asset_ids:
+      - stackexchange_math
+      - stackexchange_physics
+      - stackexchange_biology
+      - stackexchange_chemistry
+      target_bytes: 10085072636
+      status: ready
+      reason: Four pinned published Kiwix archives covering mathematics, physics, biology and chemistry;
+        includes the published answers and context without OWL question-level filtering. Requires Kiwix.
+- id: childrens-library
+  asset_ids:
+  - bookdash_a_beautiful_day_en
+  - bookdash_a_dancers_tale_en
+  - bookdash_a_fish_and_a_gift_en
+  - bookdash_a_fish_and_a_gift_fr
+  - bookdash_a_fish_and_a_gift_xh
+  - bookdash_a_house_for_mouse_en
+  - bookdash_a_house_for_mouse_xh
+  - bookdash_a_tiny_seed_en
+  - bookdash_a_tiny_seed_fr
+  - bookdash_a_tiny_seed_xh
+  - bookdash_amazing_daisy_en
+  - bookdash_amazing_daisy_xh
+  - bookdash_bathtub_safari_en
+  - bookdash_come_back_cat_en
+  - bookdash_come_back_cat_fr
+  - bookdash_come_back_cat_xh
+  - bookdash_gracas_dream_en
+  - bookdash_gracas_dream_xh
+  - bookdash_grandpas_gold_en
+  - bookdash_how_about_you_en
+  - bookdash_i_will_help_you_en
+  - bookdash_is_there_anyone_like_me_en
+  - bookdash_is_there_anyone_like_me_xh
+  - bookdash_karabos_question_en
+  - bookdash_little_ants_big_plan_en
+  - bookdash_little_ants_big_plan_xh
+  - bookdash_londi_the_dreaming_girl_en
+  - bookdash_lory_dory_en
+  - bookdash_maddy_moona_en
+  - bookdash_miss_helens_magical_world_en
+  - bookdash_queen_of_soweto_en
+  - bookdash_rafikis_style_en
+  - bookdash_rafikis_style_xh
+  - bookdash_sbus_special_shoes_en
+  - bookdash_searching_for_the_spirit_of_spring_en
+  - bookdash_searching_for_the_spirit_of_spring_xh
+  - bookdash_sima_and_siza_en
+  - bookdash_sindi_and_the_moon_en
+  - bookdash_sindiwe_and_the_fireflies_en
+  - bookdash_sindiwe_and_the_fireflies_xh
+  - bookdash_singing_the_truth_en
+  - bookdash_singing_the_truth_fr
+  - bookdash_singing_the_truth_xh
+  - bookdash_sizwes_smile_en
+  - bookdash_sizwes_smile_fr
+  - bookdash_sizwes_smile_xh
+  - bookdash_sleepy_mr_sloth_en
+  - bookdash_sleepy_mr_sloth_fr
+  - bookdash_sleepy_mr_sloth_xh
+  - bookdash_thatos_birthday_surprise_en
+  - bookdash_there_must_be_a_rainbow_en
+  - bookdash_together_were_strong_en
+  - bookdash_tortoise_finds_his_home_en
+  - bookdash_tortoise_finds_his_home_fr
+  - bookdash_tortoise_finds_his_home_xh
+  - bookdash_walking_together_en
+  - bookdash_walking_together_xh
+  - bookdash_what_if_en
+  - bookdash_whose_button_is_this_en
+  - bookdash_why_is_nita_upside_down_en
+  - bookdash_zanele_situ_my_story_en
+  status: partial
+  reason: All 61 complete EPUBs at the publisher Book Dash archive commit are pinned in English, French
+    and Xhosa. Current 221-title Book Dash PDF library download endpoint returns HTTP 403, and African
+    Storybook full approved multilingual PDF export is not yet reproducibly acquired. EPUBs require a
+    reader.
+  editions:
+    compact:
+      asset_ids:
+      - bookdash_a_beautiful_day_en
+      - bookdash_a_dancers_tale_en
+      - bookdash_a_fish_and_a_gift_en
+      - bookdash_a_fish_and_a_gift_fr
+      - bookdash_a_fish_and_a_gift_xh
+      - bookdash_a_house_for_mouse_en
+      - bookdash_a_house_for_mouse_xh
+      - bookdash_a_tiny_seed_en
+      - bookdash_a_tiny_seed_fr
+      - bookdash_a_tiny_seed_xh
+      - bookdash_amazing_daisy_en
+      - bookdash_amazing_daisy_xh
+      - bookdash_bathtub_safari_en
+      - bookdash_come_back_cat_en
+      - bookdash_come_back_cat_fr
+      - bookdash_come_back_cat_xh
+      - bookdash_gracas_dream_en
+      - bookdash_gracas_dream_xh
+      - bookdash_grandpas_gold_en
+      - bookdash_how_about_you_en
+      - bookdash_i_will_help_you_en
+      - bookdash_is_there_anyone_like_me_en
+      - bookdash_is_there_anyone_like_me_xh
+      - bookdash_karabos_question_en
+      - bookdash_little_ants_big_plan_en
+      - bookdash_little_ants_big_plan_xh
+      - bookdash_londi_the_dreaming_girl_en
+      - bookdash_lory_dory_en
+      - bookdash_maddy_moona_en
+      - bookdash_miss_helens_magical_world_en
+      - bookdash_queen_of_soweto_en
+      - bookdash_rafikis_style_en
+      - bookdash_rafikis_style_xh
+      - bookdash_sbus_special_shoes_en
+      - bookdash_searching_for_the_spirit_of_spring_en
+      - bookdash_searching_for_the_spirit_of_spring_xh
+      - bookdash_sima_and_siza_en
+      - bookdash_sindi_and_the_moon_en
+      - bookdash_sindiwe_and_the_fireflies_en
+      - bookdash_sindiwe_and_the_fireflies_xh
+      - bookdash_singing_the_truth_en
+      - bookdash_singing_the_truth_fr
+      - bookdash_singing_the_truth_xh
+      - bookdash_sizwes_smile_en
+      - bookdash_sizwes_smile_fr
+      - bookdash_sizwes_smile_xh
+      - bookdash_sleepy_mr_sloth_en
+      - bookdash_sleepy_mr_sloth_fr
+      - bookdash_sleepy_mr_sloth_xh
+      - bookdash_thatos_birthday_surprise_en
+      - bookdash_there_must_be_a_rainbow_en
+      - bookdash_together_were_strong_en
+      - bookdash_tortoise_finds_his_home_en
+      - bookdash_tortoise_finds_his_home_fr
+      - bookdash_tortoise_finds_his_home_xh
+      - bookdash_walking_together_en
+      - bookdash_walking_together_xh
+      - bookdash_what_if_en
+      - bookdash_whose_button_is_this_en
+      - bookdash_why_is_nita_upside_down_en
+      - bookdash_zanele_situ_my_story_en
+      - gutenberg_en_lcc_pz
+      target_bytes: 19818807444
+      status: ready
+      reason: 'A bounded published selection: all 61 pinned Book Dash EPUBs plus the English Gutenberg
+        juvenile-literature archive. Preserves the existing books. EPUB and ZIM readers are required;
+        this does not claim complete African Storybook or a direct PDF export.'
+optional_assets:
+  gutenberg_english_full:
+  - gutenberg_en_all
+  gutenberg_literature_and_humanities:
+  - gutenberg_en_lcc_pr
+  - gutenberg_en_lcc_ps
+  - gutenberg_en_lcc_b
+  - gutenberg_en_lcc_p
+  stackoverflow_full_uncurated:
+  - stackoverflow_en_all
+navigation_proposals:
+- topic_id: books
+  asset_id: gutenberg_en_lcc_q
+  purpose: reference
+- topic_id: science
+  asset_id: gutenberg_en_lcc_q
+  purpose: reference
+- topic_id: books
+  asset_id: gutenberg_en_lcc_t
+  purpose: reference
+- topic_id: appropriate-technology
+  asset_id: gutenberg_en_lcc_t
+  purpose: reference
+- topic_id: books
+  asset_id: gutenberg_en_lcc_s
+  purpose: reference
+- topic_id: crop-production
+  asset_id: gutenberg_en_lcc_s
+  purpose: reference
+- topic_id: books
+  asset_id: gutenberg_en_lcc_l
+  purpose: reference
+- topic_id: learn-foundations
+  asset_id: gutenberg_en_lcc_l
+  purpose: reference
+- topic_id: books
+  asset_id: gutenberg_en_lcc_pr
+  purpose: reference
+- topic_id: books
+  asset_id: gutenberg_en_lcc_ps
+  purpose: reference
+- topic_id: books
+  asset_id: gutenberg_en_lcc_b
+  purpose: reference
+- topic_id: books
+  asset_id: gutenberg_en_lcc_p
+  purpose: reference
+- topic_id: books
+  asset_id: gutenberg_en_lcc_pz
+  purpose: reference
+- topic_id: books
+  asset_id: gutenberg_en_all
+  purpose: reference
+- topic_id: shelter
+  asset_id: stackexchange_diy
+  purpose: reference
+- topic_id: repair-guides
+  asset_id: stackexchange_diy
+  purpose: reference
+- topic_id: electricity
+  asset_id: stackexchange_electronics
+  purpose: reference
+- topic_id: electric-circuits
+  asset_id: stackexchange_electronics
+  purpose: reference
+- topic_id: gardening
+  asset_id: stackexchange_gardening
+  purpose: reference
+- topic_id: navigation-maps
+  asset_id: stackexchange_gis
+  purpose: reference
+- topic_id: computing
+  asset_id: stackexchange_gis
+  purpose: reference
+- topic_id: electricity
+  asset_id: stackexchange_ham
+  purpose: reference
+- topic_id: maintenance
+  asset_id: stackexchange_mechanics
+  purpose: reference
+- topic_id: repair-guides
+  asset_id: stackexchange_mechanics
+  purpose: reference
+- topic_id: outdoor-shelter
+  asset_id: stackexchange_outdoors
+  purpose: reference
+- topic_id: navigation-maps
+  asset_id: stackexchange_outdoors
+  purpose: reference
+- topic_id: appropriate-technology
+  asset_id: stackexchange_sustainability
+  purpose: reference
+- topic_id: computing
+  asset_id: stackexchange_unix
+  purpose: reference
+- topic_id: repair-guides
+  asset_id: stackexchange_woodworking
+  purpose: reference
+- topic_id: shelter
+  asset_id: stackexchange_woodworking
+  purpose: reference
+- topic_id: repair-guides
+  asset_id: stackexchange_3dprinting
+  purpose: reference
+- topic_id: computing
+  asset_id: stackexchange_3dprinting
+  purpose: reference
+- topic_id: mathematics
+  asset_id: stackexchange_math
+  purpose: reference
+- topic_id: physics
+  asset_id: stackexchange_physics
+  purpose: reference
+- topic_id: biology
+  asset_id: stackexchange_biology
+  purpose: reference
+- topic_id: chemistry
+  asset_id: stackexchange_chemistry
+  purpose: reference
+- topic_id: computing
+  asset_id: stackexchange_superuser
+  purpose: reference
+- topic_id: computing
+  asset_id: stackoverflow_en_all
+  purpose: reference
+evidence:
+- asset_id: gutenberg_en_lcc_q
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim.meta4
+  metadata_document_sha256: d3acf7bbe59913614bafbf99acafa2fbca557ddf1896f9e643156a589c14d80a
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 17724714270
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim
+  rights_sources:
+  - https://www.gutenberg.org/policy/permission
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: gutenberg_en_lcc_t
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim.meta4
+  metadata_document_sha256: 66f3060f2cd801290b40af73af585bdeaacdbc72052a4f744803860c5d72952f
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 13154803470
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim
+  rights_sources:
+  - https://www.gutenberg.org/policy/permission
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: gutenberg_en_lcc_s
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim.meta4
+  metadata_document_sha256: fd31a767f9d3c96dd2e217fafb4119fd34fb22eaef7af27a85ddf366cf9c8546
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 4532683039
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim
+  rights_sources:
+  - https://www.gutenberg.org/policy/permission
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: gutenberg_en_lcc_l
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim.meta4
+  metadata_document_sha256: f22a3a308054dc7d1a9430328f7b08726e2a97348b42f19f909c38b393195333
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 628986048
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim
+  rights_sources:
+  - https://www.gutenberg.org/policy/permission
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: gutenberg_en_lcc_pr
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-pr_2026-03.zim.meta4
+  metadata_document_sha256: 08e6c2af02829892763f331b105293cc6462620953e9c4181b2d14a945f4568d
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 16152121320
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-pr_2026-03.zim
+  rights_sources:
+  - https://www.gutenberg.org/policy/permission
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: gutenberg_en_lcc_ps
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-ps_2026-03.zim.meta4
+  metadata_document_sha256: 92cd57240f1482b66999dccfda1a7754e4483d81abc8a6b55c96343dbc79cadb
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 16022294302
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-ps_2026-03.zim
+  rights_sources:
+  - https://www.gutenberg.org/policy/permission
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: gutenberg_en_lcc_b
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-b_2026-03.zim.meta4
+  metadata_document_sha256: 53c1ffe23c36e8a8a5322363210f480a985f69694feb2c94d2f1bc2461b3afbd
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 6365165314
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-b_2026-03.zim
+  rights_sources:
+  - https://www.gutenberg.org/policy/permission
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: gutenberg_en_lcc_p
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-p_2026-03.zim.meta4
+  metadata_document_sha256: f64dc6f5ef8dc6944ade289d8ab8801657ed6e0aa0aabfad0e9eaa50c7d4802a
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 38549776
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-p_2026-03.zim
+  rights_sources:
+  - https://www.gutenberg.org/policy/permission
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: gutenberg_en_lcc_pz
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim.meta4
+  metadata_document_sha256: 0c18d8acac9231deebe8435c795242837872189696459f7173a122d787760d9d
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 19770263119
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim
+  rights_sources:
+  - https://www.gutenberg.org/policy/permission
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: gutenberg_en_all
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/gutenberg/gutenberg_en_all_2025-11.zim.meta4
+  metadata_document_sha256: 56875e18cfa6c534bc2c0295164f64e34be9a608aa883d710337ec7a9c0c3303
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 221251590584
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_all_2025-11.zim
+  rights_sources:
+  - https://www.gutenberg.org/policy/permission
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_diy
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: 90163f21ef1f98dfadadbde8b9c22889a765f7ccfda6bfd1fac1af147964cd37
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 2062547155
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_electronics
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: e5a73eda1512c681094b7c8cbcdf113b086ac5580844651b3cfeaaf48ba5b32a
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 4214186044
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_gardening
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: 5b04495ab812ba0bf4d932be76d1b81656b180494e49962b7f575a95b5836a22
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 926805273
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_gis
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: 5d4f77d4e426349602aa2db1718e1479c198398332ea6b84bd622ce42c3100be
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 2129919887
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_ham
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: e657eb6a24637042742f9856f2143ed9a2cc6143d9bf2fe706a7d83c6cc62407
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 75931239
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_mechanics
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: 8b12c56f0f7b7b92d4eb934ac2a0eb7b7f789ab19b8884dfbd3d2661b44efa72
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 339833641
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_outdoors
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: 682b4528961ee7848eff26bec535e315e4df5c6171b48e55522fa43a4e56eb6c
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 141407927
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_sustainability
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: eaddb484cb04565f8618a09c219bf31b5ea73fab90cf26c158d1f49fe197e23f
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 27666982
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_unix
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: 082ab209d33014dae8d1f74d03499c9de7a5cf4adb187928081a43f9270c0f65
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 1312634563
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_woodworking
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: 1967b81e56daac9cd3906de8c15720e7273509ff2cb0b8173e93a6d78c7e09eb
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 105570459
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_3dprinting
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim.meta4
+  metadata_document_sha256: a1868e54930a53b3b3765454ef96e1751bd26c95666a38e2b6a2dfe874a8c267
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 120138274
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_math
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: ed79f73f16470629cc61a975b9568eba5500c11de4395d7a0e7ab09a58d224c5
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 7417271999
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_physics
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: 8a5c2052b94e4d631033a482d2e8584a4f44b524686cfeac6626fe7ccb6a5ef0
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 1827690763
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_biology
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim.meta4
+  metadata_document_sha256: 0319bd8597ccf150da2e79386a7d18f768e8fd99bfe87200ea36e0750411c1ca
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 422849825
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_chemistry
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim.meta4
+  metadata_document_sha256: b981d5b1dc1b97de0148b8c1c0ed1b1e5add3b223ef653a884bf5f5c2ec47a1a
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 417260049
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackexchange_superuser
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/superuser.com_en_all_2026-08.zim.meta4
+  metadata_document_sha256: 69c8d124d7f3f96dcd6a304819ceaf3101124500a74e55d8cc78164878f2d75e
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 4003118644
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/superuser.com_en_all_2026-08.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+- asset_id: stackoverflow_en_all
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/stack_exchange/stackoverflow.com_en_all_2026-07.zim.meta4
+  metadata_document_sha256: d72fa7fee7286fe4df0c3bb6596828d6f7c083c13d60c904391b84fac9251ff0
+  method: Official HTTPS Metalink file name, exact size and direct child SHA-256 hash; independently matched
+    HTTP HEAD Content-Length. This is the entire-file hash, not a piece hash.
+  http_head:
+    status: 200
+    content_length: 114855633696
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/stack_exchange/stackoverflow.com_en_all_2026-07.zim
+  rights_sources:
+  - https://stackoverflow.com/help/licensing
+  content_verification: 'Archive not downloaded during source research; the builder must verify all bytes
+    against the publisher SHA-256. The image flag is conservative: individual illustrations were not inspected.'
+unresolved:
+- id: stackoverflow-durable
+  reason: Full 114.856 GB archive is pinned only as an optional research input; it does not implement
+    the requested durable-topic selection and is not proposed for default profiles.
+- id: direct-reading-expansion
+  reason: No new direct HTML export, question-level filter or Gutenberg book-ID deduplication has been
+    implemented by these archive pins.
+- id: survivor-tier-a
+  reason: Official category ZIP links observed on Smithing, Machine Tools and Farming pages each returned
+    HTTP 404 to HEAD on 2026-09-18. Category pages list individual PDFs but no linked checksums; no curated
+    complete title list or bytes have been acquired in this bounded metadata-only check.
+  source_pages:
+  - https://www.survivorlibrary.com/index.php/library-smithing/
+  - https://www.survivorlibrary.com/index.php/library-machine_tools/
+  - https://www.survivorlibrary.com/index.php/library-farming/
+- id: khan-core-stem
+  reason: Official Kiwix other directory offers the whole English March 2023 Khan Academy archive; no
+    STEM-only archive was found there. The full archive is not evidence of a curated 90 GB STEM selection.
+  source_pages:
+  - https://download.kiwix.org/zim/other/

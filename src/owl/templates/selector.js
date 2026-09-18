@@ -2,6 +2,10 @@
 (function (root) {
   "use strict";
   const READERS = "archive-readers", OVERHEAD = 16 * 1024 * 1024;
+  const DIRECT = new Set(["html", "htm", "pdf", "txt", "md", "png", "jpg", "jpeg"]);
+  const isSoftware = asset => asset.destination.split("/")[0] === "SOFTWARE";
+  const isDirect = asset => DIRECT.has(asset.format.toLowerCase()) && !asset.reader_required &&
+    !["SOFTWARE", "ZIM"].includes(asset.destination.split("/")[0]) && !isSoftware(asset);
   const mapById = rows => Object.fromEntries(rows.map(row => [row.id, row]));
   const sum = values => values.reduce((total, value) => total + value, 0);
   function profileFor(model, id) {
@@ -12,7 +16,8 @@
   function preset(model, id) {
     const profile = profileFor(model, id), defaults = new Set(profile.preset_resource_ids);
     return {profile: id, allowIncomplete: false, atlas: model.atlas_available !== false, items: Object.fromEntries(model.resources.map(row =>
-      [row.id, {included: defaults.has(row.id), edition: !profile.default_resources && defaults.has(row.id) ? "preset" : "published"}]))};
+      [row.id, {included: defaults.has(row.id), edition: !profile.default_resources && defaults.has(row.id) ? "preset" :
+        (profile.default_editions?.[row.id] || "published")}]))};
   }
   function selectionArgs(model, state) {
     const profile = profileFor(model, state.profile), defaults = new Set(profile.preset_resource_ids);
@@ -23,7 +28,8 @@
       if (!item.included && defaults.has(row.id)) exclude.push(row.id);
       if (item.included) {
         if (!defaults.has(row.id) || (!profile.default_resources && item.edition !== "preset")) include.push(row.id);
-        if (!["preset", "published"].includes(item.edition)) editions[row.id] = item.edition;
+        const defaultEdition = profile.default_editions?.[row.id] || "published";
+        if (item.edition !== "preset" && item.edition !== defaultEdition) editions[row.id] = item.edition;
       }
     }
     return {include, exclude, editions};
@@ -35,7 +41,7 @@
     args.include.forEach(id => selected.add(id)); args.exclude.forEach(id => selected.delete(id));
     const variants = {}, members = {}, credits = {}, replaced = new Set();
     for (const id of selected) {
-      const resource = resources[id], mode = args.editions[id] || "published";
+      const resource = resources[id], mode = args.editions[id] || profile.default_editions?.[id] || "published";
       if (!resource) throw Error("Unknown resource: " + id);
       if (mode !== "published" && !resource.editions?.[mode]) {
         errors.push(resource.title + ": no verified " + mode + " edition is available.");
@@ -75,7 +81,8 @@
     for (const id of selected) {
       const resource = variants[id], group = members[id], pinned = group.filter(id => assets[id].status === "resolved");
       const known = sum(pinned.map(id => assets[id].size_bytes));
-      const target = args.editions[id] ? resource.target_bytes : (overrides[id]?.target_bytes ?? resource.target_bytes);
+      const edition = args.editions[id] || profile.default_editions?.[id] || "published";
+      const target = edition === "published" ? (overrides[id]?.target_bytes ?? resource.target_bytes) : resource.target_bytes;
       const adjusted = target - credits[id];
       if (adjusted < 0) errors.push(resource.title + ": replacement credit exceeds target.");
       let status = resource.status, reason = resource.reason || "";
@@ -112,7 +119,7 @@
     const intendedBytes = Math.max(knownBytes, contentTargetBytes + readerBytes);
     const finalBytes = intendedBytes + profile.search_budget_bytes + OVERHEAD;
     const actualFinalBytes = knownBytes + profile.search_budget_bytes + OVERHEAD;
-    const scratchBytes = 2 * profile.search_budget_bytes;
+    const scratchBytes = profile.index_scratch_budget_bytes ?? 2 * profile.search_budget_bytes;
     const peakBytes = finalBytes + scratchBytes + profile.reserve_bytes;
     const actualPeakBytes = actualFinalBytes + scratchBytes + profile.reserve_bytes;
     if (finalBytes + profile.reserve_bytes > profile.capacity_bytes) errors.push("Selected content plus search and reserve exceeds this drive size.");
@@ -120,13 +127,45 @@
     if (actualPeakBytes > profile.capacity_bytes) errors.push("Even the verified files exceed the conservative in-place build budget. Select less content or a larger drive.");
     if (peakBytes > profile.capacity_bytes) warnings.push("The complete intended collection exceeds the in-place build budget, including temporary search files. It does not fit as a complete in-place build at these allowances.");
     if (incomplete.length) warnings.push(incomplete.length + " selected collections need source selection, permissions, or verified files. A partial build contains only currently pinned files.");
+    // Count actual cataloged files exactly once, independently of collection planning budgets.
+    const pinnedAssets = pinnedIds.map(id => assets[id]);
+    const knowledge = pinnedAssets.filter(asset => !isSoftware(asset));
+    const directAssets = knowledge.filter(isDirect);
+    const knowledgeBytes = sum(knowledge.map(asset => asset.size_bytes));
+    const softwareBytes = knownBytes - knowledgeBytes;
+    const baselineSoftwareBytes = sum(baseline.map(id => assets[id]).filter(asset => asset.status === "resolved" && isSoftware(asset)).map(asset => asset.size_bytes));
+    const knowledgeTargetBytes = Math.max(knowledgeBytes, contentTargetBytes - baselineSoftwareBytes);
+    const unmetContentBytes = Math.max(0, knowledgeTargetBytes - knowledgeBytes);
+    const unchangedPreset = !args.include.length && !args.exclude.length && !Object.keys(args.editions).length;
+    const presetBelowTarget = unchangedPreset && knowledgeBytes < (profile.content_target_min_bytes || 0);
+    if (presetBelowTarget && !state.allowIncomplete)
+      errors.push("This preset is below its pinned knowledge minimum. Resolve source gaps, customize the selection, or explicitly accept a partial library.");
+    const underfilled = presetBelowTarget || (unmetContentBytes >= 250 * 10**6 && knowledgeBytes < knowledgeTargetBytes * .8);
+    const categories = new Map();
+    for (const asset of knowledge) {
+      const id = asset.category || "uncategorized";
+      if (!categories.has(id)) categories.set(id, {id, assetCount:0, directCount:0, bytes:0});
+      const row = categories.get(id);
+      row.assetCount++; row.bytes += asset.size_bytes;
+      if (isDirect(asset)) row.directCount++;
+    }
+    const coverage = {knowledgeBytes, softwareBytes, knowledgeTargetBytes, unmetContentBytes,
+      assetCount:pinnedAssets.length, knowledgeCount:knowledge.length, softwareCount:pinnedAssets.length - knowledge.length,
+      directBytes:sum(directAssets.map(asset => asset.size_bytes)), directCount:directAssets.length,
+      archiveBytes:sum(knowledge.filter(asset => asset.format.toLowerCase() === "zim").map(asset => asset.size_bytes)),
+      archiveCount:knowledge.filter(asset => asset.format.toLowerCase() === "zim").length,
+      textbookCount:directAssets.filter(asset => asset.resource_type === "textbook").length,
+      illustratedCount:directAssets.filter(asset => asset.illustrated && ["textbook", "guide"].includes(asset.resource_type)).length,
+      categories:[...categories.values()].sort((a,b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+      capacityFraction:profile.capacity_bytes ? knownBytes / profile.capacity_bytes : 0,
+      targetFraction:knowledgeTargetBytes ? knowledgeBytes / knowledgeTargetBytes : 0,
+      presetTargetMinBytes:profile.content_target_min_bytes || 0, presetTargetMaxBytes:profile.content_target_max_bytes || 0,
+      presetBelowTarget, underfilled};
     const criticalCount = pinnedIds.filter(id => assets[id].critical).length;
     if (!criticalCount) warnings.push("No directly readable critical core is selected.");
-    if (!args.include.length && !args.exclude.length && !Object.keys(args.editions).length) {
-      const direct = new Set(["html", "htm", "pdf", "txt", "md", "png", "jpg", "jpeg"]);
+    if (unchangedPreset) {
       const eligible = pinnedIds.map(id => assets[id]).filter(asset => asset.required && asset.critical &&
-        direct.has(asset.format.toLowerCase()) && !asset.reader_required &&
-        !["SOFTWARE", "ZIM"].includes(asset.destination.split("/")[0]));
+        isDirect(asset));
       const counts = {textbooks:eligible.filter(asset => asset.resource_type === "textbook").length,
         "illustrated-guides":eligible.filter(asset => asset.illustrated && ["textbook", "guide"].includes(asset.resource_type)).length};
       for (const [shelf, floor] of Object.entries(profile.minimum_coverage || {}))
@@ -137,7 +176,7 @@
       const item = state.items[resource.id], subset = baseline.filter(id => allMembers.has(id) && assets[id].status === "resolved");
       const hasPreset = !profile.default_resources && profile.preset_resource_ids.includes(resource.id);
       const options = [];
-      if (hasPreset) options.push({value:"preset", label:"Preset files only · direct", available:true, reason:"Only verified source files in this small-drive preset."});
+      if (hasPreset) options.push({value:"preset", label:"Preset files only", available:true, reason:"Only verified source files in this preset; formats are listed below."});
       options.push({value:"published", label:"Published collection", available:true, reason:"Uses the catalog's published formats and collection scope."});
       for (const mode of ["direct", "compact"]) options.push({value:mode, label:mode === "direct" ? "Alternate direct-readable edition" : "Alternate compact archive edition",
         available:Boolean(resource.editions?.[mode]), reason:resource.editions?.[mode] ? "Verified catalog edition; original critical files are retained." : "No verified alternate edition and size are cataloged. No conversion or compression ratio is assumed."});
@@ -154,7 +193,7 @@
     const canBuild = errors.length === 0 && (!incomplete.length || state.allowIncomplete);
     return {rows, estimates:{contentTargetBytes, knownBytes, readerBytes, searchBytes:profile.search_budget_bytes, scratchBytes,
       metadataBytes:OVERHEAD, reserveBytes:profile.reserve_bytes, finalBytes, peakBytes, actualPeakBytes, capacityBytes:profile.capacity_bytes},
-      errors, warnings, incomplete, canBuild, selectedAssetIds:pinnedIds.sort(), selectionArgs:args};
+      coverage, errors, warnings, incomplete, canBuild, selectedAssetIds:pinnedIds.sort(), selectionArgs:args};
   }
   function quote(value, shell) {
     if (typeof value !== "string" || /[\x00-\x1f\x7f]/.test(value)) throw Error("Paths and arguments must be single-line text without control characters.");

@@ -3,9 +3,9 @@ title: Survive + rebuild + educate + preserve
 capacity_bytes: 1000000000000
 content_target_min_bytes: 750000000000
 content_target_max_bytes: 820000000000
-search_budget_bytes: 90000000000
-readers_budget_bytes: 5000000000
-reserve_bytes: 80000000000
+search_budget_bytes: 40000000000
+readers_budget_bytes: 1000000000
+reserve_bytes: 70000000000
 default_resources:
 - owl-direct-core
 - direct-reading-expansion
@@ -49,3 +49,9 @@ default_resources:
 - gutenberg-multilingual
 - survivor-tier-b
 - stackoverflow-legacy
+index_scratch_budget_bytes: 75000000000
+default_editions:
+  gutenberg-core: compact
+  childrens-library: compact
+  stackexchange-practical: compact
+  stackexchange-science: compact

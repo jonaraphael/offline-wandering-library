@@ -30,7 +30,7 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
         row["preset_resource_ids"] = profile.get("default_resources", [identity for identity, resource in resources.items()
             if pinned & resource_asset_ids(resource)])
         visible.append(row)
-    fields = ("id", "title", "status", "size_bytes", "format", "destination", "critical", "required",
+    fields = ("id", "title", "category", "status", "size_bytes", "format", "destination", "critical", "required",
               "reader_required", "resource_type", "illustrated", "profiles")
     cli = {}
     for flag, path, default in (("--catalog", catalog, ROOT / "catalog/library.yaml"),

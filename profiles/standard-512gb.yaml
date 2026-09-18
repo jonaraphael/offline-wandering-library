@@ -3,9 +3,9 @@ title: Survive + rebuild + educate
 capacity_bytes: 512000000000
 content_target_min_bytes: 390000000000
 content_target_max_bytes: 420000000000
-search_budget_bytes: 48000000000
-readers_budget_bytes: 5000000000
-reserve_bytes: 38000000000
+search_budget_bytes: 20000000000
+readers_budget_bytes: 1000000000
+reserve_bytes: 30000000000
 default_resources:
 - owl-direct-core
 - hesperian-health
@@ -42,3 +42,8 @@ default_resources:
 resource_overrides:
   survivor-tier-a:
     target_bytes: 75000000000
+index_scratch_budget_bytes: 35000000000
+default_editions:
+  gutenberg-core: compact
+  childrens-library: compact
+  stackexchange-practical: compact
