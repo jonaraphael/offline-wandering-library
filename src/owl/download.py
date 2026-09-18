@@ -6,7 +6,6 @@ import json
 import os
 from pathlib import Path
 import re
-import shutil
 import socket
 import time
 from urllib.error import HTTPError, URLError
@@ -14,6 +13,8 @@ from urllib.parse import urlsplit
 from urllib.request import Request, url2pathname, urlopen
 
 from .safety import atomic_write, reject_symlinks, safe_path, sha256_file
+from .transfer import (TransferError, _check_directory, _directory_identity,
+                       _open_regular, durable_writer, resume_copy)
 
 
 class DownloadError(RuntimeError):
@@ -39,6 +40,7 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
     """Destination must be in the builder-owned staging/cache directory."""
     reject_symlinks(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
+    parent_identity = _directory_identity(destination.parent)
     part = destination.with_name(destination.name + ".part")
     meta_path = destination.with_name(destination.name + ".part.json")
     reject_symlinks(part)
@@ -49,6 +51,7 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
     for attempt in range(retries + 1):
         url = urls[attempt % len(urls)]
         try:
+            _check_directory(destination.parent, parent_identity)
             parsed = urlsplit(url)
             if parsed.scheme in {"file", "repo"}:
                 if parsed.scheme == "repo":
@@ -61,12 +64,12 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                     # drive prefix and decodes percent escapes exactly once.
                     source = Path(url2pathname(parsed.path))
                     reject_symlinks(source)
-                if source.stat().st_size != expected:
-                    raise DownloadError(f"{asset['id']}: local source size differs from manifest")
-                with source.open("rb") as src, part.open("wb") as dst:
-                    shutil.copyfileobj(src, dst, 1024 * 1024)
-                    dst.flush()
-                    os.fsync(dst.fileno())
+                digest = resume_copy(source, destination, size=expected, checksum=asset["sha256"],
+                                     part=part, progress=progress)
+                _check_directory(destination.parent, parent_identity)
+                reject_symlinks(meta_path)
+                meta_path.unlink(missing_ok=True)
+                return digest
             else:
                 offset = part.stat().st_size if part.exists() else 0
                 metadata = {}
@@ -77,6 +80,10 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                         pass
                 if offset == expected and asset["sha256"]:
                     digest = _complete(part, asset)
+                    _check_directory(destination.parent, parent_identity)
+                    with _open_regular(part, writable=True) as handle, durable_writer(handle):
+                        pass
+                    reject_symlinks(destination)
                     os.replace(part, destination)
                     meta_path.unlink(missing_ok=True)
                     return digest
@@ -102,6 +109,7 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                         if offset and not asset["sha256"] and validator:
                             returned = response.headers.get("ETag") if validator.startswith('"') else response.headers.get("Last-Modified")
                             if returned != validator:
+                                _check_directory(destination.parent, parent_identity)
                                 atomic_write(meta_path, b"{}")
                                 raise DownloadError("Resume validator changed or missing; next attempt restarts from byte zero")
                     elif status == 200:
@@ -113,10 +121,14 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                         raise DownloadError(f"{asset['id']}: remote size changed; update reviewed catalog")
                     etag = response.headers.get("ETag", "")
                     validator = etag if etag and not etag.startswith("W/") else response.headers.get("Last-Modified")
+                    _check_directory(destination.parent, parent_identity)
                     atomic_write(meta_path, json.dumps({"url": url, "validator": validator}).encode())
                     last_report = time.monotonic()
                     progress(f"{asset['id']}: {'resuming' if offset else 'downloading'} at {offset:,} / {expected:,} bytes")
-                    with part.open("ab" if offset else "wb") as handle:
+                    _check_directory(destination.parent, parent_identity)
+                    with _open_regular(part, writable=True) as handle, durable_writer(handle) as checkpoint:
+                        handle.seek(offset)
+                        handle.truncate(offset)
                         while True:
                             block = response.read(1024 * 1024)
                             if not block:
@@ -125,19 +137,21 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                             if offset > expected:
                                 raise DownloadError("Response exceeds catalog size")
                             handle.write(block)
+                            checkpoint.written(len(block))
                             if time.monotonic() - last_report >= 5:
                                 progress(f"{asset['id']}: {offset:,} / {expected:,} bytes ({offset / expected:.1%})")
                                 last_report = time.monotonic()
-                        handle.flush()
-                        os.fsync(handle.fileno())
             digest = _complete(part, asset)
+            _check_directory(destination.parent, parent_identity)
+            reject_symlinks(destination)
             os.replace(part, destination)
             meta_path.unlink(missing_ok=True)
             return digest
-        except (OSError, URLError, HTTPError, http.client.HTTPException, socket.timeout, ValueError, DownloadError) as error:
+        except (OSError, URLError, HTTPError, http.client.HTTPException, socket.timeout, ValueError, DownloadError, TransferError) as error:
             last_error = error
             if isinstance(error, DownloadError) and "SHA-256 mismatch" in str(error):
                 # Corrupt bytes must never be reused, including on the next run.
+                _check_directory(destination.parent, parent_identity)
                 part.unlink(missing_ok=True)
                 meta_path.unlink(missing_ok=True)
             if attempt < retries:

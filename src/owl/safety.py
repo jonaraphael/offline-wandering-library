@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import hashlib
+from contextlib import contextmanager
+from contextvars import ContextVar
 import os
 from pathlib import Path, PurePosixPath
 import re
@@ -11,6 +13,43 @@ import tempfile
 
 class SafetyError(ValueError):
     pass
+
+
+_GUARDS = ContextVar("owl_directory_guards", default=())
+
+
+def _check_guards(path: Path) -> None:
+    absolute = Path(os.path.abspath(path))
+    for root, identity in _GUARDS.get():
+        if absolute != root and root not in absolute.parents:
+            continue
+        try:
+            info = root.stat(follow_symlinks=False)
+            current = (info.st_dev, info.st_ino)
+        except OSError as error:
+            raise SafetyError(f"Build directory disappeared; reconnect the original drive and rerun: {root}") from error
+        if current != identity or not stat.S_ISDIR(info.st_mode):
+            raise SafetyError(f"Build directory changed; reconnect the original drive and rerun: {root}")
+
+
+@contextmanager
+def guard_directory(path: Path):
+    """Do not recreate a vanished USB mount on the computer's underlying disk.
+
+    Identity is checked on subsequent path validations and atomic writes. This
+    catches normal removal/replacement; it is not a filesystem transaction or a
+    promise that an unsafe unplug cannot damage exFAT.
+    """
+    root = Path(os.path.abspath(path))
+    reject_symlinks(root)
+    info = root.stat()
+    if not stat.S_ISDIR(info.st_mode):
+        raise SafetyError(f"Build directory is not a directory: {root}")
+    token = _GUARDS.set((*_GUARDS.get(), (root, (info.st_dev, info.st_ino))))
+    try:
+        yield
+    finally:
+        _GUARDS.reset(token)
 
 
 _RESERVED = re.compile(r"^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\..*)?$", re.I)
@@ -33,6 +72,7 @@ def validate_relative(value: str) -> str:
 
 
 def reject_symlinks(path: Path) -> None:
+    _check_guards(path)
     # Inspect lexical ancestors: resolve() alone would hide symlink traversal.
     absolute = Path(os.path.abspath(path))
     for candidate in [absolute, *absolute.parents]:
@@ -67,7 +107,12 @@ def atomic_write(path: Path, data: bytes) -> None:
         reject_symlinks(path)
         os.replace(name, path)
     finally:
-        Path(name).unlink(missing_ok=True)
+        try:
+            _check_guards(Path(name))
+        except SafetyError:
+            pass  # A disconnected/replaced volume is no longer ours to clean.
+        else:
+            Path(name).unlink(missing_ok=True)
 
 
 def sha256_file(path: Path) -> str:

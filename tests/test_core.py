@@ -264,6 +264,98 @@ class DownloadTests(Fixture):
 
 
 class BuildTests(Fixture):
+    def test_observed_hash_survives_stop_between_promotion_and_state_update(self):
+        self.asset["sha256"] = None
+        self.write_catalog()
+        self.run_build()
+        state_path = self.root / "drive/.owl/state.json"
+        state = json.loads(state_path.read_text())
+        state.update(assets={}, complete=False)
+        state_path.write_text(json.dumps(state))
+        self.source.unlink()
+        with patch("owl.build.download", side_effect=AssertionError("observed staging hash must permit verified reuse")):
+            self.run_build()
+        self.assertTrue(json.loads(state_path.read_text())["complete"])
+
+    def test_drive_replaced_during_preflight_is_not_used(self):
+        self.run_build()
+        drive = self.root / "drive"
+        def replace(message):
+            if message.startswith("CHECK "):
+                drive.rename(self.root / "original-drive")
+                drive.mkdir()
+        with self.assertRaisesRegex(SafetyError, "changed during preflight"):
+            build(drive, catalog=self.catalog, profiles_dir=self.profiles,
+                  profile_name="test", allow_local=True, progress=replace)
+        self.assertEqual(list(drive.iterdir()), [])
+        self.assertTrue(json.loads((self.root / "original-drive/.owl/state.json").read_text())["complete"])
+
+    def test_asset_changed_after_extraction_cannot_be_blessed_by_new_checksums(self):
+        from owl.navigation import generate_navigation
+        def damage(target, *args, **kwargs):
+            result = generate_navigation(target, *args, **kwargs)
+            (target / self.asset["destination"]).write_bytes(b"x" * len(self.data))
+            return result
+        with patch("owl.navigation.generate_navigation", side_effect=damage), self.assertRaisesRegex(SafetyError, "changed after verification"):
+            self.run_build()
+        state = json.loads((self.root / "drive/.owl/state.json").read_text())
+        self.assertFalse(state["complete"])
+        self.run_build()
+        self.assertEqual((self.root / "drive" / self.asset["destination"]).read_bytes(), self.data)
+
+    def test_interrupt_download_retains_in_place_partial_and_releases_lock(self):
+        def interrupted(asset, destination, **kwargs):
+            destination.with_name(destination.name + ".part").write_bytes(self.data[:10])
+            raise KeyboardInterrupt
+        with patch("owl.build.download", side_effect=interrupted), self.assertRaises(KeyboardInterrupt):
+            self.run_build()
+        drive = self.root / "drive"
+        part = drive / ".owl/downloads" / (self.asset["sha256"] + ".part")
+        self.assertEqual(part.read_bytes(), self.data[:10])
+        state = json.loads((drive / ".owl/state.json").read_text())
+        self.assertFalse(state["complete"])
+        self.assertEqual(state["phase"], "content")
+        plan = self.run_build(plan_only=True)
+        self.assertEqual(plan["remaining_transfer_allocation_bytes"], len(self.data) - 10)
+        self.run_build()
+        self.assertFalse(part.exists())
+        self.assertEqual(verify_drive(drive, emit=lambda _: None)["FAILED"], 0)
+
+    def test_interrupt_cached_copy_reuses_download_and_resumes_target_partial(self):
+        cache = self.root / "cache"
+        def interrupted(source, destination, *, part, **kwargs):
+            part.write_bytes(self.data[:10])
+            raise KeyboardInterrupt
+        with patch("owl.build.resume_copy", side_effect=interrupted), self.assertRaises(KeyboardInterrupt):
+            self.run_build(cache_dir=cache)
+        plan = self.run_build(cache_dir=cache, plan_only=True)
+        self.assertEqual(plan["remaining_transfer_allocation_bytes"], len(self.data) - 10)
+        self.assertEqual(plan["remaining_cache_allocation_bytes"], 0)
+        self.source.unlink()
+        with patch("owl.build.download", side_effect=AssertionError("verified cache must survive interruption")):
+            self.run_build(cache_dir=cache)
+        self.assertEqual((self.root / "drive" / self.asset["destination"]).read_bytes(), self.data)
+
+    def test_interrupt_indexing_reuses_in_place_content_on_restart(self):
+        with patch("owl.search.build_search", side_effect=KeyboardInterrupt), self.assertRaises(KeyboardInterrupt):
+            self.run_build()
+        drive = self.root / "drive"
+        state = json.loads((drive / ".owl/state.json").read_text())
+        self.assertEqual(state["phase"], "search")
+        self.assertFalse(state["complete"])
+        self.source.unlink()
+        with patch("owl.build.download", side_effect=AssertionError("content must survive interrupted indexing")):
+            self.run_build()
+        self.assertTrue(json.loads((drive / ".owl/state.json").read_text())["complete"])
+
+    def test_interrupt_final_verification_keeps_drive_incomplete_until_restart(self):
+        with patch("owl.build.verify_drive", side_effect=KeyboardInterrupt), self.assertRaises(KeyboardInterrupt):
+            self.run_build()
+        drive = self.root / "drive"
+        self.assertGreater(verify_drive(drive, emit=lambda _: None)["FAILED"], 0)
+        self.run_build()
+        self.assertEqual(verify_drive(drive, emit=lambda _: None)["FAILED"], 0)
+
     def test_end_to_end_idempotent_and_independent_verification(self):
         self.run_build()
         drive = self.root / "drive"

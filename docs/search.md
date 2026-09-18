@@ -75,23 +75,52 @@ snippet as ordinary text, including publisher-required notices such as
 “Access for free at openstax.org.” The original source's licensing conditions
 still apply to text incorporated into the search index and its displayed results.
 
-A temporary SQLite database sorts the inverted index on disk. It uses a 16 MiB
+A persistent, checkpointed SQLite database orders the inverted index on disk. It uses a 16 MiB
 page-cache budget; neither the corpus nor the vocabulary is collected into one
 Python list. Ordinary text, HTML and EPUB members stream in bounded chunks.
 `pypdf` and `libzim` have their own working memory requirements: a complex PDF
 page or decompressed ZIM cluster can still consume substantial memory. The ZIM
 entry-size guard prevents allocating entries known to exceed 64 MiB, but is not
-a hard process-memory limit. Use a computer with adequate RAM and scratch space
-for large builds, preferably with scratch on a fast local SSD.
+a hard process-memory limit. Use a computer with adequate RAM. By default the build database, rollback
+journal, extracted records, and unfinished index all stay on the destination
+SSD. `--work-dir` optionally relocates database/record storage, but is not
+required. Serialization walks primary-key order without temporary sorting
+B-trees; SQLite does not spill large sort files into the computer's OS temporary
+directory. The finished library needs neither SQLite nor the scratch files.
 
 Full Wikipedia indexing may take many hours or days and considerable temporary
 storage. The final index duplicates extracted text and adds postings; it can be
 larger than the compressed source archive. Profile space budgets are planning
 allowances, not measured bounds. A corpus containing highly compressible data
 can exceed any fixed source-size multiplier. Keep additional space available and
-check the actual build. An interrupted index build is rebuilt from the existing,
-verified content; index construction itself does not resume. The old final index
-remains until its replacement is complete.
+check the actual build. Peak space includes extracted records, postings in the
+checkpoint database, and the new output index simultaneously. An existing final
+index remains until its replacement is complete. The current conservative
+working-space budgets exceed the headroom of the fully populated larger target
+profiles; final-corpus sizing is still unproven. Building in place is supported,
+but a final-content target alone does not guarantee enough temporary space.
+
+Extraction checkpoints store the current asset, page/member/raw-entry cursor,
+coverage report, passage count, and durable record-file offset together with
+postings in a SQLite transaction. Records are flushed before committing the
+transaction. On restart, SQLite rolls back unfinished transactions and the record
+file is truncated to the last committed offset. Checkpoints occur every 50 units
+or five seconds at a unit boundary, plus every completed asset. PDF pages, EPUB
+members, and ZIM raw entries resume within the current archive; the current plain
+HTML/TXT file restarts. Very slow individual units can delay a checkpoint.
+
+Final index assembly restarts from the retained records and postings after an
+interruption, without extracting the corpus again. On success, only registered
+scratch files are removed; unrelated files in a workspace are preserved. Search
+workspace ownership markers and OS-held locks prevent conflicting writers.
+
+Actual source SHA-256 values, catalog metadata, extractor code, Python/Unicode,
+and extraction dependencies form a build fingerprint. Changes invalidate the
+extraction job deliberately. An unchanged completed index is reused only after
+checking the fingerprint and the completed index's SHA-256. Integrity hashing
+repeats on restart and can take substantial time; hashing itself is not
+checkpointed. Keep the same work directory and target path to retain an unfinished
+extraction job. See the [pause/resume guide](usage.md#pause-and-resume).
 
 The builder reports each asset's start and completion, including extraction
 warnings, and reports major index-writing stages. During extraction it checks

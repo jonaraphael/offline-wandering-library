@@ -98,3 +98,32 @@ CLI selection flags, explicit partial builds, and a second build from a locked
 catalog after removing its resource registry. A read-only plan against the
 previous full critical test build found all **25 PDF files reusable**. The
 previous physical-device and full-Wikipedia indexing limitations still apply.
+
+## In-place interruption and resumption
+
+The pause/resume update was checked with 171 automated tests. New cases cover
+cooperative interruption, HTTP retry exhaustion, validated local-prefix resume,
+complete partial-file promotion, process-kill lock recovery, SQLite rollback
+after abrupt process exit, resumed PDF/ZIM cursors, unchanged-index reuse,
+interrupted final verification, insufficient remaining space, and replacement
+of a destination directory during preflight or transfer. Integrity tests ensure
+that changed content cannot be accepted by simply recording a new checksum.
+
+A separate real CLI smoke test built 80 small original text assets, sent SIGINT
+after an extraction checkpoint, observed exit status 130 and incomplete state,
+then reran the same command. All 80 content files were reused, extraction resumed,
+and the finished index was byte-identical to an uninterrupted clean build.
+Independent verification reported **126 OK, 0 MISSING, 0 FAILED, 0 UNKNOWN**.
+Both builds kept partials and search scratch within their target directories.
+
+The four-file demo also built through the CLI, copied directly to a second
+directory using `copy_drive.py`, and independently verified **50 managed files**
+on each copy with no missing, failed, or unknown files. These are filesystem
+fixtures, not a claim of physical USB/exFAT unplug or laptop sleep testing.
+
+Peak in-place capacity remains distinct from final content capacity. With the
+current conservative scratch allowances, the complete proposed larger resource
+selections exceed their nominal drive sizes during construction. Plans now
+report that explicitly. The source include list and full-corpus indexing sizes
+remain unfinished; the tool does not assume an internal-disk copy can make those
+default in-place budgets fit.

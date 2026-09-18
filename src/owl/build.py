@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import argparse
-from contextlib import contextmanager
+from contextlib import ExitStack
 from datetime import datetime, timezone
 import hashlib
 import importlib.metadata
@@ -17,8 +17,10 @@ import yaml
 from . import __version__
 from .catalog import (CatalogError, capacity_plan, fingerprint, load_catalog,
                       load_profiles, read_yaml, resolve_content, resolve_locked_content)
-from .download import DownloadError, download, verified
-from .safety import SafetyError, atomic_write, reject_symlinks, safe_path, sha256_file
+from .download import download, verified
+from .runtime import file_lock as _lock, interrupt_signals
+from .safety import SafetyError, atomic_write, guard_directory, reject_symlinks, safe_path, sha256_file
+from .transfer import resume_copy
 from .verify import verify_drive
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -58,20 +60,6 @@ def _owned_directory(path: Path) -> None:
         atomic_write(marker, _json({"owner": "offline-wandering-library", "schema_version": 1}))
 
 
-@contextmanager
-def _lock(path: Path):
-    reject_symlinks(path)
-    try:
-        with path.open("x") as handle:
-            handle.write(f"pid={os.getpid()}\n")
-    except FileExistsError:
-        raise SafetyError(f"Build/cache lock exists: {path}. If a previous process crashed, confirm it has stopped before removing this lock.") from None
-    try:
-        yield
-    finally:
-        path.unlink(missing_ok=True)
-
-
 def _state(path: Path) -> dict:
     reject_symlinks(path)
     if not path.exists():
@@ -108,9 +96,55 @@ def check_space_groups(allocations: list[tuple[Path, int]]) -> list[dict]:
     return [{**g, "path": str(g["path"])} for g in groups.values()]
 
 
-def _expected(asset: dict, state: dict) -> str | None:
+def _expected(asset: dict, state: dict, spool: Path | None = None) -> str | None:
     previous = state["assets"].get(asset["id"], {})
-    return asset["sha256"] or (previous.get("sha256") if previous.get("fingerprint") == fingerprint(asset) else None)
+    expected = asset["sha256"] or (previous.get("sha256") if previous.get("fingerprint") == fingerprint(asset) else None)
+    if not expected and spool is not None:
+        # A process can stop between promotion and its state write. The observed
+        # staging digest was saved before promotion, so recover that baseline.
+        metadata = safe_path(spool, fingerprint(asset) + ".json")
+        if metadata.exists():
+            saved = json.loads(metadata.read_text())
+            if saved.get("fingerprint") == fingerprint(asset):
+                expected = saved.get("sha256")
+    return expected
+
+
+def _partial_bytes(path: Path, maximum: int) -> int:
+    """Credit owned staging storage already allocated, without trusting its bytes."""
+    reject_symlinks(path)
+    if path.exists() and not path.is_file():
+        raise SafetyError(f"Staging path is not a file: {path}")
+    return min(path.stat().st_size, maximum) if path.exists() else 0
+
+
+def _directory_anchor(path: Path) -> tuple[Path, tuple[int, int]]:
+    existing = path
+    while not existing.exists():
+        existing = existing.parent
+    reject_symlinks(existing)
+    info = existing.stat()
+    return existing, (info.st_dev, info.st_ino)
+
+
+def _transfer_space(target, cache, assets, reusable, state):
+    target_bytes = cache_bytes = 0
+    for asset in assets:
+        if reusable[asset["id"]]:
+            continue
+        size = asset["size_bytes"]
+        key = asset["sha256"] or fingerprint(asset)
+        spool = cache or safe_path(target, ".owl/downloads")
+        staged = safe_path(spool, key)
+        expected = _expected(asset, state, spool)
+        pending = 0 if verified(staged, size, expected) else size - _partial_bytes(
+            safe_path(spool, key + ".part"), size)
+        if cache:
+            cache_bytes += pending
+            target_bytes += size - _partial_bytes(safe_path(target, ".owl/downloads/" + key + ".copy"), size)
+        else:
+            target_bytes += pending
+    return target_bytes, cache_bytes
 
 
 def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
@@ -119,7 +153,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
           resources_catalog: Path | None = None, include=(), exclude=(),
           allow_incomplete: bool = False, progress=print) -> dict:
     from .navigation import GENERATED_PATHS, generate_navigation
-    from .search import build_search, check_extractors
+    from .search import build_search, check_extractors, checkpoint_usage
 
     profiles = load_profiles(profiles_dir)
     if profile_name not in profiles:
@@ -138,8 +172,16 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     if not assets and not plan_only:
         raise CatalogError(f"Profile {profile_name} has no resolved content")
     plan = capacity_plan(assets, profile, selection)
+    plan["in_place_peak_budget_bytes"] = (plan.get("planned_final_bytes", plan["estimated_final_bytes"])
+                                          + plan["index_scratch_budget_bytes"] + plan["reserve_bytes"])
+    plan["in_place_target_budget_fits"] = plan["in_place_peak_budget_bytes"] <= profile["capacity_bytes"]
     content_complete = not selection or not selection["incomplete_resources"]
     target = _root(target)
+    cache = _root(cache_dir) / "owl-v1" if cache_dir else None
+    work = _root(work_dir) if work_dir else target / ".owl/work"
+    # Hashing during preflight can take hours. Capture the mounted filesystem
+    # before it starts, not after a disappeared mount could have been recreated.
+    anchors = [_directory_anchor(path) for path in (target, work, cache) if path is not None]
     progress(f"OWL {__version__} | {profile_name} | {target}")
     progress(f"Content/download total: {plan['content_bytes']:,} bytes ({plan['content_bytes'] / 1e9:.2f} GB)")
     if selection:
@@ -160,6 +202,12 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         if not content_complete:
             progress("CONTENT INCOMPLETE: available files do not fulfill the selected resource collection targets.")
     progress(f"Estimated final ceiling: {plan['estimated_final_bytes']:,} bytes; reserve: {plan['reserve_bytes']:,}; indexing scratch budget: {plan['index_scratch_budget_bytes']:,}")
+    progress(f"In-place peak planning allowance for selected content: {plan['in_place_peak_budget_bytes']:,} bytes "
+             "(content, index, scratch and reserve; excludes pre-existing old versions)")
+    if not plan["in_place_target_budget_fits"]:
+        progress("SPACE WARNING: the complete selected content targets plus current scratch allowances exceed "
+                 "this profile's nominal drive size. The include list/index budget needs tuning before those "
+                 "targets can be fulfilled in place. Actual available-file allocations are checked below.")
     for shelf, coverage in plan["learning_coverage"].items():
         floor = profile.get("minimum_coverage", {}).get(shelf, 0)
         progress(f"{shelf}: {coverage['count']} directly readable; {coverage['required_critical_count']} required critical (minimum {floor})")
@@ -169,6 +217,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     state_path = safe_path(target, ".owl/state.json")
     state = _state(state_path)
     owned = set(state["managed"])
+    spool = cache or safe_path(target, ".owl/downloads")
     for relative in generated:
         path = safe_path(target, relative)
         if path.exists() and (relative not in owned or not path.is_file()):
@@ -176,7 +225,9 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     reusable = {}
     for asset in assets:
         path = safe_path(target, asset["destination"])
-        checksum = _expected(asset, state)
+        checksum = _expected(asset, state, spool)
+        if path.is_file():
+            progress(f"CHECK {asset['destination']} (streaming SHA-256; safe to interrupt)")
         reusable[asset["id"]] = verified(path, asset["size_bytes"], checksum)
         if path.exists() and not reusable[asset["id"]] and asset["destination"] not in owned:
             raise SafetyError(f"Content destination contains an unverified, unowned file: {path}")
@@ -185,24 +236,41 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     missing_bytes = sum(a["size_bytes"] for a in assets if not reusable[a["id"]])
     plan["remaining_content_bytes"] = missing_bytes
     progress(f"Verified reusable files: {sum(reusable.values())}/{len(assets)}; remaining content: {missing_bytes:,} bytes")
-    # Existing final index remains until replacement is ready; budget a complete
-    # new output plus transient database even when rebuilding the same corpus.
-    required = missing_bytes + plan["search_budget_bytes"] + plan["reserve_bytes"] + 16 * 1024 * 1024
-    cache = _root(cache_dir) / "owl-v1" if cache_dir else None
-    work = _root(work_dir) if work_dir else target / ".owl/work"
-    allocations = [(target, required), (work, plan["index_scratch_budget_bytes"])]
+    transfer_bytes, cache_bytes = _transfer_space(target, cache, assets, reusable, state)
+    checkpoint = checkpoint_usage(target, work_dir=work)
+    # Credit retained staging files: their allocation already reduced disk free
+    # space. Their bytes are independently checked before any later promotion.
+    search_bytes = max(0, plan["search_budget_bytes"] - checkpoint["output_bytes"])
+    scratch_bytes = max(0, plan["index_scratch_budget_bytes"] - checkpoint["scratch_bytes"])
+    required = transfer_bytes + search_bytes + plan["reserve_bytes"] + 16 * 1024 * 1024
+    plan["remaining_transfer_allocation_bytes"] = transfer_bytes
+    plan["remaining_cache_allocation_bytes"] = cache_bytes
+    plan["retained_search_checkpoint_bytes"] = checkpoint
+    allocations = [(target, required), (work, scratch_bytes)]
     if cache:
-        allocations.append((cache, missing_bytes))
+        allocations.append((cache, cache_bytes))
     plan["filesystem_allocations"] = check_space_groups(allocations)
     plan["required_free_bytes"] = sum(item["required_bytes"] for item in plan["filesystem_allocations"] if str(target) in item["uses"])
     if plan_only:
         progress("Plan only: no files created or downloaded. Index budget is a planning allowance, not a measured bound.")
         return plan
     check_extractors(assets)
-    target.mkdir(parents=True, exist_ok=True)
     private = target / ".owl"
-    _owned_directory(private)
-    with _lock(safe_path(target, ".owl/build.lock")):
+    with ExitStack() as guards:
+        for anchor, identity in anchors:
+            try:
+                info = anchor.stat(follow_symlinks=False)
+                unchanged = (info.st_dev, info.st_ino) == identity
+            except OSError:
+                unchanged = False
+            if not unchanged:
+                raise SafetyError(f"Build directory changed during preflight; reconnect the original drive and rerun: {anchor}")
+            guards.enter_context(guard_directory(anchor))
+        reject_symlinks(target)
+        target.mkdir(parents=True, exist_ok=True)
+        guards.enter_context(guard_directory(target))
+        _owned_directory(private)
+        guards.enter_context(_lock(safe_path(target, ".owl/build.lock")))
         # Re-read after acquiring lock; detect another completed builder between
         # read-only preflight and lock acquisition rather than use stale state.
         current = _state(state_path)
@@ -210,17 +278,23 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             raise SafetyError("Build state changed during preflight; rerun")
         if cache:
             _owned_directory(cache)
+            guards.enter_context(guard_directory(cache))
         for relative in LAYOUT:
             safe_path(target, relative).mkdir(parents=True, exist_ok=True)
         safe_path(target, ".owl/downloads").mkdir(exist_ok=True)
+        reject_symlinks(work)
         work.mkdir(parents=True, exist_ok=True)
+        guards.enter_context(guard_directory(work))
         state["complete"] = False
+        state["phase"] = "content"
         state["managed"] = sorted(owned | set(generated) | {a["destination"] for a in assets})
         atomic_write(state_path, _json(state))
         inventory_assets = []
         for asset in assets:
+            state["active_asset"] = asset["id"]
+            atomic_write(state_path, _json(state))
             destination = safe_path(target, asset["destination"])
-            expected = _expected(asset, state)
+            expected = _expected(asset, state, spool)
             if reusable[asset["id"]]:
                 digest = expected
                 progress(f"REUSE {asset['destination']}")
@@ -246,21 +320,21 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                     reject_symlinks(destination)
                     if cache:
                         copy = safe_path(target, ".owl/downloads/" + key + ".copy")
-                        with staged.open("rb") as source, copy.open("wb") as output:
-                            shutil.copyfileobj(source, output, 1024 * 1024)
-                            output.flush()
-                            os.fsync(output.fileno())
-                        if sha256_file(copy) != digest:
-                            raise DownloadError("Checksum changed while copying cached content")
-                        os.replace(copy, destination)
+                        resume_copy(staged, destination, size=asset["size_bytes"],
+                                    checksum=digest, part=copy, progress=progress)
                     else:
                         os.replace(staged, destination)
-                state["assets"][asset["id"]] = {"sha256": digest, "fingerprint": fingerprint(asset)}
-                atomic_write(state_path, _json(state))
+            state["assets"][asset["id"]] = {"sha256": digest, "fingerprint": fingerprint(asset)}
+            atomic_write(state_path, _json(state))
             inventory_assets.append({**asset, "sha256": digest,
                                      "verification": "pinned" if asset["sha256"] else "observed"})
+        state.pop("active_asset", None)
+        state["phase"] = "search"
+        atomic_write(state_path, _json(state))
         progress("Building full-text search and static navigation; large archives may take many hours.")
         search_report = build_search(target, inventory_assets, work_dir=work, progress=progress)
+        state["phase"] = "navigation"
+        atomic_write(state_path, _json(state))
         for warning in search_report.get("warnings", []):
             progress(f"SEARCH COVERAGE: {warning}")
         inventory = {"schema_version": 1, "assets": inventory_assets, "search": search_report,
@@ -295,19 +369,35 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         atomic_write(safe_path(target, "BUILD_INFO.json"), _json(info))
         managed = sorted(set(nav_files) | set(search_report["generated_files"]) | set(CORE_OUTPUTS) |
                          {a["destination"] for a in assets})
+        state["phase"] = "checksums"
+        atomic_write(state_path, _json(state))
+        progress("Generating checksums (streaming each managed file).")
         # Stream hashes; never load content files into memory.
-        checksums = "".join(f"{sha256_file(safe_path(target, relative))}  {relative}\n"
-                            for relative in managed if relative != "SHA256SUMS.txt")
+        expected_files = {a["destination"]: (a["sha256"], a["size_bytes"]) for a in inventory_assets}
+        expected_files["SEARCH/library.owl"] = (search_report["index_sha256"], search_report["index_bytes"])
+        checksum_lines = []
+        for relative in managed:
+            if relative == "SHA256SUMS.txt":
+                continue
+            path = safe_path(target, relative)
+            digest = sha256_file(path)
+            if relative in expected_files and (digest, path.stat().st_size) != expected_files[relative]:
+                raise SafetyError(f"File changed after verification: {relative}; rerun to repair before completion")
+            checksum_lines.append(f"{digest}  {relative}\n")
+        checksums = "".join(checksum_lines)
         atomic_write(safe_path(target, "SHA256SUMS.txt"), checksums.encode())
         final_size = sum(safe_path(target, name).stat().st_size for name in managed)
         if final_size + profile["reserve_bytes"] > profile["capacity_bytes"]:
             raise SafetyError("Actual generated output exceeds profile capacity; files retained, build incomplete")
         check_space(target, profile["reserve_bytes"])
+        state["phase"] = "verification"
+        atomic_write(state_path, _json(state))
         progress("Verifying completed library (reads every managed file).")
         results = verify_drive(target, emit=progress, allow_incomplete=True)
         if results["FAILED"] or results["MISSING"]:
             raise SafetyError("Completed-drive verification failed")
         state["complete"] = True
+        state["phase"] = "complete"
         atomic_write(state_path, _json(state))
         progress(f"BUILD COMPLETE{' (PARTIAL CONTENT)' if not content_complete else ''}: {target / 'START_HERE.html'}")
         return info
@@ -320,7 +410,7 @@ def main(argv=None) -> int:
     parser.add_argument("--catalog", type=Path, default=REPO_ROOT / "catalog/library.yaml")
     parser.add_argument("--profiles-dir", type=Path, default=REPO_ROOT / "profiles")
     parser.add_argument("--cache-dir", type=Path)
-    parser.add_argument("--work-dir", type=Path, help="directory for temporary search database")
+    parser.add_argument("--work-dir", type=Path, help="persistent directory for resumable search checkpoints; reuse on restart")
     parser.add_argument("--plan", action="store_true", help="validate and estimate without writing/downloading")
     parser.add_argument("--allow-local", action="store_true", help="allow trusted local fixtures and plain HTTP test sources")
     parser.add_argument("--resources-catalog", type=Path, help="resource registry (default: resources.yaml beside catalog)")
@@ -361,13 +451,15 @@ def main(argv=None) -> int:
             return 0
         if args.target is None:
             parser.error("target is required unless --list-resources is used")
-        build(args.target, catalog=args.catalog, profiles_dir=args.profiles_dir, profile_name=args.profile,
-              cache_dir=args.cache_dir, work_dir=args.work_dir, allow_local=args.allow_local, plan_only=args.plan,
-              resources_catalog=args.resources_catalog, include=args.include, exclude=args.exclude,
-              allow_incomplete=args.allow_incomplete)
+        with interrupt_signals():
+            build(args.target, catalog=args.catalog, profiles_dir=args.profiles_dir, profile_name=args.profile,
+                  cache_dir=args.cache_dir, work_dir=args.work_dir, allow_local=args.allow_local, plan_only=args.plan,
+                  resources_catalog=args.resources_catalog, include=args.include, exclude=args.exclude,
+                  allow_incomplete=args.allow_incomplete)
         return 0
     except KeyboardInterrupt:
-        print("Interrupted; verified files and resumable partial downloads retained.", file=sys.stderr)
+        print("Paused safely. Verified files, partial transfers and search checkpoints are retained. "
+              "Rerun the same command to continue. Wait for the prompt before safely ejecting the drive.", file=sys.stderr)
         return 130
     except (ValueError, OSError, RuntimeError, yaml.YAMLError) as error:
         print(f"ERROR: {error}", file=sys.stderr)

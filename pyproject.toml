@@ -17,6 +17,7 @@ zim = ["libzim>=3.7,<4"]
 owl-build = "owl.build:main"
 owl-validate = "owl.catalog:main"
 owl-verify = "owl.verify:main"
+owl-copy = "owl.copy:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

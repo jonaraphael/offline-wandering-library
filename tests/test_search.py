@@ -2,21 +2,27 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import io
 import json
 import logging
+import os
 from pathlib import Path
 import re
 import shutil
+import sqlite3
 import struct
 import subprocess
+import sys
 import tempfile
 import unittest
 from contextlib import redirect_stderr
 from unittest.mock import patch
 import zipfile
 
-from owl.search import HEADER_SIZE, SearchError, build_search, check_extractors, tokens
+from owl.search import (HEADER_SIZE, SearchError, build_search, checkpoint_usage,
+                        check_extractors, tokens)
+import owl.search as search
 from owl.safety import SafetyError
 
 
@@ -369,9 +375,279 @@ class SearchTests(unittest.TestCase):
             build_search(self.target, self.assets, progress=messages.append)
         self.assertFalse(any("total;" in message for message in messages))
         messages.clear()
+        # An unchanged completed index is reused; change metadata to exercise a
+        # second full extraction with the alternate progress clock.
+        self.assets[0]["title"] = "Updated large source"
         with patch("owl.search.time.monotonic", side_effect=lambda: len(messages) * 10 + 20):
             build_search(self.target, self.assets, progress=messages.append)
         self.assertTrue(any("total;" in message for message in messages))
+
+    def checkpoint_book(self):
+        path = self.target / "book.epub"
+        with zipfile.ZipFile(path, "w") as archive:
+            for number in range(6):
+                archive.writestr(f"chapter-{number}.txt", f"uniquechapter{number} useful knowledge")
+        self.assets.append({"destination": "book.epub", "format": "epub", "title": "Checkpoint book"})
+        return path
+
+    def clean_index_bytes(self):
+        destination = self.target / "clean"
+        destination.mkdir()
+        for asset in self.assets:
+            path = destination / asset["destination"]
+            path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(self.target / asset["destination"], path)
+        build_search(destination, self.assets)
+        return (destination / "SEARCH/library.owl").read_bytes()
+
+    def test_interrupted_unit_rolls_back_postings_and_truncates_records_on_resume(self):
+        self.checkpoint_book()
+        original_add = search._add_record
+        calls = 0
+        def interrupt(*args, **kwargs):
+            nonlocal calls
+            value = original_add(*args, **kwargs)
+            calls += 1
+            if calls == 3:
+                raise KeyboardInterrupt
+            return value
+        with patch("owl.search.CHECKPOINT_UNITS", 2), patch("owl.search._add_record", side_effect=interrupt):
+            with self.assertRaises(KeyboardInterrupt):
+                build_search(self.target, self.assets)
+        self.assertFalse((self.target / "SEARCH/library.owl").exists())
+        self.assertFalse((self.target / "SEARCH/coverage.json").exists())
+        job, _, _ = search._job_paths(self.target, None)
+        with sqlite3.connect(job / "build.sqlite3") as db:
+            state = json.loads(db.execute("SELECT data FROM checkpoint").fetchone()[0])
+            self.assertEqual(state["unit_cursor"], 2)
+            self.assertEqual(db.execute("SELECT COUNT(*) FROM docs").fetchone()[0], 2)
+            for query in ("SELECT offset,size FROM docs ORDER BY id",
+                          "SELECT flags FROM docs ORDER BY id",
+                          "SELECT term,doc,tf,dl FROM postings ORDER BY term,doc",
+                          "SELECT * FROM lexicon ORDER BY id",
+                          "SELECT offset,size FROM lex_offsets ORDER BY id"):
+                plan = db.execute("EXPLAIN QUERY PLAN " + query).fetchall()
+                self.assertFalse(any("TEMP B-TREE" in str(row) for row in plan), plan)
+        with search._database(job / "build.sqlite3") as db:
+            self.assertEqual(db.execute("PRAGMA temp_store").fetchone()[0], 2)
+        with (job / "records.bin").open("ab") as handle:
+            handle.write(b"uncommitted crash tail")
+        self.assertGreater(checkpoint_usage(self.target)["scratch_bytes"], 0)
+        unrelated = job / "unrelated.txt"
+        unrelated.write_text("keep this", encoding="utf-8")
+        starts = []
+        original_units = search._units
+        def units(path, asset, coverage, start=0):
+            starts.append(start)
+            yield from original_units(path, asset, coverage, start)
+        with patch("owl.search._units", side_effect=units):
+            resumed = build_search(self.target, self.assets)
+        self.assertEqual(starts, [2])
+        self.assertEqual(resumed["documents"], 6)
+        self.assertEqual((self.target / "SEARCH/library.owl").read_bytes(), self.clean_index_bytes())
+        self.assertEqual(checkpoint_usage(self.target), {"scratch_bytes": 0, "output_bytes": 0})
+        self.assertEqual(unrelated.read_text(encoding="utf-8"), "keep this")
+
+    def test_hard_process_exit_recovers_last_committed_extraction(self):
+        self.checkpoint_book()
+        script = self.target / "crash.py"
+        script.write_text("""
+import json, os, sys
+from pathlib import Path
+import owl.search as search
+search.CHECKPOINT_UNITS = 2
+open_database = search._database
+def database(path):
+    db = open_database(path)
+    db.execute('PRAGMA cache_size=1')
+    return db
+search._database = database
+original = search._add_record
+calls = 0
+def add(*args, **kwargs):
+    global calls
+    result = original(*args, **kwargs)
+    calls += 1
+    if calls == 3:
+        os._exit(91)
+    return result
+search._add_record = add
+search.build_search(Path(sys.argv[1]), json.loads(sys.argv[2]))
+""", encoding="utf-8")
+        env = dict(os.environ, PYTHONPATH=str(Path(search.__file__).resolve().parents[1]))
+        result = subprocess.run([sys.executable, str(script), str(self.target), json.dumps(self.assets)],
+                                env=env, capture_output=True, text=True, encoding="utf-8")
+        self.assertEqual(result.returncode, 91, result.stderr)
+        self.assertFalse((self.target / "SEARCH/library.owl").exists())
+        job, _, _ = search._job_paths(self.target, None)
+        self.assertTrue((job / "build.sqlite3-journal").is_file())
+        messages = []
+        report = build_search(self.target, self.assets, progress=messages.append)
+        self.assertEqual(report["documents"], 6)
+        self.assertTrue(any("2 checkpointed passages" in message for message in messages))
+        self.assertEqual((self.target / "SEARCH/library.owl").read_bytes(), self.clean_index_bytes())
+
+    def test_final_serialization_restarts_without_reextracting_complete_sources(self):
+        self.checkpoint_book()
+        def stop(message):
+            if message == "INDEX writing sorted postings":
+                raise KeyboardInterrupt
+        with self.assertRaises(KeyboardInterrupt):
+            build_search(self.target, self.assets, progress=stop)
+        self.assertGreater(checkpoint_usage(self.target)["output_bytes"], 0)
+        self.assertFalse((self.target / "SEARCH/library.owl").exists())
+        with patch("owl.search._units", side_effect=AssertionError("already extracted")):
+            build_search(self.target, self.assets)
+        self.assertEqual((self.target / "SEARCH/library.owl").read_bytes(), self.clean_index_bytes())
+
+    def test_complete_index_reuse_verifies_bytes_and_updates_missing_page(self):
+        self.add("plain.txt", "reusable source body")
+        original = build_search(self.target, self.assets)
+        (self.target / "SEARCH.html").unlink()
+        messages = []
+        with patch("owl.search._units", side_effect=AssertionError("unexpected extraction")):
+            reused = build_search(self.target, self.assets, progress=messages.append)
+        self.assertEqual(reused, original)
+        self.assertTrue((self.target / "SEARCH.html").is_file())
+        self.assertTrue(any(message.startswith("INDEX REUSE:") for message in messages))
+        with (self.target / "SEARCH/library.owl").open("r+b") as handle:
+            handle.seek(-1, 2)
+            handle.write(b"\xff")
+        rebuilt = build_search(self.target, self.assets)
+        self.assertEqual(rebuilt["index_sha256"], original["index_sha256"])
+
+    def test_interruption_before_completion_report_keeps_extraction_for_resume(self):
+        from owl.safety import atomic_write
+        self.add("plain.txt", "publication checkpoint body")
+        def write(path, data):
+            if path.name == "coverage.json":
+                raise KeyboardInterrupt
+            return atomic_write(path, data)
+        with patch("owl.safety.atomic_write", side_effect=write):
+            with self.assertRaises(KeyboardInterrupt):
+                build_search(self.target, self.assets)
+        self.assertFalse((self.target / "SEARCH/coverage.json").exists())
+        self.assertGreater(checkpoint_usage(self.target)["scratch_bytes"], 0)
+        with patch("owl.search._units", side_effect=AssertionError("already extracted")):
+            report = build_search(self.target, self.assets)
+        self.assertEqual(report["documents"], 1)
+        self.assertEqual((self.target / "SEARCH/library.owl").read_bytes(), self.clean_index_bytes())
+
+    def test_changed_bytes_metadata_and_dependencies_invalidate_reuse(self):
+        self.add("plain.txt", "first value")
+        previous = build_search(self.target, self.assets)
+        (self.target / "plain.txt").write_text("other value", encoding="utf-8")
+        changed = build_search(self.target, self.assets)
+        self.assertNotEqual(previous["build_fingerprint"], changed["build_fingerprint"])
+        self.assets[0]["title"] = "Different title"
+        metadata = build_search(self.target, self.assets)
+        self.assertNotEqual(metadata["build_fingerprint"], changed["build_fingerprint"])
+        with patch("owl.search.importlib.metadata.version", return_value="future-extractor"):
+            dependency = build_search(self.target, self.assets)
+        self.assertNotEqual(dependency["build_fingerprint"], metadata["build_fingerprint"])
+
+    def test_source_corruption_cannot_replace_verified_inventory_digest(self):
+        asset = self.add("plain.txt", "original verified input")
+        path = self.target / "plain.txt"
+        asset.update(sha256=hashlib.sha256(path.read_bytes()).hexdigest(), size_bytes=path.stat().st_size)
+        original = build_search(self.target, self.assets)
+        path.write_text("corrupted verified data", encoding="utf-8")
+        with self.assertRaisesRegex(SearchError, "checksum differs"):
+            build_search(self.target, self.assets)
+        self.assertEqual(hashlib.sha256((self.target / "SEARCH/library.owl").read_bytes()).hexdigest(),
+                         original["index_sha256"])
+        path.write_bytes(b"short")
+        with self.assertRaisesRegex(SearchError, "size differs"):
+            build_search(self.target, self.assets)
+
+    def test_changed_corpus_discards_only_owned_checkpoint_files(self):
+        self.checkpoint_book()
+        with patch("owl.search._serialize_index", side_effect=KeyboardInterrupt):
+            with self.assertRaises(KeyboardInterrupt):
+                build_search(self.target, self.assets)
+        self.assets[0]["title"] = "Changed metadata after interruption"
+        starts = []
+        original_units = search._units
+        def units(path, asset, coverage, start=0):
+            starts.append(start)
+            yield from original_units(path, asset, coverage, start)
+        with patch("owl.search._units", side_effect=units):
+            report = build_search(self.target, self.assets)
+        self.assertEqual(starts, [0])
+        self.assertEqual(report["documents"], 6)
+        self.assertEqual(self.read_index()[2][0]["title"], self.assets[0]["title"])
+
+    @unittest.skipUnless(importlib.util.find_spec("pypdf"), "pypdf not installed")
+    def test_pdf_resume_skips_committed_pages_and_keeps_warning_counts(self):
+        self.add("pages.pdf", "mock PDF")
+        calls = []
+        fail = True
+        class Page:
+            def __init__(self, number): self.number = number
+            def extract_text(self):
+                calls.append(self.number)
+                if fail and self.number == 2:
+                    raise KeyboardInterrupt
+                logging.getLogger("pypdf").warning("font notice page %d", self.number)
+                return f"Text from page {self.number}"
+        class Reader:
+            is_encrypted = False
+            pages = [Page(i) for i in range(5)]
+        with patch("pypdf.PdfReader", return_value=Reader()), patch("owl.search.CHECKPOINT_UNITS", 2):
+            with self.assertRaises(KeyboardInterrupt):
+                build_search(self.target, self.assets)
+            fail = False
+            calls.clear()
+            report = build_search(self.target, self.assets)
+        self.assertEqual(calls, [2, 3, 4])
+        self.assertEqual(report["assets"][0]["warning_count"], 5)
+        self.assertEqual([doc["page"] for doc in self.read_index()[2]], [1, 2, 3, 4, 5])
+
+    @unittest.skipUnless(importlib.util.find_spec("libzim"), "libzim optional extra not installed")
+    def test_zim_resume_counts_skipped_raw_entries_in_checkpoint_cursor(self):
+        from types import SimpleNamespace
+        self.add("entries.zim", "mock archive")
+        seen = []
+        fail = True
+        class Archive:
+            all_entry_count = 6
+            def __init__(self, path): pass
+            def _get_entry_by_id(self, entry_id):
+                seen.append(entry_id)
+                if fail and entry_id == 4:
+                    raise KeyboardInterrupt
+                item = SimpleNamespace(mimetype="image/png" if entry_id == 1 else "text/plain",
+                                       size=10, content=b"archive body")
+                return SimpleNamespace(is_redirect=entry_id == 0, path=f"entry{entry_id}",
+                                       title=f"Entry {entry_id}", get_item=lambda:item)
+        with patch("libzim.reader.Archive", Archive), patch("owl.search.CHECKPOINT_UNITS", 2):
+            with self.assertRaises(KeyboardInterrupt):
+                build_search(self.target, self.assets)
+            seen.clear()
+            fail = False
+            report = build_search(self.target, self.assets)
+        self.assertEqual(seen, [4, 5])
+        self.assertEqual(report["documents"], 4)
+
+    def test_unowned_or_symlink_checkpoint_is_never_deleted(self):
+        self.add("plain.txt", "checkpoint source")
+        job, part, _ = search._job_paths(self.target, None)
+        part.parent.mkdir()
+        part.write_text("unrelated existing file", encoding="utf-8")
+        with self.assertRaisesRegex(SearchError, "unowned"):
+            build_search(self.target, self.assets)
+        self.assertEqual(part.read_text(encoding="utf-8"), "unrelated existing file")
+        part.unlink()
+        with patch("owl.search._serialize_index", side_effect=KeyboardInterrupt):
+            with self.assertRaises(KeyboardInterrupt):
+                build_search(self.target, self.assets)
+        (job / "records.bin").unlink()
+        (job / "records.bin").symlink_to(self.target / "plain.txt")
+        with self.assertRaises(SafetyError):
+            checkpoint_usage(self.target)
+        with self.assertRaises(SafetyError):
+            build_search(self.target, self.assets)
+        self.assertEqual((self.target / "plain.txt").read_text(encoding="utf-8"), "checkpoint source")
 
     def test_missing_extractor_fails_before_writing(self):
         with patch("owl.search.importlib.util.find_spec", return_value=None):

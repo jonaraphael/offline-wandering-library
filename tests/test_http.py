@@ -4,15 +4,19 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 import hashlib
+import json
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+import os
 import tempfile
 import threading
 import unittest
 from unittest.mock import patch
+from urllib.error import URLError
 from urllib.request import ProxyHandler, build_opener
 
 from owl.download import DownloadError, download
+import owl.download as downloader
 
 
 @contextmanager
@@ -175,6 +179,83 @@ class HTTPDownloadTests(unittest.TestCase):
         self.assertEqual(self.destination.read_bytes(), previous)
         self.assertFalse(self.part.exists())
         self.assertFalse(self.partial_metadata.exists())
+
+    def test_user_interruption_flushes_prefix_and_preserves_resume_metadata(self):
+        class InterruptedResponse:
+            def __init__(self, response):
+                self.response, self.read_count = response, 0
+
+            def __getattr__(self, name):
+                return getattr(self.response, name)
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return self.response.__exit__(*args)
+
+            def read(self, count):
+                self.read_count += 1
+                if self.read_count == 2:
+                    raise KeyboardInterrupt
+                return self.response.read(count)
+
+        with loopback_server(self.payload) as (url, requests, _):
+            real_open, real_fsync = downloader.urlopen, os.fsync
+            with patch("owl.download.urlopen", side_effect=lambda *a, **kw: InterruptedResponse(real_open(*a, **kw))), \
+                    patch("owl.transfer.os.fsync", wraps=real_fsync) as synced:
+                with self.assertRaises(KeyboardInterrupt):
+                    self.fetch(url, retries=0)
+            self.assertGreaterEqual(synced.call_count, 2)  # Metadata and interrupted partial.
+            self.assertFalse(self.destination.exists())
+            self.assertEqual(self.part.read_bytes(), self.payload[:1024 * 1024])
+            self.assertEqual(json.loads(self.partial_metadata.read_text())["validator"], '"fixture-v1"')
+            self.fetch(url, retries=0)
+        self.assertEqual(requests[1]["range"], f"bytes={1024 * 1024}-")
+        self.assertEqual(self.destination.read_bytes(), self.payload)
+
+    def test_http_checkpoints_before_the_download_finishes(self):
+        real_fsync = os.fsync
+        synced_sizes = []
+
+        def record_sync(fd):
+            if self.part.exists():
+                synced_sizes.append(self.part.stat().st_size)
+            return real_fsync(fd)
+
+        with loopback_server(self.payload) as (url, _requests, _), \
+                patch("owl.transfer.CHECKPOINT_BYTES", 1024 * 1024), \
+                patch("owl.transfer.os.fsync", side_effect=record_sync):
+            self.fetch(url, retries=0)
+        self.assertIn(1024 * 1024, synced_sizes)
+        self.assertIn(2 * 1024 * 1024, synced_sizes)
+        self.assertEqual(self.destination.read_bytes(), self.payload)
+
+    def test_failed_http_attempt_retains_exact_prefix_for_later_run(self):
+        with loopback_server(self.payload, mode="truncate_first") as (url, requests, cut):
+            with self.assertRaisesRegex(DownloadError, "size mismatch"):
+                self.fetch(url, retries=0)
+            self.assertEqual(self.part.read_bytes(), self.payload[:cut])
+            self.assertTrue(self.partial_metadata.exists())
+            self.assertEqual(self.fetch(url, retries=0), self.digest)
+        self.assertEqual(requests[1]["range"], f"bytes={cut}-")
+
+    def test_replaced_transfer_directory_is_not_recreated_or_written_on_retry(self):
+        spool = self.root / "spool"
+        self.destination = spool / "asset"
+        retained = self.root / "original-spool"
+
+        def disconnect(*_args, **_kwargs):
+            spool.rename(retained)
+            spool.mkdir()  # Same path, another inode/filesystem after unmount.
+            raise URLError("network unavailable")
+
+        with patch("owl.download.urlopen", side_effect=disconnect) as opened:
+            with self.assertRaisesRegex(DownloadError, "directory changed"):
+                self.fetch("https://example.org/fixture", retries=1)
+        self.assertEqual(opened.call_count, 1)
+        self.assertEqual(list(spool.iterdir()), [])
+        self.assertTrue(retained.is_dir())
 
 
 if __name__ == "__main__":

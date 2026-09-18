@@ -25,17 +25,18 @@ python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY \
 
 # The existing directly readable collection has verified download assets.
 python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY \
-    --profile critical-64gb \
-    --cache-dir ~/.cache/offline-wandering-library
+    --profile critical-64gb
 
 python scripts/verify.py /path/to/EMERGENCY_LIBRARY
 ```
 
-Replace `/path/to/EMERGENCY_LIBRARY` with a directory on the SSD. Nothing requires root privileges. A build can take many hours or days depending on the selected archives, connection, SSD, and indexing workload. Use a stable connection, adequate power, and enough temporary space on the build computer. The build reports its storage estimate and checks free space before proceeding. Installed commands `owl-build`, `owl-validate`, and `owl-verify` expose the same tools.
+Replace `/path/to/EMERGENCY_LIBRARY` with a directory on the SSD. Nothing requires root privileges. A build can take many hours or days depending on the selected archives, connection, SSD, and indexing workload. The default builds **in place on the SSD**: downloads, partial files, and persistent search checkpoints stay there. No full library copy or large indexing scratch directory on the computer is required. The SSD needs room for content, the finished index, temporary indexing work, and the profile reserve; the plan checks these allocations together. Installed commands `owl-build`, `owl-validate`, and `owl-verify` expose the same tools.
 
 The larger profiles now describe the planned 46-resource library. Many requested collections still need verified downloadable packages, licenses, or complete asset coverage. A normal build refuses an incomplete selection. Inspect `--plan`, adjust the include/exclude choices, or explicitly choose a partial build with `--allow-incomplete`; the larger profile names do not mean those collections have already been acquired.
 
-The optional cache stores downloaded assets so that a second drive can be built without fetching them again. It consumes additional disk space. Interrupted HTTP downloads use `.part` files and resume when the source supports byte ranges. Hashes are checked before completed files are accepted. Repeating the command reuses verified content and regenerates the library’s navigation and search artifacts.
+**Pause with Ctrl-C, wait for the terminal prompt, then rerun the same command to continue.** Verified files are reused; HTTP downloads resume where the source supports byte ranges; interrupted local transfers validate their saved prefix before continuing. Search extraction resumes from durable checkpoints, and an unchanged completed index is reused after verification. Network failures receive bounded retries, then exit with work retained for the next run. See [pause and resume](docs/usage.md#pause-and-resume) for exact checkpoint boundaries and laptop/drive handling.
+
+`--cache-dir` is optional and stores another copy of downloaded assets. `--work-dir` optionally relocates persistent indexing scratch. Omit both for an entirely in-place build; they are not prerequisites for large libraries. A second SSD can be copied directly from a completed first SSD with `python scripts/copy_drive.py SOURCE TARGET`, with verified reuse and resumable transfers, without internal-disk staging or rerunning search extraction.
 
 The `zim` extra provides full-text extraction from ZIM archives. For the directly readable `critical-64gb` profile, a minimal installation is sufficient:
 
@@ -60,7 +61,7 @@ All three larger defaults select full English Wikipedia. Compact allocates 10 GB
 
 The full profile allocates an additional **60 GB to directly readable HTML, PDFs, and images** through `direct-reading-expansion`. This plans ordinary-format editions or exports from selected Appropedia, CD3WD, iFixit, LibreTexts, and Wikibooks content, plus an expanded small direct-reading Wikipedia subset. The preferences apply to selected resources. These copies would retain useful diagrams and images and could be opened without a ZIM reader. The expansion is unresolved: no exporter or complete verified package is implemented, and this allocation does not trigger automatic expansion of all Wikipedia articles. Exclude the optional allocation with `--exclude direct-reading-expansion` if desired.
 
-**The content targets do not prove that a full Wikipedia search index fits.** Index and scratch-space budgets are estimates, and full-corpus size and performance have not been established. Full-text indexing can produce more bytes than the compressed archive. The builder checks available space and actual final capacity; a drive that exceeds the budget cannot be declared complete merely because its content target looked suitable.
+**The content targets do not prove that a full Wikipedia search index fits.** Index and scratch-space budgets are estimates, and full-corpus size and performance have not been established. Full-text indexing can produce more bytes than the compressed archive. The builder checks available space and actual final capacity; a drive that exceeds the budget cannot be declared complete merely because its content target looked suitable. The plan also reports peak in-place storage, including scratch. The complete proposed larger selections currently exceed their nominal capacities under the conservative scratch allowances; those working-space budgets and the final include list still need tuning and measurement. The tool does not silently move scratch to the computer or promise that every target fits.
 
 The initial critical collection includes FEMA CERT material, WHO Basic Emergency Care, EPA water treatment guidance, CDC sanitation information, USDA food-preservation and agriculture references, open electrical textbooks, the FAA maintenance handbook, FEMA shelter material, and USGS navigation references. Critical topics include first aid, medicine, water and sanitation, food, agriculture, repair, electrical work, shelter, navigation, and reference material. Coverage is a curated starting point, not a guarantee that every situation is addressed.
 
@@ -96,8 +97,7 @@ To deliberately build only the verified assets available from an incomplete targ
 
 ```bash
 python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY \
-    --profile compact-256gb --allow-incomplete \
-    --cache-dir ~/.cache/offline-wandering-library
+    --profile compact-256gb --allow-incomplete
 ```
 
 `--allow-incomplete` records `content_complete: false` in the build information and inventory when selected collections are missing or partial. `START_HERE.html` displays that status, and the inventory explains each resource's coverage. Files that are actually included must still download successfully and pass their integrity checks. Successful verification of those files does not turn a partial content selection into the complete planned library.

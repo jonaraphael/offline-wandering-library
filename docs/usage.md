@@ -39,33 +39,120 @@ Selecting resolved ZIM assets automatically brings `archive-readers` into the pl
 
 A normal build stops when selected resources are unresolved or only partially represented. You can revise the selection, resolve the missing source metadata, or explicitly accept a partial content build with `--allow-incomplete`. That option does not waive download checks or file integrity. It records incomplete content selection in the inventory and build information and places a notice on the landing page.
 
-## Build and resume
+## Build in place on the SSD
 
 ```bash
 python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
-    --profile critical-64gb \
-    --cache-dir /path/to/cache \
-    --work-dir /path/to/build-scratch
+    --profile critical-64gb
 ```
 
 For an explicitly partial build of a larger target selection:
 
 ```bash
 python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
-    --profile standard-512gb --allow-incomplete \
-    --cache-dir /path/to/cache \
-    --work-dir /path/to/build-scratch
+    --profile standard-512gb --allow-incomplete
 ```
 
-The cache and scratch directories should have sufficient free space; putting them on the build computer can reduce removable-drive I/O. Scratch storage is used to construct search, including a build-time SQLite database. No database service or server is required, and the finished drive does not need SQLite to run search.
+The SSD is the build workspace and finished product. By default, downloaded
+partials live under `.owl/downloads/`, search checkpoints under `.owl/work/`, and
+the unfinished search output under `SEARCH/`. A verified download is renamed
+into its final location on the same SSD without copying it through the computer.
+SQLite's persistent database and rollback journal stay in the chosen workspace;
+index construction does not spill large sorting files into the computer's OS
+temporary directory. No local server or database service is required.
 
-Capacity planning uses decimal drive capacity, the profile's reserve, exact known asset sizes, a search budget, and build overhead. Planned collection allocations are shown separately from known asset bytes. Free-space checks additionally allow for search scratch storage; allocations sharing one filesystem are added together, including cache and external scratch. Caching needs another copy of downloaded content.
+Do not add `--cache-dir` merely to enable resumption: the default already resumes.
+A cache is an optional additional asset copy. `--work-dir` optionally relocates
+search scratch when space is available elsewhere; the default is the SSD.
+Keep either optional directory between runs if you use it.
 
-The content targets and search budgets do not establish that a full Wikipedia index fits on the corresponding SSD. Index size can exceed the compressed source size, and the complete target corpus has not been benchmarked. Keep extra scratch space available and review the actual final-capacity check. `--allow-incomplete` permits content gaps, not an over-capacity drive or a failed integrity check.
+Capacity planning uses decimal capacity, exact available asset sizes, a search
+budget, scratch allowance, and free-space reserve. Allocations on the same
+filesystem are added together. Existing owned partials and search checkpoints
+are credited against new allocation needs, while retained previous versions
+still occupy space. The plan distinguishes final size from peak in-place build
+space. Current complete proposed larger selections exceed nominal-drive capacity
+under the conservative scratch allowances, even though their final-content
+budgets fit. The final include list and working-space requirements must be
+measured and reconciled before calling those complete targets achievable in
+place. Available-file partial builds are checked against their actual allocations.
+The builder neither redirects scratch to the computer automatically nor shrinks
+or silently omits selected content to force a fit.
 
-If a connection fails, rerun the same command. Downloads stream to partial files and request HTTP byte ranges where supported. A source that ignores the range is downloaded from the beginning instead of blindly appending bytes. Files are accepted only after the builder’s checks and then renamed into place. Checksum failures are errors, not successful builds.
+Search size can exceed the compressed source size. Budgets are estimates, not
+hard upper bounds; insufficient space can still stop a build. Files and durable
+checkpoints remain for a later retry after freeing unrelated space yourself or
+choosing a fitting recipe. OWL never automatically prunes personal files.
 
-The cache stores downloaded bytes, not an alternative authoritative catalog. Hashes are rechecked before reuse. Drive files already present and verified can be reused. The builder preserves unrelated files and refuses unsafe paths or output collisions. Do not rename or edit the managed library while a build is running. A target lock prevents concurrent builds. Remove a stale lock only after confirming no builder is running; do not remove a lock to bypass an active build.
+## Pause and resume
+
+1. Press **Ctrl-C once** to pause. Wait for the pause message and terminal prompt.
+2. If disconnecting the SSD, use the operating system's safe-eject command.
+3. Reconnect the same SSD, confirm its mount path, and rerun the **same command**.
+   Keep the same catalog, selection, cache, and work-directory arguments. No
+   `--resume` flag is needed.
+
+This also lets you release the computer for another task. Normal OS sleep pauses
+the process; after wake, broken network connections enter the retry path. For a
+predictable stop before closing a laptop, pausing and safely ejecting first avoids
+relying on how that laptop powers its USB ports during sleep. Terminal close and
+termination signals use cooperative cleanup where the OS delivers them. A forced
+kill or power cut cannot run cleanup, but prior durable checkpoints remain.
+
+| Interrupted phase | Behavior on the next run |
+| --- | --- |
+| Download | Reuse verified files; resume `.part` bytes with HTTP Range where supported. A server that ignores ranges causes that file to restart safely. |
+| Local/cache copy | Compare the saved prefix with the source, append the missing suffix, then check the completed file's SHA-256 before promotion. |
+| PDF, EPUB, or ZIM extraction | Resume at the saved page, member, or raw archive-entry cursor. Checkpoints occur every 50 units or five seconds at a unit boundary. Work after the last durable checkpoint repeats. |
+| Plain text or HTML extraction | Resume after completed files; the current file restarts. |
+| Final search-index assembly | Reassemble from retained extracted text and postings; extraction does not repeat. |
+| Unchanged completed search index | Verify input bytes, metadata/toolchain fingerprint, and index hash, then reuse. |
+| Static pages, checksums, final verification | Regenerate small pages and repeat integrity checks as needed. Hashing itself is not checkpointed. |
+
+Transfers flush durable checkpoints every 64 MiB or five seconds between chunks,
+and on cooperative interruption. An unusually slow PDF page, decompression, or
+blocked OS I/O can delay a checkpoint or interrupt response. Reopening and hashing
+large existing files can take substantial time even when no download is needed;
+files are not trusted merely because their name, size, or timestamp matches.
+Changing content, selection metadata, or extractor versions invalidates the
+extraction checkpoint deliberately.
+
+An internet outage gets bounded retries with backoff. If retries are exhausted,
+the command exits with an error and retains resumable work. Restore the connection
+and rerun; there is no background daemon or requirement to keep it running.
+
+`.owl/state.json` records the phase and stays incomplete until final verification.
+The independent verifier reports an incomplete build or copy as `FAILED`, even
+if all previous files still match. Existing completed files stay in place until
+verified replacements are ready; an update is atomic per file, not per whole SSD.
+Treat the library as finished only after the command completes and verification
+passes. Do not edit managed files while a build is active.
+
+OS-held locks prevent concurrent writers and release automatically when a process
+exits or is killed. Lock files remain on disk by design; **do not delete them**.
+Directory identity checks stop writes if a mounted build directory disappears or
+is replaced, rather than recreating its path on the computer. These checks cannot
+make an unsafe unplug or damaged exFAT filesystem transactional: reconnect the
+original drive, address filesystem errors if necessary, and verify before use.
+
+## Copy directly to a second SSD
+
+A finished SSD can supply a second SSD without a full copy on the computer:
+
+```bash
+python scripts/copy_drive.py /media/FIRST/EMERGENCY_LIBRARY \
+    /media/SECOND/EMERGENCY_LIBRARY
+python scripts/verify.py /media/SECOND/EMERGENCY_LIBRARY
+```
+
+`owl-copy SOURCE TARGET` is the same command. It copies checksum-listed files,
+including the existing index, and preserves their bytes exactly. It skips verified
+target files, checkpoints owned partials on the destination SSD, copies the
+checksum manifest last, and marks interrupted copies incomplete. Ctrl-C and the
+same command resume it. No downloads or extraction are involved. Unknown personal
+files are preserved and are not copied. Source libraries retaining `.owl` state
+need writable access for their concurrency lock. An intentionally partial-content
+library remains partial after copying; copying does not fill missing collections.
 
 Custom recipes use `--catalog /path/to/catalog.yaml`, `--profiles-dir /path/to/profiles`, and optionally `--resources-catalog /path/to/resources.yaml`. The registry defaults to `resources.yaml` beside the asset catalog. Use versioned, immutable URLs and known SHA-256 hashes where possible. `--allow-local` explicitly permits local test assets; it is useful for tiny demonstration builds and is not needed for ordinary public-source builds.
 
