@@ -23,6 +23,7 @@ jobs:
       - run: python scripts/validate_catalog.py
       - run: python scripts/validate_catalog.py catalog/demo.yaml --allow-local
       - run: python scripts/build_selector.py --check
+      - run: python scripts/build_content_docs.py --check
       - run: python scripts/build_drive.py "${{ runner.temp }}/owl-demo" --catalog catalog/demo.yaml --profile demo --allow-local --navigation-dir catalog/demo-navigation --strict-coverage
       - run: python scripts/build_atlas.py "${{ runner.temp }}/owl-demo" --catalog catalog/demo.yaml --allow-local --navigation-dir catalog/demo-navigation --strict-coverage
       - run: python scripts/verify.py "${{ runner.temp }}/owl-demo" --strict

@@ -1,4 +1,4 @@
-# Starter browsing vocabulary, not a finalized include list.
+# Browsing vocabulary: whole publisher documents, not inferred sections or figures.
 schema_version: 1
 entrances:
   subjects:
@@ -86,15 +86,13 @@ topics:
   aliases: []
 - id: learn-foundations
   title: Learn the foundations
-  description: Textbooks organized by subject. Illustrated assets retain their original
-    figures.
+  description: Textbooks organized by subject. Illustrated assets retain their original figures.
   parents: []
   related: []
   aliases: []
 - id: first-aid
   title: First aid and preparedness training
-  description: CERT participant training material. Consult the original manual for
-    audience and limitations.
+  description: CERT participant training material. Consult the original manual for audience and limitations.
   parents:
   - health
   related:
@@ -104,8 +102,8 @@ topics:
   - First response
 - id: emergency-care
   title: Emergency care
-  description: Basic Emergency Care training and medical reference collections. Training
-    resources retain their original audience and scope.
+  description: Basic Emergency Care training and medical reference collections. Training resources retain
+    their original audience and scope.
   parents:
   - health
   related:
@@ -145,8 +143,7 @@ topics:
   - Food storage
 - id: canning
   title: Home canning
-  description: Complete source volumes; use the original publication for procedures
-    and limitations.
+  description: Complete source volumes; use the original publication for procedures and limitations.
   parents:
   - food-preservation
   related: []
@@ -303,8 +300,7 @@ topics:
   aliases: []
 - id: maintenance
   title: Mechanical maintenance
-  description: General aviation-maintenance training and repair references; retain
-    each source's own scope.
+  description: General aviation-maintenance training and repair references; retain each source's own scope.
   parents:
   - repair
   related:
@@ -389,9 +385,175 @@ topics:
   aliases: []
 - id: readers
   title: Archive readers and software
-  description: Bundled reader packages; installation and platform requirements still
-    apply.
+  description: Bundled reader packages; installation and platform requirements still apply.
   parents:
   - reference
   related: []
+  aliases: []
+- id: chemical-safety
+  title: Chemical hazards and occupational safety
+  description: Occupational chemical-hazard reference tables and safety information; retain the source
+    edition and limitations.
+  parents:
+  - health
+  - reference
+  related: []
+  aliases: []
+- id: community-environment
+  title: Community environmental health
+  description: Community environmental-health books, retaining the publisher’s social, geographic and
+    practical context.
+  parents:
+  - health
+  - water-hygiene
+  related: []
+  aliases: []
+- id: dental-care
+  title: Dental health
+  description: Community dental-health education and clinical training references; retain each publication’s
+    intended audience.
+  parents:
+  - health
+  related: []
+  aliases: []
+- id: disability-support
+  title: Children and disability support
+  description: Disability, rehabilitation and community-support references for children and caregivers.
+  parents:
+  - health
+  related: []
+  aliases: []
+- id: vision-support
+  title: Supporting children with visual impairments
+  description: Development, communication and family support for children who are blind or have limited
+    vision.
+  parents:
+  - health
+  related: []
+  aliases: []
+- id: health-worker-education
+  title: Learning and teaching community health
+  description: Health-worker training, participatory education and teaching references.
+  parents:
+  - health
+  - learn-foundations
+  related: []
+  aliases: []
+- id: midwifery
+  title: Midwifery and newborn care
+  description: Midwifery, obstetric and newborn-care references, retaining their training requirements
+    and original limitations.
+  parents:
+  - health
+  related: []
+  aliases: []
+- id: womens-health
+  title: Women’s health
+  description: Complete community women’s-health references and publisher chapter files.
+  parents:
+  - health
+  related: []
+  aliases: []
+- id: clinical-medicine
+  title: Clinical and community medicine
+  description: General diagnosis, treatment and community-health reference works; use within their stated
+    scope.
+  parents:
+  - health
+  related: []
+  aliases: []
+- id: medicines
+  title: Medicines references
+  description: Original essential-drug manuals for trained health workers; publication dates and limitations
+    remain visible.
+  parents:
+  - health
+  related: []
+  aliases: []
+- id: infectious-disease
+  title: Infectious disease and outbreak response
+  description: Disease-specific clinical and outbreak-management manuals.
+  parents:
+  - health
+  related: []
+  aliases: []
+- id: public-health-engineering
+  title: Public health engineering
+  description: Engineering and environmental-health references for humanitarian settings.
+  parents:
+  - health
+  - water-hygiene
+  related: []
+  aliases: []
+- id: crop-production
+  title: Crop production and farming
+  description: Practical crop-production training and integrated farming references with their regional
+    context retained.
+  parents:
+  - food-growing
+  related: []
+  aliases: []
+- id: soil-compost
+  title: Soil and compost
+  description: Practical composting, vermicompost and soil-management manuals.
+  parents:
+  - food-growing
+  related: []
+  aliases: []
+- id: seed-storage
+  title: Seed storage
+  description: Seed handling, drying, storage, pests and storage structures.
+  parents:
+  - food-growing
+  related: []
+  aliases: []
+- id: irrigation
+  title: Irrigation
+  description: Irrigation planning, design, operation and maintenance references.
+  parents:
+  - food-growing
+  - water-hygiene
+  related: []
+  aliases: []
+- id: small-livestock
+  title: Small-scale livestock and poultry
+  description: Practical small-scale animal-production references.
+  parents:
+  - food-growing
+  related: []
+  aliases: []
+- id: aquaponics
+  title: Aquaponics
+  description: Integrated fish and plant farming, water quality and system construction.
+  parents:
+  - food-growing
+  related: []
+  aliases: []
+- id: astronomy
+  title: Astronomy
+  description: Foundational astronomy textbooks with original illustrations.
+  parents:
+  - science
+  - learn-foundations
+  related: []
+  aliases: []
+- id: computing
+  title: Computing and software development
+  description: Computer and software-development textbooks and manuals.
+  parents:
+  - reference
+  - learn-foundations
+  related: []
+  aliases: []
+- id: humanitarian-response
+  title: Humanitarian response standards
+  description: Humanitarian-response standards, rights and accountability, with sector guidance in its
+    original context.
+  parents:
+  - reference
+  related:
+  - health
+  - water-hygiene
+  - food-growing
+  - shelter
   aliases: []

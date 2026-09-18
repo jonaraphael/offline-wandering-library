@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Reproducible, directly readable offline emergency SSD libraries"
 requires-python = ">=3.11"
 license = {text = "MIT"}
-dependencies = ["PyYAML>=6.0.2,<7", "pypdf>=6.10,<7", "fonttools>=4.60,<5"]
+dependencies = ["PyYAML>=6.0.2,<7", "pypdf[crypto]>=6.10,<7", "fonttools>=4.60,<5"]
 
 [project.optional-dependencies]
 zim = ["libzim>=3.7,<4"]
@@ -21,6 +21,7 @@ owl-copy = "owl.copy:main"
 owl-atlas = "owl.atlas_build:main"
 owl-import-sections = "owl.atlas_import:main"
 owl-selector = "owl.selector:main"
+owl-export-direct = "owl.export_direct:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

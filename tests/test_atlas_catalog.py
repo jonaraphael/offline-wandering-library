@@ -100,10 +100,35 @@ class ProductionAtlasCatalogTests(unittest.TestCase):
                 expected_sections = sum(len(mapping["sections"]) for identity, mapping
                                         in self.navigation["sections"].items() if identity in ids)
                 self.assertEqual(report["included_section_count"], expected_sections)
-                self.assertNotIn("map_osm_world", report["mapped_asset_ids"])
-                self.assertNotIn("map_osm_north_america", report["mapped_asset_ids"])
-                self.assertNotIn("regional-maps", report["included_topic_ids"])
+                # Map archives are now pinned sources. Navigation follows the
+                # actual selection, including world-for-regional replacement.
+                for asset_id in ("map_osm_world", "map_osm_north_america"):
+                    self.assertEqual(asset_id in report["mapped_asset_ids"], asset_id in ids)
+                self.assertEqual("regional-maps" in report["included_topic_ids"],
+                                 bool(ids & {"map_osm_north_america", "regional_topographic_maps"}))
+                self.assertEqual("world-maps" in report["included_topic_ids"], "map_osm_world" in ids)
                 self.assertTrue(pages)
+
+    def test_acquired_publisher_documents_have_relevant_whole_file_routes(self):
+        families = {
+            "hesperian_en_dent_": "dental-care", "hesperian_en_midw_": "midwifery",
+            "hesperian_en_dvc_": "disability-support", "hesperian_en_hcwb_": "vision-support",
+            "hesperian_en_cgeh_": "community-environment", "hesperian_en_hhwl_": "health-worker-education",
+            "hesperian_en_wtnd_": "clinical-medicine", "hesperian_en_wwhnd_": "womens-health",
+            "who_emergency_": "emergency-care",
+        }
+        pairs = {(row["asset_id"], row["topic_id"]) for row in self.navigation["assignments"]}
+        for prefix, topic in families.items():
+            assets = [asset for asset in self.assets if asset["id"].startswith(prefix)]
+            self.assertTrue(assets, prefix)
+            self.assertTrue(all((asset["id"], topic) in pairs for asset in assets), prefix)
+        for asset_id, topic in {
+            "docs_progit": "computing", "openstax_astronomy_2e": "astronomy",
+            "openstax_physics": "physics", "openstax_microbiology": "biology",
+            "fao_compost_en": "soil-compost", "fao_poultry": "small-livestock",
+            "fao_seed_storage": "seed-storage", "fao_aquaponics": "aquaponics",
+        }.items():
+            self.assertIn((asset_id, topic), pairs)
 
     def test_starter_whole_document_routes_do_not_invent_sections_or_figures(self):
         self.assertFalse(self.navigation["sections"], "Review this starter-policy test when reviewed maps are published")

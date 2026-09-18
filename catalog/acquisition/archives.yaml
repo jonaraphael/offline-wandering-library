@@ -1,0 +1,1157 @@
+# Verified archive pins and resource merge instructions; no dataset bytes are stored here.
+schema_version: 1
+assets:
+- id: wikem_en
+  title: WikEM emergency medicine (illustrated archive)
+  category: medical
+  format: zim
+  source_url: https://download.kiwix.org/zim/other/wikem_en_all_maxi_2026-07.zim
+  destination: ZIM/OTHER/wikem_en_all_maxi_2026-07.zim
+  version: 2026-07
+  size_bytes: 374632362
+  sha256: 7bbdd705544616df1ff37f8b4e0e5382e7b4d92532feecea42227af4169fbd7f
+  license: CC-BY-SA-4.0; individual media notices apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: WikEM contributors
+  source_page: https://wikem.org/wiki/WikEM:Copyrights
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: WikEM contributors; packaged by Kiwix/openZIM. Retain article authorship, sources, CC-BY-SA-4.0
+    license and media notices.
+  description: July 2026 published reference snapshot. Requires a ZIM reader; complements the directly
+    readable critical medical collection. Clinical information can become outdated.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/other/wikem_en_all_maxi_2026-07.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/other/wikem_en_all_maxi_2026-07.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/other/wikem_en_all_maxi_2026-07.zim
+- id: map_osm_north_america
+  title: North America OpenStreetMap offline map
+  category: maps
+  format: zim
+  source_url: https://download.kiwix.org/zim/maps/maps_en_north-america_2026-08.zim
+  destination: MAPS/North_America_OSM.zim
+  version: 2026-08
+  size_bytes: 22652513201
+  sha256: 5df0e47180e540473373f3cc82e4280dfd79f1f61327ca00399d4be6050afd0e
+  license: ODbL-1.0 (OpenStreetMap data); bundled map software has separate licenses
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: OpenStreetMap contributors; Kiwix/openZIM
+  source_page: https://www.openstreetmap.org/copyright
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: © OpenStreetMap contributors, https://www.openstreetmap.org/copyright; ODbL-1.0. Map archive
+    produced by Kiwix/openZIM; preserve all bundled software and map attribution notices.
+  description: Published maps2zim archive with offline map data and city search. Requires a compatible
+    reader with JavaScript support. This is not a regional GeoPDF/topographic selection; no routing, GPS
+    or street-level completeness guarantee. Preserve bundled credits and software notices.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/maps/maps_en_north-america_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/maps/maps_en_north-america_2026-08.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/maps/maps_en_north-america_2026-08.zim
+- id: map_osm_world
+  title: World OpenStreetMap offline map
+  category: maps
+  format: zim
+  source_url: https://download.kiwix.org/zim/maps/maps_en_all_2026-06.zim
+  destination: MAPS/World_OSM.zim
+  version: 2026-06
+  size_bytes: 77731456103
+  sha256: 399cf845a889018607423562ab467b2ece55b5532af4f5e105a07093866f2655
+  license: ODbL-1.0 (OpenStreetMap data); bundled map software has separate licenses
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: OpenStreetMap contributors; Kiwix/openZIM
+  source_page: https://www.openstreetmap.org/copyright
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: © OpenStreetMap contributors, https://www.openstreetmap.org/copyright; ODbL-1.0. Map archive
+    produced by Kiwix/openZIM; preserve all bundled software and map attribution notices.
+  description: Published maps2zim archive with offline map data and city search. Requires a compatible
+    reader with JavaScript support. This is not a regional GeoPDF/topographic selection; no routing, GPS
+    or street-level completeness guarantee. Preserve bundled credits and software notices.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/maps/maps_en_all_2026-06.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/maps/maps_en_all_2026-06.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/maps/maps_en_all_2026-06.zim
+- id: cd3wd_en
+  title: CD3WD appropriate-development library (2025-11 archive)
+  category: reference
+  format: zim
+  source_url: https://download.kiwix.org/zim/zimit/cd3wdproject.org_en_all_2025-11.zim
+  destination: ZIM/OTHER/cd3wdproject.org_en_all_2025-11.zim
+  version: 2025-11
+  size_bytes: 581165229
+  sha256: f79a27413af0bd17d14adb3a556d282515a8bc1e127d791a5961c93ea9167b92
+  license: Mixed original publication rights; project offers free access and dissemination; no uniform
+    redistribution license asserted
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: CD3WD Project and original publication authors
+  source_page: https://www.cd3wdproject.org/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: CD3WD Project, founded by Alex Weir, and the original publication authors/publishers. Preserve
+    every original credit and rights notice. No blanket CC license is assigned by OWL.
+  description: Unmodified Kiwix archive of the current CD3WD Project website for personal offline reading.
+    This 581 MB site snapshot is not the historical multi-DVD collection. Original PDFs/HTML have not
+    yet been exported as ordinary files. redistributable=false records unverified collection-wide redistribution
+    rights, not a prohibition on personal download.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/zimit/cd3wdproject.org_en_all_2025-11.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/zimit/cd3wdproject.org_en_all_2025-11.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/zimit/cd3wdproject.org_en_all_2025-11.zim
+- id: libretexts_bio
+  title: LibreTexts Biology library
+  category: biology
+  format: zim
+  source_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_bio_2025-01.zim
+  destination: ZIM/OTHER/libretexts.org_en_bio_2025-01.zim
+  version: 2025-01
+  size_bytes: 2240946728
+  sha256: aa914c19a690429b5d41ccbc91ba8cf7bc2980211b998c8a4a82ef3a21375321
+  license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: LibreTexts and original authors
+  source_page: https://libretexts.org/terms-conditions
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: LibreTexts and original authors; packaged by Kiwix/openZIM. Retain each page/book attribution,
+    source link, license and version. Comply with all applicable stacked licenses.
+  description: Unmodified published subject archive for offline reading. Individual books and pages carry
+    their own open licenses, including noncommercial/share-alike terms; not a uniform CC-BY collection.
+    Separate ordinary PDF editions are not supplied by this archive pin.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_bio_2025-01.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_bio_2025-01.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_bio_2025-01.zim
+- id: libretexts_chem
+  title: LibreTexts Chemistry library
+  category: chemistry
+  format: zim
+  source_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_chem_2025-01.zim
+  destination: ZIM/OTHER/libretexts.org_en_chem_2025-01.zim
+  version: 2025-01
+  size_bytes: 2182916266
+  sha256: 83ba2fbfe36d72abe919661de5548103bb6674749bc26531cd61f83d8a825764
+  license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: LibreTexts and original authors
+  source_page: https://libretexts.org/terms-conditions
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: LibreTexts and original authors; packaged by Kiwix/openZIM. Retain each page/book attribution,
+    source link, license and version. Comply with all applicable stacked licenses.
+  description: Unmodified published subject archive for offline reading. Individual books and pages carry
+    their own open licenses, including noncommercial/share-alike terms; not a uniform CC-BY collection.
+    Separate ordinary PDF editions are not supplied by this archive pin.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_chem_2025-01.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_chem_2025-01.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_chem_2025-01.zim
+- id: libretexts_eng
+  title: LibreTexts Engineering library
+  category: engineering
+  format: zim
+  source_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_eng_2025-01.zim
+  destination: ZIM/OTHER/libretexts.org_en_eng_2025-01.zim
+  version: 2025-01
+  size_bytes: 678394631
+  sha256: 3d4b25d03082172f4793625163b366a7d21655a5f8868d0758a9c3649ce9d5c2
+  license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: LibreTexts and original authors
+  source_page: https://libretexts.org/terms-conditions
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: LibreTexts and original authors; packaged by Kiwix/openZIM. Retain each page/book attribution,
+    source link, license and version. Comply with all applicable stacked licenses.
+  description: Unmodified published subject archive for offline reading. Individual books and pages carry
+    their own open licenses, including noncommercial/share-alike terms; not a uniform CC-BY collection.
+    Separate ordinary PDF editions are not supplied by this archive pin.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_eng_2025-01.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_eng_2025-01.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_eng_2025-01.zim
+- id: libretexts_geo
+  title: LibreTexts Geosciences library
+  category: geology
+  format: zim
+  source_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_geo_2026-01.zim
+  destination: ZIM/OTHER/libretexts.org_en_geo_2026-01.zim
+  version: 2026-01
+  size_bytes: 1188116861
+  sha256: ffceff9d0d14dbd2e154c6734658257daf301bde18962ee0d87aa1dd0d5cfaef
+  license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: LibreTexts and original authors
+  source_page: https://libretexts.org/terms-conditions
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: LibreTexts and original authors; packaged by Kiwix/openZIM. Retain each page/book attribution,
+    source link, license and version. Comply with all applicable stacked licenses.
+  description: Unmodified published subject archive for offline reading. Individual books and pages carry
+    their own open licenses, including noncommercial/share-alike terms; not a uniform CC-BY collection.
+    Separate ordinary PDF editions are not supplied by this archive pin.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_geo_2026-01.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_geo_2026-01.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_geo_2026-01.zim
+- id: libretexts_math
+  title: LibreTexts Mathematics library
+  category: mathematics
+  format: zim
+  source_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_math_2026-01.zim
+  destination: ZIM/OTHER/libretexts.org_en_math_2026-01.zim
+  version: 2026-01
+  size_bytes: 830646230
+  sha256: 7a07f9a4c7ad1ca51c300d573bc74df27a5556f7c4c6fe9407bc337ad9b7b4c8
+  license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: LibreTexts and original authors
+  source_page: https://libretexts.org/terms-conditions
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: LibreTexts and original authors; packaged by Kiwix/openZIM. Retain each page/book attribution,
+    source link, license and version. Comply with all applicable stacked licenses.
+  description: Unmodified published subject archive for offline reading. Individual books and pages carry
+    their own open licenses, including noncommercial/share-alike terms; not a uniform CC-BY collection.
+    Separate ordinary PDF editions are not supplied by this archive pin.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_math_2026-01.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_math_2026-01.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_math_2026-01.zim
+- id: libretexts_med
+  title: LibreTexts Medicine library
+  category: medical
+  format: zim
+  source_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_med_2025-01.zim
+  destination: ZIM/OTHER/libretexts.org_en_med_2025-01.zim
+  version: 2025-01
+  size_bytes: 1192567339
+  sha256: 1def4fb3c76d347cfd2af9eabd8f8edefd24086cc17b476130f710214a5bbc1e
+  license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: LibreTexts and original authors
+  source_page: https://libretexts.org/terms-conditions
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: LibreTexts and original authors; packaged by Kiwix/openZIM. Retain each page/book attribution,
+    source link, license and version. Comply with all applicable stacked licenses.
+  description: Unmodified published subject archive for offline reading. Individual books and pages carry
+    their own open licenses, including noncommercial/share-alike terms; not a uniform CC-BY collection.
+    Separate ordinary PDF editions are not supplied by this archive pin.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_med_2025-01.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_med_2025-01.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_med_2025-01.zim
+- id: libretexts_phys
+  title: LibreTexts Physics library
+  category: physics
+  format: zim
+  source_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_phys_2026-01.zim
+  destination: ZIM/OTHER/libretexts.org_en_phys_2026-01.zim
+  version: 2026-01
+  size_bytes: 559554453
+  sha256: ace498581e085093cc86383439342d9ff5a4604bd87f6b82448c019e1264830f
+  license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: LibreTexts and original authors
+  source_page: https://libretexts.org/terms-conditions
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: LibreTexts and original authors; packaged by Kiwix/openZIM. Retain each page/book attribution,
+    source link, license and version. Comply with all applicable stacked licenses.
+  description: Unmodified published subject archive for offline reading. Individual books and pages carry
+    their own open licenses, including noncommercial/share-alike terms; not a uniform CC-BY collection.
+    Separate ordinary PDF editions are not supplied by this archive pin.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_phys_2026-01.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_phys_2026-01.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_phys_2026-01.zim
+- id: libretexts_stats
+  title: LibreTexts Statistics library
+  category: statistics
+  format: zim
+  source_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_stats_2026-01.zim
+  destination: ZIM/OTHER/libretexts.org_en_stats_2026-01.zim
+  version: 2026-01
+  size_bytes: 215779148
+  sha256: 39697d1ef60ee5ae24c5b54514e0e1b8f2255ed7d12ef273af825a7f2ed5c5e7
+  license: Mixed open licenses; retain each page/book license, attribution and any license-stack notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: LibreTexts and original authors
+  source_page: https://libretexts.org/terms-conditions
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: LibreTexts and original authors; packaged by Kiwix/openZIM. Retain each page/book attribution,
+    source link, license and version. Comply with all applicable stacked licenses.
+  description: Unmodified published subject archive for offline reading. Individual books and pages carry
+    their own open licenses, including noncommercial/share-alike terms; not a uniform CC-BY collection.
+    Separate ordinary PDF editions are not supplied by this archive pin.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_stats_2026-01.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_stats_2026-01.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_stats_2026-01.zim
+- id: wikiversity_en
+  title: English Wikiversity (illustrated archive)
+  category: education
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikiversity/wikiversity_en_all_maxi_2026-05.zim
+  destination: ZIM/OTHER/wikiversity_en_all_maxi_2026-05.zim
+  version: 2026-05
+  size_bytes: 2459209431
+  sha256: f2667509251c1784270c8c8dd0cd8a79d438a5c4940a6cc70653a6f77318a421
+  license: CC-BY-SA-4.0; individual content and media notices apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://en.wikiversity.org/wiki/Wikiversity:Copyrights
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; archive packaged by Kiwix/openZIM. Retain authorship, original
+    source links, license and individual media notices inside the unmodified archive.
+  description: Published English learning-resource archive with images. Requires a ZIM reader; does not
+    replace required directly readable textbooks.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/wikiversity/wikiversity_en_all_maxi_2026-05.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/wikiversity/wikiversity_en_all_maxi_2026-05.zim
+  - https://dumps.wikimedia.org/kiwix/zim/wikiversity/wikiversity_en_all_maxi_2026-05.zim
+- id: wikivoyage_en
+  title: English Wikivoyage (illustrated archive)
+  category: navigation
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikivoyage/wikivoyage_en_all_maxi_2026-09.zim
+  destination: ZIM/OTHER/wikivoyage_en_all_maxi_2026-09.zim
+  version: 2026-09
+  size_bytes: 1071168673
+  sha256: ebaf235b4f95aa7f8666e0a613578577569eb6c81562ebcf397a7ba52173c848
+  license: CC-BY-SA-4.0; individual content and media notices apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://en.wikivoyage.org/wiki/Wikivoyage:Copyleft
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; archive packaged by Kiwix/openZIM. Retain authorship, original
+    source links, license and individual media notices inside the unmodified archive.
+  description: September 2026 travel-reference snapshot. Border, safety, transport and business information
+    may change. External map links do not provide offline maps.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://mirror.download.kiwix.org/zim/wikivoyage/wikivoyage_en_all_maxi_2026-09.zim
+- id: wikisource_en
+  title: English Wikisource (illustrated archive)
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikisource/wikisource_en_all_maxi_2026-05.zim
+  destination: ZIM/OTHER/wikisource_en_all_maxi_2026-05.zim
+  version: 2026-05
+  size_bytes: 19663666206
+  sha256: 380e1bf94f26c69717ddfb2dea1accc9cb6e7184d03a51bf6f8a990e256571fe
+  license: Public-domain and freely licensed works; user contributions CC-BY-SA-4.0; individual notices
+    apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://en.wikisource.org/wiki/Wikisource:Copyright_policy
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; archive packaged by Kiwix/openZIM. Retain authorship, original
+    source links, license and individual media notices inside the unmodified archive.
+  description: Published English source-text archive. Retain individual work copyright tags; public-domain
+    status depends on jurisdiction. Requires a ZIM reader.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/wikisource/wikisource_en_all_maxi_2026-05.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/wikisource/wikisource_en_all_maxi_2026-05.zim
+  - https://dumps.wikimedia.org/kiwix/zim/wikisource/wikisource_en_all_maxi_2026-05.zim
+- id: world_factbook_en
+  title: The World Factbook (historical February 2026 archive)
+  category: reference
+  format: zim
+  source_url: https://download.kiwix.org/zim/other/theworldfactbook_en_all_2026-02.zim
+  destination: ZIM/OTHER/theworldfactbook_en_all_2026-02.zim
+  version: 2026-02
+  size_bytes: 407350139
+  sha256: 61d559d4e4e62f667697f38223f38e1e6a58a881c824733f71e924233d7ce76f
+  license: Public domain (US Government work); retain credited third-party and archive software notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: US Central Intelligence Agency; archive by Kiwix/openZIM
+  source_page: https://www.cia.gov/stories/story/spotlighting-the-world-factbook-as-we-bid-a-fond-farewell/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: US Central Intelligence Agency, The World Factbook; preserved and packaged by Kiwix/openZIM.
+    Retain original notices and credits; no CIA endorsement is implied.
+  description: Preserved February 2026 Kiwix edition of the discontinued CIA World Factbook. CIA ended
+    the publication on 2026-02-04; this is a historical archive, not a live or current service. Individual
+    statistics and publication dates inside the archive vary.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/other/theworldfactbook_en_all_2026-02.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/other/theworldfactbook_en_all_2026-02.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/other/theworldfactbook_en_all_2026-02.zim
+- id: ted_ed
+  title: TED-Ed topic collection from TED (multilingual archive)
+  category: education
+  format: zim
+  source_url: https://download.kiwix.org/zim/ted/ted_mul_ted-ed_2026-09.zim
+  destination: ZIM/OTHER/ted_mul_ted-ed_2026-09.zim
+  version: 2026-09
+  size_bytes: 6380955947
+  sha256: a049eda3db3ee0aacb8d5e3e0de9ee189a5ac1440fa938b5de2aaa6813c1a97b
+  license: CC-BY-NC-ND-4.0 for TED content; preserve intact videos, attribution and accompanying notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: TED
+  source_page: https://help.ted.com/hc/en-us/articles/360004233294-How-do-I-license-TED-or-TEDx-content
+  language: mul
+  snapshot_date: '2026-09-18'
+  attribution: TED; original speakers, animators and contributors. CC-BY-NC-ND-4.0. Preserve the complete
+    original video, TED credit and link to its original talk. No endorsement by TED is implied.
+  description: Published Kiwix TED scraper collection for the TED-Ed topic, with offline media. Personal
+    noncommercial use; keep talks unaltered with their original credits and context. This is not a claim
+    to include every TED-Ed animation, lesson or interactive exercise on ed.ted.com or YouTube.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://mirror.download.kiwix.org/zim/ted/ted_mul_ted-ed_2026-09.zim
+- id: wikipedia_es
+  title: Spanish Wikipedia (full, illustrated)
+  category: encyclopedia
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikipedia/wikipedia_es_all_maxi_2026-05.zim
+  destination: ZIM/WIKIPEDIA/wikipedia_es_all_maxi_2026-05.zim
+  version: 2026-05
+  size_bytes: 40766243832
+  sha256: 30c00ca0609861154098944092b40a3116545e4e51bf7eaa521946bb91fa0c19
+  license: CC-BY-SA-4.0; individual media licenses vary
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  language: es
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; archive packaged by Kiwix/openZIM. Retain authorship, original
+    source links, license and individual media notices inside the unmodified archive.
+  description: Published all-maxi archive with article text and images. Large supplementary collection
+    requiring a ZIM reader; not an export to ordinary HTML files. Language selection remains controlled
+    by the profile or explicit resource selection.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_es_all_maxi_2026-05.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_es_all_maxi_2026-05.zim
+  - https://dumps.wikimedia.org/kiwix/zim/wikipedia/wikipedia_es_all_maxi_2026-05.zim
+- id: wikipedia_fr
+  title: French Wikipedia (full, illustrated)
+  category: encyclopedia
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikipedia/wikipedia_fr_all_maxi_2026-05.zim
+  destination: ZIM/WIKIPEDIA/wikipedia_fr_all_maxi_2026-05.zim
+  version: 2026-05
+  size_bytes: 55438794004
+  sha256: 61401b1b3618afe736450a868c7205f572f590db310e044a9c72b51fbfcfb431
+  license: CC-BY-SA-4.0; individual media licenses vary
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  language: fr
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; archive packaged by Kiwix/openZIM. Retain authorship, original
+    source links, license and individual media notices inside the unmodified archive.
+  description: Published all-maxi archive with article text and images. Large supplementary collection
+    requiring a ZIM reader; not an export to ordinary HTML files. Language selection remains controlled
+    by the profile or explicit resource selection.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_fr_all_maxi_2026-05.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_fr_all_maxi_2026-05.zim
+  - https://dumps.wikimedia.org/kiwix/zim/wikipedia/wikipedia_fr_all_maxi_2026-05.zim
+- id: wikipedia_zh
+  title: Chinese Wikipedia (full, illustrated)
+  category: encyclopedia
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikipedia/wikipedia_zh_all_maxi_2026-08.zim
+  destination: ZIM/WIKIPEDIA/wikipedia_zh_all_maxi_2026-08.zim
+  version: 2026-08
+  size_bytes: 26601056121
+  sha256: 704b43f43d2e8026990cc5577cf7571c25ab2ca5d4e4f2624a182b5f0fe57c10
+  license: CC-BY-SA-4.0; individual media licenses vary
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  language: zh
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; archive packaged by Kiwix/openZIM. Retain authorship, original
+    source links, license and individual media notices inside the unmodified archive.
+  description: Published all-maxi archive with article text and images. Large supplementary collection
+    requiring a ZIM reader; not an export to ordinary HTML files. Language selection remains controlled
+    by the profile or explicit resource selection.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_zh_all_maxi_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_zh_all_maxi_2026-08.zim
+  - https://dumps.wikimedia.org/kiwix/zim/wikipedia/wikipedia_zh_all_maxi_2026-08.zim
+- id: wikipedia_ar
+  title: Arabic Wikipedia (full, illustrated)
+  category: encyclopedia
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikipedia/wikipedia_ar_all_maxi_2026-05.zim
+  destination: ZIM/WIKIPEDIA/wikipedia_ar_all_maxi_2026-05.zim
+  version: 2026-05
+  size_bytes: 19095710684
+  sha256: 4c9d0e0e80523ba04f33381ec9f3cd954009f6a0bda7f02da6f1a20fb0ea363f
+  license: CC-BY-SA-4.0; individual media licenses vary
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  language: ar
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; archive packaged by Kiwix/openZIM. Retain authorship, original
+    source links, license and individual media notices inside the unmodified archive.
+  description: Published all-maxi archive with article text and images. Large supplementary collection
+    requiring a ZIM reader; not an export to ordinary HTML files. Language selection remains controlled
+    by the profile or explicit resource selection.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_ar_all_maxi_2026-05.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_ar_all_maxi_2026-05.zim
+  - https://dumps.wikimedia.org/kiwix/zim/wikipedia/wikipedia_ar_all_maxi_2026-05.zim
+- id: wikipedia_pt
+  title: Portuguese Wikipedia (full, illustrated)
+  category: encyclopedia
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikipedia/wikipedia_pt_all_maxi_2026-05.zim
+  destination: ZIM/WIKIPEDIA/wikipedia_pt_all_maxi_2026-05.zim
+  version: 2026-05
+  size_bytes: 20641394954
+  sha256: 7958dc5c24a2b188ae0123d602a929030a235835883b5ac05c9fbc0076b2921f
+  license: CC-BY-SA-4.0; individual media licenses vary
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  language: pt
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; archive packaged by Kiwix/openZIM. Retain authorship, original
+    source links, license and individual media notices inside the unmodified archive.
+  description: Published all-maxi archive with article text and images. Large supplementary collection
+    requiring a ZIM reader; not an export to ordinary HTML files. Language selection remains controlled
+    by the profile or explicit resource selection.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_pt_all_maxi_2026-05.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_pt_all_maxi_2026-05.zim
+  - https://dumps.wikimedia.org/kiwix/zim/wikipedia/wikipedia_pt_all_maxi_2026-05.zim
+- id: wikipedia_it
+  title: Italian Wikipedia (full, illustrated)
+  category: encyclopedia
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikipedia/wikipedia_it_all_maxi_2026-08.zim
+  destination: ZIM/WIKIPEDIA/wikipedia_it_all_maxi_2026-08.zim
+  version: 2026-08
+  size_bytes: 31788251774
+  sha256: b317f189c7bb363f246070ec3bf18794cf4f624b400c6203f155664aa471a898
+  license: CC-BY-SA-4.0; individual media licenses vary
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  language: it
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; archive packaged by Kiwix/openZIM. Retain authorship, original
+    source links, license and individual media notices inside the unmodified archive.
+  description: Published all-maxi archive with article text and images. Large supplementary collection
+    requiring a ZIM reader; not an export to ordinary HTML files. Language selection remains controlled
+    by the profile or explicit resource selection.
+  resource_type: archive
+  illustrated: false
+  mirrors:
+  - https://ny.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_it_all_maxi_2026-08.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_it_all_maxi_2026-08.zim
+  - https://dumps.wikimedia.org/kiwix/zim/wikipedia/wikipedia_it_all_maxi_2026-08.zim
+resource_updates:
+- id: wikem
+  asset_ids:
+  - wikem_en
+  status: ready
+  reason: Dated Kiwix archive files have exact byte sizes and upstream SHA-256 pins; downloads are verified
+    by the builder.
+- id: regional-maps
+  asset_ids:
+  - map_osm_north_america
+  - regional_topographic_maps
+  status: partial
+  reason: North America OSM archive is pinned (22,652,513,201 bytes). Local/regional GeoPDF coverage still
+    requires the intended location and corridor selection; this archive does not satisfy that requirement.
+- id: world-maps
+  asset_ids:
+  - map_osm_world
+  status: ready
+  reason: Whole-world maps2zim archive is pinned (77,731,456,103 bytes). Replaces the North America OSM
+    asset only; chosen local GeoPDF/topographic maps remain separate. Requires a JavaScript-capable ZIM
+    reader.
+- id: cd3wd
+  asset_ids:
+  - cd3wd_en
+  status: partial
+  reason: The complete published 2025-11 Kiwix website archive is pinned and available for personal offline
+    acquisition. Ordinary-format exports of original PDFs/HTML remain to be implemented; original publication
+    rights vary and no blanket redistribution license is asserted.
+- id: libretexts-stem
+  asset_ids:
+  - libretexts_bio
+  - libretexts_chem
+  - libretexts_eng
+  - libretexts_geo
+  - libretexts_math
+  - libretexts_med
+  - libretexts_phys
+  - libretexts_stats
+  status: ready
+  reason: All eight requested subject archives are pinned (9,088,921,656 bytes total). Includes biology,
+    chemistry, engineering, geosciences, mathematics, medicine, physics and statistics. Ordinary-format
+    PDF editions remain an optional separate acquisition/export task; per-page licenses are retained inside
+    the archives.
+- id: wikiversity-en
+  asset_ids:
+  - wikiversity_en
+  status: ready
+  reason: Dated Kiwix archive files have exact byte sizes and upstream SHA-256 pins; downloads are verified
+    by the builder.
+- id: wikivoyage-en
+  asset_ids:
+  - wikivoyage_en
+  status: ready
+  reason: Dated Kiwix archive files have exact byte sizes and upstream SHA-256 pins; downloads are verified
+    by the builder.
+- id: wikisource-en
+  asset_ids:
+  - wikisource_en
+  status: ready
+  reason: Dated Kiwix archive files have exact byte sizes and upstream SHA-256 pins; downloads are verified
+    by the builder.
+- id: world-factbook
+  asset_ids:
+  - world_factbook_en
+  status: ready
+  reason: Preserved February 2026 Kiwix archive is pinned. CIA discontinued the publication on 2026-02-04;
+    the archive is explicitly historical and does not depend on the retired CIA download endpoint.
+- id: ted-ed
+  asset_ids:
+  - ted_ed
+  status: partial
+  reason: Pinned September 2026 TED-Ed topic archive from the Kiwix TED collection (6,380,955,947 bytes),
+    suitable for intact personal noncommercial playback. This is a specific TED topic package; complete
+    ed.ted.com lesson/animation coverage and ordinary-file media exports are not established.
+- id: wikipedia-es
+  asset_ids:
+  - wikipedia_es
+  status: ready
+  reason: Dated Kiwix archive files have exact byte sizes and upstream SHA-256 pins; downloads are verified
+    by the builder.
+- id: wikipedia-fr
+  asset_ids:
+  - wikipedia_fr
+  status: ready
+  reason: Dated Kiwix archive files have exact byte sizes and upstream SHA-256 pins; downloads are verified
+    by the builder.
+- id: wikipedia-zh
+  asset_ids:
+  - wikipedia_zh
+  status: ready
+  reason: Dated Kiwix archive files have exact byte sizes and upstream SHA-256 pins; downloads are verified
+    by the builder.
+- id: wikipedia-ar
+  asset_ids:
+  - wikipedia_ar
+  status: ready
+  reason: Dated Kiwix archive files have exact byte sizes and upstream SHA-256 pins; downloads are verified
+    by the builder.
+- id: wikipedia-pt
+  asset_ids:
+  - wikipedia_pt
+  status: ready
+  reason: Dated Kiwix archive files have exact byte sizes and upstream SHA-256 pins; downloads are verified
+    by the builder.
+- id: wikipedia-it
+  asset_ids:
+  - wikipedia_it
+  status: ready
+  reason: Dated Kiwix archive files have exact byte sizes and upstream SHA-256 pins; downloads are verified
+    by the builder.
+evidence:
+- asset_id: wikem_en
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/other/wikem_en_all_maxi_2026-07.zim.meta4
+  metadata_document_sha256: dd722e90ef987c0e49dda517d6af1bd1aa1e5658d56256f14480df74af0f4e38
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 374632362
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/other/wikem_en_all_maxi_2026-07.zim
+  rights_sources:
+  - https://wikem.org/wiki/WikEM:Copyrights
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: map_osm_north_america
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/maps/maps_en_north-america_2026-08.zim.meta4
+  metadata_document_sha256: 63dc2d2cc5f88a140e2496377bd274c9dcb1dfa8970a6fbed2a7a52541a9fcd7
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 22652513201
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/maps/maps_en_north-america_2026-08.zim
+  rights_sources:
+  - https://www.openstreetmap.org/copyright
+  - https://github.com/openzim/maps
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: map_osm_world
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/maps/maps_en_all_2026-06.zim.meta4
+  metadata_document_sha256: 78c7bcae2e40f24e2b5773c08c505b725e28740710cbc2a0c150788482cc71c1
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 77731456103
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/maps/maps_en_all_2026-06.zim
+  rights_sources:
+  - https://www.openstreetmap.org/copyright
+  - https://github.com/openzim/maps
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: cd3wd_en
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/zimit/cd3wdproject.org_en_all_2025-11.zim.meta4
+  metadata_document_sha256: 97741768bd36d63e143365ccaeeec50ad94bdb6acb1c1fc60c7fac80aea7b421
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 581165229
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/zimit/cd3wdproject.org_en_all_2025-11.zim
+  rights_sources:
+  - https://www.cd3wdproject.org/
+  - https://www.cd3wdproject.org/CD3WD/INDEX.HTM
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: libretexts_bio
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_bio_2025-01.zim.meta4
+  metadata_document_sha256: 9876a009470b6575ac4e50827458b86cdccd2b8307e91593d02a9ac7f23cccf5
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 2240946728
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_bio_2025-01.zim
+  rights_sources:
+  - https://libretexts.org/terms-conditions
+  - https://commons.libretexts.org/insight/license-stacks
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: libretexts_chem
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_chem_2025-01.zim.meta4
+  metadata_document_sha256: c496a4be861fbeef25a90f6d7a39263d5ef557b56cdaee7459909c643f40acec
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 2182916266
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_chem_2025-01.zim
+  rights_sources:
+  - https://libretexts.org/terms-conditions
+  - https://commons.libretexts.org/insight/license-stacks
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: libretexts_eng
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_eng_2025-01.zim.meta4
+  metadata_document_sha256: 2008b1245f0912ee6b40a19510ef596e73da4b75738827ff2bb6480727737b07
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 678394631
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_eng_2025-01.zim
+  rights_sources:
+  - https://libretexts.org/terms-conditions
+  - https://commons.libretexts.org/insight/license-stacks
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: libretexts_geo
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_geo_2026-01.zim.meta4
+  metadata_document_sha256: 1960590b4c3650f4b52a83b0edaa2254b2bb7993f246e5d46ea7def4902c9fe3
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 1188116861
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_geo_2026-01.zim
+  rights_sources:
+  - https://libretexts.org/terms-conditions
+  - https://commons.libretexts.org/insight/license-stacks
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: libretexts_math
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_math_2026-01.zim.meta4
+  metadata_document_sha256: 73727d7d5e6c1f37ff4457277e811c623928acbaa3cf38c0ecc2e35287911cdc
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 830646230
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_math_2026-01.zim
+  rights_sources:
+  - https://libretexts.org/terms-conditions
+  - https://commons.libretexts.org/insight/license-stacks
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: libretexts_med
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_med_2025-01.zim.meta4
+  metadata_document_sha256: 90b28f62ee6f1bddcdd9982fb352ba2d96f4da159698b8c68753d03e99aa3202
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 1192567339
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_med_2025-01.zim
+  rights_sources:
+  - https://libretexts.org/terms-conditions
+  - https://commons.libretexts.org/insight/license-stacks
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: libretexts_phys
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_phys_2026-01.zim.meta4
+  metadata_document_sha256: 91a3e8149cc3580a3a5cfd7282f6aef20f0f101c0fd49d345dbb5725e4a5472f
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 559554453
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_phys_2026-01.zim
+  rights_sources:
+  - https://libretexts.org/terms-conditions
+  - https://commons.libretexts.org/insight/license-stacks
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: libretexts_stats
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/libretexts/libretexts.org_en_stats_2026-01.zim.meta4
+  metadata_document_sha256: f8086ae6f2f18f1d0a47456515c9a1544d3d5d4380f5399368a7def18ebf0496
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 215779148
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_stats_2026-01.zim
+  rights_sources:
+  - https://libretexts.org/terms-conditions
+  - https://commons.libretexts.org/insight/license-stacks
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: wikiversity_en
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/wikiversity/wikiversity_en_all_maxi_2026-05.zim.meta4
+  metadata_document_sha256: a0ee049615588f461250d3cd965eb166b3a56c3d96f70af395bd987c6276f659
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 2459209431
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/wikiversity/wikiversity_en_all_maxi_2026-05.zim
+  rights_sources:
+  - https://en.wikiversity.org/wiki/Wikiversity:Copyrights
+  - https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: wikivoyage_en
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/wikivoyage/wikivoyage_en_all_maxi_2026-09.zim.meta4
+  metadata_document_sha256: 95fba42f3627afb096c1f7989b2eb5e2f9b4d19474867337427e64b36ae666c8
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 1071168673
+    final_url: https://mirror.download.kiwix.org/zim/wikivoyage/wikivoyage_en_all_maxi_2026-09.zim
+  rights_sources:
+  - https://en.wikivoyage.org/wiki/Wikivoyage:Copyleft
+  - https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: wikisource_en
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/wikisource/wikisource_en_all_maxi_2026-05.zim.meta4
+  metadata_document_sha256: 2152142c139b076b234a1ef7ab45b528cbc1973033bb9cad0f65a8eb0a1a72fc
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 19663666206
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/wikisource/wikisource_en_all_maxi_2026-05.zim
+  rights_sources:
+  - https://en.wikisource.org/wiki/Wikisource:Copyright_policy
+  - https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: world_factbook_en
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/other/theworldfactbook_en_all_2026-02.zim.meta4
+  metadata_document_sha256: cbb9c41b726f3efaec980d8338af2afa9e8d29935050a49585d4535cfe7761fb
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 407350139
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/other/theworldfactbook_en_all_2026-02.zim
+  rights_sources:
+  - https://www.cia.gov/stories/story/spotlighting-the-world-factbook-as-we-bid-a-fond-farewell/
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: ted_ed
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/ted/ted_mul_ted-ed_2026-09.zim.meta4
+  metadata_document_sha256: e9fe0417b3f77339edb15c0be562430ef665389d32b0831810afb13fc323a133
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 6380955947
+    final_url: https://mirror.download.kiwix.org/zim/ted/ted_mul_ted-ed_2026-09.zim
+  rights_sources:
+  - https://help.ted.com/hc/en-us/articles/360004233294-How-do-I-license-TED-or-TEDx-content
+  - https://www.ted.com/about/our-organization/our-policies-terms/ted-talks-usage-policy
+  - https://help.ted.com/hc/en-us/articles/360005308974-General-TED-Ed-lessons-FAQ
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: wikipedia_es
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/wikipedia/wikipedia_es_all_maxi_2026-05.zim.meta4
+  metadata_document_sha256: eef1659e8438e61424bddddbddad9b375fdd151a3851e96dfa6338ee397f1cef
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 40766243832
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_es_all_maxi_2026-05.zim
+  rights_sources:
+  - https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: wikipedia_fr
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/wikipedia/wikipedia_fr_all_maxi_2026-05.zim.meta4
+  metadata_document_sha256: 8e02941fbdc30a493fb74ac78b375bcf2a829b2c1fdeb735798a7319e481671d
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 55438794004
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_fr_all_maxi_2026-05.zim
+  rights_sources:
+  - https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: wikipedia_zh
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/wikipedia/wikipedia_zh_all_maxi_2026-08.zim.meta4
+  metadata_document_sha256: a75bdeebff171e4cab18ba8bd4a42488032fec0755e11ff514b074f2a75732f9
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 26601056121
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_zh_all_maxi_2026-08.zim
+  rights_sources:
+  - https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: wikipedia_ar
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/wikipedia/wikipedia_ar_all_maxi_2026-05.zim.meta4
+  metadata_document_sha256: 9df2d31d171e266208d05d974d615221acc105b5c72f9afd17553491181d1075
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 19095710684
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_ar_all_maxi_2026-05.zim
+  rights_sources:
+  - https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: wikipedia_pt
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/wikipedia/wikipedia_pt_all_maxi_2026-05.zim.meta4
+  metadata_document_sha256: e5f53fabc6ec930444304904a129af384db2768cbf5327da1c3aff66366ccbfb
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 20641394954
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_pt_all_maxi_2026-05.zim
+  rights_sources:
+  - https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+- asset_id: wikipedia_it
+  checked_at: '2026-09-18'
+  metadata_url: https://download.kiwix.org/zim/wikipedia/wikipedia_it_all_maxi_2026-08.zim.meta4
+  metadata_document_sha256: 7e6c96e09a1a57cd37d1c7ef65ac158575bd9cd6f180349e3fdbb4419025b388
+  method: HTTPS Metalink file/size and direct child file/hash[@type=sha-256]; full-file checksum, not
+    piece hashes or MD5.
+  http_head:
+    status: 200
+    content_length: 31788251774
+    final_url: https://ny.mirror.driftle.ss/kiwix/zim/wikipedia/wikipedia_it_all_maxi_2026-08.zim
+  rights_sources:
+  - https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use
+  content_verification: Archive bytes not downloaded during catalog research; builder must verify the
+    entire file against this SHA-256 before promotion.
+unresolved:
+- resource_id: regional-maps
+  issue: Choose local/regional topographic coverage.
+  blocking: The regional_topographic_maps asset remains unresolved; OSM does not replace it.
+- resource_id: cd3wd
+  issue: Ordinary-file exports and original publication rights.
+  blocking: Archive acquisition is resolved for personal use; requested original-PDF/HTML exports are
+    not yet produced. Collection-wide redistribution permission is not asserted.
+- resource_id: ted-ed
+  issue: Broader lesson coverage and direct media exports.
+  blocking: The pinned TED topic archive is a real, bounded subset; do not call it the entire TED-Ed lesson
+    library.
+- resource_id: libretexts-stem
+  issue: Optional direct PDF/HTML editions.
+  blocking: Not blocking the eight-archive baseline; archive pins do not themselves create directly readable
+    copies.
+- resource_id: world-maps
+  issue: Device validation of interactive maps.
+  blocking: Not a source-metadata blocker. JavaScript-capable ZIM reader needed; no claim of offline routing
+    or hardware-tested behavior.

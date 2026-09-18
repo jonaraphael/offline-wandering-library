@@ -16,7 +16,7 @@ import yaml
 
 from . import __version__
 from .catalog import (CatalogError, capacity_plan, fingerprint, load_catalog,
-                      load_profiles, read_yaml, resolve_content, resolve_locked_content)
+                      load_profiles, read_yaml, resolve_content, resolve_locked_content, validate_catalog)
 from .download import download, verified
 from .runtime import file_lock as _lock, interrupt_signals
 from .safety import SafetyError, atomic_write, guard_directory, reject_symlinks, safe_path, sha256_file
@@ -151,6 +151,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
           cache_dir: Path | None = None, work_dir: Path | None = None,
           allow_local: bool = False, plan_only: bool = False,
           resources_catalog: Path | None = None, include=(), exclude=(), editions=(),
+          extra_catalogs=(),
           allow_incomplete: bool = False, navigation_dir: Path | None = None,
           strict_coverage: bool = False, progress=print) -> dict:
     from .navigation import GENERATED_PATHS, generate_navigation
@@ -160,22 +161,54 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     if profile_name not in profiles:
         raise CatalogError(f"Unknown profile {profile_name!r}; choose {', '.join(profiles)}")
     all_assets = load_catalog(catalog, profiles, allow_local)
+    extra_assets = []
+    for extra_catalog in extra_catalogs:
+        extra = load_catalog(Path(extra_catalog), profiles, allow_local)
+        if any(a["status"] != "resolved" or not a["sha256"] for a in extra):
+            raise CatalogError("Additional catalogs must contain resolved assets with pinned SHA-256 values")
+        extra_assets.extend(extra)
+    # Validate the entire namespace before selecting or writing any output.
+    combined = validate_catalog({"schema_version": 1, "assets": all_assets + extra_assets}, profiles, allow_local)
     navigation = None
     if navigation_dir is not None:
         from .atlas_model import load_navigation
-        navigation = load_navigation(navigation_dir, all_assets)
+        navigation = load_navigation(navigation_dir, combined)
     elif strict_coverage:
         raise CatalogError("--strict-coverage requires --navigation-dir")
     profile = profiles[profile_name]
     lock = read_yaml(catalog).get("selection_lock")
     if lock is not None:
-        if include or exclude or editions:
+        if include or exclude or editions or extra_catalogs:
             raise CatalogError("Customize the source catalog, not a locked selection")
         assets, unresolved, selection = resolve_locked_content(all_assets, profile, lock)
     else:
         assets, unresolved, selection = resolve_content(
             all_assets, profile, resources_path=resources_catalog or catalog.with_name("resources.yaml"),
             include=include, exclude=exclude, editions=editions)
+    if extra_assets:
+        source_ids = {a["id"] for a in assets}
+        known_sources = {a["id"]: a for a in all_assets}
+        for extra in extra_assets:
+            parent = extra.get("derived_from_asset_id")
+            if parent and parent not in known_sources:
+                raise CatalogError(f"{extra['id']}: unknown derivation source {parent}")
+            if parent and (not known_sources[parent].get("sha256") or
+                           extra.get("source_archive_sha256") != known_sources[parent]["sha256"]):
+                raise CatalogError(f"{extra['id']}: derivative source checksum differs from the selected catalog; export the selected edition")
+        additions = [a for a in extra_assets if not a.get("derived_from_asset_id") or
+                     a["derived_from_asset_id"] in source_ids]
+        assets.extend({**a, "profiles": [profile_name]} for a in additions)
+        if (any(a["format"].lower() == "zim" for a in assets) and
+                not any(a["destination"].startswith("SOFTWARE/") for a in assets)):
+            raise CatalogError("Additional ZIM content must include a pinned bundled reader")
+        if selection is not None:
+            selection["additional_asset_ids"] = [a["id"] for a in additions]
+            # Explicit imports need their own space. Do not let a derivative
+            # silently consume another still-unresolved collection's allowance.
+            extra_bytes = sum(a["size_bytes"] for a in additions)
+            selection["planned_total_bytes"] += extra_bytes
+            selection["content_target_bytes"] += extra_bytes
+            selection["resolved_asset_bytes"] += extra_bytes
     if not assets and not plan_only:
         raise CatalogError(f"Profile {profile_name} has no resolved content")
     plan = capacity_plan(assets, profile, selection)
@@ -373,7 +406,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         atomic_write(safe_path(target, "SOURCE_NOTES.txt"), source_notes.read_bytes() if source_notes.exists() else
                      b"See INVENTORY.html and LOCKED_CATALOG.yaml for source provenance, licenses and attribution.\n")
         versions = {}
-        for package in ("PyYAML", "pypdf", "fonttools", "libzim"):
+        for package in ("PyYAML", "pypdf", "cryptography", "fonttools", "libzim"):
             try:
                 versions[package] = importlib.metadata.version(package)
             except importlib.metadata.PackageNotFoundError:
@@ -382,6 +415,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                 "content_selection": selection, "content_complete": content_complete,
                 "python_version": sys.version.split()[0], "dependencies": versions,
                 "profile": profile, "catalog_sha256": sha256_file(catalog.resolve()), "plan": plan,
+                "extra_catalogs": [{"path": str(Path(path)), "sha256": sha256_file(Path(path))}
+                                   for path in extra_catalogs],
                 "asset_count": len(assets), "unresolved_asset_ids": [a["id"] for a in unresolved],
                 "search": search_report, "navigation": atlas_report, "complete": True,
                 "integrity_note": "SHA-256 detects damage, not publisher identity. Save SHA256SUMS.txt separately."}
@@ -427,6 +462,8 @@ def main(argv=None) -> int:
     parser.add_argument("target", type=Path, nargs="?")
     parser.add_argument("--profile", default="critical-64gb")
     parser.add_argument("--catalog", type=Path, default=REPO_ROOT / "catalog/library.yaml")
+    parser.add_argument("--extra-catalog", type=Path, action="append", default=[],
+                        help="add a pinned local export manifest; repeat for multiple exports; file URLs need --allow-local")
     parser.add_argument("--profiles-dir", type=Path, default=REPO_ROOT / "profiles")
     parser.add_argument("--cache-dir", type=Path)
     parser.add_argument("--work-dir", type=Path, help="persistent directory for resumable search checkpoints; reuse on restart")
@@ -443,6 +480,8 @@ def main(argv=None) -> int:
     args = parser.parse_args(argv)
     try:
         if args.list_resources:
+            if args.extra_catalog:
+                raise CatalogError("Use --plan with --extra-catalog; --list-resources lists the source registry")
             from .resources import load_resources, resolve_resources
             if args.edition and read_yaml(args.catalog).get("selection_lock") is not None:
                 raise CatalogError("Customize the source catalog, not a locked selection")
@@ -481,6 +520,7 @@ def main(argv=None) -> int:
                   cache_dir=args.cache_dir, work_dir=args.work_dir, allow_local=args.allow_local, plan_only=args.plan,
                   resources_catalog=args.resources_catalog, include=args.include, exclude=args.exclude,
                   editions=args.edition,
+                  extra_catalogs=args.extra_catalog,
                   allow_incomplete=args.allow_incomplete, navigation_dir=args.navigation_dir,
                   strict_coverage=args.strict_coverage)
         return 0

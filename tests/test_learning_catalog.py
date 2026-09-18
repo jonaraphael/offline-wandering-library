@@ -41,7 +41,7 @@ class ProductionLearningCatalogTests(unittest.TestCase):
             self.assertTrue(report['incomplete_resources'])
 
     def test_books_follow_requested_defaults_and_critical_baseline_survives(self):
-        for name, count in [('critical-64gb',7), ('compact-256gb',2), ('standard-512gb',7), ('full-1tb',7)]:
+        for name, count in [('critical-64gb',7), ('compact-256gb',2), ('standard-512gb',22), ('full-1tb',22)]:
             assets, _, _ = self.selection(name)
             coverage = learning_coverage(assets)
             self.assertEqual(coverage['textbooks']['required_critical_count'], count)
@@ -52,13 +52,14 @@ class ProductionLearningCatalogTests(unittest.TestCase):
 
     def test_map_replacement_and_survivor_budgets(self):
         for name, map_budget, tier in [('compact-256gb',10_000_000_000,None), ('standard-512gb',51_000_000_000,75_000_000_000), ('full-1tb',30_000_000_000,100_000_000_000)]:
-            _, unresolved, report = self.selection(name)
+            assets, unresolved, report = self.selection(name)
             rows = {r['id']:r for r in report['resource_rows']}
             self.assertEqual(rows['regional-maps']['effective_target_bytes'], map_budget)
             if tier:self.assertEqual(rows['survivor-tier-a']['effective_target_bytes'],tier)
-            ids = {a['id'] for a in unresolved}
+            ids = {a['id'] for a in assets}
             self.assertEqual('map_osm_north_america' in ids,name=='standard-512gb')
             self.assertEqual('map_osm_world' in ids,name=='full-1tb')
+            self.assertIn('regional_topographic_maps', {a['id'] for a in unresolved})
 
     def test_planning_targets_are_not_fabricated_download_bytes(self):
         for name in LARGE:

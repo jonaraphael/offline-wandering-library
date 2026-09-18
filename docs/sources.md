@@ -4,7 +4,7 @@ The catalog is an explicit, pinned recipe. Source verification was performed on 
 
 ## What was verified
 
-Every resolved entry in `catalog/library.yaml` has an exact byte count and SHA-256. The directly readable PDFs and four Kiwix reader packages were actually downloaded over HTTPS into temporary storage. PDF signatures were checked; titles, editions and licensing were checked against publisher pages and document notices. SHA-256 values were computed from complete files. Reader MD5 values were additionally compared with the publisher's `.md5` files; MD5 is supplemental provenance, never the build's integrity check. Reader binaries were not executed.
+Every resolved entry in `catalog/library.yaml` has an exact byte count and SHA-256. The directly readable PDFs and four Kiwix reader packages were actually downloaded over HTTPS into temporary storage or an explicit SSD cache. PDF signatures were checked; titles, editions and licensing were checked against publisher pages and document notices. SHA-256 values were computed from complete files. Reader MD5 values were additionally compared with the publisher's `.md5` files; MD5 is supplemental provenance, never the build's integrity check. Reader binaries were not executed.
 
 Large ZIM files were **not** downloaded during repository development. Their exact sizes and SHA-256 values came from the Kiwix publisher's HTTPS Metalink documents, available by appending `.meta4` to each pinned catalog source URL. The `<file><size>` and `<file><hash type="sha-256">` fields are used; piece hashes are not whole-file SHA-256. These are publisher-published hashes, not independently computed hashes or digital signatures. The builder verifies the complete download against the pinned value.
 
@@ -12,7 +12,7 @@ Hashes prove agreement with the catalog and detect damage; they do not establish
 
 ## Directly readable baseline
 
-All four production profiles include these original PDFs, retaining their notices and credits:
+All five production profiles include these original PDFs, retaining their notices and credits:
 
 | Subject | Included publication and source | Edition / scope |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ These references have uneven depth and different publication dates. Garden guida
 
 ## Required textbooks and illustrated guides
 
-The complementary direct core retains two complete Kuphaldt electrical textbooks and illustrated practical guides. The fixed `critical-64gb` baseline also contains five complete OpenStax textbooks under `BOOKS/TEXTBOOKS/`. In the acquisition-list profiles, OpenStax is selected by default in `standard-512gb` and `full-1tb`, and can be explicitly included in `compact-256gb` subject to capacity. These five pinned books are only part of the expanded OpenStax collection requested in resource #22. They provide foundations for understanding quantities, materials, machines and living systems; they are not replacements for task-specific safety or clinical guidance.
+The complementary direct core retains two complete Kuphaldt electrical textbooks and illustrated practical guides. The fixed `critical-64gb` baseline also contains five complete OpenStax textbooks under `BOOKS/TEXTBOOKS/`. In the acquisition-list profiles, OpenStax is selected by default in `standard-512gb` and `full-1tb`, and can be explicitly included in `compact-256gb` subject to capacity. These five books remain the small-profile baseline; resource #22 now has all 20 requested core math/science titles. The other 15 complete PDFs and their notices are documented in [education acquisition evidence](acquisition-education.md). They provide foundations for understanding quantities, materials, machines and living systems; they are not replacements for task-specific safety or clinical guidance.
 
 | Textbook | PDF pages | Exact downloaded bytes | Foundation |
 | --- | ---: | ---: | --- |
@@ -69,7 +69,7 @@ The original download URLs were obtained from the publisher's book pages and [Op
 | Army Survival | 140 | Figure 6-2: poncho lean-to, alongside field-shelter instructions |
 | USGS Map and Compass | 1 | Annotated topographic-map example and scale table |
 
-The fixed critical baseline enforces `minimum_coverage` floors of seven required critical textbooks and eight required critical illustrated guides. Its snapshot contains seven and thirteen respectively. The compact acquisition profile has two pinned electrical textbooks and eight illustrated works; standard/full include the five pinned OpenStax books too. Their larger requested collections remain incomplete. Explicit include/exclude customization may remove books; it never changes the ordinary-format requirement for assets marked critical. The builder prioritizes required critical teaching material before large archives.
+The fixed critical baseline enforces `minimum_coverage` floors of seven required critical textbooks and eight required critical illustrated guides. Its snapshot contains seven and thirteen respectively. The compact acquisition profile has two pinned electrical textbooks and eight illustrated works; standard/full include all 20 pinned OpenStax core books. Other larger requested collections remain incomplete. Explicit include/exclude customization may remove books; it never changes the ordinary-format requirement for assets marked critical. The builder prioritizes required critical teaching material before large archives.
 
 ## Archives, maps and larger profiles
 
@@ -77,11 +77,11 @@ Kiwix's [Wikipedia](https://download.kiwix.org/zim/wikipedia/), [Wiktionary](htt
 
 - All three acquisition profiles select the full illustrated English Wikipedia snapshot (August 2026), WikiMed (April 2026), iFixit (December 2025), and Appropedia (February 2026). The full Wikipedia pin is 127,418,087,648 bytes; the user-supplied 119 GB planning estimate does not replace this exact size.
 - English Wiktionary (August 2026) and Wikibooks (April 2026) begin at `standard-512gb`. Their pins cover archives, not the extra direct-reading exports requested for the 1 TB collection.
-- Regional maps are unresolved: compact allocates 10 GB to local topo only; standard includes a planned North America archive and selected topo; full replaces North America with a world archive while retaining topo. A geological world-reference PDF does not fulfill these maps.
+- North America and world OSM archives now have exact verified pins. Compact still allocates 10 GB to local topo only; standard adds North America; full replaces it with world coverage. Locality-specific topographic sheets remain unselected. A geological world-reference PDF does not fulfill these maps.
 - Full includes the requested Khan STEM subset, not the previous approximately 180 GB all-subject archive. That subset must be selected and packaged before it has exact file pins. Remaining Khan content stays opt-in. Speech inside audio/video is not transcribed by OWL's text index.
-- The full profile additionally allocates 60 GB to more ordinary-format copies of selected content. This direct-reading expansion is unresolved; no unverified conversion is advertised as an available file.
+- The full profile additionally allocates 60 GB to more ordinary-format copies of selected content. The [direct exporter](direct-export.md) is implemented; this editorial expansion remains unresolved until curated selections and reviewed output editions exist.
 
-The complete target list and exclusions are in [content selection](content-selection.md), with all 46 numbered entries enumerated in `catalog/resources.yaml`. Most additions still require curation, source pins, permission, or a packaging pipeline. Normal builds of these incomplete collection profiles stop before downloads unless the user explicitly opts into a partial build. The independent fixed critical baseline remains usable.
+The complete target list and exclusions are in [content selection](content-selection.md), with all 46 numbered entries enumerated in `catalog/resources.yaml`. The [generated resource report](content-selection.md) gives current readiness and the precise remaining work. Original offered downloads are usable for the personal, noncommercial build even when general redistribution rights have not been established. Normal builds of these incomplete collection profiles stop before downloads unless the user explicitly opts into a partial build. The independent fixed critical baseline remains usable.
 
 [Wikimedia terms](https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use) and article/media notices govern Wikimedia archives. Text is generally CC BY-SA 4.0, with individual exceptions and media licenses retained in the archive. [iFixit](https://www.ifixit.com/Info/Licensing) is CC BY-NC-SA 3.0; redistribution must be noncommercial and preserve attribution. [Appropedia](https://www.appropedia.org/Appropedia:Terms_of_use) defaults to CC BY-SA 4.0, except where stated. [Khan Academy permits reuse under its content conditions](https://support.khanacademy.org/hc/en-us/articles/202262954-Can-I-use-Khan-Academy-s-videos-name-materials-links-in-my-project); video and exercise content uses CC BY-NC-SA and individual notices still apply. All Khan Academy content is available for free at [khanacademy.org](https://www.khanacademy.org/). None of these publishers endorses OWL.
 
@@ -102,16 +102,25 @@ Desktop/Android sources identify GPL version 3 or later; the Apple repository su
 
 The AppImage is not an ARM Raspberry Pi reader. Linux AppImages may need FUSE or extraction to a native Linux filesystem; exFAT generally does not preserve execute bits. Windows, macOS and Android may impose installation or security restrictions. Prepare and test each intended device while online. iPhone cannot generally install an iOS Kiwix app from a USB SSD offline; the ordinary critical PDFs and static indexes remain the baseline.
 
-## Unresolved entries
+## Acquisition status and personal use
 
-The resource registry contains the full list of unresolved and partially fulfilled
-collections with specific reasons. The original file-level examples below remain
-open; they are not the entire outstanding acquisition list.
+The current [resource report](content-selection.md) describes every ready, partial
+and unresolved tag. Detailed evidence is in [medical](acquisition-medical.md),
+[education](acquisition-education.md), [archives](acquisition-archives.md), and
+[programming/Low-tech](acquisition-reference.md) acquisition notes.
 
-`status: unresolved` records are visible in the catalog, excluded from selected downloads, and reported in build metadata. No fabricated byte count, checksum or direct URL stands in for missing evidence.
+Official Hesperian, MSF, WHO and other offered downloads are included for
+personal, noncommercial offline use with their original notices. A
+`redistributable: false` flag records an unestablished general redistribution
+right; it does not block a private download. The old single-file Hesperian
+permission placeholder has been retired in favor of its verified chapter set.
 
-1. **Hesperian Where There Is No Doctor:** the [publisher's open-copyright policy](https://hesperian.org/open-copyright-policy/) requires written permission for use in any digital format, including distribution of online materials. This project has no such permission. Its optional record is excluded. WHO and FEMA provide the included medical baseline.
-2. **Regional topographic and evacuation maps:** choose maps for the intended locality and record each verified source URL, edition, size, hash and rights. [USGS Map Locator](https://store.usgs.gov/map-locator) is a starting point for US locations. No single preselected region can serve an arbitrary user. North America and world archive snapshots likewise need exact pins and rights checks.
+Remaining gaps include one Hesperian back-matter link returning 404, incomplete
+children's/agricultural/simulation collections, local map selection, curated
+Gutenberg/Survivor/Stack Exchange/Khan subsets, and reviewed direct-reading
+editions. The downloader never invents missing URLs, sizes or hashes. The generic
+export mechanism does not by itself resolve collection curation or visual
+completeness. See each resource's exact scope and reason in the generated report.
 
 ## Refreshing a source
 

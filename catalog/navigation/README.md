@@ -1,13 +1,17 @@
 # Starter topic metadata
 
-This directory supplies the initial production-catalog topic vocabulary: **46
-topics and 40 whole-document assignments**. Those numbers describe the navigation
+This directory supplies the initial production-catalog topic vocabulary: **67
+topics and 369 whole-document assignments**. Those numbers describe the navigation
 layer, not the separate 46-resource acquisition list. The include list and exact
 editorial coverage remain provisional.
 
 `topics.yaml` declares subject, practical-task, and learning entrances into a
 shared hierarchy. `assignments.yaml` connects those topics to known asset IDs from
-`catalog/library.yaml`. Current mappings use catalog titles and scope; they do not
+`catalog/library.yaml`. Current mappings include the acquired Hesperian publisher chapter PDFs, WHO and
+MSF manuals, FAO practical guides, all 20 OpenStax core textbooks, Pro Git, and
+resolved map archives. Each Hesperian chapter PDF is linked as a whole source
+file, including its front matter/index companions; it is not an inferred deep
+link into another PDF. Current mappings use catalog titles and scope; they do not
 assert reviewed chapter, page, or figure locations for third-party works.
 
 Only assets present in the verified drive selection appear in generated pages.

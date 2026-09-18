@@ -1,0 +1,412 @@
+schema_version: 1
+assets:
+- id: docs_bash
+  title: Bash Reference Manual
+  category: computing
+  format: html
+  source_url: https://www.gnu.org/software/bash/manual/bash.html
+  destination: REFERENCE/COMPUTING/bash.html
+  version: '5.3'
+  size_bytes: 1040954
+  sha256: 78d0eefbe60cfe7345ffdafede7294f055b04e53bd520360ff699b24f81e2b4b
+  license: GFDL-1.3-or-later
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Free Software Foundation and documentation authors
+  source_page: https://www.gnu.org/software/bash/manual/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: 'Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable
+    publisher URLs are content-pinned: later changes fail verification rather than silently update. One-page
+    HTML with internal section links and complete text; an optional remote GNU stylesheet is cosmetic,
+    and the document remains readable offline.'
+- id: docs_coreutils
+  title: GNU Coreutils Manual
+  category: computing
+  format: html
+  source_url: https://www.gnu.org/software/coreutils/manual/coreutils.html
+  destination: REFERENCE/COMPUTING/coreutils.html
+  version: '9.12'
+  size_bytes: 2191744
+  sha256: 8fc1770aeea95420f200501549cd6aaef3cc4fd94a92e94b51510c67bbe0bcad
+  license: GFDL-1.3-or-later
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Free Software Foundation and documentation authors
+  source_page: https://www.gnu.org/software/coreutils/manual/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: 'Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable
+    publisher URLs are content-pinned: later changes fail verification rather than silently update. One-page
+    HTML with internal section links and complete text; an optional remote GNU stylesheet is cosmetic,
+    and the document remains readable offline.'
+- id: docs_make
+  title: GNU Make Manual
+  category: computing
+  format: html
+  source_url: https://www.gnu.org/software/make/manual/make.html
+  destination: REFERENCE/COMPUTING/make.html
+  version: 4.4.1
+  size_bytes: 1064614
+  sha256: 8112de01e25ba628d5e160e9c37fef13fb2878c43b0361099981d6b1c6bd72d0
+  license: GFDL-1.3-or-later; retain cover texts
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Free Software Foundation and documentation authors
+  source_page: https://www.gnu.org/software/make/manual/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: 'Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable
+    publisher URLs are content-pinned: later changes fail verification rather than silently update. One-page
+    HTML with internal section links and complete text; an optional remote GNU stylesheet is cosmetic,
+    and the document remains readable offline.'
+- id: docs_gcc
+  title: Using the GNU Compiler Collection
+  category: computing
+  format: pdf
+  source_url: https://gcc.gnu.org/onlinedocs/gcc-16.2.0/gcc.pdf
+  destination: REFERENCE/COMPUTING/gcc.pdf
+  version: 16.2.0
+  size_bytes: 3330725
+  sha256: ac1736093d36f88f122b4559f99bebfe08bda4f590a45aee9038b99085b37815
+  license: GFDL-1.3-or-later; retain invariant section and cover texts
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Free Software Foundation and documentation authors
+  source_page: https://gcc.gnu.org/onlinedocs/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: 'Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable
+    publisher URLs are content-pinned: later changes fail verification rather than silently update.'
+- id: docs_cpp
+  title: The C Preprocessor
+  category: computing
+  format: pdf
+  source_url: https://gcc.gnu.org/onlinedocs/gcc-16.2.0/cpp.pdf
+  destination: REFERENCE/COMPUTING/cpp.pdf
+  version: 16.2.0
+  size_bytes: 484737
+  sha256: ef571c49a019b96ade6117173167a3520c42cc150888e27e899faf1263497c35
+  license: GFDL-1.3-or-later; retain cover texts
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Free Software Foundation and documentation authors
+  source_page: https://gcc.gnu.org/onlinedocs/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: 'Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable
+    publisher URLs are content-pinned: later changes fail verification rather than silently update.'
+- id: docs_binutils
+  title: GNU Binary Utilities
+  category: computing
+  format: pdf
+  source_url: https://sourceware.org/binutils/docs/binutils.pdf
+  destination: REFERENCE/COMPUTING/binutils.pdf
+  version: '2.47'
+  size_bytes: 474463
+  sha256: 8668207b6d79a97c51c24a369f3ccb67e1d9082d152f856eb76b566cf2fc812b
+  license: GFDL-1.3-or-later
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Free Software Foundation and documentation authors
+  source_page: https://sourceware.org/binutils/docs/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: 'Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable
+    publisher URLs are content-pinned: later changes fail verification rather than silently update.'
+- id: docs_ld
+  title: The GNU Linker
+  category: computing
+  format: pdf
+  source_url: https://sourceware.org/binutils/docs/ld.pdf
+  destination: REFERENCE/COMPUTING/ld.pdf
+  version: '2.47'
+  size_bytes: 725654
+  sha256: b9d9e90d3dde5190d138b7bb62b568beb4434452104709b59bdc5390e5601b6e
+  license: GFDL-1.3-or-later
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Free Software Foundation and documentation authors
+  source_page: https://sourceware.org/binutils/docs/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: 'Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable
+    publisher URLs are content-pinned: later changes fail verification rather than silently update.'
+- id: docs_libc
+  title: GNU C Library Reference Manual
+  category: computing
+  format: pdf
+  source_url: https://sourceware.org/glibc/manual/latest/pdf/libc.pdf
+  destination: REFERENCE/COMPUTING/libc.pdf
+  version: '2.44'
+  size_bytes: 4183045
+  sha256: 7681b654969b60e51652dc308bdd465a8e8aef70386b5113b7c1086a02b3b762
+  license: GFDL-1.3-or-later; retain invariant sections and cover texts
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Free Software Foundation and documentation authors
+  source_page: https://sourceware.org/glibc/manual/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: 'Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable
+    publisher URLs are content-pinned: later changes fail verification rather than silently update.'
+- id: docs_progit
+  title: Pro Git, second edition
+  category: computing
+  format: pdf
+  source_url: https://github.com/progit/progit2/releases/download/2.1.450/progit.pdf
+  destination: REFERENCE/COMPUTING/progit.pdf
+  version: 2.1.450
+  size_bytes: 18847129
+  sha256: 403f4051cdca2c585361d85f6e87d5dd87d8c544fc91dced007711babe81e8ef
+  license: CC-BY-NC-SA-3.0
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Scott Chacon and Ben Straub
+  source_page: https://git-scm.com/book/en/v2
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: textbook
+  illustrated: true
+  tags:
+  - programming
+  - computing
+  - reference
+  description: 'Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable
+    publisher URLs are content-pinned: later changes fail verification rather than silently update.'
+- id: docs_python
+  title: Python 3.14 documentation
+  category: computing
+  format: epub
+  source_url: https://docs.python.org/3/archives/python-3.14-docs.epub
+  destination: REFERENCE/COMPUTING/python.epub
+  version: 3.14 snapshot 2026-09-10
+  size_bytes: 9194178
+  sha256: 1203cb55fb7f8b792b273faf203f77ba5406a792bde874a566b004dfcbc204f1
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Python Software Foundation
+  source_page: https://docs.python.org/3/download.html
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: 'Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable
+    publisher URLs are content-pinned: later changes fail verification rather than silently update. EPUB
+    reader support is required; a direct HTML export remains to be added.'
+- id: lowtech_magazine
+  title: Low-tech Magazine (January 2025 site archive)
+  category: engineering
+  format: zim
+  source_url: https://download.kiwix.org/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim
+  destination: ZIM/OTHER/solar.lowtechmagazine.com_mul_all_2025-01.zim
+  version: 2025-01
+  size_bytes: 700555670
+  sha256: 0a21bde8e3be3b80b8b7dea13118fb2190a60274f2341a5b72715f89fd049740
+  license: Copyright Kris De Decker and contributors; individual article and image notices apply; no blanket
+    redistribution grant asserted
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Low-tech Magazine; archived by Kiwix/openZIM
+  source_page: https://solar.lowtechmagazine.com/offline-reading/
+  language: mul
+  snapshot_date: '2026-09-18'
+  attribution: Kris De Decker and original article/image contributors. Preserve article dates, credits
+    and rights notices.
+  resource_type: archive
+  illustrated: false
+  description: Published Kiwix snapshot for personal offline reading. A static export with checked illustrations
+    remains to be curated; this is not a purchased EPUB edition.
+  mirrors: &id001
+  - https://ny.mirror.driftle.ss/kiwix/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim
+  - https://wi.mirror.driftle.ss/kiwix/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim
+  - https://ftp.nluug.nl/pub/kiwix/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim
+resource_updates:
+- id: linux-programming-docs
+  status: partial
+  asset_ids:
+  - docs_bash
+  - docs_coreutils
+  - docs_make
+  - docs_gcc
+  - docs_cpp
+  - docs_binutils
+  - docs_ld
+  - docs_libc
+  - docs_progit
+  - docs_python
+  reason: 'Ten complete official manuals are pinned: Bash, coreutils, Make, GCC, CPP, binutils, ld, glibc,
+    Pro Git and Python EPUB. Linux man-pages, SQLite, OpenSSH, networking/filesystem tools and systemd,
+    plus a direct Python HTML edition, remain to be pinned. No POSIX license is assumed.'
+- id: low-tech-magazine
+  status: partial
+  asset_ids:
+  - lowtech_magazine
+  reason: Published January 2025 Kiwix archive pinned from upstream whole-file SHA-256 and exact byte
+    count. Ordinary HTML/image export and article-level visual review remain; no purchase or general redistribution
+    grant is assumed.
+evidence:
+- source_page: https://www.gnu.org/software/bash/manual/
+  download: https://www.gnu.org/software/bash/manual/bash.html
+  sha256: 78d0eefbe60cfe7345ffdafede7294f055b04e53bd520360ff699b24f81e2b4b
+  size_bytes: 1040954
+  method: Complete file downloaded and hashed; PDF/EPUB structure or HTML manual text checked.
+- source_page: https://www.gnu.org/software/coreutils/manual/
+  download: https://www.gnu.org/software/coreutils/manual/coreutils.html
+  sha256: 8fc1770aeea95420f200501549cd6aaef3cc4fd94a92e94b51510c67bbe0bcad
+  size_bytes: 2191744
+  method: Complete file downloaded and hashed; PDF/EPUB structure or HTML manual text checked.
+- source_page: https://www.gnu.org/software/make/manual/
+  download: https://www.gnu.org/software/make/manual/make.html
+  sha256: 8112de01e25ba628d5e160e9c37fef13fb2878c43b0361099981d6b1c6bd72d0
+  size_bytes: 1064614
+  method: Complete file downloaded and hashed; PDF/EPUB structure or HTML manual text checked.
+- source_page: https://gcc.gnu.org/onlinedocs/
+  download: https://gcc.gnu.org/onlinedocs/gcc-16.2.0/gcc.pdf
+  sha256: ac1736093d36f88f122b4559f99bebfe08bda4f590a45aee9038b99085b37815
+  size_bytes: 3330725
+  method: Complete file downloaded and hashed; PDF/EPUB structure or HTML manual text checked.
+- source_page: https://gcc.gnu.org/onlinedocs/
+  download: https://gcc.gnu.org/onlinedocs/gcc-16.2.0/cpp.pdf
+  sha256: ef571c49a019b96ade6117173167a3520c42cc150888e27e899faf1263497c35
+  size_bytes: 484737
+  method: Complete file downloaded and hashed; PDF/EPUB structure or HTML manual text checked.
+- source_page: https://sourceware.org/binutils/docs/
+  download: https://sourceware.org/binutils/docs/binutils.pdf
+  sha256: 8668207b6d79a97c51c24a369f3ccb67e1d9082d152f856eb76b566cf2fc812b
+  size_bytes: 474463
+  method: Complete file downloaded and hashed; PDF/EPUB structure or HTML manual text checked.
+- source_page: https://sourceware.org/binutils/docs/
+  download: https://sourceware.org/binutils/docs/ld.pdf
+  sha256: b9d9e90d3dde5190d138b7bb62b568beb4434452104709b59bdc5390e5601b6e
+  size_bytes: 725654
+  method: Complete file downloaded and hashed; PDF/EPUB structure or HTML manual text checked.
+- source_page: https://sourceware.org/glibc/manual/
+  download: https://sourceware.org/glibc/manual/latest/pdf/libc.pdf
+  sha256: 7681b654969b60e51652dc308bdd465a8e8aef70386b5113b7c1086a02b3b762
+  size_bytes: 4183045
+  method: Complete file downloaded and hashed; PDF/EPUB structure or HTML manual text checked.
+- source_page: https://git-scm.com/book/en/v2
+  download: https://github.com/progit/progit2/releases/download/2.1.450/progit.pdf
+  sha256: 403f4051cdca2c585361d85f6e87d5dd87d8c544fc91dced007711babe81e8ef
+  size_bytes: 18847129
+  method: Complete file downloaded and hashed; PDF/EPUB structure or HTML manual text checked.
+- source_page: https://docs.python.org/3/download.html
+  download: https://docs.python.org/3/archives/python-3.14-docs.epub
+  sha256: 1203cb55fb7f8b792b273faf203f77ba5406a792bde874a566b004dfcbc204f1
+  size_bytes: 9194178
+  method: Complete file downloaded and hashed; PDF/EPUB structure or HTML manual text checked.
+- url: https://download.kiwix.org/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim
+  meta4: https://download.kiwix.org/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim.meta4
+  filename: solar.lowtechmagazine.com_mul_all_2025-01.zim
+  size_bytes: 700555670
+  sha256: 0a21bde8e3be3b80b8b7dea13118fb2190a60274f2341a5b72715f89fd049740
+  mirrors: *id001
+  head_size: 700555670
+  status: 200

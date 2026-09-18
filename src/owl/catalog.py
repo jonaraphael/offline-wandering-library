@@ -104,9 +104,14 @@ def load_profiles(directory: Path) -> dict:
 
 def load_catalog(path: Path, profiles: dict | None = None, allow_local: bool = False) -> list[dict]:
     document = read_yaml(path)
+    return validate_catalog(document, profiles, allow_local)
+
+
+def validate_catalog(document: dict, profiles: dict | None = None, allow_local: bool = False) -> list[dict]:
+    """Validate a parsed catalog, including collisions across combined manifests."""
     if not isinstance(document, dict) or document.get("schema_version") != 1 or not isinstance(document.get("assets"), list):
         raise CatalogError("Catalog requires schema_version: 1 and assets list")
-    ids, paths = set(), set()
+    ids, paths, directories = set(), set(), set()
     assets = []
     for raw in document["assets"]:
         if not isinstance(raw, dict) or REQUIRED - raw.keys():
@@ -120,9 +125,12 @@ def load_catalog(path: Path, profiles: dict | None = None, allow_local: bool = F
         if dest.split("/")[0] not in ROOTS or len(dest.split("/")) < 2:
             raise CatalogError(f"{identity}: destination must be inside a content directory")
         lowered = dest.casefold()
-        if any(lowered == p or lowered.startswith(p + "/") or p.startswith(lowered + "/") for p in paths):
+        parts = lowered.split("/")
+        parents = {"/".join(parts[:n]) for n in range(1, len(parts))}
+        if lowered in paths or lowered in directories or parents & paths:
             raise CatalogError(f"Duplicate or conflicting destination: {dest}")
         paths.add(lowered)
+        directories.update(parents)
         for field in ("title", "category", "format", "version", "license"):
             if not isinstance(asset[field], str) or not asset[field].strip():
                 raise CatalogError(f"{identity}: {field} must be nonempty text (quote versions)")
@@ -135,7 +143,7 @@ def load_catalog(path: Path, profiles: dict | None = None, allow_local: bool = F
         for field in ("mirrors", "tags"):
             if field in asset and (not isinstance(asset[field], list) or any(not isinstance(v, str) for v in asset[field])):
                 raise CatalogError(f"{identity}: {field} must be a list of strings")
-        for field in ("description", "publisher", "source_page", "language", "snapshot_date", "attribution", "text_encoding", "unresolved_reason"):
+        for field in ("description", "publisher", "source_page", "language", "snapshot_date", "attribution", "text_encoding", "unresolved_reason", "derived_from_asset_id"):
             if field in asset and not isinstance(asset[field], str):
                 raise CatalogError(f"{identity}: {field} must be text")
         memberships = asset["profiles"]
@@ -301,7 +309,10 @@ def resolve_locked_content(assets: list[dict], profile: dict, lock: dict):
         if not isinstance(baseline, list) or any(not isinstance(i, str) for i in baseline):
             raise CatalogError("Invalid locked baseline")
         actual_ids = {a['id'] for a in assets}
-        if not resolved_ids <= actual_ids or not actual_ids <= resolved_ids | set(baseline):
+        additional = selection.get("additional_asset_ids", [])
+        if not isinstance(additional, list) or any(not isinstance(i, str) for i in additional):
+            raise CatalogError("Invalid locked additional assets")
+        if not resolved_ids <= actual_ids or not actual_ids <= resolved_ids | set(baseline) | set(additional):
             raise CatalogError("Locked collection coverage differs from its asset files")
     effective = {key: value for key, value in profile.items() if key != "minimum_coverage"}
     selected, unresolved = select_profile(assets, effective)

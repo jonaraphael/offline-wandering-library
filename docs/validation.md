@@ -193,3 +193,42 @@ and the completed search index. Independent strict verification reported
 **49 OK, 0 MISSING, 0 FAILED, 0 UNKNOWN**. No large source data was downloaded or
 added to Git for these tests. Alternate edition tests use small fixtures; no
 production direct/compact alternative or automatic content conversion is claimed.
+
+## Source resolution and in-place direct exports
+
+The 2026-09-18 source-resolution pass added **426 pinned file records**. The
+active registry now has **25 ready, 13 partial and 11 unresolved resources**.
+Readiness is collection scope, not a claim that all archive bytes were downloaded
+or that the SSD is finished. Evidence and remaining work are regenerated in
+`docs/content-selection.md` from the actual catalogs.
+
+The local suite passes **309 tests** with the optional ZIM dependency installed.
+It includes real small ZIM exports, interruption/restart, corrupt saved prefixes,
+source pin changes, missing space, output ownership, symlinks, drive replacement,
+malicious HTML, Unicode checkpoint resume and bounded archive enumeration.
+Extra-catalog tests verify in-place reuse without downloading/copying again,
+profile exclusion, source-edition hashes, conservative space allocation, reader
+requirements and locked rebuilds. The production navigation tests require subject
+routes for all 354 resolved critical assets and subject/learning routes for all
+23 required ordinary-format textbooks. These are whole-file routes, not invented
+page or figure mappings.
+
+A new small end-to-end build used the actual pinned WHO WASH note and Bash
+manual from verified local copies. It built search and navigation, reran with
+all downloads forbidden, and independently verified **48 OK, 0 MISSING,
+0 FAILED, 0 UNKNOWN**. MSF's original Public Health Engineering PDF was opened
+with its empty password and text extracted using `pypdf[crypto]`; the publication
+was not rewritten. The added crypto dependency supports this source format.
+
+A fresh headless Google Chrome context opened an exported fixture through
+`file://`: PNG and SVG illustrations, a real local TTF, imported CSS and the
+selected-page anchor link all worked. There were zero console errors, failed
+requests, or HTTP(S) requests. Browser inspection found and fixed a blank image
+box left after removing a remote tracker. This confirms this local Chrome
+fixture, not arbitrary Zimit applications, Safari/iPhone, Android file providers,
+or every future source page.
+
+Verified acquired documents totaling **1,873,085,081 bytes** were preserved in
+an explicitly owned SHA-256 cache on the mounted OWL SSD for future builds.
+Only source metadata, code, docs and fixtures were committed; no large archives
+were downloaded for this pass and no production SSD build was declared complete.

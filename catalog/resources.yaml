@@ -1,82 +1,381 @@
-# Curation/planning registry. target_bytes are user estimates, not download sizes.
-# Exact downloadable asset metadata lives in library.yaml. See docs/content-selection.md.
 schema_version: 1
 resources:
 - id: hesperian-health
   number: 1
   title: Hesperian low-resource health library
   target_bytes: 500000000
-  status: unresolved
-  reason: Publisher policy requires written permission for digital use; OWL has no permission or pinned
-    authorized package. The existing unresolved single-title record does not fulfill this collection.
+  status: partial
+  reason: 270 of 271 official chapter PDFs for eight explicitly selected books are pinned. A Book for
+    Midwives 2026 back matter returns HTTP 404; no substitute is silently supplied. Personal publisher
+    downloads are usable; redistributable:false concerns further sharing, not this private build.
   asset_ids:
-  - hesperian_wtnd
+  - hesperian_en_cgeh_2012_01
+  - hesperian_en_cgeh_2012_02
+  - hesperian_en_cgeh_2012_03
+  - hesperian_en_cgeh_2012_04
+  - hesperian_en_cgeh_2012_05
+  - hesperian_en_cgeh_2012_06
+  - hesperian_en_cgeh_2012_07
+  - hesperian_en_cgeh_2012_08
+  - hesperian_en_cgeh_2012_09
+  - hesperian_en_cgeh_2012_10
+  - hesperian_en_cgeh_2012_11
+  - hesperian_en_cgeh_2012_12
+  - hesperian_en_cgeh_2012_13
+  - hesperian_en_cgeh_2012_14
+  - hesperian_en_cgeh_2012_15
+  - hesperian_en_cgeh_2012_16
+  - hesperian_en_cgeh_2012_17
+  - hesperian_en_cgeh_2012_18
+  - hesperian_en_cgeh_2012_19
+  - hesperian_en_cgeh_2012_20
+  - hesperian_en_cgeh_2012_21
+  - hesperian_en_cgeh_2012_22
+  - hesperian_en_cgeh_2012_23
+  - hesperian_en_cgeh_2012_appa
+  - hesperian_en_cgeh_2012_appb
+  - hesperian_en_cgeh_2012_fm
+  - hesperian_en_cgeh_2012_gloss
+  - hesperian_en_cgeh_2012_indx
+  - hesperian_en_cgeh_2012_resc
+  - hesperian_en_dent_2024_01
+  - hesperian_en_dent_2024_02
+  - hesperian_en_dent_2024_03
+  - hesperian_en_dent_2024_04
+  - hesperian_en_dent_2024_05
+  - hesperian_en_dent_2024_06
+  - hesperian_en_dent_2024_07
+  - hesperian_en_dent_2024_08
+  - hesperian_en_dent_2024_09
+  - hesperian_en_dent_2024_10
+  - hesperian_en_dent_2024_11
+  - hesperian_en_dent_2024_12
+  - hesperian_en_dent_2024_bm
+  - hesperian_en_dent_2024_fm
+  - hesperian_en_dvc_2025_01
+  - hesperian_en_dvc_2025_02
+  - hesperian_en_dvc_2025_03
+  - hesperian_en_dvc_2025_04
+  - hesperian_en_dvc_2025_05
+  - hesperian_en_dvc_2025_06
+  - hesperian_en_dvc_2025_07
+  - hesperian_en_dvc_2025_08
+  - hesperian_en_dvc_2025_09
+  - hesperian_en_dvc_2025_10
+  - hesperian_en_dvc_2025_11
+  - hesperian_en_dvc_2025_12
+  - hesperian_en_dvc_2025_13
+  - hesperian_en_dvc_2025_14
+  - hesperian_en_dvc_2025_15
+  - hesperian_en_dvc_2025_16
+  - hesperian_en_dvc_2025_17
+  - hesperian_en_dvc_2025_18
+  - hesperian_en_dvc_2025_19
+  - hesperian_en_dvc_2025_20
+  - hesperian_en_dvc_2025_21
+  - hesperian_en_dvc_2025_22
+  - hesperian_en_dvc_2025_23
+  - hesperian_en_dvc_2025_24
+  - hesperian_en_dvc_2025_25
+  - hesperian_en_dvc_2025_26
+  - hesperian_en_dvc_2025_27
+  - hesperian_en_dvc_2025_28
+  - hesperian_en_dvc_2025_29
+  - hesperian_en_dvc_2025_30
+  - hesperian_en_dvc_2025_31
+  - hesperian_en_dvc_2025_32
+  - hesperian_en_dvc_2025_33
+  - hesperian_en_dvc_2025_34
+  - hesperian_en_dvc_2025_35
+  - hesperian_en_dvc_2025_36
+  - hesperian_en_dvc_2025_37
+  - hesperian_en_dvc_2025_38
+  - hesperian_en_dvc_2025_39
+  - hesperian_en_dvc_2025_40
+  - hesperian_en_dvc_2025_41
+  - hesperian_en_dvc_2025_42
+  - hesperian_en_dvc_2025_43
+  - hesperian_en_dvc_2025_44
+  - hesperian_en_dvc_2025_45
+  - hesperian_en_dvc_2025_46
+  - hesperian_en_dvc_2025_47
+  - hesperian_en_dvc_2025_48
+  - hesperian_en_dvc_2025_49
+  - hesperian_en_dvc_2025_50
+  - hesperian_en_dvc_2025_51
+  - hesperian_en_dvc_2025_52
+  - hesperian_en_dvc_2025_53
+  - hesperian_en_dvc_2025_54
+  - hesperian_en_dvc_2025_55
+  - hesperian_en_dvc_2025_56
+  - hesperian_en_dvc_2025_57
+  - hesperian_en_dvc_2025_58
+  - hesperian_en_dvc_2025_59
+  - hesperian_en_dvc_2025_60
+  - hesperian_en_dvc_2025_61
+  - hesperian_en_dvc_2025_62
+  - hesperian_en_dvc_2025_63
+  - hesperian_en_dvc_2025_64
+  - hesperian_en_dvc_2025_65
+  - hesperian_en_dvc_2025_66
+  - hesperian_en_dvc_2025_67
+  - hesperian_en_dvc_2025_fm
+  - hesperian_en_dvc_2025_gloss
+  - hesperian_en_dvc_2025_indx
+  - hesperian_en_dvc_2025_ob
+  - hesperian_en_dvc_2025_resc
+  - hesperian_en_hcwb_2000_01
+  - hesperian_en_hcwb_2000_02
+  - hesperian_en_hcwb_2000_03
+  - hesperian_en_hcwb_2000_04
+  - hesperian_en_hcwb_2000_05
+  - hesperian_en_hcwb_2000_06
+  - hesperian_en_hcwb_2000_07
+  - hesperian_en_hcwb_2000_08
+  - hesperian_en_hcwb_2000_09
+  - hesperian_en_hcwb_2000_10
+  - hesperian_en_hcwb_2000_11
+  - hesperian_en_hcwb_2000_12
+  - hesperian_en_hcwb_2000_13
+  - hesperian_en_hcwb_2000_14
+  - hesperian_en_hcwb_2000_15
+  - hesperian_en_hcwb_2000_16
+  - hesperian_en_hcwb_2000_17
+  - hesperian_en_hcwb_2000_18
+  - hesperian_en_hcwb_2000_19
+  - hesperian_en_hcwb_2000_20
+  - hesperian_en_hcwb_2000_fm
+  - hesperian_en_hhwl_2026_01
+  - hesperian_en_hhwl_2026_02
+  - hesperian_en_hhwl_2026_03
+  - hesperian_en_hhwl_2026_04
+  - hesperian_en_hhwl_2026_05
+  - hesperian_en_hhwl_2026_06
+  - hesperian_en_hhwl_2026_07
+  - hesperian_en_hhwl_2026_08
+  - hesperian_en_hhwl_2026_09
+  - hesperian_en_hhwl_2026_10
+  - hesperian_en_hhwl_2026_11
+  - hesperian_en_hhwl_2026_12
+  - hesperian_en_hhwl_2026_13
+  - hesperian_en_hhwl_2026_14
+  - hesperian_en_hhwl_2026_15
+  - hesperian_en_hhwl_2026_16
+  - hesperian_en_hhwl_2026_17
+  - hesperian_en_hhwl_2026_18
+  - hesperian_en_hhwl_2026_19
+  - hesperian_en_hhwl_2026_20
+  - hesperian_en_hhwl_2026_21
+  - hesperian_en_hhwl_2026_22
+  - hesperian_en_hhwl_2026_23
+  - hesperian_en_hhwl_2026_24
+  - hesperian_en_hhwl_2026_25
+  - hesperian_en_hhwl_2026_26
+  - hesperian_en_hhwl_2026_27
+  - hesperian_en_hhwl_2026_bm1
+  - hesperian_en_hhwl_2026_bm2
+  - hesperian_en_hhwl_2026_fm
+  - hesperian_en_hhwl_2026_indx
+  - hesperian_en_hhwl_2026_ob
+  - hesperian_en_hhwl_2026_resc
+  - hesperian_en_midw_2026_01
+  - hesperian_en_midw_2026_02
+  - hesperian_en_midw_2026_03
+  - hesperian_en_midw_2026_04
+  - hesperian_en_midw_2026_05
+  - hesperian_en_midw_2026_06
+  - hesperian_en_midw_2026_07
+  - hesperian_en_midw_2026_08
+  - hesperian_en_midw_2026_09
+  - hesperian_en_midw_2026_10
+  - hesperian_en_midw_2026_11
+  - hesperian_en_midw_2026_12
+  - hesperian_en_midw_2026_13
+  - hesperian_en_midw_2026_14
+  - hesperian_en_midw_2026_15
+  - hesperian_en_midw_2026_16
+  - hesperian_en_midw_2026_17
+  - hesperian_en_midw_2026_18
+  - hesperian_en_midw_2026_19
+  - hesperian_en_midw_2026_20
+  - hesperian_en_midw_2026_21
+  - hesperian_en_midw_2026_22
+  - hesperian_en_midw_2026_23
+  - hesperian_en_midw_2026_24
+  - hesperian_en_midw_2026_25
+  - hesperian_en_midw_2026_ddc
+  - hesperian_en_midw_2026_fm
+  - hesperian_en_midw_2026_gloss
+  - hesperian_en_midw_2026_gp
+  - hesperian_en_midw_2026_indx
+  - hesperian_en_midw_2026_resc
+  - hesperian_en_wtnd_2025_01
+  - hesperian_en_wtnd_2025_02
+  - hesperian_en_wtnd_2025_03
+  - hesperian_en_wtnd_2025_04
+  - hesperian_en_wtnd_2025_05
+  - hesperian_en_wtnd_2025_06
+  - hesperian_en_wtnd_2025_07
+  - hesperian_en_wtnd_2025_08
+  - hesperian_en_wtnd_2025_09
+  - hesperian_en_wtnd_2025_10
+  - hesperian_en_wtnd_2025_11
+  - hesperian_en_wtnd_2025_12
+  - hesperian_en_wtnd_2025_13
+  - hesperian_en_wtnd_2025_14
+  - hesperian_en_wtnd_2025_15
+  - hesperian_en_wtnd_2025_16
+  - hesperian_en_wtnd_2025_17
+  - hesperian_en_wtnd_2025_18
+  - hesperian_en_wtnd_2025_19
+  - hesperian_en_wtnd_2025_20
+  - hesperian_en_wtnd_2025_21
+  - hesperian_en_wtnd_2025_22
+  - hesperian_en_wtnd_2025_23
+  - hesperian_en_wtnd_2025_bm
+  - hesperian_en_wtnd_2025_fm
+  - hesperian_en_wtnd_2025_gloss
+  - hesperian_en_wtnd_2025_gp
+  - hesperian_en_wtnd_2025_indx
+  - hesperian_en_wtnd_2025_info
+  - hesperian_en_wtnd_2025_int
+  - hesperian_en_wtnd_2025_resc
+  - hesperian_en_wtnd_2025_toc
+  - hesperian_en_wwhnd_2024_01
+  - hesperian_en_wwhnd_2024_02
+  - hesperian_en_wwhnd_2024_03
+  - hesperian_en_wwhnd_2024_04
+  - hesperian_en_wwhnd_2024_05
+  - hesperian_en_wwhnd_2024_06
+  - hesperian_en_wwhnd_2024_07
+  - hesperian_en_wwhnd_2024_08
+  - hesperian_en_wwhnd_2024_09
+  - hesperian_en_wwhnd_2024_10
+  - hesperian_en_wwhnd_2024_11
+  - hesperian_en_wwhnd_2024_12
+  - hesperian_en_wwhnd_2024_13
+  - hesperian_en_wwhnd_2024_14
+  - hesperian_en_wwhnd_2024_15
+  - hesperian_en_wwhnd_2024_16
+  - hesperian_en_wwhnd_2024_17
+  - hesperian_en_wwhnd_2024_18
+  - hesperian_en_wwhnd_2024_19
+  - hesperian_en_wwhnd_2024_20
+  - hesperian_en_wwhnd_2024_21
+  - hesperian_en_wwhnd_2024_22
+  - hesperian_en_wwhnd_2024_23
+  - hesperian_en_wwhnd_2024_24
+  - hesperian_en_wwhnd_2024_25
+  - hesperian_en_wwhnd_2024_26
+  - hesperian_en_wwhnd_2024_27
+  - hesperian_en_wwhnd_2024_28
+  - hesperian_en_wwhnd_2024_29
+  - hesperian_en_wwhnd_2024_30
+  - hesperian_en_wwhnd_2024_31
+  - hesperian_en_wwhnd_2024_fm
+  - hesperian_en_wwhnd_2024_gloss
+  - hesperian_en_wwhnd_2024_gp
+  - hesperian_en_wwhnd_2024_indx
+  - hesperian_en_wwhnd_2024_ob
+  - hesperian_en_wwhnd_2024_resc
+  - hesperian_en_wwhnd_2024_skills
   preferred_formats:
   - pdf
   - html
   include:
-  - Where There Is No Doctor
-  - Where Women Have No Doctor
-  - Where There Is No Dentist
-  - A Book for Midwives
-  - Environmental health
-  - Disability and child-health guides
-  - Health-worker training
+  - Publisher English chapter PDFs for Where There Is No Doctor (2025 printing), Where Women Have No Doctor
+    (2024 printing), Where There Is No Dentist (2024), A Book for Midwives (2026 printing), A Community
+    Guide to Environmental Health (2012), Disabled Village Children (2025 printing), Helping Children
+    Who Are Blind (2000), Helping Health Workers Learn (2026 edition)
+  - Preserve whole-book context through chapter titles, front matter, indexes and publisher supplementary
+    pages; one back-matter file remains missing
   exclude:
-  - Digital copying or redistribution without the required publisher permission
+  - Unlicensed redistribution or adapted digital editions
+  - Claiming these eight books comprise the entire Hesperian catalog
+  - Claiming the missing midwives back matter was acquired
   source_pages:
   - https://hesperian.org/open-copyright-policy/
 - id: msf-medical
   number: 2
   title: MSF Medical Guidelines
   target_bytes: 250000000
-  status: unresolved
-  reason: The publisher offers several guidelines but warns that some PDFs are not updated. Current titles,
-    authorized snapshot method, licensing and exact file pins require review.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - msf_guideline-170-en
+  - msf_guideline-339-en
+  - msf_guideline-449-en
+  - msf_guideline-800-en
+  - msf_measles_2025_en
+  - msf_public_health_engineering_2010
+  - msf_tuberculosis_2025_en
   preferred_formats:
   - pdf
   - html
   include:
-  - Clinical Guidelines
-  - Essential Drugs
-  - Obstetric and newborn care
-  - Cholera
-  - Measles
-  - Tuberculosis
-  - Public-health engineering
-  - Versioned PDF and static HTML snapshots with update dates
+  - 'Whole English publisher PDFs: Clinical Guidelines (December 2024), Essential Drugs (January 2026),
+    Essential Obstetric and Newborn Care (2019), Cholera (2018), Measles (2025), Tuberculosis (2025),
+    Public Health Engineering (2010)'
+  - Retain the exact PDF edition and export date; preserve original illustrations, tables, appendices
+    and clinical qualifications
   exclude:
-  - Unreviewed claims that an older PDF matches the current online guidance
+  - Claiming PDF editions match all current online updates
+  - HTML mirrors, apps or translations not explicitly pinned
+  - Further redistribution without permission
   source_pages:
   - https://medicalguidelines.msf.org/en
 - id: who-emergency-care
   number: 3
   title: WHO Basic Emergency Care and emergency clinical references
   target_bytes: 100000000
-  status: partial
-  reason: The verified 2018 BEC PDF is available. Related emergency references and subsequent updates
-    have not been selected and pinned; the whole requested collection is incomplete.
+  status: ready
   asset_ids:
   - medical_bec
+  - who_emergency_acute-referral-form
+  - who_emergency_acute-transfer-checklist
+  - who_emergency_bec_faq
+  - who_emergency_becp-edu29-pdf-en-finl
+  - who_emergency_counter-referral-form
+  - who_emergency_toolkit_pocket
+  - who_emergency_medical-algorithm
+  - who_emergency_pph-quick-card
+  - who_emergency_sbar
+  - who_emergency_trauma-algorithm
   preferred_formats:
   - pdf
   include:
-  - Complete Basic Emergency Care manual
-  - Directly related emergency-care reference material
-  - Explicit edition dates and clinical limitations
+  - Complete 2018 Basic Emergency Care manual
+  - November 2025 postpartum haemorrhage quick card; BEC quick cards; SBAR job aid; BEC frequently asked
+    questions
+  - Emergency Care Toolkit pocket guide; acute transfer checklist; acute referral and counter-referral
+    forms; medical and trauma resuscitation algorithm posters
+  - Original clinical limitations, authorship and image content; some poster text requires OCR for body
+    search
   exclude:
-  - Treating a single historical manual as a complete current emergency-care collection
+  - Unpinned training PowerPoints, videos, online course content and later clinical changes
+  - Presenting professional clinical references as layperson first-aid training
   source_pages:
   - https://www.who.int/publications/i/item/9789241513081
 - id: who-wash
   number: 4
   title: WHO WASH in Emergencies
   target_bytes: 100000000
-  status: unresolved
-  reason: The complete 15-note source page is verified, but individual downloads and rights have not been
-    pinned. The 2013 notes carry copyright notices; do not infer the BEC license applies.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - who_wash_01
+  - who_wash_02
+  - who_wash_03
+  - who_wash_04
+  - who_wash_05
+  - who_wash_06
+  - who_wash_07
+  - who_wash_08
+  - who_wash_09
+  - who_wash_10
+  - who_wash_11
+  - who_wash_12
+  - who_wash_13
+  - who_wash_14
+  - who_wash_15
   preferred_formats:
   - pdf
   include:
@@ -100,10 +399,9 @@ resources:
   number: 5
   title: Sphere Handbook
   target_bytes: 50000000
-  status: unresolved
-  reason: Official handbook and download pages are verified; an edition-specific PDF/HTML package, permissions
-    and integrity pins are still needed.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - sphere_handbook_2018
   preferred_formats:
   - pdf
   - html
@@ -122,8 +420,9 @@ resources:
   title: USDA and NCHFP food preservation
   target_bytes: 100000000
   status: partial
-  reason: All eight files of the verified USDA 2015 canning guide are pinned. Current freezing, drying,
-    fermentation and broader food-safety selections are not yet pinned.
+  reason: The existing eight USDA 2015 canning files are retained; NCHFP-linked UGA 2026 kombucha safety
+    and Montana 2017 vegetable-drying PDFs are now pinned. A verified current freezing publication, broader
+    drying/food-safety selection and review of later canning changes remain outstanding.
   asset_ids:
   - food
   - canning_00
@@ -133,6 +432,8 @@ resources:
   - canning_05
   - canning_06
   - canning_07
+  - montana_drying_vegetables_2017
+  - uga_kombucha_c1312
   preferred_formats:
   - pdf
   - html
@@ -151,10 +452,9 @@ resources:
   number: 7
   title: NIOSH Pocket Guide to Chemical Hazards
   target_bytes: 10000000
-  status: unresolved
-  reason: NIOSH confirms an official PDF is available; the exact downloadable file and edition have not
-    yet been hashed and entered in the asset catalog.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - niosh_pocket_guide_2007
   preferred_formats:
   - pdf
   include:
@@ -169,10 +469,19 @@ resources:
   number: 8
   title: FAO practical agriculture core
   target_bytes: 500000000
-  status: unresolved
-  reason: The instructional scope is defined, but a title-level FAO selection, rights review and pinned
-    files remain to be created. The baseline NRCS garden guide is not this collection.
-  asset_ids: []
+  status: partial
+  reason: Seven complete practical PDFs cover field-school crop production/IPM, compost (English/Spanish),
+    seed storage, poultry, surface irrigation and aquaponics. Separate coverage for other requested vegetables,
+    livestock/dairy/feed, greenhouse, postharvest/grain storage and tools remains incomplete; two older
+    manuals have no verified redistribution grant.
+  asset_ids:
+  - fao_farmer_field
+  - fao_compost_es
+  - fao_poultry
+  - fao_seed_storage
+  - fao_surface_irrigation
+  - fao_compost_en
+  - fao_aquaponics
   preferred_formats:
   - pdf
   - html
@@ -248,10 +557,73 @@ resources:
   number: 10
   title: Children's Library
   target_bytes: 22000000000
-  status: unresolved
-  reason: Book Dash permits redistribution and African Storybook offers offline downloads, but complete
-    authorized direct-format exports, per-title metadata, deduplication and hashes are not yet assembled.
-  asset_ids: []
+  status: partial
+  reason: All 61 complete EPUBs at the publisher Book Dash archive commit are pinned in English, French
+    and Xhosa. Current 221-title Book Dash PDF library download endpoint returns HTTP 403, and African
+    Storybook full approved multilingual PDF export is not yet reproducibly acquired. EPUBs require a
+    reader.
+  asset_ids:
+  - bookdash_a_beautiful_day_en
+  - bookdash_a_dancers_tale_en
+  - bookdash_a_fish_and_a_gift_en
+  - bookdash_a_fish_and_a_gift_fr
+  - bookdash_a_fish_and_a_gift_xh
+  - bookdash_a_house_for_mouse_en
+  - bookdash_a_house_for_mouse_xh
+  - bookdash_a_tiny_seed_en
+  - bookdash_a_tiny_seed_fr
+  - bookdash_a_tiny_seed_xh
+  - bookdash_amazing_daisy_en
+  - bookdash_amazing_daisy_xh
+  - bookdash_bathtub_safari_en
+  - bookdash_come_back_cat_en
+  - bookdash_come_back_cat_fr
+  - bookdash_come_back_cat_xh
+  - bookdash_gracas_dream_en
+  - bookdash_gracas_dream_xh
+  - bookdash_grandpas_gold_en
+  - bookdash_how_about_you_en
+  - bookdash_i_will_help_you_en
+  - bookdash_is_there_anyone_like_me_en
+  - bookdash_is_there_anyone_like_me_xh
+  - bookdash_karabos_question_en
+  - bookdash_little_ants_big_plan_en
+  - bookdash_little_ants_big_plan_xh
+  - bookdash_londi_the_dreaming_girl_en
+  - bookdash_lory_dory_en
+  - bookdash_maddy_moona_en
+  - bookdash_miss_helens_magical_world_en
+  - bookdash_queen_of_soweto_en
+  - bookdash_rafikis_style_en
+  - bookdash_rafikis_style_xh
+  - bookdash_sbus_special_shoes_en
+  - bookdash_searching_for_the_spirit_of_spring_en
+  - bookdash_searching_for_the_spirit_of_spring_xh
+  - bookdash_sima_and_siza_en
+  - bookdash_sindi_and_the_moon_en
+  - bookdash_sindiwe_and_the_fireflies_en
+  - bookdash_sindiwe_and_the_fireflies_xh
+  - bookdash_singing_the_truth_en
+  - bookdash_singing_the_truth_fr
+  - bookdash_singing_the_truth_xh
+  - bookdash_sizwes_smile_en
+  - bookdash_sizwes_smile_fr
+  - bookdash_sizwes_smile_xh
+  - bookdash_sleepy_mr_sloth_en
+  - bookdash_sleepy_mr_sloth_fr
+  - bookdash_sleepy_mr_sloth_xh
+  - bookdash_thatos_birthday_surprise_en
+  - bookdash_there_must_be_a_rainbow_en
+  - bookdash_together_were_strong_en
+  - bookdash_tortoise_finds_his_home_en
+  - bookdash_tortoise_finds_his_home_fr
+  - bookdash_tortoise_finds_his_home_xh
+  - bookdash_walking_together_en
+  - bookdash_walking_together_xh
+  - bookdash_what_if_en
+  - bookdash_whose_button_is_this_en
+  - bookdash_why_is_nita_upside_down_en
+  - bookdash_zanele_situ_my_story_en
   preferred_formats:
   - pdf
   - html
@@ -283,9 +655,8 @@ resources:
   title: English Wikipedia, full
   target_bytes: 119000000000
   status: partial
-  reason: The full English maxi ZIM is pinned. The requested direct HTML lifeboat and curated article
-    list are missing. The 119 GB target is a planning envelope including its allowance, not the exact
-    ZIM byte count.
+  reason: The full English maxi archive is pinned. The in-place direct exporter is available; the curated
+    lifeboat article list and visually verified HTML/image edition are still missing.
   asset_ids:
   - wikipedia_en
   preferred_formats:
@@ -325,10 +696,9 @@ resources:
   number: 13
   title: WikEM
   target_bytes: 360000000
-  status: unresolved
-  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
-    recorded.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - wikem_en
   preferred_formats:
   - zim
   include:
@@ -342,10 +712,9 @@ resources:
   number: 14
   title: Regional maps and topography
   target_bytes: 51000000000
-  status: unresolved
-  reason: The North America OSM asset is an unresolved placeholder pending exact source metadata. Locality-specific
-    GeoPDF coverage is not selected. Existing USGS Dynamic Planet reference sheets do not fulfill this
-    resource.
+  status: partial
+  reason: North America OSM archive is pinned (22,652,513,201 bytes). Local/regional GeoPDF coverage still
+    requires the intended location and corridor selection; this archive does not satisfy that requirement.
   asset_ids:
   - map_osm_north_america
   - regional_topographic_maps
@@ -375,8 +744,8 @@ resources:
   title: Appropedia
   target_bytes: 560000000
   status: partial
-  reason: The whole Appropedia ZIM is pinned; the required selection and offline HTML export of critical
-    articles are not yet generated.
+  reason: The whole Appropedia ZIM is pinned and the direct exporter is available. A reviewed critical-article
+    selection and verified illustrated static output are still needed.
   asset_ids:
   - appropedia_en
   preferred_formats:
@@ -394,10 +763,12 @@ resources:
   number: 16
   title: CD3WD appropriate-development archive
   target_bytes: 550000000
-  status: unresolved
-  reason: An exact archive snapshot, contained-publication rights and PDF extraction plan remain unresolved;
-    historical archive availability alone is not license evidence.
-  asset_ids: []
+  status: partial
+  reason: The complete published 2025-11 Kiwix website archive is pinned and available for personal offline
+    acquisition. Ordinary-format exports of original PDFs/HTML remain to be implemented; original publication
+    rights vary and no blanket redistribution license is asserted.
+  asset_ids:
+  - cd3wd_en
   preferred_formats:
   - zim
   - pdf
@@ -413,8 +784,8 @@ resources:
   title: iFixit repair references
   target_bytes: 3300000000
   status: partial
-  reason: The English iFixit ZIM is pinned. A curated set of directly readable critical guides has not
-    yet been exported and verified; noncommercial share-alike conditions apply.
+  reason: The whole English repair ZIM is pinned and a direct export mechanism is available. Curated critical
+    guides with reviewed steps, photographs and complete static dependencies are still needed.
   asset_ids:
   - ifixit_en
   preferred_formats:
@@ -434,10 +805,12 @@ resources:
   number: 18
   title: Low-tech Magazine
   target_bytes: 700000000
-  status: unresolved
-  reason: The official editorial site is verified, but an authorized static snapshot, image-rights review,
-    exact scope and integrity metadata have not been prepared.
-  asset_ids: []
+  status: partial
+  reason: Published January 2025 Kiwix archive pinned from upstream whole-file SHA-256 and exact byte
+    count. Ordinary HTML/image export and article-level visual review remain; no purchase or general redistribution
+    grant is assumed.
+  asset_ids:
+  - lowtech_magazine
   preferred_formats:
   - html
   - png
@@ -570,16 +943,28 @@ resources:
   number: 22
   title: OpenStax core textbooks
   target_bytes: 12000000000
-  status: partial
-  reason: Five verified illustrated PDFs (Prealgebra, College Physics, Chemistry, Biology, Anatomy and
-    Physiology) are pinned, totaling 1.42 GB. The larger requested textbook list and HTML coverage are
-    incomplete. Included 2026 PDFs require CC BY-NC-SA 4.0 and the OpenStax attribution notice.
+  status: ready
   asset_ids:
   - openstax_prealgebra_2e
   - openstax_college_physics_2e
   - openstax_chemistry_2e
   - openstax_biology_2e
   - openstax_anatomy_and_physiology_2e
+  - openstax_algebra_and_trigonometry_2e
+  - openstax_astronomy_2e
+  - openstax_calculus_volume_1
+  - openstax_calculus_volume_2
+  - openstax_calculus_volume_3
+  - openstax_college_algebra_2e
+  - openstax_elementary_algebra_2e
+  - openstax_intermediate_algebra_2e
+  - openstax_introductory_statistics_2e
+  - openstax_microbiology
+  - openstax_physics
+  - openstax_precalculus_2e
+  - openstax_university_physics_volume_1
+  - openstax_university_physics_volume_2
+  - openstax_university_physics_volume_3
   preferred_formats:
   - pdf
   - html
@@ -604,10 +989,16 @@ resources:
   number: 23
   title: LibreTexts STEM and medicine
   target_bytes: 8500000000
-  status: unresolved
-  reason: Eight requested subject packages total roughly 8.48 GB in the supplied estimates. Exact pinned
-    archives and collection-specific rights have not been added.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - libretexts_bio
+  - libretexts_chem
+  - libretexts_eng
+  - libretexts_geo
+  - libretexts_math
+  - libretexts_med
+  - libretexts_phys
+  - libretexts_stats
   preferred_formats:
   - zim
   - pdf
@@ -659,11 +1050,13 @@ resources:
   number: 26
   title: PhET simulations
   target_bytes: 100000000
-  status: unresolved
-  reason: Official offline-download support is verified, but individual simulation versions, current license
-    terms, self-contained files and offline device tests are not pinned. Do not assume historical licensing
-    applies.
-  asset_ids: []
+  status: partial
+  reason: Two exact-version regular English HTML5 simulations are pinned with embedded runtime and notices.
+    Remaining useful simulations and actual offline device tests remain; optional analytics/update requests
+    are retained in publisher files.
+  asset_ids:
+  - phet_ohms_law
+  - phet_circuit_construction_kit_dc
   preferred_formats:
   - html5
   include:
@@ -680,10 +1073,9 @@ resources:
   number: 27
   title: English Wikiversity
   target_bytes: 2300000000
-  status: unresolved
-  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
-    recorded.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - wikiversity_en
   preferred_formats:
   - zim
   include:
@@ -696,23 +1088,19 @@ resources:
   number: 28
   title: Ready.gov and FEMA civilian preparedness expansion
   target_bytes: 500000000
-  status: unresolved
-  reason: Expanded civilian-preparedness pages and publications are not selected or pinned. Complementary
-    baseline FEMA PDFs belong to owl-direct-core and are not counted twice here.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - fema_are_you_ready_2020
   preferred_formats:
   - html
   - pdf
   include:
-  - Disaster types
-  - Sheltering
-  - Evacuation
-  - Communications
-  - Household preparation
-  - Static HTML and PDFs beyond the existing OWL baseline manuals
+  - Whole FEMA P-2064 September 2020 Are You Ready? An In-Depth Guide to Citizen Preparedness
+  - Household planning and supplies, hazard-specific actions, sheltering, evacuation, communication and
+    recovery beyond the existing core checklist/CERT references
   exclude:
-  - Claiming the core CERT, shelter advisory and supply checklist alone fulfill the broader Ready.gov/FEMA
-    collection
+  - Claiming a complete mirror of all Ready.gov/FEMA web pages
+  - Counting core CERT, safe-room advisory or supply checklist twice
   source_pages:
   - https://www.govinfo.gov/app/details/GOVPUB-HS5_100-PURL-gpo185734
   - https://www.fema.gov/sites/default/files/2020-07/residential-sheltering-safe-rooms_recovery-advisory.pdf
@@ -721,10 +1109,9 @@ resources:
   number: 29
   title: English Wikivoyage
   target_bytes: 1100000000
-  status: unresolved
-  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
-    recorded.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - wikivoyage_en
   preferred_formats:
   - zim
   include:
@@ -738,10 +1125,9 @@ resources:
   number: 30
   title: CIA World Factbook snapshot
   target_bytes: 400000000
-  status: unresolved
-  reason: CIA officially discontinued the Factbook on 2026-02-04. An approved preserved snapshot with
-    exact provenance, rights and integrity metadata must be selected; no current CIA download is assumed.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - world_factbook_en
   preferred_formats:
   - html
   - zim
@@ -757,10 +1143,21 @@ resources:
   number: 31
   title: Offline Linux and programming documentation
   target_bytes: 5000000000
-  status: unresolved
-  reason: Authoritative offline sources exist, but the requested multi-project bundle, versions, rights
-    and safe direct-format extraction are not yet pinned.
-  asset_ids: []
+  status: partial
+  reason: 'Ten complete official manuals are pinned: Bash, coreutils, Make, GCC, CPP, binutils, ld, glibc,
+    Pro Git and Python EPUB. Linux man-pages, SQLite, OpenSSH, networking/filesystem tools and systemd,
+    plus a direct Python HTML edition, remain to be pinned. No POSIX license is assumed.'
+  asset_ids:
+  - docs_bash
+  - docs_coreutils
+  - docs_make
+  - docs_gcc
+  - docs_cpp
+  - docs_binutils
+  - docs_ld
+  - docs_libc
+  - docs_progit
+  - docs_python
   preferred_formats:
   - html
   - txt
@@ -815,10 +1212,9 @@ resources:
   number: 33
   title: English Wikisource
   target_bytes: 18000000000
-  status: unresolved
-  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
-    recorded.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - wikisource_en
   preferred_formats:
   - zim
   include:
@@ -831,10 +1227,12 @@ resources:
   number: 34
   title: TED-Ed
   target_bytes: 6000000000
-  status: unresolved
-  reason: An exact authorized offline lesson collection, video rendition and package rights have not been
-    pinned; the target is a curation estimate.
-  asset_ids: []
+  status: partial
+  reason: Pinned September 2026 TED-Ed topic archive from the Kiwix TED collection (6,380,955,947 bytes),
+    suitable for intact personal noncommercial playback. This is a specific TED topic package; complete
+    ed.ted.com lesson/animation coverage and ordinary-file media exports are not established.
+  asset_ids:
+  - ted_ed
   preferred_formats:
   - video
   - html
@@ -879,10 +1277,9 @@ resources:
   number: 36
   title: Spanish Wikipedia
   target_bytes: 38000000000
-  status: unresolved
-  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
-    recorded.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - wikipedia_es
   preferred_formats:
   - zim
   include:
@@ -897,10 +1294,9 @@ resources:
   number: 37
   title: French Wikipedia
   target_bytes: 52000000000
-  status: unresolved
-  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
-    recorded.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - wikipedia_fr
   preferred_formats:
   - zim
   include:
@@ -915,10 +1311,9 @@ resources:
   number: 38
   title: Chinese Wikipedia
   target_bytes: 25000000000
-  status: unresolved
-  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
-    recorded.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - wikipedia_zh
   preferred_formats:
   - zim
   include:
@@ -933,10 +1328,9 @@ resources:
   number: 39
   title: Arabic Wikipedia
   target_bytes: 18000000000
-  status: unresolved
-  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
-    recorded.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - wikipedia_ar
   preferred_formats:
   - zim
   include:
@@ -951,10 +1345,9 @@ resources:
   number: 40
   title: Portuguese Wikipedia
   target_bytes: 19000000000
-  status: unresolved
-  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
-    recorded.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - wikipedia_pt
   preferred_formats:
   - zim
   include:
@@ -969,10 +1362,9 @@ resources:
   number: 41
   title: Italian Wikipedia
   target_bytes: 30000000000
-  status: unresolved
-  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
-    recorded.
-  asset_ids: []
+  status: ready
+  asset_ids:
+  - wikipedia_it
   preferred_formats:
   - zim
   include:
@@ -987,9 +1379,7 @@ resources:
   number: 42
   title: Upgrade regional map to entire world
   target_bytes: 72000000000
-  status: unresolved
-  reason: The world-map asset is a placeholder pending exact source metadata. It replaces only map_osm_north_america
-    when that component would otherwise be selected; it is not a 51 GB downloadable file.
+  status: ready
   asset_ids:
   - map_osm_world
   preferred_formats:
@@ -1185,9 +1575,9 @@ resources:
   title: Additional directly readable editions of selected material
   target_bytes: 60000000000
   status: unresolved
-  reason: Additional storage for ordinary-format derivatives of selected collections. No curated export
-    manifests, licensed derivative packages, extraction pipeline or verified output assets are implemented
-    yet. This is a representation budget, not a new acquired collection or a claim of available files.
+  reason: The tested in-place ZIM exporter and extra-catalog import are implemented. Reviewed article/book
+    lists, collection-specific visual checks and complete verified output editions are still missing.
+    The 60 GB target is an additional representation allowance, not downloaded content.
   asset_ids: []
   preferred_formats:
   - html
