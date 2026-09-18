@@ -131,7 +131,11 @@ HTML/TXT file restarts. Very slow individual units can delay a checkpoint.
 Final index assembly restarts from retained records and postings after an
 interruption. Once the raw binary has been flushed, fsynced, hashed, and checked
 against its source inputs, the builder saves a durable `serialized.json`
-checkpoint. Only then does it close the database and remove its owned database,
+checkpoint. Raw-index and checkpoint directories are also fsynced where the
+platform and filesystem support it. Unsupported directory synchronization emits
+one notice; genuine I/O errors stop before extraction cleanup. Normal process
+interruption remains resumable, but sudden power loss or unsafe removal also
+depends on the filesystem and USB controller. Only then does it close the database and remove its owned database,
 journal, and record files. An interrupted browser-package stage can reuse this
 verified raw checkpoint and matching completed chunks without extracting the
 corpus again. Only registered scratch files are removed; unrelated files in a
