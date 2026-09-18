@@ -1,0 +1,397 @@
+# Starter browsing vocabulary, not a finalized include list.
+schema_version: 1
+entrances:
+  subjects:
+  - health
+  - water-hygiene
+  - food-growing
+  - shelter
+  - electricity
+  - repair
+  - navigation-maps
+  - science
+  - language-books
+  - reference
+  tasks:
+  - first-aid
+  - drinking-water
+  - sanitation
+  - food-preservation
+  - gardening
+  - repair
+  - map-compass
+  - preparedness
+  learn:
+  - learn-foundations
+topics:
+- id: health
+  title: Health and first aid
+  description: First aid, emergency-care references, and human anatomy.
+  parents: []
+  related: []
+  aliases: []
+- id: water-hygiene
+  title: Water and hygiene
+  description: Drinking-water treatment and sanitation references.
+  parents: []
+  related: []
+  aliases: []
+- id: food-growing
+  title: Food and growing
+  description: Food preservation and vegetable gardening.
+  parents: []
+  related: []
+  aliases: []
+- id: shelter
+  title: Shelter and homes
+  description: Residential storm shelter and outdoor shelter references.
+  parents: []
+  related: []
+  aliases: []
+- id: electricity
+  title: Energy and electricity
+  description: Electrical foundations and circuit textbooks.
+  parents: []
+  related: []
+  aliases: []
+- id: repair
+  title: Repair and maintenance
+  description: Maintenance references, repair guides, and appropriate technology.
+  parents: []
+  related: []
+  aliases: []
+- id: navigation-maps
+  title: Navigation and maps
+  description: Map-and-compass references and selected map collections.
+  parents: []
+  related: []
+  aliases: []
+- id: science
+  title: Science and mathematics
+  description: Foundational textbooks for understanding and learning.
+  parents: []
+  related: []
+  aliases: []
+- id: language-books
+  title: Language and books
+  description: Dictionaries, books, and broader reading collections.
+  parents: []
+  related: []
+  aliases: []
+- id: reference
+  title: General reference and preparedness
+  description: Encyclopedias, preparedness lists, and archive-reader packages.
+  parents: []
+  related: []
+  aliases: []
+- id: learn-foundations
+  title: Learn the foundations
+  description: Textbooks organized by subject. Illustrated assets retain their original
+    figures.
+  parents: []
+  related: []
+  aliases: []
+- id: first-aid
+  title: First aid and preparedness training
+  description: CERT participant training material. Consult the original manual for
+    audience and limitations.
+  parents:
+  - health
+  related:
+  - emergency-care
+  - preparedness
+  aliases:
+  - First response
+- id: emergency-care
+  title: Emergency care
+  description: Basic Emergency Care training and medical reference collections. Training
+    resources retain their original audience and scope.
+  parents:
+  - health
+  related:
+  - first-aid
+  - anatomy
+  aliases:
+  - Medicine
+  - Medical care
+- id: drinking-water
+  title: Drinking-water treatment
+  description: Emergency drinking-water disinfection references.
+  parents:
+  - water-hygiene
+  related:
+  - sanitation
+  aliases:
+  - Water purification
+  - Clean water
+- id: sanitation
+  title: Sanitation after disasters
+  description: Sanitation and diarrheal-disease prevention references.
+  parents:
+  - water-hygiene
+  - health
+  related:
+  - drinking-water
+  aliases:
+  - Hygiene
+- id: food-preservation
+  title: Preserving food
+  description: USDA home-canning volumes, organized by their published subject.
+  parents:
+  - food-growing
+  related:
+  - gardening
+  aliases:
+  - Food storage
+- id: canning
+  title: Home canning
+  description: Complete source volumes; use the original publication for procedures
+    and limitations.
+  parents:
+  - food-preservation
+  related: []
+  aliases:
+  - Preserving food
+- id: canning-introduction
+  title: Introduction and principles
+  description: The corresponding volume of the USDA Complete Guide to Home Canning.
+  parents:
+  - canning
+  related: []
+  aliases: []
+- id: canning-fruit
+  title: Fruit
+  description: The corresponding volume of the USDA Complete Guide to Home Canning.
+  parents:
+  - canning
+  related: []
+  aliases: []
+- id: canning-tomatoes
+  title: Tomatoes
+  description: The corresponding volume of the USDA Complete Guide to Home Canning.
+  parents:
+  - canning
+  related: []
+  aliases: []
+- id: canning-vegetables
+  title: Vegetables
+  description: The corresponding volume of the USDA Complete Guide to Home Canning.
+  parents:
+  - canning
+  related: []
+  aliases: []
+- id: canning-meat
+  title: Meat and seafood
+  description: The corresponding volume of the USDA Complete Guide to Home Canning.
+  parents:
+  - canning
+  related: []
+  aliases: []
+- id: canning-pickles
+  title: Fermented and pickled foods
+  description: The corresponding volume of the USDA Complete Guide to Home Canning.
+  parents:
+  - canning
+  related: []
+  aliases: []
+- id: canning-jams
+  title: Jams and jellies
+  description: The corresponding volume of the USDA Complete Guide to Home Canning.
+  parents:
+  - canning
+  related: []
+  aliases: []
+- id: gardening
+  title: Vegetable gardening
+  description: Vegetable garden planning and development.
+  parents:
+  - food-growing
+  related:
+  - food-preservation
+  aliases:
+  - Agriculture
+  - Growing food
+- id: storm-shelter
+  title: Residential storm shelters
+  description: In-residence and stand-alone safe-room references.
+  parents:
+  - shelter
+  related:
+  - preparedness
+  aliases: []
+- id: outdoor-shelter
+  title: Outdoor shelter
+  description: Field shelter and outdoor-skills references.
+  parents:
+  - shelter
+  related:
+  - map-compass
+  aliases: []
+- id: mathematics
+  title: Mathematics
+  description: Foundational mathematics textbooks.
+  parents:
+  - science
+  - learn-foundations
+  related:
+  - physics
+  aliases:
+  - Math
+  - Arithmetic
+- id: physics
+  title: Physics
+  description: Foundational physics and connections to electrical circuits.
+  parents:
+  - science
+  - learn-foundations
+  related:
+  - electric-circuits
+  aliases: []
+- id: chemistry
+  title: Chemistry
+  description: Foundational chemistry textbooks.
+  parents:
+  - science
+  - learn-foundations
+  related: []
+  aliases: []
+- id: biology
+  title: Biology
+  description: Foundational biology textbooks.
+  parents:
+  - science
+  - learn-foundations
+  related:
+  - anatomy
+  - gardening
+  aliases: []
+- id: anatomy
+  title: Anatomy and physiology
+  description: Textbook explanations of human body structure and function.
+  parents:
+  - health
+  - biology
+  - learn-foundations
+  related:
+  - emergency-care
+  aliases:
+  - Human body
+- id: electric-circuits
+  title: Electric circuits
+  description: DC and AC circuit foundations.
+  parents:
+  - electricity
+  - physics
+  - repair
+  - learn-foundations
+  related: []
+  aliases:
+  - Circuits
+- id: dc-circuits
+  title: DC circuits
+  description: Lessons in Electric Circuits, Volume I.
+  parents:
+  - electric-circuits
+  related: []
+  aliases: []
+- id: ac-circuits
+  title: AC circuits
+  description: Lessons in Electric Circuits, Volume II.
+  parents:
+  - electric-circuits
+  related: []
+  aliases: []
+- id: maintenance
+  title: Mechanical maintenance
+  description: General aviation-maintenance training and repair references; retain
+    each source's own scope.
+  parents:
+  - repair
+  related:
+  - electric-circuits
+  aliases: []
+- id: repair-guides
+  title: Repair guides
+  description: Device and equipment repair collections.
+  parents:
+  - repair
+  related:
+  - maintenance
+  - electric-circuits
+  aliases: []
+- id: appropriate-technology
+  title: Appropriate technology
+  description: Appropedia sustainability and appropriate-technology reference collection.
+  parents:
+  - repair
+  - reference
+  related:
+  - gardening
+  - electricity
+  aliases: []
+- id: map-compass
+  title: Maps and compasses
+  description: Finding your way using maps and a compass.
+  parents:
+  - navigation-maps
+  related:
+  - outdoor-shelter
+  aliases:
+  - Finding your way
+  - Orientation
+- id: regional-maps
+  title: Local and regional maps
+  description: Maps for the selected region, where resolved files are actually present.
+  parents:
+  - navigation-maps
+  related: []
+  aliases: []
+- id: world-maps
+  title: World maps
+  description: World map archives, where resolved files are actually present.
+  parents:
+  - navigation-maps
+  related: []
+  aliases: []
+- id: dictionaries
+  title: Dictionaries
+  description: Dictionary archives and word reference.
+  parents:
+  - language-books
+  - reference
+  related: []
+  aliases:
+  - Words
+- id: books
+  title: Book collections
+  description: Broader book collections; archive formats need their compatible readers.
+  parents:
+  - language-books
+  - learn-foundations
+  related: []
+  aliases: []
+- id: encyclopedias
+  title: Encyclopedias
+  description: Large encyclopedia archives.
+  parents:
+  - reference
+  related:
+  - science
+  aliases: []
+- id: preparedness
+  title: Emergency preparedness
+  description: Supply lists and broad preparedness training.
+  parents:
+  - reference
+  related:
+  - first-aid
+  - storm-shelter
+  aliases: []
+- id: readers
+  title: Archive readers and software
+  description: Bundled reader packages; installation and platform requirements still
+    apply.
+  parents:
+  - reference
+  related: []
+  aliases: []

@@ -274,7 +274,7 @@ def _selection_inventory(inventory: dict) -> str:
     )
 
 
-def generate_navigation(target: Path, assets: list[dict], inventory: dict, search_report: dict) -> list[str]:
+def generate_navigation(target: Path, assets: list[dict], inventory: dict, search_report: dict, *, write: bool = True):
     """Write the fixed no-JavaScript navigation set, returning managed paths.
 
     Static indexes enumerate catalog assets. Entries inside specialized archives
@@ -532,6 +532,40 @@ This library is a reference collection, not a substitute for professional help.
             1,
         )
 
+    if inventory.get("navigation"):
+        pages["START_HERE.html"] = pages["START_HERE.html"].replace(
+            '<h2>Books and learning collections</h2>',
+            '<section id="topic-atlas"><h2>Browse the topic atlas</h2>'
+            '<p>Follow subjects into narrower topics, use another route when a topic overlaps, '
+            'and open a source section or its complete document.</p><ul class="cards">'
+            '<li><a href="INDEX/topics.html#subjects">Browse subjects</a></li>'
+            '<li><a href="INDEX/topics.html#tasks">Find practical guidance</a></li>'
+            '<li><a href="INDEX/topics.html#learn">Learn the foundations</a></li>'
+            '<li><a href="INDEX/topic-a-z/A.html">Topics and alternative names A–Z</a></li></ul>'
+            '<p>The atlas covers mapped material; category and title indexes retain all included files.</p></section>'
+            '<h2>Books and learning collections</h2>', 1)
+        pages["START_HERE.html"] = pages["START_HERE.html"].replace('<h2>Browse by topic</h2>', '<h2>Browse by category</h2>')
+        for relative in GENERATED_PATHS:
+            if relative.endswith(".html"):
+                anchor = f'<a href="{_href("START_HERE.html", relative)}">Start here</a>'
+                pages[relative] = pages[relative].replace(anchor, anchor +
+                    f'<a href="{_href("INDEX/topics.html", relative)}">Topic atlas</a>', 1)
+        pages["README.txt"] += "\nHUMAN TOPIC INDEX\nOpen INDEX/topics.html for subjects, practical routes, and learning.\nTopic aliases and book contents work without JavaScript. Section links include\nvisible source locations for viewers that ignore PDF page or HTML fragments.\nSee INDEX/navigation-report.json for mapping coverage and gaps.\n"
+    if search_report.get("status") == "not-built":
+        pages["START_HERE.html"] = pages["START_HERE.html"].replace(
+            '<p>An offline knowledge library.',
+            '<p class="notice"><strong>Human index only:</strong> full-text search has not been built. '
+            'Use the topic atlas, categories, and title indexes.</p><p>An offline knowledge library.', 1)
+        pages["README.txt"] = pages["README.txt"].replace(
+            "SEARCH.html uses a precomputed index. Follow its file-picker instructions to\n"
+            "select the index from SEARCH/. Searches read portions of that file locally.\n"
+            "Search needs JavaScript and a browser supporting local File access. The static\n"
+            "indexes work without JavaScript and list the library's catalog assets.",
+            "Full-text search has not been built. Use the human topic atlas, category and\n"
+            "title indexes; these work without JavaScript. The drive builder can generate\n"
+            "full-text search later from the existing verified content.")
+    if not write:
+        return pages
     for relative in GENERATED_PATHS:
         destination = safe_path(target, relative)
         destination.parent.mkdir(parents=True, exist_ok=True)

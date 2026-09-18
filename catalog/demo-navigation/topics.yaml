@@ -1,0 +1,42 @@
+schema_version: 1
+entrances:
+  subjects:
+  - use-library
+  - systems
+  tasks:
+  - use-library
+  learn:
+  - learn
+topics:
+- id: use-library
+  title: Use the library
+  description: Original demonstration material only.
+  parents: []
+  related:
+  - systems
+  aliases: []
+- id: systems
+  title: Systems and maintenance
+  description: An original test textbook and maintenance guide.
+  parents: []
+  related:
+  - use-library
+  aliases:
+  - Repair
+  - Systems
+- id: learn
+  title: Learn
+  description: Demonstration textbook route.
+  parents: []
+  related: []
+  aliases: []
+- id: build-process
+  title: The library build process
+  description: An inspected diagram in the original demonstration textbook.
+  parents:
+  - systems
+  - learn
+  related: []
+  aliases:
+  - Building a library
+  - Systems

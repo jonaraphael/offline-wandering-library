@@ -151,7 +151,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
           cache_dir: Path | None = None, work_dir: Path | None = None,
           allow_local: bool = False, plan_only: bool = False,
           resources_catalog: Path | None = None, include=(), exclude=(),
-          allow_incomplete: bool = False, progress=print) -> dict:
+          allow_incomplete: bool = False, navigation_dir: Path | None = None,
+          strict_coverage: bool = False, progress=print) -> dict:
     from .navigation import GENERATED_PATHS, generate_navigation
     from .search import build_search, check_extractors, checkpoint_usage
 
@@ -159,6 +160,12 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     if profile_name not in profiles:
         raise CatalogError(f"Unknown profile {profile_name!r}; choose {', '.join(profiles)}")
     all_assets = load_catalog(catalog, profiles, allow_local)
+    navigation = None
+    if navigation_dir is not None:
+        from .atlas_model import load_navigation
+        navigation = load_navigation(navigation_dir, all_assets)
+    elif strict_coverage:
+        raise CatalogError("--strict-coverage requires --navigation-dir")
     profile = profiles[profile_name]
     lock = read_yaml(catalog).get("selection_lock")
     if lock is not None:
@@ -216,6 +223,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     generated = [*GENERATED_PATHS, *CORE_OUTPUTS]
     state_path = safe_path(target, ".owl/state.json")
     state = _state(state_path)
+    if safe_path(target, ".owl/atlas-job.json").exists():
+        raise SafetyError("An interrupted human-index publication is pending. Rerun its build_atlas.py command before rebuilding the drive.")
     owned = set(state["managed"])
     spool = cache or safe_path(target, ".owl/downloads")
     for relative in generated:
@@ -341,7 +350,17 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                      "content_selection": selection, "content_complete": content_complete,
                      "learning_coverage": plan["learning_coverage"],
                      "unresolved": unresolved}
-        nav_files = generate_navigation(target, inventory_assets, inventory, search_report)
+        from .atlas_build import plan_atlas, register_outputs, validate_links, write_outputs
+        atlas_pages, atlas_report = plan_atlas(target, inventory_assets, navigation, state,
+                                              strict_coverage=strict_coverage)
+        inventory["navigation"] = atlas_report
+        navigation_pages = generate_navigation(target, inventory_assets, inventory, search_report, write=False)
+        navigation_pages.update(atlas_pages)
+        validate_links(target, {**dict.fromkeys(CORE_OUTPUTS, ""), **navigation_pages}, inventory_assets)
+        check_space(target, sum(len(text.encode("utf-8")) for text in navigation_pages.values()) + profile["reserve_bytes"])
+        register_outputs(target, navigation_pages, state)
+        write_outputs(target, navigation_pages)
+        nav_files = list(navigation_pages)
         atomic_write(safe_path(target, "INVENTORY.json"), _json(inventory))
         atomic_write(safe_path(target, "CONTENT_SELECTION.json"), _json({
             "schema_version": 1, "profile": profile_name, "content_complete": content_complete,
@@ -364,7 +383,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                 "python_version": sys.version.split()[0], "dependencies": versions,
                 "profile": profile, "catalog_sha256": sha256_file(catalog.resolve()), "plan": plan,
                 "asset_count": len(assets), "unresolved_asset_ids": [a["id"] for a in unresolved],
-                "search": search_report, "complete": True,
+                "search": search_report, "navigation": atlas_report, "complete": True,
                 "integrity_note": "SHA-256 detects damage, not publisher identity. Save SHA256SUMS.txt separately."}
         atomic_write(safe_path(target, "BUILD_INFO.json"), _json(info))
         managed = sorted(set(nav_files) | set(search_report["generated_files"]) | set(CORE_OUTPUTS) |
@@ -418,6 +437,8 @@ def main(argv=None) -> int:
     parser.add_argument("--exclude", action="append", default=[], metavar="RESOURCE", help="omit resource ID or list number; repeat or separate by commas; does not delete existing files")
     parser.add_argument("--list-resources", action="store_true", help="list every selectable collection without a target or downloads")
     parser.add_argument("--allow-incomplete", action="store_true", help="explicitly build available verified files from incomplete collections")
+    parser.add_argument("--navigation-dir", type=Path, help="generate the static topic atlas using this reviewed YAML directory")
+    parser.add_argument("--strict-coverage", action="store_true", help="require critical and textbook subject/learning atlas routes")
     args = parser.parse_args(argv)
     try:
         if args.list_resources:
@@ -455,7 +476,8 @@ def main(argv=None) -> int:
             build(args.target, catalog=args.catalog, profiles_dir=args.profiles_dir, profile_name=args.profile,
                   cache_dir=args.cache_dir, work_dir=args.work_dir, allow_local=args.allow_local, plan_only=args.plan,
                   resources_catalog=args.resources_catalog, include=args.include, exclude=args.exclude,
-                  allow_incomplete=args.allow_incomplete)
+                  allow_incomplete=args.allow_incomplete, navigation_dir=args.navigation_dir,
+                  strict_coverage=args.strict_coverage)
         return 0
     except KeyboardInterrupt:
         print("Paused safely. Verified files, partial transfers and search checkpoints are retained. "

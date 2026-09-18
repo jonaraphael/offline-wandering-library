@@ -18,6 +18,8 @@ owl-build = "owl.build:main"
 owl-validate = "owl.catalog:main"
 owl-verify = "owl.verify:main"
 owl-copy = "owl.copy:main"
+owl-atlas = "owl.atlas_build:main"
+owl-import-sections = "owl.atlas_import:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

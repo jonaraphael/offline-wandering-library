@@ -69,7 +69,7 @@ def _source_lock(source: Path):
         yield
 
 
-def _source_manifest(source: Path) -> tuple[dict, dict]:
+def _source_manifest(source: Path) -> tuple[dict, dict, list[str]]:
     manifest = safe_path(source, "SHA256SUMS.txt")
     data = manifest.read_bytes()
     entries = {}
@@ -123,9 +123,20 @@ def _source_manifest(source: Path) -> tuple[dict, dict]:
         original = {**asset, "sha256": None} if asset.get("verification") == "observed" else asset
         asset_state[identity] = {"sha256": expected["sha256"], "fingerprint": fingerprint(original)}
         destinations.add(relative)
+    # The public, checksum-covered report carries dynamic output ownership even
+    # when a library was copied without its private .owl directory. Never infer
+    # ownership from a filename prefix or copy unchecked source-state claims.
+    from .atlas_build import REPORT, _previous, _reported_paths
+    atlas_paths = _reported_paths(checked_json(REPORT), entries) if REPORT in entries else []
+    source_state_path = safe_path(source, ".owl/state.json")
+    if source_state_path.exists():
+        previous_atlas = _previous(_state(source_state_path))
+        copied_previous = set(previous_atlas) & set(entries)
+        if copied_previous - set(atlas_paths):
+            raise SafetyError("Source atlas ownership is missing from its checksum-covered output report")
     # The manifest itself is pinned to the exact bytes read under the source lock.
     entries["SHA256SUMS.txt"] = {"sha256": hashlib.sha256(data).hexdigest(), "size_bytes": len(data)}
-    return entries, asset_state
+    return entries, asset_state, atlas_paths
 
 
 def copy_drive(source: Path, target: Path, *, progress=print) -> dict:
@@ -147,7 +158,7 @@ def copy_drive(source: Path, target: Path, *, progress=print) -> dict:
     if target.exists() and not target.is_dir():
         raise SafetyError(f"Target is not a directory: {target}")
     with guard_directory(source), _source_lock(source), ExitStack() as guards:
-        entries, asset_state = _source_manifest(source)
+        entries, asset_state, atlas_paths = _source_manifest(source)
         # SHA256SUMS is deliberately promoted after every file it describes.
         names = [*sorted(name for name in entries if name != "SHA256SUMS.txt"), "SHA256SUMS.txt"]
         _existing_names(target, [*names, ".owl/owner.json", ".owl/state.json", ".owl/build.lock", ".owl/copies"])
@@ -161,6 +172,8 @@ def copy_drive(source: Path, target: Path, *, progress=print) -> dict:
         with file_lock(safe_path(target, ".owl/build.lock")):
             state_path = safe_path(target, ".owl/state.json")
             state = _state(state_path)
+            from .atlas_build import _previous
+            previous_atlas = _previous(state)
             owned = set(state["managed"])
             prior_parts = state.get("copy_parts", {})
             if not isinstance(prior_parts, dict):
@@ -189,6 +202,8 @@ def copy_drive(source: Path, target: Path, *, progress=print) -> dict:
             state.pop("active_asset", None)
             state.pop("active_path", None)
             state["managed"] = sorted(owned | set(names))
+            if previous_atlas or atlas_paths:
+                state["atlas_managed"] = sorted(set(previous_atlas) | set(atlas_paths))
             state["copy_parts"] = {**prior_parts, **{name: record for name, record in parts.values()}}
             pending_state = _json(state)
             final_state = _json({**state, "complete": True, "phase": "complete",

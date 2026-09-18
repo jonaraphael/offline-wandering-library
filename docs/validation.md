@@ -127,3 +127,38 @@ selections exceed their nominal drive sizes during construction. Plans now
 report that explicitly. The source include list and full-corpus indexing sizes
 remain unfinished; the tool does not assume an internal-disk copy can make those
 default in-place budgets fit.
+
+## Static topic atlas
+
+The human-index mechanism passed **257 automated tests** on the local
+macOS/Python 3.12 environment. Added checks cover multi-parent topic graphs,
+ambiguous aliases, deduplicated counts, pagination and HTML size limits,
+source-pinned locators, escaping, local links, profile filtering, and separate
+subject/learning routes for required textbooks. Publisher-outline and heading
+imports use small PDF/HTML fixtures, including malformed and missing structures.
+Lifecycle tests interrupt publication, resume it, reject unowned collisions and
+damaged sources, retire obsolete pages, and preserve ownership after backup
+copying or removal of private build state. Source HTML link checks retain only
+requested anchors while streaming each source once.
+
+The post-download CLI ran against the existing **25-PDF, 1,574,545,596-byte**
+critical library with strict coverage enabled. It generated **37 visible topics**
+and **75 atlas files**, including its JSON report; the HTML totals **303,952
+bytes**. Every critical asset was mapped and all seven required textbooks had
+both subject and learning routes. An independent invocation of the drive's
+copied verifier reported **145 OK, 0 MISSING, 0 FAILED, 0 UNKNOWN**. These are
+whole-document starter mappings, not completed chapter or figure curation.
+
+The original four-file demo exercised atlas generation during a full CLI build,
+a separate post-download atlas rerun, and a direct backup copy. Both directories
+independently verified **86 OK, 0 MISSING, 0 FAILED, 0 UNKNOWN**. Its reviewed SVG
+anchor exercises a real section link; no third-party media was added to Git.
+The offline importer also produced **136 publisher-outline section proposals**
+with zero warnings from the pinned OpenStax *Prealgebra 2e* PDF. Those proposals
+remain drafts outside the repository and were not published as reviewed topic
+assignments.
+
+The CI demo now exercises both atlas commands before verifying and copying the
+library. These automated and local filesystem checks do not establish usability
+on physical phones or exFAT devices. The device/viewer and finding-task evaluation
+described in the atlas specification remains to be performed after curation.

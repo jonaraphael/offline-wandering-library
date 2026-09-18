@@ -1,0 +1,15 @@
+schema_version: 1
+assignments:
+- topic_id: use-library
+  asset_id: demo_library_guide
+  purpose: start-here
+- topic_id: use-library
+  asset_id: demo_navigation
+  purpose: start-here
+- topic_id: systems
+  asset_id: demo_maintenance
+  purpose: practical
+- topic_id: build-process
+  asset_id: demo_textbook
+  purpose: explanation
+  section_id: build-diagram

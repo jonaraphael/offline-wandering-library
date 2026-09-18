@@ -164,9 +164,32 @@ The critical-content index spans folders. A core textbook stored under `BOOKS/TE
 
 Project Gutenberg and Children's Library also have prominent landing-page entries and static pages at `INDEX/gutenberg.html` and `INDEX/children.html`. These pages list only selected assets actually on the drive, using their catalog resource IDs. Counts refer to files or collection archives, not individual books inside archives. Reader-dependent formats are labeled. With no available assets, the page says the collection is absent; the presence of a shelf page is not a claim that its planned collection was downloaded.
 
-In a partial build, consult the inventory's resource-selection table for missing or incomplete collections and their coverage notes. A successfully verified file set can still represent only part of the selected content plan. The proposed hierarchical topic atlas remains unimplemented; these are collection shelves and the existing category/title indexes.
+In a partial build, consult the inventory's resource-selection table for missing or incomplete collections and their coverage notes. A successfully verified file set can still represent only part of the selected content plan.
 
 Open the original PDFs to see diagrams, photographs, charts, and figures. Downloads retain the original file bytes and embedded illustrations. Search indexes extractable text; it does not interpret images or provide OCR. A diagram or scanned page can be useful even when its contents are absent from search results.
+
+## Add the topic atlas after downloading
+
+The [topic atlas](topic-atlas.md) provides static subject, practical-task, and learning routes alongside the collection shelves. Shared topics can be reached through several broader subjects without duplicating source files. Topic aliases and book contents pages also work without JavaScript.
+
+For a library that already has an inventory:
+
+```bash
+python scripts/build_atlas.py /media/SSD/EMERGENCY_LIBRARY \
+    --navigation-dir catalog/navigation
+python scripts/verify.py /media/SSD/EMERGENCY_LIBRARY
+```
+
+The command verifies existing sources and publishes navigation; it does not download missing files or rebuild search. To include the atlas during a full build, pass the same directory to the builder:
+
+```bash
+python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
+    --profile critical-64gb --navigation-dir catalog/navigation
+```
+
+Repeat `--navigation-dir` on later full builds that should generate the atlas. Normal content-selection and completeness rules still apply. After publication, start at `INDEX/topics.html` or the topic-atlas link on `START_HERE.html`.
+
+The production starter has 46 topics and 40 whole-document assignments. It does not assert chapter, page, or figure locations inside third-party works. Sources absent from the current drive and branches with no available material are omitted. The final include list, topic vocabulary, and deeper section curation remain editorial work. The atlas guide explains how to import publisher contents into drafts, review exact source locations, and use `--strict-coverage` to reject missing critical or textbook routes. Structural coverage does not establish the quality or completeness of the underlying guidance.
 
 ## Verify and practice
 
@@ -194,7 +217,7 @@ Before storing the SSD, disconnect network access and try each intended device:
 3. If HTML links do not work, open a critical document directly from its folder.
 4. Open a core textbook and an illustrated guide from their dedicated shelves. Navigate between pages and zoom into a diagram to confirm it is readable on the device.
 5. Open `SEARCH.html` in an actual browser, select `SEARCH/library.owl`, and search for a known phrase. Verify the resulting document link. Treat this as optional on devices whose file previews restrict JavaScript.
-6. Open the textbook, illustrated-guide, Gutenberg, children's, category, critical, and alphabetical indexes with JavaScript disabled. Confirm critical textbooks are reachable through the critical index even when their files are in `BOOKS/`. Check that missing planned collections are clearly reported.
+6. Open the textbook, illustrated-guide, Gutenberg, children's, category, critical, and alphabetical indexes with JavaScript disabled. If generated, try the atlas through subject, practical-task, and learning entrances, including recovery from a wrong turn. Confirm critical textbooks are reachable through the critical index even when their files are in `BOOKS/`. Check that missing planned collections are clearly reported.
 7. On platforms that permit offline installation, check that the matching bundled reader can open a ZIM. The builder does not install or run it for you.
 8. Safely eject the SSD before unplugging it.
 

@@ -135,7 +135,24 @@ EMERGENCY_LIBRARY/
 └── INDEX/                  # Learning/reading shelves, critical, category, A–Z
 ```
 
-The static indexes list catalog files, including titles, categories, textbook/illustrated labels, and archive-reader requirements. Dedicated `textbooks.html`, `illustrated-guides.html`, `gutenberg.html`, and `children.html` pages sit alongside `critical.html`, `categories.html`, and the alphabetical pages in `INDEX/`. They work without JavaScript and contain ordinary relative links. They do not expand every article inside an archive into separate HTML files. The hierarchical topic atlas remains a [specification](docs/topic-atlas-spec.md); it has not been implemented.
+The static indexes list catalog files, including titles, categories, textbook/illustrated labels, and archive-reader requirements. Dedicated `textbooks.html`, `illustrated-guides.html`, `gutenberg.html`, and `children.html` pages sit alongside `critical.html`, `categories.html`, and the alphabetical pages in `INDEX/`. They work without JavaScript and contain ordinary relative links. They do not expand every article inside an archive into separate HTML files.
+
+The optional [topic atlas](docs/topic-atlas.md) adds shared subject, practical-task, and learning routes, topic aliases, and book contents pages. Generate it after downloading a library:
+
+```bash
+python scripts/build_atlas.py /path/to/EMERGENCY_LIBRARY \
+    --navigation-dir catalog/navigation
+python scripts/verify.py /path/to/EMERGENCY_LIBRARY
+```
+
+This uses the existing inventory, verifies source integrity, and publishes static pages without downloading content or rebuilding search. To generate the atlas during a full build, add the navigation directory:
+
+```bash
+python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY \
+    --profile critical-64gb --navigation-dir catalog/navigation
+```
+
+Repeat `--navigation-dir` on subsequent full builds that should generate the atlas. The starter metadata contains 46 topics and 40 whole-document assignments. These are initial browsing routes; the final source include list and deeper chapter, page, and figure curation remain open. Missing sources are omitted from available routes. The implemented importer can propose PDF-outline or existing HTML-heading locations for review, and selected section maps must match the exact source bytes. See the [atlas guide](docs/topic-atlas.md) for importing contents, reviewing maps, and checking coverage, and the [design specification](docs/topic-atlas-spec.md) for editorial goals.
 
 ## Search without a server
 

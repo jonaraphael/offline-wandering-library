@@ -1,15 +1,17 @@
 # OWL topic atlas: static hierarchical navigation
 
-**Status:** Proposed specification; implementation remains deferred. The target
-collections are now enumerated in [content selection](content-selection.md) and
-`catalog/resources.yaml`. Exact collection members and source locations still
-need curation and verification before atlas implementation.
+**Status:** The navigation mechanism is implemented. See the
+[topic-atlas guide](topic-atlas.md) for the current commands,
+metadata schema, importer, integrity checks, and limits. This document retains the
+design goals and editorial evaluation criteria; it does not claim completed
+curation or usability validation of the final library.
 
-**Implementation:** Not started. This document authorizes no implementation,
-catalog changes, downloads, content conversion, or changes to existing profiles.
-Topic names, resource examples, and numerical design targets below are provisional.
-The current collection is useful evidence for feasibility, not the final include
-list or a commitment to retain particular titles.
+The target collections are enumerated in [content selection](content-selection.md)
+and `catalog/resources.yaml`. Production starter metadata provides 46 topics and
+40 whole-document assignments. Exact collection members, final profile selection,
+and deeper chapter, page, and figure mappings still need editorial review and
+source verification. The starter vocabulary and examples below do not finalize
+the source include list or commit to retaining particular titles.
 
 ## 1. Intended outcome
 
@@ -30,24 +32,38 @@ physical location under `BOOKS/` must not restrict how it can be discovered.
 Multiple routes may lead to one topic and one source location. Duplicate useful
 links, not source files or independently maintained copies of topic pages.
 
-## 2. Scope and implementation gate
+## 2. Implemented mechanism and editorial scope
 
-The proposed first release covers:
+The mechanism supports:
 
 - A curated hierarchy of topics with multiple broader topics where appropriate.
 - Task-oriented entrances alongside subject and learning entrances.
 - Static topic pages, a topic-and-alias A–Z index, and book contents pages.
 - Verified links into selected source sections, including illustrated material.
 - Navigation generated for the actual assets in each completed drive.
-- Automated structural validation and human finding-task evaluation.
+- Automated structural validation and coverage reports for editorial evaluation.
 
 The first release does not promise automatic classification of every Wikipedia
 article, a universal knowledge taxonomy, OCR, generated emergency instructions,
 full-text search changes, or new software for opening specialized archives.
 Aliases in this specification are browsing labels, not search-query expansion.
 
-Before implementation, finalize the include list and approve the resulting
-initial navigation scope. At minimum, resolve:
+Generate navigation from files already present in an OWL library:
+
+```bash
+python scripts/build_atlas.py /media/SSD/EMERGENCY_LIBRARY \
+    --navigation-dir catalog/navigation
+python scripts/verify.py /media/SSD/EMERGENCY_LIBRARY
+```
+
+The command uses the existing inventory and verifies source integrity. It does
+not download content or regenerate full-text search. A full drive build can opt
+in with `--navigation-dir catalog/navigation`. The [operating guide](topic-atlas.md)
+also covers verified files without an inventory, draft outline imports, reviewed
+section maps, and optional strict coverage checks.
+
+Refine the include list and navigation scope as curation proceeds. The mechanism
+can operate on the current selection while these editorial decisions remain open:
 
 | Decision | Needed information |
 | --- | --- |
@@ -59,8 +75,10 @@ initial navigation scope. At minimum, resolve:
 | Reader boundaries | Which topics have ordinary readable sources versus archive-only sources |
 | Editorial review | Who approves topic mappings and high-priority source locations |
 
-Implementation begins only after that review and a subsequent instruction to
-build it. This specification creates no new coverage floors or content promises.
+The implementation does not settle these decisions or add content to profiles.
+Coverage gaps are reported; `--strict-coverage` can make missing critical and
+required-textbook routes publication errors. Human finding-task evaluation and
+review of useful source locations remain separate from structural validation.
 
 ## 3. Navigation model
 
@@ -303,7 +321,7 @@ clearly distinguish imported source contents from reviewed cross-library mapping
 
 ## 8. Profile-aware generation and output
 
-Proposed output layout:
+Generated output layout:
 
 ```text
 INDEX/
@@ -318,6 +336,7 @@ INDEX/
 ├── books/
 │   ├── <asset-id>.html
 │   └── ...
+├── books.html
 ├── navigation-report.json
 ├── categories.html
 ├── critical.html
@@ -399,7 +418,7 @@ This approach follows the principle of offering multiple ways to locate content:
 [W3C: Understanding Multiple Ways](https://www.w3.org/WAI/WCAG22/Understanding/multiple-ways).
 It is not a claim that the finished product has completed an accessibility audit.
 
-## 10. Acceptance criteria for future implementation
+## 10. Validation and editorial acceptance criteria
 
 ### Automated checks
 
@@ -410,8 +429,10 @@ It is not a claim that the finished product has completed an accessibility audit
 - Repeated topic/asset/location assignments and overlapping descendant routes do
   not inflate resource counts or duplicate a topic's entries.
 - Topic aliases work without scripts; ambiguous aliases show explicit choices.
-- Every selected critical asset is reachable from relevant topic navigation and
-  the critical index. Required textbooks retain both learning and subject routes.
+- Coverage reports identify selected critical assets without topic mappings and
+  required textbooks without learning or subject routes. Strict coverage checks
+  reject those gaps. Editorial review still establishes whether routes are useful
+  and relevant; the existing critical index remains independently available.
 - Profile-excluded and unresolved sources are not presented as available links.
   Empty branches disappear; selected reader-only branches are labeled early.
 - PDF pages, HTML anchors, and section references validate against selected bytes.
@@ -453,8 +474,9 @@ combinations and observed failures separately from editorial task results.
 - Initial languages and whether multilingual labels or indexes are in scope.
 - Whether later releases should add thumbnails, accessible derivatives, or deeper
   static navigation for selected archive contents.
-- Whether navigation-specific minimum coverage checks are warranted after the
-  included material and representative tasks have been agreed.
+- Whether additional editorial coverage targets are warranted beyond the
+  implemented optional critical-source and required-textbook route checks.
 
-The next deliverable is the approved include list and initial navigation scope.
-Implementation should follow that decision, not determine it implicitly.
+The next editorial work is to refine the source include list, review useful
+section and illustration locations, and evaluate representative finding tasks.
+The implemented mechanism supports that work without deciding its outcome.

@@ -60,6 +60,26 @@ class CopyTests(unittest.TestCase):
         (self.source / "SHA256SUMS.txt").write_text(
             "".join(f"{digest}  {name}\n" for name, digest in sorted(self.entries.items())), encoding="utf-8")
 
+    def add_source_atlas(self, *, generated=None):
+        paths = ["INDEX/topics.html", "INDEX/topics/fixture.html", "INDEX/navigation-report.json"]
+        for relative in paths[:-1]:
+            path = self.source / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("<!doctype html><title>Original atlas fixture</title>", encoding="utf-8")
+        report = {"schema_version": 1, "generated_files": paths if generated is None else generated}
+        (self.source / paths[-1]).write_bytes(_json(report))
+        self.write_manifest()
+        for relative in paths:
+            self.entries[relative] = hashlib.sha256((self.source / relative).read_bytes()).hexdigest()
+        (self.source / "SHA256SUMS.txt").write_text(
+            "".join(f"{digest}  {name}\n" for name, digest in sorted(self.entries.items())), encoding="utf-8")
+        state_path = self.source / ".owl/state.json"
+        state = json.loads(state_path.read_text())
+        state["managed"] = sorted(set(state["managed"]) | set(paths))
+        state["atlas_managed"] = sorted(paths)
+        state_path.write_bytes(_json(state))
+        return sorted(paths)
+
     def run_copy(self, **kwargs):
         return copy_drive(self.source, self.target, progress=kwargs.pop("progress", lambda _: None), **kwargs)
 
@@ -300,6 +320,81 @@ class CopyTests(unittest.TestCase):
         disconnected.rename(self.target)
         self.run_copy()
         self.assertEqual((self.target / "BOOKS/book.txt").read_bytes(), self.data)
+        self.assertEqual(verify_drive(self.target, emit=lambda _: None)["FAILED"], 0)
+
+    def test_atlas_backup_retains_ownership_and_later_build_retires_old_pages(self):
+        local = self.root / "atlas-source"
+        build(local, catalog=ROOT / "catalog/demo.yaml", profiles_dir=ROOT / "profiles",
+              profile_name="demo", allow_local=True, navigation_dir=ROOT / "catalog/demo-navigation",
+              progress=lambda _: None)
+        report = json.loads((local / "INDEX/navigation-report.json").read_text())
+        for private_state in (True, False):
+            destination = self.root / ("with-private-state" if private_state else "without-private-state")
+            if not private_state:
+                shutil.rmtree(local / ".owl")
+            with self.subTest(private_state=private_state):
+                copy_drive(local, destination, progress=lambda _: None)
+                state = json.loads((destination / ".owl/state.json").read_text())
+                self.assertEqual(state["atlas_managed"], sorted(report["generated_files"]))
+                build(destination, catalog=ROOT / "catalog/demo.yaml", profiles_dir=ROOT / "profiles",
+                      profile_name="demo", allow_local=True, progress=lambda _: None)
+                self.assertIn("Unavailable in this build", (destination / "INDEX/topics/build-process.html").read_text())
+                checked = verify_drive(destination, emit=lambda _: None)
+                self.assertEqual((checked["FAILED"], checked["MISSING"], checked["UNKNOWN"]), (0, 0, 0))
+
+    def test_copy_preserves_previous_destination_atlas_ownership(self):
+        self.run_copy()
+        previous = self.target / "INDEX/topics/previous.html"
+        previous.parent.mkdir(parents=True)
+        previous.write_text("Previous owned atlas page", encoding="utf-8")
+        state_path = self.target / ".owl/state.json"
+        state = json.loads(state_path.read_text())
+        relative = previous.relative_to(self.target).as_posix()
+        state["managed"].append(relative)
+        state["atlas_managed"] = [relative]
+        state_path.write_bytes(_json(state))
+        atlas_paths = self.add_source_atlas()
+        self.run_copy()
+        state = json.loads(state_path.read_text())
+        self.assertEqual(state["atlas_managed"], sorted([*atlas_paths, relative]))
+        self.assertEqual(previous.read_text(), "Previous owned atlas page")
+
+    def test_atlas_report_cannot_claim_unverified_or_nonatlas_paths(self):
+        report = "INDEX/navigation-report.json"
+        for claims in ([report, "personal.txt"], [report, "INDEX/topics/not-copied.html"],
+                       [report, "../outside.html"], [report, report], ["INDEX/topics.html"]):
+            with self.subTest(claims=claims):
+                self.add_source_atlas(generated=claims)
+                with self.assertRaises(SafetyError):
+                    self.run_copy()
+                self.assertFalse(self.target.exists())
+
+    def test_source_private_atlas_ownership_must_agree_with_verified_report(self):
+        self.add_source_atlas(generated=["INDEX/topics.html", "INDEX/navigation-report.json"])
+        with self.assertRaisesRegex(SafetyError, "ownership is missing"):
+            self.run_copy()
+        self.assertFalse(self.target.exists())
+
+    def test_atlas_report_hash_verified_before_target_ownership_changes(self):
+        self.add_source_atlas()
+        (self.source / "INDEX/navigation-report.json").write_text("{}", encoding="utf-8")
+        with self.assertRaisesRegex(SafetyError, "Source checksum mismatch"):
+            self.run_copy()
+        self.assertFalse(self.target.exists())
+
+    def test_interrupted_copy_retains_known_atlas_ownership_before_page_copy(self):
+        paths = self.add_source_atlas()
+        def interrupt(message):
+            if message.startswith("book.txt: 65,536 /"):
+                raise KeyboardInterrupt
+        with patch("owl.transfer.CHECKPOINT_BYTES", 65536), patch("owl.transfer.CHUNK_BYTES", 65536):
+            with self.assertRaises(KeyboardInterrupt):
+                self.run_copy(progress=interrupt)
+        state = json.loads((self.target / ".owl/state.json").read_text())
+        self.assertFalse(state["complete"])
+        self.assertEqual(state["atlas_managed"], paths)
+        self.assertFalse((self.target / "INDEX/topics.html").exists())
+        self.run_copy()
         self.assertEqual(verify_drive(self.target, emit=lambda _: None)["FAILED"], 0)
 
 

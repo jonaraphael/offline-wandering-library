@@ -1,0 +1,17 @@
+schema_version: 1
+asset_id: demo_textbook
+source_sha256: a902100fd5d778b5e57f1353bab670830e8f729950fe0510c678a73aa3d8ecb2
+sections:
+- id: build-diagram
+  title: The library build process
+  locator:
+    type: html-anchor
+    id: diagram-title
+  provenance: manual
+  review:
+    by: OWL original-fixture inspection
+    date: '2026-09-18'
+  illustrations:
+  - kind: diagram
+    label: Figure 1. The manifest records the recipe; verification checks the result.
+    figure_id: diagram-title
