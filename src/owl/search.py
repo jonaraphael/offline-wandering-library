@@ -75,6 +75,43 @@ class _HTMLText(HTMLParser):
         self.hidden: list[str] = []
         self.parts: list[str] = []
 
+    def feed(self, data: str) -> None:
+        # _html_chunks supplies bounded pieces. Process each one immediately:
+        # newer HTMLParser releases otherwise defer and accumulate input while
+        # waiting for a script's closing tag, including already ignored data.
+        self.rawdata += data
+        self.goahead(0)
+        if self.cdata_elem in {"script", "style"} and self.hidden:
+            self._discard_hidden_body()
+        if len(self.rawdata) > 1024 * 1024:
+            raise SearchError("HTML contains an unterminated token over 1 MiB")
+
+    def _discard_hidden_body(self) -> None:
+        # Keep the parser's own incomplete end-tag candidate, including quoted
+        # attributes accepted by some Python versions. Everything before it is
+        # script/style data, which handle_data intentionally ignores.
+        match = self.interesting.search(self.rawdata)
+        keep = match.start() if match else len(self.rawdata)
+        if not match:
+            start = self.rawdata.rfind("<")
+            if start >= 0:
+                tail = self.rawdata[start:]
+                if tail == "<":
+                    keep = start
+                elif tail.startswith("</"):
+                    name = tail[2:].lstrip().lower()
+                    tag = self.cdata_elem
+                    # Preserve split names and closing-tag whitespace. Keeping
+                    # a superset of the stdlib's accepted whitespace is safe;
+                    # the parser, not this check, decides whether a tag closes.
+                    if (tag.startswith(name) or
+                            (name.startswith(tag) and len(name) > len(tag) and
+                             (name[len(tag)].isspace() or name[len(tag)] == "/"))):
+                        keep = start
+        if keep:
+            self.updatepos(0, keep)
+            self.rawdata = self.rawdata[keep:]
+
     def handle_starttag(self, tag: str, attrs: list) -> None:
         if tag in {"script", "style", "template"}:
             self.hidden.append(tag)
@@ -103,11 +140,10 @@ def _decode_chunks(stream: BinaryIO, encoding: str = "utf-8-sig") -> Iterator[st
 def _html_chunks(chunks: Iterable[str]) -> Iterator[str]:
     parser = _HTMLText()
     for chunk in chunks:
-        parser.feed(chunk)
-        yield "".join(parser.parts)
-        parser.parts.clear()
-        if len(parser.rawdata) > 1024 * 1024:
-            raise SearchError("HTML contains an unterminated token over 1 MiB")
+        for start in range(0, len(chunk), 64 * 1024):
+            parser.feed(chunk[start:start + 64 * 1024])
+            yield "".join(parser.parts)
+            parser.parts.clear()
     parser.close()
     yield "".join(parser.parts)
 

@@ -52,6 +52,10 @@ with such warnings is marked `partial` even when its pages produced text.
 Supported extraction:
 
 - HTML: visible text and headings, excluding scripts, styles and templates.
+  Large embedded scripts and styles are discarded in bounded chunks, so offline
+  simulations such as PhET can be indexed without retaining or executing their
+  application code. Text created only by JavaScript is not extracted. Malformed
+  unterminated HTML tokens above 1 MiB still fail explicitly.
 - TXT and Markdown: streamed UTF-8 text. Set the optional `text_encoding` catalog
   field when a source uses another encoding. Invalid encoded bytes are replaced
   rather than executed; check original content if a passage looks garbled.
