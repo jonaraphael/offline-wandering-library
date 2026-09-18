@@ -30,7 +30,7 @@ class SearchTests(unittest.TestCase):
     def add(self, name, text, **metadata):
         path = self.target / name
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(text, encoding="utf-8")
+        path.write_text(text, encoding="utf-8", newline="\n")
         asset = {"id": path.stem, "title": path.stem, "destination": name,
                  "category": "reference", "format": path.suffix[1:], **metadata}
         self.assets.append(asset)
@@ -52,10 +52,10 @@ class SearchTests(unittest.TestCase):
         node = shutil.which("node")
         if not node:
             self.skipTest("Node is required for the browser engine test")
-        page = (self.target / "SEARCH.html").read_text()
+        page = (self.target / "SEARCH.html").read_text(encoding="utf-8")
         script = re.search(r"<script>([\s\S]*?)</script>", page).group(1)
         engine = self.target / "engine.cjs"
-        engine.write_text(script)
+        engine.write_text(script, encoding="utf-8", newline="\n")
         driver = self.target / "driver.cjs"
         driver.write_text("const fs = require('node:fs');\nconst engine = require('./engine.cjs');\n"
                           "(async () => { const bytes = fs.readFileSync('SEARCH/library.owl');\n"
@@ -63,8 +63,10 @@ class SearchTests(unittest.TestCase):
                           "const blob = new Blob([bytes]);\n"
                           "const file = {size:blob.size, slice(a,b) { maxRead=Math.max(maxRead,b-a); totalRead+=b-a; return blob.slice(a,b); }};\n"
                           "const index = new engine.Index(file); await index.open();\n" + body +
-                          "\n})().catch(e => {console.error(e); process.exit(1)});\n")
-        result = subprocess.run([node, str(driver)], cwd=self.target, capture_output=True, text=True)
+                          "\n})().catch(e => {console.error(e); process.exit(1)});\n",
+                          encoding="utf-8", newline="\n")
+        result = subprocess.run([node, str(driver)], cwd=self.target,
+                                capture_output=True, text=True, encoding="utf-8")
         self.assertEqual(result.returncode, 0, result.stderr)
         return json.loads(result.stdout)
 
@@ -102,6 +104,8 @@ class SearchTests(unittest.TestCase):
         self.assertEqual(result["found"]["results"][0]["title"], "Water purification")
         self.assertIn("boiling", result["found"]["results"][0]["snippet"])
         self.assertEqual(result["unicode"]["results"][0]["title"], "Machines")
+        self.assertEqual(result["unicode"]["words"], ["café", "𐐨"])
+        self.assertIn("café 𐐀", result["unicode"]["results"][0]["text"])
         self.assertLessEqual(result["maxRead"], 1024 * 1024)
         self.assertIsNone(result["bad"])
         self.assertEqual(result["good"], "BOOKS/a%20%23b.pdf#page=3")

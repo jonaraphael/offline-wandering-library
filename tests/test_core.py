@@ -138,6 +138,24 @@ class Response(io.BytesIO):
 
 
 class DownloadTests(Fixture):
+    def test_local_file_uri_preserves_spaces_unicode_and_literal_percent(self):
+        source = self.root / "source caf\u00e9 %20.txt"
+        source.write_bytes(self.data)
+        for name, uri in (("plain", source.as_uri()),
+                          ("localhost", source.as_uri().replace("file:///", "file://localhost/", 1))):
+            with self.subTest(uri=uri):
+                destination = self.root / name
+                digest = download({**self.asset, "source_url": uri}, destination,
+                                  repo_root=self.root, retries=0, progress=lambda _: None)
+                self.assertEqual(digest, self.asset["sha256"])
+                self.assertEqual(destination.read_bytes(), self.data)
+
+    def test_file_uri_remote_authority_is_not_read_as_a_local_file(self):
+        for uri in ("file://remote.example/source.txt", "file:////remote.example/share/source.txt"):
+            with self.subTest(uri=uri), self.assertRaisesRegex(DownloadError, "local file URLs"):
+                download({**self.asset, "source_url": uri}, self.root / "download",
+                         repo_root=self.root, retries=0, progress=lambda _: None)
+
     def test_pinned_resume(self):
         dest = self.root / "download"
         dest.with_suffix(".part").write_bytes(self.data[:10])

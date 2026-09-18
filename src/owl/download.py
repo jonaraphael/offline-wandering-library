@@ -10,8 +10,8 @@ import shutil
 import socket
 import time
 from urllib.error import HTTPError, URLError
-from urllib.parse import unquote, urlsplit
-from urllib.request import Request, urlopen
+from urllib.parse import urlsplit
+from urllib.request import Request, url2pathname, urlopen
 
 from .safety import atomic_write, reject_symlinks, safe_path, sha256_file
 
@@ -55,7 +55,11 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                     relative = (parsed.netloc + parsed.path).lstrip("/")
                     source = safe_path(repo_root, relative)
                 else:
-                    source = Path(unquote(parsed.path))
+                    if parsed.netloc not in {"", "localhost"} or parsed.path.startswith("//"):
+                        raise DownloadError("File sources must be local file URLs, not remote authorities or UNC paths")
+                    # URI paths use /C:/ on Windows; url2pathname converts the
+                    # drive prefix and decodes percent escapes exactly once.
+                    source = Path(url2pathname(parsed.path))
                     reject_symlinks(source)
                 if source.stat().st_size != expected:
                     raise DownloadError(f"{asset['id']}: local source size differs from manifest")
