@@ -8,6 +8,8 @@ Python 3.11+ builds the drive on a computer with internet access. Reading the co
 
 ## Build a drive
 
+Open [SELECT.html](SELECT.html) in a browser to choose a 16 GB, 64 GB, 256 GB, 512 GB, or 1 TB preset, adjust resource inclusion, inspect live storage totals, and copy a POSIX-shell or PowerShell build command. The selector runs offline without installation; executing its command requires Python and OWL, plus internet for new downloads. See the [selector guide](docs/selector.md) for exact-file presets, unavailable edition choices, and capacity limits.
+
 Use an already formatted USB SSD, preferably exFAT for cross-platform support. Confirm its mount path in your file manager. A nominal 512 GB disk has approximately 477 GiB of total capacity before filesystem overhead; 1 TB is approximately 931 GiB. Leave free space for the filesystem, future changes, and your own files.
 
 ```bash
@@ -38,7 +40,7 @@ The larger profiles now describe the planned 46-resource library. Many requested
 
 `--cache-dir` is optional and stores another copy of downloaded assets. `--work-dir` optionally relocates persistent indexing scratch. Omit both for an entirely in-place build; they are not prerequisites for large libraries. A second SSD can be copied directly from a completed first SSD with `python scripts/copy_drive.py SOURCE TARGET`, with verified reuse and resumable transfers, without internal-disk staging or rerunning search extraction.
 
-The `zim` extra provides full-text extraction from ZIM archives. For the directly readable `critical-64gb` profile, a minimal installation is sufficient:
+The `zim` extra provides full-text extraction from ZIM archives. For the directly readable `flash-16gb` and `critical-64gb` profiles, a minimal installation is sufficient:
 
 ```bash
 python -m pip install -e .
@@ -50,12 +52,15 @@ Profiles containing ZIM archives require `libzim`; the builder checks for it bef
 
 | Profile | Intended nominal drive | Planned content target | Default emphasis |
 | --- | ---: | ---: | --- |
+| `flash-16gb` | 16 GB or larger | Existing verified collection, about 1.57 GB | The same 25 core PDFs, seven textbooks, and illustrated guides, with smaller drive budgets |
 | `critical-64gb` | 64 GB or larger | Existing verified collection, about 1.57 GB | Directly readable emergency material, seven textbooks, and illustrated guides |
 | `compact-256gb` | 256 GB or larger | 190–210 GB | Survival, reading, repair, full English Wikipedia, and a 10 GB topographic-map allocation |
 | `standard-512gb` | 512 GB or larger | 390–420 GB | Rebuilding and education, OpenStax, North American and topographic maps |
 | `full-1tb` | 1 TB or larger | 750–820 GB | Broader references, world maps, Spanish Wikipedia, STEM education, and 60 GB of planned direct-reading copies |
 
 These are decimal content targets, separate from index, reader, and free-space budgets. `catalog/resources.yaml` records the 46 numbered resources plus three support collections: `owl-direct-core`, `archive-readers`, and `direct-reading-expansion`. `catalog/library.yaml` records actual asset URLs, versions, sizes, hashes, and licenses. A resource's target size is an editorial allocation, not evidence that the corresponding data is available. The plan distinguishes planned targets from exact known asset bytes and reports incomplete resources. Review [content sources](docs/sources.md) and the generated inventory before relying on a particular topic or reader.
+
+The unchanged `flash-16gb` selection has no unresolved assets or reader dependency. Its 1,574,545,596 content bytes, 2 GB search budget, 4 GB scratch allowance, 16 MiB metadata allowance, and 2 GB reserve total 9,591,322,812 bytes of planned peak storage. It does not attempt to fill 16 GB. Build it with `python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY --profile flash-16gb`; actual free space and reuse are checked by the CLI.
 
 All three larger defaults select full English Wikipedia. Compact allocates 10 GB to topographic maps without the North America OSM package; standard selects North American plus topographic maps; full replaces the North America package with world maps. Spanish Wikipedia is a full-profile default; other additional languages require explicit inclusion. The science Stack Exchange collection is a full-profile default and an opt-in for standard. Noncore Khan material is never selected by default.
 
@@ -67,13 +72,17 @@ The initial critical collection includes FEMA CERT material, WHO Basic Emergency
 
 The larger profiles add Wikipedia, WikiMed, Wiktionary, Wikibooks, iFixit, and educational collections. Sources have recorded licensing and attribution. Every critical asset must use an ordinary, directly readable format; a ZIM-only resource cannot satisfy this requirement. The builder validates IDs, destinations, profile membership, and manifest paths.
 
-Textbooks provide sustained explanations beyond short emergency checklists. The unchanged `critical-64gb` collection includes seven complete textbooks: two electrical texts plus OpenStax prealgebra, physics, biology, chemistry, and anatomy and physiology, with thirteen illustrated teaching works overall. Its 25 PDF files occupy about 1.57 GB before search and navigation. The larger default profiles retain directly readable emergency guides and the electrical texts through `owl-direct-core`. OpenStax is selected by default in standard and full, and can be added to compact with `--include openstax-core`. The verified OpenStax snapshots use CC BY-NC-SA 4.0; see their recorded notices and attribution in [content sources](docs/sources.md).
+Textbooks provide sustained explanations beyond short emergency checklists. The `flash-16gb` and `critical-64gb` collections include seven complete textbooks: two electrical texts plus OpenStax prealgebra, physics, biology, chemistry, and anatomy and physiology, with thirteen illustrated teaching works overall. Their 25 PDF files occupy about 1.57 GB before search and navigation. The larger default profiles retain directly readable emergency guides and the electrical texts through `owl-direct-core`. OpenStax is selected by default in standard and full, and can be added to compact with `--include openstax-core`. The verified OpenStax snapshots use CC BY-NC-SA 4.0; see their recorded notices and attribution in [content sources](docs/sources.md).
 
 The PDFs retain their original diagrams, photographs, charts, and figures; the builder does not replace them with extracted text. `INDEX/textbooks.html` and `INDEX/illustrated-guides.html` provide dedicated, directly readable shelves from the landing page. The illustrated shelf includes both textbooks and practical guides. `INDEX/critical.html` includes every critical asset wherever it is stored, including `BOOKS/TEXTBOOKS/`. Reader-dependent archives and EPUBs do not count toward these direct-reading shelves. Textbook listings retain their attribution, and the inventory records each title’s own license.
 
 Project Gutenberg and Children's Library have prominent landing-page entries and dedicated static shelves. Their planned collections currently lack complete verified asset packages; an empty shelf states that no files are included. Hesperian's digital redistribution permission, regional map packages, and many other target collections also remain unresolved or partial. General geographic reference material does not replace the planned street or topographic map collections.
 
 ## Choose resources and partial builds
+
+In [SELECT.html](SELECT.html), small-preset rows labeled **Preset files only · direct** keep the exact existing files. Choosing **Published collection** explicitly adds the broader resource scope through `--include`; five current OpenStax PDFs do not imply the full planned textbook collection. Inclusion controls produce the same `--include` and `--exclude` flags shown below. The selector's atlas checkbox defaults on, and accepting incomplete content is a separate unchecked option.
+
+Direct-readable or compact editions can be chosen only when registered asset alternatives exist. No production alternate editions are currently cataloged, so those options are disabled. The selector does not compress content, convert archives, or invent storage savings. Its totals separate intended collection estimates, verified file bytes, search, temporary work, and reserve; the CLI checks the actual filesystem. Regenerate the page with `python scripts/build_selector.py`, or check freshness with `python scripts/build_selector.py --check`.
 
 List stable resource IDs without supplying a drive path:
 

@@ -7,10 +7,10 @@ search-output allowance. The three large profiles select ordered collections
 from `catalog/resources.yaml` through `default_resources`; `resource_overrides`
 specifies smaller map or Survivor allocations. Their asset selection is derived
 from the selected resources, not duplicated in each file's `profiles` list.
-The fixed `critical-64gb` and demo baselines still use asset `profiles` membership.
+The fixed `flash-16gb`, `critical-64gb`, and demo baselines use asset `profiles` membership.
 An empty asset `profiles` list means it is selected only through a named resource.
 
-The fixed critical/demo profiles declare `minimum_coverage` for `textbooks` and
+The fixed flash/critical/demo profiles declare `minimum_coverage` for `textbooks` and
 `illustrated-guides`. These floors count **resolved, required, critical, directly
 readable** assets. The large-profile defaults follow the explicit acquisition
 list: OpenStax begins at 512 GB, while electrical textbooks and illustrated
@@ -27,6 +27,29 @@ enumerates all 46 numbered entries and named support collections. `--include`
 and `--exclude` accept stable IDs or numbers, repeated or comma-separated. Unknown
 selectors or a resource both included and excluded are errors. See
 [content selection](content-selection.md) for the complete curation rules.
+
+A resource can optionally register `editions.direct` and `editions.compact`.
+Each edition requires exactly `asset_ids`, `target_bytes`, `status`, and `reason`;
+use the same types as the resource fields. Every referenced asset must already
+exist in the catalog, be resolved, and have a reviewed SHA-256. A direct edition
+contains only ordinary readable formats outside `ZIM/` and `SOFTWARE/`, with no
+reader requirement. A compact edition contains at least one pinned ZIM. Both
+must retain every critical asset in the resource's published membership.
+Do not register guessed compression ratios or future exports as editions.
+
+`--edition RESOURCE=direct` or `--edition RESOURCE=compact` selects these files
+for an already selected resource; add `--include RESOURCE` if needed. The edition
+replaces its resource's asset list, target, status, and reason. Profile membership
+exclusions still apply, but its published target override does not. `published`
+selects the original definition. Reader dependencies are recomputed from the
+resulting files. Editions and exact selected assets are recorded in locked build
+metadata. Explicit `--exclude RESOURCE` covers all of its registered editions.
+
+The current production registry has no alternate editions. After registering
+verified alternatives, run `python scripts/build_selector.py` to expose them in
+[the offline selector](selector.md). The same command refreshes resource choices,
+profile defaults, and estimates after any recipe change. CI checks that the
+committed `SELECT.html` matches its inputs.
 
 Plans distinguish requested budgets from verified available bytes. Known exact
 file sizes raise planning estimates when necessary. A world-map selection
@@ -118,7 +141,7 @@ To reproduce a build's content, retain its `LOCKED_CATALOG.yaml` and the matchin
 profile files, then pass that catalog with `--catalog`. The lock captures the
 exact selected files and collection coverage, bypassing current resource defaults;
 it uses the original profile ID and does not require the resource registry. Do not
-add include/exclude flags to a locked selection: customize the source catalog
+add include/exclude/edition flags to a locked selection: customize the source catalog
 instead. Rebuilding an explicitly partial selection still requires
 `--allow-incomplete`. Preserve the downloaded cache because upstream snapshots
 may disappear. `BUILD_INFO.json` records Python

@@ -20,9 +20,10 @@ owl-verify = "owl.verify:main"
 owl-copy = "owl.copy:main"
 owl-atlas = "owl.atlas_build:main"
 owl-import-sections = "owl.atlas_import:main"
+owl-selector = "owl.selector:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-owl = ["templates/*.html"]
+owl = ["templates/*.html", "templates/*.js"]

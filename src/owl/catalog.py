@@ -218,22 +218,24 @@ def fingerprint(asset: dict) -> str:
 
 
 def resolve_content(assets: list[dict], profile: dict, *, resources_path: Path | None = None,
-                    include=(), exclude=()) -> tuple[list[dict], list[dict], dict | None]:
+                    include=(), exclude=(), editions=()) -> tuple[list[dict], list[dict], dict | None]:
     """Resolve named collections, or the fixed directly-readable baseline."""
-    if "default_resources" not in profile and not include and not exclude:
+    if "default_resources" not in profile and not include and not exclude and not editions:
         selected, unresolved = select_profile(assets, profile)
         return selected, unresolved, None
-    from .resources import load_resources, resolve_resources
+    from .resources import load_resources, resolve_resources, resource_asset_ids
     if resources_path is None:
         raise CatalogError("This selection requires a resource registry (--resources-catalog)")
     resources = load_resources(resources_path, assets)
-    result = resolve_resources(assets, profile, resources, include=include, exclude=exclude)
+    result = resolve_resources(assets, profile, resources, include=include, exclude=exclude, editions=editions)
     candidates = result.pop("assets")
     if "default_resources" not in profile:
         # Fixed small/custom profiles can also add or subtract named collections.
-        removed = {identity for rid in result["excluded_ids"] for identity in resources[rid]["asset_ids"]}
+        removed = {identity for rid in result["excluded_ids"] for identity in resource_asset_ids(resources[rid])}
         removed.update(identity for rid in result["selected_ids"]
                        for identity in resources[rid].get("replaces_asset_ids", []))
+        removed.update(identity for rid, edition in result["explicit_editions"].items()
+                       if edition != "published" for identity in resource_asset_ids(resources[rid]))
         added = {a["id"] for a in candidates}
         baseline = [a for a in assets if profile["id"] in a["profiles"] and a["id"] not in removed | added]
         candidates.extend(baseline)
@@ -283,6 +285,12 @@ def resolve_locked_content(assets: list[dict], profile: dict, lock: dict):
             raise CatalogError("Invalid locked resource coverage")
         if len(set(ids)) != len(ids) or sorted(r['id'] for r in rows) != sorted(ids):
             raise CatalogError("Locked resource coverage must describe every selected resource exactly once")
+        editions = selection.get("explicit_editions", {})
+        if (not isinstance(editions, dict) or set(editions) - set(ids) or
+                any(not isinstance(value, str) or value not in {"published", "direct", "compact"}
+                    for value in editions.values()) or
+                any(row.get("edition", "published") != editions.get(row["id"], "published") for row in rows)):
+            raise CatalogError("Invalid locked resource editions")
         resolved_ids = set()
         for row in rows:
             values = row.get("resolved_asset_ids")

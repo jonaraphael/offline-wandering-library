@@ -1,0 +1,8 @@
+id: flash-16gb
+title: Direct-reading essentials, textbooks and illustrated guides
+capacity_bytes: 16000000000
+reserve_bytes: 2000000000
+search_budget_bytes: 2000000000
+minimum_coverage:
+  textbooks: 7
+  illustrated-guides: 8

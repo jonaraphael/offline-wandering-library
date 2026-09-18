@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Choose your library · Offline Wandering Library</title>
+<style>
+:root{color-scheme:light;--paper:#f4f3ed;--surface:#fffefa;--ink:#202e2a;--muted:#5b6b63;--line:#d7ddd3;--green:#285941;--green-soft:#e9f0e7;--amber:#825315;--amber-soft:#fff1d6;--red:#983e32;--red-soft:#ffede7;--focus:#c26825;font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink)}[hidden]{display:none!important}a{color:var(--green)}button,input,select,textarea{font:inherit;color:inherit}button,input,select,textarea,summary,a{touch-action:manipulation}button,select,input[type=checkbox]{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.52}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--focus);outline-offset:3px}button{min-height:44px;border:1px solid var(--line);border-radius:9px;background:var(--surface);padding:.65rem .95rem;font-weight:650}button:hover:not(:disabled){border-color:var(--green);background:var(--green-soft)}button.primary{background:var(--green);color:#fff;border-color:var(--green)}button.primary:hover:not(:disabled){background:#1d4531}input[type=text],input[type=search],select,textarea{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:.7rem .8rem;min-height:44px}input[type=checkbox]{width:1.15rem;height:1.15rem;flex:0 0 auto;margin:.2rem 0;accent-color:var(--green)}textarea{font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;resize:vertical;min-height:7.5rem;overflow-wrap:anywhere;white-space:pre-wrap}label{cursor:pointer}h1,h2,h3,p{margin:0}h1{font:clamp(2.1rem,5vw,3.6rem)/1.07 Georgia,"Times New Roman",serif;letter-spacing:-.035em;max-width:18ch}h2{font-size:1.25rem;line-height:1.3}h3{font-size:1.04rem;line-height:1.4}small,.small{font-size:.82rem}.muted{color:var(--muted)}.eyebrow{font-size:.74rem;text-transform:uppercase;letter-spacing:.13em;font-weight:750;color:var(--green)}.skip{position:absolute;left:1rem;top:-6rem;background:var(--surface);padding:.7rem;z-index:10}.skip:focus{top:.5rem}.wrap{width:min(1180px,calc(100% - 3rem));margin:auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.35rem 0;border-bottom:1px solid var(--line)}.brand{display:flex;gap:.65rem;align-items:center;font-weight:750;letter-spacing:-.015em}.owl-mark{width:2.45rem;height:2.45rem;border:1px solid var(--green);border-radius:50%;display:grid;place-items:center;color:var(--green);font:700 .82rem Georgia,serif}.toplinks{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;font-size:.85rem}.offline-pill{display:inline-flex;align-items:center;gap:.45rem;background:var(--green-soft);border-radius:20px;padding:.35rem .7rem;font-size:.74rem;color:var(--green);font-weight:650}.offline-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:3rem;padding:3rem 0 2rem}.hero .eyebrow{margin-bottom:.85rem}.hero-description{max-width:24rem;color:var(--muted);font-size:1rem;line-height:1.65}.hero-description strong{color:var(--ink);font-weight:600}.presets{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.6rem;margin:1rem 0}.preset{text-align:left;min-height:75px;padding:.8rem 1rem;border-color:#cbd4c7}.preset strong{display:block;font-size:1.12rem;letter-spacing:-.025em}.preset span{display:block;font-size:.7rem;font-weight:450;color:var(--muted);margin-top:.18rem}.preset[aria-pressed=true]{border:2px solid var(--green);padding:calc(.8rem - 1px) calc(1rem - 1px);background:var(--green-soft)}.section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap}.step{display:inline-grid;place-items:center;width:1.6rem;height:1.6rem;border:1px solid var(--green);border-radius:50%;font-size:.8rem;color:var(--green);margin-right:.45rem;vertical-align:middle}.quiet-button{border:0;background:transparent;padding:.4rem 0;font-size:.8rem;min-height:36px;text-decoration:underline;text-underline-offset:3px}.preset-note{font-size:.8rem;color:var(--muted);margin-bottom:1.7rem}.layout{display:grid;grid-template-columns:minmax(0,1fr) 345px;gap:1.4rem;align-items:start;padding-bottom:2rem}.panel{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:1.25rem}.setup{margin-bottom:1.4rem}.setup h2{margin-bottom:1.1rem}.field-grid{display:grid;grid-template-columns:minmax(0,1fr) 180px;gap:.9rem}.field-label{display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem}.field-help{font-size:.77rem;color:var(--muted);margin-top:.45rem}.options{display:grid;gap:.7rem;margin-top:1.1rem;padding-top:1rem;border-top:1px solid var(--line)}.check-label{display:flex;align-items:flex-start;gap:.65rem;font-size:.87rem;line-height:1.5;min-height:32px}.check-label small{display:block;color:var(--muted);font-size:.76rem;font-weight:400}.filterbar{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.9rem;margin:1rem 0 .6rem}.filterbar .check-label{font-size:.8rem;align-items:center;white-space:nowrap}.list-note{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.75rem;color:var(--muted);margin-bottom:.85rem}.resources{display:grid;gap:.7rem}.resource{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:1.1rem}.resource.is-selected{border-left:3px solid var(--green);padding-left:calc(1.1rem - 2px)}.resource-top{display:flex;gap:.8rem;align-items:flex-start}.resource-title{flex:1;min-width:0}.resource-title label{display:block}.resource-number{font-size:.72rem;font-weight:650;color:var(--muted);margin-bottom:.17rem}.resource-id{font:11px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--muted);overflow-wrap:anywhere;margin-top:.3rem}.badge{font-size:.66rem;font-weight:750;white-space:nowrap;border-radius:20px;padding:.27rem .5rem;background:var(--paper);color:var(--muted)}.badge.ready{background:var(--green-soft);color:var(--green)}.badge.partial,.badge.unresolved{background:var(--amber-soft);color:var(--amber)}.resource-body{margin:.95rem 0 0 1.95rem}.resource-numbers{display:flex;gap:1.1rem;flex-wrap:wrap;font-size:.75rem;color:var(--muted);margin-top:.65rem}.resource-numbers strong{display:block;font-size:.92rem;color:var(--ink);font-variant-numeric:tabular-nums}.edition-label{font-size:.72rem;font-weight:650;margin-bottom:.3rem;display:block}.edition-select{font-size:.82rem;padding:.5rem .6rem;min-height:40px}.source-reason,.dependency-note{font-size:.77rem;color:var(--muted);margin-top:.65rem;overflow-wrap:anywhere}.dependency-note{color:var(--green);font-weight:600}.scope-details{font-size:.8rem;border-top:1px solid var(--line);margin-top:.85rem;padding-top:.65rem}.scope-details summary{cursor:pointer;font-weight:650;padding:.2rem 0;min-height:32px}.scope-details ul{padding-left:1.2rem;margin:.45rem 0}.scope-details li+li{margin-top:.3rem}.scope-details p{margin-top:.45rem}.sidebar{position:sticky;top:1rem;display:grid;gap:.9rem;max-height:calc(100vh - 2rem);overflow-y:auto;scrollbar-gutter:stable}.summary-panel{border-top:3px solid var(--green);padding-top:1.15rem}.summary-heading{display:flex;align-items:baseline;justify-content:space-between;gap:.8rem;margin-bottom:1rem}.capacity{font-size:.75rem;color:var(--muted);white-space:nowrap}.primary-stat{margin:.75rem 0 1rem}.primary-stat dt{font-size:.76rem;color:var(--muted)}.primary-stat dd{margin:.15rem 0 0;font-size:2.25rem;line-height:1.2;font-weight:650;letter-spacing:-.06em;font-variant-numeric:tabular-nums}.stat-caption{font-size:.72rem;color:var(--muted);margin-top:.3rem}.storage-meter{height:9px;border-radius:8px;overflow:hidden;background:var(--paper);margin-top:.75rem}.storage-meter span{display:block;height:100%;width:0;background:var(--green);transition:width .15s ease-out}.storage-meter.over span{background:var(--red)}.estimate-list{margin:1rem 0 0}.estimate-row{display:flex;justify-content:space-between;gap:1rem;font-size:.77rem;padding:.4rem 0}.estimate-row dt{color:var(--muted)}.estimate-row dd{margin:0;font-variant-numeric:tabular-nums;font-weight:650;text-align:right;white-space:nowrap}.estimate-row.total{border-top:1px solid var(--line);margin-top:.35rem;padding-top:.7rem;font-size:.87rem}.estimate-row.total dt{font-weight:700;color:var(--ink)}.estimate-row.peak{background:var(--green-soft);border-radius:7px;padding:.65rem;margin:.4rem -.1rem 0}.estimate-foot{font-size:.72rem;color:var(--muted);margin-top:.75rem}.status-box{border-radius:8px;padding:.9rem;margin-top:1rem;border:1px solid var(--line);background:var(--green-soft);font-size:.8rem}.status-box strong{display:block;font-size:.87rem;margin-bottom:.25rem}.status-box.warning{background:var(--amber-soft);border-color:#e3cda6}.status-box.error{background:var(--red-soft);border-color:#e9bdb1}.status-box ul{padding-left:1.15rem;margin:.5rem 0 0}.status-box li+li{margin-top:.3rem}.warning-details{margin-top:.7rem;font-size:.77rem}.warning-details summary{cursor:pointer;min-height:35px;padding:.3rem 0}.warning-details ul{padding-left:1.15rem;margin:.35rem 0}.commands{display:grid;gap:.85rem}.commands h2{margin-bottom:.2rem}.command-label{display:flex;justify-content:space-between;gap:.6rem;margin-bottom:.4rem;font-size:.77rem;font-weight:700}.command-label span{font-weight:450;color:var(--muted)}.command-actions{display:flex;gap:.5rem;margin-top:.5rem}.command-actions button{width:100%;font-size:.8rem}.command-help{font-size:.74rem;color:var(--muted)}.copy-feedback{font-size:.76rem;min-height:1.1rem;color:var(--green);overflow-wrap:anywhere}.empty{padding:2rem;border:1px dashed var(--line);border-radius:10px;color:var(--muted);text-align:center}.fatal{padding:1rem;border:1px solid var(--red);background:var(--red-soft);border-radius:9px;margin:1rem 0}.footer{border-top:1px solid var(--line);padding:1.3rem 0 2rem;color:var(--muted);font-size:.74rem;display:flex;gap:1rem;justify-content:space-between;flex-wrap:wrap}.hash{font:10px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;max-width:30rem}.noscript{padding:1rem;border:1px solid var(--amber);background:var(--amber-soft);margin:1rem 0}
+.mobile-budget{display:none}.format-scope{font-size:.73rem;font-weight:650;color:var(--green);margin-bottom:.55rem}
+@media(max-width:950px){.layout{grid-template-columns:minmax(0,1fr) 310px;gap:1rem}.hero{gap:1.5rem}.hero-description{max-width:20rem}.panel{padding:1rem}.field-grid{grid-template-columns:1fr}.resource-body{margin-left:0}.preset{padding:.7rem}.preset[aria-pressed=true]{padding:calc(.7rem - 1px)}}
+@media(max-width:760px){.wrap{width:min(100% - 2rem,580px)}.topbar{padding:1rem 0}.brand{font-size:.85rem}.toplinks .offline-pill{display:none}.hero{display:block;padding:2rem 0 1.5rem}.hero-description{max-width:unset;margin-top:1.1rem;font-size:.93rem}.hero h1{max-width:19ch}.layout{grid-template-columns:1fr}.sidebar{position:static;grid-row:2;max-height:none;overflow:visible;scrollbar-gutter:auto}.presets{gap:.35rem}.preset{min-height:67px;padding:.55rem .3rem;text-align:center}.preset[aria-pressed=true]{padding:calc(.55rem - 1px) calc(.3rem - 1px)}.preset strong{font-size:.98rem}.preset span{font-size:.6rem}.filterbar{grid-template-columns:1fr}.filterbar .check-label{justify-self:start}.resource{padding:.95rem}.resource.is-selected{padding-left:calc(.95rem - 2px)}.resource-top{flex-wrap:wrap}.resource-title{min-width:calc(100% - 5rem)}.badge{margin-left:1.95rem}.footer{display:block}.hash{margin-top:.6rem}.primary-stat dd{font-size:2rem}.section-heading h2{font-size:1.12rem}.command-actions button{font-size:.85rem}}
+@media(prefers-reduced-motion:reduce){.storage-meter span{transition:none}}
+@media(max-width:760px){body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}.mobile-budget{display:block;position:fixed;z-index:5;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--green);box-shadow:0 -3px 16px #00000012;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom,0px))}.mobile-budget-inner{max-width:580px;margin:auto;display:grid;grid-template-columns:1fr 1fr auto;align-items:center;gap:.7rem}.mobile-budget a{text-decoration:none}.mobile-budget .mobile-stat span{font-size:.61rem;display:block;color:var(--muted)}.mobile-budget strong{font-size:1rem;font-variant-numeric:tabular-nums;color:var(--ink)}.mobile-budget .mobile-action{text-align:center}.mobile-budget .mobile-action a{display:block;border-radius:7px;padding:.55rem .65rem;background:var(--green);color:var(--surface);font-size:.74rem;font-weight:750;min-height:40px}.mobile-budget .mobile-action span{display:block;font-size:.6rem;margin-top:.2rem;color:var(--muted)}.mobile-budget.has-errors{border-top-color:var(--red)}}
+@media(prefers-color-scheme:dark){:root{color-scheme:dark;--paper:#17231e;--surface:#1e2c25;--ink:#e6ebe1;--muted:#aebcae;--line:#3e5042;--green:#a8d1a9;--green-soft:#2d4432;--amber:#efcb8b;--amber-soft:#413720;--red:#e6a995;--red-soft:#422f29;--focus:#e4af6a}.preset{border-color:var(--line)}button.primary{background:#a8d1a9;color:#162a1c}button.primary:hover:not(:disabled){background:#c7e8c6}.status-box.warning,.status-box.error{border-color:var(--line)}}
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to planner</a>
+<div class="wrap">
+  <header class="topbar">
+    <div class="brand"><span class="owl-mark" aria-hidden="true">OWL</span><span>Offline Wandering Library</span></div>
+    <nav class="toplinks" aria-label="Project information"><span class="offline-pill">Works offline</span><a href="README.md">Build guide</a></nav>
+  </header>
+  <main id="content">
+    <div class="hero">
+      <div><p class="eyebrow">Your drive. Your library.</p><h1>Choose what goes on your drive.</h1></div>
+      <p class="hero-description">Start with a drive size, choose your collections, then copy the build command. <strong>Everything here is a plan.</strong> This page runs no commands and downloads no content.</p>
+    </div>
+    <noscript><p class="noscript">This planner needs JavaScript in a browser. The finished library still has ordinary files and static indexes. Use the <a href="README.md">README</a> for command-line profile selection.</p></noscript>
+    <div id="fatal" class="fatal" role="alert" hidden></div>
+    <section aria-labelledby="preset-heading">
+      <div class="section-heading"><h2 id="preset-heading"><span class="step">1</span>Pick a starting size</h2><button id="reset-preset" class="quiet-button" type="button">Reset this preset</button></div>
+      <div id="presets" class="presets" role="group" aria-label="Drive presets"></div>
+      <p id="preset-note" class="preset-note">Drive sizes use decimal GB. Presets are starting selections; actual free space is checked by the builder.</p>
+    </section>
+    <div class="layout">
+      <div>
+        <section class="panel setup" aria-labelledby="setup-heading">
+          <h2 id="setup-heading"><span class="step">2</span>Set up your build</h2>
+          <div class="field-grid">
+            <div><label class="field-label" for="target-path">Library directory on your SSD</label><input id="target-path" type="text" value="/path/to/EMERGENCY_LIBRARY" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="target-help"><p id="target-help" class="field-help">Replace this example with your drive's actual path. OWL builds in place and does not format the drive.</p></div>
+            <div><label class="field-label" for="shell">Terminal syntax</label><select id="shell"><option value="posix">macOS / Linux shell</option><option value="powershell">Windows PowerShell</option></select><p class="field-help">Choose the terminal where you will paste the command.</p></div>
+          </div>
+          <div class="options">
+            <label class="check-label" for="allow-incomplete"><input id="allow-incomplete" type="checkbox"><span>Build only currently verified files (partial library)<small>Explicitly accept missing collections. Included files must still pass verification.</small></span></label>
+            <label class="check-label" for="atlas"><input id="atlas" type="checkbox" checked><span>Add the human topic atlas<small id="atlas-help">Offline subject, practical-task, and learning pages alongside the existing indexes.</small></span></label>
+          </div>
+        </section>
+        <section aria-labelledby="resources-heading">
+          <div class="section-heading"><h2 id="resources-heading"><span class="step">3</span>Choose your collections</h2><span id="selected-count" class="small muted" aria-live="polite"></span></div>
+          <div class="filterbar"><div><label class="field-label" for="resource-filter">Find a collection</label><input id="resource-filter" type="search" placeholder="Books, first aid, maps…" autocomplete="off"></div><label class="check-label" for="selected-only"><input id="selected-only" type="checkbox"><span>Show selected only</span></label></div>
+          <div class="list-note"><span id="visible-count"></span><span>Status describes source metadata, not downloaded files.</span></div>
+          <div id="resources" class="resources"></div>
+          <p id="no-results" class="empty" hidden>No collections match these filters. Try another term or turn off “Show selected only.”</p>
+        </section>
+      </div>
+      <aside class="sidebar" aria-label="Selection estimates and commands">
+        <section class="panel summary-panel" aria-labelledby="summary-heading">
+          <div class="summary-heading"><h2 id="summary-heading">Your library plan</h2><span id="capacity" class="capacity"></span></div>
+          <dl class="primary-stat"><dt>Planned content</dt><dd id="content-target">—</dd></dl>
+          <p class="stat-caption">Collection allocations include unresolved work. They are not verified download sizes.</p>
+          <div id="storage-meter" class="storage-meter" aria-hidden="true"><span id="storage-fill"></span></div>
+          <dl class="estimate-list">
+            <div class="estimate-row"><dt>Pinned file sizes</dt><dd id="known-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Bundled readers</dt><dd id="reader-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Search allowance</dt><dd id="search-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Navigation / metadata</dt><dd id="metadata-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Free-space reserve</dt><dd id="reserve-bytes">—</dd></div>
+            <div class="estimate-row total"><dt>Finished files, before reserve</dt><dd id="final-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Temporary search work</dt><dd id="scratch-bytes">—</dd></div>
+            <div class="estimate-row total peak"><dt>Peak build budget, including reserve</dt><dd id="peak-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Available-file peak estimate</dt><dd id="actual-peak-bytes">—</dd></div>
+          </dl>
+          <p class="estimate-foot">Temporary search work also lives on the SSD by default. Estimates cannot read your free space or guarantee the final index size. Run the plan command first.</p>
+          <div id="selection-status" class="status-box" role="status" aria-live="polite"><strong id="status-title">Loading the catalog…</strong><p id="status-description"></p><ul id="errors" hidden></ul></div>
+          <details id="warnings-details" class="warning-details" hidden><summary id="warnings-title">Planning notes</summary><ul id="warnings"></ul></details>
+          <details id="incomplete-details" class="warning-details" hidden><summary id="incomplete-title">Incomplete collections</summary><ul id="incomplete-list"></ul></details>
+        </section>
+        <section class="panel commands" aria-labelledby="commands-heading">
+          <h2 id="commands-heading">Take this plan to your terminal</h2>
+          <p class="command-help">Run these from the installed OWL repository. Check the path before pasting. Nothing runs from this page.</p>
+          <div><label class="command-label" for="plan-command">Check the plan <span>No downloads or writes</span></label><textarea id="plan-command" readonly spellcheck="false" aria-describedby="plan-help" placeholder="Your plan command will appear here."></textarea><div class="command-actions"><button id="copy-plan" type="button" disabled>Copy plan command</button></div><p id="plan-help" class="field-help">Shows requirements and checks the destination's available space.</p></div>
+          <div><label class="command-label" for="build-command">Build the drive <span>Starts when you run it</span></label><textarea id="build-command" readonly spellcheck="false" placeholder="Resolve the selection warnings before building."></textarea><div class="command-actions"><button id="copy-build" class="primary" type="button" disabled>Copy build command</button></div><p id="build-help" class="field-help">The builder downloads, verifies, and indexes selected files. Keep the SSD attached.</p></div>
+          <p id="copy-feedback" class="copy-feedback" role="status" aria-live="polite"></p>
+        </section>
+        <section class="panel"><h3>Choose editions, not guessed compression</h3><p class="field-help">Smaller options select verified published editions when available. Unverified alternate editions stay disabled. Critical knowledge remains in ordinary readable files; large archives may need bundled readers.</p><p class="field-help">“Preset files only” selects a small baseline's pinned sources. “Published collection” requests its wider collection scope, which may still be incomplete.</p></section>
+      </aside>
+    </div>
+  </main>
+  <footer class="footer"><p>OWL · No accounts, cloud services, or network requests in this planner.<br>Save the command with your catalog snapshot, then verify the finished SSD.</p><p class="hash">Catalog SHA-256<br><span id="catalog-hash">—</span></p></footer>
+</div>
+<nav id="mobile-budget" class="mobile-budget" aria-label="Live storage estimate and command shortcuts">
+  <div class="mobile-budget-inner">
+    <a class="mobile-stat" href="#summary-heading"><span>Planned content</span><strong id="mobile-content">—</strong></a>
+    <a class="mobile-stat" href="#summary-heading"><span>Peak incl. reserve</span><strong id="mobile-peak">—</strong></a>
+    <div class="mobile-action"><a href="#commands-heading">Commands</a><span id="mobile-status">Loading…</span></div>
+  </div>
+</nav>
+<script id="owl-model" type="application/json">__OWL_MODEL__</script>
+<script>__OWL_ENGINE__</script>
+<script>
+(() => {
+  "use strict";
+  const byId = id => document.getElementById(id);
+  const cards = new Map();
+  const presetButtons = new Map();
+  const profileSizes = [["flash-16gb", "16 GB", "Pocket essentials"], ["critical-64gb", "64 GB", "Critical library"],
+    ["compact-256gb", "256 GB", "Read & repair"], ["standard-512gb", "512 GB", "Rebuild & learn"],
+    ["full-1tb", "1 TB", "Broad library"]];
+  let model, state, result;
+  function element(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = String(text);
+    return node;
+  }
+  function text(value) {
+    if (value === null || value === undefined) return "";
+    if (Array.isArray(value)) return value.map(text).join(" · ");
+    return typeof value === "object" ? (value.reason || value.message || value.title || value.id || JSON.stringify(value)) : String(value);
+  }
+  function bytes(value) {
+    if (!Number.isFinite(value) || value < 0) return "Unknown";
+    const unit = value >= 1e12 ? "TB" : value >= 1e9 ? "GB" : value >= 1e6 ? "MB" : value >= 1e3 ? "kB" : "B";
+    const divisor = {TB: 1e12, GB: 1e9, MB: 1e6, kB: 1e3, B: 1}[unit];
+    return (value / divisor).toLocaleString(undefined, {maximumFractionDigits: value / divisor < 10 ? 2 : 1}) + " " + unit;
+  }
+  function setList(id, entries) {
+    const list = byId(id);
+    list.replaceChildren(...entries.map(entry => element("li", "", text(entry))));
+    list.hidden = entries.length === 0;
+  }
+  function failure(error) {
+    byId("fatal").textContent = "This planner could not read its catalog or selection: " + text(error.message || error) + ". Use the README and command-line tools to inspect the recipe.";
+    byId("fatal").hidden = false;
+    byId("build-command").value = "";
+    byId("plan-command").value = "";
+    byId("copy-build").disabled = true;
+    byId("copy-plan").disabled = true;
+  }
+  function choosePreset(profile) {
+    state = OWLPlanner.preset(model, profile);
+    byId("allow-incomplete").checked = Boolean(state.allowIncomplete);
+    byId("atlas").checked = state.atlas !== false;
+    render();
+  }
+  function updateItem(id, patch) {
+    state.items[id] = {...(state.items[id] || {}), ...patch};
+    render();
+  }
+  function pinnedFormats(row) {
+    const resource = model.resources.find(resource => resource.id === row.id);
+    if (!resource) return [];
+    const edition = resource.editions && resource.editions[row.edition];
+    let ids = edition ? edition.asset_ids : resource.asset_ids;
+    if (row.edition === "preset") {
+      const profile = model.profiles.find(profile => profile.id === state.profile);
+      const baseline = new Set(profile.baseline_asset_ids || []);
+      ids = [resource.asset_ids, ...Object.values(resource.editions || {}).map(edition => edition.asset_ids)].flat().filter(id => baseline.has(id));
+    }
+    const candidates = new Set(ids || []);
+    const selected = new Set(result.selectedAssetIds || []);
+    const included = Boolean(row.included || row.autoIncluded);
+    return [...new Set((model.assets || []).filter(asset => candidates.has(asset.id) && asset.status === "resolved" &&
+      (!included || selected.has(asset.id))).map(asset => asset.format.toUpperCase()))].sort();
+  }
+  function makeCard(row) {
+    const card = element("article", "resource");
+    card.dataset.resourceId = row.id;
+    const top = element("div", "resource-top");
+    const checkbox = element("input"); checkbox.type = "checkbox"; checkbox.id = "include-" + row.id;
+    checkbox.dataset.role = "include";
+    checkbox.addEventListener("change", () => updateItem(row.id, {included: checkbox.checked}));
+    const heading = element("div", "resource-title");
+    const number = element("p", "resource-number");
+    const h3 = element("h3"); const label = element("label"); label.htmlFor = checkbox.id; h3.append(label);
+    const identity = element("p", "resource-id", row.id);
+    heading.append(number, h3, identity);
+    const badge = element("span", "badge"); badge.dataset.role = "availability";
+    top.append(checkbox, heading, badge);
+    const body = element("div", "resource-body");
+    const formatScope = element("p", "format-scope"); formatScope.dataset.role = "formats";
+    const editionLabel = element("label", "edition-label", "Storage / edition"); editionLabel.htmlFor = "edition-" + row.id;
+    const edition = element("select", "edition-select"); edition.id = editionLabel.htmlFor; edition.dataset.role = "edition";
+    edition.addEventListener("change", () => updateItem(row.id, {edition: edition.value}));
+    const numbers = element("div", "resource-numbers");
+    const target = element("strong"); const known = element("strong"); const count = element("strong");
+    for (const [node, caption] of [[target, "Planned collection"], [known, "Pinned file sizes"], [count, "Known files"]]) {
+      const group = element("div"); group.append(node, document.createTextNode(caption)); numbers.append(group);
+    }
+    const reason = element("p", "source-reason"); reason.dataset.role = "reason";
+    const dependency = element("p", "dependency-note", "Included automatically for selected archives.");
+    const details = element("details", "scope-details");
+    const summary = element("summary", "", "Collection scope and edition notes");
+    const scope = element("div"); details.append(summary, scope);
+    body.append(formatScope, editionLabel, edition, numbers, reason, dependency, details);
+    card.append(top, body);
+    byId("resources").append(card);
+    const nodes = {card, checkbox, number, label, badge, edition, target, known, count, reason, dependency, scope, details, formatScope};
+    cards.set(row.id, nodes);
+    return nodes;
+  }
+  function updateCard(row) {
+    const nodes = cards.get(row.id) || makeCard(row);
+    const included = Boolean(row.included || row.autoIncluded);
+    nodes.card.classList.toggle("is-selected", included);
+    nodes.card.dataset.included = String(included);
+    nodes.checkbox.checked = included;
+    nodes.checkbox.disabled = Boolean(row.autoIncluded);
+    nodes.number.textContent = row.number === null || row.number === undefined ? "Support collection" : "Collection " + row.number;
+    nodes.label.textContent = row.title;
+    const formats = pinnedFormats(row);
+    nodes.formatScope.textContent = (row.scope ? text(row.scope) + " · " : "") +
+      "Pinned formats: " + (formats.length ? formats.join(", ") : "none available");
+    const status = ["ready", "partial", "unresolved"].includes(row.status) ? row.status : "unknown";
+    nodes.badge.className = "badge " + status;
+    nodes.badge.textContent = {ready: "Ready", partial: "Partial", unresolved: "Unresolved", unknown: "Unknown"}[status];
+    nodes.edition.replaceChildren(...row.options.map(option => {
+      const node = element("option", "", option.label + (option.available === false ? " — unavailable" : ""));
+      node.value = option.value; node.disabled = option.available === false;
+      if (option.reason) node.title = option.reason;
+      return node;
+    }));
+    nodes.edition.value = row.edition;
+    nodes.target.textContent = bytes(row.targetBytes);
+    nodes.known.textContent = bytes(row.knownBytes);
+    nodes.count.textContent = Number.isFinite(row.assetCount) ? row.assetCount.toLocaleString() : "Unknown";
+    nodes.reason.textContent = row.reason || (status === "ready" ? "The selected scope has pinned source metadata. No files are downloaded by this page." : "Source metadata for this scope is not complete.");
+    nodes.dependency.hidden = !row.autoIncluded;
+    const scope = [];
+    if (row.scope) scope.push(element("p", "", text(row.scope)));
+    if (row.include && row.include.length) {
+      const list = element("ul"); list.append(...row.include.map(value => element("li", "", text(value)))); scope.push(list);
+    }
+    if (row.preferredFormats && row.preferredFormats.length) scope.push(element("p", "muted", "Preferred formats: " + row.preferredFormats.join(", ")));
+    const unavailable = row.options.filter(option => option.available === false);
+    if (unavailable.length) {
+      const list = element("ul", "muted");
+      list.append(...unavailable.map(option => element("li", "", option.label + ": " + (option.reason || "No verified edition is available."))));
+      scope.push(list);
+    }
+    if (!scope.length) scope.push(element("p", "muted", "See the catalog for this collection's intended scope and source notices."));
+    nodes.scope.replaceChildren(...scope);
+    nodes.search = [row.title, row.id, row.reason, text(row.scope), ...(row.include || []), ...(row.preferredFormats || []),
+      ...row.options.map(option => option.label)].join(" ").toLocaleLowerCase();
+  }
+  function filterCards() {
+    if (!result) return;
+    const query = byId("resource-filter").value.trim().toLocaleLowerCase();
+    const selectedOnly = byId("selected-only").checked;
+    let visible = 0;
+    for (const row of result.rows) {
+      const nodes = cards.get(row.id);
+      const show = (!selectedOnly || row.included || row.autoIncluded) && (!query || nodes.search.includes(query));
+      nodes.card.hidden = !show;
+      if (show) visible++;
+    }
+    byId("visible-count").textContent = visible + " of " + result.rows.length + " collections shown";
+    byId("no-results").hidden = visible !== 0;
+  }
+  function renderCommands() {
+    if (!state) return;
+    const target = byId("target-path").value;
+    const shell = byId("shell").value;
+    let plan = "", build = "";
+    if (target.trim()) {
+      try {
+        plan = OWLPlanner.command(model, state, {target, shell, plan: true});
+        build = OWLPlanner.command(model, state, {target, shell, plan: false});
+      } catch (error) {
+        byId("copy-feedback").textContent = "Check the destination path and selection: " + text(error.message || error);
+      }
+    }
+    byId("plan-command").value = plan;
+    byId("build-command").value = build;
+    byId("copy-plan").disabled = !plan;
+    byId("copy-build").disabled = !build;
+    byId("build-help").textContent = !target.trim() ? "Enter the destination directory to generate commands." : build ?
+      "The builder downloads, verifies, and indexes selected files. Keep the SSD attached." :
+      "Build command withheld. Resolve the errors, or explicitly accept a partial library when source gaps are the only blocker.";
+  }
+  function render() {
+    try {
+      byId("fatal").hidden = true;
+      result = OWLPlanner.resolve(model, state);
+      const estimate = result.estimates;
+      for (const [profile, button] of presetButtons) button.setAttribute("aria-pressed", String(profile === state.profile));
+      const profile = model.profiles.find(profile => profile.id === state.profile);
+      byId("preset-note").textContent = (profile ? profile.title + ". " : "") + "Drive sizes use decimal GB. Resetting a preset restores its collection choices and options.";
+      byId("capacity").textContent = bytes(estimate.capacityBytes) + " drive";
+      const fields = {"content-target": "contentTargetBytes", "known-bytes": "knownBytes", "reader-bytes": "readerBytes",
+        "search-bytes": "searchBytes", "metadata-bytes": "metadataBytes", "reserve-bytes": "reserveBytes", "final-bytes": "finalBytes",
+        "scratch-bytes": "scratchBytes", "peak-bytes": "peakBytes", "actual-peak-bytes": "actualPeakBytes"};
+      for (const [id, key] of Object.entries(fields)) byId(id).textContent = bytes(estimate[key]);
+      byId("mobile-content").textContent = bytes(estimate.contentTargetBytes);
+      byId("mobile-peak").textContent = bytes(estimate.peakBytes);
+      const ratio = estimate.capacityBytes > 0 ? estimate.peakBytes / estimate.capacityBytes : 0;
+      byId("storage-fill").style.width = Math.max(0, Math.min(100, Number.isFinite(ratio) ? ratio * 100 : 0)) + "%";
+      byId("storage-meter").classList.toggle("over", ratio > 1);
+      const errors = result.errors || [], warnings = result.warnings || [], incomplete = result.incomplete || [];
+      let title, description, severity = "";
+      if (errors.length) {
+        title = "This selection needs changes";
+        description = "Review the issues below. A build command is available only when the selection passes its checks.";
+        severity = "error";
+      } else if (!result.canBuild) {
+        title = "Some collections still need sources";
+        description = "Review their source status, change the selection, or explicitly choose to build only currently verified files.";
+        severity = "warning";
+      } else if (incomplete.length) {
+        title = "Ready to plan a partial library";
+        description = "You have accepted missing collection material. The drive will record that its content selection is incomplete.";
+        severity = "warning";
+      } else {
+        title = "Ready for a storage check";
+        description = "Source metadata is ready for this selection. Run the plan command to check available space before starting the build.";
+      }
+      byId("selection-status").className = "status-box" + (severity ? " " + severity : "");
+      byId("mobile-budget").classList.toggle("has-errors", errors.length > 0);
+      byId("mobile-status").textContent = errors.length ? "Needs changes" : !result.canBuild ? "Sources missing" : incomplete.length ? "Partial library" : "Plan ready";
+      byId("status-title").textContent = title;
+      byId("status-description").textContent = description;
+      setList("errors", errors);
+      setList("warnings", warnings);
+      byId("warnings-details").hidden = warnings.length === 0;
+      byId("warnings-title").textContent = "Planning notes (" + warnings.length + ")";
+      const incompleteText = incomplete.map(entry => {
+        const identity = typeof entry === "string" ? entry : entry.id;
+        const row = result.rows.find(row => row.id === identity);
+        return row ? row.title + ": " + (row.reason || "The complete requested scope is not yet verified.") : text(entry);
+      });
+      setList("incomplete-list", incompleteText);
+      byId("incomplete-details").hidden = incomplete.length === 0;
+      byId("incomplete-title").textContent = "Incomplete collections (" + incomplete.length + ")";
+      for (const row of result.rows) updateCard(row);
+      byId("selected-count").textContent = result.rows.filter(row => row.included || row.autoIncluded).length + " selected";
+      byId("copy-feedback").textContent = "";
+      filterCards(); renderCommands();
+    } catch (error) { failure(error); }
+  }
+  async function copyCommand(id) {
+    const field = byId(id);
+    if (!field.value) return;
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error("Clipboard unavailable");
+      await navigator.clipboard.writeText(field.value);
+      byId("copy-feedback").textContent = "Command copied. Review it in your terminal before running it.";
+    } catch (_) {
+      field.focus(); field.select(); field.setSelectionRange(0, field.value.length);
+      byId("copy-feedback").textContent = "Command selected. Use your device's Copy action, Ctrl+C, or Command+C.";
+    }
+  }
+  try {
+    model = JSON.parse(byId("owl-model").textContent);
+    for (const [identity, label, caption] of profileSizes) {
+      if (!model.profiles.some(profile => profile.id === identity)) continue;
+      const button = element("button", "preset"); button.type = "button";
+      button.dataset.profile = identity; button.setAttribute("aria-pressed", "false");
+      button.append(element("strong", "", label), element("span", "", caption));
+      button.addEventListener("click", () => choosePreset(identity));
+      byId("presets").append(button); presetButtons.set(identity, button);
+    }
+    byId("catalog-hash").textContent = model.catalog_sha256 || "Not supplied";
+    if (model.atlas_available === false) {
+      byId("atlas").disabled = true;
+      byId("atlas-help").textContent = "No matching topic metadata is bundled for this custom catalog. The existing static indexes remain available.";
+    }
+    byId("reset-preset").addEventListener("click", () => choosePreset(state.profile));
+    byId("allow-incomplete").addEventListener("change", event => { state.allowIncomplete = event.target.checked; render(); });
+    byId("atlas").addEventListener("change", event => { state.atlas = event.target.checked; render(); });
+    byId("resource-filter").addEventListener("input", filterCards);
+    byId("selected-only").addEventListener("change", filterCards);
+    byId("target-path").addEventListener("input", () => { byId("copy-feedback").textContent = ""; renderCommands(); });
+    byId("shell").addEventListener("change", () => { byId("copy-feedback").textContent = ""; renderCommands(); });
+    byId("copy-plan").addEventListener("click", () => copyCommand("plan-command"));
+    byId("copy-build").addEventListener("click", () => copyCommand("build-command"));
+    choosePreset(model.profiles.some(profile => profile.id === "flash-16gb") ? "flash-16gb" : model.profiles[0].id);
+  } catch (error) { failure(error); }
+})();
+</script>
+</body>
+</html>

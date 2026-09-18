@@ -11,12 +11,13 @@ import re
 from typing import Iterable
 from urllib.parse import urlsplit
 
-from .catalog import CatalogError, read_yaml
+from .catalog import CatalogError, DIRECT, read_yaml
 
 
 RESOURCE_ID = re.compile(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*")
 STATUSES = {"ready", "partial", "unresolved"}
 READERS = "archive-readers"
+EDITIONS = {"published", "direct", "compact"}
 
 
 def _integer(value: object, name: str, minimum: int = 0) -> int:
@@ -88,6 +89,40 @@ def load_resources(path: Path, assets: list[dict]) -> dict[str, dict]:
                 raise CatalogError(f"{identity}: a ready resource needs at least one source asset")
             if any(asset_map[member].get("status", "resolved") != "resolved" for member in members):
                 raise CatalogError(f"{identity}: a ready resource contains unresolved source assets")
+        editions = row.setdefault("editions", {})
+        if not isinstance(editions, dict) or set(editions) - {"direct", "compact"}:
+            raise CatalogError(f"{identity}: editions may define only direct and compact")
+        critical = {member for member in members if asset_map[member].get("critical")}
+        for name, edition in editions.items():
+            label = f"{identity} edition {name}"
+            if (not isinstance(edition, dict) or
+                    set(edition) != {"asset_ids", "target_bytes", "status", "reason"}):
+                raise CatalogError(f"{label}: requires asset_ids, target_bytes, status, and reason")
+            group = _strings(edition["asset_ids"], f"{label}.asset_ids", unique=True)
+            _integer(edition["target_bytes"], f"{label}.target_bytes")
+            if not isinstance(edition["status"], str) or edition["status"] not in STATUSES:
+                raise CatalogError(f"{label}: invalid status")
+            if (not isinstance(edition["reason"], str) or
+                    (edition["status"] != "ready" and not edition["reason"].strip())):
+                raise CatalogError(f"{label}: incomplete editions require a nonempty reason")
+            if not group:
+                raise CatalogError(f"{label}: an edition needs pinned source assets")
+            if set(group) - asset_map.keys():
+                raise CatalogError(f"{label}: unknown asset ids")
+            for member in group:
+                asset = asset_map[member]
+                if (asset.get("status", "resolved") != "resolved" or
+                        not isinstance(asset.get("sha256"), str) or
+                        not re.fullmatch(r"[0-9a-f]{64}", asset["sha256"])):
+                    raise CatalogError(f"{label}: every source must be resolved and SHA-256 pinned")
+                if name == "direct" and (str(asset.get("format", "")).lower() not in DIRECT or
+                        asset.get("reader_required") or
+                        str(asset.get("destination", "")).split("/")[0] in {"ZIM", "SOFTWARE"}):
+                    raise CatalogError(f"{label}: direct editions require ordinary readable source formats")
+            if name == "compact" and not any(str(asset_map[m].get("format", "")).lower() == "zim" for m in group):
+                raise CatalogError(f"{label}: compact editions require a pinned ZIM archive")
+            if critical - set(group):
+                raise CatalogError(f"{label}: editions must preserve critical directly readable source assets")
         for field in ("preferred_formats", "include", "exclude", "source_pages"):
             if field in row:
                 _strings(row[field], f"{identity}.{field}")
@@ -139,14 +174,47 @@ def _selections(values: Iterable[str | int] | str, resources: dict[str, dict], n
     return [identity for identity in resources if identity in selected]
 
 
+def resource_asset_ids(resource: dict) -> set[str]:
+    """All registered editions belong to the resource for explicit exclusions."""
+    return set(resource["asset_ids"]).union(*(set(e["asset_ids"]) for e in resource.get("editions", {}).values()))
+
+
+def _edition_selections(values: Iterable[str] | str, resources: dict[str, dict]) -> dict[str, str]:
+    if isinstance(values, str):
+        values = [values]
+    chosen = {}
+    for value in values:
+        if not isinstance(value, str):
+            raise CatalogError("edition: use RESOURCE=direct|compact|published")
+        for token in value.split(","):
+            if token.count("=") != 1:
+                raise CatalogError("edition: use RESOURCE=direct|compact|published")
+            resource, edition = (part.strip() for part in token.split("="))
+            identity = _selections([resource], resources, "edition")[0]
+            if edition not in EDITIONS:
+                raise CatalogError(f"{identity}: unknown edition {edition!r}")
+            if identity in chosen and chosen[identity] != edition:
+                raise CatalogError(f"{identity}: conflicting edition selections")
+            if edition != "published" and edition not in resources[identity].get("editions", {}):
+                raise CatalogError(f"{identity}: {edition} edition is unavailable; no pinned edition is registered")
+            chosen[identity] = edition
+    return {identity: chosen[identity] for identity in resources if identity in chosen}
+
+
 def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, dict], *,
                       include: Iterable[str | int] | str = (),
-                      exclude: Iterable[str | int] | str = ()) -> dict:
+                      exclude: Iterable[str | int] | str = (),
+                      editions: Iterable[str] | str = ()) -> dict:
     """Resolve defaults plus explicit changes without claiming missing content.
 
     Targets are budgets, not download instructions. Exact known files can raise
     an effective budget, never lower it. Resource aliases share one file copy.
     The caller must refuse incomplete resources unless explicitly authorized.
+
+    Editions replace a selected resource's members, status, reason and target.
+    Profile member exclusions apply to whichever edition contains those IDs;
+    profile target overrides apply only to the default ``published`` edition.
+    A choice never implicitly selects its resource or removes critical files.
     """
     asset_map = _asset_map(assets)
     defaults = _strings(profile.get("default_resources", []), "default_resources", unique=True)
@@ -155,10 +223,14 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
         raise CatalogError(f"Unknown default resources: {', '.join(sorted(unknown))}")
     explicit_include = _selections(include, resources, "include")
     explicit_exclude = _selections(exclude, resources, "exclude")
+    explicit_editions = _edition_selections(editions, resources)
     collisions = set(explicit_include) & set(explicit_exclude)
     if collisions:
         raise CatalogError(f"Resources both included and excluded: {', '.join(sorted(collisions))}")
     selected = (set(defaults) | set(explicit_include)) - set(explicit_exclude)
+    for identity in explicit_editions:
+        if identity not in selected:
+            raise CatalogError(f"{identity}: an edition requires a selected resource; use --include and remove any exclusion")
     overrides = profile.get("resource_overrides", {})
     if not isinstance(overrides, dict) or set(overrides) - resources.keys():
         raise CatalogError("resource_overrides must name known resource ids")
@@ -168,14 +240,18 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
         if "target_bytes" in override:
             _integer(override["target_bytes"], f"{identity} override target_bytes")
         excluded = _strings(override.get("exclude_asset_ids", []), f"{identity} override exclude_asset_ids", unique=True)
-        if set(excluded) - set(resources[identity]["asset_ids"]):
+        if set(excluded) - resource_asset_ids(resources[identity]):
             raise CatalogError(f"{identity}: override excludes an asset outside this resource")
     if "readers_budget_bytes" in profile:
         _integer(profile["readers_budget_bytes"], "readers_budget_bytes")
 
+    def edition_data(identity: str) -> dict:
+        name = explicit_editions.get(identity, "published")
+        return resources[identity] if name == "published" else resources[identity]["editions"][name]
+
     def members(identity: str) -> list[str]:
         removed = set(overrides.get(identity, {}).get("exclude_asset_ids", []))
-        return [member for member in resources[identity]["asset_ids"] if member not in removed]
+        return [member for member in edition_data(identity)["asset_ids"] if member not in removed]
 
     raw_members = {identity: members(identity) for identity in selected}
     raw_asset_ids = {member for group in raw_members.values() for member in group}
@@ -218,16 +294,19 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
     rows, owners = [], {}
     for identity in selected_ids:
         resource = resources[identity]
+        edition = explicit_editions.get(identity, "published")
+        mapping = edition_data(identity)
         group = memberships[identity]
         resolved = [member for member in group if asset_map[member].get("status", "resolved") == "resolved"]
         unresolved = [member for member in group if member not in resolved]
         known = sum(asset_map[member]["size_bytes"] for member in resolved)
-        planning_target = overrides.get(identity, {}).get("target_bytes", resource["target_bytes"])
+        planning_target = (overrides.get(identity, {}).get("target_bytes", resource["target_bytes"])
+                           if edition == "published" else mapping["target_bytes"])
         credit = credits[identity]
         if credit > planning_target:
             raise CatalogError(f"{identity}: replacement credit exceeds its selected planning target")
         adjusted_target = planning_target - credit
-        status, reason = resource["status"], resource.get("reason", "")
+        status, reason = mapping["status"], mapping.get("reason", "")
         if not group:
             status = "unresolved"
             reason = "; ".join(filter(None, [reason, "No selected source assets remain after overrides or replacements"]))
@@ -235,6 +314,7 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
             status = "partial" if resolved else "unresolved"
             reason = "Selected source assets are unresolved: " + ", ".join(unresolved)
         rows.append({"id": identity, "number": resource.get("number"), "title": resource["title"],
+                     "edition": edition,
                      "status": status, "reason": reason, "target_bytes": resource["target_bytes"],
                      "planning_target_bytes": planning_target, "credit_bytes": credit,
                      "adjusted_target_bytes": adjusted_target,
@@ -256,7 +336,8 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
     reader_budget = max(profile.get("readers_budget_bytes", 0), reader_row["effective_target_bytes"]) if reader_row else 0
     return {"assets": copies, "selected_ids": selected_ids, "excluded_ids": explicit_exclude,
             "explicit_include": explicit_include, "explicit_exclude": explicit_exclude,
-            "auto_included_ids": auto_included, "customized": bool(explicit_include or explicit_exclude),
+            "explicit_editions": explicit_editions,
+            "auto_included_ids": auto_included, "customized": bool(explicit_include or explicit_exclude or explicit_editions),
             "resource_rows": rows, "incomplete_resources": [row for row in rows if row["status"] != "ready"],
             "declared_content_target_bytes": declared, "content_target_bytes": content,
             "readers_budget_bytes": reader_budget, "planned_total_bytes": content + reader_budget,

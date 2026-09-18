@@ -162,3 +162,34 @@ The CI demo now exercises both atlas commands before verifying and copying the
 library. These automated and local filesystem checks do not establish usability
 on physical phones or exFAT devices. The device/viewer and finding-task evaluation
 described in the atlas specification remains to be performed after curation.
+
+## Offline library selector
+
+The final local regression run passed **283 automated tests** on macOS/Python 3.12.
+
+The self-contained `SELECT.html` was checked in the in-app Chromium browser at
+1280 × 720 and 390 × 844. Preset changes, inclusion changes, automatic reader
+selection, explicit partial-build acceptance, shell quoting, copy feedback, and
+the mobile storage bar were exercised. Neither viewport had horizontal overflow;
+the command controls remained reachable. Browser checks used a loopback preview
+server for development because the automation browser does not open local file
+URLs. The delivered page has inline code and data, no external dependencies, and
+a policy forbidding network connections; local-file behavior on each intended
+browser and physical device still needs testing.
+
+Python/JavaScript parity tests compare all five presets and 50 deterministic
+custom selections. Additional checks cover actual registered editions, baseline
+edition membership, reader requirements, unavailable choices, empty selections,
+coverage floors, shell metacharacters, embedded-metadata escaping, and generated
+page freshness. The real 16 GB profile's no-write CLI plan confirms 25 PDFs,
+1,574,545,596 content bytes, and 9,591,322,812 bytes of peak allowance including
+reserve.
+
+A separate smoke test generated commands with the same JavaScript engine against
+the original demo fixtures. It excluded one resource, used a destination with
+spaces and an apostrophe, ran the no-write plan, built the three remaining files,
+and repeated the exact command. The second build reused all three source files
+and the completed search index. Independent strict verification reported
+**49 OK, 0 MISSING, 0 FAILED, 0 UNKNOWN**. No large source data was downloaded or
+added to Git for these tests. Alternate edition tests use small fixtures; no
+production direct/compact alternative or automatic content conversion is claimed.

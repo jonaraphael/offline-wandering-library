@@ -150,7 +150,7 @@ def _transfer_space(target, cache, assets, reusable, state):
 def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
           cache_dir: Path | None = None, work_dir: Path | None = None,
           allow_local: bool = False, plan_only: bool = False,
-          resources_catalog: Path | None = None, include=(), exclude=(),
+          resources_catalog: Path | None = None, include=(), exclude=(), editions=(),
           allow_incomplete: bool = False, navigation_dir: Path | None = None,
           strict_coverage: bool = False, progress=print) -> dict:
     from .navigation import GENERATED_PATHS, generate_navigation
@@ -169,13 +169,13 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     profile = profiles[profile_name]
     lock = read_yaml(catalog).get("selection_lock")
     if lock is not None:
-        if include or exclude:
+        if include or exclude or editions:
             raise CatalogError("Customize the source catalog, not a locked selection")
         assets, unresolved, selection = resolve_locked_content(all_assets, profile, lock)
     else:
         assets, unresolved, selection = resolve_content(
             all_assets, profile, resources_path=resources_catalog or catalog.with_name("resources.yaml"),
-            include=include, exclude=exclude)
+            include=include, exclude=exclude, editions=editions)
     if not assets and not plan_only:
         raise CatalogError(f"Profile {profile_name} has no resolved content")
     plan = capacity_plan(assets, profile, selection)
@@ -435,6 +435,7 @@ def main(argv=None) -> int:
     parser.add_argument("--resources-catalog", type=Path, help="resource registry (default: resources.yaml beside catalog)")
     parser.add_argument("--include", action="append", default=[], metavar="RESOURCE", help="add resource ID or list number; repeat or separate by commas")
     parser.add_argument("--exclude", action="append", default=[], metavar="RESOURCE", help="omit resource ID or list number; repeat or separate by commas; does not delete existing files")
+    parser.add_argument("--edition", action="append", default=[], metavar="RESOURCE=EDITION", help="choose a registered direct, compact, or published edition of a selected resource; repeat as needed")
     parser.add_argument("--list-resources", action="store_true", help="list every selectable collection without a target or downloads")
     parser.add_argument("--allow-incomplete", action="store_true", help="explicitly build available verified files from incomplete collections")
     parser.add_argument("--navigation-dir", type=Path, help="generate the static topic atlas using this reviewed YAML directory")
@@ -443,21 +444,24 @@ def main(argv=None) -> int:
     try:
         if args.list_resources:
             from .resources import load_resources, resolve_resources
+            if args.edition and read_yaml(args.catalog).get("selection_lock") is not None:
+                raise CatalogError("Customize the source catalog, not a locked selection")
             profiles = load_profiles(args.profiles_dir)
             if args.profile not in profiles:
                 raise CatalogError(f"Unknown profile: {args.profile}")
             assets = load_catalog(args.catalog, profiles, args.allow_local)
             resources = load_resources(args.resources_catalog or args.catalog.with_name("resources.yaml"), assets)
             report = resolve_resources(assets, profiles[args.profile], resources,
-                                       include=args.include, exclude=args.exclude)
+                                       include=args.include, exclude=args.exclude, editions=args.edition)
             rows = {row["id"]: row for row in report["resource_rows"]}
             print("* = selected; GB = effective selected target, or base estimate when unselected. All units decimal.")
             for identity, resource in resources.items():
                 selected = "*" if identity in report["selected_ids"] else " "
                 number = str(resource.get("number") or "-")
                 target_bytes = rows.get(identity, {}).get("effective_target_bytes", resource["target_bytes"])
-                print(f"{selected} {number:>2} {identity:28} {resource['status']:10} "
-                      f"{target_bytes/1e9:7.2f} GB  {resource['title']}")
+                row = rows.get(identity, resource)
+                print(f"{selected} {number:>2} {identity:28} {row['status']:10} "
+                      f"{target_bytes/1e9:7.2f} GB  {resource['title']} [{row.get('edition', 'published')}]")
             print(f"Selected content target: {report['content_target_bytes']:,} bytes; "
                   f"known resolved files: {report['resolved_asset_bytes']:,}; "
                   f"incomplete collections: {len(report['incomplete_resources'])}. "
@@ -465,7 +469,7 @@ def main(argv=None) -> int:
             if "default_resources" not in profiles[args.profile]:
                 fixed, _, _ = resolve_content(assets, profiles[args.profile],
                     resources_path=args.resources_catalog or args.catalog.with_name("resources.yaml"),
-                    include=args.include, exclude=args.exclude)
+                    include=args.include, exclude=args.exclude, editions=args.edition)
                 print(f"Fixed-profile baseline/selection: {len(fixed)} verified asset definitions, "
                       f"{sum(a['size_bytes'] for a in fixed):,} bytes. "
                       "The stars above describe named additions, not baseline membership.")
@@ -476,6 +480,7 @@ def main(argv=None) -> int:
             build(args.target, catalog=args.catalog, profiles_dir=args.profiles_dir, profile_name=args.profile,
                   cache_dir=args.cache_dir, work_dir=args.work_dir, allow_local=args.allow_local, plan_only=args.plan,
                   resources_catalog=args.resources_catalog, include=args.include, exclude=args.exclude,
+                  editions=args.edition,
                   allow_incomplete=args.allow_incomplete, navigation_dir=args.navigation_dir,
                   strict_coverage=args.strict_coverage)
         return 0
