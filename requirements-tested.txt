@@ -1,0 +1,6 @@
+# Exact extractor versions exercised by the initial source and fixture builds.
+# Install after `pip install -e '.[zim]'` when reproducing this toolchain.
+PyYAML==6.0.3
+pypdf==6.19.0
+fonttools==4.65.0
+libzim==3.13.0

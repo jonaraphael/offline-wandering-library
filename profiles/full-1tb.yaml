@@ -1,0 +1,5 @@
+id: full-1tb
+title: Reference library and educational video collection
+capacity_bytes: 1000000000000
+reserve_bytes: 100000000000
+search_budget_bytes: 160000000000

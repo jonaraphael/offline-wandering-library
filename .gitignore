@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+.pytest_cache/
+.DS_Store
+.owl/
+EMERGENCY_LIBRARY/
+*.part
+*.zim
+*.owl
+*.apk
+*.dmg
+*.AppImage

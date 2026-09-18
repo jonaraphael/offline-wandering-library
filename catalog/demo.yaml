@@ -1,0 +1,57 @@
+# Tiny offline fixture. Requires --allow-local. Not an emergency library.
+schema_version: 1
+assets:
+- id: demo_library_guide
+  title: 'Demonstration: Library Guide'
+  category: first_aid
+  format: html
+  source_url: repo://assets/demo/library-guide.html
+  destination: CRITICAL/FIRST_AID/Demo_Library_Guide.html
+  version: '1'
+  size_bytes: 977
+  sha256: c993b7d2dd3d45e02688651c1efd6d9eee57e65b856c3b9e164069fadd2b8635
+  license: CC0-1.0
+  redistributable: true
+  required: true
+  profiles:
+  - demo
+  critical: true
+  reader_required: false
+  publisher: OWL contributors
+  description: Self-authored test fixture only; not emergency or medical guidance.
+- id: demo_navigation
+  title: 'Demonstration: Compass Navigation Shelf'
+  category: navigation
+  format: txt
+  source_url: repo://assets/demo/navigation.txt
+  destination: REFERENCE/Demo_Navigation.txt
+  version: '1'
+  size_bytes: 496
+  sha256: 68cb6400a7cf27c7c4b092c5054c57ce5eba6c323586f545ee22b08c84d8fec8
+  license: CC0-1.0
+  redistributable: true
+  required: true
+  profiles:
+  - demo
+  critical: false
+  reader_required: false
+  publisher: OWL contributors
+  description: Self-authored test fixture only; not emergency or medical guidance.
+- id: demo_maintenance
+  title: 'Demonstration: Library Maintenance'
+  category: reference
+  format: md
+  source_url: repo://assets/demo/maintenance.md
+  destination: BOOKS/Demo_Maintenance.md
+  version: '1'
+  size_bytes: 550
+  sha256: 5f452572880ac3205ea7f3bda3e43dba2b626b4c298389a6a048fe05cbe92130
+  license: CC0-1.0
+  redistributable: true
+  required: true
+  profiles:
+  - demo
+  critical: false
+  reader_required: false
+  publisher: OWL contributors
+  description: Self-authored test fixture only; not emergency or medical guidance.

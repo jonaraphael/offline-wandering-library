@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "offline-wandering-library"
+version = "0.1.0"
+description = "Reproducible, directly readable offline emergency SSD libraries"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+dependencies = ["PyYAML>=6.0.2,<7", "pypdf>=6.10,<7", "fonttools>=4.60,<5"]
+
+[project.optional-dependencies]
+zim = ["libzim>=3.7,<4"]
+
+[project.scripts]
+owl-build = "owl.build:main"
+owl-validate = "owl.catalog:main"
+owl-verify = "owl.verify:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+owl = ["templates/*.html"]

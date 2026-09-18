@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Search · Offline Wandering Library</title>
+<style>
+:root{color-scheme:light dark;font:18px/1.5 system-ui,sans-serif}body{max-width:52rem;margin:auto;padding:1rem}a{color:light-dark(#075aa6,#9bcaff)}h1{line-height:1.2;font-size:1.8rem}label{display:block;font-weight:bold;margin-top:1rem}input,button{font:inherit;padding:.6rem;box-sizing:border-box;max-width:100%}input[type=search]{width:100%}button{cursor:pointer;margin:.6rem .3rem .6rem 0}small,.meta{font-size:.85rem;opacity:.85}li{margin:1.3rem 0}li p{margin:.3rem 0}.path{overflow-wrap:anywhere}#status{min-height:1.5rem}.notice{padding:.8rem;border:1px solid #888;border-radius:.3rem}mark{background:#ffe58a;color:#111}nav{display:flex;gap:1rem;flex-wrap:wrap}details{margin:1rem 0}summary{cursor:pointer}input:focus,button:focus,a:focus{outline:3px solid #c88d10;outline-offset:3px}
+</style>
+<nav><a href="START_HERE.html">Start here</a><a href="INDEX/categories.html">Browse categories</a><a href="INDEX/critical.html">Critical information</a></nav>
+<h1>Search the offline library</h1>
+<p>Choose <strong>SEARCH/library.owl</strong> from this drive. The search reads small pieces of that file. Nothing is uploaded, and no internet or server is used.</p>
+<noscript><p class="notice">This viewer does not run JavaScript. Use <a href="INDEX/categories.html">categories</a> or the <a href="INDEX/A.html">alphabetical index</a>. Ordinary documents remain readable.</p></noscript>
+<label for="indexFile">1. Choose the search index</label>
+<input id="indexFile" type="file" aria-describedby="fileHelp">
+<p id="fileHelp"><small>Open the SEARCH folder and choose library.owl. Some phones copy selected files before reading them; use the static indexes if the file provider cannot read a large index.</small></p>
+<form id="searchForm">
+<label for="query">2. Search words</label>
+<input id="query" type="search" placeholder="water purification" maxlength="2048" autocomplete="off" disabled>
+<button id="searchButton" type="submit" disabled>Search</button><button id="cancelButton" type="button" disabled>Cancel</button>
+</form>
+<p id="status" role="status" aria-live="polite">Select an index to begin.</p>
+<ol id="results"></ol>
+<details><summary>Coverage and search help</summary><p>Results are ranked matching passages, including titles, categories, sources, filenames and extracted body text. Words are matched exactly after Unicode normalization; this version has no stemming, phrases, prefix search or language-specific word segmentation. A query can contain up to 32 different words. Results matching any word are considered. Common words can take longer because their full posting lists are streamed.</p><p>PDF scans and images are not OCRed. Software and non-text maps are searchable by catalog metadata. See <a href="SEARCH/coverage.json">the build's coverage report</a> and <a href="INVENTORY.html">inventory</a>. Archive results show the internal article name: open that archive in a compatible reader and find the article there. A browser cannot open an article inside a ZIM by itself.</p><p>Local HTML can run search in modern desktop browsers with the File API. Android depends on the browser and file manager. iPhone/iPad Files previews often disable scripts; use the static indexes and ordinary documents in that case. Try this on each device before relying on it.</p></details>
+<script>
+"use strict";
+// The same engine is exercised in tests using Node's Blob/File-compatible API.
+const OWLSearch = (() => {
+  const decoder = new TextDecoder("utf-8", {fatal: true});
+  const encoder = new TextEncoder();
+  const MAX_READ = 1024 * 1024;
+  const POSTING_BLOCK = 4096; // 48 KiB per query term; at most 32 terms.
+  function tokens(text) {
+    return text.normalize("NFKC").toLowerCase().match(/[\p{L}\p{N}]+/gu) || [];
+  }
+  function compare(a, b) {
+    // SQLite BINARY orders UTF-8 bytes; JS's default UTF-16 comparison differs
+    // for supplementary Unicode characters. Use the on-disk ordering exactly.
+    const x = encoder.encode(a), y = encoder.encode(b);
+    for (let i = 0; i < Math.min(x.length, y.length); i++) {
+      if (x[i] !== y[i]) return x[i] - y[i];
+    }
+    return x.length - y.length;
+  }
+  function checkInt(value, minimum = 0) {
+    if (!Number.isSafeInteger(value) || value < minimum) throw new Error("Invalid or damaged index offset.");
+    return value;
+  }
+  function offset64(view, position) {
+    return checkInt(view.getUint32(position, true) + view.getUint32(position + 4, true) * 4294967296);
+  }
+  function safeLink(record) {
+    const path = record.destination;
+    if (typeof path !== "string" || /[\\:\x00-\x1f]/.test(path) || path.startsWith("/")) return null;
+    const parts = path.split("/");
+    if (parts.some(part => !part || part === "." || part === "..")) return null;
+    let link = parts.map(encodeURIComponent).join("/");
+    if (record.format === "pdf" && Number.isSafeInteger(record.page) && record.page > 0) link += "#page=" + record.page;
+    return link;
+  }
+  function snippet(text, terms) {
+    const normalized = text.normalize("NFKC").toLowerCase();
+    let at = -1;
+    for (const term of terms) { const i = normalized.indexOf(term); if (i >= 0 && (at < 0 || i < at)) at = i; }
+    const start = Math.max(0, at - 90);
+    return (start ? "…" : "") + text.slice(start, start + 340).replace(/\s+/g, " ") + (text.length > start + 340 ? "…" : "");
+  }
+  class TopResults {
+    constructor(limit) { this.limit = limit; this.heap = []; }
+    // Lowest score / largest ID is the least desirable retained result.
+    less(a, b) { return a.score < b.score || (a.score === b.score && a.id > b.id); }
+    add(value) {
+      const heap = this.heap;
+      if (heap.length < this.limit) {
+        heap.push(value);
+        let at = heap.length - 1;
+        while (at) { const parent = (at - 1) >> 1; if (!this.less(heap[at], heap[parent])) break; [heap[at], heap[parent]] = [heap[parent], heap[at]]; at = parent; }
+      } else if (this.less(heap[0], value)) {
+        heap[0] = value;
+        let at = 0;
+        for (;;) { let next = at, left = at * 2 + 1, right = left + 1; if (left < heap.length && this.less(heap[left], heap[next])) next = left; if (right < heap.length && this.less(heap[right], heap[next])) next = right; if (next === at) break; [heap[at], heap[next]] = [heap[next], heap[at]]; at = next; }
+      }
+    }
+    sorted() { return this.heap.sort((a, b) => b.score - a.score || a.id - b.id); }
+  }
+  class Index {
+    constructor(file) { this.file = file; this.header = null; this.cache = new Map(); }
+    async read(offset, length) {
+      checkInt(offset); checkInt(length);
+      if (length > MAX_READ || offset + length > this.file.size) throw new Error("Index is incomplete or damaged. Run the drive verifier.");
+      const result = await this.file.slice(offset, offset + length).arrayBuffer();
+      if (result.byteLength !== length) throw new Error("The drive returned incomplete data.");
+      return result;
+    }
+    async open() {
+      const prefix = await this.read(0, 12);
+      if (decoder.decode(prefix.slice(0, 8)) !== "OWLIDX1\n") throw new Error("Choose the OWL SEARCH/library.owl file.");
+      const size = new DataView(prefix).getUint32(8, true);
+      if (size > 4084) throw new Error("Invalid index header.");
+      const h = JSON.parse(decoder.decode(await this.read(12, size)));
+      if (h.version !== 1 || h.tokenizer !== "NFKC-lower-unicode-letter-number-v1") throw new Error("This index needs its matching SEARCH.html.");
+      for (const key of ["documents", "terms", "docs_offset", "lexicon_offset", "size"]) checkInt(h[key]);
+      if (h.size !== this.file.size || h.docs_offset < 4096 || h.docs_offset + h.documents * 12 > h.size || h.lexicon_offset + h.terms * 12 !== h.size || !Number.isFinite(h.average_length) || h.average_length < 0) throw new Error("Invalid or truncated index. Run the drive verifier.");
+      this.header = h;
+      return h;
+    }
+    async record(table, id) {
+      const pointer = new DataView(await this.read(table + id * 12, 12));
+      return JSON.parse(decoder.decode(await this.read(offset64(pointer, 0), pointer.getUint32(8, true))));
+    }
+    async term(word) {
+      if (this.cache.has(word)) return this.cache.get(word);
+      let low = 0, high = this.header.terms - 1, result = null;
+      while (low <= high) {
+        const middle = Math.floor((low + high) / 2);
+        const value = await this.record(this.header.lexicon_offset, middle);
+        if (!Array.isArray(value) || typeof value[0] !== "string") throw new Error("Invalid lexicon record.");
+        const order = compare(value[0], word);
+        if (!order) { checkInt(value[1], 4096); checkInt(value[2], 1); if (value[2] > this.header.documents || value[1] + value[2] * 12 > this.header.lexicon_offset) throw new Error("Invalid posting list."); result = value; break; }
+        if (order < 0) low = middle + 1; else high = middle - 1;
+      }
+      if (this.cache.size >= 128) this.cache.delete(this.cache.keys().next().value);
+      this.cache.set(word, result);
+      return result;
+    }
+    async search(query, options = {}) {
+      if (!this.header) throw new Error("Select an index first.");
+      const words = [...new Set(tokens(query))];
+      if (words.length > 32) throw new Error("Use at most 32 different search words.");
+      const limit = options.limit || 50;
+      if (!Number.isInteger(limit) || limit < 1 || limit > 100) throw new Error("Invalid result limit.");
+      const cancelled = () => { if (options.signal && options.signal.aborted) throw new Error("Search cancelled."); };
+      const lists = [];
+      for (const word of words) {
+        cancelled();
+        const term = await this.term(word);
+        if (term) { const list = new PostingList(this, term); await list.next(); lists.push(list); }
+      }
+      const top = new TopResults(limit);
+      let scanned = 0;
+      while (lists.some(list => list.current !== null)) {
+        cancelled();
+        const id = Math.min(...lists.map(list => list.current === null ? Infinity : list.current.id));
+        let score = 0, matched = 0;
+        for (const list of lists) {
+          if (list.current !== null && list.current.id === id) {
+            const {tf, dl} = list.current;
+            const idf = Math.log(1 + (this.header.documents - list.count + .5) / (list.count + .5));
+            score += idf * tf * 2.2 / (tf + 1.2 * (.25 + .75 * dl / Math.max(1, this.header.average_length)));
+            matched++;
+            await list.next();
+          }
+        }
+        top.add({id, score, matched});
+        scanned++;
+        if (scanned % 1024 === 0) { if (options.progress) options.progress(scanned); await new Promise(resolve => setTimeout(resolve, 0)); }
+      }
+      const results = [];
+      for (const result of top.sorted()) {
+        cancelled();
+        const record = await this.record(this.header.docs_offset, result.id);
+        if (typeof record.text !== "string" || typeof record.title !== "string") throw new Error("Invalid document record.");
+        results.push({...result, ...record, snippet: snippet(record.text, words)});
+      }
+      return {results, scanned, words};
+    }
+  }
+  class PostingList {
+    constructor(index, term) { this.index = index; this.offset = term[1]; this.count = term[2]; this.position = 0; this.block = null; this.blockStart = 0; this.blockLength = 0; this.current = null; this.previous = -1; }
+    async next() {
+      if (this.position >= this.count) { this.current = null; return; }
+      if (!this.block || this.position >= this.blockStart + this.blockLength) {
+        this.blockStart = this.position;
+        this.blockLength = Math.min(POSTING_BLOCK, this.count - this.position);
+        this.block = new DataView(await this.index.read(this.offset + this.position * 12, this.blockLength * 12));
+      }
+      const at = (this.position - this.blockStart) * 12;
+      const id = this.block.getUint32(at, true), tf = this.block.getUint32(at + 4, true), dl = this.block.getUint32(at + 8, true);
+      if (id <= this.previous || id >= this.index.header.documents || !tf || !dl) throw new Error("Invalid posting data.");
+      this.current = {id, tf, dl}; this.previous = id; this.position++;
+    }
+  }
+  return {Index, tokens, safeLink, snippet};
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = OWLSearch;
+if (typeof document !== "undefined") {
+  const element = id => document.getElementById(id);
+  let index = null, controller = null, generation = 0;
+  const status = text => { element("status").textContent = text; };
+  const cancel = () => { if (controller) controller.abort(); };
+  element("indexFile").addEventListener("change", async event => {
+    cancel(); const ownGeneration = ++generation; index = null;
+    element("query").disabled = element("searchButton").disabled = true;
+    element("results").replaceChildren();
+    const file = event.target.files[0]; if (!file) return;
+    try { const next = new OWLSearch.Index(file); const header = await next.open(); if (generation !== ownGeneration) return; index = next; status(header.documents.toLocaleString() + " indexed passages. Ready to search."); element("query").disabled = element("searchButton").disabled = false; element("query").focus(); }
+    catch (error) { if (generation === ownGeneration) status(error.message); }
+  });
+  element("cancelButton").addEventListener("click", cancel);
+  element("searchForm").addEventListener("submit", async event => {
+    event.preventDefault(); if (!index) return; cancel();
+    const ownGeneration = ++generation; controller = new AbortController();
+    element("results").replaceChildren(); element("cancelButton").disabled = false;
+    status("Searching…");
+    try {
+      const found = await index.search(element("query").value, {signal: controller.signal, progress: count => { if (generation === ownGeneration) status("Searched " + count.toLocaleString() + " matching passages…"); }});
+      if (generation !== ownGeneration) return;
+      status(found.results.length ? "Showing " + found.results.length + " best passages of " + found.scanned.toLocaleString() + " matches." : "No matching words found. Try another word or browse the static indexes.");
+      for (const result of found.results) {
+        const item = document.createElement("li"), heading = document.createElement("a"), meta = document.createElement("p"), context = document.createElement("p"), path = document.createElement("p");
+        const link = OWLSearch.safeLink(result); if (link) heading.href = link;
+        heading.textContent = result.title + (result.page ? " · page " + result.page : "");
+        meta.className = "meta"; meta.textContent = [result.category, result.source, result.metadata_only ? "Catalog metadata only" : "", result.reader_required ? "Requires a reader" : ""].filter(Boolean).join(" · ");
+        context.textContent = result.snippet;
+        path.className = "meta path"; path.textContent = result.destination + (result.entry ? " → " + result.entry : "");
+        item.append(heading, meta, context, path); element("results").append(item);
+      }
+    } catch (error) { if (generation === ownGeneration) status(error.message); }
+    finally { if (generation === ownGeneration) element("cancelButton").disabled = true; }
+  });
+}
+</script>
+</html>

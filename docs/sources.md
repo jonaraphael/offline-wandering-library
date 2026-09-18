@@ -1,0 +1,77 @@
+# Source notes and redistribution
+
+The catalog is an explicit, pinned recipe. Source verification was performed on **2026-09-18 UTC**. Knowledge files and reader packages are downloaded during a build; they are not committed to this repository. A fixed hash pins the bytes even when a publisher reuses a URL. If the bytes change, the builder fails verification instead of silently adopting a new edition. Upstream servers may retire snapshots: keep the cache and two verified drives.
+
+## What was verified
+
+Every resolved entry in `catalog/library.yaml` has an exact byte count and SHA-256. The directly readable PDFs and four Kiwix reader packages were actually downloaded over HTTPS into temporary storage. PDF signatures were checked; titles, editions and licensing were checked against publisher pages and document notices. SHA-256 values were computed from complete files. Reader MD5 values were additionally compared with the publisher's `.md5` files; MD5 is supplemental provenance, never the build's integrity check. Reader binaries were not executed.
+
+Large ZIM files were **not** downloaded during repository development. Their exact sizes and SHA-256 values came from the Kiwix publisher's HTTPS Metalink documents, available by appending `.meta4` to each pinned catalog source URL. The `<file><size>` and `<file><hash type="sha-256">` fields are used; piece hashes are not whole-file SHA-256. These are publisher-published hashes, not independently computed hashes or digital signatures. The builder verifies the complete download against the pinned value.
+
+Hashes prove agreement with the catalog and detect damage; they do not establish medical accuracy, software safety, or an author's identity. Review upstream editions and publisher notices before intentionally changing a pin. The repository does not promise that external URLs stay online forever.
+
+## Directly readable baseline
+
+All four production profiles include these original PDFs, retaining their notices and credits:
+
+| Subject | Included publication and source | Edition / scope |
+| --- | --- | --- |
+| First aid | [FEMA CERT Participant Manual, preserved by GPO](https://www.govinfo.gov/app/details/GOVPUB-HS5_100-PURL-gpo185734) | August 2019; first aid, disaster medical operations, public health and preparedness |
+| Emergency medicine | [WHO–ICRC Basic Emergency Care](https://www.who.int/publications/i/item/9789241513081) | 2018; clinical training for first-contact health workers in limited-resource settings |
+| Water | [EPA Emergency Disinfection of Drinking Water](https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water-0) | September 2017; EPA 816-F-15-003 |
+| Sanitation | [CDC Preventing Diarrheal Illness After a Disaster](https://www.cdc.gov/water-emergency/communication-resources/fact-sheet-preventing-diarrheal-illness-after-a-disaster.html) | PDF dated November 27, 2018; publisher page posted in 2024 |
+| Food preservation | [USDA Complete Guide to Home Canning](https://nchfp.uga.edu/resources/entry/about-the-usda-guide-to-home-canning-2015-revision) | 2015 revision, all eight files: introduction and guides 1–7 |
+| Agriculture | [USDA NRCS Community Garden Guide](https://www.nrcs.usda.gov/plantmaterials/mipmcot9407.pdf) | November 2009; vegetable garden planning and development |
+| Electrical | [Tony Kuphaldt, Lessons in Electric Circuits](https://www.ibiblio.org/kuphaldt/electricCircuits/index.htm) | DC fifth edition and AC sixth edition; license in Appendix 3 |
+| Mechanical | [FAA Aviation Maintenance Technician Handbook: General](https://www.faa.gov/regulations_policies/handbooks_manuals/aviation) | FAA-H-8083-30B, 2023; tools, materials, electricity and mechanical principles |
+| Shelter | [FEMA Residential Sheltering](https://www.fema.gov/sites/default/files/2020-07/residential-sheltering-safe-rooms_recovery-advisory.pdf) | June 2011; six-page advisory on storm shelter choices |
+| Field shelter | [US Army ATP 3-50.21, Survival](https://armypubs.army.mil/epubs/DR_pubs/DR_a/pdf/web/ARN12086_ATP%203-50x21%20FINAL%20WEB%202.pdf) | September 18, 2018; chapter 6 covers field shelters and clothing, with illustrations |
+| Navigation | [USGS Finding Your Way With Map and Compass](https://www.usgs.gov/media/files/finding-your-way-map-and-compass) | Publisher file posted May 3, 2019; explicitly marked public domain |
+| Preparedness | [FEMA Emergency Supply Kit Checklist](https://www.fema.gov/sites/default/files/documents/fema_hm-emergency-supply-kit-checklist_english.pdf) | Undated publication; exact snapshot pinned |
+
+The WHO publication is **CC BY-NC-SA 3.0 IGO**. Its own front matter permits noncommercial redistribution with attribution, requires preserving notices, and explains third-party exceptions. Suggested attribution: *Basic emergency care: approach to the acutely ill and injured. Geneva: World Health Organization and the International Committee of the Red Cross; 2018. Licence: CC BY-NC-SA 3.0 IGO.* There is no WHO or ICRC endorsement of OWL. The 2018 book predates WHO's November 2025 postpartum haemorrhage update; the publisher page records that update. Clinical references require training and periodic professional review. OWL does not certify medical content as current or appropriate for every patient.
+
+Kuphaldt's included volumes identify **CC BY 4.0** in their license appendix. Federal-agency publications are generally US Government works; credited third-party illustrations and other contributions keep their own rights. Government hosting alone is not evidence that every separately credited component is public domain. Retain the complete original publications, their attribution and notices. The [Department of the Interior explains this distinction](https://www.doi.gov/copyright). The catalog's `redistributable` field means redistribution is permitted **subject to the named license and its conditions**, not that all uses in all jurisdictions are unrestricted.
+
+These references have uneven depth and different publication dates. Garden guidance is US-oriented; aircraft-maintenance principles do not replace repair instructions for a particular machine; storm-shelter advice does not replace local building codes. The Army outdoor-survival handbook is publicly released government material in a military training context; its historical medical sections are supplementary to the civilian medical references. The corpus is a useful initial collection, not a professionally curated complete survival curriculum.
+
+## Archives, maps and larger profiles
+
+Kiwix's [Wikipedia](https://download.kiwix.org/zim/wikipedia/), [Wiktionary](https://download.kiwix.org/zim/wiktionary/), [Wikibooks](https://download.kiwix.org/zim/wikibooks/), [iFixit](https://download.kiwix.org/zim/ifixit/) and [other collections](https://download.kiwix.org/zim/other/) directories supply the pinned ZIM snapshots.
+
+- `compact-256gb` adds full English Wikipedia without pictures (June 2026), WikiMed (April 2026), English Wiktionary (August 2026), English Wikibooks (April 2026), and iFixit (December 2025).
+- `standard-512gb` replaces no-picture Wikipedia with the full illustrated August 2026 archive and adds Appropedia (February 2026).
+- `full-1tb` adds the March 2023 English Khan Academy educational collection, approximately 180 GB including video. Speech inside audio/video is not transcribed by OWL's text index.
+- All three archive profiles also include [USGS This Dynamic Planet](https://pubs.usgs.gov/imap/2800/), third edition (2006), as two ordinary PDF sheets. These provide world geographic and tectonic reference, **not local roads, evacuation routes or live hazard information**.
+
+[Wikimedia terms](https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use) and article/media notices govern Wikimedia archives. Text is generally CC BY-SA 4.0, with individual exceptions and media licenses retained in the archive. [iFixit](https://www.ifixit.com/Info/Licensing) is CC BY-NC-SA 3.0; redistribution must be noncommercial and preserve attribution. [Appropedia](https://www.appropedia.org/Appropedia:Terms_of_use) defaults to CC BY-SA 4.0, except where stated. [Khan Academy permits reuse under its content conditions](https://support.khanacademy.org/hc/en-us/articles/202262954-Can-I-use-Khan-Academy-s-videos-name-materials-links-in-my-project); video and exercise content uses CC BY-NC-SA and individual notices still apply. All Khan Academy content is available for free at [khanacademy.org](https://www.khanacademy.org/). None of these publishers endorses OWL.
+
+The archive contents and applications have not all been opened or run during repository development. Pins establish downloadable releases and byte integrity, not end-to-end certification of hundreds of gigabytes. Larger profiles leave substantial capacity for indexes, working space, updates and user-selected regional material; profile names specify target drive capacities rather than a promise to fill the disk.
+
+## Readers and corresponding source
+
+| Platform | Pinned offline package | Upstream source |
+| --- | --- | --- |
+| Windows x64 | Kiwix Desktop 2.5.1 portable ZIP | [kiwix-desktop](https://github.com/kiwix/kiwix-desktop) |
+| Linux x86_64 | Kiwix Desktop 2.5.1 AppImage | [kiwix-desktop](https://github.com/kiwix/kiwix-desktop) |
+| macOS | Kiwix 3.14.0 DMG | [apple](https://github.com/kiwix/apple) |
+| Android | Kiwix standalone 3.14.0 APK | [kiwix-android](https://github.com/kiwix/kiwix-android) |
+
+These pinned versions are selected verified releases, not a claim to be the newest release. [Official download options](https://get.kiwix.org/en/solutions/applications/download-options/) link to the release channels. The standalone Android package can open external files through its file picker; it differs from the restricted Play Store package. Installation can still be forbidden by device policy.
+
+Desktop/Android sources identify GPL version 3 or later; the Apple repository supplies GPL version 3. Bundled libraries have additional licenses. Keeping a private backup is different from distributing binary copies to others. **Before distributing completed SSDs containing GPL binaries, satisfy the applicable corresponding-source and notice obligations, including bundled GPL components.** Merely providing a GitHub URL is not a substitute for the obligations of a physical binary distribution. OWL currently pins reader binaries but does not assemble a complete corresponding-source bundle for all transitive dependencies. Review the packages' license/offer materials and arrange compliant source delivery before distribution. Do not sell a drive containing noncommercial content without the necessary rights.
+
+The AppImage is not an ARM Raspberry Pi reader. Linux AppImages may need FUSE or extraction to a native Linux filesystem; exFAT generally does not preserve execute bits. Windows, macOS and Android may impose installation or security restrictions. Prepare and test each intended device while online. iPhone cannot generally install an iOS Kiwix app from a USB SSD offline; the ordinary critical PDFs and static indexes remain the baseline.
+
+## Unresolved entries
+
+`status: unresolved` records are visible in the catalog, excluded from selected downloads, and reported in build metadata. No fabricated byte count, checksum or direct URL stands in for missing evidence.
+
+1. **Hesperian Where There Is No Doctor:** the [publisher's open-copyright policy](https://hesperian.org/open-copyright-policy/) requires written permission for use in any digital format, including distribution of online materials. This project has no such permission. Its optional record is excluded. WHO and FEMA provide the included medical baseline.
+2. **Regional topographic and evacuation maps:** choose maps for the intended locality and record each verified source URL, edition, size, hash and rights. [USGS Map Locator](https://store.usgs.gov/map-locator) is a starting point for US locations. No single preselected region can serve an arbitrary user. The initial world map is not a substitute.
+
+## Refreshing a source
+
+Find the publication or release on the original publisher's page. Download the actual file over HTTPS, inspect its type and notices, record the exact edition, then compute its byte count and SHA-256. For a large Kiwix archive, inspect the publisher's `.meta4` whole-file fields before downloading. Never copy a hash from a differently named release, invent a size from a rounded directory listing, or trust a successful HTTP status alone: some retired PDF links return HTML with status 200. Update the catalog in a reviewed change and keep the old pinned cache for reproducible historical rebuilds.
+
+`catalog/demo.yaml` refers only to tiny original files in `assets/demo/`, dedicated by OWL contributors under CC0 1.0. Those files test navigation and search; they are intentionally not emergency guidance.

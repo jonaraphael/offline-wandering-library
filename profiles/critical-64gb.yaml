@@ -1,0 +1,5 @@
+id: critical-64gb
+title: Directly readable emergency essentials
+capacity_bytes: 64000000000
+reserve_bytes: 8000000000
+search_budget_bytes: 2000000000

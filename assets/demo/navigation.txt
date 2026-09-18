@@ -1,0 +1,11 @@
+OWL demonstration: compass navigation shelf
+
+This is a software test fixture, not navigation instruction.
+
+A real offline library should contain local topographic maps, a map legend,
+and a guide to reading a compass. The search term "declination" appears here
+so an end-to-end test can discover this document through its body text.
+
+Ordinary text files remain useful in file viewers that cannot run JavaScript.
+
+OWL contributors dedicate this original fixture to the public domain under CC0 1.0.

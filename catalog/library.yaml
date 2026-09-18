@@ -1,0 +1,895 @@
+# OWL source snapshot verified 2026-09-18 UTC. See docs/sources.md.
+schema_version: 1
+assets:
+- id: cert
+  title: CERT Basic Training Participant Manual
+  category: first_aid
+  format: pdf
+  source_url: https://www.govinfo.gov/content/pkg/GOVPUB-HS5_100-PURL-gpo185734/pdf/GOVPUB-HS5_100-PURL-gpo185734.pdf
+  destination: CRITICAL/FIRST_AID/CERT_2019.pdf
+  version: 2019-08
+  size_bytes: 5603996
+  sha256: 6805819d1236a78be217adc20a7fd9346eb9033da14d9041ffde797ad49eb7ee
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: &id001
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
+  critical: true
+  reader_required: false
+  publisher: FEMA
+  source_page: https://www.govinfo.gov/app/details/GOVPUB-HS5_100-PURL-gpo185734
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: FEMA; CERT Basic Training Participant Manual. Original publication retained without alteration.
+  description: First aid, disaster medical operations, public health, rescue and preparedness. Training
+    manual, not a replacement for hands-on training.
+  tags:
+  - first aid
+  - medical
+  - sanitation
+  - disaster
+  - preparedness
+- id: medical_bec
+  title: 'Basic Emergency Care: Approach to the Acutely Ill and Injured'
+  category: medical
+  format: pdf
+  source_url: https://iris.who.int/server/api/core/bitstreams/63432b9f-8808-44c5-9692-cea717c0cbda/content
+  destination: CRITICAL/MEDICAL/WHO_ICRC_Basic_Emergency_Care_2018.pdf
+  version: '2018'
+  size_bytes: 4257552
+  sha256: 51e5000a8f268d67f28a8206e7b8a35ba7877bec0b45e28084970b074e00043e
+  license: CC-BY-NC-SA-3.0-IGO
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: World Health Organization and International Committee of the Red Cross
+  source_page: https://www.who.int/publications/i/item/9789241513081
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'World Health Organization and International Committee of the Red Cross; Basic Emergency
+    Care: Approach to the Acutely Ill and Injured. Original publication retained without alteration.'
+  description: 2018 clinical training manual for first-contact healthcare providers with limited resources.
+    Predates the November 2025 postpartum haemorrhage update. Noncommercial redistribution with attribution;
+    retain all notices.
+  tags:
+  - emergency medicine
+  - trauma
+  - breathing
+  - shock
+  - clinical training
+- id: water
+  title: Emergency Disinfection of Drinking Water
+  category: water_sanitation
+  format: pdf
+  source_url: https://www.epa.gov/sites/default/files/2017-09/documents/emergency_disinfection_of_drinking_water_sept2017.pdf
+  destination: CRITICAL/WATER_SANITATION/EPA_Emergency_Drinking_Water_2017.pdf
+  version: 2017-09
+  size_bytes: 754723
+  sha256: f404083d00decedc267bf4265eda776bb250ccfe18c1f7b19152aa006ff727c5
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: US Environmental Protection Agency
+  source_page: https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water-0
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: US Environmental Protection Agency; Emergency Disinfection of Drinking Water. Original
+    publication retained without alteration.
+  description: EPA 816-F-15-003. Boiling and disinfection do not remove chemical contaminants.
+  tags:
+  - water_sanitation
+- id: sanitation
+  title: Preventing Diarrhea After a Disaster
+  category: water_sanitation
+  format: pdf
+  source_url: https://www.cdc.gov/water-emergency/media/pdfs/preventing-diarrheal-illness-after-disaster-english-H.pdf
+  destination: CRITICAL/WATER_SANITATION/CDC_Preventing_Diarrhea_2018.pdf
+  version: '2018-11-27'
+  size_bytes: 583497
+  sha256: a83519f0de21e14665a55f79ca6540a842f9a4569e80bb2753293cf0b5eb1a93
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: US Centers for Disease Control and Prevention
+  source_page: https://www.cdc.gov/water-emergency/communication-resources/fact-sheet-preventing-diarrheal-illness-after-a-disaster.html
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: US Centers for Disease Control and Prevention; Preventing Diarrhea After a Disaster. Original
+    publication retained without alteration.
+  description: Hygiene, handwashing, sanitation, safe food, water and cleanup; document CS286698-I, posted
+    on the CDC page in 2024.
+  tags:
+  - water_sanitation
+- id: food
+  title: 'USDA Complete Guide to Home Canning: 1. Principles'
+  category: food
+  format: pdf
+  source_url: https://nchfp.uga.edu/papers/guide/GUIDE01_HomeCan_rev0715.pdf
+  destination: CRITICAL/FOOD/USDA_Canning_01_Principles_2015.pdf
+  version: '2015'
+  size_bytes: 3794234
+  sha256: 60d1e1a74a9fe61c19e6f5312a76d291905a8ca51b28d0def04c677294416d86
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: USDA National Institute of Food and Agriculture
+  source_page: https://nchfp.uga.edu/resources/entry/about-the-usda-guide-to-home-canning-2015-revision
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'USDA National Institute of Food and Agriculture; USDA Complete Guide to Home Canning:
+    1. Principles. Original publication retained without alteration.'
+  description: Use with the introduction and food-specific guide sections. Retains tested processing instructions
+    and altitude adjustments.
+  tags:
+  - food
+- id: canning_00
+  title: 'USDA Complete Guide to Home Canning: 00. Introduction'
+  category: food
+  format: pdf
+  source_url: https://nchfp.uga.edu/papers/guide/INTRO_HomeCanrev0715.pdf
+  destination: CRITICAL/FOOD/USDA_Canning_00_Introduction_2015.pdf
+  version: '2015'
+  size_bytes: 467339
+  sha256: c1683833cb4546858445c787f02bb4027710760bbff08c7e1b54889bf5521568
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: USDA National Institute of Food and Agriculture
+  source_page: https://nchfp.uga.edu/resources/entry/about-the-usda-guide-to-home-canning-2015-revision
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'USDA National Institute of Food and Agriculture; USDA Complete Guide to Home Canning:
+    00. Introduction. Original publication retained without alteration.'
+  description: ''
+  tags:
+  - food
+- id: canning_02
+  title: 'USDA Complete Guide to Home Canning: 02. Fruit'
+  category: food
+  format: pdf
+  source_url: https://nchfp.uga.edu/papers/guide/GUIDE02_HomeCan_rev0715.pdf
+  destination: CRITICAL/FOOD/USDA_Canning_02_Fruit_2015.pdf
+  version: '2015'
+  size_bytes: 1098841
+  sha256: 5f6918678e1410b72f9f87d652ebab2f5f5d39f3806db676399e5c785be0b58e
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: USDA National Institute of Food and Agriculture
+  source_page: https://nchfp.uga.edu/resources/entry/about-the-usda-guide-to-home-canning-2015-revision
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'USDA National Institute of Food and Agriculture; USDA Complete Guide to Home Canning:
+    02. Fruit. Original publication retained without alteration.'
+  description: ''
+  tags:
+  - food
+- id: canning_03
+  title: 'USDA Complete Guide to Home Canning: 03. Tomatoes'
+  category: food
+  format: pdf
+  source_url: https://nchfp.uga.edu/papers/guide/GUIDE03_HomeCan_rev0715.pdf
+  destination: CRITICAL/FOOD/USDA_Canning_03_Tomatoes_2015.pdf
+  version: '2015'
+  size_bytes: 976490
+  sha256: 6f8d166be89c7260964bfa4746fae72e79164f19a712672b0c1aa3bb902d18ff
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: USDA National Institute of Food and Agriculture
+  source_page: https://nchfp.uga.edu/resources/entry/about-the-usda-guide-to-home-canning-2015-revision
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'USDA National Institute of Food and Agriculture; USDA Complete Guide to Home Canning:
+    03. Tomatoes. Original publication retained without alteration.'
+  description: ''
+  tags:
+  - food
+- id: canning_04
+  title: 'USDA Complete Guide to Home Canning: 04. Vegetables'
+  category: food
+  format: pdf
+  source_url: https://nchfp.uga.edu/papers/guide/GUIDE04_HomeCan_rev0715.pdf
+  destination: CRITICAL/FOOD/USDA_Canning_04_Vegetables_2015.pdf
+  version: '2015'
+  size_bytes: 2013613
+  sha256: bb1d6ccce65146b5caad8bdaf766424c702119a90aa834b25269816da165641f
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: USDA National Institute of Food and Agriculture
+  source_page: https://nchfp.uga.edu/resources/entry/about-the-usda-guide-to-home-canning-2015-revision
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'USDA National Institute of Food and Agriculture; USDA Complete Guide to Home Canning:
+    04. Vegetables. Original publication retained without alteration.'
+  description: ''
+  tags:
+  - food
+- id: canning_05
+  title: 'USDA Complete Guide to Home Canning: 05. Meat and Seafood'
+  category: food
+  format: pdf
+  source_url: https://nchfp.uga.edu/papers/guide/GUIDE05_HomeCan_rev0715.pdf
+  destination: CRITICAL/FOOD/USDA_Canning_05_Meat_and_Seafood_2015.pdf
+  version: '2015'
+  size_bytes: 1356485
+  sha256: bffe17ee5a99d5b3393894b811508cbe797d30685b1b91d13496d7a768b589b7
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: USDA National Institute of Food and Agriculture
+  source_page: https://nchfp.uga.edu/resources/entry/about-the-usda-guide-to-home-canning-2015-revision
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'USDA National Institute of Food and Agriculture; USDA Complete Guide to Home Canning:
+    05. Meat and Seafood. Original publication retained without alteration.'
+  description: ''
+  tags:
+  - food
+- id: canning_06
+  title: 'USDA Complete Guide to Home Canning: 06. Fermented and Pickled Foods'
+  category: food
+  format: pdf
+  source_url: https://nchfp.uga.edu/papers/guide/GUIDE06_HomeCan_rev0715.pdf
+  destination: CRITICAL/FOOD/USDA_Canning_06_Fermented_and_Pickled_Foods_2015.pdf
+  version: '2015'
+  size_bytes: 3173534
+  sha256: fa4be9f7ac718801178f4f04efa169d74b8c64757d35aa29aa8226fbdaeee4bf
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: USDA National Institute of Food and Agriculture
+  source_page: https://nchfp.uga.edu/resources/entry/about-the-usda-guide-to-home-canning-2015-revision
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'USDA National Institute of Food and Agriculture; USDA Complete Guide to Home Canning:
+    06. Fermented and Pickled Foods. Original publication retained without alteration.'
+  description: ''
+  tags:
+  - food
+- id: canning_07
+  title: 'USDA Complete Guide to Home Canning: 07. Jams and Jellies'
+  category: food
+  format: pdf
+  source_url: https://nchfp.uga.edu/papers/guide/GUIDE07_HomeCan_rev0715.pdf
+  destination: CRITICAL/FOOD/USDA_Canning_07_Jams_and_Jellies_2015.pdf
+  version: '2015'
+  size_bytes: 1300368
+  sha256: 6023faf9ea45f8e20078c54c5d273a7717ce17c66eba57a18f363ba54021e411
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: USDA National Institute of Food and Agriculture
+  source_page: https://nchfp.uga.edu/resources/entry/about-the-usda-guide-to-home-canning-2015-revision
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'USDA National Institute of Food and Agriculture; USDA Complete Guide to Home Canning:
+    07. Jams and Jellies. Original publication retained without alteration.'
+  description: ''
+  tags:
+  - food
+- id: agriculture
+  title: 'Community Garden Guide: Vegetable Garden Planning and Development'
+  category: agriculture
+  format: pdf
+  source_url: https://www.nrcs.usda.gov/plantmaterials/mipmcot9407.pdf
+  destination: CRITICAL/AGRICULTURE/USDA_Community_Garden_2009.pdf
+  version: 2009-11
+  size_bytes: 317104
+  sha256: fe3d059fcfc7cc1255feae29098420c2088bf52396de59206498bb8dac5b90fa
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: USDA Natural Resources Conservation Service
+  source_page: https://www.nrcs.usda.gov/plantmaterials/mipmcot9407.pdf
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'USDA Natural Resources Conservation Service; Community Garden Guide: Vegetable Garden
+    Planning and Development. Original publication retained without alteration.'
+  description: Garden site selection, preparation, planting and management. US temperate-climate guidance;
+    adapt to local conditions.
+  tags:
+  - agriculture
+- id: electrical_dc
+  title: 'Lessons in Electric Circuits, Volume I: DC'
+  category: electrical
+  format: pdf
+  source_url: https://www.ibiblio.org/kuphaldt/electricCircuits/DC/DC.pdf
+  destination: CRITICAL/ELECTRICAL/Electric_Circuits_DC.pdf
+  version: 5th edition; 2021-11-06 revision
+  size_bytes: 4504703
+  sha256: b49dc6038ef2e2988c30e8920451b076602f54c959c5f56949d7fad6f08bf3f0
+  license: CC-BY-4.0
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: Tony R. Kuphaldt and contributors
+  source_page: https://www.ibiblio.org/kuphaldt/electricCircuits/DC/index.html
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'Tony R. Kuphaldt and contributors; Lessons in Electric Circuits, Volume I: DC. Original
+    publication retained without alteration.'
+  description: Electrical safety, circuit fundamentals, measurement, batteries, conductors and troubleshooting;
+    copyright 2000-2023. License included in Appendix 3.
+  tags:
+  - electrical
+- id: electrical_ac
+  title: 'Lessons in Electric Circuits, Volume II: AC'
+  category: electrical
+  format: pdf
+  source_url: https://www.ibiblio.org/kuphaldt/electricCircuits/AC/AC.pdf
+  destination: CRITICAL/ELECTRICAL/Electric_Circuits_AC.pdf
+  version: 6th edition; snapshot 2026-09-18
+  size_bytes: 4554561
+  sha256: 8db75ca8236796eeb329b12fb531b71c807bbdcb2435a8199a149f611c814437
+  license: CC-BY-4.0
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: Tony R. Kuphaldt and contributors
+  source_page: https://www.ibiblio.org/kuphaldt/electricCircuits/index.htm
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'Tony R. Kuphaldt and contributors; Lessons in Electric Circuits, Volume II: AC. Original
+    publication retained without alteration.'
+  description: Alternating current, motors, transformers, measurement and circuit theory; license retained
+    in the book.
+  tags:
+  - electrical
+- id: mechanical
+  title: 'Aviation Maintenance Technician Handbook: General'
+  category: mechanical
+  format: pdf
+  source_url: https://www.faa.gov/regulations_policies/handbooks_manuals/aviation/amtg_handbook.pdf
+  destination: CRITICAL/MECHANICAL/FAA_AMT_General_2023.pdf
+  version: FAA-H-8083-30B; 2023
+  size_bytes: 92539602
+  sha256: 0a39c01bbc454e77a49813cf27e2ef291756fa7111d9308bc290cd0eb71616fd
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: US Federal Aviation Administration
+  source_page: https://www.faa.gov/regulations_policies/handbooks_manuals/aviation
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'US Federal Aviation Administration; Aviation Maintenance Technician Handbook: General.
+    Original publication retained without alteration.'
+  description: Tools, materials, fasteners, inspection, physics and electricity. General technical education;
+    aircraft and other repairs still require applicable manufacturer instructions and competence.
+  tags:
+  - mechanical repair
+  - electrical
+  - tools
+  - materials
+  - engineering
+  - reference
+- id: shelter
+  title: 'Residential Sheltering: In-Residence and Stand-Alone Safe Rooms'
+  category: shelter
+  format: pdf
+  source_url: https://www.fema.gov/sites/default/files/2020-07/residential-sheltering-safe-rooms_recovery-advisory.pdf
+  destination: CRITICAL/SHELTER/FEMA_Residential_Sheltering_2011.pdf
+  version: 2011-06
+  size_bytes: 1034347
+  sha256: 1705823feaf141a4c7f4c41a7651bbd1d75b915bbd26c954c2febabc04a2c4d6
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: FEMA
+  source_page: https://www.fema.gov/sites/default/files/2020-07/residential-sheltering-safe-rooms_recovery-advisory.pdf
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'FEMA; Residential Sheltering: In-Residence and Stand-Alone Safe Rooms. Original publication
+    retained without alteration.'
+  description: Six-page advisory on storm shelter choices and existing buildings. Historical reference;
+    local building codes and engineering review still apply.
+  tags:
+  - shelter
+- id: navigation
+  title: Finding Your Way With Map and Compass
+  category: navigation
+  format: pdf
+  source_url: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Finding%20Your%20Way%20With%20Map%20and%20Compass.pdf
+  destination: CRITICAL/NAVIGATION/USGS_Map_and_Compass.pdf
+  version: USGS file published 2019-05-03
+  size_bytes: 204850
+  sha256: bc476fdc38e0949f18941cf361242bce8f0c18583111ce7e10b06eb3fc569922
+  license: Public domain
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: US Geological Survey
+  source_page: https://www.usgs.gov/media/files/finding-your-way-map-and-compass
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: US Geological Survey; Finding Your Way With Map and Compass. Original publication retained
+    without alteration.
+  description: Basic map and compass navigation; carry local topographic maps and account for changes
+    in magnetic declination.
+  tags:
+  - navigation
+- id: survival_shelter
+  title: 'Survival: Field Shelter and Outdoor Skills'
+  category: shelter
+  format: pdf
+  source_url: https://armypubs.army.mil/epubs/DR_pubs/DR_a/pdf/web/ARN12086_ATP%203-50x21%20FINAL%20WEB%202.pdf
+  destination: CRITICAL/SHELTER/Army_Survival_ATP_3_50_21_2018.pdf
+  version: ATP 3-50.21; 2018-09-18
+  size_bytes: 23772309
+  sha256: 440035273e6e2ddab5f6ba8b79a4b0d5c901f3804538998381b343092512a813
+  license: Public domain (US Government work); approved for public release, distribution unlimited
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
+  critical: true
+  reader_required: false
+  publisher: Headquarters, US Department of the Army
+  source_page: https://www.armyupress.army.mil/Journals/NCO-Journal/Archives/2020/June/NCO-C3/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Headquarters, Department of the Army. ATP 3-50.21, Survival, 18 September 2018. Complete
+    original publication retained.
+  description: Chapter 6 covers field shelter construction and clothing; other chapters cover navigation,
+    water, knots and outdoor survival. Military training context and historical medical material are not
+    a substitute for current civilian medical guidance.
+  tags:
+  - shelter
+  - clothing
+  - navigation
+  - knots
+  - outdoor survival
+- id: reference
+  title: Emergency Supply Kit Checklist
+  category: reference
+  format: pdf
+  source_url: https://www.fema.gov/sites/default/files/documents/fema_hm-emergency-supply-kit-checklist_english.pdf
+  destination: REFERENCE/FEMA_Emergency_Supply_Kit.pdf
+  version: snapshot 2026-09-18
+  size_bytes: 152185
+  sha256: 375f8acfeec361ecf2ee2e032178bd112ad3001035ccf5fd4e848aa9440f939c
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id001
+  critical: true
+  reader_required: false
+  publisher: FEMA Ready Campaign
+  source_page: https://www.fema.gov/sites/default/files/documents/fema_hm-emergency-supply-kit-checklist_english.pdf
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: FEMA Ready Campaign; Emergency Supply Kit Checklist. Original publication retained without
+    alteration.
+  description: Preparedness checklist for essential household emergency supplies.
+  tags:
+  - reference
+- id: world_map
+  title: 'This Dynamic Planet: World Map'
+  category: maps
+  format: pdf
+  source_url: https://pubs.usgs.gov/imap/2800/TDPfront-screen.pdf
+  destination: MAPS/USGS_This_Dynamic_Planet_2006.pdf
+  version: 3rd edition; 2006
+  size_bytes: 8614395
+  sha256: 50fe6b307c6d193cbb6ba3050b62045931a74f1aec7009b58bc67d40c464e856
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: &id002
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
+  critical: false
+  reader_required: false
+  publisher: US Geological Survey, Smithsonian Institution and US Naval Research Laboratory
+  source_page: https://pubs.usgs.gov/imap/2800/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'US Geological Survey, Smithsonian Institution and US Naval Research Laboratory; This Dynamic
+    Planet: World Map. Original publication retained without alteration.'
+  description: World topography and plate tectonics, volcanoes and earthquakes. General geographic reference,
+    not a current road map or local evacuation map.
+  tags:
+  - maps
+- id: world_map_notes
+  title: 'This Dynamic Planet: Explanatory Notes'
+  category: maps
+  format: pdf
+  source_url: https://pubs.usgs.gov/imap/2800/TDPback-screen.pdf
+  destination: MAPS/USGS_This_Dynamic_Planet_Notes_2006.pdf
+  version: 3rd edition; 2006
+  size_bytes: 7526373
+  sha256: c4d605bd904576bedebf94584699713fd104a903b38c7a45623f0731a2a9e7cb
+  license: Public domain (US Government work; retain credited third-party notices)
+  redistributable: true
+  required: true
+  profiles: *id002
+  critical: false
+  reader_required: false
+  publisher: US Geological Survey, Smithsonian Institution and US Naval Research Laboratory
+  source_page: https://pubs.usgs.gov/imap/2800/
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: 'US Geological Survey, Smithsonian Institution and US Naval Research Laboratory; This Dynamic
+    Planet: Explanatory Notes. Original publication retained without alteration.'
+  description: Companion explanatory sheet to the world map.
+  tags:
+  - maps
+- id: wikipedia_en
+  title: English Wikipedia (full, illustrated)
+  category: encyclopedia
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikipedia/wikipedia_en_all_maxi_2026-08.zim
+  destination: ZIM/WIKIPEDIA/wikipedia_en_all_maxi_2026-08.zim
+  version: 2026-08
+  size_bytes: 127418087648
+  sha256: 34162d18b9f96f494eac48a73a309c72e0bc95d85f76be405d0f5de795854aa6
+  license: CC-BY-SA-4.0; media licenses vary
+  redistributable: true
+  required: true
+  profiles: &id003
+  - standard-512gb
+  - full-1tb
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://en.wikipedia.org/wiki/Wikipedia:Copyrights
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; offline archive packaged by Kiwix/openZIM. Retain article authorship,
+    source links, license and media notices inside the archive.
+  description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
+    available separately in ordinary PDF files.
+- id: wikipedia_en_nopic
+  title: English Wikipedia (full text, no pictures)
+  category: encyclopedia
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikipedia/wikipedia_en_all_nopic_2026-06.zim
+  destination: ZIM/WIKIPEDIA/wikipedia_en_all_nopic_2026-06.zim
+  version: 2026-06
+  size_bytes: 52690706555
+  sha256: 441a56d9e05b2d98f8ae9acb7986a513ed47904d73852c92dc6b7d50baa122e5
+  license: CC-BY-SA-4.0; individual notices apply
+  redistributable: true
+  required: true
+  profiles:
+  - compact-256gb
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://en.wikipedia.org/wiki/Wikipedia:Copyrights
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; offline archive packaged by Kiwix/openZIM. Retain article authorship,
+    source links, license and media notices inside the archive.
+  description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
+    available separately in ordinary PDF files.
+- id: wikimed_en
+  title: 'WikiMed: Wikipedia Medicine'
+  category: medical
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikipedia/wikipedia_en_medicine_maxi_2026-04.zim
+  destination: ZIM/WIKIMED/wikipedia_en_medicine_maxi_2026-04.zim
+  version: 2026-04
+  size_bytes: 2215520569
+  sha256: 6f67340a7cd7665bb57c27d2bbff97e26f2037477c9ea597345a118286820331
+  license: CC-BY-SA-4.0; media licenses vary
+  redistributable: true
+  required: true
+  profiles: *id002
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://en.wikipedia.org/wiki/Wikipedia:Copyrights
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; offline archive packaged by Kiwix/openZIM. Retain article authorship,
+    source links, license and media notices inside the archive.
+  description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
+    available separately in ordinary PDF files.
+- id: wiktionary_en
+  title: English Wiktionary
+  category: dictionary
+  format: zim
+  source_url: https://download.kiwix.org/zim/wiktionary/wiktionary_en_all_nopic_2026-08.zim
+  destination: ZIM/WIKTIONARY/wiktionary_en_all_nopic_2026-08.zim
+  version: 2026-08
+  size_bytes: 9156425592
+  sha256: 5276f63a2e451518ec5b7c4452ca9a4f72fae48991da3fe7ebc47df74bae760a
+  license: CC-BY-SA-4.0; individual notices apply
+  redistributable: true
+  required: true
+  profiles: *id002
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://en.wiktionary.org/wiki/Wiktionary:Copyrights
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; offline archive packaged by Kiwix/openZIM. Retain article authorship,
+    source links, license and media notices inside the archive.
+  description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
+    available separately in ordinary PDF files.
+- id: wikibooks_en
+  title: English Wikibooks
+  category: books
+  format: zim
+  source_url: https://download.kiwix.org/zim/wikibooks/wikibooks_en_all_maxi_2026-04.zim
+  destination: ZIM/OTHER/wikibooks_en_all_maxi_2026-04.zim
+  version: 2026-04
+  size_bytes: 6177865115
+  sha256: c2ded9afe4647c2b05aceb9d30260100369cbba22f3d00e467a634546da3f610
+  license: CC-BY-SA-4.0; individual notices apply
+  redistributable: true
+  required: true
+  profiles: *id002
+  critical: false
+  reader_required: true
+  publisher: Wikimedia contributors
+  source_page: https://en.wikibooks.org/wiki/Wikibooks:Copyrights
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Wikimedia contributors; offline archive packaged by Kiwix/openZIM. Retain article authorship,
+    source links, license and media notices inside the archive.
+  description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
+    available separately in ordinary PDF files.
+- id: ifixit_en
+  title: iFixit Repair Guides
+  category: mechanical
+  format: zim
+  source_url: https://download.kiwix.org/zim/ifixit/ifixit_en_all_2025-12.zim
+  destination: ZIM/OTHER/ifixit_en_all_2025-12.zim
+  version: 2025-12
+  size_bytes: 3570695757
+  sha256: 9bb5f3408707fd0300c6ef47a425c3217187f144cd9154a928183816aa72eead
+  license: CC-BY-NC-SA-3.0
+  redistributable: true
+  required: true
+  profiles: *id002
+  critical: false
+  reader_required: true
+  publisher: iFixit and contributors
+  source_page: https://www.ifixit.com/Info/Licensing
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: iFixit and contributors; offline archive packaged by Kiwix/openZIM. Retain article authorship,
+    source links, license and media notices inside the archive.
+  description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
+    available separately in ordinary PDF files.
+- id: appropedia_en
+  title: 'Appropedia: Sustainability and Appropriate Technology'
+  category: reference
+  format: zim
+  source_url: https://download.kiwix.org/zim/other/appropedia_en_all_maxi_2026-02.zim
+  destination: ZIM/OTHER/appropedia_en_all_maxi_2026-02.zim
+  version: 2026-02
+  size_bytes: 581641351
+  sha256: dcf200ba723c27397e1c9a2e4891ff91fa13993df1fa285315190d8525a53469
+  license: CC-BY-SA-4.0; individual notices apply
+  redistributable: true
+  required: true
+  profiles: *id003
+  critical: false
+  reader_required: true
+  publisher: Appropedia contributors
+  source_page: https://www.appropedia.org/Appropedia:Terms_of_use
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Appropedia contributors; offline archive packaged by Kiwix/openZIM. Retain article authorship,
+    source links, license and media notices inside the archive.
+  description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
+    available separately in ordinary PDF files.
+- id: khanacademy_en
+  title: Khan Academy English Educational Collection
+  category: education
+  format: zim
+  source_url: https://download.kiwix.org/zim/other/khanacademy_en_all_2023-03.zim
+  destination: ZIM/OTHER/khanacademy_en_all_2023-03.zim
+  version: 2023-03
+  size_bytes: 180007047736
+  sha256: 3b8f4d286c6206a1c00c2252ac33187d30d4e146b8666ae2039d00f0d91eee3a
+  license: CC-BY-NC-SA (see individual content notices)
+  redistributable: true
+  required: true
+  profiles:
+  - full-1tb
+  critical: false
+  reader_required: true
+  publisher: Khan Academy
+  source_page: https://support.khanacademy.org/hc/en-us/articles/202262954-Can-I-use-Khan-Academy-s-videos-name-materials-links-in-my-project
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Khan Academy; offline archive packaged by Kiwix/openZIM. Retain article authorship, source
+    links, license and media notices inside the archive.
+  description: Noncommercial educational snapshot including videos. Video/audio speech is not transcribed
+    by OWL. All Khan Academy content is available for free at https://www.khanacademy.org/.
+- id: kiwix_windows
+  title: Kiwix Windows x64 portable reader
+  category: software
+  format: zip
+  source_url: https://download.kiwix.org/release/kiwix-desktop/kiwix-desktop_windows_x64_2.5.1.zip
+  destination: SOFTWARE/WINDOWS/kiwix-desktop_windows_x64_2.5.1.zip
+  version: 2.5.1
+  size_bytes: 157265310
+  sha256: 56ad5b3a86010c2c74db63a717d087cfbdcdbe71a0d7fca0655f90ef1d80593f
+  license: GPL-3.0-or-later; bundled components retain their licenses
+  redistributable: true
+  required: true
+  profiles: *id002
+  critical: false
+  reader_required: false
+  publisher: Kiwix contributors
+  source_page: https://github.com/kiwix/kiwix-desktop
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Kiwix contributors. Preserve package licenses. Distribution to others requires compliance
+    with GPL corresponding-source obligations; see docs/sources.md.
+  description: Official pinned offline package; downloaded over HTTPS, local SHA-256 computed, upstream
+    MD5 additionally compared. Never executed by OWL. Check OS, architecture, installation permissions
+    and runtime requirements before relying on it.
+- id: kiwix_linux
+  title: Kiwix Linux x86_64 AppImage
+  category: software
+  format: appimage
+  source_url: https://download.kiwix.org/release/kiwix-desktop/kiwix-desktop_x86_64_2.5.1.appimage
+  destination: SOFTWARE/LINUX/kiwix-desktop_x86_64_2.5.1.appimage
+  version: 2.5.1
+  size_bytes: 168125632
+  sha256: 0319feaf1e920a9244d06f95e8710ce1632f7ac03a8499858cb8f56896051f99
+  license: GPL-3.0-or-later; bundled components retain their licenses
+  redistributable: true
+  required: true
+  profiles: *id002
+  critical: false
+  reader_required: false
+  publisher: Kiwix contributors
+  source_page: https://github.com/kiwix/kiwix-desktop
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Kiwix contributors. Preserve package licenses. Distribution to others requires compliance
+    with GPL corresponding-source obligations; see docs/sources.md.
+  description: Official pinned offline package; downloaded over HTTPS, local SHA-256 computed, upstream
+    MD5 additionally compared. Never executed by OWL. Check OS, architecture, installation permissions
+    and runtime requirements before relying on it.
+- id: kiwix_macos
+  title: Kiwix macOS disk image
+  category: software
+  format: dmg
+  source_url: https://download.kiwix.org/release/kiwix-macos/kiwix-macos_3.14.0.dmg
+  destination: SOFTWARE/MACOS/kiwix-macos_3.14.0.dmg
+  version: 3.14.0
+  size_bytes: 6082767
+  sha256: ad57e8260f154f2105e8a78c1883935228edcfc3add037ab6b2acf82ce968def
+  license: GPL-3.0; bundled components retain their licenses
+  redistributable: true
+  required: true
+  profiles: *id002
+  critical: false
+  reader_required: false
+  publisher: Kiwix contributors
+  source_page: https://github.com/kiwix/apple
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Kiwix contributors. Preserve package licenses. Distribution to others requires compliance
+    with GPL corresponding-source obligations; see docs/sources.md.
+  description: Official pinned offline package; downloaded over HTTPS, local SHA-256 computed, upstream
+    MD5 additionally compared. Never executed by OWL. Check OS, architecture, installation permissions
+    and runtime requirements before relying on it.
+- id: kiwix_android
+  title: Kiwix Android standalone APK
+  category: software
+  format: apk
+  source_url: https://download.kiwix.org/release/kiwix-android/org.kiwix.kiwixmobile.standalone-3.14.0.apk
+  destination: SOFTWARE/ANDROID/org.kiwix.kiwixmobile.standalone-3.14.0.apk
+  version: 3.14.0
+  size_bytes: 108265861
+  sha256: 90d477d175a90472449d86b02d78d2e9475a40235f9c9e11840c6fc9f4272c2f
+  license: GPL-3.0-or-later; bundled components retain their licenses
+  redistributable: true
+  required: true
+  profiles: *id002
+  critical: false
+  reader_required: false
+  publisher: Kiwix contributors
+  source_page: https://github.com/kiwix/kiwix-android
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Kiwix contributors. Preserve package licenses. Distribution to others requires compliance
+    with GPL corresponding-source obligations; see docs/sources.md.
+  description: Official pinned offline package; downloaded over HTTPS, local SHA-256 computed, upstream
+    MD5 additionally compared. Never executed by OWL. Check OS, architecture, installation permissions
+    and runtime requirements before relying on it.
+- id: hesperian_wtnd
+  title: Where There Is No Doctor (permission needed)
+  category: medical
+  format: pdf
+  source_url: null
+  destination: CRITICAL/MEDICAL/Hesperian_Where_There_Is_No_Doctor.pdf
+  version: unresolved
+  size_bytes: null
+  sha256: null
+  license: Hesperian digital redistribution requires written permission
+  redistributable: false
+  required: false
+  profiles: *id001
+  critical: true
+  reader_required: false
+  source_page: https://hesperian.org/open-copyright-policy/
+  status: unresolved
+  unresolved_reason: Hesperian requires written permission for distributing its materials in any digital
+    format; no permission is held by this project. WHO and FEMA provide the included directly readable
+    medical baseline.
+- id: regional_topographic_maps
+  title: Local topographic and evacuation maps (choose your region)
+  category: maps
+  format: pdf
+  source_url: null
+  destination: MAPS/LOCAL/Regional_Topographic_Map.pdf
+  version: unresolved
+  size_bytes: null
+  sha256: null
+  license: Unresolved until a regional map is selected
+  redistributable: false
+  required: false
+  profiles: *id001
+  critical: false
+  reader_required: false
+  source_page: https://store.usgs.gov/map-locator
+  status: unresolved
+  unresolved_reason: No region was specified. Choose official local map sheets, verify date/license/URL/hash
+    and add explicit assets. The world reference map is not a substitute for local navigation.
