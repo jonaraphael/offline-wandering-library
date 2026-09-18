@@ -65,7 +65,7 @@ class AtlasBuildTests(Fixture):
 
     def test_full_builder_integrates_atlas_and_disabling_retires_pages(self):
         self.run_build(navigation_dir=self.nav, strict_coverage=True)
-        info = json.loads((self.drive / "BUILD_INFO.json").read_text())
+        info = json.loads((self.drive / "BUILD_INFO.json").read_text(encoding="utf-8"))
         paths = info["navigation"]["generated_files"]
         self.assertIn("INDEX/books.html", paths)
         self.check_verified()
@@ -85,8 +85,8 @@ class AtlasBuildTests(Fixture):
         self.write_assignments()
         report = self.atlas()
         self.assertIn("shared", report["omitted_topic_ids"])
-        self.assertIn("Unavailable in this build", (self.drive / "INDEX/topics/shared.html").read_text())
-        self.assertEqual(personal.read_text(), "keep")
+        self.assertIn("Unavailable in this build", (self.drive / "INDEX/topics/shared.html").read_text(encoding="utf-8"))
+        self.assertEqual(personal.read_text(encoding="utf-8"), "keep")
         counts = verify_drive(self.drive, emit=lambda _: None)
         self.assertEqual((counts["FAILED"], counts["MISSING"], counts["UNKNOWN"]), (0, 0, 1))
 
@@ -97,15 +97,15 @@ class AtlasBuildTests(Fixture):
         destination.write_text("personal", encoding="utf-8")
         with self.assertRaisesRegex(SafetyError, "unowned"):
             self.atlas()
-        self.assertEqual(destination.read_text(), "personal")
+        self.assertEqual(destination.read_text(encoding="utf-8"), "personal")
 
     def test_catalog_only_generation_requires_no_search_or_network(self):
         self.put_downloaded_files()
         self.atlas(profile="test", strict_coverage=True)
         self.assertFalse((self.drive / "SEARCH/library.owl").exists())
-        self.assertIn("has not been built", (self.drive / "SEARCH.html").read_text())
-        self.assertIn("Human index only", (self.drive / "START_HERE.html").read_text())
-        info = json.loads((self.drive / "BUILD_INFO.json").read_text())
+        self.assertIn("has not been built", (self.drive / "SEARCH.html").read_text(encoding="utf-8"))
+        self.assertIn("Human index only", (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
+        info = json.loads((self.drive / "BUILD_INFO.json").read_text(encoding="utf-8"))
         self.assertEqual(info["build_kind"], "human-index-only")
         self.check_verified()
         with patch("owl.build.download", side_effect=AssertionError("already downloaded")):
@@ -121,7 +121,7 @@ class AtlasBuildTests(Fixture):
             raise KeyboardInterrupt
         with patch("owl.atlas_build.write_outputs", side_effect=interrupted), self.assertRaises(KeyboardInterrupt):
             self.atlas(profile="test")
-        self.assertFalse(json.loads((self.drive / ".owl/state.json").read_text())["complete"])
+        self.assertFalse(json.loads((self.drive / ".owl/state.json").read_text(encoding="utf-8"))["complete"])
         self.assertGreater(verify_drive(self.drive, emit=lambda _: None)["FAILED"], 0)
         self.atlas(profile="test")
         self.check_verified()
@@ -133,7 +133,7 @@ class AtlasBuildTests(Fixture):
         destination.write_text("personal page", encoding="utf-8")
         with self.assertRaisesRegex(SafetyError, "unowned"):
             self.atlas(profile="test")
-        self.assertEqual(destination.read_text(), "personal page")
+        self.assertEqual(destination.read_text(encoding="utf-8"), "personal page")
 
     def test_interruption_while_adopting_checksum_verified_drive_can_resume(self):
         self.run_build()
@@ -152,7 +152,7 @@ class AtlasBuildTests(Fixture):
             self.run_build()
         self.atlas(profile="test")
         self.assertTrue((self.drive / "INDEX/topics.html").is_file())
-        self.assertFalse(json.loads((self.drive / ".owl/state.json").read_text())["complete"])
+        self.assertFalse(json.loads((self.drive / ".owl/state.json").read_text(encoding="utf-8"))["complete"])
         self.assertEqual(verify_drive(self.drive, emit=lambda _: None)["FAILED"], 1)
         self.run_build(navigation_dir=self.nav)
         self.check_verified()
@@ -163,7 +163,7 @@ class AtlasBuildTests(Fixture):
         self.assignments["assignments"] = []
         self.write_assignments()
         self.atlas()
-        self.assertIn("Unavailable in this build", (self.drive / "INDEX/topics/shared.html").read_text())
+        self.assertIn("Unavailable in this build", (self.drive / "INDEX/topics/shared.html").read_text(encoding="utf-8"))
         self.check_verified()
 
     def test_changed_source_and_stale_map_fail_before_publication(self):
@@ -186,9 +186,9 @@ class AtlasBuildTests(Fixture):
         with patch("owl.atlas_build.write_outputs", side_effect=KeyboardInterrupt), self.assertRaises(KeyboardInterrupt):
             self.atlas(profile="test")
         path = self.drive / ".owl/atlas-job.json"
-        job = json.loads(path.read_text())
+        job = json.loads(path.read_text(encoding="utf-8"))
         job["inventory"]["assets"][0]["destination"] = "README.txt"
-        path.write_text(json.dumps(job))
+        path.write_text(json.dumps(job), encoding="utf-8")
         with self.assertRaisesRegex(SafetyError, "content path"):
             self.atlas(profile="test")
 
