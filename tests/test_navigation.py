@@ -41,6 +41,8 @@ class NavigationTests(unittest.TestCase):
                 "destination": "CRITICAL/FIRST_AID/first aid #1.txt",
                 "format": "txt",
                 "critical": True,
+                "resource_type": "guide",
+                "illustrated": True,
                 "license": "Public domain",
             },
             {
@@ -50,6 +52,10 @@ class NavigationTests(unittest.TestCase):
                 "destination": "BOOKS/electricity.pdf",
                 "format": "pdf",
                 "size_bytes": 1024,
+                "resource_type": "textbook",
+                "illustrated": True,
+                "critical": True,
+                "attribution": "Textbook author & publisher. Access for free at example.org.",
             },
             {
                 "id": "wiki",
@@ -58,6 +64,8 @@ class NavigationTests(unittest.TestCase):
                 "destination": "ZIM/WIKIPEDIA/wiki.zim",
                 "format": "zim",
                 "reader_required": True,
+                "resource_type": "archive",
+                "illustrated": True,
             },
             {
                 "id": "reference",
@@ -65,6 +73,46 @@ class NavigationTests(unittest.TestCase):
                 "category": "reference",
                 "destination": "REFERENCE/numbers.txt",
                 "format": "txt",
+                "resource_type": "reference",
+                "critical": True,
+            },
+            {
+                "id": "textbook_plain",
+                "title": "Mathematics textbook",
+                "category": "books",
+                "destination": "BOOKS/TEXTBOOKS/math.html",
+                "format": "html",
+                "resource_type": "textbook",
+                "illustrated": False,
+            },
+            {
+                "id": "guide_archive",
+                "title": "Archived illustrated guide",
+                "category": "education",
+                "destination": "ZIM/OTHER/guide.zim",
+                "format": "zim",
+                "reader_required": True,
+                "resource_type": "guide",
+                "illustrated": True,
+            },
+            {
+                "id": "textbook_epub",
+                "title": "Textbook requiring an EPUB viewer",
+                "category": "books",
+                "destination": "BOOKS/reader-required.epub",
+                "format": "epub",
+                "reader_required": True,
+                "resource_type": "textbook",
+                "illustrated": True,
+            },
+            {
+                "id": "software_guide",
+                "title": "Reader installation guide",
+                "category": "software",
+                "destination": "SOFTWARE/LINUX/install.pdf",
+                "format": "pdf",
+                "resource_type": "guide",
+                "illustrated": True,
             },
         ]
         for asset in self.assets:
@@ -115,6 +163,45 @@ class NavigationTests(unittest.TestCase):
         inventory = (self.target / "INVENTORY.html").read_text(encoding="utf-8")
         self.assertIn("2.0 KiB", inventory)
         self.assertIn("pinned", inventory)
+
+    def test_learning_shelves_include_direct_books_and_guides_only(self):
+        self.generate()
+        textbooks = (self.target / "INDEX/textbooks.html").read_text(encoding="utf-8")
+        illustrated = (self.target / "INDEX/illustrated-guides.html").read_text(encoding="utf-8")
+        self.assertIn("../BOOKS/electricity.pdf", textbooks)
+        self.assertIn("../BOOKS/TEXTBOOKS/math.html", textbooks)
+        self.assertIn("2 files · 1 critical", textbooks)
+        self.assertIn("../BOOKS/electricity.pdf", illustrated)
+        self.assertIn("../CRITICAL/FIRST_AID/first%20aid%20%231.txt", illustrated)
+        self.assertIn("2 files · 2 critical", illustrated)
+        self.assertNotIn("../BOOKS/TEXTBOOKS/math.html", illustrated)
+        self.assertNotIn("../CRITICAL/FIRST_AID/first%20aid%20%231.txt", textbooks)
+        for page in (textbooks, illustrated):
+            self.assertNotIn("../ZIM/", page)
+            self.assertNotIn("../SOFTWARE/", page)
+            self.assertNotIn("reader-required.epub", page)
+            self.assertNotIn("../REFERENCE/numbers.txt", page)
+        critical = (self.target / "INDEX/critical.html").read_text(encoding="utf-8")
+        self.assertIn("../BOOKS/electricity.pdf", critical)
+        self.assertIn("../REFERENCE/numbers.txt", critical)
+
+    def test_learning_shelves_are_prominent_and_labeled_across_indexes(self):
+        self.generate()
+        landing = (self.target / "START_HERE.html").read_text(encoding="utf-8")
+        self.assertIn('<strong>Textbooks (2)</strong>', landing)
+        self.assertIn('<strong>Illustrated guides (2)</strong>', landing)
+        self.assertLess(landing.index('<strong>Textbooks (2)</strong>'), landing.index('<h2>Browse by topic</h2>'))
+        for relative in ("INDEX/textbooks.html", "INDEX/illustrated-guides.html", "INDEX/critical.html", "INDEX/categories.html", "INDEX/E.html", "INVENTORY.html"):
+            with self.subTest(page=relative):
+                self.assertIn(
+                    "Textbook · Illustrated · Critical",
+                    (self.target / relative).read_text(encoding="utf-8"),
+                )
+                self.assertIn(
+                    "Textbook author &amp; publisher. Access for free at example.org.",
+                    (self.target / relative).read_text(encoding="utf-8"),
+                )
+        self.assertIn("open the document to inspect its illustrations", (self.target / "INDEX/illustrated-guides.html").read_text(encoding="utf-8"))
 
     def test_repeated_generation_is_deterministic_and_preserves_unrelated_files(self):
         unrelated = self.target / "personal-notes.txt"

@@ -3,3 +3,6 @@ title: Emergency essentials and compact archives
 capacity_bytes: 256000000000
 reserve_bytes: 26000000000
 search_budget_bytes: 40000000000
+minimum_coverage:
+  textbooks: 7
+  illustrated-guides: 8

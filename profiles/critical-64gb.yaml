@@ -1,5 +1,8 @@
 id: critical-64gb
-title: Directly readable emergency essentials
+title: Emergency essentials, textbooks and illustrated guides
 capacity_bytes: 64000000000
 reserve_bytes: 8000000000
 search_budget_bytes: 2000000000
+minimum_coverage:
+  textbooks: 7
+  illustrated-guides: 8

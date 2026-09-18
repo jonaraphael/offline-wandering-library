@@ -10,6 +10,7 @@ from collections import defaultdict
 from pathlib import Path, PurePosixPath
 from urllib.parse import quote
 
+from .catalog import learning_shelves
 from .safety import atomic_write, safe_path
 
 LETTERS = (*string.ascii_uppercase, "0-9", "other")
@@ -19,6 +20,8 @@ GENERATED_PATHS = (
     "INVENTORY.html",
     "INDEX/categories.html",
     "INDEX/critical.html",
+    "INDEX/textbooks.html",
+    "INDEX/illustrated-guides.html",
     *(f"INDEX/{letter}.html" for letter in LETTERS),
 )
 
@@ -138,11 +141,24 @@ def _requires_reader(asset: dict) -> bool:
     return bool(asset.get("reader_required")) or str(asset.get("format", "")).lower() in {"zim", "epub"}
 
 
+def _resource_labels(asset: dict) -> str:
+    labels = []
+    if asset.get("resource_type"):
+        labels.append(str(asset["resource_type"]).capitalize())
+    if asset.get("illustrated"):
+        labels.append("Illustrated")
+    if asset.get("critical"):
+        labels.append("Critical")
+    return " · ".join(labels)
+
+
 def _page(title: str, body: str, current: str) -> str:
     home = _href("START_HERE.html", current)
     search = _href("SEARCH.html", current)
     categories = _href("INDEX/categories.html", current)
     critical = _href("INDEX/critical.html", current)
+    textbooks = _href("INDEX/textbooks.html", current)
+    illustrated = _href("INDEX/illustrated-guides.html", current)
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -150,7 +166,8 @@ def _page(title: str, body: str, current: str) -> str:
 <title>{_text(title)} · Offline Wandering Library</title><style>{CSS}</style></head>
 <body><nav aria-label="Library navigation"><a href="{home}">Start here</a>
 <a href="{search}">Search</a><a href="{categories}">Categories</a>
-<a href="{critical}">Critical content</a></nav>
+<a href="{critical}">Critical content</a><a href="{textbooks}">Textbooks</a>
+<a href="{illustrated}">Illustrated guides</a></nav>
 <main><h1>{_text(title)}</h1>{body}</main>
 <footer>Offline Wandering Library · This page works without JavaScript or an internet connection.</footer>
 </body></html>
@@ -174,9 +191,14 @@ def _asset_list(assets: list[dict], current: str) -> str:
         else:
             badge = "Compatible reader required" if _requires_reader(asset) else "Ordinary file"
         description = f"<br>{_text(asset['description'])}" if asset.get("description") else ""
+        labels = _resource_labels(asset)
+        labels_html = f'<br><span class="badge">{_text(labels)}</span>' if labels else ""
+        attribution = ""
+        if asset.get("resource_type") == "textbook" and asset.get("attribution"):
+            attribution = f'<br><span class="meta">Attribution: {_text(asset["attribution"])}</span>'
         items.append(
             f'<li><a href="{link}">{title}</a> <span class="badge">({_text(badge)})</span>'
-            f'<br><span class="meta">{_text(metadata)}</span>{description}</li>'
+            f'{labels_html}<br><span class="meta">{_text(metadata)}</span>{description}{attribution}</li>'
         )
     return '<ul class="assets">' + "\n".join(items) + "</ul>"
 
@@ -211,15 +233,24 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
     entries.sort(key=lambda asset: (str(asset.get("title", "")).casefold(), asset["destination"]))
     groups: dict[str, list[dict]] = defaultdict(list)
     letters: dict[str, list[dict]] = defaultdict(list)
+    shelves: dict[str, list[dict]] = defaultdict(list)
     for entry in entries:
         _href(str(entry["destination"]), "START_HERE.html")
         groups[_group(entry)].append(entry)
         letters[_letter(str(entry.get("title", entry["destination"])))].append(entry)
+        for shelf in learning_shelves(entry):
+            shelves[shelf].append(entry)
 
     pages: dict[str, str] = {}
     cards = "".join(
         f'<li><a href="INDEX/categories.html#{key}">{label} ({len(groups[key])})</a></li>'
         for key, label in GROUPS if key != "other" or groups[key]
+    )
+    shelf_cards = "".join(
+        f'<li><a href="INDEX/{key}.html"><strong>{label} ({len(shelves[key])})</strong>'
+        f'<br><span class="meta">{sum(bool(entry.get("critical")) for entry in shelves[key])} critical · '
+        'Directly readable</span></a></li>'
+        for key, label in (("textbooks", "Textbooks"), ("illustrated-guides", "Illustrated guides"))
     )
     pages["START_HERE.html"] = _page(
         "Offline Wandering Library",
@@ -230,6 +261,11 @@ No account, server, or internet connection is needed to read these files.</p>
 <p><a href="SEARCH.html"><strong>Search this library</strong></a> ·
 <a href="INDEX/critical.html"><strong>Browse all critical content</strong></a></p>
 """
+        + '<h2>Textbooks and illustrated guides</h2>'
+        + '<p>Learn from complete textbooks and practical guides. Open the original files to see their '
+        'diagrams, photographs, and illustrations.</p>'
+        + f'<ul class="cards">{shelf_cards}</ul>'
+        + '<h2>Browse by topic</h2>'
         + f'<ul class="cards">{cards}</ul>'
         + """<h2>When search does not work</h2>
 <p><a href="INDEX/categories.html">Browse the category index</a> or use the alphabetical links below.
@@ -266,10 +302,34 @@ Coverage depends on the selected profile. Documents retain their original dates,
     pages[current] = _page(
         "Critical content",
         "<p>Priority resources stored as ordinary files. No specialized archive reader is needed; "
-        "use your device’s compatible file viewer. This index lists the selected build’s resources.</p>"
+        "use your device’s compatible file viewer. This includes critical textbooks and guides "
+        "wherever they are stored, including <code>BOOKS/</code>.</p>"
         + _asset_list(critical, current),
         current,
     )
+    for key, title, introduction in (
+        (
+            "textbooks",
+            "Textbooks",
+            "Complete textbooks in ordinary, directly readable files. Core critical textbooks appear "
+            "here alongside any additional textbooks in this build.",
+        ),
+        (
+            "illustrated-guides",
+            "Illustrated guides",
+            "Illustrated textbooks and practical guides in ordinary, directly readable files. "
+            "Diagrams, photographs, and figures remain in the original documents. Search covers "
+            "extractable text; open the document to inspect its illustrations.",
+        ),
+    ):
+        current = f"INDEX/{key}.html"
+        critical_count = sum(bool(entry.get("critical")) for entry in shelves[key])
+        pages[current] = _page(
+            title,
+            f"<p>{introduction}</p><p>{len(shelves[key])} files · {critical_count} critical.</p>"
+            + _asset_list(shelves[key], current),
+            current,
+        )
     for letter in LETTERS:
         current = f"INDEX/{letter}.html"
         pages[current] = _page(
@@ -286,8 +346,10 @@ Coverage depends on the selected profile. Documents retain their original dates,
         attribution = f"<br>{_text(entry['attribution'])}" if entry.get("attribution") else ""
         source = _text(entry.get("source_url", entry.get("source", "")))
         search_status = coverage.get(entry["destination"], {}).get("status", "not reported")
+        labels = _resource_labels(entry)
         rows.append(
             f'<tr><td><a href="{path}">{title}</a><br><code>{_text(entry["destination"])}</code></td>'
+            f'<td>{_text(labels)}</td>'
             f'<td>{_text(GROUP_LABELS[_group(entry)])}<br>{_text(entry.get("format", ""))}</td>'
             f'<td>{_text(_size(entry.get("size_bytes")))}</td>'
             f'<td>{_text(entry.get("version", ""))}<br><span class="meta">{source}</span></td>'
@@ -305,6 +367,7 @@ Coverage depends on the selected profile. Documents retain their original dates,
         "or <code>metadata_only</code>. Words in images may not be searchable. Details are recorded in "
         '<a href="SEARCH/coverage.json">the search coverage report</a>.</p>'
         '<div class="table-scroll"><table><thead><tr><th scope="col">Title / file</th>'
+        '<th scope="col">Resource labels</th>'
         '<th scope="col">Category / format</th><th scope="col">Size</th>'
         '<th scope="col">Version / source</th><th scope="col">License / attribution</th>'
         '<th scope="col">Verification</th><th scope="col">Search coverage</th></tr></thead><tbody>'
@@ -316,12 +379,18 @@ Coverage depends on the selected profile. Documents retain their original dates,
 
 Open START_HERE.html for topic links, SEARCH.html for full-text search, or
 INDEX/categories.html and INDEX/critical.html for navigation without JavaScript.
+INDEX/textbooks.html lists directly readable textbooks. INDEX/illustrated-guides.html
+lists illustrated textbooks and practical guides. Critical textbooks are also in
+the critical index, including those stored under BOOKS/TEXTBOOKS/.
 If HTML links do not work in your phone's preview, use its file manager to open
 ordinary files directly in CRITICAL/, REFERENCE/, BOOKS/, and MAPS/.
 
 CRITICAL contains ordinary files such as PDF, HTML, and text. A compatible
 standard viewer is needed. No server, cloud account, or internet is required.
 HTML behavior on removable drives varies between phones and browser apps.
+Textbook and guide PDFs retain their original diagrams, photographs, and figures.
+Search indexes extractable text, not image content; open the original document
+to read illustrations, charts, and image-only pages.
 
 SEARCH.html uses a precomputed index. Follow its file-picker instructions to
 select the index from SEARCH/. Searches read portions of that file locally.

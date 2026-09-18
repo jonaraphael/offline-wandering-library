@@ -5,7 +5,7 @@
 1. Use a dependable SSD and cable. Format it with your operating system’s ordinary disk tools if needed; OWL does not format drives. exFAT is the intended cross-platform filesystem.
 2. Identify the SSD’s mount location carefully. Use a dedicated `EMERGENCY_LIBRARY` directory so the library is easy to find.
 3. Install Python 3.11+ and OWL on the build computer. Install the `.[zim]` extra for profiles containing ZIM archives; the minimal installation is sufficient for the directly readable critical profile.
-4. Review the catalog and sources. Use a profile that fits the actual available space. Reserve space for search output and build scratch storage as well as downloads.
+4. Review the catalog and sources. Every production profile includes required core textbooks and illustrated guides alongside directly readable emergency material. Use a profile that fits the actual available space. Reserve space for search output and build scratch storage as well as downloads.
 5. Run a plan and inspect its selected files, source sizes, and warnings.
 
 ```bash
@@ -35,6 +35,14 @@ The cache stores downloaded bytes, not an alternative authoritative catalog. Has
 
 Custom recipes use `--catalog /path/to/catalog.yaml` and `--profiles-dir /path/to/profiles`. Use versioned, immutable URLs and known SHA-256 hashes where possible. `--allow-local` explicitly permits local test assets; it is useful for tiny demonstration builds and is not needed for ordinary public-source builds.
 
+## Find textbooks and illustrated guides
+
+`START_HERE.html` links directly to the textbook shelf and illustrated-guide shelf, showing each shelf’s total and critical-resource count. Both pages work without JavaScript. The textbook shelf contains ordinary, directly readable textbooks. The illustrated shelf includes illustrated textbooks and practical guides; reader-dependent archives, EPUBs, and software packages are excluded from these shelves.
+
+The critical-content index spans folders. A core textbook stored under `BOOKS/TEXTBOOKS/` still appears in `INDEX/critical.html` and carries a Critical label in the other indexes. You do not need to know its folder to find it. The inventory shows resource-type and illustration labels alongside source, license, integrity, and search-coverage information.
+
+Open the original PDFs to see diagrams, photographs, charts, and figures. Downloads retain the original file bytes and embedded illustrations. Search indexes extractable text; it does not interpret images or provide OCR. A diagram or scanned page can be useful even when its contents are absent from search results.
+
 ## Verify and practice
 
 ```bash
@@ -59,10 +67,11 @@ Before storing the SSD, disconnect network access and try each intended device:
 1. Attach the SSD with the necessary adapter and power source; find it in the file manager.
 2. Open `START_HERE.html`, follow a category link, and open a critical PDF or text file.
 3. If HTML links do not work, open a critical document directly from its folder.
-4. Open `SEARCH.html` in an actual browser, select `SEARCH/library.owl`, and search for a known phrase. Verify the resulting document link. Treat this as optional on devices whose file previews restrict JavaScript.
-5. Open `INDEX/categories.html`, `INDEX/critical.html`, and an alphabetical page with JavaScript disabled.
-6. On platforms that permit offline installation, check that the matching bundled reader can open a ZIM. The builder does not install or run it for you.
-7. Safely eject the SSD before unplugging it.
+4. Open a core textbook and an illustrated guide from their dedicated shelves. Navigate between pages and zoom into a diagram to confirm it is readable on the device.
+5. Open `SEARCH.html` in an actual browser, select `SEARCH/library.owl`, and search for a known phrase. Verify the resulting document link. Treat this as optional on devices whose file previews restrict JavaScript.
+6. Open the textbook, illustrated-guide, category, critical, and alphabetical indexes with JavaScript disabled. Confirm critical textbooks are reachable through the critical index even when their files are in `BOOKS/`.
+7. On platforms that permit offline installation, check that the matching bundled reader can open a ZIM. The builder does not install or run it for you.
+8. Safely eject the SSD before unplugging it.
 
 An iPhone’s Files preview is useful for ordinary documents but is not a general-purpose browser for a local web application. A bundled APK or desktop executable cannot provide an offline iOS installation path. Android storage access also varies by file manager and browser. Keep direct document access as the primary path on phones.
 

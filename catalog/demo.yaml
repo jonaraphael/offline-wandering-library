@@ -55,3 +55,25 @@ assets:
   reader_required: false
   publisher: OWL contributors
   description: Self-authored test fixture only; not emergency or medical guidance.
+- id: demo_textbook
+  title: 'Demonstration: Systems Textbook'
+  category: engineering
+  format: html
+  source_url: repo://assets/demo/textbook.html
+  destination: BOOKS/TEXTBOOKS/Demo_Systems.html
+  version: '1'
+  size_bytes: 1954
+  sha256: a902100fd5d778b5e57f1353bab670830e8f729950fe0510c678a73aa3d8ecb2
+  license: CC0-1.0
+  redistributable: true
+  required: true
+  profiles:
+  - demo
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OWL contributors
+  attribution: Original demonstration text and diagram by OWL contributors, CC0 1.0.
+  description: Small original systems chapter and diagram for testing the learning
+    shelves; not emergency guidance.

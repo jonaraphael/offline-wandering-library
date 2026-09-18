@@ -6,6 +6,13 @@ Profiles in `profiles/*.yaml` declare decimal capacity, free-space reserve and a
 search-output allowance. Profile membership is explicit on each asset; there is
 no implicit inheritance.
 
+Every production profile also declares `minimum_coverage` for `textbooks` and
+`illustrated-guides`. These floors count **resolved, required, critical, directly
+readable** assets. Removing core books, making them optional, or replacing them
+with a reader-dependent archive fails profile resolution before any download.
+The small demo/custom profiles may omit these floors. An illustrated textbook
+belongs to both collections; the counts are overlapping, not additional copies.
+
 Required asset fields are `id`, `title`, `category`, `format`, `source_url`,
 `destination`, `version`, `size_bytes`, `sha256`, `license`, `redistributable`,
 `required`, and `profiles`. Quote versions and dates. Sizes are exact source-file
@@ -15,10 +22,31 @@ under `SOFTWARE/` must have a pinned hash, including ZIP distributions.
 
 Useful optional fields are `description`, `publisher`, `source_page`, `language`,
 `snapshot_date`, `mirrors`, `tags`, `attribution`, `critical`, `reader_required`,
-and `text_encoding` (UTF-8 by default). Keep metadata plain text. The catalog does
+`resource_type`, `illustrated`, and `text_encoding` (UTF-8 by default). Keep metadata plain text. The catalog does
 not authorize use contrary to a source's license. `redistributable: false` can
 describe a lawfully downloadable personal-use source; review distribution terms
 before giving a built SSD to someone else.
+
+`resource_type` is one of `textbook`, `guide`, `reference`, `archive`, or `software`
+(default `reference`). `illustrated` is a boolean (default `false`); mark it true
+only after checking that the source contains useful diagrams, drawings, or
+photographs. Textbooks and illustrated guides are separate shelves from their
+subject categories, so a physics textbook remains discoverable as both a book
+and a science reference. Both shelves require ordinary formats and no special
+reader; assets under `ZIM/` or `SOFTWARE/` cannot count. The illustrated shelf
+includes guides **and illustrated textbooks**, not every file containing an image.
+
+Keep original illustrated PDFs intact. Text extraction produces the search index,
+not a replacement for their page layouts, figures, captions or diagrams. Inspect
+the original page for image content, which has no OCR guarantee. Keep licensing
+and attribution notices in the PDF and supply its `attribution` field so search
+results retain the required notice beside excerpts.
+
+Core textbooks and illustrated guides download first, followed by other critical
+documents, supplementary direct learning materials, other ordinary files,
+software, and large archives. Smaller files are fetched first within each tier
+so useful guides become available promptly. Profiles never silently drop books
+to fit more encyclopedia/video data: the complete selected recipe must fit.
 
 Destinations must be relative, portable ASCII paths under `CRITICAL`, `REFERENCE`,
 `BOOKS`, `MAPS`, `ZIM` or `SOFTWARE`. IDs and case-insensitive paths must be unique.

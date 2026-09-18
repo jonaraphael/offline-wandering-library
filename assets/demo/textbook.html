@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demonstration: Systems Textbook</title>
+<style>body{font:18px/1.6 system-ui,sans-serif;max-width:44rem;margin:auto;padding:1rem}svg{width:100%;height:auto}figcaption{font-size:.9rem}</style>
+<h1>Demonstration: Systems Textbook</h1>
+<p>This short original chapter is a software-test fixture, not an emergency textbook.</p>
+<h2>Chapter 1: A reproducible library</h2>
+<p>A manifest lists approved source files and their checksums. A builder copies those
+files onto a drive and creates navigation pages. Verification compares each file's
+current checksum with its recorded checksum.</p>
+<figure>
+<svg viewBox="0 0 600 135" role="img" aria-labelledby="diagram-title diagram-description">
+<title id="diagram-title">The library build process</title>
+<desc id="diagram-description">A manifest feeds the builder. The builder creates a drive. A separate verifier checks the resulting drive.</desc>
+<g fill="#eef4f7" stroke="#244866" stroke-width="2">
+<rect x="5" y="25" width="150" height="65" rx="5"/>
+<rect x="220" y="25" width="150" height="65" rx="5"/>
+<rect x="435" y="25" width="150" height="65" rx="5"/>
+<path d="M160 58h50m-10-8 10 8-10 8M375 58h50m-10-8 10 8-10 8" fill="none"/>
+</g>
+<g fill="#16212d" font-size="20" text-anchor="middle">
+<text x="80" y="64">Manifest</text><text x="295" y="64">Builder</text><text x="510" y="64">Drive</text>
+<text x="510" y="120" font-size="16">Verify the output</text>
+</g>
+</svg>
+<figcaption>Figure 1. The manifest records the recipe; verification checks the result.</figcaption>
+</figure>
+<h2>Review exercise</h2>
+<p>Why does saving a checksum separately help? If both the stored document and its
+adjacent checksum are replaced, comparing only those two cannot reveal the change.</p>
+<p>OWL contributors dedicate this original demonstration text and diagram under CC0 1.0.</p>
+</html>

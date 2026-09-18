@@ -11,7 +11,7 @@ from unittest.mock import patch
 import yaml
 
 from owl.build import build, check_space, check_space_groups
-from owl.catalog import CatalogError, capacity_plan, load_catalog, load_profiles, select_profile
+from owl.catalog import CatalogError, capacity_plan, learning_shelves, load_catalog, load_profiles, select_profile
 from owl.download import DownloadError, download, verified
 from owl.safety import SafetyError, reject_symlinks, safe_path, sha256_file, validate_relative
 from owl.verify import verify_drive
@@ -49,10 +49,61 @@ class Fixture(unittest.TestCase):
 
 
 class CatalogTests(Fixture):
+    def test_learning_metadata_rejects_invalid_types(self):
+        for changes in ({"resource_type": "encyclopedia"}, {"resource_type": []}, {"illustrated": "yes"}):
+            with self.subTest(changes=changes), self.assertRaises(CatalogError):
+                self.write_catalog([{**self.asset, **changes}])
+                load_catalog(self.catalog, allow_local=True)
+
+    def test_profile_minimum_coverage_rejects_unknown_shelves_and_bad_counts(self):
+        for minimum in ({"textbooks": True}, {"textbooks": -1}, {"magazines": 1}, ["textbooks"]):
+            (self.profiles / "test.yaml").write_text(yaml.safe_dump({**self.profile, "minimum_coverage": minimum}))
+            with self.subTest(minimum=minimum), self.assertRaises(CatalogError):
+                load_profiles(self.profiles)
+
+    def test_learning_shelves_overlap_and_require_direct_readability(self):
+        book = {**self.asset, "resource_type": "textbook", "illustrated": True}
+        self.assertEqual(learning_shelves(book), {"textbooks", "illustrated-guides"})
+        self.assertEqual(learning_shelves({**book, "illustrated": False}), {"textbooks"})
+        for changes in ({"reader_required": True}, {"format": "zim"},
+                        {"destination": "SOFTWARE/fake.pdf"}, {"destination": "ZIM/fake.pdf"}):
+            with self.subTest(changes=changes):
+                self.assertEqual(learning_shelves({**book, **changes}), set())
+
+    def test_minimum_coverage_only_counts_required_critical_resolved_books(self):
+        book = {**self.asset, "resource_type": "textbook", "illustrated": True}
+        optional = {**book, "id": "optional", "destination": "BOOKS/optional.txt", "required": False}
+        supplementary = {**book, "id": "supplement", "destination": "BOOKS/supplement.txt", "critical": False}
+        self.write_catalog([book, optional, supplementary])
+        assets = load_catalog(self.catalog, allow_local=True)
+        with self.assertRaisesRegex(CatalogError, "requires at least 2 required critical textbooks; found 1"):
+            select_profile(assets, {**self.profile, "minimum_coverage": {"textbooks": 2}})
+        selected, _ = select_profile(assets, {**self.profile, "minimum_coverage": {"textbooks": 1, "illustrated-guides": 1}})
+        summary = capacity_plan(selected, self.profile)["learning_coverage"]
+        self.assertEqual(summary["textbooks"]["count"], 3)
+        self.assertEqual(summary["textbooks"]["required_critical_count"], 1)
+
+    def test_books_and_illustrated_guides_download_before_archives(self):
+        book = {**self.asset, "id": "book", "destination": "BOOKS/Textbook.txt", "resource_type": "textbook"}
+        archive = {**self.asset, "id": "archive", "destination": "ZIM/collection.zim", "format": "zim",
+                   "critical": False, "reader_required": True}
+        reader = {**self.asset, "id": "reader", "destination": "SOFTWARE/reader.zip", "format": "zip", "critical": False}
+        guide = {**self.asset, "id": "guide", "destination": "CRITICAL/Guide.txt", "resource_type": "guide", "illustrated": True}
+        self.write_catalog([archive, reader, self.asset, guide, book])
+        selected, _ = select_profile(load_catalog(self.catalog, allow_local=True), self.profile)
+        self.assertEqual([a["id"] for a in selected], ["book", "guide", "fixture", "reader", "archive"])
+
+    def test_required_learning_core_precedes_smaller_optional_books(self):
+        core = {**self.asset, "id": "core", "resource_type": "textbook", "size_bytes": 100}
+        optional = {**core, "id": "optional", "destination": "BOOKS/optional.txt", "size_bytes": 1, "required": False}
+        self.write_catalog([optional, core])
+        selected, _ = select_profile(load_catalog(self.catalog, allow_local=True), self.profile)
+        self.assertEqual([a["id"] for a in selected], ["core", "optional"])
+
     def test_catalog_and_profile(self):
         profiles = load_profiles(self.profiles)
         assets = load_catalog(self.catalog, profiles, True)
-        selected, unresolved = select_profile(assets, "test")
+        selected, unresolved = select_profile(assets, self.profile)
         self.assertEqual(selected[0]["id"], "fixture")
         self.assertEqual(unresolved, [])
         self.assertEqual(capacity_plan(assets, self.profile)["content_bytes"], len(self.data))
@@ -79,10 +130,10 @@ class CatalogTests(Fixture):
                       "required": False, "size_bytes": None, "source_url": None}
         self.write_catalog([unresolved])
         assets = load_catalog(self.catalog)
-        self.assertEqual(select_profile(assets, "test"), ([], assets))
+        self.assertEqual(select_profile(assets, self.profile), ([], assets))
         assets[0]["required"] = True
         with self.assertRaises(CatalogError):
-            select_profile(assets, "test")
+            select_profile(assets, self.profile)
 
     def test_decimal_capacity_and_headroom(self):
         profile = {**self.profile, "capacity_bytes": 512_000_000_000, "reserve_bytes": 51_200_000_000,

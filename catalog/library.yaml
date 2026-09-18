@@ -13,7 +13,7 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: &id001
+  profiles:
   - critical-64gb
   - compact-256gb
   - standard-512gb
@@ -33,6 +33,8 @@ assets:
   - sanitation
   - disaster
   - preparedness
+  resource_type: guide
+  illustrated: true
 - id: medical_bec
   title: 'Basic Emergency Care: Approach to the Acutely Ill and Injured'
   category: medical
@@ -45,7 +47,11 @@ assets:
   license: CC-BY-NC-SA-3.0-IGO
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: World Health Organization and International Committee of the Red Cross
@@ -63,6 +69,8 @@ assets:
   - breathing
   - shock
   - clinical training
+  resource_type: guide
+  illustrated: true
 - id: water
   title: Emergency Disinfection of Drinking Water
   category: water_sanitation
@@ -75,7 +83,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: US Environmental Protection Agency
@@ -87,6 +99,8 @@ assets:
   description: EPA 816-F-15-003. Boiling and disinfection do not remove chemical contaminants.
   tags:
   - water_sanitation
+  resource_type: guide
+  illustrated: false
 - id: sanitation
   title: Preventing Diarrhea After a Disaster
   category: water_sanitation
@@ -99,7 +113,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: US Centers for Disease Control and Prevention
@@ -112,6 +130,8 @@ assets:
     on the CDC page in 2024.
   tags:
   - water_sanitation
+  resource_type: guide
+  illustrated: false
 - id: food
   title: 'USDA Complete Guide to Home Canning: 1. Principles'
   category: food
@@ -124,7 +144,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -137,6 +161,8 @@ assets:
     and altitude adjustments.
   tags:
   - food
+  resource_type: guide
+  illustrated: true
 - id: canning_00
   title: 'USDA Complete Guide to Home Canning: 00. Introduction'
   category: food
@@ -149,7 +175,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -161,6 +191,8 @@ assets:
   description: ''
   tags:
   - food
+  resource_type: guide
+  illustrated: false
 - id: canning_02
   title: 'USDA Complete Guide to Home Canning: 02. Fruit'
   category: food
@@ -173,7 +205,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -185,6 +221,8 @@ assets:
   description: ''
   tags:
   - food
+  resource_type: guide
+  illustrated: false
 - id: canning_03
   title: 'USDA Complete Guide to Home Canning: 03. Tomatoes'
   category: food
@@ -197,7 +235,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -209,6 +251,8 @@ assets:
   description: ''
   tags:
   - food
+  resource_type: guide
+  illustrated: false
 - id: canning_04
   title: 'USDA Complete Guide to Home Canning: 04. Vegetables'
   category: food
@@ -221,7 +265,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -233,6 +281,8 @@ assets:
   description: ''
   tags:
   - food
+  resource_type: guide
+  illustrated: false
 - id: canning_05
   title: 'USDA Complete Guide to Home Canning: 05. Meat and Seafood'
   category: food
@@ -245,7 +295,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -257,6 +311,8 @@ assets:
   description: ''
   tags:
   - food
+  resource_type: guide
+  illustrated: false
 - id: canning_06
   title: 'USDA Complete Guide to Home Canning: 06. Fermented and Pickled Foods'
   category: food
@@ -269,7 +325,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -281,6 +341,8 @@ assets:
   description: ''
   tags:
   - food
+  resource_type: guide
+  illustrated: false
 - id: canning_07
   title: 'USDA Complete Guide to Home Canning: 07. Jams and Jellies'
   category: food
@@ -293,7 +355,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -305,6 +371,8 @@ assets:
   description: ''
   tags:
   - food
+  resource_type: guide
+  illustrated: false
 - id: agriculture
   title: 'Community Garden Guide: Vegetable Garden Planning and Development'
   category: agriculture
@@ -317,7 +385,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA Natural Resources Conservation Service
@@ -330,6 +402,8 @@ assets:
     adapt to local conditions.
   tags:
   - agriculture
+  resource_type: guide
+  illustrated: false
 - id: electrical_dc
   title: 'Lessons in Electric Circuits, Volume I: DC'
   category: electrical
@@ -342,7 +416,11 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: Tony R. Kuphaldt and contributors
@@ -355,6 +433,11 @@ assets:
     copyright 2000-2023. License included in Appendix 3.
   tags:
   - electrical
+  - textbook
+  - circuits
+  - illustrated
+  resource_type: textbook
+  illustrated: true
 - id: electrical_ac
   title: 'Lessons in Electric Circuits, Volume II: AC'
   category: electrical
@@ -367,7 +450,11 @@ assets:
   license: CC-BY-4.0
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: Tony R. Kuphaldt and contributors
@@ -380,6 +467,11 @@ assets:
     in the book.
   tags:
   - electrical
+  - textbook
+  - circuits
+  - illustrated
+  resource_type: textbook
+  illustrated: true
 - id: mechanical
   title: 'Aviation Maintenance Technician Handbook: General'
   category: mechanical
@@ -392,7 +484,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: US Federal Aviation Administration
@@ -410,6 +506,8 @@ assets:
   - materials
   - engineering
   - reference
+  resource_type: guide
+  illustrated: true
 - id: shelter
   title: 'Residential Sheltering: In-Residence and Stand-Alone Safe Rooms'
   category: shelter
@@ -422,7 +520,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: FEMA
@@ -435,19 +537,25 @@ assets:
     local building codes and engineering review still apply.
   tags:
   - shelter
+  resource_type: guide
+  illustrated: false
 - id: navigation
   title: Finding Your Way With Map and Compass
   category: navigation
   format: pdf
   source_url: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Finding%20Your%20Way%20With%20Map%20and%20Compass.pdf
   destination: CRITICAL/NAVIGATION/USGS_Map_and_Compass.pdf
-  version: USGS file published 2019-05-03
+  version: USGS Fact Sheet 035-01; 2001-03
   size_bytes: 204850
   sha256: bc476fdc38e0949f18941cf361242bce8f0c18583111ce7e10b06eb3fc569922
   license: Public domain
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: US Geological Survey
@@ -460,6 +568,8 @@ assets:
     in magnetic declination.
   tags:
   - navigation
+  resource_type: guide
+  illustrated: true
 - id: survival_shelter
   title: 'Survival: Field Shelter and Outdoor Skills'
   category: shelter
@@ -494,6 +604,8 @@ assets:
   - navigation
   - knots
   - outdoor survival
+  resource_type: guide
+  illustrated: true
 - id: reference
   title: Emergency Supply Kit Checklist
   category: reference
@@ -506,7 +618,11 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   publisher: FEMA Ready Campaign
@@ -518,6 +634,202 @@ assets:
   description: Preparedness checklist for essential household emergency supplies.
   tags:
   - reference
+  resource_type: reference
+  illustrated: false
+- id: openstax_prealgebra_2e
+  title: Prealgebra 2e
+  category: mathematics
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/prealgebra-2e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_prealgebra_2e.pdf
+  version: 2e; publisher PDF snapshot 2026-09-18
+  size_bytes: 63194495
+  sha256: 1a58f63a28535d2a84659019103df32a0fb73db0bd14ce6e533a4dff307ca2cb
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/prealgebra-2e
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Lynn Marecek, MaryAnne Anthony-Smith, and Andrea Honeycutt Mathis; Prealgebra 2e. OpenStax,
+    Rice University. CC BY-NC-SA 4.0. Access for free at openstax.org. https://openstax.org/details/books/prealgebra-2e
+    Original PDF retained without alteration.
+  description: Arithmetic, fractions, ratios, percentages, measurement, geometry and elementary algebra
+    with worked examples and diagrams. Complete original illustrated PDF; noncommercial redistribution
+    only, with original notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - mathematics
+  - arithmetic
+  - fractions
+  - algebra
+  - measurement
+- id: openstax_college_physics_2e
+  title: College Physics 2e
+  category: physics
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/college-physics-2e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_college_physics_2e.pdf
+  version: 2e; publisher PDF snapshot 2026-09-18
+  size_bytes: 263463256
+  sha256: a052d9fae2a90e135a74d70c001a78bb49b83280be58191e108d5de577699bb6
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/college-physics-2e
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Paul Peter Urone and Roger Hinrichs; College Physics 2e. OpenStax, Rice University. CC
+    BY-NC-SA 4.0. Access for free at openstax.org. https://openstax.org/details/books/college-physics-2e
+    Original PDF retained without alteration.
+  description: Algebra-based physics covering mechanics, fluids, heat, electricity, magnetism, waves and
+    optics with worked examples and figures. Complete original illustrated PDF; noncommercial redistribution
+    only, with original notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - physics
+  - mechanics
+  - fluids
+  - heat
+  - electricity
+- id: openstax_chemistry_2e
+  title: Chemistry 2e
+  category: chemistry
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/chemistry-2e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_chemistry_2e.pdf
+  version: 2e; publisher PDF snapshot 2026-09-18
+  size_bytes: 217794376
+  sha256: fd89db1b8a1fee06b8ad3e8982f4f4b34bde4e93654a4ce28b724f8c0efe98d6
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/chemistry-2e
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Paul Flowers, Klaus Theopold, Richard Langley, and William R. Robinson; Chemistry 2e. OpenStax,
+    Rice University. CC BY-NC-SA 4.0. Access for free at openstax.org. https://openstax.org/details/books/chemistry-2e
+    Original PDF retained without alteration.
+  description: General chemistry covering matter, measurement, reactions, solutions, thermodynamics and
+    electrochemistry with diagrams and worked examples. Complete original illustrated PDF; noncommercial
+    redistribution only, with original notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - chemistry
+  - matter
+  - measurement
+  - solutions
+  - electrochemistry
+- id: openstax_biology_2e
+  title: Biology 2e
+  category: biology
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Biology-2e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_biology_2e.pdf
+  version: 2e; publisher PDF snapshot 2026-09-18
+  size_bytes: 401298122
+  sha256: 4d1f413fd779f114838cdaeab7859dcb2922ca7529230d3bfd7d36a77b4e27b6
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/biology-2e
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Mary Ann Clark, Jung Choi, and Matthew Douglas; Biology 2e. OpenStax, Rice University.
+    CC BY-NC-SA 4.0. Access for free at openstax.org. https://openstax.org/details/books/biology-2e Original
+    PDF retained without alteration.
+  description: Introductory biology covering cells, genetics, plants, animals and ecology with explanatory
+    illustrations and photographs. Complete original illustrated PDF; noncommercial redistribution only,
+    with original notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - biology
+  - cells
+  - genetics
+  - plants
+  - ecology
+- id: openstax_anatomy_and_physiology_2e
+  title: Anatomy and Physiology 2e
+  category: anatomy
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/anatomy-and-physiology-2e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_anatomy_and_physiology_2e.pdf
+  version: 2e; publisher PDF snapshot 2026-09-18
+  size_bytes: 476335014
+  sha256: aa2e577b2083c343f4d57b38f00dd935dd2d98befdb38c0f368d72d636d0ff46
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/anatomy-and-physiology-2e
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: J. Gordon Betts and fellow OpenStax contributing authors; Anatomy and Physiology 2e. OpenStax,
+    Rice University. CC BY-NC-SA 4.0. Access for free at openstax.org. https://openstax.org/details/books/anatomy-and-physiology-2e
+    Original PDF retained without alteration.
+  description: Human anatomy and physiology with labeled organ-system illustrations. Educational foundations,
+    not an emergency treatment manual. Complete original illustrated PDF; noncommercial redistribution
+    only, with original notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - anatomy
+  - physiology
+  - organs
+  - human biology
 - id: world_map
   title: 'This Dynamic Planet: World Map'
   category: maps
@@ -530,7 +842,7 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: &id002
+  profiles:
   - compact-256gb
   - standard-512gb
   - full-1tb
@@ -546,6 +858,8 @@ assets:
     not a current road map or local evacuation map.
   tags:
   - maps
+  resource_type: reference
+  illustrated: false
 - id: world_map_notes
   title: 'This Dynamic Planet: Explanatory Notes'
   category: maps
@@ -558,7 +872,10 @@ assets:
   license: Public domain (US Government work; retain credited third-party notices)
   redistributable: true
   required: true
-  profiles: *id002
+  profiles:
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: false
   reader_required: false
   publisher: US Geological Survey, Smithsonian Institution and US Naval Research Laboratory
@@ -570,6 +887,8 @@ assets:
   description: Companion explanatory sheet to the world map.
   tags:
   - maps
+  resource_type: reference
+  illustrated: false
 - id: wikipedia_en
   title: English Wikipedia (full, illustrated)
   category: encyclopedia
@@ -582,7 +901,7 @@ assets:
   license: CC-BY-SA-4.0; media licenses vary
   redistributable: true
   required: true
-  profiles: &id003
+  profiles:
   - standard-512gb
   - full-1tb
   critical: false
@@ -595,6 +914,8 @@ assets:
     source links, license and media notices inside the archive.
   description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
     available separately in ordinary PDF files.
+  resource_type: archive
+  illustrated: false
 - id: wikipedia_en_nopic
   title: English Wikipedia (full text, no pictures)
   category: encyclopedia
@@ -619,6 +940,8 @@ assets:
     source links, license and media notices inside the archive.
   description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
     available separately in ordinary PDF files.
+  resource_type: archive
+  illustrated: false
 - id: wikimed_en
   title: 'WikiMed: Wikipedia Medicine'
   category: medical
@@ -631,7 +954,10 @@ assets:
   license: CC-BY-SA-4.0; media licenses vary
   redistributable: true
   required: true
-  profiles: *id002
+  profiles:
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: false
   reader_required: true
   publisher: Wikimedia contributors
@@ -642,6 +968,8 @@ assets:
     source links, license and media notices inside the archive.
   description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
     available separately in ordinary PDF files.
+  resource_type: archive
+  illustrated: false
 - id: wiktionary_en
   title: English Wiktionary
   category: dictionary
@@ -654,7 +982,10 @@ assets:
   license: CC-BY-SA-4.0; individual notices apply
   redistributable: true
   required: true
-  profiles: *id002
+  profiles:
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: false
   reader_required: true
   publisher: Wikimedia contributors
@@ -665,6 +996,8 @@ assets:
     source links, license and media notices inside the archive.
   description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
     available separately in ordinary PDF files.
+  resource_type: archive
+  illustrated: false
 - id: wikibooks_en
   title: English Wikibooks
   category: books
@@ -677,7 +1010,10 @@ assets:
   license: CC-BY-SA-4.0; individual notices apply
   redistributable: true
   required: true
-  profiles: *id002
+  profiles:
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: false
   reader_required: true
   publisher: Wikimedia contributors
@@ -688,6 +1024,8 @@ assets:
     source links, license and media notices inside the archive.
   description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
     available separately in ordinary PDF files.
+  resource_type: archive
+  illustrated: false
 - id: ifixit_en
   title: iFixit Repair Guides
   category: mechanical
@@ -700,7 +1038,10 @@ assets:
   license: CC-BY-NC-SA-3.0
   redistributable: true
   required: true
-  profiles: *id002
+  profiles:
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: false
   reader_required: true
   publisher: iFixit and contributors
@@ -711,6 +1052,8 @@ assets:
     source links, license and media notices inside the archive.
   description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
     available separately in ordinary PDF files.
+  resource_type: archive
+  illustrated: false
 - id: appropedia_en
   title: 'Appropedia: Sustainability and Appropriate Technology'
   category: reference
@@ -723,7 +1066,9 @@ assets:
   license: CC-BY-SA-4.0; individual notices apply
   redistributable: true
   required: true
-  profiles: *id003
+  profiles:
+  - standard-512gb
+  - full-1tb
   critical: false
   reader_required: true
   publisher: Appropedia contributors
@@ -734,6 +1079,8 @@ assets:
     source links, license and media notices inside the archive.
   description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
     available separately in ordinary PDF files.
+  resource_type: archive
+  illustrated: false
 - id: khanacademy_en
   title: Khan Academy English Educational Collection
   category: education
@@ -758,6 +1105,8 @@ assets:
     links, license and media notices inside the archive.
   description: Noncommercial educational snapshot including videos. Video/audio speech is not transcribed
     by OWL. All Khan Academy content is available for free at https://www.khanacademy.org/.
+  resource_type: archive
+  illustrated: false
 - id: kiwix_windows
   title: Kiwix Windows x64 portable reader
   category: software
@@ -770,7 +1119,10 @@ assets:
   license: GPL-3.0-or-later; bundled components retain their licenses
   redistributable: true
   required: true
-  profiles: *id002
+  profiles:
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: false
   reader_required: false
   publisher: Kiwix contributors
@@ -782,6 +1134,8 @@ assets:
   description: Official pinned offline package; downloaded over HTTPS, local SHA-256 computed, upstream
     MD5 additionally compared. Never executed by OWL. Check OS, architecture, installation permissions
     and runtime requirements before relying on it.
+  resource_type: software
+  illustrated: false
 - id: kiwix_linux
   title: Kiwix Linux x86_64 AppImage
   category: software
@@ -794,7 +1148,10 @@ assets:
   license: GPL-3.0-or-later; bundled components retain their licenses
   redistributable: true
   required: true
-  profiles: *id002
+  profiles:
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: false
   reader_required: false
   publisher: Kiwix contributors
@@ -806,6 +1163,8 @@ assets:
   description: Official pinned offline package; downloaded over HTTPS, local SHA-256 computed, upstream
     MD5 additionally compared. Never executed by OWL. Check OS, architecture, installation permissions
     and runtime requirements before relying on it.
+  resource_type: software
+  illustrated: false
 - id: kiwix_macos
   title: Kiwix macOS disk image
   category: software
@@ -818,7 +1177,10 @@ assets:
   license: GPL-3.0; bundled components retain their licenses
   redistributable: true
   required: true
-  profiles: *id002
+  profiles:
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: false
   reader_required: false
   publisher: Kiwix contributors
@@ -830,6 +1192,8 @@ assets:
   description: Official pinned offline package; downloaded over HTTPS, local SHA-256 computed, upstream
     MD5 additionally compared. Never executed by OWL. Check OS, architecture, installation permissions
     and runtime requirements before relying on it.
+  resource_type: software
+  illustrated: false
 - id: kiwix_android
   title: Kiwix Android standalone APK
   category: software
@@ -842,7 +1206,10 @@ assets:
   license: GPL-3.0-or-later; bundled components retain their licenses
   redistributable: true
   required: true
-  profiles: *id002
+  profiles:
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: false
   reader_required: false
   publisher: Kiwix contributors
@@ -854,6 +1221,8 @@ assets:
   description: Official pinned offline package; downloaded over HTTPS, local SHA-256 computed, upstream
     MD5 additionally compared. Never executed by OWL. Check OS, architecture, installation permissions
     and runtime requirements before relying on it.
+  resource_type: software
+  illustrated: false
 - id: hesperian_wtnd
   title: Where There Is No Doctor (permission needed)
   category: medical
@@ -866,7 +1235,11 @@ assets:
   license: Hesperian digital redistribution requires written permission
   redistributable: false
   required: false
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: true
   reader_required: false
   source_page: https://hesperian.org/open-copyright-policy/
@@ -874,6 +1247,8 @@ assets:
   unresolved_reason: Hesperian requires written permission for distributing its materials in any digital
     format; no permission is held by this project. WHO and FEMA provide the included directly readable
     medical baseline.
+  resource_type: guide
+  illustrated: false
 - id: regional_topographic_maps
   title: Local topographic and evacuation maps (choose your region)
   category: maps
@@ -886,10 +1261,16 @@ assets:
   license: Unresolved until a regional map is selected
   redistributable: false
   required: false
-  profiles: *id001
+  profiles:
+  - critical-64gb
+  - compact-256gb
+  - standard-512gb
+  - full-1tb
   critical: false
   reader_required: false
   source_page: https://store.usgs.gov/map-locator
   status: unresolved
   unresolved_reason: No region was specified. Choose official local map sheets, verify date/license/URL/hash
     and add explicit assets. The world reference map is not a substitute for local navigation.
+  resource_type: reference
+  illustrated: false

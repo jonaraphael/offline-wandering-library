@@ -2,7 +2,7 @@
 
 OWL builds a USB SSD containing an offline emergency knowledge library. **The SSD is the product.** This repository contains the catalog, build tools, search engine, small assets, and documentation. Large books, maps, encyclopedias, and reader packages are downloaded during a build and stay out of Git.
 
-The library prioritizes reliable access when there is no internet, account, cloud service, app store, local server, Raspberry Pi, or opportunity to install software. Critical material is stored in ordinary files such as HTML, PDF, and text. Large ZIM archives supplement those files and require a compatible reader.
+The library prioritizes reliable access when there is no internet, account, cloud service, app store, local server, Raspberry Pi, or opportunity to install software. **Core textbooks and illustrated practical guides are part of the smallest profile.** Critical material is stored in ordinary files such as HTML, PDF, and text. Large ZIM archives supplement those files and require a compatible reader.
 
 Python 3.11+ builds the drive on a computer with internet access. Reading the completed drive does not require Python. The builder never formats or repartitions drives, executes downloaded binaries, or indiscriminately removes existing files.
 
@@ -11,7 +11,7 @@ Python 3.11+ builds the drive on a computer with internet access. Reading the co
 Use an already formatted USB SSD, preferably exFAT for cross-platform support. Confirm its mount path in your file manager. A nominal 512 GB disk has approximately 477 GiB of total capacity before filesystem overhead; 1 TB is approximately 931 GiB. Leave free space for the filesystem, future changes, and your own files.
 
 ```bash
-git clone <this-repository-url>
+git clone https://github.com/jonaraphael/offline-wandering-library.git
 cd offline-wandering-library
 python3 -m venv .venv
 source .venv/bin/activate                 # Windows: .venv\Scripts\activate
@@ -45,8 +45,8 @@ Profiles containing ZIM archives require `libzim`; the builder checks for it bef
 
 | Profile | Intended nominal drive | Priority |
 | --- | ---: | --- |
-| `critical-64gb` | 64 GB or larger | Directly readable emergency and essential reference material |
-| `compact-256gb` | 256 GB or larger | Critical material, selected books, Wikipedia without pictures, and compact archives |
+| `critical-64gb` | 64 GB or larger | Directly readable emergency material, core textbooks, and illustrated guides |
+| `compact-256gb` | 256 GB or larger | The core library, Wikipedia without pictures, and compact archives |
 | `standard-512gb` | 512 GB or larger | Full English Wikipedia and broader reference collections |
 | `full-1tb` | 1 TB or larger | The most extensive selection, including the Khan Academy archive |
 
@@ -55,6 +55,10 @@ Profile names are capacity targets, not promises to fill the disk. The actual ca
 The initial critical collection includes FEMA CERT material, WHO Basic Emergency Care, EPA water treatment guidance, CDC sanitation information, USDA food-preservation and agriculture references, open electrical textbooks, the FAA maintenance handbook, FEMA shelter material, and USGS navigation references. Critical topics include first aid, medicine, water and sanitation, food, agriculture, repair, electrical work, shelter, navigation, and reference material. Coverage is a curated starting point, not a guarantee that every situation is addressed.
 
 The larger profiles add Wikipedia, WikiMed, Wiktionary, Wikibooks, iFixit, and educational collections. Sources have recorded licensing and attribution. Every critical asset must use an ordinary, directly readable format; a ZIM-only resource cannot satisfy this requirement. The builder validates IDs, destinations, profile membership, and manifest paths.
+
+Textbooks provide sustained explanations beyond short emergency checklists. The core includes seven complete textbooks: two electrical texts plus OpenStax prealgebra, physics, biology, chemistry, and anatomy and physiology. All production profiles currently include thirteen illustrated teaching works, with overlap between these collections. Profile validation requires at least seven critical textbooks and eight critical illustrated works, and the builder downloads the required teaching core before large archives. The 25-file critical collection occupies about 1.57 GB before search and navigation. The OpenStax snapshots use CC BY-NC-SA 4.0; see their recorded notices and attribution in [content sources](docs/sources.md).
+
+The PDFs retain their original diagrams, photographs, charts, and figures; the builder does not replace them with extracted text. `INDEX/textbooks.html` and `INDEX/illustrated-guides.html` provide dedicated, directly readable shelves from the landing page. The illustrated shelf includes both textbooks and practical guides. `INDEX/critical.html` includes every critical asset wherever it is stored, including `BOOKS/TEXTBOOKS/`. Reader-dependent archives and EPUBs do not count toward these direct-reading shelves. Textbook listings retain their attribution, and the inventory records each title’s own license.
 
 Current unresolved additions include Hesperian’s digital redistribution permission and region-specific offline maps. The included USGS world-map reference is not a current local street or topographic map. Choose and verify suitable regional maps before relying on the library for local navigation.
 
@@ -72,7 +76,7 @@ sources and reproducing the tested extraction toolchain.
 
 ## Use the completed SSD
 
-Open `START_HERE.html`. It provides topic links, search, and ordinary static indexes. You can also navigate directly through the folders with the device’s file manager.
+Open `START_HERE.html`. Its first shelves link to textbooks and illustrated guides with counts of critical resources, followed by topic links. It also provides search and ordinary static indexes. You can navigate directly through the folders with the device’s file manager.
 
 ```text
 EMERGENCY_LIBRARY/
@@ -83,15 +87,15 @@ EMERGENCY_LIBRARY/
 ├── BUILD_INFO.json / SHA256SUMS.txt / LOCKED_CATALOG.yaml
 ├── CRITICAL/               # Ordinary files grouped by emergency topic
 ├── REFERENCE/
-├── BOOKS/
+├── BOOKS/TEXTBOOKS/         # Core directly readable textbooks
 ├── MAPS/
 ├── ZIM/                    # Large archives; a reader is required
 ├── SOFTWARE/               # Bundled readers for supported platforms
 ├── SEARCH/                 # Precomputed full-text index and coverage report
-└── INDEX/                  # Category, critical, and alphabetical HTML indexes
+└── INDEX/                  # Textbooks, illustrated guides, critical, category, A–Z
 ```
 
-The static indexes list catalog files, including titles, categories, and archive-reader requirements. They work without JavaScript and contain ordinary relative links. They do not expand every article inside an archive into separate HTML files.
+The static indexes list catalog files, including titles, categories, textbook/illustrated labels, and archive-reader requirements. Dedicated `textbooks.html` and `illustrated-guides.html` pages sit alongside `critical.html`, `categories.html`, and the alphabetical pages in `INDEX/`. They work without JavaScript and contain ordinary relative links. They do not expand every article inside an archive into separate HTML files.
 
 ## Search without a server
 
@@ -99,7 +103,11 @@ Open `SEARCH.html` in a browser that can execute local JavaScript, then use its 
 
 The builder extracts text and metadata once and creates an inverted index. Long documents are divided into passages so results can provide matching context. The browser uses `File.slice()` to read index sections, term postings, and result records as needed. It does not scan the library or load all document text for each query. Results use BM25-style ranking and show title, category/source, a snippet, and the content path.
 
+Choose **All resources**, **Textbooks**, or **Illustrated guides** to search a collection. Filters apply before ranking the final results, so books are not hidden by a larger archive's matches. Illustrated textbooks appear in both learning collections. Results retain each document's license and attribution.
+
 HTML, plain text, Markdown, EPUB, and text-bearing PDFs can be indexed. ZIM text extraction uses the `libzim` extra. Scanned PDFs and image content need OCR that OWL does not provide. Unsupported formats and material with no extractable text retain searchable catalog metadata, with gaps recorded in `SEARCH/coverage.json`, the inventory, and build information. Corrupt or encrypted documents that cannot be extracted fail the build. A search hit in a ZIM names the archive and article; the browser cannot directly open an internal ZIM article. Open the archive with its reader and use the supplied article name.
+
+Search covers extractable textbook and guide text, not the visual meaning of diagrams or photographs. Open the original illustrated document to inspect a figure, formula, or image-only page. An illustration remains readable even when it cannot be found through full-text search.
 
 Search depends on browser and file-manager capabilities:
 

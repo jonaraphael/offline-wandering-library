@@ -35,8 +35,35 @@ UniqueLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _ma
 DIRECT = {"html", "htm", "pdf", "txt", "md", "png", "jpg", "jpeg"}
 SOFTWARE = {"apk", "exe", "msi", "dmg", "appimage", "deb", "rpm"}
 ROOTS = {"CRITICAL", "REFERENCE", "BOOKS", "MAPS", "ZIM", "SOFTWARE"}
+RESOURCE_TYPES = {"textbook", "guide", "reference", "archive", "software"}
+LEARNING_SHELVES = ("textbooks", "illustrated-guides")
 REQUIRED = {"id", "title", "category", "format", "source_url", "destination", "version",
             "size_bytes", "sha256", "license", "redistributable", "required", "profiles"}
+
+
+def learning_shelves(asset: dict) -> set[str]:
+    """Directly readable learning collections; illustrated textbooks belong to both."""
+    if (str(asset.get("format", "")).lower() not in DIRECT or asset.get("reader_required") or
+            str(asset.get("destination", "")).split("/")[0].upper() in {"ZIM", "SOFTWARE"}):
+        return set()
+    shelves = set()
+    resource_type = asset.get("resource_type", "reference")
+    if resource_type == "textbook":
+        shelves.add("textbooks")
+    if asset.get("illustrated") is True and resource_type in {"textbook", "guide"}:
+        shelves.add("illustrated-guides")
+    return shelves
+
+
+def learning_coverage(assets: list[dict]) -> dict:
+    result = {shelf: {"count": 0, "required_critical_count": 0, "size_bytes": 0}
+              for shelf in LEARNING_SHELVES}
+    for asset in assets:
+        for shelf in learning_shelves(asset):
+            result[shelf]["count"] += 1
+            result[shelf]["required_critical_count"] += int(bool(asset.get("required") and asset.get("critical")))
+            result[shelf]["size_bytes"] += asset["size_bytes"]
+    return result
 
 
 def read_yaml(path: Path):
@@ -58,6 +85,10 @@ def load_profiles(directory: Path) -> dict:
                 raise CatalogError(f"{name}: {field} must be a nonnegative integer")
         if profile["capacity_bytes"] <= profile["reserve_bytes"]:
             raise CatalogError(f"{name}: no usable capacity")
+        minimum = profile.get("minimum_coverage", {})
+        if (not isinstance(minimum, dict) or set(minimum) - set(LEARNING_SHELVES) or
+                any(type(count) is not int or count < 0 for count in minimum.values())):
+            raise CatalogError(f"{name}: minimum_coverage must map learning shelves to nonnegative integer counts")
         result[name] = profile
     if not result:
         raise CatalogError(f"No profiles in {directory}")
@@ -88,9 +119,12 @@ def load_catalog(path: Path, profiles: dict | None = None, allow_local: bool = F
         for field in ("title", "category", "format", "version", "license"):
             if not isinstance(asset[field], str) or not asset[field].strip():
                 raise CatalogError(f"{identity}: {field} must be nonempty text (quote versions)")
-        for field in ("required", "redistributable", "critical", "reader_required"):
+        for field in ("required", "redistributable", "critical", "reader_required", "illustrated"):
             if field in asset and type(asset[field]) is not bool:
                 raise CatalogError(f"{identity}: {field} must be boolean")
+        asset.setdefault("illustrated", False)
+        if not isinstance(asset.setdefault("resource_type", "reference"), str) or asset["resource_type"] not in RESOURCE_TYPES:
+            raise CatalogError(f"{identity}: resource_type must be one of {', '.join(sorted(RESOURCE_TYPES))}")
         for field in ("mirrors", "tags"):
             if field in asset and (not isinstance(asset[field], list) or any(not isinstance(v, str) for v in asset[field])):
                 raise CatalogError(f"{identity}: {field} must be a list of strings")
@@ -135,7 +169,8 @@ def load_catalog(path: Path, profiles: dict | None = None, allow_local: bool = F
     return assets
 
 
-def select_profile(assets: list[dict], name: str) -> tuple[list[dict], list[dict]]:
+def select_profile(assets: list[dict], profile: dict) -> tuple[list[dict], list[dict]]:
+    name = profile["id"]
     selected = [a for a in assets if name in a["profiles"]]
     unresolved = [a for a in selected if a["status"] == "unresolved"]
     required = [a["id"] for a in unresolved if a["required"]]
@@ -144,7 +179,30 @@ def select_profile(assets: list[dict], name: str) -> tuple[list[dict], list[dict
     resolved = [a for a in selected if a["status"] == "resolved"]
     if any(a["format"].lower() == "zim" for a in resolved) and not any(a["destination"].startswith("SOFTWARE/") for a in resolved):
         raise CatalogError(f"{name}: ZIM content must include a pinned bundled reader")
-    return resolved, unresolved
+    coverage = learning_coverage(resolved)
+    for shelf, minimum in profile.get("minimum_coverage", {}).items():
+        actual = coverage[shelf]["required_critical_count"]
+        if actual < minimum:
+            raise CatalogError(f"{name}: requires at least {minimum} required critical {shelf}; found {actual}. "
+                               "Only directly readable, resolved assets count; archive-only material cannot satisfy this floor.")
+
+    def priority(asset):
+        shelves = learning_shelves(asset)
+        if asset.get("required") and asset.get("critical") and shelves:
+            tier = 0
+        elif asset.get("critical"):
+            tier = 1
+        elif shelves:
+            tier = 2
+        elif asset["destination"].startswith("SOFTWARE/"):
+            tier = 4
+        elif asset["format"].lower() in DIRECT and not asset.get("reader_required"):
+            tier = 3
+        else:
+            tier = 5
+        return tier, asset["size_bytes"], asset["destination"].casefold()
+
+    return sorted(resolved, key=priority), unresolved
 
 
 def fingerprint(asset: dict) -> str:
@@ -160,7 +218,8 @@ def capacity_plan(assets: list[dict], profile: dict) -> dict:
         raise CatalogError(f"Profile exceeds capacity: {final:,} bytes plus {profile['reserve_bytes']:,} reserve")
     return {"download_bytes": content, "content_bytes": content, "estimated_final_bytes": final,
             "search_budget_bytes": profile["search_budget_bytes"], "reserve_bytes": profile["reserve_bytes"],
-            "capacity_bytes": profile["capacity_bytes"], "index_scratch_budget_bytes": profile["search_budget_bytes"] * 2}
+            "capacity_bytes": profile["capacity_bytes"], "index_scratch_budget_bytes": profile["search_budget_bytes"] * 2,
+            "learning_coverage": learning_coverage(assets)}
 
 
 def main(argv=None) -> int:
@@ -173,9 +232,13 @@ def main(argv=None) -> int:
         profiles = load_profiles(args.profiles_dir)
         assets = load_catalog(args.catalog, profiles, args.allow_local)
         for name, profile in profiles.items():
-            selected, unresolved = select_profile(assets, name)
+            if not any(name in a["profiles"] for a in assets):
+                continue
+            selected, unresolved = select_profile(assets, profile)
             plan = capacity_plan(selected, profile)
             print(f"{name}: {len(selected)} assets, {plan['content_bytes']:,} bytes; {len(unresolved)} unresolved")
+            for shelf, coverage in plan["learning_coverage"].items():
+                print(f"  {shelf}: {coverage['count']} directly readable, {coverage['required_critical_count']} required critical")
         print("Catalog OK")
         return 0
     except (ValueError, OSError, yaml.YAMLError) as error:

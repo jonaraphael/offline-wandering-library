@@ -7,6 +7,19 @@ network requests. It contains its own script and styles. If your viewer does not
 execute JavaScript or offer a usable picker, use `INDEX/categories.html`,
 `INDEX/critical.html`, and the alphabetical pages instead.
 
+The **Search in** selector offers **All resources**, **Textbooks**, and
+**Illustrated guides**. The two learning collections include ordinary readable
+files whose catalog metadata identifies them as textbooks or illustrated guides;
+an illustrated textbook belongs to both. Specialized archives, software, and
+files marked as needing a reader are excluded from these two collections even
+if another catalog label calls them a textbook. They remain available under All
+resources. Textbook/guide and illustration labels also appear beside results and
+are searchable words. There is no ranking boost merely for belonging to a shelf.
+
+Diagrams, photographs, and illustrations remain in the original PDF/HTML/image
+files. Open a result to see them. Text snippets do not reproduce figures, and
+filtering for illustrated guides does not imply image understanding or OCR.
+
 ## Coverage is measured, not assumed
 
 Every build writes `SEARCH/coverage.json`; its information is also included in
@@ -56,6 +69,11 @@ words are preserved at boundaries. Pathological uninterrupted strings longer
 than 8 KiB are divided into segments. Passages retain document title, category,
 source, destination and, where applicable, page or archive-entry identity.
 Repeated passages from the same document can appear separately in results.
+Resource type, illustration status, license, and attribution are retained on
+every passage. Attribution and license notices are displayed beneath each search
+snippet as ordinary text, including publisher-required notices such as
+“Access for free at openstax.org.” The original source's licensing conditions
+still apply to text incorporated into the search index and its displayed results.
 
 A temporary SQLite database sorts the inverted index on disk. It uses a 16 MiB
 page-cache budget; neither the corpus nor the vocabulary is collected into one
@@ -85,8 +103,8 @@ can still delay progress while the extraction library processes that page.
 
 Tokens are Unicode letters/numbers, normalized with NFKC and lowercased. There is
 no stemming, stop-word removal, prefix matching, quoted-phrase operator, or
-language-specific segmentation. Titles receive weight 5, category and tags weight
-2, and other metadata/body words weight 1. BM25 uses these weighted frequencies
+language-specific segmentation. Titles receive weight 5, category, tags and
+resource labels weight 2, and other metadata/body words weight 1. BM25 uses these weighted frequencies
 and document lengths, with `k1=1.2` and `b=0.75`. IDF is computed over passages.
 Queries consider passages matching any query word. Use up to 32 distinct words;
 longer queries are rejected with an explanation.
@@ -97,8 +115,16 @@ Sorted posting lists are merged and scored, retaining only the best 50 results
 in a bounded heap. This is exact top-K ranking for the implemented query model,
 not a fixed candidate cutoff that loses later matches. Only those result records
 are read for snippets. It never loads the entire index or scans the corpus text.
+For a selected learning collection, a separate table supplies one byte of flags
+per passage. The browser reads this table through a single 64 KiB cache. Candidate
+IDs increase during posting-list merging, so each relevant flag block is read at
+most once per query. The collection filter applies **before** top-K selection;
+textbooks outside the unfiltered top 50 are therefore still considered, without
+decoding every candidate's document record. BM25 statistics continue to describe
+the entire corpus, making filtered ranking the same ordering restricted to the
+selected collection.
 Memory for postings is at most approximately 1.5 MiB for 32 query words, plus the
-small lexicon cache and result records. Common words may still require reading
+small lexicon cache, at most 64 KiB of collection flags, and result records. Common words may still require reading
 large posting lists, so queries can be slow on very large corpora. Progress and
 cancellation remain available while processing.
 
@@ -121,7 +147,12 @@ guaranteed to deep-link into a reader.
 No real-phone, drive-provider, or browser-version compatibility matrix is claimed.
 Automated tests execute the actual page's JavaScript engine under Node using the
 same Blob range-read contract, including BM25 ranking, Unicode, high-frequency
-multi-block postings, snippets, safe links and corrupt-file rejection. Python
+multi-block postings, snippets, safe links and corrupt-file rejection. Collection
+tests cover exact filtered top-K ranking, overlapping illustrated textbooks,
+reader/archive exclusions, and bounded flag reads across distant passage IDs.
+The actual result-rendering event handler is also exercised with a minimal DOM
+test double to verify that attribution notices and resource labels are rendered
+as text; this does not replace a real-browser layout or file-picker test. Python
 tests cover HTML/TXT, real PDF/EPUB fixtures and a small real ZIM when the optional
 dependency is installed. These tests do not simulate an operating system's
 external-drive file picker. Always test the completed SSD on the actual devices
@@ -132,15 +163,18 @@ available automated browser's URL policy blocks `file://` navigation. That
 restriction was not bypassed; the automated evidence remains the cross-language
 engine and extraction tests above.
 
-## Durable file format: OWLIDX1
+## Durable file format: OWLIDX2
 
 All integer records use little endian. The first 4,096 bytes are reserved for a
-header: eight-byte `OWLIDX1\n` magic, a uint32 JSON length, then UTF-8 JSON. The
+header: eight-byte `OWLIDX2\n` magic, a uint32 JSON length, then UTF-8 JSON. The
 header includes document/term counts, average weighted length, offset-table
 locations, tokenizer identity, and final file size. It has no timestamps.
 
 Document records are variable-length UTF-8 JSON. Their table contains one
-`uint64 offset, uint32 length` pair per passage ID. Each term has a contiguous
+`uint64 offset, uint32 length` pair per passage ID. Immediately after that table,
+`flags_offset` locates one byte per passage: bit 0 means textbook and bit 1 means
+illustrated guide; both bits may be set. Other bits are reserved and rejected.
+Each term has a contiguous
 posting list of `uint32 passage_id, uint32 weighted_frequency, uint32 length`
 records ordered by passage ID. Lexicon records are JSON arrays
 `[term, posting_offset, posting_count]`, sorted by UTF-8 bytes; a second fixed-width
@@ -150,7 +184,9 @@ up to 2^32 passages and browser-safe integer byte offsets (below 2^53).
 
 The Python source and readable JavaScript are the format reference. SQLite is
 only a build-time implementation detail. SHA-256 verification covers the
-finished index alongside the other managed drive files.
+finished index alongside the other managed drive files. Keep `SEARCH.html` and
+`library.owl` from the same completed build; an index with a different format is
+rejected with instructions to rebuild the drive.
 
 Extractor API references: [pypdf text extraction](https://pypdf.readthedocs.io/en/stable/user/extract-text.html),
 [python-libzim reader API](https://python-libzim.readthedocs.io/en/latest/api_reference/libzim.reader/),

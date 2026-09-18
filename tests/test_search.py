@@ -38,7 +38,7 @@ class SearchTests(unittest.TestCase):
 
     def read_index(self):
         data = (self.target / "SEARCH/library.owl").read_bytes()
-        self.assertEqual(data[:8], b"OWLIDX1\n")
+        self.assertEqual(data[:8], b"OWLIDX2\n")
         header = json.loads(data[12:12 + struct.unpack_from("<I", data, 8)[0]])
         self.assertEqual(header["size"], len(data))
         def record(table, index):
@@ -48,7 +48,7 @@ class SearchTests(unittest.TestCase):
         terms = [record(header["lexicon_offset"], n) for n in range(header["terms"])]
         return data, header, docs, terms
 
-    def run_js(self, body):
+    def run_js(self, body, prelude=""):
         node = shutil.which("node")
         if not node:
             self.skipTest("Node is required for the browser engine test")
@@ -57,7 +57,7 @@ class SearchTests(unittest.TestCase):
         engine = self.target / "engine.cjs"
         engine.write_text(script, encoding="utf-8", newline="\n")
         driver = self.target / "driver.cjs"
-        driver.write_text("const fs = require('node:fs');\nconst engine = require('./engine.cjs');\n"
+        driver.write_text("const fs = require('node:fs');\n" + prelude + "\nconst engine = require('./engine.cjs');\n"
                           "(async () => { const bytes = fs.readFileSync('SEARCH/library.owl');\n"
                           "let maxRead = 0, totalRead = 0;\n"
                           "const blob = new Blob([bytes]);\n"
@@ -124,6 +124,122 @@ class SearchTests(unittest.TestCase):
         self.assertIn("uncommonwinningterm", result["best"])
         self.assertLessEqual(result["maxRead"], 49152)
 
+    def test_learning_filters_rank_all_eligible_candidates_and_overlap(self):
+        for n in range(70):
+            self.add(f"REFERENCE/high-{n:02}.txt", "hydration", title="Hydration")
+        self.add("BOOKS/textbook.txt", "hydration " + "background " * 200,
+                 title="Study volume", resource_type="textbook", illustrated=True)
+        self.add("BOOKS/plain.txt", "hydration " + "background " * 100,
+                 title="Plain volume", resource_type="textbook")
+        self.add("CRITICAL/guide.txt", "hydration " + "background " * 150,
+                 title="Practical guide", resource_type="guide", illustrated=True)
+        for path in ("ZIM/OTHER/spoof.txt", "SOFTWARE/spoof.txt"):
+            self.add(path, "hydration", title="Hydration", resource_type="textbook", illustrated=True)
+        self.add("REFERENCE/special.txt", "hydration", title="Hydration",
+                 resource_type="textbook", illustrated=True, reader_required=True)
+        report = build_search(self.target, self.assets)
+        self.assertEqual(report["format_version"], 2)
+        data, header, docs, _ = self.read_index()
+        self.assertEqual(header["flags_offset"], header["docs_offset"] + len(docs) * 12)
+        flags = {doc["destination"]: data[header["flags_offset"] + i] for i, doc in enumerate(docs)}
+        self.assertEqual(flags["BOOKS/textbook.txt"], 3)
+        self.assertEqual(flags["BOOKS/plain.txt"], 1)
+        self.assertEqual(flags["CRITICAL/guide.txt"], 2)
+        self.assertEqual(flags["ZIM/OTHER/spoof.txt"], 0)
+        self.assertEqual(flags["SOFTWARE/spoof.txt"], 0)
+        result = self.run_js("""
+          let recordReads = 0;
+          const record = index.record.bind(index);
+          index.record = async (table, id) => { if (table === index.header.docs_offset) recordReads++; return record(table, id); };
+          const all = await index.search('hydration');
+          recordReads = 0;
+          const textbooks = await index.search('hydration', {shelf:'textbooks'});
+          const textbookRecordReads = recordReads;
+          const illustrated = await index.search('hydration', {shelf:'illustrated-guides'});
+          const byLabel = await index.search('textbook', {shelf:'textbooks'});
+          console.log(JSON.stringify({all, textbooks, illustrated, byLabel, textbookRecordReads, maxRead}));
+        """)
+        self.assertEqual(len(result["all"]["results"]), 50)
+        self.assertFalse(any(doc["destination"].startswith("BOOKS/") for doc in result["all"]["results"]))
+        self.assertEqual([doc["title"] for doc in result["textbooks"]["results"]], ["Plain volume", "Study volume"])
+        self.assertEqual({doc["title"] for doc in result["illustrated"]["results"]}, {"Practical guide", "Study volume"})
+        self.assertEqual(result["textbooks"]["matches"], 2)
+        self.assertEqual(result["textbookRecordReads"], 2)
+        self.assertEqual(result["byLabel"]["matches"], 2)
+        self.assertLessEqual(result["maxRead"], 65536)
+
+    def test_filter_flag_pages_use_bounded_reads_across_sparse_candidates(self):
+        # A sparse synthetic index exercises >64KiB of passage flags without a
+        # large source corpus. Only two passage IDs have the searched term.
+        self.add("textbook.txt", "water", resource_type="textbook")
+        build_search(self.target, self.assets)
+        _, _, docs, _ = self.read_index()
+        document = json.dumps(docs[0]).encode("utf-8")
+        count = 65540
+        data = bytearray(HEADER_SIZE) + document
+        docs_offset = len(data)
+        data.extend(struct.pack("<QI", HEADER_SIZE, len(document)) * count)
+        flags_offset = len(data)
+        data.extend(b"\x00" * count)
+        data[flags_offset] = data[flags_offset + count - 1] = 1
+        postings_offset = len(data)
+        data.extend(struct.pack("<III", 0, 1, 1) + struct.pack("<III", count - 1, 1, 1))
+        term = json.dumps(["water", postings_offset, 2]).encode("utf-8")
+        term_offset = len(data)
+        data.extend(term)
+        lexicon_offset = len(data)
+        data.extend(struct.pack("<QI", term_offset, len(term)))
+        header = json.dumps({"version": 2, "documents": count, "terms": 1, "average_length": 1,
+                             "docs_offset": docs_offset, "flags_offset": flags_offset,
+                             "lexicon_offset": lexicon_offset, "size": len(data),
+                             "tokenizer": "NFKC-lower-unicode-letter-number-v1"}).encode("utf-8")
+        data[:12 + len(header)] = b"OWLIDX2\n" + struct.pack("<I", len(header)) + header
+        (self.target / "SEARCH/library.owl").write_bytes(data)
+        result = self.run_js("""
+          const blocks = [];
+          const read = index.read.bind(index);
+          index.read = async (at, length) => { if (at >= index.header.flags_offset && at < index.header.flags_offset + index.header.documents) blocks.push(length); return read(at, length); };
+          const found = await index.search('water', {shelf:'textbooks'});
+          console.log(JSON.stringify({ids:found.results.map(row=>row.id), blocks, maxRead}));
+        """)
+        self.assertEqual(result["ids"], [0, count - 1])
+        self.assertEqual(result["blocks"], [65536, 4])
+        self.assertLessEqual(result["maxRead"], 65536)
+
+    def test_attribution_and_illustration_labels_survive_real_result_rendering(self):
+        attribution = "Access for free at openstax.org. <b>Publisher credit</b>"
+        license_name = "CC-BY-NC-SA-4.0"
+        self.add("BOOKS/biology.txt", "Photosynthesis converts sunlight into chemical energy.",
+                 title="Biology", resource_type="textbook", illustrated=True,
+                 attribution=attribution, license=license_name)
+        build_search(self.target, self.assets)
+        document = self.read_index()[2][0]
+        self.assertEqual(document["attribution"], attribution)
+        self.assertEqual(document["license"], license_name)
+        prelude = """
+          const ui = {};
+          function element(tag) { return {tag, textContent:'', children:[], handlers:{}, value:'',
+            addEventListener(event, handler){this.handlers[event]=handler}, focus(){},
+            append(...children){this.children.push(...children)}, replaceChildren(...children){this.children=children},
+            set innerHTML(value){throw new Error('Unsafe HTML rendering')} }; }
+          global.document = {getElementById(id){return ui[id] || (ui[id]=element(id))}, createElement:element};
+        """
+        result = self.run_js("""
+          const found = await index.search('photosynthesis', {shelf:'textbooks'});
+          await ui.indexFile.handlers.change({target:{files:[file]}});
+          ui.query.value = 'photosynthesis'; ui.shelf.value = 'textbooks';
+          await ui.searchForm.handlers.submit({preventDefault(){}});
+          console.log(JSON.stringify({record:found.results[0], labels:engine.resourceLabels(found.results[0]),
+            rendered:ui.results.children[0].children.map(node=>({tag:node.tag,text:node.textContent})), status:ui.status.textContent}));
+        """, prelude=prelude)
+        self.assertEqual(result["record"]["attribution"], attribution)
+        self.assertEqual(result["labels"], ["Textbook", "Illustrated"])
+        notice = [node for node in result["rendered"] if attribution in node["text"]]
+        self.assertEqual(len(notice), 1)
+        self.assertEqual(notice[0]["tag"], "p")
+        self.assertIn("License: " + license_name, notice[0]["text"])
+        self.assertIn("1 matches", result["status"])
+
     def test_metadata_only_is_explicit(self):
         self.add("SOFTWARE/reader.bin", "binary", format="exe", title="Reader", description="Offline reader")
         report = build_search(self.target, self.assets)
@@ -172,10 +288,34 @@ class SearchTests(unittest.TestCase):
         with Creator(self.target / "sample.zim") as creator:
             creator.add_item(Article())
             creator.set_mainpath("water")
-        report = build_search(self.target, [{"destination": "sample.zim", "format": "zim", "title": "Reference"}])
+        report = build_search(self.target, [{"destination": "sample.zim", "format": "zim", "title": "Reference",
+                                            "resource_type": "textbook", "illustrated": True, "reader_required": False}])
         self.assertIn("archivebodyuniqueterm", [term[0] for term in self.read_index()[3]])
         self.assertEqual(self.read_index()[2][0]["entry"], "water")
+        self.assertTrue(self.read_index()[2][0]["reader_required"])
         self.assertEqual(report["assets"][0]["status"], "full_text")
+        result = self.run_js("""
+          const all = await index.search('archivebodyuniqueterm');
+          const textbooks = await index.search('archivebodyuniqueterm', {shelf:'textbooks'});
+          const illustrated = await index.search('archivebodyuniqueterm', {shelf:'illustrated-guides'});
+          console.log(JSON.stringify({all:all.matches, textbooks:textbooks.matches, illustrated:illustrated.matches}));
+        """)
+        self.assertEqual(result, {"all": 1, "textbooks": 0, "illustrated": 0})
+
+    def test_invalid_collection_flags_are_rejected(self):
+        self.add("book.txt", "water", resource_type="textbook")
+        build_search(self.target, self.assets)
+        raw, header, _, _ = self.read_index()
+        data = bytearray(raw)
+        data[header["flags_offset"]] = 128
+        (self.target / "SEARCH/library.owl").write_bytes(data)
+        result = self.run_js("""
+          let error = '';
+          try { await index.search('water', {shelf:'textbooks'}); }
+          catch (e) { error = e.message; }
+          console.log(JSON.stringify({error}));
+        """)
+        self.assertIn("Invalid resource flags", result["error"])
 
     @unittest.skipUnless(importlib.util.find_spec("pypdf"), "pypdf not installed")
     def test_pdf_warning_flood_is_bounded_partial_and_logging_restored(self):

@@ -3,3 +3,6 @@ title: Tiny software demonstration only
 capacity_bytes: 100000000
 reserve_bytes: 5000000
 search_budget_bytes: 5000000
+minimum_coverage:
+  textbooks: 1
+  illustrated-guides: 1

@@ -3,3 +3,6 @@ title: Illustrated reference library
 capacity_bytes: 512000000000
 reserve_bytes: 52000000000
 search_budget_bytes: 90000000000
+minimum_coverage:
+  textbooks: 7
+  illustrated-guides: 8

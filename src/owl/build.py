@@ -23,7 +23,7 @@ from .verify import verify_drive
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LAYOUT = [f"CRITICAL/{name}" for name in ("FIRST_AID", "MEDICAL", "WATER_SANITATION", "FOOD", "AGRICULTURE", "ELECTRICAL", "MECHANICAL", "SHELTER")]
-LAYOUT += ["REFERENCE", "BOOKS", "MAPS", "ZIM/WIKIPEDIA", "ZIM/WIKIMED", "ZIM/WIKTIONARY", "ZIM/OTHER",
+LAYOUT += ["REFERENCE", "BOOKS/TEXTBOOKS", "MAPS", "ZIM/WIKIPEDIA", "ZIM/WIKIMED", "ZIM/WIKTIONARY", "ZIM/OTHER",
            "SOFTWARE/ANDROID", "SOFTWARE/WINDOWS", "SOFTWARE/MACOS", "SOFTWARE/LINUX", "SEARCH", "INDEX"]
 CORE_OUTPUTS = ["INVENTORY.json", "BUILD_INFO.json", "SHA256SUMS.txt", "LOCKED_CATALOG.yaml", "VERIFY.py", "SOURCE_NOTES.txt",
                 "SEARCH.html", "SEARCH/library.owl", "SEARCH/coverage.json"]
@@ -123,15 +123,18 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     if profile_name not in profiles:
         raise CatalogError(f"Unknown profile {profile_name!r}; choose {', '.join(profiles)}")
     all_assets = load_catalog(catalog, profiles, allow_local)
-    assets, unresolved = select_profile(all_assets, profile_name)
+    profile = profiles[profile_name]
+    assets, unresolved = select_profile(all_assets, profile)
     if not assets:
         raise CatalogError(f"Profile {profile_name} has no resolved content")
-    profile = profiles[profile_name]
     plan = capacity_plan(assets, profile)
     target = _root(target)
     progress(f"OWL {__version__} | {profile_name} | {target}")
     progress(f"Content/download total: {plan['content_bytes']:,} bytes ({plan['content_bytes'] / 1e9:.2f} GB)")
     progress(f"Estimated final ceiling: {plan['estimated_final_bytes']:,} bytes; reserve: {plan['reserve_bytes']:,}; indexing scratch budget: {plan['index_scratch_budget_bytes']:,}")
+    for shelf, coverage in plan["learning_coverage"].items():
+        floor = profile.get("minimum_coverage", {}).get(shelf, 0)
+        progress(f"{shelf}: {coverage['count']} directly readable; {coverage['required_critical_count']} required critical (minimum {floor})")
     for asset in unresolved:
         progress(f"UNRESOLVED (excluded): {asset['id']}: {asset['unresolved_reason']}")
     generated = [*GENERATED_PATHS, *CORE_OUTPUTS]
@@ -233,6 +236,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         for warning in search_report.get("warnings", []):
             progress(f"SEARCH COVERAGE: {warning}")
         inventory = {"schema_version": 1, "assets": inventory_assets, "search": search_report,
+                     "learning_coverage": plan["learning_coverage"],
                      "unresolved": unresolved}
         nav_files = generate_navigation(target, inventory_assets, inventory, search_report)
         atomic_write(safe_path(target, "INVENTORY.json"), _json(inventory))

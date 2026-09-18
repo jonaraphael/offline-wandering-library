@@ -25,10 +25,12 @@ from html.parser import HTMLParser
 from typing import BinaryIO, Callable, Iterable, Iterator
 
 
-MAGIC = b"OWLIDX1\n"
+MAGIC = b"OWLIDX2\n"
 HEADER_SIZE = 4096
 PASSAGE_CHARS = 8192
 MAX_ZIM_ITEM = 64 * 1024 * 1024
+TEXTBOOK_FLAG = 1
+ILLUSTRATED_GUIDE_FLAG = 2
 TEXT_FORMATS = {"txt", "text", "md", "markdown", "html", "htm", "epub", "pdf", "zim"}
 TOKEN_RE = re.compile(r"[^\W_]+", re.UNICODE)
 
@@ -212,16 +214,18 @@ def _units(path: Path, asset: dict, coverage: dict) -> Iterator[tuple[dict, Iter
                 _html_chunks(chunks()) if "html" in mime else chunks())
 
 
-def _add_record(db: sqlite3.Connection, output: BinaryIO, record: dict, doc_id: int) -> int:
+def _add_record(db: sqlite3.Connection, output: BinaryIO, record: dict, doc_id: int,
+                flags: int) -> int:
     if doc_id >= 2**32:
-        raise SearchError("Index exceeds version 1's 2^32 passage limit")
+        raise SearchError("Index exceeds version 2's 2^32 passage limit")
     data = _json(record)
     if len(data) > 1024 * 1024:
         raise SearchError("Search record exceeds 1 MiB: shorten catalog metadata")
-    db.execute("INSERT INTO docs VALUES (?, ?, ?)", (doc_id, output.tell(), len(data)))
+    db.execute("INSERT INTO docs VALUES (?, ?, ?, ?)", (doc_id, output.tell(), len(data), flags))
     output.write(data)
     counts = Counter(tokens(record["text"]))
     for key, weight in [("title", 5), ("category", 2), ("tags", 2),
+                        ("resource_labels", 2),
                         ("destination", 1), ("source", 1), ("entry", 1)]:
         for token in tokens(str(record.get(key, ""))):
             counts[token] += weight
@@ -239,6 +243,7 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
     PDF pages, oversized ZIM entries, and unsupported binary formats are reported
     in coverage rather than silently claiming full-text coverage.
     """
+    from .catalog import learning_shelves
     check_extractors(assets)
     target = Path(target)
     directory = _safe_path(target, "SEARCH")
@@ -251,7 +256,7 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
         from .safety import reject_symlinks
         reject_symlinks(work_dir)
         work_dir.mkdir(parents=True, exist_ok=True)
-    report = {"format_version": 1, "documents": 0, "assets": [], "warnings": [],
+    report = {"format_version": 2, "documents": 0, "assets": [], "warnings": [],
               "generated_files": ["SEARCH.html", "SEARCH/library.owl", "SEARCH/coverage.json"]}
     total_length = 0
     last_progress = time.monotonic()
@@ -271,7 +276,7 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
         db.execute("PRAGMA cache_size=-16384")
         db.execute("PRAGMA mmap_size=0")
         db.executescript("""
-            CREATE TABLE docs (id INTEGER PRIMARY KEY, offset INTEGER, size INTEGER);
+            CREATE TABLE docs (id INTEGER PRIMARY KEY, offset INTEGER, size INTEGER, flags INTEGER);
             CREATE TABLE postings (term TEXT, doc INTEGER, tf INTEGER, dl INTEGER,
                                    PRIMARY KEY (term,doc)) WITHOUT ROWID;
             CREATE TABLE lexicon (id INTEGER PRIMARY KEY, term TEXT, offset INTEGER, count INTEGER);
@@ -292,19 +297,29 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
                                 "destination": asset["destination"], "status": "full_text",
                                 "passages": 0, "text_units": 0, "empty_units": 0,
                                 "warning_count": 0, "warnings": []}
+                    shelves = learning_shelves(asset)
+                    flags = ((TEXTBOOK_FLAG if "textbooks" in shelves else 0) |
+                             (ILLUSTRATED_GUIDE_FLAG if "illustrated-guides" in shelves else 0))
+                    resource_type = asset.get("resource_type", "reference")
+                    illustrated = bool(asset.get("illustrated", False))
+                    resource_labels = " ".join([resource_type, "illustrated" if illustrated else ""]).strip()
                     base = {"title": asset.get("title", path.name),
                             "destination": asset["destination"], "category": asset.get("category", ""),
                             "source": asset.get("publisher") or asset.get("source_url", ""),
                             "tags": " ".join(asset.get("tags", [])),
-                            "reader_required": bool(asset.get("reader_required", fmt in {"zim", "epub"})),
-                            "format": fmt, "critical": bool(asset.get("critical", False))}
+                            "reader_required": fmt == "zim" or bool(asset.get("reader_required", fmt == "epub")),
+                            "format": fmt, "critical": bool(asset.get("critical", False)),
+                            "resource_type": resource_type, "illustrated": illustrated,
+                            "resource_labels": resource_labels,
+                            "attribution": asset.get("attribution", ""),
+                            "license": asset.get("license", "")}
                     for metadata, chunks in _units(path, asset, coverage):
                         coverage["text_units"] += 1
                         nonempty = False
                         for passage_number, passage in enumerate(_passages(chunks), 1):
                             nonempty = True
                             record = {**base, **metadata, "text": passage, "passage": passage_number}
-                            total_length += _add_record(db, output, record, report["documents"])
+                            total_length += _add_record(db, output, record, report["documents"], flags)
                             report["documents"] += 1
                             coverage["passages"] += 1
                             if report["documents"] % 1000 == 0:
@@ -320,7 +335,7 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
                         reason = ("No extractable text" if fmt in TEXT_FORMATS else "Binary format: searchable catalog metadata only")
                         _warn(coverage, reason)
                         record = {**base, "text": asset.get("description", ""), "metadata_only": True}
-                        total_length += _add_record(db, output, record, report["documents"])
+                        total_length += _add_record(db, output, record, report["documents"], flags)
                         report["documents"] += 1
                         coverage["passages"] = 1
                     elif coverage["warning_count"]:
@@ -335,6 +350,11 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
                 docs_offset = output.tell()
                 for offset, size in db.execute("SELECT offset,size FROM docs ORDER BY id"):
                     output.write(struct.pack("<QI", offset, size))
+                # One byte per passage enables exact filtering without loading
+                # the corpus or decoding every candidate's JSON record.
+                flags_offset = output.tell()
+                for (flags,) in db.execute("SELECT flags FROM docs ORDER BY id"):
+                    output.write(bytes([flags]))
                 terms = 0
                 previous = None
                 posting_offset = count = 0
@@ -365,9 +385,10 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
                 lexicon_offset = output.tell()
                 for offset, size in db.execute("SELECT offset,size FROM lex_offsets ORDER BY id"):
                     output.write(struct.pack("<QI", offset, size))
-                header = {"version": 1, "documents": report["documents"], "terms": terms,
+                header = {"version": 2, "documents": report["documents"], "terms": terms,
                           "average_length": total_length / max(1, report["documents"]),
-                          "docs_offset": docs_offset, "lexicon_offset": lexicon_offset,
+                          "docs_offset": docs_offset, "flags_offset": flags_offset,
+                          "lexicon_offset": lexicon_offset,
                           "size": output.tell(), "tokenizer": "NFKC-lower-unicode-letter-number-v1",
                           "passage_characters": PASSAGE_CHARS}
                 data = _json(header)

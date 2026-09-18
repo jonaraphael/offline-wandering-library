@@ -26,7 +26,7 @@ All four production profiles include these original PDFs, retaining their notice
 | Mechanical | [FAA Aviation Maintenance Technician Handbook: General](https://www.faa.gov/regulations_policies/handbooks_manuals/aviation) | FAA-H-8083-30B, 2023; tools, materials, electricity and mechanical principles |
 | Shelter | [FEMA Residential Sheltering](https://www.fema.gov/sites/default/files/2020-07/residential-sheltering-safe-rooms_recovery-advisory.pdf) | June 2011; six-page advisory on storm shelter choices |
 | Field shelter | [US Army ATP 3-50.21, Survival](https://armypubs.army.mil/epubs/DR_pubs/DR_a/pdf/web/ARN12086_ATP%203-50x21%20FINAL%20WEB%202.pdf) | September 18, 2018; chapter 6 covers field shelters and clothing, with illustrations |
-| Navigation | [USGS Finding Your Way With Map and Compass](https://www.usgs.gov/media/files/finding-your-way-map-and-compass) | Publisher file posted May 3, 2019; explicitly marked public domain |
+| Navigation | [USGS Finding Your Way With Map and Compass](https://www.usgs.gov/media/files/finding-your-way-map-and-compass) | Fact Sheet 035-01, March 2001; publisher file posted May 3, 2019; explicitly marked public domain |
 | Preparedness | [FEMA Emergency Supply Kit Checklist](https://www.fema.gov/sites/default/files/documents/fema_hm-emergency-supply-kit-checklist_english.pdf) | Undated publication; exact snapshot pinned |
 
 The WHO publication is **CC BY-NC-SA 3.0 IGO**. Its own front matter permits noncommercial redistribution with attribution, requires preserving notices, and explains third-party exceptions. Suggested attribution: *Basic emergency care: approach to the acutely ill and injured. Geneva: World Health Organization and the International Committee of the Red Cross; 2018. Licence: CC BY-NC-SA 3.0 IGO.* There is no WHO or ICRC endorsement of OWL. The 2018 book predates WHO's November 2025 postpartum haemorrhage update; the publisher page records that update. Clinical references require training and periodic professional review. OWL does not certify medical content as current or appropriate for every patient.
@@ -34,6 +34,42 @@ The WHO publication is **CC BY-NC-SA 3.0 IGO**. Its own front matter permits non
 Kuphaldt's included volumes identify **CC BY 4.0** in their license appendix. Federal-agency publications are generally US Government works; credited third-party illustrations and other contributions keep their own rights. Government hosting alone is not evidence that every separately credited component is public domain. Retain the complete original publications, their attribution and notices. The [Department of the Interior explains this distinction](https://www.doi.gov/copyright). The catalog's `redistributable` field means redistribution is permitted **subject to the named license and its conditions**, not that all uses in all jurisdictions are unrestricted.
 
 These references have uneven depth and different publication dates. Garden guidance is US-oriented; aircraft-maintenance principles do not replace repair instructions for a particular machine; storm-shelter advice does not replace local building codes. The Army outdoor-survival handbook is publicly released government material in a military training context; its historical medical sections are supplementary to the civilian medical references. The corpus is a useful initial collection, not a professionally curated complete survival curriculum.
+
+## Required textbooks and illustrated guides
+
+Textbooks and illustrated guides are part of the directly readable baseline in **every production profile**, including `critical-64gb`. The two complete Kuphaldt electrical textbooks above are joined by five complete OpenStax textbooks under `BOOKS/TEXTBOOKS/`. They provide foundations for understanding quantities, materials, machines and living systems; they are not replacements for task-specific safety or clinical guidance.
+
+| Textbook | PDF pages | Exact downloaded bytes | Foundation |
+| --- | ---: | ---: | --- |
+| [Prealgebra 2e](https://openstax.org/details/books/prealgebra-2e) | 1,074 | 63,194,495 | Arithmetic, fractions, ratios, measurement and algebra |
+| [College Physics 2e](https://openstax.org/details/books/college-physics-2e) | 1,671 | 263,463,256 | Mechanics, fluids, heat, electricity, waves and optics |
+| [Chemistry 2e](https://openstax.org/details/books/chemistry-2e) | 1,203 | 217,794,376 | Matter, reactions, solutions, thermodynamics and electrochemistry |
+| [Biology 2e](https://openstax.org/details/books/biology-2e) | 1,475 | 401,298,122 | Cells, genetics, plants, animals and ecology |
+| [Anatomy and Physiology 2e](https://openstax.org/details/books/anatomy-and-physiology-2e) | 1,347 | 476,335,014 | Human structures and organ systems |
+
+The five files total **1,422,085,263 bytes** (about 1.42 GB), keeping the entire critical profile at **1,574,545,596 bytes** before generated search and navigation. Original PDF figures, labels, worked examples, tables and exercises are retained. OWL does not replace these books with text extracts, compress their images, or split them into missing-context snippets. Search extracts text separately while linking to the intact PDF. External activities, videos and publisher web features linked from the books are not downloaded.
+
+The original download URLs were obtained from the publisher's book pages and [OpenStax's public book metadata](https://openstax.org/apps/cms/api/books/?format=json), then fully downloaded over HTTPS and hashed. The exact downloaded PDFs identify **©2026 Rice University, CC BY-NC-SA 4.0**, even where older API update timestamps remain. The catalog therefore records a dated publisher-PDF snapshot, not an inferred edition date from that API. These pins are for noncommercial reuse under the actual notices in the files; do not infer a different license from older OpenStax editions. Preserve all third-party credits, notices and trademark restrictions. The attribution required by the included PDFs is **“Access for free at openstax.org.”** Keep it on every digital page view of reused content, including extracted excerpts. The full author/book attribution and source URL are retained in the catalog and generated inventory. No OpenStax or Rice University endorsement is implied.
+
+`resource_type: textbook` identifies a substantial teaching text. `illustrated: true` means representative pages were actually rendered and visually checked for relevant diagrams or photographs in this source snapshot. It does not claim every page is illustrated, every diagram is current, or a complete pedagogical review has occurred. Untagged/false entries can still contain illustrations; they have not been admitted to this curated shelf on that basis. Both shelves may include the same book. The following representative pages were inspected; PDF page numbers count from the first physical page, including covers:
+
+| Included work | PDF page | Checked visual content |
+| --- | ---: | --- |
+| Prealgebra 2e | 38 | Figure 1.10: base-ten regrouping in addition, with worked examples |
+| College Physics 2e | 45 | Figures 1.23–1.24: accuracy and precision target diagrams |
+| Chemistry 2e | 28 | Figure 1.6: solid/liquid/gas diagrams; Figure 1.7: plasma photograph |
+| Biology 2e | 40 | Figures 1.10–1.11: organism photographs explaining biological responses |
+| Anatomy and Physiology 2e | 28 | Figure 1.4: labeled human organ-system illustrations |
+| Lessons in Electric Circuits: DC | 22 | Electron-flow and marble-loop circuit diagrams |
+| Lessons in Electric Circuits: AC | 14 | Figures 1.5–1.7: gear train, transformer and power-transmission schematics |
+| FEMA CERT | 103 | Image 3.1: tourniquet photograph alongside first-aid instruction |
+| WHO–ICRC Basic Emergency Care | 116 | Shock-treatment flowchart and anatomical illustration; 2018 clinical edition caveat applies |
+| USDA Canning Guide 1 | 12 | Raw-pack/hot-pack jar-filling diagrams |
+| FAA General Maintenance Handbook | 24 | Figures 1.1–1.2: nitrogen cylinder photograph and hazard-identification diamond |
+| Army Survival | 140 | Figure 6-2: poncho lean-to, alongside field-shelter instructions |
+| USGS Map and Compass | 1 | Annotated topographic-map example and scale table |
+
+Every production profile enforces `minimum_coverage` floors of **seven required critical textbooks** and **eight required critical illustrated guides**. This snapshot includes seven and thirteen respectively. Only resolved, directly readable files count; a ZIM encyclopedia, optional book or reader package cannot satisfy these floors. The builder prioritizes required critical teaching material before large archives. The floor is an intentional guard against silently dropping the teaching collection when a catalog is edited.
 
 ## Archives, maps and larger profiles
 
