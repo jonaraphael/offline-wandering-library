@@ -16,8 +16,8 @@ import subprocess
 import sys
 import tempfile
 import unittest
-from contextlib import redirect_stderr
-from unittest.mock import patch
+from contextlib import closing, redirect_stderr
+from unittest.mock import Mock, patch
 import zipfile
 
 from owl.search import (HEADER_SIZE, SearchError, build_search, checkpoint_usage,
@@ -390,6 +390,14 @@ class SearchTests(unittest.TestCase):
         self.assets.append({"destination": "book.epub", "format": "epub", "title": "Checkpoint book"})
         return path
 
+    def test_database_setup_interruption_closes_connection_and_propagates(self):
+        database = Mock()
+        database.execute.side_effect = KeyboardInterrupt
+        with patch("owl.search.sqlite3.connect", return_value=database):
+            with self.assertRaises(KeyboardInterrupt):
+                search._database(self.target / "interrupted.sqlite3")
+        database.close.assert_called_once_with()
+
     def clean_index_bytes(self):
         destination = self.target / "clean"
         destination.mkdir()
@@ -417,7 +425,7 @@ class SearchTests(unittest.TestCase):
         self.assertFalse((self.target / "SEARCH/library.owl").exists())
         self.assertFalse((self.target / "SEARCH/coverage.json").exists())
         job, _, _ = search._job_paths(self.target, None)
-        with sqlite3.connect(job / "build.sqlite3") as db:
+        with closing(sqlite3.connect(job / "build.sqlite3")) as db:
             state = json.loads(db.execute("SELECT data FROM checkpoint").fetchone()[0])
             self.assertEqual(state["unit_cursor"], 2)
             self.assertEqual(db.execute("SELECT COUNT(*) FROM docs").fetchone()[0], 2)
@@ -428,7 +436,7 @@ class SearchTests(unittest.TestCase):
                           "SELECT offset,size FROM lex_offsets ORDER BY id"):
                 plan = db.execute("EXPLAIN QUERY PLAN " + query).fetchall()
                 self.assertFalse(any("TEMP B-TREE" in str(row) for row in plan), plan)
-        with search._database(job / "build.sqlite3") as db:
+        with closing(search._database(job / "build.sqlite3")) as db:
             self.assertEqual(db.execute("PRAGMA temp_store").fetchone()[0], 2)
         with (job / "records.bin").open("ab") as handle:
             handle.write(b"uncommitted crash tail")

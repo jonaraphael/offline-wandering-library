@@ -101,7 +101,7 @@ previous physical-device and full-Wikipedia indexing limitations still apply.
 
 ## In-place interruption and resumption
 
-The pause/resume update was checked with 171 automated tests. New cases cover
+The pause/resume update was checked with 172 automated tests. New cases cover
 cooperative interruption, HTTP retry exhaustion, validated local-prefix resume,
 complete partial-file promotion, process-kill lock recovery, SQLite rollback
 after abrupt process exit, resumed PDF/ZIM cursors, unchanged-index reuse,

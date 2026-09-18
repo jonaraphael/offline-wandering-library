@@ -402,10 +402,12 @@ def _database(path: Path) -> sqlite3.Connection:
         db.execute('PRAGMA cache_size=-16384')
         db.execute('PRAGMA mmap_size=0')
         return db
-    except sqlite3.Error as error:
+    except BaseException as error:
         if db is not None:
             db.close()
-        raise SearchError(f'Cannot open search checkpoint database {path}: {error}') from error
+        if isinstance(error, sqlite3.Error):
+            raise SearchError(f'Cannot open search checkpoint database {path}: {error}') from error
+        raise
 
 
 def _save_checkpoint(db: sqlite3.Connection, records: BinaryIO, state: dict) -> None:
