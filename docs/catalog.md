@@ -3,15 +3,44 @@
 `catalog/library.yaml` is the production recipe. `catalog/demo.yaml` is a tiny,
 original fixture for a network-free demonstration; it is not an emergency manual.
 Profiles in `profiles/*.yaml` declare decimal capacity, free-space reserve and a
-search-output allowance. Profile membership is explicit on each asset; there is
-no implicit inheritance.
+search-output allowance. The three large profiles select ordered collections
+from `catalog/resources.yaml` through `default_resources`; `resource_overrides`
+specifies smaller map or Survivor allocations. Their asset selection is derived
+from the selected resources, not duplicated in each file's `profiles` list.
+The fixed `critical-64gb` and demo baselines still use asset `profiles` membership.
+An empty asset `profiles` list means it is selected only through a named resource.
 
-Every production profile also declares `minimum_coverage` for `textbooks` and
+The fixed critical/demo profiles declare `minimum_coverage` for `textbooks` and
 `illustrated-guides`. These floors count **resolved, required, critical, directly
-readable** assets. Removing core books, making them optional, or replacing them
-with a reader-dependent archive fails profile resolution before any download.
-The small demo/custom profiles may omit these floors. An illustrated textbook
-belongs to both collections; the counts are overlapping, not additional copies.
+readable** assets. The large-profile defaults follow the explicit acquisition
+list: OpenStax begins at 512 GB, while electrical textbooks and illustrated
+practical material remain in the complementary direct core. Explicit resource
+include/exclude customization overrides fixed-profile learning floors so a user
+can remove unwanted books deliberately. Critical-format rules and reader
+dependencies still apply. An illustrated textbook belongs to both learning
+collections; those counts overlap and do not imply additional copies.
+
+Resource entries describe intended scope, approximate target bytes, available
+asset IDs, and `ready`, `partial`, or `unresolved` status. Their estimates must
+never be used as exact downloadable file sizes or checksums. `--list-resources`
+enumerates all 46 numbered entries and named support collections. `--include`
+and `--exclude` accept stable IDs or numbers, repeated or comma-separated. Unknown
+selectors or a resource both included and excluded are errors. See
+[content selection](content-selection.md) for the complete curation rules.
+
+Plans distinguish requested budgets from verified available bytes. Known exact
+file sizes raise planning estimates when necessary. A world-map selection
+replaces the North America archive and credits its 21 GB allocation only when
+that archive was otherwise selected; regional topography remains. Exclusion
+changes the next build's inventory but does not delete old drive content.
+
+Selected incomplete collections block a normal build before downloads or writes.
+`--allow-incomplete` explicitly builds only available verified assets and records
+`content_complete: false` in the inventory, build metadata, and
+`CONTENT_SELECTION.json`, with prominent navigation notices. It does not bypass
+hash checks, unsafe paths, required unresolved file checks, or reader dependencies.
+`complete` describes a finished, verified build process; `content_complete`
+separately describes fulfillment of the selected collection definitions.
 
 Required asset fields are `id`, `title`, `category`, `format`, `source_url`,
 `destination`, `version`, `size_bytes`, `sha256`, `license`, `redistributable`,
@@ -86,8 +115,13 @@ scratch on a larger disk. An existing cache is still budgeted conservatively;
 reduce a reviewed profile's allowance only with measured evidence.
 
 To reproduce a build's content, retain its `LOCKED_CATALOG.yaml` and the matching
-profile files, then pass that catalog with `--catalog`. Preserve the downloaded
-cache because upstream snapshots may disappear. `BUILD_INFO.json` records Python
+profile files, then pass that catalog with `--catalog`. The lock captures the
+exact selected files and collection coverage, bypassing current resource defaults;
+it uses the original profile ID and does not require the resource registry. Do not
+add include/exclude flags to a locked selection: customize the source catalog
+instead. Rebuilding an explicitly partial selection still requires
+`--allow-incomplete`. Preserve the downloaded cache because upstream snapshots
+may disappear. `BUILD_INFO.json` records Python
 and extractor versions. `requirements-tested.txt` pins the initial tested Python
 dependencies. Use the same tool commit, Python and dependency versions to reproduce
 index bytes; build timestamps and provenance can legitimately differ.

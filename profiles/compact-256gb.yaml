@@ -1,8 +1,33 @@
 id: compact-256gb
-title: Emergency essentials and compact archives
+title: Survive + read + repair
 capacity_bytes: 256000000000
-reserve_bytes: 26000000000
-search_budget_bytes: 40000000000
-minimum_coverage:
-  textbooks: 7
-  illustrated-guides: 8
+content_target_min_bytes: 190000000000
+content_target_max_bytes: 210000000000
+search_budget_bytes: 24000000000
+readers_budget_bytes: 5000000000
+reserve_bytes: 16000000000
+default_resources:
+- owl-direct-core
+- hesperian-health
+- msf-medical
+- who-emergency-care
+- who-wash
+- sphere-handbook
+- food-preservation
+- niosh-chemical-hazards
+- fao-agriculture
+- gutenberg-core
+- childrens-library
+- wikipedia-en
+- wikimed
+- wikem
+- regional-maps
+- appropedia
+- cd3wd
+- ifixit
+- low-tech-magazine
+resource_overrides:
+  regional-maps:
+    target_bytes: 10000000000
+    exclude_asset_ids:
+    - map_osm_north_america

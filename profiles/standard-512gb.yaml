@@ -1,8 +1,44 @@
 id: standard-512gb
-title: Illustrated reference library
+title: Survive + rebuild + educate
 capacity_bytes: 512000000000
-reserve_bytes: 52000000000
-search_budget_bytes: 90000000000
-minimum_coverage:
-  textbooks: 7
-  illustrated-guides: 8
+content_target_min_bytes: 390000000000
+content_target_max_bytes: 420000000000
+search_budget_bytes: 48000000000
+readers_budget_bytes: 5000000000
+reserve_bytes: 38000000000
+default_resources:
+- owl-direct-core
+- hesperian-health
+- msf-medical
+- who-emergency-care
+- who-wash
+- sphere-handbook
+- food-preservation
+- niosh-chemical-hazards
+- fao-agriculture
+- gutenberg-core
+- childrens-library
+- wikipedia-en
+- wikimed
+- wikem
+- regional-maps
+- appropedia
+- cd3wd
+- ifixit
+- low-tech-magazine
+- survivor-tier-a
+- stackoverflow-durable
+- stackexchange-practical
+- openstax-core
+- libretexts-stem
+- wikibooks-en
+- wiktionary-en
+- phet
+- wikiversity-en
+- civilian-preparedness
+- wikivoyage-en
+- world-factbook
+- linux-programming-docs
+resource_overrides:
+  survivor-tier-a:
+    target_bytes: 75000000000

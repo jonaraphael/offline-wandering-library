@@ -16,7 +16,7 @@ import yaml
 
 from . import __version__
 from .catalog import (CatalogError, capacity_plan, fingerprint, load_catalog,
-                      load_profiles, select_profile)
+                      load_profiles, read_yaml, resolve_content, resolve_locked_content)
 from .download import DownloadError, download, verified
 from .safety import SafetyError, atomic_write, reject_symlinks, safe_path, sha256_file
 from .verify import verify_drive
@@ -25,7 +25,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 LAYOUT = [f"CRITICAL/{name}" for name in ("FIRST_AID", "MEDICAL", "WATER_SANITATION", "FOOD", "AGRICULTURE", "ELECTRICAL", "MECHANICAL", "SHELTER")]
 LAYOUT += ["REFERENCE", "BOOKS/TEXTBOOKS", "MAPS", "ZIM/WIKIPEDIA", "ZIM/WIKIMED", "ZIM/WIKTIONARY", "ZIM/OTHER",
            "SOFTWARE/ANDROID", "SOFTWARE/WINDOWS", "SOFTWARE/MACOS", "SOFTWARE/LINUX", "SEARCH", "INDEX"]
-CORE_OUTPUTS = ["INVENTORY.json", "BUILD_INFO.json", "SHA256SUMS.txt", "LOCKED_CATALOG.yaml", "VERIFY.py", "SOURCE_NOTES.txt",
+CORE_OUTPUTS = ["INVENTORY.json", "BUILD_INFO.json", "SHA256SUMS.txt", "LOCKED_CATALOG.yaml", "CONTENT_SELECTION.json", "VERIFY.py", "SOURCE_NOTES.txt",
                 "SEARCH.html", "SEARCH/library.owl", "SEARCH/coverage.json"]
 
 
@@ -115,7 +115,9 @@ def _expected(asset: dict, state: dict) -> str | None:
 
 def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
           cache_dir: Path | None = None, work_dir: Path | None = None,
-          allow_local: bool = False, plan_only: bool = False, progress=print) -> dict:
+          allow_local: bool = False, plan_only: bool = False,
+          resources_catalog: Path | None = None, include=(), exclude=(),
+          allow_incomplete: bool = False, progress=print) -> dict:
     from .navigation import GENERATED_PATHS, generate_navigation
     from .search import build_search, check_extractors
 
@@ -124,13 +126,39 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         raise CatalogError(f"Unknown profile {profile_name!r}; choose {', '.join(profiles)}")
     all_assets = load_catalog(catalog, profiles, allow_local)
     profile = profiles[profile_name]
-    assets, unresolved = select_profile(all_assets, profile)
-    if not assets:
+    lock = read_yaml(catalog).get("selection_lock")
+    if lock is not None:
+        if include or exclude:
+            raise CatalogError("Customize the source catalog, not a locked selection")
+        assets, unresolved, selection = resolve_locked_content(all_assets, profile, lock)
+    else:
+        assets, unresolved, selection = resolve_content(
+            all_assets, profile, resources_path=resources_catalog or catalog.with_name("resources.yaml"),
+            include=include, exclude=exclude)
+    if not assets and not plan_only:
         raise CatalogError(f"Profile {profile_name} has no resolved content")
-    plan = capacity_plan(assets, profile)
+    plan = capacity_plan(assets, profile, selection)
+    content_complete = not selection or not selection["incomplete_resources"]
     target = _root(target)
     progress(f"OWL {__version__} | {profile_name} | {target}")
     progress(f"Content/download total: {plan['content_bytes']:,} bytes ({plan['content_bytes'] / 1e9:.2f} GB)")
+    if selection:
+        progress(f"Selected resource content target: {selection['content_target_bytes']:,} bytes; "
+                 f"reader allowance: {selection['readers_budget_bytes']:,}; "
+                 f"planned final with search: {plan['planned_final_bytes']:,}")
+        if profile.get("content_target_max_bytes"):
+            progress(f"Default content target window: {profile['content_target_min_bytes']:,}–"
+                     f"{profile['content_target_max_bytes']:,} bytes (not an automatic fill quota)")
+            progress(f"Content allocation: {plan['target_window_status']}. Unallocated space is not filled automatically.")
+        progress("Selected resources: " + ", ".join(selection["selected_ids"]))
+        for row in selection["incomplete_resources"]:
+            progress(f"RESOURCE {row['status'].upper()}: {row['id']}: {row['reason']}")
+        if not content_complete and not plan_only and not allow_incomplete:
+            raise CatalogError("Selected resource collections are incomplete. Review --list-resources/--plan; "
+                               "resolve or --exclude them, or explicitly use --allow-incomplete to build only "
+                               "verified available files. No files were written.")
+        if not content_complete:
+            progress("CONTENT INCOMPLETE: available files do not fulfill the selected resource collection targets.")
     progress(f"Estimated final ceiling: {plan['estimated_final_bytes']:,} bytes; reserve: {plan['reserve_bytes']:,}; indexing scratch budget: {plan['index_scratch_budget_bytes']:,}")
     for shelf, coverage in plan["learning_coverage"].items():
         floor = profile.get("minimum_coverage", {}).get(shelf, 0)
@@ -236,11 +264,17 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         for warning in search_report.get("warnings", []):
             progress(f"SEARCH COVERAGE: {warning}")
         inventory = {"schema_version": 1, "assets": inventory_assets, "search": search_report,
+                     "content_selection": selection, "content_complete": content_complete,
                      "learning_coverage": plan["learning_coverage"],
                      "unresolved": unresolved}
         nav_files = generate_navigation(target, inventory_assets, inventory, search_report)
         atomic_write(safe_path(target, "INVENTORY.json"), _json(inventory))
-        atomic_write(safe_path(target, "LOCKED_CATALOG.yaml"), _json({"schema_version": 1, "assets": inventory_assets}))
+        atomic_write(safe_path(target, "CONTENT_SELECTION.json"), _json({
+            "schema_version": 1, "profile": profile_name, "content_complete": content_complete,
+            "selection": selection}))
+        atomic_write(safe_path(target, "LOCKED_CATALOG.yaml"), _json({
+            "schema_version": 1, "assets": inventory_assets,
+            "selection_lock": {"profile_id": profile_name, "content_selection": selection}}))
         atomic_write(safe_path(target, "VERIFY.py"), Path(__file__).with_name("verify.py").read_bytes())
         source_notes = REPO_ROOT / "docs/sources.md"
         atomic_write(safe_path(target, "SOURCE_NOTES.txt"), source_notes.read_bytes() if source_notes.exists() else
@@ -252,6 +286,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             except importlib.metadata.PackageNotFoundError:
                 pass
         info = {"schema_version": 1, "owl_version": __version__, "built_at": datetime.now(timezone.utc).isoformat(),
+                "content_selection": selection, "content_complete": content_complete,
                 "python_version": sys.version.split()[0], "dependencies": versions,
                 "profile": profile, "catalog_sha256": sha256_file(catalog.resolve()), "plan": plan,
                 "asset_count": len(assets), "unresolved_asset_ids": [a["id"] for a in unresolved],
@@ -274,13 +309,13 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             raise SafetyError("Completed-drive verification failed")
         state["complete"] = True
         atomic_write(state_path, _json(state))
-        progress(f"BUILD COMPLETE: {target / 'START_HERE.html'}")
+        progress(f"BUILD COMPLETE{' (PARTIAL CONTENT)' if not content_complete else ''}: {target / 'START_HERE.html'}")
         return info
 
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("target", type=Path)
+    parser.add_argument("target", type=Path, nargs="?")
     parser.add_argument("--profile", default="critical-64gb")
     parser.add_argument("--catalog", type=Path, default=REPO_ROOT / "catalog/library.yaml")
     parser.add_argument("--profiles-dir", type=Path, default=REPO_ROOT / "profiles")
@@ -288,10 +323,48 @@ def main(argv=None) -> int:
     parser.add_argument("--work-dir", type=Path, help="directory for temporary search database")
     parser.add_argument("--plan", action="store_true", help="validate and estimate without writing/downloading")
     parser.add_argument("--allow-local", action="store_true", help="allow trusted local fixtures and plain HTTP test sources")
+    parser.add_argument("--resources-catalog", type=Path, help="resource registry (default: resources.yaml beside catalog)")
+    parser.add_argument("--include", action="append", default=[], metavar="RESOURCE", help="add resource ID or list number; repeat or separate by commas")
+    parser.add_argument("--exclude", action="append", default=[], metavar="RESOURCE", help="omit resource ID or list number; repeat or separate by commas; does not delete existing files")
+    parser.add_argument("--list-resources", action="store_true", help="list every selectable collection without a target or downloads")
+    parser.add_argument("--allow-incomplete", action="store_true", help="explicitly build available verified files from incomplete collections")
     args = parser.parse_args(argv)
     try:
+        if args.list_resources:
+            from .resources import load_resources, resolve_resources
+            profiles = load_profiles(args.profiles_dir)
+            if args.profile not in profiles:
+                raise CatalogError(f"Unknown profile: {args.profile}")
+            assets = load_catalog(args.catalog, profiles, args.allow_local)
+            resources = load_resources(args.resources_catalog or args.catalog.with_name("resources.yaml"), assets)
+            report = resolve_resources(assets, profiles[args.profile], resources,
+                                       include=args.include, exclude=args.exclude)
+            rows = {row["id"]: row for row in report["resource_rows"]}
+            print("* = selected; GB = effective selected target, or base estimate when unselected. All units decimal.")
+            for identity, resource in resources.items():
+                selected = "*" if identity in report["selected_ids"] else " "
+                number = str(resource.get("number") or "-")
+                target_bytes = rows.get(identity, {}).get("effective_target_bytes", resource["target_bytes"])
+                print(f"{selected} {number:>2} {identity:28} {resource['status']:10} "
+                      f"{target_bytes/1e9:7.2f} GB  {resource['title']}")
+            print(f"Selected content target: {report['content_target_bytes']:,} bytes; "
+                  f"known resolved files: {report['resolved_asset_bytes']:,}; "
+                  f"incomplete collections: {len(report['incomplete_resources'])}. "
+                  "Targets are planning estimates, not verified download sizes.")
+            if "default_resources" not in profiles[args.profile]:
+                fixed, _, _ = resolve_content(assets, profiles[args.profile],
+                    resources_path=args.resources_catalog or args.catalog.with_name("resources.yaml"),
+                    include=args.include, exclude=args.exclude)
+                print(f"Fixed-profile baseline/selection: {len(fixed)} verified asset definitions, "
+                      f"{sum(a['size_bytes'] for a in fixed):,} bytes. "
+                      "The stars above describe named additions, not baseline membership.")
+            return 0
+        if args.target is None:
+            parser.error("target is required unless --list-resources is used")
         build(args.target, catalog=args.catalog, profiles_dir=args.profiles_dir, profile_name=args.profile,
-              cache_dir=args.cache_dir, work_dir=args.work_dir, allow_local=args.allow_local, plan_only=args.plan)
+              cache_dir=args.cache_dir, work_dir=args.work_dir, allow_local=args.allow_local, plan_only=args.plan,
+              resources_catalog=args.resources_catalog, include=args.include, exclude=args.exclude,
+              allow_incomplete=args.allow_incomplete)
         return 0
     except KeyboardInterrupt:
         print("Interrupted; verified files and resumable partial downloads retained.", file=sys.stderr)

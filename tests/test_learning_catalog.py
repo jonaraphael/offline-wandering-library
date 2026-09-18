@@ -1,139 +1,87 @@
-"""Repository policy: every production drive includes the core learning library.
-
-These checks read the real recipe without downloading content. Fixed policy
-floors deliberately remain independent of configurable profile minima, so
-reducing a profile's declared floor cannot silently remove the core collection.
-"""
-
-from __future__ import annotations
-
+"""Check the real resource recipe and its profile policies without downloads."""
 from pathlib import Path
 import unittest
 
-from owl.catalog import (
-    CatalogError,
-    capacity_plan,
-    learning_coverage,
-    learning_shelves,
-    load_catalog,
-    load_profiles,
-    select_profile,
-)
+from owl.catalog import capacity_plan, learning_coverage, load_catalog, load_profiles, resolve_content
+from owl.resources import load_resources
 
-
-REPOSITORY = Path(__file__).resolve().parents[1]
-PRODUCTION_PROFILES = ("critical-64gb", "compact-256gb", "standard-512gb", "full-1tb")
-POLICY_FLOORS = {"textbooks": 7, "illustrated-guides": 8}
-CORE_SUBJECTS = {
-    "mathematics": {"openstax_prealgebra_2e"},
-    "physics": {"openstax_college_physics_2e"},
-    "chemistry": {"openstax_chemistry_2e"},
-    "biology": {"openstax_biology_2e"},
-    "anatomy": {"openstax_anatomy_and_physiology_2e"},
-    "electrical": {"electrical_dc", "electrical_ac"},
-}
-ORDINARY_FORMATS = {"html", "htm", "pdf", "txt", "md", "png", "jpg", "jpeg"}
+ROOT = Path(__file__).resolve().parents[1]
+LARGE = ('compact-256gb', 'standard-512gb', 'full-1tb')
 
 
 class ProductionLearningCatalogTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.profiles = load_profiles(REPOSITORY / "profiles")
-        cls.assets = load_catalog(REPOSITORY / "catalog/library.yaml", cls.profiles)
+        cls.profiles = load_profiles(ROOT / 'profiles')
+        cls.assets = load_catalog(ROOT / 'catalog/library.yaml', cls.profiles)
+        cls.registry = ROOT / 'catalog/resources.yaml'
+        cls.resources = load_resources(cls.registry, cls.assets)
 
-    def test_every_production_profile_preserves_fixed_core_coverage(self):
-        for name in PRODUCTION_PROFILES:
-            with self.subTest(profile=name):
-                profile = self.profiles[name]
-                selected, _ = select_profile(self.assets, profile)
-                coverage = learning_coverage(selected)
-                for shelf, floor in POLICY_FLOORS.items():
-                    self.assertGreaterEqual(profile.get("minimum_coverage", {}).get(shelf, 0), floor)
-                    self.assertGreaterEqual(coverage[shelf]["required_critical_count"], floor)
-                plan = capacity_plan(selected, profile)
-                self.assertEqual(plan["learning_coverage"], coverage)
-                self.assertLessEqual(
-                    plan["estimated_final_bytes"] + plan["reserve_bytes"],
-                    profile["capacity_bytes"],
-                )
+    def selection(self, name, **kwargs):
+        return resolve_content(self.assets, self.profiles[name], resources_path=self.registry, **kwargs)
 
-    def test_core_subject_textbooks_are_present_direct_illustrated_and_required(self):
-        for name in PRODUCTION_PROFILES:
-            selected, _ = select_profile(self.assets, self.profiles[name])
-            by_id = {asset["id"]: asset for asset in selected}
-            for subject, identities in CORE_SUBJECTS.items():
-                for identity in identities:
-                    with self.subTest(profile=name, subject=subject, textbook=identity):
-                        self.assertIn(identity, by_id)
-                        textbook = by_id[identity]
-                        self.assertEqual(textbook["category"], subject)
-                        self.assertEqual(textbook["resource_type"], "textbook")
-                        self.assertEqual(textbook["status"], "resolved")
-                        self.assertTrue(textbook["required"])
-                        self.assertTrue(textbook["critical"])
-                        self.assertTrue(textbook["illustrated"])
-                        self.assertIn(textbook["format"].lower(), ORDINARY_FORMATS)
-                        self.assertFalse(textbook.get("reader_required"))
-                        self.assertNotIn(textbook["destination"].split("/")[0], {"ZIM", "SOFTWARE"})
-                        self.assertEqual(learning_shelves(textbook), {"textbooks", "illustrated-guides"})
+    def test_all_numbered_resources_and_defaults_match_acquisition_list(self):
+        self.assertEqual({r['number'] for r in self.resources.values() if r['number']}, set(range(1,47)))
+        expected = [set(range(1,19)), set(range(1,32)), set(range(1,37)) | {42,43,44,46}]
+        for name, numbers in zip(LARGE, expected):
+            _, _, report = self.selection(name)
+            actual = {self.resources[r]['number'] for r in report['selected_ids'] if self.resources[r]['number']}
+            self.assertEqual(actual, numbers)
+            self.assertIn('owl-direct-core', report['selected_ids'])
+            self.assertIn('archive-readers', report['auto_included_ids'])
+            self.assertNotIn('khan-remaining', report['selected_ids'])
 
-    def test_core_learning_downloads_precede_every_large_archive(self):
-        for name in PRODUCTION_PROFILES:
-            with self.subTest(profile=name):
-                profile = self.profiles[name]
-                selected, _ = select_profile(self.assets, profile)
-                core_positions = [
-                    index for index, asset in enumerate(selected)
-                    if asset.get("required") and asset.get("critical") and learning_shelves(asset)
-                ]
-                archive_positions = [
-                    index for index, asset in enumerate(selected) if asset["format"].lower() == "zim"
-                ]
-                self.assertTrue(core_positions)
-                if archive_positions:
-                    self.assertLess(max(core_positions), min(archive_positions))
-                # Editing the catalog's physical order must not change priority.
-                reversed_selection, _ = select_profile(list(reversed(self.assets)), profile)
-                self.assertEqual(
-                    [asset["id"] for asset in selected],
-                    [asset["id"] for asset in reversed_selection],
-                )
+    def test_all_large_profiles_keep_full_english_wikipedia_and_readers(self):
+        for name in LARGE:
+            assets, _, report = self.selection(name)
+            ids = {a['id'] for a in assets}
+            self.assertIn('wikipedia_en', ids)
+            self.assertNotIn('wikipedia_en_nopic', ids)
+            self.assertTrue({'kiwix_windows','kiwix_linux','kiwix_macos','kiwix_android'} <= ids)
+            self.assertTrue(report['incomplete_resources'])
 
-    def test_profile_selection_rejects_loss_of_required_critical_textbooks(self):
-        for name in PRODUCTION_PROFILES:
-            for field in ("required", "critical"):
-                with self.subTest(profile=name, removed_flag=field):
-                    changed = [
-                        {**asset, field: False} if asset.get("resource_type") == "textbook" else dict(asset)
-                        for asset in self.assets
-                    ]
-                    with self.assertRaisesRegex(CatalogError, "required critical textbooks"):
-                        select_profile(changed, self.profiles[name])
+    def test_books_follow_requested_defaults_and_critical_baseline_survives(self):
+        for name, count in [('critical-64gb',7), ('compact-256gb',2), ('standard-512gb',7), ('full-1tb',7)]:
+            assets, _, _ = self.selection(name)
+            coverage = learning_coverage(assets)
+            self.assertEqual(coverage['textbooks']['required_critical_count'], count)
+            self.assertGreaterEqual(coverage['illustrated-guides']['required_critical_count'], 8)
+            core = [i for i,a in enumerate(assets) if a.get('critical')]
+            zim = [i for i,a in enumerate(assets) if a['format']=='zim']
+            if zim:self.assertLess(max(core), min(zim))
 
-    def test_optional_critical_textbook_cannot_displace_required_core_downloads(self):
-        template = next(asset for asset in self.assets if asset["id"] == "openstax_prealgebra_2e")
-        for name in PRODUCTION_PROFILES:
-            with self.subTest(profile=name):
-                # Selection-only fixture: making the optional book tiny checks
-                # that size ordering cannot put it before the required core.
-                optional = {**template, "id": "optional_priority_fixture", "required": False,
-                            "size_bytes": 1, "destination": "BOOKS/TEXTBOOKS/optional.txt",
-                            "profiles": [name]}
-                selected, _ = select_profile([optional, *self.assets], self.profiles[name])
-                optional_position = next(index for index, asset in enumerate(selected) if asset["id"] == optional["id"])
-                core_positions = [
-                    index for index, asset in enumerate(selected)
-                    if asset.get("required") and asset.get("critical") and learning_shelves(asset)
-                ]
-                self.assertLess(max(core_positions), optional_position)
+    def test_map_replacement_and_survivor_budgets(self):
+        for name, map_budget, tier in [('compact-256gb',10_000_000_000,None), ('standard-512gb',51_000_000_000,75_000_000_000), ('full-1tb',30_000_000_000,100_000_000_000)]:
+            _, unresolved, report = self.selection(name)
+            rows = {r['id']:r for r in report['resource_rows']}
+            self.assertEqual(rows['regional-maps']['effective_target_bytes'], map_budget)
+            if tier:self.assertEqual(rows['survivor-tier-a']['effective_target_bytes'],tier)
+            ids = {a['id'] for a in unresolved}
+            self.assertEqual('map_osm_north_america' in ids,name=='standard-512gb')
+            self.assertEqual('map_osm_world' in ids,name=='full-1tb')
 
-    def test_archive_and_software_metadata_never_count_as_direct_learning(self):
-        for asset in self.assets:
-            if (asset["format"].lower() not in ORDINARY_FORMATS or asset.get("reader_required")
-                    or asset["destination"].split("/")[0] in {"ZIM", "SOFTWARE"}):
-                with self.subTest(asset=asset["id"]):
-                    self.assertEqual(learning_shelves(asset), set())
+    def test_planning_targets_are_not_fabricated_download_bytes(self):
+        for name in LARGE:
+            assets, _, report = self.selection(name)
+            plan = capacity_plan(assets,self.profiles[name],report)
+            self.assertLess(plan['content_bytes'], report['content_target_bytes'])
+            self.assertFalse(plan['content_complete'])
+            self.assertLessEqual(plan['planned_final_bytes']+plan['reserve_bytes'],plan['capacity_bytes'])
+        # Remaining 1TB budget funds ordinary directly readable copies, rather
+        # than unwanted languages or non-core Khan material.
+        assets,_,report=self.selection('full-1tb')
+        self.assertEqual(capacity_plan(assets,self.profiles['full-1tb'],report)['target_window_status'],'in-range')
+        self.assertIn('direct-reading-expansion',report['selected_ids'])
+
+    def test_personal_selection_can_remove_books_or_replace_language(self):
+        assets,_,report=self.selection('full-1tb',include=['37'],exclude=['22,36'])
+        self.assertNotIn('wikipedia-es',report['selected_ids'])
+        self.assertIn('wikipedia-fr',report['selected_ids'])
+        self.assertFalse(any(a['id'].startswith('openstax_') for a in assets))
+        assets,_,report=self.selection('critical-64gb',exclude=['22'])
+        self.assertEqual(learning_coverage(assets)['textbooks']['count'],2)
+        self.assertTrue(report['customized'])
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

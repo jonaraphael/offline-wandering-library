@@ -75,3 +75,26 @@ The expanded collection was exercised on the same macOS/Python/Node environment:
 
 These checks do not replace the hardware, browser permission, and full-archive
 performance checks listed above.
+
+## Enumerated resource selections
+
+The acquisition-list update was checked with **107 passing automated tests**.
+New coverage includes all 46 numbered resources and three support collections,
+actual profile defaults, decimal planning budgets, numeric/ID selectors,
+include/exclude conflicts, map replacement credits, automatic reader dependencies,
+partial-content refusal, explicit partial builds, locked-catalog reproduction,
+malformed lock rejection, preserved excluded files, and the new reading shelves.
+
+Actual production plans resolve to **209,139,967,202**, **407,374,257,909**, and
+**779,374,257,909** content bytes respectively. These totals combine estimates for
+unresolved collections with larger exact pins where known; they are not acquired
+data. The full plan includes the additional 60 GB direct-reading allocation.
+No new large collections or direct-reading export pipelines were built as part
+of this update.
+
+The four-file CLI demo built and independently verified **50 managed files**, with
+zero missing, failed, or unknown files. Small local fixtures also exercised the
+CLI selection flags, explicit partial builds, and a second build from a locked
+catalog after removing its resource registry. A read-only plan against the
+previous full critical test build found all **25 PDF files reusable**. The
+previous physical-device and full-Wikipedia indexing limitations still apply.

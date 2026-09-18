@@ -85,6 +85,13 @@ def load_profiles(directory: Path) -> dict:
                 raise CatalogError(f"{name}: {field} must be a nonnegative integer")
         if profile["capacity_bytes"] <= profile["reserve_bytes"]:
             raise CatalogError(f"{name}: no usable capacity")
+        for field in ("content_target_min_bytes", "content_target_max_bytes", "readers_budget_bytes"):
+            if field in profile and (type(profile[field]) is not int or profile[field] < 0):
+                raise CatalogError(f"{name}: {field} must be a nonnegative integer")
+        if ("content_target_min_bytes" in profile) != ("content_target_max_bytes" in profile):
+            raise CatalogError(f"{name}: content target requires both minimum and maximum")
+        if profile.get("content_target_min_bytes", 0) > profile.get("content_target_max_bytes", 0):
+            raise CatalogError(f"{name}: content target minimum exceeds maximum")
         minimum = profile.get("minimum_coverage", {})
         if (not isinstance(minimum, dict) or set(minimum) - set(LEARNING_SHELVES) or
                 any(type(count) is not int or count < 0 for count in minimum.values())):
@@ -132,8 +139,8 @@ def load_catalog(path: Path, profiles: dict | None = None, allow_local: bool = F
             if field in asset and not isinstance(asset[field], str):
                 raise CatalogError(f"{identity}: {field} must be text")
         memberships = asset["profiles"]
-        if not isinstance(memberships, list) or not memberships or any(not isinstance(p, str) for p in memberships):
-            raise CatalogError(f"{identity}: profiles must be a nonempty list")
+        if not isinstance(memberships, list) or any(not isinstance(p, str) for p in memberships):
+            raise CatalogError(f"{identity}: profiles must be a list (empty for resource-selected files)")
         if profiles and set(memberships) - profiles.keys():
             raise CatalogError(f"{identity}: unknown profile")
         status = asset.setdefault("status", "resolved")
@@ -210,16 +217,114 @@ def fingerprint(asset: dict) -> str:
     return hashlib.sha256(json.dumps(fields, sort_keys=True).encode()).hexdigest()
 
 
-def capacity_plan(assets: list[dict], profile: dict) -> dict:
+def resolve_content(assets: list[dict], profile: dict, *, resources_path: Path | None = None,
+                    include=(), exclude=()) -> tuple[list[dict], list[dict], dict | None]:
+    """Resolve named collections, or the fixed directly-readable baseline."""
+    if "default_resources" not in profile and not include and not exclude:
+        selected, unresolved = select_profile(assets, profile)
+        return selected, unresolved, None
+    from .resources import load_resources, resolve_resources
+    if resources_path is None:
+        raise CatalogError("This selection requires a resource registry (--resources-catalog)")
+    resources = load_resources(resources_path, assets)
+    result = resolve_resources(assets, profile, resources, include=include, exclude=exclude)
+    candidates = result.pop("assets")
+    if "default_resources" not in profile:
+        # Fixed small/custom profiles can also add or subtract named collections.
+        removed = {identity for rid in result["excluded_ids"] for identity in resources[rid]["asset_ids"]}
+        removed.update(identity for rid in result["selected_ids"]
+                       for identity in resources[rid].get("replaces_asset_ids", []))
+        added = {a["id"] for a in candidates}
+        baseline = [a for a in assets if profile["id"] in a["profiles"] and a["id"] not in removed | added]
+        candidates.extend(baseline)
+        baseline_bytes = sum(a["size_bytes"] for a in baseline if a["status"] == "resolved")
+        result["baseline_asset_ids"] = [a["id"] for a in baseline]
+        result["content_target_bytes"] += baseline_bytes
+        result["declared_content_target_bytes"] += baseline_bytes
+        result["planned_total_bytes"] += baseline_bytes
+        result["resolved_asset_bytes"] += baseline_bytes
+    effective_profile = dict(profile)
+    if result["customized"]:
+        effective_profile.pop("minimum_coverage", None)
+    selected, unresolved = select_profile(candidates, effective_profile)
+    result["registry_sha256"] = hashlib.sha256(resources_path.read_bytes()).hexdigest()
+    return selected, unresolved, result
+
+
+def resolve_locked_content(assets: list[dict], profile: dict, lock: dict):
+    """A locked catalog is an exact selection, independent of current defaults."""
+    if not isinstance(lock, dict) or lock.get("profile_id") != profile["id"]:
+        raise CatalogError("Locked catalog must use its original profile")
+    if any(profile["id"] not in a["profiles"] for a in assets):
+        raise CatalogError("Locked asset does not belong to its recorded profile")
+    if "content_selection" not in lock:
+        raise CatalogError("Locked catalog is missing its content selection")
+    selection = lock.get("content_selection")
+    if selection is None and "default_resources" in profile:
+        raise CatalogError("Resource profile requires locked collection coverage")
+    if selection is not None:
+        if not isinstance(selection, dict):
+            raise CatalogError("Invalid locked content selection")
+        for field in ("content_target_bytes", "readers_budget_bytes", "planned_total_bytes"):
+            if type(selection.get(field)) is not int or selection[field] < 0:
+                raise CatalogError(f"Invalid locked selection {field}")
+        if selection["planned_total_bytes"] != selection["content_target_bytes"] + selection["readers_budget_bytes"]:
+            raise CatalogError("Invalid locked selection budget total")
+        ids = selection.get("selected_ids")
+        rows = selection.get("resource_rows")
+        incomplete = selection.get("incomplete_resources")
+        if (not isinstance(ids, list) or any(not isinstance(i, str) for i in ids)
+                or not isinstance(rows, list) or not isinstance(incomplete, list)
+                or any(not isinstance(r, dict) or r.get("id") not in ids
+                       or not isinstance(r.get("status"), str)
+                       or r.get("status") not in {"ready", "partial", "unresolved"}
+                       or not isinstance(r.get("reason"), str) for r in rows)
+                or incomplete != [r for r in rows if r["status"] != "ready"]):
+            raise CatalogError("Invalid locked resource coverage")
+        if len(set(ids)) != len(ids) or sorted(r['id'] for r in rows) != sorted(ids):
+            raise CatalogError("Locked resource coverage must describe every selected resource exactly once")
+        resolved_ids = set()
+        for row in rows:
+            values = row.get("resolved_asset_ids")
+            if not isinstance(values, list) or any(not isinstance(i, str) for i in values):
+                raise CatalogError("Invalid locked resource asset references")
+            resolved_ids.update(values)
+        baseline = selection.get("baseline_asset_ids", [])
+        if not isinstance(baseline, list) or any(not isinstance(i, str) for i in baseline):
+            raise CatalogError("Invalid locked baseline")
+        actual_ids = {a['id'] for a in assets}
+        if not resolved_ids <= actual_ids or not actual_ids <= resolved_ids | set(baseline):
+            raise CatalogError("Locked collection coverage differs from its asset files")
+    effective = {key: value for key, value in profile.items() if key != "minimum_coverage"}
+    selected, unresolved = select_profile(assets, effective)
+    return selected, unresolved, selection
+
+
+def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = None) -> dict:
     content = sum(a["size_bytes"] for a in assets)
     overhead = 16 * 1024 * 1024
     final = content + profile["search_budget_bytes"] + overhead
     if final + profile["reserve_bytes"] > profile["capacity_bytes"]:
         raise CatalogError(f"Profile exceeds capacity: {final:,} bytes plus {profile['reserve_bytes']:,} reserve")
-    return {"download_bytes": content, "content_bytes": content, "estimated_final_bytes": final,
+    result = {"download_bytes": content, "content_bytes": content, "estimated_final_bytes": final,
             "search_budget_bytes": profile["search_budget_bytes"], "reserve_bytes": profile["reserve_bytes"],
             "capacity_bytes": profile["capacity_bytes"], "index_scratch_budget_bytes": profile["search_budget_bytes"] * 2,
             "learning_coverage": learning_coverage(assets)}
+    if selection is not None:
+        target = max(content, selection["planned_total_bytes"])
+        planned_final = target + profile["search_budget_bytes"] + overhead
+        if planned_final + profile["reserve_bytes"] > profile["capacity_bytes"]:
+            raise CatalogError(f"Selected resource targets exceed capacity: {planned_final:,} bytes "
+                               f"plus {profile['reserve_bytes']:,} reserve. Exclude resources or choose a larger profile.")
+        result.update(content_selection=selection, planned_final_bytes=planned_final,
+                      content_target_min_bytes=profile.get("content_target_min_bytes"),
+                      content_target_max_bytes=profile.get("content_target_max_bytes"),
+                      content_complete=not selection["incomplete_resources"])
+        if "content_target_min_bytes" in profile:
+            actual = selection["content_target_bytes"]
+            result["target_window_status"] = ("below-target" if actual < profile["content_target_min_bytes"]
+                else "above-target" if actual > profile["content_target_max_bytes"] else "in-range")
+    return result
 
 
 def main(argv=None) -> int:
@@ -227,16 +332,34 @@ def main(argv=None) -> int:
     parser.add_argument("catalog", nargs="?", type=Path, default=Path("catalog/library.yaml"))
     parser.add_argument("--profiles-dir", type=Path, default=Path("profiles"))
     parser.add_argument("--allow-local", action="store_true")
+    parser.add_argument("--resources-catalog", type=Path)
     args = parser.parse_args(argv)
     try:
         profiles = load_profiles(args.profiles_dir)
         assets = load_catalog(args.catalog, profiles, args.allow_local)
+        lock = read_yaml(args.catalog).get("selection_lock")
+        if lock is not None:
+            if not isinstance(lock, dict) or lock.get("profile_id") not in profiles:
+                raise CatalogError("Locked catalog names an unknown profile")
+            profile = profiles[lock["profile_id"]]
+            selected, _, selection = resolve_locked_content(assets, profile, lock)
+            capacity_plan(selected, profile, selection)
+            print(f"Locked catalog OK: {profile['id']}, {len(selected)} assets")
+            return 0
         for name, profile in profiles.items():
-            if not any(name in a["profiles"] for a in assets):
+            if "default_resources" not in profile and not any(name in a["profiles"] for a in assets):
                 continue
-            selected, unresolved = select_profile(assets, profile)
-            plan = capacity_plan(selected, profile)
+            # A demo catalog does not purport to provide the production registry.
+            registry = args.resources_catalog or args.catalog.with_name("resources.yaml")
+            if ("default_resources" in profile and not args.resources_catalog
+                    and not read_yaml(args.catalog).get("resource_catalog")):
+                continue
+            selected, unresolved, selection = resolve_content(assets, profile, resources_path=registry)
+            plan = capacity_plan(selected, profile, selection)
             print(f"{name}: {len(selected)} assets, {plan['content_bytes']:,} bytes; {len(unresolved)} unresolved")
+            if selection:
+                print(f"  Resource content target: {selection['content_target_bytes']:,} bytes; "
+                      f"{len(selection['incomplete_resources'])} collections incomplete")
             for shelf, coverage in plan["learning_coverage"].items():
                 print(f"  {shelf}: {coverage['count']} directly readable, {coverage['required_critical_count']} required critical")
         print("Catalog OK")

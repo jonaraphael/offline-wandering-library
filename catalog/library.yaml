@@ -1,5 +1,6 @@
-# OWL source snapshot verified 2026-09-18 UTC. See docs/sources.md.
+# Verified file pins and unresolved file candidates. Resource defaults: catalog/resources.yaml and profiles/.
 schema_version: 1
+resource_catalog: resources.yaml
 assets:
 - id: cert
   title: CERT Basic Training Participant Manual
@@ -15,9 +16,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: FEMA
@@ -49,9 +47,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: World Health Organization and International Committee of the Red Cross
@@ -85,9 +80,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: US Environmental Protection Agency
@@ -115,9 +107,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: US Centers for Disease Control and Prevention
@@ -146,9 +135,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -177,9 +163,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -207,9 +190,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -237,9 +217,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -267,9 +244,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -297,9 +271,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -327,9 +298,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -357,9 +325,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA National Institute of Food and Agriculture
@@ -387,9 +352,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: USDA Natural Resources Conservation Service
@@ -418,9 +380,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: Tony R. Kuphaldt and contributors
@@ -452,9 +411,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: Tony R. Kuphaldt and contributors
@@ -486,9 +442,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: US Federal Aviation Administration
@@ -522,9 +475,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: FEMA
@@ -553,9 +503,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: US Geological Survey
@@ -584,9 +531,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: Headquarters, US Department of the Army
@@ -620,9 +564,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   publisher: FEMA Ready Campaign
@@ -650,9 +591,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   resource_type: textbook
@@ -689,9 +627,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   resource_type: textbook
@@ -728,9 +663,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   resource_type: textbook
@@ -767,9 +699,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   resource_type: textbook
@@ -806,9 +735,6 @@ assets:
   required: true
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   resource_type: textbook
@@ -830,65 +756,6 @@ assets:
   - physiology
   - organs
   - human biology
-- id: world_map
-  title: 'This Dynamic Planet: World Map'
-  category: maps
-  format: pdf
-  source_url: https://pubs.usgs.gov/imap/2800/TDPfront-screen.pdf
-  destination: MAPS/USGS_This_Dynamic_Planet_2006.pdf
-  version: 3rd edition; 2006
-  size_bytes: 8614395
-  sha256: 50fe6b307c6d193cbb6ba3050b62045931a74f1aec7009b58bc67d40c464e856
-  license: Public domain (US Government work; retain credited third-party notices)
-  redistributable: true
-  required: true
-  profiles:
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
-  critical: false
-  reader_required: false
-  publisher: US Geological Survey, Smithsonian Institution and US Naval Research Laboratory
-  source_page: https://pubs.usgs.gov/imap/2800/
-  language: en
-  snapshot_date: '2026-09-18'
-  attribution: 'US Geological Survey, Smithsonian Institution and US Naval Research Laboratory; This Dynamic
-    Planet: World Map. Original publication retained without alteration.'
-  description: World topography and plate tectonics, volcanoes and earthquakes. General geographic reference,
-    not a current road map or local evacuation map.
-  tags:
-  - maps
-  resource_type: reference
-  illustrated: false
-- id: world_map_notes
-  title: 'This Dynamic Planet: Explanatory Notes'
-  category: maps
-  format: pdf
-  source_url: https://pubs.usgs.gov/imap/2800/TDPback-screen.pdf
-  destination: MAPS/USGS_This_Dynamic_Planet_Notes_2006.pdf
-  version: 3rd edition; 2006
-  size_bytes: 7526373
-  sha256: c4d605bd904576bedebf94584699713fd104a903b38c7a45623f0731a2a9e7cb
-  license: Public domain (US Government work; retain credited third-party notices)
-  redistributable: true
-  required: true
-  profiles:
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
-  critical: false
-  reader_required: false
-  publisher: US Geological Survey, Smithsonian Institution and US Naval Research Laboratory
-  source_page: https://pubs.usgs.gov/imap/2800/
-  language: en
-  snapshot_date: '2026-09-18'
-  attribution: 'US Geological Survey, Smithsonian Institution and US Naval Research Laboratory; This Dynamic
-    Planet: Explanatory Notes. Original publication retained without alteration.'
-  description: Companion explanatory sheet to the world map.
-  tags:
-  - maps
-  resource_type: reference
-  illustrated: false
 - id: wikipedia_en
   title: English Wikipedia (full, illustrated)
   category: encyclopedia
@@ -901,35 +768,7 @@ assets:
   license: CC-BY-SA-4.0; media licenses vary
   redistributable: true
   required: true
-  profiles:
-  - standard-512gb
-  - full-1tb
-  critical: false
-  reader_required: true
-  publisher: Wikimedia contributors
-  source_page: https://en.wikipedia.org/wiki/Wikipedia:Copyrights
-  language: en
-  snapshot_date: '2026-09-18'
-  attribution: Wikimedia contributors; offline archive packaged by Kiwix/openZIM. Retain article authorship,
-    source links, license and media notices inside the archive.
-  description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
-    available separately in ordinary PDF files.
-  resource_type: archive
-  illustrated: false
-- id: wikipedia_en_nopic
-  title: English Wikipedia (full text, no pictures)
-  category: encyclopedia
-  format: zim
-  source_url: https://download.kiwix.org/zim/wikipedia/wikipedia_en_all_nopic_2026-06.zim
-  destination: ZIM/WIKIPEDIA/wikipedia_en_all_nopic_2026-06.zim
-  version: 2026-06
-  size_bytes: 52690706555
-  sha256: 441a56d9e05b2d98f8ae9acb7986a513ed47904d73852c92dc6b7d50baa122e5
-  license: CC-BY-SA-4.0; individual notices apply
-  redistributable: true
-  required: true
-  profiles:
-  - compact-256gb
+  profiles: []
   critical: false
   reader_required: true
   publisher: Wikimedia contributors
@@ -954,10 +793,7 @@ assets:
   license: CC-BY-SA-4.0; media licenses vary
   redistributable: true
   required: true
-  profiles:
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
+  profiles: []
   critical: false
   reader_required: true
   publisher: Wikimedia contributors
@@ -982,10 +818,7 @@ assets:
   license: CC-BY-SA-4.0; individual notices apply
   redistributable: true
   required: true
-  profiles:
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
+  profiles: []
   critical: false
   reader_required: true
   publisher: Wikimedia contributors
@@ -1010,10 +843,7 @@ assets:
   license: CC-BY-SA-4.0; individual notices apply
   redistributable: true
   required: true
-  profiles:
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
+  profiles: []
   critical: false
   reader_required: true
   publisher: Wikimedia contributors
@@ -1038,10 +868,7 @@ assets:
   license: CC-BY-NC-SA-3.0
   redistributable: true
   required: true
-  profiles:
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
+  profiles: []
   critical: false
   reader_required: true
   publisher: iFixit and contributors
@@ -1066,9 +893,7 @@ assets:
   license: CC-BY-SA-4.0; individual notices apply
   redistributable: true
   required: true
-  profiles:
-  - standard-512gb
-  - full-1tb
+  profiles: []
   critical: false
   reader_required: true
   publisher: Appropedia contributors
@@ -1079,32 +904,6 @@ assets:
     source links, license and media notices inside the archive.
   description: Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also
     available separately in ordinary PDF files.
-  resource_type: archive
-  illustrated: false
-- id: khanacademy_en
-  title: Khan Academy English Educational Collection
-  category: education
-  format: zim
-  source_url: https://download.kiwix.org/zim/other/khanacademy_en_all_2023-03.zim
-  destination: ZIM/OTHER/khanacademy_en_all_2023-03.zim
-  version: 2023-03
-  size_bytes: 180007047736
-  sha256: 3b8f4d286c6206a1c00c2252ac33187d30d4e146b8666ae2039d00f0d91eee3a
-  license: CC-BY-NC-SA (see individual content notices)
-  redistributable: true
-  required: true
-  profiles:
-  - full-1tb
-  critical: false
-  reader_required: true
-  publisher: Khan Academy
-  source_page: https://support.khanacademy.org/hc/en-us/articles/202262954-Can-I-use-Khan-Academy-s-videos-name-materials-links-in-my-project
-  language: en
-  snapshot_date: '2026-09-18'
-  attribution: Khan Academy; offline archive packaged by Kiwix/openZIM. Retain article authorship, source
-    links, license and media notices inside the archive.
-  description: Noncommercial educational snapshot including videos. Video/audio speech is not transcribed
-    by OWL. All Khan Academy content is available for free at https://www.khanacademy.org/.
   resource_type: archive
   illustrated: false
 - id: kiwix_windows
@@ -1119,10 +918,7 @@ assets:
   license: GPL-3.0-or-later; bundled components retain their licenses
   redistributable: true
   required: true
-  profiles:
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
+  profiles: []
   critical: false
   reader_required: false
   publisher: Kiwix contributors
@@ -1148,10 +944,7 @@ assets:
   license: GPL-3.0-or-later; bundled components retain their licenses
   redistributable: true
   required: true
-  profiles:
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
+  profiles: []
   critical: false
   reader_required: false
   publisher: Kiwix contributors
@@ -1177,10 +970,7 @@ assets:
   license: GPL-3.0; bundled components retain their licenses
   redistributable: true
   required: true
-  profiles:
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
+  profiles: []
   critical: false
   reader_required: false
   publisher: Kiwix contributors
@@ -1206,10 +996,7 @@ assets:
   license: GPL-3.0-or-later; bundled components retain their licenses
   redistributable: true
   required: true
-  profiles:
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
+  profiles: []
   critical: false
   reader_required: false
   publisher: Kiwix contributors
@@ -1237,9 +1024,6 @@ assets:
   required: false
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: true
   reader_required: false
   source_page: https://hesperian.org/open-copyright-policy/
@@ -1263,9 +1047,6 @@ assets:
   required: false
   profiles:
   - critical-64gb
-  - compact-256gb
-  - standard-512gb
-  - full-1tb
   critical: false
   reader_required: false
   source_page: https://store.usgs.gov/map-locator
@@ -1274,3 +1055,45 @@ assets:
     and add explicit assets. The world reference map is not a substitute for local navigation.
   resource_type: reference
   illustrated: false
+- id: map_osm_north_america
+  title: North America OpenStreetMap archive
+  category: maps
+  format: zim
+  source_url: null
+  destination: MAPS/North_America_OSM.zim
+  version: UNRESOLVED
+  size_bytes: null
+  sha256: null
+  license: 'UNRESOLVED: verify archive attribution and component licenses'
+  redistributable: false
+  required: false
+  profiles: []
+  status: unresolved
+  unresolved_reason: Select and verify the exact Kiwix map snapshot, byte count, SHA-256, offline behavior,
+    and license notices before acquisition.
+  reader_required: true
+  critical: false
+  resource_type: archive
+  illustrated: false
+  source_page: https://download.kiwix.org/zim/maps/
+- id: map_osm_world
+  title: World OpenStreetMap archive
+  category: maps
+  format: zim
+  source_url: null
+  destination: MAPS/World_OSM.zim
+  version: UNRESOLVED
+  size_bytes: null
+  sha256: null
+  license: 'UNRESOLVED: verify archive attribution and component licenses'
+  redistributable: false
+  required: false
+  profiles: []
+  status: unresolved
+  unresolved_reason: Select and verify the exact Kiwix map snapshot, byte count, SHA-256, offline behavior,
+    and license notices before acquisition.
+  reader_required: true
+  critical: false
+  resource_type: archive
+  illustrated: false
+  source_page: https://download.kiwix.org/zim/maps/

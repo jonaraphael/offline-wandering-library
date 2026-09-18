@@ -22,6 +22,8 @@ GENERATED_PATHS = (
     "INDEX/critical.html",
     "INDEX/textbooks.html",
     "INDEX/illustrated-guides.html",
+    "INDEX/gutenberg.html",
+    "INDEX/children.html",
     *(f"INDEX/{letter}.html" for letter in LETTERS),
 )
 
@@ -43,6 +45,10 @@ GROUPS = (
     ("other", "Other material"),
 )
 GROUP_LABELS = dict(GROUPS)
+READING_COLLECTIONS = (
+    ("gutenberg", "Project Gutenberg", frozenset({"gutenberg-core", "gutenberg-multilingual"})),
+    ("children", "Children’s Library", frozenset({"childrens-library"})),
+)
 ALIASES = {
     "first-aid": "first-aid",
     "emergency-medicine": "medical",
@@ -159,6 +165,8 @@ def _page(title: str, body: str, current: str) -> str:
     critical = _href("INDEX/critical.html", current)
     textbooks = _href("INDEX/textbooks.html", current)
     illustrated = _href("INDEX/illustrated-guides.html", current)
+    gutenberg = _href("INDEX/gutenberg.html", current)
+    children = _href("INDEX/children.html", current)
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -167,7 +175,8 @@ def _page(title: str, body: str, current: str) -> str:
 <body><nav aria-label="Library navigation"><a href="{home}">Start here</a>
 <a href="{search}">Search</a><a href="{categories}">Categories</a>
 <a href="{critical}">Critical content</a><a href="{textbooks}">Textbooks</a>
-<a href="{illustrated}">Illustrated guides</a></nav>
+<a href="{illustrated}">Illustrated guides</a><a href="{gutenberg}">Project Gutenberg</a>
+<a href="{children}">Children’s Library</a></nav>
 <main><h1>{_text(title)}</h1>{body}</main>
 <footer>Offline Wandering Library · This page works without JavaScript or an internet connection.</footer>
 </body></html>
@@ -222,6 +231,49 @@ def _size(value: object) -> str:
     raise AssertionError("Unreachable")
 
 
+def _selection_rows(inventory: dict) -> list[dict]:
+    selection = inventory.get("content_selection") or {}
+    return selection.get("resource_rows", [])
+
+
+def _selection_notice(inventory: dict, current: str) -> str:
+    if inventory.get("content_complete") is not False:
+        return ""
+    href = _href("INVENTORY.html", current) + "#content-selection"
+    return (
+        '<p class="notice"><strong>Content selection is incomplete.</strong> '
+        'This drive contains the available verified files, but some selected collections are missing '
+        f'or partial. <a href="{href}">Review the resource-selection status</a>.</p>'
+    )
+
+
+def _selection_inventory(inventory: dict) -> str:
+    resources = _selection_rows(inventory)
+    if not resources and inventory.get("content_complete") is not False:
+        return ""
+    rows = []
+    for resource in resources:
+        rows.append(
+            f'<tr><td>{_text(resource.get("title", resource.get("id", "")))}'
+            f'<br><code>{_text(resource.get("id", ""))}</code></td>'
+            f'<td>{_text(resource.get("status", "unknown"))}</td>'
+            f'<td>{_text(_size(resource.get("effective_target_bytes", resource.get("target_bytes"))))}</td>'
+            f'<td>{_text(_size(resource.get("known_bytes")))}</td>'
+            f'<td>{_text(resource.get("reason", ""))}</td></tr>'
+        )
+    return (
+        '<section id="content-selection"><h2>Resource selection</h2>'
+        + _selection_notice(inventory, "INVENTORY.html")
+        + '<p>Planned content targets describe the requested collection. Resolved asset bytes describe '
+        'catalog files available for this build; they do not prove the full target collection is available. '
+        'An asset can support more than one resource, so these rows should not be added to estimate drive size.</p>'
+        '<div class="table-scroll"><table><thead><tr><th scope="col">Resource</th>'
+        '<th scope="col">Status</th><th scope="col">Planned content</th>'
+        '<th scope="col">Resolved asset bytes</th><th scope="col">Coverage notes</th>'
+        '</tr></thead><tbody>' + "\n".join(rows) + '</tbody></table></div></section>'
+    )
+
+
 def generate_navigation(target: Path, assets: list[dict], inventory: dict, search_report: dict) -> list[str]:
     """Write the fixed no-JavaScript navigation set, returning managed paths.
 
@@ -234,12 +286,17 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
     groups: dict[str, list[dict]] = defaultdict(list)
     letters: dict[str, list[dict]] = defaultdict(list)
     shelves: dict[str, list[dict]] = defaultdict(list)
+    collections: dict[str, list[dict]] = defaultdict(list)
     for entry in entries:
         _href(str(entry["destination"]), "START_HERE.html")
         groups[_group(entry)].append(entry)
         letters[_letter(str(entry.get("title", entry["destination"])))].append(entry)
         for shelf in learning_shelves(entry):
             shelves[shelf].append(entry)
+        resource_ids = entry.get("resource_ids", [])
+        for key, _label, identities in READING_COLLECTIONS:
+            if isinstance(resource_ids, list) and any(identity in resource_ids for identity in identities):
+                collections[key].append(entry)
 
     pages: dict[str, str] = {}
     cards = "".join(
@@ -252,19 +309,25 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
         'Directly readable</span></a></li>'
         for key, label in (("textbooks", "Textbooks"), ("illustrated-guides", "Illustrated guides"))
     )
+    collection_cards = "".join(
+        f'<li><a href="INDEX/{key}.html"><strong>{label}</strong>'
+        f'<br><span class="meta">{len(collections[key])} files available in this build</span></a></li>'
+        for key, label, _identities in READING_COLLECTIONS
+    )
     pages["START_HERE.html"] = _page(
         "Offline Wandering Library",
-        """<p>An offline knowledge library. Start with the topic you need, or search the library.</p>
+        _selection_notice(inventory, "START_HERE.html")
+        + """<p>An offline knowledge library. Start with the topic you need, or search the library.</p>
 <p class="notice"><strong>Open ordinary files directly.</strong> The critical library uses HTML, PDF,
 and other ordinary files. Use your device’s file manager and a compatible browser or document viewer.
 No account, server, or internet connection is needed to read these files.</p>
 <p><a href="SEARCH.html"><strong>Search this library</strong></a> ·
 <a href="INDEX/critical.html"><strong>Browse all critical content</strong></a></p>
 """
-        + '<h2>Textbooks and illustrated guides</h2>'
+        + '<h2>Books and learning collections</h2>'
         + '<p>Learn from complete textbooks and practical guides. Open the original files to see their '
         'diagrams, photographs, and illustrations.</p>'
-        + f'<ul class="cards">{shelf_cards}</ul>'
+        + f'<ul class="cards">{shelf_cards}{collection_cards}</ul>'
         + '<h2>Browse by topic</h2>'
         + f'<ul class="cards">{cards}</ul>'
         + """<h2>When search does not work</h2>
@@ -336,6 +399,37 @@ Coverage depends on the selected profile. Documents retain their original dates,
             f"Titles: {letter}", _alphabet(current) + _asset_list(letters[letter], current), current
         )
 
+    for key, title, identities in READING_COLLECTIONS:
+        current = f"INDEX/{key}.html"
+        if collections[key]:
+            file_count = len(collections[key])
+            content = (
+                f"<p>{file_count} selected {'file' if file_count == 1 else 'files'} available in this build. A collection archive "
+                "can contain many books. Reader requirements are shown for each file.</p>"
+                + _asset_list(collections[key], current)
+            )
+        else:
+            content = (
+                '<p class="notice"><strong>No files for this collection are included in this build.</strong> '
+                "The collection may be unselected or awaiting verified sources. This page does not mean "
+                "the planned collection has been downloaded.</p>"
+            )
+        selection_details = "".join(
+            f'<li>{_text(resource.get("title") or resource.get("id", ""))}: '
+            f'{_text(resource.get("status", "unknown"))}'
+            + (f' — {_text(resource["reason"])}' if resource.get("reason") else "") + '</li>'
+            for resource in _selection_rows(inventory) if resource.get("id") in identities
+        )
+        if selection_details:
+            content += '<h2>Selected collection coverage</h2><ul>' + selection_details + '</ul>'
+        pages[current] = _page(
+            title,
+            _selection_notice(inventory, current)
+            + content + '<p>See <a href="../INVENTORY.html">the inventory</a> for available files and '
+            '<a href="../INVENTORY.json">the resource-selection details</a>.</p>',
+            current,
+        )
+
     coverage = {entry["destination"]: entry for entry in search_report.get("assets", [])}
     rows = []
     for entry in entries:
@@ -360,7 +454,8 @@ Coverage depends on the selected profile. Documents retain their original dates,
         "Library inventory",
         f"<p>{len(entries)} catalog assets. See <a href=\"INVENTORY.json\">the machine-readable inventory</a> "
         "for exact byte sizes, SHA-256 hashes, and search coverage.</p>"
-        "<p><strong>Pinned</strong> means a file matched the catalog’s source checksum. "
+        + _selection_inventory(inventory)
+        + "<p><strong>Pinned</strong> means a file matched the catalog’s source checksum. "
         "<strong>Observed</strong> means the build recorded a checksum after download; this detects later "
         "changes but does not independently authenticate the original source.</p>"
         "<p>Search coverage describes extracted text: <code>full_text</code>, <code>partial</code>, "
@@ -382,6 +477,9 @@ INDEX/categories.html and INDEX/critical.html for navigation without JavaScript.
 INDEX/textbooks.html lists directly readable textbooks. INDEX/illustrated-guides.html
 lists illustrated textbooks and practical guides. Critical textbooks are also in
 the critical index, including those stored under BOOKS/TEXTBOOKS/.
+INDEX/gutenberg.html and INDEX/children.html list selected Project Gutenberg and
+Children's Library files when available. An empty collection page does not mean
+its planned content has been downloaded. Check the inventory for actual content.
 If HTML links do not work in your phone's preview, use its file manager to open
 ordinary files directly in CRITICAL/, REFERENCE/, BOOKS/, and MAPS/.
 
@@ -425,6 +523,14 @@ the drives. Safely eject a drive before unplugging it.
 Documents retain their original authors, publication dates, and limitations.
 This library is a reference collection, not a substitute for professional help.
 """
+    if inventory.get("content_complete") is False:
+        pages["README.txt"] = pages["README.txt"].replace(
+            "OFFLINE WANDERING LIBRARY (OWL)\n",
+            "OFFLINE WANDERING LIBRARY (OWL)\n\nCONTENT SELECTION IS INCOMPLETE.\n"
+            "Some selected collections are missing or partial. The verified files on this\n"
+            "drive are listed in INVENTORY.html; its resource-selection table records gaps.\n",
+            1,
+        )
 
     for relative in GENERATED_PATHS:
         destination = safe_path(target, relative)

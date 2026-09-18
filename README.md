@@ -17,19 +17,23 @@ python3 -m venv .venv
 source .venv/bin/activate                 # Windows: .venv\Scripts\activate
 python -m pip install -e '.[zim]'
 
-# Validate the catalog, then inspect the plan before downloading.
+# Validate the catalog and inspect resource choices before downloading.
 python scripts/validate_catalog.py
+python scripts/build_drive.py --list-resources
 python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY \
     --profile full-1tb --plan
 
+# The existing directly readable collection has verified download assets.
 python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY \
-    --profile full-1tb \
+    --profile critical-64gb \
     --cache-dir ~/.cache/offline-wandering-library
 
 python scripts/verify.py /path/to/EMERGENCY_LIBRARY
 ```
 
 Replace `/path/to/EMERGENCY_LIBRARY` with a directory on the SSD. Nothing requires root privileges. A build can take many hours or days depending on the selected archives, connection, SSD, and indexing workload. Use a stable connection, adequate power, and enough temporary space on the build computer. The build reports its storage estimate and checks free space before proceeding. Installed commands `owl-build`, `owl-validate`, and `owl-verify` expose the same tools.
+
+The larger profiles now describe the planned 46-resource library. Many requested collections still need verified downloadable packages, licenses, or complete asset coverage. A normal build refuses an incomplete selection. Inspect `--plan`, adjust the include/exclude choices, or explicitly choose a partial build with `--allow-incomplete`; the larger profile names do not mean those collections have already been acquired.
 
 The optional cache stores downloaded assets so that a second drive can be built without fetching them again. It consumes additional disk space. Interrupted HTTP downloads use `.part` files and resume when the source supports byte ranges. Hashes are checked before completed files are accepted. Repeating the command reuses verified content and regenerates the library’s navigation and search artifacts.
 
@@ -43,24 +47,60 @@ Profiles containing ZIM archives require `libzim`; the builder checks for it bef
 
 ## Profiles and content
 
-| Profile | Intended nominal drive | Priority |
-| --- | ---: | --- |
-| `critical-64gb` | 64 GB or larger | Directly readable emergency material, core textbooks, and illustrated guides |
-| `compact-256gb` | 256 GB or larger | The core library, Wikipedia without pictures, and compact archives |
-| `standard-512gb` | 512 GB or larger | Full English Wikipedia and broader reference collections |
-| `full-1tb` | 1 TB or larger | The most extensive selection, including the Khan Academy archive |
+| Profile | Intended nominal drive | Planned content target | Default emphasis |
+| --- | ---: | ---: | --- |
+| `critical-64gb` | 64 GB or larger | Existing verified collection, about 1.57 GB | Directly readable emergency material, seven textbooks, and illustrated guides |
+| `compact-256gb` | 256 GB or larger | 190–210 GB | Survival, reading, repair, full English Wikipedia, and a 10 GB topographic-map allocation |
+| `standard-512gb` | 512 GB or larger | 390–420 GB | Rebuilding and education, OpenStax, North American and topographic maps |
+| `full-1tb` | 1 TB or larger | 750–820 GB | Broader references, world maps, Spanish Wikipedia, STEM education, and 60 GB of planned direct-reading copies |
 
-Profile names are capacity targets, not promises to fill the disk. The actual catalog controls what is included, and the plan reports current totals. Profiles reserve free space and budget for search. Resources with unresolved URLs, permissions, or packaging are documented rather than silently treated as available. Review [content sources](docs/sources.md) and the generated inventory before relying on a particular topic or reader.
+These are decimal content targets, separate from index, reader, and free-space budgets. `catalog/resources.yaml` records the 46 numbered resources plus three support collections: `owl-direct-core`, `archive-readers`, and `direct-reading-expansion`. `catalog/library.yaml` records actual asset URLs, versions, sizes, hashes, and licenses. A resource's target size is an editorial allocation, not evidence that the corresponding data is available. The plan distinguishes planned targets from exact known asset bytes and reports incomplete resources. Review [content sources](docs/sources.md) and the generated inventory before relying on a particular topic or reader.
+
+All three larger defaults select full English Wikipedia. Compact allocates 10 GB to topographic maps without the North America OSM package; standard selects North American plus topographic maps; full replaces the North America package with world maps. Spanish Wikipedia is a full-profile default; other additional languages require explicit inclusion. The science Stack Exchange collection is a full-profile default and an opt-in for standard. Noncore Khan material is never selected by default.
+
+The full profile allocates an additional **60 GB to directly readable HTML, PDFs, and images** through `direct-reading-expansion`. This plans ordinary-format editions or exports from selected Appropedia, CD3WD, iFixit, LibreTexts, and Wikibooks content, plus an expanded small direct-reading Wikipedia subset. The preferences apply to selected resources. These copies would retain useful diagrams and images and could be opened without a ZIM reader. The expansion is unresolved: no exporter or complete verified package is implemented, and this allocation does not trigger automatic expansion of all Wikipedia articles. Exclude the optional allocation with `--exclude direct-reading-expansion` if desired.
+
+**The content targets do not prove that a full Wikipedia search index fits.** Index and scratch-space budgets are estimates, and full-corpus size and performance have not been established. Full-text indexing can produce more bytes than the compressed archive. The builder checks available space and actual final capacity; a drive that exceeds the budget cannot be declared complete merely because its content target looked suitable.
 
 The initial critical collection includes FEMA CERT material, WHO Basic Emergency Care, EPA water treatment guidance, CDC sanitation information, USDA food-preservation and agriculture references, open electrical textbooks, the FAA maintenance handbook, FEMA shelter material, and USGS navigation references. Critical topics include first aid, medicine, water and sanitation, food, agriculture, repair, electrical work, shelter, navigation, and reference material. Coverage is a curated starting point, not a guarantee that every situation is addressed.
 
 The larger profiles add Wikipedia, WikiMed, Wiktionary, Wikibooks, iFixit, and educational collections. Sources have recorded licensing and attribution. Every critical asset must use an ordinary, directly readable format; a ZIM-only resource cannot satisfy this requirement. The builder validates IDs, destinations, profile membership, and manifest paths.
 
-Textbooks provide sustained explanations beyond short emergency checklists. The core includes seven complete textbooks: two electrical texts plus OpenStax prealgebra, physics, biology, chemistry, and anatomy and physiology. All production profiles currently include thirteen illustrated teaching works, with overlap between these collections. Profile validation requires at least seven critical textbooks and eight critical illustrated works, and the builder downloads the required teaching core before large archives. The 25-file critical collection occupies about 1.57 GB before search and navigation. The OpenStax snapshots use CC BY-NC-SA 4.0; see their recorded notices and attribution in [content sources](docs/sources.md).
+Textbooks provide sustained explanations beyond short emergency checklists. The unchanged `critical-64gb` collection includes seven complete textbooks: two electrical texts plus OpenStax prealgebra, physics, biology, chemistry, and anatomy and physiology, with thirteen illustrated teaching works overall. Its 25 PDF files occupy about 1.57 GB before search and navigation. The larger default profiles retain directly readable emergency guides and the electrical texts through `owl-direct-core`. OpenStax is selected by default in standard and full, and can be added to compact with `--include openstax-core`. The verified OpenStax snapshots use CC BY-NC-SA 4.0; see their recorded notices and attribution in [content sources](docs/sources.md).
 
 The PDFs retain their original diagrams, photographs, charts, and figures; the builder does not replace them with extracted text. `INDEX/textbooks.html` and `INDEX/illustrated-guides.html` provide dedicated, directly readable shelves from the landing page. The illustrated shelf includes both textbooks and practical guides. `INDEX/critical.html` includes every critical asset wherever it is stored, including `BOOKS/TEXTBOOKS/`. Reader-dependent archives and EPUBs do not count toward these direct-reading shelves. Textbook listings retain their attribution, and the inventory records each title’s own license.
 
-Current unresolved additions include Hesperian’s digital redistribution permission and region-specific offline maps. The included USGS world-map reference is not a current local street or topographic map. Choose and verify suitable regional maps before relying on the library for local navigation.
+Project Gutenberg and Children's Library have prominent landing-page entries and dedicated static shelves. Their planned collections currently lack complete verified asset packages; an empty shelf states that no files are included. Hesperian's digital redistribution permission, regional map packages, and many other target collections also remain unresolved or partial. General geographic reference material does not replace the planned street or topographic map collections.
+
+## Choose resources and partial builds
+
+List stable resource IDs without supplying a drive path:
+
+```bash
+python scripts/build_drive.py --list-resources
+```
+
+Use `--include` and `--exclude` to customize a profile. Flags accept repeated occurrences or comma-separated IDs; the registry's numbered entries can also be selected by number:
+
+```bash
+python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY \
+    --profile full-1tb \
+    --include wikipedia-fr \
+    --exclude wikipedia-es,ted-ed \
+    --plan
+```
+
+Selecting resolved ZIM assets automatically adds `archive-readers`. Excluding that dependency while ZIM assets remain selected produces an error. Review the plan after every customization, including changes to map packages and languages.
+
+To deliberately build only the verified assets available from an incomplete target selection:
+
+```bash
+python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY \
+    --profile compact-256gb --allow-incomplete \
+    --cache-dir ~/.cache/offline-wandering-library
+```
+
+`--allow-incomplete` records `content_complete: false` in the build information and inventory when selected collections are missing or partial. `START_HERE.html` displays that status, and the inventory explains each resource's coverage. Files that are actually included must still download successfully and pass their integrity checks. Successful verification of those files does not turn a partial content selection into the complete planned library.
 
 To try the whole pipeline without downloading third-party content:
 
@@ -76,7 +116,7 @@ sources and reproducing the tested extraction toolchain.
 
 ## Use the completed SSD
 
-Open `START_HERE.html`. Its first shelves link to textbooks and illustrated guides with counts of critical resources, followed by topic links. It also provides search and ordinary static indexes. You can navigate directly through the folders with the device’s file manager.
+Open `START_HERE.html`. Its first shelves link to textbooks, illustrated guides, Project Gutenberg, and Children's Library, with counts of available files. It also provides topic links, search, and ordinary static indexes. You can navigate directly through the folders with the device’s file manager.
 
 ```text
 EMERGENCY_LIBRARY/
@@ -84,7 +124,7 @@ EMERGENCY_LIBRARY/
 ├── SEARCH.html             # Offline search with a local index file picker
 ├── README.txt / VERIFY.py / SOURCE_NOTES.txt
 ├── INVENTORY.html / INVENTORY.json
-├── BUILD_INFO.json / SHA256SUMS.txt / LOCKED_CATALOG.yaml
+├── BUILD_INFO.json / CONTENT_SELECTION.json / SHA256SUMS.txt / LOCKED_CATALOG.yaml
 ├── CRITICAL/               # Ordinary files grouped by emergency topic
 ├── REFERENCE/
 ├── BOOKS/TEXTBOOKS/         # Core directly readable textbooks
@@ -92,10 +132,10 @@ EMERGENCY_LIBRARY/
 ├── ZIM/                    # Large archives; a reader is required
 ├── SOFTWARE/               # Bundled readers for supported platforms
 ├── SEARCH/                 # Precomputed full-text index and coverage report
-└── INDEX/                  # Textbooks, illustrated guides, critical, category, A–Z
+└── INDEX/                  # Learning/reading shelves, critical, category, A–Z
 ```
 
-The static indexes list catalog files, including titles, categories, textbook/illustrated labels, and archive-reader requirements. Dedicated `textbooks.html` and `illustrated-guides.html` pages sit alongside `critical.html`, `categories.html`, and the alphabetical pages in `INDEX/`. They work without JavaScript and contain ordinary relative links. They do not expand every article inside an archive into separate HTML files.
+The static indexes list catalog files, including titles, categories, textbook/illustrated labels, and archive-reader requirements. Dedicated `textbooks.html`, `illustrated-guides.html`, `gutenberg.html`, and `children.html` pages sit alongside `critical.html`, `categories.html`, and the alphabetical pages in `INDEX/`. They work without JavaScript and contain ordinary relative links. They do not expand every article inside an archive into separate HTML files. The hierarchical topic atlas remains a [specification](docs/topic-atlas-spec.md); it has not been implemented.
 
 ## Search without a server
 

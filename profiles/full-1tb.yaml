@@ -1,8 +1,51 @@
 id: full-1tb
-title: Reference library and educational video collection
+title: Survive + rebuild + educate + preserve
 capacity_bytes: 1000000000000
-reserve_bytes: 100000000000
-search_budget_bytes: 160000000000
-minimum_coverage:
-  textbooks: 7
-  illustrated-guides: 8
+content_target_min_bytes: 750000000000
+content_target_max_bytes: 820000000000
+search_budget_bytes: 90000000000
+readers_budget_bytes: 5000000000
+reserve_bytes: 80000000000
+default_resources:
+- owl-direct-core
+- direct-reading-expansion
+- hesperian-health
+- msf-medical
+- who-emergency-care
+- who-wash
+- sphere-handbook
+- food-preservation
+- niosh-chemical-hazards
+- fao-agriculture
+- gutenberg-core
+- childrens-library
+- wikipedia-en
+- wikimed
+- wikem
+- regional-maps
+- appropedia
+- cd3wd
+- ifixit
+- low-tech-magazine
+- survivor-tier-a
+- stackoverflow-durable
+- stackexchange-practical
+- openstax-core
+- libretexts-stem
+- wikibooks-en
+- wiktionary-en
+- phet
+- wikiversity-en
+- civilian-preparedness
+- wikivoyage-en
+- world-factbook
+- linux-programming-docs
+- stackexchange-science
+- wikisource-en
+- ted-ed
+- khan-core-stem
+- wikipedia-es
+- world-maps
+- gutenberg-multilingual
+- survivor-tier-b
+- stackoverflow-legacy

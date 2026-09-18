@@ -114,6 +114,30 @@ class NavigationTests(unittest.TestCase):
                 "resource_type": "guide",
                 "illustrated": True,
             },
+            {
+                "id": "gutenberg_fixture",
+                "title": "Classic reading collection",
+                "category": "books",
+                "destination": "BOOKS/GUTENBERG/classic #1.html",
+                "format": "html",
+                "resource_ids": ["gutenberg-core", "gutenberg-multilingual", "gutenberg-core"],
+            },
+            {
+                "id": "children_fixture",
+                "title": "Children’s reading archive",
+                "category": "books",
+                "destination": "ZIM/OTHER/children.zim",
+                "format": "zim",
+                "reader_required": True,
+                "resource_ids": ["childrens-library"],
+            },
+            {
+                "id": "unrelated_title",
+                "title": "Gutenberg and children in a reference title",
+                "category": "reference",
+                "destination": "REFERENCE/unrelated.txt",
+                "format": "txt",
+            },
         ]
         for asset in self.assets:
             path = self.target / asset["destination"]
@@ -124,8 +148,9 @@ class NavigationTests(unittest.TestCase):
         (self.target / "SEARCH").mkdir()
         (self.target / "SEARCH/coverage.json").write_text("{}", encoding="utf-8")
 
-    def generate(self):
+    def generate(self, **inventory_fields):
         inventory = {"assets": [{**self.assets[0], "verification": "pinned", "size_bytes": 2048}]}
+        inventory.update(inventory_fields)
         return generate_navigation(self.target, self.assets, inventory, {"documents": 4})
 
     def test_all_generated_links_resolve_without_javascript(self):
@@ -212,12 +237,57 @@ class NavigationTests(unittest.TestCase):
         self.assertEqual(previous, {relative: (self.target / relative).read_bytes() for relative in paths})
         self.assertEqual("Do not change", unrelated.read_text(encoding="utf-8"))
 
+    def test_reading_collections_use_resource_ids_and_show_reader_requirements(self):
+        self.generate()
+        gutenberg = (self.target / "INDEX/gutenberg.html").read_text(encoding="utf-8")
+        children = (self.target / "INDEX/children.html").read_text(encoding="utf-8")
+        self.assertEqual(gutenberg.count('href="../BOOKS/GUTENBERG/classic%20%231.html"'), 1)
+        self.assertIn("1 selected file available in this build", gutenberg)
+        self.assertNotIn("../ZIM/OTHER/children.zim", gutenberg)
+        self.assertIn("../ZIM/OTHER/children.zim", children)
+        self.assertIn("Archive reader required", children)
+        for page in (gutenberg, children):
+            self.assertNotIn("../REFERENCE/unrelated.txt", page)
+        landing = (self.target / "START_HERE.html").read_text(encoding="utf-8")
+        self.assertIn('<strong>Project Gutenberg</strong>', landing)
+        self.assertIn('<strong>Children’s Library</strong>', landing)
+        self.assertLess(landing.index('<strong>Project Gutenberg</strong>'), landing.index('<h2>Browse by topic</h2>'))
+
+    def test_partial_selection_notice_and_coverage_are_visible_and_escaped(self):
+        resource = {"id": "gutenberg-core", "title": 'Gutenberg <planned>', "status": "partial",
+                    "reason": "Awaiting <verified> files & permission", "target_bytes": 1_000_000,
+                    "effective_target_bytes": 900_000, "known_bytes": 1024}
+        self.generate(content_complete=False, content_selection={"resource_rows": [resource]})
+        for relative in ("START_HERE.html", "INVENTORY.html", "INDEX/gutenberg.html", "INDEX/children.html"):
+            with self.subTest(page=relative):
+                page = (self.target / relative).read_text(encoding="utf-8")
+                self.assertIn("Content selection is incomplete", page)
+                self.assertIn("INVENTORY.html#content-selection", page)
+        for relative in ("INVENTORY.html", "INDEX/gutenberg.html"):
+            page = (self.target / relative).read_text(encoding="utf-8")
+            self.assertIn("Gutenberg &lt;planned&gt;", page)
+            self.assertIn("Awaiting &lt;verified&gt; files &amp; permission", page)
+        inventory = (self.target / "INVENTORY.html").read_text(encoding="utf-8")
+        self.assertIn('id="content-selection"', inventory)
+        self.assertIn("Resolved asset bytes", inventory)
+        self.assertIn("1.0 KiB", inventory)
+        self.assertIn("CONTENT SELECTION IS INCOMPLETE", (self.target / "README.txt").read_text(encoding="utf-8"))
+
+    def test_complete_selection_does_not_get_partial_notice(self):
+        self.generate(content_complete=True, content_selection={"resource_rows": []})
+        self.assertNotIn("Content selection is incomplete", (self.target / "START_HERE.html").read_text(encoding="utf-8"))
+
     def test_empty_library_has_useful_indexes(self):
         generate_navigation(self.target, [], {"assets": []}, {})
         self.assertIn(
             "No material in this section",
             (self.target / "INDEX/categories.html").read_text(encoding="utf-8"),
         )
+        for relative in ("INDEX/gutenberg.html", "INDEX/children.html"):
+            self.assertIn(
+                "No files for this collection are included in this build",
+                (self.target / relative).read_text(encoding="utf-8"),
+            )
 
     def test_untrusted_asset_path_is_rejected(self):
         self.assets[0]["destination"] = "../outside.txt"

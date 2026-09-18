@@ -37,7 +37,7 @@ These references have uneven depth and different publication dates. Garden guida
 
 ## Required textbooks and illustrated guides
 
-Textbooks and illustrated guides are part of the directly readable baseline in **every production profile**, including `critical-64gb`. The two complete Kuphaldt electrical textbooks above are joined by five complete OpenStax textbooks under `BOOKS/TEXTBOOKS/`. They provide foundations for understanding quantities, materials, machines and living systems; they are not replacements for task-specific safety or clinical guidance.
+The complementary direct core retains two complete Kuphaldt electrical textbooks and illustrated practical guides. The fixed `critical-64gb` baseline also contains five complete OpenStax textbooks under `BOOKS/TEXTBOOKS/`. In the acquisition-list profiles, OpenStax is selected by default in `standard-512gb` and `full-1tb`, and can be explicitly included in `compact-256gb` subject to capacity. These five pinned books are only part of the expanded OpenStax collection requested in resource #22. They provide foundations for understanding quantities, materials, machines and living systems; they are not replacements for task-specific safety or clinical guidance.
 
 | Textbook | PDF pages | Exact downloaded bytes | Foundation |
 | --- | ---: | ---: | --- |
@@ -69,16 +69,19 @@ The original download URLs were obtained from the publisher's book pages and [Op
 | Army Survival | 140 | Figure 6-2: poncho lean-to, alongside field-shelter instructions |
 | USGS Map and Compass | 1 | Annotated topographic-map example and scale table |
 
-Every production profile enforces `minimum_coverage` floors of **seven required critical textbooks** and **eight required critical illustrated guides**. This snapshot includes seven and thirteen respectively. Only resolved, directly readable files count; a ZIM encyclopedia, optional book or reader package cannot satisfy these floors. The builder prioritizes required critical teaching material before large archives. The floor is an intentional guard against silently dropping the teaching collection when a catalog is edited.
+The fixed critical baseline enforces `minimum_coverage` floors of seven required critical textbooks and eight required critical illustrated guides. Its snapshot contains seven and thirteen respectively. The compact acquisition profile has two pinned electrical textbooks and eight illustrated works; standard/full include the five pinned OpenStax books too. Their larger requested collections remain incomplete. Explicit include/exclude customization may remove books; it never changes the ordinary-format requirement for assets marked critical. The builder prioritizes required critical teaching material before large archives.
 
 ## Archives, maps and larger profiles
 
 Kiwix's [Wikipedia](https://download.kiwix.org/zim/wikipedia/), [Wiktionary](https://download.kiwix.org/zim/wiktionary/), [Wikibooks](https://download.kiwix.org/zim/wikibooks/), [iFixit](https://download.kiwix.org/zim/ifixit/) and [other collections](https://download.kiwix.org/zim/other/) directories supply the pinned ZIM snapshots.
 
-- `compact-256gb` adds full English Wikipedia without pictures (June 2026), WikiMed (April 2026), English Wiktionary (August 2026), English Wikibooks (April 2026), and iFixit (December 2025).
-- `standard-512gb` replaces no-picture Wikipedia with the full illustrated August 2026 archive and adds Appropedia (February 2026).
-- `full-1tb` adds the March 2023 English Khan Academy educational collection, approximately 180 GB including video. Speech inside audio/video is not transcribed by OWL's text index.
-- All three archive profiles also include [USGS This Dynamic Planet](https://pubs.usgs.gov/imap/2800/), third edition (2006), as two ordinary PDF sheets. These provide world geographic and tectonic reference, **not local roads, evacuation routes or live hazard information**.
+- All three acquisition profiles select the full illustrated English Wikipedia snapshot (August 2026), WikiMed (April 2026), iFixit (December 2025), and Appropedia (February 2026). The full Wikipedia pin is 127,418,087,648 bytes; the user-supplied 119 GB planning estimate does not replace this exact size.
+- English Wiktionary (August 2026) and Wikibooks (April 2026) begin at `standard-512gb`. Their pins cover archives, not the extra direct-reading exports requested for the 1 TB collection.
+- Regional maps are unresolved: compact allocates 10 GB to local topo only; standard includes a planned North America archive and selected topo; full replaces North America with a world archive while retaining topo. A geological world-reference PDF does not fulfill these maps.
+- Full includes the requested Khan STEM subset, not the previous approximately 180 GB all-subject archive. That subset must be selected and packaged before it has exact file pins. Remaining Khan content stays opt-in. Speech inside audio/video is not transcribed by OWL's text index.
+- The full profile additionally allocates 60 GB to more ordinary-format copies of selected content. This direct-reading expansion is unresolved; no unverified conversion is advertised as an available file.
+
+The complete target list and exclusions are in [content selection](content-selection.md), with all 46 numbered entries enumerated in `catalog/resources.yaml`. Most additions still require curation, source pins, permission, or a packaging pipeline. Normal builds of these incomplete collection profiles stop before downloads unless the user explicitly opts into a partial build. The independent fixed critical baseline remains usable.
 
 [Wikimedia terms](https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use) and article/media notices govern Wikimedia archives. Text is generally CC BY-SA 4.0, with individual exceptions and media licenses retained in the archive. [iFixit](https://www.ifixit.com/Info/Licensing) is CC BY-NC-SA 3.0; redistribution must be noncommercial and preserve attribution. [Appropedia](https://www.appropedia.org/Appropedia:Terms_of_use) defaults to CC BY-SA 4.0, except where stated. [Khan Academy permits reuse under its content conditions](https://support.khanacademy.org/hc/en-us/articles/202262954-Can-I-use-Khan-Academy-s-videos-name-materials-links-in-my-project); video and exercise content uses CC BY-NC-SA and individual notices still apply. All Khan Academy content is available for free at [khanacademy.org](https://www.khanacademy.org/). None of these publishers endorses OWL.
 
@@ -101,10 +104,14 @@ The AppImage is not an ARM Raspberry Pi reader. Linux AppImages may need FUSE or
 
 ## Unresolved entries
 
+The resource registry contains the full list of unresolved and partially fulfilled
+collections with specific reasons. The original file-level examples below remain
+open; they are not the entire outstanding acquisition list.
+
 `status: unresolved` records are visible in the catalog, excluded from selected downloads, and reported in build metadata. No fabricated byte count, checksum or direct URL stands in for missing evidence.
 
 1. **Hesperian Where There Is No Doctor:** the [publisher's open-copyright policy](https://hesperian.org/open-copyright-policy/) requires written permission for use in any digital format, including distribution of online materials. This project has no such permission. Its optional record is excluded. WHO and FEMA provide the included medical baseline.
-2. **Regional topographic and evacuation maps:** choose maps for the intended locality and record each verified source URL, edition, size, hash and rights. [USGS Map Locator](https://store.usgs.gov/map-locator) is a starting point for US locations. No single preselected region can serve an arbitrary user. The initial world map is not a substitute.
+2. **Regional topographic and evacuation maps:** choose maps for the intended locality and record each verified source URL, edition, size, hash and rights. [USGS Map Locator](https://store.usgs.gov/map-locator) is a starting point for US locations. No single preselected region can serve an arbitrary user. North America and world archive snapshots likewise need exact pins and rights checks.
 
 ## Refreshing a source
 

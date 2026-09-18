@@ -1,0 +1,1221 @@
+# Curation/planning registry. target_bytes are user estimates, not download sizes.
+# Exact downloadable asset metadata lives in library.yaml. See docs/content-selection.md.
+schema_version: 1
+resources:
+- id: hesperian-health
+  number: 1
+  title: Hesperian low-resource health library
+  target_bytes: 500000000
+  status: unresolved
+  reason: Publisher policy requires written permission for digital use; OWL has no permission or pinned
+    authorized package. The existing unresolved single-title record does not fulfill this collection.
+  asset_ids:
+  - hesperian_wtnd
+  preferred_formats:
+  - pdf
+  - html
+  include:
+  - Where There Is No Doctor
+  - Where Women Have No Doctor
+  - Where There Is No Dentist
+  - A Book for Midwives
+  - Environmental health
+  - Disability and child-health guides
+  - Health-worker training
+  exclude:
+  - Digital copying or redistribution without the required publisher permission
+  source_pages:
+  - https://hesperian.org/open-copyright-policy/
+- id: msf-medical
+  number: 2
+  title: MSF Medical Guidelines
+  target_bytes: 250000000
+  status: unresolved
+  reason: The publisher offers several guidelines but warns that some PDFs are not updated. Current titles,
+    authorized snapshot method, licensing and exact file pins require review.
+  asset_ids: []
+  preferred_formats:
+  - pdf
+  - html
+  include:
+  - Clinical Guidelines
+  - Essential Drugs
+  - Obstetric and newborn care
+  - Cholera
+  - Measles
+  - Tuberculosis
+  - Public-health engineering
+  - Versioned PDF and static HTML snapshots with update dates
+  exclude:
+  - Unreviewed claims that an older PDF matches the current online guidance
+  source_pages:
+  - https://medicalguidelines.msf.org/en
+- id: who-emergency-care
+  number: 3
+  title: WHO Basic Emergency Care and emergency clinical references
+  target_bytes: 100000000
+  status: partial
+  reason: The verified 2018 BEC PDF is available. Related emergency references and subsequent updates
+    have not been selected and pinned; the whole requested collection is incomplete.
+  asset_ids:
+  - medical_bec
+  preferred_formats:
+  - pdf
+  include:
+  - Complete Basic Emergency Care manual
+  - Directly related emergency-care reference material
+  - Explicit edition dates and clinical limitations
+  exclude:
+  - Treating a single historical manual as a complete current emergency-care collection
+  source_pages:
+  - https://www.who.int/publications/i/item/9789241513081
+- id: who-wash
+  number: 4
+  title: WHO WASH in Emergencies
+  target_bytes: 100000000
+  status: unresolved
+  reason: The complete 15-note source page is verified, but individual downloads and rights have not been
+    pinned. The 2013 notes carry copyright notices; do not infer the BEC license applies.
+  asset_ids: []
+  preferred_formats:
+  - pdf
+  include:
+  - All 15 WHO/WEDC technical notes
+  - Water quantity
+  - Cleaning and disinfecting wells and boreholes
+  - Chlorination and chlorine measurement
+  - Tanks and tankers
+  - Piped distribution and treatment works
+  - Point-of-use drinking-water treatment
+  - Sanitation and excreta disposal
+  - Solid waste
+  - Dead-body disposal
+  - Hygiene promotion
+  - Wells after seawater flooding
+  exclude:
+  - Substituting a general water leaflet for the full technical-note series
+  source_pages:
+  - https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/environmental-health-in-emergencies/technical-notes-on-wash-in-emergencies
+- id: sphere-handbook
+  number: 5
+  title: Sphere Handbook
+  target_bytes: 50000000
+  status: unresolved
+  reason: Official handbook and download pages are verified; an edition-specific PDF/HTML package, permissions
+    and integrity pins are still needed.
+  asset_ids: []
+  preferred_formats:
+  - pdf
+  - html
+  include:
+  - Whole handbook
+  - Humanitarian Charter and protection principles
+  - Core Humanitarian Standard
+  - WASH, food security, nutrition, shelter and health standards
+  exclude:
+  - Handbook fragments presented as the complete edition
+  source_pages:
+  - https://spherestandards.org/handbook/
+  - https://spherestandards.org/handbook/editions/
+- id: food-preservation
+  number: 6
+  title: USDA and NCHFP food preservation
+  target_bytes: 100000000
+  status: partial
+  reason: All eight files of the verified USDA 2015 canning guide are pinned. Current freezing, drying,
+    fermentation and broader food-safety selections are not yet pinned.
+  asset_ids:
+  - food
+  - canning_00
+  - canning_02
+  - canning_03
+  - canning_04
+  - canning_05
+  - canning_06
+  - canning_07
+  preferred_formats:
+  - pdf
+  - html
+  include:
+  - Current canning guidance
+  - Freezing
+  - Drying
+  - Fermentation
+  - Food safety
+  - Retain processing tables and illustrations in context
+  exclude:
+  - Assuming the 2015 canning volumes alone cover all preservation methods or reflect every later update
+  source_pages:
+  - https://nchfp.uga.edu/resources/entry/about-the-usda-guide-to-home-canning-2015-revision
+- id: niosh-chemical-hazards
+  number: 7
+  title: NIOSH Pocket Guide to Chemical Hazards
+  target_bytes: 10000000
+  status: unresolved
+  reason: NIOSH confirms an official PDF is available; the exact downloadable file and edition have not
+    yet been hashed and entered in the asset catalog.
+  asset_ids: []
+  preferred_formats:
+  - pdf
+  include:
+  - Whole current downloadable guide
+  - Chemical names, exposure limits, incompatibilities, protective measures and first aid
+  - Record the edition and differences from online updates
+  exclude:
+  - A mobile-app-only copy
+  source_pages:
+  - https://www.cdc.gov/niosh/npg/default.html
+- id: fao-agriculture
+  number: 8
+  title: FAO practical agriculture core
+  target_bytes: 500000000
+  status: unresolved
+  reason: The instructional scope is defined, but a title-level FAO selection, rights review and pinned
+    files remain to be created. The baseline NRCS garden guide is not this collection.
+  asset_ids: []
+  preferred_formats:
+  - pdf
+  - html
+  include:
+  - Crop production fundamentals
+  - Soil fertility and composting
+  - Irrigation
+  - Crop-water requirements
+  - Seed storage
+  - Small-scale post-harvest handling
+  - Grain storage
+  - Vegetable production
+  - Poultry
+  - Rabbits and small livestock
+  - Dairy basics
+  - Animal feeding
+  - Pest management
+  - Greenhouse and protected growing
+  - Food-loss reduction
+  - Small-farm tools
+  - Basic aquaculture where practical
+  exclude:
+  - Policy documents
+  - Statistical yearbooks
+  - Meeting reports
+  - Economic forecasting
+  - Administrative material
+  - Country programme reports
+  source_pages:
+  - https://www.fao.org/sustainable-food-value-chains/training-and-learning-center/en/
+  - https://openknowledge.fao.org/
+- id: gutenberg-core
+  number: 9
+  title: Project Gutenberg core library
+  target_bytes: 40000000000
+  status: unresolved
+  reason: Gutenberg supports selective mirrors, but a reproducible book-ID selection, deduplication and
+    pinned direct-format export are not implemented. A seed book would not fulfill the 40 GB collection.
+  asset_ids: []
+  preferred_formats:
+  - html
+  - txt
+  - epub
+  include:
+  - Major English-language literature
+  - World classics in English translation
+  - Poetry
+  - Mythology and folklore
+  - History
+  - Philosophy
+  - Biographies
+  - Science classics
+  - Mathematics classics
+  - Practical historical texts
+  - Dictionaries and reference works not better duplicated elsewhere
+  - Children and young-adult classics
+  - Major drama
+  - Language-learning and public-domain grammars
+  - Older technical books complementing Survivor Library
+  - One preferred reading representation per work; HTML with images when useful, UTF-8 TXT fallback and
+    an EPUB where it adds phone-reading value
+  - Retain book-level rights notices and country-specific public-domain limitations
+  exclude:
+  - Audio editions
+  - Kindle and MOBI duplicates
+  - Duplicate EPUB variants
+  - Low-value OCR scans when a good text edition exists
+  - Materially identical editions
+  - Periodicals without clear utility
+  source_pages:
+  - https://www.gutenberg.org/help/mirroring.html
+- id: childrens-library
+  number: 10
+  title: Children's Library
+  target_bytes: 22000000000
+  status: unresolved
+  reason: Book Dash permits redistribution and African Storybook offers offline downloads, but complete
+    authorized direct-format exports, per-title metadata, deduplication and hashes are not yet assembled.
+  asset_ids: []
+  preferred_formats:
+  - pdf
+  - html
+  - epub
+  - png
+  - jpeg
+  - txt
+  include:
+  - 'Book Dash: essentially all available books, with normal ebook PDFs, extracted text, covers and illustrations,
+    available translations and optional print-ready PDFs'
+  - 'African Storybook: whole collection initially where authorized exports allow PDF, HTML or images
+    plus text'
+  - 'Gutenberg: picture books, fairy tales, folk tales, early readers, classics, adventure, nature and
+    science, history and biography, teen classics and poetry'
+  - Deduplicate titles already represented better by another source
+  - Top-level navigation alongside Gutenberg, health, food/water, repair, maps and search
+  - Preserve illustrations and per-book author, illustrator, translator and license credits
+  exclude:
+  - Depending solely on the Book Dash ZIM
+  - A ZIM-only children’s collection when direct exports are practical
+  - Redundant editions across publishers
+  source_pages:
+  - https://bookdash.org/
+  - https://www.africanstorybook.org/
+  - https://www.gutenberg.org/help/mirroring.html
+  - https://ftp.fau.de/kiwix/zim/other/
+- id: wikipedia-en
+  number: 11
+  title: English Wikipedia, full
+  target_bytes: 119000000000
+  status: partial
+  reason: The full English maxi ZIM is pinned. The requested direct HTML lifeboat and curated article
+    list are missing. The 119 GB target is a planning envelope including its allowance, not the exact
+    ZIM byte count.
+  asset_ids:
+  - wikipedia_en
+  preferred_formats:
+  - zim
+  - html
+  include:
+  - Whole pinned English maxi archive with images
+  - Small article-list-driven HTML lifeboat under WIKIPEDIA/DIRECT/; aim for roughly 2–5 GB within this
+    planning envelope
+  - 'Lifeboat: human anatomy, common diseases, first-aid concepts and medicines'
+  - 'Lifeboat: crops, food preservation, water treatment and sanitation'
+  - 'Lifeboat: electricity, motors, generators, batteries, radios and mechanical systems'
+  - 'Lifeboat: chemistry, materials, construction, navigation, meteorology and mathematics fundamentals'
+  exclude:
+  - Expanding millions of articles into individual exFAT files
+  - Replacing full maxi with nopic or mini without an explicit profile decision
+  - Selecting lifeboat articles solely to fill a quota
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/wikipedia/
+- id: wikimed
+  number: 12
+  title: WikiMed / MDWiki
+  target_bytes: 2100000000
+  status: ready
+  asset_ids:
+  - wikimed_en
+  preferred_formats:
+  - zim
+  include:
+  - Whole pinned English medical encyclopedia
+  - Preserve clinical and licensing notices
+  exclude:
+  - Treating encyclopedia access as professional medical training
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/wikipedia/
+- id: wikem
+  number: 13
+  title: WikEM
+  target_bytes: 360000000
+  status: unresolved
+  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
+    recorded.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  include:
+  - Whole emergency-medicine reference
+  - Version and clinical caveats
+  exclude:
+  - Unversioned clinical guidance
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/other/
+- id: regional-maps
+  number: 14
+  title: Regional maps and topography
+  target_bytes: 51000000000
+  status: unresolved
+  reason: The North America OSM asset is an unresolved placeholder pending exact source metadata. Locality-specific
+    GeoPDF coverage is not selected. Existing USGS Dynamic Planet reference sheets do not fulfill this
+    resource.
+  asset_ids:
+  - map_osm_north_america
+  - regional_topographic_maps
+  preferred_formats:
+  - zim
+  - pdf
+  include:
+  - North America OSM archive; 21 GB planning component
+  - Detailed local and regional GeoPDF/topographic maps; roughly 20–40 GB, with 30 GB in this default
+    envelope
+  - Home state or region
+  - Neighboring states or regions
+  - Likely evacuation corridors
+  - Major watersheds
+  - National and state forests
+  - Major transport corridors
+  - Compact profile may use a 10 GB regional selection instead of the full default envelope
+  exclude:
+  - High-resolution topography for the entire continent by default
+  - Treating physical-world/tectonic reference sheets as local road or evacuation maps
+  - Automatically retaining North America OSM when the world replacement is selected
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/maps/
+  - https://store.usgs.gov/map-locator
+- id: appropedia
+  number: 15
+  title: Appropedia
+  target_bytes: 560000000
+  status: partial
+  reason: The whole Appropedia ZIM is pinned; the required selection and offline HTML export of critical
+    articles are not yet generated.
+  asset_ids:
+  - appropedia_en
+  preferred_formats:
+  - zim
+  - html
+  include:
+  - Whole pinned snapshot
+  - Selected critical articles as directly readable HTML
+  exclude:
+  - Critical practical content available only inside ZIM
+  source_pages:
+  - https://www.appropedia.org/Appropedia:Terms_of_use
+  - https://ftp.fau.de/kiwix/zim/other/
+- id: cd3wd
+  number: 16
+  title: CD3WD appropriate-development archive
+  target_bytes: 550000000
+  status: unresolved
+  reason: An exact archive snapshot, contained-publication rights and PDF extraction plan remain unresolved;
+    historical archive availability alone is not license evidence.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  - pdf
+  include:
+  - Whole current archive initially
+  - Extract original PDFs where available with notices intact
+  exclude:
+  - Unreviewed assumption that every contained publication has the same redistribution license
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/other/
+- id: ifixit
+  number: 17
+  title: iFixit repair references
+  target_bytes: 3300000000
+  status: partial
+  reason: The English iFixit ZIM is pinned. A curated set of directly readable critical guides has not
+    yet been exported and verified; noncommercial share-alike conditions apply.
+  asset_ids:
+  - ifixit_en
+  preferred_formats:
+  - zim
+  - pdf
+  - html
+  include:
+  - Whole pinned English repair archive
+  - Selected critical repair guides as direct PDF or HTML
+  - Retain steps, photographs, parts context and attribution
+  exclude:
+  - Critical repair instructions available only inside ZIM
+  source_pages:
+  - https://www.ifixit.com/Info/Licensing
+  - https://download.kiwix.org/zim/ifixit/
+- id: low-tech-magazine
+  number: 18
+  title: Low-tech Magazine
+  target_bytes: 700000000
+  status: unresolved
+  reason: The official editorial site is verified, but an authorized static snapshot, image-rights review,
+    exact scope and integrity metadata have not been prepared.
+  asset_ids: []
+  preferred_formats:
+  - html
+  - png
+  - jpeg
+  include:
+  - Useful editorial archive
+  - Article images, diagrams, captions and author credits
+  - Static local links and retained publication dates
+  exclude:
+  - Analytics, advertisements and remote-only page dependencies
+  source_pages:
+  - https://solar.lowtechmagazine.com/about/
+- id: survivor-tier-a
+  number: 19
+  title: Survivor Library — curated Tier A
+  target_bytes: 100000000000
+  status: unresolved
+  reason: A durable-trades title list, per-volume rights review, quality/deduplication decisions and pinned
+    PDFs are required. This does not authorize a whole-library mirror or include a curated 100 GB package
+    yet.
+  asset_ids: []
+  preferred_formats:
+  - pdf
+  include:
+  - 'Metal/workshop: blacksmithing, forging, foundry and casting, machine tools, machining, welding, sheet
+    metal, toolmaking, mechanical drawing, measurement and metrology, bearings and gears, workshop practice'
+  - 'Construction: carpentry, joinery, masonry, concrete, brickmaking, roofing, plumbing fundamentals,
+    drainage, surveying, structural fundamentals, roads and bridges'
+  - 'Mechanical power: water power, wind power, steam engines, transmission, pumps, mills, engines, boilers
+    and refrigeration fundamentals'
+  - 'Agriculture/processing: farming, soil, crop cultivation, animal husbandry, dairying, cheese and butter,
+    butchering, food drying, grain milling, farm machinery, beekeeping and horticulture'
+  - 'Traditional fabrication: leatherworking, sewing, weaving, rope, papermaking, bookbinding, printing,
+    pottery, glassmaking, woodworking, furniture and basketry'
+  - 'Industrial fundamentals: process/materials chemistry, mining, metallurgy, fuels, lubricants and steam/water
+    systems'
+  - Historical safety warnings for boilers and other obsolete industrial practices
+  - Default resource target 100 GB; selected profiles may explicitly reduce it to 75 GB
+  exclude:
+  - Obsolete medical diagnosis and treatment
+  - Anesthesia, historic surgery, old obstetrics as operational medicine, X-ray practice and historical
+    nursing medicine
+  - Old encyclopedias
+  - Great Books and literature duplicated by Gutenberg
+  - Children’s books duplicated by Book Dash or Gutenberg
+  - Christmas and Thanksgiving collections
+  - Giant historical periodical runs
+  - Most finance, banking, accounting and economics
+  - Duplicated general history and repetitive travelogue
+  - Duplicate editions and scans
+  - Low-quality scans when a better edition exists
+  - Medical history outside an explicitly labeled optional HISTORICAL appendix
+  source_pages:
+  - https://www.survivorlibrary.com/
+- id: stackoverflow-durable
+  number: 20
+  title: Stack Overflow — durable curated corpus
+  target_bytes: 25000000000
+  status: unresolved
+  reason: A legally obtainable pinned input dump and deterministic quality/topic filters, canonical deduplication,
+    static renderer and per-post license attribution are not implemented. The existing full-site Kiwix
+    option is intentionally not substituted.
+  asset_ids: []
+  preferred_formats:
+  - html
+  include:
+  - 'Languages: C, C++, Python, Java, C#, shell/Bash, core JavaScript and HTML/CSS'
+  - 'Systems: POSIX, Unix/Linux, filesystems, processes, threads, sockets, TCP/IP, serial communications,
+    USB concepts, permissions, networking and memory management'
+  - 'Data: SQL, SQLite, relational fundamentals, parsing, text processing, Unicode, regular expressions,
+    binary file formats and serialization'
+  - 'Tools: Git, GCC, compilers, assemblers, linkers, make/build systems, debuggers and package construction
+    without cloud dependencies'
+  - 'Computer science: algorithms, data structures, numerical computing, compression, basic cryptographic
+    programming and concurrency'
+  - 'Per question: question, accepted answer, one or two useful alternatives, relevant correction/warning
+    comments, tags, dates, version context and attribution/license'
+  - Canonical-question mapping for duplicates
+  - Generated static HTML with a reproducible selection recipe
+  exclude:
+  - The whole roughly 107 GB English ZIM
+  - Unanswered questions
+  - Mapped duplicates and negative or very-low-score junk
+  - User profiles, badges, full edit history and trivial comments
+  - Page chrome, analytics and advertisements
+  - AWS, Azure, GCP, Firebase and SaaS-specific integrations
+  - Stripe, Twilio, advertising and social-media APIs
+  - App Store and Play Store workflows and CI SaaS
+  - React/Angular/framework version churn unless conceptually useful
+  - Old jQuery plugins and ancient web-framework minutiae
+  - WordPress/plugin-version questions
+  - Dead browser APIs, Flash, Flex and Silverlight
+  - BlackBerry, Symbian and Windows Phone app development
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/stack_exchange/
+- id: stackexchange-practical
+  number: 21
+  title: Practical Stack Exchange bundle
+  target_bytes: 12000000000
+  status: unresolved
+  reason: Selected site dumps, quality rules, licensing metadata and deterministic static HTML exports
+    have not been pinned or generated.
+  asset_ids: []
+  preferred_formats:
+  - html
+  include:
+  - Electrical Engineering
+  - Home Improvement / DIY
+  - Gardening
+  - Mechanics
+  - Unix and Linux
+  - Ham Radio
+  - Outdoors
+  - Sustainability
+  - Woodworking
+  - 3D Printing
+  - Selected SuperUser
+  - Selected GIS
+  - Substantially intact useful site content after quality filtering
+  - Question/answer context, dates, correction comments and per-post attribution
+  - Generated static HTML
+  exclude:
+  - Junk
+  - Unanswered questions
+  - Duplicate material
+  - ZIM as the primary delivered representation
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/stack_exchange/
+- id: openstax-core
+  number: 22
+  title: OpenStax core textbooks
+  target_bytes: 12000000000
+  status: partial
+  reason: Five verified illustrated PDFs (Prealgebra, College Physics, Chemistry, Biology, Anatomy and
+    Physiology) are pinned, totaling 1.42 GB. The larger requested textbook list and HTML coverage are
+    incomplete. Included 2026 PDFs require CC BY-NC-SA 4.0 and the OpenStax attribution notice.
+  asset_ids:
+  - openstax_prealgebra_2e
+  - openstax_college_physics_2e
+  - openstax_chemistry_2e
+  - openstax_biology_2e
+  - openstax_anatomy_and_physiology_2e
+  preferred_formats:
+  - pdf
+  - html
+  include:
+  - 'Math: Prealgebra, Elementary Algebra, Intermediate Algebra, College Algebra, Algebra and Trigonometry,
+    Precalculus, Calculus volumes 1–3 and Introductory Statistics'
+  - 'Science: Biology, Anatomy and Physiology, Chemistry, Physics, University Physics volumes 1–3, Astronomy
+    and Microbiology'
+  - College Physics
+  - Basic business/economics only if space permits
+  - Psychology/sociology only if broader education is desired
+  - Current original textbook PDFs with illustrations, notices, locally generated metadata and searchable
+    text
+  exclude:
+  - Bulk copying ancillary instructor resources
+  - Replacing illustrated books with text extracts
+  - Assuming older OpenStax editions establish the license of current PDFs
+  source_pages:
+  - https://help.openstax.org/s/article/student-book-access
+  - https://openstax.org/apps/cms/api/books/?format=json
+- id: libretexts-stem
+  number: 23
+  title: LibreTexts STEM and medicine
+  target_bytes: 8500000000
+  status: unresolved
+  reason: Eight requested subject packages total roughly 8.48 GB in the supplied estimates. Exact pinned
+    archives and collection-specific rights have not been added.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  - pdf
+  include:
+  - Biology
+  - Chemistry
+  - Engineering
+  - Geology
+  - Mathematics
+  - Medicine
+  - Physics
+  - Statistics
+  - PDFs when easily available and appropriately licensed
+  exclude:
+  - Business, humanities and social-science collections initially
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/libretexts/
+- id: wikibooks-en
+  number: 24
+  title: English Wikibooks
+  target_bytes: 5800000000
+  status: ready
+  asset_ids:
+  - wikibooks_en
+  preferred_formats:
+  - zim
+  include:
+  - Whole pinned English archive
+  exclude:
+  - Treating archive-only books as directly readable critical textbooks
+  source_pages:
+  - https://download.kiwix.org/zim/wikibooks/
+- id: wiktionary-en
+  number: 25
+  title: English Wiktionary
+  target_bytes: 8500000000
+  status: ready
+  asset_ids:
+  - wiktionary_en
+  preferred_formats:
+  - zim
+  include:
+  - Whole pinned English text archive
+  exclude:
+  - Duplicated dictionaries without clear added value
+  source_pages:
+  - https://download.kiwix.org/zim/wiktionary/
+- id: phet
+  number: 26
+  title: PhET simulations
+  target_bytes: 100000000
+  status: unresolved
+  reason: Official offline-download support is verified, but individual simulation versions, current license
+    terms, self-contained files and offline device tests are not pinned. Do not assume historical licensing
+    applies.
+  asset_ids: []
+  preferred_formats:
+  - html5
+  include:
+  - English self-contained HTML5 simulations
+  - Offline dependencies and attribution retained
+  - Test file-based execution on intended devices
+  exclude:
+  - Java and Flash dependence
+  - Assuming iPhone can execute arbitrary local HTML5 files or install an app offline
+  source_pages:
+  - https://phet.colorado.edu/en/offline-access
+  - https://phet.colorado.edu/en/licensing
+- id: wikiversity-en
+  number: 27
+  title: English Wikiversity
+  target_bytes: 2300000000
+  status: unresolved
+  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
+    recorded.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  include:
+  - Whole English archive
+  exclude:
+  - Unpinned latest URLs
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/other/
+- id: civilian-preparedness
+  number: 28
+  title: Ready.gov and FEMA civilian preparedness expansion
+  target_bytes: 500000000
+  status: unresolved
+  reason: Expanded civilian-preparedness pages and publications are not selected or pinned. Complementary
+    baseline FEMA PDFs belong to owl-direct-core and are not counted twice here.
+  asset_ids: []
+  preferred_formats:
+  - html
+  - pdf
+  include:
+  - Disaster types
+  - Sheltering
+  - Evacuation
+  - Communications
+  - Household preparation
+  - Static HTML and PDFs beyond the existing OWL baseline manuals
+  exclude:
+  - Claiming the core CERT, shelter advisory and supply checklist alone fulfill the broader Ready.gov/FEMA
+    collection
+  source_pages:
+  - https://www.govinfo.gov/app/details/GOVPUB-HS5_100-PURL-gpo185734
+  - https://www.fema.gov/sites/default/files/2020-07/residential-sheltering-safe-rooms_recovery-advisory.pdf
+  - https://www.fema.gov/sites/default/files/documents/fema_hm-emergency-supply-kit-checklist_english.pdf
+- id: wikivoyage-en
+  number: 29
+  title: English Wikivoyage
+  target_bytes: 1100000000
+  status: unresolved
+  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
+    recorded.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  include:
+  - Whole English travel archive
+  - Clear snapshot date
+  exclude:
+  - Claims of current border, transport or safety conditions
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/other/
+- id: world-factbook
+  number: 30
+  title: CIA World Factbook snapshot
+  target_bytes: 400000000
+  status: unresolved
+  reason: CIA officially discontinued the Factbook on 2026-02-04. An approved preserved snapshot with
+    exact provenance, rights and integrity metadata must be selected; no current CIA download is assumed.
+  asset_ids: []
+  preferred_formats:
+  - html
+  - zim
+  include:
+  - Whole preserved historical snapshot
+  - Clearly displayed publication and capture dates
+  exclude:
+  - Describing the discontinued publication as a live current service
+  source_pages:
+  - https://www.cia.gov/stories/story/spotlighting-the-world-factbook-as-we-bid-a-fond-farewell/
+  - https://ftp.fau.de/kiwix/zim/other/
+- id: linux-programming-docs
+  number: 31
+  title: Offline Linux and programming documentation
+  target_bytes: 5000000000
+  status: unresolved
+  reason: Authoritative offline sources exist, but the requested multi-project bundle, versions, rights
+    and safe direct-format extraction are not yet pinned.
+  asset_ids: []
+  preferred_formats:
+  - html
+  - txt
+  - man
+  - pdf
+  include:
+  - Linux man-pages project
+  - GNU coreutils
+  - Bash
+  - Git documentation
+  - GCC and binutils basics
+  - Python 3 documentation
+  - SQLite documentation
+  - POSIX reference where redistribution permits
+  - OpenSSH
+  - Networking commands
+  - Filesystem tools
+  - systemd documentation where relevant
+  - Basic C-library documentation
+  - Authoritative project docs with versions and licenses
+  - PDF only when it is a canonical offline form
+  exclude:
+  - Substituting Stack Overflow for authoritative documentation
+  - Unnecessary packaging duplication such as a whole Python ZIM when a direct bundle suffices
+  - Restricted POSIX material without permission
+  source_pages:
+  - https://www.kernel.org/doc/man-pages/
+  - https://docs.python.org/3/download.html
+  - https://www.sqlite.org/docs.html
+- id: stackexchange-science
+  number: 32
+  title: Math, Physics and Biology Stack Exchange
+  target_bytes: 9000000000
+  status: unresolved
+  reason: Site selection, minimum quality thresholds, legally obtained input snapshots and static exports
+    remain to be implemented.
+  asset_ids: []
+  preferred_formats:
+  - html
+  include:
+  - Almost all Mathematics questions meeting quality thresholds
+  - Physics
+  - Biology
+  - Chemistry optionally
+  - Question/answer context, dates, corrections and attribution
+  - Generated static HTML
+  exclude:
+  - Junk, unanswered questions and canonical duplicates
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/stack_exchange/
+- id: wikisource-en
+  number: 33
+  title: English Wikisource
+  target_bytes: 18000000000
+  status: unresolved
+  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
+    recorded.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  include:
+  - Whole English archive if space permits
+  exclude:
+  - Assuming every historical work is public domain in every jurisdiction
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/other/
+- id: ted-ed
+  number: 34
+  title: TED-Ed
+  target_bytes: 6000000000
+  status: unresolved
+  reason: An exact authorized offline lesson collection, video rendition and package rights have not been
+    pinned; the target is a curation estimate.
+  asset_ids: []
+  preferred_formats:
+  - video
+  - html
+  - zim
+  include:
+  - Educational lessons at lower priority
+  - Offline video with lesson context and notices
+  exclude:
+  - Required learning content available only through streamed video
+  source_pages:
+  - https://www.ftp.fau.de/kiwix/zim/zimit/
+- id: khan-core-stem
+  number: 35
+  title: Khan Academy — core STEM
+  target_bytes: 90000000000
+  status: unresolved
+  reason: The previously cataloged whole 180 GB Khan archive has been retired from profile selection.
+    No verified curated core-STEM package exists here; course selection and Kiwix/Kolibri packaging remain
+    unresolved.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  - kolibri
+  include:
+  - 'Math: arithmetic, pre-algebra, algebra I/II, geometry, trigonometry, precalculus, calculus, differential
+    equations where available, statistics/probability and linear algebra'
+  - 'Science: physics, chemistry, biology, earth science and electrical engineering where present'
+  - 'Computing: algorithms, computer-science basics and durable programming fundamentals'
+  - Subset manifest and original license/attribution retained
+  exclude:
+  - Automatically downloading every course
+  - Standardized-test preparation
+  - Finance
+  - Career preparation
+  - Contemporary civics and news-dependent content
+  - Duplicated humanities
+  - Material substantially duplicated by stronger textbook sources
+  - Substituting the existing unsplit 180 GB archive for this 90 GB subset
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/other/
+- id: wikipedia-es
+  number: 36
+  title: Spanish Wikipedia
+  target_bytes: 38000000000
+  status: unresolved
+  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
+    recorded.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  include:
+  - Whole maxi archive with images
+  - Select according to languages used by the intended community
+  - Included in the 1 TB default selection
+  exclude:
+  - Selecting a language only because it is globally popular when intended users do not read it
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/wikipedia/
+- id: wikipedia-fr
+  number: 37
+  title: French Wikipedia
+  target_bytes: 52000000000
+  status: unresolved
+  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
+    recorded.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  include:
+  - Whole maxi archive with images
+  - Select according to languages used by the intended community
+  - Opt-in language expansion
+  exclude:
+  - Selecting a language only because it is globally popular when intended users do not read it
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/wikipedia/
+- id: wikipedia-zh
+  number: 38
+  title: Chinese Wikipedia
+  target_bytes: 25000000000
+  status: unresolved
+  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
+    recorded.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  include:
+  - Whole maxi archive with images
+  - Select according to languages used by the intended community
+  - Opt-in language expansion
+  exclude:
+  - Selecting a language only because it is globally popular when intended users do not read it
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/wikipedia/
+- id: wikipedia-ar
+  number: 39
+  title: Arabic Wikipedia
+  target_bytes: 18000000000
+  status: unresolved
+  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
+    recorded.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  include:
+  - Whole maxi archive with images
+  - Select according to languages used by the intended community
+  - Opt-in language expansion
+  exclude:
+  - Selecting a language only because it is globally popular when intended users do not read it
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/wikipedia/
+- id: wikipedia-pt
+  number: 40
+  title: Portuguese Wikipedia
+  target_bytes: 19000000000
+  status: unresolved
+  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
+    recorded.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  include:
+  - Whole maxi archive with images
+  - Select according to languages used by the intended community
+  - Opt-in language expansion
+  exclude:
+  - Selecting a language only because it is globally popular when intended users do not read it
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/wikipedia/
+- id: wikipedia-it
+  number: 41
+  title: Italian Wikipedia
+  target_bytes: 30000000000
+  status: unresolved
+  reason: Pinned files, exact sizes, SHA-256 values and applicable redistribution notices are not yet
+    recorded.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  include:
+  - Whole maxi archive with images
+  - Select according to languages used by the intended community
+  - Opt-in language expansion
+  exclude:
+  - Selecting a language only because it is globally popular when intended users do not read it
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/wikipedia/
+- id: world-maps
+  number: 42
+  title: Upgrade regional map to entire world
+  target_bytes: 72000000000
+  status: unresolved
+  reason: The world-map asset is a placeholder pending exact source metadata. It replaces only map_osm_north_america
+    when that component would otherwise be selected; it is not a 51 GB downloadable file.
+  asset_ids:
+  - map_osm_world
+  preferred_formats:
+  - zim
+  include:
+  - Whole world OSM archive
+  - Replace the 21 GB North America OSM component
+  - Retain selected local GeoPDF/topographic maps from the regional collection
+  - 72 GB absolute planning target, with a conditional 21 GB replacement credit
+  exclude:
+  - Counting both world and North America OSM as independent default content
+  - Removing the local topographic selection when replacing the continent map
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/maps/
+  replaces_asset_ids:
+  - map_osm_north_america
+  replacement_credit:
+    resource_id: regional-maps
+    target_bytes: 21000000000
+- id: gutenberg-multilingual
+  number: 43
+  title: Gutenberg multilingual expansion
+  target_bytes: 30000000000
+  status: unresolved
+  reason: Language choices and a reproducible non-English book-ID selection, rights checks, deduplication
+    and pinned export remain unresolved.
+  asset_ids: []
+  preferred_formats:
+  - html
+  - txt
+  - epub
+  include:
+  - Languages used by likely readers
+  - Canonical literature
+  - Children’s literature
+  - Dictionaries
+  - Language instruction
+  - Major historical and scientific works
+  - One preferred representation with useful text fallback and EPUB
+  exclude:
+  - Audio
+  - Redundant formats and materially identical editions
+  - Language selection disconnected from the intended community
+  source_pages:
+  - https://www.gutenberg.org/help/mirroring.html
+- id: survivor-tier-b
+  number: 44
+  title: Survivor Library — Tier B
+  target_bytes: 30000000000
+  status: unresolved
+  reason: Specialist title selection, scan quality, per-volume rights and exact pins remain unresolved;
+    this is an optional appendix rather than a whole-library expansion.
+  asset_ids: []
+  preferred_formats:
+  - pdf
+  include:
+  - Only after Tier A
+  - Shipbuilding
+  - Advanced mining
+  - Specialized foundry books
+  - Radio and electronics history
+  - Refrigeration
+  - Advanced steam engineering
+  - Industrial chemical processes
+  - Railroad engineering
+  - Textile machinery
+  - Historical transportation engineering
+  - Specialized agricultural journals
+  - Historical context and safety warnings
+  exclude:
+  - Generic history, literature or obsolete operational medicine added merely to fill space
+  - Duplicates of Tier A or other libraries
+  source_pages:
+  - https://www.survivorlibrary.com/
+- id: khan-remaining
+  number: 45
+  title: Remaining Khan Academy
+  target_bytes: 80000000000
+  status: unresolved
+  reason: A non-overlapping remainder package has not been selected and pinned. The retired whole-archive
+    asset is not a substitute for this optional 80 GB resource.
+  asset_ids: []
+  preferred_formats:
+  - zim
+  - kolibri
+  include:
+  - Non-core subjects and broader course catalog
+  - Only after the core STEM selection and higher priorities
+  - Explicit opt-in
+  - Deduplicate against the core STEM package
+  exclude:
+  - Automatic default inclusion
+  - Counting the whole 180 GB archive as both core and remaining subsets
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/other/
+- id: stackoverflow-legacy
+  number: 46
+  title: Stack Overflow legacy-computing appendix
+  target_bytes: 15000000000
+  status: unresolved
+  reason: A separate legacy corpus, deterministic topic rules, pinned inputs, license-preserving HTML
+    export and dedicated search treatment are not implemented.
+  asset_ids: []
+  preferred_formats:
+  - html
+  include:
+  - Python 2
+  - Older GCC
+  - Java 6, 7 and 8
+  - Old .NET
+  - Windows XP/7 internals and repair
+  - Old BIOS and MBR booting
+  - 32-bit Linux
+  - Legacy serial and parallel ports
+  - Old filesystems
+  - Ancient compiler/toolchain issues
+  - Older Android only where useful for hardware reuse
+  - Separate from normal search ranking
+  - 'Visible result badge: LEGACY — MAY APPLY ONLY TO OLD SYSTEMS'
+  - Preserve dates, versions and per-post attribution
+  exclude:
+  - Every old web framework
+  - Legacy content silently mixed into current operational advice
+  source_pages:
+  - https://ftp.fau.de/kiwix/zim/stack_exchange/
+- id: owl-direct-core
+  number: null
+  title: OWL complementary directly readable core
+  target_bytes: 134021877
+  status: ready
+  asset_ids:
+  - cert
+  - water
+  - sanitation
+  - agriculture
+  - electrical_dc
+  - electrical_ac
+  - mechanical
+  - shelter
+  - navigation
+  - survival_shelter
+  - reference
+  preferred_formats:
+  - pdf
+  include:
+  - Verified baseline first aid, water, sanitation, gardening, electrical textbooks, mechanical reference,
+    shelter, navigation and preparedness
+  - Original ordinary PDFs with illustrations and notices
+  - Complements the separately selected WHO, food-preservation and OpenStax resources
+  exclude:
+  - Files already assigned to numbered resource collections
+  - USGS Dynamic Planet reference sheets presented as regional maps
+  source_pages:
+  - https://www.govinfo.gov/app/details/GOVPUB-HS5_100-PURL-gpo185734
+  - https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water-0
+  - https://www.cdc.gov/water-emergency/communication-resources/fact-sheet-preventing-diarrheal-illness-after-a-disaster.html
+  - https://www.nrcs.usda.gov/plantmaterials/mipmcot9407.pdf
+  - https://www.ibiblio.org/kuphaldt/electricCircuits/DC/index.html
+  - https://www.ibiblio.org/kuphaldt/electricCircuits/index.htm
+  - https://www.faa.gov/regulations_policies/handbooks_manuals/aviation
+  - https://www.fema.gov/sites/default/files/2020-07/residential-sheltering-safe-rooms_recovery-advisory.pdf
+  - https://www.usgs.gov/media/files/finding-your-way-map-and-compass
+  - https://www.armyupress.army.mil/Journals/NCO-Journal/Archives/2020/June/NCO-C3/
+  - https://www.fema.gov/sites/default/files/documents/fema_hm-emergency-supply-kit-checklist_english.pdf
+- id: archive-readers
+  number: null
+  title: Bundled offline archive readers
+  target_bytes: 0
+  status: ready
+  asset_ids:
+  - kiwix_windows
+  - kiwix_linux
+  - kiwix_macos
+  - kiwix_android
+  preferred_formats:
+  - zip
+  - appimage
+  - dmg
+  - apk
+  include:
+  - Pinned Kiwix Windows portable reader
+  - Pinned Kiwix Linux x86_64 AppImage
+  - Pinned Kiwix macOS package
+  - Pinned standalone Kiwix Android APK
+  - Preserve notices and satisfy corresponding-source obligations before redistributing binaries
+  exclude:
+  - Assuming an iPhone can install Kiwix from the SSD offline
+  - Assuming the x86_64 AppImage runs on Raspberry Pi
+  source_pages:
+  - https://get.kiwix.org/en/solutions/applications/download-options/
+- id: direct-reading-expansion
+  number: null
+  title: Additional directly readable editions of selected material
+  target_bytes: 60000000000
+  status: unresolved
+  reason: Additional storage for ordinary-format derivatives of selected collections. No curated export
+    manifests, licensed derivative packages, extraction pipeline or verified output assets are implemented
+    yet. This is a representation budget, not a new acquired collection or a claim of available files.
+  asset_ids: []
+  preferred_formats:
+  - html
+  - pdf
+  - txt
+  - png
+  - jpeg
+  include:
+  - Additional directly readable copies of material from source resources already selected for this build
+  - Prioritize Appropedia, CD3WD, iFixit, LibreTexts STEM and English Wikibooks
+  - Broaden the article-list-driven high-priority English Wikipedia HTML lifeboat
+  - Preserve diagrams, photographs, labels, captions, instructions, article context and book context
+  - Retain licensing and attribution notices, source versions and ordinary local entry links
+  - Treat the 60 GB target as additional storage beyond existing direct copies and their existing budgets
+  - Limit derivative subjects to the selected source collections; excluding a source collection excludes
+    its planned derivatives from this expansion
+  - Full-1tb default preference for direct reading without a ZIM reader
+  exclude:
+  - Expanding all of Wikipedia into millions of individual exFAT files
+  - Counting existing directly readable source files or previously budgeted direct editions twice
+  - Acquiring additional Khan, language or map collections to fill this budget
+  - Exporting an excluded collection through this representation resource
+  - Dropping illustrations or presenting decontextualized text as an equivalent illustrated guide
+  - Implying that an ordinary-format derivative is redistributable without checking the source license
+  source_pages:
+  - https://www.appropedia.org/Appropedia:Terms_of_use
+  - https://ftp.fau.de/kiwix/zim/other/
+  - https://www.ifixit.com/Info/Licensing
+  - https://ftp.fau.de/kiwix/zim/libretexts/
+  - https://download.kiwix.org/zim/wikibooks/
+  - https://ftp.fau.de/kiwix/zim/wikipedia/

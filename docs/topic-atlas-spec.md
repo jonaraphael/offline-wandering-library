@@ -1,6 +1,9 @@
 # OWL topic atlas: static hierarchical navigation
 
-**Status:** Proposed specification, awaiting the finalized content include list.
+**Status:** Proposed specification; implementation remains deferred. The target
+collections are now enumerated in [content selection](content-selection.md) and
+`catalog/resources.yaml`. Exact collection members and source locations still
+need curation and verification before atlas implementation.
 
 **Implementation:** Not started. This document authorizes no implementation,
 catalog changes, downloads, content conversion, or changes to existing profiles.
