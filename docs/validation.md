@@ -3,7 +3,11 @@
 The initial implementation was exercised on macOS/Apple Silicon with Python
 3.12, Node.js 20, and the versions in `requirements-tested.txt`. The source audit
 was performed on 2026-09-18 UTC. This document records evidence, not a claim that
-all target hardware or the largest profiles have been tested.
+all target hardware or the largest profiles have been tested. The milestones
+below are historical: their test counts, artifact layouts, and browser restrictions
+describe the implementation at that stage. Earlier file-selection and single-file
+index measurements do not validate the current automatic script-chunk transport.
+Use [the search guide](search.md) for the current workflow.
 
 - The automated suite covers catalog validation, decimal capacity/headroom,
   traversal/symlink/reparse-point rejection, streaming checksums, interrupted
@@ -232,3 +236,44 @@ Verified acquired documents totaling **1,873,085,081 bytes** were preserved in
 an explicitly owned SHA-256 cache on the mounted OWL SSD for future builds.
 Only source metadata, code, docs and fixtures were committed; no large archives
 were downloaded for this pass and no production SSD build was declared complete.
+
+## Automatic search on the start page
+
+The start page and dedicated search page now share one widget and local runtime.
+The former index-selection workflow is replaced by automatic loading of a local
+manifest and bounded script chunks. Earlier single-file index measurements above
+describe the decoded format and historical behavior, not this transport's full
+browser memory or storage use.
+
+Focused navigation and atlas tests pass for shared widget controls, local script
+references, static fallback links, missing-search notices, and deterministic
+atlas reruns that preserve every search artifact. Generated-script validation
+permits only the expected deferred runtime on the start page, requires its
+manifest and script to exist, and rejects inline or unexpected scripts. Topic,
+category, critical-content, and alphabetical indexes remain script-free.
+
+The full local suite passed **325 tests**. Real-browser checks also passed on
+Chrome **153.0.8010.48** using a small completed demo build: 18 checks across fresh
+contexts at desktop and 390-pixel widths, with network access disabled, no custom
+file-access flags, and no permission grants. Both `START_HERE.html` and
+`SEARCH.html` loaded their real generated index automatically. Body queries,
+textbook and illustrated-guide filters, and local result links worked. There
+were no file-picker events, HTTP(S) attempts, console errors, or horizontal
+overflow. Both entry pages also supported category navigation with JavaScript
+disabled. These are desktop-browser and publication checks; they do not certify
+physical phone file providers, embedded previews, or the latency and browser
+memory use of a full Wikipedia index. Device testing remains required.
+
+The same automatic browser checks then passed on the exFAT OWL SSD's real
+`flash-16gb` library: 9,505 passages in 50 chunks (51,723,366 decoded bytes;
+68,969,995 bytes including chunk scripts, manifest, and ownership marker).
+Startup requested one chunk, runtime, and manifest, about 1.42 MB of local script
+bytes. Measured readiness was 59–103 ms and tested queries took 81–235 ms on this
+Mac/browser; these are observations, not performance guarantees for other drives.
+“Circuits” linked to the DC textbook, “water” to the EPA drinking-water guide, and
+“stoichiometry” with the textbook filter to Chemistry 2e. Both entry pages also
+retained category navigation with scripts disabled. All 18 checks passed with
+no picker events, network attempts, or browser errors. Independent strict drive
+verification reported **199 OK, 0 missing, 0 failed, 0 unknown**. The prior owned
+binary index was retained and checksum-covered during this in-place upgrade;
+fresh builds do not produce that duplicate.

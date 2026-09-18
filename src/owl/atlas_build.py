@@ -104,7 +104,9 @@ class _Links(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
         self.links, self.ids = [], set()
-        self.scripts = False
+        self.scripts = []
+        self.inline_script = False
+        self.in_script = False
 
     def handle_starttag(self, tag, attrs):
         values = dict(attrs)
@@ -113,7 +115,16 @@ class _Links(HTMLParser):
         if tag == "a" and "href" in values:
             self.links.append(values["href"])
         if tag == "script":
-            self.scripts = True
+            self.scripts.append(attrs)
+            self.in_script = True
+
+    def handle_endtag(self, tag):
+        if tag == "script":
+            self.in_script = False
+
+    def handle_data(self, data):
+        if self.in_script and data.strip():
+            self.inline_script = True
 
 
 class _SourceAnchors(HTMLParser):
@@ -137,8 +148,16 @@ def validate_links(target: Path, pages: dict[str, str], assets=()) -> None:
         if relative.endswith(".html"):
             parsed[relative] = _Links()
             parsed[relative].feed(text)
-            if _atlas_path(relative) and parsed[relative].scripts:
-                raise SafetyError(f"Atlas page must not require scripts: {relative}")
+            page = parsed[relative]
+            if page.scripts:
+                allowed = (relative == "START_HERE.html" and not page.inline_script and
+                           len(page.scripts) == 1 and len(page.scripts[0]) == 2 and
+                           dict(page.scripts[0]) == {"defer": None, "src": "SEARCH/search.js"})
+                if not allowed:
+                    raise SafetyError(f"Unexpected generated script: {relative}")
+                for required in ("SEARCH/search.js", "SEARCH/manifest.js"):
+                    if required not in pages and not safe_path(target, required).is_file():
+                        raise SafetyError(f"Missing automatic search dependency: {required}")
     requested = {}
     for relative, page in list(parsed.items()):
         for href in page.links:

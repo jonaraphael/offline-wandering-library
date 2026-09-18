@@ -1,11 +1,20 @@
 # Offline full-text search
 
-Open `SEARCH.html` in a browser, choose `SEARCH/library.owl` using the file picker,
-and enter search words. Selection grants the page access to that file. The page
-does not fetch neighboring files, use a server, execute archive readers, or make
-network requests. It contains its own script and styles. If your viewer does not
-execute JavaScript or offer a usable picker, use `INDEX/categories.html`,
-`INDEX/critical.html`, and the alphabetical pages instead.
+Open `START_HERE.html` and enter words in **Search this library**. The same controls
+are available on `SEARCH.html`. Search automatically loads its manifest and small
+index chunks from the neighboring `SEARCH/` directory. There is no index-file
+selection, installation, server, account, or network connection. The two pages
+share one local runtime and widget. If your viewer blocks local JavaScript or
+neighboring script files, use `INDEX/categories.html`, `INDEX/critical.html`, and
+the alphabetical pages instead. The start page's static navigation also works
+without JavaScript.
+
+Keep the HTML entry pages and the entire `SEARCH/` directory together. Opening an
+isolated copy of just one HTML page cannot provide search. Loading failures show
+a retry control and links to static indexes; they do not fall back to a file
+picker or a network service. A drive built only with the topic-atlas command
+clearly reports that full-text search has not been built and has no search widget
+or dangling runtime references.
 
 The **Search in** selector offers **All resources**, **Textbooks**, and
 **Illustrated guides**. The two learning collections include ordinary readable
@@ -94,7 +103,11 @@ larger than the compressed source archive. Profile space budgets are planning
 allowances, not measured bounds. A corpus containing highly compressible data
 can exceed any fixed source-size multiplier. Keep additional space available and
 check the actual build. Peak space includes extracted records, postings in the
-checkpoint database, and the new output index simultaneously. An existing final
+checkpoint database, a temporary serialized binary index, and the published
+script chunks. Base64 increases the binary index size by roughly one third, plus
+small script wrappers. The profile's search budget covers this **published output**,
+not a raw-binary quota. The scratch allowance includes temporary binary assembly
+on the SSD even when `--work-dir` moves the database elsewhere. An existing final
 index remains until its replacement is complete. The current conservative
 working-space budgets exceed the headroom of the fully populated larger target
 profiles; final-corpus sizing is still unproven. Building in place is supported,
@@ -138,8 +151,9 @@ and document lengths, with `k1=1.2` and `b=0.75`. IDF is computed over passages.
 Queries consider passages matching any query word. Use up to 32 distinct words;
 longer queries are rejected with an explanation.
 
-The browser binary-searches the sorted lexicon using `File.slice()`. For each
-query word it streams postings in blocks of at most 4,096 records (48 KiB).
+The browser binary-searches the sorted lexicon through a range-read interface
+backed by local script chunks. For each query word it streams postings in blocks
+of at most 4,096 records (48 KiB).
 Sorted posting lists are merged and scored, retaining only the best 50 results
 in a bounded heap. This is exact top-K ranking for the implemented query model,
 not a fixed candidate cutoff that loses later matches. Only those result records
@@ -153,7 +167,10 @@ decoding every candidate's document record. BM25 statistics continue to describe
 the entire corpus, making filtered ranking the same ordering restricted to the
 selected collection.
 Memory for postings is at most approximately 1.5 MiB for 32 query words, plus the
-small lexicon cache, at most 64 KiB of collection flags, and result records. Common words may still require reading
+small lexicon cache, at most 64 KiB of collection flags, and result records. The
+transport additionally caches up to eight decoded 1 MiB chunks; script loading
+and base64 decoding use temporary memory, and the browser may have its own caches.
+This is not an 8 MiB bound on the entire browser process. Common words may still require reading
 large posting lists, so queries can be slow on very large corpora. Progress and
 cancellation remain available while processing.
 
@@ -165,32 +182,74 @@ article in an arbitrary reader. Open the archive in the bundled reader and locat
 the article there. EPUB chapter names likewise identify the source but are not
 guaranteed to deep-link into a reader.
 
+## Automatic local loading
+
+The finished drive contains:
+
+```text
+SEARCH/
+├── search.js
+├── manifest.js
+├── coverage.json
+└── chunks/<index-sha256>/
+    ├── 00000000.js
+    ├── 00000001.js
+    └── ...
+```
+
+Both entry pages load `SEARCH/search.js` as an ordinary deferred script. The
+runtime loads `manifest.js`, then requests only the chunk files needed for index
+headers, lexicon lookups, postings, and results. Each script supplies a bounded
+base64 payload through a registration callback. The final chunk may be shorter
+than 1 MiB. The manifest fixes the index identity, decoded size, and chunk count;
+the runtime rejects mismatched generations, IDs, sizes, and malformed payloads.
+Decoded chunks are retained in an eight-entry least-recently-used cache. The
+reader can assemble small ranges crossing a chunk boundary.
+
+The transport uses classic script loading because browsers commonly restrict
+`fetch()` of neighboring `file://` data. It needs no `fetch`, XMLHttpRequest,
+JavaScript modules, service worker, file picker, or local server. The entry pages'
+Content Security Policy permits local script files and prohibits network
+connections. No source document or archive is scanned when someone types a query.
+
+A fresh completed library contains the chunked output, not a second standalone
+binary index. The binary OWLIDX2 layout below describes the decoded byte stream.
+Chunk generation and the manifest are covered by the drive's checksum manifest.
+Updates retain previously managed search files rather than automatically deleting
+them; the new manifest selects only the current generation. Allow room for
+retained generations or build into a fresh dedicated destination.
+
+Very large Wikipedia indexes and common-word searches have not been benchmarked
+at production scale with this transport. Small local chunks avoid a single huge
+file read, but loading many chunks can still be slow and consume browser memory.
+
 ## Platforms and testing
 
 | Platform | Expected behavior |
 | --- | --- |
-| Windows, macOS, Linux, Raspberry Pi desktop | Modern Chrome/Chromium, Edge, Firefox and Safari expose the required File API when the page is opened in a full browser. File permissions and local policy can still prevent use. |
-| Android / Pixel | Browser and file-manager dependent. Some viewers disable scripts, cannot launch local HTML in a full browser, or copy the chosen index into internal storage. Test your exact combination. |
+| Windows, macOS, Linux, Raspberry Pi desktop | Use a full browser that permits local JavaScript and neighboring classic script files. File permissions and local policy can still prevent use; test the chosen browser. |
+| Android / Pixel | Browser and file-manager dependent. Some viewers disable scripts or expose only a single document without access to neighboring files. Test your exact combination. |
 | iPhone / iPad | Files/Quick Look commonly previews local HTML without the needed JavaScript/browser access. Direct search is not guaranteed. Use the static pages and ordinary PDF/text documents. Offline installation of Kiwix from the SSD is not assumed. |
 
 No real-phone, drive-provider, or browser-version compatibility matrix is claimed.
-Automated tests execute the actual page's JavaScript engine under Node using the
-same Blob range-read contract, including BM25 ranking, Unicode, high-frequency
+Automated tests execute the actual shared JavaScript engine under Node using its
+range-read contract, including BM25 ranking, Unicode, high-frequency
 multi-block postings, snippets, safe links and corrupt-file rejection. Collection
 tests cover exact filtered top-K ranking, overlapping illustrated textbooks,
 reader/archive exclusions, and bounded flag reads across distant passage IDs.
 The actual result-rendering event handler is also exercised with a minimal DOM
 test double to verify that attribution notices and resource labels are rendered
-as text; this does not replace a real-browser layout or file-picker test. Python
+as text; this does not replace a real-browser layout and local-script test. Python
 tests cover HTML/TXT, real PDF/EPUB fixtures and a small real ZIM when the optional
-dependency is installed. These tests do not simulate an operating system's
-external-drive file picker. Always test the completed SSD on the actual devices
+dependency is installed. These tests do not certify a phone's external-storage
+permissions or file-provider behavior. Always test the completed SSD on the actual devices
 you intend to use before an emergency.
 
-A direct local-page smoke test was also attempted during development, but the
-available automated browser's URL policy blocks `file://` navigation. That
-restriction was not bypassed; the automated evidence remains the cross-language
-engine and extraction tests above.
+The [validation record](validation.md) distinguishes historical engine and
+file-selection checks from the automatic transport. Evidence for one browser or
+headless fixture does not establish compatibility with an in-app preview or a
+physical phone. If HTML links or local scripts are unavailable, browse the SSD's
+folders and open ordinary PDF or text files with a compatible viewer.
 
 ## Durable file format: OWLIDX2
 
@@ -213,9 +272,9 @@ up to 2^32 passages and browser-safe integer byte offsets (below 2^53).
 
 The Python source and readable JavaScript are the format reference. SQLite is
 only a build-time implementation detail. SHA-256 verification covers the
-finished index alongside the other managed drive files. Keep `SEARCH.html` and
-`library.owl` from the same completed build; an index with a different format is
-rejected with instructions to rebuild the drive.
+finished chunk scripts and manifest alongside the other managed drive files.
+Keep `START_HERE.html`, `SEARCH.html`, and `SEARCH/` from the same completed build;
+an index with a different format is rejected with instructions to rebuild the drive.
 
 Extractor API references: [pypdf text extraction](https://pypdf.readthedocs.io/en/stable/user/extract-text.html),
 [python-libzim reader API](https://python-libzim.readthedocs.io/en/latest/api_reference/libzim.reader/),

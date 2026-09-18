@@ -9,6 +9,7 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 from owl.navigation import GENERATED_PATHS, generate_navigation
+from owl.search_ui import render_search_widget
 
 
 class Links(HTMLParser):
@@ -147,11 +148,14 @@ class NavigationTests(unittest.TestCase):
             (self.target / relative).write_text("fixture", encoding="utf-8")
         (self.target / "SEARCH").mkdir()
         (self.target / "SEARCH/coverage.json").write_text("{}", encoding="utf-8")
+        (self.target / "SEARCH/manifest.js").write_text("fixture", encoding="utf-8")
+        (self.target / "SEARCH/search.js").write_text("fixture", encoding="utf-8")
 
     def generate(self, **inventory_fields):
         inventory = {"assets": [{**self.assets[0], "verification": "pinned", "size_bytes": 2048}]}
         inventory.update(inventory_fields)
-        return generate_navigation(self.target, self.assets, inventory, {"documents": 4})
+        return generate_navigation(self.target, self.assets, inventory,
+                                   {"documents": 4, "generated_files": ["SEARCH/manifest.js", "SEARCH/search.js"]})
 
     def test_all_generated_links_resolve_without_javascript(self):
         paths = self.generate()
@@ -161,7 +165,11 @@ class NavigationTests(unittest.TestCase):
             if relative.endswith(".html"):
                 parser = Links()
                 parser.feed((self.target / relative).read_text(encoding="utf-8"))
-                self.assertFalse(parser.scripts)
+                if relative == "START_HERE.html":
+                    self.assertEqual(parser.scripts, [{"defer": None, "src": "SEARCH/search.js"}])
+                    self.assertTrue((self.target / parser.scripts[0]["src"]).is_file())
+                else:
+                    self.assertFalse(parser.scripts)
                 parsed[relative] = parser
         for relative, parser in parsed.items():
             for href in parser.hrefs:
@@ -173,6 +181,34 @@ class NavigationTests(unittest.TestCase):
                 if components.fragment:
                     linked = destination.resolve().relative_to(self.target.resolve()).as_posix()
                     self.assertIn(components.fragment, parsed[linked].ids)
+
+    def test_start_page_has_shared_automatic_search_before_browsing(self):
+        self.generate()
+        landing = (self.target / "START_HERE.html").read_text(encoding="utf-8")
+        self.assertIn(render_search_widget(), landing)
+        for identity in ("searchForm", "query", "shelf", "searchButton", "cancelButton", "retryButton", "status", "results"):
+            self.assertEqual(landing.count(f'id="{identity}"'), 1, identity)
+        self.assertLess(landing.index('id="searchForm"'), landing.index('<h2>Books and learning collections</h2>'))
+        self.assertNotIn('type="file"', landing)
+        self.assertIn("Static navigation works without JavaScript; search requires it", landing)
+        self.assertIn("Content-Security-Policy", landing)
+        self.assertIn("connect-src", landing)
+        readme = (self.target / "README.txt").read_text(encoding="utf-8")
+        self.assertIn("loads its index automatically", readme)
+        self.assertNotIn("file-picker", readme)
+
+    def test_human_index_only_has_no_search_runtime_or_unsupported_search_claim(self):
+        for report in ({"status": "not-built"}, {}, {"generated_files": ["SEARCH/manifest.js"]}):
+            with self.subTest(report=report):
+                pages = generate_navigation(self.target, self.assets, {"assets": []}, report, write=False)
+                landing = pages["START_HERE.html"]
+                parser = Links(); parser.feed(landing)
+                self.assertFalse(parser.scripts)
+                self.assertNotIn('id="searchForm"', landing)
+                self.assertNotIn("SEARCH/search.js", landing)
+                self.assertIn("Full-text search", pages["README.txt"])
+                self.assertNotIn("loads its index automatically", pages["README.txt"])
+                self.assertIn('href="INDEX/critical.html"', landing)
 
     def test_escaping_categories_reader_labels_and_critical_subset(self):
         self.generate()

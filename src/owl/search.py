@@ -2,7 +2,7 @@
 
 The database is scratch space, never a runtime dependency. The portable index
 contains JSON records, fixed-width offset tables, and sorted binary postings;
-SEARCH.html reads only requested ranges with the browser File API.
+The browser reads requested ranges from bounded local script chunks automatically.
 """
 from __future__ import annotations
 
@@ -361,29 +361,38 @@ def _input_fingerprint(target: Path, assets: list[dict], notify: Callable) -> tu
     return hashlib.sha256(_json(recipe)).hexdigest(), signatures
 
 
-def _completed_report(index: Path, report_path: Path, fingerprint: str) -> dict | None:
-    from .safety import sha256_file
-    if not index.is_file() or not report_path.is_file():
+def _completed_report(target: Path, report_path: Path, fingerprint: str) -> dict | None:
+    from .search_pack import verify_pack
+    if not report_path.is_file():
         return None
     try:
         report = json.loads(report_path.read_text(encoding='utf-8'))
-        if (not isinstance(report, dict) or report.get('build_fingerprint') != fingerprint
-                or report.get('index_bytes') != index.stat().st_size
-                or report.get('index_sha256') != sha256_file(index)):
+        if not isinstance(report, dict) or report.get('build_fingerprint') != fingerprint:
             return None
-        with index.open('rb') as handle:
-            prefix = handle.read(12)
-            if len(prefix) != 12 or prefix[:8] != MAGIC:
-                return None
-            size = struct.unpack_from('<I', prefix, 8)[0]
-            if size > HEADER_SIZE - 12:
-                return None
-            header = json.loads(handle.read(size))
+        data = verify_pack(target, report)
+        if len(data) < 12 or data[:8] != MAGIC:
+            return None
+        size = struct.unpack_from('<I', data, 8)[0]
+        if size > HEADER_SIZE - 12:
+            return None
+        header = json.loads(data[12:12 + size])
         if header.get('size') != report['index_bytes'] or header.get('documents') != report['documents']:
             return None
         return report
     except (OSError, ValueError, KeyError, TypeError):
         return None
+
+
+def _publish_ui(target: Path, report: dict) -> None:
+    from .search_ui import render_search_page
+    from .safety import atomic_write
+    outputs = {'SEARCH.html': render_search_page().encode('utf-8'),
+               'SEARCH/search.js': (Path(__file__).parent / 'templates/search.js').read_bytes()}
+    for relative, data in outputs.items():
+        atomic_write(_safe_path(target, relative), data)
+        report['file_integrity'][relative] = {'sha256': hashlib.sha256(data).hexdigest(),
+                                            'size_bytes': len(data)}
+    report['generated_files'] = sorted([*report['file_integrity'], 'SEARCH/coverage.json'])
 
 
 def _database(path: Path) -> sqlite3.Connection:
@@ -514,9 +523,7 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
 
     fingerprint, signatures = _input_fingerprint(target, assets, notify)
     directory = _safe_path(target, 'SEARCH')
-    index_path = _safe_path(target, 'SEARCH/library.owl')
     report_path = _safe_path(target, 'SEARCH/coverage.json')
-    page_path = _safe_path(target, 'SEARCH.html')
     job, part, owner = _job_paths(target, work_dir)
     if not _owned_job(job, owner):
         if (job.exists() and any(job.iterdir())) or part.exists():
@@ -524,14 +531,14 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
         job.mkdir(parents=True, exist_ok=True)
         atomic_write(_safe_path(job, 'owner.json'), _json(owner))
     directory.mkdir(parents=True, exist_ok=True)
-    template = (Path(__file__).parent / 'templates/search.html').read_bytes()
     with file_lock(_safe_path(job, 'lock')):
         _owned_job(job, owner)
         if part.exists() and not part.is_file():
             raise SearchError(f'Search output part is not a regular file: {part}')
-        reusable = _completed_report(index_path, report_path, fingerprint)
+        reusable = _completed_report(target, report_path, fingerprint)
         if reusable is not None:
-            atomic_write(page_path, template)
+            _publish_ui(target, reusable)
+            atomic_write(report_path, _json(reusable) + b'\n')
             _clear_job(job, part)
             notify(f"INDEX REUSE: {reusable['documents']:,} verified passages", force=True)
             return reusable
@@ -561,7 +568,7 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
                     CREATE TABLE checkpoint (id INTEGER PRIMARY KEY, data TEXT NOT NULL);
                 ''')
                 report = {'format_version': 2, 'documents': 0, 'assets': [], 'warnings': [],
-                          'generated_files': ['SEARCH.html', 'SEARCH/library.owl', 'SEARCH/coverage.json']}
+                          'generated_files': []}
                 state = {'fingerprint': fingerprint, 'asset_index': 0, 'unit_cursor': 0,
                          'coverage': None, 'report': report, 'total_length': 0,
                          'record_bytes': HEADER_SIZE, 'extracted': False}
@@ -677,9 +684,9 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
             report['index_sha256'] = sha256_file(part)
             # coverage.json is the completion marker, written last. An interrupted
             # publication never makes a mismatched old report reusable.
-            _safe_path(target, 'SEARCH/library.owl')
-            os.replace(part, index_path)
-            atomic_write(page_path, template)
+            from .search_pack import publish_pack
+            report.update(publish_pack(target, part, report['index_sha256'], notify=notify))
+            _publish_ui(target, report)
             atomic_write(report_path, json.dumps(report, ensure_ascii=False, indent=2).encode('utf-8') + b'\n')
             success = True
         except sqlite3.Error as error:
@@ -689,5 +696,5 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
             db.close()
             if success:
                 _clear_job(job, part)
-        notify(f"INDEX COMPLETE: {report['documents']:,} passages; {report['index_bytes']:,} bytes", force=True)
+        notify(f"INDEX COMPLETE: {report['documents']:,} passages; {report['transport_bytes']:,} local script bytes", force=True)
         return report

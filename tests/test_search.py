@@ -24,6 +24,7 @@ from owl.search import (HEADER_SIZE, SearchError, build_search, checkpoint_usage
                         check_extractors, tokens)
 import owl.search as search
 from owl.safety import SafetyError
+from owl.search_pack import read_chunk, chunk_path
 
 
 class SearchTests(unittest.TestCase):
@@ -32,6 +33,7 @@ class SearchTests(unittest.TestCase):
         self.addCleanup(self.temporary.cleanup)
         self.target = Path(self.temporary.name).resolve()
         self.assets = []
+        self.index_override = None
 
     def add(self, name, text, **metadata):
         path = self.target / name
@@ -42,8 +44,13 @@ class SearchTests(unittest.TestCase):
         self.assets.append(asset)
         return asset
 
+    @staticmethod
+    def index_bytes(root):
+        manifest = json.loads((root / "SEARCH/coverage.json").read_text())["transport"]
+        return b"".join(read_chunk(root, manifest, n)[0] for n in range(manifest["chunk_count"]))
+
     def read_index(self):
-        data = (self.target / "SEARCH/library.owl").read_bytes()
+        data = self.index_bytes(self.target)
         self.assertEqual(data[:8], b"OWLIDX2\n")
         header = json.loads(data[12:12 + struct.unpack_from("<I", data, 8)[0]])
         self.assertEqual(header["size"], len(data))
@@ -58,13 +65,13 @@ class SearchTests(unittest.TestCase):
         node = shutil.which("node")
         if not node:
             self.skipTest("Node is required for the browser engine test")
-        page = (self.target / "SEARCH.html").read_text(encoding="utf-8")
-        script = re.search(r"<script>([\s\S]*?)</script>", page).group(1)
+        script = (self.target / "SEARCH/search.js").read_text(encoding="utf-8")
+        (self.target / "test-index.bin").write_bytes(self.index_override if self.index_override is not None else self.index_bytes(self.target))
         engine = self.target / "engine.cjs"
         engine.write_text(script, encoding="utf-8", newline="\n")
         driver = self.target / "driver.cjs"
         driver.write_text("const fs = require('node:fs');\n" + prelude + "\nconst engine = require('./engine.cjs');\n"
-                          "(async () => { const bytes = fs.readFileSync('SEARCH/library.owl');\n"
+                          "(async () => { const bytes = fs.readFileSync('test-index.bin');\n"
                           "let maxRead = 0, totalRead = 0;\n"
                           "const blob = new Blob([bytes]);\n"
                           "const file = {size:blob.size, slice(a,b) { maxRead=Math.max(maxRead,b-a); totalRead+=b-a; return blob.slice(a,b); }};\n"
@@ -91,9 +98,10 @@ class SearchTests(unittest.TestCase):
         self.assertNotIn("secret", lexicon)
         self.assertTrue(all(len(doc["text"]) <= 8192 for doc in docs))
         self.assertEqual(report["assets"][0]["status"], "full_text")
-        self.assertEqual(report["generated_files"], ["SEARCH.html", "SEARCH/library.owl", "SEARCH/coverage.json"])
+        self.assertTrue({"SEARCH.html", "SEARCH/manifest.js", "SEARCH/search.js", "SEARCH/coverage.json"} <= set(report["generated_files"]))
+        self.assertNotIn("SEARCH/library.owl", report["generated_files"])
         build_search(self.target, self.assets)
-        self.assertEqual((self.target / "SEARCH/library.owl").read_bytes(), data)
+        self.assertEqual(self.index_bytes(self.target), data)
         self.assertFalse(list((self.target / "SEARCH").glob("owl-index-*")))
 
     def test_browser_engine_ranking_snippets_unicode_and_safe_links(self):
@@ -200,7 +208,7 @@ class SearchTests(unittest.TestCase):
                              "lexicon_offset": lexicon_offset, "size": len(data),
                              "tokenizer": "NFKC-lower-unicode-letter-number-v1"}).encode("utf-8")
         data[:12 + len(header)] = b"OWLIDX2\n" + struct.pack("<I", len(header)) + header
-        (self.target / "SEARCH/library.owl").write_bytes(data)
+        self.index_override = bytes(data)
         result = self.run_js("""
           const blocks = [];
           const read = index.read.bind(index);
@@ -225,15 +233,20 @@ class SearchTests(unittest.TestCase):
         prelude = """
           const ui = {};
           function element(tag) { return {tag, textContent:'', children:[], handlers:{}, value:'',
-            addEventListener(event, handler){this.handlers[event]=handler}, focus(){},
+            addEventListener(event, handler){this.handlers[event]=handler}, focus(){}, remove(){},
             append(...children){this.children.push(...children)}, replaceChildren(...children){this.children=children},
             set innerHTML(value){throw new Error('Unsafe HTML rendering')} }; }
-          global.document = {getElementById(id){return ui[id] || (ui[id]=element(id))}, createElement:element};
+          global.document = {getElementById(id){return ui[id] || (ui[id]=element(id))}, createElement:element,
+            head:{append(script){queueMicrotask(() => {
+              try { require('node:vm').runInThisContext(fs.readFileSync(script.src, 'utf8')); if(script.onload) script.onload(); }
+              catch(error) { if(script.onerror) script.onerror(error); }
+            });}}};
         """
         result = self.run_js("""
           const found = await index.search('photosynthesis', {shelf:'textbooks'});
-          await ui.indexFile.handlers.change({target:{files:[file]}});
-          ui.query.value = 'photosynthesis'; ui.shelf.value = 'textbooks';
+          for(let attempt=0;ui.searchButton.disabled && attempt<50;attempt++) await new Promise(setImmediate);
+          if(ui.searchButton.disabled) throw new Error(ui.status.textContent);
+          document.getElementById('query').value = 'photosynthesis'; ui.shelf.value = 'textbooks';
           await ui.searchForm.handlers.submit({preventDefault(){}});
           console.log(JSON.stringify({record:found.results[0], labels:engine.resourceLabels(found.results[0]),
             rendered:ui.results.children[0].children.map(node=>({tag:node.tag,text:node.textContent})), status:ui.status.textContent}));
@@ -314,7 +327,7 @@ class SearchTests(unittest.TestCase):
         raw, header, _, _ = self.read_index()
         data = bytearray(raw)
         data[header["flags_offset"]] = 128
-        (self.target / "SEARCH/library.owl").write_bytes(data)
+        self.index_override = bytes(data)
         result = self.run_js("""
           let error = '';
           try { await index.search('water', {shelf:'textbooks'}); }
@@ -356,7 +369,7 @@ class SearchTests(unittest.TestCase):
     def test_pdf_failure_restores_logging_and_retains_previous_index(self):
         self.add("reference.txt", "original indexed content")
         build_search(self.target, self.assets)
-        original = (self.target / "SEARCH/library.owl").read_bytes()
+        original = self.index_bytes(self.target)
         asset = self.add("corrupt.pdf", "corrupt fixture")
         logger = logging.getLogger("pypdf")
         before = (logger.handlers[:], logger.level, logger.propagate)
@@ -364,7 +377,7 @@ class SearchTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "corrupt PDF"):
                 build_search(self.target, [asset])
         self.assertEqual((logger.handlers, logger.level, logger.propagate), before)
-        self.assertEqual((self.target / "SEARCH/library.owl").read_bytes(), original)
+        self.assertEqual(self.index_bytes(self.target), original)
 
     def test_progress_interval_is_throttled_during_large_assets(self):
         self.add("large.txt", ("water " + "x" * 8185 + "\n") * 2200)
@@ -406,7 +419,7 @@ class SearchTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(self.target / asset["destination"], path)
         build_search(destination, self.assets)
-        return (destination / "SEARCH/library.owl").read_bytes()
+        return self.index_bytes(destination)
 
     def test_interrupted_unit_rolls_back_postings_and_truncates_records_on_resume(self):
         self.checkpoint_book()
@@ -422,7 +435,7 @@ class SearchTests(unittest.TestCase):
         with patch("owl.search.CHECKPOINT_UNITS", 2), patch("owl.search._add_record", side_effect=interrupt):
             with self.assertRaises(KeyboardInterrupt):
                 build_search(self.target, self.assets)
-        self.assertFalse((self.target / "SEARCH/library.owl").exists())
+        self.assertFalse((self.target / "SEARCH/manifest.js").exists())
         self.assertFalse((self.target / "SEARCH/coverage.json").exists())
         job, _, _ = search._job_paths(self.target, None)
         with closing(sqlite3.connect(job / "build.sqlite3")) as db:
@@ -452,7 +465,7 @@ class SearchTests(unittest.TestCase):
             resumed = build_search(self.target, self.assets)
         self.assertEqual(starts, [2])
         self.assertEqual(resumed["documents"], 6)
-        self.assertEqual((self.target / "SEARCH/library.owl").read_bytes(), self.clean_index_bytes())
+        self.assertEqual(self.index_bytes(self.target), self.clean_index_bytes())
         self.assertEqual(checkpoint_usage(self.target), {"scratch_bytes": 0, "output_bytes": 0})
         self.assertEqual(unrelated.read_text(encoding="utf-8"), "keep this")
 
@@ -486,14 +499,14 @@ search.build_search(Path(sys.argv[1]), json.loads(sys.argv[2]))
         result = subprocess.run([sys.executable, str(script), str(self.target), json.dumps(self.assets)],
                                 env=env, capture_output=True, text=True, encoding="utf-8")
         self.assertEqual(result.returncode, 91, result.stderr)
-        self.assertFalse((self.target / "SEARCH/library.owl").exists())
+        self.assertFalse((self.target / "SEARCH/manifest.js").exists())
         job, _, _ = search._job_paths(self.target, None)
         self.assertTrue((job / "build.sqlite3-journal").is_file())
         messages = []
         report = build_search(self.target, self.assets, progress=messages.append)
         self.assertEqual(report["documents"], 6)
         self.assertTrue(any("2 checkpointed passages" in message for message in messages))
-        self.assertEqual((self.target / "SEARCH/library.owl").read_bytes(), self.clean_index_bytes())
+        self.assertEqual(self.index_bytes(self.target), self.clean_index_bytes())
 
     def test_final_serialization_restarts_without_reextracting_complete_sources(self):
         self.checkpoint_book()
@@ -503,10 +516,10 @@ search.build_search(Path(sys.argv[1]), json.loads(sys.argv[2]))
         with self.assertRaises(KeyboardInterrupt):
             build_search(self.target, self.assets, progress=stop)
         self.assertGreater(checkpoint_usage(self.target)["output_bytes"], 0)
-        self.assertFalse((self.target / "SEARCH/library.owl").exists())
+        self.assertFalse((self.target / "SEARCH/manifest.js").exists())
         with patch("owl.search._units", side_effect=AssertionError("already extracted")):
             build_search(self.target, self.assets)
-        self.assertEqual((self.target / "SEARCH/library.owl").read_bytes(), self.clean_index_bytes())
+        self.assertEqual(self.index_bytes(self.target), self.clean_index_bytes())
 
     def test_complete_index_reuse_verifies_bytes_and_updates_missing_page(self):
         self.add("plain.txt", "reusable source body")
@@ -518,7 +531,7 @@ search.build_search(Path(sys.argv[1]), json.loads(sys.argv[2]))
         self.assertEqual(reused, original)
         self.assertTrue((self.target / "SEARCH.html").is_file())
         self.assertTrue(any(message.startswith("INDEX REUSE:") for message in messages))
-        with (self.target / "SEARCH/library.owl").open("r+b") as handle:
+        with (self.target / chunk_path(original["transport"], 0)).open("r+b") as handle:
             handle.seek(-1, 2)
             handle.write(b"\xff")
         rebuilt = build_search(self.target, self.assets)
@@ -539,7 +552,7 @@ search.build_search(Path(sys.argv[1]), json.loads(sys.argv[2]))
         with patch("owl.search._units", side_effect=AssertionError("already extracted")):
             report = build_search(self.target, self.assets)
         self.assertEqual(report["documents"], 1)
-        self.assertEqual((self.target / "SEARCH/library.owl").read_bytes(), self.clean_index_bytes())
+        self.assertEqual(self.index_bytes(self.target), self.clean_index_bytes())
 
     def test_changed_bytes_metadata_and_dependencies_invalidate_reuse(self):
         self.add("plain.txt", "first value")
@@ -562,7 +575,7 @@ search.build_search(Path(sys.argv[1]), json.loads(sys.argv[2]))
         path.write_text("corrupted verified data", encoding="utf-8")
         with self.assertRaisesRegex(SearchError, "checksum differs"):
             build_search(self.target, self.assets)
-        self.assertEqual(hashlib.sha256((self.target / "SEARCH/library.owl").read_bytes()).hexdigest(),
+        self.assertEqual(hashlib.sha256(self.index_bytes(self.target)).hexdigest(),
                          original["index_sha256"])
         path.write_bytes(b"short")
         with self.assertRaisesRegex(SearchError, "size differs"):

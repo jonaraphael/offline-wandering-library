@@ -224,7 +224,7 @@ Before storing the SSD, disconnect network access and try each intended device:
 2. Open `START_HERE.html`, follow a category link, and open a critical PDF or text file.
 3. If HTML links do not work, open a critical document directly from its folder.
 4. Open a core textbook and an illustrated guide from their dedicated shelves. Navigate between pages and zoom into a diagram to confirm it is readable on the device.
-5. Open `SEARCH.html` in an actual browser, select `SEARCH/library.owl`, and search for a known phrase. Verify the resulting document link. Treat this as optional on devices whose file previews restrict JavaScript.
+5. Enter known words in the search field on `START_HERE.html`; its index should load automatically. Try `SEARCH.html` as well and open a result in a compatible document viewer. No index-file selection is needed. Treat JavaScript search as optional on devices whose file previews restrict local scripts; the static links and ordinary files remain available.
 6. Open the textbook, illustrated-guide, Gutenberg, children's, category, critical, and alphabetical indexes with JavaScript disabled. If generated, try the atlas through subject, practical-task, and learning entrances, including recovery from a wrong turn. Confirm critical textbooks are reachable through the critical index even when their files are in `BOOKS/`. Check that missing planned collections are clearly reported.
 7. On platforms that permit offline installation, check that the matching bundled reader can open a ZIM. The builder does not install or run it for you.
 8. Safely eject the SSD before unplugging it.

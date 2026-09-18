@@ -130,7 +130,7 @@ Open `START_HERE.html`. Its first shelves link to textbooks, illustrated guides,
 ```text
 EMERGENCY_LIBRARY/
 ├── START_HERE.html          # Works without JavaScript
-├── SEARCH.html             # Offline search with a local index file picker
+├── SEARCH.html             # Automatic offline search, also on START_HERE.html
 ├── README.txt / VERIFY.py / SOURCE_NOTES.txt
 ├── INVENTORY.html / INVENTORY.json
 ├── BUILD_INFO.json / CONTENT_SELECTION.json / SHA256SUMS.txt / LOCKED_CATALOG.yaml
@@ -165,9 +165,11 @@ Repeat `--navigation-dir` on subsequent full builds that should generate the atl
 
 ## Search without a server
 
-Open `SEARCH.html` in a browser that can execute local JavaScript, then use its file picker to select `SEARCH/library.owl`. All search processing stays on the device. The page contains its own interface and code; there are no CDNs, external fonts, network requests, or cloud APIs.
+Open `START_HERE.html` and enter words in **Search this library**. Search loads automatically from neighboring files on the SSD; there is no index file to select. `SEARCH.html` provides the same interface on a dedicated page. All processing stays on the device, without a server, account, CDN, or network connection.
 
-The builder extracts text and metadata once and creates an inverted index. Long documents are divided into passages so results can provide matching context. The browser uses `File.slice()` to read index sections, term postings, and result records as needed. It does not scan the library or load all document text for each query. Results use BM25-style ranking and show title, category/source, a snippet, and the content path.
+The builder extracts text and metadata once and creates an inverted index. Long documents become passages so results can provide matching context. The browser loads a small local manifest and requests index chunks as needed through ordinary local scripts. It keeps at most eight decoded 1 MiB chunks in its transport cache, instead of scanning the library at query time. Results use BM25-style ranking and show title, category/source, a snippet, and the content path.
+
+The finished search files are `SEARCH/search.js`, `SEARCH/manifest.js`, and `SEARCH/chunks/<index-hash>/`. Base64 encoding adds roughly one third to the binary index size; profile search budgets cover the published output. There is no separate binary index to select on a fresh build. Keep both entry pages and the entire `SEARCH/` directory together. Very large archive indexes and common-word searches still need performance testing at their intended scale.
 
 Choose **All resources**, **Textbooks**, or **Illustrated guides** to search a collection. Filters apply before ranking the final results, so books are not hidden by a larger archive's matches. Illustrated textbooks appear in both learning collections. Results retain each document's license and attribution.
 
@@ -179,7 +181,7 @@ Search depends on browser and file-manager capabilities:
 
 | Platform | Ordinary files | JavaScript search | Large ZIM archives |
 | --- | --- | --- | --- |
-| Windows, macOS, Linux | Compatible standard browser/viewer | Designed for modern Chrome, Edge, Firefox, and Safari with local file selection | Use a compatible bundled or already installed reader |
+| Windows, macOS, Linux | Compatible standard browser/viewer | Browser must permit local JavaScript and neighboring local script files; test the chosen browser | Use a compatible bundled or already installed reader |
 | Android / Pixel | File manager and compatible viewer | Browser launching, storage providers, and external-drive access vary; test the actual device | An appropriate APK may be installable offline if permitted |
 | iPhone / iPad | Files and compatible document previews | Files previews commonly do not execute JavaScript; static indexes and direct files are the dependable fallback | Do not assume a reader can be installed from the SSD offline |
 | Raspberry Pi | Compatible standard browser/viewer | Depends on the installed browser and available memory | Reader must match the Pi’s processor and operating system |

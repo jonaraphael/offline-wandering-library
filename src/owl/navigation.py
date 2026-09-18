@@ -12,6 +12,7 @@ from urllib.parse import quote
 
 from .catalog import learning_shelves
 from .safety import atomic_write, safe_path
+from .search_ui import SEARCH_CSP, render_search_widget
 
 LETTERS = (*string.ascii_uppercase, "0-9", "other")
 GENERATED_PATHS = (
@@ -158,7 +159,7 @@ def _resource_labels(asset: dict) -> str:
     return " · ".join(labels)
 
 
-def _page(title: str, body: str, current: str) -> str:
+def _page(title: str, body: str, current: str, *, inline_search: bool = False) -> str:
     home = _href("START_HERE.html", current)
     search = _href("SEARCH.html", current)
     categories = _href("INDEX/categories.html", current)
@@ -167,10 +168,14 @@ def _page(title: str, body: str, current: str) -> str:
     illustrated = _href("INDEX/illustrated-guides.html", current)
     gutenberg = _href("INDEX/gutenberg.html", current)
     children = _href("INDEX/children.html", current)
+    policy = f'<meta http-equiv="Content-Security-Policy" content="{html.escape(SEARCH_CSP, quote=True)}">' if inline_search else ""
+    footer = ("Static navigation works without JavaScript; search requires it. No internet connection is needed."
+              if inline_search else "This page works without JavaScript or an internet connection.")
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
+{policy}
 <title>{_text(title)} · Offline Wandering Library</title><style>{CSS}</style></head>
 <body><nav aria-label="Library navigation"><a href="{home}">Start here</a>
 <a href="{search}">Search</a><a href="{categories}">Categories</a>
@@ -178,7 +183,7 @@ def _page(title: str, body: str, current: str) -> str:
 <a href="{illustrated}">Illustrated guides</a><a href="{gutenberg}">Project Gutenberg</a>
 <a href="{children}">Children’s Library</a></nav>
 <main><h1>{_text(title)}</h1>{body}</main>
-<footer>Offline Wandering Library · This page works without JavaScript or an internet connection.</footer>
+<footer>Offline Wandering Library · {footer}</footer>
 </body></html>
 """
 
@@ -280,6 +285,12 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
     Static indexes enumerate catalog assets. Entries inside specialized archives
     are accessible through their reader and, when extracted, the search index.
     """
+    search_files = search_report.get("generated_files", [])
+    if not isinstance(search_files, list):
+        search_files = []
+    search_ready = search_report.get("status") != "not-built" and all(
+        relative in search_files for relative in ("SEARCH/manifest.js", "SEARCH/search.js")
+    )
     actual = {entry["destination"]: entry for entry in inventory.get("assets", [])}
     entries = [{**asset, **actual.get(asset["destination"], {})} for asset in assets]
     entries.sort(key=lambda asset: (str(asset.get("title", "")).casefold(), asset["destination"]))
@@ -321,9 +332,14 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
 <p class="notice"><strong>Open ordinary files directly.</strong> The critical library uses HTML, PDF,
 and other ordinary files. Use your device’s file manager and a compatible browser or document viewer.
 No account, server, or internet connection is needed to read these files.</p>
-<p><a href="SEARCH.html"><strong>Search this library</strong></a> ·
-<a href="INDEX/critical.html"><strong>Browse all critical content</strong></a></p>
 """
+        + (render_search_widget() if search_ready else
+           '<p class="notice">' +
+           ('<strong>Human index only:</strong> full-text search has not been built. '
+            if search_report.get("status") == "not-built" else
+            '<strong>Full-text search is not available in this build.</strong> ') +
+           'Use the topic atlas, category, critical-content, and alphabetical indexes.</p>')
+        + '<p><a href="INDEX/critical.html"><strong>Browse all critical content</strong></a></p>'
         + '<h2>Books and learning collections</h2>'
         + '<p>Learn from complete textbooks and practical guides. Open the original files to see their '
         'diagrams, photographs, and illustrations.</p>'
@@ -351,6 +367,7 @@ critical files on locked-down devices. EPUB support also depends on an available
 Coverage depends on the selected profile. Documents retain their original dates, authors, and limitations.</p>
 """,
         "START_HERE.html",
+        inline_search=search_ready,
     )
 
     current = "INDEX/categories.html"
@@ -472,8 +489,8 @@ Coverage depends on the selected profile. Documents retain their original dates,
 
     pages["README.txt"] = """OFFLINE WANDERING LIBRARY (OWL)
 
-Open START_HERE.html for topic links, SEARCH.html for full-text search, or
-INDEX/categories.html and INDEX/critical.html for navigation without JavaScript.
+Open START_HERE.html to search or browse topics. SEARCH.html offers the same search.
+Browse INDEX/categories.html and INDEX/critical.html without JavaScript.
 INDEX/textbooks.html lists directly readable textbooks. INDEX/illustrated-guides.html
 lists illustrated textbooks and practical guides. Critical textbooks are also in
 the critical index, including those stored under BOOKS/TEXTBOOKS/.
@@ -490,10 +507,11 @@ Textbook and guide PDFs retain their original diagrams, photographs, and figures
 Search indexes extractable text, not image content; open the original document
 to read illustrations, charts, and image-only pages.
 
-SEARCH.html uses a precomputed index. Follow its file-picker instructions to
-select the index from SEARCH/. Searches read portions of that file locally.
-Search needs JavaScript and a browser supporting local File access. The static
-indexes work without JavaScript and list the library's catalog assets.
+Search on START_HERE.html or SEARCH.html loads its index automatically from
+SEARCH/ on this drive. Enter search words; no index selection is required.
+Search needs a browser that runs local JavaScript and can load neighboring local
+scripts. It reads small index chunks as needed, without a server or internet.
+The static indexes work without JavaScript and list the library's catalog assets.
 
 ZIM archives need an archive reader. Bundled readers, when included in this
 profile, are in SOFTWARE/ organized by platform. They may require installation,
@@ -551,19 +569,19 @@ This library is a reference collection, not a substitute for professional help.
                 pages[relative] = pages[relative].replace(anchor, anchor +
                     f'<a href="{_href("INDEX/topics.html", relative)}">Topic atlas</a>', 1)
         pages["README.txt"] += "\nHUMAN TOPIC INDEX\nOpen INDEX/topics.html for subjects, practical routes, and learning.\nTopic aliases and book contents work without JavaScript. Section links include\nvisible source locations for viewers that ignore PDF page or HTML fragments.\nSee INDEX/navigation-report.json for mapping coverage and gaps.\n"
-    if search_report.get("status") == "not-built":
-        pages["START_HERE.html"] = pages["START_HERE.html"].replace(
-            '<p>An offline knowledge library.',
-            '<p class="notice"><strong>Human index only:</strong> full-text search has not been built. '
-            'Use the topic atlas, categories, and title indexes.</p><p>An offline knowledge library.', 1)
+    if not search_ready:
         pages["README.txt"] = pages["README.txt"].replace(
-            "SEARCH.html uses a precomputed index. Follow its file-picker instructions to\n"
-            "select the index from SEARCH/. Searches read portions of that file locally.\n"
-            "Search needs JavaScript and a browser supporting local File access. The static\n"
-            "indexes work without JavaScript and list the library's catalog assets.",
-            "Full-text search has not been built. Use the human topic atlas, category and\n"
-            "title indexes; these work without JavaScript. The drive builder can generate\n"
-            "full-text search later from the existing verified content.")
+            "Open START_HERE.html to search or browse topics. SEARCH.html offers the same search.",
+            "Open START_HERE.html to browse topics.")
+        pages["README.txt"] = pages["README.txt"].replace(
+            "Search on START_HERE.html or SEARCH.html loads its index automatically from\n"
+            "SEARCH/ on this drive. Enter search words; no index selection is required.\n"
+            "Search needs a browser that runs local JavaScript and can load neighboring local\n"
+            "scripts. It reads small index chunks as needed, without a server or internet.\n"
+            "The static indexes work without JavaScript and list the library's catalog assets.",
+            "Full-text search is not available in this build. Use the human topic atlas,\n"
+            "category and title indexes; these work without JavaScript. Run the drive\n"
+            "builder to generate automatic search from the existing verified content.")
     if not write:
         return pages
     for relative in GENERATED_PATHS:

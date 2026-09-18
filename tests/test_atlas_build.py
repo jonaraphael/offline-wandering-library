@@ -50,17 +50,20 @@ class AtlasBuildTests(Fixture):
 
     def test_post_download_atlas_preserves_search_and_is_deterministic(self):
         self.run_build()
-        index = self.drive / "SEARCH/library.owl"
-        before = (index.read_bytes(), index.stat().st_mtime_ns)
+        inventory = json.loads((self.drive / "INVENTORY.json").read_text(encoding="utf-8"))
+        search_files = inventory["search"]["generated_files"]
+        before = {p: ((self.drive / p).read_bytes(), (self.drive / p).stat().st_mtime_ns) for p in search_files}
         with patch("owl.build.download", side_effect=AssertionError("no downloads")), patch("owl.search.build_search", side_effect=AssertionError("no search rebuild")):
             report = self.atlas(strict_coverage=True)
         self.assertEqual(report["unmapped_critical"], [])
         self.assertIn("INDEX/topics/shared.html", report["generated_files"])
         self.assertIn("INDEX/topics.html#subjects", (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
+        self.assertIn('id="searchForm"', (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
+        self.assertIn('src="SEARCH/search.js"', (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
         first = {p: (self.drive / p).read_bytes() for p in report["generated_files"]}
         self.atlas()
         self.assertEqual(first, {p: (self.drive / p).read_bytes() for p in first})
-        self.assertEqual((index.read_bytes(), index.stat().st_mtime_ns), before)
+        self.assertEqual({p: ((self.drive / p).read_bytes(), (self.drive / p).stat().st_mtime_ns) for p in search_files}, before)
         self.check_verified()
 
     def test_full_builder_integrates_atlas_and_disabling_retires_pages(self):
@@ -102,15 +105,20 @@ class AtlasBuildTests(Fixture):
     def test_catalog_only_generation_requires_no_search_or_network(self):
         self.put_downloaded_files()
         self.atlas(profile="test", strict_coverage=True)
-        self.assertFalse((self.drive / "SEARCH/library.owl").exists())
+        self.assertFalse((self.drive / "SEARCH/manifest.js").exists())
+        self.assertFalse((self.drive / "SEARCH/search.js").exists())
         self.assertIn("has not been built", (self.drive / "SEARCH.html").read_text(encoding="utf-8"))
         self.assertIn("Human index only", (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
+        self.assertNotIn('id="searchForm"', (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
+        self.assertNotIn("<script", (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
         info = json.loads((self.drive / "BUILD_INFO.json").read_text(encoding="utf-8"))
         self.assertEqual(info["build_kind"], "human-index-only")
         self.check_verified()
         with patch("owl.build.download", side_effect=AssertionError("already downloaded")):
             self.run_build(navigation_dir=self.nav)
-        self.assertTrue((self.drive / "SEARCH/library.owl").is_file())
+        self.assertTrue((self.drive / "SEARCH/manifest.js").is_file())
+        self.assertTrue((self.drive / "SEARCH/search.js").is_file())
+        self.assertIn('id="searchForm"', (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
         self.check_verified()
 
     def test_catalog_only_interruption_retains_support_files_in_manifest(self):
@@ -199,6 +207,30 @@ class AtlasBuildTests(Fixture):
         source.write_text('<h1 id="caf\u00e9">Title</h1>', encoding="utf-16")
         validate_links(self.drive, {"INDEX/topics/test.html": '<a href="../../REFERENCE/utf16.html#caf%C3%A9">Section</a>'},
                        [{"destination": "REFERENCE/utf16.html", "text_encoding": "utf-16"}])
+
+    def test_navigation_scripts_allow_only_the_complete_homepage_search_dependency(self):
+        runtime = self.drive / "SEARCH/search.js"
+        runtime.parent.mkdir(parents=True)
+        runtime.write_text("/* fixture */", encoding="utf-8")
+        manifest = self.drive / "SEARCH/manifest.js"
+        manifest.write_text("/* fixture */", encoding="utf-8")
+        allowed = '<script defer src="SEARCH/search.js"></script>'
+        validate_links(self.drive, {"START_HERE.html": allowed})
+        for relative, markup in (
+            ("INDEX/topics/test.html", allowed),
+            ("INDEX/categories.html", allowed),
+            ("START_HERE.html", '<script>alert(1)</script>'),
+            ("START_HERE.html", '<script defer src="https://example.invalid/a.js"></script>'),
+            ("START_HERE.html", '<script defer src="SEARCH/other.js"></script>'),
+            ("START_HERE.html", '<script defer type="module" src="SEARCH/search.js"></script>'),
+            ("START_HERE.html", '<script defer src="SEARCH/search.js">alert(1)</script>'),
+            ("START_HERE.html", allowed + allowed),
+        ):
+            with self.subTest(relative=relative, markup=markup), self.assertRaisesRegex(SafetyError, "Unexpected generated script"):
+                validate_links(self.drive, {relative: markup})
+        manifest.unlink()
+        with self.assertRaisesRegex(SafetyError, "Missing automatic search dependency"):
+            validate_links(self.drive, {"START_HERE.html": allowed})
 
 
 if __name__ == "__main__":

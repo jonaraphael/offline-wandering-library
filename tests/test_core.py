@@ -359,14 +359,14 @@ class BuildTests(Fixture):
     def test_end_to_end_idempotent_and_independent_verification(self):
         self.run_build()
         drive = self.root / "drive"
-        initial = sha256_file(drive / "SEARCH/library.owl")
+        initial = sha256_file(drive / "SEARCH/manifest.js")
         content = drive / self.asset["destination"]
         mtime = content.stat().st_mtime_ns
         (drive / "personal.txt").write_text("preserve me")
         with patch("owl.build.download", side_effect=AssertionError("must reuse")):
             self.run_build()
         self.assertEqual(content.stat().st_mtime_ns, mtime)
-        self.assertEqual(sha256_file(drive / "SEARCH/library.owl"), initial)
+        self.assertEqual(sha256_file(drive / "SEARCH/manifest.js"), initial)
         result = verify_drive(drive, emit=lambda _: None)
         self.assertGreater(result["OK"], 30)
         self.assertEqual(result["UNKNOWN"], 1)

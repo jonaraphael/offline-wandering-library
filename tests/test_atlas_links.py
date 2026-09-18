@@ -69,7 +69,7 @@ class AtlasLinkTests(unittest.TestCase):
         validate_links(self.target, valid)
         for replacement, error in (
                 ('<h1>No matching section</h1>', 'Missing HTML fragment'),
-                ('<script>anything</script>', 'must not require scripts'),
+                ('<script>anything</script>', 'Unexpected generated script'),
                 ('<a href="https://example.invalid/">External</a><h1 id="section">Section</h1>', 'Nonlocal generated link')):
             with self.subTest(error=error), self.assertRaisesRegex(SafetyError, error):
                 validate_links(self.target, {**valid, 'INDEX/topics/two.html': replacement})

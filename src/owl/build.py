@@ -28,7 +28,7 @@ LAYOUT = [f"CRITICAL/{name}" for name in ("FIRST_AID", "MEDICAL", "WATER_SANITAT
 LAYOUT += ["REFERENCE", "BOOKS/TEXTBOOKS", "MAPS", "ZIM/WIKIPEDIA", "ZIM/WIKIMED", "ZIM/WIKTIONARY", "ZIM/OTHER",
            "SOFTWARE/ANDROID", "SOFTWARE/WINDOWS", "SOFTWARE/MACOS", "SOFTWARE/LINUX", "SEARCH", "INDEX"]
 CORE_OUTPUTS = ["INVENTORY.json", "BUILD_INFO.json", "SHA256SUMS.txt", "LOCKED_CATALOG.yaml", "CONTENT_SELECTION.json", "VERIFY.py", "SOURCE_NOTES.txt",
-                "SEARCH.html", "SEARCH/library.owl", "SEARCH/coverage.json"]
+                "SEARCH.html", "SEARCH/manifest.js", "SEARCH/search.js", "SEARCH/coverage.json"]
 
 
 def _json(value) -> bytes:
@@ -282,9 +282,15 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     checkpoint = checkpoint_usage(target, work_dir=work)
     # Credit retained staging files: their allocation already reduced disk free
     # space. Their bytes are independently checked before any later promotion.
-    search_bytes = max(0, plan["search_budget_bytes"] - checkpoint["output_bytes"])
-    scratch_bytes = max(0, plan["index_scratch_budget_bytes"] - checkpoint["scratch_bytes"])
-    required = transfer_bytes + search_bytes + plan["reserve_bytes"] + 16 * 1024 * 1024
+    # Finished script chunks include base64 overhead. Their raw intermediate
+    # remains on the target even when the extraction workspace is elsewhere.
+    # Divide the existing scratch allowance between these two filesystems.
+    raw_budget = min(plan["index_scratch_budget_bytes"], (plan["search_budget_bytes"] * 3 + 3) // 4)
+    raw_bytes = max(0, raw_budget - checkpoint["output_bytes"])
+    search_bytes = plan["search_budget_bytes"]
+    scratch_bytes = max(0, plan["index_scratch_budget_bytes"] - raw_budget - checkpoint["scratch_bytes"])
+    required = transfer_bytes + search_bytes + raw_bytes + plan["reserve_bytes"] + 16 * 1024 * 1024
+    plan["index_serialization_budget_bytes"] = raw_budget
     plan["remaining_transfer_allocation_bytes"] = transfer_bytes
     plan["remaining_cache_allocation_bytes"] = cache_bytes
     plan["retained_search_checkpoint_bytes"] = checkpoint
@@ -375,6 +381,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         atomic_write(state_path, _json(state))
         progress("Building full-text search and static navigation; large archives may take many hours.")
         search_report = build_search(target, inventory_assets, work_dir=work, progress=progress)
+        state["managed"] = sorted(set(state["managed"]) | set(search_report["generated_files"]))
         state["phase"] = "navigation"
         atomic_write(state_path, _json(state))
         for warning in search_report.get("warnings", []):
@@ -421,14 +428,20 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                 "search": search_report, "navigation": atlas_report, "complete": True,
                 "integrity_note": "SHA-256 detects damage, not publisher identity. Save SHA256SUMS.txt separately."}
         atomic_write(safe_path(target, "BUILD_INFO.json"), _json(info))
-        managed = sorted(set(nav_files) | set(search_report["generated_files"]) | set(CORE_OUTPUTS) |
+        # Preserve checksum coverage of previous owned search generations. A
+        # changed selection never silently prunes files from an existing drive.
+        retained_search = {name for name in owned
+                           if (name.startswith("SEARCH/chunks/") or name == "SEARCH/library.owl")
+                           and safe_path(target, name).is_file()}
+        managed = sorted(set(nav_files) | set(search_report["generated_files"]) | retained_search | set(CORE_OUTPUTS) |
                          {a["destination"] for a in assets})
         state["phase"] = "checksums"
         atomic_write(state_path, _json(state))
         progress("Generating checksums (streaming each managed file).")
         # Stream hashes; never load content files into memory.
         expected_files = {a["destination"]: (a["sha256"], a["size_bytes"]) for a in inventory_assets}
-        expected_files["SEARCH/library.owl"] = (search_report["index_sha256"], search_report["index_bytes"])
+        expected_files.update({name: (item["sha256"], item["size_bytes"])
+                               for name, item in search_report["file_integrity"].items()})
         checksum_lines = []
         for relative in managed:
             if relative == "SHA256SUMS.txt":
