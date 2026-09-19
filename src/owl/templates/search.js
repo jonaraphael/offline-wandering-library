@@ -63,12 +63,16 @@ const OWLSearch = (() => {
     for (const chunk of chunks) { result.set(chunk, at); at += chunk.byteLength; }
     return result;
   }
-  function safeLink(record) {
+  function libraryPrefix(value) {
+    if (value !== "" && value !== "LIBRARY/") throw new Error("Invalid local library location.");
+    return value;
+  }
+  function safeLink(record, prefix = "") {
     const path = record.destination;
     if (typeof path !== "string" || /[\\:\x00-\x1f]/.test(path) || path.startsWith("/")) return null;
     const parts = path.split("/");
     if (parts.some(part => !part || part === "." || part === "..")) return null;
-    let link = parts.map(encodeURIComponent).join("/");
+    let link = libraryPrefix(prefix) + parts.map(encodeURIComponent).join("/");
     if (record.format === "pdf" && Number.isSafeInteger(record.page) && record.page > 0) link += "#page=" + record.page;
     return link;
   }
@@ -333,7 +337,7 @@ const OWLSearch = (() => {
       }
       globalThis[callbackName] = callback;
       script.onload = () => finish(received ? null : new Error("A local search script returned no data."));
-      script.onerror = () => finish(new Error("A local search file could not be loaded. Keep the SEARCH folder beside this page."));
+      script.onerror = () => finish(new Error("A local search file could not be loaded. Keep START_HERE.html and its LIBRARY folder together."));
       script.src = url;
       timer = setTimeout(() => finish(new Error("Loading local search timed out. Retry, or use the static indexes.")), SCRIPT_TIMEOUT_MS);
       try { document.head.append(script); } catch (error) { finish(error); }
@@ -343,15 +347,16 @@ const OWLSearch = (() => {
     return operation;
   }
 
-  async function loadManifest(load = classicScript) {
-    return load("SEARCH/manifest.js", "OWLSearchManifest", validateManifest);
+  async function loadManifest(load = classicScript, prefix = "") {
+    return load(libraryPrefix(prefix) + "SEARCH/manifest.js", "OWLSearchManifest", validateManifest);
   }
 
   class ScriptChunkFile {
-    constructor(manifest, load = classicScript) {
+    constructor(manifest, load = classicScript, prefix = "") {
       this.manifest = validateManifest(manifest);
       this.size = this.manifest.size;
       this.load = load;
+      this.prefix = libraryPrefix(prefix);
       this.cache = new Map();
       this.pending = new Map();
       this.queue = Promise.resolve();
@@ -363,7 +368,7 @@ const OWLSearch = (() => {
       }
       if (this.pending.has(id)) return this.pending.get(id);
       const operation = this.queue.then(async () => {
-        const url = "SEARCH/chunks/" + this.manifest.index_sha256 + "/" + String(id).padStart(8, "0") + ".js";
+        const url = this.prefix + "SEARCH/chunks/" + this.manifest.index_sha256 + "/" + String(id).padStart(8, "0") + ".js";
         const bytes = await this.load(url, "OWLSearchChunk", (hash, position, encoded) => decodeChunk(this.manifest, id, hash, position, encoded));
         while (this.cache.size >= MAX_CACHED_CHUNKS) this.cache.delete(this.cache.keys().next().value);
         this.cache.set(id, bytes);
@@ -396,6 +401,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = OWLSearch;
 
 if (typeof document !== "undefined" && document.getElementById("searchForm")) {
   const element = id => document.getElementById(id);
+  const libraryRoot = element("searchForm").dataset?.libraryRoot || "";
   let index = null, controller = null, generation = 0;
   const status = text => { element("status").textContent = text; };
   const controls = disabled => {
@@ -413,8 +419,8 @@ if (typeof document !== "undefined" && document.getElementById("searchForm")) {
     element("results").replaceChildren();
     status("Loading search from this drive…");
     try {
-      const manifest = await OWLSearch.loadManifest();
-      const next = new OWLSearch.Index(new OWLSearch.ScriptChunkFile(manifest));
+      const manifest = await OWLSearch.loadManifest(undefined, libraryRoot);
+      const next = new OWLSearch.Index(new OWLSearch.ScriptChunkFile(manifest, undefined, libraryRoot));
       const header = await next.open();
       if (generation !== ownGeneration) return;
       index = next; controls(false);
@@ -440,7 +446,7 @@ if (typeof document !== "undefined" && document.getElementById("searchForm")) {
       status(found.results.length ? "Showing " + found.results.length + " best passages of " + found.matches.toLocaleString() + " matches in the selected resources." : "No matching words in the selected resources. Try another word, choose All resources, or browse the static indexes.");
       for (const result of found.results) {
         const item = document.createElement("li"), heading = document.createElement("a"), meta = document.createElement("p"), context = document.createElement("p"), attribution = document.createElement("p"), path = document.createElement("p");
-        const link = OWLSearch.safeLink(result); if (link) heading.href = link;
+        const link = OWLSearch.safeLink(result, libraryRoot); if (link) heading.href = link;
         heading.textContent = result.title + (result.page ? " · page " + result.page : "");
         meta.className = "meta"; meta.textContent = [...OWLSearch.resourceLabels(result), result.category, result.source, result.metadata_only ? "Catalog metadata only" : "", result.reader_required ? "Requires a reader" : ""].filter(Boolean).join(" · ");
         context.textContent = result.snippet;

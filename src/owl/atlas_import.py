@@ -343,14 +343,15 @@ def _local_path(path: Path) -> Path:
 
 
 def main(argv=None) -> int:
+    from .layout import content_root
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('target', type=Path, help='existing library containing the verified source file')
+    parser.add_argument('target', type=Path, help='outer drive directory containing LIBRARY and the verified source file')
     parser.add_argument('--asset', required=True, help='asset ID in the inventory')
-    parser.add_argument('--inventory', type=Path, help='default: TARGET/INVENTORY.json')
+    parser.add_argument('--inventory', type=Path, help='default: TARGET/LIBRARY/INVENTORY.json')
     parser.add_argument('--output', required=True, type=Path, help='new draft section-map YAML path')
     args = parser.parse_args(argv)
     try:
-        target = _local_path(args.target)
+        target = content_root(_local_path(args.target))
         inventory_path = _local_path(args.inventory) if args.inventory else safe_path(target, 'INVENTORY.json')
         inventory = json.loads(inventory_path.read_text(encoding='utf-8'))
         assets = inventory.get('assets') if isinstance(inventory, dict) else None

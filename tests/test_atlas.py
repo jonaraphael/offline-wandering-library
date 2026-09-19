@@ -11,6 +11,7 @@ from unittest.mock import patch
 from urllib.parse import unquote, urlsplit
 
 from owl.atlas import MAX_PAGE_BYTES, prepare_atlas
+from owl.layout import checksum_name, logical_name
 from owl.safety import SafetyError
 
 
@@ -34,7 +35,7 @@ class AtlasTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
-        self.target = Path(temporary.name).resolve()
+        self.target = Path(temporary.name).resolve() / "LIBRARY"
         self.asset = self.make_asset("book", "pdf", textbook=True, critical=True)
         self.topics = {"science": self.topic("science", "Science"),
                        "repair": self.topic("repair", "Repair"),
@@ -200,7 +201,8 @@ class AtlasTests(unittest.TestCase):
                 url = urlsplit(link)
                 self.assertFalse(url.scheme, link)
                 self.assertFalse(url.netloc, link)
-                destination = posixpath.normpath(posixpath.join(posixpath.dirname(current), unquote(url.path))) if url.path else current
+                outer_destination = posixpath.normpath(posixpath.join(posixpath.dirname(checksum_name(current)), unquote(url.path))) if url.path else checksum_name(current)
+                destination = logical_name(outer_destination)
                 self.assertTrue(destination in pages or destination in baseline or (self.target / destination).is_file(), (current, link))
                 if url.fragment and destination in pages:
                     self.assertIn(unquote(url.fragment), Links(pages[destination]).ids, (current, link))

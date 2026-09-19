@@ -28,8 +28,9 @@ class DirectExportTests(unittest.TestCase):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name).resolve()
-        self.target = self.root / "ssd"
-        self.target.mkdir()
+        self.drive = self.root / "ssd"
+        self.target = self.drive / "LIBRARY"
+        self.target.mkdir(parents=True)
         self.source = self.target / "source.zim"
         self.items = {
             "A/Start": ("text/html", '<html><head><link rel="stylesheet" href="../styles/main.css"></head><body>'
@@ -77,7 +78,7 @@ class DirectExportTests(unittest.TestCase):
         options.setdefault("max_bytes", 20 * BLOCK)
         options.setdefault("max_files", 30)
         options.setdefault("progress", lambda _: None)
-        return export_zim(self.source, self.target, source_asset=self.asset, **options)
+        return export_zim(self.source, self.drive, source_asset=self.asset, **options)
 
     def test_real_html_images_styles_fonts_and_links_with_notices(self):
         report = self.export()
@@ -152,7 +153,7 @@ class DirectExportTests(unittest.TestCase):
         try:
             with patch("libzim.reader.Archive", HugeArchive):
                 with self.assertRaisesRegex(ExportError, "Selection exceeds --max-files"):
-                    export_zim(self.source, self.target, source_asset=self.asset, all_articles=True,
+                    export_zim(self.source, self.drive, source_asset=self.asset, all_articles=True,
                                max_bytes=BLOCK, max_files=100000, progress=lambda _: None)
             _, peak = tracemalloc.get_traced_memory()
         finally:
@@ -264,7 +265,7 @@ class DirectExportTests(unittest.TestCase):
             self.export(entries=["A/Start"])
         changed = dict(self.asset, version="another edition")
         with self.assertRaisesRegex(ExportError, "Checkpoint source/selection"):
-            export_zim(self.source, self.target, source_asset=changed, entries=["A/Start", "A/Next"],
+            export_zim(self.source, self.drive, source_asset=changed, entries=["A/Start", "A/Next"],
                        max_bytes=20 * BLOCK, max_files=30, progress=lambda _: None)
 
     def test_corrupted_partial_prefix_restarts_and_produces_pinned_output(self):

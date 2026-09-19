@@ -10,7 +10,7 @@
 </style>
 </head>
 <body>
-<nav><a href="START_HERE.html">Start here</a><a href="INDEX/textbooks.html">Textbooks</a><a href="INDEX/illustrated-guides.html">Illustrated guides</a><a href="INDEX/categories.html">Browse categories</a><a href="INDEX/critical.html">Critical information</a></nav>
+<nav><a href="../START_HERE.html">Start here</a><a href="INDEX/textbooks.html">Textbooks</a><a href="INDEX/illustrated-guides.html">Illustrated guides</a><a href="INDEX/categories.html">Browse categories</a><a href="INDEX/critical.html">Critical information</a></nav>
 <h1>Search the offline library</h1>
 <!-- OWL_SEARCH_WIDGET_START -->
 <section class="owl-search" aria-labelledby="owlSearchHeading">
@@ -20,7 +20,7 @@
 <h2 id="owlSearchHeading">Search this library</h2>
 <p>Search loads automatically from this drive. No internet, server or installation is needed.</p>
 <noscript><p class="notice">This viewer does not run JavaScript. Use the static indexes below; ordinary documents remain readable.</p></noscript>
-<form id="searchForm">
+<form id="searchForm" data-library-root="__OWL_LIBRARY_PREFIX__">
 <label for="query">Search words</label>
 <input id="query" type="search" placeholder="water purification" maxlength="2048" autocomplete="off">
 <label for="shelf">Search in</label>
@@ -29,8 +29,8 @@
 </form>
 <p id="status" role="status" aria-live="polite">Search loads automatically. If it is unavailable in this viewer, use the static indexes below.</p>
 <ol id="results" aria-label="Search results"></ol>
-<p><a href="INDEX/categories.html">Browse by category</a> · <a href="INDEX/A.html">Alphabetical index</a> · <a href="INDEX/critical.html">Critical information</a></p>
-<script defer src="SEARCH/search.js"></script>
+<p><a href="__OWL_LIBRARY_PREFIX__INDEX/categories.html">Browse by category</a> · <a href="__OWL_LIBRARY_PREFIX__INDEX/A.html">Alphabetical index</a> · <a href="__OWL_LIBRARY_PREFIX__INDEX/critical.html">Critical information</a></p>
+<script defer src="__OWL_LIBRARY_PREFIX__SEARCH/search.js"></script>
 </section>
 <!-- OWL_SEARCH_WIDGET_END -->
 <details><summary>Coverage and search help</summary><p>Results are ranked matching passages, including titles, categories, sources, filenames and extracted body text. Words are matched exactly after Unicode normalization; this version has no stemming, phrases, prefix search or language-specific word segmentation. A query can contain up to 32 different words. Results matching any word are considered. Common words can take longer because their full posting lists are streamed.</p><p>Search reads small local index chunks and keeps at most eight decoded chunks in its cache. Keep the SEARCH folder beside this page. Nothing is uploaded, and no remote scripts or services are used.</p><p>PDF scans and images are not OCRed. Software and non-text maps are searchable by catalog metadata. See <a href="SEARCH/coverage.json">the build's coverage report</a> and <a href="INVENTORY.html">inventory</a>. Archive results show the internal article name: open that archive in a compatible reader and find the article there. A browser cannot open an article inside a ZIM by itself.</p><p>Use a browser that permits local scripts. Android support depends on the browser and file manager. iPhone/iPad Files previews often disable scripts; use the static indexes and ordinary documents in that case. Try this on each device before relying on it.</p></details>

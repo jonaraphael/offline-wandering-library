@@ -14,6 +14,7 @@ from urllib.parse import unquote, urlsplit
 
 from .build import REPO_ROOT, _json, _owned_directory, _root, _state, check_space
 from .catalog import ROOTS, fingerprint, load_catalog, load_profiles, resolve_content
+from .layout import checksum_name, content_root, logical_name, managed_path
 from .navigation import GENERATED_PATHS, generate_navigation
 from .runtime import file_lock, interrupt_signals
 from .safety import SafetyError, atomic_write, guard_directory, safe_path, sha256_file, validate_relative
@@ -48,7 +49,7 @@ def _reported_paths(report: dict, managed) -> list[str]:
 
 
 def _unavailable(relative: str) -> str:
-    home = posixpath.relpath("START_HERE.html", posixpath.dirname(relative))
+    home = posixpath.relpath(checksum_name("START_HERE.html"), posixpath.dirname(checksum_name(relative)))
     categories = posixpath.relpath("INDEX/categories.html", posixpath.dirname(relative))
     return ('<!doctype html><html lang="en"><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
@@ -92,10 +93,10 @@ def plan_atlas(target: Path, assets: list[dict], navigation: dict | None, state:
 def preflight_outputs(target: Path, pages: dict, state: dict) -> None:
     from .copy import _check_names, _existing_names
     _check_names(list(pages))
-    _existing_names(target, pages)
+    _existing_names(target.parent, [checksum_name(relative) for relative in pages])
     owned = set(state["managed"])
     for relative in pages:
-        path = safe_path(target, relative)
+        path = managed_path(target, relative)
         if path.exists() and (relative not in owned or not path.is_file()):
             raise SafetyError(f"Atlas would overwrite an unowned file or directory: {relative}")
 
@@ -152,7 +153,7 @@ def validate_links(target: Path, pages: dict[str, str], assets=()) -> None:
             if page.scripts:
                 allowed = (relative == "START_HERE.html" and not page.inline_script and
                            len(page.scripts) == 1 and len(page.scripts[0]) == 2 and
-                           dict(page.scripts[0]) == {"defer": None, "src": "SEARCH/search.js"})
+                           dict(page.scripts[0]) == {"defer": None, "src": "LIBRARY/SEARCH/search.js"})
                 if not allowed:
                     raise SafetyError(f"Unexpected generated script: {relative}")
                 for required in ("SEARCH/search.js", "SEARCH/manifest.js"):
@@ -164,8 +165,10 @@ def validate_links(target: Path, pages: dict[str, str], assets=()) -> None:
             link = urlsplit(href)
             if link.scheme or link.netloc or link.query:
                 raise SafetyError(f"Nonlocal generated link in {relative}: {href}")
-            destination = posixpath.normpath(posixpath.join(posixpath.dirname(relative), unquote(link.path))) if link.path else relative
-            path = safe_path(target, destination)
+            outer_destination = (posixpath.normpath(posixpath.join(posixpath.dirname(checksum_name(relative)),
+                                  unquote(link.path))) if link.path else checksum_name(relative))
+            destination = logical_name(outer_destination)
+            path = managed_path(target, destination)
             if destination not in pages and not path.is_file():
                 raise SafetyError(f"Missing generated link in {relative}: {destination}")
             if link.fragment and destination.lower().endswith((".html", ".htm")):
@@ -178,7 +181,7 @@ def validate_links(target: Path, pages: dict[str, str], assets=()) -> None:
     # only the bounded set of anchors requested by generated navigation pages.
     for destination, anchors in requested.items():
         parser = _SourceAnchors(anchors)
-        path = safe_path(target, destination)
+        path = managed_path(target, destination)
         with path.open(encoding=encodings.get(destination, "utf-8"), errors="replace") as handle:
             for block in iter(lambda: handle.read(65536), ""):
                 parser.feed(block)
@@ -199,7 +202,7 @@ def register_outputs(target: Path, pages: dict, state: dict) -> None:
 
 def write_outputs(target: Path, pages: dict[str, str]) -> None:
     for relative, text in sorted(pages.items()):
-        atomic_write(safe_path(target, relative), text.encode("utf-8"))
+        atomic_write(managed_path(target, relative), text.encode("utf-8"))
 
 
 def _checksums(target: Path) -> dict[str, str]:
@@ -210,10 +213,13 @@ def _checksums(target: Path) -> dict[str, str]:
     names, result = [], {}
     for line in path.read_text(encoding="utf-8").splitlines():
         match = re.fullmatch(r"([0-9a-f]{64})  (.+)", line)
-        if not match or match[2].casefold() == "sha256sums.txt":
+        if not match:
             raise SafetyError("Invalid existing checksum manifest")
-        names.append(match[2])
-        result[match[2]] = match[1]
+        relative = logical_name(match[2])
+        if relative.casefold() == "sha256sums.txt":
+            raise SafetyError("Invalid existing checksum manifest")
+        names.append(relative)
+        result[relative] = match[1]
     _check_names(names)
     if not result:
         raise SafetyError("Empty existing checksum manifest")
@@ -229,7 +235,7 @@ def _verify_entries(target: Path, entries: dict, excluded=(), *, progress=print)
         if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
             raise SafetyError("Invalid stored atlas baseline checksum")
         progress(f"ATLAS VERIFY {relative}")
-        path = safe_path(target, relative)
+        path = managed_path(target, relative)
         if not path.is_file() or sha256_file(path) != digest:
             raise SafetyError(f"Library file failed integrity verification: {relative}")
 
@@ -293,12 +299,13 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
                 allow_local: bool = False, strict_coverage: bool = False, progress=print) -> dict:
     """No downloads or search extraction. An interrupted publication can be rerun."""
     from .atlas_model import load_navigation
-    target = _root(target)
+    outer = _root(target)
+    target = content_root(outer)
     if not target.is_dir():
         raise SafetyError("The library directory must already exist on the mounted drive")
     all_assets = load_catalog(catalog, allow_local=allow_local)
     navigation = load_navigation(navigation_dir, all_assets)
-    with guard_directory(target):
+    with guard_directory(outer), guard_directory(target):
         _owned_directory(safe_path(target, ".owl"))
         with file_lock(safe_path(target, ".owl/build.lock")):
             state_path = safe_path(target, ".owl/state.json")
@@ -393,11 +400,12 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
                          **{p: hashlib.sha256(text.encode("utf-8")).hexdigest() for p, text in pages.items()}}
             _verify_entries(target, {p: checksums[p] for p in pages}, progress=progress)
             profile_data = info.get("profile", {})
-            final_bytes = sum(safe_path(target, p).stat().st_size for p in checksums)
+            final_bytes = sum(managed_path(target, p).stat().st_size for p in checksums)
             if profile_data.get("capacity_bytes") and final_bytes + profile_data.get("reserve_bytes", 0) > profile_data["capacity_bytes"]:
                 raise SafetyError("Atlas output exceeds the profile's final capacity; publication remains incomplete")
             check_space(target, profile_data.get("reserve_bytes", 0))
-            atomic_write(safe_path(target, "SHA256SUMS.txt"), "".join(f"{digest}  {p}\n" for p, digest in sorted(checksums.items())).encode())
+            atomic_write(safe_path(target, "SHA256SUMS.txt"), "".join(
+                f"{digest}  {checksum_name(p)}\n" for p, digest in sorted(checksums.items())).encode())
             for asset in assets:
                 original = {**asset, "sha256": None} if asset.get("verification") == "observed" else asset
                 state["assets"][asset["id"]] = {"sha256": asset["sha256"], "fingerprint": fingerprint(original)}
@@ -415,7 +423,7 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("target", type=Path)
+    parser.add_argument("target", type=Path, help="outer drive directory containing START_HERE.html and LIBRARY")
     parser.add_argument("--navigation-dir", type=Path, default=REPO_ROOT / "catalog/navigation")
     parser.add_argument("--catalog", type=Path, default=REPO_ROOT / "catalog/library.yaml")
     parser.add_argument("--profile", help="only when no drive inventory exists: select already downloaded catalog files")

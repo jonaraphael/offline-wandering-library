@@ -10,6 +10,7 @@ from urllib.parse import unquote, urlsplit
 
 from owl.navigation import GENERATED_PATHS, generate_navigation
 from owl.search_ui import render_search_widget
+from owl.layout import logical_name, managed_path
 
 
 class Links(HTMLParser):
@@ -33,7 +34,9 @@ class NavigationTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
-        self.target = Path(self.temporary.name).resolve()
+        self.outer = Path(self.temporary.name).resolve()
+        self.target = self.outer / "LIBRARY"
+        self.target.mkdir()
         self.assets = [
             {
                 "id": "aid",
@@ -145,7 +148,7 @@ class NavigationTests(unittest.TestCase):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("fixture", encoding="utf-8")
         for relative in ("SEARCH.html", "BUILD_INFO.json", "INVENTORY.json", "SHA256SUMS.txt", "VERIFY.py", "SOURCE_NOTES.txt"):
-            (self.target / relative).write_text("fixture", encoding="utf-8")
+            managed_path(self.target, relative).write_text("fixture", encoding="utf-8")
         (self.target / "SEARCH").mkdir()
         (self.target / "SEARCH/coverage.json").write_text("{}", encoding="utf-8")
         (self.target / "SEARCH/manifest.js").write_text("fixture", encoding="utf-8")
@@ -160,14 +163,16 @@ class NavigationTests(unittest.TestCase):
     def test_all_generated_links_resolve_without_javascript(self):
         paths = self.generate()
         self.assertEqual(set(paths), set(GENERATED_PATHS))
+        self.assertEqual({path.name for path in self.outer.iterdir()}, {"START_HERE.html", "LIBRARY"})
+        self.assertFalse((self.target / "START_HERE.html").exists())
         parsed = {}
         for relative in paths:
             if relative.endswith(".html"):
                 parser = Links()
-                parser.feed((self.target / relative).read_text(encoding="utf-8"))
+                parser.feed(managed_path(self.target, relative).read_text(encoding="utf-8"))
                 if relative == "START_HERE.html":
-                    self.assertEqual(parser.scripts, [{"defer": None, "src": "SEARCH/search.js"}])
-                    self.assertTrue((self.target / parser.scripts[0]["src"]).is_file())
+                    self.assertEqual(parser.scripts, [{"defer": None, "src": "LIBRARY/SEARCH/search.js"}])
+                    self.assertTrue((self.outer / parser.scripts[0]["src"]).is_file())
                 else:
                     self.assertFalse(parser.scripts)
                 parsed[relative] = parser
@@ -175,17 +180,17 @@ class NavigationTests(unittest.TestCase):
             for href in parser.hrefs:
                 components = urlsplit(href)
                 self.assertFalse(components.scheme, href)
-                destination = (self.target / relative).parent / unquote(components.path)
+                destination = managed_path(self.target, relative).parent / unquote(components.path)
                 self.assertTrue(destination.exists(), f"{relative}: {href}")
-                self.assertTrue(destination.resolve().is_relative_to(self.target.resolve()))
+                self.assertTrue(destination.resolve().is_relative_to(self.outer.resolve()))
                 if components.fragment:
-                    linked = destination.resolve().relative_to(self.target.resolve()).as_posix()
+                    linked = logical_name(destination.resolve().relative_to(self.outer.resolve()).as_posix())
                     self.assertIn(components.fragment, parsed[linked].ids)
 
     def test_start_page_has_shared_automatic_search_before_browsing(self):
         self.generate()
-        landing = (self.target / "START_HERE.html").read_text(encoding="utf-8")
-        self.assertIn(render_search_widget(), landing)
+        landing = (self.outer / "START_HERE.html").read_text(encoding="utf-8")
+        self.assertIn(render_search_widget("LIBRARY/"), landing)
         for identity in ("searchForm", "query", "shelf", "searchButton", "cancelButton", "retryButton", "status", "results"):
             self.assertEqual(landing.count(f'id="{identity}"'), 1, identity)
         self.assertLess(landing.index('id="searchForm"'), landing.index('<h2>Books and learning collections</h2>'))
@@ -193,6 +198,12 @@ class NavigationTests(unittest.TestCase):
         self.assertIn("Static navigation works without JavaScript; search requires it", landing)
         self.assertIn("Content-Security-Policy", landing)
         self.assertIn("connect-src", landing)
+        self.assertIn('data-library-root="LIBRARY/"', landing)
+        self.assertIn('href="LIBRARY/SEARCH.html"', landing)
+        self.assertIn('href="../../START_HERE.html"',
+                      (self.target / "INDEX/categories.html").read_text(encoding="utf-8"))
+        self.assertIn('href="../START_HERE.html"',
+                      (self.target / "INVENTORY.html").read_text(encoding="utf-8"))
         readme = (self.target / "README.txt").read_text(encoding="utf-8")
         self.assertIn("loads its index automatically", readme)
         self.assertNotIn("file-picker", readme)
@@ -208,7 +219,7 @@ class NavigationTests(unittest.TestCase):
                 self.assertNotIn("SEARCH/search.js", landing)
                 self.assertIn("Full-text search", pages["README.txt"])
                 self.assertNotIn("loads its index automatically", pages["README.txt"])
-                self.assertIn('href="INDEX/critical.html"', landing)
+                self.assertIn('href="LIBRARY/INDEX/critical.html"', landing)
 
     def test_escaping_categories_reader_labels_and_critical_subset(self):
         self.generate()
@@ -248,7 +259,7 @@ class NavigationTests(unittest.TestCase):
 
     def test_learning_shelves_are_prominent_and_labeled_across_indexes(self):
         self.generate()
-        landing = (self.target / "START_HERE.html").read_text(encoding="utf-8")
+        landing = (self.outer / "START_HERE.html").read_text(encoding="utf-8")
         self.assertIn('<strong>Textbooks (2)</strong>', landing)
         self.assertIn('<strong>Illustrated guides (2)</strong>', landing)
         self.assertLess(landing.index('<strong>Textbooks (2)</strong>'), landing.index('<h2>Browse by topic</h2>'))
@@ -256,11 +267,11 @@ class NavigationTests(unittest.TestCase):
             with self.subTest(page=relative):
                 self.assertIn(
                     "Textbook · Illustrated · Critical",
-                    (self.target / relative).read_text(encoding="utf-8"),
+                    managed_path(self.target, relative).read_text(encoding="utf-8"),
                 )
                 self.assertIn(
                     "Textbook author &amp; publisher. Access for free at example.org.",
-                    (self.target / relative).read_text(encoding="utf-8"),
+                    managed_path(self.target, relative).read_text(encoding="utf-8"),
                 )
         self.assertIn("open the document to inspect its illustrations", (self.target / "INDEX/illustrated-guides.html").read_text(encoding="utf-8"))
 
@@ -268,9 +279,9 @@ class NavigationTests(unittest.TestCase):
         unrelated = self.target / "personal-notes.txt"
         unrelated.write_text("Do not change", encoding="utf-8")
         paths = self.generate()
-        previous = {relative: (self.target / relative).read_bytes() for relative in paths}
+        previous = {relative: managed_path(self.target, relative).read_bytes() for relative in paths}
         self.generate()
-        self.assertEqual(previous, {relative: (self.target / relative).read_bytes() for relative in paths})
+        self.assertEqual(previous, {relative: managed_path(self.target, relative).read_bytes() for relative in paths})
         self.assertEqual("Do not change", unrelated.read_text(encoding="utf-8"))
 
     def test_reading_collections_use_resource_ids_and_show_reader_requirements(self):
@@ -284,7 +295,7 @@ class NavigationTests(unittest.TestCase):
         self.assertIn("Archive reader required", children)
         for page in (gutenberg, children):
             self.assertNotIn("../REFERENCE/unrelated.txt", page)
-        landing = (self.target / "START_HERE.html").read_text(encoding="utf-8")
+        landing = (self.outer / "START_HERE.html").read_text(encoding="utf-8")
         self.assertIn('<strong>Project Gutenberg</strong>', landing)
         self.assertIn('<strong>Children’s Library</strong>', landing)
         self.assertLess(landing.index('<strong>Project Gutenberg</strong>'), landing.index('<h2>Browse by topic</h2>'))
@@ -296,11 +307,11 @@ class NavigationTests(unittest.TestCase):
         self.generate(content_complete=False, content_selection={"resource_rows": [resource]})
         for relative in ("START_HERE.html", "INVENTORY.html", "INDEX/gutenberg.html", "INDEX/children.html"):
             with self.subTest(page=relative):
-                page = (self.target / relative).read_text(encoding="utf-8")
+                page = managed_path(self.target, relative).read_text(encoding="utf-8")
                 self.assertIn("Content selection is incomplete", page)
                 self.assertIn("INVENTORY.html#content-selection", page)
         for relative in ("INVENTORY.html", "INDEX/gutenberg.html"):
-            page = (self.target / relative).read_text(encoding="utf-8")
+            page = managed_path(self.target, relative).read_text(encoding="utf-8")
             self.assertIn("Gutenberg &lt;planned&gt;", page)
             self.assertIn("Awaiting &lt;verified&gt; files &amp; permission", page)
         inventory = (self.target / "INVENTORY.html").read_text(encoding="utf-8")
@@ -311,7 +322,7 @@ class NavigationTests(unittest.TestCase):
 
     def test_complete_selection_does_not_get_partial_notice(self):
         self.generate(content_complete=True, content_selection={"resource_rows": []})
-        self.assertNotIn("Content selection is incomplete", (self.target / "START_HERE.html").read_text(encoding="utf-8"))
+        self.assertNotIn("Content selection is incomplete", (self.outer / "START_HERE.html").read_text(encoding="utf-8"))
 
     def test_empty_library_has_useful_indexes(self):
         generate_navigation(self.target, [], {"assets": []}, {})
@@ -322,7 +333,7 @@ class NavigationTests(unittest.TestCase):
         for relative in ("INDEX/gutenberg.html", "INDEX/children.html"):
             self.assertIn(
                 "No files for this collection are included in this build",
-                (self.target / relative).read_text(encoding="utf-8"),
+                managed_path(self.target, relative).read_text(encoding="utf-8"),
             )
 
     def test_untrusted_asset_path_is_rejected(self):

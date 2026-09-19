@@ -199,10 +199,10 @@ class EditionTests(unittest.TestCase):
                 "--resources-catalog", str(self.registry_path), "--allow-local", "--edition", "1=direct"]
         with patch("sys.stdout", new_callable=io.StringIO), patch("sys.stderr", new_callable=io.StringIO) as error:
             self.assertEqual(main(args), 0, error.getvalue())
-        inventory = json.loads((target / "INVENTORY.json").read_text(encoding="utf-8"))
+        inventory = json.loads((target / "LIBRARY/INVENTORY.json").read_text(encoding="utf-8"))
         self.assertEqual({a["id"] for a in inventory["assets"]}, {"critical", "direct"})
         self.assertEqual(inventory["content_selection"]["explicit_editions"], {"collection": "direct"})
-        locked = target / "LOCKED_CATALOG.yaml"
+        locked = target / "LIBRARY/LOCKED_CATALOG.yaml"
         args[args.index("--catalog") + 1] = str(locked)
         with patch("sys.stdout", new_callable=io.StringIO), patch("sys.stderr", new_callable=io.StringIO) as error:
             self.assertEqual(main(args), 1)
@@ -214,7 +214,7 @@ class EditionTests(unittest.TestCase):
         self.registry_path.unlink()
         with patch("sys.stdout", new_callable=io.StringIO), patch("sys.stderr", new_callable=io.StringIO) as error:
             self.assertEqual(main(args), 0, error.getvalue())
-        rebuilt = json.loads((target / "INVENTORY.json").read_text(encoding="utf-8"))
+        rebuilt = json.loads((target / "LIBRARY/INVENTORY.json").read_text(encoding="utf-8"))
         self.assertEqual(rebuilt["content_selection"]["explicit_editions"], {"collection": "direct"})
 
 

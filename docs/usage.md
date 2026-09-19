@@ -1,5 +1,11 @@
 # Building, carrying, and maintaining an OWL drive
 
+A fresh drive has `START_HERE.html` beside a single `LIBRARY` folder. Open the
+start page first and keep those two items together. All drive-target commands
+below take this outer directory; the verifier, inventories, indexes, content and
+private resume state live inside `LIBRARY`. Catalog destinations remain relative
+to `LIBRARY`, while the global checksum manifest records outer-directory paths.
+
 ## Prepare
 
 1. Use a dependable SSD and cable. Format it with your operating system’s ordinary disk tools if needed; OWL does not format drives. exFAT is the intended cross-platform filesystem.
@@ -62,8 +68,8 @@ python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
 ```
 
 The SSD is the build workspace and finished product. By default, downloaded
-partials live under `.owl/downloads/`, search checkpoints under `.owl/work/`, and
-the unfinished search output under `SEARCH/`. A verified download is renamed
+partials live under `LIBRARY/.owl/downloads/`, search checkpoints under `LIBRARY/.owl/work/`, and
+the unfinished search output under `LIBRARY/SEARCH/`. A verified download is renamed
 into its final location on the same SSD without copying it through the computer.
 SQLite's persistent database and rollback journal stay in the chosen workspace;
 index construction does not spill large sorting files into the computer's OS
@@ -125,7 +131,7 @@ An internet outage gets bounded retries with backoff. If retries are exhausted,
 the command exits with an error and retains resumable work. Restore the connection
 and rerun; there is no background daemon or requirement to keep it running.
 
-`.owl/state.json` records the phase and stays incomplete until final verification.
+`LIBRARY/.owl/state.json` records the phase and stays incomplete until final verification.
 The independent verifier reports an incomplete build or copy as `FAILED`, even
 if all previous files still match. Existing completed files stay in place until
 verified replacements are ready; an update is atomic per file, not per whole SSD.
@@ -154,9 +160,12 @@ including the existing index, and preserves their bytes exactly. It skips verifi
 target files, checkpoints owned partials on the destination SSD, copies the
 checksum manifest last, and marks interrupted copies incomplete. Ctrl-C and the
 same command resume it. No downloads or extraction are involved. Unknown personal
-files are preserved and are not copied. Source libraries retaining `.owl` state
+files are preserved and are not copied. Source libraries retaining `LIBRARY/.owl` state
 need writable access for their concurrency lock. An intentionally partial-content
 library remains partial after copying; copying does not fill missing collections.
+
+Both copy arguments name the outer directories. The result keeps
+`START_HERE.html` beside `LIBRARY`; do not copy only the inner folder.
 
 Custom recipes use `--catalog /path/to/catalog.yaml`, `--profiles-dir /path/to/profiles`, and optionally `--resources-catalog /path/to/resources.yaml`. The registry defaults to `resources.yaml` beside the asset catalog. Use versioned, immutable URLs and known SHA-256 hashes where possible. `--allow-local` explicitly permits local test assets; it is useful for tiny demonstration builds and is not needed for ordinary public-source builds.
 
@@ -164,9 +173,9 @@ Custom recipes use `--catalog /path/to/catalog.yaml`, `--profiles-dir /path/to/p
 
 `START_HERE.html` links directly to the textbook shelf and illustrated-guide shelf, showing each shelf’s total and critical-resource count. Both pages work without JavaScript. The textbook shelf contains ordinary, directly readable textbooks. The illustrated shelf includes illustrated textbooks and practical guides; reader-dependent archives, EPUBs, and software packages are excluded from these shelves.
 
-The critical-content index spans folders. A core textbook stored under `BOOKS/TEXTBOOKS/` still appears in `INDEX/critical.html` and carries a Critical label in the other indexes. You do not need to know its folder to find it. The inventory shows resource-type and illustration labels alongside source, license, integrity, and search-coverage information.
+The critical-content index spans folders. A core textbook stored under `LIBRARY/BOOKS/TEXTBOOKS/` still appears in `LIBRARY/INDEX/critical.html` and carries a Critical label in the other indexes. You do not need to know its folder to find it. The inventory shows resource-type and illustration labels alongside source, license, integrity, and search-coverage information.
 
-Project Gutenberg and Children's Library also have prominent landing-page entries and static pages at `INDEX/gutenberg.html` and `INDEX/children.html`. These pages list only selected assets actually on the drive, using their catalog resource IDs. Counts refer to files or collection archives, not individual books inside archives. Reader-dependent formats are labeled. With no available assets, the page says the collection is absent; the presence of a shelf page is not a claim that its planned collection was downloaded.
+Project Gutenberg and Children's Library also have prominent landing-page entries and static pages at `LIBRARY/INDEX/gutenberg.html` and `LIBRARY/INDEX/children.html`. These pages list only selected assets actually on the drive, using their catalog resource IDs. Counts refer to files or collection archives, not individual books inside archives. Reader-dependent formats are labeled. With no available assets, the page says the collection is absent; the presence of a shelf page is not a claim that its planned collection was downloaded.
 
 In a partial build, consult the inventory's resource-selection table for missing or incomplete collections and their coverage notes. A successfully verified file set can still represent only part of the selected content plan.
 
@@ -191,7 +200,7 @@ python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
     --profile critical-64gb --navigation-dir catalog/navigation
 ```
 
-Repeat `--navigation-dir` on later full builds that should generate the atlas. Normal content-selection and completeness rules still apply. After publication, start at `INDEX/topics.html` or the topic-atlas link on `START_HERE.html`.
+Repeat `--navigation-dir` on later full builds that should generate the atlas. Normal content-selection and completeness rules still apply. After publication, start at `LIBRARY/INDEX/topics.html` or the topic-atlas link on `START_HERE.html`.
 
 The production starter has 46 topics and 40 whole-document assignments. It does not assert chapter, page, or figure locations inside third-party works. Sources absent from the current drive and branches with no available material are omitted. The final include list, topic vocabulary, and deeper section curation remain editorial work. The atlas guide explains how to import publisher contents into drafts, review exact source locations, and use `--strict-coverage` to reject missing critical or textbook routes. Structural coverage does not establish the quality or completeness of the underlying guidance.
 
@@ -200,7 +209,7 @@ The production starter has 46 topics and 40 whole-document assignments. It does 
 ```bash
 python scripts/verify.py /media/SSD/EMERGENCY_LIBRARY
 # Or use the independent verifier copied to the drive:
-python /media/SSD/EMERGENCY_LIBRARY/VERIFY.py /media/SSD/EMERGENCY_LIBRARY
+python /media/SSD/EMERGENCY_LIBRARY/LIBRARY/VERIFY.py /media/SSD/EMERGENCY_LIBRARY
 ```
 
 Read the report:
@@ -212,7 +221,7 @@ Read the report:
 | `FAILED` | Hash mismatch, unreadable file, or unsafe manifest entry | Investigate; replace from a trusted source and verify again |
 | `UNKNOWN` | File has no entry in the checksum manifest | Review whether it is your file or intentionally unmanaged material |
 
-Keep a trusted copy of `SHA256SUMS.txt`, `INVENTORY.json`, `BUILD_INFO.json`, `LOCKED_CATALOG.yaml`, and the original catalog away from the drive. A checksum manifest stored beside its files cannot detect an attacker replacing both. OWL’s build timestamps and metadata may differ between builds even when the knowledge assets are identical.
+Keep a trusted copy of `LIBRARY/SHA256SUMS.txt`, `LIBRARY/INVENTORY.json`, `LIBRARY/BUILD_INFO.json`, `LIBRARY/LOCKED_CATALOG.yaml`, and the original catalog away from the drive. A checksum manifest stored beside its files cannot detect an attacker replacing both. OWL’s build timestamps and metadata may differ between builds even when the knowledge assets are identical.
 
 Before storing the SSD, disconnect network access and try each intended device:
 
@@ -220,8 +229,8 @@ Before storing the SSD, disconnect network access and try each intended device:
 2. Open `START_HERE.html`, follow a category link, and open a critical PDF or text file.
 3. If HTML links do not work, open a critical document directly from its folder.
 4. Open a core textbook and an illustrated guide from their dedicated shelves. Navigate between pages and zoom into a diagram to confirm it is readable on the device.
-5. Enter known words in the search field on `START_HERE.html`; its index should load automatically. Try `SEARCH.html` as well and open a result in a compatible document viewer. No index-file selection is needed. Treat JavaScript search as optional on devices whose file previews restrict local scripts; the static links and ordinary files remain available.
-6. Open the textbook, illustrated-guide, Gutenberg, children's, category, critical, and alphabetical indexes with JavaScript disabled. If generated, try the atlas through subject, practical-task, and learning entrances, including recovery from a wrong turn. Confirm critical textbooks are reachable through the critical index even when their files are in `BOOKS/`. Check that missing planned collections are clearly reported.
+5. Enter known words in the search field on `START_HERE.html`; its index should load automatically. Try `LIBRARY/SEARCH.html` as well and open a result in a compatible document viewer. No index-file selection is needed. Treat JavaScript search as optional on devices whose file previews restrict local scripts; the static links and ordinary files remain available.
+6. Open the textbook, illustrated-guide, Gutenberg, children's, category, critical, and alphabetical indexes with JavaScript disabled. If generated, try the atlas through subject, practical-task, and learning entrances, including recovery from a wrong turn. Confirm critical textbooks are reachable through the critical index even when their files are in `LIBRARY/BOOKS/`. Check that missing planned collections are clearly reported.
 7. On platforms that permit offline installation, check that the matching bundled reader can open a ZIM. The builder does not install or run it for you.
 8. Safely eject the SSD before unplugging it.
 

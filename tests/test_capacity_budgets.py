@@ -99,7 +99,7 @@ class CapacityBudgetTests(unittest.TestCase):
         for path, amount in phases['extraction']:
             allocations[path] = allocations.get(path, 0) + amount
         self.assertEqual(allocations[work], 2_250_000)
-        self.assertEqual(allocations[target], self.asset['size_bytes'] + 750_000 + 100_000 + 16 * 1024 * 1024)
+        self.assertEqual(allocations[target / "LIBRARY"], self.asset['size_bytes'] + 750_000 + 100_000 + 16 * 1024 * 1024)
         self.assertEqual(sum(amount for _, amount in phases['packaging']),
                          self.asset['size_bytes'] + 1_000_000 + 750_000 + 100_000 + 16 * 1024 * 1024)
         self.assertFalse(target.exists())
@@ -167,10 +167,10 @@ class CapacityBudgetTests(unittest.TestCase):
         with patch('owl.search_pack.publish_pack', side_effect=RuntimeError('pause before packaging')), \
                 self.assertRaisesRegex(RuntimeError, 'pause before packaging'):
             build(target, **arguments)
-        self.assertEqual(checkpoint_usage(target)['scratch_bytes'], 0)
+        self.assertEqual(checkpoint_usage(target / 'LIBRARY')['scratch_bytes'], 0)
         from owl.catalog import load_catalog
         inputs = [{**asset, 'verification': 'pinned'} for asset in load_catalog(self.catalog, allow_local=True)]
-        proof = probe_raw_checkpoint(target, inputs)
+        proof = probe_raw_checkpoint(target / 'LIBRARY', inputs)
         self.assertIsNotNone(proof)
         free = 16 * 1024 * 1024 + self.profile['reserve_bytes'] + proof['remaining_pack_allocation_bytes'] + 1000
         self.assertLess(free, 16 * 1024 * 1024 + self.profile['reserve_bytes'] + 1_250_000)

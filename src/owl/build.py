@@ -18,6 +18,7 @@ from . import __version__
 from .catalog import (CatalogError, capacity_plan, fingerprint, load_catalog,
                       load_profiles, read_yaml, resolve_content, resolve_locked_content, validate_catalog)
 from .download import download, verified
+from .layout import checksum_name, content_root, managed_path
 from .runtime import file_lock as _lock, interrupt_signals
 from .safety import SafetyError, atomic_write, guard_directory, reject_symlinks, safe_path, sha256_file
 from .transfer import resume_copy
@@ -68,7 +69,7 @@ def _state(path: Path) -> dict:
     if result.get("schema_version") != 1 or not isinstance(result.get("managed"), list) or not isinstance(result.get("assets"), dict):
         raise SafetyError("Invalid build state")
     for relative in result["managed"]:
-        safe_path(path.parent.parent, relative)
+        managed_path(path.parent.parent, relative)
     return result
 
 
@@ -233,13 +234,20 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         raise CatalogError(f"Profile {profile_name} has no resolved content")
     plan = capacity_plan(assets, profile, selection)
     content_complete = (not selection or not selection["incomplete_resources"]) and plan["content_floor_met"]
-    target = _root(target)
+    drive_root = _root(target)
+    target = content_root(drive_root)
+    for asset in assets:
+        checksum_name(asset["destination"])  # Include LIBRARY/ in portable path limits before any writes.
     cache = _root(cache_dir) / "owl-v1" if cache_dir else None
     work = _root(work_dir) if work_dir else target / ".owl/work"
+    for workspace in (cache, work):
+        if workspace is not None and workspace.is_relative_to(drive_root) and not workspace.is_relative_to(target):
+            raise SafetyError("Cache/work directories inside an OWL must be under LIBRARY/; "
+                              "choose LIBRARY/.owl/ or a separate external directory")
     # Hashing during preflight can take hours. Capture the mounted filesystem
     # before it starts, not after a disappeared mount could have been recreated.
     anchors = [_directory_anchor(path) for path in (target, work, cache) if path is not None]
-    progress(f"OWL {__version__} | {profile_name} | {target}")
+    progress(f"OWL {__version__} | {profile_name} | {drive_root}")
     progress(f"Content/download total: {plan['content_bytes']:,} bytes ({plan['content_bytes'] / 1e9:.2f} GB)")
     progress(f"Pinned knowledge: {plan['pinned_knowledge_bytes']:,} bytes; readers: {plan['pinned_reader_bytes']:,}; "
              f"directly readable: {plan['direct_readable_bytes']:,}")
@@ -286,7 +294,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     owned = set(state["managed"])
     spool = cache or safe_path(target, ".owl/downloads")
     for relative in generated:
-        path = safe_path(target, relative)
+        path = managed_path(target, relative)
         if path.exists() and (relative not in owned or not path.is_file()):
             raise SafetyError(f"Generated output would overwrite an unowned file/directory: {path}")
     reusable = {}
@@ -379,6 +387,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             guards.enter_context(guard_directory(anchor))
         reject_symlinks(target)
         target.mkdir(parents=True, exist_ok=True)
+        guards.enter_context(guard_directory(drive_root))
         guards.enter_context(guard_directory(target))
         _owned_directory(private)
         guards.enter_context(_lock(safe_path(target, ".owl/build.lock")))
@@ -486,6 +495,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             except importlib.metadata.PackageNotFoundError:
                 pass
         info = {"schema_version": 1, "owl_version": __version__, "built_at": datetime.now(timezone.utc).isoformat(),
+                "layout": {"entry_page": "START_HERE.html", "content_directory": "LIBRARY",
+                           "catalog_paths_relative_to": "LIBRARY", "checksum_paths_relative_to": "drive"},
                 "content_selection": selection, "content_complete": content_complete,
                 "python_version": sys.version.split()[0], "dependencies": versions,
                 "profile": profile, "catalog_sha256": sha256_file(catalog.resolve()), "plan": plan,
@@ -513,27 +524,27 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         for relative in managed:
             if relative == "SHA256SUMS.txt":
                 continue
-            path = safe_path(target, relative)
+            path = managed_path(target, relative)
             digest = sha256_file(path)
             if relative in expected_files and (digest, path.stat().st_size) != expected_files[relative]:
                 raise SafetyError(f"File changed after verification: {relative}; rerun to repair before completion")
-            checksum_lines.append(f"{digest}  {relative}\n")
+            checksum_lines.append(f"{digest}  {checksum_name(relative)}\n")
         checksums = "".join(checksum_lines)
         atomic_write(safe_path(target, "SHA256SUMS.txt"), checksums.encode())
-        final_size = sum(safe_path(target, name).stat().st_size for name in managed)
+        final_size = sum(managed_path(target, name).stat().st_size for name in managed)
         if final_size + profile["reserve_bytes"] > profile["capacity_bytes"]:
             raise SafetyError("Actual generated output exceeds profile capacity; files retained, build incomplete")
         check_space(target, profile["reserve_bytes"])
         state["phase"] = "verification"
         atomic_write(state_path, _json(state))
         progress("Verifying completed library (reads every managed file).")
-        results = verify_drive(target, emit=progress, allow_incomplete=True)
+        results = verify_drive(drive_root, emit=progress, allow_incomplete=True)
         if results["FAILED"] or results["MISSING"]:
             raise SafetyError("Completed-drive verification failed")
         state["complete"] = True
         state["phase"] = "complete"
         atomic_write(state_path, _json(state))
-        progress(f"BUILD COMPLETE{' (PARTIAL CONTENT)' if not content_complete else ''}: {target / 'START_HERE.html'}")
+        progress(f"BUILD COMPLETE{' (PARTIAL CONTENT)' if not content_complete else ''}: {drive_root / 'START_HERE.html'}")
         return info
 
 

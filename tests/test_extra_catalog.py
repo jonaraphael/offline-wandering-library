@@ -37,7 +37,7 @@ class ExtraCatalogTests(unittest.TestCase):
             dict(id='core', title='Source', number=1, target_bytes=1000, status='ready', asset_ids=['source'])])))
 
     def asset(self, identity, destination, data):
-        path = self.target/destination
+        path = self.target/"LIBRARY"/destination
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(data)
         return dict(id=identity, title=identity, category='reference', format='txt',
@@ -61,12 +61,12 @@ class ExtraCatalogTests(unittest.TestCase):
         self.assertEqual(result['content_selection']['additional_asset_ids'], ['export'])
         self.assertEqual(verify_drive(self.target, emit=lambda _:None)['FAILED'], 0)
         self.assertEqual(len(result['extra_catalogs']), 1)
-        rebuilt = build(self.root/'second', catalog=self.target/'LOCKED_CATALOG.yaml',
+        rebuilt = build(self.root/'second', catalog=self.target/'LIBRARY/LOCKED_CATALOG.yaml',
                         profiles_dir=self.profiles, profile_name='test', allow_local=True,
                         progress=lambda _:None)
         self.assertEqual(rebuilt['asset_count'], 2)
-        self.assertEqual((self.root/'second'/self.extra['destination']).read_bytes(),
-                         (self.target/self.extra['destination']).read_bytes())
+        self.assertEqual((self.root/'second/LIBRARY'/self.extra['destination']).read_bytes(),
+                         (self.target/'LIBRARY'/self.extra['destination']).read_bytes())
 
     def test_cross_manifest_collisions_rejected_before_build_state(self):
         for field, value in [('id', 'source'), ('destination', 'books/SOURCE.txt'),
@@ -75,13 +75,13 @@ class ExtraCatalogTests(unittest.TestCase):
                 self.write(self.manifest, [{**self.extra, field:value}])
                 with self.assertRaises((CatalogError, ValueError)):
                     self.run_build(plan_only=True)
-        self.assertFalse((self.target/'.owl').exists())
+        self.assertFalse((self.target/'LIBRARY/.owl').exists())
 
     def test_excluded_parent_does_not_import_derivative(self):
         result = self.run_build(exclude=['core'], plan_only=True)
         self.assertEqual(result['content_bytes'], 0)
         self.assertEqual(result['content_selection']['additional_asset_ids'], [])
-        self.assertTrue((self.target/self.extra['destination']).exists())
+        self.assertTrue((self.target/'LIBRARY'/self.extra['destination']).exists())
 
     def test_unknown_parent_or_missing_hash_rejected(self):
         for changes in [dict(derived_from_asset_id='missing'), dict(sha256=None),
@@ -89,7 +89,7 @@ class ExtraCatalogTests(unittest.TestCase):
             self.write(self.manifest, [{**self.extra, **changes}])
             with self.assertRaises(CatalogError):
                 self.run_build(plan_only=True)
-        self.assertFalse((self.target/'.owl').exists())
+        self.assertFalse((self.target/'LIBRARY/.owl').exists())
 
     def test_independent_addition_increases_planning_budget(self):
         self.extra.pop('derived_from_asset_id')
@@ -106,7 +106,7 @@ class ExtraCatalogTests(unittest.TestCase):
         self.write(self.manifest, [self.extra])
         with self.assertRaisesRegex(CatalogError, 'pinned bundled reader'):
             self.run_build(plan_only=True)
-        self.assertFalse((self.target/'.owl').exists())
+        self.assertFalse((self.target/'LIBRARY/.owl').exists())
 
 
 if __name__ == '__main__':

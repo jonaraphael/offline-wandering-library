@@ -11,6 +11,7 @@ import sys
 
 from .build import _json, _owned_directory, _root, _state, check_space
 from .catalog import fingerprint
+from .layout import checksum_name, content_root, logical_name
 from .runtime import file_lock, interrupt_signals
 from .safety import SafetyError, atomic_write, guard_directory, safe_path, sha256_file, validate_relative
 from .transfer import resume_copy
@@ -54,6 +55,7 @@ def _existing_names(root: Path, names) -> None:
 
 @contextmanager
 def _source_lock(source: Path):
+    source = content_root(source)
     private = safe_path(source, ".owl")
     if not private.exists():
         # A checksum-verified library copied without its private build state is valid.
@@ -70,7 +72,8 @@ def _source_lock(source: Path):
 
 
 def _source_manifest(source: Path) -> tuple[dict, dict, list[str]]:
-    manifest = safe_path(source, "SHA256SUMS.txt")
+    manifest_name = checksum_name("SHA256SUMS.txt")
+    manifest = safe_path(source, manifest_name)
     data = manifest.read_bytes()
     entries = {}
     names = []
@@ -79,23 +82,24 @@ def _source_manifest(source: Path) -> tuple[dict, dict, list[str]]:
         if not match:
             raise SafetyError("Malformed source SHA256SUMS.txt")
         checksum, relative = match.groups()
-        if relative.casefold() == "sha256sums.txt":
+        if relative.casefold() == manifest_name.casefold():
             raise SafetyError("Checksum manifest cannot include itself")
         names.append(relative)
         entries[relative] = {"sha256": checksum}
     if not entries:
         raise SafetyError("Source checksum manifest is empty")
-    _check_names([*names, "SHA256SUMS.txt"])
+    _check_names([logical_name(name) for name in [*names, manifest_name]])
     for relative, entry in entries.items():
         path = safe_path(source, relative)
         if not path.is_file():
             raise SafetyError(f"Source file missing or not regular: {relative}")
         entry["size_bytes"] = path.stat().st_size
-    for required in ("BUILD_INFO.json", "INVENTORY.json"):
-        if required not in entries:
+    for required in ("START_HERE.html", "BUILD_INFO.json", "INVENTORY.json"):
+        if checksum_name(required) not in entries:
             raise SafetyError(f"Source checksum manifest does not cover {required}")
 
     def checked_json(relative):
+        relative = checksum_name(relative)
         raw = safe_path(source, relative).read_bytes()
         if hashlib.sha256(raw).hexdigest() != entries[relative]["sha256"]:
             raise SafetyError(f"Source checksum mismatch: {relative}")
@@ -116,7 +120,7 @@ def _source_manifest(source: Path) -> tuple[dict, dict, list[str]]:
         if (not isinstance(identity, str) or not re.fullmatch(r"[a-z0-9_-]+", identity)
                 or identity in asset_state or not isinstance(relative, str) or relative in destinations):
             raise SafetyError("Invalid or duplicate source inventory asset")
-        expected = entries.get(relative)
+        expected = entries.get(checksum_name(relative))
         if (expected is None or asset.get("sha256") != expected["sha256"] or
                 type(asset.get("size_bytes")) is not int or asset["size_bytes"] != expected["size_bytes"]):
             raise SafetyError(f"Source inventory disagrees with checksum manifest: {identity}")
@@ -127,15 +131,16 @@ def _source_manifest(source: Path) -> tuple[dict, dict, list[str]]:
     # when a library was copied without its private .owl directory. Never infer
     # ownership from a filename prefix or copy unchecked source-state claims.
     from .atlas_build import REPORT, _previous, _reported_paths
-    atlas_paths = _reported_paths(checked_json(REPORT), entries) if REPORT in entries else []
-    source_state_path = safe_path(source, ".owl/state.json")
+    logical_entries = {logical_name(name) for name in entries}
+    atlas_paths = _reported_paths(checked_json(REPORT), logical_entries) if REPORT in logical_entries else []
+    source_state_path = safe_path(content_root(source), ".owl/state.json")
     if source_state_path.exists():
         previous_atlas = _previous(_state(source_state_path))
-        copied_previous = set(previous_atlas) & set(entries)
+        copied_previous = set(previous_atlas) & logical_entries
         if copied_previous - set(atlas_paths):
             raise SafetyError("Source atlas ownership is missing from its checksum-covered output report")
     # The manifest itself is pinned to the exact bytes read under the source lock.
-    entries["SHA256SUMS.txt"] = {"sha256": hashlib.sha256(data).hexdigest(), "size_bytes": len(data)}
+    entries[manifest_name] = {"sha256": hashlib.sha256(data).hexdigest(), "size_bytes": len(data)}
     return entries, asset_state, atlas_paths
 
 
@@ -157,20 +162,25 @@ def copy_drive(source: Path, target: Path, *, progress=print) -> dict:
         raise SafetyError(f"Source library is not a directory: {source}")
     if target.exists() and not target.is_dir():
         raise SafetyError(f"Target is not a directory: {target}")
-    with guard_directory(source), _source_lock(source), ExitStack() as guards:
+    source_library, target_library = content_root(source), content_root(target)
+    with guard_directory(source), guard_directory(source_library), _source_lock(source), ExitStack() as guards:
         entries, asset_state, atlas_paths = _source_manifest(source)
         # SHA256SUMS is deliberately promoted after every file it describes.
-        names = [*sorted(name for name in entries if name != "SHA256SUMS.txt"), "SHA256SUMS.txt"]
-        _existing_names(target, [*names, ".owl/owner.json", ".owl/state.json", ".owl/build.lock", ".owl/copies"])
+        manifest_name = checksum_name("SHA256SUMS.txt")
+        names = [*sorted(name for name in entries if name != manifest_name), manifest_name]
+        _existing_names(target, [*names, *[checksum_name(name) for name in
+                               (".owl/owner.json", ".owl/state.json", ".owl/build.lock", ".owl/copies")]])
         for relative in names:
             path = safe_path(target, relative)
             if path.exists() and not path.is_file():
                 raise SafetyError(f"Destination is not a regular file: {relative}")
         target.mkdir(parents=True, exist_ok=True)
         guards.enter_context(guard_directory(target))
-        _owned_directory(safe_path(target, ".owl"))
-        with file_lock(safe_path(target, ".owl/build.lock")):
-            state_path = safe_path(target, ".owl/state.json")
+        target_library.mkdir(exist_ok=True)
+        guards.enter_context(guard_directory(target_library))
+        _owned_directory(safe_path(target_library, ".owl"))
+        with file_lock(safe_path(target_library, ".owl/build.lock")):
+            state_path = safe_path(target_library, ".owl/state.json")
             state = _state(state_path)
             from .atlas_build import _previous
             previous_atlas = _previous(state)
@@ -185,12 +195,13 @@ def copy_drive(source: Path, target: Path, *, progress=print) -> dict:
                 destination = safe_path(target, relative)
                 reusable[relative] = (destination.is_file() and destination.stat().st_size == entry["size_bytes"]
                                       and sha256_file(destination) == entry["sha256"])
-                if destination.exists() and not reusable[relative] and relative not in owned:
+                logical = logical_name(relative)
+                if destination.exists() and not reusable[relative] and logical not in owned:
                     raise SafetyError(f"Refusing to overwrite unverified, unowned destination: {relative}")
-                key = hashlib.sha256((relative + "\0" + entry["sha256"]).encode()).hexdigest()
+                key = hashlib.sha256((logical + "\0" + entry["sha256"]).encode()).hexdigest()
                 part_name = ".owl/copies/" + key + ".part"
-                part = safe_path(target, part_name)
-                record = {"destination": relative, **entry}
+                part = safe_path(target_library, part_name)
+                record = {"destination": logical, **entry}
                 if part.exists() and (not part.is_file() or prior_parts.get(part_name) != record):
                     raise SafetyError(f"Unowned or conflicting copy partial: {part_name}")
                 credit = min(part.stat().st_size, entry["size_bytes"]) if part.exists() else 0
@@ -201,7 +212,7 @@ def copy_drive(source: Path, target: Path, *, progress=print) -> dict:
             state["phase"] = "copy"
             state.pop("active_asset", None)
             state.pop("active_path", None)
-            state["managed"] = sorted(owned | set(names))
+            state["managed"] = sorted(owned | {logical_name(name) for name in names})
             if previous_atlas or atlas_paths:
                 state["atlas_managed"] = sorted(set(previous_atlas) | set(atlas_paths))
             state["copy_parts"] = {**prior_parts, **{name: record for name, record in parts.values()}}
@@ -216,12 +227,12 @@ def copy_drive(source: Path, target: Path, *, progress=print) -> dict:
                      f"additional free space required: {required_bytes:,} bytes")
             check_space(target, required_bytes)
             atomic_write(state_path, pending_state)
-            safe_path(target, ".owl/copies").mkdir(exist_ok=True)
+            safe_path(target_library, ".owl/copies").mkdir(exist_ok=True)
             copied = reused = 0
             for relative in names:
                 entry = entries[relative]
                 source_file, destination = safe_path(source, relative), safe_path(target, relative)
-                state["active_path"] = relative
+                state["active_path"] = logical_name(relative)
                 atomic_write(state_path, _json(state))
                 if reusable[relative]:
                     # Even a reused destination must not conceal a corrupt source library.
@@ -233,7 +244,7 @@ def copy_drive(source: Path, target: Path, *, progress=print) -> dict:
                     destination.parent.mkdir(parents=True, exist_ok=True)
                     part_name, _ = parts[relative]
                     digest = resume_copy(source_file, destination, size=entry["size_bytes"],
-                                         checksum=entry["sha256"], part=safe_path(target, part_name), progress=progress)
+                                         checksum=entry["sha256"], part=safe_path(target_library, part_name), progress=progress)
                     if digest != entry["sha256"]:
                         raise SafetyError(f"Destination checksum mismatch: {relative}")
                     copied += 1

@@ -27,7 +27,7 @@ a promise that every possible topic has content or fits a fixed depth.
 
 Textbooks and illustrated guides remain first-class routes through the library.
 Their relevant sections also appear under practical and academic topics. A book's
-physical location under `BOOKS/` must not restrict how it can be discovered.
+physical location under `LIBRARY/BOOKS/` must not restrict how it can be discovered.
 
 Multiple routes may lead to one topic and one source location. Duplicate useful
 links, not source files or independently maintained copies of topic pages.
@@ -49,6 +49,10 @@ full-text search changes, or new software for opening specialized archives.
 Aliases in this specification are browsing labels, not search-query expansion.
 
 Generate navigation from files already present in an OWL library:
+
+The command target is the outer directory containing `START_HERE.html` and
+`LIBRARY/`. Generated atlas pages live under `LIBRARY/INDEX/`; catalog asset
+destinations remain relative to `LIBRARY/`.
 
 ```bash
 python scripts/build_atlas.py /media/SSD/EMERGENCY_LIBRARY \

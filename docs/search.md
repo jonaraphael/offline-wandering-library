@@ -1,15 +1,15 @@
 # Offline full-text search
 
 Open `START_HERE.html` and enter words in **Search this library**. The same controls
-are available on `SEARCH.html`. Search automatically loads its manifest and small
-index chunks from the neighboring `SEARCH/` directory. There is no index-file
+are available on `LIBRARY/SEARCH.html`. Search automatically loads its manifest and small
+index chunks from `LIBRARY/SEARCH/`. There is no index-file
 selection, installation, server, account, or network connection. The two pages
 share one local runtime and widget. If your viewer blocks local JavaScript or
-neighboring script files, use `INDEX/categories.html`, `INDEX/critical.html`, and
+neighboring script files, use `LIBRARY/INDEX/categories.html`, `LIBRARY/INDEX/critical.html`, and
 the alphabetical pages instead. The start page's static navigation also works
 without JavaScript.
 
-Keep the HTML entry pages and the entire `SEARCH/` directory together. Opening an
+Keep the outer `START_HERE.html` beside the complete `LIBRARY` folder. Opening an
 isolated copy of just one HTML page cannot provide search. Loading failures show
 a retry control and links to static indexes; they do not fall back to a file
 picker or a network service. A drive built only with the topic-atlas command
@@ -31,7 +31,7 @@ filtering for illustrated guides does not imply image understanding or OCR.
 
 ## Coverage is measured, not assumed
 
-Every build writes `SEARCH/coverage.json`; its information is also included in
+Every build writes `LIBRARY/SEARCH/coverage.json`; its information is also included in
 the inventory and build metadata. Each asset has a status:
 
 | Status | Meaning |
@@ -84,6 +84,8 @@ original source files remain unchanged. Normal words are preserved at boundaries
 than 8 KiB are divided into segments. Passages retain document title, category,
 source, destination and, where applicable, page or archive-entry identity.
 Repeated passages from the same document can appear separately in results.
+Stored asset destinations remain relative to `LIBRARY/`. Both entry pages resolve
+result links to that same content folder, even though the start page is outside it.
 Resource type, illustration status, license, and attribution are retained on
 every passage. Each document record is individually zlib-compressed when written,
 retaining the complete passage and metadata. Attribution and license notices are displayed beneath each search
@@ -208,7 +210,7 @@ guaranteed to deep-link into a reader.
 The finished drive contains:
 
 ```text
-SEARCH/
+LIBRARY/SEARCH/
 ├── search.js
 ├── manifest.js
 ├── coverage.json
@@ -218,7 +220,9 @@ SEARCH/
     └── ...
 ```
 
-Both entry pages load `SEARCH/search.js` as an ordinary deferred script. The
+Both entry pages load the same `LIBRARY/SEARCH/search.js` file as an ordinary
+deferred script. The outer start page uses `LIBRARY/SEARCH/search.js`; the search
+page inside `LIBRARY` uses `SEARCH/search.js`. The
 runtime loads `manifest.js`, then requests only the chunk files needed for index
 headers, lexicon lookups, postings, and results. Each script supplies a bounded
 base64 payload through a registration callback. The final chunk may be shorter
@@ -323,7 +327,7 @@ up to 2^32 passages and browser-safe integer byte offsets (below 2^53).
 The Python source and readable JavaScript are the format reference. SQLite is
 only a build-time implementation detail. SHA-256 verification covers the
 finished chunk scripts and manifest alongside the other managed drive files.
-Keep `START_HERE.html`, `SEARCH.html`, and `SEARCH/` from the same completed build;
+Keep `START_HERE.html`, `LIBRARY/SEARCH.html`, and `LIBRARY/SEARCH/` from the same completed build;
 an index with a different format is rejected with instructions to rebuild the drive.
 
 Extractor API references: [pypdf text extraction](https://pypdf.readthedocs.io/en/stable/user/extract-text.html),

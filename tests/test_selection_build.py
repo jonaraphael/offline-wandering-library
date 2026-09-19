@@ -68,7 +68,7 @@ class ResourceBuildTests(unittest.TestCase):
         self.assertTrue(result['complete'])
         self.assertFalse(result['content_complete'])
         self.assertIn('incomplete',(self.target/'START_HERE.html').read_text(encoding='utf-8').lower())
-        selection=json.loads((self.target/'CONTENT_SELECTION.json').read_text())
+        selection=json.loads((self.target/'LIBRARY/CONTENT_SELECTION.json').read_text())
         self.assertFalse(selection['content_complete'])
         counts=verify_drive(self.target,emit=lambda _:None)
         self.assertGreater(counts['OK'],0)
@@ -77,16 +77,16 @@ class ResourceBuildTests(unittest.TestCase):
     def test_custom_selection_and_locked_rebuild_need_no_registry(self):
         result=self.run_build(include=['2'],exclude=['1,3'])
         self.assertTrue(result['content_complete'])
-        self.assertFalse((self.target/'BOOKS/file1.txt').exists())
-        self.assertTrue((self.target/'BOOKS/file2.txt').exists())
+        self.assertFalse((self.target/'LIBRARY/BOOKS/file1.txt').exists())
+        self.assertTrue((self.target/'LIBRARY/BOOKS/file2.txt').exists())
         self.registry.unlink()
-        rebuilt=build(self.root/'second',catalog=self.target/'LOCKED_CATALOG.yaml',profiles_dir=self.profiles,
+        rebuilt=build(self.root/'second',catalog=self.target/'LIBRARY/LOCKED_CATALOG.yaml',profiles_dir=self.profiles,
             profile_name='test',allow_local=True,progress=lambda _:None)
         self.assertEqual(rebuilt['content_selection'],result['content_selection'])
-        self.assertEqual((self.root/'second/BOOKS/file2.txt').read_bytes(),(self.target/'BOOKS/file2.txt').read_bytes())
+        self.assertEqual((self.root/'second/LIBRARY/BOOKS/file2.txt').read_bytes(),(self.target/'LIBRARY/BOOKS/file2.txt').read_bytes())
         self.assertEqual(verify_drive(self.root/'second',emit=lambda _:None)['FAILED'],0)
         validated=subprocess.run([sys.executable,str(ROOT/'scripts/validate_catalog.py'),
-            str(self.target/'LOCKED_CATALOG.yaml'),'--profiles-dir',str(self.profiles),'--allow-local'],
+            str(self.target/'LIBRARY/LOCKED_CATALOG.yaml'),'--profiles-dir',str(self.profiles),'--allow-local'],
             text=True,encoding='utf-8',capture_output=True)
         self.assertEqual(validated.returncode,0,validated.stdout+validated.stderr)
 
@@ -94,8 +94,8 @@ class ResourceBuildTests(unittest.TestCase):
         self.run_build(include=['extra'],exclude=['pending'])
         result=self.run_build(exclude=['extra','pending'])
         self.assertEqual(result['asset_count'],1)
-        self.assertTrue((self.target/'BOOKS/file2.txt').exists())
-        assets=json.loads((self.target/'INVENTORY.json').read_text())['assets']
+        self.assertTrue((self.target/'LIBRARY/BOOKS/file2.txt').exists())
+        assets=json.loads((self.target/'LIBRARY/INVENTORY.json').read_text())['assets']
         self.assertEqual([a['id'] for a in assets],['file1'])
         counts=verify_drive(self.target,emit=lambda _:None)
         self.assertEqual(counts['UNKNOWN'],1)
@@ -103,7 +103,7 @@ class ResourceBuildTests(unittest.TestCase):
 
     def test_malformed_locked_coverage_fails_before_writing(self):
         self.run_build(exclude=['pending'])
-        locked=json.loads((self.target/'LOCKED_CATALOG.yaml').read_text())
+        locked=json.loads((self.target/'LIBRARY/LOCKED_CATALOG.yaml').read_text())
         locked['selection_lock']['content_selection']['incomplete_resources']='false'
         self.catalog.write_text(json.dumps(locked),encoding='utf-8')
         with self.assertRaisesRegex(CatalogError,'Invalid locked resource coverage'):
@@ -112,7 +112,7 @@ class ResourceBuildTests(unittest.TestCase):
 
     def test_lock_cannot_omit_collection_coverage(self):
         self.run_build(exclude=['pending'])
-        locked=json.loads((self.target/'LOCKED_CATALOG.yaml').read_text())
+        locked=json.loads((self.target/'LIBRARY/LOCKED_CATALOG.yaml').read_text())
         for coverage in (None, {'status':False}):
             locked['selection_lock']['content_selection']=coverage
             self.catalog.write_text(json.dumps(locked),encoding='utf-8')
@@ -153,7 +153,7 @@ class ResourceBuildTests(unittest.TestCase):
         self.assertIn('pending',listed.stdout)
         built=subprocess.run([*base,str(self.target),'--include','2','--exclude','1,3'],text=True,encoding='utf-8',capture_output=True)
         self.assertEqual(built.returncode,0,built.stderr)
-        self.assertTrue((self.target/'BOOKS/file2.txt').is_file())
+        self.assertTrue((self.target/'LIBRARY/BOOKS/file2.txt').is_file())
 
 
 if __name__=='__main__':unittest.main()

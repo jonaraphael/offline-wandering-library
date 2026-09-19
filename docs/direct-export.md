@@ -7,6 +7,11 @@ executes archive scripts. The ZIM stays on the SSD, and exported files are writt
 directly into their final library paths; a second large derivative copy on the
 computer is unnecessary.
 
+The target argument is the outer directory containing `START_HERE.html` and
+`LIBRARY/`. The source argument is the actual archive file path, including
+`LIBRARY/` when that archive belongs to this drive. Catalog destinations remain
+relative to the inner `LIBRARY/` directory.
+
 This supplies an export mechanism, not an editorial selection. It does not
 automatically choose a Wikipedia lifeboat, promise that a planned direct-reading
 budget has been filled, or mark exported material critical or illustrated without
@@ -30,7 +35,7 @@ For example, after downloading the catalog's Wikibooks archive, run:
 
 ```sh
 python scripts/export_direct.py \
-  /Volumes/OWL/EMERGENCY_LIBRARY/ZIM/OTHER/wikibooks_en_all_maxi_2026-04.zim \
+  /Volumes/OWL/EMERGENCY_LIBRARY/LIBRARY/ZIM/OTHER/wikibooks_en_all_maxi_2026-04.zim \
   /Volumes/OWL/EMERGENCY_LIBRARY \
   --catalog catalog/library.yaml --asset wikibooks_en \
   --entries selected-wikibooks-paths.txt --export-id wikibooks-selection \
@@ -58,12 +63,12 @@ binary item in an archive. Supporting files are discovered from selected pages.
 ## Import the completed export into OWL
 
 The exporter writes payloads under
-`REFERENCE/DIRECT/<export-id>/<hash-prefix>/<entry-hash>.<extension>`. Hash-based
+`LIBRARY/REFERENCE/DIRECT/<export-id>/<hash-prefix>/<entry-hash>.<extension>`. Hash-based
 names avoid case, punctuation, and path-length collisions on portable filesystems.
 Titles and original archive paths remain available in the generated metadata and
 HTML attribution notice.
 
-Its own files are under `.owl/exports/<export-id>/`:
+Its own files are under `LIBRARY/.owl/exports/<export-id>/`:
 
 | File | Purpose |
 | --- | --- |
@@ -71,7 +76,10 @@ Its own files are under `.owl/exports/<export-id>/`:
 | `parts/` | Incomplete, unpromoted outputs on the SSD |
 | `catalog.yaml` | Completed catalog of documents and all supporting files |
 | `inventory.json` | Source edition/hash, selected paths, warnings, and output hashes |
-| `SHA256SUMS.txt` | Payload checksums with paths relative to the library root |
+| `SHA256SUMS.txt` | Payload checksums with paths relative to the inner `LIBRARY/` directory |
+
+This private export manifest is distinct from the global
+`LIBRARY/SHA256SUMS.txt`, whose entries are relative to the outer drive directory.
 
 A complete catalog is published only after every output has passed SHA-256
 readback verification. The catalog uses local `file:` URLs pointing at the **same
@@ -81,7 +89,7 @@ navigation, inventory, and checksums:
 ```sh
 python scripts/build_drive.py /Volumes/OWL/EMERGENCY_LIBRARY \
   --profile compact-256gb --include wikibooks-en \
-  --extra-catalog /Volumes/OWL/EMERGENCY_LIBRARY/.owl/exports/wikibooks-selection/catalog.yaml \
+  --extra-catalog /Volumes/OWL/EMERGENCY_LIBRARY/LIBRARY/.owl/exports/wikibooks-selection/catalog.yaml \
   --allow-local --plan
 ```
 
@@ -103,9 +111,9 @@ also excludes those derivatives from the active build. Exclusion does not delete
 old files. Documents and supporting files must stay together: importing only HTML
 would leave missing illustrations and styles.
 
-The exporter does not rewrite the library's global `SHA256SUMS.txt`, inventory, or
+The exporter does not rewrite the library's global `LIBRARY/SHA256SUMS.txt`, inventory, or
 search by itself. Until the normal build finishes, new payloads may be reported as
-`UNKNOWN` by the global verifier. Private `.owl` checkpoints are intentionally
+`UNKNOWN` by the global verifier. Private `LIBRARY/.owl` checkpoints are intentionally
 outside that manifest. After importing, verify normally:
 
 ```sh

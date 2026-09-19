@@ -268,7 +268,7 @@ class BuildTests(Fixture):
         self.asset["sha256"] = None
         self.write_catalog()
         self.run_build()
-        state_path = self.root / "drive/.owl/state.json"
+        state_path = self.root / "drive/LIBRARY/.owl/state.json"
         state = json.loads(state_path.read_text())
         state.update(assets={}, complete=False)
         state_path.write_text(json.dumps(state))
@@ -288,7 +288,7 @@ class BuildTests(Fixture):
             build(drive, catalog=self.catalog, profiles_dir=self.profiles,
                   profile_name="test", allow_local=True, progress=replace)
         self.assertEqual(list(drive.iterdir()), [])
-        self.assertTrue(json.loads((self.root / "original-drive/.owl/state.json").read_text())["complete"])
+        self.assertTrue(json.loads((self.root / "original-drive/LIBRARY/.owl/state.json").read_text())["complete"])
 
     def test_asset_changed_after_extraction_cannot_be_blessed_by_new_checksums(self):
         from owl.navigation import generate_navigation
@@ -298,10 +298,10 @@ class BuildTests(Fixture):
             return result
         with patch("owl.navigation.generate_navigation", side_effect=damage), self.assertRaisesRegex(SafetyError, "changed after verification"):
             self.run_build()
-        state = json.loads((self.root / "drive/.owl/state.json").read_text())
+        state = json.loads((self.root / "drive/LIBRARY/.owl/state.json").read_text())
         self.assertFalse(state["complete"])
         self.run_build()
-        self.assertEqual((self.root / "drive" / self.asset["destination"]).read_bytes(), self.data)
+        self.assertEqual((self.root / "drive/LIBRARY" / self.asset["destination"]).read_bytes(), self.data)
 
     def test_interrupt_download_retains_in_place_partial_and_releases_lock(self):
         def interrupted(asset, destination, **kwargs):
@@ -310,9 +310,9 @@ class BuildTests(Fixture):
         with patch("owl.build.download", side_effect=interrupted), self.assertRaises(KeyboardInterrupt):
             self.run_build()
         drive = self.root / "drive"
-        part = drive / ".owl/downloads" / (self.asset["sha256"] + ".part")
+        part = drive / "LIBRARY/.owl/downloads" / (self.asset["sha256"] + ".part")
         self.assertEqual(part.read_bytes(), self.data[:10])
-        state = json.loads((drive / ".owl/state.json").read_text())
+        state = json.loads((drive / "LIBRARY/.owl/state.json").read_text())
         self.assertFalse(state["complete"])
         self.assertEqual(state["phase"], "content")
         plan = self.run_build(plan_only=True)
@@ -334,19 +334,19 @@ class BuildTests(Fixture):
         self.source.unlink()
         with patch("owl.build.download", side_effect=AssertionError("verified cache must survive interruption")):
             self.run_build(cache_dir=cache)
-        self.assertEqual((self.root / "drive" / self.asset["destination"]).read_bytes(), self.data)
+        self.assertEqual((self.root / "drive/LIBRARY" / self.asset["destination"]).read_bytes(), self.data)
 
     def test_interrupt_indexing_reuses_in_place_content_on_restart(self):
         with patch("owl.search.build_search", side_effect=KeyboardInterrupt), self.assertRaises(KeyboardInterrupt):
             self.run_build()
         drive = self.root / "drive"
-        state = json.loads((drive / ".owl/state.json").read_text())
+        state = json.loads((drive / "LIBRARY/.owl/state.json").read_text())
         self.assertEqual(state["phase"], "search")
         self.assertFalse(state["complete"])
         self.source.unlink()
         with patch("owl.build.download", side_effect=AssertionError("content must survive interrupted indexing")):
             self.run_build()
-        self.assertTrue(json.loads((drive / ".owl/state.json").read_text())["complete"])
+        self.assertTrue(json.loads((drive / "LIBRARY/.owl/state.json").read_text())["complete"])
 
     def test_interrupt_final_verification_keeps_drive_incomplete_until_restart(self):
         with patch("owl.build.verify_drive", side_effect=KeyboardInterrupt), self.assertRaises(KeyboardInterrupt):
@@ -359,20 +359,21 @@ class BuildTests(Fixture):
     def test_end_to_end_idempotent_and_independent_verification(self):
         self.run_build()
         drive = self.root / "drive"
-        initial = sha256_file(drive / "SEARCH/manifest.js")
-        content = drive / self.asset["destination"]
+        self.assertEqual({p.name for p in drive.iterdir()}, {"START_HERE.html", "LIBRARY"})
+        initial = sha256_file(drive / "LIBRARY/SEARCH/manifest.js")
+        content = drive / "LIBRARY" / self.asset["destination"]
         mtime = content.stat().st_mtime_ns
         (drive / "personal.txt").write_text("preserve me")
         with patch("owl.build.download", side_effect=AssertionError("must reuse")):
             self.run_build()
         self.assertEqual(content.stat().st_mtime_ns, mtime)
-        self.assertEqual(sha256_file(drive / "SEARCH/manifest.js"), initial)
+        self.assertEqual(sha256_file(drive / "LIBRARY/SEARCH/manifest.js"), initial)
         result = verify_drive(drive, emit=lambda _: None)
         self.assertGreater(result["OK"], 30)
         self.assertEqual(result["UNKNOWN"], 1)
         self.assertEqual(result["FAILED"] + result["MISSING"], 0)
-        self.assertTrue(json.loads((drive / ".owl/state.json").read_text())["complete"])
-        locked = load_catalog(drive / "LOCKED_CATALOG.yaml", allow_local=True)
+        self.assertTrue(json.loads((drive / "LIBRARY/.owl/state.json").read_text())["complete"])
+        locked = load_catalog(drive / "LIBRARY/LOCKED_CATALOG.yaml", allow_local=True)
         self.assertEqual(locked[0]["sha256"], self.asset["sha256"])
         content.write_text("damaged")
         self.assertEqual(verify_drive(drive, emit=lambda _: None)["FAILED"], 1)
@@ -388,7 +389,7 @@ class BuildTests(Fixture):
         with patch("owl.build.download", side_effect=AssertionError("must use cache")):
             build(self.root / "second", catalog=self.catalog, profiles_dir=self.profiles, profile_name="test",
                   cache_dir=cache, allow_local=True, progress=lambda _: None)
-        self.assertEqual((self.root / "second" / self.asset["destination"]).read_bytes(), self.data)
+        self.assertEqual((self.root / "second/LIBRARY" / self.asset["destination"]).read_bytes(), self.data)
 
     def test_unowned_conflict_and_symlink_do_not_overwrite(self):
         target = self.root / "drive"
@@ -406,15 +407,37 @@ class BuildTests(Fixture):
                 self.run_build()
         self.assertFalse((self.root / "drive").exists())
 
-    def test_verifier_rejects_manifest_traversal(self):
+    def test_work_and_cache_cannot_create_extra_outer_objects(self):
+        drive = self.root / "drive"
+        for option in ("cache_dir", "work_dir"):
+            with self.subTest(option=option), self.assertRaisesRegex(SafetyError, "under LIBRARY"):
+                self.run_build(**{option: drive / "workspace"})
+            self.assertFalse(drive.exists())
+
+    def test_library_prefix_counts_toward_portable_path_limit_before_writes(self):
+        self.asset["destination"] = "BOOKS/" + "a" * 210 + ".txt"
+        self.write_catalog()
+        with self.assertRaises(SafetyError):
+            self.run_build()
+        self.assertFalse((self.root / "drive").exists())
+
+    def test_symlinked_library_folder_is_rejected(self):
         drive = self.root / "drive"
         drive.mkdir()
-        (drive / "SHA256SUMS.txt").write_text("0" * 64 + "  ../source.txt\n")
+        (drive / "LIBRARY").symlink_to(self.root, target_is_directory=True)
+        with self.assertRaises(SafetyError):
+            self.run_build()
+        self.assertFalse((drive / "START_HERE.html").exists())
+
+    def test_verifier_rejects_manifest_traversal(self):
+        drive = self.root / "drive"
+        (drive / "LIBRARY").mkdir(parents=True)
+        (drive / "LIBRARY/SHA256SUMS.txt").write_text("0" * 64 + "  ../source.txt\n")
         self.assertEqual(verify_drive(drive, emit=lambda _: None)["FAILED"], 1)
 
     def test_verifier_reports_interrupted_build_even_if_files_match(self):
         self.run_build()
-        state_path = self.root / "drive/.owl/state.json"
+        state_path = self.root / "drive/LIBRARY/.owl/state.json"
         state = json.loads(state_path.read_text())
         state["complete"] = False
         state_path.write_text(json.dumps(state))

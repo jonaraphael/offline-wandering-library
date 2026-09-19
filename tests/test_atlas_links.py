@@ -12,8 +12,8 @@ class AtlasLinkTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
-        self.target = Path(temporary.name).resolve()
-        (self.target / 'BOOKS').mkdir()
+        self.target = Path(temporary.name).resolve() / "LIBRARY"
+        (self.target / 'BOOKS').mkdir(parents=True)
 
     def test_large_source_is_scanned_once_without_retaining_other_ids_or_links(self):
         source = self.target / 'BOOKS/large.html'
@@ -73,6 +73,17 @@ class AtlasLinkTests(unittest.TestCase):
                 ('<a href="https://example.invalid/">External</a><h1 id="section">Section</h1>', 'Nonlocal generated link')):
             with self.subTest(error=error), self.assertRaisesRegex(SafetyError, error):
                 validate_links(self.target, {**valid, 'INDEX/topics/two.html': replacement})
+
+    def test_outer_homepage_and_inner_atlas_use_physical_relative_links(self):
+        pages = {
+            'START_HERE.html': '<h1 id="home">OWL</h1><a href="LIBRARY/INDEX/topics/one.html#topic">Topic</a>',
+            'INDEX/topics/one.html': '<h1 id="topic">Topic</h1><a href="../../../START_HERE.html#home">Home</a>',
+        }
+        validate_links(self.target, pages)
+        for bad_link in ('../../START_HERE.html', '../../../personal.html', '../../../../outside.html'):
+            with self.subTest(link=bad_link), self.assertRaises(SafetyError):
+                validate_links(self.target, {**pages,
+                    'INDEX/topics/one.html': f'<h1 id="topic">Topic</h1><a href="{bad_link}">Bad</a>'})
 
 
 if __name__ == '__main__':

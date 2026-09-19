@@ -12,6 +12,11 @@ indexes remain available. Local-link support still depends on the device's file
 viewer. Filenames and human-readable locations provide a fallback when links or
 PDF page fragments do not work.
 
+The drive's outer directory contains `START_HERE.html` and `LIBRARY/`.
+The commands below take that outer directory. Atlas pages and reports are under
+`LIBRARY/INDEX/`; asset destinations in catalogs and inventories stay relative to
+the inner `LIBRARY/` directory.
+
 ## Generate navigation from files already on a drive
 
 From the repository, with OWL installed:
@@ -29,7 +34,7 @@ using a different asset catalog. That catalog must contain every asset ID
 referenced by the navigation metadata, including currently excluded assets.
 Global reference validation does not imply those sources are present on the SSD.
 
-When files have been downloaded to their exact catalog destinations but the drive
+When files have been downloaded to their exact catalog destinations under `LIBRARY/` but the drive
 has no inventory, provide the profile and catalog explicitly:
 
 ```bash
@@ -156,7 +161,9 @@ python scripts/import_sections.py /media/SSD/EMERGENCY_LIBRARY \
     --output /path/to/drafts/electrical_dc.yaml
 ```
 
-`--inventory /path/to/INVENTORY.json` overrides the default drive inventory.
+`--inventory /path/to/INVENTORY.json` overrides the default
+`TARGET/LIBRARY/INVENTORY.json`; an explicit inventory or draft-output path is
+used as written.
 The command creates a draft YAML map and an adjacent
 `electrical_dc.yaml.review.json` report. Repeating an identical import is safe;
 existing edits are not overwritten. The report identifies skipped or ambiguous
@@ -230,7 +237,7 @@ intact; the atlas creates links rather than altered copies of source pages.
 
 ## Coverage, limits, and evaluation
 
-`INDEX/navigation-report.json` records included and omitted topic IDs, selected
+`LIBRARY/INDEX/navigation-report.json` records included and omitted topic IDs, selected
 source maps and provenance, per-topic deduplicated document/location counts,
 reader-dependent coverage, metadata hashes, and generated output sizes. It also
 reports unmapped critical assets and missing subject or learning routes for

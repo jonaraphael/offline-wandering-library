@@ -26,7 +26,7 @@ class SectionImporterTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)
-        self.target = Path(self.temporary.name).resolve()
+        self.target = Path(self.temporary.name).resolve() / "LIBRARY"
 
     def source(self, name, data, **metadata):
         path = self.target / name
@@ -222,7 +222,7 @@ class SectionImporterTests(unittest.TestCase):
         assignments = self.target / 'assignments.yaml'
         assignments.write_text('assignments: []\n', encoding='utf-8')
         output = self.target / 'drafts/guide.yaml'
-        command = [sys.executable, str(ROOT / 'scripts/import_sections.py'), str(self.target),
+        command = [sys.executable, str(ROOT / 'scripts/import_sections.py'), str(self.target.parent),
                    '--asset', asset['id'], '--output', str(output)]
         result = subprocess.run(command, capture_output=True, text=True, encoding='utf-8')
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -241,16 +241,26 @@ class SectionImporterTests(unittest.TestCase):
         inventory.write_text(json.dumps({'assets': [asset]}), encoding='utf-8')
         output = self.target / 'assignments.yaml'
         output.write_text('existing assignments', encoding='utf-8')
-        base = [str(self.target), '--asset', asset['id'], '--output', str(output)]
+        base = [str(self.target.parent), '--asset', asset['id'], '--output', str(output)]
         with redirect_stdout(io.StringIO()):
             self.assertEqual(main(base), 1)
-            self.assertEqual(main([str(self.target), '--asset', 'unknown', '--output', str(self.target/'new.yaml')]), 1)
+            self.assertEqual(main([str(self.target.parent), '--asset', 'unknown', '--output', str(self.target/'new.yaml')]), 1)
         self.assertEqual(output.read_text(encoding='utf-8'), 'existing assignments')
         self.assertFalse(Path(str(output) + '.review.json').exists())
         inventory.write_text(json.dumps({'assets': [{**asset, 'destination': '../outside.html'}]}), encoding='utf-8')
         with redirect_stdout(io.StringIO()):
             self.assertEqual(main(base), 1)
         self.assertFalse((self.target / 'new.yaml').exists())
+
+    def test_cli_explicit_inventory_path_keeps_sources_under_outer_library(self):
+        _, asset = self.source('BOOKS/guide.html', '<h1 id="chapter">Chapter</h1>')
+        inventory = self.target.parent / 'custom-inventory.json'
+        inventory.write_text(json.dumps({'assets': [asset]}), encoding='utf-8')
+        output = self.target.parent / 'draft.yaml'
+        with redirect_stdout(io.StringIO()):
+            self.assertEqual(main([str(self.target.parent), '--asset', asset['id'],
+                                  '--inventory', str(inventory), '--output', str(output)]), 0)
+        self.assertEqual(yaml.safe_load(output.read_text())['sections'][0]['locator']['id'], 'chapter')
 
 
 if __name__ == '__main__':

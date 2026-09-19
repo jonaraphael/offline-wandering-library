@@ -11,7 +11,8 @@ from pathlib import Path, PurePosixPath
 from urllib.parse import quote
 
 from .catalog import learning_shelves
-from .safety import atomic_write, safe_path
+from .layout import checksum_name, managed_path
+from .safety import atomic_write
 from .search_ui import SEARCH_CSP, render_search_widget
 
 LETTERS = (*string.ascii_uppercase, "0-9", "other")
@@ -114,7 +115,8 @@ def _href(destination: str, current: str) -> str:
         or ":" in destination
     ):
         raise ValueError(f"Unsafe destination for navigation: {destination!r}")
-    relative = posixpath.relpath(destination, posixpath.dirname(current) or ".")
+    relative = posixpath.relpath(checksum_name(destination),
+                                posixpath.dirname(checksum_name(current)) or ".")
     return quote(relative, safe="/")
 
 
@@ -284,6 +286,8 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
 
     Static indexes enumerate catalog assets. Entries inside specialized archives
     are accessible through their reader and, when extracted, the search index.
+    Target is the inner LIBRARY directory. Logical output keys remain library
+    relative, except START_HERE.html is written beside LIBRARY at the outer root.
     """
     search_files = search_report.get("generated_files", [])
     if not isinstance(search_files, list):
@@ -333,7 +337,7 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
 and other ordinary files. Use your device’s file manager and a compatible browser or document viewer.
 No account, server, or internet connection is needed to read these files.</p>
 """
-        + (render_search_widget() if search_ready else
+        + (render_search_widget("LIBRARY/") if search_ready else
            '<p class="notice">' +
            ('<strong>Human index only:</strong> full-text search has not been built. '
             if search_report.get("status") == "not-built" else
@@ -582,10 +586,27 @@ This library is a reference collection, not a substitute for professional help.
             "Full-text search is not available in this build. Use the human topic atlas,\n"
             "category and title indexes; these work without JavaScript. Run the drive\n"
             "builder to generate automatic search from the existing verified content.")
+    # The landing page's fixed cards and notices use these logical destinations;
+    # shared _href links and the search widget already have physical prefixes.
+    for prefix in ("INDEX/", "INVENTORY.html", "SOURCE_NOTES.txt", "README.txt",
+                   "VERIFY.py", "BUILD_INFO.json", "SHA256SUMS.txt"):
+        pages["START_HERE.html"] = pages["START_HERE.html"].replace(
+            f'href="{prefix}', f'href="LIBRARY/{prefix}')
+    pages["START_HERE.html"] = pages["START_HERE.html"].replace(
+        '<code>SOFTWARE/</code>', '<code>LIBRARY/SOFTWARE/</code>')
+    pages["README.txt"] = pages["README.txt"].replace(
+        "Open START_HERE.html", "Open ../START_HERE.html").replace(
+        "Search on START_HERE.html", "Search on ../START_HERE.html").replace(
+        "/path/to/EMERGENCY_LIBRARY/VERIFY.py", "/path/to/EMERGENCY_LIBRARY/LIBRARY/VERIFY.py")
+    pages["README.txt"] = pages["README.txt"].replace(
+        "OFFLINE WANDERING LIBRARY (OWL)\n",
+        "OFFLINE WANDERING LIBRARY (OWL)\n\n"
+        "The drive has START_HERE.html beside one LIBRARY folder. Keep them together.\n"
+        "This README is inside LIBRARY; other paths below are relative to this folder.\n", 1)
     if not write:
         return pages
     for relative in GENERATED_PATHS:
-        destination = safe_path(target, relative)
+        destination = managed_path(target, relative)
         destination.parent.mkdir(parents=True, exist_ok=True)
         atomic_write(destination, pages[relative].encode("utf-8"))
     return list(GENERATED_PATHS)

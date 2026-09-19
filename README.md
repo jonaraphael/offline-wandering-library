@@ -74,7 +74,7 @@ The larger profiles add Wikipedia, WikiMed, Wiktionary, Wikibooks, iFixit, and e
 
 Textbooks provide sustained explanations beyond short emergency checklists. All five production presets include the complete 20-title OpenStax math/science selection and two electrical textbooks, plus Pro Git. The required direct-reading floor protects 22 critical textbooks and 40 illustrated teaching works in the small presets. Most inspected current OpenStax PDFs use CC BY-NC-SA 4.0; Physics uses CC BY 4.0. See each recorded notice and attribution in [education evidence](docs/acquisition-education.md).
 
-The PDFs retain their original diagrams, photographs, charts, and figures; the builder does not replace them with extracted text. `INDEX/textbooks.html` and `INDEX/illustrated-guides.html` provide dedicated, directly readable shelves from the landing page. The illustrated shelf includes both textbooks and practical guides. `INDEX/critical.html` includes every critical asset wherever it is stored, including `BOOKS/TEXTBOOKS/`. Reader-dependent archives and EPUBs do not count toward these direct-reading shelves. Textbook listings retain their attribution, and the inventory records each title’s own license.
+The PDFs retain their original diagrams, photographs, charts, and figures; the builder does not replace them with extracted text. `LIBRARY/INDEX/textbooks.html` and `LIBRARY/INDEX/illustrated-guides.html` provide dedicated, directly readable shelves from the landing page. The illustrated shelf includes both textbooks and practical guides. `LIBRARY/INDEX/critical.html` includes every critical asset wherever it is stored, including `LIBRARY/BOOKS/TEXTBOOKS/`. Reader-dependent archives and EPUBs do not count toward these direct-reading shelves. Textbook listings retain their attribution, and the inventory records each title’s own license.
 
 Project Gutenberg and Children's Library have prominent landing-page entries and dedicated static shelves. The larger presets now select 36.04 GB of pinned English Gutenberg science, technology, agriculture and education archives. These are historical books, not current clinical advice; the curated direct-file Gutenberg edition remains unresolved. Their children's compact edition adds a 19.77 GB Gutenberg juvenile-literature archive to 61 Book Dash EPUBs. The small presets keep the EPUBs. Archives need Kiwix and EPUBs need EPUB support; the proposed ordinary-PDF children's collection is still incomplete. Hesperian now has 270 official chapter PDFs; its remaining gap is one unavailable midwives back-matter file. Map archives are pinned, while local topographic coverage still needs a region. General geographic reference material does not replace local navigation maps.
 
@@ -129,26 +129,35 @@ sources and reproducing the tested extraction toolchain.
 
 ## Use the completed SSD
 
-Open `START_HERE.html`. Its first shelves link to textbooks, illustrated guides, Project Gutenberg, and Children's Library, with counts of available files. It also provides topic links, search, and ordinary static indexes. You can navigate directly through the folders with the device’s file manager.
+Open `START_HERE.html`. A fresh build puts exactly two items in the chosen outer directory: this entry page and a `LIBRARY` folder containing everything else. Keep them together when moving or copying the library. Its first shelves link to textbooks, illustrated guides, Project Gutenberg, and Children's Library, with counts of available files. It also provides topic links, search, and ordinary static indexes. You can navigate directly through `LIBRARY` with the device’s file manager.
 
 ```text
 EMERGENCY_LIBRARY/
-├── START_HERE.html          # Works without JavaScript
-├── SEARCH.html             # Automatic offline search, also on START_HERE.html
-├── README.txt / VERIFY.py / SOURCE_NOTES.txt
-├── INVENTORY.html / INVENTORY.json
-├── BUILD_INFO.json / CONTENT_SELECTION.json / SHA256SUMS.txt / LOCKED_CATALOG.yaml
-├── CRITICAL/               # Ordinary files grouped by emergency topic
-├── REFERENCE/
-├── BOOKS/TEXTBOOKS/         # Core directly readable textbooks
-├── MAPS/
-├── ZIM/                    # Large archives; a reader is required
-├── SOFTWARE/               # Bundled readers for supported platforms
-├── SEARCH/                 # Precomputed full-text index and coverage report
-└── INDEX/                  # Learning/reading shelves, critical, category, A–Z
+├── START_HERE.html              # Open this first; static links work without JavaScript
+└── LIBRARY/
+    ├── SEARCH.html             # Dedicated automatic offline search
+    ├── README.txt / VERIFY.py / SOURCE_NOTES.txt
+    ├── INVENTORY.html / INVENTORY.json
+    ├── BUILD_INFO.json / CONTENT_SELECTION.json / SHA256SUMS.txt / LOCKED_CATALOG.yaml
+    ├── CRITICAL/               # Ordinary files grouped by emergency topic
+    ├── REFERENCE/
+    ├── BOOKS/TEXTBOOKS/         # Core directly readable textbooks
+    ├── MAPS/
+    ├── ZIM/                    # Large archives; a reader is required
+    ├── SOFTWARE/               # Bundled readers for supported platforms
+    ├── SEARCH/                 # Precomputed full-text index and coverage report
+    ├── INDEX/                  # Learning/reading shelves, critical, category, A–Z
+    └── .owl/                   # Private build and resume state
 ```
 
-The static indexes list catalog files, including titles, categories, textbook/illustrated labels, and archive-reader requirements. Dedicated `textbooks.html`, `illustrated-guides.html`, `gutenberg.html`, and `children.html` pages sit alongside `critical.html`, `categories.html`, and the alphabetical pages in `INDEX/`. They work without JavaScript and contain ordinary relative links. They do not expand every article inside an archive into separate HTML files.
+Build, verify, copy, atlas and export commands take the outer
+`EMERGENCY_LIBRARY` directory. Catalog `destination` values and private managed
+paths remain relative to the inner `LIBRARY` directory: a catalog destination
+such as `BOOKS/manual.pdf` is stored at `EMERGENCY_LIBRARY/LIBRARY/BOOKS/manual.pdf`.
+The global `LIBRARY/SHA256SUMS.txt` instead records paths relative to the outer
+directory so it covers both `START_HERE.html` and files under `LIBRARY/`.
+
+The static indexes list catalog files, including titles, categories, textbook/illustrated labels, and archive-reader requirements. Dedicated `textbooks.html`, `illustrated-guides.html`, `gutenberg.html`, and `children.html` pages sit alongside `critical.html`, `categories.html`, and the alphabetical pages in `LIBRARY/INDEX/`. They work without JavaScript and contain ordinary relative links. They do not expand every article inside an archive into separate HTML files.
 
 The optional [topic atlas](docs/topic-atlas.md) adds shared subject, practical-task, and learning routes, topic aliases, and book contents pages. Generate it after downloading a library:
 
@@ -169,15 +178,15 @@ Repeat `--navigation-dir` on subsequent full builds that should generate the atl
 
 ## Search without a server
 
-Open `START_HERE.html` and enter words in **Search this library**. Search loads automatically from neighboring files on the SSD; there is no index file to select. `SEARCH.html` provides the same interface on a dedicated page. All processing stays on the device, without a server, account, CDN, or network connection.
+Open `START_HERE.html` and enter words in **Search this library**. Search loads automatically from neighboring files on the SSD; there is no index file to select. `LIBRARY/SEARCH.html` provides the same interface on a dedicated page. All processing stays on the device, without a server, account, CDN, or network connection.
 
 The builder extracts text and metadata once and creates an inverted index. Long documents become passages so results can provide matching context. The browser loads a small local manifest and requests index chunks as needed through ordinary local scripts. It keeps at most eight decoded 1 MiB chunks in its transport cache, instead of scanning the library at query time. Results use BM25-style ranking and show title, category/source, a snippet, and the content path.
 
-The finished search files are `SEARCH/search.js`, `SEARCH/manifest.js`, and `SEARCH/chunks/<index-hash>/`. Base64 encoding adds roughly one third to the binary index size; profile search budgets cover the published output. There is no separate binary index to select on a fresh build. Keep both entry pages and the entire `SEARCH/` directory together. Very large archive indexes and common-word searches still need performance testing at their intended scale.
+The finished search files are `LIBRARY/SEARCH/search.js`, `LIBRARY/SEARCH/manifest.js`, and `LIBRARY/SEARCH/chunks/<index-hash>/`. Base64 encoding adds roughly one third to the binary index size; profile search budgets cover the published output. There is no separate binary index to select on a fresh build. Keep both entry pages and the entire `LIBRARY/SEARCH/` directory together. Very large archive indexes and common-word searches still need performance testing at their intended scale.
 
 Choose **All resources**, **Textbooks**, or **Illustrated guides** to search a collection. Filters apply before ranking the final results, so books are not hidden by a larger archive's matches. Illustrated textbooks appear in both learning collections. Results retain each document's license and attribution.
 
-HTML, plain text, Markdown, EPUB, and text-bearing PDFs can be indexed. ZIM text extraction uses the `libzim` extra. Scanned PDFs and image content need OCR that OWL does not provide. Unsupported formats and material with no extractable text retain searchable catalog metadata, with gaps recorded in `SEARCH/coverage.json`, the inventory, and build information. Corrupt or encrypted documents that cannot be extracted fail the build. A search hit in a ZIM names the archive and article; the browser cannot directly open an internal ZIM article. Open the archive with its reader and use the supplied article name.
+HTML, plain text, Markdown, EPUB, and text-bearing PDFs can be indexed. ZIM text extraction uses the `libzim` extra. Scanned PDFs and image content need OCR that OWL does not provide. Unsupported formats and material with no extractable text retain searchable catalog metadata, with gaps recorded in `LIBRARY/SEARCH/coverage.json`, the inventory, and build information. Corrupt or encrypted documents that cannot be extracted fail the build. A search hit in a ZIM names the archive and article; the browser cannot directly open an internal ZIM article. Open the archive with its reader and use the supplied article name.
 
 Search covers extractable textbook and guide text, not the visual meaning of diagrams or photographs. Open the original illustrated document to inspect a figure, formula, or image-only page. An illustration remains readable even when it cannot be found through full-text search.
 
@@ -194,24 +203,24 @@ This is a compatibility design, not a claim of hardware testing on every platfor
 
 ## Bundled readers
 
-Reader packages are ordinary catalog assets under `SOFTWARE/`, with source, version, hash, and license information recorded alongside the content. They are downloaded and verified, never executed during a build. The initial catalog includes Kiwix Windows portable 2.5.1, Linux x86-64 AppImage 2.5.1, macOS 3.14.0, and Android 3.14.0. The generated inventory identifies what the selected profile includes. No Raspberry Pi ARM reader package is currently verified in the catalog.
+Reader packages are ordinary catalog assets under `LIBRARY/SOFTWARE/`, with source, version, hash, and license information recorded alongside the content. They are downloaded and verified, never executed during a build. The initial catalog includes Kiwix Windows portable 2.5.1, Linux x86-64 AppImage 2.5.1, macOS 3.14.0, and Android 3.14.0. The generated inventory identifies what the selected profile includes. No Raspberry Pi ARM reader package is currently verified in the catalog.
 
 A package’s presence does not guarantee it will run: CPU architecture, operating-system version, dependencies, signature checks, installation permissions, and Android’s install-from-files setting may matter. Offline installation of an arbitrary iPhone application from a USB SSD is not a dependable option. Critical files exist outside archives to preserve access on those devices.
 
 ## Integrity, updates, and backups
 
-`SHA256SUMS.txt` records managed files using SHA-256. `INVENTORY.json` records the assets, source metadata, hashes, and verification provenance; `BUILD_INFO.json` records the build configuration and search results. The independent verifier uses the Python standard library and can run without installing OWL:
+`LIBRARY/SHA256SUMS.txt` records managed files using SHA-256. `LIBRARY/INVENTORY.json` records the assets, source metadata, hashes, and verification provenance; `LIBRARY/BUILD_INFO.json` records the build configuration and search results. The independent verifier uses the Python standard library and can run without installing OWL:
 
 ```bash
 python scripts/verify.py /path/to/EMERGENCY_LIBRARY
 
 # A copy also travels with the drive:
-python /path/to/EMERGENCY_LIBRARY/VERIFY.py /path/to/EMERGENCY_LIBRARY
+python /path/to/EMERGENCY_LIBRARY/LIBRARY/VERIFY.py /path/to/EMERGENCY_LIBRARY
 ```
 
 It reports `OK` for matching files, `MISSING` for absent expected files, `FAILED` for mismatches or unsafe entries, and `UNKNOWN` for files outside the checksum manifest. Unknown personal files are not deleted. Checking a large drive reads its content and can take hours. A stored checksum detects accidental changes, but it is not a digital signature: retain a trusted independent copy of the checksum manifest to detect changes to both files and checksums.
 
-A pinned source hash verifies against the catalog’s expected bytes. When an upstream source supplies no trusted SHA-256, OWL records an observed hash after download; that is a baseline for future integrity checks, not independent authentication of the original download. The generated `LOCKED_CATALOG.yaml` captures measured hashes for repeat builds. Exact reproduction requires those bytes to remain available at the source or in your cache; timestamps and build metadata can differ.
+A pinned source hash verifies against the catalog’s expected bytes. When an upstream source supplies no trusted SHA-256, OWL records an observed hash after download; that is a baseline for future integrity checks, not independent authentication of the original download. The generated `LIBRARY/LOCKED_CATALOG.yaml` captures measured hashes for repeat builds. Exact reproduction requires those bytes to remain available at the source or in your cache; timestamps and build metadata can differ.
 
 To update, review catalog changes, inspect the new plan, rebuild with the intended profile, and verify again. Existing managed content may be replaced to match the selected catalog. Unrelated files are preserved. Keep the last verified drive intact until its replacement has passed verification and device checks. OWL does not prune obsolete files automatically. An update is not atomic across the entire SSD: after a failed build, rerun it and verify before considering the drive complete.
 

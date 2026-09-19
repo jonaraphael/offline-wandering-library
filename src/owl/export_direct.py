@@ -469,7 +469,8 @@ def export_zim(source: Path, target: Path, *, source_asset: dict, entries=(), al
     export_id = export_id or source_asset["id"]
     if not re.fullmatch(r"[a-z0-9][a-z0-9_-]{0,49}", export_id):
         raise ExportError("Export ID must be 1-50 lowercase ASCII letters, digits, _ or -")
-    source, target = _root(source), _root(target)
+    from .layout import content_root
+    source, target = _root(source), content_root(_root(target))
     if not source.is_file(): raise ExportError(f"Source archive missing: {source}")
     private = ".owl/exports/" + export_id
     with ExitStack() as contexts:
@@ -624,14 +625,14 @@ def export_zim(source: Path, target: Path, *, source_asset: dict, entries=(), al
         atomic_write(_path(target, private + "/catalog.yaml"), yaml.safe_dump({"schema_version": 1, "assets": catalog_assets}, sort_keys=False, allow_unicode=True).encode())
         state["complete"] = True
         worker.save()
-        progress(f"EXPORT COMPLETE: {len(canonical)} documents and {len(files)} verified files; import {private}/catalog.yaml")
+        progress(f"EXPORT COMPLETE: {len(canonical)} documents and {len(files)} verified files; import LIBRARY/{private}/catalog.yaml")
         return report
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("source", type=Path, help="Already downloaded local ZIM; never fetched from the network")
-    parser.add_argument("target", type=Path, help="Library root on the SSD; outputs are written in place")
+    parser.add_argument("target", type=Path, help="OWL root on the SSD; outputs are written in place under LIBRARY/")
     parser.add_argument("--catalog", type=Path, required=True)
     parser.add_argument("--asset", required=True)
     selection = parser.add_mutually_exclusive_group(required=True)
