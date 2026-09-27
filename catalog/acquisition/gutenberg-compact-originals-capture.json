@@ -1,0 +1,277 @@
+{
+  "budget": {
+    "cache_bytes": 0,
+    "download_bytes": 55811449946,
+    "expanded_bytes": 0,
+    "preview_bytes": 0,
+    "scratch_bytes": 0
+  },
+  "content_ready": false,
+  "id": "gutenberg-compact-originals-1tb-v1",
+  "kind": "acquisition",
+  "metadata_allowance_bytes": 1177152,
+  "profile": "full-1tb",
+  "review_requirements": [
+    "Capture verifies existing originals; it does not admit new content.",
+    "Freeze and review complete work inventories before admitting overlapping expansion works."
+  ],
+  "schema_version": 1,
+  "sources": [
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.",
+        "category": "books",
+        "critical": false,
+        "description": "Kiwix March 2026 English books in Library of Congress class L: Education. Published class selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published archive intact. Historical technical material requires modern safety context; not operational medical guidance.",
+        "destination": "ZIM/OTHER/gutenberg_en_lcc-l_2026-03.zim",
+        "format": "zim",
+        "id": "gutenberg_en_lcc_l",
+        "illustrated": false,
+        "language": "en",
+        "license": "Project Gutenberg License and individual book notices; predominantly public domain in the United States, with some separately licensed works",
+        "mirrors": [
+          "https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim",
+          "https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim",
+          "https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim",
+          "https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim"
+        ],
+        "profiles": [],
+        "publisher": "Project Gutenberg contributors; Kiwix/openZIM",
+        "reader_required": true,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "689bbb2afc1977e855f48bf0557548f7aba46d6526ff596aba9571aaeeb40638",
+        "size_bytes": 628986048,
+        "source_page": "https://www.gutenberg.org/policy/permission",
+        "source_url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim",
+        "status": "resolved",
+        "title": "Project Gutenberg — Education (English LCC L)",
+        "version": "2026-03"
+      },
+      "id": "gutenberg_en_lcc_l",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "gutenberg_en_lcc_l",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "72c778f45d9af6059af507261bef9bc3e9b5982acaf72ee0b41fac3a3a37c91a",
+          "url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "gutenberg-core"
+      ],
+      "sha256": "689bbb2afc1977e855f48bf0557548f7aba46d6526ff596aba9571aaeeb40638",
+      "size_bytes": 628986048,
+      "source_url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim",
+      "version": "2026-03"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.",
+        "category": "books",
+        "critical": false,
+        "description": "Kiwix March 2026 English books in Library of Congress class PZ: Juvenile literature. Published class selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published archive intact. Historical technical material requires modern safety context; not operational medical guidance.",
+        "destination": "ZIM/OTHER/gutenberg_en_lcc-pz_2026-03.zim",
+        "format": "zim",
+        "id": "gutenberg_en_lcc_pz",
+        "illustrated": false,
+        "language": "en",
+        "license": "Project Gutenberg License and individual book notices; predominantly public domain in the United States, with some separately licensed works",
+        "mirrors": [
+          "https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim",
+          "https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim",
+          "https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim",
+          "https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim"
+        ],
+        "profiles": [],
+        "publisher": "Project Gutenberg contributors; Kiwix/openZIM",
+        "reader_required": true,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "0b3a0c46e80bf56064f85a7db993f183fa481b98686342890c6d4b2e8c071775",
+        "size_bytes": 19770263119,
+        "source_page": "https://www.gutenberg.org/policy/permission",
+        "source_url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim",
+        "status": "resolved",
+        "title": "Project Gutenberg — Juvenile literature (English LCC PZ)",
+        "version": "2026-03"
+      },
+      "id": "gutenberg_en_lcc_pz",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "gutenberg_en_lcc_pz",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "b361b268d3ff16c811f317929ad6f6191a2f06c8c35b0a44a9a2b84339996f27",
+          "url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "childrens-library"
+      ],
+      "sha256": "0b3a0c46e80bf56064f85a7db993f183fa481b98686342890c6d4b2e8c071775",
+      "size_bytes": 19770263119,
+      "source_url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim",
+      "version": "2026-03"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.",
+        "category": "books",
+        "critical": false,
+        "description": "Kiwix March 2026 English books in Library of Congress class Q: Science. Published class selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published archive intact. Historical technical material requires modern safety context; not operational medical guidance.",
+        "destination": "ZIM/OTHER/gutenberg_en_lcc-q_2026-03.zim",
+        "format": "zim",
+        "id": "gutenberg_en_lcc_q",
+        "illustrated": false,
+        "language": "en",
+        "license": "Project Gutenberg License and individual book notices; predominantly public domain in the United States, with some separately licensed works",
+        "mirrors": [
+          "https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim",
+          "https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim",
+          "https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim",
+          "https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim"
+        ],
+        "profiles": [],
+        "publisher": "Project Gutenberg contributors; Kiwix/openZIM",
+        "reader_required": true,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "bf3ffab926136be517d3253addfbe20e0c90a840aefb8d1c5fbf76c58d85a9bf",
+        "size_bytes": 17724714270,
+        "source_page": "https://www.gutenberg.org/policy/permission",
+        "source_url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim",
+        "status": "resolved",
+        "title": "Project Gutenberg — Science (English LCC Q)",
+        "version": "2026-03"
+      },
+      "id": "gutenberg_en_lcc_q",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "gutenberg_en_lcc_q",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "5cfce5fda85cb64728f2fb37f0f3a2ddafbabab47abfb3e5631ad61509228198",
+          "url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "gutenberg-core"
+      ],
+      "sha256": "bf3ffab926136be517d3253addfbe20e0c90a840aefb8d1c5fbf76c58d85a9bf",
+      "size_bytes": 17724714270,
+      "source_url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim",
+      "version": "2026-03"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.",
+        "category": "books",
+        "critical": false,
+        "description": "Kiwix March 2026 English books in Library of Congress class S: Agriculture. Published class selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published archive intact. Historical technical material requires modern safety context; not operational medical guidance.",
+        "destination": "ZIM/OTHER/gutenberg_en_lcc-s_2026-03.zim",
+        "format": "zim",
+        "id": "gutenberg_en_lcc_s",
+        "illustrated": false,
+        "language": "en",
+        "license": "Project Gutenberg License and individual book notices; predominantly public domain in the United States, with some separately licensed works",
+        "mirrors": [
+          "https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim",
+          "https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim",
+          "https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim",
+          "https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim"
+        ],
+        "profiles": [],
+        "publisher": "Project Gutenberg contributors; Kiwix/openZIM",
+        "reader_required": true,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "3012dfb7936d5bc8a5c3bdd0c9f864cd81e9514c28c40afc548415fd95272fcc",
+        "size_bytes": 4532683039,
+        "source_page": "https://www.gutenberg.org/policy/permission",
+        "source_url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim",
+        "status": "resolved",
+        "title": "Project Gutenberg — Agriculture (English LCC S)",
+        "version": "2026-03"
+      },
+      "id": "gutenberg_en_lcc_s",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "gutenberg_en_lcc_s",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "629e010c96e87e1930b66f2ac0e965bbbf765d257b39535d1ddb937cf069378b",
+          "url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "gutenberg-core"
+      ],
+      "sha256": "3012dfb7936d5bc8a5c3bdd0c9f864cd81e9514c28c40afc548415fd95272fcc",
+      "size_bytes": 4532683039,
+      "source_url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim",
+      "version": "2026-03"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve each original book, author/translator/illustrator credits, Project Gutenberg header/footer and license. Retain separately copyrighted works’ own notices. Packaged by Kiwix/openZIM.",
+        "category": "books",
+        "critical": false,
+        "description": "Kiwix March 2026 English books in Library of Congress class T: Technology. Published class selection, not OWL book-level curation or a deduplicated direct HTML export. Keeps the published archive intact. Historical technical material requires modern safety context; not operational medical guidance.",
+        "destination": "ZIM/OTHER/gutenberg_en_lcc-t_2026-03.zim",
+        "format": "zim",
+        "id": "gutenberg_en_lcc_t",
+        "illustrated": false,
+        "language": "en",
+        "license": "Project Gutenberg License and individual book notices; predominantly public domain in the United States, with some separately licensed works",
+        "mirrors": [
+          "https://ny.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim",
+          "https://wi.mirror.driftle.ss/kiwix/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim",
+          "https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim",
+          "https://mirror.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim"
+        ],
+        "profiles": [],
+        "publisher": "Project Gutenberg contributors; Kiwix/openZIM",
+        "reader_required": true,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "362c9f07d79363802fe2b2e5e97c1b8e717d730bbcfaff478938652dbf12a2fd",
+        "size_bytes": 13154803470,
+        "source_page": "https://www.gutenberg.org/policy/permission",
+        "source_url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim",
+        "status": "resolved",
+        "title": "Project Gutenberg — Technology (English LCC T)",
+        "version": "2026-03"
+      },
+      "id": "gutenberg_en_lcc_t",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "gutenberg_en_lcc_t",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "bf14f0454bff8ac4b8d26033846aab83f52375a3cab596ba42043abc8d4e13db",
+          "url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "gutenberg-core"
+      ],
+      "sha256": "362c9f07d79363802fe2b2e5e97c1b8e717d730bbcfaff478938652dbf12a2fd",
+      "size_bytes": 13154803470,
+      "source_url": "https://download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim",
+      "version": "2026-03"
+    }
+  ],
+  "storage_peak_bytes": 55812627098
+}

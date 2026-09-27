@@ -36,6 +36,8 @@ TERMINAL = {"complete", "failed", "cancelled", "awaiting_review"}
 INPUT_OPTIONS = {"--catalog", "--profiles-dir", "--resources-catalog", "--extra-catalog", "--navigation-dir", "--local-manifest"}
 OUTPUT_OPTIONS = {"--cache-dir", "--work-dir", "--index-cache-dir"}
 TRIAL_SCRIPTS = {
+    'trial_supervisor.py': {'run'},
+    'prepare_review_packets.py': None,
     'inspect_map_capture.py': None, 'inspect_ocw_packages.py': None,
     'prepare_ocw_preview.py': None, 'inspect_zim_candidates.py': None,
     'prepare_stackoverflow.py': {'inspect'},
@@ -271,7 +273,7 @@ def status_job(job_dir: Path) -> dict:
     return status
 
 
-def start_trial_step(script, argv, *, job_dir, target, inputs=()):
+def start_trial_step(script, argv, *, job_dir, target, inputs=(), working_directory=None):
     """Run one frozen, allowlisted review step using the existing job runner.
 
     No shell, automatic content approval, production build, or model API is
@@ -300,7 +302,7 @@ def start_trial_step(script, argv, *, job_dir, target, inputs=()):
         atomic_write(job_dir/'owner.json', _json(owner))
         snapshot = _snapshot(job_dir, [str(target)], scripts=True)
         recipe = {'schema_version':SCHEMA, **snapshot, 'kind':'trial_step', 'retry_policy':_policy(),
-            'trial_step':{'script':script,'argv':argv,'inputs':pins,'cwd':str(REPO_ROOT)}}
+            'trial_step':{'script':script,'argv':argv,'inputs':pins,'cwd':str(_path(Path(working_directory or REPO_ROOT)))}}
         atomic_write(job_dir/'recipe.json', _json(recipe))
         return _launch(job_dir, owner, recipe)
 

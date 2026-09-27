@@ -14,7 +14,8 @@ from owl.jobs import status_job
 from owl.safety import atomic_write,reject_symlinks,safe_path
 
 
-def report(staging,registry):
+def report(staging,registry,*,workspace=None):
+    root=Path(workspace) if workspace is not None else ROOT
     reject_symlinks(staging)
     if not staging.is_dir():raise ValueError('Explicit staging root must exist')
     rows=[]
@@ -34,7 +35,7 @@ def report(staging,registry):
                 except FileNotFoundError:
                     if attempt==2:raise
             if 'manifest' in batch:
-                manifest=load_manifest(safe_path(ROOT,batch['manifest']),profile=batch.get('profile'),
+                manifest=load_manifest(safe_path(root,batch['manifest']),profile=batch.get('profile'),
                     resource_ids=batch.get('resource_ids',()))
                 if target.exists():
                     owner=_read(target/'owner.json')
@@ -85,7 +86,7 @@ def report(staging,registry):
             row.update(retained_bytes=used,storage_peak_bytes=peak,remaining_peak_bytes=max(0,peak-used))
             if used>peak:raise ValueError('Measured retained bytes exceed recorded phase peak')
             if batch.get('job'):
-                status=status_job(safe_path(ROOT,batch['job']))
+                status=status_job(safe_path(root,batch['job']))
                 row.update({k:status[k] for k in ('state','phase','completed_assets','total_assets','worker_active') if k in status})
                 if row['state']=='awaiting_review' and 'total_assets' in row:
                     row['completed_assets']=row['total_assets']

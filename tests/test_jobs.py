@@ -107,6 +107,37 @@ class JobTests(unittest.TestCase):
         with self.assertRaisesRegex(SafetyError, "already completed"):
             jobs.resume_job(self.job)
 
+    def test_trial_script_pauses_resumes_frozen_code_and_remains_pending_review(self):
+        scripts = self.repo / 'scripts'; scripts.mkdir()
+        script = scripts / 'prepare_review_packets.py'
+        script.write_text('import sys,time\nfrom pathlib import Path\n'
+            'target=Path(sys.argv[1])\n(target/"started").touch()\n'
+            'while not (target/"release").exists():time.sleep(.02)\n'
+            '(target/"trial-output").write_text("frozen")\n')
+        control = self.repo / 'control.json'; control.write_text('{}')
+        jobs.start_trial_step(script.name, [str(self.target)], job_dir=self.job,
+            target=self.target, inputs=[control], working_directory=self.repo)
+        self.wait_for(lambda s: (self.target/'started').exists())
+        jobs.cancel_job(self.job)
+        self.wait_for(lambda s: s['state']=='cancelled' and not s['worker_active'])
+        script.write_text('raise RuntimeError("mutable code executed")')
+        (self.target/'release').touch(); jobs.resume_job(self.job)
+        self.wait_for(lambda s: s['state']=='awaiting_review' and not s['worker_active'])
+        self.assertEqual((self.target/'trial-output').read_text(),'frozen')
+        self.assertFalse(json.loads((self.job/'result.json').read_text())['content_ready'])
+
+    def test_trial_script_rejects_changed_control_and_production_action(self):
+        scripts = self.repo / 'scripts'; scripts.mkdir()
+        script = scripts / 'prepare_review_packets.py'
+        script.write_text('import sys\nfrom pathlib import Path\nPath(sys.argv[1]).write_text("changed")\n')
+        control = self.repo / 'control.json'; control.write_text('{}')
+        with self.assertRaises(SafetyError):
+            jobs.start_trial_step('acquire_content.py',['stage'],job_dir=self.job,target=self.target)
+        jobs.start_trial_step(script.name,[str(control)],job_dir=self.job,target=self.target,inputs=[control])
+        state=self.wait_for(lambda s: s['state']=='failed' and not s['worker_active'])
+        self.assertIn('control input changed',state['error'])
+        self.assertFalse((self.job/'result.json').exists())
+
     def test_heartbeat_cancellation_and_resume_use_captured_source(self):
         (self.target / "mode").write_text("wait")
         launched = self.start()

@@ -1,0 +1,970 @@
+{
+  "budget": {
+    "cache_bytes": 0,
+    "download_bytes": 53611,
+    "expanded_bytes": 0,
+    "preview_bytes": 0,
+    "scratch_bytes": 0
+  },
+  "content_ready": false,
+  "id": "ocw-python-thumbnails-v1",
+  "kind": "acquisition",
+  "metadata_allowance_bytes": 1387692,
+  "profile": "full-1tb",
+  "review_requirements": [
+    "Observed full-file SHA-256, JPEG integrity, publisher linkage and notices before admission.",
+    "Supporting thumbnails add no knowledge content."
+  ],
+  "schema_version": 1,
+  "sources": [
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain individual publisher notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Original publisher-linked thumbnail; whole-file capture and image/notice review pending.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_thumbnail_10832cae893b32370a02.jpg",
+        "format": "jpg",
+        "id": "ocw_thumbnail_10832cae893b32370a02",
+        "illustrated": false,
+        "language": "en",
+        "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 4854,
+        "source_page": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-8-object-oriented-programming/",
+        "source_url": "https://img.youtube.com/vi/-DP1i2ZU9gk/default.jpg",
+        "status": "unresolved",
+        "supporting_file": true,
+        "title": "Lecture 8: Object Oriented Programming \u2014 publisher thumbnail",
+        "unresolved_reason": "Whole-file SHA-256 capture and image/notice review pending.",
+        "version": "observed-head:2026-09-23T13:20:04.569969+00:00"
+      },
+      "id": "ocw_thumbnail_10832cae893b32370a02",
+      "metadata_evidence": [
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-23T13:20:04.569969+00:00",
+            "final_url": "https://img.youtube.com/vi/-DP1i2ZU9gk/default.jpg",
+            "headers": {
+              "content-length": "4854",
+              "content-type": "image/jpeg",
+              "etag": "\"0\""
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://img.youtube.com/vi/-DP1i2ZU9gk/default.jpg"
+          },
+          "sha256": "20c2609ea113cedbd5347c9a98e20a0ad48826058c14a8d914651766c5b5a02c",
+          "url": "https://img.youtube.com/vi/-DP1i2ZU9gk/default.jpg"
+        },
+        {
+          "kind": "captured-course-metadata",
+          "sha256": "9d4f181eb1738d27bb0fc8ff918b2dba2ed19920469ca56aa28d9ca24f668f27",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-8-object-oriented-programming/"
+        }
+      ],
+      "publisher_checksums": {},
+      "publisher_course_bindings": [
+        {
+          "course_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "lesson_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-8-object-oriented-programming/",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-8-object-oriented-programming/data.json",
+            "sha256": "9d4f181eb1738d27bb0fc8ff918b2dba2ed19920469ca56aa28d9ca24f668f27",
+            "size_bytes": 1735
+          },
+          "source_id": "ocw_7e55e144fe6cbdddc748",
+          "source_sha256": "de2590404991dd990236a8d53ee9c2eea2495ea81a5721038bc25cead14ac736",
+          "title": "Lecture 8: Object Oriented Programming"
+        }
+      ],
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 4854,
+      "source_url": "https://img.youtube.com/vi/-DP1i2ZU9gk/default.jpg",
+      "version": "observed-head:2026-09-23T13:20:04.569969+00:00"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain individual publisher notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Original publisher-linked thumbnail; whole-file capture and image/notice review pending.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_thumbnail_efdac82c09c45c050d71.jpg",
+        "format": "jpg",
+        "id": "ocw_thumbnail_efdac82c09c45c050d71",
+        "illustrated": false,
+        "language": "en",
+        "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 4323,
+        "source_page": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-2-branching-and-iteration/",
+        "source_url": "https://img.youtube.com/vi/0jljZRnHwOI/default.jpg",
+        "status": "unresolved",
+        "supporting_file": true,
+        "title": "Lecture 2: Branching and Iteration \u2014 publisher thumbnail",
+        "unresolved_reason": "Whole-file SHA-256 capture and image/notice review pending.",
+        "version": "observed-head:2026-09-23T13:20:04.685506+00:00"
+      },
+      "id": "ocw_thumbnail_efdac82c09c45c050d71",
+      "metadata_evidence": [
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-23T13:20:04.685506+00:00",
+            "final_url": "https://img.youtube.com/vi/0jljZRnHwOI/default.jpg",
+            "headers": {
+              "content-length": "4323",
+              "content-type": "image/jpeg",
+              "etag": "\"0\""
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://img.youtube.com/vi/0jljZRnHwOI/default.jpg"
+          },
+          "sha256": "fd7f4a7d3f8f1d554d887f3f44215ce244c1deeaf8b116560c1aba6c2e379024",
+          "url": "https://img.youtube.com/vi/0jljZRnHwOI/default.jpg"
+        },
+        {
+          "kind": "captured-course-metadata",
+          "sha256": "6d8395255c82b4f1828b7b13509de9566440aa4dca2b24010eb647fb03ea7165",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-2-branching-and-iteration/"
+        }
+      ],
+      "publisher_checksums": {},
+      "publisher_course_bindings": [
+        {
+          "course_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "lesson_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-2-branching-and-iteration/",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-2-branching-and-iteration/data.json",
+            "sha256": "6d8395255c82b4f1828b7b13509de9566440aa4dca2b24010eb647fb03ea7165",
+            "size_bytes": 1827
+          },
+          "source_id": "ocw_7e55e144fe6cbdddc748",
+          "source_sha256": "de2590404991dd990236a8d53ee9c2eea2495ea81a5721038bc25cead14ac736",
+          "title": "Lecture 2: Branching and Iteration"
+        }
+      ],
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 4323,
+      "source_url": "https://img.youtube.com/vi/0jljZRnHwOI/default.jpg",
+      "version": "observed-head:2026-09-23T13:20:04.685506+00:00"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain individual publisher notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Original publisher-linked thumbnail; whole-file capture and image/notice review pending.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_thumbnail_cfe162462b4362b24ffa.jpg",
+        "format": "jpg",
+        "id": "ocw_thumbnail_cfe162462b4362b24ffa",
+        "illustrated": false,
+        "language": "en",
+        "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 4703,
+        "source_page": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-12-searching-and-sorting/",
+        "source_url": "https://img.youtube.com/vi/6LOwPhPDwVc/default.jpg",
+        "status": "unresolved",
+        "supporting_file": true,
+        "title": "Lecture 12: Searching and Sorting \u2014 publisher thumbnail",
+        "unresolved_reason": "Whole-file SHA-256 capture and image/notice review pending.",
+        "version": "observed-head:2026-09-23T13:20:04.782591+00:00"
+      },
+      "id": "ocw_thumbnail_cfe162462b4362b24ffa",
+      "metadata_evidence": [
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-23T13:20:04.782591+00:00",
+            "final_url": "https://img.youtube.com/vi/6LOwPhPDwVc/default.jpg",
+            "headers": {
+              "content-length": "4703",
+              "content-type": "image/jpeg",
+              "etag": "\"0\""
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://img.youtube.com/vi/6LOwPhPDwVc/default.jpg"
+          },
+          "sha256": "4deab4349f41006fb76f80394280aa99fafb0a234129461583d8519882336773",
+          "url": "https://img.youtube.com/vi/6LOwPhPDwVc/default.jpg"
+        },
+        {
+          "kind": "captured-course-metadata",
+          "sha256": "d59cc5510e9e63d09acbef7bb19b828e7fdc2e0fec300497be02b9d969f71ff5",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-12-searching-and-sorting/"
+        }
+      ],
+      "publisher_checksums": {},
+      "publisher_course_bindings": [
+        {
+          "course_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "lesson_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-12-searching-and-sorting/",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-12-searching-and-sorting/data.json",
+            "sha256": "d59cc5510e9e63d09acbef7bb19b828e7fdc2e0fec300497be02b9d969f71ff5",
+            "size_bytes": 1850
+          },
+          "source_id": "ocw_7e55e144fe6cbdddc748",
+          "source_sha256": "de2590404991dd990236a8d53ee9c2eea2495ea81a5721038bc25cead14ac736",
+          "title": "Lecture 12: Searching and Sorting"
+        }
+      ],
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 4703,
+      "source_url": "https://img.youtube.com/vi/6LOwPhPDwVc/default.jpg",
+      "version": "observed-head:2026-09-23T13:20:04.782591+00:00"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain individual publisher notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Original publisher-linked thumbnail; whole-file capture and image/notice review pending.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_thumbnail_a9fe4e25eb63e09e78fc.jpg",
+        "format": "jpg",
+        "id": "ocw_thumbnail_a9fe4e25eb63e09e78fc",
+        "illustrated": false,
+        "language": "en",
+        "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 4272,
+        "source_page": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-11-understanding-program-efficiency-part-2/",
+        "source_url": "https://img.youtube.com/vi/7lQXYl_L28w/default.jpg",
+        "status": "unresolved",
+        "supporting_file": true,
+        "title": "Lecture 11: Understanding Program Efficiency, Part 2 \u2014 publisher thumbnail",
+        "unresolved_reason": "Whole-file SHA-256 capture and image/notice review pending.",
+        "version": "observed-head:2026-09-23T13:20:04.931720+00:00"
+      },
+      "id": "ocw_thumbnail_a9fe4e25eb63e09e78fc",
+      "metadata_evidence": [
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-23T13:20:04.931720+00:00",
+            "final_url": "https://img.youtube.com/vi/7lQXYl_L28w/default.jpg",
+            "headers": {
+              "content-length": "4272",
+              "content-type": "image/jpeg",
+              "etag": "\"0\""
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://img.youtube.com/vi/7lQXYl_L28w/default.jpg"
+          },
+          "sha256": "ccb3fa2f5363aa3c4b2039b5e367d27d58bea880394e394ec572f91ef172fda5",
+          "url": "https://img.youtube.com/vi/7lQXYl_L28w/default.jpg"
+        },
+        {
+          "kind": "captured-course-metadata",
+          "sha256": "962bdf87f9ee2f06d0e6032ae0187e3336d5245f8c2c69f20eb72ab6028e09d0",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-11-understanding-program-efficiency-part-2/"
+        }
+      ],
+      "publisher_checksums": {},
+      "publisher_course_bindings": [
+        {
+          "course_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "lesson_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-11-understanding-program-efficiency-part-2/",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-11-understanding-program-efficiency-part-2/data.json",
+            "sha256": "962bdf87f9ee2f06d0e6032ae0187e3336d5245f8c2c69f20eb72ab6028e09d0",
+            "size_bytes": 1864
+          },
+          "source_id": "ocw_7e55e144fe6cbdddc748",
+          "source_sha256": "de2590404991dd990236a8d53ee9c2eea2495ea81a5721038bc25cead14ac736",
+          "title": "Lecture 11: Understanding Program Efficiency, Part 2"
+        }
+      ],
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 4272,
+      "source_url": "https://img.youtube.com/vi/7lQXYl_L28w/default.jpg",
+      "version": "observed-head:2026-09-23T13:20:04.931720+00:00"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain individual publisher notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Original publisher-linked thumbnail; whole-file capture and image/notice review pending.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_thumbnail_5d0ba65b025b7384f17f.jpg",
+        "format": "jpg",
+        "id": "ocw_thumbnail_5d0ba65b025b7384f17f",
+        "illustrated": false,
+        "language": "en",
+        "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 4459,
+        "source_page": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-7-testing-debugging-exceptions-and-assertions/",
+        "source_url": "https://img.youtube.com/vi/9H6muyZjms0/default.jpg",
+        "status": "unresolved",
+        "supporting_file": true,
+        "title": "Lecture 7: Testing, Debugging, Exceptions, and Assertions \u2014 publisher thumbnail",
+        "unresolved_reason": "Whole-file SHA-256 capture and image/notice review pending.",
+        "version": "observed-head:2026-09-23T13:20:05.166653+00:00"
+      },
+      "id": "ocw_thumbnail_5d0ba65b025b7384f17f",
+      "metadata_evidence": [
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-23T13:20:05.166653+00:00",
+            "final_url": "https://img.youtube.com/vi/9H6muyZjms0/default.jpg",
+            "headers": {
+              "content-length": "4459",
+              "content-type": "image/jpeg",
+              "etag": "\"0\""
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://img.youtube.com/vi/9H6muyZjms0/default.jpg"
+          },
+          "sha256": "c32ffcdeced430d230432e84cbb8b15ea60fbfb0119534e0bbe2dfce8d4cc1e6",
+          "url": "https://img.youtube.com/vi/9H6muyZjms0/default.jpg"
+        },
+        {
+          "kind": "captured-course-metadata",
+          "sha256": "2fa74f53a822a98b48fdd3d2d6869f8df80dafa837731d961914ab64400001af",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-7-testing-debugging-exceptions-and-assertions/"
+        }
+      ],
+      "publisher_checksums": {},
+      "publisher_course_bindings": [
+        {
+          "course_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "lesson_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-7-testing-debugging-exceptions-and-assertions/",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-7-testing-debugging-exceptions-and-assertions/data.json",
+            "sha256": "2fa74f53a822a98b48fdd3d2d6869f8df80dafa837731d961914ab64400001af",
+            "size_bytes": 1782
+          },
+          "source_id": "ocw_7e55e144fe6cbdddc748",
+          "source_sha256": "de2590404991dd990236a8d53ee9c2eea2495ea81a5721038bc25cead14ac736",
+          "title": "Lecture 7: Testing, Debugging, Exceptions, and Assertions"
+        }
+      ],
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 4459,
+      "source_url": "https://img.youtube.com/vi/9H6muyZjms0/default.jpg",
+      "version": "observed-head:2026-09-23T13:20:05.166653+00:00"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain individual publisher notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Original publisher-linked thumbnail; whole-file capture and image/notice review pending.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_thumbnail_00caa720656aeec3e2a0.jpg",
+        "format": "jpg",
+        "id": "ocw_thumbnail_00caa720656aeec3e2a0",
+        "illustrated": false,
+        "language": "en",
+        "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 4803,
+        "source_page": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-9-python-classes-and-inheritance/",
+        "source_url": "https://img.youtube.com/vi/FlGjISF3l78/default.jpg",
+        "status": "unresolved",
+        "supporting_file": true,
+        "title": "Lecture 9: Python Classes and Inheritance \u2014 publisher thumbnail",
+        "unresolved_reason": "Whole-file SHA-256 capture and image/notice review pending.",
+        "version": "observed-head:2026-09-23T13:20:05.355352+00:00"
+      },
+      "id": "ocw_thumbnail_00caa720656aeec3e2a0",
+      "metadata_evidence": [
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-23T13:20:05.355352+00:00",
+            "final_url": "https://img.youtube.com/vi/FlGjISF3l78/default.jpg",
+            "headers": {
+              "content-length": "4803",
+              "content-type": "image/jpeg",
+              "etag": "\"0\""
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://img.youtube.com/vi/FlGjISF3l78/default.jpg"
+          },
+          "sha256": "4ca09140ec0095c965c647da8f8e9456d52b4789170baf51e32883e651266b14",
+          "url": "https://img.youtube.com/vi/FlGjISF3l78/default.jpg"
+        },
+        {
+          "kind": "captured-course-metadata",
+          "sha256": "a7c87c2bc5bb44a8ae4dfe4e9208f3ced2c65c6c9d0c76e76690afa57c07f37b",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-9-python-classes-and-inheritance/"
+        }
+      ],
+      "publisher_checksums": {},
+      "publisher_course_bindings": [
+        {
+          "course_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "lesson_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-9-python-classes-and-inheritance/",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-9-python-classes-and-inheritance/data.json",
+            "sha256": "a7c87c2bc5bb44a8ae4dfe4e9208f3ced2c65c6c9d0c76e76690afa57c07f37b",
+            "size_bytes": 1828
+          },
+          "source_id": "ocw_7e55e144fe6cbdddc748",
+          "source_sha256": "de2590404991dd990236a8d53ee9c2eea2495ea81a5721038bc25cead14ac736",
+          "title": "Lecture 9: Python Classes and Inheritance"
+        }
+      ],
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 4803,
+      "source_url": "https://img.youtube.com/vi/FlGjISF3l78/default.jpg",
+      "version": "observed-head:2026-09-23T13:20:05.355352+00:00"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain individual publisher notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Original publisher-linked thumbnail; whole-file capture and image/notice review pending.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_thumbnail_9c7d19c7ebde42b330f5.jpg",
+        "format": "jpg",
+        "id": "ocw_thumbnail_9c7d19c7ebde42b330f5",
+        "illustrated": false,
+        "language": "en",
+        "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 4560,
+        "source_page": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-4-decomposition-abstraction-and-functions/",
+        "source_url": "https://img.youtube.com/vi/MjbuarJ7SE0/default.jpg",
+        "status": "unresolved",
+        "supporting_file": true,
+        "title": "Lecture 4: Decomposition, Abstraction, and Functions \u2014 publisher thumbnail",
+        "unresolved_reason": "Whole-file SHA-256 capture and image/notice review pending.",
+        "version": "observed-head:2026-09-23T13:20:05.527550+00:00"
+      },
+      "id": "ocw_thumbnail_9c7d19c7ebde42b330f5",
+      "metadata_evidence": [
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-23T13:20:05.527550+00:00",
+            "final_url": "https://img.youtube.com/vi/MjbuarJ7SE0/default.jpg",
+            "headers": {
+              "content-length": "4560",
+              "content-type": "image/jpeg",
+              "etag": "\"0\""
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://img.youtube.com/vi/MjbuarJ7SE0/default.jpg"
+          },
+          "sha256": "6d5cbd4950ec01cc37e91b655c9403adc7d611e2efb1ae225df723a5d419ba5b",
+          "url": "https://img.youtube.com/vi/MjbuarJ7SE0/default.jpg"
+        },
+        {
+          "kind": "captured-course-metadata",
+          "sha256": "a983580dc16c793200eb8dbcd30cb832fe394c601b28d54b3a360da2b6dcc778",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-4-decomposition-abstraction-and-functions/"
+        }
+      ],
+      "publisher_checksums": {},
+      "publisher_course_bindings": [
+        {
+          "course_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "lesson_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-4-decomposition-abstraction-and-functions/",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-4-decomposition-abstraction-and-functions/data.json",
+            "sha256": "a983580dc16c793200eb8dbcd30cb832fe394c601b28d54b3a360da2b6dcc778",
+            "size_bytes": 1845
+          },
+          "source_id": "ocw_7e55e144fe6cbdddc748",
+          "source_sha256": "de2590404991dd990236a8d53ee9c2eea2495ea81a5721038bc25cead14ac736",
+          "title": "Lecture 4: Decomposition, Abstraction, and Functions"
+        }
+      ],
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 4560,
+      "source_url": "https://img.youtube.com/vi/MjbuarJ7SE0/default.jpg",
+      "version": "observed-head:2026-09-23T13:20:05.527550+00:00"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain individual publisher notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Original publisher-linked thumbnail; whole-file capture and image/notice review pending.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_thumbnail_52046485ab1414b4c141.jpg",
+        "format": "jpg",
+        "id": "ocw_thumbnail_52046485ab1414b4c141",
+        "illustrated": false,
+        "language": "en",
+        "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 4772,
+        "source_page": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-5-tuples-lists-aliasing-mutability-and-cloning/",
+        "source_url": "https://img.youtube.com/vi/RvRKT-jXvko/default.jpg",
+        "status": "unresolved",
+        "supporting_file": true,
+        "title": "Lecture 5: Tuples, Lists, Aliasing, Mutability, and Cloning \u2014 publisher thumbnail",
+        "unresolved_reason": "Whole-file SHA-256 capture and image/notice review pending.",
+        "version": "observed-head:2026-09-23T13:20:05.686403+00:00"
+      },
+      "id": "ocw_thumbnail_52046485ab1414b4c141",
+      "metadata_evidence": [
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-23T13:20:05.686403+00:00",
+            "final_url": "https://img.youtube.com/vi/RvRKT-jXvko/default.jpg",
+            "headers": {
+              "content-length": "4772",
+              "content-type": "image/jpeg",
+              "etag": "\"0\""
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://img.youtube.com/vi/RvRKT-jXvko/default.jpg"
+          },
+          "sha256": "cecd0e489980690f35b56f908e088925fa8072ffd141847be62af34a0da72074",
+          "url": "https://img.youtube.com/vi/RvRKT-jXvko/default.jpg"
+        },
+        {
+          "kind": "captured-course-metadata",
+          "sha256": "f4b76174195d962c299df201c05329dc4f22e15dac873e4511a5a396c8c4dc6e",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-5-tuples-lists-aliasing-mutability-and-cloning/"
+        }
+      ],
+      "publisher_checksums": {},
+      "publisher_course_bindings": [
+        {
+          "course_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "lesson_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-5-tuples-lists-aliasing-mutability-and-cloning/",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-5-tuples-lists-aliasing-mutability-and-cloning/data.json",
+            "sha256": "f4b76174195d962c299df201c05329dc4f22e15dac873e4511a5a396c8c4dc6e",
+            "size_bytes": 1810
+          },
+          "source_id": "ocw_7e55e144fe6cbdddc748",
+          "source_sha256": "de2590404991dd990236a8d53ee9c2eea2495ea81a5721038bc25cead14ac736",
+          "title": "Lecture 5: Tuples, Lists, Aliasing, Mutability, and Cloning"
+        }
+      ],
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 4772,
+      "source_url": "https://img.youtube.com/vi/RvRKT-jXvko/default.jpg",
+      "version": "observed-head:2026-09-23T13:20:05.686403+00:00"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain individual publisher notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Original publisher-linked thumbnail; whole-file capture and image/notice review pending.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_thumbnail_8cf9a7542b83ea1c294b.jpg",
+        "format": "jpg",
+        "id": "ocw_thumbnail_8cf9a7542b83ea1c294b",
+        "illustrated": false,
+        "language": "en",
+        "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 4516,
+        "source_page": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-3-string-manipulation-guess-and-check-approximations-bisection/",
+        "source_url": "https://img.youtube.com/vi/SE4P7IVCunE/default.jpg",
+        "status": "unresolved",
+        "supporting_file": true,
+        "title": "Lecture 3: String Manipulation, Guess and Check, Approximations, Bisection \u2014 publisher thumbnail",
+        "unresolved_reason": "Whole-file SHA-256 capture and image/notice review pending.",
+        "version": "observed-head:2026-09-23T13:20:05.785599+00:00"
+      },
+      "id": "ocw_thumbnail_8cf9a7542b83ea1c294b",
+      "metadata_evidence": [
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-23T13:20:05.785599+00:00",
+            "final_url": "https://img.youtube.com/vi/SE4P7IVCunE/default.jpg",
+            "headers": {
+              "content-length": "4516",
+              "content-type": "image/jpeg",
+              "etag": "\"0\""
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://img.youtube.com/vi/SE4P7IVCunE/default.jpg"
+          },
+          "sha256": "34364aef9039cc758542ca9e3f9a71d2dc2a972d5474a76066471e4b8fcaefe6",
+          "url": "https://img.youtube.com/vi/SE4P7IVCunE/default.jpg"
+        },
+        {
+          "kind": "captured-course-metadata",
+          "sha256": "17f98f8ae9488eb110f5b6c94e20342b057ef19b8e958a5b0e51390835b2357c",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-3-string-manipulation-guess-and-check-approximations-bisection/"
+        }
+      ],
+      "publisher_checksums": {},
+      "publisher_course_bindings": [
+        {
+          "course_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "lesson_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-3-string-manipulation-guess-and-check-approximations-bisection/",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-3-string-manipulation-guess-and-check-approximations-bisection/data.json",
+            "sha256": "17f98f8ae9488eb110f5b6c94e20342b057ef19b8e958a5b0e51390835b2357c",
+            "size_bytes": 1817
+          },
+          "source_id": "ocw_7e55e144fe6cbdddc748",
+          "source_sha256": "de2590404991dd990236a8d53ee9c2eea2495ea81a5721038bc25cead14ac736",
+          "title": "Lecture 3: String Manipulation, Guess and Check, Approximations, Bisection"
+        }
+      ],
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 4516,
+      "source_url": "https://img.youtube.com/vi/SE4P7IVCunE/default.jpg",
+      "version": "observed-head:2026-09-23T13:20:05.785599+00:00"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain individual publisher notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Original publisher-linked thumbnail; whole-file capture and image/notice review pending.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_thumbnail_e4bcd9a6ef35e8d1f60f.jpg",
+        "format": "jpg",
+        "id": "ocw_thumbnail_e4bcd9a6ef35e8d1f60f",
+        "illustrated": false,
+        "language": "en",
+        "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 4522,
+        "source_page": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-6-recursion-and-dictionaries/",
+        "source_url": "https://img.youtube.com/vi/WPSeyjX1-4s/default.jpg",
+        "status": "unresolved",
+        "supporting_file": true,
+        "title": "Lecture 6: Recursion and Dictionaries \u2014 publisher thumbnail",
+        "unresolved_reason": "Whole-file SHA-256 capture and image/notice review pending.",
+        "version": "observed-head:2026-09-23T13:20:05.939596+00:00"
+      },
+      "id": "ocw_thumbnail_e4bcd9a6ef35e8d1f60f",
+      "metadata_evidence": [
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-23T13:20:05.939596+00:00",
+            "final_url": "https://img.youtube.com/vi/WPSeyjX1-4s/default.jpg",
+            "headers": {
+              "content-length": "4522",
+              "content-type": "image/jpeg",
+              "etag": "\"0\""
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://img.youtube.com/vi/WPSeyjX1-4s/default.jpg"
+          },
+          "sha256": "3066183b4085f9bd7ed0d8c65f1c0ddfb718cf419858a3b8f089b41604a29146",
+          "url": "https://img.youtube.com/vi/WPSeyjX1-4s/default.jpg"
+        },
+        {
+          "kind": "captured-course-metadata",
+          "sha256": "0d150367cb559338cae67a1f0905798af462a763d602f1b11a7245bca063ec61",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-6-recursion-and-dictionaries/"
+        }
+      ],
+      "publisher_checksums": {},
+      "publisher_course_bindings": [
+        {
+          "course_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "lesson_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-6-recursion-and-dictionaries/",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-6-recursion-and-dictionaries/data.json",
+            "sha256": "0d150367cb559338cae67a1f0905798af462a763d602f1b11a7245bca063ec61",
+            "size_bytes": 1765
+          },
+          "source_id": "ocw_7e55e144fe6cbdddc748",
+          "source_sha256": "de2590404991dd990236a8d53ee9c2eea2495ea81a5721038bc25cead14ac736",
+          "title": "Lecture 6: Recursion and Dictionaries"
+        }
+      ],
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 4522,
+      "source_url": "https://img.youtube.com/vi/WPSeyjX1-4s/default.jpg",
+      "version": "observed-head:2026-09-23T13:20:05.939596+00:00"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain individual publisher notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Original publisher-linked thumbnail; whole-file capture and image/notice review pending.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_thumbnail_6228cfef953d3f95f17f.jpg",
+        "format": "jpg",
+        "id": "ocw_thumbnail_6228cfef953d3f95f17f",
+        "illustrated": false,
+        "language": "en",
+        "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 3185,
+        "source_page": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-1-what-is-computation/",
+        "source_url": "https://img.youtube.com/vi/nykOeWgQcHM/default.jpg",
+        "status": "unresolved",
+        "supporting_file": true,
+        "title": "Lecture 1: What is Computation? \u2014 publisher thumbnail",
+        "unresolved_reason": "Whole-file SHA-256 capture and image/notice review pending.",
+        "version": "observed-head:2026-09-23T13:20:06.046903+00:00"
+      },
+      "id": "ocw_thumbnail_6228cfef953d3f95f17f",
+      "metadata_evidence": [
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-23T13:20:06.046903+00:00",
+            "final_url": "https://img.youtube.com/vi/nykOeWgQcHM/default.jpg",
+            "headers": {
+              "content-length": "3185",
+              "content-type": "image/jpeg",
+              "etag": "\"1686328269\""
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://img.youtube.com/vi/nykOeWgQcHM/default.jpg"
+          },
+          "sha256": "d7565830c1cc723247956ba587b432cc35fb68b22dca7b6c49396c6d4660f379",
+          "url": "https://img.youtube.com/vi/nykOeWgQcHM/default.jpg"
+        },
+        {
+          "kind": "captured-course-metadata",
+          "sha256": "93f7526b72e64e4db5d4ccca850ebc29c30e37ed709be284ddb57933e0c9c283",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-1-what-is-computation/"
+        }
+      ],
+      "publisher_checksums": {},
+      "publisher_course_bindings": [
+        {
+          "course_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "lesson_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-1-what-is-computation/",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-1-what-is-computation/data.json",
+            "sha256": "93f7526b72e64e4db5d4ccca850ebc29c30e37ed709be284ddb57933e0c9c283",
+            "size_bytes": 1835
+          },
+          "source_id": "ocw_7e55e144fe6cbdddc748",
+          "source_sha256": "de2590404991dd990236a8d53ee9c2eea2495ea81a5721038bc25cead14ac736",
+          "title": "Lecture 1: What is Computation?"
+        }
+      ],
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 3185,
+      "source_url": "https://img.youtube.com/vi/nykOeWgQcHM/default.jpg",
+      "version": "observed-head:2026-09-23T13:20:06.046903+00:00"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain individual publisher notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Original publisher-linked thumbnail; whole-file capture and image/notice review pending.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_thumbnail_05ab899201b68d47a376.jpg",
+        "format": "jpg",
+        "id": "ocw_thumbnail_05ab899201b68d47a376",
+        "illustrated": false,
+        "language": "en",
+        "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 4642,
+        "source_page": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-10-understanding-program-efficiency-part-1/",
+        "source_url": "https://img.youtube.com/vi/o9nW0uBqvEo/default.jpg",
+        "status": "unresolved",
+        "supporting_file": true,
+        "title": "Lecture 10: Understanding Program Efficiency, Part 1 \u2014 publisher thumbnail",
+        "unresolved_reason": "Whole-file SHA-256 capture and image/notice review pending.",
+        "version": "observed-head:2026-09-23T13:20:06.131278+00:00"
+      },
+      "id": "ocw_thumbnail_05ab899201b68d47a376",
+      "metadata_evidence": [
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-23T13:20:06.131278+00:00",
+            "final_url": "https://img.youtube.com/vi/o9nW0uBqvEo/default.jpg",
+            "headers": {
+              "content-length": "4642",
+              "content-type": "image/jpeg",
+              "etag": "\"0\""
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://img.youtube.com/vi/o9nW0uBqvEo/default.jpg"
+          },
+          "sha256": "5742e9cf6e1b737582833d38ba3ceacf08aae74ae650e221468507361565c400",
+          "url": "https://img.youtube.com/vi/o9nW0uBqvEo/default.jpg"
+        },
+        {
+          "kind": "captured-course-metadata",
+          "sha256": "216b9cd5408543c5b4a73c347066e2ab67af50b708e31efb4e9d512e1ba0ef42",
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-10-understanding-program-efficiency-part-1/"
+        }
+      ],
+      "publisher_checksums": {},
+      "publisher_course_bindings": [
+        {
+          "course_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/",
+          "lesson_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/resources/lecture-10-understanding-program-efficiency-part-1/",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-10-understanding-program-efficiency-part-1/data.json",
+            "sha256": "216b9cd5408543c5b4a73c347066e2ab67af50b708e31efb4e9d512e1ba0ef42",
+            "size_bytes": 1897
+          },
+          "source_id": "ocw_7e55e144fe6cbdddc748",
+          "source_sha256": "de2590404991dd990236a8d53ee9c2eea2495ea81a5721038bc25cead14ac736",
+          "title": "Lecture 10: Understanding Program Efficiency, Part 1"
+        }
+      ],
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 4642,
+      "source_url": "https://img.youtube.com/vi/o9nW0uBqvEo/default.jpg",
+      "version": "observed-head:2026-09-23T13:20:06.131278+00:00"
+    }
+  ],
+  "storage_peak_bytes": 1441303
+}

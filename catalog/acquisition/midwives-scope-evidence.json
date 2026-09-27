@@ -1,0 +1,679 @@
+{
+  "absent_publisher_appendix": {
+    "clinical_section_in_publisher_book_toc": false,
+    "notice_location": "Copyright, edition, contributors and illustration notices are preserved in the verified front matter.",
+    "optional_exclusion_review": "Proposed only for the publisher Other resources appendix. Do not claim its unseen pages are verified or the uncaptured whole-book PDF is complete.",
+    "page_count": null,
+    "page_numbers": null,
+    "status": "not-captured"
+  },
+  "all_catalog_whole_file_pins_verified": true,
+  "content_ready": false,
+  "duplicate_printed_labels": {},
+  "equivalence_review": {
+    "compared_non_midwives_pdf_sources": 109,
+    "entire_midwives_replacement_established": false,
+    "missing_local_sources": [],
+    "remaining_specific_equivalence_requirements": [
+      "Full stepwise IUD loading/insertion/removal protocol and illustrations, rather than indications, risks and referral advice.",
+      "Cut-out rotating due-date wheel template, rather than a reference to using a pregnancy wheel.",
+      "Detailed anatomical pelvis/womb/vagina and placenta/cord/baby model construction; simpler birth-box, birth-pants and flexibaby alternatives are present.",
+      "Contemporary clinical/regimen equivalence and audience qualifications across Midwives2026, MSF obstetric2019 and other included editions."
+    ],
+    "retain_current_midwives_sources": true,
+    "whole_file_pins_verified": true
+  },
+  "free_official_head_checks": [
+    {
+      "blockers": [
+        "Source HEAD returned HTTP 404; availability is unresolved"
+      ],
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T13:24:18.931847+00:00",
+          "final_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_bm.pdf",
+          "headers": {
+            "content-type": "text/html; charset=UTF-8"
+          },
+          "method": "HEAD",
+          "status": 404,
+          "url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_bm.pdf"
+        }
+      ],
+      "id": "midwives_2026_bm",
+      "sha256": null,
+      "size_bytes": null,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_bm.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source HEAD returned HTTP 404; availability is unresolved"
+      ],
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T13:24:19.399436+00:00",
+          "final_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_full.pdf",
+          "headers": {
+            "content-type": "text/html; charset=UTF-8"
+          },
+          "method": "HEAD",
+          "status": 404,
+          "url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_full.pdf"
+        }
+      ],
+      "id": "midwives_2026_full",
+      "sha256": null,
+      "size_bytes": null,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_full.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source HEAD returned HTTP 404; availability is unresolved"
+      ],
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T13:24:19.934176+00:00",
+          "final_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_Full_Book.pdf",
+          "headers": {
+            "content-type": "text/html; charset=UTF-8"
+          },
+          "method": "HEAD",
+          "status": 404,
+          "url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_Full_Book.pdf"
+        }
+      ],
+      "id": "midwives_2026_full_book_caps",
+      "sha256": null,
+      "size_bytes": null,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_Full_Book.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source HEAD returned HTTP 404; availability is unresolved"
+      ],
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T13:24:20.387045+00:00",
+          "final_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_full_book.pdf",
+          "headers": {
+            "content-type": "text/html; charset=UTF-8"
+          },
+          "method": "HEAD",
+          "status": 404,
+          "url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_full_book.pdf"
+        }
+      ],
+      "id": "midwives_2026_full_book",
+      "sha256": null,
+      "size_bytes": null,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_full_book.pdf",
+      "status": "pending"
+    }
+  ],
+  "missing_printed_page_labels": [
+    391
+  ],
+  "page_391": {
+    "after": {
+      "printed_first_page": 392,
+      "source_id": "hesperian_en_midw_2026_21"
+    },
+    "before": {
+      "pdf_pages": 19,
+      "printed_last_page": 390,
+      "source_id": "hesperian_en_midw_2026_20"
+    },
+    "blank_page_confirmed": false,
+    "clinical_content_missing_identified": false,
+    "full_included_book_text_references_to_391": 0,
+    "status": "unresolved-publisher-pagination-exception"
+  },
+  "printed_page_labels_found_count": 530,
+  "publisher_download_index": {
+    "checked_at": "2026-09-23T03:00:09.276469+00:00",
+    "sha256": "2d7762391a8d39f161fe7c0a8689b2526f0ac795d2447f241e7d6e542df77c94",
+    "unavailable_link": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_bm.pdf",
+    "unavailable_link_label": "Other resources from Hesperian",
+    "url": "https://languages.hesperian.org/pages/en/pdf.html"
+  },
+  "reproduction": {
+    "detailed_scope_sha256": "6a9cb78eda77ceae426648efb311eea30a7c7ba38352ab48aaecf55935045030",
+    "scope_script": "scripts/inspect_midwives_scope.py",
+    "topic_evidence_sha256": "4e48b05850dc23d198d92e7aefe8f984c974eba45488ff237dd38a83891b6519",
+    "topic_recipe": "catalog/acquisition/maternal-coverage-probes.json",
+    "topic_script": "scripts/inspect_pdf_topic_coverage.py"
+  },
+  "required_review": [
+    "Resolve or explicitly disclose the publisher-omitted printed page391; it has not been proven blank.",
+    "Decide whether the unavailable Other resources appendix is an optional scope exclusion, while retaining all31 intact same-edition publisher PDFs.",
+    "Do not remove the whole book based on broad topic overlaps or keyword matches."
+  ],
+  "resource_id": "hesperian-health",
+  "schema_version": 1,
+  "source_count": 31,
+  "source_pdf_pages": 546,
+  "source_scope": [
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_01",
+      "pdf_page_count": 16,
+      "printed_ranges": [
+        [
+          1,
+          11
+        ]
+      ],
+      "sha256": "1c82e82aaf8cb4686b1071f7d4914dced2eafd01afa56f90fdf05611d2963397",
+      "size_bytes": 1024356,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_01.pdf",
+      "unlabelled_pdf_pages": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_02",
+      "pdf_page_count": 14,
+      "printed_ranges": [
+        [
+          12,
+          25
+        ]
+      ],
+      "sha256": "d2f2b64feb726c72dd73374b0a89a667a0bedc00b747b0b951cecc0af13d3653",
+      "size_bytes": 1174628,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_02.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_03",
+      "pdf_page_count": 6,
+      "printed_ranges": [
+        [
+          26,
+          31
+        ]
+      ],
+      "sha256": "57a8fd0062a41f93122ca553de2e092406d9a4e862bcea7bc64bc16ca3e772cc",
+      "size_bytes": 719121,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_03.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_04",
+      "pdf_page_count": 16,
+      "printed_ranges": [
+        [
+          32,
+          47
+        ]
+      ],
+      "sha256": "01666326868be7d8b4d7a0ebf465e96328b0eeb0559e1a15a9eef9a07d0ee180",
+      "size_bytes": 1176569,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_04.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_05",
+      "pdf_page_count": 22,
+      "printed_ranges": [
+        [
+          48,
+          69
+        ]
+      ],
+      "sha256": "79a50323fd4cc9793bdf69b495f8015283f980fd2e5c0bcd066f0cc74b013db7",
+      "size_bytes": 1109301,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_05.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_06",
+      "pdf_page_count": 14,
+      "printed_ranges": [
+        [
+          70,
+          83
+        ]
+      ],
+      "sha256": "c695678e927fb08cdc3abf0afb624a1fe260df22d0148a22c3d35a312b94182f",
+      "size_bytes": 1040795,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_06.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_07",
+      "pdf_page_count": 24,
+      "printed_ranges": [
+        [
+          84,
+          107
+        ]
+      ],
+      "sha256": "469c1077f5847a4bbce8719baff9a8f0ddb97f488464a9178f9c803abb1c8954",
+      "size_bytes": 1314483,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_07.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_08",
+      "pdf_page_count": 38,
+      "printed_ranges": [
+        [
+          108,
+          145
+        ]
+      ],
+      "sha256": "21a8717dc85e99fcb2ec6965eaa954f3d4a4ccd6c8cfd5f4f15aefd6492cf0e1",
+      "size_bytes": 1438400,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_08.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_09",
+      "pdf_page_count": 8,
+      "printed_ranges": [
+        [
+          146,
+          153
+        ]
+      ],
+      "sha256": "82488b4ae5d0c0438f012bda0456cefb4861c19164a5057f1037b0ac3712814f",
+      "size_bytes": 787050,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_09.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_10",
+      "pdf_page_count": 12,
+      "printed_ranges": [
+        [
+          154,
+          165
+        ]
+      ],
+      "sha256": "9d1c2decb2a2fd71bb373420806f6194034e28fac0d2ac9451812ce35ee118a8",
+      "size_bytes": 871397,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_10.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_11",
+      "pdf_page_count": 28,
+      "printed_ranges": [
+        [
+          166,
+          193
+        ]
+      ],
+      "sha256": "0c9f804782d93e1002f8080f5836c9d747779fad28bf09d0bb0284a02e656923",
+      "size_bytes": 1253038,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_11.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_12",
+      "pdf_page_count": 28,
+      "printed_ranges": [
+        [
+          194,
+          221
+        ]
+      ],
+      "sha256": "0273b6605e20fcb90ea131f29ce585e9d3a9dc2ff4165aa08884c64d7f4b6353",
+      "size_bytes": 1237543,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_12.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_13",
+      "pdf_page_count": 24,
+      "printed_ranges": [
+        [
+          222,
+          245
+        ]
+      ],
+      "sha256": "bedeab6f3d495b5564a8887594272cafffd7ec5ffda73b66812bd82809123ef8",
+      "size_bytes": 1042982,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_13.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_14",
+      "pdf_page_count": 22,
+      "printed_ranges": [
+        [
+          246,
+          267
+        ]
+      ],
+      "sha256": "9507885dceabb96cef69382558201b4e0f0e52b05fbacc380cdd16325a547ca3",
+      "size_bytes": 993254,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_14.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_15",
+      "pdf_page_count": 12,
+      "printed_ranges": [
+        [
+          268,
+          279
+        ]
+      ],
+      "sha256": "6d1ef62e7b4613d4ee20588a67d17bc1f9c433255706a36ff0ac26bc3ec7f8c5",
+      "size_bytes": 798856,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_15.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_16",
+      "pdf_page_count": 16,
+      "printed_ranges": [
+        [
+          280,
+          295
+        ]
+      ],
+      "sha256": "93ae529f4043780da3e50903594fabd4cc176e971e424603b24e25df7e6c0a7b",
+      "size_bytes": 942647,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_16.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_17",
+      "pdf_page_count": 24,
+      "printed_ranges": [
+        [
+          296,
+          319
+        ]
+      ],
+      "sha256": "8d4e57157cd8a2615c2b477cf5f7ef9a26d1cbbc3868bde7eee7019ce8fc09df",
+      "size_bytes": 1058459,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_17.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_18",
+      "pdf_page_count": 18,
+      "printed_ranges": [
+        [
+          320,
+          337
+        ]
+      ],
+      "sha256": "4e50a601625d50fef6787fc09268b948c1fd5c7d54b147a944b355cec1df8ee1",
+      "size_bytes": 884409,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_18.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_19",
+      "pdf_page_count": 34,
+      "printed_ranges": [
+        [
+          338,
+          371
+        ]
+      ],
+      "sha256": "ac989ad7a34fe5f9ab352928b2b8633302aaca41bf238f43994e31b8c79fe2eb",
+      "size_bytes": 1271990,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_19.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_20",
+      "pdf_page_count": 19,
+      "printed_ranges": [
+        [
+          372,
+          390
+        ]
+      ],
+      "sha256": "348b963bad0e80de6d7c46273c91761d50c8dc7e536438441beba747de81d47f",
+      "size_bytes": 1009879,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_20.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_21",
+      "pdf_page_count": 12,
+      "printed_ranges": [
+        [
+          392,
+          403
+        ]
+      ],
+      "sha256": "ea066734886373c1636c17bd6595c9658ae6ffb916dc833c6a352e646eecda11",
+      "size_bytes": 863969,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_21.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_22",
+      "pdf_page_count": 16,
+      "printed_ranges": [
+        [
+          404,
+          419
+        ]
+      ],
+      "sha256": "b7c4d29ed7846c33002f957c22acb3b3a36912ce411687bafd85dbed333e05f0",
+      "size_bytes": 917790,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_22.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_23",
+      "pdf_page_count": 16,
+      "printed_ranges": [
+        [
+          420,
+          435
+        ]
+      ],
+      "sha256": "8fc28e922ed5232fee8c846fc610c0590c402038b1baba131b1d6094040015bb",
+      "size_bytes": 929437,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_23.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_24",
+      "pdf_page_count": 10,
+      "printed_ranges": [
+        [
+          436,
+          445
+        ]
+      ],
+      "sha256": "b2063b3d8de259eeb5434e24c1625c8dc6bd32c094a0f4e65f12392c647d2b23",
+      "size_bytes": 788834,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_24.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_25",
+      "pdf_page_count": 20,
+      "printed_ranges": [
+        [
+          446,
+          465
+        ]
+      ],
+      "sha256": "6328fb1198b710b72c5a4cf71966652942d854b8880cf0fe4b2178d188b82f32",
+      "size_bytes": 881722,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_25.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_ddc",
+      "pdf_page_count": 1,
+      "printed_ranges": [
+        [
+          531,
+          531
+        ]
+      ],
+      "sha256": "e7da533d2880ab63d185a2815a8582900249d146967bdab7e60a6160d6f9809e",
+      "size_bytes": 590134,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_ddc.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_fm",
+      "pdf_page_count": 11,
+      "printed_ranges": [],
+      "sha256": "f8e56d2ec3893152adc0b1079267189029669c0ff62f99ba9b2cd0deee3967f1",
+      "size_bytes": 784109,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_fm.pdf",
+      "unlabelled_pdf_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_gloss",
+      "pdf_page_count": 2,
+      "printed_ranges": [
+        [
+          507,
+          508
+        ]
+      ],
+      "sha256": "a3ddfba8579c6c3eab9074a4f4b707e7eece0e14082bece9374f3464f087c649",
+      "size_bytes": 497662,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_gloss.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_gp",
+      "pdf_page_count": 37,
+      "printed_ranges": [
+        [
+          466,
+          502
+        ]
+      ],
+      "sha256": "e486f564282950385507331c74224f5597ac2645f54e052e2cb6fcd1812413f4",
+      "size_bytes": 840752,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_gp.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_indx",
+      "pdf_page_count": 22,
+      "printed_ranges": [
+        [
+          509,
+          530
+        ]
+      ],
+      "sha256": "e0cca1c6f3f5c5a071e911411b2e834682016b471d9c10a072c80554bca94764",
+      "size_bytes": 636974,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_indx.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    },
+    {
+      "edition_2026_label_present": true,
+      "id": "hesperian_en_midw_2026_resc",
+      "pdf_page_count": 4,
+      "printed_ranges": [
+        [
+          503,
+          506
+        ]
+      ],
+      "sha256": "c370f42060e17e54a3813f74ada80f8a03c1b298ee47a6c90ddcd842125d9e50",
+      "size_bytes": 519255,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_resc.pdf",
+      "unlabelled_pdf_pages": [],
+      "version": "Updated ninth printing, July 2026"
+    }
+  ],
+  "status": "reviewed-scope-evidence-with-explicit-exceptions",
+  "uncaptured_whole_book_complete": false
+}

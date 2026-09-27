@@ -1,11 +1,12 @@
 {
   "architecture": "arm64",
-  "checker_sha256": "cc338c722e843c9877e9b5f8026802b01fec212ac41b03366ee6facbe5d8b81a",
+  "checker_sha256": "a7794ab035bdb1b89d0449e08c103efbfe61f6f7c12b9c774b02c3a162c51325",
   "checks": [
     "test_real_archive_normal_build_and_reuse",
     "test_real_encryption_and_changed_pin_are_rejected",
     "test_real_limits_reject_full_inventory",
     "test_real_listing_extract_reuse_and_observation",
+    "test_real_shared_xml_capture_and_two_previews",
     "test_real_traversal_archive_is_rejected",
     "test_real_write_interrupt_resumes_without_partial_promotion"
   ],
@@ -27,10 +28,10 @@
     "size_bytes": 1863192,
     "source_url": "https://github.com/ip7z/7zip/releases/download/26.03/7z2603-mac.tar.xz"
   },
-  "raw_report_sha256": "7a348f188d2cefbf0dae38d37b673c63fbab95218228d0acd4847359f0fdff61",
-  "raw_report_size_bytes": 876,
+  "raw_report_sha256": "883cc199113d4bdc2fca90ba0516a2619fb815ba6e8a3c82e1999707dc97100c",
+  "raw_report_size_bytes": 1005,
   "schema_version": 1,
-  "tests_run": 6,
+  "tests_run": 7,
   "tool": {
     "sha256": "74b0910e50ea44d9760a57fada2192cfd530ba8bffbe7b47c412a464b796cabf",
     "size_bytes": 6069184,

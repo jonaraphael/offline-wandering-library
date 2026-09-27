@@ -1,0 +1,615 @@
+{
+  "schema_version": 1,
+  "id": "complete-trial-supervisor-v1",
+  "concurrency": {
+    "downloads": 2,
+    "review": 1
+  },
+  "completion_state": "awaiting_review",
+  "content_complete": false,
+  "tasks": [
+    {
+      "id": "capture-python-release",
+      "kind": "capture",
+      "batch": "python-release",
+      "lane": "downloads"
+    },
+    {
+      "id": "capture-manuals-continuation",
+      "kind": "capture",
+      "batch": "manuals-continuation",
+      "lane": "downloads"
+    },
+    {
+      "id": "capture-direct",
+      "kind": "capture",
+      "batch": "direct",
+      "lane": "downloads"
+    },
+    {
+      "id": "capture-course-packages",
+      "kind": "capture",
+      "batch": "course-packages",
+      "lane": "downloads"
+    },
+    {
+      "id": "capture-course-thumbnails",
+      "kind": "capture",
+      "batch": "course-thumbnails",
+      "lane": "downloads"
+    },
+    {
+      "id": "capture-maps",
+      "kind": "capture",
+      "batch": "maps",
+      "lane": "downloads"
+    },
+    {
+      "id": "capture-course-media",
+      "kind": "capture",
+      "batch": "course-media",
+      "lane": "downloads"
+    },
+    {
+      "id": "capture-stackoverflow",
+      "kind": "capture",
+      "batch": "stackoverflow",
+      "lane": "downloads"
+    },
+    {
+      "id": "capture-gutenberg",
+      "kind": "capture",
+      "batch": "gutenberg",
+      "lane": "downloads"
+    },
+    {
+      "id": "python-localized-preview",
+      "kind": "script",
+      "batch": "python-release",
+      "lane": "review",
+      "script": "acquire_content.py",
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/python-3-14-7-release-html",
+        "--recipe",
+        "{workspace}/catalog/acquisition/python-3-14-7-localized-pending.recipe.json",
+        "--assets",
+        "{workspace}/catalog/acquisition/python-3-14-7-localized-pending.json",
+        "--preview-bytes",
+        "120000000",
+        "--scratch-bytes",
+        "100000000",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "depends": [
+        "capture-python-release"
+      ],
+      "inputs": [
+        "{workspace}/catalog/acquisition/python-3-14-7-localized-pending.recipe.json",
+        "{workspace}/catalog/acquisition/python-3-14-7-localized-pending.json"
+      ],
+      "checks": [
+        {
+          "path": "{staging}/python-3-14-7-release-html/previews/python-3-14-7-release-local-links-v1/preview-receipt.json",
+          "equals": {
+            "status": "preview_awaiting_review",
+            "content_ready": false
+          },
+          "lengths": {
+            "outputs": 1155
+          }
+        }
+      ]
+    },
+    {
+      "id": "python-package-audit",
+      "kind": "script",
+      "batch": "python-release",
+      "lane": "review",
+      "script": "audit_manual_dependencies.py",
+      "argv": [
+        "--staging",
+        "{staging}/python-3-14-7-release-html",
+        "--catalog",
+        "{workspace}/catalog/acquisition/python-3-14-7-localized-pending.json",
+        "--localized-recipe",
+        "{workspace}/catalog/acquisition/python-3-14-7-localized-pending.recipe.json",
+        "--output",
+        "{workspace}/.owl/acquisition/python-localized-supervised-audit.json"
+      ],
+      "depends": [
+        "python-localized-preview"
+      ],
+      "inputs": [
+        "{workspace}/catalog/acquisition/python-3-14-7-localized-pending.recipe.json",
+        "{workspace}/catalog/acquisition/python-3-14-7-localized-pending.json",
+        "{staging}/python-3-14-7-release-html/previews/python-3-14-7-release-local-links-v1/preview-receipt.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/python-localized-supervised-audit.json",
+          "equals": {
+            "status": "inspected_awaiting_review",
+            "content_ready": false,
+            "whole_package_preserved": true,
+            "missing_local_links": [],
+            "members_verified": 1155
+          }
+        }
+      ],
+      "review": "Review essential versus optional external references, navigation and browser presentation. Device certification remains pending."
+    },
+    {
+      "id": "preview-appropedia",
+      "kind": "script",
+      "batch": "direct",
+      "lane": "review",
+      "script": "trial_direct_previews.py",
+      "argv": [
+        "run",
+        "--candidates",
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "--output",
+        "{workspace}/.owl/acquisition/direct-trial",
+        "--staging",
+        "{staging}/direct-originals-1tb",
+        "--resource",
+        "appropedia"
+      ],
+      "depends": [
+        "capture-direct"
+      ],
+      "inputs": [
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "{workspace}/.owl/acquisition/direct-trial/trial.json",
+        "{workspace}/.owl/acquisition/direct-trial/appropedia-trial-v1/recipe.json",
+        "{workspace}/.owl/acquisition/direct-trial/appropedia-trial-v1/assets.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/direct-trial/appropedia-trial-v1/result.json",
+          "equals": {
+            "status": "awaiting_review",
+            "content_ready": false
+          },
+          "equal_fields": [
+            [
+              "structural.documents",
+              "structural.structural_passed"
+            ]
+          ]
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/direct-trial/appropedia-trial-v1/structure.json"
+        }
+      ]
+    },
+    {
+      "id": "sample-appropedia",
+      "kind": "script",
+      "batch": "direct",
+      "lane": "review",
+      "script": "prepare_review_packets.py",
+      "argv": [
+        "--report",
+        "{workspace}/.owl/acquisition/direct-trial/appropedia-trial-v1/structure.json",
+        "--output",
+        "{workspace}/.owl/acquisition/review-packets/appropedia-v1.json"
+      ],
+      "depends": [
+        "preview-appropedia"
+      ],
+      "inputs": [
+        "{workspace}/.owl/acquisition/direct-trial/appropedia-trial-v1/structure.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/review-packets/appropedia-v1.json",
+          "equals": {
+            "content_ready": false,
+            "review_status": "pending"
+          }
+        }
+      ],
+      "review": "Review sampled substantive excerpts and illustrations, topic usefulness, attribution and local entry links; reconcile the entire frozen work inventory before admission. Escalate any defects."
+    },
+    {
+      "id": "preview-cd3wd",
+      "kind": "script",
+      "batch": "direct",
+      "lane": "review",
+      "script": "trial_direct_previews.py",
+      "argv": [
+        "run",
+        "--candidates",
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "--output",
+        "{workspace}/.owl/acquisition/direct-trial",
+        "--staging",
+        "{staging}/direct-originals-1tb",
+        "--resource",
+        "cd3wd"
+      ],
+      "depends": [
+        "capture-direct"
+      ],
+      "inputs": [
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "{workspace}/.owl/acquisition/direct-trial/trial.json",
+        "{workspace}/.owl/acquisition/direct-trial/cd3wd-trial-v1/recipe.json",
+        "{workspace}/.owl/acquisition/direct-trial/cd3wd-trial-v1/assets.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/direct-trial/cd3wd-trial-v1/result.json",
+          "equals": {
+            "status": "awaiting_review",
+            "content_ready": false
+          },
+          "equal_fields": [
+            [
+              "structural.documents",
+              "structural.structural_passed"
+            ]
+          ]
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/direct-trial/cd3wd-trial-v1/structure.json"
+        }
+      ]
+    },
+    {
+      "id": "sample-cd3wd",
+      "kind": "script",
+      "batch": "direct",
+      "lane": "review",
+      "script": "prepare_review_packets.py",
+      "argv": [
+        "--report",
+        "{workspace}/.owl/acquisition/direct-trial/cd3wd-trial-v1/structure.json",
+        "--output",
+        "{workspace}/.owl/acquisition/review-packets/cd3wd-v1.json"
+      ],
+      "depends": [
+        "preview-cd3wd"
+      ],
+      "inputs": [
+        "{workspace}/.owl/acquisition/direct-trial/cd3wd-trial-v1/structure.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/review-packets/cd3wd-v1.json",
+          "equals": {
+            "content_ready": false,
+            "review_status": "pending"
+          }
+        }
+      ],
+      "review": "Review sampled substantive excerpts and illustrations, topic usefulness, attribution and local entry links; reconcile the entire frozen work inventory before admission. Escalate any defects."
+    },
+    {
+      "id": "preview-ifixit",
+      "kind": "script",
+      "batch": "direct",
+      "lane": "review",
+      "script": "trial_direct_previews.py",
+      "argv": [
+        "run",
+        "--candidates",
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "--output",
+        "{workspace}/.owl/acquisition/direct-trial",
+        "--staging",
+        "{staging}/direct-originals-1tb",
+        "--resource",
+        "ifixit"
+      ],
+      "depends": [
+        "capture-direct"
+      ],
+      "inputs": [
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "{workspace}/.owl/acquisition/direct-trial/trial.json",
+        "{workspace}/.owl/acquisition/direct-trial/ifixit-trial-v1/recipe.json",
+        "{workspace}/.owl/acquisition/direct-trial/ifixit-trial-v1/assets.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/direct-trial/ifixit-trial-v1/result.json",
+          "equals": {
+            "status": "awaiting_review",
+            "content_ready": false
+          },
+          "equal_fields": [
+            [
+              "structural.documents",
+              "structural.structural_passed"
+            ]
+          ]
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/direct-trial/ifixit-trial-v1/structure.json"
+        }
+      ]
+    },
+    {
+      "id": "sample-ifixit",
+      "kind": "script",
+      "batch": "direct",
+      "lane": "review",
+      "script": "prepare_review_packets.py",
+      "argv": [
+        "--report",
+        "{workspace}/.owl/acquisition/direct-trial/ifixit-trial-v1/structure.json",
+        "--output",
+        "{workspace}/.owl/acquisition/review-packets/ifixit-v1.json"
+      ],
+      "depends": [
+        "preview-ifixit"
+      ],
+      "inputs": [
+        "{workspace}/.owl/acquisition/direct-trial/ifixit-trial-v1/structure.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/review-packets/ifixit-v1.json",
+          "equals": {
+            "content_ready": false,
+            "review_status": "pending"
+          }
+        }
+      ],
+      "review": "Review sampled substantive excerpts and illustrations, topic usefulness, attribution and local entry links; reconcile the entire frozen work inventory before admission. Escalate any defects."
+    },
+    {
+      "id": "preview-low-tech-magazine",
+      "kind": "script",
+      "batch": "direct",
+      "lane": "review",
+      "script": "trial_direct_previews.py",
+      "argv": [
+        "run",
+        "--candidates",
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "--output",
+        "{workspace}/.owl/acquisition/direct-trial",
+        "--staging",
+        "{staging}/direct-originals-1tb",
+        "--resource",
+        "low-tech-magazine"
+      ],
+      "depends": [
+        "capture-direct"
+      ],
+      "inputs": [
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "{workspace}/.owl/acquisition/direct-trial/trial.json",
+        "{workspace}/.owl/acquisition/direct-trial/low-tech-magazine-trial-v1/recipe.json",
+        "{workspace}/.owl/acquisition/direct-trial/low-tech-magazine-trial-v1/assets.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/direct-trial/low-tech-magazine-trial-v1/result.json",
+          "equals": {
+            "status": "awaiting_review",
+            "content_ready": false
+          },
+          "equal_fields": [
+            [
+              "structural.documents",
+              "structural.structural_passed"
+            ]
+          ]
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/direct-trial/low-tech-magazine-trial-v1/structure.json"
+        }
+      ]
+    },
+    {
+      "id": "sample-low-tech-magazine",
+      "kind": "script",
+      "batch": "direct",
+      "lane": "review",
+      "script": "prepare_review_packets.py",
+      "argv": [
+        "--report",
+        "{workspace}/.owl/acquisition/direct-trial/low-tech-magazine-trial-v1/structure.json",
+        "--output",
+        "{workspace}/.owl/acquisition/review-packets/low-tech-magazine-v1.json"
+      ],
+      "depends": [
+        "preview-low-tech-magazine"
+      ],
+      "inputs": [
+        "{workspace}/.owl/acquisition/direct-trial/low-tech-magazine-trial-v1/structure.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/review-packets/low-tech-magazine-v1.json",
+          "equals": {
+            "content_ready": false,
+            "review_status": "pending"
+          }
+        }
+      ],
+      "review": "Review sampled substantive excerpts and illustrations, topic usefulness, attribution and local entry links; reconcile the entire frozen work inventory before admission. Escalate any defects."
+    },
+    {
+      "id": "inspect-maps",
+      "kind": "script",
+      "batch": "map-review",
+      "lane": "review",
+      "script": "inspect_map_capture.py",
+      "argv": [
+        "--staging",
+        "{staging}/maps-detailed-1tb",
+        "--output",
+        "{staging}/maps-review-1tb",
+        "--render",
+        "--output-budget-bytes",
+        "14000000000",
+        "--reserve-bytes",
+        "10000000000",
+        "--production-root",
+        "/Volumes/OWL"
+      ],
+      "depends": [
+        "capture-maps"
+      ],
+      "inputs": [],
+      "checks": [
+        {
+          "path": "{staging}/maps-review-1tb/report.json",
+          "equals": {
+            "content_ready": false
+          },
+          "equal_fields": [
+            [
+              "requested_sources",
+              "inspected_sources"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sample-maps",
+      "kind": "script",
+      "batch": "map-review",
+      "lane": "review",
+      "script": "prepare_review_packets.py",
+      "argv": [
+        "--report",
+        "{staging}/maps-review-1tb/report.json",
+        "--output",
+        "{workspace}/.owl/acquisition/review-packets/maps-v1.json"
+      ],
+      "depends": [
+        "inspect-maps"
+      ],
+      "inputs": [
+        "{staging}/maps-review-1tb/report.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/review-packets/maps-v1.json",
+          "equals": {
+            "content_ready": false,
+            "review_status": "pending"
+          }
+        }
+      ],
+      "review": "Inspect all flagged sheets plus seeded visual samples. Geographic frame coverage, dates and scales require source-grid reconciliation; sampling cannot close coastal coverage gaps."
+    },
+    {
+      "id": "inspect-stackoverflow",
+      "kind": "script",
+      "batch": "stackoverflow",
+      "lane": "review",
+      "script": "prepare_stackoverflow.py",
+      "argv": [
+        "inspect",
+        "--staging-root",
+        "{staging}/stackoverflow-2024",
+        "--output",
+        "{workspace}/.owl/acquisition/stackoverflow-supervised-inspection.json",
+        "--tool-directory",
+        "{workspace}/.owl/tools/sevenzip-26.03"
+      ],
+      "depends": [
+        "capture-stackoverflow"
+      ],
+      "inputs": [
+        "{workspace}/.owl/tools/sevenzip-26.03/7zz"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/stackoverflow-supervised-inspection.json",
+          "equals": {
+            "kind": "stackoverflow-archive-inspection",
+            "content_ready": false
+          },
+          "lengths": {
+            "build_input_extractions": 4
+          }
+        }
+      ],
+      "review": "Reconcile measured XML, database, scratch and output peaks before a separately frozen extraction phase. Durable/legacy selection and content review remain required."
+    },
+    {
+      "id": "prepare-python-course",
+      "kind": "script",
+      "batch": "course-packages",
+      "lane": "review",
+      "script": "prepare_ocw_preview.py",
+      "argv": [
+        "--inventory",
+        "{workspace}/.owl/acquisition/ocw-package-inventory-v2/ocw_7e55e144fe6cbdddc748.json",
+        "--package-staging",
+        "{staging}/ocw-course-packages-1tb",
+        "--media-manifest",
+        "{workspace}/catalog/acquisition/ocw-complete-candidate-media-capture.json",
+        "--media-staging",
+        "{staging}/ocw-complete-candidate-media-1tb",
+        "--dependency-staging",
+        "{staging}/ocw-python-thumbnails-1tb",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-python-proposal-supervised-v1"
+      ],
+      "depends": [
+        "capture-course-packages",
+        "capture-course-media",
+        "capture-course-thumbnails"
+      ],
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-package-inventory-v2/ocw_7e55e144fe6cbdddc748.json",
+        "{workspace}/catalog/acquisition/ocw-complete-candidate-media-capture.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-python-proposal-supervised-v1/dependency-audit.json",
+          "equals": {
+            "issues": []
+          }
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-python-proposal-supervised-v1/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-python-proposal-supervised-v1/assets.json"
+        }
+      ],
+      "review": "Candidate recipe only: full ordinary-file course preview, essential reading/exercise reconciliation, English captions, playback and all-screen browser review remain required."
+    }
+  ],
+  "review_items": [
+    {
+      "id": "health",
+      "reason": "Seek a free complete official Midwives edition or prove included equivalent coverage before removal. No purchase. Page391 and missing back matter remain review items."
+    },
+    {
+      "id": "survivor",
+      "reason": "42-work practical selection remains pending. Candidate survivor_66791475d295b0776598 is197216364 bytes, above unchanged128MiB review limit; resolve selection or explicitly budget a separate reviewed phase. No silent bound increase."
+    },
+    {
+      "id": "manuals-initial",
+      "reason": "Mutable Python ZIP batch superseded by manuals-continuation and pinned Python release. Preserve failed receipt; do not restart it."
+    },
+    {
+      "id": "coverage-and-floor",
+      "reason": "All queued outputs remain candidates. Finish Khan/TED, Wikipedia lifeboat and additional direct editions, Survivor, books/culture and complete courses; deduplicate and reconcile measured whole-item content to750\u2013820GB. Never count build-only inputs."
+    },
+    {
+      "id": "programming-phet",
+      "reason": "Resolve essential manual dependencies and complete named-screen PhET browser checks. Physical-device certification remains separately pending."
+    },
+    {
+      "id": "production",
+      "reason": "Do not clear production OWL or admit candidates automatically. Complete source/output pins and substantive content reviews before freezing the full preset."
+    }
+  ]
+}

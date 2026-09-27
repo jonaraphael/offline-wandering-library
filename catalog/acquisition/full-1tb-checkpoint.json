@@ -33,6 +33,7 @@
       "storage_peak_bytes": 5435203075
     }
   ],
+  "candidate_batches_scope": "Historical initial capture-only planning rows; body_downloads describes metadata discovery, not current trial progress. Use trial_registry and verified staging receipts for current state.",
   "content_complete": false,
   "evidence": [
     {
@@ -72,6 +73,7 @@
     }
   ],
   "final_selection_locked": false,
+  "health_steering": "No paid Midwives PDF. Seek complete free official source or verify included equivalent content before removing requirement.",
   "incomplete_collections": [
     {
       "profiles": [
@@ -493,41 +495,36 @@
   ],
   "knowledge_ceiling_bytes": 820000000000,
   "knowledge_floor_bytes": 750000000000,
-  "next_gate": "Select an explicit separate staging directory; capture and review actual sources/outputs before admission. Continue useful books/courses until measured whole-item content reaches the unchanged target.",
+  "next_gate": "Complete staged acquisitions and content reviews, admit only verified complete batches, then reconcile measured whole-item content against the unchanged750\u2013820GB range before replacing production OWL.",
   "physical_device_certification": "pending",
-  "pinned_knowledge_bytes": 352726164684,
+  "pinned_knowledge_bytes": 357571411413,
+  "prior_validation_recorded_at": "2026-09-23T05:37:30.324363+00:00",
   "profile": "full-1tb",
-  "recorded_at": "2026-09-23T05:37:30.324363+00:00",
+  "recorded_at": "2026-09-27T21:56:03.630069+00:00",
   "schema_version": 1,
-  "scope": "Acquisition implementation checkpoint; no new library-body acquisition or production assembly",
+  "scope": "Explicit complete-content trial in progress; staged originals and derivatives are pending review, not production completion",
   "small_preset_baseline": "Unresolved user choice: concurrent Build and test 16GB SELECT task changed PDF/source selections; current validator checks that new baseline",
-  "staging_directory": "pending user selection",
-  "status": "awaiting_staging_selection_and_content_work",
-  "target_shortfall_bytes": 397273835316,
+  "staging_directory": "/Volumes/General Backup/OWL-acquisition",
+  "status": "trial_acquisition_and_review_in_progress",
+  "supervisor": {
+    "content_complete": false,
+    "final_queue_state": "awaiting_review",
+    "model_calls_by_queue": 0,
+    "plan": "catalog/acquisition/1tb-supervisor-plan.json",
+    "state_file": ".owl/acquisition/supervisor-1tb-20260927/state.json"
+  },
+  "target_shortfall_bytes": 392428588587,
+  "trial_registry": "catalog/acquisition/1tb-trial-batches.json",
+  "trial_status_command": "python scripts/acquisition_trial_status.py --staging-root '/Volumes/General Backup/OWL-acquisition'",
   "unresolved_assets": [
     "regional_topographic_maps"
   ],
   "validation": {
-    "evidence": {
-      "path": "catalog/acquisition/validation-evidence.json",
-      "sha256": "7f69ca3a946237e3477fa5cb4110d8e13b77af549e85ddfb0874f733190e9eb7",
-      "size_bytes": 5453
-    },
-    "failing_assertions": 62,
-    "failing_test_groups": [
-      "ProductionAtlasCoverageTests.test_every_pocket_preset_file_has_a_topic_route",
-      "ProductionAtlasCoverageTests.test_whole_document_routes_do_not_invent_unreviewed_sections"
-    ],
-    "full_suite_tests": 722,
-    "geometry_suite": {
-      "passed": true,
-      "tests": 18
-    },
-    "passed": false,
-    "real_sevenzip_evidence": {
-      "path": "catalog/acquisition/sevenzip-real-evidence.json",
-      "sha256": "88c18e5175b669806a3ca6d7fc2a8fda90e31ced0f5dc33cf67747a3a3754a9d",
-      "size_bytes": 1732
-    }
-  }
+    "checks": 11,
+    "passed": true,
+    "report": ".owl/acquisition/validation-supervisor/run-eh7tcdq1/report.json",
+    "skipped_tests": 5,
+    "tests": 812
+  },
+  "validation_scope": "Full regression, five no-download profile plans and generated-file freshness passed before supervised launch; not content admission, production assembly or device certification."
 }

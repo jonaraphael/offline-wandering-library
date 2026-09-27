@@ -1,0 +1,2907 @@
+{
+  "budget": {
+    "cache_bytes": 0,
+    "download_bytes": 104692339,
+    "expanded_bytes": 0,
+    "preview_bytes": 0,
+    "scratch_bytes": 0
+  },
+  "content_ready": false,
+  "id": "programming-manuals-trial-1tb-v1",
+  "kind": "acquisition",
+  "metadata_allowance_bytes": 2402556,
+  "profile": "full-1tb",
+  "review_requirements": [
+    "Capture verifies existing originals; it does not admit new content.",
+    "Freeze and review complete work inventories before admitting overlapping expansion works."
+  ],
+  "schema_version": 1,
+  "sources": [
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve the complete original document, author credits, copyright, license, invariant sections and cover notices where present.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable publisher URLs are content-pinned: later changes fail verification rather than silently update. One-page HTML with internal section links and complete text; an optional remote GNU stylesheet is cosmetic, and the document remains readable offline.",
+        "destination": "REFERENCE/COMPUTING/bash.html",
+        "format": "html",
+        "id": "docs_bash",
+        "illustrated": false,
+        "language": "en",
+        "license": "GFDL-1.3-or-later",
+        "profiles": [
+          "flash-16gb",
+          "critical-64gb"
+        ],
+        "publisher": "Free Software Foundation and documentation authors",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "78d0eefbe60cfe7345ffdafede7294f055b04e53bd520360ff699b24f81e2b4b",
+        "size_bytes": 1040954,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://www.gnu.org/software/bash/manual/",
+        "source_url": "https://www.gnu.org/software/bash/manual/bash.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Bash Reference Manual",
+        "version": "5.3"
+      },
+      "id": "docs_bash",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_bash",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "3d77b5653ce8d7e03c9db3f09ad1f8cb9e6eeaddafaeb468e2dc1baf38e505d1",
+          "url": "https://www.gnu.org/software/bash/manual/bash.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "78d0eefbe60cfe7345ffdafede7294f055b04e53bd520360ff699b24f81e2b4b",
+      "size_bytes": 1040954,
+      "source_url": "https://www.gnu.org/software/bash/manual/bash.html",
+      "version": "5.3"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve the complete original document, author credits, copyright, license, invariant sections and cover notices where present.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable publisher URLs are content-pinned: later changes fail verification rather than silently update.",
+        "destination": "REFERENCE/COMPUTING/binutils.pdf",
+        "format": "pdf",
+        "id": "docs_binutils",
+        "illustrated": false,
+        "language": "en",
+        "license": "GFDL-1.3-or-later",
+        "profiles": [
+          "flash-16gb",
+          "critical-64gb"
+        ],
+        "publisher": "Free Software Foundation and documentation authors",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "8668207b6d79a97c51c24a369f3ccb67e1d9082d152f856eb76b566cf2fc812b",
+        "size_bytes": 474463,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://sourceware.org/binutils/docs/",
+        "source_url": "https://sourceware.org/binutils/docs/binutils.pdf",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "GNU Binary Utilities",
+        "version": "2.47"
+      },
+      "id": "docs_binutils",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_binutils",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "675720a87dec9e1da746f73a11861761d5c8b45c8faa7c7fd2975174fe29ccbf",
+          "url": "https://sourceware.org/binutils/docs/binutils.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "8668207b6d79a97c51c24a369f3ccb67e1d9082d152f856eb76b566cf2fc812b",
+      "size_bytes": 474463,
+      "source_url": "https://sourceware.org/binutils/docs/binutils.pdf",
+      "version": "2.47"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve the complete original document, author credits, copyright, license, invariant sections and cover notices where present.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable publisher URLs are content-pinned: later changes fail verification rather than silently update. One-page HTML with internal section links and complete text; an optional remote GNU stylesheet is cosmetic, and the document remains readable offline.",
+        "destination": "REFERENCE/COMPUTING/coreutils.html",
+        "format": "html",
+        "id": "docs_coreutils",
+        "illustrated": false,
+        "language": "en",
+        "license": "GFDL-1.3-or-later",
+        "profiles": [
+          "flash-16gb",
+          "critical-64gb"
+        ],
+        "publisher": "Free Software Foundation and documentation authors",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "8fc1770aeea95420f200501549cd6aaef3cc4fd94a92e94b51510c67bbe0bcad",
+        "size_bytes": 2191744,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://www.gnu.org/software/coreutils/manual/",
+        "source_url": "https://www.gnu.org/software/coreutils/manual/coreutils.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "GNU Coreutils Manual",
+        "version": "9.12"
+      },
+      "id": "docs_coreutils",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_coreutils",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "075b03bf64e2120e370ceb5190da942db48f0919714f5095b5d2a53a29407cfe",
+          "url": "https://www.gnu.org/software/coreutils/manual/coreutils.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "8fc1770aeea95420f200501549cd6aaef3cc4fd94a92e94b51510c67bbe0bcad",
+      "size_bytes": 2191744,
+      "source_url": "https://www.gnu.org/software/coreutils/manual/coreutils.html",
+      "version": "9.12"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve the complete original document, author credits, copyright, license, invariant sections and cover notices where present.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable publisher URLs are content-pinned: later changes fail verification rather than silently update.",
+        "destination": "REFERENCE/COMPUTING/cpp.pdf",
+        "format": "pdf",
+        "id": "docs_cpp",
+        "illustrated": false,
+        "language": "en",
+        "license": "GFDL-1.3-or-later; retain cover texts",
+        "profiles": [
+          "flash-16gb",
+          "critical-64gb"
+        ],
+        "publisher": "Free Software Foundation and documentation authors",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "ef571c49a019b96ade6117173167a3520c42cc150888e27e899faf1263497c35",
+        "size_bytes": 484737,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://gcc.gnu.org/onlinedocs/",
+        "source_url": "https://gcc.gnu.org/onlinedocs/gcc-16.2.0/cpp.pdf",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "The C Preprocessor",
+        "version": "16.2.0"
+      },
+      "id": "docs_cpp",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_cpp",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "f488437631f5a9a4905cee44f492faf87a9ed879acae682b5f92bbec184c0c42",
+          "url": "https://gcc.gnu.org/onlinedocs/gcc-16.2.0/cpp.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "ef571c49a019b96ade6117173167a3520c42cc150888e27e899faf1263497c35",
+      "size_bytes": 484737,
+      "source_url": "https://gcc.gnu.org/onlinedocs/gcc-16.2.0/cpp.pdf",
+      "version": "16.2.0"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "e2fsprogs contributors and Debian maintainers. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Original unmodified licensing companion. Preserve alongside applicable manuals.",
+        "destination": "REFERENCE/COMPUTING/LICENSES/debian-e2fsprogs-copyright.txt",
+        "format": "txt",
+        "id": "docs_e2fsprogs_copyright",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed GPL/BSD/LGPL licenses; file-specific terms apply",
+        "profiles": [],
+        "publisher": "e2fsprogs contributors and Debian maintainers",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "2041b5febdc110151ca3372d01b16b85dda1888e33f3f60fce0f59940eed7d19",
+        "size_bytes": 20459,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://metadata.ftp-master.debian.org/changelogs/main/e/e2fsprogs/e2fsprogs_1.47.2-3_copyright",
+        "source_url": "https://metadata.ftp-master.debian.org/changelogs/main/e/e2fsprogs/e2fsprogs_1.47.2-3_copyright",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "e2fsprogs copyright and licensing",
+        "version": "1.47.2-3"
+      },
+      "id": "docs_e2fsprogs_copyright",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_e2fsprogs_copyright",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "2ecc74b00e38117ab377d612214006e56698ffa806016a62ff55ed5e9d2895e3",
+          "url": "https://metadata.ftp-master.debian.org/changelogs/main/e/e2fsprogs/e2fsprogs_1.47.2-3_copyright"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "2041b5febdc110151ca3372d01b16b85dda1888e33f3f60fce0f59940eed7d19",
+      "size_bytes": 20459,
+      "source_url": "https://metadata.ftp-master.debian.org/changelogs/main/e/e2fsprogs/e2fsprogs_1.47.2-3_copyright",
+      "version": "1.47.2-3"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve the complete original document, author credits, copyright, license, invariant sections and cover notices where present.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable publisher URLs are content-pinned: later changes fail verification rather than silently update.",
+        "destination": "REFERENCE/COMPUTING/gcc.pdf",
+        "format": "pdf",
+        "id": "docs_gcc",
+        "illustrated": false,
+        "language": "en",
+        "license": "GFDL-1.3-or-later; retain invariant section and cover texts",
+        "profiles": [
+          "flash-16gb",
+          "critical-64gb"
+        ],
+        "publisher": "Free Software Foundation and documentation authors",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "ac1736093d36f88f122b4559f99bebfe08bda4f590a45aee9038b99085b37815",
+        "size_bytes": 3330725,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://gcc.gnu.org/onlinedocs/",
+        "source_url": "https://gcc.gnu.org/onlinedocs/gcc-16.2.0/gcc.pdf",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Using the GNU Compiler Collection",
+        "version": "16.2.0"
+      },
+      "id": "docs_gcc",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_gcc",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "f3d5f8fa785dbab9c958fb40963a23c24178c1b01304ac5765c2938a459ef6bf",
+          "url": "https://gcc.gnu.org/onlinedocs/gcc-16.2.0/gcc.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "ac1736093d36f88f122b4559f99bebfe08bda4f590a45aee9038b99085b37815",
+      "size_bytes": 3330725,
+      "source_url": "https://gcc.gnu.org/onlinedocs/gcc-16.2.0/gcc.pdf",
+      "version": "16.2.0"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Free Software Foundation. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Original unmodified licensing companion. Preserve alongside applicable manuals.",
+        "destination": "REFERENCE/COMPUTING/LICENSES/gpl-2.0.txt",
+        "format": "txt",
+        "id": "docs_gpl2_license",
+        "illustrated": false,
+        "language": "en",
+        "license": "GPL-2.0 license text; verbatim copying permitted",
+        "profiles": [],
+        "publisher": "Free Software Foundation",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6",
+        "size_bytes": 17984,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
+        "source_url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "GNU General Public License version 2",
+        "version": "2"
+      },
+      "id": "docs_gpl2_license",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_gpl2_license",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "953f0d024c6f133a19767ae1c06a410f9add8aad395dacc88a6719b79b089027",
+          "url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6",
+      "size_bytes": 17984,
+      "source_url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt",
+      "version": "2"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "iproute2 contributors and Debian maintainers. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Original unmodified licensing companion. Preserve alongside applicable manuals.",
+        "destination": "REFERENCE/COMPUTING/LICENSES/debian-iproute2-copyright.txt",
+        "format": "txt",
+        "id": "docs_iproute2_copyright",
+        "illustrated": false,
+        "language": "en",
+        "license": "GPL-2.0-only; notices retained",
+        "profiles": [],
+        "publisher": "iproute2 contributors and Debian maintainers",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "344ddcf4dfe65b86416e058309218b4ac1ee7bc1e624cc40ad87222cc979fdac",
+        "size_bytes": 2625,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://metadata.ftp-master.debian.org/changelogs/main/i/iproute2/iproute2_6.15.0-1_copyright",
+        "source_url": "https://metadata.ftp-master.debian.org/changelogs/main/i/iproute2/iproute2_6.15.0-1_copyright",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "iproute2 copyright and licensing",
+        "version": "6.15.0-1"
+      },
+      "id": "docs_iproute2_copyright",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_iproute2_copyright",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "f8d64afb1f7868737e1f00182f379412df964db7f59938c496246d86f19accc4",
+          "url": "https://metadata.ftp-master.debian.org/changelogs/main/i/iproute2/iproute2_6.15.0-1_copyright"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "344ddcf4dfe65b86416e058309218b4ac1ee7bc1e624cc40ad87222cc979fdac",
+      "size_bytes": 2625,
+      "source_url": "https://metadata.ftp-master.debian.org/changelogs/main/i/iproute2/iproute2_6.15.0-1_copyright",
+      "version": "6.15.0-1"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "iputils contributors and Debian maintainers. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Original unmodified licensing companion. Preserve alongside applicable manuals.",
+        "destination": "REFERENCE/COMPUTING/LICENSES/debian-iputils-copyright.txt",
+        "format": "txt",
+        "id": "docs_iputils_copyright",
+        "illustrated": false,
+        "language": "en",
+        "license": "BSD-3-Clause and GPL-2.0-or-later; file-specific terms apply",
+        "profiles": [],
+        "publisher": "iputils contributors and Debian maintainers",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "7b81610874d5b35eead7bf8bd1267d2210ac1c6078ac78561309f8fe9f6d7050",
+        "size_bytes": 2896,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://metadata.ftp-master.debian.org/changelogs/main/i/iputils/iputils_20240905-3_copyright",
+        "source_url": "https://metadata.ftp-master.debian.org/changelogs/main/i/iputils/iputils_20240905-3_copyright",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "iputils copyright and licensing",
+        "version": "20240905-3"
+      },
+      "id": "docs_iputils_copyright",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_iputils_copyright",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "c51a7a79ac50efc3f90fb6a589271c3c1ed768e0284ded64c24aa83431b93c6e",
+          "url": "https://metadata.ftp-master.debian.org/changelogs/main/i/iputils/iputils_20240905-3_copyright"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "7b81610874d5b35eead7bf8bd1267d2210ac1c6078ac78561309f8fe9f6d7050",
+      "size_bytes": 2896,
+      "source_url": "https://metadata.ftp-master.debian.org/changelogs/main/i/iputils/iputils_20240905-3_copyright",
+      "version": "20240905-3"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve the complete original document, author credits, copyright, license, invariant sections and cover notices where present.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable publisher URLs are content-pinned: later changes fail verification rather than silently update.",
+        "destination": "REFERENCE/COMPUTING/ld.pdf",
+        "format": "pdf",
+        "id": "docs_ld",
+        "illustrated": false,
+        "language": "en",
+        "license": "GFDL-1.3-or-later",
+        "profiles": [
+          "flash-16gb",
+          "critical-64gb"
+        ],
+        "publisher": "Free Software Foundation and documentation authors",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "b9d9e90d3dde5190d138b7bb62b568beb4434452104709b59bdc5390e5601b6e",
+        "size_bytes": 725654,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://sourceware.org/binutils/docs/",
+        "source_url": "https://sourceware.org/binutils/docs/ld.pdf",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "The GNU Linker",
+        "version": "2.47"
+      },
+      "id": "docs_ld",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_ld",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "3d21db7553d727bc69bb1d8c81c01ebd9b914a45539aaea6132c2c5c5c3d274f",
+          "url": "https://sourceware.org/binutils/docs/ld.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "b9d9e90d3dde5190d138b7bb62b568beb4434452104709b59bdc5390e5601b6e",
+      "size_bytes": 725654,
+      "source_url": "https://sourceware.org/binutils/docs/ld.pdf",
+      "version": "2.47"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve the complete original document, author credits, copyright, license, invariant sections and cover notices where present.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable publisher URLs are content-pinned: later changes fail verification rather than silently update.",
+        "destination": "REFERENCE/COMPUTING/libc.pdf",
+        "format": "pdf",
+        "id": "docs_libc",
+        "illustrated": false,
+        "language": "en",
+        "license": "GFDL-1.3-or-later; retain invariant sections and cover texts",
+        "profiles": [
+          "flash-16gb",
+          "critical-64gb"
+        ],
+        "publisher": "Free Software Foundation and documentation authors",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "7681b654969b60e51652dc308bdd465a8e8aef70386b5113b7c1086a02b3b762",
+        "size_bytes": 4183045,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://sourceware.org/glibc/manual/",
+        "source_url": "https://sourceware.org/glibc/manual/latest/pdf/libc.pdf",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "GNU C Library Reference Manual",
+        "version": "2.44"
+      },
+      "id": "docs_libc",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_libc",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "e050f66b5d469d7c17ae9306496683324bbb1c80a79150578b0404a369216003",
+          "url": "https://sourceware.org/glibc/manual/latest/pdf/libc.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "7681b654969b60e51652dc308bdd465a8e8aef70386b5113b7c1086a02b3b762",
+      "size_bytes": 4183045,
+      "source_url": "https://sourceware.org/glibc/manual/latest/pdf/libc.pdf",
+      "version": "2.44"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Linux man-pages project and individual manual authors. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Canonical publisher PDF, 4,118 pages. Complete temporary acquisition matched upstream whole-file SHA-256. Title, middle technical table/code page and final-page text were checked. Original source archive is recorded separately for per-page license notices; no blanket single license is asserted. The per-page copyright/authorship notices remain only in the separately recorded source input, which is not currently delivered by the build. Redistribution is conservatively disabled until those required source/notices accompany the PDF.",
+        "destination": "REFERENCE/COMPUTING/LINUX/man-pages-6.19.pdf",
+        "format": "pdf",
+        "id": "docs_linux_manpages_619",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed Linux man-pages free licenses; redistribution notice preservation not yet build-integrated",
+        "profiles": [],
+        "publisher": "Linux man-pages project and individual manual authors",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "cba8dda2b7cb0cbe732cb31538d1a37abb201d45b752b36bc2df6a3d9c00fffa",
+        "size_bytes": 9753062,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.kernel.org/pub/linux/docs/man-pages/book/man-pages-6.19.pdf",
+        "source_url": "https://www.kernel.org/pub/linux/docs/man-pages/book/man-pages-6.19.pdf",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "GNU/Linux Programmer's Manual — Linux man-pages book",
+        "version": "6.19"
+      },
+      "id": "docs_linux_manpages_619",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_manpages_619",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "fd6dc7de6851b40cb4cbf08fdd652da73975a38cb93b381f2f7de79e88fbd8a1",
+          "url": "https://www.kernel.org/pub/linux/docs/man-pages/book/man-pages-6.19.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "cba8dda2b7cb0cbe732cb31538d1a37abb201d45b752b36bc2df6a3d9c00fffa",
+      "size_bytes": 9753062,
+      "source_url": "https://www.kernel.org/pub/linux/docs/man-pages/book/man-pages-6.19.pdf",
+      "version": "6.19"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Linux man-pages contributors; original authors and all source notices are retained in the unmodified release archive.",
+        "category": "programming",
+        "critical": false,
+        "description": "Pinned original release source companion with publisher notices, retained intact for offline reference. Supporting package bytes are excluded from readable-document and knowledge totals.",
+        "destination": "REFERENCE/COMPUTING/SOURCES/man-pages-6.19.tar.xz",
+        "format": "tar.xz",
+        "id": "docs_linux_manpages_619_source",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed per-page licenses including BSD, GPL, LGPL and Linux-man-pages licenses; preserve original source notices",
+        "profiles": [],
+        "publisher": "Linux man-pages contributors",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "88a7c42ad2e03d8b96dc72d95e451f2d875ff0f43103a8eb8ac8242133bdcb05",
+        "size_bytes": 1908136,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://www.kernel.org/pub/linux/docs/man-pages/man-pages-6.19.tar.xz",
+        "source_url": "https://www.kernel.org/pub/linux/docs/man-pages/man-pages-6.19.tar.xz",
+        "status": "resolved",
+        "supporting_file": true,
+        "title": "Linux man-pages 6.19 original sources and notices",
+        "version": "6.19"
+      },
+      "id": "docs_linux_manpages_619_source",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_manpages_619_source",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "6fffcc2502665d454bafe3301bc7a47b11813c2ea82909b18bab3fa16c28f8cc",
+          "url": "https://www.kernel.org/pub/linux/docs/man-pages/man-pages-6.19.tar.xz"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "88a7c42ad2e03d8b96dc72d95e451f2d875ff0f43103a8eb8ac8242133bdcb05",
+      "size_bytes": 1908136,
+      "source_url": "https://www.kernel.org/pub/linux/docs/man-pages/man-pages-6.19.tar.xz",
+      "version": "6.19"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible licenses but does not contain this manual's complete file-specific copyright and permission notices. Redistribution is conservatively disabled until a matching notice/source companion is integrated.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/blkid.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_blkid",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed util-linux free licenses; file-specific copyright and license preservation not verified",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "aa62fa33313d0e65eac7f481a2bf9c5c2b9ec7dbf0a535afaba5b0d25f49d0da",
+        "size_bytes": 35788,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/util-linux/blkid.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/util-linux/blkid.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: blkid",
+        "version": "util-linux 2.41-5"
+      },
+      "id": "docs_linux_tool_blkid",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_blkid",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "51c91a849e27aad02d163db6b69a1e4665e56a27e0034265fe2c59a551e7ae6a",
+          "url": "https://manpages.debian.org/trixie/util-linux/blkid.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "aa62fa33313d0e65eac7f481a2bf9c5c2b9ec7dbf0a535afaba5b0d25f49d0da",
+      "size_bytes": 35788,
+      "source_url": "https://manpages.debian.org/trixie/util-linux/blkid.8.en.html",
+      "version": "util-linux 2.41-5"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/e2fsck.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_e2fsck",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed upstream free licenses; retain the matching package copyright and license companions",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "15ecff72771540560f61aa48bdfe1fee282ab3fee1f786d6a88c9f366ac2e827",
+        "size_bytes": 39951,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/e2fsprogs/e2fsck.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/e2fsprogs/e2fsck.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: e2fsck",
+        "version": "e2fsprogs 1.47.2-3+b11"
+      },
+      "id": "docs_linux_tool_e2fsck",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_e2fsck",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "2fc1603d6f3777a33c02727b03bea562c7428398c2f9013ef5fb2bda1eef6d41",
+          "url": "https://manpages.debian.org/trixie/e2fsprogs/e2fsck.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "15ecff72771540560f61aa48bdfe1fee282ab3fee1f786d6a88c9f366ac2e827",
+      "size_bytes": 39951,
+      "source_url": "https://manpages.debian.org/trixie/e2fsprogs/e2fsck.8.en.html",
+      "version": "e2fsprogs 1.47.2-3+b11"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible licenses but does not contain this manual's complete file-specific copyright and permission notices. Redistribution is conservatively disabled until a matching notice/source companion is integrated.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/fdisk.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_fdisk",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed util-linux free licenses; file-specific copyright and license preservation not verified",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "1774e578175d8e8d493e89e5d34dad98b2398f6689a26530e81049100d2f3b5d",
+        "size_bytes": 42056,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/fdisk/fdisk.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/fdisk/fdisk.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: fdisk",
+        "version": "fdisk 2.41-5"
+      },
+      "id": "docs_linux_tool_fdisk",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_fdisk",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "175d48395c3a1abd5e559bb87dbf1601cac04a454e9dfbba808ee57be6655d70",
+          "url": "https://manpages.debian.org/trixie/fdisk/fdisk.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "1774e578175d8e8d493e89e5d34dad98b2398f6689a26530e81049100d2f3b5d",
+      "size_bytes": 42056,
+      "source_url": "https://manpages.debian.org/trixie/fdisk/fdisk.8.en.html",
+      "version": "fdisk 2.41-5"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible licenses but does not contain this manual's complete file-specific copyright and permission notices. Redistribution is conservatively disabled until a matching notice/source companion is integrated.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/findmnt.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_findmnt",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed util-linux free licenses; file-specific copyright and license preservation not verified",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "2f393ac552291fca5405d77ba954f0053c09426a3031346fdfcdbd29199fb01a",
+        "size_bytes": 39017,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/util-linux/findmnt.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/util-linux/findmnt.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: findmnt",
+        "version": "util-linux 2.41-5"
+      },
+      "id": "docs_linux_tool_findmnt",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_findmnt",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "e31ca0c118bcf4009e869897fd21d870bcda553ed099bcabcc3d1607af36263a",
+          "url": "https://manpages.debian.org/trixie/util-linux/findmnt.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "2f393ac552291fca5405d77ba954f0053c09426a3031346fdfcdbd29199fb01a",
+      "size_bytes": 39017,
+      "source_url": "https://manpages.debian.org/trixie/util-linux/findmnt.8.en.html",
+      "version": "util-linux 2.41-5"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible licenses but does not contain this manual's complete file-specific copyright and permission notices. Redistribution is conservatively disabled until a matching notice/source companion is integrated.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/fsck.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_fsck",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed util-linux free licenses; file-specific copyright and license preservation not verified",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "e44d6a78c47153d38eeb309a5b93a60add9fb9029fef39dfcd13cdb2d3c27601",
+        "size_bytes": 36113,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/util-linux/fsck.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/util-linux/fsck.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: fsck",
+        "version": "util-linux 2.41-5"
+      },
+      "id": "docs_linux_tool_fsck",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_fsck",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "3c97f835cb6882358167a3a5abf1e594b85737e437eaa226bf67a245e179b6c8",
+          "url": "https://manpages.debian.org/trixie/util-linux/fsck.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "e44d6a78c47153d38eeb309a5b93a60add9fb9029fef39dfcd13cdb2d3c27601",
+      "size_bytes": 36113,
+      "source_url": "https://manpages.debian.org/trixie/util-linux/fsck.8.en.html",
+      "version": "util-linux 2.41-5"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/ip.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_ip",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed upstream free licenses; retain the matching package copyright and license companions",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "ea144a7e7120e3fee3760c9338fb5be00421e8eaebe54c40b4abff90956776ca",
+        "size_bytes": 36611,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/iproute2/ip.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/iproute2/ip.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: ip",
+        "version": "iproute2 6.15.0-1"
+      },
+      "id": "docs_linux_tool_ip",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_ip",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "5b05239bd6ebac5f21914d4139fb5199253389b72173a1fc9982e5a3d8652de7",
+          "url": "https://manpages.debian.org/trixie/iproute2/ip.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "ea144a7e7120e3fee3760c9338fb5be00421e8eaebe54c40b4abff90956776ca",
+      "size_bytes": 36611,
+      "source_url": "https://manpages.debian.org/trixie/iproute2/ip.8.en.html",
+      "version": "iproute2 6.15.0-1"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible licenses but does not contain this manual's complete file-specific copyright and permission notices. Redistribution is conservatively disabled until a matching notice/source companion is integrated.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/lsblk.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_lsblk",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed util-linux free licenses; file-specific copyright and license preservation not verified",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "2798d7605dce5fe156fb443205fbbeba49fa0ff3275e86dce775e25b36aca21e",
+        "size_bytes": 36983,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/util-linux/lsblk.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/util-linux/lsblk.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: lsblk",
+        "version": "util-linux 2.41-5"
+      },
+      "id": "docs_linux_tool_lsblk",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_lsblk",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "0fbc666fd4b7a1932fce97d3dd0f4694a971003f0b635f42a9b308dbc987c20b",
+          "url": "https://manpages.debian.org/trixie/util-linux/lsblk.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "2798d7605dce5fe156fb443205fbbeba49fa0ff3275e86dce775e25b36aca21e",
+      "size_bytes": 36983,
+      "source_url": "https://manpages.debian.org/trixie/util-linux/lsblk.8.en.html",
+      "version": "util-linux 2.41-5"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/mke2fs.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_mke2fs",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed upstream free licenses; retain the matching package copyright and license companions",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "c5878b248af61dfb236d31fb45bccf238be9562d1353961359bc5889796a893f",
+        "size_bytes": 54962,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/e2fsprogs/mke2fs.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/e2fsprogs/mke2fs.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: mke2fs",
+        "version": "e2fsprogs 1.47.2-3+b11"
+      },
+      "id": "docs_linux_tool_mke2fs",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_mke2fs",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "577cd646246f3407e11fcbc9d7a0cd63dec0d375b991d279d2fcccefbf8fb425",
+          "url": "https://manpages.debian.org/trixie/e2fsprogs/mke2fs.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "c5878b248af61dfb236d31fb45bccf238be9562d1353961359bc5889796a893f",
+      "size_bytes": 54962,
+      "source_url": "https://manpages.debian.org/trixie/e2fsprogs/mke2fs.8.en.html",
+      "version": "e2fsprogs 1.47.2-3+b11"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible licenses but does not contain this manual's complete file-specific copyright and permission notices. Redistribution is conservatively disabled until a matching notice/source companion is integrated.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/mount.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_mount",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed util-linux free licenses; file-specific copyright and license preservation not verified",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "533980cae8d3025ee98cf3c46ccfe55c8a3cd81f2532191740478b1420a89395",
+        "size_bytes": 162840,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/mount/mount.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/mount/mount.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: mount",
+        "version": "mount 2.41-5"
+      },
+      "id": "docs_linux_tool_mount",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_mount",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "5c1fba7cfa434ae5557ccee69d4602ad8879e58ae2c61742e17eceb82812d410",
+          "url": "https://manpages.debian.org/trixie/mount/mount.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "533980cae8d3025ee98cf3c46ccfe55c8a3cd81f2532191740478b1420a89395",
+      "size_bytes": 162840,
+      "source_url": "https://manpages.debian.org/trixie/mount/mount.8.en.html",
+      "version": "mount 2.41-5"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/ping.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_ping",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed upstream free licenses; retain the matching package copyright and license companions",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "15b62df119811e8d905148c8007387ac4cc39441ee13a0d4286602742523b032",
+        "size_bytes": 45290,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/iputils-ping/ping.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/iputils-ping/ping.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: ping",
+        "version": "iputils-ping 3:20240905-3"
+      },
+      "id": "docs_linux_tool_ping",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_ping",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "197095eb29250225d3cf0b02bc526bc7bbd84140a57f90bbde56c896d76655a6",
+          "url": "https://manpages.debian.org/trixie/iputils-ping/ping.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "15b62df119811e8d905148c8007387ac4cc39441ee13a0d4286602742523b032",
+      "size_bytes": 45290,
+      "source_url": "https://manpages.debian.org/trixie/iputils-ping/ping.8.en.html",
+      "version": "iputils-ping 3:20240905-3"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/ss.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_ss",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed upstream free licenses; retain the matching package copyright and license companions",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "0552c50fffb84d5b2bb5ae984a0b093417e37a31697d640d8a0b8214c664af17",
+        "size_bytes": 43680,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/iproute2/ss.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/iproute2/ss.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: ss",
+        "version": "iproute2 6.15.0-1"
+      },
+      "id": "docs_linux_tool_ss",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_ss",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "1f8e9b959b67706badd80713545a0877679c36101fd1f7eaa99185cd844bc8b9",
+          "url": "https://manpages.debian.org/trixie/iproute2/ss.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "0552c50fffb84d5b2bb5ae984a0b093417e37a31697d640d8a0b8214c664af17",
+      "size_bytes": 43680,
+      "source_url": "https://manpages.debian.org/trixie/iproute2/ss.8.en.html",
+      "version": "iproute2 6.15.0-1"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/tune2fs.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_tune2fs",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed upstream free licenses; retain the matching package copyright and license companions",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "4a7e095e0bad46d4db6faf533d76585e205c1eaf51d5b8c3ef9b8c1f400e358d",
+        "size_bytes": 56187,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/e2fsprogs/tune2fs.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/e2fsprogs/tune2fs.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: tune2fs",
+        "version": "e2fsprogs 1.47.2-3+b11"
+      },
+      "id": "docs_linux_tool_tune2fs",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_tune2fs",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "771e4497976d0937c8d438684e6f767dda4a24407e7a305d6a71c3f6f1ba5298",
+          "url": "https://manpages.debian.org/trixie/e2fsprogs/tune2fs.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "4a7e095e0bad46d4db6faf533d76585e205c1eaf51d5b8c3ef9b8c1f400e358d",
+      "size_bytes": 56187,
+      "source_url": "https://manpages.debian.org/trixie/e2fsprogs/tune2fs.8.en.html",
+      "version": "e2fsprogs 1.47.2-3+b11"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original Debian stable-release package manual. Inline formatting and full technical text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible licenses but does not contain this manual's complete file-specific copyright and permission notices. Redistribution is conservatively disabled until a matching notice/source companion is integrated.",
+        "destination": "REFERENCE/COMPUTING/LINUX_TOOLS/umount.8.html",
+        "format": "html",
+        "id": "docs_linux_tool_umount",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed util-linux free licenses; file-specific copyright and license preservation not verified",
+        "profiles": [],
+        "publisher": "Upstream command authors; rendered by Debian Manpages",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "ab08d17ed41d19b83bbcaad7b4b3ca221ab7c251b576a21c5918d79f48da4eab",
+        "size_bytes": 35184,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://manpages.debian.org/trixie/mount/umount.8.en.html",
+        "source_url": "https://manpages.debian.org/trixie/mount/umount.8.en.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Linux command manual: umount",
+        "version": "mount 2.41-5"
+      },
+      "id": "docs_linux_tool_umount",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_linux_tool_umount",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "0b0804654a417f57e0238a21f1777d7a8dcadfc795575c9617b17227ca64b7e2",
+          "url": "https://manpages.debian.org/trixie/mount/umount.8.en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "ab08d17ed41d19b83bbcaad7b4b3ca221ab7c251b576a21c5918d79f48da4eab",
+      "size_bytes": 35184,
+      "source_url": "https://manpages.debian.org/trixie/mount/umount.8.en.html",
+      "version": "mount 2.41-5"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve the complete original document, author credits, copyright, license, invariant sections and cover notices where present.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable publisher URLs are content-pinned: later changes fail verification rather than silently update. One-page HTML with internal section links and complete text; an optional remote GNU stylesheet is cosmetic, and the document remains readable offline.",
+        "destination": "REFERENCE/COMPUTING/make.html",
+        "format": "html",
+        "id": "docs_make",
+        "illustrated": false,
+        "language": "en",
+        "license": "GFDL-1.3-or-later; retain cover texts",
+        "profiles": [
+          "flash-16gb",
+          "critical-64gb"
+        ],
+        "publisher": "Free Software Foundation and documentation authors",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "8112de01e25ba628d5e160e9c37fef13fb2878c43b0361099981d6b1c6bd72d0",
+        "size_bytes": 1064614,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://www.gnu.org/software/make/manual/",
+        "source_url": "https://www.gnu.org/software/make/manual/make.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "GNU Make Manual",
+        "version": "4.4.1"
+      },
+      "id": "docs_make",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_make",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "717d3d12ee549a66ebff83356d410704b27f17c72018bcce3009b839e9383bae",
+          "url": "https://www.gnu.org/software/make/manual/make.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "8112de01e25ba628d5e160e9c37fef13fb2878c43b0361099981d6b1c6bd72d0",
+      "size_bytes": 1064614,
+      "source_url": "https://www.gnu.org/software/make/manual/make.html",
+      "version": "4.4.1"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "OpenSSH contributors; original authors and all source notices are retained in the unmodified release archive.",
+        "category": "programming",
+        "critical": false,
+        "description": "Pinned original release source companion with publisher notices, retained intact for offline reference. Supporting package bytes are excluded from readable-document and knowledge totals.",
+        "destination": "REFERENCE/COMPUTING/SOURCES/openssh-10.5p1.tar.gz",
+        "format": "tar.gz",
+        "id": "docs_openssh_105p1_source",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed permissive licenses described by the original LICENCE file; retain all per-file notices",
+        "profiles": [],
+        "publisher": "OpenSSH contributors",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "d44d28a839ea9daf969cc69150fde59910b2b39361dad81a3bd6cbd19218db11",
+        "size_bytes": 2333659,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.5p1.tar.gz",
+        "source_url": "https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.5p1.tar.gz",
+        "status": "resolved",
+        "supporting_file": true,
+        "title": "OpenSSH portable 10.5p1 original sources and notices",
+        "version": "10.5p1"
+      },
+      "id": "docs_openssh_105p1_source",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_openssh_105p1_source",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "a05eda5806ac264bbb4b95388c33c4aa0e3ee9a0cfdaaae13544b08239127fa0",
+          "url": "https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.5p1.tar.gz"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "d44d28a839ea9daf969cc69150fde59910b2b39361dad81a3bd6cbd19218db11",
+      "size_bytes": 2333659,
+      "source_url": "https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.5p1.tar.gz",
+      "version": "10.5p1"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve the complete original document, author credits, copyright, license, invariant sections and cover notices where present.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable publisher URLs are content-pinned: later changes fail verification rather than silently update.",
+        "destination": "REFERENCE/COMPUTING/progit.pdf",
+        "format": "pdf",
+        "id": "docs_progit",
+        "illustrated": true,
+        "language": "en",
+        "license": "CC-BY-NC-SA-3.0",
+        "profiles": [
+          "flash-16gb",
+          "critical-64gb"
+        ],
+        "publisher": "Scott Chacon and Ben Straub",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "textbook",
+        "sha256": "403f4051cdca2c585361d85f6e87d5dd87d8c544fc91dced007711babe81e8ef",
+        "size_bytes": 18847129,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://git-scm.com/book/en/v2",
+        "source_url": "https://github.com/progit/progit2/releases/download/2.1.450/progit.pdf",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Pro Git, second edition",
+        "version": "2.1.450"
+      },
+      "id": "docs_progit",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_progit",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "b072e90b1a0ce18179668733665fca4121d5242c1602ff509474af8f1f515561",
+          "url": "https://github.com/progit/progit2/releases/download/2.1.450/progit.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "403f4051cdca2c585361d85f6e87d5dd87d8c544fc91dced007711babe81e8ef",
+      "size_bytes": 18847129,
+      "source_url": "https://github.com/progit/progit2/releases/download/2.1.450/progit.pdf",
+      "version": "2.1.450"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve the complete original document, author credits, copyright, license, invariant sections and cover notices where present.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable publisher URLs are content-pinned: later changes fail verification rather than silently update. EPUB reader support is required; a direct HTML export remains to be added. Original September 2026 EPUB snapshot retained unchanged as a supporting source package alongside the separately published October 2025 PDF collection.",
+        "destination": "REFERENCE/SOURCE_PACKAGES/EPUB/docs_python.epub",
+        "format": "epub",
+        "id": "docs_python_epub_source",
+        "illustrated": false,
+        "language": "en",
+        "license": "PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD",
+        "profiles": [
+          "flash-16gb",
+          "critical-64gb"
+        ],
+        "publisher": "Python Software Foundation",
+        "reader_required": true,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "1203cb55fb7f8b792b273faf203f77ba5406a792bde874a566b004dfcbc204f1",
+        "size_bytes": 9194178,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://docs.python.org/3/download.html",
+        "source_url": "https://docs.python.org/3/archives/python-3.14-docs.epub",
+        "status": "resolved",
+        "supporting_file": true,
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Python 3.14 documentation (original EPUB source)",
+        "version": "3.14 snapshot 2026-09-10"
+      },
+      "id": "docs_python_epub_source",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_python_epub_source",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "6303c02a5b87ca24c3e82c1e7ba5aa27681b168c513778eef7e352bf0ba344ed",
+          "url": "https://docs.python.org/3/archives/python-3.14-docs.epub"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "1203cb55fb7f8b792b273faf203f77ba5406a792bde874a566b004dfcbc204f1",
+      "size_bytes": 9194178,
+      "source_url": "https://docs.python.org/3/archives/python-3.14-docs.epub",
+      "version": "3.14 snapshot 2026-09-10"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Python Software Foundation and documentation authors. Original archive and all packaged license/copyright notices retained without modification.",
+        "category": "computing",
+        "critical": false,
+        "description": "Pinned publisher ZIP input, fetched once during a future selected build. All separately pinned package members are extracted as ordinary files with their original relative structure; this dependency is omitted from reading navigation and search.",
+        "destination": "REFERENCE/COMPUTING/SOURCES/python-html.zip",
+        "format": "zip",
+        "id": "docs_python_html_source",
+        "illustrated": false,
+        "language": "en",
+        "license": "PSF-2.0 and retained historical notices for Python documentation; examples additionally 0BSD; bundled third-party assets retain their own included licenses/notices",
+        "profiles": [],
+        "publisher": "Python Software Foundation and documentation authors",
+        "reader_required": true,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "f0945099f00a6b078e0101b8a7bee14364698f8ecce4bb1a26d5c2e47c8203cf",
+        "size_bytes": 12857046,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://docs.python.org/3/download.html",
+        "source_url": "https://docs.python.org/3/archives/python-3.14-docs-html.zip",
+        "status": "resolved",
+        "supporting_file": true,
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Python complete HTML documentation source bundle",
+        "version": "3.14.7; publisher build 2026-09-18"
+      },
+      "id": "docs_python_html_source",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_python_html_source",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "52bd302f4d58e02876901b96e9c6070a71948e52ae70aeafe2fafbca0355b89b",
+          "url": "https://docs.python.org/3/archives/python-3.14-docs-html.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "f0945099f00a6b078e0101b8a7bee14364698f8ecce4bb1a26d5c2e47c8203cf",
+      "size_bytes": 12857046,
+      "source_url": "https://docs.python.org/3/archives/python-3.14-docs-html.zip",
+      "version": "3.14.7; publisher build 2026-09-18"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Preserve the complete original document, author credits, copyright, license, invariant sections and cover notices where present.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original publisher ZIP containing all 37 official stable Python 3.14.0 PDFs dated October 7, 2025.",
+        "destination": "REFERENCE/SOURCE_PACKAGES/PYTHON/python-3.14.0-docs-pdf-a4.zip",
+        "format": "zip",
+        "id": "docs_python_pdf_source",
+        "illustrated": false,
+        "language": "en",
+        "license": "PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD",
+        "profiles": [
+          "flash-16gb",
+          "critical-64gb"
+        ],
+        "publisher": "Python Software Foundation",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "cc651ef42d0f14d4a55438656e2c859d8ccbfb77b1e4e229f5531438d071c951",
+        "size_bytes": 21615624,
+        "snapshot_date": "2025-10-07",
+        "source_page": "https://www.python.org/ftp/python/doc/3.14.0/",
+        "source_url": "https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip",
+        "status": "resolved",
+        "supporting_file": true,
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "Python 3.14.0 official PDF archive (October 2025 source ZIP)",
+        "version": "3.14.0 stable official PDF archive 2025-10-07"
+      },
+      "id": "docs_python_pdf_source",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_python_pdf_source",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "dff14fa5331c0fe53fbbcffadce968089ff24f14c7cec150ba98876eabbc10b8",
+          "url": "https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "cc651ef42d0f14d4a55438656e2c859d8ccbfb77b1e4e229f5531438d071c951",
+      "size_bytes": 21615624,
+      "source_url": "https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip",
+      "version": "3.14.0 stable official PDF archive 2025-10-07"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "SQLite authors. Original archive and all packaged license/copyright notices retained without modification.",
+        "category": "computing",
+        "critical": false,
+        "description": "Pinned publisher ZIP input, fetched once during a future selected build. All separately pinned package members are extracted as ordinary files with their original relative structure; this dependency is omitted from reading navigation and search.",
+        "destination": "REFERENCE/COMPUTING/SOURCES/sqlite-doc-3530400.zip",
+        "format": "zip",
+        "id": "docs_sqlite_html_source",
+        "illustrated": false,
+        "language": "en",
+        "license": "Public-domain SQLite documentation; linked third-party material retains its own rights",
+        "profiles": [],
+        "publisher": "SQLite authors",
+        "reader_required": true,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "a1d0f5de57485d062796ed7e67daff0758b50d00001a0f233a2c15aaf40bbdc8",
+        "size_bytes": 11820412,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.sqlite.org/download.html",
+        "source_url": "https://www.sqlite.org/2026/sqlite-doc-3530400.zip",
+        "status": "resolved",
+        "supporting_file": true,
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "SQLite complete static documentation source bundle",
+        "version": "3.53.4"
+      },
+      "id": "docs_sqlite_html_source",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_sqlite_html_source",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "cf87f34b0f637036f53f3c722f82f07eca9ce0a962e1c9124e7ce766602e8248",
+          "url": "https://www.sqlite.org/2026/sqlite-doc-3530400.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "a1d0f5de57485d062796ed7e67daff0758b50d00001a0f233a2c15aaf40bbdc8",
+      "size_bytes": 11820412,
+      "source_url": "https://www.sqlite.org/2026/sqlite-doc-3530400.zip",
+      "version": "3.53.4"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/bootup.html",
+        "format": "html",
+        "id": "docs_systemd_bootup",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "e82f106cd5daa570357b522bb60553a75b4bd87eda991b98aee530bea14026ab",
+        "size_bytes": 22633,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/bootup.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/bootup.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: bootup",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_bootup",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_bootup",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "63334b0d1aef5addad063a22ee8d53090fc62cb3376b73d628bd3f169492c7e3",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/bootup.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "e82f106cd5daa570357b522bb60553a75b4bd87eda991b98aee530bea14026ab",
+      "size_bytes": 22633,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/bootup.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/journalctl.html",
+        "format": "html",
+        "id": "docs_systemd_journalctl",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "d2a264edbbd46ed91efed52bcb12f7145f20891f76e2397c6983e6ecca242500",
+        "size_bytes": 86130,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/journalctl.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/journalctl.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: journalctl",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_journalctl",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_journalctl",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "cae89710fa0a152afd193499e81490bc5e8cd51c4b4fbd1dcb6efd5cf24ac70c",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/journalctl.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "d2a264edbbd46ed91efed52bcb12f7145f20891f76e2397c6983e6ecca242500",
+      "size_bytes": 86130,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/journalctl.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/journald.conf.html",
+        "format": "html",
+        "id": "docs_systemd_journald_conf",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "209bb0d61eb687b33c33edf3127e787bc9bdf1f7c8205ec1ba1c9f1a84260550",
+        "size_bytes": 39206,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/journald.conf.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/journald.conf.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: journald.conf",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_journald_conf",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_journald_conf",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "8453da3c7c0353ee6416cf5ef131d1566680d79e774553a23f79cf14f24a1b4c",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/journald.conf.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "209bb0d61eb687b33c33edf3127e787bc9bdf1f7c8205ec1ba1c9f1a84260550",
+      "size_bytes": 39206,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/journald.conf.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project and Free Software Foundation. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Original unmodified licensing companion. Preserve alongside applicable manuals.",
+        "destination": "REFERENCE/COMPUTING/LICENSES/systemd-license.txt",
+        "format": "txt",
+        "id": "docs_systemd_lgpl_license",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later",
+        "profiles": [],
+        "publisher": "systemd project and Free Software Foundation",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "6d9bb3b7fc818a8facc4cc296060a0883fef8710d6498f86165335846e82ee9d",
+        "size_bytes": 26518,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://raw.githubusercontent.com/systemd/systemd/v259/LICENSE.LGPL2.1",
+        "source_url": "https://raw.githubusercontent.com/systemd/systemd/v259/LICENSE.LGPL2.1",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd LGPL license",
+        "version": "v259 source tag"
+      },
+      "id": "docs_systemd_lgpl_license",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_lgpl_license",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "e1cc112a552a7f672db33adb7d2723fe7aa6e45a7245711014aa34edaa6d7a40",
+          "url": "https://raw.githubusercontent.com/systemd/systemd/v259/LICENSE.LGPL2.1"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "6d9bb3b7fc818a8facc4cc296060a0883fef8710d6498f86165335846e82ee9d",
+      "size_bytes": 26518,
+      "source_url": "https://raw.githubusercontent.com/systemd/systemd/v259/LICENSE.LGPL2.1",
+      "version": "v259 source tag"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Original unmodified licensing companion. Preserve alongside applicable manuals.",
+        "destination": "REFERENCE/COMPUTING/LICENSES/systemd-license-readme.md",
+        "format": "md",
+        "id": "docs_systemd_license_readme",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; individual exceptions listed",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "bce1d2e9bad517b493168b37604c5d02a7fb638b4d1b9fc730adafa06c603456",
+        "size_bytes": 4144,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://raw.githubusercontent.com/systemd/systemd/v259/LICENSES/README.md",
+        "source_url": "https://raw.githubusercontent.com/systemd/systemd/v259/LICENSES/README.md",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd licensing overview",
+        "version": "v259 source tag"
+      },
+      "id": "docs_systemd_license_readme",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_license_readme",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "029ccf56037c0e2bfdd860c4cd8c6a99c2c1d23bfe9b1a7016df8e8ee9ae9231",
+          "url": "https://raw.githubusercontent.com/systemd/systemd/v259/LICENSES/README.md"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "bce1d2e9bad517b493168b37604c5d02a7fb638b4d1b9fc730adafa06c603456",
+      "size_bytes": 4144,
+      "source_url": "https://raw.githubusercontent.com/systemd/systemd/v259/LICENSES/README.md",
+      "version": "v259 source tag"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/networkctl.html",
+        "format": "html",
+        "id": "docs_systemd_networkctl",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "f412c6a28ec9ed3ad950b808fb90ad2c7b212ccae50482ba0aab9b30a0d6633a",
+        "size_bytes": 31255,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/networkctl.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/networkctl.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: networkctl",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_networkctl",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_networkctl",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "5504025c36688de952cde87eff1388a92e420b2f2922b86da2b429c8ee9765fd",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/networkctl.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "f412c6a28ec9ed3ad950b808fb90ad2c7b212ccae50482ba0aab9b30a0d6633a",
+      "size_bytes": 31255,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/networkctl.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/resolvectl.html",
+        "format": "html",
+        "id": "docs_systemd_resolvectl",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "ea738b9428fb3e3702fe23eadd2452dcfad0df9d856bac15acb27df8c235dc36",
+        "size_bytes": 46446,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/resolvectl.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/resolvectl.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: resolvectl",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_resolvectl",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_resolvectl",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "8cc6999b9a139aef0f11ab6b1bbf7f55e994ef0cf8029ba93e721b2019b4c0e2",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/resolvectl.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "ea738b9428fb3e3702fe23eadd2452dcfad0df9d856bac15acb27df8c235dc36",
+      "size_bytes": 46446,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/resolvectl.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemctl.html",
+        "format": "html",
+        "id": "docs_systemd_systemctl",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "85e7b384bf7f47dac5d35768005d6e74bad2eb153c613b7242442ec2f383da72",
+        "size_bytes": 195319,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemctl.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemctl.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemctl",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemctl",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemctl",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "a6983b48afc69a8eeb4040a93c4094f6eab5b949c92fa5e728d57e46ced2538f",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemctl.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "85e7b384bf7f47dac5d35768005d6e74bad2eb153c613b7242442ec2f383da72",
+      "size_bytes": 195319,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemctl.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd.html",
+        "format": "html",
+        "id": "docs_systemd_systemd",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "e20e6d2bf454c4305dfd396127de980b146a5a3bb849ad61956b2f153c833331",
+        "size_bytes": 103162,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "124baaa59efd6427928ad2ff70db5a6bb12e7bae5d199eb0f1e6096049575979",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "e20e6d2bf454c4305dfd396127de980b146a5a3bb849ad61956b2f153c833331",
+      "size_bytes": 103162,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd-analyze.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_analyze",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "a240d630288d186a77ce79a608e462db8d82d3e6e0d1899d1832606f0055ec05",
+        "size_bytes": 114405,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd-analyze.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd-analyze.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd-analyze",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_analyze",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_analyze",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "a9c3ef29735b8d3a02ce400a2647fc8508b7ff3bb0258d746c9b5b1eaa3608dc",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd-analyze.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "a240d630288d186a77ce79a608e462db8d82d3e6e0d1899d1832606f0055ec05",
+      "size_bytes": 114405,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd-analyze.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd.exec.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_exec",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "f51d96b6acacb11f87a2bb0136d22d002365d3dae5fe6c120ca1f77cc3277a80",
+        "size_bytes": 370424,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.exec.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.exec.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd.exec",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_exec",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_exec",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "21b91f232f9c1ced8d10e4c9745903e4d3074f71efbd99bb281879d56f91a801",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd.exec.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "f51d96b6acacb11f87a2bb0136d22d002365d3dae5fe6c120ca1f77cc3277a80",
+      "size_bytes": 370424,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.exec.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd-journald.service.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_journald_service",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "2c8008edf48b18e324adcfba7de3cf6c484f0827941387ac183947020dfef607",
+        "size_bytes": 28145,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd-journald.service.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd-journald.service.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd-journald.service",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_journald_service",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_journald_service",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "377fcea24f5b78bbde85c57d94a0affe54e5739c24b5cc0a99237ed1f2927833",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd-journald.service.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "2c8008edf48b18e324adcfba7de3cf6c484f0827941387ac183947020dfef607",
+      "size_bytes": 28145,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd-journald.service.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd.mount.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_mount",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "0df6cfaea361014955575b67e4876c1fc6cae41ebf96015ea95fa55d96b09fcf",
+        "size_bytes": 42599,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.mount.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.mount.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd.mount",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_mount",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_mount",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "4b59e2b16682d633011b210cde7ab93fd7729976820a87825ac9e0cd08b17925",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd.mount.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "0df6cfaea361014955575b67e4876c1fc6cae41ebf96015ea95fa55d96b09fcf",
+      "size_bytes": 42599,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.mount.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd.network.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_network",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "350dd11451ecd657799c416c453d4a8a8d79e111bd6f1b0ca9d2196459038587",
+        "size_bytes": 392452,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.network.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.network.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd.network",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_network",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_network",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "da5347e7b1a3fb5eac8539897262f27c173c25366c186b126d39b272ce28144f",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd.network.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "350dd11451ecd657799c416c453d4a8a8d79e111bd6f1b0ca9d2196459038587",
+      "size_bytes": 392452,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.network.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd-networkd.service.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_networkd_service",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "a80be0767874a580b16c41d4e3ecc18808104ab020f5047544f56a2e039170e8",
+        "size_bytes": 6797,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd-networkd.service.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd-networkd.service.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd-networkd.service",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_networkd_service",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_networkd_service",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "fcc792b5c36853143bc5651cfe68fe9fd0e3e7edae1441de0e60d18d06c2ba08",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd-networkd.service.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "a80be0767874a580b16c41d4e3ecc18808104ab020f5047544f56a2e039170e8",
+      "size_bytes": 6797,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd-networkd.service.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd.resource-control.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_resource_control",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "66de0b38a41b32738e011466c2b98a965e49cdd681e661bbb03165d02b441678",
+        "size_bytes": 109410,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.resource-control.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.resource-control.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd.resource-control",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_resource_control",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_resource_control",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "817e363ca9f3bc484b37133aa42ce9e20d5a1afd792de5f9b0862f908ecc9938",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd.resource-control.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "66de0b38a41b32738e011466c2b98a965e49cdd681e661bbb03165d02b441678",
+      "size_bytes": 109410,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.resource-control.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd.service.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_service",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "aad52649ee01e069a16d13863e2658b09d86e9a445e9cdc68dd53953f47481f2",
+        "size_bytes": 120422,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.service.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.service.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd.service",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_service",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_service",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "302da26f3c1d8a339e358b105b4ccb06c5e141d243acfcb00c96f646a1f4fc94",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd.service.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "aad52649ee01e069a16d13863e2658b09d86e9a445e9cdc68dd53953f47481f2",
+      "size_bytes": 120422,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.service.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd.socket.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_socket",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "ce034e1ab91eed7a945b2e5f2bf199024b55b979961cb377ff32b639eff4f688",
+        "size_bytes": 66640,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.socket.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.socket.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd.socket",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_socket",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_socket",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "f5bb40936396c790c106fb64cf1fedcf5632c8134d309bd8eea0698b053942b4",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd.socket.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "ce034e1ab91eed7a945b2e5f2bf199024b55b979961cb377ff32b639eff4f688",
+      "size_bytes": 66640,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.socket.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd.special.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_special",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "92998fca3f18d8d6455bebe624bb7f45d87a4093c94ae8c7afb04798de35ca7c",
+        "size_bytes": 90582,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.special.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.special.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd.special",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_special",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_special",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "685e62a32e683a36358aa5beb0459fc8a4ee86961eda2d0706af040ee4a1b6c9",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd.special.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "92998fca3f18d8d6455bebe624bb7f45d87a4093c94ae8c7afb04798de35ca7c",
+      "size_bytes": 90582,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.special.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd-system.conf.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_system_conf",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "f9ce839d42566eaa72a2a683b6dead87f9cc012fde12ab33e94da6b7873a8841",
+        "size_bytes": 57172,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd-system.conf.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd-system.conf.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd-system.conf",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_system_conf",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_system_conf",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "300e3da743d2d64bce89bbd83e4e658d31d4c61b306bfbab5041e0a2f1e5c0bc",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd-system.conf.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "f9ce839d42566eaa72a2a683b6dead87f9cc012fde12ab33e94da6b7873a8841",
+      "size_bytes": 57172,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd-system.conf.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd.timer.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_timer",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "f943ce348a2a4645c98a30dfac8d92fe4ca7250f45ec155e5642066764352546",
+        "size_bytes": 30043,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.timer.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.timer.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd.timer",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_timer",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_timer",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "e493a09e50686a20b4fcae5c7820eedfa1e1e19bbdbf1c6a91a5a89e39b9f112",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd.timer.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "f943ce348a2a4645c98a30dfac8d92fe4ca7250f45ec155e5642066764352546",
+      "size_bytes": 30043,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.timer.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "systemd project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected manuals remain; core reading works offline. This is a selected 20-manual administration set, not every systemd manual.",
+        "destination": "REFERENCE/COMPUTING/SYSTEMD/systemd.unit.html",
+        "format": "html",
+        "id": "docs_systemd_systemd_unit",
+        "illustrated": false,
+        "language": "en",
+        "license": "LGPL-2.1-or-later; preserve individual notices",
+        "profiles": [],
+        "publisher": "systemd project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "6394c000063616f6d629512f5dedbb864a368c415b3c5597867f377a30f1457c",
+        "size_bytes": 173590,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.unit.html",
+        "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.unit.html",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "systemd: systemd.unit",
+        "version": "259.6 (publisher /259 manual set)"
+      },
+      "id": "docs_systemd_systemd_unit",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_systemd_systemd_unit",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "8315c7ece87caa3ae70aa6d37fe6936d30efb6c85ac5785a55cd26087fd2b432",
+          "url": "https://www.freedesktop.org/software/systemd/man/259/systemd.unit.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "6394c000063616f6d629512f5dedbb864a368c415b3c5597867f377a30f1457c",
+      "size_bytes": 173590,
+      "source_url": "https://www.freedesktop.org/software/systemd/man/259/systemd.unit.html",
+      "version": "259.6 (publisher /259 manual set)"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "util-linux project. Preserve original authorship, source/version notices and the separately cataloged license companions.",
+        "category": "computing",
+        "critical": false,
+        "description": "Original unmodified licensing companion. Preserve alongside applicable manuals.",
+        "destination": "REFERENCE/COMPUTING/LICENSES/util-linux-licensing.txt",
+        "format": "txt",
+        "id": "docs_util_linux_licensing",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed GPL/BSD/public-domain licenses; individual file notices apply",
+        "profiles": [],
+        "publisher": "util-linux project",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "4c2db318192bda62f3f8fcf71488bb5e602ae4385eba281d711b46cc13a40bb3",
+        "size_bytes": 1037,
+        "snapshot_date": "2026-09-19",
+        "source_page": "https://raw.githubusercontent.com/util-linux/util-linux/v2.41/README.licensing",
+        "source_url": "https://raw.githubusercontent.com/util-linux/util-linux/v2.41/README.licensing",
+        "status": "resolved",
+        "tags": [
+          "programming",
+          "computing",
+          "reference"
+        ],
+        "title": "util-linux licensing overview",
+        "version": "v2.41"
+      },
+      "id": "docs_util_linux_licensing",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "docs_util_linux_licensing",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "2627bee7e91fae65ad450474664f24710ce216d7c70f1ab3e5a1a9f745cfb5a0",
+          "url": "https://raw.githubusercontent.com/util-linux/util-linux/v2.41/README.licensing"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "sha256": "4c2db318192bda62f3f8fcf71488bb5e602ae4385eba281d711b46cc13a40bb3",
+      "size_bytes": 1037,
+      "source_url": "https://raw.githubusercontent.com/util-linux/util-linux/v2.41/README.licensing",
+      "version": "v2.41"
+    }
+  ],
+  "storage_peak_bytes": 107094895
+}

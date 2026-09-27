@@ -16,6 +16,7 @@ def main(argv=None):
     inspect=commands.add_parser('inspect')
     inspect.add_argument('--staging-root',type=Path,required=True)
     inspect.add_argument('--output',type=Path,required=True)
+    inspect.add_argument('--tool-directory',type=Path,help='Directory containing a reviewed installed 7z executable')
     inspect.add_argument('--max-expanded-bytes',type=int,default=650_000_000_000)
     inspect.add_argument('--wait-for-job',type=Path,help='Wait for an existing source capture job before inspection')
     inspect.add_argument('--wait-seconds',type=int,default=7200)
@@ -32,6 +33,12 @@ def main(argv=None):
     select.add_argument('--limit',type=int,default=100000)
     args=parser.parse_args(argv)
     if args.command=='inspect':
+        if args.tool_directory:
+            import os
+            from owl.safety import reject_symlinks
+            reject_symlinks(args.tool_directory)
+            if not args.tool_directory.is_dir():raise ValueError('7z tool directory is absent')
+            os.environ['PATH']=str(args.tool_directory.absolute())+os.pathsep+os.environ.get('PATH','')
         if args.wait_for_job:
             import time
             from owl.jobs import status_job

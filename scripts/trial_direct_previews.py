@@ -141,7 +141,7 @@ def inspect(source_record, staging, preview_result, output):
             raise SafetyError('Generated document changed or exceeds structural read bound')
         derived = target.read_bytes()
         result = {'entry': row['entry'], 'asset_id': asset['id'], 'source_sha256': row['entry_sha256'],
-                  'output_sha256': asset['sha256'], 'mime': row['mime'], 'topics': row['topics']}
+                  'output_sha256': asset['sha256'], 'output_path': str(target), 'mime': row['mime'], 'topics': row['topics']}
         if row['mime'] == 'application/pdf':
             result.update(original_pdf_retained=derived == body, structural_pass=derived == body)
         else:
@@ -149,6 +149,8 @@ def inspect(source_record, staging, preview_result, output):
             left.feed(body.decode('utf-8', errors='strict')); left.close()
             right.feed(derived.decode('utf-8', errors='strict')); right.close()
             original_text, generated_text = left.normalized(), right.normalized()
+            from owl.acquisition.sampling import excerpt_windows
+            result['utility_excerpts']=excerpt_windows(original_text)
             counts = {tag: {'source': left.counts[tag], 'output': right.counts[tag]}
                       for tag in ('img','table','figure','figcaption','math','svg','canvas','video','audio')}
             losses = [tag for tag, count in counts.items() if count['source'] > count['output']]
