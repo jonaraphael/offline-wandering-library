@@ -10,6 +10,11 @@ entrances:
   - repair
   - navigation-maps
   - science
+  - humanities
+  - social-sciences
+  - business
+  - computing
+  - college-success
   - language-books
   - reference
   tasks:
@@ -134,7 +139,7 @@ topics:
   - Hygiene
 - id: food-preservation
   title: Preserving food
-  description: USDA home-canning volumes, organized by their published subject.
+  description: Canning, freezing, drying, fermentation and post-harvest storage references; retain each publication's date and limitations.
   parents:
   - food-growing
   related:
@@ -557,3 +562,194 @@ topics:
   - food-growing
   - shelter
   aliases: []
+- id: humanities
+  title: Humanities
+  description: History, philosophy, and writing textbooks.
+  parents: []
+  related:
+  - language-books
+  - social-sciences
+  aliases: []
+- id: history
+  title: History
+  description: United States and world history, including societies, cultures, and historical change.
+  parents:
+  - humanities
+  - learn-foundations
+  related:
+  - government-politics
+  aliases:
+  - World history
+  - U.S. history
+- id: philosophy
+  title: Philosophy
+  description: Philosophical questions, arguments, traditions, and methods of reasoning.
+  parents:
+  - humanities
+  - learn-foundations
+  related:
+  - business-law-ethics
+  aliases:
+  - Critical thinking
+- id: writing
+  title: Writing and composition
+  description: Writing, research, rhetoric, and a handbook of language conventions.
+  parents:
+  - humanities
+  - language-books
+  - learn-foundations
+  related:
+  - college-success
+  aliases:
+  - Composition
+  - Rhetoric
+- id: social-sciences
+  title: Social sciences
+  description: People, societies, institutions, behavior, and economic life.
+  parents: []
+  related:
+  - humanities
+  - business
+  aliases: []
+- id: anthropology
+  title: Anthropology
+  description: Human cultures, societies, biological variation, and the human past.
+  parents:
+  - social-sciences
+  - learn-foundations
+  related:
+  - history
+  - sociology
+  aliases: []
+- id: psychology
+  title: Psychology and human development
+  description: Behavior, mental processes, lifespan development, and behavioral neuroscience.
+  parents:
+  - social-sciences
+  - learn-foundations
+  related:
+  - biology
+  - nursing
+  aliases:
+  - Lifespan development
+  - Behavioral neuroscience
+- id: sociology
+  title: Sociology
+  description: Social relationships, institutions, inequality, and social change.
+  parents:
+  - social-sciences
+  - learn-foundations
+  related:
+  - anthropology
+  - government-politics
+  aliases: []
+- id: government-politics
+  title: Government and political science
+  description: Political systems, public institutions, citizenship, and American government.
+  parents:
+  - social-sciences
+  - learn-foundations
+  related:
+  - history
+  - economics
+  aliases:
+  - Civics
+  - Politics
+- id: business
+  title: Business
+  description: Business foundations, accounting, finance, economics, management, marketing, and law.
+  parents:
+  - learn-foundations
+  related:
+  - computing
+  - social-sciences
+  aliases: []
+- id: economics
+  title: Economics
+  description: Economic principles, markets, macroeconomics, and microeconomics.
+  parents:
+  - business
+  - social-sciences
+  - learn-foundations
+  related:
+  - government-politics
+  aliases:
+  - Macroeconomics
+  - Microeconomics
+- id: accounting-finance
+  title: Accounting and finance
+  description: Financial and managerial accounting, financial decisions, and business finance.
+  parents:
+  - business
+  related:
+  - economics
+  aliases:
+  - Accounting
+  - Finance
+- id: business-law-ethics
+  title: Business law and ethics
+  description: Business law, ethical decisions, and intellectual property.
+  parents:
+  - business
+  related:
+  - philosophy
+  - government-politics
+  aliases:
+  - Intellectual property
+  - Business ethics
+- id: management-marketing
+  title: Management, marketing, and entrepreneurship
+  description: Managing organizations, understanding organizational behavior, marketing, and starting businesses.
+  parents:
+  - business
+  related:
+  - psychology
+  aliases:
+  - Entrepreneurship
+  - Organizational behavior
+  - Marketing
+- id: statistics-data-science
+  title: Statistics and data science
+  description: Statistical reasoning, business statistics, and principles of data science.
+  parents:
+  - mathematics
+  - computing
+  related:
+  - business
+  aliases:
+  - Statistics
+  - Data science
+- id: nursing
+  title: Nursing
+  description: Nursing education, clinical skills, patient populations, nutrition, and pharmacology; retain each textbook's professional training scope.
+  parents:
+  - health
+  - learn-foundations
+  related:
+  - anatomy
+  - clinical-medicine
+  - health-worker-education
+  aliases:
+  - Nursing skills
+- id: college-success
+  title: Learning and college success
+  description: Preparing for college, study skills, learning strategies, and academic planning.
+  parents:
+  - learn-foundations
+  related:
+  - writing
+  aliases:
+  - Study skills
+  - College preparation
+- id: manufacturing
+  title: Manufacturing
+  description: Additive manufacturing principles, technologies, methods, and industrial applications.
+  parents:
+  - appropriate-technology
+  - science
+  - learn-foundations
+  related:
+  - business
+  aliases:
+  - Additive manufacturing
+  - 3D printing

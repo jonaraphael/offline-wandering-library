@@ -1428,3 +1428,507 @@ assignments:
 - topic_id: appropriate-technology
   asset_id: lowtech_magazine
   purpose: reference
+- topic_id: food-preservation
+  asset_id: ndsu_freezing_fn403_2024
+  purpose: reference
+  description: Food freezing, packaging, storage and thawing; NDSU guide reviewed
+    January 2024.
+- topic_id: food-preservation
+  asset_id: umd_drying_ec12
+  purpose: reference
+  description: Complete 2021 adult-education curriculum on drying foods, with original
+    tables and illustrations.
+- topic_id: canning
+  asset_id: ndsu_steam_canning_fn2065
+  purpose: reference
+  description: 2022 steam-canner guidance; later NCHFP vent-temperature and postprocessing
+    qualifications are required but not yet included.
+- topic_id: canning
+  asset_id: ndsu_substitutions_fn2102_2024
+  purpose: reference
+  description: Permitted and prohibited changes to tested canning recipes; revised
+    March 2024.
+- topic_id: canning
+  asset_id: uga_using_pressure_canners
+  purpose: reference
+  description: Complete June 2025 pressure-canner guideline with the original labeled
+    diagram and procedures.
+- topic_id: food-preservation
+  asset_id: nchfp_kombucha_faq
+  purpose: reference
+  description: University of Georgia's 2026 kombucha safety FAQ; retain the accompanying
+    recipe context.
+- topic_id: canning
+  asset_id: uga_using_boiling_water_canners_2025
+  purpose: reference
+  description: Complete May 2025 boiling-water-canner guideline with illustrated procedures.
+- topic_id: crop-production
+  asset_id: fao_greenhouse_vegetables
+  purpose: reference
+  description: FAO's 2013 greenhouse vegetable manual for Mediterranean climates,
+    including crop water, fertility and pest management.
+- topic_id: small-livestock
+  asset_id: fao_dairy_manual_vol1
+  purpose: reference
+  description: "Dairy processing and milk-quality technology units 1\u201311; 1993\
+    \ Asia-Pacific manual in its 2008 electronic edition, Volume 1 only."
+- topic_id: small-livestock
+  asset_id: fao_rabbit_husbandry
+  purpose: reference
+  description: FAO's 1997 revised rabbit husbandry manual; feeding, housing and reproduction
+    retain their original edition context.
+- topic_id: food-preservation
+  asset_id: fao_family_metal_silos
+  purpose: reference
+  description: FAO's 2015 construction and storage manual for family-sized cereal
+    and grain-legume silos.
+- topic_id: crop-production
+  asset_id: fao_agricultural_handtools
+  purpose: reference
+  description: FAO's 2013 hand-tool selection, identification and repair guidance
+    for technical and field officers in emergencies.
+- topic_id: food-preservation
+  asset_id: fao_fresh_produce_packinghouse
+  purpose: reference
+  description: FAO's 2012 fresh-produce packing-house manual for facility design,
+    handling and operation.
+- topic_id: irrigation
+  asset_id: fao_pressurized_irrigation
+  purpose: reference
+  description: FAO's 2007 second edition on pressurized irrigation, crop-water requirements
+    and family drip systems.
+- topic_id: small-livestock
+  asset_id: fao_good_dairy_practice
+  purpose: reference
+  description: Revised 2011 FAO/IDF dairy-farm guide covering milking hygiene, feed,
+    water and farm management.
+- topic_id: food-preservation
+  asset_id: ucdavis_smallscale_postharvest
+  purpose: reference
+  description: UC Davis fifth-edition horticultural handling manual; retain its December
+    2016 notice that some practices may not meet current food-safety standards.
+- topic_id: physics
+  asset_id: phet_forces_and_motion_basics
+  purpose: explanation
+  description: Interactive forces and motion simulation; desktop offline checks completed,
+    mobile-device compatibility remains unverified.
+- topic_id: physics
+  asset_id: phet_energy_skate_park_basics
+  purpose: explanation
+  description: Explore kinetic and potential energy with the original English PhET
+    simulation.
+- topic_id: physics
+  asset_id: phet_projectile_motion
+  purpose: explanation
+  description: Explore projectile trajectories and the effect of launch conditions.
+- topic_id: physics
+  asset_id: phet_pendulum_lab
+  purpose: explanation
+  description: Explore pendulum motion, length, mass and energy.
+- topic_id: physics
+  asset_id: phet_wave_on_a_string
+  purpose: explanation
+  description: Explore waves, oscillation and damping on a string.
+- topic_id: physics
+  asset_id: phet_gravity_force_lab_basics
+  purpose: explanation
+  description: Explore gravitational attraction, object masses and separation.
+- topic_id: physics
+  asset_id: phet_bending_light
+  purpose: explanation
+  description: Explore light reflection and refraction at material boundaries.
+- topic_id: chemistry
+  asset_id: phet_states_of_matter_basics
+  purpose: explanation
+  description: Explore particle behavior in solids, liquids and gases.
+- topic_id: chemistry
+  asset_id: phet_build_an_atom
+  purpose: explanation
+  description: Explore atomic structure by adding protons, neutrons and electrons.
+- topic_id: chemistry
+  asset_id: phet_balancing_chemical_equations
+  purpose: explanation
+  description: Explore reaction coefficients and balancing chemical equations.
+- topic_id: chemistry
+  asset_id: phet_ph_scale_basics
+  purpose: explanation
+  description: Explore acidity, basicity and dilution on the pH scale.
+- topic_id: biology
+  asset_id: phet_natural_selection
+  purpose: explanation
+  description: Explore inherited traits and environmental selection in a modeled population.
+- topic_id: mathematics
+  asset_id: phet_fractions_intro
+  purpose: explanation
+  description: Explore fractions through visual models and numerical representations.
+- topic_id: mathematics
+  asset_id: phet_area_builder
+  purpose: explanation
+  description: Explore area and perimeter by arranging shapes.
+- topic_id: appropriate-technology
+  asset_id: survivor_fuller_cones_1904
+  purpose: reference
+  description: Historical 1904 sheet-metal cone-pattern geometry; retains original
+    methods and does not establish current workshop safety practice.
+- topic_id: shelter
+  asset_id: survivor_fowler_foundations_vol1_1920
+  purpose: reference
+  description: Historical 1920 ordinary-foundations reference, Volume I only; image-only
+    scan, not current structural-design or building-code guidance.
+- topic_id: water-hygiene
+  asset_id: survivor_wegmann_water_supply_1918
+  purpose: reference
+  description: Historical 1918 water-conveyance engineering; not current drinking-water
+    treatment or potable-material guidance.
+- topic_id: computing
+  asset_id: docs_python_html_66166f359e273126c383
+  purpose: reference
+  description: Python 3.14.7 documentation home page, with tutorials and language
+    and library references.
+- topic_id: computing
+  asset_id: docs_sqlite_html_31faa812fdf25e987506
+  purpose: reference
+  description: SQLite 3.53.4 documentation home page, with SQL syntax, command-line
+    and C API references.
+- asset_id: food_updates_2026_09_18_direct
+  topic_id: food-preservation
+  purpose: practical
+- asset_id: docs_openssh_105p1_ssh_copy_id_1
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_moduli_5
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_scp_1
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_sftp_server_8
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_sftp_1
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_ssh_add_1
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_ssh_agent_1
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_ssh_keygen_1
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_ssh_keyscan_1
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_ssh_keysign_8
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_ssh_pkcs11_helper_8
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_ssh_sk_helper_8
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_ssh_1
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_ssh_config_5
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_sshd_8
+  topic_id: computing
+  purpose: reference
+- asset_id: docs_openssh_105p1_sshd_config_5
+  topic_id: computing
+  purpose: reference
+- topic_id: manufacturing
+  asset_id: openstax_additive_manufacturing_essentials
+  purpose: explanation
+- topic_id: mathematics
+  asset_id: openstax_algebra_1
+  purpose: explanation
+- topic_id: government-politics
+  asset_id: openstax_american_government_4e
+  purpose: explanation
+- topic_id: biology
+  asset_id: openstax_biology_ap_courses
+  purpose: explanation
+- topic_id: business-law-ethics
+  asset_id: openstax_business_ethics
+  purpose: explanation
+- topic_id: business-law-ethics
+  asset_id: openstax_business_law_i_essentials_2e
+  purpose: explanation
+- topic_id: chemistry
+  asset_id: openstax_chemistry_atoms_first_2e
+  purpose: explanation
+- topic_id: nursing
+  asset_id: openstax_clinical_nursing_skills
+  purpose: explanation
+- topic_id: mathematics
+  asset_id: openstax_college_algebra_corequisite_support_2e
+  purpose: explanation
+- topic_id: physics
+  asset_id: openstax_college_physics_ap_courses_2e
+  purpose: explanation
+- topic_id: college-success
+  asset_id: openstax_college_success
+  purpose: explanation
+- topic_id: college-success
+  asset_id: openstax_college_success_concise
+  purpose: explanation
+- topic_id: biology
+  asset_id: openstax_concepts_biology
+  purpose: explanation
+- topic_id: mathematics
+  asset_id: openstax_contemporary_mathematics
+  purpose: explanation
+- topic_id: management-marketing
+  asset_id: openstax_entrepreneurship
+  purpose: explanation
+- topic_id: computing
+  asset_id: openstax_foundations_information_systems
+  purpose: explanation
+- topic_id: nursing
+  asset_id: openstax_fundamentals_nursing
+  purpose: explanation
+- topic_id: anthropology
+  asset_id: openstax_introduction_anthropology
+  purpose: explanation
+- topic_id: psychology
+  asset_id: openstax_introduction_behavioral_neuroscience
+  purpose: explanation
+- topic_id: biology
+  asset_id: openstax_introduction_behavioral_neuroscience
+  purpose: explanation
+- topic_id: business
+  asset_id: openstax_introduction_business_2e
+  purpose: explanation
+- topic_id: computing
+  asset_id: openstax_introduction_computer_science
+  purpose: explanation
+- topic_id: business-law-ethics
+  asset_id: openstax_introduction_intellectual_property
+  purpose: explanation
+- topic_id: philosophy
+  asset_id: openstax_introduction_philosophy
+  purpose: explanation
+- topic_id: government-politics
+  asset_id: openstax_introduction_political_science
+  purpose: explanation
+- topic_id: computing
+  asset_id: openstax_introduction_python_programming
+  purpose: explanation
+- topic_id: sociology
+  asset_id: openstax_introduction_sociology_3e
+  purpose: explanation
+- topic_id: statistics-data-science
+  asset_id: openstax_introductory_business_statistics_2e
+  purpose: explanation
+- topic_id: business
+  asset_id: openstax_introductory_business_statistics_2e
+  purpose: explanation
+- topic_id: psychology
+  asset_id: openstax_lifespan_development
+  purpose: explanation
+- topic_id: nursing
+  asset_id: openstax_maternal_newborn_nursing
+  purpose: explanation
+- topic_id: midwifery
+  asset_id: openstax_maternal_newborn_nursing
+  purpose: explanation
+- topic_id: nursing
+  asset_id: openstax_medical_surgical_nursing
+  purpose: explanation
+- topic_id: clinical-medicine
+  asset_id: openstax_medical_surgical_nursing
+  purpose: explanation
+- topic_id: nursing
+  asset_id: openstax_nutrition
+  purpose: explanation
+- topic_id: chemistry
+  asset_id: openstax_organic_chemistry
+  purpose: explanation
+- topic_id: management-marketing
+  asset_id: openstax_organizational_behavior
+  purpose: explanation
+- topic_id: nursing
+  asset_id: openstax_pharmacology
+  purpose: explanation
+- topic_id: medicines
+  asset_id: openstax_pharmacology
+  purpose: explanation
+- topic_id: nursing
+  asset_id: openstax_population_health
+  purpose: explanation
+- topic_id: college-success
+  asset_id: openstax_preparing_for_college_success
+  purpose: explanation
+- topic_id: accounting-finance
+  asset_id: openstax_principles_financial_accounting
+  purpose: explanation
+- topic_id: accounting-finance
+  asset_id: openstax_principles_managerial_accounting
+  purpose: explanation
+- topic_id: statistics-data-science
+  asset_id: openstax_principles_data_science
+  purpose: explanation
+- topic_id: business
+  asset_id: openstax_principles_data_science
+  purpose: explanation
+- topic_id: economics
+  asset_id: openstax_principles_economics_3e
+  purpose: explanation
+- topic_id: accounting-finance
+  asset_id: openstax_principles_finance_2e
+  purpose: explanation
+- topic_id: economics
+  asset_id: openstax_principles_macroeconomics_3e
+  purpose: explanation
+- topic_id: management-marketing
+  asset_id: openstax_principles_management
+  purpose: explanation
+- topic_id: management-marketing
+  asset_id: openstax_principles_marketing
+  purpose: explanation
+- topic_id: economics
+  asset_id: openstax_principles_microeconomics_3e
+  purpose: explanation
+- topic_id: nursing
+  asset_id: openstax_psychiatric_mental_health
+  purpose: explanation
+- topic_id: psychology
+  asset_id: openstax_psychology_2e
+  purpose: explanation
+- topic_id: statistics-data-science
+  asset_id: openstax_statistics
+  purpose: explanation
+- topic_id: history
+  asset_id: openstax_us_history
+  purpose: explanation
+- topic_id: computing
+  asset_id: openstax_workplace_software_skills
+  purpose: explanation
+- topic_id: business
+  asset_id: openstax_workplace_software_skills
+  purpose: explanation
+- topic_id: history
+  asset_id: openstax_world_history_volume_1
+  purpose: explanation
+- topic_id: history
+  asset_id: openstax_world_history_volume_2
+  purpose: explanation
+- topic_id: writing
+  asset_id: openstax_writing_guide
+  purpose: explanation
+- topic_id: statistics-data-science
+  asset_id: openstax_introductory_statistics_2e
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_tutorial
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_annotations
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_unicode
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_installing
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_sockets
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_a_conceptual_overview_of_asyncio
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_argparse
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_using
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_logging_cookbook
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_functional
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_instrumentation
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_descriptor
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_reference
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_enum
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_free_threading_extensions
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_faq
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_sorting
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_remote_debugging
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_gdb_helpers
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_argparse_optparse
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_clinic
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_extending
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_isolating_extensions
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_logging
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_whatsnew
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_c_api
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_mro
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_regex
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_urllib2
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_ipaddress
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_curses
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_timerfd
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_perf_profiling
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_pyporting
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_cporting
+  purpose: explanation
+- topic_id: computing
+  asset_id: docs_python_pdf_howto_free_threading_python
+  purpose: explanation

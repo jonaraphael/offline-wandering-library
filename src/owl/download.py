@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import http.client
+import errno
 import json
 import os
 from pathlib import Path
 import re
 import socket
+import ssl
 import time
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
@@ -21,6 +23,24 @@ class DownloadError(RuntimeError):
     pass
 
 
+class TransientDownloadError(DownloadError):
+    """A bounded transport failure that a saved build job may retry unchanged."""
+
+
+def _transient(error: BaseException) -> bool:
+    if isinstance(error, HTTPError):
+        return error.code in {408, 425, 429, 500, 502, 503, 504}
+    if isinstance(error, ssl.SSLCertVerificationError):
+        return False
+    if isinstance(error, URLError):
+        return not isinstance(error.reason, ssl.SSLCertVerificationError)
+    if isinstance(error, (TransientDownloadError, TimeoutError, ConnectionError, http.client.HTTPException)):
+        return True
+    return isinstance(error, OSError) and error.errno in {
+        None, errno.ECONNRESET, errno.ECONNREFUSED, errno.ECONNABORTED,
+        errno.ETIMEDOUT, errno.ENETUNREACH, errno.EHOSTUNREACH, errno.EPIPE}
+
+
 def verified(path: Path, size: int, checksum: str | None) -> bool:
     reject_symlinks(path)
     return bool(checksum and path.is_file() and path.stat().st_size == size and sha256_file(path) == checksum)
@@ -28,7 +48,8 @@ def verified(path: Path, size: int, checksum: str | None) -> bool:
 
 def _complete(part: Path, asset: dict) -> str:
     if part.stat().st_size != asset["size_bytes"]:
-        raise DownloadError(f"{asset['id']}: size mismatch: {part.stat().st_size} != {asset['size_bytes']}")
+        error = TransientDownloadError if part.stat().st_size < asset["size_bytes"] else DownloadError
+        raise error(f"{asset['id']}: size mismatch: {part.stat().st_size} != {asset['size_bytes']}")
     digest = sha256_file(part)
     if asset["sha256"] and digest != asset["sha256"]:
         raise DownloadError(f"{asset['id']}: SHA-256 mismatch; refusing completed download")
@@ -36,7 +57,7 @@ def _complete(part: Path, asset: dict) -> str:
 
 
 def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 3,
-             timeout: float = 60, progress=print, sleep=time.sleep) -> str:
+             timeout: float = 60, progress=print, sleep=time.sleep, response_evidence=None) -> str:
     """Destination must be in the builder-owned staging/cache directory."""
     reject_symlinks(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -47,9 +68,12 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
     reject_symlinks(meta_path)
     expected = asset["size_bytes"]
     urls = [asset["source_url"], *asset.get("mirrors", [])]
+    standard_user_agent_urls = set()
+    attempted_urls = set()
     last_error = None
     for attempt in range(retries + 1):
         url = urls[attempt % len(urls)]
+        attempted_urls.add(url)
         try:
             _check_directory(destination.parent, parent_identity)
             parsed = urlsplit(url)
@@ -68,6 +92,8 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                                      part=part, progress=progress)
                 _check_directory(destination.parent, parent_identity)
                 reject_symlinks(meta_path)
+                if response_evidence is not None:
+                    response_evidence({"kind": "local", "requested_url": url, "final_url": url, "size_bytes": expected})
                 meta_path.unlink(missing_ok=True)
                 return digest
             else:
@@ -84,14 +110,17 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                     with _open_regular(part, writable=True) as handle, durable_writer(handle):
                         pass
                     reject_symlinks(destination)
+                    if response_evidence is not None:
+                        response_evidence(metadata.get("response_evidence", {"kind": "unavailable", "requested_url": url}))
                     os.replace(part, destination)
                     meta_path.unlink(missing_ok=True)
                     return digest
                 validator = metadata.get("validator") if metadata.get("url") == url else None
                 if offset >= expected or (offset and not asset["sha256"] and not validator):
                     offset = 0
-                headers = {"User-Agent": "Offline-Wandering-Library/0.1 (+offline library builder)",
-                           "Accept-Encoding": "identity"}
+                headers = {"Accept-Encoding": "identity"}
+                if url not in standard_user_agent_urls:
+                    headers["User-Agent"] = "Offline-Wandering-Library/0.1 (+offline library builder)"
                 if offset:
                     headers["Range"] = f"bytes={offset}-"
                     if validator:
@@ -111,7 +140,7 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                             if returned != validator:
                                 _check_directory(destination.parent, parent_identity)
                                 atomic_write(meta_path, b"{}")
-                                raise DownloadError("Resume validator changed or missing; next attempt restarts from byte zero")
+                                raise TransientDownloadError("Resume validator changed or missing; next attempt restarts from byte zero")
                     elif status == 200:
                         offset = 0  # Server ignored Range or entity changed; restart safely.
                     else:
@@ -122,7 +151,14 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                     etag = response.headers.get("ETag", "")
                     validator = etag if etag and not etag.startswith("W/") else response.headers.get("Last-Modified")
                     _check_directory(destination.parent, parent_identity)
-                    atomic_write(meta_path, json.dumps({"url": url, "validator": validator}).encode())
+                    response_record = {"kind": "http", "requested_url": url, "final_url": response.url,
+                                       "status": status, "offset": offset, "etag": response.headers.get("ETag"),
+                                       "last_modified": response.headers.get("Last-Modified"),
+                                       "content_length": response.headers.get("Content-Length"),
+                                       "content_range": response.headers.get("Content-Range"),
+                                       "content_encoding": response.headers.get("Content-Encoding", "identity")}
+                    atomic_write(meta_path, json.dumps({"url": url, "validator": validator,
+                                                       "response_evidence": response_record}).encode())
                     last_report = time.monotonic()
                     progress(f"{asset['id']}: {'resuming' if offset else 'downloading'} at {offset:,} / {expected:,} bytes")
                     _check_directory(destination.parent, parent_identity)
@@ -144,17 +180,35 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
             digest = _complete(part, asset)
             _check_directory(destination.parent, parent_identity)
             reject_symlinks(destination)
+            if response_evidence is not None:
+                response_evidence(response_record)
             os.replace(part, destination)
             meta_path.unlink(missing_ok=True)
             return digest
         except (OSError, URLError, HTTPError, http.client.HTTPException, socket.timeout, ValueError, DownloadError, TransferError) as error:
             last_error = error
+            # Publishers differ on accepted client identifiers. Change only this
+            # URL's next existing retry after a transport failure, never a bad pin.
+            if isinstance(error, HTTPError):
+                switch_agent = error.code == 403 and url not in standard_user_agent_urls
+                error.close()
+            else:
+                switch_agent = isinstance(error, (URLError, TimeoutError, ConnectionError, http.client.HTTPException))
+            if switch_agent:
+                standard_user_agent_urls.add(url)
             if isinstance(error, DownloadError) and "SHA-256 mismatch" in str(error):
                 # Corrupt bytes must never be reused, including on the next run.
                 _check_directory(destination.parent, parent_identity)
                 part.unlink(missing_ok=True)
                 meta_path.unlink(missing_ok=True)
+            # A rejected identifier or untried reviewed mirror gets its existing
+            # bounded fallback. Permanent pins, local I/O and safety errors do
+            # not become repeatable job failures.
+            fallback = isinstance(error, HTTPError) and (switch_agent or any(candidate not in attempted_urls for candidate in urls))
+            if not _transient(error) and not fallback:
+                break
             if attempt < retries:
                 progress(f"{asset['id']}: retry {attempt + 1}/{retries}: {error}")
                 sleep(min(2 ** attempt, 30))
-    raise DownloadError(f"{asset['id']}: download failed: {last_error}")
+    error_type = TransientDownloadError if _transient(last_error) else DownloadError
+    raise error_type(f"{asset['id']}: download failed: {last_error}") from last_error

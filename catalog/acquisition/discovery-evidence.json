@@ -1,0 +1,884 @@
+{
+  "reproduce": "python scripts/acquire_content.py discover --resource hesperian-health,survivor-tier-a,survivor-tier-b,regional-maps --json; add --offline to replay cached metadata or --refresh to explicitly recheck publishers. Recipe digests identify the exact selection input used by each saved result.",
+  "resources": [
+    {
+      "blockers": [
+        "270 of 271 official chapter PDFs for eight explicitly selected books are pinned. A Book for Midwives 2026 back matter returns HTTP 404; no substitute is silently supplied. Personal publisher downloads are usable; redistributable:false concerns further sharing, not this private build.",
+        "Same-edition back matter must be acquired and verified at build time"
+      ],
+      "candidate_count": 1,
+      "candidates": [
+        {
+          "body_verified": false,
+          "discovered_on": "https://languages.hesperian.org/pages/en/pdf.html",
+          "edition": "2026",
+          "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_bm.pdf",
+          "title": "Other resources from Hesperian"
+        }
+      ],
+      "discovery_report_sha256": "037886e7643dd754064ca9ea0920e28e353d6a02802da4ba031f80bc47d0a115",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-23T03:00:09.276469+00:00",
+          "content_type": "text/html",
+          "final_url": "https://languages.hesperian.org/pages/en/pdf.html",
+          "kind": "html",
+          "sha256": "2d7762391a8d39f161fe7c0a8689b2526f0ac795d2447f241e7d6e542df77c94",
+          "size_bytes": 88739,
+          "status": 200,
+          "url": "https://languages.hesperian.org/pages/en/pdf.html"
+        }
+      ],
+      "new_admitted_asset_count": 0,
+      "recipe_id": "hesperian-health-acquisition-v1",
+      "recipe_sha256": "5458ecbd56cdf9dbd2bc7cd646a6a6e70ac20d795308bd0f5ca111b37d8b75b0",
+      "resource_bodies_downloaded": false,
+      "resource_id": "hesperian-health"
+    },
+    {
+      "blockers": [
+        "USA overview source and exact pins remain to be selected.",
+        "Topographic sources require exact byte/hash pins and build-time verification; no map body has been acquired."
+      ],
+      "candidate_count": 1818,
+      "discovery_report_sha256": "4a25b3656df46493724dfa8c0e4066edcb79a4b4d41b79580909507c64839462",
+      "historical_status": "Earlier geographic-gap investigation; current v2 proposal records exact coverage and pending body pins/review.",
+      "inventory_complete": true,
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-23T03:00:10.699751+00:00",
+          "content_type": "application/geo+json",
+          "final_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/0/query?where=STUSAB+IN+%28%27CT%27%2C%27MA%27%2C%27ME%27%2C%27NH%27%2C%27RI%27%2C%27VT%27%29&outFields=STUSAB&returnGeometry=true&outSR=4326&f=geojson",
+          "kind": "json",
+          "sha256": "e0378bd2e5d88dc23c4f0e9385acc15e3bcb6bbbcb4c60cc5065899b085fcc7e",
+          "size_bytes": 2380569,
+          "status": 200,
+          "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/0/query?where=STUSAB+IN+%28%27CT%27%2C%27MA%27%2C%27ME%27%2C%27NH%27%2C%27RI%27%2C%27VT%27%29&outFields=STUSAB&returnGeometry=true&outSR=4326&f=geojson"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:37.049337+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=0&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "278d4aadd6393374c673d63db213d306cb9ed1e5025029562f8a2509308a9255",
+          "size_bytes": 216886,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=0&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:37.932612+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=100&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "e1188ae68dfa341c0eb40d66ebb6ee0febd484fbbb04a5627042ed8705fcec6d",
+          "size_bytes": 217466,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=100&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:38.611760+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=200&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "82df818b5bf67e66e114d7718fbf2ee5e30d80f580e944bd34b67d48b31cc249",
+          "size_bytes": 217327,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=200&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:39.477585+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=300&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "6cac8ff39b23e830402fb7692b6efc0abaee6c424621a7861f1cc46bdeb92883",
+          "size_bytes": 217707,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=300&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:40.605034+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=400&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "961eed3e857998034e741af7a620b4a297a9c6d1af318ca84fd0ababc4a80ae9",
+          "size_bytes": 217707,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=400&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:41.446871+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=500&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "70c61d3da6d32fc9457a908370864682c35aaa42d592b88c5b5bb3ad3cdbb7ac",
+          "size_bytes": 217481,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=500&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:42.671674+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=600&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "a5c0d79ecc612eab597fa09e75b212b2d93e1b77c406cd99c7070ced3939dd28",
+          "size_bytes": 217769,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=600&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:43.568691+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=700&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "a7af0d033353fc7040b47cffd16ca66316e59e45edac748ba67f57df570be1b6",
+          "size_bytes": 217854,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=700&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:44.586407+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=800&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "9d22155d327d6ae966c161f322700b2dee8c7278f15eab1e0f90bca033d4e257",
+          "size_bytes": 218111,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=800&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:45.840872+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=900&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "9fa621b658a459cea527f30c4ab5dc39c067568cf117c3b9e3996d6a8c57b754",
+          "size_bytes": 217741,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=900&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:46.849759+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1000&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "7bbd895ade7854cdfb4cc6fd6668235e6fd94fdc9022491dd80e213e5d249b78",
+          "size_bytes": 217645,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1000&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:47.356470+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1100&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "7b46560818c99f86107973e30dbdd627e0d2203ace193d67fd04143196d49301",
+          "size_bytes": 217719,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1100&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:48.259835+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1200&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "a2a3fcc3606ca0da6506dc671c560b5095f4a4e3da9fbceffbe7de0cd50502f1",
+          "size_bytes": 218143,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1200&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:49.044317+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1300&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "13279b73034f66b11910a1192238ee60f2b044ef2d9e5bb6cabc8b31ec70d946",
+          "size_bytes": 217808,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1300&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:49.593484+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1400&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "b85fbdef387c5a104bde0eea40ccd5df2a5be79a29f0cbe9b316ab4b91197e14",
+          "size_bytes": 217420,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1400&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:50.517953+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1500&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "e9d2e9fa67a996de19fbd0ded43088c382d1cf899dfb437dc250de575fcfcb92",
+          "size_bytes": 145290,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1500&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:51.083496+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=0&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "fa82421a2264ddf316ea123245193a53375f465d8b3cf1a353183c9956350ffd",
+          "size_bytes": 153612,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=0&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:13:32.483421+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=100&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "ee5de44fffe25e6c83fe382bbb29ca008c7c3aad1fd69c91ddba20e278230405",
+          "size_bytes": 37481,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=100&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:13:33.310742+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=0&prodExtents=1+x+2+degree&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "51bf5a402e5d76fcdac5b24d7971061dffadd9a84d68c4a53aec9d6a10bfa6e0",
+          "size_bytes": 152034,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=0&prodExtents=1+x+2+degree&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        },
+        {
+          "checked_at": "2026-09-23T03:13:33.682049+00:00",
+          "content_type": "application/json",
+          "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=100&prodExtents=1+x+2+degree&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+          "kind": "json",
+          "sha256": "2a05107f065477f5ae03554755765154840ea69e6ccb6065507fbfbc2d0542fe",
+          "size_bytes": 42013,
+          "status": 200,
+          "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=100&prodExtents=1+x+2+degree&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+        }
+      ],
+      "new_admitted_asset_count": 0,
+      "plans": {
+        "compact-256gb": {
+          "attempts": [
+            {
+              "fits": false,
+              "scale": 24000,
+              "size_bytes": 71678334015,
+              "states_with_coverage_gaps": [
+                "CT",
+                "MA",
+                "ME",
+                "NH",
+                "RI"
+              ]
+            },
+            {
+              "fits": true,
+              "scale": 100000,
+              "size_bytes": 1952953831,
+              "states_with_coverage_gaps": [
+                "MA",
+                "VT"
+              ]
+            },
+            {
+              "fits": true,
+              "scale": 250000,
+              "size_bytes": 356939666,
+              "states_with_coverage_gaps": [
+                "MA",
+                "VT"
+              ]
+            }
+          ],
+          "blockers": [
+            "USA overview has not been selected and pinned",
+            "Every available scale has uncovered New England areas"
+          ],
+          "budget_bytes": 10000000000,
+          "complete": false,
+          "selected_count": 0
+        },
+        "full-1tb": {
+          "attempts": [
+            {
+              "fits": false,
+              "scale": 24000,
+              "size_bytes": 71678334015,
+              "states_with_coverage_gaps": [
+                "CT",
+                "MA",
+                "ME",
+                "NH",
+                "RI"
+              ]
+            },
+            {
+              "fits": true,
+              "scale": 100000,
+              "size_bytes": 1952953831,
+              "states_with_coverage_gaps": [
+                "MA",
+                "VT"
+              ]
+            },
+            {
+              "fits": true,
+              "scale": 250000,
+              "size_bytes": 356939666,
+              "states_with_coverage_gaps": [
+                "MA",
+                "VT"
+              ]
+            }
+          ],
+          "blockers": [
+            "USA overview has not been selected and pinned",
+            "Every available scale has uncovered New England areas"
+          ],
+          "budget_bytes": 30000000000,
+          "complete": false,
+          "selected_count": 0
+        },
+        "standard-512gb": {
+          "attempts": [
+            {
+              "fits": false,
+              "scale": 24000,
+              "size_bytes": 71678334015,
+              "states_with_coverage_gaps": [
+                "CT",
+                "MA",
+                "ME",
+                "NH",
+                "RI"
+              ]
+            },
+            {
+              "fits": true,
+              "scale": 100000,
+              "size_bytes": 1952953831,
+              "states_with_coverage_gaps": [
+                "MA",
+                "VT"
+              ]
+            },
+            {
+              "fits": true,
+              "scale": 250000,
+              "size_bytes": 356939666,
+              "states_with_coverage_gaps": [
+                "MA",
+                "VT"
+              ]
+            }
+          ],
+          "blockers": [
+            "USA overview has not been selected and pinned",
+            "Every available scale has uncovered New England areas"
+          ],
+          "budget_bytes": 30000000000,
+          "complete": false,
+          "selected_count": 0
+        }
+      },
+      "recipe_id": "regional-maps-acquisition-v1",
+      "recipe_sha256": "12a88b278bbd77fdf4f2455414e8d8637eda3f27560c572d421a2c7164be20a3",
+      "resource_bodies_downloaded": false,
+      "resource_id": "regional-maps",
+      "states": [
+        "CT",
+        "MA",
+        "ME",
+        "NH",
+        "RI",
+        "VT"
+      ],
+      "superseded_by": "catalog/acquisition/regional-map-selection.json"
+    },
+    {
+      "blockers": [
+        "Three pinned historical volumes cover only sheet-metal cone pattern development, ordinary foundations (Volume I), and water conveyance/distribution. This is an 83,536,328-byte pilot, not the curated 75\u2013100 GB Tier A collection or broad trades coverage. No current safety, medical or veterinary coverage is claimed. Per-volume redistribution grants remain unverified; all three are excluded from redistributable packs. Other requested trades and a larger curated title list remain open.",
+        "No reviewed title for: animal husbandry, basketry, bearings, beekeeping, blacksmithing, boilers, bookbinding, brickmaking, bridges, butchering, butter, carpentry, casting, cheese, concrete, crop cultivation, dairying, drainage, engines, farm machinery, farming, food drying, forging, foundry, fuels, furniture, gears, glassmaking, grain milling, horticulture, joinery, leatherworking, lubricants, machine tools, machining, masonry, materials chemistry, measurement, mechanical drawing, metallurgy, metrology, mills, mining, papermaking, plumbing, pottery, printing, process chemistry, pumps, refrigeration, roads, roofing, rope, sewing, soil, steam engines, steam systems, surveying, toolmaking, transmission, water power, weaving, welding, wind power, woodworking, workshop practice"
+      ],
+      "candidate_count": 1963,
+      "discovery_report_sha256": "39ef0453d4766dd08c8b31e39668694af89c9488f4b17447b6414af6e03ae97f",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-23T03:02:17.474312+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-smithing/",
+          "kind": "html",
+          "sha256": "5b8c17d5e33a9c0e1f4e8fca428e0332cff8df206684f898962add9e5ea0cb92",
+          "size_bytes": 98952,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-smithing/"
+        },
+        {
+          "checked_at": "2026-09-23T03:02:17.999563+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-machine_tools/",
+          "kind": "html",
+          "sha256": "90be9552df7da7881af36924abfcaa3624b214ef97716f44665094385e61a4e8",
+          "size_bytes": 72347,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-machine_tools/"
+        },
+        {
+          "checked_at": "2026-09-23T03:02:18.594013+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-farming/",
+          "kind": "html",
+          "sha256": "19d734cb9d94c650877b337fec16fe40a7b6cfb36dd824b0915fcd3856c69eff",
+          "size_bytes": 131948,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-farming/"
+        },
+        {
+          "checked_at": "2026-09-23T03:02:19.085762+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/main-category-index/",
+          "kind": "html",
+          "sha256": "be49f3e4aa0a8bd1d1f28a033fde48e171beae9a096b0360b83fa7a1cd4a6e09",
+          "size_bytes": 71124,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/main-category-index/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:51.804441+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-wood_carpentry/",
+          "kind": "html",
+          "sha256": "9afade91e26988d2d221164950354f077978dd6718f44be86db6a3ed46e9d06f",
+          "size_bytes": 82186,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-wood_carpentry/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:52.484298+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-stone_and_masonry/",
+          "kind": "html",
+          "sha256": "36d166af8d97f0d4aa6e1cf3eb63c20248b385d00a26b99fd58be272b3459abb",
+          "size_bytes": 63802,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-stone_and_masonry/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:53.044014+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-concrete/",
+          "kind": "html",
+          "sha256": "2f75f8b17baa6940bd55a1a990579ec49a928073e572ab3e57bcbc112a1708b9",
+          "size_bytes": 74026,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-concrete/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:53.566324+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-construction/",
+          "kind": "html",
+          "sha256": "ee551555c4dff4f0df52d3310751e7dd1feeb76a4733eb50fc41116ce505f07d",
+          "size_bytes": 68968,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-construction/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:54.101372+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-surveying/",
+          "kind": "html",
+          "sha256": "ff44728d026c99b5372f583c052269e0f7f7ac7470ffd0f633ac5d73aa753fd2",
+          "size_bytes": 69472,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-surveying/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:54.687126+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-wind_and_water/",
+          "kind": "html",
+          "sha256": "04489b0960bdc8dc4cefe855c55c84c3e6038c6f2092896874a8298790cb67cb",
+          "size_bytes": 71440,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-wind_and_water/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:55.204669+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-steam_engines/",
+          "kind": "html",
+          "sha256": "736a67afa06a5876b5122537affb0c21db473785925dfb15e60c365364414183",
+          "size_bytes": 95854,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-steam_engines/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:55.713326+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-engineering_hydraulics/",
+          "kind": "html",
+          "sha256": "b7f967a8572999dbf3283cba4a5f85f2957d07e885cc5d6c1978dc0433241fe9",
+          "size_bytes": 62064,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-engineering_hydraulics/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:56.241962+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-engineering_drainage/",
+          "kind": "html",
+          "sha256": "eac47aa127ee3c2fe8f42126b4ee823d8bce7ee9a99f42087b8c972b925b7d2c",
+          "size_bytes": 63292,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-engineering_drainage/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:56.714108+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-food/",
+          "kind": "html",
+          "sha256": "dc4c60c54b761783dc1197270f3c3d1df81438f7be2e2d05c1401c6318dfcf77",
+          "size_bytes": 60590,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-food/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:57.236866+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-beekeeping/",
+          "kind": "html",
+          "sha256": "1119b520cd82b1da24e32bbc41cec14554bfe40157a815e525a6e468b42c9748",
+          "size_bytes": 100554,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-beekeeping/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:57.807707+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-leather/",
+          "kind": "html",
+          "sha256": "82a6be3ae06d8b449a79143803ea3c432b91db32806b7d807b806131dea13c28",
+          "size_bytes": 79308,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-leather/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:58.323442+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-sewing/",
+          "kind": "html",
+          "sha256": "76144ea39ccca948360b3c95e8c4181014f79c6a238dbe4ba868027717ab0f70",
+          "size_bytes": 109986,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-sewing/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:58.827043+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-weaving/",
+          "kind": "html",
+          "sha256": "3a333b47bf55b79ea102d863b5dff07b7d9a354b6b56c57222b6754ea14abd42",
+          "size_bytes": 82786,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-weaving/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:59.339486+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-bookbinding/",
+          "kind": "html",
+          "sha256": "b8a3c361f5fad92835f53022741e5803150d4d5241876b2934467a34e27a1bfc",
+          "size_bytes": 69908,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-bookbinding/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:59.893125+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-printing/",
+          "kind": "html",
+          "sha256": "d7444061a44a553434ade945f380c435ace74972f49782cac8bc186bd7506bee",
+          "size_bytes": 79568,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-printing/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:00.494178+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-pottery/",
+          "kind": "html",
+          "sha256": "ff9ba9a27e22f45c8364abd293450121786777e90149934db6ddb44263eaa6c0",
+          "size_bytes": 65722,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-pottery/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:01.015405+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-glassmaking/",
+          "kind": "html",
+          "sha256": "2b30a112d9ab4711e48ea5ce5b70c60e6c902a9b929dbe121ab681e4ce8c1ff9",
+          "size_bytes": 72268,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-glassmaking/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:01.550500+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-wood_furniture/",
+          "kind": "html",
+          "sha256": "47b969789189de0dc9a2dcd20679d3f38dc04ae025ded60149e715c9ccf61398",
+          "size_bytes": 109423,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-wood_furniture/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:02.038986+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-chemistry/",
+          "kind": "html",
+          "sha256": "2e8d2a02cc1c817742132725cbb69da721e79caf4c5e95a9448991136e15e1fa",
+          "size_bytes": 80979,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-chemistry/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:02.556862+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-fuels/",
+          "kind": "html",
+          "sha256": "f4a79f16cc66ca31a6ee908ca1a1a09b0c92879900087e5477b52d82ba30e769",
+          "size_bytes": 106470,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-fuels/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:03.088352+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-coal_and_mining/",
+          "kind": "html",
+          "sha256": "ccf6c61a97c2465ef32518da002ca688269e249a1cd621a36607852979b4070b",
+          "size_bytes": 111103,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-coal_and_mining/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:03.753653+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-boilermaker/",
+          "kind": "html",
+          "sha256": "152f60ca22bf5c202e0fa5763cbd7e34ff8ec4fae1cee240cdfa232085cf6409",
+          "size_bytes": 61392,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-boilermaker/"
+        }
+      ],
+      "new_admitted_asset_count": 0,
+      "recipe_id": "survivor-tier-a-acquisition-v1",
+      "recipe_sha256": "deb2e17bb818c3b3e112f27a78aa2b5aa7f74418e5015995ca69ce17732a8b1a",
+      "resource_bodies_downloaded": false,
+      "resource_id": "survivor-tier-a",
+      "selection": {
+        "missing_topics": [
+          "animal husbandry",
+          "basketry",
+          "bearings",
+          "beekeeping",
+          "blacksmithing",
+          "boilers",
+          "bookbinding",
+          "brickmaking",
+          "bridges",
+          "butchering",
+          "butter",
+          "carpentry",
+          "casting",
+          "cheese",
+          "concrete",
+          "crop cultivation",
+          "dairying",
+          "drainage",
+          "engines",
+          "farm machinery",
+          "farming",
+          "food drying",
+          "forging",
+          "foundry",
+          "fuels",
+          "furniture",
+          "gears",
+          "glassmaking",
+          "grain milling",
+          "horticulture",
+          "joinery",
+          "leatherworking",
+          "lubricants",
+          "machine tools",
+          "machining",
+          "masonry",
+          "materials chemistry",
+          "measurement",
+          "mechanical drawing",
+          "metallurgy",
+          "metrology",
+          "mills",
+          "mining",
+          "papermaking",
+          "plumbing",
+          "pottery",
+          "printing",
+          "process chemistry",
+          "pumps",
+          "refrigeration",
+          "roads",
+          "roofing",
+          "rope",
+          "sewing",
+          "soil",
+          "steam engines",
+          "steam systems",
+          "surveying",
+          "toolmaking",
+          "transmission",
+          "water power",
+          "weaving",
+          "welding",
+          "wind power",
+          "woodworking",
+          "workshop practice"
+        ],
+        "pending_count": 1947,
+        "previously_approved_count": 3,
+        "rejected_count": 3
+      }
+    },
+    {
+      "blockers": [
+        "Specialist title selection, scan quality, per-volume rights and exact pins remain unresolved; this is an optional appendix rather than a whole-library expansion.",
+        "No reviewed title for: advanced mining, advanced steam engineering, electronics history, historical transportation engineering, industrial chemical processes, radio history, railroad engineering, refrigeration, shipbuilding, specialized agricultural journals, specialized foundry, textile machinery"
+      ],
+      "candidate_count": 775,
+      "discovery_report_sha256": "39ef0453d4766dd08c8b31e39668694af89c9488f4b17447b6414af6e03ae97f",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-23T03:09:04.367892+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-shipbuilding/",
+          "kind": "html",
+          "sha256": "dbaa85d0c3ea5c3d5861134de5a81504e0bde942ed2877e2120046345e65d6d5",
+          "size_bytes": 86906,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-shipbuilding/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:03.088352+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-coal_and_mining/",
+          "kind": "html",
+          "sha256": "ccf6c61a97c2465ef32518da002ca688269e249a1cd621a36607852979b4070b",
+          "size_bytes": 111103,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-coal_and_mining/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:05.086979+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-radio/",
+          "kind": "html",
+          "sha256": "6fefb71955b108a5f216323e6edd3c8cad72e0cb04320136b0d68f923a496ff1",
+          "size_bytes": 67306,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-radio/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:05.625644+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-refrigeration/",
+          "kind": "html",
+          "sha256": "be33c30cd52741d7731cd08da52c49f29a0df3b60fb9c85442658ad2ed501b85",
+          "size_bytes": 75996,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-refrigeration/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:55.204669+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-steam_engines/",
+          "kind": "html",
+          "sha256": "736a67afa06a5876b5122537affb0c21db473785925dfb15e60c365364414183",
+          "size_bytes": 95854,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-steam_engines/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:02.038986+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-chemistry/",
+          "kind": "html",
+          "sha256": "2e8d2a02cc1c817742132725cbb69da721e79caf4c5e95a9448991136e15e1fa",
+          "size_bytes": 80979,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-chemistry/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:06.162036+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-railroads/",
+          "kind": "html",
+          "sha256": "5ff9b7539573b8b75b02320c507e9bce199a5d6b4bf2a835e970053aa5d5375e",
+          "size_bytes": 96057,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-railroads/"
+        },
+        {
+          "checked_at": "2026-09-23T03:08:58.827043+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-weaving/",
+          "kind": "html",
+          "sha256": "3a333b47bf55b79ea102d863b5dff07b7d9a354b6b56c57222b6754ea14abd42",
+          "size_bytes": 82786,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-weaving/"
+        },
+        {
+          "checked_at": "2026-09-23T03:09:06.761355+00:00",
+          "content_type": "text/html",
+          "final_url": "https://www.survivorlibrary.com/index.php/library-bee_journal_american/",
+          "kind": "html",
+          "sha256": "720ecdc439a27f9cbd35b4031e3008eb9c94b1f567f19ca14f9134d3f3acc5ed",
+          "size_bytes": 76057,
+          "status": 200,
+          "url": "https://www.survivorlibrary.com/index.php/library-bee_journal_american/"
+        }
+      ],
+      "new_admitted_asset_count": 0,
+      "recipe_id": "survivor-tier-b-acquisition-v1",
+      "recipe_sha256": "b73ab5cd5287fd96b70ad76d65997c237ce5c32dc38e28ca3d9a289889aa2cfe",
+      "resource_bodies_downloaded": false,
+      "resource_id": "survivor-tier-b",
+      "selection": {
+        "missing_topics": [
+          "advanced mining",
+          "advanced steam engineering",
+          "electronics history",
+          "historical transportation engineering",
+          "industrial chemical processes",
+          "radio history",
+          "railroad engineering",
+          "refrigeration",
+          "shipbuilding",
+          "specialized agricultural journals",
+          "specialized foundry",
+          "textile machinery"
+        ],
+        "pending_count": 775,
+        "previously_approved_count": 0,
+        "rejected_count": 0
+      }
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Metadata-only publisher discovery. No PDFs, map sheets or other resource bodies were downloaded. Candidate links are not content pins; no resource was promoted by this evidence."
+}

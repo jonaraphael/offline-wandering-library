@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "id": "hesperian-midwives-whole-book-fallback-v1",
+  "resource_id": "hesperian-health",
+  "title": "A Book for Midwives",
+  "current_edition": "2026",
+  "product_id": 8160072597685,
+  "product_page": "https://store.hesperian.org/products/a-book-for-midwives",
+  "product_json": "https://store.hesperian.org/products/a-book-for-midwives.js",
+  "public_inventory": "https://hesperian.org/wp-json/wp/v2/media?search=en_midw&per_page=100&_fields=id%2Cdate%2Cslug%2Cmime_type%2Csource_url%2Ctitle",
+  "missing_current_backmatter_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_bm.pdf"
+}

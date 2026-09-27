@@ -76,6 +76,16 @@ def load_resources(path: Path, assets: list[dict]) -> dict[str, dict]:
         if not isinstance(reason, str) or (row["status"] != "ready" and not reason.strip()):
             raise CatalogError(f"{identity}: incomplete resources require a nonempty reason")
         row["reason"] = reason
+        device = row.get("device_validation")
+        if device is not None:
+            if (not isinstance(device, dict) or
+                    set(device) != {"status", "reason", "evidence"} or
+                    device.get("status") not in {"pending", "passed", "not_applicable"} or
+                    not isinstance(device.get("reason"), str) or not device["reason"].strip()):
+                raise CatalogError(f"{identity}: device_validation requires status, reason, and evidence")
+            _strings(device["evidence"], f"{identity}.device_validation.evidence", unique=True)
+            if device["status"] == "passed" and not device["evidence"]:
+                raise CatalogError(f"{identity}: passing device validation requires evidence")
         members = _strings(row["asset_ids"], f"{identity}.asset_ids", unique=True)
         replacements = _strings(row.setdefault("replaces_asset_ids", []),
                                 f"{identity}.replaces_asset_ids", unique=True)
@@ -279,6 +289,23 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
             credits[credit["resource_id"]] += credit["target_bytes"]
     memberships = {identity: [member for member in group if member not in replacements]
                    for identity, group in raw_members.items()}
+    excluded_sources = set().union(*(resource_asset_ids(resources[r]) for r in explicit_exclude))
+    dependency_removed = {identity: set() for identity in memberships}
+    while True:
+        available = set().union(*map(set, memberships.values()))
+        changed = False
+        for identity, members_list in memberships.items():
+            removed = {member for member in members_list
+                       if asset_map[member].get('generation') and
+                       (set(asset_map[member].get('generation_source_asset_ids', [])) & excluded_sources or
+                        not set(asset_map[member].get('generation_source_asset_ids', [])) <= available or
+                        not set(asset_map[member].get('generation_source_resource_ids', [])) <= selected)}
+            if removed:
+                memberships[identity] = [member for member in members_list if member not in removed]
+                dependency_removed[identity].update(removed)
+                changed = True
+        if not changed:
+            break
     selected_assets = {member for group in memberships.values() for member in group}
     needs_readers = any(asset_map[member].get("status", "resolved") == "resolved" and
                         str(asset_map[member].get("format", "")).lower() == "zim"
@@ -315,6 +342,9 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
             raise CatalogError(f"{identity}: replacement credit exceeds its selected planning target")
         adjusted_target = planning_target - credit
         status, reason = mapping["status"], mapping.get("reason", "")
+        if dependency_removed.get(identity):
+            status = 'partial'
+            reason = 'Generated editions omitted because their source collection is excluded or absent: ' + ', '.join(sorted(dependency_removed[identity]))
         if not group:
             status = "unresolved"
             reason = "; ".join(filter(None, [reason, "No selected source assets remain after overrides or replacements"]))
@@ -323,6 +353,9 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
             reason = "Selected source assets are unresolved: " + ", ".join(unresolved)
         rows.append({"id": identity, "number": resource.get("number"), "title": resource["title"],
                      "edition": edition,
+                     "device_validation": resource.get("device_validation", {
+                         "status": "pending", "reason": "Physical-device certification is separate from content readiness.",
+                         "evidence": []}),
                      "status": status, "reason": reason, "target_bytes": resource["target_bytes"],
                      "planning_target_bytes": planning_target, "credit_bytes": credit,
                      "adjusted_target_bytes": adjusted_target,

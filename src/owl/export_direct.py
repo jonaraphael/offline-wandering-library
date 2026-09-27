@@ -57,10 +57,12 @@ ATTRS = set("id class title lang dir role aria-label aria-describedby aria-hidde
             "patternunits patterntransform clip-path mask font-size text-anchor".split())
 
 
-def _json(path: Path, value) -> None:
+def _json(path: Path, value, before_write=None) -> None:
     data = (json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode()
     if len(data) > MAX_STATE:
         raise ExportError("Export metadata exceeds 64 MiB; split this selection into smaller exports")
+    if before_write is not None:
+        before_write(path, len(data))
     atomic_write(path, data)
 
 
@@ -104,13 +106,14 @@ def _source_identity(path: Path):
 
 
 class _Exporter:
-    def __init__(self, archive, source, target, private, asset, job, state, progress):
+    def __init__(self, archive, source, target, private, asset, job, state, progress, before_write=None):
         self.archive, self.source, self.target, self.private = archive, source, target, private
         self.asset, self.job, self.state, self.progress = asset, job, state, progress
         self.identity = _source_identity(source)
         self.selected = set(job["entries"])
         self.warnings = set(state.get("warnings", []))
         self.current = ""
+        self.before_write = before_write
 
     def check_source(self):
         if _source_identity(self.source) != self.identity:
@@ -119,7 +122,7 @@ class _Exporter:
     def save(self):
         self.check_source()
         self.state["warnings"] = sorted(self.warnings)
-        _json(_path(self.target, self.private + "/state.json"), self.state)
+        _json(_path(self.target, self.private + "/state.json"), self.state, self.before_write)
 
     def warn(self, message):
         # Resource limits bound this further, but malformed pages can mention
@@ -325,7 +328,10 @@ class _Exporter:
                 for start in range(offset, len(data), BLOCK):
                     self.check_source()
                     _path(self.target, self.private)
-                    stream.write(data[start:start + BLOCK])
+                    block = data[start:start + BLOCK]
+                    if self.before_write is not None:
+                        self.before_write(part, len(block))
+                    stream.write(block)
                     self.progress(f"WRITE {record['destination']} {min(start + BLOCK, len(data))}/{len(data)}")
             finally:
                 stream.flush()
@@ -449,7 +455,8 @@ class _HTML(HTMLParser):
 
 def export_zim(source: Path, target: Path, *, source_asset: dict, entries=(), all_articles=False,
                max_bytes: int, max_files: int, max_item_bytes: int = 16 * BLOCK,
-               export_id: str | None = None, progress=print) -> dict:
+               export_id: str | None = None, progress=print,
+               _held_build_root: Path | None = None, _before_write=None) -> dict:
     """Export in place; publish an import catalog only after all outputs verify."""
     from .build import _owned_directory, _root
     try:
@@ -487,7 +494,10 @@ def export_zim(source: Path, target: Path, *, source_asset: dict, entries=(), al
                 break
         for root in sorted(roots, key=str):
             _owned_directory(safe_path(root, ".owl"))
-            contexts.enter_context(file_lock(safe_path(root, ".owl/build.lock")))
+            # The normal builder may export into its owned generation staging
+            # directory while already holding the source library lock.
+            if root != _held_build_root:
+                contexts.enter_context(file_lock(safe_path(root, ".owl/build.lock")))
         identity = _source_identity(source)
         if identity[2] != source_asset.get("size_bytes") or sha256_file(source) != source_asset["sha256"]:
             raise ExportError("Source archive size/SHA-256 mismatch")
@@ -501,7 +511,7 @@ def export_zim(source: Path, target: Path, *, source_asset: dict, entries=(), al
                 raise SafetyError(f"Export metadata folder is not owned by OWL: {folder}")
         else:
             folder.mkdir(parents=True)
-            _json(marker, owner)
+            _json(marker, owner, _before_write)
         contexts.enter_context(file_lock(_path(target, private + "/export.lock")))
         set_cluster_cache_max_size(2)
         archive = Archive(source)
@@ -534,7 +544,7 @@ def export_zim(source: Path, target: Path, *, source_asset: dict, entries=(), al
             if not isinstance(old, dict) or old.get("schema_version") != VERSION:
                 raise ExportError("Invalid export checkpoint")
         state = {"schema_version": VERSION, "complete": False, "files": {}, "warnings": []}
-        worker = _Exporter(archive, source, target, private, source_asset, job, state, progress)
+        worker = _Exporter(archive, source, target, private, source_asset, job, state, progress, _before_write)
         canonical = sorted({worker.entry(name)[0].path for name in entries})
         job["entries"] = canonical
         worker.selected = set(canonical)
@@ -619,10 +629,16 @@ def export_zim(source: Path, target: Path, *, source_asset: dict, entries=(), al
                   "size_bytes": sum(r["size_bytes"] for r in files.values()),
                   "warnings": sorted(worker.warnings), "assets": catalog_assets,
                   "static_conversion": True, "requires_review": bool(worker.warnings)}
-        _json(_path(target, private + "/inventory.json"), report)
+        _json(_path(target, private + "/inventory.json"), report, _before_write)
         checksums = "".join(f"{r['sha256']}  {r['destination']}\n" for r in sorted(files.values(), key=lambda r: r["destination"]))
-        atomic_write(_path(target, private + "/SHA256SUMS.txt"), checksums.encode())
-        atomic_write(_path(target, private + "/catalog.yaml"), yaml.safe_dump({"schema_version": 1, "assets": catalog_assets}, sort_keys=False, allow_unicode=True).encode())
+        for name, data in (("SHA256SUMS.txt", checksums.encode()), ("catalog.yaml",
+                yaml.safe_dump({"schema_version": 1, "assets": catalog_assets}, sort_keys=False, allow_unicode=True).encode())):
+            if len(data) > MAX_STATE:
+                raise ExportError("Export metadata exceeds 64 MiB; split this selection into smaller exports")
+            destination = _path(target, private + "/" + name)
+            if _before_write is not None:
+                _before_write(destination, len(data))
+            atomic_write(destination, data)
         state["complete"] = True
         worker.save()
         progress(f"EXPORT COMPLETE: {len(canonical)} documents and {len(files)} verified files; import LIBRARY/{private}/catalog.yaml")

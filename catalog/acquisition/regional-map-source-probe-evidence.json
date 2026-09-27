@@ -1,0 +1,2174 @@
+{
+  "body_downloads": 0,
+  "operation": "source-pin-probe",
+  "pending_count": 75,
+  "proposed_count": 0,
+  "records": [
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:02.134275+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Eastport_807896_1986_100000_geo.pdf",
+          "headers": {
+            "content-length": "10694897",
+            "content-type": "application/pdf",
+            "etag": "\"1d3438f96dac736af63e42a3ef7c76a2-2\"",
+            "last-modified": "Thu, 26 Sep 2024 02:11:23 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Eastport_807896_1986_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e4fe4b00f54eb3cf071",
+      "sha256": null,
+      "size_bytes": 10694897,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Eastport_807896_1986_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:02.389940+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Petit%20Manan%20Point_808169_1986_100000_geo.pdf",
+          "headers": {
+            "content-length": "29626195",
+            "content-type": "application/pdf",
+            "etag": "\"5d9e4caf9639383ab0487d9769965d28-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:14:00 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Petit%20Manan%20Point_808169_1986_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e57e4b00f54eb3cf138",
+      "sha256": null,
+      "size_bytes": 29626195,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Petit%20Manan%20Point_808169_1986_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:02.658628+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Machias_808048_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "28081256",
+            "content-type": "application/pdf",
+            "etag": "\"62b871dafecd16ea9a3e2b966fa86443-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:12:33 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Machias_808048_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e52e4b00f54eb3cf0c3",
+      "sha256": null,
+      "size_bytes": 28081256,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Machias_808048_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:02.923194+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Calais_807827_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "27458008",
+            "content-type": "application/pdf",
+            "etag": "\"413e29b808ab2b31c9728bcaf180c8c0-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:10:38 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Calais_807827_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e4de4b00f54eb3cf03a",
+      "sha256": null,
+      "size_bytes": 27458008,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Calais_807827_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:03.190631+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Danforth_807874_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "28463683",
+            "content-type": "application/pdf",
+            "etag": "\"bd3cd5248f1200d6f5cdc5a73fb3801c-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:11:01 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Danforth_807874_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e4ee4b00f54eb3cf058",
+      "sha256": null,
+      "size_bytes": 28463683,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Danforth_807874_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:03.453871+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Houlton_460487_1993_100000_geo.pdf",
+          "headers": {
+            "content-length": "31298806",
+            "content-type": "application/pdf",
+            "etag": "\"26629bed9b4f6f2d2f1282a960563bc2-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:11:42 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Houlton_460487_1993_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e50e4b00f54eb3cf08e",
+      "sha256": null,
+      "size_bytes": 31298806,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Houlton_460487_1993_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:03.808066+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Fort%20Fairfield_807924_1993_100000_geo.pdf",
+          "headers": {
+            "content-length": "29974334",
+            "content-type": "application/pdf",
+            "etag": "\"cd3d332fec6042566fc1fb2d24fa43bb-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:11:39 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Fort%20Fairfield_807924_1993_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e50e4b00f54eb3cf087",
+      "sha256": null,
+      "size_bytes": 29974334,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Fort%20Fairfield_807924_1993_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:04.073102+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Van%20Buren_460985_1993_100000_geo.pdf",
+          "headers": {
+            "content-length": "34530319",
+            "content-type": "application/pdf",
+            "etag": "\"87ea9ec425e2a24f5f831a92bc971276-5\"",
+            "last-modified": "Thu, 26 Sep 2024 02:14:56 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Van%20Buren_460985_1993_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e5ae4b00f54eb3cf1a1",
+      "sha256": null,
+      "size_bytes": 34530319,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Van%20Buren_460985_1993_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:04.479057+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Matinicus_808063_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "30044236",
+            "content-type": "application/pdf",
+            "etag": "\"ccb25c5bedccd3fc8e11773d23495668-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:12:52 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Matinicus_808063_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e53e4b00f54eb3cf0d3",
+      "sha256": null,
+      "size_bytes": 30044236,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Matinicus_808063_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:04.782866+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bar%20Harbor_807773_1985_100000_geo.pdf",
+          "headers": {
+            "content-length": "30632774",
+            "content-type": "application/pdf",
+            "etag": "\"5b9665d70e54a9c5424c439a00d29022-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:10:17 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bar%20Harbor_807773_1985_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e4ce4b00f54eb3cf029",
+      "sha256": null,
+      "size_bytes": 30632774,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bar%20Harbor_807773_1985_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:05.132922+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bangor_807770_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "28340423",
+            "content-type": "application/pdf",
+            "etag": "\"9d121b4f413227f3a54d6353f3d31b5a-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:10:07 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bangor_807770_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e4ce4b00f54eb3cf020",
+      "sha256": null,
+      "size_bytes": 28340423,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bangor_807770_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:05.502436+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lincoln_808026_1986_100000_geo.pdf",
+          "headers": {
+            "content-length": "21866120",
+            "content-type": "application/pdf",
+            "etag": "\"2eb0e173daa91e012f9817e5654ef85a-3\"",
+            "last-modified": "Thu, 26 Sep 2024 02:12:27 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lincoln_808026_1986_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e52e4b00f54eb3cf0bd",
+      "sha256": null,
+      "size_bytes": 21866120,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lincoln_808026_1986_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:05.801547+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Millinocket_808087_1985_100000_geo.pdf",
+          "headers": {
+            "content-length": "21374587",
+            "content-type": "application/pdf",
+            "etag": "\"4598be0a837f7a27e217142100fbdc4a-3\"",
+            "last-modified": "Thu, 26 Sep 2024 02:13:18 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Millinocket_808087_1985_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e55e4b00f54eb3cf0fb",
+      "sha256": null,
+      "size_bytes": 21374587,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Millinocket_808087_1985_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:06.069062+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Oakfield_808137_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "26817601",
+            "content-type": "application/pdf",
+            "etag": "\"f3ec9aadf8ea0380c255d464be95edb5-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:13:41 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Oakfield_808137_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e56e4b00f54eb3cf11e",
+      "sha256": null,
+      "size_bytes": 26817601,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Oakfield_808137_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:06.334430+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Presque%20Isle_808185_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "28438958",
+            "content-type": "application/pdf",
+            "etag": "\"e47e6aae6a1bcd634aad679678cc69b4-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:14:22 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Presque%20Isle_808185_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e57e4b00f54eb3cf152",
+      "sha256": null,
+      "size_bytes": 28438958,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Presque%20Isle_808185_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:06.630316+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Madawaska_808054_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "33164801",
+            "content-type": "application/pdf",
+            "etag": "\"82df81f7736fb8fb34c42e2e79be8396-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:12:40 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Madawaska_808054_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e53e4b00f54eb3cf0cd",
+      "sha256": null,
+      "size_bytes": 33164801,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Madawaska_808054_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:06.957018+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Siasconset_353184_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "39192919",
+            "content-type": "application/pdf",
+            "etag": "\"72e9d670fc64ca6f7936eada0482696b-5\"",
+            "last-modified": "Wed, 25 Sep 2024 22:25:36 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Siasconset_353184_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a414fe4b00f54eb3eeef4",
+      "sha256": null,
+      "size_bytes": 39192919,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Siasconset_353184_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:07.374739+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Chatham_353158_1993_100000_geo.pdf",
+          "headers": {
+            "content-length": "37317662",
+            "content-type": "application/pdf",
+            "etag": "\"0494be6eba096a35550e7b699cfa1cb4-5\"",
+            "last-modified": "Wed, 25 Sep 2024 22:23:28 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Chatham_353158_1993_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a414ce4b00f54eb3eee8c",
+      "sha256": null,
+      "size_bytes": 37317662,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Chatham_353158_1993_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:07.640197+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bath_807778_1985_100000_geo.pdf",
+          "headers": {
+            "content-length": "30627879",
+            "content-type": "application/pdf",
+            "etag": "\"cc5cc1e07e6381093b0159ecf2740257-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:10:30 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bath_807778_1985_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e4de4b00f54eb3cf035",
+      "sha256": null,
+      "size_bytes": 30627879,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bath_807778_1985_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:08.009506+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Augusta_806470_1984_100000_geo.pdf",
+          "headers": {
+            "content-length": "27160053",
+            "content-type": "application/pdf",
+            "etag": "\"950f47c9aad25853ddfcf9c3cc506644-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:09:52 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Augusta_806470_1984_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e4be4b00f54eb3cf017",
+      "sha256": null,
+      "size_bytes": 27160053,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Augusta_806470_1984_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:08.330458+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Skowhegan_460881_1985_100000_geo.pdf",
+          "headers": {
+            "content-length": "32593846",
+            "content-type": "application/pdf",
+            "etag": "\"df95ef1f58bca8195989aa25ceca9d1d-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:14:47 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Skowhegan_460881_1985_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e5ae4b00f54eb3cf199",
+      "sha256": null,
+      "size_bytes": 32593846,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Skowhegan_460881_1985_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:08.606522+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Dover-Foxcroft_807884_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "24488177",
+            "content-type": "application/pdf",
+            "etag": "\"c814081b7b588a48bc47cf59ba1de8cc-3\"",
+            "last-modified": "Thu, 26 Sep 2024 02:11:05 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Dover-Foxcroft_807884_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e4ee4b00f54eb3cf05f",
+      "sha256": null,
+      "size_bytes": 24488177,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Dover-Foxcroft_807884_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:08.896328+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Moosehead%20Lake_808101_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "27108617",
+            "content-type": "application/pdf",
+            "etag": "\"367a22dd46350bae4bab40d9c1b1ad16-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:13:30 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Moosehead%20Lake_808101_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e55e4b00f54eb3cf10a",
+      "sha256": null,
+      "size_bytes": 27108617,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Moosehead%20Lake_808101_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:09.159577+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Chamberlain%20Lake_807847_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "25290048",
+            "content-type": "application/pdf",
+            "etag": "\"40461d7d5e60586a89c95e128f7cbf8b-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:10:46 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Chamberlain%20Lake_807847_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e4de4b00f54eb3cf045",
+      "sha256": null,
+      "size_bytes": 25290048,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Chamberlain%20Lake_807847_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:09.469645+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Clayton%20Lake_807857_1993_100000_geo.pdf",
+          "headers": {
+            "content-length": "25592167",
+            "content-type": "application/pdf",
+            "etag": "\"e0e7b17444cd1d927c4b9daf94d07f67-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:10:56 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Clayton%20Lake_807857_1993_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e4ee4b00f54eb3cf053",
+      "sha256": null,
+      "size_bytes": 25592167,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Clayton%20Lake_807857_1993_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:09.737515+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Allagash_807752_1993_100000_geo.pdf",
+          "headers": {
+            "content-length": "25657085",
+            "content-type": "application/pdf",
+            "etag": "\"8fe6d72f82c7a5ec626c042436a4b8f0-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:09:52 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Allagash_807752_1993_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e4be4b00f54eb3cf012",
+      "sha256": null,
+      "size_bytes": 25657085,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Allagash_807752_1993_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:10.032658+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Marthas%20Vineyard_351090_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "31366452",
+            "content-type": "application/pdf",
+            "etag": "\"d67eb5141e9b92cffec7cbf5a69d9017-4\"",
+            "last-modified": "Wed, 25 Sep 2024 22:24:39 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Marthas%20Vineyard_351090_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a414ee4b00f54eb3eeece",
+      "sha256": null,
+      "size_bytes": 31366452,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Marthas%20Vineyard_351090_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:10.299200+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_New%20Bedford_353169_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "32966821",
+            "content-type": "application/pdf",
+            "etag": "\"b5803fb255aeeedb6d55e1ce5aacc2ff-4\"",
+            "last-modified": "Wed, 25 Sep 2024 22:24:54 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_New%20Bedford_353169_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a414ee4b00f54eb3eeedc",
+      "sha256": null,
+      "size_bytes": 32966821,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_New%20Bedford_353169_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:10.703383+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Provincetown_353180_1984_100000_geo.pdf",
+          "headers": {
+            "content-length": "31368959",
+            "content-type": "application/pdf",
+            "etag": "\"8d89f35972378c31c2b6e62d227d8180-4\"",
+            "last-modified": "Wed, 25 Sep 2024 22:25:26 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Provincetown_353180_1984_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a414fe4b00f54eb3eeeec",
+      "sha256": null,
+      "size_bytes": 31368959,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Provincetown_353180_1984_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:10.968655+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Gloucester_353162_1984_100000_geo.pdf",
+          "headers": {
+            "content-length": "31125761",
+            "content-type": "application/pdf",
+            "etag": "\"17f91d22996b70446f719ca5087c1905-4\"",
+            "last-modified": "Wed, 25 Sep 2024 22:23:48 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Gloucester_353162_1984_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a414de4b00f54eb3eee9e",
+      "sha256": null,
+      "size_bytes": 31125761,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Gloucester_353162_1984_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:11.349737+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Kittery_808007_1985_100000_geo.pdf",
+          "headers": {
+            "content-length": "28263833",
+            "content-type": "application/pdf",
+            "etag": "\"a9372d7c85d4b06c2b86511c14d73fd0-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:11:56 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Kittery_808007_1985_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e51e4b00f54eb3cf09c",
+      "sha256": null,
+      "size_bytes": 28263833,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Kittery_808007_1985_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:11.730606+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Portland_808182_1985_100000_geo.pdf",
+          "headers": {
+            "content-length": "26439318",
+            "content-type": "application/pdf",
+            "etag": "\"f29c7f90699203881c1c29eb1a0d68f4-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:14:15 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Portland_808182_1985_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e57e4b00f54eb3cf148",
+      "sha256": null,
+      "size_bytes": 26439318,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Portland_808182_1985_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:11.994168+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lewiston_808020_1986_100000_geo.pdf",
+          "headers": {
+            "content-length": "20387394",
+            "content-type": "application/pdf",
+            "etag": "\"f41c9f62e9ea8d643957d07099aeac63-3\"",
+            "last-modified": "Thu, 26 Sep 2024 02:12:16 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lewiston_808020_1986_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e52e4b00f54eb3cf0b3",
+      "sha256": null,
+      "size_bytes": 20387394,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lewiston_808020_1986_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:12.299432+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Rumford_460823_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "32469826",
+            "content-type": "application/pdf",
+            "etag": "\"f7e448d7b23a915941df0bf97980681d-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:14:33 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Rumford_460823_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e5ae4b00f54eb3cf18b",
+      "sha256": null,
+      "size_bytes": 32469826,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Rumford_460823_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:12.619656+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Flagstaff%20Lake_807917_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "29550256",
+            "content-type": "application/pdf",
+            "etag": "\"5937b55c59dfba64de24d2419a412c53-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:11:27 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Flagstaff%20Lake_807917_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e4fe4b00f54eb3cf078",
+      "sha256": null,
+      "size_bytes": 29550256,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Flagstaff%20Lake_807917_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:12.979864+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Megantic_808079_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "28356443",
+            "content-type": "application/pdf",
+            "etag": "\"80bb5fc919d1ef77387ab627f79d3d84-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:13:03 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Megantic_808079_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e53e4b00f54eb3cf0e1",
+      "sha256": null,
+      "size_bytes": 28356443,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Megantic_808079_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:13.243344+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lac%20Etchemin_808010_1993_100000_geo.pdf",
+          "headers": {
+            "content-length": "26934349",
+            "content-type": "application/pdf",
+            "etag": "\"05bf52d58cc5f2f98c65f3cc9700d3ea-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:12:02 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lac%20Etchemin_808010_1993_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e51e4b00f54eb3cf0a2",
+      "sha256": null,
+      "size_bytes": 26934349,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lac%20Etchemin_808010_1993_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:13.530559+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Montmagny_808097_1993_100000_geo.pdf",
+          "headers": {
+            "content-length": "30906809",
+            "content-type": "application/pdf",
+            "etag": "\"c91a9b28e04a3de88a3a0c044e29f171-4\"",
+            "last-modified": "Thu, 26 Sep 2024 02:13:21 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Montmagny_808097_1993_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2e55e4b00f54eb3cf101",
+      "sha256": null,
+      "size_bytes": 30906809,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Montmagny_808097_1993_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:13.865489+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/RI/100000/RI_Block%20Island_353534_1984_100000_geo.pdf",
+          "headers": {
+            "content-length": "31430977",
+            "content-type": "application/pdf",
+            "etag": "\"b4d5ebfe9a8ccdfe9bc1de593275abb6-4\"",
+            "last-modified": "Wed, 25 Sep 2024 13:08:57 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/RI/100000/RI_Block%20Island_353534_1984_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3ebae4b00f54eb3eaa71",
+      "sha256": null,
+      "size_bytes": 31430977,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/RI/100000/RI_Block%20Island_353534_1984_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:14.192891+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/RI/100000/RI_Providence_353384_1984_100000_geo.pdf",
+          "headers": {
+            "content-length": "34130944",
+            "content-type": "application/pdf",
+            "etag": "\"fa38593bff755679f92733c152170637-5\"",
+            "last-modified": "Wed, 25 Sep 2024 13:08:57 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/RI/100000/RI_Providence_353384_1984_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3ebae4b00f54eb3eaa73",
+      "sha256": null,
+      "size_bytes": 34130944,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/RI/100000/RI_Providence_353384_1984_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:14.452658+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Boston_353157_1989_100000_geo.pdf",
+          "headers": {
+            "content-length": "45433865",
+            "content-type": "application/pdf",
+            "etag": "\"9b653d9d58f4f62d7e61e8b37b6f2032-6\"",
+            "last-modified": "Wed, 25 Sep 2024 22:23:24 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Boston_353157_1989_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a414ce4b00f54eb3eee83",
+      "sha256": null,
+      "size_bytes": 45433865,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Boston_353157_1989_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:14.738529+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Lowell_353166_1988_100000_geo.pdf",
+          "headers": {
+            "content-length": "40717177",
+            "content-type": "application/pdf",
+            "etag": "\"bb63de0cb93b387e3c361c8bc50278e7-5\"",
+            "last-modified": "Wed, 25 Sep 2024 22:24:16 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Lowell_353166_1988_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a414de4b00f54eb3eeebc",
+      "sha256": null,
+      "size_bytes": 40717177,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Lowell_353166_1988_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:15.013377+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Concord_330402_1988_100000_geo.pdf",
+          "headers": {
+            "content-length": "37002434",
+            "content-type": "application/pdf",
+            "etag": "\"e20751c9029c1f5060efba3f2ae86201-5\"",
+            "last-modified": "Wed, 25 Sep 2024 17:30:29 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Concord_330402_1988_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3b7be4b00f54eb3e5068",
+      "sha256": null,
+      "size_bytes": 37002434,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Concord_330402_1988_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:15.353185+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Lake%20Winnipesaukee_460055_1986_100000_geo.pdf",
+          "headers": {
+            "content-length": "20778528",
+            "content-type": "application/pdf",
+            "etag": "\"4ad76705adde50f32a7607bb982d27c8-3\"",
+            "last-modified": "Wed, 25 Sep 2024 17:31:25 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Lake%20Winnipesaukee_460055_1986_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3b7ce4b00f54eb3e5088",
+      "sha256": null,
+      "size_bytes": 20778528,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Lake%20Winnipesaukee_460055_1986_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:15.690681+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Mount%20Washington_330410_1988_100000_geo.pdf",
+          "headers": {
+            "content-length": "40373351",
+            "content-type": "application/pdf",
+            "etag": "\"e04d20903ae3aa525e632ed44f7541c3-5\"",
+            "last-modified": "Wed, 25 Sep 2024 17:31:37 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Mount%20Washington_330410_1988_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3b7ce4b00f54eb3e5093",
+      "sha256": null,
+      "size_bytes": 40373351,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Mount%20Washington_330410_1988_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:16.018929+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Groveton_330404_1986_100000_geo.pdf",
+          "headers": {
+            "content-length": "37133364",
+            "content-type": "application/pdf",
+            "etag": "\"fe5c34649d60869d64278b9e15e394ca-5\"",
+            "last-modified": "Wed, 25 Sep 2024 17:30:42 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Groveton_330404_1986_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3b7be4b00f54eb3e5070",
+      "sha256": null,
+      "size_bytes": 37133364,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Groveton_330404_1986_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:16.396663+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Sherbrooke_330413_1986_100000_geo.pdf",
+          "headers": {
+            "content-length": "39343096",
+            "content-type": "application/pdf",
+            "etag": "\"fd2094dccff356f6c0457233654ca2f9-5\"",
+            "last-modified": "Wed, 25 Sep 2024 17:31:50 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Sherbrooke_330413_1986_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3b7de4b00f54eb3e509c",
+      "sha256": null,
+      "size_bytes": 39343096,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Sherbrooke_330413_1986_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:16.680202+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_New%20Haven_331212_1983_100000_geo.pdf",
+          "headers": {
+            "content-length": "35154683",
+            "content-type": "application/pdf",
+            "etag": "\"3f8c87dffd10c8a66f8c36cff60cc56a-5\"",
+            "last-modified": "Wed, 25 Sep 2024 08:53:17 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_New%20Haven_331212_1983_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2857e4b00f54eb3c517b",
+      "sha256": null,
+      "size_bytes": 35154683,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_New%20Haven_331212_1983_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:17.005458+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Hartford_331210_1994_100000_geo.pdf",
+          "headers": {
+            "content-length": "40979067",
+            "content-type": "application/pdf",
+            "etag": "\"cb24725b39487dea9a7dc942ca155e50-5\"",
+            "last-modified": "Wed, 25 Sep 2024 08:53:04 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Hartford_331210_1994_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2856e4b00f54eb3c5177",
+      "sha256": null,
+      "size_bytes": 40979067,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Hartford_331210_1994_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:17.340855+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Holyoke_353164_1985_100000_geo.pdf",
+          "headers": {
+            "content-length": "44577976",
+            "content-type": "application/pdf",
+            "etag": "\"979be96b5a6ff42f10ca39e7426c75d6-6\"",
+            "last-modified": "Wed, 25 Sep 2024 22:24:02 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Holyoke_353164_1985_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a414de4b00f54eb3eeeac",
+      "sha256": null,
+      "size_bytes": 44577976,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Holyoke_353164_1985_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:17.604920+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Keene_330407_1986_100000_geo.pdf",
+          "headers": {
+            "content-length": "34632172",
+            "content-type": "application/pdf",
+            "etag": "\"12a506f04028a96e6bee7fb3c22ce53c-5\"",
+            "last-modified": "Wed, 25 Sep 2024 17:31:09 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Keene_330407_1986_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3b7ce4b00f54eb3e507c",
+      "sha256": null,
+      "size_bytes": 34632172,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Keene_330407_1986_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:17.871262+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Claremont_330400_1985_100000_geo.pdf",
+          "headers": {
+            "content-length": "20888131",
+            "content-type": "application/pdf",
+            "etag": "\"bd0dc0354a5098c6acfe1a652b35dd54-3\"",
+            "last-modified": "Wed, 25 Sep 2024 17:30:13 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Claremont_330400_1985_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3b7be4b00f54eb3e5062",
+      "sha256": null,
+      "size_bytes": 20888131,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Claremont_330400_1985_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:18.135259+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Rutland_338231_1985_100000_geo.pdf",
+          "headers": {
+            "content-length": "40531297",
+            "content-type": "application/pdf",
+            "etag": "\"57a1fe6b37d28e41849ac721a019a752-5\"",
+            "last-modified": "Wed, 25 Sep 2024 04:38:26 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Rutland_338231_1985_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a4447e4b00f54eb3f416c",
+      "sha256": null,
+      "size_bytes": 40531297,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Rutland_338231_1985_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:18.407972+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Montpelier_460033_1988_100000_geo.pdf",
+          "headers": {
+            "content-length": "9915330",
+            "content-type": "application/pdf",
+            "etag": "\"0d364501a904f33db0e019216926fbd5-2\"",
+            "last-modified": "Wed, 25 Sep 2024 04:38:13 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Montpelier_460033_1988_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a4446e4b00f54eb3f4163",
+      "sha256": null,
+      "size_bytes": 9915330,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Montpelier_460033_1988_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:18.668153+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Mount%20Mansfield_460034_1989_100000_geo.pdf",
+          "headers": {
+            "content-length": "35426816",
+            "content-type": "application/pdf",
+            "etag": "\"ad0b8ad8a762cba32aae2e6b70cb9198-5\"",
+            "last-modified": "Wed, 25 Sep 2024 04:38:13 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Mount%20Mansfield_460034_1989_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a4447e4b00f54eb3f4167",
+      "sha256": null,
+      "size_bytes": 35426816,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Mount%20Mansfield_460034_1989_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:18.991510+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Long%20Island%20West_137379_1984_100000_geo.pdf",
+          "headers": {
+            "content-length": "37752160",
+            "content-type": "application/pdf",
+            "etag": "\"82cc9044aaba516f144652284ff1ed58-5\"",
+            "last-modified": "Thu, 26 Sep 2024 01:55:41 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Long%20Island%20West_137379_1984_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3efde4b00f54eb3eaf0c",
+      "sha256": null,
+      "size_bytes": 37752160,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Long%20Island%20West_137379_1984_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:19.268034+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Bridgeport_331207_1986_100000_geo.pdf",
+          "headers": {
+            "content-length": "46476528",
+            "content-type": "application/pdf",
+            "etag": "\"09480f2239e66314f50a3f3ae3731aae-6\"",
+            "last-modified": "Wed, 25 Sep 2024 08:52:45 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Bridgeport_331207_1986_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2856e4b00f54eb3c5171",
+      "sha256": null,
+      "size_bytes": 46476528,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Bridgeport_331207_1986_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:19.543263+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Waterbury_331231_1993_100000_geo.pdf",
+          "headers": {
+            "content-length": "35607136",
+            "content-type": "application/pdf",
+            "etag": "\"a272c53b7a5e76580536690e46510bdd-5\"",
+            "last-modified": "Wed, 25 Sep 2024 08:53:27 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Waterbury_331231_1993_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a2857e4b00f54eb3c517f",
+      "sha256": null,
+      "size_bytes": 35607136,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Waterbury_331231_1993_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:19.837666+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Pittsfield_353177_1986_100000_geo.pdf",
+          "headers": {
+            "content-length": "33168422",
+            "content-type": "application/pdf",
+            "etag": "\"c22875c6d3d9f36cec6ed1f281c30ba1-4\"",
+            "last-modified": "Wed, 25 Sep 2024 22:25:08 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Pittsfield_353177_1986_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a414ee4b00f54eb3eeee4",
+      "sha256": null,
+      "size_bytes": 33168422,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Pittsfield_353177_1986_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:20.134670+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Albany_137059_1989_100000_geo.pdf",
+          "headers": {
+            "content-length": "27525541",
+            "content-type": "application/pdf",
+            "etag": "\"67e32cf66e10d1c88207bc98dcb0ac19-4\"",
+            "last-modified": "Thu, 26 Sep 2024 01:52:37 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Albany_137059_1989_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3ef5e4b00f54eb3eae13",
+      "sha256": null,
+      "size_bytes": 27525541,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Albany_137059_1989_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:20.392250+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Glens%20Falls_137223_1989_100000_geo.pdf",
+          "headers": {
+            "content-length": "25221338",
+            "content-type": "application/pdf",
+            "etag": "\"e0af07774c78c548adf4a1d2d60df273-4\"",
+            "last-modified": "Thu, 26 Sep 2024 01:54:05 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Glens%20Falls_137223_1989_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3ef8e4b00f54eb3eae4e",
+      "sha256": null,
+      "size_bytes": 25221338,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Glens%20Falls_137223_1989_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:20.678708+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Ticonderoga_136968_1989_100000_geo.pdf",
+          "headers": {
+            "content-length": "27216059",
+            "content-type": "application/pdf",
+            "etag": "\"482b3f8d296355985d8791192e07c2f9-4\"",
+            "last-modified": "Thu, 26 Sep 2024 01:58:13 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Ticonderoga_136968_1989_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3f07e4b00f54eb3eaff1",
+      "sha256": null,
+      "size_bytes": 27216059,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Ticonderoga_136968_1989_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:21.007381+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Lake%20Champlain%20South_137306_1986_100000_geo.pdf",
+          "headers": {
+            "content-length": "25352282",
+            "content-type": "application/pdf",
+            "etag": "\"b78f37aa97c29b07030c371fbe5e4338-4\"",
+            "last-modified": "Thu, 26 Sep 2024 01:55:01 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Lake%20Champlain%20South_137306_1986_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3efbe4b00f54eb3eaec1",
+      "sha256": null,
+      "size_bytes": 25352282,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Lake%20Champlain%20South_137306_1986_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:21.279183+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Lake%20Champlain%20North_137304_1986_100000_geo.pdf",
+          "headers": {
+            "content-length": "21683698",
+            "content-type": "application/pdf",
+            "etag": "\"1900a8560aac4d453c32f94f66ac684c-3\"",
+            "last-modified": "Thu, 26 Sep 2024 01:54:54 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Lake%20Champlain%20North_137304_1986_100000_geo.pdf"
+        }
+      ],
+      "id": "usgs_5a8a3efbe4b00f54eb3eaeb2",
+      "sha256": null,
+      "size_bytes": 21683698,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Lake%20Champlain%20North_137304_1986_100000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:21.543107+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_West_Charleston_OE_N_20240417_TM_geo.pdf",
+          "headers": {
+            "content-length": "11877322",
+            "content-type": "application/pdf",
+            "etag": "\"9bda3846fc0497f4841ad10896843fdb-2\"",
+            "last-modified": "Fri, 09 Aug 2024 01:14:12 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_West_Charleston_OE_N_20240417_TM_geo.pdf"
+        }
+      ],
+      "id": "usgs_66b5c4e1d34eebcf8bb39151",
+      "sha256": null,
+      "size_bytes": 11877322,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_West_Charleston_OE_N_20240417_TM_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:21.809380+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Newport_OE_N_20240417_TM_geo.pdf",
+          "headers": {
+            "content-length": "11819959",
+            "content-type": "application/pdf",
+            "etag": "\"1cda9b5f5d29a6c43ed88e47b28ce9a8-2\"",
+            "last-modified": "Fri, 09 Aug 2024 01:12:18 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Newport_OE_N_20240417_TM_geo.pdf"
+        }
+      ],
+      "id": "usgs_66b5c481d34eebcf8bb39145",
+      "sha256": null,
+      "size_bytes": 11819959,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Newport_OE_N_20240417_TM_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:22.084061+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Newport_Center_OE_N_20240809_TM_geo.pdf",
+          "headers": {
+            "content-length": "12164381",
+            "content-type": "application/pdf",
+            "etag": "\"17ddeee9e18e7b6f6d8e805abf137a6b-2\"",
+            "last-modified": "Sat, 10 Aug 2024 01:07:12 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Newport_Center_OE_N_20240809_TM_geo.pdf"
+        }
+      ],
+      "id": "usgs_66b6dbf5d34eebcf8bb39842",
+      "sha256": null,
+      "size_bytes": 12164381,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Newport_Center_OE_N_20240809_TM_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:22.340317+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_North_Troy_OE_N_20240417_TM_geo.pdf",
+          "headers": {
+            "content-length": "13033309",
+            "content-type": "application/pdf",
+            "etag": "\"7dbef5df9e5f6c3f46fbbe3dea17dc9c-2\"",
+            "last-modified": "Fri, 09 Aug 2024 01:12:20 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_North_Troy_OE_N_20240417_TM_geo.pdf"
+        }
+      ],
+      "id": "usgs_66b5c4a2d34eebcf8bb39149",
+      "sha256": null,
+      "size_bytes": 13033309,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_North_Troy_OE_N_20240417_TM_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:22.660789+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Jay_Peak_OE_N_20240417_TM_geo.pdf",
+          "headers": {
+            "content-length": "15316034",
+            "content-type": "application/pdf",
+            "etag": "\"a996a4cc9ee05adf8d3dbf5f76c4dc16-2\"",
+            "last-modified": "Fri, 09 Aug 2024 01:11:29 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Jay_Peak_OE_N_20240417_TM_geo.pdf"
+        }
+      ],
+      "id": "usgs_66b5c45ed34eebcf8bb39141",
+      "sha256": null,
+      "size_bytes": 15316034,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Jay_Peak_OE_N_20240417_TM_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:22.931603+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Richford_OE_N_20240809_TM_geo.pdf",
+          "headers": {
+            "content-length": "14514173",
+            "content-type": "application/pdf",
+            "etag": "\"d5b253f76f25e47ad523925cd58a7cac-2\"",
+            "last-modified": "Sat, 10 Aug 2024 01:07:21 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Richford_OE_N_20240809_TM_geo.pdf"
+        }
+      ],
+      "id": "usgs_66b6dc16d34eebcf8bb39846",
+      "sha256": null,
+      "size_bytes": 14514173,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Richford_OE_N_20240809_TM_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:23.209467+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Enosburg_Falls_OE_N_20240417_TM_geo.pdf",
+          "headers": {
+            "content-length": "18646173",
+            "content-type": "application/pdf",
+            "etag": "\"c593001a09b41e6421757f116237794a-3\"",
+            "last-modified": "Fri, 09 Aug 2024 01:10:37 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Enosburg_Falls_OE_N_20240417_TM_geo.pdf"
+        }
+      ],
+      "id": "usgs_66b5c43cd34eebcf8bb3913d",
+      "sha256": null,
+      "size_bytes": 18646173,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Enosburg_Falls_OE_N_20240417_TM_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source size changed from accepted metadata",
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:23.466159+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Sheldon_Springs_OE_N_20240417_TM_geo.pdf",
+          "headers": {
+            "content-length": "16870954",
+            "content-type": "application/pdf",
+            "etag": "\"e2e28fe522ea2702f108ca0c8f38c874-3\"",
+            "last-modified": "Fri, 09 Aug 2024 01:13:16 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Sheldon_Springs_OE_N_20240417_TM_geo.pdf"
+        }
+      ],
+      "id": "usgs_66b5c4c1d34eebcf8bb3914d",
+      "sha256": null,
+      "size_bytes": 16870954,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Sheldon_Springs_OE_N_20240417_TM_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:23.734038+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Highgate_Center_OE_N_20240417_TM_geo.pdf",
+          "headers": {
+            "content-length": "13715286",
+            "content-type": "application/pdf",
+            "etag": "\"3256ed6d9ee1b851f5f1b2f76167e3a8-2\"",
+            "last-modified": "Fri, 09 Aug 2024 01:11:11 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Highgate_Center_OE_N_20240417_TM_geo.pdf"
+        }
+      ],
+      "id": "usgs_66b59f96d34eebcf8bb38c52",
+      "sha256": null,
+      "size_bytes": 13715286,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Highgate_Center_OE_N_20240417_TM_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:24.006111+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_East_Alburg_OE_N_20240417_TM_geo.pdf",
+          "headers": {
+            "content-length": "11617351",
+            "content-type": "application/pdf",
+            "etag": "\"5938a3a0c50361eb7c239514707670e1-2\"",
+            "last-modified": "Fri, 09 Aug 2024 01:10:29 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_East_Alburg_OE_N_20240417_TM_geo.pdf"
+        }
+      ],
+      "id": "usgs_66b59f74d34eebcf8bb38c43",
+      "sha256": null,
+      "size_bytes": 11617351,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_East_Alburg_OE_N_20240417_TM_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:41:24.339858+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Rouses_Point_OE_N_20240809_TM_geo.pdf",
+          "headers": {
+            "content-length": "13298368",
+            "content-type": "application/pdf",
+            "etag": "\"38195141309b7dcb33ba23addf5b6320-2\"",
+            "last-modified": "Sat, 10 Aug 2024 01:07:23 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Rouses_Point_OE_N_20240809_TM_geo.pdf"
+        }
+      ],
+      "id": "usgs_66b6ddc2d34eebcf8bb3987e",
+      "sha256": null,
+      "size_bytes": 13298368,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Rouses_Point_OE_N_20240809_TM_geo.pdf",
+      "status": "pending"
+    }
+  ],
+  "schema_version": 1
+}

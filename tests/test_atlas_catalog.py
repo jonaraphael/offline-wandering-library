@@ -12,11 +12,11 @@ import unittest
 
 from owl.atlas import prepare_atlas
 from owl.atlas_model import load_navigation
-from owl.catalog import learning_shelves, load_catalog, load_profiles, resolve_content
+from owl.catalog import is_document, learning_shelves, load_catalog, load_profiles, resolve_content
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PROFILES = ("critical-64gb", "compact-256gb", "standard-512gb", "full-1tb")
+PROFILES = ("flash-16gb", "critical-64gb", "compact-256gb", "standard-512gb", "full-1tb")
 
 
 class ProductionAtlasCatalogTests(unittest.TestCase):
@@ -84,6 +84,33 @@ class ProductionAtlasCatalogTests(unittest.TestCase):
             topics = {row["topic_id"] for row in self.navigation["assignments"] if row["asset_id"] == asset_id}
             self.assertTrue(topics & self.reachable([domain]), (asset_id, domain))
             self.assertFalse(self.by_id[asset_id].get("reader_required"), asset_id)
+
+    def test_openstax_subject_breadth_is_reachable_from_subjects_and_learning(self):
+        representatives = {
+            "openstax_prealgebra_2e": "mathematics",
+            "openstax_biology_2e": "science",
+            "openstax_us_history": "humanities",
+            "openstax_introduction_sociology_3e": "social-sciences",
+            "openstax_introduction_business_2e": "business",
+            "openstax_introduction_computer_science": "computing",
+            "openstax_fundamentals_nursing": "health",
+            "openstax_college_success": "college-success",
+        }
+        routes = defaultdict(set)
+        for row in self.navigation["assignments"]:
+            routes[row["asset_id"]].add(row["topic_id"])
+        for identity, domain in representatives.items():
+            with self.subTest(asset=identity, domain=domain):
+                self.assertIn(identity, self.by_id)
+                self.assertTrue(routes[identity] & self.reachable([domain]))
+        books = {asset["id"] for asset in self.assets
+                 if asset["id"].startswith("openstax_")
+                 and asset.get("status", "resolved") == "resolved"}
+        self.assertEqual(len(books), 73)
+        for entrance in ("subjects", "learn"):
+            reachable = self.reachable(self.navigation["entrances"][entrance])
+            self.assertEqual({identity for identity in books
+                              if not routes[identity] & reachable}, set(), entrance)
 
     def test_each_profile_reports_only_selected_assets_and_honest_coverage(self):
         for profile in PROFILES:
@@ -157,14 +184,18 @@ class ProductionAtlasCoverageTests(unittest.TestCase):
 
     def test_every_pocket_preset_file_has_a_topic_route(self):
         selected = {asset["id"] for asset in self.assets
-                    if "flash-16gb" in asset["profiles"] and asset["status"] == "resolved"}
+                    if "flash-16gb" in asset["profiles"] and asset["status"] == "resolved"
+                    and is_document(asset)}
         mapped = {row["asset_id"] for row in self.navigation["assignments"]}
         self.assertTrue(selected)
         self.assertEqual(selected - mapped, set())
 
     def test_whole_document_routes_do_not_invent_unreviewed_sections(self):
         expected = {asset["id"]: "books" for asset in self.assets
-                    if asset["id"].startswith("bookdash_") and "flash-16gb" in asset["profiles"]}
+                    if asset["id"].startswith("bookdash_") and "flash-16gb" in asset["profiles"]
+                    and is_document(asset)}
+        expected.update({asset["id"]: "computing" for asset in self.assets
+                         if asset["id"].startswith("docs_python_pdf_") and is_document(asset)})
         expected.update({identity: "computing" for identity in (
             "docs_bash", "docs_coreutils", "docs_make", "docs_gcc", "docs_cpp",
             "docs_binutils", "docs_ld", "docs_libc", "docs_python")})

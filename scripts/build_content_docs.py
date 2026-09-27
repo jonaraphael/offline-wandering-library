@@ -7,7 +7,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'src'))
-from owl.catalog import load_catalog, load_profiles, resolve_content
+from owl.catalog import DIRECT, is_document, learning_coverage, load_catalog, load_profiles, resolve_content
 from owl.resources import load_resources
 
 
@@ -15,29 +15,45 @@ def render():
     assets = load_catalog(ROOT/'catalog/library.yaml')
     registry = load_resources(ROOT/'catalog/resources.yaml', assets)
     profiles = load_profiles(ROOT/'profiles')
+    production = ['flash-16gb', 'critical-64gb', 'compact-256gb', 'standard-512gb', 'full-1tb']
+    selections = {name: resolve_content(assets, profiles[name], resources_path=ROOT/'catalog/resources.yaml')
+                  for name in production}
+    direct_by_profile = {
+        name: {a['id']: a for a in selected if is_document(a) and
+               a['format'].lower() in DIRECT and not a.get('reader_required')}
+        for name, (selected, _, _) in selections.items()
+    }
+    common_ids = set.intersection(*(set(rows) for rows in direct_by_profile.values()))
+    common = [direct_by_profile['flash-16gb'][identity] for identity in common_ids]
+    common_pdfs = sum(a['format'].lower() == 'pdf' for a in common)
+    small_coverage = learning_coverage(selections['flash-16gb'][0])
+    openstax_counts = {name: sum(a['id'].startswith('openstax_') for a in selection[0])
+                       for name, selection in selections.items()}
+    numbered_count = sum(bool(resource.get('number')) for resource in registry.values())
+    support_count = len(registry) - numbered_count
     counts = Counter(r['status'] for r in registry.values())
     out = ['# Content selection and acquisition status', '',
         'Generated from `catalog/resources.yaml` and `catalog/library.yaml` by `python scripts/build_content_docs.py`.', '',
-        'The registry enumerates **46 numbered collections and three support resources**. The catalog contains exact downloadable file records; the registry describes intended scope. The repository contains metadata, not these datasets.', '',
+        f'The registry enumerates **{numbered_count} numbered collections and {support_count} support resources**. The catalog records exact downloadable sources and pinned documentation outputs; the registry describes intended scope. The repository contains metadata, not these datasets.', '',
         f"Current status: **{counts['ready']} ready, {counts['partial']} partial, {counts['unresolved']} unresolved**. There are **{sum(a['status']=='resolved' for a in assets)} pinned available file records**. Large archive pins were checked against publisher whole-file SHA-256 metadata and exact HTTP byte counts; the archive bodies have not all been downloaded or device-tested.", '',
         '- **Ready:** the declared acquisition scope has usable pinned files.',
         '- **Partial:** usable files are available, but specific requested content or representations remain missing.',
         '- **Unresolved:** no usable mapping fulfills the collection yet; the reason below states what is missing.',
         '- **Redistributable: false:** OWL has not established a general right to redistribute the file. This does **not** disable a publisher-offered download for personal, noncommercial offline use.', '',
         'Original notices and attribution remain intact. Private acquisition and public redistribution are recorded separately; personal use does not change a publication’s stated license or its download availability.', '',
-        'Evidence: [medical and emergency](acquisition-medical.md), [education and agriculture](acquisition-education.md), [large archives](acquisition-archives.md), [programming and Low-tech](acquisition-reference.md), [Gutenberg and Stack Exchange](acquisition-enrichment.md).', '',
+        'Evidence: [medical and emergency](acquisition-medical.md), [education and agriculture](acquisition-education.md), [large archives](acquisition-archives.md), [programming and Low-tech](acquisition-reference.md), [Gutenberg and Stack Exchange](acquisition-enrichment.md), [one-hour source resolution](acquisition-hour-summary.md), [twelve-hour remaining-work plan](resolution-plan-12h.md).', '',
         '## Profiles and capacity', '',
-        'All values are decimal GB. Planning targets include unresolved collections and are not downloaded byte counts. Every production preset retains the expanded ordinary-format foundation: 427 documents, including 360 PDFs, 23 direct textbooks and 50 illustrated teaching works. Small presets add bounded practical archives and bundled readers; their totals below are exact pinned bytes.', '',
-        '| Profile | Content target | Known available files | Search | Scratch | Reserve |',
+        f"All values are decimal GB. Planning targets include unresolved collections and are not downloaded byte counts. Every production preset retains a common foundation of {len(common)} directly readable documents, including {common_pdfs} PDFs. The 16 GB preset has {openstax_counts['flash-16gb']} OpenStax textbooks across all eight subject families; the 64 GB and larger presets have all {openstax_counts['critical-64gb']} current English PDF titles. The smallest preset includes {small_coverage['textbooks']['count']} directly readable textbooks and {small_coverage['illustrated-guides']['count']} illustrated teaching works overall. Small presets add bounded practical archives and bundled readers; their totals below are exact pinned bytes.", '',
+        '| Profile | Content target | Pinned files on disk | Search | Scratch | Reserve |',
         '| --- | ---: | ---: | ---: | ---: | ---: |']
-    for name in ['flash-16gb','critical-64gb','compact-256gb','standard-512gb','full-1tb']:
+    for name in production:
         p = profiles[name]
-        selected, _, report = resolve_content(assets, p, resources_path=ROOT/'catalog/resources.yaml')
+        selected, _, report = selections[name]
         known = sum(a['size_bytes'] for a in selected)/1e9
         target = report['content_target_bytes']/1e9 if report else known
         out.append(f"| `{name}` | {target:.3f} GB | {known:.3f} GB | {p['search_budget_bytes']/1e9:g} GB | {p.get('index_scratch_budget_bytes', 2*p['search_budget_bytes'])/1e9:g} GB | {p['reserve_bytes']/1e9:g} GB |")
-    out += ['', 'Known available files include selected reader binaries; content targets exclude their separate allowance. Metadata is additional. Scratch covers raw assembly plus extraction workspace; a verified raw-index checkpoint releases extraction files before browser packaging. Peak indexing space is raw assembly plus the larger of extraction workspace or search output. All five default planning peaks fit their nominal capacities with the explicit search/scratch/reserve allowances. Full-corpus index measurements for the larger profiles are still outstanding. Use the CLI `--plan` for the complete calculation and real free-space/reuse checks; do not assume the final content target proves the build fits.', '',
-        'Compact includes #1–18 plus all acquired OpenStax textbooks, PhET circuit simulations, preparedness and programming manuals; it keeps a 10 GB local topographic allocation instead of North America OSM. Standard includes #1–31 and a 75 GB Survivor Tier A target. Full includes #1–36, #42–44 and #46, with full Tier A and a 60 GB direct-reading allowance. Spanish is the default additional Wikipedia; other languages and remaining Khan content are opt-in. A world map replaces the North America archive while retaining local topo.', '',
+    out += ['', 'Pinned disk totals include selected reader binaries, retained source ZIPs and their expanded documentation files; content targets exclude their separate allowance. Metadata is additional. Scratch covers raw assembly plus extraction workspace; a verified raw-index checkpoint releases extraction files before browser packaging. Peak indexing space is raw assembly plus the larger of extraction workspace or search output. All five default planning peaks fit their nominal capacities with the explicit search/scratch/reserve allowances. Full-corpus index measurements for the larger profiles are still outstanding. Use the CLI `--plan` for the complete calculation and real free-space/reuse checks; do not assume the final content target proves the build fits.', '',
+        'Compact includes #1–18 plus all acquired OpenStax textbooks, the selected PhET simulation syllabus, preparedness and programming manuals; it keeps a 10 GB local topographic allocation instead of North America OSM. Standard includes #1–31 and a 75 GB Survivor Tier A target. Full includes #1–35, #42, #44 and #46, with full Tier A and a 60 GB direct-reading allowance. All default presets are English-only; additional Wikipedia languages, multilingual Gutenberg and remaining Khan content are opt-in. A world map replaces the North America archive while retaining local topo.', '',
         'Use [SELECT.html](../SELECT.html) or repeat `--include RESOURCE` / `--exclude RESOURCE` (IDs or list numbers). Exclusion never deletes existing files. A normal build stops for partial/unresolved collections; `--allow-incomplete` explicitly builds the available subset and records the gaps.', '',
         '## Direct editions and exports', '',
         'The [in-place ZIM exporter](direct-export.md) converts explicit article selections and supported local images/styles/fonts into ordinary files on the SSD. Import its completed manifest with `build_drive.py --extra-catalog PATH --allow-local` to refresh global search, navigation, inventory and checksums without copying those files again. Excluding a source collection also excludes its derivatives; an export from a different source checksum is rejected.', '',

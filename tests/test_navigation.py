@@ -30,6 +30,30 @@ class Links(HTMLParser):
             self.scripts.append(attrs)
 
 
+class FileCatalogText(HTMLParser):
+    """Read the inline catalog as a preview that cannot follow links or run scripts."""
+
+    def __init__(self):
+        super().__init__()
+        self.depth = 0
+        self.text = []
+        self.tags = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "section" and (self.depth or dict(attrs).get("id") == "file-catalog"):
+            self.depth += 1
+        if self.depth:
+            self.tags.append((tag, dict(attrs)))
+
+    def handle_endtag(self, tag):
+        if tag == "section" and self.depth:
+            self.depth -= 1
+
+    def handle_data(self, data):
+        if self.depth:
+            self.text.append(data)
+
+
 class NavigationTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
@@ -195,7 +219,9 @@ class NavigationTests(unittest.TestCase):
             self.assertEqual(landing.count(f'id="{identity}"'), 1, identity)
         self.assertLess(landing.index('id="searchForm"'), landing.index('<h2>Books and learning collections</h2>'))
         self.assertNotIn('type="file"', landing)
-        self.assertIn("Static navigation works without JavaScript; search requires it", landing)
+        self.assertIn("Opening links depends on your viewer", landing)
+        self.assertIn("Search requires a browser that can load local scripts", landing)
+        self.assertLess(landing.index('id="files-instructions"'), landing.index('id="searchForm"'))
         self.assertIn("Content-Security-Policy", landing)
         self.assertIn("connect-src", landing)
         self.assertIn('data-library-root="LIBRARY/"', landing)
@@ -206,7 +232,48 @@ class NavigationTests(unittest.TestCase):
                       (self.target / "INVENTORY.html").read_text(encoding="utf-8"))
         readme = (self.target / "README.txt").read_text(encoding="utf-8")
         self.assertIn("loads its index automatically", readme)
+        self.assertIn("No HTML link is required", readme)
         self.assertNotIn("file-picker", readme)
+
+    def test_inline_catalog_is_readable_without_scripts_or_following_links(self):
+        generated = {
+            "id": "generated", "title": 'Generated <guide> & "notes"', "category": "reference",
+            "destination": "REFERENCE/generated guide & notes' #1.html", "format": "html",
+            "generation": {"recipe_id": "fixture"},
+        }
+        member = {
+            "id": "member", "title": "Extracted document", "category": "books",
+            "destination": "BOOKS/extracted.html", "format": "html",
+            "archive_member": {"source_asset_id": "package", "document": True},
+        }
+        supporting = [
+            {"id": "package", "title": "Input package", "destination": "REFERENCE/input.zip",
+             "format": "zip", "supporting_file": True},
+            {"id": "style", "title": "Document style", "destination": "BOOKS/style.css",
+             "format": "css", "archive_member": {"source_asset_id": "package", "document": False}},
+        ]
+        documents = [*self.assets, generated, member]
+        for report in ({"status": "not-built"}, {"generated_files": ["SEARCH/manifest.js", "SEARCH/search.js"]}):
+            with self.subTest(report=report):
+                pages = generate_navigation(self.target, [*documents, *supporting], {"assets": []}, report, write=False)
+                parser = FileCatalogText()
+                parser.feed(pages["START_HERE.html"])
+                text = "\n".join(parser.text)
+                for asset in documents:
+                    self.assertIn(asset["title"], text)
+                    self.assertEqual(text.count("LIBRARY/" + asset["destination"]), 1)
+                for asset in supporting:
+                    self.assertNotIn(asset["title"], text)
+                    self.assertNotIn(asset["destination"], text)
+                self.assertIn("First aid (1)", text)
+                self.assertIn("Archive reader required", text)
+                self.assertIn("Compatible reader required", text)
+                self.assertFalse(any(tag in {"script", "details"} or "hidden" in attrs
+                                     for tag, attrs in parser.tags))
+                self.assertIn('Generated &lt;guide&gt; &amp; &quot;notes&quot;', pages["START_HERE.html"])
+                self.assertIn("<code>LIBRARY/REFERENCE/generated guide &amp; notes&#x27; #1.html</code>",
+                              pages["START_HERE.html"])
+                self.assertIn("No HTML link is required", pages["README.txt"])
 
     def test_human_index_only_has_no_search_runtime_or_unsupported_search_claim(self):
         for report in ({"status": "not-built"}, {}, {"generated_files": ["SEARCH/manifest.js"]}):

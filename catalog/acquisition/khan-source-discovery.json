@@ -1,0 +1,23 @@
+{
+  "blockers": [
+    "A bounded English course/lesson manifest and per-file whole-file SHA-256 pins are still required.",
+    "The ordinary-file export must preserve captions, context and notices; an archive source alone is not completion."
+  ],
+  "body_downloads": 0,
+  "decision": "No archive selected: the listed whole English collection is explicitly excluded from the 90 GB subject subset.",
+  "english_published_archive_filenames": [
+    "khanacademy_en_all_2023-03.zim"
+  ],
+  "metadata_evidence": {
+    "checked_at": "2026-09-23T03:35:18.269400+00:00",
+    "content_type": "text/html",
+    "final_url": "https://lb.download.kiwix.org/zim/other/",
+    "kind": "metadata",
+    "sha256": "a826111a3be943efaa0d9e8ec372f6d081eef43bd697815faf7afafe12ee76cb",
+    "size_bytes": 45937,
+    "status": 200,
+    "url": "https://download.kiwix.org/zim/other/"
+  },
+  "resource_id": "khan-core-stem",
+  "schema_version": 1
+}

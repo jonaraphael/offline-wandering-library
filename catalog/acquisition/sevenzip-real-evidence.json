@@ -1,0 +1,39 @@
+{
+  "architecture": "arm64",
+  "checker_sha256": "cc338c722e843c9877e9b5f8026802b01fec212ac41b03366ee6facbe5d8b81a",
+  "checks": [
+    "test_real_archive_normal_build_and_reuse",
+    "test_real_encryption_and_changed_pin_are_rejected",
+    "test_real_limits_reject_full_inventory",
+    "test_real_listing_extract_reuse_and_observation",
+    "test_real_traversal_archive_is_rejected",
+    "test_real_write_interrupt_resumes_without_partial_promotion"
+  ],
+  "command": "python scripts/check_sevenzip.py --export-evidence catalog/acquisition/sevenzip-real-evidence.json",
+  "failures": [],
+  "kind": "sevenzip-real-integration",
+  "library_bodies_downloaded": false,
+  "passed": true,
+  "platform": "Darwin",
+  "publisher_pin": {
+    "asset_id": 543966195,
+    "download_page": "https://www.7-zip.org/download.html",
+    "id": "development-sevenzip-26-03-macos",
+    "observed_release_metadata_sha256": "02409de2a10e7bc07d754bcdb8fc9f45ac8ce24dacb323c901e0ec96bfe56d9a",
+    "observed_release_metadata_size_bytes": 24564,
+    "release_id": 382549777,
+    "release_metadata_url": "https://api.github.com/repos/ip7z/7zip/releases/tags/26.03",
+    "sha256": "5ca87677072c59f5602e5c49baa27d4694bacd2259b4e507f0094249d4281480",
+    "size_bytes": 1863192,
+    "source_url": "https://github.com/ip7z/7zip/releases/download/26.03/7z2603-mac.tar.xz"
+  },
+  "raw_report_sha256": "7a348f188d2cefbf0dae38d37b673c63fbab95218228d0acd4847359f0fdff61",
+  "raw_report_size_bytes": 876,
+  "schema_version": 1,
+  "tests_run": 6,
+  "tool": {
+    "sha256": "74b0910e50ea44d9760a57fada2192cfd530ba8bffbe7b47c412a464b796cabf",
+    "size_bytes": 6069184,
+    "version_line": "7-Zip (z) 26.03 (arm64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-09-03"
+  }
+}

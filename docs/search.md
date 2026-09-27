@@ -1,13 +1,15 @@
 # Offline full-text search
 
-Open `START_HERE.html` and enter words in **Search this library**. The same controls
-are available on `LIBRARY/SEARCH.html`. Search automatically loads its manifest and small
+Open `START_HERE.html` in a compatible browser and wait for **Search this library**
+to become ready. The same controls are available on `LIBRARY/SEARCH.html`.
+Search automatically loads its manifest and small
 index chunks from `LIBRARY/SEARCH/`. There is no index-file
 selection, installation, server, account, or network connection. The two pages
 share one local runtime and widget. If your viewer blocks local JavaScript or
-neighboring script files, use `LIBRARY/INDEX/categories.html`, `LIBRARY/INDEX/critical.html`, and
-the alphabetical pages instead. The start page's static navigation also works
-without JavaScript.
+neighboring script files, read the catalog printed on START_HERE itself. Its file
+paths let you locate documents in your file manager without following HTML links.
+The category, critical-content, and alphabetical pages are also readable without
+JavaScript when your viewer permits opening them.
 
 Keep the outer `START_HERE.html` beside the complete `LIBRARY` folder. Opening an
 isolated copy of just one HTML page cannot provide search. Loading failures show
@@ -93,7 +95,7 @@ snippet as ordinary text, including publisher-required notices such as
 “Access for free at openstax.org.” The original source's licensing conditions
 still apply to text incorporated into the search index and its displayed results.
 
-A persistent, checkpointed SQLite database orders the inverted index on disk. It uses a 16 MiB
+A persistent, checkpointed SQLite database orders the inverted index on disk. It uses a 256 MiB
 page-cache budget; neither the corpus nor the vocabulary is collected into one
 Python list. Ordinary text, HTML and EPUB members stream in bounded chunks.
 `pypdf` and `libzim` have their own working memory requirements: a complex PDF
@@ -148,12 +150,29 @@ corpus again. Only registered scratch files are removed; unrelated files in a
 workspace are preserved. Search workspace ownership markers and OS-held locks
 prevent conflicting writers.
 
-Actual source SHA-256 values, catalog metadata, extractor code, Python/Unicode,
-and extraction dependencies form a build fingerprint. Changes invalidate the
-extraction job deliberately. An unchanged completed index is reused only after
+Actual source SHA-256 values, effective search metadata, explicit extraction/index
+semantic versions, Python major/minor and Unicode versions, and relevant format
+dependencies form the build fingerprint. Operational changes such as logging,
+checkpoint timing and SQLite cache size do not invalidate extraction. Changes to
+text extraction or ranking must bump the corresponding semantic version in
+`search.py`; regression tests cover those boundaries. An unchanged completed index is reused only after
 checking the fingerprint and the completed index's SHA-256. Space preflight can credit a complete unchanged index only after verifying every source and search chunk. It then reserves just UI/coverage rewrites, metadata and free-space reserve, without a second index/workspace allocation. A durable raw checkpoint and independently checked partial package chunks can likewise reduce the remaining work allocation. Search rechecks these proofs after locking and refuses unbudgeted fallback extraction if a proof changed. Integrity hashing repeats on restart and can take substantial time; hashing itself is not
 checkpointed. Keep the same work directory and target path to retain an unfinished
 extraction job. See the [pause/resume guide](usage.md#pause-and-resume).
+
+With `--index-cache-dir`, completed assets are retained as immutable compact
+records and sorted postings with checksummed manifests. Builds for another target
+or selection reuse compatible assets and stream-merge their postings, relocating
+document IDs/offsets and recomputing global ranking statistics. Warm compilation
+does not rebuild the global postings database. Metadata changes can reuse stored
+passages from a compatible source shard while rebuilding that asset's records and
+postings. The cache has its own explicit allowance and never evicts old artifacts
+automatically; see [unattended builds and cache setup](unattended-builds.md).
+
+The saved background worker exposes compact progress independently of SQLite and
+keeps verbose logs on disk. Its automatic postflight records measured sizes,
+coverage summaries, verification counts and a bounded search-runtime smoke result.
+Healthy builds require no agent polling or generated narrative updates.
 
 The builder reports each asset's start and completion, including extraction
 warnings, and reports major index-writing stages. During extraction it checks
@@ -274,9 +293,23 @@ an actual completed-library search test or certify other browsers.
 | --- | --- |
 | Windows, macOS, Linux, Raspberry Pi desktop | Use a full browser that permits local JavaScript and neighboring classic script files. File permissions and local policy can still prevent use; test the chosen browser. |
 | Android / Pixel | Browser and file-manager dependent. Some viewers disable scripts or expose only a single document without access to neighboring files. Test your exact combination. |
-| iPhone / iPad | Files/Quick Look commonly previews local HTML without the needed JavaScript/browser access. Direct search is not guaranteed. Use the static pages and ordinary PDF/text documents. Offline installation of Kiwix from the SSD is not assumed. |
+| iPhone / iPad | Files/Quick Look may preview local HTML while blocking both scripts and links to neighboring files. START_HERE contains an inline catalog with exact drive-relative paths; close the preview and open documents directly in Files. Offline installation of Kiwix from the SSD is not assumed. |
 
-No real-phone, drive-provider, or browser-version compatibility matrix is claimed.
+The search form is hidden in the initial HTML and becomes visible only after the
+manifest and index header load successfully. A visible plain-text fallback remains
+when JavaScript does not run or the runtime fails to load; it does not depend on a
+`noscript` element or a link to another HTML page. If initialization fails after
+scripts start, a retry button remains available outside the hidden form.
+
+Changing relative links or moving START_HERE does not grant a file preview access
+to other documents. Apple's [WebKit local-file API](https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:))
+places that access under the viewer application's control. The inline catalog
+improves manual browsing; it does not make Files run OWL search or open local links.
+
+An iPhone Files user test on 2026-09-23 showed the original start page but inert
+search and a local-link confirmation whose Open action did not navigate. The
+updated fallback still needs validation on that phone. No general real-phone,
+drive-provider, or browser-version compatibility matrix is claimed.
 Automated tests execute the actual shared JavaScript engine under Node using its
 range-read contract, including BM25 ranking, Unicode, high-frequency
 multi-block postings, snippets, safe links and corrupt-file rejection. Collection
@@ -311,7 +344,11 @@ Document records are independently zlib-compressed UTF-8 JSON, compressed at lev
 pair per passage ID. Compressed and decompressed records are limited to 1 MiB.
 Immediately after that table,
 `flags_offset` locates one byte per passage: bit 0 means textbook and bit 1 means
-illustrated guide; both bits may be set. Other bits are reserved and rejected.
+illustrated guide; bit 2 marks explicitly classified legacy-system material.
+Multiple bits may be set. Other bits are reserved and rejected. Default searches
+and learning shelves omit legacy material before ranking; the visible **Legacy
+systems only** and **All resources, including legacy** filters opt in. Legacy
+results display a warning. Publication age alone never sets this flag.
 Each term has a contiguous posting list of unsigned LEB128 triples:
 `passage_id_delta, weighted_frequency, document_length`. Each value fits uint32;
 the first delta is an absolute passage ID (zero is valid), and subsequent deltas

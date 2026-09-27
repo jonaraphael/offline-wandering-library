@@ -1,0 +1,92 @@
+{
+  "blockers": [
+    "Publisher MD5/SHA-1/CRC32 checksums cannot stand in for whole-file SHA-256 pins.",
+    "Pinned safe 7z extraction and exact unpacked XML pins remain required.",
+    "Per-post licenses, author names, comments, duplicate links and image dependencies are unverified.",
+    "Durable/legacy question selection and full document review remain required."
+  ],
+  "body_downloads": 0,
+  "candidates": [
+    {
+      "archive_filename": "stackoverflow.com-Posts.7z",
+      "expected_member": "Posts.xml",
+      "id": "stackoverflow_publisher_posts",
+      "input_role": "posts",
+      "publisher_checksums": {
+        "crc32": "23283c18",
+        "md5": "7fad535401201f725067170ee3b7bb87",
+        "sha1": "ea0b89fea1848593028a368b2bea046df9e835ef"
+      },
+      "publisher_mtime": "1712487962",
+      "sha256": null,
+      "size_bytes": 23026928274,
+      "source_url": "https://archive.org/download/stackexchange/stackoverflow.com-Posts.7z",
+      "status": "pending_whole_file_sha256_and_xml_evidence"
+    },
+    {
+      "archive_filename": "stackoverflow.com-Comments.7z",
+      "expected_member": "Comments.xml",
+      "id": "stackoverflow_publisher_comments",
+      "input_role": "comments",
+      "publisher_checksums": {
+        "crc32": "ba6f2829",
+        "md5": "0c909b38069db7608f652b365ff67f04",
+        "sha1": "10885949c77ad4665a2b2d4941d03c8cefa70308"
+      },
+      "publisher_mtime": "1712449226",
+      "sha256": null,
+      "size_bytes": 6997473057,
+      "source_url": "https://archive.org/download/stackexchange/stackoverflow.com-Comments.7z",
+      "status": "pending_whole_file_sha256_and_xml_evidence"
+    },
+    {
+      "archive_filename": "stackoverflow.com-Users.7z",
+      "expected_member": "Users.xml",
+      "id": "stackoverflow_publisher_users",
+      "input_role": "users",
+      "publisher_checksums": {
+        "crc32": "cdb59a6f",
+        "md5": "11d6ff9a8f92ab10e179ea313ddbadab",
+        "sha1": "0350c00079e9a3473d5aae863cbaa7e93408c735"
+      },
+      "publisher_mtime": "1712439616",
+      "sha256": null,
+      "size_bytes": 990180949,
+      "source_url": "https://archive.org/download/stackexchange/stackoverflow.com-Users.7z",
+      "status": "pending_whole_file_sha256_and_xml_evidence"
+    },
+    {
+      "archive_filename": "stackoverflow.com-PostLinks.7z",
+      "expected_member": "PostLinks.xml",
+      "id": "stackoverflow_publisher_links",
+      "input_role": "links",
+      "publisher_checksums": {
+        "crc32": "e851d9cc",
+        "md5": "300e6c8d90fd12abf2d2976f3085a44c",
+        "sha1": "58cb1202d830be713e3d2d1866ea775701b29a40"
+      },
+      "publisher_mtime": "1712438034",
+      "sha256": null,
+      "size_bytes": 151452449,
+      "source_url": "https://archive.org/download/stackexchange/stackoverflow.com-PostLinks.7z",
+      "status": "pending_whole_file_sha256_and_xml_evidence"
+    }
+  ],
+  "download_bytes": 31166034729,
+  "metadata_evidence": {
+    "checked_at": "2026-09-23T03:36:44.867207+00:00",
+    "content_type": "application/json",
+    "final_url": "https://archive.org/metadata/stackexchange",
+    "kind": "json",
+    "sha256": "4b870acc8b9e9296d1df48c8ad6ce44cd049a82e3274d7ccd630f559744d29d8",
+    "size_bytes": 116027,
+    "status": 200,
+    "url": "https://archive.org/metadata/stackexchange"
+  },
+  "resource_ids": [
+    "stackoverflow-durable",
+    "stackoverflow-legacy"
+  ],
+  "schema_version": 1,
+  "source_item": "stackexchange"
+}

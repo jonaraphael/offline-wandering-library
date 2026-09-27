@@ -1,0 +1,380 @@
+{
+  "schema_version": 1,
+  "requests": [
+    {
+      "id": "usgs_5a8a2e4fe4b00f54eb3cf071",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Eastport_807896_1986_100000_geo.pdf",
+      "expected_size_bytes": 10673542
+    },
+    {
+      "id": "usgs_5a8a2e57e4b00f54eb3cf138",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Petit%20Manan%20Point_808169_1986_100000_geo.pdf",
+      "expected_size_bytes": 29604710
+    },
+    {
+      "id": "usgs_5a8a2e52e4b00f54eb3cf0c3",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Machias_808048_1994_100000_geo.pdf",
+      "expected_size_bytes": 28059693
+    },
+    {
+      "id": "usgs_5a8a2e4de4b00f54eb3cf03a",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Calais_807827_1994_100000_geo.pdf",
+      "expected_size_bytes": 27436455
+    },
+    {
+      "id": "usgs_5a8a2e4ee4b00f54eb3cf058",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Danforth_807874_1994_100000_geo.pdf",
+      "expected_size_bytes": 28442330
+    },
+    {
+      "id": "usgs_5a8a2e50e4b00f54eb3cf08e",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Houlton_460487_1993_100000_geo.pdf",
+      "expected_size_bytes": 31273676
+    },
+    {
+      "id": "usgs_5a8a2e50e4b00f54eb3cf087",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Fort%20Fairfield_807924_1993_100000_geo.pdf",
+      "expected_size_bytes": 29952099
+    },
+    {
+      "id": "usgs_5a8a2e5ae4b00f54eb3cf1a1",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Van%20Buren_460985_1993_100000_geo.pdf",
+      "expected_size_bytes": 34505201
+    },
+    {
+      "id": "usgs_5a8a2e53e4b00f54eb3cf0d3",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Matinicus_808063_1994_100000_geo.pdf",
+      "expected_size_bytes": 30022794
+    },
+    {
+      "id": "usgs_5a8a2e4ce4b00f54eb3cf029",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bar%20Harbor_807773_1985_100000_geo.pdf",
+      "expected_size_bytes": 30611346
+    },
+    {
+      "id": "usgs_5a8a2e4ce4b00f54eb3cf020",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bangor_807770_1994_100000_geo.pdf",
+      "expected_size_bytes": 28319017
+    },
+    {
+      "id": "usgs_5a8a2e52e4b00f54eb3cf0bd",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lincoln_808026_1986_100000_geo.pdf",
+      "expected_size_bytes": 21843904
+    },
+    {
+      "id": "usgs_5a8a2e55e4b00f54eb3cf0fb",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Millinocket_808087_1985_100000_geo.pdf",
+      "expected_size_bytes": 21353157
+    },
+    {
+      "id": "usgs_5a8a2e56e4b00f54eb3cf11e",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Oakfield_808137_1994_100000_geo.pdf",
+      "expected_size_bytes": 26796016
+    },
+    {
+      "id": "usgs_5a8a2e57e4b00f54eb3cf152",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Presque%20Isle_808185_1994_100000_geo.pdf",
+      "expected_size_bytes": 28417220
+    },
+    {
+      "id": "usgs_5a8a2e53e4b00f54eb3cf0cd",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Madawaska_808054_1994_100000_geo.pdf",
+      "expected_size_bytes": 33142066
+    },
+    {
+      "id": "usgs_5a8a414fe4b00f54eb3eeef4",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Siasconset_353184_1994_100000_geo.pdf",
+      "expected_size_bytes": 39168963
+    },
+    {
+      "id": "usgs_5a8a414ce4b00f54eb3eee8c",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Chatham_353158_1993_100000_geo.pdf",
+      "expected_size_bytes": 37293010
+    },
+    {
+      "id": "usgs_5a8a2e4de4b00f54eb3cf035",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bath_807778_1985_100000_geo.pdf",
+      "expected_size_bytes": 30606453
+    },
+    {
+      "id": "usgs_5a8a2e4be4b00f54eb3cf017",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Augusta_806470_1984_100000_geo.pdf",
+      "expected_size_bytes": 27138629
+    },
+    {
+      "id": "usgs_5a8a2e5ae4b00f54eb3cf199",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Skowhegan_460881_1985_100000_geo.pdf",
+      "expected_size_bytes": 32568617
+    },
+    {
+      "id": "usgs_5a8a2e4ee4b00f54eb3cf05f",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Dover-Foxcroft_807884_1994_100000_geo.pdf",
+      "expected_size_bytes": 24466591
+    },
+    {
+      "id": "usgs_5a8a2e55e4b00f54eb3cf10a",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Moosehead%20Lake_808101_1994_100000_geo.pdf",
+      "expected_size_bytes": 27087173
+    },
+    {
+      "id": "usgs_5a8a2e4de4b00f54eb3cf045",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Chamberlain%20Lake_807847_1994_100000_geo.pdf",
+      "expected_size_bytes": 25268598
+    },
+    {
+      "id": "usgs_5a8a2e4ee4b00f54eb3cf053",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Clayton%20Lake_807857_1993_100000_geo.pdf",
+      "expected_size_bytes": 25570477
+    },
+    {
+      "id": "usgs_5a8a2e4be4b00f54eb3cf012",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Allagash_807752_1993_100000_geo.pdf",
+      "expected_size_bytes": 25635086
+    },
+    {
+      "id": "usgs_5a8a414ee4b00f54eb3eeece",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Marthas%20Vineyard_351090_1994_100000_geo.pdf",
+      "expected_size_bytes": 31342283
+    },
+    {
+      "id": "usgs_5a8a414ee4b00f54eb3eeedc",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_New%20Bedford_353169_1994_100000_geo.pdf",
+      "expected_size_bytes": 32942223
+    },
+    {
+      "id": "usgs_5a8a414fe4b00f54eb3eeeec",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Provincetown_353180_1984_100000_geo.pdf",
+      "expected_size_bytes": 31345126
+    },
+    {
+      "id": "usgs_5a8a414de4b00f54eb3eee9e",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Gloucester_353162_1984_100000_geo.pdf",
+      "expected_size_bytes": 31101933
+    },
+    {
+      "id": "usgs_5a8a2e51e4b00f54eb3cf09c",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Kittery_808007_1985_100000_geo.pdf",
+      "expected_size_bytes": 28241573
+    },
+    {
+      "id": "usgs_5a8a2e57e4b00f54eb3cf148",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Portland_808182_1985_100000_geo.pdf",
+      "expected_size_bytes": 26417873
+    },
+    {
+      "id": "usgs_5a8a2e52e4b00f54eb3cf0b3",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lewiston_808020_1986_100000_geo.pdf",
+      "expected_size_bytes": 20365102
+    },
+    {
+      "id": "usgs_5a8a2e5ae4b00f54eb3cf18b",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Rumford_460823_1994_100000_geo.pdf",
+      "expected_size_bytes": 32444575
+    },
+    {
+      "id": "usgs_5a8a2e4fe4b00f54eb3cf078",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Flagstaff%20Lake_807917_1994_100000_geo.pdf",
+      "expected_size_bytes": 29528829
+    },
+    {
+      "id": "usgs_5a8a2e53e4b00f54eb3cf0e1",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Megantic_808079_1994_100000_geo.pdf",
+      "expected_size_bytes": 28334197
+    },
+    {
+      "id": "usgs_5a8a2e51e4b00f54eb3cf0a2",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lac%20Etchemin_808010_1993_100000_geo.pdf",
+      "expected_size_bytes": 26912921
+    },
+    {
+      "id": "usgs_5a8a2e55e4b00f54eb3cf101",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Montmagny_808097_1993_100000_geo.pdf",
+      "expected_size_bytes": 30885355
+    },
+    {
+      "id": "usgs_5a8a3ebae4b00f54eb3eaa71",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/RI/100000/RI_Block%20Island_353534_1984_100000_geo.pdf",
+      "expected_size_bytes": 31406832
+    },
+    {
+      "id": "usgs_5a8a3ebae4b00f54eb3eaa73",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/RI/100000/RI_Providence_353384_1984_100000_geo.pdf",
+      "expected_size_bytes": 34107125
+    },
+    {
+      "id": "usgs_5a8a414ce4b00f54eb3eee83",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Boston_353157_1989_100000_geo.pdf",
+      "expected_size_bytes": 45409288
+    },
+    {
+      "id": "usgs_5a8a414de4b00f54eb3eeebc",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Lowell_353166_1988_100000_geo.pdf",
+      "expected_size_bytes": 40693391
+    },
+    {
+      "id": "usgs_5a8a3b7be4b00f54eb3e5068",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Concord_330402_1988_100000_geo.pdf",
+      "expected_size_bytes": 36977779
+    },
+    {
+      "id": "usgs_5a8a3b7ce4b00f54eb3e5088",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Lake%20Winnipesaukee_460055_1986_100000_geo.pdf",
+      "expected_size_bytes": 20750689
+    },
+    {
+      "id": "usgs_5a8a3b7ce4b00f54eb3e5093",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Mount%20Washington_330410_1988_100000_geo.pdf",
+      "expected_size_bytes": 40348997
+    },
+    {
+      "id": "usgs_5a8a3b7be4b00f54eb3e5070",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Groveton_330404_1986_100000_geo.pdf",
+      "expected_size_bytes": 37108209
+    },
+    {
+      "id": "usgs_5a8a3b7de4b00f54eb3e509c",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Sherbrooke_330413_1986_100000_geo.pdf",
+      "expected_size_bytes": 39318608
+    },
+    {
+      "id": "usgs_5a8a2857e4b00f54eb3c517b",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_New%20Haven_331212_1983_100000_geo.pdf",
+      "expected_size_bytes": 35129659
+    },
+    {
+      "id": "usgs_5a8a2856e4b00f54eb3c5177",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Hartford_331210_1994_100000_geo.pdf",
+      "expected_size_bytes": 40954896
+    },
+    {
+      "id": "usgs_5a8a414de4b00f54eb3eeeac",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Holyoke_353164_1985_100000_geo.pdf",
+      "expected_size_bytes": 44554223
+    },
+    {
+      "id": "usgs_5a8a3b7ce4b00f54eb3e507c",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Keene_330407_1986_100000_geo.pdf",
+      "expected_size_bytes": 34607572
+    },
+    {
+      "id": "usgs_5a8a3b7be4b00f54eb3e5062",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Claremont_330400_1985_100000_geo.pdf",
+      "expected_size_bytes": 20864235
+    },
+    {
+      "id": "usgs_5a8a4447e4b00f54eb3f416c",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Rutland_338231_1985_100000_geo.pdf",
+      "expected_size_bytes": 40506804
+    },
+    {
+      "id": "usgs_5a8a4446e4b00f54eb3f4163",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Montpelier_460033_1988_100000_geo.pdf",
+      "expected_size_bytes": 9896762
+    },
+    {
+      "id": "usgs_5a8a4447e4b00f54eb3f4167",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Mount%20Mansfield_460034_1989_100000_geo.pdf",
+      "expected_size_bytes": 35401595
+    },
+    {
+      "id": "usgs_5a8a3efde4b00f54eb3eaf0c",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Long%20Island%20West_137379_1984_100000_geo.pdf",
+      "expected_size_bytes": 37730768
+    },
+    {
+      "id": "usgs_5a8a2856e4b00f54eb3c5171",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Bridgeport_331207_1986_100000_geo.pdf",
+      "expected_size_bytes": 46451682
+    },
+    {
+      "id": "usgs_5a8a2857e4b00f54eb3c517f",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Waterbury_331231_1993_100000_geo.pdf",
+      "expected_size_bytes": 35583299
+    },
+    {
+      "id": "usgs_5a8a414ee4b00f54eb3eeee4",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Pittsfield_353177_1986_100000_geo.pdf",
+      "expected_size_bytes": 33144623
+    },
+    {
+      "id": "usgs_5a8a3ef5e4b00f54eb3eae13",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Albany_137059_1989_100000_geo.pdf",
+      "expected_size_bytes": 27504499
+    },
+    {
+      "id": "usgs_5a8a3ef8e4b00f54eb3eae4e",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Glens%20Falls_137223_1989_100000_geo.pdf",
+      "expected_size_bytes": 25199999
+    },
+    {
+      "id": "usgs_5a8a3f07e4b00f54eb3eaff1",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Ticonderoga_136968_1989_100000_geo.pdf",
+      "expected_size_bytes": 27194813
+    },
+    {
+      "id": "usgs_5a8a3efbe4b00f54eb3eaec1",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Lake%20Champlain%20South_137306_1986_100000_geo.pdf",
+      "expected_size_bytes": 25328483
+    },
+    {
+      "id": "usgs_5a8a3efbe4b00f54eb3eaeb2",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Lake%20Champlain%20North_137304_1986_100000_geo.pdf",
+      "expected_size_bytes": 21660188
+    },
+    {
+      "id": "usgs_66b5c4e1d34eebcf8bb39151",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_West_Charleston_OE_N_20240417_TM_geo.pdf",
+      "expected_size_bytes": 11877322
+    },
+    {
+      "id": "usgs_66b5c481d34eebcf8bb39145",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Newport_OE_N_20240417_TM_geo.pdf",
+      "expected_size_bytes": 11819959
+    },
+    {
+      "id": "usgs_66b6dbf5d34eebcf8bb39842",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Newport_Center_OE_N_20240809_TM_geo.pdf",
+      "expected_size_bytes": 12164381
+    },
+    {
+      "id": "usgs_66b5c4a2d34eebcf8bb39149",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_North_Troy_OE_N_20240417_TM_geo.pdf",
+      "expected_size_bytes": 13033309
+    },
+    {
+      "id": "usgs_66b5c45ed34eebcf8bb39141",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Jay_Peak_OE_N_20240417_TM_geo.pdf",
+      "expected_size_bytes": 15316034
+    },
+    {
+      "id": "usgs_66b6dc16d34eebcf8bb39846",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Richford_OE_N_20240809_TM_geo.pdf",
+      "expected_size_bytes": 14514173
+    },
+    {
+      "id": "usgs_66b5c43cd34eebcf8bb3913d",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Enosburg_Falls_OE_N_20240417_TM_geo.pdf",
+      "expected_size_bytes": 18646173
+    },
+    {
+      "id": "usgs_66b5c4c1d34eebcf8bb3914d",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Sheldon_Springs_OE_N_20240417_TM_geo.pdf",
+      "expected_size_bytes": 16870955
+    },
+    {
+      "id": "usgs_66b59f96d34eebcf8bb38c52",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Highgate_Center_OE_N_20240417_TM_geo.pdf",
+      "expected_size_bytes": 13715286
+    },
+    {
+      "id": "usgs_66b59f74d34eebcf8bb38c43",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_East_Alburg_OE_N_20240417_TM_geo.pdf",
+      "expected_size_bytes": 11617351
+    },
+    {
+      "id": "usgs_66b6ddc2d34eebcf8bb3987e",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Rouses_Point_OE_N_20240809_TM_geo.pdf",
+      "expected_size_bytes": 13298368
+    }
+  ]
+}

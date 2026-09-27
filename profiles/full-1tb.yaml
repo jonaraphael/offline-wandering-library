@@ -44,14 +44,17 @@ default_resources:
 - wikisource-en
 - ted-ed
 - khan-core-stem
-- wikipedia-es
 - world-maps
-- gutenberg-multilingual
 - survivor-tier-b
 - stackoverflow-legacy
+- books-culture-expansion
+- complete-courses-expansion
 index_scratch_budget_bytes: 75000000000
 default_editions:
   gutenberg-core: compact
   childrens-library: compact
   stackexchange-practical: compact
   stackexchange-science: compact
+resource_overrides:
+  regional-maps:
+    target_bytes: 101000000000

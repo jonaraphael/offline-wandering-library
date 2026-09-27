@@ -1,0 +1,33 @@
+# Survivor Library: limited historical metadata handoff
+
+Reviewed 2026-09-18 EDT / 2026-09-19 UTC. This review used only six PDFs already present in `/tmp/owl-one-hour/survivor`; it performed no network requests, resource downloads, SSD writes or library build. Temporary evidence was preserved. The proposed fragment is `catalog/acquisition/hour-survivor.yaml`; its asset sources are exact HTTPS URLs, never temporary local files.
+
+Three source pins are proposed: **83,536,328 bytes, 1,354 PDF pages**. They cover only sheet-metal cone pattern development, ordinary foundations, and water conveyance/distribution. `survivor-tier-a` must remain **partial**. This is not the requested 75–100 GB curated Tier A collection, broad trades coverage, a whole-library mirror or current safety guidance. No medical or veterinary coverage is claimed.
+
+## Accepted historical references
+
+| Source | Bibliographic identification | Local visual evidence and limits |
+|---|---|---|
+| [Fuller cone-pattern treatise](https://www.survivorlibrary.com/library/a_new_and_original_treatise_for_practical_sheet_iron_and_tin_plate_workers1904.pdf) | John Fuller, Sr., *A New and Original Treatise on The Geometrical Development of Round and Oval Cones*, with examples for beginners and practical sheet iron and tin plate workers. David Williams Company, New York. Copyright page says 1904; library receipt stamp says 1905 and is not treated as the publication date. 64 PDF pages; printed text ends at 53. | Physical pages 7–8 identify title and copyright. Pages 12, 13, 35 and 56 show legible prose, equations, labeled shapes and geometric construction. Page 59 is the concluding printed page; page 63 is blank end matter. Small scan marks do not obscure the inspected instructions. |
+| [Fowler foundations, Volume I](https://www.survivorlibrary.com/library/a_practical_treatise_on_engineering_and_building_foundations_1920.pdf) | Charles Evan Fowler, C.E., *A Practical Treatise on Engineering and Building Foundations Including Sub-Aqueous Foundations*, Volume I, *Ordinary Foundations*. Fourth edition, revised and enlarged. John Wiley & Sons, New York / Chapman & Hall, London, 1920. 588 PDF pages; index ends at printed page 531. | Physical pages 6–7 establish volume, edition and original copyright history. Pages 11, 34, 36, 294–295 show the preface, table, prose and engineering diagrams. Pages 573, 580 and 584–586 show legible index entries through the final W entries; 587 is blank. **Image-only: no text layer on any of 588 pages.** Direct viewing works, but searchable body text would require a separate OCR workflow. The preface assigns deep/subaqueous foundations and other subjects to other volumes; this pin does not supply them. |
+| [Wegmann water supply](https://www.survivorlibrary.com/library/conveyance_and_distribution_of_water_for_water_supply_1918.pdf) | Edward Wegmann, C.E., *Conveyance and Distribution of Water for Water Supply: Aqueducts, Pipe-Lines and Distributing Systems. A Practical Treatise for Water-Works Engineers and Superintendents*. D. Van Nostrand Company, New York, 1918. 702 PDF pages; index ends at printed page 663, followed by advertisements. | Physical pages 1–2 identify title and copyright. Page 20 contains a readable labeled consumption chart; 351 has a legible engineering table and prose. Page 684 is the final index page and 701 a rear publisher advertisement. Yellowing does not obscure these samples. The title-page illustration/plate counts are publisher claims, not independently recounted totals. |
+
+All three receive explicit **Historical (year)** catalog titles, `critical: false`, and descriptions that identify dated methods. The water volume is not current water-treatment or potable-material guidance; the foundations volume is not current structural-design or building-code guidance. Original pages and notices remain unmodified.
+
+## Rights and acquisition behavior
+
+The scans retain historical copyright notices: Fuller 1904; Fowler's sequence of 1898, 1904, 1914 and 1920 notices; Wegmann/D. Van Nostrand 1918. No affirmative redistribution grant for these scans was established. **Every proposed asset is `redistributable: false`.** Age and public availability were not used as a substitute for a verified grant.
+
+The original download report supplies the exact source URLs, byte counts and SHA-256 values. This local review recalculated every accepted file's length and SHA-256 and matched the report, then parsed each PDF with pypdf and pdfinfo. Full scans have 55/64, 0/588 and 686/702 pages with extractable text respectively. Rendering samples used Poppler. Front matter and expected endings were checked, but this is a representative-page quality review, not a page-by-page completeness certificate.
+
+The fragment records ordinary remote PDF acquisitions for a future selected build. No locally composed artifact, OCR derivative, temporary-file dependency or claim that the files are installed on the target library is introduced. Network availability was not rechecked during this metadata-only task.
+
+## Excluded candidates
+
+| Candidate | Decision |
+|---|---|
+| [Thompson, *A Manual of Angora Goat Raising, with a Chapter on Milch Goats* (1903)](https://www.survivorlibrary.com/library/a_manual_of_angora_goat_raising__with_a_chapter_on_milch_goats-1903.pdf) | Excluded for scan quality. Title, notice, contents and index are identifiable, but practical care and shearing pages have markedly faded, broken letter strokes. Physical pages 133 and 152 remained degraded at 220 dpi; enlarging does not recover missing strokes. A cleaner scan is needed. No animal-health or food-safety coverage is claimed from this book. |
+| [*A History of the Art of Bookbinding* (1894)](https://www.survivorlibrary.com/library/a_history_of_the_art_of_bookbinding-with_some_account_of_the_books_of_the_ancients_1894.pdf) | Excluded for scope: the contents describe historical binding traditions and artistic development, rather than the practical binding/repair manual needed by this resource. |
+| [*A Handbook of Industrial Organic Chemistry* (1900)](https://www.survivorlibrary.com/library/a_handbook_of_industrial_organic_chemistry_1900.pdf) | Excluded for quality: a finger obscures substantive text on physical page 275, printed page 268. The defect is visible in the preserved original and rendered sample. |
+
+The excluded URLs, original hashes, sizes and decisions remain in the fragment's evidence section, not its asset list. They must not enter selected builds. The next work is a title-level curation matrix for the missing trades, cleaner replacements for rejected scans, explicit rights decisions, and appropriate visual sampling before adding more HTTPS pins.

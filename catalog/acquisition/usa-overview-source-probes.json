@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "profile": "full-1tb",
+  "requests": [
+    {
+      "id": "usgs_usa_general_reference_112764_2001",
+      "resource_id": "regional-maps",
+      "url": "https://store.usgs.gov/assets/yimages/PDF/112764.pdf",
+      "expected_size_bytes": 19527583
+    }
+  ]
+}

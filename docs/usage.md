@@ -10,7 +10,7 @@ to `LIBRARY`, while the global checksum manifest records outer-directory paths.
 
 1. Use a dependable SSD and cable. Format it with your operating system’s ordinary disk tools if needed; OWL does not format drives. exFAT is the intended cross-platform filesystem.
 2. Identify the SSD’s mount location carefully. Use a dedicated `EMERGENCY_LIBRARY` directory so the library is easy to find.
-3. Install Python 3.11+ and OWL on the build computer. Install with `python -m pip install -e '.[zim]'`; every production preset now includes archives.
+3. Install Python 3.11+ and OWL on the build computer. Install with `python -m pip install -e '.[zim,pdf]'` for archive indexing and the Book Dash PDF editions. These dependencies are needed only while building.
 4. Review the resource registry, asset catalog, and source notes. The larger profiles describe planned selections with unresolved or partial collections; the small presets retain the verified directly readable collection. Use a profile that fits the actual available space. Reserve space for search output and build scratch storage as well as downloads.
 5. Run a plan and inspect its selected files, source sizes, and warnings.
 
@@ -31,11 +31,11 @@ Small-preset rows marked **Preset files only** retain exact files from the prese
 
 **Add the human topic atlas** starts checked and adds `--navigation-dir catalog/navigation`. **Build only currently verified files (partial library)** starts unchecked and adds `--allow-incomplete` only when explicitly checked. The page distinguishes intended collection storage from selected verified asset sizes and includes search, scratch, metadata, and reserve in its peak estimates. The CLI checks real free space and existing-file reuse. Refresh the page after recipe changes with `python scripts/build_selector.py`; use `--check` to detect a stale page without rewriting it.
 
-The `flash-16gb` preset selects 436 pinned files totaling **9,696,060,616 bytes**, with 360 PDFs, 23 direct textbooks, 50 illustrated teaching works, children's EPUBs and five practical archives. Its 2 GB search, 4.5 GB scratch, 16 MiB metadata and 1.5 GB reserve allowances give a **15,712,837,832-byte** in-place planning peak. Extraction workspace is released after a verified raw-index checkpoint, before browser packaging; the two phases do not coexist. The `critical-64gb` preset expands this to **40,272,521,791 bytes** of sources and a **58,289,299,007-byte** planning peak. Both bundle four platform readers. All production sizes retain the same 427-document ordinary-format foundation; no special reader is needed for its PDFs and HTML. Search budgets still need checking against actual extraction results.
+The `flash-16gb` preset selects 551 pinned assets totaling **9,869,555,191 bytes**, including 474 PDFs, 39 direct textbooks, 66 illustrated teaching works, five practical archives and retained source packages. Its 2 GB search, 4.5 GB scratch, 68,497,118-byte acquisition workspace, 16 MiB metadata and 1.5 GB reserve allowances give a **15,954,829,525-byte** in-place planning peak. Extraction workspace is released after a verified raw-index checkpoint, before browser packaging; the two phases do not coexist. The `critical-64gb` preset expands this to **45,226,005,469 bytes** of pinned assets and a **63,311,279,803-byte** planning peak. Both bundle four platform readers. All production sizes retain a common foundation of 479 directly readable documents: 474 PDFs and five HTML files. The 64 GB preset adds 37 more OpenStax PDFs, reaching 516 documents and 76 textbooks. Supporting sources and software packages are excluded from document counts. Search budgets still need checking against actual extraction results.
 
-`catalog/resources.yaml` describes the 46 numbered resources and three support collections: `owl-direct-core`, `archive-readers`, and `direct-reading-expansion`. Actual downloadable files, licenses, sizes, and hashes live in `catalog/library.yaml`. A resource can be ready, partial, or unresolved. Review the plan's resource coverage as well as its byte totals; a plausible size estimate is not proof that the requested collection is available.
+`catalog/resources.yaml` describes the 46 numbered resources and five support collections: `owl-direct-core`, `archive-readers`, `direct-reading-expansion`, `books-culture-expansion`, and `complete-courses-expansion`. Actual downloadable files, licenses, sizes, and hashes live in `catalog/library.yaml`. A resource can be ready, partial, or unresolved. Review the plan's resource coverage as well as its byte totals; a plausible size estimate is not proof that the requested collection is available.
 
-The larger content targets are 190–210 GB for compact, 390–420 GB for standard, and 750–820 GB for full, before search, reader, and free-space budgets. All three select full English Wikipedia. Compact selects the 10 GB topographic-map allocation without North America OSM; standard adds North American coverage; full uses world maps in place of North America. All five sizes include the complete acquired OpenStax core. Spanish Wikipedia and the compact science Stack Exchange edition default to full. Additional languages and noncore Khan material are opt-in. All sizes retain the same acquired ordinary-format foundation, with additional archives chosen by available capacity.
+The larger content targets are 190–210 GB for compact, 390–420 GB for standard, and 750–820 GB for full, before search, reader, and free-space budgets. All three select full English Wikipedia. Compact selects the 10 GB topographic-map allocation without North America OSM; standard adds North American coverage; full uses world maps in place of North America. OpenStax contributes 36 complete PDFs across all eight subject families in 16 GB; the 64 GB and larger sizes include all 73 current English PDF titles. The smaller selection preserves math/science foundations and adds nursing, business, humanities, social sciences, computing, and college success. Spanish Wikipedia requires explicit inclusion; compact science Stack Exchange defaults to full. Other languages and noncore Khan material are opt-in. All sizes retain the same acquired ordinary-format foundation, with additional archives chosen by available capacity.
 
 The full profile also allocates 60 GB of its planned content budget to `direct-reading-expansion`: additional ordinary HTML, PDFs, and images from selected Appropedia, CD3WD, iFixit, LibreTexts, and Wikibooks material, plus an expanded small directly readable Wikipedia subset. The [in-place exporter](direct-export.md) is implemented, but curated selections and complete reviewed output editions remain unresolved. It does not automatically turn the full Wikipedia archive into millions of local HTML pages. Preferences apply to selected resources, and any future exports require reviewed source selection, licensing, attribution, and verified files. To omit the allocation, add `--exclude direct-reading-expansion`.
 
@@ -54,6 +54,16 @@ Selecting resolved ZIM assets automatically brings `archive-readers` into the pl
 A normal build stops when selected resources are unresolved or only partially represented. You can revise the selection, resolve the missing source metadata, or explicitly accept a partial content build with `--allow-incomplete`. That option does not waive download checks or file integrity. It records incomplete content selection in the inventory and build information and places a notice on the landing page.
 
 ## Build in place on the SSD
+
+The selector adds `--detach` to start a saved background Python job. Use its
+printed directory with `python scripts/build_job.py status JOB_DIR`, `cancel
+JOB_DIR`, or `resume JOB_DIR`. Verification and postflight run automatically; see
+[unattended builds and shared indexes](unattended-builds.md). It also explicitly
+sets `.owl/index-cache` for reusable per-asset indexes and `.owl/index-work` for
+generated scratch. Only derived search data is stored there; source assets and
+download partials stay on the selected external drive. These paths and the
+retained-cache allowance are editable in SELECT.html. The commands below omit
+those options and `--detach`, and run entirely on the drive in the foreground.
 
 ```bash
 python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
@@ -75,10 +85,10 @@ SQLite's persistent database and rollback journal stay in the chosen workspace;
 index construction does not spill large sorting files into the computer's OS
 temporary directory. No local server or database service is required.
 
-Do not add `--cache-dir` merely to enable resumption: the default already resumes.
-A cache is an optional additional asset copy. `--work-dir` optionally relocates
-search scratch when space is available elsewhere; the default is the SSD.
-Keep either optional directory between runs if you use it.
+Leave `--cache-dir` unset to keep original assets and download partials exclusively
+on the external drive; resumption already works without it. `--index-cache-dir`
+retains generated per-asset indexes, and `--work-dir` relocates generated search
+scratch. Keep these generated-data directories between runs to reuse their work.
 
 Capacity planning uses decimal capacity, exact available asset sizes, a search
 budget, scratch allowance, and free-space reserve. Allocations on the same
@@ -127,11 +137,12 @@ files are not trusted merely because their name, size, or timestamp matches.
 Changing content, selection metadata, or extractor versions invalidates the
 extraction checkpoint deliberately.
 
-An internet outage gets bounded retries with backoff. If retries are exhausted,
-the command exits with an error and retains resumable work. Restore the connection
-and rerun; there is no background daemon or requirement to keep it running.
+An internet outage gets bounded retries with backoff. Foreground commands exit
+after those attempts; restore the connection and rerun. Saved background jobs
+also apply their configured transient retry window, then record an actionable
+failure if it is exhausted. Use `resume` on the saved job after recovery.
 
-`LIBRARY/.owl/state.json` records the phase and stays incomplete until final verification.
+`LIBRARY/.owl/state.json` records the phase and stays incomplete until final verification and postflight.
 The independent verifier reports an incomplete build or copy as `FAILED`, even
 if all previous files still match. Existing completed files stay in place until
 verified replacements are ready; an update is atomic per file, not per whole SSD.
@@ -179,7 +190,11 @@ Project Gutenberg and Children's Library also have prominent landing-page entrie
 
 In a partial build, consult the inventory's resource-selection table for missing or incomplete collections and their coverage notes. A successfully verified file set can still represent only part of the selected content plan.
 
-Open the original PDFs to see diagrams, photographs, charts, and figures. Downloads retain the original file bytes and embedded illustrations. Search indexes extractable text; it does not interpret images or provide OCR. A diagram or scanned page can be useful even when its contents are absent from search results.
+Open PDFs to see diagrams, photographs, charts, and figures. Publisher PDFs retain their original bytes. The 61 Book Dash editions are reviewed PDF conversions with original text, illustrations, language and credits retained; each story illustration starts a page with its following text. Their source EPUBs stay under `LIBRARY/REFERENCE/SOURCE_PACKAGES/EPUB/`, excluded from reading shelves and search. Ordinary PDF viewing does not require an EPUB reader.
+
+Python's reading collection contains 37 original publisher PDFs for Python 3.14.0, dated October 7, 2025. The newer September 2026 EPUB is retained separately as a supporting source package; it is not the source of those older PDFs. See [PDF reading editions](pdf-editions.md) for exact edition and conversion details.
+
+On iPhone or iPad, open the PDFs directly in Files and choose **Preview with Quick Look** if offered. If an HTML preview refuses links, close it and navigate using the exact `LIBRARY/...` paths printed in the start page's inline catalog. Search indexes extractable text; it does not interpret images or provide OCR. A diagram or scanned page can be useful even when its contents are absent from search results.
 
 ## Add the topic atlas after downloading
 
@@ -193,7 +208,7 @@ python scripts/build_atlas.py /media/SSD/EMERGENCY_LIBRARY \
 python scripts/verify.py /media/SSD/EMERGENCY_LIBRARY
 ```
 
-The command verifies existing sources and publishes navigation; it does not download missing files or rebuild search. To include the atlas during a full build, pass the same directory to the builder:
+The command verifies existing sources and publishes navigation. It also refreshes the generated search interface and its integrity metadata together, while preserving the search index and cached extraction. It does not download missing files or rebuild the index. An interrupted publication resumes from its saved interface files so the start page and search script stay matched. To include the atlas during a full build, pass the same directory to the builder:
 
 ```bash
 python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
@@ -221,20 +236,22 @@ Read the report:
 | `FAILED` | Hash mismatch, unreadable file, or unsafe manifest entry | Investigate; replace from a trusted source and verify again |
 | `UNKNOWN` | File has no entry in the checksum manifest | Review whether it is your file or intentionally unmanaged material |
 
+After rejecting symlinks, the verifier skips macOS volume directories `.Trashes`, `.Spotlight-V100`, `.fseventsd`, and `.TemporaryItems` only at the outer root; same-named directories inside `LIBRARY` remain subject to verification.
+
 Keep a trusted copy of `LIBRARY/SHA256SUMS.txt`, `LIBRARY/INVENTORY.json`, `LIBRARY/BUILD_INFO.json`, `LIBRARY/LOCKED_CATALOG.yaml`, and the original catalog away from the drive. A checksum manifest stored beside its files cannot detect an attacker replacing both. OWL’s build timestamps and metadata may differ between builds even when the knowledge assets are identical.
 
 Before storing the SSD, disconnect network access and try each intended device:
 
 1. Attach the SSD with the necessary adapter and power source; find it in the file manager.
 2. Open `START_HERE.html`, follow a category link, and open a critical PDF or text file.
-3. If HTML links do not work, open a critical document directly from its folder.
+3. If HTML links do not work, use the catalog printed on START_HERE itself. Note a document's `LIBRARY/...` path, close the preview, and open that file through the file manager.
 4. Open a core textbook and an illustrated guide from their dedicated shelves. Navigate between pages and zoom into a diagram to confirm it is readable on the device.
-5. Enter known words in the search field on `START_HERE.html`; its index should load automatically. Try `LIBRARY/SEARCH.html` as well and open a result in a compatible document viewer. No index-file selection is needed. Treat JavaScript search as optional on devices whose file previews restrict local scripts; the static links and ordinary files remain available.
+5. In a compatible browser, search controls appear on `START_HERE.html` after its index loads. Enter known words, then try `LIBRARY/SEARCH.html` as well and open a result in a compatible document viewer. No index-file selection is needed. File previews may block both scripts and local links; the inline catalog and direct folder access remain the fallback.
 6. Open the textbook, illustrated-guide, Gutenberg, children's, category, critical, and alphabetical indexes with JavaScript disabled. If generated, try the atlas through subject, practical-task, and learning entrances, including recovery from a wrong turn. Confirm critical textbooks are reachable through the critical index even when their files are in `LIBRARY/BOOKS/`. Check that missing planned collections are clearly reported.
 7. On platforms that permit offline installation, check that the matching bundled reader can open a ZIM. The builder does not install or run it for you.
 8. Safely eject the SSD before unplugging it.
 
-An iPhone’s Files preview is useful for ordinary documents but is not a general-purpose browser for a local web application. A bundled APK or desktop executable cannot provide an offline iOS installation path. Android storage access also varies by file manager and browser. Keep direct document access as the primary path on phones.
+An iPhone’s Files preview is useful for ordinary documents but is not a general-purpose browser for a local web application. It can show START_HERE while leaving search unavailable and failing to open a linked file, even after an Open confirmation. Changing the page's relative paths does not grant the preview access to the library. Full interactive use needs a viewer that can run scripts and access the library folder, or the library served over a local network to a browser; OWL does not currently supply an iOS app or a local server. A bundled APK or desktop executable cannot provide an offline iOS installation path. Android storage access also varies by file manager and browser. Keep direct document access as the primary path on phones.
 
 ## Update without losing a working copy
 

@@ -1,0 +1,188 @@
+{
+  "checks": [
+    {
+      "name": "catalog",
+      "passed": true
+    },
+    {
+      "exit_code": 1,
+      "failure_kind": "nonzero_exit",
+      "name": "full-tests",
+      "passed": false,
+      "tests_run": 722
+    },
+    {
+      "name": "selector-freshness",
+      "passed": true
+    },
+    {
+      "name": "content-docs-freshness",
+      "passed": true
+    },
+    {
+      "name": "plan-flash-16gb",
+      "passed": true
+    },
+    {
+      "name": "plan-critical-64gb",
+      "passed": true
+    },
+    {
+      "name": "plan-compact-256gb",
+      "passed": true
+    },
+    {
+      "name": "plan-standard-512gb",
+      "passed": true
+    },
+    {
+      "name": "plan-full-1tb",
+      "passed": true
+    },
+    {
+      "name": "explicit-language-opt-in",
+      "passed": true
+    },
+    {
+      "name": "inputs-unchanged",
+      "passed": true
+    }
+  ],
+  "completed_at": "2026-09-23T05:36:14.212873+00:00",
+  "downloads": 0,
+  "fixed_small_preset_expectations": {
+    "critical-64gb": {
+      "assets": 549,
+      "content_bytes": 40380758740
+    },
+    "flash-16gb": {
+      "assets": 535,
+      "content_bytes": 9804297565
+    }
+  },
+  "freshness_checked": true,
+  "full_tests": true,
+  "input_sha256": {
+    "SELECT.html": "768fe3aa84600099b55cc81e1b85f68a7e6fcf45d98e769acf4d50cd5ecc9d62",
+    "catalog/acquisition/recipes.yaml": "9afd560aa9be7cc16af5ad5181d8cf6e38d7e273eeaaa7db1b169e7764832350",
+    "catalog/library.yaml": "d91f38e179a83ad0ca25efdabd2fbf9b88de391c9023c25f1b29b652ba218ed4",
+    "catalog/resources.yaml": "28bac7e62544ded16463a5755547e261eaa273c85e5d5dc22a8c6eebf584d6b3",
+    "docs/content-selection.md": "7c9921b0f53479056dc94343c16c30026de4519c588f29e2dfad9a5a74714d43",
+    "profiles/compact-256gb.yaml": "2066d693623bc9ca1730de0d9507e5caf45d32027620f74ab0fd3d598f6c8e84",
+    "profiles/critical-64gb.yaml": "4fb3860ff498af0026a0a48558d11a45ee2519e9324555b9bc233bd887272660",
+    "profiles/flash-16gb.yaml": "8d9f6a23a6264b1ea2eb1b3a5d9917b7aa6e682ff7718a96c6cb96892444e97d",
+    "profiles/full-1tb.yaml": "ea70882bf50a86eba4c2d257b413108fe2df03c1862c403f1b1a8c49b84c30ac",
+    "profiles/standard-512gb.yaml": "a7f4e75b991cb6323bc22ba6aa6e119f83d99d29a91a7141715d642a700e91b1",
+    "scripts/**": "247b114ed0e1adf8512b99297ee0602fad42ccdb4d4540330b63570119688592",
+    "src/**": "1aab77d4c7feb10a6ea5a75e0991e68d6efcac0c87a3a33e16b9c1d76cff5acc",
+    "tests/**": "5ec9123f0ed7122c92b0fb62ec71450afcc599212076c2f563fad57d5f48375e"
+  },
+  "passed": false,
+  "profiles": [
+    {
+      "assets": 535,
+      "capacity_bytes": 16000000000,
+      "content_bytes": 9804297565,
+      "incomplete_resources": [],
+      "peak_bytes": 15889571899,
+      "profile": "flash-16gb",
+      "target_created": false,
+      "unresolved_assets": []
+    },
+    {
+      "assets": 549,
+      "capacity_bytes": 64000000000,
+      "content_bytes": 40380758740,
+      "incomplete_resources": [],
+      "peak_bytes": 58466033074,
+      "profile": "critical-64gb",
+      "target_created": false,
+      "unresolved_assets": []
+    },
+    {
+      "assets": 2322,
+      "capacity_bytes": 256000000000,
+      "content_bytes": 195535696905,
+      "incomplete_resources": [
+        "hesperian-health",
+        "wikipedia-en",
+        "regional-maps",
+        "appropedia",
+        "cd3wd",
+        "ifixit",
+        "low-tech-magazine",
+        "phet",
+        "linux-programming-docs"
+      ],
+      "peak_bytes": 241309966892,
+      "profile": "compact-256gb",
+      "target_created": false,
+      "unresolved_assets": [
+        "regional_topographic_maps"
+      ]
+    },
+    {
+      "assets": 2351,
+      "capacity_bytes": 512000000000,
+      "content_bytes": 262092447128,
+      "incomplete_resources": [
+        "hesperian-health",
+        "wikipedia-en",
+        "regional-maps",
+        "appropedia",
+        "cd3wd",
+        "ifixit",
+        "low-tech-magazine",
+        "survivor-tier-a",
+        "stackoverflow-durable",
+        "phet",
+        "linux-programming-docs"
+      ],
+      "peak_bytes": 387561454920,
+      "profile": "standard-512gb",
+      "target_created": false,
+      "unresolved_assets": [
+        "regional_topographic_maps"
+      ]
+    },
+    {
+      "assets": 2357,
+      "capacity_bytes": 1000000000000,
+      "content_bytes": 353301084819,
+      "incomplete_resources": [
+        "hesperian-health",
+        "wikipedia-en",
+        "regional-maps",
+        "appropedia",
+        "cd3wd",
+        "ifixit",
+        "low-tech-magazine",
+        "survivor-tier-a",
+        "stackoverflow-durable",
+        "phet",
+        "linux-programming-docs",
+        "ted-ed",
+        "khan-core-stem",
+        "survivor-tier-b",
+        "stackoverflow-legacy",
+        "direct-reading-expansion",
+        "books-culture-expansion",
+        "complete-courses-expansion"
+      ],
+      "peak_bytes": 775422605812,
+      "profile": "full-1tb",
+      "target_created": false,
+      "unresolved_assets": [
+        "regional_topographic_maps"
+      ]
+    }
+  ],
+  "raw_report": {
+    "sha256": "3f78ef83381c14dcecea1c974f63b09c1961650debce208b688cebd54c55e2e8",
+    "size_bytes": 1629132
+  },
+  "reproduce": "python scripts/validate_acquisition.py --full --export-evidence catalog/acquisition/validation-evidence.json",
+  "schema_version": 1,
+  "scope": "Local regression and no-download nominal-capacity planning; not a production build, drive recovery or physical-device certification.",
+  "simulated_free_bytes_for_plans": 10000000000000
+}

@@ -41,9 +41,14 @@ REQUIRED = {"id", "title", "category", "format", "source_url", "destination", "v
             "size_bytes", "sha256", "license", "redistributable", "required", "profiles"}
 
 
+def is_document(asset: dict) -> bool:
+    """A package's input/dependencies remain inventoried, not reading material."""
+    return not asset.get("supporting_file", False) and asset.get("archive_member", {}).get("document", True)
+
+
 def learning_shelves(asset: dict) -> set[str]:
     """Directly readable learning collections; illustrated textbooks belong to both."""
-    if (str(asset.get("format", "")).lower() not in DIRECT or asset.get("reader_required") or
+    if (not is_document(asset) or str(asset.get("format", "")).lower() not in DIRECT or asset.get("reader_required") or
             str(asset.get("destination", "")).split("/")[0].upper() in {"ZIM", "SOFTWARE"}):
         return set()
     shelves = set()
@@ -138,12 +143,15 @@ def validate_catalog(document: dict, profiles: dict | None = None, allow_local: 
         for field in ("title", "category", "format", "version", "license"):
             if not isinstance(asset[field], str) or not asset[field].strip():
                 raise CatalogError(f"{identity}: {field} must be nonempty text (quote versions)")
-        for field in ("required", "redistributable", "critical", "reader_required", "illustrated"):
+        for field in ("required", "redistributable", "critical", "reader_required", "illustrated", "supporting_file", "legacy"):
             if field in asset and type(asset[field]) is not bool:
                 raise CatalogError(f"{identity}: {field} must be boolean")
         asset.setdefault("illustrated", False)
         if not isinstance(asset.setdefault("resource_type", "reference"), str) or asset["resource_type"] not in RESOURCE_TYPES:
             raise CatalogError(f"{identity}: resource_type must be one of {', '.join(sorted(RESOURCE_TYPES))}")
+        if asset.get("supporting_file") and (asset.get("critical") or asset.get("illustrated") or
+                                             asset["resource_type"] not in {"reference", "archive"}):
+            raise CatalogError(f"{identity}: supporting files cannot claim document/learning coverage")
         for field in ("mirrors", "tags"):
             if field in asset and (not isinstance(asset[field], list) or any(not isinstance(v, str) for v in asset[field])):
                 raise CatalogError(f"{identity}: {field} must be a list of strings")
@@ -161,7 +169,8 @@ def validate_catalog(document: dict, profiles: dict | None = None, allow_local: 
         if status == "unresolved" and not asset.get("unresolved_reason"):
             raise CatalogError(f"{identity}: explain unresolved source")
         size = asset["size_bytes"]
-        if not (type(size) is int and size > 0) and not (status == "unresolved" and size is None):
+        minimum_size = 0 if "archive_member" in asset or ("generation" in asset and asset.get('supporting_file')) else 1
+        if not (type(size) is int and size >= minimum_size) and not (status == "unresolved" and size is None):
             raise CatalogError(f"{identity}: exact positive size_bytes required")
         checksum = asset["sha256"]
         if checksum is not None and (not isinstance(checksum, str) or not re.fullmatch(r"[0-9a-f]{64}", checksum)):
@@ -185,6 +194,51 @@ def validate_catalog(document: dict, profiles: dict | None = None, allow_local: 
             if parsed.scheme in {"http", "https"} and not parsed.hostname:
                 raise CatalogError(f"{identity}: source URL needs host")
         assets.append(asset)
+    # ZIP inputs and ordinary outputs are separate pinned assets. Resolving the
+    # reference after the loop permits source records in any catalog order.
+    asset_map = {asset["id"]: asset for asset in assets}
+    for asset in assets:
+        if "archive_member" not in asset:
+            continue
+        member = asset["archive_member"]
+        if (not isinstance(member, dict) or
+                set(member) != {"source_asset_id", "path", "document"} or
+                not isinstance(member["source_asset_id"], str) or
+                not isinstance(member["path"], str) or
+                type(member["document"]) is not bool):
+            raise CatalogError(f"{asset['id']}: archive_member requires source_asset_id, path and document")
+        validate_relative(member["path"])
+        source = asset_map.get(member["source_asset_id"])
+        if (not source or source["id"] == asset["id"] or "archive_member" in source or
+                source["format"].lower() != "zip" or source["status"] != "resolved" or
+                not source["sha256"] or not source.get("supporting_file") or
+                asset["status"] != "resolved" or not asset["sha256"]):
+            raise CatalogError(f"{asset['id']}: archive member requires a resolved, SHA-256-pinned ZIP source and output")
+        if asset["source_url"] != source["source_url"] or asset.get("mirrors", []) != source.get("mirrors", []):
+            raise CatalogError(f"{asset['id']}: archive member URLs must match its ZIP input")
+        if not member["document"] and (asset.get("critical") or asset.get("illustrated") or
+                                        asset["resource_type"] != "reference"):
+            raise CatalogError(f"{asset['id']}: supporting archive files cannot claim document/learning coverage")
+    if document.get("acquisition_recipes") or any("generation" in a for a in assets):
+        from .acquisition.model import validate_recipes, validate_generation, retained_input_asset_ids, build_input_metadata_allowance
+        recipes = validate_recipes(document.get("acquisition_recipes", []), assets=assets, allow_local=allow_local)
+        validate_generation(assets, recipes, allow_local=allow_local)
+        # Derive these from validated recipes; caller-provided dependency or
+        # provenance fields cannot override the authoritative recipe.
+        for asset in assets:
+            if 'generation' in asset:
+                recipe = recipes[asset['generation']['recipe_id']]
+                asset['generation_source_asset_ids'] = retained_input_asset_ids(recipe)
+                asset['generation_build_inputs'] = [{key: source[key] for key in ('id','size_bytes','sha256')}
+                                                    for source in recipe.get('build_inputs',[])]
+                asset['generation_build_input_members'] = [{key:member[key] for key in ('id','size_bytes','sha256')}
+                    for extraction in recipe.get('build_input_extractions',[]) for member in extraction['members']]
+                asset['generation_source_resource_ids'] = sorted({identity for source in recipe.get('build_inputs',[])
+                                                                 for identity in source.get('source_resource_ids',[])})
+                asset['generation_workspace_bytes'] = recipe.get('workspace_bytes', 0)
+                asset['generation_build_input_metadata_bytes'] = build_input_metadata_allowance(recipe)
+                from .acquisition.runtime import recipe_digest
+                asset['generation_recipe_sha256'] = recipe_digest(recipe, assets)
     return assets
 
 
@@ -196,6 +250,11 @@ def select_profile(assets: list[dict], profile: dict) -> tuple[list[dict], list[
     if required:
         raise CatalogError(f"Required sources unresolved: {', '.join(required)}")
     resolved = [a for a in selected if a["status"] == "resolved"]
+    selected_ids = {asset["id"] for asset in resolved}
+    for asset in resolved:
+        member = asset.get("archive_member")
+        if member and member["source_asset_id"] not in selected_ids:
+            raise CatalogError(f"{asset['id']}: select its ZIP source asset {member['source_asset_id']} as well")
     if any(a["format"].lower() == "zim" for a in resolved) and not any(a["destination"].startswith("SOFTWARE/") for a in resolved):
         raise CatalogError(f"{name}: ZIM content must include a pinned bundled reader")
     coverage = learning_coverage(resolved)
@@ -226,6 +285,13 @@ def select_profile(assets: list[dict], profile: dict) -> tuple[list[dict], list[
 
 def fingerprint(asset: dict) -> str:
     fields = {key: asset.get(key) for key in ("source_url", "version", "size_bytes", "sha256")}
+    if "archive_member" in asset:
+        fields["archive_member"] = asset["archive_member"]
+    if "supporting_file" in asset:
+        fields["supporting_file"] = asset["supporting_file"]
+    if "generation" in asset:
+        fields["generation"] = asset["generation"]
+        fields["generation_recipe_sha256"] = asset.get("generation_recipe_sha256")
     return hashlib.sha256(json.dumps(fields, sort_keys=True).encode()).hexdigest()
 
 
@@ -329,18 +395,42 @@ def resolve_locked_content(assets: list[dict], profile: dict, lock: dict):
 def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = None) -> dict:
     content = sum(a["size_bytes"] for a in assets)
     readers = sum(a["size_bytes"] for a in assets if a["destination"].startswith("SOFTWARE/"))
-    knowledge = content - readers
-    direct = sum(a["size_bytes"] for a in assets if a["format"].lower() in DIRECT
+    supporting = sum(a["size_bytes"] for a in assets if not is_document(a) and not a["destination"].startswith("SOFTWARE/"))
+    knowledge = content - readers - supporting
+    direct = sum(a["size_bytes"] for a in assets if is_document(a) and a["format"].lower() in DIRECT
                  and not a.get("reader_required") and not a["destination"].startswith(("SOFTWARE/", "ZIM/")))
     overhead = 16 * 1024 * 1024
-    final = content + profile["search_budget_bytes"] + overhead
+    generated = [a for a in assets if 'generation' in a]
+    generation_work = {a['generation']['recipe_id']: a.get('generation_workspace_bytes', 0)
+                       for a in generated}
+    input_metadata = {a['generation']['recipe_id']: a.get('generation_build_input_metadata_bytes',0) for a in generated}
+    temporary = {source['id']: source for asset in generated for source in asset.get('generation_build_inputs', [])}
+    temporary_bytes = sum({source['sha256']: source['size_bytes'] for source in temporary.values()}.values())
+    expanded_inputs = {member['id']:member['size_bytes'] for asset in generated
+                       for member in asset.get('generation_build_input_members',[])}
+    expanded_bytes = sum(expanded_inputs.values())
+    # Allow complete regeneration while verified sibling outputs remain in place.
+    acquisition = sum(generation_work.values()) + sum(input_metadata.values()) + 65536 * len(generation_work) + sum(a['size_bytes'] for a in generated)
+    final = content + profile["search_budget_bytes"] + overhead + acquisition
     if final + profile["reserve_bytes"] > profile["capacity_bytes"]:
+        if acquisition:
+            raise CatalogError('Generated content plus retained acquisition workspace exceeds profile capacity')
         raise CatalogError(f"Profile exceeds capacity: {final:,} bytes plus {profile['reserve_bytes']:,} reserve")
     scratch = profile.get("index_scratch_budget_bytes", profile["search_budget_bytes"] * 2)
     raw = (profile["search_budget_bytes"] * 3 + 3) // 4
     if type(scratch) is not int or scratch < raw:
         raise CatalogError("index_scratch_budget_bytes must be an integer covering the raw-index serialization allowance")
-    result = {"download_bytes": content, "content_bytes": content, "estimated_final_bytes": final,
+    result = {"download_bytes": sum(a["size_bytes"] for a in assets if "archive_member" not in a and "generation" not in a) + temporary_bytes,
+            "build_input_download_bytes": temporary_bytes,
+            "build_input_expanded_bytes": expanded_bytes,
+            "build_input_metadata_bytes": sum(input_metadata.values()),
+            "build_input_work_bytes": temporary_bytes + expanded_bytes,
+            "build_input_cache_bytes": 0,
+            "archive_output_bytes": sum(a["size_bytes"] for a in assets if "archive_member" in a),
+            "generated_output_bytes": sum(a["size_bytes"] for a in assets if "generation" in a),
+            "acquisition_workspace_budget_bytes": acquisition,
+            "supporting_file_bytes": supporting,
+            "content_bytes": content, "estimated_final_bytes": final,
             "search_budget_bytes": profile["search_budget_bytes"], "reserve_bytes": profile["reserve_bytes"],
             "capacity_bytes": profile["capacity_bytes"], "index_scratch_budget_bytes": scratch,
             "index_serialization_budget_bytes": raw, "index_extraction_budget_bytes": scratch - raw,
@@ -348,6 +438,7 @@ def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = No
             "direct_readable_bytes": direct,
             "actual_content_utilization_percent": knowledge * 100 // profile["capacity_bytes"],
             "target_shortfall_bytes": max(0, profile.get("content_target_min_bytes", 0) - knowledge),
+            "target_overflow_bytes": max(0, knowledge - profile.get("content_target_max_bytes", knowledge)),
             "learning_coverage": learning_coverage(assets)}
     actual_status = ("not-specified" if "content_target_min_bytes" not in profile else
                      "below-target" if knowledge < profile["content_target_min_bytes"] else
@@ -356,17 +447,18 @@ def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = No
     result["target_window_status"] = actual_status
     result["content_floor_applies"] = "content_target_min_bytes" in profile and not (selection and selection.get("customized") is True)
     result["content_floor_met"] = not result["content_floor_applies"] or result["target_shortfall_bytes"] == 0
-    result["content_complete"] = result["content_floor_met"] and (not selection or not selection["incomplete_resources"])
+    result["content_ceiling_applies"] = "content_target_max_bytes" in profile and not (selection and selection.get("customized") is True)
+    result["content_ceiling_met"] = not result["content_ceiling_applies"] or result["target_overflow_bytes"] == 0
+    result["content_complete"] = result["content_floor_met"] and result["content_ceiling_met"] and (not selection or not selection["incomplete_resources"])
     if selection is not None:
         target = max(content, selection["planned_total_bytes"])
-        planned_final = target + profile["search_budget_bytes"] + overhead
+        planned_final = target + profile["search_budget_bytes"] + overhead + acquisition
         if planned_final + profile["reserve_bytes"] > profile["capacity_bytes"]:
             raise CatalogError(f"Selected resource targets exceed capacity: {planned_final:,} bytes "
                                f"plus {profile['reserve_bytes']:,} reserve. Exclude resources or choose a larger profile.")
         result.update(content_selection=selection, planned_final_bytes=planned_final,
                       content_target_min_bytes=profile.get("content_target_min_bytes"),
-                      content_target_max_bytes=profile.get("content_target_max_bytes"),
-                      content_complete=result["content_floor_met"] and not selection["incomplete_resources"])
+                      content_target_max_bytes=profile.get("content_target_max_bytes"))
         if "content_target_min_bytes" in profile:
             actual = selection["content_target_bytes"]
             result["target_window_status"] = ("below-target" if actual < profile["content_target_min_bytes"]
@@ -377,7 +469,7 @@ def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = No
     working_peak = raw + max(scratch - raw, profile["search_budget_bytes"])
     result["index_working_peak_bytes"] = working_peak
     result["in_place_peak_budget_bytes"] = (result.get("planned_final_bytes", final)
-        - profile["search_budget_bytes"] + working_peak + profile["reserve_bytes"])
+        - profile["search_budget_bytes"] + max(working_peak, temporary_bytes + expanded_bytes) + profile["reserve_bytes"])
     result["in_place_target_budget_fits"] = result["in_place_peak_budget_bytes"] <= profile["capacity_bytes"]
     return result
 

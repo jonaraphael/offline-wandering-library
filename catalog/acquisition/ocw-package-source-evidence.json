@@ -1,0 +1,709 @@
+{
+  "body_downloads": 0,
+  "operation": "source-pin-probe",
+  "pending_count": 25,
+  "proposed_count": 0,
+  "records": [
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:08.554823+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/3a797988eba0b1aa0a9f5beacf1b446e_ps5.zip",
+          "headers": {
+            "content-length": "710035",
+            "content-type": "application/zip",
+            "etag": "\"1425460ac21829dd3fcbb75978b3bb95\"",
+            "last-modified": "Wed, 02 Sep 2026 17:53:30 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/3a797988eba0b1aa0a9f5beacf1b446e_ps5.zip"
+        }
+      ],
+      "id": "ocw_b45791a4e78439d54984",
+      "sha256": null,
+      "size_bytes": 710035,
+      "source_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/3a797988eba0b1aa0a9f5beacf1b446e_ps5.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:08.604423+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/6.0001-fall-2016.zip",
+          "headers": {
+            "content-length": "35902988",
+            "content-type": "application/zip",
+            "etag": "\"663c18f7be70a5f495102fa330c16aef-5\"",
+            "last-modified": "Tue, 15 Sep 2026 12:02:19 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/6.0001-fall-2016.zip"
+        }
+      ],
+      "id": "ocw_7e55e144fe6cbdddc748",
+      "sha256": null,
+      "size_bytes": 35902988,
+      "source_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/6.0001-fall-2016.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:08.707046+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/7b5294e2c78e0aaf273b4149ec55c1b1_ps0.zip",
+          "headers": {
+            "content-length": "2091784",
+            "content-type": "application/zip",
+            "etag": "\"c6ad42b2348b57b41eb71cec90526fcb\"",
+            "last-modified": "Mon, 14 Sep 2026 15:08:48 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/7b5294e2c78e0aaf273b4149ec55c1b1_ps0.zip"
+        }
+      ],
+      "id": "ocw_86f7d3976926b8968252",
+      "sha256": null,
+      "size_bytes": 2091784,
+      "source_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/7b5294e2c78e0aaf273b4149ec55c1b1_ps0.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:08.748283+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/bcfbf5fbdae3c9acacfa457c7ad5f46e_ps4.zip",
+          "headers": {
+            "content-length": "842375",
+            "content-type": "application/zip",
+            "etag": "\"72ba14ac8f39507b243661604f8af1b8\"",
+            "last-modified": "Mon, 14 Sep 2026 15:08:48 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/bcfbf5fbdae3c9acacfa457c7ad5f46e_ps4.zip"
+        }
+      ],
+      "id": "ocw_1404bcaab183df3e4038",
+      "sha256": null,
+      "size_bytes": 842375,
+      "source_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/bcfbf5fbdae3c9acacfa457c7ad5f46e_ps4.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:08.788299+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/d57834a8de13b1579b3e5274e520ea14_ps2.zip",
+          "headers": {
+            "content-length": "458195",
+            "content-type": "application/zip",
+            "etag": "\"ce84f46de83288c74e2850337d27c20d\"",
+            "last-modified": "Mon, 20 Jul 2026 15:55:51 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/d57834a8de13b1579b3e5274e520ea14_ps2.zip"
+        }
+      ],
+      "id": "ocw_0947bbab62ebb977856f",
+      "sha256": null,
+      "size_bytes": 458195,
+      "source_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/d57834a8de13b1579b3e5274e520ea14_ps2.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:08.827674+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/e8b32576c66e2f6cc5d102aca6b757ce_PS3.zip",
+          "headers": {
+            "content-length": "868600",
+            "content-type": "application/zip",
+            "etag": "\"3383fae412f87517a12a4d8be7c5d99d\"",
+            "last-modified": "Mon, 14 Sep 2026 15:08:48 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/e8b32576c66e2f6cc5d102aca6b757ce_PS3.zip"
+        }
+      ],
+      "id": "ocw_f303f29ba98b070f8d04",
+      "sha256": null,
+      "size_bytes": 868600,
+      "source_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/e8b32576c66e2f6cc5d102aca6b757ce_PS3.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:08.866180+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/2028afd5cf3ece2bb1f8bd5855a701e1_hw1.zip",
+          "headers": {
+            "content-length": "1707",
+            "content-type": "application/zip",
+            "etag": "\"ddee1e29bfe03f750ef8e368fac64bfa\"",
+            "last-modified": "Mon, 14 Sep 2026 15:05:21 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/2028afd5cf3ece2bb1f8bd5855a701e1_hw1.zip"
+        }
+      ],
+      "id": "ocw_f550342a3b635212e40d",
+      "sha256": null,
+      "size_bytes": 1707,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/2028afd5cf3ece2bb1f8bd5855a701e1_hw1.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:08.905411+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/2a0d66f4af09ceee702954c28979bec9_designLab01.zip",
+          "headers": {
+            "content-length": "393",
+            "content-type": "application/zip",
+            "etag": "\"ce7830000b398ca761134973636e3c2b\"",
+            "last-modified": "Mon, 14 Sep 2026 15:05:22 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/2a0d66f4af09ceee702954c28979bec9_designLab01.zip"
+        }
+      ],
+      "id": "ocw_2a9c350a50f43fd7db2c",
+      "sha256": null,
+      "size_bytes": 393,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/2a0d66f4af09ceee702954c28979bec9_designLab01.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:08.946463+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/2af533f161113a318664c482841194be_hw4.zip",
+          "headers": {
+            "content-length": "1345",
+            "content-type": "application/zip",
+            "etag": "\"7d932099769bea85e9793aceb810edbc\"",
+            "last-modified": "Mon, 14 Sep 2026 15:05:22 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/2af533f161113a318664c482841194be_hw4.zip"
+        }
+      ],
+      "id": "ocw_f6716d4fda543f1264fd",
+      "sha256": null,
+      "size_bytes": 1345,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/2af533f161113a318664c482841194be_hw4.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.062864+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/367753989c50fe45aa6e50027febe573_idle-n.zip",
+          "headers": {
+            "content-length": "222",
+            "content-type": "application/zip",
+            "etag": "\"dd13b3e9b1d5cbe0631ba4309c4efefb\"",
+            "last-modified": "Mon, 14 Sep 2026 15:05:22 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/367753989c50fe45aa6e50027febe573_idle-n.zip"
+        }
+      ],
+      "id": "ocw_77631d943d4725f614d7",
+      "sha256": null,
+      "size_bytes": 222,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/367753989c50fe45aa6e50027febe573_idle-n.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.103390+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/4efa52580cd4846178ba427a065d3dfa_designLab02.zip",
+          "headers": {
+            "content-length": "736",
+            "content-type": "application/zip",
+            "etag": "\"06b506f2680d2b165cb5bda3631bd77c\"",
+            "last-modified": "Mon, 14 Sep 2026 15:05:22 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/4efa52580cd4846178ba427a065d3dfa_designLab02.zip"
+        }
+      ],
+      "id": "ocw_b288b277b80bd7ab1abb",
+      "sha256": null,
+      "size_bytes": 736,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/4efa52580cd4846178ba427a065d3dfa_designLab02.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.147501+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/6.01sc-spring-2011.zip",
+          "headers": {
+            "content-length": "108951489",
+            "content-type": "application/zip",
+            "etag": "\"94f104fb6d30c6284603879b568ca5bc-13\"",
+            "last-modified": "Wed, 16 Sep 2026 07:38:23 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/6.01sc-spring-2011.zip"
+        }
+      ],
+      "id": "ocw_94c26806ef6502838131",
+      "sha256": null,
+      "size_bytes": 108951489,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/6.01sc-spring-2011.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.263193+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/939392fd37d211b5d8e2384edfff3978_designLab03.zip",
+          "headers": {
+            "content-length": "2916",
+            "content-type": "application/zip",
+            "etag": "\"bf580e53f51080222c7e205cd89d254c\"",
+            "last-modified": "Mon, 14 Sep 2026 15:05:22 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/939392fd37d211b5d8e2384edfff3978_designLab03.zip"
+        }
+      ],
+      "id": "ocw_2e02d1b6bcd8c7dd9525",
+      "sha256": null,
+      "size_bytes": 2916,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/939392fd37d211b5d8e2384edfff3978_designLab03.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.309261+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/9af2166244f5c9a01596ebc07b56d28e_hw2.zip",
+          "headers": {
+            "content-length": "508",
+            "content-type": "application/zip",
+            "etag": "\"66f1edd5207c0cc5af62cbc42207254e\"",
+            "last-modified": "Mon, 14 Sep 2026 15:05:22 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/9af2166244f5c9a01596ebc07b56d28e_hw2.zip"
+        }
+      ],
+      "id": "ocw_a7f9c68ed2b3122af2ad",
+      "sha256": null,
+      "size_bytes": 508,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/9af2166244f5c9a01596ebc07b56d28e_hw2.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.350234+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/b6be46a5fa27608abadcae7b8eefbb9d_swLab02.zip",
+          "headers": {
+            "content-length": "1082",
+            "content-type": "application/zip",
+            "etag": "\"efac90fcdc483fe2e2e38517caa4e787\"",
+            "last-modified": "Mon, 14 Sep 2026 15:05:23 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/b6be46a5fa27608abadcae7b8eefbb9d_swLab02.zip"
+        }
+      ],
+      "id": "ocw_77b863fc75f706950a34",
+      "sha256": null,
+      "size_bytes": 1082,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/b6be46a5fa27608abadcae7b8eefbb9d_swLab02.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.397908+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/ba621dedc9de8c149367dbf65fc4679d_idleNForWindows.zip",
+          "headers": {
+            "content-length": "248",
+            "content-type": "application/zip",
+            "etag": "\"4714713c21b47228b240d5c7f6f8c491\"",
+            "last-modified": "Mon, 14 Sep 2026 15:05:23 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/ba621dedc9de8c149367dbf65fc4679d_idleNForWindows.zip"
+        }
+      ],
+      "id": "ocw_64851439dc62991bf888",
+      "sha256": null,
+      "size_bytes": 248,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/ba621dedc9de8c149367dbf65fc4679d_idleNForWindows.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.438546+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/d5dba7aec9eae45e070142b87f75149b_hw3.zip",
+          "headers": {
+            "content-length": "51012",
+            "content-type": "application/zip",
+            "etag": "\"f2a5d7afa6e5eed5a70ab311e637752c\"",
+            "last-modified": "Mon, 14 Sep 2026 15:05:23 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/d5dba7aec9eae45e070142b87f75149b_hw3.zip"
+        }
+      ],
+      "id": "ocw_727d9a3cbc7f6eb0eb94",
+      "sha256": null,
+      "size_bytes": 51012,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/d5dba7aec9eae45e070142b87f75149b_hw3.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.477556+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/d65f0dc2eb97b9c73f7abc1b694bb78c_swLab01.zip",
+          "headers": {
+            "content-length": "261",
+            "content-type": "application/zip",
+            "etag": "\"ff470877ffb68e47739e5b2802fd00e9\"",
+            "last-modified": "Mon, 14 Sep 2026 15:05:23 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/d65f0dc2eb97b9c73f7abc1b694bb78c_swLab01.zip"
+        }
+      ],
+      "id": "ocw_bc43e6c65a1d6357d36f",
+      "sha256": null,
+      "size_bytes": 261,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/d65f0dc2eb97b9c73f7abc1b694bb78c_swLab01.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.594788+00:00",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/f71173ef36fa590014a372185fceee49_swLab03.zip",
+          "headers": {
+            "content-length": "3065",
+            "content-type": "application/zip",
+            "etag": "\"ce4e0a69ff4a2da2f836a1e5ded42130\"",
+            "last-modified": "Mon, 14 Sep 2026 15:05:23 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/f71173ef36fa590014a372185fceee49_swLab03.zip"
+        }
+      ],
+      "id": "ocw_24db590df595d6eeaf93",
+      "sha256": null,
+      "size_bytes": 3065,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/f71173ef36fa590014a372185fceee49_swLab03.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.624503+00:00",
+          "final_url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/8.01sc-fall-2016.zip",
+          "headers": {
+            "content-length": "201835429",
+            "content-type": "application/zip",
+            "etag": "\"dea309d37ae74ec51b10f591b42c8790-25\"",
+            "last-modified": "Wed, 16 Sep 2026 06:18:39 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/8.01sc-fall-2016.zip"
+        }
+      ],
+      "id": "ocw_438abba537a937c5d718",
+      "sha256": null,
+      "size_bytes": 201835429,
+      "source_url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/8.01sc-fall-2016.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.654573+00:00",
+          "final_url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/18.01sc-fall-2010.zip",
+          "headers": {
+            "content-length": "144055480",
+            "content-type": "application/zip",
+            "etag": "\"e743bc654f7500adf94e29f4926a9d20-18\"",
+            "last-modified": "Tue, 15 Sep 2026 12:44:14 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/18.01sc-fall-2010.zip"
+        }
+      ],
+      "id": "ocw_37b8872ab4dbbd1f56fa",
+      "sha256": null,
+      "size_bytes": 144055480,
+      "source_url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/18.01sc-fall-2010.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.755182+00:00",
+          "final_url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/18.06sc-fall-2011.zip",
+          "headers": {
+            "content-length": "48130656",
+            "content-type": "application/zip",
+            "etag": "\"9f51521dfb4cbdf95ff78f8fbc165520-6\"",
+            "last-modified": "Tue, 15 Sep 2026 10:07:51 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/18.06sc-fall-2011.zip"
+        }
+      ],
+      "id": "ocw_8dd721444178a7282a7b",
+      "sha256": null,
+      "size_bytes": 48130656,
+      "source_url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/18.06sc-fall-2011.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.806517+00:00",
+          "final_url": "https://ocw.mit.edu/courses/5-111sc-principles-of-chemical-science-fall-2014/5.111sc-fall-2014.zip",
+          "headers": {
+            "content-length": "84945435",
+            "content-type": "application/zip",
+            "etag": "\"49a33fe6accc97caae176a545edb9a3f-11\"",
+            "last-modified": "Tue, 15 Sep 2026 10:56:19 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/5-111sc-principles-of-chemical-science-fall-2014/5.111sc-fall-2014.zip"
+        }
+      ],
+      "id": "ocw_cb1f62f2ba4e088203e1",
+      "sha256": null,
+      "size_bytes": 84945435,
+      "source_url": "https://ocw.mit.edu/courses/5-111sc-principles-of-chemical-science-fall-2014/5.111sc-fall-2014.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.841259+00:00",
+          "final_url": "https://ocw.mit.edu/courses/7-01sc-fundamentals-of-biology-fall-2011/7.01sc-fall-2011.zip",
+          "headers": {
+            "content-length": "31450367",
+            "content-type": "application/zip",
+            "etag": "\"23cd9079791db7de008207531fa53548-4\"",
+            "last-modified": "Wed, 16 Sep 2026 08:16:29 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/7-01sc-fundamentals-of-biology-fall-2011/7.01sc-fall-2011.zip"
+        }
+      ],
+      "id": "ocw_4b02724ceb97a8745de9",
+      "sha256": null,
+      "size_bytes": 31450367,
+      "source_url": "https://ocw.mit.edu/courses/7-01sc-fundamentals-of-biology-fall-2011/7.01sc-fall-2011.zip",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T05:07:09.884674+00:00",
+          "final_url": "https://ocw.mit.edu/courses/9-00sc-introduction-to-psychology-fall-2011/9.00sc-fall-2011.zip",
+          "headers": {
+            "content-length": "160280715",
+            "content-type": "application/zip",
+            "etag": "\"e5073e687edc8ef480a51a3490d28322-20\"",
+            "last-modified": "Wed, 16 Sep 2026 08:15:31 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/9-00sc-introduction-to-psychology-fall-2011/9.00sc-fall-2011.zip"
+        }
+      ],
+      "id": "ocw_15a0a1c616ced87a00ca",
+      "sha256": null,
+      "size_bytes": 160280715,
+      "source_url": "https://ocw.mit.edu/courses/9-00sc-introduction-to-psychology-fall-2011/9.00sc-fall-2011.zip",
+      "status": "pending"
+    }
+  ],
+  "schema_version": 1
+}

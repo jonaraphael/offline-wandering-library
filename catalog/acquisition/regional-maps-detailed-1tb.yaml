@@ -1,0 +1,101 @@
+schema_version: 1
+recipes:
+- id: regional-maps-detailed-1tb-v1
+  resource_id: regional-maps
+  adapter: usgs_maps
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - All New England land at 1:24,000 from latest published US Topo editions
+    - USA national overview
+    - 80 GB topographic and overview allowance after world-map replacement credit;
+      full-1tb only
+    declared_exclude:
+    - High-resolution topography for the entire continent by default
+    - Treating physical-world/tectonic reference sheets as local road or evacuation
+      maps
+    - Automatically retaining North America OSM when the world replacement is selected
+    states:
+    - CT
+    - MA
+    - ME
+    - NH
+    - RI
+    - VT
+    overview: []
+    overview_candidates:
+    - id: usgs_usa_general_reference_112764_2001
+      publisher_product_id: '112764'
+      title: General Reference, National Atlas of the United States
+      source_page: https://store.usgs.gov/product/112764
+      source_url: https://store.usgs.gov/assets/yimages/PDF/112764.pdf
+      scale: 5000000
+      version_date: '2001-01-01'
+      print_year: 2002
+      size_bytes: 19527583
+      sha256: null
+      pin_status: pending
+      candidate_manifest: catalog/acquisition/usa-overview-candidate.json
+      candidate_manifest_sha256: ca0e33c39ef34df9023f43ea01b70a91f19e8a5f3ffa3cafa2dd027a7c929be2
+      source_probe_evidence: catalog/acquisition/usa-overview-source-probe-evidence.json
+      historical_warning: Historical 2001 edition printed in 2002. Population, administrative
+        details, transportation and other time-sensitive features are not current.
+        This national overview is not a local road, trail or evacuation-route map.
+    selection_policy: Retain every latest New England 1:24,000 sheet; add explicit
+      1:100,000 or 1:250,000 supplements only for remaining footprint gaps. Report
+      required-scale gaps separately; mixed-scale coverage is not a claim of complete
+      1:24,000 coverage.
+    allowances:
+      full-1tb: 80000000000
+    max_pages: 30
+    historical_editions: 'Coarser publisher maps are explicitly historical: retain
+      edition years and never claim current road or evacuation-route verification.'
+    mixed_scale_gap_supplements: false
+    coverage_scope: All six Census New England state boundaries; subtract only the
+      explicitly identified zero-land Atlantic Ocean polygon. This does not exclude
+      rivers, lakes, or any land.
+    geometry_area_tolerance: 0
+    required_scale: 24000
+    gap_supplement_scales:
+    - 100000
+    - 250000
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - Complete selected sheet list must pass exact-byte HEAD checks, source capture
+    and whole-file SHA256 verification.
+  - Actual PDF frames, scales, dates, notices and legibility require review before
+    readiness.
+  - Required-scale coastal gaps remain explicitly recorded until map frames or authoritative
+    valid coastal-water geometry resolve them; no geometry repair or tolerance is
+    applied.
+  metadata_sources:
+  - url: https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/0/query?where=STUSAB+IN+%28%27CT%27%2C%27MA%27%2C%27ME%27%2C%27NH%27%2C%27RI%27%2C%27VT%27%29&outFields=STUSAB&returnGeometry=true&outSR=4326&f=geojson
+    kind: json
+    role: boundaries
+    state_property: STUSAB
+  - url: https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF
+    kind: json
+    role: products
+    scale: 24000
+    expected_extent: 7.5 x 7.5 minute
+    pdf_only: true
+  - url: https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF
+    kind: json
+    role: products
+    scale: 100000
+    expected_extent: 30 x 60 minute
+    pdf_only: true
+  - url: https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=1+x+2+degree&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF
+    kind: json
+    role: products
+    scale: 250000
+    expected_extent: 1 x 2 degree
+    pdf_only: true
+  - url: https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Hydro/MapServer/1/query?where=1%3D1&geometry=-70%2C42%2C-69.94%2C42.07&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=MTFCC%2CNAME%2CAREALAND%2CAREAWATER&returnGeometry=true&outSR=4326&f=geojson
+    kind: json
+    role: offshore_water

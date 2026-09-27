@@ -1,0 +1,1903 @@
+schema_version: 1
+assets:
+- id: openstax_additive_manufacturing_essentials
+  title: Additive Manufacturing Essentials
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Additive_Manufacturing_Essentials_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_additive-manufacturing-essentials.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 20640015
+  sha256: 650b8bda1f26e7b53166eaae6ffc5ac3840cd922c0829d162f850d7e4b02d543
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/additive-manufacturing-essentials
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Additive Manufacturing Essentials. CC-BY-NC-SA-4.0. Access for
+    free at openstax.org. Original complete PDF retained without alteration, including all notices and
+    credited third-party material.
+  description: Additive Manufacturing Essentials is an introduction to the core principles, technologies,
+    and methods in the field of additive manufacturing. Complete original publisher PDF, including illustrations
+    and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Science
+  - Business
+  - Business Technologies
+  - Additive Manufacturing Essentials
+- id: openstax_algebra_1
+  title: Algebra 1
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/algebra-1_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_algebra-1.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 82715252
+  sha256: c3f613a7b0c5b9ec1d163e1ee9a4cfaf2d81bdf7033ba795316bc7ba4347e271
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/algebra-1
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Algebra 1. CC-BY-NC-SA-4.0. Access for free at openstax.org.
+    Original complete PDF retained without alteration, including all notices and credited third-party
+    material.
+  description: Algebra 1 is a complete high school algebra curriculum that is 100% aligned with the Texas
+    Essential Knowledge and Skills (TEKS) and the English Language Proficiency Standards (ELPS). Complete
+    original publisher PDF, including illustrations and notices. Linked online activities and videos are
+    not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Math
+  - Secondary Math
+- id: openstax_american_government_4e
+  title: American Government 4e
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/American_Government_4e_-_WEB_eM2Tuqh.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_american-government-4e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 155034953
+  sha256: 71e30f1c28a649dd72a6664a7add1462c0672df82b66d1bc282c4a47dd12e1be
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/american-government-4e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; American Government 4e. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: American Government 4e aligns with the topics and objectives of many government courses.
+    Complete original publisher PDF, including illustrations and notices. Linked online activities and
+    videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Social Sciences
+  - American Government
+- id: openstax_biology_ap_courses
+  title: Biology for AP® Courses
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Biology-AP-Courses_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_biology-ap-courses.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 265033179
+  sha256: 86faba42bf6b89c038f573f6e5797fbaaf5a59927a9aaada4beb83d06af57d48
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/biology-ap-courses
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Biology for AP® Courses. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Biology for AP ® Courses covers the scope and sequence requirements of a typical two-semester
+    Advanced Placement ® biology course. Complete original publisher PDF, including illustrations and
+    notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Science
+  - Biology
+- id: openstax_business_ethics
+  title: Business Ethics
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/business-ethics_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_business-ethics.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 51368382
+  sha256: 9d0a7b3be44c1059fe800de8e90195a654f48df27c52f3700c47579fe5034c01
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/business-ethics
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Business Ethics. CC-BY-NC-SA-4.0. Access for free at openstax.org.
+    Original complete PDF retained without alteration, including all notices and credited third-party
+    material.
+  description: Business Ethics is designed to meet the scope and sequence requirements of the single-semester
+    business ethics course. Complete original publisher PDF, including illustrations and notices. Linked
+    online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Business Law and Ethics
+- id: openstax_business_law_i_essentials_2e
+  title: Business Law I Essentials 2e
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Business_Law_I_Essentials_2e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_business-law-i-essentials-2e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 13076311
+  sha256: 6e7b5db71416d923ae0007154edad4288c98f8efcb2f93870fb6e4ab31baad4f
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/business-law-i-essentials-2e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Business Law I Essentials 2e. CC-BY-NC-SA-4.0. Access for free
+    at openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Business Law I Essentials 2e is a brief introductory textbook designed to meet the scope
+    and sequence requirements of courses on Business Law or the Legal Environment of Business. Complete
+    original publisher PDF, including illustrations and notices. Linked online activities and videos are
+    not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Business Law and Ethics
+- id: openstax_chemistry_atoms_first_2e
+  title: 'Chemistry: Atoms First 2e'
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/chemistry-atoms-first-2e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_chemistry-atoms-first-2e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 218252485
+  sha256: 083f28d4574dc50a927a67efd19e89cfca2284f1f4e63efe2d1c804523288cfb
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/chemistry-atoms-first-2e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: 'OpenStax, Rice University; Chemistry: Atoms First 2e. CC-BY-NC-SA-4.0. Access for free
+    at openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.'
+  description: 'Chemistry: Atoms First 2e is a peer-reviewed, openly licensed introductory textbook produced
+    through a collaborative publishing partnership between OpenStax and the University of Connecticut
+    and UConn Undergraduate Student Government Association. Complete original publisher PDF, including
+    illustrations and notices. Linked online activities and videos are not bundled.'
+  tags:
+  - textbook
+  - illustrated
+  - Science
+  - Chemistry
+- id: openstax_clinical_nursing_skills
+  title: Clinical Nursing Skills
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Clinical-Nursing-Skills-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_clinical-nursing-skills.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 95717314
+  sha256: cd5224b3f6c3096362c33a3e3af1f08f04a593e85ba444b82955689c50157175
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/clinical-nursing-skills
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Clinical Nursing Skills. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Clinical Nursing Skills is designed to equip nursing students with the practical knowledge
+    and hands-on skills necessary to provide comprehensive patient care. Complete original publisher PDF,
+    including illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Nursing
+  - Fundamentals and Skills
+- id: openstax_college_algebra_corequisite_support_2e
+  title: College Algebra 2e with Corequisite Support
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/college-algebra-corequisite-support-2e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_college-algebra-corequisite-support-2e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 91254385
+  sha256: 23984faa497e08e75c804fe60d94dee0a1311f1cb1d272d9d6e109bb52456431
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/college-algebra-corequisite-support-2e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; College Algebra 2e with Corequisite Support. CC-BY-NC-SA-4.0.
+    Access for free at openstax.org. Original complete PDF retained without alteration, including all
+    notices and credited third-party material.
+  description: College Algebra 2e with Corequisite Support integrates comprehensive algebraic principles
+    with effective foundational review. Complete original publisher PDF, including illustrations and notices.
+    Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Math
+  - College Algebra
+- id: openstax_college_physics_ap_courses_2e
+  title: College Physics For AP® Courses 2e
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/college-physics-ap-courses-2e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_college-physics-ap-courses-2e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 266882977
+  sha256: de438d7a0ed13339340d3e6bb93346920ef146c99e1275e8c84ba476555943d7
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/college-physics-ap-courses-2e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; College Physics For AP® Courses 2e. CC-BY-NC-SA-4.0. Access
+    for free at openstax.org. Original complete PDF retained without alteration, including all notices
+    and credited third-party material.
+  description: College Physics for AP® Courses 2e is designed to engage students in their exploration
+    of physics and help them apply these concepts to the Advanced Placement® test. Complete original publisher
+    PDF, including illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Science
+  - Physics
+- id: openstax_college_success
+  title: College Success
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/college-success_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_college-success.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 87510264
+  sha256: a22309438c12691cf91217fcd8afe65c0c2a1cf775f83d88c5d9759e1f0456d0
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/college-success
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; College Success. CC-BY-NC-SA-4.0. Access for free at openstax.org.
+    Original complete PDF retained without alteration, including all notices and credited third-party
+    material.
+  description: OpenStax College Success is a comprehensive and contemporary resource that serves First
+    Year Experience, Student Success, and College Transition courses. Complete original publisher PDF,
+    including illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - College Success
+- id: openstax_college_success_concise
+  title: College Success Concise
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/college-success-concise_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_college-success-concise.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 21239128
+  sha256: 70fb761b4a7ae6e49991df05d8ff5aa4c20ad387d06f01a2deffd7fee2b642a1
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/college-success-concise
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; College Success Concise. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: OpenStax College Success Concise serves First Year Experience, Student Success, and College
+    Transition courses, and can also be used as a supplementary resource in courses across the curriculum.
+    Complete original publisher PDF, including illustrations and notices. Linked online activities and
+    videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - College Success
+- id: openstax_concepts_biology
+  title: Concepts of Biology
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Concepts-Biology_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_concepts-biology.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 185858638
+  sha256: da0ffc8585e172f04eb0abb08949087baf85cc229ef2736ef06e5aa17094b1f6
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/concepts-biology
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Concepts of Biology. CC-BY-NC-SA-4.0. Access for free at openstax.org.
+    Original complete PDF retained without alteration, including all notices and credited third-party
+    material.
+  description: Concepts of Biology is designed for the typical introductory biology course for nonmajors,
+    covering standard scope and sequence requirements. Complete original publisher PDF, including illustrations
+    and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Science
+  - Biology
+- id: openstax_contemporary_mathematics
+  title: Contemporary Mathematics
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/contemporary-mathematics_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_contemporary-mathematics.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 106819604
+  sha256: 300726c9820a8d0822c56e33582a44dffa47111147d64e9cb936b316c448ab38
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/contemporary-mathematics
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Contemporary Mathematics. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Contemporary Mathematics is designed to meet the scope and sequence requirements for a
+    liberal arts mathematics course. Complete original publisher PDF, including illustrations and notices.
+    Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Math
+  - Contemporary Math
+- id: openstax_entrepreneurship
+  title: Entrepreneurship
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Entrepreneurship-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_entrepreneurship.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 129375799
+  sha256: e2a29cee570f552360742956e9d27ef4df6aec35047d2cdc60b6b2cb24524613
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/entrepreneurship
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Entrepreneurship. CC-BY-NC-SA-4.0. Access for free at openstax.org.
+    Original complete PDF retained without alteration, including all notices and credited third-party
+    material.
+  description: This textbook is intended for use in introductory Entrepreneurship classes at the undergraduate
+    level. Complete original publisher PDF, including illustrations and notices. Linked online activities
+    and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Management and Marketing
+- id: openstax_foundations_information_systems
+  title: Foundations of Information Systems
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Foundations_of_Information_Systems_-_WEB_oNlbGYl.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_foundations-information-systems.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 25619781
+  sha256: 496dd5f206da66e0334514df9c22a22fa58267851c349619f35c2d3aeba69306
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/foundations-information-systems
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Foundations of Information Systems. CC-BY-NC-SA-4.0. Access
+    for free at openstax.org. Original complete PDF retained without alteration, including all notices
+    and credited third-party material.
+  description: Foundations of Information Systems aligns to the topics and objectives of most introductory
+    information systems courses in computer science and information technology, as well as in other subject
+    areas such as health and business information systems. Complete original publisher PDF, including
+    illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Computer Science
+  - Information Systems
+- id: openstax_fundamentals_nursing
+  title: Fundamentals of Nursing
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Fundamentals_of_Nursing_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_fundamentals-nursing.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 96583335
+  sha256: 3818e4964b45513119d676c06e5dc3e81cb4424ae8db53891bff2619773a1cb9
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/fundamentals-nursing
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Fundamentals of Nursing. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Fundamentals of Nursing aligns with the outcomes and competencies of a nursing fundamentals
+    course. Complete original publisher PDF, including illustrations and notices. Linked online activities
+    and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Nursing
+  - Fundamentals and Skills
+- id: openstax_introduction_anthropology
+  title: Introduction to Anthropology
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/IntroductiontoAnthropology-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_introduction-anthropology.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 101187994
+  sha256: 2465cfb7df9635c45d30f4f1fbd3b601757b8c0ce133e4a496b59361e5be5da9
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/introduction-anthropology
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Introduction to Anthropology. CC-BY-NC-SA-4.0. Access for free
+    at openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Designed to meet the scope and sequence of your course, OpenStax Introduction to Anthropology
+    is a four-field text integrating diverse voices, engaging field activities, and meaningful themes
+    like Indigenous experiences and social inequality to engage students and enrich learning. Complete
+    original publisher PDF, including illustrations and notices. Linked online activities and videos are
+    not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Social Sciences
+  - Anthropology
+- id: openstax_introduction_behavioral_neuroscience
+  title: Introduction to Behavioral Neuroscience
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Introduction-Behavioral-Neuroscience_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_introduction-behavioral-neuroscience.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 262376027
+  sha256: 32af1ea701864dbde9be9c279cfe2bd10de02924f622085805c5bb80f409ff9f
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/introduction-behavioral-neuroscience
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Introduction to Behavioral Neuroscience. CC-BY-NC-SA-4.0. Access
+    for free at openstax.org. Original complete PDF retained without alteration, including all notices
+    and credited third-party material.
+  description: Introduction to Behavioral Neuroscience aligns to the topics and objectives of introductory
+    behavioral neuroscience courses taught in psychology, biology, neuroscience, and similar departments.
+    Complete original publisher PDF, including illustrations and notices. Linked online activities and
+    videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Social Sciences
+  - Science
+  - Biology
+  - Psychology
+- id: openstax_introduction_business_2e
+  title: Introduction to Business 2e
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Introduction_to_Business_2e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_introduction-business-2e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 148842597
+  sha256: 2001b3e30587ceea8f351b11cccb64f8f678860014617d5706a7e27d478ecdc2
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/introduction-business-2e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Introduction to Business 2e. CC-BY-NC-SA-4.0. Access for free
+    at openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Introduction to Business 2e provides a strong, multidimensional foundation in the concepts,
+    skills, and real-world examples of contemporary business. Complete original publisher PDF, including
+    illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Introduction to Business
+- id: openstax_introduction_computer_science
+  title: Introduction to Computer Science
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Introduction_To_Computer_Science_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_introduction-computer-science.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 56261511
+  sha256: fd56aaf80c851e9f3b417745785ea5c832fc2911acfd2094a86f4c517fdf435a
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/introduction-computer-science
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Introduction to Computer Science. CC-BY-NC-SA-4.0. Access for
+    free at openstax.org. Original complete PDF retained without alteration, including all notices and
+    credited third-party material.
+  description: Introduction to Computer Science provides a comprehensive foundation in core computer science
+    concepts and principles, aligning with the scope and sequence of most introductory computer science
+    courses. Complete original publisher PDF, including illustrations and notices. Linked online activities
+    and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Computer Science
+  - Foundations of Computer Science
+- id: openstax_introduction_intellectual_property
+  title: Introduction to Intellectual Property
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/introduction-intellectual-property_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_introduction-intellectual-property.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 24582768
+  sha256: 1498509864d37cb63a6ccc11bab7c783f3d30b2ed37d808ef80c56fdb676378a
+  license: CC-BY-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/introduction-intellectual-property
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Introduction to Intellectual Property. CC-BY-4.0. Access for
+    free at openstax.org. Original complete PDF retained without alteration, including all notices and
+    credited third-party material.
+  description: Introduction to Intellectual Property provides a clear, effective introduction to patents,
+    copyright, trademarks, and trade secrets. Complete original publisher PDF, including illustrations
+    and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Business Law and Ethics
+- id: openstax_introduction_philosophy
+  title: Introduction to Philosophy
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Introduction_to_Philosophy-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_introduction-philosophy.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 48068887
+  sha256: ec94e28ddb86bfb6d7703a8487124501164caa79624791ad7eadb24efada96e5
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/introduction-philosophy
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Introduction to Philosophy. CC-BY-NC-SA-4.0. Access for free
+    at openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Designed to meet the scope and sequence of your course, Introduction to Philosophy surveys
+    logic, metaphysics, epistemology, theories of value, and history of philosophy thematically. Complete
+    original publisher PDF, including illustrations and notices. Linked online activities and videos are
+    not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Humanities
+  - Philosophy
+- id: openstax_introduction_political_science
+  title: Introduction to Political Science
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Introduction_to_Political_Science_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_introduction-political-science.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 78449891
+  sha256: 64eb5a880b5a38bb77433d22e98a00e8a234b3f5abd44aa8556231b69f81bf00
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/introduction-political-science
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Introduction to Political Science. CC-BY-NC-SA-4.0. Access for
+    free at openstax.org. Original complete PDF retained without alteration, including all notices and
+    credited third-party material.
+  description: Designed to meet the scope and sequence of your course, OpenStax Introduction to Political
+    Science provides a strong foundation in global political systems, exploring how and why political
+    realities unfold. Complete original publisher PDF, including illustrations and notices. Linked online
+    activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Social Sciences
+  - Political Science
+- id: openstax_introduction_python_programming
+  title: Introduction to Python Programming
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Introduction_to_Python_Programming-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_introduction-python-programming.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 9963388
+  sha256: e1298e4fcfe541a8fc3bb786c5756d3d2be8e6ffc07997f1bc1e0ac270be383d
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/introduction-python-programming
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Introduction to Python Programming. CC-BY-NC-SA-4.0. Access
+    for free at openstax.org. Original complete PDF retained without alteration, including all notices
+    and credited third-party material.
+  description: Introduction to Python Programming provides a comprehensive foundation in programming concepts
+    and skills, and it is aligned to the scope of most introductory courses. Complete original publisher
+    PDF, including illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Computer Science
+  - Python Programming
+- id: openstax_introduction_sociology_3e
+  title: Introduction to Sociology 3e
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/introduction-sociology-3e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_introduction-sociology-3e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 48299547
+  sha256: e70f1afc8495f4a4b481f3570cf8fbc186cbd5417b3a91033d8d01d237c0c5bd
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/introduction-sociology-3e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Introduction to Sociology 3e. CC-BY-NC-SA-4.0. Access for free
+    at openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Introduction to Sociology 3e aligns to the topics and objectives of many introductory sociology
+    courses. Complete original publisher PDF, including illustrations and notices. Linked online activities
+    and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Social Sciences
+  - Sociology
+- id: openstax_introductory_business_statistics_2e
+  title: Introductory Business Statistics 2e
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/introductory-business-statistics-2e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_introductory-business-statistics-2e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 22795257
+  sha256: 05749a9e925884c34716050b6478bb37d44a5a63d97bbbe1d59db6e36b8e63e2
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/introductory-business-statistics-2e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Introductory Business Statistics 2e. CC-BY-NC-SA-4.0. Access
+    for free at openstax.org. Original complete PDF retained without alteration, including all notices
+    and credited third-party material.
+  description: Introductory Business Statistics 2e aligns with the topics and objectives of the typical
+    one-semester statistics course for business, economics, and related majors. Complete original publisher
+    PDF, including illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Math
+  - Statistics
+  - Business Statistics
+- id: openstax_lifespan_development
+  title: Lifespan Development
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Lifespan_Development_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_lifespan-development.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 75075373
+  sha256: 660c5908d26cda5f5d959004e3b79c281a4fc203cef398fe37cac46c488d34b0
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/lifespan-development
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Lifespan Development. CC-BY-NC-SA-4.0. Access for free at openstax.org.
+    Original complete PDF retained without alteration, including all notices and credited third-party
+    material.
+  description: Lifespan Development aligns to the topics and objectives of most introductory developmental
+    psychology courses taught across departments. Complete original publisher PDF, including illustrations
+    and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Social Sciences
+  - Lifespan Development
+- id: openstax_maternal_newborn_nursing
+  title: Maternal-Newborn Nursing
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Maternal-Newborn_Nursing-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_maternal-newborn-nursing.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 60793393
+  sha256: d4e4b9ef18e0c5f7b06a958432f3128fc85819b64e4b24ffe0bd07a3f1798703
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/maternal-newborn-nursing
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Maternal-Newborn Nursing. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Maternal-Newborn Nursing introduces students to the concepts and skills related to pregnancy,
+    birth, postpartum, newborn care, reproductive health, and social determinants related to those topics.
+    Complete original publisher PDF, including illustrations and notices. Linked online activities and
+    videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Nursing
+  - Maternal-Newborn Nursing
+- id: openstax_medical_surgical_nursing
+  title: Medical-Surgical Nursing
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Medical-Surgical_Nursing-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_medical-surgical-nursing.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 72785345
+  sha256: b91956fbef2a405f3c31a2cf19481df9d6b404bddbeb567f2012035a32ff868a
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/medical-surgical-nursing
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Medical-Surgical Nursing. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Medical-Surgical Nursing is a comprehensive and engaging resource for nursing students,
+    equipping them with the essential knowledge and skills required to provide high-quality care. Complete
+    original publisher PDF, including illustrations and notices. Linked online activities and videos are
+    not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Nursing
+  - Medical-Surgical Nursing
+- id: openstax_nutrition
+  title: Nutrition for Nurses
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Nutrition_for_Nurses-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_nutrition.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 31569933
+  sha256: 3038dcc0947a304e0ccce4f629e90f4525298fa5c9dd6d2e19e1b24b4686670a
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/nutrition
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Nutrition for Nurses. CC-BY-NC-SA-4.0. Access for free at openstax.org.
+    Original complete PDF retained without alteration, including all notices and credited third-party
+    material.
+  description: Nutrition for Nurses is structured to support the flexible integration of nutrition content
+    across both system-based and nursing competency-based curricula. Complete original publisher PDF,
+    including illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Nursing
+  - Nutrition and Pharmacology
+- id: openstax_organic_chemistry
+  title: 'Organic Chemistry: A Tenth Edition'
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/organic-chemistry_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_organic-chemistry.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 207713388
+  sha256: d57b7da43589eaf94de53a06bb17b20a856bbde57020e7a0ee4be312085001c4
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/organic-chemistry
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: 'OpenStax, Rice University; Organic Chemistry: A Tenth Edition. CC-BY-NC-SA-4.0. Access
+    for free at openstax.org. Original complete PDF retained without alteration, including all notices
+    and credited third-party material.'
+  description: John McMurry's Organic Chemistry is renowned as the most clearly written book available
+    for organic chemistry. Complete original publisher PDF, including illustrations and notices. Linked
+    online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Science
+  - Chemistry
+- id: openstax_organizational_behavior
+  title: Organizational Behavior
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/organizational-behavior_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_organizational-behavior.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 46231554
+  sha256: 17f40f05d37592cc65b1c77bb7ba991cf8948b5c4b67fb5474c5ebe8fb095fa9
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/organizational-behavior
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Organizational Behavior. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: This OpenStax resource aligns to introductory courses in Organizational Behavior. Complete
+    original publisher PDF, including illustrations and notices. Linked online activities and videos are
+    not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Management and Marketing
+- id: openstax_pharmacology
+  title: Pharmacology for Nurses
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Pharmacology-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_pharmacology.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 47218206
+  sha256: 7946bd1fc784ecc7bcfb0469fcacb9a89b3ac9c559773b7af0f4e1bc05a696fc
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/pharmacology
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Pharmacology for Nurses. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Pharmacology for Nurses is intended for nursing students in an introductory program. Complete
+    original publisher PDF, including illustrations and notices. Linked online activities and videos are
+    not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Nursing
+  - Nutrition and Pharmacology
+- id: openstax_population_health
+  title: Population Health for Nurses
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Population_Health_for_Nurses_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_population-health.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 60769717
+  sha256: 7fa848cef34723891cfcc2d3acfe0df481ab8b66e294d2044f19db9f4ff546bd
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/population-health
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Population Health for Nurses. CC-BY-NC-SA-4.0. Access for free
+    at openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Population Health for Nurses prepares nurses to develop interventions, policies, and practices
+    that promote health equity and improved health outcomes across the health care delivery continuum.
+    Complete original publisher PDF, including illustrations and notices. Linked online activities and
+    videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Nursing
+  - Population and Community Health
+- id: openstax_preparing_for_college_success
+  title: Preparing for College Success
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/preparing-for-college-success_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_preparing-for-college-success.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 22002698
+  sha256: 9ff792297546a40ca63170ebdacc7b01f83159ac95990236dae42a5114a8631a
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/preparing-for-college-success
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Preparing for College Success. CC-BY-NC-SA-4.0. Access for free
+    at openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: OpenStax’s Preparing for College Success is a comprehensive resource that provides secondary
+    students critical information to prepare for their “to and through” college journey. Complete original
+    publisher PDF, including illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - College Success
+- id: openstax_principles_financial_accounting
+  title: 'Principles of Accounting, Volume 1: Financial Accounting'
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/principles-financial-accounting_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_principles-financial-accounting.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 167017826
+  sha256: a98ed7dcb92eec2bd70f32b150aa4f1d3140ad78bb1477e86a31682ec5ac31e5
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/principles-financial-accounting
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: 'OpenStax, Rice University; Principles of Accounting, Volume 1: Financial Accounting. CC-BY-NC-SA-4.0.
+    Access for free at openstax.org. Original complete PDF retained without alteration, including all
+    notices and credited third-party material.'
+  description: Principles of Accounting is designed to meet the scope and sequence requirements of a two-semester
+    accounting course that covers the fundamentals of financial and managerial accounting. Complete original
+    publisher PDF, including illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Accounting and Finance
+- id: openstax_principles_managerial_accounting
+  title: 'Principles of Accounting, Volume 2: Managerial Accounting'
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/principles-managerial-accounting_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_principles-managerial-accounting.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 89822467
+  sha256: 233b94100de54a5ed9fd6b9cf419a2b165aa2b5975ae06c9ac7bcba556a7bc26
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/principles-managerial-accounting
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: 'OpenStax, Rice University; Principles of Accounting, Volume 2: Managerial Accounting.
+    CC-BY-NC-SA-4.0. Access for free at openstax.org. Original complete PDF retained without alteration,
+    including all notices and credited third-party material.'
+  description: Principles of Accounting is designed to meet the scope and sequence requirements of a two-semester
+    accounting course that covers the fundamentals of financial and managerial accounting. Complete original
+    publisher PDF, including illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Accounting and Finance
+- id: openstax_principles_data_science
+  title: Principles of Data Science
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Principles-of-Data-Science-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_principles-data-science.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 37337845
+  sha256: 6b47205459a2f4e25a2b2a86369e674a26a5ae566a4cc428dd31047670692398
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/principles-data-science
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Principles of Data Science. CC-BY-NC-SA-4.0. Access for free
+    at openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Principles of Data Science is intended to support one- or two-semester courses in data
+    science. Complete original publisher PDF, including illustrations and notices. Linked online activities
+    and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Computer Science
+  - Business
+  - Math
+  - Principles of Data Science
+  - Business Statistics
+- id: openstax_principles_economics_3e
+  title: Principles of Economics 3e
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/principles-economics-3e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_principles-economics-3e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 49444584
+  sha256: 2d2e7549e13a1975965bfb14a577a3d7935173ff10ca2e1d953815560590a4eb
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/principles-economics-3e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Principles of Economics 3e. CC-BY-NC-SA-4.0. Access for free
+    at openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Principles of Economics 3e covers the scope and sequence of most introductory economics
+    courses. Complete original publisher PDF, including illustrations and notices. Linked online activities
+    and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Social Sciences
+  - Business
+  - Economics
+- id: openstax_principles_finance_2e
+  title: Principles of Finance 2e
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Principles_of_Finance_2e_-_WEB_.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_principles-finance-2e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 30902513
+  sha256: 7d942df1aaf2fc3edcc7f681955cdabecdd0d4e4c754469f0bea159461a6ad79
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/principles-finance-2e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Principles of Finance 2e. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Designed to meet the scope and sequence of your course, Principles of Finance 2e provides
+    a strong foundation in financial applications using an innovative use-case approach to explore their
+    role in business decision-making. Complete original publisher PDF, including illustrations and notices.
+    Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Accounting and Finance
+- id: openstax_principles_macroeconomics_3e
+  title: Principles of Macroeconomics 3e
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/principles-macroeconomics-3e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_principles-macroeconomics-3e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 33585123
+  sha256: c1ac3049ae23c7463c8071ff3de22b6df80de1107db8a43980e0f1935a1e5815
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/principles-macroeconomics-3e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Principles of Macroeconomics 3e. CC-BY-NC-SA-4.0. Access for
+    free at openstax.org. Original complete PDF retained without alteration, including all notices and
+    credited third-party material.
+  description: Principles of Macroeconomics 3e covers the scope and sequence of most one semester introductory
+    macroeconomics courses. Complete original publisher PDF, including illustrations and notices. Linked
+    online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Social Sciences
+  - Business
+  - Economics
+- id: openstax_principles_management
+  title: Principles of Management
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/principles-management_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_principles-management.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 65629502
+  sha256: 59ea3ea149d631f57c26279d5ac71f588121ebc56c1a25eb6c76f011c9765b6d
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/principles-management
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Principles of Management. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Principles of Management is designed to meet the scope and sequence requirements of the
+    introductory course on management. Complete original publisher PDF, including illustrations and notices.
+    Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Management and Marketing
+- id: openstax_principles_marketing
+  title: Principles of Marketing
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/principles-marketing_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_principles-marketing.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 62477161
+  sha256: 7764b41cf778a8bb560f00ee3ed2c8c2d623575540c1b6702ed7429c745bcd31
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/principles-marketing
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Principles of Marketing. CC-BY-NC-SA-4.0. Access for free at
+    openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Principles of Marketing is designed to meet the scope and sequence for a one-semester marketing
+    course for undergraduate business majors and minors. Complete original publisher PDF, including illustrations
+    and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Management and Marketing
+- id: openstax_principles_microeconomics_3e
+  title: Principles of Microeconomics 3e
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/principles-microeconomics-3e_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_principles-microeconomics-3e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 29247593
+  sha256: 65a1856faa91d5fdef9c630928029c6e4e188a9580d9128fcbc9138c4f4a583f
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/principles-microeconomics-3e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Principles of Microeconomics 3e. CC-BY-NC-SA-4.0. Access for
+    free at openstax.org. Original complete PDF retained without alteration, including all notices and
+    credited third-party material.
+  description: Principles of Microeconomics 3e covers the scope and sequence of most one semester introductory
+    microeconomics courses. Complete original publisher PDF, including illustrations and notices. Linked
+    online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Social Sciences
+  - Business
+  - Economics
+- id: openstax_psychiatric_mental_health
+  title: Psychiatric-Mental Health Nursing
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Psychiatric-Mental_Health_Nursing-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_psychiatric-mental-health.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 28707981
+  sha256: 07a8abe8f3d93ef52206c990ebcefb559bbcdd443ac6e452ed96982a42e80536
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/psychiatric-mental-health
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Psychiatric-Mental Health Nursing. CC-BY-NC-SA-4.0. Access for
+    free at openstax.org. Original complete PDF retained without alteration, including all notices and
+    credited third-party material.
+  description: Psychiatric-Mental Health Nursing is designed to support a one-semester psychiatric-mental
+    health nursing course offered at both two-year and four-year institutions. Complete original publisher
+    PDF, including illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Nursing
+  - Psychiatric-Mental Health Nursing
+- id: openstax_psychology_2e
+  title: Psychology 2e
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Psychology2e_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_psychology-2e.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 57739919
+  sha256: 2f08113c78127bc684922ad6a819db22bd4705ce9fcf28a07f36a2041b1474e2
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/psychology-2e
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Psychology 2e. CC-BY-NC-SA-4.0. Access for free at openstax.org.
+    Original complete PDF retained without alteration, including all notices and credited third-party
+    material.
+  description: Psychology 2e is designed to meet scope and sequence requirements for the single-semester
+    introduction to psychology course. Complete original publisher PDF, including illustrations and notices.
+    Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Social Sciences
+  - Psychology
+- id: openstax_statistics
+  title: Statistics
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/high-school-statistics_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_statistics.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 31451137
+  sha256: 6aef489acbf932c6d94e8b6bf5339f0eeb60835f928a72e34ad8f937551e8def
+  license: CC-BY-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/statistics
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Statistics. CC-BY-4.0. Access for free at openstax.org. Original
+    complete PDF retained without alteration, including all notices and credited third-party material.
+  description: This Statistics resource was developed under the guidance and support of experienced high
+    school teachers and subject matter experts. Complete original publisher PDF, including illustrations
+    and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Math
+  - Secondary Math
+- id: openstax_us_history
+  title: U.S. History
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/US_History_-_WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_us-history.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 136400038
+  sha256: b1330275566d9847623394ad29173f9a6f1c9f9270279e00cd5da2ac366ea5c8
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/us-history
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; U.S. History. CC-BY-NC-SA-4.0. Access for free at openstax.org.
+    Original complete PDF retained without alteration, including all notices and credited third-party
+    material.
+  description: U.S. Complete original publisher PDF, including illustrations and notices. Linked online
+    activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Humanities
+  - U.S. History
+- id: openstax_workplace_software_skills
+  title: Workplace Software and Skills
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/Workplace_Software_and_Skills_-_WEB_IlfJtcP.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_workplace-software-skills.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 290264175
+  sha256: cfc06bef22fb8c898e247fc70581589ce963b3bfef0d3e1f84ec94a1c18344ff
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/workplace-software-skills
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Workplace Software and Skills. CC-BY-NC-SA-4.0. Access for free
+    at openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Workplace Software and Skills is designed to flexibly support a range of courses covering
+    computer literacy, Microsoft Office, and Google Suite applications. Complete original publisher PDF,
+    including illustrations and notices. Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Business
+  - Computer Science
+  - Business Technologies
+- id: openstax_world_history_volume_1
+  title: 'World History, Volume 1: to 1500'
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/World_History_Volume_1-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_world-history-volume-1.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 201039307
+  sha256: 227436a3d3951dc777f63a7e5d3329f2c095e2ccf5782ae192f22c40d831a4cf
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/world-history-volume-1
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: 'OpenStax, Rice University; World History, Volume 1: to 1500. CC-BY-NC-SA-4.0. Access for
+    free at openstax.org. Original complete PDF retained without alteration, including all notices and
+    credited third-party material.'
+  description: 'World History, Volume 1: to 1500 is designed to meet the scope and sequence of a world
+    history course to 1500 offered at both two-year and four-year institutions. Complete original publisher
+    PDF, including illustrations and notices. Linked online activities and videos are not bundled.'
+  tags:
+  - textbook
+  - illustrated
+  - Humanities
+  - World History
+- id: openstax_world_history_volume_2
+  title: 'World History, Volume 2: from 1400'
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/World_History_Volume_2-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_world-history-volume-2.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 132663448
+  sha256: 57be7ba027ed9f66d9e4594493f56e6a9028bd72c166e62dcd07e72a5266f948
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/world-history-volume-2
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: 'OpenStax, Rice University; World History, Volume 2: from 1400. CC-BY-NC-SA-4.0. Access
+    for free at openstax.org. Original complete PDF retained without alteration, including all notices
+    and credited third-party material.'
+  description: 'World History, Volume 2: from 1400 is designed to meet the scope and sequence of a world
+    history course from 1400 offered at both two-year and four-year institutions. Complete original publisher
+    PDF, including illustrations and notices. Linked online activities and videos are not bundled.'
+  tags:
+  - textbook
+  - illustrated
+  - Humanities
+  - World History
+- id: openstax_writing_guide
+  title: Writing Guide with Handbook
+  category: textbooks
+  format: pdf
+  source_url: https://assets.openstax.org/oscms-prodcms/media/documents/WritingGuide-WEB.pdf
+  destination: BOOKS/TEXTBOOKS/OpenStax_writing-guide.pdf
+  version: Publisher PDF verified 2026-09-23
+  size_bytes: 63546834
+  sha256: 86ef566965110032b651122c8e466a607157613302a5a283bd1f221727e590ab
+  license: CC-BY-NC-SA-4.0
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: true
+  reader_required: false
+  resource_type: textbook
+  illustrated: true
+  publisher: OpenStax, Rice University
+  source_page: https://openstax.org/details/books/writing-guide
+  language: en
+  snapshot_date: '2026-09-23'
+  attribution: OpenStax, Rice University; Writing Guide with Handbook. CC-BY-NC-SA-4.0. Access for free
+    at openstax.org. Original complete PDF retained without alteration, including all notices and credited
+    third-party material.
+  description: Writing Guide with Handbook aligns to the goals, topics, and objectives of many first-year
+    writing and composition courses. Complete original publisher PDF, including illustrations and notices.
+    Linked online activities and videos are not bundled.
+  tags:
+  - textbook
+  - illustrated
+  - Humanities
+  - Writing Guide with Handbook
+resource_updates:
+- id: openstax-core
+  number: 22
+  title: OpenStax textbooks across all subjects
+  target_bytes: 7674165199
+  status: ready
+  asset_ids:
+  - openstax_additive_manufacturing_essentials
+  - openstax_algebra_1
+  - openstax_algebra_and_trigonometry_2e
+  - openstax_american_government_4e
+  - openstax_anatomy_and_physiology_2e
+  - openstax_astronomy_2e
+  - openstax_biology_2e
+  - openstax_biology_ap_courses
+  - openstax_business_ethics
+  - openstax_business_law_i_essentials_2e
+  - openstax_calculus_volume_1
+  - openstax_calculus_volume_2
+  - openstax_calculus_volume_3
+  - openstax_chemistry_2e
+  - openstax_chemistry_atoms_first_2e
+  - openstax_clinical_nursing_skills
+  - openstax_college_algebra_2e
+  - openstax_college_algebra_corequisite_support_2e
+  - openstax_college_physics_2e
+  - openstax_college_physics_ap_courses_2e
+  - openstax_college_success
+  - openstax_college_success_concise
+  - openstax_concepts_biology
+  - openstax_contemporary_mathematics
+  - openstax_elementary_algebra_2e
+  - openstax_entrepreneurship
+  - openstax_foundations_information_systems
+  - openstax_fundamentals_nursing
+  - openstax_intermediate_algebra_2e
+  - openstax_introduction_anthropology
+  - openstax_introduction_behavioral_neuroscience
+  - openstax_introduction_business_2e
+  - openstax_introduction_computer_science
+  - openstax_introduction_intellectual_property
+  - openstax_introduction_philosophy
+  - openstax_introduction_political_science
+  - openstax_introduction_python_programming
+  - openstax_introduction_sociology_3e
+  - openstax_introductory_business_statistics_2e
+  - openstax_introductory_statistics_2e
+  - openstax_lifespan_development
+  - openstax_maternal_newborn_nursing
+  - openstax_medical_surgical_nursing
+  - openstax_microbiology
+  - openstax_nutrition
+  - openstax_organic_chemistry
+  - openstax_organizational_behavior
+  - openstax_pharmacology
+  - openstax_physics
+  - openstax_population_health
+  - openstax_prealgebra_2e
+  - openstax_precalculus_2e
+  - openstax_preparing_for_college_success
+  - openstax_principles_financial_accounting
+  - openstax_principles_managerial_accounting
+  - openstax_principles_data_science
+  - openstax_principles_economics_3e
+  - openstax_principles_finance_2e
+  - openstax_principles_macroeconomics_3e
+  - openstax_principles_management
+  - openstax_principles_marketing
+  - openstax_principles_microeconomics_3e
+  - openstax_psychiatric_mental_health
+  - openstax_psychology_2e
+  - openstax_statistics
+  - openstax_university_physics_volume_1
+  - openstax_university_physics_volume_2
+  - openstax_university_physics_volume_3
+  - openstax_us_history
+  - openstax_workplace_software_skills
+  - openstax_world_history_volume_1
+  - openstax_world_history_volume_2
+  - openstax_writing_guide
+  preferred_formats:
+  - pdf
+  - html
+  include:
+  - Mathematics and science, including course-specific variants in larger presets
+  - Business, economics, accounting, finance, management and law
+  - History, philosophy, writing, anthropology, political science, psychology and sociology
+  - Nursing, computer science, data science, information systems and college preparation
+  - Complete original English textbook PDFs, with illustrations, attribution and searchable text
+  exclude:
+  - Bulk copying ancillary instructor resources
+  - Replacing illustrated books with text extracts
+  - Assuming older OpenStax editions establish the license of current PDFs
+  source_pages:
+  - https://openstax.org/subjects
+  - https://openstax.org/apps/cms/api/v2/pages/30/
+  reason: 73 current English publisher PDFs verified in September 2026 across all eight OpenStax subject
+    families. The fixed 16 GB preset selects a 36-title breadth core; the 64 GB and larger presets include
+    all 73. Online exercises, videos, instructor supplements, translations and retired editions are outside
+    this collection.

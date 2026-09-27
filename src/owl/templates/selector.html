@@ -46,6 +46,13 @@
             <div><label class="field-label" for="target-path">Library directory on your SSD</label><input id="target-path" type="text" value="/path/to/EMERGENCY_LIBRARY" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="target-help"><p id="target-help" class="field-help">Replace this example with your drive's actual path. OWL builds in place and does not format the drive.</p></div>
             <div><label class="field-label" for="shell">Terminal syntax</label><select id="shell"><option value="posix">macOS / Linux shell</option><option value="powershell">Windows PowerShell</option></select><p class="field-help">Choose the terminal where you will paste the command.</p></div>
           </div>
+          <div class="options" aria-labelledby="index-storage-heading">
+            <h3 id="index-storage-heading">Generated indexes on the build computer</h3>
+            <p class="field-help">Original source downloads and partial downloads stay on the selected drive. These separate directories hold generated per-asset indexes and indexing scratch only. Relative paths are resolved from the OWL repository where you run the command.</p>
+            <div><label class="field-label" for="index-cache-path">Shared index cache directory</label><input id="index-cache-path" type="text" value=".owl/index-cache" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="index-cache-help"><p id="index-cache-help" class="field-help">Keep completed per-asset indexes here to reuse them across library builds. Sources are still read and verified on the selected drive.</p></div>
+            <div><label class="field-label" for="index-work-path">Index workspace directory</label><input id="index-work-path" type="text" value=".owl/index-work" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="index-work-help"><p id="index-work-help" class="field-help">Generated extraction scratch and resumable checkpoints. Keep this directory between interrupted runs.</p></div>
+            <div><label class="field-label" for="index-cache-budget">Retained index cache allowance, bytes</label><input id="index-cache-budget" type="text" inputmode="numeric" value="2000000000" spellcheck="false" autocomplete="off" aria-describedby="index-cache-budget-help"><p id="index-cache-budget-help" class="field-help">Separate from the finished drive's search allowance. Starts at this preset's search allowance: 2,000,000,000 bytes (2 GB) for 16 GB. Existing cached indexes count toward this limit.</p></div>
+          </div>
           <div class="options">
             <label class="check-label" for="allow-incomplete"><input id="allow-incomplete" type="checkbox"><span>Build only currently verified files (partial library)<small>Explicitly accept missing collections. Included files must still pass verification.</small></span></label>
             <label class="check-label" for="atlas"><input id="atlas" type="checkbox" checked><span>Add the human topic atlas<small id="atlas-help">Offline subject, practical-task, and learning pages alongside the existing indexes.</small></span></label>
@@ -71,19 +78,26 @@
           <dl class="estimate-list">
             <div class="estimate-row"><dt>Directly readable knowledge</dt><dd id="direct-bytes">—</dd></div>
             <div class="estimate-row"><dt>Reader / software files, exact</dt><dd id="software-bytes">—</dd></div>
-            <div class="estimate-row"><dt>All downloadable files, exact</dt><dd id="known-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Supporting files, exact</dt><dd id="supporting-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Build downloads, exact</dt><dd id="download-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Expanded archive files, exact</dt><dd id="archive-output-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Generated editions, exact</dt><dd id="generated-output-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Selected files on disk, exact</dt><dd id="known-bytes">—</dd></div>
             <div class="estimate-row total"><dt>Knowledge allocation, planned</dt><dd id="content-target">—</dd></div>
             <div class="estimate-row unmet-row"><dt>Unmet knowledge budget</dt><dd id="unmet-bytes">—</dd></div>
             <div class="estimate-row"><dt>Additional reader allowance</dt><dd id="reader-bytes">—</dd></div>
             <div class="estimate-row"><dt>Search allowance</dt><dd id="search-bytes">—</dd></div>
             <div class="estimate-row"><dt>Navigation / metadata</dt><dd id="metadata-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Content generation work and repair allowance</dt><dd id="acquisition-bytes">—</dd></div>
             <div class="estimate-row"><dt>Free-space reserve</dt><dd id="reserve-bytes">—</dd></div>
             <div class="estimate-row total"><dt>Planned finished files, before reserve</dt><dd id="final-bytes">—</dd></div>
-            <div class="estimate-row"><dt>Temporary search work</dt><dd id="scratch-bytes">—</dd></div>
-            <div class="estimate-row total peak"><dt>Peak build budget, including reserve</dt><dd id="peak-bytes">—</dd></div>
-            <div class="estimate-row"><dt>Available-file peak estimate</dt><dd id="actual-peak-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Search work allowance, all locations</dt><dd id="scratch-bytes">—</dd></div>
+            <div class="estimate-row total peak"><dt>In-place peak reference, with reserve</dt><dd id="peak-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Available-file in-place reference</dt><dd id="actual-peak-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Workspace extraction allowance</dt><dd id="extraction-bytes">—</dd></div>
+            <div class="estimate-row"><dt>Retained index cache, additional</dt><dd id="index-cache-bytes">—</dd></div>
           </dl>
-          <p class="estimate-foot">Unmet budget is an allowance for missing scope, not downloadable files or an exact size for missing documents. Temporary search work also lives on the SSD by default. Estimates cannot read your free space or guarantee the final index size. Run the plan command first.</p>
+          <p class="estimate-foot">Unmet budget is an allowance for missing scope, not downloadable files or an exact size for missing documents. Extraction uses your index workspace; the temporary assembled index and finished search stay on the drive. The retained index cache is additional space, separate from the in-place reference. Run the plan command to check actual directories and shared filesystems.</p>
           <p class="estimate-foot">Search is built in phases. After verifying the temporary index, OWL releases its extraction database before generating browser search files. The peak uses the larger phase; the search and temporary-work rows are not simultaneous allocations.</p>
           <div id="selection-status" class="status-box" role="status" aria-live="polite"><strong id="status-title">Loading the catalog…</strong><p id="status-description"></p><ul id="errors" hidden></ul></div>
           <details id="warnings-details" class="warning-details" hidden><summary id="warnings-title">Planning notes</summary><ul id="warnings"></ul></details>
@@ -93,7 +107,7 @@
           <h2 id="commands-heading">Take this plan to your terminal</h2>
           <p class="command-help">Run these from the installed OWL repository. Check the path before pasting. Nothing runs from this page.</p>
           <div><label class="command-label" for="plan-command">Check the plan <span>No downloads or writes</span></label><textarea id="plan-command" readonly spellcheck="false" aria-describedby="plan-help" placeholder="Your plan command will appear here."></textarea><div class="command-actions"><button id="copy-plan" type="button" disabled>Copy plan command</button></div><p id="plan-help" class="field-help">Shows requirements and checks the destination's available space.</p></div>
-          <div><label class="command-label" for="build-command">Build the drive <span>Starts when you run it</span></label><textarea id="build-command" readonly spellcheck="false" placeholder="Resolve the selection warnings before building."></textarea><div class="command-actions"><button id="copy-build" class="primary" type="button" disabled>Copy build command</button></div><p id="build-help" class="field-help">The builder downloads, verifies, and indexes selected files. Keep the SSD attached.</p></div>
+          <div><label class="command-label" for="build-command">Build the drive <span>Runs in the background</span></label><textarea id="build-command" readonly spellcheck="false" placeholder="Resolve the selection warnings before building."></textarea><div class="command-actions"><button id="copy-build" class="primary" type="button" disabled>Copy build command</button></div><p id="build-help" class="field-help">Starts a saved background job that downloads, indexes, and verifies selected files. Keep the computer awake and SSD attached.</p></div>
           <p id="copy-feedback" class="copy-feedback" role="status" aria-live="polite"></p>
         </section>
         <section class="panel"><h3>Choose editions, not guessed compression</h3><p class="field-help">Smaller options select verified published editions when available. Unverified alternate editions stay disabled. Critical knowledge remains in ordinary readable files; large archives may need bundled readers.</p><p class="field-help">“Preset files only” selects that preset's pinned sources. Its formats may include ordinary documents and reader-dependent archives. “Published collection” requests its wider collection scope, which may still be incomplete.</p></section>
@@ -105,7 +119,7 @@
 <nav id="mobile-budget" class="mobile-budget" aria-label="Live storage estimate and command shortcuts">
   <div class="mobile-budget-inner">
     <a class="mobile-stat" href="#summary-heading"><span>Downloadable knowledge</span><strong id="mobile-content">—</strong></a>
-    <a class="mobile-stat" href="#summary-heading"><span>Peak incl. reserve</span><strong id="mobile-peak">—</strong></a>
+    <a class="mobile-stat" href="#summary-heading"><span>In-place reference</span><strong id="mobile-peak">—</strong></a>
     <div class="mobile-action"><a href="#commands-heading">Commands</a><span id="mobile-status">Loading…</span></div>
   </div>
 </nav>
@@ -152,7 +166,15 @@
     byId("copy-plan").disabled = true;
   }
   function choosePreset(profile) {
+    const previous = state;
     state = OWLPlanner.preset(model, profile);
+    if (previous) {
+      state.indexCacheDir = previous.indexCacheDir;
+      state.workDir = previous.workDir;
+    }
+    byId("index-cache-path").value = state.indexCacheDir;
+    byId("index-work-path").value = state.workDir;
+    byId("index-cache-budget").value = state.indexCacheBudgetBytes;
     byId("allow-incomplete").checked = Boolean(state.allowIncomplete);
     byId("atlas").checked = state.atlas !== false;
     render();
@@ -175,6 +197,7 @@
     const selected = new Set(result.selectedAssetIds || []);
     const included = Boolean(row.included || row.autoIncluded);
     return [...new Set((model.assets || []).filter(asset => candidates.has(asset.id) && asset.status === "resolved" &&
+      !asset.supporting_file && asset.archive_member?.document !== false &&
       (!included || selected.has(asset.id))).map(asset => asset.format.toUpperCase()))].sort();
   }
   function makeCard(row) {
@@ -198,7 +221,7 @@
     edition.addEventListener("change", () => updateItem(row.id, {edition: edition.value}));
     const numbers = element("div", "resource-numbers");
     const target = element("strong"); const known = element("strong"); const count = element("strong");
-    for (const [node, caption] of [[target, "Scope budget"], [known, "Downloadable, exact"], [count, "Pinned files"]]) {
+    for (const [node, caption] of [[target, "Scope budget"], [known, "Files on disk, exact"], [count, "Pinned files"]]) {
       const group = element("div"); group.append(node, document.createTextNode(caption)); numbers.append(group);
     }
     const reason = element("p", "source-reason"); reason.dataset.role = "reason";
@@ -289,7 +312,7 @@
     byId("copy-plan").disabled = !plan;
     byId("copy-build").disabled = !build;
     byId("build-help").textContent = !target.trim() ? "Enter the destination directory to generate commands." : build ?
-      "The builder downloads, verifies, and indexes selected files. Keep the SSD attached." :
+      "Starts a saved background job that downloads, indexes, and verifies selected files. Keep the computer awake and SSD attached." :
       "Build command withheld. Resolve the errors, or explicitly accept a partial library when source gaps are the only blocker.";
   }
   function render() {
@@ -301,11 +324,13 @@
       const profile = model.profiles.find(profile => profile.id === state.profile);
       byId("preset-note").textContent = (profile ? profile.title + ". " : "") + "Drive sizes use decimal GB. Resetting a preset restores its collection choices and options.";
       byId("capacity").textContent = bytes(estimate.capacityBytes) + " drive";
-      const fields = {"known-bytes": "knownBytes",
+      const fields = {"known-bytes": "knownBytes", "download-bytes": "downloadBytes",
+        "archive-output-bytes": "archiveOutputBytes", "generated-output-bytes": "generatedOutputBytes", "acquisition-bytes": "acquisitionBytes",
         "search-bytes": "searchBytes", "metadata-bytes": "metadataBytes", "reserve-bytes": "reserveBytes", "final-bytes": "finalBytes",
-        "scratch-bytes": "scratchBytes", "peak-bytes": "peakBytes", "actual-peak-bytes": "actualPeakBytes"};
+        "scratch-bytes": "scratchBytes", "peak-bytes": "peakBytes", "actual-peak-bytes": "actualPeakBytes",
+        "extraction-bytes": "extractionBytes", "index-cache-bytes": "indexCacheBytes"};
       for (const [id, key] of Object.entries(fields)) byId(id).textContent = bytes(estimate[key]);
-      for (const [id, key] of Object.entries({"knowledge-bytes":"knowledgeBytes", "software-bytes":"softwareBytes",
+      for (const [id, key] of Object.entries({"knowledge-bytes":"knowledgeBytes", "software-bytes":"softwareBytes", "supporting-bytes":"supportingBytes",
         "direct-bytes":"directBytes", "content-target":"knowledgeTargetBytes", "unmet-bytes":"unmetContentBytes"}))
         byId(id).textContent = bytes(coverage[key]);
       byId("reader-bytes").textContent = bytes(Math.max(0, estimate.readerBytes - coverage.softwareBytes));
@@ -315,11 +340,11 @@
       byId("storage-fill").style.width = Math.max(0, Math.min(100, Number.isFinite(ratio) ? ratio * 100 : 0)) + "%";
       byId("reserve-fill").style.width = Math.max(0, Math.min(100 * estimate.reserveBytes / estimate.capacityBytes, 100 - ratio * 100)) + "%";
       byId("storage-meter").classList.toggle("over", ratio > 1);
-      byId("meter-caption").textContent = "Green: downloadable files would occupy " + (ratio * 100).toFixed(1) + "% of nominal capacity. Gray: " + bytes(estimate.reserveBytes) + " reserved. Search and scratch allowances are listed below.";
+      byId("meter-caption").textContent = "Green: selected files would occupy " + (ratio * 100).toFixed(1) + "% of nominal capacity. Gray: " + bytes(estimate.reserveBytes) + " reserved. Search and scratch allowances are listed below.";
       byId("coverage-summary").textContent = bytes(coverage.knowledgeBytes) + " downloadable knowledge · " + coverage.directCount +
         " directly readable files · " + coverage.textbookCount + " textbooks · " + coverage.illustratedCount + " illustrated books / guides";
       byId("coverage-counts").textContent = coverage.knowledgeCount + " knowledge files, including " + coverage.archiveCount +
-        " ZIM archives requiring a reader. Counts describe files, not the number of articles inside archives.";
+        " ZIM archives requiring a reader, plus " + coverage.supportingCount + " supporting files. Counts describe files, not the number of articles inside archives.";
       byId("categories-title").textContent = "Categories with downloadable files (" + coverage.categories.length + ")";
       setList("category-list", coverage.categories.map(row => row.id.replace(/[_-]/g, " ") + ": " + row.assetCount +
         " files · " + row.directCount + " directly readable · " + bytes(row.bytes)));
@@ -404,6 +429,8 @@
     byId("resource-filter").addEventListener("input", filterCards);
     byId("selected-only").addEventListener("change", filterCards);
     byId("target-path").addEventListener("input", () => { byId("copy-feedback").textContent = ""; renderCommands(); });
+    for (const [id, key] of [["index-cache-path", "indexCacheDir"], ["index-work-path", "workDir"], ["index-cache-budget", "indexCacheBudgetBytes"]])
+      byId(id).addEventListener("input", event => { state[key] = event.target.value; render(); });
     byId("shell").addEventListener("change", () => { byId("copy-feedback").textContent = ""; renderCommands(); });
     byId("copy-plan").addEventListener("click", () => copyCommand("plan-command"));
     byId("copy-build").addEventListener("click", () => copyCommand("build-command"));

@@ -1,0 +1,192 @@
+{
+  "checked_on": "2026-09-18",
+  "purpose": "Input provenance for the twelve-hour plan. Sixteen inputs are already admitted compact Stack Exchange alternatives; the whole Stack Overflow archive remains only an optional unadmitted input. Compact alternatives do not complete curated direct editions.",
+  "verification": "Whole-file SHA-256 and byte count read from upstream Kiwix .meta4 metadata. Archive bodies were not downloaded or checked by this planning pass.",
+  "inputs": [
+    {
+      "file": "3dprinting.stackexchange.com_en_all_2026-07a.zim",
+      "bytes": 120138274,
+      "sha256": "c47a5b4d9fce51598f5008c2046eb9f42aa5194ec1b25592a6514efccec93561",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim",
+      "catalog_asset_ids": [
+        "stackexchange_3dprinting"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "electronics.stackexchange.com_en_all_2026-08.zim",
+      "bytes": 4214186044,
+      "sha256": "5a23c08a3c1275128c247b0c67ec8ed03a953a504c6a23e2cd6a9ac5422b88c1",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_electronics"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "diy.stackexchange.com_en_all_2026-08.zim",
+      "bytes": 2062547155,
+      "sha256": "94cbd4daeebe180bb8908b767d3c1477753049a29c2c092f6a752b6f691863da",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_diy"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "gardening.stackexchange.com_en_all_2026-08.zim",
+      "bytes": 926805273,
+      "sha256": "b8a3e0db65d8a678b47accefd8565f78af0caeb454672fe0d5f365336c71c25e",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_gardening"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "mechanics.stackexchange.com_en_all_2026-08.zim",
+      "bytes": 339833641,
+      "sha256": "20f1547c29c621b3d44ccdc46ac9047cfa99df75227cc68c5284ce7850eac864",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_mechanics"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "unix.stackexchange.com_en_all_2026-08.zim",
+      "bytes": 1312634563,
+      "sha256": "738326e81abe0f50edbaa3e4a002d0ca221e5dfb66e4954bb64e370756f602d3",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_unix"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "ham.stackexchange.com_en_all_2026-08.zim",
+      "bytes": 75931239,
+      "sha256": "71480bd280ffaede3084fa2c9f47f87c3178f8ce8d67cdb19fb66a8025a7b93e",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_ham"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "outdoors.stackexchange.com_en_all_2026-08.zim",
+      "bytes": 141407927,
+      "sha256": "78dccd2b5f784b17d1a22b1f65e64a74c53fa473e08f995440ff38bd8417cf1b",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_outdoors"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "sustainability.stackexchange.com_en_all_2026-08.zim",
+      "bytes": 27666982,
+      "sha256": "e9a00e1d1032bc1a5859e1a7553e6b243fcecd0c82ba372548af517119ebd75d",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_sustainability"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "woodworking.stackexchange.com_en_all_2026-08.zim",
+      "bytes": 105570459,
+      "sha256": "a41140515d25c9906ceed8a818dd4a0645b7c040a9dc4a8419a2d729af7c3ccb",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_woodworking"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "superuser.com_en_all_2026-08.zim",
+      "bytes": 4003118644,
+      "sha256": "9bfddc8e569e0163ecc6facea4ec9dc347e6b2ace10e06745968559256b926d9",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/superuser.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/superuser.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_superuser"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "gis.stackexchange.com_en_all_2026-08.zim",
+      "bytes": 2129919887,
+      "sha256": "346102fc29c823f7c971811c7aedaf84db2dba735aa84c1bd369edf048b553e8",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_gis"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "math.stackexchange.com_en_all_2026-08.zim",
+      "bytes": 7417271999,
+      "sha256": "9b06975bba543aa5fd4a0ff82497349c061aacde394a0d2120c6898271063238",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_math"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "physics.stackexchange.com_en_all_2026-08.zim",
+      "bytes": 1827690763,
+      "sha256": "440e50c991709012e7436e2a965566fee61f118ff9e98d1ce44961d162e1a753",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim",
+      "catalog_asset_ids": [
+        "stackexchange_physics"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "biology.stackexchange.com_en_all_2026-07.zim",
+      "bytes": 422849825,
+      "sha256": "e195995da99e219251316d7ca6ebc7698558032ed17f32de9cb95ea0a6e9ee68",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim",
+      "catalog_asset_ids": [
+        "stackexchange_biology"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "chemistry.stackexchange.com_en_all_2026-07.zim",
+      "bytes": 417260049,
+      "sha256": "bc99e888d3d9e02eddd470b9a00e351c00436c79b039ee6c4009905160f280dd",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim",
+      "catalog_asset_ids": [
+        "stackexchange_chemistry"
+      ],
+      "admission": "compact alternative"
+    },
+    {
+      "file": "stackoverflow.com_en_all_2026-07.zim",
+      "bytes": 114855633696,
+      "sha256": "2878fd0bbc4d0d7a05249bc04f45b71f183c09929a843308b923190f1d15436f",
+      "meta4": "https://download.kiwix.org/zim/stack_exchange/stackoverflow.com_en_all_2026-07.zim.meta4",
+      "source_url": "https://download.kiwix.org/zim/stack_exchange/stackoverflow.com_en_all_2026-07.zim",
+      "catalog_asset_ids": [],
+      "admission": "candidate input only"
+    }
+  ]
+}

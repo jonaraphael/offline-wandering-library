@@ -236,25 +236,41 @@ class SearchTests(unittest.TestCase):
         self.assertEqual(document["license"], license_name)
         prelude = """
           const ui = {};
+          let blockScripts = true;
           function element(tag) { return {tag, textContent:'', children:[], handlers:{}, value:'',
             addEventListener(event, handler){this.handlers[event]=handler}, focus(){}, remove(){},
             append(...children){this.children.push(...children)}, replaceChildren(...children){this.children=children},
             set innerHTML(value){throw new Error('Unsafe HTML rendering')} }; }
           global.document = {getElementById(id){return ui[id] || (ui[id]=element(id))}, createElement:element,
             head:{append(script){queueMicrotask(() => {
+              if(blockScripts) { script.onerror(); return; }
               try { require('node:vm').runInThisContext(fs.readFileSync(script.src, 'utf8')); if(script.onload) script.onload(); }
               catch(error) { if(script.onerror) script.onerror(error); }
             });}}};
         """
         result = self.run_js("""
           const found = await index.search('photosynthesis', {shelf:'textbooks'});
+          for(let attempt=0;ui.retryButton.hidden && attempt<50;attempt++) await new Promise(setImmediate);
+          if(ui.retryButton.hidden) throw new Error('Load failure did not offer retry');
+          const failed = {formHidden:ui.searchForm.hidden, helpHidden:ui.viewerHelp.hidden,
+            searchDisabled:ui.searchButton.disabled, status:ui.status.textContent};
+          blockScripts = false;
+          await ui.retryButton.handlers.click();
           for(let attempt=0;ui.searchButton.disabled && attempt<50;attempt++) await new Promise(setImmediate);
           if(ui.searchButton.disabled) throw new Error(ui.status.textContent);
           document.getElementById('query').value = 'photosynthesis'; ui.shelf.value = 'textbooks';
           await ui.searchForm.handlers.submit({preventDefault(){}});
           console.log(JSON.stringify({record:found.results[0], labels:engine.resourceLabels(found.results[0]),
-            rendered:ui.results.children[0].children.map(node=>({tag:node.tag,text:node.textContent})), status:ui.status.textContent}));
+            rendered:ui.results.children[0].children.map(node=>({tag:node.tag,text:node.textContent})), status:ui.status.textContent,
+            failed, formHidden:ui.searchForm.hidden, helpHidden:ui.viewerHelp.hidden, retryHidden:ui.retryButton.hidden}));
         """, prelude=prelude)
+        self.assertTrue(result["failed"]["formHidden"])
+        self.assertFalse(result["failed"]["helpHidden"])
+        self.assertTrue(result["failed"]["searchDisabled"])
+        self.assertIn("open documents directly", result["failed"]["status"])
+        self.assertFalse(result["formHidden"])
+        self.assertTrue(result["helpHidden"])
+        self.assertTrue(result["retryHidden"])
         self.assertEqual(result["record"]["attribution"], attribution)
         self.assertEqual(result["labels"], ["Textbook", "Illustrated"])
         notice = [node for node in result["rendered"] if attribution in node["text"]]
@@ -339,6 +355,27 @@ class SearchTests(unittest.TestCase):
           console.log(JSON.stringify({error}));
         """)
         self.assertIn("Invalid resource flags", result["error"])
+
+    def test_legacy_is_excluded_before_ranking_until_explicitly_selected(self):
+        self.add('BOOKS/current.txt', 'serial port repair', title='Current reference')
+        for n in range(55):
+            self.add(f'BOOKS/legacy{n}.txt', 'serial port repair ' * 20,
+                     title='Legacy serial port repair', legacy=True, resource_type='textbook')
+        build_search(self.target, self.assets)
+        result = self.run_js("""
+          const normal = await index.search('serial');
+          const books = await index.search('serial', {shelf:'textbooks'});
+          const legacy = await index.search('serial', {shelf:'legacy'});
+          const inclusive = await index.search('serial', {shelf:'all-with-legacy'});
+          console.log(JSON.stringify({normal:normal.results.map(r=>r.destination),
+            books:books.matches,legacy:legacy.matches,inclusive:inclusive.matches,
+            labels:engine.resourceLabels(legacy.results[0])}));
+        """)
+        self.assertEqual(result['normal'], ['BOOKS/current.txt'])
+        self.assertEqual(result['books'], 0)
+        self.assertEqual(result['legacy'], 55)
+        self.assertEqual(result['inclusive'], 56)
+        self.assertIn('LEGACY — MAY APPLY ONLY TO OLD SYSTEMS', result['labels'])
 
     @unittest.skipUnless(importlib.util.find_spec("pypdf"), "pypdf not installed")
     def test_pdf_warning_flood_is_bounded_partial_and_logging_restored(self):
@@ -561,7 +598,7 @@ search.build_search(Path(sys.argv[1]), json.loads(sys.argv[2]))
         self.assertEqual(report["documents"], 1)
         self.assertEqual(self.index_bytes(self.target), self.clean_index_bytes())
 
-    def test_changed_bytes_metadata_and_dependencies_invalidate_reuse(self):
+    def test_changed_bytes_metadata_invalidate_but_unused_dependencies_do_not(self):
         self.add("plain.txt", "first value")
         previous = build_search(self.target, self.assets)
         (self.target / "plain.txt").write_text("other value", encoding="utf-8")
@@ -572,7 +609,7 @@ search.build_search(Path(sys.argv[1]), json.loads(sys.argv[2]))
         self.assertNotEqual(metadata["build_fingerprint"], changed["build_fingerprint"])
         with patch("owl.search.importlib.metadata.version", return_value="future-extractor"):
             dependency = build_search(self.target, self.assets)
-        self.assertNotEqual(dependency["build_fingerprint"], metadata["build_fingerprint"])
+        self.assertEqual(dependency["build_fingerprint"], metadata["build_fingerprint"])
 
     def test_source_corruption_cannot_replace_verified_inventory_digest(self):
         asset = self.add("plain.txt", "original verified input")

@@ -1,0 +1,599 @@
+schema_version: 1
+assets:
+- id: fao_greenhouse_vegetables
+  title: 'Good Agricultural Practices for greenhouse vegetable crops: Principles for Mediterranean climate
+    areas'
+  category: agriculture
+  format: pdf
+  source_url: https://openknowledge.fao.org/server/api/core/bitstreams/3b27458c-b392-4a7b-87bd-d2c2f6577a68/content
+  destination: CRITICAL/AGRICULTURE/fao_greenhouse_vegetables_2013.pdf
+  version: '2013'
+  size_bytes: 6461207
+  sha256: 255ba0b474c1559f441f8c2eaf1395015792845511ca6506dd038ce8a08c8a6a
+  license: FAO noncommercial copying permission; adaptation and commercial use require permission
+  redistributable: true
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: Food and Agriculture Organization of the United Nations
+  source_page: https://www.fao.org/4/i3284e/i3284e.pdf
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: 'FAO and contributors. Good Agricultural Practices for greenhouse vegetable crops: Principles
+    for Mediterranean climate areas. 2013. Original publisher PDF with original publication notices and
+    credited third-party material retained without alteration; publisher endorsement is not implied.'
+  description: 640 physical pages. FAO Plant Production and Protection Paper 217. Greenhouse construction
+    and management, vegetable cultivation, fertility, irrigation/crop water, IPM, harvest and storage;
+    Mediterranean climate context.
+  tags:
+  - agriculture
+  - illustrated guide
+  - greenhouse
+  - vegetables
+  - crop water
+  - pest management
+- id: fao_dairy_manual_vol1
+  title: 'Small-scale dairy farming manual — Volume 1: Technology units 1–11'
+  category: agriculture
+  format: pdf
+  source_url: https://openknowledge.fao.org/server/api/core/bitstreams/9c14a529-7f71-4965-af19-e322529f6526/content
+  destination: CRITICAL/AGRICULTURE/fao_dairy_manual_vol1_1993.pdf
+  version: 1993 (publisher electronic edition 2008)
+  size_bytes: 21423006
+  sha256: c0bebb5dd43f5378aca419d61ce12b72d3620c15c20b083bc218260c63afcf65
+  license: FAO educational and noncommercial reproduction permission; commercial use requires permission
+  redistributable: true
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: Food and Agriculture Organization of the United Nations
+  source_page: https://www.fao.org/4/t1265e/t1265e.htm
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: 'FAO Regional Dairy Development and Training Team for Asia and Pacific. Small-scale dairy
+    farming manual — Volume 1: Technology units 1–11. 1993 (publisher electronic edition 2008). Original
+    publisher PDF with original publication notices and credited third-party material retained without
+    alteration; publisher endorsement is not implied.'
+  description: 463 physical pages. Complete Volume 1, covering milk composition, quality control, collection,
+    preservation, heat treatment, cultures, butter and cheese. This is not the full six-volume series.
+    Publisher PDF retains the original web-print pagination, with some figures continuing across page
+    boundaries.
+  tags:
+  - agriculture
+  - illustrated guide
+  - dairy
+  - milk
+  - food processing
+- id: fao_rabbit_husbandry
+  title: 'The rabbit: Husbandry, health and production (new revised version)'
+  category: agriculture
+  format: pdf
+  source_url: https://openknowledge.fao.org/server/api/core/bitstreams/ce103481-c753-4762-809b-7f87be8098e9/content
+  destination: CRITICAL/AGRICULTURE/fao_rabbit_husbandry_1997.pdf
+  version: '1997'
+  size_bytes: 15176209
+  sha256: a7f738c02a48d2c978781673884354c97423f5889cedfc28cab97f19ec4b7f60
+  license: Copyright FAO; no redistribution permission verified
+  redistributable: false
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: Food and Agriculture Organization of the United Nations
+  source_page: https://openknowledge.fao.org/3/t1690e/t1690e.pdf
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: 'F. Lebas, P. Coudert, H. de Rochambeau and R.G. Thébault; FAO. The rabbit: Husbandry,
+    health and production (new revised version). 1997. Original publisher PDF with original publication
+    notices and credited third-party material retained without alteration; publisher endorsement is not
+    implied.'
+  description: '250 physical pages. FAO Animal Production and Health Series 21. Complete revised rabbit
+    manual: nutrition, feeding, reproduction, housing, husbandry and health. Historical animal-health
+    content retains its 1997 context.'
+  tags:
+  - agriculture
+  - illustrated guide
+  - rabbits
+  - small livestock
+  - animal feeding
+- id: fao_family_metal_silos
+  title: Technical manual for the construction and use of family-sized metal silos to store cereals and
+    grain legumes
+  category: agriculture
+  format: pdf
+  source_url: https://openknowledge.fao.org/server/api/core/bitstreams/c6c66b90-f555-4212-9a23-a639c3552e68/content
+  destination: CRITICAL/AGRICULTURE/fao_family_metal_silos_2015.pdf
+  version: '2015'
+  size_bytes: 6554809
+  sha256: b2c1f07592cdae7d2df3f83a5fe0fa45796b8a7187dca4b1fae67c9cf4d028cf
+  license: FAO noncommercial copying permission; adaptation and commercial use require permission
+  redistributable: true
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: Food and Agriculture Organization of the United Nations
+  source_page: https://www.fao.org/family-farming/detail/en/c/380199/
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: D. Mejía-Lorío, M. Howell and A. Arancibia; FAO. Technical manual for the construction
+    and use of family-sized metal silos to store cereals and grain legumes. 2015. Original publisher PDF
+    with original publication notices and credited third-party material retained without alteration; publisher
+    endorsement is not implied.
+  description: 134 physical pages. Practical silo fabrication, dimensioned plans, materials, moisture
+    control, grain storage, operation and maintenance. Includes the original fumigation and safety guidance;
+    the Spanish original prevails in translation disputes.
+  tags:
+  - agriculture
+  - illustrated guide
+  - grain storage
+  - postharvest
+  - food loss
+  - silos
+- id: fao_agricultural_handtools
+  title: 'Agricultural Hand Tools in Emergencies: Guidelines for Technical and Field Officers'
+  category: agriculture
+  format: pdf
+  source_url: https://openknowledge.fao.org/server/api/core/bitstreams/cfd45940-600c-4a1a-b197-babfa7a2026f/content
+  destination: CRITICAL/AGRICULTURE/fao_agricultural_handtools_2013.pdf
+  version: '2013'
+  size_bytes: 879316
+  sha256: 8290ee34e953a3c9f04f5e40619c86a579be9dd33aa74600030c40ad8a26e075
+  license: FAO noncommercial copying permission; adaptation and commercial use require permission
+  redistributable: true
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: Food and Agriculture Organization of the United Nations
+  source_page: https://www.fao.org/sustainable-agricultural-mechanization/resources/publications/details/es/c/456123/
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: 'John E. Ashburner and Josef Kienzle; FAO. Agricultural Hand Tools in Emergencies: Guidelines
+    for Technical and Field Officers. 2013. Original publisher PDF with original publication notices and
+    credited third-party material retained without alteration; publisher endorsement is not implied.'
+  description: 74 physical pages. FAO Plant Production and Protection Paper 214. Illustrated tool selection,
+    hoes, forks, spades, rakes, sickles, axes, watering cans, wheelbarrows, saws and files, tool repair
+    and strength tests. Procurement context retained.
+  tags:
+  - agriculture
+  - illustrated guide
+  - hand tools
+  - tool repair
+  - small farm
+- id: fao_fresh_produce_packinghouse
+  title: Good practice in the design, management and operation of a fresh produce packing-house
+  category: agriculture
+  format: pdf
+  source_url: https://openknowledge.fao.org/server/api/core/bitstreams/e3d3b1ac-4b3d-4bb5-a225-6569d7256753/content
+  destination: CRITICAL/AGRICULTURE/fao_fresh_produce_packinghouse_2012.pdf
+  version: '2012'
+  size_bytes: 3019934
+  sha256: 51593caf18fd8b170cebf7dac1b20c31fa6ec7fccdad7344302abfde9c778549
+  license: Copyright FAO; noncommercial permission available upon request; no redistribution permission
+    verified
+  redistributable: false
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: Food and Agriculture Organization of the United Nations
+  source_page: https://www.fao.org/4/i2678e/i2678e00.pdf
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: FAO Regional Office for Asia and the Pacific. Good practice in the design, management and
+    operation of a fresh produce packing-house. 2012. Original publisher PDF with original publication
+    notices and credited third-party material retained without alteration; publisher endorsement is not
+    implied.
+  description: 188 physical pages. Complete practical guide to washing, sorting, grading, packaging, cooling
+    and fresh-produce handling with process diagrams, storage tables and small-scale equipment considerations.
+  tags:
+  - agriculture
+  - illustrated guide
+  - postharvest
+  - vegetables
+  - food loss
+  - packing
+- id: fao_pressurized_irrigation
+  title: Handbook on pressurized irrigation techniques
+  category: agriculture
+  format: pdf
+  source_url: https://openknowledge.fao.org/server/api/core/bitstreams/d88bb512-d8bc-4695-a280-4f343063e7ff/content
+  destination: CRITICAL/AGRICULTURE/fao_pressurized_irrigation_2007.pdf
+  version: 2007 (second edition)
+  size_bytes: 18004332
+  sha256: fb9d7b4a6c2e0b749d0e0407f6ddc1ab567c00e689889928df1c76f42452e94e
+  license: FAO educational and noncommercial reproduction permission; commercial use requires permission
+  redistributable: true
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: Food and Agriculture Organization of the United Nations
+  source_page: https://www.fao.org/docrep/pdf/010/a1336e/a1336e.pdf
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: A. Phocaides; FAO. Handbook on pressurized irrigation techniques. 2007 (second edition).
+    Original publisher PDF with original publication notices and credited third-party material retained
+    without alteration; publisher endorsement is not implied.
+  description: 282 physical pages. Complete handbook. Chapter 6 gives crop-water requirements, reference
+    evapotranspiration, crop coefficients, effective rainfall and worked net/gross irrigation calculations;
+    Chapter 15 covers low-cost family drip systems.
+  tags:
+  - agriculture
+  - illustrated guide
+  - irrigation
+  - crop water
+  - drip irrigation
+- id: fao_good_dairy_practice
+  title: Guide to good dairy farming practice
+  category: agriculture
+  format: pdf
+  source_url: https://openknowledge.fao.org/server/api/core/bitstreams/83404311-6071-4b27-a825-a3a5d990bf14/content
+  destination: CRITICAL/AGRICULTURE/fao_good_dairy_practice_2011.pdf
+  version: 2011 (revised edition)
+  size_bytes: 675045
+  sha256: 89a7e71da8449c445eda16f6b570b1b6c0e095a5fee5fd2b8d96f03513b356d8
+  license: Copyright FAO and IDF; noncommercial permission available upon request; no redistribution permission
+    verified
+  redistributable: false
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: Food and Agriculture Organization of the United Nations
+  source_page: https://www.fao.org/4/ba0027e/ba0027e00.pdf
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: FAO and International Dairy Federation. Guide to good dairy farming practice. 2011 (revised
+    edition). Original publisher PDF with original publication notices and credited third-party material
+    retained without alteration; publisher endorsement is not implied.
+  description: 50 physical pages. FAO Animal Production and Health Guidelines 8. Practical farm checklists
+    and fact sheets for animal health, milking hygiene, nutrition/feed/water, welfare and manure/environment
+    management. Complements the detailed milk-processing volume.
+  tags:
+  - agriculture
+  - illustrated guide
+  - dairy
+  - animal feeding
+  - farm hygiene
+- id: ucdavis_smallscale_postharvest
+  title: 'Small-Scale Postharvest Handling Practices: A Manual for Horticultural Crops (5th Edition)'
+  category: agriculture
+  format: pdf
+  source_url: https://my.ucanr.edu/sites/Postharvest_Technology_Center_/files/231952.pdf
+  destination: CRITICAL/AGRICULTURE/ucdavis_smallscale_postharvest_2015.pdf
+  version: 2015 (fifth edition; publisher PDF 2017)
+  size_bytes: 7441751
+  sha256: 07fe659a44f5f207bec6293ad97359cd8511ab98b1a523299280f0ee3df99126
+  license: Copyright University of California, Davis; free publisher download; no redistribution permission
+    verified
+  redistributable: false
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: University of California, Davis, Postharvest Technology Research and Information Center
+  source_page: https://postharvest.ucdavis.edu/fr/node/6345
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: 'Lisa Kitinoja and Adel A. Kader; University of California, Davis. Small-Scale Postharvest
+    Handling Practices: A Manual for Horticultural Crops (5th Edition). 2015 (fifth edition; publisher
+    PDF 2017). Original publisher PDF with original publication notices and credited third-party material
+    retained without alteration; publisher endorsement is not implied.'
+  description: '283 physical pages. Complete UC Davis companion to the FAO-recommended earlier edition:
+    harvest, curing, packing, cooling, storage, transport and processing. Original December 2016 disclaimer
+    states that some practices may not meet current food-safety/regulatory standards; retain it and the
+    edition date.'
+  tags:
+  - agriculture
+  - illustrated guide
+  - postharvest
+  - food loss
+  - harvest tools
+resource_updates:
+- id: fao-agriculture
+  asset_ids:
+  - fao_farmer_field
+  - fao_compost_es
+  - fao_poultry
+  - fao_seed_storage
+  - fao_surface_irrigation
+  - fao_compost_en
+  - fao_aquaponics
+  - fao_greenhouse_vegetables
+  - fao_dairy_manual_vol1
+  - fao_rabbit_husbandry
+  - fao_family_metal_silos
+  - fao_agricultural_handtools
+  - fao_fresh_produce_packinghouse
+  - fao_pressurized_irrigation
+  - fao_good_dairy_practice
+  - ucdavis_smallscale_postharvest
+  status: ready
+  reason: 'All 17 requested practical topic areas are covered by 16 complete, pinned PDFs: seven existing
+    guides plus eight FAO manuals and one clearly labeled UC Davis postharvest companion. Direct PDF acquisition
+    is ready for a later user-requested build; no installation/build is implied. Editions and regional
+    contexts are retained. Six of the 16 have no verified redistribution grant and remain individually
+    marked redistributable:false; this readiness is for the personal acquisition catalog, not an unrestricted
+    redistributable bundle.'
+evidence:
+- asset_id: fao_greenhouse_vegetables
+  discovery_url: https://openknowledge.fao.org/3/i3284e/i3284e.pdf
+  resolved_url: https://openknowledge.fao.org/server/api/core/bitstreams/3b27458c-b392-4a7b-87bd-d2c2f6577a68/content
+  verified: Existing temporary original inspected; PDF magic, exact length/SHA-256, pdfinfo, full text
+    extraction and all-page raster pass succeeded. Four selected pages per manual visually inspected,
+    including rights/front matter and practical content. No further acquisition after user clarified build-time-only
+    scope.
+  pages: 640
+  rights_notice_physical_page: 4
+  visually_reviewed_physical_pages:
+  - 4
+  - 129
+  - 133
+  - 558
+  all_pages_rendered: true
+  source_warnings:
+  - Poppler reported nonconformant JPEG2000 codestream warnings; every page rendered successfully and
+    sampled illustrations were visible.
+  - Fontconfig cache path was not writable in the sandbox; rendering succeeded.
+  temporary_original: /tmp/owl-one-hour/fao/greenhouse.pdf
+- asset_id: fao_dairy_manual_vol1
+  discovery_url: https://openknowledge.fao.org/3/t1265e/t1265e.pdf
+  resolved_url: https://openknowledge.fao.org/server/api/core/bitstreams/9c14a529-7f71-4965-af19-e322529f6526/content
+  verified: Existing temporary original inspected; PDF magic, exact length/SHA-256, pdfinfo, full text
+    extraction and all-page raster pass succeeded. Four selected pages per manual visually inspected,
+    including rights/front matter and practical content. No further acquisition after user clarified build-time-only
+    scope.
+  pages: 463
+  rights_notice_physical_page: 1
+  visually_reviewed_physical_pages:
+  - 1
+  - 63
+  - 261
+  - 363
+  all_pages_rendered: true
+  source_warnings: []
+  temporary_original: /tmp/owl-one-hour/fao/dairy.pdf
+- asset_id: fao_rabbit_husbandry
+  discovery_url: https://openknowledge.fao.org/3/t1690e/t1690e.pdf
+  resolved_url: https://openknowledge.fao.org/server/api/core/bitstreams/ce103481-c753-4762-809b-7f87be8098e9/content
+  verified: Existing temporary original inspected; PDF magic, exact length/SHA-256, pdfinfo, full text
+    extraction and all-page raster pass succeeded. Four selected pages per manual visually inspected,
+    including rights/front matter and practical content. No further acquisition after user clarified build-time-only
+    scope.
+  pages: 250
+  rights_notice_physical_page: 4
+  visually_reviewed_physical_pages:
+  - 4
+  - 53
+  - 168
+  - 184
+  all_pages_rendered: true
+  source_warnings: []
+  temporary_original: /tmp/owl-one-hour/fao/rabbit.pdf
+- asset_id: fao_family_metal_silos
+  discovery_url: https://openknowledge.fao.org/3/i3632e/i3632e.pdf
+  resolved_url: https://openknowledge.fao.org/server/api/core/bitstreams/c6c66b90-f555-4212-9a23-a639c3552e68/content
+  verified: Existing temporary original inspected; PDF magic, exact length/SHA-256, pdfinfo, full text
+    extraction and all-page raster pass succeeded. Four selected pages per manual visually inspected,
+    including rights/front matter and practical content. No further acquisition after user clarified build-time-only
+    scope.
+  pages: 134
+  rights_notice_physical_page: 3
+  visually_reviewed_physical_pages:
+  - 3
+  - 48
+  - 94
+  - 132
+  all_pages_rendered: true
+  source_warnings:
+  - Poppler reported Invalid Font Weight warnings; every page rendered successfully and sampled tables/plans
+    were legible.
+  temporary_original: /tmp/owl-one-hour/fao/silos.pdf
+- asset_id: fao_agricultural_handtools
+  discovery_url: https://openknowledge.fao.org/3/i3197e/i3197e.pdf
+  resolved_url: https://openknowledge.fao.org/server/api/core/bitstreams/cfd45940-600c-4a1a-b197-babfa7a2026f/content
+  verified: Existing temporary original inspected; PDF magic, exact length/SHA-256, pdfinfo, full text
+    extraction and all-page raster pass succeeded. Four selected pages per manual visually inspected,
+    including rights/front matter and practical content. No further acquisition after user clarified build-time-only
+    scope.
+  pages: 74
+  rights_notice_physical_page: 3
+  visually_reviewed_physical_pages:
+  - 3
+  - 29
+  - 40
+  - 57
+  all_pages_rendered: true
+  source_warnings:
+  - Poppler reported nonconformant JPEG2000 codestream warnings; every page rendered successfully and
+    sampled illustrations were visible.
+  - Fontconfig cache path was not writable in the sandbox; rendering succeeded.
+  temporary_original: /tmp/owl-one-hour/fao/handtools.pdf
+- asset_id: fao_fresh_produce_packinghouse
+  discovery_url: https://openknowledge.fao.org/3/i2678e/i2678e.pdf
+  resolved_url: https://openknowledge.fao.org/server/api/core/bitstreams/e3d3b1ac-4b3d-4bb5-a225-6569d7256753/content
+  verified: Existing temporary original inspected; PDF magic, exact length/SHA-256, pdfinfo, full text
+    extraction and all-page raster pass succeeded. Four selected pages per manual visually inspected,
+    including rights/front matter and practical content. No further acquisition after user clarified build-time-only
+    scope.
+  pages: 188
+  rights_notice_physical_page: 4
+  visually_reviewed_physical_pages:
+  - 4
+  - 54
+  - 73
+  - 113
+  all_pages_rendered: true
+  source_warnings:
+  - Fontconfig cache path was not writable in the sandbox; rendering succeeded.
+  temporary_original: /tmp/owl-one-hour/fao/packinghouse.pdf
+- asset_id: fao_pressurized_irrigation
+  discovery_url: https://openknowledge.fao.org/3/a1336e/a1336e.pdf
+  resolved_url: https://openknowledge.fao.org/server/api/core/bitstreams/d88bb512-d8bc-4695-a280-4f343063e7ff/content
+  verified: Existing temporary original inspected; PDF magic, exact length/SHA-256, pdfinfo, full text
+    extraction and all-page raster pass succeeded. Four selected pages per manual visually inspected,
+    including rights/front matter and practical content. No further acquisition after user clarified build-time-only
+    scope.
+  pages: 282
+  rights_notice_physical_page: 3
+  visually_reviewed_physical_pages:
+  - 3
+  - 97
+  - 101
+  - 218
+  all_pages_rendered: true
+  source_warnings:
+  - Fontconfig cache path was not writable in the sandbox; rendering succeeded.
+  temporary_original: /tmp/owl-one-hour/fao/pressurized_irrigation.pdf
+- asset_id: fao_good_dairy_practice
+  discovery_url: https://openknowledge.fao.org/3/ba0027e/ba0027e.pdf
+  resolved_url: https://openknowledge.fao.org/server/api/core/bitstreams/83404311-6071-4b27-a825-a3a5d990bf14/content
+  verified: Existing temporary original inspected; PDF magic, exact length/SHA-256, pdfinfo, full text
+    extraction and all-page raster pass succeeded. Four selected pages per manual visually inspected,
+    including rights/front matter and practical content. No further acquisition after user clarified build-time-only
+    scope.
+  pages: 50
+  rights_notice_physical_page: 4
+  visually_reviewed_physical_pages:
+  - 4
+  - 16
+  - 17
+  - 31
+  all_pages_rendered: true
+  source_warnings: []
+  temporary_original: /tmp/owl-one-hour/fao/good_dairy.pdf
+- asset_id: ucdavis_smallscale_postharvest
+  discovery_url: https://ucanr.edu/sites/Postharvest_Technology_Center_/files/231952.pdf
+  resolved_url: https://my.ucanr.edu/sites/Postharvest_Technology_Center_/files/231952.pdf
+  verified: Existing temporary original inspected; PDF magic, exact length/SHA-256, pdfinfo, full text
+    extraction and all-page raster pass succeeded. Four selected pages per manual visually inspected,
+    including rights/front matter and practical content. No further acquisition after user clarified build-time-only
+    scope.
+  pages: 283
+  rights_notice_physical_page: 4
+  visually_reviewed_physical_pages:
+  - 1
+  - 4
+  - 30
+  - 134
+  all_pages_rendered: true
+  source_warnings:
+  - Fontconfig cache path was not writable in the sandbox; rendering succeeded.
+  temporary_original: /tmp/owl-one-hour/fao/postharvest.pdf
+coverage:
+- topic: Crop production fundamentals
+  asset_ids:
+  - fao_farmer_field
+  evidence: 'Existing field-school manual: crop rotation, green manure, conservation agriculture and rice
+    intensification.'
+- topic: Soil fertility and composting
+  asset_ids:
+  - fao_compost_en
+  - fao_compost_es
+  - fao_greenhouse_vegetables
+  evidence: Existing compost manuals plus greenhouse fertility chapter.
+- topic: Irrigation
+  asset_ids:
+  - fao_surface_irrigation
+  - fao_pressurized_irrigation
+  evidence: Surface irrigation plus full pressurized techniques and family drip systems.
+- topic: Crop-water requirements
+  asset_ids:
+  - fao_pressurized_irrigation
+  - fao_greenhouse_vegetables
+  evidence: Irrigation Chapter 6 (physical pages 95–103); greenhouse Chapter 6 (printed pages 109–136),
+    including evapotranspiration and crop coefficients.
+- topic: Seed storage
+  asset_ids:
+  - fao_seed_storage
+  evidence: 'Existing Seeds Toolkit Module 6: moisture, pests, storage structures and management.'
+- topic: Small-scale post-harvest handling
+  asset_ids:
+  - ucdavis_smallscale_postharvest
+  - fao_fresh_produce_packinghouse
+  evidence: Full horticultural handling manual and fresh-produce packing guide; harvest, curing, sorting,
+    grading, packing and cooling.
+- topic: Grain storage
+  asset_ids:
+  - fao_family_metal_silos
+  evidence: Entire practical manual on cereal/legume silo construction and storage; physical pages 94
+    and 132 show storage preparation and dimensioned plans.
+- topic: Vegetable production
+  asset_ids:
+  - fao_greenhouse_vegetables
+  - fao_aquaponics
+  evidence: Dedicated complete greenhouse vegetable crop manual plus existing practical aquaponics vegetable
+    production.
+- topic: Poultry
+  asset_ids:
+  - fao_poultry
+  evidence: Existing complete small-scale poultry technical guide.
+- topic: Rabbits and small livestock
+  asset_ids:
+  - fao_rabbit_husbandry
+  - fao_poultry
+  - fao_good_dairy_practice
+  evidence: Dedicated rabbit husbandry/reproduction/housing/nutrition manual; poultry and dairy complement.
+    Does not claim a guide for every small-livestock species.
+- topic: Dairy basics
+  asset_ids:
+  - fao_good_dairy_practice
+  - fao_dairy_manual_vol1
+  evidence: Farm milking/feed/hygiene practices plus detailed milk-quality, preservation and processing
+    volume.
+- topic: Animal feeding
+  asset_ids:
+  - fao_rabbit_husbandry
+  - fao_good_dairy_practice
+  - fao_poultry
+  evidence: Rabbit nutrition/feeding, dairy feed/water checklist and fact sheet (physical pages 17, 31–34),
+    and existing poultry feeding.
+- topic: Pest management
+  asset_ids:
+  - fao_farmer_field
+  - fao_greenhouse_vegetables
+  - fao_family_metal_silos
+  evidence: Crop IPM, greenhouse pest management and storage pests; original safety notices retained.
+- topic: Greenhouse and protected growing
+  asset_ids:
+  - fao_greenhouse_vegetables
+  evidence: 640-page dedicated protected vegetable production manual; Mediterranean climate context.
+- topic: Food-loss reduction
+  asset_ids:
+  - ucdavis_smallscale_postharvest
+  - fao_fresh_produce_packinghouse
+  - fao_family_metal_silos
+  evidence: Practical preservation of horticultural produce and stored cereals/legumes.
+- topic: Small-farm tools
+  asset_ids:
+  - fao_agricultural_handtools
+  - ucdavis_smallscale_postharvest
+  evidence: Dedicated illustrated hand-tool identification, selection, repair/testing; horticultural harvesting
+    tools.
+- topic: Basic aquaculture where practical
+  asset_ids:
+  - fao_aquaponics
+  evidence: Existing complete small-scale aquaponic food-production manual, including system construction
+    and fish/plant management.

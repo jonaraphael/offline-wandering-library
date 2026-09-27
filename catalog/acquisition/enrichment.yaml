@@ -941,141 +941,263 @@ resource_updates:
 - id: childrens-library
   asset_ids:
   - bookdash_a_beautiful_day_en
+  - bookdash_a_beautiful_day_en_epub_source
   - bookdash_a_dancers_tale_en
+  - bookdash_a_dancers_tale_en_epub_source
   - bookdash_a_fish_and_a_gift_en
+  - bookdash_a_fish_and_a_gift_en_epub_source
   - bookdash_a_fish_and_a_gift_fr
+  - bookdash_a_fish_and_a_gift_fr_epub_source
   - bookdash_a_fish_and_a_gift_xh
+  - bookdash_a_fish_and_a_gift_xh_epub_source
   - bookdash_a_house_for_mouse_en
+  - bookdash_a_house_for_mouse_en_epub_source
   - bookdash_a_house_for_mouse_xh
+  - bookdash_a_house_for_mouse_xh_epub_source
   - bookdash_a_tiny_seed_en
+  - bookdash_a_tiny_seed_en_epub_source
   - bookdash_a_tiny_seed_fr
+  - bookdash_a_tiny_seed_fr_epub_source
   - bookdash_a_tiny_seed_xh
+  - bookdash_a_tiny_seed_xh_epub_source
   - bookdash_amazing_daisy_en
+  - bookdash_amazing_daisy_en_epub_source
   - bookdash_amazing_daisy_xh
+  - bookdash_amazing_daisy_xh_epub_source
   - bookdash_bathtub_safari_en
+  - bookdash_bathtub_safari_en_epub_source
   - bookdash_come_back_cat_en
+  - bookdash_come_back_cat_en_epub_source
   - bookdash_come_back_cat_fr
+  - bookdash_come_back_cat_fr_epub_source
   - bookdash_come_back_cat_xh
+  - bookdash_come_back_cat_xh_epub_source
   - bookdash_gracas_dream_en
+  - bookdash_gracas_dream_en_epub_source
   - bookdash_gracas_dream_xh
+  - bookdash_gracas_dream_xh_epub_source
   - bookdash_grandpas_gold_en
+  - bookdash_grandpas_gold_en_epub_source
   - bookdash_how_about_you_en
+  - bookdash_how_about_you_en_epub_source
   - bookdash_i_will_help_you_en
+  - bookdash_i_will_help_you_en_epub_source
   - bookdash_is_there_anyone_like_me_en
+  - bookdash_is_there_anyone_like_me_en_epub_source
   - bookdash_is_there_anyone_like_me_xh
+  - bookdash_is_there_anyone_like_me_xh_epub_source
   - bookdash_karabos_question_en
+  - bookdash_karabos_question_en_epub_source
   - bookdash_little_ants_big_plan_en
+  - bookdash_little_ants_big_plan_en_epub_source
   - bookdash_little_ants_big_plan_xh
+  - bookdash_little_ants_big_plan_xh_epub_source
   - bookdash_londi_the_dreaming_girl_en
+  - bookdash_londi_the_dreaming_girl_en_epub_source
   - bookdash_lory_dory_en
+  - bookdash_lory_dory_en_epub_source
   - bookdash_maddy_moona_en
+  - bookdash_maddy_moona_en_epub_source
   - bookdash_miss_helens_magical_world_en
+  - bookdash_miss_helens_magical_world_en_epub_source
   - bookdash_queen_of_soweto_en
+  - bookdash_queen_of_soweto_en_epub_source
   - bookdash_rafikis_style_en
+  - bookdash_rafikis_style_en_epub_source
   - bookdash_rafikis_style_xh
+  - bookdash_rafikis_style_xh_epub_source
   - bookdash_sbus_special_shoes_en
+  - bookdash_sbus_special_shoes_en_epub_source
   - bookdash_searching_for_the_spirit_of_spring_en
+  - bookdash_searching_for_the_spirit_of_spring_en_epub_source
   - bookdash_searching_for_the_spirit_of_spring_xh
+  - bookdash_searching_for_the_spirit_of_spring_xh_epub_source
   - bookdash_sima_and_siza_en
+  - bookdash_sima_and_siza_en_epub_source
   - bookdash_sindi_and_the_moon_en
+  - bookdash_sindi_and_the_moon_en_epub_source
   - bookdash_sindiwe_and_the_fireflies_en
+  - bookdash_sindiwe_and_the_fireflies_en_epub_source
   - bookdash_sindiwe_and_the_fireflies_xh
+  - bookdash_sindiwe_and_the_fireflies_xh_epub_source
   - bookdash_singing_the_truth_en
+  - bookdash_singing_the_truth_en_epub_source
   - bookdash_singing_the_truth_fr
+  - bookdash_singing_the_truth_fr_epub_source
   - bookdash_singing_the_truth_xh
+  - bookdash_singing_the_truth_xh_epub_source
   - bookdash_sizwes_smile_en
+  - bookdash_sizwes_smile_en_epub_source
   - bookdash_sizwes_smile_fr
+  - bookdash_sizwes_smile_fr_epub_source
   - bookdash_sizwes_smile_xh
+  - bookdash_sizwes_smile_xh_epub_source
   - bookdash_sleepy_mr_sloth_en
+  - bookdash_sleepy_mr_sloth_en_epub_source
   - bookdash_sleepy_mr_sloth_fr
+  - bookdash_sleepy_mr_sloth_fr_epub_source
   - bookdash_sleepy_mr_sloth_xh
+  - bookdash_sleepy_mr_sloth_xh_epub_source
   - bookdash_thatos_birthday_surprise_en
+  - bookdash_thatos_birthday_surprise_en_epub_source
   - bookdash_there_must_be_a_rainbow_en
+  - bookdash_there_must_be_a_rainbow_en_epub_source
   - bookdash_together_were_strong_en
+  - bookdash_together_were_strong_en_epub_source
   - bookdash_tortoise_finds_his_home_en
+  - bookdash_tortoise_finds_his_home_en_epub_source
   - bookdash_tortoise_finds_his_home_fr
+  - bookdash_tortoise_finds_his_home_fr_epub_source
   - bookdash_tortoise_finds_his_home_xh
+  - bookdash_tortoise_finds_his_home_xh_epub_source
   - bookdash_walking_together_en
+  - bookdash_walking_together_en_epub_source
   - bookdash_walking_together_xh
+  - bookdash_walking_together_xh_epub_source
   - bookdash_what_if_en
+  - bookdash_what_if_en_epub_source
   - bookdash_whose_button_is_this_en
+  - bookdash_whose_button_is_this_en_epub_source
   - bookdash_why_is_nita_upside_down_en
+  - bookdash_why_is_nita_upside_down_en_epub_source
   - bookdash_zanele_situ_my_story_en
+  - bookdash_zanele_situ_my_story_en_epub_source
   status: partial
-  reason: All 61 complete EPUBs at the publisher Book Dash archive commit are pinned in English, French
-    and Xhosa. Current 221-title Book Dash PDF library download endpoint returns HTTP 403, and African
-    Storybook full approved multilingual PDF export is not yet reproducibly acquired. EPUBs require a
-    reader.
+  reason: OWL PDF conversions of all 61 complete EPUBs at the publisher Book Dash archive commit are pinned
+    in English, French and Xhosa. Current 221-title Book Dash PDF library download endpoint returns HTTP
+    403, and African Storybook full approved multilingual PDF export is not yet reproducibly acquired.
+    Original EPUBs are retained as supporting sources; the PDFs need no EPUB reader.
   editions:
     compact:
       asset_ids:
       - bookdash_a_beautiful_day_en
+      - bookdash_a_beautiful_day_en_epub_source
       - bookdash_a_dancers_tale_en
+      - bookdash_a_dancers_tale_en_epub_source
       - bookdash_a_fish_and_a_gift_en
+      - bookdash_a_fish_and_a_gift_en_epub_source
       - bookdash_a_fish_and_a_gift_fr
+      - bookdash_a_fish_and_a_gift_fr_epub_source
       - bookdash_a_fish_and_a_gift_xh
+      - bookdash_a_fish_and_a_gift_xh_epub_source
       - bookdash_a_house_for_mouse_en
+      - bookdash_a_house_for_mouse_en_epub_source
       - bookdash_a_house_for_mouse_xh
+      - bookdash_a_house_for_mouse_xh_epub_source
       - bookdash_a_tiny_seed_en
+      - bookdash_a_tiny_seed_en_epub_source
       - bookdash_a_tiny_seed_fr
+      - bookdash_a_tiny_seed_fr_epub_source
       - bookdash_a_tiny_seed_xh
+      - bookdash_a_tiny_seed_xh_epub_source
       - bookdash_amazing_daisy_en
+      - bookdash_amazing_daisy_en_epub_source
       - bookdash_amazing_daisy_xh
+      - bookdash_amazing_daisy_xh_epub_source
       - bookdash_bathtub_safari_en
+      - bookdash_bathtub_safari_en_epub_source
       - bookdash_come_back_cat_en
+      - bookdash_come_back_cat_en_epub_source
       - bookdash_come_back_cat_fr
+      - bookdash_come_back_cat_fr_epub_source
       - bookdash_come_back_cat_xh
+      - bookdash_come_back_cat_xh_epub_source
       - bookdash_gracas_dream_en
+      - bookdash_gracas_dream_en_epub_source
       - bookdash_gracas_dream_xh
+      - bookdash_gracas_dream_xh_epub_source
       - bookdash_grandpas_gold_en
+      - bookdash_grandpas_gold_en_epub_source
       - bookdash_how_about_you_en
+      - bookdash_how_about_you_en_epub_source
       - bookdash_i_will_help_you_en
+      - bookdash_i_will_help_you_en_epub_source
       - bookdash_is_there_anyone_like_me_en
+      - bookdash_is_there_anyone_like_me_en_epub_source
       - bookdash_is_there_anyone_like_me_xh
+      - bookdash_is_there_anyone_like_me_xh_epub_source
       - bookdash_karabos_question_en
+      - bookdash_karabos_question_en_epub_source
       - bookdash_little_ants_big_plan_en
+      - bookdash_little_ants_big_plan_en_epub_source
       - bookdash_little_ants_big_plan_xh
+      - bookdash_little_ants_big_plan_xh_epub_source
       - bookdash_londi_the_dreaming_girl_en
+      - bookdash_londi_the_dreaming_girl_en_epub_source
       - bookdash_lory_dory_en
+      - bookdash_lory_dory_en_epub_source
       - bookdash_maddy_moona_en
+      - bookdash_maddy_moona_en_epub_source
       - bookdash_miss_helens_magical_world_en
+      - bookdash_miss_helens_magical_world_en_epub_source
       - bookdash_queen_of_soweto_en
+      - bookdash_queen_of_soweto_en_epub_source
       - bookdash_rafikis_style_en
+      - bookdash_rafikis_style_en_epub_source
       - bookdash_rafikis_style_xh
+      - bookdash_rafikis_style_xh_epub_source
       - bookdash_sbus_special_shoes_en
+      - bookdash_sbus_special_shoes_en_epub_source
       - bookdash_searching_for_the_spirit_of_spring_en
+      - bookdash_searching_for_the_spirit_of_spring_en_epub_source
       - bookdash_searching_for_the_spirit_of_spring_xh
+      - bookdash_searching_for_the_spirit_of_spring_xh_epub_source
       - bookdash_sima_and_siza_en
+      - bookdash_sima_and_siza_en_epub_source
       - bookdash_sindi_and_the_moon_en
+      - bookdash_sindi_and_the_moon_en_epub_source
       - bookdash_sindiwe_and_the_fireflies_en
+      - bookdash_sindiwe_and_the_fireflies_en_epub_source
       - bookdash_sindiwe_and_the_fireflies_xh
+      - bookdash_sindiwe_and_the_fireflies_xh_epub_source
       - bookdash_singing_the_truth_en
+      - bookdash_singing_the_truth_en_epub_source
       - bookdash_singing_the_truth_fr
+      - bookdash_singing_the_truth_fr_epub_source
       - bookdash_singing_the_truth_xh
+      - bookdash_singing_the_truth_xh_epub_source
       - bookdash_sizwes_smile_en
+      - bookdash_sizwes_smile_en_epub_source
       - bookdash_sizwes_smile_fr
+      - bookdash_sizwes_smile_fr_epub_source
       - bookdash_sizwes_smile_xh
+      - bookdash_sizwes_smile_xh_epub_source
       - bookdash_sleepy_mr_sloth_en
+      - bookdash_sleepy_mr_sloth_en_epub_source
       - bookdash_sleepy_mr_sloth_fr
+      - bookdash_sleepy_mr_sloth_fr_epub_source
       - bookdash_sleepy_mr_sloth_xh
+      - bookdash_sleepy_mr_sloth_xh_epub_source
       - bookdash_thatos_birthday_surprise_en
+      - bookdash_thatos_birthday_surprise_en_epub_source
       - bookdash_there_must_be_a_rainbow_en
+      - bookdash_there_must_be_a_rainbow_en_epub_source
       - bookdash_together_were_strong_en
+      - bookdash_together_were_strong_en_epub_source
       - bookdash_tortoise_finds_his_home_en
+      - bookdash_tortoise_finds_his_home_en_epub_source
       - bookdash_tortoise_finds_his_home_fr
+      - bookdash_tortoise_finds_his_home_fr_epub_source
       - bookdash_tortoise_finds_his_home_xh
+      - bookdash_tortoise_finds_his_home_xh_epub_source
       - bookdash_walking_together_en
+      - bookdash_walking_together_en_epub_source
       - bookdash_walking_together_xh
+      - bookdash_walking_together_xh_epub_source
       - bookdash_what_if_en
+      - bookdash_what_if_en_epub_source
       - bookdash_whose_button_is_this_en
+      - bookdash_whose_button_is_this_en_epub_source
       - bookdash_why_is_nita_upside_down_en
+      - bookdash_why_is_nita_upside_down_en_epub_source
       - bookdash_zanele_situ_my_story_en
+      - bookdash_zanele_situ_my_story_en_epub_source
       - gutenberg_en_lcc_pz
       target_bytes: 19818807444
       status: ready
-      reason: 'A bounded published selection: all 61 pinned Book Dash EPUBs plus the English Gutenberg
-        juvenile-literature archive. Preserves the existing books. EPUB and ZIM readers are required;
-        this does not claim complete African Storybook or a direct PDF export.'
+      reason: 'A bounded published selection: OWL PDF conversions of all 61 pinned Book Dash EPUBs plus
+        the English Gutenberg juvenile-literature archive. Preserves the existing books. The Gutenberg
+        ZIM requires a reader; this does not claim complete African Storybook or a publisher PDF edition.'
 optional_assets:
   gutenberg_english_full:
   - gutenberg_en_all

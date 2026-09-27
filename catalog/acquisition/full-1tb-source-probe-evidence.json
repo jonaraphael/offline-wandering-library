@@ -1,0 +1,202 @@
+{
+  "body_downloads": 0,
+  "operation": "source-pin-probe",
+  "pending_count": 7,
+  "proposed_count": 0,
+  "records": [
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:40:23.341479+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/ME/ME_Abol_Pond_20240807_TM_geo.pdf",
+          "headers": {
+            "content-length": "56124715",
+            "content-type": "application/pdf",
+            "etag": "\"6a5515d40c3931425475d893da96c8f1-7\"",
+            "last-modified": "Tue, 13 Aug 2024 01:11:07 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/ME/ME_Abol_Pond_20240807_TM_geo.pdf"
+        }
+      ],
+      "id": "usgs_abol_pond_2024",
+      "sha256": null,
+      "size_bytes": 56124715,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/ME/ME_Abol_Pond_20240807_TM_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:40:23.633952+00:00",
+          "final_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/250000/ME_Woodstock_461040_1963_250000_geo.pdf",
+          "headers": {
+            "content-length": "18788579",
+            "content-type": "application/pdf",
+            "etag": "\"a28299127c5bc67dc964e5d0970be392-3\"",
+            "last-modified": "Thu, 26 Sep 2024 03:50:25 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/250000/ME_Woodstock_461040_1963_250000_geo.pdf"
+        }
+      ],
+      "id": "usgs_woodstock_1963",
+      "sha256": null,
+      "size_bytes": 18788579,
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/250000/ME_Woodstock_461040_1963_250000_geo.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Source HEAD returned HTTP 404; availability is unresolved"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:40:24.049729+00:00",
+          "final_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_bm.pdf",
+          "headers": {
+            "content-type": "text/html; charset=UTF-8"
+          },
+          "method": "HEAD",
+          "status": 404,
+          "url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_bm.pdf"
+        }
+      ],
+      "id": "hesperian_midwives_2026_back_matter",
+      "sha256": null,
+      "size_bytes": null,
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_bm.pdf",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:40:25.064682+00:00",
+          "final_url": "https://dn720201.ca.archive.org/0/items/stackexchange/stackoverflow.com-Posts.7z",
+          "headers": {
+            "content-length": "23026928274",
+            "content-type": "application/x-7z-compressed",
+            "etag": "\"66127e1a-55c830a92\"",
+            "last-modified": "Sun, 07 Apr 2024 11:06:02 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://archive.org/download/stackexchange/stackoverflow.com-Posts.7z"
+        }
+      ],
+      "id": "stackoverflow_202404_posts",
+      "sha256": null,
+      "size_bytes": 23026928274,
+      "source_url": "https://archive.org/download/stackexchange/stackoverflow.com-Posts.7z",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:40:25.955487+00:00",
+          "final_url": "https://dn720201.ca.archive.org/0/items/stackexchange/stackoverflow.com-Comments.7z",
+          "headers": {
+            "content-length": "6997473057",
+            "content-type": "application/x-7z-compressed",
+            "etag": "\"6611e6ca-1a114f721\"",
+            "last-modified": "Sun, 07 Apr 2024 00:20:26 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://archive.org/download/stackexchange/stackoverflow.com-Comments.7z"
+        }
+      ],
+      "id": "stackoverflow_202404_comments",
+      "sha256": null,
+      "size_bytes": 6997473057,
+      "source_url": "https://archive.org/download/stackexchange/stackoverflow.com-Comments.7z",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:40:26.761196+00:00",
+          "final_url": "https://dn720201.ca.archive.org/0/items/stackexchange/stackoverflow.com-Users.7z",
+          "headers": {
+            "content-length": "990180949",
+            "content-type": "application/x-7z-compressed",
+            "etag": "\"6611c140-3b04f655\"",
+            "last-modified": "Sat, 06 Apr 2024 21:40:16 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://archive.org/download/stackexchange/stackoverflow.com-Users.7z"
+        }
+      ],
+      "id": "stackoverflow_202404_users",
+      "sha256": null,
+      "size_bytes": 990180949,
+      "source_url": "https://archive.org/download/stackexchange/stackoverflow.com-Users.7z",
+      "status": "pending"
+    },
+    {
+      "blockers": [
+        "Publisher metadata supplies no whole-file SHA-256; ETag/MD5/SHA-1 are not pins"
+      ],
+      "body_downloads": 0,
+      "evidence": [
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-23T03:40:27.808023+00:00",
+          "final_url": "https://dn720201.ca.archive.org/0/items/stackexchange/stackoverflow.com-PostLinks.7z",
+          "headers": {
+            "content-length": "151452449",
+            "content-type": "application/x-7z-compressed",
+            "etag": "\"6611bb12-906fb21\"",
+            "last-modified": "Sat, 06 Apr 2024 21:13:54 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://archive.org/download/stackexchange/stackoverflow.com-PostLinks.7z"
+        }
+      ],
+      "id": "stackoverflow_202404_postlinks",
+      "sha256": null,
+      "size_bytes": 151452449,
+      "source_url": "https://archive.org/download/stackexchange/stackoverflow.com-PostLinks.7z",
+      "status": "pending"
+    }
+  ],
+  "schema_version": 1
+}

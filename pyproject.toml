@@ -12,9 +12,12 @@ dependencies = ["PyYAML>=6.0.2,<7", "pypdf[crypto]>=6.10,<7", "fonttools>=4.60,<
 
 [project.optional-dependencies]
 zim = ["libzim>=3.7,<4"]
+acquisition = ["Shapely>=2,<3"]
+pdf = ["PyMuPDF==1.28.2"]
 
 [project.scripts]
 owl-build = "owl.build:main"
+owl-job = "owl.jobs:main"
 owl-validate = "owl.catalog:main"
 owl-verify = "owl.verify:main"
 owl-copy = "owl.copy:main"
@@ -22,9 +25,10 @@ owl-atlas = "owl.atlas_build:main"
 owl-import-sections = "owl.atlas_import:main"
 owl-selector = "owl.selector:main"
 owl-export-direct = "owl.export_direct:main"
+owl-acquire = "owl.acquisition.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-owl = ["templates/*.html", "templates/*.js"]
+owl = ["templates/*.html", "templates/*.js", "templates/*.cjs"]

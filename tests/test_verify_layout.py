@@ -3,12 +3,14 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from owl import verify
 
@@ -67,6 +69,70 @@ class VerifyLayoutTests(unittest.TestCase):
         self.assertEqual(result["FAILED"], 0)
         self.assertEqual(result["UNKNOWN"], 3)
         self.assertFalse(any("scratch.bin" in line for line in messages))
+
+    def test_inaccessible_root_volume_metadata_does_not_hide_personal_files_or_errors(self):
+        names = (".Trashes", ".Spotlight-V100", ".fseventsd", ".TemporaryItems")
+        blocked = {self.root / name for name in names}
+        for directory in blocked:
+            directory.mkdir()
+        (self.root / "personal.txt").write_text("Keep this personal file", encoding="utf-8")
+        real_scandir = os.scandir
+        attempted = []
+
+        def protected_scandir(directory):
+            attempted.append(Path(directory))
+            if Path(directory) in blocked:
+                raise PermissionError(13, "Permission denied", os.fspath(directory))
+            return real_scandir(directory)
+
+        with patch("owl.verify.os.scandir", side_effect=protected_scandir):
+            result, messages = self.check()
+            self.assertEqual(result, {"OK": 3, "MISSING": 0, "FAILED": 0, "UNKNOWN": 1})
+            self.assertTrue(any(line.startswith("UNKNOWN") and "personal.txt" in line for line in messages))
+            self.assertTrue(blocked.isdisjoint(attempted))
+            # Unreadable personal directories must still fail the verification.
+            personal = self.root / "personal-directory"
+            personal.mkdir()
+            blocked.add(personal)
+            result, messages = self.check()
+            self.assertEqual(result["FAILED"], 1)
+            self.assertTrue(any(line.startswith("FAILED") and "personal-directory" in line for line in messages))
+
+    def test_same_named_volume_metadata_inside_library_is_enumerated_and_verified(self):
+        for name in (".Trashes", ".Spotlight-V100", ".fseventsd", ".TemporaryItems"):
+            directory = self.library / name
+            directory.mkdir()
+            (directory / "personal.txt").write_text("Unknown nested file", encoding="utf-8")
+        managed = "LIBRARY/.Trashes/managed.txt"
+        (self.root / managed).write_text("Known managed file", encoding="utf-8")
+        self.write_manifest([*self.entries, managed])
+        result, messages = self.check()
+        self.assertEqual(result, {"OK": 4, "MISSING": 0, "FAILED": 0, "UNKNOWN": 4})
+        self.assertTrue(any(line.startswith("UNKNOWN") and "LIBRARY/.Trashes/personal.txt" in line for line in messages))
+        (self.root / managed).write_text("Changed managed file", encoding="utf-8")
+        result, messages = self.check()
+        self.assertEqual(result["FAILED"], 1)
+        self.assertTrue(any(line.startswith("FAILED") and managed in line for line in messages))
+
+    def test_root_volume_metadata_symlinks_are_rejected_before_exclusion(self):
+        outside = self.base / "outside-metadata"
+        outside.mkdir()
+        (outside / "secret.txt").write_text("Must not follow this link", encoding="utf-8")
+        names = (".Trashes", ".Spotlight-V100", ".fseventsd", ".TemporaryItems")
+        try:
+            for name in names:
+                (self.root / name).symlink_to(outside, target_is_directory=True)
+        except (OSError, NotImplementedError):
+            self.skipTest("directory symlinks unavailable")
+        result, messages = self.check()
+        self.assertEqual(result["FAILED"], len(names))
+        self.assertFalse(any("secret.txt" in line for line in messages))
+
+    def test_root_files_with_volume_metadata_names_are_not_excluded(self):
+        for name in (".Trashes", ".Spotlight-V100", ".fseventsd", ".TemporaryItems"):
+            (self.root / name).write_text("This is a file, not a volume directory", encoding="utf-8")
+        result, _messages = self.check()
+        self.assertEqual(result, {"OK": 3, "MISSING": 0, "FAILED": 0, "UNKNOWN": 4})
 
     def test_incomplete_and_malformed_nested_state_fail(self):
         private = self.library / ".owl"

@@ -1,0 +1,95 @@
+schema_version: 1
+assets:
+- id: docs_linux_manpages_619_source
+  title: Linux man-pages 6.19 original sources and notices
+  category: programming
+  format: tar.xz
+  source_url: https://www.kernel.org/pub/linux/docs/man-pages/man-pages-6.19.tar.xz
+  destination: REFERENCE/COMPUTING/SOURCES/man-pages-6.19.tar.xz
+  version: '6.19'
+  size_bytes: 1908136
+  sha256: 88a7c42ad2e03d8b96dc72d95e451f2d875ff0f43103a8eb8ac8242133bdcb05
+  license: Mixed per-page licenses including BSD, GPL, LGPL and Linux-man-pages licenses;
+    preserve original source notices
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Linux man-pages contributors
+  source_page: https://www.kernel.org/pub/linux/docs/man-pages/man-pages-6.19.tar.xz
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: Linux man-pages contributors; original authors and all source notices
+    are retained in the unmodified release archive.
+  description: Pinned original release source companion with publisher notices, retained
+    intact for offline reference. Supporting package bytes are excluded from readable-document
+    and knowledge totals.
+  resource_type: archive
+  illustrated: false
+  supporting_file: true
+- id: docs_openssh_105p1_source
+  title: OpenSSH portable 10.5p1 original sources and notices
+  category: programming
+  format: tar.gz
+  source_url: https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.5p1.tar.gz
+  destination: REFERENCE/COMPUTING/SOURCES/openssh-10.5p1.tar.gz
+  version: 10.5p1
+  size_bytes: 2333659
+  sha256: d44d28a839ea9daf969cc69150fde59910b2b39361dad81a3bd6cbd19218db11
+  license: Mixed permissive licenses described by the original LICENCE file; retain
+    all per-file notices
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: OpenSSH contributors
+  source_page: https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.5p1.tar.gz
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: OpenSSH contributors; original authors and all source notices are retained
+    in the unmodified release archive.
+  description: Pinned original release source companion with publisher notices, retained
+    intact for offline reference. Supporting package bytes are excluded from readable-document
+    and knowledge totals.
+  resource_type: archive
+  illustrated: false
+  supporting_file: true
+resource_updates:
+- id: linux-programming-docs
+  add_asset_ids:
+  - docs_linux_manpages_619_source
+  - docs_openssh_105p1_source
+  status: partial
+  reason: Pinned ordinary manuals and complete Python/SQLite documentation packages
+    are available, with Linux man-pages 6.19 and OpenSSH portable 10.5p1 original-source
+    and notice companions. Four OpenBSD 7.9 manuals (ssh-keygen, sftp-server, ssh-keyscan,
+    ssh-keysign), remaining external cross-references and intended-device verification
+    remain open.
+evidence:
+- asset_id: docs_linux_manpages_619_source
+  original_capture: '2026-09-18'
+  method: Preserved publisher original compared with download-log.json; streaming
+    SHA-256 recheck through acquire_content.py prepare-local; no new source request.
+  notice_location: man-pages-6.19/LICENSES/
+  scope: Source companion only; no extraction, conversion, code execution or claim
+    to complete the missing OpenBSD 7.9 manual set.
+- asset_id: docs_openssh_105p1_source
+  original_capture: '2026-09-18'
+  method: Preserved publisher original compared with download-log.json; streaming
+    SHA-256 recheck through acquire_content.py prepare-local; no new source request.
+  notice_location: openssh-10.5p1/LICENCE
+  scope: Source companion only; no extraction, conversion, code execution or claim
+    to complete the missing OpenBSD 7.9 manual set.
+local_verification:
+- asset_id: docs_linux_manpages_619_source
+  size_bytes: 1908136
+  sha256: 88a7c42ad2e03d8b96dc72d95e451f2d875ff0f43103a8eb8ac8242133bdcb05
+  method: Streaming hash of preserved local original; no network request or source
+    conversion
+- asset_id: docs_openssh_105p1_source
+  size_bytes: 2333659
+  sha256: d44d28a839ea9daf969cc69150fde59910b2b39361dad81a3bd6cbd19218db11
+  method: Streaming hash of preserved local original; no network request or source
+    conversion

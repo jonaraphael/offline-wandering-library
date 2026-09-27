@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 import sys
 
-from .catalog import load_catalog, load_profiles
+from .catalog import load_catalog, load_profiles, read_yaml
 from .resources import load_resources, resource_asset_ids
 from .safety import atomic_write, reject_symlinks
 
@@ -30,8 +30,9 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
         row["preset_resource_ids"] = profile.get("default_resources", [identity for identity, resource in resources.items()
             if pinned & resource_asset_ids(resource)])
         visible.append(row)
-    fields = ("id", "title", "category", "status", "size_bytes", "format", "destination", "critical", "required",
-              "reader_required", "resource_type", "illustrated", "profiles")
+    fields = ("id", "title", "category", "status", "size_bytes", "sha256", "format", "destination", "critical", "required",
+              "reader_required", "resource_type", "illustrated", "profiles", "supporting_file", "archive_member", "generation", "generation_source_asset_ids",
+              "generation_source_resource_ids", "generation_build_inputs", "generation_build_input_members", "generation_build_input_metadata_bytes")
     cli = {}
     for flag, path, default in (("--catalog", catalog, ROOT / "catalog/library.yaml"),
                                 ("--profiles-dir", profiles_dir, ROOT / "profiles"),
@@ -44,6 +45,7 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
             "catalog_sha256": hashlib.sha256(catalog.read_bytes()).hexdigest(),
             "resources_sha256": hashlib.sha256(resources_path.read_bytes()).hexdigest(),
             "profiles": visible, "resources": list(resources.values()),
+            "acquisition_recipes": read_yaml(catalog).get("acquisition_recipes", []),
             "assets": [{key: a[key] for key in fields if key in a} for a in assets]}
 
 

@@ -1,0 +1,476 @@
+{
+  "schema_version": 1,
+  "recipe_id": "openssh-portable-10-5p1-v1",
+  "edition": "OpenSSH portable 10.5p1",
+  "source_asset_id": "docs_openssh_105p1_source",
+  "source_sha256": "d44d28a839ea9daf969cc69150fde59910b2b39361dad81a3bd6cbd19218db11",
+  "source_size_bytes": 2333659,
+  "renderer_probe_sha256": "f83ee55105cf5cad84ccfaa030d841690b94eb098b43bc947d28875c08bcff34",
+  "renderer": "mandoc HTML fragment, fixed edition/locale; exact output pins reject implementation drift",
+  "manual_count": 16,
+  "output_count": 33,
+  "output_bytes": 928907,
+  "body_reviews": [
+    {
+      "asset_id": "docs_openssh_105p1_ssh_copy_id_1",
+      "normalized_body_sha256": "8532cc2a6c22c264a6b2feaf69513a744bea94eefb30869afc1dbf0528433856",
+      "body_characters": 5556,
+      "tables": 2,
+      "previous_render_text_matches": null
+    },
+    {
+      "asset_id": "docs_openssh_105p1_moduli_5",
+      "normalized_body_sha256": "db11d9259b9e829cde304f95cd7624b79386d5c4521033a236a07665958566cf",
+      "body_characters": 2471,
+      "tables": 0,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_scp_1",
+      "normalized_body_sha256": "442e3bc1f0d80974c0959353d4072136b2b7f06ecbf7a9c3fe77f235954131c4",
+      "body_characters": 7621,
+      "tables": 1,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_sftp_server_8",
+      "normalized_body_sha256": "45b6aac0b9451cb286b3e28ce04fdfccd391f907c6217e42a4d8233aaaf8a17f",
+      "body_characters": 3721,
+      "tables": 2,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_sftp_1",
+      "normalized_body_sha256": "9cbdd0c58dc579ac672c182c8bc8d9550f81bb5891ac78aeaed812b9ba3f03d5",
+      "body_characters": 14249,
+      "tables": 1,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_ssh_add_1",
+      "normalized_body_sha256": "9e69183bc5ef48717ee34bffcf589cd08ad5c22b70ed3ad156b0982951c15826",
+      "body_characters": 8517,
+      "tables": 5,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_ssh_agent_1",
+      "normalized_body_sha256": "39525d208961afff837e7a87796931f98d65e483758b820171c162675b5ec407",
+      "body_characters": 7269,
+      "tables": 5,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_ssh_keygen_1",
+      "normalized_body_sha256": "c23a23daae4a13bf234ec05291a02e64b64168955d57456ea473a3e9573ac84e",
+      "body_characters": 37818,
+      "tables": 26,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_ssh_keyscan_1",
+      "normalized_body_sha256": "e0102b334af34a4fbbdf239ef5a4f797575280daa9f6d8753045837c83afd734",
+      "body_characters": 4395,
+      "tables": 1,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_ssh_keysign_8",
+      "normalized_body_sha256": "48b07e587b5e4d4322b730831394d770c05d7a8c521b0fdde4d806479b6f449f",
+      "body_characters": 1447,
+      "tables": 1,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_ssh_pkcs11_helper_8",
+      "normalized_body_sha256": "7b0f6d5f2ed1b98edf9905396eddf243ede02a115ad102a3f36787e7999da219",
+      "body_characters": 812,
+      "tables": 1,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_ssh_sk_helper_8",
+      "normalized_body_sha256": "6ade80034b8ab9d83619327e114f2333db780a29f9435175c70da1d8fe3384be",
+      "body_characters": 797,
+      "tables": 1,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_ssh_1",
+      "normalized_body_sha256": "3e17238eb9925d734ab1bb9fc7e6d67c086b585bc35f360c8f850688b0cc4daf",
+      "body_characters": 40141,
+      "tables": 2,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_ssh_config_5",
+      "normalized_body_sha256": "5b0327b2dac987e8a33b5b7fe248593fa937200d8e3cafaca79985a40c244445",
+      "body_characters": 65433,
+      "tables": 0,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_sshd_8",
+      "normalized_body_sha256": "fbb72d365779d601cfac0600fc8cbc584e6517cda0e5325518fe336f03e66090",
+      "body_characters": 29058,
+      "tables": 1,
+      "previous_render_text_matches": true
+    },
+    {
+      "asset_id": "docs_openssh_105p1_sshd_config_5",
+      "normalized_body_sha256": "6ce927d2c77b2e8fadc1d60808896046bdcca46a8185332febd2a7080229a0f0",
+      "body_characters": 60037,
+      "tables": 0,
+      "previous_render_text_matches": true
+    }
+  ],
+  "replaced_default_asset_ids": [
+    "docs_openssh_openbsd79_ssh_1",
+    "docs_openssh_openbsd79_sshd_8",
+    "docs_openssh_openbsd79_ssh_config_5",
+    "docs_openssh_openbsd79_sshd_config_5",
+    "docs_openssh_openbsd79_ssh_agent_1",
+    "docs_openssh_openbsd79_ssh_add_1",
+    "docs_openssh_openbsd79_sftp_1",
+    "docs_openssh_openbsd79_scp_1",
+    "docs_openssh_release_license"
+  ],
+  "manuals": [
+    {
+      "member": "openssh-10.5p1/contrib/ssh-copy-id.1",
+      "sha256": "ab85a3d3a7267eba91744582ec53ec5bd778188469bf3bd5900013bdac5ee990",
+      "html_asset_id": "docs_openssh_105p1_ssh_copy_id_1",
+      "source_asset_id": "docs_openssh_105p1_ssh_copy_id_1_source"
+    },
+    {
+      "member": "openssh-10.5p1/moduli.5",
+      "sha256": "2ead1482393252b103de3cd5c31c1a025e7b7b746357799175d3001f18d781f9",
+      "html_asset_id": "docs_openssh_105p1_moduli_5",
+      "source_asset_id": "docs_openssh_105p1_moduli_5_source"
+    },
+    {
+      "member": "openssh-10.5p1/scp.1",
+      "sha256": "32966f40938f813baedadfe7b88b410ace14b7f75e5a655d70aed9836fe647af",
+      "html_asset_id": "docs_openssh_105p1_scp_1",
+      "source_asset_id": "docs_openssh_105p1_scp_1_source"
+    },
+    {
+      "member": "openssh-10.5p1/sftp-server.8",
+      "sha256": "5ca486a10ecd21f5d42e6351ef34c8a6e79280840d2a534172969b9dcf5566ea",
+      "html_asset_id": "docs_openssh_105p1_sftp_server_8",
+      "source_asset_id": "docs_openssh_105p1_sftp_server_8_source"
+    },
+    {
+      "member": "openssh-10.5p1/sftp.1",
+      "sha256": "29301db4c4c016483fc4d3c42652f678cc99bcfaec16cbb2490151fc172a15f7",
+      "html_asset_id": "docs_openssh_105p1_sftp_1",
+      "source_asset_id": "docs_openssh_105p1_sftp_1_source"
+    },
+    {
+      "member": "openssh-10.5p1/ssh-add.1",
+      "sha256": "85311636f16ffbc1f99aba9352559d7968f28253be360b021185db38f7c50331",
+      "html_asset_id": "docs_openssh_105p1_ssh_add_1",
+      "source_asset_id": "docs_openssh_105p1_ssh_add_1_source"
+    },
+    {
+      "member": "openssh-10.5p1/ssh-agent.1",
+      "sha256": "1a99f2b0f85bd25a0e885381a749924e976b5f3fefcc7e062580112425ff86f9",
+      "html_asset_id": "docs_openssh_105p1_ssh_agent_1",
+      "source_asset_id": "docs_openssh_105p1_ssh_agent_1_source"
+    },
+    {
+      "member": "openssh-10.5p1/ssh-keygen.1",
+      "sha256": "d40597a5a1d841a07c5b61e51ea229020d86256dd68b01b892c9a3ffde8e963d",
+      "html_asset_id": "docs_openssh_105p1_ssh_keygen_1",
+      "source_asset_id": "docs_openssh_105p1_ssh_keygen_1_source"
+    },
+    {
+      "member": "openssh-10.5p1/ssh-keyscan.1",
+      "sha256": "fdab4f7e0bab27ab1741cd60682b8c0d6382607f5eaacd8240541b310568ff71",
+      "html_asset_id": "docs_openssh_105p1_ssh_keyscan_1",
+      "source_asset_id": "docs_openssh_105p1_ssh_keyscan_1_source"
+    },
+    {
+      "member": "openssh-10.5p1/ssh-keysign.8",
+      "sha256": "6d48586e207016632607681c4cbb8cd794a38a528cca1544c1a8b993534570ed",
+      "html_asset_id": "docs_openssh_105p1_ssh_keysign_8",
+      "source_asset_id": "docs_openssh_105p1_ssh_keysign_8_source"
+    },
+    {
+      "member": "openssh-10.5p1/ssh-pkcs11-helper.8",
+      "sha256": "355551c6939d47851c14ab0be199115f1423e7ad8168f10937a7fc34847894d7",
+      "html_asset_id": "docs_openssh_105p1_ssh_pkcs11_helper_8",
+      "source_asset_id": "docs_openssh_105p1_ssh_pkcs11_helper_8_source"
+    },
+    {
+      "member": "openssh-10.5p1/ssh-sk-helper.8",
+      "sha256": "f36ca61e96cdb0ad62a436149b83b3477415f8f79412de06dd4b573db2c3d5e1",
+      "html_asset_id": "docs_openssh_105p1_ssh_sk_helper_8",
+      "source_asset_id": "docs_openssh_105p1_ssh_sk_helper_8_source"
+    },
+    {
+      "member": "openssh-10.5p1/ssh.1",
+      "sha256": "c500e8177346aa127b15219e84a9cc566363c1fd20a95e0d6e60ad84a7c99bfb",
+      "html_asset_id": "docs_openssh_105p1_ssh_1",
+      "source_asset_id": "docs_openssh_105p1_ssh_1_source"
+    },
+    {
+      "member": "openssh-10.5p1/ssh_config.5",
+      "sha256": "6ef2f7058a6b7be91ffcc3292075cba6177542e535ae1749c3426a3fcc541f4d",
+      "html_asset_id": "docs_openssh_105p1_ssh_config_5",
+      "source_asset_id": "docs_openssh_105p1_ssh_config_5_source",
+      "section_links": {
+        "#TIME_FORMATS": {
+          "target": "sshd_config.5.html#TIME_FORMATS",
+          "expected_count": 3
+        },
+        "#VERIFYING_HOST_KEYS": {
+          "target": "ssh.1.html#VERIFYING_HOST_KEYS",
+          "expected_count": 2
+        }
+      }
+    },
+    {
+      "member": "openssh-10.5p1/sshd.8",
+      "sha256": "74dde0667a4c99e679f565847af56d1e002dbf6f71d6977f4531d573611eecba",
+      "html_asset_id": "docs_openssh_105p1_sshd_8",
+      "source_asset_id": "docs_openssh_105p1_sshd_8_source"
+    },
+    {
+      "member": "openssh-10.5p1/sshd_config.5",
+      "sha256": "c6ff3f09207fc448bdf134a1d94274dc0bc38d6a61b4bd4787d4ea1c61694118",
+      "html_asset_id": "docs_openssh_105p1_sshd_config_5",
+      "source_asset_id": "docs_openssh_105p1_sshd_config_5_source",
+      "section_links": {
+        "#PATTERNS": {
+          "target": "ssh_config.5.html#PATTERNS",
+          "expected_count": 1
+        }
+      }
+    }
+  ],
+  "notice": {
+    "member": "openssh-10.5p1/LICENCE",
+    "sha256": "5bb5b160726ef5756e4f32fe95b35249c294962419650f48d05134b486d27ccb",
+    "asset_id": "docs_openssh_105p1_licence"
+  },
+  "outputs": [
+    {
+      "id": "docs_openssh_105p1_ssh_copy_id_1",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-copy-id.1.html",
+      "size_bytes": 12420,
+      "sha256": "4453249b27ec862b4e08daf60bb2af749961baccf3b68047e17e169acf11a253"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_copy_id_1_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-copy-id.1.source.txt",
+      "size_bytes": 7288,
+      "sha256": "ab85a3d3a7267eba91744582ec53ec5bd778188469bf3bd5900013bdac5ee990"
+    },
+    {
+      "id": "docs_openssh_105p1_moduli_5",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/moduli.5.html",
+      "size_bytes": 6914,
+      "sha256": "f60152c5cb0fa2da16d8a2d1c06867ae4f5b9196370d1554726bccd3124d0402"
+    },
+    {
+      "id": "docs_openssh_105p1_moduli_5_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/moduli.5.source.txt",
+      "size_bytes": 3692,
+      "sha256": "2ead1482393252b103de3cd5c31c1a025e7b7b746357799175d3001f18d781f9"
+    },
+    {
+      "id": "docs_openssh_105p1_scp_1",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/scp.1.html",
+      "size_bytes": 22652,
+      "sha256": "b0fa3f7dead29df5b3b30d352490b38ffd916f022235ce9c007eebb6e527384b"
+    },
+    {
+      "id": "docs_openssh_105p1_scp_1_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/scp.1.source.txt",
+      "size_bytes": 8976,
+      "sha256": "32966f40938f813baedadfe7b88b410ace14b7f75e5a655d70aed9836fe647af"
+    },
+    {
+      "id": "docs_openssh_105p1_sftp_server_8",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/sftp-server.8.html",
+      "size_bytes": 10075,
+      "sha256": "7b649e288c38da9f2feb5f93f901bb49a107d1352158c90fb52023177016ae50"
+    },
+    {
+      "id": "docs_openssh_105p1_sftp_server_8_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/sftp-server.8.source.txt",
+      "size_bytes": 5367,
+      "sha256": "5ca486a10ecd21f5d42e6351ef34c8a6e79280840d2a534172969b9dcf5566ea"
+    },
+    {
+      "id": "docs_openssh_105p1_sftp_1",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/sftp.1.html",
+      "size_bytes": 39324,
+      "sha256": "3c40952f9ab70ad9909c9a03ec820ec77a57e56300c89d9b6bd973834b45285a"
+    },
+    {
+      "id": "docs_openssh_105p1_sftp_1_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/sftp.1.source.txt",
+      "size_bytes": 18055,
+      "sha256": "29301db4c4c016483fc4d3c42652f678cc99bcfaec16cbb2490151fc172a15f7"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_add_1",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-add.1.html",
+      "size_bytes": 18924,
+      "sha256": "f4b17360139e19a24c20c0f544d3b836e34a87dd4ae99767f7df2ae885f1d8e2"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_add_1_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-add.1.source.txt",
+      "size_bytes": 11208,
+      "sha256": "85311636f16ffbc1f99aba9352559d7968f28253be360b021185db38f7c50331"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_agent_1",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-agent.1.html",
+      "size_bytes": 16572,
+      "sha256": "cfd71d8f7aad3bffe98a41f47b01c161cf23a6f81c6120c609c808b3871f900d"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_agent_1_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-agent.1.source.txt",
+      "size_bytes": 9891,
+      "sha256": "1a99f2b0f85bd25a0e885381a749924e976b5f3fefcc7e062580112425ff86f9"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_keygen_1",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-keygen.1.html",
+      "size_bytes": 73778,
+      "sha256": "9fba0f3a04dcc0654bd8189a9c09433c9c4178975acfbe0a48b9eaa96c1a9a15"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_keygen_1_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-keygen.1.source.txt",
+      "size_bytes": 43035,
+      "sha256": "d40597a5a1d841a07c5b61e51ea229020d86256dd68b01b892c9a3ffde8e963d"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_keyscan_1",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-keyscan.1.html",
+      "size_bytes": 11094,
+      "sha256": "216b8151b641cc91dfdf6dc31352f5202060877e64f9dd4421e12ac212d23b6f"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_keyscan_1_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-keyscan.1.source.txt",
+      "size_bytes": 5172,
+      "sha256": "fdab4f7e0bab27ab1741cd60682b8c0d6382607f5eaacd8240541b310568ff71"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_keysign_8",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-keysign.8.html",
+      "size_bytes": 5965,
+      "sha256": "1f3f92343ef0b67a922acc146038df2fb9101a5457a0e5b1edadc933eccb3b03"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_keysign_8_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-keysign.8.source.txt",
+      "size_bytes": 3038,
+      "sha256": "6d48586e207016632607681c4cbb8cd794a38a528cca1544c1a8b993534570ed"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_pkcs11_helper_8",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-pkcs11-helper.8.html",
+      "size_bytes": 4759,
+      "sha256": "819cd61da62f3da8fbfd456bf2635c9c9466f59af80177e3f8be5bf6f35937f7"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_pkcs11_helper_8_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-pkcs11-helper.8.source.txt",
+      "size_bytes": 1786,
+      "sha256": "355551c6939d47851c14ab0be199115f1423e7ad8168f10937a7fc34847894d7"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_sk_helper_8",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-sk-helper.8.html",
+      "size_bytes": 4725,
+      "sha256": "4438265cf80736b4004f59d660c698cc21983ce7fd4b374357ab3bebb6a245a9"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_sk_helper_8_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh-sk-helper.8.source.txt",
+      "size_bytes": 1787,
+      "sha256": "f36ca61e96cdb0ad62a436149b83b3477415f8f79412de06dd4b573db2c3d5e1"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_1",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh.1.html",
+      "size_bytes": 75127,
+      "sha256": "1a956af626109b66afce2e32e66c60d2c7e3490723fa83ed2444c7e653e840ab"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_1_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh.1.source.txt",
+      "size_bytes": 46004,
+      "sha256": "c500e8177346aa127b15219e84a9cc566363c1fd20a95e0d6e60ad84a7c99bfb"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_config_5",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh_config.5.html",
+      "size_bytes": 111068,
+      "sha256": "305529bff6bdaeddfa867de90a8a2264482b584376e7b6164ef3058fd38f9239"
+    },
+    {
+      "id": "docs_openssh_105p1_ssh_config_5_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/ssh_config.5.source.txt",
+      "size_bytes": 72249,
+      "sha256": "6ef2f7058a6b7be91ffcc3292075cba6177542e535ae1749c3426a3fcc541f4d"
+    },
+    {
+      "id": "docs_openssh_105p1_sshd_8",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/sshd.8.html",
+      "size_bytes": 49603,
+      "sha256": "afbe5fdf4e37ff2450256b8e043d45b7116581c0fb402d2c33cbfa1dcf90a9ba"
+    },
+    {
+      "id": "docs_openssh_105p1_sshd_8_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/sshd.8.source.txt",
+      "size_bytes": 32976,
+      "sha256": "74dde0667a4c99e679f565847af56d1e002dbf6f71d6977f4531d573611eecba"
+    },
+    {
+      "id": "docs_openssh_105p1_sshd_config_5",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/sshd_config.5.html",
+      "size_bytes": 107142,
+      "sha256": "98f03d160a4a7b51501d890765a362023a120d818100a247921891e443fc10f6"
+    },
+    {
+      "id": "docs_openssh_105p1_sshd_config_5_source",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/sshd_config.5.source.txt",
+      "size_bytes": 67101,
+      "sha256": "c6ff3f09207fc448bdf134a1d94274dc0bc38d6a61b4bd4787d4ea1c61694118"
+    },
+    {
+      "id": "docs_openssh_105p1_licence",
+      "destination": "REFERENCE/COMPUTING/OPENSSH_PORTABLE_10_5P1/LICENCE.txt",
+      "size_bytes": 21140,
+      "sha256": "5bb5b160726ef5756e4f32fe95b35249c294962419650f48d05134b486d27ccb"
+    }
+  ],
+  "new_downloads": 0,
+  "remaining_gaps": [
+    "Referenced platform/system manuals outside this release are explicitly listed on each page.",
+    "The former OpenBSD 7.9 edition remains incomplete and is not relabeled as portable 10.5p1.",
+    "Physical-device validation remains separate."
+  ],
+  "browser_review": {
+    "checks": 32,
+    "passed": 32,
+    "viewports": [
+      1280,
+      390
+    ],
+    "runtime_network_requests": 0,
+    "broken_local_files": 0,
+    "broken_anchors": 0,
+    "overflows": 0,
+    "evidence": "catalog/acquisition/openssh-portable-browser-evidence.json"
+  }
+}

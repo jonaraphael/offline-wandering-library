@@ -1,0 +1,105 @@
+{
+  "requests": [
+    {
+      "id": "ocw_b45791a4e78439d54984",
+      "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/3a797988eba0b1aa0a9f5beacf1b446e_ps5.zip"
+    },
+    {
+      "id": "ocw_7e55e144fe6cbdddc748",
+      "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/6.0001-fall-2016.zip"
+    },
+    {
+      "id": "ocw_86f7d3976926b8968252",
+      "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/7b5294e2c78e0aaf273b4149ec55c1b1_ps0.zip"
+    },
+    {
+      "id": "ocw_1404bcaab183df3e4038",
+      "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/bcfbf5fbdae3c9acacfa457c7ad5f46e_ps4.zip"
+    },
+    {
+      "id": "ocw_0947bbab62ebb977856f",
+      "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/d57834a8de13b1579b3e5274e520ea14_ps2.zip"
+    },
+    {
+      "id": "ocw_f303f29ba98b070f8d04",
+      "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/e8b32576c66e2f6cc5d102aca6b757ce_PS3.zip"
+    },
+    {
+      "id": "ocw_f550342a3b635212e40d",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/2028afd5cf3ece2bb1f8bd5855a701e1_hw1.zip"
+    },
+    {
+      "id": "ocw_2a9c350a50f43fd7db2c",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/2a0d66f4af09ceee702954c28979bec9_designLab01.zip"
+    },
+    {
+      "id": "ocw_f6716d4fda543f1264fd",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/2af533f161113a318664c482841194be_hw4.zip"
+    },
+    {
+      "id": "ocw_77631d943d4725f614d7",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/367753989c50fe45aa6e50027febe573_idle-n.zip"
+    },
+    {
+      "id": "ocw_b288b277b80bd7ab1abb",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/4efa52580cd4846178ba427a065d3dfa_designLab02.zip"
+    },
+    {
+      "id": "ocw_94c26806ef6502838131",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/6.01sc-spring-2011.zip"
+    },
+    {
+      "id": "ocw_2e02d1b6bcd8c7dd9525",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/939392fd37d211b5d8e2384edfff3978_designLab03.zip"
+    },
+    {
+      "id": "ocw_a7f9c68ed2b3122af2ad",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/9af2166244f5c9a01596ebc07b56d28e_hw2.zip"
+    },
+    {
+      "id": "ocw_77b863fc75f706950a34",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/b6be46a5fa27608abadcae7b8eefbb9d_swLab02.zip"
+    },
+    {
+      "id": "ocw_64851439dc62991bf888",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/ba621dedc9de8c149367dbf65fc4679d_idleNForWindows.zip"
+    },
+    {
+      "id": "ocw_727d9a3cbc7f6eb0eb94",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/d5dba7aec9eae45e070142b87f75149b_hw3.zip"
+    },
+    {
+      "id": "ocw_bc43e6c65a1d6357d36f",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/d65f0dc2eb97b9c73f7abc1b694bb78c_swLab01.zip"
+    },
+    {
+      "id": "ocw_24db590df595d6eeaf93",
+      "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/f71173ef36fa590014a372185fceee49_swLab03.zip"
+    },
+    {
+      "id": "ocw_438abba537a937c5d718",
+      "url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/8.01sc-fall-2016.zip"
+    },
+    {
+      "id": "ocw_37b8872ab4dbbd1f56fa",
+      "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/18.01sc-fall-2010.zip"
+    },
+    {
+      "id": "ocw_8dd721444178a7282a7b",
+      "url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/18.06sc-fall-2011.zip"
+    },
+    {
+      "id": "ocw_cb1f62f2ba4e088203e1",
+      "url": "https://ocw.mit.edu/courses/5-111sc-principles-of-chemical-science-fall-2014/5.111sc-fall-2014.zip"
+    },
+    {
+      "id": "ocw_4b02724ceb97a8745de9",
+      "url": "https://ocw.mit.edu/courses/7-01sc-fundamentals-of-biology-fall-2011/7.01sc-fall-2011.zip"
+    },
+    {
+      "id": "ocw_15a0a1c616ced87a00ca",
+      "url": "https://ocw.mit.edu/courses/9-00sc-introduction-to-psychology-fall-2011/9.00sc-fall-2011.zip"
+    }
+  ],
+  "schema_version": 1
+}

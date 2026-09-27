@@ -1,0 +1,50 @@
+{
+  "additional_source_bytes": 19527583,
+  "blockers": [
+    "Whole-file SHA-256 unavailable in inspected publisher metadata; do not use the ETag as a checksum.",
+    "PDF body, geographic coverage, legibility, notices and scale await build-time verification and review."
+  ],
+  "body_downloads": 0,
+  "checksum_sidecar_status": "No checksum sidecar linked from the publisher product metadata",
+  "content_ready": false,
+  "coverage": {
+    "basis": "Publisher product description; actual PDF extent and completeness await build-time review",
+    "declared": "All 50 United States at a common scale, including Alaska and Hawaii",
+    "purpose": "National geographic overview only; supplements the New England topo sheet selection",
+    "territories": "Not claimed by this publisher description"
+  },
+  "edition_date_evidence": "USGS product metadata; PDF content/date stamps not inspected",
+  "format": "pdf",
+  "historical_warning": "Historical 2001 edition printed in 2002. Population, administrative details, transportation and other time-sensitive features are not current. This national overview is not a local road, trail or evacuation-route map.",
+  "id": "usgs_usa_general_reference_112764_2001",
+  "metadata_evidence": {
+    "checked_at": "2026-09-23T03:52:15.435338+00:00",
+    "content_type": "text/html",
+    "final_url": "https://store.usgs.gov/product/112764",
+    "kind": "html",
+    "sha256": "935810921151e7c38a43ed0f0b5ad2150f13750b3d39c4db613658cb7cbfdc1a",
+    "size_bytes": 53245,
+    "status": 200,
+    "url": "https://store.usgs.gov/product/112764"
+  },
+  "print_year": 2002,
+  "profile": "full-1tb",
+  "publisher": "U.S. Geological Survey",
+  "publisher_product_id": "112764",
+  "publisher_title": "GENERAL REFERENCE NAT'L ATLAS OF THE US",
+  "resource_id": "regional-maps",
+  "review_status": "pending",
+  "scale": 5000000,
+  "schema_version": 1,
+  "sha256": null,
+  "size_bytes": 19527583,
+  "size_status": "verified-by-head",
+  "source_page": "https://store.usgs.gov/product/112764",
+  "source_probe_evidence": "catalog/acquisition/usa-overview-source-probe-evidence.json",
+  "source_probe_id": "usgs_usa_general_reference_112764_2001",
+  "source_url": "https://store.usgs.gov/assets/yimages/PDF/112764.pdf",
+  "status": "proposed",
+  "survey_year": 2001,
+  "title": "General Reference, National Atlas of the United States",
+  "version_date": "2001-01-01"
+}

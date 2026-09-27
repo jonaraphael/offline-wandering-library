@@ -4,7 +4,8 @@
   const READERS = "archive-readers", OVERHEAD = 16 * 1024 * 1024;
   const DIRECT = new Set(["html", "htm", "pdf", "txt", "md", "png", "jpg", "jpeg"]);
   const isSoftware = asset => asset.destination.split("/")[0] === "SOFTWARE";
-  const isDirect = asset => DIRECT.has(asset.format.toLowerCase()) && !asset.reader_required &&
+  const isDocument = asset => !asset.supporting_file && asset.archive_member?.document !== false;
+  const isDirect = asset => isDocument(asset) && DIRECT.has(asset.format.toLowerCase()) && !asset.reader_required &&
     !["SOFTWARE", "ZIM"].includes(asset.destination.split("/")[0]) && !isSoftware(asset);
   const mapById = rows => Object.fromEntries(rows.map(row => [row.id, row]));
   const sum = values => values.reduce((total, value) => total + value, 0);
@@ -15,9 +16,23 @@
   }
   function preset(model, id) {
     const profile = profileFor(model, id), defaults = new Set(profile.preset_resource_ids);
-    return {profile: id, allowIncomplete: false, atlas: model.atlas_available !== false, items: Object.fromEntries(model.resources.map(row =>
+    return {profile: id, allowIncomplete: false, atlas: model.atlas_available !== false,
+      indexCacheDir: ".owl/index-cache", workDir: ".owl/index-work", indexCacheBudgetBytes: profile.search_budget_bytes,
+      items: Object.fromEntries(model.resources.map(row =>
       [row.id, {included: defaults.has(row.id), edition: !profile.default_resources && defaults.has(row.id) ? "preset" :
         (profile.default_editions?.[row.id] || "published")}]))};
+  }
+  function indexStorage(state) {
+    const errors = [];
+    for (const [key, label] of [["indexCacheDir", "Shared index cache directory"], ["workDir", "Index workspace directory"]]) {
+      const path = state[key];
+      if (typeof path !== "string" || !path.trim() || path.startsWith("-") || /[\x00-\x1f\x7f]/.test(path))
+        errors.push(label + " must be a nonempty path without control characters or a leading dash.");
+    }
+    const value = state.indexCacheBudgetBytes, budget = Number(value);
+    if (!["number", "string"].includes(typeof value) || !/^\d+$/.test(String(value)) || !Number.isSafeInteger(budget) || budget <= 0)
+      errors.push("Retained index cache allowance must be a positive whole number of bytes (at most 9007199254740991).");
+    return {errors, budget: errors.length ? null : budget};
   }
   function selectionArgs(model, state) {
     const profile = profileFor(model, state.profile), defaults = new Set(profile.preset_resource_ids);
@@ -37,7 +52,7 @@
   function resolve(model, state) {
     const profile = profileFor(model, state.profile), resources = mapById(model.resources), assets = mapById(model.assets);
     const args = selectionArgs(model, state), selected = new Set(profile.default_resources || []);
-    const errors = [], warnings = [], overrides = profile.resource_overrides || {};
+    const storage = indexStorage(state), errors = [...storage.errors], warnings = [], overrides = profile.resource_overrides || {};
     args.include.forEach(id => selected.add(id)); args.exclude.forEach(id => selected.delete(id));
     const variants = {}, members = {}, credits = {}, replaced = new Set();
     for (const id of selected) {
@@ -63,6 +78,23 @@
         credits[credit.resource_id] += credit.target_bytes;
     }
     for (const id of selected) members[id] = members[id].filter(asset => !replaced.has(asset));
+    const excludedSources = new Set(args.exclude.flatMap(id => [resources[id].asset_ids,
+      ...Object.values(resources[id].editions || {}).map(row => row.asset_ids)].flat()));
+    const dependencyRemoved = {};
+    for (;;) {
+      const available = new Set(Object.values(members).flat());
+      let changed = false;
+      for (const id of selected) {
+        const removed = members[id].filter(member => assets[member].generation &&
+          ((assets[member].generation_source_asset_ids || []).some(source => excludedSources.has(source) || !available.has(source)) ||
+           (assets[member].generation_source_resource_ids || []).some(source => args.exclude.includes(source) || !selected.has(source))));
+        if (removed.length) {
+          dependencyRemoved[id] = [...(dependencyRemoved[id] || []), ...removed];
+          members[id] = members[id].filter(member => !removed.includes(member)); changed = true;
+        }
+      }
+      if (!changed) break;
+    }
     let candidateIds = new Set(Object.values(members).flat());
     const needsReaders = [...candidateIds].some(id => assets[id].status === "resolved" && assets[id].format.toLowerCase() === "zim");
     const autoIncluded = new Set();
@@ -86,6 +118,7 @@
       const adjusted = target - credits[id];
       if (adjusted < 0) errors.push(resource.title + ": replacement credit exceeds target.");
       let status = resource.status, reason = resource.reason || "";
+      if (dependencyRemoved[id]?.length) {status = "partial"; reason = "Generated editions omitted because their source collection is excluded or absent: " + dependencyRemoved[id].sort().join(", ");}
       if (!group.length) {status = "unresolved"; reason += "; No selected source files remain after overrides or replacements.";}
       else if (pinned.length !== group.length && status === "ready") {status = pinned.length ? "partial" : "unresolved"; reason = "Selected source files are unresolved.";}
       const row = {status, reason, knownBytes: known, targetBytes: Math.max(adjusted, known), assetCount: pinned.length};
@@ -107,25 +140,65 @@
       baseline.forEach(id => candidateIds.add(id));
     }
     const pinnedIds = [...candidateIds].filter(id => assets[id].status === "resolved");
+    for (const id of pinnedIds) {
+      const source = assets[id].archive_member?.source_asset_id;
+      if (source && !pinnedIds.includes(source)) errors.push(assets[id].title + ": select its ZIP source " + source + " as well.");
+    }
+    const recipeIds = new Set(pinnedIds.map(id => assets[id].generation?.recipe_id).filter(Boolean));
+    const recipes = (model.acquisition_recipes || []).filter(recipe => recipeIds.has(recipe.id));
+    if (recipes.length !== recipeIds.size) errors.push("Generated files need their reviewed acquisition recipes.");
+    const selectedWorks = new Set();
+    for (const recipe of recipes) {
+      const buildIds = new Set((recipe.build_inputs || []).map(source => source.id));
+      (recipe.build_input_extractions || []).flatMap(extraction => extraction.members).forEach(member => buildIds.add(member.id));
+      const retained = [...recipe.source_asset_ids.filter(id => !buildIds.has(id)),
+        ...(recipe.dependency_asset_ids || []), ...(recipe.build_inputs || []).flatMap(source => source.notice_asset_ids || [])];
+      if (recipe.review?.status !== "approved" || recipe.blockers.length ||
+          [...retained, ...recipe.output_asset_ids].some(id => !pinnedIds.includes(id)))
+        errors.push(recipe.id + ": select its complete reviewed inputs and output edition.");
+      const works = (recipe.selection.work_ids || []).map(work => ["work", work]);
+      if (recipe.adapter === "zim_direct") {
+        const sourceId = recipe.selection.source_asset_id;
+        const source = assets[sourceId] || (recipe.build_inputs || []).find(input => input.id === sourceId) ||
+          (recipe.build_input_extractions || []).flatMap(extraction => extraction.members).find(member => member.id === sourceId);
+        (recipe.selection.entries || []).forEach(entry => works.push(["zim-entry", source?.sha256 || sourceId, entry]));
+      }
+      for (const work of works) {
+        const key = JSON.stringify(work);
+        if (selectedWorks.has(key)) errors.push("Duplicate selected work: " + work[work.length - 1]);
+        selectedWorks.add(key);
+      }
+    }
+    const buildInputs = new Map(recipes.flatMap(recipe => recipe.build_inputs || []).map(source => [source.id, source]));
+    const buildInputBytes = sum([...new Map([...buildInputs.values()].map(source => [source.sha256, source.size_bytes])).values()]);
+    const expandedInputs = new Map(recipes.flatMap(recipe => recipe.build_input_extractions || []).flatMap(extraction => extraction.members).map(member => [member.id, member]));
+    const buildInputExpandedBytes = sum([...expandedInputs.values()].map(member => member.size_bytes));
+    const buildInputWorkBytes = buildInputBytes + buildInputExpandedBytes;
+    const acquisitionBytes = sum(recipes.map(recipe => (recipe.workspace_bytes || 0) + 65536 +
+      ((recipe.build_inputs || []).length ? 65536 : 0) + 131072 * (recipe.build_input_extractions || []).length +
+      sum(recipe.output_asset_ids.map(id => assets[id]?.size_bytes || 0))));
     if (pinnedIds.some(id => assets[id].format.toLowerCase() === "zim") &&
         !pinnedIds.some(id => assets[id].destination.startsWith("SOFTWARE/")))
       errors.push("The selected files contain ZIM archives without a verified bundled reader.");
     const missingRequired = [...candidateIds].filter(id => assets[id].status !== "resolved" && assets[id].required);
     if (missingRequired.length) errors.push("Required source files are unresolved: " + missingRequired.join(", "));
     const knownBytes = sum(pinnedIds.map(id => assets[id].size_bytes));
+    const downloadBytes = sum(pinnedIds.filter(id => !assets[id].archive_member && !assets[id].generation).map(id => assets[id].size_bytes)) + buildInputBytes;
+    const archiveOutputBytes = sum(pinnedIds.filter(id => assets[id].archive_member).map(id => assets[id].size_bytes));
+    const generatedOutputBytes = sum(pinnedIds.filter(id => assets[id].generation).map(id => assets[id].size_bytes));
     const baselineBytes = sum(baseline.filter(id => assets[id].status === "resolved").map(id => assets[id].size_bytes));
     const contentTargetBytes = sum(Object.entries(rowsById).filter(([id]) => id !== READERS).map(([, row]) => row.targetBytes)) + baselineBytes;
     const readerBytes = rowsById[READERS] ? Math.max(profile.readers_budget_bytes || 0, rowsById[READERS].targetBytes) : 0;
     const intendedBytes = Math.max(knownBytes, contentTargetBytes + readerBytes);
-    const finalBytes = intendedBytes + profile.search_budget_bytes + OVERHEAD;
+    const finalBytes = intendedBytes + profile.search_budget_bytes + OVERHEAD + acquisitionBytes;
     const scratchBytes = profile.index_scratch_budget_bytes ?? 2 * profile.search_budget_bytes;
     const serializationBytes = Math.ceil(3 * profile.search_budget_bytes / 4);
     const extractionBytes = scratchBytes - serializationBytes;
     // The verified raw index survives both phases. The owned extraction
     // database/records are released before browser search files are written.
     const phaseWorkingBytes = serializationBytes + Math.max(extractionBytes, profile.search_budget_bytes);
-    const peakBytes = intendedBytes + OVERHEAD + profile.reserve_bytes + phaseWorkingBytes;
-    const actualPeakBytes = knownBytes + OVERHEAD + profile.reserve_bytes + phaseWorkingBytes;
+    const peakBytes = intendedBytes + OVERHEAD + profile.reserve_bytes + Math.max(phaseWorkingBytes, buildInputWorkBytes) + acquisitionBytes;
+    const actualPeakBytes = knownBytes + OVERHEAD + profile.reserve_bytes + Math.max(phaseWorkingBytes, buildInputWorkBytes) + acquisitionBytes;
     if (finalBytes + profile.reserve_bytes > profile.capacity_bytes) errors.push("Selected content plus search and reserve exceeds this drive size.");
     if (!pinnedIds.length) errors.push("No verified downloadable files are selected.");
     if (actualPeakBytes > profile.capacity_bytes) errors.push("Even the verified files exceed the conservative in-place build budget. Select less content or a larger drive.");
@@ -133,17 +206,23 @@
     if (incomplete.length) warnings.push(incomplete.length + " selected collections need source selection, permissions, or verified files. A partial build contains only currently pinned files.");
     // Count actual cataloged files exactly once, independently of collection planning budgets.
     const pinnedAssets = pinnedIds.map(id => assets[id]);
-    const knowledge = pinnedAssets.filter(asset => !isSoftware(asset));
+    const software = pinnedAssets.filter(isSoftware);
+    const supporting = pinnedAssets.filter(asset => !isSoftware(asset) && !isDocument(asset));
+    const knowledge = pinnedAssets.filter(asset => !isSoftware(asset) && isDocument(asset));
     const directAssets = knowledge.filter(isDirect);
     const knowledgeBytes = sum(knowledge.map(asset => asset.size_bytes));
-    const softwareBytes = knownBytes - knowledgeBytes;
+    const softwareBytes = sum(software.map(asset => asset.size_bytes));
+    const supportingBytes = sum(supporting.map(asset => asset.size_bytes));
     const baselineSoftwareBytes = sum(baseline.map(id => assets[id]).filter(asset => asset.status === "resolved" && isSoftware(asset)).map(asset => asset.size_bytes));
-    const knowledgeTargetBytes = Math.max(knowledgeBytes, contentTargetBytes - baselineSoftwareBytes);
+    const knowledgeTargetBytes = Math.max(knowledgeBytes, contentTargetBytes - baselineSoftwareBytes - supportingBytes);
     const unmetContentBytes = Math.max(0, knowledgeTargetBytes - knowledgeBytes);
     const unchangedPreset = !args.include.length && !args.exclude.length && !Object.keys(args.editions).length;
     const presetBelowTarget = unchangedPreset && knowledgeBytes < (profile.content_target_min_bytes || 0);
+    const presetAboveTarget = unchangedPreset && profile.content_target_max_bytes !== undefined && knowledgeBytes > profile.content_target_max_bytes;
     if (presetBelowTarget && !state.allowIncomplete)
       errors.push("This preset is below its pinned knowledge minimum. Resolve source gaps, customize the selection, or explicitly accept a partial library.");
+    if (presetAboveTarget && !state.allowIncomplete)
+      errors.push("This preset exceeds its pinned knowledge maximum. Remove the lowest-priority optional expansion packages before freezing a complete preset.");
     const underfilled = presetBelowTarget || (unmetContentBytes >= 250 * 10**6 && knowledgeBytes < knowledgeTargetBytes * .8);
     const categories = new Map();
     for (const asset of knowledge) {
@@ -153,8 +232,8 @@
       row.assetCount++; row.bytes += asset.size_bytes;
       if (isDirect(asset)) row.directCount++;
     }
-    const coverage = {knowledgeBytes, softwareBytes, knowledgeTargetBytes, unmetContentBytes,
-      assetCount:pinnedAssets.length, knowledgeCount:knowledge.length, softwareCount:pinnedAssets.length - knowledge.length,
+    const coverage = {knowledgeBytes, softwareBytes, supportingBytes, knowledgeTargetBytes, unmetContentBytes,
+      assetCount:pinnedAssets.length, knowledgeCount:knowledge.length, softwareCount:software.length, supportingCount:supporting.length,
       directBytes:sum(directAssets.map(asset => asset.size_bytes)), directCount:directAssets.length,
       archiveBytes:sum(knowledge.filter(asset => asset.format.toLowerCase() === "zim").map(asset => asset.size_bytes)),
       archiveCount:knowledge.filter(asset => asset.format.toLowerCase() === "zim").length,
@@ -164,7 +243,7 @@
       capacityFraction:profile.capacity_bytes ? knownBytes / profile.capacity_bytes : 0,
       targetFraction:knowledgeTargetBytes ? knowledgeBytes / knowledgeTargetBytes : 0,
       presetTargetMinBytes:profile.content_target_min_bytes || 0, presetTargetMaxBytes:profile.content_target_max_bytes || 0,
-      presetBelowTarget, underfilled};
+      presetBelowTarget, presetAboveTarget, underfilled};
     const criticalCount = pinnedIds.filter(id => assets[id].critical).length;
     if (!criticalCount) warnings.push("No directly readable critical core is selected.");
     if (unchangedPreset) {
@@ -195,8 +274,8 @@
         scope:subsetOnly ? "Preset subset" : "Full intended collection", include:resource.include || [], preferredFormats:resource.preferred_formats || []};
     });
     const canBuild = errors.length === 0 && (!incomplete.length || state.allowIncomplete);
-    return {rows, estimates:{contentTargetBytes, knownBytes, readerBytes, searchBytes:profile.search_budget_bytes, scratchBytes,
-      serializationBytes, extractionBytes, phaseWorkingBytes,
+    return {rows, estimates:{contentTargetBytes, knownBytes, downloadBytes, buildInputBytes, buildInputExpandedBytes, buildInputWorkBytes, archiveOutputBytes, generatedOutputBytes, acquisitionBytes, readerBytes, searchBytes:profile.search_budget_bytes, scratchBytes,
+      serializationBytes, extractionBytes, phaseWorkingBytes, indexCacheBytes:storage.budget,
       metadataBytes:OVERHEAD, reserveBytes:profile.reserve_bytes, finalBytes, peakBytes, actualPeakBytes, capacityBytes:profile.capacity_bytes},
       coverage, errors, warnings, incomplete, canBuild, selectedAssetIds:pinnedIds.sort(), selectionArgs:args};
   }
@@ -207,6 +286,8 @@
   }
   function command(model, state, options) {
     const report = resolve(model, state);
+    const storage = indexStorage(state);
+    if (storage.errors.length) return "";
     if (!options.plan && !report.canBuild) return "";
     const target = options.target || "";
     if (!target.trim() || target.startsWith("-") || /[\x00-\x1f\x7f]/.test(target)) return "";
@@ -215,6 +296,8 @@
     for (const [flag, value] of Object.entries(model.cli || {})) {
       args.push(flag); if (value !== null) args.push(value);
     }
+    args.push("--index-cache-dir", state.indexCacheDir, "--index-cache-budget-bytes", String(storage.budget),
+      "--work-dir", state.workDir);
     const chosen = report.selectionArgs;
     if (chosen.include.length) args.push("--include", chosen.include.join(","));
     if (chosen.exclude.length) args.push("--exclude", chosen.exclude.join(","));
@@ -222,6 +305,7 @@
     if (state.atlas) args.push("--navigation-dir", "catalog/navigation");
     if (state.allowIncomplete) args.push("--allow-incomplete");
     if (options.plan) args.push("--plan");
+    else args.push("--detach");
     return args.map(arg => arg.startsWith("--") && /^[a-z-]+$/.test(arg.slice(2)) ? arg : quote(arg, options.shell)).join(" ");
   }
   root.OWLPlanner = {preset, resolve, command, selectionArgs};

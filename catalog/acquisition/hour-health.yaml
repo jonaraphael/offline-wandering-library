@@ -1,0 +1,313 @@
+schema_version: 1
+assets:
+- id: ndsu_freezing_fn403_2024
+  title: Food Freezing Guide
+  category: food-preservation
+  format: pdf
+  source_url: https://www.ndsu.edu/agriculture/sites/default/files/2024-01/fn403.pdf
+  destination: CRITICAL/FOOD/ndsu_freezing_fn403_2024.pdf
+  version: FN403, reviewed January 2024
+  size_bytes: 779951
+  sha256: 9ca7fdd443f91dfbb3a64f222bd84bf2329bcd496e8ed79d5823575cdb3c8e56
+  license: 'NDSU Creative Commons notice: attribution, noncommercial and share-alike;
+    license version not identified in the PDF'
+  redistributable: true
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: North Dakota State University Extension
+  source_page: https://www.ndsu.edu/agriculture/extension/publications/food-freezing-guide
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: false
+  attribution: North Dakota State University Extension; original authors, illustration/photo
+    credits and publication notices retained unchanged.
+  description: 'Complete original: freezing fruit, vegetables, prepared foods, packaging,
+    storage and thawing. The PDF has 21 physical pages including facing printed-page
+    spreads.'
+- id: umd_drying_ec12
+  title: 'Grow It Eat It Dry It for Adults: Instructor Guide'
+  category: food-preservation
+  format: pdf
+  source_url: https://extension.umd.edu/sites/extension.umd.edu/files/publications/67.%20Grow%20It%2C%20Eat%20It%2C%20Dry%20It%2C%20EC-12%20%282%29_0.pdf
+  destination: CRITICAL/FOOD/umd_drying_ec12.pdf
+  version: EC-12, 2021
+  size_bytes: 6006914
+  sha256: 847116e03e2261d13c379c70b82c3347e009d9f6bd8c6d51a46c79ab831fe23e
+  license: University extension copyright; included UGA material permits attributed
+    nonprofit educational reproduction; posting on other websites requires permission
+  redistributable: false
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: University of Maryland Extension
+  source_page: https://extension.umd.edu/sites/extension.umd.edu/files/publications/67.%20Grow%20It%2C%20Eat%20It%2C%20Dry%20It%2C%20EC-12%20%282%29_0.pdf
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: University of Maryland Extension; original authors, illustration/photo
+    credits and publication notices retained unchanged.
+  description: 'Complete 88-page illustrated curriculum: drying fruits, vegetables,
+    leathers, herbs and meats, preparation, storage, rehydration, references and original
+    notices. Not a current-edition claim.'
+- id: ndsu_steam_canning_fn2065
+  title: Steam Can It Right! Guidelines for Safely Using a Steam Canner for Home Food
+    Preservation
+  category: food-preservation
+  format: pdf
+  source_url: https://www.ncrfsma.org/files/page/files/fn2065_steam_can_it_right_fillable.pdf
+  destination: CRITICAL/FOOD/ndsu_steam_canning_fn2065.pdf
+  version: FN2065, October 2022
+  size_bytes: 1115197
+  sha256: a6ca5b8e7a20544fec02cb39cbc53d5ad4564da6ec1861d8f938315bf9439aa8
+  license: University extension copyright; official educational download; no general
+    electronic redistribution grant established
+  redistributable: false
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: North Central Food Safety Extension Network / NDSU Extension
+  source_page: https://nchfp.uga.edu/newsflash
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: North Central Food Safety Extension Network / NDSU Extension; original
+    authors, illustration/photo credits and publication notices retained unchanged.
+  description: Whole publisher guideline linked by NCHFP September 2026 statement.
+    That newer statement adds required vent-temperature and five-minute postprocessing
+    qualifications and must be read alongside this PDF; the dated update is not yet
+    a reproducible catalog asset.
+- id: ndsu_substitutions_fn2102_2024
+  title: Play it Safe! Safe Changes and Substitutions to Tested Canning Recipes
+  category: food-preservation
+  format: pdf
+  source_url: https://www.ndsu.edu/agriculture/sites/default/files/2024-03/fn2102.pdf
+  destination: CRITICAL/FOOD/ndsu_substitutions_fn2102_2024.pdf
+  version: FN2102, revised March 2024
+  size_bytes: 355236
+  sha256: d3beccc2403f7882a461e8aaff782c24f5b93772124a49776235d4228fa4744f
+  license: University extension copyright; official educational download; no general
+    electronic redistribution grant established
+  redistributable: false
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: North Central Food Safety Extension Network / NDSU Extension
+  source_page: https://nchfp.uga.edu/newsflash
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: North Central Food Safety Extension Network / NDSU Extension; original
+    authors, illustration/photo credits and publication notices retained unchanged.
+  description: Whole four-page publisher guide linked by NCHFP. Preserves permitted
+    substitutions and prohibited changes in their original tables and context.
+- id: uga_using_pressure_canners
+  title: 'Preserving Food: Using Pressure Canners'
+  category: food-preservation
+  format: pdf
+  source_url: https://nchfp.uga.edu/papers/factsheets/Preserving_Food__Using_Pressure_Canners.pdf
+  destination: CRITICAL/FOOD/uga_using_pressure_canners.pdf
+  version: Circular 1344-02, June 2025
+  size_bytes: 2084786
+  sha256: b28d9a07c72f809ffc484094de1c89a13b41479c34fff11bf675003994322944
+  license: University extension copyright; official personal educational download;
+    no general electronic redistribution grant established
+  redistributable: false
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: University of Georgia Cooperative Extension
+  source_page: https://nchfp.uga.edu/publications/uga-publications/using-pressure-canners
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: University of Georgia Cooperative Extension; original authors, illustration/photo
+    credits and publication notices retained unchanged.
+  description: Whole current publisher PDF, including labeled canner diagram and illustrated
+    procedures. Original final-page permalink contains C1334-02 while printed publication
+    number is C1344-02; retain source as supplied.
+- id: nchfp_kombucha_faq
+  title: 'Crafting Kombucha at Home: Frequently Asked Questions'
+  category: food-preservation
+  format: pdf
+  source_url: https://nchfp.uga.edu/images/uploads/FAQs_Consumer_version_Kombucha.pdf
+  destination: CRITICAL/FOOD/nchfp_kombucha_faq.pdf
+  version: University of Georgia Cooperative Extension, 2026
+  size_bytes: 715675
+  sha256: aeb4e934654c33406b80c56ecb632be51be9f1c8e753eb45559ac634392e0dc5
+  license: University extension copyright; official personal educational download;
+    no general electronic redistribution grant established
+  redistributable: false
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: National Center for Home Food Preservation / University of Georgia
+  source_page: https://nchfp.uga.edu/how/ferment/recipes/kombucha-tea/
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: National Center for Home Food Preservation / University of Georgia;
+    original authors, illustration/photo credits and publication notices retained
+    unchanged.
+  description: Complete four-page FAQ linked by the current publisher kombucha recipe.
+    Supplements the already-pinned April 2026 Circular 1312; this FAQ alone is not
+    the full current recipe.
+- id: uga_using_boiling_water_canners_2025
+  title: 'Preserving Food: Using Boiling Water Canners'
+  category: food-preservation
+  format: pdf
+  source_url: https://nchfp.uga.edu/papers/factsheets/Preserving_Food__Using_Boiling_Water_Canners.pdf
+  destination: CRITICAL/FOOD/uga_using_boiling_water_canners_2025.pdf
+  version: Circular 1344-01, May 2025
+  size_bytes: 1145417
+  sha256: 4f87f219303c1b64bc7e12fa704d93a108d3d76e3ab7cdb26163ba97ddbac6e4
+  license: University extension copyright; official personal educational download;
+    no general electronic redistribution grant established
+  redistributable: false
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  publisher: University of Georgia Cooperative Extension
+  source_page: https://nchfp.uga.edu/publications/uga-publications/using-boiling-water-canners
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  attribution: University of Georgia Cooperative Extension; original authors, illustration/photo
+    credits and publication notices retained unchanged.
+  description: Whole current publisher PDF, preserving illustrated canner operation,
+    water-depth instructions and qualifications.
+resource_updates:
+- id: food-preservation
+  asset_ids:
+  - food
+  - canning_00
+  - canning_02
+  - canning_03
+  - canning_04
+  - canning_05
+  - canning_06
+  - canning_07
+  - montana_drying_vegetables_2017
+  - uga_kombucha_c1312
+  - ndsu_freezing_fn403_2024
+  - umd_drying_ec12
+  - ndsu_steam_canning_fn2065
+  - ndsu_substitutions_fn2102_2024
+  - uga_using_pressure_canners
+  - nchfp_kombucha_faq
+  - uga_using_boiling_water_canners_2025
+  status: partial
+  reason: Seventeen exact publisher PDF pins cover canning, freezing, drying, fermentation
+    and food safety, including seven new guides. Required later NCHFP statements and
+    complete current recipe context are only in temporary research snapshots, not
+    reproducible build-time assets; the collection remains partial.
+evidence:
+- asset_id: ndsu_freezing_fn403_2024
+  source_url: https://www.ndsu.edu/agriculture/sites/default/files/2024-01/fn403.pdf
+  final_url: https://www.ndsu.edu/agriculture/sites/default/files/2024-01/fn403.pdf
+  checked_at: '2026-09-19T01:01:17.057684+00:00'
+  http_status: 200
+  content_type: application/pdf
+  size_bytes: 779951
+  sha256: 9ca7fdd443f91dfbb3a64f222bd84bf2329bcd496e8ed79d5823575cdb3c8e56
+  pdf_pages: 21
+  pdfinfo_passed: true
+  pypdf_passed: true
+  local_evidence: /tmp/owl-one-hour/health/ndsu_freezing_fn403_2024.pdf
+- asset_id: umd_drying_ec12
+  source_url: https://extension.umd.edu/sites/extension.umd.edu/files/publications/67.%20Grow%20It%2C%20Eat%20It%2C%20Dry%20It%2C%20EC-12%20%282%29_0.pdf
+  final_url: https://extension.umd.edu/sites/extension.umd.edu/files/publications/67.%20Grow%20It%2C%20Eat%20It%2C%20Dry%20It%2C%20EC-12%20%282%29_0.pdf
+  checked_at: '2026-09-19T01:01:16.866669+00:00'
+  http_status: 200
+  content_type: application/pdf
+  size_bytes: 6006914
+  sha256: 847116e03e2261d13c379c70b82c3347e009d9f6bd8c6d51a46c79ab831fe23e
+  pdf_pages: 88
+  pdfinfo_passed: true
+  pypdf_passed: true
+  local_evidence: /tmp/owl-one-hour/health/umd_drying_ec12.pdf
+- asset_id: ndsu_steam_canning_fn2065
+  source_url: https://www.ncrfsma.org/files/page/files/fn2065_steam_can_it_right_fillable.pdf
+  final_url: https://www.ncrfsma.org/files/page/files/fn2065_steam_can_it_right_fillable.pdf
+  checked_at: '2026-09-19T01:01:17.047240+00:00'
+  http_status: 200
+  content_type: application/pdf
+  size_bytes: 1115197
+  sha256: a6ca5b8e7a20544fec02cb39cbc53d5ad4564da6ec1861d8f938315bf9439aa8
+  pdf_pages: 2
+  pdfinfo_passed: true
+  pypdf_passed: true
+  local_evidence: /tmp/owl-one-hour/health/ndsu_steam_canning_fn2065.pdf
+- asset_id: ndsu_substitutions_fn2102_2024
+  source_url: https://www.ndsu.edu/agriculture/sites/default/files/2024-03/fn2102.pdf
+  final_url: https://www.ndsu.edu/agriculture/sites/default/files/2024-03/fn2102.pdf
+  checked_at: '2026-09-19T01:02:52.579411+00:00'
+  http_status: 200
+  content_type: application/pdf
+  size_bytes: 355236
+  sha256: d3beccc2403f7882a461e8aaff782c24f5b93772124a49776235d4228fa4744f
+  pdf_pages: 4
+  pdfinfo_passed: true
+  pypdf_passed: true
+  local_evidence: /tmp/owl-one-hour/health/ndsu_substitutions_fn2102_2024.pdf
+- asset_id: uga_using_pressure_canners
+  source_url: https://nchfp.uga.edu/papers/factsheets/Preserving_Food__Using_Pressure_Canners.pdf
+  final_url: https://nchfp.uga.edu/papers/factsheets/Preserving_Food__Using_Pressure_Canners.pdf
+  checked_at: '2026-09-19T01:03:38.249874+00:00'
+  http_status: 200
+  content_type: application/pdf
+  size_bytes: 2084786
+  sha256: b28d9a07c72f809ffc484094de1c89a13b41479c34fff11bf675003994322944
+  pdf_pages: 7
+  pdfinfo_passed: true
+  pypdf_passed: true
+  local_evidence: /tmp/owl-one-hour/health/uga_using_pressure_canners.pdf
+- asset_id: nchfp_kombucha_faq
+  source_url: https://nchfp.uga.edu/images/uploads/FAQs_Consumer_version_Kombucha.pdf
+  final_url: https://nchfp.uga.edu/images/uploads/FAQs_Consumer_version_Kombucha.pdf
+  checked_at: '2026-09-19T01:04:21.504622+00:00'
+  http_status: 200
+  content_type: application/pdf
+  size_bytes: 715675
+  sha256: aeb4e934654c33406b80c56ecb632be51be9f1c8e753eb45559ac634392e0dc5
+  pdf_pages: 4
+  pdfinfo_passed: true
+  pypdf_passed: true
+  local_evidence: /tmp/owl-one-hour/health/nchfp_kombucha_faq.pdf
+- asset_id: uga_using_boiling_water_canners_2025
+  source_url: https://nchfp.uga.edu/papers/factsheets/Preserving_Food__Using_Boiling_Water_Canners.pdf
+  final_url: https://nchfp.uga.edu/papers/factsheets/Preserving_Food__Using_Boiling_Water_Canners.pdf
+  checked_at: '2026-09-19T01:07:57.215076+00:00'
+  http_status: 200
+  content_type: application/pdf
+  size_bytes: 1145417
+  sha256: 4f87f219303c1b64bc7e12fa704d93a108d3d76e3ab7cdb26163ba97ddbac6e4
+  pdf_pages: 5
+  pdfinfo_passed: true
+  pypdf_passed: true
+  local_evidence: /tmp/owl-one-hour/health/uga_using_boiling_water_canners_2025.pdf
+unresolved:
+- resource_id: hesperian-health
+  source_url: https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_bm.pdf
+  reason: Fresh request returned HTTP 404; current publisher chapter listing still
+    references exactly this URL. No substitute supplied.
+- resource_id: food-preservation
+  source_url: https://nchfp.uga.edu/newsflash
+  reason: All 27 current newsflash entries and linked guidance were inspected from
+    temporary copies. A private self-contained snapshot was QA checked but is deliberately
+    excluded from catalog because build-time reproduction and durable sourcing are
+    not implemented. Do not claim complete current guidance from the PDF pins alone.

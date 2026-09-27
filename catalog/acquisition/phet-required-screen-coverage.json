@@ -1,0 +1,1482 @@
+{
+  "schema_version": 1,
+  "kind": "phet-required-screen-coverage",
+  "resource_id": "phet",
+  "status": "pending",
+  "content_ready": false,
+  "derived_from_existing_evidence_only": true,
+  "new_body_downloads": 0,
+  "new_browser_runs": 0,
+  "required_screen_policy": "All screens in each of the 16 pinned regular English HTML5 simulations require explicit identity, meaningful interaction/reset, local dependency and layout checks, plus substantive teaching-content review. Existing first-screen samples do not satisfy all-screen review.",
+  "format_scope": {
+    "included": [
+      "ordinary English HTML5 simulation files"
+    ],
+    "intentionally_excluded": [
+      "Java applets",
+      "Flash distributions",
+      "PhET-iO distributions"
+    ],
+    "excluded_formats_are_not_missing_downloads": true,
+    "new_format_discovery_required": false,
+    "unsupported_essential_content": "Report any essential unsupported activity discovered during screen review as a content blocker; do not silently omit it."
+  },
+  "evidence": [
+    {
+      "id": "pinned-browser-manifest",
+      "path": "catalog/acquisition/phet-browser-checks.json",
+      "sha256": "559e756cf6c0f86ca244bce9fcb06adc7183e12f326f8882222ef06c79beb4a8",
+      "size_bytes": 26923
+    },
+    {
+      "id": "pinned-browser-summary",
+      "path": "catalog/acquisition/phet-browser-evidence.json",
+      "sha256": "bd466289d6e943d2aa0c629d118fc0a5e45395aa57ca706174bdd4a1f8287e9d",
+      "size_bytes": 17093
+    },
+    {
+      "id": "saved-home-scene",
+      "path": ".owl/acquisition/phet-finish/inspect-home.json",
+      "sha256": "3a49d8aa16d73196b3594bb323938dbf555f27078f396489e9a9839556831f08",
+      "size_bytes": 41329
+    },
+    {
+      "id": "bound-detailed-browser-report",
+      "path": ".owl/acquisition/phet-finish/all-report-bound.json",
+      "sha256": "719ffe6078382d12de77e04913b1443d4df5dbea2967f32539e1f6c9b9739ccf",
+      "size_bytes": 333515
+    }
+  ],
+  "summary": {
+    "pinned_simulations": 16,
+    "existing_passing_sample_checks": 32,
+    "declared_viewports": [
+      {
+        "width": 1280,
+        "height": 900
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "simulations_with_named_saved_home_inventory": 8,
+    "observed_named_screens": 22,
+    "named_screens_with_inferred_first_screen_samples": 8,
+    "named_screens_without_recorded_interaction_samples": 14,
+    "simulations_without_named_saved_home_inventory": 8,
+    "simulations_missing_explicit_screen_identity_checks": 16,
+    "fully_reviewed_simulations": 0,
+    "physical_devices_certified": 0
+  },
+  "content_blockers": [
+    "Fourteen named additional screens lack recorded interaction/reset coverage.",
+    "Eight simulations need their complete screen inventory recorded from pinned files; saved successful samples do not enumerate it.",
+    "All sixteen current runs lack explicit selected-screen identity in their reports; bind each future check to its intended screen.",
+    "Substantive content, essential modes and all-screen dependencies remain pending even on sampled screens."
+  ],
+  "separate_device_certification": {
+    "status": "pending",
+    "blocks_claim_of_device_certification": true,
+    "requirements": [
+      "Actual intended iPhone/iPad/Android/desktop local-file opening workflow.",
+      "Touch target usability, orientation and controls on physical devices.",
+      "Offline cold start, interaction and reset on those devices."
+    ],
+    "browser_viewport_checks_do_not_satisfy": true
+  },
+  "rerun_workflow": {
+    "runner": "scripts/check_phet.cjs",
+    "summary_tool": "scripts/summarize_phet.py",
+    "bounded_plan": "Reuse existing pins. Inspect one explicitly selected screen at a time, review its entry/actions/state keys, then run its desktop and phone-width interaction/reset checks. Keep the source IDs/hashes unchanged and record each screen identity with its evidence.",
+    "current_runner_limit": "The runner supports one entry sequence per unique simulation ID per manifest. Use separate per-screen manifests/reports with the same source ID; do not fabricate new catalog asset IDs or combine passes without their screen binding.",
+    "source_availability": "Prior temporary source-body cache locations no longer contain the HTML files; recover only from existing verified originals or an authorized build. The detailed reports and screenshots remain available."
+  },
+  "simulations": [
+    {
+      "source": {
+        "id": "phet_ohms_law",
+        "title": "Ohm’s Law",
+        "source_url": "https://phet.colorado.edu/sims/html/ohms-law/1.4.31/ohms-law_en.html",
+        "version": "1.4.31",
+        "size_bytes": 1584229,
+        "sha256": "731c7203f07967bf295e926e4f60dad51eecd4a132fa68e956819416d3bf83b8"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "pending-pinned-screen-inventory",
+        "complete": false,
+        "observed_labels": [],
+        "source": null,
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ],
+        "required_follow_up": "Read the screen inventory from the same pinned file during a bounded offline check; do not infer labels or a single-screen count from the successful sample."
+      },
+      "required_screens": [],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "voltageProperty"
+        ],
+        "entry": null,
+        "entry_default": "first accessible Screen button when home is detected; otherwise initial view",
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_circuit_construction_kit_dc",
+        "title": "Circuit Construction Kit: DC",
+        "source_url": "https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/1.5.2/circuit-construction-kit-dc_en.html",
+        "version": "1.5.2",
+        "size_bytes": 3505055,
+        "sha256": "1ef2e7af1bc2381c8a376a88aa5a4ccdf608e77089cfc44960bce0df2d3f106a"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "pending-pinned-screen-inventory",
+        "complete": false,
+        "observed_labels": [],
+        "source": null,
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ],
+        "required_follow_up": "Read the screen inventory from the same pinned file during a bounded offline check; do not infer labels or a single-screen count from the successful sample."
+      },
+      "required_screens": [],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "circuit.showCurrentProperty"
+        ],
+        "entry": null,
+        "entry_default": "first accessible Screen button when home is detected; otherwise initial view",
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_forces_and_motion_basics",
+        "title": "Forces and Motion: Basics",
+        "source_url": "https://phet.colorado.edu/sims/html/forces-and-motion-basics/2.6.5/forces-and-motion-basics_en.html",
+        "version": "2.6.5",
+        "size_bytes": 4847243,
+        "sha256": "4d66c947e8390a3af9bd012f6b50a13f031ee5323bc9505c7f0986631bbc6865"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "pending-pinned-screen-inventory",
+        "complete": false,
+        "observed_labels": [],
+        "source": null,
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ],
+        "required_follow_up": "Read the screen inventory from the same pinned file during a bounded offline check; do not infer labels or a single-screen count from the successful sample."
+      },
+      "required_screens": [],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "showSumOfForcesProperty"
+        ],
+        "entry": null,
+        "entry_default": "first accessible Screen button when home is detected; otherwise initial view",
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_energy_skate_park_basics",
+        "title": "Energy Skate Park: Basics",
+        "source_url": "https://phet.colorado.edu/sims/html/energy-skate-park-basics/1.5.1/energy-skate-park-basics_en.html",
+        "version": "1.5.1",
+        "size_bytes": 4907870,
+        "sha256": "6463e32f15b0dbb61af270b580414b04f2614d0c2edd9c5d61b72cef862568a8"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "pending-pinned-screen-inventory",
+        "complete": false,
+        "observed_labels": [],
+        "source": null,
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ],
+        "required_follow_up": "Read the screen inventory from the same pinned file during a bounded offline check; do not infer labels or a single-screen count from the successful sample."
+      },
+      "required_screens": [],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "skater.massProperty"
+        ],
+        "entry": null,
+        "entry_default": "first accessible Screen button when home is detected; otherwise initial view",
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_projectile_motion",
+        "title": "Projectile Motion",
+        "source_url": "https://phet.colorado.edu/sims/html/projectile-motion/1.0.34/projectile-motion_en.html",
+        "version": "1.0.34",
+        "size_bytes": 4374424,
+        "sha256": "795b42cafa55910907b0c48e5f0e39071eecc05651af718285218b6749a5c1d3"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "saved-home-labels-observed-publisher-inventory-crosscheck-pending",
+        "complete": false,
+        "observed_labels": [
+          "Intro",
+          "Vectors",
+          "Drag",
+          "Lab"
+        ],
+        "source": "saved-home-scene",
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ]
+      },
+      "required_screens": [
+        {
+          "screen_key": "intro",
+          "display_name": "Intro",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.1.0.0.1",
+                "text": "Intro"
+              }
+            ]
+          },
+          "configured_sample_mapping": "first-screen-entry-inferred",
+          "browser_check_status": "configured-sample-passed-screen-identity-pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "vectors",
+          "display_name": "Vectors",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.1.0.1.1",
+                "text": "Vectors"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "drag",
+          "display_name": "Drag",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.1.0.2.1",
+                "text": "Drag"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "lab",
+          "display_name": "Lab",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.1.0.3.1",
+                "text": "Lab"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        }
+      ],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "launchVelocityProperty"
+        ],
+        "entry": [
+          {
+            "scene": "view.1.0.0.1"
+          }
+        ],
+        "entry_default": null,
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_pendulum_lab",
+        "title": "Pendulum Lab",
+        "source_url": "https://phet.colorado.edu/sims/html/pendulum-lab/1.0.35/pendulum-lab_en.html",
+        "version": "1.0.35",
+        "size_bytes": 3804285,
+        "sha256": "f6893c6711a31bdb42968752b3b70772632892e8b9abec64127e0d4524ba015d"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "saved-home-labels-observed-publisher-inventory-crosscheck-pending",
+        "complete": false,
+        "observed_labels": [
+          "Intro",
+          "Energy",
+          "Lab"
+        ],
+        "source": "saved-home-scene",
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ]
+      },
+      "required_screens": [
+        {
+          "screen_key": "intro",
+          "display_name": "Intro",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.1.0.0.1",
+                "text": "Intro"
+              }
+            ]
+          },
+          "configured_sample_mapping": "first-screen-entry-inferred",
+          "browser_check_status": "configured-sample-passed-screen-identity-pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "energy",
+          "display_name": "Energy",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.1.0.1.1",
+                "text": "Energy"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "lab",
+          "display_name": "Lab",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.1.0.2.1",
+                "text": "Lab"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        }
+      ],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "pendula.0.lengthProperty"
+        ],
+        "entry": [
+          {
+            "scene": "view.1.0.0.1"
+          }
+        ],
+        "entry_default": null,
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_wave_on_a_string",
+        "title": "Wave on a String",
+        "source_url": "https://phet.colorado.edu/sims/html/wave-on-a-string/1.2.4/wave-on-a-string_en.html",
+        "version": "1.2.4",
+        "size_bytes": 2483396,
+        "sha256": "42c848192a98a9e53a01e1bc2b0c33a796ed195eed444d4769439cb2643a8192"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "pending-pinned-screen-inventory",
+        "complete": false,
+        "observed_labels": [],
+        "source": null,
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ],
+        "required_follow_up": "Read the screen inventory from the same pinned file during a bounded offline check; do not infer labels or a single-screen count from the successful sample."
+      },
+      "required_screens": [],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "dampingProperty"
+        ],
+        "entry": null,
+        "entry_default": "first accessible Screen button when home is detected; otherwise initial view",
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_gravity_force_lab_basics",
+        "title": "Gravity Force Lab: Basics",
+        "source_url": "https://phet.colorado.edu/sims/html/gravity-force-lab-basics/1.1.27/gravity-force-lab-basics_en.html",
+        "version": "1.1.27",
+        "size_bytes": 2849523,
+        "sha256": "ca53202ade58e0bd453cda46d810fb3ef9c110ce8e13cbff5de42c3df3e0aa62"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "pending-pinned-screen-inventory",
+        "complete": false,
+        "observed_labels": [],
+        "source": null,
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ],
+        "required_follow_up": "Read the screen inventory from the same pinned file during a bounded offline check; do not infer labels or a single-screen count from the successful sample."
+      },
+      "required_screens": [],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "object1.positionProperty"
+        ],
+        "entry": null,
+        "entry_default": "first accessible Screen button when home is detected; otherwise initial view",
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_bending_light",
+        "title": "Bending Light",
+        "source_url": "https://phet.colorado.edu/sims/html/bending-light/1.2.5/bending-light_en.html",
+        "version": "1.2.5",
+        "size_bytes": 3403142,
+        "sha256": "11555f7cceffa0ac87120c882e7ea2b405ff762881b1f9f3bf05975afe7dcd57"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "saved-home-labels-observed-publisher-inventory-crosscheck-pending",
+        "complete": false,
+        "observed_labels": [
+          "Intro",
+          "Prisms",
+          "More Tools"
+        ],
+        "source": "saved-home-scene",
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ]
+      },
+      "required_screens": [
+        {
+          "screen_key": "intro",
+          "display_name": "Intro",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.3.0.0.1",
+                "text": "Intro"
+              }
+            ]
+          },
+          "configured_sample_mapping": "first-screen-entry-inferred",
+          "browser_check_status": "configured-sample-passed-screen-identity-pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "prisms",
+          "display_name": "Prisms",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.3.0.1.1",
+                "text": "Prisms"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "more-tools",
+          "display_name": "More Tools",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.3.0.2.1",
+                "text": "More Tools"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        }
+      ],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "laser.onProperty"
+        ],
+        "entry": [
+          {
+            "scene": "view.3.0.0.1"
+          }
+        ],
+        "entry_default": null,
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_states_of_matter_basics",
+        "title": "States of Matter: Basics",
+        "source_url": "https://phet.colorado.edu/sims/html/states-of-matter-basics/1.2.23/states-of-matter-basics_en.html",
+        "version": "1.2.23",
+        "size_bytes": 1910507,
+        "sha256": "134d176ca8012d2eefa61dfdf8a4b0ed2103be06261ec52be13859c564a3ebcf"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "saved-home-labels-observed-publisher-inventory-crosscheck-pending",
+        "complete": false,
+        "observed_labels": [
+          "States",
+          "Phase Changes"
+        ],
+        "source": "saved-home-scene",
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity.",
+          "Saved home flag is false; the saved screenshot and scene labels show States and Phase Changes. Do not treat that flag as evidence of a single-screen simulation."
+        ],
+        "screenshot_evidence": {
+          "id": "states-home-screenshot",
+          "path": ".owl/acquisition/phet-finish/screens/phet_states_of_matter_basics-1280-inspect.png",
+          "sha256": "da6c4c530429ac0edfe0eba566eb7332e1a54cd9237627a96171776bf84fb0ad",
+          "size_bytes": 72833
+        }
+      },
+      "required_screens": [
+        {
+          "screen_key": "states",
+          "display_name": "States",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.2.0.0.0.1",
+                "text": "States"
+              }
+            ]
+          },
+          "configured_sample_mapping": "first-screen-entry-inferred",
+          "browser_check_status": "configured-sample-passed-screen-identity-pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "phase-changes",
+          "display_name": "Phase Changes",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.2.0.0.1.1",
+                "text": "Phase Changes"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        }
+      ],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "temperatureSetPointProperty"
+        ],
+        "entry": [
+          {
+            "scene": "view.2.0.0.0.1"
+          }
+        ],
+        "entry_default": null,
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_build_an_atom",
+        "title": "Build an Atom",
+        "source_url": "https://phet.colorado.edu/sims/html/build-an-atom/1.9.3/build-an-atom_en.html",
+        "version": "1.9.3",
+        "size_bytes": 2993946,
+        "sha256": "fd823e6bd8ac0f932bb0db5f370056f6ebdf437469964bbe45f29e9e2bdef5fc"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "saved-home-labels-observed-publisher-inventory-crosscheck-pending",
+        "complete": false,
+        "observed_labels": [
+          "Atom",
+          "Symbol",
+          "Game"
+        ],
+        "source": "saved-home-scene",
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ]
+      },
+      "required_screens": [
+        {
+          "screen_key": "atom",
+          "display_name": "Atom",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.3.0.0.1",
+                "text": "Atom"
+              }
+            ]
+          },
+          "configured_sample_mapping": "first-screen-entry-inferred",
+          "browser_check_status": "configured-sample-passed-screen-identity-pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "symbol",
+          "display_name": "Symbol",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.3.0.1.1",
+                "text": "Symbol"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "game",
+          "display_name": "Game",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.3.0.2.1",
+                "text": "Game"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        }
+      ],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "atom.protonCountProperty"
+        ],
+        "entry": [
+          {
+            "scene": "view.3.0.0.1"
+          }
+        ],
+        "entry_default": null,
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_balancing_chemical_equations",
+        "title": "Balancing Chemical Equations",
+        "source_url": "https://phet.colorado.edu/sims/html/balancing-chemical-equations/2.1.2/balancing-chemical-equations_en.html",
+        "version": "2.1.2",
+        "size_bytes": 2696270,
+        "sha256": "cc2519edbbf198eb9d200549facb950a8293c478a390fedce0638f7281bf368a"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "pending-pinned-screen-inventory",
+        "complete": false,
+        "observed_labels": [],
+        "source": null,
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ],
+        "required_follow_up": "Read the screen inventory from the same pinned file during a bounded offline check; do not infer labels or a single-screen count from the successful sample."
+      },
+      "required_screens": [],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "choices.0.equation.reactants.0.coefficientProperty"
+        ],
+        "entry": null,
+        "entry_default": "first accessible Screen button when home is detected; otherwise initial view",
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_ph_scale_basics",
+        "title": "pH Scale: Basics",
+        "source_url": "https://phet.colorado.edu/sims/html/ph-scale-basics/1.7.5/ph-scale-basics_en.html",
+        "version": "1.7.5",
+        "size_bytes": 2519437,
+        "sha256": "5c2e09e5cec4be3836a4045b89d911dd3a2ab527b27422a5f49dbbaecafd2f77"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "pending-pinned-screen-inventory",
+        "complete": false,
+        "observed_labels": [],
+        "source": null,
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ],
+        "required_follow_up": "Read the screen inventory from the same pinned file during a bounded offline check; do not infer labels or a single-screen count from the successful sample."
+      },
+      "required_screens": [],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "solution.soluteVolumeProperty"
+        ],
+        "entry": null,
+        "entry_default": "first accessible Screen button when home is detected; otherwise initial view",
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_natural_selection",
+        "title": "Natural Selection",
+        "source_url": "https://phet.colorado.edu/sims/html/natural-selection/1.5.15/natural-selection_en.html",
+        "version": "1.5.15",
+        "size_bytes": 3217840,
+        "sha256": "06a982a7faf7be6320496b4a900919b6306e36beb3168ef67fe9a4138606b816"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "saved-home-labels-observed-publisher-inventory-crosscheck-pending",
+        "complete": false,
+        "observed_labels": [
+          "Intro",
+          "Lab"
+        ],
+        "source": "saved-home-scene",
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ]
+      },
+      "required_screens": [
+        {
+          "screen_key": "intro",
+          "display_name": "Intro",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.3.0.0.1",
+                "text": "Intro"
+              }
+            ]
+          },
+          "configured_sample_mapping": "first-screen-entry-inferred",
+          "browser_check_status": "configured-sample-passed-screen-identity-pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "lab",
+          "display_name": "Lab",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.3.0.1.1",
+                "text": "Lab"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        }
+      ],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "generationClock.isRunningProperty"
+        ],
+        "entry": [
+          {
+            "scene": "view.3.0.0.1"
+          }
+        ],
+        "entry_default": null,
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_fractions_intro",
+        "title": "Fractions: Intro",
+        "source_url": "https://phet.colorado.edu/sims/html/fractions-intro/1.0.33/fractions-intro_en.html",
+        "version": "1.0.33",
+        "size_bytes": 2523247,
+        "sha256": "e0f25de1a1b27606c5d6a3c7caa257d8edff081498de3a9c212ade9e7356de4b"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "saved-home-labels-observed-publisher-inventory-crosscheck-pending",
+        "complete": false,
+        "observed_labels": [
+          "Intro",
+          "Game",
+          "Lab"
+        ],
+        "source": "saved-home-scene",
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ]
+      },
+      "required_screens": [
+        {
+          "screen_key": "intro",
+          "display_name": "Intro",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.1.0.0.0.1",
+                "text": "Intro"
+              }
+            ]
+          },
+          "configured_sample_mapping": "first-screen-entry-inferred",
+          "browser_check_status": "configured-sample-passed-screen-identity-pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "game",
+          "display_name": "Game",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.1.0.0.1.1",
+                "text": "Game"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "lab",
+          "display_name": "Lab",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.1.0.0.2.1",
+                "text": "Lab"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        }
+      ],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "numeratorProperty"
+        ],
+        "entry": [
+          {
+            "scene": "view.1.0.0.0.1"
+          }
+        ],
+        "entry_default": null,
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    },
+    {
+      "source": {
+        "id": "phet_area_builder",
+        "title": "Area Builder",
+        "source_url": "https://phet.colorado.edu/sims/html/area-builder/1.1.38/area-builder_en.html",
+        "version": "1.1.38",
+        "size_bytes": 1283414,
+        "sha256": "87f7e3839bca5638f357bf41e7eb9f467e5e8e578749c49d1e015376d2983c7c"
+      },
+      "format": {
+        "included": "ordinary-English-HTML5-file",
+        "source_format": "html",
+        "required_reading_server": false,
+        "checked_offline_launch": true,
+        "all_screen_embedded_dependency_review": "pending"
+      },
+      "screen_inventory": {
+        "status": "saved-home-labels-observed-publisher-inventory-crosscheck-pending",
+        "complete": false,
+        "observed_labels": [
+          "Explore",
+          "Game"
+        ],
+        "source": "saved-home-scene",
+        "limitations": [
+          "The current QA runner does not record a full simulation screen list or selected-screen identity."
+        ]
+      },
+      "required_screens": [
+        {
+          "screen_key": "explore",
+          "display_name": "Explore",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.1.0.0.1",
+                "text": "Explore"
+              }
+            ]
+          },
+          "configured_sample_mapping": "first-screen-entry-inferred",
+          "browser_check_status": "configured-sample-passed-screen-identity-pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        },
+        {
+          "screen_key": "game",
+          "display_name": "Game",
+          "required": true,
+          "label_evidence": {
+            "source": "saved-home-scene",
+            "matches": [
+              {
+                "scene_path": "view.1.0.1.1",
+                "text": "Game"
+              }
+            ]
+          },
+          "configured_sample_mapping": "no-recorded-interaction-sample",
+          "browser_check_status": "pending",
+          "content_review_status": "pending",
+          "required_follow_up": [
+            "Record explicit selected-screen identity in a pinned per-screen check.",
+            "Exercise essential controls and reset; verify local dependencies and readable layout at both declared viewports.",
+            "Review all teaching text, diagrams, equations, instructions and notices."
+          ]
+        }
+      ],
+      "existing_browser_sample": {
+        "status": "passed",
+        "scope": "one configured entry only",
+        "viewports": [
+          {
+            "width": 1280,
+            "height": 900
+          },
+          {
+            "width": 390,
+            "height": 844
+          }
+        ],
+        "expected_changed_keys": [
+          "showDimensionsProperty"
+        ],
+        "entry": [
+          {
+            "scene": "view.1.0.0.1"
+          }
+        ],
+        "entry_default": null,
+        "evidence": "pinned-browser-summary",
+        "explicit_selected_screen_identity_recorded": false
+      },
+      "content_ready": false,
+      "content_review_status": "pending",
+      "physical_device_certification": "pending"
+    }
+  ]
+}

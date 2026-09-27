@@ -1,0 +1,533 @@
+{
+  "candidate_batches": [
+    {
+      "body_downloads": 0,
+      "content_ready": false,
+      "manifest": "catalog/acquisition/regional-maps-detailed-acquisition.json",
+      "manifest_sha256": "0112b30ed0b27a44f2c2d92e768ec58379ac2ef9bc3f35d18f261c4ba91be66f",
+      "source_count": 1448,
+      "storage_peak_bytes": 72164924091
+    },
+    {
+      "body_downloads": 0,
+      "content_ready": false,
+      "manifest": "catalog/acquisition/stackoverflow-capture.json",
+      "manifest_sha256": "cf65f624b915871250053e29ba07cd84a9ff30b886bb237a936c69d9ee9a8839",
+      "source_count": 4,
+      "storage_peak_bytes": 31167163673
+    },
+    {
+      "body_downloads": 0,
+      "content_ready": false,
+      "manifest": "catalog/acquisition/ocw-course-package-capture.json",
+      "manifest_sha256": "d48c51ab59388f2830a3f61264388548cc8d7aedbd14473a7dd91907cbc144ce",
+      "source_count": 8,
+      "storage_peak_bytes": 816759243
+    },
+    {
+      "body_downloads": 0,
+      "content_ready": false,
+      "manifest": "catalog/acquisition/direct-local-acquisition.json",
+      "manifest_sha256": "2f063b140c1e86da4095f2e2106801a4b7f0e394850b42419c71920e1b657267",
+      "source_count": 4,
+      "storage_peak_bytes": 5435203075
+    }
+  ],
+  "content_complete": false,
+  "evidence": [
+    {
+      "path": "catalog/library.yaml",
+      "sha256": "d91f38e179a83ad0ca25efdabd2fbf9b88de391c9023c25f1b29b652ba218ed4",
+      "size_bytes": 2987441
+    },
+    {
+      "path": "catalog/resources.yaml",
+      "sha256": "28bac7e62544ded16463a5755547e261eaa273c85e5d5dc22a8c6eebf584d6b3",
+      "size_bytes": 144600
+    },
+    {
+      "path": "catalog/acquisition/recipes.yaml",
+      "sha256": "9afd560aa9be7cc16af5ad5181d8cf6e38d7e273eeaaa7db1b169e7764832350",
+      "size_bytes": 112161
+    },
+    {
+      "path": "profiles/full-1tb.yaml",
+      "sha256": "ea70882bf50a86eba4c2d257b413108fe2df03c1862c403f1b1a8c49b84c30ac",
+      "size_bytes": 1269
+    },
+    {
+      "path": "catalog/acquisition/direct-local-candidates.json",
+      "sha256": "e03803a570e18fbf48841023550be38911832f8417707d192ca3311e2d2666e7",
+      "size_bytes": 5408001
+    },
+    {
+      "path": "catalog/acquisition/expansion-candidates.json",
+      "sha256": "8fef9434b5437da660a0d8cf83005919f25747eaf6ca3eacadcda467e98acc27",
+      "size_bytes": 1648750
+    },
+    {
+      "path": "catalog/acquisition/phet-required-screen-coverage.json",
+      "sha256": "2abaaa4444047e84b134f1b409c448086455600cf2546171243304711c0d1a39",
+      "size_bytes": 54141
+    }
+  ],
+  "final_selection_locked": false,
+  "incomplete_collections": [
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "The whole Appropedia ZIM is pinned and locally verified. A deterministic inventory freezes 1,849 candidate entries, including ten original PDFs. Seven candidate pages with replacement characters and four unsupported archive paths remain explicit exceptions. Complete article, illustration, dependency and local-link review of generated outputs remains pending.",
+      "recipes": [
+        {
+          "blockers": [
+            "The locally verified archive has 1,849 frozen candidate entries. Seven candidate pages with replacement characters and four unsupported archive paths remain explicit exceptions. Complete article, illustration, attribution, dependency and generated-output review remain pending."
+          ],
+          "id": "appropedia-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "appropedia",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "partial"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "Freeze ranked complete works absent from the compact book collections, then acquire, deduplicate and review measured ordinary-file editions. No estimated bytes count as knowledge.; No selected source assets remain after overrides or replacements",
+      "recipes": [
+        {
+          "blockers": [
+            "Freeze ranked complete works absent from the compact book collections, then acquire, deduplicate and review measured ordinary-file editions. No estimated bytes count as knowledge."
+          ],
+          "id": "books-culture-expansion-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "books-culture-expansion",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "unresolved"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "The complete published 2025-11 Kiwix archive is pinned and locally verified. Candidate selection freezes 5,219 entries across 298 complete captured book directories, including 72 original PDFs. Original-publication completeness, retained notices, dependency closure and generated outputs remain unreviewed. Publication rights vary; no blanket redistribution license is asserted.",
+      "recipes": [
+        {
+          "blockers": [
+            "The locally verified archive has 5,219 candidate entries across 298 complete captured book directories, including 72 original PDFs. Original-publication completeness, notices, dependencies and generated outputs remain unreviewed. Publication rights vary."
+          ],
+          "id": "cd3wd-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "cd3wd",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "partial"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "Freeze ranked MIT OpenCourseWare courses and all essential course-package/media dependencies. Accept complete courses using measured ordinary files with captions, notices and supplied exercise solutions; essential unavailable materials remain blockers.; No selected source assets remain after overrides or replacements",
+      "recipes": [
+        {
+          "blockers": [
+            "Freeze ranked MIT OpenCourseWare courses and all essential course-package/media dependencies. Accept complete courses using measured ordinary files with captions, notices and supplied exercise solutions; essential unavailable materials remain blockers."
+          ],
+          "id": "complete-courses-expansion-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "complete-courses-expansion",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "unresolved"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "The tested in-place ZIM exporter and extra-catalog import are implemented. Reviewed article/book lists, collection-specific visual checks and complete verified output editions are still missing. The 60 GB target is an additional representation allowance, not downloaded content.; No selected source assets remain after overrides or replacements",
+      "recipes": [
+        {
+          "blockers": [
+            "The tested in-place ZIM exporter and extra-catalog import are implemented. Reviewed article/book lists, collection-specific visual checks and complete verified output editions are still missing. The 60 GB target is an additional representation allowance, not downloaded content."
+          ],
+          "id": "direct-reading-expansion-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "direct-reading-expansion",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "unresolved"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "270 of 271 official chapter PDFs are pinned. Midwives 2026 back matter and the discovered older whole-book URLs return HTTP 404. The official complete 2026 PDF purchase is identified, but its file and whole-file pin are unavailable. A complete same-edition book and review remain required; chapters from different editions are never mixed.",
+      "recipes": [
+        {
+          "blockers": [
+            "270 of 271 official chapter PDFs are pinned. The missing 2026 back matter and discovered older whole-book URLs return HTTP 404. An official complete 2026 PDF purchase is identified, but its file, pin and complete same-edition review remain pending. Never mix chapters across editions."
+          ],
+          "id": "hesperian-health-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "hesperian-health",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "partial"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "The pinned archive is locally verified and 1,399 repair-guide candidates are frozen. All declare French HTML language tags although sampled procedures are English; full language review remains pending. Three unsupported archive paths, complete procedure steps, photographs, parts, attribution and exported local dependencies require review.",
+      "recipes": [
+        {
+          "blockers": [
+            "All 1,399 frozen guide candidates declare French HTML language tags; sampled English procedure text does not resolve the full language review. Three unsupported paths, complete steps, photographs, parts, attribution and generated dependencies require review."
+          ],
+          "id": "ifixit-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "ifixit",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "partial"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "Curated English core-STEM lesson IDs and complete dependency inventories remain pending. Ordinary HTML/media/caption rendering is implemented; exercises must preserve prompts, figures, hints and supplied solutions. No Kolibri installation or reading-time server is required. The unsplit 180 GB archive is excluded.; No selected source assets remain after overrides or replacements",
+      "recipes": [
+        {
+          "blockers": [
+            "Curated English core-STEM lesson IDs and complete dependency inventories remain pending. Ordinary HTML/media/caption rendering is implemented; exercises must preserve prompts, figures, hints and supplied solutions. No Kolibri installation or reading-time server is required. The unsplit 180 GB archive is excluded."
+          ],
+          "id": "khan-core-stem-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "khan-core-stem",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "unresolved"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "Complete Python/SQLite packages, selected GNU/Linux/systemd manuals, and all 16 OpenSSH portable 10.5p1 manuals are pinned with original sources and notices. Essential dependencies and optional/platform cross-references still need explicit classification and review. Physical-device certification is tracked separately. Direct Python reading uses all 37 official publisher PDFs from October 2025; the newer September 2026 EPUB is retained separately as a supporting source package.",
+      "recipes": [
+        {
+          "blockers": [
+            "Complete Python/SQLite packages, selected GNU/Linux/systemd manuals, and all 16 OpenSSH portable 10.5p1 manuals are pinned with original sources and notices. Essential dependencies and optional/platform cross-references still need explicit classification and review. Physical-device certification is tracked separately."
+          ],
+          "id": "linux-programming-docs-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "linux-programming-docs",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "partial"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "The January 2025 Kiwix archive is pinned and locally verified. Exact entry IDs for 87 English article candidates are frozen. Complete HTML, images, diagrams, captions, dates, attribution, local links and generated-output review remain pending; candidate payload bytes are not accepted content.",
+      "recipes": [
+        {
+          "blockers": [
+            "The locally verified January 2025 archive has 87 frozen English article candidates. Complete HTML, images, diagrams, captions, dates, attribution, local links and generated outputs remain unreviewed. Candidate payload bytes are not accepted content."
+          ],
+          "id": "low-tech-magazine-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "low-tech-magazine",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "partial"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "Sixteen exact-version English HTML5 simulations are pinned. All 32 offline desktop and phone-viewport checks pass cold launch, reviewed model interaction, reset and layout checks. Broader required-screen coverage remains a content-review blocker. Original notices and optional analytics/update requests are retained.",
+      "recipes": [
+        {
+          "blockers": [
+            "Sixteen exact-version English HTML5 simulations are pinned. All 32 offline desktop and phone-viewport checks pass cold launch, reviewed model interaction, reset and layout checks. Broader required-screen coverage remains a content-review blocker. Original notices and optional analytics/update requests are retained."
+          ],
+          "id": "phet-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "phet",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "partial"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "North America OSM is pinned. Smaller-profile proposals retain 75 topographic sheets and the national overview. The separate full-1tb capture freezes 1,433 latest 1:24,000 sheets, 14 explicit 1:100,000 coastal supplements and the national overview, totaling 72,124,080,891 source bytes within the effective 80 GB allowance. Fine-scale gaps remain explicit; mixed-scale publisher footprints do not prove complete 1:24,000 land coverage. Whole-file pins, actual PDF map frames, dates, scale, notices and authoritative water exclusions require acquisition and review.",
+      "recipes": [
+        {
+          "blockers": [
+            "Complete selected sheet list must pass exact-byte HEAD checks, source capture and whole-file SHA256 verification.",
+            "Actual PDF frames, scales, dates, notices and legibility require review before readiness.",
+            "Required-scale coastal gaps remain explicitly recorded until map frames or authoritative valid coastal-water geometry resolve them; no geometry repair or tolerance is applied."
+          ],
+          "id": "regional-maps-detailed-1tb-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "regional-maps",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "partial"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "The deterministic durable/legacy selector, canonical duplicate handling, static renderer and attribution preservation are implemented. Four shared official input archives are enumerated with exact sizes and publisher MD5/SHA-1 checksums. Whole-file SHA-256 capture, pinned extracted XML, complete dependency review and measured accepted output remain pending.; No selected source assets remain after overrides or replacements",
+      "recipes": [
+        {
+          "blockers": [
+            "The deterministic durable/legacy selector, canonical duplicate handling, static renderer and attribution preservation are implemented. Four shared official input archives are enumerated with exact sizes and publisher MD5/SHA-1 checksums. Whole-file SHA-256 capture, pinned extracted XML, complete dependency review and measured accepted output remain pending."
+          ],
+          "id": "stackoverflow-durable-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "stackoverflow-durable",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "unresolved"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "The explicit legacy classifier, separate static rendering and visible legacy search filter are implemented. Shared official archive capture, XML pins, dependency review and measured legacy outputs remain pending; age alone does not classify a question as legacy.; No selected source assets remain after overrides or replacements",
+      "recipes": [
+        {
+          "blockers": [
+            "The explicit legacy classifier, separate static rendering and visible legacy search filter are implemented. Shared official archive capture, XML pins, dependency review and measured legacy outputs remain pending; age alone does not classify a question as legacy."
+          ],
+          "id": "stackoverflow-legacy-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "stackoverflow-legacy",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "unresolved"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "Three accepted historical volumes total 83,536,328 bytes and cover sheet-metal cone patterns, ordinary foundations (Volume I), and water distribution. Enumeration across both tiers supports about 40.9 GB before exclusions, not a 130 GB collection. Work/edition deduplication, topic coverage and per-volume scan review remain pending. Historical warnings and recorded exclusions remain in force.",
+      "recipes": [
+        {
+          "blockers": [
+            "Three accepted historical volumes total 83,536,328 bytes and cover sheet-metal cone patterns, ordinary foundations (Volume I), and water distribution. Enumeration across both tiers supports about 40.9 GB before exclusions, not a 130 GB collection. Work/edition deduplication, topic coverage and per-volume scan review remain pending. Historical warnings and recorded exclusions remain in force."
+          ],
+          "id": "survivor-tier-a-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "survivor-tier-a",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "partial"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "Enumerated specialist candidates remain unaccepted pending cross-tier/work deduplication, topic coverage, scan quality, rights evidence and exact pins. No unmeasured 30 GB content claim is made.; No selected source assets remain after overrides or replacements",
+      "recipes": [
+        {
+          "blockers": [
+            "Enumerated specialist candidates remain unaccepted pending cross-tier/work deduplication, topic coverage, scan quality, rights evidence and exact pins. No unmeasured 30 GB content claim is made."
+          ],
+          "id": "survivor-tier-b-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "survivor-tier-b",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "unresolved"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "Pinned September 2026 TED-Ed topic archive from the Kiwix TED collection (6,380,955,947 bytes), suitable for intact personal noncommercial playback. This is a specific TED topic package; complete ed.ted.com lesson/animation coverage and ordinary-file media exports are not established.",
+      "recipes": [
+        {
+          "blockers": [
+            "Exact ordinary-file lesson inventory with course/lesson IDs, revision, licenses and dependency pins is unresolved.",
+            "Playback, captions and complete lesson context must be verified at build time."
+          ],
+          "id": "ted-ed-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "ted-ed",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "partial"
+    },
+    {
+      "profiles": [
+        "full-1tb"
+      ],
+      "reason": "The full English maxi archive is pinned. The in-place direct exporter is available; the curated lifeboat article list and visually verified HTML/image edition are still missing.",
+      "recipes": [
+        {
+          "blockers": [
+            "The full English maxi archive is pinned. The in-place direct exporter is available; the curated lifeboat article list and visually verified HTML/image edition are still missing."
+          ],
+          "id": "wikipedia-en-acquisition-v1",
+          "review": {
+            "evidence": [],
+            "status": "pending"
+          }
+        }
+      ],
+      "resource_id": "wikipedia-en",
+      "selected_editions": [
+        "published"
+      ],
+      "status": "partial"
+    }
+  ],
+  "knowledge_ceiling_bytes": 820000000000,
+  "knowledge_floor_bytes": 750000000000,
+  "next_gate": "Select an explicit separate staging directory; capture and review actual sources/outputs before admission. Continue useful books/courses until measured whole-item content reaches the unchanged target.",
+  "physical_device_certification": "pending",
+  "pinned_knowledge_bytes": 352726164684,
+  "profile": "full-1tb",
+  "recorded_at": "2026-09-23T05:37:30.324363+00:00",
+  "schema_version": 1,
+  "scope": "Acquisition implementation checkpoint; no new library-body acquisition or production assembly",
+  "small_preset_baseline": "Unresolved user choice: concurrent Build and test 16GB SELECT task changed PDF/source selections; current validator checks that new baseline",
+  "staging_directory": "pending user selection",
+  "status": "awaiting_staging_selection_and_content_work",
+  "target_shortfall_bytes": 397273835316,
+  "unresolved_assets": [
+    "regional_topographic_maps"
+  ],
+  "validation": {
+    "evidence": {
+      "path": "catalog/acquisition/validation-evidence.json",
+      "sha256": "7f69ca3a946237e3477fa5cb4110d8e13b77af549e85ddfb0874f733190e9eb7",
+      "size_bytes": 5453
+    },
+    "failing_assertions": 62,
+    "failing_test_groups": [
+      "ProductionAtlasCoverageTests.test_every_pocket_preset_file_has_a_topic_route",
+      "ProductionAtlasCoverageTests.test_whole_document_routes_do_not_invent_unreviewed_sections"
+    ],
+    "full_suite_tests": 722,
+    "geometry_suite": {
+      "passed": true,
+      "tests": 18
+    },
+    "passed": false,
+    "real_sevenzip_evidence": {
+      "path": "catalog/acquisition/sevenzip-real-evidence.json",
+      "sha256": "88c18e5175b669806a3ca6d7fc2a8fda90e31ced0f5dc33cf67747a3a3754a9d",
+      "size_bytes": 1732
+    }
+  }
+}

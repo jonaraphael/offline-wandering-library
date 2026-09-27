@@ -22,7 +22,7 @@ class ProductionLearningCatalogTests(unittest.TestCase):
 
     def test_all_numbered_resources_and_defaults_match_acquisition_list(self):
         self.assertEqual({r['number'] for r in self.resources.values() if r['number']}, set(range(1,47)))
-        expected = [set(range(1,19)) | {22,26,28,31}, set(range(1,32)), set(range(1,37)) | {42,43,44,46}]
+        expected = [set(range(1,19)) | {22,26,28,31}, set(range(1,32)), set(range(1,36)) | {42,44,46}]
         for name, numbers in zip(LARGE, expected):
             _, _, report = self.selection(name)
             actual = {self.resources[r]['number'] for r in report['selected_ids'] if self.resources[r]['number']}
@@ -30,6 +30,8 @@ class ProductionLearningCatalogTests(unittest.TestCase):
             self.assertIn('owl-direct-core', report['selected_ids'])
             self.assertIn('archive-readers', report['auto_included_ids'])
             self.assertNotIn('khan-remaining', report['selected_ids'])
+            self.assertNotIn('wikipedia-es', report['selected_ids'])
+            self.assertNotIn('gutenberg-multilingual', report['selected_ids'])
 
     def test_all_large_profiles_keep_full_english_wikipedia_and_readers(self):
         for name in LARGE:
@@ -41,7 +43,8 @@ class ProductionLearningCatalogTests(unittest.TestCase):
             self.assertTrue(report['incomplete_resources'])
 
     def test_books_follow_requested_defaults_and_critical_baseline_survives(self):
-        for name, count in [('critical-64gb',22), ('compact-256gb',22), ('standard-512gb',22), ('full-1tb',22)]:
+        for name, count in [('flash-16gb',38), ('critical-64gb',75),
+                            ('compact-256gb',75), ('standard-512gb',75), ('full-1tb',75)]:
             assets, _, _ = self.selection(name)
             coverage = learning_coverage(assets)
             self.assertEqual(coverage['textbooks']['required_critical_count'], count)
@@ -50,8 +53,43 @@ class ProductionLearningCatalogTests(unittest.TestCase):
             zim = [i for i,a in enumerate(assets) if a['format']=='zim']
             if zim:self.assertLess(max(core), min(zim))
 
+    def test_openstax_small_profile_spans_all_eight_subject_families(self):
+        assets, _, _ = self.selection('flash-16gb')
+        books = {a['id']: a for a in assets if a['id'].startswith('openstax_')}
+        self.assertEqual(len(books), 36)
+        # Stable representatives verify actual useful breadth, independently of
+        # category labels or overlapping publisher subject tags.
+        representatives = {
+            'Math': 'openstax_prealgebra_2e',
+            'Science': 'openstax_chemistry_2e',
+            'Nursing': 'openstax_clinical_nursing_skills',
+            'Business': 'openstax_principles_financial_accounting',
+            'Social Sciences': 'openstax_introduction_sociology_3e',
+            'Humanities': 'openstax_introduction_philosophy',
+            'Computer Science': 'openstax_introduction_computer_science',
+            'College Success': 'openstax_college_success_concise',
+        }
+        for subject, identity in representatives.items():
+            with self.subTest(subject=subject):
+                self.assertIn(identity, books)
+        for asset in books.values():
+            self.assertEqual(asset['format'], 'pdf')
+            self.assertFalse(asset.get('reader_required'))
+
+    def test_all_current_openstax_books_are_available_in_larger_and_explicit_selections(self):
+        expected = set(self.resources['openstax-core']['asset_ids'])
+        self.assertEqual(len(expected), 73)
+        self.assertTrue(all(identity.startswith('openstax_') for identity in expected))
+        for name in ('critical-64gb', *LARGE):
+            with self.subTest(profile=name):
+                assets, _, _ = self.selection(name)
+                self.assertEqual({a['id'] for a in assets if a['id'].startswith('openstax_')}, expected)
+        assets, _, report = self.selection('flash-16gb', include=['openstax-core'])
+        self.assertEqual({a['id'] for a in assets if a['id'].startswith('openstax_')}, expected)
+        self.assertIn('openstax-core', report['selected_ids'])
+
     def test_map_replacement_and_survivor_budgets(self):
-        for name, map_budget, tier in [('compact-256gb',10_000_000_000,None), ('standard-512gb',51_000_000_000,75_000_000_000), ('full-1tb',30_000_000_000,100_000_000_000)]:
+        for name, map_budget, tier in [('compact-256gb',10_000_000_000,None), ('standard-512gb',51_000_000_000,83_536_328), ('full-1tb',80_000_000_000,83_536_328)]:
             assets, unresolved, report = self.selection(name)
             rows = {r['id']:r for r in report['resource_rows']}
             self.assertEqual(rows['regional-maps']['effective_target_bytes'], map_budget)
@@ -72,12 +110,15 @@ class ProductionLearningCatalogTests(unittest.TestCase):
         # Remaining 1TB budget funds ordinary directly readable copies, rather
         # than unwanted languages or non-core Khan material.
         assets,_,report=self.selection('full-1tb')
-        self.assertEqual(capacity_plan(assets,self.profiles['full-1tb'],report)['target_window_status'],'in-range')
+        self.assertEqual(capacity_plan(assets,self.profiles['full-1tb'],report)['target_window_status'],'below-target')
         self.assertIn('direct-reading-expansion',report['selected_ids'])
+        for name, low, high in [('compact-256gb',190,210), ('standard-512gb',390,420), ('full-1tb',750,820)]:
+            self.assertEqual(self.profiles[name]['content_target_min_bytes'], low * 10**9)
+            self.assertEqual(self.profiles[name]['content_target_max_bytes'], high * 10**9)
 
     def test_larger_defaults_acquire_useful_archives_and_report_real_shortfalls(self):
         for name, floor in [('compact-256gb', 190_000_000_000),
-                            ('standard-512gb', 260_000_000_000), ('full-1tb', 390_000_000_000)]:
+                            ('standard-512gb', 260_000_000_000), ('full-1tb', 350_000_000_000)]:
             assets, _, report = self.selection(name)
             ids = {a['id'] for a in assets}
             plan = capacity_plan(assets, self.profiles[name], report)

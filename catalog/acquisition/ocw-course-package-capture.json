@@ -1,0 +1,216 @@
+{
+  "budget": {
+    "cache_bytes": 0,
+    "download_bytes": 815552559,
+    "expanded_bytes": 0,
+    "preview_bytes": 0,
+    "scratch_bytes": 0
+  },
+  "id": "ocw-foundational-course-packages-v1",
+  "kind": "acquisition",
+  "profile": "full-1tb",
+  "purpose": "Capture frozen official course ZIPs for dependency inspection. Separately frozen media/caption inputs and review remain required; course packages alone are not complete courses.",
+  "schema_version": 1,
+  "sources": [
+    {
+      "course_id": "6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016",
+      "id": "ocw_7e55e144fe6cbdddc748",
+      "metadata_evidence": [
+        {
+          "cached": true,
+          "checked_at": "2026-09-23T04:59:10.926968+00:00",
+          "content_type": "text/html",
+          "final_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/download/",
+          "kind": "html",
+          "sha256": "1f4a436f5e680c0efeff5aad8c4fc0f0926b513cfd7e36dcad37bac42bf98a78",
+          "size_bytes": 123043,
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/download/"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 35902988,
+      "source_url": "https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/6.0001-fall-2016.zip",
+      "version": "6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016-metadata-1f4a436f5e680c0e"
+    },
+    {
+      "course_id": "6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011",
+      "id": "ocw_94c26806ef6502838131",
+      "metadata_evidence": [
+        {
+          "cached": true,
+          "checked_at": "2026-09-23T04:59:11.002540+00:00",
+          "content_type": "text/html",
+          "final_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/download/",
+          "kind": "html",
+          "sha256": "609eab8211862e860fb26b09520180d54eb5478ed47fba29cdfb5f88211130e9",
+          "size_bytes": 236470,
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/download/"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 108951489,
+      "source_url": "https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/6.01sc-spring-2011.zip",
+      "version": "6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011-metadata-609eab8211862e86"
+    },
+    {
+      "course_id": "8-01sc-classical-mechanics-fall-2016",
+      "id": "ocw_438abba537a937c5d718",
+      "metadata_evidence": [
+        {
+          "cached": true,
+          "checked_at": "2026-09-23T04:59:11.152603+00:00",
+          "content_type": "text/html",
+          "final_url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/download/",
+          "kind": "html",
+          "sha256": "acfe8c5f04ecd204f68416248b265cadd7caeedfe03cc911a916c9eee626e2ef",
+          "size_bytes": 242065,
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/download/"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 201835429,
+      "source_url": "https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/8.01sc-fall-2016.zip",
+      "version": "8-01sc-classical-mechanics-fall-2016-metadata-acfe8c5f04ecd204"
+    },
+    {
+      "course_id": "18-01sc-single-variable-calculus-fall-2010",
+      "id": "ocw_37b8872ab4dbbd1f56fa",
+      "metadata_evidence": [
+        {
+          "cached": true,
+          "checked_at": "2026-09-23T05:06:03.284762+00:00",
+          "content_type": "text/html",
+          "final_url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/download/",
+          "kind": "html",
+          "sha256": "fba6277a42e478f6273bee97b2c4a926d8b12bba146c496c7718fddd9988cafc",
+          "size_bytes": 218489,
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/download/"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 144055480,
+      "source_url": "https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/18.01sc-fall-2010.zip",
+      "version": "18-01sc-single-variable-calculus-fall-2010-metadata-fba6277a42e478f6"
+    },
+    {
+      "course_id": "18-06sc-linear-algebra-fall-2011",
+      "id": "ocw_8dd721444178a7282a7b",
+      "metadata_evidence": [
+        {
+          "cached": true,
+          "checked_at": "2026-09-23T05:06:03.361646+00:00",
+          "content_type": "text/html",
+          "final_url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/download/",
+          "kind": "html",
+          "sha256": "14384a3e718a17d669614b70392a7794bace126427d4f7141bb572c9e37b57d9",
+          "size_bytes": 217267,
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/download/"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 48130656,
+      "source_url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/18.06sc-fall-2011.zip",
+      "version": "18-06sc-linear-algebra-fall-2011-metadata-14384a3e718a17d6"
+    },
+    {
+      "course_id": "5-111sc-principles-of-chemical-science-fall-2014",
+      "id": "ocw_cb1f62f2ba4e088203e1",
+      "metadata_evidence": [
+        {
+          "cached": true,
+          "checked_at": "2026-09-23T05:06:03.449038+00:00",
+          "content_type": "text/html",
+          "final_url": "https://ocw.mit.edu/courses/5-111sc-principles-of-chemical-science-fall-2014/download/",
+          "kind": "html",
+          "sha256": "1699ccaf351de0ec69151748def796314905c9d9688908c25b3f017ff1d45e6d",
+          "size_bytes": 241014,
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/5-111sc-principles-of-chemical-science-fall-2014/download/"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 84945435,
+      "source_url": "https://ocw.mit.edu/courses/5-111sc-principles-of-chemical-science-fall-2014/5.111sc-fall-2014.zip",
+      "version": "5-111sc-principles-of-chemical-science-fall-2014-metadata-1699ccaf351de0ec"
+    },
+    {
+      "course_id": "7-01sc-fundamentals-of-biology-fall-2011",
+      "id": "ocw_4b02724ceb97a8745de9",
+      "metadata_evidence": [
+        {
+          "cached": true,
+          "checked_at": "2026-09-23T05:06:03.538836+00:00",
+          "content_type": "text/html",
+          "final_url": "https://ocw.mit.edu/courses/7-01sc-fundamentals-of-biology-fall-2011/download/",
+          "kind": "html",
+          "sha256": "62a7bd83efcc2b226ea3e63ba33d1f549d03c6df9b523ed922d872eb73c5388c",
+          "size_bytes": 175417,
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/7-01sc-fundamentals-of-biology-fall-2011/download/"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 31450367,
+      "source_url": "https://ocw.mit.edu/courses/7-01sc-fundamentals-of-biology-fall-2011/7.01sc-fall-2011.zip",
+      "version": "7-01sc-fundamentals-of-biology-fall-2011-metadata-62a7bd83efcc2b22"
+    },
+    {
+      "course_id": "9-00sc-introduction-to-psychology-fall-2011",
+      "id": "ocw_15a0a1c616ced87a00ca",
+      "metadata_evidence": [
+        {
+          "cached": true,
+          "checked_at": "2026-09-23T05:06:03.630629+00:00",
+          "content_type": "text/html",
+          "final_url": "https://ocw.mit.edu/courses/9-00sc-introduction-to-psychology-fall-2011/download/",
+          "kind": "html",
+          "sha256": "5a0cca05453129cb9d79fe8be411082ad87ecf771b38c11880c33836af12b4d8",
+          "size_bytes": 212796,
+          "status": 200,
+          "url": "https://ocw.mit.edu/courses/9-00sc-introduction-to-psychology-fall-2011/download/"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 160280715,
+      "source_url": "https://ocw.mit.edu/courses/9-00sc-introduction-to-psychology-fall-2011/9.00sc-fall-2011.zip",
+      "version": "9-00sc-introduction-to-psychology-fall-2011-metadata-5a0cca05453129cb"
+    }
+  ]
+}

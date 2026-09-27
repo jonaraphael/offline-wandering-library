@@ -1,0 +1,573 @@
+schema_version: 1
+assets:
+- id: food_snapshot_nchfp_newsflash_2026_09_18
+  title: 'Snapshot source: nchfp_newsflash_2026-09-18.html'
+  category: food-preservation
+  format: html
+  source_url: https://nchfp.uga.edu/newsflash
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_newsflash_2026-09-18.html
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 45095
+  sha256: f881bec5281e6085af0faad0ee79173abdde6c8912dc34d38c8deaf418a5c73c
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_newsflash_p10_2026_09_18
+  title: 'Snapshot source: nchfp_newsflash_P10_2026-09-18.html'
+  category: food-preservation
+  format: html
+  source_url: https://nchfp.uga.edu/newsflash/P10
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_newsflash_P10_2026-09-18.html
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 46512
+  sha256: e516ca191cd2b6f2d82813cadae3125c5626a5f61861ad8341c5a5c9e1242fe2
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_newsflash_p20_2026_09_18
+  title: 'Snapshot source: nchfp_newsflash_P20_2026-09-18.html'
+  category: food-preservation
+  format: html
+  source_url: https://nchfp.uga.edu/newsflash/P20
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_newsflash_P20_2026-09-18.html
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 52894
+  sha256: f8f4a48bbb472ef1f114f5bbee436c888b96deb97e599b91b7a86374efd2c61a
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_tomato_acidification
+  title: 'Snapshot source: nchfp_tomato_acidification.html'
+  category: food-preservation
+  format: html
+  source_url: https://nchfp.uga.edu/how/can/how-do-i-can-tomatoes/tomato-acidification-directions/
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_tomato_acidification.html
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 93714
+  sha256: fb72dd065dbfb8d95e5278faee40b3f979d46e104002c098d506e21607c51baa
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_kombucha_recipe
+  title: 'Snapshot source: nchfp_kombucha_recipe.html'
+  category: food-preservation
+  format: html
+  source_url: https://nchfp.uga.edu/how/ferment/recipes/kombucha-tea/
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_kombucha_recipe.html
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 61688
+  sha256: e0d6072bbf11d67509f074ff34d0e8dc3376d3091cd27f418ab31cada36e4f59
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_spaghetti_sauce_meat
+  title: 'Snapshot source: nchfp_spaghetti_sauce_meat.html'
+  category: food-preservation
+  format: html
+  source_url: https://nchfp.uga.edu/how/can/how-do-i-can-tomatoes/spaghetti-sauce-with-meat/
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_spaghetti_sauce_meat.html
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 96687
+  sha256: 7a95946ca21d95d68c8314c19a6c5a39b761bfaad3e9ab50a5c05941a45de2d6
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_green_beans
+  title: 'Snapshot source: nchfp_green_beans.html'
+  category: food-preservation
+  format: html
+  source_url: https://nchfp.uga.edu/how/can/canning-vegetables-and-vegetable-products/beans-snap-and-italian-pieces-green-and-wax/
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_green_beans.html
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 97400
+  sha256: 8b1976ed38ada2a57362cba26dff84e2813e102410bc1198927410ccef343c04
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_soups
+  title: 'Snapshot source: nchfp_soups.html'
+  category: food-preservation
+  format: html
+  source_url: https://nchfp.uga.edu/how/can/canning-vegetables-and-vegetable-products/soups/
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_soups.html
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 97450
+  sha256: d44a11382751d43df45fd82ed8acd2747bc2e0821e87c0436c7a841b5833dacc
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_choice_salsa
+  title: 'Snapshot source: nchfp_choice_salsa.html'
+  category: food-preservation
+  format: html
+  source_url: https://nchfp.uga.edu/how/can/canning-salsa/choice-salsa/
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_choice_salsa.html
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 97592
+  sha256: 7e92ca5c2a339c319eee20823586b85369c07a364bb3307ec3a2821dc22e0b9c
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_mayhaw_pepper_jelly
+  title: 'Snapshot source: nchfp_mayhaw_pepper_jelly.html'
+  category: food-preservation
+  format: html
+  source_url: https://nchfp.uga.edu/how/make-jam-jelly/jellies/mayhaw-pepper-jelly-pectin/
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_mayhaw_pepper_jelly.html
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 83868
+  sha256: c5a01c12ef0cb991dbffd88462d43bb5d97a249df27cdd2b244de817b648b807
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_sterilization_jars
+  title: 'Snapshot source: nchfp_sterilization_jars.html'
+  category: food-preservation
+  format: html
+  source_url: https://nchfp.uga.edu/how/can/general-information/sterilization-of-empty-jars
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_sterilization_jars.html
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 93850
+  sha256: 79b7842a46958f7a9f276a43efb8b81a5ab10064ec400f38db9365f1654edbc5
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_uga_infused_oils_page
+  title: 'Snapshot source: uga_infused_oils_page.html'
+  category: food-preservation
+  format: html
+  source_url: https://fieldreport.caes.uga.edu/publications/C1334/how-to-safely-make-infused-oils/
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/uga_infused_oils_page.html
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 276424
+  sha256: ae2ae65406ec8a55d52cd987840565b6fee5a9f5556d60ca6e21d494a2ab4c70
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_jars
+  title: 'Snapshot source: nchfp_jars.gif'
+  category: food-preservation
+  format: gif
+  source_url: https://nchfp.uga.edu/images/uploads/jars.gif
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_jars.gif
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 44027
+  sha256: e4d9782eecc1cb80515c9585d6d60aa1aaa1d0cd53faa68dcea135383ea4a040
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_kombucha_photo
+  title: 'Snapshot source: nchfp_kombucha_photo.jpg'
+  category: food-preservation
+  format: jpg
+  source_url: https://nchfp.uga.edu/images/uploads/Kombucha_tea.JPG
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_kombucha_photo.jpg
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 40911
+  sha256: 97a00073b1589dc77dda62c148f41f8bbe3bd4872a45300a3fc902f0adece229
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_ph_chart
+  title: 'Snapshot source: nchfp_ph_chart.jpeg'
+  category: food-preservation
+  format: jpeg
+  source_url: https://nchfp.uga.edu/images/uploads/AdobeStock_245580606.jpeg
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_ph_chart.jpeg
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 544366
+  sha256: d3d43d96ddd589b21ab9c9e1c7fb19ab60a5bd7cbd56c81fe074301f5ef549e3
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_snapshot_nchfp_calendar_icon
+  title: 'Snapshot source: nchfp_calendar_icon.jpeg'
+  category: food-preservation
+  format: jpeg
+  source_url: https://nchfp.uga.edu/images/uploads/Jan_30_icon.jpeg
+  destination: REFERENCE/SOURCES/FOOD_UPDATES/nchfp_calendar_icon.jpeg
+  version: Publisher snapshot 2026-09-18
+  size_bytes: 242591
+  sha256: d97862df9f0680ce0a708dcc9ada0ff13d2e547cdb7b644198cc2679a1955955
+  license: Publisher copyright and original notices; personal offline copy
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  supporting_file: true
+  reader_required: false
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original article
+    and illustration credits retained.
+- id: food_updates_2026_09_18_direct
+  title: NCHFP preservation updates and complete linked guidance
+  category: food-preservation
+  format: html
+  source_url: https://nchfp.uga.edu/newsflash
+  destination: CRITICAL/FOOD/nchfp_updates_2026_09_18.html
+  version: 2026-09-18 reviewed snapshot, OWL document renderer v1
+  size_bytes: 1271056
+  sha256: e01b7ede7244e4c963a34056d70204d1d961f06184a83eac4589c579ca4eb6fd
+  license: Publisher copyright; original notices and source links retained
+  redistributable: false
+  required: true
+  profiles: []
+  critical: true
+  reader_required: false
+  illustrated: true
+  resource_type: guide
+  publisher: NCHFP / University of Georgia
+  language: en
+  snapshot_date: '2026-09-18'
+  attribution: National Center for Home Food Preservation and University of Georgia; original authors
+    and illustration credits retained.
+  generation:
+    recipe_id: food-updates-2026-09-18
+acquisition_recipes:
+- id: food-updates-2026-09-18
+  resource_id: food-preservation
+  adapter: html_snapshot
+  version: '1'
+  source_asset_ids:
+  - food_snapshot_nchfp_calendar_icon
+  - food_snapshot_nchfp_choice_salsa
+  - food_snapshot_nchfp_green_beans
+  - food_snapshot_nchfp_jars
+  - food_snapshot_nchfp_kombucha_photo
+  - food_snapshot_nchfp_kombucha_recipe
+  - food_snapshot_nchfp_mayhaw_pepper_jelly
+  - food_snapshot_nchfp_newsflash_2026_09_18
+  - food_snapshot_nchfp_newsflash_p10_2026_09_18
+  - food_snapshot_nchfp_newsflash_p20_2026_09_18
+  - food_snapshot_nchfp_ph_chart
+  - food_snapshot_nchfp_soups
+  - food_snapshot_nchfp_spaghetti_sauce_meat
+  - food_snapshot_nchfp_sterilization_jars
+  - food_snapshot_nchfp_tomato_acidification
+  - food_snapshot_uga_infused_oils_page
+  output_asset_ids:
+  - food_updates_2026_09_18_direct
+  workspace_bytes: 0
+  dependency_asset_ids:
+  - nchfp_kombucha_faq
+  - ndsu_steam_canning_fn2065
+  - ndsu_substitutions_fn2102_2024
+  - uga_kombucha_c1312
+  - uga_using_boiling_water_canners_2025
+  - uga_using_pressure_canners
+  selection:
+    outputs:
+    - asset_id: food_updates_2026_09_18_direct
+      title: NCHFP preservation updates and complete linked guidance
+      sections:
+      - source_asset_id: food_snapshot_nchfp_newsflash_2026_09_18
+        tag: article
+        attribute: class
+        value: article--resource
+        expected_count: 10
+        expected_text_sha256: fcc105e710ca6b4a1cead31aed55645f2a5d18247a54b0ab1b4366c0c1a7a722
+      - source_asset_id: food_snapshot_nchfp_newsflash_p10_2026_09_18
+        tag: article
+        attribute: class
+        value: article--resource
+        expected_count: 10
+        expected_text_sha256: 94a72c4a3acf54a4ae63e09214dd9ce659adb48ba44c524dd720c694cdd51a14
+      - source_asset_id: food_snapshot_nchfp_newsflash_p20_2026_09_18
+        tag: article
+        attribute: class
+        value: article--resource
+        expected_count: 7
+        expected_text_sha256: ec9c1d3724fe4604bd551498d8dc56ca22b6c4c63dcb76d723e79379e1fa93b0
+      - source_asset_id: food_snapshot_nchfp_tomato_acidification
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 201f30d8fce1e91bfb4a9c3f4ce8804ffb6b985a5cbaa0ba5a35b24e261f4849
+      - source_asset_id: food_snapshot_nchfp_kombucha_recipe
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: c2e08afee2fd4db0bd7772785586e7e1a84bbf3525ccdb9a072179927da8828c
+      - source_asset_id: food_snapshot_nchfp_spaghetti_sauce_meat
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 7ca5ae2c1e2495408a64df46d334469c35e5c50ad3755778f79166f66ea32fcf
+      - source_asset_id: food_snapshot_nchfp_green_beans
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 9f4a4649642d9d8b69583359cd59bf76edb15fb7dea3ade137092811590bf0d1
+      - source_asset_id: food_snapshot_nchfp_soups
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 6b31bbe9195004eadf351842e54d856036893eae8d1ec2921d671b8852a0541f
+      - source_asset_id: food_snapshot_nchfp_choice_salsa
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 46bafe2d4db457d0e1ab4d3400a0190f2fffff1205b722b3c7d7ce1c9d30958e
+      - source_asset_id: food_snapshot_nchfp_mayhaw_pepper_jelly
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 03b7255800c5ffbae891372217893522e17d84d5d7eb3374b87d0a2658f8fa4b
+      - source_asset_id: food_snapshot_nchfp_sterilization_jars
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 09d9f03057c4a80f203d64940d578e2623971124a9ca5ba80587b7262a87fb38
+      - source_asset_id: food_snapshot_uga_infused_oils_page
+        tag: div
+        attribute: class
+        value: entry-content
+        expected_count: 1
+        heading: 'How to Safely Make Infused Oils: Best Practices for Food Safety'
+        credit: Carla Luisa Schwan, University of Georgia Extension. Circular 1334, published December
+          17, 2024.
+        expected_text_sha256: e413a0aedd83478faf1ef9686e3aeacc7184f852a2897c0d75242d2116c98d89
+      intro: Snapshot of 27 publisher updates, eight complete linked recipes or prerequisite pages, and
+        the UGA infused-oils article, collected September 18, 2026. Original dates, qualifications, tables
+        and illustrations are retained. This dated selection does not claim to mirror the entire NCHFP
+        website or later updates.
+    dependencies:
+      https://nchfp.uga.edu/images/uploads/jars.gif: food_snapshot_nchfp_jars
+      https://nchfp.uga.edu/images/uploads/Kombucha_tea.JPG: food_snapshot_nchfp_kombucha_photo
+      https://nchfp.uga.edu/images/uploads/AdobeStock_245580606.jpeg: food_snapshot_nchfp_ph_chart
+      https://nchfp.uga.edu/images/uploads/Jan_30_icon.jpeg: food_snapshot_nchfp_calendar_icon
+    links:
+      https://www.ncrfsma.org/files/page/files/fn2065_steam_can_it_right_fillable.pdf: ndsu_steam_canning_fn2065
+      https://www.ndsu.edu/agriculture/sites/default/files/2024-03/fn2102.pdf: ndsu_substitutions_fn2102_2024
+      https://nchfp.uga.edu/papers/factsheets/Preserving_Food__Using_Pressure_Canners.pdf: uga_using_pressure_canners
+      https://nchfp.uga.edu/images/uploads/FAQs_Consumer_version_Kombucha.pdf: nchfp_kombucha_faq
+      https://nchfp.uga.edu/how/can/how-do-i-can-tomatoes/tomato-acidification-directions/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/ferment/recipes/kombucha-tea/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/can/how-do-i-can-tomatoes/spaghetti-sauce-with-meat/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/can/canning-vegetables-and-vegetable-products/beans-snap-and-italian-pieces-green-and-wax/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/can/canning-vegetables-and-vegetable-products/soups/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/can/canning-salsa/choice-salsa/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/make-jam-jelly/jellies/mayhaw-pepper-jelly-pectin/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/can/general-information/sterilization-of-empty-jars: food_updates_2026_09_18_direct
+      https://fieldreport.caes.uga.edu/publications/C1312/whats-the-word-on-homemade-kombucha/: uga_kombucha_c1312
+      https://nchfp.uga.edu/publications/uga-publications/using-pressure-canners: uga_using_pressure_canners
+      https://nchfp.uga.edu/publications/uga-publications/using-boiling-water-canners: uga_using_boiling_water_canners_2025
+  review:
+    status: approved
+    evidence:
+    - docs/acquisition-hour-health.md
+    - catalog/acquisition/food-updates-evidence.json
+  blockers: []
+  metadata_sources: []
+resource_updates:
+- id: food-preservation
+  asset_ids:
+  - food
+  - canning_00
+  - canning_02
+  - canning_03
+  - canning_04
+  - canning_05
+  - canning_06
+  - canning_07
+  - montana_drying_vegetables_2017
+  - uga_kombucha_c1312
+  - ndsu_freezing_fn403_2024
+  - umd_drying_ec12
+  - ndsu_steam_canning_fn2065
+  - ndsu_substitutions_fn2102_2024
+  - uga_using_pressure_canners
+  - nchfp_kombucha_faq
+  - uga_using_boiling_water_canners_2025
+  - food_snapshot_nchfp_newsflash_2026_09_18
+  - food_snapshot_nchfp_newsflash_p10_2026_09_18
+  - food_snapshot_nchfp_newsflash_p20_2026_09_18
+  - food_snapshot_nchfp_tomato_acidification
+  - food_snapshot_nchfp_kombucha_recipe
+  - food_snapshot_nchfp_spaghetti_sauce_meat
+  - food_snapshot_nchfp_green_beans
+  - food_snapshot_nchfp_soups
+  - food_snapshot_nchfp_choice_salsa
+  - food_snapshot_nchfp_mayhaw_pepper_jelly
+  - food_snapshot_nchfp_sterilization_jars
+  - food_snapshot_uga_infused_oils_page
+  - food_snapshot_nchfp_jars
+  - food_snapshot_nchfp_kombucha_photo
+  - food_snapshot_nchfp_ph_chart
+  - food_snapshot_nchfp_calendar_icon
+  - food_updates_2026_09_18_direct
+  status: ready
+  reason: 17 pinned PDFs plus a source-pinned build-time HTML snapshot cover the five declared topic groups,
+    27 dated updates, eight complete linked context pages and the UGA oils article. Coverage is frozen
+    to September 18, 2026; it is not a claim about later publisher updates.
+  review:
+    status: approved
+    full_scope: true
+    evidence:
+    - docs/acquisition-hour-health.md
+    - catalog/acquisition/food-updates-evidence.json
+navigation_assignments:
+- asset_id: food_updates_2026_09_18_direct
+  topic_id: food-preservation
+  purpose: practical

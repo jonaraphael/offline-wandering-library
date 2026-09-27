@@ -263,6 +263,29 @@ class CompactSearchTests(unittest.TestCase):
         self.assertNotIn(2, saved)
         self.assertLessEqual(len(saved), 5)
 
+    def test_slow_commit_restarts_checkpoint_timer_after_commit_finishes(self):
+        saved = []
+        now = [10]
+        original_save = search._save_checkpoint
+
+        def save(db, records, state, *args):
+            original_save(db, records, state, *args)
+            if state['unit_cursor']:
+                saved.append(state['unit_cursor'])
+                now[0] += 10  # Commit I/O takes longer than the five-second interval.
+
+        def units(*args):
+            for number, elapsed in enumerate((5, 1, 4, 1)):
+                now[0] += elapsed
+                yield number, {}, [f'Passage {number} about useful knowledge.']
+
+        with patch('owl.search._units', side_effect=units), \
+                patch('owl.search.time.monotonic', side_effect=lambda: now[0]), \
+                patch('owl.search._save_checkpoint', side_effect=save):
+            report = search.build_search(self.target, self.assets)
+        self.assertEqual(saved, [1, 3])  # One second after a slow commit is not another deadline.
+        self.assertEqual(report['documents'], 4)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,0 +1,3417 @@
+schema_version: 1
+recipes:
+- id: hesperian-health-acquisition-v1
+  resource_id: hesperian-health
+  adapter: hesperian
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Publisher English chapter PDFs for Where There Is No Doctor (2025 printing), Where Women Have No
+      Doctor (2024 printing), Where There Is No Dentist (2024), A Book for Midwives (2026 printing), A
+      Community Guide to Environmental Health (2012), Disabled Village Children (2025 printing), Helping
+      Children Who Are Blind (2000), Helping Health Workers Learn (2026 edition)
+    - Preserve whole-book context through chapter titles, front matter, indexes and publisher supplementary
+      pages; one back-matter file remains missing
+    declared_exclude:
+    - Unlicensed redistribution or adapted digital editions
+    - Claiming these eight books comprise the entire Hesperian catalog
+    - Claiming the missing midwives back matter was acquired
+    edition: '2026'
+    expected_filename: en_midw_2026_bm.pdf
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - 270 of 271 official chapter PDFs are pinned. The missing 2026 back matter and discovered older
+    whole-book URLs return HTTP 404. An official complete 2026 PDF purchase is identified, but its
+    file, pin and complete same-edition review remain pending. Never mix chapters across editions.
+  metadata_sources:
+  - url: https://languages.hesperian.org/pages/en/pdf.html
+    kind: html
+- id: wikipedia-en-acquisition-v1
+  resource_id: wikipedia-en
+  adapter: zim_direct
+  version: '1'
+  source_asset_ids:
+  - wikipedia_en
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Whole pinned English maxi archive with images
+    - Small article-list-driven HTML lifeboat under WIKIPEDIA/DIRECT/; aim for roughly 2–5 GB within this
+      planning envelope
+    - 'Lifeboat: human anatomy, common diseases, first-aid concepts and medicines'
+    - 'Lifeboat: crops, food preservation, water treatment and sanitation'
+    - 'Lifeboat: electricity, motors, generators, batteries, radios and mechanical systems'
+    - 'Lifeboat: chemistry, materials, construction, navigation, meteorology and mathematics fundamentals'
+    declared_exclude:
+    - Expanding millions of articles into individual exFAT files
+    - Replacing full maxi with nopic or mini without an explicit profile decision
+    - Selecting lifeboat articles solely to fill a quota
+    entries: []
+    no_padding: true
+    review_required:
+    - all critical procedure steps and figures
+    - complete book/article context
+    - local dependencies
+    - source notices
+    additional_only: false
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - The full English maxi archive is pinned. The in-place direct exporter is available; the curated lifeboat
+    article list and visually verified HTML/image edition are still missing.
+  metadata_sources: []
+- id: appropedia-acquisition-v1
+  resource_id: appropedia
+  adapter: zim_direct
+  version: '1'
+  source_asset_ids:
+  - appropedia_en
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Whole pinned snapshot
+    - Selected critical articles as directly readable HTML
+    declared_exclude:
+    - Critical practical content available only inside ZIM
+    entries: []
+    no_padding: true
+    review_required:
+    - all critical procedure steps and figures
+    - complete book/article context
+    - local dependencies
+    - source notices
+    additional_only: false
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - The locally verified archive has 1,849 frozen candidate entries. Seven candidate pages with
+    replacement characters and four unsupported archive paths remain explicit exceptions. Complete
+    article, illustration, attribution, dependency and generated-output review remain pending.
+  metadata_sources: []
+- id: cd3wd-acquisition-v1
+  resource_id: cd3wd
+  adapter: zim_direct
+  version: '1'
+  source_asset_ids:
+  - cd3wd_en
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Whole current archive initially
+    - Extract original PDFs where available with notices intact
+    declared_exclude:
+    - Unreviewed assumption that every contained publication has the same redistribution license
+    entries: []
+    no_padding: true
+    review_required:
+    - all critical procedure steps and figures
+    - complete book/article context
+    - local dependencies
+    - source notices
+    additional_only: false
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - The locally verified archive has 5,219 candidate entries across 298 complete captured book
+    directories, including 72 original PDFs. Original-publication completeness, notices, dependencies
+    and generated outputs remain unreviewed. Publication rights vary.
+  metadata_sources: []
+- id: ifixit-acquisition-v1
+  resource_id: ifixit
+  adapter: zim_direct
+  version: '1'
+  source_asset_ids:
+  - ifixit_en
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Whole pinned English repair archive
+    - Selected critical repair guides as direct PDF or HTML
+    - Retain steps, photographs, parts context and attribution
+    declared_exclude:
+    - Critical repair instructions available only inside ZIM
+    entries: []
+    no_padding: true
+    review_required:
+    - all critical procedure steps and figures
+    - complete book/article context
+    - local dependencies
+    - source notices
+    additional_only: false
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - All 1,399 frozen guide candidates declare French HTML language tags; sampled English procedure
+    text does not resolve the full language review. Three unsupported paths, complete steps,
+    photographs, parts, attribution and generated dependencies require review.
+  metadata_sources: []
+- id: low-tech-magazine-acquisition-v1
+  resource_id: low-tech-magazine
+  adapter: zim_direct
+  version: '1'
+  source_asset_ids:
+  - lowtech_magazine
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Useful editorial archive
+    - Article images, diagrams, captions and author credits
+    - Static local links and retained publication dates
+    declared_exclude:
+    - Analytics, advertisements and remote-only page dependencies
+    entries: []
+    no_padding: true
+    review_required:
+    - all critical procedure steps and figures
+    - complete book/article context
+    - local dependencies
+    - source notices
+    additional_only: false
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - The locally verified January 2025 archive has 87 frozen English article candidates. Complete
+    HTML, images, diagrams, captions, dates, attribution, local links and generated outputs remain
+    unreviewed. Candidate payload bytes are not accepted content.
+  metadata_sources: []
+- id: direct-reading-expansion-acquisition-v1
+  resource_id: direct-reading-expansion
+  adapter: zim_direct
+  version: '1'
+  source_asset_ids:
+  - appropedia_en
+  - cd3wd_en
+  - ifixit_en
+  - libretexts_bio
+  - libretexts_chem
+  - libretexts_eng
+  - libretexts_geo
+  - libretexts_math
+  - libretexts_med
+  - libretexts_phys
+  - libretexts_stats
+  - wikibooks_en
+  - wikipedia_en
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Additional directly readable copies of material from source resources already selected for this
+      build
+    - Prioritize Appropedia, CD3WD, iFixit, LibreTexts STEM and English Wikibooks
+    - Broaden the article-list-driven high-priority English Wikipedia HTML lifeboat
+    - Preserve diagrams, photographs, labels, captions, instructions, article context and book context
+    - Retain licensing and attribution notices, source versions and ordinary local entry links
+    - Treat the 60 GB target as additional storage beyond existing direct copies and their existing budgets
+    - Limit derivative subjects to the selected source collections; excluding a source collection excludes
+      its planned derivatives from this expansion
+    - Full-1tb default preference for direct reading without a ZIM reader
+    declared_exclude:
+    - Expanding all of Wikipedia into millions of individual exFAT files
+    - Counting existing directly readable source files or previously budgeted direct editions twice
+    - Acquiring additional Khan, language or map collections to fill this budget
+    - Exporting an excluded collection through this representation resource
+    - Dropping illustrations or presenting decontextualized text as an equivalent illustrated guide
+    - Implying that an ordinary-format derivative is redistributable without checking the source license
+    entries: []
+    no_padding: true
+    review_required:
+    - all critical procedure steps and figures
+    - complete book/article context
+    - local dependencies
+    - source notices
+    additional_only: true
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - The tested in-place ZIM exporter and extra-catalog import are implemented. Reviewed article/book lists,
+    collection-specific visual checks and complete verified output editions are still missing. The 60
+    GB target is an additional representation allowance, not downloaded content.
+  metadata_sources: []
+- id: regional-maps-acquisition-v2
+  resource_id: regional-maps
+  adapter: usgs_maps
+  version: '2'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - North America OSM archive; 21 GB planning component
+    - Detailed local and regional GeoPDF/topographic maps; roughly 20–40 GB, with 30 GB in this default
+      envelope
+    - Home state or region
+    - Neighboring states or regions
+    - Likely evacuation corridors
+    - Major watersheds
+    - National and state forests
+    - Major transport corridors
+    - Compact profile may use a 10 GB regional selection instead of the full default envelope
+    declared_exclude:
+    - High-resolution topography for the entire continent by default
+    - Treating physical-world/tectonic reference sheets as local road or evacuation maps
+    - Automatically retaining North America OSM when the world replacement is selected
+    states:
+    - CT
+    - MA
+    - ME
+    - NH
+    - RI
+    - VT
+    overview: []
+    overview_candidates:
+    - id: usgs_usa_general_reference_112764_2001
+      publisher_product_id: '112764'
+      title: General Reference, National Atlas of the United States
+      source_page: https://store.usgs.gov/product/112764
+      source_url: https://store.usgs.gov/assets/yimages/PDF/112764.pdf
+      scale: 5000000
+      version_date: '2001-01-01'
+      print_year: 2002
+      size_bytes: 19527583
+      sha256: null
+      pin_status: pending
+      candidate_manifest: catalog/acquisition/usa-overview-candidate.json
+      candidate_manifest_sha256: ca0e33c39ef34df9023f43ea01b70a91f19e8a5f3ffa3cafa2dd027a7c929be2
+      source_probe_evidence: catalog/acquisition/usa-overview-source-probe-evidence.json
+      historical_warning: Historical 2001 edition printed in 2002. Population, administrative details,
+        transportation and other time-sensitive features are not current. This national overview is not
+        a local road, trail or evacuation-route map.
+    selection_policy: Finest complete base scale that fits, latest edition per sheet; supplement exact
+      base-scale gaps with finer sheets. No arbitrary truncation or byte-target filler.
+    allowances:
+      compact-256gb: 10000000000
+      standard-512gb: 30000000000
+    max_pages: 30
+    historical_editions: 'Coarser publisher maps are explicitly historical: retain edition years and never
+      claim current road or evacuation-route verification.'
+    mixed_scale_gap_supplements: true
+    coverage_scope: All six Census New England state boundaries; subtract only the explicitly identified
+      zero-land Atlantic Ocean polygon. This does not exclude rivers, lakes, or any land.
+    geometry_area_tolerance: 0
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - USA overview USGS product 112764 is selected as a historical national reference; whole-file SHA256
+    and PDF review remain pending.
+  - All 75 selected topographic sources have exact HEAD byte sizes; whole-file SHA256 pins and build-time
+    PDF review remain pending. No map body has been acquired.
+  metadata_sources:
+  - url: https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/0/query?where=STUSAB+IN+%28%27CT%27%2C%27MA%27%2C%27ME%27%2C%27NH%27%2C%27RI%27%2C%27VT%27%29&outFields=STUSAB&returnGeometry=true&outSR=4326&f=geojson
+    kind: json
+    role: boundaries
+    state_property: STUSAB
+  - url: https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF
+    kind: json
+    role: products
+    scale: 24000
+    expected_extent: 7.5 x 7.5 minute
+    pdf_only: true
+  - url: https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF
+    kind: json
+    role: products
+    scale: 100000
+    expected_extent: 30 x 60 minute
+    pdf_only: true
+  - url: https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=1+x+2+degree&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF
+    kind: json
+    role: products
+    scale: 250000
+    expected_extent: 1 x 2 degree
+    pdf_only: true
+  - url: https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Hydro/MapServer/1/query?where=1%3D1&geometry=-70%2C42%2C-69.94%2C42.07&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=MTFCC%2CNAME%2CAREALAND%2CAREAWATER&returnGeometry=true&outSR=4326&f=geojson
+    kind: json
+    role: offshore_water
+- id: regional-maps-detailed-1tb-v1
+  resource_id: regional-maps
+  adapter: usgs_maps
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - All New England land at 1:24,000 from latest published US Topo editions
+    - USA national overview
+    - 80 GB topographic and overview allowance after world-map replacement credit;
+      full-1tb only
+    declared_exclude:
+    - High-resolution topography for the entire continent by default
+    - Treating physical-world/tectonic reference sheets as local road or evacuation
+      maps
+    - Automatically retaining North America OSM when the world replacement is selected
+    states:
+    - CT
+    - MA
+    - ME
+    - NH
+    - RI
+    - VT
+    overview: []
+    overview_candidates:
+    - id: usgs_usa_general_reference_112764_2001
+      publisher_product_id: '112764'
+      title: General Reference, National Atlas of the United States
+      source_page: https://store.usgs.gov/product/112764
+      source_url: https://store.usgs.gov/assets/yimages/PDF/112764.pdf
+      scale: 5000000
+      version_date: '2001-01-01'
+      print_year: 2002
+      size_bytes: 19527583
+      sha256: null
+      pin_status: pending
+      candidate_manifest: catalog/acquisition/usa-overview-candidate.json
+      candidate_manifest_sha256: ca0e33c39ef34df9023f43ea01b70a91f19e8a5f3ffa3cafa2dd027a7c929be2
+      source_probe_evidence: catalog/acquisition/usa-overview-source-probe-evidence.json
+      historical_warning: Historical 2001 edition printed in 2002. Population, administrative
+        details, transportation and other time-sensitive features are not current.
+        This national overview is not a local road, trail or evacuation-route map.
+    selection_policy: Retain every latest New England 1:24,000 sheet; add explicit
+      1:100,000 or 1:250,000 supplements only for remaining footprint gaps. Report
+      required-scale gaps separately; mixed-scale coverage is not a claim of complete
+      1:24,000 coverage.
+    allowances:
+      full-1tb: 80000000000
+    max_pages: 30
+    historical_editions: 'Coarser publisher maps are explicitly historical: retain
+      edition years and never claim current road or evacuation-route verification.'
+    mixed_scale_gap_supplements: false
+    coverage_scope: All six Census New England state boundaries; subtract only the
+      explicitly identified zero-land Atlantic Ocean polygon. This does not exclude
+      rivers, lakes, or any land.
+    geometry_area_tolerance: 0
+    required_scale: 24000
+    gap_supplement_scales:
+    - 100000
+    - 250000
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - Complete selected sheet list must pass exact-byte HEAD checks, source capture
+    and whole-file SHA256 verification.
+  - Actual PDF frames, scales, dates, notices and legibility require review before
+    readiness.
+  - Required-scale coastal gaps remain explicitly recorded until map frames or authoritative
+    valid coastal-water geometry resolve them; no geometry repair or tolerance is
+    applied.
+  metadata_sources:
+  - url: https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/0/query?where=STUSAB+IN+%28%27CT%27%2C%27MA%27%2C%27ME%27%2C%27NH%27%2C%27RI%27%2C%27VT%27%29&outFields=STUSAB&returnGeometry=true&outSR=4326&f=geojson
+    kind: json
+    role: boundaries
+    state_property: STUSAB
+  - url: https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF
+    kind: json
+    role: products
+    scale: 24000
+    expected_extent: 7.5 x 7.5 minute
+    pdf_only: true
+  - url: https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF
+    kind: json
+    role: products
+    scale: 100000
+    expected_extent: 30 x 60 minute
+    pdf_only: true
+  - url: https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=1+x+2+degree&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF
+    kind: json
+    role: products
+    scale: 250000
+    expected_extent: 1 x 2 degree
+    pdf_only: true
+  - url: https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Hydro/MapServer/1/query?where=1%3D1&geometry=-70%2C42%2C-69.94%2C42.07&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=MTFCC%2CNAME%2CAREALAND%2CAREAWATER&returnGeometry=true&outSR=4326&f=geojson
+    kind: json
+    role: offshore_water
+- id: survivor-tier-a-acquisition-v1
+  resource_id: survivor-tier-a
+  adapter: survivor
+  version: '1'
+  source_asset_ids: &id001
+  - survivor_fuller_cones_1904
+  - survivor_fowler_foundations_vol1_1920
+  - survivor_wegmann_water_supply_1918
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - 'Metal/workshop: blacksmithing, forging, foundry and casting, machine tools, machining, welding,
+      sheet metal, toolmaking, mechanical drawing, measurement and metrology, bearings and gears, workshop
+      practice'
+    - 'Construction: carpentry, joinery, masonry, concrete, brickmaking, roofing, plumbing fundamentals,
+      drainage, surveying, structural fundamentals, roads and bridges'
+    - 'Mechanical power: water power, wind power, steam engines, transmission, pumps, mills, engines,
+      boilers and refrigeration fundamentals'
+    - 'Agriculture/processing: farming, soil, crop cultivation, animal husbandry, dairying, cheese and
+      butter, butchering, food drying, grain milling, farm machinery, beekeeping and horticulture'
+    - 'Traditional fabrication: leatherworking, sewing, weaving, rope, papermaking, bookbinding, printing,
+      pottery, glassmaking, woodworking, furniture and basketry'
+    - 'Industrial fundamentals: process/materials chemistry, mining, metallurgy, fuels, lubricants and
+      steam/water systems'
+    - Historical safety warnings for boilers and other obsolete industrial practices
+    - Collection target follows measured accepted works; enumerated candidates do not count as content
+    declared_exclude:
+    - Obsolete medical diagnosis and treatment
+    - Anesthesia, historic surgery, old obstetrics as operational medicine, X-ray practice and historical
+      nursing medicine
+    - Old encyclopedias
+    - Great Books and literature duplicated by Gutenberg
+    - Children’s books duplicated by Book Dash or Gutenberg
+    - Christmas and Thanksgiving collections
+    - Giant historical periodical runs
+    - Most finance, banking, accounting and economics
+    - Duplicated general history and repetitive travelogue
+    - Duplicate editions and scans
+    - Low-quality scans when a better edition exists
+    - Medical history outside an explicitly labeled optional HISTORICAL appendix
+    topic_groups:
+      metal-workshop:
+      - blacksmithing
+      - forging
+      - foundry
+      - casting
+      - machine tools
+      - machining
+      - welding
+      - sheet metal
+      - toolmaking
+      - mechanical drawing
+      - measurement
+      - metrology
+      - bearings
+      - gears
+      - workshop practice
+      construction:
+      - carpentry
+      - joinery
+      - masonry
+      - concrete
+      - brickmaking
+      - roofing
+      - plumbing
+      - drainage
+      - surveying
+      - structural fundamentals
+      - roads
+      - bridges
+      mechanical-power:
+      - water power
+      - wind power
+      - steam engines
+      - transmission
+      - pumps
+      - mills
+      - engines
+      - boilers
+      - refrigeration
+      agriculture-processing:
+      - farming
+      - soil
+      - crop cultivation
+      - animal husbandry
+      - dairying
+      - cheese
+      - butter
+      - butchering
+      - food drying
+      - grain milling
+      - farm machinery
+      - beekeeping
+      - horticulture
+      fabrication:
+      - leatherworking
+      - sewing
+      - weaving
+      - rope
+      - papermaking
+      - bookbinding
+      - printing
+      - pottery
+      - glassmaking
+      - woodworking
+      - furniture
+      - basketry
+      industrial-fundamentals:
+      - process chemistry
+      - materials chemistry
+      - mining
+      - metallurgy
+      - fuels
+      - lubricants
+      - steam systems
+      - water systems
+    required_topics:
+    - blacksmithing
+    - forging
+    - foundry
+    - casting
+    - machine tools
+    - machining
+    - welding
+    - sheet metal
+    - toolmaking
+    - mechanical drawing
+    - measurement
+    - metrology
+    - bearings
+    - gears
+    - workshop practice
+    - carpentry
+    - joinery
+    - masonry
+    - concrete
+    - brickmaking
+    - roofing
+    - plumbing
+    - drainage
+    - surveying
+    - structural fundamentals
+    - roads
+    - bridges
+    - water power
+    - wind power
+    - steam engines
+    - transmission
+    - pumps
+    - mills
+    - engines
+    - boilers
+    - refrigeration
+    - farming
+    - soil
+    - crop cultivation
+    - animal husbandry
+    - dairying
+    - cheese
+    - butter
+    - butchering
+    - food drying
+    - grain milling
+    - farm machinery
+    - beekeeping
+    - horticulture
+    - leatherworking
+    - sewing
+    - weaving
+    - rope
+    - papermaking
+    - bookbinding
+    - printing
+    - pottery
+    - glassmaking
+    - woodworking
+    - furniture
+    - basketry
+    - process chemistry
+    - materials chemistry
+    - mining
+    - metallurgy
+    - fuels
+    - lubricants
+    - steam systems
+    - water systems
+    approved_titles:
+    - source_url: https://www.survivorlibrary.com/library/a_new_and_original_treatise_for_practical_sheet_iron_and_tin_plate_workers1904.pdf
+      title: 'Historical (1904): The Geometrical Development of Round and Oval Cones'
+      asset_id: survivor_fuller_cones_1904
+      reviewed: true
+      topics:
+      - sheet metal
+      evidence:
+      - docs/acquisition-hour-survivor.md
+    - source_url: https://www.survivorlibrary.com/library/a_practical_treatise_on_engineering_and_building_foundations_1920.pdf
+      title: 'Historical (1920): Engineering and Building Foundations — Volume I, Ordinary Foundations'
+      asset_id: survivor_fowler_foundations_vol1_1920
+      reviewed: true
+      topics:
+      - structural fundamentals
+      evidence:
+      - docs/acquisition-hour-survivor.md
+    - source_url: https://www.survivorlibrary.com/library/conveyance_and_distribution_of_water_for_water_supply_1918.pdf
+      title: 'Historical (1918): Conveyance and Distribution of Water for Water Supply'
+      asset_id: survivor_wegmann_water_supply_1918
+      reviewed: true
+      topics:
+      - water systems
+      evidence:
+      - docs/acquisition-hour-survivor.md
+    excluded_urls:
+    - https://www.survivorlibrary.com/library/a_manual_of_angora_goat_raising__with_a_chapter_on_milch_goats-1903.pdf
+    - https://www.survivorlibrary.com/library/a_history_of_the_art_of_bookbinding-with_some_account_of_the_books_of_the_ancients_1894.pdf
+    - https://www.survivorlibrary.com/library/a_handbook_of_industrial_organic_chemistry_1900.pdf
+    exclude_title_patterns:
+    - \b(anesthesia|anaesthesia|obstetrics|surgery|medical treatment|christmas|thanksgiving)\b
+    no_padding: true
+    deduplication: canonical URL, then title/edition review; complementary editions require a written
+      reason
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - Three accepted historical volumes total 83,536,328 bytes and cover sheet-metal cone patterns, ordinary
+    foundations (Volume I), and water distribution. Enumeration across both tiers supports about 40.9
+    GB before exclusions, not a 130 GB collection. Work/edition deduplication, topic coverage and per-volume
+    scan review remain pending. Historical warnings and recorded exclusions remain in force.
+  metadata_sources:
+  - url: https://www.survivorlibrary.com/index.php/library-smithing/
+    kind: html
+    topics:
+    - blacksmithing
+    - forging
+  - url: https://www.survivorlibrary.com/index.php/library-machine_tools/
+    kind: html
+    topics:
+    - machine tools
+    - machining
+    - toolmaking
+  - url: https://www.survivorlibrary.com/index.php/library-farming/
+    kind: html
+    topics:
+    - farming
+    - crop cultivation
+  - url: https://www.survivorlibrary.com/index.php/main-category-index/
+    kind: html
+    topics: []
+  - url: https://www.survivorlibrary.com/index.php/library-wood_carpentry/
+    kind: html
+    topics:
+    - carpentry
+    - joinery
+    - woodworking
+  - url: https://www.survivorlibrary.com/index.php/library-stone_and_masonry/
+    kind: html
+    topics:
+    - masonry
+  - url: https://www.survivorlibrary.com/index.php/library-concrete/
+    kind: html
+    topics:
+    - concrete
+  - url: https://www.survivorlibrary.com/index.php/library-construction/
+    kind: html
+    topics:
+    - structural fundamentals
+    - roofing
+    - roads
+    - bridges
+  - url: https://www.survivorlibrary.com/index.php/library-surveying/
+    kind: html
+    topics:
+    - surveying
+  - url: https://www.survivorlibrary.com/index.php/library-wind_and_water/
+    kind: html
+    topics:
+    - wind power
+    - water power
+  - url: https://www.survivorlibrary.com/index.php/library-steam_engines/
+    kind: html
+    topics:
+    - steam engines
+    - engines
+  - url: https://www.survivorlibrary.com/index.php/library-engineering_hydraulics/
+    kind: html
+    topics:
+    - water systems
+    - pumps
+  - url: https://www.survivorlibrary.com/index.php/library-engineering_drainage/
+    kind: html
+    topics:
+    - drainage
+  - url: https://www.survivorlibrary.com/index.php/library-food/
+    kind: html
+    topics:
+    - food drying
+    - butchering
+  - url: https://www.survivorlibrary.com/index.php/library-beekeeping/
+    kind: html
+    topics:
+    - beekeeping
+  - url: https://www.survivorlibrary.com/index.php/library-leather/
+    kind: html
+    topics:
+    - leatherworking
+  - url: https://www.survivorlibrary.com/index.php/library-sewing/
+    kind: html
+    topics:
+    - sewing
+  - url: https://www.survivorlibrary.com/index.php/library-weaving/
+    kind: html
+    topics:
+    - weaving
+  - url: https://www.survivorlibrary.com/index.php/library-bookbinding/
+    kind: html
+    topics:
+    - bookbinding
+  - url: https://www.survivorlibrary.com/index.php/library-printing/
+    kind: html
+    topics:
+    - printing
+  - url: https://www.survivorlibrary.com/index.php/library-pottery/
+    kind: html
+    topics:
+    - pottery
+  - url: https://www.survivorlibrary.com/index.php/library-glassmaking/
+    kind: html
+    topics:
+    - glassmaking
+  - url: https://www.survivorlibrary.com/index.php/library-wood_furniture/
+    kind: html
+    topics:
+    - furniture
+  - url: https://www.survivorlibrary.com/index.php/library-chemistry/
+    kind: html
+    topics:
+    - process chemistry
+    - materials chemistry
+  - url: https://www.survivorlibrary.com/index.php/library-fuels/
+    kind: html
+    topics:
+    - fuels
+  - url: https://www.survivorlibrary.com/index.php/library-coal_and_mining/
+    kind: html
+    topics:
+    - mining
+  - url: https://www.survivorlibrary.com/index.php/library-boilermaker/
+    kind: html
+    topics:
+    - boilers
+- id: survivor-tier-b-acquisition-v1
+  resource_id: survivor-tier-b
+  adapter: survivor
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Only after Tier A
+    - Shipbuilding
+    - Advanced mining
+    - Specialized foundry books
+    - Radio and electronics history
+    - Refrigeration
+    - Advanced steam engineering
+    - Industrial chemical processes
+    - Railroad engineering
+    - Textile machinery
+    - Historical transportation engineering
+    - Specialized agricultural journals
+    - Historical context and safety warnings
+    declared_exclude:
+    - Generic history, literature or obsolete operational medicine added merely to fill space
+    - Duplicates of Tier A or other libraries
+    required_topics:
+    - shipbuilding
+    - advanced mining
+    - specialized foundry
+    - radio history
+    - electronics history
+    - refrigeration
+    - advanced steam engineering
+    - industrial chemical processes
+    - railroad engineering
+    - textile machinery
+    - historical transportation engineering
+    - specialized agricultural journals
+    approved_titles: []
+    after_resource: survivor-tier-a
+    exclude_source_asset_ids: *id001
+    no_padding: true
+    excluded_urls:
+    - https://www.survivorlibrary.com/library/a_new_and_original_treatise_for_practical_sheet_iron_and_tin_plate_workers1904.pdf
+    - https://www.survivorlibrary.com/library/a_practical_treatise_on_engineering_and_building_foundations_1920.pdf
+    - https://www.survivorlibrary.com/library/conveyance_and_distribution_of_water_for_water_supply_1918.pdf
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - Enumerated specialist candidates remain unaccepted pending cross-tier/work deduplication, topic coverage,
+    scan quality, rights evidence and exact pins. No unmeasured 30 GB content claim is made.
+  metadata_sources:
+  - url: https://www.survivorlibrary.com/index.php/library-shipbuilding/
+    kind: html
+    topics:
+    - shipbuilding
+  - url: https://www.survivorlibrary.com/index.php/library-coal_and_mining/
+    kind: html
+    topics:
+    - advanced mining
+  - url: https://www.survivorlibrary.com/index.php/library-radio/
+    kind: html
+    topics:
+    - radio history
+    - electronics history
+  - url: https://www.survivorlibrary.com/index.php/library-refrigeration/
+    kind: html
+    topics:
+    - refrigeration
+  - url: https://www.survivorlibrary.com/index.php/library-steam_engines/
+    kind: html
+    topics:
+    - advanced steam engineering
+  - url: https://www.survivorlibrary.com/index.php/library-chemistry/
+    kind: html
+    topics:
+    - industrial chemical processes
+  - url: https://www.survivorlibrary.com/index.php/library-railroads/
+    kind: html
+    topics:
+    - railroad engineering
+    - historical transportation engineering
+  - url: https://www.survivorlibrary.com/index.php/library-weaving/
+    kind: html
+    topics:
+    - textile machinery
+  - url: https://www.survivorlibrary.com/index.php/library-bee_journal_american/
+    kind: html
+    topics:
+    - specialized agricultural journals
+- id: phet-acquisition-v1
+  resource_id: phet
+  adapter: phet_review
+  version: '1'
+  source_asset_ids:
+  - phet_ohms_law
+  - phet_circuit_construction_kit_dc
+  - phet_forces_and_motion_basics
+  - phet_energy_skate_park_basics
+  - phet_projectile_motion
+  - phet_pendulum_lab
+  - phet_wave_on_a_string
+  - phet_gravity_force_lab_basics
+  - phet_bending_light
+  - phet_states_of_matter_basics
+  - phet_build_an_atom
+  - phet_balancing_chemical_equations
+  - phet_ph_scale_basics
+  - phet_natural_selection
+  - phet_fractions_intro
+  - phet_area_builder
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - English self-contained HTML5 simulations
+    - Offline dependencies and attribution retained
+    - Test file-based execution on intended devices
+    declared_exclude:
+    - Java and Flash dependence
+    - Assuming iPhone can execute arbitrary local HTML5 files or install an app offline
+    required_tests:
+    - cold file launch with network blocked
+    - representative control interaction
+    - reset
+    - all required simulation screens and browser layouts
+    tested_devices:
+    - Chromium desktop browser at 1280x900 and 390x844 viewports; physical mobile devices untested
+    untested_devices:
+    - intended phones and other target devices
+    device_validation:
+      status: pending
+      reason: Physical-device certification is independent of content and browser review.
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - Sixteen exact-version English HTML5 simulations are pinned. All 32 offline desktop and phone-viewport
+    checks pass cold launch, reviewed model interaction, reset and layout checks. Broader required-screen
+    coverage remains a content-review blocker. Original notices and optional analytics/update requests
+    are retained.
+  metadata_sources: []
+- id: linux-programming-docs-acquisition-v1
+  resource_id: linux-programming-docs
+  adapter: manual_html
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Linux man-pages project
+    - GNU coreutils
+    - Bash
+    - Git documentation
+    - GCC and binutils basics
+    - Python 3 documentation
+    - SQLite documentation
+    - POSIX reference where redistribution permits
+    - OpenSSH
+    - Networking commands
+    - Filesystem tools
+    - systemd documentation where relevant
+    - Basic C-library documentation
+    - Authoritative project docs with versions and licenses
+    - PDF only when it is a canonical offline form
+    declared_exclude:
+    - Substituting Stack Overflow for authoritative documentation
+    - Unnecessary packaging duplication such as a whole Python ZIM when a direct bundle suffices
+    - Restricted POSIX material without permission
+    outputs: []
+    missing_manuals: []
+    edition: OpenSSH portable 10.5p1 complete manual set; older OpenBSD 7.9 records optional
+    accepted_recipe: openssh-portable-10-5p1-v1
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - Complete Python/SQLite packages, selected GNU/Linux/systemd manuals, and all 16 OpenSSH portable 10.5p1
+    manuals are pinned with original sources and notices. Essential dependencies and optional/platform
+    cross-references still need explicit classification and review. Physical-device certification is tracked
+    separately.
+  metadata_sources: []
+- id: ted-ed-acquisition-v1
+  resource_id: ted-ed
+  adapter: lessons
+  version: '1'
+  source_asset_ids:
+  - ted_ed
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Educational lessons at lower priority
+    - Offline video with lesson context and notices
+    declared_exclude:
+    - Required learning content available only through streamed video
+    course_ids: []
+    formats:
+    - html
+    - pdf
+    - mp4
+    - webm
+    - mp3
+    - vtt
+    ordinary_files_only: true
+    install_required: false
+    outputs: []
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - Exact ordinary-file lesson inventory with course/lesson IDs, revision, licenses and dependency pins
+    is unresolved.
+  - Playback, captions and complete lesson context must be verified at build time.
+  metadata_sources: []
+- id: khan-core-stem-acquisition-v1
+  resource_id: khan-core-stem
+  adapter: lessons
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - 'Math: arithmetic, pre-algebra, algebra I/II, geometry, trigonometry, precalculus, calculus, differential
+      equations where available, statistics/probability and linear algebra'
+    - 'Science: physics, chemistry, biology, earth science and electrical engineering where present'
+    - 'Computing: algorithms, computer-science basics and durable programming fundamentals'
+    - Subset manifest and original license/attribution retained
+    declared_exclude:
+    - Automatically downloading every course
+    - Standardized-test preparation
+    - Finance
+    - Career preparation
+    - Contemporary civics and news-dependent content
+    - Duplicated humanities
+    - Material substantially duplicated by stronger textbook sources
+    - Substituting the existing unsplit 180 GB archive for this 90 GB subset
+    course_ids: []
+    formats:
+    - html
+    - pdf
+    - mp4
+    - webm
+    - mp3
+    - vtt
+    ordinary_files_only: true
+    install_required: false
+    outputs: []
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - Curated English core-STEM lesson IDs and complete dependency inventories remain pending. Ordinary
+    HTML/media/caption rendering is implemented; exercises must preserve prompts, figures, hints and supplied
+    solutions. No Kolibri installation or reading-time server is required. The unsplit 180 GB archive
+    is excluded.
+  metadata_sources: []
+- id: stackoverflow-durable-acquisition-v1
+  resource_id: stackoverflow-durable
+  adapter: stackexchange
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - 'Languages: C, C++, Python, Java, C#, shell/Bash, core JavaScript and HTML/CSS'
+    - 'Systems: POSIX, Unix/Linux, filesystems, processes, threads, sockets, TCP/IP, serial communications,
+      USB concepts, permissions, networking and memory management'
+    - 'Data: SQL, SQLite, relational fundamentals, parsing, text processing, Unicode, regular expressions,
+      binary file formats and serialization'
+    - 'Tools: Git, GCC, compilers, assemblers, linkers, make/build systems, debuggers and package construction
+      without cloud dependencies'
+    - 'Computer science: algorithms, data structures, numerical computing, compression, basic cryptographic
+      programming and concurrency'
+    - 'Per question: question, accepted answer, one or two useful alternatives, relevant correction/warning
+      comments, tags, dates, version context and attribution/license'
+    - Canonical-question mapping for duplicates
+    - Generated static HTML with a reproducible selection recipe
+    declared_exclude:
+    - The whole roughly 107 GB English ZIM
+    - Unanswered questions
+    - Mapped duplicates and negative or very-low-score junk
+    - User profiles, badges, full edit history and trivial comments
+    - Page chrome, analytics and advertisements
+    - AWS, Azure, GCP, Firebase and SaaS-specific integrations
+    - Stripe, Twilio, advertising and social-media APIs
+    - App Store and Play Store workflows and CI SaaS
+    - React/Angular/framework version churn unless conceptually useful
+    - Old jQuery plugins and ancient web-framework minutiae
+    - WordPress/plugin-version questions
+    - Dead browser APIs, Flash, Flex and Silverlight
+    - BlackBerry, Symbian and Windows Phone app development
+    question_min_score: 1
+    answer_min_score: 1
+    keep_nonnegative_accepted: true
+    max_alternative_answers: 2
+    canonical_duplicates: true
+    legacy_only: false
+    explicit_legacy_version_required: true
+    separate_legacy_search: true
+    retain_nontrivial_comments: true
+    input_ids: []
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - The deterministic durable/legacy selector, canonical duplicate handling, static renderer and attribution
+    preservation are implemented. Four shared official input archives are enumerated with exact sizes
+    and publisher MD5/SHA-1 checksums. Whole-file SHA-256 capture, pinned extracted XML, complete dependency
+    review and measured accepted output remain pending.
+  metadata_sources: []
+- id: stackoverflow-legacy-acquisition-v1
+  resource_id: stackoverflow-legacy
+  adapter: stackexchange
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Python 2
+    - Older GCC
+    - Java 6, 7 and 8
+    - Old .NET
+    - Windows XP/7 internals and repair
+    - Old BIOS and MBR booting
+    - 32-bit Linux
+    - Legacy serial and parallel ports
+    - Old filesystems
+    - Ancient compiler/toolchain issues
+    - Older Android only where useful for hardware reuse
+    - Separate from normal search ranking
+    - 'Visible result badge: LEGACY — MAY APPLY ONLY TO OLD SYSTEMS'
+    - Preserve dates, versions and per-post attribution
+    declared_exclude:
+    - Every old web framework
+    - Legacy content silently mixed into current operational advice
+    question_min_score: 1
+    answer_min_score: 1
+    keep_nonnegative_accepted: true
+    max_alternative_answers: 2
+    canonical_duplicates: true
+    legacy_only: true
+    explicit_legacy_version_required: true
+    separate_legacy_search: true
+    retain_nontrivial_comments: true
+    input_ids: []
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - The explicit legacy classifier, separate static rendering and visible legacy search filter are implemented.
+    Shared official archive capture, XML pins, dependency review and measured legacy outputs remain pending;
+    age alone does not classify a question as legacy.
+  metadata_sources: []
+- id: gutenberg-core-acquisition-v1
+  resource_id: gutenberg-core
+  adapter: gutenberg
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Major English-language literature
+    - World classics in English translation
+    - Poetry
+    - Mythology and folklore
+    - History
+    - Philosophy
+    - Biographies
+    - Science classics
+    - Mathematics classics
+    - Practical historical texts
+    - Dictionaries and reference works not better duplicated elsewhere
+    - Children and young-adult classics
+    - Major drama
+    - Language-learning and public-domain grammars
+    - Older technical books complementing Survivor Library
+    - One preferred reading representation per work; HTML with images when useful, UTF-8 TXT fallback
+      and an EPUB where it adds phone-reading value
+    - Retain book-level rights notices and country-specific public-domain limitations
+    declared_exclude:
+    - Audio editions
+    - Kindle and MOBI duplicates
+    - Duplicate EPUB variants
+    - Low-value OCR scans when a good text edition exists
+    - Materially identical editions
+    - Periodicals without clear utility
+    book_ids: []
+    direct_scope_only: true
+    ordinary_files_preferred: true
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - The requested book-level deduplication, preferred direct HTML/EPUB representations and broad curated
+    selection remain unfinished. The compact edition is a smaller, explicitly selected historical nonfiction
+    archive set; the whole English archive is a pinned optional input only.
+  metadata_sources: []
+- id: childrens-library-acquisition-v1
+  resource_id: childrens-library
+  adapter: children
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - 'Book Dash: essentially all available books, with normal ebook PDFs, extracted text, covers and
+      illustrations, available translations and optional print-ready PDFs'
+    - 'African Storybook: whole collection initially where authorized exports allow PDF, HTML or images
+      plus text'
+    - 'Gutenberg: picture books, fairy tales, folk tales, early readers, classics, adventure, nature and
+      science, history and biography, teen classics and poetry'
+    - Deduplicate titles already represented better by another source
+    - Top-level navigation alongside Gutenberg, health, food/water, repair, maps and search
+    - Preserve illustrations and per-book author, illustrator, translator and license credits
+    declared_exclude:
+    - Depending solely on the Book Dash ZIM
+    - A ZIM-only children’s collection when direct exports are practical
+    - Redundant editions across publishers
+    book_ids: []
+    direct_scope_only: true
+    ordinary_files_preferred: true
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - All 61 complete EPUBs at the publisher Book Dash archive commit are pinned in English, French and
+    Xhosa. Current 221-title Book Dash PDF library download endpoint returns HTTP 403, and African Storybook
+    full approved multilingual PDF export is not yet reproducibly acquired. EPUBs require a reader.
+  metadata_sources: []
+- id: stackexchange-practical-acquisition-v1
+  resource_id: stackexchange-practical
+  adapter: stackexchange
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Electrical Engineering
+    - Home Improvement / DIY
+    - Gardening
+    - Mechanics
+    - Unix and Linux
+    - Ham Radio
+    - Outdoors
+    - Sustainability
+    - Woodworking
+    - 3D Printing
+    - Selected SuperUser
+    - Selected GIS
+    - Substantially intact useful site content after quality filtering
+    - Question/answer context, dates, correction comments and per-post attribution
+    - Generated static HTML
+    declared_exclude:
+    - Junk
+    - Unanswered questions
+    - Duplicate material
+    - ZIM as the primary delivered representation
+    book_ids: []
+    direct_scope_only: true
+    ordinary_files_preferred: true
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - The original quality-filtered direct HTML corpus remains unfinished. A ready compact alternative contains
+    twelve complete published site archives, with broad Super User and GIS coverage rather than a hand-selected
+    subset.
+  metadata_sources: []
+- id: stackexchange-science-acquisition-v1
+  resource_id: stackexchange-science
+  adapter: stackexchange
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    declared_include:
+    - Almost all Mathematics questions meeting quality thresholds
+    - Physics
+    - Biology
+    - Chemistry optionally
+    - Question/answer context, dates, corrections and attribution
+    - Generated static HTML
+    declared_exclude:
+    - Junk, unanswered questions and canonical duplicates
+    book_ids: []
+    direct_scope_only: true
+    ordinary_files_preferred: true
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - The original quality-filtered direct HTML corpus remains unfinished. A ready compact alternative contains
+    the complete published mathematics, physics, biology and chemistry archives.
+  metadata_sources: []
+- id: food-updates-2026-09-18
+  resource_id: food-preservation
+  adapter: html_snapshot
+  version: '1'
+  source_asset_ids:
+  - food_snapshot_nchfp_calendar_icon
+  - food_snapshot_nchfp_choice_salsa
+  - food_snapshot_nchfp_green_beans
+  - food_snapshot_nchfp_jars
+  - food_snapshot_nchfp_kombucha_photo
+  - food_snapshot_nchfp_kombucha_recipe
+  - food_snapshot_nchfp_mayhaw_pepper_jelly
+  - food_snapshot_nchfp_newsflash_2026_09_18
+  - food_snapshot_nchfp_newsflash_p10_2026_09_18
+  - food_snapshot_nchfp_newsflash_p20_2026_09_18
+  - food_snapshot_nchfp_ph_chart
+  - food_snapshot_nchfp_soups
+  - food_snapshot_nchfp_spaghetti_sauce_meat
+  - food_snapshot_nchfp_sterilization_jars
+  - food_snapshot_nchfp_tomato_acidification
+  - food_snapshot_uga_infused_oils_page
+  output_asset_ids:
+  - food_updates_2026_09_18_direct
+  workspace_bytes: 0
+  dependency_asset_ids:
+  - nchfp_kombucha_faq
+  - ndsu_steam_canning_fn2065
+  - ndsu_substitutions_fn2102_2024
+  - uga_kombucha_c1312
+  - uga_using_boiling_water_canners_2025
+  - uga_using_pressure_canners
+  selection:
+    outputs:
+    - asset_id: food_updates_2026_09_18_direct
+      title: NCHFP preservation updates and complete linked guidance
+      sections:
+      - source_asset_id: food_snapshot_nchfp_newsflash_2026_09_18
+        tag: article
+        attribute: class
+        value: article--resource
+        expected_count: 10
+        expected_text_sha256: fcc105e710ca6b4a1cead31aed55645f2a5d18247a54b0ab1b4366c0c1a7a722
+      - source_asset_id: food_snapshot_nchfp_newsflash_p10_2026_09_18
+        tag: article
+        attribute: class
+        value: article--resource
+        expected_count: 10
+        expected_text_sha256: 94a72c4a3acf54a4ae63e09214dd9ce659adb48ba44c524dd720c694cdd51a14
+      - source_asset_id: food_snapshot_nchfp_newsflash_p20_2026_09_18
+        tag: article
+        attribute: class
+        value: article--resource
+        expected_count: 7
+        expected_text_sha256: ec9c1d3724fe4604bd551498d8dc56ca22b6c4c63dcb76d723e79379e1fa93b0
+      - source_asset_id: food_snapshot_nchfp_tomato_acidification
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 201f30d8fce1e91bfb4a9c3f4ce8804ffb6b985a5cbaa0ba5a35b24e261f4849
+      - source_asset_id: food_snapshot_nchfp_kombucha_recipe
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: c2e08afee2fd4db0bd7772785586e7e1a84bbf3525ccdb9a072179927da8828c
+      - source_asset_id: food_snapshot_nchfp_spaghetti_sauce_meat
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 7ca5ae2c1e2495408a64df46d334469c35e5c50ad3755778f79166f66ea32fcf
+      - source_asset_id: food_snapshot_nchfp_green_beans
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 9f4a4649642d9d8b69583359cd59bf76edb15fb7dea3ade137092811590bf0d1
+      - source_asset_id: food_snapshot_nchfp_soups
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 6b31bbe9195004eadf351842e54d856036893eae8d1ec2921d671b8852a0541f
+      - source_asset_id: food_snapshot_nchfp_choice_salsa
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 46bafe2d4db457d0e1ab4d3400a0190f2fffff1205b722b3c7d7ce1c9d30958e
+      - source_asset_id: food_snapshot_nchfp_mayhaw_pepper_jelly
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 03b7255800c5ffbae891372217893522e17d84d5d7eb3374b87d0a2658f8fa4b
+      - source_asset_id: food_snapshot_nchfp_sterilization_jars
+        tag: div
+        attribute: class
+        value: section__content
+        class_exact: true
+        expected_count: 2
+        match_index: 0
+        expected_text_sha256: 09d9f03057c4a80f203d64940d578e2623971124a9ca5ba80587b7262a87fb38
+      - source_asset_id: food_snapshot_uga_infused_oils_page
+        tag: div
+        attribute: class
+        value: entry-content
+        expected_count: 1
+        heading: 'How to Safely Make Infused Oils: Best Practices for Food Safety'
+        credit: Carla Luisa Schwan, University of Georgia Extension. Circular 1334, published December
+          17, 2024.
+        expected_text_sha256: e413a0aedd83478faf1ef9686e3aeacc7184f852a2897c0d75242d2116c98d89
+      intro: Snapshot of 27 publisher updates, eight complete linked recipes or prerequisite pages, and
+        the UGA infused-oils article, collected September 18, 2026. Original dates, qualifications, tables
+        and illustrations are retained. This dated selection does not claim to mirror the entire NCHFP
+        website or later updates.
+    dependencies:
+      https://nchfp.uga.edu/images/uploads/jars.gif: food_snapshot_nchfp_jars
+      https://nchfp.uga.edu/images/uploads/Kombucha_tea.JPG: food_snapshot_nchfp_kombucha_photo
+      https://nchfp.uga.edu/images/uploads/AdobeStock_245580606.jpeg: food_snapshot_nchfp_ph_chart
+      https://nchfp.uga.edu/images/uploads/Jan_30_icon.jpeg: food_snapshot_nchfp_calendar_icon
+    links:
+      https://www.ncrfsma.org/files/page/files/fn2065_steam_can_it_right_fillable.pdf: ndsu_steam_canning_fn2065
+      https://www.ndsu.edu/agriculture/sites/default/files/2024-03/fn2102.pdf: ndsu_substitutions_fn2102_2024
+      https://nchfp.uga.edu/papers/factsheets/Preserving_Food__Using_Pressure_Canners.pdf: uga_using_pressure_canners
+      https://nchfp.uga.edu/images/uploads/FAQs_Consumer_version_Kombucha.pdf: nchfp_kombucha_faq
+      https://nchfp.uga.edu/how/can/how-do-i-can-tomatoes/tomato-acidification-directions/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/ferment/recipes/kombucha-tea/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/can/how-do-i-can-tomatoes/spaghetti-sauce-with-meat/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/can/canning-vegetables-and-vegetable-products/beans-snap-and-italian-pieces-green-and-wax/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/can/canning-vegetables-and-vegetable-products/soups/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/can/canning-salsa/choice-salsa/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/make-jam-jelly/jellies/mayhaw-pepper-jelly-pectin/: food_updates_2026_09_18_direct
+      https://nchfp.uga.edu/how/can/general-information/sterilization-of-empty-jars: food_updates_2026_09_18_direct
+      https://fieldreport.caes.uga.edu/publications/C1312/whats-the-word-on-homemade-kombucha/: uga_kombucha_c1312
+      https://nchfp.uga.edu/publications/uga-publications/using-pressure-canners: uga_using_pressure_canners
+      https://nchfp.uga.edu/publications/uga-publications/using-boiling-water-canners: uga_using_boiling_water_canners_2025
+  review:
+    status: approved
+    evidence:
+    - docs/acquisition-hour-health.md
+    - catalog/acquisition/food-updates-evidence.json
+  blockers: []
+  metadata_sources: []
+- id: books-culture-expansion-acquisition-v1
+  resource_id: books-culture-expansion
+  adapter: gutenberg_expansion
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    candidate_limit: 2000
+    existing_book_ids: []
+    existing_work_keys: []
+    compact_inventory_review: pending
+    no_padding: true
+    representation: one complete illustrated ordinary-file edition per work
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - Freeze ranked complete works absent from the compact book collections, then acquire, deduplicate and
+    review measured ordinary-file editions. No estimated bytes count as knowledge.
+  metadata_sources: []
+- id: complete-courses-expansion-acquisition-v1
+  resource_id: complete-courses-expansion
+  adapter: ocw_expansion
+  version: '1'
+  source_asset_ids: []
+  output_asset_ids: []
+  selection:
+    language: en
+    media_preference: one publisher rendition, normally720p; higher only for legibility
+    no_padding: true
+    courses:
+    - id: 6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016
+      rank: 1
+      subject: computing
+      download_url: https://ocw.mit.edu/courses/6-0001-introduction-to-computer-science-and-programming-in-python-fall-2016/download/
+    - id: 6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011
+      rank: 2
+      subject: engineering
+      download_url: https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/download/
+    - id: 8-01sc-classical-mechanics-fall-2016
+      rank: 3
+      subject: physical-sciences
+      download_url: https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/download/
+    - id: 18-01sc-single-variable-calculus-fall-2010
+      rank: 4
+      subject: mathematics
+      download_url: https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/download/
+    - id: 18-06sc-linear-algebra-fall-2011
+      rank: 5
+      subject: mathematics
+      download_url: https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/download/
+    - id: 5-111sc-principles-of-chemical-science-fall-2014
+      rank: 6
+      subject: physical-sciences
+      download_url: https://ocw.mit.edu/courses/5-111sc-principles-of-chemical-science-fall-2014/download/
+    - id: 7-01sc-fundamentals-of-biology-fall-2011
+      rank: 7
+      subject: life-sciences
+      download_url: https://ocw.mit.edu/courses/7-01sc-fundamentals-of-biology-fall-2011/download/
+    - id: 9-00sc-introduction-to-psychology-fall-2011
+      rank: 8
+      subject: humanities-social-sciences
+      download_url: https://ocw.mit.edu/courses/9-00sc-introduction-to-psychology-fall-2011/download/
+  review:
+    status: pending
+    evidence: []
+  blockers:
+  - Freeze ranked MIT OpenCourseWare courses and all essential course-package/media dependencies. Accept
+    complete courses using measured ordinary files with captions, notices and supplied exercise solutions;
+    essential unavailable materials remain blockers.
+  metadata_sources: []
+- id: epub-pdf-bookdash_a_beautiful_day_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_a_beautiful_day_en_epub_source
+  output_asset_ids:
+  - bookdash_a_beautiful_day_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_a_beautiful_day_en: bookdash_a_beautiful_day_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/a-beautiful-day/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_a_dancers_tale_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_a_dancers_tale_en_epub_source
+  output_asset_ids:
+  - bookdash_a_dancers_tale_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_a_dancers_tale_en: bookdash_a_dancers_tale_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/a-dancers-tale/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_a_fish_and_a_gift_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_a_fish_and_a_gift_en_epub_source
+  output_asset_ids:
+  - bookdash_a_fish_and_a_gift_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_a_fish_and_a_gift_en: bookdash_a_fish_and_a_gift_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/a-fish-and-a-gift/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_a_fish_and_a_gift_fr-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_a_fish_and_a_gift_fr_epub_source
+  output_asset_ids:
+  - bookdash_a_fish_and_a_gift_fr
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_a_fish_and_a_gift_fr: bookdash_a_fish_and_a_gift_fr_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/a-fish-and-a-gift/fr/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_a_fish_and_a_gift_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_a_fish_and_a_gift_xh_epub_source
+  output_asset_ids:
+  - bookdash_a_fish_and_a_gift_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_a_fish_and_a_gift_xh: bookdash_a_fish_and_a_gift_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/a-fish-and-a-gift/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_a_house_for_mouse_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_a_house_for_mouse_en_epub_source
+  output_asset_ids:
+  - bookdash_a_house_for_mouse_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_a_house_for_mouse_en: bookdash_a_house_for_mouse_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/a-house-for-mouse/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_a_house_for_mouse_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_a_house_for_mouse_xh_epub_source
+  output_asset_ids:
+  - bookdash_a_house_for_mouse_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_a_house_for_mouse_xh: bookdash_a_house_for_mouse_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/a-house-for-mouse/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_a_tiny_seed_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_a_tiny_seed_en_epub_source
+  output_asset_ids:
+  - bookdash_a_tiny_seed_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_a_tiny_seed_en: bookdash_a_tiny_seed_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/a-tiny-seed/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_a_tiny_seed_fr-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_a_tiny_seed_fr_epub_source
+  output_asset_ids:
+  - bookdash_a_tiny_seed_fr
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_a_tiny_seed_fr: bookdash_a_tiny_seed_fr_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/a-tiny-seed/fr/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_a_tiny_seed_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_a_tiny_seed_xh_epub_source
+  output_asset_ids:
+  - bookdash_a_tiny_seed_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_a_tiny_seed_xh: bookdash_a_tiny_seed_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/a-tiny-seed/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_amazing_daisy_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_amazing_daisy_en_epub_source
+  output_asset_ids:
+  - bookdash_amazing_daisy_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_amazing_daisy_en: bookdash_amazing_daisy_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/amazing-daisy/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_amazing_daisy_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_amazing_daisy_xh_epub_source
+  output_asset_ids:
+  - bookdash_amazing_daisy_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_amazing_daisy_xh: bookdash_amazing_daisy_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/amazing-daisy/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_bathtub_safari_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_bathtub_safari_en_epub_source
+  output_asset_ids:
+  - bookdash_bathtub_safari_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_bathtub_safari_en: bookdash_bathtub_safari_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/bathtub-safari/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_come_back_cat_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_come_back_cat_en_epub_source
+  output_asset_ids:
+  - bookdash_come_back_cat_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_come_back_cat_en: bookdash_come_back_cat_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/come-back-cat/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_come_back_cat_fr-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_come_back_cat_fr_epub_source
+  output_asset_ids:
+  - bookdash_come_back_cat_fr
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_come_back_cat_fr: bookdash_come_back_cat_fr_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/come-back-cat/fr/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_come_back_cat_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_come_back_cat_xh_epub_source
+  output_asset_ids:
+  - bookdash_come_back_cat_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_come_back_cat_xh: bookdash_come_back_cat_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/come-back-cat/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_gracas_dream_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_gracas_dream_en_epub_source
+  output_asset_ids:
+  - bookdash_gracas_dream_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_gracas_dream_en: bookdash_gracas_dream_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/gracas-dream/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_gracas_dream_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_gracas_dream_xh_epub_source
+  output_asset_ids:
+  - bookdash_gracas_dream_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_gracas_dream_xh: bookdash_gracas_dream_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/gracas-dream/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_grandpas_gold_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_grandpas_gold_en_epub_source
+  output_asset_ids:
+  - bookdash_grandpas_gold_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_grandpas_gold_en: bookdash_grandpas_gold_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/grandpas-gold/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_how_about_you_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_how_about_you_en_epub_source
+  output_asset_ids:
+  - bookdash_how_about_you_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_how_about_you_en: bookdash_how_about_you_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/how-about-you/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_i_will_help_you_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_i_will_help_you_en_epub_source
+  output_asset_ids:
+  - bookdash_i_will_help_you_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_i_will_help_you_en: bookdash_i_will_help_you_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/i-will-help-you/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_is_there_anyone_like_me_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_is_there_anyone_like_me_en_epub_source
+  output_asset_ids:
+  - bookdash_is_there_anyone_like_me_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_is_there_anyone_like_me_en: bookdash_is_there_anyone_like_me_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/is-there-anyone-like-me/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_is_there_anyone_like_me_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_is_there_anyone_like_me_xh_epub_source
+  output_asset_ids:
+  - bookdash_is_there_anyone_like_me_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_is_there_anyone_like_me_xh: bookdash_is_there_anyone_like_me_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/is-there-anyone-like-me/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_karabos_question_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_karabos_question_en_epub_source
+  output_asset_ids:
+  - bookdash_karabos_question_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_karabos_question_en: bookdash_karabos_question_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/karabos-question/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_little_ants_big_plan_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_little_ants_big_plan_en_epub_source
+  output_asset_ids:
+  - bookdash_little_ants_big_plan_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_little_ants_big_plan_en: bookdash_little_ants_big_plan_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/little-ants-big-plan/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_little_ants_big_plan_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_little_ants_big_plan_xh_epub_source
+  output_asset_ids:
+  - bookdash_little_ants_big_plan_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_little_ants_big_plan_xh: bookdash_little_ants_big_plan_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/little-ants-big-plan/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_londi_the_dreaming_girl_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_londi_the_dreaming_girl_en_epub_source
+  output_asset_ids:
+  - bookdash_londi_the_dreaming_girl_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_londi_the_dreaming_girl_en: bookdash_londi_the_dreaming_girl_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/londi-the-dreaming-girl/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_lory_dory_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_lory_dory_en_epub_source
+  output_asset_ids:
+  - bookdash_lory_dory_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_lory_dory_en: bookdash_lory_dory_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/lory-dory/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_maddy_moona_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_maddy_moona_en_epub_source
+  output_asset_ids:
+  - bookdash_maddy_moona_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_maddy_moona_en: bookdash_maddy_moona_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/maddy-moona/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_miss_helens_magical_world_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_miss_helens_magical_world_en_epub_source
+  output_asset_ids:
+  - bookdash_miss_helens_magical_world_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_miss_helens_magical_world_en: bookdash_miss_helens_magical_world_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/miss-helens-magical-world/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_queen_of_soweto_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_queen_of_soweto_en_epub_source
+  output_asset_ids:
+  - bookdash_queen_of_soweto_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_queen_of_soweto_en: bookdash_queen_of_soweto_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/queen-of-soweto/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_rafikis_style_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_rafikis_style_en_epub_source
+  output_asset_ids:
+  - bookdash_rafikis_style_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_rafikis_style_en: bookdash_rafikis_style_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/rafikis-style/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_rafikis_style_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_rafikis_style_xh_epub_source
+  output_asset_ids:
+  - bookdash_rafikis_style_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_rafikis_style_xh: bookdash_rafikis_style_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/rafikis-style/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_sbus_special_shoes_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_sbus_special_shoes_en_epub_source
+  output_asset_ids:
+  - bookdash_sbus_special_shoes_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_sbus_special_shoes_en: bookdash_sbus_special_shoes_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/sbus-special-shoes/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_searching_for_the_spirit_of_spring_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_searching_for_the_spirit_of_spring_en_epub_source
+  output_asset_ids:
+  - bookdash_searching_for_the_spirit_of_spring_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_searching_for_the_spirit_of_spring_en: bookdash_searching_for_the_spirit_of_spring_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/searching-for-the-spirit-of-spring/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_searching_for_the_spirit_of_spring_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_searching_for_the_spirit_of_spring_xh_epub_source
+  output_asset_ids:
+  - bookdash_searching_for_the_spirit_of_spring_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_searching_for_the_spirit_of_spring_xh: bookdash_searching_for_the_spirit_of_spring_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/searching-for-the-spirit-of-spring/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_sima_and_siza_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_sima_and_siza_en_epub_source
+  output_asset_ids:
+  - bookdash_sima_and_siza_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_sima_and_siza_en: bookdash_sima_and_siza_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/sima-and-siza/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_sindi_and_the_moon_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_sindi_and_the_moon_en_epub_source
+  output_asset_ids:
+  - bookdash_sindi_and_the_moon_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_sindi_and_the_moon_en: bookdash_sindi_and_the_moon_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/sindi-and-the-moon/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_sindiwe_and_the_fireflies_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_sindiwe_and_the_fireflies_en_epub_source
+  output_asset_ids:
+  - bookdash_sindiwe_and_the_fireflies_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_sindiwe_and_the_fireflies_en: bookdash_sindiwe_and_the_fireflies_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/sindiwe-and-the-fireflies/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_sindiwe_and_the_fireflies_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_sindiwe_and_the_fireflies_xh_epub_source
+  output_asset_ids:
+  - bookdash_sindiwe_and_the_fireflies_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_sindiwe_and_the_fireflies_xh: bookdash_sindiwe_and_the_fireflies_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/sindiwe-and-the-fireflies/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_singing_the_truth_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_singing_the_truth_en_epub_source
+  output_asset_ids:
+  - bookdash_singing_the_truth_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_singing_the_truth_en: bookdash_singing_the_truth_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/singing-the-truth/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_singing_the_truth_fr-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_singing_the_truth_fr_epub_source
+  output_asset_ids:
+  - bookdash_singing_the_truth_fr
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_singing_the_truth_fr: bookdash_singing_the_truth_fr_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/singing-the-truth/fr/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_singing_the_truth_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_singing_the_truth_xh_epub_source
+  output_asset_ids:
+  - bookdash_singing_the_truth_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_singing_the_truth_xh: bookdash_singing_the_truth_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/singing-the-truth/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_sizwes_smile_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_sizwes_smile_en_epub_source
+  output_asset_ids:
+  - bookdash_sizwes_smile_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_sizwes_smile_en: bookdash_sizwes_smile_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/sizwes-smile/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_sizwes_smile_fr-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_sizwes_smile_fr_epub_source
+  output_asset_ids:
+  - bookdash_sizwes_smile_fr
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_sizwes_smile_fr: bookdash_sizwes_smile_fr_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/sizwes-smile/fr/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_sizwes_smile_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_sizwes_smile_xh_epub_source
+  output_asset_ids:
+  - bookdash_sizwes_smile_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_sizwes_smile_xh: bookdash_sizwes_smile_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/sizwes-smile/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_sleepy_mr_sloth_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_sleepy_mr_sloth_en_epub_source
+  output_asset_ids:
+  - bookdash_sleepy_mr_sloth_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_sleepy_mr_sloth_en: bookdash_sleepy_mr_sloth_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/sleepy-mr-sloth/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_sleepy_mr_sloth_fr-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_sleepy_mr_sloth_fr_epub_source
+  output_asset_ids:
+  - bookdash_sleepy_mr_sloth_fr
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_sleepy_mr_sloth_fr: bookdash_sleepy_mr_sloth_fr_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/sleepy-mr-sloth/fr/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_sleepy_mr_sloth_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_sleepy_mr_sloth_xh_epub_source
+  output_asset_ids:
+  - bookdash_sleepy_mr_sloth_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_sleepy_mr_sloth_xh: bookdash_sleepy_mr_sloth_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/sleepy-mr-sloth/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_thatos_birthday_surprise_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_thatos_birthday_surprise_en_epub_source
+  output_asset_ids:
+  - bookdash_thatos_birthday_surprise_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_thatos_birthday_surprise_en: bookdash_thatos_birthday_surprise_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/thatos-birthday-surprise/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_there_must_be_a_rainbow_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_there_must_be_a_rainbow_en_epub_source
+  output_asset_ids:
+  - bookdash_there_must_be_a_rainbow_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_there_must_be_a_rainbow_en: bookdash_there_must_be_a_rainbow_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/there-must-be-a-rainbow/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_together_were_strong_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_together_were_strong_en_epub_source
+  output_asset_ids:
+  - bookdash_together_were_strong_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_together_were_strong_en: bookdash_together_were_strong_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/together-were-strong/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_tortoise_finds_his_home_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_tortoise_finds_his_home_en_epub_source
+  output_asset_ids:
+  - bookdash_tortoise_finds_his_home_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_tortoise_finds_his_home_en: bookdash_tortoise_finds_his_home_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/tortoise-finds-his-home/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_tortoise_finds_his_home_fr-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_tortoise_finds_his_home_fr_epub_source
+  output_asset_ids:
+  - bookdash_tortoise_finds_his_home_fr
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_tortoise_finds_his_home_fr: bookdash_tortoise_finds_his_home_fr_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/tortoise-finds-his-home/fr/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_tortoise_finds_his_home_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_tortoise_finds_his_home_xh_epub_source
+  output_asset_ids:
+  - bookdash_tortoise_finds_his_home_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_tortoise_finds_his_home_xh: bookdash_tortoise_finds_his_home_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/tortoise-finds-his-home/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_walking_together_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_walking_together_en_epub_source
+  output_asset_ids:
+  - bookdash_walking_together_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_walking_together_en: bookdash_walking_together_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/walking-together/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_walking_together_xh-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_walking_together_xh_epub_source
+  output_asset_ids:
+  - bookdash_walking_together_xh
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_walking_together_xh: bookdash_walking_together_xh_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/walking-together/xh/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_what_if_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_what_if_en_epub_source
+  output_asset_ids:
+  - bookdash_what_if_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_what_if_en: bookdash_what_if_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/what-if/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_whose_button_is_this_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_whose_button_is_this_en_epub_source
+  output_asset_ids:
+  - bookdash_whose_button_is_this_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_whose_button_is_this_en: bookdash_whose_button_is_this_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/whose-button-is-this/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_why_is_nita_upside_down_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_why_is_nita_upside_down_en_epub_source
+  output_asset_ids:
+  - bookdash_why_is_nita_upside_down_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_why_is_nita_upside_down_en: bookdash_why_is_nita_upside_down_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/why-is-nita-upside-down/en/
+    kind: original-publisher-metadata
+- id: epub-pdf-bookdash_zanele_situ_my_story_en-v1
+  resource_id: childrens-library
+  adapter: epub_pdf
+  version: '1'
+  source_asset_ids:
+  - bookdash_zanele_situ_my_story_en_epub_source
+  output_asset_ids:
+  - bookdash_zanele_situ_my_story_en
+  workspace_bytes: 0
+  selection:
+    outputs:
+      bookdash_zanele_situ_my_story_en: bookdash_zanele_situ_my_story_en_epub_source
+    pymupdf_version: 1.28.2
+    layout:
+      width: 600
+      height: 800
+      fontsize: 16
+    trim_image_only_cover: true
+    print_css: ''
+    illustration_policy: bookdash-pages-v1
+    allowed_warnings: []
+  review:
+    status: approved
+    evidence:
+    - catalog/acquisition/pdf-editions-review.json
+    - tests/test_acquisition_epub_pdf.py
+    - docs/pdf-editions.md
+  blockers: []
+  metadata_sources:
+  - url: https://bookdash.github.io/bookdash-books/zanele-situ-my-story/en/
+    kind: original-publisher-metadata

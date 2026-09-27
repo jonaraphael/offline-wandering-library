@@ -1,0 +1,2060 @@
+schema_version: 1
+assets:
+- id: docs_linux_manpages_619
+  title: GNU/Linux Programmer's Manual — Linux man-pages book
+  category: computing
+  format: pdf
+  source_url: https://www.kernel.org/pub/linux/docs/man-pages/book/man-pages-6.19.pdf
+  destination: REFERENCE/COMPUTING/LINUX/man-pages-6.19.pdf
+  version: '6.19'
+  size_bytes: 9753062
+  sha256: cba8dda2b7cb0cbe732cb31538d1a37abb201d45b752b36bc2df6a3d9c00fffa
+  license: Mixed Linux man-pages free licenses; redistribution notice preservation not yet build-integrated
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Linux man-pages project and individual manual authors
+  source_page: https://www.kernel.org/pub/linux/docs/man-pages/book/man-pages-6.19.pdf
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Linux man-pages project and individual manual authors. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Canonical publisher PDF, 4,118 pages. Complete temporary acquisition matched upstream whole-file
+    SHA-256. Title, middle technical table/code page and final-page text were checked. Original source archive
+    is recorded separately for per-page license notices; no blanket single license is asserted. The per-page copyright/authorship notices remain only in the
+    separately recorded source input, which is not currently delivered by the build. Redistribution
+    is conservatively disabled until those required source/notices accompany the PDF.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_openssh_openbsd79_ssh_1
+  title: 'OpenSSH manual: ssh.1'
+  category: computing
+  format: html
+  source_url: https://man.openbsd.org/OpenBSD-7.9/ssh.1
+  destination: REFERENCE/COMPUTING/OPENSSH_OPENBSD79/ssh.1.html
+  version: OpenBSD 7.9 release manual
+  size_bytes: 88317
+  sha256: 655345b81cc856d9cc79b008cc51e383e9385aaa5caa4ceee386d4ce259ca0ac
+  license: OpenSSH BSD-style and other permissive licenses; individual notices apply
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: OpenSSH/OpenBSD manual authors
+  source_page: https://man.openbsd.org/OpenBSD-7.9/ssh.1
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: OpenSSH/OpenBSD manual authors. Preserve original authorship, source/version notices and the
+    separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original publisher release manual, not the development manual URL. Readable static
+    body with original author section; optional root-relative stylesheet and online cross-manual links are
+    not bundled. Eight manuals succeeded; four listed primary manuals were unavailable during verification.
+    The separate OpenSSH 10.5p1 source input offers a future complete same-release extraction route.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_openssh_openbsd79_sshd_8
+  title: 'OpenSSH manual: sshd.8'
+  category: computing
+  format: html
+  source_url: https://man.openbsd.org/OpenBSD-7.9/sshd.8
+  destination: REFERENCE/COMPUTING/OPENSSH_OPENBSD79/sshd.8.html
+  version: OpenBSD 7.9 release manual
+  size_bytes: 52877
+  sha256: a2f2b0f6e18324dac81acf9817101dd8aad59a74654e68aedff1dfc33bc9ebaa
+  license: OpenSSH BSD-style and other permissive licenses; individual notices apply
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: OpenSSH/OpenBSD manual authors
+  source_page: https://man.openbsd.org/OpenBSD-7.9/sshd.8
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: OpenSSH/OpenBSD manual authors. Preserve original authorship, source/version notices and the
+    separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original publisher release manual, not the development manual URL. Readable static
+    body with original author section; optional root-relative stylesheet and online cross-manual links are
+    not bundled. Eight manuals succeeded; four listed primary manuals were unavailable during verification.
+    The separate OpenSSH 10.5p1 source input offers a future complete same-release extraction route.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_openssh_openbsd79_ssh_config_5
+  title: 'OpenSSH manual: ssh_config.5'
+  category: computing
+  format: html
+  source_url: https://man.openbsd.org/OpenBSD-7.9/ssh_config.5
+  destination: REFERENCE/COMPUTING/OPENSSH_OPENBSD79/ssh_config.5.html
+  version: OpenBSD 7.9 release manual
+  size_bytes: 117088
+  sha256: f433fd645fbede9ab2acf435b3474e5cdd7c4a5baeab355d489b548554049a01
+  license: OpenSSH BSD-style and other permissive licenses; individual notices apply
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: OpenSSH/OpenBSD manual authors
+  source_page: https://man.openbsd.org/OpenBSD-7.9/ssh_config.5
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: OpenSSH/OpenBSD manual authors. Preserve original authorship, source/version notices and the
+    separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original publisher release manual, not the development manual URL. Readable static
+    body with original author section; optional root-relative stylesheet and online cross-manual links are
+    not bundled. Eight manuals succeeded; four listed primary manuals were unavailable during verification.
+    The separate OpenSSH 10.5p1 source input offers a future complete same-release extraction route.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_openssh_openbsd79_sshd_config_5
+  title: 'OpenSSH manual: sshd_config.5'
+  category: computing
+  format: html
+  source_url: https://man.openbsd.org/OpenBSD-7.9/sshd_config.5
+  destination: REFERENCE/COMPUTING/OPENSSH_OPENBSD79/sshd_config.5.html
+  version: OpenBSD 7.9 release manual
+  size_bytes: 111448
+  sha256: df271782701851f6eaa970d06a00c30fa89da206384af2b1c810155cc60f406b
+  license: OpenSSH BSD-style and other permissive licenses; individual notices apply
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: OpenSSH/OpenBSD manual authors
+  source_page: https://man.openbsd.org/OpenBSD-7.9/sshd_config.5
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: OpenSSH/OpenBSD manual authors. Preserve original authorship, source/version notices and the
+    separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original publisher release manual, not the development manual URL. Readable static
+    body with original author section; optional root-relative stylesheet and online cross-manual links are
+    not bundled. Eight manuals succeeded; four listed primary manuals were unavailable during verification.
+    The separate OpenSSH 10.5p1 source input offers a future complete same-release extraction route.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_openssh_openbsd79_ssh_agent_1
+  title: 'OpenSSH manual: ssh-agent.1'
+  category: computing
+  format: html
+  source_url: https://man.openbsd.org/OpenBSD-7.9/ssh-agent.1
+  destination: REFERENCE/COMPUTING/OPENSSH_OPENBSD79/ssh-agent.1.html
+  version: OpenBSD 7.9 release manual
+  size_bytes: 19897
+  sha256: 00c947e26540c465f64a376dd043bd9beb02cd6124f9beb0b81312f0b0d421ab
+  license: OpenSSH BSD-style and other permissive licenses; individual notices apply
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: OpenSSH/OpenBSD manual authors
+  source_page: https://man.openbsd.org/OpenBSD-7.9/ssh-agent.1
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: OpenSSH/OpenBSD manual authors. Preserve original authorship, source/version notices and the
+    separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original publisher release manual, not the development manual URL. Readable static
+    body with original author section; optional root-relative stylesheet and online cross-manual links are
+    not bundled. Eight manuals succeeded; four listed primary manuals were unavailable during verification.
+    The separate OpenSSH 10.5p1 source input offers a future complete same-release extraction route.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_openssh_openbsd79_ssh_add_1
+  title: 'OpenSSH manual: ssh-add.1'
+  category: computing
+  format: html
+  source_url: https://man.openbsd.org/OpenBSD-7.9/ssh-add.1
+  destination: REFERENCE/COMPUTING/OPENSSH_OPENBSD79/ssh-add.1.html
+  version: OpenBSD 7.9 release manual
+  size_bytes: 22873
+  sha256: 950ee20a1ed401fcf64b7989ba1b5258d035d61d8d14a1fcb5966f13eef7f322
+  license: OpenSSH BSD-style and other permissive licenses; individual notices apply
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: OpenSSH/OpenBSD manual authors
+  source_page: https://man.openbsd.org/OpenBSD-7.9/ssh-add.1
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: OpenSSH/OpenBSD manual authors. Preserve original authorship, source/version notices and the
+    separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original publisher release manual, not the development manual URL. Readable static
+    body with original author section; optional root-relative stylesheet and online cross-manual links are
+    not bundled. Eight manuals succeeded; four listed primary manuals were unavailable during verification.
+    The separate OpenSSH 10.5p1 source input offers a future complete same-release extraction route.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_openssh_openbsd79_sftp_1
+  title: 'OpenSSH manual: sftp.1'
+  category: computing
+  format: html
+  source_url: https://man.openbsd.org/OpenBSD-7.9/sftp.1
+  destination: REFERENCE/COMPUTING/OPENSSH_OPENBSD79/sftp.1.html
+  version: OpenBSD 7.9 release manual
+  size_bytes: 43563
+  sha256: 2bd9ab8a20c850c3258de91d21e16f3b79706839e27c64f7947e935fbf4a44fd
+  license: OpenSSH BSD-style and other permissive licenses; individual notices apply
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: OpenSSH/OpenBSD manual authors
+  source_page: https://man.openbsd.org/OpenBSD-7.9/sftp.1
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: OpenSSH/OpenBSD manual authors. Preserve original authorship, source/version notices and the
+    separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original publisher release manual, not the development manual URL. Readable static
+    body with original author section; optional root-relative stylesheet and online cross-manual links are
+    not bundled. Eight manuals succeeded; four listed primary manuals were unavailable during verification.
+    The separate OpenSSH 10.5p1 source input offers a future complete same-release extraction route.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_openssh_openbsd79_scp_1
+  title: 'OpenSSH manual: scp.1'
+  category: computing
+  format: html
+  source_url: https://man.openbsd.org/OpenBSD-7.9/scp.1
+  destination: REFERENCE/COMPUTING/OPENSSH_OPENBSD79/scp.1.html
+  version: OpenBSD 7.9 release manual
+  size_bytes: 27057
+  sha256: fec3e21ceb4b2463ec1d1323cc036eec18ba74579e5007b7ea39c9340b73ae8c
+  license: OpenSSH BSD-style and other permissive licenses; individual notices apply
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: OpenSSH/OpenBSD manual authors
+  source_page: https://man.openbsd.org/OpenBSD-7.9/scp.1
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: OpenSSH/OpenBSD manual authors. Preserve original authorship, source/version notices and the
+    separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original publisher release manual, not the development manual URL. Readable static
+    body with original author section; optional root-relative stylesheet and online cross-manual links are
+    not bundled. Eight manuals succeeded; four listed primary manuals were unavailable during verification.
+    The separate OpenSSH 10.5p1 source input offers a future complete same-release extraction route.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd
+  title: 'systemd: systemd'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 103162
+  sha256: e20e6d2bf454c4305dfd396127de980b146a5a3bb849ad61956b2f153c833331
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemctl
+  title: 'systemd: systemctl'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemctl.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemctl.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 195319
+  sha256: 85e7b384bf7f47dac5d35768005d6e74bad2eb153c613b7242442ec2f383da72
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemctl.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_journalctl
+  title: 'systemd: journalctl'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/journalctl.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/journalctl.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 86130
+  sha256: d2a264edbbd46ed91efed52bcb12f7145f20891f76e2397c6983e6ecca242500
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/journalctl.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_unit
+  title: 'systemd: systemd.unit'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.unit.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd.unit.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 173590
+  sha256: 6394c000063616f6d629512f5dedbb864a368c415b3c5597867f377a30f1457c
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd.unit.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_service
+  title: 'systemd: systemd.service'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.service.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd.service.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 120422
+  sha256: aad52649ee01e069a16d13863e2658b09d86e9a445e9cdc68dd53953f47481f2
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd.service.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_socket
+  title: 'systemd: systemd.socket'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.socket.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd.socket.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 66640
+  sha256: ce034e1ab91eed7a945b2e5f2bf199024b55b979961cb377ff32b639eff4f688
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd.socket.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_timer
+  title: 'systemd: systemd.timer'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.timer.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd.timer.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 30043
+  sha256: f943ce348a2a4645c98a30dfac8d92fe4ca7250f45ec155e5642066764352546
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd.timer.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_mount
+  title: 'systemd: systemd.mount'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.mount.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd.mount.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 42599
+  sha256: 0df6cfaea361014955575b67e4876c1fc6cae41ebf96015ea95fa55d96b09fcf
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd.mount.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_exec
+  title: 'systemd: systemd.exec'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.exec.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd.exec.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 370424
+  sha256: f51d96b6acacb11f87a2bb0136d22d002365d3dae5fe6c120ca1f77cc3277a80
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd.exec.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_resource_control
+  title: 'systemd: systemd.resource-control'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.resource-control.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd.resource-control.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 109410
+  sha256: 66de0b38a41b32738e011466c2b98a965e49cdd681e661bbb03165d02b441678
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd.resource-control.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_system_conf
+  title: 'systemd: systemd-system.conf'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd-system.conf.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd-system.conf.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 57172
+  sha256: f9ce839d42566eaa72a2a683b6dead87f9cc012fde12ab33e94da6b7873a8841
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd-system.conf.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_journald_service
+  title: 'systemd: systemd-journald.service'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd-journald.service.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd-journald.service.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 28145
+  sha256: 2c8008edf48b18e324adcfba7de3cf6c484f0827941387ac183947020dfef607
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd-journald.service.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_journald_conf
+  title: 'systemd: journald.conf'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/journald.conf.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/journald.conf.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 39206
+  sha256: 209bb0d61eb687b33c33edf3127e787bc9bdf1f7c8205ec1ba1c9f1a84260550
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/journald.conf.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_networkd_service
+  title: 'systemd: systemd-networkd.service'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd-networkd.service.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd-networkd.service.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 6797
+  sha256: a80be0767874a580b16c41d4e3ecc18808104ab020f5047544f56a2e039170e8
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd-networkd.service.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_network
+  title: 'systemd: systemd.network'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.network.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd.network.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 392452
+  sha256: 350dd11451ecd657799c416c453d4a8a8d79e111bd6f1b0ca9d2196459038587
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd.network.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_networkctl
+  title: 'systemd: networkctl'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/networkctl.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/networkctl.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 31255
+  sha256: f412c6a28ec9ed3ad950b808fb90ad2c7b212ccae50482ba0aab9b30a0d6633a
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/networkctl.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_resolvectl
+  title: 'systemd: resolvectl'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/resolvectl.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/resolvectl.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 46446
+  sha256: ea738b9428fb3e3702fe23eadd2452dcfad0df9d856bac15acb27df8c235dc36
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/resolvectl.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_bootup
+  title: 'systemd: bootup'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/bootup.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/bootup.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 22633
+  sha256: e82f106cd5daa570357b522bb60553a75b4bd87eda991b98aee530bea14026ab
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/bootup.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_special
+  title: 'systemd: systemd.special'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.special.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd.special.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 90582
+  sha256: 92998fca3f18d8d6455bebe624bb7f45d87a4093c94ae8c7afb04798de35ca7c
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd.special.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_systemd_analyze
+  title: 'systemd: systemd-analyze'
+  category: computing
+  format: html
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd-analyze.html
+  destination: REFERENCE/COMPUTING/SYSTEMD/systemd-analyze.html
+  version: 259.6 (publisher /259 manual set)
+  size_bytes: 114405
+  sha256: a240d630288d186a77ce79a608e462db8d82d3e6e0d1899d1832606f0055ec05
+  license: LGPL-2.1-or-later; preserve individual notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://www.freedesktop.org/software/systemd/man/259/systemd-analyze.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original fixed-major publisher HTML; all downloaded pages identify systemd 259.6. Technical
+    body, inline styles and diagrams are static. Optional remote jQuery/navigation and links to unselected
+    manuals remain; core reading works offline. This is a selected 20-manual administration set, not every
+    systemd manual.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_ip
+  title: 'Linux command manual: ip'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/iproute2/ip.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/ip.8.html
+  version: iproute2 6.15.0-1
+  size_bytes: 36611
+  sha256: ea144a7e7120e3fee3760c9338fb5be00421e8eaebe54c40b4abff90956776ca
+  license: Mixed upstream free licenses; retain the matching package copyright and license companions
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/iproute2/ip.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_ss
+  title: 'Linux command manual: ss'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/iproute2/ss.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/ss.8.html
+  version: iproute2 6.15.0-1
+  size_bytes: 43680
+  sha256: 0552c50fffb84d5b2bb5ae984a0b093417e37a31697d640d8a0b8214c664af17
+  license: Mixed upstream free licenses; retain the matching package copyright and license companions
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/iproute2/ss.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_ping
+  title: 'Linux command manual: ping'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/iputils-ping/ping.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/ping.8.html
+  version: iputils-ping 3:20240905-3
+  size_bytes: 45290
+  sha256: 15b62df119811e8d905148c8007387ac4cc39441ee13a0d4286602742523b032
+  license: Mixed upstream free licenses; retain the matching package copyright and license companions
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/iputils-ping/ping.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_mount
+  title: 'Linux command manual: mount'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/mount/mount.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/mount.8.html
+  version: mount 2.41-5
+  size_bytes: 162840
+  sha256: 533980cae8d3025ee98cf3c46ccfe55c8a3cd81f2532191740478b1420a89395
+  license: Mixed util-linux free licenses; file-specific copyright and license preservation not verified
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/mount/mount.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible
+    licenses but does not contain this manual's complete file-specific copyright and permission
+    notices. Redistribution is conservatively disabled until a matching notice/source companion
+    is integrated.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_umount
+  title: 'Linux command manual: umount'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/mount/umount.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/umount.8.html
+  version: mount 2.41-5
+  size_bytes: 35184
+  sha256: ab08d17ed41d19b83bbcaad7b4b3ca221ab7c251b576a21c5918d79f48da4eab
+  license: Mixed util-linux free licenses; file-specific copyright and license preservation not verified
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/mount/umount.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible
+    licenses but does not contain this manual's complete file-specific copyright and permission
+    notices. Redistribution is conservatively disabled until a matching notice/source companion
+    is integrated.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_lsblk
+  title: 'Linux command manual: lsblk'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/util-linux/lsblk.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/lsblk.8.html
+  version: util-linux 2.41-5
+  size_bytes: 36983
+  sha256: 2798d7605dce5fe156fb443205fbbeba49fa0ff3275e86dce775e25b36aca21e
+  license: Mixed util-linux free licenses; file-specific copyright and license preservation not verified
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/util-linux/lsblk.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible
+    licenses but does not contain this manual's complete file-specific copyright and permission
+    notices. Redistribution is conservatively disabled until a matching notice/source companion
+    is integrated.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_findmnt
+  title: 'Linux command manual: findmnt'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/util-linux/findmnt.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/findmnt.8.html
+  version: util-linux 2.41-5
+  size_bytes: 39017
+  sha256: 2f393ac552291fca5405d77ba954f0053c09426a3031346fdfcdbd29199fb01a
+  license: Mixed util-linux free licenses; file-specific copyright and license preservation not verified
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/util-linux/findmnt.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible
+    licenses but does not contain this manual's complete file-specific copyright and permission
+    notices. Redistribution is conservatively disabled until a matching notice/source companion
+    is integrated.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_fsck
+  title: 'Linux command manual: fsck'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/util-linux/fsck.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/fsck.8.html
+  version: util-linux 2.41-5
+  size_bytes: 36113
+  sha256: e44d6a78c47153d38eeb309a5b93a60add9fb9029fef39dfcd13cdb2d3c27601
+  license: Mixed util-linux free licenses; file-specific copyright and license preservation not verified
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/util-linux/fsck.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible
+    licenses but does not contain this manual's complete file-specific copyright and permission
+    notices. Redistribution is conservatively disabled until a matching notice/source companion
+    is integrated.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_blkid
+  title: 'Linux command manual: blkid'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/util-linux/blkid.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/blkid.8.html
+  version: util-linux 2.41-5
+  size_bytes: 35788
+  sha256: aa62fa33313d0e65eac7f481a2bf9c5c2b9ec7dbf0a535afaba5b0d25f49d0da
+  license: Mixed util-linux free licenses; file-specific copyright and license preservation not verified
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/util-linux/blkid.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible
+    licenses but does not contain this manual's complete file-specific copyright and permission
+    notices. Redistribution is conservatively disabled until a matching notice/source companion
+    is integrated.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_fdisk
+  title: 'Linux command manual: fdisk'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/fdisk/fdisk.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/fdisk.8.html
+  version: fdisk 2.41-5
+  size_bytes: 42056
+  sha256: 1774e578175d8e8d493e89e5d34dad98b2398f6689a26530e81049100d2f3b5d
+  license: Mixed util-linux free licenses; file-specific copyright and license preservation not verified
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/fdisk/fdisk.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer. The admitted util-linux licensing overview lists possible
+    licenses but does not contain this manual's complete file-specific copyright and permission
+    notices. Redistribution is conservatively disabled until a matching notice/source companion
+    is integrated.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_e2fsck
+  title: 'Linux command manual: e2fsck'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/e2fsprogs/e2fsck.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/e2fsck.8.html
+  version: e2fsprogs 1.47.2-3+b11
+  size_bytes: 39951
+  sha256: 15ecff72771540560f61aa48bdfe1fee282ab3fee1f786d6a88c9f366ac2e827
+  license: Mixed upstream free licenses; retain the matching package copyright and license companions
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/e2fsprogs/e2fsck.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_mke2fs
+  title: 'Linux command manual: mke2fs'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/e2fsprogs/mke2fs.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/mke2fs.8.html
+  version: e2fsprogs 1.47.2-3+b11
+  size_bytes: 54962
+  sha256: c5878b248af61dfb236d31fb45bccf238be9562d1353961359bc5889796a893f
+  license: Mixed upstream free licenses; retain the matching package copyright and license companions
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/e2fsprogs/mke2fs.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_tool_tune2fs
+  title: 'Linux command manual: tune2fs'
+  category: computing
+  format: html
+  source_url: https://manpages.debian.org/trixie/e2fsprogs/tune2fs.8.en.html
+  destination: REFERENCE/COMPUTING/LINUX_TOOLS/tune2fs.8.html
+  version: e2fsprogs 1.47.2-3+b11
+  size_bytes: 56187
+  sha256: 4a7e095e0bad46d4db6faf533d76585e205c1eaf51d5b8c3ef9b8c1f400e358d
+  license: Mixed upstream free licenses; retain the matching package copyright and license companions
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Upstream command authors; rendered by Debian Manpages
+  source_page: https://manpages.debian.org/trixie/e2fsprogs/tune2fs.8.en.html
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Upstream command authors; rendered by Debian Manpages. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Complete original Debian stable-release package manual. Inline formatting and full technical
+    text remain readable offline; a missing decorative Debian logo, online search, and some cross-manual links
+    remain. The exact package version is preserved in the document footer.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_lgpl_license
+  title: systemd LGPL license
+  category: computing
+  format: txt
+  source_url: https://raw.githubusercontent.com/systemd/systemd/v259/LICENSE.LGPL2.1
+  destination: REFERENCE/COMPUTING/LICENSES/systemd-license.txt
+  version: v259 source tag
+  size_bytes: 26518
+  sha256: 6d9bb3b7fc818a8facc4cc296060a0883fef8710d6498f86165335846e82ee9d
+  license: LGPL-2.1-or-later
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project and Free Software Foundation
+  source_page: https://raw.githubusercontent.com/systemd/systemd/v259/LICENSE.LGPL2.1
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project and Free Software Foundation. Preserve original authorship, source/version notices
+    and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Original unmodified licensing companion. Preserve alongside applicable manuals.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_systemd_license_readme
+  title: systemd licensing overview
+  category: computing
+  format: md
+  source_url: https://raw.githubusercontent.com/systemd/systemd/v259/LICENSES/README.md
+  destination: REFERENCE/COMPUTING/LICENSES/systemd-license-readme.md
+  version: v259 source tag
+  size_bytes: 4144
+  sha256: bce1d2e9bad517b493168b37604c5d02a7fb638b4d1b9fc730adafa06c603456
+  license: LGPL-2.1-or-later; individual exceptions listed
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: systemd project
+  source_page: https://raw.githubusercontent.com/systemd/systemd/v259/LICENSES/README.md
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: systemd project. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: reference
+  illustrated: false
+  description: Original unmodified licensing companion. Preserve alongside applicable manuals.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_iproute2_copyright
+  title: iproute2 copyright and licensing
+  category: computing
+  format: txt
+  source_url: https://metadata.ftp-master.debian.org/changelogs/main/i/iproute2/iproute2_6.15.0-1_copyright
+  destination: REFERENCE/COMPUTING/LICENSES/debian-iproute2-copyright.txt
+  version: 6.15.0-1
+  size_bytes: 2625
+  sha256: 344ddcf4dfe65b86416e058309218b4ac1ee7bc1e624cc40ad87222cc979fdac
+  license: GPL-2.0-only; notices retained
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: iproute2 contributors and Debian maintainers
+  source_page: https://metadata.ftp-master.debian.org/changelogs/main/i/iproute2/iproute2_6.15.0-1_copyright
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: iproute2 contributors and Debian maintainers. Preserve original authorship, source/version notices
+    and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Original unmodified licensing companion. Preserve alongside applicable manuals.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_iputils_copyright
+  title: iputils copyright and licensing
+  category: computing
+  format: txt
+  source_url: https://metadata.ftp-master.debian.org/changelogs/main/i/iputils/iputils_20240905-3_copyright
+  destination: REFERENCE/COMPUTING/LICENSES/debian-iputils-copyright.txt
+  version: 20240905-3
+  size_bytes: 2896
+  sha256: 7b81610874d5b35eead7bf8bd1267d2210ac1c6078ac78561309f8fe9f6d7050
+  license: BSD-3-Clause and GPL-2.0-or-later; file-specific terms apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: iputils contributors and Debian maintainers
+  source_page: https://metadata.ftp-master.debian.org/changelogs/main/i/iputils/iputils_20240905-3_copyright
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: iputils contributors and Debian maintainers. Preserve original authorship, source/version notices
+    and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Original unmodified licensing companion. Preserve alongside applicable manuals.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_e2fsprogs_copyright
+  title: e2fsprogs copyright and licensing
+  category: computing
+  format: txt
+  source_url: https://metadata.ftp-master.debian.org/changelogs/main/e/e2fsprogs/e2fsprogs_1.47.2-3_copyright
+  destination: REFERENCE/COMPUTING/LICENSES/debian-e2fsprogs-copyright.txt
+  version: 1.47.2-3
+  size_bytes: 20459
+  sha256: 2041b5febdc110151ca3372d01b16b85dda1888e33f3f60fce0f59940eed7d19
+  license: Mixed GPL/BSD/LGPL licenses; file-specific terms apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: e2fsprogs contributors and Debian maintainers
+  source_page: https://metadata.ftp-master.debian.org/changelogs/main/e/e2fsprogs/e2fsprogs_1.47.2-3_copyright
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: e2fsprogs contributors and Debian maintainers. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Original unmodified licensing companion. Preserve alongside applicable manuals.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_util_linux_licensing
+  title: util-linux licensing overview
+  category: computing
+  format: txt
+  source_url: https://raw.githubusercontent.com/util-linux/util-linux/v2.41/README.licensing
+  destination: REFERENCE/COMPUTING/LICENSES/util-linux-licensing.txt
+  version: v2.41
+  size_bytes: 1037
+  sha256: 4c2db318192bda62f3f8fcf71488bb5e602ae4385eba281d711b46cc13a40bb3
+  license: Mixed GPL/BSD/public-domain licenses; individual file notices apply
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: util-linux project
+  source_page: https://raw.githubusercontent.com/util-linux/util-linux/v2.41/README.licensing
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: util-linux project. Preserve original authorship, source/version notices and the separately
+    cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Original unmodified licensing companion. Preserve alongside applicable manuals.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_gpl2_license
+  title: GNU General Public License version 2
+  category: computing
+  format: txt
+  source_url: https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+  destination: REFERENCE/COMPUTING/LICENSES/gpl-2.0.txt
+  version: '2'
+  size_bytes: 17984
+  sha256: edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6
+  license: GPL-2.0 license text; verbatim copying permitted
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Free Software Foundation
+  source_page: https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Free Software Foundation. Preserve original authorship, source/version notices and the separately
+    cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Original unmodified licensing companion. Preserve alongside applicable manuals.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_openssh_release_license
+  title: OpenSSH portable release license
+  category: computing
+  format: txt
+  source_url: https://raw.githubusercontent.com/openssh/openssh-portable/V_10_5_P1/LICENCE
+  destination: REFERENCE/COMPUTING/LICENSES/openssh-license.txt
+  version: 10.5p1
+  size_bytes: 21140
+  sha256: 5bb5b160726ef5756e4f32fe95b35249c294962419650f48d05134b486d27ccb
+  license: Mixed BSD-style, ISC and other permissive licenses; preserve notices
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: OpenSSH authors and portability team
+  source_page: https://raw.githubusercontent.com/openssh/openssh-portable/V_10_5_P1/LICENCE
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: OpenSSH authors and portability team. Preserve original authorship, source/version notices and
+    the separately cataloged license companions.
+  resource_type: reference
+  illustrated: false
+  description: Original unmodified licensing companion. Preserve alongside applicable manuals.
+  tags:
+  - programming
+  - computing
+  - reference
+resource_updates:
+- id: linux-programming-docs
+  status: partial
+  asset_ids:
+  - docs_bash
+  - docs_coreutils
+  - docs_make
+  - docs_gcc
+  - docs_cpp
+  - docs_binutils
+  - docs_ld
+  - docs_libc
+  - docs_progit
+  - docs_python
+  - docs_linux_manpages_619
+  - docs_openssh_openbsd79_ssh_1
+  - docs_openssh_openbsd79_sshd_8
+  - docs_openssh_openbsd79_ssh_config_5
+  - docs_openssh_openbsd79_sshd_config_5
+  - docs_openssh_openbsd79_ssh_agent_1
+  - docs_openssh_openbsd79_ssh_add_1
+  - docs_openssh_openbsd79_sftp_1
+  - docs_openssh_openbsd79_scp_1
+  - docs_systemd_systemd
+  - docs_systemd_systemctl
+  - docs_systemd_journalctl
+  - docs_systemd_systemd_unit
+  - docs_systemd_systemd_service
+  - docs_systemd_systemd_socket
+  - docs_systemd_systemd_timer
+  - docs_systemd_systemd_mount
+  - docs_systemd_systemd_exec
+  - docs_systemd_systemd_resource_control
+  - docs_systemd_systemd_system_conf
+  - docs_systemd_systemd_journald_service
+  - docs_systemd_journald_conf
+  - docs_systemd_systemd_networkd_service
+  - docs_systemd_systemd_network
+  - docs_systemd_networkctl
+  - docs_systemd_resolvectl
+  - docs_systemd_bootup
+  - docs_systemd_systemd_special
+  - docs_systemd_systemd_analyze
+  - docs_linux_tool_ip
+  - docs_linux_tool_ss
+  - docs_linux_tool_ping
+  - docs_linux_tool_mount
+  - docs_linux_tool_umount
+  - docs_linux_tool_lsblk
+  - docs_linux_tool_findmnt
+  - docs_linux_tool_fsck
+  - docs_linux_tool_blkid
+  - docs_linux_tool_fdisk
+  - docs_linux_tool_e2fsck
+  - docs_linux_tool_mke2fs
+  - docs_linux_tool_tune2fs
+  - docs_systemd_lgpl_license
+  - docs_systemd_license_readme
+  - docs_iproute2_copyright
+  - docs_iputils_copyright
+  - docs_e2fsprogs_copyright
+  - docs_util_linux_licensing
+  - docs_gpl2_license
+  - docs_openssh_release_license
+  reason: Canonical Linux man-pages 6.19 PDF, 20 systemd 259.6 manuals, 13 networking/filesystem manuals, eight
+    OpenBSD 7.9 OpenSSH manuals and license companions are pinned. Python/SQLite HTML and complete OpenSSH
+    10.5p1 source archives are documented as future extraction inputs only; automatic ordinary-file packaging
+    and local navigation are not integrated. Four remaining OpenBSD OpenSSH manuals failed verification. Resource
+    remains partial; no SSD build was performed.
+source_inputs:
+- id: docs_python_html_source
+  title: Python complete HTML documentation source bundle
+  category: computing
+  format: zip
+  source_url: https://docs.python.org/3/archives/python-3.14-docs-html.zip
+  destination: REFERENCE/COMPUTING/SOURCES/python-html.zip
+  version: 3.14.7; publisher build 2026-09-18
+  size_bytes: 12857046
+  sha256: f0945099f00a6b078e0101b8a7bee14364698f8ecce4bb1a26d5c2e47c8203cf
+  license: PSF-2.0 and retained historical notices; code examples additionally 0BSD
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Python Software Foundation and documentation authors
+  source_page: https://docs.python.org/3/archives/python-3.14-docs-html.zip
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Python Software Foundation and documentation authors. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: archive
+  illustrated: false
+  description: Input archive only. Not an automatically extracted or directly readable edition. Requires a
+    future safe, reproducible extraction/render step and separate output-file manifest. Temporary inspected
+    copies exist, but no SSD build or automatic packaging integration was performed.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_sqlite_html_source
+  title: SQLite complete static documentation source bundle
+  category: computing
+  format: zip
+  source_url: https://www.sqlite.org/2026/sqlite-doc-3530400.zip
+  destination: REFERENCE/COMPUTING/SOURCES/sqlite-doc-3530400.zip
+  version: 3.53.4
+  size_bytes: 11820412
+  sha256: a1d0f5de57485d062796ed7e67daff0758b50d00001a0f233a2c15aaf40bbdc8
+  license: Public-domain SQLite documentation; linked third-party material retains its own rights
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: SQLite authors
+  source_page: https://www.sqlite.org/2026/sqlite-doc-3530400.zip
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: SQLite authors. Preserve original authorship, source/version notices and the separately cataloged
+    license companions.
+  resource_type: archive
+  illustrated: false
+  description: Input archive only. Not an automatically extracted or directly readable edition. Requires a
+    future safe, reproducible extraction/render step and separate output-file manifest. Temporary inspected
+    copies exist, but no SSD build or automatic packaging integration was performed.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_openssh_source
+  title: OpenSSH portable source and complete release manuals
+  category: computing
+  format: tar.gz
+  source_url: https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.5p1.tar.gz
+  destination: REFERENCE/COMPUTING/SOURCES/openssh-10.5p1.tar.gz
+  version: 10.5p1
+  size_bytes: 2333659
+  sha256: d44d28a839ea9daf969cc69150fde59910b2b39361dad81a3bd6cbd19218db11
+  license: Mixed BSD-style, ISC and other permissive licenses; preserve every file notice
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: OpenSSH authors and portability team
+  source_page: https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.5p1.tar.gz
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: OpenSSH authors and portability team. Preserve original authorship, source/version notices and
+    the separately cataloged license companions.
+  resource_type: archive
+  illustrated: false
+  description: Input archive only. Not an automatically extracted or directly readable edition. Requires a
+    future safe, reproducible extraction/render step and separate output-file manifest. Temporary inspected
+    copies exist, but no SSD build or automatic packaging integration was performed.
+  tags:
+  - programming
+  - computing
+  - reference
+- id: docs_linux_manpages_source
+  title: Linux man-pages sources and individual license notices
+  category: computing
+  format: tar.xz
+  source_url: https://www.kernel.org/pub/linux/docs/man-pages/man-pages-6.19.tar.xz
+  destination: REFERENCE/COMPUTING/SOURCES/man-pages-6.19.tar.xz
+  version: '6.19'
+  size_bytes: 1908136
+  sha256: 88a7c42ad2e03d8b96dc72d95e451f2d875ff0f43103a8eb8ac8242133bdcb05
+  license: Mixed free licenses; see source page headers and LICENSES directory
+  redistributable: true
+  required: true
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Linux man-pages project and individual authors
+  source_page: https://www.kernel.org/pub/linux/docs/man-pages/man-pages-6.19.tar.xz
+  language: en
+  snapshot_date: '2026-09-19'
+  attribution: Linux man-pages project and individual authors. Preserve original authorship, source/version
+    notices and the separately cataloged license companions.
+  resource_type: archive
+  illustrated: false
+  description: Input archive only. Not an automatically extracted or directly readable edition. Requires a
+    future safe, reproducible extraction/render step and separate output-file manifest. Temporary inspected
+    copies exist, but no SSD build or automatic packaging integration was performed.
+  tags:
+  - programming
+  - computing
+  - reference
+evidence:
+- asset_id: docs_linux_manpages_619
+  source_url: https://www.kernel.org/pub/linux/docs/man-pages/book/man-pages-6.19.pdf
+  size_bytes: 9753062
+  sha256: cba8dda2b7cb0cbe732cb31538d1a37abb201d45b752b36bc2df6a3d9c00fffa
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_openssh_openbsd79_ssh_1
+  source_url: https://man.openbsd.org/OpenBSD-7.9/ssh.1
+  size_bytes: 88317
+  sha256: 655345b81cc856d9cc79b008cc51e383e9385aaa5caa4ceee386d4ce259ca0ac
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_openssh_openbsd79_sshd_8
+  source_url: https://man.openbsd.org/OpenBSD-7.9/sshd.8
+  size_bytes: 52877
+  sha256: a2f2b0f6e18324dac81acf9817101dd8aad59a74654e68aedff1dfc33bc9ebaa
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_openssh_openbsd79_ssh_config_5
+  source_url: https://man.openbsd.org/OpenBSD-7.9/ssh_config.5
+  size_bytes: 117088
+  sha256: f433fd645fbede9ab2acf435b3474e5cdd7c4a5baeab355d489b548554049a01
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_openssh_openbsd79_sshd_config_5
+  source_url: https://man.openbsd.org/OpenBSD-7.9/sshd_config.5
+  size_bytes: 111448
+  sha256: df271782701851f6eaa970d06a00c30fa89da206384af2b1c810155cc60f406b
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_openssh_openbsd79_ssh_agent_1
+  source_url: https://man.openbsd.org/OpenBSD-7.9/ssh-agent.1
+  size_bytes: 19897
+  sha256: 00c947e26540c465f64a376dd043bd9beb02cd6124f9beb0b81312f0b0d421ab
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_openssh_openbsd79_ssh_add_1
+  source_url: https://man.openbsd.org/OpenBSD-7.9/ssh-add.1
+  size_bytes: 22873
+  sha256: 950ee20a1ed401fcf64b7989ba1b5258d035d61d8d14a1fcb5966f13eef7f322
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_openssh_openbsd79_sftp_1
+  source_url: https://man.openbsd.org/OpenBSD-7.9/sftp.1
+  size_bytes: 43563
+  sha256: 2bd9ab8a20c850c3258de91d21e16f3b79706839e27c64f7947e935fbf4a44fd
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_openssh_openbsd79_scp_1
+  source_url: https://man.openbsd.org/OpenBSD-7.9/scp.1
+  size_bytes: 27057
+  sha256: fec3e21ceb4b2463ec1d1323cc036eec18ba74579e5007b7ea39c9340b73ae8c
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.html
+  size_bytes: 103162
+  sha256: e20e6d2bf454c4305dfd396127de980b146a5a3bb849ad61956b2f153c833331
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemctl
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemctl.html
+  size_bytes: 195319
+  sha256: 85e7b384bf7f47dac5d35768005d6e74bad2eb153c613b7242442ec2f383da72
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_journalctl
+  source_url: https://www.freedesktop.org/software/systemd/man/259/journalctl.html
+  size_bytes: 86130
+  sha256: d2a264edbbd46ed91efed52bcb12f7145f20891f76e2397c6983e6ecca242500
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_unit
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.unit.html
+  size_bytes: 173590
+  sha256: 6394c000063616f6d629512f5dedbb864a368c415b3c5597867f377a30f1457c
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_service
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.service.html
+  size_bytes: 120422
+  sha256: aad52649ee01e069a16d13863e2658b09d86e9a445e9cdc68dd53953f47481f2
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_socket
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.socket.html
+  size_bytes: 66640
+  sha256: ce034e1ab91eed7a945b2e5f2bf199024b55b979961cb377ff32b639eff4f688
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_timer
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.timer.html
+  size_bytes: 30043
+  sha256: f943ce348a2a4645c98a30dfac8d92fe4ca7250f45ec155e5642066764352546
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_mount
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.mount.html
+  size_bytes: 42599
+  sha256: 0df6cfaea361014955575b67e4876c1fc6cae41ebf96015ea95fa55d96b09fcf
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_exec
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.exec.html
+  size_bytes: 370424
+  sha256: f51d96b6acacb11f87a2bb0136d22d002365d3dae5fe6c120ca1f77cc3277a80
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_resource_control
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.resource-control.html
+  size_bytes: 109410
+  sha256: 66de0b38a41b32738e011466c2b98a965e49cdd681e661bbb03165d02b441678
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_system_conf
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd-system.conf.html
+  size_bytes: 57172
+  sha256: f9ce839d42566eaa72a2a683b6dead87f9cc012fde12ab33e94da6b7873a8841
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_journald_service
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd-journald.service.html
+  size_bytes: 28145
+  sha256: 2c8008edf48b18e324adcfba7de3cf6c484f0827941387ac183947020dfef607
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_journald_conf
+  source_url: https://www.freedesktop.org/software/systemd/man/259/journald.conf.html
+  size_bytes: 39206
+  sha256: 209bb0d61eb687b33c33edf3127e787bc9bdf1f7c8205ec1ba1c9f1a84260550
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_networkd_service
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd-networkd.service.html
+  size_bytes: 6797
+  sha256: a80be0767874a580b16c41d4e3ecc18808104ab020f5047544f56a2e039170e8
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_network
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.network.html
+  size_bytes: 392452
+  sha256: 350dd11451ecd657799c416c453d4a8a8d79e111bd6f1b0ca9d2196459038587
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_networkctl
+  source_url: https://www.freedesktop.org/software/systemd/man/259/networkctl.html
+  size_bytes: 31255
+  sha256: f412c6a28ec9ed3ad950b808fb90ad2c7b212ccae50482ba0aab9b30a0d6633a
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_resolvectl
+  source_url: https://www.freedesktop.org/software/systemd/man/259/resolvectl.html
+  size_bytes: 46446
+  sha256: ea738b9428fb3e3702fe23eadd2452dcfad0df9d856bac15acb27df8c235dc36
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_bootup
+  source_url: https://www.freedesktop.org/software/systemd/man/259/bootup.html
+  size_bytes: 22633
+  sha256: e82f106cd5daa570357b522bb60553a75b4bd87eda991b98aee530bea14026ab
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_special
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd.special.html
+  size_bytes: 90582
+  sha256: 92998fca3f18d8d6455bebe624bb7f45d87a4093c94ae8c7afb04798de35ca7c
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_systemd_analyze
+  source_url: https://www.freedesktop.org/software/systemd/man/259/systemd-analyze.html
+  size_bytes: 114405
+  sha256: a240d630288d186a77ce79a608e462db8d82d3e6e0d1899d1832606f0055ec05
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_ip
+  source_url: https://manpages.debian.org/trixie/iproute2/ip.8.en.html
+  size_bytes: 36611
+  sha256: ea144a7e7120e3fee3760c9338fb5be00421e8eaebe54c40b4abff90956776ca
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_ss
+  source_url: https://manpages.debian.org/trixie/iproute2/ss.8.en.html
+  size_bytes: 43680
+  sha256: 0552c50fffb84d5b2bb5ae984a0b093417e37a31697d640d8a0b8214c664af17
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_ping
+  source_url: https://manpages.debian.org/trixie/iputils-ping/ping.8.en.html
+  size_bytes: 45290
+  sha256: 15b62df119811e8d905148c8007387ac4cc39441ee13a0d4286602742523b032
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_mount
+  source_url: https://manpages.debian.org/trixie/mount/mount.8.en.html
+  size_bytes: 162840
+  sha256: 533980cae8d3025ee98cf3c46ccfe55c8a3cd81f2532191740478b1420a89395
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_umount
+  source_url: https://manpages.debian.org/trixie/mount/umount.8.en.html
+  size_bytes: 35184
+  sha256: ab08d17ed41d19b83bbcaad7b4b3ca221ab7c251b576a21c5918d79f48da4eab
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_lsblk
+  source_url: https://manpages.debian.org/trixie/util-linux/lsblk.8.en.html
+  size_bytes: 36983
+  sha256: 2798d7605dce5fe156fb443205fbbeba49fa0ff3275e86dce775e25b36aca21e
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_findmnt
+  source_url: https://manpages.debian.org/trixie/util-linux/findmnt.8.en.html
+  size_bytes: 39017
+  sha256: 2f393ac552291fca5405d77ba954f0053c09426a3031346fdfcdbd29199fb01a
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_fsck
+  source_url: https://manpages.debian.org/trixie/util-linux/fsck.8.en.html
+  size_bytes: 36113
+  sha256: e44d6a78c47153d38eeb309a5b93a60add9fb9029fef39dfcd13cdb2d3c27601
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_blkid
+  source_url: https://manpages.debian.org/trixie/util-linux/blkid.8.en.html
+  size_bytes: 35788
+  sha256: aa62fa33313d0e65eac7f481a2bf9c5c2b9ec7dbf0a535afaba5b0d25f49d0da
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_fdisk
+  source_url: https://manpages.debian.org/trixie/fdisk/fdisk.8.en.html
+  size_bytes: 42056
+  sha256: 1774e578175d8e8d493e89e5d34dad98b2398f6689a26530e81049100d2f3b5d
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_e2fsck
+  source_url: https://manpages.debian.org/trixie/e2fsprogs/e2fsck.8.en.html
+  size_bytes: 39951
+  sha256: 15ecff72771540560f61aa48bdfe1fee282ab3fee1f786d6a88c9f366ac2e827
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_mke2fs
+  source_url: https://manpages.debian.org/trixie/e2fsprogs/mke2fs.8.en.html
+  size_bytes: 54962
+  sha256: c5878b248af61dfb236d31fb45bccf238be9562d1353961359bc5889796a893f
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_tool_tune2fs
+  source_url: https://manpages.debian.org/trixie/e2fsprogs/tune2fs.8.en.html
+  size_bytes: 56187
+  sha256: 4a7e095e0bad46d4db6faf533d76585e205c1eaf51d5b8c3ef9b8c1f400e358d
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_lgpl_license
+  source_url: https://raw.githubusercontent.com/systemd/systemd/v259/LICENSE.LGPL2.1
+  size_bytes: 26518
+  sha256: 6d9bb3b7fc818a8facc4cc296060a0883fef8710d6498f86165335846e82ee9d
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_systemd_license_readme
+  source_url: https://raw.githubusercontent.com/systemd/systemd/v259/LICENSES/README.md
+  size_bytes: 4144
+  sha256: bce1d2e9bad517b493168b37604c5d02a7fb638b4d1b9fc730adafa06c603456
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_iproute2_copyright
+  source_url: https://metadata.ftp-master.debian.org/changelogs/main/i/iproute2/iproute2_6.15.0-1_copyright
+  size_bytes: 2625
+  sha256: 344ddcf4dfe65b86416e058309218b4ac1ee7bc1e624cc40ad87222cc979fdac
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_iputils_copyright
+  source_url: https://metadata.ftp-master.debian.org/changelogs/main/i/iputils/iputils_20240905-3_copyright
+  size_bytes: 2896
+  sha256: 7b81610874d5b35eead7bf8bd1267d2210ac1c6078ac78561309f8fe9f6d7050
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_e2fsprogs_copyright
+  source_url: https://metadata.ftp-master.debian.org/changelogs/main/e/e2fsprogs/e2fsprogs_1.47.2-3_copyright
+  size_bytes: 20459
+  sha256: 2041b5febdc110151ca3372d01b16b85dda1888e33f3f60fce0f59940eed7d19
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_util_linux_licensing
+  source_url: https://raw.githubusercontent.com/util-linux/util-linux/v2.41/README.licensing
+  size_bytes: 1037
+  sha256: 4c2db318192bda62f3f8fcf71488bb5e602ae4385eba281d711b46cc13a40bb3
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_gpl2_license
+  source_url: https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+  size_bytes: 17984
+  sha256: edaef632cbb643e4e7a221717a6c441a4c1a7c918e6e4d56debc3d8739b233f6
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_openssh_release_license
+  source_url: https://raw.githubusercontent.com/openssh/openssh-portable/V_10_5_P1/LICENCE
+  size_bytes: 21140
+  sha256: 5bb5b160726ef5756e4f32fe95b35249c294962419650f48d05134b486d27ccb
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_python_html_source
+  source_url: https://docs.python.org/3/archives/python-3.14-docs-html.zip
+  size_bytes: 12857046
+  sha256: f0945099f00a6b078e0101b8a7bee14364698f8ecce4bb1a26d5c2e47c8203cf
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_sqlite_html_source
+  source_url: https://www.sqlite.org/2026/sqlite-doc-3530400.zip
+  size_bytes: 11820412
+  sha256: a1d0f5de57485d062796ed7e67daff0758b50d00001a0f233a2c15aaf40bbdc8
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_openssh_source
+  source_url: https://cdn.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.5p1.tar.gz
+  size_bytes: 2333659
+  sha256: d44d28a839ea9daf969cc69150fde59910b2b39361dad81a3bd6cbd19218db11
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+- asset_id: docs_linux_manpages_source
+  source_url: https://www.kernel.org/pub/linux/docs/man-pages/man-pages-6.19.tar.xz
+  size_bytes: 1908136
+  sha256: 88a7c42ad2e03d8b96dc72d95e451f2d875ff0f43103a8eb8ac8242133bdcb05
+  method: Complete temporary file acquired and hashed before user clarified metadata-only scope. Existing bytes
+    used only as evidence; no further content acquisition or SSD build.
+acquisition_notes:
+- User clarified metadata-only/link-resolution scope after temporary acquisitions began. All content remains
+  in /tmp/owl-one-hour/programming; no SSD writes or build.
+- Do not merge source_inputs into ordinary-readable editions or imply automatic archive extraction.
+- OpenBSD manual redistributable=false conservatively records that this batch did not establish complete release-matched
+  notice preservation for those rendered pages; personal offline source access is available.
+- systemd /259 pages identify version 259.6; supplied general license files are from the v259 source tag, not
+  falsely labeled v259.6 source files.

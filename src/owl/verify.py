@@ -12,6 +12,7 @@ import stat
 
 MANIFEST = "LIBRARY/SHA256SUMS.txt"
 STATE = "LIBRARY/.owl/state.json"
+VOLUME_METADATA_DIRS = {".Trashes", ".Spotlight-V100", ".fseventsd", ".TemporaryItems"}
 
 
 def _is_link(info: os.stat_result) -> bool:
@@ -113,7 +114,11 @@ def verify_drive(target: Path, *, emit=print, allow_incomplete: bool = False) ->
             if linked:
                 dirs.remove(name)
                 report("FAILED", path.relative_to(root).as_posix(), "symlink/junction/reparse point")
-        if base == root / "LIBRARY":
+        if base == root:
+            # macOS protects these volume directories. Reject links above before
+            # excluding their contents; the exemption never applies in LIBRARY.
+            dirs[:] = [d for d in dirs if d not in VOLUME_METADATA_DIRS]
+        elif base == root / "LIBRARY":
             dirs[:] = [d for d in dirs if d != ".owl"]
         for name in files:
             path = base / name

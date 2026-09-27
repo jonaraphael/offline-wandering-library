@@ -267,19 +267,1385 @@ assets:
   - reference
   description: 'Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable
     publisher URLs are content-pinned: later changes fail verification rather than silently update.'
+- id: docs_python_pdf_tutorial
+  title: Python 3.14.0 — Python Tutorial (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/tutorial.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 701174
+  sha256: 91e5192c1b9c724397e8a988f54d9bec45d6967eb0337ad4fc3d1afc7cf1c085
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/tutorial.pdf
+    document: true
+- id: docs_python_pdf_howto_annotations
+  title: Python 3.14.0 — Annotations Best Practices (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-annotations.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 48045
+  sha256: e606c61887df74146088b6fa1bdaa31dfbb6f446713cadcc902be3a571b16f35
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-annotations.pdf
+    document: true
+- id: docs_python_pdf_howto_unicode
+  title: Python 3.14.0 — Unicode HOWTO (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-unicode.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 93644
+  sha256: 41e360c8bbf0c2e2b98aa3a60ba4b5b02b5081237c215b51843ea723c46f0fdd
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-unicode.pdf
+    document: true
+- id: docs_python_pdf_installing
+  title: Python 3.14.0 — Installing Python Modules (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/installing.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 247640
+  sha256: b14fa651aa61fd4b7be125c771c8455912b521ecfd8431a2466556f33efb67d8
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/installing.pdf
+    document: true
+- id: docs_python_pdf_howto_sockets
+  title: Python 3.14.0 — Socket Programming HOWTO (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-sockets.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 65107
+  sha256: a0f70d2df08646b2628bb98a93c43a3bb916a54446414e154086b24fbe03b8da
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-sockets.pdf
+    document: true
+- id: docs_python_pdf_howto_a_conceptual_overview_of_asyncio
+  title: Python 3.14.0 — A Conceptual Overview of asyncio (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-a-conceptual-overview-of-asyncio.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 71328
+  sha256: 461bdeaa00759671a138009b0962c7a1ebcf35745b48a8b1a321d81735b21402
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-a-conceptual-overview-of-asyncio.pdf
+    document: true
+- id: docs_python_pdf_howto_argparse
+  title: Python 3.14.0 — Argparse Tutorial (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-argparse.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 87690
+  sha256: 316a58e67b520074de7e349f3c88b1381aed27ddb216e44ef77e516ccb12e0f2
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-argparse.pdf
+    document: true
+- id: docs_python_pdf_using
+  title: Python 3.14.0 — Python Setup and Usage (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/using.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 2321934
+  sha256: eab470ca9e7f6ace712392d2be752c012d67c5abdf89530306cbeb67062c209e
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/using.pdf
+    document: true
+- id: docs_python_pdf_howto_logging_cookbook
+  title: Python 3.14.0 — Logging Cookbook (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-logging-cookbook.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 318438
+  sha256: 8e63c59214703b3cc1f024af13d5a18e91b69d731f669e2d2a30eb0258123773
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-logging-cookbook.pdf
+    document: true
+- id: docs_python_pdf_howto_functional
+  title: Python 3.14.0 — Functional Programming HOWTO (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-functional.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 124641
+  sha256: 682f9a5a91ca5d570d0ed19f7f6509cd813ee301958a471c02dc0368a67ce82e
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-functional.pdf
+    document: true
+- id: docs_python_pdf_howto_instrumentation
+  title: Python 3.14.0 — Instrumenting CPython with DTrace and SystemTap (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-instrumentation.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 52587
+  sha256: de1ab00cb236532cc6fd0cd3dbc71892eb008e946a8b48a0e4388545a2693fd9
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-instrumentation.pdf
+    document: true
+- id: docs_python_pdf_howto_descriptor
+  title: Python 3.14.0 — Descriptor Guide (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-descriptor.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 127294
+  sha256: 71b1d6d53e745c10c3f1094fc9cd603e6046363c9fcab6f5271066e3d281e1f9
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-descriptor.pdf
+    document: true
+- id: docs_python_pdf_reference
+  title: Python 3.14.0 — The Python Language Reference (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/reference.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 1036429
+  sha256: 3bf0b036e025261360a463ff1a279dceb535284180c7a11550c31b376b4b83fa
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/reference.pdf
+    document: true
+- id: docs_python_pdf_howto_enum
+  title: Python 3.14.0 — Enum HOWTO (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-enum.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 141741
+  sha256: 7ea8b724d4cf86d812cb30766c66fc90ec4f7b4b2eb97d452529db2729570f5d
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-enum.pdf
+    document: true
+- id: docs_python_pdf_howto_free_threading_extensions
+  title: Python 3.14.0 — C API Extension Support for Free Threading (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-free-threading-extensions.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 67305
+  sha256: 3454bae326bb4f628756932300419b8e118dc87af6e2400e540bd4b32e238d78
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-free-threading-extensions.pdf
+    document: true
+- id: docs_python_pdf_faq
+  title: Python 3.14.0 — Python Frequently Asked Questions (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/faq.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 570224
+  sha256: d539632edfd2785bc6cb4bf6e1a604d396aa2a3e97ac853a0b9e9bc053c3ac5d
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/faq.pdf
+    document: true
+- id: docs_python_pdf_howto_sorting
+  title: Python 3.14.0 — Sorting Techniques (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-sorting.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 63849
+  sha256: 88a2834644cdcbed1a5bd487b7ba1a2ba2523bb4bde36246a463ea1bc26a5996
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-sorting.pdf
+    document: true
+- id: docs_python_pdf_howto_remote_debugging
+  title: Python 3.14.0 — Remote debugging attachment protocol (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-remote_debugging.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 75771
+  sha256: 2c5f84c93efbf226597b8375c82d062a5c4f5e4ae85ce1bc2a0c01ea4a5ae346
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-remote_debugging.pdf
+    document: true
+- id: docs_python_pdf_howto_gdb_helpers
+  title: Python 3.14.0 — Debugging C API extensions and CPython Internals with GDB (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-gdb_helpers.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 63064
+  sha256: c63ccf88199c6bd257197e6c6f716440552d76990ac1d616e6a84e46fa1f9ab9
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-gdb_helpers.pdf
+    document: true
+- id: docs_python_pdf_howto_argparse_optparse
+  title: Python 3.14.0 — Migrating optparse code to argparse (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-argparse-optparse.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 20323
+  sha256: ac0d16af9b73c6b900c88030e47a1f31ac2a3957547994ec97c11bd476f7384d
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-argparse-optparse.pdf
+    document: true
+- id: docs_python_pdf_howto_clinic
+  title: Python 3.14.0 — Argument Clinic How-To (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-clinic.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 14754
+  sha256: acbef4aae0f76ed81280043737baf2a549bb0142cfd69a79459973d46d82c7f8
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-clinic.pdf
+    document: true
+- id: docs_python_pdf_extending
+  title: Python 3.14.0 — Extending and Embedding Python (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/extending.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 514509
+  sha256: d7be723fde38a56085a6010a30270f5ffe9773321c03e3e8672d3b2e679424a6
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/extending.pdf
+    document: true
+- id: docs_python_pdf_howto_isolating_extensions
+  title: Python 3.14.0 — Isolating Extension Modules (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-isolating-extensions.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 79751
+  sha256: 0687120ee007128d89559f7be1ce9b1bbb09aebc4acfc7fe5a0b76f1362c0b73
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-isolating-extensions.pdf
+    document: true
+- id: docs_python_pdf_howto_logging
+  title: Python 3.14.0 — Logging HOWTO (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-logging.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 161325
+  sha256: 92e047143f61f26f08d6985e6977ea4054a1ed1bedae99df4174c8b7664c8148
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-logging.pdf
+    document: true
+- id: docs_python_pdf_whatsnew
+  title: Python 3.14.0 — What's New in Python (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/whatsnew.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 278114
+  sha256: 4e6302c65422c672d51bc45f09b3fcc9d33cd650d24ba204f0cbf809d9643ed6
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/whatsnew.pdf
+    document: true
+- id: docs_python_pdf_c_api
+  title: Python 3.14.0 — The Python/C API (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/c-api.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 2045323
+  sha256: 3a7b5b76095f6f487a4a726216b95befa3af60785de3ece3ad0ba77838f1aa34
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/c-api.pdf
+    document: true
+- id: docs_python_pdf_howto_mro
+  title: Python 3.14.0 — The Python 2.3 Method Resolution Order (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-mro.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 81872
+  sha256: a238778d830c2177e20081ecc123de5ea703df739ff0b8ed3bf92793b92316ee
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-mro.pdf
+    document: true
+- id: docs_python_pdf_howto_regex
+  title: Python 3.14.0 — Regular Expression HOWTO (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-regex.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 130756
+  sha256: aabd9da3b26b6a809d1876f61bd341f552ec846913b7fe0a8923773b7b4abecd
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-regex.pdf
+    document: true
 - id: docs_python
-  title: Python 3.14 documentation
+  title: Python 3.14.0 Library Reference (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/library.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 12133781
+  sha256: 2583fde31fa1077d7ff631a7513fa8d9443637b488368e7154ef33b9b0ad6da9
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/library.pdf
+    document: true
+- id: docs_python_pdf_howto_urllib2
+  title: Python 3.14.0 — HOWTO Fetch Internet Resources Using The urllib Package (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-urllib2.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 82609
+  sha256: cded5e527198a58615d8d4fb2a7bdb04dfe52d5774fe496275c45b95deb34657
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-urllib2.pdf
+    document: true
+- id: docs_python_pdf_howto_ipaddress
+  title: Python 3.14.0 — An introduction to the ipaddress module (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-ipaddress.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 51271
+  sha256: 5a4b21b316f72ba80c223e43dfe18e7810177ebc92eb3f268e9c0cf24c3251a9
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-ipaddress.pdf
+    document: true
+- id: docs_python_pdf_howto_curses
+  title: Python 3.14.0 — Curses Programming with Python (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-curses.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 74757
+  sha256: 11107390dbcafca831bf64672b498d1ddc7b8dff4aca7c44ecbca1a217d856ab
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-curses.pdf
+    document: true
+- id: docs_python_pdf_howto_timerfd
+  title: Python 3.14.0 — timer file descriptor HOWTO (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-timerfd.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 44726
+  sha256: e022e25ce264fb29e8cef89d8f21091a83d52f975bc3432cc2728353d80d1187
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-timerfd.pdf
+    document: true
+- id: docs_python_pdf_howto_perf_profiling
+  title: Python 3.14.0 — Python support for the Linux perf profiler (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-perf_profiling.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 50748
+  sha256: fec41770988bb2e2f20ab43bd1a0d6f1b194c5b0af6f1c0104c76ba1f9c55f19
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-perf_profiling.pdf
+    document: true
+- id: docs_python_pdf_howto_pyporting
+  title: Python 3.14.0 — How to port Python 2 Code to Python 3 (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-pyporting.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 22933
+  sha256: f998a1003e626319c2df80d2faa6b92a6523553ef78ebcff75a09bcb1bb88b39
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-pyporting.pdf
+    document: true
+- id: docs_python_pdf_howto_cporting
+  title: Python 3.14.0 — Porting Extension Modules to Python 3 (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-cporting.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 17382
+  sha256: 614151ab2a3d720000bdfbd6534bb73c8cd9a4338dc6043515f3cf0fd8ae144b
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-cporting.pdf
+    document: true
+- id: docs_python_pdf_howto_free_threading_python
+  title: Python 3.14.0 — Python support for free threading (October 2025)
+  category: computing
+  format: pdf
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/COMPUTING/PYTHON_PDF/howto-free-threading-python.pdf
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 39064
+  sha256: f20733098d53fea8fb41786b9c40720d5cb2611fa354356afbba20202533bcbc
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher PDF from the 37-document stable Python 3.14.0 archive dated
+    October 7, 2025. The newer September 2026 EPUB snapshot is separately retained as a supporting source
+    package. Original publisher credits and license notices are retained.
+  archive_member:
+    source_asset_id: docs_python_pdf_source
+    path: docs-pdf/howto-free-threading-python.pdf
+    document: true
+- id: docs_python_pdf_source
+  title: Python 3.14.0 official PDF archive (October 2025 source ZIP)
+  category: computing
+  format: zip
+  source_url: https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip
+  destination: REFERENCE/SOURCE_PACKAGES/PYTHON/python-3.14.0-docs-pdf-a4.zip
+  version: 3.14.0 stable official PDF archive 2025-10-07
+  size_bytes: 21615624
+  sha256: cc651ef42d0f14d4a55438656e2c859d8ccbfb77b1e4e229f5531438d071c951
+  license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
+  redistributable: true
+  required: true
+  profiles:
+  - flash-16gb
+  - critical-64gb
+  critical: false
+  reader_required: false
+  publisher: Python Software Foundation
+  source_page: https://www.python.org/ftp/python/doc/3.14.0/
+  language: en
+  snapshot_date: '2025-10-07'
+  attribution: Preserve the complete original document, author credits, copyright, license, invariant
+    sections and cover notices where present.
+  resource_type: reference
+  illustrated: false
+  tags:
+  - programming
+  - computing
+  - reference
+  description: Complete original publisher ZIP containing all 37 official stable Python 3.14.0 PDFs dated
+    October 7, 2025.
+  supporting_file: true
+- id: docs_python_epub_source
+  title: Python 3.14 documentation (original EPUB source)
   category: computing
   format: epub
   source_url: https://docs.python.org/3/archives/python-3.14-docs.epub
-  destination: REFERENCE/COMPUTING/python.epub
+  destination: REFERENCE/SOURCE_PACKAGES/EPUB/docs_python.epub
   version: 3.14 snapshot 2026-09-10
   size_bytes: 9194178
   sha256: 1203cb55fb7f8b792b273faf203f77ba5406a792bde874a566b004dfcbc204f1
   license: PSF-2.0 and historical Python licenses; examples additionally Zero-Clause BSD
   redistributable: true
   required: true
-  profiles: []
+  profiles:
+  - flash-16gb
+  - critical-64gb
   critical: false
   reader_required: true
   publisher: Python Software Foundation
@@ -296,7 +1662,10 @@ assets:
   - reference
   description: 'Complete original publisher manual, downloaded and SHA-256 checked on 2026-09-18. Mutable
     publisher URLs are content-pinned: later changes fail verification rather than silently update. EPUB
-    reader support is required; a direct HTML export remains to be added.'
+    reader support is required; a direct HTML export remains to be added. Original September 2026 EPUB
+    snapshot retained unchanged as a supporting source package alongside the separately published October
+    2025 PDF collection.'
+  supporting_file: true
 - id: lowtech_magazine
   title: Low-tech Magazine (January 2025 site archive)
   category: engineering
@@ -340,10 +1709,50 @@ resource_updates:
   - docs_ld
   - docs_libc
   - docs_progit
+  - docs_python_pdf_tutorial
+  - docs_python_pdf_howto_annotations
+  - docs_python_pdf_howto_unicode
+  - docs_python_pdf_installing
+  - docs_python_pdf_howto_sockets
+  - docs_python_pdf_howto_a_conceptual_overview_of_asyncio
+  - docs_python_pdf_howto_argparse
+  - docs_python_pdf_using
+  - docs_python_pdf_howto_logging_cookbook
+  - docs_python_pdf_howto_functional
+  - docs_python_pdf_howto_instrumentation
+  - docs_python_pdf_howto_descriptor
+  - docs_python_pdf_reference
+  - docs_python_pdf_howto_enum
+  - docs_python_pdf_howto_free_threading_extensions
+  - docs_python_pdf_faq
+  - docs_python_pdf_howto_sorting
+  - docs_python_pdf_howto_remote_debugging
+  - docs_python_pdf_howto_gdb_helpers
+  - docs_python_pdf_howto_argparse_optparse
+  - docs_python_pdf_howto_clinic
+  - docs_python_pdf_extending
+  - docs_python_pdf_howto_isolating_extensions
+  - docs_python_pdf_howto_logging
+  - docs_python_pdf_whatsnew
+  - docs_python_pdf_c_api
+  - docs_python_pdf_howto_mro
+  - docs_python_pdf_howto_regex
   - docs_python
-  reason: 'Ten complete official manuals are pinned: Bash, coreutils, Make, GCC, CPP, binutils, ld, glibc,
-    Pro Git and Python EPUB. Linux man-pages, SQLite, OpenSSH, networking/filesystem tools and systemd,
-    plus a direct Python HTML edition, remain to be pinned. No POSIX license is assumed.'
+  - docs_python_pdf_howto_urllib2
+  - docs_python_pdf_howto_ipaddress
+  - docs_python_pdf_howto_curses
+  - docs_python_pdf_howto_timerfd
+  - docs_python_pdf_howto_perf_profiling
+  - docs_python_pdf_howto_pyporting
+  - docs_python_pdf_howto_cporting
+  - docs_python_pdf_howto_free_threading_python
+  - docs_python_pdf_source
+  - docs_python_epub_source
+  reason: 'Nine other complete official manuals plus all 37 stable Python 3.14.0 publisher PDFs (October
+    2025) are pinned: Bash, coreutils, Make, GCC, CPP, binutils, ld, glibc, Pro Git; the newer September
+    2026 Python EPUB is separately retained as a supporting package. Linux man-pages, SQLite, OpenSSH,
+    networking/filesystem tools and systemd, plus a direct Python HTML edition, remain to be pinned. No
+    POSIX license is assumed.'
 - id: low-tech-magazine
   status: partial
   asset_ids:

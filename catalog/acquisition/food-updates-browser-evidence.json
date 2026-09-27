@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "network_blocked": true,
+  "downloads": false,
+  "scope": "Pinned local HTML browser rendering. Explicitly allowed absent companion files remain pending until the normal library build.",
+  "checks": [
+    {
+      "id": "food",
+      "source_sha256": "e01b7ede7244e4c963a34056d70204d1d961f06184a83eac4589c579ca4eb6fd",
+      "source_bytes": 1271056,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "remote_request_count": 0,
+      "remote_requests": [],
+      "errors": [],
+      "missing_local_links": [],
+      "pending_local_links": [],
+      "document": {
+        "images": [
+          {
+            "loaded": true,
+            "width": 6018,
+            "height": 2493,
+            "alt": "Colored pH scale chart labeled 0–14, shifting from red acid at 0 to purple alkali at 14."
+          },
+          {
+            "loaded": true,
+            "width": 2567,
+            "height": 2758,
+            "alt": ""
+          },
+          {
+            "loaded": true,
+            "width": 1000,
+            "height": 667,
+            "alt": "Large glass jar of kombucha tea, labeled with day zero and the date. The top of the jar has a coffee filter covering it, secured with a rubber band. "
+          },
+          {
+            "loaded": true,
+            "width": 383,
+            "height": 274,
+            "alt": "Illustration of various glass jars."
+          }
+        ],
+        "tables": 9,
+        "broken_anchors": [],
+        "local_links": [
+          "nchfp_kombucha_faq.pdf",
+          "ndsu_steam_canning_fn2065.pdf",
+          "ndsu_substitutions_fn2102_2024.pdf",
+          "uga_kombucha_c1312.pdf",
+          "uga_using_boiling_water_canners_2025.pdf",
+          "uga_using_pressure_canners.pdf"
+        ],
+        "viewport_width": 1280,
+        "document_width": 1280
+      },
+      "source_unchanged": true,
+      "success": true
+    },
+    {
+      "id": "food",
+      "source_sha256": "e01b7ede7244e4c963a34056d70204d1d961f06184a83eac4589c579ca4eb6fd",
+      "source_bytes": 1271056,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "remote_request_count": 0,
+      "remote_requests": [],
+      "errors": [],
+      "missing_local_links": [],
+      "pending_local_links": [],
+      "document": {
+        "images": [
+          {
+            "loaded": true,
+            "width": 6018,
+            "height": 2493,
+            "alt": "Colored pH scale chart labeled 0–14, shifting from red acid at 0 to purple alkali at 14."
+          },
+          {
+            "loaded": true,
+            "width": 2567,
+            "height": 2758,
+            "alt": ""
+          },
+          {
+            "loaded": true,
+            "width": 1000,
+            "height": 667,
+            "alt": "Large glass jar of kombucha tea, labeled with day zero and the date. The top of the jar has a coffee filter covering it, secured with a rubber band. "
+          },
+          {
+            "loaded": true,
+            "width": 383,
+            "height": 274,
+            "alt": "Illustration of various glass jars."
+          }
+        ],
+        "tables": 9,
+        "broken_anchors": [],
+        "local_links": [
+          "nchfp_kombucha_faq.pdf",
+          "ndsu_steam_canning_fn2065.pdf",
+          "ndsu_substitutions_fn2102_2024.pdf",
+          "uga_kombucha_c1312.pdf",
+          "uga_using_boiling_water_canners_2025.pdf",
+          "uga_using_pressure_canners.pdf"
+        ],
+        "viewport_width": 390,
+        "document_width": 390
+      },
+      "source_unchanged": true,
+      "success": true
+    }
+  ],
+  "browser_version": "153.0.8010.53",
+  "success": true,
+  "companion_files_complete": true,
+  "validation_tool": "scripts/check_documents.cjs",
+  "source_catalog": "catalog/library.yaml",
+  "companion_integrity": [
+    {
+      "id": "ndsu_steam_canning_fn2065",
+      "status": "verified-local-copy",
+      "destination": "ndsu_steam_canning_fn2065.pdf",
+      "sha256": "a6ca5b8e7a20544fec02cb39cbc53d5ad4564da6ec1861d8f938315bf9439aa8",
+      "size_bytes": 1115197
+    },
+    {
+      "id": "ndsu_substitutions_fn2102_2024",
+      "status": "verified-local-copy",
+      "destination": "ndsu_substitutions_fn2102_2024.pdf",
+      "sha256": "d3beccc2403f7882a461e8aaff782c24f5b93772124a49776235d4228fa4744f",
+      "size_bytes": 355236
+    },
+    {
+      "id": "uga_using_pressure_canners",
+      "status": "verified-local-copy",
+      "destination": "uga_using_pressure_canners.pdf",
+      "sha256": "b28d9a07c72f809ffc484094de1c89a13b41479c34fff11bf675003994322944",
+      "size_bytes": 2084786
+    },
+    {
+      "id": "uga_using_boiling_water_canners_2025",
+      "status": "verified-local-copy",
+      "destination": "uga_using_boiling_water_canners_2025.pdf",
+      "sha256": "4f87f219303c1b64bc7e12fa704d93a108d3d76e3ab7cdb26163ba97ddbac6e4",
+      "size_bytes": 1145417
+    },
+    {
+      "id": "uga_kombucha_c1312",
+      "status": "verified-local-copy",
+      "sha256": "a5ca9458450ac8d54dd802b75d4b440194a5a85588159f4842dc9337ed04b2e0",
+      "size_bytes": 4301098,
+      "destination": "uga_kombucha_c1312.pdf"
+    },
+    {
+      "id": "nchfp_kombucha_faq",
+      "status": "verified-local-copy",
+      "destination": "nchfp_kombucha_faq.pdf",
+      "sha256": "aeb4e934654c33406b80c56ecb632be51be9f1c8e753eb45559ac634392e0dc5",
+      "size_bytes": 715675
+    }
+  ],
+  "physical_device_certification": "pending",
+  "library_build_completed": false,
+  "review_note": "All six companion PDFs were located in existing local evidence, verified against the active catalog whole-file SHA-256 and byte-size pins, and copied beside the generated HTML. No downloads were performed. Browser checks verify document rendering, same-page anchors, and companion link existence; they do not certify physical devices or a production library build."
+}

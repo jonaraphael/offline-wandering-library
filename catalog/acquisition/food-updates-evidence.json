@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "recipe_id": "food-updates-2026-09-18",
+  "source_snapshot_sha256": "f8128b0f40fd8f72d33b392c6340a6d4b6272ef59a21e05e0966b15b6ba958a9",
+  "output_sha256": "e01b7ede7244e4c963a34056d70204d1d961f06184a83eac4589c579ca4eb6fd",
+  "output_size_bytes": 1271056,
+  "declared_sections": 36,
+  "source_files": [
+    {
+      "filename": "nchfp_newsflash_2026-09-18.html",
+      "source_url": "https://nchfp.uga.edu/newsflash",
+      "final_url": "https://nchfp.uga.edu/newsflash",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "size_bytes": 45095,
+      "sha256": "f881bec5281e6085af0faad0ee79173abdde6c8912dc34d38c8deaf418a5c73c",
+      "checked_at": "2026-09-19T01:01:17.731266+00:00"
+    },
+    {
+      "filename": "nchfp_newsflash_P10_2026-09-18.html",
+      "source_url": "https://nchfp.uga.edu/newsflash/P10",
+      "final_url": "https://nchfp.uga.edu/newsflash/P10",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "size_bytes": 46512,
+      "sha256": "e516ca191cd2b6f2d82813cadae3125c5626a5f61861ad8341c5a5c9e1242fe2",
+      "checked_at": "2026-09-19T01:02:52.111370+00:00"
+    },
+    {
+      "filename": "nchfp_newsflash_P20_2026-09-18.html",
+      "source_url": "https://nchfp.uga.edu/newsflash/P20",
+      "final_url": "https://nchfp.uga.edu/newsflash/P20",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "size_bytes": 52894,
+      "sha256": "f8f4a48bbb472ef1f114f5bbee436c888b96deb97e599b91b7a86374efd2c61a",
+      "checked_at": "2026-09-19T01:02:52.101507+00:00"
+    },
+    {
+      "filename": "nchfp_tomato_acidification.html",
+      "source_url": "https://nchfp.uga.edu/how/can/how-do-i-can-tomatoes/tomato-acidification-directions/",
+      "final_url": "https://nchfp.uga.edu/how/can/how-do-i-can-tomatoes/tomato-acidification-directions/",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "size_bytes": 93714,
+      "sha256": "fb72dd065dbfb8d95e5278faee40b3f979d46e104002c098d506e21607c51baa",
+      "checked_at": "2026-09-19T01:02:52.111515+00:00"
+    },
+    {
+      "filename": "nchfp_kombucha_recipe.html",
+      "source_url": "https://nchfp.uga.edu/how/ferment/recipes/kombucha-tea/",
+      "final_url": "https://nchfp.uga.edu/how/ferment/recipes/kombucha-tea/",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "size_bytes": 61688,
+      "sha256": "e0d6072bbf11d67509f074ff34d0e8dc3376d3091cd27f418ab31cada36e4f59",
+      "checked_at": "2026-09-19T01:03:37.932145+00:00"
+    },
+    {
+      "filename": "nchfp_spaghetti_sauce_meat.html",
+      "source_url": "https://nchfp.uga.edu/how/can/how-do-i-can-tomatoes/spaghetti-sauce-with-meat/",
+      "final_url": "https://nchfp.uga.edu/how/can/how-do-i-can-tomatoes/spaghetti-sauce-with-meat/",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "size_bytes": 96687,
+      "sha256": "7a95946ca21d95d68c8314c19a6c5a39b761bfaad3e9ab50a5c05941a45de2d6",
+      "checked_at": "2026-09-19T01:03:37.934967+00:00"
+    },
+    {
+      "filename": "nchfp_green_beans.html",
+      "source_url": "https://nchfp.uga.edu/how/can/canning-vegetables-and-vegetable-products/beans-snap-and-italian-pieces-green-and-wax/",
+      "final_url": "https://nchfp.uga.edu/how/can/canning-vegetables-and-vegetable-products/beans-snap-and-italian-pieces-green-and-wax/",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "size_bytes": 97400,
+      "sha256": "8b1976ed38ada2a57362cba26dff84e2813e102410bc1198927410ccef343c04",
+      "checked_at": "2026-09-19T01:03:37.932252+00:00"
+    },
+    {
+      "filename": "nchfp_soups.html",
+      "source_url": "https://nchfp.uga.edu/how/can/canning-vegetables-and-vegetable-products/soups/",
+      "final_url": "https://nchfp.uga.edu/how/can/canning-vegetables-and-vegetable-products/soups/",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "size_bytes": 97450,
+      "sha256": "d44a11382751d43df45fd82ed8acd2747bc2e0821e87c0436c7a841b5833dacc",
+      "checked_at": "2026-09-19T01:03:38.033791+00:00"
+    },
+    {
+      "filename": "nchfp_choice_salsa.html",
+      "source_url": "https://nchfp.uga.edu/how/can/canning-salsa/choice-salsa/",
+      "final_url": "https://nchfp.uga.edu/how/can/canning-salsa/choice-salsa/",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "size_bytes": 97592,
+      "sha256": "7e92ca5c2a339c319eee20823586b85369c07a364bb3307ec3a2821dc22e0b9c",
+      "checked_at": "2026-09-19T01:03:38.030822+00:00"
+    },
+    {
+      "filename": "nchfp_mayhaw_pepper_jelly.html",
+      "source_url": "https://nchfp.uga.edu/how/make-jam-jelly/jellies/mayhaw-pepper-jelly-pectin/",
+      "final_url": "https://nchfp.uga.edu/how/make-jam-jelly/jellies/mayhaw-pepper-jelly-pectin/",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "size_bytes": 83868,
+      "sha256": "c5a01c12ef0cb991dbffd88462d43bb5d97a249df27cdd2b244de817b648b807",
+      "checked_at": "2026-09-19T01:03:38.030907+00:00"
+    },
+    {
+      "filename": "nchfp_sterilization_jars.html",
+      "source_url": "https://nchfp.uga.edu/how/can/general-information/sterilization-of-empty-jars",
+      "final_url": "https://nchfp.uga.edu/how/can/general-information/sterilization-of-empty-jars",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "size_bytes": 93850,
+      "sha256": "79b7842a46958f7a9f276a43efb8b81a5ab10064ec400f38db9365f1654edbc5",
+      "checked_at": "2026-09-19T01:07:57.326046+00:00"
+    },
+    {
+      "filename": "uga_infused_oils_page.html",
+      "source_url": "https://fieldreport.caes.uga.edu/publications/C1334/how-to-safely-make-infused-oils/",
+      "final_url": "https://fieldreport.caes.uga.edu/publications/C1334/how-to-safely-make-infused-oils/",
+      "status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "size_bytes": 276424,
+      "sha256": "ae2ae65406ec8a55d52cd987840565b6fee5a9f5556d60ca6e21d494a2ab4c70",
+      "checked_at": "2026-09-19T01:07:57.469134+00:00"
+    },
+    {
+      "filename": "nchfp_jars.gif",
+      "source_url": "https://nchfp.uga.edu/images/uploads/jars.gif",
+      "final_url": "https://nchfp.uga.edu/images/uploads/jars.gif",
+      "status": 200,
+      "content_type": "image/gif",
+      "size_bytes": 44027,
+      "sha256": "e4d9782eecc1cb80515c9585d6d60aa1aaa1d0cd53faa68dcea135383ea4a040",
+      "checked_at": "2026-09-19T01:09:01.067931+00:00"
+    },
+    {
+      "filename": "nchfp_kombucha_photo.jpg",
+      "source_url": "https://nchfp.uga.edu/images/uploads/Kombucha_tea.JPG",
+      "final_url": "https://nchfp.uga.edu/images/uploads/Kombucha_tea.JPG",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "size_bytes": 40911,
+      "sha256": "97a00073b1589dc77dda62c148f41f8bbe3bd4872a45300a3fc902f0adece229",
+      "checked_at": "2026-09-19T01:04:21.417397+00:00"
+    },
+    {
+      "filename": "nchfp_ph_chart.jpeg",
+      "source_url": "https://nchfp.uga.edu/images/uploads/AdobeStock_245580606.jpeg",
+      "final_url": "https://nchfp.uga.edu/images/uploads/AdobeStock_245580606.jpeg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "size_bytes": 544366,
+      "sha256": "d3d43d96ddd589b21ab9c9e1c7fb19ab60a5bd7cbd56c81fe074301f5ef549e3",
+      "checked_at": "2026-09-19T01:03:38.197637+00:00"
+    },
+    {
+      "filename": "nchfp_calendar_icon.jpeg",
+      "source_url": "https://nchfp.uga.edu/images/uploads/Jan_30_icon.jpeg",
+      "final_url": "https://nchfp.uga.edu/images/uploads/Jan_30_icon.jpeg",
+      "status": 200,
+      "content_type": "image/jpeg",
+      "size_bytes": 242591,
+      "sha256": "d97862df9f0680ce0a708dcc9ada0ff13d2e547cdb7b644198cc2679a1955955",
+      "checked_at": "2026-09-19T01:03:38.178651+00:00"
+    }
+  ],
+  "review": "Whole source pins, counted complete sections and normalized-text hashes preserve the previously reviewed selection; no factual rewriting or new download."
+}

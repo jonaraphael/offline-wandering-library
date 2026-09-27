@@ -20,7 +20,7 @@ import owl.download as downloader
 
 
 @contextmanager
-def loopback_server(payload: bytes, *, mode: str = "range"):
+def loopback_server(payload: bytes, *, mode: str | dict[str, str] = "range"):
     """Serve deterministic byte ranges, errors, or a deliberately short body.
 
     HTTP responses are real. Only proxy discovery is disabled so ambient proxy
@@ -37,19 +37,31 @@ def loopback_server(payload: bytes, *, mode: str = "range"):
 
         def do_GET(self):
             request = {
+                "path": self.path,
+                "user_agent": self.headers.get("User-Agent"),
                 "range": self.headers.get("Range"),
                 "if_range": self.headers.get("If-Range"),
                 "accept_encoding": self.headers.get("Accept-Encoding"),
             }
             requests.append(request)
+            behavior = mode.get(self.path, "range") if isinstance(mode, dict) else mode
+            owl_agent = (request["user_agent"] or "").startswith("Offline-Wandering-Library/")
+            if ((behavior.startswith("reject_owl") and owl_agent) or
+                    (behavior == "require_owl" and not owl_agent)):
+                self.send_response(403)
+                self.send_header("Content-Length", "0")
+                self.send_header("Connection", "close")
+                self.end_headers()
+                self.close_connection = True
+                return
             body = payload
             offset = 0
             status = 200
-            if mode == "corrupt":
+            if behavior in {"corrupt", "reject_owl_corrupt"}:
                 body = bytes([payload[0] ^ 0xFF]) + payload[1:]
-            if request["range"] and mode != "ignore_range":
+            if request["range"] and behavior != "ignore_range":
                 offset = int(request["range"].removeprefix("bytes=").removesuffix("-"))
-                if mode == "reject_range" or offset >= len(body):
+                if behavior == "reject_range" or offset >= len(body):
                     self.send_response(416)
                     self.send_header("Content-Range", f"bytes */{len(body)}")
                     self.send_header("Content-Length", "0")
@@ -67,7 +79,7 @@ def loopback_server(payload: bytes, *, mode: str = "range"):
             if status == 206:
                 self.send_header("Content-Range", f"bytes {offset}-{len(body) - 1}/{len(body)}")
             self.end_headers()
-            if mode == "truncate_first" and len(requests) == 1:
+            if behavior == "truncate_first" and len(requests) == 1:
                 # Advertise the complete length but close after a known prefix.
                 # No sleeps, races, or time-dependent connection termination.
                 body = body[:cut]
@@ -102,10 +114,11 @@ class HTTPDownloadTests(unittest.TestCase):
         self.payload = (bytes(range(256)) * (8192 + 1))[:2 * 1024 * 1024 + 127]
         self.digest = hashlib.sha256(self.payload).hexdigest()
 
-    def fetch(self, url, *, checksum="pinned", retries=1):
+    def fetch(self, url, *, checksum="pinned", retries=1, mirrors=()):
         asset = {
             "id": "http-fixture",
             "source_url": url,
+            "mirrors": list(mirrors),
             "size_bytes": len(self.payload),
             "sha256": self.digest if checksum == "pinned" else None,
         }
@@ -139,6 +152,60 @@ class HTTPDownloadTests(unittest.TestCase):
         self.assertEqual(self.destination.read_bytes(), self.payload)
         self.assertEqual(requests[1]["range"], f"bytes={cut}-")
         self.assertEqual(requests[1]["if_range"], '"fixture-v1"')
+
+    def test_rejected_user_agent_retries_standard_identifier_and_preserves_resume(self):
+        self.part.write_bytes(self.payload[:103])
+        with loopback_server(self.payload, mode="reject_owl") as (url, requests, _):
+            self.partial_metadata.write_text(json.dumps({"url": url, "validator": '"fixture-v1"'}))
+            self.assertEqual(self.fetch(url, retries=1), self.digest)
+        self.assertEqual(len(requests), 2)
+        self.assertTrue(requests[0]["user_agent"].startswith("Offline-Wandering-Library/"))
+        self.assertTrue(requests[1]["user_agent"].startswith("Python-urllib/"))
+        for request in requests:
+            self.assertEqual(request["range"], "bytes=103-")
+            self.assertEqual(request["if_range"], '"fixture-v1"')
+            self.assertEqual(request["accept_encoding"], "identity")
+        self.assertEqual(self.destination.read_bytes(), self.payload)
+
+    def test_standard_identifier_retry_still_rejects_wrong_pinned_bytes(self):
+        previous = b"previous verified version"
+        self.destination.write_bytes(previous)
+        with loopback_server(self.payload, mode="reject_owl_corrupt") as (url, requests, _):
+            with self.assertRaisesRegex(DownloadError, "SHA-256 mismatch"):
+                self.fetch(url, retries=1)
+        self.assertEqual(len(requests), 2)
+        self.assertTrue(requests[1]["user_agent"].startswith("Python-urllib/"))
+        self.assertEqual(self.destination.read_bytes(), previous)
+        self.assertFalse(self.part.exists())
+        self.assertFalse(self.partial_metadata.exists())
+
+    def test_mirror_keeps_its_own_first_identifier_after_source_rejection(self):
+        modes = {"/fixture": "reject_owl", "/mirror": "require_owl"}
+        with loopback_server(self.payload, mode=modes) as (url, requests, _):
+            mirror = url.removesuffix("/fixture") + "/mirror"
+            self.assertEqual(self.fetch(url, retries=1, mirrors=[mirror]), self.digest)
+        self.assertEqual([request["path"] for request in requests], ["/fixture", "/mirror"])
+        self.assertTrue(all(request["user_agent"].startswith("Offline-Wandering-Library/") for request in requests))
+
+    def test_timeout_retries_standard_identifier_within_existing_attempt_limit(self):
+        for error in (TimeoutError("fixture timeout"), URLError(TimeoutError("fixture timeout"))):
+            with self.subTest(error=type(error).__name__), loopback_server(self.payload) as (url, requests, _):
+                real_open = downloader.urlopen
+                attempts = []
+
+                def timeout_once(request, **kwargs):
+                    attempts.append(request.get_header("User-agent"))
+                    if len(attempts) == 1:
+                        raise error
+                    return real_open(request, **kwargs)
+
+                with patch("owl.download.urlopen", side_effect=timeout_once):
+                    self.assertEqual(self.fetch(url, retries=1), self.digest)
+            self.assertEqual(len(attempts), 2)
+            self.assertTrue(attempts[0].startswith("Offline-Wandering-Library/"))
+            self.assertIsNone(attempts[1])  # urllib supplies its standard identifier.
+            self.assertEqual(len(requests), 1)
+            self.assertTrue(requests[0]["user_agent"].startswith("Python-urllib/"))
 
     def test_server_ignoring_range_restarts_instead_of_appending(self):
         self.part.write_bytes(b"outdated prefix that must be discarded")
@@ -174,8 +241,9 @@ class HTTPDownloadTests(unittest.TestCase):
         self.destination.write_bytes(previous)
         with loopback_server(self.payload, mode="corrupt") as (url, requests, _):
             with self.assertRaisesRegex(DownloadError, "SHA-256 mismatch"):
-                self.fetch(url, retries=0)
-        self.assertEqual(len(requests), 1)
+                self.fetch(url, retries=1)
+        self.assertEqual(len(requests), 1)  # A pin mismatch is permanent, not a retryable outage.
+        self.assertTrue(all(request["user_agent"].startswith("Offline-Wandering-Library/") for request in requests))
         self.assertEqual(self.destination.read_bytes(), previous)
         self.assertFalse(self.part.exists())
         self.assertFalse(self.partial_metadata.exists())

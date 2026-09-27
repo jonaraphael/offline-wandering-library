@@ -1,0 +1,217 @@
+{
+  "budget": {
+    "cache_bytes": 0,
+    "download_bytes": 5434058007,
+    "expanded_bytes": 0,
+    "preview_bytes": 0,
+    "scratch_bytes": 0
+  },
+  "content_ready": false,
+  "id": "direct-existing-originals-1tb",
+  "kind": "acquisition",
+  "metadata_allowance_bytes": 1145068,
+  "profile": "full-1tb",
+  "review_requirements": [
+    "This batch captures original pinned ZIMs only; direct outputs still need explicit entry selection and preview review.",
+    "Resolve the iFixit HTML-language mismatch and preserve complete guide steps, photographs, captions and notices.",
+    "Reserve direct export, scratch and preview bytes separately; source capture is not content readiness."
+  ],
+  "schema_version": 1,
+  "sources": [
+    {
+      "fullasset_metadata": {
+        "attribution": "Appropedia contributors; offline archive packaged by Kiwix/openZIM. Retain article authorship, source links, license and media notices inside the archive.",
+        "category": "reference",
+        "critical": false,
+        "description": "Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also available separately in ordinary PDF files.",
+        "destination": "ZIM/OTHER/appropedia_en_all_maxi_2026-02.zim",
+        "format": "zim",
+        "id": "appropedia_en",
+        "illustrated": false,
+        "language": "en",
+        "license": "CC-BY-SA-4.0; individual notices apply",
+        "profiles": [],
+        "publisher": "Appropedia contributors",
+        "reader_required": true,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "dcf200ba723c27397e1c9a2e4891ff91fa13993df1fa285315190d8525a53469",
+        "size_bytes": 581641351,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://www.appropedia.org/Appropedia:Terms_of_use",
+        "source_url": "https://download.kiwix.org/zim/other/appropedia_en_all_maxi_2026-02.zim",
+        "status": "resolved",
+        "title": "Appropedia: Sustainability and Appropriate Technology",
+        "version": "2026-02"
+      },
+      "id": "appropedia_en",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "appropedia_en",
+          "scope": "Hash of canonical portable catalog asset metadata; not a publisher-page or resource-body hash",
+          "sha256": "7492da031d6b35dc8374f888b11bd83cec94c4d58cac251989783e1e400b9633",
+          "url": "https://download.kiwix.org/zim/other/appropedia_en_all_maxi_2026-02.zim"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "appropedia"
+      ],
+      "sha256": "dcf200ba723c27397e1c9a2e4891ff91fa13993df1fa285315190d8525a53469",
+      "size_bytes": 581641351,
+      "source_url": "https://download.kiwix.org/zim/other/appropedia_en_all_maxi_2026-02.zim",
+      "version": "2026-02"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "CD3WD Project, founded by Alex Weir, and the original publication authors/publishers. Preserve every original credit and rights notice. No blanket CC license is assigned by OWL.",
+        "category": "reference",
+        "critical": false,
+        "description": "Unmodified Kiwix archive of the current CD3WD Project website for personal offline reading. This 581 MB site snapshot is not the historical multi-DVD collection. Original PDFs/HTML have not yet been exported as ordinary files. redistributable=false records unverified collection-wide redistribution rights, not a prohibition on personal download.",
+        "destination": "ZIM/OTHER/cd3wdproject.org_en_all_2025-11.zim",
+        "format": "zim",
+        "id": "cd3wd_en",
+        "illustrated": false,
+        "language": "en",
+        "license": "Mixed original publication rights; project offers free access and dissemination; no uniform redistribution license asserted",
+        "mirrors": [
+          "https://ny.mirror.driftle.ss/kiwix/zim/zimit/cd3wdproject.org_en_all_2025-11.zim",
+          "https://wi.mirror.driftle.ss/kiwix/zim/zimit/cd3wdproject.org_en_all_2025-11.zim",
+          "https://ftp.nluug.nl/pub/kiwix/zim/zimit/cd3wdproject.org_en_all_2025-11.zim"
+        ],
+        "profiles": [],
+        "publisher": "CD3WD Project and original publication authors",
+        "reader_required": true,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "f79a27413af0bd17d14adb3a556d282515a8bc1e127d791a5961c93ea9167b92",
+        "size_bytes": 581165229,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://www.cd3wdproject.org/",
+        "source_url": "https://download.kiwix.org/zim/zimit/cd3wdproject.org_en_all_2025-11.zim",
+        "status": "resolved",
+        "title": "CD3WD appropriate-development library (2025-11 archive)",
+        "version": "2025-11"
+      },
+      "id": "cd3wd_en",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "cd3wd_en",
+          "scope": "Hash of canonical portable catalog asset metadata; not a publisher-page or resource-body hash",
+          "sha256": "2268dfd600f9cd606569de8e7a822bce0a4a8a06dcc779b0372fbe3298ae6161",
+          "url": "https://download.kiwix.org/zim/zimit/cd3wdproject.org_en_all_2025-11.zim"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "cd3wd"
+      ],
+      "sha256": "f79a27413af0bd17d14adb3a556d282515a8bc1e127d791a5961c93ea9167b92",
+      "size_bytes": 581165229,
+      "source_url": "https://download.kiwix.org/zim/zimit/cd3wdproject.org_en_all_2025-11.zim",
+      "version": "2025-11"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "iFixit and contributors; offline archive packaged by Kiwix/openZIM. Retain article authorship, source links, license and media notices inside the archive.",
+        "category": "mechanical",
+        "critical": false,
+        "description": "Large supplementary archive; requires a compatible ZIM reader. Critical guidance is also available separately in ordinary PDF files.",
+        "destination": "ZIM/OTHER/ifixit_en_all_2025-12.zim",
+        "format": "zim",
+        "id": "ifixit_en",
+        "illustrated": false,
+        "language": "en",
+        "license": "CC-BY-NC-SA-3.0",
+        "profiles": [],
+        "publisher": "iFixit and contributors",
+        "reader_required": true,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "9bb5f3408707fd0300c6ef47a425c3217187f144cd9154a928183816aa72eead",
+        "size_bytes": 3570695757,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://www.ifixit.com/Info/Licensing",
+        "source_url": "https://download.kiwix.org/zim/ifixit/ifixit_en_all_2025-12.zim",
+        "status": "resolved",
+        "title": "iFixit Repair Guides",
+        "version": "2025-12"
+      },
+      "id": "ifixit_en",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "ifixit_en",
+          "scope": "Hash of canonical portable catalog asset metadata; not a publisher-page or resource-body hash",
+          "sha256": "734cef3eacae7ba3c8fbf403777e9fecef6c43b93d56549f0ed4028baed1ab65",
+          "url": "https://download.kiwix.org/zim/ifixit/ifixit_en_all_2025-12.zim"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "ifixit"
+      ],
+      "sha256": "9bb5f3408707fd0300c6ef47a425c3217187f144cd9154a928183816aa72eead",
+      "size_bytes": 3570695757,
+      "source_url": "https://download.kiwix.org/zim/ifixit/ifixit_en_all_2025-12.zim",
+      "version": "2025-12"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Kris De Decker and original article/image contributors. Preserve article dates, credits and rights notices.",
+        "category": "engineering",
+        "critical": false,
+        "description": "Published Kiwix snapshot for personal offline reading. A static export with checked illustrations remains to be curated; this is not a purchased EPUB edition.",
+        "destination": "ZIM/OTHER/solar.lowtechmagazine.com_mul_all_2025-01.zim",
+        "format": "zim",
+        "id": "lowtech_magazine",
+        "illustrated": false,
+        "language": "mul",
+        "license": "Copyright Kris De Decker and contributors; individual article and image notices apply; no blanket redistribution grant asserted",
+        "mirrors": [
+          "https://ny.mirror.driftle.ss/kiwix/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim",
+          "https://wi.mirror.driftle.ss/kiwix/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim",
+          "https://ftp.nluug.nl/pub/kiwix/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim"
+        ],
+        "profiles": [],
+        "publisher": "Low-tech Magazine; archived by Kiwix/openZIM",
+        "reader_required": true,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "archive",
+        "sha256": "0a21bde8e3be3b80b8b7dea13118fb2190a60274f2341a5b72715f89fd049740",
+        "size_bytes": 700555670,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://solar.lowtechmagazine.com/offline-reading/",
+        "source_url": "https://download.kiwix.org/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim",
+        "status": "resolved",
+        "title": "Low-tech Magazine (January 2025 site archive)",
+        "version": "2025-01"
+      },
+      "id": "lowtech_magazine",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "lowtech_magazine",
+          "scope": "Hash of canonical portable catalog asset metadata; not a publisher-page or resource-body hash",
+          "sha256": "57e15e809098ab4bb31e5be8199e8edd3b77855cda0a3ccf9454ef12c80f5b93",
+          "url": "https://download.kiwix.org/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "low-tech-magazine"
+      ],
+      "sha256": "0a21bde8e3be3b80b8b7dea13118fb2190a60274f2341a5b72715f89fd049740",
+      "size_bytes": 700555670,
+      "source_url": "https://download.kiwix.org/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim",
+      "version": "2025-01"
+    }
+  ],
+  "storage_peak_bytes": 5435203075
+}

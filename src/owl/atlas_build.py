@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from copy import deepcopy
 import hashlib
 import html
 from html.parser import HTMLParser
@@ -13,7 +14,7 @@ import sys
 from urllib.parse import unquote, urlsplit
 
 from .build import REPO_ROOT, _json, _owned_directory, _root, _state, check_space
-from .catalog import ROOTS, fingerprint, load_catalog, load_profiles, resolve_content
+from .catalog import ROOTS, fingerprint, is_document, load_catalog, load_profiles, resolve_content, validate_catalog
 from .layout import checksum_name, content_root, logical_name, managed_path
 from .navigation import GENERATED_PATHS, generate_navigation
 from .runtime import file_lock, interrupt_signals
@@ -65,6 +66,7 @@ def plan_atlas(target: Path, assets: list[dict], navigation: dict | None, state:
     """Resolve sources and plan every dynamic path before allowing publication."""
     from .atlas import prepare_atlas
     from .atlas_model import validate_sources
+    assets = [asset for asset in assets if is_document(asset)]
     if navigation is None:
         pages, report = {}, None
     else:
@@ -151,9 +153,11 @@ def validate_links(target: Path, pages: dict[str, str], assets=()) -> None:
             parsed[relative].feed(text)
             page = parsed[relative]
             if page.scripts:
-                allowed = (relative == "START_HERE.html" and not page.inline_script and
+                script_source = {"START_HERE.html": "LIBRARY/SEARCH/search.js",
+                                 "SEARCH.html": "SEARCH/search.js"}.get(relative)
+                allowed = (script_source is not None and not page.inline_script and
                            len(page.scripts) == 1 and len(page.scripts[0]) == 2 and
-                           dict(page.scripts[0]) == {"defer": None, "src": "LIBRARY/SEARCH/search.js"})
+                           dict(page.scripts[0]) == {"defer": None, "src": script_source})
                 if not allowed:
                     raise SafetyError(f"Unexpected generated script: {relative}")
                 for required in ("SEARCH/search.js", "SEARCH/manifest.js"):
@@ -202,7 +206,40 @@ def register_outputs(target: Path, pages: dict, state: dict) -> None:
 
 def write_outputs(target: Path, pages: dict[str, str]) -> None:
     for relative, text in sorted(pages.items()):
-        atomic_write(managed_path(target, relative), text.encode("utf-8"))
+        path, data = managed_path(target, relative), text.encode("utf-8")
+        if not path.is_file() or path.read_bytes() != data:
+            atomic_write(path, data)
+
+
+def _refresh_search_ui(target: Path, job: dict) -> None:
+    """Checkpoint a matched UI and report without changing the search generation."""
+    from .search import _prepare_ui
+    from .search_ui import render_search_widget
+    inventory, info = job["inventory"], job["build_info"]
+    report = inventory.get("search", {})
+    generated = report.get("generated_files", [])
+    if report.get("status") == "not-built" or not all(
+            relative in generated for relative in ("SEARCH/manifest.js", "SEARCH/search.js")):
+        return
+    required = {"SEARCH.html", "SEARCH/search.js", "SEARCH/manifest.js", "SEARCH/coverage.json"}
+    if (not required.issubset(job["baseline"]) or report.get("format_version") != 3
+            or report.get("transport", {}).get("version") != 1
+            or not isinstance(report.get("file_integrity"), dict)):
+        raise SafetyError("Cannot refresh an unverified or unsupported search UI")
+    coverage = safe_path(target, "SEARCH/coverage.json").read_text(encoding="utf-8")
+    if json.loads(coverage) != report or info.get("search") != report:
+        raise SafetyError("Search coverage, inventory, and build information disagree")
+    updated = deepcopy(report)
+    outputs = _prepare_ui(updated)
+    if updated != report:
+        coverage = json.dumps(updated, ensure_ascii=False, indent=2) + "\n"
+    budget = info.get("profile", {}).get("search_budget_bytes")
+    if budget is not None and sum(item["size_bytes"] for item in updated["file_integrity"].values()) + len(coverage.encode("utf-8")) > budget:
+        raise SafetyError("Refreshed search UI exceeds the profile's search budget")
+    job["support_files"].update({relative: data.decode("utf-8") for relative, data in outputs.items()})
+    job["support_files"]["SEARCH/coverage.json"] = coverage
+    job["search_widget"] = render_search_widget("LIBRARY/")
+    inventory["search"] = info["search"] = updated
 
 
 def _checksums(target: Path) -> dict[str, str]:
@@ -282,7 +319,8 @@ def _inventory_assets(inventory: dict) -> list[dict]:
         identity, destination, digest = asset.get("id"), asset.get("destination"), asset.get("sha256")
         if (not isinstance(identity, str) or not re.fullmatch(r"[a-z0-9_-]+", identity) or identity in identities
                 or not isinstance(destination, str) or destination.split("/")[0] not in ROOTS
-                or "/" not in destination or type(asset.get("size_bytes")) is not int or asset["size_bytes"] <= 0
+                or "/" not in destination or type(asset.get("size_bytes")) is not int or
+                asset["size_bytes"] < (0 if "archive_member" in asset else 1)
                 or not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest)):
             raise SafetyError("Invalid or duplicate atlas source ID, content path, size, or SHA-256")
         for key in ("title", "category", "format", "version", "license"):
@@ -291,6 +329,13 @@ def _inventory_assets(inventory: dict) -> list[dict]:
         identities.add(identity)
         paths.append(destination)
     _check_names(paths)
+    if any("archive_member" in asset for asset in inventory["assets"]):
+        # Saved publication jobs must not loosen archive-member/source rules.
+        # Local URLs are metadata here; atlas publication never fetches them.
+        try:
+            validate_catalog(inventory, allow_local=True)
+        except (ValueError, TypeError) as error:
+            raise SafetyError("Invalid archive package in atlas inventory") from error
     return inventory["assets"]
 
 
@@ -351,6 +396,7 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
                 if REPORT in baseline:
                     previous_report = json.loads(safe_path(target, REPORT).read_text(encoding="utf-8"))
                     job["atlas_managed"] = _reported_paths(previous_report, baseline)
+                _refresh_search_ui(target, job)
             # This also recovers adoption if stopped after saving the job but
             # before saving state on a drive whose private state was absent.
             state["managed"] = sorted(set(state["managed"]) | set(baseline) | ({"SHA256SUMS.txt"} if baseline else set()))
@@ -362,6 +408,13 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             inventory = {**inventory, "navigation": report}
             info = {**info, "navigation": report}
             pages = generate_navigation(target, assets, inventory, inventory.get("search", {}), write=False)
+            if "SEARCH/search.js" in job["support_files"]:
+                from .search_ui import render_search_widget
+                widget = job.get("search_widget")
+                if not isinstance(widget, str) or not widget.strip():
+                    raise SafetyError("Invalid saved search widget")
+                pages["START_HERE.html"] = pages["START_HERE.html"].replace(
+                    render_search_widget("LIBRARY/"), widget, 1)
             pages.update(atlas_pages)
             pages["INVENTORY.json"] = _json(inventory).decode("utf-8")
             pages["BUILD_INFO.json"] = _json(info).decode("utf-8")
@@ -376,7 +429,7 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
                 support["SOURCE_NOTES.txt"] = (REPO_ROOT / "docs/sources.md").read_text(encoding="utf-8")
             if "VERIFY.py" not in baseline and "VERIFY.py" not in support:
                 support["VERIFY.py"] = Path(__file__).with_name("verify.py").read_text(encoding="utf-8")
-            if set(support) - {"SEARCH.html", "SEARCH/coverage.json", "SOURCE_NOTES.txt", "VERIFY.py"} or any(not isinstance(v, str) for v in support.values()):
+            if set(support) - {"SEARCH.html", "SEARCH/search.js", "SEARCH/coverage.json", "SOURCE_NOTES.txt", "VERIFY.py"} or any(not isinstance(v, str) for v in support.values()):
                 raise SafetyError("Invalid atlas checkpoint support-file paths")
             pages.update(support)
             if set(pages) & {a["destination"] for a in assets}:

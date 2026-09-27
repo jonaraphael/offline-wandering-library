@@ -1,0 +1,13 @@
+{
+  "requests": [
+    {
+      "id": "hesperian_midwives_2013_full",
+      "url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_full.pdf"
+    },
+    {
+      "id": "hesperian_midwives_2011_full",
+      "url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2011/en_midw_2011_Full_Book.pdf"
+    }
+  ],
+  "schema_version": 1
+}

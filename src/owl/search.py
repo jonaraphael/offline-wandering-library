@@ -38,8 +38,14 @@ CHECKPOINT_UNITS = 50
 CHECKPOINT_SECONDS = 5
 TEXTBOOK_FLAG = 1
 ILLUSTRATED_GUIDE_FLAG = 2
+LEGACY_FLAG = 4
 TEXT_FORMATS = {"txt", "text", "md", "markdown", "html", "htm", "epub", "pdf", "zim"}
 TOKEN_RE = re.compile(r"[^\W_]+", re.UNICODE)
+# Increment these for changes to extracted text/cursors or indexed records and
+# ranking, respectively. Scheduling, logging, SQLite tuning and UI changes are
+# deliberately not extraction semantics. See docs/search.md for the contract.
+EXTRACTION_VERSION = 1
+INDEX_SEMANTICS_VERSION = 1
 
 
 class SearchError(ValueError):
@@ -327,7 +333,7 @@ def _job_paths(target: Path, work_dir: Path | None) -> tuple[Path, Path, dict]:
 
 
 _EXTRACTION_FILES = ('build.sqlite3', 'build.sqlite3-journal', 'build.sqlite3-wal',
-                     'build.sqlite3-shm', 'records.bin')
+                     'build.sqlite3-shm', 'records.bin', 'merge-lexicon.bin', 'merge-offsets.bin')
 _JOB_FILES = (*_EXTRACTION_FILES, 'serialized.json')
 
 
@@ -387,7 +393,53 @@ def _signature(path: Path) -> tuple:
     return info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns
 
 
-def _input_fingerprint(target: Path, assets: list[dict], notify: Callable) -> tuple[str, list]:
+def _asset_parameters(asset: dict) -> tuple[dict, int]:
+    """The exact metadata serialized and weighted by the indexer."""
+    from .catalog import learning_shelves
+    path = Path(asset['destination'])
+    fmt = str(asset.get('format', path.suffix.lstrip('.'))).lower()
+    shelves = learning_shelves(asset)
+    flags = ((TEXTBOOK_FLAG if 'textbooks' in shelves else 0) |
+             (ILLUSTRATED_GUIDE_FLAG if 'illustrated-guides' in shelves else 0) |
+             (LEGACY_FLAG if asset.get('legacy') else 0))
+    resource_type = asset.get('resource_type', 'reference')
+    illustrated = bool(asset.get('illustrated', False))
+    base = {'title': asset.get('title', path.name), 'destination': asset['destination'],
+            'category': asset.get('category', ''),
+            'source': asset.get('publisher') or asset.get('source_url', ''),
+            'tags': ' '.join(asset.get('tags', [])),
+            'reader_required': fmt == 'zim' or bool(asset.get('reader_required', fmt == 'epub')),
+            'format': fmt, 'critical': bool(asset.get('critical', False)),
+            'resource_type': resource_type, 'illustrated': illustrated,
+            'legacy': bool(asset.get('legacy', False)),
+            'resource_labels': ' '.join([resource_type, 'illustrated' if illustrated else '']).strip(),
+            'attribution': asset.get('attribution', ''), 'license': asset.get('license', '')}
+    return base, flags
+
+
+def _asset_recipe(asset: dict, digest: str) -> dict:
+    base, flags = _asset_parameters(asset)
+    dependencies = {}
+    names = ('pypdf', 'fonttools') if base['format'] == 'pdf' else ('libzim',) if base['format'] == 'zim' else ()
+    for name in names:
+        try:
+            dependencies[name] = importlib.metadata.version(name)
+        except importlib.metadata.PackageNotFoundError:
+            dependencies[name] = None
+    return {'schema_version': 1, 'source_sha256': digest,
+            'metadata': {'record': base, 'flags': flags,
+                         'id': asset.get('id', asset['destination']),
+                         'description': asset.get('description', ''),
+                         'text_encoding': asset.get('text_encoding', 'utf-8-sig')},
+            'semantics': {'extraction': EXTRACTION_VERSION, 'index': INDEX_SEMANTICS_VERSION,
+                          'dependencies': dependencies, 'python': list(sys.version_info[:2]),
+                          'unicode': unicodedata.unidata_version,
+                          'passage_chars': PASSAGE_CHARS, 'max_zim_item': MAX_ZIM_ITEM,
+                          'format': 3, 'tokenizer': 'NFKC-lower-unicode-letter-number-v1'}}
+
+
+def _input_fingerprint(target: Path, assets: list[dict], notify: Callable, *,
+                       asset_recipes: dict | None = None) -> tuple[str, list]:
     from .safety import sha256_file
     inputs, signatures = [], []
     for number, asset in enumerate(assets, 1):
@@ -404,19 +456,11 @@ def _input_fingerprint(target: Path, assets: list[dict], notify: Callable) -> tu
         if asset.get('sha256') is not None and digest != asset['sha256']:
             raise SearchError(f'Search source checksum differs from verified inventory: {path}')
         signatures.append((path, before))
-        inputs.append({'asset': asset, 'sha256': digest})
-    dependencies = {}
-    for name in ('pypdf', 'fonttools', 'libzim'):
-        try:
-            dependencies[name] = importlib.metadata.version(name)
-        except importlib.metadata.PackageNotFoundError:
-            dependencies[name] = None
-    recipe = {'inputs': inputs, 'dependencies': dependencies,
-              'python': list(sys.version_info[:3]), 'unicode': unicodedata.unidata_version,
-              'extractor': sha256_file(Path(__file__)),
-              'catalog_rules': sha256_file(Path(__file__).with_name('catalog.py')),
-              'passage_chars': PASSAGE_CHARS, 'max_zim_item': MAX_ZIM_ITEM}
-    return hashlib.sha256(_json(recipe)).hexdigest(), signatures
+        recipe = _asset_recipe(asset, digest)
+        inputs.append(hashlib.sha256(_json(recipe)).hexdigest())
+        if asset_recipes is not None:
+            asset_recipes[asset['destination']] = recipe
+    return hashlib.sha256(_json({'schema_version': 2, 'assets': inputs})).hexdigest(), signatures
 
 
 def _completed_report(target: Path, report_path: Path, fingerprint: str) -> dict | None:
@@ -592,7 +636,9 @@ def _database(path: Path) -> sqlite3.Connection:
         # Every ordered query follows an existing primary key. No sort/temp table
         # is required; MEMORY forbids hidden large spills into the OS /tmp.
         db.execute('PRAGMA temp_store=MEMORY')
-        db.execute('PRAGMA cache_size=-16384')
+        # Bound the page cache at 256 MiB to avoid repeated external-drive reads
+        # while inserting postings. SQLite allocates pages only as needed.
+        db.execute('PRAGMA cache_size=-262144')
         db.execute('PRAGMA mmap_size=0')
         return db
     except BaseException as error:
@@ -613,6 +659,12 @@ def _save_checkpoint(db: sqlite3.Connection, records: BinaryIO, state: dict,
     state['record_bytes'] = records.tell()
     db.execute('INSERT OR REPLACE INTO checkpoint VALUES (1,?)', (_json(state).decode('utf-8'),))
     db.commit()
+
+
+def _progress_event(progress: Callable | None, **fields) -> None:
+    event = getattr(progress, 'event', None)
+    if callable(event):
+        event(phase='search', **fields)
 
 
 class _BoundedIndexWriter:
@@ -731,10 +783,168 @@ def _serialize_index(db: sqlite3.Connection, records: BinaryIO, part: Path,
         os.fsync(output.fileno())
 
 
+def _extract_raw_index(target: Path, assets: list[dict], *, fingerprint: str,
+                       signatures: list, job: Path, part: Path, notify: Callable,
+                       check_budget: Callable, raw_limit: int | None) -> dict:
+    """Extract/resume and serialize; callers publish durably before cleanup."""
+    from .safety import sha256_file
+    db_path = _safe_path(job, 'build.sqlite3')
+    records_path = _safe_path(job, 'records.bin')
+    db = _database(db_path)
+    try:
+        table = db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='checkpoint'").fetchone()
+        saved = db.execute('SELECT data FROM checkpoint WHERE id=1').fetchone() if table else None
+        state = json.loads(saved[0]) if saved else None
+        if state is not None and not isinstance(state, dict):
+            raise SearchError(f'Invalid extraction checkpoint: {db_path}')
+        if state is not None and state.get('fingerprint') != fingerprint:
+            notify('INDEX inputs/extractor changed; replacing owned extraction checkpoint', force=True)
+            state = None
+        if state is None:
+            db.close()
+            _clear_job(job, part)
+            db = _database(db_path)
+            db.executescript('''
+                CREATE TABLE docs (id INTEGER PRIMARY KEY, offset INTEGER, size INTEGER, flags INTEGER);
+                CREATE TABLE postings (term TEXT, doc INTEGER, tf INTEGER, dl INTEGER,
+                                       PRIMARY KEY (term,doc)) WITHOUT ROWID;
+                CREATE TABLE lexicon (id INTEGER PRIMARY KEY, term TEXT, offset INTEGER, count INTEGER, length INTEGER);
+                CREATE TABLE lex_offsets (id INTEGER PRIMARY KEY, offset INTEGER, size INTEGER);
+                CREATE TABLE checkpoint (id INTEGER PRIMARY KEY, data TEXT NOT NULL);
+            ''')
+            report = {'format_version': 3, 'documents': 0, 'assets': [], 'warnings': [],
+                      'generated_files': []}
+            state = {'fingerprint': fingerprint, 'asset_index': 0, 'unit_cursor': 0,
+                     'coverage': None, 'report': report, 'total_length': 0,
+                     'record_bytes': HEADER_SIZE, 'extracted': False}
+            with records_path.open('w+b') as records:
+                records.write(b'\0' * HEADER_SIZE)
+                _save_checkpoint(db, records, state, check_budget)
+        else:
+            if (any(type(state.get(key)) is not int or state[key] < 0
+                    for key in ('asset_index', 'unit_cursor', 'total_length', 'record_bytes'))
+                    or state['asset_index'] > len(assets)
+                    or state['record_bytes'] < HEADER_SIZE
+                    or not isinstance(state.get('report'), dict)
+                    or type(state['report'].get('documents')) is not int
+                    or not isinstance(state['report'].get('assets'), list)
+                    or len(state['report']['assets']) != state['asset_index']
+                    or (state.get('coverage') is not None and
+                        not isinstance(state['coverage'], dict))
+                    or (state['unit_cursor'] > 0 and state.get('coverage') is None)):
+                raise SearchError(f'Invalid extraction checkpoint: {db_path}')
+            last = db.execute('SELECT id,offset,size FROM docs ORDER BY id DESC LIMIT 1').fetchone()
+            if ((last[0] + 1 if last else 0) != state['report']['documents']
+                    or (last[1] + last[2] if last else HEADER_SIZE) != state['record_bytes']):
+                raise SearchError(f'Extraction checkpoint does not match its records: {db_path}')
+            notify(f"INDEX RESUME: {state['report']['documents']:,} checkpointed passages; "
+                   f"asset {state['asset_index'] + 1}, unit {state['unit_cursor']}", force=True)
+        if not records_path.is_file() or records_path.stat().st_size < state['record_bytes']:
+            raise SearchError(f'Search checkpoint text is missing or truncated: {records_path}')
+        report = state['report']
+        def checkpoint_event():
+            current = state['asset_index']
+            _progress_event(notify, passages=report['documents'], completed_assets=current,
+                            total_assets=len(assets), checkpoint_at=time.time(),
+                            active_asset=assets[current]['destination'] if current < len(assets) else None)
+
+        with records_path.open('r+b') as records:
+            records.truncate(state['record_bytes'])
+            records.seek(state['record_bytes'])
+            check_budget()
+            last_checkpoint = time.monotonic()
+            units_since_checkpoint = 0
+            for asset_index in range(state['asset_index'], len(assets)):
+                asset = assets[asset_index]
+                notify(f"INDEX {asset_index + 1}/{len(assets)} {asset['destination']}", force=True)
+                path = _safe_path(target, asset['destination'])
+                fmt = str(asset.get('format', path.suffix.lstrip('.'))).lower()
+                coverage = state['coverage'] or {
+                    'id': asset.get('id', asset['destination']), 'destination': asset['destination'],
+                    'status': 'full_text', 'passages': 0, 'text_units': 0, 'empty_units': 0,
+                    'warning_count': 0, 'warnings': []}
+                state['coverage'] = coverage
+                base, flags = _asset_parameters(asset)
+                units = _units(path, asset, coverage, state['unit_cursor'])
+                try:
+                    for unit_id, metadata, chunks in units:
+                        if metadata is not None:
+                            coverage['text_units'] += 1
+                            nonempty = False
+                            for passage_number, passage in enumerate(_passages(chunks), 1):
+                                nonempty = True
+                                record = {**base, **metadata, 'text': passage, 'passage': passage_number}
+                                state['total_length'] += _add_record(db, records, record, report['documents'], flags)
+                                report['documents'] += 1
+                                coverage['passages'] += 1
+                                if report['documents'] % 1000 == 0:
+                                    notify(f"INDEX {asset['destination']}: {coverage['passages']:,} passages; "
+                                           f"{report['documents']:,} total; {records.tell():,} text bytes")
+                            if not nonempty:
+                                coverage['empty_units'] += 1
+                        state['unit_cursor'] = unit_id + 1
+                        if metadata is not None:
+                            units_since_checkpoint += 1
+                        now = time.monotonic()
+                        if units_since_checkpoint >= CHECKPOINT_UNITS or now - last_checkpoint >= CHECKPOINT_SECONDS:
+                            _save_checkpoint(db, records, state, check_budget)
+                            checkpoint_event()
+                            units_since_checkpoint = 0
+                            # Slow commit I/O must not expire the next interval.
+                            last_checkpoint = time.monotonic()
+                finally:
+                    units.close()
+                if coverage['empty_units']:
+                    _warn(coverage, f"{coverage['empty_units']} text units have no extractable text; images/scans need visual reading (no OCR)")
+                if not coverage['passages']:
+                    coverage['status'] = 'metadata_only'
+                    reason = ('No extractable text' if fmt in TEXT_FORMATS else 'Binary format: searchable catalog metadata only')
+                    _warn(coverage, reason)
+                    record = {**base, 'text': asset.get('description', ''), 'metadata_only': True}
+                    state['total_length'] += _add_record(db, records, record, report['documents'], flags)
+                    report['documents'] += 1
+                    coverage['passages'] = 1
+                elif coverage['warning_count']:
+                    coverage['status'] = 'partial'
+                if coverage['status'] != 'full_text':
+                    report['warnings'].append(f"{coverage['destination']}: {coverage['status']} ({coverage['warning_count']} notices)")
+                report['assets'].append(coverage)
+                state.update(asset_index=asset_index + 1, unit_cursor=0, coverage=None)
+                _save_checkpoint(db, records, state, check_budget)
+                checkpoint_event()
+                units_since_checkpoint = 0
+                last_checkpoint = time.monotonic()
+                notify(f"INDEXED {asset['destination']}: {coverage['passages']:,} passages, "
+                       f"{coverage['status']}, {coverage['warning_count']:,} notices", force=True)
+            state['extracted'] = True
+            _save_checkpoint(db, records, state, check_budget)
+            _serialize_index(db, records, part, report, state['total_length'], notify,
+                             maximum=raw_limit, check_budget=check_budget)
+        for path, signature in signatures:
+            if signature != _signature(path):
+                raise SearchError(f'Search source changed during extraction: {path}; rerun to invalidate its checkpoint')
+        report['build_fingerprint'] = fingerprint
+        report['index_bytes'] = part.stat().st_size
+        report['index_sha256'] = sha256_file(part)
+        for path, signature in signatures:
+            if signature != _signature(path):
+                raise SearchError(f'Search source changed while verifying raw index: {path}; rerun')
+        report['total_length'] = state['total_length']
+        return report
+    except sqlite3.Error as error:
+        raise SearchError(f'Search checkpoint database failed: {error}. Check scratch space; '
+                          f'verified sources and durable extraction checkpoints remain in {job}.') from error
+    finally:
+        if db is not None:
+            db.close()
+
+
 def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = None,
                  progress: Callable[[str], None] | None = None,
                  search_budget_bytes: int | None = None,
                  index_scratch_budget_bytes: int | None = None,
+                 index_cache_dir: Path | None = None,
+                 index_cache_budget_bytes: int | None = None,
                  reserve_bytes: int = 0, reuse_only: bool = False,
                  raw_reuse_only: bool = False) -> dict:
     """Build or resume full-text extraction and atomically replace the index.
@@ -745,15 +955,19 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
     serialized checkpoint, extraction files are reclaimed and packaging resumes
     from that raw index. Input bytes, metadata, and extractor versions determine
     reuse; budgets do not invalidate retained work.
+    An explicit index_cache_dir retains compact per-asset shards across targets
+    and selections; index_cache_budget_bytes bounds that separate allocation.
     """
-    from .catalog import learning_shelves
     from .runtime import file_lock
     from .safety import atomic_write, sha256_file
     check_extractors(assets)
     for name, value in (('search_budget_bytes', search_budget_bytes),
-                        ('index_scratch_budget_bytes', index_scratch_budget_bytes), ('reserve_bytes', reserve_bytes)):
+                        ('index_scratch_budget_bytes', index_scratch_budget_bytes),
+                        ('index_cache_budget_bytes', index_cache_budget_bytes), ('reserve_bytes', reserve_bytes)):
         if value is not None and (type(value) is not int or value < 0):
             raise SearchError(f'{name} must be a nonnegative integer')
+    if index_cache_budget_bytes is not None and index_cache_dir is None:
+        raise SearchError('index_cache_budget_bytes requires index_cache_dir')
     target = Path(target)
     assets = sorted(assets, key=lambda a: a['destination'])
     last_progress = time.monotonic()
@@ -789,7 +1003,11 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
             progress(message)
             last_progress = now
 
-    fingerprint, signatures = _input_fingerprint(target, assets, notify)
+    notify.event = lambda **fields: _progress_event(progress, **{k: v for k, v in fields.items() if k != 'phase'})
+    asset_recipes = {}
+    _progress_event(progress, passages=0, completed_assets=0, total_assets=len(assets),
+                    active_asset=None, cache_hits=0, cache_misses=0)
+    fingerprint, signatures = _input_fingerprint(target, assets, notify, asset_recipes=asset_recipes)
     directory = _safe_path(target, 'SEARCH')
     report_path = _safe_path(target, 'SEARCH/coverage.json')
     job, part, owner = _job_paths(target, work_dir)
@@ -826,12 +1044,18 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
             raise SearchError(f'Search output part is not a regular file: {part}')
         reusable = _completed_report(target, report_path, fingerprint)
         if reusable is not None:
+            if index_cache_dir is not None:
+                reusable['cache'] = {'mode': 'completed-index', 'hits': 0, 'misses': 0, 'metadata_reuses': 0}
+            else:
+                reusable.pop('cache', None)
             ui = _prepare_ui(reusable)
             coverage_data = _json(reusable) + b'\n'
             check_outputs(reusable, coverage_data, ui)
             _publish_ui(target, reusable, ui)
             atomic_write(report_path, coverage_data)
             _clear_job(job, part)
+            _progress_event(progress, passages=reusable['documents'], completed_assets=len(assets),
+                            total_assets=len(assets), active_asset=None, cache_hits=0, cache_misses=0)
             notify(f"INDEX REUSE: {reusable['documents']:,} verified passages", force=True)
             return reusable
         if reuse_only:
@@ -839,6 +1063,10 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
                               'No extraction was started.')
         ready = _ready_report(job, part, fingerprint)
         if ready is not None:
+            if index_cache_dir is not None:
+                ready['cache'] = {'mode': 'raw-index', 'hits': 0, 'misses': 0, 'metadata_reuses': 0}
+            else:
+                ready.pop('cache', None)
             if raw_limit is not None and ready['index_bytes'] > raw_limit:
                 raise SearchError('Verified raw index exceeds its serialization allowance; increase search_budget_bytes and rerun.')
             notify(f"INDEX RAW REUSE: {ready['documents']:,} verified passages; completing local script packaging", force=True)
@@ -848,174 +1076,69 @@ def build_search(target: Path, assets: list[dict], *, work_dir: Path | None = No
             _clear_extraction(job)
             publish_report(ready)
             _clear_job(job, part)
+            _progress_event(progress, passages=ready['documents'], completed_assets=len(assets),
+                            total_assets=len(assets), active_asset=None, cache_hits=0, cache_misses=0)
             notify(f"INDEX COMPLETE: {ready['documents']:,} passages; {ready['transport_bytes']:,} local script bytes", force=True)
             return ready
         if raw_reuse_only:
             raise SearchError('Verified raw checkpoint changed after space preflight; rerun to reserve extraction space. '
                               'No extraction was started.')
-        db_path = _safe_path(job, 'build.sqlite3')
-        records_path = _safe_path(job, 'records.bin')
-        db = _database(db_path)
-        success = False
-        try:
-            table = db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='checkpoint'").fetchone()
-            saved = db.execute('SELECT data FROM checkpoint WHERE id=1').fetchone() if table else None
-            state = json.loads(saved[0]) if saved else None
-            if state is not None and not isinstance(state, dict):
-                raise SearchError(f'Invalid extraction checkpoint: {db_path}')
-            if state is not None and state.get('fingerprint') != fingerprint:
-                notify('INDEX inputs/extractor changed; replacing owned extraction checkpoint', force=True)
-                state = None
-            if state is None:
-                db.close()
-                _clear_job(job, part)
-                db = _database(db_path)
-                db.executescript('''
-                    CREATE TABLE docs (id INTEGER PRIMARY KEY, offset INTEGER, size INTEGER, flags INTEGER);
-                    CREATE TABLE postings (term TEXT, doc INTEGER, tf INTEGER, dl INTEGER,
-                                           PRIMARY KEY (term,doc)) WITHOUT ROWID;
-                    CREATE TABLE lexicon (id INTEGER PRIMARY KEY, term TEXT, offset INTEGER, count INTEGER, length INTEGER);
-                    CREATE TABLE lex_offsets (id INTEGER PRIMARY KEY, offset INTEGER, size INTEGER);
-                    CREATE TABLE checkpoint (id INTEGER PRIMARY KEY, data TEXT NOT NULL);
-                ''')
-                report = {'format_version': 3, 'documents': 0, 'assets': [], 'warnings': [],
-                          'generated_files': []}
-                state = {'fingerprint': fingerprint, 'asset_index': 0, 'unit_cursor': 0,
-                         'coverage': None, 'report': report, 'total_length': 0,
-                         'record_bytes': HEADER_SIZE, 'extracted': False}
-                with records_path.open('w+b') as records:
-                    records.write(b'\0' * HEADER_SIZE)
-                    _save_checkpoint(db, records, state, check_budget)
-            else:
-                if (any(type(state.get(key)) is not int or state[key] < 0
-                        for key in ('asset_index', 'unit_cursor', 'total_length', 'record_bytes'))
-                        or state['asset_index'] > len(assets)
-                        or state['record_bytes'] < HEADER_SIZE
-                        or not isinstance(state.get('report'), dict)
-                        or type(state['report'].get('documents')) is not int
-                        or not isinstance(state['report'].get('assets'), list)
-                        or len(state['report']['assets']) != state['asset_index']
-                        or (state.get('coverage') is not None and
-                            not isinstance(state['coverage'], dict))
-                        or (state['unit_cursor'] > 0 and state.get('coverage') is None)):
-                    raise SearchError(f'Invalid extraction checkpoint: {db_path}')
-                last = db.execute('SELECT id,offset,size FROM docs ORDER BY id DESC LIMIT 1').fetchone()
-                if ((last[0] + 1 if last else 0) != state['report']['documents']
-                        or (last[1] + last[2] if last else HEADER_SIZE) != state['record_bytes']):
-                    raise SearchError(f'Extraction checkpoint does not match its records: {db_path}')
-                notify(f"INDEX RESUME: {state['report']['documents']:,} checkpointed passages; "
-                       f"asset {state['asset_index'] + 1}, unit {state['unit_cursor']}", force=True)
-            if not records_path.is_file() or records_path.stat().st_size < state['record_bytes']:
-                raise SearchError(f'Search checkpoint text is missing or truncated: {records_path}')
-            report = state['report']
-            with records_path.open('r+b') as records:
-                records.truncate(state['record_bytes'])
-                records.seek(state['record_bytes'])
-                monitor_workspace = True
-                check_budget()
-                last_checkpoint = time.monotonic()
-                units_since_checkpoint = 0
-                for asset_index in range(state['asset_index'], len(assets)):
-                    asset = assets[asset_index]
-                    notify(f"INDEX {asset_index + 1}/{len(assets)} {asset['destination']}", force=True)
-                    path = _safe_path(target, asset['destination'])
-                    fmt = str(asset.get('format', path.suffix.lstrip('.'))).lower()
-                    coverage = state['coverage'] or {
-                        'id': asset.get('id', asset['destination']), 'destination': asset['destination'],
-                        'status': 'full_text', 'passages': 0, 'text_units': 0, 'empty_units': 0,
-                        'warning_count': 0, 'warnings': []}
-                    state['coverage'] = coverage
-                    shelves = learning_shelves(asset)
-                    flags = ((TEXTBOOK_FLAG if 'textbooks' in shelves else 0) |
-                             (ILLUSTRATED_GUIDE_FLAG if 'illustrated-guides' in shelves else 0))
-                    resource_type = asset.get('resource_type', 'reference')
-                    illustrated = bool(asset.get('illustrated', False))
-                    base = {'title': asset.get('title', path.name), 'destination': asset['destination'],
-                            'category': asset.get('category', ''),
-                            'source': asset.get('publisher') or asset.get('source_url', ''),
-                            'tags': ' '.join(asset.get('tags', [])),
-                            'reader_required': fmt == 'zim' or bool(asset.get('reader_required', fmt == 'epub')),
-                            'format': fmt, 'critical': bool(asset.get('critical', False)),
-                            'resource_type': resource_type, 'illustrated': illustrated,
-                            'resource_labels': ' '.join([resource_type, 'illustrated' if illustrated else '']).strip(),
-                            'attribution': asset.get('attribution', ''), 'license': asset.get('license', '')}
-                    units = _units(path, asset, coverage, state['unit_cursor'])
-                    try:
-                        for unit_id, metadata, chunks in units:
-                            if metadata is not None:
-                                coverage['text_units'] += 1
-                                nonempty = False
-                                for passage_number, passage in enumerate(_passages(chunks), 1):
-                                    nonempty = True
-                                    record = {**base, **metadata, 'text': passage, 'passage': passage_number}
-                                    state['total_length'] += _add_record(db, records, record, report['documents'], flags)
-                                    report['documents'] += 1
-                                    coverage['passages'] += 1
-                                    if report['documents'] % 1000 == 0:
-                                        notify(f"INDEX {asset['destination']}: {coverage['passages']:,} passages; "
-                                               f"{report['documents']:,} total; {records.tell():,} text bytes")
-                                if not nonempty:
-                                    coverage['empty_units'] += 1
-                            state['unit_cursor'] = unit_id + 1
-                            if metadata is not None:
-                                units_since_checkpoint += 1
-                            now = time.monotonic()
-                            if units_since_checkpoint >= CHECKPOINT_UNITS or now - last_checkpoint >= CHECKPOINT_SECONDS:
-                                _save_checkpoint(db, records, state, check_budget)
-                                units_since_checkpoint = 0
-                                last_checkpoint = now
-                    finally:
-                        units.close()
-                    if coverage['empty_units']:
-                        _warn(coverage, f"{coverage['empty_units']} text units have no extractable text; images/scans need visual reading (no OCR)")
-                    if not coverage['passages']:
-                        coverage['status'] = 'metadata_only'
-                        reason = ('No extractable text' if fmt in TEXT_FORMATS else 'Binary format: searchable catalog metadata only')
-                        _warn(coverage, reason)
-                        record = {**base, 'text': asset.get('description', ''), 'metadata_only': True}
-                        state['total_length'] += _add_record(db, records, record, report['documents'], flags)
-                        report['documents'] += 1
-                        coverage['passages'] = 1
-                    elif coverage['warning_count']:
-                        coverage['status'] = 'partial'
-                    if coverage['status'] != 'full_text':
-                        report['warnings'].append(f"{coverage['destination']}: {coverage['status']} ({coverage['warning_count']} notices)")
-                    report['assets'].append(coverage)
-                    state.update(asset_index=asset_index + 1, unit_cursor=0, coverage=None)
-                    _save_checkpoint(db, records, state, check_budget)
-                    units_since_checkpoint = 0
-                    last_checkpoint = time.monotonic()
-                    notify(f"INDEXED {asset['destination']}: {coverage['passages']:,} passages, "
-                           f"{coverage['status']}, {coverage['warning_count']:,} notices", force=True)
-                state['extracted'] = True
-                _save_checkpoint(db, records, state, check_budget)
-                _serialize_index(db, records, part, report, state['total_length'], notify,
-                                 maximum=raw_limit, check_budget=check_budget)
-            for path, signature in signatures:
-                if signature != _signature(path):
-                    raise SearchError(f'Search source changed during extraction: {path}; rerun to invalidate its checkpoint')
-            report['build_fingerprint'] = fingerprint
-            report['index_bytes'] = part.stat().st_size
-            report['index_sha256'] = sha256_file(part)
-            for path, signature in signatures:
-                if signature != _signature(path):
-                    raise SearchError(f'Search source changed while verifying raw index: {path}; rerun')
-            # Raw output has been fsynced, hashed and checked against unchanged
-            # source signatures. Publish its durable marker before any cleanup.
-            directory_sync_notice(_save_ready(job, part, fingerprint, report))
-            db.close()
-            db = None
-            monitor_workspace = False
-            _clear_extraction(job)
-            publish_report(report)
-            success = True
-        except sqlite3.Error as error:
-            raise SearchError(f'Search checkpoint database failed: {error}. Check scratch space; '
-                              f'verified sources and durable extraction checkpoints remain in {job}.') from error
-        finally:
-            if db is not None:
-                db.close()
-            if success:
-                _clear_job(job, part)
+        monitor_workspace = True
+        if index_cache_dir is None:
+            report = _extract_raw_index(target, assets, fingerprint=fingerprint, signatures=signatures,
+                                        job=job, part=part, notify=notify,
+                                        check_budget=check_budget, raw_limit=raw_limit)
+        else:
+            from .search_cache import IndexCache, compose, reindex_metadata
+            with IndexCache(index_cache_dir, index_cache_budget_bytes).locked() as cache:
+                shards, hits, misses, passages, metadata_reuses = [], 0, 0, 0, 0
+                for number, asset in enumerate(assets):
+                    recipe = asset_recipes[asset['destination']]
+                    shard = cache.load(recipe)
+                    if shard is None:
+                        misses += 1
+                        key = hashlib.sha256(_json(recipe)).hexdigest()
+                        notify(f"INDEX CACHE MISS {number + 1}/{len(assets)} {asset['destination']}", force=True)
+                        def asset_notify(message, *, force=False):
+                            notify(message, force=force)
+                        def asset_event(**fields):
+                            fields.update(completed_assets=number + fields.get('completed_assets', 0),
+                                          total_assets=len(assets), passages=passages + fields.get('passages', 0),
+                                          cache_hits=hits, cache_misses=misses)
+                            notify.event(**fields)
+                        asset_notify.event = asset_event
+                        source_signature = [item for item in signatures if item[0] == _safe_path(target, asset['destination'])]
+                        cached_source = cache.source(recipe)
+                        if cached_source is None:
+                            shard_report = _extract_raw_index(target, [asset], fingerprint=key,
+                                                              signatures=source_signature, job=job, part=part,
+                                                              notify=asset_notify, check_budget=check_budget,
+                                                              raw_limit=raw_limit)
+                        else:
+                            metadata_reuses += 1
+                            shard_report = reindex_metadata(cached_source, asset, key=key, part=part, job=job,
+                                                            maximum=raw_limit, check_budget=check_budget,
+                                                            notify=asset_notify)
+                        shard = cache.publish(recipe, part, shard_report)
+                        _clear_extraction(job)
+                    else:
+                        hits += 1
+                        notify(f"INDEX CACHE HIT {number + 1}/{len(assets)} {asset['destination']}", force=True)
+                    shards.append(shard)
+                    passages += shard['report']['documents']
+                    _progress_event(progress, passages=passages, completed_assets=number + 1,
+                                    total_assets=len(assets), active_asset=asset['destination'],
+                                    cache_hits=hits, cache_misses=misses)
+                # Every selected source is now durable in the cache. A crashed
+                # prior extraction is redundant, and merging needs no postings DB.
+                _clear_extraction(job)
+                report = compose(shards, part, job, fingerprint=fingerprint, maximum=raw_limit,
+                                 check_budget=check_budget, notify=notify)
+                report['cache'] = {'mode': 'shards', 'hits': hits, 'misses': misses, 'metadata_reuses': metadata_reuses}
+        directory_sync_notice(_save_ready(job, part, fingerprint, report))
+        monitor_workspace = False
+        _clear_extraction(job)
+        publish_report(report)
+        _clear_job(job, part)
         notify(f"INDEX COMPLETE: {report['documents']:,} passages; {report['transport_bytes']:,} local script bytes", force=True)
         return report

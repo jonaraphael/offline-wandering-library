@@ -1,0 +1,70 @@
+{
+  "id": "direct-local-english-candidates-v1",
+  "schema_version": 1,
+  "sources": [
+    {
+      "exclude_patterns": [
+        "/(?!en(?:/|$))[a-z]{2,3}(?:-[a-z]{2,4})?(?:/|$)",
+        "(?:User|Category|Template|Talk):"
+      ],
+      "include_path": "^[^:]+$",
+      "max_candidates": 8000,
+      "resource_id": "appropedia",
+      "source_asset_id": "appropedia_en",
+      "topics": {
+        "energy-heating": "solar|wind turbine|biogas|cookstove|rocket stove|heat|electric",
+        "food-agriculture": "food|agricultur|garden|compost|preserv|irrigation",
+        "repair-tools": "repair|bicycle|weld|machine tool",
+        "shelter-materials": "earthbag|construction|bamboo|adobe|cob building|straw bale",
+        "water-sanitation": "water|sanitation|toilet|latrine|rainwater|greywater|graywater"
+      }
+    },
+    {
+      "context_group_patterns": [
+        "^(www\\.cd3wdproject\\.org/CD3WD/[^/]+/[^/]+/)",
+        "^(www\\.cd3wdproject\\.org/BIOGSHTM/)",
+        "^(www\\.cd3wdproject\\.org/HDLHTML/[^/]+/[^/]+/)",
+        "^(www\\.cd3wdproject\\.org/INPHO/VLIBRARY/[^/]+/)"
+      ],
+      "exclude_patterns": [],
+      "include_path": "^www\\.cd3wdproject\\.org/",
+      "max_candidates": 10000,
+      "resource_id": "cd3wd",
+      "source_asset_id": "cd3wd_en",
+      "topics": {
+        "energy-heating": "solar|wind|biogas|stove|heat|electric|fuel|/ENERGY/|PEDALGEN|VLG_ENG",
+        "food-agriculture": "food|agricultur|garden|compost|preserv|irrigation|crop|seed|livestock|/AGRIC/",
+        "repair-tools": "repair|bicycle|weld|machine|workshop|metal|blacksmith",
+        "shelter-materials": "construction|bamboo|adobe|building|brick|cement",
+        "water-sanitation": "water|sanitation|toilet|latrine|pump|well|rainwater|/WATSAN/|/ENV/"
+      }
+    },
+    {
+      "exclude_patterns": [],
+      "include_path": "^Guide/",
+      "max_candidates": 2000,
+      "resource_id": "ifixit",
+      "source_asset_id": "ifixit_en",
+      "topics": {
+        "energy-electronics": "solar|generator|multimeter|solder|power supply|battery.*(?:test|corros|maint|lead|acid)|(?:lead|acid|car).*battery",
+        "tools-household": "sewing machine|power drill|circular saw|chainsaw|lawn mower|fan repair|vacuum",
+        "transport": "bicycle|bike|tire|tyre|brake",
+        "water-appliances": "water pump|washing machine|dishwasher|refrigerator|freezer"
+      }
+    },
+    {
+      "exclude_patterns": [],
+      "include_path": "^solar\\.lowtechmagazine\\.com/\\d{4}/\\d{2}/[^/]+/$",
+      "match_title_only": true,
+      "max_candidates": 500,
+      "resource_id": "low-tech-magazine",
+      "source_asset_id": "lowtech_magazine",
+      "topics": {
+        "energy-heating": "solar|wind|energy|heat|electric|battery|power|cool|thermal|stove",
+        "food-water": "food|water|fruit|vegetable|greenhouse|agricultur",
+        "shelter-materials": "building|house|wood|brick|steel|concrete|insulat",
+        "transport-tools": "bicycle|bike|pedal|sail|tool|machine|repair"
+      }
+    }
+  ]
+}

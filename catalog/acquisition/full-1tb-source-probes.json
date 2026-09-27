@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "profile": "full-1tb",
+  "purpose": "Header-only availability and whole-file SHA-256 discovery. These requests do not select content or approve sources.",
+  "requests": [
+    {
+      "id": "usgs_abol_pond_2024",
+      "resource_id": "regional-maps",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/ME/ME_Abol_Pond_20240807_TM_geo.pdf",
+      "expected_size_bytes": 56124715
+    },
+    {
+      "id": "usgs_woodstock_1963",
+      "resource_id": "regional-maps",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/250000/ME_Woodstock_461040_1963_250000_geo.pdf",
+      "expected_size_bytes": 18788579
+    },
+    {
+      "id": "hesperian_midwives_2026_back_matter",
+      "resource_id": "hesperian-health",
+      "url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_bm.pdf"
+    },
+    {
+      "id": "stackoverflow_202404_posts",
+      "resource_id": "stackoverflow-durable",
+      "input_role": "Posts",
+      "url": "https://archive.org/download/stackexchange/stackoverflow.com-Posts.7z",
+      "expected_size_bytes": 23026928274
+    },
+    {
+      "id": "stackoverflow_202404_comments",
+      "resource_id": "stackoverflow-durable",
+      "input_role": "Comments",
+      "url": "https://archive.org/download/stackexchange/stackoverflow.com-Comments.7z",
+      "expected_size_bytes": 6997473057
+    },
+    {
+      "id": "stackoverflow_202404_users",
+      "resource_id": "stackoverflow-durable",
+      "input_role": "Users",
+      "url": "https://archive.org/download/stackexchange/stackoverflow.com-Users.7z",
+      "expected_size_bytes": 990180949
+    },
+    {
+      "id": "stackoverflow_202404_postlinks",
+      "resource_id": "stackoverflow-durable",
+      "input_role": "PostLinks",
+      "url": "https://archive.org/download/stackexchange/stackoverflow.com-PostLinks.7z",
+      "expected_size_bytes": 151452449
+    }
+  ]
+}

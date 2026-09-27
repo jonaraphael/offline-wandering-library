@@ -1,0 +1,2332 @@
+{
+  "base_scale": 100000,
+  "blockers": [
+    "Selected PDFs await build-time whole-file verification and visual/scale/attribution review.",
+    "USA overview source identity is selected; whole-file SHA256 and PDF coverage/scale/notices review remain pending.",
+    "75 map PDFs lack independently verified whole-file SHA256 pins."
+  ],
+  "budget_bytes": 30000000000,
+  "combined_candidate_bytes": 2126824937,
+  "content_ready": false,
+  "coverage": {
+    "area_tolerance_square_degrees": 0,
+    "basis": "Publisher sheet bounding boxes against exact Census state polygons, excluding only evidenced zero-land ocean geometry; no buffer or simplification.",
+    "holes": {},
+    "offshore_water_exclusions": [
+      {
+        "AREALAND": 0,
+        "AREAWATER": 521637975,
+        "MTFCC": "H2053",
+        "NAME": "Atlantic Ocean"
+      }
+    ],
+    "states": [
+      "CT",
+      "MA",
+      "ME",
+      "NH",
+      "RI",
+      "VT"
+    ]
+  },
+  "geographic_complete": true,
+  "historical_warning": "Historical sheets retain their publication dates. Roads, routes, structures and shorelines may have changed; current evacuation-route suitability is not verified.",
+  "metadata_evidence": [
+    {
+      "checked_at": "2026-09-23T03:00:10.699751+00:00",
+      "content_type": "application/geo+json",
+      "final_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/0/query?where=STUSAB+IN+%28%27CT%27%2C%27MA%27%2C%27ME%27%2C%27NH%27%2C%27RI%27%2C%27VT%27%29&outFields=STUSAB&returnGeometry=true&outSR=4326&f=geojson",
+      "kind": "json",
+      "sha256": "e0378bd2e5d88dc23c4f0e9385acc15e3bcb6bbbcb4c60cc5065899b085fcc7e",
+      "size_bytes": 2380569,
+      "status": 200,
+      "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/0/query?where=STUSAB+IN+%28%27CT%27%2C%27MA%27%2C%27ME%27%2C%27NH%27%2C%27RI%27%2C%27VT%27%29&outFields=STUSAB&returnGeometry=true&outSR=4326&f=geojson"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:37.049337+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=0&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "278d4aadd6393374c673d63db213d306cb9ed1e5025029562f8a2509308a9255",
+      "size_bytes": 216886,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=0&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:37.932612+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=100&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "e1188ae68dfa341c0eb40d66ebb6ee0febd484fbbb04a5627042ed8705fcec6d",
+      "size_bytes": 217466,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=100&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:38.611760+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=200&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "82df818b5bf67e66e114d7718fbf2ee5e30d80f580e944bd34b67d48b31cc249",
+      "size_bytes": 217327,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=200&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:39.477585+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=300&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "6cac8ff39b23e830402fb7692b6efc0abaee6c424621a7861f1cc46bdeb92883",
+      "size_bytes": 217707,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=300&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:40.605034+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=400&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "961eed3e857998034e741af7a620b4a297a9c6d1af318ca84fd0ababc4a80ae9",
+      "size_bytes": 217707,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=400&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:41.446871+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=500&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "70c61d3da6d32fc9457a908370864682c35aaa42d592b88c5b5bb3ad3cdbb7ac",
+      "size_bytes": 217481,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=500&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:42.671674+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=600&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "a5c0d79ecc612eab597fa09e75b212b2d93e1b77c406cd99c7070ced3939dd28",
+      "size_bytes": 217769,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=600&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:43.568691+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=700&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "a7af0d033353fc7040b47cffd16ca66316e59e45edac748ba67f57df570be1b6",
+      "size_bytes": 217854,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=700&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:44.586407+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=800&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "9d22155d327d6ae966c161f322700b2dee8c7278f15eab1e0f90bca033d4e257",
+      "size_bytes": 218111,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=800&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:45.840872+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=900&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "9fa621b658a459cea527f30c4ab5dc39c067568cf117c3b9e3996d6a8c57b754",
+      "size_bytes": 217741,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=900&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:46.849759+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1000&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "7bbd895ade7854cdfb4cc6fd6668235e6fd94fdc9022491dd80e213e5d249b78",
+      "size_bytes": 217645,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1000&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:47.356470+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1100&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "7b46560818c99f86107973e30dbdd627e0d2203ace193d67fd04143196d49301",
+      "size_bytes": 217719,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1100&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:48.259835+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1200&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "a2a3fcc3606ca0da6506dc671c560b5095f4a4e3da9fbceffbe7de0cd50502f1",
+      "size_bytes": 218143,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1200&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:49.044317+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1300&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "13279b73034f66b11910a1192238ee60f2b044ef2d9e5bb6cabc8b31ec70d946",
+      "size_bytes": 217808,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1300&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:49.593484+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1400&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "b85fbdef387c5a104bde0eea40ccd5df2a5be79a29f0cbe9b316ab4b91197e14",
+      "size_bytes": 217420,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1400&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:50.517953+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1500&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "e9d2e9fa67a996de19fbd0ded43088c382d1cf899dfb437dc250de575fcfcb92",
+      "size_bytes": 145290,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=US+Topo+Current&max=100&offset=1500&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:08:51.083496+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=0&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "fa82421a2264ddf316ea123245193a53375f465d8b3cf1a353183c9956350ffd",
+      "size_bytes": 153612,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=0&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:13:32.483421+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=100&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "ee5de44fffe25e6c83fe382bbb29ca008c7c3aad1fd69c91ddba20e278230405",
+      "size_bytes": 37481,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=100&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:13:33.310742+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=0&prodExtents=1+x+2+degree&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "51bf5a402e5d76fcdac5b24d7971061dffadd9a84d68c4a53aec9d6a10bfa6e0",
+      "size_bytes": 152034,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=0&prodExtents=1+x+2+degree&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:13:33.682049+00:00",
+      "content_type": "application/json",
+      "final_url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=100&prodExtents=1+x+2+degree&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "kind": "json",
+      "sha256": "2a05107f065477f5ae03554755765154840ea69e6ccb6065507fbfbc2d0542fe",
+      "size_bytes": 42013,
+      "status": 200,
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?bbox=-73.75%2C40.9%2C-66.8%2C47.5&datasets=Historical+Topographic+Maps&max=100&offset=100&prodExtents=1+x+2+degree&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF"
+    },
+    {
+      "checked_at": "2026-09-23T03:37:50.895261+00:00",
+      "content_type": "application/geo+json",
+      "final_url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Hydro/MapServer/1/query?where=1%3D1&geometry=-70%2C42%2C-69.94%2C42.07&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=MTFCC%2CNAME%2CAREALAND%2CAREAWATER&returnGeometry=true&outSR=4326&f=geojson",
+      "kind": "json",
+      "sha256": "b3561ab8299ff0b541bae4ef2da2b8e8ef52f20222900c04e1451bad0ac8bc80",
+      "size_bytes": 64677,
+      "status": 200,
+      "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Hydro/MapServer/1/query?where=1%3D1&geometry=-70%2C42%2C-69.94%2C42.07&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=MTFCC%2CNAME%2CAREALAND%2CAREAWATER&returnGeometry=true&outSR=4326&f=geojson"
+    }
+  ],
+  "metadata_size_discrepancies": [
+    {
+      "api_size_bytes": 10673542,
+      "head_size_bytes": 10694897,
+      "sheet_id": "bbox:-67,44.5,-66,45",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Eastport_807896_1986_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 29604710,
+      "head_size_bytes": 29626195,
+      "sheet_id": "bbox:-68,44,-67,44.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Petit%20Manan%20Point_808169_1986_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 28059693,
+      "head_size_bytes": 28081256,
+      "sheet_id": "bbox:-68,44.5,-67,45",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Machias_808048_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 27436455,
+      "head_size_bytes": 27458008,
+      "sheet_id": "bbox:-68,45,-67,45.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Calais_807827_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 28442330,
+      "head_size_bytes": 28463683,
+      "sheet_id": "bbox:-68,45.5,-67,46",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Danforth_807874_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 31273676,
+      "head_size_bytes": 31298806,
+      "sheet_id": "bbox:-68,46,-67,46.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Houlton_460487_1993_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 29952099,
+      "head_size_bytes": 29974334,
+      "sheet_id": "bbox:-68,46.5,-67,47",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Fort%20Fairfield_807924_1993_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 34505201,
+      "head_size_bytes": 34530319,
+      "sheet_id": "bbox:-68,47,-67,47.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Van%20Buren_460985_1993_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 30022794,
+      "head_size_bytes": 30044236,
+      "sheet_id": "bbox:-69,43.5,-68,44",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Matinicus_808063_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 30611346,
+      "head_size_bytes": 30632774,
+      "sheet_id": "bbox:-69,44,-68,44.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bar%20Harbor_807773_1985_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 28319017,
+      "head_size_bytes": 28340423,
+      "sheet_id": "bbox:-69,44.5,-68,45",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bangor_807770_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 21843904,
+      "head_size_bytes": 21866120,
+      "sheet_id": "bbox:-69,45,-68,45.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lincoln_808026_1986_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 21353157,
+      "head_size_bytes": 21374587,
+      "sheet_id": "bbox:-69,45.5,-68,46",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Millinocket_808087_1985_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 26796016,
+      "head_size_bytes": 26817601,
+      "sheet_id": "bbox:-69,46,-68,46.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Oakfield_808137_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 28417220,
+      "head_size_bytes": 28438958,
+      "sheet_id": "bbox:-69,46.5,-68,47",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Presque%20Isle_808185_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 33142066,
+      "head_size_bytes": 33164801,
+      "sheet_id": "bbox:-69,47,-68,47.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Madawaska_808054_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 39168963,
+      "head_size_bytes": 39192919,
+      "sheet_id": "bbox:-70,41,-69,41.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Siasconset_353184_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 37293010,
+      "head_size_bytes": 37317662,
+      "sheet_id": "bbox:-70,41.5,-69,42",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Chatham_353158_1993_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 30606453,
+      "head_size_bytes": 30627879,
+      "sheet_id": "bbox:-70,43.5,-69,44",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bath_807778_1985_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 27138629,
+      "head_size_bytes": 27160053,
+      "sheet_id": "bbox:-70,44,-69,44.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Augusta_806470_1984_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 32568617,
+      "head_size_bytes": 32593846,
+      "sheet_id": "bbox:-70,44.5,-69,45",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Skowhegan_460881_1985_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 24466591,
+      "head_size_bytes": 24488177,
+      "sheet_id": "bbox:-70,45,-69,45.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Dover-Foxcroft_807884_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 27087173,
+      "head_size_bytes": 27108617,
+      "sheet_id": "bbox:-70,45.5,-69,46",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Moosehead%20Lake_808101_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 25268598,
+      "head_size_bytes": 25290048,
+      "sheet_id": "bbox:-70,46,-69,46.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Chamberlain%20Lake_807847_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 25570477,
+      "head_size_bytes": 25592167,
+      "sheet_id": "bbox:-70,46.5,-69,47",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Clayton%20Lake_807857_1993_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 25635086,
+      "head_size_bytes": 25657085,
+      "sheet_id": "bbox:-70,47,-69,47.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Allagash_807752_1993_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 31342283,
+      "head_size_bytes": 31366452,
+      "sheet_id": "bbox:-71,41,-70,41.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Marthas%20Vineyard_351090_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 32942223,
+      "head_size_bytes": 32966821,
+      "sheet_id": "bbox:-71,41.5,-70,42",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_New%20Bedford_353169_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 31345126,
+      "head_size_bytes": 31368959,
+      "sheet_id": "bbox:-71,42,-70,42.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Provincetown_353180_1984_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 31101933,
+      "head_size_bytes": 31125761,
+      "sheet_id": "bbox:-71,42.5,-70,43",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Gloucester_353162_1984_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 28241573,
+      "head_size_bytes": 28263833,
+      "sheet_id": "bbox:-71,43,-70,43.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Kittery_808007_1985_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 26417873,
+      "head_size_bytes": 26439318,
+      "sheet_id": "bbox:-71,43.5,-70,44",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Portland_808182_1985_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 20365102,
+      "head_size_bytes": 20387394,
+      "sheet_id": "bbox:-71,44,-70,44.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lewiston_808020_1986_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 32444575,
+      "head_size_bytes": 32469826,
+      "sheet_id": "bbox:-71,44.5,-70,45",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Rumford_460823_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 29528829,
+      "head_size_bytes": 29550256,
+      "sheet_id": "bbox:-71,45,-70,45.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Flagstaff%20Lake_807917_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 28334197,
+      "head_size_bytes": 28356443,
+      "sheet_id": "bbox:-71,45.5,-70,46",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Megantic_808079_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 26912921,
+      "head_size_bytes": 26934349,
+      "sheet_id": "bbox:-71,46,-70,46.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lac%20Etchemin_808010_1993_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 30885355,
+      "head_size_bytes": 30906809,
+      "sheet_id": "bbox:-71,46.5,-70,47",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Montmagny_808097_1993_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 31406832,
+      "head_size_bytes": 31430977,
+      "sheet_id": "bbox:-72,41,-71,41.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/RI/100000/RI_Block%20Island_353534_1984_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 34107125,
+      "head_size_bytes": 34130944,
+      "sheet_id": "bbox:-72,41.5,-71,42",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/RI/100000/RI_Providence_353384_1984_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 45409288,
+      "head_size_bytes": 45433865,
+      "sheet_id": "bbox:-72,42,-71,42.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Boston_353157_1989_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 40693391,
+      "head_size_bytes": 40717177,
+      "sheet_id": "bbox:-72,42.5,-71,43",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Lowell_353166_1988_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 36977779,
+      "head_size_bytes": 37002434,
+      "sheet_id": "bbox:-72,43,-71,43.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Concord_330402_1988_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 20750689,
+      "head_size_bytes": 20778528,
+      "sheet_id": "bbox:-72,43.5,-71,44",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Lake%20Winnipesaukee_460055_1986_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 40348997,
+      "head_size_bytes": 40373351,
+      "sheet_id": "bbox:-72,44,-71,44.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Mount%20Washington_330410_1988_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 37108209,
+      "head_size_bytes": 37133364,
+      "sheet_id": "bbox:-72,44.5,-71,45",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Groveton_330404_1986_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 39318608,
+      "head_size_bytes": 39343096,
+      "sheet_id": "bbox:-72,45,-71,45.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Sherbrooke_330413_1986_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 35129659,
+      "head_size_bytes": 35154683,
+      "sheet_id": "bbox:-73,41,-72,41.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_New%20Haven_331212_1983_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 40954896,
+      "head_size_bytes": 40979067,
+      "sheet_id": "bbox:-73,41.5,-72,42",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Hartford_331210_1994_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 44554223,
+      "head_size_bytes": 44577976,
+      "sheet_id": "bbox:-73,42,-72,42.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Holyoke_353164_1985_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 34607572,
+      "head_size_bytes": 34632172,
+      "sheet_id": "bbox:-73,42.5,-72,43",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Keene_330407_1986_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 20864235,
+      "head_size_bytes": 20888131,
+      "sheet_id": "bbox:-73,43,-72,43.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Claremont_330400_1985_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 40506804,
+      "head_size_bytes": 40531297,
+      "sheet_id": "bbox:-73,43.5,-72,44",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Rutland_338231_1985_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 9896762,
+      "head_size_bytes": 9915330,
+      "sheet_id": "bbox:-73,44,-72,44.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Montpelier_460033_1988_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 35401595,
+      "head_size_bytes": 35426816,
+      "sheet_id": "bbox:-73,44.5,-72,45",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Mount%20Mansfield_460034_1989_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 37730768,
+      "head_size_bytes": 37752160,
+      "sheet_id": "bbox:-74,40.5,-73,41",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Long%20Island%20West_137379_1984_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 46451682,
+      "head_size_bytes": 46476528,
+      "sheet_id": "bbox:-74,41,-73,41.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Bridgeport_331207_1986_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 35583299,
+      "head_size_bytes": 35607136,
+      "sheet_id": "bbox:-74,41.5,-73,42",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Waterbury_331231_1993_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 33144623,
+      "head_size_bytes": 33168422,
+      "sheet_id": "bbox:-74,42,-73,42.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Pittsfield_353177_1986_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 27504499,
+      "head_size_bytes": 27525541,
+      "sheet_id": "bbox:-74,42.5,-73,43",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Albany_137059_1989_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 25199999,
+      "head_size_bytes": 25221338,
+      "sheet_id": "bbox:-74,43,-73,43.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Glens%20Falls_137223_1989_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 27194813,
+      "head_size_bytes": 27216059,
+      "sheet_id": "bbox:-74,43.5,-73,44",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Ticonderoga_136968_1989_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 25328483,
+      "head_size_bytes": 25352282,
+      "sheet_id": "bbox:-74,44,-73,44.5",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Lake%20Champlain%20South_137306_1986_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 21660188,
+      "head_size_bytes": 21683698,
+      "sheet_id": "bbox:-74,44.5,-73,45",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Lake%20Champlain%20North_137304_1986_100000_geo.pdf"
+    },
+    {
+      "api_size_bytes": 16870955,
+      "head_size_bytes": 16870954,
+      "sheet_id": "bbox:-73,45,-72.875,45.125",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Sheldon_Springs_OE_N_20240417_TM_geo.pdf"
+    }
+  ],
+  "overview_candidate_bytes": 19527583,
+  "overview_candidates": [
+    {
+      "candidate_manifest": "catalog/acquisition/usa-overview-candidate.json",
+      "candidate_manifest_sha256": "ca0e33c39ef34df9023f43ea01b70a91f19e8a5f3ffa3cafa2dd027a7c929be2",
+      "historical_warning": "Historical 2001 edition printed in 2002. Population, administrative details, transportation and other time-sensitive features are not current. This national overview is not a local road, trail or evacuation-route map.",
+      "id": "usgs_usa_general_reference_112764_2001",
+      "pin_status": "pending",
+      "print_year": 2002,
+      "publisher_product_id": "112764",
+      "scale": 5000000,
+      "sha256": null,
+      "size_bytes": 19527583,
+      "source_page": "https://store.usgs.gov/product/112764",
+      "source_probe_evidence": "catalog/acquisition/usa-overview-source-probe-evidence.json",
+      "source_url": "https://store.usgs.gov/assets/yimages/PDF/112764.pdf",
+      "title": "General Reference, National Atlas of the United States",
+      "version_date": "2001-01-01"
+    }
+  ],
+  "profile": "full-1tb",
+  "recipe_id": "regional-maps-acquisition-v2",
+  "recipe_sha256": "23981830c3f5e836a1bd85831a5ad60bb96f00f655ee87558bd7923dbb2b1292",
+  "resource_id": "regional-maps",
+  "scales": [
+    24000,
+    100000
+  ],
+  "schema_version": 1,
+  "sheet_count": 75,
+  "sheets": [
+    {
+      "api_size_bytes": 10673542,
+      "bbox": [
+        -67.0,
+        44.5,
+        -66.0,
+        45.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1986-01-01",
+      "publisher_id": "5a8a2e4fe4b00f54eb3cf071",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-67,44.5,-66,45",
+      "size_bytes": 10694897,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e4fe4b00f54eb3cf071",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Eastport_807896_1986_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Eastport, ME 1986"
+    },
+    {
+      "api_size_bytes": 29604710,
+      "bbox": [
+        -68.0,
+        44.0,
+        -67.0,
+        44.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1986-01-01",
+      "publisher_id": "5a8a2e57e4b00f54eb3cf138",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-68,44,-67,44.5",
+      "size_bytes": 29626195,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e57e4b00f54eb3cf138",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Petit%20Manan%20Point_808169_1986_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Petit Manan Point, ME 1986"
+    },
+    {
+      "api_size_bytes": 28059693,
+      "bbox": [
+        -68.0,
+        44.5,
+        -67.0,
+        45.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e52e4b00f54eb3cf0c3",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-68,44.5,-67,45",
+      "size_bytes": 28081256,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e52e4b00f54eb3cf0c3",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Machias_808048_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Machias, ME 1994"
+    },
+    {
+      "api_size_bytes": 27436455,
+      "bbox": [
+        -68.0,
+        45.0,
+        -67.0,
+        45.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e4de4b00f54eb3cf03a",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-68,45,-67,45.5",
+      "size_bytes": 27458008,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e4de4b00f54eb3cf03a",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Calais_807827_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Calais, ME 1994"
+    },
+    {
+      "api_size_bytes": 28442330,
+      "bbox": [
+        -68.0,
+        45.5,
+        -67.0,
+        46.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e4ee4b00f54eb3cf058",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-68,45.5,-67,46",
+      "size_bytes": 28463683,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e4ee4b00f54eb3cf058",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Danforth_807874_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Danforth, ME 1994"
+    },
+    {
+      "api_size_bytes": 31273676,
+      "bbox": [
+        -68.0,
+        46.0,
+        -67.0,
+        46.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1993-01-01",
+      "publisher_id": "5a8a2e50e4b00f54eb3cf08e",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-68,46,-67,46.5",
+      "size_bytes": 31298806,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e50e4b00f54eb3cf08e",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Houlton_460487_1993_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Houlton, ME 1993"
+    },
+    {
+      "api_size_bytes": 29952099,
+      "bbox": [
+        -68.0,
+        46.5,
+        -67.0,
+        47.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1993-01-01",
+      "publisher_id": "5a8a2e50e4b00f54eb3cf087",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-68,46.5,-67,47",
+      "size_bytes": 29974334,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e50e4b00f54eb3cf087",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Fort%20Fairfield_807924_1993_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Fort Fairfield, ME 1993"
+    },
+    {
+      "api_size_bytes": 34505201,
+      "bbox": [
+        -68.0,
+        47.0,
+        -67.0,
+        47.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1993-01-01",
+      "publisher_id": "5a8a2e5ae4b00f54eb3cf1a1",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-68,47,-67,47.5",
+      "size_bytes": 34530319,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e5ae4b00f54eb3cf1a1",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Van%20Buren_460985_1993_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Van Buren, ME 1993"
+    },
+    {
+      "api_size_bytes": 30022794,
+      "bbox": [
+        -69.0,
+        43.5,
+        -68.0,
+        44.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e53e4b00f54eb3cf0d3",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-69,43.5,-68,44",
+      "size_bytes": 30044236,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e53e4b00f54eb3cf0d3",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Matinicus_808063_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Matinicus, ME 1994"
+    },
+    {
+      "api_size_bytes": 30611346,
+      "bbox": [
+        -69.0,
+        44.0,
+        -68.0,
+        44.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1985-01-01",
+      "publisher_id": "5a8a2e4ce4b00f54eb3cf029",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-69,44,-68,44.5",
+      "size_bytes": 30632774,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e4ce4b00f54eb3cf029",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bar%20Harbor_807773_1985_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Bar Harbor, ME 1985"
+    },
+    {
+      "api_size_bytes": 28319017,
+      "bbox": [
+        -69.0,
+        44.5,
+        -68.0,
+        45.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e4ce4b00f54eb3cf020",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-69,44.5,-68,45",
+      "size_bytes": 28340423,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e4ce4b00f54eb3cf020",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bangor_807770_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Bangor, ME 1994"
+    },
+    {
+      "api_size_bytes": 21843904,
+      "bbox": [
+        -69.0,
+        45.0,
+        -68.0,
+        45.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1986-01-01",
+      "publisher_id": "5a8a2e52e4b00f54eb3cf0bd",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-69,45,-68,45.5",
+      "size_bytes": 21866120,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e52e4b00f54eb3cf0bd",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lincoln_808026_1986_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Lincoln, ME 1986"
+    },
+    {
+      "api_size_bytes": 21353157,
+      "bbox": [
+        -69.0,
+        45.5,
+        -68.0,
+        46.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1985-01-01",
+      "publisher_id": "5a8a2e55e4b00f54eb3cf0fb",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-69,45.5,-68,46",
+      "size_bytes": 21374587,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e55e4b00f54eb3cf0fb",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Millinocket_808087_1985_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Millinocket, ME 1985"
+    },
+    {
+      "api_size_bytes": 26796016,
+      "bbox": [
+        -69.0,
+        46.0,
+        -68.0,
+        46.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e56e4b00f54eb3cf11e",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-69,46,-68,46.5",
+      "size_bytes": 26817601,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e56e4b00f54eb3cf11e",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Oakfield_808137_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Oakfield, ME 1994"
+    },
+    {
+      "api_size_bytes": 28417220,
+      "bbox": [
+        -69.0,
+        46.5,
+        -68.0,
+        47.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e57e4b00f54eb3cf152",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-69,46.5,-68,47",
+      "size_bytes": 28438958,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e57e4b00f54eb3cf152",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Presque%20Isle_808185_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Presque Isle, ME 1994"
+    },
+    {
+      "api_size_bytes": 33142066,
+      "bbox": [
+        -69.0,
+        47.0,
+        -68.0,
+        47.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e53e4b00f54eb3cf0cd",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-69,47,-68,47.5",
+      "size_bytes": 33164801,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e53e4b00f54eb3cf0cd",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Madawaska_808054_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Madawaska, ME 1994"
+    },
+    {
+      "api_size_bytes": 39168963,
+      "bbox": [
+        -70.0,
+        41.0,
+        -69.0,
+        41.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a414fe4b00f54eb3eeef4",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-70,41,-69,41.5",
+      "size_bytes": 39192919,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a414fe4b00f54eb3eeef4",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Siasconset_353184_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Siasconset, MA 1994"
+    },
+    {
+      "api_size_bytes": 37293010,
+      "bbox": [
+        -70.0,
+        41.5,
+        -69.0,
+        42.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1993-01-01",
+      "publisher_id": "5a8a414ce4b00f54eb3eee8c",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-70,41.5,-69,42",
+      "size_bytes": 37317662,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a414ce4b00f54eb3eee8c",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Chatham_353158_1993_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Chatham, MA 1993"
+    },
+    {
+      "api_size_bytes": 30606453,
+      "bbox": [
+        -70.0,
+        43.5,
+        -69.0,
+        44.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1985-01-01",
+      "publisher_id": "5a8a2e4de4b00f54eb3cf035",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-70,43.5,-69,44",
+      "size_bytes": 30627879,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e4de4b00f54eb3cf035",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Bath_807778_1985_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Bath, ME 1985"
+    },
+    {
+      "api_size_bytes": 27138629,
+      "bbox": [
+        -70.0,
+        44.0,
+        -69.0,
+        44.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1984-01-01",
+      "publisher_id": "5a8a2e4be4b00f54eb3cf017",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-70,44,-69,44.5",
+      "size_bytes": 27160053,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e4be4b00f54eb3cf017",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Augusta_806470_1984_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Augusta, ME 1984"
+    },
+    {
+      "api_size_bytes": 32568617,
+      "bbox": [
+        -70.0,
+        44.5,
+        -69.0,
+        45.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1985-01-01",
+      "publisher_id": "5a8a2e5ae4b00f54eb3cf199",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-70,44.5,-69,45",
+      "size_bytes": 32593846,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e5ae4b00f54eb3cf199",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Skowhegan_460881_1985_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Skowhegan, ME 1985"
+    },
+    {
+      "api_size_bytes": 24466591,
+      "bbox": [
+        -70.0,
+        45.0,
+        -69.0,
+        45.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e4ee4b00f54eb3cf05f",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-70,45,-69,45.5",
+      "size_bytes": 24488177,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e4ee4b00f54eb3cf05f",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Dover-Foxcroft_807884_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Dover-Foxcroft, ME 1994"
+    },
+    {
+      "api_size_bytes": 27087173,
+      "bbox": [
+        -70.0,
+        45.5,
+        -69.0,
+        46.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e55e4b00f54eb3cf10a",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-70,45.5,-69,46",
+      "size_bytes": 27108617,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e55e4b00f54eb3cf10a",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Moosehead%20Lake_808101_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Moosehead Lake, ME 1994"
+    },
+    {
+      "api_size_bytes": 25268598,
+      "bbox": [
+        -70.0,
+        46.0,
+        -69.0,
+        46.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e4de4b00f54eb3cf045",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-70,46,-69,46.5",
+      "size_bytes": 25290048,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e4de4b00f54eb3cf045",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Chamberlain%20Lake_807847_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Chamberlain Lake, ME 1994"
+    },
+    {
+      "api_size_bytes": 25570477,
+      "bbox": [
+        -70.0,
+        46.5,
+        -69.0,
+        47.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1993-01-01",
+      "publisher_id": "5a8a2e4ee4b00f54eb3cf053",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-70,46.5,-69,47",
+      "size_bytes": 25592167,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e4ee4b00f54eb3cf053",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Clayton%20Lake_807857_1993_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Clayton Lake, ME 1993"
+    },
+    {
+      "api_size_bytes": 25635086,
+      "bbox": [
+        -70.0,
+        47.0,
+        -69.0,
+        47.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1993-01-01",
+      "publisher_id": "5a8a2e4be4b00f54eb3cf012",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-70,47,-69,47.5",
+      "size_bytes": 25657085,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e4be4b00f54eb3cf012",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Allagash_807752_1993_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Allagash, ME 1993"
+    },
+    {
+      "api_size_bytes": 31342283,
+      "bbox": [
+        -71.0,
+        41.0,
+        -70.0,
+        41.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a414ee4b00f54eb3eeece",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-71,41,-70,41.5",
+      "size_bytes": 31366452,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a414ee4b00f54eb3eeece",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Marthas%20Vineyard_351090_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Martha's Vineyard, MA 1994"
+    },
+    {
+      "api_size_bytes": 32942223,
+      "bbox": [
+        -71.0,
+        41.5,
+        -70.0,
+        42.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a414ee4b00f54eb3eeedc",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-71,41.5,-70,42",
+      "size_bytes": 32966821,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a414ee4b00f54eb3eeedc",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_New%20Bedford_353169_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for New Bedford, MA 1994"
+    },
+    {
+      "api_size_bytes": 31345126,
+      "bbox": [
+        -71.0,
+        42.0,
+        -70.0,
+        42.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1984-01-01",
+      "publisher_id": "5a8a414fe4b00f54eb3eeeec",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-71,42,-70,42.5",
+      "size_bytes": 31368959,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a414fe4b00f54eb3eeeec",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Provincetown_353180_1984_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Provincetown, MA 1984"
+    },
+    {
+      "api_size_bytes": 31101933,
+      "bbox": [
+        -71.0,
+        42.5,
+        -70.0,
+        43.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1984-01-01",
+      "publisher_id": "5a8a414de4b00f54eb3eee9e",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-71,42.5,-70,43",
+      "size_bytes": 31125761,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a414de4b00f54eb3eee9e",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Gloucester_353162_1984_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Gloucester, MA 1984"
+    },
+    {
+      "api_size_bytes": 28241573,
+      "bbox": [
+        -71.0,
+        43.0,
+        -70.0,
+        43.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1985-01-01",
+      "publisher_id": "5a8a2e51e4b00f54eb3cf09c",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-71,43,-70,43.5",
+      "size_bytes": 28263833,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e51e4b00f54eb3cf09c",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Kittery_808007_1985_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Kittery, ME 1985"
+    },
+    {
+      "api_size_bytes": 26417873,
+      "bbox": [
+        -71.0,
+        43.5,
+        -70.0,
+        44.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1985-01-01",
+      "publisher_id": "5a8a2e57e4b00f54eb3cf148",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-71,43.5,-70,44",
+      "size_bytes": 26439318,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e57e4b00f54eb3cf148",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Portland_808182_1985_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Portland, ME 1985"
+    },
+    {
+      "api_size_bytes": 20365102,
+      "bbox": [
+        -71.0,
+        44.0,
+        -70.0,
+        44.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1986-01-01",
+      "publisher_id": "5a8a2e52e4b00f54eb3cf0b3",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-71,44,-70,44.5",
+      "size_bytes": 20387394,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e52e4b00f54eb3cf0b3",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lewiston_808020_1986_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Lewiston, ME 1986"
+    },
+    {
+      "api_size_bytes": 32444575,
+      "bbox": [
+        -71.0,
+        44.5,
+        -70.0,
+        45.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e5ae4b00f54eb3cf18b",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-71,44.5,-70,45",
+      "size_bytes": 32469826,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e5ae4b00f54eb3cf18b",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Rumford_460823_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Rumford, ME 1994"
+    },
+    {
+      "api_size_bytes": 29528829,
+      "bbox": [
+        -71.0,
+        45.0,
+        -70.0,
+        45.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e4fe4b00f54eb3cf078",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-71,45,-70,45.5",
+      "size_bytes": 29550256,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e4fe4b00f54eb3cf078",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Flagstaff%20Lake_807917_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Flagstaff Lake, ME 1994"
+    },
+    {
+      "api_size_bytes": 28334197,
+      "bbox": [
+        -71.0,
+        45.5,
+        -70.0,
+        46.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2e53e4b00f54eb3cf0e1",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-71,45.5,-70,46",
+      "size_bytes": 28356443,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e53e4b00f54eb3cf0e1",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Megantic_808079_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Megantic, ME 1994"
+    },
+    {
+      "api_size_bytes": 26912921,
+      "bbox": [
+        -71.0,
+        46.0,
+        -70.0,
+        46.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1993-01-01",
+      "publisher_id": "5a8a2e51e4b00f54eb3cf0a2",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-71,46,-70,46.5",
+      "size_bytes": 26934349,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e51e4b00f54eb3cf0a2",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Lac%20Etchemin_808010_1993_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Lac Etchemin, ME 1993"
+    },
+    {
+      "api_size_bytes": 30885355,
+      "bbox": [
+        -71.0,
+        46.5,
+        -70.0,
+        47.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1993-01-01",
+      "publisher_id": "5a8a2e55e4b00f54eb3cf101",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-71,46.5,-70,47",
+      "size_bytes": 30906809,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2e55e4b00f54eb3cf101",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/ME/100000/ME_Montmagny_808097_1993_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Montmagny, ME 1993"
+    },
+    {
+      "api_size_bytes": 31406832,
+      "bbox": [
+        -72.0,
+        41.0,
+        -71.0,
+        41.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1984-01-01",
+      "publisher_id": "5a8a3ebae4b00f54eb3eaa71",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-72,41,-71,41.5",
+      "size_bytes": 31430977,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3ebae4b00f54eb3eaa71",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/RI/100000/RI_Block%20Island_353534_1984_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Block Island, RI 1984"
+    },
+    {
+      "api_size_bytes": 34107125,
+      "bbox": [
+        -72.0,
+        41.5,
+        -71.0,
+        42.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1984-01-01",
+      "publisher_id": "5a8a3ebae4b00f54eb3eaa73",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-72,41.5,-71,42",
+      "size_bytes": 34130944,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3ebae4b00f54eb3eaa73",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/RI/100000/RI_Providence_353384_1984_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Providence, RI 1984"
+    },
+    {
+      "api_size_bytes": 45409288,
+      "bbox": [
+        -72.0,
+        42.0,
+        -71.0,
+        42.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1989-01-01",
+      "publisher_id": "5a8a414ce4b00f54eb3eee83",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-72,42,-71,42.5",
+      "size_bytes": 45433865,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a414ce4b00f54eb3eee83",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Boston_353157_1989_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Boston, MA 1989"
+    },
+    {
+      "api_size_bytes": 40693391,
+      "bbox": [
+        -72.0,
+        42.5,
+        -71.0,
+        43.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1988-01-01",
+      "publisher_id": "5a8a414de4b00f54eb3eeebc",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-72,42.5,-71,43",
+      "size_bytes": 40717177,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a414de4b00f54eb3eeebc",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Lowell_353166_1988_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Lowell, MA 1988"
+    },
+    {
+      "api_size_bytes": 36977779,
+      "bbox": [
+        -72.0,
+        43.0,
+        -71.0,
+        43.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1988-01-01",
+      "publisher_id": "5a8a3b7be4b00f54eb3e5068",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-72,43,-71,43.5",
+      "size_bytes": 37002434,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3b7be4b00f54eb3e5068",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Concord_330402_1988_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Concord, NH 1988"
+    },
+    {
+      "api_size_bytes": 20750689,
+      "bbox": [
+        -72.0,
+        43.5,
+        -71.0,
+        44.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1986-01-01",
+      "publisher_id": "5a8a3b7ce4b00f54eb3e5088",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-72,43.5,-71,44",
+      "size_bytes": 20778528,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3b7ce4b00f54eb3e5088",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Lake%20Winnipesaukee_460055_1986_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Lake Winnipesaukee, NH 1986"
+    },
+    {
+      "api_size_bytes": 40348997,
+      "bbox": [
+        -72.0,
+        44.0,
+        -71.0,
+        44.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1988-01-01",
+      "publisher_id": "5a8a3b7ce4b00f54eb3e5093",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-72,44,-71,44.5",
+      "size_bytes": 40373351,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3b7ce4b00f54eb3e5093",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Mount%20Washington_330410_1988_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Mount Washington, NH 1988"
+    },
+    {
+      "api_size_bytes": 37108209,
+      "bbox": [
+        -72.0,
+        44.5,
+        -71.0,
+        45.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1986-01-01",
+      "publisher_id": "5a8a3b7be4b00f54eb3e5070",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-72,44.5,-71,45",
+      "size_bytes": 37133364,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3b7be4b00f54eb3e5070",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Groveton_330404_1986_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Groveton, NH 1986"
+    },
+    {
+      "api_size_bytes": 39318608,
+      "bbox": [
+        -72.0,
+        45.0,
+        -71.0,
+        45.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1986-01-01",
+      "publisher_id": "5a8a3b7de4b00f54eb3e509c",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-72,45,-71,45.5",
+      "size_bytes": 39343096,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3b7de4b00f54eb3e509c",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Sherbrooke_330413_1986_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Sherbrooke, NH 1986"
+    },
+    {
+      "api_size_bytes": 35129659,
+      "bbox": [
+        -73.0,
+        41.0,
+        -72.0,
+        41.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1983-01-01",
+      "publisher_id": "5a8a2857e4b00f54eb3c517b",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-73,41,-72,41.5",
+      "size_bytes": 35154683,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2857e4b00f54eb3c517b",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_New%20Haven_331212_1983_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for New Haven, CT 1983"
+    },
+    {
+      "api_size_bytes": 40954896,
+      "bbox": [
+        -73.0,
+        41.5,
+        -72.0,
+        42.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1994-01-01",
+      "publisher_id": "5a8a2856e4b00f54eb3c5177",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-73,41.5,-72,42",
+      "size_bytes": 40979067,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2856e4b00f54eb3c5177",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Hartford_331210_1994_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Hartford, CT 1994"
+    },
+    {
+      "api_size_bytes": 44554223,
+      "bbox": [
+        -73.0,
+        42.0,
+        -72.0,
+        42.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1985-01-01",
+      "publisher_id": "5a8a414de4b00f54eb3eeeac",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-73,42,-72,42.5",
+      "size_bytes": 44577976,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a414de4b00f54eb3eeeac",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Holyoke_353164_1985_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Holyoke, MA 1985"
+    },
+    {
+      "api_size_bytes": 34607572,
+      "bbox": [
+        -73.0,
+        42.5,
+        -72.0,
+        43.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1986-01-01",
+      "publisher_id": "5a8a3b7ce4b00f54eb3e507c",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-73,42.5,-72,43",
+      "size_bytes": 34632172,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3b7ce4b00f54eb3e507c",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Keene_330407_1986_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Keene, NH 1986"
+    },
+    {
+      "api_size_bytes": 20864235,
+      "bbox": [
+        -73.0,
+        43.0,
+        -72.0,
+        43.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1985-01-01",
+      "publisher_id": "5a8a3b7be4b00f54eb3e5062",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-73,43,-72,43.5",
+      "size_bytes": 20888131,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3b7be4b00f54eb3e5062",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NH/100000/NH_Claremont_330400_1985_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Claremont, NH 1985"
+    },
+    {
+      "api_size_bytes": 40506804,
+      "bbox": [
+        -73.0,
+        43.5,
+        -72.0,
+        44.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1985-01-01",
+      "publisher_id": "5a8a4447e4b00f54eb3f416c",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-73,43.5,-72,44",
+      "size_bytes": 40531297,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a4447e4b00f54eb3f416c",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Rutland_338231_1985_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Rutland, VT 1985"
+    },
+    {
+      "api_size_bytes": 9896762,
+      "bbox": [
+        -73.0,
+        44.0,
+        -72.0,
+        44.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1988-01-01",
+      "publisher_id": "5a8a4446e4b00f54eb3f4163",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-73,44,-72,44.5",
+      "size_bytes": 9915330,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a4446e4b00f54eb3f4163",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Montpelier_460033_1988_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Montpelier, VT 1988"
+    },
+    {
+      "api_size_bytes": 35401595,
+      "bbox": [
+        -73.0,
+        44.5,
+        -72.0,
+        45.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1989-01-01",
+      "publisher_id": "5a8a4447e4b00f54eb3f4167",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-73,44.5,-72,45",
+      "size_bytes": 35426816,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a4447e4b00f54eb3f4167",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/VT/100000/VT_Mount%20Mansfield_460034_1989_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Mount Mansfield, VT 1989"
+    },
+    {
+      "api_size_bytes": 37730768,
+      "bbox": [
+        -74.0,
+        40.5,
+        -73.0,
+        41.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1984-01-01",
+      "publisher_id": "5a8a3efde4b00f54eb3eaf0c",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-74,40.5,-73,41",
+      "size_bytes": 37752160,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3efde4b00f54eb3eaf0c",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Long%20Island%20West_137379_1984_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Long Island West, NY 1984"
+    },
+    {
+      "api_size_bytes": 46451682,
+      "bbox": [
+        -74.0,
+        41.0,
+        -73.0,
+        41.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1986-01-01",
+      "publisher_id": "5a8a2856e4b00f54eb3c5171",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-74,41,-73,41.5",
+      "size_bytes": 46476528,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2856e4b00f54eb3c5171",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Bridgeport_331207_1986_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Bridgeport, CT 1986"
+    },
+    {
+      "api_size_bytes": 35583299,
+      "bbox": [
+        -74.0,
+        41.5,
+        -73.0,
+        42.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1993-01-01",
+      "publisher_id": "5a8a2857e4b00f54eb3c517f",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-74,41.5,-73,42",
+      "size_bytes": 35607136,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a2857e4b00f54eb3c517f",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CT/100000/CT_Waterbury_331231_1993_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Waterbury, CT 1993"
+    },
+    {
+      "api_size_bytes": 33144623,
+      "bbox": [
+        -74.0,
+        42.0,
+        -73.0,
+        42.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1986-01-01",
+      "publisher_id": "5a8a414ee4b00f54eb3eeee4",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-74,42,-73,42.5",
+      "size_bytes": 33168422,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a414ee4b00f54eb3eeee4",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/MA/100000/MA_Pittsfield_353177_1986_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Pittsfield, MA 1986"
+    },
+    {
+      "api_size_bytes": 27504499,
+      "bbox": [
+        -74.0,
+        42.5,
+        -73.0,
+        43.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1989-01-01",
+      "publisher_id": "5a8a3ef5e4b00f54eb3eae13",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-74,42.5,-73,43",
+      "size_bytes": 27525541,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3ef5e4b00f54eb3eae13",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Albany_137059_1989_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Albany, NY 1989"
+    },
+    {
+      "api_size_bytes": 25199999,
+      "bbox": [
+        -74.0,
+        43.0,
+        -73.0,
+        43.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1989-01-01",
+      "publisher_id": "5a8a3ef8e4b00f54eb3eae4e",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-74,43,-73,43.5",
+      "size_bytes": 25221338,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3ef8e4b00f54eb3eae4e",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Glens%20Falls_137223_1989_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Glens Falls, NY 1989"
+    },
+    {
+      "api_size_bytes": 27194813,
+      "bbox": [
+        -74.0,
+        43.5,
+        -73.0,
+        44.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1989-01-01",
+      "publisher_id": "5a8a3f07e4b00f54eb3eaff1",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-74,43.5,-73,44",
+      "size_bytes": 27216059,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3f07e4b00f54eb3eaff1",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Ticonderoga_136968_1989_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Ticonderoga, NY 1989"
+    },
+    {
+      "api_size_bytes": 25328483,
+      "bbox": [
+        -74.0,
+        44.0,
+        -73.0,
+        44.5
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1986-01-01",
+      "publisher_id": "5a8a3efbe4b00f54eb3eaec1",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-74,44,-73,44.5",
+      "size_bytes": 25352282,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3efbe4b00f54eb3eaec1",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Lake%20Champlain%20South_137306_1986_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Lake Champlain South, NY 1986"
+    },
+    {
+      "api_size_bytes": 21660188,
+      "bbox": [
+        -74.0,
+        44.5,
+        -73.0,
+        45.0
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Historical+Topographic+Maps&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=30+x+60+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "1986-01-01",
+      "publisher_id": "5a8a3efbe4b00f54eb3eaeb2",
+      "review_status": "pending",
+      "scale": 100000,
+      "sha256": null,
+      "sheet_id": "bbox:-74,44.5,-73,45",
+      "size_bytes": 21683698,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_5a8a3efbe4b00f54eb3eaeb2",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/NY/100000/NY_Lake%20Champlain%20North_137304_1986_100000_geo.pdf",
+      "title": "USGS 1:100000-scale Quadrangle for Lake Champlain North, NY 1986"
+    },
+    {
+      "api_size_bytes": 11877322,
+      "bbox": [
+        -72.125,
+        45.0,
+        -72.0,
+        45.125
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "2024-04-17",
+      "publisher_id": "66b5c4e1d34eebcf8bb39151",
+      "review_status": "pending",
+      "scale": 24000,
+      "sha256": null,
+      "sheet_id": "bbox:-72.125,45,-72,45.125",
+      "size_bytes": 11877322,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_66b5c4e1d34eebcf8bb39151",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_West_Charleston_OE_N_20240417_TM_geo.pdf",
+      "title": "US Topo 7.5-minute map for West Charleston OE N, VT,QC"
+    },
+    {
+      "api_size_bytes": 11819959,
+      "bbox": [
+        -72.25,
+        45.0,
+        -72.125,
+        45.125
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "2024-04-17",
+      "publisher_id": "66b5c481d34eebcf8bb39145",
+      "review_status": "pending",
+      "scale": 24000,
+      "sha256": null,
+      "sheet_id": "bbox:-72.25,45,-72.125,45.125",
+      "size_bytes": 11819959,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_66b5c481d34eebcf8bb39145",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Newport_OE_N_20240417_TM_geo.pdf",
+      "title": "US Topo 7.5-minute map for Newport OE N, VT,QC"
+    },
+    {
+      "api_size_bytes": 12164381,
+      "bbox": [
+        -72.375,
+        45.0,
+        -72.25,
+        45.125
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "2024-08-09",
+      "publisher_id": "66b6dbf5d34eebcf8bb39842",
+      "review_status": "pending",
+      "scale": 24000,
+      "sha256": null,
+      "sheet_id": "bbox:-72.375,45,-72.25,45.125",
+      "size_bytes": 12164381,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_66b6dbf5d34eebcf8bb39842",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Newport_Center_OE_N_20240809_TM_geo.pdf",
+      "title": "US Topo 7.5-minute map for Newport Center OE N, VT,QC"
+    },
+    {
+      "api_size_bytes": 13033309,
+      "bbox": [
+        -72.5,
+        45.0,
+        -72.375,
+        45.125
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "2024-04-17",
+      "publisher_id": "66b5c4a2d34eebcf8bb39149",
+      "review_status": "pending",
+      "scale": 24000,
+      "sha256": null,
+      "sheet_id": "bbox:-72.5,45,-72.375,45.125",
+      "size_bytes": 13033309,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_66b5c4a2d34eebcf8bb39149",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_North_Troy_OE_N_20240417_TM_geo.pdf",
+      "title": "US Topo 7.5-minute map for North Troy OE N, VT,QC"
+    },
+    {
+      "api_size_bytes": 15316034,
+      "bbox": [
+        -72.625,
+        45.0,
+        -72.5,
+        45.125
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "2024-04-17",
+      "publisher_id": "66b5c45ed34eebcf8bb39141",
+      "review_status": "pending",
+      "scale": 24000,
+      "sha256": null,
+      "sheet_id": "bbox:-72.625,45,-72.5,45.125",
+      "size_bytes": 15316034,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_66b5c45ed34eebcf8bb39141",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Jay_Peak_OE_N_20240417_TM_geo.pdf",
+      "title": "US Topo 7.5-minute map for Jay Peak OE N, VT,QC"
+    },
+    {
+      "api_size_bytes": 14514173,
+      "bbox": [
+        -72.75,
+        45.0,
+        -72.625,
+        45.125
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "2024-08-09",
+      "publisher_id": "66b6dc16d34eebcf8bb39846",
+      "review_status": "pending",
+      "scale": 24000,
+      "sha256": null,
+      "sheet_id": "bbox:-72.75,45,-72.625,45.125",
+      "size_bytes": 14514173,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_66b6dc16d34eebcf8bb39846",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Richford_OE_N_20240809_TM_geo.pdf",
+      "title": "US Topo 7.5-minute map for Richford OE N, VT,QC"
+    },
+    {
+      "api_size_bytes": 18646173,
+      "bbox": [
+        -72.875,
+        45.0,
+        -72.75,
+        45.125
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "2024-04-17",
+      "publisher_id": "66b5c43cd34eebcf8bb3913d",
+      "review_status": "pending",
+      "scale": 24000,
+      "sha256": null,
+      "sheet_id": "bbox:-72.875,45,-72.75,45.125",
+      "size_bytes": 18646173,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_66b5c43cd34eebcf8bb3913d",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Enosburg_Falls_OE_N_20240417_TM_geo.pdf",
+      "title": "US Topo 7.5-minute map for Enosburg Falls OE N, VT,QC"
+    },
+    {
+      "api_size_bytes": 16870955,
+      "bbox": [
+        -73.0,
+        45.0,
+        -72.875,
+        45.125
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "2024-04-17",
+      "publisher_id": "66b5c4c1d34eebcf8bb3914d",
+      "review_status": "pending",
+      "scale": 24000,
+      "sha256": null,
+      "sheet_id": "bbox:-73,45,-72.875,45.125",
+      "size_bytes": 16870954,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_66b5c4c1d34eebcf8bb3914d",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Sheldon_Springs_OE_N_20240417_TM_geo.pdf",
+      "title": "US Topo 7.5-minute map for Sheldon Springs OE N, VT,QC"
+    },
+    {
+      "api_size_bytes": 13715286,
+      "bbox": [
+        -73.125,
+        45.0,
+        -73.0,
+        45.125
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "2024-04-17",
+      "publisher_id": "66b59f96d34eebcf8bb38c52",
+      "review_status": "pending",
+      "scale": 24000,
+      "sha256": null,
+      "sheet_id": "bbox:-73.125,45,-73,45.125",
+      "size_bytes": 13715286,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_66b59f96d34eebcf8bb38c52",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Highgate_Center_OE_N_20240417_TM_geo.pdf",
+      "title": "US Topo 7.5-minute map for Highgate Center OE N, VT,QC"
+    },
+    {
+      "api_size_bytes": 11617351,
+      "bbox": [
+        -73.25,
+        45.0,
+        -73.125,
+        45.125
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "2024-04-17",
+      "publisher_id": "66b59f74d34eebcf8bb38c43",
+      "review_status": "pending",
+      "scale": 24000,
+      "sha256": null,
+      "sheet_id": "bbox:-73.25,45,-73.125,45.125",
+      "size_bytes": 11617351,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_66b59f74d34eebcf8bb38c43",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_East_Alburg_OE_N_20240417_TM_geo.pdf",
+      "title": "US Topo 7.5-minute map for East Alburg OE N, VT,QC"
+    },
+    {
+      "api_size_bytes": 13298368,
+      "bbox": [
+        -73.375,
+        45.0,
+        -73.25,
+        45.125
+      ],
+      "body_verified": false,
+      "discovered_on": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=US+Topo+Current&bbox=-73.75%2C40.9%2C-66.8%2C47.5&prodExtents=7.5+x+7.5+minute&prodFormats=GeoPDF%2CGeospatialPDF%2CGeospatial+PDF",
+      "edition": "2024-08-09",
+      "publisher_id": "66b6ddc2d34eebcf8bb3987e",
+      "review_status": "pending",
+      "scale": 24000,
+      "sha256": null,
+      "sheet_id": "bbox:-73.375,45,-73.25,45.125",
+      "size_bytes": 13298368,
+      "size_status": "verified-by-head",
+      "source_probe_id": "usgs_66b6ddc2d34eebcf8bb3987e",
+      "source_url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/VT/VT_Rouses_Point_OE_N_20240809_TM_geo.pdf",
+      "title": "US Topo 7.5-minute map for Rouses Point OE N, VT,QC,NY"
+    }
+  ],
+  "size_bytes": 2107297354,
+  "status": "proposed"
+}

@@ -10,7 +10,7 @@ from collections import defaultdict
 from pathlib import Path, PurePosixPath
 from urllib.parse import quote
 
-from .catalog import learning_shelves
+from .catalog import is_document, learning_shelves
 from .layout import checksum_name, managed_path
 from .safety import atomic_write
 from .search_ui import SEARCH_CSP, render_search_widget
@@ -171,8 +171,8 @@ def _page(title: str, body: str, current: str, *, inline_search: bool = False) -
     gutenberg = _href("INDEX/gutenberg.html", current)
     children = _href("INDEX/children.html", current)
     policy = f'<meta http-equiv="Content-Security-Policy" content="{html.escape(SEARCH_CSP, quote=True)}">' if inline_search else ""
-    footer = ("Static navigation works without JavaScript; search requires it. No internet connection is needed."
-              if inline_search else "This page works without JavaScript or an internet connection.")
+    footer = ("Catalog text is readable without JavaScript or internet. Opening links depends on your viewer."
+              + (" Search requires a browser that can load local scripts." if inline_search else ""))
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -190,7 +190,7 @@ def _page(title: str, body: str, current: str, *, inline_search: bool = False) -
 """
 
 
-def _asset_list(assets: list[dict], current: str) -> str:
+def _asset_list(assets: list[dict], current: str, *, show_paths: bool = False) -> str:
     if not assets:
         return "<p>No material in this section is included in this build. Check the inventory for what is available.</p>"
     items = []
@@ -212,9 +212,11 @@ def _asset_list(assets: list[dict], current: str) -> str:
         attribution = ""
         if asset.get("resource_type") == "textbook" and asset.get("attribution"):
             attribution = f'<br><span class="meta">Attribution: {_text(asset["attribution"])}</span>'
+        location = (f'<br>File: <code>{_text(checksum_name(asset["destination"]))}</code>'
+                    if show_paths else "")
         items.append(
             f'<li><a href="{link}">{title}</a> <span class="badge">({_text(badge)})</span>'
-            f'{labels_html}<br><span class="meta">{_text(metadata)}</span>{description}{attribution}</li>'
+            f'{location}{labels_html}<br><span class="meta">{_text(metadata)}</span>{description}{attribution}</li>'
         )
     return '<ul class="assets">' + "\n".join(items) + "</ul>"
 
@@ -296,7 +298,7 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
         relative in search_files for relative in ("SEARCH/manifest.js", "SEARCH/search.js")
     )
     actual = {entry["destination"]: entry for entry in inventory.get("assets", [])}
-    entries = [{**asset, **actual.get(asset["destination"], {})} for asset in assets]
+    entries = [{**asset, **actual.get(asset["destination"], {})} for asset in assets if is_document(asset)]
     entries.sort(key=lambda asset: (str(asset.get("title", "")).casefold(), asset["destination"]))
     groups: dict[str, list[dict]] = defaultdict(list)
     letters: dict[str, list[dict]] = defaultdict(list)
@@ -332,10 +334,14 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
     pages["START_HERE.html"] = _page(
         "Offline Wandering Library",
         _selection_notice(inventory, "START_HERE.html")
-        + """<p>An offline knowledge library. Start with the topic you need, or search the library.</p>
-<p class="notice"><strong>Open ordinary files directly.</strong> The critical library uses HTML, PDF,
-and other ordinary files. Use your device’s file manager and a compatible browser or document viewer.
-No account, server, or internet connection is needed to read these files.</p>
+        + """<p>An offline knowledge library. Browse the file catalog below, or search in a compatible browser.</p>
+<section class="notice" id="files-instructions"><h2>Using iPhone Files or another file preview?</h2>
+<p>A preview may display this page while blocking search and links to other files.
+The file catalog below lists every included document with its exact folder path.</p>
+<p><strong>To open a document:</strong> note its path, close this preview, return to this drive in
+Files or your file manager, and open <code>LIBRARY</code>. Follow the remaining folders in the
+listed path and tap the file. PDFs and text files need a compatible viewer; archives and EPUBs
+may need a separate reader.</p></section>
 """
         + (render_search_widget("LIBRARY/") if search_ready else
            '<p class="notice">' +
@@ -352,9 +358,18 @@ No account, server, or internet connection is needed to read these files.</p>
         + f'<ul class="cards">{cards}</ul>'
         + """<h2>When search does not work</h2>
 <p><a href="INDEX/categories.html">Browse the category index</a> or use the alphabetical links below.
-These ordinary pages need no JavaScript. If your phone previews HTML without opening links, open a
-PDF or text file directly in the topic folders through the file manager.</p>"""
+These pages need no JavaScript, but opening them still depends on your viewer.
+If links do not open, use the file catalog on this page and navigate through your file manager.</p>"""
         + _alphabet("START_HERE.html")
+        + '<section id="file-catalog"><h2>File catalog: open files through your file manager</h2>'
+        '<p>All included documents are listed here by category. Paths start at the drive’s '
+        '<code>LIBRARY</code> folder. This list is readable without search or opening another HTML page.</p>'
+        + ("".join(
+            f'<section id="files-{key}"><h3>{label} ({len(groups[key])})</h3>'
+            + _asset_list(groups[key], "START_HERE.html", show_paths=True) + '</section>'
+            for key, label in GROUPS if groups[key]
+        ) or '<p>No documents are included in this build.</p>')
+        + '</section>'
         + """<h2>Large archives and reader software</h2>
 <p>Files ending in <code>.zim</code>, including Wikipedia, need a compatible archive reader.
 <a href="INDEX/categories.html#readers">Bundled reader software</a> is in <code>SOFTWARE/</code>.
@@ -493,16 +508,20 @@ Coverage depends on the selected profile. Documents retain their original dates,
 
     pages["README.txt"] = """OFFLINE WANDERING LIBRARY (OWL)
 
-Open START_HERE.html to search or browse topics. SEARCH.html offers the same search.
-Browse INDEX/categories.html and INDEX/critical.html without JavaScript.
+Open START_HERE.html for the complete inline file catalog and exact folder paths.
+SEARCH.html offers search in compatible browsers.
+INDEX/categories.html and INDEX/critical.html are readable without JavaScript;
+opening HTML links depends on your viewer.
 INDEX/textbooks.html lists directly readable textbooks. INDEX/illustrated-guides.html
 lists illustrated textbooks and practical guides. Critical textbooks are also in
 the critical index, including those stored under BOOKS/TEXTBOOKS/.
 INDEX/gutenberg.html and INDEX/children.html list selected Project Gutenberg and
 Children's Library files when available. An empty collection page does not mean
 its planned content has been downloaded. Check the inventory for actual content.
-If HTML links do not work in your phone's preview, use its file manager to open
-ordinary files directly in CRITICAL/, REFERENCE/, BOOKS/, and MAPS/.
+If search or links do not work in iPhone Files or another preview, read the file
+catalog directly on START_HERE.html. Note the LIBRARY/... path next to a title,
+close the preview, return to the drive in Files or your file manager, open
+LIBRARY, and follow the remaining folders to the file. No HTML link is required.
 
 CRITICAL contains ordinary files such as PDF, HTML, and text. A compatible
 standard viewer is needed. No server, cloud account, or internet is required.
@@ -515,7 +534,7 @@ Search on START_HERE.html or SEARCH.html loads its index automatically from
 SEARCH/ on this drive. Enter search words; no index selection is required.
 Search needs a browser that runs local JavaScript and can load neighboring local
 scripts. It reads small index chunks as needed, without a server or internet.
-The static indexes work without JavaScript and list the library's catalog assets.
+The inline file catalog remains readable when search or HTML links are blocked.
 
 ZIM archives need an archive reader. Bundled readers, when included in this
 profile, are in SOFTWARE/ organized by platform. They may require installation,
@@ -575,16 +594,15 @@ This library is a reference collection, not a substitute for professional help.
         pages["README.txt"] += "\nHUMAN TOPIC INDEX\nOpen INDEX/topics.html for subjects, practical routes, and learning.\nTopic aliases and book contents work without JavaScript. Section links include\nvisible source locations for viewers that ignore PDF page or HTML fragments.\nSee INDEX/navigation-report.json for mapping coverage and gaps.\n"
     if not search_ready:
         pages["README.txt"] = pages["README.txt"].replace(
-            "Open START_HERE.html to search or browse topics. SEARCH.html offers the same search.",
-            "Open START_HERE.html to browse topics.")
+            "SEARCH.html offers search in compatible browsers.\n", "")
         pages["README.txt"] = pages["README.txt"].replace(
             "Search on START_HERE.html or SEARCH.html loads its index automatically from\n"
             "SEARCH/ on this drive. Enter search words; no index selection is required.\n"
             "Search needs a browser that runs local JavaScript and can load neighboring local\n"
             "scripts. It reads small index chunks as needed, without a server or internet.\n"
-            "The static indexes work without JavaScript and list the library's catalog assets.",
-            "Full-text search is not available in this build. Use the human topic atlas,\n"
-            "category and title indexes; these work without JavaScript. Run the drive\n"
+            "The inline file catalog remains readable when search or HTML links are blocked.",
+            "Full-text search is not available in this build. Use the inline file catalog\n"
+            "on START_HERE.html, or the topic, category and title indexes if links open. Run the drive\n"
             "builder to generate automatic search from the existing verified content.")
     # The landing page's fixed cards and notices use these logical destinations;
     # shared _href links and the search widget already have physical prefixes.
@@ -602,7 +620,8 @@ This library is a reference collection, not a substitute for professional help.
         "OFFLINE WANDERING LIBRARY (OWL)\n",
         "OFFLINE WANDERING LIBRARY (OWL)\n\n"
         "The drive has START_HERE.html beside one LIBRARY folder. Keep them together.\n"
-        "This README is inside LIBRARY; other paths below are relative to this folder.\n", 1)
+        "This README is inside LIBRARY; paths below are relative to this folder,\n"
+        "except catalog paths beginning LIBRARY/, which start at the drive root.\n", 1)
     if not write:
         return pages
     for relative in GENERATED_PATHS:

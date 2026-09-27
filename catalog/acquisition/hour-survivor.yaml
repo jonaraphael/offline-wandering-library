@@ -1,0 +1,209 @@
+schema_version: 1
+assets:
+- id: survivor_fuller_cones_1904
+  title: 'Historical (1904): The Geometrical Development of Round and Oval Cones'
+  version: 1904 copyright edition
+  publisher: David Williams Company, New York; scan hosted by Survivor Library
+  attribution: John Fuller, Sr.; original 1904 copyright notice, publisher imprint and library stamps
+    retained.
+  description: 'Historical illustrated sheet-metal pattern development: round and oval cones, funnels
+    and related shapes. Full scan of A New and Original Treatise on The Geometrical Development of Round
+    and Oval Cones, with examples for beginners and practical sheet iron and tin plate workers. 64 PDF
+    pages; printed text ends on page 53. Historical reference; does not establish current workshop safety
+    practice.'
+  license: 'Original notice: Copyrighted, 1904, by John Fuller, Sr., Seneca, Kas. No affirmative redistribution
+    grant verified for this scan.'
+  category: historical-trades
+  format: pdf
+  source_url: https://www.survivorlibrary.com/library/a_new_and_original_treatise_for_practical_sheet_iron_and_tin_plate_workers1904.pdf
+  destination: REFERENCE/HISTORICAL/SURVIVOR/survivor_fuller_cones_1904.pdf
+  size_bytes: 1767771
+  sha256: 08c630d974e95142ac4befc9bcc4c0d56fdd517761cd5e732a3842631d2912b3
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  source_page: https://www.survivorlibrary.com/
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  tags:
+  - historical
+  - survivor-library
+  - limited-scope
+- id: survivor_fowler_foundations_vol1_1920
+  title: 'Historical (1920): Engineering and Building Foundations — Volume I, Ordinary Foundations'
+  version: Fourth edition, revised and enlarged, 1920; Volume I only
+  publisher: John Wiley & Sons, Inc., New York / Chapman & Hall, Limited, London; scan hosted by Survivor
+    Library
+  attribution: Charles Evan Fowler, C.E.; original 1898, 1904, 1914 and 1920 copyright history and publisher
+    imprint retained.
+  description: 'A Practical Treatise on Engineering and Building Foundations Including Sub-Aqueous Foundations,
+    Volume I: Ordinary Foundations. 588-page image-only scan with tables and engineering diagrams; ends
+    at printed index page 531. The preface assigns deep/subaqueous work and other topics to separate
+    volumes which are not included. Historical reference; not current structural design or building-code
+    guidance.'
+  license: Original copyright history by C. E. Fowler includes 1920 Volume One, Ordinary Foundations.
+    No affirmative redistribution grant verified for this scan.
+  category: historical-trades
+  format: pdf
+  source_url: https://www.survivorlibrary.com/library/a_practical_treatise_on_engineering_and_building_foundations_1920.pdf
+  destination: REFERENCE/HISTORICAL/SURVIVOR/survivor_fowler_foundations_vol1_1920.pdf
+  size_bytes: 24168267
+  sha256: cc1add9a9b3dd0fa86877f34d4ea3f6856ceebf9a4b4539dfec1a281f3433bae
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  source_page: https://www.survivorlibrary.com/
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  tags:
+  - historical
+  - survivor-library
+  - limited-scope
+- id: survivor_wegmann_water_supply_1918
+  title: 'Historical (1918): Conveyance and Distribution of Water for Water Supply'
+  version: 1918 edition
+  publisher: D. Van Nostrand Company, New York; scan hosted by Survivor Library
+  attribution: Edward Wegmann, C.E.; original 1918 D. Van Nostrand Company copyright, publisher imprint
+    and advertisements retained.
+  description: 'Conveyance and Distribution of Water for Water Supply: Aqueducts, Pipe-Lines and Distributing
+    Systems. A Practical Treatise for Water-Works Engineers and Superintendents. 702 PDF pages with
+    tables, charts, engineering illustrations, appendices, index through printed page 663 and rear advertisements.
+    Historical reference; not current drinking-water treatment, potable-material or engineering-standard
+    guidance.'
+  license: 'Original notice: Copyright, 1918, by D. Van Nostrand Company. No affirmative redistribution
+    grant verified for this scan.'
+  category: historical-trades
+  format: pdf
+  source_url: https://www.survivorlibrary.com/library/conveyance_and_distribution_of_water_for_water_supply_1918.pdf
+  destination: REFERENCE/HISTORICAL/SURVIVOR/survivor_wegmann_water_supply_1918.pdf
+  size_bytes: 57600290
+  sha256: 8acb7a7e43fe281610904eb40d6cff9b9616e3106b3de0f6cc244e84d892a85d
+  redistributable: false
+  required: true
+  profiles: []
+  critical: false
+  reader_required: false
+  source_page: https://www.survivorlibrary.com/
+  language: en
+  snapshot_date: '2026-09-18'
+  resource_type: guide
+  illustrated: true
+  tags:
+  - historical
+  - survivor-library
+  - limited-scope
+resource_updates:
+- id: survivor-tier-a
+  status: partial
+  reason: Three pinned historical volumes cover only sheet-metal cone pattern development, ordinary
+    foundations (Volume I), and water conveyance/distribution. This is an 83,536,328-byte pilot, not
+    the curated 75–100 GB Tier A collection or broad trades coverage. No current safety, medical or
+    veterinary coverage is claimed. Per-volume redistribution grants remain unverified; all three are
+    excluded from redistributable packs. Other requested trades and a larger curated title list remain
+    open.
+  asset_ids:
+  - survivor_fuller_cones_1904
+  - survivor_fowler_foundations_vol1_1920
+  - survivor_wegmann_water_supply_1918
+verification:
+- asset_id: survivor_fuller_cones_1904
+  source_url: https://www.survivorlibrary.com/library/a_new_and_original_treatise_for_practical_sheet_iron_and_tin_plate_workers1904.pdf
+  size_bytes: 1767771
+  sha256: 08c630d974e95142ac4befc9bcc4c0d56fdd517761cd5e732a3842631d2912b3
+  pdf_pages: 64
+  printed_final_page: '53'
+  pages_with_extracted_text: 55
+  local_hash_reverified: true
+  pdfinfo_passed: true
+  pypdf_passed: true
+  visual_sample_physical_pages:
+  - 7
+  - 8
+  - 12
+  - 13
+  - 35
+  - 56
+  - 59
+  - 63
+  quality: accepted for historical-reference use after representative-page visual review; not a page-by-page
+    audit
+  local_evidence: /tmp/owl-one-hour/survivor/a_new_and_original_treatise_for_practical_sheet_iron_and_tin_plate_workers1904.pdf
+- asset_id: survivor_fowler_foundations_vol1_1920
+  source_url: https://www.survivorlibrary.com/library/a_practical_treatise_on_engineering_and_building_foundations_1920.pdf
+  size_bytes: 24168267
+  sha256: cc1add9a9b3dd0fa86877f34d4ea3f6856ceebf9a4b4539dfec1a281f3433bae
+  pdf_pages: 588
+  printed_final_page: '531'
+  pages_with_extracted_text: 0
+  local_hash_reverified: true
+  pdfinfo_passed: true
+  pypdf_passed: true
+  visual_sample_physical_pages:
+  - 6
+  - 7
+  - 8
+  - 11
+  - 34
+  - 35
+  - 36
+  - 294
+  - 295
+  - 573
+  - 580
+  - 584
+  - 585
+  - 586
+  - 587
+  quality: accepted for historical-reference use after representative-page visual review; not a page-by-page
+    audit
+  local_evidence: /tmp/owl-one-hour/survivor/a_practical_treatise_on_engineering_and_building_foundations_1920.pdf
+- asset_id: survivor_wegmann_water_supply_1918
+  source_url: https://www.survivorlibrary.com/library/conveyance_and_distribution_of_water_for_water_supply_1918.pdf
+  size_bytes: 57600290
+  sha256: 8acb7a7e43fe281610904eb40d6cff9b9616e3106b3de0f6cc244e84d892a85d
+  pdf_pages: 702
+  printed_final_page: '663'
+  pages_with_extracted_text: 686
+  local_hash_reverified: true
+  pdfinfo_passed: true
+  pypdf_passed: true
+  visual_sample_physical_pages:
+  - 1
+  - 2
+  - 20
+  - 351
+  - 684
+  - 701
+  quality: accepted for historical-reference use after representative-page visual review; not a page-by-page
+    audit
+  local_evidence: /tmp/owl-one-hour/survivor/conveyance_and_distribution_of_water_for_water_supply_1918.pdf
+rejected_candidates:
+- source_url: https://www.survivorlibrary.com/library/a_manual_of_angora_goat_raising__with_a_chapter_on_milch_goats-1903.pdf
+  size_bytes: 14593684
+  sha256: 7da65987fe45076db3c23f7cf94163f9b7737a6343b232c9e456b182d90dbbce
+  pdf_pages: 250
+  decision: excluded
+  reason: 'Poor scan quality: faded/broken letter strokes on practical care and shearing pages (physical
+    133 and 152), confirmed at 220 dpi. Not admitted; seek a cleaner complete scan.'
+- source_url: https://www.survivorlibrary.com/library/a_history_of_the_art_of_bookbinding-with_some_account_of_the_books_of_the_ancients_1894.pdf
+  size_bytes: 21769057
+  sha256: 2507d13d8268dfa877c6f60e8764916bffbf82a526e32592a94490579fb67264
+  pdf_pages: 328
+  decision: excluded
+  reason: 'Low fit for practical Tier A: art/bookbinding history, not a practical binding or repair
+    manual.'
+- source_url: https://www.survivorlibrary.com/library/a_handbook_of_industrial_organic_chemistry_1900.pdf
+  size_bytes: 39063372
+  sha256: b1dda1ed60376137dcb4aa3a3f2eb8a2b25c205e9cddee391c48c9b06f339d08
+  pdf_pages: 551
+  decision: excluded
+  reason: 'Scan defect: a finger obscures substantive text on physical page 275 (printed 268). Not admitted;
+    seek an unobscured scan.'

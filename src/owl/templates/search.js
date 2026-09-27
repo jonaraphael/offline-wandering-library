@@ -7,7 +7,7 @@ const OWLSearch = (() => {
   const MAX_READ = 1024 * 1024;
   const POSTING_BYTES = 48 * 1024; // Per query term; at most 32 terms.
   const FLAG_BLOCK = 65536; // One 64 KiB cache; one byte per passage.
-  const SHELVES = {all: 0, textbooks: 1, "illustrated-guides": 2};
+  const SHELVES = {all: 0, textbooks: 1, "illustrated-guides": 2, legacy: 4, "all-with-legacy": 0};
   function tokens(text) {
     return text.normalize("NFKC").toLowerCase().match(/[\p{L}\p{N}]+/gu) || [];
   }
@@ -87,6 +87,7 @@ const OWLSearch = (() => {
     const names = {textbook: "Textbook", guide: "Guide", reference: "Reference", archive: "Archive", software: "Software"};
     const labels = Object.prototype.hasOwnProperty.call(names, record.resource_type) ? [names[record.resource_type]] : [];
     if (record.illustrated) labels.push("Illustrated");
+    if (record.legacy) labels.push("LEGACY — MAY APPLY ONLY TO OLD SYSTEMS");
     return labels;
   }
   class TopResults {
@@ -173,7 +174,7 @@ const OWLSearch = (() => {
       if (!Number.isInteger(limit) || limit < 1 || limit > 100) throw new Error("Invalid result limit.");
       const shelf = options.shelf || "all";
       if (!Object.prototype.hasOwnProperty.call(SHELVES, shelf)) throw new Error("Choose All resources, Textbooks, or Illustrated guides.");
-      const mask = SHELVES[shelf], flags = mask ? new FacetFlags(this) : null;
+      const mask = SHELVES[shelf], flags = new FacetFlags(this);
       const cancelled = () => { if (options.signal && options.signal.aborted) throw new Error("Search cancelled."); };
       const lists = [];
       for (const word of words) {
@@ -196,7 +197,9 @@ const OWLSearch = (() => {
             await list.next();
           }
         }
-        if (!mask || ((await flags.get(id)) & mask)) {
+        const facets = await flags.get(id);
+        const legacyAllowed = shelf === "legacy" || shelf === "all-with-legacy" || !(facets & 4);
+        if (legacyAllowed && (!mask || (facets & mask))) {
           // Filter before the bounded heap: a matching textbook can rank below
           // every retained unfiltered result and must still be considered.
           top.add({id, score, matched});
@@ -225,7 +228,7 @@ const OWLSearch = (() => {
         this.start = start;
       }
       const value = this.block[id - this.start];
-      if (value > 3) throw new Error("Invalid resource flags. Run the drive verifier.");
+      if (value > 7) throw new Error("Invalid resource flags. Run the drive verifier.");
       return value;
     }
   }
@@ -416,6 +419,7 @@ if (typeof document !== "undefined" && document.getElementById("searchForm")) {
   async function initialize() {
     cancel(); const ownGeneration = generation; index = null;
     controls(true); element("retryButton").hidden = true;
+    element("searchForm").hidden = true; element("viewerHelp").hidden = false;
     element("results").replaceChildren();
     status("Loading search from this drive…");
     try {
@@ -424,10 +428,11 @@ if (typeof document !== "undefined" && document.getElementById("searchForm")) {
       const header = await next.open();
       if (generation !== ownGeneration) return;
       index = next; controls(false);
+      element("searchForm").hidden = false; element("viewerHelp").hidden = true;
       status(header.documents.toLocaleString() + " indexed passages. Ready to search offline.");
     } catch (error) {
       if (generation === ownGeneration) {
-        status("Search could not load. " + error.message + " Use the static indexes if this viewer blocks local scripts.");
+        status("Search could not load. " + error.message + " If links also fail, close this preview and open documents directly in your file manager.");
         element("retryButton").hidden = false;
       }
     }

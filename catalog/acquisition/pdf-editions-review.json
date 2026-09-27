@@ -1,0 +1,872 @@
+{
+  "schema_version": 1,
+  "status": "approved-conversion-and-pin-review",
+  "date": "2026-09-23",
+  "scope": "61 independent Book Dash EPUB-to-PDF recipes and 37 official stable Python 3.14.0 PDFs; drive publication acceptance is separate.",
+  "renderer": {
+    "name": "PyMuPDF",
+    "version": "1.28.2",
+    "implementation_sha256": "3ee8d01f1b4fab5e1ed2d9ee82582a0be0b0558f7c37087fc9c21869c5d7760d",
+    "print_css": "",
+    "illustration_policy": "bookdash-pages-v1"
+  },
+  "bookdash": {
+    "assets": 61,
+    "pages": 915,
+    "bytes": 64499422,
+    "two_independent_conversions_match": true,
+    "original_text_spine_and_illustrations_verified": true,
+    "warnings": 0,
+    "pins": [
+      {
+        "id": "bookdash_a_beautiful_day_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/a-beautiful-day_en.pdf",
+        "sha256": "4ff266c6a47c50ac223c342e59ec39c4c3681b142dd65ceb21de18daa60b7f5d",
+        "source_sha256": "e304e786e3bd9c36c88fae52ab6e6c51d94b7f55e34f37328882073fcc02795c",
+        "size_bytes": 1970449,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_a_dancers_tale_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/a-dancers-tale_en.pdf",
+        "sha256": "d1afe80e88bf0375173beee4efd099dec93848dfb1fef910fa3b23094c77f9e3",
+        "source_sha256": "a8de7d1a1516ceb62ff0b540a40d86ef475aea862085e912a328e56608fde264",
+        "size_bytes": 749086,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_a_fish_and_a_gift_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/a-fish-and-a-gift_en.pdf",
+        "sha256": "318cc00d1235699977c748c8af5c7f2590c7a2795286cd1c6e0fbc63ee89bbe1",
+        "source_sha256": "55c80ac80f19d7791e65b11ddca6f2cb56707acc370a1a69b44ea23d0fdbd268",
+        "size_bytes": 760042,
+        "pages": 16
+      },
+      {
+        "id": "bookdash_a_fish_and_a_gift_fr",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/a-fish-and-a-gift_fr.pdf",
+        "sha256": "0fb4e29ffc2b94a7e824beff6bea4f83cfff8a153ca2cb829d6164e08bb84125",
+        "source_sha256": "f3deff57f3d5661997f81ad5962f48a0537b98eb535147c609fcec0720915207",
+        "size_bytes": 700622,
+        "pages": 16
+      },
+      {
+        "id": "bookdash_a_fish_and_a_gift_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/a-fish-and-a-gift_xh.pdf",
+        "sha256": "1fae3f0877b97cf3344997faaffd70a44684ee93dce38c1ed639ed74a73ae236",
+        "source_sha256": "bb726dfa5dcfbcc4c44fc2e8d261a754143e613d2bd9dbb51b3f5e8915c35ad1",
+        "size_bytes": 730263,
+        "pages": 18
+      },
+      {
+        "id": "bookdash_a_house_for_mouse_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/a-house-for-mouse_en.pdf",
+        "sha256": "5d7199b0282e3cf1168fa5470326875077cf830229d0745b92b2aae975a7beaa",
+        "source_sha256": "440f44e3286512dfc3479cc0d10cc7f3a87744d42da2943b996383723a380e42",
+        "size_bytes": 932378,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_a_house_for_mouse_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/a-house-for-mouse_xh.pdf",
+        "sha256": "a16eec46610a316e6f341d7e716b957afe59c58e2801201e4023a993a7b328ae",
+        "source_sha256": "7e73d5513389a881ee7d75c6b2bcaff95c20840cc8e0af485ca1e722a0c771ba",
+        "size_bytes": 868373,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_a_tiny_seed_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/a-tiny-seed_en.pdf",
+        "sha256": "56c9a64296f6cc94b46397694926fb3e33c34edb00af31c51cfd6917432a2b48",
+        "source_sha256": "78cd0c012ca0034f4f8cfc5e863b0dcf1458ca950bd79136fc232436ccb500fe",
+        "size_bytes": 737184,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_a_tiny_seed_fr",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/a-tiny-seed_fr.pdf",
+        "sha256": "3254ef826543528fc7485fab3fead332fe82eef5ff7f299e92c46371b2a25944",
+        "source_sha256": "28371b261ff026c9b9820ac5f310a42ca97210d2e70b8d3fc783f844d01986f3",
+        "size_bytes": 683876,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_a_tiny_seed_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/a-tiny-seed_xh.pdf",
+        "sha256": "374a19bf1cae48ca267602eda2e594bdfb425c73b9b4211ab756090e2094d86e",
+        "source_sha256": "e93c858d33a34a5e41dc96cfcca93d8c2ce18e84ca32ce3b828eee8f61cfbe4d",
+        "size_bytes": 682506,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_amazing_daisy_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/amazing-daisy_en.pdf",
+        "sha256": "82544257dff9eec434bed7357e02a4831f82343ff6fd04b1c6549788050c483d",
+        "source_sha256": "c8974eee689898292c2030c27e857f9ec644d8df09efa5d0d1e9966c7e986a80",
+        "size_bytes": 857774,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_amazing_daisy_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/amazing-daisy_xh.pdf",
+        "sha256": "9298bcc9aa3e7757cc279690b6540d7f9817085f83397b764d2eda0088ba4432",
+        "source_sha256": "43559ceb10f386c3fa20a98c5751bd6116397c36e3ff901d54c1c46430bf9b9a",
+        "size_bytes": 809902,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_bathtub_safari_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/bathtub-safari_en.pdf",
+        "sha256": "7769ee8ead07bf94935626c34beba04439b86364810a8a0b8569a14d145c2c5f",
+        "source_sha256": "9d97923d5e0d4222f9080cc19772b33c1db4090a73197b389b8c8bde1324a08a",
+        "size_bytes": 1870830,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_come_back_cat_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/come-back-cat_en.pdf",
+        "sha256": "fb3fea5b4f9f1ee51de3a14a353cce72118051c20bb6c15d9e958eb92007205d",
+        "source_sha256": "ca9b8a2bcec39d107daf2228cd111c0604406acdf75f9775e34a736cac9558e0",
+        "size_bytes": 975480,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_come_back_cat_fr",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/come-back-cat_fr.pdf",
+        "sha256": "6f17b5efdeeb85c441bf3600c3f4c761903e083dd871e8291bae62765450dad8",
+        "source_sha256": "ec43fbd7c76e7d39fbc426027506b0977c67cc84de59c4f7acefecdecfeebb3e",
+        "size_bytes": 911897,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_come_back_cat_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/come-back-cat_xh.pdf",
+        "sha256": "79c2352391953ad2657cc6042a23d745d5cca26a4c505d36e4b1dc6e53d67932",
+        "source_sha256": "523644c938f764d04c2390bd086b29cab6187a02295c2e6b7d85f2520b1543d2",
+        "size_bytes": 928469,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_gracas_dream_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/gracas-dream_en.pdf",
+        "sha256": "c7ffe88b5232cda2707df76d72544c1a8b6ef44019e236ab9dd58cc2dbe8c7c7",
+        "source_sha256": "5d514477a3a95efc753ef26a3d77bc7f838cf5a6fc796320a71202589bb3601f",
+        "size_bytes": 1395250,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_gracas_dream_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/gracas-dream_xh.pdf",
+        "sha256": "073efae3f569d49c2323f1b9857dd7d047de2baebe650de9b5513208bc28be4f",
+        "source_sha256": "84c2d9a8ca369af3462164423778f01c8770867380eb3c4cd4582f4a60f31b1c",
+        "size_bytes": 1345660,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_grandpas_gold_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/grandpas-gold_en.pdf",
+        "sha256": "6cf294488b0a909a8ea619122e027f5aa4cf0127e7597a605f1342fb6fa0537b",
+        "source_sha256": "0b59c8042aa8bffa988d1c82bb8b6cb9128cf6ba5c7bf0b103e9f1e38aed0a9a",
+        "size_bytes": 840608,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_how_about_you_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/how-about-you_en.pdf",
+        "sha256": "d7bd3825e6025d7d498773f9544b3abfed94109653f48418a1e7437980870d2e",
+        "source_sha256": "171a48735dcfd9663ee4406030b0f1146d7fea3581a7148e229e760e5b3550c0",
+        "size_bytes": 764218,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_i_will_help_you_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/i-will-help-you_en.pdf",
+        "sha256": "b8370949a1e2c3c0042c19a97a3ca1bdb7e987a12d831ea6a2c13af0d0cca3ba",
+        "source_sha256": "38f2d5d3e87234b460a3e10483af62e61c9ec22d091c9554b846cacea1dfa60d",
+        "size_bytes": 1016224,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_is_there_anyone_like_me_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/is-there-anyone-like-me_en.pdf",
+        "sha256": "5bc10d4a120cb8d8b93eb87837bcfea62b8c3057f3e83acb51d5ffaaa759d576",
+        "source_sha256": "533632622b5594cbb31a033dd36e051b0819d01894b2f4d6951a0deb8518158d",
+        "size_bytes": 846547,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_is_there_anyone_like_me_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/is-there-anyone-like-me_xh.pdf",
+        "sha256": "a4e813271cc231529095e098b9714770b33d5def70d7f2ac449b69bcc0506268",
+        "source_sha256": "357ec383a818a1a0d608ac06080aecaf4d3e9e605bf1e6c879116ef6b7e97a2d",
+        "size_bytes": 795818,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_karabos_question_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/karabos-question_en.pdf",
+        "sha256": "25c21adc8df5651c51c38282c4d48c48c1bae0bc4410c6eb8fce1556ec19b9d5",
+        "source_sha256": "a3b0d70c7b2781544c9e23afc59ff111b0da074af4ef449ab44df38dc9424a45",
+        "size_bytes": 980270,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_little_ants_big_plan_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/little-ants-big-plan_en.pdf",
+        "sha256": "ed621c35b978fe29e544dd49939e2f82e88e40adde32717c3913469e670e30b7",
+        "source_sha256": "8b40ad3e2d3d3a47dcc82f36ab01d2409f0d6d8dcac003ac90b348558769757c",
+        "size_bytes": 1468666,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_little_ants_big_plan_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/little-ants-big-plan_xh.pdf",
+        "sha256": "cba3b0376fecf6f1f2e39e84fb3023929900079f84ead73c5408b3b4ac4b17e7",
+        "source_sha256": "b327ea2ad4b92103d8b8adaff7c4139df2164bdcf4862b4c1187e56a8b143baf",
+        "size_bytes": 1258724,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_londi_the_dreaming_girl_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/londi-the-dreaming-girl_en.pdf",
+        "sha256": "fa120ea26cc67a71762e9fe992b471ce573685dce3a8a47fd575928c06d50059",
+        "source_sha256": "e855f5a1ee15c1223de177e3990a8b2ee81b35b2fe58382816b05312481070d5",
+        "size_bytes": 1099892,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_lory_dory_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/lory-dory_en.pdf",
+        "sha256": "9ad5ab9478a32d71b9d68990b0dcc875d2cb8876131e848621ba6916cb570023",
+        "source_sha256": "f410ea6b54365a49d4e32a5083f36d3c7bb727d464da41e5b78023a1416e80e7",
+        "size_bytes": 1692223,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_maddy_moona_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/maddy-moona_en.pdf",
+        "sha256": "a24d9f9246ca7fdd4ddd44073f96b8cd78a8f21280945b1f7b7639baf915dd10",
+        "source_sha256": "10c87a146c934981c1b5f3b936bd2843dc0150162939c7b8b9157166cb43a064",
+        "size_bytes": 1266461,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_miss_helens_magical_world_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/miss-helens-magical-world_en.pdf",
+        "sha256": "56794639ab6691a2ab5f40aa256c7e89f27a35592f782c6b7409d19505bf5aee",
+        "source_sha256": "155d4e8c3358805cb42c6520f67596e71d4fdffba21ba3ca55f1bf14d7c4dfd4",
+        "size_bytes": 1256933,
+        "pages": 18
+      },
+      {
+        "id": "bookdash_queen_of_soweto_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/queen-of-soweto_en.pdf",
+        "sha256": "db43376bdaad626961d5e69ff18e060fb7178d17b23699138f01297f724a4e75",
+        "source_sha256": "549fedafd2c251baa6fbb41c77f831c5c4518f6dacff29fba045b036c8148fbd",
+        "size_bytes": 1346772,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_rafikis_style_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/rafikis-style_en.pdf",
+        "sha256": "873c615697cf1befde155a178684297d8f6b3efb6d0beba5eabad4180173adf6",
+        "source_sha256": "9202b8b5800f0225a750f335d2ac179814ebd2d3cc098480b72c84a9af49650f",
+        "size_bytes": 1029203,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_rafikis_style_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/rafikis-style_xh.pdf",
+        "sha256": "b69b4d9424222f99af0a8d581d3a15c2f52ce23ef0c9eacf32d45f5008500a70",
+        "source_sha256": "668183e0402ba17a162dc3e7414d75b9cec53bf512a7332b36de7c66da234b3d",
+        "size_bytes": 1013902,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_sbus_special_shoes_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/sbus-special-shoes_en.pdf",
+        "sha256": "510f04357d90137cde7b91346b4466db877595a7f07ceb5b3b21007fa21fc3c7",
+        "source_sha256": "a901ea6390d0585c5091fe9930f9cf679baf932a4463f3450f917631cd3f17c4",
+        "size_bytes": 611769,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_searching_for_the_spirit_of_spring_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/searching-for-the-spirit-of-spring_en.pdf",
+        "sha256": "4afb76e921112f46cbba78b5c9029acdd69e52748f2b605cacf6c5065e178fee",
+        "source_sha256": "57b96f6743fbb50a79b4009894fc4937afa22414c1aae5563aca7f7d0cb274f1",
+        "size_bytes": 1030015,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_searching_for_the_spirit_of_spring_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/searching-for-the-spirit-of-spring_xh.pdf",
+        "sha256": "38b6345645a64c7cba7e757c7b35d698ce80ec7f36dd60126ee806b9d1a8adb9",
+        "source_sha256": "801d1658238cc9a658d848c6f543304a2f5c8ca0a834eb7bd01269951b8af884",
+        "size_bytes": 954364,
+        "pages": 18
+      },
+      {
+        "id": "bookdash_sima_and_siza_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/sima-and-siza_en.pdf",
+        "sha256": "b2beaa5de7e456f4e5ec5271c6dece6225fa64636c6b9a93618b0a857e5c56f7",
+        "source_sha256": "f455394e22b30acb746378ea452325be1296b223224de903c1782ef40143b9a6",
+        "size_bytes": 675993,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_sindi_and_the_moon_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/sindi-and-the-moon_en.pdf",
+        "sha256": "42c8c997e3700768b26b1a895df41fbadd97cd408fb85baa1a6497c0128f8cd4",
+        "source_sha256": "328a86ddf1a192c6c5c15c14530da7c6a97ed8dab6b89716d795bd85ef875046",
+        "size_bytes": 1206177,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_sindiwe_and_the_fireflies_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/sindiwe-and-the-fireflies_en.pdf",
+        "sha256": "d0f87575d18ea0ec627f89d6fc3a470ea88ba008e6c5cac3c14dba8d36a3de30",
+        "source_sha256": "a3564a0690bdffcaca19f2c12e734bc3d57ff6dab3b966f42fba2d5fc6155c8b",
+        "size_bytes": 863051,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_sindiwe_and_the_fireflies_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/sindiwe-and-the-fireflies_xh.pdf",
+        "sha256": "894ed6d1d28f8dca9bf8bbd31e6043af9873e634adba989c81fae12a5a0ed59e",
+        "source_sha256": "96835f13f2927061a1c0f88ddfe9ec2d4e09702e945f1ae611f20320a1f7e304",
+        "size_bytes": 817594,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_singing_the_truth_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/singing-the-truth_en.pdf",
+        "sha256": "1bec6378c08208621c156cf65d510eacb96900764603764f9c7d755ba499c6ec",
+        "source_sha256": "9218c0ceee3d3734cedf1397af441e4737021d1c603ede17b309b9e229b838eb",
+        "size_bytes": 767159,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_singing_the_truth_fr",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/singing-the-truth_fr.pdf",
+        "sha256": "18fa8f99571f1b3f1738aeb9dd87fc9beb48bb47057b5930eed6e2febda65b8c",
+        "source_sha256": "c92c79718440fdc53b73b0e208bd0cd54417c2b45f5b2f8e8763f84de3b720e1",
+        "size_bytes": 712944,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_singing_the_truth_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/singing-the-truth_xh.pdf",
+        "sha256": "61371468e1abc574a5dc111b7713ed1729cfa8cf0b21cdd4e8a8ecbfcb3097dc",
+        "source_sha256": "5bd0224e86d108a2a6142402079ed3814e6e12a914efccc579a4e7de4f3b1061",
+        "size_bytes": 828430,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_sizwes_smile_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/sizwes-smile_en.pdf",
+        "sha256": "39c79751effe410d1c9e1932e608c006fd1b9ecc089e22db14fcb586c821fc1d",
+        "source_sha256": "d6d1865e439cf48ae6c61d42b83fc7ef19e15c9eca815b5ab4ecb213da48c1c7",
+        "size_bytes": 697367,
+        "pages": 17
+      },
+      {
+        "id": "bookdash_sizwes_smile_fr",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/sizwes-smile_fr.pdf",
+        "sha256": "51e224d0153415efa267c3a151604b84c6a643469f0e34fbc1caed645d901c0a",
+        "source_sha256": "17d1b022c33fb8f8e71102b4b310c6edb33ccc30e58e52872715dc90789ae1f1",
+        "size_bytes": 664504,
+        "pages": 19
+      },
+      {
+        "id": "bookdash_sizwes_smile_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/sizwes-smile_xh.pdf",
+        "sha256": "405c1d726fb4f5d3e6dfe2b0a4c2cb7b2c06806756f567d7adc6aedfc98b86f7",
+        "source_sha256": "ded675545654d988df5cc2812f668b95220944fdc68a15f87ccff5f2f2010e65",
+        "size_bytes": 665657,
+        "pages": 21
+      },
+      {
+        "id": "bookdash_sleepy_mr_sloth_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/sleepy-mr-sloth_en.pdf",
+        "sha256": "141c9b29338e7c40674d23113f7dda550a02ad0bf71e5a3d5fd7ff72cb66f292",
+        "source_sha256": "7f52e7c92e93741e9fdd2ceebb674340a1606674f3292d58eb1f344be6090ae5",
+        "size_bytes": 2342977,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_sleepy_mr_sloth_fr",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/sleepy-mr-sloth_fr.pdf",
+        "sha256": "426bccfa8a6055f279ab0f71c603305066677e9ae3b131ccb9748c0962b19478",
+        "source_sha256": "e7f5a050a1fc48b43a001a51efb4a79a0438696bbd6a940d316c448427915975",
+        "size_bytes": 2153967,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_sleepy_mr_sloth_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/sleepy-mr-sloth_xh.pdf",
+        "sha256": "255d2dfdf7e6f62d050a9eb20ae3530debfc8889c2a5725963ce7ee3b601462d",
+        "source_sha256": "f3922830944e3060cd8f43493642180272ae3374eb45e211dd5141ea7d6c9bb8",
+        "size_bytes": 2149431,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_thatos_birthday_surprise_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/thatos-birthday-surprise_en.pdf",
+        "sha256": "ac89d90179b1d08c99a33be18431990d9199a961a986986173ab4171740a5aa5",
+        "source_sha256": "24bb3b1446cce7c7186ac00d87586df38d0ff275562099c031c65cede9f6df0c",
+        "size_bytes": 888130,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_there_must_be_a_rainbow_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/there-must-be-a-rainbow_en.pdf",
+        "sha256": "14b9f567e70aa291c1f8b9e6274c0aa7d17bd7282a10684f99edcdcf1d32f707",
+        "source_sha256": "8c77767fc611629f272bffe6da54b5143e5c6c20b744acb5e0bf861d10e8aad0",
+        "size_bytes": 1174597,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_together_were_strong_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/together-were-strong_en.pdf",
+        "sha256": "7c489af83b2444e7fc9016e5278d6b7d715fa42d4c9593b682d52cc8a7b91cbc",
+        "source_sha256": "5acbc127a5b6ef48bad3e4d67d674553c8fa692b9983c2fc68816e430cf4241b",
+        "size_bytes": 2266670,
+        "pages": 26
+      },
+      {
+        "id": "bookdash_tortoise_finds_his_home_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/tortoise-finds-his-home_en.pdf",
+        "sha256": "1db9a099e4d084fe0521f5ccfd40ec14ca12b7f8ad04f647f6c472966f26501b",
+        "source_sha256": "f2b13272332330b87207c2c163d6a109bb2272c78fa3273f6c86027cb2a4e50a",
+        "size_bytes": 863471,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_tortoise_finds_his_home_fr",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/tortoise-finds-his-home_fr.pdf",
+        "sha256": "756a8171fb24420bb145a062243a322ef8d18a266f6e6b59b76187cdc2faab71",
+        "source_sha256": "b739c4665b36301596460adefbfaf04204a5c53bd78eb9903f644ef4e6b64edc",
+        "size_bytes": 786113,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_tortoise_finds_his_home_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/tortoise-finds-his-home_xh.pdf",
+        "sha256": "15bf21a6aad5f99a82a437d2352d653832d30794572038e86d9c15169eabaaef",
+        "source_sha256": "fe02e2bb709e7c6059947d79778f174506cfd739ebaec392478b0ce54afe5954",
+        "size_bytes": 786811,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_walking_together_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/walking-together_en.pdf",
+        "sha256": "4fb0357239c9b549aaf4561ac410a02a4a02bf19ccfc01bff93ba35e7f59ad8d",
+        "source_sha256": "854f80c7a879f3d72b21d8dc90ff47d6ff3a9af64ed8a9d82c6a325bd8ca62dc",
+        "size_bytes": 956186,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_walking_together_xh",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/walking-together_xh.pdf",
+        "sha256": "cc5a6b43837046a2942baa0e9d94c3feb59c1a4779c98fdcb90ed3fe955ad83a",
+        "source_sha256": "b56b5e37419e897741800d1072f248f1f2d1cc103be623e21ee25699ae41d454",
+        "size_bytes": 950460,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_what_if_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/what-if_en.pdf",
+        "sha256": "0d37d0079317e100742fcad769eee4f7ff4a8f602e151013327f65404828fcba",
+        "source_sha256": "a3aa17eb2f9a950a1d98756db41de407cc7ed9ee0f5a775d0f80a79e066afbd8",
+        "size_bytes": 863445,
+        "pages": 14
+      },
+      {
+        "id": "bookdash_whose_button_is_this_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/whose-button-is-this_en.pdf",
+        "sha256": "0951cebdcc8107828b27a10b5fedc4642890d989c8c64c94b117c6f13023d9f2",
+        "source_sha256": "190f7970b3bd695ac495e4cea4fd3089f1487d11c0ff80642507d72bd2e93448",
+        "size_bytes": 864863,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_why_is_nita_upside_down_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/why-is-nita-upside-down_en.pdf",
+        "sha256": "38909b133c55d0392add1b644d241e85aa74b882d9c2cf2e5d595153b92bc795",
+        "source_sha256": "96db949d7b4a321e5a5687033a55bb923850f9ce9e11bd241240f3fe78347059",
+        "size_bytes": 1318913,
+        "pages": 15
+      },
+      {
+        "id": "bookdash_zanele_situ_my_story_en",
+        "path": "BOOKS/CHILDREN/BOOK_DASH/zanele-situ-my-story_en.pdf",
+        "sha256": "90a71631ceff0cd476a255661d498a381539b5d1bcb23f178bb95861eba21fae",
+        "source_sha256": "1c1f37bdd9904e916818aa3e7e84ed7dc96554d9c008d728b7b663c53cd6a43e",
+        "size_bytes": 1051862,
+        "pages": 14
+      }
+    ]
+  },
+  "python": {
+    "edition": "Python 3.14.0 stable official PDF archive, October 7, 2025",
+    "assets": 37,
+    "pages": 4145,
+    "archive": {
+      "id": "docs_python_pdf_source",
+      "path": "REFERENCE/SOURCE_PACKAGES/PYTHON/python-3.14.0-docs-pdf-a4.zip",
+      "size_bytes": 21615624,
+      "sha256": "cc651ef42d0f14d4a55438656e2c859d8ccbfb77b1e4e229f5531438d071c951",
+      "source_url": "https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip",
+      "http": {
+        "source_url": "https://www.python.org/ftp/python/doc/3.14.0/python-3.14.0-docs-pdf-a4.zip",
+        "last_modified": "Tue, 07 Oct 2025 10:46:08 GMT",
+        "content_length": 21615624,
+        "etag": "\"68e4ef70-149d408\""
+      }
+    },
+    "pins": [
+      {
+        "id": "docs_python_pdf_tutorial",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/tutorial.pdf",
+        "sha256": "91e5192c1b9c724397e8a988f54d9bec45d6967eb0337ad4fc3d1afc7cf1c085",
+        "size_bytes": 701174,
+        "pages": 169,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_annotations",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-annotations.pdf",
+        "sha256": "e606c61887df74146088b6fa1bdaa31dfbb6f446713cadcc902be3a571b16f35",
+        "size_bytes": 48045,
+        "pages": 5,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_unicode",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-unicode.pdf",
+        "sha256": "41e360c8bbf0c2e2b98aa3a60ba4b5b02b5081237c215b51843ea723c46f0fdd",
+        "size_bytes": 93644,
+        "pages": 12,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_installing",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/installing.pdf",
+        "sha256": "b14fa651aa61fd4b7be125c771c8455912b521ecfd8431a2466556f33efb67d8",
+        "size_bytes": 247640,
+        "pages": 59,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_sockets",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-sockets.pdf",
+        "sha256": "a0f70d2df08646b2628bb98a93c43a3bb916a54446414e154086b24fbe03b8da",
+        "size_bytes": 65107,
+        "pages": 6,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_a_conceptual_overview_of_asyncio",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-a-conceptual-overview-of-asyncio.pdf",
+        "sha256": "461bdeaa00759671a138009b0962c7a1ebcf35745b48a8b1a321d81735b21402",
+        "size_bytes": 71328,
+        "pages": 9,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_argparse",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-argparse.pdf",
+        "sha256": "316a58e67b520074de7e349f3c88b1381aed27ddb216e44ef77e516ccb12e0f2",
+        "size_bytes": 87690,
+        "pages": 14,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_using",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/using.pdf",
+        "sha256": "eab470ca9e7f6ace712392d2be752c012d67c5abdf89530306cbeb67062c209e",
+        "size_bytes": 2321934,
+        "pages": 148,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_logging_cookbook",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-logging-cookbook.pdf",
+        "sha256": "8e63c59214703b3cc1f024af13d5a18e91b69d731f669e2d2a30eb0258123773",
+        "size_bytes": 318438,
+        "pages": 70,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_functional",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-functional.pdf",
+        "sha256": "682f9a5a91ca5d570d0ed19f7f6509cd813ee301958a471c02dc0368a67ce82e",
+        "size_bytes": 124641,
+        "pages": 20,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_instrumentation",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-instrumentation.pdf",
+        "sha256": "de1ab00cb236532cc6fd0cd3dbc71892eb008e946a8b48a0e4388545a2693fd9",
+        "size_bytes": 52587,
+        "pages": 7,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_descriptor",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-descriptor.pdf",
+        "sha256": "71b1d6d53e745c10c3f1094fc9cd603e6046363c9fcab6f5271066e3d281e1f9",
+        "size_bytes": 127294,
+        "pages": 21,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_reference",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/reference.pdf",
+        "sha256": "3bf0b036e025261360a463ff1a279dceb535284180c7a11550c31b376b4b83fa",
+        "size_bytes": 1036429,
+        "pages": 225,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_enum",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-enum.pdf",
+        "sha256": "7ea8b724d4cf86d812cb30766c66fc90ec4f7b4b2eb97d452529db2729570f5d",
+        "size_bytes": 141741,
+        "pages": 26,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_free_threading_extensions",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-free-threading-extensions.pdf",
+        "sha256": "3454bae326bb4f628756932300419b8e118dc87af6e2400e540bd4b32e238d78",
+        "size_bytes": 67305,
+        "pages": 7,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_faq",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/faq.pdf",
+        "sha256": "d539632edfd2785bc6cb4bf6e1a604d396aa2a3e97ac853a0b9e9bc053c3ac5d",
+        "size_bytes": 570224,
+        "pages": 125,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_sorting",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-sorting.pdf",
+        "sha256": "88a2834644cdcbed1a5bd487b7ba1a2ba2523bb4bde36246a463ea1bc26a5996",
+        "size_bytes": 63849,
+        "pages": 7,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_remote_debugging",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-remote_debugging.pdf",
+        "sha256": "2c5f84c93efbf226597b8375c82d062a5c4f5e4ae85ce1bc2a0c01ea4a5ae346",
+        "size_bytes": 75771,
+        "pages": 10,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_gdb_helpers",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-gdb_helpers.pdf",
+        "sha256": "c63ccf88199c6bd257197e6c6f716440552d76990ac1d616e6a84e46fa1f9ab9",
+        "size_bytes": 63064,
+        "pages": 10,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_argparse_optparse",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-argparse-optparse.pdf",
+        "sha256": "ac0d16af9b73c6b900c88030e47a1f31ac2a3957547994ec97c11bd476f7384d",
+        "size_bytes": 20323,
+        "pages": 2,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_clinic",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-clinic.pdf",
+        "sha256": "acbef4aae0f76ed81280043737baf2a549bb0142cfd69a79459973d46d82c7f8",
+        "size_bytes": 14754,
+        "pages": 1,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_extending",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/extending.pdf",
+        "sha256": "d7be723fde38a56085a6010a30270f5ffe9773321c03e3e8672d3b2e679424a6",
+        "size_bytes": 514509,
+        "pages": 117,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_isolating_extensions",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-isolating-extensions.pdf",
+        "sha256": "0687120ee007128d89559f7be1ce9b1bbb09aebc4acfc7fe5a0b76f1362c0b73",
+        "size_bytes": 79751,
+        "pages": 9,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_logging",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-logging.pdf",
+        "sha256": "92e047143f61f26f08d6985e6977ea4054a1ed1bedae99df4174c8b7664c8148",
+        "size_bytes": 161325,
+        "pages": 17,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_whatsnew",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/whatsnew.pdf",
+        "sha256": "4e6302c65422c672d51bc45f09b3fcc9d33cd650d24ba204f0cbf809d9643ed6",
+        "size_bytes": 278114,
+        "pages": 52,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_c_api",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/c-api.pdf",
+        "sha256": "3a7b5b76095f6f487a4a726216b95befa3af60785de3ece3ad0ba77838f1aa34",
+        "size_bytes": 2045323,
+        "pages": 438,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_mro",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-mro.pdf",
+        "sha256": "a238778d830c2177e20081ecc123de5ea703df739ff0b8ed3bf92793b92316ee",
+        "size_bytes": 81872,
+        "pages": 10,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_regex",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-regex.pdf",
+        "sha256": "aabd9da3b26b6a809d1876f61bd341f552ec846913b7fe0a8923773b7b4abecd",
+        "size_bytes": 130756,
+        "pages": 18,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/library.pdf",
+        "sha256": "2583fde31fa1077d7ff631a7513fa8d9443637b488368e7154ef33b9b0ad6da9",
+        "size_bytes": 12133781,
+        "pages": 2488,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_urllib2",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-urllib2.pdf",
+        "sha256": "cded5e527198a58615d8d4fb2a7bdb04dfe52d5774fe496275c45b95deb34657",
+        "size_bytes": 82609,
+        "pages": 10,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_ipaddress",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-ipaddress.pdf",
+        "sha256": "5a4b21b316f72ba80c223e43dfe18e7810177ebc92eb3f268e9c0cf24c3251a9",
+        "size_bytes": 51271,
+        "pages": 6,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_curses",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-curses.pdf",
+        "sha256": "11107390dbcafca831bf64672b498d1ddc7b8dff4aca7c44ecbca1a217d856ab",
+        "size_bytes": 74757,
+        "pages": 8,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_timerfd",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-timerfd.pdf",
+        "sha256": "e022e25ce264fb29e8cef89d8f21091a83d52f975bc3432cc2728353d80d1187",
+        "size_bytes": 44726,
+        "pages": 5,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_perf_profiling",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-perf_profiling.pdf",
+        "sha256": "fec41770988bb2e2f20ab43bd1a0d6f1b194c5b0af6f1c0104c76ba1f9c55f19",
+        "size_bytes": 50748,
+        "pages": 7,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_pyporting",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-pyporting.pdf",
+        "sha256": "f998a1003e626319c2df80d2faa6b92a6523553ef78ebcff75a09bcb1bb88b39",
+        "size_bytes": 22933,
+        "pages": 2,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_cporting",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-cporting.pdf",
+        "sha256": "614151ab2a3d720000bdfbd6534bb73c8cd9a4338dc6043515f3cf0fd8ae144b",
+        "size_bytes": 17382,
+        "pages": 1,
+        "verified_release": "3.14.0"
+      },
+      {
+        "id": "docs_python_pdf_howto_free_threading_python",
+        "path": "REFERENCE/COMPUTING/PYTHON_PDF/howto-free-threading-python.pdf",
+        "sha256": "f20733098d53fea8fb41786b9c40720d5cb2611fa354356afbba20202533bcbc",
+        "size_bytes": 39064,
+        "pages": 4,
+        "verified_release": "3.14.0"
+      }
+    ]
+  },
+  "visual_review": {
+    "contact_sheets": "All 61 first story pages, final PDF hashes checked before rendering.",
+    "detail_samples": [
+      "Fish and a Gift French p6",
+      "Fish and a Gift isiXhosa cover and p18 credits",
+      "Together We Are Strong p6",
+      "House for Mouse English p6",
+      "Tiny Seed French p6",
+      "Python library p100, tutorial p37, using p50"
+    ],
+    "renderer": "Poppler; cover uses -cropbox to respect visible PDF page bounds.",
+    "result": "Readable illustrations and text; credits retained; no clipping seen in inspected pages.",
+    "limitations": "Representative visual sampling, not inspection of every page; no iPhone device certification."
+  },
+  "tests": {
+    "epub_pdf": 25,
+    "acquisition": 174,
+    "acquisition_skipped": 3,
+    "jobs": 16,
+    "metadata_selector_regressions": 87,
+    "five_no_download_profile_plans": "passed",
+    "generated_content_freshness": "passed"
+  },
+  "source_policy": "Original EPUB/PDF/ZIP assets and rendered previews remain exclusively on the external OWL volume. Repo contains only metadata, implementation, generated indexes, and software dependencies.",
+  "publication_acceptance": {
+    "date": "2026-09-23T06:03:02.051524+00:00",
+    "profile": "flash-16gb",
+    "status": "passed",
+    "assets": 535,
+    "reading_epubs": 0,
+    "pdfs": 458,
+    "direct_documents": 463,
+    "original_epubs_preserved": 62,
+    "managed_bytes": 13335110572,
+    "manifest_entries": 3226,
+    "failed": 0,
+    "missing": 0,
+    "navigation_pages": 155,
+    "postbuild_plan_runs": 1,
+    "remaining_download_bytes": 0,
+    "complete_search_reuse": true,
+    "search_smoke": "Node runtime passed; no browser/iPhone certification",
+    "index_cache_bytes": 2737182156,
+    "index_cache_allowance_bytes": 4000000000
+  }
+}
