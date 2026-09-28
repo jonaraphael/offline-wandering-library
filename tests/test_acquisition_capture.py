@@ -14,6 +14,7 @@ from unittest.mock import patch
 from owl.acquisition import capture as module
 from owl.download import download, DownloadError
 from owl.safety import SafetyError
+from tests.process_fixtures import wait_for_windows_process_exit
 from owl import jobs
 
 
@@ -411,6 +412,7 @@ class CaptureTests(unittest.TestCase):
         else:
             jobs.cancel_job(jobdir)
             self.fail("Local acquisition worker did not finish")
+        wait_for_windows_process_exit(state.get("pid"))
         self.assertEqual(state["state"], "awaiting_review", jobs.logs_job(jobdir))
         recipe = json.loads((jobdir / "recipe.json").read_text())
         copied = Path(recipe["acquisition"]["kwargs"]["local_manifest"])
@@ -433,6 +435,7 @@ class CaptureTests(unittest.TestCase):
         else:
             jobs.cancel_job(jobdir)
             self.fail("Acquisition worker did not finish")
+        wait_for_windows_process_exit(state.get("pid"))
         self.assertEqual(state["state"], "awaiting_review", jobs.logs_job(jobdir))
         self.assertFalse(json.loads((jobdir / "result.json").read_text())["content_ready"])
         self.assertEqual(json.loads((self.staging / "manifest.json").read_text())["sources"][0]["version"], "1")

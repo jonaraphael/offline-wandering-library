@@ -16,6 +16,7 @@ from urllib.error import HTTPError, URLError
 from owl import jobs
 from owl.download import DownloadError, TransientDownloadError, download
 from owl.safety import SafetyError
+from tests.process_fixtures import wait_for_windows_process_exit
 
 
 BUILD_FIXTURE = '''from pathlib import Path
@@ -76,7 +77,8 @@ class JobTests(unittest.TestCase):
             state = jobs.status_job(self.job)
             if state["worker_active"] or state["state"] == "starting":
                 jobs.cancel_job(self.job)
-                self.wait_for(lambda s: s["state"] in jobs.TERMINAL and not s["worker_active"])
+                state = self.wait_for(lambda s: s["state"] in jobs.TERMINAL and not s["worker_active"])
+            wait_for_windows_process_exit(state.get("pid"))
 
     def wait_for(self, predicate, timeout=12):
         deadline = time.monotonic() + timeout
