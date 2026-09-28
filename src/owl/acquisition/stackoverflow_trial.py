@@ -110,7 +110,7 @@ def expand(staging, inspection_path, *, expanded_bytes, scratch_bytes, preview_b
                 row=next(row for row in observed['members'] if row['path']==member['path'])
                 member['sha256']=row['sha256']
                 rows.append({'id':member['id'],**row,'source_id':spec['source_id'],
-                    'relative_path':str(observed['paths'][row['path']].relative_to(path))})
+                    'relative_path':observed['paths'][row['path']].relative_to(path).as_posix()})
         report={'schema_version':1,'kind':'acquisition-shared-expansion','content_ready':False,
             'manifest_sha256':capture._digest(manifest),'source_receipts':bindings,'owner_sha256':capture._digest(owner),
             'build_input_extractions':specs,'input_roles':inspection['input_roles'],'expanded_sources':rows,

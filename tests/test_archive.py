@@ -42,6 +42,13 @@ class ArchiveTests(unittest.TestCase):
         with warnings.catch_warnings(), ZipFile(self.path, 'w', compression=ZIP_DEFLATED) as archive:
             warnings.simplefilter('ignore', UserWarning)
             for name, data in entries:
+                if isinstance(name, str):
+                    # ZipInfo normalizes backslashes on Windows. Keep the exact
+                    # malicious entry name so the audit tests the same archive.
+                    info = ZipInfo(name)
+                    info.filename = name
+                    info.compress_type = ZIP_DEFLATED
+                    name = info
                 archive.writestr(name, data)
 
     def source_asset(self):

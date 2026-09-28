@@ -107,7 +107,7 @@ def _snapshot(job_dir: Path, argv: list[str], *, scripts=False) -> dict:
                 raise SafetyError("Job source/input snapshot exceeds 64 MiB or 10,000 files")
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, destination)
-            manifest[str(destination.relative_to(snapshot))] = sha256_file(destination)
+            manifest[destination.relative_to(snapshot).as_posix()] = sha256_file(destination)
         else:
             raise SafetyError(f"Job input is not a regular file/directory: {source}")
 
@@ -521,7 +521,7 @@ def _run_worker(job_dir: str, run_id: str) -> int:
                             manifest = Path(configuration["manifest"])
                             snapshot_root = job_dir / "snapshot"
                             if (not manifest.is_relative_to(snapshot_root)
-                                    or str(manifest.relative_to(snapshot_root)) not in recipe["snapshot_files"]):
+                                    or manifest.relative_to(snapshot_root).as_posix() not in recipe["snapshot_files"]):
                                 raise SafetyError("Acquisition manifest is outside its verified job snapshot")
                             operation_result = capture(manifest, Path(recipe["target"]),
                                                        progress=progress, **configuration["kwargs"])

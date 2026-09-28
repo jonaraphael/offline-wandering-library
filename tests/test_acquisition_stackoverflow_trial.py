@@ -10,6 +10,7 @@ from unittest.mock import patch
 
 from owl.acquisition import capture, sevenzip, stackoverflow_trial as trial
 from owl.safety import SafetyError
+from tests.process_fixtures import python_script_tool
 
 
 class SharedStackOverflowTests(unittest.TestCase):
@@ -27,7 +28,7 @@ class SharedStackOverflowTests(unittest.TestCase):
                 sevenzip._run([str(self.real_executable),'a','-t7z','-mx=1','-mmt=1','-bd','-y','--',str(source),str(xml)],
                     limit=65536,timeout=20)
             else:source.write_bytes(b'7z\xbc\xaf\x27\x1c'+role.encode())
-            payloads[identity]={'path':name,'data':corpus.sources[role].read_text()}
+            payloads[identity]={'path':name,'data':corpus.sources[role].read_text(encoding='utf-8')}
             sources.append(dict(id=identity,input_role=role,expected_member=name,resource_ids=['stackoverflow-durable','stackoverflow-legacy'],
                 source_url=source.as_uri(),version='synthetic-1',size_bytes=source.stat().st_size,sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
                 metadata_evidence=[{'url':'https://publisher.invalid/metadata','sha256':'a'*64}]))
@@ -39,10 +40,12 @@ class SharedStackOverflowTests(unittest.TestCase):
         executable.write_text('#!'+sys.executable+'\nimport sys,pathlib\npayloads='+repr(payloads)+'\n'+
             'row=payloads[pathlib.Path(sys.argv[-1] if sys.argv[1]=="l" else sys.argv[-2]).name]\n'+
             'if sys.argv[1]=="l": print("Path = "+row["path"]+"\\nSize = "+str(len(row["data"].encode()))+"\\nEncrypted = -\\n")\n'+
-            'else: sys.stdout.buffer.write(row["data"].encode())\n')
+            'else: sys.stdout.buffer.write(row["data"].encode())\n', encoding='utf-8')
         executable.chmod(0o700)
         self.tool=patch.object(sevenzip,'preflight',return_value=str(getattr(self,'real_executable',None) or executable))
         self.tool.start();self.addCleanup(self.tool.stop)
+        if not getattr(self,'real_executable',None):
+            self.enterContext(python_script_tool(executable))
         self.inspection=trial.inspect(self.staging,progress=lambda _:None)
         self.inspection_path=self.root/'inspection.json';self.inspection_path.write_text(json.dumps(self.inspection))
         self.options=dict(expanded_bytes=self.inspection['expanded_bytes'],scratch_bytes=8_000_000,

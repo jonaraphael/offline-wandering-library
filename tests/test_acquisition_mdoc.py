@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 from owl.acquisition import mdoc
 from owl.safety import SafetyError
+from tests.process_fixtures import python_script_tool
 
 
 class ManualRenderingTests(unittest.TestCase):
@@ -123,7 +124,7 @@ class ManualRenderingTests(unittest.TestCase):
         program=self.root/'fixture-renderer'
         program.write_text('#!'+sys.executable+'\nimport sys\nsys.stdout.write("x" * 65536)\n')
         program.chmod(0o700)
-        with patch.object(mdoc.shutil,'which',return_value=str(program)),patch.object(mdoc,'MAX_OUTPUT',1024),self.assertRaisesRegex(SafetyError,'bounded output'):
+        with python_script_tool(program),patch.object(mdoc.shutil,'which',return_value=str(program)),patch.object(mdoc,'MAX_OUTPUT',1024),self.assertRaisesRegex(SafetyError,'bounded output'):
             mdoc._mandoc(self.raw,'Fixture 1')
 
     def test_section_links_require_existing_targets_and_exact_counts(self):

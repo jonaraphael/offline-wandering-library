@@ -1,4 +1,5 @@
 """Exercise bounded 7z process interfaces with synthetic archive/tool fixtures."""
+from contextlib import contextmanager
 import hashlib
 import json
 from pathlib import Path
@@ -9,6 +10,7 @@ from unittest.mock import patch
 
 from owl.acquisition import sevenzip
 from owl.safety import SafetyError
+from tests.process_fixtures import python_script_tool
 
 
 def fixture_tool(root, payloads, *, listing=None, overflow=False, delay=0):
@@ -20,9 +22,15 @@ def fixture_tool(root, payloads, *, listing=None, overflow=False, delay=0):
         'payloads='+repr(payloads)+'\nlisting='+repr(listing)+'\n'+
         'if sys.argv[1]=="l": print(listing)\nelse:\n'+
         f' time.sleep({delay})\n data=payloads[sys.argv[-1]].encode()\n'+
-        (' data+=b"overflow"\n' if overflow else '')+' sys.stdout.buffer.write(data)\n')
+        (' data+=b"overflow"\n' if overflow else '')+' sys.stdout.buffer.write(data)\n', encoding='utf-8')
     executable.chmod(0o700)
     return str(executable)
+
+
+@contextmanager
+def fixture_preflight(executable):
+    with patch.object(sevenzip, 'preflight', return_value=executable), python_script_tool(executable):
+        yield
 
 
 class SevenZipTests(unittest.TestCase):
@@ -42,7 +50,7 @@ class SevenZipTests(unittest.TestCase):
             max_bytes=1000,max_files=10,progress=lambda _:None,**options)
 
     def test_strict_extraction_hashes_and_reuses_complete_members(self):
-        with patch.object(sevenzip,'preflight',return_value=self.tool):
+        with fixture_preflight(self.tool):
             result=self.extract()
             self.assertEqual(result['Posts.xml'].read_text(),self.payloads['Posts.xml'])
             with patch.object(sevenzip,'_run',wraps=sevenzip._run) as run:
@@ -51,16 +59,16 @@ class SevenZipTests(unittest.TestCase):
 
     def test_wrong_member_hash_and_missing_pin_are_rejected(self):
         rows=[{**self.members[0],'sha256':'0'*64}]
-        with patch.object(sevenzip,'preflight',return_value=self.tool),self.assertRaisesRegex(SafetyError,'hash/size'):
+        with fixture_preflight(self.tool),self.assertRaisesRegex(SafetyError,'hash/size'):
             self.extract(rows)
         self.assertFalse((self.output/'files/Posts.xml').exists())
         rows=[{k:v for k,v in self.members[0].items() if k!='sha256'}]
-        with patch.object(sevenzip,'preflight',return_value=self.tool),self.assertRaisesRegex(SafetyError,'requires whole-member'):
+        with fixture_preflight(self.tool),self.assertRaisesRegex(SafetyError,'requires whole-member'):
             self.extract(rows)
 
     def test_observation_is_explicit_and_reusable_without_approval(self):
         rows=[{k:v for k,v in m.items() if k!='sha256'} for m in self.members]
-        with patch.object(sevenzip,'preflight',return_value=self.tool):
+        with fixture_preflight(self.tool):
             result=sevenzip.observe_members(self.source,self.asset,rows,self.output,max_bytes=1000,max_files=10,progress=lambda _:None)
             again=sevenzip.observe_members(self.source,self.asset,rows,self.output,max_bytes=1000,max_files=10,progress=lambda _:None)
         self.assertEqual(result['members'],self.members)
@@ -74,16 +82,16 @@ class SevenZipTests(unittest.TestCase):
                'Path = secret\nSize = 1\nEncrypted = +']
         for listing in cases:
             executable=fixture_tool(self.root,self.payloads,listing=listing)
-            with self.subTest(listing=listing),patch.object(sevenzip,'preflight',return_value=executable),self.assertRaises(SafetyError):
+            with self.subTest(listing=listing),fixture_preflight(executable),self.assertRaises(SafetyError):
                 sevenzip.inspect_archive(self.source,self.asset,max_bytes=1000,max_files=10)
 
     def test_output_and_time_limits_leave_only_owned_partials(self):
         executable=fixture_tool(self.root,self.payloads,overflow=True)
-        with patch.object(sevenzip,'preflight',return_value=executable),self.assertRaisesRegex(SafetyError,'byte bound'):
+        with fixture_preflight(executable),self.assertRaisesRegex(SafetyError,'byte bound'):
             self.extract([self.members[0]])
         self.assertFalse((self.output/'files/Posts.xml').exists())
         executable=fixture_tool(self.root,self.payloads,delay=2)
-        with patch.object(sevenzip,'preflight',return_value=executable),self.assertRaisesRegex(SafetyError,'time limit'):
+        with fixture_preflight(executable),self.assertRaisesRegex(SafetyError,'time limit'):
             self.extract([self.members[0]],timeout=.1)
 
     def test_source_hash_and_zip_interface_are_not_relaxed(self):
@@ -100,7 +108,7 @@ class SevenZipTests(unittest.TestCase):
 
     def test_live_write_guard_stops_before_publishing_or_writing_chunk(self):
         guard=lambda size: (_ for _ in ()).throw(SafetyError('Live reserve exhausted'))
-        with patch.object(sevenzip,'preflight',return_value=self.tool),self.assertRaisesRegex(SafetyError,'reserve exhausted'):
+        with fixture_preflight(self.tool),self.assertRaisesRegex(SafetyError,'reserve exhausted'):
             self.extract([self.members[0]],before_write=guard)
         self.assertFalse((self.output/'files/Posts.xml').exists())
         self.assertEqual(sum(p.stat().st_size for p in (self.output/'.parts').glob('*.part')),0)

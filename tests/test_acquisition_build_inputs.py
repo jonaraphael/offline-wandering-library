@@ -182,7 +182,7 @@ class BuildInputTests(unittest.TestCase):
         self.assertEqual(complete['retained_build_input_bytes'],self.source['size_bytes'])
 
     def sevenzip_recipe(self):
-        from tests.test_acquisition_sevenzip import fixture_tool
+        from tests.test_acquisition_sevenzip import fixture_tool, fixture_preflight
         from owl.acquisition import sevenzip
         archive=self.root/'original.7z'
         archive.write_bytes(b'7z\xbc\xaf\x27\x1cSYNTHETIC PIPELINE FIXTURE')
@@ -197,7 +197,7 @@ class BuildInputTests(unittest.TestCase):
         self.output.update(size_bytes=result.stat().st_size,sha256=hashlib.sha256(result.read_bytes()).hexdigest())
         self.write()
         executable=fixture_tool(self.root,{'original.html':self.original.read_text()})
-        return patch.object(sevenzip,'preflight',return_value=executable),member
+        return fixture_preflight(executable),member
 
     def test_sevenzip_members_are_temporary_pinned_inputs_and_resume(self):
         tool,member=self.sevenzip_recipe()
@@ -237,7 +237,7 @@ class BuildInputTests(unittest.TestCase):
 
     def test_shared_archive_keeps_one_extraction_identity_after_one_recipe_finishes(self):
         from owl.acquisition import sevenzip
-        from tests.test_acquisition_sevenzip import fixture_tool
+        from tests.test_acquisition_sevenzip import fixture_tool, fixture_preflight
         _,first_member=self.sevenzip_recipe()
         second_original=self.root/'second.html'
         second_original.write_text('<article><h1>Second complete source</h1><p>'+('More useful preserved statements. '*10)+'</p></article>')
@@ -260,7 +260,7 @@ class BuildInputTests(unittest.TestCase):
         def interrupted(generator,asset,destination):
             if asset['id']=='second-guide':raise KeyboardInterrupt
             return materialize(generator,asset,destination)
-        with patch.object(sevenzip,'preflight',return_value=executable):
+        with fixture_preflight(executable):
             with patch.object(Generator,'materialize',interrupted),self.assertRaises(KeyboardInterrupt):self.run_build()
             self.assertTrue((self.target/'LIBRARY/REFERENCE/guide.html').is_file())
             work=self.target/'LIBRARY/.owl/work/acquisition-inputs'

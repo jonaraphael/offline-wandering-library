@@ -701,7 +701,7 @@ def preview(staging, recipe_path, assets_path, *, preview_bytes=None, expanded_b
                     "source_url": assets[archive_id]["source_url"], "version": assets[archive_id]["version"],
                     "size_bytes": row["size_bytes"], "sha256": row["sha256"],
                     "destination": "build-inputs/" + member_id}
-                expanded.append({"id": member_id, **row, "relative_path": str(member_path.relative_to(path)), "source_id": archive_id})
+                expanded.append({"id": member_id, **row, "relative_path": member_path.relative_to(path).as_posix(), "source_id": archive_id})
         if any(i not in sources for i in source_ids):
             raise SafetyError("Preview source is not captured or declared as a bounded archive member")
         selected_archives = {s["source_id"] for s in extraction_specs}
@@ -717,7 +717,7 @@ def preview(staging, recipe_path, assets_path, *, preview_bytes=None, expanded_b
         for i in output_ids:
             destination = originals[i].get("destination")
             target = safe_path(preview_dir / "files", destination)
-            relative = str(target.relative_to(path))
+            relative = target.relative_to(path).as_posix()
             _reserve_destination(collisions, relative)
             targets[i] = target
         work = preview_dir / "work"
@@ -765,8 +765,8 @@ def preview(staging, recipe_path, assets_path, *, preview_bytes=None, expanded_b
         companion_records, companion_targets = [], {}
         for source_id in sorted(companions):
             target = safe_path(preview_dir / "files", assets[source_id].get("destination"))
-            _reserve_destination(collisions, str(target.relative_to(path)))
-            _reserve_destination(collisions, str(target.with_name(target.name + ".part").relative_to(path)))
+            _reserve_destination(collisions, target.relative_to(path).as_posix())
+            _reserve_destination(collisions, target.with_name(target.name + ".part").relative_to(path).as_posix())
             companion_targets[source_id] = target
         for source_id, target in companion_targets.items():
             source_asset = assets[source_id]
@@ -784,7 +784,7 @@ def preview(staging, recipe_path, assets_path, *, preview_bytes=None, expanded_b
                 from ..transfer import resume_copy
                 resume_copy(sources[source_id], target, size=source_asset["size_bytes"],
                             checksum=source_asset["sha256"], progress=progress)
-            companion_records.append({"id": source_id, "relative_path": str(target.relative_to(path)),
+            companion_records.append({"id": source_id, "relative_path": target.relative_to(path).as_posix(),
                                       "size_bytes": source_asset["size_bytes"], "sha256": source_asset["sha256"]})
         rendered = adapters[recipe["adapter"]].render(recipe, {i: sources[i] for i in source_ids}, assets, work,
                                                      output_writer=write_output)
@@ -799,14 +799,14 @@ def preview(staging, recipe_path, assets_path, *, preview_bytes=None, expanded_b
                     or pinned.get("size_bytes") is not None and pinned["size_bytes"] != size):
                 raise SafetyError("Preview output differs from its expected pin")
             output_records.append({"id": i, "size_bytes": size, "sha256": sha,
-                                   "relative_path": str(target.relative_to(path))})
+                                   "relative_path": target.relative_to(path).as_posix()})
         load_capture_sources(path)  # Reject sources changed during rendering.
         record = {"schema_version": 1, "status": "preview_awaiting_review", "content_ready": False,
                   "preview_id": identity, "signature": signature, "manifest_sha256": _digest(manifest),
                   "resource_id": recipe["resource_id"], "outputs": output_records, "companions": companion_records, "expanded_sources": expanded,
                   "source_receipts": {r["source_id"]: _digest(r) for r in receipts}}
         if shared_record:
-            record['shared_expansion']={'relative_path':str(Path(shared_expansion).absolute().relative_to(path)),
+            record['shared_expansion']={'relative_path':Path(shared_expansion).absolute().relative_to(path).as_posix(),
                                         'sha256':_digest(shared_record)}
         candidate = {"schema_version": 1, "assets": [], "resource_updates": [],
                      "acquisition_capture": {"capture_id": owner["capture_id"], "manifest_sha256": _digest(manifest)}}
@@ -1106,7 +1106,7 @@ def _preview_zim(path, manifest, receipts, recipe, assets_path, *, preview_bytes
             if any(expected.get(key) is not None and expected[key] != asset[key] for key in ("sha256", "size_bytes")):
                 raise SafetyError("ZIM preview output differs from expected reviewed pins")
             target = safe_path(export_root, asset["destination"])
-            outputs.append({"id": aid, "relative_path": str(target.relative_to(path)),
+            outputs.append({"id": aid, "relative_path": target.relative_to(path).as_posix(),
                             "size_bytes": asset["size_bytes"], "sha256": asset["sha256"]})
             output_paths[aid] = asset["destination"]
             candidate_assets.append({**asset, "id": aid, "source_url": source["source_url"],

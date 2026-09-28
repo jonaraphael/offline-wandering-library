@@ -1,6 +1,7 @@
 """Synthetic pinned XML/media fixtures exercise bounded, offline adapters."""
 from __future__ import annotations
 
+from contextlib import closing
 from copy import deepcopy
 import json
 from pathlib import Path
@@ -51,7 +52,7 @@ class CorpusTests(unittest.TestCase):
     def test_accepted_zero_two_alternatives_comments_attribution_and_semantics(self):
         result = self.render()
         self.assertEqual(set(result), {"question_10"})
-        body = result["question_10"].read_text()
+        body = result["question_10"].read_text(encoding="utf-8")
         for value in ("Answer 20", "Answer 21", "Answer 22", "Correction:", "Ada", "Grace", "CC BY-SA 3.0", "2014-02-03", "<table>", "<math>", "<mfrac>"):
             self.assertIn(value, body)
         for value in ("Answer 23", "Answer 24", "Thanks!", corpus.LEGACY_WARNING):
@@ -74,7 +75,7 @@ class CorpusTests(unittest.TestCase):
         self.write_xml("links", [{"Id": "1", "PostId": "11", "RelatedPostId": "10", "LinkTypeId": "3"}])
         self.recipe["selection"]["questions"].append({"id": 11, "bucket": "legacy"})
         self.output["legacy"] = True
-        body = self.render()["question_10"].read_text()
+        body = self.render()["question_10"].read_text(encoding="utf-8")
         self.assertIn(corpus.LEGACY_WARNING, body)
         self.assertIn("Canonical question for duplicates", body)
         self.assertIn("https://stackoverflow.com/q/11", body)
@@ -112,7 +113,7 @@ class CorpusTests(unittest.TestCase):
         self.write_xml('links',[{'Id':str(index),'PostId':'99','RelatedPostId':str(target),'LinkTypeId':'3'}
             for index,target in enumerate((100,101,101),1)])
         self.assertIn('question_10',self.render())
-        with sqlite3.connect(self.output_dir/'corpus-work/index.sqlite') as db:
+        with closing(sqlite3.connect(self.output_dir/'corpus-work/index.sqlite')) as db:
             self.assertEqual(db.execute('SELECT id,target FROM links ORDER BY id,target').fetchall(),[(99,100),(99,101)])
 
     def test_selected_duplicate_ambiguity_reports_affected_chain_and_targets(self):
@@ -155,7 +156,7 @@ class CorpusTests(unittest.TestCase):
         self.source("diagram", b"synthetic png", "REFERENCE/PROGRAMMING/diagram.png")
         self.recipe["source_asset_ids"].append("diagram")
         self.recipe["selection"]["dependencies"] = {"https://images.invalid/diagram.png": "diagram"}
-        body = self.render()["question_10"].read_text()
+        body = self.render()["question_10"].read_text(encoding="utf-8")
         self.assertIn('src="diagram.png"', body)
         self.assertIn("Original figure caption", body)
 
@@ -176,7 +177,7 @@ class CorpusTests(unittest.TestCase):
         with patch.object(corpus, "xml_rows", side_effect=interrupted):
             with self.assertRaises(KeyboardInterrupt):
                 self.render()
-        with sqlite3.connect(self.output_dir / "corpus-work/index.sqlite") as db:
+        with closing(sqlite3.connect(self.output_dir / "corpus-work/index.sqlite")) as db:
             self.assertEqual(db.execute("SELECT role FROM checkpoints").fetchall(), [("links",)])
             self.assertEqual(db.execute("SELECT count(*) FROM posts").fetchone()[0], 0)
         def no_links(path):
@@ -243,7 +244,7 @@ class LessonsTests(unittest.TestCase):
     def test_media_is_linked_without_full_memory_read_or_duplicate_copy(self):
         with patch.object(Path, "read_bytes", side_effect=AssertionError("whole file read")):
             outputs = lessons.render(self.lesson_recipe, self.sources, self.assets, self.root / "lessons")
-        body = outputs["fractions_html"].read_text()
+        body = outputs["fractions_html"].read_text(encoding="utf-8")
         for value in ('<video controls', 'src="media.mp4"', 'src="data:text/vtt;base64,', 'href="captions.vtt"', 'src="figure.png"', "Complete caption text.", "Original lesson authors", "<table>"):
             self.assertIn(value, body)
         self.assertEqual(list((self.root / "lessons").rglob("*.mp4")), [])
@@ -276,7 +277,7 @@ class PhetTests(unittest.TestCase):
             command = ["node", str(script), "--manifest", str(manifest), "--root", str(root), "--output", str(report), "--validate-only"]
             run = subprocess.run(command, capture_output=True, text=True)
             self.assertEqual(run.returncode, 0, run.stderr)
-            result = json.loads(report.read_text())
+            result = json.loads(report.read_text(encoding="utf-8"))
             self.assertEqual(result["browser_qa"], "pending")
             self.assertEqual(result["physical_device_certification"], "pending")
             self.assertNotIn("success", result)

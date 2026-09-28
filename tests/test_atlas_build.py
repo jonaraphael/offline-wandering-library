@@ -77,7 +77,9 @@ class AtlasBuildTests(Fixture):
             data = text.encode("utf-8")
             (self.library / relative).write_bytes(data)
             report["file_integrity"][relative] = {"sha256": hashlib.sha256(data).hexdigest(), "size_bytes": len(data)}
-        (self.library / "SEARCH/coverage.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        # Match production's byte writes; CRLF expansion would give the old UI
+        # extra budget on Windows and hide the intended over-budget refresh.
+        (self.library / "SEARCH/coverage.json").write_bytes((json.dumps(report, indent=2) + "\n").encode("utf-8"))
         (self.library / "INVENTORY.json").write_text(json.dumps(inventory), encoding="utf-8")
         info = json.loads((self.library / "BUILD_INFO.json").read_text(encoding="utf-8"))
         info["search"] = report

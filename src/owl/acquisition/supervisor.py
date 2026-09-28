@@ -153,7 +153,7 @@ class Supervisor:
             if recipe.get('kind')!='acquisition':raise SafetyError('Capture task cannot resume a production build')
             batch=self.batches[task['batch']];config=recipe['acquisition'];kw=config['kwargs']
             frozen=Path(config['manifest']);reject_symlinks(frozen)
-            relative=str(frozen.relative_to(path/'snapshot'))
+            relative=frozen.relative_to(path/'snapshot').as_posix()
             if recipe['snapshot_files'].get(relative)!=sha256_file(frozen):raise SafetyError('Frozen capture manifest changed')
             options={'profile':batch.get('profile'),'resource_ids':batch.get('resource_ids',[])}
             if _digest(load_manifest(frozen,profile=kw.get('profile'),resource_ids=kw.get('resource_ids',[])))!=_digest(load_manifest(safe_path(self.workspace,batch['manifest']),**options)):
