@@ -36,7 +36,7 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
         row["preset_resource_ids"] = profile.get("default_resources", [identity for identity, resource in resources.items()
             if pinned & resource_asset_ids(resource)])
         visible.append(row)
-    fields = ("id", "title", "category", "utility_tier", "utility_reason", "knowledge_domains", "status", "size_bytes", "sha256", "format", "destination", "critical", "required",
+    fields = ("id", "title", "category", "utility_tier", "utility_reason", "knowledge_domains", "status", "size_bytes", "uncompressed_size_bytes", "sha256", "format", "destination", "critical", "required",
               "reader_required", "resource_type", "illustrated", "profiles", "supporting_file", "archive_member", "generation", "generation_source_asset_ids",
               "generation_source_resource_ids", "generation_build_inputs", "generation_build_input_members", "generation_build_input_metadata_bytes")
     # Reuse validated pseudoindex metadata; no source document is opened.

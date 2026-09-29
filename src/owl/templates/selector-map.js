@@ -50,9 +50,44 @@
     const topic=primary(row,verticals);
     return Boolean(topic && topic.vertical===scope.vertical && (!scope.domain || subtopic(row,verticals).id===scope.domain));
   }
-  function layout(model, mode, scope={}) {
+  function contentSize(asset) {
+    if(Number.isFinite(asset.uncompressed_size_bytes)&&asset.uncompressed_size_bytes>=0)
+      return {bytes:asset.uncompressed_size_bytes,estimated:false,basis:'Cataloged uncompressed size'};
+    if(!Number.isFinite(asset.size_bytes)||asset.size_bytes<0)return {bytes:null,estimated:false,basis:'Size unknown'};
+    // Explicit planning heuristics, not measured compression ratios. Ordinary
+    // files (including extracted PDFs) retain their original encoding and size.
+    const factor={zim:3,zip:2,appimage:2,dmg:2,apk:2}[asset.format]||1;
+    return {bytes:Math.round(asset.size_bytes*factor),estimated:factor!==1,
+      basis:factor===1?'Original file size':factor+'× stored size; rough '+asset.format.toUpperCase()+' expansion assumption'};
+  }
+  function storageGroups(model, selectedIds, matchingIds, scope={}) {
+    const groups=new Map();
+    // Walk unique assets, not resource memberships: shared files occupy space once.
+    for(const asset of model.assets) {
+      if(!matchingIds.has(asset.id)||!matches(asset,model.topic_verticals,scope))continue;
+      const topic=primary(asset,model.topic_verticals);
+      if(!topic)continue;
+      const leaf=subtopic(asset,model.topic_verticals);
+      const id=scope.vertical?leaf.id:topic.vertical;
+      if(!groups.has(id))groups.set(id,{id,
+        title:scope.vertical?leaf.title:model.topic_verticals.find(v=>v.id===id).title,
+        scope:scope.vertical?{vertical:topic.vertical,domain:leaf.id}:{vertical:topic.vertical},
+        bytes:0,storedBytes:0,estimated:0,unknown:0,assets:[]});
+      if(!selectedIds.has(asset.id))continue;
+      const group=groups.get(id);
+      group.assets.push(asset);
+      const size=contentSize(asset);
+      if(size.bytes!==null)group.bytes+=size.bytes;
+      else group.unknown++;
+      if(size.estimated)group.estimated++;
+      if(Number.isFinite(asset.size_bytes)&&asset.size_bytes>=0)group.storedBytes+=asset.size_bytes;
+    }
+    for(const group of groups.values())group.assets.sort((a,b)=>(contentSize(b).bytes||0)-(contentSize(a).bytes||0)||a.id.localeCompare(b.id));
+    return [...groups.values()].sort((a,b)=>b.bytes-a.bytes||a.title.localeCompare(b.title));
+  }
+  function layout(model, scope={}) {
     const verticals=scope.vertical ? model.topic_verticals.filter(v=>v.id===scope.vertical).map(v=>({...v,x:475,y:425,radius:390})) : model.topic_verticals;
-    const records=(mode==='collections' ? model.resources : model.assets).filter(row=>matches(row,model.topic_verticals,scope));
+    const records=model.assets.filter(row=>matches(row,model.topic_verticals,scope));
     const groups=new Map(verticals.map(v=>[v.id,new Map()]));
     for (const row of records) {
       const topic=primary(row,verticals);
@@ -73,7 +108,7 @@
           const distance=group.rows.length===1 ? 0 : Math.sqrt((i+.4)/group.rows.length)*Math.max(0,r-(scope.vertical&&!scope.domain?48:6));
           const theta=i*Math.PI*(3-Math.sqrt(5));
           nodes.push({id:record.id, record, vertical:vertical.id, domain:primary(record,verticals).domain,
-            x:cx+distance*Math.cos(theta),y:cy+distance*Math.sin(theta)+(scope.vertical&&!scope.domain?12:0),r:mode==='collections'?7:Math.max(2.5,Math.min(5.5,scale*3.5))});
+            x:cx+distance*Math.cos(theta),y:cy+distance*Math.sin(theta)+(scope.vertical&&!scope.domain?12:0),r:Math.max(2.5,Math.min(5.5,scale*3.5))});
         });
       }
     }
@@ -81,13 +116,13 @@
   }
   function mount(container, model, onInspect, onScope) {
     const ns='http://www.w3.org/2000/svg';
-    let mode='assets', drawn, current=null, scope={}, filter=()=>true;
+    let drawn, current=null, scope={}, filter=()=>true;
     function svgEl(tag,attrs,content) {const e=document.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))e.setAttribute(k,v);if(content)e.textContent=content;return e;}
     const svg=svgEl('svg',{viewBox:'0 0 950 850',role:'group','aria-label':'Knowledge topic map. Arrow keys move among visible items; Enter inspects an item.'});
     container.replaceChildren(svg);
     let elements=[], topicElements=[];
     function draw() {
-      drawn=layout(model,mode,{vertical:scope.vertical});svg.replaceChildren();elements=[];topicElements=[];
+      drawn=layout(model,{vertical:scope.vertical});svg.replaceChildren();elements=[];topicElements=[];
       function drillGroup(shape,label,attrs,next) {
         const group=svgEl('g',{role:'button',tabindex:0,'aria-label':label,...attrs,class:'map-drill'});
         group.append(shape);
@@ -140,7 +175,7 @@
         group.setAttribute('aria-pressed',String(active));
       }
     }
-    function inspect(node,e){current=node.id;elements.forEach(item=>item.e.classList.toggle('map-focused',item.node.id===current));onInspect(node.record,mode);}
+    function inspect(node,e){current=node.id;elements.forEach(item=>item.e.classList.toggle('map-focused',item.node.id===current));onInspect(node.record);}
     function update(selected, visible) {
       filter=visible;
       let first=true;
@@ -155,8 +190,7 @@
       return elements.filter(({node})=>visible(node.record)).length;
     }
     draw();
-    return {setMode(value){if(mode!==value){mode=value;current=null;draw();highlightScope();}},
-      setScope(value){const changed=scope.vertical!==value.vertical;scope={...value};current=null;if(changed)draw();highlightScope();},update};
+    return {setScope(value){const changed=scope.vertical!==value.vertical;scope={...value};current=null;if(changed)draw();highlightScope();},update};
   }
-  root.OWLTopicMap={layout,primary,subtopic,searchText,topicTitle,matches,available,mount};
+  root.OWLTopicMap={layout,primary,subtopic,searchText,topicTitle,matches,contentSize,storageGroups,available,mount};
 })(typeof globalThis!=='undefined'?globalThis:this);

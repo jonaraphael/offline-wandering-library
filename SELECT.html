@@ -8,7 +8,7 @@
 <title>Choose your library · Offline Wandering Library</title>
 <style>
 :root{color-scheme:light;--paper:#f4f3ed;--surface:#fffefa;--ink:#202e2a;--muted:#5b6b63;--line:#d7ddd3;--green:#285941;--green-soft:#e9f0e7;--amber:#825315;--amber-soft:#fff1d6;--red:#983e32;--red-soft:#ffede7;--focus:#c26825;font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink)}[hidden]{display:none!important}a{color:var(--green)}button,input,select,textarea{font:inherit;color:inherit}button,input,select,textarea,summary,a{touch-action:manipulation}button,select,input[type=checkbox]{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.52}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--focus);outline-offset:3px}button{min-height:44px;border:1px solid var(--line);border-radius:9px;background:var(--surface);padding:.65rem .95rem;font-weight:650}button:hover:not(:disabled){border-color:var(--green);background:var(--green-soft)}button.primary{background:var(--green);color:#fff;border-color:var(--green)}button.primary:hover:not(:disabled){background:#1d4531}input[type=text],input[type=search],select,textarea{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:.7rem .8rem;min-height:44px}input[type=checkbox]{width:1.15rem;height:1.15rem;flex:0 0 auto;margin:.2rem 0;accent-color:var(--green)}textarea{font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;resize:vertical;min-height:7.5rem;overflow-wrap:anywhere;white-space:pre-wrap}label{cursor:pointer}h1,h2,h3,p{margin:0}h1{font:clamp(2.1rem,5vw,3.6rem)/1.07 Georgia,"Times New Roman",serif;letter-spacing:-.035em;max-width:18ch}h2{font-size:1.25rem;line-height:1.3}h3{font-size:1.04rem;line-height:1.4}small,.small{font-size:.82rem}.muted{color:var(--muted)}.eyebrow{font-size:.74rem;text-transform:uppercase;letter-spacing:.13em;font-weight:750;color:var(--green)}.skip{position:absolute;left:1rem;top:-6rem;background:var(--surface);padding:.7rem;z-index:10}.skip:focus{top:.5rem}.wrap{width:min(1180px,calc(100% - 3rem));margin:auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.35rem 0;border-bottom:1px solid var(--line)}.brand{display:flex;gap:.65rem;align-items:center;font-weight:750;letter-spacing:-.015em}.owl-mark{width:2.45rem;height:2.45rem;border:1px solid var(--green);border-radius:50%;display:grid;place-items:center;color:var(--green);font:700 .82rem Georgia,serif}.toplinks{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;font-size:.85rem}.offline-pill{display:inline-flex;align-items:center;gap:.45rem;background:var(--green-soft);border-radius:20px;padding:.35rem .7rem;font-size:.74rem;color:var(--green);font-weight:650}.offline-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:3rem;padding:3rem 0 2rem}.hero .eyebrow{margin-bottom:.85rem}.hero-description{max-width:24rem;color:var(--muted);font-size:1rem;line-height:1.65}.hero-description strong{color:var(--ink);font-weight:600}.presets{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.6rem;margin:1rem 0}.preset{text-align:left;min-height:75px;padding:.8rem 1rem;border-color:#cbd4c7}.preset strong{display:block;font-size:1.12rem;letter-spacing:-.025em}.preset span{display:block;font-size:.7rem;font-weight:450;color:var(--muted);margin-top:.18rem}.preset[aria-pressed=true]{border:2px solid var(--green);padding:calc(.8rem - 1px) calc(1rem - 1px);background:var(--green-soft)}.section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap}.step{display:inline-grid;place-items:center;width:1.6rem;height:1.6rem;border:1px solid var(--green);border-radius:50%;font-size:.8rem;color:var(--green);margin-right:.45rem;vertical-align:middle}.quiet-button{border:0;background:transparent;padding:.4rem 0;font-size:.8rem;min-height:36px;text-decoration:underline;text-underline-offset:3px}.preset-note{font-size:.8rem;color:var(--muted);margin-bottom:1.7rem}.layout{display:grid;grid-template-columns:minmax(0,1fr) 345px;gap:1.4rem;align-items:start;padding-bottom:2rem}.panel{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:1.25rem}.setup{margin-bottom:1.4rem}.setup h2{margin-bottom:1.1rem}.field-grid{display:grid;grid-template-columns:minmax(0,1fr) 180px;gap:.9rem}.field-label{display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem}.field-help{font-size:.77rem;color:var(--muted);margin-top:.45rem}.options{display:grid;gap:.7rem;margin-top:1.1rem;padding-top:1rem;border-top:1px solid var(--line)}.check-label{display:flex;align-items:flex-start;gap:.65rem;font-size:.87rem;line-height:1.5;min-height:32px}.check-label small{display:block;color:var(--muted);font-size:.76rem;font-weight:400}.filterbar{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.9rem;margin:1rem 0 .6rem}.filterbar .check-label{font-size:.8rem;align-items:center;white-space:nowrap}.list-note{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.75rem;color:var(--muted);margin-bottom:.85rem}.resources{display:grid;gap:.7rem}.resource{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:1.1rem}.resource.is-selected{border-left:3px solid var(--green);padding-left:calc(1.1rem - 2px)}.resource-top{display:flex;gap:.8rem;align-items:flex-start}.resource-title{flex:1;min-width:0}.resource-title label{display:block}.resource-number{font-size:.72rem;font-weight:650;color:var(--muted);margin-bottom:.17rem}.resource-id{font:11px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--muted);overflow-wrap:anywhere;margin-top:.3rem}.badge{font-size:.66rem;font-weight:750;white-space:nowrap;border-radius:20px;padding:.27rem .5rem;background:var(--paper);color:var(--muted)}.badge.ready{background:var(--green-soft);color:var(--green)}.badge.partial,.badge.unresolved{background:var(--amber-soft);color:var(--amber)}.resource-body{margin:.95rem 0 0 1.95rem}.resource-numbers{display:flex;gap:1.1rem;flex-wrap:wrap;font-size:.75rem;color:var(--muted);margin-top:.65rem}.resource-numbers strong{display:block;font-size:.92rem;color:var(--ink);font-variant-numeric:tabular-nums}.edition-label{font-size:.72rem;font-weight:650;margin-bottom:.3rem;display:block}.edition-select{font-size:.82rem;padding:.5rem .6rem;min-height:40px}.source-reason,.dependency-note{font-size:.77rem;color:var(--muted);margin-top:.65rem;overflow-wrap:anywhere}.dependency-note{color:var(--green);font-weight:600}.scope-details{font-size:.8rem;border-top:1px solid var(--line);margin-top:.85rem;padding-top:.65rem}.scope-details summary{cursor:pointer;font-weight:650;padding:.2rem 0;min-height:32px}.scope-details ul{padding-left:1.2rem;margin:.45rem 0}.scope-details li+li{margin-top:.3rem}.scope-details p{margin-top:.45rem}.sidebar{position:sticky;top:1rem;display:grid;gap:.9rem;max-height:calc(100vh - 2rem);overflow-y:auto;scrollbar-gutter:stable}.summary-panel{border-top:3px solid var(--green);padding-top:1.15rem}.summary-heading{display:flex;align-items:baseline;justify-content:space-between;gap:.8rem;margin-bottom:1rem}.capacity{font-size:.75rem;color:var(--muted);white-space:nowrap}.primary-stat{margin:.75rem 0 1rem}.primary-stat dt{font-size:.76rem;color:var(--muted)}.primary-stat dd{margin:.15rem 0 0;font-size:2.25rem;line-height:1.2;font-weight:650;letter-spacing:-.06em;font-variant-numeric:tabular-nums}.stat-caption{font-size:.72rem;color:var(--muted);margin-top:.3rem}.storage-meter{height:9px;border-radius:8px;overflow:hidden;background:var(--paper);margin-top:.75rem}.storage-meter span{display:block;height:100%;width:0;background:var(--green);transition:width .15s ease-out}.storage-meter.over span{background:var(--red)}.estimate-list{margin:1rem 0 0}.estimate-row{display:flex;justify-content:space-between;gap:1rem;font-size:.77rem;padding:.4rem 0}.estimate-row dt{color:var(--muted)}.estimate-row dd{margin:0;font-variant-numeric:tabular-nums;font-weight:650;text-align:right;white-space:nowrap}.estimate-row.total{border-top:1px solid var(--line);margin-top:.35rem;padding-top:.7rem;font-size:.87rem}.estimate-row.total dt{font-weight:700;color:var(--ink)}.estimate-row.peak{background:var(--green-soft);border-radius:7px;padding:.65rem;margin:.4rem -.1rem 0}.estimate-foot{font-size:.72rem;color:var(--muted);margin-top:.75rem}.status-box{border-radius:8px;padding:.9rem;margin-top:1rem;border:1px solid var(--line);background:var(--green-soft);font-size:.8rem}.status-box strong{display:block;font-size:.87rem;margin-bottom:.25rem}.status-box.warning{background:var(--amber-soft);border-color:#e3cda6}.status-box.error{background:var(--red-soft);border-color:#e9bdb1}.status-box ul{padding-left:1.15rem;margin:.5rem 0 0}.status-box li+li{margin-top:.3rem}.warning-details{margin-top:.7rem;font-size:.77rem}.warning-details summary{cursor:pointer;min-height:35px;padding:.3rem 0}.warning-details ul{padding-left:1.15rem;margin:.35rem 0}.commands{display:grid;gap:.85rem}.commands h2{margin-bottom:.2rem}.command-label{display:flex;justify-content:space-between;gap:.6rem;margin-bottom:.4rem;font-size:.77rem;font-weight:700}.command-label span{font-weight:450;color:var(--muted)}.command-actions{display:flex;gap:.5rem;margin-top:.5rem}.command-actions button{width:100%;font-size:.8rem}.command-help{font-size:.74rem;color:var(--muted)}.copy-feedback{font-size:.76rem;min-height:1.1rem;color:var(--green);overflow-wrap:anywhere}.empty{padding:2rem;border:1px dashed var(--line);border-radius:10px;color:var(--muted);text-align:center}.fatal{padding:1rem;border:1px solid var(--red);background:var(--red-soft);border-radius:9px;margin:1rem 0}.footer{border-top:1px solid var(--line);padding:1.3rem 0 2rem;color:var(--muted);font-size:.74rem;display:flex;gap:1rem;justify-content:space-between;flex-wrap:wrap}.hash{font:10px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;max-width:30rem}.noscript{padding:1rem;border:1px solid var(--amber);background:var(--amber-soft);margin:1rem 0}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink)}[hidden]{display:none!important}a{color:var(--green)}button,input,select,textarea{font:inherit;color:inherit}button,input,select,textarea,summary,a{touch-action:manipulation}button,select,input[type=checkbox]{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.52}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--focus);outline-offset:3px}button{min-height:44px;border:1px solid var(--line);border-radius:9px;background:var(--surface);padding:.65rem .95rem;font-weight:650}button:hover:not(:disabled){border-color:var(--green);background:var(--green-soft)}button.primary{background:var(--green);color:#fff;border-color:var(--green)}button.primary:hover:not(:disabled){background:#1d4531}input[type=text],input[type=search],select,textarea{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:.7rem .8rem;min-height:44px}input[type=checkbox]{width:1.15rem;height:1.15rem;flex:0 0 auto;margin:.2rem 0;accent-color:var(--green)}textarea{font:13px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;resize:vertical;min-height:7.5rem;overflow-wrap:anywhere;white-space:pre-wrap}label{cursor:pointer}h1,h2,h3,p{margin:0}h1{font:clamp(2.1rem,5vw,3.6rem)/1.07 Georgia,"Times New Roman",serif;letter-spacing:-.035em;max-width:18ch}h2{font-size:1.25rem;line-height:1.3}h3{font-size:1.04rem;line-height:1.4}small,.small{font-size:.82rem}.muted{color:var(--muted)}.eyebrow{font-size:.74rem;text-transform:uppercase;letter-spacing:.13em;font-weight:750;color:var(--green)}.skip{position:absolute;left:1rem;top:-6rem;background:var(--surface);padding:.7rem;z-index:10}.skip:focus{top:.5rem}.wrap{width:min(1180px,calc(100% - 3rem));margin:auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.35rem 0;border-bottom:1px solid var(--line)}.brand{display:flex;gap:.65rem;align-items:center;font-weight:750;letter-spacing:-.015em}.owl-mark{width:2.45rem;height:2.45rem;border:1px solid var(--green);border-radius:50%;display:grid;place-items:center;color:var(--green);font:700 .82rem Georgia,serif}.toplinks{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;font-size:.85rem}.offline-pill{display:inline-flex;align-items:center;gap:.45rem;background:var(--green-soft);border-radius:20px;padding:.35rem .7rem;font-size:.74rem;color:var(--green);font-weight:650}.offline-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}.hero{display:flex;justify-content:space-between;align-items:flex-end;gap:3rem;padding:3rem 0 2rem}.hero .eyebrow{margin-bottom:.85rem}.hero-description{max-width:24rem;color:var(--muted);font-size:1rem;line-height:1.65}.hero-description strong{color:var(--ink);font-weight:600}.presets{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.6rem;margin:1rem 0}.preset{text-align:left;min-height:75px;padding:.8rem 1rem;border-color:#cbd4c7}.preset strong{display:block;font-size:1.12rem;letter-spacing:-.025em}.preset span{display:block;font-size:.7rem;font-weight:450;color:var(--muted);margin-top:.18rem}.preset[aria-pressed=true]{border:2px solid var(--green);padding:calc(.8rem - 1px) calc(1rem - 1px);background:var(--green-soft)}.section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap}.step{display:inline-grid;place-items:center;width:1.6rem;height:1.6rem;border:1px solid var(--green);border-radius:50%;font-size:.8rem;color:var(--green);margin-right:.45rem;vertical-align:middle}.quiet-button{border:0;background:transparent;padding:.4rem 0;font-size:.8rem;min-height:36px;text-decoration:underline;text-underline-offset:3px}.preset-note{font-size:.8rem;color:var(--muted);margin-bottom:1.7rem}.layout{display:grid;grid-template-columns:minmax(0,1fr) 345px;gap:1.4rem;align-items:start;padding-bottom:2rem}.panel{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:1.25rem}.field-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:.9rem}.field-label{display:block;font-size:.8rem;font-weight:700;margin-bottom:.4rem}.field-help{font-size:.77rem;color:var(--muted);margin-top:.45rem}.options{display:grid;gap:.7rem;margin-top:1.1rem;padding-top:1rem;border-top:1px solid var(--line)}.check-label{display:flex;align-items:flex-start;gap:.65rem;font-size:.87rem;line-height:1.5;min-height:32px}.check-label small{display:block;color:var(--muted);font-size:.76rem;font-weight:400}.filterbar{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:.9rem;margin:1rem 0 .6rem}.filterbar .check-label{font-size:.8rem;align-items:center;white-space:nowrap}.list-note{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.75rem;color:var(--muted);margin-bottom:.85rem}.resources{display:grid;gap:.7rem}.resource{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:1.1rem}.resource.is-selected{border-left:3px solid var(--green);padding-left:calc(1.1rem - 2px)}.resource-top{display:flex;gap:.8rem;align-items:flex-start}.resource-title{flex:1;min-width:0}.resource-title label{display:block}.resource-number{font-size:.72rem;font-weight:650;color:var(--muted);margin-bottom:.17rem}.resource-id{font:11px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--muted);overflow-wrap:anywhere;margin-top:.3rem}.badge{font-size:.66rem;font-weight:750;white-space:nowrap;border-radius:20px;padding:.27rem .5rem;background:var(--paper);color:var(--muted)}.badge.ready{background:var(--green-soft);color:var(--green)}.badge.partial,.badge.unresolved{background:var(--amber-soft);color:var(--amber)}.resource-body{margin:.95rem 0 0 1.95rem}.resource-numbers{display:flex;gap:1.1rem;flex-wrap:wrap;font-size:.75rem;color:var(--muted);margin-top:.65rem}.resource-numbers strong{display:block;font-size:.92rem;color:var(--ink);font-variant-numeric:tabular-nums}.edition-label{font-size:.72rem;font-weight:650;margin-bottom:.3rem;display:block}.edition-select{font-size:.82rem;padding:.5rem .6rem;min-height:40px}.source-reason,.dependency-note{font-size:.77rem;color:var(--muted);margin-top:.65rem;overflow-wrap:anywhere}.dependency-note{color:var(--green);font-weight:600}.scope-details{font-size:.8rem;border-top:1px solid var(--line);margin-top:.85rem;padding-top:.65rem}.scope-details summary{cursor:pointer;font-weight:650;padding:.2rem 0;min-height:32px}.scope-details ul{padding-left:1.2rem;margin:.45rem 0}.scope-details li+li{margin-top:.3rem}.scope-details p{margin-top:.45rem}.sidebar{position:sticky;top:1rem;display:grid;gap:.9rem;max-height:calc(100vh - 2rem);overflow-y:auto;scrollbar-gutter:stable}.summary-panel{border-top:3px solid var(--green);padding-top:1.15rem}.summary-heading{display:flex;align-items:baseline;justify-content:space-between;gap:.8rem;margin-bottom:1rem}.capacity{font-size:.75rem;color:var(--muted);white-space:nowrap}.primary-stat{margin:.75rem 0 1rem}.primary-stat dt{font-size:.76rem;color:var(--muted)}.primary-stat dd{margin:.15rem 0 0;font-size:2.25rem;line-height:1.2;font-weight:650;letter-spacing:-.06em;font-variant-numeric:tabular-nums}.stat-caption{font-size:.72rem;color:var(--muted);margin-top:.3rem}.storage-meter{height:9px;border-radius:8px;overflow:hidden;background:var(--paper);margin-top:.75rem}.storage-meter span{display:block;height:100%;width:0;background:var(--green);transition:width .15s ease-out}.storage-meter.over span{background:var(--red)}.estimate-list{margin:1rem 0 0}.estimate-row{display:flex;justify-content:space-between;gap:1rem;font-size:.77rem;padding:.4rem 0}.estimate-row dt{color:var(--muted)}.estimate-row dd{margin:0;font-variant-numeric:tabular-nums;font-weight:650;text-align:right;white-space:nowrap}.estimate-row.total{border-top:1px solid var(--line);margin-top:.35rem;padding-top:.7rem;font-size:.87rem}.estimate-row.total dt{font-weight:700;color:var(--ink)}.estimate-row.peak{background:var(--green-soft);border-radius:7px;padding:.65rem;margin:.4rem -.1rem 0}.estimate-foot{font-size:.72rem;color:var(--muted);margin-top:.75rem}.status-box{border-radius:8px;padding:.9rem;margin-top:1rem;border:1px solid var(--line);background:var(--green-soft);font-size:.8rem}.status-box strong{display:block;font-size:.87rem;margin-bottom:.25rem}.status-box.warning{background:var(--amber-soft);border-color:#e3cda6}.status-box.error{background:var(--red-soft);border-color:#e9bdb1}.status-box ul{padding-left:1.15rem;margin:.5rem 0 0}.status-box li+li{margin-top:.3rem}.warning-details{margin-top:.7rem;font-size:.77rem}.warning-details summary{cursor:pointer;min-height:35px;padding:.3rem 0}.warning-details ul{padding-left:1.15rem;margin:.35rem 0}.commands{display:grid;gap:.85rem}.commands h2{margin-bottom:.2rem}.command-label{display:flex;justify-content:space-between;gap:.6rem;margin-bottom:.4rem;font-size:.77rem;font-weight:700}.command-label span{font-weight:450;color:var(--muted)}.command-actions{display:flex;gap:.5rem;margin-top:.5rem}.command-actions button{width:100%;font-size:.8rem}.command-help{font-size:.74rem;color:var(--muted)}.copy-feedback{font-size:.76rem;min-height:1.1rem;color:var(--green);overflow-wrap:anywhere}.empty{padding:2rem;border:1px dashed var(--line);border-radius:10px;color:var(--muted);text-align:center}.fatal{padding:1rem;border:1px solid var(--red);background:var(--red-soft);border-radius:9px;margin:1rem 0}.footer{border-top:1px solid var(--line);padding:1.3rem 0 2rem;color:var(--muted);font-size:.74rem;display:flex;gap:1rem;justify-content:space-between;flex-wrap:wrap}.hash{font:10px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;max-width:30rem}.noscript{padding:1rem;border:1px solid var(--amber);background:var(--amber-soft);margin:1rem 0}
 .mobile-budget{display:none}.format-scope{font-size:.73rem;font-weight:650;color:var(--green);margin-bottom:.55rem}.coverage-summary{font-size:.85rem;margin:-.8rem 0 1.5rem;color:var(--green);font-weight:650}.storage-meter{display:flex}.storage-meter span{flex-shrink:0}.storage-meter .reserve-fill{background:var(--muted);opacity:.45}.meter-caption{font-size:.72rem;color:var(--muted);margin:.4rem 0}.coverage-counts{font-size:.8rem;margin:.8rem 0}.category-list{padding-left:1.1rem;max-height:16rem;overflow:auto}.category-list li{margin:.35rem 0}.gap-notice{margin:.8rem 0}.unmet-row dd{color:var(--amber)}
 @media(max-width:950px){.layout{grid-template-columns:minmax(0,1fr) 310px;gap:1rem}.hero{gap:1.5rem}.hero-description{max-width:20rem}.panel{padding:1rem}.field-grid{grid-template-columns:1fr}.resource-body{margin-left:0}.preset{padding:.7rem}.preset[aria-pressed=true]{padding:calc(.7rem - 1px)}}
 @media(max-width:760px){.wrap{width:min(100% - 2rem,580px)}.topbar{padding:1rem 0}.brand{font-size:.85rem}.toplinks .offline-pill{display:none}.hero{display:block;padding:2rem 0 1.5rem}.hero-description{max-width:unset;margin-top:1.1rem;font-size:.93rem}.hero h1{max-width:19ch}.layout{grid-template-columns:1fr}.sidebar{position:static;grid-row:2;max-height:none;overflow:visible;scrollbar-gutter:auto}.presets{gap:.35rem}.preset{min-height:67px;padding:.55rem .3rem;text-align:center}.preset[aria-pressed=true]{padding:calc(.55rem - 1px) calc(.3rem - 1px)}.preset strong{font-size:.98rem}.preset span{font-size:.6rem}.filterbar{grid-template-columns:1fr}.filterbar .check-label{justify-self:start}.resource{padding:.95rem}.resource.is-selected{padding-left:calc(.95rem - 2px)}.resource-top{flex-wrap:wrap}.resource-title{min-width:calc(100% - 5rem)}.badge{margin-left:1.95rem}.footer{display:block}.hash{margin-top:.6rem}.primary-stat dd{font-size:2rem}.section-heading h2{font-size:1.12rem}.command-actions button{font-size:.85rem}}
@@ -16,7 +16,8 @@
 @media(max-width:760px){body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}.mobile-budget{display:block;position:fixed;z-index:5;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--green);box-shadow:0 -3px 16px #00000012;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom,0px))}.mobile-budget-inner{max-width:580px;margin:auto;display:grid;grid-template-columns:1fr 1fr auto;align-items:center;gap:.7rem}.mobile-budget a{text-decoration:none}.mobile-budget .mobile-stat span{font-size:.61rem;display:block;color:var(--muted)}.mobile-budget strong{font-size:1rem;font-variant-numeric:tabular-nums;color:var(--ink)}.mobile-budget .mobile-action{text-align:center}.mobile-budget .mobile-action a{display:block;border-radius:7px;padding:.55rem .65rem;background:var(--green);color:var(--surface);font-size:.74rem;font-weight:750;min-height:40px}.mobile-budget .mobile-action span{display:block;font-size:.6rem;margin-top:.2rem;color:var(--muted)}.mobile-budget.has-errors{border-top-color:var(--red)}}
 @media(prefers-color-scheme:dark){:root{color-scheme:dark;--paper:#17231e;--surface:#1e2c25;--ink:#e6ebe1;--muted:#aebcae;--line:#3e5042;--green:#a8d1a9;--green-soft:#2d4432;--amber:#efcb8b;--amber-soft:#413720;--red:#e6a995;--red-soft:#422f29;--focus:#e4af6a}.preset{border-color:var(--line)}button.primary{background:#a8d1a9;color:#162a1c}button.primary:hover:not(:disabled){background:#c7e8c6}.status-box.warning,.status-box.error{border-color:var(--line)}}
 .map-drill{cursor:pointer}.map-drill:hover>circle,.map-drill:focus>circle{stroke:#286348;stroke-width:4}.map-drill:focus{outline:none}.map-topic-selected>circle{fill:#e1edd6;stroke:#285941;stroke-width:4}.map-subtopic{font:600 14px system-ui;fill:#3b4638;pointer-events:none}.topic-files{font-size:.8rem;padding-left:1.2rem;max-height:22rem;overflow:auto}.topic-files li{margin:.4rem 0}.topic-match-note{font-size:.8rem;margin:.8rem 0;color:var(--green)}
-.view-controls{display:flex;gap:.5rem;margin:.9rem 0;align-items:center;flex-wrap:wrap}.view-controls button[aria-pressed=true]{background:var(--green);color:white}.topic-map{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fffdf7;margin-top:.7rem;max-height:75vh}.topic-map svg{display:block;width:100%;min-width:0}.map-theme{font:600 17px system-ui;fill:#3b4638}.topic-map circle[role=button]{cursor:pointer}.topic-map circle[role=button]:focus,.topic-map .map-focused{outline:none;stroke:#171f18;stroke-width:3}.map-legend{display:flex;gap:1rem;flex-wrap:wrap;font-size:.76rem;margin:.6rem 0}.map-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.3rem}.map-info{padding:1rem;border:1px solid var(--line);border-radius:10px;margin:.7rem 0}.map-info p{margin:.4rem 0;font-size:.85rem}.map-info button{margin:.35rem .35rem 0 0}.topic-label{font-size:.76rem;color:var(--green);margin:.45rem 0}.map-controls{display:flex;gap:.7rem;flex-wrap:wrap}.map-controls label{font-size:.78rem;flex:1;min-width:130px}
+.view-controls{display:flex;gap:.5rem;margin:.9rem 0;align-items:center;flex-wrap:wrap}.topic-map{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fffdf7;margin-top:.7rem;max-height:75vh}.map-breadcrumbs{position:sticky;top:0;left:0;z-index:2;margin:0;padding:.65rem .8rem;background:var(--surface);border-bottom:1px solid var(--line);font-size:.8rem}.map-breadcrumbs button{font-size:inherit}.topic-map svg{display:block;width:100%;min-width:0}.map-theme{font:600 17px system-ui;fill:#3b4638}.topic-map circle[role=button]{cursor:pointer}.topic-map circle[role=button]:focus,.topic-map .map-focused{outline:none;stroke:#171f18;stroke-width:3}.map-legend{display:flex;gap:1rem;flex-wrap:wrap;font-size:.76rem;margin:.6rem 0}.map-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.3rem}.map-info{padding:1rem;border:1px solid var(--line);border-radius:10px;margin:.7rem 0}.map-info p{margin:.4rem 0;font-size:.85rem}.map-info button{margin:.35rem .35rem 0 0}.topic-label{font-size:.76rem;color:var(--green);margin:.45rem 0}
+.topic-storage{margin-top:1rem;padding:1rem;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.storage-rows{display:grid;gap:.85rem;margin-top:1rem}.storage-row-heading{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem;font-size:.8rem}.storage-topic{min-height:0;padding:0;border:0;border-radius:0;background:none;text-align:left;font-size:inherit}.storage-row-heading span{font-variant-numeric:tabular-nums;white-space:nowrap}.storage-track{height:32px;background:var(--paper);border-radius:5px;margin-top:.3rem}.storage-bar{display:flex;height:100%;background:var(--green);border-radius:5px}.storage-segment{display:block;flex:none;height:100%;min-width:0;min-height:0;margin:0;padding:0;border:0;border-radius:0;background:rgba(255,255,255,.10);box-shadow:inset -1px 0 rgba(255,255,255,.25)}.storage-segment:nth-child(even){background:rgba(255,255,255,.22)}button.storage-segment:hover,button.storage-segment:focus-visible{background:rgba(255,255,255,.5);position:relative;z-index:1}.storage-segment:first-child{border-radius:5px 0 0 5px}.storage-segment:last-child{border-radius:0 5px 5px 0}.storage-file-key{margin-top:.7rem;font-size:.8rem}.storage-file-key summary{cursor:pointer;min-height:36px;padding:.4rem 0}.storage-file-key ul{list-style:none;margin:.3rem 0 0;padding:0;max-height:15rem;overflow:auto}.storage-file-key button{width:100%;text-align:left;font-size:.76rem;margin:.2rem 0;padding:.45rem .6rem;font-weight:450}
 </style>
 </head>
 <body>
@@ -42,32 +43,30 @@
     </section>
     <div class="layout">
       <div>
-        <section class="panel setup" aria-labelledby="setup-heading">
-          <h2 id="setup-heading"><span class="step">2</span>Set up your build</h2>
-          <div class="field-grid">
-            <div><label class="field-label" for="target-path">Library directory on your SSD</label><input id="target-path" type="text" value="/path/to/EMERGENCY_LIBRARY" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="target-help"><p id="target-help" class="field-help">Replace this example with your drive's actual path. OWL builds in place and does not format the drive.</p></div>
-            <div><label class="field-label" for="shell">Terminal syntax</label><select id="shell"><option value="posix">macOS / Linux shell</option><option value="powershell">Windows PowerShell</option></select><p class="field-help">Choose the terminal where you will paste the command.</p></div>
-          </div>
-          <div class="options">
-            <label class="check-label" for="allow-incomplete"><input id="allow-incomplete" type="checkbox"><span>Build only currently verified files (partial library)<small>Explicitly accept missing collections. Included files must still pass verification.</small></span></label>
-          </div>
-        </section>
         <section aria-labelledby="resources-heading">
-          <div class="section-heading"><h2 id="resources-heading"><span class="step">3</span>Choose your collections</h2><span id="selected-count" class="small muted" aria-live="polite"></span></div>
+          <div class="section-heading"><h2 id="resources-heading"><span class="step">2</span>Choose your collections</h2><span id="selected-count" class="small muted" aria-live="polite"></span></div>
           <div class="filterbar"><div><label class="field-label" for="resource-filter">Find a collection</label><input id="resource-filter" type="search" placeholder="Books, first aid, maps…" autocomplete="off"></div><label class="check-label" for="selected-only"><input id="selected-only" type="checkbox"><span>Show selected only</span></label></div>
           <p class="field-help">Defaults prioritize CRITICAL survival knowledge and USEFUL trades, repair and school education. NONESSENTIAL stories, college study and computing are opt-in. Larger drives leave room for your choices; their capacity is not a promise of that much content.</p>
           <label class="field-label" for="priority-filter">Priority</label><select id="priority-filter"><option value="">All priorities</option><option>CRITICAL</option><option>USEFUL</option><option>NONESSENTIAL</option></select>
           <div class="list-note"><span id="visible-count"></span><span>Status describes source metadata, not downloaded files.</span></div>
-          <div class="view-controls" role="group" aria-label="Collection view"><button id="list-view" type="button" aria-pressed="true">List</button><button id="map-view" type="button" aria-pressed="false">Topic map</button></div>
-          <button id="clear-filters" type="button">Clear filters</button>
           <p id="map-unavailable" class="field-help" hidden>The topic map needs supported topic and priority tags for every asset and collection. Use the list to choose from this catalog.</p>
-          <nav id="topic-breadcrumbs" class="view-controls" aria-label="Topic path" hidden></nav>
           <section id="map-panel" hidden aria-label="Explore knowledge by topic">
             <p class="field-help">Click a theme circle to zoom into its subtopics, then click a subtopic to highlight it and filter the list. Click it again to clear that topic filter. The list below follows your topic selection. Subtopics and search terms reuse the library’s pseudoindexes, with catalog topic tags as a fallback. Positions do not analyze document text. A dot represents one file; a large ZIM may contain thousands of articles.</p>
-            <div class="map-controls"><label for="map-level">Show<select id="map-level"><option value="assets">Individual assets</option><option value="collections">Collections</option></select></label><label for="map-zoom">Zoom<select id="map-zoom"><option value="100">100%</option><option value="150">150%</option><option value="200">200%</option></select></label></div>
             <div class="map-legend"><span><i style="background:#a24336"></i>CRITICAL</span><span><i style="background:#286348"></i>USEFUL</span><span><i style="background:#66728d"></i>NONESSENTIAL</span><span>Filled: selected · Hollow: optional</span></div>
-            <div id="topic-map" class="topic-map"></div>
-            <div id="map-info" class="map-info" aria-live="polite"><p>Choose a dot to inspect its title, priority and topics, then select or deselect its collection. Keyboard: focus a dot, use arrow keys to move, and Enter to inspect.</p></div>
+            <div id="topic-map-window" class="topic-map">
+              <nav id="topic-breadcrumbs" class="view-controls map-breadcrumbs" aria-label="Topic path" hidden></nav>
+              <div id="topic-map"></div>
+            </div>
+            <section class="topic-storage" aria-labelledby="storage-heading">
+              <div class="section-heading"><h3 id="storage-heading">Storage by topic</h3><span id="topic-storage-total" class="small muted" aria-live="polite"></span></div>
+              <p class="field-help">Uncompressed content in selected files matching your filters. ≈ marks estimates. Actual drive usage stays based on stored files.</p>
+              <details class="storage-file-key"><summary>How sizes are estimated</summary><p class="field-help">Known uncompressed sizes take precedence. Otherwise, rough assumptions are 3× stored size for ZIMs and 2× for ZIPs and reader packages. Actual ratios vary with the mix of text and media; these are planning estimates, not measured sizes. PDFs, HTML and other ordinary files use their original file size, including extracted PDFs. This does not decode images or PDF internals, or change what the builder stores. Reader and retained source packages are counted separately; metadata and free-space reserves are excluded.</p></details>
+              <p id="topic-storage-help" class="field-help"></p>
+              <div id="topic-storage-bars" class="storage-rows"></div>
+              <p id="topic-storage-empty" class="field-help" hidden>No selected files match these filters. Include files below to add them to the chart.</p>
+              <details id="topic-storage-key" class="storage-file-key" hidden><summary id="topic-storage-key-title">Inspect individual files</summary><ul id="topic-storage-files"></ul></details>
+            </section>
+            <div id="map-info" class="map-info" aria-live="polite"><p>Choose a dot to inspect its title, priority and topics, then include or exclude that file. Keyboard: focus a dot, use arrow keys to move, and Enter to inspect.</p></div>
           </section>
           <h3 id="topic-list-heading" hidden>Collections in this topic</h3>
           <p id="topic-list-help" class="field-help" hidden>Only matching files are listed below. Checkboxes and bulk actions change these files only; unrelated files stay unchanged.</p>
@@ -111,8 +110,15 @@
           <details id="incomplete-details" class="warning-details" hidden><summary id="incomplete-title">Incomplete collections</summary><ul id="incomplete-list"></ul></details>
         </section>
         <section class="panel commands" aria-labelledby="commands-heading">
-          <h2 id="commands-heading">Take this plan to your terminal</h2>
+          <h2 id="commands-heading"><span class="step">3</span>Take this plan to your terminal</h2>
           <p class="command-help">Run these from the installed OWL repository. Check the path before pasting. Nothing runs from this page.</p>
+          <div class="field-grid">
+            <div><label class="field-label" for="target-path">Library directory on your SSD</label><input id="target-path" type="text" value="/path/to/EMERGENCY_LIBRARY" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="target-help"><p id="target-help" class="field-help">Replace this example with your drive's actual path. OWL builds in place and does not format the drive.</p></div>
+            <div><label class="field-label" for="shell">Terminal syntax</label><select id="shell"><option value="posix">macOS / Linux shell</option><option value="powershell">Windows PowerShell</option></select><p class="field-help">Choose the terminal where you will paste the command.</p></div>
+          </div>
+          <div class="options">
+            <label class="check-label" for="allow-incomplete"><input id="allow-incomplete" type="checkbox"><span>Build only currently verified files (partial library)<small>Explicitly accept missing collections. Included files must still pass verification.</small></span></label>
+          </div>
           <div><label class="command-label" for="plan-command">Check the plan <span>No downloads or writes</span></label><textarea id="plan-command" readonly spellcheck="false" aria-describedby="plan-help" placeholder="Your plan command will appear here."></textarea><div class="command-actions"><button id="copy-plan" type="button" disabled>Copy plan command</button></div><p id="plan-help" class="field-help">Shows requirements and checks the destination's available space.</p></div>
           <div><label class="command-label" for="build-command">Build the drive <span>Runs in the background</span></label><textarea id="build-command" readonly spellcheck="false" placeholder="Resolve the selection warnings before building."></textarea><div class="command-actions"><button id="copy-build" class="primary" type="button" disabled>Copy build command</button></div><p id="build-help" class="field-help">Starts a saved background job that downloads and verifies files, then builds search and navigation. Keep the computer awake and SSD attached.</p></div>
           <p id="copy-feedback" class="copy-feedback" role="status" aria-live="polite"></p>
@@ -477,9 +483,44 @@
     const topic=primary(row,verticals);
     return Boolean(topic && topic.vertical===scope.vertical && (!scope.domain || subtopic(row,verticals).id===scope.domain));
   }
-  function layout(model, mode, scope={}) {
+  function contentSize(asset) {
+    if(Number.isFinite(asset.uncompressed_size_bytes)&&asset.uncompressed_size_bytes>=0)
+      return {bytes:asset.uncompressed_size_bytes,estimated:false,basis:'Cataloged uncompressed size'};
+    if(!Number.isFinite(asset.size_bytes)||asset.size_bytes<0)return {bytes:null,estimated:false,basis:'Size unknown'};
+    // Explicit planning heuristics, not measured compression ratios. Ordinary
+    // files (including extracted PDFs) retain their original encoding and size.
+    const factor={zim:3,zip:2,appimage:2,dmg:2,apk:2}[asset.format]||1;
+    return {bytes:Math.round(asset.size_bytes*factor),estimated:factor!==1,
+      basis:factor===1?'Original file size':factor+'× stored size; rough '+asset.format.toUpperCase()+' expansion assumption'};
+  }
+  function storageGroups(model, selectedIds, matchingIds, scope={}) {
+    const groups=new Map();
+    // Walk unique assets, not resource memberships: shared files occupy space once.
+    for(const asset of model.assets) {
+      if(!matchingIds.has(asset.id)||!matches(asset,model.topic_verticals,scope))continue;
+      const topic=primary(asset,model.topic_verticals);
+      if(!topic)continue;
+      const leaf=subtopic(asset,model.topic_verticals);
+      const id=scope.vertical?leaf.id:topic.vertical;
+      if(!groups.has(id))groups.set(id,{id,
+        title:scope.vertical?leaf.title:model.topic_verticals.find(v=>v.id===id).title,
+        scope:scope.vertical?{vertical:topic.vertical,domain:leaf.id}:{vertical:topic.vertical},
+        bytes:0,storedBytes:0,estimated:0,unknown:0,assets:[]});
+      if(!selectedIds.has(asset.id))continue;
+      const group=groups.get(id);
+      group.assets.push(asset);
+      const size=contentSize(asset);
+      if(size.bytes!==null)group.bytes+=size.bytes;
+      else group.unknown++;
+      if(size.estimated)group.estimated++;
+      if(Number.isFinite(asset.size_bytes)&&asset.size_bytes>=0)group.storedBytes+=asset.size_bytes;
+    }
+    for(const group of groups.values())group.assets.sort((a,b)=>(contentSize(b).bytes||0)-(contentSize(a).bytes||0)||a.id.localeCompare(b.id));
+    return [...groups.values()].sort((a,b)=>b.bytes-a.bytes||a.title.localeCompare(b.title));
+  }
+  function layout(model, scope={}) {
     const verticals=scope.vertical ? model.topic_verticals.filter(v=>v.id===scope.vertical).map(v=>({...v,x:475,y:425,radius:390})) : model.topic_verticals;
-    const records=(mode==='collections' ? model.resources : model.assets).filter(row=>matches(row,model.topic_verticals,scope));
+    const records=model.assets.filter(row=>matches(row,model.topic_verticals,scope));
     const groups=new Map(verticals.map(v=>[v.id,new Map()]));
     for (const row of records) {
       const topic=primary(row,verticals);
@@ -500,7 +541,7 @@
           const distance=group.rows.length===1 ? 0 : Math.sqrt((i+.4)/group.rows.length)*Math.max(0,r-(scope.vertical&&!scope.domain?48:6));
           const theta=i*Math.PI*(3-Math.sqrt(5));
           nodes.push({id:record.id, record, vertical:vertical.id, domain:primary(record,verticals).domain,
-            x:cx+distance*Math.cos(theta),y:cy+distance*Math.sin(theta)+(scope.vertical&&!scope.domain?12:0),r:mode==='collections'?7:Math.max(2.5,Math.min(5.5,scale*3.5))});
+            x:cx+distance*Math.cos(theta),y:cy+distance*Math.sin(theta)+(scope.vertical&&!scope.domain?12:0),r:Math.max(2.5,Math.min(5.5,scale*3.5))});
         });
       }
     }
@@ -508,13 +549,13 @@
   }
   function mount(container, model, onInspect, onScope) {
     const ns='http://www.w3.org/2000/svg';
-    let mode='assets', drawn, current=null, scope={}, filter=()=>true;
+    let drawn, current=null, scope={}, filter=()=>true;
     function svgEl(tag,attrs,content) {const e=document.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))e.setAttribute(k,v);if(content)e.textContent=content;return e;}
     const svg=svgEl('svg',{viewBox:'0 0 950 850',role:'group','aria-label':'Knowledge topic map. Arrow keys move among visible items; Enter inspects an item.'});
     container.replaceChildren(svg);
     let elements=[], topicElements=[];
     function draw() {
-      drawn=layout(model,mode,{vertical:scope.vertical});svg.replaceChildren();elements=[];topicElements=[];
+      drawn=layout(model,{vertical:scope.vertical});svg.replaceChildren();elements=[];topicElements=[];
       function drillGroup(shape,label,attrs,next) {
         const group=svgEl('g',{role:'button',tabindex:0,'aria-label':label,...attrs,class:'map-drill'});
         group.append(shape);
@@ -567,7 +608,7 @@
         group.setAttribute('aria-pressed',String(active));
       }
     }
-    function inspect(node,e){current=node.id;elements.forEach(item=>item.e.classList.toggle('map-focused',item.node.id===current));onInspect(node.record,mode);}
+    function inspect(node,e){current=node.id;elements.forEach(item=>item.e.classList.toggle('map-focused',item.node.id===current));onInspect(node.record);}
     function update(selected, visible) {
       filter=visible;
       let first=true;
@@ -582,10 +623,9 @@
       return elements.filter(({node})=>visible(node.record)).length;
     }
     draw();
-    return {setMode(value){if(mode!==value){mode=value;current=null;draw();highlightScope();}},
-      setScope(value){const changed=scope.vertical!==value.vertical;scope={...value};current=null;if(changed)draw();highlightScope();},update};
+    return {setScope(value){const changed=scope.vertical!==value.vertical;scope={...value};current=null;if(changed)draw();highlightScope();},update};
   }
-  root.OWLTopicMap={layout,primary,subtopic,searchText,topicTitle,matches,available,mount};
+  root.OWLTopicMap={layout,primary,subtopic,searchText,topicTitle,matches,contentSize,storageGroups,available,mount};
 })(typeof globalThis!=='undefined'?globalThis:this);
 </script>
 <script>
@@ -597,7 +637,7 @@
   const profileSizes = [["flash-16gb", "16 GB", "Pocket essentials"], ["critical-64gb", "64 GB", "Critical library"],
     ["compact-256gb", "256 GB", "Read & repair"], ["standard-512gb", "512 GB", "Rebuild & learn"],
     ["full-1tb", "1 TB", "Broad library"]];
-  let model, state, result, topicMap, inspected, mapVisible=false, topicScope={}, matchingAssetIds=new Set(), visibleResourceIds=new Set();
+  let model, state, result, topicMap, inspected, mapAvailable=false, topicScope={}, matchingAssetIds=new Set();
   function element(tag, className, text) {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -748,7 +788,7 @@
     const query = byId("resource-filter").value.trim().toLocaleLowerCase();
     const selectedOnly = byId("selected-only").checked;
     const tier = byId("priority-filter").value;
-    let visible = 0;matchingAssetIds=new Set();visibleResourceIds=new Set();
+    let visible = 0;matchingAssetIds=new Set();
     for (const row of result.rows) {
       const nodes = cards.get(row.id);
       const resource=model.resources.find(r=>r.id===row.id);
@@ -759,7 +799,7 @@
         (!selectedOnly||selected.has(a.id))&&
         (!query||OWLTopicMap.searchText(a).includes(query)||(!topicScope.vertical&&[row.id,row.title].some(value=>value.toLocaleLowerCase()===query))));
       const show=matches.length>0;
-      if(show){visibleResourceIds.add(row.id);for(const a of matches)matchingAssetIds.add(a.id);}
+      if(show)for(const a of matches)matchingAssetIds.add(a.id);
       nodes.matchingIds=matches.map(a=>a.id);
       const checked=matches.filter(a=>selected.has(a.id)).length;
       nodes.checkbox.checked=matches.length>0&&checked===matches.length;
@@ -816,39 +856,79 @@
   function bulkSelect(included) {
     selectFiles(included,[...matchingAssetIds]);
   }
-  function inspectMap(record, mode) {
-    inspected={record,mode};
+  function inspectMap(record) {
+    inspected=record;
     const info=byId("map-info");
-    const owners=mode==="collections"?[record]:model.resources.filter(r=>r.asset_ids.includes(record.id));
+    const owners=model.resources.filter(r=>r.asset_ids.includes(record.id));
     const title=element("h3","",record.title);
     const details=element("p","",record.utility_tier+" · "+(record.knowledge_domains||[]).join(" · ").replaceAll("-"," "));
     const reason=element("p","",record.utility_reason);
-    const size=element("p","",mode==="assets"?record.format.toUpperCase()+" · "+bytes(record.size_bytes):bytes(record.target_bytes)+" · "+record.asset_ids.length+" files");
+    const content=OWLTopicMap.contentSize(record);
+    const size=element("p","",record.format.toUpperCase()+" · "+bytes(record.size_bytes)+" stored · "+(content.estimated?"≈ ":"")+bytes(content.bytes)+" uncompressed. "+content.basis+".");
     info.replaceChildren(title,details,reason,size);
     for(const owner of owners) {
-      const row=result.rows.find(r=>r.id===owner.id), included=mode==="assets"?result.selectedAssetIds.includes(record.id):row.included||row.autoIncluded;
-      const button=element("button","",(included?"Exclude ":"Include ")+(mode==="assets"?"this file":owner.title));
+      const row=result.rows.find(r=>r.id===owner.id), included=result.selectedAssetIds.includes(record.id);
+      const button=element("button","",(included?"Exclude ":"Include ")+"this file");
       button.type="button";button.disabled=Boolean(row.autoIncluded);
-      button.addEventListener("click",()=>selectFiles(!included,mode==="assets"?[record.id]:resourceMembers(owner)));info.append(button);
+      button.addEventListener("click",()=>selectFiles(!included,[record.id]));info.append(button);
       if(row.autoIncluded)info.append(element("p","muted","This reader is required by selected archives."));
     }
 
   }
+  function updateStorage(selected) {
+    const groups=OWLTopicMap.storageGroups(model,selected,matchingAssetIds,topicScope);
+    const total=groups.reduce((n,g)=>n+g.bytes,0), unknown=groups.reduce((n,g)=>n+g.unknown,0);
+    const estimated=groups.some(g=>g.estimated), stored=groups.reduce((n,g)=>n+g.storedBytes,0);
+    const count=groups.reduce((n,g)=>n+g.assets.length,0), max=Math.max(0,...groups.map(g=>g.bytes));
+    const leaf=Boolean(topicScope.domain), interactive=Boolean(topicScope.vertical), bars=byId("topic-storage-bars"), files=byId("topic-storage-files");
+    bars.replaceChildren();files.replaceChildren();
+    byId("storage-heading").textContent=leaf?"Content size · "+OWLTopicMap.topicTitle(model,topicScope.domain):topicScope.vertical?"Content size by subtopic":"Content size by topic";
+    byId("topic-storage-total").textContent=(estimated?"≈ ":"")+bytes(total)+" uncompressed"+(unknown?" + "+unknown+" unknown-size files":"")+" · "+bytes(stored)+" stored";
+    byId("topic-storage-help").textContent=leaf?"Faint divisions show each file’s share. Click a segment to inspect or exclude it; the file list below also reaches very small segments.":interactive?"Bars share one linear scale. Click a file segment to inspect it, or a subtopic name to filter its files.":"Bars share one linear scale. Faint divisions show each file’s share. Click a topic name to explore it.";
+    byId("topic-storage-empty").hidden=count>0;
+    byId("topic-storage-key").hidden=!leaf||count===0;
+    byId("topic-storage-key-title").textContent="Inspect "+count+" selected files (including tiny segments)";
+    for(const group of groups) {
+      const row=element("div","storage-row"), heading=element("div","storage-row-heading");
+      row.dataset.storageGroup=group.id;
+      const label=element(leaf?"strong":"button","storage-topic",group.title);
+      if(!leaf){label.type="button";label.addEventListener("click",()=>chooseTopic(group.scope));}
+      const amount=element("span","muted",(group.estimated?"≈ ":"")+bytes(group.bytes)+(group.unknown?" + unknown":""));
+      amount.title=bytes(group.storedBytes)+" actually stored";heading.append(label,amount);
+      const track=element("div","storage-track"), bar=element("div","storage-bar");
+      bar.style.width=(max?group.bytes/max*100:0)+"%";
+      for(const asset of group.assets) {
+        const size=OWLTopicMap.contentSize(asset);
+        const description=asset.title+" · "+(size.estimated?"≈ ":"")+bytes(size.bytes)+" uncompressed · "+bytes(asset.size_bytes)+" stored"+(group.bytes&&size.bytes!==null?" · "+(size.bytes/group.bytes*100).toLocaleString(undefined,{maximumFractionDigits:2})+"%":"");
+        if(size.bytes>0) {
+          const segment=element(interactive?"button":"span","storage-segment");
+          segment.style.width=(size.bytes/group.bytes*100)+"%";
+          segment.title=description+". "+size.basis;segment.dataset.storageAsset=asset.id;
+          if(interactive){segment.type="button";segment.setAttribute("aria-label","Inspect "+description);segment.addEventListener("click",()=>inspectMap(asset));}
+          else segment.setAttribute("aria-hidden","true");
+          bar.append(segment);
+        }
+        if(leaf) {
+          const item=element("li"), button=element("button","",description);
+          button.type="button";button.dataset.storageFile=asset.id;button.addEventListener("click",()=>inspectMap(asset));item.append(button);files.append(item);
+        }
+      }
+      track.append(bar);row.append(heading,track);bars.append(row);
+    }
+  }
   function updateMap() {
-    if(!mapVisible||!result)return;
-    if(!topicMap){topicMap=OWLTopicMap.mount(byId("topic-map"),model,inspectMap,chooseTopic);topicMap.setMode(byId("map-level").value);topicMap.setScope(topicScope);}
+    if(!mapAvailable||!result)return;
+    if(!topicMap){topicMap=OWLTopicMap.mount(byId("topic-map"),model,inspectMap,chooseTopic);topicMap.setScope(topicScope);}
     const selected=new Set(result.selectedAssetIds);
-    const mode=byId("map-level").value;
-    const included=row=>mode==="assets"?selected.has(row.id):result.rows.some(r=>r.id===row.id&&(r.included||r.autoIncluded));
-    const count=topicMap.update(included,row=>mode==="assets"?matchingAssetIds.has(row.id):visibleResourceIds.has(row.id));
-    byId("visible-count").textContent=count+" "+mode+" shown in topic map · "+result.rows.filter(r=>!cards.get(r.id).card.hidden).length+" collections below";
-    if(inspected)inspectMap(inspected.record,inspected.mode);
+    updateStorage(selected);
+    const included=row=>selected.has(row.id);
+    const count=topicMap.update(included,row=>matchingAssetIds.has(row.id));
+    byId("visible-count").textContent=count+" assets shown in topic map · "+result.rows.filter(r=>!cards.get(r.id).card.hidden).length+" collections below";
+    if(inspected)inspectMap(inspected);
   }
   function chooseTopic(scope) {
     topicScope={...scope};inspected=null;
-    if(scope.vertical)byId("map-level").value="assets";
-    byId("map-level").disabled=Boolean(scope.vertical);
-    if(topicMap){topicMap.setMode(byId("map-level").value);topicMap.setScope(topicScope);}
+    if(topicMap)topicMap.setScope(topicScope);
     byId("map-info").replaceChildren(element("p","",scope.domain?"This subtopic’s files are listed below. Choose a dot for details.":scope.vertical?"Choose a subtopic circle to highlight it and filter the list.":"Choose a theme circle to explore its subtopics."));
     const nav=byId("topic-breadcrumbs");nav.replaceChildren();nav.hidden=!scope.vertical;
     const all=element("button","","All topics");all.type="button";all.addEventListener("click",()=>chooseTopic({}));nav.append(all);
@@ -861,11 +941,6 @@
     byId("topic-list-heading").hidden=byId("topic-list-help").hidden=!scope.vertical;
     byId("topic-list-heading").textContent=scope.domain?"Files in "+OWLTopicMap.topicTitle(model,scope.domain):"Collections in this topic";
     filterCards();
-  }
-  function showView(map) {
-    if(map && byId("map-view").disabled)return;
-    mapVisible=map;byId("map-panel").hidden=!map;byId("resources").hidden=false;
-    byId("list-view").setAttribute("aria-pressed",String(!map));byId("map-view").setAttribute("aria-pressed",String(map));filterCards();
   }
   function renderCommands() {
     if (!state) return;
@@ -982,9 +1057,9 @@
   }
   try {
     model = JSON.parse(byId("owl-model").textContent);
-    byId("map-view").disabled=!OWLTopicMap.available(model);
-    byId("map-unavailable").hidden=!byId("map-view").disabled;
-    if(byId("map-view").disabled)byId("map-view").setAttribute("aria-describedby","map-unavailable");
+    mapAvailable=OWLTopicMap.available(model);
+    byId("map-panel").hidden=!mapAvailable;
+    byId("map-unavailable").hidden=mapAvailable;
     for (const [identity, label, caption] of profileSizes) {
       if (!model.profiles.some(profile => profile.id === identity)) continue;
       const button = element("button", "preset"); button.type = "button";
@@ -1001,16 +1076,9 @@
     byId("allow-incomplete").addEventListener("change", event => { state.allowIncomplete = event.target.checked; render(); });
     byId("include-shown").addEventListener("click",()=>bulkSelect(true));
     byId("exclude-shown").addEventListener("click",()=>bulkSelect(false));
-    byId("clear-filters").addEventListener("click",()=>{
-      byId("resource-filter").value="";byId("priority-filter").value="";byId("selected-only").checked=false;chooseTopic({});
-    });
     byId("resource-filter").addEventListener("input", filterCards);
     byId("selected-only").addEventListener("change", filterCards);
     byId("priority-filter").addEventListener("change", filterCards);
-    byId("list-view").addEventListener("click",()=>showView(false));
-    byId("map-view").addEventListener("click",()=>showView(true));
-    byId("map-level").addEventListener("change",()=>{if(topicMap)topicMap.setMode(byId("map-level").value);inspected=null;updateMap();});
-    byId("map-zoom").addEventListener("change",()=>{const svg=byId("topic-map").querySelector("svg");if(svg)svg.style.width=byId("map-zoom").value+"%";});
     byId("target-path").addEventListener("input", () => { byId("copy-feedback").textContent = ""; renderCommands(); });
     byId("shell").addEventListener("change", () => { byId("copy-feedback").textContent = ""; renderCommands(); });
     byId("copy-plan").addEventListener("click", () => copyCommand("plan-command"));

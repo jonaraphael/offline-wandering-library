@@ -13,8 +13,9 @@ content or write to the chosen drive; it produces commands for the Python builde
 
 Choose the 16 GB, 64 GB, 256 GB, 512 GB, or 1 TB preset; the page initially selects
 16 GB. Each starts with its configured selection. Change the inclusion checkboxes to add or remove resource
-groups. Totals and warnings update immediately. Enter the destination directory
-on the drive and choose the shell you will use: POSIX shell or PowerShell.
+groups. Totals and warnings update immediately. In **Take this plan to your terminal**,
+enter the destination directory on the drive, choose POSIX shell or PowerShell,
+and review the partial-library option before copying a command.
 
 All five presets select actual finished files. Defaults include CRITICAL survival material and USEFUL trades, repair, appropriate technology and school education. NONESSENTIAL fiction, college textbooks, computing and enrichment are opt-in. Additional Wikipedia languages are also opt-in. Filter collections by priority or search their topics, then change individual checkboxes.
 
@@ -150,10 +151,29 @@ already generated page does not. A stale page can show outdated choices, so keep
 
 ## Topic map
 
-Switch from List to Topic map to explore individual asset dots or whole collections. Click a major theme circle to zoom into labeled subtopic circles, then click a subtopic to highlight it and filter the list. The circles keep their positions; click the same subtopic again to clear its filter. Use the breadcrumb buttons to return to the theme or all topics. The collection list remains below the map and follows the same topic scope, including when you switch back to List. Related school and college subjects stay together even when their utility levels differ. Colors indicate CRITICAL, USEFUL and NONESSENTIAL; filled dots are selected and hollow dots are optional. Major themes come from catalog tags and `src/owl/topic_verticals.json`. Subtopics use the first declared route in the validated `catalog/navigation/assignments/` pseudoindex, falling back to the asset’s catalog domain. All assigned topic titles and aliases are searchable. The selector embeds this metadata during regeneration; it does not open, download or analyze document text. One ZIM dot can contain thousands of articles.
+The topic map and collection list appear together. Each dot represents one asset. Click a major theme circle to zoom into labeled subtopic circles, then click a subtopic to highlight it and filter the list. The circles keep their positions; click the same subtopic again to clear its filter. Use the breadcrumb buttons to return to the theme or all topics. The collection list remains below the map and follows the same topic scope. Related school and college subjects stay together even when their utility levels differ. Colors indicate CRITICAL, USEFUL and NONESSENTIAL; filled dots are selected and hollow dots are optional. Major themes come from catalog tags and `src/owl/topic_verticals.json`. Subtopics use the first declared route in the validated `catalog/navigation/assignments/` pseudoindex, falling back to the asset’s catalog domain. All assigned topic titles and aliases are searchable. The selector embeds this metadata during regeneration; it does not open, download or analyze document text. One ZIM dot can contain thousands of articles.
 
-The same search, priority and selected-only filters work in both views. Click a dot for its title, priority, topics, size and file toggle. Search, priority and topic filters share one matching-file set across the map, list and bulk controls. Filtered collection checkboxes affect only matching files and show a mixed state when some are selected. Individual file checkboxes allow finer choices. Clear filters restores the full view without changing selections. Keyboard users can focus a dot, move with arrow keys and press Enter to inspect it. Zoom enlarges the map with scrolling on small screens.
+The same search, priority and selected-only filters work in both views. Click a dot for its title, priority, topics, size and file toggle. Search, priority and topic filters share one matching-file set across the map, list and bulk controls. Filtered collection checkboxes affect only matching files and show a mixed state when some are selected. Individual file checkboxes allow finer choices. Use All topics in the breadcrumbs to leave a topic, and reset the search, priority or selected-only fields to remove those filters. Keyboard users can focus a dot, move with arrow keys and press Enter to inspect it.
 
 “Include all shown” and “Exclude all shown” apply to a snapshot of the currently matching files, respecting topic, search, priority and selected-only filters. With no filters they apply to all files. Files outside the filters stay unchanged, including other files within a matching collection. Required archive readers and ZIP source packages remain selected. Empty results disable both buttons.
 
 The generated command uses `--resource-assets RESOURCE=ASSET,ASSET` for collections with a custom file subset. This repeatable flag selects only the named members of an already selected collection; unknown, duplicate, or out-of-collection IDs are rejected. Intentional subsets use the selected files’ exact size and are recorded in the selection lock. For an optional collection, `--include RESOURCE` accompanies the subset. Omit the subset flag to use its regular edition. Neither collection exclusion nor file exclusion deletes previously downloaded files from an existing drive.
+
+The content-size bar chart follows the same matching-file set and counts only
+selected assets, once each. At the overview it compares major themes; inside a
+theme it compares subtopics. Selecting a subtopic leaves one bar whose faint
+segments show its individual files. Click a segment to inspect the file and its
+include/exclude control. The expandable file list reaches segments too small to
+click. Topic labels navigate using the same breadcrumbs and list filters.
+
+Bar lengths use uncompressed content sizes. A cataloged `uncompressed_size_bytes`
+value takes precedence. Without one, the selector uses explicit rough planning
+assumptions: 3× stored bytes for ZIMs; 2× for ZIP, AppImage, DMG and APK packages.
+These factors are heuristics, not measured compression ratios; media-heavy and
+text-heavy archives may differ substantially. An ≈ marks any estimated value,
+and “How sizes are estimated” explains the method. Ordinary files and extracted
+PDFs use their original file sizes without decoding their internal compression.
+Missing sizes remain unknown. The chart also reports actual stored bytes;
+capacity checks and build commands continue to use the existing exact file sizes.
+Reader packages and retained source ZIPs count separately from extracted members;
+these totals measure selected files, not deduplicated intellectual content.
