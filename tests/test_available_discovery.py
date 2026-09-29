@@ -56,13 +56,13 @@ class AvailableDiscoveryTests(AtlasBuildFixture):
             with self.assertRaises(KeyboardInterrupt):
                 self.assembled()
         checkpoint = self.library / '.owl/atlas-job.json'
-        job = json.loads(checkpoint.read_text())
+        job = json.loads(checkpoint.read_text(encoding='utf-8'))
         for change, error, message in (({'requires_network': True}, CatalogError, 'Content policy'),
                                        ({'verification': 'observed'}, SafetyError, 'catalog-pinned')):
             with self.subTest(change=change):
                 original = job['inventory']['assets'][0]
                 job['inventory']['assets'][0] = {**original, **change}
-                checkpoint.write_text(json.dumps(job))
+                checkpoint.write_text(json.dumps(job), encoding='utf-8')
                 with self.assertRaisesRegex(error, message):
                     self.assembled()
                 job['inventory']['assets'][0] = original

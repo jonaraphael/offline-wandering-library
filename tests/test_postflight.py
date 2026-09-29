@@ -114,7 +114,7 @@ class PostflightTests(unittest.TestCase):
     def test_damaged_discovery_data_is_rejected_without_source_rehash(self):
         coverage = json.loads((self.library / 'SEARCH/coverage.json').read_text())
         path = self.library / coverage['manifest']['path']
-        path.write_text(path.read_text().replace('Demonstration', 'Counterfeit'))
+        path.write_bytes(path.read_bytes().replace(b'Demonstration', b'Counterfeit'))
         with self.assertRaisesRegex(SafetyError, 'discovery data identity'):
             audit_build(self.root, run_smoke=False)
 
