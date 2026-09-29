@@ -15,6 +15,7 @@
 @media(prefers-reduced-motion:reduce){.storage-meter span{transition:none}}
 @media(max-width:760px){body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}.mobile-budget{display:block;position:fixed;z-index:5;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--green);box-shadow:0 -3px 16px #00000012;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom,0px))}.mobile-budget-inner{max-width:580px;margin:auto;display:grid;grid-template-columns:1fr 1fr auto;align-items:center;gap:.7rem}.mobile-budget a{text-decoration:none}.mobile-budget .mobile-stat span{font-size:.61rem;display:block;color:var(--muted)}.mobile-budget strong{font-size:1rem;font-variant-numeric:tabular-nums;color:var(--ink)}.mobile-budget .mobile-action{text-align:center}.mobile-budget .mobile-action a{display:block;border-radius:7px;padding:.55rem .65rem;background:var(--green);color:var(--surface);font-size:.74rem;font-weight:750;min-height:40px}.mobile-budget .mobile-action span{display:block;font-size:.6rem;margin-top:.2rem;color:var(--muted)}.mobile-budget.has-errors{border-top-color:var(--red)}}
 @media(prefers-color-scheme:dark){:root{color-scheme:dark;--paper:#17231e;--surface:#1e2c25;--ink:#e6ebe1;--muted:#aebcae;--line:#3e5042;--green:#a8d1a9;--green-soft:#2d4432;--amber:#efcb8b;--amber-soft:#413720;--red:#e6a995;--red-soft:#422f29;--focus:#e4af6a}.preset{border-color:var(--line)}button.primary{background:#a8d1a9;color:#162a1c}button.primary:hover:not(:disabled){background:#c7e8c6}.status-box.warning,.status-box.error{border-color:var(--line)}}
+.map-drill{cursor:pointer}.map-drill:hover>circle,.map-drill:focus>circle{stroke:#286348;stroke-width:4}.map-drill:focus{outline:none}.map-topic-selected>circle{fill:#e1edd6;stroke:#285941;stroke-width:4}.map-subtopic{font:600 14px system-ui;fill:#3b4638;pointer-events:none}.topic-files{font-size:.8rem;padding-left:1.2rem;max-height:22rem;overflow:auto}.topic-files li{margin:.4rem 0}.topic-match-note{font-size:.8rem;margin:.8rem 0;color:var(--green)}
 .view-controls{display:flex;gap:.5rem;margin:.9rem 0;align-items:center;flex-wrap:wrap}.view-controls button[aria-pressed=true]{background:var(--green);color:white}.topic-map{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fffdf7;margin-top:.7rem;max-height:75vh}.topic-map svg{display:block;width:100%;min-width:0}.map-theme{font:600 17px system-ui;fill:#3b4638}.topic-map circle[role=button]{cursor:pointer}.topic-map circle[role=button]:focus,.topic-map .map-focused{outline:none;stroke:#171f18;stroke-width:3}.map-legend{display:flex;gap:1rem;flex-wrap:wrap;font-size:.76rem;margin:.6rem 0}.map-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.3rem}.map-info{padding:1rem;border:1px solid var(--line);border-radius:10px;margin:.7rem 0}.map-info p{margin:.4rem 0;font-size:.85rem}.map-info button{margin:.35rem .35rem 0 0}.topic-label{font-size:.76rem;color:var(--green);margin:.45rem 0}.map-controls{display:flex;gap:.7rem;flex-wrap:wrap}.map-controls label{font-size:.78rem;flex:1;min-width:130px}
 </style>
 </head>
@@ -58,14 +59,20 @@
           <label class="field-label" for="priority-filter">Priority</label><select id="priority-filter"><option value="">All priorities</option><option>CRITICAL</option><option>USEFUL</option><option>NONESSENTIAL</option></select>
           <div class="list-note"><span id="visible-count"></span><span>Status describes source metadata, not downloaded files.</span></div>
           <div class="view-controls" role="group" aria-label="Collection view"><button id="list-view" type="button" aria-pressed="true">List</button><button id="map-view" type="button" aria-pressed="false">Topic map</button></div>
+          <button id="clear-filters" type="button">Clear filters</button>
           <p id="map-unavailable" class="field-help" hidden>The topic map needs supported topic and priority tags for every asset and collection. Use the list to choose from this catalog.</p>
+          <nav id="topic-breadcrumbs" class="view-controls" aria-label="Topic path" hidden></nav>
           <section id="map-panel" hidden aria-label="Explore knowledge by topic">
-            <p class="field-help">Large circles group major themes; smaller clusters share a topic. Nearby themes are related. Positions use catalog topic tags, not analysis of document text. A dot represents one file; a large ZIM may contain thousands of articles.</p>
+            <p class="field-help">Click a theme circle to zoom into its subtopics, then click a subtopic to highlight it and filter the list. Click it again to clear that topic filter. The list below follows your topic selection. Subtopics and search terms reuse the library’s pseudoindexes, with catalog topic tags as a fallback. Positions do not analyze document text. A dot represents one file; a large ZIM may contain thousands of articles.</p>
             <div class="map-controls"><label for="map-level">Show<select id="map-level"><option value="assets">Individual assets</option><option value="collections">Collections</option></select></label><label for="map-zoom">Zoom<select id="map-zoom"><option value="100">100%</option><option value="150">150%</option><option value="200">200%</option></select></label></div>
             <div class="map-legend"><span><i style="background:#a24336"></i>CRITICAL</span><span><i style="background:#286348"></i>USEFUL</span><span><i style="background:#66728d"></i>NONESSENTIAL</span><span>Filled: selected · Hollow: optional</span></div>
             <div id="topic-map" class="topic-map"></div>
             <div id="map-info" class="map-info" aria-live="polite"><p>Choose a dot to inspect its title, priority and topics, then select or deselect its collection. Keyboard: focus a dot, use arrow keys to move, and Enter to inspect.</p></div>
           </section>
+          <h3 id="topic-list-heading" hidden>Collections in this topic</h3>
+          <p id="topic-list-help" class="field-help" hidden>Only matching files are listed below. Checkboxes and bulk actions change these files only; unrelated files stay unchanged.</p>
+          <div class="view-controls" role="group" aria-label="Bulk file selection"><button id="include-shown" type="button">Include all shown</button><button id="exclude-shown" type="button">Exclude all shown</button></div>
+          <p id="bulk-scope" class="field-help"></p><p id="bulk-feedback" class="field-help" role="status" aria-live="polite"></p>
           <div id="resources" class="resources"></div>
           <p id="no-results" class="empty" hidden>No collections match these filters. Try another term or turn off “Show selected only.”</p>
         </section>
@@ -134,7 +141,7 @@
   const profileSizes = [["flash-16gb", "16 GB", "Pocket essentials"], ["critical-64gb", "64 GB", "Critical library"],
     ["compact-256gb", "256 GB", "Read & repair"], ["standard-512gb", "512 GB", "Rebuild & learn"],
     ["full-1tb", "1 TB", "Broad library"]];
-  let model, state, result, topicMap, inspected, mapVisible=false;
+  let model, state, result, topicMap, inspected, mapVisible=false, topicScope={}, matchingAssetIds=new Set(), visibleResourceIds=new Set();
   function element(tag, className, text) {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -172,6 +179,7 @@
   }
   function updateItem(id, patch) {
     state.items[id] = {...(state.items[id] || {}), ...patch};
+    if(patch.edition)delete state.items[id].assetIds;
     render();
   }
   function pinnedFormats(row) {
@@ -197,7 +205,7 @@
     const top = element("div", "resource-top");
     const checkbox = element("input"); checkbox.type = "checkbox"; checkbox.id = "include-" + row.id;
     checkbox.dataset.role = "include";
-    checkbox.addEventListener("change", () => updateItem(row.id, {included: checkbox.checked}));
+    checkbox.addEventListener("change", () => selectFiles(checkbox.checked, cards.get(row.id).matchingIds));
     const heading = element("div", "resource-title");
     const number = element("p", "resource-number");
     const h3 = element("h3"); const label = element("label"); label.htmlFor = checkbox.id; h3.append(label);
@@ -207,6 +215,8 @@
     top.append(checkbox, heading, badge);
     const body = element("div", "resource-body");
     const topicLabel = element("p", "topic-label");
+    const matchesNote=element("p","topic-match-note"), matchesList=element("ul","topic-files");
+    matchesList.dataset.role="matching-assets";
     const formatScope = element("p", "format-scope"); formatScope.dataset.role = "formats";
     const editionLabel = element("label", "edition-label", "Storage / edition"); editionLabel.htmlFor = "edition-" + row.id;
     const edition = element("select", "edition-select"); edition.id = editionLabel.htmlFor; edition.dataset.role = "edition";
@@ -221,10 +231,10 @@
     const details = element("details", "scope-details");
     const summary = element("summary", "", "Collection scope and edition notes");
     const scope = element("div"); details.append(summary, scope);
-    body.append(topicLabel, formatScope, editionLabel, edition, numbers, reason, dependency, details);
+    body.append(matchesNote, matchesList, topicLabel, formatScope, editionLabel, edition, numbers, reason, dependency, details);
     card.append(top, body);
     byId("resources").append(card);
-    const nodes = {card, checkbox, number, label, badge, edition, target, known, count, reason, dependency, scope, details, formatScope, topicLabel, editionLabel};
+    const nodes = {card, checkbox, number, label, badge, edition, target, known, count, reason, dependency, scope, details, formatScope, topicLabel, editionLabel, matchesNote, matchesList};
     cards.set(row.id, nodes);
     return nodes;
   }
@@ -275,24 +285,80 @@
     }
     if (!scope.length) scope.push(element("p", "muted", "See the catalog for this collection's intended scope and source notices."));
     nodes.scope.replaceChildren(...scope);
-    nodes.search = [row.title, row.id, row.reason, row.utilityTier, row.utilityReason, ...row.knowledgeDomains, text(row.scope), ...(row.include || []), ...(row.preferredFormats || []),
-      ...row.options.map(option => option.label)].join(" ").toLocaleLowerCase();
+
   }
   function filterCards() {
     if (!result) return;
     const query = byId("resource-filter").value.trim().toLocaleLowerCase();
     const selectedOnly = byId("selected-only").checked;
     const tier = byId("priority-filter").value;
-    let visible = 0;
+    let visible = 0;matchingAssetIds=new Set();visibleResourceIds=new Set();
     for (const row of result.rows) {
       const nodes = cards.get(row.id);
-      const show = (!tier || row.utilityTier === tier) && (!selectedOnly || row.included || row.autoIncluded) && (!query || nodes.search.includes(query));
+      const resource=model.resources.find(r=>r.id===row.id);
+      const members=new Set(resourceMembers(resource));
+      const scopedAssets=model.assets.filter(a=>members.has(a.id)&&OWLTopicMap.matches(a,model.topic_verticals,topicScope));
+      const selected=new Set(result.selectedAssetIds);
+      const matches=scopedAssets.filter(a=>(!tier||(a.utility_tier||row.utilityTier)===tier)&&
+        (!selectedOnly||selected.has(a.id))&&
+        (!query||OWLTopicMap.searchText(a).includes(query)||(!topicScope.vertical&&[row.id,row.title].some(value=>value.toLocaleLowerCase()===query))));
+      const show=matches.length>0;
+      if(show){visibleResourceIds.add(row.id);for(const a of matches)matchingAssetIds.add(a.id);}
+      nodes.matchingIds=matches.map(a=>a.id);
+      const checked=matches.filter(a=>selected.has(a.id)).length;
+      nodes.checkbox.checked=matches.length>0&&checked===matches.length;
+      nodes.checkbox.indeterminate=checked>0&&checked<matches.length;
+      nodes.checkbox.title="Include or exclude the "+matches.length+" matching files";
+      nodes.matchesNote.hidden=nodes.matchesList.hidden=!(topicScope.vertical||query||tier||selectedOnly);
+      nodes.matchesNote.textContent=matches.length+" matching files · "+checked+" selected. Changes apply only to these files.";
+      nodes.matchesList.replaceChildren(...(!nodes.matchesList.hidden ? matches : []).map(a=>{
+        const li=element("li"),label=element("label","check-label"),check=element("input");check.type="checkbox";
+        check.checked=selected.has(a.id);check.setAttribute("aria-label",a.title);check.disabled=Boolean(row.autoIncluded);
+        check.addEventListener("change",()=>selectFiles(check.checked,[a.id]));
+        label.append(check,element("span","",a.title+" · "+a.format.toUpperCase()+" · "+bytes(a.size_bytes)));
+        li.append(label);li.dataset.assetId=a.id;return li;}));
       nodes.card.hidden = !show;
       if (show) visible++;
     }
     byId("visible-count").textContent = visible + " of " + result.rows.length + " collections shown";
-    byId("no-results").hidden = visible !== 0 || mapVisible;
+    byId("no-results").hidden = visible !== 0;
+    for(const id of ["include-shown","exclude-shown"])byId(id).disabled=visible===0;
+    byId("bulk-scope").textContent="Applies to "+matchingAssetIds.size+" matching files in "+visible+" collections. Files outside these filters stay unchanged. Required archive readers and source packages stay included.";
+    inspected=null;byId("map-info").replaceChildren(element("p","","Choose a dot for details. Highlight a subtopic to filter the list; click it again to clear."));
+    byId("bulk-feedback").textContent="";
     updateMap();
+  }
+  function resourceMembers(resource) {
+    const edition=state.items[resource.id].edition;
+    return (resource.editions?.[edition]||resource).asset_ids;
+  }
+  function selectFiles(included, ids) {
+    const desired=new Set(result.selectedAssetIds),before=new Set(desired);
+    for(const id of ids)included?desired.add(id):desired.delete(id);
+    // Archive members still need their original download package.
+    for(const asset of model.assets)if(desired.has(asset.id)&&asset.archive_member?.source_asset_id)desired.add(asset.archive_member.source_asset_id);
+    const changed=new Set([...new Set([...before,...desired])].filter(id=>before.has(id)!==desired.has(id)));
+    for(const resource of model.resources) {
+      const members=resourceMembers(resource);
+      if(!members.some(id=>changed.has(id)))continue;
+      const item=state.items[resource.id],keep=members.filter(id=>desired.has(id));
+      item.included=keep.length>0;
+      if(item.edition==="preset")item.edition="published";
+      if(keep.length && keep.length!==members.length)item.assetIds=keep;
+      else delete item.assetIds;
+    }
+    const next=OWLPlanner.resolve(model,state);
+    if(next.rows.some(row=>row.id==="archive-readers"&&row.autoIncluded)) {
+      state.items["archive-readers"].included=true;delete state.items["archive-readers"].assetIds;
+    }
+    render();
+    const after=new Set(result.selectedAssetIds),count=ids.filter(id=>before.has(id)!==after.has(id)).length;
+    const retained=!included?ids.filter(id=>after.has(id)).length:0;
+    byId("bulk-feedback").textContent=(included?"Included ":"Excluded ")+count+" matching file"+(count===1?"":"s")+"."+
+      (retained?" Kept "+retained+" required reader or source files.":"");
+  }
+  function bulkSelect(included) {
+    selectFiles(included,[...matchingAssetIds]);
   }
   function inspectMap(record, mode) {
     inspected={record,mode};
@@ -304,27 +370,45 @@
     const size=element("p","",mode==="assets"?record.format.toUpperCase()+" · "+bytes(record.size_bytes):bytes(record.target_bytes)+" · "+record.asset_ids.length+" files");
     info.replaceChildren(title,details,reason,size);
     for(const owner of owners) {
-      const row=result.rows.find(r=>r.id===owner.id), included=row.included||row.autoIncluded;
-      const button=element("button","",(included?"Deselect ":"Select ")+owner.title);
+      const row=result.rows.find(r=>r.id===owner.id), included=mode==="assets"?result.selectedAssetIds.includes(record.id):row.included||row.autoIncluded;
+      const button=element("button","",(included?"Exclude ":"Include ")+(mode==="assets"?"this file":owner.title));
       button.type="button";button.disabled=Boolean(row.autoIncluded);
-      button.addEventListener("click",()=>updateItem(owner.id,{included:!included}));info.append(button);
+      button.addEventListener("click",()=>selectFiles(!included,mode==="assets"?[record.id]:resourceMembers(owner)));info.append(button);
       if(row.autoIncluded)info.append(element("p","muted","This reader is required by selected archives."));
     }
-    if(mode==="assets")info.append(element("p","muted","Selection applies to the containing collection so its documents and dependencies stay together."));
+
   }
   function updateMap() {
     if(!mapVisible||!result)return;
-    if(!topicMap){topicMap=OWLTopicMap.mount(byId("topic-map"),model,inspectMap);topicMap.setMode(byId("map-level").value);}
-    const selected=new Set(result.selectedAssetIds),query=byId("resource-filter").value.trim().toLocaleLowerCase(),tier=byId("priority-filter").value,only=byId("selected-only").checked;
+    if(!topicMap){topicMap=OWLTopicMap.mount(byId("topic-map"),model,inspectMap,chooseTopic);topicMap.setMode(byId("map-level").value);topicMap.setScope(topicScope);}
+    const selected=new Set(result.selectedAssetIds);
     const mode=byId("map-level").value;
     const included=row=>mode==="assets"?selected.has(row.id):result.rows.some(r=>r.id===row.id&&(r.included||r.autoIncluded));
-    const count=topicMap.update(included,row=>(!tier||row.utility_tier===tier)&&(!only||included(row))&&(!query||[row.title,row.id,...row.knowledge_domains].join(" ").toLocaleLowerCase().includes(query)));
-    byId("visible-count").textContent=count+" "+mode+" shown in topic map";
+    const count=topicMap.update(included,row=>mode==="assets"?matchingAssetIds.has(row.id):visibleResourceIds.has(row.id));
+    byId("visible-count").textContent=count+" "+mode+" shown in topic map · "+result.rows.filter(r=>!cards.get(r.id).card.hidden).length+" collections below";
     if(inspected)inspectMap(inspected.record,inspected.mode);
+  }
+  function chooseTopic(scope) {
+    topicScope={...scope};inspected=null;
+    if(scope.vertical)byId("map-level").value="assets";
+    byId("map-level").disabled=Boolean(scope.vertical);
+    if(topicMap){topicMap.setMode(byId("map-level").value);topicMap.setScope(topicScope);}
+    byId("map-info").replaceChildren(element("p","",scope.domain?"This subtopic’s files are listed below. Choose a dot for details.":scope.vertical?"Choose a subtopic circle to highlight it and filter the list.":"Choose a theme circle to explore its subtopics."));
+    const nav=byId("topic-breadcrumbs");nav.replaceChildren();nav.hidden=!scope.vertical;
+    const all=element("button","","All topics");all.type="button";all.addEventListener("click",()=>chooseTopic({}));nav.append(all);
+    if(scope.vertical){
+      const theme=model.topic_verticals.find(v=>v.id===scope.vertical);
+      const parent=element("button","",theme.title);parent.type="button";parent.addEventListener("click",()=>chooseTopic({vertical:scope.vertical}));
+      if(!scope.domain)parent.setAttribute("aria-current","location");nav.append(element("span","","›"),parent);
+      if(scope.domain){const current=element("span","",OWLTopicMap.topicTitle(model,scope.domain));current.setAttribute("aria-current","location");nav.append(element("span","","›"),current);}
+    }
+    byId("topic-list-heading").hidden=byId("topic-list-help").hidden=!scope.vertical;
+    byId("topic-list-heading").textContent=scope.domain?"Files in "+OWLTopicMap.topicTitle(model,scope.domain):"Collections in this topic";
+    filterCards();
   }
   function showView(map) {
     if(map && byId("map-view").disabled)return;
-    mapVisible=map;byId("map-panel").hidden=!map;byId("resources").hidden=map;
+    mapVisible=map;byId("map-panel").hidden=!map;byId("resources").hidden=false;
     byId("list-view").setAttribute("aria-pressed",String(!map));byId("map-view").setAttribute("aria-pressed",String(map));filterCards();
   }
   function renderCommands() {
@@ -459,6 +543,11 @@
     }
     byId("reset-preset").addEventListener("click", () => choosePreset(state.profile));
     byId("allow-incomplete").addEventListener("change", event => { state.allowIncomplete = event.target.checked; render(); });
+    byId("include-shown").addEventListener("click",()=>bulkSelect(true));
+    byId("exclude-shown").addEventListener("click",()=>bulkSelect(false));
+    byId("clear-filters").addEventListener("click",()=>{
+      byId("resource-filter").value="";byId("priority-filter").value="";byId("selected-only").checked=false;chooseTopic({});
+    });
     byId("resource-filter").addEventListener("input", filterCards);
     byId("selected-only").addEventListener("change", filterCards);
     byId("priority-filter").addEventListener("change", filterCards);

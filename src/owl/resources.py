@@ -214,7 +214,7 @@ def _edition_selections(values: Iterable[str] | str, resources: dict[str, dict])
 def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, dict], *,
                       include: Iterable[str | int] | str = (),
                       exclude: Iterable[str | int] | str = (),
-                      editions: Iterable[str] | str = ()) -> dict:
+                      editions: Iterable[str] | str = (), resource_assets: Iterable[str] = ()) -> dict:
     """Resolve defaults plus explicit changes without claiming missing content.
 
     Targets are budgets, not download instructions. Exact known files can raise
@@ -249,6 +249,19 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
     for identity in explicit_editions:
         if identity not in selected:
             raise CatalogError(f"{identity}: an edition requires a selected resource; use --include and remove any exclusion")
+    subsets = {}
+    for value in resource_assets:
+        if not isinstance(value, str) or value.count("=") != 1:
+            raise CatalogError("resource-assets: use RESOURCE=ASSET,ASSET")
+        rid, ids = value.split("=", 1)
+        if rid not in selected or rid in subsets:
+            raise CatalogError("resource-assets requires a selected resource named once: " + rid)
+        group = ids.split(",")
+        edition = effective_editions.get(rid, "published")
+        mapping = resources[rid] if edition == "published" else resources[rid]["editions"][edition]
+        if not group or len(group) != len(set(group)) or set(group) - set(mapping["asset_ids"]):
+            raise CatalogError("resource-assets contains duplicate or unknown members for " + rid)
+        subsets[rid] = group
     overrides = profile.get("resource_overrides", {})
     if not isinstance(overrides, dict) or set(overrides) - resources.keys():
         raise CatalogError("resource_overrides must name known resource ids")
@@ -269,7 +282,7 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
 
     def members(identity: str) -> list[str]:
         removed = set(overrides.get(identity, {}).get("exclude_asset_ids", []))
-        return [member for member in edition_data(identity)["asset_ids"] if member not in removed]
+        return [member for member in subsets.get(identity, edition_data(identity)["asset_ids"]) if member not in removed]
 
     raw_members = {identity: members(identity) for identity in selected}
     raw_asset_ids = {member for group in raw_members.values() for member in group}
@@ -337,6 +350,8 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
         known = sum(asset_map[member]["size_bytes"] for member in resolved)
         planning_target = (overrides.get(identity, {}).get("target_bytes", resource["target_bytes"])
                            if edition == "published" else mapping["target_bytes"])
+        if identity in subsets:
+            planning_target = known
         credit = credits[identity]
         if credit > planning_target:
             raise CatalogError(f"{identity}: replacement credit exceeds its selected planning target")
@@ -377,11 +392,11 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
     reader_budget = max(profile.get("readers_budget_bytes", 0), reader_row["effective_target_bytes"]) if reader_row else 0
     return {"assets": copies, "selected_ids": selected_ids, "excluded_ids": explicit_exclude,
             "explicit_include": explicit_include, "explicit_exclude": explicit_exclude,
-            "explicit_editions": explicit_editions,
+            "explicit_editions": explicit_editions, "resource_assets": subsets,
             "default_editions": {identity: edition for identity, edition in default_editions.items()
                                  if identity in selected},
             "effective_editions": effective_editions,
-            "auto_included_ids": auto_included, "customized": bool(explicit_include or explicit_exclude or explicit_editions),
+            "auto_included_ids": auto_included, "customized": bool(explicit_include or explicit_exclude or explicit_editions or subsets),
             "resource_rows": rows, "incomplete_resources": [row for row in rows if row["status"] != "ready"],
             "declared_content_target_bytes": declared, "content_target_bytes": content,
             "readers_budget_bytes": reader_budget, "planned_total_bytes": content + reader_budget,

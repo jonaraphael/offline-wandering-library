@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import sys
 
+from .atlas_model import load_navigation
 from .catalog import load_catalog, load_profiles, read_yaml
 from .resources import load_resources, resource_asset_ids
 from .content_policy import require_content_policy, load_policy
@@ -38,6 +39,18 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
     fields = ("id", "title", "category", "utility_tier", "utility_reason", "knowledge_domains", "status", "size_bytes", "sha256", "format", "destination", "critical", "required",
               "reader_required", "resource_type", "illustrated", "profiles", "supporting_file", "archive_member", "generation", "generation_source_asset_ids",
               "generation_source_resource_ids", "generation_build_inputs", "generation_build_input_members", "generation_build_input_metadata_bytes")
+    # Reuse validated pseudoindex metadata; no source document is opened.
+    discovery = {}
+    if catalog.resolve() == (ROOT / "catalog/library.yaml").resolve():
+        navigation = load_navigation(ROOT / "catalog/navigation", assets)
+        for assignment in navigation["assignments"]:
+            topic = navigation["topics"][assignment["topic_id"]]
+            entry = discovery.setdefault(assignment["asset_id"], {"topics": [], "terms": []})
+            route = {"id": topic["id"], "title": topic["title"]}
+            if route not in entry["topics"]:
+                entry["topics"].append(route)
+            entry["terms"] = sorted(set(entry["terms"] + [topic["title"], assignment.get("description", "")] +
+                                        topic["aliases"] + assignment.get("aliases", [])) - {""})
     cli = {}
     for flag, path, default in (("--catalog", catalog, ROOT / "catalog/library.yaml"),
                                 ("--profiles-dir", profiles_dir, ROOT / "profiles"),
@@ -52,7 +65,7 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
             "profiles": visible, "resources": sorted(resources.values(), key=lambda r: ({"CRITICAL": 0, "USEFUL": 1, "NONESSENTIAL": 2}.get(r.get("utility_tier"), 3), r.get("number") or 1000, r["id"])),
             "topic_verticals": json.loads(Path(__file__).with_name("topic_verticals.json").read_text())["verticals"],
             "acquisition_recipes": read_yaml(catalog).get("acquisition_recipes", []),
-            "assets": [{key: a[key] for key in fields if key in a} for a in assets]}
+            "assets": [{**{key: a[key] for key in fields if key in a}, **({"discovery": discovery[a["id"]]} if a["id"] in discovery else {})} for a in assets]}
 
 
 def render_selector(model: dict) -> str:

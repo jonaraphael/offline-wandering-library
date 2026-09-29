@@ -25,6 +25,16 @@ for(const mode of ['assets','collections']) {
   if(Math.hypot(node.x-theme.x,node.y-theme.y)+node.r>theme.radius)throw Error('Outside theme: '+node.id);
  }
 }
+for(const theme of model.topic_verticals) {
+ const focused=OWLTopicMap.layout(model,'assets',{vertical:theme.id});
+ const expected=model.assets.filter(a=>OWLTopicMap.primary(a,model.topic_verticals).vertical===theme.id);
+ if(focused.nodes.length!==expected.length)throw Error('Theme membership mismatch');
+ for(const cluster of focused.clusters) {
+  const scope={vertical:theme.id,domain:cluster.domain},leaf=OWLTopicMap.layout(model,'assets',scope);
+  if(!leaf.nodes.length||leaf.nodes.some(n=>!OWLTopicMap.matches(n.record,model.topic_verticals,scope)))throw Error('Leaf leaked another topic');
+ }
+ for(const n of focused.nodes)if(Math.hypot(n.x-475,n.y-425)+n.r>390)throw Error('Outside zoomed theme');
+}
 const asset=id=>model.assets.find(a=>a.id===id);
 if(OWLTopicMap.primary(asset('usfs_ax_manual'),model.topic_verticals).vertical!=='trades')throw Error('Ax manual misplaced');
 if(OWLTopicMap.primary(asset('openstax_physics'),model.topic_verticals).vertical!==OWLTopicMap.primary(asset('openstax_university_physics_volume_1'),model.topic_verticals).vertical)throw Error('Related school/college physics separated by priority');

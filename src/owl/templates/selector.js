@@ -20,18 +20,19 @@
   }
   function selectionArgs(model, state) {
     const profile = profileFor(model, state.profile), defaults = new Set(profile.preset_resource_ids);
-    const include = [], exclude = [], editions = {};
+    const include = [], exclude = [], editions = {}, resourceAssets={};
     for (const row of model.resources) {
       const item = state.items[row.id];
       if (!item) throw Error("Missing resource selection: " + row.id);
       if (!item.included && defaults.has(row.id)) exclude.push(row.id);
       if (item.included) {
+        if(item.assetIds)resourceAssets[row.id]=item.assetIds;
         if (!defaults.has(row.id) || (!profile.default_resources && item.edition !== "preset")) include.push(row.id);
         const defaultEdition = profile.default_editions?.[row.id] || "published";
         if (item.edition !== "preset" && item.edition !== defaultEdition) editions[row.id] = item.edition;
       }
     }
-    return {include, exclude, editions};
+    return {include, exclude, editions, resourceAssets};
   }
   function resolve(model, state) {
     const DIRECT = new Set(model.direct_reading_formats || []);
@@ -51,7 +52,7 @@
       }
       variants[id] = mode === "published" ? resource : {...resource, ...(resource.editions?.[mode] || {})};
       const removed = new Set(overrides[id]?.exclude_asset_ids || []);
-      members[id] = variants[id].asset_ids.filter(asset => !removed.has(asset));
+      members[id] = (args.resourceAssets[id]||variants[id].asset_ids).filter(asset => !removed.has(asset));
       credits[id] = 0;
     }
     const rawMembers = new Set(Object.values(members).flat());
@@ -102,7 +103,7 @@
       const resource = variants[id], group = members[id], pinned = group.filter(id => assets[id].status === "resolved");
       const known = sum(pinned.map(id => assets[id].size_bytes));
       const edition = args.editions[id] || profile.default_editions?.[id] || "published";
-      const target = edition === "published" ? (overrides[id]?.target_bytes ?? resource.target_bytes) : resource.target_bytes;
+      const target = args.resourceAssets[id] ? known : edition === "published" ? (overrides[id]?.target_bytes ?? resource.target_bytes) : resource.target_bytes;
       const adjusted = target - credits[id];
       if (adjusted < 0) errors.push(resource.title + ": replacement credit exceeds target.");
       let status = resource.status, reason = resource.reason || "";
@@ -121,7 +122,7 @@
         ...Object.values(resources[id].editions || {}).map(row => row.asset_ids)].flat()));
       for (const id of selected) {
         (resources[id].replaces_asset_ids || []).forEach(asset => removed.add(asset));
-        if (args.editions[id]) [resources[id].asset_ids, ...Object.values(resources[id].editions || {}).map(edition => edition.asset_ids)]
+        if (args.editions[id]||args.resourceAssets[id]) [resources[id].asset_ids, ...Object.values(resources[id].editions || {}).map(edition => edition.asset_ids)]
           .flat().forEach(asset => removed.add(asset));
       }
       baseline = profile.baseline_asset_ids.filter(id => !removed.has(id) && !candidateIds.has(id));
@@ -199,7 +200,7 @@
     const baselineSoftwareBytes = sum(baseline.map(id => assets[id]).filter(asset => asset.status === "resolved" && isSoftware(asset)).map(asset => asset.size_bytes));
     const knowledgeTargetBytes = Math.max(knowledgeBytes, contentTargetBytes - baselineSoftwareBytes - supportingBytes);
     const unmetContentBytes = Math.max(0, knowledgeTargetBytes - knowledgeBytes);
-    const unchangedPreset = !args.include.length && !args.exclude.length && !Object.keys(args.editions).length;
+    const unchangedPreset = !args.include.length && !args.exclude.length && !Object.keys(args.editions).length && !Object.keys(args.resourceAssets).length;
     const presetBelowTarget = unchangedPreset && knowledgeBytes < (profile.content_target_min_bytes || 0);
     const presetAboveTarget = unchangedPreset && profile.content_target_max_bytes !== undefined && knowledgeBytes > profile.content_target_max_bytes;
     if (presetBelowTarget && !state.allowIncomplete)
@@ -280,6 +281,7 @@
     const chosen = report.selectionArgs;
     if (chosen.include.length) args.push("--include", chosen.include.join(","));
     if (chosen.exclude.length) args.push("--exclude", chosen.exclude.join(","));
+    for(const [id,ids] of Object.entries(chosen.resourceAssets))args.push("--resource-assets",id+"="+ids.join(","));
     for (const [id, edition] of Object.entries(chosen.editions)) args.push("--edition", id + "=" + edition);
     if (state.atlas) args.push("--navigation-dir", "catalog/navigation");
     if (state.allowIncomplete) args.push("--allow-incomplete");

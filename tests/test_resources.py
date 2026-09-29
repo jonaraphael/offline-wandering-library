@@ -58,6 +58,20 @@ class ResourceTests(unittest.TestCase):
     def resolve(self, **kwargs):
         return resolve_resources(self.assets, self.profile, self.registry(), **kwargs)
 
+    def test_explicit_member_subset_preserves_other_collections_and_uses_exact_budget(self):
+        result = self.resolve(resource_assets=["textbooks=book_b"])
+        self.assertEqual({a["id"] for a in result["assets"]}, {"core", "book_b"})
+        self.assertEqual(result["content_target_bytes"], 50)
+        self.assertTrue(result["customized"])
+        self.assertEqual(result["incomplete_resources"], [])
+        for subset in ["textbooks=", "textbooks=core", "textbooks=book_a,book_a", "missing=book_a"]:
+            with self.subTest(subset=subset), self.assertRaises(CatalogError):
+                self.resolve(resource_assets=[subset])
+        with self.assertRaises(CatalogError):
+            self.resolve(exclude=["textbooks"], resource_assets=["textbooks=book_a"])
+        with self.assertRaises(CatalogError):
+            self.resolve(resource_assets=["textbooks=book_a", "textbooks=book_b"])
+
     def test_defaults_and_known_sizes_keep_declared_estimates_visible(self):
         result = self.resolve()
         self.assertEqual(result["selected_ids"], ["owl-direct-core", "textbooks"])

@@ -293,16 +293,16 @@ def fingerprint(asset: dict) -> str:
 
 
 def resolve_content(assets: list[dict], profile: dict, *, resources_path: Path | None = None,
-                    include=(), exclude=(), editions=()) -> tuple[list[dict], list[dict], dict | None]:
+                    include=(), exclude=(), editions=(), resource_assets=()) -> tuple[list[dict], list[dict], dict | None]:
     """Resolve named collections, or the fixed directly-readable baseline."""
-    if "default_resources" not in profile and not include and not exclude and not editions:
+    if "default_resources" not in profile and not include and not exclude and not editions and not resource_assets:
         selected, unresolved = select_profile(assets, profile)
         return selected, unresolved, None
     from .resources import load_resources, resolve_resources, resource_asset_ids
     if resources_path is None:
         raise CatalogError("This selection requires a resource registry (--resources-catalog)")
     resources = load_resources(resources_path, assets)
-    result = resolve_resources(assets, profile, resources, include=include, exclude=exclude, editions=editions)
+    result = resolve_resources(assets, profile, resources, include=include, exclude=exclude, editions=editions, resource_assets=resource_assets)
     candidates = result.pop("assets")
     if "default_resources" not in profile:
         # Fixed small/custom profiles can also add or subtract named collections.
@@ -311,6 +311,7 @@ def resolve_content(assets: list[dict], profile: dict, *, resources_path: Path |
                        for identity in resources[rid].get("replaces_asset_ids", []))
         removed.update(identity for rid, edition in result["explicit_editions"].items()
                        if edition != "published" for identity in resource_asset_ids(resources[rid]))
+        removed.update(identity for rid in result["resource_assets"] for identity in resource_asset_ids(resources[rid]))
         added = {a["id"] for a in candidates}
         baseline = [a for a in assets if profile["id"] in a["profiles"] and a["id"] not in removed | added]
         candidates.extend(baseline)

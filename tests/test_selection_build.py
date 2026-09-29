@@ -51,6 +51,27 @@ class ResourceBuildTests(unittest.TestCase):
         return build(target or self.target,catalog=self.catalog,profiles_dir=self.profiles,profile_name='test',
                      allow_local=True,progress=lambda _:None,**kwargs)
 
+    def test_cli_member_subset_builds_only_chosen_file_and_locked_rebuild_preserves_it(self):
+        self.resources[0]["asset_ids"] = ["file1", "file2"]
+        self.profile["default_resources"] = ["core"]
+        self.save()
+        command = [sys.executable, str(ROOT/"scripts/build_drive.py"), str(self.target),
+                   "--catalog", str(self.catalog), "--profiles-dir", str(self.profiles),
+                   "--profile", "test", "--allow-local", "--resource-assets", "core=file2"]
+        completed = subprocess.run(command, text=True, capture_output=True)
+        self.assertEqual(completed.returncode, 0, completed.stdout+completed.stderr)
+        self.assertFalse((self.target/"LIBRARY/BOOKS/file1.txt").exists())
+        self.assertTrue((self.target/"LIBRARY/BOOKS/file2.txt").exists())
+        self.assertEqual(verify_drive(self.target, emit=lambda _:None)["FAILED"], 0)
+        lock = self.target/"LIBRARY/LOCKED_CATALOG.yaml"
+        rebuilt = build(self.root/"rebuilt", catalog=lock, profiles_dir=self.profiles,
+                        profile_name="test", allow_local=True, progress=lambda _:None)
+        self.assertEqual(rebuilt["asset_count"], 1)
+        self.assertFalse((self.root/"rebuilt/LIBRARY/BOOKS/file1.txt").exists())
+        with self.assertRaisesRegex(CatalogError, "locked selection"):
+            build(self.root/"invalid", catalog=lock, profiles_dir=self.profiles, profile_name="test",
+                  allow_local=True, resource_assets=["core=file2"], progress=lambda _:None)
+
     def test_incomplete_default_fails_before_writing(self):
         with self.assertRaisesRegex(CatalogError,'collections are incomplete'):
             self.run_build()

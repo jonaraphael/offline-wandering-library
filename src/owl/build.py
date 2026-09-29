@@ -189,7 +189,7 @@ def _build_extraction_directory(work, extraction, source):
 def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
           cache_dir: Path | None = None, work_dir: Path | None = None,
           allow_local: bool = False, plan_only: bool = False,
-          resources_catalog: Path | None = None, include=(), exclude=(), editions=(),
+          resources_catalog: Path | None = None, include=(), exclude=(), editions=(), resource_assets=(),
           extra_catalogs=(),
           allow_incomplete: bool = False, navigation_dir: Path | None = None,
           strict_coverage: bool = False, progress=print) -> dict:
@@ -230,13 +230,13 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     profile = profiles[profile_name]
     lock = read_yaml(catalog).get("selection_lock")
     if lock is not None:
-        if include or exclude or editions or extra_catalogs:
+        if include or exclude or editions or resource_assets or extra_catalogs:
             raise CatalogError("Customize the source catalog, not a locked selection")
         assets, unresolved, selection = resolve_locked_content(all_assets, profile, lock)
     else:
         assets, unresolved, selection = resolve_content(
             all_assets, profile, resources_path=resources_catalog or catalog.with_name("resources.yaml"),
-            include=include, exclude=exclude, editions=editions)
+            include=include, exclude=exclude, editions=editions, resource_assets=resource_assets)
     if extra_assets:
         source_ids = {a["id"] for a in assets}
         known_sources = {a["id"]: a for a in all_assets}
@@ -721,6 +721,7 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
     parser.add_argument("--resources-catalog", type=Path, help="resource registry (default: resources.yaml beside catalog)")
     parser.add_argument("--include", action="append", default=[], metavar="RESOURCE", help="add resource ID or list number; repeat or separate by commas")
     parser.add_argument("--exclude", action="append", default=[], metavar="RESOURCE", help="omit resource ID or list number; repeat or separate by commas; does not delete existing files")
+    parser.add_argument("--resource-assets", action="append", default=[], metavar="RESOURCE=ASSET,ASSET", help="select only these members of a selected collection; repeat for other collections")
     parser.add_argument("--edition", action="append", default=[], metavar="RESOURCE=EDITION", help="choose a registered direct, compact, or published edition of a selected resource; repeat as needed")
     parser.add_argument("--list-resources", action="store_true", help="list every selectable collection without a target or downloads")
     parser.add_argument("--allow-incomplete", action="store_true", help="explicitly build available verified files from incomplete collections")
@@ -752,7 +753,7 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
             if args.extra_catalog:
                 raise CatalogError("Use --plan with --extra-catalog; --list-resources lists the source registry")
             from .resources import load_resources, resolve_resources
-            if args.edition and read_yaml(args.catalog).get("selection_lock") is not None:
+            if (args.edition or args.resource_assets) and read_yaml(args.catalog).get("selection_lock") is not None:
                 raise CatalogError("Customize the source catalog, not a locked selection")
             profiles = load_profiles(args.profiles_dir)
             if args.profile not in profiles:
@@ -760,7 +761,7 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
             assets = load_catalog(args.catalog, profiles, args.allow_local)
             resources = load_resources(args.resources_catalog or args.catalog.with_name("resources.yaml"), assets)
             report = resolve_resources(assets, profiles[args.profile], resources,
-                                       include=args.include, exclude=args.exclude, editions=args.edition)
+                                       include=args.include, exclude=args.exclude, editions=args.edition, resource_assets=args.resource_assets)
             rows = {row["id"]: row for row in report["resource_rows"]}
             print("* = selected; GB = effective selected target, or base estimate when unselected. All units decimal.")
             for identity, resource in resources.items():
@@ -777,7 +778,7 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
             if "default_resources" not in profiles[args.profile]:
                 fixed, _, _ = resolve_content(assets, profiles[args.profile],
                     resources_path=args.resources_catalog or args.catalog.with_name("resources.yaml"),
-                    include=args.include, exclude=args.exclude, editions=args.edition)
+                    include=args.include, exclude=args.exclude, editions=args.edition, resource_assets=args.resource_assets)
                 print(f"Fixed-profile baseline/selection: {len(fixed)} verified asset definitions, "
                       f"{sum(a['size_bytes'] for a in fixed):,} bytes. "
                       "The stars above describe named additions, not baseline membership.")
@@ -788,7 +789,7 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
             build(args.target, catalog=args.catalog, profiles_dir=args.profiles_dir, profile_name=args.profile,
                   cache_dir=args.cache_dir, work_dir=args.work_dir, allow_local=args.allow_local, plan_only=args.plan,
                   resources_catalog=args.resources_catalog, include=args.include, exclude=args.exclude,
-                  editions=args.edition,
+                  editions=args.edition, resource_assets=args.resource_assets,
                   extra_catalogs=args.extra_catalog,
                   allow_incomplete=args.allow_incomplete, navigation_dir=args.navigation_dir,
                   strict_coverage=args.strict_coverage, progress=progress)

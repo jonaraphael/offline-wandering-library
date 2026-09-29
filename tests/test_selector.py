@@ -104,6 +104,7 @@ process.stdout.write(JSON.stringify(results));
         report, state = result["report"], result["state"]
         args = report["selectionArgs"]
         kwargs = {"include": args["include"], "exclude": args["exclude"]}
+        kwargs["resource_assets"] = [f"{rid}={','.join(ids)}" for rid, ids in args.get("resourceAssets", {}).items()]
         if args["editions"]:
             kwargs["editions"] = [f"{identity}={mode}" for identity, mode in args["editions"].items()]
         try:
@@ -213,6 +214,23 @@ process.stdout.write(JSON.stringify(results));
         self.assertTrue(complete["build"])
         self.assertFalse(omitted["build"])
         self.assertTrue(any("ZIP source" in error for error in omitted["report"]["errors"]))
+
+    def test_exact_member_selections_match_python_and_cli(self):
+        cases = []
+        for profile in self.model["profiles"]:
+            cases.append({"profile": profile["id"], "items": {
+                "school-education": {"included": True, "edition": "published", "assetIds": ["openstax_pre_algebra"]},
+                "seed-processing-quality": {"included": True, "assetIds": ["fao_seed_processing"]}}})
+        # Use the catalog ID rather than an assumed textbook spelling.
+        school = next(r for r in self.model["resources"] if r["id"] == "school-education")
+        for case in cases:
+            case["items"]["school-education"]["assetIds"] = school["asset_ids"][:1]
+        for result in self.javascript(cases):
+            self.compare_to_python(result)
+            self.assertIn("--resource-assets seed-processing-quality=fao_seed_processing", result["plan"])
+            self.assertIn("fao_seed_processing", result["report"]["selectedAssetIds"])
+            self.assertNotIn("fao_seed_quality", result["report"]["selectedAssetIds"])
+            self.assertEqual(set(result["report"]["selectedAssetIds"]) & set(school["asset_ids"]), set(school["asset_ids"][:1]))
 
     def test_many_custom_selections_match_python_without_network(self):
         rng = random.Random(402)
