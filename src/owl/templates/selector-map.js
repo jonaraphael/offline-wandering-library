@@ -7,7 +7,11 @@
       const vertical = verticals.find(v => v.domains.includes(domain));
       if (vertical) return {vertical:vertical.id, domain};
     }
-    throw new Error('No topic vertical for ' + row.id);
+    return null;
+  }
+  function available(model) {
+    const records=[...model.assets,...model.resources];
+    return records.length>0 && records.every(row=>colors[row.utility_tier] && primary(row,model.topic_verticals));
   }
   function pack(circles) {
     const placed=[];
@@ -30,7 +34,9 @@
     const verticals=model.topic_verticals, records=mode==='collections' ? model.resources : model.assets;
     const groups=new Map(verticals.map(v=>[v.id,new Map()]));
     for (const row of records) {
-      const {vertical,domain}=primary(row,verticals), group=groups.get(vertical);
+      const topic=primary(row,verticals);
+      if(!topic)throw new Error('No topic vertical for ' + row.id);
+      const {vertical,domain}=topic, group=groups.get(vertical);
       if (!group.has(domain)) group.set(domain,[]);
       group.get(domain).push(row);
     }
@@ -99,5 +105,5 @@
     draw();
     return {setMode(value){mode=value;current=null;draw();},update};
   }
-  root.OWLTopicMap={layout,primary,mount};
+  root.OWLTopicMap={layout,primary,available,mount};
 })(typeof globalThis!=='undefined'?globalThis:this);

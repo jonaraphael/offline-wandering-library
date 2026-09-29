@@ -7,8 +7,9 @@ from unittest.mock import patch
 import yaml
 
 from test_atlas_build import AtlasBuildFixture
-from owl.catalog import load_catalog, resolve_locked_content
+from owl.catalog import CatalogError, load_catalog, resolve_locked_content
 from owl.discovery import main
+from owl.postflight import audit_build
 from owl.safety import SafetyError
 from owl.verify import verify_drive
 
@@ -31,6 +32,74 @@ class AvailableDiscoveryTests(AtlasBuildFixture):
     def assembled(self):
         self.atlas(profile='test', from_downloads=True)
         return json.loads((self.library / 'INVENTORY.json').read_text())
+
+    def test_unpinned_download_is_rejected_before_publication(self):
+        self.asset['sha256'] = None
+        self.write_catalog()
+        self.put_downloaded_files()
+        with self.assertRaisesRegex(CatalogError, 'Content policy'):
+            self.assembled()
+        self.assertFalse((self.drive / 'START_HERE.html').exists())
+        self.assertFalse((self.library / 'INVENTORY.json').exists())
+
+    def test_non_offline_html_is_rejected_before_publication(self):
+        self.asset.update(format='html', offline_ready=False, destination='REFERENCE/fixture.html')
+        self.write_catalog()
+        self.put_downloaded_files()
+        with self.assertRaisesRegex(CatalogError, 'Content policy'):
+            self.assembled()
+        self.assertFalse((self.drive / 'START_HERE.html').exists())
+
+    def test_saved_publication_cannot_bypass_content_policy(self):
+        self.configure()
+        with patch('owl.atlas_build.write_outputs', side_effect=KeyboardInterrupt):
+            with self.assertRaises(KeyboardInterrupt):
+                self.assembled()
+        checkpoint = self.library / '.owl/atlas-job.json'
+        job = json.loads(checkpoint.read_text())
+        for change, error, message in (({'requires_network': True}, CatalogError, 'Content policy'),
+                                       ({'verification': 'observed'}, SafetyError, 'catalog-pinned')):
+            with self.subTest(change=change):
+                original = job['inventory']['assets'][0]
+                job['inventory']['assets'][0] = {**original, **change}
+                checkpoint.write_text(json.dumps(job))
+                with self.assertRaisesRegex(error, message):
+                    self.assembled()
+                job['inventory']['assets'][0] = original
+        self.assertFalse((self.drive / 'START_HERE.html').exists())
+
+    def test_reassembling_completed_named_resource_build_passes_postflight(self):
+        (self.profiles / 'test.yaml').write_text(yaml.safe_dump({**self.profile, 'default_resources': ['core']}))
+        (self.catalog.parent / 'resources.yaml').write_text(yaml.safe_dump({'schema_version': 1,
+            'resources': [{'id': 'core', 'title': 'Core', 'status': 'ready', 'target_bytes': len(self.data),
+                           'asset_ids': ['fixture']}]}))
+        self.run_build(navigation_dir=self.nav)
+        self.assertEqual(audit_build(self.drive, run_smoke=False)['status'], 'passed')
+        inventory = self.assembled()
+        report = audit_build(self.drive, run_smoke=False)
+        self.assertEqual(report['status'], 'passed')
+        self.assertTrue(report['selection']['content_complete'])
+        info = json.loads((self.library / 'BUILD_INFO.json').read_text())
+        self.assertEqual(info['content_selection'], inventory['content_selection'])
+        state = json.loads((self.library / '.owl/state.json').read_text())
+        self.assertEqual(state['result']['status'], 'passed')
+        self.assertEqual(state['result']['selection'], report['selection'])
+        self.check_verified()
+
+    def test_postflight_failure_leaves_assembly_resumable_and_incomplete(self):
+        self.configure()
+        with patch('owl.postflight.audit_build', side_effect=SafetyError('Postflight failure')):
+            with self.assertRaisesRegex(SafetyError, 'Postflight failure'):
+                self.assembled()
+        state = json.loads((self.library / '.owl/state.json').read_text())
+        self.assertFalse(state['complete'])
+        self.assertNotIn('result', state)
+        self.assertTrue((self.library / '.owl/atlas-job.json').is_file())
+        self.assembled()
+        state = json.loads((self.library / '.owl/state.json').read_text())
+        self.assertTrue(state['complete'])
+        self.assertEqual(state['result']['status'], 'passed')
+        self.assertFalse((self.library / '.owl/atlas-job.json').exists())
 
     def test_partial_bad_and_missing_downloads_are_excluded_then_success_is_added(self):
         self.configure()
@@ -88,6 +157,10 @@ class AvailableDiscoveryTests(AtlasBuildFixture):
         selected, _, scope = resolve_locked_content(load_catalog(locked, allow_local=True), profile, lock)
         self.assertEqual([a['id'] for a in selected], ['fixture'])
         self.assertTrue(scope['incomplete_resources'])
+        report = audit_build(self.drive, run_smoke=False)
+        self.assertEqual(report['status'], 'passed')
+        self.assertFalse(report['selection']['content_complete'])
+        self.assertEqual(report['selection']['assets'], 1)
 
     def test_assemble_cli_needs_no_previous_inventory_and_never_downloads(self):
         self.configure()

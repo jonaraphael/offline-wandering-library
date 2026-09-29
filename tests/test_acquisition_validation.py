@@ -25,9 +25,9 @@ class PortableValidationTests(unittest.TestCase):
         self.raw = self.root/'private-report.json'
         self.raw.write_text('{"log":"/Users/private/workspace/trace.log","failure_excerpt":"PRIVATE LOG BODY"}')
         names = ['catalog','full-tests','selector-freshness','content-docs-freshness','inputs-unchanged',
-                 *('plan-'+name for name in validation.PROFILES),'explicit-language-opt-in']
+                 'selection-policy',*('plan-'+name for name in validation.PROFILES),'explicit-language-opt-in']
         self.report = dict(schema_version=1,completed_at='2026-09-22T00:00:00+00:00',downloads=0,
-            fixed_small_preset_expectations=validation.SMALL_PRESETS,freshness_checked=True,full_tests=True,
+            selection_policy=validation.SELECTION_POLICY,freshness_checked=True,full_tests=True,
             input_sha256={'catalog/library.yaml':'a'*64},simulated_free_bytes_for_plans=10**13,
             passed=True,checks=[dict(name=name,passed=True,log=str(self.raw),command=['/private/python']) for name in names],
             profiles=[dict(profile='full-1tb',assets=3,content_bytes=100,peak_bytes=200,capacity_bytes=1000,
@@ -98,6 +98,18 @@ class PortableValidationTests(unittest.TestCase):
         self.report['checks'].append(check)
         self.assertFalse(validation._portable_evidence(self.report, self.raw)['passed'])
         self.assertTrue(validation._check_inputs(before, before)['passed'])
+
+    def test_current_collection_presets_pass_no_download_plans(self):
+        checks, profiles = validation._plans(self.root)
+        self.assertTrue(all(row['passed'] for row in checks), checks)
+        self.assertEqual({row['profile'] for row in profiles}, set(validation.PROFILES))
+        self.assertTrue(all(not row['target_created'] for row in profiles))
+
+    def test_missing_selection_policy_check_cannot_export_success(self):
+        self.report['checks'] = [row for row in self.report['checks'] if row['name'] != 'selection-policy']
+        evidence = validation._portable_evidence(self.report, self.raw)
+        self.assertFalse(evidence['passed'])
+        self.assertEqual(evidence['checks'][-1]['failure_kind'], 'missing_checks')
 
 
 if __name__=='__main__': unittest.main()

@@ -21,7 +21,11 @@ from owl.catalog import load_catalog, load_profiles, read_yaml, resolve_content,
 from owl.safety import SafetyError, reject_symlinks, sha256_file
 
 PROFILES = ('flash-16gb', 'critical-64gb', 'compact-256gb', 'standard-512gb', 'full-1tb')
-FIXED = {'flash-16gb': (551, 9869555191), 'critical-64gb': (602, 45226005469)}
+FIXED_PROFILES = {'flash-16gb', 'critical-64gb'}
+# Navigation has one assignment/section file per asset. Bound the whole bundle
+# without tying admission to a particular catalog's current document count.
+MAX_CONTROL_FILES = 10000
+MAX_CONTROL_BYTES = 64 * 1024 * 1024
 
 
 def signature(value):
@@ -36,15 +40,30 @@ def compare_selection(name, before, after):
            'after_sha256': signature(sorted(new.values(), key=lambda a: a['id'])),
            'added_ids': sorted(new.keys() - old.keys()), 'removed_ids': sorted(old.keys() - new.keys()),
            'changed_ids': sorted(k for k in old.keys() & new.keys() if old[k] != new[k])}
-    if name in FIXED:
-        if old != new or (len(new), sum(a['size_bytes'] for a in after)) != FIXED[name]:
-            raise SafetyError('Fixed small-preset selection changed: ' + name)
+    if name in FIXED_PROFILES and old != new:
+        raise SafetyError('Fixed small-preset selection changed: ' + name)
     return row
+
+
+def control_members(candidate):
+    members, total = [], 0
+    for path in candidate.rglob('*'):
+        reject_symlinks(path)
+        if path.is_dir():
+            continue
+        if not path.is_file():
+            raise SafetyError('Staged bundle contains a non-regular control member')
+        members.append(path)
+        total += path.stat().st_size
+        if len(members) > MAX_CONTROL_FILES or total > MAX_CONTROL_BYTES:
+            raise SafetyError('Staged bundle exceeds its control-file count or byte budget')
+    return sorted(members)
 
 
 def inspect(candidate, fragment_path, receipt_path):
     for path in (candidate, fragment_path, receipt_path):
         reject_symlinks(path)
+    members = control_members(candidate)
     fragment = read_yaml(fragment_path)
     validate_review_binding(fragment, receipt_path)
     stage = read_yaml(candidate / 'stage-report.json')
@@ -82,15 +101,10 @@ def inspect(candidate, fragment_path, receipt_path):
         row['unresolved_assets'] = [a['id'] for a in unresolved]
         row['incomplete_resources'] = [r['id'] for r in selection['incomplete_resources']] if selection else []
         rows.append(row)
-    members = [p for p in candidate.rglob('*') if p.is_file()]
-    if len(members) > 100:
-        raise SafetyError('Staged bundle has excessive control members')
-    for path in members:
-        reject_symlinks(path)
     return {'schema_version': 1, 'kind': 'staged-admission-invariants', 'checks_passed': True,
             'published': False, 'physical_device_certification': 'pending',
             'fragment_sha256': sha256_file(fragment_path), 'review_receipt_sha256': sha256_file(receipt_path),
-            'candidate': str(candidate), 'candidate_files': {str(p.relative_to(candidate)): sha256_file(p) for p in members},
+            'candidate': str(candidate), 'candidate_files': {p.relative_to(candidate).as_posix(): sha256_file(p) for p in members},
             'build_only_source_count': len(temporary), 'build_only_source_bytes': sum(a['size_bytes'] for a in temporary.values()),
             'profiles': rows}
 

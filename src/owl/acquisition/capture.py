@@ -433,7 +433,7 @@ def _import_missing_source_failure(job_dir, job_owner, evidence_path, source_id,
     manifest_path = Path(configuration["manifest"])
     snapshot = job_dir / "snapshot"
     if (not manifest_path.is_relative_to(snapshot)
-            or str(manifest_path.relative_to(snapshot)) not in recipe["snapshot_files"]):
+            or manifest_path.relative_to(snapshot).as_posix() not in recipe["snapshot_files"]):
         raise SafetyError("Missing-source import requires the verified frozen job manifest")
     manifest = load_manifest(manifest_path, allow_local=options.get("allow_local", False),
                              resource_ids=options.get("resource_ids", ()), profile=options.get("profile"))

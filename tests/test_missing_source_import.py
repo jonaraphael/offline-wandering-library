@@ -3,7 +3,7 @@ from copy import deepcopy
 import hashlib
 import io
 import json
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -112,6 +112,24 @@ class MissingSourceImportTests(unittest.TestCase):
         self.assertIs(report["content_ready"], False)
         self.assertFalse(Path(report["checkpoint"]).exists())
         self.assertEqual(self.saved_files(self.root), before)
+
+    def test_frozen_manifest_lookup_uses_portable_snapshot_keys(self):
+        # Exercise Windows relative-path spelling even on a POSIX test host.
+        class WindowsRelativePath(type(Path())):
+            def relative_to(self, *args, **kwargs):
+                relative = super().relative_to(*args, **kwargs)
+                return PureWindowsPath(*relative.parts)
+
+        recipe = json.loads((self.job / 'recipe.json').read_text())
+        manifest = recipe['acquisition']['manifest']
+        relative = WindowsRelativePath(manifest).relative_to(self.job / 'snapshot')
+        self.assertIn(relative.as_posix(), recipe['snapshot_files'])
+        self.assertNotIn(str(relative), recipe['snapshot_files'])
+        def platform_path(value):
+            return WindowsRelativePath(value) if value == manifest else Path(value)
+        with patch.object(capture_module, 'Path', side_effect=platform_path):
+            report = self.import_failure(plan_only=False)
+        self.assertEqual(report['status'], 'checkpointed')
 
     def test_applied_checkpoint_skips_old_404_and_captures_remaining_source(self):
         receipt = self.staging / "receipts/before.json"

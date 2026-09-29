@@ -58,6 +58,7 @@
           <label class="field-label" for="priority-filter">Priority</label><select id="priority-filter"><option value="">All priorities</option><option>CRITICAL</option><option>USEFUL</option><option>NONESSENTIAL</option></select>
           <div class="list-note"><span id="visible-count"></span><span>Status describes source metadata, not downloaded files.</span></div>
           <div class="view-controls" role="group" aria-label="Collection view"><button id="list-view" type="button" aria-pressed="true">List</button><button id="map-view" type="button" aria-pressed="false">Topic map</button></div>
+          <p id="map-unavailable" class="field-help" hidden>The topic map needs supported topic and priority tags for every asset and collection. Use the list to choose from this catalog.</p>
           <section id="map-panel" hidden aria-label="Explore knowledge by topic">
             <p class="field-help">Large circles group major themes; smaller clusters share a topic. Nearby themes are related. Positions use catalog topic tags, not analysis of document text. A dot represents one file; a large ZIM may contain thousands of articles.</p>
             <div class="map-controls"><label for="map-level">Show<select id="map-level"><option value="assets">Individual assets</option><option value="collections">Collections</option></select></label><label for="map-zoom">Zoom<select id="map-zoom"><option value="100">100%</option><option value="150">150%</option><option value="200">200%</option></select></label></div>
@@ -322,6 +323,7 @@
     if(inspected)inspectMap(inspected.record,inspected.mode);
   }
   function showView(map) {
+    if(map && byId("map-view").disabled)return;
     mapVisible=map;byId("map-panel").hidden=!map;byId("resources").hidden=map;
     byId("list-view").setAttribute("aria-pressed",String(!map));byId("map-view").setAttribute("aria-pressed",String(map));filterCards();
   }
@@ -440,6 +442,9 @@
   }
   try {
     model = JSON.parse(byId("owl-model").textContent);
+    byId("map-view").disabled=!OWLTopicMap.available(model);
+    byId("map-unavailable").hidden=!byId("map-view").disabled;
+    if(byId("map-view").disabled)byId("map-view").setAttribute("aria-describedby","map-unavailable");
     for (const [identity, label, caption] of profileSizes) {
       if (!model.profiles.some(profile => profile.id === identity)) continue;
       const button = element("button", "preset"); button.type = "button";

@@ -14,7 +14,8 @@ import sys
 from urllib.parse import unquote, urlsplit
 
 from .build import REPO_ROOT, _json, _owned_directory, _root, _state, check_space
-from .catalog import ROOTS, fingerprint, is_document, load_catalog, load_profiles, resolve_content, validate_catalog
+from .catalog import ROOTS, fingerprint, is_document, learning_coverage, load_catalog, load_profiles, resolve_content, validate_catalog
+from .content_policy import require_content_policy
 from .layout import checksum_name, content_root, logical_name, managed_path
 from .navigation import GENERATED_PATHS, generate_navigation
 from .runtime import file_lock, interrupt_signals
@@ -251,6 +252,7 @@ def _new_inventory(target, all_assets, profile, profiles_dir, catalog, state, pr
         raise SafetyError(f"Unknown profile: {profile}")
     selected, unresolved, selection = resolve_content(all_assets, profiles[profile],
         resources_path=catalog.with_name("resources.yaml"))
+    require_content_policy(selected)
     present, missing = [], []
     for asset in selected:
         path = safe_path(target, asset["destination"])
@@ -265,14 +267,14 @@ def _new_inventory(target, all_assets, profile, profiles_dir, catalog, state, pr
             problem = 'Selected source size differs'
         else:
             digest = sha256_file(path)
-            if asset['sha256'] and digest != asset['sha256']:
+            if digest != asset['sha256']:
                 problem = 'Selected source checksum differs'
         if problem:
             if not available_only:
                 raise SafetyError(f"{problem}: {asset['destination']}")
             missing.append({**asset, 'unresolved_reason': problem})
             continue
-        present.append({**asset, "sha256": digest, "verification": "pinned" if asset["sha256"] else "observed"})
+        present.append({**asset, "verification": "pinned"})
     # A source-bound archive member is admitted only with its required package.
     if available_only:
         changed = True
@@ -304,9 +306,10 @@ def _new_inventory(target, all_assets, profile, profiles_dir, catalog, state, pr
                 selection[field] = [aid for aid in selection[field] if aid in present_by_id]
     complete = not missing and not unresolved and (not selection or not selection["incomplete_resources"])
     inventory = {"schema_version": 1, "assets": present, "search": {"status": "not-built", "assets": [], "warnings": []},
+                 "learning_coverage": learning_coverage(present),
                  "content_selection": selection, "content_complete": complete, "unresolved": [*unresolved, *missing]}
     info = {"schema_version": 1, "complete": True, "build_kind": "human-index-only", "profile": profiles[profile],
-            "asset_count": len(present), "content_complete": complete,
+            "asset_count": len(present), "content_complete": complete, "content_selection": selection,
             "search": inventory["search"], "catalog_sha256": sha256_file(catalog)}
     if available_only:
         info['build_kind'] = 'available-content'
@@ -337,6 +340,9 @@ def _inventory_assets(inventory: dict) -> list[dict]:
         identities.add(identity)
         paths.append(destination)
     _check_names(paths)
+    require_content_policy(inventory["assets"])
+    if any(asset.get("verification") == "observed" for asset in inventory["assets"]):
+        raise SafetyError("Atlas sources require catalog-pinned verification")
     if any("archive_member" in asset for asset in inventory["assets"]):
         # Saved publication jobs must not loosen archive-member/source rules.
         # Local URLs are metadata here; atlas publication never fetches them.
@@ -436,11 +442,10 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             discovery_pages, discovery_report = plan_discovery(assets, navigation,
                 budget=info.get('profile', {}).get('discovery_budget_bytes', 16 * 1024 * 1024))
             inventory = {**inventory, "navigation": report, "search": discovery_report}
-            info = {**info, "search": discovery_report}
+            info = {**info, "search": discovery_report, "navigation": report}
             if metadata_only:
                 info['source_verification'] = 'Not repeated during this metadata-only refresh'
             job['inventory'], job['build_info'] = inventory, info
-            info = {**info, "navigation": report}
             pages = generate_navigation(target, assets, inventory, inventory.get("search", {}), write=False)
             pages.update(atlas_pages)
             pages.update(discovery_pages)
@@ -484,6 +489,8 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
                         info.get("profile", {}).get("reserve_bytes", 0) + 1024 * 1024)
             atomic_write(job_path, _json(job))
             state.update(complete=False, phase="atlas")
+            if from_downloads:
+                state.pop('result', None)
             state["managed"] = sorted(set(state["managed"]) | set(source_hashes) | {"SHA256SUMS.txt"})
             register_outputs(target, pages, state)
             write_outputs(target, pages)
@@ -498,10 +505,12 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             atomic_write(safe_path(target, "SHA256SUMS.txt"), "".join(
                 f"{digest}  {checksum_name(p)}\n" for p, digest in sorted(checksums.items())).encode())
             for asset in assets:
-                original = {**asset, "sha256": None} if asset.get("verification") == "observed" else asset
-                state["assets"][asset["id"]] = {"sha256": asset["sha256"], "fingerprint": fingerprint(original)}
+                state["assets"][asset["id"]] = {"sha256": asset["sha256"], "fingerprint": fingerprint(asset)}
             if from_downloads:
-                state.pop('result', None)  # A previous full-build postflight describes a different selection.
+                # Sources and generated pages were verified above. Audit their
+                # metadata together before declaring this publication complete.
+                from .postflight import audit_build
+                state['result'] = audit_build(outer, info=info)
             state.update(complete=job["finish_complete"], phase="complete" if job["finish_complete"] else "build-incomplete")
             atomic_write(state_path, _json(state))
             job_path.unlink()

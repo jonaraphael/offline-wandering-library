@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Repeatable acquisition verification with full local evidence and tiny stdout.
 
-Default: acquisition tests, catalog validation, five no-download plans, fixed
-small-preset invariants, English resource defaults, and generated-file freshness.
+Default: acquisition tests, catalog and selection-policy validation, five
+no-download plans, English resource defaults, and generated-file freshness.
 --full replaces the focused test pass with the complete unittest suite.
 Planning simulates ample disk space: nominal profile capacity is checked without
 requiring a terabyte of free space on the development computer.
@@ -30,8 +30,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 PROFILES = ("flash-16gb", "critical-64gb", "compact-256gb", "standard-512gb", "full-1tb")
-SMALL_PRESETS = {"flash-16gb": {"assets": 551, "content_bytes": 9_869_555_191},
-                 "critical-64gb": {"assets": 602, "content_bytes": 45_226_005_469}}
+SELECTION_POLICY = "src/owl/utility_policy.json"
 LANGUAGE_OPT_INS = {"gutenberg-multilingual", "wikipedia-es", "wikipedia-fr", "wikipedia-zh",
                     "wikipedia-ar", "wikipedia-pt", "wikipedia-it"}
 SIMULATED_FREE_BYTES = 10_000_000_000_000
@@ -56,7 +55,7 @@ def _input_hashes(sources):
     for name in ("src", "scripts", "tests"):
         digest = hashlib.sha256()
         for path in sorted((ROOT / name).rglob("*")):
-            if path.is_file() and path.suffix in {".py", ".js", ".cjs", ".html", ".css"}:
+            if path.is_file() and path.suffix in {".py", ".js", ".cjs", ".html", ".css", ".json"}:
                 digest.update(str(path.relative_to(ROOT)).encode() + b"\0")
                 digest.update(hashlib.sha256(path.read_bytes()).digest())
         hashes[name + "/**"] = digest.hexdigest()
@@ -136,12 +135,8 @@ def _plans(destination):
                            "peak_bytes": plan["in_place_peak_budget_bytes"], "capacity_bytes": plan["capacity_bytes"],
                            "incomplete_resources": [r["id"] for r in selection["incomplete_resources"]] if selection else [],
                            "unresolved_assets": [a["id"] for a in unresolved], "target_created": target.exists()}
-                if name in SMALL_PRESETS:
-                    observed = {key: summary[key] for key in SMALL_PRESETS[name]}
-                    if observed != SMALL_PRESETS[name]:
-                        raise AssertionError(f"Fixed preset changed: expected {SMALL_PRESETS[name]}, observed {observed}")
-                    if unresolved or selection:
-                        raise AssertionError("Fixed small preset unexpectedly changed to resource selection")
+                if plan['content_bytes'] != sum(asset['size_bytes'] for asset in selected):
+                    raise AssertionError('Plan bytes differ from the resolved catalog selection')
                 defaults = set(profiles[name].get("default_resources", []))
                 if defaults & LANGUAGE_OPT_INS:
                     raise AssertionError("A non-English resource was silently defaulted: " + ", ".join(sorted(defaults & LANGUAGE_OPT_INS)))
@@ -187,7 +182,7 @@ def _summary(report, path):
 
 def _portable_evidence(report, raw_report):
     """Export only portable facts; command lines, paths and diagnostics stay local."""
-    fields = ("schema_version", "completed_at", "downloads", "fixed_small_preset_expectations",
+    fields = ("schema_version", "completed_at", "downloads", "selection_policy",
               "freshness_checked", "full_tests", "input_sha256", "simulated_free_bytes_for_plans")
     result = {key: report[key] for key in fields}
     checks = []
@@ -202,7 +197,7 @@ def _portable_evidence(report, raw_report):
             if row.get("exit_code") is not None:
                 check["exit_code"] = row["exit_code"]
         checks.append(check)
-    required = {"catalog", "inputs-unchanged", "full-tests" if report["full_tests"] else "acquisition-tests",
+    required = {"catalog", "selection-policy", "inputs-unchanged", "full-tests" if report["full_tests"] else "acquisition-tests",
                 "explicit-language-opt-in", *("plan-" + name for name in PROFILES)}
     if report["freshness_checked"]:
         required.update({"selector-freshness", "content-docs-freshness"})
@@ -268,12 +263,13 @@ def main(argv=None):
     report = {"schema_version": 1, "started_at": _now(), "full_tests": args.full,
               "freshness_checked": not args.skip_freshness, "downloads": 0,
               "simulated_free_bytes_for_plans": SIMULATED_FREE_BYTES,
-              "fixed_small_preset_expectations": SMALL_PRESETS, "checks": [], "profiles": []}
+              "selection_policy": SELECTION_POLICY, "checks": [], "profiles": []}
     sources = [ROOT / "catalog/library.yaml", ROOT / "catalog/resources.yaml", ROOT / "catalog/acquisition/recipes.yaml",
                ROOT / "SELECT.html", ROOT / "docs/content-selection.md",
                *(ROOT / "profiles" / (name + ".yaml") for name in PROFILES)]
     report["input_sha256"] = _input_hashes(sources)
     jobs = [("catalog", ["scripts/validate_catalog.py"]),
+            ("selection-policy", ["scripts/check_selection_policy.py"]),
             ("full-tests" if args.full else "acquisition-tests",
              ["-m", "unittest", "discover", "-s", "tests", "-v", "-p", "test_*.py" if args.full else "test_acquisition*.py"])]
     if not args.skip_freshness:

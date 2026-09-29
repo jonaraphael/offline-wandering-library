@@ -121,8 +121,9 @@ python scripts/discovery.py assemble \
     --output /path/to/DRIVE --profile flash-16gb
 ```
 
-This command needs no existing inventory and performs no downloads. It checks
-selected files against catalog sizes and SHA-256 pins, then publishes inventory,
+This command needs no existing inventory and performs no downloads. It enforces
+the same content policy as a normal build, then checks selected files against
+catalog sizes and SHA-256 pins and publishes inventory,
 search, and atlas for the verified subset. Missing files, partial downloads, and
 size/checksum mismatches are excluded and recorded in `INVENTORY.json`. Empty
 topics disappear. A `.part` file does not count as the final catalog destination.
@@ -133,6 +134,10 @@ An interrupted full build remains incomplete even though its atlas is usable.
 Files outside the profile and unverified files remain untouched; the full verifier
 may report them as unknown. If no selected files verify, assembly stops without
 publishing an empty library.
+
+Before marking publication complete, assembly checks the inventory, locked
+selection, learning coverage, search metadata, navigation links, and capacity
+together. Its postflight result is saved in `LIBRARY/.owl/state.json`.
 
 This initial admission reads source bytes to check integrity. Metadata compilation
 does not parse them. Normal drive builds already use their verified inventory and

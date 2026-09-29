@@ -144,11 +144,11 @@ approved book/course discovery until whole-item admission lands within
 
 ## Small-preset baseline
 
-The committed regression baseline now contains 551 selected assets /
-9,869,555,191 bytes for 16 GB and 602 assets / 45,226,005,469 bytes for 64 GB.
-This continuation preserves that baseline. Earlier task checkpoints listed
-different EPUB/PDF selections; those historical counts are not the current
-invariants. The connected OWL still contains its completed 16 GB build.
+The current practical collection defaults select 402 assets / 7,690,586,812 bytes
+for 16 GB and 416 assets / 33,217,883,136 bytes for 64 GB. Admission compares the
+candidate against the active catalog to preserve these smaller selections.
+The validation runner checks domain coverage, utility tiers, and capacity using
+the selection policy; it imposes no permanent file-count or byte quota.
 
 Production SSD assembly and paused-drive recovery have not started. Physical-device
 certification remains separately pending.
