@@ -6,8 +6,6 @@ from pathlib import Path
 import tempfile
 import unittest
 
-import pymupdf
-
 from owl.safety import SafetyError
 
 spec = importlib.util.spec_from_file_location('survivor_scan', Path(__file__).parents[1] / 'scripts/inspect_survivor_capture.py')
@@ -17,6 +15,8 @@ spec.loader.exec_module(review)
 
 class SurvivorScanReviewTests(unittest.TestCase):
     def fixture(self, path):
+        import pymupdf
+
         with pymupdf.open() as pdf:
             for i in range(9):
                 page = pdf.new_page()
@@ -24,6 +24,7 @@ class SurvivorScanReviewTests(unittest.TestCase):
             pdf.save(path)
         return {'id': 'book', 'size_bytes': path.stat().st_size}, {'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
 
+    @unittest.skipUnless(importlib.util.find_spec('pymupdf'), 'Requires optional PyMuPDF')
     def test_whole_page_checks_and_deterministic_sparse_samples(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory).resolve() / 'book.pdf'; source, receipt = self.fixture(path)
@@ -51,7 +52,10 @@ class SurvivorScanReviewTests(unittest.TestCase):
             image.write_bytes(b'different')
             with self.assertRaisesRegex(SafetyError, 'render changed'): review.cached(path, binding)
 
+    @unittest.skipUnless(importlib.util.find_spec('pymupdf'), 'Requires optional PyMuPDF')
     def test_dense_scan_sample_keeps_resolution_within_existing_byte_limit(self):
+        import pymupdf
+
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory).resolve() / 'noisy.pdf'
             with pymupdf.open() as pdf:

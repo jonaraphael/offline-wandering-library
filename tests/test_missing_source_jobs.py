@@ -105,7 +105,7 @@ class MissingSourceJobTests(unittest.TestCase):
                 self.assertIs(recipe["acquisition"]["kwargs"]["continue_missing_sources"], expected)
                 captured = Path(recipe["acquisition"]["manifest"])
                 self.assertTrue(captured.is_relative_to(job / "snapshot"))
-                self.assertIn(str(captured.relative_to(job / "snapshot")), recipe["snapshot_files"])
+                self.assertIn(captured.relative_to(job / "snapshot").as_posix(), recipe["snapshot_files"])
                 self.assertEqual(captured.read_bytes(), self.manifest.read_bytes())
                 self.assertEqual(recipe["kind"], "acquisition")
 
