@@ -126,5 +126,5 @@ if(!get('fatal').hidden)throw Error(get('fatal').textContent);
 if(card.dataset.included!=='false'||!get('plan-command').value)throw Error('List cannot change selection');
 '''
         result = subprocess.run([shutil.which('node'), '-e', code], input=render_selector(model),
-                                text=True, capture_output=True, timeout=30)
+                                encoding='utf-8', capture_output=True, timeout=30)
         self.assertEqual(result.returncode, 0, result.stderr)
