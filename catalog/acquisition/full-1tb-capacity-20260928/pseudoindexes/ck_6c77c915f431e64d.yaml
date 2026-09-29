@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_6c77c915f431e64d
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 6: First Grade Skills—Grace'
+  - CKLA
+  - grade 1
+  - assessment and remediation guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 6: First Grade Skills—Grace'
+  - CKLA
+  - grade 1
+  - assessment and remediation guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

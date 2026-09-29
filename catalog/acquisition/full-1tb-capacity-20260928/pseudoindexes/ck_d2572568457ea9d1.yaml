@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_d2572568457ea9d1
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 9: The Science of Breakable Things'
+  - CKLA
+  - grade 5
+  - activity book
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 9: The Science of Breakable Things'
+  - CKLA
+  - grade 5
+  - activity book
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

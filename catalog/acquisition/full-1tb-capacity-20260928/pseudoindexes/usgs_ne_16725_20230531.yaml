@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_16725_20230531
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Gallupville topographic map
+  - NY
+  - Schoharie County map
+  - Albany County map
+  - Schenectady County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

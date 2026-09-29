@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_29371_20230427
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Millerton topographic map
+  - NY
+  - CT
+  - Dutchess County map
+  - Columbia County map
+  - Litchfield County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

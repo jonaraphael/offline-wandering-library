@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_e042ff2a754bb9a7
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Grade 8: Resources for English Language Learners'
+  - CKLA
+  - grade 8
+  - vocabulary cards
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Grade 8: Resources for English Language Learners'
+  - CKLA
+  - grade 8
+  - vocabulary cards
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_13521_20230504
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Easton topographic map
+  - PA
+  - NJ
+  - Northampton County map
+  - Warren County map
+  - Hunterdon County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

@@ -1,7 +1,11 @@
+# Nominal 64,000,000,000 bytes; allow 320,000,000 for filesystem/partitions
+# and retain 320,000,000 actually free. Total reader/setup budget: 1 GB.
+# Exact near-full source selection: catalog/acquisition/preset-capacity-20260929.json.
+# New source candidates are not build defaults until catalog admission passes.
 id: critical-64gb
-title: Practical library with dictionaries and trade references
-capacity_bytes: 64000000000
-reserve_bytes: 6000000000
+title: Practical library with regional maps and trade references
+capacity_bytes: 63680000000
+reserve_bytes: 320000000
 discovery_budget_bytes: 16777216
 default_resources:
 - hesperian-health
@@ -25,9 +29,13 @@ default_resources:
 - archive-readers
 - wikimed
 - wikibooks-en
-- wiktionary-en
 - stackexchange-practical
 - survivor-tier-a
+- sare-practical-farming
+- trail-maintenance
+- seed-processing-quality
+- water-supply-maintenance
+- regional-maps
 required_domains:
 - health
 - water-sanitation
@@ -39,3 +47,4 @@ required_domains:
 - hand-tools
 - school-math
 - school-science
+readers_budget_bytes: 1000000000

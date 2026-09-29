@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: fema_p232_2024
+assignments:
+- topic_id: shelter
+  purpose: reference
+  aliases:
+  - Homebuilders' Guide to Earthquake-Resistant Design and Construction — FEMA P-232 (2024)
+  - earthquake resistant housing
+  - seismic construction
+  - masonry wall reinforcement
+  - residential wall anchorage
+  basis: Illustrated seismic housing design reference; not a general weatherproofing or repair course. Complete
+    bytes hashed and parsed; representative rendered page inspected. This limited review does not establish topic
+    adequacy.

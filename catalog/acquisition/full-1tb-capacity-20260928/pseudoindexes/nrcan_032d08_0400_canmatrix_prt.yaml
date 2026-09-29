@@ -1,0 +1,11 @@
+schema_version: 1
+asset_id: nrcan_032d08_0400_canmatrix_prt
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - LA MOTTE topographic map
+  - 032D08
+  - Canada 1:50000 terrain
+  basis: Generated from the official NRCan sheet index and offered ZIP member filename. ZIP directory and decompressed
+    PDF prefix checked. Legacy edition; current roads, full readability and geographic completeness are not established.

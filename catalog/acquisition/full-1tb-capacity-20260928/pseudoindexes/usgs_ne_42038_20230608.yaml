@@ -1,0 +1,12 @@
+schema_version: 1
+asset_id: usgs_ne_42038_20230608
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Solomons Island topographic map
+  - MD
+  - St. Mary's County map
+  - Calvert County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

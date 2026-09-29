@@ -1,0 +1,33 @@
+schema_version: 1
+asset_id: ck_c87c787e1966f29b
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKHG Unit 5: Early and Medieval African Kingdoms'
+  - CKHG
+  - grade 4
+  - teacher guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: history
+  purpose: reference
+  aliases:
+  - 'CKHG Unit 5: Early and Medieval African Kingdoms'
+  - CKHG
+  - grade 4
+  - teacher guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: government-politics
+  purpose: reference
+  aliases:
+  - 'CKHG Unit 5: Early and Medieval African Kingdoms'
+  - CKHG
+  - grade 4
+  - teacher guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

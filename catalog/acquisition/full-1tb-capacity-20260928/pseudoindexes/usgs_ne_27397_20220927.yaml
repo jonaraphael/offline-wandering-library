@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_27397_20220927
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Manassas topographic map
+  - VA
+  - Fairfax County map
+  - Prince William County map
+  - Manassas (city) County map
+  - Manassas Park (city) County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

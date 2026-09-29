@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_37582_20230613
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Relay topographic map
+  - MD
+  - Anne Arundel County map
+  - Baltimore County map
+  - Howard County map
+  - Baltimore (city) County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

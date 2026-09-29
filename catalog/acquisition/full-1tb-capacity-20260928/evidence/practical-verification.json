@@ -1,0 +1,229 @@
+[
+  {
+    "id": "fema_p232_2024",
+    "title": "Homebuilders' Guide to Earthquake-Resistant Design and Construction — FEMA P-232 (2024)",
+    "source_url": "https://www.fema.gov/sites/default/files/documents/fema_p-232_september2024.pdf",
+    "topic_ids": [
+      "shelter"
+    ],
+    "brief_evaluation": "Illustrated seismic housing design reference; not a general weatherproofing or repair course.",
+    "checked_at": "2026-09-29T02:52:32.558358+00:00",
+    "body_verified": true,
+    "sha256": "093e586bd3926c02ec9eeac92f48ba59098297098f02e54102ff18a4ae929cd6",
+    "status": "full_body_hash_and_pdf_parse_verified",
+    "size_bytes": 43170843,
+    "pages": 266,
+    "encrypted": false,
+    "sample_pages": [
+      1,
+      2,
+      3,
+      134,
+      266
+    ],
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "title_in_pdf": "Homebuilders' Guide to Earthquake-Resistant Design and Construction (FEMA P-232)"
+  },
+  {
+    "id": "doe_energy_saver_2022",
+    "title": "Energy Saver Guide (2022)",
+    "source_url": "https://www.energy.gov/sites/default/files/2022-08/energy-saver-guide-2022.pdf",
+    "topic_ids": [
+      "electricity"
+    ],
+    "brief_evaluation": "Household efficiency and weatherization overview. Does not teach complete off-grid wiring or generator service.",
+    "checked_at": "2026-09-29T02:52:32.558421+00:00",
+    "body_verified": true,
+    "sha256": "416398e39c65d91687a287c6f82a8f63723a5f4e5027702f5d144ccbf1d1f504",
+    "status": "full_body_hash_and_pdf_parse_verified",
+    "size_bytes": 3251105,
+    "pages": 56,
+    "encrypted": false,
+    "sample_pages": [
+      1,
+      2,
+      3,
+      29,
+      56
+    ],
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "title_in_pdf": "Energy Saver: Tips on Saving Money and Energy in Your Home"
+  },
+  {
+    "id": "psu_private_water_systems",
+    "title": "A Guide to Private Water Systems — Penn State Extension",
+    "source_url": "https://extension.psu.edu/downloadable/download/sample/sample_id/4202/",
+    "topic_ids": [
+      "drinking-water"
+    ],
+    "brief_evaluation": "Regional private well, spring and cistern reference; verify this offered sample URL contains the complete guide before selection.",
+    "checked_at": "2026-09-29T02:52:32.558587+00:00",
+    "body_verified": false,
+    "sha256": null,
+    "status": "format_failed",
+    "error": "not a PDF"
+  },
+  {
+    "id": "psu_water_well_maintenance",
+    "title": "Water Well Maintenance and Rehabilitation — Penn State Extension",
+    "source_url": "https://extension.psu.edu/downloadable/download/sample/sample_id/122225/",
+    "topic_ids": [
+      "drinking-water"
+    ],
+    "brief_evaluation": "Concise maintenance and rehabilitation factsheet; a supplement, not a complete pump-repair manual.",
+    "checked_at": "2026-09-29T02:52:32.982185+00:00",
+    "body_verified": false,
+    "sha256": null,
+    "status": "format_failed",
+    "error": "not a PDF"
+  },
+  {
+    "id": "eawag_sanitation_compendium_2e",
+    "title": "Compendium of Sanitation Systems and Technologies — second edition",
+    "source_url": "https://www.eawag.ch/fileadmin/Domain1/Abteilungen/sandec/schwerpunkte/sesp/CLUES/Compendium_2nd_pdfs/Compendium_2nd_Ed_Lowres_1p.pdf",
+    "topic_ids": [
+      "sanitation"
+    ],
+    "brief_evaluation": "Illustrated comparison of sanitation technologies and systems. Site design and cold-climate suitability still require review.",
+    "checked_at": "2026-09-29T02:52:33.263946+00:00",
+    "body_verified": true,
+    "sha256": "2ddd904359e2d5f28e45f35a789c430cfbad22b8bf4d32728a7d5fc58338eb09",
+    "status": "full_body_hash_and_pdf_parse_verified",
+    "size_bytes": 9483264,
+    "pages": 180,
+    "encrypted": false,
+    "sample_pages": [
+      1,
+      2,
+      3,
+      91,
+      180
+    ],
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "title_in_pdf": ""
+  },
+  {
+    "id": "nrcan_wood_heating_2002",
+    "title": "A Guide to Residential Wood Heating (2002)",
+    "source_url": "https://publications.gc.ca/collections/Collection/M92-23-2002E.pdf",
+    "source_page": "https://publications.gc.ca/site/fra/9.686486/publication.html",
+    "topic_ids": [
+      "shelter"
+    ],
+    "brief_evaluation": "Dated background on wood heating, combustion and operation; not current installation code or appliance instructions.",
+    "checked_at": "2026-09-29T02:52:33.594386+00:00",
+    "body_verified": false,
+    "sha256": null,
+    "status": "format_failed",
+    "error": "not a PDF"
+  },
+  {
+    "id": "nmsu_sewing_shortcuts_c104",
+    "title": "Sewing Shortcuts — NMSU C-104",
+    "source_url": "https://pubs.nmsu.edu/_c/C104.pdf",
+    "source_page": "https://pubs.nmsu.edu/_c/C104/index.html",
+    "topic_ids": [
+      "repair"
+    ],
+    "brief_evaluation": "Illustrated sewing techniques for hems, zippers and fasteners. Assumes basic machine sewing; does not close the beginner hand-mending gap.",
+    "checked_at": "2026-09-29T02:52:33.814451+00:00",
+    "body_verified": true,
+    "sha256": "13f2cb20ac3edc3e0866b031718e77816f076d5091924d4aefb9508cda5e3ee8",
+    "status": "full_body_hash_and_pdf_parse_verified",
+    "size_bytes": 1123960,
+    "pages": 12,
+    "encrypted": false,
+    "sample_pages": [
+      1,
+      2,
+      3,
+      7,
+      12
+    ],
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "title_in_pdf": "Sewing Shortcuts"
+  },
+  {
+    "id": "osa_seed_saving_2010",
+    "title": "A Seed Saving Guide for Gardeners and Farmers (2010)",
+    "source_url": "https://seedalliance.org/wp-content/uploads/2010/04/seed_saving_guide.pdf",
+    "source_page": "https://seedalliance.org/publications/seed-saving-guide/",
+    "topic_ids": [
+      "gardening"
+    ],
+    "brief_evaluation": "Historical offered PDF, distinct from the 2026 web revision. Crop-specific seed-saving supplement; regional applicability needs review.",
+    "checked_at": "2026-09-29T02:52:34.201706+00:00",
+    "body_verified": true,
+    "sha256": "31a4dbaa2ac16887eb20bd1f8bf9fbe81244f7f851b84ee7af452256bd13763b",
+    "status": "full_body_hash_and_pdf_parse_verified",
+    "size_bytes": 5463060,
+    "pages": 30,
+    "encrypted": false,
+    "sample_pages": [
+      1,
+      2,
+      3,
+      16,
+      30
+    ],
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "title_in_pdf": "www.seedalliance.org/uploads/publications/Seed_Saving_Guide.pdf"
+  },
+  {
+    "id": "arrl_ares_field_resources_2005",
+    "title": "ARES Field Resources Manual — ARRL (2005 printing)",
+    "source_url": "https://www.arrl.org/files/file/ARES_FR_Manual.pdf",
+    "topic_ids": [
+      "repair"
+    ],
+    "brief_evaluation": "Historical emergency radio operating reference; not current licensing or a complete novice radio course. Retain copyright notices.",
+    "checked_at": "2026-09-29T02:52:34.429887+00:00",
+    "body_verified": true,
+    "sha256": "f57bb12c37e0d1872bdc776b7e8d36af72966b0e3789ecdd35e2733c89c7bfd0",
+    "status": "full_body_hash_and_pdf_parse_verified",
+    "size_bytes": 1362902,
+    "pages": 90,
+    "encrypted": false,
+    "sample_pages": [
+      1,
+      2,
+      3,
+      46,
+      90
+    ],
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "title_in_pdf": ""
+  },
+  {
+    "id": "uaf_root_cellars_hga00331",
+    "title": "Root Cellars — University of Alaska Fairbanks HGA-00331",
+    "source_url": "https://smfarm.cfans.umn.edu/sites/smfarm.cfans.umn.edu/files/2021-03/UAlaskaRootCellarsHGA-00331-2.pdf",
+    "source_page": "https://smfarm.cfans.umn.edu/postharvest-handling",
+    "topic_ids": [
+      "food-preservation"
+    ],
+    "brief_evaluation": "Compact cold-climate storage and cellar reference; not a complete engineered cellar construction plan.",
+    "checked_at": "2026-09-29T02:52:34.693348+00:00",
+    "body_verified": true,
+    "sha256": "945356675b0ce202d647a8e131151093cad9fee70fc35e30b0b58a12454d5c41",
+    "status": "full_body_hash_and_pdf_parse_verified",
+    "size_bytes": 245339,
+    "pages": 4,
+    "encrypted": false,
+    "sample_pages": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "title_in_pdf": ""
+  }
+]

@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_26601b8e652922f7
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKMath Unit 8: Data Sets and Distributions'
+  - CKMath
+  - grade 6
+  - teacher guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: mathematics
+  purpose: reference
+  aliases:
+  - 'CKMath Unit 8: Data Sets and Distributions'
+  - CKMath
+  - grade 6
+  - teacher guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

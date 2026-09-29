@@ -1,0 +1,472 @@
+[
+  {
+    "asset_id": "khanacademy_en_all_2023_03",
+    "source_url": "https://download.kiwix.org/zim/other/khanacademy_en_all_2023-03.zim",
+    "size_bytes": 180007047736,
+    "publisher_sha256": "3b8f4d286c6206a1c00c2252ac33187d30d4e146b8666ae2039d00f0d91eee3a",
+    "head": {
+      "url": "https://download.kiwix.org/zim/other/khanacademy_en_all_2023-03.zim",
+      "checked_at": "2026-09-29T02:43:41.405313+00:00",
+      "curl_exit": 0,
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "180007047736",
+        "last-modified": "Mon, 27 Mar 2023 15:10:49 GMT",
+        "etag": "\"6421b1f9-29e9419238\"",
+        "accept-ranges": "bytes"
+      },
+      "error": null,
+      "body_bytes_received": 0
+    },
+    "prefix": {
+      "url": "https://download.kiwix.org/zim/other/khanacademy_en_all_2023-03.zim",
+      "checked_at": "2026-09-29T02:43:42.157339+00:00",
+      "curl_exit": 0,
+      "http_status": 206,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "80",
+        "last-modified": "Mon, 27 Mar 2023 15:10:49 GMT",
+        "etag": "\"6421b1f9-29e9419238\"",
+        "content-range": "bytes 0-79/180007047736"
+      },
+      "error": null,
+      "body_bytes_received": 80,
+      "requested_range": "0-79"
+    },
+    "zim_header": {
+      "magic_hex": "5a494d04",
+      "major_version": 6,
+      "minor_version": 1,
+      "entries": 579598,
+      "clusters": 19754,
+      "checksum_position": 180007047720
+    },
+    "status": "headers_publisher_hash_and_zim_header_verified",
+    "body_verified": false
+  },
+  {
+    "asset_id": "survivorlibrary_com_en_all_2026_09",
+    "source_url": "https://download.kiwix.org/zim/zimit/survivorlibrary.com_en_all_2026-09.zim",
+    "size_bytes": 220347600505,
+    "publisher_sha256": "cf0b00f1f5c0cc840046337ba2d1f9b866be1afb8d5a59c5bc3be31a0994cd25",
+    "head": {
+      "url": "https://download.kiwix.org/zim/zimit/survivorlibrary.com_en_all_2026-09.zim",
+      "checked_at": "2026-09-29T02:43:40.936423+00:00",
+      "curl_exit": 0,
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "220347600505",
+        "last-modified": "Fri, 18 Sep 2026 09:04:15 GMT",
+        "etag": "\"6aacfe8f-334dbd8e79\"",
+        "accept-ranges": "bytes"
+      },
+      "error": null,
+      "body_bytes_received": 0
+    },
+    "prefix": {
+      "url": "https://download.kiwix.org/zim/zimit/survivorlibrary.com_en_all_2026-09.zim",
+      "checked_at": "2026-09-29T02:43:41.982084+00:00",
+      "curl_exit": 0,
+      "http_status": 206,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "80",
+        "last-modified": "Fri, 18 Sep 2026 09:04:15 GMT",
+        "etag": "\"6aacfe8f-334dbd8e79\"",
+        "content-range": "bytes 0-79/220347600505"
+      },
+      "error": null,
+      "body_bytes_received": 80,
+      "requested_range": "0-79"
+    },
+    "zim_header": {
+      "magic_hex": "5a494d04",
+      "major_version": 6,
+      "minor_version": 3,
+      "entries": 12044,
+      "clusters": 11318,
+      "checksum_position": 220347600489
+    },
+    "status": "headers_publisher_hash_and_zim_header_verified",
+    "body_verified": false
+  },
+  {
+    "asset_id": "crashcourse_en_all_2026_05",
+    "source_url": "https://download.kiwix.org/zim/other/crashcourse_en_all_2026-05.zim",
+    "size_bytes": 23035094957,
+    "publisher_sha256": "70e61e8ea1b1aa7f00d8c2a50ec8e84c22dfa27e9cb8823e7d9f691a1db67591",
+    "head": {
+      "url": "https://download.kiwix.org/zim/other/crashcourse_en_all_2026-05.zim",
+      "checked_at": "2026-09-29T02:43:41.460576+00:00",
+      "curl_exit": 0,
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "23035094957",
+        "last-modified": "Thu, 28 May 2026 23:33:14 GMT",
+        "etag": "\"6a18d0ba-55cffa7ad\"",
+        "accept-ranges": "bytes"
+      },
+      "error": null,
+      "body_bytes_received": 0
+    },
+    "prefix": {
+      "url": "https://download.kiwix.org/zim/other/crashcourse_en_all_2026-05.zim",
+      "checked_at": "2026-09-29T02:43:42.177863+00:00",
+      "curl_exit": 0,
+      "http_status": 206,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "80",
+        "last-modified": "Thu, 28 May 2026 23:33:14 GMT",
+        "etag": "\"6a18d0ba-55cffa7ad\"",
+        "content-range": "bytes 0-79/23035094957"
+      },
+      "error": null,
+      "body_bytes_received": 80,
+      "requested_range": "0-79"
+    },
+    "zim_header": {
+      "magic_hex": "5a494d04",
+      "major_version": 6,
+      "minor_version": 3,
+      "entries": 14720,
+      "clusters": 3609,
+      "checksum_position": 23035094941
+    },
+    "status": "headers_publisher_hash_and_zim_header_verified",
+    "body_verified": false
+  },
+  {
+    "asset_id": "energypedia_en_all_maxi_2026_06",
+    "source_url": "https://download.kiwix.org/zim/other/energypedia_en_all_maxi_2026-06.zim",
+    "size_bytes": 799712780,
+    "publisher_sha256": "c328df321497003e30f96af67340c04bff52e2831e09cf2b0c0fde52bba23bd0",
+    "head": {
+      "url": "https://download.kiwix.org/zim/other/energypedia_en_all_maxi_2026-06.zim",
+      "checked_at": "2026-09-29T02:43:42.688882+00:00",
+      "curl_exit": 0,
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "799712780",
+        "last-modified": "Sat, 20 Jun 2026 08:01:00 GMT",
+        "etag": "\"6a3648bc-2faaa60c\"",
+        "accept-ranges": "bytes"
+      },
+      "error": null,
+      "body_bytes_received": 0
+    },
+    "prefix": {
+      "url": "https://download.kiwix.org/zim/other/energypedia_en_all_maxi_2026-06.zim",
+      "checked_at": "2026-09-29T02:43:43.430233+00:00",
+      "curl_exit": 0,
+      "http_status": 206,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "80",
+        "last-modified": "Sat, 20 Jun 2026 08:01:00 GMT",
+        "etag": "\"6a3648bc-2faaa60c\"",
+        "content-range": "bytes 0-79/799712780"
+      },
+      "error": null,
+      "body_bytes_received": 80,
+      "requested_range": "0-79"
+    },
+    "zim_header": {
+      "magic_hex": "5a494d04",
+      "major_version": 6,
+      "minor_version": 3,
+      "entries": 18164,
+      "clusters": 179,
+      "checksum_position": 799712764
+    },
+    "status": "headers_publisher_hash_and_zim_header_verified",
+    "body_verified": false
+  },
+  {
+    "asset_id": "gardenology_org_en_all_2026_09",
+    "source_url": "https://download.kiwix.org/zim/other/gardenology.org_en_all_2026-09.zim",
+    "size_bytes": 112499438,
+    "publisher_sha256": "796c4930a18174ef39c2f7aa676d9773d4d9c0f7c9f0eeae9a9338889edfd6c9",
+    "head": {
+      "url": "https://download.kiwix.org/zim/other/gardenology.org_en_all_2026-09.zim",
+      "checked_at": "2026-09-29T02:43:42.875818+00:00",
+      "curl_exit": 0,
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "112499438",
+        "last-modified": "Fri, 11 Sep 2026 09:43:04 GMT",
+        "etag": "\"6aa3cd28-6b49aee\"",
+        "accept-ranges": "bytes"
+      },
+      "error": null,
+      "body_bytes_received": 0
+    },
+    "prefix": {
+      "url": "https://download.kiwix.org/zim/other/gardenology.org_en_all_2026-09.zim",
+      "checked_at": "2026-09-29T02:43:43.602139+00:00",
+      "curl_exit": 0,
+      "http_status": 206,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "80",
+        "last-modified": "Fri, 11 Sep 2026 09:43:04 GMT",
+        "etag": "\"6aa3cd28-6b49aee\"",
+        "content-range": "bytes 0-79/112499438"
+      },
+      "error": null,
+      "body_bytes_received": 80,
+      "requested_range": "0-79"
+    },
+    "zim_header": {
+      "magic_hex": "5a494d04",
+      "major_version": 6,
+      "minor_version": 3,
+      "entries": 55955,
+      "clusters": 198,
+      "checksum_position": 112499422
+    },
+    "status": "headers_publisher_hash_and_zim_header_verified",
+    "body_verified": false
+  },
+  {
+    "asset_id": "wikispecies_en_all_maxi_2026_07",
+    "source_url": "https://download.kiwix.org/zim/other/wikispecies_en_all_maxi_2026-07.zim",
+    "size_bytes": 3430544383,
+    "publisher_sha256": "714142b1627845bafea2a5bcbf46fef0d447eb60a1984013486e185cd351962d",
+    "head": {
+      "url": "https://download.kiwix.org/zim/other/wikispecies_en_all_maxi_2026-07.zim",
+      "checked_at": "2026-09-29T02:43:42.946031+00:00",
+      "curl_exit": 0,
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "3430544383",
+        "last-modified": "Thu, 09 Jul 2026 08:36:59 GMT",
+        "etag": "\"6a4f5dab-cc79f3ff\"",
+        "accept-ranges": "bytes"
+      },
+      "error": null,
+      "body_bytes_received": 0
+    },
+    "prefix": {
+      "url": "https://download.kiwix.org/zim/other/wikispecies_en_all_maxi_2026-07.zim",
+      "checked_at": "2026-09-29T02:43:43.709434+00:00",
+      "curl_exit": 0,
+      "http_status": 206,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "80",
+        "last-modified": "Thu, 09 Jul 2026 08:36:59 GMT",
+        "etag": "\"6a4f5dab-cc79f3ff\"",
+        "content-range": "bytes 0-79/3430544383"
+      },
+      "error": null,
+      "body_bytes_received": 80,
+      "requested_range": "0-79"
+    },
+    "zim_header": {
+      "magic_hex": "5a494d04",
+      "major_version": 6,
+      "minor_version": 3,
+      "entries": 1829580,
+      "clusters": 8053,
+      "checksum_position": 3430544367
+    },
+    "status": "headers_publisher_hash_and_zim_header_verified",
+    "body_verified": false
+  },
+  {
+    "asset_id": "medlineplus_gov_en_all_2025_01",
+    "source_url": "https://download.kiwix.org/zim/zimit/medlineplus.gov_en_all_2025-01.zim",
+    "size_bytes": 1944841111,
+    "publisher_sha256": "3ce8933e8b249cf685f5f108e8f10d9a7e3becb2ee4e91f3aedb5b0cf4d2e596",
+    "head": {
+      "url": "https://download.kiwix.org/zim/zimit/medlineplus.gov_en_all_2025-01.zim",
+      "checked_at": "2026-09-29T02:43:44.143546+00:00",
+      "curl_exit": 0,
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "1944841111",
+        "last-modified": "Sat, 04 Jan 2025 03:23:41 GMT",
+        "etag": "\"6778a9bd-73ebeb97\"",
+        "accept-ranges": "bytes"
+      },
+      "error": null,
+      "body_bytes_received": 0
+    },
+    "prefix": {
+      "url": "https://download.kiwix.org/zim/zimit/medlineplus.gov_en_all_2025-01.zim",
+      "checked_at": "2026-09-29T02:43:44.834271+00:00",
+      "curl_exit": 0,
+      "http_status": 206,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "80",
+        "last-modified": "Sat, 04 Jan 2025 03:23:41 GMT",
+        "etag": "\"6778a9bd-73ebeb97\"",
+        "content-range": "bytes 0-79/1944841111"
+      },
+      "error": null,
+      "body_bytes_received": 80,
+      "requested_range": "0-79"
+    },
+    "zim_header": {
+      "magic_hex": "5a494d04",
+      "major_version": 6,
+      "minor_version": 2,
+      "entries": 28715,
+      "clusters": 746,
+      "checksum_position": 1944841095
+    },
+    "status": "headers_publisher_hash_and_zim_header_verified",
+    "body_verified": false
+  },
+  {
+    "asset_id": "oer4schools_en_all_2025_10",
+    "source_url": "https://download.kiwix.org/zim/videos/oer4schools_en_all_2025-10.zim",
+    "size_bytes": 1242107467,
+    "publisher_sha256": "a029188a02fec2a83613343bd3c4a3261a56612de5e8832ab09909b62ec0484f",
+    "head": {
+      "url": "https://download.kiwix.org/zim/videos/oer4schools_en_all_2025-10.zim",
+      "checked_at": "2026-09-29T02:43:44.320534+00:00",
+      "curl_exit": 0,
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "1242107467",
+        "last-modified": "Tue, 07 Oct 2025 23:25:15 GMT",
+        "etag": "\"68e5a15b-4a090e4b\"",
+        "accept-ranges": "bytes"
+      },
+      "error": null,
+      "body_bytes_received": 0
+    },
+    "prefix": {
+      "url": "https://download.kiwix.org/zim/videos/oer4schools_en_all_2025-10.zim",
+      "checked_at": "2026-09-29T02:43:45.035505+00:00",
+      "curl_exit": 0,
+      "http_status": 206,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "80",
+        "last-modified": "Tue, 07 Oct 2025 23:25:15 GMT",
+        "etag": "\"68e5a15b-4a090e4b\"",
+        "content-range": "bytes 0-79/1242107467"
+      },
+      "error": null,
+      "body_bytes_received": 80,
+      "requested_range": "0-79"
+    },
+    "zim_header": {
+      "magic_hex": "5a494d04",
+      "major_version": 6,
+      "minor_version": 3,
+      "entries": 1114,
+      "clusters": 369,
+      "checksum_position": 1242107451
+    },
+    "status": "headers_publisher_hash_and_zim_header_verified",
+    "body_verified": false
+  },
+  {
+    "asset_id": "voa_learning_en_all_2025_01",
+    "source_url": "https://download.kiwix.org/zim/videos/voa_learning_en_all_2025-01.zim",
+    "size_bytes": 7093966349,
+    "publisher_sha256": "e97c3c3171dd3b09c87c711ed45969f6eccb68f84915434ee4918e6e1d4cc9e8",
+    "head": {
+      "url": "https://download.kiwix.org/zim/videos/voa_learning_en_all_2025-01.zim",
+      "checked_at": "2026-09-29T02:43:44.422591+00:00",
+      "curl_exit": 0,
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "7093966349",
+        "last-modified": "Wed, 29 Jan 2025 00:41:17 GMT",
+        "etag": "\"6799792d-1a6d5560d\"",
+        "accept-ranges": "bytes"
+      },
+      "error": null,
+      "body_bytes_received": 0
+    },
+    "prefix": {
+      "url": "https://download.kiwix.org/zim/videos/voa_learning_en_all_2025-01.zim",
+      "checked_at": "2026-09-29T02:43:45.131319+00:00",
+      "curl_exit": 0,
+      "http_status": 206,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "80",
+        "last-modified": "Wed, 29 Jan 2025 00:41:17 GMT",
+        "etag": "\"6799792d-1a6d5560d\"",
+        "content-range": "bytes 0-79/7093966349"
+      },
+      "error": null,
+      "body_bytes_received": 80,
+      "requested_range": "0-79"
+    },
+    "zim_header": {
+      "magic_hex": "5a494d04",
+      "major_version": 6,
+      "minor_version": 2,
+      "entries": 3654,
+      "clusters": 1753,
+      "checksum_position": 7093966333
+    },
+    "status": "headers_publisher_hash_and_zim_header_verified",
+    "body_verified": false
+  },
+  {
+    "asset_id": "encyclopedie_environnement_org_en_all_2026_05",
+    "source_url": "https://download.kiwix.org/zim/zimit/encyclopedie-environnement.org_en_all_2026-05.zim",
+    "size_bytes": 4117032628,
+    "publisher_sha256": "864e2d76db4fdeba5c74e8c56a9e479cbe1e6aaf52c6074ccb434f1632569119",
+    "head": {
+      "url": "https://download.kiwix.org/zim/zimit/encyclopedie-environnement.org_en_all_2026-05.zim",
+      "checked_at": "2026-09-29T02:43:45.565143+00:00",
+      "curl_exit": 0,
+      "http_status": 200,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "4117032628",
+        "last-modified": "Tue, 05 May 2026 16:13:01 GMT",
+        "etag": "\"69fa170d-f564eeb4\"",
+        "accept-ranges": "bytes"
+      },
+      "error": null,
+      "body_bytes_received": 0
+    },
+    "prefix": {
+      "url": "https://download.kiwix.org/zim/zimit/encyclopedie-environnement.org_en_all_2026-05.zim",
+      "checked_at": "2026-09-29T02:43:46.315381+00:00",
+      "curl_exit": 0,
+      "http_status": 206,
+      "headers": {
+        "content-type": "application/octet-stream",
+        "content-length": "80",
+        "last-modified": "Tue, 05 May 2026 16:13:01 GMT",
+        "etag": "\"69fa170d-f564eeb4\"",
+        "content-range": "bytes 0-79/4117032628"
+      },
+      "error": null,
+      "body_bytes_received": 80,
+      "requested_range": "0-79"
+    },
+    "zim_header": {
+      "magic_hex": "5a494d04",
+      "major_version": 6,
+      "minor_version": 3,
+      "entries": 22401,
+      "clusters": 1943,
+      "checksum_position": 4117032612
+    },
+    "status": "headers_publisher_hash_and_zim_header_verified",
+    "body_verified": false
+  }
+]

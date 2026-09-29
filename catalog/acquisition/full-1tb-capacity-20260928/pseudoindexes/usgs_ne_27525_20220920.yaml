@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_27525_20220920
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Manquin topographic map
+  - VA
+  - King William County map
+  - Hanover County map
+  - New Kent County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

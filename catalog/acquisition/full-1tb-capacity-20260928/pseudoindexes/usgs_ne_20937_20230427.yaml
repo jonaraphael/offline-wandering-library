@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_20937_20230427
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Hoosick Falls topographic map
+  - NY
+  - VT
+  - Rensselaer County map
+  - Washington County map
+  - Bennington County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

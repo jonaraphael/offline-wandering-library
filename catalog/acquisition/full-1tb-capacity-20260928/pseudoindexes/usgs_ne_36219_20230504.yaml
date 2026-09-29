@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_36219_20230504
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Pottstown topographic map
+  - PA
+  - Chester County map
+  - Berks County map
+  - Montgomery County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

@@ -1,0 +1,10 @@
+schema_version: 1
+asset_id: oer4schools_en_all_2025_10
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - teacher professional development
+  - teaching practice videos
+  basis: Draft from publisher/source metadata only; no archive-body review. Teacher-development clips, with classroom
+    context from southern Africa; not a student course or full curriculum. Check applicability and embedded playback.

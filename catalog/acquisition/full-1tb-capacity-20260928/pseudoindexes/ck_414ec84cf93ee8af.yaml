@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_414ec84cf93ee8af
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKMath Unit 7: Geometry and Time'
+  - CKMath
+  - grade 1
+  - teacher guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: mathematics
+  purpose: reference
+  aliases:
+  - 'CKMath Unit 7: Geometry and Time'
+  - CKMath
+  - grade 1
+  - teacher guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

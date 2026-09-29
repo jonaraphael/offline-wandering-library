@@ -1,0 +1,25 @@
+schema_version: 1
+asset_id: ck_d6e8debab8d46ca9
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Ancillary Materials: Fourth Grade'
+  - CKLA
+  - grade 4
+  - grade 5
+  - ancillary materials
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Ancillary Materials: Fourth Grade'
+  - CKLA
+  - grade 4
+  - grade 5
+  - ancillary materials
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

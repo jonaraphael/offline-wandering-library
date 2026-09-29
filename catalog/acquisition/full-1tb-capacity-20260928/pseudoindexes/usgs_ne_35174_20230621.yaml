@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_35174_20230621
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Pilot Knob topographic map
+  - WV
+  - Boone County map
+  - Wyoming County map
+  - Raleigh County map
+  - Logan County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

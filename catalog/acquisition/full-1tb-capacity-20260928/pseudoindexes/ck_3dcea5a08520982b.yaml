@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_3dcea5a08520982b
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Preschool: Important People in American History (Interspersed Domain)'
+  - CKLA
+  - pre
+  - image cards (bonus lessons)
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Preschool: Important People in American History (Interspersed Domain)'
+  - CKLA
+  - pre
+  - image cards (bonus lessons)
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

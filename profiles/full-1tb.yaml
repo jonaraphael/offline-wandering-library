@@ -1,9 +1,17 @@
 id: full-1tb
 title: Practical library and world maps, with room for optional collections
-capacity_bytes: 1000000000000
+# Nominal 1 TB = 1,000,000,000,000 bytes. Plan against 995 GB to allow 5 GB
+# for filesystem/partition variation, then retain the 5 GB free reserve below.
+# This caps library files, readers and discovery support at 990 GB.
+capacity_bytes: 995000000000
 discovery_budget_bytes: 16777216
+# Reader packages currently total 439,739,570 bytes. Retain 1 GB total for
+# packages and reader growth/setup; do not add it again on top of the files.
 readers_budget_bytes: 1000000000
-reserve_bytes: 70000000000
+# A mostly read-only library needs no full-text-index scratch space. The
+# capacity ceiling already leaves 5 GB below nominal for filesystem/partition
+# variation; actual free-space checks remain mandatory.
+reserve_bytes: 5000000000
 default_resources:
 - hesperian-health
 - msf-medical

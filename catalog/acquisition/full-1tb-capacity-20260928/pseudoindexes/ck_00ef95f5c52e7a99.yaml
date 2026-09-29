@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_00ef95f5c52e7a99
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKMath Unit 5: Rational Number Arithmetic'
+  - CKMath
+  - grade 7
+  - teacher guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: mathematics
+  purpose: reference
+  aliases:
+  - 'CKMath Unit 5: Rational Number Arithmetic'
+  - CKMath
+  - grade 7
+  - teacher guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

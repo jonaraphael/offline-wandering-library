@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_3801_20230605
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Big Pool topographic map
+  - MD
+  - WV
+  - Washington County map
+  - Berkeley County map
+  - Morgan County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

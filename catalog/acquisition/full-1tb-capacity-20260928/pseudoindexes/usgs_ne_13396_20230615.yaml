@@ -1,0 +1,15 @@
+schema_version: 1
+asset_id: usgs_ne_13396_20230615
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - East Liverpool North topographic map
+  - OH
+  - PA
+  - WV
+  - Columbiana County map
+  - Beaver County map
+  - Hancock County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

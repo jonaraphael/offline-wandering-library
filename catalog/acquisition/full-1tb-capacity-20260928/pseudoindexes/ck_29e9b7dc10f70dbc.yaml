@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_29e9b7dc10f70dbc
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Domain 9: European Exploration of North America'
+  - CKLA
+  - grade 3
+  - image cards
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Domain 9: European Exploration of North America'
+  - CKLA
+  - grade 3
+  - image cards
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

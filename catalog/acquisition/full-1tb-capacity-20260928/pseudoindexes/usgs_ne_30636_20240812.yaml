@@ -1,0 +1,12 @@
+schema_version: 1
+asset_id: usgs_ne_30636_20240812
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Mount Holyoke topographic map
+  - MA
+  - Hampshire County map
+  - Hampden County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

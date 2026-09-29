@@ -1,0 +1,15 @@
+schema_version: 1
+asset_id: usgs_ne_23699_20230630
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Kinsman topographic map
+  - OH
+  - PA
+  - Trumbull County map
+  - Mercer County map
+  - Crawford County map
+  - Ashtabula County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

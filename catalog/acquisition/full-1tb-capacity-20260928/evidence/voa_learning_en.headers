@@ -1,0 +1,45 @@
+HTTP/2 301 
+date: Tue, 29 Sep 2026 01:51:02 GMT
+content-type: text/html
+content-length: 162
+location: https://lb.download.kiwix.org/zim/videos/voa_learning_en_all_2025-01.zim
+access-control-allow-origin: *
+access-control-allow-methods: GET, HEAD, OPTIONS
+access-control-allow-headers: Content-Type, Authorization, User-Agent, Range
+access-control-expose-headers: Content-Range, Content-Length, Accept-Ranges
+access-control-allow-credentials: true
+content-security-policy: frame-ancestors 'self' https://browser-extension.kiwix.org https://pwa.kiwix.org https://kiwix.github.io http://localhost:* moz-extension: chrome-extension:
+
+HTTP/2 302 
+date: Tue, 29 Sep 2026 01:51:02 GMT
+content-type: text/html; charset=iso-8859-1
+location: https://ny.mirror.driftle.ss/kiwix/zim/videos/voa_learning_en_all_2025-01.zim
+x-mirrorbrain-mirror: ny.mirror.driftle.ss
+x-mirrorbrain-realm: country
+link: <https://lb.download.kiwix.org/zim/videos/voa_learning_en_all_2025-01.zim.meta4>; rel=describedby; type="application/metalink4+xml"
+link: <https://lb.download.kiwix.org/zim/videos/voa_learning_en_all_2025-01.zim.torrent>; rel=describedby; type="application/x-bittorrent"
+link: <https://ny.mirror.driftle.ss/kiwix/zim/videos/voa_learning_en_all_2025-01.zim>; rel=duplicate; pri=1; geo=us
+link: <https://wi.mirror.driftle.ss/kiwix/zim/videos/voa_learning_en_all_2025-01.zim>; rel=duplicate; pri=2; geo=us
+link: <https://ftp.nluug.nl/pub/kiwix/zim/videos/voa_learning_en_all_2025-01.zim>; rel=duplicate; pri=3; geo=nl
+link: <https://mirror.download.kiwix.org/zim/videos/voa_learning_en_all_2025-01.zim>; rel=duplicate; pri=4; geo=fr
+link: <https://mirror-sites-in.mblibrary.info/mirror-sites/download.kiwix.org/zim/videos/voa_learning_en_all_2025-01.zim>; rel=duplicate; pri=5; geo=aq
+digest: MD5=ukewpxP0vyrq9FoHxE1BTw==
+digest: SHA=XspKve6H2DtjFUCNQmEKxOQSne0=
+digest: SHA-256=6Xw8MXHdOwnIfHEe1Flp9uzLaPhJFUNO5JGObh1Myeg=
+strict-transport-security: max-age=31536000; includeSubDomains
+access-control-allow-origin: *
+access-control-allow-methods: GET, HEAD, OPTIONS
+access-control-allow-headers: Content-Type, Authorization, User-Agent, Range
+access-control-expose-headers: Content-Range, Content-Length, Accept-Ranges
+access-control-allow-credentials: true
+content-security-policy: frame-ancestors 'self' https://browser-extension.kiwix.org https://pwa.kiwix.org https://kiwix.github.io http://localhost:* moz-extension: chrome-extension:
+
+HTTP/2 200 
+server: nginx
+date: Tue, 29 Sep 2026 01:51:02 GMT
+content-type: application/octet-stream
+content-length: 7093966349
+last-modified: Wed, 29 Jan 2025 00:41:17 GMT
+etag: "6799792d-1a6d5560d"
+accept-ranges: bytes
+

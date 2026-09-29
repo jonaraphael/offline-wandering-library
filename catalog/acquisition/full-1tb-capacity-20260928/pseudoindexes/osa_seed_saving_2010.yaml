@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: osa_seed_saving_2010
+assignments:
+- topic_id: gardening
+  purpose: reference
+  aliases:
+  - A Seed Saving Guide for Gardeners and Farmers (2010)
+  - seed saving
+  - seed storage
+  - seed moisture
+  - protecting harvested seed
+  basis: Historical offered PDF, distinct from the 2026 web revision. Crop-specific seed-saving supplement; regional
+    applicability needs review. Complete bytes hashed and parsed; representative rendered page inspected. This limited
+    review does not establish topic adequacy.

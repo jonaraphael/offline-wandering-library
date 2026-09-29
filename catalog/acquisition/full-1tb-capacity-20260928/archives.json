@@ -1,0 +1,273 @@
+[
+  {
+    "id": "khanacademy_en_all_2023_03",
+    "title": "Khan Academy English — March 2023",
+    "format": "zim",
+    "source_url": "https://download.kiwix.org/zim/other/khanacademy_en_all_2023-03.zim",
+    "source_page": "https://www.khanacademy.org/downloads",
+    "size_bytes": 180007047736,
+    "sha256": "3b8f4d286c6206a1c00c2252ac33187d30d4e146b8666ae2039d00f0d91eee3a",
+    "size_basis": "HEAD and bounded ZIM header agree; publisher SHA-256 is pinned but full body remains unverified",
+    "sha256_basis": "SHA-256 Digest header from official Kiwix load-balancer",
+    "checked_at": "2026-09-29T01:50:58.513025+00:00",
+    "status": "candidate_not_admitted",
+    "body_verified": false,
+    "rights_review": "pending; retain upstream notices and review redistribution separately",
+    "topic_ids": [
+      "learn-foundations",
+      "mathematics",
+      "science"
+    ],
+    "coverage_workstreams": [
+      "school-math",
+      "school-science"
+    ],
+    "brief_evaluation": "Broad school instruction supplement. The 2023 archive must be checked for offline videos, exercises and prerequisites; no claim that all exercises work. Whole-archive school/college mix needs utility review; advanced routes remain optional.",
+    "pseudoindex": "pseudoindexes/khanacademy_en_all_2023_03.yaml",
+    "evidence": "evidence/khanacademy_en.headers",
+    "verification": "headers_publisher_hash_and_zim_header_verified",
+    "verification_evidence": "evidence/archive-verification.json"
+  },
+  {
+    "id": "survivorlibrary_com_en_all_2026_09",
+    "title": "Survivor Library — September 2026 archive",
+    "format": "zim",
+    "source_url": "https://download.kiwix.org/zim/zimit/survivorlibrary.com_en_all_2026-09.zim",
+    "source_page": "https://www.survivorlibrary.com/",
+    "size_bytes": 220347600505,
+    "sha256": "cf0b00f1f5c0cc840046337ba2d1f9b866be1afb8d5a59c5bc3be31a0994cd25",
+    "size_basis": "HEAD and bounded ZIM header agree; publisher SHA-256 is pinned but full body remains unverified",
+    "sha256_basis": "SHA-256 Digest header from official Kiwix load-balancer",
+    "checked_at": "2026-09-29T01:50:58.513417+00:00",
+    "status": "candidate_not_admitted",
+    "body_verified": false,
+    "rights_review": "pending; retain upstream notices and review redistribution separately",
+    "topic_ids": [
+      "books",
+      "appropriate-technology"
+    ],
+    "coverage_workstreams": [
+      "general-reference"
+    ],
+    "brief_evaluation": "Historical technical reading, not a modern clinical, food-safety or building-code authority. Snapshot date is not book publication date. Check embedded PDFs, Zimit reader support and overlap with existing Survivor/Gutenberg/CD3WD files before admission.",
+    "pseudoindex": "pseudoindexes/survivorlibrary_com_en_all_2026_09.yaml",
+    "evidence": "evidence/survivorlibrary_en.headers",
+    "verification": "headers_publisher_hash_and_zim_header_verified",
+    "verification_evidence": "evidence/archive-verification.json"
+  },
+  {
+    "id": "crashcourse_en_all_2026_05",
+    "title": "Crash Course English — May 2026",
+    "format": "zim",
+    "source_url": "https://download.kiwix.org/zim/other/crashcourse_en_all_2026-05.zim",
+    "source_page": "https://thecrashcourse.com/about/",
+    "size_bytes": 23035094957,
+    "sha256": "70e61e8ea1b1aa7f00d8c2a50ec8e84c22dfa27e9cb8823e7d9f691a1db67591",
+    "size_basis": "HEAD and bounded ZIM header agree; publisher SHA-256 is pinned but full body remains unverified",
+    "sha256_basis": "SHA-256 Digest header from official Kiwix load-balancer",
+    "checked_at": "2026-09-29T01:50:58.514524+00:00",
+    "status": "candidate_not_admitted",
+    "body_verified": false,
+    "rights_review": "pending; retain upstream notices and review redistribution separately",
+    "topic_ids": [
+      "learn-foundations",
+      "science",
+      "history"
+    ],
+    "coverage_workstreams": [
+      "school-science",
+      "school-humanities"
+    ],
+    "brief_evaluation": "Explanatory school videos; not a complete curriculum or exercise/assessment set. Some courses are college level: review whole-archive utility and keep advanced routes optional. Check actual embedded playback.",
+    "pseudoindex": "pseudoindexes/crashcourse_en_all_2026_05.yaml",
+    "evidence": "evidence/crashcourse_en.headers",
+    "verification": "headers_publisher_hash_and_zim_header_verified",
+    "verification_evidence": "evidence/archive-verification.json"
+  },
+  {
+    "id": "energypedia_en_all_maxi_2026_06",
+    "title": "Energypedia English — June 2026",
+    "format": "zim",
+    "source_url": "https://download.kiwix.org/zim/other/energypedia_en_all_maxi_2026-06.zim",
+    "source_page": "https://energypedia.info/wiki/Main_Page",
+    "size_bytes": 799712780,
+    "sha256": "c328df321497003e30f96af67340c04bff52e2831e09cf2b0c0fde52bba23bd0",
+    "size_basis": "HEAD and bounded ZIM header agree; publisher SHA-256 is pinned but full body remains unverified",
+    "sha256_basis": "SHA-256 Digest header from official Kiwix load-balancer",
+    "checked_at": "2026-09-29T01:50:58.514640+00:00",
+    "status": "candidate_not_admitted",
+    "body_verified": false,
+    "rights_review": "pending; retain upstream notices and review redistribution separately",
+    "topic_ids": [
+      "electricity",
+      "appropriate-technology"
+    ],
+    "coverage_workstreams": [
+      "power-heat"
+    ],
+    "brief_evaluation": "Energy-access background and project references. Wiki quality varies; does not close the need for a complete wiring, battery or stove-maintenance manual.",
+    "pseudoindex": "pseudoindexes/energypedia_en_all_maxi_2026_06.yaml",
+    "evidence": "evidence/energypedia_en.headers",
+    "verification": "headers_publisher_hash_and_zim_header_verified",
+    "verification_evidence": "evidence/archive-verification.json"
+  },
+  {
+    "id": "gardenology_org_en_all_2026_09",
+    "title": "Gardenology — September 2026",
+    "format": "zim",
+    "source_url": "https://download.kiwix.org/zim/other/gardenology.org_en_all_2026-09.zim",
+    "source_page": "https://download.kiwix.org/zim/other/",
+    "size_bytes": 112499438,
+    "sha256": "796c4930a18174ef39c2f7aa676d9773d4d9c0f7c9f0eeae9a9338889edfd6c9",
+    "size_basis": "HEAD and bounded ZIM header agree; publisher SHA-256 is pinned but full body remains unverified",
+    "sha256_basis": "SHA-256 Digest header from official Kiwix load-balancer",
+    "checked_at": "2026-09-29T01:51:00.730512+00:00",
+    "status": "candidate_not_admitted",
+    "body_verified": false,
+    "rights_review": "pending; retain upstream notices and review redistribution separately",
+    "topic_ids": [
+      "gardening"
+    ],
+    "coverage_workstreams": [
+      "crops-seeds"
+    ],
+    "brief_evaluation": "Horticultural lookup supplement. Verify archive content and illustrations; not evidence of local growing, plant-disease diagnosis or food-edibility coverage.",
+    "pseudoindex": "pseudoindexes/gardenology_org_en_all_2026_09.yaml",
+    "evidence": "evidence/gardenology_en.headers",
+    "verification": "headers_publisher_hash_and_zim_header_verified",
+    "verification_evidence": "evidence/archive-verification.json"
+  },
+  {
+    "id": "wikispecies_en_all_maxi_2026_07",
+    "title": "Wikispecies — July 2026",
+    "format": "zim",
+    "source_url": "https://download.kiwix.org/zim/other/wikispecies_en_all_maxi_2026-07.zim",
+    "source_page": "https://species.wikimedia.org/wiki/Wikispecies:About",
+    "size_bytes": 3430544383,
+    "sha256": "714142b1627845bafea2a5bcbf46fef0d447eb60a1984013486e185cd351962d",
+    "size_basis": "HEAD and bounded ZIM header agree; publisher SHA-256 is pinned but full body remains unverified",
+    "sha256_basis": "SHA-256 Digest header from official Kiwix load-balancer",
+    "checked_at": "2026-09-29T01:51:01.050432+00:00",
+    "status": "candidate_not_admitted",
+    "body_verified": false,
+    "rights_review": "pending; retain upstream notices and review redistribution separately",
+    "topic_ids": [
+      "biology"
+    ],
+    "coverage_workstreams": [
+      "school-science"
+    ],
+    "brief_evaluation": "Taxonomic reference, not a regional field-identification or edible-plant guide. Confirm archive scope and licensing notices.",
+    "pseudoindex": "pseudoindexes/wikispecies_en_all_maxi_2026_07.yaml",
+    "evidence": "evidence/wikispecies_en.headers",
+    "verification": "headers_publisher_hash_and_zim_header_verified",
+    "verification_evidence": "evidence/archive-verification.json"
+  },
+  {
+    "id": "medlineplus_gov_en_all_2025_01",
+    "title": "MedlinePlus — January 2025",
+    "format": "zim",
+    "source_url": "https://download.kiwix.org/zim/zimit/medlineplus.gov_en_all_2025-01.zim",
+    "source_page": "https://medlineplus.gov/about/using/usingcontent/",
+    "size_bytes": 1944841111,
+    "sha256": "3ce8933e8b249cf685f5f108e8f10d9a7e3becb2ee4e91f3aedb5b0cf4d2e596",
+    "size_basis": "HEAD and bounded ZIM header agree; publisher SHA-256 is pinned but full body remains unverified",
+    "sha256_basis": "SHA-256 Digest header from official Kiwix load-balancer",
+    "checked_at": "2026-09-29T01:51:01.223324+00:00",
+    "status": "candidate_not_admitted",
+    "body_verified": false,
+    "rights_review": "pending; retain upstream notices and review redistribution separately",
+    "topic_ids": [
+      "health"
+    ],
+    "coverage_workstreams": [
+      "clinical-care"
+    ],
+    "brief_evaluation": "Patient education supplement. Dated snapshot; not a clinician dosing reference or replacement for current MSF/WHO sources. Check offline media and third-party rights.",
+    "pseudoindex": "pseudoindexes/medlineplus_gov_en_all_2025_01.yaml",
+    "evidence": "evidence/medlineplus_en.headers",
+    "verification": "headers_publisher_hash_and_zim_header_verified",
+    "verification_evidence": "evidence/archive-verification.json"
+  },
+  {
+    "id": "oer4schools_en_all_2025_10",
+    "title": "OER4Schools — October 2025",
+    "format": "zim",
+    "source_url": "https://download.kiwix.org/zim/videos/oer4schools_en_all_2025-10.zim",
+    "source_page": "https://oer.opendeved.net/wiki/OER4Schools",
+    "size_bytes": 1242107467,
+    "sha256": "a029188a02fec2a83613343bd3c4a3261a56612de5e8832ab09909b62ec0484f",
+    "size_basis": "HEAD and bounded ZIM header agree; publisher SHA-256 is pinned but full body remains unverified",
+    "sha256_basis": "SHA-256 Digest header from official Kiwix load-balancer",
+    "checked_at": "2026-09-29T01:51:01.283083+00:00",
+    "status": "candidate_not_admitted",
+    "body_verified": false,
+    "rights_review": "pending; retain upstream notices and review redistribution separately",
+    "topic_ids": [
+      "learn-foundations"
+    ],
+    "coverage_workstreams": [
+      "school-math",
+      "school-science"
+    ],
+    "brief_evaluation": "Teacher-development clips, with classroom context from southern Africa; not a student course or full curriculum. Check applicability and embedded playback.",
+    "pseudoindex": "pseudoindexes/oer4schools_en_all_2025_10.yaml",
+    "evidence": "evidence/oer4schools_en.headers",
+    "verification": "headers_publisher_hash_and_zim_header_verified",
+    "verification_evidence": "evidence/archive-verification.json"
+  },
+  {
+    "id": "voa_learning_en_all_2025_01",
+    "title": "VOA Learning English — January 2025",
+    "format": "zim",
+    "source_url": "https://download.kiwix.org/zim/videos/voa_learning_en_all_2025-01.zim",
+    "source_page": "https://learningenglish.voanews.com/p/5373.html",
+    "size_bytes": 7093966349,
+    "sha256": "e97c3c3171dd3b09c87c711ed45969f6eccb68f84915434ee4918e6e1d4cc9e8",
+    "size_basis": "HEAD and bounded ZIM header agree; publisher SHA-256 is pinned but full body remains unverified",
+    "sha256_basis": "SHA-256 Digest header from official Kiwix load-balancer",
+    "checked_at": "2026-09-29T01:51:02.143965+00:00",
+    "status": "candidate_not_admitted",
+    "body_verified": false,
+    "rights_review": "pending; retain upstream notices and review redistribution separately",
+    "topic_ids": [
+      "language-books"
+    ],
+    "coverage_workstreams": [
+      "literacy"
+    ],
+    "brief_evaluation": "English-language learning supplement. Check lesson/audio/worksheet completeness and snapshot limits; does not replace a child phonics and decodable-reader sequence.",
+    "pseudoindex": "pseudoindexes/voa_learning_en_all_2025_01.yaml",
+    "evidence": "evidence/voa_learning_en.headers",
+    "verification": "headers_publisher_hash_and_zim_header_verified",
+    "verification_evidence": "evidence/archive-verification.json"
+  },
+  {
+    "id": "encyclopedie_environnement_org_en_all_2026_05",
+    "title": "Encyclopedia of the Environment — May 2026",
+    "format": "zim",
+    "source_url": "https://download.kiwix.org/zim/zimit/encyclopedie-environnement.org_en_all_2026-05.zim",
+    "source_page": "https://download.kiwix.org/zim/zimit/",
+    "size_bytes": 4117032628,
+    "sha256": "864e2d76db4fdeba5c74e8c56a9e479cbe1e6aaf52c6074ccb434f1632569119",
+    "size_basis": "HEAD and bounded ZIM header agree; publisher SHA-256 is pinned but full body remains unverified",
+    "sha256_basis": "SHA-256 Digest header from official Kiwix load-balancer",
+    "checked_at": "2026-09-29T01:51:02.616516+00:00",
+    "status": "candidate_not_admitted",
+    "body_verified": false,
+    "rights_review": "pending; retain upstream notices and review redistribution separately",
+    "topic_ids": [
+      "science",
+      "community-environment"
+    ],
+    "coverage_workstreams": [
+      "school-science",
+      "community-health"
+    ],
+    "brief_evaluation": "Environmental background reference. Content and embedded illustrations remain uninspected; not a practical water-treatment, construction or sanitation manual.",
+    "pseudoindex": "pseudoindexes/encyclopedie_environnement_org_en_all_2026_05.yaml",
+    "evidence": "evidence/environment_encyclopedia_en.headers",
+    "verification": "headers_publisher_hash_and_zim_header_verified",
+    "verification_evidence": "evidence/archive-verification.json"
+  }
+]

@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_71095_20230609
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Oakvale topographic map
+  - WV
+  - VA
+  - Mercer County map
+  - Giles County map
+  - Bland County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_70291_20220830
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Hallwood topographic map
+  - VA
+  - MD
+  - Accomack County map
+  - Worcester County map
+  - Somerset County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

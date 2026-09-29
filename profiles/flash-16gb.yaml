@@ -1,7 +1,11 @@
+# Nominal 16,000,000,000 bytes; allow 125,000,000 for filesystem/partitions
+# and retain 125,000,000 actually free. Total reader/setup budget: 1 GB.
+# Exact near-full source selection: catalog/acquisition/preset-capacity-20260929.json.
+# New source candidates are not build defaults until catalog admission passes.
 id: flash-16gb
 title: Practical essentials and school education
-capacity_bytes: 16000000000
-reserve_bytes: 1500000000
+capacity_bytes: 15875000000
+reserve_bytes: 125000000
 discovery_budget_bytes: 16777216
 default_resources:
 - hesperian-health
@@ -23,6 +27,10 @@ default_resources:
 - low-tech-magazine
 - phet
 - archive-readers
+- sare-practical-farming
+- trail-maintenance
+- seed-processing-quality
+- water-supply-maintenance
 required_domains:
 - health
 - water-sanitation
@@ -34,3 +42,4 @@ required_domains:
 - hand-tools
 - school-math
 - school-science
+readers_budget_bytes: 1000000000

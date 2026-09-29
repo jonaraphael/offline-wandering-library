@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_19338_20230501
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Harlansburg topographic map
+  - PA
+  - Lawrence County map
+  - Mercer County map
+  - Butler County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

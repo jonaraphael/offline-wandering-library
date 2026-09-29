@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_7997_20230615
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Century topographic map
+  - WV
+  - Upshur County map
+  - Barbour County map
+  - Harrison County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

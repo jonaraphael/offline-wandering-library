@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_b91ed657f0b0e831
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Ancillary Materials: First Grade Skills'
+  - CKLA
+  - grade 1
+  - consonant flip book
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Ancillary Materials: First Grade Skills'
+  - CKLA
+  - grade 1
+  - consonant flip book
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

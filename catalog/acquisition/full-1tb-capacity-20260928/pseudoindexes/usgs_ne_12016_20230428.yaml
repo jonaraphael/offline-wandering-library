@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_12016_20230428
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - DeRuyter topographic map
+  - NY
+  - Onondaga County map
+  - Cortland County map
+  - Madison County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

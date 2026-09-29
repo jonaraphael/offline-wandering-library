@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_48548_20220927
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Wheeler topographic map
+  - VA
+  - TN
+  - Lee County map
+  - Claiborne County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

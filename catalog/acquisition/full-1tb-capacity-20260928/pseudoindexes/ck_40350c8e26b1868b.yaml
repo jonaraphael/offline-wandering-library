@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_40350c8e26b1868b
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 6: 90 Miles to Havana'
+  - CKLA
+  - grade 6
+  - activity book
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 6: 90 Miles to Havana'
+  - CKLA
+  - grade 6
+  - activity book
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

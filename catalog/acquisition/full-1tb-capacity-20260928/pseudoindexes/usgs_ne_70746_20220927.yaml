@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_70746_20220927
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Loretto topographic map
+  - VA
+  - Essex County map
+  - Westmoreland County map
+  - Caroline County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_a6bcf8ca6a0e511b
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKSci Unit 5: Our Five Senses'
+  - CKSci
+  - kindergarten
+  - student book
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: science
+  purpose: reference
+  aliases:
+  - 'CKSci Unit 5: Our Five Senses'
+  - CKSci
+  - kindergarten
+  - student book
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

@@ -1,0 +1,15 @@
+schema_version: 1
+asset_id: usgs_ne_47945_20230611
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Weehawken topographic map
+  - NJ
+  - NY
+  - Bergen County map
+  - Hudson County map
+  - Passaic County map
+  - New York County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

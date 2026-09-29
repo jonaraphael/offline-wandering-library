@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_2ee1e1f058d228ee
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKSci Grade 5 – Science in Action: Rowan and Gianna'
+  - CKSci
+  - grade 5
+  - online resources
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: science
+  purpose: reference
+  aliases:
+  - 'CKSci Grade 5 – Science in Action: Rowan and Gianna'
+  - CKSci
+  - grade 5
+  - online resources
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

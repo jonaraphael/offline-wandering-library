@@ -1,0 +1,17 @@
+schema_version: 1
+asset_id: encyclopedie_environnement_org_en_all_2026_05
+assignments:
+- topic_id: science
+  purpose: reference
+  aliases: &id001
+  - environmental science reference
+  - environmental background reading
+  basis: Draft from publisher/source metadata only; no archive-body review. Environmental background reference.
+    Content and embedded illustrations remain uninspected; not a practical water-treatment, construction or sanitation
+    manual.
+- topic_id: community-environment
+  purpose: reference
+  aliases: *id001
+  basis: Draft from publisher/source metadata only; no archive-body review. Environmental background reference.
+    Content and embedded illustrations remain uninspected; not a practical water-treatment, construction or sanitation
+    manual.

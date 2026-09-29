@@ -1,0 +1,33 @@
+schema_version: 1
+asset_id: ck_daa362b46f1e6594
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKHG Unit 10: Westward Expansion Before the Civil War'
+  - CKHG
+  - grade 5
+  - timeline cards
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: history
+  purpose: reference
+  aliases:
+  - 'CKHG Unit 10: Westward Expansion Before the Civil War'
+  - CKHG
+  - grade 5
+  - timeline cards
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: government-politics
+  purpose: reference
+  aliases:
+  - 'CKHG Unit 10: Westward Expansion Before the Civil War'
+  - CKHG
+  - grade 5
+  - timeline cards
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "status": "sources_enumerated_verified_not_ready_catalog",
+  "reviewed_on": "2026-09-29",
+  "evidence_captured_utc": "2026-09-29",
+  "profile": "full-1tb",
+  "baseline_commit": "bfd86517a868ae360a74e9c4e92b40330d7528fa",
+  "geography_confirmed": "Northeastern US and nearby Canada",
+  "baseline": {
+    "selected_asset_count": 433,
+    "content_bytes": 274518976082,
+    "modeled_other_bytes_before_reserve": 593814862,
+    "reserve_bytes": 5000000000,
+    "in_place_peak_budget_bytes": 280112790944,
+    "capacity_bytes": 995000000000,
+    "reader_file_bytes": 439739570,
+    "reader_budget_bytes": 1000000000,
+    "reader_growth_allowance_bytes": 560260430
+  },
+  "additional_headroom_bytes": 714887209056,
+  "allocations": [
+    {
+      "id": "published-zim-archives",
+      "manifest": "archives.json",
+      "budget_bytes": 442130447354,
+      "enumerated_bytes": 442130447354,
+      "file_count": 10,
+      "basis": "Exact observed source sizes, with extracted member sizes included where specified"
+    },
+    {
+      "id": "northeast-us-topography",
+      "manifest": "usgs-northeast.json",
+      "budget_bytes": 157297283325,
+      "enumerated_bytes": 157297283325,
+      "file_count": 3383,
+      "basis": "Exact observed source sizes, with extracted member sizes included where specified"
+    },
+    {
+      "id": "adjacent-mid-atlantic-topography",
+      "manifest": "usgs-mid-atlantic.json",
+      "budget_bytes": 51381556400,
+      "enumerated_bytes": 51381556400,
+      "file_count": 1038,
+      "basis": "Exact observed source sizes, with extracted member sizes included where specified"
+    },
+    {
+      "id": "adjacent-appalachian-topography",
+      "manifest": "usgs-appalachian.json",
+      "budget_bytes": 20436317662,
+      "enumerated_bytes": 20436317662,
+      "file_count": 386,
+      "basis": "Exact observed source sizes, with extracted member sizes included where specified"
+    },
+    {
+      "id": "nearby-canada-topography",
+      "manifest": "canada-nearby.json",
+      "budget_bytes": 30874128550,
+      "enumerated_bytes": 30874128550,
+      "file_count": 1051,
+      "basis": "Exact observed source sizes, with extracted member sizes included where specified",
+      "accounting": "Source ZIP bytes PLUS every extracted file, including supporting XML and notices; one PDF edition per sheet.",
+      "scope": "1:50,000 sheets intersecting WGS84 [-90,42,-59,50]. Original 945-sheet eastern envelope plus 106 northern Great Lakes/Lake Superior sheets. Not complete provincial coverage."
+    },
+    {
+      "id": "complete-school-units",
+      "manifest": "school.json",
+      "budget_bytes": 9964807433,
+      "enumerated_bytes": 9964807433,
+      "file_count": 1220,
+      "basis": "Exact observed source sizes, with extracted member sizes included where specified",
+      "accounting": "Distinct English PDF URLs counted once; ckla-kindergarten.json is a subset, not an additional allocation.",
+      "scope": "All offered English PDF components on 366 CKLA/CKMath/CKSci/CKHG pages, preschool through grade 8. Instructional completeness remains unreviewed."
+    },
+    {
+      "id": "practical-gap-manuals",
+      "manifest": "practical-manuals.json",
+      "budget_bytes": 64100473,
+      "enumerated_bytes": 64100473,
+      "file_count": 7,
+      "basis": "Exact observed source sizes, with extracted member sizes included where specified"
+    },
+    {
+      "id": "additional-metadata-and-growth",
+      "budget_bytes": 2738567859,
+      "enumerated_bytes": 0,
+      "basis": "Explicit unfilled allowance, not claimed content",
+      "scope": "Room for metadata, measured edition-size changes and later small reviewed gap manuals; separate from the 5 GB filesystem margin and 5 GB free reserve."
+    }
+  ],
+  "totals": {
+    "allocated_bytes": 714887209056,
+    "exact_enumerated_candidate_bytes": 712148641197,
+    "existing_plus_candidate_file_bytes": 986667617279,
+    "modeled_library_and_support_bytes": 987261432141,
+    "unfilled_growth_allowance_bytes": 2738567859,
+    "candidate_download_count": 7095,
+    "candidate_bodies_verified_this_pass": 46,
+    "draft_pseudoindexes": 7095,
+    "canada_sheet_count": 1051,
+    "canada_extracted_file_count": 2099,
+    "publisher_hash_pins": 10,
+    "local_full_body_sha256_pins": 46,
+    "usgs_metadata_size_corrections": 240,
+    "source_check_failures_in_selected_cohorts": 0,
+    "rejected_practical_sources": 3,
+    "excluded_translated_school_pdfs": 13,
+    "school_publisher_pages_enumerated": 366
+  },
+  "metadata_sources": [
+    {
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/Metadata/topomaps_all.zip",
+      "captured_on": "2026-09-29",
+      "size_bytes": 95993008,
+      "sha256": "c41a42893954118330b12f30dd318c01538b47de246730c8df102255c56a81ce",
+      "purpose": "Source metadata provenance only; this SHA-256 is NOT a map-file hash."
+    },
+    {
+      "url": "https://www.download-telecharger.services.geo.ca/pub/nrcan_rncan/raster/topographic/index/topographic_index_50k.kml",
+      "captured_on": "2026-09-29",
+      "size_bytes": 12992760,
+      "sha256": "bbb075963d9cc09c56d625678735dd11dff6ec45bb256723b85ff15758036c15",
+      "purpose": "Source metadata provenance only; this SHA-256 is NOT a map-file hash."
+    }
+  ],
+  "usgs_selection": {
+    "states": [
+      "CT",
+      "MA",
+      "ME",
+      "NH",
+      "RI",
+      "VT",
+      "NY",
+      "NJ",
+      "PA"
+    ],
+    "predicate": "state_list intersects selected states; latest US Topo metadata editions at 1:24000; includes bordering sheets whose primary state differs",
+    "dated_url_resolution": "Join ustopo_current.original_product to ustopo_historical.product_filename in the SAME bulk metadata ZIP; require Current edition and identical byte size. No URL guessing.",
+    "supersedes_planning_subset": "New England candidates in regional-maps-detailed-selection.json overlap this manifest; do not add both byte totals. Older gap evidence still applies; no completeness claim.",
+    "extension_states": [
+      "MD",
+      "DE",
+      "DC",
+      "VA"
+    ],
+    "extension_predicate": "Same current 1:24000 metadata selection; state_list intersects extension_states and does not intersect original northeastern states. Dated URL join and size equality required as for original cohort.",
+    "appalachian_states": [
+      "WV"
+    ],
+    "appalachian_predicate": "Current 1:24000 sheets whose state_list includes WV, excluding all cell IDs in the northeastern and MD/DE/DC/VA selections. Same dated product join."
+  },
+  "pseudoindex_policy": "Drafts use the existing per-asset assignment schema. They are outside catalog/navigation and are not loaded by builds. No invented page numbers, internal ZIM URLs or section maps. Promote individually with matching admitted asset IDs after review; successful verified downloads alone determine build-time availability.",
+  "capacity_policy": "Aim for 990 GB including library and support data on a nominal decimal 1 TB drive: 5 GB physical-capacity allowance and 5 GB actually free remain separate. Source cohorts are ceilings, not quotas or available-content claims. If a cohort is smaller, select the next reviewed, complete useful cohort toward the ceiling; never claim allowances as files or fill with duplicates. If a source fails, keep it out of the ready catalog and atlas. Recompute actual retained and extracted byte sizes and measured destination free space before profile admission.",
+  "admission_order": [
+    "Review and admit the fully hashed kindergarten and small practical PDFs, including six kindergarten ancillary components before calling the sequence complete",
+    "Acquire and hash map/school sources in bounded cohorts; verify extracted Canadian members and notices against the saved directory inventory",
+    "Download candidate ZIMs with publisher SHA-256 verification and test representative content using packaged readers completely offline",
+    "Admit reviewed records and copy matching per-asset pseudoindexes; build atlas only from successful verified downloads",
+    "Review remaining topic/grade/task gaps; file enumeration alone never establishes adequate depth"
+  ],
+  "revision": "enumerated-and-source-verified",
+  "packing_target": {
+    "nominal_drive_bytes": 1000000000000,
+    "library_and_support_ceiling_bytes": 990000000000,
+    "free_space_reserve_bytes": 5000000000,
+    "filesystem_and_partition_margin_bytes": 5000000000,
+    "meaning": "Library ceiling includes retained downloads, extracted PDFs, all reader packages and their growth allowance, discovery/manifests and edition-growth allowance. Decimal TB versus GiB is unit conversion, not an extra capacity loss.",
+    "actual_space_gate": "Existing build check_space_phases checks shutil.disk_usage(...).free on each filesystem, including caches. If actual capacity/free bytes are insufficient, reduce reviewed selection; no allow-incomplete or estimate can bypass integrity/content policy or disk-space checks.",
+    "download_layout": "Use the default in-place download spool, which renames completed files into their destination. A persistent cache on the same drive duplicates bodies and does not fit this packed plan; use a separate filesystem if a cache is needed. No room is promised for old and new giant ZIM editions simultaneously.",
+    "reader_accounting": "439,739,570 bytes of pinned reader packages are already included in baseline content. Their total planning budget is 1,000,000,000, leaving 560,260,430 for growth/setup; do not add another reader budget on top.",
+    "source": "https://www.seagate.com/support/kb/why-does-my-hard-drive-report-less-capacity-than-indicated-on-the-drives-label-172191en/"
+  },
+  "verification_limits": "HEAD/range, magic and archive-directory verification establish observed availability, type and size, not full body integrity. Full SHA-256 verification and source/reader content checks remain admission gates. Only 39 kindergarten and seven practical PDFs were fully downloaded in this pass. No large asset body was indexed.",
+  "source_verification_report": "../../../docs/full-1tb-source-verification.md"
+}

@@ -1,0 +1,33 @@
+schema_version: 1
+asset_id: ck_4d6089aafcc4f407
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKHG Unit 12: Lessons in Economics'
+  - CKHG
+  - grade 2
+  - online resources
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: history
+  purpose: reference
+  aliases:
+  - 'CKHG Unit 12: Lessons in Economics'
+  - CKHG
+  - grade 2
+  - online resources
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: government-politics
+  purpose: reference
+  aliases:
+  - 'CKHG Unit 12: Lessons in Economics'
+  - CKHG
+  - grade 2
+  - online resources
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

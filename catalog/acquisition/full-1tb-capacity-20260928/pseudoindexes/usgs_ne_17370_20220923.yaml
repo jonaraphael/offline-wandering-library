@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_17370_20220923
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Glasgow topographic map
+  - VA
+  - Rockbridge County map
+  - Amherst County map
+  - Buena Vista (city) County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

@@ -1,0 +1,51 @@
+[
+  {
+    "id": "psu_private_water_systems",
+    "title": "A Guide to Private Water Systems — Penn State Extension",
+    "source_url": "https://extension.psu.edu/downloadable/download/sample/sample_id/4202/",
+    "topic_ids": [
+      "drinking-water"
+    ],
+    "brief_evaluation": "Regional private well, spring and cistern reference; verify this offered sample URL contains the complete guide before selection.",
+    "checked_at": "2026-09-29T02:52:32.558587+00:00",
+    "body_verified": false,
+    "sha256": null,
+    "status": "format_failed",
+    "error": "not a PDF",
+    "selection": "rejected_from_capacity",
+    "reason": "URL returned HTML, not the advertised PDF"
+  },
+  {
+    "id": "psu_water_well_maintenance",
+    "title": "Water Well Maintenance and Rehabilitation — Penn State Extension",
+    "source_url": "https://extension.psu.edu/downloadable/download/sample/sample_id/122225/",
+    "topic_ids": [
+      "drinking-water"
+    ],
+    "brief_evaluation": "Concise maintenance and rehabilitation factsheet; a supplement, not a complete pump-repair manual.",
+    "checked_at": "2026-09-29T02:52:32.982185+00:00",
+    "body_verified": false,
+    "sha256": null,
+    "status": "format_failed",
+    "error": "not a PDF",
+    "selection": "rejected_from_capacity",
+    "reason": "URL returned HTML, not the advertised PDF"
+  },
+  {
+    "id": "nrcan_wood_heating_2002",
+    "title": "A Guide to Residential Wood Heating (2002)",
+    "source_url": "https://publications.gc.ca/collections/Collection/M92-23-2002E.pdf",
+    "source_page": "https://publications.gc.ca/site/fra/9.686486/publication.html",
+    "topic_ids": [
+      "shelter"
+    ],
+    "brief_evaluation": "Dated background on wood heating, combustion and operation; not current installation code or appliance instructions.",
+    "checked_at": "2026-09-29T02:52:33.594386+00:00",
+    "body_verified": false,
+    "sha256": null,
+    "status": "format_failed",
+    "error": "not a PDF",
+    "selection": "rejected_from_capacity",
+    "reason": "URL returned HTML, not the advertised PDF"
+  }
+]

@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: doe_energy_saver_2022
+assignments:
+- topic_id: electricity
+  purpose: reference
+  aliases:
+  - Energy Saver Guide (2022)
+  - home energy efficiency
+  - weatherization
+  - cool roofs
+  - roof insulation
+  basis: Household efficiency and weatherization overview. Does not teach complete off-grid wiring or generator
+    service. Complete bytes hashed and parsed; representative rendered page inspected. This limited review does
+    not establish topic adequacy.

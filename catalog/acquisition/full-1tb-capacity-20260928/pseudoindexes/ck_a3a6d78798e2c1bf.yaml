@@ -1,0 +1,33 @@
+schema_version: 1
+asset_id: ck_a3a6d78798e2c1bf
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKHG Unit 8: The United States Constitution'
+  - CKHG
+  - grade 4
+  - timeline cards
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: history
+  purpose: reference
+  aliases:
+  - 'CKHG Unit 8: The United States Constitution'
+  - CKHG
+  - grade 4
+  - timeline cards
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: government-politics
+  purpose: reference
+  aliases:
+  - 'CKHG Unit 8: The United States Constitution'
+  - CKHG
+  - grade 4
+  - timeline cards
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

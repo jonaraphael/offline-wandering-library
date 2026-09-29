@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_1320db8e00a18ce8
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 2: Calling All Minds: How to Think and Create Like an Inventor'
+  - CKLA
+  - grade 6
+  - online resources
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 2: Calling All Minds: How to Think and Create Like an Inventor'
+  - CKLA
+  - grade 6
+  - online resources
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

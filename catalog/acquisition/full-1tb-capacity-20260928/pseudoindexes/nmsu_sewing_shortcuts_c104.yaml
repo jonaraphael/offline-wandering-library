@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: nmsu_sewing_shortcuts_c104
+assignments:
+- topic_id: repair
+  purpose: reference
+  aliases:
+  - Sewing Shortcuts — NMSU C-104
+  - sewing hems
+  - zippers and fasteners
+  - pocket lining
+  - bias binding
+  basis: Illustrated sewing techniques for hems, zippers and fasteners. Assumes basic machine sewing; does not close
+    the beginner hand-mending gap. Complete bytes hashed and parsed; representative rendered page inspected. This
+    limited review does not establish topic adequacy.

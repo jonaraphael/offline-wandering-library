@@ -1,0 +1,17 @@
+HTTP/2 200 
+server: nginx
+date: Tue, 29 Sep 2026 02:05:12 GMT
+content-type: application/pdf
+content-length: 6269792
+strict-transport-security: max-age=31536000
+last-modified: Thu, 14 Nov 2024 16:09:30 GMT
+etag: "673620ba-5fab60"
+expires: Sat, 25 Sep 2027 07:52:44 GMT
+cache-control: max-age=31536000
+access-control-allow-origin: *
+access-control-allow-methods: GET, HEAD
+x-ac: 32.jfk _atomic_dca HIT
+accept-ranges: bytes
+alt-svc: clear
+server-timing: a8c-cdn, dc;desc=jfk, cache;desc=HIT;dur=2.0
+

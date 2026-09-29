@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: eawag_sanitation_compendium_2e
+assignments:
+- topic_id: sanitation
+  purpose: reference
+  aliases:
+  - Compendium of Sanitation Systems and Technologies — second edition
+  - sanitation system selection
+  - sludge management
+  - sanitation operation and maintenance
+  - sanitation technology comparison
+  basis: Illustrated comparison of sanitation technologies and systems. Site design and cold-climate suitability
+    still require review. Complete bytes hashed and parsed; representative rendered page inspected. This limited
+    review does not establish topic adequacy.

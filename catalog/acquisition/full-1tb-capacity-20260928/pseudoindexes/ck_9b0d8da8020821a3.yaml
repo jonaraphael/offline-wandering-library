@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_9b0d8da8020821a3
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 4: The Renaissance'
+  - CKLA
+  - grade 5
+  - digital components
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 4: The Renaissance'
+  - CKLA
+  - grade 5
+  - digital components
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

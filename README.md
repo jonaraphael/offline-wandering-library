@@ -34,18 +34,33 @@ The selector's command uses `--detach` to start a saved background job. Inspect,
 
 | Drive preset | Pinned files, including readers | Default emphasis |
 | --- | ---: | --- |
-| 16 GB | 7.691 GB | Medical, food, water, shelter, hand tools, repair, school math/science and small practical archives |
-| 64 GB | 33.218 GB | Adds WikiMed, dictionaries, Wikibooks and practical trade communities |
-| 256 GB | 219.330 GB | Adds English Wikipedia, North America maps and historical nonfiction |
-| 512 GB | 274.409 GB | Substitutes the world map for North America |
-| 1 TB | 274.519 GB | Adds soil, seed, crop, water-system and trail manuals; room for further useful additions |
+| 16 GB | 7.801 GB | Medical, food, water, shelter, hand tools, repair, school math/science and small practical archives |
+| 64 GB | 46.824 GB | Adds WikiMed, North America maps, Wikibooks and practical trade communities |
+| 256 GB | 219.440 GB | Adds English Wikipedia, Wiktionary and historical nonfiction |
+| 512 GB | 274.519 GB | Substitutes the world map for North America |
+| 1 TB | 274.519 GB | Same admitted foundation; near-full expansion adds detailed topography and further references |
 
 These are real pinned file sizes, not allocations for unavailable material. All five default plans fit their nominal drives with their configured discovery, metadata and reserve allowances. A 1 TB drive selection does **not** mean 1 TB of curated content is ready. [Generated content selection](docs/content-selection.md) contains the detailed current totals and collection scopes.
+
+The [near-full expansion selections for every preset](docs/preset-capacity-plans.md)
+reach **15.738 / 63.303 / 253.422 / 506.812 / 987.261 GB**, including reader and
+metadata allowances. Their exact file lists are saved; source candidates awaiting
+hashes and review remain separate from the admitted defaults in the table above.
 
 The [topic-by-topic completion plan](docs/full-1tb-coverage-plan.md) records intended
 depth, existing resources, remaining gaps, next selections and adequacy criteria.
 Topic tags establish presence; editorial review establishes whether a subject is
 covered well enough. Update the plan alongside each resource admission.
+
+The [near-full capacity specification](docs/full-1tb-capacity-spec.md) targets
+**990 GB including library files, readers and discovery support** on a nominal
+1 TB drive. The profile allows 5 GB for filesystem/partition variation and retains
+5 GB actually free. Existing files plus **7,095 enumerated candidate downloads**
+total **986.668 GB**; modeled readers and metadata bring this to **987.261 GB**.
+All selected source checks passed, **46 small PDFs** were fully downloaded and hashed,
+and **7,095 piecewise pseudoindexes** are saved. [Verification details](docs/full-1tb-source-verification.md)
+distinguish those checks from the remaining full-body and editorial admission gates.
+These candidates are separate from the ready catalog.
 
 The direct foundation includes published medical and public-health chapters, canning/freezing/drying manuals, agriculture and beekeeping, shelter and navigation, illustrated ax and saw manuals, electrical/mechanical references, and complete school textbooks and teacher guides. PhET simulations have matching offline screen-test evidence. College textbooks, programming references, juvenile literature and additional languages are optional.
 

@@ -1,0 +1,10 @@
+schema_version: 1
+asset_id: wikispecies_en_all_maxi_2026_07
+assignments:
+- topic_id: biology
+  purpose: reference
+  aliases:
+  - species taxonomy
+  - scientific species names
+  basis: Draft from publisher/source metadata only; no archive-body review. Taxonomic reference, not a regional
+    field-identification or edible-plant guide. Confirm archive scope and licensing notices.

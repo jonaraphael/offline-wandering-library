@@ -1,0 +1,11 @@
+schema_version: 1
+asset_id: nrcan_011e12_0500_cantopo_geo
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - OXFORD topographic map
+  - 011E12
+  - Canada 1:50000 terrain
+  basis: Generated from the official NRCan sheet index and offered ZIP member filename. ZIP directory and decompressed
+    PDF prefix checked. Legacy edition; current roads, full readability and geographic completeness are not established.

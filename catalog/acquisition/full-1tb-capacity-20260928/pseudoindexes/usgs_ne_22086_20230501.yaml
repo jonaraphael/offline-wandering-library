@@ -1,0 +1,12 @@
+schema_version: 1
+asset_id: usgs_ne_22086_20230501
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Iron Springs topographic map
+  - PA
+  - Adams County map
+  - Franklin County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

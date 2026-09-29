@@ -1,0 +1,16 @@
+schema_version: 1
+asset_id: usgs_ne_70390_20220922
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Hog Island topographic map
+  - VA
+  - James City County map
+  - Surry County map
+  - Isle of Wight County map
+  - Newport News (city) County map
+  - York County map
+  - Williamsburg (city) County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

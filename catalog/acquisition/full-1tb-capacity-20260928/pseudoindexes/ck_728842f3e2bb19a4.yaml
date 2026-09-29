@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_728842f3e2bb19a4
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 5: A More Perfect Union: Voices for Civil Rights in America'
+  - CKLA
+  - grade 8
+  - online resources
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 5: A More Perfect Union: Voices for Civil Rights in America'
+  - CKLA
+  - grade 8
+  - online resources
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

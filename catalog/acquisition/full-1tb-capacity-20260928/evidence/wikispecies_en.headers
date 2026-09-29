@@ -1,0 +1,45 @@
+HTTP/2 301 
+date: Tue, 29 Sep 2026 01:51:01 GMT
+content-type: text/html
+content-length: 162
+location: https://lb.download.kiwix.org/zim/other/wikispecies_en_all_maxi_2026-07.zim
+access-control-allow-origin: *
+access-control-allow-methods: GET, HEAD, OPTIONS
+access-control-allow-headers: Content-Type, Authorization, User-Agent, Range
+access-control-expose-headers: Content-Range, Content-Length, Accept-Ranges
+access-control-allow-credentials: true
+content-security-policy: frame-ancestors 'self' https://browser-extension.kiwix.org https://pwa.kiwix.org https://kiwix.github.io http://localhost:* moz-extension: chrome-extension:
+
+HTTP/2 302 
+date: Tue, 29 Sep 2026 01:51:01 GMT
+content-type: text/html; charset=iso-8859-1
+location: https://ny.mirror.driftle.ss/kiwix/zim/other/wikispecies_en_all_maxi_2026-07.zim
+x-mirrorbrain-mirror: ny.mirror.driftle.ss
+x-mirrorbrain-realm: country
+link: <https://lb.download.kiwix.org/zim/other/wikispecies_en_all_maxi_2026-07.zim.meta4>; rel=describedby; type="application/metalink4+xml"
+link: <https://lb.download.kiwix.org/zim/other/wikispecies_en_all_maxi_2026-07.zim.torrent>; rel=describedby; type="application/x-bittorrent"
+link: <https://ny.mirror.driftle.ss/kiwix/zim/other/wikispecies_en_all_maxi_2026-07.zim>; rel=duplicate; pri=1; geo=us
+link: <https://wi.mirror.driftle.ss/kiwix/zim/other/wikispecies_en_all_maxi_2026-07.zim>; rel=duplicate; pri=2; geo=us
+link: <https://ftp.nluug.nl/pub/kiwix/zim/other/wikispecies_en_all_maxi_2026-07.zim>; rel=duplicate; pri=3; geo=nl
+link: <https://mirror.download.kiwix.org/zim/other/wikispecies_en_all_maxi_2026-07.zim>; rel=duplicate; pri=4; geo=fr
+link: <https://mirror-sites-in.mblibrary.info/mirror-sites/download.kiwix.org/zim/other/wikispecies_en_all_maxi_2026-07.zim>; rel=duplicate; pri=5; geo=aq
+digest: MD5=qpQtHf8Xi5Ggk5PNB9sNeA==
+digest: SHA=qIv9BfydKwWF/BE/pQSIwHV4wgQ=
+digest: SHA-256=cUFCsWJ4Rbr+oqW8v0b+8NRH62ChmEATSG4YXNNRli0=
+strict-transport-security: max-age=31536000; includeSubDomains
+access-control-allow-origin: *
+access-control-allow-methods: GET, HEAD, OPTIONS
+access-control-allow-headers: Content-Type, Authorization, User-Agent, Range
+access-control-expose-headers: Content-Range, Content-Length, Accept-Ranges
+access-control-allow-credentials: true
+content-security-policy: frame-ancestors 'self' https://browser-extension.kiwix.org https://pwa.kiwix.org https://kiwix.github.io http://localhost:* moz-extension: chrome-extension:
+
+HTTP/2 200 
+server: nginx
+date: Tue, 29 Sep 2026 01:51:01 GMT
+content-type: application/octet-stream
+content-length: 3430544383
+last-modified: Thu, 09 Jul 2026 08:36:59 GMT
+etag: "6a4f5dab-cc79f3ff"
+accept-ranges: bytes
+

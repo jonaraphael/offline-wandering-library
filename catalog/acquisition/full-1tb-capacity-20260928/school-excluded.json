@@ -1,0 +1,343 @@
+{
+  "files": [
+    {
+      "id": "ck_3b45382b650012ee",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/04/CKHG_ThirteenCol_SPANISH.pdf",
+      "size_bytes": 9894023,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    },
+    {
+      "id": "ck_f5ada337abff338e",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/04/CKHG_USConstitution_SPANISH.pdf",
+      "size_bytes": 8144332,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    },
+    {
+      "id": "ck_cf2f3db4652678ef",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/05/CKHG_AmerRevolution_SPANISH.pdf",
+      "size_bytes": 10402698,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    },
+    {
+      "id": "ck_1e55b505ba2e078e",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/05/CKHG_CivilRightsLeaders_SPANISH.pdf",
+      "size_bytes": 3691335,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    },
+    {
+      "id": "ck_b9eaf7095a7bc8d9",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/05/CKHG_CivilWar_SPANISH.pdf",
+      "size_bytes": 17421309,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    },
+    {
+      "id": "ck_7e4f680305d1bef7",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/05/CKHG_ExpNAES_SPANISH.pdf",
+      "size_bytes": 6339301,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    },
+    {
+      "id": "ck_c94a460417f6b2cc",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/05/CKHG_ExploringAmerica_SPANISH.pdf",
+      "size_bytes": 33344117,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    },
+    {
+      "id": "ck_59fd731b4616b3db",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/05/CKHG_ExploringWest_SPANISH.pdf",
+      "size_bytes": 5095180,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    },
+    {
+      "id": "ck_0e369ea1243405ad",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/05/CKHG_FromColoniesTo_SPANISH.pdf",
+      "size_bytes": 8389897,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    },
+    {
+      "id": "ck_bb579a1355d2e81d",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/05/CKHG_ImmigrationCitizen_SPANISH.pdf",
+      "size_bytes": 2884809,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    },
+    {
+      "id": "ck_4eb87152813dbf44",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/05/CKHG_MakingAmerica_SPANISH.pdf",
+      "size_bytes": 18118487,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    },
+    {
+      "id": "ck_90d8204c9d1f4a22",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/05/CKHG_NatAmerWestExp_SPANISH.pdf",
+      "size_bytes": 13125017,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    },
+    {
+      "id": "ck_bed60737d4d4fbb1",
+      "source_url": "https://www.coreknowledge.org/wp-content/uploads/2021/05/CKHG_NativeAmericans_SPANISH.pdf",
+      "size_bytes": 3567363,
+      "reason": "Spanish translation outside the English curriculum selection",
+      "verification": "headers_and_pdf_signature_verified"
+    }
+  ],
+  "publisher_pages": [
+    {
+      "publisher_id": 9283,
+      "title": "Core Classics® Teacher Guides",
+      "source_page": "https://www.coreknowledge.org/free-resource/core-classics-teacher-guides/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 49268,
+      "title": "Core Classics® Series",
+      "source_page": "https://www.coreknowledge.org/free-resource/core-classics-series/",
+      "reason": "not tagged English"
+    },
+    {
+      "publisher_id": 32228,
+      "title": "Books by E. D. Hirsch, Jr.",
+      "source_page": "https://www.coreknowledge.org/free-resource/american-ethnicity/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 49527,
+      "title": "Louisiana Bayou Bridges Grade 1",
+      "source_page": "https://www.coreknowledge.org/free-resource/louisiana-bayou-bridges-grade-1/",
+      "reason": "not tagged English"
+    },
+    {
+      "publisher_id": 58860,
+      "title": "CKMusic: Grade 1",
+      "source_page": "https://www.coreknowledge.org/free-resource/ckmusic-grade-1/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 58872,
+      "title": "CK Visual Arts: Grade 1",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-visual-arts-grade-1/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 49931,
+      "title": "Louisiana Bayou Bridges Grade 2",
+      "source_page": "https://www.coreknowledge.org/free-resource/louisiana-bayou-bridges-grade-2/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 59219,
+      "title": "CKMusic: Grade 2",
+      "source_page": "https://www.coreknowledge.org/free-resource/ckmusic-grade-2/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 59481,
+      "title": "CK Visual Arts: Grade 2",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-visual-arts-grade-2/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 59614,
+      "title": "CKMusic: Grade 3",
+      "source_page": "https://www.coreknowledge.org/free-resource/ckmusic-grade-3/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 59628,
+      "title": "CK Visual Arts: Grade 3",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-visual-arts-grade-3/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 41978,
+      "title": "Louisiana Bayou Bridges Grade 3",
+      "source_page": "https://www.coreknowledge.org/free-resource/louisiana-bayou-bridges-grade-3/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 60671,
+      "title": "CK In Your State History – Arizona Grade 3: The Story of Arizona",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-in-your-state-history-arizona-grade-3-the-story-of-arizona/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 60676,
+      "title": "CK In Your State History – Colorado Grade 4: The Story of Colorado",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-in-your-state-history-colorado-grade-4-the-story-of-colorado/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 60684,
+      "title": "CK In Your State History – North Carolina Grade 4: The Story of North Carolina",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-in-your-state-history-north-carolina-grade-4-the-story-of-north-carolina/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 41291,
+      "title": "Louisiana Bayou Bridges Grade 4",
+      "source_page": "https://www.coreknowledge.org/free-resource/louisiana-bayou-bridges-grade-4/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 58866,
+      "title": "CKMusic: Grade 4",
+      "source_page": "https://www.coreknowledge.org/free-resource/ckmusic-grade-4/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 58874,
+      "title": "CK Visual Arts: Grade 4",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-visual-arts-grade-4/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 42126,
+      "title": "Louisiana Bayou Bridges Grade 5",
+      "source_page": "https://www.coreknowledge.org/free-resource/louisiana-bayou-bridges-grade-5/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 58868,
+      "title": "CKMusic: Grade 5",
+      "source_page": "https://www.coreknowledge.org/free-resource/ckmusic-grade-5/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 58876,
+      "title": "CK Visual Arts: Grade 5",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-visual-arts-grade-5/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 27108,
+      "title": "CKLA Unit 8: Realms of Gold, Volume 1",
+      "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-8-realms-of-gold-volume-1/",
+      "reason": "not tagged English"
+    },
+    {
+      "publisher_id": 13189,
+      "title": "CKHG Unit 6: Independence for Latin America",
+      "source_page": "https://www.coreknowledge.org/free-resource/ckhg-unit-6-independence-for-latin-america/",
+      "reason": "not tagged English"
+    },
+    {
+      "publisher_id": 59648,
+      "title": "CKMusic: Grade 6",
+      "source_page": "https://www.coreknowledge.org/free-resource/ckmusic-grade-6/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 60680,
+      "title": "CK In Your State History – Minnesota Grade 6: The Story of Minnesota",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-in-your-state-history-minnesota-grade-6-the-story-of-minnesota/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 59974,
+      "title": "CK Visual Arts: Grade 6",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-visual-arts-grade-6/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 47302,
+      "title": "Louisiana Bayou Bridges Grade 6",
+      "source_page": "https://www.coreknowledge.org/free-resource/louisiana-bayou-bridges-grade-6/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 59650,
+      "title": "CKMusic: Grade 7",
+      "source_page": "https://www.coreknowledge.org/free-resource/ckmusic-grade-7/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 47955,
+      "title": "Louisiana Bayou Bridges Grade 7",
+      "source_page": "https://www.coreknowledge.org/free-resource/louisiana-bayou-bridges-grade-7/",
+      "reason": "not tagged English"
+    },
+    {
+      "publisher_id": 60014,
+      "title": "CK Visual Arts: Grade 7",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-visual-arts-grade-7/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 60690,
+      "title": "CK In Your State History – North Carolina Grade 8: The History of North Carolina",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-in-your-state-history-north-carolina-grade-8-the-history-of-north-carolina/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 48680,
+      "title": "Louisiana Bayou Bridges Grade 8",
+      "source_page": "https://www.coreknowledge.org/free-resource/louisiana-bayou-bridges-grade-8/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 60065,
+      "title": "CKMusic: Grade 8",
+      "source_page": "https://www.coreknowledge.org/free-resource/ckmusic-grade-8/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 60081,
+      "title": "CK Visual Arts: Grade 8",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-visual-arts-grade-8/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 55082,
+      "title": "Foundations of Freedom: Louisiana High School Civics",
+      "source_page": "https://www.coreknowledge.org/free-resource/foundations-of-freedom-louisiana-high-school-civics/",
+      "reason": "not tagged English"
+    },
+    {
+      "publisher_id": 60295,
+      "title": "Land of Liberty: Louisiana High School U.S. History",
+      "source_page": "https://www.coreknowledge.org/free-resource/land-of-liberty-louisiana-high-school-u-s-history/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 17925,
+      "title": "CKHG Unit 4: The Mount Rushmore Presidents",
+      "source_page": "https://www.coreknowledge.org/free-resource/ckhg-unit-4-the-mount-rushmore-presidents/",
+      "reason": "not tagged English"
+    },
+    {
+      "publisher_id": 49193,
+      "title": "Louisiana Bayou Bridges Grade K",
+      "source_page": "https://www.coreknowledge.org/free-resource/louisiana-bayou-bridges-grade-k/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 58858,
+      "title": "CKMusic: Grade K",
+      "source_page": "https://www.coreknowledge.org/free-resource/ckmusic-grade-k/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 58870,
+      "title": "CK Visual Arts: Grade K",
+      "source_page": "https://www.coreknowledge.org/free-resource/ck-visual-arts-grade-k/",
+      "reason": "outside the four selected school curriculum series"
+    },
+    {
+      "publisher_id": 1808,
+      "title": "The Core Knowledge Sequence: Content and Skill Guidelines for Preschool–Grade 8",
+      "source_page": "https://www.coreknowledge.org/free-resource/core-knowledge-sequence/",
+      "reason": "outside the four selected school curriculum series"
+    }
+  ]
+}

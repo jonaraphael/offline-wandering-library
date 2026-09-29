@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_9640_20220912
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Colonial Beach North topographic map
+  - VA
+  - MD
+  - Westmoreland County map
+  - Charles County map
+  - King George County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

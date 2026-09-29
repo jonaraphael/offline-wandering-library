@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_e69d77d0952d59f6
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 1: Us, in Progress: Short Stories About Young Latinos'
+  - CKLA
+  - grade 8
+  - online resources
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 1: Us, in Progress: Short Stories About Young Latinos'
+  - CKLA
+  - grade 8
+  - online resources
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

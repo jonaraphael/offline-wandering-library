@@ -55,13 +55,17 @@ class FlashProfileTests(unittest.TestCase):
                         min(i for i,a in enumerate(assets) if a['format'] == 'zim'))
 
     def test_discovery_and_reserve_fit_nominal_devices(self):
-        for name in ('flash-16gb', 'critical-64gb'):
+        limits = {'flash-16gb': (16_000_000_000, 125_000_000),
+                  'critical-64gb': (64_000_000_000, 320_000_000)}
+        for name, (nominal_bytes, margin_bytes) in limits.items():
             profile = self.profiles[name]
-            assets, _, _ = self.selection(profile)
-            plan = capacity_plan(assets, profile)
+            assets, _, selection = self.selection(profile)
+            plan = capacity_plan(assets, profile, selection)
             peak = plan['in_place_peak_budget_bytes']
             self.assertLessEqual(peak, plan['capacity_bytes'])
-            self.assertGreaterEqual(plan['reserve_bytes'], 1_500_000_000)
+            self.assertEqual(plan['reserve_bytes'], margin_bytes)
+            self.assertEqual(plan['capacity_bytes'] + margin_bytes, nominal_bytes)
+            self.assertEqual(selection['readers_budget_bytes'], 1_000_000_000)
             self.assertEqual(plan['content_bytes'], sum(a['size_bytes'] for a in assets))
             self.assertNotIn('content_target_min_bytes', profile)
 

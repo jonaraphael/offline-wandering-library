@@ -1,0 +1,12 @@
+schema_version: 1
+asset_id: usgs_ne_47232_20240905
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Waldoboro East topographic map
+  - ME
+  - Lincoln County map
+  - Knox County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

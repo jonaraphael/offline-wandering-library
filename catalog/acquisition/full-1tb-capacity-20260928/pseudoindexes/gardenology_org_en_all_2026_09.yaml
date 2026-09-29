@@ -1,0 +1,11 @@
+schema_version: 1
+asset_id: gardenology_org_en_all_2026_09
+assignments:
+- topic_id: gardening
+  purpose: reference
+  aliases:
+  - garden plants reference
+  - horticulture reference
+  basis: Draft from publisher/source metadata only; no archive-body review. Horticultural lookup supplement. Verify
+    archive content and illustrations; not evidence of local growing, plant-disease diagnosis or food-edibility
+    coverage.

@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_48167_20230517
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - West Danby topographic map
+  - NY
+  - Tompkins County map
+  - Chemung County map
+  - Tioga County map
+  - Schuyler County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

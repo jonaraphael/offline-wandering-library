@@ -1,9 +1,13 @@
+# Nominal 256,000,000,000 bytes; allow 1,280,000,000 for filesystem/partitions
+# and retain 1,280,000,000 actually free. Total reader/setup budget: 1 GB.
+# Exact near-full source selection: catalog/acquisition/preset-capacity-20260929.json.
+# New source candidates are not build defaults until catalog admission passes.
 id: compact-256gb
 title: Practical library, encyclopedia and North America maps
-capacity_bytes: 256000000000
+capacity_bytes: 254720000000
 discovery_budget_bytes: 16777216
-readers_budget_bytes: 500000000
-reserve_bytes: 16000000000
+readers_budget_bytes: 1000000000
+reserve_bytes: 1280000000
 default_resources:
 - hesperian-health
 - msf-medical
@@ -32,6 +36,10 @@ default_resources:
 - wikipedia-en
 - regional-maps
 - gutenberg-core
+- sare-practical-farming
+- trail-maintenance
+- seed-processing-quality
+- water-supply-maintenance
 required_domains:
 - health
 - water-sanitation

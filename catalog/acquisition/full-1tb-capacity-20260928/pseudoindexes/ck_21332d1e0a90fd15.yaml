@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_21332d1e0a90fd15
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Domain 8: Insects'
+  - CKLA
+  - grade 2
+  - read-aloud anthology
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Domain 8: Insects'
+  - CKLA
+  - grade 2
+  - read-aloud anthology
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

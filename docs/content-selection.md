@@ -12,15 +12,17 @@ Files are selected for substantial, diversified knowledge useful in a post-inter
 
 | Drive | Pinned files, GB | In-place planning peak, GB | Records |
 | --- | ---: | ---: | ---: |
-| flash-16gb | 7.691 | 9.224 | 402 |
-| critical-64gb | 33.218 | 39.251 | 416 |
-| compact-256gb | 219.330 | 235.423 | 422 |
-| standard-512gb | 274.409 | 305.002 | 422 |
-| full-1tb | 274.519 | 345.113 | 433 |
+| flash-16gb | 7.801 | 8.520 | 413 |
+| critical-64gb | 46.824 | 47.738 | 427 |
+| compact-256gb | 219.440 | 221.314 | 433 |
+| standard-512gb | 274.519 | 277.673 | 433 |
+| full-1tb | 274.519 | 280.113 | 433 |
 
 Decimal GB. File totals include reader packages. Planning peaks include a small discovery allowance, metadata and reserve. Original downloads stay on the target drive. Search and atlas pages compile from approved metadata without reading source bodies; no indexing workspace or cache is needed.
 
-The 1 TB selection continues to grow against [the topic-by-topic completion plan](full-1tb-coverage-plan.md). Extra capacity is available for useful additions and optional collections. The 256 GB preset uses North America maps; larger presets substitute the world map. Additional encyclopedia languages are opt-in.
+Exact [near-full selections for all five presets](preset-capacity-plans.md) are saved separately from these admitted build defaults. They reuse the verified candidate inventory and retain its pending hash/content review gates. The 64 GB and 256 GB defaults use North America maps; larger presets substitute the world map. Additional encyclopedia languages are opt-in.
+
+The [topic-by-topic completion plan](full-1tb-coverage-plan.md) governs intended depth and remaining gaps. Capacity utilization alone does not establish adequate coverage.
 
 ## Evidence and limits
 

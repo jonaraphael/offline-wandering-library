@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_b7d8d4d182ec2825
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKSci Unit 2: Energy and Matter in Ecosystems'
+  - CKSci
+  - grade 5
+  - teacher guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: science
+  purpose: reference
+  aliases:
+  - 'CKSci Unit 2: Energy and Matter in Ecosystems'
+  - CKSci
+  - grade 5
+  - teacher guide
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

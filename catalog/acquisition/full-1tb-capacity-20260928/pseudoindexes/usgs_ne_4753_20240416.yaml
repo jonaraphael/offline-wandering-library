@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_4753_20240416
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Bolton Mountain topographic map
+  - VT
+  - Chittenden County map
+  - Washington County map
+  - Lamoille County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

@@ -1,0 +1,12 @@
+schema_version: 1
+asset_id: usgs_ne_25592_20220923
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Lexington topographic map
+  - VA
+  - Rockbridge County map
+  - Lexington (city) County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

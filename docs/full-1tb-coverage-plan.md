@@ -1,6 +1,6 @@
 # Full 1 TB topic-by-topic completion plan
 
-Editorial review: 2026-09-28. Generated from [the editable plan](../catalog/coverage-plan.yaml) and current catalog.
+Editorial review: 2026-09-29. Generated from [the editable plan](../catalog/coverage-plan.yaml) and current catalog.
 
 Practical household and community knowledge for prolonged loss of internet and limited electricity.
 
@@ -12,12 +12,14 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 ## Next selection batch
 
-1. Initial literacy: evaluate one complete Core Knowledge kindergarten skills sequence, including teacher guidance, readers, exercises and assessments; then plan the remaining progression.
-2. Seed independence: processing and quality modules are now selected. Next seek a finished crop-specific seed-saving guide covering isolation, pollination and harvest; the current Organic Seed Alliance edition remains a lead. Defer the FAO enterprise/business volume.
-3. Water systems: rainwater, Afridev and groundwater maintenance manuals are now selected. Next check the source-to-use task sequence, cold-climate applicability, local pump types and simple water-quality testing; the brief reviews do not establish adequacy.
-4. Resilient shelter: assess the complete FEMA P-232 publisher download with an explicit larger transfer bound; add repair and weatherproofing coverage separately.
-5. Power and heat: select practical finished references for small DC systems, batteries, basic generation, ventilation and stove maintenance; circuit theory alone does not close this gap.
-6. Local topography: settle the geographic scope and review the previously frozen New England sheet candidates before admitting maps; a world street map does not substitute for contours or local completeness.
+1. Initial literacy: all 366 selected Core Knowledge curriculum pages and 1,220 English PDFs are enumerated with a grade/component matrix. Review the 39 fully hashed kindergarten Skills PDFs alongside the six ancillary PDFs; complete dependencies and teaching-sequence review before admission.
+2. Seed independence: review the fully hashed OSA 2010 seed-saving PDF against existing processing/quality modules. Keep the 2026 revision and regional crop-diagnosis gaps explicit; defer the enterprise/business volume.
+3. Water systems: review the selected rainwater, Afridev and groundwater sequence against freezing, local pump types and testing. The two new Penn State download URLs returned HTML and are excluded; identify working finished alternatives.
+4. Resilient shelter and storage: FEMA P-232 (2024) and UAF Root Cellars (2020 revision) are fully hashed candidates with rendered samples reviewed. Review task scope before admission; ordinary weatherproofing and repair remain gaps.
+5. Power, textiles and radio: review the hashed DOE Energy Saver, NMSU Sewing Shortcuts and historical ARRL ARES candidates. Select separate small-DC, stove/ventilation, beginner hand-mending and current novice-radio references; these supplements do not close those tasks.
+6. Local topography: 4,807 USGS PDFs and 1,051 Canadian ZIPs/PDFs passed bounded type/size checks, with complete ZIP-member accounting. Acquire and hash bodies, inspect readability and prove declared footprint coverage. Do not add the overlapping older New England subtotal.
+7. Capacity: 7,095 source downloads add 712.149 GB; existing files and modeled support total 987.261 GB, leaving 2.739 GB below the 990 GB ceiling plus separate free-space/filesystem margins. Forty-six small PDFs are fully hashed; all large-body and offline-reader admission gates remain explicit. See docs/full-1tb-source-verification.md.
+8. All preset expansions: exact source lists now fit 15.738 / 63.303 / 253.422 / 506.812 / 987.261 GB, including 1 GB total reader/setup budgets. Complete grade/subject and geographic cohorts are recorded in catalog/acquisition/preset-capacity-20260929.json. Acquire missing hashes and finish source/offline reviews before promotion; these are separate from the smaller admitted defaults.
 
 ## Topic plans
 
@@ -45,7 +47,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** An edition and audience review across overlapping clinical manuals; Coverage of chronic care and rehabilitation in low-resource settings; Reviewed task routes and a currency policy for medicine information.
 
-**Next selections/review:** Audit the selected MSF editions and their contents before adding clinical sources. Identify a current finished primary-care or chronic-care reference from an authoritative publisher.
+**Next selections/review:** Audit the selected MSF editions and their contents before adding clinical sources. Identify a current finished primary-care or chronic-care reference from an authoritative publisher. Review the planned MedlinePlus 2025-01 archive for patient education only; it is not admitted and does not replace a current clinical or medicine reference. See docs/full-1tb-capacity-spec.md.
 
 **Adequate when:** A qualified content review confirms the intended professional scope, current editions, practical limits and usable navigation for the agreed clinical task list.
 
@@ -115,7 +117,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** A reviewed source-to-use sequence for household readers rather than trained operators alone; Cold-climate rainwater and well-system applicability; Equipment guidance beyond the specified Afridev configurations; Accessible water-quality testing with interpretation and limits; Current site-specific construction and source-protection requirements.
 
-**Next selections/review:** Check collection, storage, contamination prevention and troubleshooting tasks against the three selected manuals before adding overlaps. Select a finished household well or rainwater guide covering freezing conditions and locally relevant pumps. Evaluate a simple field water-quality testing manual alongside the existing WHO notes.
+**Next selections/review:** The Penn State private-water guide and well-maintenance download URLs returned HTML in the 2026-09-29 verification pass; they are rejected sources, not admitted PDFs. See catalog/acquisition/full-1tb-capacity-20260928/rejected-sources.json. Select a working finished cold-climate well/rainwater guide with locally relevant pumps and contamination testing; retain the existing CAWST/RWSN/SADC overlap review.
 
 **Adequate when:** A source-to-use task review covers construction, operation, contamination risks and maintenance; specialist design requirements remain explicit.
 
@@ -129,7 +131,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** Longer-term system selection and maintenance; Site and groundwater constraints; Accessible household designs beyond emergency notes.
 
-**Next selections/review:** Evaluate a finished Eawag/Sandec sanitation-systems compendium and practical operation manual; verify offered edition and rights.
+**Next selections/review:** Eawag sanitation compendium second edition is now a fully downloaded, SHA-256-pinned 180-page PDF candidate with a rendered sample inspected; see practical-manuals.json in the full-1tb capacity plan. Review siting, maintenance and cold-climate applicability before admission; the compendium compares systems and does not establish site-specific construction design.
 
 **Adequate when:** Readers can compare appropriate systems and locate complete maintenance and siting guidance, with health and environmental limits intact.
 
@@ -143,7 +145,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** A food-by-method coverage matrix; Root-cellar and ambient storage depth; Clear distinction between tested preservation methods and unsupported historical recipes.
 
-**Next selections/review:** Select a current extension root-cellar or low-energy storage manual. Reconcile the existing freezing drying and fermentation sources against the task matrix before acquiring overlaps.
+**Next selections/review:** UAF Root Cellars, revised June 2020, is a fully downloaded and hashed four-page candidate; rendered storage tables and cellar diagram inspected. Admit after task/rights review. Reconcile the short cold-storage reference with existing freezing, drying and fermentation coverage; it is not a complete engineered cellar plan.
 
 **Adequate when:** Each agreed food/method combination has a current tested source with operating limits, and unsupported combinations are labelled rather than inferred.
 
@@ -157,7 +159,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** Crop-specific seed selection, isolation, pollination and harvest instructions for home growers; Crop and climate coverage beyond the existing regional examples; An end-to-end beginner growing sequence; A checked distinction between accessible seed tests and laboratory methods.
 
-**Next selections/review:** Seek a finished current Organic Seed Alliance edition or comparable extension seed-saving guide; the 2026 OSA page had no PDF link in the prior pass: https://seedalliance.org/publications/seed-saving-guide/ Check the selected processing and germination-test sections for low-equipment household use before treating the seed-renewal sequence as complete.
+**Next selections/review:** The offered Organic Seed Alliance 2010 seed-saving PDF is now downloaded, hashed and sampled; it is distinct from the 2026 web revision. Review crop scope and older recommendations before admission. Seek a finished current edition and region-specific diagnosis sources. Check low-equipment seed processing, testing and storage against the existing references before marking the renewal sequence complete.
 
 **Adequate when:** A complete seasonal task sequence includes crop choice, propagation, cultivation, harvest and seed renewal for a declared climate scope.
 
@@ -227,7 +229,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** Current step-by-step repair and construction depth; Moisture and ventilation; Seismic and regional hazard guidance beyond storm shelters.
 
-**Next selections/review:** Evaluate FEMA P-232 (2024); the initial PDF exceeded the 40 MB review bound and was not admitted: https://www.fema.gov/sites/default/files/documents/fema_p-232_september2024.pdf Select a current complete weatherproofing and home-repair manual from an authoritative publisher.
+**Next selections/review:** FEMA P-232 September 2024 is now fully downloaded and hashed: 43.171 MB, 266 pages; representative rendering passed. Review scope and construction prerequisites before admission. Select a current finished weatherproofing and ordinary home-repair manual; seismic design coverage does not close those gaps.
 
 **Adequate when:** The agreed shelter and repair tasks have current diagrams and complete context; historical references and forum answers are not credited as a modern building standard.
 
@@ -269,7 +271,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** Complete small-system construction and maintenance references; Batteries and fault finding; Stove and chimney operation; ventilation and combustion safety.
 
-**Next selections/review:** Evaluate finished DOE small-wind and energy-saver publications; the web guide alone is not an admitted offline manual: https://www.energy.gov/cmei/systems/windexchange/small-wind-guidebook Select a practical small-DC-system manual and a separate current stove/ventilation reference.
+**Next selections/review:** DOE Energy Saver 2022 is a fully hashed 56-page candidate with rendered sample review; use for household efficiency/weatherization after admission review, not small-system wiring. The advertised NRCan 2002 wood-heating PDF returned HTML and is excluded. Find a working current stove/chimney/ventilation manual. Energypedia remains an unacquired supplementary ZIM candidate. Select a practical small-DC-system manual with batteries and fault finding.
 
 **Adequate when:** Named system types have complete diagrams, component requirements, operating limits and troubleshooting; theory and archive presence alone are insufficient.
 
@@ -283,7 +285,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** An identified beginner sewing and mending sequence; Illustrated hand-stitching and repair; Explicit material and tool requirements.
 
-**Next selections/review:** Identify a freely offered finished extension sewing/mending manual; evaluate contents and diagrams before crediting coverage.
+**Next selections/review:** NMSU Sewing Shortcuts C-104, revised 2015, is a fully hashed 12-page candidate; illustrated seams, pockets and fasteners were sampled. It assumes machine-sewing skills and does not close the beginner hand-mending gap. Select a finished illustrated hand-stitching and mending sequence with tools, materials and complete beginner tasks.
 
 **Adequate when:** A beginner can follow a complete set of common repair and construction tasks with available hand tools; incidental archive matches do not count.
 
@@ -295,9 +297,9 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Catalog collections:** OWL complementary directly readable core (selected); World maps (OpenStreetMap) (selected); North America maps (OpenStreetMap) (optional; not selected).
 
-**Remaining gaps:** A declared local region and contiguous topographic coverage; Map scale, contour and date review; Offline print/read usability for the actual sheets.
+**Remaining gaps:** Contiguous topographic coverage for the confirmed northeastern US and nearby Canada scope; Map scale, contour and date review; Offline print/read usability for the actual sheets; Complete source/member integrity checks and reviewed geographic footprint gaps.
 
-**Next selections/review:** Review the frozen New England candidates against the chosen region and current USGS offerings: https://www.usgs.gov/tools/topobuilder-custom-topographic-maps-demand Select finished sheets only after a coverage matrix identifies gaps and duplicates.
+**Next selections/review:** All 4,807 dated USGS PDFs and 1,051 Canadian PDF ZIPs passed bounded availability/type/size checks; exact retained bytes and individual draft pseudoindexes are saved. Scope: northeastern US, adjoining MD/DE/DC/VA/WV, and the Canadian [-90,42,-59,50] envelope including the northern Great Lakes. See docs/full-1tb-source-verification.md. Acquire and hash full source bodies and Canadian extracted members; test actual readability. Compare footprints against authoritative boundaries and retain coastal/region gaps explicitly. The older New England candidate list overlaps this selection and must not be added twice; enumeration and valid PDF prefixes do not establish contiguous map coverage.
 
 **Adequate when:** The agreed region has inspected contiguous maps at useful scales and a reader can perform the stated navigation tasks offline.
 
@@ -339,7 +341,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** A complete beginner operating reference; Practical antenna and power guidance; Region-specific legal and emergency-operating context.
 
-**Next selections/review:** Identify an official or openly licensed finished introductory radio manual and a concise antenna reference.
+**Next selections/review:** The offered ARRL ARES Field Resources Manual, copyright 2005–2008, is a fully hashed 90-page candidate. Review as a historical emergency-communication supplement; it does not establish current legal or licensing rules. Select a current finished novice operating course and practical antenna/power reference; retain jurisdiction and equipment scope.
 
 **Adequate when:** A novice can follow a coherent learning path with equipment prerequisites and jurisdictional limits; forum coverage alone does not qualify.
 
@@ -353,7 +355,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** A complete phonics and decodable-reader progression; Teacher instructions and answer/assessment materials; Learner practice and handwriting.
 
-**Next selections/review:** Evaluate a complete kindergarten CKLA skills sequence with all required PDFs and license notices: https://www.coreknowledge.org/language-arts/ Use the publisher curriculum inventory to plan subsequent grades: https://www.coreknowledge.org/download-free-curriculum/
+**Next selections/review:** The complete offered-file inventory now records 366 English curriculum pages and 1,220 distinct PDFs across CKLA/CKMath/CKSci/CKHG, with a grade/component matrix in catalog/acquisition/full-1tb-capacity-20260928/school-units.json. Thirty-nine kindergarten Skills unit PDFs are fully downloaded and hashed. Six additional Skills ancillary PDFs are enumerated but need full-body checks; reconcile these and the scope/sequence before calling the sequence ready. Review required readers, practice, assessments, materials and live/paid dependencies for the preschool–grade 8 CKLA progression; offered PDFs and video supplements alone do not establish adequate teaching depth.
 
 **Adequate when:** A novice instructor has an age-appropriate end-to-end sequence, learner texts, practice and checks for the explicitly selected literacy stages.
 
@@ -367,7 +369,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** Complete early-primary arithmetic progression; Grade-by-grade prerequisites and exercise/answer coverage; Reliable low-electricity teaching activities.
 
-**Next selections/review:** Inventory the selected learner books and teacher guides by stage. Evaluate complete finished elementary mathematics units where the progression is absent.
+**Next selections/review:** Use the saved CKMath kindergarten–grade 8 unit/component matrix and exact PDF inventory to review learner books, teacher guidance, worked examples, independent practice and checks by stage. Acquire and hash the enumerated source bodies; check required materials, prerequisites and any online dependencies. Teacher-role flags on supplementary pages are review cues, not automatic completeness judgments. Keep Khan Academy and OER4Schools as supplementary ZIM candidates until their full hashes and offline exercises/media are tested.
 
 **Adequate when:** Every agreed stage has explanations, worked examples, independent practice and usable checks, with no prerequisite jumps concealed by topic tags.
 
@@ -381,7 +383,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** A stage-by-subject scope matrix; Early science and Earth/space progression; Safe practical activities with commonly available materials.
 
-**Next selections/review:** Map the selected learner and teacher books before acquiring more college texts. Evaluate finished school Earth-science and biology units for specific missing stages.
+**Next selections/review:** Use the saved CKSci kindergarten–grade 8 component matrix to reconcile life, physical and Earth/space strands with the selected Siyavula books and PhET. Source PDF availability/signatures passed; full bodies and instructional coverage remain unreviewed. Review safe practical activities, required materials and teacher/student assessments. Acquire source hashes before admission; large supplementary science archives do not establish a school progression.
 
 **Adequate when:** The declared school stages have learner and teacher materials, exercises and appropriate practical work across all intended science strands.
 
@@ -395,7 +397,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** A sequenced school curriculum; Teacher guides and student work; Explicit geographic and cultural scope.
 
-**Next selections/review:** Evaluate complete Core Knowledge History and Geography units, checking perspective and required materials: https://www.coreknowledge.org/download-free-curriculum/
+**Next selections/review:** CKHG kindergarten–grade 8 offered PDFs are now enumerated by unit and role in school-units.json. Review chronology, geographic/cultural perspective, student work, teacher materials and assessments before admission. Hash the complete PDF bodies and inspect dependencies; the publisher unit count, encyclopedia and Crash Course supplement do not establish adequate school coverage.
 
 **Adequate when:** The agreed stages have coherent readings, maps, activities and assessments; an encyclopedia or college book does not by itself satisfy the scope.
 
@@ -409,7 +411,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Remaining gaps:** A small set of useful starting routes; Edition and overlap limitations; Identification of historical or outdated technical guidance.
 
-**Next selections/review:** Add concise source-level aliases and selected contents routes from publisher metadata; avoid exhaustive archive indexing.
+**Next selections/review:** Add concise source-level aliases and selected contents routes from publisher metadata; avoid exhaustive archive indexing. The capacity plan saves a whole Survivor Library candidate and its draft pseudoindex. Review embedded PDFs, reader support, rights and overlap first. Keep historical limits visible; do not credit it as modern clinical, building or food-safety guidance.
 
 **Adequate when:** Offline access and representative lookup tasks work, and the collection's broad or historical limits remain visible; archive presence never closes other rows automatically.
 
@@ -501,4 +503,4 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 Update the affected rows in the same change as each resource admission. Keep gaps and next selections explicit; only an editorial review with recorded evidence may mark a row adequate. Regenerate the documentation with scripts/build_content_docs.py.
 
-Python checks referenced collections and complete atlas-topic coverage when generating this document. It never upgrades an editorial status from tags, file counts or downloads. The latest small acquisition batch is recorded in [the resource review](../catalog/acquisition/practical-discovery-20260928.json).
+Python checks referenced collections and complete atlas-topic coverage when generating this document. It never upgrades an editorial status from tags, file counts or downloads. The latest small acquisition batch is recorded in [the seed and water review](../catalog/acquisition/seed-water-discovery-20260928.json). The [remaining-capacity specification](full-1tb-capacity-spec.md) records enumerated candidate files, source-verification evidence, draft pseudoindexes and remaining admission gates; these are not ready collections.

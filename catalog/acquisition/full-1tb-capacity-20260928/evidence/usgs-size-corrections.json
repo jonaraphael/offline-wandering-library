@@ -1,0 +1,1442 @@
+[
+  {
+    "id": "usgs_ne_14557_20240816",
+    "publisher_metadata_size_bytes": 46622162,
+    "observed_size_bytes": 46622161,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_70271_20240816",
+    "publisher_metadata_size_bytes": 54882654,
+    "observed_size_bytes": 54882655,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_25894_20240815",
+    "publisher_metadata_size_bytes": 56408958,
+    "observed_size_bytes": 56408957,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_33247_20240423",
+    "publisher_metadata_size_bytes": 57872876,
+    "observed_size_bytes": 57872875,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_36683_20240814",
+    "publisher_metadata_size_bytes": 56512939,
+    "observed_size_bytes": 56512938,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_41057_20240815",
+    "publisher_metadata_size_bytes": 11567999,
+    "observed_size_bytes": 11568000,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_42818_20240816",
+    "publisher_metadata_size_bytes": 53124256,
+    "observed_size_bytes": 53124257,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_49298_20230608",
+    "publisher_metadata_size_bytes": 39411733,
+    "observed_size_bytes": 39411734,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_1797_20240809",
+    "publisher_metadata_size_bytes": 53481748,
+    "observed_size_bytes": 53481747,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_17817_20240812",
+    "publisher_metadata_size_bytes": 51703879,
+    "observed_size_bytes": 51703878,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_26904_20240812",
+    "publisher_metadata_size_bytes": 53913992,
+    "observed_size_bytes": 53913991,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_32015_20240816",
+    "publisher_metadata_size_bytes": 56412714,
+    "observed_size_bytes": 56412713,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_33331_20240816",
+    "publisher_metadata_size_bytes": 55423975,
+    "observed_size_bytes": 55423974,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_41882_20240809",
+    "publisher_metadata_size_bytes": 50231240,
+    "observed_size_bytes": 50231239,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_42988_20240419",
+    "publisher_metadata_size_bytes": 54919417,
+    "observed_size_bytes": 54919416,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_43119_20240816",
+    "publisher_metadata_size_bytes": 61737232,
+    "observed_size_bytes": 61737233,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_49873_20240816",
+    "publisher_metadata_size_bytes": 56355962,
+    "observed_size_bytes": 56355963,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_49890_20240816",
+    "publisher_metadata_size_bytes": 54438863,
+    "observed_size_bytes": 54438862,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_637_20240415",
+    "publisher_metadata_size_bytes": 55756188,
+    "observed_size_bytes": 55756187,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_2951_20240416",
+    "publisher_metadata_size_bytes": 61305398,
+    "observed_size_bytes": 61305399,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_4710_20240807",
+    "publisher_metadata_size_bytes": 21221026,
+    "observed_size_bytes": 21221025,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_7162_20240805",
+    "publisher_metadata_size_bytes": 21732470,
+    "observed_size_bytes": 21732469,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_7370_20240808",
+    "publisher_metadata_size_bytes": 61488968,
+    "observed_size_bytes": 61488969,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_7914_20240807",
+    "publisher_metadata_size_bytes": 53743007,
+    "observed_size_bytes": 53743006,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_8943_20240809",
+    "publisher_metadata_size_bytes": 57665367,
+    "observed_size_bytes": 57665366,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_16382_20240805",
+    "publisher_metadata_size_bytes": 38748625,
+    "observed_size_bytes": 38748624,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_16520_20240808",
+    "publisher_metadata_size_bytes": 59181459,
+    "observed_size_bytes": 59181458,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_19318_20240416",
+    "publisher_metadata_size_bytes": 57367627,
+    "observed_size_bytes": 57367626,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_76032_20240416",
+    "publisher_metadata_size_bytes": 23224040,
+    "observed_size_bytes": 23224039,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_22632_20240807",
+    "publisher_metadata_size_bytes": 59574027,
+    "observed_size_bytes": 59574026,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_22780_20240807",
+    "publisher_metadata_size_bytes": 37915394,
+    "observed_size_bytes": 37915393,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_76532_20240415",
+    "publisher_metadata_size_bytes": 56964631,
+    "observed_size_bytes": 56964632,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_25731_20240805",
+    "publisher_metadata_size_bytes": 61271444,
+    "observed_size_bytes": 61271443,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_321151_20141009",
+    "publisher_metadata_size_bytes": 1944462,
+    "observed_size_bytes": 1944461,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_29400_20240808",
+    "publisher_metadata_size_bytes": 56399978,
+    "observed_size_bytes": 56399977,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_33619_20240415",
+    "publisher_metadata_size_bytes": 57312451,
+    "observed_size_bytes": 57312452,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_33763_20240416",
+    "publisher_metadata_size_bytes": 58933258,
+    "observed_size_bytes": 58933259,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_34359_20240807",
+    "publisher_metadata_size_bytes": 56037134,
+    "observed_size_bytes": 56037133,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_34410_20240415",
+    "publisher_metadata_size_bytes": 55415535,
+    "observed_size_bytes": 55415534,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_34985_20240807",
+    "publisher_metadata_size_bytes": 54649178,
+    "observed_size_bytes": 54649177,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_37239_20240415",
+    "publisher_metadata_size_bytes": 59021094,
+    "observed_size_bytes": 59021093,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_37521_20240415",
+    "publisher_metadata_size_bytes": 58943123,
+    "observed_size_bytes": 58943124,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_38742_20240415",
+    "publisher_metadata_size_bytes": 59021136,
+    "observed_size_bytes": 59021137,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_44804_20240416",
+    "publisher_metadata_size_bytes": 58688232,
+    "observed_size_bytes": 58688233,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_71913_20240830",
+    "publisher_metadata_size_bytes": 56930785,
+    "observed_size_bytes": 56930784,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_46611_20240805",
+    "publisher_metadata_size_bytes": 37669114,
+    "observed_size_bytes": 37669115,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_46688_20240830",
+    "publisher_metadata_size_bytes": 55377435,
+    "observed_size_bytes": 55377434,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_46707_20240415",
+    "publisher_metadata_size_bytes": 56428859,
+    "observed_size_bytes": 56428860,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_47696_20240905",
+    "publisher_metadata_size_bytes": 56524790,
+    "observed_size_bytes": 56524789,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_47922_20240809",
+    "publisher_metadata_size_bytes": 57935951,
+    "observed_size_bytes": 57935950,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_48217_20240807",
+    "publisher_metadata_size_bytes": 50979853,
+    "observed_size_bytes": 50979852,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_49569_20240905",
+    "publisher_metadata_size_bytes": 51287846,
+    "observed_size_bytes": 51287845,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_3437_20240808",
+    "publisher_metadata_size_bytes": 52302552,
+    "observed_size_bytes": 52302553,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_7443_20240808",
+    "publisher_metadata_size_bytes": 55723764,
+    "observed_size_bytes": 55723765,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_9919_20240808",
+    "publisher_metadata_size_bytes": 48979406,
+    "observed_size_bytes": 48979407,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_14377_20240809",
+    "publisher_metadata_size_bytes": 58873595,
+    "observed_size_bytes": 58873594,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_14512_20240808",
+    "publisher_metadata_size_bytes": 54241757,
+    "observed_size_bytes": 54241758,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_22283_20240808",
+    "publisher_metadata_size_bytes": 51850018,
+    "observed_size_bytes": 51850017,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_72511_20240417",
+    "publisher_metadata_size_bytes": 21770633,
+    "observed_size_bytes": 21770634,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_43615_20240812",
+    "publisher_metadata_size_bytes": 56392401,
+    "observed_size_bytes": 56392400,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_45203_20240416",
+    "publisher_metadata_size_bytes": 42863297,
+    "observed_size_bytes": 42863296,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_49405_20240813",
+    "publisher_metadata_size_bytes": 57766175,
+    "observed_size_bytes": 57766174,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_69158_20230512",
+    "publisher_metadata_size_bytes": 38246267,
+    "observed_size_bytes": 38246268,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_33330_20230611",
+    "publisher_metadata_size_bytes": 47196509,
+    "observed_size_bytes": 47196508,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_35462_20230622",
+    "publisher_metadata_size_bytes": 42364177,
+    "observed_size_bytes": 42364178,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_35677_20230511",
+    "publisher_metadata_size_bytes": 39404287,
+    "observed_size_bytes": 39404286,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_45378_20230512",
+    "publisher_metadata_size_bytes": 45150840,
+    "observed_size_bytes": 45150839,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_47945_20230611",
+    "publisher_metadata_size_bytes": 42306090,
+    "observed_size_bytes": 42306089,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_1003_20230613",
+    "publisher_metadata_size_bytes": 47946158,
+    "observed_size_bytes": 47946157,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_1823_20230517",
+    "publisher_metadata_size_bytes": 40859720,
+    "observed_size_bytes": 40859721,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_69449_20230603",
+    "publisher_metadata_size_bytes": 49479582,
+    "observed_size_bytes": 49479583,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_8432_20230524",
+    "publisher_metadata_size_bytes": 49268880,
+    "observed_size_bytes": 49268879,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_8607_20230517",
+    "publisher_metadata_size_bytes": 28153356,
+    "observed_size_bytes": 28153357,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_8965_20230427",
+    "publisher_metadata_size_bytes": 54944952,
+    "observed_size_bytes": 54944953,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_12891_20230531",
+    "publisher_metadata_size_bytes": 48865452,
+    "observed_size_bytes": 48865453,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_12970_20230526",
+    "publisher_metadata_size_bytes": 49084252,
+    "observed_size_bytes": 49084251,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_13058_20230526",
+    "publisher_metadata_size_bytes": 42461274,
+    "observed_size_bytes": 42461273,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_16759_20230502",
+    "publisher_metadata_size_bytes": 49514791,
+    "observed_size_bytes": 49514790,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_16824_20230622",
+    "publisher_metadata_size_bytes": 21387498,
+    "observed_size_bytes": 21387499,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_17215_20230429",
+    "publisher_metadata_size_bytes": 49032143,
+    "observed_size_bytes": 49032142,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_17932_20230526",
+    "publisher_metadata_size_bytes": 47194825,
+    "observed_size_bytes": 47194824,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_18717_20240924",
+    "publisher_metadata_size_bytes": 47283739,
+    "observed_size_bytes": 47283738,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_20547_20230501",
+    "publisher_metadata_size_bytes": 48266196,
+    "observed_size_bytes": 48266195,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_20585_20230428",
+    "publisher_metadata_size_bytes": 52093035,
+    "observed_size_bytes": 52093036,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_22543_20230426",
+    "publisher_metadata_size_bytes": 55308379,
+    "observed_size_bytes": 55308380,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_22679_20230524",
+    "publisher_metadata_size_bytes": 55438265,
+    "observed_size_bytes": 55438264,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_24074_20230517",
+    "publisher_metadata_size_bytes": 41520887,
+    "observed_size_bytes": 41520888,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_29771_20230428",
+    "publisher_metadata_size_bytes": 48381768,
+    "observed_size_bytes": 48381769,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_30284_20230524",
+    "publisher_metadata_size_bytes": 49881519,
+    "observed_size_bytes": 49881520,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_32436_20230502",
+    "publisher_metadata_size_bytes": 57197245,
+    "observed_size_bytes": 57197246,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_32490_20230526",
+    "publisher_metadata_size_bytes": 50228972,
+    "observed_size_bytes": 50228973,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_32535_20230531",
+    "publisher_metadata_size_bytes": 22389255,
+    "observed_size_bytes": 22389254,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_33253_20230526",
+    "publisher_metadata_size_bytes": 48509258,
+    "observed_size_bytes": 48509257,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_33319_20230502",
+    "publisher_metadata_size_bytes": 47747564,
+    "observed_size_bytes": 47747563,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_33426_20230428",
+    "publisher_metadata_size_bytes": 42411496,
+    "observed_size_bytes": 42411495,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_34427_20230531",
+    "publisher_metadata_size_bytes": 47840923,
+    "observed_size_bytes": 47840924,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_35224_20230427",
+    "publisher_metadata_size_bytes": 44648655,
+    "observed_size_bytes": 44648656,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_36041_20230526",
+    "publisher_metadata_size_bytes": 47452974,
+    "observed_size_bytes": 47452975,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_36196_20230603",
+    "publisher_metadata_size_bytes": 44631235,
+    "observed_size_bytes": 44631236,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_36348_20230603",
+    "publisher_metadata_size_bytes": 49600618,
+    "observed_size_bytes": 49600617,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_36846_20230511",
+    "publisher_metadata_size_bytes": 22986611,
+    "observed_size_bytes": 22986612,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_76611_20230531",
+    "publisher_metadata_size_bytes": 50608957,
+    "observed_size_bytes": 50608956,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_37471_20230426",
+    "publisher_metadata_size_bytes": 55600787,
+    "observed_size_bytes": 55600788,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_38627_20230526",
+    "publisher_metadata_size_bytes": 48383991,
+    "observed_size_bytes": 48383992,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_38702_20230531",
+    "publisher_metadata_size_bytes": 49914461,
+    "observed_size_bytes": 49914460,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_38947_20230603",
+    "publisher_metadata_size_bytes": 41189645,
+    "observed_size_bytes": 41189646,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_39968_20230502",
+    "publisher_metadata_size_bytes": 48742433,
+    "observed_size_bytes": 48742432,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_41352_20230530",
+    "publisher_metadata_size_bytes": 52679751,
+    "observed_size_bytes": 52679752,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_41990_20230425",
+    "publisher_metadata_size_bytes": 45449334,
+    "observed_size_bytes": 45449335,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_44106_20230531",
+    "publisher_metadata_size_bytes": 43132261,
+    "observed_size_bytes": 43132262,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_44831_20230517",
+    "publisher_metadata_size_bytes": 45242386,
+    "observed_size_bytes": 45242387,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_46359_20230517",
+    "publisher_metadata_size_bytes": 29698656,
+    "observed_size_bytes": 29698655,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_47824_20230603",
+    "publisher_metadata_size_bytes": 43634207,
+    "observed_size_bytes": 43634208,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_47832_20230603",
+    "publisher_metadata_size_bytes": 47600367,
+    "observed_size_bytes": 47600366,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_48157_20230426",
+    "publisher_metadata_size_bytes": 52487699,
+    "observed_size_bytes": 52487698,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_76227_20230425",
+    "publisher_metadata_size_bytes": 5536593,
+    "observed_size_bytes": 5536594,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_48806_20230530",
+    "publisher_metadata_size_bytes": 53344134,
+    "observed_size_bytes": 53344135,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_23699_20230630",
+    "publisher_metadata_size_bytes": 37846122,
+    "observed_size_bytes": 37846123,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_820_20230428",
+    "publisher_metadata_size_bytes": 47931889,
+    "observed_size_bytes": 47931888,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_1654_20230530",
+    "publisher_metadata_size_bytes": 46358441,
+    "observed_size_bytes": 46358442,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_69224_20230508",
+    "publisher_metadata_size_bytes": 46846379,
+    "observed_size_bytes": 46846378,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_2071_20230418",
+    "publisher_metadata_size_bytes": 44880751,
+    "observed_size_bytes": 44880752,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_3014_20230504",
+    "publisher_metadata_size_bytes": 38268393,
+    "observed_size_bytes": 38268394,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_4289_20230508",
+    "publisher_metadata_size_bytes": 46196826,
+    "observed_size_bytes": 46196825,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_4436_20230418",
+    "publisher_metadata_size_bytes": 40625424,
+    "observed_size_bytes": 40625423,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_7915_20230522",
+    "publisher_metadata_size_bytes": 45313342,
+    "observed_size_bytes": 45313341,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_7989_20230508",
+    "publisher_metadata_size_bytes": 39976128,
+    "observed_size_bytes": 39976129,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_8360_20230502",
+    "publisher_metadata_size_bytes": 54130740,
+    "observed_size_bytes": 54130739,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_11268_20230420",
+    "publisher_metadata_size_bytes": 49533915,
+    "observed_size_bytes": 49533916,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_14350_20230425",
+    "publisher_metadata_size_bytes": 50604489,
+    "observed_size_bytes": 50604488,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_14979_20230508",
+    "publisher_metadata_size_bytes": 45017264,
+    "observed_size_bytes": 45017263,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_16461_20230516",
+    "publisher_metadata_size_bytes": 42113864,
+    "observed_size_bytes": 42113863,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_18005_20230502",
+    "publisher_metadata_size_bytes": 46681890,
+    "observed_size_bytes": 46681891,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_18433_20230523",
+    "publisher_metadata_size_bytes": 43866281,
+    "observed_size_bytes": 43866282,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_18651_20230501",
+    "publisher_metadata_size_bytes": 40623481,
+    "observed_size_bytes": 40623480,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_20819_20230425",
+    "publisher_metadata_size_bytes": 36878581,
+    "observed_size_bytes": 36878582,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_20980_20230525",
+    "publisher_metadata_size_bytes": 42027929,
+    "observed_size_bytes": 42027928,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_22115_20230523",
+    "publisher_metadata_size_bytes": 45858265,
+    "observed_size_bytes": 45858266,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_22535_20230421",
+    "publisher_metadata_size_bytes": 45948864,
+    "observed_size_bytes": 45948863,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_22865_20230508",
+    "publisher_metadata_size_bytes": 42656909,
+    "observed_size_bytes": 42656910,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_23119_20230424",
+    "publisher_metadata_size_bytes": 52190886,
+    "observed_size_bytes": 52190887,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_25437_20230522",
+    "publisher_metadata_size_bytes": 44995246,
+    "observed_size_bytes": 44995245,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_26696_20230502",
+    "publisher_metadata_size_bytes": 43467798,
+    "observed_size_bytes": 43467799,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_28576_20230428",
+    "publisher_metadata_size_bytes": 44058982,
+    "observed_size_bytes": 44058983,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_29363_20230420",
+    "publisher_metadata_size_bytes": 42777339,
+    "observed_size_bytes": 42777340,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_29994_20230504",
+    "publisher_metadata_size_bytes": 43509893,
+    "observed_size_bytes": 43509892,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_31301_20230504",
+    "publisher_metadata_size_bytes": 46445392,
+    "observed_size_bytes": 46445391,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_31416_20230424",
+    "publisher_metadata_size_bytes": 43726704,
+    "observed_size_bytes": 43726705,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_31712_20230425",
+    "publisher_metadata_size_bytes": 44674537,
+    "observed_size_bytes": 44674538,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_31761_20230523",
+    "publisher_metadata_size_bytes": 45541421,
+    "observed_size_bytes": 45541422,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_34992_20230504",
+    "publisher_metadata_size_bytes": 41911318,
+    "observed_size_bytes": 41911319,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_36868_20230523",
+    "publisher_metadata_size_bytes": 49014615,
+    "observed_size_bytes": 49014614,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_37900_20230505",
+    "publisher_metadata_size_bytes": 47138138,
+    "observed_size_bytes": 47138139,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_39103_20230424",
+    "publisher_metadata_size_bytes": 46531455,
+    "observed_size_bytes": 46531456,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_42827_20230420",
+    "publisher_metadata_size_bytes": 45398628,
+    "observed_size_bytes": 45398629,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_43440_20230425",
+    "publisher_metadata_size_bytes": 43004362,
+    "observed_size_bytes": 43004363,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_46334_20230503",
+    "publisher_metadata_size_bytes": 40648347,
+    "observed_size_bytes": 40648348,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_49090_20230505",
+    "publisher_metadata_size_bytes": 48444931,
+    "observed_size_bytes": 48444930,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_72121_20230425",
+    "publisher_metadata_size_bytes": 43149186,
+    "observed_size_bytes": 43149185,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_76338_20240419",
+    "publisher_metadata_size_bytes": 7530692,
+    "observed_size_bytes": 7530693,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_36567_20240813",
+    "publisher_metadata_size_bytes": 31185995,
+    "observed_size_bytes": 31185994,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_19523_20240416",
+    "publisher_metadata_size_bytes": 53414010,
+    "observed_size_bytes": 53414009,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_22442_20240416",
+    "publisher_metadata_size_bytes": 42966026,
+    "observed_size_bytes": 42966025,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_76104_20240809",
+    "publisher_metadata_size_bytes": 16982578,
+    "observed_size_bytes": 16982577,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_30512_20240416",
+    "publisher_metadata_size_bytes": 58840892,
+    "observed_size_bytes": 58840891,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_30908_20240416",
+    "publisher_metadata_size_bytes": 46700713,
+    "observed_size_bytes": 46700714,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_32582_20240809",
+    "publisher_metadata_size_bytes": 44523735,
+    "observed_size_bytes": 44523736,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_38190_20240416",
+    "publisher_metadata_size_bytes": 53264869,
+    "observed_size_bytes": 53264870,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_76197_20240417",
+    "publisher_metadata_size_bytes": 16870955,
+    "observed_size_bytes": 16870954,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_76640_20240417",
+    "publisher_metadata_size_bytes": 40067395,
+    "observed_size_bytes": 40067396,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_48340_20240417",
+    "publisher_metadata_size_bytes": 53141699,
+    "observed_size_bytes": 53141698,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_49749_20240809",
+    "publisher_metadata_size_bytes": 43899999,
+    "observed_size_bytes": 43900000,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_20290_20230601",
+    "publisher_metadata_size_bytes": 49026768,
+    "observed_size_bytes": 49026767,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_40484_20230530",
+    "publisher_metadata_size_bytes": 44448940,
+    "observed_size_bytes": 44448939,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_5671_20230608",
+    "publisher_metadata_size_bytes": 48460365,
+    "observed_size_bytes": 48460364,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_10389_20230614",
+    "publisher_metadata_size_bytes": 32100930,
+    "observed_size_bytes": 32100929,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_20160_20230613",
+    "publisher_metadata_size_bytes": 48153516,
+    "observed_size_bytes": 48153515,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_23807_20230530",
+    "publisher_metadata_size_bytes": 49833835,
+    "observed_size_bytes": 49833836,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_35787_20230614",
+    "publisher_metadata_size_bytes": 19649414,
+    "observed_size_bytes": 19649413,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_38262_20230608",
+    "publisher_metadata_size_bytes": 41291016,
+    "observed_size_bytes": 41291015,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_39245_20230614",
+    "publisher_metadata_size_bytes": 21332345,
+    "observed_size_bytes": 21332346,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_43967_20230613",
+    "publisher_metadata_size_bytes": 16236036,
+    "observed_size_bytes": 16236037,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_47277_20230601",
+    "publisher_metadata_size_bytes": 47425928,
+    "observed_size_bytes": 47425927,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_23648_20220922",
+    "publisher_metadata_size_bytes": 59505987,
+    "observed_size_bytes": 59505986,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_24040_20220928",
+    "publisher_metadata_size_bytes": 61313989,
+    "observed_size_bytes": 61313990,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_1258_20220928",
+    "publisher_metadata_size_bytes": 66413408,
+    "observed_size_bytes": 66413407,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_5539_20220916",
+    "publisher_metadata_size_bytes": 61070929,
+    "observed_size_bytes": 61070928,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_5738_20220914",
+    "publisher_metadata_size_bytes": 53485828,
+    "observed_size_bytes": 53485827,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_5994_20220923",
+    "publisher_metadata_size_bytes": 66209049,
+    "observed_size_bytes": 66209050,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_8231_20220921",
+    "publisher_metadata_size_bytes": 58022469,
+    "observed_size_bytes": 58022468,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_8592_20220830",
+    "publisher_metadata_size_bytes": 31590283,
+    "observed_size_bytes": 31590284,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_8958_20220916",
+    "publisher_metadata_size_bytes": 51249896,
+    "observed_size_bytes": 51249897,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_9367_20220822",
+    "publisher_metadata_size_bytes": 19173715,
+    "observed_size_bytes": 19173716,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_9426_20220928",
+    "publisher_metadata_size_bytes": 64153107,
+    "observed_size_bytes": 64153106,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_13420_20220831",
+    "publisher_metadata_size_bytes": 2684138,
+    "observed_size_bytes": 2684137,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_14071_20220928",
+    "publisher_metadata_size_bytes": 54383084,
+    "observed_size_bytes": 54383083,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_15277_20220920",
+    "publisher_metadata_size_bytes": 53823891,
+    "observed_size_bytes": 53823890,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_76486_20220928",
+    "publisher_metadata_size_bytes": 70204221,
+    "observed_size_bytes": 70204220,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_16313_20220927",
+    "publisher_metadata_size_bytes": 56369993,
+    "observed_size_bytes": 56369994,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_17341_20220916",
+    "publisher_metadata_size_bytes": 56983909,
+    "observed_size_bytes": 56983908,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_20418_20220914",
+    "publisher_metadata_size_bytes": 50471278,
+    "observed_size_bytes": 50471279,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_21938_20220908",
+    "publisher_metadata_size_bytes": 55674677,
+    "observed_size_bytes": 55674678,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_22383_20220830",
+    "publisher_metadata_size_bytes": 26708112,
+    "observed_size_bytes": 26708111,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_24744_20220921",
+    "publisher_metadata_size_bytes": 56627388,
+    "observed_size_bytes": 56627389,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_27172_20220921",
+    "publisher_metadata_size_bytes": 53834337,
+    "observed_size_bytes": 53834338,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_28004_20220908",
+    "publisher_metadata_size_bytes": 38603306,
+    "observed_size_bytes": 38603305,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_28434_20220908",
+    "publisher_metadata_size_bytes": 49667642,
+    "observed_size_bytes": 49667643,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_30001_20220908",
+    "publisher_metadata_size_bytes": 51299697,
+    "observed_size_bytes": 51299696,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_30806_20220921",
+    "publisher_metadata_size_bytes": 46222945,
+    "observed_size_bytes": 46222944,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_34794_20220920",
+    "publisher_metadata_size_bytes": 52364008,
+    "observed_size_bytes": 52364009,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_36454_20220920",
+    "publisher_metadata_size_bytes": 48271204,
+    "observed_size_bytes": 48271203,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_36657_20220908",
+    "publisher_metadata_size_bytes": 48968764,
+    "observed_size_bytes": 48968765,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_36750_20220930",
+    "publisher_metadata_size_bytes": 51997451,
+    "observed_size_bytes": 51997452,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_37069_20220915",
+    "publisher_metadata_size_bytes": 47612691,
+    "observed_size_bytes": 47612692,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_37752_20220921",
+    "publisher_metadata_size_bytes": 58022145,
+    "observed_size_bytes": 58022144,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_39021_20220923",
+    "publisher_metadata_size_bytes": 55842122,
+    "observed_size_bytes": 55842123,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_39424_20220921",
+    "publisher_metadata_size_bytes": 61433687,
+    "observed_size_bytes": 61433686,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_42199_20220916",
+    "publisher_metadata_size_bytes": 48288839,
+    "observed_size_bytes": 48288840,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_43648_20220914",
+    "publisher_metadata_size_bytes": 59212435,
+    "observed_size_bytes": 59212434,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_72023_20220831",
+    "publisher_metadata_size_bytes": 2771626,
+    "observed_size_bytes": 2771627,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_49173_20220908",
+    "publisher_metadata_size_bytes": 52605107,
+    "observed_size_bytes": 52605106,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_16002_20230612",
+    "publisher_metadata_size_bytes": 49333119,
+    "observed_size_bytes": 49333120,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_6438_20230614",
+    "publisher_metadata_size_bytes": 50008491,
+    "observed_size_bytes": 50008490,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_45132_20230630",
+    "publisher_metadata_size_bytes": 46908870,
+    "observed_size_bytes": 46908871,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_48066_20230620",
+    "publisher_metadata_size_bytes": 45627680,
+    "observed_size_bytes": 45627681,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_3128_20230602",
+    "publisher_metadata_size_bytes": 50722586,
+    "observed_size_bytes": 50722587,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_8214_20230612",
+    "publisher_metadata_size_bytes": 56412518,
+    "observed_size_bytes": 56412519,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_17314_20230616",
+    "publisher_metadata_size_bytes": 52158875,
+    "observed_size_bytes": 52158874,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_19355_20230531",
+    "publisher_metadata_size_bytes": 52702589,
+    "observed_size_bytes": 52702590,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_20977_20230612",
+    "publisher_metadata_size_bytes": 52126019,
+    "observed_size_bytes": 52126020,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_28017_20230621",
+    "publisher_metadata_size_bytes": 54095747,
+    "observed_size_bytes": 54095748,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_29419_20230612",
+    "publisher_metadata_size_bytes": 56112123,
+    "observed_size_bytes": 56112124,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_29959_20230612",
+    "publisher_metadata_size_bytes": 53911314,
+    "observed_size_bytes": 53911315,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_30436_20230615",
+    "publisher_metadata_size_bytes": 50739727,
+    "observed_size_bytes": 50739726,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_71110_20230604",
+    "publisher_metadata_size_bytes": 50464651,
+    "observed_size_bytes": 50464652,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_34960_20230615",
+    "publisher_metadata_size_bytes": 51761815,
+    "observed_size_bytes": 51761816,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_38485_20230612",
+    "publisher_metadata_size_bytes": 57688939,
+    "observed_size_bytes": 57688938,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_41816_20230612",
+    "publisher_metadata_size_bytes": 55369857,
+    "observed_size_bytes": 55369858,
+    "delta_bytes": 1
+  },
+  {
+    "id": "usgs_ne_47886_20230531",
+    "publisher_metadata_size_bytes": 55366858,
+    "observed_size_bytes": 55366857,
+    "delta_bytes": -1
+  },
+  {
+    "id": "usgs_ne_49163_20230601",
+    "publisher_metadata_size_bytes": 51187837,
+    "observed_size_bytes": 51187836,
+    "delta_bytes": -1
+  }
+]

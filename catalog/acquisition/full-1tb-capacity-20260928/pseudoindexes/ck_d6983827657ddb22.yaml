@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_d6983827657ddb22
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Domain 10: The Human Body—Building Blocks and Nutrition'
+  - CKLA
+  - grade 2
+  - read-aloud anthology
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Domain 10: The Human Body—Building Blocks and Nutrition'
+  - CKLA
+  - grade 2
+  - read-aloud anthology
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

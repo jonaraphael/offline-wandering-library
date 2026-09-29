@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_26507_20220914
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Longdale Furnace topographic map
+  - VA
+  - Alleghany County map
+  - Rockbridge County map
+  - Botetourt County map
+  - Bath County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

@@ -1,0 +1,24 @@
+schema_version: 1
+asset_id: crashcourse_en_all_2026_05
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases: &id001
+  - science video lessons
+  - history video lessons
+  - school subject explanations
+  basis: 'Draft from publisher/source metadata only; no archive-body review. Explanatory school videos; not a complete
+    curriculum or exercise/assessment set. Some courses are college level: review whole-archive utility and keep
+    advanced routes optional. Check actual embedded playback.'
+- topic_id: science
+  purpose: reference
+  aliases: *id001
+  basis: 'Draft from publisher/source metadata only; no archive-body review. Explanatory school videos; not a complete
+    curriculum or exercise/assessment set. Some courses are college level: review whole-archive utility and keep
+    advanced routes optional. Check actual embedded playback.'
+- topic_id: history
+  purpose: reference
+  aliases: *id001
+  basis: 'Draft from publisher/source metadata only; no archive-body review. Explanatory school videos; not a complete
+    curriculum or exercise/assessment set. Some courses are college level: review whole-archive utility and keep
+    advanced routes optional. Check actual embedded playback.'

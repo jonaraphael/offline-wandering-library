@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_48313_20240813
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - West Pawlet topographic map
+  - VT
+  - NY
+  - Bennington County map
+  - Washington County map
+  - Rutland County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: usgs_ne_72035_20230603
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Whaleyville topographic map
+  - MD
+  - DE
+  - Worcester County map
+  - Sussex County map
+  - Wicomico County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

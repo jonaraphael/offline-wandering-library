@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: uaf_root_cellars_hga00331
+assignments:
+- topic_id: food-preservation
+  purpose: reference
+  aliases:
+  - Root Cellars — University of Alaska Fairbanks HGA-00331
+  - root cellar
+  - vegetable cold storage
+  - storage temperature and humidity
+  - cellar ventilation
+  basis: Compact cold-climate storage and cellar reference; not a complete engineered cellar construction plan.
+    Complete bytes hashed and parsed; representative rendered page inspected. This limited review does not establish
+    topic adequacy.

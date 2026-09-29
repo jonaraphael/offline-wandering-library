@@ -1,0 +1,11 @@
+schema_version: 1
+asset_id: medlineplus_gov_en_all_2025_01
+assignments:
+- topic_id: health
+  purpose: reference
+  aliases:
+  - patient health education
+  - understand health conditions
+  basis: Draft from publisher/source metadata only; no archive-body review. Patient education supplement. Dated
+    snapshot; not a clinician dosing reference or replacement for current MSF/WHO sources. Check offline media and
+    third-party rights.

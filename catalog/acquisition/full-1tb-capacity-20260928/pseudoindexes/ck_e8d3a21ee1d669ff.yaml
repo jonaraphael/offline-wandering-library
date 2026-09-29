@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_e8d3a21ee1d669ff
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 4: Third Grade Skills—Stories of Ancient Rome'
+  - CKLA
+  - grade 3
+  - student workbook
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Unit 4: Third Grade Skills—Stories of Ancient Rome'
+  - CKLA
+  - grade 3
+  - student workbook
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

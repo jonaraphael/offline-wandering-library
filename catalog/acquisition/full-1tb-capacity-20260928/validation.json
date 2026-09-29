@@ -1,0 +1,79 @@
+{
+  "status": "passed",
+  "checked_on": "2026-09-29",
+  "checks": [
+    "Baseline and decimal drive capacity reconcile",
+    "No duplicate selected source URLs, asset IDs or USGS cell IDs",
+    "Source probes match selected manifests",
+    "Canadian retained bytes include every extracted member",
+    "English curriculum component inventory and kindergarten subset reconcile",
+    "All readable candidates have valid per-asset navigation assignments",
+    "No invented internal sections or PDF page links",
+    "Full body hash evidence is distinguished from header/range checks"
+  ],
+  "candidate_download_count": 7095,
+  "draft_pseudoindex_count": 7095,
+  "validated_assignments": 8571,
+  "pseudoindex_file_bytes": 3565685,
+  "exact_enumerated_candidate_bytes": 712148641197,
+  "modeled_library_and_support_bytes": 987261432141,
+  "fully_downloaded_and_hashed_files": 46,
+  "all_candidate_body_integrity_verified": false,
+  "editorial_adequacy_established": false,
+  "preset_capacity_selections": [
+    {
+      "profile": "flash-16gb",
+      "modeled_bytes": 15737937506,
+      "ceiling_bytes": 15750000000,
+      "unfilled_growth_bytes": 12062494
+    },
+    {
+      "profile": "critical-64gb",
+      "modeled_bytes": 63303282681,
+      "ceiling_bytes": 63360000000,
+      "unfilled_growth_bytes": 56717319
+    },
+    {
+      "profile": "compact-256gb",
+      "modeled_bytes": 253422226646,
+      "ceiling_bytes": 253440000000,
+      "unfilled_growth_bytes": 17773354
+    },
+    {
+      "profile": "standard-512gb",
+      "modeled_bytes": 506812046261,
+      "ceiling_bytes": 506880000000,
+      "unfilled_growth_bytes": 67953739
+    },
+    {
+      "profile": "full-1tb",
+      "modeled_bytes": 987261432141,
+      "ceiling_bytes": 990000000000,
+      "unfilled_growth_bytes": 2738567859
+    }
+  ],
+  "preset_capacity_manifest_sha256": "6b21bfbbc3d66e0ffb0170ebe64a623685ad1e203fc63b69ce6b5790c1cc6acd",
+  "verification_evidence_sha256": {
+    "archive-verification.json": "3f896a65901dd9740ca08e7dacb96fd24510381d8c382a26f086aa26ccbdc70c",
+    "canada-verification.json": "3ef8d9a6ef50d6f0d2bfbdfdf139b9d4ce6f49b58263d935a767967fae6e1331",
+    "kindergarten-verification.json": "af38de41ad05b2281c11969cc2a44229f3eda5c8d88193e38655b3860e6d80f9",
+    "practical-verification.json": "68c56cdfe6588e26d5bc248b6a5deb6a0fb8102450cce05f5b689ec941773547",
+    "school-verification.json": "9d4abaf80e9265c39b1ff3ad404b250aadddfa97b31c4b16c4e2681d1ccfd03c",
+    "usgs-verification.json": "c6a857b676a8e95876ee97f161d35d1004770d68e82808928398601e89abbaff"
+  },
+  "manifest_sha256": {
+    "plan.json": "93ef4dde21e2ef66116229b469ce9186a8a566ecd1e8c8af0f2a2d59d4cdcf9f",
+    "archives.json": "26b748e622bf7d38477db446127fa8212a88a3f5ecfa703f8b3212c58226a60c",
+    "usgs-northeast.json": "15d61b5fd122187dc22ada4b80fc98566c71b80b54bf384782b4dcaf3039ff30",
+    "usgs-mid-atlantic.json": "d8e6208e0a104f9984d087d58ae26098942fa1f9c784f9759e8a0dc20cdf49bb",
+    "usgs-appalachian.json": "9f86d47488643413e3c80bb7bb6099829aed7b25b7b16f4c833605fe394ac88c",
+    "canada-nearby.json": "5fc26fb04b46d795facb6ed61706e34ca9f02039fcd9252c5fa6164117ec9aa7",
+    "school.json": "a56c73acb2439728d4ed24663d7a6cc7bd2592510db9fb08544f6fd09920a040",
+    "practical-manuals.json": "edcb1566fe1e186233de9bdc7fb6fc8b97415a4338ec7b612bd511cf10127bc5",
+    "school-units.json": "ab9b3d26fd14ce32770e8c0e26b255f3e70cbefe6d74e7cfbcb79448c3122ce1",
+    "ckla-kindergarten.json": "fb0618230ca984fb63975314b1f5e82c7e412d95790515b007c021d209d2d291",
+    "source-probe-requests.json": "f6e1a74606198a22be41c809b3041eb09fe9ec0fbbdf6fd41d5521e24627ea6d",
+    "school-excluded.json": "2ab483e23eb235a1379ef62cb6da53e127fff8f05208607f4ae09876a56a4a97",
+    "rejected-sources.json": "29a944ce16dd35871d7275b06a5f75b801bb340bd3073f7be25ac800c097d32d"
+  }
+}

@@ -82,7 +82,8 @@ def render_coverage_plan():
             lines += ['**Editorial review evidence:** ' + row['review_evidence'], '']
     lines += ['## Keep the plan current', '', plan['maintenance_rule'], '',
         'Python checks referenced collections and complete atlas-topic coverage when generating this document. It never upgrades an editorial status from tags, file counts or downloads. '
-        'The latest small acquisition batch is recorded in [the resource review](../catalog/acquisition/practical-discovery-20260928.json).', '']
+        'The latest small acquisition batch is recorded in [the seed and water review](../catalog/acquisition/seed-water-discovery-20260928.json). '
+        'The [remaining-capacity specification](full-1tb-capacity-spec.md) records enumerated candidate files, source-verification evidence, draft pseudoindexes and remaining admission gates; these are not ready collections.', '']
     return '\n'.join(lines)
 
 
@@ -105,7 +106,8 @@ def render():
         plan=capacity_plan(selected,p,report)
         out.append(f"| {p['id']} | {sum(a['size_bytes'] for a in selected)/1e9:.3f} | {plan['in_place_peak_budget_bytes']/1e9:.3f} | {len(selected)} |")
     out += ['', 'Decimal GB. File totals include reader packages. Planning peaks include a small discovery allowance, metadata and reserve. Original downloads stay on the target drive. Search and atlas pages compile from approved metadata without reading source bodies; no indexing workspace or cache is needed.', '',
-            'The 1 TB selection continues to grow against [the topic-by-topic completion plan](full-1tb-coverage-plan.md). Extra capacity is available for useful additions and optional collections. The 256 GB preset uses North America maps; larger presets substitute the world map. Additional encyclopedia languages are opt-in.', '',
+            'Exact [near-full selections for all five presets](preset-capacity-plans.md) are saved separately from these admitted build defaults. They reuse the verified candidate inventory and retain its pending hash/content review gates. The 64 GB and 256 GB defaults use North America maps; larger presets substitute the world map. Additional encyclopedia languages are opt-in.', '',
+            'The [topic-by-topic completion plan](full-1tb-coverage-plan.md) governs intended depth and remaining gaps. Capacity utilization alone does not establish adequate coverage.', '',
             '## Evidence and limits', '',
             '[The machine-readable review](../catalog/content-review.json) records every former asset, its original policy failures, priority, disposition, replacement group and coverage limitations. Download evidence records full-file hashes, byte sizes and PDF page counts for new sources. Existing large ZIM bodies were not downloaded again in this review.', '',
             'Local topography, a complete initial-literacy/humanities curriculum, missing Hesperian back matter and finished SQLite/OpenSSH replacements remain coverage gaps. Removing unavailable wishlist entries from the active menu does not mean those gaps are solved. Historical books supplement current references; they do not replace current clinical or safety guidance.', '',

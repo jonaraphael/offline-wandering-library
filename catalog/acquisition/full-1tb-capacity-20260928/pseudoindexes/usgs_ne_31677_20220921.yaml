@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_31677_20220921
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - New Castle topographic map
+  - VA
+  - Craig County map
+  - Botetourt County map
+  - Alleghany County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

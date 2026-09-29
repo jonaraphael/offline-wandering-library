@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_772c1e3ca51b56c0
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Domain 5: Light and Sound'
+  - CKLA
+  - grade 3
+  - flip book
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Domain 5: Light and Sound'
+  - CKLA
+  - grade 3
+  - flip book
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

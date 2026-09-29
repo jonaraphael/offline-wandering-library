@@ -1,0 +1,1640 @@
+[
+  {
+    "id": "ckla_k_ckla_gk_arg_unit1_web",
+    "title": "CKLA Unit 1: Kindergarten Skills — assessment and remediation guide: CKLA_GK_ARG_Unit1_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/11/CKLA_GK_ARG_Unit1_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-01-kindergarten-skills/",
+    "size_bytes": 25506052,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "8ce87cfc18ac8a1cea6d1c7782ba048be2860c26d789c39273879018cad9f594",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 638,
+        "unit_title": "CKLA Unit 1: Kindergarten Skills",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-01-kindergarten-skills/",
+        "title": "CKLA Unit 1: Kindergarten Skills",
+        "role": "ASSESSMENT AND REMEDIATION GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 264,
+    "unit": 1,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_ckla_gk_arg_unit1_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u1_tg_web",
+    "title": "CKLA Unit 1: Kindergarten Skills — teacher guide: GK_U1_TG_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/11/GK_U1_TG_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-01-kindergarten-skills/",
+    "size_bytes": 1407468,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "3a2ef49d76b4ef6826db4897a61c34ae0614eb0776d2345a0e8d2e56c04b68ab",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 638,
+        "unit_title": "CKLA Unit 1: Kindergarten Skills",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-01-kindergarten-skills/",
+        "title": "CKLA Unit 1: Kindergarten Skills",
+        "role": "TEACHER GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 112,
+    "unit": 1,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u1_tg_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u1_wb_web",
+    "title": "CKLA Unit 1: Kindergarten Skills — student workbook: GK_U1_WB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/11/GK_U1_WB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-01-kindergarten-skills/",
+    "size_bytes": 7278165,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "c9acfcac70239d352cd4311a7ba271564a136f88832bd6a180aea101eacd137c",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 638,
+        "unit_title": "CKLA Unit 1: Kindergarten Skills",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-01-kindergarten-skills/",
+        "title": "CKLA Unit 1: Kindergarten Skills",
+        "role": "STUDENT WORKBOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 68,
+    "unit": 1,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u1_wb_web.yaml"
+  },
+  {
+    "id": "ckla_k_ckla_gk_arg_unit2_web",
+    "title": "CKLA Unit 2: Kindergarten Skills — assessment and remediation guide: CKLA_GK_ARG_Unit2_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/CKLA_GK_ARG_Unit2_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-02-kindergarten-skills/",
+    "size_bytes": 20734300,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "8a389722a7070b1f52d62c7a535afa8699c4f7db4eb5c1c5e43690102c1f3c8f",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2385,
+        "unit_title": "CKLA Unit 2: Kindergarten Skills",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-02-kindergarten-skills/",
+        "title": "CKLA Unit 2: Kindergarten Skills",
+        "role": "ASSESSMENT AND REMEDIATION GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 202,
+    "unit": 2,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_ckla_gk_arg_unit2_web.yaml"
+  },
+  {
+    "id": "ckla_k_ckla_gk_u2_tg_web2",
+    "title": "CKLA Unit 2: Kindergarten Skills — teacher guide: CKLA_GK_U2_TG_web2.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/CKLA_GK_U2_TG_web2.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-02-kindergarten-skills/",
+    "size_bytes": 1806337,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "900c89876dd2631163f04a69107812d036e0054e3cfb33e45bc4f02340fd2791",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2385,
+        "unit_title": "CKLA Unit 2: Kindergarten Skills",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-02-kindergarten-skills/",
+        "title": "CKLA Unit 2: Kindergarten Skills",
+        "role": "TEACHER GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 116,
+    "unit": 2,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_ckla_gk_u2_tg_web2.yaml"
+  },
+  {
+    "id": "ckla_k_ckla_gk_u2_wb_web2",
+    "title": "CKLA Unit 2: Kindergarten Skills — student workbook: CKLA_GK_U2_WB_web2.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/CKLA_GK_U2_WB_web2.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-02-kindergarten-skills/",
+    "size_bytes": 6277512,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "b90f302bb64d2e8a36801bce57feed361bca05f5a64d4fd6f42744c83aa46801",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2385,
+        "unit_title": "CKLA Unit 2: Kindergarten Skills",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-02-kindergarten-skills/",
+        "title": "CKLA Unit 2: Kindergarten Skills",
+        "role": "STUDENT WORKBOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 84,
+    "unit": 2,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_ckla_gk_u2_wb_web2.yaml"
+  },
+  {
+    "id": "ckla_k_ckla_gk_arg_unit3_web",
+    "title": "CKLA Unit 3: Kindergarten Skills — assessment and remediation guide: CKLA_GK_ARG_Unit3_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/CKLA_GK_ARG_Unit3_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-03-kindergarten-skills/",
+    "size_bytes": 3381297,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "7ebe0720c3848a24835db27997f6457d3476cd81178b228ca5fa0da2ef29f957",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2396,
+        "unit_title": "CKLA Unit 3: Kindergarten Skills",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-03-kindergarten-skills/",
+        "title": "CKLA Unit 3: Kindergarten Skills",
+        "role": "ASSESSMENT AND REMEDIATION GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 186,
+    "unit": 3,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_ckla_gk_arg_unit3_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u3_tg_web",
+    "title": "CKLA Unit 3: Kindergarten Skills — teacher guide: GK_U3_TG_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U3_TG_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-03-kindergarten-skills/",
+    "size_bytes": 2900554,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "f362c3a77eb1631688d82b9d0b89d0499f50782b49ff594827f0b5141aef4f5e",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2396,
+        "unit_title": "CKLA Unit 3: Kindergarten Skills",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-03-kindergarten-skills/",
+        "title": "CKLA Unit 3: Kindergarten Skills",
+        "role": "TEACHER GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 138,
+    "unit": 3,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u3_tg_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u3_wb_web",
+    "title": "CKLA Unit 3: Kindergarten Skills — student workbook: GK_U3_WB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U3_WB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-03-kindergarten-skills/",
+    "size_bytes": 1170080,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "20150170c6812c890a95aaf35b9ca3177e755a329b32eb18dd961dadf6a087f1",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2396,
+        "unit_title": "CKLA Unit 3: Kindergarten Skills",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-03-kindergarten-skills/",
+        "title": "CKLA Unit 3: Kindergarten Skills",
+        "role": "STUDENT WORKBOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 90,
+    "unit": 3,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u3_wb_web.yaml"
+  },
+  {
+    "id": "ckla_k_ckla_gk_arg_unit4_web",
+    "title": "CKLA Unit 4: Kindergarten Skills—Pet Fun — assessment and remediation guide: CKLA_GK_ARG_Unit4_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/CKLA_GK_ARG_Unit4_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-04-kindergarten-skills/",
+    "size_bytes": 5780639,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "7817c3e4c1afd09e42bf759156f1d46d82317bcc30085cc90a2201e04b832e77",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2402,
+        "unit_title": "CKLA Unit 4: Kindergarten Skills—Pet Fun",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-04-kindergarten-skills/",
+        "title": "CKLA Unit 4: Kindergarten Skills—Pet Fun",
+        "role": "ASSESSMENT AND REMEDIATION GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 244,
+    "unit": 4,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_ckla_gk_arg_unit4_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u4_bb_web",
+    "title": "CKLA Unit 4: Kindergarten Skills—Pet Fun — big book: GK_U4_BB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U4_BB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-04-kindergarten-skills/",
+    "size_bytes": 2265119,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "3e4fd7174cd5cf4ff93b03ed45810e13c417e64b7b61de0f2da2f537e325db09",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2402,
+        "unit_title": "CKLA Unit 4: Kindergarten Skills—Pet Fun",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-04-kindergarten-skills/",
+        "title": "CKLA Unit 4: Kindergarten Skills—Pet Fun",
+        "role": "BIG BOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 42,
+    "unit": 4,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u4_bb_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u4_tg_web",
+    "title": "CKLA Unit 4: Kindergarten Skills—Pet Fun — teacher guide: GK_U4_TG_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U4_TG_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-04-kindergarten-skills/",
+    "size_bytes": 3616025,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "b8e29d7e88993d92db8579129d8edd16e505731f5d12b69262511a9bc04a66f4",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2402,
+        "unit_title": "CKLA Unit 4: Kindergarten Skills—Pet Fun",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-04-kindergarten-skills/",
+        "title": "CKLA Unit 4: Kindergarten Skills—Pet Fun",
+        "role": "TEACHER GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 138,
+    "unit": 4,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u4_tg_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u4_wb_web",
+    "title": "CKLA Unit 4: Kindergarten Skills—Pet Fun — student workbook: GK_U4_WB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U4_WB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-04-kindergarten-skills/",
+    "size_bytes": 2483445,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "292c20d50d1281d9a4398cb7d64844a858f7999a730a49324f1f4efc97881d14",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2402,
+        "unit_title": "CKLA Unit 4: Kindergarten Skills—Pet Fun",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-04-kindergarten-skills/",
+        "title": "CKLA Unit 4: Kindergarten Skills—Pet Fun",
+        "role": "STUDENT WORKBOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 100,
+    "unit": 4,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u4_wb_web.yaml"
+  },
+  {
+    "id": "ckla_k_ckla_gk_arg_unit5_web",
+    "title": "CKLA Unit 5: Kindergarten Skills—Ox and Man — assessment and remediation guide: CKLA_GK_ARG_Unit5_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/CKLA_GK_ARG_Unit5_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-05-kindergarten-skills/",
+    "size_bytes": 3483097,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "b7c833ec91f93f513da1661a124fa71f107194bc9765983a7f9eca87de4d20f7",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2420,
+        "unit_title": "CKLA Unit 5: Kindergarten Skills—Ox and Man",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-05-kindergarten-skills/",
+        "title": "CKLA Unit 5: Kindergarten Skills—Ox and Man",
+        "role": "ASSESSMENT AND REMEDIATION GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 224,
+    "unit": 5,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_ckla_gk_arg_unit5_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u5_bb_web",
+    "title": "CKLA Unit 5: Kindergarten Skills—Ox and Man — big book: GK_U5_BB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U5_BB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-05-kindergarten-skills/",
+    "size_bytes": 1079808,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "18a6f2845ff9d68daa48cfb9fb6545649735c7b4f338b18bc338cad8d0c1b8bd",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2420,
+        "unit_title": "CKLA Unit 5: Kindergarten Skills—Ox and Man",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-05-kindergarten-skills/",
+        "title": "CKLA Unit 5: Kindergarten Skills—Ox and Man",
+        "role": "BIG BOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 26,
+    "unit": 5,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u5_bb_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u5_tg_web",
+    "title": "CKLA Unit 5: Kindergarten Skills—Ox and Man — teacher guide: GK_U5_TG_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U5_TG_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-05-kindergarten-skills/",
+    "size_bytes": 3437776,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "7e441070726864df189c823927b3ccab0ce29f57235523ee19851ea969e0ee6b",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2420,
+        "unit_title": "CKLA Unit 5: Kindergarten Skills—Ox and Man",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-05-kindergarten-skills/",
+        "title": "CKLA Unit 5: Kindergarten Skills—Ox and Man",
+        "role": "TEACHER GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 144,
+    "unit": 5,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u5_tg_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u5_wb_web",
+    "title": "CKLA Unit 5: Kindergarten Skills—Ox and Man — student workbook: GK_U5_WB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U5_WB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-05-kindergarten-skills/",
+    "size_bytes": 2471113,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "d6adbb2522e3cab7d12d101ff0099aa58203e707b39f0c28b2000a1673f5e7ac",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2420,
+        "unit_title": "CKLA Unit 5: Kindergarten Skills—Ox and Man",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-05-kindergarten-skills/",
+        "title": "CKLA Unit 5: Kindergarten Skills—Ox and Man",
+        "role": "STUDENT WORKBOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 136,
+    "unit": 5,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u5_wb_web.yaml"
+  },
+  {
+    "id": "ckla_k_ckla_gk_arg_unit6_web",
+    "title": "CKLA Unit 6: Kindergarten Skills—Kit — assessment and remediation guide: CKLA_GK_ARG_Unit6_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/CKLA_GK_ARG_Unit6_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-06-kindergarten-skills/",
+    "size_bytes": 3439648,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "7473d63d9883335d763e7c57b3142ac8c50f804786990bba92b392632e61f682",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2433,
+        "unit_title": "CKLA Unit 6: Kindergarten Skills—Kit",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-06-kindergarten-skills/",
+        "title": "CKLA Unit 6: Kindergarten Skills—Kit",
+        "role": "ASSESSMENT AND REMEDIATION GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 182,
+    "unit": 6,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_ckla_gk_arg_unit6_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u6_bb_web",
+    "title": "CKLA Unit 6: Kindergarten Skills—Kit — big book: GK_U6_BB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U6_BB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-06-kindergarten-skills/",
+    "size_bytes": 4395670,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "055223c04c6124a268655b814e87de21c8874a5e2d08d5a95314eaf277f31faa",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2433,
+        "unit_title": "CKLA Unit 6: Kindergarten Skills—Kit",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-06-kindergarten-skills/",
+        "title": "CKLA Unit 6: Kindergarten Skills—Kit",
+        "role": "BIG BOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 100,
+    "unit": 6,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u6_bb_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u6_rdr_web",
+    "title": "CKLA Unit 6: Kindergarten Skills—Kit — student reader: GK_U6_RDR_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U6_RDR_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-06-kindergarten-skills/",
+    "size_bytes": 2618959,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "9d6448ce06ce4879c00a045ca75e878ebfaf84cdaa254b22bf9883577d18b6b8",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2433,
+        "unit_title": "CKLA Unit 6: Kindergarten Skills—Kit",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-06-kindergarten-skills/",
+        "title": "CKLA Unit 6: Kindergarten Skills—Kit",
+        "role": "STUDENT READER",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 100,
+    "unit": 6,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u6_rdr_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u6_tg_web",
+    "title": "CKLA Unit 6: Kindergarten Skills—Kit — teacher guide: GK_U6_TG_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U6_TG_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-06-kindergarten-skills/",
+    "size_bytes": 2403778,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "bef3b83e4d8524edafb583e82fa8a94b15231b530a3c2f510d7b0f9b061d87d6",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2433,
+        "unit_title": "CKLA Unit 6: Kindergarten Skills—Kit",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-06-kindergarten-skills/",
+        "title": "CKLA Unit 6: Kindergarten Skills—Kit",
+        "role": "TEACHER GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 132,
+    "unit": 6,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u6_tg_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u6_wb_web_rep",
+    "title": "CKLA Unit 6: Kindergarten Skills—Kit — student workbook: GK_U6_WB_web_rep.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U6_WB_web_rep.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-06-kindergarten-skills/",
+    "size_bytes": 1318239,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "4a379f747a230dbb2cbfc53d251b824f205d5f2dadf998c03174d0b15e93dcbf",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2433,
+        "unit_title": "CKLA Unit 6: Kindergarten Skills—Kit",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-06-kindergarten-skills/",
+        "title": "CKLA Unit 6: Kindergarten Skills—Kit",
+        "role": "STUDENT WORKBOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 90,
+    "unit": 6,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u6_wb_web_rep.yaml"
+  },
+  {
+    "id": "ckla_k_ckla_gk_arg_unit7_web",
+    "title": "CKLA Unit 7: Kindergarten Skills—Seth — assessment and remediation guide: CKLA_GK_ARG_Unit7_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/CKLA_GK_ARG_Unit7_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-07-kindergarten-skills/",
+    "size_bytes": 5167709,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "1de6f002903e2da213238b4bf8a07ff86af6bd9fd51692a81dd22bc3d0f3363c",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2454,
+        "unit_title": "CKLA Unit 7: Kindergarten Skills—Seth",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-07-kindergarten-skills/",
+        "title": "CKLA Unit 7: Kindergarten Skills—Seth",
+        "role": "ASSESSMENT AND REMEDIATION GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 184,
+    "unit": 7,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_ckla_gk_arg_unit7_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u7_bb_web",
+    "title": "CKLA Unit 7: Kindergarten Skills—Seth — big book: GK_U7_BB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U7_BB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-07-kindergarten-skills/",
+    "size_bytes": 2618457,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "669c3bb96a4733b202297f488627f8499f5d773542df731376d7a14beff099b0",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2454,
+        "unit_title": "CKLA Unit 7: Kindergarten Skills—Seth",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-07-kindergarten-skills/",
+        "title": "CKLA Unit 7: Kindergarten Skills—Seth",
+        "role": "BIG BOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 66,
+    "unit": 7,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u7_bb_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u7_rdr_web",
+    "title": "CKLA Unit 7: Kindergarten Skills—Seth — student reader: GK_U7_RDR_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U7_RDR_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-07-kindergarten-skills/",
+    "size_bytes": 1699698,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "c9c2f7bf33ede97b7441fac7ec11c3fab807d5d14043fc69bd13d1b868fa8e41",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2454,
+        "unit_title": "CKLA Unit 7: Kindergarten Skills—Seth",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-07-kindergarten-skills/",
+        "title": "CKLA Unit 7: Kindergarten Skills—Seth",
+        "role": "STUDENT READER",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 66,
+    "unit": 7,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u7_rdr_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u7_tg_web",
+    "title": "CKLA Unit 7: Kindergarten Skills—Seth — teacher guide: GK_U7_TG_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U7_TG_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-07-kindergarten-skills/",
+    "size_bytes": 3286527,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "66515fd1b541ec59e14a35f6adcf11e96102df8e784d3775eb2a9cf03aff68d0",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2454,
+        "unit_title": "CKLA Unit 7: Kindergarten Skills—Seth",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-07-kindergarten-skills/",
+        "title": "CKLA Unit 7: Kindergarten Skills—Seth",
+        "role": "TEACHER GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 162,
+    "unit": 7,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u7_tg_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u7_wb_web",
+    "title": "CKLA Unit 7: Kindergarten Skills—Seth — student workbook: GK_U7_WB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U7_WB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-07-kindergarten-skills/",
+    "size_bytes": 1820380,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "d8ba8cc9ca4131b850e37d822b356ecd76fd99c5e8baab737ba37b94151087db",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2454,
+        "unit_title": "CKLA Unit 7: Kindergarten Skills—Seth",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-07-kindergarten-skills/",
+        "title": "CKLA Unit 7: Kindergarten Skills—Seth",
+        "role": "STUDENT WORKBOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 114,
+    "unit": 7,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u7_wb_web.yaml"
+  },
+  {
+    "id": "ckla_k_ckla_gk_arg_unit8_web",
+    "title": "CKLA Unit 8: Kindergarten Skills—Sam — assessment and remediation guide: CKLA_GK_ARG_Unit8_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/CKLA_GK_ARG_Unit8_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-08-kindergarten-skills/",
+    "size_bytes": 2575922,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "6b88e181d2a0f66e3d3878f9fcba85ec1ba183cc0672fa1264bdf88fd8c45601",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2469,
+        "unit_title": "CKLA Unit 8: Kindergarten Skills—Sam",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-08-kindergarten-skills/",
+        "title": "CKLA Unit 8: Kindergarten Skills—Sam",
+        "role": "ASSESSMENT AND REMEDIATION GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 172,
+    "unit": 8,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_ckla_gk_arg_unit8_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u8_bb_web",
+    "title": "CKLA Unit 8: Kindergarten Skills—Sam — big book: GK_U8_BB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U8_BB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-08-kindergarten-skills/",
+    "size_bytes": 11213952,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "46b3a16e34ff308277e75f170f3a8d8738d569f85fb1d28dad4c5bad11fe7917",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2469,
+        "unit_title": "CKLA Unit 8: Kindergarten Skills—Sam",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-08-kindergarten-skills/",
+        "title": "CKLA Unit 8: Kindergarten Skills—Sam",
+        "role": "BIG BOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 108,
+    "unit": 8,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u8_bb_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u8_rdr_web",
+    "title": "CKLA Unit 8: Kindergarten Skills—Sam — student reader: GK_U8_RDR_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U8_RDR_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-08-kindergarten-skills/",
+    "size_bytes": 6269792,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "4c8e00d6936c246973a0733bc4bad030476d50d47792a8ce1b22e7a4d8d69af1",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2469,
+        "unit_title": "CKLA Unit 8: Kindergarten Skills—Sam",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-08-kindergarten-skills/",
+        "title": "CKLA Unit 8: Kindergarten Skills—Sam",
+        "role": "STUDENT READER",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 108,
+    "unit": 8,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u8_rdr_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u8_tg_web",
+    "title": "CKLA Unit 8: Kindergarten Skills—Sam — teacher guide: GK_U8_TG_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U8_TG_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-08-kindergarten-skills/",
+    "size_bytes": 3231807,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "bafc8273ca75b22ca3daf723ba8e2d426e8f0798e8d23a6591b8af1f6c594e2f",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2469,
+        "unit_title": "CKLA Unit 8: Kindergarten Skills—Sam",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-08-kindergarten-skills/",
+        "title": "CKLA Unit 8: Kindergarten Skills—Sam",
+        "role": "TEACHER GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 180,
+    "unit": 8,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u8_tg_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u8_wb_web",
+    "title": "CKLA Unit 8: Kindergarten Skills—Sam — student workbook: GK_U8_WB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U8_WB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-08-kindergarten-skills/",
+    "size_bytes": 2312902,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "7b651968b03d5ef6389fb767362ebc2fb881003e8eb6853a6ae7cbb92054b4d3",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2469,
+        "unit_title": "CKLA Unit 8: Kindergarten Skills—Sam",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-08-kindergarten-skills/",
+        "title": "CKLA Unit 8: Kindergarten Skills—Sam",
+        "role": "STUDENT WORKBOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 162,
+    "unit": 8,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u8_wb_web.yaml"
+  },
+  {
+    "id": "ckla_k_ckla_gk_arg_unit9_web",
+    "title": "CKLA Unit 9: Kindergarten Skills—Zack and Ann — assessment and remediation guide: CKLA_GK_ARG_Unit9_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/CKLA_GK_ARG_Unit9_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-09-kindergarten-skills/",
+    "size_bytes": 2680217,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "8d969a6e7651f266e3fc59fd7e39079bded16a4960ffb19296527a845e4187e9",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2487,
+        "unit_title": "CKLA Unit 9: Kindergarten Skills—Zack and Ann",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-09-kindergarten-skills/",
+        "title": "CKLA Unit 9: Kindergarten Skills—Zack and Ann",
+        "role": "ASSESSMENT AND REMEDIATION GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 204,
+    "unit": 9,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_ckla_gk_arg_unit9_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u9_rdr_web",
+    "title": "CKLA Unit 9: Kindergarten Skills—Zack and Ann — student reader: GK_U9_RDR_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U9_RDR_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-09-kindergarten-skills/",
+    "size_bytes": 3020658,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "0c219a84d2dc5f710372ea731a2c769fd1c034ee632f1dd0a3f5f6c5f04b1433",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2487,
+        "unit_title": "CKLA Unit 9: Kindergarten Skills—Zack and Ann",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-09-kindergarten-skills/",
+        "title": "CKLA Unit 9: Kindergarten Skills—Zack and Ann",
+        "role": "STUDENT READER",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 106,
+    "unit": 9,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u9_rdr_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u9_tg_web",
+    "title": "CKLA Unit 9: Kindergarten Skills—Zack and Ann — teacher guide: GK_U9_TG_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U9_TG_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-09-kindergarten-skills/",
+    "size_bytes": 3302194,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "d0359c7a06849eb3390ac512b228fcb0a46f9c825bbf613babc3e3aa0afd7e23",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2487,
+        "unit_title": "CKLA Unit 9: Kindergarten Skills—Zack and Ann",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-09-kindergarten-skills/",
+        "title": "CKLA Unit 9: Kindergarten Skills—Zack and Ann",
+        "role": "TEACHER GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 158,
+    "unit": 9,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u9_tg_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u9_wb_web",
+    "title": "CKLA Unit 9: Kindergarten Skills—Zack and Ann — student workbook: GK_U9_WB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U9_WB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-09-kindergarten-skills/",
+    "size_bytes": 2081301,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "01c52a4e43b4619fdf9d107c3874e28a22b676ae508c3498bfe3283851e03df3",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2487,
+        "unit_title": "CKLA Unit 9: Kindergarten Skills—Zack and Ann",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-09-kindergarten-skills/",
+        "title": "CKLA Unit 9: Kindergarten Skills—Zack and Ann",
+        "role": "STUDENT WORKBOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 192,
+    "unit": 9,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u9_wb_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u10_rdr_web",
+    "title": "CKLA Unit 10: Kindergarten Skills—Scott — student reader: GK_U10_RDR_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U10_RDR_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-10-kindergarten-skills/",
+    "size_bytes": 2613160,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "2063a5532862eb60cac7077d6856b5440ce65b325a4ee8ee1fcc369540607c6e",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2503,
+        "unit_title": "CKLA Unit 10: Kindergarten Skills—Scott",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-10-kindergarten-skills/",
+        "title": "CKLA Unit 10: Kindergarten Skills—Scott",
+        "role": "STUDENT READER",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 88,
+    "unit": 10,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u10_rdr_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u10_tg_web",
+    "title": "CKLA Unit 10: Kindergarten Skills—Scott — teacher guide: GK_U10_TG_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U10_TG_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-10-kindergarten-skills/",
+    "size_bytes": 3542448,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "493350cf0a811f464702d71b02ecd812e9e91fda40e4c8074fbd93b87a146312",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2503,
+        "unit_title": "CKLA Unit 10: Kindergarten Skills—Scott",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-10-kindergarten-skills/",
+        "title": "CKLA Unit 10: Kindergarten Skills—Scott",
+        "role": "TEACHER GUIDE",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 222,
+    "unit": 10,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u10_tg_web.yaml"
+  },
+  {
+    "id": "ckla_k_gk_u10_wb_web",
+    "title": "CKLA Unit 10: Kindergarten Skills—Scott — student workbook: GK_U10_WB_web.pdf",
+    "format": "pdf",
+    "source_url": "https://www.coreknowledge.org/wp-content/uploads/2016/12/GK_U10_WB_web.pdf",
+    "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-10-kindergarten-skills/",
+    "size_bytes": 2892447,
+    "size_basis": "HTTP HEAD and Content-Range agree; PDF prefix and stable ETag verified",
+    "sha256": "9e51f75dc928cdeda10f50b3318775637e853cf651abc4d8263a656532d1a5fc",
+    "body_verified": true,
+    "status": "candidate_not_admitted",
+    "verification": "full_body_hash_and_pdf_parse_verified",
+    "verification_evidence": "evidence/kindergarten-verification.json",
+    "series": [
+      "CKLA"
+    ],
+    "grades": [
+      "kindergarten-02"
+    ],
+    "components": [
+      {
+        "publisher_unit_id": 2503,
+        "unit_title": "CKLA Unit 10: Kindergarten Skills—Scott",
+        "series": "CKLA",
+        "grades": [
+          "kindergarten-02"
+        ],
+        "source_page": "https://www.coreknowledge.org/free-resource/ckla-unit-10-kindergarten-skills/",
+        "title": "CKLA Unit 10: Kindergarten Skills—Scott",
+        "role": "STUDENT WORKBOOK",
+        "language": "English"
+      }
+    ],
+    "brief_evaluation": "Offered English school material; roles and unit associations are publisher metadata. Unit dependencies, answers, practical activities and learning progression still need editorial review.",
+    "pages": 240,
+    "unit": 10,
+    "topic_ids": [
+      "learn-foundations",
+      "language-books"
+    ],
+    "pseudoindex": "pseudoindexes/ckla_k_gk_u10_wb_web.yaml"
+  }
+]

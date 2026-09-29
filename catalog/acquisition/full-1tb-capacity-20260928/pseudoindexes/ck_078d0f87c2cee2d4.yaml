@@ -1,0 +1,23 @@
+schema_version: 1
+asset_id: ck_078d0f87c2cee2d4
+assignments:
+- topic_id: learn-foundations
+  purpose: reference
+  aliases:
+  - 'CKLA Preschool: Social Skills Posters'
+  - CKLA
+  - pre
+  - following directions
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - 'CKLA Preschool: Social Skills Posters'
+  - CKLA
+  - pre
+  - following directions
+  basis: Generated from publisher unit pages and resource-card roles; offered PDF URL and signature verified. This
+    is source-level discovery, not a claim of complete curriculum, offline dependencies or reviewed instructional
+    depth.

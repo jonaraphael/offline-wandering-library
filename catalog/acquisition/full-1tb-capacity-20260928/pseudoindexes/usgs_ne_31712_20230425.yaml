@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_31712_20230425
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - New Freedom topographic map
+  - PA
+  - MD
+  - York County map
+  - Baltimore County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

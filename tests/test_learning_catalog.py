@@ -47,10 +47,12 @@ class ProductionLearningCatalogTests(unittest.TestCase):
         standard={a['id'] for a in self.selection('standard-512gb')[0]}
         full={a['id']:a for a in self.selection('full-1tb')[0]}
         self.assertTrue(standard <= full.keys())
-        # Growth is backed by finished source receipts, not a larger-drive quota.
+        # The verified practical foundation now fits every size; it is not filler
+        # reserved solely to make the largest profile larger.
         batch=json.loads((ROOT/'catalog/acquisition/practical-discovery-20260928.json').read_text())
         for receipt in batch['assets']:
-            self.assertIn(receipt['id'], full.keys()-standard)
+            for name in ['flash-16gb','critical-64gb','compact-256gb','standard-512gb','full-1tb']:
+                self.assertIn(receipt['id'], {a['id'] for a in self.selection(name)[0]})
             self.assertEqual(full[receipt['id']]['sha256'], receipt['sha256'])
             self.assertEqual(full[receipt['id']]['size_bytes'], receipt['size_bytes'])
     def test_review_preserves_rejected_assets_and_coverage_limits(self):

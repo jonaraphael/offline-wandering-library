@@ -1,0 +1,14 @@
+schema_version: 1
+asset_id: arrl_ares_field_resources_2005
+assignments:
+- topic_id: repair
+  purpose: reference
+  aliases:
+  - ARES Field Resources Manual — ARRL (copyright 2005–2008)
+  - emergency radio communications
+  - ARES volunteer operations
+  - emergency contact logs
+  - field radio resource guide
+  basis: Historical emergency radio operating reference; not current licensing or a complete novice radio course.
+    Retain copyright notices. Complete bytes hashed and parsed; representative rendered page inspected. This limited
+    review does not establish topic adequacy.

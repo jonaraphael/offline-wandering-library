@@ -1,0 +1,12 @@
+schema_version: 1
+asset_id: voa_learning_en_all_2025_01
+assignments:
+- topic_id: language-books
+  purpose: reference
+  aliases:
+  - learn English
+  - English listening practice
+  - English as an additional language
+  basis: Draft from publisher/source metadata only; no archive-body review. English-language learning supplement.
+    Check lesson/audio/worksheet completeness and snapshot limits; does not replace a child phonics and decodable-reader
+    sequence.

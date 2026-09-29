@@ -1,0 +1,13 @@
+schema_version: 1
+asset_id: usgs_ne_70587_20240809
+assignments:
+- topic_id: regional-maps
+  purpose: reference
+  aliases:
+  - Knox Mountain topographic map
+  - VT
+  - Orange County map
+  - Caledonia County map
+  - Washington County map
+  basis: 'Generated from USGS sheet metadata: place, state, county, scale and edition. HEAD and PDF signature checked;
+    full body, map readability and contiguous geographic coverage remain unreviewed.'

@@ -1,0 +1,18 @@
+schema_version: 1
+asset_id: energypedia_en_all_maxi_2026_06
+assignments:
+- topic_id: electricity
+  purpose: reference
+  aliases: &id001
+  - renewable energy reference
+  - energy access
+  - small energy systems
+  basis: Draft from publisher/source metadata only; no archive-body review. Energy-access background and project
+    references. Wiki quality varies; does not close the need for a complete wiring, battery or stove-maintenance
+    manual.
+- topic_id: appropriate-technology
+  purpose: reference
+  aliases: *id001
+  basis: Draft from publisher/source metadata only; no archive-body review. Energy-access background and project
+    references. Wiki quality varies; does not close the need for a complete wiring, battery or stove-maintenance
+    manual.
