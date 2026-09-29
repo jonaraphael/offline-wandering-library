@@ -56,7 +56,7 @@ class ProductionLearningCatalogTests(unittest.TestCase):
             self.assertEqual(full[receipt['id']]['sha256'], receipt['sha256'])
             self.assertEqual(full[receipt['id']]['size_bytes'], receipt['size_bytes'])
     def test_review_preserves_rejected_assets_and_coverage_limits(self):
-        review=json.loads((ROOT/'catalog/content-review.json').read_text());ids={a['id'] for a in self.assets}
+        review=json.loads((ROOT/'catalog/content-review.json').read_text(encoding='utf-8'));ids={a['id'] for a in self.assets}
         self.assertEqual(len(review['assets']),review['before']['checked_assets'])
         for row in review['assets']:
             self.assertIn(row['utility_tier'],['CRITICAL','USEFUL','NONESSENTIAL'])

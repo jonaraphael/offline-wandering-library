@@ -122,5 +122,5 @@ if __name__=='__main__':
     outputs = {ROOT/'docs/content-selection.md': render(), ROOT/'docs/full-1tb-coverage-plan.md': render_coverage_plan()}
     for path, content in outputs.items():
         if args.check:
-            if not path.exists() or path.read_text()!=content:raise SystemExit('Content documentation stale; run python scripts/build_content_docs.py')
-        else:path.write_text(content);print(path)
+            if not path.exists() or path.read_text(encoding='utf-8')!=content:raise SystemExit('Content documentation stale; run python scripts/build_content_docs.py')
+        else:path.write_text(content, encoding='utf-8', newline='\n');print(path)
