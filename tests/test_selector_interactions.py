@@ -84,5 +84,5 @@ click('include-shown');assert(cards().every(checked),'Unfiltered include failed'
 search('does-not-match-anything-xyz');assert(shown().length===0&&get('include-shown').disabled,'Empty search failed');
 assert(get('fatal').hidden,get('fatal').textContent);
 '''
-        result = subprocess.run([shutil.which('node'), '-e', code], input=render_selector(model), text=True, capture_output=True, timeout=30)
+        result = subprocess.run([shutil.which('node'), '-e', code], input=render_selector(model), encoding='utf-8', capture_output=True, timeout=30)
         self.assertEqual(result.returncode, 0, result.stderr)
