@@ -1,0 +1,6 @@
+schema_version: 1
+asset_id: phet_projectile_motion
+assignments:
+- topic_id: physics
+  purpose: explanation
+  description: Explore projectile trajectories and the effect of launch conditions.

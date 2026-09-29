@@ -1,0 +1,21 @@
+schema_version: 1
+asset_id: sare_manage_insects
+assignments:
+- topic_id: crop-protection
+  purpose: reference
+  aliases:
+  - beetle banks
+  - beneficial insects
+  - biological pest control
+  - insect pest management
+  - insectary plants
+  basis: Brief publisher/contents and sampled-page review on 2026-09-28; see catalog/acquisition/practical-discovery-20260928.json.
+- topic_id: gardening
+  purpose: reference
+  aliases:
+  - beetle banks
+  - beneficial insects
+  - biological pest control
+  - insect pest management
+  - insectary plants
+  basis: Brief publisher/contents and sampled-page review on 2026-09-28; see catalog/acquisition/practical-discovery-20260928.json.

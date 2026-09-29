@@ -50,7 +50,7 @@ class AtlasTests(unittest.TestCase):
                                            self.assignment("voltage", "book", "voltage", "explanation")],
                            "sections": {"book": self.mapping(self.asset, [self.section("intro", 1),
                                self.section("voltage", 2, parent="intro")])},
-                           "input_hashes": {"topics.yaml": "a" * 64, "assignments.yaml": "b" * 64}}
+                           "input_hashes": {"topics.yaml": "a" * 64, "assignments/book.yaml": "b" * 64}}
 
     def make_asset(self, identity, format, *, textbook=False, critical=False, illustrated=False):
         relative = f"BOOKS/{identity}.{format}"

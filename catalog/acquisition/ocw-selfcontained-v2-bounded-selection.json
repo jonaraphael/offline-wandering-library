@@ -1,0 +1,32 @@
+{
+  "courses": [
+    {
+      "essential_material_review": "Syllabus lists background prerequisites only; all10published problem sets and10solutions and the calendar lecture/scribe notes are retained. The final project permits a local theoretical contribution or implementation; optional LaTeX help and historical submission services are references.",
+      "optional_policies": [
+        "gallery-posters",
+        "hlevel-help-icon"
+      ],
+      "source_id": "ocw_6971a06b62af747d324c",
+      "source_sha256": "5f59a7da1e99f2bd186e8025f611eb73b463dd681c24242080c068d390b5644e"
+    },
+    {
+      "essential_material_review": "The original7chapters plus front/backmatter are explicitly the course open textbook. All12problem sets and12solutions and the published exams/solutions are local. The prerequisite probability text is background, not an assigned replacement for the included notes.",
+      "optional_policies": [
+        "gallery-posters"
+      ],
+      "source_id": "ocw_d7c1c31475e19054769e",
+      "source_sha256": "f42127fafc091e20c6100477aa1410fcd13c93455d968592ebe000da6e33c696"
+    },
+    {
+      "essential_material_review": "All26published video lessons, matching study guides, exercises/solutions and7supplementary-note chapters are retained. The publisher says the out-of-print textbook is for expanding topics; the original course materials remain self-contained. Instructor memorial is optional context.",
+      "optional_policies": [
+        "gallery-posters",
+        "memorial-warning"
+      ],
+      "source_id": "ocw_59ea09ef2e144528b84b",
+      "source_sha256": "e40c410d791035c0f236caac059a25d79b5470a1d4d6813b6d150126cd7f7833"
+    }
+  ],
+  "id": "ocw-selfcontained-courses-v2",
+  "schema_version": 1
+}

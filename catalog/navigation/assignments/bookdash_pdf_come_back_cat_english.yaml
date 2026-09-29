@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: bookdash_pdf_come_back_cat_english
+assignments:
+- topic_id: books
+  purpose: reference

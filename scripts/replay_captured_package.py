@@ -74,7 +74,7 @@ def main():
     with guard_directory(output), file_lock(output/'trial.lock'):
         atomic_write(output/'owner.json',_json(owner))
         profiles=output/'profiles';profiles.mkdir(exist_ok=True)
-        profile={'id':'package-trial','capacity_bytes':PEAK+RESERVE,'reserve_bytes':RESERVE,'search_budget_bytes':64*1024*1024}
+        profile={'id':'package-trial','capacity_bytes':PEAK+RESERVE,'reserve_bytes':RESERVE,'discovery_budget_bytes':64*1024*1024}
         atomic_write(profiles/'package-trial.yaml',_json(profile))
         trial_assets=deepcopy(assets)
         for asset in trial_assets:asset['profiles']=['package-trial']

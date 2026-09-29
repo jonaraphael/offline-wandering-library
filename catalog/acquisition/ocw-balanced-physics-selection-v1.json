@@ -1,0 +1,30 @@
+{
+  "courses": [
+    {
+      "essential_material_review": "Syllabus explicitly requires no textbook; readings from Hibbeler/Williams are suggested enrichment. Full lecture/recitation videos and all published problem sets, concept questions, solutions, notes, quizzes and final/solutions are retained. Publisher-provided assignments contain the actual problems.",
+      "optional_policies": [
+        "gallery-posters"
+      ],
+      "source_id": "ocw_d9d7c90c2760e07c91a3",
+      "source_sha256": "94d861b02e7dba5c3036d7b5c4d0aa65c1e3ceefe451520430acee68d6ceaf6d"
+    },
+    {
+      "essential_material_review": "No particular textbook is followed; listed books are references. All26topic-matched lecture-note units, complete published lecture videos,6problem sets and4exam-review problem/solution pairs are retained. This is the complete published OCW edition; separate in-class tests and unpublished homework keys are not claimed.",
+      "optional_policies": [
+        "gallery-posters"
+      ],
+      "source_id": "ocw_2433420d806e22353638",
+      "source_sha256": "49e3375f05a59081e629660ea912d44f5ff76c50429a15c773a421d098cf6346"
+    },
+    {
+      "essential_material_review": "No particular textbook is followed; listed books are references. All26topic-matched lecture-note units, complete published lecture videos,6problem sets and3test-review problem/solution pairs are retained. Final project can be an offline explanatory paper or local teaching site. Separate classroom tests and unpublished homework keys are not claimed.",
+      "optional_policies": [
+        "gallery-posters"
+      ],
+      "source_id": "ocw_6534d0cdfd373b7f15f3",
+      "source_sha256": "c94033c23e21165fd4b849ae3e99d26921e31029717fcfbac135b7b54b4d01f0"
+    }
+  ],
+  "id": "ocw-balanced-physics-courses-v1",
+  "schema_version": 1
+}

@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_concepts_biology
+assignments:
+- topic_id: biology
+  purpose: explanation

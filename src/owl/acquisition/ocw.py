@@ -100,13 +100,13 @@ def package_inventory(path, asset):
             'Retain useful complete files; no duplicate renditions or metadata credited as knowledge']}
 
 
-def inspect_capture(staging, output):
+def inspect_capture(staging, output, *, isolate_package_failures=False):
     staging, output = Path(staging), Path(output)
     manifest = load_manifest(staging/'manifest.json')
     digest = _digest(manifest)
     reject_symlinks(output)
     output.mkdir(parents=True, exist_ok=True)
-    summaries = []
+    summaries, failures = [], []
     for source in manifest['sources']:
         receipt = _receipt(staging, source, digest)
         if receipt is None:
@@ -119,7 +119,18 @@ def inspect_capture(staging, output):
                     or result.get('source_id') != asset['id'] or result.get('transformation_version') != VERSION):
                 raise SafetyError('Cached course inventory differs; use a fresh evidence directory')
         else:
-            result = package_inventory(staging/receipt['relative_path'], asset)
+            try:
+                result = package_inventory(staging/receipt['relative_path'], asset)
+            except (ValueError, OSError) as error:
+                if not isolate_package_failures:
+                    raise
+                # Source receipt checks and output writes remain fatal. Only
+                # this independently captured package is held at its unchanged
+                # archive/inventory bounds; other complete courses can proceed.
+                failures.append({'source_id':asset['id'], 'source_sha256':asset['sha256'],
+                    'source_bytes':asset['size_bytes'], 'status':'package_inventory_failed',
+                    'reason':str(error)[:500], 'content_ready':False})
+                continue
             payload = (json.dumps(result,sort_keys=True,indent=2)+'\n').encode()
             if len(payload)>MAX_REPORT_BYTES:
                 raise SafetyError('Course inventory exceeds 16 MiB report bound')
@@ -129,4 +140,4 @@ def inspect_capture(staging, output):
             'video_lessons':result['video_lesson_count'],'unique_media':len(result['media']),
             'gaps':len(result['gaps']),'inventory_sha256':hashlib.sha256(destination.read_bytes()).hexdigest()})
     return {'operation':'inspect-ocw','content_ready':False,'body_downloads':0,
-        'courses':summaries,'detail_directory':str(output)}
+        'courses':summaries,'failures':failures,'detail_directory':str(output)}

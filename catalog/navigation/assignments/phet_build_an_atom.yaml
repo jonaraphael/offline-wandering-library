@@ -1,0 +1,6 @@
+schema_version: 1
+asset_id: phet_build_an_atom
+assignments:
+- topic_id: chemistry
+  purpose: explanation
+  description: Explore atomic structure by adding protons, neutrons and electrons.

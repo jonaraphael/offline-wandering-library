@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "kind": "acquisition",
+  "id": "midwives-render-diagnostic-20260927-v1",
+  "profile": "full-1tb",
+  "content_ready": false,
+  "sources": [
+    {
+      "id": "midwives_render_diagnostic_1102",
+      "resource_ids": [
+        "hesperian-health"
+      ],
+      "source_url": "https://en.hesperian.org/w/index.php?oldid=103565&action=render",
+      "version": "Diagnostic rendered representation of official revision 103565",
+      "capture_mode": "bounded-response-review",
+      "size_bytes": null,
+      "max_size_bytes": 1048576,
+      "sha256": null,
+      "publisher_checksums": {},
+      "prior_revision": {
+        "size_bytes": 61266,
+        "sha1": "88968d21bd3e9e08a5b03ff8100e1e7d9ec5246e"
+      },
+      "metadata_evidence": [
+        {
+          "url": "https://en.hesperian.org/w/api.php?action=query&titles=A+Book+for+Midwives%3AChapter+15%3A+The+first+weeks+after+the+birth%7CA+Book+for+Midwives%3AChapter+16%3A+Breastfeeding%7CA+Book+for+Midwives%3AChapter+19%3A+Advanced+skills+for+pregnancy+and+birth%7CA+Book+for+Midwives%3AChapter+21%3A+How+to+insert+an+IUD%7CA+Book+for+Midwives%3AChapter+23%3A+Manual+vacuum+aspiration+%28MVA%29%7CA+Book+for+Midwives%3AChapter+4%3A+Helping+women+stay+healthy%7CA+Book+for+Midwives%3AChapter+5%3A+Preventing+Infection%7CA+Book+for+Midwives%3AChapter+7%3A+Learning+a+pregnant+woman%27s+health+history%7CA+Book+for+Midwives%3AChapter+8%3A+Prenatal+Checkups%7CA+Book+for+Midwives%3AChapter+9%3A+Getting+ready+for+labor+and+birth%7CA+Book+for+Midwives%3ACheck+the+baby%7CA+Book+for+Midwives%3ACheck+the+mother%E2%80%99s+body%7CA+Book+for+Midwives%3ACheck+the+mother%E2%80%99s+physical+signs%7CA+Book+for+Midwives%3AChoosing+a+family+planning+method%7CA+Book+for+Midwives%3AClean+and+sterilize+tools%7CA+Book+for+Midwives%3AClean+the+space+and+bedding%7CA+Book+for+Midwives%3AClean+your+hands+and+wear+protective+clothing%7CA+Book+for+Midwives%3ACommon+difficulties+while+breastfeeding%7CA+Book+for+Midwives%3ACopyright+Information%7CA+Book+for+Midwives%3ACredits&prop=info%7Crevisions%7Cimages%7Clinks%7Ctemplates&rvprop=ids%7Ctimestamp%7Csize%7Csha1&imlimit=500&pllimit=500&tllimit=500&format=json",
+          "sha256": "3b3bed5bf7f9bf9079b56e382edba901d77f0c7d59462f9de7099bb2f91bb0ca",
+          "size_bytes": 48511,
+          "checked_at": "2026-09-27T23:23:25.341789+00:00"
+        }
+      ],
+      "page_title": "A Book for Midwives:Choosing a family planning method",
+      "comparison_scope": "The prior size and SHA1 identify original wikitext, not this rendered HTML representation. Body inequality is expected and must not be reported as a changed revision. This diagnostic is never admissible.",
+      "diagnostic_question": "Does the publisher preserve the literal unmatched closing braces after the Vasalgel/RISUG paragraph? Compare complete surrounding content."
+    },
+    {
+      "id": "midwives_render_diagnostic_1144",
+      "resource_ids": [
+        "hesperian-health"
+      ],
+      "source_url": "https://en.hesperian.org/w/index.php?oldid=100739&action=render",
+      "version": "Diagnostic rendered representation of official revision 100739",
+      "capture_mode": "bounded-response-review",
+      "size_bytes": null,
+      "max_size_bytes": 1048576,
+      "sha256": null,
+      "publisher_checksums": {},
+      "prior_revision": {
+        "size_bytes": 3613,
+        "sha1": "eb11379ae581223c542d67ed16aa5b49c839c9b4"
+      },
+      "metadata_evidence": [
+        {
+          "url": "https://en.hesperian.org/w/api.php?action=query&titles=A+Book+for+Midwives%7CA+Book+for+Midwives%3AAfter+the+MVA%7CA+Book+for+Midwives%3AAfter+the+checkup%7CA+Book+for+Midwives%3AAfter+you+insert+the+IUD%7CA+Book+for+Midwives%3AAlphabetical+list+of+medicines%7CA+Book+for+Midwives%3AAlternatives+to+breastfeeding%7CA+Book+for+Midwives%3ABaby+is+breech%7CA+Book+for+Midwives%3ABaby+is+very+small+or+more+than+5+weeks+early%7CA+Book+for+Midwives%3ABe+ready+for+emergencies%7CA+Book+for+Midwives%3ABefore+the+exam%7CA+Book+for+Midwives%3ABefore+you+insert+the+IUD%7CA+Book+for+Midwives%3ABody+changes+and+discomforts%7CA+Book+for+Midwives%3ACancer+of+the+cervix%7CA+Book+for+Midwives%3ACare+for+the+mother+during+labor%7CA+Book+for+Midwives%3ACaring+for+a+woman+after+female+genital+cutting+%28circumcision%29%7CA+Book+for+Midwives%3ACaring+for+the+body+for+good+health%7CA+Book+for+Midwives%3ACatheters%7CA+Book+for+Midwives%3AChanging+feelings+and+emotions%7CA+Book+for+Midwives%3AChapter+10%3A+Giving+good+care+during+labor+and+birth%7CA+Book+for+Midwives%3AChapter+11%3A+Opening%3A+stage+1+of+labor&prop=info%7Crevisions%7Cimages%7Clinks%7Ctemplates&rvprop=ids%7Ctimestamp%7Csize%7Csha1&imlimit=500&pllimit=500&tllimit=500&format=json",
+          "sha256": "7e785b4330d04b4eaef290d03455466d0a21073daca143d885e7f4ce57a71d37",
+          "size_bytes": 45922,
+          "checked_at": "2026-09-27T23:23:24.860163+00:00"
+        },
+        {
+          "url": "https://en.hesperian.org/w/api.php?action=query&titles=A+Book+for+Midwives%3AAfter+the+MVA%7CA+Book+for+Midwives%3AAfter+the+checkup%7CA+Book+for+Midwives%3AAfter+you+insert+the+IUD%7CA+Book+for+Midwives%3AAlphabetical+list+of+medicines%7CA+Book+for+Midwives%3AAlternatives+to+breastfeeding%7CA+Book+for+Midwives%3ABaby+is+breech%7CA+Book+for+Midwives%3ABaby+is+very+small+or+more+than+5+weeks+early%7CA+Book+for+Midwives%3ABe+ready+for+emergencies%7CA+Book+for+Midwives%3ABefore+the+exam%7CA+Book+for+Midwives%3ABefore+you+insert+the+IUD%7CA+Book+for+Midwives%3ABody+changes+and+discomforts%7CA+Book+for+Midwives%3ACancer+of+the+cervix%7CA+Book+for+Midwives%3ACare+for+the+mother+during+labor%7CA+Book+for+Midwives%3ACaring+for+a+woman+after+female+genital+cutting+%28circumcision%29%7CA+Book+for+Midwives%3ACaring+for+the+body+for+good+health%7CA+Book+for+Midwives%3ACatheters%7CA+Book+for+Midwives%3AChanging+feelings+and+emotions%7CA+Book+for+Midwives%3AChapter+10%3A+Giving+good+care+during+labor+and+birth%7CA+Book+for+Midwives%3AChapter+11%3A+Opening%3A+stage+1+of+labor%7CA+Book+for+Midwives%3AChapter+12%3A+Pushing%3A+stage+2+of+labor&prop=info%7Crevisions%7Cimages%7Clinks%7Ctemplates&rvprop=ids%7Ctimestamp%7Csize%7Csha1&imlimit=500&pllimit=500&tllimit=500&format=json",
+          "sha256": "43fd485528c6780f636e2c36ffbc427be32c4fd1b1419ac980ad857a49c8985c",
+          "size_bytes": 37617,
+          "checked_at": "2026-09-27T23:23:25.055908+00:00"
+        }
+      ],
+      "page_title": "A Book for Midwives:After you insert the IUD",
+      "comparison_scope": "The prior size and SHA1 identify original wikitext, not this rendered HTML representation. Body inequality is expected and must not be reported as a changed revision. This diagnostic is never admissible.",
+      "diagnostic_question": "Confirm anonymous template parameter headings preserve all infection warning signs and figures."
+    },
+    {
+      "id": "midwives_render_diagnostic_1120",
+      "resource_ids": [
+        "hesperian-health"
+      ],
+      "source_url": "https://en.hesperian.org/w/index.php?oldid=100719&action=render",
+      "version": "Diagnostic rendered representation of official revision 100719",
+      "capture_mode": "bounded-response-review",
+      "size_bytes": null,
+      "max_size_bytes": 1048576,
+      "sha256": null,
+      "publisher_checksums": {},
+      "prior_revision": {
+        "size_bytes": 5211,
+        "sha1": "a2f19a122d755c0947486d326626702b6294813b"
+      },
+      "metadata_evidence": [
+        {
+          "url": "https://en.hesperian.org/w/api.php?action=query&titles=A+Book+for+Midwives%3AChapter+12%3A+Pushing%3A+stage+2+of+labor%7CA+Book+for+Midwives%3AChapter+13%3A+The+birth+of+the+placenta%3A+stage+3+of+labor%7CA+Book+for+Midwives%3AChapter+14%3A+The+first+few+hours+after+the+birth%7CA+Book+for+Midwives%3AChapter+15%3A+The+first+weeks+after+the+birth%7CA+Book+for+Midwives%3AChapter+16%3A+Breastfeeding%7CA+Book+for+Midwives%3AChapter+17%3A+Family+Planning%7CA+Book+for+Midwives%3AChapter+18%3A+Sexually+transmitted+infections%7CA+Book+for+Midwives%3AChapter+19%3A+Advanced+skills+for+pregnancy+and+birth%7CA+Book+for+Midwives%3AChapter+1%3A+Word+to+Midwives%7CA+Book+for+Midwives%3AChapter+20%3A+The+Pelvic+Exam%3A+how+to+examine+a+woman%27s+vagina+and+womb%7CA+Book+for+Midwives%3AChapter+21%3A+How+to+insert+an+IUD%7CA+Book+for+Midwives%3AChapter+22%3A+Helping+a+woman+after+a+pregnancy+ends+early%7CA+Book+for+Midwives%3AChapter+23%3A+Manual+vacuum+aspiration+%28MVA%29%7CA+Book+for+Midwives%3AChapter+24%3A+Getting+medical+help%7CA+Book+for+Midwives%3AChapter+25%3A+Homemade+tools+and+teaching+materials%7CA+Book+for+Midwives%3AChapter+2%3A+Treating+health+problems%7CA+Book+for+Midwives%3AChapter+3%3A+A+woman%27s+body+in+pregnancy%7CA+Book+for+Midwives%3AChapter+4%3A+Helping+women+stay+healthy%7CA+Book+for+Midwives%3AChapter+5%3A+Preventing+Infection%7CA+Book+for+Midwives%3AChapter+6%3A+Common+Changes+in+Pregnancy&prop=info%7Crevisions%7Cimages%7Clinks%7Ctemplates&rvprop=ids%7Ctimestamp%7Csize%7Csha1&imlimit=500&pllimit=500&tllimit=500&format=json",
+          "sha256": "a583fa08039653ffe4415a6138cf89df729ac16478f5847f76810b0d3728ce57",
+          "size_bytes": 36400,
+          "checked_at": "2026-09-27T23:23:25.202160+00:00"
+        }
+      ],
+      "page_title": "A Book for Midwives:Chapter 1: Word to Midwives",
+      "comparison_scope": "The prior size and SHA1 identify original wikitext, not this rendered HTML representation. Body inequality is expected and must not be reported as a changed revision. This diagnostic is never admissible.",
+      "diagnostic_question": "Confirm the one wiki-table with a positioned speech illustration and text labels."
+    }
+  ],
+  "budget": {
+    "download_bytes": 3145728,
+    "expanded_bytes": 0,
+    "preview_bytes": 0,
+    "scratch_bytes": 0,
+    "cache_bytes": 0
+  },
+  "requirements": [
+    "Diagnostic quarantine only, not an admitted HTML edition.",
+    "No raw clinical text edits or silent removal of publisher markup anomalies.",
+    "Record current template versions before/after comparison; oldid fixes the book page but not transcluded template revisions."
+  ],
+  "storage_peak_bytes": 4278324,
+  "metadata_allowance_bytes": 1132596
+}

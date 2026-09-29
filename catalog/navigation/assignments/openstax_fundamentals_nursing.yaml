@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_fundamentals_nursing
+assignments:
+- topic_id: nursing
+  purpose: explanation

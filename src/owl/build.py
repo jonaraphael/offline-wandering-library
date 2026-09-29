@@ -188,21 +188,14 @@ def _build_extraction_directory(work, extraction, source):
 
 def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
           cache_dir: Path | None = None, work_dir: Path | None = None,
-          index_cache_dir: Path | None = None, index_cache_budget_bytes: int | None = None,
           allow_local: bool = False, plan_only: bool = False,
           resources_catalog: Path | None = None, include=(), exclude=(), editions=(),
           extra_catalogs=(),
           allow_incomplete: bool = False, navigation_dir: Path | None = None,
           strict_coverage: bool = False, progress=print) -> dict:
     from .navigation import GENERATED_PATHS, generate_navigation
-    from .search import (build_search, check_extractors, checkpoint_usage,
-                         probe_completed_search, probe_raw_checkpoint)
+    from .discovery import plan_discovery
 
-    if index_cache_budget_bytes is not None and (
-            type(index_cache_budget_bytes) is not int or index_cache_budget_bytes <= 0):
-        raise CatalogError("Index cache budget must be a positive number of bytes")
-    if index_cache_budget_bytes is not None and index_cache_dir is None:
-        raise CatalogError("--index-cache-budget-bytes requires --index-cache-dir")
     _event(progress, phase="preflight")
     profiles = load_profiles(profiles_dir)
     if profile_name not in profiles:
@@ -227,6 +220,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     extra_assets = [a for a in combined if a['id'] in extra_ids]
     recipes = validate_recipes(recipe_records, assets=combined, allow_local=allow_local)
     navigation = None
+    if navigation_dir is None and catalog.resolve() == (REPO_ROOT / 'catalog/library.yaml').resolve():
+        navigation_dir = REPO_ROOT / 'catalog/navigation'
     if navigation_dir is not None:
         from .atlas_model import load_navigation
         navigation = load_navigation(navigation_dir, combined)
@@ -266,6 +261,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             selection["planned_total_bytes"] += extra_bytes
             selection["content_target_bytes"] += extra_bytes
             selection["resolved_asset_bytes"] += extra_bytes
+    from .content_policy import require_content_policy
+    require_content_policy(assets)
     recipes = selected_recipes(assets, recipes)
     assets = order_assets(order_archive_assets(assets), recipes)
     if not assets and not plan_only:
@@ -288,41 +285,18 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     plan['build_input_cache_bytes'] = plan['build_input_download_bytes'] if cache else 0
     input_cache_on_drive = bool(cache and cache.is_relative_to(drive_root))
     plan['build_input_cache_on_drive'] = input_cache_on_drive
-    # Unlike default work inputs, a requested cache survives the indexing phase.
+    # Unlike default work inputs, a requested cache survives discovery compilation.
     if input_cache_on_drive:
-        base_peak = plan.get('planned_final_bytes', plan['estimated_final_bytes']) - plan['search_budget_bytes'] + plan['reserve_bytes']
-        plan['in_place_peak_budget_bytes'] = base_peak + max(plan['index_working_peak_bytes'],plan['build_input_expanded_bytes']) + plan['build_input_cache_bytes']
+        base_peak = plan.get('planned_final_bytes', plan['estimated_final_bytes']) - plan['discovery_budget_bytes'] + plan['reserve_bytes']
+        plan['in_place_peak_budget_bytes'] = base_peak + max(plan['discovery_budget_bytes'],plan['build_input_expanded_bytes']) + plan['build_input_cache_bytes']
         plan['in_place_target_budget_fits'] = plan['in_place_peak_budget_bytes'] <= profile['capacity_bytes']
-    index_cache = _root(index_cache_dir) if index_cache_dir else None
-    cache_used = cache_allowance = 0
-    if index_cache is not None:
-        from .search_cache import cache_usage
-        cache_used = cache_usage(index_cache)
-        cache_allowance = index_cache_budget_bytes or plan["search_budget_bytes"]
-        if cache_used > cache_allowance:
-            raise SafetyError("Retained index cache exceeds --index-cache-budget-bytes; "
-                              "increase its allowance or choose another cache directory")
-        if index_cache.is_relative_to(drive_root) and not index_cache.is_relative_to(target / ".owl"):
-            raise SafetyError("An index cache inside the library must be under LIBRARY/.owl/; "
-                              "choose a separate directory for a shared cache")
-    plan["index_cache_budget_bytes"] = cache_allowance
-    plan["retained_index_cache_bytes"] = cache_used
-    plan["remaining_index_cache_allocation_bytes"] = cache_allowance - cache_used
-    cache_on_drive = index_cache is not None and index_cache.is_relative_to(drive_root)
-    plan["index_cache_on_drive"] = cache_on_drive
-    if cache_on_drive:
-        plan["in_place_peak_budget_bytes"] += cache_allowance
-        plan["in_place_target_budget_fits"] = plan["in_place_peak_budget_bytes"] <= profile["capacity_bytes"]
-        if not plan["in_place_target_budget_fits"]:
-            raise SafetyError("Retained index cache plus the in-place build exceeds this profile's capacity; "
-                              "put --index-cache-dir on a separate disk or use a larger profile")
     for workspace in (cache, work):
         if workspace is not None and workspace.is_relative_to(drive_root) and not workspace.is_relative_to(target):
             raise SafetyError("Cache/work directories inside an OWL must be under LIBRARY/; "
                               "choose LIBRARY/.owl/ or a separate external directory")
     # Hashing during preflight can take hours. Capture the mounted filesystem
     # before it starts, not after a disappeared mount could have been recreated.
-    anchors = [_directory_anchor(path) for path in (target, work, cache, index_cache) if path is not None]
+    anchors = [_directory_anchor(path) for path in (target, work, cache) if path is not None]
     _event(progress, total_assets=len(assets), completed_assets=0)
     progress(f"OWL {__version__} | {profile_name} | {drive_root}")
     progress(f"Content on disk: {plan['content_bytes']:,} bytes ({plan['content_bytes'] / 1e9:.2f} GB); "
@@ -358,9 +332,9 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                                "verified available files. No files were written.")
         if not content_complete:
             progress("CONTENT INCOMPLETE: available files do not fulfill the selected resource collection targets.")
-    progress(f"Estimated final ceiling: {plan['estimated_final_bytes']:,} bytes; reserve: {plan['reserve_bytes']:,}; indexing scratch budget: {plan['index_scratch_budget_bytes']:,}")
+    progress(f"Estimated final ceiling: {plan['estimated_final_bytes']:,} bytes; reserve: {plan['reserve_bytes']:,}; discovery allowance: {plan['discovery_budget_bytes']:,}")
     progress(f"In-place peak planning allowance for selected content: {plan['in_place_peak_budget_bytes']:,} bytes "
-             "(content, peak indexing phase and reserve; excludes pre-existing old versions)")
+             "(content, discovery/acquisition peak and reserve; excludes pre-existing old versions)")
     if not plan["in_place_target_budget_fits"]:
         progress("SPACE WARNING: the complete selected content targets plus current scratch allowances exceed "
                  "this profile's nominal drive size. The include list/index budget needs tuning before those "
@@ -439,42 +413,6 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     plan['remaining_build_input_expanded_allocation_bytes'] = expanded_pending
     plan['retained_build_input_bytes'] = directory_bytes(input_spool) if not cache else sum(
         path.stat().st_size for path in set(input_paths.values()) if path.exists())
-    checkpoint = checkpoint_usage(target, work_dir=work)
-    # Credit retained staging files: their allocation already reduced disk free
-    # space. Their bytes are independently checked before any later promotion.
-    # Finished script chunks include base64 overhead. Their raw intermediate
-    # remains on the target even when the extraction workspace is elsewhere.
-    # Divide the existing scratch allowance between these two filesystems.
-    raw_budget = plan["index_serialization_budget_bytes"]
-    raw_bytes = max(0, raw_budget - checkpoint["output_bytes"])
-    search_bytes = plan["search_budget_bytes"]
-    scratch_bytes = max(0, plan["index_extraction_budget_bytes"] - checkpoint["scratch_bytes"])
-    search_reuse = raw_reuse = None
-    if assets and all(reusable.values()):
-        inputs = [{**asset, "sha256": _expected(asset, state, spool),
-                   "verification": "pinned" if asset["sha256"] else "observed"} for asset in document_assets(assets)]
-        search_reuse = probe_completed_search(target, inputs, progress=progress)
-        if search_reuse is None:
-            raw_reuse = probe_raw_checkpoint(target, inputs, work_dir=work, progress=progress)
-    if search_reuse is not None:
-        if search_reuse["generated_bytes"] > plan["search_budget_bytes"]:
-            raise SafetyError("Verified existing search exceeds search_budget_bytes; increase the allowance "
-                              "or change the selected content before rebuilding")
-        # Existing source/index bytes already reduce filesystem free space. Only
-        # freshly generated UI/coverage need replacement space for proven reuse.
-        # build_search independently verifies this proof again after locking.
-        search_bytes = search_reuse["rewrite_bytes"]
-        raw_bytes = scratch_bytes = 0
-        progress(f"Verified complete search reuse: {search_reuse['index_bytes']:,} logical bytes; "
-                 f"reserving {search_bytes:,} bytes for UI/coverage rewrites, without new index scratch.")
-    elif raw_reuse is not None:
-        if raw_reuse['generated_bytes'] > plan['search_budget_bytes']:
-            raise SafetyError("Serialized search exceeds search_budget_bytes; increase the allowance "
-                              "or change the selected content before rebuilding")
-        search_bytes = raw_reuse['remaining_pack_allocation_bytes']
-        raw_bytes = scratch_bytes = 0
-        progress(f"Verified serialized search checkpoint: {raw_reuse['index_bytes']:,} bytes; "
-                 "only browser packaging remains.")
     generation_used = directory_bytes(safe_path(target, '.owl/acquisition'))
     generation_outputs = sum(a['size_bytes'] for a in assets if 'generation' in a)
     if generation_used > generation_budget + generation_outputs and recipes:
@@ -488,20 +426,9 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         common.extend([(input_spool,raw_input_metadata),(work,input_metadata-raw_input_metadata)])
     if cache:
         common.append((cache, cache_bytes))
-    if index_cache is not None:
-        common.append((index_cache, cache_allowance - cache_used))
-        progress(f"Index cache: {index_cache}; retained {cache_used:,} bytes, "
-                 f"allowance {cache_allowance:,} bytes (separate from extraction scratch)")
-    plan["index_serialization_budget_bytes"] = raw_budget
     plan["remaining_transfer_allocation_bytes"] = transfer_bytes
     plan["remaining_cache_allocation_bytes"] = cache_bytes
-    plan["retained_search_checkpoint_bytes"] = checkpoint
-    plan["search_reuse_verified"] = search_reuse is not None
-    plan["raw_search_reuse_verified"] = raw_reuse is not None
-    plan["remaining_search_output_allocation_bytes"] = search_bytes
-    plan["remaining_index_serialization_allocation_bytes"] = raw_bytes
-    plan["remaining_index_scratch_allocation_bytes"] = scratch_bytes
-    phases = {"packaging": [*common, (target, raw_bytes + search_bytes)]}
+    phases = {"discovery": [*common, (target, plan["discovery_budget_bytes"])]}
     if temporary_sources:
         phases['generation'] = [*common, (input_spool, input_pending), (work,expanded_pending)]
         if cache:
@@ -509,19 +436,11 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             for phase in phases.values():
                 if phase is not phases['generation']:
                     phase.append((cache, input_pending))
-    if search_reuse is None:
-        # These files are deleted only after a durable raw-index checkpoint.
-        # Do not transfer their space credit onto another filesystem.
-        phases["packaging"].append((work, -min(checkpoint["scratch_bytes"], plan["index_extraction_budget_bytes"])))
-        if raw_reuse is None:
-            phases["extraction"] = [*common, (target, raw_bytes), (work, scratch_bytes)]
-            if cache and temporary_sources:
-                phases['extraction'].append((cache, input_pending))
     plan["filesystem_allocations"] = check_space_phases(phases)
     plan["required_free_bytes"] = sum(item["required_bytes"] for item in plan["filesystem_allocations"] if str(target) in item["uses"])
     if plan_only:
-        progress("Plan only: no files created or downloaded. Index and scratch allowances are checked during building; "
-                 "compressed archive size does not predict the required index space.")
+        progress("Plan only: no files created or downloaded. Discovery uses catalog metadata; "
+                 "source-body extraction is not performed.")
         return plan
     if temporary_sources:
         local_inputs = input_spool.is_relative_to(drive_root)
@@ -530,14 +449,13 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             needed_bytes=sum({s['sha256']:s['size_bytes'] for s in needed_inputs.values()}.values()) if local_inputs else 0
             expanded_bytes=sum(member['size_bytes'] for extraction in needed_extractions.values()
                                for member in extraction['members']) if local_expanded else 0
-            phases_peak = (max(plan['index_working_peak_bytes'],expanded_bytes) + plan['build_input_download_bytes']
-                           if input_cache_on_drive else max(plan['index_working_peak_bytes'],needed_bytes+expanded_bytes))
+            phases_peak = (max(plan['discovery_budget_bytes'],expanded_bytes) + plan['build_input_download_bytes']
+                           if input_cache_on_drive else max(plan['discovery_budget_bytes'],needed_bytes+expanded_bytes))
             actual_peak = (plan['content_bytes'] + 16 * 1024 * 1024 + generation_budget +
                            phases_peak + plan['reserve_bytes'])
             if actual_peak > profile['capacity_bytes']:
                 raise SafetyError('Build-only sources and generated content exceed the profile peak capacity; use a separate work/cache disk')
     preflight_recipes(recipes)
-    check_extractors(document_assets(assets))
     private = target / ".owl"
     with ExitStack() as guards:
         for anchor, identity in anchors:
@@ -563,10 +481,6 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         if cache:
             _owned_directory(cache)
             guards.enter_context(guard_directory(cache))
-        if index_cache is not None:
-            reject_symlinks(index_cache)
-            index_cache.mkdir(parents=True, exist_ok=True)
-            guards.enter_context(guard_directory(index_cache))
         for relative in LAYOUT:
             safe_path(target, relative).mkdir(parents=True, exist_ok=True)
         safe_path(target, ".owl/downloads").mkdir(exist_ok=True)
@@ -681,28 +595,22 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         state["phase"] = "search"
         _event(progress, phase="search", active_asset=None, completed_assets=0)
         atomic_write(state_path, _json(state))
-        progress("Building full-text search and static navigation; large archives may take many hours.")
+        progress("Building lightweight title, chapter, and topic discovery.")
         readable_assets = document_assets(inventory_assets)
-        search_report = build_search(target, readable_assets, work_dir=work, progress=progress,
-                                     search_budget_bytes=plan["search_budget_bytes"],
-                                     index_scratch_budget_bytes=plan["index_scratch_budget_bytes"],
-                                     reserve_bytes=plan["reserve_bytes"], reuse_only=search_reuse is not None,
-                                     raw_reuse_only=raw_reuse is not None,
-                                     index_cache_dir=index_cache,
-                                     index_cache_budget_bytes=cache_allowance if index_cache else None)
-        state["managed"] = sorted(set(state["managed"]) | set(search_report["generated_files"]))
+        discovery_pages, search_report = plan_discovery(readable_assets, navigation,
+                                                        budget=plan["discovery_budget_bytes"])
+        from .atlas_build import plan_atlas, register_outputs, validate_links, write_outputs
+        register_outputs(target, discovery_pages, state)
+        write_outputs(target, discovery_pages)
         state["phase"] = "navigation"
         _event(progress, phase="navigation", active_asset=None)
         atomic_write(state_path, _json(state))
-        for warning in search_report.get("warnings", []):
-            progress(f"SEARCH COVERAGE: {warning}")
         inventory = {"schema_version": 1, "assets": inventory_assets, "search": search_report,
                      "build_inputs": [{'id':i,'size_bytes':s['size_bytes'],'sha256':s['sha256']} for i,s in temporary_sources.items()],
                      "build_input_verification": input_receipts,
                      "content_selection": selection, "content_complete": content_complete,
                      "learning_coverage": plan["learning_coverage"],
                      "unresolved": unresolved}
-        from .atlas_build import plan_atlas, register_outputs, validate_links, write_outputs
         atlas_pages, atlas_report = plan_atlas(target, readable_assets, navigation, state,
                                               strict_coverage=strict_coverage)
         inventory["navigation"] = atlas_report
@@ -726,7 +634,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         atomic_write(safe_path(target, "SOURCE_NOTES.txt"), source_notes.read_bytes() if source_notes.exists() else
                      b"See INVENTORY.html and LOCKED_CATALOG.yaml for source provenance, licenses and attribution.\n")
         versions = {}
-        for package in ("PyYAML", "pypdf", "cryptography", "fonttools", "libzim"):
+        for package in ("PyYAML", "pypdf", "cryptography", "libzim"):
             try:
                 versions[package] = importlib.metadata.version(package)
             except importlib.metadata.PackageNotFoundError:
@@ -746,7 +654,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         # Preserve checksum coverage of previous owned search generations. A
         # changed selection never silently prunes files from an existing drive.
         retained_search = {name for name in owned
-                           if (name.startswith("SEARCH/chunks/") or name == "SEARCH/library.owl")
+                           if (name.startswith(("SEARCH/chunks/", "SEARCH/data/")) or name == "SEARCH/library.owl")
                            and safe_path(target, name).is_file()}
         managed = sorted(set(nav_files) | set(search_report["generated_files"]) | retained_search | set(CORE_OUTPUTS) |
                          {a["destination"] for a in assets})
@@ -770,7 +678,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         checksums = "".join(checksum_lines)
         atomic_write(safe_path(target, "SHA256SUMS.txt"), checksums.encode())
         final_size = sum(managed_path(target, name).stat().st_size for name in managed)
-        if final_size + profile["reserve_bytes"] + generation_budget + (cache_allowance if cache_on_drive else 0) + (plan['build_input_cache_bytes'] if input_cache_on_drive else 0) > profile["capacity_bytes"]:
+        if final_size + profile["reserve_bytes"] + generation_budget + (plan['build_input_cache_bytes'] if input_cache_on_drive else 0) > profile["capacity_bytes"]:
             raise SafetyError("Actual generated output exceeds profile capacity; files retained, build incomplete")
         check_space(target, profile["reserve_bytes"])
         state["phase"] = "verification"
@@ -805,11 +713,7 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
                         help="add a pinned local export manifest; repeat for multiple exports; file URLs need --allow-local")
     parser.add_argument("--profiles-dir", type=Path, default=REPO_ROOT / "profiles")
     parser.add_argument("--cache-dir", type=Path)
-    parser.add_argument("--work-dir", type=Path, help="persistent directory for resumable search checkpoints; reuse on restart")
-    parser.add_argument("--index-cache-dir", type=Path,
-                        help="persistent shared per-asset search cache; only selected assets are compiled")
-    parser.add_argument("--index-cache-budget-bytes", type=int,
-                        help="total retained index cache allowance (default: profile search budget)")
+    parser.add_argument("--work-dir", type=Path, help="workspace for acquisition inputs (not required by discovery)")
     parser.add_argument("--detach", action="store_true", help="start a saved background job and return immediately")
     parser.add_argument("--job-dir", type=Path, help="saved job directory for --detach (default: .owl/jobs/<unique ID>)")
     parser.add_argument("--plan", action="store_true", help="validate and estimate without writing/downloading")
@@ -883,7 +787,6 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
         with interrupt_signals():
             build(args.target, catalog=args.catalog, profiles_dir=args.profiles_dir, profile_name=args.profile,
                   cache_dir=args.cache_dir, work_dir=args.work_dir, allow_local=args.allow_local, plan_only=args.plan,
-                  index_cache_dir=args.index_cache_dir, index_cache_budget_bytes=args.index_cache_budget_bytes,
                   resources_catalog=args.resources_catalog, include=args.include, exclude=args.exclude,
                   editions=args.edition,
                   extra_catalogs=args.extra_catalog,
@@ -893,7 +796,7 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
     except KeyboardInterrupt:
         if raise_errors:
             raise
-        print("Paused safely. Verified files, partial transfers and search checkpoints are retained. "
+        print("Paused safely. Verified files, partial transfers and discovery files are retained. "
               "Rerun the same command to continue. Wait for the prompt before safely ejecting the drive.", file=sys.stderr)
         return 130
     except (ValueError, OSError, RuntimeError, yaml.YAMLError) as error:

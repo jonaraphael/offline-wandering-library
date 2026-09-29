@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_chemistry_2e
+assignments:
+- topic_id: chemistry
+  purpose: explanation

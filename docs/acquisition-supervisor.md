@@ -1,5 +1,21 @@
 # Python-managed acquisition trial and sparse review
 
+The active `Finish OWL 1 TB trial` thread timer checks every 30 minutes. Each
+follow-up begins with one local command:
+
+```sh
+.venv/bin/python scripts/check_acquisition_progress.py
+```
+
+It discovers the bounded set of supervisor controls, saves details in
+`.owl/acquisition/timed-progress.json`, and prints at most 2 KiB of changed
+states. It performs no network requests, body reads, whole-drive traversals,
+admission or process control. An unchanged result is a cheap checkpoint, not a
+completion claim. Pending content work in the status document still needs
+attention. Heartbeats older than ten minutes are flagged for inspection rather
+than treated as proof of a dead process. New supervisor directories are picked
+up automatically; preflight-only directories are ignored.
+
 The supervisor executes the frozen 23-step queue in
 `catalog/acquisition/1tb-supervisor-plan.json`. Python manages scheduling,
 checkpoints, space checks and existing detached workers; it makes no model calls.
@@ -92,3 +108,72 @@ reconciliation and the required substantive checks pass. Health and other
 consequential material needs appropriate source/subject review, not AI signoff.
 Reuse review only when source, output, transformation and review-policy pins are
 unchanged. No sampling command marks a resource ready or calls an AI service.
+
+## Additional acquisition lanes
+
+The connected-drive completion run also uses separate frozen queues, avoiding
+changes to the already running manager's pinned inputs:
+
+- `ocw-expanded-followup-plan.json` captures 86 additional official course
+  packages and then inventories their contents and freezes deduplicated media
+  proposals. Required readings, captions and other gaps remain explicit.
+- `survivor-practical-v2-followup-plan.json` captures 42 measured practical books,
+  verifies their whole-file hashes, renders every page at thumbnail scale, and
+  prepares larger title/contents/final/random page samples. Each PDF runs in a
+  timed subprocess. The 1 GB review budget includes checkpoints and renders.
+
+These initial additions and the PhET captures began under the v2 ledger. The
+latest combined ledger is
+`catalog/acquisition/1tb-trial-batches-expanded-courses-survivor-phet-v16.json`,
+including source/review phases for health, Khan/TED, nine whole-course candidates,
+manual repairs and scans. Its conservative reserve-full-peaks mode credits no
+existing files against a phase reservation, avoiding repeated entire-drive scans.
+Each writer retains its own actual-usage and reserve enforcement.
+New batches require a new combined ledger and preflight; do not edit an active
+queue's existing registry. The staging and OWL partitions currently share one
+physical disk, so separate volume capacity does not imply independent I/O.
+
+```sh
+.venv/bin/python scripts/trial_supervisor.py status \
+  --state-dir .owl/acquisition/ocw-expanded-supervisor-v1
+.venv/bin/python scripts/trial_supervisor.py status \
+  --state-dir .owl/acquisition/survivor-practical-v2-supervisor
+```
+
+Other current manager state directories under `.owl/acquisition/` are
+`ocw-expanded-supervisor-v2`, `ocw-algorithmic-supervisor-v1`,
+`ocw-selfcontained-supervisor-v1`, `direct-static-math-v2-supervisor`,
+`python-layout-v4-review-v9`, `sqlite-package-review-v2-v9`,
+`kolibri-format-pilot-supervisor-v3`,
+`supervisor-midwives-digital-sources-20260927-v3` and
+`survivor-practical-v2-repair-supervisor`. Use the same `status`, `pause` and
+`resume` commands for each. The Python browser continuation freezes the finished
+preview receipt and whole-package audit directly; its earlier manager's rejected
+transitive input binding remains recorded. No previous manager is rewritten.
+
+`inspect_survivor_capture.py` never performs OCR, downloads or admission. A
+successful thumbnail render says nothing about fine-print legibility. Missing
+searchable text, apparently blank pages and absent extracted contents tables
+produce review flags. Whole-work page reconciliation, topic utility, edition
+deduplication, notices and historical warnings remain substantive review gates.
+
+New preview phases may declare `planned_phase_budget` on their existing
+source-bound registry batch. Every component must cover the frozen manifest
+budget; preflight uses the larger of that planned peak and observed preview
+phase peaks. This reserves successor output space before its owner exists,
+without a fictitious staging directory or source-manifest mutation. Individual
+writers enforce the combined original/successor payload allowance.
+
+The exercise census runs under
+`.owl/acquisition/kolibri-exercise-census-supervisor-v1`. Its frozen plan queues
+the 1,372-package source capture, then `inspect_kolibri_census.py`. The complete
+source selection comes from `discover_kolibri.py --exercise-manifest ...` using
+cached publisher metadata. Census evidence has a 100 MB allowance, bounded
+individual records, source/inspector bindings and resumable per-package pins.
+Unknown formats remain explicit review work; nothing is admitted automatically.
+
+The first full exercise capture encountered an official 404 and correctly
+blocked its census. `.owl/acquisition/kolibri-exercise-availability-supervisor-v1`
+runs the existing `probe_source_batches.py` on all frozen exercise identities
+using HEAD only. Read its complete report before constructing a continuation;
+required unavailable exercises must remain visible coverage gaps.

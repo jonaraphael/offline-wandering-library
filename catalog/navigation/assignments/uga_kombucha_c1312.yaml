@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: uga_kombucha_c1312
+assignments:
+- topic_id: food-preservation
+  purpose: reference

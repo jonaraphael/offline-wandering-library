@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: hesperian_en_wtnd_2025_04
+assignments:
+- topic_id: clinical-medicine
+  purpose: reference

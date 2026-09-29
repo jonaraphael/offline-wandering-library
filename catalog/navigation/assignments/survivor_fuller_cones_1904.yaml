@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: survivor_fuller_cones_1904
+assignments:
+- topic_id: appropriate-technology
+  purpose: reference
+  description: Historical 1904 sheet-metal cone-pattern geometry; retains original
+    methods and does not establish current workshop safety practice.

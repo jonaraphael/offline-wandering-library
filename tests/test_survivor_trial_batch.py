@@ -43,6 +43,21 @@ class SurvivorTrialBatchTests(unittest.TestCase):
         self.assertEqual(result,MODULE.freeze(report,selection,Probe()))
         bad=copy.deepcopy(selection);bad['candidate_ids']*=2
         with self.assertRaises(ValueError):MODULE.freeze(report,bad,Probe())
+
+    def test_measure_all_sources_and_explicit_versioned_scan_bound(self):
+        report=self.report();ids=list(MODULE.candidates(report))
+        selection={'id':'trial','report_sha256':MODULE._digest(report),'candidate_ids':ids}
+        class Probe:
+            def probe(self,row):return {'size_bytes':197216364,'sha256':None,
+                'evidence':[{'status':200,'headers':{},'url':row['url'],'body_read':False}]}
+        result=MODULE.measure(report,selection,Probe())
+        self.assertEqual(len(result['sources']),2);self.assertEqual(result['exceptions'],ids)
+        self.assertEqual(result['body_downloads'],0)
+        with self.assertRaises(ValueError):MODULE.freeze(report,selection,Probe())
+        larger={**selection,'id':'trial-v2','max_source_bytes':256*1024*1024}
+        manifest=MODULE.freeze(report,larger,Probe())
+        self.assertFalse(manifest['content_ready']);self.assertEqual(manifest['budget']['download_bytes'],394432728)
+        with self.assertRaises(ValueError):MODULE.freeze(report,{**larger,'max_source_bytes':513*1024*1024},Probe())
         bad=copy.deepcopy(selection);bad['report_sha256']='0'*64
         with self.assertRaises(ValueError):MODULE.freeze(report,bad,Probe())
 

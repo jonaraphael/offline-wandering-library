@@ -8,6 +8,7 @@ commands acquire and render separately after all required originals are pinned.
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 import sys
 
@@ -18,14 +19,16 @@ from owl.acquisition.ocw_package import portable_member_path, inspect_package, V
 from owl.safety import atomic_write, SafetyError
 
 
-def freeze(inventory, source, media_sources, dependencies=()):
+def freeze(inventory, source, media_sources, dependencies=(), *, preview_id=None):
     if inventory.get('transformation_version') != 2 or inventory.get('gaps'):
         raise SafetyError('Course has unresolved package media/caption gaps')
     if inventory.get('excluded_translations'):
         raise SafetyError('Explicit translated pages require a reviewed removal/link recipe before this full-package export')
     if inventory['source_id'] != source['id'] or inventory['source_sha256'] != source['sha256']:
         raise SafetyError('Course inventory source differs from captured pin')
-    course = inventory['course']; sid = source['id']; rid = sid+'_ordinary_v1'
+    course = inventory['course']; sid = source['id']; rid = preview_id or sid+'_ordinary_v1'
+    if not re.fullmatch(r'[a-z0-9][a-z0-9_-]{0,127}', rid):
+        raise SafetyError('OCW preview identity must be portable')
     title = course['course_title']; base = 'REFERENCE/COURSES/'+sid
     page = 'https://ocw.mit.edu/'+course['site_url_path'].strip('/')+'/'
     assets, members = [], []

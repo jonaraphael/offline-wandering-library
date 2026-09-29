@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: openstax_introduction_behavioral_neuroscience
+assignments:
+- topic_id: psychology
+  purpose: explanation
+- topic_id: biology
+  purpose: explanation

@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: docs_python_pdf_howto_a_conceptual_overview_of_asyncio
+assignments:
+- topic_id: computing
+  purpose: explanation

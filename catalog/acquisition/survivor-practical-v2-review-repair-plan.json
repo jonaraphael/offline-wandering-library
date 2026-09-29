@@ -1,0 +1,55 @@
+{
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "review": 1
+  },
+  "content_complete": false,
+  "id": "survivor-bounded-sample-repair-v2",
+  "schema_version": 1,
+  "tasks": [
+    {
+      "argv": [
+        "--staging",
+        "{staging}/survivor-practical-v2-1tb",
+        "--output",
+        "{staging}/survivor-practical-v2-review-repair-1tb",
+        "--output-budget-bytes",
+        "250000000",
+        "--reserve-bytes",
+        "10000000000",
+        "--only-source",
+        "survivor_16f51fc9006ec9c94344",
+        "--only-source",
+        "survivor_66791475d295b0776598",
+        "--only-source",
+        "survivor_4e2d3c3e613f50b69145"
+      ],
+      "batch": "survivor-practical-v2-review-repair",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "inspected_sources",
+              "requested_sources"
+            ]
+          ],
+          "equals": {
+            "capture_sources": 42,
+            "content_ready": false,
+            "failed_sources": 0,
+            "requested_sources": 3
+          },
+          "path": "{staging}/survivor-practical-v2-review-repair-1tb/report.json"
+        }
+      ],
+      "id": "repair-dense-scan-samples",
+      "inputs": [
+        "{staging}/survivor-practical-v2-review-1tb/report.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Evidence-image repair only; whole-work completeness, notices and topics still require review.",
+      "script": "inspect_survivor_capture.py"
+    }
+  ]
+}

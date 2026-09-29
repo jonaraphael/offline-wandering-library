@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "id": "manual-source-notices-v1-followup",
+  "content_complete": false,
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "capture": 1
+  },
+  "tasks": [
+    {
+      "id": "capture-notices",
+      "kind": "capture",
+      "batch": "manual-source-notices-v1",
+      "lane": "capture",
+      "checks": [
+        {
+          "path": "{workspace}/.owl/jobs/manual-source-notices-v1-1tb/result.json",
+          "equals": {
+            "source_count": 33,
+            "content_ready": false,
+            "status": "awaiting_review"
+          }
+        }
+      ]
+    }
+  ],
+  "review_items": [
+    "Verify all33 complete same-edition raw sources and individual SPDX/license/copyright headers against the captured36-manual reading edition.",
+    "Retain complete required source/license companions; observed hashes become accepted pins only after explicit notice and correspondence review.",
+    "Merge approved companion identities into the36-manual recipe and resource updates only after structural/browser review; do not alter fixed16/64GB GNU originals."
+  ]
+}

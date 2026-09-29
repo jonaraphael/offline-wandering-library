@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "id": "python-layout-v5-managed",
+  "concurrency": {
+    "review": 1
+  },
+  "review_items": [
+    {
+      "id": "python-v5-review-transfer",
+      "reason": "After preview, run the existing bound finalizer once; preserve partial programming readiness and fixed small profiles."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "preview",
+      "kind": "script",
+      "lane": "review",
+      "batch": "python-release",
+      "depends": [],
+      "script": "acquire_content.py",
+      "argv": [
+        "preview",
+        "--staging-root",
+        "/Volumes/General Backup/OWL-acquisition/python-3-14-7-release-html",
+        "--recipe",
+        "/Users/jonathanraphael/git/offline-wandering-library/catalog/acquisition/python-3-14-7-local-layout-v5-pending.recipe.json",
+        "--assets",
+        "/Users/jonathanraphael/git/offline-wandering-library/catalog/acquisition/python-3-14-7-local-layout-v5-pending.json",
+        "--preview-bytes",
+        "400000000",
+        "--scratch-bytes",
+        "100000000",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "inputs": [
+        "/Users/jonathanraphael/git/offline-wandering-library/catalog/acquisition/python-3-14-7-local-layout-v5-pending.recipe.json",
+        "/Users/jonathanraphael/git/offline-wandering-library/catalog/acquisition/python-3-14-7-local-layout-v5-pending.json"
+      ],
+      "checks": [
+        {
+          "path": "/Volumes/General Backup/OWL-acquisition/python-3-14-7-release-html/previews/python-3-14-7-release-local-layout-v5/preview-receipt.json",
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "lengths": {
+            "outputs": 1155
+          }
+        }
+      ]
+    }
+  ]
+}

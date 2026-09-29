@@ -1,0 +1,5050 @@
+{
+  "content_ready": false,
+  "course": {
+    "course_description": "6.890 Algorithmic Lower Bounds: Fun with Hardness Proofs is a class taking a practical approach to proving problems can't be solved efficiently (in polynomial time and assuming standard complexity-theoretic assumptions like P ≠ NP). The class focuses on reductions and techniques for proving problems are computationally hard for a variety of complexity classes. Along the way, the class will create many interesting gadgets, learn many hardness proof styles, explore the connection between games and computation, survey several important problems and complexity classes, and crush hopes and dreams (for fast optimal solutions).\n",
+    "course_description_html": "6.890 Algorithmic Lower Bounds: Fun with Hardness Proofs is a class taking a practical approach to proving problems can&rsquo;t be solved efficiently (in polynomial time and assuming standard complexity-theoretic assumptions like P ≠ NP). The class focuses on reductions and techniques for proving problems are computationally hard for a variety of complexity classes. Along the way, the class will create many interesting gadgets, learn many hardness proof styles, explore the connection between games and computation, survey several important problems and complexity classes, and crush hopes and dreams (for fast optimal solutions).",
+    "course_image": {
+      "content": "8ceff56d-2181-67a0-6306-e815b5aecf6e",
+      "website": "6-890-algorithmic-lower-bounds-fun-with-hardness-proofs-fall-2014"
+    },
+    "course_image_metadata": {
+      "content_type": "resource",
+      "description": "This model of the Green Building at MIT was illuminated with a version of the game Tetris in its windows. This class deals with topics related to proving computationally hard problems, using the context of video games to demonstrate its points. Image courtesy of Josh Graciano on Flickr. CC BY 2.0.",
+      "draft": false,
+      "file": "/courses/6-890-algorithmic-lower-bounds-fun-with-hardness-proofs-fall-2014/8ceff56d218167a06306e815b5aecf6e_6-890f14.jpg",
+      "file_size": 73661,
+      "file_type": "image/jpeg",
+      "image_metadata": {
+        "caption": "This model of the Green Building at MIT was illuminated with a version of the game Tetris in its windows. This class deals with topics related to proving computationally hard problems, using the context of video games to demonstrate its points. (Image courtesy of {{% resource_link \"a157d9dc-6132-4f72-baff-b64adcf58bb2\" \"Josh Graciano\" %}} on Flickr. CC BY 2.0.)",
+        "credit": "Image courtesy of Josh Graciano on Flickr. CC BY 2.0.",
+        "image-alt": "Photo of a model of the Green Building at MIT, illuminated with a version of a Tetris game."
+      },
+      "iscjklanguage": false,
+      "learning_resource_types": [],
+      "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "ocw_type": "OCWImage",
+      "resourcetype": "Image",
+      "title": "6-890f14.jpg",
+      "uid": "8ceff56d-2181-67a0-6306-e815b5aecf6e"
+    },
+    "course_image_thumbnail": {
+      "content": "bd4b8351-aef7-c954-5408-06488e75cf76",
+      "website": "6-890-algorithmic-lower-bounds-fun-with-hardness-proofs-fall-2014"
+    },
+    "course_title": "Algorithmic Lower Bounds: Fun with Hardness Proofs",
+    "department_numbers": [
+      "6"
+    ],
+    "extra_course_numbers": "",
+    "image_src": "./static_resources/8ceff56d218167a06306e815b5aecf6e_6-890f14.jpg",
+    "instructors": [
+      {
+        "first_name": "Erik",
+        "last_name": "Demaine",
+        "middle_initial": "",
+        "salutation": "Prof.",
+        "title": "Prof. Erik Demaine",
+        "uid": "adc586d4-a306-ce04-7a4f-c2ebe1bf1197",
+        "url": "https://ocw.mit.edu/search/?q=Prof.+Erik+Demaine"
+      }
+    ],
+    "learning_resource_types": [
+      "Lecture Videos",
+      "Lecture Notes",
+      "Projects",
+      "Instructor Insights",
+      "Problem Sets",
+      "Problem Set Solutions"
+    ],
+    "legacy_uid": "00c58983-da76-8f31-fd4b-6c3a92b0b29f",
+    "level": [
+      "Graduate"
+    ],
+    "mit_learn_topics": [
+      [
+        "Data Science, Analytics & Computer Technology",
+        "Algorithms and Data Structures"
+      ],
+      [
+        "Data Science, Analytics & Computer Technology",
+        "Computer Science"
+      ],
+      [
+        "Engineering"
+      ],
+      [
+        "Science & Math",
+        "Mathematics"
+      ]
+    ],
+    "primary_course_number": "6.890",
+    "site_short_id": "6.890-fall-2014",
+    "site_uid": "b4c0c3af-07f8-4455-b878-8fe8de76ffe5",
+    "site_url_path": "courses/6-890-algorithmic-lower-bounds-fun-with-hardness-proofs-fall-2014",
+    "term": "Fall",
+    "title": "Course Metadata",
+    "topics": [
+      [
+        "Engineering",
+        "Computer Science",
+        "Algorithms and Data Structures"
+      ],
+      [
+        "Engineering",
+        "Computer Science",
+        "Theory of Computation"
+      ],
+      [
+        "Mathematics",
+        "Computation"
+      ]
+    ],
+    "year": "2014"
+  },
+  "excluded_translations": [],
+  "expanded_bytes": 218309037,
+  "gaps": [],
+  "media": [
+    {
+      "id": "ocw_media_04f8cdd683c2ec3f2933",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/0bd4a06b50fa50e19b2ff9480ae99e51_607359.vtt",
+              "sha256": "7a1e21201f555b48c68b56fc8159f456cfb72bb1674b7e2d744c14fbc5c47caa",
+              "size_bytes": 127703
+            }
+          ],
+          "context_path": "resources/lecture-3-3-partition-ii/index.html",
+          "end_time": "",
+          "id": "b3804295-de58-ed85-ee37-0f612fb1f8fa",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-3-3-partition-ii/data.json",
+            "sha256": "fad12114e5cf0d512ba55880ebf6d196058cb39b42297b991da2e21369b64ad2",
+            "size_bytes": 2063
+          },
+          "start_time": "",
+          "title": "Lecture 3: 3-Partition II"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec03_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec03_300k.mp4"
+    },
+    {
+      "id": "ocw_media_0a4383790740d936e050",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/dc9caae257005aa9be53d7ca122892d0_EMyRV3H4Vf4.vtt",
+              "sha256": "81d1e5590e80134d367143b59c40190627afabadc1c097190bffc18c03c108c4",
+              "size_bytes": 1715
+            }
+          ],
+          "context_path": "resources/collaboration-as-a-problem-solving-approach/index.html",
+          "end_time": "",
+          "id": "4f1b9dc7-f8f0-23a7-fa00-63040f93cb3d",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/collaboration-as-a-problem-solving-approach/data.json",
+            "sha256": "06e2d36a83fc0c6198c8f2469234bc58965fdde975b8a30d16545f1bf08c0731",
+            "size_bytes": 1674
+          },
+          "start_time": "",
+          "title": "Collaboration as a Problem-Solving Approach"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_problem_solving_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_problem_solving_300k.mp4"
+    },
+    {
+      "id": "ocw_media_0b6bbb7fba26577e537a",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/0b5d5d25afc35344b17953ee3edebef3_X05j49pc6DE.vtt",
+              "sha256": "5545aa892bfa247089272fa1f9790b0194c25f676e6702f90e38df2bef6f5460",
+              "size_bytes": 103446
+            }
+          ],
+          "context_path": "resources/lecture-21-3sum-and-apsp-hardness/index.html",
+          "end_time": "",
+          "id": "4337df9a-bd1c-54d4-a6e6-2a4d83476e40",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-21-3sum-and-apsp-hardness/data.json",
+            "sha256": "8f853023232f99bf801331d0e3e43ad90e8dda6a8e40d2b4ed202c5aa87002d6",
+            "size_bytes": 2249
+          },
+          "start_time": "",
+          "title": "Lecture 21: 3SUM and APSP Hardness"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec21_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec21_300k.mp4"
+    },
+    {
+      "id": "ocw_media_0ee72a688f84b2a69e8c",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/5b86b7a337805a309847021b3f79e082_Ih0cPR745fM.vtt",
+              "sha256": "2170a6499838f63ba2e0d616ad7011711b0200c689c8d6ec521a198e8eb8d3e0",
+              "size_bytes": 98004
+            }
+          ],
+          "context_path": "resources/lecture-23-ppad-reductions/index.html",
+          "end_time": "",
+          "id": "b8527df2-0719-9365-98fc-9d45dd6be3e0",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-23-ppad-reductions/data.json",
+            "sha256": "6c6d0e20cd3a8510acf10edb81b7dd69770f6f2126ab05f4b2df793f584e1b8c",
+            "size_bytes": 2131
+          },
+          "start_time": "",
+          "title": "Lecture 23: PPAD Reductions"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec23_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec23_300k.mp4"
+    },
+    {
+      "id": "ocw_media_1ead9ec212a8f666721e",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/70a0fd7b5ff95a11809156f866625174_rLOVwqMKlBc.vtt",
+              "sha256": "f1e818cd5cde6a1d4c0501ef1a999da3edaf9c214402d1ce95263871f754cc11",
+              "size_bytes": 12438
+            }
+          ],
+          "context_path": "resources/inviting-students-to-solve-open-problems/index.html",
+          "end_time": "",
+          "id": "deb4e34e-e638-760b-62ff-5f0c1f7c112c",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/inviting-students-to-solve-open-problems/data.json",
+            "sha256": "b3e3345c792e48f7cfbaa71394a0d36b3e97225198d179e846173ef27928f848",
+            "size_bytes": 1698
+          },
+          "start_time": "",
+          "title": "Inviting Students to Solve Open Problems"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_open_problems_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_open_problems_300k.mp4"
+    },
+    {
+      "id": "ocw_media_263575cbefa9ba9ed1d0",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/39c7a5aea055594fb38c4e2c5789add8_42TnAE67iaE.vtt",
+              "sha256": "426abea6b960536325159881a9dd04792680736027149dd9e99883846076d534",
+              "size_bytes": 120898
+            }
+          ],
+          "context_path": "resources/lecture-19-unbounded-games/index.html",
+          "end_time": "",
+          "id": "14ae72c8-4e17-f6b3-51d6-77196496838c",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-19-unbounded-games/data.json",
+            "sha256": "84dd1bab15c7a2d91438539494c6d1f2a739f0207df60c93036611cd84b75f30",
+            "size_bytes": 1999
+          },
+          "start_time": "",
+          "title": "Lecture 19: Unbounded Games"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec19_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec19_300k.mp4"
+    },
+    {
+      "id": "ocw_media_32f16ea78cc637c3abcc",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/bbf18a16a3515dbfb08a93fa3aa69a91_ZaSMm2xvatw.vtt",
+              "sha256": "aac452b87bac22e99b73b77279523749c5b3df31cb895541e7f63cb0d68dbbac",
+              "size_bytes": 116181
+            }
+          ],
+          "context_path": "resources/lecture-2-3-partition-i/index.html",
+          "end_time": "",
+          "id": "a368f95c-7f41-1c60-50b6-d4004cf2aa84",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-2-3-partition-i/data.json",
+            "sha256": "233a39d3002dddaef48c2dd61b7df82bd62c345fad02d5759fe6b14d36ed40c6",
+            "size_bytes": 2120
+          },
+          "start_time": "",
+          "title": "Lecture 2: 3-Partition I"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec02_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec02_300k.mp4"
+    },
+    {
+      "id": "ocw_media_3cf52167e7087a6bfda0",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/bf556dddcfe25c57b0e3f7aea6f2fa12_ogbjia9gp34.vtt",
+              "sha256": "d5a3719082a233fa8ad4ab4a06379e46256c62a08d0550aeae8c54f4b7644b1d",
+              "size_bytes": 120359
+            }
+          ],
+          "context_path": "resources/lecture-16-np-and-pspace-video-games/index.html",
+          "end_time": "",
+          "id": "5116cdb2-c572-c932-ce43-b6cf481c8a24",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-16-np-and-pspace-video-games/data.json",
+            "sha256": "fdf986c0b3a502926dad154e954607e5c87de6f35227abeb426cd84c63560a39",
+            "size_bytes": 1976
+          },
+          "start_time": "",
+          "title": "Lecture 16: NP and PSPACE Video Games"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec16_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec16_300k.mp4"
+    },
+    {
+      "id": "ocw_media_5758867c2739f2ccc3db",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/3484ca334358590e85ddb8ea1006e638_TUbfCY_8Dzs.vtt",
+              "sha256": "bd136ab83f68e117644aa50210414a0b124d3d2a7a28ae2c3d35ed23edd1eeaa",
+              "size_bytes": 108733
+            }
+          ],
+          "context_path": "resources/lecture-22-ppad/index.html",
+          "end_time": "",
+          "id": "fb70f145-c737-1307-6126-1830a5ceae7d",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-22-ppad/data.json",
+            "sha256": "b083e85f50e8a6d6334f99cdd6ea48aa0a5d4664a3ef50a6645f9b2eb0ef5ce5",
+            "size_bytes": 2172
+          },
+          "start_time": "",
+          "title": "Lecture 22: PPAD"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec22_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec22_300k.mp4"
+    },
+    {
+      "id": "ocw_media_61d059dd370c8352e4db",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/c02fa9e7300d5a4b8fdb7ddaacb457fd_7d73E1DiH0w.vtt",
+              "sha256": "91bd7970ade3977ab62bc745f55f002a0728fc4e5e5fe5a5839a18ec251e90bf",
+              "size_bytes": 116229
+            }
+          ],
+          "context_path": "resources/lecture-1-overview/index.html",
+          "end_time": "",
+          "id": "86a37d9f-d707-e680-29fc-f71efa064d12",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-1-overview/data.json",
+            "sha256": "742c26e54fdc814b8444b09cca2e0255b1bf0686e1f86f9bee7edc7a5f9b3411",
+            "size_bytes": 2051
+          },
+          "start_time": "",
+          "title": "Lecture 1: Overview"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec01_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec01_300k.mp4"
+    },
+    {
+      "id": "ocw_media_6bf6cc15ac790fc11c13",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/f167a72b77845411878dceeb2bb510b6_snugEmWtEm4.vtt",
+              "sha256": "77ec3b55a97f4e97b066ca453c7157be0a69b636b975b66ad4ebc35d2f3b3e51",
+              "size_bytes": 101831
+            }
+          ],
+          "context_path": "resources/lecture-10-inapproximabililty-overview/index.html",
+          "end_time": "",
+          "id": "81af6756-a9ab-ef19-4ab0-2804ed332458",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-10-inapproximabililty-overview/data.json",
+            "sha256": "977920734e60e3d0ffbf05f8779a56e3fe37752c14fcfd7aee51b25990ee8b04",
+            "size_bytes": 2005
+          },
+          "start_time": "",
+          "title": "Lecture 10: Inapproximabililty Overview"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec10_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec10_300k.mp4"
+    },
+    {
+      "id": "ocw_media_6d0490eb897748947516",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/f39b10926a1f5e45a52d843395d7443b_ccD0yAk1wL0.vtt",
+              "sha256": "98654b7fd9ca78e97936170f39289d8cd9220b1190026c18bdd697099094857c",
+              "size_bytes": 123560
+            }
+          ],
+          "context_path": "resources/lecture-17-nondeterministic-constraint-logic/index.html",
+          "end_time": "",
+          "id": "853e609a-5c29-a143-541b-db34c3cf5792",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-17-nondeterministic-constraint-logic/data.json",
+            "sha256": "e315f66b16aba84add27e00551d5b373f4e78205f8808fe457d09667c0ae465c",
+            "size_bytes": 1964
+          },
+          "start_time": "",
+          "title": "Lecture 17: Nondeterministic Constraint Logic"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec17_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec17_300k.mp4"
+    },
+    {
+      "id": "ocw_media_716311ab52e434e18f36",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/c563f3b2ced7517bb7668cb3cbb5c82c_KdN2mQ594t0.vtt",
+              "sha256": "90b52ae5a666721c5bb27451292e124a6dd89f223cb3321a4e83f412e1c02da3",
+              "size_bytes": 9870
+            }
+          ],
+          "context_path": "resources/final-projects/index.html",
+          "end_time": "",
+          "id": "aabebfd6-775b-994f-9745-0373e558fe39",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/final-projects/data.json",
+            "sha256": "b275184d47bf7b03107b90e84c1d4baf93dc627d33160e16a86ed1bb992325ca",
+            "size_bytes": 1683
+          },
+          "start_time": "",
+          "title": "Final Projects"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_final_projects_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_final_projects_300k.mp4"
+    },
+    {
+      "id": "ocw_media_81e6211438fcc4bc0e6a",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/7480dcab40c55ed3a64c78187543b572_ziViLYrf1Ak.vtt",
+              "sha256": "7ac4e8bfce0a3eaf01d84cf8b0913f16b0ebb8f280316ceabcb8340619a87202",
+              "size_bytes": 116168
+            }
+          ],
+          "context_path": "resources/lecture-6-circuit-sat/index.html",
+          "end_time": "",
+          "id": "98d28881-f924-064e-398e-644c735c49bf",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-6-circuit-sat/data.json",
+            "sha256": "7df30773b37b2beefca4210d865a3fa9b5ce90569b2d899f107f8674f0e3975a",
+            "size_bytes": 1993
+          },
+          "start_time": "",
+          "title": "Lecture 6: Circuit SAT"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec06_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec06_300k.mp4"
+    },
+    {
+      "id": "ocw_media_8e6a426ff5b2f10611bd",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/1b027de3dce85502bf402bae685cfe3e_P3YoIxiz6to.vtt",
+              "sha256": "f93cef70ce038b878c55c0c64e8e0646ca7ee3ee181b9d914ae9578c2c7f5324",
+              "size_bytes": 104758
+            }
+          ],
+          "context_path": "resources/lecture-13-w-hierarchy/index.html",
+          "end_time": "",
+          "id": "5b71cfec-36db-9f7e-bcf9-b088e3028ef7",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-13-w-hierarchy/data.json",
+            "sha256": "4e0aee52f78d27162223abd8d40ae1174ac17d352f6bab702fcf3520251fa9a7",
+            "size_bytes": 2051
+          },
+          "start_time": "",
+          "title": "Lecture 13: W Hierarchy"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec13_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec13_300k.mp4"
+    },
+    {
+      "id": "ocw_media_9447ab6e36c50761e7f1",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/ce93ec0101c85237a48fc5c64ce5c6b3_aDmFyu0Yt7s.vtt",
+              "sha256": "86649679de605a62b08e01fa674bede1c0e2f8dc4dadc394139a0350d3b26bbd",
+              "size_bytes": 116397
+            }
+          ],
+          "context_path": "resources/lecture-18-0-and-2-player-games/index.html",
+          "end_time": "",
+          "id": "7b0edad6-4686-d76a-fefe-c1e73268f50c",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-18-0-and-2-player-games/data.json",
+            "sha256": "6eb23f06459ea4d151b9909e6fdc975b5b77c444e4971ea3c3022bc351e31064",
+            "size_bytes": 1978
+          },
+          "start_time": "",
+          "title": "Lecture 18: 0- and 2-Player Games"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec18_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec18_300k.mp4"
+    },
+    {
+      "id": "ocw_media_9da2f89932f4435d61e7",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/6c074ac85c4e5401bbb55579ea0b1f0e_e10dswn-grA.vtt",
+              "sha256": "20607b3d94f808ec4025d3cc8f793dd2b9e85b6fe983c78b2fb737bd6d51b3bd",
+              "size_bytes": 128758
+            }
+          ],
+          "context_path": "resources/lecture-5-sat-reductions/index.html",
+          "end_time": "",
+          "id": "cb6762cc-9d98-3819-b868-2c0cad9ec47a",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-5-sat-reductions/data.json",
+            "sha256": "7ff05a34b3436b0b46b9b4373c45989e1eabf896cf1fe816e0cd34706d3c5502",
+            "size_bytes": 2076
+          },
+          "start_time": "",
+          "title": "Lecture 5: SAT Reductions"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec05_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec05_300k.mp4"
+    },
+    {
+      "id": "ocw_media_9e7582f06eabc98090a1",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/c8fb4a358e2d5958beffe03251f6644b_KvBk_u8NNp4.vtt",
+              "sha256": "f2a8e3ce50fac68696a696be0d7819461528a730ca3c931dcc0e5c12d51cb114",
+              "size_bytes": 118257
+            }
+          ],
+          "context_path": "resources/lecture-9-graph-problems/index.html",
+          "end_time": "",
+          "id": "2369ca27-b875-80ec-a60c-e6453a56a6e4",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-9-graph-problems/data.json",
+            "sha256": "56b5ac762b80b266270ed1cc6df41a896127a9d9c034a38da31668a47dcd6029",
+            "size_bytes": 2023
+          },
+          "start_time": "",
+          "title": "Lecture 9: Graph Problems"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec09_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec09_300k.mp4"
+    },
+    {
+      "id": "ocw_media_a5af8ce70fb6b5c16ae1",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/2c1fcef540d05ab2aa35dff545d79f13_Lm8WHM0glHE.vtt",
+              "sha256": "88f246b08c778567b479de129bfa5f8ea9103d825497befd8b54114c461eb5a2",
+              "size_bytes": 14108
+            }
+          ],
+          "context_path": "resources/the-role-of-fun-in-research-teaching-and-learning/index.html",
+          "end_time": "",
+          "id": "427d22c7-baf4-92d8-f57c-f3279a8a1552",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/the-role-of-fun-in-research-teaching-and-learning/data.json",
+            "sha256": "2da3dab743c666286184e4ea5a6ae766ef5ec30cf525d7c1d5032abb0719e2e3",
+            "size_bytes": 1799
+          },
+          "start_time": "",
+          "title": "The Role of Fun in Research, Teaching, and Learning"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_fun_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_fun_300k.mp4"
+    },
+    {
+      "id": "ocw_media_aa2e4f551767ce316ffe",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/8ecacba9f8d1564cb860fab85b65d90c_R-0_0OQ2f4Y.vtt",
+              "sha256": "354d0ce988d23a9b9cb57f03e9c2f29a3cc727772bc143e1b31cdfbf678c71ef",
+              "size_bytes": 98350
+            }
+          ],
+          "context_path": "resources/lecture-12-gaps-and-pcp/index.html",
+          "end_time": "",
+          "id": "90c4f580-dc50-9a04-b6a9-4fa6bd36d5bd",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-12-gaps-and-pcp/data.json",
+            "sha256": "1ddbf1e2d7f68fc735413f27d58f2e474eb44ec61b6ced6a1362320873a5fdee",
+            "size_bytes": 1965
+          },
+          "start_time": "",
+          "title": "Lecture 12: Gaps and PCP"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec12_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec12_300k.mp4"
+    },
+    {
+      "id": "ocw_media_aead4c8df18c710c655c",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/c3c81efaca6a58929ff1fc374d1ff80b_PFfv1JnQB8Q.vtt",
+              "sha256": "00060485b970b6a7a42fe8a98e06cafb9ff51ad642ae66a506f967b52ddd90c7",
+              "size_bytes": 116399
+            }
+          ],
+          "context_path": "resources/lecture-8-hamiltonicity/index.html",
+          "end_time": "",
+          "id": "ebd2fa7e-5bfe-c7b5-e515-e3fb1d057dfc",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-8-hamiltonicity/data.json",
+            "sha256": "c2e00d30b307230b39684dd97a1d7d019d304e6aefc6643a024c1de522dfbbfb",
+            "size_bytes": 1982
+          },
+          "start_time": "",
+          "title": "Lecture 8: Hamiltonicity"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec08_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec08_300k.mp4"
+    },
+    {
+      "id": "ocw_media_b28d05e4a89404ed551c",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/e355c24e7d9c598ba389e502507a0722_KU8I8LjnQgE.vtt",
+              "sha256": "3fdd1476dd4977de546b9d075cb3b376b25cab85978cdc3e1eeb0bb8f7a36418",
+              "size_bytes": 124531
+            }
+          ],
+          "context_path": "resources/lecture-7-planar-sat/index.html",
+          "end_time": "",
+          "id": "bf66955f-dacf-05d8-0882-cf41944bc1d2",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-7-planar-sat/data.json",
+            "sha256": "893fa71ec6271219ce1cb127d61a46ce4b77db3356d6b9487bc554327d21c695",
+            "size_bytes": 1983
+          },
+          "start_time": "",
+          "title": "Lecture 7: Planar SAT"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec07_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec07_300k.mp4"
+    },
+    {
+      "id": "ocw_media_b5ee2371c43095735802",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/ba02edd2026458eab83acbaebcd0ce15_28WhZvnvsAg.vtt",
+              "sha256": "5e83fc8a8679afe46375950cc00d826b419bbb3fc0f855d9f92e4baad1f0979f",
+              "size_bytes": 115001
+            }
+          ],
+          "context_path": "resources/lecture-11-inapproximability-examples/index.html",
+          "end_time": "",
+          "id": "fd77379b-cb56-9c1f-ef1a-b919843c0ffb",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-11-inapproximability-examples/data.json",
+            "sha256": "5252202ae51ccae2af9aa37f6abd6b3f0706349cb4f41838d53c2da7e11ef2c9",
+            "size_bytes": 2100
+          },
+          "start_time": "",
+          "title": "Lecture 11: Inapproximability Examples"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec11_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec11_300k.mp4"
+    },
+    {
+      "id": "ocw_media_c059ac4bda93dbeebb69",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/d912936386d6510e901850815a3c81f2_x-Ik9YAFAPo.vtt",
+              "sha256": "9c763e7f35918b00ec86ecfb21b080fb24b708c1497337f3572c9ed281f5d995",
+              "size_bytes": 118938
+            }
+          ],
+          "context_path": "resources/lecture-4-sat-i/index.html",
+          "end_time": "",
+          "id": "4dee7dd0-2f89-4eec-7cd8-5334ee3a5c5a",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-4-sat-i/data.json",
+            "sha256": "762d84e87e3fe148f9029728c33714905898ab6eb365917e08d6755a89a854d3",
+            "size_bytes": 1954
+          },
+          "start_time": "",
+          "title": "Lecture 4: SAT I"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec04_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec04_300k.mp4"
+    },
+    {
+      "id": "ocw_media_c57b0d8926434f764709",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/817353694baf50718943b87d626f728f_LHBc2mE71yc.vtt",
+              "sha256": "75cb9b0d3d17b338d31fb49e94453aac6706214abf651d5c2125af17a727184b",
+              "size_bytes": 114995
+            }
+          ],
+          "context_path": "resources/lecture-20-undecidable-and-p-complete/index.html",
+          "end_time": "",
+          "id": "7f8695a9-0f3c-7031-5b60-8ee27e20518d",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-20-undecidable-and-p-complete/data.json",
+            "sha256": "20c0d4f8aa0c57a8439e9a9a388f623211e162270b030d890ccc1bdd1aa62489",
+            "size_bytes": 2016
+          },
+          "start_time": "",
+          "title": "Lecture 20: Undecidable and P-Complete"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec20_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec20_300k.mp4"
+    },
+    {
+      "id": "ocw_media_c7dacf2160e7b738244f",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/06f3a8bdb2ef55e6ba397f081c5e177c_tkU8_LJGCvE.vtt",
+              "sha256": "6a7ba20f24712cd403d8c7c4a9eb32298c64b0e9adb09542c838757354f5dad0",
+              "size_bytes": 1609
+            }
+          ],
+          "context_path": "resources/course-iteration/index.html",
+          "end_time": "",
+          "id": "5951a082-e43b-363e-93db-b4a24e3b6689",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/course-iteration/data.json",
+            "sha256": "9384250920067cec1b9702d27caa5305c2ea100dd240e10027fad9a897409c50",
+            "size_bytes": 1660
+          },
+          "start_time": "",
+          "title": "Course Iteration"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_course_iteration_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_course_iteration_300k.mp4"
+    },
+    {
+      "id": "ocw_media_dcd32330525c0f26215c",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/50abb2555bf05ceea4d068ff386d58d6_iDNpHHO_O6w.vtt",
+              "sha256": "12955dcabf31867b1751e5800b029f9cb16dbb3b7152fa1f030ff8c201c549ff",
+              "size_bytes": 4749
+            }
+          ],
+          "context_path": "resources/using-a-survey-to-get-to-know-students/index.html",
+          "end_time": "",
+          "id": "5a92fc45-247c-5019-2327-2332a2cbcb88",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/using-a-survey-to-get-to-know-students/data.json",
+            "sha256": "d399acbe20a9a02436fbacffbfc09b5fe5fa91ca9d17728b2c58dba0db237ddf",
+            "size_bytes": 1681
+          },
+          "start_time": "",
+          "title": "Using a Survey to Get to Know Students"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_survey_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_survey_300k.mp4"
+    },
+    {
+      "id": "ocw_media_dd0331d25e0bdb2fa14d",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/c5c8daa42f795c84b317693d35f54962_XROTP1RiNaA.vtt",
+              "sha256": "f1a4f3ea777d1a4fcc475c1add6ddb2249bd2733ba50cc25ab54ab7ece11012c",
+              "size_bytes": 109349
+            }
+          ],
+          "context_path": "resources/lecture-15-p-and-asp/index.html",
+          "end_time": "",
+          "id": "c2611099-3f85-f170-487e-14d58e1c863c",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-15-p-and-asp/data.json",
+            "sha256": "7177ad429c02680a8ea5933a8ab71ad713e86173838b2f29d2dc1a9e502cf3c7",
+            "size_bytes": 1938
+          },
+          "start_time": "",
+          "title": "Lecture 15: #P and ASP"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec15_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec15_300k.mp4"
+    },
+    {
+      "id": "ocw_media_dd1a0a69dd10227137ae",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/380920c8cca55160b2dd6478457bd448_5GEKCOhiqro.vtt",
+              "sha256": "1868a0aa62b33a508b08647e0d0d110d599a51ac4e14cd0978adf8d09cdda248",
+              "size_bytes": 3235
+            }
+          ],
+          "context_path": "resources/inspiration-for-developing-the-course/index.html",
+          "end_time": "",
+          "id": "370b936b-b74b-2333-6dd8-dec57272ab69",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/inspiration-for-developing-the-course/data.json",
+            "sha256": "e92fc179a3b4ceb7716558c1bf7695c665cf4f2990861ea913ea5c362ede9195",
+            "size_bytes": 1711
+          },
+          "start_time": "",
+          "title": "Inspiration for Developing the Course"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_inspiration_for_the_course_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_inspiration_for_the_course_300k.mp4"
+    },
+    {
+      "id": "ocw_media_e888dc1758eeda0d5ba9",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/5ea2b5a6f60e59bf88ec5d6a50334e20_ctxnYDAIDO4.vtt",
+              "sha256": "c1c1d707fb446f00bdf1cd284f820860babf56f1a1b22e26f5e54fdab99a5358",
+              "size_bytes": 98955
+            }
+          ],
+          "context_path": "resources/lecture-14-eth-and-planar-fpt/index.html",
+          "end_time": "",
+          "id": "a4b51ec6-a2d0-179f-d1f7-7cbf7f2da949",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-14-eth-and-planar-fpt/data.json",
+            "sha256": "702f26b53c165781360ef59e7b6876fb603fcdf22ec370e721924091363f5b41",
+            "size_bytes": 2001
+          },
+          "start_time": "",
+          "title": "Lecture 14: ETH and Planar FPT"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec14_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_lec14_300k.mp4"
+    },
+    {
+      "id": "ocw_media_fde140f9bc11982a1485",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/a0328fe0c6ae56bba517d5c0f6ee0ecb_c5Myaxq44mI.vtt",
+              "sha256": "208788e24d60e989fc583bc762a21c940ad178e87d1a0decbd73ce515a778645",
+              "size_bytes": 5394
+            }
+          ],
+          "context_path": "resources/students-scribing-lecture-notes/index.html",
+          "end_time": "",
+          "id": "25d6e2fc-c4fc-0728-3989-746f125e13dd",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/students-scribing-lecture-notes/data.json",
+            "sha256": "fab3cc24cec638f9c89e607dea9bb72124f05f71825665eca7604cf3daaa58df",
+            "size_bytes": 1689
+          },
+          "start_time": "",
+          "title": "Students Scribing Lecture Notes"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.890F14/MIT6_890F14_scribing_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.890F14/MIT6_890F14_scribing_300k.mp4"
+    }
+  ],
+  "members": [
+    {
+      "path": ".keep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "content_map.json",
+      "sha256": "07932396d8842249abdfb53228176fbf2041ad2b5387ff7cc3bcd7b403407759",
+      "size_bytes": 16541
+    },
+    {
+      "path": "data.json",
+      "sha256": "470cbe06ed3a65134fdbd1f83c660104e2ef947b378baa919cf330a2f3918a6f",
+      "size_bytes": 4799
+    },
+    {
+      "path": "download/index.html",
+      "sha256": "00454cd010bbda96d5cf9d464293ae3505a842953ce367d6d7061c94233c735e",
+      "size_bytes": 114948
+    },
+    {
+      "path": "download/index.xml",
+      "sha256": "0774912700596823bafa748c45dae2895cd7e8ce430bac0a1d1ba118ac6d9834",
+      "size_bytes": 1868
+    },
+    {
+      "path": "external-resources/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "external-resources/index.html",
+      "sha256": "1c3a4e8448bd0b0f1d511a3f75dd77a5080451bd3999bfdca880fa4ba8d1e55d",
+      "size_bytes": 53641
+    },
+    {
+      "path": "favicon.ico",
+      "sha256": "6d27d37a515c3498aa71f8265d21cadc50ca63eb321e223386d48fe87ec7c552",
+      "size_bytes": 5558
+    },
+    {
+      "path": "index.html",
+      "sha256": "64ab198eaed36aa0149f096cd0023b2284b26c22a4cf616cef4f04a9702bbedb",
+      "size_bytes": 52151
+    },
+    {
+      "path": "pages/assignments/data.json",
+      "sha256": "e6df77efe71af6689e47f90b65ea3789ac89b4a5eb1087f659466e51511fa5f1",
+      "size_bytes": 4058
+    },
+    {
+      "path": "pages/assignments/index.html",
+      "sha256": "a4137ad72efc9a79b4150fc87dfc150dca57e4c29b1f0a5ee4523e54fa012fc6",
+      "size_bytes": 57427
+    },
+    {
+      "path": "pages/calendar/data.json",
+      "sha256": "45965264289adfeaefd1f6f5833241d47b9c9cbf7aa0de3112a31279ed743f34",
+      "size_bytes": 3414
+    },
+    {
+      "path": "pages/calendar/index.html",
+      "sha256": "462f468bdcfdd34505a34f565d623888b559591ef55cc17c0e3567b63aa9e8bb",
+      "size_bytes": 56447
+    },
+    {
+      "path": "pages/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "pages/index.html",
+      "sha256": "6c9f3dd45e4e475f88d565ba53cb5b641fa47e7d6ee8515fc85640c255a251d7",
+      "size_bytes": 53865
+    },
+    {
+      "path": "pages/instructor-insights/data.json",
+      "sha256": "10dbdb30437ad1a647cd86ef5413294931222a309cefc352e9cc59c82f2b7fd2",
+      "size_bytes": 5634
+    },
+    {
+      "path": "pages/instructor-insights/index.html",
+      "sha256": "9e102a24e7b649588be7c174992761a5a36ffd1f2d34447ab0287b23ee424b7b",
+      "size_bytes": 59001
+    },
+    {
+      "path": "pages/instructor-insights/video-playlist/data.json",
+      "sha256": "b41564766e36ac21a720e1730744ee7df20008a8ef96f5cbd182df11890a8885",
+      "size_bytes": 4856
+    },
+    {
+      "path": "pages/instructor-insights/video-playlist/index.html",
+      "sha256": "3d7911319965722ae9bcc6dc072199663a27f5896f3347824e3d0f63d9ebacc8",
+      "size_bytes": 58105
+    },
+    {
+      "path": "pages/lecture-notes/data.json",
+      "sha256": "d755b25e90d7fdf4cd388b8df0a97b61ce0fa2f4bd89bbdc1a160c11c04b6239",
+      "size_bytes": 6571
+    },
+    {
+      "path": "pages/lecture-notes/index.html",
+      "sha256": "21701d7a7472645bc92fc8021f7b280fa902e127195eddf917c348797205dc68",
+      "size_bytes": 59678
+    },
+    {
+      "path": "pages/projects/data.json",
+      "sha256": "b7d387713a6d0b9afbcf9f0f6a1e11b0c2c06d4d6ed381749753c870faa9a651",
+      "size_bytes": 2760
+    },
+    {
+      "path": "pages/projects/index.html",
+      "sha256": "1ba4122a63f1c9db1d4d0e685f5f1e5cab55ae0320bfede7ab8ca6a1db08045f",
+      "size_bytes": 56290
+    },
+    {
+      "path": "pages/syllabus/data.json",
+      "sha256": "791e0a95c1d0a3f0ef983436df833c872f6561e9d2d772c9a3348cc571710478",
+      "size_bytes": 6263
+    },
+    {
+      "path": "pages/syllabus/index.html",
+      "sha256": "118719d475016d3088547f918e81e44ab085566d63d9540d907f0f25feb5653a",
+      "size_bytes": 59641
+    },
+    {
+      "path": "resources/28whzvnvsag-1/data.json",
+      "sha256": "2f7c21e22014fa841dc1313d647452319d515528e83d14914470ca796f2b5f31",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/28whzvnvsag-1/index.html",
+      "sha256": "0e3b6ed7d8947ec3cee80c244c1a0ec43971f69b8a9fa2fb67d8529202d2bbe0",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/28whzvnvsag-2/data.json",
+      "sha256": "725e70d7c08d9ca1888cc48894a020d68f56184bfecef6b05c6a8e2d0645695f",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/28whzvnvsag-2/index.html",
+      "sha256": "8415642431378b9975a06b02b05186bab90bf0b2ff29668e68b227191ac97bf0",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/28whzvnvsag/data.json",
+      "sha256": "9ef5e9d7c0947e6b3d35dc6db8ed4548abf93866975acb7b7d91fd295e0a95dc",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/28whzvnvsag/index.html",
+      "sha256": "7cc9b629fda07c8fbe753063ff5defe74ead2a7320eee2d3e06fc4f4c3e16f16",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/37/data.json",
+      "sha256": "a20e90fab0225006732bb5d5dad3b405544ec5dfff5c472a6ffbade4cc596d52",
+      "size_bytes": 944
+    },
+    {
+      "path": "resources/37/index.html",
+      "sha256": "308b78520744a2f3117b088fcf8a79ec3d95e34a2afbed4f3a84dce2d2b29593",
+      "size_bytes": 56293
+    },
+    {
+      "path": "resources/42tnae67iae-1/data.json",
+      "sha256": "54de597782f0d8cab5326c6a4740ffcc2ea8644dbe0d5e7fca2c44bb2fae3d59",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/42tnae67iae-1/index.html",
+      "sha256": "a05e3bee2f01334f00976f6c565114124f32b24a9511338cb95497195bef2354",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/42tnae67iae-2/data.json",
+      "sha256": "228095515c3fea06a3773cb9399a9bed58c5b622a183f5272fb66084fe46c5ce",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/42tnae67iae-2/index.html",
+      "sha256": "48b54038a2527520de2625355b7202d5d410c159c0bf47880038ba6e4c2bdd40",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/42tnae67iae/data.json",
+      "sha256": "1e8f1878dafe6e0a4f35c421c8dd75b3822e002b79118e1edf83e3002de843d6",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/42tnae67iae/index.html",
+      "sha256": "3adde69272ca5209aa9fe511f14eb486de45999090459483b0744256b6ce81e4",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/5gekcohiqro-1/data.json",
+      "sha256": "cb39d7c1442d1d71ed5523ec135c766eff6867ec57207aa4c4a0c35c087639d2",
+      "size_bytes": 540
+    },
+    {
+      "path": "resources/5gekcohiqro-1/index.html",
+      "sha256": "9a89ba6ff7825d47293448beb45c3165764551a64e0a243ee6d4ec1efae018b4",
+      "size_bytes": 56297
+    },
+    {
+      "path": "resources/5gekcohiqro-2/data.json",
+      "sha256": "e9061533812bc3757a8e66cb0eb2db5418ae8209b122a9b27a971db39cabcc1c",
+      "size_bytes": 545
+    },
+    {
+      "path": "resources/5gekcohiqro-2/index.html",
+      "sha256": "ced14c53a115890099b2e224db827c1784b9febebf7eaae6482810c2844b7649",
+      "size_bytes": 55883
+    },
+    {
+      "path": "resources/5gekcohiqro/data.json",
+      "sha256": "acea3cd0f4197554adabbb952ad5dcd58f4ea5ffc2f4e38b52e6cd64fb3381ab",
+      "size_bytes": 545
+    },
+    {
+      "path": "resources/5gekcohiqro/index.html",
+      "sha256": "33f3c782f6be75ad6bf25400e8b85b68870152bedf0fefcb5913f62f0603e1ec",
+      "size_bytes": 55873
+    },
+    {
+      "path": "resources/6-890f14-th/data.json",
+      "sha256": "fec65979eee1b02c586f80ec58425edb9280c49eb222abf45d6d6b7b6494ba5b",
+      "size_bytes": 1733
+    },
+    {
+      "path": "resources/6-890f14-th/index.html",
+      "sha256": "121e37d521d34d8e78410f9432df386d8888d913794914d482696bd856b83768",
+      "size_bytes": 57999
+    },
+    {
+      "path": "resources/6-890f14/data.json",
+      "sha256": "7af0baa003394179e85c761b1a16f25636ac8c923155458d9ca6faed94f37b0d",
+      "size_bytes": 1728
+    },
+    {
+      "path": "resources/6-890f14/index.html",
+      "sha256": "1ac316788cd7490ae7e0226f65c27c237ed3fea3bddca7e095e910a25c446610",
+      "size_bytes": 57961
+    },
+    {
+      "path": "resources/607359-1/data.json",
+      "sha256": "94922eaecca329338605145384d91f3a211e69835db8288e8023e65891ae5164",
+      "size_bytes": 536
+    },
+    {
+      "path": "resources/607359-1/index.html",
+      "sha256": "e705a657fd7803d8fd8f04418dfb14ae9472c351cdb0c7eba91bef35ced57b8e",
+      "size_bytes": 56258
+    },
+    {
+      "path": "resources/607359-2/data.json",
+      "sha256": "ddbc54fdf0a6335010b35992de3c20da01dcf273f98a989b6ce36c9b4e5ee4f2",
+      "size_bytes": 542
+    },
+    {
+      "path": "resources/607359-2/index.html",
+      "sha256": "ed8081457a9417219c52f36f9cab57e4b1aff0bd1831972755b6403f33f3a912",
+      "size_bytes": 55850
+    },
+    {
+      "path": "resources/607359/data.json",
+      "sha256": "79de38ae423e4f493d817b8b9303053590640c10c3f454859c6a6452205b6c09",
+      "size_bytes": 542
+    },
+    {
+      "path": "resources/607359/index.html",
+      "sha256": "3733340eca4ed35394dbf8316de3f7259f898bd6e35ac3d395bbb9959f9cdd0b",
+      "size_bytes": 55840
+    },
+    {
+      "path": "resources/7d73e1dih0w-1/data.json",
+      "sha256": "90e09b64b4d2ea37acf7da7677f63493d44bf5724de071aa084f4fdde4e6ba66",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/7d73e1dih0w-1/index.html",
+      "sha256": "7f48902aaffff29904aff200402a2fab862e91d6e3cc60eb5164d884774ce676",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/7d73e1dih0w-2/data.json",
+      "sha256": "f1bbd02afc655f62c27c2d4b851991fdb792992ce2f74a2a4ad384fdec070525",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/7d73e1dih0w-2/index.html",
+      "sha256": "bb9282bad1d7fcc16a0af98cb4887be8961d571be73b3f37810b614ec8182410",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/7d73e1dih0w/data.json",
+      "sha256": "8137e88ccef9ed8ac3c4d77bfbf16f1d9da6c909f0cf5a433f466197241207ae",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/7d73e1dih0w/index.html",
+      "sha256": "80b2deb3ffe05356fc9e8d2d7e7c52d7d67bf16803ca702d72818405d9153067",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/admfyu0yt7s-1/data.json",
+      "sha256": "23b59b1c8c18f622f93e47fa62e0a9afcb3683b56a7325cdf4b1f8c3611c3834",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/admfyu0yt7s-1/index.html",
+      "sha256": "a4e0f310523eb718fd812c09ace6ce9b900555f813202769b07ed240fe0588e3",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/admfyu0yt7s-2/data.json",
+      "sha256": "c88ba08e2bc214344139a32d0be991356058e4753ef1660b73748d7c6b909dcc",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/admfyu0yt7s-2/index.html",
+      "sha256": "11f5aaa032a1ab2427a39cee499e90e575e76cd019b327a4c0b6c6f555b3e3ed",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/admfyu0yt7s/data.json",
+      "sha256": "5cbcc387223c09cee3e0be698d49a4d2a11b147c0ba16f23b7a149343581dd55",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/admfyu0yt7s/index.html",
+      "sha256": "a87eb25568f017e99f206cd3269374255b8cc26f37b2598f376895c2558f5fb7",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/assignments/index.html",
+      "sha256": "c71481b97bd18e4a4638309d253e1bac317c9e5b617c192d678b5885ebef9698",
+      "size_bytes": 64333
+    },
+    {
+      "path": "resources/assignments/index.xml",
+      "sha256": "a345adb21debda2c3cae9d20656551542721a14a8d432cf838952317c104168e",
+      "size_bytes": 5842
+    },
+    {
+      "path": "resources/c5myaxq44mi-1/data.json",
+      "sha256": "89373d6ba1be140c055878d6132d2e3934b4f875820313592032bac8a5a78575",
+      "size_bytes": 540
+    },
+    {
+      "path": "resources/c5myaxq44mi-1/index.html",
+      "sha256": "68e4355a599765fe0e76d2f6ddff7d73e1b49137e3510ac29d84997a14e16982",
+      "size_bytes": 56297
+    },
+    {
+      "path": "resources/c5myaxq44mi-2/data.json",
+      "sha256": "4e66b1b4b5bb735d189bcdf9282b583f2d6ef3bb7f66885f37f00ec0c1d99921",
+      "size_bytes": 545
+    },
+    {
+      "path": "resources/c5myaxq44mi-2/index.html",
+      "sha256": "1493356ee50332894acf0dffdf998bfb4aabd2ffab02792dd34e1d84a554a2e1",
+      "size_bytes": 55883
+    },
+    {
+      "path": "resources/c5myaxq44mi/data.json",
+      "sha256": "ff9a944f01d0cd140f9b5c74fbe0984bef9dd6a57aa7d380b14291bfbbe1c4e9",
+      "size_bytes": 545
+    },
+    {
+      "path": "resources/c5myaxq44mi/index.html",
+      "sha256": "6ae9f4f228d36561e6a100a7da48abe6b2b86887d5a1287730b467a6aac2a2c8",
+      "size_bytes": 55873
+    },
+    {
+      "path": "resources/ccd0yak1wl0-1/data.json",
+      "sha256": "f26590be34d16b023b519e7be773dd0f7c1950929c2cf7954106d5bb24b90c53",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/ccd0yak1wl0-1/index.html",
+      "sha256": "c32889895a8bbe0db57131c62d84729ed0908fffb3267b613918ef9109e23d4b",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/ccd0yak1wl0-2/data.json",
+      "sha256": "f14a1bd698a5cecf26c3bbb74b68760c428f7398ecbf5c27c7c80448dcd50c05",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/ccd0yak1wl0-2/index.html",
+      "sha256": "d1d7502361bff4545b43a21d15fdf40d57f85b1dec0f36d3bd502ad7ecdf0717",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/ccd0yak1wl0/data.json",
+      "sha256": "8a12a24e4e7f20fd71f6ffaadaffc1107a0e1e42417e7af1566fd1d751069277",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/ccd0yak1wl0/index.html",
+      "sha256": "56e57b04b8c8f12e124f42a3534800396da12262e7d8a2332bdd1374bdebc802",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/collaboration-as-a-problem-solving-approach/data.json",
+      "sha256": "06e2d36a83fc0c6198c8f2469234bc58965fdde975b8a30d16545f1bf08c0731",
+      "size_bytes": 1674
+    },
+    {
+      "path": "resources/collaboration-as-a-problem-solving-approach/index.html",
+      "sha256": "1c5cd43dc12d06e1d90c2ac4b4618422dcdc4a06e4c5b58ffe3094ba57f6be9c",
+      "size_bytes": 59568
+    },
+    {
+      "path": "resources/course-iteration/data.json",
+      "sha256": "9384250920067cec1b9702d27caa5305c2ea100dd240e10027fad9a897409c50",
+      "size_bytes": 1660
+    },
+    {
+      "path": "resources/course-iteration/index.html",
+      "sha256": "a16660312b65b4f6414088617fcfa29e4ecd3a8b3fd1d7cdaeffcd970dce5142",
+      "size_bytes": 59327
+    },
+    {
+      "path": "resources/ctxnydaido4-1/data.json",
+      "sha256": "09db08abe41928ddeda96352d967f178a15e6ebdaf4ae931a9696ccf54e14e82",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/ctxnydaido4-1/index.html",
+      "sha256": "8ea6eee9b2a3d0a61e9a298b94df1cca05602c6e5a7a59f1f6d7b2a15e1e8d98",
+      "size_bytes": 56297
+    },
+    {
+      "path": "resources/ctxnydaido4-2/data.json",
+      "sha256": "46e333ea71d267857116613d6f9d2675d548977be41cf5fa334e5afc96cbfae9",
+      "size_bytes": 546
+    },
+    {
+      "path": "resources/ctxnydaido4-2/index.html",
+      "sha256": "7d466bf3eca3d87bafeda98075e9156ea774e8c219de2cfad19ea18f742dc156",
+      "size_bytes": 55884
+    },
+    {
+      "path": "resources/ctxnydaido4/data.json",
+      "sha256": "8ecdfc6888f79cc3176bf883d9ea0bcaecba49219c9d897989b04359c475fd6b",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/ctxnydaido4/index.html",
+      "sha256": "104ba270c8429a8456c448043dd318f38b62959108d3bca43b03032949aa04b3",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/e10dswn-gra-1/data.json",
+      "sha256": "e02bb6700cca9b58cca90ac2ab3998a81714ccd546018aff4dcb7c1b8e57102a",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/e10dswn-gra-1/index.html",
+      "sha256": "05cc19878fbbb7e84d894a80228dec2e067f9bf0e36a6911e11897cbd72d7675",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/e10dswn-gra-2/data.json",
+      "sha256": "3c05e7651e72a24eb0ef79377156d33af32aba56646fe5d96fc9f8bd1b5e4bd1",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/e10dswn-gra-2/index.html",
+      "sha256": "42bfc1f607faecc36c45d7b39c624d0992cd3eadcf75d49d526efa50f8a96785",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/e10dswn-gra/data.json",
+      "sha256": "154964cd2604a98cfd6f738f9d2b9d57220db4db6d6de5491d23f7c57d195b39",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/e10dswn-gra/index.html",
+      "sha256": "eae67db92890541d3138244de30e1a20d2a1c88f15904c0d881e53a3579da3f0",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/emyrv3h4vf4-1/data.json",
+      "sha256": "2e95e2c514e6ec254899358cc6c097facdbd36987d0eb04a8ebefc61fae6a9ae",
+      "size_bytes": 540
+    },
+    {
+      "path": "resources/emyrv3h4vf4-1/index.html",
+      "sha256": "a168df9954d3318541e7a17ca7ffe5746ec864aec5ed8af778d7dc60053383b4",
+      "size_bytes": 56297
+    },
+    {
+      "path": "resources/emyrv3h4vf4-2/data.json",
+      "sha256": "59ca98e776894bd003ce3231b6239a37acc5a1a17530a30122db0e47430aa3ba",
+      "size_bytes": 545
+    },
+    {
+      "path": "resources/emyrv3h4vf4-2/index.html",
+      "sha256": "593223c2c576f4a7c93dd42695a6035ff2adaad0015c3ceea80b13badb3cee28",
+      "size_bytes": 55883
+    },
+    {
+      "path": "resources/emyrv3h4vf4/data.json",
+      "sha256": "473146bb4cd60656825a0ecc3a410a8c4a84a73f768e97582148575e229986da",
+      "size_bytes": 545
+    },
+    {
+      "path": "resources/emyrv3h4vf4/index.html",
+      "sha256": "3ea50d4d6980cbb0958b82580de94dc4b23976bcac856f14efef482efd6ff810",
+      "size_bytes": 55873
+    },
+    {
+      "path": "resources/final-projects/data.json",
+      "sha256": "b275184d47bf7b03107b90e84c1d4baf93dc627d33160e16a86ed1bb992325ca",
+      "size_bytes": 1683
+    },
+    {
+      "path": "resources/final-projects/index.html",
+      "sha256": "5bd1bd877b4e87522e641ea99a2ad61cbec788deb954091084b736309eb952a4",
+      "size_bytes": 59305
+    },
+    {
+      "path": "resources/idnphho_o6w-1/data.json",
+      "sha256": "b3686f989a36e13dbc82116bf93ad49466389c196f02330fb568ff05b6a472ba",
+      "size_bytes": 540
+    },
+    {
+      "path": "resources/idnphho_o6w-1/index.html",
+      "sha256": "3a20fffc443cdbb5309495d511d7c13fe51e0c00a09171f6438e6e1487028266",
+      "size_bytes": 56297
+    },
+    {
+      "path": "resources/idnphho_o6w-2/data.json",
+      "sha256": "f20038d28ed2f52df577f4dfe79acd09ba6082a13883b08590751ffdfcb325a6",
+      "size_bytes": 545
+    },
+    {
+      "path": "resources/idnphho_o6w-2/index.html",
+      "sha256": "fd0a5371b0eecaa79dfd58125cda6f6b0d3dad4a0c6b235fd3537606aa82b4fb",
+      "size_bytes": 55883
+    },
+    {
+      "path": "resources/idnphho_o6w/data.json",
+      "sha256": "ea8bb2bf4b1bae49639cb64490dec26a0018a26871306343f7528eb1713508ae",
+      "size_bytes": 545
+    },
+    {
+      "path": "resources/idnphho_o6w/index.html",
+      "sha256": "5724d439ced8bad1fdaeff679ebb92e92bc65af2d13586cd41249366d90ab647",
+      "size_bytes": 55873
+    },
+    {
+      "path": "resources/ih0cpr745fm-1/data.json",
+      "sha256": "673ffbba5b2750d6206d079d9aff5bdaa399b222feea0553b35f0ea3ecf9595b",
+      "size_bytes": 540
+    },
+    {
+      "path": "resources/ih0cpr745fm-1/index.html",
+      "sha256": "2b14e3924b133dca1fabbe71bc2623cafb2f2e351070d420abb2a53d33305d49",
+      "size_bytes": 56297
+    },
+    {
+      "path": "resources/ih0cpr745fm-2/data.json",
+      "sha256": "d2f6e1d0312ff98775c8bcdf342997f21ab8d87c59c093b6306f814c87733fef",
+      "size_bytes": 546
+    },
+    {
+      "path": "resources/ih0cpr745fm-2/index.html",
+      "sha256": "36a9e6b6048a4a85afb171c1046a4aabc671e7844c8589d35e27b3d4bcba2ba1",
+      "size_bytes": 55884
+    },
+    {
+      "path": "resources/ih0cpr745fm/data.json",
+      "sha256": "1212a0ca9171545f056cfa195d9938270033c93540b19350576e6520b6ddc8d5",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/ih0cpr745fm/index.html",
+      "sha256": "36fe0641a23f9543e32d5d00a66f13684cb03fce96df2f92f101ce8603e84425",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/inspiration-for-developing-the-course/data.json",
+      "sha256": "e92fc179a3b4ceb7716558c1bf7695c665cf4f2990861ea913ea5c362ede9195",
+      "size_bytes": 1711
+    },
+    {
+      "path": "resources/inspiration-for-developing-the-course/index.html",
+      "sha256": "a03bc0882454898de01982144b6d81e0f539cbf2ff766dfb9efd055c8190e4ec",
+      "size_bytes": 59536
+    },
+    {
+      "path": "resources/instructor-insights/index.html",
+      "sha256": "5cfd3b1c430ffba37284bad977f6912aacf16193c09d72821ad253fd06a38bb4",
+      "size_bytes": 64184
+    },
+    {
+      "path": "resources/instructor-insights/index.xml",
+      "sha256": "7b5c74baae96b65dfc52d1346345d1337d0052df71d211dff841674de4e309dc",
+      "size_bytes": 3067
+    },
+    {
+      "path": "resources/inviting-students-to-solve-open-problems/data.json",
+      "sha256": "b3e3345c792e48f7cfbaa71394a0d36b3e97225198d179e846173ef27928f848",
+      "size_bytes": 1698
+    },
+    {
+      "path": "resources/inviting-students-to-solve-open-problems/index.html",
+      "sha256": "f4985fb412e89c7d8c9482c0a11516b5a0825330602159d7d3bc0145383cd672",
+      "size_bytes": 59537
+    },
+    {
+      "path": "resources/kdn2mq594t0-1/data.json",
+      "sha256": "66caff89b7e05a65b97a1eefac1a8cb8af5e60e1ef18179e04c84e7dcd16b123",
+      "size_bytes": 540
+    },
+    {
+      "path": "resources/kdn2mq594t0-1/index.html",
+      "sha256": "5ec8baaa2bc575939889bb26753bcca9780844706c9904436018631ad50c2934",
+      "size_bytes": 56297
+    },
+    {
+      "path": "resources/kdn2mq594t0-2/data.json",
+      "sha256": "0d09fb98ad11fc2ea777dcaa32cd2fba5f3ca74510d9177defb9fb36c16f110d",
+      "size_bytes": 545
+    },
+    {
+      "path": "resources/kdn2mq594t0-2/index.html",
+      "sha256": "56bd823ef54bfedbb72463b2e27560b60fc795d4c67c02f285109bba48ebf1a7",
+      "size_bytes": 55884
+    },
+    {
+      "path": "resources/kdn2mq594t0/data.json",
+      "sha256": "ab4603f0046ed39c6e8d8b687689bcf20659d22603f14c559699c36cab88f0ab",
+      "size_bytes": 546
+    },
+    {
+      "path": "resources/kdn2mq594t0/index.html",
+      "sha256": "8ff57b948f4503419e9cf18cd359e0729f53afcef8a24994c97946c38a0fa828",
+      "size_bytes": 55874
+    },
+    {
+      "path": "resources/ku8i8ljnqge-1/data.json",
+      "sha256": "7a0e433a07e246061d94c71b3482007b0ceb304afd2130ab963b251c5e3cc4b8",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/ku8i8ljnqge-1/index.html",
+      "sha256": "166960da79c8300f76af863d8414cdda1de5d2d840088ffc19bfc57d50509370",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/ku8i8ljnqge-2/data.json",
+      "sha256": "f3207ab288b2d395f7bb93142befdbfbd465df1b022349d3c7d09b82b6a4d2a3",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/ku8i8ljnqge-2/index.html",
+      "sha256": "1ef5d59c54251bf6f63c48bb8de4da4a35c4946b126b786ce2fc90875e5a0b50",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/ku8i8ljnqge/data.json",
+      "sha256": "5e30a686bba9a0cd8c12a74c2c37d4850cee5f3bdef6222c0c28d136ed40d411",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/ku8i8ljnqge/index.html",
+      "sha256": "a4dab2623b5566003da0b1079d352458cdccf34feecf8f919ab1fe1c8e404504",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/kvbk_u8nnp4-1/data.json",
+      "sha256": "4635ad5dd670602ba708ccb43d3f84846e62c02b5bbab44b4928556b8b6a96ee",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/kvbk_u8nnp4-1/index.html",
+      "sha256": "c7f3de10c6e28593152afd569b2a48a6fe578b7a891a3c67c07ca65d5fa01c3b",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/kvbk_u8nnp4-2/data.json",
+      "sha256": "2b589a8148781da9531173c552687c5b9cc3361aa7d54227d1eeed5854a6ab47",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/kvbk_u8nnp4-2/index.html",
+      "sha256": "edf288ef0e914437669e23cdde438aaa8abffe083d149114f574900c742c8b3e",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/kvbk_u8nnp4/data.json",
+      "sha256": "700a81d6c1a8ecebcc6771def59725779a470509a6efef30184eec3049fc2b7e",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/kvbk_u8nnp4/index.html",
+      "sha256": "a1283c8e7507e894ebf0d31a2b07fba4ec229a6f3e0c6ff02c84f703b7a09e1a",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/lecture-1-overview/data.json",
+      "sha256": "742c26e54fdc814b8444b09cca2e0255b1bf0686e1f86f9bee7edc7a5f9b3411",
+      "size_bytes": 2051
+    },
+    {
+      "path": "resources/lecture-1-overview/index.html",
+      "sha256": "3b2ffcb0e4dcf5f7a003a0aaab322031f7e5c4599fa70da80a8155881d068873",
+      "size_bytes": 59867
+    },
+    {
+      "path": "resources/lecture-10-inapproximabililty-overview/data.json",
+      "sha256": "977920734e60e3d0ffbf05f8779a56e3fe37752c14fcfd7aee51b25990ee8b04",
+      "size_bytes": 2005
+    },
+    {
+      "path": "resources/lecture-10-inapproximabililty-overview/index.html",
+      "sha256": "a06362dbcacd7c933c8b6c9f3756d301ced44f74c8e3b148bb70d7035be4d2ed",
+      "size_bytes": 60000
+    },
+    {
+      "path": "resources/lecture-11-inapproximability-examples/data.json",
+      "sha256": "5252202ae51ccae2af9aa37f6abd6b3f0706349cb4f41838d53c2da7e11ef2c9",
+      "size_bytes": 2100
+    },
+    {
+      "path": "resources/lecture-11-inapproximability-examples/index.html",
+      "sha256": "225817bd8fe7e5b1cc392dea7e5f9a1409faf86de61aca27a0e0969d212559ae",
+      "size_bytes": 60060
+    },
+    {
+      "path": "resources/lecture-12-gaps-and-pcp/data.json",
+      "sha256": "1ddbf1e2d7f68fc735413f27d58f2e474eb44ec61b6ced6a1362320873a5fdee",
+      "size_bytes": 1965
+    },
+    {
+      "path": "resources/lecture-12-gaps-and-pcp/index.html",
+      "sha256": "12731f0c93f38625b90e7cea184aa51ea1e691aaf75496c418aef750ed68a6c7",
+      "size_bytes": 59818
+    },
+    {
+      "path": "resources/lecture-13-w-hierarchy/data.json",
+      "sha256": "4e0aee52f78d27162223abd8d40ae1174ac17d352f6bab702fcf3520251fa9a7",
+      "size_bytes": 2051
+    },
+    {
+      "path": "resources/lecture-13-w-hierarchy/index.html",
+      "sha256": "7e890a697f8bc43286dcff5aeb99b2808a00d88b8b84b1df9bf719583ebe0fcd",
+      "size_bytes": 59883
+    },
+    {
+      "path": "resources/lecture-14-eth-and-planar-fpt/data.json",
+      "sha256": "702f26b53c165781360ef59e7b6876fb603fcdf22ec370e721924091363f5b41",
+      "size_bytes": 2001
+    },
+    {
+      "path": "resources/lecture-14-eth-and-planar-fpt/index.html",
+      "sha256": "e6dd7fd712c3ad2086ee6129aa3ef2a676a1fe128db80a2387705f6fc8334040",
+      "size_bytes": 59909
+    },
+    {
+      "path": "resources/lecture-15-p-and-asp/data.json",
+      "sha256": "7177ad429c02680a8ea5933a8ab71ad713e86173838b2f29d2dc1a9e502cf3c7",
+      "size_bytes": 1938
+    },
+    {
+      "path": "resources/lecture-15-p-and-asp/index.html",
+      "sha256": "cd1f641d9eebcb2dbb263fe76cfd8ae7ac8d44c514d44d6f228aaa6865c34ab7",
+      "size_bytes": 59793
+    },
+    {
+      "path": "resources/lecture-16-np-and-pspace-video-games/data.json",
+      "sha256": "fdf986c0b3a502926dad154e954607e5c87de6f35227abeb426cd84c63560a39",
+      "size_bytes": 1976
+    },
+    {
+      "path": "resources/lecture-16-np-and-pspace-video-games/index.html",
+      "sha256": "7f2056ca2e94a80a1545b1e903a196bf7722f74ecca14063da62e20cc23d2e75",
+      "size_bytes": 59935
+    },
+    {
+      "path": "resources/lecture-17-nondeterministic-constraint-logic/data.json",
+      "sha256": "e315f66b16aba84add27e00551d5b373f4e78205f8808fe457d09667c0ae465c",
+      "size_bytes": 1964
+    },
+    {
+      "path": "resources/lecture-17-nondeterministic-constraint-logic/index.html",
+      "sha256": "1b0b052f248bb5fd5ec0040a8ee2774b3b4387e215d74bfc9760db185737d591",
+      "size_bytes": 59989
+    },
+    {
+      "path": "resources/lecture-18-0-and-2-player-games/data.json",
+      "sha256": "6eb23f06459ea4d151b9909e6fdc975b5b77c444e4971ea3c3022bc351e31064",
+      "size_bytes": 1978
+    },
+    {
+      "path": "resources/lecture-18-0-and-2-player-games/index.html",
+      "sha256": "4d21c14be296240716fc3d408566aec10bf7aba1c2e7a85114b3b18989d7ead6",
+      "size_bytes": 59909
+    },
+    {
+      "path": "resources/lecture-19-unbounded-games/data.json",
+      "sha256": "84dd1bab15c7a2d91438539494c6d1f2a739f0207df60c93036611cd84b75f30",
+      "size_bytes": 1999
+    },
+    {
+      "path": "resources/lecture-19-unbounded-games/index.html",
+      "sha256": "b8280ba5290bbd3c56eb526305e51676235a8c4fa2e0392a2579a42e1f430fa5",
+      "size_bytes": 59881
+    },
+    {
+      "path": "resources/lecture-2-3-partition-i/data.json",
+      "sha256": "233a39d3002dddaef48c2dd61b7df82bd62c345fad02d5759fe6b14d36ed40c6",
+      "size_bytes": 2120
+    },
+    {
+      "path": "resources/lecture-2-3-partition-i/index.html",
+      "sha256": "a45802c1e47e27918dbd51f6ed468458c4f6d23962b40d67aeacc502fdf42719",
+      "size_bytes": 59958
+    },
+    {
+      "path": "resources/lecture-20-undecidable-and-p-complete/data.json",
+      "sha256": "20c0d4f8aa0c57a8439e9a9a388f623211e162270b030d890ccc1bdd1aa62489",
+      "size_bytes": 2016
+    },
+    {
+      "path": "resources/lecture-20-undecidable-and-p-complete/index.html",
+      "sha256": "6104d17979123947d46057067f44585f9835741339c89f2b58d66df3eaae21ae",
+      "size_bytes": 59995
+    },
+    {
+      "path": "resources/lecture-21-3sum-and-apsp-hardness/data.json",
+      "sha256": "8f853023232f99bf801331d0e3e43ad90e8dda6a8e40d2b4ed202c5aa87002d6",
+      "size_bytes": 2249
+    },
+    {
+      "path": "resources/lecture-21-3sum-and-apsp-hardness/index.html",
+      "sha256": "4ee7780e0dfab413f277c358745783d7b60826fdc1b25cc98cb065a14863bfc6",
+      "size_bytes": 60179
+    },
+    {
+      "path": "resources/lecture-22-ppad/data.json",
+      "sha256": "b083e85f50e8a6d6334f99cdd6ea48aa0a5d4664a3ef50a6645f9b2eb0ef5ce5",
+      "size_bytes": 2172
+    },
+    {
+      "path": "resources/lecture-22-ppad/index.html",
+      "sha256": "aab91057073fe4b1c5121a771690c44979b9f5f93e785a3fbf9196f4cbaf4b0c",
+      "size_bytes": 59890
+    },
+    {
+      "path": "resources/lecture-23-ppad-reductions/data.json",
+      "sha256": "6c6d0e20cd3a8510acf10edb81b7dd69770f6f2126ab05f4b2df793f584e1b8c",
+      "size_bytes": 2131
+    },
+    {
+      "path": "resources/lecture-23-ppad-reductions/index.html",
+      "sha256": "d14eb2d5b7dc8a4b8258493a62a5b38e6a09f55b105e9e15830cb0d9ef6aad9d",
+      "size_bytes": 59979
+    },
+    {
+      "path": "resources/lecture-3-3-partition-ii/data.json",
+      "sha256": "fad12114e5cf0d512ba55880ebf6d196058cb39b42297b991da2e21369b64ad2",
+      "size_bytes": 2063
+    },
+    {
+      "path": "resources/lecture-3-3-partition-ii/index.html",
+      "sha256": "6044a4081a0b9da844d15d6f94404183e98c7c01d6018485a423e4b0dc5e4a3c",
+      "size_bytes": 59883
+    },
+    {
+      "path": "resources/lecture-4-sat-i/data.json",
+      "sha256": "762d84e87e3fe148f9029728c33714905898ab6eb365917e08d6755a89a854d3",
+      "size_bytes": 1954
+    },
+    {
+      "path": "resources/lecture-4-sat-i/index.html",
+      "sha256": "68c5127e5c07a569e2c537684ede01be1dbc8343dd55fa77e741de5ff7a7d4e9",
+      "size_bytes": 59789
+    },
+    {
+      "path": "resources/lecture-5-sat-reductions/data.json",
+      "sha256": "7ff05a34b3436b0b46b9b4373c45989e1eabf896cf1fe816e0cd34706d3c5502",
+      "size_bytes": 2076
+    },
+    {
+      "path": "resources/lecture-5-sat-reductions/index.html",
+      "sha256": "925b83289b830b0ea70604ab5d264c4a0fd94d2fb256affee65dbdac2e17d6a6",
+      "size_bytes": 59883
+    },
+    {
+      "path": "resources/lecture-6-circuit-sat/data.json",
+      "sha256": "7df30773b37b2beefca4210d865a3fa9b5ce90569b2d899f107f8674f0e3975a",
+      "size_bytes": 1993
+    },
+    {
+      "path": "resources/lecture-6-circuit-sat/index.html",
+      "sha256": "cc08b905453edbec793796873842cdeb7363c8267a100fb5af614e267a89bb0f",
+      "size_bytes": 59791
+    },
+    {
+      "path": "resources/lecture-7-planar-sat/data.json",
+      "sha256": "893fa71ec6271219ce1cb127d61a46ce4b77db3356d6b9487bc554327d21c695",
+      "size_bytes": 1983
+    },
+    {
+      "path": "resources/lecture-7-planar-sat/index.html",
+      "sha256": "2e2300450ba5f5b59d1c43b35fcd126601fc04335ae095550cd53d7d9a9a220c",
+      "size_bytes": 59817
+    },
+    {
+      "path": "resources/lecture-8-hamiltonicity/data.json",
+      "sha256": "c2e00d30b307230b39684dd97a1d7d019d304e6aefc6643a024c1de522dfbbfb",
+      "size_bytes": 1982
+    },
+    {
+      "path": "resources/lecture-8-hamiltonicity/index.html",
+      "sha256": "58859d4f42827717440b07bf9d3337a70b38eab44adebee50c44c7648a93fbf1",
+      "size_bytes": 59798
+    },
+    {
+      "path": "resources/lecture-9-graph-problems/data.json",
+      "sha256": "56b5ac762b80b266270ed1cc6df41a896127a9d9c034a38da31668a47dcd6029",
+      "size_bytes": 2023
+    },
+    {
+      "path": "resources/lecture-9-graph-problems/index.html",
+      "sha256": "f2efcca144519f8a6ea46f0e882a74c3b7870612caf0734bd6988ee9115d308b",
+      "size_bytes": 59858
+    },
+    {
+      "path": "resources/lecture-notes/index.html",
+      "sha256": "ca39699305c3ce991953094a2cc86aa61b82ab8f3f33d625d6be53be12d0d940",
+      "size_bytes": 112062
+    },
+    {
+      "path": "resources/lecture-notes/index.xml",
+      "sha256": "ca8cc164a0824d57db6fea242eb8185878c0355d8c39548ff06345bb2276a1b6",
+      "size_bytes": 24327
+    },
+    {
+      "path": "resources/lecture-videos/index.html",
+      "sha256": "aa84b414fb3c25386325f3882b2a6dd214396ef02e47aa5b69b0ccaf08c511a2",
+      "size_bytes": 82330
+    },
+    {
+      "path": "resources/lecture-videos/index.xml",
+      "sha256": "00a786c18b1503252dfe1d4fdcbde9d611b42add27daa64d462cb33345e22ba6",
+      "size_bytes": 36944
+    },
+    {
+      "path": "resources/lhbc2me71yc-1/data.json",
+      "sha256": "5b0497d6c87e9f63acef5135f2912e7c1d30f723ddbf9ca1e4b13611b65da861",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/lhbc2me71yc-1/index.html",
+      "sha256": "af15caa8be92260cb1e04717e36de3589665d4dd22bdf113063fb2b60827359a",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/lhbc2me71yc-2/data.json",
+      "sha256": "1e6192b602896e808800f666835b1a58a17324b312de21bc6270832338901e68",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/lhbc2me71yc-2/index.html",
+      "sha256": "44582331756b5d0a94217e43fc1f9c41bd381d14fafc93ed63689e4c7542f3d1",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/lhbc2me71yc/data.json",
+      "sha256": "1315b5b0bd22ce6cc96a8b8341c0bc39278f4b517263cffe6ab2c93d30110b89",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/lhbc2me71yc/index.html",
+      "sha256": "dc1378adcff2dc9af82695e971c059c9911ce872a0e601d98c70b384d16aa1dd",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/lm8whm0glhe-1/data.json",
+      "sha256": "51757255d728c7c95143281e2519e4a5d8129dfbb32465fd6d2134eaf6cfe944",
+      "size_bytes": 540
+    },
+    {
+      "path": "resources/lm8whm0glhe-1/index.html",
+      "sha256": "aaa7e543534d647c5d247d921f2dac284984133616b8bf95881625505e90a66f",
+      "size_bytes": 56297
+    },
+    {
+      "path": "resources/lm8whm0glhe-2/data.json",
+      "sha256": "5997e626fee0836c0c4f15645947346203578090a253395d0cb90631bbeb17b7",
+      "size_bytes": 546
+    },
+    {
+      "path": "resources/lm8whm0glhe-2/index.html",
+      "sha256": "70cc6fd54ab0420575dc6c7c74e149aae6d1f26208d635e34e9c4d3ef095cedf",
+      "size_bytes": 55884
+    },
+    {
+      "path": "resources/lm8whm0glhe/data.json",
+      "sha256": "27bdf54855426d30f7f67427185cd38b31327257ea9f37a46cdad39b854aa206",
+      "size_bytes": 546
+    },
+    {
+      "path": "resources/lm8whm0glhe/index.html",
+      "sha256": "997ac33336d890d538bb0be781e498dcd66e0753cf7f0265b2522f5b221f2a91",
+      "size_bytes": 55874
+    },
+    {
+      "path": "resources/mit6_890f14_l01/data.json",
+      "sha256": "31562144284210a30c181f60885d1b822d907444b69531b0397f9bfc0f0b1ccd",
+      "size_bytes": 893
+    },
+    {
+      "path": "resources/mit6_890f14_l01/index.html",
+      "sha256": "7be091edb07b581937c196b977fed0011686c7036b99af1ca503d3a849e4e9f2",
+      "size_bytes": 56776
+    },
+    {
+      "path": "resources/mit6_890f14_l02/data.json",
+      "sha256": "7cd789133d459c03c00edc5053a031b6af6c851e7ef2a7f95f5f9e52becbaf0e",
+      "size_bytes": 895
+    },
+    {
+      "path": "resources/mit6_890f14_l02/index.html",
+      "sha256": "a72979e3a98dfea6d8bb75464d7dfa8ef3fd6a715607770135f62490dd47b801",
+      "size_bytes": 56780
+    },
+    {
+      "path": "resources/mit6_890f14_l03/data.json",
+      "sha256": "a78afd5c3e458645601ad678f3643f32469281086d2afe7af5c90a1dc729f76e",
+      "size_bytes": 927
+    },
+    {
+      "path": "resources/mit6_890f14_l03/index.html",
+      "sha256": "062ae33b78b8f128c0b324b7fc263c03b44a77ca27f87232c1a67ae8a009a217",
+      "size_bytes": 56844
+    },
+    {
+      "path": "resources/mit6_890f14_l04/data.json",
+      "sha256": "b32269d01a6b6be2dc81a928095596f6277e708d22bf247c8bc8ce15a9f6d67c",
+      "size_bytes": 875
+    },
+    {
+      "path": "resources/mit6_890f14_l04/index.html",
+      "sha256": "1a27cea515f683bcf671095bc1dde5cd8be2b8107bac91d6c4da7a68d49c4a26",
+      "size_bytes": 56740
+    },
+    {
+      "path": "resources/mit6_890f14_l05/data.json",
+      "sha256": "1dba3ff6665d12558feda8a4106fc9e06b0117a5c7516ab630b4cf16bde59494",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit6_890f14_l05/index.html",
+      "sha256": "8cf4154c57f5b77e971a9556ac744e002603fe6a9146b11810fb5afa05c0a5fa",
+      "size_bytes": 56784
+    },
+    {
+      "path": "resources/mit6_890f14_l06/data.json",
+      "sha256": "1862dd64271abc955a69cc8c9e674c6d34181f5c8d44733902e344dc380de428",
+      "size_bytes": 891
+    },
+    {
+      "path": "resources/mit6_890f14_l06/index.html",
+      "sha256": "bc60ec0c7fe986b1b47b60f0c5cf7a10cee6afefa8171c456013d002064c4a6e",
+      "size_bytes": 56772
+    },
+    {
+      "path": "resources/mit6_890f14_l07/data.json",
+      "sha256": "de4ee69de8f02e8bc9030fb27688b2c6589e9926d75496f47db90df5e7e01d06",
+      "size_bytes": 889
+    },
+    {
+      "path": "resources/mit6_890f14_l07/index.html",
+      "sha256": "05ac753d0ff08bf85a26e72b568b462e84a76b825cfd7455d6b08d51f3f72a70",
+      "size_bytes": 56768
+    },
+    {
+      "path": "resources/mit6_890f14_l08/data.json",
+      "sha256": "a6120e9a716aecf529b8eb83be164ee210bf1cc744590313fa5d84a8d842efdc",
+      "size_bytes": 895
+    },
+    {
+      "path": "resources/mit6_890f14_l08/index.html",
+      "sha256": "c6d5f342533293d19b4773f0d90c565fe5d8631b665282aa450bbf8987858c91",
+      "size_bytes": 56780
+    },
+    {
+      "path": "resources/mit6_890f14_l09/data.json",
+      "sha256": "a222f7d6968443e4f8162b974d183d90bc0c042712a1ddbdad35ea0fd2f241e1",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit6_890f14_l09/index.html",
+      "sha256": "d6400d079e8854e50931a04a8634176a28b07e9f72cb6417c84e30ea04a9a77d",
+      "size_bytes": 56784
+    },
+    {
+      "path": "resources/mit6_890f14_l10/data.json",
+      "sha256": "ea2001ee983f9075e8a613e803d818917c5ec0a13cdc1226214f158d502aadef",
+      "size_bytes": 914
+    },
+    {
+      "path": "resources/mit6_890f14_l10/index.html",
+      "sha256": "740fef7f5cada6d9f2b0a6a13fe1497834ab142ed051dddd665ccf40fed3e76d",
+      "size_bytes": 56821
+    },
+    {
+      "path": "resources/mit6_890f14_l11/data.json",
+      "sha256": "059a6f7302c8c982b06871b64214ccf02827f27c0f95a95c40579d1989f73697",
+      "size_bytes": 906
+    },
+    {
+      "path": "resources/mit6_890f14_l11/index.html",
+      "sha256": "b931e1c93845dcecca7a31049ba27f96162d48a2e1add97b8b405ec5c045b2f7",
+      "size_bytes": 56805
+    },
+    {
+      "path": "resources/mit6_890f14_l12/data.json",
+      "sha256": "c15a2ccacedd67b80c96f821354a0db2c51254be1e316599ac28be7544bad941",
+      "size_bytes": 751
+    },
+    {
+      "path": "resources/mit6_890f14_l12/index.html",
+      "sha256": "30d74650148f3d848eb6c05c9636137a636cc4fb891929959f4d9575fadf93ec",
+      "size_bytes": 56838
+    },
+    {
+      "path": "resources/mit6_890f14_l13/data.json",
+      "sha256": "b204253f804551612aff3cfc584efa14f31042a0e346920a35f44b99dafce18d",
+      "size_bytes": 932
+    },
+    {
+      "path": "resources/mit6_890f14_l13/index.html",
+      "sha256": "08290a771805e49fb9ee2399819e00e8a1040ba05c65a9f5a7ebcfc118842034",
+      "size_bytes": 56857
+    },
+    {
+      "path": "resources/mit6_890f14_l14/data.json",
+      "sha256": "ffd3e6f1f33e41cc8094fd5c49d7077130bd90d0b6303dd1457d1ac90aab1fa3",
+      "size_bytes": 940
+    },
+    {
+      "path": "resources/mit6_890f14_l14/index.html",
+      "sha256": "c118c65ceff1906862a72613290f1834c19ba0b3956f55b101338cba1e5e9093",
+      "size_bytes": 56874
+    },
+    {
+      "path": "resources/mit6_890f14_l15/data.json",
+      "sha256": "2e2348418958cf34b4dd4151c8e498667f770b0618078691f97341f91be67ddd",
+      "size_bytes": 872
+    },
+    {
+      "path": "resources/mit6_890f14_l15/index.html",
+      "sha256": "4bdc038345e05ca3e6f59f7a90b740636d87de8f4b3229c82fb0a51387b047b3",
+      "size_bytes": 56737
+    },
+    {
+      "path": "resources/mit6_890f14_l16/data.json",
+      "sha256": "00b92430e1217c4d71d4424ace3ac5ca51ab86db491d780bed3504f6604409ae",
+      "size_bytes": 904
+    },
+    {
+      "path": "resources/mit6_890f14_l16/index.html",
+      "sha256": "dc3693d19a3164cb71a432ce4166e59055256a7559c7b58c644c9201e1fb1cea",
+      "size_bytes": 56802
+    },
+    {
+      "path": "resources/mit6_890f14_l17/data.json",
+      "sha256": "2848298026484a1dd44c2d0021f2e8559eab238bea10d33302fd283267c336f1",
+      "size_bytes": 920
+    },
+    {
+      "path": "resources/mit6_890f14_l17/index.html",
+      "sha256": "3d7cd6f49e7563abfea5b6cd18396628f401e2cb2453aa34903c01d9397dfc9e",
+      "size_bytes": 56833
+    },
+    {
+      "path": "resources/mit6_890f14_l18/data.json",
+      "sha256": "caebc0909df78c614c3ac44ed36ec3e8c31063b852d04464836b4f2abe3f2bdc",
+      "size_bytes": 900
+    },
+    {
+      "path": "resources/mit6_890f14_l18/index.html",
+      "sha256": "630863d0e203a6954966d9b5278b6d181305ddb76a1ed3977f19c2cbcef1f8c5",
+      "size_bytes": 56793
+    },
+    {
+      "path": "resources/mit6_890f14_l19/data.json",
+      "sha256": "db2a5d2b26e57ae4a959b81b6b99e28754b7e186f5993f92afbfbc45dd54fc6a",
+      "size_bytes": 874
+    },
+    {
+      "path": "resources/mit6_890f14_l19/index.html",
+      "sha256": "a17c2fb31c2fd269e66e9b78f7c596ad65d6c793c55d9598c444ae0a9a4e5604",
+      "size_bytes": 56741
+    },
+    {
+      "path": "resources/mit6_890f14_l20/data.json",
+      "sha256": "fdbafb801a07dbfb65665214ac28e7a2bbcd7cad416c58eb381af56690028533",
+      "size_bytes": 920
+    },
+    {
+      "path": "resources/mit6_890f14_l20/index.html",
+      "sha256": "a2db197e9f311cdb3360d295b7fd394697869b4e53a3a4a83f1c2a491ac7f538",
+      "size_bytes": 56834
+    },
+    {
+      "path": "resources/mit6_890f14_l21/data.json",
+      "sha256": "3e1d913e7939e39f4ab1aba2a70ff2012d3f3392ad6898d580ca3c64fc7ee934",
+      "size_bytes": 880
+    },
+    {
+      "path": "resources/mit6_890f14_l21/index.html",
+      "sha256": "157bbd07b2b9d4ac4187a09b6d9c4db1f1bf1234400731f5ce7f213575d19ed3",
+      "size_bytes": 56754
+    },
+    {
+      "path": "resources/mit6_890f14_l22/data.json",
+      "sha256": "a1f83957c3f96567ce5e8b356907e4aa6dd5a57f174bdbf305b4704253467cfa",
+      "size_bytes": 880
+    },
+    {
+      "path": "resources/mit6_890f14_l22/index.html",
+      "sha256": "8522f1fa36596365c9f483e407d6a47f1da78ad42cd51e5d11f716053845c9e0",
+      "size_bytes": 56754
+    },
+    {
+      "path": "resources/mit6_890f14_l23/data.json",
+      "sha256": "208625fae04fa954511fdce7473acca0fb0d285eca9880e67125f384b154850d",
+      "size_bytes": 970
+    },
+    {
+      "path": "resources/mit6_890f14_l23/index.html",
+      "sha256": "6b228679f92a19ffe2d9ecf9c5636773e6981aa9ff5cd600a6a70146a54c0536",
+      "size_bytes": 56933
+    },
+    {
+      "path": "resources/mit6_890f14_lec1/data.json",
+      "sha256": "d422770aa730acb0e9237a0c4fe45ade412f1515f63e949443e5820ae86bbdce",
+      "size_bytes": 1004
+    },
+    {
+      "path": "resources/mit6_890f14_lec1/index.html",
+      "sha256": "6920cc9d397c8e8b0177bc0f40eed2302dbd9a1f9397b46a811eee7cff0e1e85",
+      "size_bytes": 57029
+    },
+    {
+      "path": "resources/mit6_890f14_lec10/data.json",
+      "sha256": "f007c5983e1fd9c29c859601b5a9a55a46c060c30c6b9b3b2a7b83017965d753",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec10/index.html",
+      "sha256": "5a0440a4b3695eecc0785d7ca2bd9235b70885609540fd40f8370ed86985297c",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec11/data.json",
+      "sha256": "9e27a8242e2694014bd0368b264d15b2f02a5bc2711e0ec1e540b8f6ee56b093",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec11/index.html",
+      "sha256": "29c5abdcf8875430c27abff1a861da04897b123730282e7dd0cbc40b5210fc3c",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec12/data.json",
+      "sha256": "35eac609e0fb791ce22dadd7ae91e44ec7c26e3a8cb1dd79041b7b152d2fdc60",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec12/index.html",
+      "sha256": "7604b6570d866d7ad5b0d4ed7fc9ae0df3487e12dc509afbcab15a5f3c87087f",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec13/data.json",
+      "sha256": "a21c4832f578b6c83f287e852348e162a8d2f05391e12801cd67773ff4bacf83",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec13/index.html",
+      "sha256": "af9a24926a31b192b31e79dbb4de05d00e4300781db0d3580634799a8eb2dff2",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec14/data.json",
+      "sha256": "fdb703fb675e977a38a75b8830384fa2ada8e23f03697353099e785844a968ae",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec14/index.html",
+      "sha256": "cfdcc0d9a366d0f103879efde7b8b4427b51346e484cc69df2d311ac5d74f9d6",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec15/data.json",
+      "sha256": "9737ba697fb8a2a4a4fc072eef687e2f001843782728dad42ce1d414026c815f",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec15/index.html",
+      "sha256": "940a8e9a9daa3918a3679801885b02489ef5ea910de5f448a2eb06b541f2a133",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec16/data.json",
+      "sha256": "004b330c65bc790a3815781b2e7fa0e82c924ec5fefea7b223e7d7392216ffd4",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec16/index.html",
+      "sha256": "d7a9249f04e8a65cf8546dc454dfb72284ae80635accee8b194f1588416ec2b3",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec17/data.json",
+      "sha256": "8839d0511ef82a7d40205a4d1a191c9007f00a27f1c981454f5b25786571d101",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec17/index.html",
+      "sha256": "122d51d0c06a402591eea9e46aef688c594ceabebee3109c1f3b607fd3105d97",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec18/data.json",
+      "sha256": "c18e2ed72035a8e11dae5567110789b5512e2c2094de4588ab45d501c5b586ff",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec18/index.html",
+      "sha256": "f6106715c1a12405c228a68a7f2237ccff1da46ab1bcf6a74a7439371562b70a",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec19/data.json",
+      "sha256": "8e84783f08d9d682faf8e50325c457b8c42562e6d8d6c7cd86f8ce44753a3b52",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec19/index.html",
+      "sha256": "efbad9eda0871001e0c06c3be1994688f51debe6951ab9971995aca20894c9ca",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec2/data.json",
+      "sha256": "8844518d52db0201c709c98154e36b632b56ab460df8b2767e8db1b99205a25c",
+      "size_bytes": 1004
+    },
+    {
+      "path": "resources/mit6_890f14_lec2/index.html",
+      "sha256": "b40119e3330d2db4d98686ae358e912d0073dbbcf5bbee125baf13edebd1f22d",
+      "size_bytes": 57029
+    },
+    {
+      "path": "resources/mit6_890f14_lec20/data.json",
+      "sha256": "303853bdac7c3faed3394f9eabf4503e421e486d94bc854e8c054e24a8389430",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec20/index.html",
+      "sha256": "f7953db3decaaad35c5890e258888bb68b3d601be36b59b014c7936922e399da",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec21/data.json",
+      "sha256": "1623c68c6fbc63673d8f78fc6f87c86dcf991681d35c7c34cb21a04dad7b9f62",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec21/index.html",
+      "sha256": "7b4da66bc5eeff1b93abd8304237e643d42fea5b4d3018525243bb05f489d9f6",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec22/data.json",
+      "sha256": "070898d96d74d476d6607e2a2c503f39912a952bf3c8aad3d029da83c8ffdf48",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec22/index.html",
+      "sha256": "9b95d7b5731a2abe3573e2946c5936eb26192ffe6f3edd1b2bc6ff8b1729de06",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec23/data.json",
+      "sha256": "9ed7d7681ca8419bc03d2be7cfb6ed3450925d20d648657d7d4374b3955cea43",
+      "size_bytes": 1008
+    },
+    {
+      "path": "resources/mit6_890f14_lec23/index.html",
+      "sha256": "8471d247a88fbf7846e99c358dc8c6bfd0a4b2e07434272bad974b29c8c6ee92",
+      "size_bytes": 57046
+    },
+    {
+      "path": "resources/mit6_890f14_lec3/data.json",
+      "sha256": "947b40de82e27e0797eba0be0e37de5066028892a20a3f0e709d2056a758a625",
+      "size_bytes": 1004
+    },
+    {
+      "path": "resources/mit6_890f14_lec3/index.html",
+      "sha256": "2eb62cb96f2b94d14f51c376fa8c38b2df4501a38be989da1895a69ff8350694",
+      "size_bytes": 57029
+    },
+    {
+      "path": "resources/mit6_890f14_lec4/data.json",
+      "sha256": "c99e0a3b57b73bb2df20c46e1cea80c0a36efe94d74d05862a75f20360894848",
+      "size_bytes": 1004
+    },
+    {
+      "path": "resources/mit6_890f14_lec4/index.html",
+      "sha256": "99e8456f453378e80dcda1171c8988dacc83452488163c633ccda25f9fdfdb51",
+      "size_bytes": 57029
+    },
+    {
+      "path": "resources/mit6_890f14_lec5/data.json",
+      "sha256": "26dbe5520f65b6e1a6bae062cc7365b5c3882fe27f45748d8f58f60ca70f5901",
+      "size_bytes": 1005
+    },
+    {
+      "path": "resources/mit6_890f14_lec5/index.html",
+      "sha256": "bc7716f5fd969ddbca928ba37f4fbc3cd5ab0a3481003cd47dd791a3e65a54a1",
+      "size_bytes": 57027
+    },
+    {
+      "path": "resources/mit6_890f14_lec6/data.json",
+      "sha256": "f9e3283dc7cc587d7d3127ce96723de7c61f6510eca708dbf98bba5b220667ce",
+      "size_bytes": 1005
+    },
+    {
+      "path": "resources/mit6_890f14_lec6/index.html",
+      "sha256": "c2a1e74a862f1e45c065d853de1730c70567b4dbcbacc8a0ed972d2103fc1925",
+      "size_bytes": 57027
+    },
+    {
+      "path": "resources/mit6_890f14_lec7/data.json",
+      "sha256": "fa7168de83132a47fb7c41c021b523b7f397f1324ee4ad48e6f23df3dc52bf20",
+      "size_bytes": 1005
+    },
+    {
+      "path": "resources/mit6_890f14_lec7/index.html",
+      "sha256": "64f1edaf365bad6f1fa2e1c0c70d109d6873674039e7d30f8c613273e754f118",
+      "size_bytes": 57027
+    },
+    {
+      "path": "resources/mit6_890f14_lec8/data.json",
+      "sha256": "025101ee9fe8ff65fd72e39f83106d2bedd174b8a7b221f8401c433aee7f9403",
+      "size_bytes": 1005
+    },
+    {
+      "path": "resources/mit6_890f14_lec8/index.html",
+      "sha256": "3fac7db9e60ae3add100a7b9b7a87f9aefa13868f9432a0024d9f2c45a8c962b",
+      "size_bytes": 57027
+    },
+    {
+      "path": "resources/mit6_890f14_lec9/data.json",
+      "sha256": "6620f526b13f804b39f553f1fa84cae22f0d1adc36686b5fabf60b65d4114bc9",
+      "size_bytes": 1005
+    },
+    {
+      "path": "resources/mit6_890f14_lec9/index.html",
+      "sha256": "fa1d028a0b00e6bd114c1780eb88cf3f4d39f27bb5a58de32a5747c97dbf3e63",
+      "size_bytes": 57027
+    },
+    {
+      "path": "resources/mit6_890f14_ps1-solutions/data.json",
+      "sha256": "62c96e1ffad3e7903e1f03e6215d93399b394862aed56febe00469f3119848a9",
+      "size_bytes": 912
+    },
+    {
+      "path": "resources/mit6_890f14_ps1-solutions/index.html",
+      "sha256": "d468a7279a9fe67a6013fef8a26b5fed0ed7cb291dbfdc16685541cfb46b171d",
+      "size_bytes": 56906
+    },
+    {
+      "path": "resources/mit6_890f14_ps1/data.json",
+      "sha256": "d47ff66c8af3f504a0590a1815688f1861a76c67e84927d53af9d8799f428fcc",
+      "size_bytes": 872
+    },
+    {
+      "path": "resources/mit6_890f14_ps1/index.html",
+      "sha256": "aff990b0acdae529f0a81dd6f0c7fb15475a33a58c0adaab985aa7990a6194b5",
+      "size_bytes": 56736
+    },
+    {
+      "path": "resources/mit6_890f14_ps2-solutions/data.json",
+      "sha256": "efa17f69c9e7e4533e7f28b0770cca1d4a3c87b94d83fe9033798169dbfe1dc0",
+      "size_bytes": 912
+    },
+    {
+      "path": "resources/mit6_890f14_ps2-solutions/index.html",
+      "sha256": "d99e2914cbb09829823f71b48bfe66af0d121a58840ee7c1c9b30ac017f50321",
+      "size_bytes": 56906
+    },
+    {
+      "path": "resources/mit6_890f14_ps2/data.json",
+      "sha256": "3b1403ed053c8636514a37c3b537ea6eeefdb19a27115a939f8112f1740088eb",
+      "size_bytes": 872
+    },
+    {
+      "path": "resources/mit6_890f14_ps2/index.html",
+      "sha256": "d3e3bf5f3f8795ca79a06ec5cec9b7899774a2d4a91a91d09c8b29f8832db6f7",
+      "size_bytes": 56736
+    },
+    {
+      "path": "resources/mit6_890f14_ps3-solutions/data.json",
+      "sha256": "2b1bbcd8041230ad80b0e9f397958500a05cbea1c0c98ab9cc583dc809df6ccd",
+      "size_bytes": 912
+    },
+    {
+      "path": "resources/mit6_890f14_ps3-solutions/index.html",
+      "sha256": "9da1f9eb264e03614c18aac3964fa4c158ea2a8b15875a5a118d5e9823c852ed",
+      "size_bytes": 56906
+    },
+    {
+      "path": "resources/mit6_890f14_ps3/data.json",
+      "sha256": "0ffdac0b2efde0ebb7797bca5e18dbc8f04c4b9f22c2ea288a50455baf099f96",
+      "size_bytes": 872
+    },
+    {
+      "path": "resources/mit6_890f14_ps3/index.html",
+      "sha256": "db0795c8d1fb53cc4168df39cbf24ffa43f5816ba0fae755805707309b66df4c",
+      "size_bytes": 56736
+    },
+    {
+      "path": "resources/mit6_890f14_ps4-solutions/data.json",
+      "sha256": "079e9c81a1840b1101ac150e29a611ed63a6f1a5fc1ac6b47ccb9725f91fa128",
+      "size_bytes": 912
+    },
+    {
+      "path": "resources/mit6_890f14_ps4-solutions/index.html",
+      "sha256": "90f68c252b3a51dd82ec8026c7befa1d9f96c153c5c7eb6ba63bf4be90985dcb",
+      "size_bytes": 56906
+    },
+    {
+      "path": "resources/mit6_890f14_ps4/data.json",
+      "sha256": "2a7e89ae24e083c274760c3dfb3c646d593e3be1721817eb038284bbd9c5fdf0",
+      "size_bytes": 872
+    },
+    {
+      "path": "resources/mit6_890f14_ps4/index.html",
+      "sha256": "92d68355d43d4a28c268d01978f50244b11f8688f1ab131e6f91401a812f1d78",
+      "size_bytes": 56736
+    },
+    {
+      "path": "resources/ogbjia9gp34-1/data.json",
+      "sha256": "14d4f8d6ba494c560dbb0e759be795b0406ac6cddfadc15d875e39c6a4a0e0d2",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/ogbjia9gp34-1/index.html",
+      "sha256": "b0e5ad80d3c6bafe778ac983f22bbfa66f601a8f5f145ad8625a04e735757715",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/ogbjia9gp34-2/data.json",
+      "sha256": "9d132a5e8c291f5356249487f84f886a3b942eca25efb861746b50c80b604c22",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/ogbjia9gp34-2/index.html",
+      "sha256": "d98104f6cfc788a996b0c42c6f91ddd28a536b3e2eaf301d52a6002f632b7c80",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/ogbjia9gp34/data.json",
+      "sha256": "b2438fd5796180cd3631124b0da0812cacb428e7ebcaa8c1f580eea69c4155c0",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/ogbjia9gp34/index.html",
+      "sha256": "4dc2a84791f0627f5f0b50d4c638d820e96611d12a30c8c1a93a115f230569b7",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/p3yoixiz6to-1/data.json",
+      "sha256": "81113ff48d30acfafd9bb2998dc85a80275548a49a5bb4746e1d0e05843ae881",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/p3yoixiz6to-1/index.html",
+      "sha256": "5ab9069825b65c8057efeef657856b0d9a85b963ee94d332176fd460a194adec",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/p3yoixiz6to-2/data.json",
+      "sha256": "2b5404ef3a86c6825ffce14d2976d0ce597c225369abc70fdd1ad8327d6310f2",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/p3yoixiz6to-2/index.html",
+      "sha256": "255e30575c36450f898cf234ba263030f7afe1ea24453c8fa307bcb887daeabf",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/p3yoixiz6to/data.json",
+      "sha256": "291da1d27f8862d594601fdd6cc57f9ecaf256cd3a04364a1111e8baf72d753b",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/p3yoixiz6to/index.html",
+      "sha256": "3fc16cbff6364c21874b9bb9e3ed26cd791bafde7b837164e2b142133b2322e7",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/pffv1jnqb8q-1/data.json",
+      "sha256": "8f19ee44b71047f2cf5acedf1076352204e7bd5ac087beb0c08762ef67a41cd2",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/pffv1jnqb8q-1/index.html",
+      "sha256": "ef8a78ea95a1c9afe3e2d34034f9d62fb6b977a50aa3a9a1a4c50ff17bb1d32d",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/pffv1jnqb8q-2/data.json",
+      "sha256": "36db8ef9633dd811d9bd7d75dfc7fe8bb33b0de26a4db0aa63e059a76effbad0",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/pffv1jnqb8q-2/index.html",
+      "sha256": "600518dfc9252d7bb41fc9a8295ea28021fbbcdfd6176cff573aa2c430e4d653",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/pffv1jnqb8q/data.json",
+      "sha256": "e1bcd22403adca2bf6a921ab06dc92cd3bcfe6944ecd783bd881faf10b8f87e3",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/pffv1jnqb8q/index.html",
+      "sha256": "a64627470b7b6e9058f2733ba0b746bcc62d0d8c57cc5cea44bc2db6b6f5ecc8",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/projects/index.html",
+      "sha256": "4d8e45678aa204ea8b225ecb4e9271041557e30ac31cf0c88f159b3cd2b481c4",
+      "size_bytes": 54187
+    },
+    {
+      "path": "resources/projects/index.xml",
+      "sha256": "5189444590651120940881570e1678df2b8d03ced48d344aaac9ecb6cab01fe9",
+      "size_bytes": 1956
+    },
+    {
+      "path": "resources/r-0_0oq2f4y-1/data.json",
+      "sha256": "bb789b0f6899d1e97e839f1449fc325afbebbb1aa700d7e2b8398ef484564cac",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/r-0_0oq2f4y-1/index.html",
+      "sha256": "668dbbf384932abc6e4acc2ed7877b119f45cb30d3068e92c475c1e69f60cc5e",
+      "size_bytes": 56297
+    },
+    {
+      "path": "resources/r-0_0oq2f4y-2/data.json",
+      "sha256": "c76c618345e0efcaec9f09a248059cab8151481617ca97b873c6e0962daa8a0b",
+      "size_bytes": 546
+    },
+    {
+      "path": "resources/r-0_0oq2f4y-2/index.html",
+      "sha256": "b1df173411574b4ecdc2b037228f822a3f9943a0741c2756c22956a545f1b886",
+      "size_bytes": 55884
+    },
+    {
+      "path": "resources/r-0_0oq2f4y/data.json",
+      "sha256": "4e3935749e771bf838d74366796d55289c1a150222aa50bcd7ad8a8849b37a26",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/r-0_0oq2f4y/index.html",
+      "sha256": "772fd928f5e997a5c35ee39cb93e96dfe789497faf0d7a422b19fdc7ec550fcd",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/rlovwqmklbc-1/data.json",
+      "sha256": "0cd85a07e6d5d6a36578d01dd7fb802500d96365970f9e72e557fa11085d3c13",
+      "size_bytes": 540
+    },
+    {
+      "path": "resources/rlovwqmklbc-1/index.html",
+      "sha256": "b98c46c119b5891e8da1ed09fe7b2ea620abc51c196e3c7c5b74e33a00e69e96",
+      "size_bytes": 56297
+    },
+    {
+      "path": "resources/rlovwqmklbc-2/data.json",
+      "sha256": "25993dfa8a3ace575d9085f9f1f7fbf0b2dadff1f1f2e14da13e7676e14469ee",
+      "size_bytes": 546
+    },
+    {
+      "path": "resources/rlovwqmklbc-2/index.html",
+      "sha256": "1c2f35658f1741d4f1e8ac2adf06315c27f759f18c4947a2275620f1ed9778ff",
+      "size_bytes": 55884
+    },
+    {
+      "path": "resources/rlovwqmklbc/data.json",
+      "sha256": "12e80eb298c85500620554f55c487a7beb28b49db827711e074af8328129980e",
+      "size_bytes": 546
+    },
+    {
+      "path": "resources/rlovwqmklbc/index.html",
+      "sha256": "7373e5ad82a8effeb824b58890f71a2bda03dcd78f2bafa65a7050fb675ab9ba",
+      "size_bytes": 55874
+    },
+    {
+      "path": "resources/snugemwtem4-1/data.json",
+      "sha256": "c2fc0247edd7903209782b39e6224e2a6b4b4276994f49e8bc0b63752615e1e6",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/snugemwtem4-1/index.html",
+      "sha256": "e6adc7843bfc671e39b0ea9359b94793cea5edb6ceb1ec3bf334163c8d7a9ef7",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/snugemwtem4-2/data.json",
+      "sha256": "1acf6b1fac634690c0888214015a33d8225d0a22d94a2f0df203e81049b77076",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/snugemwtem4-2/index.html",
+      "sha256": "f7ef5ca3efeddfd1980a556a374696a69e55022cfb2cb78f46b866861bb76799",
+      "size_bytes": 55884
+    },
+    {
+      "path": "resources/snugemwtem4/data.json",
+      "sha256": "bbf15cb75c5bb78e51836247df5b491b782f2917a2febd6375bc2c6b7e977a37",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/snugemwtem4/index.html",
+      "sha256": "ac627f63213b2997da1a7c2dfc7a5d7a37198f8538cfec88bceb68789b326ff9",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/students-scribing-lecture-notes/data.json",
+      "sha256": "fab3cc24cec638f9c89e607dea9bb72124f05f71825665eca7604cf3daaa58df",
+      "size_bytes": 1689
+    },
+    {
+      "path": "resources/students-scribing-lecture-notes/index.html",
+      "sha256": "140e97c57d234dac0a1d2d99f954de5d3403624356eefe0f8bfff068640699aa",
+      "size_bytes": 59446
+    },
+    {
+      "path": "resources/the-role-of-fun-in-research-teaching-and-learning/data.json",
+      "sha256": "2da3dab743c666286184e4ea5a6ae766ef5ec30cf525d7c1d5032abb0719e2e3",
+      "size_bytes": 1799
+    },
+    {
+      "path": "resources/the-role-of-fun-in-research-teaching-and-learning/index.html",
+      "sha256": "6d275464bde3332f0a9a6dbeceef9726d491d666e66995dd7b1f9d6feb942df7",
+      "size_bytes": 59606
+    },
+    {
+      "path": "resources/tku8_ljgcve-1/data.json",
+      "sha256": "fff33250f99666886f3a36415b1d148a383aede337bf2e65f5d7122bdf3ed349",
+      "size_bytes": 540
+    },
+    {
+      "path": "resources/tku8_ljgcve-1/index.html",
+      "sha256": "6672d7f925a9322db9d42bd619c04b3ba646b4a3139e6252560f37f582897c11",
+      "size_bytes": 56297
+    },
+    {
+      "path": "resources/tku8_ljgcve-2/data.json",
+      "sha256": "31bf65ae38575d99618cee82103ef650aaae299d8232de63f38c444fc7af3680",
+      "size_bytes": 545
+    },
+    {
+      "path": "resources/tku8_ljgcve-2/index.html",
+      "sha256": "35fd1f303e782345b985f3458d55cd0489a21d36238bc05bf7370b59257b9713",
+      "size_bytes": 55883
+    },
+    {
+      "path": "resources/tku8_ljgcve/data.json",
+      "sha256": "134eedc9e27547ba14ffdde623360f4fa1935f79351b848ebf223c58bbf22790",
+      "size_bytes": 545
+    },
+    {
+      "path": "resources/tku8_ljgcve/index.html",
+      "sha256": "cde8c5fa3d27891f57a129219837f71f6eb4a27b2bc2a9d515c79ce78b17d86b",
+      "size_bytes": 55873
+    },
+    {
+      "path": "resources/tubfcy_8dzs-1/data.json",
+      "sha256": "d2bf2d0c2496a3be280f58f9a16108102eff590faf6123451473b350930c3688",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/tubfcy_8dzs-1/index.html",
+      "sha256": "58e4c899731fcf44bd3092e6c291ea525b4c4773f1c6806945f38d66be2d4a1e",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/tubfcy_8dzs-2/data.json",
+      "sha256": "259c5b12cf7f83d4114ce210f12a6895948a603dafb89ddbf78976af1c7619da",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/tubfcy_8dzs-2/index.html",
+      "sha256": "36b71683132d50d5bf5105f4db68412f08bea110481647cc86f6d8423674f8f8",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/tubfcy_8dzs/data.json",
+      "sha256": "2abcfe27662afa20042ac67431cfbfdece4ceebd6027278d08ae0ea096b1920f",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/tubfcy_8dzs/index.html",
+      "sha256": "a48a095d9773f7f93178a91384c5c6246b93d16a364c701e00befe89438f6aef",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/using-a-survey-to-get-to-know-students/data.json",
+      "sha256": "d399acbe20a9a02436fbacffbfc09b5fe5fa91ca9d17728b2c58dba0db237ddf",
+      "size_bytes": 1681
+    },
+    {
+      "path": "resources/using-a-survey-to-get-to-know-students/index.html",
+      "sha256": "4863d03743b2d76d4a539be3602bf3cb7a9ea873b6bd42ed7a8f9f19348b9507",
+      "size_bytes": 59505
+    },
+    {
+      "path": "resources/video1/data.json",
+      "sha256": "8d0e3d791b951099448d8357fc2f9a1666bf1c845ea207cc48e4f1806862a068",
+      "size_bytes": 850
+    },
+    {
+      "path": "resources/video1/index.html",
+      "sha256": "e5d520276b9137a03306e68f65d0002b94ee3d6a08c539c28db35bdaa65e3f72",
+      "size_bytes": 56118
+    },
+    {
+      "path": "resources/videos/index.html",
+      "sha256": "0943c7bcf921150f33bacf882b0f92e626677b983c4e7134cdde7c6c94bff8b8",
+      "size_bytes": 64106
+    },
+    {
+      "path": "resources/videos/index.xml",
+      "sha256": "08c67a7cc0fb42084e8581289b8ca70abaad9a17544cfd03883550a4af30f868",
+      "size_bytes": 3015
+    },
+    {
+      "path": "resources/x-ik9yafapo-1/data.json",
+      "sha256": "83150468db274d8cd5a5ea03cc201333d73da8908149c4b31270136656ba4d84",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/x-ik9yafapo-1/index.html",
+      "sha256": "a152e606b3e1c623ec41077fd31032ec7dc9ca6c5cbab9d095512dfd5fca01dc",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/x-ik9yafapo-2/data.json",
+      "sha256": "e7f61e7cffe43b5d128b9dab28315ad7b9603e9aa0d04c78e8297f900e447de2",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/x-ik9yafapo-2/index.html",
+      "sha256": "1079d9d3e9dc784863a5703d51fc8f8df8108bda4dc2f3d0c124eb05675e3736",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/x-ik9yafapo/data.json",
+      "sha256": "b6e32f4655f5a0db752ca92101a9a46b4379097ba88df1b4163c69e412a45e42",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/x-ik9yafapo/index.html",
+      "sha256": "7efd3322b17eb202b95b2c74da5722799be9693836fd824d7fe1cfa7bee6e5d1",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/x05j49pc6de-1/data.json",
+      "sha256": "a19f7a8e868e67cee7f2d4657124b2d47ebbad2a3b605726b19ff84fd9ac5a39",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/x05j49pc6de-1/index.html",
+      "sha256": "1cf6ad8bb65d6785783b42057648b0bd7f89ff662e514e0198c3ffb78a2027c7",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/x05j49pc6de-2/data.json",
+      "sha256": "d0fdcf98171468f11b1282bb88375f94122e98bfba8e757394fb65bedd523d49",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/x05j49pc6de-2/index.html",
+      "sha256": "a7e56d99d9e00b774d9f0b2845e5843b0e88c0061de74d6bff6c4c910cf4bcb5",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/x05j49pc6de/data.json",
+      "sha256": "88088022477a257e8f9c0cd8a2837cd9b8341d04fd044fb31667c4b9750e6ab6",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/x05j49pc6de/index.html",
+      "sha256": "d58df065de01b8ef89675ebd64f9e2a128d3e55a1642ab4921216209fa28fbff",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/xrotp1rinaa-1/data.json",
+      "sha256": "f9005f6b87138f5b39e6b84610b2e3f8a7f6ce8df6870dac5c4510987e0728fc",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/xrotp1rinaa-1/index.html",
+      "sha256": "a28531a4e16f94506a12d0fd14bd8b5fd6b129f158b2c011e0b5cac247377e74",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/xrotp1rinaa-2/data.json",
+      "sha256": "07ff897988719c7bd82b8604af8ed108d448b0b45ad8b9a5517388a7b53d9602",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/xrotp1rinaa-2/index.html",
+      "sha256": "c5f07c934f0c41c96aa9d86b646b753b7aa2d6b02ea7060ef28811944a3c0143",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/xrotp1rinaa/data.json",
+      "sha256": "24040a686c86822839dcc42ed7d9af19025077ceecf2f0db326e8a453d6ea66a",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/xrotp1rinaa/index.html",
+      "sha256": "bb4219b54b395a3886eb0b7baf52b38a0327a2f6a0825de4021e0a4554270f0d",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/zasmm2xvatw-1/data.json",
+      "sha256": "1b3d079f393883a23e291751680c42594a486a6796d08d6006d37c1121aff89f",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/zasmm2xvatw-1/index.html",
+      "sha256": "382db639daf2691cfc5fd137fc411f45ebd4f9d4fa7a3c107bb42a8f00e639f8",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/zasmm2xvatw-2/data.json",
+      "sha256": "005830c5cee783d88fc61945205338efb17e342ae0ed2a92aee2adb2e2c06da4",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/zasmm2xvatw-2/index.html",
+      "sha256": "f70b847fbec2850506d8b14f3c516ac65c9429945a284b17629c033d33d363ac",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/zasmm2xvatw/data.json",
+      "sha256": "74db9260c251e83ecbcfd394655c82c43bec3e5455fd49b8f66aab2e552c8796",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/zasmm2xvatw/index.html",
+      "sha256": "196b6dc4d7b892964be4cf8ee7e089056cdbc2ca7127b64448a66ed866e2b7e0",
+      "size_bytes": 55875
+    },
+    {
+      "path": "resources/zivilyrf1ak-1/data.json",
+      "sha256": "fb9847317cb2281bdb763deb84ec8fcbfc367d3950078aba4198b28a67b22342",
+      "size_bytes": 541
+    },
+    {
+      "path": "resources/zivilyrf1ak-1/index.html",
+      "sha256": "e4ece3f5040870b02a97ce48914ad7d1469265817d3ae8e433228ea1f69cedbe",
+      "size_bytes": 56298
+    },
+    {
+      "path": "resources/zivilyrf1ak-2/data.json",
+      "sha256": "284d0643c83a4db01753084cd58e0bed312a7cf56aa5a8561b38ec26b0fbb0f8",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/zivilyrf1ak-2/index.html",
+      "sha256": "a71816a852b14f5f6ce84992a6473ab4225d2d0f8a3e132189cd4ae773fafccf",
+      "size_bytes": 55885
+    },
+    {
+      "path": "resources/zivilyrf1ak/data.json",
+      "sha256": "a9eef4a20be305e5dbf6fb06784883e717b8238a5abc51515ff614b5763d9ace",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/zivilyrf1ak/index.html",
+      "sha256": "6670836d1e868630b950377078b67db90d1a7b077e48e0b123a19ddf78fde0a0",
+      "size_bytes": 55875
+    },
+    {
+      "path": "robots.txt",
+      "sha256": "f27970d7026ceb04fe68877b9fa112cf6a93a2bd537c8dce7e7fdc27182d5a62",
+      "size_bytes": 64
+    },
+    {
+      "path": "sitemap.xml",
+      "sha256": "3d4cb7bb30e7ceac4b1f6f8f942062860a83215ee0874456c4e5accd68455ff4",
+      "size_bytes": 19624
+    },
+    {
+      "path": "static_resources/00f8d38fb4fcb73f7873d282177524f8_Ih0cPR745fM.srt",
+      "sha256": "566f87e5108aaa88a144c94d4de78ed4d335b31eb1221c4b7ef85622a6d70386",
+      "size_bytes": 103629
+    },
+    {
+      "path": "static_resources/0136ae4a51fdf8da1213f4a3ec4a089f_MIT6_890F14_Lec20.pdf",
+      "sha256": "3d01a1c4e5f736c7506b2d4e979bb9b45ff054854090bd6dee012308d9a5001b",
+      "size_bytes": 589669
+    },
+    {
+      "path": "static_resources/01cf377318dd44fd80dcce695f0bdd69_iDNpHHO_O6w.pdf",
+      "sha256": "de6377bd946b098bcefffacb24c9d37cb7a98db455fb485d15d958e7b3ece20e",
+      "size_bytes": 14544
+    },
+    {
+      "path": "static_resources/0233a11137455af2fa49798679fcc505_R-0_0OQ2f4Y.srt",
+      "sha256": "06d21501cb75015bb2c48835982491558553af1c5c65ffdbd8c65d944eb6854d",
+      "size_bytes": 104045
+    },
+    {
+      "path": "static_resources/046387ca8954b9563392ea44e2ce0321_MIT6_890F14_ps4.pdf",
+      "sha256": "c94ad705bf1706d207825c2ab4f8e187b4b92561ed169daebc4ca74c39b05956",
+      "size_bytes": 241551
+    },
+    {
+      "path": "static_resources/06f3a8bdb2ef55e6ba397f081c5e177c_tkU8_LJGCvE.vtt",
+      "sha256": "6a7ba20f24712cd403d8c7c4a9eb32298c64b0e9adb09542c838757354f5dad0",
+      "size_bytes": 1609
+    },
+    {
+      "path": "static_resources/098af6ecb0eb3ed96d1f252c98ba6cea_ctxnYDAIDO4.srt",
+      "sha256": "2ff3e881c91511563ee4467b3ab80163cbeb8ce9d5ca7bac75ca85fbe164830d",
+      "size_bytes": 104685
+    },
+    {
+      "path": "static_resources/0b5d5d25afc35344b17953ee3edebef3_X05j49pc6DE.vtt",
+      "sha256": "5545aa892bfa247089272fa1f9790b0194c25f676e6702f90e38df2bef6f5460",
+      "size_bytes": 103446
+    },
+    {
+      "path": "static_resources/0b68b7d32529220235c0847ba7f551aa_MIT6_890F14_L09.pdf",
+      "sha256": "4f2a88dc579d38879d158ba9cf43f4c01b17feb45779c870a71554fb5839aaf0",
+      "size_bytes": 5755608
+    },
+    {
+      "path": "static_resources/0bd4a06b50fa50e19b2ff9480ae99e51_607359.vtt",
+      "sha256": "7a1e21201f555b48c68b56fc8159f456cfb72bb1674b7e2d744c14fbc5c47caa",
+      "size_bytes": 127703
+    },
+    {
+      "path": "static_resources/0f54b0ee1f3f47108c3bafaec54fd553_MIT6_890F14_Lec21.pdf",
+      "sha256": "6597d84fc17e45feb91e33dbd85c8fb8b6d27b8d04c19527b3794e6e972dae26",
+      "size_bytes": 721945
+    },
+    {
+      "path": "static_resources/0fdd3c2e874994ce56955522e1531ac0_aDmFyu0Yt7s.srt",
+      "sha256": "6cad8dd4af3eb8d0476931c669d1a37954d042bcd5df90113a32ab4605516f17",
+      "size_bytes": 123577
+    },
+    {
+      "path": "static_resources/11d49faa9551e409ba29a5dae5ece9dd_37.png",
+      "sha256": "3dfa58fc4051a115039b1251b690b024399c47bd504636079d67536035d86c9e",
+      "size_bytes": 3773
+    },
+    {
+      "path": "static_resources/138add3a96bd886a983b8144183ca203_c5Myaxq44mI.srt",
+      "sha256": "8d83c408e8bf9a3c354159a32a52cf14f115b745bb41e3ad2e9a5dd1e1366e38",
+      "size_bytes": 5599
+    },
+    {
+      "path": "static_resources/150bce5949a8b8235cbc833da8df6b3c_MIT6_890F14_L23.pdf",
+      "sha256": "60fd4c46b5f6234725aa84d31aa09a56b4670470d5b8dcea32372c7c8293ad91",
+      "size_bytes": 8831066
+    },
+    {
+      "path": "static_resources/15d4db927e532402521538097503bff2_aDmFyu0Yt7s.pdf",
+      "sha256": "73221ff18a2285d62c2fb2f989761c7787a72b00e6d71c5bef4e4875d5b1b189",
+      "size_bytes": 121140
+    },
+    {
+      "path": "static_resources/163d244c8ab074e246c843ccaf2fa7ae_MIT6_890F14_L01.pdf",
+      "sha256": "84c56b751be304aef82b70f52564a828f50e93197849427ea5cb50772746a5b1",
+      "size_bytes": 7074495
+    },
+    {
+      "path": "static_resources/181ac489f242370b6871450512982070_PFfv1JnQB8Q.srt",
+      "sha256": "73feb18b1a108b161a33330a66c54df02e5ee0917e1709756c7fb21257c60e15",
+      "size_bytes": 123474
+    },
+    {
+      "path": "static_resources/1a2ff45b31e8e695010a55eb322a46f9_MIT6_890F14_Lec5.pdf",
+      "sha256": "b159871c3d5d47fefb6b0a5178b6b1c1cb730181fca0a820d9783f610b63603c",
+      "size_bytes": 1151427
+    },
+    {
+      "path": "static_resources/1a8fdc92c7d6aab149e5ecc30470986e_TUbfCY_8Dzs.srt",
+      "sha256": "d5eff21835d5ba5311b5e6fefe1e907671f54afc83d38d1e77c34388fd105815",
+      "size_bytes": 115228
+    },
+    {
+      "path": "static_resources/1b027de3dce85502bf402bae685cfe3e_P3YoIxiz6to.vtt",
+      "sha256": "f93cef70ce038b878c55c0c64e8e0646ca7ee3ee181b9d914ae9578c2c7f5324",
+      "size_bytes": 104758
+    },
+    {
+      "path": "static_resources/1cbb7e1eaf4641d9d4fdc4939b02a3f1_X05j49pc6DE.pdf",
+      "sha256": "08ff023406f47c704b47810253c0d4b2b48eb04f8fdaae2610df749cd0a99cbe",
+      "size_bytes": 108881
+    },
+    {
+      "path": "static_resources/1ffdd109861edbe22b01ab0e94efe27e_MIT6_890F14_ps2.pdf",
+      "sha256": "a498f92cad6e50fe9b0b0f354436c60e0ef99c27c1702abc2af7f24a4f5db69f",
+      "size_bytes": 196905
+    },
+    {
+      "path": "static_resources/20ecbea5f94da4f2ea03bfd16be3f115_KU8I8LjnQgE.srt",
+      "sha256": "2111e369e2c063968a9b2985fe4108183dc61e024dffa29c464a964fade0066f",
+      "size_bytes": 132496
+    },
+    {
+      "path": "static_resources/222cf25c52fb880b8bcef31ff9d5cbef_MIT6_890F14_L20.pdf",
+      "sha256": "14e130f23de97debbec01b215d98668145dda0ced7eeabd45efa600f16f1f314",
+      "size_bytes": 6393921
+    },
+    {
+      "path": "static_resources/28bba424da898c3623d82cbf6e7bbf94_TUbfCY_8Dzs.pdf",
+      "sha256": "66cf687bc22ec0db62c91561a9c7668f26fb30dde12ea00e7c74fdd0644f5fea",
+      "size_bytes": 106046
+    },
+    {
+      "path": "static_resources/29f2819af477b344690efcca4f0f0aac_MIT6_890F14_Lec10.pdf",
+      "sha256": "845b3ddf55c10459d350b796a40a4cc8e721c3d8218b663d50d5602dd159a8b5",
+      "size_bytes": 234190
+    },
+    {
+      "path": "static_resources/2ac1c4db2e6f9ceb01789a42a8b32cb8_MIT6_890F14_L12.pdf",
+      "sha256": "a382792cd311bf595cbef9841ccce504a0fa0cb242104bb5a67fd9ad86d3ccf9",
+      "size_bytes": 6575026
+    },
+    {
+      "path": "static_resources/2c1fcef540d05ab2aa35dff545d79f13_Lm8WHM0glHE.vtt",
+      "sha256": "88f246b08c778567b479de129bfa5f8ea9103d825497befd8b54114c461eb5a2",
+      "size_bytes": 14108
+    },
+    {
+      "path": "static_resources/2c3913aefe7be0f98fcc16394ef6ea4b_MIT6_890F14_Lec2.pdf",
+      "sha256": "078f0f685462553d5ce8e564cb230116dcb0b8c9ca042cf1c468f99814ad0e13",
+      "size_bytes": 326223
+    },
+    {
+      "path": "static_resources/2de565943509c2608623b1630a6df289_MIT6_890F14_Lec15.pdf",
+      "sha256": "005e45c5d3513948a9e549cb72cae2398715089be62f52ae7ac4764902a7b30b",
+      "size_bytes": 630584
+    },
+    {
+      "path": "static_resources/2e2f2f5755442b3942cf9cf7c780abcb_ctxnYDAIDO4.pdf",
+      "sha256": "598fa3117a37ed4c38c4536d4b777875df0f60036428ca87bfc15b03eb848656",
+      "size_bytes": 101658
+    },
+    {
+      "path": "static_resources/2e30975f38f516e08cfd1c2eed047058_Lm8WHM0glHE.pdf",
+      "sha256": "308c0f51b600c263d858b547204de8407bb01fbe058a570b63c74679fdd3b397",
+      "size_bytes": 27308
+    },
+    {
+      "path": "static_resources/2f49f5d3649a5788fed9df55548169a9_Ih0cPR745fM.pdf",
+      "sha256": "4d3311c0a677700ba5137df2fed1b0607968bb4f025e4cf8a4bca0e5f28a029a",
+      "size_bytes": 99920
+    },
+    {
+      "path": "static_resources/2fb2bdfe4074cedeec632904fb5f1f0e_MIT6_890F14_L21.pdf",
+      "sha256": "8f528de28f8a4f88d0f9876ce0b9a76748f8718111c20de266fec4511655f794",
+      "size_bytes": 6522008
+    },
+    {
+      "path": "static_resources/301aa760e335dc72b9e21918d9b0d1b5_MIT6_890F14_ps3.pdf",
+      "sha256": "ae16744e58b1c931e51e7f952745235a38b8787436e0fd1544239166d05c45d4",
+      "size_bytes": 214566
+    },
+    {
+      "path": "static_resources/320983375593c2f900c80d2aac9de62e_7d73E1DiH0w.srt",
+      "sha256": "ecfafcb6f09da843c01d0f40d8c1df80241fb466b68b96487f76b6fa731bba4e",
+      "size_bytes": 123464
+    },
+    {
+      "path": "static_resources/3484ca334358590e85ddb8ea1006e638_TUbfCY_8Dzs.vtt",
+      "sha256": "bd136ab83f68e117644aa50210414a0b124d3d2a7a28ae2c3d35ed23edd1eeaa",
+      "size_bytes": 108733
+    },
+    {
+      "path": "static_resources/378d4376b42f8454d18bbaa761b01fe2_MIT6_890F14_L03.pdf",
+      "sha256": "6bfbc54ab749b5cc8c5ba498c159f10ebcf9f7b041af144f24c6f020d5497931",
+      "size_bytes": 6784956
+    },
+    {
+      "path": "static_resources/379a09ee436225c65e77b70962e29284_MIT6_890F14_L18.pdf",
+      "sha256": "9dce98010d58ce9bc8854b094c30df48d95b6781beac14c7c51b2dd0ae54737c",
+      "size_bytes": 6162743
+    },
+    {
+      "path": "static_resources/37d2265d14e9f9c64eddf9c6a11b0fa0_video1.png",
+      "sha256": "af63dc5adc6f688a9a4c2095d625798f35c6e97db6673aef7bb9bf5d397b0354",
+      "size_bytes": 207448
+    },
+    {
+      "path": "static_resources/380920c8cca55160b2dd6478457bd448_5GEKCOhiqro.vtt",
+      "sha256": "1868a0aa62b33a508b08647e0d0d110d599a51ac4e14cd0978adf8d09cdda248",
+      "size_bytes": 3235
+    },
+    {
+      "path": "static_resources/39c7a5aea055594fb38c4e2c5789add8_42TnAE67iaE.vtt",
+      "sha256": "426abea6b960536325159881a9dd04792680736027149dd9e99883846076d534",
+      "size_bytes": 120898
+    },
+    {
+      "path": "static_resources/3e380f0ae8274faca32c154d308aa13b_PFfv1JnQB8Q.pdf",
+      "sha256": "108de99e702826b4cb4754d0dc4b0facd74ba328a09f4fe3e201333ece3ab9b7",
+      "size_bytes": 120226
+    },
+    {
+      "path": "static_resources/3fae769a835edea4d43fa7b8415915de_KdN2mQ594t0.srt",
+      "sha256": "de83f48fda4fce46f335c7b1680ad6c287a2690a376976c9b2d88e53ca605b74",
+      "size_bytes": 10310
+    },
+    {
+      "path": "static_resources/44ae977ae570cc94200756e774c7edc8_MIT6_890F14_Lec11.pdf",
+      "sha256": "f12b07497455e8d483d4330eab5be6b5eb280ffdc71857a0777a2bec51a3317f",
+      "size_bytes": 785840
+    },
+    {
+      "path": "static_resources/45501cc1a964e91dae39a1cd00ce7233_LHBc2mE71yc.pdf",
+      "sha256": "d649b910aa9a0839178f6390060fe71740ac155553bebdacee9a84f398a12dbd",
+      "size_bytes": 119538
+    },
+    {
+      "path": "static_resources/46685ced40c4736e6700ccc458e46a64_e10dswn-grA.pdf",
+      "sha256": "4a9c0e4c724c81fc46f716f1c14c045226533aec998625b85bfa895940c43902",
+      "size_bytes": 133563
+    },
+    {
+      "path": "static_resources/4972dfb6839046b37f8319c65cbd1b84_x-Ik9YAFAPo.pdf",
+      "sha256": "d531c5a7bc1b4b89098e28d8e1f20eddf3e89584fe6de0741ded810c413eab39",
+      "size_bytes": 125876
+    },
+    {
+      "path": "static_resources/49b70e0ccc041399d1fd1d74d771e11f_ogbjia9gp34.srt",
+      "sha256": "ecc0376f089af5033bda82add5135ec5babb328206cf665aad23c0c5609afd05",
+      "size_bytes": 127834
+    },
+    {
+      "path": "static_resources/50abb2555bf05ceea4d068ff386d58d6_iDNpHHO_O6w.vtt",
+      "sha256": "12955dcabf31867b1751e5800b029f9cb16dbb3b7152fa1f030ff8c201c549ff",
+      "size_bytes": 4749
+    },
+    {
+      "path": "static_resources/52b7d1028498423d9bdbe763edeeec0f_P3YoIxiz6to.srt",
+      "sha256": "8314224b24b0276a90bc0c51e0f96068fe89d05892ea56e5b2b0f3f5080ef4db",
+      "size_bytes": 110983
+    },
+    {
+      "path": "static_resources/550a21ae3309a3b203c74320cf20a70c_c5Myaxq44mI.pdf",
+      "sha256": "f250e1c642fb1807dd09d9d10e6b65f456036ed06c65f218abef00e0c6403e28",
+      "size_bytes": 14824
+    },
+    {
+      "path": "static_resources/55dbe5108d9e5b469c85fac88eb27419_MIT6_890F14_Lec8.pdf",
+      "sha256": "2c9105cf2cb92e4f4880a87a2645324eba5fad374d845df9b0675c65d2b79d40",
+      "size_bytes": 1106013
+    },
+    {
+      "path": "static_resources/59bd9bf73f528a2c1b5076a3ff147218_MIT6_890F14_L14.pdf",
+      "sha256": "fee57d759c5f9255585f56938235a0e0caa4bb0c742400ac35f65dcc46ceec06",
+      "size_bytes": 6348040
+    },
+    {
+      "path": "static_resources/5b1c7e36d3e29a83ad0ecb15d7e002fe_MIT6_890F14_L15.pdf",
+      "sha256": "ae3007853d731851c52f18151f0cec805630d6d293422b94435490c1d761e57f",
+      "size_bytes": 7149324
+    },
+    {
+      "path": "static_resources/5b86b7a337805a309847021b3f79e082_Ih0cPR745fM.vtt",
+      "sha256": "2170a6499838f63ba2e0d616ad7011711b0200c689c8d6ec521a198e8eb8d3e0",
+      "size_bytes": 98004
+    },
+    {
+      "path": "static_resources/5c4559f475276a88c84e21fd238820de_Lm8WHM0glHE.srt",
+      "sha256": "ae66ad145d760ff036a1d342d2df5c7d7c9984991762987dd119a71b727f71b9",
+      "size_bytes": 14760
+    },
+    {
+      "path": "static_resources/5d458723f1d1cc6e098ab45f6b6a461e_MIT6_890F14_L17.pdf",
+      "sha256": "854c547ed58bbeac4e5701fe1b7125583fc3b6d67a8d34fd37b89851fbb5ab0c",
+      "size_bytes": 6709236
+    },
+    {
+      "path": "static_resources/5ea2b5a6f60e59bf88ec5d6a50334e20_ctxnYDAIDO4.vtt",
+      "sha256": "c1c1d707fb446f00bdf1cd284f820860babf56f1a1b22e26f5e54fdab99a5358",
+      "size_bytes": 98955
+    },
+    {
+      "path": "static_resources/5efbdd1bd5871cba65a9cdcafa510cd7_ziViLYrf1Ak.srt",
+      "sha256": "5ea1fa9a506591509a45ce1952094df63a6d82beedc97b2e8da8e52cbe6ed954",
+      "size_bytes": 123213
+    },
+    {
+      "path": "static_resources/5f663e049fa747acca993cbb466343bc_x-Ik9YAFAPo.srt",
+      "sha256": "64b48cd73940c0898ced2420132b40f0501f97e03b25a6a32bbd9c2fe0a593b3",
+      "size_bytes": 126398
+    },
+    {
+      "path": "static_resources/6534cd733bfdf138f1d75663920486fc_5GEKCOhiqro.srt",
+      "sha256": "890cee94947ea7d1394fa841b7497071ef3f6e7a4efff1e18fa96ebee53975ed",
+      "size_bytes": 3350
+    },
+    {
+      "path": "static_resources/670d590e9bc01f5d48cd49382f428134_iDNpHHO_O6w.srt",
+      "sha256": "d36a6948dd09a94bf2335c2a37df8c1f382b9b34fc2516c9cf3de9bfd7b6f303",
+      "size_bytes": 4924
+    },
+    {
+      "path": "static_resources/69db375a2d8de67568b15b3a47318d38_28WhZvnvsAg.pdf",
+      "sha256": "b48d6fe9e0c7f6a8d445b3c0d27f10d6a398f73dba779c6f02f3722ece5951dd",
+      "size_bytes": 115801
+    },
+    {
+      "path": "static_resources/69f41770a33d9ce5d0c3c32f91d4f458_MIT6_890F14_Lec22.pdf",
+      "sha256": "692030befdd545ae491c3ab4a5d4727e5ad224594ef1650dad7e2af627783e68",
+      "size_bytes": 513567
+    },
+    {
+      "path": "static_resources/6c074ac85c4e5401bbb55579ea0b1f0e_e10dswn-grA.vtt",
+      "sha256": "20607b3d94f808ec4025d3cc8f793dd2b9e85b6fe983c78b2fb737bd6d51b3bd",
+      "size_bytes": 128758
+    },
+    {
+      "path": "static_resources/6c51eb5f928ea1091337b8fe3adbe0be_MIT6_890F14_Lec12.pdf",
+      "sha256": "029b19cf3cefa9178ac50c7b4ee97a95020d7d1f3811ce52830fc95c5200ed4f",
+      "size_bytes": 245815
+    },
+    {
+      "path": "static_resources/6ca020c9a2e8c271bc33a93d1d0a1e73_XROTP1RiNaA.pdf",
+      "sha256": "e2b10d0eec6418bf0f9f6a5c4f8596d9dbaf292a9f0720bf45befd8ef2f3c1bf",
+      "size_bytes": 113617
+    },
+    {
+      "path": "static_resources/6de49ff0fd606da5ce092293899e4504_MIT6_890F14_Lec17.pdf",
+      "sha256": "e493869ac549febeae2113692de1928abcc9990727acd3d12902ae5de7e2848b",
+      "size_bytes": 444751
+    },
+    {
+      "path": "static_resources/6f479b98903ac77b7d8ed09c6fdf36ac_MIT6_890F14_L22.pdf",
+      "sha256": "15e87e76442c4cacc77792b4592145327f361c0c09c420cd9903026a256a1a20",
+      "size_bytes": 9609391
+    },
+    {
+      "path": "static_resources/70a0fd7b5ff95a11809156f866625174_rLOVwqMKlBc.vtt",
+      "sha256": "f1e818cd5cde6a1d4c0501ef1a999da3edaf9c214402d1ce95263871f754cc11",
+      "size_bytes": 12438
+    },
+    {
+      "path": "static_resources/71e0c7f63b56e633f2db3e307919deb7_MIT6_890F14_L05.pdf",
+      "sha256": "b8239722e2293dcf01d213f38e69aede60b2a47d4fb87c1fc454ec1619aa4271",
+      "size_bytes": 3765883
+    },
+    {
+      "path": "static_resources/73fcf8e65804e36e8c66b489652ab810_MIT6_890F14_ps1.pdf",
+      "sha256": "5ba2db6360cebad9db4cee726eaf046fe8620a3f59efc807eea8ed8feb19cecf",
+      "size_bytes": 181841
+    },
+    {
+      "path": "static_resources/7480dcab40c55ed3a64c78187543b572_ziViLYrf1Ak.vtt",
+      "sha256": "7ac4e8bfce0a3eaf01d84cf8b0913f16b0ebb8f280316ceabcb8340619a87202",
+      "size_bytes": 116168
+    },
+    {
+      "path": "static_resources/766e58ce52af45c4694d3c11d44ebcfc_ccD0yAk1wL0.srt",
+      "sha256": "8037e585db24bc3a8a32583f1b1d61028dbec3dcb91165d63dd48238573b3ad4",
+      "size_bytes": 131295
+    },
+    {
+      "path": "static_resources/772af84e250b10f148172fb96a12ecb0_ccD0yAk1wL0.pdf",
+      "sha256": "bbf9d15c688e7883fd4d92f5e9fbbe680dd52da887d37fe41251477e99f5a351",
+      "size_bytes": 127774
+    },
+    {
+      "path": "static_resources/7930fb627cdba4f785ae22935ee29145_MIT6_890F14_Lec19.pdf",
+      "sha256": "9ed4728fd78c66d59f3858fe79ac7725ede0401bb2d4e26cd57b778ce3c34c4d",
+      "size_bytes": 826105
+    },
+    {
+      "path": "static_resources/7dcba98b59a824d8a38824e9658d2c55_tkU8_LJGCvE.srt",
+      "sha256": "a5c315f82a7462bbe9c5be9b087478777539dba92aea1c92c10b746a04193536",
+      "size_bytes": 1655
+    },
+    {
+      "path": "static_resources/817353694baf50718943b87d626f728f_LHBc2mE71yc.vtt",
+      "sha256": "75cb9b0d3d17b338d31fb49e94453aac6706214abf651d5c2125af17a727184b",
+      "size_bytes": 114995
+    },
+    {
+      "path": "static_resources/85cc1f99860483bca3a4e1b2b41b2215_XROTP1RiNaA.srt",
+      "sha256": "7d63ce8c917668006bbe590a61d0916b1388226639504879ff44d1e86f567a20",
+      "size_bytes": 115829
+    },
+    {
+      "path": "static_resources/88f8b0029133bc72770a51971e72c0ce_MIT6_890F14_L04.pdf",
+      "sha256": "8a3bd197fbc061c7eeea720446cfc0e902642a2dd5db2ca684170bb06ae57947",
+      "size_bytes": 4899923
+    },
+    {
+      "path": "static_resources/8cd78c392d0c9af7094316058f26bb94_MIT6_890F14_Lec18.pdf",
+      "sha256": "49edb6f36e154c0a50baf3352a801e7c69ac420e9eb1b1477b78ec699ae32895",
+      "size_bytes": 938393
+    },
+    {
+      "path": "static_resources/8ceff56d218167a06306e815b5aecf6e_6-890f14.jpg",
+      "sha256": "0afe55ab71b1ce8343287db4c13712ab2d8569256dafdb3390f79a518aad4364",
+      "size_bytes": 73661
+    },
+    {
+      "path": "static_resources/8e509afd7891ea80494c956e107d87e6_28WhZvnvsAg.srt",
+      "sha256": "0a4cd80c7484ee1f69e78d5549d31b3af8609b0ee2ab7a9812e76867e95c5671",
+      "size_bytes": 122056
+    },
+    {
+      "path": "static_resources/8ecacba9f8d1564cb860fab85b65d90c_R-0_0OQ2f4Y.vtt",
+      "sha256": "354d0ce988d23a9b9cb57f03e9c2f29a3cc727772bc143e1b31cdfbf678c71ef",
+      "size_bytes": 98350
+    },
+    {
+      "path": "static_resources/92e11b8c0b515821cc1e3ea394b38ca7_KdN2mQ594t0.pdf",
+      "sha256": "2d0a4b1b2251652acd0af4ae08b9257d08ce1c410687b529856a6172b18289c0",
+      "size_bytes": 19557
+    },
+    {
+      "path": "static_resources/937a1b001afc051f98372ee91280f672_ZaSMm2xvatw.srt",
+      "sha256": "957f7fb369ac355bb1d2f6aea558cefd5b07825e7df39c978b67db09ad88f3e9",
+      "size_bytes": 123466
+    },
+    {
+      "path": "static_resources/9387c36390e93c3b6aed29d6d5094554_X05j49pc6DE.srt",
+      "sha256": "539f07165a5ab2c923898b2193025dbe9f0924f244486a541f81bdf9093553c4",
+      "size_bytes": 109601
+    },
+    {
+      "path": "static_resources/95934a201c481ecb5674fe9216002ff0_MIT6_890F14_L08.pdf",
+      "sha256": "1e2f5fe626b4111c249d557ff255208832c88957f9cf4f1585bd270c0b8f8fcd",
+      "size_bytes": 5358269
+    },
+    {
+      "path": "static_resources/96e33bbdf76b7f7d31b73adacf48c81b_P3YoIxiz6to.pdf",
+      "sha256": "e3908bcf78ba60225faaf8cd41514b8ba7f562595f6e5839cccd7ef391a2d974",
+      "size_bytes": 107536
+    },
+    {
+      "path": "static_resources/970d389f10b312aa160eecaba5249775_ZaSMm2xvatw.pdf",
+      "sha256": "823e8050c625ed5b45bdb23e6e25067c109ec0d78d725bf0635a75d1709b5455",
+      "size_bytes": 116613
+    },
+    {
+      "path": "static_resources/98331c450627f0c04481e30563b9a6e9_snugEmWtEm4.pdf",
+      "sha256": "72498b81f4672c1db007cdbbbddfb9dfd0d193eb27f939e6e1a4ec6eb2b395aa",
+      "size_bytes": 103150
+    },
+    {
+      "path": "static_resources/98f3528e0b2057f19a7a8c48ea15041b_MIT6_890F14_Lec4.pdf",
+      "sha256": "89cf2927ef4fa840e269fcf74f351e416f263aff8fdf4feb6a64e9dfcf90b80c",
+      "size_bytes": 530692
+    },
+    {
+      "path": "static_resources/99f8594abfc9058e0d04ae5b7ac51311_e10dswn-grA.srt",
+      "sha256": "d726e67dfb94b1f44587f47ff579f10b6d0423aab84bbad333c9da06fa148c96",
+      "size_bytes": 136653
+    },
+    {
+      "path": "static_resources/9bdfbf8da66341faf53b46997479d5d5_MIT6_890F14_L19.pdf",
+      "sha256": "d8a8c080674169a2401ef250ae133d87d7ebd15719427da13680f0180ec9530a",
+      "size_bytes": 7256628
+    },
+    {
+      "path": "static_resources/9e13fab037500b20c349eb1b9b1f8039_rLOVwqMKlBc.pdf",
+      "sha256": "26ffd4a3a3ec95ab4248e282d77322e47482aa344f4254682c99ae98a1d118de",
+      "size_bytes": 19980
+    },
+    {
+      "path": "static_resources/9e33e6db99205dce7216547e44fddde7_MIT6_890F14_Lec14.pdf",
+      "sha256": "37d94e36d5447d42cb540964beae1c4ed5bde69e3f885fb11fb7a697dc29d331",
+      "size_bytes": 404401
+    },
+    {
+      "path": "static_resources/9ea282729e3cc246aed257725b79fc6f_rLOVwqMKlBc.srt",
+      "sha256": "267ae25dac2929f662ebbfa3bb35685a462498a7c080c5a98cd55ed37f406852",
+      "size_bytes": 12994
+    },
+    {
+      "path": "static_resources/9ef970bf043cd5436a503a6b317718f5_42TnAE67iaE.srt",
+      "sha256": "297a8d6f62b5f2fa54eb6a42a413ccd20d9580c25b78e84fe5f1a3df5cb8aa0d",
+      "size_bytes": 128373
+    },
+    {
+      "path": "static_resources/a0328fe0c6ae56bba517d5c0f6ee0ecb_c5Myaxq44mI.vtt",
+      "sha256": "208788e24d60e989fc583bc762a21c940ad178e87d1a0decbd73ce515a778645",
+      "size_bytes": 5394
+    },
+    {
+      "path": "static_resources/a1a6db78a4d61abdff0997739eaa78d7_MIT6_890F14_L06.pdf",
+      "sha256": "c62ff1117e25f4111b60cac387fd9f541caa8476d32975eef6e0b34bb2240235",
+      "size_bytes": 3557011
+    },
+    {
+      "path": "static_resources/a22b0c51cb84c7b9065786ecadd5533f_5GEKCOhiqro.pdf",
+      "sha256": "b43f440690c2d47a549d577b7b8b203e01896d13d6929391cc6c264709f77fc6",
+      "size_bytes": 12201
+    },
+    {
+      "path": "static_resources/a6dddea2f20d0b8cd6388331c2deaf10_MIT6_890F14_L10.pdf",
+      "sha256": "faacc9884fea2cb9064bd8b4c0bddb2c4aec5682f90f28ec55ac7e5fc67dba60",
+      "size_bytes": 7763712
+    },
+    {
+      "path": "static_resources/a9b1835abd1e8ba93fd17587a722b0c9_7d73E1DiH0w.pdf",
+      "sha256": "b12c5b513c72898c338e4fe72c433713be9301b6283427f719f2020acda0f638",
+      "size_bytes": 123737
+    },
+    {
+      "path": "static_resources/b1e6726e65c3923a5c8de9338291d046_MIT6_890F14_ps1-solutions.pdf",
+      "sha256": "34c4304ffec8713e08b599b09c0cb614ca6880dd65949a408f66045c36df1d4f",
+      "size_bytes": 259909
+    },
+    {
+      "path": "static_resources/b3135802d9193e6d50c3f4e03d973e15_LHBc2mE71yc.srt",
+      "sha256": "fad1a0dca32d625c5f4e98d09c66ef441b24ae031977a1bf2f567657654356a0",
+      "size_bytes": 122120
+    },
+    {
+      "path": "static_resources/b36674f95c3477fc51402cb998da871e_KvBk_u8NNp4.srt",
+      "sha256": "1c5a1cb8db0f75c5610d01cbde480f2b60a2f89a6bfd41b7eb92e4db2f1542be",
+      "size_bytes": 125347
+    },
+    {
+      "path": "static_resources/b613e7ab4aaf567bc424143c3dd46a4b_MIT6_890F14_Lec13.pdf",
+      "sha256": "3cb7657520a5d27f64c08c2c33efcb0d26872012e00cf43b57e82a79df72335f",
+      "size_bytes": 437940
+    },
+    {
+      "path": "static_resources/ba02edd2026458eab83acbaebcd0ce15_28WhZvnvsAg.vtt",
+      "sha256": "5e83fc8a8679afe46375950cc00d826b419bbb3fc0f855d9f92e4baad1f0979f",
+      "size_bytes": 115001
+    },
+    {
+      "path": "static_resources/bbf18a16a3515dbfb08a93fa3aa69a91_ZaSMm2xvatw.vtt",
+      "sha256": "aac452b87bac22e99b73b77279523749c5b3df31cb895541e7f63cb0d68dbbac",
+      "size_bytes": 116181
+    },
+    {
+      "path": "static_resources/bd419a2c38833c0bed0478bfc83ff3e3_snugEmWtEm4.srt",
+      "sha256": "607cb9e46fd735f774fc5d04c98f917604c04d7227a83454bb0e8fa640c02600",
+      "size_bytes": 107816
+    },
+    {
+      "path": "static_resources/bd4b8351aef7c954540806488e75cf76_6-890f14-th.jpg",
+      "sha256": "17a51e474fb8915e34a12c68ffdc41eda01fa2e64d0b43e0cf52fad51cb62cc3",
+      "size_bytes": 8485
+    },
+    {
+      "path": "static_resources/bf556dddcfe25c57b0e3f7aea6f2fa12_ogbjia9gp34.vtt",
+      "sha256": "d5a3719082a233fa8ad4ab4a06379e46256c62a08d0550aeae8c54f4b7644b1d",
+      "size_bytes": 120359
+    },
+    {
+      "path": "static_resources/c02fa9e7300d5a4b8fdb7ddaacb457fd_7d73E1DiH0w.vtt",
+      "sha256": "91bd7970ade3977ab62bc745f55f002a0728fc4e5e5fe5a5839a18ec251e90bf",
+      "size_bytes": 116229
+    },
+    {
+      "path": "static_resources/c084c158d5d3585a2111cb1d6cea80a0_MIT6_890F14_ps2-solutions.pdf",
+      "sha256": "99ddfe722df72a409d4999596b30e1bd55484034e6b56bc6c1fff645451f2ba7",
+      "size_bytes": 228384
+    },
+    {
+      "path": "static_resources/c3c81efaca6a58929ff1fc374d1ff80b_PFfv1JnQB8Q.vtt",
+      "sha256": "00060485b970b6a7a42fe8a98e06cafb9ff51ad642ae66a506f967b52ddd90c7",
+      "size_bytes": 116399
+    },
+    {
+      "path": "static_resources/c3cc3b1e110757332ffabd6ae8d7a3b4_MIT6_890F14_Lec7.pdf",
+      "sha256": "6c85b89cee735288dab9975260fc07054e0ed225e3fbb1e356e21b3307dc0c9b",
+      "size_bytes": 1096388
+    },
+    {
+      "path": "static_resources/c485aa149f746d03f9174dd9e8542a07_MIT6_890F14_L13.pdf",
+      "sha256": "405e8ccdd82c0fc9ddd893e85a9a1d2ac42305d2bdb7ee35bf42fa7f2c966769",
+      "size_bytes": 6485372
+    },
+    {
+      "path": "static_resources/c563f3b2ced7517bb7668cb3cbb5c82c_KdN2mQ594t0.vtt",
+      "sha256": "90b52ae5a666721c5bb27451292e124a6dd89f223cb3321a4e83f412e1c02da3",
+      "size_bytes": 9870
+    },
+    {
+      "path": "static_resources/c5c8daa42f795c84b317693d35f54962_XROTP1RiNaA.vtt",
+      "sha256": "f1a4f3ea777d1a4fcc475c1add6ddb2249bd2733ba50cc25ab54ab7ece11012c",
+      "size_bytes": 109349
+    },
+    {
+      "path": "static_resources/c8fb4a358e2d5958beffe03251f6644b_KvBk_u8NNp4.vtt",
+      "sha256": "f2a8e3ce50fac68696a696be0d7819461528a730ca3c931dcc0e5c12d51cb114",
+      "size_bytes": 118257
+    },
+    {
+      "path": "static_resources/cd950adceafafac5d92e4ad0f0e4244d_MIT6_890F14_ps3-solutions.pdf",
+      "sha256": "237b8d3ade3ae9d6ed1252251b14ed7f1c9b366bb80de11ea10d6b122c8f8f53",
+      "size_bytes": 228953
+    },
+    {
+      "path": "static_resources/ce93ec0101c85237a48fc5c64ce5c6b3_aDmFyu0Yt7s.vtt",
+      "sha256": "86649679de605a62b08e01fa674bede1c0e2f8dc4dadc394139a0350d3b26bbd",
+      "size_bytes": 116397
+    },
+    {
+      "path": "static_resources/cfe9b113a50b2dc84fc1b48a70ea4abe_EMyRV3H4Vf4.pdf",
+      "sha256": "a7ec973eb67b4b72c84181573a685f788233dc076bfdf88cb9589cfd464bf84d",
+      "size_bytes": 11101
+    },
+    {
+      "path": "static_resources/d31100411b981d21625aae116b68a0c9_ziViLYrf1Ak.pdf",
+      "sha256": "0a4c3bb40e207dbf8d2369eaea263e7dc00b90bb33bc90ded526ca88f3dd8f56",
+      "size_bytes": 119510
+    },
+    {
+      "path": "static_resources/d42884beef5e3693cdd0df10cb010102_KU8I8LjnQgE.pdf",
+      "sha256": "cc0a9314fcbcbec6971809a15b2e5038b1f6b952c6cfc33cc94a034025351043",
+      "size_bytes": 121184
+    },
+    {
+      "path": "static_resources/d912936386d6510e901850815a3c81f2_x-Ik9YAFAPo.vtt",
+      "sha256": "9c763e7f35918b00ec86ecfb21b080fb24b708c1497337f3572c9ed281f5d995",
+      "size_bytes": 118938
+    },
+    {
+      "path": "static_resources/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "static_resources/dc29e2d9adf55ae98991568d55123089_tkU8_LJGCvE.pdf",
+      "sha256": "d76c6598bb7f9b70e53740cc2e3c9091f73878a077888bfa220375eb20e0fe49",
+      "size_bytes": 11344
+    },
+    {
+      "path": "static_resources/dc9caae257005aa9be53d7ca122892d0_EMyRV3H4Vf4.vtt",
+      "sha256": "81d1e5590e80134d367143b59c40190627afabadc1c097190bffc18c03c108c4",
+      "size_bytes": 1715
+    },
+    {
+      "path": "static_resources/deb635e72c095b8ea8f0d83f99b30b5c_MIT6_890F14_Lec16.pdf",
+      "sha256": "7004134177e576b6a6afc89d3f5f062f7c2b2e51b11219d7681923991d303dd0",
+      "size_bytes": 240094
+    },
+    {
+      "path": "static_resources/dfe5d44d5b0cc37c3c78b27c7d8d629b_ogbjia9gp34.pdf",
+      "sha256": "f7f690994aaea624b69a6b2cc8b5f7e45017b129380bf8e5273c0ea237cc7a98",
+      "size_bytes": 127133
+    },
+    {
+      "path": "static_resources/e076e8ec069e10e62e24558515770ec9_607359.srt",
+      "sha256": "690da3591ef9351ee2a256976eedb7b7350ed80cd09d2ad74e11950f74785b59",
+      "size_bytes": 135633
+    },
+    {
+      "path": "static_resources/e355c24e7d9c598ba389e502507a0722_KU8I8LjnQgE.vtt",
+      "sha256": "3fdd1476dd4977de546b9d075cb3b376b25cab85978cdc3e1eeb0bb8f7a36418",
+      "size_bytes": 124531
+    },
+    {
+      "path": "static_resources/e41986f9b5f6757eea47008570480e09_MIT6_890F14_ps4-solutions.pdf",
+      "sha256": "2e2117a0981f18791961c836edf723194cfba2608b096868c9795ddb78468f4a",
+      "size_bytes": 340272
+    },
+    {
+      "path": "static_resources/e5eae880ad7f5b3a9116c1063377e7c1_MIT6_890F14_L02.pdf",
+      "sha256": "b5e2ada81deded4533b3a08ee6cf084f8102000ee50f8619750c571f3e6940a0",
+      "size_bytes": 7107358
+    },
+    {
+      "path": "static_resources/e716e5581d7d3f6c1b16d0f0df229a16_EMyRV3H4Vf4.srt",
+      "sha256": "31f0f9a40555e3d9cc846753b2460e9ba5aa2e7e4667f3df7ce8aeb0d7eed96f",
+      "size_bytes": 1767
+    },
+    {
+      "path": "static_resources/e813eadf1c210461907cebf616b39f01_607359.pdf",
+      "sha256": "98014ef711baaefd6dac2f59ce31cafe691c53aefc4073fb7d15c545e8cc3021",
+      "size_bytes": 126649
+    },
+    {
+      "path": "static_resources/e917148453e0682464d26f2bdeb9cccd_MIT6_890F14_L16.pdf",
+      "sha256": "393353ea69b96cb5096222766b677dbfb6b54b855808385f264496b010689a10",
+      "size_bytes": 3427568
+    },
+    {
+      "path": "static_resources/ec687620ecd4e8920b8ed61b05cd8ea3_MIT6_890F14_Lec1.pdf",
+      "sha256": "8ef8da796ce725408cb4300df5063d31f3197dfe535260e2f80d2d204d356601",
+      "size_bytes": 259500
+    },
+    {
+      "path": "static_resources/ee115867a0dc99580dfc31acdb84ce4a_MIT6_890F14_L07.pdf",
+      "sha256": "9b122aaee567c283436ac342b2bf1a2613d4e0191f1895c446bc02b0b0ea978c",
+      "size_bytes": 4120910
+    },
+    {
+      "path": "static_resources/ef64130546a61c6585ae43f8c57acd63_MIT6_890F14_L11.pdf",
+      "sha256": "62c3a1d3376ad6a9952ee618080bad433ea5af51ebcac2ae8217a91465404fcf",
+      "size_bytes": 6863379
+    },
+    {
+      "path": "static_resources/f06331cdecf662934ec4d5a8abc23e88_R-0_0OQ2f4Y.pdf",
+      "sha256": "8080541e23c1bf17a0b1a5a84a23cc3cf3a2ad2140357fa842ee0e37cc5bfda9",
+      "size_bytes": 101049
+    },
+    {
+      "path": "static_resources/f167a72b77845411878dceeb2bb510b6_snugEmWtEm4.vtt",
+      "sha256": "77ec3b55a97f4e97b066ca453c7157be0a69b636b975b66ad4ebc35d2f3b3e51",
+      "size_bytes": 101831
+    },
+    {
+      "path": "static_resources/f2f74450160b1be37804ec7d575fa74e_KvBk_u8NNp4.pdf",
+      "sha256": "b8f3c4b427d02ea27a781576290fee6227a6275042f5d5436eedbe41d0c96d5a",
+      "size_bytes": 118477
+    },
+    {
+      "path": "static_resources/f39b10926a1f5e45a52d843395d7443b_ccD0yAk1wL0.vtt",
+      "sha256": "98654b7fd9ca78e97936170f39289d8cd9220b1190026c18bdd697099094857c",
+      "size_bytes": 123560
+    },
+    {
+      "path": "static_resources/f4b85d1099a48df722b9b358a8583dca_MIT6_890F14_Lec6.pdf",
+      "sha256": "d4d557751d72ef1f9e5b2df8074d67ea226e3f3607c4eaa90594a53aaea03578",
+      "size_bytes": 1038752
+    },
+    {
+      "path": "static_resources/f4fc896b3aed30ab961081a3a6f348ae_MIT6_890F14_Lec23.pdf",
+      "sha256": "124e8985d507d460d2a329d88927c4db1ff0def733f9da5989af75d77c64bed9",
+      "size_bytes": 269249
+    },
+    {
+      "path": "static_resources/f6faafb1d47635704271eafd71c29cfe_MIT6_890F14_Lec9.pdf",
+      "sha256": "da3724ae4cb469a9321dba142e4dcf414b932e493bfaf75d08b3f9b4b8b98c9c",
+      "size_bytes": 1475317
+    },
+    {
+      "path": "static_resources/f7e6cafb77cf48963a3aad56c9fef3b6_MIT6_890F14_Lec3.pdf",
+      "sha256": "afd21b71ec9926a9f853d5025d4c5b4125729814cd96aab22f47cd1efb0f2a3e",
+      "size_bytes": 402945
+    },
+    {
+      "path": "static_resources/fbab6fad5325cccca57a3e0ed8a92351_42TnAE67iaE.pdf",
+      "sha256": "57b659b3c99c68b1e4dfeda45af8117ebb5ea1f4562d7392408ab923cd73f6f7",
+      "size_bytes": 124173
+    },
+    {
+      "path": "static_resources/index.html",
+      "sha256": "03249ba6de1c14ea8e9fdd782f3561e9ed17da7afefdfd8477156d7dfef52203",
+      "size_bytes": 53631
+    },
+    {
+      "path": "static_resources/vtt00f8d38fb4fcb73f7873d282177524f8_Ih0cPR745fM.vtt",
+      "sha256": "2170a6499838f63ba2e0d616ad7011711b0200c689c8d6ec521a198e8eb8d3e0",
+      "size_bytes": 98004
+    },
+    {
+      "path": "static_resources/vtt0233a11137455af2fa49798679fcc505_R-0_0OQ2f4Y.vtt",
+      "sha256": "354d0ce988d23a9b9cb57f03e9c2f29a3cc727772bc143e1b31cdfbf678c71ef",
+      "size_bytes": 98350
+    },
+    {
+      "path": "static_resources/vtt098af6ecb0eb3ed96d1f252c98ba6cea_ctxnYDAIDO4.vtt",
+      "sha256": "c1c1d707fb446f00bdf1cd284f820860babf56f1a1b22e26f5e54fdab99a5358",
+      "size_bytes": 98955
+    },
+    {
+      "path": "static_resources/vtt0fdd3c2e874994ce56955522e1531ac0_aDmFyu0Yt7s.vtt",
+      "sha256": "86649679de605a62b08e01fa674bede1c0e2f8dc4dadc394139a0350d3b26bbd",
+      "size_bytes": 116397
+    },
+    {
+      "path": "static_resources/vtt138add3a96bd886a983b8144183ca203_c5Myaxq44mI.vtt",
+      "sha256": "208788e24d60e989fc583bc762a21c940ad178e87d1a0decbd73ce515a778645",
+      "size_bytes": 5394
+    },
+    {
+      "path": "static_resources/vtt181ac489f242370b6871450512982070_PFfv1JnQB8Q.vtt",
+      "sha256": "00060485b970b6a7a42fe8a98e06cafb9ff51ad642ae66a506f967b52ddd90c7",
+      "size_bytes": 116399
+    },
+    {
+      "path": "static_resources/vtt1a8fdc92c7d6aab149e5ecc30470986e_TUbfCY_8Dzs.vtt",
+      "sha256": "bd136ab83f68e117644aa50210414a0b124d3d2a7a28ae2c3d35ed23edd1eeaa",
+      "size_bytes": 108733
+    },
+    {
+      "path": "static_resources/vtt20ecbea5f94da4f2ea03bfd16be3f115_KU8I8LjnQgE.vtt",
+      "sha256": "3fdd1476dd4977de546b9d075cb3b376b25cab85978cdc3e1eeb0bb8f7a36418",
+      "size_bytes": 124531
+    },
+    {
+      "path": "static_resources/vtt320983375593c2f900c80d2aac9de62e_7d73E1DiH0w.vtt",
+      "sha256": "91bd7970ade3977ab62bc745f55f002a0728fc4e5e5fe5a5839a18ec251e90bf",
+      "size_bytes": 116229
+    },
+    {
+      "path": "static_resources/vtt3fae769a835edea4d43fa7b8415915de_KdN2mQ594t0.vtt",
+      "sha256": "90b52ae5a666721c5bb27451292e124a6dd89f223cb3321a4e83f412e1c02da3",
+      "size_bytes": 9870
+    },
+    {
+      "path": "static_resources/vtt49b70e0ccc041399d1fd1d74d771e11f_ogbjia9gp34.vtt",
+      "sha256": "d5a3719082a233fa8ad4ab4a06379e46256c62a08d0550aeae8c54f4b7644b1d",
+      "size_bytes": 120359
+    },
+    {
+      "path": "static_resources/vtt52b7d1028498423d9bdbe763edeeec0f_P3YoIxiz6to.vtt",
+      "sha256": "f93cef70ce038b878c55c0c64e8e0646ca7ee3ee181b9d914ae9578c2c7f5324",
+      "size_bytes": 104758
+    },
+    {
+      "path": "static_resources/vtt5c4559f475276a88c84e21fd238820de_Lm8WHM0glHE.vtt",
+      "sha256": "88f246b08c778567b479de129bfa5f8ea9103d825497befd8b54114c461eb5a2",
+      "size_bytes": 14108
+    },
+    {
+      "path": "static_resources/vtt5efbdd1bd5871cba65a9cdcafa510cd7_ziViLYrf1Ak.vtt",
+      "sha256": "7ac4e8bfce0a3eaf01d84cf8b0913f16b0ebb8f280316ceabcb8340619a87202",
+      "size_bytes": 116168
+    },
+    {
+      "path": "static_resources/vtt5f663e049fa747acca993cbb466343bc_x-Ik9YAFAPo.vtt",
+      "sha256": "9c763e7f35918b00ec86ecfb21b080fb24b708c1497337f3572c9ed281f5d995",
+      "size_bytes": 118938
+    },
+    {
+      "path": "static_resources/vtt6534cd733bfdf138f1d75663920486fc_5GEKCOhiqro.vtt",
+      "sha256": "1868a0aa62b33a508b08647e0d0d110d599a51ac4e14cd0978adf8d09cdda248",
+      "size_bytes": 3235
+    },
+    {
+      "path": "static_resources/vtt670d590e9bc01f5d48cd49382f428134_iDNpHHO_O6w.vtt",
+      "sha256": "12955dcabf31867b1751e5800b029f9cb16dbb3b7152fa1f030ff8c201c549ff",
+      "size_bytes": 4749
+    },
+    {
+      "path": "static_resources/vtt766e58ce52af45c4694d3c11d44ebcfc_ccD0yAk1wL0.vtt",
+      "sha256": "98654b7fd9ca78e97936170f39289d8cd9220b1190026c18bdd697099094857c",
+      "size_bytes": 123560
+    },
+    {
+      "path": "static_resources/vtt7dcba98b59a824d8a38824e9658d2c55_tkU8_LJGCvE.vtt",
+      "sha256": "6a7ba20f24712cd403d8c7c4a9eb32298c64b0e9adb09542c838757354f5dad0",
+      "size_bytes": 1609
+    },
+    {
+      "path": "static_resources/vtt85cc1f99860483bca3a4e1b2b41b2215_XROTP1RiNaA.vtt",
+      "sha256": "f1a4f3ea777d1a4fcc475c1add6ddb2249bd2733ba50cc25ab54ab7ece11012c",
+      "size_bytes": 109349
+    },
+    {
+      "path": "static_resources/vtt8e509afd7891ea80494c956e107d87e6_28WhZvnvsAg.vtt",
+      "sha256": "5e83fc8a8679afe46375950cc00d826b419bbb3fc0f855d9f92e4baad1f0979f",
+      "size_bytes": 115001
+    },
+    {
+      "path": "static_resources/vtt937a1b001afc051f98372ee91280f672_ZaSMm2xvatw.vtt",
+      "sha256": "aac452b87bac22e99b73b77279523749c5b3df31cb895541e7f63cb0d68dbbac",
+      "size_bytes": 116181
+    },
+    {
+      "path": "static_resources/vtt9387c36390e93c3b6aed29d6d5094554_X05j49pc6DE.vtt",
+      "sha256": "5545aa892bfa247089272fa1f9790b0194c25f676e6702f90e38df2bef6f5460",
+      "size_bytes": 103446
+    },
+    {
+      "path": "static_resources/vtt99f8594abfc9058e0d04ae5b7ac51311_e10dswn-grA.vtt",
+      "sha256": "20607b3d94f808ec4025d3cc8f793dd2b9e85b6fe983c78b2fb737bd6d51b3bd",
+      "size_bytes": 128758
+    },
+    {
+      "path": "static_resources/vtt9ea282729e3cc246aed257725b79fc6f_rLOVwqMKlBc.vtt",
+      "sha256": "f1e818cd5cde6a1d4c0501ef1a999da3edaf9c214402d1ce95263871f754cc11",
+      "size_bytes": 12438
+    },
+    {
+      "path": "static_resources/vtt9ef970bf043cd5436a503a6b317718f5_42TnAE67iaE.vtt",
+      "sha256": "426abea6b960536325159881a9dd04792680736027149dd9e99883846076d534",
+      "size_bytes": 120898
+    },
+    {
+      "path": "static_resources/vttb3135802d9193e6d50c3f4e03d973e15_LHBc2mE71yc.vtt",
+      "sha256": "75cb9b0d3d17b338d31fb49e94453aac6706214abf651d5c2125af17a727184b",
+      "size_bytes": 114995
+    },
+    {
+      "path": "static_resources/vttb36674f95c3477fc51402cb998da871e_KvBk_u8NNp4.vtt",
+      "sha256": "f2a8e3ce50fac68696a696be0d7819461528a730ca3c931dcc0e5c12d51cb114",
+      "size_bytes": 118257
+    },
+    {
+      "path": "static_resources/vttbd419a2c38833c0bed0478bfc83ff3e3_snugEmWtEm4.vtt",
+      "sha256": "77ec3b55a97f4e97b066ca453c7157be0a69b636b975b66ad4ebc35d2f3b3e51",
+      "size_bytes": 101831
+    },
+    {
+      "path": "static_resources/vtte076e8ec069e10e62e24558515770ec9_607359.vtt",
+      "sha256": "7a1e21201f555b48c68b56fc8159f456cfb72bb1674b7e2d744c14fbc5c47caa",
+      "size_bytes": 127703
+    },
+    {
+      "path": "static_resources/vtte716e5581d7d3f6c1b16d0f0df229a16_EMyRV3H4Vf4.vtt",
+      "sha256": "81d1e5590e80134d367143b59c40190627afabadc1c097190bffc18c03c108c4",
+      "size_bytes": 1715
+    },
+    {
+      "path": "static_shared/css/303.21a26.css",
+      "sha256": "c1f648b2a07d50db0226cb43b1f5841cf2f306cb556094acf37a9b672fb744a7",
+      "size_bytes": 17807
+    },
+    {
+      "path": "static_shared/css/303.21a26.css.map",
+      "sha256": "7590eab132bd704c0429aff614a94f416b748c2937a65d3cb29a65bb9af6b389",
+      "size_bytes": 40551
+    },
+    {
+      "path": "static_shared/css/common.21a26.css",
+      "sha256": "e648d57168dcccd56d0a43459c3f30d00fbfebee47979683af23506cce653e67",
+      "size_bytes": 47881
+    },
+    {
+      "path": "static_shared/css/common.21a26.css.map",
+      "sha256": "ca8adc60c06a479842b15ce28d22292d093b2fcaaebfa483812dabc0a2d92755",
+      "size_bytes": 61289
+    },
+    {
+      "path": "static_shared/css/course_offline.21a26.css",
+      "sha256": "661e0c900f6164473c23bfe2b422158922816f944ceadab029ba2bf8f706bd21",
+      "size_bytes": 282202
+    },
+    {
+      "path": "static_shared/css/course_offline.21a26.css.map",
+      "sha256": "c07b3cc3961d011d20ef247270a145ac90710873ec2909d9d132ccfd36613589",
+      "size_bytes": 440593
+    },
+    {
+      "path": "static_shared/css/course_offline_v3.21a26.css",
+      "sha256": "0d7f78ed94c17bc997de80768c81bf81834ef7d02ae9b342ae317ede9ea343b4",
+      "size_bytes": 330840
+    },
+    {
+      "path": "static_shared/css/course_offline_v3.21a26.css.map",
+      "sha256": "49def29aa8cdb207347d5c64f4811883a528ca8f61193bd3937b20245746dc33",
+      "size_bytes": 500105
+    },
+    {
+      "path": "static_shared/css/course_v2.21a26.css",
+      "sha256": "8e97b43ee04b92064dce52bc1cda20da8bdeb9e6a55d052a45b0396734b92951",
+      "size_bytes": 216594
+    },
+    {
+      "path": "static_shared/css/course_v2.21a26.css.map",
+      "sha256": "38e040c8e7e10a3f78fd7e698eeddcd0b0a4a9b1c54a93f55c68a359f2534f54",
+      "size_bytes": 338935
+    },
+    {
+      "path": "static_shared/css/course_v3.21a26.css",
+      "sha256": "32e12d049e9de3673b38ea645e2f3ace9b382e3c827d4d15e0662aa54556fca1",
+      "size_bytes": 313066
+    },
+    {
+      "path": "static_shared/css/course_v3.21a26.css.map",
+      "sha256": "b6e0c5f67a48e3493f6a2abd88b85f91c6f4ce91cd4796714722933b3d50432b",
+      "size_bytes": 459655
+    },
+    {
+      "path": "static_shared/css/fonts/e79607e9f7d62450a175.woff2",
+      "sha256": "01a175339f6171f48869d58bd2e48269684c55f03be64596b94bf1284d10e979",
+      "size_bytes": 12360
+    },
+    {
+      "path": "static_shared/css/fonts/ff9cb78ec9a131fc93a6.woff",
+      "sha256": "c87502d41ce30009d0ac09e3158b432e7de2c6ede500d3c580a92bee29b9c000",
+      "size_bytes": 14712
+    },
+    {
+      "path": "static_shared/css/instructor_insights.21a26.css",
+      "sha256": "0f147c57b35c1098980959b757643fa0141d2707937a7db7002e53b3a3e77486",
+      "size_bytes": 1178
+    },
+    {
+      "path": "static_shared/css/instructor_insights.21a26.css.map",
+      "sha256": "18f4a862116026458bd0b09cbf0e7a4228416d792e76f994bbbb34e97207a609",
+      "size_bytes": 6792
+    },
+    {
+      "path": "static_shared/css/www.21a26.css",
+      "sha256": "c011f3808984b641185ea627c62da9345796d7d5352198465604c7e8533ef8fa",
+      "size_bytes": 263643
+    },
+    {
+      "path": "static_shared/css/www.21a26.css.map",
+      "sha256": "46d768a5bb954162b21e2cf40052eb64c0538f1a8a8cf043beac64d70c3c38e9",
+      "size_bytes": 400538
+    },
+    {
+      "path": "static_shared/css/www_offline.21a26.css",
+      "sha256": "b212cf06c1d4e999c825e3e1ffd27c7b4a1061bafab07b4c445d2efabc8a3095",
+      "size_bytes": 283030
+    },
+    {
+      "path": "static_shared/css/www_offline.21a26.css.map",
+      "sha256": "983361cf7e0371dfc1f691025e690e1f52dbae19697fef8dd2bd3a0d803d0e83",
+      "size_bytes": 421729
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Bold.d7bf1aa6f322a64b2fc3.ttf",
+      "sha256": "a2f90f004f37f784b1ae74f2cfce1d97787748e8bd52c28be085bfa2c23e0df1",
+      "size_bytes": 339732
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Italic.0935d2ebbc05be3559b1.ttf",
+      "sha256": "7d27cc3796dfda24ef2f7e779b9269cd0fc08308345965ed7bf43525c3635522",
+      "size_bytes": 254072
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Regular.a0c1dc80c66cc03bfa1e.ttf",
+      "sha256": "67158e7e70dd1c2c5cc44f8d781e836426f143ee004ef100134897d64d8fa093",
+      "size_bytes": 390056
+    },
+    {
+      "path": "static_shared/fonts/Helvetica-Light.70359849afb40079a1c8.ttf",
+      "sha256": "a0b153852ff62a50aceb8f280d8fdb9c2bc77535a04eba5b1685a89965d96965",
+      "size_bytes": 161716
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.0beb27f30d92440091b4.ttf",
+      "sha256": "b854af078512be3f9e54819b4cc874d5485a13adc1e5bd8c22c992ccd7d8669d",
+      "size_bytes": 5784
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.8167faf7e3a9170d282a.woff",
+      "sha256": "a3d7fc991ed83ab545a9971d1114387b56b3c976cc649590cfe8e4aedf77f142",
+      "size_bytes": 3468
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.84f45410d085472240e2.woff2",
+      "sha256": "9fe6fbea73fd5d5941b695e766b50b6fbe78f3a7c66b072503cbe2a22a12c887",
+      "size_bytes": 2516
+    },
+    {
+      "path": "static_shared/fonts/MaterialIconsRound-Regular.subset.7154eae1d0e60e0dabe4.woff2",
+      "sha256": "9bbc544d3126d84861070b63aeb84f737716cfe85c44079528a11671f5f9f119",
+      "size_bytes": 724
+    },
+    {
+      "path": "static_shared/images/2c6f79ea9578979deb06.png",
+      "sha256": "c83ec79c94fdb8aa22b6d21581c3f325da9f22b16f5660edc2e0eec1a5da9d8d",
+      "size_bytes": 10160
+    },
+    {
+      "path": "static_shared/images/Facebook.d1f5caeb73d7d12505a2.png",
+      "sha256": "335d7215d25d5ae1b258faf0247b4c155017bdd7ce2e85af31a1a63a9c89504a",
+      "size_bytes": 550
+    },
+    {
+      "path": "static_shared/images/Instagram.4df41828ffee4ff33d8a.png",
+      "sha256": "67d2c3c11f2e4bf189946d60d3dca71c9b5e4a18c99e15ba36f8896830af8d49",
+      "size_bytes": 1127
+    },
+    {
+      "path": "static_shared/images/MIT-logo-red-gray-54x28.43de571d3abab470ba83.svg",
+      "sha256": "78514ce9eeda2a9ef16048cb823aa4e0cf83652d8e94843cc96fbe92c4691576",
+      "size_bytes": 859
+    },
+    {
+      "path": "static_shared/images/Youtube.7c9f62c4f1dc9515ebb4.png",
+      "sha256": "9131df94f34194ff4cfe9c08e176248eeee333c5672f889722932bb6282eccbc",
+      "size_bytes": 743
+    },
+    {
+      "path": "static_shared/images/a_logo_17.070ebe0244db38bbb10c.gif",
+      "sha256": "039a5a3bf1c2e37e3dd22e33428c88b25ec82a3a4b0d7d004d817ce3c7ac03bc",
+      "size_bytes": 2751
+    },
+    {
+      "path": "static_shared/images/audio_thumbnail.defc385448d97b770bae.png",
+      "sha256": "61e9ff93eefe1d6393d06df2b80492ab4e690f9f1cbf5cdeb20e6bd8a9543a0b",
+      "size_bytes": 9686
+    },
+    {
+      "path": "static_shared/images/bluesky-black.9f4523fcefa9b6f25be7.png",
+      "sha256": "843c15f349a11bdf2c97dda9a743d2860266a73bd26daa3a968f27784008a902",
+      "size_bytes": 1023
+    },
+    {
+      "path": "static_shared/images/button_start.9ec211e3e12cf97ca78d.png",
+      "sha256": "fd98ea4b4c3f3a6bb53f28aafd340839617209af2ed4cc58a30519010c4fe72c",
+      "size_bytes": 10153
+    },
+    {
+      "path": "static_shared/images/close_small.b0a2684ccc0da6407a56.svg",
+      "sha256": "56b7919d6fc87d95eb0a7df342aa696fe802d3d988cb643b04addf21416e44d3",
+      "size_bytes": 952
+    },
+    {
+      "path": "static_shared/images/course-v3-header-bg.69dc3a4c0f449f3641ca.jpg",
+      "sha256": "f009275f0fd0b4a187c9ee2bdb5101cc2be202cb94d152d87e5c3db4c46c1560",
+      "size_bytes": 136352
+    },
+    {
+      "path": "static_shared/images/course_image.5f27062ec0987f54efcf.jpg",
+      "sha256": "b10ce673a3ff24a0035a429002f7d7c60d5b8fa4b7e0a0424b45a1ce8c496d4b",
+      "size_bytes": 160536
+    },
+    {
+      "path": "static_shared/images/default_news.26aee386c42b7364dbd3.png",
+      "sha256": "69180aaf1841d11f848de2962b115334259fd32daa1b26cec7e008979d5421cb",
+      "size_bytes": 58301
+    },
+    {
+      "path": "static_shared/images/expand.a062b1c47b121e3c7e03.svg",
+      "sha256": "dc3a7002769e26ea6c2af7bd62e216a5ed2579e26224850cd76eb1f09da71f1a",
+      "size_bytes": 1326
+    },
+    {
+      "path": "static_shared/images/external_link.58bbdd86c00a2c146c36.svg",
+      "sha256": "c8bb31bb589c2c2e3f3ac8ff4905046ff954ec9201df357f499fdefea2293de8",
+      "size_bytes": 620
+    },
+    {
+      "path": "static_shared/images/heart.788fcfbec39be4547397.svg",
+      "sha256": "47256db6a051a41d7a9d3be758a9d608c157d837a9f422594171be115b026858",
+      "size_bytes": 3016
+    },
+    {
+      "path": "static_shared/images/heart_burgundy.e7c8635e8cc6538b89fa.svg",
+      "sha256": "47795d7e32c39148060ee722ab2e6e95a2e43cc50b662fbf2b563cb17b46af87",
+      "size_bytes": 1145
+    },
+    {
+      "path": "static_shared/images/inacessible.4e75069800b136c59203.gif",
+      "sha256": "ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629",
+      "size_bytes": 42
+    },
+    {
+      "path": "static_shared/images/left_arrow.3c482a1f6223bff3f0e6.svg",
+      "sha256": "f8872074c4ffead4bac353f9ff8c1e4e070aae58c0bc2ce8b9228ed54bd95785",
+      "size_bytes": 851
+    },
+    {
+      "path": "static_shared/images/linkedin-black.2f7f8a6a3899f5d1e1d6.png",
+      "sha256": "12af7d2297df1ad7e19765ebdddd85cae7dee079a3f53f1444f835489cd37762",
+      "size_bytes": 651
+    },
+    {
+      "path": "static_shared/images/mastodon-black.9e2de31a28415c123800.png",
+      "sha256": "ba95e46f4f484bef90e8dac4d383d3c8c5797b0537351e4dd65204a328ef1ea4",
+      "size_bytes": 1074
+    },
+    {
+      "path": "static_shared/images/mit-logo-black-red.1fdb4d046bb785ba6a3b.svg",
+      "sha256": "3509e5abca6ccf86c4b9d69ab031e205fb75721a82c4ee1c996ad81b37f21191",
+      "size_bytes": 860
+    },
+    {
+      "path": "static_shared/images/mit-logo-black.9ac6152a456f0f100d7a.svg",
+      "sha256": "d774a4a0f7c7638c60abe0b7da235f0a35a9baf0366943bca7eb81dc0fea4483",
+      "size_bytes": 509
+    },
+    {
+      "path": "static_shared/images/mit-logo-red.a9444ff319fe22027271.svg",
+      "sha256": "d4b00848632c364c6a80305f351cf3b7a55f294d500db52c8e8915eb355f44c8",
+      "size_bytes": 849
+    },
+    {
+      "path": "static_shared/images/mit-logo-white.ac078b94cc981d280e47.svg",
+      "sha256": "017f3b5994425d3de57e20d7c8a665188894d0fd438558974c03377ebd825d0a",
+      "size_bytes": 578
+    },
+    {
+      "path": "static_shared/images/mit_learn_logo.2ec930205f87bce4013d.svg",
+      "sha256": "5e9e721ae3ff8c9f00eb947288c174d765383a0ff88244751cdf08091eab08d0",
+      "size_bytes": 3118
+    },
+    {
+      "path": "static_shared/images/mit_ol.4165342f87abb1da46fd.svg",
+      "sha256": "f5a91e9d642a37fba3425e80d76618a8d4e99898892f4514baff945110cc401a",
+      "size_bytes": 4759
+    },
+    {
+      "path": "static_shared/images/mobile_video_thumbnail.00125190bb7310b5afff.png",
+      "sha256": "1e39f5d61eb2e239d2fed25680a4f4a741dc73b3ab77a8abbad5297080af0395",
+      "size_bytes": 9677
+    },
+    {
+      "path": "static_shared/images/mp_logo.6428926751199ad28ce6.gif",
+      "sha256": "6f06f5a3e080d5266efd374a4536bb253cccdb164767c57bf71cce00d161d4dc",
+      "size_bytes": 614
+    },
+    {
+      "path": "static_shared/images/ocw_logo_white.cabdc9a745b03db3dad4.svg",
+      "sha256": "c54b2366cc4a6fbea097b9b15cd96d8f888237625282c5bc257f6a62da1bb81c",
+      "size_bytes": 5710
+    },
+    {
+      "path": "static_shared/images/ocw_logo_white_on_black.dc6662ab918cec1c2f31.png",
+      "sha256": "1bccdbe2c80094104e6180f9fcac8a409c9ff0b9034ecff2e7af8591d0a3ffef",
+      "size_bytes": 19788
+    },
+    {
+      "path": "static_shared/images/ocw_stories_home_btn_arrow_right.be61ab3faf488e15d55f.svg",
+      "sha256": "d6f5e3e4c2981ea54bd1073c750ac1672dc3b8362c6ca99c726673b2f1627720",
+      "size_bytes": 1523
+    },
+    {
+      "path": "static_shared/images/ocw_story_single_arrow_left.b1e0f3712e0cc99359df.svg",
+      "sha256": "d9d178640da44f805191615ad8b5e5d75df6a36f13ca8baadc2e70c2117bd445",
+      "size_bytes": 238
+    },
+    {
+      "path": "static_shared/images/ocw_testimonial_quote_modal_close.ef116a87c95eea8ad2a2.svg",
+      "sha256": "4a2e6e2e4d8f946a420f2ea16b61d4e16040574ef37c8e41c03cc4a10a35f42b",
+      "size_bytes": 306
+    },
+    {
+      "path": "static_shared/images/oeg_logo.8a31f7b87f30df2d0169.png",
+      "sha256": "ecda4f1360554b4ec8edcf8017349d4da73c18506324c2e05778ee11194b19a2",
+      "size_bytes": 12817
+    },
+    {
+      "path": "static_shared/images/page_thumbnail.135ca83a823b6c0b4616.png",
+      "sha256": "ca026ff672ec75e27dfeaf21c15842d5d763b3f8578170879eb958d8851946ea",
+      "size_bytes": 3462
+    },
+    {
+      "path": "static_shared/images/resource-download.d374f56f2572d49418bc.svg",
+      "sha256": "06b35e2cf5566816af83b04cae9183e97622801a3e5db022a051dc5205d209ee",
+      "size_bytes": 392
+    },
+    {
+      "path": "static_shared/images/search.42a42bffcdf041e57b97.svg",
+      "sha256": "124f5fbd03f296920f9b118c63b81152e1300813a9075b444d1ec5c9fe80d611",
+      "size_bytes": 395
+    },
+    {
+      "path": "static_shared/images/video_play_overlay.42e62ca534a2528e4ad0.png",
+      "sha256": "8cfe7e6d4f9e06e81d218386077126f8b64fc9602fa29394eda6960c00f08830",
+      "size_bytes": 7219
+    },
+    {
+      "path": "static_shared/images/video_thumbnail.8817e5123be1e39ecd14.png",
+      "sha256": "d31ef7743fad01fa2d36860edc2fc9ea3f6a2195bfcce3b31ae553b609047bd6",
+      "size_bytes": 40410
+    },
+    {
+      "path": "static_shared/images/videojs_download.e0dbb2cfb52d2d71ba4a.svg",
+      "sha256": "0dcb951bccee94b45e7d033f9b5c8912b5807a0018c33e3e2df046a000221e54",
+      "size_bytes": 1050
+    },
+    {
+      "path": "static_shared/images/warning.e29b1060a0fb05a2b927.svg",
+      "sha256": "b6d9ae30e9c6d0ab0a413d1df82ad89dd2d05f9e1f7069070b3dab7c5472483e",
+      "size_bytes": 584
+    },
+    {
+      "path": "static_shared/images/x-formerly-twitter-black.f8c75ad9f42902726d25.png",
+      "sha256": "5dbb75eccbfffc4c6597592e0d61031d5295631ca0752671b6d8387f1a4ade72",
+      "size_bytes": 1240
+    },
+    {
+      "path": "static_shared/images/youtube.1e55fc2f8fc09d36a1a6.svg",
+      "sha256": "c2dfd8eb412c7c946525ff2172ab7344d4c1816ed3359773df726acf4e7f9bdc",
+      "size_bytes": 1155
+    },
+    {
+      "path": "static_shared/js/117.21a26.js",
+      "sha256": "a87e897d05e536240500cac025a504a3820514633199db9c1d4a0bc91afd0f23",
+      "size_bytes": 724892
+    },
+    {
+      "path": "static_shared/js/27.21a26.js",
+      "sha256": "f7935c76f6ae861d565e1799cd4dc65223deae7d1e904404a0f2701f4592ea7d",
+      "size_bytes": 276072
+    },
+    {
+      "path": "static_shared/js/303.21a26.js",
+      "sha256": "76c7d4dfdc26012961584d46a9c4cbc269b54a0760e9f3fd9d793db5235b0f3d",
+      "size_bytes": 204324
+    },
+    {
+      "path": "static_shared/js/658.21a26.js",
+      "sha256": "2e15179a56c3467c0ff92d715d208b967bd3171446e9207759d397f7c704a4ab",
+      "size_bytes": 177
+    },
+    {
+      "path": "static_shared/js/77.21a26.js",
+      "sha256": "3e933148c3a71846820837896d2afd9538e6215f91a4b820cbe42634ea6129de",
+      "size_bytes": 177
+    },
+    {
+      "path": "static_shared/js/common.21a26.js",
+      "sha256": "77cdc0165b782f4e93b7bf1ebe35cb2e710fade629e7734e2ad95fd7195dc8d3",
+      "size_bytes": 881966
+    },
+    {
+      "path": "static_shared/js/course_offline.21a26.js",
+      "sha256": "b2de542cee6224c44041e26482ffdd0f22d7811a16bd3924af757e23595f1020",
+      "size_bytes": 1574235
+    },
+    {
+      "path": "static_shared/js/course_offline_v3.21a26.js",
+      "sha256": "cfe88e20d069b88eb9645a09ca84df7518d3a546b5d9f63707ff431c1e82b91b",
+      "size_bytes": 1576987
+    },
+    {
+      "path": "static_shared/js/course_v2.21a26.js",
+      "sha256": "90a3f958cc45ad8efc8d8c3f859ff789552a37f8c86d74347aefc5b1f8e34bfe",
+      "size_bytes": 25429
+    },
+    {
+      "path": "static_shared/js/course_v3.21a26.js",
+      "sha256": "7ce93e170effd7b3aedc34a896ec83296218bab362becad6db457708034143e2",
+      "size_bytes": 1551659
+    },
+    {
+      "path": "static_shared/js/instructor_insights.21a26.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "static_shared/js/www.21a26.js",
+      "sha256": "79d7e0a8eb20f17591f5fb06b0b4cef285b693eb4f48ace7d0d51f978b350d7f",
+      "size_bytes": 534185
+    },
+    {
+      "path": "static_shared/js/www_offline.21a26.js",
+      "sha256": "4a721af345f0bff2cfbe56910975d9927bc6d60ae0466cdef7199be8166ac1bb",
+      "size_bytes": 666393
+    },
+    {
+      "path": "static_shared/mathjax/CONTRIBUTING.be29e891326e401c2bed.md",
+      "sha256": "89e1f87f7daa9271da9e6c437fe7b05ccd7e29c1ee0e297e782d8a3d7def63ec",
+      "size_bytes": 13948
+    },
+    {
+      "path": "static_shared/mathjax/LICENSE.42368b5a19b817284b3c",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "size_bytes": 11358
+    },
+    {
+      "path": "static_shared/mathjax/README.009b4259a26029ef2261.md",
+      "sha256": "cb4220e9d5884ad79c36b33d617f89e71b6266749fdcd6221565871023a99035",
+      "size_bytes": 10085
+    },
+    {
+      "path": "static_shared/mathjax/action.6c8b472538082988f2c6.js",
+      "sha256": "7c46fc1ef8118723bf2f386d704ab289e5dd683471e0ad4e1e717244959b565b",
+      "size_bytes": 1843
+    },
+    {
+      "path": "static_shared/mathjax/af.03f75fc13a63a3b9d177.json",
+      "sha256": "b906ca6e91517ac8d6f87c304223839c9998daf2d29ac8d79ce5fa967c23dc77",
+      "size_bytes": 267392
+    },
+    {
+      "path": "static_shared/mathjax/ams.0415214124f9103b90eb.js",
+      "sha256": "d430e678d50c5747151ad67eb118df6a67b5844fe2f9183d0820b9fdf52bbbd5",
+      "size_bytes": 20447
+    },
+    {
+      "path": "static_shared/mathjax/amscd.84f30684146fc2e4c8d9.js",
+      "sha256": "2202b36d581834b02c08a2ff62a9cd10409eda2a2f1126913fa3810743895a16",
+      "size_bytes": 4295
+    },
+    {
+      "path": "static_shared/mathjax/asciimath.5ef60e8589351131d7bb.js",
+      "sha256": "4460b49defc8a8eafdcf831faafd5e2dc496c9384d7473ae43eba9ba8f4a2a5f",
+      "size_bytes": 101572
+    },
+    {
+      "path": "static_shared/mathjax/assistive-mml.28169af1dbd9fd16f99c.js",
+      "sha256": "9c1166c7c2ca2e57d5d25cc3bf71dc5369d32b9a4260151f998c0bed77d55dc3",
+      "size_bytes": 3639
+    },
+    {
+      "path": "static_shared/mathjax/autoload.a94e1289e7134d87a3de.js",
+      "sha256": "cb7c9ce44fc81b004e754574733861604b72219879d693ff1396683bc1c4cfe1",
+      "size_bytes": 3331
+    },
+    {
+      "path": "static_shared/mathjax/base.dc579f6c4351ed9a84f7.json",
+      "sha256": "72558700556d997a95e9281044e330eba9a472dda43642a9b5cc0483294d875f",
+      "size_bytes": 217157
+    },
+    {
+      "path": "static_shared/mathjax/bbm.2f6ff24c137fa6f333c4.js",
+      "sha256": "fb780f6e8ca565439b3c6dc78f3e42b525905fd43c5e15471994a2a1da914ca8",
+      "size_bytes": 2143
+    },
+    {
+      "path": "static_shared/mathjax/bboldx.2e870a1015215bd08943.js",
+      "sha256": "d84c426bb390ea51f93b62eb586781c446c6d848600e2fe2e0527b749239f15a",
+      "size_bytes": 6813
+    },
+    {
+      "path": "static_shared/mathjax/bbox.ecc635eb2baeac9fd648.js",
+      "sha256": "9d9ff6d1c592d2a4fe728412d2d5ec29379f4721bfa3b8356ad2045eb939b848",
+      "size_bytes": 2323
+    },
+    {
+      "path": "static_shared/mathjax/begingroup.4671477bfa0bf26c6357.js",
+      "sha256": "0f606d5a71301992e92d8697ccbf8318736110691d8a94303f3f254cd589421a",
+      "size_bytes": 4266
+    },
+    {
+      "path": "static_shared/mathjax/boldsymbol.70316731a9bc7a9b3f6d.js",
+      "sha256": "baaabd9fb430fe4fdbfa9db74aa60b118dd650a68239280368abfd1bc30a0e10",
+      "size_bytes": 2460
+    },
+    {
+      "path": "static_shared/mathjax/braket.98d4c80cdb81eb21b246.js",
+      "sha256": "4a8a6ac1283d7dcee58e7fd71edb178991ba086fa8487f7d26720fe64c002791",
+      "size_bytes": 4635
+    },
+    {
+      "path": "static_shared/mathjax/bussproofs.bb5ca1895bf59c545d5f.js",
+      "sha256": "10997a853480488a009310f8fc35c9ea737af59f608127e647b255a84bc7f8e1",
+      "size_bytes": 12204
+    },
+    {
+      "path": "static_shared/mathjax/ca.8bc2b061fb770836e171.json",
+      "sha256": "750a034984f3b5966a2a391eb5ad0c7b50bfa02eb576a82656a0bf43ebe34ee7",
+      "size_bytes": 247328
+    },
+    {
+      "path": "static_shared/mathjax/cancel.ea96f17cd534ccbc8f62.js",
+      "sha256": "9ff91ff84d9776606cdb66da62ffe9bb39cfdfabcf070f214d35e553689ffece",
+      "size_bytes": 2255
+    },
+    {
+      "path": "static_shared/mathjax/cases.3f7406ef40318a6f8e5f.js",
+      "sha256": "6805d481aaee3f78d82bb9f0b6b9ac47b0804c30f10253394724459d95d41a8c",
+      "size_bytes": 4277
+    },
+    {
+      "path": "static_shared/mathjax/centernot.768e4f081cc8683f1e3e.js",
+      "sha256": "7b89e7a2ddb38908580bcbf5aef3aedeff2231fbc8907d93c516f20e32fc9772",
+      "size_bytes": 2145
+    },
+    {
+      "path": "static_shared/mathjax/chtml.ca0e7adc4fe819207adf.js",
+      "sha256": "00db8c74ce9a68b9bf964712113b8dd71387dd2c04e4237ca2825d8cec59be86",
+      "size_bytes": 173680
+    },
+    {
+      "path": "static_shared/mathjax/color.79630c77474128a4ae41.js",
+      "sha256": "d5e0087b1f06ad49df3264042df0073edc78d09f8a09fb0c3e8622d110f6c73f",
+      "size_bytes": 6817
+    },
+    {
+      "path": "static_shared/mathjax/colortbl.96a1a982f3eba3c55314.js",
+      "sha256": "dff289abcff30d0e109eb51a6f6be2d09e46b7e1db5bc881719f9f1bf483ab8f",
+      "size_bytes": 3185
+    },
+    {
+      "path": "static_shared/mathjax/colorv2.0f5ccf0d5d09a36c88f2.js",
+      "sha256": "3cc6e234d0cd33e8004b9f4864e237a06b5e87c4d0ff17d64fff449464c628ce",
+      "size_bytes": 1524
+    },
+    {
+      "path": "static_shared/mathjax/complexity.c6bb3692efc5a41374a9.js",
+      "sha256": "0fa2a9b23848e516045fd11effc90087c41d793ac9fa69903980d7df3fd4b96d",
+      "size_bytes": 12603
+    },
+    {
+      "path": "static_shared/mathjax/configmacros.968326e72eabfc5a057f.js",
+      "sha256": "5a7b6e7b7980f8d3425ddbcbbe21299da5b1254d5702e91bdbb9d04f487f4664",
+      "size_bytes": 2588
+    },
+    {
+      "path": "static_shared/mathjax/core.cca62069d95b4d05010b.js",
+      "sha256": "989dca5b19443257e70306243a1b2fdad3ed7cdcee211de745407ac25cec050f",
+      "size_bytes": 136139
+    },
+    {
+      "path": "static_shared/mathjax/da.1af6f77cb15eebd92088.json",
+      "sha256": "92b82e15916673ebdcbdd6927aa491a18cf4780432733e534e1071b98b176dae",
+      "size_bytes": 247368
+    },
+    {
+      "path": "static_shared/mathjax/de.5229347b6a7889bb15d6.json",
+      "sha256": "2e56ac4f5a4ce6f831a69c34a81b66d4e260bba4a019499518f356888c146fa5",
+      "size_bytes": 284080
+    },
+    {
+      "path": "static_shared/mathjax/dsfont.2ffd7df91a30456d97d7.js",
+      "sha256": "74a9961b43c43644c28c582fc14031b7f42bac0b771140a5d80af383415ea978",
+      "size_bytes": 1898
+    },
+    {
+      "path": "static_shared/mathjax/empheq.e0c5bc5efaa2ece82970.js",
+      "sha256": "80bf476cd47846a5c93f4e68c6091263e3c427e762176d1718eea0f8bb7b2b1f",
+      "size_bytes": 5898
+    },
+    {
+      "path": "static_shared/mathjax/en.2ae13392310d42a46742.json",
+      "sha256": "5e60d1843351966a159cc409eb73e9abc7c7e375a3311c40d35843d70fee79fb",
+      "size_bytes": 364204
+    },
+    {
+      "path": "static_shared/mathjax/enclose.1ef451815434723333c4.js",
+      "sha256": "5301d91e2e7d6f86a29c13c1b9726b7476b9de9b1745011886c914372fab4cf3",
+      "size_bytes": 1731
+    },
+    {
+      "path": "static_shared/mathjax/entities.5c6373e281bdb19f8ef4.js",
+      "sha256": "8023c697f39b9b85510f2a343878bd18bd2c79ed164ce8cdf5534b2be45cc7f8",
+      "size_bytes": 23248
+    },
+    {
+      "path": "static_shared/mathjax/es.f4db9f8140d97550256a.json",
+      "sha256": "3f273798257eac1bb39082724ac819a0940588aefd21275c2c43a1178badb61b",
+      "size_bytes": 250921
+    },
+    {
+      "path": "static_shared/mathjax/euro.aded2c057b4cef1c52b5.json",
+      "sha256": "564c10b1ecae3d161a50fbf13965b9d326d24d8c5e172152a16253f6334375ac",
+      "size_bytes": 12781
+    },
+    {
+      "path": "static_shared/mathjax/explorer.426e0736fb6dd31457c3.js",
+      "sha256": "56a81c6ffba48aae68468cdcad4edac6ec8ec412088fbe9df74eece776906cc8",
+      "size_bytes": 57792
+    },
+    {
+      "path": "static_shared/mathjax/extpfeil.c29a100d59abcef672e8.js",
+      "sha256": "2d1f82bf22acefe6c358e3a3dca293cc2fda338f2db4fd147befc75122c41841",
+      "size_bytes": 2445
+    },
+    {
+      "path": "static_shared/mathjax/fontsizev3.1d09d18b6f2b30a8a2be.js",
+      "sha256": "0e8fe554424a274d5809efc11f3a48602713bb7d2b2280ae4fcac04181f128f2",
+      "size_bytes": 1637
+    },
+    {
+      "path": "static_shared/mathjax/fr.929e781d8ea8264c952e.json",
+      "sha256": "caf60a882b654ac18f5a168960aeeac014c27708c56195dd6d765aff728839df",
+      "size_bytes": 276403
+    },
+    {
+      "path": "static_shared/mathjax/gensymb.95536d22152609f3564c.js",
+      "sha256": "262d898481e34a5f9683dd15a16cea81a06702de101bf76289bbea83f8f4afc9",
+      "size_bytes": 1575
+    },
+    {
+      "path": "static_shared/mathjax/hi.4bf8aa94f4d208220313.json",
+      "sha256": "debdb8fc8b1c56a7f1ac4f96bc566af9456632b58df556b3331debdf0c2c723d",
+      "size_bytes": 394568
+    },
+    {
+      "path": "static_shared/mathjax/html.64640f2418616faa1a58.js",
+      "sha256": "a647d13d009d5ecee4239cfe681ef831f2bd0f2a91033b922ae6bf3481d156e0",
+      "size_bytes": 2813
+    },
+    {
+      "path": "static_shared/mathjax/it.91ecd5899fdf2bb53bc4.json",
+      "sha256": "b476cbfb4a1e8f6112f69c51e6ebacf86ed4114a9c0b1fbfb419ac2944aa6cfa",
+      "size_bytes": 282065
+    },
+    {
+      "path": "static_shared/mathjax/jsdom.9fdedce9ca3689b85808.js",
+      "sha256": "f321af6481e5c3e6ec5cc0917b528f8f8df3ae53f94485d3b770eb118eb738c5",
+      "size_bytes": 3163
+    },
+    {
+      "path": "static_shared/mathjax/ko.090da32db11725e7e3c8.json",
+      "sha256": "af7fd90bcf06736f5363b752d505d4cc7782bd725c6db4184edccdf56b24a87e",
+      "size_bytes": 392014
+    },
+    {
+      "path": "static_shared/mathjax/lazy.7af99c63170827107829.js",
+      "sha256": "a72e3b41f608f5e2c2b4b2b9a163ab9be1e31fcf84b255b4bad6f189e4f10505",
+      "size_bytes": 6597
+    },
+    {
+      "path": "static_shared/mathjax/linkedom.becd6a7ee73e62236393.js",
+      "sha256": "927d0b99ac6305492bcc4d46222f636666d8fbf1f952664b6c2099df15311fd7",
+      "size_bytes": 3616
+    },
+    {
+      "path": "static_shared/mathjax/liteDOM.965a8f780cf212d7924b.js",
+      "sha256": "4ee6d6e646cdcf3203fee3ede9395b0ddeb7670bfd2fdf06236701733013105c",
+      "size_bytes": 13577
+    },
+    {
+      "path": "static_shared/mathjax/loader.98478cc1c9eb81b9c646.js",
+      "sha256": "54997fce9d5b9ffe347ebdbcfd3fd95551b64e1cf75e480353675065e0aef97e",
+      "size_bytes": 11365
+    },
+    {
+      "path": "static_shared/mathjax/mathtools.964440743180ea438fcf.js",
+      "sha256": "d6dab6acde6634e4b043e38c0c6d4202346aedc0ee614b146c786278a4673c30",
+      "size_bytes": 22353
+    },
+    {
+      "path": "static_shared/mathjax/menu.f4a8061049adac3345bf.js",
+      "sha256": "b500f2dd50552d47a934e4ffee2a4f6fb166860cd243b9fdc4cc3d5e3dd898b8",
+      "size_bytes": 74867
+    },
+    {
+      "path": "static_shared/mathjax/mhchem.341764cc13d0455e1513.js",
+      "sha256": "8398fa620d2bcbf40258b3b63733a41ada58f96d511a8a1c2e8ede8d1c1d6cd0",
+      "size_bytes": 37800
+    },
+    {
+      "path": "static_shared/mathjax/mml-chtml-nofont.ffd84f2ef882302d28b5.js",
+      "sha256": "89bf2d4e00ec5915ef76db9f85a062e4a038c50571cefee638c4df8a04bb1711",
+      "size_bytes": 728671
+    },
+    {
+      "path": "static_shared/mathjax/mml-chtml.1d267789651ad082d5bb.js",
+      "sha256": "cc38c1a37c27929b1e4b1009a47a3e4593e40d0d0a3beaf1392e36e1dee7aeaf",
+      "size_bytes": 837572
+    },
+    {
+      "path": "static_shared/mathjax/mml-svg-nofont.122d7d3d1e46367eeff6.js",
+      "sha256": "60f20019de737284666c7baf8cd80cf16cec1793327e6f5c3b3002e673a8958b",
+      "size_bytes": 714104
+    },
+    {
+      "path": "static_shared/mathjax/mml-svg.a951f7eef65eb75a54cb.js",
+      "sha256": "a99bdc0c3f039227c319ba0baad8b35a8a76c54b0799f0d081148db296728ef3",
+      "size_bytes": 1689752
+    },
+    {
+      "path": "static_shared/mathjax/mml.6b31f3bfa403ae9b49c2.js",
+      "sha256": "ccb777a3698f3d2619876d7fdfc8d307a54896c3e1812f37aac24252687251ea",
+      "size_bytes": 8673
+    },
+    {
+      "path": "static_shared/mathjax/mml3.7fa4e575bbce3dc9aa69.js",
+      "sha256": "ed792479b3343529a2a9a1a813ebf3cea9fe5d381e9d135a07e155c81d036031",
+      "size_bytes": 27784
+    },
+    {
+      "path": "static_shared/mathjax/mml3.sef.e248bbb6bcf23bd666b4.json",
+      "sha256": "0f0eef793f3b97df3b10c386e23528938eb82f7d180affe694397e7346f03a87",
+      "size_bytes": 192556
+    },
+    {
+      "path": "static_shared/mathjax/nb.4623092c7651af59b599.json",
+      "sha256": "8d1ad78f81be49b569ce0011056f70501584843b5a5da8b21b4c2d8d38cb3ae3",
+      "size_bytes": 260745
+    },
+    {
+      "path": "static_shared/mathjax/nemeth.82528d687eede063ec84.json",
+      "sha256": "16f30ad5bc7db02bbcce4623b108626f1a73d65660799891f23efd76dcaa333e",
+      "size_bytes": 227472
+    },
+    {
+      "path": "static_shared/mathjax/newcommand.40654bd3c828b24343c5.js",
+      "sha256": "770b6a794ae654b6897a991eedafb0caf095f7d716ba37b77933cc346e0a9f74",
+      "size_bytes": 8833
+    },
+    {
+      "path": "static_shared/mathjax/nn.3f92603dff43b349a375.json",
+      "sha256": "8481c038bfbf609f53053cb26f86c1de4c6eafebe1a80f909004b3a201b07166",
+      "size_bytes": 262158
+    },
+    {
+      "path": "static_shared/mathjax/no-dark-mode.a4d02764ff39686c860f.js",
+      "sha256": "63d7b52571baf709d0a387459cbb2a9ed70e7ce15be222328e19d155ed255b46",
+      "size_bytes": 2246
+    },
+    {
+      "path": "static_shared/mathjax/node-main-setup.680de4e949b8cd64db88.cjs",
+      "sha256": "4fe20a7938c64ead34b4f32e4f29d5ddc6cf74cb6ba66fd7f3ae88c9c2476b97",
+      "size_bytes": 121
+    },
+    {
+      "path": "static_shared/mathjax/node-main.312ba2296e6965b320f5.mjs",
+      "sha256": "7a52fd967e5af0b75e8b6eb02a3955dc23f9f55acaeb46b9bec38c2914f467c8",
+      "size_bytes": 113
+    },
+    {
+      "path": "static_shared/mathjax/node-main.a1f68a1ba943f03185ad.cjs",
+      "sha256": "81ac6fa9341578b24914d55582b1aa15b547670390e06cd9254e2a33fe92cf71",
+      "size_bytes": 120
+    },
+    {
+      "path": "static_shared/mathjax/node-main.cc0d12776d2f45d80a3d.js",
+      "sha256": "85f247e3e85f4cee56907d52dd8d7e54edcd99d4c6c2e20f3f0c4cc10a7bca32",
+      "size_bytes": 172257
+    },
+    {
+      "path": "static_shared/mathjax/noerrors.452647f1b6bd6b44295a.js",
+      "sha256": "479c00d274f7f38e25d44a13e407bf8adeb83b02dd05639a302ca7c0db3d4cc2",
+      "size_bytes": 1243
+    },
+    {
+      "path": "static_shared/mathjax/noundefined.0439a20c34a9acf01a71.js",
+      "sha256": "d29d871d8d38802cc1581f6e4f5d673c357a8bf9802114ea57f51a53d0a0fef3",
+      "size_bytes": 1384
+    },
+    {
+      "path": "static_shared/mathjax/package.42a8766f1cf9d84c7e0f.json",
+      "sha256": "440cfcbfb317456a774bc7186e857a1f135954105e32a4312d6cdd555f3a4257",
+      "size_bytes": 2435
+    },
+    {
+      "path": "static_shared/mathjax/physics.e4123b34f06f44dd5239.js",
+      "sha256": "739e0d02aa8311493d03159e13a3268da7f180d4888ed49d8f0644dec7defc78",
+      "size_bytes": 19539
+    },
+    {
+      "path": "static_shared/mathjax/require.2f5e2dc61b1adf63a69a.mjs",
+      "sha256": "9e425e715b5f6e6adc20ff285ba6f491b85b037f9dca011f9b0209fe4355027e",
+      "size_bytes": 73
+    },
+    {
+      "path": "static_shared/mathjax/require.aa3cf210b4e9a2145795.js",
+      "sha256": "6ccbfb7f9a6e627fabdc39ce034f99355172b9778891cce33243844501098130",
+      "size_bytes": 4007
+    },
+    {
+      "path": "static_shared/mathjax/require.d.8fd666d212aefcf6f421.mts",
+      "sha256": "946701066b1225bbb539cb3b7b9dfadfea309b7dfb728dc28e59599af97c102d",
+      "size_bytes": 44
+    },
+    {
+      "path": "static_shared/mathjax/safe.2b92ee8222a26906c900.js",
+      "sha256": "ddd5b5eb3076bdf71c9b0508c58fae095b441a22b7bf2ff2e1ad5ace389f49b2",
+      "size_bytes": 6375
+    },
+    {
+      "path": "static_shared/mathjax/semantic-enrich.491ab67000bd5fdd6eb6.js",
+      "sha256": "2c2d8d5e2ab1af07a73e587c036bda41c1d9606b5d8fca7ef2e43f553c743563",
+      "size_bytes": 4782
+    },
+    {
+      "path": "static_shared/mathjax/setoptions.f3653b2e4f65c484a6fb.js",
+      "sha256": "756100054a264bcfd47c1b5c03b7e4dcdd7cca679b78b693a6926e887ab59c39",
+      "size_bytes": 3729
+    },
+    {
+      "path": "static_shared/mathjax/speech-worker.7b5a87f13d48d5bbd15f.js",
+      "sha256": "d8b553a705594bbe99671152541511173eb6c413774eceaa0a3a525d2744996f",
+      "size_bytes": 417319
+    },
+    {
+      "path": "static_shared/mathjax/speech.5ee435297e7c7dda5d87.js",
+      "sha256": "124683e973f0fba5443c85e821b7070a4531737d2e8b08d48f9959088c51f4b8",
+      "size_bytes": 20405
+    },
+    {
+      "path": "static_shared/mathjax/sre.5a7b7b1517f3c7ac252e.js",
+      "sha256": "55831f16704c4530ab27b2d23b2324b32d0672c5bdcc69e10a0cc48ad2e4c4d8",
+      "size_bytes": 253655
+    },
+    {
+      "path": "static_shared/mathjax/startup.9743f3fd4d6f9d716970.js",
+      "sha256": "9d422bd9df67852929a43763fd0d7b7645b00d646c63dde77a3ceeee8f9a3b17",
+      "size_bytes": 17073
+    },
+    {
+      "path": "static_shared/mathjax/sv.eeca274a6ab1bdfcc3f1.json",
+      "sha256": "7436531c326be9449bdbb41c74fcae4235fc58ff7c6816999e571ee636fd15f1",
+      "size_bytes": 271954
+    },
+    {
+      "path": "static_shared/mathjax/svg.3b88ee8e0a986c3a12f3.js",
+      "sha256": "996d304c4925148720990cabbc27d1039a7208ad4777556a94f6db3f32d26577",
+      "size_bytes": 159228
+    },
+    {
+      "path": "static_shared/mathjax/tagformat.edffc1ce0e476457b1b4.js",
+      "sha256": "9da0f12949eb209f8cfa06fd88ddce12bf6b8880d29c067a7ad08f42164a3a57",
+      "size_bytes": 1975
+    },
+    {
+      "path": "static_shared/mathjax/tex-base.a4c788d227933a4dbe34.js",
+      "sha256": "1e5f8fc44e552919ab145d92a6fa80c4bf6a41d08d2c802b6a009be132bc8c8e",
+      "size_bytes": 107605
+    },
+    {
+      "path": "static_shared/mathjax/tex-chtml-nofont.1a4c01112bdf49d022b1.js",
+      "sha256": "bf5ab73ab803d35e02a79fd633f0ce4c977848b9dea360860e03e0230d4db03b",
+      "size_bytes": 873852
+    },
+    {
+      "path": "static_shared/mathjax/tex-chtml.3d44f0d96407e6e343da.js",
+      "sha256": "415067cd20829809061951738091f3c6c77987b42e267c03659d788b7f82069b",
+      "size_bytes": 982772
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-chtml-nofont.fc2bd8e22161628a2dd0.js",
+      "sha256": "e6e0602060c7d72c70a8814f68e69503bc11febc4146e64997518d3a34aeebff",
+      "size_bytes": 873984
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-chtml.c68e377694ee1fef1256.js",
+      "sha256": "1f5a21b33dff5936c39f791a789fee7e5026d02af10bc84d26a0a25fa613ba5d",
+      "size_bytes": 982885
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-svg-nofont.7a7b14c36959378a17b1.js",
+      "sha256": "db5b6ab0ca1a1156cf17bd664a11e9de4b9cb78946badf2e6592003f301fe698",
+      "size_bytes": 859417
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-svg.6080c69fb74dac246e2a.js",
+      "sha256": "8faf7907f243f0961366e4059bd3f1631b1501c251094b39150343ac90a326b1",
+      "size_bytes": 1835065
+    },
+    {
+      "path": "static_shared/mathjax/tex-svg-nofont.035269eaeae7adf40175.js",
+      "sha256": "a2a9dbdeafe507ab23954d46b681e8ae4f1d6858e546defc940fab34ea40e2ab",
+      "size_bytes": 859285
+    },
+    {
+      "path": "static_shared/mathjax/tex-svg.e3bd52162ad7ec8e950f.js",
+      "sha256": "ead0ae2417314d38101959e5df34cdb79e12e37a78c714a09375269fbb19d7e7",
+      "size_bytes": 1834952
+    },
+    {
+      "path": "static_shared/mathjax/tex.64e4e6f1b02236c48d0c.js",
+      "sha256": "e5c5c9a29af31a4809b10ac887c67d938e11b6b8c9e76bda6aba1f859eeaa66a",
+      "size_bytes": 147664
+    },
+    {
+      "path": "static_shared/mathjax/texhtml.0304f785a6a2387af68f.js",
+      "sha256": "6269dda09c28b4291cd4d95e880c9dc053cc95b41c644ce057bab5640cb83113",
+      "size_bytes": 2504
+    },
+    {
+      "path": "static_shared/mathjax/textcomp.80f210729d1a1347c27e.js",
+      "sha256": "e038f7b36ddc4cbaaaa427c8f8554d418f284518cdc4c24eeb296e50084a4b23",
+      "size_bytes": 4875
+    },
+    {
+      "path": "static_shared/mathjax/textmacros.42a818618be1b6ab53be.js",
+      "sha256": "e4de0ad5b86bfe6a90291cb7ac60ed5c43604794c008448c23fc1b7022edb9fe",
+      "size_bytes": 10220
+    },
+    {
+      "path": "static_shared/mathjax/unicode.47afeab5ebff181cca44.js",
+      "sha256": "bf1ddc9fe506f782c0e9271c0c52c4b258f9e4eac3d2905274d0c5d239e2a2b3",
+      "size_bytes": 3586
+    },
+    {
+      "path": "static_shared/mathjax/units.73d3834a074e41e2aa4a.js",
+      "sha256": "25278814cbc050fcd4e8849c014c238cf6801e00405e0acaf5d98924fd1e26a7",
+      "size_bytes": 2118
+    },
+    {
+      "path": "static_shared/mathjax/upgreek.e96035471331c770c1ab.js",
+      "sha256": "3a387e3460f5a4bcfdc170e9ba167165bf1d197259db3478316eb1fbd8c2e621",
+      "size_bytes": 1993
+    },
+    {
+      "path": "static_shared/mathjax/verb.9aa68f128a1f79e26afa.js",
+      "sha256": "bd19e9004bb69b7bb87599957d384b3e873292bcc23b6d6cb184c2af71260774",
+      "size_bytes": 1777
+    },
+    {
+      "path": "video_galleries/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "video_galleries/index.html",
+      "sha256": "edca5d3ed52aafb8f44370064350b66e8b48c534d6888f9ea89c63238a7f6437",
+      "size_bytes": 53922
+    },
+    {
+      "path": "video_galleries/lecture-videos/data.json",
+      "sha256": "8ef08fb3b0ff4312d78319ed0c39f19c4e885f9c782f89d48c1d41bb2b3c73af",
+      "size_bytes": 50202
+    },
+    {
+      "path": "video_galleries/lecture-videos/index.html",
+      "sha256": "ab153eaea22554d0c474a05851969798ab452e0772076d8be42f4b2bacf1ba06",
+      "size_bytes": 64388
+    }
+  ],
+  "remaining_reviews": [
+    "Complete local links, essential readings, exercises and supplied solutions",
+    "One appropriate original media rendition, playback, captions and notices",
+    "Retain useful complete files; no duplicate renditions or metadata credited as knowledge"
+  ],
+  "schema_version": 1,
+  "source_bytes": 176849607,
+  "source_id": "ocw_59296f8d4063526ae08e",
+  "source_sha256": "a86642c237c5cc2f74e918e8cd9b7e5a9c76d5f1f8b5d3a9847cef9526463d35",
+  "transformation_version": 2,
+  "video_lesson_count": 31
+}

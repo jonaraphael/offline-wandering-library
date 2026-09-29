@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "body_downloads": 0,
+  "template_count": 35,
+  "all_frozen_revisions_still_current": true,
+  "differences": [],
+  "metadata_evidence": [
+    {
+      "url": "https://en.hesperian.org/w/api.php?action=query&titles=Template%3A%3D%7CTemplate%3AAlphaselect%7CTemplate%3ABctrail%7CTemplate%3ACautionbreastfeeding%7CTemplate%3ACautionpregnant%7CTemplate%3AChaptertoc%7CTemplate%3AClr%7CTemplate%3ADisplaynamespace%7CTemplate%3AGreeneffects%7CTemplate%3AGreenforms%7CTemplate%3AGreenhowmuch%7CTemplate%3AGreenimportant%7CTemplate%3AGreenknow%7CTemplate%3AGreenothermedicines%7CTemplate%3AGreenwarning%7CTemplate%3AHealthysigns%7CTemplate%3AHowToBox%7CTemplate%3AImportant%7CTemplate%3ALastEditDate%7CTemplate%3ALinkButton&prop=revisions&rvprop=ids%7Ctimestamp%7Csize%7Csha1&format=json",
+      "kind": "metadata",
+      "final_url": "https://en.hesperian.org/w/api.php?action=query&titles=Template%3A%3D%7CTemplate%3AAlphaselect%7CTemplate%3ABctrail%7CTemplate%3ACautionbreastfeeding%7CTemplate%3ACautionpregnant%7CTemplate%3AChaptertoc%7CTemplate%3AClr%7CTemplate%3ADisplaynamespace%7CTemplate%3AGreeneffects%7CTemplate%3AGreenforms%7CTemplate%3AGreenhowmuch%7CTemplate%3AGreenimportant%7CTemplate%3AGreenknow%7CTemplate%3AGreenothermedicines%7CTemplate%3AGreenwarning%7CTemplate%3AHealthysigns%7CTemplate%3AHowToBox%7CTemplate%3AImportant%7CTemplate%3ALastEditDate%7CTemplate%3ALinkButton&prop=revisions&rvprop=ids%7Ctimestamp%7Csize%7Csha1&format=json",
+      "status": 200,
+      "size_bytes": 4002,
+      "sha256": "8124f9865769ce4ee261b3953c69d47d281ca002b21d9d5a0729a7cdba514dfa",
+      "checked_at": "2026-09-28T00:17:05.761136+00:00",
+      "content_type": "application/json",
+      "cached": false
+    },
+    {
+      "url": "https://en.hesperian.org/w/api.php?action=query&titles=Template%3AMoreinfo%7CTemplate%3ANext+section%7CTemplate%3ANote%7CTemplate%3APrevious+and+next+sections%7CTemplate%3APrevious+section%7CTemplate%3ASideSupplement%7CTemplate%3ASources%7CTemplate%3ASpannote%7CTemplate%3ASpannote2%7CTemplate%3AStoryBox%7CTemplate%3AT%7CTemplate%3ATransportnote%7CTemplate%3AWarning%7CTemplate%3AWarningsigns%7CTemplate%3AWordwarning&prop=revisions&rvprop=ids%7Ctimestamp%7Csize%7Csha1&format=json",
+      "kind": "metadata",
+      "final_url": "https://en.hesperian.org/w/api.php?action=query&titles=Template%3AMoreinfo%7CTemplate%3ANext+section%7CTemplate%3ANote%7CTemplate%3APrevious+and+next+sections%7CTemplate%3APrevious+section%7CTemplate%3ASideSupplement%7CTemplate%3ASources%7CTemplate%3ASpannote%7CTemplate%3ASpannote2%7CTemplate%3AStoryBox%7CTemplate%3AT%7CTemplate%3ATransportnote%7CTemplate%3AWarning%7CTemplate%3AWarningsigns%7CTemplate%3AWordwarning&prop=revisions&rvprop=ids%7Ctimestamp%7Csize%7Csha1&format=json",
+      "status": 200,
+      "size_bytes": 3041,
+      "sha256": "aabba6939d54da4f60778db611a21439785388ee7ae4841210d9f7e2c7a80c10",
+      "checked_at": "2026-09-28T00:17:05.888258+00:00",
+      "content_type": "application/json",
+      "cached": false
+    }
+  ],
+  "scope": "Frozen inventory before render capture compared with current revision metadata immediately after launch. Captured HTML remains diagnostic, not admitted."
+}

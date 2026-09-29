@@ -1,5 +1,9 @@
 # Unattended builds and reusable asset indexes
 
+> Historical note: full-text indexing constraints below describe the previous
+> implementation. New builds use [lightweight discovery](search.md), without
+> source-text extraction or index caches. Acquisition and integrity checks remain.
+
 Implementation follow-up: the detached runner, automatic postflight, semantic
 fingerprints and local per-asset cache/compiler are now available. See
 [unattended-builds.md](unattended-builds.md) for the implemented commands. The

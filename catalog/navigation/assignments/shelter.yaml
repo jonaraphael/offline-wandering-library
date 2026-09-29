@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: shelter
+assignments:
+- topic_id: storm-shelter
+  purpose: start-here

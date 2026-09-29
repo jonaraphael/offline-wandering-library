@@ -1,0 +1,19 @@
+{
+  "url": "https://en.hesperian.org/w/index.php?title=A+Book+for+Midwives&oldid=103656&action=raw",
+  "method": "HEAD",
+  "body_read": false,
+  "range_request": "bytes=0-0",
+  "status": 200,
+  "headers": {
+    "Date": "Sun, 27 Sep 2026 23:33:44 GMT",
+    "Content-Type": "text/x-wiki; charset=UTF-8",
+    "Connection": "close",
+    "Server": "cloudflare",
+    "X-Content-Type-Options": "nosniff",
+    "Vary": "Accept-Encoding,Cookie",
+    "Cache-Control": "public, s-maxage=0, max-age=18000",
+    "Last-modified": "Thu, 13 Aug 2026 20:03:38 GMT",
+    "cf-cache-status": "DYNAMIC",
+    "CF-RAY": "a41e50aaedd33243-BOS"
+  }
+}

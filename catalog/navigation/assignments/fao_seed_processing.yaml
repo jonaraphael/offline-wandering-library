@@ -1,0 +1,29 @@
+schema_version: 1
+asset_id: fao_seed_processing
+assignments:
+- topic_id: seed-production
+  purpose: reference
+  aliases:
+  - clean harvested seeds
+  - seed cleaning equipment
+  - seed drying
+  - seed grading
+  - seed threshing
+  - seed winnowing
+  basis: Brief publisher/contents, notices and sampled-page review on 2026-09-28;
+    see catalog/acquisition/seed-water-discovery-20260928.json. Includes powered processing
+    plants and chemical seed treatment; not a crop-by-crop home seed-saving guide.
+    Retain equipment, training and treatment precautions.
+- topic_id: seed-storage
+  purpose: reference
+  aliases:
+  - clean harvested seeds
+  - seed cleaning equipment
+  - seed drying
+  - seed grading
+  - seed threshing
+  - seed winnowing
+  basis: Brief publisher/contents, notices and sampled-page review on 2026-09-28;
+    see catalog/acquisition/seed-water-discovery-20260928.json. Includes powered processing
+    plants and chemical seed treatment; not a crop-by-crop home seed-saving guide.
+    Retain equipment, training and treatment precautions.

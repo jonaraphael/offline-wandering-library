@@ -137,6 +137,16 @@ class OCWHTMLTests(unittest.TestCase):
         self.assertEqual(len(result['issues']),1)
         self.assertEqual(result['rewrites'][0]['kind'],'publisher-package-root-link')
 
+    def test_explicit_link_repair_is_exact_and_requires_pinned_target(self):
+        self.args['local_link_repairs'] = {'broken.html': 'static/image.png'}
+        result = self.localize('<a href="broken.html">Original label</a><img src="broken.html"><a href="other.html">Other</a>')
+        self.assertIn('<a href="../assets/image.png">Original label</a>', result['html'])
+        self.assertEqual(len(result['issues']), 2)
+        self.assertEqual(result['rewrites'][0]['kind'], 'explicit-publisher-link-repair')
+        self.args['local_link_repairs'] = {'broken.html': 'missing.html'}
+        with self.assertRaises(SafetyError):
+            self.localize('<a href="broken.html">Original label</a>')
+
     def test_exact_navbar_handler_requires_local_script_and_target(self):
         handler="$('#mobile-course-nav-toggle').click();"
         text='<button onclick="'+handler+'">Navigation</button><button id="mobile-course-nav-toggle">Menu</button><script src="../../static_shared/js/course_offline.21a26.js"></script>'
@@ -205,6 +215,31 @@ class OCWHTMLTests(unittest.TestCase):
         self.assertIn('Offline responsive',repair['required_review'])
         result=self.localize(text.replace('navbar-offcanvas-right','unknown-drawer'))
         self.assertIn('retained-event-handler',{r['kind'] for r in result['issues']})
+
+    def test_reviewed_decorative_omission_preserves_label_and_exact_count(self):
+        import hashlib
+        tag='<img class="thumbnail" src="https://images.example/missing.jpg" alt="">'
+        self.args['reviewed_omissions']=[{'tag_sha256':hashlib.sha256(tag.encode()).hexdigest(),
+            'kind':'decorative-image','count':1,'reason':'Optional gallery poster; adjacent lecture title and lesson link retained.'}]
+        result=self.localize('<h5>Lecture 7</h5>'+tag)
+        self.assertEqual(result['issues'],[])
+        self.assertIn('<h5>Lecture 7</h5>',result['html'])
+        self.assertNotIn('missing.jpg',result['html'])
+        with self.assertRaises(ValueError):self.localize('<h5>Lecture 7</h5>')
+        meaningful=tag.replace('alt=""','alt="Essential diagram"')
+        self.args['reviewed_omissions'][0]['tag_sha256']=hashlib.sha256(meaningful.encode()).hexdigest()
+        with self.assertRaises(ValueError):self.localize(meaningful)
+
+    def test_reviewed_obsolete_warning_preserves_optional_reference(self):
+        import hashlib
+        tag='<a class="external-link-warning" href="https://publisher.example/memorial" onclick="event.preventDefault()">'
+        self.args['reviewed_omissions']=[{'tag_sha256':hashlib.sha256(tag.encode()).hexdigest(),
+            'kind':'obsolete-external-warning-handler','count':1,'reason':'Optional memorial link; retain label and URL without retired modal interception.'}]
+        result=self.localize(tag+'Memorial</a>')
+        self.assertEqual(result['issues'],[])
+        self.assertIn('href="https://publisher.example/memorial"',result['html'])
+        self.assertIn('Memorial</a>',result['html'])
+        self.assertNotIn('onclick=',result['html'])
 
 
 if __name__ == '__main__':

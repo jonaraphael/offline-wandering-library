@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "id": "manual-complete-articles-v1-followup",
+  "content_complete": false,
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "capture": 1
+  },
+  "tasks": [
+    {
+      "id": "capture-originals",
+      "kind": "capture",
+      "batch": "manual-complete-articles-v1",
+      "lane": "capture",
+      "checks": [
+        {
+          "path": "{workspace}/.owl/jobs/manual-complete-articles-v1-1tb/result.json",
+          "equals": {
+            "source_count": 43,
+            "body_downloads": 0,
+            "content_ready": false,
+            "status": "awaiting_review"
+          }
+        }
+      ]
+    }
+  ],
+  "review_items": [
+    "36 complete HTML article selections and7 notice companions; captured through exact pinned local reuse, never ready from a receipt alone.",
+    "18 systemd pages have source-pinned duplicate IDs; apply counted source-bound normalization preserving canonical links and all text before freezing derivative outputs.",
+    "Review individual source/header notices for13 Debian utility and20 systemd manuals. Generic project licenses do not close the per-file notice gap.",
+    "Use aliased build-only inputs so fixed16/64GB GNU originals remain exact; larger presets retain one ordinary-file reading representation per work.",
+    "Run complete-text/structure audit, all72 desktop/phone browser checks and local-reference classifications; physical-device certification remains separate."
+  ]
+}

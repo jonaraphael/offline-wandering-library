@@ -345,9 +345,9 @@ may need a separate reader.</p></section>
 """
         + (render_search_widget("LIBRARY/") if search_ready else
            '<p class="notice">' +
-           ('<strong>Human index only:</strong> full-text search has not been built. '
+           ('<strong>Human index only:</strong> title/topic search has not been built. '
             if search_report.get("status") == "not-built" else
-            '<strong>Full-text search is not available in this build.</strong> ') +
+            '<strong>Title and topic search is not available in this build.</strong> ') +
            'Use the topic atlas, category, critical-content, and alphabetical indexes.</p>')
         + '<p><a href="INDEX/critical.html"><strong>Browse all critical content</strong></a></p>'
         + '<h2>Books and learning collections</h2>'
@@ -418,7 +418,7 @@ Coverage depends on the selected profile. Documents retain their original dates,
             "Illustrated guides",
             "Illustrated textbooks and practical guides in ordinary, directly readable files. "
             "Diagrams, photographs, and figures remain in the original documents. Search covers "
-            "extractable text; open the document to inspect its illustrations.",
+            "titles, chapters, and topics; open the document to inspect its illustrations.",
         ),
     ):
         current = f"INDEX/{key}.html"
@@ -494,8 +494,8 @@ Coverage depends on the selected profile. Documents retain their original dates,
         + "<p><strong>Pinned</strong> means a file matched the catalog’s source checksum. "
         "<strong>Observed</strong> means the build recorded a checksum after download; this detects later "
         "changes but does not independently authenticate the original source.</p>"
-        "<p>Search coverage describes extracted text: <code>full_text</code>, <code>partial</code>, "
-        "or <code>metadata_only</code>. Words in images may not be searchable. Details are recorded in "
+        "<p>Discovery coverage describes <code>catalog</code> entries or approved <code>sections</code>. "
+        "Document body text is not searched. Details are recorded in "
         '<a href="SEARCH/coverage.json">the search coverage report</a>.</p>'
         '<div class="table-scroll"><table><thead><tr><th scope="col">Title / file</th>'
         '<th scope="col">Resource labels</th>'
@@ -527,13 +527,13 @@ CRITICAL contains ordinary files such as PDF, HTML, and text. A compatible
 standard viewer is needed. No server, cloud account, or internet is required.
 HTML behavior on removable drives varies between phones and browser apps.
 Textbook and guide PDFs retain their original diagrams, photographs, and figures.
-Search indexes extractable text, not image content; open the original document
+Search covers titles, chapters, and topics; open the original document
 to read illustrations, charts, and image-only pages.
 
-Search on START_HERE.html or SEARCH.html loads its index automatically from
-SEARCH/ on this drive. Enter search words; no index selection is required.
+Search on START_HERE.html or SEARCH.html loads its title and topic data automatically from
+SEARCH/ on this drive. Enter search words; document body text is not searched.
 Search needs a browser that runs local JavaScript and can load neighboring local
-scripts. It reads small index chunks as needed, without a server or internet.
+scripts. It loads one small metadata file, without a server or internet.
 The inline file catalog remains readable when search or HTML links are blocked.
 
 ZIM archives need an archive reader. Bundled readers, when included in this
@@ -596,12 +596,12 @@ This library is a reference collection, not a substitute for professional help.
         pages["README.txt"] = pages["README.txt"].replace(
             "SEARCH.html offers search in compatible browsers.\n", "")
         pages["README.txt"] = pages["README.txt"].replace(
-            "Search on START_HERE.html or SEARCH.html loads its index automatically from\n"
-            "SEARCH/ on this drive. Enter search words; no index selection is required.\n"
+            "Search on START_HERE.html or SEARCH.html loads its title and topic data automatically from\n"
+            "SEARCH/ on this drive. Enter search words; document body text is not searched.\n"
             "Search needs a browser that runs local JavaScript and can load neighboring local\n"
-            "scripts. It reads small index chunks as needed, without a server or internet.\n"
+            "scripts. It loads one small metadata file, without a server or internet.\n"
             "The inline file catalog remains readable when search or HTML links are blocked.",
-            "Full-text search is not available in this build. Use the inline file catalog\n"
+            "Title and topic search is not available in this build. Use the inline file catalog\n"
             "on START_HERE.html, or the topic, category and title indexes if links open. Run the drive\n"
             "builder to generate automatic search from the existing verified content.")
     # The landing page's fixed cards and notices use these logical destinations;

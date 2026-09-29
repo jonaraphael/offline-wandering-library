@@ -1,0 +1,4067 @@
+{
+  "budget": {
+    "cache_bytes": 0,
+    "download_bytes": 5462818060,
+    "expanded_bytes": 0,
+    "preview_bytes": 0,
+    "scratch_bytes": 0
+  },
+  "content_ready": false,
+  "id": "ocw-expansion-packages-6c369b57687f73ea",
+  "kind": "acquisition",
+  "metadata_allowance_bytes": 3034184,
+  "profile": "full-1tb",
+  "review_requirements": [
+    "Package capture is a build input; ZIP bytes are not additional useful knowledge.",
+    "Reconcile every packaged video, English caption, exercise and supplied solution with the full course inventory.",
+    "Essential external readings and dependencies must be available and reviewed before admission.",
+    "Retain one appropriate publisher media rendition, normally 720p; no upscaling or duplicate representations.",
+    "Review English language, notices, local links, legibility and disconnected playback; measure ordinary outputs."
+  ],
+  "schema_version": 1,
+  "sources": [
+    {
+      "course_id": "6-046j-design-and-analysis-of-algorithms-spring-2015",
+      "id": "ocw_7d770ac82b8ae9cc4a12",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "60d9f81cf10e6ef12d5cbce8f48c097aaffe89bee8298c996e56a01f2f61c78f",
+          "size_bytes": 4291,
+          "url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "17164737690c3242f2ddc9a2c74e0a65aa23686e1c0c32f5c5dde14df64bd618",
+          "size_bytes": 178906,
+          "url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:02.748314+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/6.046j-spring-2015.zip",
+            "headers": {
+              "content-length": "102842350",
+              "content-type": "application/zip",
+              "etag": "\"0e9552a4f0dbc87eaa19d1136972bef1-13\"",
+              "last-modified": "Tue, 15 Sep 2026 09:52:57 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/6.046j-spring-2015.zip"
+          },
+          "sha256": "6a2cf220300532e7c8611cdb9db8b2642e250054520d58e10b04810ab037ac8e",
+          "url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/6.046j-spring-2015.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 102842350,
+      "source_url": "https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/6.046j-spring-2015.zip",
+      "version": "6-046j-design-and-analysis-of-algorithms-spring-2015-metadata-60d9f81cf10e6ef1",
+      "work_id": "ocw:d974e3d4-3fd8-4016-bf3d-a483fad6acce"
+    },
+    {
+      "course_id": "6-622-power-electronics-spring-2023",
+      "id": "ocw_2cfbf74be792ec27cbc1",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "922f9ba495eaa577d3fe56065d25289ab80b86034aa93d8aa9186193555cd2fe",
+          "size_bytes": 4090,
+          "url": "https://ocw.mit.edu/courses/6-622-power-electronics-spring-2023/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "70dadef6815f099fa8023aa1f6111be086e3779ce73d513167104fe8f247941e",
+          "size_bytes": 142360,
+          "url": "https://ocw.mit.edu/courses/6-622-power-electronics-spring-2023/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:03.207814+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-622-power-electronics-spring-2023/6.622-spring-2023.zip",
+            "headers": {
+              "content-length": "80575888",
+              "content-type": "application/zip",
+              "etag": "\"89cc8667884f9665b01b824a124f046d-10\"",
+              "last-modified": "Wed, 16 Sep 2026 06:59:58 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-622-power-electronics-spring-2023/6.622-spring-2023.zip"
+          },
+          "sha256": "51c6e89eff5a66594a1d929a23b70f467e88d9dad5ae492e8af52f5701d5ed20",
+          "url": "https://ocw.mit.edu/courses/6-622-power-electronics-spring-2023/6.622-spring-2023.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 80575888,
+      "source_url": "https://ocw.mit.edu/courses/6-622-power-electronics-spring-2023/6.622-spring-2023.zip",
+      "version": "6-622-power-electronics-spring-2023-metadata-922f9ba495eaa577",
+      "work_id": "ocw:9a9c1d7b-7f01-4ddb-a453-82915871db93"
+    },
+    {
+      "course_id": "2-003sc-engineering-dynamics-fall-2011",
+      "id": "ocw_d9d7c90c2760e07c91a3",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "a219cad9b98f75e22bbd11c244a9585dcd03272015108ffb1e8041ca783bad6f",
+          "size_bytes": 4616,
+          "url": "https://ocw.mit.edu/courses/2-003sc-engineering-dynamics-fall-2011/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "98dd638dd645b11c343d069675201fd09dffaef55952dc24fc272d0ae64af798",
+          "size_bytes": 175711,
+          "url": "https://ocw.mit.edu/courses/2-003sc-engineering-dynamics-fall-2011/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:03.631664+00:00",
+            "final_url": "https://ocw.mit.edu/courses/2-003sc-engineering-dynamics-fall-2011/2.003sc-fall-2011.zip",
+            "headers": {
+              "content-length": "91553611",
+              "content-type": "application/zip",
+              "etag": "\"050dbb8ce2b8f55e27c232ea10938665-11\"",
+              "last-modified": "Wed, 23 Sep 2026 15:57:41 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/2-003sc-engineering-dynamics-fall-2011/2.003sc-fall-2011.zip"
+          },
+          "sha256": "cdd11507e17a4817664534d130f6c41654f0a3a43ec8e0e245ff730893b5ca45",
+          "url": "https://ocw.mit.edu/courses/2-003sc-engineering-dynamics-fall-2011/2.003sc-fall-2011.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 91553611,
+      "source_url": "https://ocw.mit.edu/courses/2-003sc-engineering-dynamics-fall-2011/2.003sc-fall-2011.zip",
+      "version": "2-003sc-engineering-dynamics-fall-2011-metadata-a219cad9b98f75e2",
+      "work_id": "ocw:c922a590-fafa-4d5d-b376-97f7f5e22f5c"
+    },
+    {
+      "course_id": "5-61-physical-chemistry-fall-2017",
+      "id": "ocw_92f99ea2593655a3e712",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "27a4b65ef959bb59817d207d1031dfb519a0d4ec525498a0383a34a0233f8b6a",
+          "size_bytes": 3285,
+          "url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "6b657582b071e631c441d361a605958f7f4e21c0b2e3339d79436cedc0c76cb4",
+          "size_bytes": 117086,
+          "url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:03.957137+00:00",
+            "final_url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/5.61-fall-2017.zip",
+            "headers": {
+              "content-length": "54752441",
+              "content-type": "application/zip",
+              "etag": "\"15e6cedf4e292d39cb35b1eb7c926708-7\"",
+              "last-modified": "Tue, 15 Sep 2026 09:27:29 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/5.61-fall-2017.zip"
+          },
+          "sha256": "850c2812c0beabaffb954644110987a841c4be3fbfc95114fa70e0090fbb80c3",
+          "url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/5.61-fall-2017.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 54752441,
+      "source_url": "https://ocw.mit.edu/courses/5-61-physical-chemistry-fall-2017/5.61-fall-2017.zip",
+      "version": "5-61-physical-chemistry-fall-2017-metadata-27a4b65ef959bb59",
+      "work_id": "ocw:93db85f5-2383-4856-9d6f-13278c42eb68"
+    },
+    {
+      "course_id": "7-014-introductory-biology-spring-2005",
+      "id": "ocw_b0322bf5008991ef2293",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "3f5a585a46b7d2dc459346b3d827a1ae6b0f2496654ade67bf986cce245584ff",
+          "size_bytes": 6353,
+          "url": "https://ocw.mit.edu/courses/7-014-introductory-biology-spring-2005/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "76ac8e11d20eefcc51facf8bafae03a461e9521d0e8b17cc88b8034b8fb251c2",
+          "size_bytes": 138738,
+          "url": "https://ocw.mit.edu/courses/7-014-introductory-biology-spring-2005/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:04.594781+00:00",
+            "final_url": "https://ocw.mit.edu/courses/7-014-introductory-biology-spring-2005/7.014-spring-2005.zip",
+            "headers": {
+              "content-length": "34363165",
+              "content-type": "application/zip",
+              "etag": "\"fe9070f170c20e0a1c0d7b8d37dc2d3d-5\"",
+              "last-modified": "Mon, 21 Sep 2026 19:27:39 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/7-014-introductory-biology-spring-2005/7.014-spring-2005.zip"
+          },
+          "sha256": "101f58ddacb7f16f0e564b72103a0c9f6a3351d5614be5af3a5c7b9765c20c06",
+          "url": "https://ocw.mit.edu/courses/7-014-introductory-biology-spring-2005/7.014-spring-2005.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 34363165,
+      "source_url": "https://ocw.mit.edu/courses/7-014-introductory-biology-spring-2005/7.014-spring-2005.zip",
+      "version": "7-014-introductory-biology-spring-2005-metadata-3f5a585a46b7d2dc",
+      "work_id": "ocw:91aca2ac-7a10-4d36-ae91-562f9111d23d"
+    },
+    {
+      "course_id": "14-01sc-principles-of-microeconomics-fall-2011",
+      "id": "ocw_b5f45f656fb1866b9c16",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "8611a82f30d12976581005b70caa56153200554427ccd99fd61864b5f2477e8f",
+          "size_bytes": 6748,
+          "url": "https://ocw.mit.edu/courses/14-01sc-principles-of-microeconomics-fall-2011/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "3846d33facd155309c6cafd8c40cde956c92ef78751090dea1dfb613148c25a0",
+          "size_bytes": 232288,
+          "url": "https://ocw.mit.edu/courses/14-01sc-principles-of-microeconomics-fall-2011/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:05.180790+00:00",
+            "final_url": "https://ocw.mit.edu/courses/14-01sc-principles-of-microeconomics-fall-2011/14.01sc-fall-2011.zip",
+            "headers": {
+              "content-length": "45553833",
+              "content-type": "application/zip",
+              "etag": "\"e4731188f03cfa805b5e473fba6a18fa-6\"",
+              "last-modified": "Tue, 15 Sep 2026 10:25:12 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/14-01sc-principles-of-microeconomics-fall-2011/14.01sc-fall-2011.zip"
+          },
+          "sha256": "69ea12c8e4b70578189c1fa07caa3601d82490393c051f086fbe0989e5aedf87",
+          "url": "https://ocw.mit.edu/courses/14-01sc-principles-of-microeconomics-fall-2011/14.01sc-fall-2011.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 45553833,
+      "source_url": "https://ocw.mit.edu/courses/14-01sc-principles-of-microeconomics-fall-2011/14.01sc-fall-2011.zip",
+      "version": "14-01sc-principles-of-microeconomics-fall-2011-metadata-8611a82f30d12976",
+      "work_id": "ocw:ce2b30e4-62dd-466e-ba03-1e7ca83c9d20"
+    },
+    {
+      "course_id": "18-03sc-differential-equations-fall-2011",
+      "id": "ocw_5323a0b037c3e8ea86da",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "83cf4d5899c9715bd76e0bd2e9d544fb5535e673a532e96ad7edba8c809d8c70",
+          "size_bytes": 5833,
+          "url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "6c921ff1a5e0570cd982e9766edf006fbc2ef071f305fe301a5d180df02406d1",
+          "size_bytes": 267411,
+          "url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:05.864974+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/18.03sc-fall-2011.zip",
+            "headers": {
+              "content-length": "106175225",
+              "content-type": "application/zip",
+              "etag": "\"fe360da890f1e6a0da406e9c214622f2-13\"",
+              "last-modified": "Wed, 16 Sep 2026 07:28:52 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/18.03sc-fall-2011.zip"
+          },
+          "sha256": "58a827fff6d78a8e8f603fed66687ea647437b02eb4d978f5c7b42175e58e5be",
+          "url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/18.03sc-fall-2011.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 106175225,
+      "source_url": "https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/18.03sc-fall-2011.zip",
+      "version": "18-03sc-differential-equations-fall-2011-metadata-83cf4d5899c9715b",
+      "work_id": "ocw:d1072f7f-8e57-44d1-ad38-e379db96d6ea"
+    },
+    {
+      "course_id": "6-006-introduction-to-algorithms-spring-2020",
+      "id": "ocw_f73f2d17e35df6074335",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "31275e5711da75a5aff7087ee09ab2b20ada838f50f3174b29685c8a7ad732e1",
+          "size_bytes": 4010,
+          "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "b447ed82ef3cab34e79967f06369826c9e23f8a4be9d7810e9a757d5d0de4572",
+          "size_bytes": 161423,
+          "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:06.272770+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/6.006-spring-2020.zip",
+            "headers": {
+              "content-length": "42630152",
+              "content-type": "application/zip",
+              "etag": "\"5e34a17a2f3ba530ebdf5d214e10e2d2-6\"",
+              "last-modified": "Tue, 15 Sep 2026 09:40:52 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/6.006-spring-2020.zip"
+          },
+          "sha256": "b22be574276e266bd2129109cdd4e17f21abd2caa63d196d8f932e583253fce6",
+          "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/6.006-spring-2020.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 42630152,
+      "source_url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/6.006-spring-2020.zip",
+      "version": "6-006-introduction-to-algorithms-spring-2020-metadata-31275e5711da75a5",
+      "work_id": "ocw:569bea40-0b9e-4cde-8c34-497bab16606d"
+    },
+    {
+      "course_id": "8-701-introduction-to-nuclear-and-particle-physics-fall-2020",
+      "id": "ocw_9855c2bc654d66cb7433",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "44c39953adcece8fefca8ced8935cb4e37a9ff62eacb986e756355bca9260816",
+          "size_bytes": 3445,
+          "url": "https://ocw.mit.edu/courses/8-701-introduction-to-nuclear-and-particle-physics-fall-2020/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "8f56f22107a25fcf4bebb0eb5a802cfacd176e126c1af367a35daaf82dbd7d30",
+          "size_bytes": 132779,
+          "url": "https://ocw.mit.edu/courses/8-701-introduction-to-nuclear-and-particle-physics-fall-2020/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:07.331957+00:00",
+            "final_url": "https://ocw.mit.edu/courses/8-701-introduction-to-nuclear-and-particle-physics-fall-2020/8.701-fall-2020.zip",
+            "headers": {
+              "content-length": "51623496",
+              "content-type": "application/zip",
+              "etag": "\"3509c44e628de5e2378e13956cb31631-7\"",
+              "last-modified": "Wed, 16 Sep 2026 07:39:22 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/8-701-introduction-to-nuclear-and-particle-physics-fall-2020/8.701-fall-2020.zip"
+          },
+          "sha256": "67562db3a31bd0cd712bb07bb900c15848df2ec8de34c712b943be1dcc39e66e",
+          "url": "https://ocw.mit.edu/courses/8-701-introduction-to-nuclear-and-particle-physics-fall-2020/8.701-fall-2020.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 51623496,
+      "source_url": "https://ocw.mit.edu/courses/8-701-introduction-to-nuclear-and-particle-physics-fall-2020/8.701-fall-2020.zip",
+      "version": "8-701-introduction-to-nuclear-and-particle-physics-fall-2020-metadata-44c39953adcece8f",
+      "work_id": "ocw:5e360c1c-722f-4f81-851a-be8cc6ac5361"
+    },
+    {
+      "course_id": "7-012-introduction-to-biology-fall-2004",
+      "id": "ocw_6bbb8dd81ee8b88964ee",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "047f448e9ae8f8a9ce371483a874675b9a73bd769d7c10863f6e6438940f8114",
+          "size_bytes": 6281,
+          "url": "https://ocw.mit.edu/courses/7-012-introduction-to-biology-fall-2004/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "5808ab4d09369f7adb618c12fade3f308fa1d3c4e06cdf7a2832a092f8924b75",
+          "size_bytes": 131030,
+          "url": "https://ocw.mit.edu/courses/7-012-introduction-to-biology-fall-2004/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:07.791471+00:00",
+            "final_url": "https://ocw.mit.edu/courses/7-012-introduction-to-biology-fall-2004/7.012-fall-2004.zip",
+            "headers": {
+              "content-length": "29490533",
+              "content-type": "application/zip",
+              "etag": "\"f715ab7e24a75824d0755d0e62d61725-4\"",
+              "last-modified": "Tue, 15 Sep 2026 09:45:42 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/7-012-introduction-to-biology-fall-2004/7.012-fall-2004.zip"
+          },
+          "sha256": "0f7c46294d9bfacec281f33c49cc91d6159c3b1358995a82300e2c857c2240f5",
+          "url": "https://ocw.mit.edu/courses/7-012-introduction-to-biology-fall-2004/7.012-fall-2004.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 29490533,
+      "source_url": "https://ocw.mit.edu/courses/7-012-introduction-to-biology-fall-2004/7.012-fall-2004.zip",
+      "version": "7-012-introduction-to-biology-fall-2004-metadata-047f448e9ae8f8a9",
+      "work_id": "ocw:55136ed2-b02b-445a-b2fe-d2593675b550"
+    },
+    {
+      "course_id": "14-13-psychology-and-economics-spring-2020",
+      "id": "ocw_c9c479e3e69d8973eaa4",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "8eda05b17e1fa1afce42a8cbd6212ba5e19d329ff40396fde0053ce48b5a55f1",
+          "size_bytes": 3853,
+          "url": "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "2afb6a3e74c22649bef7a8ad11342045b1a7931ac56e1c31df7494ed63b11d5c",
+          "size_bytes": 127669,
+          "url": "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:08.259273+00:00",
+            "final_url": "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/14.13-spring-2020.zip",
+            "headers": {
+              "content-length": "41680916",
+              "content-type": "application/zip",
+              "etag": "\"782884248a067ceabb4a4fae004b8a3d-5\"",
+              "last-modified": "Wed, 16 Sep 2026 07:47:53 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/14.13-spring-2020.zip"
+          },
+          "sha256": "fb73c4f922a29ec918a038e08ef7563ecd33502f7a4f4f0aeeb0080e7cddb043",
+          "url": "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/14.13-spring-2020.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 41680916,
+      "source_url": "https://ocw.mit.edu/courses/14-13-psychology-and-economics-spring-2020/14.13-spring-2020.zip",
+      "version": "14-13-psychology-and-economics-spring-2020-metadata-8eda05b17e1fa1af",
+      "work_id": "ocw:6cd5bc93-e60b-4338-a88f-f95adad9f988"
+    },
+    {
+      "course_id": "18-02sc-multivariable-calculus-fall-2010",
+      "id": "ocw_3bde71b41d0ac5bfde40",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "599a73ced6295581781114521c0f8897a1adee76dcc8c8f1dc22a0f4b2a975e2",
+          "size_bytes": 4492,
+          "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "37950e9261ac7603aac9e8f615568d8551c1be88f9a5797d8237f2e2366b3230",
+          "size_bytes": 226390,
+          "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:08.937107+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/18.02sc-fall-2010.zip",
+            "headers": {
+              "content-length": "113809265",
+              "content-type": "application/zip",
+              "etag": "\"33fc40797084982a992edf1466d3ba05-14\"",
+              "last-modified": "Wed, 16 Sep 2026 06:20:42 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/18.02sc-fall-2010.zip"
+          },
+          "sha256": "d49f3577b475a8cda37b3dbed4f213c0da237a516212d7d765b67cc02e78d74a",
+          "url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/18.02sc-fall-2010.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 113809265,
+      "source_url": "https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/18.02sc-fall-2010.zip",
+      "version": "18-02sc-multivariable-calculus-fall-2010-metadata-599a73ced6295581",
+      "work_id": "ocw:b063d98e-a777-4e9d-943f-b150d3c3a7eb"
+    },
+    {
+      "course_id": "6-003-signals-and-systems-fall-2011",
+      "id": "ocw_d8d92d1e6490844f01b6",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "c29acd9b5607704e1ab7eef257bb9e6a4839c44b351becb96793459fe2a370f1",
+          "size_bytes": 3827,
+          "url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "ab2569c0cb53f7100fabe9475e14386a4184a8387a83a0a865fff19dc346b945",
+          "size_bytes": 148943,
+          "url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:09.483372+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/6.003-fall-2011.zip",
+            "headers": {
+              "content-length": "67678613",
+              "content-type": "application/zip",
+              "etag": "\"eaa3b5bcbba5b332b4cb48db945528cf-9\"",
+              "last-modified": "Wed, 16 Sep 2026 06:58:29 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/6.003-fall-2011.zip"
+          },
+          "sha256": "208f0f332c2e9010d4a2a2722d2b0f57cc4ea342cdf1e7603d9f451d324ea07d",
+          "url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/6.003-fall-2011.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 67678613,
+      "source_url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/6.003-fall-2011.zip",
+      "version": "6-003-signals-and-systems-fall-2011-metadata-c29acd9b5607704e",
+      "work_id": "ocw:60b9e1ff-2c1b-44d7-b736-cc0ee548152d"
+    },
+    {
+      "course_id": "2-71-optics-spring-2009",
+      "id": "ocw_23ab3e5a2a2c151ce391",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "6cc122a78262b6ed9ab09a1f247a63b9310f672521cb7a0f7d6dc0f44a65b2ec",
+          "size_bytes": 4625,
+          "url": "https://ocw.mit.edu/courses/2-71-optics-spring-2009/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "435dfedfe66d5ff5bfe917f0418d38f3f695e0eb1b4f0c3f2cf9e803e6a9fa7a",
+          "size_bytes": 150149,
+          "url": "https://ocw.mit.edu/courses/2-71-optics-spring-2009/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:09.893810+00:00",
+            "final_url": "https://ocw.mit.edu/courses/2-71-optics-spring-2009/2.71-spring-2009.zip",
+            "headers": {
+              "content-length": "105740002",
+              "content-type": "application/zip",
+              "etag": "\"b8825ebd910bb2126e8991024e051193-13\"",
+              "last-modified": "Wed, 16 Sep 2026 07:25:56 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/2-71-optics-spring-2009/2.71-spring-2009.zip"
+          },
+          "sha256": "b79582a02939db7faf0171d6de9d5f9ac0cb07bdcaee8f8fbdf98ec170d468a0",
+          "url": "https://ocw.mit.edu/courses/2-71-optics-spring-2009/2.71-spring-2009.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 105740002,
+      "source_url": "https://ocw.mit.edu/courses/2-71-optics-spring-2009/2.71-spring-2009.zip",
+      "version": "2-71-optics-spring-2009-metadata-6cc122a78262b6ed",
+      "work_id": "ocw:8b48781f-07b1-476f-a353-c291f70fb91a"
+    },
+    {
+      "course_id": "8-821-string-theory-and-holographic-duality-fall-2014",
+      "id": "ocw_fbccd60245d9cb173f41",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "b3675cc38e03fb9ea79d0c07c2b94d25f1b3cd7d0aa0294f44cdcff3f0bfb9b4",
+          "size_bytes": 3927,
+          "url": "https://ocw.mit.edu/courses/8-821-string-theory-and-holographic-duality-fall-2014/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "552596b4c0c660cc022cbd83298378193bd7f3c7afa909268a21741e5bdd8090",
+          "size_bytes": 91934,
+          "url": "https://ocw.mit.edu/courses/8-821-string-theory-and-holographic-duality-fall-2014/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:10.299491+00:00",
+            "final_url": "https://ocw.mit.edu/courses/8-821-string-theory-and-holographic-duality-fall-2014/8.821-fall-2014.zip",
+            "headers": {
+              "content-length": "28554742",
+              "content-type": "application/zip",
+              "etag": "\"cb7fe75a7956952f8f0211880314d3b2-4\"",
+              "last-modified": "Wed, 16 Sep 2026 07:03:03 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/8-821-string-theory-and-holographic-duality-fall-2014/8.821-fall-2014.zip"
+          },
+          "sha256": "fc0f77f2c048928eb233f695c16909d74b40384ec04cb1f17ea4d861c6fd79d2",
+          "url": "https://ocw.mit.edu/courses/8-821-string-theory-and-holographic-duality-fall-2014/8.821-fall-2014.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 28554742,
+      "source_url": "https://ocw.mit.edu/courses/8-821-string-theory-and-holographic-duality-fall-2014/8.821-fall-2014.zip",
+      "version": "8-821-string-theory-and-holographic-duality-fall-2014-metadata-b3675cc38e03fb9e",
+      "work_id": "ocw:329a9bcd-b9eb-46e8-800b-e77b4bf8971b"
+    },
+    {
+      "course_id": "7-05-general-biochemistry-spring-2020",
+      "id": "ocw_fe138e7e28addf968ee6",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "5ccaa3816f387a4d7ba687116a20badf08c4adfd4c554af0f056ad0657cce291",
+          "size_bytes": 5913,
+          "url": "https://ocw.mit.edu/courses/7-05-general-biochemistry-spring-2020/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "c11da5afb3316fc8542bebedcd90a4cbc5897d6a1729e7b9f4c0ddc4a2b82d7e",
+          "size_bytes": 85732,
+          "url": "https://ocw.mit.edu/courses/7-05-general-biochemistry-spring-2020/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:10.866945+00:00",
+            "final_url": "https://ocw.mit.edu/courses/7-05-general-biochemistry-spring-2020/7.05-spring-2020.zip",
+            "headers": {
+              "content-length": "21202143",
+              "content-type": "application/zip",
+              "etag": "\"abd39d4ba6766baf94f2def9258a09f2-3\"",
+              "last-modified": "Tue, 15 Sep 2026 11:05:06 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/7-05-general-biochemistry-spring-2020/7.05-spring-2020.zip"
+          },
+          "sha256": "f5eeab20ee05d73472450ef229c64475566a1e71449d67b5dc78007430b45de6",
+          "url": "https://ocw.mit.edu/courses/7-05-general-biochemistry-spring-2020/7.05-spring-2020.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 21202143,
+      "source_url": "https://ocw.mit.edu/courses/7-05-general-biochemistry-spring-2020/7.05-spring-2020.zip",
+      "version": "7-05-general-biochemistry-spring-2020-metadata-5ccaa3816f387a4d",
+      "work_id": "ocw:49b6b514-2931-4e48-a073-f6126216ca94"
+    },
+    {
+      "course_id": "14-271-industrial-organization-i-fall-2022",
+      "id": "ocw_e620360a8be599d817a3",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "7c4775b89f110f08f968d569a82d3ba783e6e9ae1edc9566176066540b68a051",
+          "size_bytes": 3730,
+          "url": "https://ocw.mit.edu/courses/14-271-industrial-organization-i-fall-2022/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "975e613ebc5edfd7d272d0a44d8e71c7ba9f0eca382561f049bf3bc8b343098d",
+          "size_bytes": 111596,
+          "url": "https://ocw.mit.edu/courses/14-271-industrial-organization-i-fall-2022/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:11.308556+00:00",
+            "final_url": "https://ocw.mit.edu/courses/14-271-industrial-organization-i-fall-2022/14.271-fall-2022.zip",
+            "headers": {
+              "content-length": "44049539",
+              "content-type": "application/zip",
+              "etag": "\"67e1dc112b7dfaf3825abdd1ea574ac0-6\"",
+              "last-modified": "Tue, 15 Sep 2026 09:28:35 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/14-271-industrial-organization-i-fall-2022/14.271-fall-2022.zip"
+          },
+          "sha256": "af8c7bea2f1201a2f49ca2ab8be6d01a09d15e4f84df858bf8c25461da900d35",
+          "url": "https://ocw.mit.edu/courses/14-271-industrial-organization-i-fall-2022/14.271-fall-2022.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 44049539,
+      "source_url": "https://ocw.mit.edu/courses/14-271-industrial-organization-i-fall-2022/14.271-fall-2022.zip",
+      "version": "14-271-industrial-organization-i-fall-2022-metadata-7c4775b89f110f08",
+      "work_id": "ocw:7e149d5b-54e0-4fea-bdf3-6b78ddf74650"
+    },
+    {
+      "course_id": "18-225-graph-theory-and-additive-combinatorics-fall-2023",
+      "id": "ocw_f37c66d23a51fe9e4b37",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "d4f43ac63e13abe4e4b336d835c7260dab31e0626450360d5cbe1de02718773e",
+          "size_bytes": 3284,
+          "url": "https://ocw.mit.edu/courses/18-225-graph-theory-and-additive-combinatorics-fall-2023/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "5c53a8663631352ba9b969dca3f86feb4303d8d07d826a963ad4228826d8a40e",
+          "size_bytes": 84021,
+          "url": "https://ocw.mit.edu/courses/18-225-graph-theory-and-additive-combinatorics-fall-2023/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:11.680317+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-225-graph-theory-and-additive-combinatorics-fall-2023/18.225-fall-2023.zip",
+            "headers": {
+              "content-length": "27109581",
+              "content-type": "application/zip",
+              "etag": "\"ed12447908cb83633c47cd91f3bf9472-4\"",
+              "last-modified": "Tue, 15 Sep 2026 10:39:02 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-225-graph-theory-and-additive-combinatorics-fall-2023/18.225-fall-2023.zip"
+          },
+          "sha256": "373264b8f8484fbdae11689e4570504cc3a4c3a62db0625549e57238149eae42",
+          "url": "https://ocw.mit.edu/courses/18-225-graph-theory-and-additive-combinatorics-fall-2023/18.225-fall-2023.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 27109581,
+      "source_url": "https://ocw.mit.edu/courses/18-225-graph-theory-and-additive-combinatorics-fall-2023/18.225-fall-2023.zip",
+      "version": "18-225-graph-theory-and-additive-combinatorics-fall-2023-metadata-d4f43ac63e13abe4",
+      "work_id": "ocw:e53456f0-000b-4fe8-ba67-c46309a193cd"
+    },
+    {
+      "course_id": "2-830j-control-of-manufacturing-processes-sma-6303-spring-2008",
+      "id": "ocw_04e8a036b7adcdeb1096",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "c942e90632b35fe8098c83056617b8c04c154566cb84aa437fd5fed861604768",
+          "size_bytes": 4813,
+          "url": "https://ocw.mit.edu/courses/2-830j-control-of-manufacturing-processes-sma-6303-spring-2008/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "45b331122bf10572ec1165471cc090342aeb2a68d0e45e103d19cc6097852b4b",
+          "size_bytes": 141191,
+          "url": "https://ocw.mit.edu/courses/2-830j-control-of-manufacturing-processes-sma-6303-spring-2008/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:12.012494+00:00",
+            "final_url": "https://ocw.mit.edu/courses/2-830j-control-of-manufacturing-processes-sma-6303-spring-2008/2.830j-spring-2008.zip",
+            "headers": {
+              "content-length": "35898824",
+              "content-type": "application/zip",
+              "etag": "\"4fcee86bf73e7a6a48ec8af6ea55331f-5\"",
+              "last-modified": "Tue, 15 Sep 2026 12:27:01 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/2-830j-control-of-manufacturing-processes-sma-6303-spring-2008/2.830j-spring-2008.zip"
+          },
+          "sha256": "c8a7373cf0467345594c7d8869aaa3ba773886d744d8e16795f025c9a04fa6ff",
+          "url": "https://ocw.mit.edu/courses/2-830j-control-of-manufacturing-processes-sma-6303-spring-2008/2.830j-spring-2008.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 35898824,
+      "source_url": "https://ocw.mit.edu/courses/2-830j-control-of-manufacturing-processes-sma-6303-spring-2008/2.830j-spring-2008.zip",
+      "version": "2-830j-control-of-manufacturing-processes-sma-6303-spring-2008-metadata-c942e90632b35fe8",
+      "work_id": "ocw:228a2c34-ce48-4432-a28f-b4316da92c46"
+    },
+    {
+      "course_id": "5-07sc-biological-chemistry-i-fall-2013",
+      "id": "ocw_76a0d36ea309ba89157a",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "6a3d12b34a77fa654c571be7c53fcddea9a10ddc85ec20fbf582c76342f29a9b",
+          "size_bytes": 7744,
+          "url": "https://ocw.mit.edu/courses/5-07sc-biological-chemistry-i-fall-2013/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "80cc5dfdad57d9c5ad1604eebdbb5d40a7b7b24cefb04b1a8d6a9696ad2c7aad",
+          "size_bytes": 181552,
+          "url": "https://ocw.mit.edu/courses/5-07sc-biological-chemistry-i-fall-2013/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:13.038382+00:00",
+            "final_url": "https://ocw.mit.edu/courses/5-07sc-biological-chemistry-i-fall-2013/5.07sc-fall-2013.zip",
+            "headers": {
+              "content-length": "43450778",
+              "content-type": "application/zip",
+              "etag": "\"0509c8e67c1683a9da595eb78f25e94a-6\"",
+              "last-modified": "Tue, 15 Sep 2026 10:24:17 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/5-07sc-biological-chemistry-i-fall-2013/5.07sc-fall-2013.zip"
+          },
+          "sha256": "7e2f9735c9b885a5d3210d25464b9873d5fccbe8358c615d5646f28dd2cd9a69",
+          "url": "https://ocw.mit.edu/courses/5-07sc-biological-chemistry-i-fall-2013/5.07sc-fall-2013.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 43450778,
+      "source_url": "https://ocw.mit.edu/courses/5-07sc-biological-chemistry-i-fall-2013/5.07sc-fall-2013.zip",
+      "version": "5-07sc-biological-chemistry-i-fall-2013-metadata-6a3d12b34a77fa65",
+      "work_id": "ocw:364a1c54-ea67-44e2-92ac-4c338aa265a0"
+    },
+    {
+      "course_id": "9-40-introduction-to-neural-computation-spring-2018",
+      "id": "ocw_fbd6bdcd8c75d77a41e5",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "88ac0f03a2cf40a4cfee342353971b72bac226ee5ce2886072db665a9f0d61bc",
+          "size_bytes": 4416,
+          "url": "https://ocw.mit.edu/courses/9-40-introduction-to-neural-computation-spring-2018/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "59089c801880690e10f86593af142bca3b38886fd209f5c2052a9a084c328e82",
+          "size_bytes": 92940,
+          "url": "https://ocw.mit.edu/courses/9-40-introduction-to-neural-computation-spring-2018/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:13.359754+00:00",
+            "final_url": "https://ocw.mit.edu/courses/9-40-introduction-to-neural-computation-spring-2018/9.40-spring-2018.zip",
+            "headers": {
+              "content-length": "73867456",
+              "content-type": "application/zip",
+              "etag": "\"b484d83885e1a78396cb8a52bbed4de8-9\"",
+              "last-modified": "Tue, 15 Sep 2026 11:46:58 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/9-40-introduction-to-neural-computation-spring-2018/9.40-spring-2018.zip"
+          },
+          "sha256": "4ae0d3cf5e67422a4043a25f38924907ecebb14664e369fba4d8d292dbff899d",
+          "url": "https://ocw.mit.edu/courses/9-40-introduction-to-neural-computation-spring-2018/9.40-spring-2018.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 73867456,
+      "source_url": "https://ocw.mit.edu/courses/9-40-introduction-to-neural-computation-spring-2018/9.40-spring-2018.zip",
+      "version": "9-40-introduction-to-neural-computation-spring-2018-metadata-88ac0f03a2cf40a4",
+      "work_id": "ocw:2fbb8bcc-a96d-4e05-9cb7-55e84e7d2016"
+    },
+    {
+      "course_id": "14-772-development-economics-macroeconomics-spring-2013",
+      "id": "ocw_d7311d43aae39bbfa5a4",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "a1a29d529d787a52d3d19af68e4fe639819c61388a439580c0216cbaaffe6ecc",
+          "size_bytes": 4806,
+          "url": "https://ocw.mit.edu/courses/14-772-development-economics-macroeconomics-spring-2013/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "38a267c6bd9e4ae672129e52f485a44374bfb1e667f820458a12bf781000575c",
+          "size_bytes": 68997,
+          "url": "https://ocw.mit.edu/courses/14-772-development-economics-macroeconomics-spring-2013/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:13.691264+00:00",
+            "final_url": "https://ocw.mit.edu/courses/14-772-development-economics-macroeconomics-spring-2013/14.772-spring-2013.zip",
+            "headers": {
+              "content-length": "41513436",
+              "content-type": "application/zip",
+              "etag": "\"dc5d26c85e11255305f0e74566fd359c-5\"",
+              "last-modified": "Tue, 15 Sep 2026 11:24:59 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/14-772-development-economics-macroeconomics-spring-2013/14.772-spring-2013.zip"
+          },
+          "sha256": "338d2cfd8ff828c34e012f0d27c02146a98b43480200527d8291b2739fd4eb59",
+          "url": "https://ocw.mit.edu/courses/14-772-development-economics-macroeconomics-spring-2013/14.772-spring-2013.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 41513436,
+      "source_url": "https://ocw.mit.edu/courses/14-772-development-economics-macroeconomics-spring-2013/14.772-spring-2013.zip",
+      "version": "14-772-development-economics-macroeconomics-spring-2013-metadata-a1a29d529d787a52",
+      "work_id": "ocw:0f0e285e-d3ab-41d4-8ce2-c567480d0a6b"
+    },
+    {
+      "course_id": "18-s096-matrix-calculus-for-machine-learning-and-beyond-january-iap-2023",
+      "id": "ocw_3a7bd901624cbcb798cb",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "3cb867d3226fffbee619cc70f9fcfb7330bfc4b329b63a3a01b6f7822d29d0ac",
+          "size_bytes": 5306,
+          "url": "https://ocw.mit.edu/courses/18-s096-matrix-calculus-for-machine-learning-and-beyond-january-iap-2023/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "a742adefde2bfafa803518e970541a605b4ed758d4162adcbb7b9698a157c04d",
+          "size_bytes": 99063,
+          "url": "https://ocw.mit.edu/courses/18-s096-matrix-calculus-for-machine-learning-and-beyond-january-iap-2023/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:14.175013+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-s096-matrix-calculus-for-machine-learning-and-beyond-january-iap-2023/18.s096-iap-2023.zip",
+            "headers": {
+              "content-length": "26954373",
+              "content-type": "application/zip",
+              "etag": "\"fea3c79a9403542c7cd3e553194f8844-4\"",
+              "last-modified": "Wed, 16 Sep 2026 06:30:35 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-s096-matrix-calculus-for-machine-learning-and-beyond-january-iap-2023/18.s096-iap-2023.zip"
+          },
+          "sha256": "faf1d7bee1e73e3ed1a473661fffb769b721041aa70a902394cb26b9635af8f5",
+          "url": "https://ocw.mit.edu/courses/18-s096-matrix-calculus-for-machine-learning-and-beyond-january-iap-2023/18.s096-iap-2023.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 26954373,
+      "source_url": "https://ocw.mit.edu/courses/18-s096-matrix-calculus-for-machine-learning-and-beyond-january-iap-2023/18.s096-iap-2023.zip",
+      "version": "18-s096-matrix-calculus-for-machine-learning-and-beyond-january-iap-2023-metadata-3cb867d3226fffbe",
+      "work_id": "ocw:e54b7126-df94-456a-95d2-3acf4f18a65f"
+    },
+    {
+      "course_id": "6-451-principles-of-digital-communication-ii-spring-2005",
+      "id": "ocw_91f8d56c4f9958fdf004",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "750aadb562c79999ce7bd49937c72ba55d9d0bb37b144669a0268739de611d37",
+          "size_bytes": 4821,
+          "url": "https://ocw.mit.edu/courses/6-451-principles-of-digital-communication-ii-spring-2005/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "a09444263951b55296a1abd78aa9a5e9f518d8fd9d3e294cf065b42b5ce9c693",
+          "size_bytes": 122267,
+          "url": "https://ocw.mit.edu/courses/6-451-principles-of-digital-communication-ii-spring-2005/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:14.575267+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-451-principles-of-digital-communication-ii-spring-2005/6.451-spring-2005.zip",
+            "headers": {
+              "content-length": "25075805",
+              "content-type": "application/zip",
+              "etag": "\"7715c1b05c9a2ec527c52f770894a4a2-3\"",
+              "last-modified": "Tue, 15 Sep 2026 09:29:13 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-451-principles-of-digital-communication-ii-spring-2005/6.451-spring-2005.zip"
+          },
+          "sha256": "87ff41906716a5967e84c3ac5e523ee202d5d32ad43b0870aa125871d24de552",
+          "url": "https://ocw.mit.edu/courses/6-451-principles-of-digital-communication-ii-spring-2005/6.451-spring-2005.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 25075805,
+      "source_url": "https://ocw.mit.edu/courses/6-451-principles-of-digital-communication-ii-spring-2005/6.451-spring-2005.zip",
+      "version": "6-451-principles-of-digital-communication-ii-spring-2005-metadata-750aadb562c79999",
+      "work_id": "ocw:7be06e64-d983-447a-9e55-efce66693db7"
+    },
+    {
+      "course_id": "3-320-atomistic-computer-modeling-of-materials-sma-5107-spring-2005",
+      "id": "ocw_cccf01f3e14c1bd34f60",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "f5b9b7526eceeb2b6c935d6e08fea5e0da90226add129899663fea9a4ed31bc6",
+          "size_bytes": 6718,
+          "url": "https://ocw.mit.edu/courses/3-320-atomistic-computer-modeling-of-materials-sma-5107-spring-2005/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "9f90d56c4693210f6e60de2da4d831d748e4238b0d3ceae568b8f26e5d9e87ea",
+          "size_bytes": 102666,
+          "url": "https://ocw.mit.edu/courses/3-320-atomistic-computer-modeling-of-materials-sma-5107-spring-2005/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:15.130060+00:00",
+            "final_url": "https://ocw.mit.edu/courses/3-320-atomistic-computer-modeling-of-materials-sma-5107-spring-2005/3.320-spring-2005.zip",
+            "headers": {
+              "content-length": "59802433",
+              "content-type": "application/zip",
+              "etag": "\"37bef8f0856b580270caaed6df14b178-8\"",
+              "last-modified": "Tue, 15 Sep 2026 11:07:16 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/3-320-atomistic-computer-modeling-of-materials-sma-5107-spring-2005/3.320-spring-2005.zip"
+          },
+          "sha256": "f2f1279b227b5c01e5ca613cd0aaca36cac03c387ecde7984559842f4dc05c8c",
+          "url": "https://ocw.mit.edu/courses/3-320-atomistic-computer-modeling-of-materials-sma-5107-spring-2005/3.320-spring-2005.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 59802433,
+      "source_url": "https://ocw.mit.edu/courses/3-320-atomistic-computer-modeling-of-materials-sma-5107-spring-2005/3.320-spring-2005.zip",
+      "version": "3-320-atomistic-computer-modeling-of-materials-sma-5107-spring-2005-metadata-f5b9b7526eceeb2b",
+      "work_id": "ocw:cc0a1b9b-f371-47c2-b597-16ec26a6693a"
+    },
+    {
+      "course_id": "8-04-quantum-physics-i-spring-2013",
+      "id": "ocw_827ba227def761650637",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "f4a1261fc7a162c57106b1732febd4ad80571086a2530094f3c9409589a44b39",
+          "size_bytes": 4125,
+          "url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "359b32fe01c211ed2b34a162f8778148774929c328161dd752acf1f466a3c482",
+          "size_bytes": 118497,
+          "url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:15.470984+00:00",
+            "final_url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/8.04-spring-2013.zip",
+            "headers": {
+              "content-length": "32586521",
+              "content-type": "application/zip",
+              "etag": "\"79856e799fe5ef00fb7059c554e2bdca-4\"",
+              "last-modified": "Tue, 15 Sep 2026 10:32:13 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/8.04-spring-2013.zip"
+          },
+          "sha256": "6db8036fb8b7db6e69f0789444af298f8c2ae707f8ec9023b5bc4dc87d008083",
+          "url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/8.04-spring-2013.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 32586521,
+      "source_url": "https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2013/8.04-spring-2013.zip",
+      "version": "8-04-quantum-physics-i-spring-2013-metadata-f4a1261fc7a162c5",
+      "work_id": "ocw:95227892-f73d-4b29-b534-59b3b8b3344d"
+    },
+    {
+      "course_id": "14-12-economic-applications-of-game-theory-fall-2025",
+      "id": "ocw_4cf1bbae3464844e87f4",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "8d0752de48a4753bda16674bb5d93c7a8b365186aeaf32b8cebb500fc7f10fd4",
+          "size_bytes": 3849,
+          "url": "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "9b985925646a565b6b20348c984bc45460331d09da9d2b99f746f2391c4cdf88",
+          "size_bytes": 94993,
+          "url": "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:15.975056+00:00",
+            "final_url": "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/14.12-fall-2025.zip",
+            "headers": {
+              "content-length": "20834709",
+              "content-type": "application/zip",
+              "etag": "\"2b25cb31ed9b0ba98283b03cda9cc6de-3\"",
+              "last-modified": "Tue, 15 Sep 2026 11:28:38 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/14.12-fall-2025.zip"
+          },
+          "sha256": "19b1de81e054c8fb8e91acb3cc275a99a5ff12e3c886fdbaf13d06e05ac60661",
+          "url": "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/14.12-fall-2025.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 20834709,
+      "source_url": "https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/14.12-fall-2025.zip",
+      "version": "14-12-economic-applications-of-game-theory-fall-2025-metadata-8d0752de48a4753b",
+      "work_id": "ocw:2ac81c7f-e751-49f2-95cb-fb12fdfa1aae"
+    },
+    {
+      "course_id": "18-226-probabilistic-methods-in-combinatorics-fall-2022",
+      "id": "ocw_72af291e1a404e2ec86d",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "88bd6de84d756fd66e659e3aa2609e5e66c04135b62ca4f365736df5f7942e96",
+          "size_bytes": 3604,
+          "url": "https://ocw.mit.edu/courses/18-226-probabilistic-methods-in-combinatorics-fall-2022/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "d54f12e5bf5a6b088f386bc1312156a0370c9ed48e107dfc82e4a727313be0b6",
+          "size_bytes": 82884,
+          "url": "https://ocw.mit.edu/courses/18-226-probabilistic-methods-in-combinatorics-fall-2022/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:16.250533+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-226-probabilistic-methods-in-combinatorics-fall-2022/18.226-fall-2022.zip",
+            "headers": {
+              "content-length": "21503896",
+              "content-type": "application/zip",
+              "etag": "\"59ef759725858d2e570d699fff4b6625-3\"",
+              "last-modified": "Tue, 15 Sep 2026 09:23:30 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-226-probabilistic-methods-in-combinatorics-fall-2022/18.226-fall-2022.zip"
+          },
+          "sha256": "bf90aaa83ca9d19dfa59eb0660bb915a71787c880d761308a9c8fdac30b72def",
+          "url": "https://ocw.mit.edu/courses/18-226-probabilistic-methods-in-combinatorics-fall-2022/18.226-fall-2022.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 21503896,
+      "source_url": "https://ocw.mit.edu/courses/18-226-probabilistic-methods-in-combinatorics-fall-2022/18.226-fall-2022.zip",
+      "version": "18-226-probabilistic-methods-in-combinatorics-fall-2022-metadata-88bd6de84d756fd6",
+      "work_id": "ocw:ab66905f-8227-4493-91b1-837728b72fcb"
+    },
+    {
+      "course_id": "6-890-algorithmic-lower-bounds-fun-with-hardness-proofs-fall-2014",
+      "id": "ocw_59296f8d4063526ae08e",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "02ca4068c5a1382c8866f996397ae17b3ae741e2da92566cc4651547ed6331c9",
+          "size_bytes": 4836,
+          "url": "https://ocw.mit.edu/courses/6-890-algorithmic-lower-bounds-fun-with-hardness-proofs-fall-2014/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "0f5c39d7f3ada22a72e5fc2d9bb897bebf401b3afdd86ca1a021c7822e427dc1",
+          "size_bytes": 121125,
+          "url": "https://ocw.mit.edu/courses/6-890-algorithmic-lower-bounds-fun-with-hardness-proofs-fall-2014/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:16.717475+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-890-algorithmic-lower-bounds-fun-with-hardness-proofs-fall-2014/6.890-fall-2014.zip",
+            "headers": {
+              "content-length": "176849607",
+              "content-type": "application/zip",
+              "etag": "\"4f353980dca7eb4b97a02974b2613d81-22\"",
+              "last-modified": "Tue, 15 Sep 2026 10:11:49 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-890-algorithmic-lower-bounds-fun-with-hardness-proofs-fall-2014/6.890-fall-2014.zip"
+          },
+          "sha256": "e284e8c6bc06229c0ca71949251ebc2e6afe437e0fc78950f127fb47a3308f99",
+          "url": "https://ocw.mit.edu/courses/6-890-algorithmic-lower-bounds-fun-with-hardness-proofs-fall-2014/6.890-fall-2014.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 176849607,
+      "source_url": "https://ocw.mit.edu/courses/6-890-algorithmic-lower-bounds-fun-with-hardness-proofs-fall-2014/6.890-fall-2014.zip",
+      "version": "6-890-algorithmic-lower-bounds-fun-with-hardness-proofs-fall-2014-metadata-02ca4068c5a1382c",
+      "work_id": "ocw:b4c0c3af-07f8-4455-b878-8fe8de76ffe5"
+    },
+    {
+      "course_id": "3-020-thermodynamics-of-materials-spring-2021",
+      "id": "ocw_813a0f7889e45ddeb038",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "0759702d8d379b2b598a95eedff87ad2326a74daa9e0b8406e942cb351781b02",
+          "size_bytes": 3933,
+          "url": "https://ocw.mit.edu/courses/3-020-thermodynamics-of-materials-spring-2021/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "c5ddf941865dde86ffbadbf3cda26fd392dd9a43b52347335ba8e8f988697fa5",
+          "size_bytes": 138836,
+          "url": "https://ocw.mit.edu/courses/3-020-thermodynamics-of-materials-spring-2021/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:17.206599+00:00",
+            "final_url": "https://ocw.mit.edu/courses/3-020-thermodynamics-of-materials-spring-2021/3.020-spring-2021.zip",
+            "headers": {
+              "content-length": "58951952",
+              "content-type": "application/zip",
+              "etag": "\"9627966ceeaa57a640eda58c5bd5f9e1-8\"",
+              "last-modified": "Tue, 15 Sep 2026 11:29:52 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/3-020-thermodynamics-of-materials-spring-2021/3.020-spring-2021.zip"
+          },
+          "sha256": "e1273c829e57d7eab77dff10e526bd297a3c098626b4c221bf640c904eb15b36",
+          "url": "https://ocw.mit.edu/courses/3-020-thermodynamics-of-materials-spring-2021/3.020-spring-2021.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 58951952,
+      "source_url": "https://ocw.mit.edu/courses/3-020-thermodynamics-of-materials-spring-2021/3.020-spring-2021.zip",
+      "version": "3-020-thermodynamics-of-materials-spring-2021-metadata-0759702d8d379b2b",
+      "work_id": "ocw:7a852892-d940-4d19-87a4-6d8994213bf9"
+    },
+    {
+      "course_id": "5-80-small-molecule-spectroscopy-and-dynamics-fall-2008",
+      "id": "ocw_20a4fbae89d4b19c2e92",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "190fe9739a365bb8eb184683a9757db542aef26d4140219e32a14304b397200c",
+          "size_bytes": 4450,
+          "url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "d5f19ee20ed6896c8e1c8dd36c74706d9ab533fc26c0a963e76c96368c845852",
+          "size_bytes": 106975,
+          "url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:17.672483+00:00",
+            "final_url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/5.80-fall-2008.zip",
+            "headers": {
+              "content-length": "39138831",
+              "content-type": "application/zip",
+              "etag": "\"f0c36ff8b28f04de9e6df6d31ef72d87-5\"",
+              "last-modified": "Wed, 16 Sep 2026 06:43:06 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/5.80-fall-2008.zip"
+          },
+          "sha256": "3183d748a4b36d29a32e3e8eed388e7714dbe3d495d128ffe8f2a52789628609",
+          "url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/5.80-fall-2008.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 39138831,
+      "source_url": "https://ocw.mit.edu/courses/5-80-small-molecule-spectroscopy-and-dynamics-fall-2008/5.80-fall-2008.zip",
+      "version": "5-80-small-molecule-spectroscopy-and-dynamics-fall-2008-metadata-190fe9739a365bb8",
+      "work_id": "ocw:669e82e8-1d80-46b6-ab04-6fc73117a693"
+    },
+    {
+      "course_id": "14-41-public-finance-and-public-policy-fall-2024",
+      "id": "ocw_55260cdec590655df52b",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "0e15a39fcbc93f3e5f240b1d44b9bbc5e77004ef9bf175c5e15d2fc36b6eac12",
+          "size_bytes": 4291,
+          "url": "https://ocw.mit.edu/courses/14-41-public-finance-and-public-policy-fall-2024/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "d0dc830a68fcd463a4db7e55e2a6e8a329ce4bf59bf4fc4f6d04811e3b607c06",
+          "size_bytes": 142153,
+          "url": "https://ocw.mit.edu/courses/14-41-public-finance-and-public-policy-fall-2024/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:18.047273+00:00",
+            "final_url": "https://ocw.mit.edu/courses/14-41-public-finance-and-public-policy-fall-2024/14.41-Fall-2024.zip",
+            "headers": {
+              "content-length": "32663950",
+              "content-type": "application/zip",
+              "etag": "\"2b5605b138435214787b58e08adc2b90-4\"",
+              "last-modified": "Tue, 15 Sep 2026 10:30:42 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/14-41-public-finance-and-public-policy-fall-2024/14.41-Fall-2024.zip"
+          },
+          "sha256": "747b598a28543222d30d84e3acc6a2951a6287e32dab31ba5acf0a106fb80e99",
+          "url": "https://ocw.mit.edu/courses/14-41-public-finance-and-public-policy-fall-2024/14.41-Fall-2024.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 32663950,
+      "source_url": "https://ocw.mit.edu/courses/14-41-public-finance-and-public-policy-fall-2024/14.41-Fall-2024.zip",
+      "version": "14-41-public-finance-and-public-policy-fall-2024-metadata-0e15a39fcbc93f3e",
+      "work_id": "ocw:e4cf5e01-c0b6-44b9-82c4-eef6cfb619a2"
+    },
+    {
+      "course_id": "6-042j-mathematics-for-computer-science-spring-2015",
+      "id": "ocw_f6e1cc0f2b986165cf40",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "619502094f9d23d5e20da908f05d893babc5718d03eb3e84bec6d10dac51f4d7",
+          "size_bytes": 5214,
+          "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "1c395fb9fc03ff0dd8ddb9212488ab45c9f996b7de2f009ad05707f81bb39d10",
+          "size_bytes": 51127,
+          "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:18.502937+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/6.042j-spring-2015.zip",
+            "headers": {
+              "content-length": "34826378",
+              "content-type": "application/zip",
+              "etag": "\"e54d4f6e98a77eb94d3a62a23256e8ab-5\"",
+              "last-modified": "Tue, 15 Sep 2026 11:01:28 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/6.042j-spring-2015.zip"
+          },
+          "sha256": "7b6856bb7d5a83962ddc3e22b419d0a3508ecfeb0546bf50310d1a4897512683",
+          "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/6.042j-spring-2015.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 34826378,
+      "source_url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/6.042j-spring-2015.zip",
+      "version": "6-042j-mathematics-for-computer-science-spring-2015-metadata-619502094f9d23d5",
+      "work_id": "ocw:f1644e3d-e113-4bcb-85ad-53b17be68e6c"
+    },
+    {
+      "course_id": "6-02-introduction-to-eecs-ii-digital-communication-systems-fall-2012",
+      "id": "ocw_8fb19cdfc4dbcbf0a117",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "a1d2da75557340e6c4b9903f51dcb54175ecbafc2aa8d6cc2e0bb27fac412aec",
+          "size_bytes": 5435,
+          "url": "https://ocw.mit.edu/courses/6-02-introduction-to-eecs-ii-digital-communication-systems-fall-2012/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "e115a44c3e5caa16a3d1b6057cb5a9773c0eee90d530bfd942fa695abc631b08",
+          "size_bytes": 141144,
+          "url": "https://ocw.mit.edu/courses/6-02-introduction-to-eecs-ii-digital-communication-systems-fall-2012/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:18.819694+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-02-introduction-to-eecs-ii-digital-communication-systems-fall-2012/6.02-fall-2012.zip",
+            "headers": {
+              "content-length": "68279986",
+              "content-type": "application/zip",
+              "etag": "\"587138af194a5f53a90a4b601b4dd64f-9\"",
+              "last-modified": "Tue, 15 Sep 2026 09:48:53 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-02-introduction-to-eecs-ii-digital-communication-systems-fall-2012/6.02-fall-2012.zip"
+          },
+          "sha256": "43356d055871dc316f096557ecaeb5ec844bbf7570b1c555cfd13fbdac6b204c",
+          "url": "https://ocw.mit.edu/courses/6-02-introduction-to-eecs-ii-digital-communication-systems-fall-2012/6.02-fall-2012.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 68279986,
+      "source_url": "https://ocw.mit.edu/courses/6-02-introduction-to-eecs-ii-digital-communication-systems-fall-2012/6.02-fall-2012.zip",
+      "version": "6-02-introduction-to-eecs-ii-digital-communication-systems-fall-2012-metadata-a1d2da75557340e6",
+      "work_id": "ocw:e4a582d0-eea4-4d44-8620-f2bd8856f65d"
+    },
+    {
+      "course_id": "22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016",
+      "id": "ocw_9f1ae71c2a430a9f6526",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "3243ebfa55ce7634467c87129961d0713a5582c733365e7a4ecabc2e398911ab",
+          "size_bytes": 4335,
+          "url": "https://ocw.mit.edu/courses/22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "55c171943c2bebe6c01225930c417b5d6170e170dcc7541803df66ad5cb3894d",
+          "size_bytes": 133323,
+          "url": "https://ocw.mit.edu/courses/22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:19.263799+00:00",
+            "final_url": "https://ocw.mit.edu/courses/22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016/22.01-fall-2016.zip",
+            "headers": {
+              "content-length": "88309941",
+              "content-type": "application/zip",
+              "etag": "\"5af85068cde24ab648fa1a48524837cc-11\"",
+              "last-modified": "Wed, 16 Sep 2026 07:43:55 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016/22.01-fall-2016.zip"
+          },
+          "sha256": "c140ccdc8b0ecf23560f62ed1062923b51cf79e5d6ecc33fe6251ffb9db8abc3",
+          "url": "https://ocw.mit.edu/courses/22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016/22.01-fall-2016.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 88309941,
+      "source_url": "https://ocw.mit.edu/courses/22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016/22.01-fall-2016.zip",
+      "version": "22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016-metadata-3243ebfa55ce7634",
+      "work_id": "ocw:0321a309-6430-4d5b-a783-48f55bad321e"
+    },
+    {
+      "course_id": "8-20-introduction-to-special-relativity-january-iap-2021",
+      "id": "ocw_e70023b05c0f5283a960",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "4178a615390ef77491ff81e8b102f519958bccd3ea339289848cc7c086ed2603",
+          "size_bytes": 3275,
+          "url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "188f40dd5412c2975273982fe8a4de9bfad751cb3be1524029d6b4478afe2e2d",
+          "size_bytes": 93728,
+          "url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:19.833192+00:00",
+            "final_url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/8.20-january-iap-2021.zip",
+            "headers": {
+              "content-length": "23402323",
+              "content-type": "application/zip",
+              "etag": "\"e4e38af963bf567ac8217e665cae5bee-3\"",
+              "last-modified": "Wed, 16 Sep 2026 06:13:16 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/8.20-january-iap-2021.zip"
+          },
+          "sha256": "b34918d78d56ab85ff161f94fb71425d8a6a353f8e2c8ccd1f62f490d7708b3e",
+          "url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/8.20-january-iap-2021.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 23402323,
+      "source_url": "https://ocw.mit.edu/courses/8-20-introduction-to-special-relativity-january-iap-2021/8.20-january-iap-2021.zip",
+      "version": "8-20-introduction-to-special-relativity-january-iap-2021-metadata-4178a615390ef774",
+      "work_id": "ocw:c557a87d-3a6b-49c8-bdf7-3b08428097b5"
+    },
+    {
+      "course_id": "14-02-principles-of-macroeconomics-spring-2023",
+      "id": "ocw_8900ffc9daf65ae17a7b",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "dc336176925e9c541473cce10c2c931b8504d8bfb366680b3e16bb25c86c0769",
+          "size_bytes": 5093,
+          "url": "https://ocw.mit.edu/courses/14-02-principles-of-macroeconomics-spring-2023/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "0caf179fdef654238757773a68584465c34ff117538e7224ee3cf34389e45759",
+          "size_bytes": 93828,
+          "url": "https://ocw.mit.edu/courses/14-02-principles-of-macroeconomics-spring-2023/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:20.336444+00:00",
+            "final_url": "https://ocw.mit.edu/courses/14-02-principles-of-macroeconomics-spring-2023/14.02-Spring-2023.zip",
+            "headers": {
+              "content-length": "16605802",
+              "content-type": "application/zip",
+              "etag": "\"0f4cfbe0d37211da70d9f5b1a7a0094e-2\"",
+              "last-modified": "Tue, 15 Sep 2026 10:07:43 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/14-02-principles-of-macroeconomics-spring-2023/14.02-Spring-2023.zip"
+          },
+          "sha256": "585080ae56d3905498ffcf40d02dd8c84782a26bdeab76bffe8ed2dfef6205f6",
+          "url": "https://ocw.mit.edu/courses/14-02-principles-of-macroeconomics-spring-2023/14.02-Spring-2023.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 16605802,
+      "source_url": "https://ocw.mit.edu/courses/14-02-principles-of-macroeconomics-spring-2023/14.02-Spring-2023.zip",
+      "version": "14-02-principles-of-macroeconomics-spring-2023-metadata-dc336176925e9c54",
+      "work_id": "ocw:f11d41a1-ed6c-4109-8bac-5ddb46dba92f"
+    },
+    {
+      "course_id": "res-18-007-calculus-revisited-multivariable-calculus-fall-2011",
+      "id": "ocw_59ea09ef2e144528b84b",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "bcb1d9aa5509690d167872cb2221120d2042b4d6471d6cb67f972e597ed42438",
+          "size_bytes": 5736,
+          "url": "https://ocw.mit.edu/courses/res-18-007-calculus-revisited-multivariable-calculus-fall-2011/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "dcd87ea67efc9cfc9c64d069d798aeaa97b9305286fc445394fc0df5d41c2fd2",
+          "size_bytes": 96104,
+          "url": "https://ocw.mit.edu/courses/res-18-007-calculus-revisited-multivariable-calculus-fall-2011/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:20.651144+00:00",
+            "final_url": "https://ocw.mit.edu/courses/res-18-007-calculus-revisited-multivariable-calculus-fall-2011/res.18-007-fall-2011.zip",
+            "headers": {
+              "content-length": "142074682",
+              "content-type": "application/zip",
+              "etag": "\"a93ea3031e9eaa1b9c9214c086d97f84-17\"",
+              "last-modified": "Tue, 15 Sep 2026 11:47:31 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/res-18-007-calculus-revisited-multivariable-calculus-fall-2011/res.18-007-fall-2011.zip"
+          },
+          "sha256": "0ba40036af2d354ef71aefb6f2277f134846ebeb596a790a66faab940acd6991",
+          "url": "https://ocw.mit.edu/courses/res-18-007-calculus-revisited-multivariable-calculus-fall-2011/res.18-007-fall-2011.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 142074682,
+      "source_url": "https://ocw.mit.edu/courses/res-18-007-calculus-revisited-multivariable-calculus-fall-2011/res.18-007-fall-2011.zip",
+      "version": "res-18-007-calculus-revisited-multivariable-calculus-fall-2011-metadata-bcb1d9aa5509690d",
+      "work_id": "ocw:36a36c75-fa4d-4831-b916-bd6c5ed37703"
+    },
+    {
+      "course_id": "6-851-advanced-data-structures-spring-2012",
+      "id": "ocw_6971a06b62af747d324c",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "c9b3ae976953665a021a718e6dda6af50d0fb56e03dd79d57336e34eb904cb2d",
+          "size_bytes": 4116,
+          "url": "https://ocw.mit.edu/courses/6-851-advanced-data-structures-spring-2012/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "b79adcb6f40b6513bbcb24f89a806086a811937cb982fc885d6f96559ed46c92",
+          "size_bytes": 108934,
+          "url": "https://ocw.mit.edu/courses/6-851-advanced-data-structures-spring-2012/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:21.086902+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-851-advanced-data-structures-spring-2012/6.851-spring-2012.zip",
+            "headers": {
+              "content-length": "167178180",
+              "content-type": "application/zip",
+              "etag": "\"bc84041bfe02ec0eafb2fd51a63e5859-20\"",
+              "last-modified": "Tue, 15 Sep 2026 10:33:38 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-851-advanced-data-structures-spring-2012/6.851-spring-2012.zip"
+          },
+          "sha256": "3a4570ea1511a9a0f9d33fcf0b6500480a882a59989ca7aa3e1df90cd01acef8",
+          "url": "https://ocw.mit.edu/courses/6-851-advanced-data-structures-spring-2012/6.851-spring-2012.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 167178180,
+      "source_url": "https://ocw.mit.edu/courses/6-851-advanced-data-structures-spring-2012/6.851-spring-2012.zip",
+      "version": "6-851-advanced-data-structures-spring-2012-metadata-c9b3ae976953665a",
+      "work_id": "ocw:5f06d737-01bc-41a0-b1bf-bf068a4f9fb6"
+    },
+    {
+      "course_id": "esd-s43-green-supply-chain-management-spring-2014",
+      "id": "ocw_0dbbc226d930dc1da4cf",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "a09a900cd7aef742f8fe5f970eb2639a8fce9eea2ba59817639d512d0ba999c7",
+          "size_bytes": 5687,
+          "url": "https://ocw.mit.edu/courses/esd-s43-green-supply-chain-management-spring-2014/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "aedb534319e470adc241f04efc5e1d74081bf7ebee1de7162fa5383c9eb9809b",
+          "size_bytes": 68584,
+          "url": "https://ocw.mit.edu/courses/esd-s43-green-supply-chain-management-spring-2014/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:21.606833+00:00",
+            "final_url": "https://ocw.mit.edu/courses/esd-s43-green-supply-chain-management-spring-2014/esd.s43-spring-2014.zip",
+            "headers": {
+              "content-length": "23770265",
+              "content-type": "application/zip",
+              "etag": "\"03f28cb025982bc4b5ee49739f2281c4-3\"",
+              "last-modified": "Wed, 16 Sep 2026 06:16:06 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/esd-s43-green-supply-chain-management-spring-2014/esd.s43-spring-2014.zip"
+          },
+          "sha256": "97c410fcefc3938a7f711e057967196c73e32d8a2808fcd3aafd169e5838a3ff",
+          "url": "https://ocw.mit.edu/courses/esd-s43-green-supply-chain-management-spring-2014/esd.s43-spring-2014.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 23770265,
+      "source_url": "https://ocw.mit.edu/courses/esd-s43-green-supply-chain-management-spring-2014/esd.s43-spring-2014.zip",
+      "version": "esd-s43-green-supply-chain-management-spring-2014-metadata-a09a900cd7aef742",
+      "work_id": "ocw:f18996de-31ed-4d98-8245-37b127be58e0"
+    },
+    {
+      "course_id": "9-35-perception-spring-2024",
+      "id": "ocw_be11bb947d33f087458a",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "43d1146252d9a59dec044a33c77a449556093f593fc0c16084b420f0440a8b48",
+          "size_bytes": 4670,
+          "url": "https://ocw.mit.edu/courses/9-35-perception-spring-2024/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "598ad496eaf85aebdd6462d73cb914bbb8a551f15d15af667b6df478801d3b18",
+          "size_bytes": 81606,
+          "url": "https://ocw.mit.edu/courses/9-35-perception-spring-2024/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:22.172200+00:00",
+            "final_url": "https://ocw.mit.edu/courses/9-35-perception-spring-2024/9.35-spring-2024.zip",
+            "headers": {
+              "content-length": "22684132",
+              "content-type": "application/zip",
+              "etag": "\"633c9b5dc8cd4f9ea0c59dcc96c49457-3\"",
+              "last-modified": "Wed, 16 Sep 2026 06:58:25 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/9-35-perception-spring-2024/9.35-spring-2024.zip"
+          },
+          "sha256": "b89ddf22e5795ccee7eadc479f77b849c282c0fab61c31edb0f7d4484172671e",
+          "url": "https://ocw.mit.edu/courses/9-35-perception-spring-2024/9.35-spring-2024.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 22684132,
+      "source_url": "https://ocw.mit.edu/courses/9-35-perception-spring-2024/9.35-spring-2024.zip",
+      "version": "9-35-perception-spring-2024-metadata-43d1146252d9a59d",
+      "work_id": "ocw:7ac88894-a760-48b6-a1e8-c4f6e2502733"
+    },
+    {
+      "course_id": "14-310x-data-analysis-for-social-scientists-spring-2023",
+      "id": "ocw_a9327debe45b3e67fda2",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "52c2c3cfac697a1c9b5322d18d604efa3090eb63f7c3d1ffb0b764c94d7259b1",
+          "size_bytes": 5935,
+          "url": "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "1f78f9a3457874604840837b6e2772692867dc9029cdd7f4be26fc8a41ca214a",
+          "size_bytes": 109481,
+          "url": "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:22.657621+00:00",
+            "final_url": "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/14.310x-spring-2023.zip",
+            "headers": {
+              "content-length": "27321407",
+              "content-type": "application/zip",
+              "etag": "\"2aafe362aef85a257668469959beb420-4\"",
+              "last-modified": "Wed, 16 Sep 2026 07:22:08 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/14.310x-spring-2023.zip"
+          },
+          "sha256": "495b870dac0f4c2db3eca3a31a751af727a514f0ac3408ad14ce9405d84ea41b",
+          "url": "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/14.310x-spring-2023.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 27321407,
+      "source_url": "https://ocw.mit.edu/courses/14-310x-data-analysis-for-social-scientists-spring-2023/14.310x-spring-2023.zip",
+      "version": "14-310x-data-analysis-for-social-scientists-spring-2023-metadata-52c2c3cfac697a1c",
+      "work_id": "ocw:52fee8d6-6661-43c3-be67-447e86289c42"
+    },
+    {
+      "course_id": "res-18-008-calculus-revisited-complex-variables-differential-equations-and-linear-algebra-fall-2011",
+      "id": "ocw_dad1c16caf7500689f4f",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "1dbafea02e5cb2464dd6f1a66751e884863a58a47d82d202df021d9d0524f4fa",
+          "size_bytes": 6457,
+          "url": "https://ocw.mit.edu/courses/res-18-008-calculus-revisited-complex-variables-differential-equations-and-linear-algebra-fall-2011/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "ddf77a8d1854848427ec17ca073a2d870fdd2269911719246c320f558ef21322",
+          "size_bytes": 79892,
+          "url": "https://ocw.mit.edu/courses/res-18-008-calculus-revisited-complex-variables-differential-equations-and-linear-algebra-fall-2011/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:23.263470+00:00",
+            "final_url": "https://ocw.mit.edu/courses/res-18-008-calculus-revisited-complex-variables-differential-equations-and-linear-algebra-fall-2011/res.18-008-fall-2011.zip",
+            "headers": {
+              "content-length": "115266930",
+              "content-type": "application/zip",
+              "etag": "\"54848fa927525ddba68f9f7012ace9dc-14\"",
+              "last-modified": "Wed, 16 Sep 2026 06:59:55 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/res-18-008-calculus-revisited-complex-variables-differential-equations-and-linear-algebra-fall-2011/res.18-008-fall-2011.zip"
+          },
+          "sha256": "03f97cc8195646d039f117a8b4c497cecb96872393c699162459fca797921e31",
+          "url": "https://ocw.mit.edu/courses/res-18-008-calculus-revisited-complex-variables-differential-equations-and-linear-algebra-fall-2011/res.18-008-fall-2011.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 115266930,
+      "source_url": "https://ocw.mit.edu/courses/res-18-008-calculus-revisited-complex-variables-differential-equations-and-linear-algebra-fall-2011/res.18-008-fall-2011.zip",
+      "version": "res-18-008-calculus-revisited-complex-variables-differential-equations-and-linear-algebra-fall-2011-metadata-1dbafea02e5cb246",
+      "work_id": "ocw:3efa1217-0bdd-4a22-9745-22ec8268d38c"
+    },
+    {
+      "course_id": "6-262-discrete-stochastic-processes-spring-2011",
+      "id": "ocw_d7c1c31475e19054769e",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "fbfa7956715a2c109a69d70400f4228dc290f5af2675f61f898937e76ec4e356",
+          "size_bytes": 3982,
+          "url": "https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "aee27542d1d58e81de5604a1e7ede8df1e98721c5b6be92779af2761e247cba9",
+          "size_bytes": 123750,
+          "url": "https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:23.800472+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/6.262-spring-2011.zip",
+            "headers": {
+              "content-length": "44302874",
+              "content-type": "application/zip",
+              "etag": "\"ffcce528e937608f81a6927255ab49b2-6\"",
+              "last-modified": "Tue, 22 Sep 2026 16:33:37 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/6.262-spring-2011.zip"
+          },
+          "sha256": "1f68389020b4df37f62830f7a205ef2261a889790782b3c5af5dccd24ad07984",
+          "url": "https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/6.262-spring-2011.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 44302874,
+      "source_url": "https://ocw.mit.edu/courses/6-262-discrete-stochastic-processes-spring-2011/6.262-spring-2011.zip",
+      "version": "6-262-discrete-stochastic-processes-spring-2011-metadata-fbfa7956715a2c10",
+      "work_id": "ocw:bc19a4e9-e9ff-4fb8-9097-584819ac9632"
+    },
+    {
+      "course_id": "2-57-nano-to-macro-transport-processes-spring-2012",
+      "id": "ocw_cf4633ede635cff3a788",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "a7fbff8e3f95b0bb8eac532668c7657ed3c60a82e88667349ec8edcd6fb6ddae",
+          "size_bytes": 4089,
+          "url": "https://ocw.mit.edu/courses/2-57-nano-to-macro-transport-processes-spring-2012/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "cde23a756f7c8ee6249699545ee35f3e291093f320a12b93b5e6f71af9a0d6e8",
+          "size_bytes": 95215,
+          "url": "https://ocw.mit.edu/courses/2-57-nano-to-macro-transport-processes-spring-2012/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:24.298464+00:00",
+            "final_url": "https://ocw.mit.edu/courses/2-57-nano-to-macro-transport-processes-spring-2012/2.57-spring-2012.zip",
+            "headers": {
+              "content-length": "17705904",
+              "content-type": "application/zip",
+              "etag": "\"8b1f43b3357e96eb2c394ac5aaf6f6b6-3\"",
+              "last-modified": "Tue, 15 Sep 2026 12:24:12 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/2-57-nano-to-macro-transport-processes-spring-2012/2.57-spring-2012.zip"
+          },
+          "sha256": "13864fe85ea5ee6285c7e7a0ad5a54b07a9248a689c01017f92dec0ef6ae9f74",
+          "url": "https://ocw.mit.edu/courses/2-57-nano-to-macro-transport-processes-spring-2012/2.57-spring-2012.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 17705904,
+      "source_url": "https://ocw.mit.edu/courses/2-57-nano-to-macro-transport-processes-spring-2012/2.57-spring-2012.zip",
+      "version": "2-57-nano-to-macro-transport-processes-spring-2012-metadata-a7fbff8e3f95b0bb",
+      "work_id": "ocw:733c39f0-1781-4bfc-a115-b636871c9c44"
+    },
+    {
+      "course_id": "8-06-quantum-physics-iii-spring-2018",
+      "id": "ocw_2853eab8a6fd54d8f841",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "72f57ecc60d9a4993fd1d40d0b071333205b59b271d755095214d67e7aa6fd1f",
+          "size_bytes": 3868,
+          "url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "7cf7c4ad4baeafd099f2c917a80bb479e50666da17c83c82980993e5cf0c19a1",
+          "size_bytes": 108752,
+          "url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:24.879271+00:00",
+            "final_url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/8.06-spring-2018.zip",
+            "headers": {
+              "content-length": "24821999",
+              "content-type": "application/zip",
+              "etag": "\"d6f9e0c6ce4887c2e34004f55b9d9826-3\"",
+              "last-modified": "Tue, 15 Sep 2026 10:31:18 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/8.06-spring-2018.zip"
+          },
+          "sha256": "4d707f1bf0987a690102a991fc67e3a0cbdd27681c2cab2072e5a051fb113aa2",
+          "url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/8.06-spring-2018.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 24821999,
+      "source_url": "https://ocw.mit.edu/courses/8-06-quantum-physics-iii-spring-2018/8.06-spring-2018.zip",
+      "version": "8-06-quantum-physics-iii-spring-2018-metadata-72f57ecc60d9a499",
+      "work_id": "ocw:e7abfec3-bb7b-4ffe-9ce0-1e84d8fcc62d"
+    },
+    {
+      "course_id": "9-13-the-human-brain-spring-2019",
+      "id": "ocw_9f960b22a525ef30b5e5",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "e9b631df2b40f1e2c89a38253f55b7cf91cf7c05b29987b727a963b039b92bf8",
+          "size_bytes": 3807,
+          "url": "https://ocw.mit.edu/courses/9-13-the-human-brain-spring-2019/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "c18c60b710656dc7d536af3ddf62247eff7cfbbba013b87ea04d8a4813249ea5",
+          "size_bytes": 96477,
+          "url": "https://ocw.mit.edu/courses/9-13-the-human-brain-spring-2019/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:25.330561+00:00",
+            "final_url": "https://ocw.mit.edu/courses/9-13-the-human-brain-spring-2019/9.13-spring-2019.zip",
+            "headers": {
+              "content-length": "54445083",
+              "content-type": "application/zip",
+              "etag": "\"6d6081bbd49869496dcdd3815d04e479-7\"",
+              "last-modified": "Wed, 16 Sep 2026 08:16:11 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/9-13-the-human-brain-spring-2019/9.13-spring-2019.zip"
+          },
+          "sha256": "51fb2efad04ce4d23a0cebfedaaeb58516fec13c6bab6ebe2b3d87c671e1b551",
+          "url": "https://ocw.mit.edu/courses/9-13-the-human-brain-spring-2019/9.13-spring-2019.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 54445083,
+      "source_url": "https://ocw.mit.edu/courses/9-13-the-human-brain-spring-2019/9.13-spring-2019.zip",
+      "version": "9-13-the-human-brain-spring-2019-metadata-e9b631df2b40f1e2",
+      "work_id": "ocw:181b4430-5a59-4ba9-8ebb-fdad3d272b99"
+    },
+    {
+      "course_id": "24-900-introduction-to-linguistics-spring-2022",
+      "id": "ocw_321662eb4583a166c356",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "cf0b118737950412fb31f4663ede9bf27d882e264683f32d08dbe734465ebefa",
+          "size_bytes": 3750,
+          "url": "https://ocw.mit.edu/courses/24-900-introduction-to-linguistics-spring-2022/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "b757b57f2efab690057dc93cdec0da9262cc10b21753711618417d5c5dadc45c",
+          "size_bytes": 91627,
+          "url": "https://ocw.mit.edu/courses/24-900-introduction-to-linguistics-spring-2022/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:26.021596+00:00",
+            "final_url": "https://ocw.mit.edu/courses/24-900-introduction-to-linguistics-spring-2022/24.900-spring-2022.zip",
+            "headers": {
+              "content-length": "25539578",
+              "content-type": "application/zip",
+              "etag": "\"e25d046730920d80c0b62dfe6332da36-4\"",
+              "last-modified": "Wed, 16 Sep 2026 07:41:20 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/24-900-introduction-to-linguistics-spring-2022/24.900-spring-2022.zip"
+          },
+          "sha256": "4bd9e53a7f27a427e9564b29b49463448fb7db0d83971bbdc6d52f03f07a7f2e",
+          "url": "https://ocw.mit.edu/courses/24-900-introduction-to-linguistics-spring-2022/24.900-spring-2022.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 25539578,
+      "source_url": "https://ocw.mit.edu/courses/24-900-introduction-to-linguistics-spring-2022/24.900-spring-2022.zip",
+      "version": "24-900-introduction-to-linguistics-spring-2022-metadata-cf0b118737950412",
+      "work_id": "ocw:9455d4eb-9345-4d8b-b420-5924c0375bd8"
+    },
+    {
+      "course_id": "18-100b-real-analysis-spring-2025",
+      "id": "ocw_55ceb7c8c18b1090a5f2",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "8957e49a9fb07846f186f2f626bb7b18f26a8cd8b5a27cde1bb4e8cefd0a6cbb",
+          "size_bytes": 3586,
+          "url": "https://ocw.mit.edu/courses/18-100b-real-analysis-spring-2025/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "cdbd8bf8c0e9ae744120816b9d93adeb7b34c3ec1dc75bbbb020b78727ae52de",
+          "size_bytes": 90001,
+          "url": "https://ocw.mit.edu/courses/18-100b-real-analysis-spring-2025/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:26.633644+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-100b-real-analysis-spring-2025/18.100B-spring-2025.zip",
+            "headers": {
+              "content-length": "26231059",
+              "content-type": "application/zip",
+              "etag": "\"4899022e7c356d32c3e277ff09189e90-4\"",
+              "last-modified": "Tue, 15 Sep 2026 10:49:56 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-100b-real-analysis-spring-2025/18.100B-spring-2025.zip"
+          },
+          "sha256": "75ddec497e03e87b1796e0400be4d58327c3770f578bd6d4f93c29e138c18535",
+          "url": "https://ocw.mit.edu/courses/18-100b-real-analysis-spring-2025/18.100B-spring-2025.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 26231059,
+      "source_url": "https://ocw.mit.edu/courses/18-100b-real-analysis-spring-2025/18.100B-spring-2025.zip",
+      "version": "18-100b-real-analysis-spring-2025-metadata-8957e49a9fb07846",
+      "work_id": "ocw:94d074bb-ce2c-49f1-90e0-3da6d2f5eae4"
+    },
+    {
+      "course_id": "res-6-008-digital-signal-processing-spring-2011",
+      "id": "ocw_9f0b34ef1ac2e8bd8c6c",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "c445eab98853a1f3b90c81d937087ff311bb40ff6ef7c6b29d14df07866a80ca",
+          "size_bytes": 5032,
+          "url": "https://ocw.mit.edu/courses/res-6-008-digital-signal-processing-spring-2011/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "f135db7d9a7b6c13cde7daf2443d51d0bd8186cebcc0a09d581e51b53856c9ce",
+          "size_bytes": 89036,
+          "url": "https://ocw.mit.edu/courses/res-6-008-digital-signal-processing-spring-2011/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:27.063964+00:00",
+            "final_url": "https://ocw.mit.edu/courses/res-6-008-digital-signal-processing-spring-2011/res.6-008-spring-2011.zip",
+            "headers": {
+              "content-length": "27489855",
+              "content-type": "application/zip",
+              "etag": "\"6f5f0178269f5b4655317401d86e2b71-4\"",
+              "last-modified": "Tue, 15 Sep 2026 11:03:29 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/res-6-008-digital-signal-processing-spring-2011/res.6-008-spring-2011.zip"
+          },
+          "sha256": "3356871a63d9a2bb02a6f3ae55faba24f8e8a1d5960938cec2e119322da6002e",
+          "url": "https://ocw.mit.edu/courses/res-6-008-digital-signal-processing-spring-2011/res.6-008-spring-2011.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 27489855,
+      "source_url": "https://ocw.mit.edu/courses/res-6-008-digital-signal-processing-spring-2011/res.6-008-spring-2011.zip",
+      "version": "res-6-008-digital-signal-processing-spring-2011-metadata-c445eab98853a1f3",
+      "work_id": "ocw:0a166bef-24d5-471f-b4f9-80a2378b49c5"
+    },
+    {
+      "course_id": "22-091-nuclear-reactor-safety-spring-2008",
+      "id": "ocw_5abf213be1bac07912fd",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "506629c38b4d436f9defdfdd720ec9f352d5b1890433fdd1ab164d3ecc66b125",
+          "size_bytes": 4119,
+          "url": "https://ocw.mit.edu/courses/22-091-nuclear-reactor-safety-spring-2008/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "3bdd6b8d285263d308f666140bd0dbbf80c54c9ee9acc7dd62c688ce44a83e3d",
+          "size_bytes": 92443,
+          "url": "https://ocw.mit.edu/courses/22-091-nuclear-reactor-safety-spring-2008/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:27.548276+00:00",
+            "final_url": "https://ocw.mit.edu/courses/22-091-nuclear-reactor-safety-spring-2008/22.091-spring-2008.zip",
+            "headers": {
+              "content-length": "39156605",
+              "content-type": "application/zip",
+              "etag": "\"ed07ab01f74b36818757ba109bf5fcfc-5\"",
+              "last-modified": "Tue, 15 Sep 2026 11:05:16 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/22-091-nuclear-reactor-safety-spring-2008/22.091-spring-2008.zip"
+          },
+          "sha256": "d07f6f3a552fa5913ec035afdba5fe31b665bca3beb78d44d1d695decd66510f",
+          "url": "https://ocw.mit.edu/courses/22-091-nuclear-reactor-safety-spring-2008/22.091-spring-2008.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 39156605,
+      "source_url": "https://ocw.mit.edu/courses/22-091-nuclear-reactor-safety-spring-2008/22.091-spring-2008.zip",
+      "version": "22-091-nuclear-reactor-safety-spring-2008-metadata-506629c38b4d436f",
+      "work_id": "ocw:05c85dc7-1207-4ad5-9240-ee87d833da2e"
+    },
+    {
+      "course_id": "5-08j-biological-chemistry-ii-spring-2016",
+      "id": "ocw_4a51a570472b47eff678",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "7b8f93fd03499e147ef6e1a75a811fcddf00607f8d63c7460519c8caa33a67b1",
+          "size_bytes": 4037,
+          "url": "https://ocw.mit.edu/courses/5-08j-biological-chemistry-ii-spring-2016/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "31ae4d3355a6b521a6e8e228a97308017e2b9fb15b8b163de217d4fffc5a8b6b",
+          "size_bytes": 90615,
+          "url": "https://ocw.mit.edu/courses/5-08j-biological-chemistry-ii-spring-2016/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:28.026985+00:00",
+            "final_url": "https://ocw.mit.edu/courses/5-08j-biological-chemistry-ii-spring-2016/5.08j-spring-2016.zip",
+            "headers": {
+              "content-length": "41244153",
+              "content-type": "application/zip",
+              "etag": "\"ded2d23d199f3a0fb907fb41cfe3e02b-5\"",
+              "last-modified": "Tue, 15 Sep 2026 12:21:37 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/5-08j-biological-chemistry-ii-spring-2016/5.08j-spring-2016.zip"
+          },
+          "sha256": "59fa7f6de3cbcdb34a32e34b13774435285b868ccf479828d212085064f45056",
+          "url": "https://ocw.mit.edu/courses/5-08j-biological-chemistry-ii-spring-2016/5.08j-spring-2016.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 41244153,
+      "source_url": "https://ocw.mit.edu/courses/5-08j-biological-chemistry-ii-spring-2016/5.08j-spring-2016.zip",
+      "version": "5-08j-biological-chemistry-ii-spring-2016-metadata-7b8f93fd03499e14",
+      "work_id": "ocw:dae57a71-b0da-4790-ac71-edb635c191b6"
+    },
+    {
+      "course_id": "res-9-003-brains-minds-and-machines-summer-course-summer-2015",
+      "id": "ocw_014c601cc2229a908d5f",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "b118bd2e03eba31744d9b220953c7298c666f5cfe39570ab4ac1e9f0741e3667",
+          "size_bytes": 8439,
+          "url": "https://ocw.mit.edu/courses/res-9-003-brains-minds-and-machines-summer-course-summer-2015/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "e80d6e2c44f08c964354a6bfea7ad71e6cb95c49e63a8d387c1aac9d7672fcf5",
+          "size_bytes": 161102,
+          "url": "https://ocw.mit.edu/courses/res-9-003-brains-minds-and-machines-summer-course-summer-2015/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:28.493587+00:00",
+            "final_url": "https://ocw.mit.edu/courses/res-9-003-brains-minds-and-machines-summer-course-summer-2015/res.9-003-summer-2015.zip",
+            "headers": {
+              "content-length": "177783371",
+              "content-type": "application/zip",
+              "etag": "\"9ba62f3617eae10789a5f8e16523f38b-22\"",
+              "last-modified": "Tue, 15 Sep 2026 11:16:32 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/res-9-003-brains-minds-and-machines-summer-course-summer-2015/res.9-003-summer-2015.zip"
+          },
+          "sha256": "d65aac0aa8ec6f0ff32d007c9aeb3d25c060bbeb3f38cde5baace285a43d0d18",
+          "url": "https://ocw.mit.edu/courses/res-9-003-brains-minds-and-machines-summer-course-summer-2015/res.9-003-summer-2015.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 177783371,
+      "source_url": "https://ocw.mit.edu/courses/res-9-003-brains-minds-and-machines-summer-course-summer-2015/res.9-003-summer-2015.zip",
+      "version": "res-9-003-brains-minds-and-machines-summer-course-summer-2015-metadata-b118bd2e03eba317",
+      "work_id": "ocw:ee8e732d-0500-4ad4-839b-e978cc5174ba"
+    },
+    {
+      "course_id": "14-04-intermediate-microeconomic-theory-fall-2020",
+      "id": "ocw_a1d31f51f0b61c515225",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "3b1ec9794cd10d65c517b5e08d8e53def0a11db6a6deb22c75733ae6f16acab4",
+          "size_bytes": 3450,
+          "url": "https://ocw.mit.edu/courses/14-04-intermediate-microeconomic-theory-fall-2020/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "191472e9662d12a5e40710c167917b7dfdfa487193d0ce75402b7006e3944e6e",
+          "size_bytes": 79660,
+          "url": "https://ocw.mit.edu/courses/14-04-intermediate-microeconomic-theory-fall-2020/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:28.868796+00:00",
+            "final_url": "https://ocw.mit.edu/courses/14-04-intermediate-microeconomic-theory-fall-2020/14.04-fall-2020.zip",
+            "headers": {
+              "content-length": "16195946",
+              "content-type": "application/zip",
+              "etag": "\"a59e1ff60e593ea55e6d4186de031f97-2\"",
+              "last-modified": "Tue, 15 Sep 2026 11:06:26 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/14-04-intermediate-microeconomic-theory-fall-2020/14.04-fall-2020.zip"
+          },
+          "sha256": "0c5ef1184c9646a057bcbae564aa297f12e6b19a8ff9a8198a55d38ec71c3321",
+          "url": "https://ocw.mit.edu/courses/14-04-intermediate-microeconomic-theory-fall-2020/14.04-fall-2020.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 16195946,
+      "source_url": "https://ocw.mit.edu/courses/14-04-intermediate-microeconomic-theory-fall-2020/14.04-fall-2020.zip",
+      "version": "14-04-intermediate-microeconomic-theory-fall-2020-metadata-3b1ec9794cd10d65",
+      "work_id": "ocw:627bf0af-c70d-4173-ab8c-33b6e2268999"
+    },
+    {
+      "course_id": "18-156-projection-theory-spring-2025",
+      "id": "ocw_8209fb626698c6a4b408",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "6136047bc4c7f36168e4ce9837cce199cf06fa78c150696034793a88eb304cb4",
+          "size_bytes": 3811,
+          "url": "https://ocw.mit.edu/courses/18-156-projection-theory-spring-2025/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "8e55f008a35e54669a414b3d1540c47e0fcf69708972655f772ca9693ac88e1c",
+          "size_bytes": 97641,
+          "url": "https://ocw.mit.edu/courses/18-156-projection-theory-spring-2025/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:29.262117+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-156-projection-theory-spring-2025/18.156-spring-2025.zip",
+            "headers": {
+              "content-length": "35256110",
+              "content-type": "application/zip",
+              "etag": "\"76fa89827eab2f8d3f45d46bd96012e9-5\"",
+              "last-modified": "Tue, 15 Sep 2026 09:49:01 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-156-projection-theory-spring-2025/18.156-spring-2025.zip"
+          },
+          "sha256": "f1c3a3933c061718025e00222dcb682318ad567e4378ba916b62980a3d8dbec3",
+          "url": "https://ocw.mit.edu/courses/18-156-projection-theory-spring-2025/18.156-spring-2025.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 35256110,
+      "source_url": "https://ocw.mit.edu/courses/18-156-projection-theory-spring-2025/18.156-spring-2025.zip",
+      "version": "18-156-projection-theory-spring-2025-metadata-6136047bc4c7f361",
+      "work_id": "ocw:e5b39f98-2e79-4820-8e81-af10a745f48d"
+    },
+    {
+      "course_id": "6-450-principles-of-digital-communications-i-fall-2006",
+      "id": "ocw_ae3a08d2bbf9ab91edfc",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "9ce07511241fff0dc518755b2262f6595b7f06ca71dd634aa62a3cb7b5f0a88e",
+          "size_bytes": 3983,
+          "url": "https://ocw.mit.edu/courses/6-450-principles-of-digital-communications-i-fall-2006/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "e5f1b216498973f5045fb95d128274a3000b182948eb1ee3842d91879280ce8e",
+          "size_bytes": 92174,
+          "url": "https://ocw.mit.edu/courses/6-450-principles-of-digital-communications-i-fall-2006/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:29.771339+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-450-principles-of-digital-communications-i-fall-2006/6.450-fall-2006.zip",
+            "headers": {
+              "content-length": "22612081",
+              "content-type": "application/zip",
+              "etag": "\"698f6a7e47944a0a33d20aa7e3cb7389-3\"",
+              "last-modified": "Wed, 16 Sep 2026 07:06:50 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-450-principles-of-digital-communications-i-fall-2006/6.450-fall-2006.zip"
+          },
+          "sha256": "1b0a1b7685fd586cbc7e547da6a01ea34d7136a63fdaba29d77939ffc7a4a32d",
+          "url": "https://ocw.mit.edu/courses/6-450-principles-of-digital-communications-i-fall-2006/6.450-fall-2006.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 22612081,
+      "source_url": "https://ocw.mit.edu/courses/6-450-principles-of-digital-communications-i-fall-2006/6.450-fall-2006.zip",
+      "version": "6-450-principles-of-digital-communications-i-fall-2006-metadata-9ce07511241fff0d",
+      "work_id": "ocw:3494981a-2ccd-4813-bb8b-70bbf608eedb"
+    },
+    {
+      "course_id": "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006",
+      "id": "ocw_846a3c22f036677c3807",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "1b787714e78e3fe0bedf90884f0d11e8f92aa3605194aa18868e2d1c8b51d176",
+          "size_bytes": 7087,
+          "url": "https://ocw.mit.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "81a0af537dca3ff1a6197ed58cef9d0b4fe8b92d8a7ecc6755f1a9d142b9aa99",
+          "size_bytes": 250492,
+          "url": "https://ocw.mit.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:30.459885+00:00",
+            "final_url": "https://ocw.mit.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/16.01-fall-2005.zip",
+            "headers": {
+              "content-length": "129747276",
+              "content-type": "application/zip",
+              "etag": "\"adf67443e5bab210d1b7c4cbd426e9a3-16\"",
+              "last-modified": "Wed, 16 Sep 2026 07:51:48 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/16.01-fall-2005.zip"
+          },
+          "sha256": "383147896df8b1e8ef6afa2d0f98b383fcec02089f59df26ff28a79f9517258f",
+          "url": "https://ocw.mit.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/16.01-fall-2005.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 129747276,
+      "source_url": "https://ocw.mit.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/16.01-fall-2005.zip",
+      "version": "16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006-metadata-1b787714e78e3fe0",
+      "work_id": "ocw:b51a7887-101f-4e96-a07c-9e53c20bfeb6"
+    },
+    {
+      "course_id": "8-03sc-physics-iii-vibrations-and-waves-fall-2016",
+      "id": "ocw_664df2f15be96b423113",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "00f6fdd677227b962f76971c3d40df2f47df03f355c7268d5e4572c0f5dde98f",
+          "size_bytes": 5194,
+          "url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "90619c5da2c1dfadafa21053ba1b8a4115ba407f6a8ec3960f44908e5048a503",
+          "size_bytes": 196756,
+          "url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:30.895991+00:00",
+            "final_url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/8.03sc-fall-2016.zip",
+            "headers": {
+              "content-length": "136845939",
+              "content-type": "application/zip",
+              "etag": "\"90252786e6c3255e8b1397399c326266-17\"",
+              "last-modified": "Wed, 16 Sep 2026 07:39:11 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/8.03sc-fall-2016.zip"
+          },
+          "sha256": "a219427cdcedf1a9f709d177d95909843e5dee87c75431af3f7fdda6903cae64",
+          "url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/8.03sc-fall-2016.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 136845939,
+      "source_url": "https://ocw.mit.edu/courses/8-03sc-physics-iii-vibrations-and-waves-fall-2016/8.03sc-fall-2016.zip",
+      "version": "8-03sc-physics-iii-vibrations-and-waves-fall-2016-metadata-00f6fdd677227b96",
+      "work_id": "ocw:e8e08f4e-00f5-4b6d-8a3f-c5751fddce84"
+    },
+    {
+      "course_id": "9-04-sensory-systems-fall-2013",
+      "id": "ocw_9907401482138831889b",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "b303527697901c962be47b68b36f281ac5bc08f894b189628a4ee90c73e07661",
+          "size_bytes": 4222,
+          "url": "https://ocw.mit.edu/courses/9-04-sensory-systems-fall-2013/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "aaeb45980aa47c73f27cbaa22925fe8daebd5ddd6a1c2a2bdbfa577b44d4547e",
+          "size_bytes": 79913,
+          "url": "https://ocw.mit.edu/courses/9-04-sensory-systems-fall-2013/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:31.299799+00:00",
+            "final_url": "https://ocw.mit.edu/courses/9-04-sensory-systems-fall-2013/9.04-fall-2013.zip",
+            "headers": {
+              "content-length": "39540783",
+              "content-type": "application/zip",
+              "etag": "\"28972599e7c6b5e501b124efe5436ff9-5\"",
+              "last-modified": "Wed, 16 Sep 2026 07:59:21 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/9-04-sensory-systems-fall-2013/9.04-fall-2013.zip"
+          },
+          "sha256": "cbd7eb10b9e046d22a0d9967f394ae594867b1dbb07b92b1ccb44ce1e4247ee5",
+          "url": "https://ocw.mit.edu/courses/9-04-sensory-systems-fall-2013/9.04-fall-2013.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 39540783,
+      "source_url": "https://ocw.mit.edu/courses/9-04-sensory-systems-fall-2013/9.04-fall-2013.zip",
+      "version": "9-04-sensory-systems-fall-2013-metadata-b303527697901c96",
+      "work_id": "ocw:59f330a9-c96a-4730-a464-2e869b840bd6"
+    },
+    {
+      "course_id": "14-73-the-challenge-of-world-poverty-spring-2011",
+      "id": "ocw_ff28af324a6fec16e9d4",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "aea82ddd06d1ca74b1ad30a67e20cb36555a94a1784c66b454735b554e875583",
+          "size_bytes": 6519,
+          "url": "https://ocw.mit.edu/courses/14-73-the-challenge-of-world-poverty-spring-2011/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "bbb773f6678f3bf408f2c54ea752ff8cba6b9873abf46100cdb85090c7e9855b",
+          "size_bytes": 120859,
+          "url": "https://ocw.mit.edu/courses/14-73-the-challenge-of-world-poverty-spring-2011/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:31.876076+00:00",
+            "final_url": "https://ocw.mit.edu/courses/14-73-the-challenge-of-world-poverty-spring-2011/14.73-spring-2011.zip",
+            "headers": {
+              "content-length": "35963999",
+              "content-type": "application/zip",
+              "etag": "\"b7d2beecbf400ce945fc41f76cd82000-5\"",
+              "last-modified": "Tue, 15 Sep 2026 11:52:38 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/14-73-the-challenge-of-world-poverty-spring-2011/14.73-spring-2011.zip"
+          },
+          "sha256": "595fc609197313091c475198423c00522230ce7d19bba5b1971243db44df99b1",
+          "url": "https://ocw.mit.edu/courses/14-73-the-challenge-of-world-poverty-spring-2011/14.73-spring-2011.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 35963999,
+      "source_url": "https://ocw.mit.edu/courses/14-73-the-challenge-of-world-poverty-spring-2011/14.73-spring-2011.zip",
+      "version": "14-73-the-challenge-of-world-poverty-spring-2011-metadata-aea82ddd06d1ca74",
+      "work_id": "ocw:c5608cf1-1a27-4e23-8788-7b6726dca4c1"
+    },
+    {
+      "course_id": "18-200-principles-of-discrete-applied-mathematics-spring-2024",
+      "id": "ocw_9d623d54d723264d90eb",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "107696059d7af07b10d89a7ce3752d59eae5b8405f65eddb363e9910fe85fb46",
+          "size_bytes": 4389,
+          "url": "https://ocw.mit.edu/courses/18-200-principles-of-discrete-applied-mathematics-spring-2024/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "1030afd43e27f3322d5d447fb22774f1849c0ed5c67c983c2ab3d5617f7bcea9",
+          "size_bytes": 122266,
+          "url": "https://ocw.mit.edu/courses/18-200-principles-of-discrete-applied-mathematics-spring-2024/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:32.376205+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-200-principles-of-discrete-applied-mathematics-spring-2024/18.200-spring-2024.zip",
+            "headers": {
+              "content-length": "26493176",
+              "content-type": "application/zip",
+              "etag": "\"b5622b99fb7cced3e0c57b47007fa9c4-4\"",
+              "last-modified": "Tue, 15 Sep 2026 09:47:44 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-200-principles-of-discrete-applied-mathematics-spring-2024/18.200-spring-2024.zip"
+          },
+          "sha256": "8ae4521182b27fbd5d8b4bbdf7a5318fe70260b1ce88b0a1a4be32af63da8597",
+          "url": "https://ocw.mit.edu/courses/18-200-principles-of-discrete-applied-mathematics-spring-2024/18.200-spring-2024.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 26493176,
+      "source_url": "https://ocw.mit.edu/courses/18-200-principles-of-discrete-applied-mathematics-spring-2024/18.200-spring-2024.zip",
+      "version": "18-200-principles-of-discrete-applied-mathematics-spring-2024-metadata-107696059d7af07b",
+      "work_id": "ocw:e52ab90f-ac14-4b65-a5dc-ee77b33d846d"
+    },
+    {
+      "course_id": "10-34-numerical-methods-applied-to-chemical-engineering-fall-2015",
+      "id": "ocw_c17bfbfb668e766954dc",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "a2f5ba9e4922d9e151417e07a443fbdbf7847c91549411dea1c2d833b1c9f8a1",
+          "size_bytes": 4340,
+          "url": "https://ocw.mit.edu/courses/10-34-numerical-methods-applied-to-chemical-engineering-fall-2015/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "e90c67846c5e6535935cf6501e5a22d7f354b18f5e32aabe0b62a232eb19b2ab",
+          "size_bytes": 117120,
+          "url": "https://ocw.mit.edu/courses/10-34-numerical-methods-applied-to-chemical-engineering-fall-2015/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:32.997186+00:00",
+            "final_url": "https://ocw.mit.edu/courses/10-34-numerical-methods-applied-to-chemical-engineering-fall-2015/10.34-fall-2015.zip",
+            "headers": {
+              "content-length": "53411463",
+              "content-type": "application/zip",
+              "etag": "\"2a2681f3fde1b7a35d8c72c2acdb2eb5-7\"",
+              "last-modified": "Tue, 15 Sep 2026 10:29:25 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/10-34-numerical-methods-applied-to-chemical-engineering-fall-2015/10.34-fall-2015.zip"
+          },
+          "sha256": "2f4689849b20c8718e2884413ea1118d78081d46e99cc715e8bc5bb9e077e965",
+          "url": "https://ocw.mit.edu/courses/10-34-numerical-methods-applied-to-chemical-engineering-fall-2015/10.34-fall-2015.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 53411463,
+      "source_url": "https://ocw.mit.edu/courses/10-34-numerical-methods-applied-to-chemical-engineering-fall-2015/10.34-fall-2015.zip",
+      "version": "10-34-numerical-methods-applied-to-chemical-engineering-fall-2015-metadata-a2f5ba9e4922d9e1",
+      "work_id": "ocw:25b668b6-8105-4e0f-b730-3f3fb0a85f1b"
+    },
+    {
+      "course_id": "8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014",
+      "id": "ocw_6534d0cdfd373b7f15f3",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "c41b25ae39be1b7ca9c938228e93efe9c831cd69bcad016ea5077fb1de8ee91b",
+          "size_bytes": 3643,
+          "url": "https://ocw.mit.edu/courses/8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "a953a0262a73c725600e62e99b7dab7b464e4a21ee5d25e050471ac72b5e541e",
+          "size_bytes": 101439,
+          "url": "https://ocw.mit.edu/courses/8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:33.355417+00:00",
+            "final_url": "https://ocw.mit.edu/courses/8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014/8.334-spring-2014.zip",
+            "headers": {
+              "content-length": "20978287",
+              "content-type": "application/zip",
+              "etag": "\"a4db6f842961bec5ee813bdaaa9a3009-3\"",
+              "last-modified": "Wed, 16 Sep 2026 07:09:50 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014/8.334-spring-2014.zip"
+          },
+          "sha256": "8bb6f67a3e78e94b103da924516f3edffcca6ddd784fcb1b1e2155b3a06a6596",
+          "url": "https://ocw.mit.edu/courses/8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014/8.334-spring-2014.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 20978287,
+      "source_url": "https://ocw.mit.edu/courses/8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014/8.334-spring-2014.zip",
+      "version": "8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014-metadata-c41b25ae39be1b7c",
+      "work_id": "ocw:9c997acf-6fc9-4f8d-8c6b-f8f1b82ba854"
+    },
+    {
+      "course_id": "hst-s14-health-information-systems-to-improve-quality-of-care-in-resource-poor-settings-spring-2012",
+      "id": "ocw_1cf57057f71d81d7bde7",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "8b8eb0882b5debf6364159bcacca6e0c78b019d0f6c499f3004d72ae69317944",
+          "size_bytes": 6782,
+          "url": "https://ocw.mit.edu/courses/hst-s14-health-information-systems-to-improve-quality-of-care-in-resource-poor-settings-spring-2012/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "10aedda1bd2a948cff01e08649059b1c883ca4d9be361b0be0e3baa1e452c60e",
+          "size_bytes": 78770,
+          "url": "https://ocw.mit.edu/courses/hst-s14-health-information-systems-to-improve-quality-of-care-in-resource-poor-settings-spring-2012/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:34.066355+00:00",
+            "final_url": "https://ocw.mit.edu/courses/hst-s14-health-information-systems-to-improve-quality-of-care-in-resource-poor-settings-spring-2012/hst.s14-spring-2012.zip",
+            "headers": {
+              "content-length": "59073616",
+              "content-type": "application/zip",
+              "etag": "\"9ae4570ef5fc27e5b6a984dc34b8f0ac-8\"",
+              "last-modified": "Wed, 16 Sep 2026 07:02:35 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/hst-s14-health-information-systems-to-improve-quality-of-care-in-resource-poor-settings-spring-2012/hst.s14-spring-2012.zip"
+          },
+          "sha256": "d4c35c0846eb6dd4438b1c88d7a84d822deddfc5b2b348d91e171edcde706081",
+          "url": "https://ocw.mit.edu/courses/hst-s14-health-information-systems-to-improve-quality-of-care-in-resource-poor-settings-spring-2012/hst.s14-spring-2012.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 59073616,
+      "source_url": "https://ocw.mit.edu/courses/hst-s14-health-information-systems-to-improve-quality-of-care-in-resource-poor-settings-spring-2012/hst.s14-spring-2012.zip",
+      "version": "hst-s14-health-information-systems-to-improve-quality-of-care-in-resource-poor-settings-spring-2012-metadata-8b8eb0882b5debf6",
+      "work_id": "ocw:f00b2095-25f1-45c4-bc0a-2860fd38f818"
+    },
+    {
+      "course_id": "14-129-blockchain-and-the-design-of-financial-systems-spring-2025",
+      "id": "ocw_d5b693e42c9895677355",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "9c2d3e73d1c9c15ee648d0d0dee4a7f9e9f4eb3c5aa643dae8148fc3acb19c37",
+          "size_bytes": 3931,
+          "url": "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "ea8efa802cf2f4b191f8051cf901085f0f344e6dbe0d97db510a98efc5733cef",
+          "size_bytes": 72331,
+          "url": "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:34.562198+00:00",
+            "final_url": "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/14.129-spring-2025.zip",
+            "headers": {
+              "content-length": "45737223",
+              "content-type": "application/zip",
+              "etag": "\"968a4d62343e34cbdaee66decda4e92c-6\"",
+              "last-modified": "Wed, 16 Sep 2026 07:51:52 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/14.129-spring-2025.zip"
+          },
+          "sha256": "30979494cf030b458cc5570f1d382cce884e8a93d1d6965eec6eccee898e7874",
+          "url": "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/14.129-spring-2025.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 45737223,
+      "source_url": "https://ocw.mit.edu/courses/14-129-blockchain-and-the-design-of-financial-systems-spring-2025/14.129-spring-2025.zip",
+      "version": "14-129-blockchain-and-the-design-of-financial-systems-spring-2025-metadata-9c2d3e73d1c9c15e",
+      "work_id": "ocw:07f3b1ac-4de9-4a40-bf28-e7e4cb5a523c"
+    },
+    {
+      "course_id": "18-642-topics-in-mathematics-with-applications-in-finance-fall-2024",
+      "id": "ocw_96b0e852b645cfdcb2d6",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "ea6305d7bef6147c645146b64c9868d2fb3b8f3fc01de3e371e823c52cf4c66d",
+          "size_bytes": 5802,
+          "url": "https://ocw.mit.edu/courses/18-642-topics-in-mathematics-with-applications-in-finance-fall-2024/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "72072d75173914ff09e7e8b2a9b2727b3ecb8875cc21785c66f7c592468bd04b",
+          "size_bytes": 119960,
+          "url": "https://ocw.mit.edu/courses/18-642-topics-in-mathematics-with-applications-in-finance-fall-2024/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:35.158587+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-642-topics-in-mathematics-with-applications-in-finance-fall-2024/18.642-fall-2024.zip",
+            "headers": {
+              "content-length": "65868504",
+              "content-type": "application/zip",
+              "etag": "\"a8e014e01c48977b532ea83ca5a9e346-8\"",
+              "last-modified": "Tue, 15 Sep 2026 10:05:44 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-642-topics-in-mathematics-with-applications-in-finance-fall-2024/18.642-fall-2024.zip"
+          },
+          "sha256": "bfb525960ebf9203d99004df9b14675c51d2d4345e68bfff2a5b4b911c67de87",
+          "url": "https://ocw.mit.edu/courses/18-642-topics-in-mathematics-with-applications-in-finance-fall-2024/18.642-fall-2024.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 65868504,
+      "source_url": "https://ocw.mit.edu/courses/18-642-topics-in-mathematics-with-applications-in-finance-fall-2024/18.642-fall-2024.zip",
+      "version": "18-642-topics-in-mathematics-with-applications-in-finance-fall-2024-metadata-ea6305d7bef6147c",
+      "work_id": "ocw:ec553bfe-7a59-46a5-ad49-bcaa3272645f"
+    },
+    {
+      "course_id": "6-7960-deep-learning-fall-2024",
+      "id": "ocw_ff57fbf8ba8a2e579f9d",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "b7d5deb5ca842872f5515d4f68077c40da46b0f3684f5af9e28b07d32901e9e3",
+          "size_bytes": 4939,
+          "url": "https://ocw.mit.edu/courses/6-7960-deep-learning-fall-2024/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "81f959fdf12d8b4b9872f11d574173d4f4c5260183a2956ded18cc81ed3522f8",
+          "size_bytes": 97408,
+          "url": "https://ocw.mit.edu/courses/6-7960-deep-learning-fall-2024/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:36.838982+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-7960-deep-learning-fall-2024/6.7960-fall-2024.zip",
+            "headers": {
+              "content-length": "235000290",
+              "content-type": "application/zip",
+              "etag": "\"fe2d55dc815d1fa89af6ced4387efd71-29\"",
+              "last-modified": "Wed, 16 Sep 2026 07:23:34 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-7960-deep-learning-fall-2024/6.7960-fall-2024.zip"
+          },
+          "sha256": "b64a326fd731d22e57e7066659791401ab76bb02217c75661cc25a6d4e96cf4c",
+          "url": "https://ocw.mit.edu/courses/6-7960-deep-learning-fall-2024/6.7960-fall-2024.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 235000290,
+      "source_url": "https://ocw.mit.edu/courses/6-7960-deep-learning-fall-2024/6.7960-fall-2024.zip",
+      "version": "6-7960-deep-learning-fall-2024-metadata-b7d5deb5ca842872",
+      "work_id": "ocw:16965224-2612-4f07-be42-d884a3632b5d"
+    },
+    {
+      "course_id": "8-05-quantum-physics-ii-fall-2013",
+      "id": "ocw_a50486cec9db7c3fe950",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "884d1c046e944a1d948d819f3b1c8e3a64e45e3c3942644c52c33e714c71ac9a",
+          "size_bytes": 3793,
+          "url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "c8c26a48e472bd11aa4d0396f84d00fdc161c265080064bc99f1a50985145e54",
+          "size_bytes": 101674,
+          "url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:37.662777+00:00",
+            "final_url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/8.05-fall-2013.zip",
+            "headers": {
+              "content-length": "20732433",
+              "content-type": "application/zip",
+              "etag": "\"5aa9483b7232b73e85bd0964a8b5c468-3\"",
+              "last-modified": "Wed, 16 Sep 2026 07:29:34 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/8.05-fall-2013.zip"
+          },
+          "sha256": "0f3faad0935ad938c5ad2118ce7eeb943951db3e6e71eca82715c042f8514adf",
+          "url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/8.05-fall-2013.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 20732433,
+      "source_url": "https://ocw.mit.edu/courses/8-05-quantum-physics-ii-fall-2013/8.05-fall-2013.zip",
+      "version": "8-05-quantum-physics-ii-fall-2013-metadata-884d1c046e944a1d",
+      "work_id": "ocw:ded1ecf7-3f25-49f8-94d6-a1bc3ac77d6a"
+    },
+    {
+      "course_id": "24-08j-philosophical-issues-in-brain-science-spring-2009",
+      "id": "ocw_e72546f0b1dcce9e329f",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "61de49486a8b74456ca81193395b0bd0a3978a7d7d11f5fa3bced585ab7c4a84",
+          "size_bytes": 4419,
+          "url": "https://ocw.mit.edu/courses/24-08j-philosophical-issues-in-brain-science-spring-2009/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "fda99ba82e4fb62dfac6ea7ad57afd60528ae3f805ba38cf883b53d8837eedd5",
+          "size_bytes": 71828,
+          "url": "https://ocw.mit.edu/courses/24-08j-philosophical-issues-in-brain-science-spring-2009/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:38.162626+00:00",
+            "final_url": "https://ocw.mit.edu/courses/24-08j-philosophical-issues-in-brain-science-spring-2009/24.08j-spring-2009.zip",
+            "headers": {
+              "content-length": "15351085",
+              "content-type": "application/zip",
+              "etag": "\"810e00705e9c8c0389b5e4e480399bdb-2\"",
+              "last-modified": "Tue, 15 Sep 2026 10:01:56 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/24-08j-philosophical-issues-in-brain-science-spring-2009/24.08j-spring-2009.zip"
+          },
+          "sha256": "480329ae8fc954f001c7221a6d6781aae8031fa09d58d2cdd389d64091dc407a",
+          "url": "https://ocw.mit.edu/courses/24-08j-philosophical-issues-in-brain-science-spring-2009/24.08j-spring-2009.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 15351085,
+      "source_url": "https://ocw.mit.edu/courses/24-08j-philosophical-issues-in-brain-science-spring-2009/24.08j-spring-2009.zip",
+      "version": "24-08j-philosophical-issues-in-brain-science-spring-2009-metadata-61de49486a8b7445",
+      "work_id": "ocw:06959b99-0e15-42b2-a482-a98ba2fa5839"
+    },
+    {
+      "course_id": "res-11-003-climate-justice-instructional-toolkit-spring-2025",
+      "id": "ocw_b9492201d5ae1f154ade",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "474ccfad1d63c38bd744d44d4b0688b80ed1b3d87ead661f5f6f5e8be817827e",
+          "size_bytes": 4110,
+          "url": "https://ocw.mit.edu/courses/res-11-003-climate-justice-instructional-toolkit-spring-2025/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "a5f3755b5c3c656eecb0a726163a7f2455c345c4141871917c6d355d6f1b2761",
+          "size_bytes": 84604,
+          "url": "https://ocw.mit.edu/courses/res-11-003-climate-justice-instructional-toolkit-spring-2025/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:38.676792+00:00",
+            "final_url": "https://ocw.mit.edu/courses/res-11-003-climate-justice-instructional-toolkit-spring-2025/res.11-003-fall-2025.zip",
+            "headers": {
+              "content-length": "405577264",
+              "content-type": "application/zip",
+              "etag": "\"9b13ed17ed0516da15bf9f6ffc1e1479-49\"",
+              "last-modified": "Tue, 15 Sep 2026 12:14:47 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/res-11-003-climate-justice-instructional-toolkit-spring-2025/res.11-003-fall-2025.zip"
+          },
+          "sha256": "ffa168cb9fbc46af7eb6b2a592d81c3a80aba17641fe3bf91069f4396237642c",
+          "url": "https://ocw.mit.edu/courses/res-11-003-climate-justice-instructional-toolkit-spring-2025/res.11-003-fall-2025.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 405577264,
+      "source_url": "https://ocw.mit.edu/courses/res-11-003-climate-justice-instructional-toolkit-spring-2025/res.11-003-fall-2025.zip",
+      "version": "res-11-003-climate-justice-instructional-toolkit-spring-2025-metadata-474ccfad1d63c38b",
+      "work_id": "ocw:e2218e38-fe69-4e5d-a0b5-f5ccfe2455a8"
+    },
+    {
+      "course_id": "18-s190-introduction-to-metric-spaces-january-iap-2023",
+      "id": "ocw_764ab96f5f73fcdab523",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "8da0ba69ee6f08632adc77f01cbd874a58fc45b3a9c55896881c41002d28d5fa",
+          "size_bytes": 2851,
+          "url": "https://ocw.mit.edu/courses/18-s190-introduction-to-metric-spaces-january-iap-2023/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "88d44e79a16401e240130a8f8d0ea328876558fb412a42a0ea809cd14fcdffd2",
+          "size_bytes": 74991,
+          "url": "https://ocw.mit.edu/courses/18-s190-introduction-to-metric-spaces-january-iap-2023/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:39.545966+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-s190-introduction-to-metric-spaces-january-iap-2023/18.s190-iap-2023.zip",
+            "headers": {
+              "content-length": "13371231",
+              "content-type": "application/zip",
+              "etag": "\"2407b01ec907e8d5c89f3c3eb9a7d405-2\"",
+              "last-modified": "Wed, 16 Sep 2026 07:49:18 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-s190-introduction-to-metric-spaces-january-iap-2023/18.s190-iap-2023.zip"
+          },
+          "sha256": "309d019590a1458d08cab9ce84dc8d4a9a8d72b0416f6b855436a9f4fedf1a06",
+          "url": "https://ocw.mit.edu/courses/18-s190-introduction-to-metric-spaces-january-iap-2023/18.s190-iap-2023.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 13371231,
+      "source_url": "https://ocw.mit.edu/courses/18-s190-introduction-to-metric-spaces-january-iap-2023/18.s190-iap-2023.zip",
+      "version": "18-s190-introduction-to-metric-spaces-january-iap-2023-metadata-8da0ba69ee6f0863",
+      "work_id": "ocw:e24a0879-4f36-41bb-adf3-639b99032d7d"
+    },
+    {
+      "course_id": "6-100l-introduction-to-cs-and-programming-using-python-fall-2022",
+      "id": "ocw_d941ba4f4186c84f3b77",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "6f74adcee8412fe57f623647ebdfe4396c354bac66fe2b71b5c0dfe856d1f0d6",
+          "size_bytes": 3941,
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "f41ce618c6195895246581203d4cd171244d0f11ac933f599771f26e452e9e13",
+          "size_bytes": 149098,
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:40.164101+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/6.100l-fall-2022.zip",
+            "headers": {
+              "content-length": "72874971",
+              "content-type": "application/zip",
+              "etag": "\"f6effa17def4fad82d7bf851c64a8af9-9\"",
+              "last-modified": "Tue, 15 Sep 2026 10:27:10 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/6.100l-fall-2022.zip"
+          },
+          "sha256": "15a684a5776fbb0ec4ef2f4cbf81fcab4885203b7946006687bcc7d36f8c16c7",
+          "url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/6.100l-fall-2022.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 72874971,
+      "source_url": "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/6.100l-fall-2022.zip",
+      "version": "6-100l-introduction-to-cs-and-programming-using-python-fall-2022-metadata-6f74adcee8412fe5",
+      "work_id": "ocw:0d7cf6b1-07d3-4577-9858-19e9881653f8"
+    },
+    {
+      "course_id": "8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013",
+      "id": "ocw_2433420d806e22353638",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "b7fc50068e5e85d567f83019ff37084805a8c0d7da69c64ce2ae3cd1adf7598e",
+          "size_bytes": 3557,
+          "url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "b3d0391508cab83de1ea884f67de1d812ee860f46afb116f50f02f753fbaa4ff",
+          "size_bytes": 101829,
+          "url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:40.893124+00:00",
+            "final_url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/8.333-fall-2013.zip",
+            "headers": {
+              "content-length": "21702790",
+              "content-type": "application/zip",
+              "etag": "\"9ce342e27179fed57f499dd232a75936-3\"",
+              "last-modified": "Wed, 16 Sep 2026 07:51:55 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/8.333-fall-2013.zip"
+          },
+          "sha256": "422218bfecb3851b86b971642e4f90563ad0b3891c6893df0b90c399e35e5279",
+          "url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/8.333-fall-2013.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 21702790,
+      "source_url": "https://ocw.mit.edu/courses/8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013/8.333-fall-2013.zip",
+      "version": "8-333-statistical-mechanics-i-statistical-mechanics-of-particles-fall-2013-metadata-b7fc50068e5e85d5",
+      "work_id": "ocw:905039bd-13d8-4ef1-b90c-7c130180d9fb"
+    },
+    {
+      "course_id": "11-350-sustainable-real-estate-spring-2023",
+      "id": "ocw_7b4a1def5046ce08ab5e",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "d7502ba915eb8280a8ee5aa85de554efa3282848dc9fd4e3b83c3dd3e5edfa33",
+          "size_bytes": 6632,
+          "url": "https://ocw.mit.edu/courses/11-350-sustainable-real-estate-spring-2023/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "1f3747a1f2c0a7c3f7f1bfdad7f8e836d87e11a4c25f38d871a5547bd13bc717",
+          "size_bytes": 105218,
+          "url": "https://ocw.mit.edu/courses/11-350-sustainable-real-estate-spring-2023/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:41.846779+00:00",
+            "final_url": "https://ocw.mit.edu/courses/11-350-sustainable-real-estate-spring-2023/11-350-spring-2023.zip",
+            "headers": {
+              "content-length": "360117428",
+              "content-type": "application/zip",
+              "etag": "\"ae83cfaab7ca551b83391b5ed7ddb29a-43\"",
+              "last-modified": "Wed, 16 Sep 2026 07:26:35 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/11-350-sustainable-real-estate-spring-2023/11-350-spring-2023.zip"
+          },
+          "sha256": "e73bd36e5897ad104b9f3112fc7253aff244c3adf0c6269f03484b4ed8510254",
+          "url": "https://ocw.mit.edu/courses/11-350-sustainable-real-estate-spring-2023/11-350-spring-2023.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 360117428,
+      "source_url": "https://ocw.mit.edu/courses/11-350-sustainable-real-estate-spring-2023/11-350-spring-2023.zip",
+      "version": "11-350-sustainable-real-estate-spring-2023-metadata-d7502ba915eb8280",
+      "work_id": "ocw:51e3f591-cacf-4b6d-a8a4-935c475e3687"
+    },
+    {
+      "course_id": "18-102-introduction-to-functional-analysis-spring-2021",
+      "id": "ocw_4502b047d4eeb31ee1cb",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "57724054075dd6336bb329a590c9cb6d697c47c05ff1b8b0fba7427e970bfb1d",
+          "size_bytes": 3834,
+          "url": "https://ocw.mit.edu/courses/18-102-introduction-to-functional-analysis-spring-2021/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "bc11ecf50bd8a05656d64dd48cdf483c695a3e5716313ee28c17d7252acfab71",
+          "size_bytes": 109952,
+          "url": "https://ocw.mit.edu/courses/18-102-introduction-to-functional-analysis-spring-2021/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:42.525781+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-102-introduction-to-functional-analysis-spring-2021/18.102-spring-2021.zip",
+            "headers": {
+              "content-length": "23329812",
+              "content-type": "application/zip",
+              "etag": "\"76da72f0bc20d7ecde4d897cff54bb02-3\"",
+              "last-modified": "Tue, 15 Sep 2026 09:49:04 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-102-introduction-to-functional-analysis-spring-2021/18.102-spring-2021.zip"
+          },
+          "sha256": "5b715fe03441836d91c183209ea3414a3b7dd1b91ec836999521ca50e19edfd8",
+          "url": "https://ocw.mit.edu/courses/18-102-introduction-to-functional-analysis-spring-2021/18.102-spring-2021.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 23329812,
+      "source_url": "https://ocw.mit.edu/courses/18-102-introduction-to-functional-analysis-spring-2021/18.102-spring-2021.zip",
+      "version": "18-102-introduction-to-functional-analysis-spring-2021-metadata-57724054075dd633",
+      "work_id": "ocw:9ece5365-cb37-4ff3-8577-6d95f1a9f15c"
+    },
+    {
+      "course_id": "6-0002-introduction-to-computational-thinking-and-data-science-fall-2016",
+      "id": "ocw_0fdccaaa8f7e5fd0a073",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "b5be045453c90696c22228ff5b67ebdea2b9557f2e1e476607a0d11f976a9326",
+          "size_bytes": 4453,
+          "url": "https://ocw.mit.edu/courses/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "78e3416f511e37643020e7f35d1a7fa13e1ac7406b2dc880fc8b3caea3f18315",
+          "size_bytes": 95602,
+          "url": "https://ocw.mit.edu/courses/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:43.347233+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/6.0002-fall-2016.zip",
+            "headers": {
+              "content-length": "34780052",
+              "content-type": "application/zip",
+              "etag": "\"7af9485b1e2e19cb7b81f582293e8b52-5\"",
+              "last-modified": "Tue, 15 Sep 2026 11:26:57 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/6.0002-fall-2016.zip"
+          },
+          "sha256": "01ae0ccccbccbba56e509c72524caa50f12361473a729cb4042c6075973c3e28",
+          "url": "https://ocw.mit.edu/courses/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/6.0002-fall-2016.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 34780052,
+      "source_url": "https://ocw.mit.edu/courses/6-0002-introduction-to-computational-thinking-and-data-science-fall-2016/6.0002-fall-2016.zip",
+      "version": "6-0002-introduction-to-computational-thinking-and-data-science-fall-2016-metadata-b5be045453c90696",
+      "work_id": "ocw:c12b4e4a-262c-49f4-b105-572194394d2e"
+    },
+    {
+      "course_id": "2-43-advanced-thermodynamics-spring-2024",
+      "id": "ocw_91138480a740623dcf28",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "163549493cfb45c0be6421420000fa36a71b9cdb891954056bbeee9e69c0e591",
+          "size_bytes": 5066,
+          "url": "https://ocw.mit.edu/courses/2-43-advanced-thermodynamics-spring-2024/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "e068f9051a47b72f34c2a19108bb31bfa0d9d97260a9136340e628365a44ed60",
+          "size_bytes": 102327,
+          "url": "https://ocw.mit.edu/courses/2-43-advanced-thermodynamics-spring-2024/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:44.234974+00:00",
+            "final_url": "https://ocw.mit.edu/courses/2-43-advanced-thermodynamics-spring-2024/2.43-spring-2024.zip",
+            "headers": {
+              "content-length": "90289695",
+              "content-type": "application/zip",
+              "etag": "\"71fc9a4b0d31fcc83da0c0c677a645ac-11\"",
+              "last-modified": "Tue, 15 Sep 2026 12:14:48 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/2-43-advanced-thermodynamics-spring-2024/2.43-spring-2024.zip"
+          },
+          "sha256": "efc21c642b0877373993574639c122d62c37209c11ae0bde3e004eaeee92b849",
+          "url": "https://ocw.mit.edu/courses/2-43-advanced-thermodynamics-spring-2024/2.43-spring-2024.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 90289695,
+      "source_url": "https://ocw.mit.edu/courses/2-43-advanced-thermodynamics-spring-2024/2.43-spring-2024.zip",
+      "version": "2-43-advanced-thermodynamics-spring-2024-metadata-163549493cfb45c0",
+      "work_id": "ocw:1eed039f-4b98-4328-a880-ed8c7c1173ac"
+    },
+    {
+      "course_id": "8-851-effective-field-theory-spring-2013",
+      "id": "ocw_60f5a495f997e8f8e383",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "c5c5afafad9c30da0075e9c2fb44b3a5d700590e3cbaf138b11be411bc947726",
+          "size_bytes": 3021,
+          "url": "https://ocw.mit.edu/courses/8-851-effective-field-theory-spring-2013/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "236aa9e2a3871a8f4719fdf984cbb6491dc3c5bcd4ba7e805354b571e6ff8efb",
+          "size_bytes": 84546,
+          "url": "https://ocw.mit.edu/courses/8-851-effective-field-theory-spring-2013/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:44.702765+00:00",
+            "final_url": "https://ocw.mit.edu/courses/8-851-effective-field-theory-spring-2013/8.851-spring-2013.zip",
+            "headers": {
+              "content-length": "27677376",
+              "content-type": "application/zip",
+              "etag": "\"a29438a8c4389df3a77f707984dbc61b-4\"",
+              "last-modified": "Tue, 15 Sep 2026 09:58:09 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/8-851-effective-field-theory-spring-2013/8.851-spring-2013.zip"
+          },
+          "sha256": "e01ea5ba5de1a0858661f2d22e13d48b97e39ce62891c5ea372c090ce74f9c77",
+          "url": "https://ocw.mit.edu/courses/8-851-effective-field-theory-spring-2013/8.851-spring-2013.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 27677376,
+      "source_url": "https://ocw.mit.edu/courses/8-851-effective-field-theory-spring-2013/8.851-spring-2013.zip",
+      "version": "8-851-effective-field-theory-spring-2013-metadata-c5c5afafad9c30da",
+      "work_id": "ocw:517b2091-adda-4177-b146-5fbe02cdcb78"
+    },
+    {
+      "course_id": "21m-383-computational-music-theory-and-analysis-spring-2023",
+      "id": "ocw_d895f09e529d2625088b",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "70ce3099ad7ea3e96bc9746e7df2ad875425de7c049950e4796e9059537f3f6f",
+          "size_bytes": 4629,
+          "url": "https://ocw.mit.edu/courses/21m-383-computational-music-theory-and-analysis-spring-2023/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "6d688a1e7a27e1c2b06899a048bcfcd5926b290b9bd10189070bafea1ff3bcf2",
+          "size_bytes": 264992,
+          "url": "https://ocw.mit.edu/courses/21m-383-computational-music-theory-and-analysis-spring-2023/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:45.738861+00:00",
+            "final_url": "https://ocw.mit.edu/courses/21m-383-computational-music-theory-and-analysis-spring-2023/21m.383-spring-2023.zip",
+            "headers": {
+              "content-length": "21472888",
+              "content-type": "application/zip",
+              "etag": "\"9d76550d36afd48dbca143fc31bb8c63-3\"",
+              "last-modified": "Wed, 16 Sep 2026 07:05:05 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/21m-383-computational-music-theory-and-analysis-spring-2023/21m.383-spring-2023.zip"
+          },
+          "sha256": "2c7b5319de5592cd7ea654ee8f36d9c3c4d725d796936061f8fd188709e584ed",
+          "url": "https://ocw.mit.edu/courses/21m-383-computational-music-theory-and-analysis-spring-2023/21m.383-spring-2023.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 21472888,
+      "source_url": "https://ocw.mit.edu/courses/21m-383-computational-music-theory-and-analysis-spring-2023/21m.383-spring-2023.zip",
+      "version": "21m-383-computational-music-theory-and-analysis-spring-2023-metadata-70ce3099ad7ea3e9",
+      "work_id": "ocw:a326c126-6eca-4dfc-9205-861af49a7fce"
+    },
+    {
+      "course_id": "18-404j-theory-of-computation-fall-2020",
+      "id": "ocw_c1847be4926db64545d1",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "c02d41d995933162727dfb9771a2fa91e992a399e549c282ed2a0f9e73dd5e18",
+          "size_bytes": 3522,
+          "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "a32f84e73c84f68f58ff59cfca84883c061c6c5f1fa3a9dac047db4d8310c539",
+          "size_bytes": 118232,
+          "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:46.455749+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/18.404j-fall-2020.zip",
+            "headers": {
+              "content-length": "53795992",
+              "content-type": "application/zip",
+              "etag": "\"12c9fc7a08b63ed390ce88b1c18d6340-7\"",
+              "last-modified": "Wed, 16 Sep 2026 07:14:50 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/18.404j-fall-2020.zip"
+          },
+          "sha256": "0d91056f59682372b96bb5eb25e65e929d6c3f507adb5adbf9aa8ac15341425d",
+          "url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/18.404j-fall-2020.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 53795992,
+      "source_url": "https://ocw.mit.edu/courses/18-404j-theory-of-computation-fall-2020/18.404j-fall-2020.zip",
+      "version": "18-404j-theory-of-computation-fall-2020-metadata-c02d41d995933162",
+      "work_id": "ocw:b48937bb-3fbe-4d3d-b3f3-15cd545dfe20"
+    },
+    {
+      "course_id": "6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013",
+      "id": "ocw_bb329e3cc10e834de59b",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "299eb8b4c3971d0e3d8955959fa17341ec368937e3bc2ce6e37cca0a0e694f6e",
+          "size_bytes": 5582,
+          "url": "https://ocw.mit.edu/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "cec523302ec398c70ac8767b7ab0bb4364e7784d0f10fcb748a6f0eaa294a3d2",
+          "size_bytes": 212105,
+          "url": "https://ocw.mit.edu/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:47.021376+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/6.041sc-fall-2013.zip",
+            "headers": {
+              "content-length": "177345881",
+              "content-type": "application/zip",
+              "etag": "\"ec54eb1fcfa8333f865e7250b3276199-22\"",
+              "last-modified": "Tue, 15 Sep 2026 10:14:29 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/6.041sc-fall-2013.zip"
+          },
+          "sha256": "927a4faa4333bf927621ab482ecf487e9887686e8bc8fd4abf1e1e81aca2ba60",
+          "url": "https://ocw.mit.edu/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/6.041sc-fall-2013.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 177345881,
+      "source_url": "https://ocw.mit.edu/courses/6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013/6.041sc-fall-2013.zip",
+      "version": "6-041sc-probabilistic-systems-analysis-and-applied-probability-fall-2013-metadata-299eb8b4c3971d0e",
+      "work_id": "ocw:7ce8aab3-5002-476b-ae06-44c9ac4a6ea3"
+    },
+    {
+      "course_id": "sts-081-innovation-systems-for-science-technology-energy-manufacturing-and-health-spring-2017",
+      "id": "ocw_b078067999d330549f1d",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "a8a1f5daa78584e2f62d170a4e72bebed2591b176d2578ca263a8eb704531a22",
+          "size_bytes": 3903,
+          "url": "https://ocw.mit.edu/courses/sts-081-innovation-systems-for-science-technology-energy-manufacturing-and-health-spring-2017/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "dd73360616cab055fd23f7a84206a03ed0c1c928ac7771684415893ca3686ff0",
+          "size_bytes": 83861,
+          "url": "https://ocw.mit.edu/courses/sts-081-innovation-systems-for-science-technology-energy-manufacturing-and-health-spring-2017/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:48.388861+00:00",
+            "final_url": "https://ocw.mit.edu/courses/sts-081-innovation-systems-for-science-technology-energy-manufacturing-and-health-spring-2017/sts.081-spring-2017.zip",
+            "headers": {
+              "content-length": "48617695",
+              "content-type": "application/zip",
+              "etag": "\"9b7f3bb34017fc0ea1e7cb2baba2251b-6\"",
+              "last-modified": "Tue, 15 Sep 2026 10:12:59 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/sts-081-innovation-systems-for-science-technology-energy-manufacturing-and-health-spring-2017/sts.081-spring-2017.zip"
+          },
+          "sha256": "d5cbac73b07f4645039283ae85f16f298a7fd90a9ae89acbeaa08e00de2db46f",
+          "url": "https://ocw.mit.edu/courses/sts-081-innovation-systems-for-science-technology-energy-manufacturing-and-health-spring-2017/sts.081-spring-2017.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 48617695,
+      "source_url": "https://ocw.mit.edu/courses/sts-081-innovation-systems-for-science-technology-energy-manufacturing-and-health-spring-2017/sts.081-spring-2017.zip",
+      "version": "sts-081-innovation-systems-for-science-technology-energy-manufacturing-and-health-spring-2017-metadata-a8a1f5daa78584e2",
+      "work_id": "ocw:2482117b-95d7-46e8-9c04-d2cc784874ac"
+    },
+    {
+      "course_id": "18-650-statistics-for-applications-fall-2016",
+      "id": "ocw_8968bc4de565b44a9dcc",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "0921f3daa0275f2c479688315b42b208ac18bfbaf6b071a5295af04355c04917",
+          "size_bytes": 2982,
+          "url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "2f9d697cd3d07504b0a97031be85725d4c303cb98e96274fe2bb556e962d034e",
+          "size_bytes": 84733,
+          "url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:48.962562+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/18.650-fall-2016.zip",
+            "headers": {
+              "content-length": "23265002",
+              "content-type": "application/zip",
+              "etag": "\"ad7bf2dbce488b8d953fb16dafda7411-3\"",
+              "last-modified": "Tue, 15 Sep 2026 09:48:37 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/18.650-fall-2016.zip"
+          },
+          "sha256": "a61e464a0dce0c792b0ba2fba2e732ad7ccc6d3b11942dad2e9c43a2decd274e",
+          "url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/18.650-fall-2016.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 23265002,
+      "source_url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/18.650-fall-2016.zip",
+      "version": "18-650-statistics-for-applications-fall-2016-metadata-0921f3daa0275f2c",
+      "work_id": "ocw:59d3e807-0c95-4c29-81ce-4a4a2875f27d"
+    },
+    {
+      "course_id": "res-6-010-electronic-feedback-systems-spring-2013",
+      "id": "ocw_930cb2bdb815908f01cd",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "9edc40a9884ce40ec5b636e0100d7507d8323b1a0c869600807e6dd44dfa30fd",
+          "size_bytes": 3953,
+          "url": "https://ocw.mit.edu/courses/res-6-010-electronic-feedback-systems-spring-2013/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "92bd9be0cf0b867d13b389bee7daff7aeefb310d6268c60de57ea9218711be36",
+          "size_bytes": 90424,
+          "url": "https://ocw.mit.edu/courses/res-6-010-electronic-feedback-systems-spring-2013/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:49.607670+00:00",
+            "final_url": "https://ocw.mit.edu/courses/res-6-010-electronic-feedback-systems-spring-2013/res.6-010-spring-2013.zip",
+            "headers": {
+              "content-length": "104981856",
+              "content-type": "application/zip",
+              "etag": "\"2715a5e5746ebcdf09c5323b6c9dc2a3-13\"",
+              "last-modified": "Tue, 15 Sep 2026 10:06:18 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/res-6-010-electronic-feedback-systems-spring-2013/res.6-010-spring-2013.zip"
+          },
+          "sha256": "23cc0b2f912fdcce38980b516fcb59249b342c5f7970730ccfdac2bab4f9b9da",
+          "url": "https://ocw.mit.edu/courses/res-6-010-electronic-feedback-systems-spring-2013/res.6-010-spring-2013.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 104981856,
+      "source_url": "https://ocw.mit.edu/courses/res-6-010-electronic-feedback-systems-spring-2013/res.6-010-spring-2013.zip",
+      "version": "res-6-010-electronic-feedback-systems-spring-2013-metadata-9edc40a9884ce40e",
+      "work_id": "ocw:19e34d01-7a52-4eaf-a2ad-1096483c1d82"
+    },
+    {
+      "course_id": "22-67j-principles-of-plasma-diagnostics-fall-2023",
+      "id": "ocw_0bf605ac3394c99aceb9",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "dc2cc7aae08bbbf2f888280ff8dbd02b2953044bfa57a917dd128a8bb113cfe7",
+          "size_bytes": 3354,
+          "url": "https://ocw.mit.edu/courses/22-67j-principles-of-plasma-diagnostics-fall-2023/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "833f783bcc8e6265675038bc91405e385d4391f5e046a2654618cf9fb0089d99",
+          "size_bytes": 68718,
+          "url": "https://ocw.mit.edu/courses/22-67j-principles-of-plasma-diagnostics-fall-2023/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:50.120704+00:00",
+            "final_url": "https://ocw.mit.edu/courses/22-67j-principles-of-plasma-diagnostics-fall-2023/22.67j-fall-2023.zip",
+            "headers": {
+              "content-length": "15157564",
+              "content-type": "application/zip",
+              "etag": "\"f9136ef693821ba4023216387859c5a3-2\"",
+              "last-modified": "Wed, 16 Sep 2026 07:20:30 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/22-67j-principles-of-plasma-diagnostics-fall-2023/22.67j-fall-2023.zip"
+          },
+          "sha256": "1440b4df241611be9643ea94be6853fc6bc2e3422513426fa7e5b5f8ffe24f0b",
+          "url": "https://ocw.mit.edu/courses/22-67j-principles-of-plasma-diagnostics-fall-2023/22.67j-fall-2023.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 15157564,
+      "source_url": "https://ocw.mit.edu/courses/22-67j-principles-of-plasma-diagnostics-fall-2023/22.67j-fall-2023.zip",
+      "version": "22-67j-principles-of-plasma-diagnostics-fall-2023-metadata-dc2cc7aae08bbbf2",
+      "work_id": "ocw:9f96b00b-7670-4a3a-8498-140042848bd1"
+    },
+    {
+      "course_id": "8-323-relativistic-quantum-field-theory-i-spring-2023",
+      "id": "ocw_ca6eb68df52f4c8dffc3",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "f1dd284e74ec15349b35b7b0eadf50671c9ce0b344553f2d4f22638b1bec88dd",
+          "size_bytes": 3510,
+          "url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "6058ba0abefaed7ced3d3aaf5f1caa1425a45a9bff0304b1f3a976dd6eae8477",
+          "size_bytes": 106588,
+          "url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:50.645515+00:00",
+            "final_url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/8.323-spring-2023.zip",
+            "headers": {
+              "content-length": "22733779",
+              "content-type": "application/zip",
+              "etag": "\"733d0f99a062b2a71f6c64b90926b123-3\"",
+              "last-modified": "Wed, 16 Sep 2026 08:23:44 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/8.323-spring-2023.zip"
+          },
+          "sha256": "63ed558ebf3bd68dc085f512279674681ff331a4849e6fbd3d14c67925106ca2",
+          "url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/8.323-spring-2023.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 22733779,
+      "source_url": "https://ocw.mit.edu/courses/8-323-relativistic-quantum-field-theory-i-spring-2023/8.323-spring-2023.zip",
+      "version": "8-323-relativistic-quantum-field-theory-i-spring-2023-metadata-f1dd284e74ec1534",
+      "work_id": "ocw:ec977747-1fd7-439c-8ed3-110854954232"
+    }
+  ],
+  "storage_peak_bytes": 5465852244
+}

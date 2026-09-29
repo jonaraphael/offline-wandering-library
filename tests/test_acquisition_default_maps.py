@@ -18,28 +18,17 @@ class DefaultMapRecipeTests(unittest.TestCase):
             profiles_dir=ROOT / 'profiles', recipes=ROOT / 'catalog/acquisition/recipes.yaml',
             resource=['regional-maps'], profile=profiles, allow_local=False)
 
-    def test_full_default_audit_uses_identical_detailed_recipe_without_active_outputs(self):
-        args = self.arguments(['full-1tb'])
-        context = _context(args)
-        recipes = context[-1]
-        expected = load_recipes(ROOT / 'catalog/acquisition/regional-maps-detailed-1tb.yaml')
-        self.assertEqual(recipes, expected)
-        self.assertEqual(set(recipes), {'regional-maps-detailed-1tb-v1'})
-        row = next(iter(recipes.values()))
-        self.assertEqual(row['selection']['allowances'], {'full-1tb': 80_000_000_000})
-        self.assertEqual(row['review']['status'], 'pending')
-        self.assertEqual(row['output_asset_ids'], [])
-        self.assertEqual([r['id'] for r in audit(args, context)['gaps'][0]['recipes']], list(recipes))
-        active = read_yaml(args.catalog).get('acquisition_recipes', [])
-        self.assertNotIn(row['id'], {r['id'] for r in active})
-
-    def test_smaller_presets_keep_coarse_recipe_and_allowances(self):
-        for profile in ('compact-256gb', 'standard-512gb'):
-            with self.subTest(profile=profile):
-                recipes = _context(self.arguments([profile]))[-1]
-                self.assertEqual(set(recipes), {'regional-maps-acquisition-v2'})
-                self.assertEqual(next(iter(recipes.values()))['selection']['allowances'],
-                                 {'compact-256gb': 10_000_000_000, 'standard-512gb': 30_000_000_000})
+    def test_active_map_choices_are_finished_archives_without_topographic_placeholders(self):
+        assets = read_yaml(ROOT / 'catalog/library.yaml')['assets']
+        self.assertNotIn('regional_topographic_maps', {a['id'] for a in assets})
+        self.assertEqual(read_yaml(ROOT / 'catalog/library.yaml').get('acquisition_recipes'), [])
+        resources = {r['id']:r for r in read_yaml(ROOT / 'catalog/resources.yaml')['resources']}
+        self.assertEqual(resources['regional-maps']['asset_ids'], ['map_osm_north_america'])
+        self.assertIn('topographic', resources['regional-maps']['reason'])
+        for identity in ('standard-512gb', 'full-1tb'):
+            profile = read_yaml(ROOT / 'profiles' / (identity + '.yaml'))
+            self.assertIn('world-maps', profile['default_resources'])
+            self.assertNotIn('regional-maps', profile['default_resources'])
 
     def test_all_profile_report_can_freeze_one_profile_without_ambiguous_resource(self):
         sheet = {'sheet_id': 'one', 'scale': 24000, 'source_url': 'https://example.org/one.pdf',

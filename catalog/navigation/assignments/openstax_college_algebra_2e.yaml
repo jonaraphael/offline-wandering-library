@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_college_algebra_2e
+assignments:
+- topic_id: mathematics
+  purpose: explanation

@@ -1,0 +1,36 @@
+{
+  "content_ready": false,
+  "courses": [
+    {
+      "essential_material_review": "Syllabus explicitly identifies the locally supplied nine-chapter manuscript as the only required text. Preface, chapters1\u20139, bibliography, full24 released lectures with English captions,10 published problem-set assignments referencing that local manuscript, the extra problem PDF, and all5 supplied quiz/solution pairs are retained. The classroom syllabus announces14 problem sets; only10 assignment descriptions are published. Do not claim missing classroom sets, final exam, or TA services are included. All published exercise statements needed for the ten included assignments are inside the retained manuscript.",
+      "optional_policies": [
+        "gallery-posters"
+      ],
+      "required_runtime_policy": "native-media-no-telemetry-v1",
+      "source_id": "ocw_ae3a08d2bbf9ab91edfc",
+      "source_sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+      "unavailable_material": [
+        "Four of the14 classroom-announced problem-set descriptions are not published; only the10 published assignment descriptions are claimed.",
+        "Classroom final exam and ongoing instructor feedback are not supplied."
+      ],
+      "utility": "Graduate communications foundations: source coding, quantization, signal spaces, random processes, detection and wireless channels; complements already selected Digital Communications II."
+    },
+    {
+      "essential_material_review": "No external textbook or reading is assigned in the captured syllabus. The ten complete local lecture-slide PDFs explicitly cover sessions1\u201324, including Parametric Hypothesis Testing sessions7\u201310 and Regression sessions13\u201316. All22 released lecture recordings and their English captions, all11 problem sets, and all original local slides are retained. Publisher explicitly states recordings10 and16 are unavailable and substitutes its Fall2017 Lecture1 for the unavailable Fall2016 recording; these limitations remain visible. Problem-set solutions and classroom exams are not available and are not claimed. Complete topic coverage comes from the publisher session-indexed slides plus available videos, not an assertion that every classroom recording exists.",
+      "optional_policies": [
+        "gallery-posters"
+      ],
+      "required_runtime_policy": "native-media-no-telemetry-v1",
+      "source_id": "ocw_8968bc4de565b44a9dcc",
+      "source_sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+      "unavailable_material": [
+        "Lecture10 and16 recordings not released; corresponding complete topic slides are included.",
+        "Lecture1 is the publisher-selected Fall2017 replacement for unavailable Fall2016 recording.",
+        "Publisher provides no problem-set solutions or classroom exam files."
+      ],
+      "utility": "Statistical inference and applied mathematical methods: maximum likelihood, hypothesis tests, regression, Bayesian statistics, PCA and generalized linear models."
+    }
+  ],
+  "id": "ocw-communications-statistics-v1",
+  "schema_version": 1
+}

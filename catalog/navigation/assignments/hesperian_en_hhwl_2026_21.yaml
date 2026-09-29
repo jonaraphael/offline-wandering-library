@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: hesperian_en_hhwl_2026_21
+assignments:
+- topic_id: health-worker-education
+  purpose: reference

@@ -1,0 +1,21 @@
+{
+  "content_ready": false,
+  "courses": [
+    {
+      "essential_material_review": "All11 published puzzles have their complete local description/exercise PDF, an original captioned lesson video, Python examples and the publisher supplied solution for one exercise. All11 PDFs were parsed and contain exercise sections;29 Python files parse as Python3 and use no import statements. The syllabus cites the instructor book as the source of most material, but each course assignment explicitly points to its included puzzle PDF; no external book-only exercise or reading is assigned. Keep the original book citation and all publisher/copyright notices. This is the complete published two-week seminar, not a claim to supply the entire commercial book or solutions for every optional puzzle exercise. Running examples requires a Python interpreter; no cloud service, extra module or online dataset is referenced by the29 supplied source files.",
+      "optional_policies": [
+        "gallery-posters"
+      ],
+      "required_runtime_policy": "native-media-no-telemetry-v1",
+      "source_id": "ocw_9b2b8cfd95268b1859de",
+      "source_sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+      "unavailable_material": [
+        "The entire cited commercial book is not included; all11 assigned puzzle PDFs and their exercises are included.",
+        "Only the publisher supplied per-puzzle exercise solutions are included; not every optional exercise has a solution."
+      ],
+      "utility": "Introductory algorithmic programming through11 complete worked puzzle lessons, covering control flow, recursion, sorting, graphs and memoization."
+    }
+  ],
+  "id": "ocw-programming-puzzled-v1",
+  "schema_version": 1
+}

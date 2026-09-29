@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_introduction_philosophy
+assignments:
+- topic_id: philosophy
+  purpose: explanation

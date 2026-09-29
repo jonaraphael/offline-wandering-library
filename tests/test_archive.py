@@ -34,7 +34,7 @@ class ArchiveTests(unittest.TestCase):
         }
         self.make_zip(list(self.files.items()))
         self.profile = dict(id='test', capacity_bytes=100_000_000,
-                            search_budget_bytes=100_000, reserve_bytes=0)
+                            discovery_budget_bytes=100_000, reserve_bytes=0)
         self.source = self.source_asset()
         self.members = [self.member(name, data, index) for index, (name, data) in enumerate(self.files.items())]
 
@@ -62,7 +62,7 @@ class ArchiveTests(unittest.TestCase):
     def member(self, name, data, index):
         return {**self.source, 'id':f'member{index}', 'title': 'Useful manual' if index == 0 else f'Dependency {index}',
                 'format':Path(name).suffix[1:], 'destination':'REFERENCE/' + name,
-                'supporting_file':False, 'size_bytes':len(data), 'sha256':hashlib.sha256(data).hexdigest(),
+                'supporting_file':False, 'offline_ready':True, 'size_bytes':len(data), 'sha256':hashlib.sha256(data).hexdigest(),
                 'archive_member':dict(source_asset_id='source', path=name, document=index == 0)}
 
     def test_extract_pins_bytes_and_restarts_owned_partial_including_empty(self):
@@ -249,8 +249,9 @@ class ArchiveTests(unittest.TestCase):
         topics = dict(schema_version=1, entrances=dict(subjects=['computing'], tasks=['computing'], learn=['computing']),
                       topics=[dict(id='computing', title='Computing', description='Manuals', parents=[], related=[], aliases=[])])
         (nav/'topics.yaml').write_text(yaml.safe_dump(topics))
-        (nav/'assignments.yaml').write_text(yaml.safe_dump(dict(schema_version=1, assignments=[
-            dict(topic_id='computing', asset_id='member0', purpose='explanation')])))
+        from navigation_fixture import write_assignments
+        write_assignments(nav, [
+            dict(topic_id='computing', asset_id='member0', purpose='explanation')])
         report = build_atlas(self.root/'drive', navigation_dir=nav, catalog=self.root/'library.yaml',
                             profiles_dir=self.root/'profiles', allow_local=True, progress=lambda _:None)
         self.assertIn('INDEX/topics/computing.html', report['generated_files'])

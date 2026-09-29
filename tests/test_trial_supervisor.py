@@ -150,10 +150,11 @@ class SamplingTests(unittest.TestCase):
         spec=importlib.util.spec_from_file_location('packet',path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory).resolve();report=root/'report.json';output=root/'packet.json'
-            save(report,{'records':[{'asset_id':'one','structural_pass':False,'utility_excerpts':excerpt_windows('example')}]})
+            save(report,{'records':[{'asset_id':'one','structural_pass':False,'utility_excerpts':excerpt_windows('example')},
+                {'asset_id':'two','checks':{'whole_file_hash':True},'flags':['Missing searchable text']} ]})
             with patch('socket.create_connection',side_effect=AssertionError('offline')):
                 first=module.prepare(report,output);self.assertEqual(first,module.prepare(report,output))
-            self.assertEqual(first['flagged_units'],1)
+            self.assertEqual(first['flagged_units'],2)
             self.assertFalse(json.loads(output.read_text())['content_ready'])
             save(report,{'records':[{'asset_id':'two','structural_pass':True}]})
             with self.assertRaises(SafetyError):module.prepare(report,output)

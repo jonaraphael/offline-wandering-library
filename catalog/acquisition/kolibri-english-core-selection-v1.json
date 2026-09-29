@@ -1,0 +1,316 @@
+{
+  "channels": [
+    {
+      "courses": [
+        {
+          "id": "7daa8c7b1ee55bd1bfb6d34be8b9bf36",
+          "lft": 3,
+          "rght": 622,
+          "title": "Early math"
+        },
+        {
+          "id": "4a5293c2249a53fdb491be18b21d8e53",
+          "lft": 623,
+          "rght": 1802,
+          "title": "Arithmetic"
+        },
+        {
+          "id": "9e006e37eb2a5a2da998d5201ba69680",
+          "lft": 1803,
+          "rght": 2950,
+          "title": "Pre-algebra"
+        },
+        {
+          "id": "cb4a011ac01f5dee8f46c16652681769",
+          "lft": 3473,
+          "rght": 4746,
+          "title": "Algebra 1"
+        },
+        {
+          "id": "0f36fc3e9e4c5f8db14de60a9b52e57d",
+          "lft": 5069,
+          "rght": 5782,
+          "title": "Geometry"
+        },
+        {
+          "id": "fc2a4b05a30e5006934b9133ad77a89f",
+          "lft": 6401,
+          "rght": 7190,
+          "title": "Algebra 2"
+        },
+        {
+          "id": "0124b817c3365724b9e36daaeb2b2149",
+          "lft": 7191,
+          "rght": 7492,
+          "title": "Trigonometry"
+        },
+        {
+          "id": "8d959400a6ca503990ea9ded452136ee",
+          "lft": 8073,
+          "rght": 9106,
+          "title": "Precalculus"
+        },
+        {
+          "id": "9120612640c95eb8a3797c8b1ef5dd75",
+          "lft": 9107,
+          "rght": 10250,
+          "title": "Statistics & probability"
+        },
+        {
+          "id": "a3528572a91f5e3b9fb4fd77743cc2a3",
+          "lft": 15051,
+          "rght": 15582,
+          "title": "Multivariable calculus"
+        },
+        {
+          "id": "2a7abce67f76519fa0d08633b12510f8",
+          "lft": 15583,
+          "rght": 15776,
+          "title": "Differential equations"
+        },
+        {
+          "id": "a65da8b9a5e65fe59cb26299eba1d667",
+          "lft": 15777,
+          "rght": 16102,
+          "title": "Linear algebra"
+        },
+        {
+          "id": "55d5ffdd963750dc88cd47caa1ef7d39",
+          "lft": 46909,
+          "rght": 47022,
+          "title": "Middle school physics - NGSS"
+        },
+        {
+          "id": "17d86ace01375570b5e782594d6af4f4",
+          "lft": 47023,
+          "rght": 47300,
+          "title": "Physics"
+        },
+        {
+          "id": "78b07a0148975a88b46ab082b9f1685c",
+          "lft": 47743,
+          "rght": 47874,
+          "title": "Middle school Earth and space science - NGSS"
+        },
+        {
+          "id": "a4c248b27a695d19bdf8e78d17a72351",
+          "lft": 47875,
+          "rght": 48138,
+          "title": "Cosmology & astronomy"
+        },
+        {
+          "id": "8c23f663a6365140b6c8c448f3b4ef68",
+          "lft": 48139,
+          "rght": 48730,
+          "title": "Chemistry"
+        },
+        {
+          "id": "d61bd680689e5a528efa4e97bd31bdcc",
+          "lft": 48731,
+          "rght": 49494,
+          "title": "Organic chemistry"
+        },
+        {
+          "id": "2089b7201014571bba4c4ed6d2e46f8d",
+          "lft": 49495,
+          "rght": 49738,
+          "title": "Middle school biology - NGSS"
+        },
+        {
+          "id": "6a347d8f87915306abf3b89e47a49c0b",
+          "lft": 49739,
+          "rght": 50580,
+          "title": "Biology"
+        },
+        {
+          "id": "8e239f29fbd25cd88ba8618fad0ffe8b",
+          "lft": 51241,
+          "rght": 51712,
+          "title": "Electrical engineering"
+        }
+      ],
+      "excluded": [
+        {
+          "id": "35604ebc34ff56cab67aebd4dec5ca70",
+          "lft": 2951,
+          "reason": "Exam-aligned or prerequisite remix; choose the core subject sequence without duplicate renditions.",
+          "rght": 3472,
+          "title": "Get ready for Algebra 1"
+        },
+        {
+          "id": "ef5e59af82e1579691bafc4ce0bf77b9",
+          "lft": 4747,
+          "reason": "Exam-aligned or prerequisite remix; choose the core subject sequence without duplicate renditions.",
+          "rght": 5068,
+          "title": "Get ready for Geometry"
+        },
+        {
+          "id": "c5c1c5ae0c0855af85d3ede7a98267da",
+          "lft": 5783,
+          "reason": "Exam-aligned or prerequisite remix; choose the core subject sequence without duplicate renditions.",
+          "rght": 6400,
+          "title": "Get ready for Algebra 2"
+        },
+        {
+          "id": "9041fe9d7bca5b389f3bda8b0bf98b96",
+          "lft": 7493,
+          "reason": "Exam-aligned or prerequisite remix; choose the core subject sequence without duplicate renditions.",
+          "rght": 8072,
+          "title": "Get ready for Precalculus"
+        },
+        {
+          "id": "b29b8501a17a5cdc81c4c351ddcaf3bc",
+          "lft": 10251,
+          "reason": "Exam-aligned or prerequisite remix; choose the core subject sequence without duplicate renditions.",
+          "rght": 11072,
+          "title": "Get ready for AP\u00ae Calculus"
+        },
+        {
+          "id": "eea3ea7f74d55d08bedc6d1d4778e4c8",
+          "lft": 11073,
+          "reason": "Exam-aligned or prerequisite remix; choose the core subject sequence without duplicate renditions.",
+          "rght": 12352,
+          "title": "AP\u00ae\ufe0e Calculus AB"
+        },
+        {
+          "id": "97c6e2929a6059b1a9008ae0c3ef5d47",
+          "lft": 12353,
+          "reason": "Exam-aligned or prerequisite remix; choose the core subject sequence without duplicate renditions.",
+          "rght": 13960,
+          "title": "AP\u00ae\ufe0e Calculus BC"
+        },
+        {
+          "id": "79c4e793abd956938cedb97b02491db7",
+          "lft": 13961,
+          "reason": "Exam-aligned or prerequisite remix; choose the core subject sequence without duplicate renditions.",
+          "rght": 14182,
+          "title": "Get ready for AP\u00ae Statistics"
+        },
+        {
+          "id": "1cb0ffe8df47516ea5c6b9e6f3ad7216",
+          "lft": 14183,
+          "reason": "Exam-aligned or prerequisite remix; choose the core subject sequence without duplicate renditions.",
+          "rght": 15050,
+          "title": "AP\u00ae\ufe0e Statistics"
+        },
+        {
+          "id": "f1da11567d8a51688f4e35e924e46093",
+          "lft": 47301,
+          "reason": "Exam-aligned or prerequisite remix; choose the core subject sequence without duplicate renditions.",
+          "rght": 47742,
+          "title": "AP\u00ae\ufe0e Physics 2"
+        },
+        {
+          "id": "771a1466918952b7a7a7ce3fc7c21954",
+          "lft": 50581,
+          "reason": "Exam-aligned or prerequisite remix; choose the core subject sequence without duplicate renditions.",
+          "rght": 51240,
+          "title": "AP\u00ae\ufe0e Biology"
+        }
+      ],
+      "id": "c9d7f950ab6b5a1199e3d6c10d7f0103",
+      "last_published": "2026-01-23T03:26:10.426483Z",
+      "name": "Khan Academy (English - US curriculum)",
+      "resource_id": "khan-core-stem",
+      "version": 5
+    },
+    {
+      "courses": [
+        {
+          "id": "ba195f33c4e65057a324b223d6b35f97",
+          "lft": 2,
+          "rght": 43,
+          "title": "01 Think Like A Coder"
+        },
+        {
+          "id": "ca7e30c1afb156cda357a37a03f05955",
+          "lft": 44,
+          "rght": 117,
+          "title": "02 Myths from Around the World"
+        },
+        {
+          "id": "ac4d5acdd67c5dbd80ba7ffbf62ded83",
+          "lft": 118,
+          "rght": 191,
+          "title": "03 Humans vs. Viruses"
+        },
+        {
+          "id": "aeca9eeb696d5b57b3efb5e3c4e923a3",
+          "lft": 192,
+          "rght": 265,
+          "title": "04 Hidden Figures"
+        },
+        {
+          "id": "18c0919a77d55cd3a646672c91efd9c3",
+          "lft": 266,
+          "rght": 351,
+          "title": "05 Getting to Know Your Body"
+        },
+        {
+          "id": "fc11e5db07975c6c9fcbbe60c8ce7646",
+          "lft": 352,
+          "rght": 425,
+          "title": "06 Our Changing Climate"
+        },
+        {
+          "id": "8f87d0702c6e55879b2ee349e8783373",
+          "lft": 426,
+          "rght": 497,
+          "title": "07 Moments in History"
+        },
+        {
+          "id": "3313cf922f0c58eb9ce4adae0c77a904",
+          "lft": 498,
+          "rght": 571,
+          "title": "08 Amazing Animals"
+        },
+        {
+          "id": "a51ee49f80bd5b11839123cbcd14fc71",
+          "lft": 572,
+          "rght": 645,
+          "title": "09 Cool Science"
+        },
+        {
+          "id": "4120844028165e219a553a80264a3e00",
+          "lft": 646,
+          "rght": 719,
+          "title": "10 Why Should You Read"
+        }
+      ],
+      "excluded": [],
+      "id": "1e378725d3924b47aa5e1260628820b5",
+      "last_published": "2023-07-06T00:35:44.338036Z",
+      "name": "TED-Ed Lessons",
+      "resource_id": "ted-ed",
+      "version": 11
+    }
+  ],
+  "content_ready": false,
+  "coverage_gaps": [
+    "Single-variable calculus and computing are not represented by the selected non-exam course roots; discover complete official alternatives."
+  ],
+  "id": "kolibri-english-core-v1",
+  "language": "en",
+  "limits": {
+    "files": 20000,
+    "metadata_bytes": 67108864,
+    "nodes": 20000,
+    "requests": 128
+  },
+  "pilot_course_ids": [
+    "4a5293c2249a53fdb491be18b21d8e53",
+    "cb4a011ac01f5dee8f46c16652681769",
+    "2a7abce67f76519fa0d08633b12510f8",
+    "8c23f663a6365140b6c8c448f3b4ef68",
+    "ba195f33c4e65057a324b223d6b35f97",
+    "4120844028165e219a553a80264a3e00"
+  ],
+  "schema_version": 1,
+  "selection_rules": [
+    "Freeze only listed whole course subtrees; verify metadata interval completeness.",
+    "Keep one publisher media rendition per stable content_id; prefer high_res_video then low_res_video; never upscale.",
+    "Keep English captions, thumbnails, exercise packages and original notices.",
+    "Deduplicate file checksum identities across courses without dropping context aliases.",
+    "No admission from metadata; publisher MD5 must pass quarantine before reviewed SHA256 pins."
+  ]
+}

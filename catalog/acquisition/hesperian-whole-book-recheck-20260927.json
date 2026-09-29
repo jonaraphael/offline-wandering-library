@@ -1,0 +1,129 @@
+{
+  "blockers": [
+    "Current chapter collection still lacks its verified same-edition back matter.",
+    "No reachable public complete English edition found in the bounded official media inventory.",
+    "Current complete English PDF needs an authorized purchase or publisher-provided file, exact size, whole-file SHA256 and notices/completeness review."
+  ],
+  "body_downloads": 0,
+  "content_ready": false,
+  "current_complete_manual_candidate": {
+    "acquisition_status": "manual-purchase-or-publisher-provided-file-required",
+    "available_for_purchase": true,
+    "content_ready": false,
+    "currency": "USD",
+    "edition": "Second Edition, 9th Revised Printing (2026)",
+    "format": "pdf",
+    "language": "en",
+    "metadata_evidence": [
+      {
+        "checked_at": "2026-09-27T22:45:05.642271+00:00",
+        "content_type": "text/html",
+        "final_url": "https://store.hesperian.org/products/a-book-for-midwives",
+        "kind": "metadata",
+        "sha256": "ca015d0cd00df4e78e42ac221abc16c5848b61655dd119a1dd64f7fa757bfa12",
+        "size_bytes": 314328,
+        "status": 200,
+        "url": "https://store.hesperian.org/products/a-book-for-midwives"
+      },
+      {
+        "checked_at": "2026-09-27T22:45:05.823241+00:00",
+        "content_type": "text/javascript",
+        "final_url": "https://store.hesperian.org/products/a-book-for-midwives.js",
+        "kind": "metadata",
+        "sha256": "3ddb3474e63d08fc03b8d9ed33133ace21a869833aabd627af9eb8e24d0e1c3e",
+        "size_bytes": 20743,
+        "status": 200,
+        "url": "https://store.hesperian.org/products/a-book-for-midwives.js"
+      }
+    ],
+    "page_count": 527,
+    "price_checked_at": "2026-09-27T22:45:05.823241+00:00",
+    "price_minor_units": 795,
+    "product_id": 8160072597685,
+    "purchase_url": "https://store.hesperian.org/products/a-book-for-midwives?variant=45190704136373",
+    "review_status": "pending",
+    "sha256": null,
+    "size_bytes": null,
+    "sku": "PDF090",
+    "source_url": null,
+    "title": "A Book for Midwives",
+    "variant_id": 45190704136373
+  },
+  "edition_policy": "Replace a book only as a whole reviewed edition. Never splice older back matter into the current chapter set.",
+  "metadata_evidence": [
+    {
+      "checked_at": "2026-09-27T22:45:05.145356+00:00",
+      "content_type": "application/json",
+      "final_url": "https://hesperian.org/wp-json/wp/v2/media?search=en_midw&per_page=100&_fields=id%2Cdate%2Cslug%2Cmime_type%2Csource_url%2Ctitle",
+      "kind": "metadata",
+      "sha256": "ac71577829d2a2fe1f8048f6b977c2b8af11dde68ac5df7b9ae1167a65a3b21c",
+      "size_bytes": 17440,
+      "status": 200,
+      "url": "https://hesperian.org/wp-json/wp/v2/media?search=en_midw&per_page=100&_fields=id%2Cdate%2Cslug%2Cmime_type%2Csource_url%2Ctitle"
+    },
+    {
+      "checked_at": "2026-09-27T22:45:05.642271+00:00",
+      "content_type": "text/html",
+      "final_url": "https://store.hesperian.org/products/a-book-for-midwives",
+      "kind": "metadata",
+      "sha256": "ca015d0cd00df4e78e42ac221abc16c5848b61655dd119a1dd64f7fa757bfa12",
+      "size_bytes": 314328,
+      "status": 200,
+      "url": "https://store.hesperian.org/products/a-book-for-midwives"
+    },
+    {
+      "checked_at": "2026-09-27T22:45:05.823241+00:00",
+      "content_type": "text/javascript",
+      "final_url": "https://store.hesperian.org/products/a-book-for-midwives.js",
+      "kind": "metadata",
+      "sha256": "3ddb3474e63d08fc03b8d9ed33133ace21a869833aabd627af9eb8e24d0e1c3e",
+      "size_bytes": 20743,
+      "status": 200,
+      "url": "https://store.hesperian.org/products/a-book-for-midwives.js"
+    }
+  ],
+  "missing_current_backmatter_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_bm.pdf",
+  "newest_reachable_public_edition": null,
+  "public_whole_book_candidates": [
+    {
+      "body_verified": false,
+      "edition": "2013",
+      "publisher_ids": [
+        22417,
+        34066
+      ],
+      "source_probe": {
+        "blockers": [
+          "Source HEAD returned HTTP 404; availability is unresolved"
+        ],
+        "body_downloads": 0,
+        "evidence": [
+          {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:45:06.225722+00:00",
+            "final_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_full.pdf",
+            "headers": {
+              "content-type": "text/html; charset=UTF-8"
+            },
+            "method": "HEAD",
+            "status": 404,
+            "url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_full.pdf"
+          }
+        ],
+        "id": "hesperian_midwives_2013_full",
+        "sha256": null,
+        "size_bytes": null,
+        "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_full.pdf",
+        "status": "pending"
+      },
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_full.pdf",
+      "title": "A Book for Midwives \u2014 complete English book"
+    }
+  ],
+  "recipe_id": "hesperian-midwives-whole-book-fallback-v1",
+  "recipe_sha256": "3a44418418a1735cd7bd004c0405beda38939d48576eb6f0b332057a0bee0555",
+  "resource_id": "hesperian-health",
+  "schema_version": 1,
+  "status": "pending",
+  "user_acquisition_constraint": "No purchase. Keep current sources until a free complete official edition or verified included equivalent is available."
+}

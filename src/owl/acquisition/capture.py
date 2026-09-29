@@ -19,7 +19,7 @@ from urllib.parse import urlsplit
 import uuid
 import zlib
 
-from ..download import download, verified
+from ..download import MissingSourceError, capture_bounded_response, download, verified
 from ..runtime import file_lock
 from ..safety import SafetyError, atomic_write, guard_directory, reject_symlinks, safe_path, sha256_file
 
@@ -30,6 +30,16 @@ COMPONENTS = ("download_bytes", "expanded_bytes", "preview_bytes", "scratch_byte
 HASH_LENGTHS = {"md5": 32, "sha1": 40, "sha256": 64, "crc32": 8}
 IDENTIFIER = re.compile(r"[a-z0-9][a-z0-9_-]{0,79}")
 REPO_ROOT = Path(__file__).resolve().parents[3]
+MAX_REPORT_EXCEPTIONS = 100
+
+
+class IncompleteCaptureError(SafetyError):
+    """All independent sources were attempted, but required originals are absent."""
+
+    def __init__(self, report):
+        self.report = report
+        super().__init__(f"Capture incomplete: {report['missing_source_count']} required source(s) returned HTTP 404/410; "
+                         f"details: {Path(report['staging']) / 'capture-report.json'}")
 
 
 def _json(value):
@@ -59,6 +69,10 @@ def _url(value, *, allow_local=False):
     return value
 
 
+def _source_budget(source):
+    return source["max_size_bytes"] if source.get("capture_mode") == "bounded-response-review" else source["size_bytes"]
+
+
 def normalize_manifest(document, *, allow_local=False):
     """Validate candidates without admitting them to the resolved catalog."""
     if (not isinstance(document, dict) or document.get("schema_version") != 1
@@ -82,7 +96,19 @@ def normalize_manifest(document, *, allow_local=False):
             raise SafetyError("Every capture source needs explicit resource_ids")
         if not isinstance(source.get("version"), str) or not source["version"].strip():
             raise SafetyError("Every capture source needs a frozen version")
-        if type(source.get("size_bytes")) is not int or source["size_bytes"] <= 0:
+        bounded = source.get("capture_mode") == "bounded-response-review"
+        if source.get("capture_mode") not in {None, "bounded-response-review"}:
+            raise SafetyError("Unknown source capture mode")
+        if bounded:
+            prior = source.get("prior_revision", {})
+            if (len(sources) > 3 or source.get("size_bytes") is not None
+                    or type(source.get("max_size_bytes")) is not int or not 1 <= source["max_size_bytes"] <= 1024 * 1024
+                    or type(prior.get("size_bytes")) is not int or prior["size_bytes"] <= 0
+                    or not re.fullmatch(r"[0-9a-f]{40}", str(prior.get("sha1", "")))
+                    or source.get("sha256") is not None or source.get("publisher_checksums")
+                    or "fullasset_metadata" in source or urlsplit(source["source_url"]).scheme != "https"):
+                raise SafetyError("Bounded diagnostic capture requires 1–3 HTTPS responses, 1 MiB limits and preserved revision size/SHA1; no accepted pins")
+        elif type(source.get("size_bytes")) is not int or source["size_bytes"] <= 0:
             raise SafetyError("Capture source size must be exact and positive")
         source.setdefault("sha256", None)
         if source["sha256"] is not None and not re.fullmatch(r"[0-9a-f]{64}", str(source["sha256"])):
@@ -95,6 +121,14 @@ def normalize_manifest(document, *, allow_local=False):
                 raise SafetyError("Malformed publisher checksum")
         if checksums.get("sha256") and source["sha256"] not in {None, checksums["sha256"]}:
             raise SafetyError("Conflicting publisher SHA256 pins")
+        payload = source.get("publisher_payload")
+        if payload is not None:
+            if (bounded or not isinstance(payload, dict) or set(payload) != {"kind", "prefix_hex", "size_bytes", "sha1"}
+                    or payload.get("kind") != "mediawiki-raw-revision" or payload.get("prefix_hex") != "0a0a0a0a"
+                    or type(payload.get("size_bytes")) is not int or payload["size_bytes"] <= 0
+                    or source["size_bytes"] != payload["size_bytes"] + 4
+                    or not re.fullmatch(r"[0-9a-f]{40}", str(payload.get("sha1", "")))):
+                raise SafetyError("Publisher revision payload requires exact four-LF transport framing, size and SHA1")
         evidence = source.get("metadata_evidence")
         if not isinstance(evidence, list) or not evidence or len(evidence) > 100:
             raise SafetyError("Source capture requires bounded frozen metadata evidence")
@@ -109,7 +143,7 @@ def normalize_manifest(document, *, allow_local=False):
         raise SafetyError("Capture budget needs download, expanded, preview, scratch and cache byte components")
     if any(type(budget[key]) is not int or budget[key] < 0 for key in COMPONENTS):
         raise SafetyError("Capture budget components must be nonnegative exact byte counts")
-    if budget["download_bytes"] != sum(source["size_bytes"] for source in sources):
+    if budget["download_bytes"] != sum(_source_budget(source) for source in sources):
         raise SafetyError("Download budget must equal the selected source bytes without double counting")
     metadata_bytes = 1024 * 1024 + 16384 * len(sources) + 4 * len(_json(sources))
     minimum_peak = sum(budget.values()) + metadata_bytes
@@ -133,7 +167,7 @@ def load_manifest(path, *, allow_local=False, resource_ids=(), profile=None):
         if not requested <= known:
             raise SafetyError("Requested resource is absent from the acquisition manifest")
         document["sources"] = [source for source in document["sources"] if requested & set(source["resource_ids"])]
-        document["budget"]["download_bytes"] = sum(source["size_bytes"] for source in document["sources"])
+        document["budget"]["download_bytes"] = sum(_source_budget(source) for source in document["sources"])
         document.pop("storage_peak_bytes", None)
         document["resource_filter"] = sorted(requested)
     return normalize_manifest(document, allow_local=allow_local)
@@ -172,16 +206,40 @@ def _staging(path, production_root=None):
 
 def _usage(path):
     size = 0
+    reject_symlinks(path)
     if path.exists():
-        for child in path.rglob("*"):
-            reject_symlinks(child)
-            info = child.stat()
-            if child.is_file():
+        if not hasattr(os, 'fwalk'):
+            # Windows lacks descriptor-relative traversal. Keep its original
+            # conservative path validation; acquisition remains portable.
+            for child in path.rglob('*'):
+                reject_symlinks(child)
+                info = child.stat()
+                if stat.S_ISREG(info.st_mode) and info.st_nlink == 1:
+                    size += info.st_size
+                elif not stat.S_ISDIR(info.st_mode):
+                    raise SafetyError('Acquisition workspace contains an unsafe file')
+            return size
+        # Descriptor-relative traversal keeps directory-symlink protection
+        # without re-statting every ancestor for every file. This matters on a
+        # shared external disk with thousands of small review outputs.
+        if not path.is_dir():
+            raise SafetyError("Acquisition workspace is not a directory")
+        before = path.stat()
+        def failed(error):
+            raise error
+        for _, directories, files, descriptor in os.fwalk(path, follow_symlinks=False, onerror=failed):
+            for name in directories:
+                if not stat.S_ISDIR(os.stat(name, dir_fd=descriptor, follow_symlinks=False).st_mode):
+                    raise SafetyError("Acquisition workspace contains a nonregular directory")
+            for name in files:
+                info = os.stat(name, dir_fd=descriptor, follow_symlinks=False)
                 if info.st_nlink != 1 or not stat.S_ISREG(info.st_mode):
                     raise SafetyError("Acquisition workspace contains an unsafe file")
                 size += info.st_size
-            elif not child.is_dir():
-                raise SafetyError("Acquisition workspace contains a nonregular entry")
+        reject_symlinks(path)
+        after = path.stat()
+        if (before.st_dev, before.st_ino) != (after.st_dev, after.st_ino):
+            raise SafetyError("Acquisition workspace changed identity during measurement")
     return size
 
 
@@ -249,25 +307,57 @@ def _publisher_hashes(path, expected):
     return actual
 
 
+def _publisher_payload(path, expected):
+    """Verify the publisher's revision checksum without calling it a wire hash."""
+    if expected is None:
+        return None
+    digest = hashlib.sha1()
+    count = 0
+    with path.open("rb") as stream:
+        if stream.read(4) != bytes.fromhex(expected["prefix_hex"]):
+            raise SafetyError("Raw revision transport prefix differs from its frozen framing")
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            count += len(chunk)
+            digest.update(chunk)
+    if count != expected["size_bytes"] or digest.hexdigest() != expected["sha1"]:
+        raise SafetyError("Raw revision payload differs from the publisher size or SHA1")
+    return expected
+
+
 def _receipt(path, source, manifest_digest):
     receipt_path = safe_path(path, "receipts/" + source["id"] + ".json")
     if not receipt_path.exists():
         return None
     receipt = _read(receipt_path)
+    bounded = source.get("capture_mode") == "bounded-response-review"
+    size = receipt.get("size_bytes")
+    size_valid = (type(size) is int and 0 < size <= source["max_size_bytes"]) if bounded else size == source["size_bytes"]
     if (receipt.get("manifest_sha256") != manifest_digest or receipt.get("source_record_sha256") != _digest(source)
             or receipt.get("source_id") != source["id"] or receipt.get("relative_path") != "sources/" + source["id"]
             or receipt.get("source_url") != source["source_url"] or receipt.get("version") != source["version"]
             or receipt.get("metadata_evidence") != source["metadata_evidence"]
-            or receipt.get("size_bytes") != source["size_bytes"]
+            or not size_valid
             or not isinstance(receipt.get("sha256"), str) or not re.fullmatch(r"[0-9a-f]{64}", receipt["sha256"])
             or receipt.get("publisher_checksums_verified") != source["publisher_checksums"]
-            or receipt.get("content_ready") is not False or receipt.get("status") != "captured_awaiting_review"):
+            or receipt.get("publisher_payload_verified") != source.get("publisher_payload")
+            or receipt.get("content_ready") is not False
+            or receipt.get("status") != ("quarantined_response" if bounded else "captured_awaiting_review")):
         raise SafetyError("Acquisition receipt differs from its frozen source identity")
     expected = source["sha256"] or source["publisher_checksums"].get("sha256")
     if expected and receipt["sha256"] != expected:
         raise SafetyError("Acquisition receipt differs from its publisher SHA256 pin")
     if not verified(safe_path(path, receipt["relative_path"]), receipt["size_bytes"], receipt["sha256"]):
         raise SafetyError("Captured original changed after its receipt; preserve evidence and capture into a new directory")
+    if bounded:
+        body = safe_path(path, receipt["relative_path"])
+        actual_sha1 = hashlib.sha1(body.read_bytes()).hexdigest()
+        comparison = {"prior_revision": source["prior_revision"], "observed_sha1": actual_sha1,
+                      "size_matches": size == source["prior_revision"]["size_bytes"],
+                      "sha1_matches": actual_sha1 == source["prior_revision"]["sha1"], "admissible": False}
+        transport = receipt.get("response_evidence", {})
+        if (receipt.get("comparison") != comparison or transport.get("eof") is not True
+                or transport.get("observed_size_bytes") != size or transport.get("observed_sha256") != receipt["sha256"]):
+            raise SafetyError("Quarantined response comparison or EOF evidence changed")
     return receipt
 
 
@@ -281,6 +371,8 @@ def _local_sources(local_manifest, manifest):
     result = {}
     for identity, value in values.items():
         source = records[identity]
+        if source.get("capture_mode") == "bounded-response-review":
+            raise SafetyError("Diagnostic responses cannot reuse local originals")
         if not (source["sha256"] or source["publisher_checksums"].get("sha256")):
             raise SafetyError("Local reuse requires the frozen publisher/catalog whole-file SHA256")
         if not isinstance(value, str) or not Path(value).is_absolute():
@@ -293,9 +385,131 @@ def _local_sources(local_manifest, manifest):
     return result
 
 
+def _missing_source(path, source, manifest_digest):
+    """Recheck a permanent exception against the unchanged frozen selection."""
+    exception_path = safe_path(path, "exceptions/" + source["id"] + ".json")
+    if not exception_path.exists():
+        return None
+    record = _read(exception_path, 16384)
+    if (record.get("schema_version") != 1 or record.get("status") != "missing_source"
+            or record.get("content_ready") is not False
+            or record.get("manifest_sha256") != manifest_digest or record.get("source_record_sha256") != _digest(source)
+            or record.get("source_id") != source["id"] or record.get("source_url") != source["source_url"]
+            or record.get("version") != source["version"] or record.get("http_status") not in {404, 410}
+            or record.get("requested_url") not in [source["source_url"], *source.get("mirrors", [])]
+            or not isinstance(record.get("detail"), str) or len(record["detail"]) > 500
+            or not isinstance(record.get("failed_at"), str)):
+        raise SafetyError("Missing-source exception differs from its frozen source identity")
+    if (safe_path(path, "receipts/" + source["id"] + ".json").exists()
+            or safe_path(path, "sources/" + source["id"]).exists()):
+        raise SafetyError("Missing-source exception conflicts with a captured original")
+    return record
+
+
+def import_missing_source_failure(failed_job_dir, evidence_path, *, source_id, plan_only=True):
+    """Explicitly checkpoint two preserved failures from an older capture job.
+
+    This performs no requests and never edits the job or its frozen snapshot.
+    The supplied retry evidence must identify the same exact source as the
+    failed job; a HEAD observation alone is never missing-source evidence.
+    """
+    from .. import jobs
+    job_dir, job_owner = jobs._owned(Path(failed_job_dir))
+    if not all((job_dir / name).is_file() for name in ("control.lock", "worker.lock")):
+        raise SafetyError("Missing-source import requires the failed job's existing lock records")
+    with guard_directory(job_dir), file_lock(job_dir / "control.lock"), file_lock(job_dir / "worker.lock"):
+        return _import_missing_source_failure(job_dir, job_owner, evidence_path, source_id, plan_only)
+
+
+def _import_missing_source_failure(job_dir, job_owner, evidence_path, source_id, plan_only):
+    from .. import jobs
+    recipe_path, status_path = job_dir / "recipe.json", job_dir / "status.json"
+    recipe, status = _read(recipe_path), _read(status_path, 16384)
+    jobs._verify_recipe(job_dir, recipe)
+    if recipe.get("kind") != "acquisition":
+        raise SafetyError("Missing-source import requires an inactive acquisition job")
+    configuration = recipe["acquisition"]
+    options = configuration["kwargs"]
+    manifest_path = Path(configuration["manifest"])
+    snapshot = job_dir / "snapshot"
+    if (not manifest_path.is_relative_to(snapshot)
+            or str(manifest_path.relative_to(snapshot)) not in recipe["snapshot_files"]):
+        raise SafetyError("Missing-source import requires the verified frozen job manifest")
+    manifest = load_manifest(manifest_path, allow_local=options.get("allow_local", False),
+                             resource_ids=options.get("resource_ids", ()), profile=options.get("profile"))
+    source = next((row for row in manifest["sources"] if row["id"] == source_id), None)
+    if (source is None or source.get("capture_mode") == "bounded-response-review" or source.get("mirrors")
+            or urlsplit(source["source_url"]).scheme != "https"):
+        raise SafetyError("Missing-source import requires a single exact frozen HTTPS source in the failed job")
+    evidence_path = Path(os.path.abspath(evidence_path))
+    evidence = _read(evidence_path, 65536)
+    observation = evidence.get("new_evidence", {})
+    previous = evidence.get("failed_status", {})
+    if (evidence.get("schema_version") != 1 or evidence.get("content_ready") is not False
+            or not isinstance(observation, dict) or observation.get("id") != source_id
+            or observation.get("source_url") != source["source_url"]
+            or observation.get("size_bytes") != source["size_bytes"]):
+        raise SafetyError("Preserved missing-source evidence differs from the frozen source URL or size")
+    codes = []
+    for failure in (previous, status):
+        match = re.fullmatch(re.escape(source_id) + r": download failed: HTTP Error (404|410): [^\r\n]{1,100}",
+                             str(failure.get("error", ""))) if isinstance(failure, dict) else None
+        if (not match or failure.get("state") != "failed" or failure.get("exit_code") != 1
+                or failure.get("phase") != "acquisition" or failure.get("error_type") != "DownloadError"
+                or failure.get("job_id") != job_owner["job_id"] or failure.get("active_asset") != source_id
+                or not isinstance(failure.get("run_id"), str) or not failure["run_id"]
+                or not isinstance(failure.get("finished_at"), str) or not failure["finished_at"]):
+            raise SafetyError("Missing-source import requires preserved terminal HTTP 404/410 acquisition failures")
+        codes.append(int(match[1]))
+    if codes[0] != codes[1] or previous["run_id"] == status["run_id"]:
+        raise SafetyError("Missing-source import requires two distinct matching failed runs")
+    path, anchor = _staging(recipe["target"], options.get("production_root"))
+    digest = _digest(manifest)
+    if _owner(path, digest) is None or _read(path / "manifest.json") != manifest:
+        raise SafetyError("Missing-source import requires the matching existing capture")
+    if (_receipt(path, source, digest) is not None or safe_path(path, "sources/" + source_id).exists()):
+        raise SafetyError("Missing-source import conflicts with a captured original")
+    record = {"schema_version": 1, "status": "missing_source", "content_ready": False,
+              "manifest_sha256": digest, "source_record_sha256": _digest(source),
+              "source_id": source_id, "source_url": source["source_url"], "version": source["version"],
+              "requested_url": source["source_url"], "http_status": codes[0],
+              "detail": status["error"][:500], "failed_at": status["finished_at"],
+              "import_evidence": {"kind": "preserved-job-failures", "job_id": job_owner["job_id"],
+                  "run_ids": [previous["run_id"], status["run_id"]], "job_directory": str(job_dir),
+                  "recipe_sha256": sha256_file(recipe_path), "status_path": str(status_path),
+                  "status_sha256": sha256_file(status_path), "evidence_path": str(evidence_path),
+                  "evidence_sha256": sha256_file(evidence_path)}}
+    destination = safe_path(path, "exceptions/" + source_id + ".json")
+    existing = _missing_source(path, source, digest)
+    if existing is not None and existing != record:
+        raise SafetyError("An immutable missing-source checkpoint already exists with different evidence")
+    if len(_json(record)) > 16384:
+        raise SafetyError("Imported missing-source evidence exceeds its bounded receipt allowance")
+    report = {"operation": "import_missing_source", "status": "planned" if plan_only else "checkpointed",
+              "content_ready": False, "body_downloads": 0, "checkpoint": str(destination), "exception": record}
+    if plan_only:
+        return report
+    with guard_directory(anchor), guard_directory(path), file_lock(path / "capture.lock"):
+        if (_read(status_path, 16384) != status or _read(recipe_path) != recipe
+                or _read(evidence_path, 65536) != evidence
+                or _owner(path, digest) is None or _read(path / "manifest.json") != manifest):
+            raise SafetyError("Missing-source import evidence or capture changed before checkpointing")
+        existing = _missing_source(path, source, digest)
+        if existing is not None and existing != record:
+            raise SafetyError("An immutable missing-source checkpoint already exists with different evidence")
+        if _receipt(path, source, digest) is not None or safe_path(path, "sources/" + source_id).exists():
+            raise SafetyError("Missing-source import conflicts with a captured original")
+        peak = _effective_peak(path, manifest)
+        _space(path, peak, options.get("reserve_bytes", DEFAULT_RESERVE))
+        if existing is None:
+            _transport_record(destination, record)
+        _space(path, peak, options.get("reserve_bytes", DEFAULT_RESERVE))
+    return report
+
+
 def capture(manifest_path, staging, *, budget_bytes=None, reserve_bytes=DEFAULT_RESERVE,
             plan_only=False, allow_local=False, production_root=None, local_manifest=None,
-            resource_ids=(), profile=None, progress=print):
+            resource_ids=(), profile=None, progress=print, continue_missing_sources=False):
     manifest = load_manifest(manifest_path, allow_local=allow_local, resource_ids=resource_ids, profile=profile)
     digest = _digest(manifest)
     local_sources = _local_sources(local_manifest, manifest)
@@ -311,6 +525,8 @@ def capture(manifest_path, staging, *, budget_bytes=None, reserve_bytes=DEFAULT_
               "source_count": len(manifest["sources"]), "local_source_count": len(local_sources), "budget": manifest["budget"],
               "storage_peak_bytes": peak, "budget_bytes": budget_bytes, "reserve_bytes": reserve_bytes,
               "staging": str(path), "staging_root": str(path), "free_bytes": space["available_free_bytes"], **space}
+    if continue_missing_sources:
+        report["continue_missing_sources"] = True
     if plan_only:
         report["body_downloads"] = 0
         return report
@@ -329,12 +545,19 @@ def capture(manifest_path, staging, *, budget_bytes=None, reserve_bytes=DEFAULT_
         _owner(path, digest)
         if _read(path / "manifest.json") != manifest:
             raise SafetyError("Frozen capture manifest changed")
-        receipts, reused, downloads, local_copies = [], 0, 0, 0
-        for number, source in enumerate(manifest["sources"]):
+        receipts, missing, reused, downloads, local_copies = [], [], 0, 0, 0
+        for source in manifest["sources"]:
             if hasattr(progress, "event"):
-                progress.event(phase="acquisition", active_asset=source["id"], completed_assets=number,
+                progress.event(phase="acquisition", active_asset=source["id"], completed_assets=len(receipts),
                                total_assets=len(manifest["sources"]))
             _space(path, peak, reserve_bytes)
+            exception = _missing_source(path, source, digest)
+            if exception is not None:
+                if not continue_missing_sources:
+                    raise SafetyError("Capture has a recorded missing source; explicit --continue-missing-sources is required to continue")
+                missing.append(exception)
+                progress("SKIP recorded missing source " + source["id"])
+                continue
             receipt = _receipt(path, source, digest)
             if receipt is None:
                 destination = safe_path(path, "sources/" + source["id"])
@@ -342,7 +565,13 @@ def capture(manifest_path, staging, *, budget_bytes=None, reserve_bytes=DEFAULT_
                 # Reobserve it against the frozen identity and publisher hashes.
                 expected = source["sha256"] or source["publisher_checksums"].get("sha256")
                 transport_path = safe_path(path, "transport/" + source["id"] + ".json")
-                if destination.is_file():
+                bounded = source.get("capture_mode") == "bounded-response-review"
+                if bounded:
+                    transport = capture_bounded_response(source, destination,
+                        response_evidence=lambda value: _transport_record(transport_path, value))
+                    observed = transport["observed_sha256"]
+                    downloads += 1
+                elif destination.is_file():
                     if destination.stat().st_size != source["size_bytes"]:
                         raise SafetyError("Unreceipted captured original has an unexpected size")
                     observed = sha256_file(destination)
@@ -359,18 +588,41 @@ def capture(manifest_path, staging, *, budget_bytes=None, reserve_bytes=DEFAULT_
                     observed = resume_copy(original, destination, size=source["size_bytes"], checksum=expected, progress=progress)
                     local_copies += 1
                 else:
-                    observed = download({**source, "sha256": expected}, destination, repo_root=REPO_ROOT, progress=progress,
-                                        response_evidence=lambda value: _transport_record(transport_path, value))
+                    try:
+                        observed = download({**source, "sha256": expected}, destination, repo_root=REPO_ROOT, progress=progress,
+                                            response_evidence=lambda value: _transport_record(transport_path, value),
+                                            stop_on_missing=continue_missing_sources)
+                    except MissingSourceError as error:
+                        if not continue_missing_sources or error.http_status not in {404, 410}:
+                            raise
+                        exception = {"schema_version": 1, "status": "missing_source", "content_ready": False,
+                                     "manifest_sha256": digest, "source_record_sha256": _digest(source),
+                                     "source_id": source["id"], "source_url": source["source_url"], "version": source["version"],
+                                     "requested_url": error.requested_url, "http_status": error.http_status,
+                                     "detail": str(error)[:500], "failed_at": datetime.now(timezone.utc).isoformat()}
+                        _transport_record(safe_path(path, "exceptions/" + source["id"] + ".json"), exception)
+                        missing.append(exception)
+                        progress("SKIP " + str(error))
+                        continue
                     downloads += 1
                 checksums = _publisher_hashes(destination, source["publisher_checksums"])
+                payload_verified = _publisher_payload(destination, source.get("publisher_payload"))
                 receipt = {"schema_version": 1, "status": "captured_awaiting_review", "content_ready": False,
                            "source_id": source["id"], "source_record_sha256": _digest(source), "manifest_sha256": digest,
                            "source_url": source["source_url"], "version": source["version"],
-                           "relative_path": "sources/" + source["id"], "size_bytes": source["size_bytes"],
+                           "relative_path": "sources/" + source["id"], "size_bytes": destination.stat().st_size if bounded else source["size_bytes"],
                            "sha256": observed, "verification": "publisher-pinned" if expected else "observed",
                            "publisher_checksums_verified": checksums, "metadata_evidence": source["metadata_evidence"],
                            "response_evidence": _read(transport_path) if transport_path.exists() else {"kind": "unavailable", "reason": "Recovered original has no transport evidence"},
                            "captured_at": datetime.now(timezone.utc).isoformat()}
+                if payload_verified is not None:
+                    receipt["publisher_payload_verified"] = payload_verified
+                if bounded:
+                    observed_sha1 = hashlib.sha1(destination.read_bytes()).hexdigest()
+                    receipt.update(status="quarantined_response", verification="diagnostic-observation-only",
+                        comparison={"prior_revision": source["prior_revision"], "observed_sha1": observed_sha1,
+                                    "size_matches": receipt["size_bytes"] == source["prior_revision"]["size_bytes"],
+                                    "sha1_matches": observed_sha1 == source["prior_revision"]["sha1"], "admissible": False})
                 receipt_path = safe_path(path, "receipts/" + source["id"] + ".json")
                 atomic_write(receipt_path, _json(receipt))
             else:
@@ -380,6 +632,14 @@ def capture(manifest_path, staging, *, budget_bytes=None, reserve_bytes=DEFAULT_
         pins = [{key: row[key] for key in ("source_id", "size_bytes", "sha256", "relative_path", "verification")} for row in receipts]
         report.update(body_downloads=downloads, local_copies=local_copies, reused_sources=reused, sources=pins,
                       local_manifest={row["source_id"]: str(path / row["relative_path"]) for row in receipts})
+        if missing:
+            report.update(status="incomplete", complete=False, captured_source_count=len(receipts),
+                          missing_source_count=len(missing), exceptions=missing[:MAX_REPORT_EXCEPTIONS],
+                          exceptions_omitted=max(0, len(missing) - MAX_REPORT_EXCEPTIONS),
+                          exception_directory=str(path / "exceptions"))
+            atomic_write(path / "capture-report.json", _json(report))
+            _space(path, peak, reserve_bytes)
+            raise IncompleteCaptureError(report)
         candidate = {"schema_version": 1, "assets": [], "resource_updates": [],
                      "acquisition_capture": {"capture_id": owner["capture_id"], "manifest_sha256": digest}}
         by_id = {row["source_id"]: row for row in receipts}
@@ -408,6 +668,8 @@ def load_capture_sources(staging):
     # Source scheme permission was frozen by the capture operation. Revalidation
     # here does no acquisition, so local synthetic captures remain inspectable.
     manifest = normalize_manifest(manifest, allow_local=True)
+    if any(source.get("capture_mode") == "bounded-response-review" for source in manifest["sources"]):
+        raise SafetyError("Quarantined diagnostic responses cannot be previewed, reviewed or admitted; freeze exact sources separately")
     digest = _digest(manifest)
     _owner(path, digest)
     receipts = [_receipt(path, source, digest) for source in manifest["sources"]]
@@ -548,6 +810,61 @@ def _preview_receipt(staging, path):
         if not target.is_relative_to(expected_root) or not verified(target, row["size_bytes"], row["sha256"]):
             raise SafetyError("Preview output changed or escaped its owned files directory")
     return record
+
+
+class _PreviewWriteLedger:
+    """Exact output accounting for callback-only adapters under capture.lock.
+
+    A ZIP-localization renderer has no scratch/body writes outside this callback.
+    Existing files are reused only when identical; replacement is prohibited.
+    Therefore each atomic temporary needs exactly the new payload's additional
+    bytes, with no speculative overwrite credit. Reconcile before writing any
+    completion evidence. A fresh invocation recounts interrupted files.
+    """
+    def __init__(self, staging, expected, *, peak, allowance, reserve):
+        self.staging, self.expected = staging, expected
+        self.peak, self.allowance, self.reserve = peak, allowance, reserve
+        self.used = _usage(staging)
+        self.retained = sum(_usage(p) for p in (staging / 'previews').glob('*/files'))
+        self.failed = False
+        if self.used > peak or self.retained > allowance:
+            raise SafetyError('Existing preview exceeds its declared storage allowance')
+
+    def __call__(self, candidate, data):
+        if self.failed:
+            raise SafetyError('Interrupted preview ledger must be reconstructed before reuse')
+        target = self.expected.get(Path(candidate))
+        if target is None or not isinstance(data, bytes):
+            raise SafetyError('Adapter attempted an undeclared preview output')
+        reject_symlinks(target)
+        if target.exists():
+            info = target.stat()
+            if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+                raise SafetyError('Existing preview output is not a private regular file')
+            if info.st_size == len(data) and sha256_file(target) == hashlib.sha256(data).hexdigest():
+                return
+            raise SafetyError('Interrupted preview output differs from deterministic rerender')
+        if self.retained + len(data) > self.allowance:
+            raise SafetyError('Generated preview exceeds preview_bytes before writing')
+        if self.used + len(data) > self.peak:
+            raise SafetyError('Generated preview exceeds the total storage peak before writing')
+        free = shutil.disk_usage(self.staging).free
+        if free < max(self.peak - self.used, len(data)) + self.reserve:
+            raise SafetyError('Insufficient free space for preview phase and reserve before output write')
+        try:
+            atomic_write(target, data)
+        except BaseException:
+            self.failed = True
+            raise
+        self.used += len(data)
+        self.retained += len(data)
+
+    def reconcile(self):
+        if self.failed or _usage(self.staging) != self.used:
+            raise SafetyError('Preview storage changed outside its declared write ledger')
+        # The final disk check remains live even when every output was reused.
+        if shutil.disk_usage(self.staging).free < max(0, self.peak - self.used) + self.reserve:
+            raise SafetyError('Insufficient free space after preview generation')
 
 
 def preview(staging, recipe_path, assets_path, *, preview_bytes=None, expanded_bytes=None, scratch_bytes=None,
@@ -712,6 +1029,15 @@ def preview(staging, recipe_path, assets_path, *, preview_bytes=None, expanded_b
         # reproducible by a normal build. Only referenced local companions are
         # streamed into this preview tree; build-only corpora stay in sources/.
         originals = {i: deepcopy(assets[i]) for i in output_ids}
+        # Exact generated pins let us reject a whole-package shortfall before
+        # any member is rendered. Existing checkpoints in this preview replace
+        # their declared share; other immutable previews remain fully charged.
+        if all(type(a.get("size_bytes")) is int and a["size_bytes"] >= 0
+               and isinstance(a.get("sha256"), str) and re.fullmatch(r"[a-f0-9]{64}", a["sha256"])
+               for a in originals.values()):
+            other_files = sum(_usage(p) for p in (path / "previews").glob("*/files") if p != preview_dir / "files")
+            if other_files + sum(a["size_bytes"] for a in originals.values()) > allowance:
+                raise SafetyError("Declared pinned outputs exceed combined preview_bytes before rendering")
         targets = {}
         collisions = set()
         for i in output_ids:
@@ -786,8 +1112,17 @@ def preview(staging, recipe_path, assets_path, *, preview_bytes=None, expanded_b
                             checksum=source_asset["sha256"], progress=progress)
             companion_records.append({"id": source_id, "relative_path": target.relative_to(path).as_posix(),
                                       "size_bytes": source_asset["size_bytes"], "sha256": source_asset["sha256"]})
+        ledger = None
+        if recipe['adapter'] == 'zip_localized':
+            # This adapter only reads its pinned archive/companions and writes
+            # exact outputs through the callback; unlike corpus adapters it
+            # never mutates a scratch database outside the write accounting.
+            ledger = _PreviewWriteLedger(path, expected, peak=phase_peak, allowance=allowance, reserve=reserve)
+            write_output = ledger
         rendered = adapters[recipe["adapter"]].render(recipe, {i: sources[i] for i in source_ids}, assets, work,
                                                      output_writer=write_output)
+        if ledger is not None:
+            ledger.reconcile()
         if set(rendered) != set(output_ids):
             raise SafetyError("Adapter did not produce exactly the frozen output set")
         output_records = []

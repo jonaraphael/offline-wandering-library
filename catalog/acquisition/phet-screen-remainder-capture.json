@@ -1,0 +1,175 @@
+{
+  "budget": {
+    "cache_bytes": 0,
+    "download_bytes": 8768327,
+    "expanded_bytes": 0,
+    "preview_bytes": 0,
+    "scratch_bytes": 0
+  },
+  "content_ready": false,
+  "id": "phet-screen-remainder-1tb",
+  "kind": "acquisition",
+  "metadata_allowance_bytes": 1120996,
+  "profile": "full-1tb",
+  "review_requirements": [
+    "Capture verifies existing originals; it does not admit new content.",
+    "Freeze and review complete work inventories before admitting overlapping expansion works."
+  ],
+  "schema_version": 1,
+  "sources": [
+    {
+      "fullasset_metadata": {
+        "attribution": "Simulation by PhET Interactive Simulations, University of Colorado Boulder, licensed under CC BY-NC 4.0 (https://phet.colorado.edu).",
+        "category": "education",
+        "critical": false,
+        "description": "Original complete regular English HTML5 simulation with embedded runtime/assets and original notices. Exact-version file downloaded and SHA-256 checked. Optional publisher analytics/update requests remain; offline interaction verification is recorded in the acquisition evidence.",
+        "destination": "REFERENCE/EDUCATION/PHET/projectile-motion_1.0.34_en.html",
+        "format": "html",
+        "id": "phet_projectile_motion",
+        "illustrated": true,
+        "language": "en",
+        "license": "CC-BY-NC-4.0",
+        "profiles": [],
+        "publisher": "PhET Interactive Simulations, University of Colorado Boulder",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "795b42cafa55910907b0c48e5f0e39071eecc05651af718285218b6749a5c1d3",
+        "size_bytes": 4374424,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://phet.colorado.edu/en/simulations/projectile-motion",
+        "source_url": "https://phet.colorado.edu/sims/html/projectile-motion/1.0.34/projectile-motion_en.html",
+        "status": "resolved",
+        "tags": [
+          "science",
+          "simulation",
+          "interactive"
+        ],
+        "title": "Projectile Motion",
+        "version": "1.0.34"
+      },
+      "id": "phet_projectile_motion",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "phet_projectile_motion",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "9bfb0204a5ef399d2e78f194c72b3a56cfef6afcec320d97d4a9be5854972c93",
+          "url": "https://phet.colorado.edu/sims/html/projectile-motion/1.0.34/projectile-motion_en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "phet"
+      ],
+      "sha256": "795b42cafa55910907b0c48e5f0e39071eecc05651af718285218b6749a5c1d3",
+      "size_bytes": 4374424,
+      "source_url": "https://phet.colorado.edu/sims/html/projectile-motion/1.0.34/projectile-motion_en.html",
+      "version": "1.0.34"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Simulation by PhET Interactive Simulations, University of Colorado Boulder, licensed under CC BY-NC 4.0 (https://phet.colorado.edu).",
+        "category": "education",
+        "critical": false,
+        "description": "Original complete regular English HTML5 simulation with embedded runtime/assets and original notices. Exact-version file downloaded and SHA-256 checked. Optional publisher analytics/update requests remain; offline interaction verification is recorded in the acquisition evidence.",
+        "destination": "REFERENCE/EDUCATION/PHET/states-of-matter-basics_1.2.23_en.html",
+        "format": "html",
+        "id": "phet_states_of_matter_basics",
+        "illustrated": true,
+        "language": "en",
+        "license": "CC-BY-NC-4.0",
+        "profiles": [],
+        "publisher": "PhET Interactive Simulations, University of Colorado Boulder",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "134d176ca8012d2eefa61dfdf8a4b0ed2103be06261ec52be13859c564a3ebcf",
+        "size_bytes": 1910507,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://phet.colorado.edu/en/simulations/states-of-matter-basics",
+        "source_url": "https://phet.colorado.edu/sims/html/states-of-matter-basics/1.2.23/states-of-matter-basics_en.html",
+        "status": "resolved",
+        "tags": [
+          "science",
+          "simulation",
+          "interactive"
+        ],
+        "title": "States of Matter: Basics",
+        "version": "1.2.23"
+      },
+      "id": "phet_states_of_matter_basics",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "phet_states_of_matter_basics",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "70c86ee76e0b923097300d8d3d0899717f1d6c50317c23ca9cda3799041894b3",
+          "url": "https://phet.colorado.edu/sims/html/states-of-matter-basics/1.2.23/states-of-matter-basics_en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "phet"
+      ],
+      "sha256": "134d176ca8012d2eefa61dfdf8a4b0ed2103be06261ec52be13859c564a3ebcf",
+      "size_bytes": 1910507,
+      "source_url": "https://phet.colorado.edu/sims/html/states-of-matter-basics/1.2.23/states-of-matter-basics_en.html",
+      "version": "1.2.23"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "Simulation by PhET Interactive Simulations, University of Colorado Boulder, licensed under CC BY-NC 4.0 (https://phet.colorado.edu).",
+        "category": "education",
+        "critical": false,
+        "description": "Original complete regular English HTML5 simulation with embedded runtime/assets and original notices. Exact-version file downloaded and SHA-256 checked. Optional publisher analytics/update requests remain; offline interaction verification is recorded in the acquisition evidence.",
+        "destination": "REFERENCE/EDUCATION/PHET/wave-on-a-string_1.2.4_en.html",
+        "format": "html",
+        "id": "phet_wave_on_a_string",
+        "illustrated": true,
+        "language": "en",
+        "license": "CC-BY-NC-4.0",
+        "profiles": [],
+        "publisher": "PhET Interactive Simulations, University of Colorado Boulder",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": "42c848192a98a9e53a01e1bc2b0c33a796ed195eed444d4769439cb2643a8192",
+        "size_bytes": 2483396,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://phet.colorado.edu/en/simulations/wave-on-a-string",
+        "source_url": "https://phet.colorado.edu/sims/html/wave-on-a-string/1.2.4/wave-on-a-string_en.html",
+        "status": "resolved",
+        "tags": [
+          "science",
+          "simulation",
+          "interactive"
+        ],
+        "title": "Wave on a String",
+        "version": "1.2.4"
+      },
+      "id": "phet_wave_on_a_string",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "phet_wave_on_a_string",
+          "scope": "Canonical accepted catalog metadata; not a publisher-page or body hash",
+          "sha256": "f635bcae993c238ab9c31dce844ad2de75c385d8d4f9e47810df26da359261c2",
+          "url": "https://phet.colorado.edu/sims/html/wave-on-a-string/1.2.4/wave-on-a-string_en.html"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "phet"
+      ],
+      "sha256": "42c848192a98a9e53a01e1bc2b0c33a796ed195eed444d4769439cb2643a8192",
+      "size_bytes": 2483396,
+      "source_url": "https://phet.colorado.edu/sims/html/wave-on-a-string/1.2.4/wave-on-a-string_en.html",
+      "version": "1.2.4"
+    }
+  ],
+  "storage_peak_bytes": 9889323
+}

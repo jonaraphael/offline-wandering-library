@@ -11,13 +11,14 @@ from unittest.mock import patch
 import yaml
 
 from test_core import Fixture
+from navigation_fixture import write_assignments
 from owl.atlas_build import build_atlas, validate_links
 from owl.search_ui import render_search_page, render_search_widget
 from owl.safety import SafetyError, atomic_write
 from owl.verify import verify_drive
 
 
-class AtlasBuildTests(Fixture):
+class AtlasBuildFixture(Fixture):
     def setUp(self):
         super().setUp()
         self.asset.update(resource_type="textbook", illustrated=True)
@@ -35,7 +36,7 @@ class AtlasBuildTests(Fixture):
         self.library = self.drive / "LIBRARY"
 
     def write_assignments(self):
-        (self.nav / "assignments.yaml").write_text(yaml.safe_dump(self.assignments), encoding="utf-8")
+        write_assignments(self.nav, self.assignments["assignments"])
 
     def atlas(self, **kwargs):
         return build_atlas(self.drive, navigation_dir=self.nav, catalog=self.catalog,
@@ -92,12 +93,14 @@ class AtlasBuildTests(Fixture):
                 for relative in report["generated_files"]
                 if relative not in {"SEARCH.html", "SEARCH/search.js", "SEARCH/coverage.json"}}
 
+
+class AtlasBuildTests(AtlasBuildFixture):
     def test_post_download_atlas_preserves_search_and_is_deterministic(self):
         self.run_build()
         inventory = json.loads((self.library / "INVENTORY.json").read_text(encoding="utf-8"))
         search_files = inventory["search"]["generated_files"]
         before = {p: ((self.library / p).read_bytes(), (self.library / p).stat().st_mtime_ns) for p in search_files}
-        with patch("owl.build.download", side_effect=AssertionError("no downloads")), patch("owl.search.build_search", side_effect=AssertionError("no search rebuild")):
+        with patch("owl.build.download", side_effect=AssertionError("no downloads")):
             report = self.atlas(strict_coverage=True)
         self.assertEqual(report["unmapped_critical"], [])
         self.assertIn("INDEX/topics/shared.html", report["generated_files"])
@@ -107,86 +110,45 @@ class AtlasBuildTests(Fixture):
         first = {p: (self.library / p).read_bytes() for p in report["generated_files"]}
         self.atlas()
         self.assertEqual(first, {p: (self.library / p).read_bytes() for p in first})
-        self.assertEqual({p: ((self.library / p).read_bytes(), (self.library / p).stat().st_mtime_ns) for p in search_files}, before)
+        self.assertEqual(json.loads((self.library / 'SEARCH/coverage.json').read_text())['source_body_bytes_read'], 0)
         self.check_verified()
 
-    def test_atlas_refreshes_older_search_ui_without_rebuilding_index(self):
-        from owl.postflight import audit_build
-        from owl.search_pack import verify_pack
-        self.run_build()
-        previous = self.install_older_search_ui()
-        generation = self.search_generation(previous)
-        with patch("owl.build.download", side_effect=AssertionError("no downloads")), patch("owl.search.build_search", side_effect=AssertionError("no extraction")):
-            self.atlas()
-        report = json.loads((self.library / "SEARCH/coverage.json").read_text(encoding="utf-8"))
-        for relative in ("INVENTORY.json", "BUILD_INFO.json"):
-            self.assertEqual(json.loads((self.library / relative).read_text(encoding="utf-8"))["search"], report)
-        self.assertEqual(report["build_fingerprint"], previous["build_fingerprint"])
-        self.assertEqual(report["index_sha256"], previous["index_sha256"])
-        self.assertEqual(self.search_generation(report), generation)
-        self.assertEqual((self.library / "SEARCH.html").read_text(encoding="utf-8"), render_search_page())
-        runtime = Path(__file__).parents[1] / "src/owl/templates/search.js"
-        self.assertEqual((self.library / "SEARCH/search.js").read_bytes(), runtime.read_bytes())
-        for relative in ("SEARCH.html", "SEARCH/search.js"):
-            data = (self.library / relative).read_bytes()
-            self.assertEqual(report["file_integrity"][relative], {"sha256": hashlib.sha256(data).hexdigest(), "size_bytes": len(data)})
-        self.assertTrue(verify_pack(self.library, report).startswith(b"OWLIDX3\n"))
-        self.check_verified()
-        self.assertEqual(audit_build(self.drive, run_smoke=False)["status"], "passed")
 
-    def test_search_ui_refresh_resumes_matched_checkpoint_after_partial_write(self):
-        self.run_build()
-        previous = self.install_older_search_ui()
-        generation = self.search_generation(previous)
-        def interrupted(path, data):
-            atomic_write(path, data)
-            if path == self.library / "SEARCH.html":
-                raise KeyboardInterrupt
-        with patch("owl.atlas_build.atomic_write", side_effect=interrupted), self.assertRaises(KeyboardInterrupt):
-            self.atlas()
-        job = json.loads((self.library / ".owl/atlas-job.json").read_text(encoding="utf-8"))
-        self.assertEqual(job["inventory"]["search"], job["build_info"]["search"])
-        self.assertEqual(job["inventory"]["search"], json.loads(job["support_files"]["SEARCH/coverage.json"]))
-        self.assertFalse(json.loads((self.library / ".owl/state.json").read_text(encoding="utf-8"))["complete"])
-        future_widget = render_search_widget("LIBRARY/") + "<!-- later template -->"
-        with patch("owl.search._prepare_ui", side_effect=AssertionError("use saved UI")), \
-                patch("owl.navigation.render_search_widget", return_value=future_widget), \
-                patch("owl.search_ui.render_search_widget", return_value=future_widget):
-            self.atlas()
-        for relative in ("SEARCH.html", "SEARCH/search.js", "SEARCH/coverage.json"):
-            self.assertEqual((self.library / relative).read_text(encoding="utf-8"), job["support_files"][relative])
-        landing = (self.drive / "START_HERE.html").read_text(encoding="utf-8")
-        self.assertIn(job["search_widget"], landing)
-        self.assertNotIn("later template", landing)
-        self.assertEqual(self.search_generation(previous), generation)
-        self.assertFalse((self.library / ".owl/atlas-job.json").exists())
-        self.check_verified()
 
-    def test_search_ui_refresh_resume_rejects_changed_index_chunk(self):
-        self.run_build()
-        previous = self.install_older_search_ui()
-        with patch("owl.atlas_build.write_outputs", side_effect=KeyboardInterrupt), self.assertRaises(KeyboardInterrupt):
-            self.atlas()
-        chunk = next(relative for relative in previous["generated_files"] if relative.startswith("SEARCH/chunks/") and relative.endswith(".js"))
-        (self.library / chunk).write_bytes(b"damaged")
-        with self.assertRaisesRegex(SafetyError, "integrity verification"):
-            self.atlas()
-        self.assertTrue((self.library / ".owl/atlas-job.json").exists())
 
     def test_search_ui_refresh_obeys_search_budget_before_publication(self):
         self.run_build()
         report = self.install_older_search_ui()
         path = self.library / "BUILD_INFO.json"
         info = json.loads(path.read_text(encoding="utf-8"))
-        info["profile"]["search_budget_bytes"] = sum(
-            (self.library / relative).stat().st_size for relative in report["generated_files"])
+        info["profile"]["discovery_budget_bytes"] = 1
         path.write_text(json.dumps(info), encoding="utf-8")
         self.reseal_checksums()
         before = (self.library / "SEARCH.html").read_bytes()
-        with self.assertRaisesRegex(SafetyError, "search budget"):
+        with self.assertRaisesRegex(SafetyError, "allowance"):
             self.atlas()
         self.assertEqual((self.library / "SEARCH.html").read_bytes(), before)
         self.assertFalse((self.library / ".owl/atlas-job.json").exists())
+
+    def test_metadata_refresh_resume_keeps_verification_mode_and_publishes_matching_search(self):
+        self.run_build(navigation_dir=self.nav)
+        with patch('owl.atlas_build.write_outputs', side_effect=KeyboardInterrupt):
+            with self.assertRaises(KeyboardInterrupt):
+                self.atlas(metadata_only=True)
+        with self.assertRaisesRegex(SafetyError, 'same source-verification mode'):
+            self.atlas()
+        source = (self.library / self.asset['destination']).resolve()
+        original = Path.open
+        def guard(path, *args, **kwargs):
+            if path.resolve() == source:
+                raise AssertionError('Refresh resumed with a source-body read')
+            return original(path, *args, **kwargs)
+        with patch.object(Path, 'open', guard):
+            self.atlas(metadata_only=True)
+        self.check_verified()
+        info = json.loads((self.library / 'BUILD_INFO.json').read_text())
+        self.assertIn('Not repeated', info['source_verification'])
+        self.assertEqual(info['search'], json.loads((self.library / 'SEARCH/coverage.json').read_text()))
 
     def test_full_builder_integrates_atlas_and_disabling_retires_pages(self):
         self.run_build(navigation_dir=self.nav, strict_coverage=True)
@@ -224,24 +186,16 @@ class AtlasBuildTests(Fixture):
             self.atlas()
         self.assertEqual(destination.read_text(encoding="utf-8"), "personal")
 
-    def test_catalog_only_generation_requires_no_search_or_network(self):
+    def test_catalog_only_generation_builds_discovery_without_network(self):
         self.put_downloaded_files()
-        self.atlas(profile="test", strict_coverage=True)
-        self.assertFalse((self.library / "SEARCH/manifest.js").exists())
-        self.assertFalse((self.library / "SEARCH/search.js").exists())
-        self.assertIn("has not been built", (self.library / "SEARCH.html").read_text(encoding="utf-8"))
-        self.assertIn("Human index only", (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
-        self.assertNotIn('id="searchForm"', (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
-        self.assertNotIn("<script", (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
-        info = json.loads((self.library / "BUILD_INFO.json").read_text(encoding="utf-8"))
-        self.assertEqual(info["build_kind"], "human-index-only")
+        with patch("owl.build.download", side_effect=AssertionError("no downloads")):
+            self.atlas(profile="test", strict_coverage=True)
+        self.assertTrue((self.library / "SEARCH/manifest.js").exists())
+        self.assertIn('id="searchForm"', (self.drive / "START_HERE.html").read_text())
+        coverage = json.loads((self.library / "SEARCH/coverage.json").read_text())
+        self.assertEqual(coverage['source_body_bytes_read'], 0)
         self.check_verified()
-        with patch("owl.build.download", side_effect=AssertionError("already downloaded")):
-            self.run_build(navigation_dir=self.nav)
-        self.assertTrue((self.library / "SEARCH/manifest.js").is_file())
-        self.assertTrue((self.library / "SEARCH/search.js").is_file())
-        self.assertIn('id="searchForm"', (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
-        self.check_verified()
+
 
     def test_catalog_only_interruption_retains_support_files_in_manifest(self):
         from owl.atlas_build import write_outputs
@@ -287,7 +241,7 @@ class AtlasBuildTests(Fixture):
         self.check_verified()
 
     def test_incomplete_drive_stays_incomplete_after_usable_human_index(self):
-        with patch("owl.search.build_search", side_effect=KeyboardInterrupt), self.assertRaises(KeyboardInterrupt):
+        with patch("owl.discovery.plan_discovery", side_effect=KeyboardInterrupt), self.assertRaises(KeyboardInterrupt):
             self.run_build()
         self.atlas(profile="test")
         self.assertTrue((self.library / "INDEX/topics.html").is_file())

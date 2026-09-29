@@ -1,0 +1,6 @@
+schema_version: 1
+asset_id: uga_using_boiling_water_canners_2025
+assignments:
+- topic_id: canning
+  purpose: reference
+  description: Complete May 2025 boiling-water-canner guideline with illustrated procedures.

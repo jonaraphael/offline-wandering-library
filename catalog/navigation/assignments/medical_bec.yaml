@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: medical_bec
+assignments:
+- topic_id: emergency-care
+  purpose: start-here

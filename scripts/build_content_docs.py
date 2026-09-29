@@ -1,95 +1,124 @@
 #!/usr/bin/env python3
-"""Regenerate the human-readable resource scope/status reference from the catalog."""
+"""Generate the current selection reference from admitted files and real defaults."""
 import argparse
 from collections import Counter
 from pathlib import Path
 import sys
-
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'src'))
-from owl.catalog import DIRECT, is_document, learning_coverage, load_catalog, load_profiles, resolve_content
+from owl.catalog import capacity_plan, load_catalog, load_profiles, resolve_content
+from owl.content_policy import require_content_policy
 from owl.resources import load_resources
+from owl.utility_policy import require_utility_policy
+from owl.catalog import read_yaml
+from owl.atlas_model import load_navigation
+
+
+def render_coverage_plan():
+    """Validate editorial references; never infer depth from source presence."""
+    path = ROOT/'catalog/coverage-plan.yaml'
+    plan = read_yaml(path)
+    assets = load_catalog(ROOT/'catalog/library.yaml')
+    profiles = load_profiles(ROOT/'profiles')
+    resources_path = ROOT/'catalog/resources.yaml'
+    resources = load_resources(resources_path, assets)
+    navigation = load_navigation(ROOT/'catalog/navigation', assets)
+    if plan.get('schema_version') != 1 or plan.get('profile') not in profiles:
+        raise ValueError('Coverage plan requires schema_version 1 and a known profile')
+    for key in ('reviewed_on', 'purpose', 'completion_rule', 'maintenance_rule'):
+        if not isinstance(plan.get(key), str) or not plan[key].strip():
+            raise ValueError('Coverage plan requires text: ' + key)
+    if not isinstance(plan.get('topics'), list) or not plan['topics']:
+        raise ValueError('Coverage plan requires topic rows')
+    if not isinstance(plan.get('next_batch'), list) or any(not isinstance(x, str) for x in plan['next_batch']):
+        raise ValueError('Coverage next_batch must contain text')
+    seen, covered_topics, covered_resources = set(), set(), set()
+    for row in plan['topics']:
+        for key in ('id', 'title', 'intended', 'existing', 'done_when'):
+            if not isinstance(row.get(key), str) or not row[key].strip():
+                raise ValueError('Coverage topic requires text: ' + key)
+        if row['id'] in seen or row.get('status') not in {'gap', 'partial', 'optional', 'adequate'}:
+            raise ValueError('Duplicate coverage topic or invalid editorial status')
+        seen.add(row['id'])
+        for key in ('atlas_topics', 'resources', 'gaps', 'next'):
+            if not isinstance(row.get(key), list) or any(not isinstance(x, str) or not x.strip() for x in row[key]):
+                raise ValueError(row['id'] + ': invalid ' + key)
+        if set(row['atlas_topics']) - navigation['topics'].keys() or set(row['resources']) - resources.keys():
+            raise ValueError(row['id'] + ': unknown topic or resource reference')
+        if row['status'] == 'adequate' and (not isinstance(row.get('review_evidence'), str) or not row['review_evidence'].strip()):
+            raise ValueError(row['id'] + ': adequate requires explicit editorial review_evidence')
+        covered_topics.update(row['atlas_topics'])
+        covered_resources.update(row['resources'])
+    missing = navigation['topics'].keys() - covered_topics
+    if missing:
+        raise ValueError('Atlas topics missing an editorial plan: ' + ', '.join(sorted(missing)))
+    missing = set(profiles[plan['profile']]['default_resources']) - covered_resources
+    if missing:
+        raise ValueError('Default collections missing an editorial plan: ' + ', '.join(sorted(missing)))
+    selected, _, _ = resolve_content(assets, profiles[plan['profile']], resources_path=resources_path)
+    selected_ids = {a['id'] for a in selected}
+    statuses = Counter(row['status'] for row in plan['topics'])
+    lines = ['# Full 1 TB topic-by-topic completion plan', '',
+        f"Editorial review: {plan['reviewed_on']}. Generated from [the editable plan](../catalog/coverage-plan.yaml) and current catalog.", '',
+        plan['purpose'], '', plan['completion_rule'], '',
+        f"Current selection: {len(selected):,} pinned files, {sum(a['size_bytes'] for a in selected)/1e9:.3f} GB, including reader packages. "
+        f"The {len(plan['topics'])} editorial workstreams account for all {len(navigation['topics'])} atlas topics, including optional study topics, and additional gaps without atlas tags.", '',
+        'A selected collection establishes availability only. Broad archives are supplementary until specific task coverage is reviewed. Optional collections below do not count toward default depth. '
+        + 'Editorial assessments: ' + ', '.join(f'{statuses.get(state, 0)} {state}' for state in ('adequate', 'partial', 'gap', 'optional')) + '.', '',
+        '## Next selection batch', '']
+    lines += [f'{i}. {entry}' for i, entry in enumerate(plan['next_batch'], 1)]
+    lines += ['', '## Topic plans', '']
+    for row in plan['topics']:
+        labels = [resources[r]['title'] + (' (selected)' if selected_ids.intersection(resources[r]['asset_ids']) else ' (optional; not selected)')
+                  for r in row['resources']]
+        lines += [f"### {row['title']} — {row['status']}", '',
+            '**Intended coverage:** ' + row['intended'], '',
+            '**Existing resources:** ' + row['existing'], '',
+            '**Catalog collections:** ' + '; '.join(labels) + '.', '',
+            '**Remaining gaps:** ' + '; '.join(row['gaps']) + '.', '',
+            '**Next selections/review:** ' + ' '.join(row['next']), '',
+            '**Adequate when:** ' + row['done_when'], '']
+        if row.get('review_evidence'):
+            lines += ['**Editorial review evidence:** ' + row['review_evidence'], '']
+    lines += ['## Keep the plan current', '', plan['maintenance_rule'], '',
+        'Python checks referenced collections and complete atlas-topic coverage when generating this document. It never upgrades an editorial status from tags, file counts or downloads. '
+        'The latest small acquisition batch is recorded in [the resource review](../catalog/acquisition/practical-discovery-20260928.json).', '']
+    return '\n'.join(lines)
 
 
 def render():
-    assets = load_catalog(ROOT/'catalog/library.yaml')
-    registry = load_resources(ROOT/'catalog/resources.yaml', assets)
     profiles = load_profiles(ROOT/'profiles')
-    production = ['flash-16gb', 'critical-64gb', 'compact-256gb', 'standard-512gb', 'full-1tb']
-    selections = {name: resolve_content(assets, profiles[name], resources_path=ROOT/'catalog/resources.yaml')
-                  for name in production}
-    direct_by_profile = {
-        name: {a['id']: a for a in selected if is_document(a) and
-               a['format'].lower() in DIRECT and not a.get('reader_required')}
-        for name, (selected, _, _) in selections.items()
-    }
-    common_ids = set.intersection(*(set(rows) for rows in direct_by_profile.values()))
-    common = [direct_by_profile['flash-16gb'][identity] for identity in common_ids]
-    common_pdfs = sum(a['format'].lower() == 'pdf' for a in common)
-    small_coverage = learning_coverage(selections['flash-16gb'][0])
-    openstax_counts = {name: sum(a['id'].startswith('openstax_') for a in selection[0])
-                       for name, selection in selections.items()}
-    numbered_count = sum(bool(resource.get('number')) for resource in registry.values())
-    support_count = len(registry) - numbered_count
-    counts = Counter(r['status'] for r in registry.values())
-    out = ['# Content selection and acquisition status', '',
-        'Generated from `catalog/resources.yaml` and `catalog/library.yaml` by `python scripts/build_content_docs.py`.', '',
-        f'The registry enumerates **{numbered_count} numbered collections and {support_count} support resources**. The catalog records exact downloadable sources and pinned documentation outputs; the registry describes intended scope. The repository contains metadata, not these datasets.', '',
-        f"Current status: **{counts['ready']} ready, {counts['partial']} partial, {counts['unresolved']} unresolved**. There are **{sum(a['status']=='resolved' for a in assets)} pinned available file records**. Large archive pins were checked against publisher whole-file SHA-256 metadata and exact HTTP byte counts; the archive bodies have not all been downloaded or device-tested.", '',
-        '- **Ready:** the declared acquisition scope has usable pinned files.',
-        '- **Partial:** usable files are available, but specific requested content or representations remain missing.',
-        '- **Unresolved:** no usable mapping fulfills the collection yet; the reason below states what is missing.',
-        '- **Redistributable: false:** OWL has not established a general right to redistribute the file. This does **not** disable a publisher-offered download for personal, noncommercial offline use.', '',
-        'Original notices and attribution remain intact. Private acquisition and public redistribution are recorded separately; personal use does not change a publication’s stated license or its download availability.', '',
-        'Evidence: [medical and emergency](acquisition-medical.md), [education and agriculture](acquisition-education.md), [large archives](acquisition-archives.md), [programming and Low-tech](acquisition-reference.md), [Gutenberg and Stack Exchange](acquisition-enrichment.md), [one-hour source resolution](acquisition-hour-summary.md), [twelve-hour remaining-work plan](resolution-plan-12h.md).', '',
-        '## Profiles and capacity', '',
-        f"All values are decimal GB. Planning targets include unresolved collections and are not downloaded byte counts. Every production preset retains a common foundation of {len(common)} directly readable documents, including {common_pdfs} PDFs. The 16 GB preset has {openstax_counts['flash-16gb']} OpenStax textbooks across all eight subject families; the 64 GB and larger presets have all {openstax_counts['critical-64gb']} current English PDF titles. The smallest preset includes {small_coverage['textbooks']['count']} directly readable textbooks and {small_coverage['illustrated-guides']['count']} illustrated teaching works overall. Small presets add bounded practical archives and bundled readers; their totals below are exact pinned bytes.", '',
-        '| Profile | Content target | Pinned files on disk | Search | Scratch | Reserve |',
-        '| --- | ---: | ---: | ---: | ---: | ---: |']
-    for name in production:
-        p = profiles[name]
-        selected, _, report = selections[name]
-        known = sum(a['size_bytes'] for a in selected)/1e9
-        target = report['content_target_bytes']/1e9 if report else known
-        out.append(f"| `{name}` | {target:.3f} GB | {known:.3f} GB | {p['search_budget_bytes']/1e9:g} GB | {p.get('index_scratch_budget_bytes', 2*p['search_budget_bytes'])/1e9:g} GB | {p['reserve_bytes']/1e9:g} GB |")
-    out += ['', 'Pinned disk totals include selected reader binaries, retained source ZIPs and their expanded documentation files; content targets exclude their separate allowance. Metadata is additional. Scratch covers raw assembly plus extraction workspace; a verified raw-index checkpoint releases extraction files before browser packaging. Peak indexing space is raw assembly plus the larger of extraction workspace or search output. All five default planning peaks fit their nominal capacities with the explicit search/scratch/reserve allowances. Full-corpus index measurements for the larger profiles are still outstanding. Use the CLI `--plan` for the complete calculation and real free-space/reuse checks; do not assume the final content target proves the build fits.', '',
-        'Compact includes #1–18 plus all acquired OpenStax textbooks, the selected PhET simulation syllabus, preparedness and programming manuals; it keeps a 10 GB local topographic allocation instead of North America OSM. Standard includes #1–31 and a 75 GB Survivor Tier A target. Full includes #1–35, #42, #44 and #46, with full Tier A and a 60 GB direct-reading allowance. All default presets are English-only; additional Wikipedia languages, multilingual Gutenberg and remaining Khan content are opt-in. A world map replaces the North America archive while retaining local topo.', '',
-        'Use [SELECT.html](../SELECT.html) or repeat `--include RESOURCE` / `--exclude RESOURCE` (IDs or list numbers). Exclusion never deletes existing files. A normal build stops for partial/unresolved collections; `--allow-incomplete` explicitly builds the available subset and records the gaps.', '',
-        '## Direct editions and exports', '',
-        'The [in-place ZIM exporter](direct-export.md) converts explicit article selections and supported local images/styles/fonts into ordinary files on the SSD. Import its completed manifest with `build_drive.py --extra-catalog PATH --allow-local` to refresh global search, navigation, inventory and checksums without copying those files again. Excluding a source collection also excludes its derivatives; an export from a different source checksum is rejected.', '',
-        'A conversion mechanism does not establish a curated or visually checked edition. The 60 GB direct-reading expansion remains unresolved until article/book selections are reviewed and their output is verified. Verified compact editions are registered for Gutenberg nonfiction, children, practical Stack Exchange and science Stack Exchange. Profile default_editions selects these without concealing the unfinished direct/curated scopes. Historical Gutenberg publications are not current safety or clinical instructions. It does not invent compression savings or automatically expand Wikipedia.', '',
-        'Additional manifests count their actual bytes on top of selected planning targets. When actual exports replace the separate 60 GB estimate, explicitly exclude `direct-reading-expansion` to avoid reserving that estimate as well; other collection gaps remain reported.', '',
-        '## Resource scope and remaining work', '',
-        '| # | Resource | Status | Planned GB | Pinned files |',
-        '| --- | --- | --- | ---: | ---: |']
-    by_id = {a['id']:a for a in assets}
-    for r in registry.values():
-        n = sum(by_id[i]['status']=='resolved' for i in r['asset_ids'])
-        out.append(f"| {r.get('number') or '—'} | `{r['id']}` | {r['status']} | {r['target_bytes']/1e9:g} | {n} |")
-    for r in registry.values():
-        out += ['', f"### {str(r['number'])+'. ' if r.get('number') else ''}{r['title']}", '',
-                f"`{r['id']}` · **{r['status']}** · planning target {r['target_bytes']/1e9:g} GB", '',
-                r.get('reason', 'The declared scope has pinned files; readiness does not certify every device or every factual statement in the material.'), '',
-                '**Include:**', '']
-        out += ['- '+str(item).replace('\n',' ') for item in r.get('include',[])]
-        for name, edition in r.get('editions', {}).items():
-            out += ['', f"**{name.title()} edition:** {edition['status']}; {edition['target_bytes']/1e9:.3f} GB; {len(edition['asset_ids'])} pinned files. {edition['reason']}"]
-        if r.get('exclude'):
-            out += ['', '**Exclude:**', ''] + ['- '+str(item).replace('\n',' ') for item in r['exclude']]
-        if r.get('source_pages'):
-            out += ['', 'Sources: '+', '.join(f'[source {i+1}]({url})' for i,url in enumerate(r['source_pages']))+'.']
+    assets = load_catalog(ROOT/'catalog/library.yaml', profiles)
+    path = ROOT/'catalog/resources.yaml'
+    resources = load_resources(path, assets)
+    require_content_policy(assets)
+    require_utility_policy(assets, resources, profiles, path)
+    counts = Counter(a['utility_tier'] for a in assets)
+    out = ['# Content selection', '', 'Generated by `python scripts/build_content_docs.py` from the active catalogs and policies.', '',
+           f'{len(assets)} selectable asset records in {len(resources)} collections pass the finished-download policy. Priority counts: '+', '.join(f'{k}: {counts[k]}' for k in ('CRITICAL','USEFUL','NONESSENTIAL'))+'.', '',
+           'CRITICAL protects life and supports household survival. USEFUL covers practical trades, appropriate technology, general reference and school education. NONESSENTIAL includes stories, college study, computing and cultural enrichment; these collections are opt-in.', '',
+           'Files are selected for substantial, diversified knowledge useful in a post-internet, low-electronic life. There are no minimum book counts or artificial content-size targets. Chapter files and archive members are not independent whole books.', '',
+           '## Default selections', '', '| Drive | Pinned files, GB | In-place planning peak, GB | Records |', '| --- | ---: | ---: | ---: |']
+    for p in sorted(profiles.values(), key=lambda p:p['capacity_bytes']):
+        if not p.get('default_resources'):continue
+        selected, _, report = resolve_content(assets,p,resources_path=path)
+        plan=capacity_plan(selected,p,report)
+        out.append(f"| {p['id']} | {sum(a['size_bytes'] for a in selected)/1e9:.3f} | {plan['in_place_peak_budget_bytes']/1e9:.3f} | {len(selected)} |")
+    out += ['', 'Decimal GB. File totals include reader packages. Planning peaks include a small discovery allowance, metadata and reserve. Original downloads stay on the target drive. Search and atlas pages compile from approved metadata without reading source bodies; no indexing workspace or cache is needed.', '',
+            'The 1 TB selection continues to grow against [the topic-by-topic completion plan](full-1tb-coverage-plan.md). Extra capacity is available for useful additions and optional collections. The 256 GB preset uses North America maps; larger presets substitute the world map. Additional encyclopedia languages are opt-in.', '',
+            '## Evidence and limits', '',
+            '[The machine-readable review](../catalog/content-review.json) records every former asset, its original policy failures, priority, disposition, replacement group and coverage limitations. Download evidence records full-file hashes, byte sizes and PDF page counts for new sources. Existing large ZIM bodies were not downloaded again in this review.', '',
+            'Local topography, a complete initial-literacy/humanities curriculum, missing Hesperian back matter and finished SQLite/OpenSSH replacements remain coverage gaps. Removing unavailable wishlist entries from the active menu does not mean those gaps are solved. Historical books supplement current references; they do not replace current clinical or safety guidance.', '',
+            'Original published PDFs/ZIMs are downloaded unchanged. Optional Python PDFs are unpacked unchanged from the publisher ZIP. PhET uses original HTML with hash-bound offline screen evidence; full editorial review and physical-device certification remain pending.', '',
+            '## Selectable collections', '', '| Collection | Priority | GB | Files | Coverage |', '| --- | --- | ---: | ---: | --- |']
+    for r in sorted(resources.values(),key=lambda r:({'CRITICAL':0,'USEFUL':1,'NONESSENTIAL':2}[r['utility_tier']],r['id'])):
+        out.append(f"| {r['title']} (`{r['id']}`) | {r['utility_tier']} | {r['target_bytes']/1e9:.3f} | {len(r['asset_ids'])} | {r['reason'].replace('|','/')} |")
     return '\n'.join(out)+'\n'
 
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--check', action='store_true')
-    args = parser.parse_args()
-    path = ROOT/'docs/content-selection.md'
-    content = render()
-    if args.check:
-        if not path.exists() or path.read_text(encoding='utf-8') != content:
-            raise SystemExit('Content documentation stale; run python scripts/build_content_docs.py')
-    else:
-        path.write_text(content, encoding='utf-8')
-        print(path)
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--check',action='store_true');args=parser.parse_args()
+    outputs = {ROOT/'docs/content-selection.md': render(), ROOT/'docs/full-1tb-coverage-plan.md': render_coverage_plan()}
+    for path, content in outputs.items():
+        if args.check:
+            if not path.exists() or path.read_text()!=content:raise SystemExit('Content documentation stale; run python scripts/build_content_docs.py')
+        else:path.write_text(content);print(path)

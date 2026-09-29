@@ -1,0 +1,44 @@
+{
+  "accepted_useful_bytes": 0,
+  "body_downloads": 0,
+  "capture_peak_bytes": 27336659515,
+  "content_ready": false,
+  "courses": [
+    {
+      "dependency_issues": 0,
+      "files": 764,
+      "media_bytes": 6499875290,
+      "media_sources": 22,
+      "ordinary_package_bytes": 212415626,
+      "reviewed_optional_tags": 23,
+      "source_id": "ocw_6971a06b62af747d324c",
+      "source_sha256": "5f59a7da1e99f2bd186e8025f611eb73b463dd681c24242080c068d390b5644e",
+      "title": "Advanced Data Structures"
+    },
+    {
+      "dependency_issues": 0,
+      "files": 748,
+      "media_bytes": 4586395574,
+      "media_sources": 25,
+      "ordinary_package_bytes": 91056883,
+      "reviewed_optional_tags": 25,
+      "source_id": "ocw_d7c1c31475e19054769e",
+      "source_sha256": "f42127fafc091e20c6100477aa1410fcd13c93455d968592ebe000da6e33c696",
+      "title": "Discrete Stochastic Processes"
+    },
+    {
+      "dependency_issues": 0,
+      "files": 774,
+      "media_bytes": 1892856603,
+      "media_sources": 26,
+      "ordinary_package_bytes": 222860378,
+      "reviewed_optional_tags": 422,
+      "source_id": "ocw_59ea09ef2e144528b84b",
+      "source_sha256": "e40c410d791035c0f236caac059a25d79b5470a1d4d6813b6d150126cd7f7833",
+      "title": "Calculus Revisited: Multivariable Calculus"
+    }
+  ],
+  "expected_ordinary_bytes": 13505460354,
+  "schema_version": 1,
+  "unique_media_source_bytes": 12979127467
+}

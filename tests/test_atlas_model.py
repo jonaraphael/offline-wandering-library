@@ -14,6 +14,7 @@ import yaml
 
 from owl.atlas_model import AtlasError, load_navigation, validate_sources
 from owl.safety import SafetyError
+from navigation_fixture import write_assignments
 
 
 class AtlasModelTests(unittest.TestCase):
@@ -56,8 +57,7 @@ class AtlasModelTests(unittest.TestCase):
     def write(self):
         topics = {"schema_version": 1, "topics": self.topics, "entrances": self.entrances}
         (self.directory / "topics.yaml").write_text(yaml.safe_dump(topics), encoding="utf-8")
-        (self.directory / "assignments.yaml").write_text(yaml.safe_dump({"schema_version": 1,
-                                                                       "assignments": self.assignments}), encoding="utf-8")
+        write_assignments(self.directory, self.assignments)
         for path in (self.directory / "sections").glob("*.yaml"):
             path.unlink()
         for name, section_map in self.maps.items():
@@ -81,9 +81,23 @@ class AtlasModelTests(unittest.TestCase):
 
     def test_input_hashes_cover_exact_raw_metadata_bytes(self):
         navigation = self.load()
-        self.assertEqual(set(navigation["input_hashes"]), {"topics.yaml", "assignments.yaml", "sections/book.yaml"})
+        self.assertEqual(set(navigation["input_hashes"]), {"topics.yaml", "assignments/book.yaml", "sections/book.yaml"})
         for relative, digest in navigation["input_hashes"].items():
             self.assertEqual(digest, hashlib.sha256((self.directory / relative).read_bytes()).hexdigest())
+
+    def test_each_asset_file_is_validated_and_optional_enrichment_can_be_absent(self):
+        self.write()
+        path = self.directory / 'assignments/book.yaml'
+        document = yaml.safe_load(path.read_text())
+        document['asset_id'] = 'another'
+        path.write_text(yaml.safe_dump(document))
+        with self.assertRaisesRegex(AtlasError, 'filename'):
+            load_navigation(self.directory, self.assets)
+        path.unlink()
+        self.assertEqual(load_navigation(self.directory, self.assets)['assignments'], [])
+        path.write_text('schema_version: 1\nasset_id: book\nassignments: wrong-type\n')
+        with self.assertRaises(AtlasError):
+            load_navigation(self.directory, self.assets)
 
     def test_topic_cycles_and_related_only_orphans_fail(self):
         self.topics[0]["parents"] = ["shared"]

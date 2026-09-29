@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: canning_07
+assignments:
+- topic_id: canning-jams
+  purpose: practical

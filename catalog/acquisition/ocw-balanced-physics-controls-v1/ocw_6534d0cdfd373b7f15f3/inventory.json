@@ -1,0 +1,4317 @@
+{
+  "content_ready": false,
+  "course": {
+    "course_description": "This is the second term in a two-semester course on statistical mechanics. Basic principles are examined in this class, such as the laws of thermodynamics and the concepts of temperature, work, heat, and entropy. Topics from modern statistical mechanics are also explored, including the hydrodynamic limit and classical field theories.\n",
+    "course_description_html": "This is the second term in a two-semester course on statistical mechanics. Basic principles are examined in this class, such as the laws of thermodynamics and the concepts of temperature, work, heat, and entropy. Topics from modern statistical mechanics are also explored, including the hydrodynamic limit and classical field theories.",
+    "course_image": {
+      "content": "56728480-01bb-b171-070b-bbc08cbb6af6",
+      "website": "8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014"
+    },
+    "course_image_metadata": {
+      "content_type": "resource",
+      "description": "A digitally modified image of a sand dune, which served as the inspiration for the cover of Prof. Kardar's textbook Statistical Physics of Fields. (Image by Mehran Kardar)",
+      "draft": false,
+      "file": "/courses/8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014/5672848001bbb171070bbbc08cbb6af6_8-334s14.jpg",
+      "file_size": 37014,
+      "file_type": "image/jpeg",
+      "image_metadata": {
+        "caption": "A digitally modified image of a sand dune, which served as the inspiration for the cover of Prof. Kardar's textbook _Statistical Physics of Fields_. (Image by Mehran Kardar)",
+        "credit": "Image by Mehran Kardar.",
+        "image-alt": "A blurry image of a sand dune and sky above."
+      },
+      "iscjklanguage": false,
+      "learning_resource_types": [],
+      "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "ocw_type": "OCWImage",
+      "resourcetype": "Image",
+      "title": "8-334s14.jpg",
+      "uid": "56728480-01bb-b171-070b-bbc08cbb6af6"
+    },
+    "course_image_thumbnail": {
+      "content": "60faaf2d-43d4-1521-b179-746a6f9cd5c2",
+      "website": "8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014"
+    },
+    "course_title": "Statistical Mechanics II: Statistical Physics of Fields",
+    "department_numbers": [
+      "8"
+    ],
+    "extra_course_numbers": "",
+    "hide_download": false,
+    "image_src": "./static_resources/5672848001bbb171070bbbc08cbb6af6_8-334s14.jpg",
+    "instructors": [
+      {
+        "first_name": "Mehran",
+        "last_name": "Kardar",
+        "middle_initial": "",
+        "salutation": "Prof.",
+        "title": "Prof. Mehran Kardar",
+        "uid": "5ca75388-b83e-6c39-f97d-8f49f7f012b4",
+        "url": "https://ocw.mit.edu/search/?q=Prof.+Mehran+Kardar"
+      }
+    ],
+    "learning_resource_types": [
+      "Problem Sets",
+      "Exams",
+      "Lecture Notes",
+      "Lecture Videos"
+    ],
+    "legacy_uid": "18ba7dfe-f4f4-a493-50c0-f95de63d0ec6",
+    "level": [
+      "Graduate"
+    ],
+    "mit_learn_topics": [
+      [
+        "Science & Math",
+        "Mathematics"
+      ],
+      [
+        "Science & Math",
+        "Physics"
+      ]
+    ],
+    "primary_course_number": "8.334",
+    "site_short_id": "8.334-spring-2014",
+    "site_uid": "9c997acf-6fc9-4f8d-8c6b-f8f1b82ba854",
+    "site_url_path": "courses/8-334-statistical-mechanics-ii-statistical-physics-of-fields-spring-2014",
+    "term": "Spring",
+    "title": "Course Metadata",
+    "topics": [
+      [
+        "Mathematics",
+        "Probability and Statistics"
+      ],
+      [
+        "Science",
+        "Physics",
+        "Thermodynamics"
+      ],
+      [
+        "Science",
+        "Physics",
+        "Theoretical Physics"
+      ]
+    ],
+    "year": "2014"
+  },
+  "excluded_translations": [],
+  "expanded_bytes": 58841831,
+  "gaps": [],
+  "media": [
+    {
+      "id": "ocw_media_1a0bf2337eeb43f91071",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/d56e4b8c2b0c512b9a1475aec8867f67_WtGS6lV5MDI.vtt",
+              "sha256": "16faa0a04b46d688004e24905cce35cab49fcda50aa0b5d6f85b6c39bf94a618",
+              "size_bytes": 79982
+            }
+          ],
+          "context_path": "resources/lecture-8-the-scaling-hypothesis-part-3/index.html",
+          "end_time": "",
+          "id": "85c1acdd-36e2-b98c-72a0-3f41a6c0eb7f",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-8-the-scaling-hypothesis-part-3/data.json",
+            "sha256": "7e1819ca2206bedf6a2f1c820912260fafde045233600ed3aad6867ae5174a65",
+            "size_bytes": 1813
+          },
+          "start_time": "",
+          "title": "Lecture 8: The Scaling Hypothesis Part 3"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec08_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec08_300k.mp4"
+    },
+    {
+      "id": "ocw_media_1fc459bff6c50daacaec",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/7d9150f3b1785763b888c403c17f8dc4_eKVr-oKxMPg.vtt",
+              "sha256": "bfe5b39c1dab66f9289a1e93a0ef9f4cd4a20c7614bcdcf4ddec9dd0e4ed64da",
+              "size_bytes": 94005
+            }
+          ],
+          "context_path": "resources/lecture-2-lec-1-continued-the-landau-ginzburg-approach-part-1/index.html",
+          "end_time": "",
+          "id": "70e35586-fca2-e37c-3199-03777a827a97",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-2-lec-1-continued-the-landau-ginzburg-approach-part-1/data.json",
+            "sha256": "bbd5f226ea6764d636d02ea671c89b679f61e364f2f628ebf1f6a78f26ea06bb",
+            "size_bytes": 1840
+          },
+          "start_time": "",
+          "title": "Lecture 2: Lec 1 (continued); The Landau-Ginzburg Approach Part 1"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec02_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec02_300k.mp4"
+    },
+    {
+      "id": "ocw_media_2205d80c39b3330dda4b",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/e6eebd2e96225e20b23a37fae78e983e_PGnLAx8e4Gk.vtt",
+              "sha256": "a39da605e0a5c52a5141e47f5b82a7adee5cebec0a77d2ee45a0f1c91fe9f9a2",
+              "size_bytes": 91870
+            }
+          ],
+          "context_path": "resources/lecture-26-continuous-spins-at-low-temperatures-part-6/index.html",
+          "end_time": "",
+          "id": "593e6049-2dd7-f117-bac4-3536055f12e0",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-26-continuous-spins-at-low-temperatures-part-6/data.json",
+            "sha256": "7fffdce25598ac3a783b840105322ecceb707cf47000b888e811a7a16e4d1876",
+            "size_bytes": 1940
+          },
+          "start_time": "",
+          "title": "Lecture 26: Continuous Spins at Low Temperatures Part 6"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec26_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec26_300k.mp4"
+    },
+    {
+      "id": "ocw_media_34769baa261935cc8d44",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/29a4c3fd637251abbfbf3e21b6a32abd_h_YZxQJpPv0.vtt",
+              "sha256": "326cc83eda31696c1247f501403f111d200f63eae94177dcb85caa31d289c440",
+              "size_bytes": 78963
+            }
+          ],
+          "context_path": "resources/lecture-4-the-landau-ginzburg-approach-part-3/index.html",
+          "end_time": "",
+          "id": "7b0d9191-9c45-7a13-2356-7edf6b46a6ed",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-4-the-landau-ginzburg-approach-part-3/data.json",
+            "sha256": "a6ab0d7a86db7e962dcea5afd3355ea50e09c47da983f5f04511cf836004bb8f",
+            "size_bytes": 1867
+          },
+          "start_time": "",
+          "title": "Lecture 4: The Landau-Ginzburg Approach Part 3"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec04_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec04_300k.mp4"
+    },
+    {
+      "id": "ocw_media_54b1a7d4da47ed926e61",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/a5e9d31772995cb2b80b2b317f505aa4_H44LyNdIi5E.vtt",
+              "sha256": "052d5f8e72152eddb42f8648161aad5fb8696e89f4a7bffa30aa64ec5977a558",
+              "size_bytes": 78832
+            }
+          ],
+          "context_path": "resources/lecture-25-continuous-spins-at-low-temperatures-part-5/index.html",
+          "end_time": "",
+          "id": "0d2a1dc0-3599-5726-a144-f55ceae9e049",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-25-continuous-spins-at-low-temperatures-part-5/data.json",
+            "sha256": "bba22237f34c14cf8e9dc2f18e64615ffd5cccdbfa2e06805ddc6f1572215e5b",
+            "size_bytes": 1828
+          },
+          "start_time": "",
+          "title": "Lecture 25: Continuous Spins at Low Temperatures Part 5"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec25_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec25_300k.mp4"
+    },
+    {
+      "id": "ocw_media_5ae27aab10c8312572ec",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/7ca5e947b9bb584d86fa70c3a46dadf5_fGUaxrIejr4.vtt",
+              "sha256": "95d66ba0fc9524629e1e88f2ec7b7139c775f95b4ea141b9cd6e1c1aa24f55cb",
+              "size_bytes": 73017
+            }
+          ],
+          "context_path": "resources/lecture-7-the-scaling-hypothesis-part-2/index.html",
+          "end_time": "",
+          "id": "b27952fc-4f27-a709-2543-02d7eacff1a1",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-7-the-scaling-hypothesis-part-2/data.json",
+            "sha256": "c144ec14c02840d06336cd02661701ee71362a2d2fdf1a1f080bb1e540027107",
+            "size_bytes": 1782
+          },
+          "start_time": "",
+          "title": "Lecture 7: The Scaling Hypothesis Part 2"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec07_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec07_300k.mp4"
+    },
+    {
+      "id": "ocw_media_603f2088dbae16ece847",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/f0c27aeb991b533e96ff62094576d9c4_2Ep48LwBhAQ.vtt",
+              "sha256": "fd7f16948ac9368468d34ffbef06e098632e6c2f080d449a52c3bb76ccf9d575",
+              "size_bytes": 89679
+            }
+          ],
+          "context_path": "resources/lecture-3-the-landau-ginzburg-approach-part-2/index.html",
+          "end_time": "",
+          "id": "634dbca1-a035-b4e3-9368-621a1b630ead",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-3-the-landau-ginzburg-approach-part-2/data.json",
+            "sha256": "337c095b0d6448279be68bc561ed0a15ee0334e532802565d5e567a227ac6116",
+            "size_bytes": 1766
+          },
+          "start_time": "",
+          "title": "Lecture 3: The Landau-Ginzburg Approach Part 2"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec03_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec03_300k.mp4"
+    },
+    {
+      "id": "ocw_media_630f016e440497eb7964",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/b2dc75a6adae51de8df9d4f976eafe03_1581262.vtt",
+              "sha256": "73a54d0a9c9257ea00d175ada334a48f9f8d54bb87937efec3e873ba7efd9db0",
+              "size_bytes": 78305
+            }
+          ],
+          "context_path": "resources/lecture-17-series-expansions-part-3/index.html",
+          "end_time": "",
+          "id": "609a9ca8-cf16-0b9e-6e0b-ce33b1635c31",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-17-series-expansions-part-3/data.json",
+            "sha256": "f486c41c47970d11ab31945e3ff139aaf90334a19940ae7515e736e64aa21be2",
+            "size_bytes": 1821
+          },
+          "start_time": "",
+          "title": "Lecture 17: Series Expansions Part 3"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec17_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec17_300k.mp4"
+    },
+    {
+      "id": "ocw_media_8a39f35f3aaac17d5577",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/fac81a57129352d6aa781eb78a8a735f_1_dMnMLbIok.vtt",
+              "sha256": "9ccaca803a31a8f3286207ce6e2413aa9d5baf43f028cac67e9a3dfed7a1c11a",
+              "size_bytes": 83430
+            }
+          ],
+          "context_path": "resources/lecture-13-position-space-renormalization-group-part-1/index.html",
+          "end_time": "",
+          "id": "6d7393aa-602f-7ae4-9d7f-7a44a14fc6dd",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-13-position-space-renormalization-group-part-1/data.json",
+            "sha256": "5dc88951e9c8eefd47a5432b4033e82c95d421e0232314855d5c6121aafbff11",
+            "size_bytes": 1752
+          },
+          "start_time": "",
+          "title": "Lecture 13: Position Space Renormalization Group, Part 1"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec13_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec13_300k.mp4"
+    },
+    {
+      "id": "ocw_media_91bdd6abdbf74bd7995c",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/01439f25c7215a78bf901c78f7e7ed5d_00PK6cUCbnU.vtt",
+              "sha256": "ec9ea1a256b133a359a587fe130001e3697636756cd64e53e7c7fa05cf8f414d",
+              "size_bytes": 78558
+            }
+          ],
+          "context_path": "resources/lecture-9-perturbative-renormalization-group-part-1/index.html",
+          "end_time": "",
+          "id": "8a9a67c1-90ac-4d05-bca6-cee96112dd51",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-9-perturbative-renormalization-group-part-1/data.json",
+            "sha256": "9b3bdcf121e3b3df52b79d804bc510c29793a1e1dd464a5ef51723eb1f86b1a2",
+            "size_bytes": 1929
+          },
+          "start_time": "",
+          "title": "Lecture 9: Perturbative Renormalization Group Part 1"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec09_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec09_300k.mp4"
+    },
+    {
+      "id": "ocw_media_99bd45efe4953f631236",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/73ff50b210535d66826c3e6194851c0c_MphmZC2o0aM.vtt",
+              "sha256": "d04b6a1f0327a8d15addfd389d384d82e8ed3108fa6ddb819c58a93bc7d1fe2b",
+              "size_bytes": 77317
+            }
+          ],
+          "context_path": "resources/lecture-21-continuous-spins-at-low-temperatures-part-2/index.html",
+          "end_time": "",
+          "id": "f703d3ff-80e4-79a2-5be5-014f37d523ca",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-21-continuous-spins-at-low-temperatures-part-2/data.json",
+            "sha256": "d89f213b41d9e96db851743db18255c1a6fa4fc5eaa5e1ea850157d91e16b1d9",
+            "size_bytes": 1794
+          },
+          "start_time": "",
+          "title": "Lecture 21: Continuous Spins at Low Temperatures Part 2"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec21_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec21_300k.mp4"
+    },
+    {
+      "id": "ocw_media_9f8a5067daa5e6859081",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/386e87517a6c59439bf018916f4dc043_9WhnbTT_nS8.vtt",
+              "sha256": "e1ae51d19ba3ddfcf99e5da5adf5c79a19a7cf0498f5c40755c520fe556a1dc3",
+              "size_bytes": 81493
+            }
+          ],
+          "context_path": "resources/lecture-5-the-landau-ginzburg-approach-part-4/index.html",
+          "end_time": "",
+          "id": "97cec2af-e0ce-161e-1ded-d9b5e6534df8",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-5-the-landau-ginzburg-approach-part-4/data.json",
+            "sha256": "b7b80b5803969a5812217bc3742008fd521ace4747fd2a6a34b00b8a99af6820",
+            "size_bytes": 1845
+          },
+          "start_time": "",
+          "title": "Lecture 5: The Landau-Ginzburg Approach Part 4"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec05_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec05_300k.mp4"
+    },
+    {
+      "id": "ocw_media_ab798ffab1e487bb183d",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/37ea79891e9650b49682512b10774a77_iecno1uInk8.vtt",
+              "sha256": "eedeee1a23f4e2c791f3892b1636c5cb1a8b0c27b9ce67d091cd941405f251e4",
+              "size_bytes": 77925
+            }
+          ],
+          "context_path": "resources/lecture-23-continuous-spins-at-low-temperatures-part-4/index.html",
+          "end_time": "",
+          "id": "10dd1833-9f56-50eb-8098-9f7832bd7d53",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-23-continuous-spins-at-low-temperatures-part-4/data.json",
+            "sha256": "042dece874a5d59975e83f6c9b4aa12f1ea439afeaf8f8fd0efb9cb3f277c853",
+            "size_bytes": 1837
+          },
+          "start_time": "",
+          "title": "Lecture 23: Continuous Spins at Low Temperatures Part 4"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec23_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec23_300k.mp4"
+    },
+    {
+      "id": "ocw_media_ac72d63f206eb24afd97",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/ea7769e0a0e35cb195660e0bfd19c543_XDpCdELStJs.vtt",
+              "sha256": "541a5fa5308ef6336c3d562cfdda6ed9ea063a06b6aa6152ddb4f156ffa19e72",
+              "size_bytes": 77507
+            }
+          ],
+          "context_path": "resources/lecture-22-continuous-spins-at-low-temperatures-part-3/index.html",
+          "end_time": "",
+          "id": "619e760a-7a93-5405-335f-4255a1579a84",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-22-continuous-spins-at-low-temperatures-part-3/data.json",
+            "sha256": "26a2fc876b43671eaed896833ff42d8b32f01a432acf6991f493a3fed3d66634",
+            "size_bytes": 1799
+          },
+          "start_time": "",
+          "title": "Lecture 22: Continuous Spins at Low Temperatures Part 3"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec22_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec22_300k.mp4"
+    },
+    {
+      "id": "ocw_media_c22f747cb4b6a5153c18",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/fca05b4e07b257e5a5bc5c232c544ccc_vhLqp3eIkU4.vtt",
+              "sha256": "cfdd1c15de22a60bacd436f6cce67a3036a3155a529b6aaf6142b7a4ca017452",
+              "size_bytes": 84768
+            }
+          ],
+          "context_path": "resources/lecture-12-perturbative-renormalization-group-part-4/index.html",
+          "end_time": "",
+          "id": "0d7d89a3-1abe-bff3-ec1c-fefefd66ebaf",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-12-perturbative-renormalization-group-part-4/data.json",
+            "sha256": "20d4751e773a224185def50a441c1fe99ade03e5e24f2b343ecda43efbd3e4c7",
+            "size_bytes": 1839
+          },
+          "start_time": "",
+          "title": "Lecture 12: Perturbative Renormalization Group Part 4"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec12_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec12_300k.mp4"
+    },
+    {
+      "id": "ocw_media_c8665d28ab8561722a2a",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/ed5e3609b7c350d38d8697a3ba17d5a0_Rv1UBrGVGFk.vtt",
+              "sha256": "e70a6651e340c60a4cd30ee0b17654fa80a7c4fd55e495ad311fe9bae75baa26",
+              "size_bytes": 81295
+            }
+          ],
+          "context_path": "resources/lecture-24-dissipative-dynamics/index.html",
+          "end_time": "",
+          "id": "849d290a-1aa3-94e5-7d00-b7075960ee7c",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-24-dissipative-dynamics/data.json",
+            "sha256": "8aa917a85961c2a13b1a99cf47bfee3b92c9b815ec2d8f74c37d9091b1deed3d",
+            "size_bytes": 1709
+          },
+          "start_time": "",
+          "title": "Lecture 24: Dissipative Dynamics "
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec24_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec24_300k.mp4"
+    },
+    {
+      "id": "ocw_media_dc37830044b1bdfdaa29",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/ebcfb22915d75358996716185f280305_xtgygDYTKM0.vtt",
+              "sha256": "c9825253025092fe670047a5e6f9da8bd566feff345c5e5621c09fedcdd7a9d5",
+              "size_bytes": 77870
+            }
+          ],
+          "context_path": "resources/lecture-10-perturbative-renormalization-group-part-2/index.html",
+          "end_time": "",
+          "id": "1fba5031-3ef2-c2e2-c840-d0a0f844b50c",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-10-perturbative-renormalization-group-part-2/data.json",
+            "sha256": "76254bb2da471a106a145ce81809b1d771e138e196b096164f161434847104ff",
+            "size_bytes": 1745
+          },
+          "start_time": "",
+          "title": "Lecture 10: Perturbative Renormalization Group Part 2"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec10_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec10_300k.mp4"
+    },
+    {
+      "id": "ocw_media_e1aa4edb3607ca0972fd",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/05360eaa60d955adbf475ec1ab0d5665_2MaQKFHqYBw.vtt",
+              "sha256": "e5473f24c28a0e1352da99378c3cdb4ebed8d256f253b741fc02a6d838af499e",
+              "size_bytes": 82637
+            }
+          ],
+          "context_path": "resources/lecture-1-collective-behavior-from-particles-to-fields-part-1/index.html",
+          "end_time": "",
+          "id": "cf1d650f-b000-82b1-bf77-e57921958a30",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-1-collective-behavior-from-particles-to-fields-part-1/data.json",
+            "sha256": "31ab4775d983a9f2ff3ba14d92be358583c49cede2e53d8fe02c53bf48eb5187",
+            "size_bytes": 1760
+          },
+          "start_time": "",
+          "title": "Lecture 1: Collective Behavior, from Particles to Fields Part 1"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec01_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec01_300k.mp4"
+    },
+    {
+      "id": "ocw_media_e4acc2d8dc57b5a7b30c",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/3a1468e27e8153ad88e6d74beb7559f5_y7sIuqgADgc.vtt",
+              "sha256": "9e763ad71ad656e51989f4ddfa2d344692bc3539824cdc7bcf100eb07db3c6bb",
+              "size_bytes": 81084
+            }
+          ],
+          "context_path": "resources/lecture-16-series-expansions-part-2/index.html",
+          "end_time": "",
+          "id": "881034bb-c504-89a2-c6cb-8eafb7f7f673",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-16-series-expansions-part-2/data.json",
+            "sha256": "f7a83467b525bc3bf5c7ac92b6657ebff4f30c246332f4bf045be020f5569ec6",
+            "size_bytes": 1810
+          },
+          "start_time": "",
+          "title": "Lecture 16: Series Expansions Part 2"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec16_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec16_300k.mp4"
+    },
+    {
+      "id": "ocw_media_e55985349131fc060580",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/4b337a79b6875c739a0b36663e5de9f5_bMnpf0s-mAk.vtt",
+              "sha256": "7903ef7dce30c360ce3af0144e6200944db8f1cf258a03d11b80fb0be28c4b8d",
+              "size_bytes": 78358
+            }
+          ],
+          "context_path": "resources/lecture-15-series-expansions-part-1/index.html",
+          "end_time": "",
+          "id": "915878bb-65a9-d32f-36ae-63941e5c033a",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-15-series-expansions-part-1/data.json",
+            "sha256": "a6262cb7b85a652e4bca2f5a35e1f7cfe5b29b92cbe63b483df696a4553c8c3b",
+            "size_bytes": 1844
+          },
+          "start_time": "",
+          "title": "Lecture 15: Series Expansions Part 1"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec15_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec15_300k.mp4"
+    },
+    {
+      "id": "ocw_media_e905f2021f3e400b0fda",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/4f5e1899d43f5d619207dba9d13c41d7_yBdXS5dXQN4.vtt",
+              "sha256": "6e678734a31b08fb9e5aa596f0cf5e6e78d6e30bcac6a1db6d305fffaf192f59",
+              "size_bytes": 71828
+            }
+          ],
+          "context_path": "resources/lecture-18-series-expansions-part-4/index.html",
+          "end_time": "",
+          "id": "19bf851f-39a0-3d11-924a-40888bde0d16",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-18-series-expansions-part-4/data.json",
+            "sha256": "794b10d6b63f2fb036cff23f8181a0cd2261831d6a02b478ccbb7398e71255f8",
+            "size_bytes": 1814
+          },
+          "start_time": "",
+          "title": "Lecture 18: Series Expansions Part 4"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec18_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec18_300k.mp4"
+    },
+    {
+      "id": "ocw_media_f267f1d5bb4f08f35f93",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/0808a06f14cc5d29bca309103a3e0cd2_DVRjcfMwAkk.vtt",
+              "sha256": "5509f89e41e4744ad8c08cbbb6932d650654ac8c44498b6e73a9398338af0d5c",
+              "size_bytes": 89120
+            }
+          ],
+          "context_path": "resources/lecture-11-perturbative-renormalization-group-part-3/index.html",
+          "end_time": "",
+          "id": "131c1023-53b8-8071-30f6-a8f6d7403cb1",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-11-perturbative-renormalization-group-part-3/data.json",
+            "sha256": "395806dbd0a08193e68c259994156bbcf661b1e46902bfda2350d1cbbda44a94",
+            "size_bytes": 1783
+          },
+          "start_time": "",
+          "title": "Lecture 11: Perturbative Renormalization Group Part 3"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec11_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec11_300k.mp4"
+    },
+    {
+      "id": "ocw_media_f3583490aac3726806e0",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/d0215858249855c5bce6616822fe44ed_opL7d8vY0KA.vtt",
+              "sha256": "29410cea7746e863357039d15e61406fc0e1547d5e47ededc973636ec047aa84",
+              "size_bytes": 79569
+            }
+          ],
+          "context_path": "resources/lecture-20-continuous-spins-at-low-temperatures-part-1/index.html",
+          "end_time": "",
+          "id": "7642633a-0652-8463-0664-ebb82a8e2741",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-20-continuous-spins-at-low-temperatures-part-1/data.json",
+            "sha256": "01c47c2d40d7e13fdcd8abdb7dc63f0b09e836af3d0a535bb1e76576e5f92b9a",
+            "size_bytes": 1783
+          },
+          "start_time": "",
+          "title": "Lecture 20: Continuous Spins at Low Temperatures Part 1"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec20_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec20_300k.mp4"
+    },
+    {
+      "id": "ocw_media_f50967e344c6c1fa0fa4",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/340d29b62adf582aaae10c4734ecb60e_bQ-miBkhy9M.vtt",
+              "sha256": "782b15fdec0929224678a6f3700347ebeca67e2a8a004c5f21cb09d2c2b5e577",
+              "size_bytes": 82862
+            }
+          ],
+          "context_path": "resources/lecture-14-position-space-renormalization-group-part-2/index.html",
+          "end_time": "",
+          "id": "d3b4e79f-83d6-ba50-1ac8-2dbf530180d6",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-14-position-space-renormalization-group-part-2/data.json",
+            "sha256": "4a3c4244cd83612edc517de11119be4eda29cf5df4482c86e43e8055a3e1757e",
+            "size_bytes": 1859
+          },
+          "start_time": "",
+          "title": "Lecture 14: Position Space Renormalization Group, Part 2"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec14_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec14_300k.mp4"
+    },
+    {
+      "id": "ocw_media_f9f4685f1de0f7cfc562",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/d906b88fb4ad5ee592df32d7189c35aa_NLKJdcb1E5I.vtt",
+              "sha256": "9a8a673db2496156b452398d885b209e45ed7fe74d28a137cca3dc125a5408df",
+              "size_bytes": 82343
+            }
+          ],
+          "context_path": "resources/lecture-6-the-scaling-hypothesis-part-1/index.html",
+          "end_time": "",
+          "id": "43b1e8b0-0774-62fb-bca1-ba6a8b45edde",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-6-the-scaling-hypothesis-part-1/data.json",
+            "sha256": "13b9592a3a243356dfb11f98397e87f8058f7c463d2c1e5267940e8e019c53d9",
+            "size_bytes": 1867
+          },
+          "start_time": "",
+          "title": "Lecture 6: The Scaling Hypothesis Part 1"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec06_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec06_300k.mp4"
+    },
+    {
+      "id": "ocw_media_fd4633af440798af2329",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/502e041aae2254efb96aecf0c7c7da5c_6HrTfI8R_9A.vtt",
+              "sha256": "9151991bf59ea44d0bb2fcaf1db4316b299466f7ae3f6bc320ea9ba1d1340f32",
+              "size_bytes": 80352
+            }
+          ],
+          "context_path": "resources/lecture-19-series-expansions-part-5/index.html",
+          "end_time": "",
+          "id": "ab2d11b0-3418-2f73-5010-3a9d9d2ec3a4",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-19-series-expansions-part-5/data.json",
+            "sha256": "3dda7149f3f7a0a9a1e0a3c7679b2940f0a84923b48f04122c899cab310edc95",
+            "size_bytes": 1830
+          },
+          "start_time": "",
+          "title": "Lecture 19: Series Expansions Part 5"
+        }
+      ],
+      "publisher_links": [
+        "http://www.archive.org/download/MIT8.334S14/MIT8_334S14_lec19_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.334S14/MIT8_334S14_lec19_300k.mp4"
+    }
+  ],
+  "members": [
+    {
+      "path": ".keep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "content_map.json",
+      "sha256": "87db91207509f4b13b07eb9fa5613572f7f54720c7c482e1b9426b8d820a4ad9",
+      "size_bytes": 12682
+    },
+    {
+      "path": "data.json",
+      "sha256": "ace90b63a0ef7ec120638859c63b6b2306a5cd29bbe29d49a0a77c35788df301",
+      "size_bytes": 3599
+    },
+    {
+      "path": "download/index.html",
+      "sha256": "7556981713391daacb0b7f45506f4ea16d09baf5667b1485426bf29d24f76557",
+      "size_bytes": 95302
+    },
+    {
+      "path": "download/index.xml",
+      "sha256": "398ae8a7c2da35d474f8764fb482705eef634e9a8e326633df28725ce435ab10",
+      "size_bytes": 2086
+    },
+    {
+      "path": "external-resources/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "external-resources/index.html",
+      "sha256": "041854850e3d8a3a08517754d56c38fb2fa6c25eb4a004eae235c64c4bd09b4b",
+      "size_bytes": 49672
+    },
+    {
+      "path": "favicon.ico",
+      "sha256": "6d27d37a515c3498aa71f8265d21cadc50ca63eb321e223386d48fe87ec7c552",
+      "size_bytes": 5558
+    },
+    {
+      "path": "index.html",
+      "sha256": "e5420861f92f186990bb320c7753a9f260659682e1ccf05fb50b62674e465473",
+      "size_bytes": 46674
+    },
+    {
+      "path": "pages/assignments/data.json",
+      "sha256": "3da9484cffb5e595d09fb778513e4e007f026794d1acb016268d68dc4386fe7f",
+      "size_bytes": 1655
+    },
+    {
+      "path": "pages/assignments/index.html",
+      "sha256": "76e661880132c857bb43ef698a5e22d391cc4d0a0e8f53a13914274081c751ab",
+      "size_bytes": 51024
+    },
+    {
+      "path": "pages/calendar/data.json",
+      "sha256": "c4646d3cfaf2dc92a89aff5388b3b794173eb9500a5ff07216915fd7257db257",
+      "size_bytes": 7924
+    },
+    {
+      "path": "pages/calendar/index.html",
+      "sha256": "54f9760f67517fc4bc3ece170b2d0fe416367f2894ca00ebd264ad67997a39ce",
+      "size_bytes": 56714
+    },
+    {
+      "path": "pages/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "pages/exams/data.json",
+      "sha256": "b0822e0b0c4145300af1eece26fcac2be4f678fdcb76ccb78843e378518a27c1",
+      "size_bytes": 1638
+    },
+    {
+      "path": "pages/exams/index.html",
+      "sha256": "0dd92ff088f26d76994019edba77d396aca26f890366a2ff868eb335e9921e1a",
+      "size_bytes": 51006
+    },
+    {
+      "path": "pages/index.html",
+      "sha256": "54fe2986a6714bce0e75b4bfbb48f93091ae7f7457f386c7f632e4fcc47086b2",
+      "size_bytes": 49896
+    },
+    {
+      "path": "pages/instructor-insights/data.json",
+      "sha256": "d3294452efe16199192b21945b6c3ca45fb4d52d86c408423e31d02ead69c693",
+      "size_bytes": 456
+    },
+    {
+      "path": "pages/instructor-insights/index.html",
+      "sha256": "49abc77eaa48461ddf8246a36ee17195f5623c8531344c31cb2b3b48295bb99b",
+      "size_bytes": 50029
+    },
+    {
+      "path": "pages/lecture-notes/data.json",
+      "sha256": "dc77fcface98c41c6cedb6ace1dfad0434b19b0cbea4560ec7ab7a710e0ec182",
+      "size_bytes": 8630
+    },
+    {
+      "path": "pages/lecture-notes/index.html",
+      "sha256": "ebe58512c644c3814cbbce171ec198e14440b373665d9348a092a2caf7cef9bd",
+      "size_bytes": 57658
+    },
+    {
+      "path": "pages/projects/data.json",
+      "sha256": "7480946a6e1f8b59fb7c7c1494c3dd67d13328add4fb1fe71119d2db9e7dbdd4",
+      "size_bytes": 4251
+    },
+    {
+      "path": "pages/projects/index.html",
+      "sha256": "10af11259e7841fd414e951638039607ed3c5fc0dae9fbb3047a82e76575f299",
+      "size_bytes": 53745
+    },
+    {
+      "path": "pages/syllabus/data.json",
+      "sha256": "6f3f8f11023735b41949232bb67ba852bcbeca62c6357124efd625c55711a58b",
+      "size_bytes": 6614
+    },
+    {
+      "path": "pages/syllabus/index.html",
+      "sha256": "927e44567b6b2f6296d5c33f5717bf9dd1a333d25e4af7328c84c3c80d5ab37a",
+      "size_bytes": 56189
+    },
+    {
+      "path": "resources/00pk6cucbnu-1/data.json",
+      "sha256": "96e3ab1df9015c49e695378c64605631cd5d2693f71cf0829c88c7eeedb699ab",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/00pk6cucbnu-1/index.html",
+      "sha256": "b80b21492b0c3d5420def2adaa3704025d0e039518a21c674f1ca12239ba7e3c",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/00pk6cucbnu-2/data.json",
+      "sha256": "9f38bc317c5a2541027d0728727293af95046c503a5bd92203a33ce91f90c107",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/00pk6cucbnu-2/index.html",
+      "sha256": "bfd54bd94bf549f2d359d3f5d8de08fca87c09b9dab0c8c0a87799a2ab191b75",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/00pk6cucbnu/data.json",
+      "sha256": "bf2d5ecf8649bd161b88bee64f2c52770d3c60847e18ccedaeb8096ad452d83c",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/00pk6cucbnu/index.html",
+      "sha256": "f57836f5bae93ab060bc4c584e3a45e57cc6cb28b0af59c8b0fdbd96099e73b1",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/1581262-1/data.json",
+      "sha256": "7854bb42a06af631c5170070b59da884e2ef9d32fff446d75834159b37974f1d",
+      "size_bytes": 543
+    },
+    {
+      "path": "resources/1581262-1/index.html",
+      "sha256": "199d66ee3b4ca1eaf3f60888926d35f92dc38ef01d8842dade48e2b3f595b7b3",
+      "size_bytes": 52290
+    },
+    {
+      "path": "resources/1581262-2/data.json",
+      "sha256": "76f53a92eeb42d2a8efe8ad1f1656c76c89c6103d6fc3ed56ddb67e4748a0a0b",
+      "size_bytes": 549
+    },
+    {
+      "path": "resources/1581262-2/index.html",
+      "sha256": "334e6048d718b9bf7f6d0def3010d085212d89aeb6b8c89d2a7a31af10bdb1c4",
+      "size_bytes": 51881
+    },
+    {
+      "path": "resources/1581262/data.json",
+      "sha256": "89b8a953b4c6944ae1ead93585462351e4603b977afcad6f6054a237813cd75c",
+      "size_bytes": 549
+    },
+    {
+      "path": "resources/1581262/index.html",
+      "sha256": "b26d567b85481c91a14690bd22e04daab60e182eaece81ef8f910b62433d964c",
+      "size_bytes": 51871
+    },
+    {
+      "path": "resources/1_dmnmlbiok-1/data.json",
+      "sha256": "d3388a9f6513a676421b693abd5187ed14a86ff306572c7438aafe5ae53e9d88",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/1_dmnmlbiok-1/index.html",
+      "sha256": "42c6a9403fb74b279b48fd2351c12a068fbe928ce79acb146e4d3a24a3e6a369",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/1_dmnmlbiok-2/data.json",
+      "sha256": "d654cb6072e7c96f177a6955a637e3a12eb53f1f0e945c4237ba4c619227b04a",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/1_dmnmlbiok-2/index.html",
+      "sha256": "00d86b255afc7dc7aa4e1541dcf16f47fce5dd6ec0ca87abbba21fa0e1fb6a5e",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/1_dmnmlbiok/data.json",
+      "sha256": "2259da5611ba3b15147b6065610f6d74788c4a8b01c7c11de1b0e5e2fc163068",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/1_dmnmlbiok/index.html",
+      "sha256": "fa80f701f2a1bd6b7be91118fae6cd9c73f11ff267b81b7d8aacfa1a32478bbf",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/2ep48lwbhaq-1/data.json",
+      "sha256": "e1abfae41415c676e6ef455c61766f2bcf374a574246da89f7b39b4845c00655",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/2ep48lwbhaq-1/index.html",
+      "sha256": "c74c076478d00f5e68f3c561d5871594d55fa37c6fde7e3a1293811fef2c4b67",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/2ep48lwbhaq-2/data.json",
+      "sha256": "6f454e8a4a1ff8009bc1c90104069b6c1fce96a7b2c7c469980830a5bee0380d",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/2ep48lwbhaq-2/index.html",
+      "sha256": "d79cd5c126264505e9c4e1a7a5a46b88ca45640f339b5a6452daeb3667c5f114",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/2ep48lwbhaq/data.json",
+      "sha256": "6ec8d694ab74b36a6468372f44ce4cbf0cbcda9ba5871b880d668f4f66656231",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/2ep48lwbhaq/index.html",
+      "sha256": "f47332db354497b1979cd8dfd03d9bc7d25a04d565e3cea083b6fbf94cb78e4f",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/2maqkfhqybw-1/data.json",
+      "sha256": "b59ae7b5b5db4f29ab315627ebee85490e5eb19c8e463fdd7dfabb8138f6f6b5",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/2maqkfhqybw-1/index.html",
+      "sha256": "6be1e47136749560a631a7f5bb82b71c1045bce6ff6d29486cf923ce63c0c2be",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/2maqkfhqybw-2/data.json",
+      "sha256": "7fef3b8038ecb08f98a1dc11a6f90f47542a90a517ddf3e582509d76231050db",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/2maqkfhqybw-2/index.html",
+      "sha256": "4b7c74338558231359c8bad09e2e4db236b441e1c33ededb3cfa96e77b4204a6",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/2maqkfhqybw/data.json",
+      "sha256": "2607867134c8747c05b4ee625cf961c821ccf9a73ff140c68d320733ab8441d5",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/2maqkfhqybw/index.html",
+      "sha256": "67992ffd023db685269197bb0f8876a5d9bd13caf366b4528bc22e88cd37c50b",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/6hrtfi8r_9a-1/data.json",
+      "sha256": "13f15e228756ebd0dd63ca04eb085dde4087041b25127b6a849243a8139cfd22",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/6hrtfi8r_9a-1/index.html",
+      "sha256": "ccae5db25c4670a858bbc9ed1d043234477ee6ac27606cd924b9bb030d083983",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/6hrtfi8r_9a-2/data.json",
+      "sha256": "3d8a7165c92286e41d1390962222ddeb12737196d8dd332c26260cd6dab08567",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/6hrtfi8r_9a-2/index.html",
+      "sha256": "6ea25a0498db51a9c718b0093ddf714e5c4e803c30fde4d2d3b015aabded8e77",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/6hrtfi8r_9a/data.json",
+      "sha256": "e4dc9e51019c3045cf1a98b2ee6ea089ca450eca81ea847159525beebea2c928",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/6hrtfi8r_9a/index.html",
+      "sha256": "11a4a3984c42cc009289e91e2dad25faee4b541ec4fc726107d3423c0841c8ff",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/8-334s14-th/data.json",
+      "sha256": "fd119481c1769ffe6a878470a442333747e4de1469702d34f27abdddae85bcc1",
+      "size_bytes": 1221
+    },
+    {
+      "path": "resources/8-334s14-th/index.html",
+      "sha256": "e90c74bd66c9a2f30021b9b32f1683ec1482e1a0ff2d963bb2b5388ef058472f",
+      "size_bytes": 53162
+    },
+    {
+      "path": "resources/8-334s14/data.json",
+      "sha256": "e69aac870919e1d07c4a6bd95a8615d1849334105b83b7ce4e5cb33c7b74767e",
+      "size_bytes": 1216
+    },
+    {
+      "path": "resources/8-334s14/index.html",
+      "sha256": "87492a8101bd278845c4e9428913900e08dabc5e2dda276cd9c47fc74a0e282e",
+      "size_bytes": 53124
+    },
+    {
+      "path": "resources/9whnbtt_ns8-1/data.json",
+      "sha256": "d5b7098e0ac1a923b7f1fd9227d8f36a6d0b52d73b6984f87c1a4dce4ccdbb92",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/9whnbtt_ns8-1/index.html",
+      "sha256": "cf71cb89354dd53a9e2a560cdbd776d6cdbbca0f77ffb84ed8d164c35bd5a6d9",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/9whnbtt_ns8-2/data.json",
+      "sha256": "8edf1a76f96454a460ca53bdc039c3180cea358cd4191677d5240cf763d66e3c",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/9whnbtt_ns8-2/index.html",
+      "sha256": "ac9888f7b6f094aa7a66dfbebb694dc562e672d1ea20749f11c6e0d28476063a",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/9whnbtt_ns8/data.json",
+      "sha256": "d511847f448b9c862e2787b4427667027f510f8acbb3eb12f3b730dceba84766",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/9whnbtt_ns8/index.html",
+      "sha256": "3e8be47b5122588d72c2f5b52b9e7bcd19435eebbe2ea24237d7a26e8d4c6d4b",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/assignments/index.html",
+      "sha256": "89be046c650fb7902b2db018056b7954a14b77db2b81ceea131f5aae56b835d3",
+      "size_bytes": 50230
+    },
+    {
+      "path": "resources/assignments/index.xml",
+      "sha256": "411aae14c08aa98c7f94fefb9054d6c22980a0ac868ab5cd3c33e2b1b8ecd161",
+      "size_bytes": 2783
+    },
+    {
+      "path": "resources/bmnpf0s-mak-1/data.json",
+      "sha256": "4a2eb895ab35724b7519409f7d81b97c643df9db91ab89b162544d447b0d2076",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/bmnpf0s-mak-1/index.html",
+      "sha256": "957e3e2845251be514524dcef36eba91d2be35ceb70caf0e82f29039b52a6b20",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/bmnpf0s-mak-2/data.json",
+      "sha256": "0fd8cea02550e9b8bea5c81494ac0151b128d29054f1c2139023c9de1c81045d",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/bmnpf0s-mak-2/index.html",
+      "sha256": "1eacb6459b8443a261a76fe11832db636e677d02463f3b02aea5132c38c0b4c3",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/bmnpf0s-mak/data.json",
+      "sha256": "fa486c152d3996706d387a13d16b7837848e727eb7e00400abc19fbe6e817c58",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/bmnpf0s-mak/index.html",
+      "sha256": "620c1272ab4ab468b0d4e0573480ccccd8589a47cd74f679ecc9a0a68fe1b947",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/bq-mibkhy9m-1/data.json",
+      "sha256": "76907e9cf6106b9f02b1767433a488f80920ffe4e8bce89ee51fa6ef9ede539d",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/bq-mibkhy9m-1/index.html",
+      "sha256": "d7bdde7d50a79116c91437efcd7493e395080b7f005ef60af232ec04291ef4dd",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/bq-mibkhy9m-2/data.json",
+      "sha256": "f3d767e76d59d2b96d2a1773d88acde7111a0de416565d7478eb7d9fcfd6cd90",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/bq-mibkhy9m-2/index.html",
+      "sha256": "fab87905867885fc08bd1b223916f2dea821a150cd35f61028114317385db695",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/bq-mibkhy9m/data.json",
+      "sha256": "0393f88904bda8d9e49f5f5073fd17a684ed71416ffc0c52f287efebe55a69d4",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/bq-mibkhy9m/index.html",
+      "sha256": "a1c400670da6c4b037d018c511bb79644a230fc1f5cdf1328094f4cb545cd0a6",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/dvrjcfmwakk-1/data.json",
+      "sha256": "d410df972fe844f55abf9668bcc702272d2a8180d4b66c24c390c8413a4636e1",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/dvrjcfmwakk-1/index.html",
+      "sha256": "f5c97bddddd49639497700f5d70e782f4c487694aed9e45b4a09bba6544b7d58",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/dvrjcfmwakk-2/data.json",
+      "sha256": "841c32f45a01cee732cfd712a931e7b2197afa8c3b30c1b19a5284beec8e740a",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/dvrjcfmwakk-2/index.html",
+      "sha256": "c98c9be711392514cc2590e624591bda46f6e42878a1ea94401b5e8a80464bf0",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/dvrjcfmwakk/data.json",
+      "sha256": "590d49ad6ff7ae62b01f6a9163d906cafabcb12fe221fc40a39813fe7f98bad2",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/dvrjcfmwakk/index.html",
+      "sha256": "f722d05ce3e5e9e77f38ef2be912a14bd5ff4fab4571d5c5bb9dbafdb98c38a9",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/ekvr-okxmpg-1/data.json",
+      "sha256": "485b40817778128355520d5b1a1d1f792df2056a96f7619affded2c412a77ecb",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/ekvr-okxmpg-1/index.html",
+      "sha256": "40d6d3dc34a5c6033a39c5ae59cfb4edfb9ee38cc3d16b31abeb3bb1e21e5cfc",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/ekvr-okxmpg-2/data.json",
+      "sha256": "abc4d40f2bc04c3a96b482d1dd42b68c7df3d8330b29dbc3f6dbfe5298f1bfd7",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/ekvr-okxmpg-2/index.html",
+      "sha256": "69d224c10c8f95770a3fa3d029ae515178bcc095023f4fbb11f032367ed0fab9",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/ekvr-okxmpg/data.json",
+      "sha256": "e92fe1c733eb649ad5e353b8401ea373d6a65a194b94f0253678e6a806b3951d",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/ekvr-okxmpg/index.html",
+      "sha256": "8bd05f7df1c76fd19bb04c80b70e69a3d81018eaf3b01601081896bf96ea2763",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/exam-solutions/index.html",
+      "sha256": "f42b9a796c10f6cf3364bde390be5d5da70d6e5c78b86c5ef679d0e5e5cbc389",
+      "size_bytes": 54016
+    },
+    {
+      "path": "resources/exam-solutions/index.xml",
+      "sha256": "7cd6c6a6b80c4a698d8e22a478d7db1c2a3e49933b32f44ac8331cd4b1bb8552",
+      "size_bytes": 1802
+    },
+    {
+      "path": "resources/exams/index.html",
+      "sha256": "7be91dd781ad1bfc6c688e61a03c524de1661f8d7ed479ac2ce9ecb3b37df758",
+      "size_bytes": 53935
+    },
+    {
+      "path": "resources/exams/index.xml",
+      "sha256": "5c467c847aa14accfd85fafecb542330065b40b4ea9eca7d5ef7d600b22a4cc1",
+      "size_bytes": 3810
+    },
+    {
+      "path": "resources/fguaxriejr4-1/data.json",
+      "sha256": "5c15a4eb0eed183ac9d1b4d7ac2e0017cec2e5ab6ebc47e9ebc5195ea12faace",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/fguaxriejr4-1/index.html",
+      "sha256": "0a3d31bc965c868f90709e71a543db54802bc7753185831c3e4fedc5f94ec12e",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/fguaxriejr4-2/data.json",
+      "sha256": "b77d071ad6f7f0795f00cfcca2d1725ab1a18597a461be016caebc046fc70d37",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/fguaxriejr4-2/index.html",
+      "sha256": "7c90d3393993c15530068e1fc03d70ceb4080ee32305788acbe6cfe26f49ba03",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/fguaxriejr4/data.json",
+      "sha256": "a7b68a3e5ac34817c6d965a25e3eefff8ca4f8c215eb3b164d86b20100934f76",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/fguaxriejr4/index.html",
+      "sha256": "c782ef9ee0111ab15d4c0c632d2eee25f4d50271e608cace99a65913c9ab3fec",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/h44lyndii5e-1/data.json",
+      "sha256": "c45bfaea46ae259ca7d6a2f84a3f6e9f04ad97a675c989f5362d3448ec3dc26a",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/h44lyndii5e-1/index.html",
+      "sha256": "0ad0c22b82f237888bccabf90c5478bd11a1068af05dc14e47ecd5de0917e2e8",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/h44lyndii5e-2/data.json",
+      "sha256": "f9a6f0d76c6cef0f7e25205a3b7de7a82b3e266d8345f6a56ae5525b65da9624",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/h44lyndii5e-2/index.html",
+      "sha256": "de69481b76b954cbf6a77c04c70264c2cc15ef6f06a5b0d5737ec90beb2b7e8d",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/h44lyndii5e/data.json",
+      "sha256": "cc434cf7f11b6a50d822e5a6ea6fbdef6b60a0fe6d3b307d3184f9a93b97cf8d",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/h44lyndii5e/index.html",
+      "sha256": "596c4582baea0bd355abda8eabf21c76e9439d5aeca0fb6acbaaccd9541e0be7",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/h_yzxqjppv0-1/data.json",
+      "sha256": "348b4cde04c0e455af38559191e7a3095593ab40107cc01ae1b3c59d0286041d",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/h_yzxqjppv0-1/index.html",
+      "sha256": "094f4a6e59534215cb7bf1acb4b560d58ef7fc24bdaf96311e88334b0f781a07",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/h_yzxqjppv0-2/data.json",
+      "sha256": "06bbb1546d00fa16d1318e5fe36cbd5bdfdedbef7b5f8b9cf175025a8c51b26c",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/h_yzxqjppv0-2/index.html",
+      "sha256": "5074862aab954973fb56154c9a146ed9b03aab52de462a59ba2521155d3a452b",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/h_yzxqjppv0/data.json",
+      "sha256": "5edb77ab1a41e2b812e4514949c5a8653605bc7df0a25778f9a005b91dfe220a",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/h_yzxqjppv0/index.html",
+      "sha256": "0e30208ac452c25c0310e7dd5fdb160bc9b3fd0a60831a0adfde3bb804589385",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/iecno1uink8-1/data.json",
+      "sha256": "9c73124e3b94619d98b37ef04d24a65a78bb96f5aff7da027b26716e46ee235b",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/iecno1uink8-1/index.html",
+      "sha256": "79c254cd6a10100448b1b38adeef23e99ebd315edeea04dce0d3ff101efe531d",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/iecno1uink8-2/data.json",
+      "sha256": "1fb88a16e09d24be31aba62d398006ffe74c9d14456edc8ecd1685f747185b0b",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/iecno1uink8-2/index.html",
+      "sha256": "071aa2955cb839cbfbbd29e9b363fa085643e17b740a3ab5b5ce1453904e2bf2",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/iecno1uink8/data.json",
+      "sha256": "f7fe1cfb5790003010b7070625321aa783ed8e22c7d0e15bebcaba8f79c3a136",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/iecno1uink8/index.html",
+      "sha256": "1ff1cf98bb02773f1c3c28896fbdc56aec1b0946807bef865cac3aff2a36b1e4",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/lecture-1-collective-behavior-from-particles-to-fields-part-1/data.json",
+      "sha256": "31ab4775d983a9f2ff3ba14d92be358583c49cede2e53d8fe02c53bf48eb5187",
+      "size_bytes": 1760
+    },
+    {
+      "path": "resources/lecture-1-collective-behavior-from-particles-to-fields-part-1/index.html",
+      "sha256": "a5c473f18a133ec19099983af561ef47cce2170238af5f665419e3f762938a0c",
+      "size_bytes": 55981
+    },
+    {
+      "path": "resources/lecture-10-perturbative-renormalization-group-part-2/data.json",
+      "sha256": "76254bb2da471a106a145ce81809b1d771e138e196b096164f161434847104ff",
+      "size_bytes": 1745
+    },
+    {
+      "path": "resources/lecture-10-perturbative-renormalization-group-part-2/index.html",
+      "sha256": "30bb21bb4425284fea91696efc3132c718ff2f14e3e307413ba05e77e605306a",
+      "size_bytes": 55896
+    },
+    {
+      "path": "resources/lecture-11-perturbative-renormalization-group-part-3/data.json",
+      "sha256": "395806dbd0a08193e68c259994156bbcf661b1e46902bfda2350d1cbbda44a94",
+      "size_bytes": 1783
+    },
+    {
+      "path": "resources/lecture-11-perturbative-renormalization-group-part-3/index.html",
+      "sha256": "e45a12bb65f4ae0b7ec5bb67b0c422da28c80026f7ae033f0fbeef2a86e00629",
+      "size_bytes": 55919
+    },
+    {
+      "path": "resources/lecture-12-perturbative-renormalization-group-part-4/data.json",
+      "sha256": "20d4751e773a224185def50a441c1fe99ade03e5e24f2b343ecda43efbd3e4c7",
+      "size_bytes": 1839
+    },
+    {
+      "path": "resources/lecture-12-perturbative-renormalization-group-part-4/index.html",
+      "sha256": "9df3fcb49fecf64f4f5ad83c2892ef037d7905e656b610ae8531da2db292a31c",
+      "size_bytes": 55937
+    },
+    {
+      "path": "resources/lecture-13-position-space-renormalization-group-part-1/data.json",
+      "sha256": "5dc88951e9c8eefd47a5432b4033e82c95d421e0232314855d5c6121aafbff11",
+      "size_bytes": 1752
+    },
+    {
+      "path": "resources/lecture-13-position-space-renormalization-group-part-1/index.html",
+      "sha256": "30716c28bb09f3a1726966bd4b99f00b373c5da09efda29b7eb3e1ba0ffce55b",
+      "size_bytes": 55914
+    },
+    {
+      "path": "resources/lecture-14-position-space-renormalization-group-part-2/data.json",
+      "sha256": "4a3c4244cd83612edc517de11119be4eda29cf5df4482c86e43e8055a3e1757e",
+      "size_bytes": 1859
+    },
+    {
+      "path": "resources/lecture-14-position-space-renormalization-group-part-2/index.html",
+      "sha256": "58cc5675e465b0ab99e953eddfced82aa68b7e28ac5f688c1d4212d2c4fea3f8",
+      "size_bytes": 55970
+    },
+    {
+      "path": "resources/lecture-15-series-expansions-part-1/data.json",
+      "sha256": "a6262cb7b85a652e4bca2f5a35e1f7cfe5b29b92cbe63b483df696a4553c8c3b",
+      "size_bytes": 1844
+    },
+    {
+      "path": "resources/lecture-15-series-expansions-part-1/index.html",
+      "sha256": "952c79fe0e775db0ce2e1290cb458c257e20d26bd656e5fbabf5c933fbc66444",
+      "size_bytes": 55786
+    },
+    {
+      "path": "resources/lecture-16-series-expansions-part-2/data.json",
+      "sha256": "f7a83467b525bc3bf5c7ac92b6657ebff4f30c246332f4bf045be020f5569ec6",
+      "size_bytes": 1810
+    },
+    {
+      "path": "resources/lecture-16-series-expansions-part-2/index.html",
+      "sha256": "69c1893bd1d30e99ddfcce799eecd857a9964f6aec56f18e4169f817035b2a3f",
+      "size_bytes": 55786
+    },
+    {
+      "path": "resources/lecture-17-series-expansions-part-3/data.json",
+      "sha256": "f486c41c47970d11ab31945e3ff139aaf90334a19940ae7515e736e64aa21be2",
+      "size_bytes": 1821
+    },
+    {
+      "path": "resources/lecture-17-series-expansions-part-3/index.html",
+      "sha256": "3775f6e5fce57033ccf8daaf4b9586acefd58ad8c0bf2479bf5f4a7cd6175561",
+      "size_bytes": 55707
+    },
+    {
+      "path": "resources/lecture-18-series-expansions-part-4/data.json",
+      "sha256": "794b10d6b63f2fb036cff23f8181a0cd2261831d6a02b478ccbb7398e71255f8",
+      "size_bytes": 1814
+    },
+    {
+      "path": "resources/lecture-18-series-expansions-part-4/index.html",
+      "sha256": "c83fde5ede6cb02a4e568a4bffb0df0f2c84e7347f5569c8eb76846c5531808d",
+      "size_bytes": 55744
+    },
+    {
+      "path": "resources/lecture-19-series-expansions-part-5/data.json",
+      "sha256": "3dda7149f3f7a0a9a1e0a3c7679b2940f0a84923b48f04122c899cab310edc95",
+      "size_bytes": 1830
+    },
+    {
+      "path": "resources/lecture-19-series-expansions-part-5/index.html",
+      "sha256": "d79101950a2d401ddb2caefe6df7ea5f683e12b1170777d3b5fdc1a2310d8026",
+      "size_bytes": 55745
+    },
+    {
+      "path": "resources/lecture-2-lec-1-continued-the-landau-ginzburg-approach-part-1/data.json",
+      "sha256": "bbd5f226ea6764d636d02ea671c89b679f61e364f2f628ebf1f6a78f26ea06bb",
+      "size_bytes": 1840
+    },
+    {
+      "path": "resources/lecture-2-lec-1-continued-the-landau-ginzburg-approach-part-1/index.html",
+      "sha256": "06a65cc16c34af8fe8a232f68b7df11d2bb48ae86e324c376919bbd4e8984072",
+      "size_bytes": 56017
+    },
+    {
+      "path": "resources/lecture-20-continuous-spins-at-low-temperatures-part-1/data.json",
+      "sha256": "01c47c2d40d7e13fdcd8abdb7dc63f0b09e836af3d0a535bb1e76576e5f92b9a",
+      "size_bytes": 1783
+    },
+    {
+      "path": "resources/lecture-20-continuous-spins-at-low-temperatures-part-1/index.html",
+      "sha256": "9ba2601e262f159e38c65130501fff0cba34898f69dadc2a824875b64c2c097e",
+      "size_bytes": 55889
+    },
+    {
+      "path": "resources/lecture-21-continuous-spins-at-low-temperatures-part-2/data.json",
+      "sha256": "d89f213b41d9e96db851743db18255c1a6fa4fc5eaa5e1ea850157d91e16b1d9",
+      "size_bytes": 1794
+    },
+    {
+      "path": "resources/lecture-21-continuous-spins-at-low-temperatures-part-2/index.html",
+      "sha256": "0855fd879fbdad915ebf87e3be285bd117551c2743e0c8cffc3753b0f00f366b",
+      "size_bytes": 55918
+    },
+    {
+      "path": "resources/lecture-22-continuous-spins-at-low-temperatures-part-3/data.json",
+      "sha256": "26a2fc876b43671eaed896833ff42d8b32f01a432acf6991f493a3fed3d66634",
+      "size_bytes": 1799
+    },
+    {
+      "path": "resources/lecture-22-continuous-spins-at-low-temperatures-part-3/index.html",
+      "sha256": "daca62c2c3a2e15876eea28daa7dd69ff99208b916635e0716b15b94fcbea445",
+      "size_bytes": 55924
+    },
+    {
+      "path": "resources/lecture-23-continuous-spins-at-low-temperatures-part-4/data.json",
+      "sha256": "042dece874a5d59975e83f6c9b4aa12f1ea439afeaf8f8fd0efb9cb3f277c853",
+      "size_bytes": 1837
+    },
+    {
+      "path": "resources/lecture-23-continuous-spins-at-low-temperatures-part-4/index.html",
+      "sha256": "3e7d9a8b8e21a72baf1d3e52407864470d307151155f4f7301af63a88baa73fa",
+      "size_bytes": 55933
+    },
+    {
+      "path": "resources/lecture-24-dissipative-dynamics/data.json",
+      "sha256": "8aa917a85961c2a13b1a99cf47bfee3b92c9b815ec2d8f74c37d9091b1deed3d",
+      "size_bytes": 1709
+    },
+    {
+      "path": "resources/lecture-24-dissipative-dynamics/index.html",
+      "sha256": "4bcb402cafde8204a3184624a175067b8c8808a3856fe95b04dfaace4690d227",
+      "size_bytes": 55676
+    },
+    {
+      "path": "resources/lecture-25-continuous-spins-at-low-temperatures-part-5/data.json",
+      "sha256": "bba22237f34c14cf8e9dc2f18e64615ffd5cccdbfa2e06805ddc6f1572215e5b",
+      "size_bytes": 1828
+    },
+    {
+      "path": "resources/lecture-25-continuous-spins-at-low-temperatures-part-5/index.html",
+      "sha256": "da28653a85cdf08756c879177045e88eb259f551d1013f1d265ae8ef43e3c868",
+      "size_bytes": 55948
+    },
+    {
+      "path": "resources/lecture-26-continuous-spins-at-low-temperatures-part-6/data.json",
+      "sha256": "7fffdce25598ac3a783b840105322ecceb707cf47000b888e811a7a16e4d1876",
+      "size_bytes": 1940
+    },
+    {
+      "path": "resources/lecture-26-continuous-spins-at-low-temperatures-part-6/index.html",
+      "sha256": "820b6da433b9bdf8fb7bd06b0b24e895d8389629463b78a1b7a37f076e8b7e17",
+      "size_bytes": 56007
+    },
+    {
+      "path": "resources/lecture-3-the-landau-ginzburg-approach-part-2/data.json",
+      "sha256": "337c095b0d6448279be68bc561ed0a15ee0334e532802565d5e567a227ac6116",
+      "size_bytes": 1766
+    },
+    {
+      "path": "resources/lecture-3-the-landau-ginzburg-approach-part-2/index.html",
+      "sha256": "4bd17080652545d532b31190af48408ae2dc62b6bae97dd10150b94c214487d4",
+      "size_bytes": 55843
+    },
+    {
+      "path": "resources/lecture-4-the-landau-ginzburg-approach-part-3/data.json",
+      "sha256": "a6ab0d7a86db7e962dcea5afd3355ea50e09c47da983f5f04511cf836004bb8f",
+      "size_bytes": 1867
+    },
+    {
+      "path": "resources/lecture-4-the-landau-ginzburg-approach-part-3/index.html",
+      "sha256": "5e6ad1d18f3452e84629faf797d22ca062a3c049f9429f16b8336d7fe6d84093",
+      "size_bytes": 55892
+    },
+    {
+      "path": "resources/lecture-5-the-landau-ginzburg-approach-part-4/data.json",
+      "sha256": "b7b80b5803969a5812217bc3742008fd521ace4747fd2a6a34b00b8a99af6820",
+      "size_bytes": 1845
+    },
+    {
+      "path": "resources/lecture-5-the-landau-ginzburg-approach-part-4/index.html",
+      "sha256": "194b01ab35127bc206657391632061cedeaf228bd3fda8a72885fcd9fb63cf81",
+      "size_bytes": 55881
+    },
+    {
+      "path": "resources/lecture-6-the-scaling-hypothesis-part-1/data.json",
+      "sha256": "13b9592a3a243356dfb11f98397e87f8058f7c463d2c1e5267940e8e019c53d9",
+      "size_bytes": 1867
+    },
+    {
+      "path": "resources/lecture-6-the-scaling-hypothesis-part-1/index.html",
+      "sha256": "57dd7339764338e4820ab5ec46ad622911321c9233076020213844afaf79e05c",
+      "size_bytes": 55833
+    },
+    {
+      "path": "resources/lecture-7-the-scaling-hypothesis-part-2/data.json",
+      "sha256": "c144ec14c02840d06336cd02661701ee71362a2d2fdf1a1f080bb1e540027107",
+      "size_bytes": 1782
+    },
+    {
+      "path": "resources/lecture-7-the-scaling-hypothesis-part-2/index.html",
+      "sha256": "db4f2020e9552256d9697782afb9eee14edcf7f8739974f45c573ef63b91629c",
+      "size_bytes": 55812
+    },
+    {
+      "path": "resources/lecture-8-the-scaling-hypothesis-part-3/data.json",
+      "sha256": "7e1819ca2206bedf6a2f1c820912260fafde045233600ed3aad6867ae5174a65",
+      "size_bytes": 1813
+    },
+    {
+      "path": "resources/lecture-8-the-scaling-hypothesis-part-3/index.html",
+      "sha256": "766465df9fa9575f15f3542cd06336da45c07abb9b789fa4af843dad93f74726",
+      "size_bytes": 55814
+    },
+    {
+      "path": "resources/lecture-9-perturbative-renormalization-group-part-1/data.json",
+      "sha256": "9b3bdcf121e3b3df52b79d804bc510c29793a1e1dd464a5ef51723eb1f86b1a2",
+      "size_bytes": 1929
+    },
+    {
+      "path": "resources/lecture-9-perturbative-renormalization-group-part-1/index.html",
+      "sha256": "517fa35216b201a155c9a3c43b7d6336d77df69771224fb129df5ca1da9b5725",
+      "size_bytes": 56000
+    },
+    {
+      "path": "resources/lecture-notes/index.html",
+      "sha256": "4e1a1eca4f003b4ac90f846d8d9bf439d97f38e422566bd9475cf342adc41466",
+      "size_bytes": 82013
+    },
+    {
+      "path": "resources/lecture-notes/index.xml",
+      "sha256": "9aa39849af2a934615d264ec4c31fe57c9a0d61451204059bbc9b5a0c9b6c2d2",
+      "size_bytes": 12311
+    },
+    {
+      "path": "resources/lecture-videos/index.html",
+      "sha256": "8d8bb89e8a36e8d520787c60bb6ed29ea4910bfcdf7ce29297381093e4dec821",
+      "size_bytes": 83165
+    },
+    {
+      "path": "resources/lecture-videos/index.xml",
+      "sha256": "44b225308b34379247f7d808ab9f7467181202e15cddbe985f3f1bec0b79d07f",
+      "size_bytes": 35900
+    },
+    {
+      "path": "resources/mit8_334s14_lec1/data.json",
+      "sha256": "4771bdcfc01d3172a7b1672c1eab1a2207cd22bb186398355a7fa65f321ea690",
+      "size_bytes": 893
+    },
+    {
+      "path": "resources/mit8_334s14_lec1/index.html",
+      "sha256": "3ad61dd6e3fdc056211773874eb23f5ac6becd1c478c437b48ea08249ef598ce",
+      "size_bytes": 52692
+    },
+    {
+      "path": "resources/mit8_334s14_lec10/data.json",
+      "sha256": "09e7f84046ffdc4f3f1c1d995d25964b0432fd1dcb098004834d7cf5b70b93df",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec10/index.html",
+      "sha256": "af820e9d20a6ef0f6658e63dcc88f8a55c0b82830807de755c5a6d50433a0538",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec11/data.json",
+      "sha256": "c1766cabc87f1f1a8b9b45a144e201f8152b341c0164c74fca724de3878a61a2",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec11/index.html",
+      "sha256": "407d6c865abcd11d0bf16e5b8c8074632aee5962e29fe606d5c38923cb6c01c4",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec12/data.json",
+      "sha256": "783355893d9c71c300dfb27ebbd0f361f04d43b2b4ee095a6339470588cd4e99",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec12/index.html",
+      "sha256": "ee332606726683a0ecd5d48fe15fd601a22877eddde9255569919f6722418faa",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec13/data.json",
+      "sha256": "c9f384419924aca864a9cfbf301f753a77ba61897b58646b66709d5eee0d28cc",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec13/index.html",
+      "sha256": "6570b2c6affa3bace9dda3611932b934ad410b79f2a9c931ac0877df0090321b",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec14/data.json",
+      "sha256": "528066a33cb1672763607f291ca384b4395650f32584aba4e9514e5fe12125ab",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec14/index.html",
+      "sha256": "4d5483cdbc0c53a5a7a40b7fb5bd804fcd847786da5ca3b474de77783b88fd95",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec15/data.json",
+      "sha256": "2ce13e5f0edda80912b8316bfb405d11fa763eadecb0d3ad3fd01983e1d653fd",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec15/index.html",
+      "sha256": "ff99d6cbf7918f2def14d98cfe6db8fdf86f3b1951631c0a346c8495541dedd9",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec16/data.json",
+      "sha256": "17521b7d9b96fe1b2f8bda65e236ac70cbd39082abf43010429ca92c53520d53",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec16/index.html",
+      "sha256": "a4500b0581962255a2c1510509a25445be9294c36519e3c3f38a5cfa13cabd08",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec17/data.json",
+      "sha256": "c704775eaaca1df859aeccdc50f5a944c1fa501c920fc605748ab6a0470e55b1",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec17/index.html",
+      "sha256": "cc4e2b7c9cc4d8466724cfbd7315480a21d0418968f36e2784aeed5135654fde",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec18/data.json",
+      "sha256": "2ae2214d9d05b06ad0d1735f46b3318ce3f8cde6537b57bf19189c85dabd0e14",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec18/index.html",
+      "sha256": "2d3a5276cb86654267483ced9cd0856bddaa0bae05be7063b0fdbff3c990ce1a",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec19/data.json",
+      "sha256": "6add4ffb3a882760f3259a8b19965a38cc4ddfa2687ebc830a3d997aaf3c29bc",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec19/index.html",
+      "sha256": "86908027f63f0da08fe279401bc9d4fb5b25aff8ce9a30fb71c9d1653128542d",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec2/data.json",
+      "sha256": "42da17f3e245508ced113f092e671f10bc9b248edbfb7f91cbea543acb1a1e65",
+      "size_bytes": 893
+    },
+    {
+      "path": "resources/mit8_334s14_lec2/index.html",
+      "sha256": "d0716c3b45103a60220e567d7062a5784b954a12486a9c0a37347cb81d129707",
+      "size_bytes": 52692
+    },
+    {
+      "path": "resources/mit8_334s14_lec20/data.json",
+      "sha256": "96fdf02d0c075d07dffc155a36ef3367103c2ee44bd24e11ed67d95cef2f4e42",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec20/index.html",
+      "sha256": "51aaacf9aad8751d4274d97aff684194bb0c23222334325e1bea23c97fd91bc4",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec21/data.json",
+      "sha256": "fe565639ba1bb1450efbafa3ff99acfee1cf8b9642ce6c6bac8932928c7c11b1",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec21/index.html",
+      "sha256": "6af7110af561df9ed5c3a98e0b89b03107913c14dee87e2b56fb87a61180cc81",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec22/data.json",
+      "sha256": "8afdc5191b96a8f1c9efe3aa1927985289920008bdd2c17f75395c3a147028cb",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec22/index.html",
+      "sha256": "01989b46363679f05584b3f4db664d868c1976daedeb9f1465b1549f1a25bbe5",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec23/data.json",
+      "sha256": "31f5047575bbdb45df8d9dcb5097be483ec64e68e9b500e37d25145a842ba1e7",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec23/index.html",
+      "sha256": "29b89cf1596993ace95a55d492267312b55bed942f000dbcec39f860ff6ad6a9",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec24/data.json",
+      "sha256": "bb889047d6558c478240f1ab689e1178c02af4f83fa61ea23ba244df3e52b4b1",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec24/index.html",
+      "sha256": "9e05d68f3afec9f539a7061dfc22d4e067e96d92e4f4d980fb62c3dffb6a554f",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec25/data.json",
+      "sha256": "2db2cd6ec68c1035e3deb13d312c47c4e688daacc11aa81971761a0a0dd43c2f",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec25/index.html",
+      "sha256": "a46256dd0bfe53285df1299c01aaefe608ba5b13541bc34bf56a4f1c65741d75",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec26/data.json",
+      "sha256": "d8a20113744213a37148ded0de0cbd3fe510a8b8bfd18306926bb6e6e760d55f",
+      "size_bytes": 897
+    },
+    {
+      "path": "resources/mit8_334s14_lec26/index.html",
+      "sha256": "5116fc0d647bef0ecb445df8bb69f3e0c57be7da47727d9e018cc231d59d181b",
+      "size_bytes": 52709
+    },
+    {
+      "path": "resources/mit8_334s14_lec3/data.json",
+      "sha256": "d5a424a7f72072be075c3f55a15deb37ed063e3fae75864493723bf6272618ca",
+      "size_bytes": 893
+    },
+    {
+      "path": "resources/mit8_334s14_lec3/index.html",
+      "sha256": "475ccde7806b863e94be92ade1b8a7f9a059cffc23c6bda59df51a63f7490682",
+      "size_bytes": 52692
+    },
+    {
+      "path": "resources/mit8_334s14_lec4/data.json",
+      "sha256": "dd5322ab869d23a00a33d34a9f05597f50a1d631e09e44e86aed90a2d6580fbc",
+      "size_bytes": 893
+    },
+    {
+      "path": "resources/mit8_334s14_lec4/index.html",
+      "sha256": "a275498b37a7398e56c9245bbea2ccef8f2b8da285efca3dd2cea78c848f665e",
+      "size_bytes": 52692
+    },
+    {
+      "path": "resources/mit8_334s14_lec5/data.json",
+      "sha256": "d00c9f3ae594e663bc29716ba2d6d33e4367858d5f928fc0e7e387a19e74565e",
+      "size_bytes": 893
+    },
+    {
+      "path": "resources/mit8_334s14_lec5/index.html",
+      "sha256": "fc21831a9723a3aaef5e4b332fc8459797316a37fc5a936732d087195348970d",
+      "size_bytes": 52692
+    },
+    {
+      "path": "resources/mit8_334s14_lec6/data.json",
+      "sha256": "d0473818868e7761a69c2d0f8da7b76e4dbe56507517b933f7a9f1241be22bac",
+      "size_bytes": 893
+    },
+    {
+      "path": "resources/mit8_334s14_lec6/index.html",
+      "sha256": "3a4b17aa9ee4d69387aa376cd6e55ffb1bdb37a13d8f5bb817264ef19f616c52",
+      "size_bytes": 52692
+    },
+    {
+      "path": "resources/mit8_334s14_lec7/data.json",
+      "sha256": "efa8743641ec63418403903e0e124cf018b545dc05d33cf15b2e746fce22559f",
+      "size_bytes": 893
+    },
+    {
+      "path": "resources/mit8_334s14_lec7/index.html",
+      "sha256": "b228f076bc0e3ae1df452d9b24dbd941a03c1b423ca67c217a85faf93b567362",
+      "size_bytes": 52692
+    },
+    {
+      "path": "resources/mit8_334s14_lec8/data.json",
+      "sha256": "63e2e7a0b3282b48f541cc22fe444414822b906637ffdcc98c7b200177c293d3",
+      "size_bytes": 893
+    },
+    {
+      "path": "resources/mit8_334s14_lec8/index.html",
+      "sha256": "94ccbcf50587e90201f5069e6a60764a8c7201266bfaff6a69f55126196d89e0",
+      "size_bytes": 52692
+    },
+    {
+      "path": "resources/mit8_334s14_lec9/data.json",
+      "sha256": "b5c99b9178cbb8eb3f126fb233ecfbb444ef6f310a6682a08680669a64489f77",
+      "size_bytes": 893
+    },
+    {
+      "path": "resources/mit8_334s14_lec9/index.html",
+      "sha256": "e4df1f7e37a62aa48d04e6adead79834f9460487cd590ea0ba772fd930c54515",
+      "size_bytes": 52692
+    },
+    {
+      "path": "resources/mit8_334s14_pset1/data.json",
+      "sha256": "315ccd6d5535c8add5ae32e90fcf7b522eff2f50bab73ce088d44d4c9c3c4dea",
+      "size_bytes": 1615
+    },
+    {
+      "path": "resources/mit8_334s14_pset1/index.html",
+      "sha256": "7a55449efbe5e916aeb8587dd4f9e77be1d76d28ff357584977091fea099a359",
+      "size_bytes": 52733
+    },
+    {
+      "path": "resources/mit8_334s14_pset2/data.json",
+      "sha256": "9f1db78aa6ae4753066063bde7ede6ce924bd9cb07ba212c7fb980f77e27985c",
+      "size_bytes": 1614
+    },
+    {
+      "path": "resources/mit8_334s14_pset2/index.html",
+      "sha256": "9410918257ffd2c3481dd380ec28b8b7edc9d92ec088950c619731b0b658573c",
+      "size_bytes": 52732
+    },
+    {
+      "path": "resources/mit8_334s14_pset3/data.json",
+      "sha256": "c9495932106c4f72680b591e61f26a0e1f046bd1cd914ffe6849fb1a10ed3c9e",
+      "size_bytes": 1615
+    },
+    {
+      "path": "resources/mit8_334s14_pset3/index.html",
+      "sha256": "faea45da2965b9b04e4a43a693637067be072971eb024272a251f03b9e7b2436",
+      "size_bytes": 52733
+    },
+    {
+      "path": "resources/mit8_334s14_pset4/data.json",
+      "sha256": "038b3347014e6aa06e9b3a54ca14a2f799495f519dc653a9753af415f0bd7f13",
+      "size_bytes": 1615
+    },
+    {
+      "path": "resources/mit8_334s14_pset4/index.html",
+      "sha256": "7729408d40f78f524d2ed58e6ee7c10f7901c05ebfc810bb538f8db17106aa42",
+      "size_bytes": 52733
+    },
+    {
+      "path": "resources/mit8_334s14_pset5/data.json",
+      "sha256": "ab3089e709bad37c765a3ab85b81b3e865f8014898529a3c6927767506e8d4aa",
+      "size_bytes": 1615
+    },
+    {
+      "path": "resources/mit8_334s14_pset5/index.html",
+      "sha256": "42e0b0d7519b01da851621a339887c8bd12d6aa80d8512ba5df5d1f0ffa88055",
+      "size_bytes": 52733
+    },
+    {
+      "path": "resources/mit8_334s14_pset6/data.json",
+      "sha256": "6be4d8ce2e3e82da0d39d4c71760acbf86d67c9834ad19792da433ede216025d",
+      "size_bytes": 1615
+    },
+    {
+      "path": "resources/mit8_334s14_pset6/index.html",
+      "sha256": "884103b7107b2199b7bb6cbde841c1f143b155c411c66841eef216863a9df786",
+      "size_bytes": 52733
+    },
+    {
+      "path": "resources/mit8_334s14_testreview1/data.json",
+      "sha256": "47cf251acf6a59335c70a6cc94160ff2bb0aa7f9316985cd5debc8a2470a25a8",
+      "size_bytes": 923
+    },
+    {
+      "path": "resources/mit8_334s14_testreview1/index.html",
+      "sha256": "4dac5c6140d8872d56ede4a300bab69e7597b4675aed5c24e25c6bfc84ce3572",
+      "size_bytes": 52849
+    },
+    {
+      "path": "resources/mit8_334s14_testreview2/data.json",
+      "sha256": "d5ec3572bc572f90c7a0c6ab59a41e6ad7c1ab91af041d5bf58ad18ee445c21b",
+      "size_bytes": 923
+    },
+    {
+      "path": "resources/mit8_334s14_testreview2/index.html",
+      "sha256": "4242360b16f046453eec8b96b4c39d30f873c217b7ad48f74f312ca5c06c0c72",
+      "size_bytes": 52849
+    },
+    {
+      "path": "resources/mit8_334s14_testreview3/data.json",
+      "sha256": "644633192b225812270f0a03e9b7eeab126e2b0f845dfa9c58301bfb9466f2eb",
+      "size_bytes": 923
+    },
+    {
+      "path": "resources/mit8_334s14_testreview3/index.html",
+      "sha256": "354d12ce11d3c7d65167940efe03d03b4f6bf6fc80161a9ebdf2b0673914a389",
+      "size_bytes": 52849
+    },
+    {
+      "path": "resources/mit8_334s14_testreview_sol1/data.json",
+      "sha256": "f8040d003fcf6fecc4e73c6bbd3148d5f13b39f62fd5d57964831171b5d6e426",
+      "size_bytes": 1651
+    },
+    {
+      "path": "resources/mit8_334s14_testreview_sol1/index.html",
+      "sha256": "cf4ff3043846c1f4d3ec52cde21023c7248eae0b8b837ecf585d10f4f33f6cef",
+      "size_bytes": 52899
+    },
+    {
+      "path": "resources/mit8_334s14_testreview_sol2/data.json",
+      "sha256": "97241180d0f46f813d28be6f6bbca200f2e222340e2136315efbe08fa4581ef6",
+      "size_bytes": 1651
+    },
+    {
+      "path": "resources/mit8_334s14_testreview_sol2/index.html",
+      "sha256": "f29f15e6b274704a9a7c6322364343c0135e3494e92c73a734277ceeee932116",
+      "size_bytes": 52899
+    },
+    {
+      "path": "resources/mit8_334s14_testreview_sol3/data.json",
+      "sha256": "a3562a2c715dec531de67ff578fdc63709c05f8379a96ae2f5099045853536ea",
+      "size_bytes": 1651
+    },
+    {
+      "path": "resources/mit8_334s14_testreview_sol3/index.html",
+      "sha256": "0040eea3c7139aa5d92f36ece0005e5491dca7f4dd2b76a663587c5b3dbeea52",
+      "size_bytes": 52899
+    },
+    {
+      "path": "resources/mphmzc2o0am-1/data.json",
+      "sha256": "8f0f121940578796cd675d40a10c074917f69b3bebef0e9cd299414d4901e63a",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/mphmzc2o0am-1/index.html",
+      "sha256": "45c53b7beafff5d004ebecb8880c179c0b0322bf96a89991431c5ab14a8c70af",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/mphmzc2o0am-2/data.json",
+      "sha256": "15c70e02de528f759100088507540d439ac2b8c033bace94ee9cc21f3c2b8d80",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/mphmzc2o0am-2/index.html",
+      "sha256": "83c4e75506031f845701c12316d95e343f9c34fa07414f85474dc666ed57b030",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/mphmzc2o0am/data.json",
+      "sha256": "a77e4014e65850d0b134c90c0a997db94c58b06dadc4c726e2382988437c5eb8",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/mphmzc2o0am/index.html",
+      "sha256": "42f327a2723e91a04aba83fcc7f3ecbe6ae5637eeb3ceab8eae590b1553dc7df",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/nlkjdcb1e5i-1/data.json",
+      "sha256": "110e2ab80c42d4da0f575f78c771cb9228e9a3b847fccb5b84de1d2f14ed30dd",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/nlkjdcb1e5i-1/index.html",
+      "sha256": "a926cba5a6ee4495a0c9852b58f2dc1174ad0abf98b43ca3df6e2851bbebab7a",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/nlkjdcb1e5i-2/data.json",
+      "sha256": "6efdd5d80cbca7844599313e4cae700bb0fd8f95aeda1b34c0f0adedf4346934",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/nlkjdcb1e5i-2/index.html",
+      "sha256": "d8b69776534aed969ad841732e995a5ac13843b3460a7b4ff599cc6d00a094f2",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/nlkjdcb1e5i/data.json",
+      "sha256": "dee7e28114319c3669a54913139183b9bddee825f24472cde8e931658e587bdc",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/nlkjdcb1e5i/index.html",
+      "sha256": "99874f3438c812fabb40d5e35098d70319d356e5bc30ded2f4029d70846e158d",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/opl7d8vy0ka-1/data.json",
+      "sha256": "35f2bd50fca8d073b93f4874be70d1af4d426a2c351c96283e89c250a03d1be3",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/opl7d8vy0ka-1/index.html",
+      "sha256": "05d5f9a174988a788a95517f734b37c9048946d8325d2c2b9f250e3032241646",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/opl7d8vy0ka-2/data.json",
+      "sha256": "e29c21843050f2a1f77610722bd55c6dce6b0b14953a81b82c31e668fe7a752e",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/opl7d8vy0ka-2/index.html",
+      "sha256": "a8e2484bd62663abb3477deca41d2e3e83f21eb1f2f170b274a3ed091eeefa58",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/opl7d8vy0ka/data.json",
+      "sha256": "78d1294f09ec87ebca38c43a66f2a940a783b6f5d4c9909e30040e438e894a18",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/opl7d8vy0ka/index.html",
+      "sha256": "42f2459776c556eab01b866042c6ef2d5e8bd4c22d12216bd40da18bceefbe0d",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/pgnlax8e4gk-1/data.json",
+      "sha256": "5c268159c0d7fda7e121da9def10ce8369dcfe0044c481a9d29243deaffd5a09",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/pgnlax8e4gk-1/index.html",
+      "sha256": "feddddae6d76303a44ee6d40adab703a0dffc37e75b330a9a6a2239e684a4cb7",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/pgnlax8e4gk-2/data.json",
+      "sha256": "a985152aa78b7714bbfc2d1883ade9c1d793ac18a6b99acc3f685a72f493aebd",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/pgnlax8e4gk-2/index.html",
+      "sha256": "2095a775558c41d528bf0f32d07b82c741fefd37c8791130d2aca06006985c72",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/pgnlax8e4gk/data.json",
+      "sha256": "c760415a6753ae52267fdefe220e5a2e7ff46ebac1575c2584bf88854da8687e",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/pgnlax8e4gk/index.html",
+      "sha256": "946afaac5fed6a074ef8a61c8d3932801669a2a716e454dd169ce158fefbdb53",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/problem-sets/index.html",
+      "sha256": "939c70c0cad47e505749a0e90cd22b4c731f642fdb227e1101055865e288688d",
+      "size_bytes": 57591
+    },
+    {
+      "path": "resources/problem-sets/index.xml",
+      "sha256": "a34231b4b8c14089894f9a567c6f825fbad8fda7a4dd16ffa51bcbacb77e0597",
+      "size_bytes": 2859
+    },
+    {
+      "path": "resources/projects/index.html",
+      "sha256": "1483f93686186e1c968e64d6e253e74a32a11ccf65c70aaeb6bf8f794b90283c",
+      "size_bytes": 50212
+    },
+    {
+      "path": "resources/projects/index.xml",
+      "sha256": "5b760d784dc844bfb8cf17545d47532ee326968ff3b27129c7d4ee7f0532bf66",
+      "size_bytes": 1296
+    },
+    {
+      "path": "resources/rv1ubrgvgfk-1/data.json",
+      "sha256": "75899191694fe9a32423dc8f879bda18a18103378b7f094244159109ef74446d",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/rv1ubrgvgfk-1/index.html",
+      "sha256": "d58faa205ace7e46ff061e6aa1d482a352fcaf42839f4dee421917f56cebcc70",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/rv1ubrgvgfk-2/data.json",
+      "sha256": "18a6438e76206f71f57de47c7db0f4f454f79434f72d625b43114f928aba95c2",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/rv1ubrgvgfk-2/index.html",
+      "sha256": "154de2c34fc849742e93665533f8ee40546633602048a47ba44834cb65deb410",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/rv1ubrgvgfk/data.json",
+      "sha256": "cd973ea27158bf216f1c6d9f68281a15f7ffba200ee25fe632dd55b7ad210bcd",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/rv1ubrgvgfk/index.html",
+      "sha256": "62ee2a69255ea9123b560f14ea5478c728890173a918bd3a0048f8e63b9c067d",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/vhlqp3eiku4-1/data.json",
+      "sha256": "32b0b1f8b0e7576274a6e2dc681cfb627d730b9eac841876df9de8444fd878cd",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/vhlqp3eiku4-1/index.html",
+      "sha256": "d667a0806c191b388cde76ba288e514da29e6a2abb9b0a5f169dfeacaac11ff9",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/vhlqp3eiku4-2/data.json",
+      "sha256": "bb334de1f73647237438dc45d86a6bca1d03644766ec78848f3a3c2fd46503e0",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/vhlqp3eiku4-2/index.html",
+      "sha256": "c5d82ee623dc8d0c6f54aa6ddae55830b00a0b0fa613119c324c57cd56c69d6b",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/vhlqp3eiku4/data.json",
+      "sha256": "671ac99f91080d24851c410066472cfa12458981eada72fb5f9c6f46fb6e46f0",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/vhlqp3eiku4/index.html",
+      "sha256": "dfec7b1c018c2c71fbdbbaccd858f3ad21b31d86b0b971815f32e1df564c119a",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/wtgs6lv5mdi-1/data.json",
+      "sha256": "b41c0bcefe75e1912b1bfe437bd7aa2564047c21119b4c476b53cf196a92b47d",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/wtgs6lv5mdi-1/index.html",
+      "sha256": "822a8f339f92cc522623b0a4cb721fcae5aac6104ca57fa42aa78254e62ddbda",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/wtgs6lv5mdi-2/data.json",
+      "sha256": "f0fb2d44b62d4128d5dba65921d40b2cae223c6ef7642a29f76e4495a590f36e",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/wtgs6lv5mdi-2/index.html",
+      "sha256": "fb32a8accfc92ade1a6c052c84c558c956e8e9209e675a2004fc68a0f9fb9aee",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/wtgs6lv5mdi/data.json",
+      "sha256": "ee033292071f616d3ae95e6224b2bedf7d9b9cc7a8629b693b2d9153de11cd9b",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/wtgs6lv5mdi/index.html",
+      "sha256": "393c383ab57e8a824a68f6e4742a8298de885e0e43b4cbd768e907d2bcab3549",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/xdpcdelstjs-1/data.json",
+      "sha256": "2e774f5b64507fb24316507d43f8cd3f8013a004707a258076553aa04afaa494",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/xdpcdelstjs-1/index.html",
+      "sha256": "138c0f17b6d15e5de999d5cc4d8a3d8bc90e6b28b4db4ac00ff9f45783bf767b",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/xdpcdelstjs-2/data.json",
+      "sha256": "0de455369cd0d9eddd63ca964bef7198e8987290a2fed8b0424df0c7b6f3992f",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/xdpcdelstjs-2/index.html",
+      "sha256": "9dde3a1f6b9026147bbeb4924d3d93307e22be3f5ac4dc40eceef35b01717135",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/xdpcdelstjs/data.json",
+      "sha256": "c5612d4c793016b11fb1af1ecad21cbd843792152a34c017a02b853705b3773b",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/xdpcdelstjs/index.html",
+      "sha256": "251abf7c4c594a091676941202fdcdbeddc463b7d7ace5908a3383d1ae2c6b80",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/xtgygdytkm0-1/data.json",
+      "sha256": "e8a9b5790a5745ea470c20f3cce99deb621f12ee4ccbdc02c79f6f44e31e10d4",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/xtgygdytkm0-1/index.html",
+      "sha256": "eba42f04df78f787f003c2525a7546681154ff0a1c8086ad494b59401e85fe31",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/xtgygdytkm0-2/data.json",
+      "sha256": "817515e33747a4ce42b1b04ba04bf2f2fde31ec96408d10e43b69e477d819367",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/xtgygdytkm0-2/index.html",
+      "sha256": "75f69f428ff67f790c09ace3331869dccba342f9dfe5c10b4ef3d9925187a447",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/xtgygdytkm0/data.json",
+      "sha256": "8a21b6948416a43b65b1838540bf02fafe03abccc2fc99e8f328dfca98b5e57b",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/xtgygdytkm0/index.html",
+      "sha256": "967e0d83be65136b75cd18415b7f90d9d91f36d20838fff857b18bee7802ab51",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/y7siuqgadgc-1/data.json",
+      "sha256": "75b74ebdd35c04354f7b780506162dae2c367a9a644687e97ac8403aa9e96847",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/y7siuqgadgc-1/index.html",
+      "sha256": "09c7340367cbf7f5562138b245e0d5730bdcf0844643c71dfae71e14692fd02f",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/y7siuqgadgc-2/data.json",
+      "sha256": "b7e78aab05a8a6bcd8db6f89c62ae6c7b6f64aa88f0786397f668f1c7b4a9f96",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/y7siuqgadgc-2/index.html",
+      "sha256": "85e394d489988d75318ab7134f373b33183f48dd8abc36a3319c937273da97e0",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/y7siuqgadgc/data.json",
+      "sha256": "b693ff5177923b3e5f1c103d2ee91109ce4e45ae3d58d7e54ba35b130bcda0ad",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/y7siuqgadgc/index.html",
+      "sha256": "9d81d3ec0a2e15e15df2fb1f782ef6a72cd2c68d36085d93f868166952aa0732",
+      "size_bytes": 51899
+    },
+    {
+      "path": "resources/ybdxs5dxqn4-1/data.json",
+      "sha256": "91a39d8f521d874122aced0c7fd5ff3657ac25b59846e1031045f656efeaa5d4",
+      "size_bytes": 547
+    },
+    {
+      "path": "resources/ybdxs5dxqn4-1/index.html",
+      "sha256": "cbed537e5d130e75f97a48638d0d9a6e184e2488b4dda5fc87b5a2326963eade",
+      "size_bytes": 52322
+    },
+    {
+      "path": "resources/ybdxs5dxqn4-2/data.json",
+      "sha256": "db5886c1692735d883d96d6b78ef6ef86f12e46b4b781d43260b33a40287260f",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/ybdxs5dxqn4-2/index.html",
+      "sha256": "bf0c08087bfc61b1d921f692733e93b6a7d67a992b4e3a6f80333fe79b8de40c",
+      "size_bytes": 51909
+    },
+    {
+      "path": "resources/ybdxs5dxqn4/data.json",
+      "sha256": "3ebfcffe00c1086bcc76097d289ec7bcd29a61ecfb9be8983b1a5b8c3cca97de",
+      "size_bytes": 553
+    },
+    {
+      "path": "resources/ybdxs5dxqn4/index.html",
+      "sha256": "13a3a0da0611694c7c941c8a8b5f7aac0a9c7a2365d4a03c2e932baabfa16169",
+      "size_bytes": 51899
+    },
+    {
+      "path": "robots.txt",
+      "sha256": "f27970d7026ceb04fe68877b9fa112cf6a93a2bd537c8dce7e7fdc27182d5a62",
+      "size_bytes": 64
+    },
+    {
+      "path": "sitemap.xml",
+      "sha256": "d39dd3cceafd1de11969a1e6fe35f240f6af3e29f7db8bdc081fd32d31314adb",
+      "size_bytes": 16554
+    },
+    {
+      "path": "static_resources/00dff8f527a51a662d329e469806f769_MIT8_334S14_pset6.pdf",
+      "sha256": "4bfbad0bce5182df44750e5cbc53669606b9a5236e1112df638f719c5bdd75c2",
+      "size_bytes": 115443
+    },
+    {
+      "path": "static_resources/01439f25c7215a78bf901c78f7e7ed5d_00PK6cUCbnU.vtt",
+      "sha256": "ec9ea1a256b133a359a587fe130001e3697636756cd64e53e7c7fa05cf8f414d",
+      "size_bytes": 78558
+    },
+    {
+      "path": "static_resources/040c4abb1d63f9ad3487184ce8536d56_MIT8_334S14_Lec22.pdf",
+      "sha256": "79b95de19c0d27815e51e9f153f6c3f0bf564a4fda3e2b8c1092a30f83910d34",
+      "size_bytes": 192462
+    },
+    {
+      "path": "static_resources/0467b954164431b59100b5725779e6e4_MIT8_334S14_Lec3.pdf",
+      "sha256": "6818e7a3506eea25b0f34197836a0dfd5da2149d54e2605a8438e1945b085375",
+      "size_bytes": 149232
+    },
+    {
+      "path": "static_resources/051af10c926b5c8b2ceafc7257669a65_MIT8_334S14_Lec10.pdf",
+      "sha256": "83cf8e028513b94624b429569eb659ea13cc9dfd457e1d06cadada5f0c1d88e9",
+      "size_bytes": 162692
+    },
+    {
+      "path": "static_resources/05360eaa60d955adbf475ec1ab0d5665_2MaQKFHqYBw.vtt",
+      "sha256": "e5473f24c28a0e1352da99378c3cdb4ebed8d256f253b741fc02a6d838af499e",
+      "size_bytes": 82637
+    },
+    {
+      "path": "static_resources/075b49efd270d917f607e5ab7bf25251_eKVr-oKxMPg.pdf",
+      "sha256": "ec9de828e4f4fb9d28a0f6cc85ddebdf2f3b27dc3461f568016a1fc8e5524f95",
+      "size_bytes": 99016
+    },
+    {
+      "path": "static_resources/07e33d98672f3ef3c50870674a8e4e98_MphmZC2o0aM.srt",
+      "sha256": "5cbfd67898e7fe89207fe349dbe2f3e5e5a2fe9cc62b2521a76323c17137cf05",
+      "size_bytes": 81437
+    },
+    {
+      "path": "static_resources/0808a06f14cc5d29bca309103a3e0cd2_DVRjcfMwAkk.vtt",
+      "sha256": "5509f89e41e4744ad8c08cbbb6932d650654ac8c44498b6e73a9398338af0d5c",
+      "size_bytes": 89120
+    },
+    {
+      "path": "static_resources/0d577a3317b912d4a07c6c7fb2d99a50_1_dMnMLbIok.srt",
+      "sha256": "1e100894005d48fe6b2b53534018f0b2764c9f5015eff5d71acf35dd0ce7e770",
+      "size_bytes": 88005
+    },
+    {
+      "path": "static_resources/1c6dbaefefd37c0a60416beba430d3a0_bMnpf0s-mAk.pdf",
+      "sha256": "d2c769ad73b89aa8f8ddd9683c89fe7728466595c58a056efa857fba3cccf776",
+      "size_bytes": 84561
+    },
+    {
+      "path": "static_resources/2636b6b9a169402abc6f49b21f8e5eec_2MaQKFHqYBw.pdf",
+      "sha256": "f64f06bca76c6820c916a9b655a82deddf8891b4f83f0807057c4746119d0b64",
+      "size_bytes": 88490
+    },
+    {
+      "path": "static_resources/27b54c46c1f5f6df9ebc8a382143f997_opL7d8vY0KA.srt",
+      "sha256": "a91971ac8ff06fc7d31ee753465db2150a8c38f832d7b9aaa912af807fd78547",
+      "size_bytes": 83899
+    },
+    {
+      "path": "static_resources/29a4c3fd637251abbfbf3e21b6a32abd_h_YZxQJpPv0.vtt",
+      "sha256": "326cc83eda31696c1247f501403f111d200f63eae94177dcb85caa31d289c440",
+      "size_bytes": 78963
+    },
+    {
+      "path": "static_resources/2f717b740bda91c9880695974b2b7192_MIT8_334S14_Lec15.pdf",
+      "sha256": "586f7733039c3b911852825a54c041d514a7664c8ce3a3b14526545fac56c21b",
+      "size_bytes": 147280
+    },
+    {
+      "path": "static_resources/2fe2e2baa4adb59fa84c83a261a62cfe_MIT8_334S14_Lec12.pdf",
+      "sha256": "c0c360cdb0c69ce402593864fe391291e4187d2e7c30f276a3c103243f5d1c4b",
+      "size_bytes": 159984
+    },
+    {
+      "path": "static_resources/305aaaea045860108a574f545d753e45_Rv1UBrGVGFk.srt",
+      "sha256": "9f34a39287cd91281cebca5527f41f527134ce1c212e633545e59ddfc569f096",
+      "size_bytes": 85705
+    },
+    {
+      "path": "static_resources/31ebfae3ed6276acefad04e041888a8f_fGUaxrIejr4.srt",
+      "sha256": "3313a35c9b4ed7dd451456c88ae486a8817f2acae24e6a052cf315355fd654d4",
+      "size_bytes": 76893
+    },
+    {
+      "path": "static_resources/31f360cf7db5b66068eacc5240c17aeb_MIT8_334S14_Lec6.pdf",
+      "sha256": "e5a55f8580ff4aff381b5eaadc947d40605095f3caa69157c783d33a7a20d27a",
+      "size_bytes": 153984
+    },
+    {
+      "path": "static_resources/340d29b62adf582aaae10c4734ecb60e_bQ-miBkhy9M.vtt",
+      "sha256": "782b15fdec0929224678a6f3700347ebeca67e2a8a004c5f21cb09d2c2b5e577",
+      "size_bytes": 82862
+    },
+    {
+      "path": "static_resources/376b14b245b9a6645cfcd8a09b191935_MIT8_334S14_TestReview_Sol3.pdf",
+      "sha256": "0da05d6135749ace3942cf79612c3639419e7b095c2e2a79205db91244249aca",
+      "size_bytes": 545464
+    },
+    {
+      "path": "static_resources/37ea79891e9650b49682512b10774a77_iecno1uInk8.vtt",
+      "sha256": "eedeee1a23f4e2c791f3892b1636c5cb1a8b0c27b9ce67d091cd941405f251e4",
+      "size_bytes": 77925
+    },
+    {
+      "path": "static_resources/386e87517a6c59439bf018916f4dc043_9WhnbTT_nS8.vtt",
+      "sha256": "e1ae51d19ba3ddfcf99e5da5adf5c79a19a7cf0498f5c40755c520fe556a1dc3",
+      "size_bytes": 81493
+    },
+    {
+      "path": "static_resources/3a1468e27e8153ad88e6d74beb7559f5_y7sIuqgADgc.vtt",
+      "sha256": "9e763ad71ad656e51989f4ddfa2d344692bc3539824cdc7bcf100eb07db3c6bb",
+      "size_bytes": 81084
+    },
+    {
+      "path": "static_resources/3c7761daf4742455e08e0ee9c6cd7108_MIT8_334S14_pset2.pdf",
+      "sha256": "6e4f566f5b650e36dbbc692cc3c91c96c90a384ff51c3e64d81c0b56713f5ec0",
+      "size_bytes": 97423
+    },
+    {
+      "path": "static_resources/3d30f12a9a9493f83d20d69b8a0d6c3f_9WhnbTT_nS8.srt",
+      "sha256": "a024d8768c330c60ca2d23184c74ab9461db7287fc1c63cce1bc2b53e7820815",
+      "size_bytes": 85948
+    },
+    {
+      "path": "static_resources/42f64379a64e5a8169c7a6bf31a9353e_y7sIuqgADgc.srt",
+      "sha256": "a8bffe7e36fae7dd33669e714096d67ad0bc90a403ad7e4a827989e2adbf764e",
+      "size_bytes": 85539
+    },
+    {
+      "path": "static_resources/439ef03f4c103b9a7ba3b1f53cd713b1_MIT8_334S14_Lec13.pdf",
+      "sha256": "6f893ac9a41ae84e95c2f29809474188afc64f130ef0d0c42e4ae52d970b2a29",
+      "size_bytes": 184540
+    },
+    {
+      "path": "static_resources/43ef816e6c0ec3f53cd3431bc66387e0_XDpCdELStJs.pdf",
+      "sha256": "4893cdbb43b7869b04992997bdf96c635d61595e1ecbc802bd3a85ed700764b3",
+      "size_bytes": 80520
+    },
+    {
+      "path": "static_resources/44059e37558e0c72976aa8374753cfda_vhLqp3eIkU4.srt",
+      "sha256": "da5fa221061493018f4d0ac39224d2758058f519a991f200a0e314bc93e4cc37",
+      "size_bytes": 89518
+    },
+    {
+      "path": "static_resources/484e59c41a2c4151808ef80047336dc2_MIT8_334S14_TestReview1.pdf",
+      "sha256": "ab67bf6f39b4ed362d1a166aa7a659fdf52bf11c4303ab49b744130dde2d688a",
+      "size_bytes": 138021
+    },
+    {
+      "path": "static_resources/486293a7d2947d7cf5bc6dbfe50f2c77_eKVr-oKxMPg.srt",
+      "sha256": "6fe847cd7eb6f5dff58c1f5832ddec833ed7c3a10ac08084817dd1454b1f2898",
+      "size_bytes": 99350
+    },
+    {
+      "path": "static_resources/4b12b5c656db99c741a6fa7fc308f4cb_yBdXS5dXQN4.pdf",
+      "sha256": "8e5158c3961b5aaa35c6727da42e1fb90e83b6dc68c6556ed77548d5ca71c7bf",
+      "size_bytes": 80521
+    },
+    {
+      "path": "static_resources/4b337a79b6875c739a0b36663e5de9f5_bMnpf0s-mAk.vtt",
+      "sha256": "7903ef7dce30c360ce3af0144e6200944db8f1cf258a03d11b80fb0be28c4b8d",
+      "size_bytes": 78358
+    },
+    {
+      "path": "static_resources/4c9099f95c663889159f59e3256883ee_MphmZC2o0aM.pdf",
+      "sha256": "77b71ba8708474c0e3a0ccab65194a9c508a44c36a4d9ef3eb6d2510146c722d",
+      "size_bytes": 84039
+    },
+    {
+      "path": "static_resources/4e4157cddff8c719a4b9fec9108248db_H44LyNdIi5E.pdf",
+      "sha256": "40b6edc1979d093d15c040597ba81060d9d05c9e319b044ff97759c03a206c65",
+      "size_bytes": 85672
+    },
+    {
+      "path": "static_resources/4e7630aa66ca65dd88991ac28fdc6290_NLKJdcb1E5I.srt",
+      "sha256": "05699aa4ece99a9af5796f488f24fe6535beed9e8c464708b1ba0d9d703c8278",
+      "size_bytes": 86833
+    },
+    {
+      "path": "static_resources/4f5e1899d43f5d619207dba9d13c41d7_yBdXS5dXQN4.vtt",
+      "sha256": "6e678734a31b08fb9e5aa596f0cf5e6e78d6e30bcac6a1db6d305fffaf192f59",
+      "size_bytes": 71828
+    },
+    {
+      "path": "static_resources/4fe8afad010d2d844a2a5df25d83a7af_PGnLAx8e4Gk.srt",
+      "sha256": "bb7021888e4ee00a47d499a13a6371772070a8d43f9578772e98b9b85d0d95a4",
+      "size_bytes": 97070
+    },
+    {
+      "path": "static_resources/502e041aae2254efb96aecf0c7c7da5c_6HrTfI8R_9A.vtt",
+      "sha256": "9151991bf59ea44d0bb2fcaf1db4316b299466f7ae3f6bc320ea9ba1d1340f32",
+      "size_bytes": 80352
+    },
+    {
+      "path": "static_resources/51eb0c6af0afd68616a47c6d070d358e_MIT8_334S14_Lec2.pdf",
+      "sha256": "7b93461903c2098f333b58143d613dfcb1b642760dd26195b946e613add11faa",
+      "size_bytes": 184743
+    },
+    {
+      "path": "static_resources/55848d4345b6ef638beb66b413933427_MIT8_334S14_Lec14.pdf",
+      "sha256": "b4500b62f2fee7057085461c55099adb15dacdef9bbe1d17b649d045fc07166e",
+      "size_bytes": 199911
+    },
+    {
+      "path": "static_resources/565f308ccee4fa9ac8f50f75a684da65_Rv1UBrGVGFk.pdf",
+      "sha256": "29087798dd2e0cbd3d90d7a3cc55e0724a0cccf807e882fa18591885f8539142",
+      "size_bytes": 90294
+    },
+    {
+      "path": "static_resources/5672848001bbb171070bbbc08cbb6af6_8-334s14.jpg",
+      "sha256": "9d95f817104ad198673a8a049308bbf31b5fe86a3bc15bc2c933c4ff87d63dc2",
+      "size_bytes": 37014
+    },
+    {
+      "path": "static_resources/58ca8ba55cc85881fba5f724e5c4cdd7_6HrTfI8R_9A.pdf",
+      "sha256": "112881863a0fbf8fa7cd5b892bff65fca114f7c8673c957b7872e4366a7c50e4",
+      "size_bytes": 86805
+    },
+    {
+      "path": "static_resources/5c1ff828a6a0535e6ed9eca4f648a7f0_bMnpf0s-mAk.srt",
+      "sha256": "337cb6229e0c04467d9a64642bfec4aae90c049f2274b06e48695ff46a46d1b7",
+      "size_bytes": 82663
+    },
+    {
+      "path": "static_resources/5cf5bbdbf1d9cb2269a7c3f01efc96f4_NLKJdcb1E5I.pdf",
+      "sha256": "b8248da7abec39558c112fec4b440cb7d51462276e2a909c0e3ac45d193da5e7",
+      "size_bytes": 87679
+    },
+    {
+      "path": "static_resources/608f0e0b2ffa840d4e51ee0a592ef823_MIT8_334S14_Lec5.pdf",
+      "sha256": "cd1c1c6232317c275239ccfade88e737b7426a0345056a5e1c4a02f2691fba60",
+      "size_bytes": 188514
+    },
+    {
+      "path": "static_resources/60faaf2d43d41521b179746a6f9cd5c2_8-334s14-th.jpg",
+      "sha256": "082d493c5bb81041a645062c0441c901f36ca299e72ce42b0a2afdbffb0cc0ac",
+      "size_bytes": 4253
+    },
+    {
+      "path": "static_resources/631cda72c666b63360bd5824f460ada9_xtgygDYTKM0.srt",
+      "sha256": "fbe4a30bea90245b131117a3f46851ce149bd80797b0179823cfec3bb5f1c510",
+      "size_bytes": 82110
+    },
+    {
+      "path": "static_resources/632158523a12fcd4524a4c1c523397e9_2Ep48LwBhAQ.srt",
+      "sha256": "ce48e18dd80ad47faee2e77484aca01759ef9be243fdfe46d0450737ac1e4340",
+      "size_bytes": 94689
+    },
+    {
+      "path": "static_resources/632f79d0b770653eda9f09e1d882da0a_MIT8_334S14_Lec20.pdf",
+      "sha256": "0475a42e378410b4d0058c3ba4527799b311fa2f84989852d33c2f06a73a75d4",
+      "size_bytes": 203412
+    },
+    {
+      "path": "static_resources/63a2343dc24d8920e481ae5597183948_MIT8_334S14_pset4.pdf",
+      "sha256": "4224a7488d7f72863f3ff107bc316c4cd5d9826ab335d7df3cf0c5da0db48680",
+      "size_bytes": 158323
+    },
+    {
+      "path": "static_resources/63dce8a48224f14f0459403b7a4cb44f_MIT8_334S14_Lec16.pdf",
+      "sha256": "ee23eac08ad7d526a3430978573b5d0fcd8d608e3fbb850c9a8d77b206b9ad38",
+      "size_bytes": 163427
+    },
+    {
+      "path": "static_resources/67ba9ccffdc3e869776eb495dc2e993a_MIT8_334S14_TestReview2.pdf",
+      "sha256": "a536c84a3190196664ea6083a7b7ea7700400f288c193738cca7cac38775bf16",
+      "size_bytes": 133142
+    },
+    {
+      "path": "static_resources/68368de4e0c7fe694ee2c7d7d7a3d0a8_DVRjcfMwAkk.pdf",
+      "sha256": "4209965b83863d773cd48236e4ab80f2dfccbe2106b90f29a42339d405a11af8",
+      "size_bytes": 89980
+    },
+    {
+      "path": "static_resources/73dc054ee50666bca50948521c0b863a_MIT8_334S14_pset3.pdf",
+      "sha256": "68652083a8ce6be5bdd049565492e990b96b0b8a0dac6504ea56e82d2b95d90b",
+      "size_bytes": 102177
+    },
+    {
+      "path": "static_resources/73ff50b210535d66826c3e6194851c0c_MphmZC2o0aM.vtt",
+      "sha256": "d04b6a1f0327a8d15addfd389d384d82e8ed3108fa6ddb819c58a93bc7d1fe2b",
+      "size_bytes": 77317
+    },
+    {
+      "path": "static_resources/744468fdc69470176d2835d268bd7837_MIT8_334S14_Lec11.pdf",
+      "sha256": "30a294eac42c758ec3e2f0263f65e38bb20ad1612ea96e8c95784e43a2855e9c",
+      "size_bytes": 174713
+    },
+    {
+      "path": "static_resources/74789b600ca8a0856cad364114fc301b_6HrTfI8R_9A.srt",
+      "sha256": "50c0063141b5d868472afa1d1ea0bf3f5cd830b718943dd93557954bd0a552d7",
+      "size_bytes": 84717
+    },
+    {
+      "path": "static_resources/7ca5e947b9bb584d86fa70c3a46dadf5_fGUaxrIejr4.vtt",
+      "sha256": "95d66ba0fc9524629e1e88f2ec7b7139c775f95b4ea141b9cd6e1c1aa24f55cb",
+      "size_bytes": 73017
+    },
+    {
+      "path": "static_resources/7d9150f3b1785763b888c403c17f8dc4_eKVr-oKxMPg.vtt",
+      "sha256": "bfe5b39c1dab66f9289a1e93a0ef9f4cd4a20c7614bcdcf4ddec9dd0e4ed64da",
+      "size_bytes": 94005
+    },
+    {
+      "path": "static_resources/8003fdd991be2434da055c3822338331_9WhnbTT_nS8.pdf",
+      "sha256": "a8b6f3e4b0e88f67003a7e11bf59bb805ecc38d10a601a1aa31071890de60f61",
+      "size_bytes": 88806
+    },
+    {
+      "path": "static_resources/8197274673b8bbf2c8c082c861dcbd9c_h_YZxQJpPv0.pdf",
+      "sha256": "daff6c23e2f87aa53b69ecffa6ee455004db5d878dd5c0135d539c479631df2c",
+      "size_bytes": 83217
+    },
+    {
+      "path": "static_resources/8221319fddacc25d0326922a999d7892_2Ep48LwBhAQ.pdf",
+      "sha256": "daefeaf4573fef5bd2e72c3e796d7cb18f186c01f5d0b326bf751487de33aecd",
+      "size_bytes": 96575
+    },
+    {
+      "path": "static_resources/827c80215966c04d4067095a96bf6d74_MIT8_334S14_Lec26.pdf",
+      "sha256": "a923b1c7a56c7cc9bc23c33f60f0385d8fd4a28c2c31421f743d440768f12ba6",
+      "size_bytes": 315258
+    },
+    {
+      "path": "static_resources/85c7b59456160f2ff2f8964e15a92817_fGUaxrIejr4.pdf",
+      "sha256": "7dff21f4d1ac53fc0741b3685da787adce4b10222c3099c399556938ee6d2bce",
+      "size_bytes": 78707
+    },
+    {
+      "path": "static_resources/85e0c629b1cc854d5ab247f3a9c38f7a_MIT8_334S14_Lec25.pdf",
+      "sha256": "420d2551bfc35c1e5afdc27d406da655e328f17ed8cafb8cdf81e43daa57566f",
+      "size_bytes": 173488
+    },
+    {
+      "path": "static_resources/85f01760f2ea1193c673baffce5c25e6_MIT8_334S14_Lec7.pdf",
+      "sha256": "9634d0c97ad48fa4a6594fbadd3c3deb3ed8f937f4a799150b35db74017fad17",
+      "size_bytes": 174928
+    },
+    {
+      "path": "static_resources/861b86fa130f09b325b523b006ae0250_MIT8_334S14_Lec4.pdf",
+      "sha256": "3690a8896447677c7a1aff02132f2675216078f88c8a025f0f5bca8841326527",
+      "size_bytes": 163281
+    },
+    {
+      "path": "static_resources/86257bb65cb9976b05ba361a1b916011_MIT8_334S14_Lec9.pdf",
+      "sha256": "a6da04853fca219e3ce1be66ad0e9fd618a2ce901ae89abd996970d30ff7b3fe",
+      "size_bytes": 184381
+    },
+    {
+      "path": "static_resources/8a0c97f41336ab557a23481c901235d3_MIT8_334S14_Lec18.pdf",
+      "sha256": "58ba1f1230b50dc528d841ed0a42e30a4495d760de9cafff09ef8784865c46ce",
+      "size_bytes": 185194
+    },
+    {
+      "path": "static_resources/8ed02aa1327a2e3192d603c143eed6e1_1581262.pdf",
+      "sha256": "4236e1ca5434ed4c87234cdd79438f0b2b91ce4cdba5f3bba71239be5d52796f",
+      "size_bytes": 73238
+    },
+    {
+      "path": "static_resources/914d55f20250bfd83c85daee5f563433_MIT8_334S14_Lec24.pdf",
+      "sha256": "870088d4b68ccc08f9233d883e3c81dd71a14daf4532fd7d20e4ba41777e75b1",
+      "size_bytes": 169039
+    },
+    {
+      "path": "static_resources/936e77c6281fefa0d61d6c8c1c8459b3_1581262.srt",
+      "sha256": "276a08e1a2f3076a381c23a0df9d074e60e26d6743d89dd1b29d7edb320c490a",
+      "size_bytes": 82645
+    },
+    {
+      "path": "static_resources/95e4671e599cd75997c981fa74c616b6_PGnLAx8e4Gk.pdf",
+      "sha256": "101ea5d340f8be8b2b9f379ae752f720053aa63b56766e022bb77eb23a34fa49",
+      "size_bytes": 97028
+    },
+    {
+      "path": "static_resources/9adff7f0a6fea792c115eb2322e74601_MIT8_334S14_Lec21.pdf",
+      "sha256": "568b262d608ca257c80f0d70040eba6bfd72913e9d507810cde7004369e7598b",
+      "size_bytes": 166236
+    },
+    {
+      "path": "static_resources/9e801cef4da7859bc5b4b94dc55a1547_MIT8_334S14_pset1.pdf",
+      "sha256": "b9fca74c87528d12737c962805983f394ab82ceaf925f4f0056908b881ef2b19",
+      "size_bytes": 119713
+    },
+    {
+      "path": "static_resources/a2dd4c90d2711928df730e43a4202c57_h_YZxQJpPv0.srt",
+      "sha256": "e212910e39d6f6090cace13144f33930b07330792339a063f10599a07a04a987",
+      "size_bytes": 83273
+    },
+    {
+      "path": "static_resources/a569b31df2810a6d1b6e23a371a6a3eb_MIT8_334S14_Lec19.pdf",
+      "sha256": "17e2fc469485c932fdc165fd9bac698aacb07237ff4b92205f5dd95c971887f3",
+      "size_bytes": 145514
+    },
+    {
+      "path": "static_resources/a5e9d31772995cb2b80b2b317f505aa4_H44LyNdIi5E.vtt",
+      "sha256": "052d5f8e72152eddb42f8648161aad5fb8696e89f4a7bffa30aa64ec5977a558",
+      "size_bytes": 78832
+    },
+    {
+      "path": "static_resources/a6ee9238b2e8ef42d78161d80e3a66f6_WtGS6lV5MDI.pdf",
+      "sha256": "3432a23dd90fd2671ebb9581ced0f140ef93ec5bb6268add743249366b318f63",
+      "size_bytes": 86847
+    },
+    {
+      "path": "static_resources/a82694de6d124a16b998a9d124941580_1_dMnMLbIok.pdf",
+      "sha256": "8b8741ce62e5dfe40ed58ebab20ba8b87a6c521b6eccea083357f34febf84234",
+      "size_bytes": 86507
+    },
+    {
+      "path": "static_resources/ad9f1dde0c56577985cff4aa363d23c3_MIT8_334S14_Lec1.pdf",
+      "sha256": "3d3daaa9e6d07d40b82f09124b39a70b40e20a84c1e1f4b941274766511135d7",
+      "size_bytes": 200297
+    },
+    {
+      "path": "static_resources/b2dc75a6adae51de8df9d4f976eafe03_1581262.vtt",
+      "sha256": "73a54d0a9c9257ea00d175ada334a48f9f8d54bb87937efec3e873ba7efd9db0",
+      "size_bytes": 78305
+    },
+    {
+      "path": "static_resources/b524798fb5520d70f6297beec126601c_WtGS6lV5MDI.srt",
+      "sha256": "c053f84467999dd32c04ced08693f5d84c260ae165ce813a9dfb57817673a282",
+      "size_bytes": 84387
+    },
+    {
+      "path": "static_resources/b73bad058a4ddcf849f82d3a55e0b04f_bQ-miBkhy9M.pdf",
+      "sha256": "7599955005bfb44557eea13ed2979fc9923040eeba0821990d3a4dcc29167fda",
+      "size_bytes": 88137
+    },
+    {
+      "path": "static_resources/b789fbcbf81b7a99540006e6c7bb6587_2MaQKFHqYBw.srt",
+      "sha256": "fe698d9a743228407d4b89a5a9766af07a8f085ad3b5a7569b3172af62041867",
+      "size_bytes": 87172
+    },
+    {
+      "path": "static_resources/bbefcd9fcffec54d8670a7801eca4f98_MIT8_334S14_pset5.pdf",
+      "sha256": "53d970a7974618d7afb840f8b7803da575e7da8927699754636fef860ea7b82d",
+      "size_bytes": 102942
+    },
+    {
+      "path": "static_resources/be551c5abdaa2a95c900fa9710258d1d_MIT8_334S14_Lec17.pdf",
+      "sha256": "d4c91474e493d08df07114da399c2adab6c8f30ed5552a43316e4bb450375d2b",
+      "size_bytes": 169055
+    },
+    {
+      "path": "static_resources/c17fee7452d24bd357ea312eadc1df24_XDpCdELStJs.srt",
+      "sha256": "833a255fd8697ec59a62f8188d777d8bd45956423640dc3a9eb220fd8d4e7d25",
+      "size_bytes": 81772
+    },
+    {
+      "path": "static_resources/c7641a790c41d527d073bd2f0821ba7e_yBdXS5dXQN4.srt",
+      "sha256": "f08c901f4e4386d45df4f0f865421cb51ed6c7374e0c336c40ee55a51a0ab519",
+      "size_bytes": 75644
+    },
+    {
+      "path": "static_resources/c7902bc31e4a40b3168715d0cb73f486_xtgygDYTKM0.pdf",
+      "sha256": "e198c31eec486407afa821beffcebc2ad469d1f071daaa9ef2f845fb05fd8a23",
+      "size_bytes": 83684
+    },
+    {
+      "path": "static_resources/cecfac48928dd33a4c039789f7d76c3e_bQ-miBkhy9M.srt",
+      "sha256": "343276ea16a5c21c8e0bbb2493eab0e79d7307367cd287c40594b0340524b788",
+      "size_bytes": 87452
+    },
+    {
+      "path": "static_resources/d0215858249855c5bce6616822fe44ed_opL7d8vY0KA.vtt",
+      "sha256": "29410cea7746e863357039d15e61406fc0e1547d5e47ededc973636ec047aa84",
+      "size_bytes": 79569
+    },
+    {
+      "path": "static_resources/d07dc879c7aeb0f75c50d1e56f8cbc84_MIT8_334S14_TestReview3.pdf",
+      "sha256": "9c9bd93949ed98a58eeab69c71a08f4744578b06bcaf5e8af02c400eb9fbdd8a",
+      "size_bytes": 156383
+    },
+    {
+      "path": "static_resources/d47fc5bdd8eed8fc75b65b2afb2ad83f_MIT8_334S14_Lec8.pdf",
+      "sha256": "42b6c8a047967f4c4d513b327b9b31b0e7dbcc2eaecb22ee331f334e6eb2a40f",
+      "size_bytes": 187447
+    },
+    {
+      "path": "static_resources/d56e4b8c2b0c512b9a1475aec8867f67_WtGS6lV5MDI.vtt",
+      "sha256": "16faa0a04b46d688004e24905cce35cab49fcda50aa0b5d6f85b6c39bf94a618",
+      "size_bytes": 79982
+    },
+    {
+      "path": "static_resources/d7a3ee9d9e5284cab8e1b49002b9b1cd_DVRjcfMwAkk.srt",
+      "sha256": "37c7634b6d6320c3a8f51e56d58049b567bd8be81639f0187cbd7c69c0252cc2",
+      "size_bytes": 94150
+    },
+    {
+      "path": "static_resources/d906b88fb4ad5ee592df32d7189c35aa_NLKJdcb1E5I.vtt",
+      "sha256": "9a8a673db2496156b452398d885b209e45ed7fe74d28a137cca3dc125a5408df",
+      "size_bytes": 82343
+    },
+    {
+      "path": "static_resources/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "static_resources/dc93460113fb65c09d12c9911f199ab6_y7sIuqgADgc.pdf",
+      "sha256": "a46eadcc3ab7ce1eeea5f07b2cc9fb22cd0be01e5b23195a3ffc06892bc42b36",
+      "size_bytes": 86863
+    },
+    {
+      "path": "static_resources/e2a4186e984d10c1e7dce3f579854a41_H44LyNdIi5E.srt",
+      "sha256": "95e945313e2b50b6cac60329e8d5d2690bd24e3e839e5918db194c35f3ab0f42",
+      "size_bytes": 83112
+    },
+    {
+      "path": "static_resources/e4e78b1173172a09f05bf478f5352d7c_MIT8_334S14_Lec23.pdf",
+      "sha256": "f76d74481f16bf2acf1516422faf687c5328a784cf633f976ebd120bba24866c",
+      "size_bytes": 188411
+    },
+    {
+      "path": "static_resources/e640ec612c094d4ef87d20230a35b1af_iecno1uInk8.srt",
+      "sha256": "a49f7fd8ea1c1efb9c0339c7eedd6525c95f90df8bec85867f915f7b954a3ea5",
+      "size_bytes": 82010
+    },
+    {
+      "path": "static_resources/e6eebd2e96225e20b23a37fae78e983e_PGnLAx8e4Gk.vtt",
+      "sha256": "a39da605e0a5c52a5141e47f5b82a7adee5cebec0a77d2ee45a0f1c91fe9f9a2",
+      "size_bytes": 91870
+    },
+    {
+      "path": "static_resources/e9c3de09ec577873abe06036cdc0805b_opL7d8vY0KA.pdf",
+      "sha256": "0d36e33d337f7ab3fd9b80818c09f7cbe8cc619c7e7bb2982565cbe661211012",
+      "size_bytes": 87830
+    },
+    {
+      "path": "static_resources/ea7769e0a0e35cb195660e0bfd19c543_XDpCdELStJs.vtt",
+      "sha256": "541a5fa5308ef6336c3d562cfdda6ed9ea063a06b6aa6152ddb4f156ffa19e72",
+      "size_bytes": 77507
+    },
+    {
+      "path": "static_resources/ebcfb22915d75358996716185f280305_xtgygDYTKM0.vtt",
+      "sha256": "c9825253025092fe670047a5e6f9da8bd566feff345c5e5621c09fedcdd7a9d5",
+      "size_bytes": 77870
+    },
+    {
+      "path": "static_resources/ece59caf2248bfdc738140efdfa8ee2d_MIT8_334S14_TestReview_Sol2.pdf",
+      "sha256": "da1067fb5ffe14b739af754edf4ef852ac9236de969b138c2a8aa907b5dba84c",
+      "size_bytes": 417857
+    },
+    {
+      "path": "static_resources/ed5e3609b7c350d38d8697a3ba17d5a0_Rv1UBrGVGFk.vtt",
+      "sha256": "e70a6651e340c60a4cd30ee0b17654fa80a7c4fd55e495ad311fe9bae75baa26",
+      "size_bytes": 81295
+    },
+    {
+      "path": "static_resources/f0c27aeb991b533e96ff62094576d9c4_2Ep48LwBhAQ.vtt",
+      "sha256": "fd7f16948ac9368468d34ffbef06e098632e6c2f080d449a52c3bb76ccf9d575",
+      "size_bytes": 89679
+    },
+    {
+      "path": "static_resources/f279a4c689f591efd2c813f435209f5b_00PK6cUCbnU.srt",
+      "sha256": "ebfc88c8bf058aedc3a8cc2e1029566e92faf296a60dcbfe8ae692de9e31d2d5",
+      "size_bytes": 82848
+    },
+    {
+      "path": "static_resources/f325b402f1f07c9b0e8f599ddd47388f_vhLqp3eIkU4.pdf",
+      "sha256": "8e717814c672919105b518bb6a83183b8820918a7051d1fb172f1d1e2a7a53c8",
+      "size_bytes": 90587
+    },
+    {
+      "path": "static_resources/f3f6042cd95e43ba936cbc8f874cc58f_00PK6cUCbnU.pdf",
+      "sha256": "f9abe36d59019fdaa0deafbbaf86769b655a8f3715a9f50d2ac55a6310bc9d15",
+      "size_bytes": 85106
+    },
+    {
+      "path": "static_resources/f4d91c40f7c43141de5421bf612ec470_iecno1uInk8.pdf",
+      "sha256": "498aec8271a40e243de4e2db01b7ab93083148eb5d8d0ee71f2eedee41999541",
+      "size_bytes": 85140
+    },
+    {
+      "path": "static_resources/fac81a57129352d6aa781eb78a8a735f_1_dMnMLbIok.vtt",
+      "sha256": "9ccaca803a31a8f3286207ce6e2413aa9d5baf43f028cac67e9a3dfed7a1c11a",
+      "size_bytes": 83430
+    },
+    {
+      "path": "static_resources/fca05b4e07b257e5a5bc5c232c544ccc_vhLqp3eIkU4.vtt",
+      "sha256": "cfdd1c15de22a60bacd436f6cce67a3036a3155a529b6aaf6142b7a4ca017452",
+      "size_bytes": 84768
+    },
+    {
+      "path": "static_resources/fcd5f9627c42dae60ef4da89c410b7b0_MIT8_334S14_TestReview_Sol1.pdf",
+      "sha256": "5451d8a5c8b206a8086ba6dab31b8e20c27fb2fa61b30ed7be28156c6ab216e6",
+      "size_bytes": 248129
+    },
+    {
+      "path": "static_resources/index.html",
+      "sha256": "1507c37aa028a59f6cfb3466b5a8547e718592ebec1903d89a9ed7fd2edcbda8",
+      "size_bytes": 49662
+    },
+    {
+      "path": "static_resources/vtt07e33d98672f3ef3c50870674a8e4e98_MphmZC2o0aM.vtt",
+      "sha256": "d04b6a1f0327a8d15addfd389d384d82e8ed3108fa6ddb819c58a93bc7d1fe2b",
+      "size_bytes": 77317
+    },
+    {
+      "path": "static_resources/vtt0d577a3317b912d4a07c6c7fb2d99a50_1_dMnMLbIok.vtt",
+      "sha256": "9ccaca803a31a8f3286207ce6e2413aa9d5baf43f028cac67e9a3dfed7a1c11a",
+      "size_bytes": 83430
+    },
+    {
+      "path": "static_resources/vtt27b54c46c1f5f6df9ebc8a382143f997_opL7d8vY0KA.vtt",
+      "sha256": "29410cea7746e863357039d15e61406fc0e1547d5e47ededc973636ec047aa84",
+      "size_bytes": 79569
+    },
+    {
+      "path": "static_resources/vtt305aaaea045860108a574f545d753e45_Rv1UBrGVGFk.vtt",
+      "sha256": "e70a6651e340c60a4cd30ee0b17654fa80a7c4fd55e495ad311fe9bae75baa26",
+      "size_bytes": 81295
+    },
+    {
+      "path": "static_resources/vtt31ebfae3ed6276acefad04e041888a8f_fGUaxrIejr4.vtt",
+      "sha256": "95d66ba0fc9524629e1e88f2ec7b7139c775f95b4ea141b9cd6e1c1aa24f55cb",
+      "size_bytes": 73017
+    },
+    {
+      "path": "static_resources/vtt3d30f12a9a9493f83d20d69b8a0d6c3f_9WhnbTT_nS8.vtt",
+      "sha256": "e1ae51d19ba3ddfcf99e5da5adf5c79a19a7cf0498f5c40755c520fe556a1dc3",
+      "size_bytes": 81493
+    },
+    {
+      "path": "static_resources/vtt42f64379a64e5a8169c7a6bf31a9353e_y7sIuqgADgc.vtt",
+      "sha256": "9e763ad71ad656e51989f4ddfa2d344692bc3539824cdc7bcf100eb07db3c6bb",
+      "size_bytes": 81084
+    },
+    {
+      "path": "static_resources/vtt44059e37558e0c72976aa8374753cfda_vhLqp3eIkU4.vtt",
+      "sha256": "cfdd1c15de22a60bacd436f6cce67a3036a3155a529b6aaf6142b7a4ca017452",
+      "size_bytes": 84768
+    },
+    {
+      "path": "static_resources/vtt486293a7d2947d7cf5bc6dbfe50f2c77_eKVr-oKxMPg.vtt",
+      "sha256": "bfe5b39c1dab66f9289a1e93a0ef9f4cd4a20c7614bcdcf4ddec9dd0e4ed64da",
+      "size_bytes": 94005
+    },
+    {
+      "path": "static_resources/vtt4e7630aa66ca65dd88991ac28fdc6290_NLKJdcb1E5I.vtt",
+      "sha256": "9a8a673db2496156b452398d885b209e45ed7fe74d28a137cca3dc125a5408df",
+      "size_bytes": 82343
+    },
+    {
+      "path": "static_resources/vtt4fe8afad010d2d844a2a5df25d83a7af_PGnLAx8e4Gk.vtt",
+      "sha256": "a39da605e0a5c52a5141e47f5b82a7adee5cebec0a77d2ee45a0f1c91fe9f9a2",
+      "size_bytes": 91870
+    },
+    {
+      "path": "static_resources/vtt5c1ff828a6a0535e6ed9eca4f648a7f0_bMnpf0s-mAk.vtt",
+      "sha256": "7903ef7dce30c360ce3af0144e6200944db8f1cf258a03d11b80fb0be28c4b8d",
+      "size_bytes": 78358
+    },
+    {
+      "path": "static_resources/vtt631cda72c666b63360bd5824f460ada9_xtgygDYTKM0.vtt",
+      "sha256": "c9825253025092fe670047a5e6f9da8bd566feff345c5e5621c09fedcdd7a9d5",
+      "size_bytes": 77870
+    },
+    {
+      "path": "static_resources/vtt632158523a12fcd4524a4c1c523397e9_2Ep48LwBhAQ.vtt",
+      "sha256": "fd7f16948ac9368468d34ffbef06e098632e6c2f080d449a52c3bb76ccf9d575",
+      "size_bytes": 89679
+    },
+    {
+      "path": "static_resources/vtt74789b600ca8a0856cad364114fc301b_6HrTfI8R_9A.vtt",
+      "sha256": "9151991bf59ea44d0bb2fcaf1db4316b299466f7ae3f6bc320ea9ba1d1340f32",
+      "size_bytes": 80352
+    },
+    {
+      "path": "static_resources/vtt936e77c6281fefa0d61d6c8c1c8459b3_1581262.vtt",
+      "sha256": "73a54d0a9c9257ea00d175ada334a48f9f8d54bb87937efec3e873ba7efd9db0",
+      "size_bytes": 78305
+    },
+    {
+      "path": "static_resources/vtta2dd4c90d2711928df730e43a4202c57_h_YZxQJpPv0.vtt",
+      "sha256": "326cc83eda31696c1247f501403f111d200f63eae94177dcb85caa31d289c440",
+      "size_bytes": 78963
+    },
+    {
+      "path": "static_resources/vttb524798fb5520d70f6297beec126601c_WtGS6lV5MDI.vtt",
+      "sha256": "16faa0a04b46d688004e24905cce35cab49fcda50aa0b5d6f85b6c39bf94a618",
+      "size_bytes": 79982
+    },
+    {
+      "path": "static_resources/vttb789fbcbf81b7a99540006e6c7bb6587_2MaQKFHqYBw.vtt",
+      "sha256": "e5473f24c28a0e1352da99378c3cdb4ebed8d256f253b741fc02a6d838af499e",
+      "size_bytes": 82637
+    },
+    {
+      "path": "static_resources/vttc17fee7452d24bd357ea312eadc1df24_XDpCdELStJs.vtt",
+      "sha256": "541a5fa5308ef6336c3d562cfdda6ed9ea063a06b6aa6152ddb4f156ffa19e72",
+      "size_bytes": 77507
+    },
+    {
+      "path": "static_resources/vttc7641a790c41d527d073bd2f0821ba7e_yBdXS5dXQN4.vtt",
+      "sha256": "6e678734a31b08fb9e5aa596f0cf5e6e78d6e30bcac6a1db6d305fffaf192f59",
+      "size_bytes": 71828
+    },
+    {
+      "path": "static_resources/vttcecfac48928dd33a4c039789f7d76c3e_bQ-miBkhy9M.vtt",
+      "sha256": "782b15fdec0929224678a6f3700347ebeca67e2a8a004c5f21cb09d2c2b5e577",
+      "size_bytes": 82862
+    },
+    {
+      "path": "static_resources/vttd7a3ee9d9e5284cab8e1b49002b9b1cd_DVRjcfMwAkk.vtt",
+      "sha256": "5509f89e41e4744ad8c08cbbb6932d650654ac8c44498b6e73a9398338af0d5c",
+      "size_bytes": 89120
+    },
+    {
+      "path": "static_resources/vtte2a4186e984d10c1e7dce3f579854a41_H44LyNdIi5E.vtt",
+      "sha256": "052d5f8e72152eddb42f8648161aad5fb8696e89f4a7bffa30aa64ec5977a558",
+      "size_bytes": 78832
+    },
+    {
+      "path": "static_resources/vtte640ec612c094d4ef87d20230a35b1af_iecno1uInk8.vtt",
+      "sha256": "eedeee1a23f4e2c791f3892b1636c5cb1a8b0c27b9ce67d091cd941405f251e4",
+      "size_bytes": 77925
+    },
+    {
+      "path": "static_resources/vttf279a4c689f591efd2c813f435209f5b_00PK6cUCbnU.vtt",
+      "sha256": "ec9ea1a256b133a359a587fe130001e3697636756cd64e53e7c7fa05cf8f414d",
+      "size_bytes": 78558
+    },
+    {
+      "path": "static_shared/css/303.21a26.css",
+      "sha256": "c1f648b2a07d50db0226cb43b1f5841cf2f306cb556094acf37a9b672fb744a7",
+      "size_bytes": 17807
+    },
+    {
+      "path": "static_shared/css/303.21a26.css.map",
+      "sha256": "7590eab132bd704c0429aff614a94f416b748c2937a65d3cb29a65bb9af6b389",
+      "size_bytes": 40551
+    },
+    {
+      "path": "static_shared/css/common.21a26.css",
+      "sha256": "e648d57168dcccd56d0a43459c3f30d00fbfebee47979683af23506cce653e67",
+      "size_bytes": 47881
+    },
+    {
+      "path": "static_shared/css/common.21a26.css.map",
+      "sha256": "ca8adc60c06a479842b15ce28d22292d093b2fcaaebfa483812dabc0a2d92755",
+      "size_bytes": 61289
+    },
+    {
+      "path": "static_shared/css/course_offline.21a26.css",
+      "sha256": "661e0c900f6164473c23bfe2b422158922816f944ceadab029ba2bf8f706bd21",
+      "size_bytes": 282202
+    },
+    {
+      "path": "static_shared/css/course_offline.21a26.css.map",
+      "sha256": "c07b3cc3961d011d20ef247270a145ac90710873ec2909d9d132ccfd36613589",
+      "size_bytes": 440593
+    },
+    {
+      "path": "static_shared/css/course_offline_v3.21a26.css",
+      "sha256": "0d7f78ed94c17bc997de80768c81bf81834ef7d02ae9b342ae317ede9ea343b4",
+      "size_bytes": 330840
+    },
+    {
+      "path": "static_shared/css/course_offline_v3.21a26.css.map",
+      "sha256": "49def29aa8cdb207347d5c64f4811883a528ca8f61193bd3937b20245746dc33",
+      "size_bytes": 500105
+    },
+    {
+      "path": "static_shared/css/course_v2.21a26.css",
+      "sha256": "8e97b43ee04b92064dce52bc1cda20da8bdeb9e6a55d052a45b0396734b92951",
+      "size_bytes": 216594
+    },
+    {
+      "path": "static_shared/css/course_v2.21a26.css.map",
+      "sha256": "38e040c8e7e10a3f78fd7e698eeddcd0b0a4a9b1c54a93f55c68a359f2534f54",
+      "size_bytes": 338935
+    },
+    {
+      "path": "static_shared/css/course_v3.21a26.css",
+      "sha256": "32e12d049e9de3673b38ea645e2f3ace9b382e3c827d4d15e0662aa54556fca1",
+      "size_bytes": 313066
+    },
+    {
+      "path": "static_shared/css/course_v3.21a26.css.map",
+      "sha256": "b6e0c5f67a48e3493f6a2abd88b85f91c6f4ce91cd4796714722933b3d50432b",
+      "size_bytes": 459655
+    },
+    {
+      "path": "static_shared/css/fonts/e79607e9f7d62450a175.woff2",
+      "sha256": "01a175339f6171f48869d58bd2e48269684c55f03be64596b94bf1284d10e979",
+      "size_bytes": 12360
+    },
+    {
+      "path": "static_shared/css/fonts/ff9cb78ec9a131fc93a6.woff",
+      "sha256": "c87502d41ce30009d0ac09e3158b432e7de2c6ede500d3c580a92bee29b9c000",
+      "size_bytes": 14712
+    },
+    {
+      "path": "static_shared/css/instructor_insights.21a26.css",
+      "sha256": "0f147c57b35c1098980959b757643fa0141d2707937a7db7002e53b3a3e77486",
+      "size_bytes": 1178
+    },
+    {
+      "path": "static_shared/css/instructor_insights.21a26.css.map",
+      "sha256": "18f4a862116026458bd0b09cbf0e7a4228416d792e76f994bbbb34e97207a609",
+      "size_bytes": 6792
+    },
+    {
+      "path": "static_shared/css/www.21a26.css",
+      "sha256": "c011f3808984b641185ea627c62da9345796d7d5352198465604c7e8533ef8fa",
+      "size_bytes": 263643
+    },
+    {
+      "path": "static_shared/css/www.21a26.css.map",
+      "sha256": "46d768a5bb954162b21e2cf40052eb64c0538f1a8a8cf043beac64d70c3c38e9",
+      "size_bytes": 400538
+    },
+    {
+      "path": "static_shared/css/www_offline.21a26.css",
+      "sha256": "b212cf06c1d4e999c825e3e1ffd27c7b4a1061bafab07b4c445d2efabc8a3095",
+      "size_bytes": 283030
+    },
+    {
+      "path": "static_shared/css/www_offline.21a26.css.map",
+      "sha256": "983361cf7e0371dfc1f691025e690e1f52dbae19697fef8dd2bd3a0d803d0e83",
+      "size_bytes": 421729
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Bold.d7bf1aa6f322a64b2fc3.ttf",
+      "sha256": "a2f90f004f37f784b1ae74f2cfce1d97787748e8bd52c28be085bfa2c23e0df1",
+      "size_bytes": 339732
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Italic.0935d2ebbc05be3559b1.ttf",
+      "sha256": "7d27cc3796dfda24ef2f7e779b9269cd0fc08308345965ed7bf43525c3635522",
+      "size_bytes": 254072
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Regular.a0c1dc80c66cc03bfa1e.ttf",
+      "sha256": "67158e7e70dd1c2c5cc44f8d781e836426f143ee004ef100134897d64d8fa093",
+      "size_bytes": 390056
+    },
+    {
+      "path": "static_shared/fonts/Helvetica-Light.70359849afb40079a1c8.ttf",
+      "sha256": "a0b153852ff62a50aceb8f280d8fdb9c2bc77535a04eba5b1685a89965d96965",
+      "size_bytes": 161716
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.0beb27f30d92440091b4.ttf",
+      "sha256": "b854af078512be3f9e54819b4cc874d5485a13adc1e5bd8c22c992ccd7d8669d",
+      "size_bytes": 5784
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.8167faf7e3a9170d282a.woff",
+      "sha256": "a3d7fc991ed83ab545a9971d1114387b56b3c976cc649590cfe8e4aedf77f142",
+      "size_bytes": 3468
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.84f45410d085472240e2.woff2",
+      "sha256": "9fe6fbea73fd5d5941b695e766b50b6fbe78f3a7c66b072503cbe2a22a12c887",
+      "size_bytes": 2516
+    },
+    {
+      "path": "static_shared/fonts/MaterialIconsRound-Regular.subset.7154eae1d0e60e0dabe4.woff2",
+      "sha256": "9bbc544d3126d84861070b63aeb84f737716cfe85c44079528a11671f5f9f119",
+      "size_bytes": 724
+    },
+    {
+      "path": "static_shared/images/2c6f79ea9578979deb06.png",
+      "sha256": "c83ec79c94fdb8aa22b6d21581c3f325da9f22b16f5660edc2e0eec1a5da9d8d",
+      "size_bytes": 10160
+    },
+    {
+      "path": "static_shared/images/Facebook.d1f5caeb73d7d12505a2.png",
+      "sha256": "335d7215d25d5ae1b258faf0247b4c155017bdd7ce2e85af31a1a63a9c89504a",
+      "size_bytes": 550
+    },
+    {
+      "path": "static_shared/images/Instagram.4df41828ffee4ff33d8a.png",
+      "sha256": "67d2c3c11f2e4bf189946d60d3dca71c9b5e4a18c99e15ba36f8896830af8d49",
+      "size_bytes": 1127
+    },
+    {
+      "path": "static_shared/images/MIT-logo-red-gray-54x28.43de571d3abab470ba83.svg",
+      "sha256": "78514ce9eeda2a9ef16048cb823aa4e0cf83652d8e94843cc96fbe92c4691576",
+      "size_bytes": 859
+    },
+    {
+      "path": "static_shared/images/Youtube.7c9f62c4f1dc9515ebb4.png",
+      "sha256": "9131df94f34194ff4cfe9c08e176248eeee333c5672f889722932bb6282eccbc",
+      "size_bytes": 743
+    },
+    {
+      "path": "static_shared/images/a_logo_17.070ebe0244db38bbb10c.gif",
+      "sha256": "039a5a3bf1c2e37e3dd22e33428c88b25ec82a3a4b0d7d004d817ce3c7ac03bc",
+      "size_bytes": 2751
+    },
+    {
+      "path": "static_shared/images/audio_thumbnail.defc385448d97b770bae.png",
+      "sha256": "61e9ff93eefe1d6393d06df2b80492ab4e690f9f1cbf5cdeb20e6bd8a9543a0b",
+      "size_bytes": 9686
+    },
+    {
+      "path": "static_shared/images/bluesky-black.9f4523fcefa9b6f25be7.png",
+      "sha256": "843c15f349a11bdf2c97dda9a743d2860266a73bd26daa3a968f27784008a902",
+      "size_bytes": 1023
+    },
+    {
+      "path": "static_shared/images/button_start.9ec211e3e12cf97ca78d.png",
+      "sha256": "fd98ea4b4c3f3a6bb53f28aafd340839617209af2ed4cc58a30519010c4fe72c",
+      "size_bytes": 10153
+    },
+    {
+      "path": "static_shared/images/close_small.b0a2684ccc0da6407a56.svg",
+      "sha256": "56b7919d6fc87d95eb0a7df342aa696fe802d3d988cb643b04addf21416e44d3",
+      "size_bytes": 952
+    },
+    {
+      "path": "static_shared/images/course-v3-header-bg.69dc3a4c0f449f3641ca.jpg",
+      "sha256": "f009275f0fd0b4a187c9ee2bdb5101cc2be202cb94d152d87e5c3db4c46c1560",
+      "size_bytes": 136352
+    },
+    {
+      "path": "static_shared/images/course_image.5f27062ec0987f54efcf.jpg",
+      "sha256": "b10ce673a3ff24a0035a429002f7d7c60d5b8fa4b7e0a0424b45a1ce8c496d4b",
+      "size_bytes": 160536
+    },
+    {
+      "path": "static_shared/images/default_news.26aee386c42b7364dbd3.png",
+      "sha256": "69180aaf1841d11f848de2962b115334259fd32daa1b26cec7e008979d5421cb",
+      "size_bytes": 58301
+    },
+    {
+      "path": "static_shared/images/expand.a062b1c47b121e3c7e03.svg",
+      "sha256": "dc3a7002769e26ea6c2af7bd62e216a5ed2579e26224850cd76eb1f09da71f1a",
+      "size_bytes": 1326
+    },
+    {
+      "path": "static_shared/images/external_link.58bbdd86c00a2c146c36.svg",
+      "sha256": "c8bb31bb589c2c2e3f3ac8ff4905046ff954ec9201df357f499fdefea2293de8",
+      "size_bytes": 620
+    },
+    {
+      "path": "static_shared/images/heart.788fcfbec39be4547397.svg",
+      "sha256": "47256db6a051a41d7a9d3be758a9d608c157d837a9f422594171be115b026858",
+      "size_bytes": 3016
+    },
+    {
+      "path": "static_shared/images/heart_burgundy.e7c8635e8cc6538b89fa.svg",
+      "sha256": "47795d7e32c39148060ee722ab2e6e95a2e43cc50b662fbf2b563cb17b46af87",
+      "size_bytes": 1145
+    },
+    {
+      "path": "static_shared/images/inacessible.4e75069800b136c59203.gif",
+      "sha256": "ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629",
+      "size_bytes": 42
+    },
+    {
+      "path": "static_shared/images/left_arrow.3c482a1f6223bff3f0e6.svg",
+      "sha256": "f8872074c4ffead4bac353f9ff8c1e4e070aae58c0bc2ce8b9228ed54bd95785",
+      "size_bytes": 851
+    },
+    {
+      "path": "static_shared/images/linkedin-black.2f7f8a6a3899f5d1e1d6.png",
+      "sha256": "12af7d2297df1ad7e19765ebdddd85cae7dee079a3f53f1444f835489cd37762",
+      "size_bytes": 651
+    },
+    {
+      "path": "static_shared/images/mastodon-black.9e2de31a28415c123800.png",
+      "sha256": "ba95e46f4f484bef90e8dac4d383d3c8c5797b0537351e4dd65204a328ef1ea4",
+      "size_bytes": 1074
+    },
+    {
+      "path": "static_shared/images/mit-logo-black-red.1fdb4d046bb785ba6a3b.svg",
+      "sha256": "3509e5abca6ccf86c4b9d69ab031e205fb75721a82c4ee1c996ad81b37f21191",
+      "size_bytes": 860
+    },
+    {
+      "path": "static_shared/images/mit-logo-black.9ac6152a456f0f100d7a.svg",
+      "sha256": "d774a4a0f7c7638c60abe0b7da235f0a35a9baf0366943bca7eb81dc0fea4483",
+      "size_bytes": 509
+    },
+    {
+      "path": "static_shared/images/mit-logo-red.a9444ff319fe22027271.svg",
+      "sha256": "d4b00848632c364c6a80305f351cf3b7a55f294d500db52c8e8915eb355f44c8",
+      "size_bytes": 849
+    },
+    {
+      "path": "static_shared/images/mit-logo-white.ac078b94cc981d280e47.svg",
+      "sha256": "017f3b5994425d3de57e20d7c8a665188894d0fd438558974c03377ebd825d0a",
+      "size_bytes": 578
+    },
+    {
+      "path": "static_shared/images/mit_learn_logo.2ec930205f87bce4013d.svg",
+      "sha256": "5e9e721ae3ff8c9f00eb947288c174d765383a0ff88244751cdf08091eab08d0",
+      "size_bytes": 3118
+    },
+    {
+      "path": "static_shared/images/mit_ol.4165342f87abb1da46fd.svg",
+      "sha256": "f5a91e9d642a37fba3425e80d76618a8d4e99898892f4514baff945110cc401a",
+      "size_bytes": 4759
+    },
+    {
+      "path": "static_shared/images/mobile_video_thumbnail.00125190bb7310b5afff.png",
+      "sha256": "1e39f5d61eb2e239d2fed25680a4f4a741dc73b3ab77a8abbad5297080af0395",
+      "size_bytes": 9677
+    },
+    {
+      "path": "static_shared/images/mp_logo.6428926751199ad28ce6.gif",
+      "sha256": "6f06f5a3e080d5266efd374a4536bb253cccdb164767c57bf71cce00d161d4dc",
+      "size_bytes": 614
+    },
+    {
+      "path": "static_shared/images/ocw_logo_white.cabdc9a745b03db3dad4.svg",
+      "sha256": "c54b2366cc4a6fbea097b9b15cd96d8f888237625282c5bc257f6a62da1bb81c",
+      "size_bytes": 5710
+    },
+    {
+      "path": "static_shared/images/ocw_logo_white_on_black.dc6662ab918cec1c2f31.png",
+      "sha256": "1bccdbe2c80094104e6180f9fcac8a409c9ff0b9034ecff2e7af8591d0a3ffef",
+      "size_bytes": 19788
+    },
+    {
+      "path": "static_shared/images/ocw_stories_home_btn_arrow_right.be61ab3faf488e15d55f.svg",
+      "sha256": "d6f5e3e4c2981ea54bd1073c750ac1672dc3b8362c6ca99c726673b2f1627720",
+      "size_bytes": 1523
+    },
+    {
+      "path": "static_shared/images/ocw_story_single_arrow_left.b1e0f3712e0cc99359df.svg",
+      "sha256": "d9d178640da44f805191615ad8b5e5d75df6a36f13ca8baadc2e70c2117bd445",
+      "size_bytes": 238
+    },
+    {
+      "path": "static_shared/images/ocw_testimonial_quote_modal_close.ef116a87c95eea8ad2a2.svg",
+      "sha256": "4a2e6e2e4d8f946a420f2ea16b61d4e16040574ef37c8e41c03cc4a10a35f42b",
+      "size_bytes": 306
+    },
+    {
+      "path": "static_shared/images/oeg_logo.8a31f7b87f30df2d0169.png",
+      "sha256": "ecda4f1360554b4ec8edcf8017349d4da73c18506324c2e05778ee11194b19a2",
+      "size_bytes": 12817
+    },
+    {
+      "path": "static_shared/images/page_thumbnail.135ca83a823b6c0b4616.png",
+      "sha256": "ca026ff672ec75e27dfeaf21c15842d5d763b3f8578170879eb958d8851946ea",
+      "size_bytes": 3462
+    },
+    {
+      "path": "static_shared/images/resource-download.d374f56f2572d49418bc.svg",
+      "sha256": "06b35e2cf5566816af83b04cae9183e97622801a3e5db022a051dc5205d209ee",
+      "size_bytes": 392
+    },
+    {
+      "path": "static_shared/images/search.42a42bffcdf041e57b97.svg",
+      "sha256": "124f5fbd03f296920f9b118c63b81152e1300813a9075b444d1ec5c9fe80d611",
+      "size_bytes": 395
+    },
+    {
+      "path": "static_shared/images/video_play_overlay.42e62ca534a2528e4ad0.png",
+      "sha256": "8cfe7e6d4f9e06e81d218386077126f8b64fc9602fa29394eda6960c00f08830",
+      "size_bytes": 7219
+    },
+    {
+      "path": "static_shared/images/video_thumbnail.8817e5123be1e39ecd14.png",
+      "sha256": "d31ef7743fad01fa2d36860edc2fc9ea3f6a2195bfcce3b31ae553b609047bd6",
+      "size_bytes": 40410
+    },
+    {
+      "path": "static_shared/images/videojs_download.e0dbb2cfb52d2d71ba4a.svg",
+      "sha256": "0dcb951bccee94b45e7d033f9b5c8912b5807a0018c33e3e2df046a000221e54",
+      "size_bytes": 1050
+    },
+    {
+      "path": "static_shared/images/warning.e29b1060a0fb05a2b927.svg",
+      "sha256": "b6d9ae30e9c6d0ab0a413d1df82ad89dd2d05f9e1f7069070b3dab7c5472483e",
+      "size_bytes": 584
+    },
+    {
+      "path": "static_shared/images/x-formerly-twitter-black.f8c75ad9f42902726d25.png",
+      "sha256": "5dbb75eccbfffc4c6597592e0d61031d5295631ca0752671b6d8387f1a4ade72",
+      "size_bytes": 1240
+    },
+    {
+      "path": "static_shared/images/youtube.1e55fc2f8fc09d36a1a6.svg",
+      "sha256": "c2dfd8eb412c7c946525ff2172ab7344d4c1816ed3359773df726acf4e7f9bdc",
+      "size_bytes": 1155
+    },
+    {
+      "path": "static_shared/js/117.21a26.js",
+      "sha256": "a87e897d05e536240500cac025a504a3820514633199db9c1d4a0bc91afd0f23",
+      "size_bytes": 724892
+    },
+    {
+      "path": "static_shared/js/27.21a26.js",
+      "sha256": "f7935c76f6ae861d565e1799cd4dc65223deae7d1e904404a0f2701f4592ea7d",
+      "size_bytes": 276072
+    },
+    {
+      "path": "static_shared/js/303.21a26.js",
+      "sha256": "76c7d4dfdc26012961584d46a9c4cbc269b54a0760e9f3fd9d793db5235b0f3d",
+      "size_bytes": 204324
+    },
+    {
+      "path": "static_shared/js/658.21a26.js",
+      "sha256": "2e15179a56c3467c0ff92d715d208b967bd3171446e9207759d397f7c704a4ab",
+      "size_bytes": 177
+    },
+    {
+      "path": "static_shared/js/77.21a26.js",
+      "sha256": "3e933148c3a71846820837896d2afd9538e6215f91a4b820cbe42634ea6129de",
+      "size_bytes": 177
+    },
+    {
+      "path": "static_shared/js/common.21a26.js",
+      "sha256": "77cdc0165b782f4e93b7bf1ebe35cb2e710fade629e7734e2ad95fd7195dc8d3",
+      "size_bytes": 881966
+    },
+    {
+      "path": "static_shared/js/course_offline.21a26.js",
+      "sha256": "b2de542cee6224c44041e26482ffdd0f22d7811a16bd3924af757e23595f1020",
+      "size_bytes": 1574235
+    },
+    {
+      "path": "static_shared/js/course_offline_v3.21a26.js",
+      "sha256": "cfe88e20d069b88eb9645a09ca84df7518d3a546b5d9f63707ff431c1e82b91b",
+      "size_bytes": 1576987
+    },
+    {
+      "path": "static_shared/js/course_v2.21a26.js",
+      "sha256": "90a3f958cc45ad8efc8d8c3f859ff789552a37f8c86d74347aefc5b1f8e34bfe",
+      "size_bytes": 25429
+    },
+    {
+      "path": "static_shared/js/course_v3.21a26.js",
+      "sha256": "7ce93e170effd7b3aedc34a896ec83296218bab362becad6db457708034143e2",
+      "size_bytes": 1551659
+    },
+    {
+      "path": "static_shared/js/instructor_insights.21a26.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "static_shared/js/www.21a26.js",
+      "sha256": "79d7e0a8eb20f17591f5fb06b0b4cef285b693eb4f48ace7d0d51f978b350d7f",
+      "size_bytes": 534185
+    },
+    {
+      "path": "static_shared/js/www_offline.21a26.js",
+      "sha256": "4a721af345f0bff2cfbe56910975d9927bc6d60ae0466cdef7199be8166ac1bb",
+      "size_bytes": 666393
+    },
+    {
+      "path": "static_shared/mathjax/CONTRIBUTING.be29e891326e401c2bed.md",
+      "sha256": "89e1f87f7daa9271da9e6c437fe7b05ccd7e29c1ee0e297e782d8a3d7def63ec",
+      "size_bytes": 13948
+    },
+    {
+      "path": "static_shared/mathjax/LICENSE.42368b5a19b817284b3c",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "size_bytes": 11358
+    },
+    {
+      "path": "static_shared/mathjax/README.009b4259a26029ef2261.md",
+      "sha256": "cb4220e9d5884ad79c36b33d617f89e71b6266749fdcd6221565871023a99035",
+      "size_bytes": 10085
+    },
+    {
+      "path": "static_shared/mathjax/action.6c8b472538082988f2c6.js",
+      "sha256": "7c46fc1ef8118723bf2f386d704ab289e5dd683471e0ad4e1e717244959b565b",
+      "size_bytes": 1843
+    },
+    {
+      "path": "static_shared/mathjax/af.03f75fc13a63a3b9d177.json",
+      "sha256": "b906ca6e91517ac8d6f87c304223839c9998daf2d29ac8d79ce5fa967c23dc77",
+      "size_bytes": 267392
+    },
+    {
+      "path": "static_shared/mathjax/ams.0415214124f9103b90eb.js",
+      "sha256": "d430e678d50c5747151ad67eb118df6a67b5844fe2f9183d0820b9fdf52bbbd5",
+      "size_bytes": 20447
+    },
+    {
+      "path": "static_shared/mathjax/amscd.84f30684146fc2e4c8d9.js",
+      "sha256": "2202b36d581834b02c08a2ff62a9cd10409eda2a2f1126913fa3810743895a16",
+      "size_bytes": 4295
+    },
+    {
+      "path": "static_shared/mathjax/asciimath.5ef60e8589351131d7bb.js",
+      "sha256": "4460b49defc8a8eafdcf831faafd5e2dc496c9384d7473ae43eba9ba8f4a2a5f",
+      "size_bytes": 101572
+    },
+    {
+      "path": "static_shared/mathjax/assistive-mml.28169af1dbd9fd16f99c.js",
+      "sha256": "9c1166c7c2ca2e57d5d25cc3bf71dc5369d32b9a4260151f998c0bed77d55dc3",
+      "size_bytes": 3639
+    },
+    {
+      "path": "static_shared/mathjax/autoload.a94e1289e7134d87a3de.js",
+      "sha256": "cb7c9ce44fc81b004e754574733861604b72219879d693ff1396683bc1c4cfe1",
+      "size_bytes": 3331
+    },
+    {
+      "path": "static_shared/mathjax/base.dc579f6c4351ed9a84f7.json",
+      "sha256": "72558700556d997a95e9281044e330eba9a472dda43642a9b5cc0483294d875f",
+      "size_bytes": 217157
+    },
+    {
+      "path": "static_shared/mathjax/bbm.2f6ff24c137fa6f333c4.js",
+      "sha256": "fb780f6e8ca565439b3c6dc78f3e42b525905fd43c5e15471994a2a1da914ca8",
+      "size_bytes": 2143
+    },
+    {
+      "path": "static_shared/mathjax/bboldx.2e870a1015215bd08943.js",
+      "sha256": "d84c426bb390ea51f93b62eb586781c446c6d848600e2fe2e0527b749239f15a",
+      "size_bytes": 6813
+    },
+    {
+      "path": "static_shared/mathjax/bbox.ecc635eb2baeac9fd648.js",
+      "sha256": "9d9ff6d1c592d2a4fe728412d2d5ec29379f4721bfa3b8356ad2045eb939b848",
+      "size_bytes": 2323
+    },
+    {
+      "path": "static_shared/mathjax/begingroup.4671477bfa0bf26c6357.js",
+      "sha256": "0f606d5a71301992e92d8697ccbf8318736110691d8a94303f3f254cd589421a",
+      "size_bytes": 4266
+    },
+    {
+      "path": "static_shared/mathjax/boldsymbol.70316731a9bc7a9b3f6d.js",
+      "sha256": "baaabd9fb430fe4fdbfa9db74aa60b118dd650a68239280368abfd1bc30a0e10",
+      "size_bytes": 2460
+    },
+    {
+      "path": "static_shared/mathjax/braket.98d4c80cdb81eb21b246.js",
+      "sha256": "4a8a6ac1283d7dcee58e7fd71edb178991ba086fa8487f7d26720fe64c002791",
+      "size_bytes": 4635
+    },
+    {
+      "path": "static_shared/mathjax/bussproofs.bb5ca1895bf59c545d5f.js",
+      "sha256": "10997a853480488a009310f8fc35c9ea737af59f608127e647b255a84bc7f8e1",
+      "size_bytes": 12204
+    },
+    {
+      "path": "static_shared/mathjax/ca.8bc2b061fb770836e171.json",
+      "sha256": "750a034984f3b5966a2a391eb5ad0c7b50bfa02eb576a82656a0bf43ebe34ee7",
+      "size_bytes": 247328
+    },
+    {
+      "path": "static_shared/mathjax/cancel.ea96f17cd534ccbc8f62.js",
+      "sha256": "9ff91ff84d9776606cdb66da62ffe9bb39cfdfabcf070f214d35e553689ffece",
+      "size_bytes": 2255
+    },
+    {
+      "path": "static_shared/mathjax/cases.3f7406ef40318a6f8e5f.js",
+      "sha256": "6805d481aaee3f78d82bb9f0b6b9ac47b0804c30f10253394724459d95d41a8c",
+      "size_bytes": 4277
+    },
+    {
+      "path": "static_shared/mathjax/centernot.768e4f081cc8683f1e3e.js",
+      "sha256": "7b89e7a2ddb38908580bcbf5aef3aedeff2231fbc8907d93c516f20e32fc9772",
+      "size_bytes": 2145
+    },
+    {
+      "path": "static_shared/mathjax/chtml.ca0e7adc4fe819207adf.js",
+      "sha256": "00db8c74ce9a68b9bf964712113b8dd71387dd2c04e4237ca2825d8cec59be86",
+      "size_bytes": 173680
+    },
+    {
+      "path": "static_shared/mathjax/color.79630c77474128a4ae41.js",
+      "sha256": "d5e0087b1f06ad49df3264042df0073edc78d09f8a09fb0c3e8622d110f6c73f",
+      "size_bytes": 6817
+    },
+    {
+      "path": "static_shared/mathjax/colortbl.96a1a982f3eba3c55314.js",
+      "sha256": "dff289abcff30d0e109eb51a6f6be2d09e46b7e1db5bc881719f9f1bf483ab8f",
+      "size_bytes": 3185
+    },
+    {
+      "path": "static_shared/mathjax/colorv2.0f5ccf0d5d09a36c88f2.js",
+      "sha256": "3cc6e234d0cd33e8004b9f4864e237a06b5e87c4d0ff17d64fff449464c628ce",
+      "size_bytes": 1524
+    },
+    {
+      "path": "static_shared/mathjax/complexity.c6bb3692efc5a41374a9.js",
+      "sha256": "0fa2a9b23848e516045fd11effc90087c41d793ac9fa69903980d7df3fd4b96d",
+      "size_bytes": 12603
+    },
+    {
+      "path": "static_shared/mathjax/configmacros.968326e72eabfc5a057f.js",
+      "sha256": "5a7b6e7b7980f8d3425ddbcbbe21299da5b1254d5702e91bdbb9d04f487f4664",
+      "size_bytes": 2588
+    },
+    {
+      "path": "static_shared/mathjax/core.cca62069d95b4d05010b.js",
+      "sha256": "989dca5b19443257e70306243a1b2fdad3ed7cdcee211de745407ac25cec050f",
+      "size_bytes": 136139
+    },
+    {
+      "path": "static_shared/mathjax/da.1af6f77cb15eebd92088.json",
+      "sha256": "92b82e15916673ebdcbdd6927aa491a18cf4780432733e534e1071b98b176dae",
+      "size_bytes": 247368
+    },
+    {
+      "path": "static_shared/mathjax/de.5229347b6a7889bb15d6.json",
+      "sha256": "2e56ac4f5a4ce6f831a69c34a81b66d4e260bba4a019499518f356888c146fa5",
+      "size_bytes": 284080
+    },
+    {
+      "path": "static_shared/mathjax/dsfont.2ffd7df91a30456d97d7.js",
+      "sha256": "74a9961b43c43644c28c582fc14031b7f42bac0b771140a5d80af383415ea978",
+      "size_bytes": 1898
+    },
+    {
+      "path": "static_shared/mathjax/empheq.e0c5bc5efaa2ece82970.js",
+      "sha256": "80bf476cd47846a5c93f4e68c6091263e3c427e762176d1718eea0f8bb7b2b1f",
+      "size_bytes": 5898
+    },
+    {
+      "path": "static_shared/mathjax/en.2ae13392310d42a46742.json",
+      "sha256": "5e60d1843351966a159cc409eb73e9abc7c7e375a3311c40d35843d70fee79fb",
+      "size_bytes": 364204
+    },
+    {
+      "path": "static_shared/mathjax/enclose.1ef451815434723333c4.js",
+      "sha256": "5301d91e2e7d6f86a29c13c1b9726b7476b9de9b1745011886c914372fab4cf3",
+      "size_bytes": 1731
+    },
+    {
+      "path": "static_shared/mathjax/entities.5c6373e281bdb19f8ef4.js",
+      "sha256": "8023c697f39b9b85510f2a343878bd18bd2c79ed164ce8cdf5534b2be45cc7f8",
+      "size_bytes": 23248
+    },
+    {
+      "path": "static_shared/mathjax/es.f4db9f8140d97550256a.json",
+      "sha256": "3f273798257eac1bb39082724ac819a0940588aefd21275c2c43a1178badb61b",
+      "size_bytes": 250921
+    },
+    {
+      "path": "static_shared/mathjax/euro.aded2c057b4cef1c52b5.json",
+      "sha256": "564c10b1ecae3d161a50fbf13965b9d326d24d8c5e172152a16253f6334375ac",
+      "size_bytes": 12781
+    },
+    {
+      "path": "static_shared/mathjax/explorer.426e0736fb6dd31457c3.js",
+      "sha256": "56a81c6ffba48aae68468cdcad4edac6ec8ec412088fbe9df74eece776906cc8",
+      "size_bytes": 57792
+    },
+    {
+      "path": "static_shared/mathjax/extpfeil.c29a100d59abcef672e8.js",
+      "sha256": "2d1f82bf22acefe6c358e3a3dca293cc2fda338f2db4fd147befc75122c41841",
+      "size_bytes": 2445
+    },
+    {
+      "path": "static_shared/mathjax/fontsizev3.1d09d18b6f2b30a8a2be.js",
+      "sha256": "0e8fe554424a274d5809efc11f3a48602713bb7d2b2280ae4fcac04181f128f2",
+      "size_bytes": 1637
+    },
+    {
+      "path": "static_shared/mathjax/fr.929e781d8ea8264c952e.json",
+      "sha256": "caf60a882b654ac18f5a168960aeeac014c27708c56195dd6d765aff728839df",
+      "size_bytes": 276403
+    },
+    {
+      "path": "static_shared/mathjax/gensymb.95536d22152609f3564c.js",
+      "sha256": "262d898481e34a5f9683dd15a16cea81a06702de101bf76289bbea83f8f4afc9",
+      "size_bytes": 1575
+    },
+    {
+      "path": "static_shared/mathjax/hi.4bf8aa94f4d208220313.json",
+      "sha256": "debdb8fc8b1c56a7f1ac4f96bc566af9456632b58df556b3331debdf0c2c723d",
+      "size_bytes": 394568
+    },
+    {
+      "path": "static_shared/mathjax/html.64640f2418616faa1a58.js",
+      "sha256": "a647d13d009d5ecee4239cfe681ef831f2bd0f2a91033b922ae6bf3481d156e0",
+      "size_bytes": 2813
+    },
+    {
+      "path": "static_shared/mathjax/it.91ecd5899fdf2bb53bc4.json",
+      "sha256": "b476cbfb4a1e8f6112f69c51e6ebacf86ed4114a9c0b1fbfb419ac2944aa6cfa",
+      "size_bytes": 282065
+    },
+    {
+      "path": "static_shared/mathjax/jsdom.9fdedce9ca3689b85808.js",
+      "sha256": "f321af6481e5c3e6ec5cc0917b528f8f8df3ae53f94485d3b770eb118eb738c5",
+      "size_bytes": 3163
+    },
+    {
+      "path": "static_shared/mathjax/ko.090da32db11725e7e3c8.json",
+      "sha256": "af7fd90bcf06736f5363b752d505d4cc7782bd725c6db4184edccdf56b24a87e",
+      "size_bytes": 392014
+    },
+    {
+      "path": "static_shared/mathjax/lazy.7af99c63170827107829.js",
+      "sha256": "a72e3b41f608f5e2c2b4b2b9a163ab9be1e31fcf84b255b4bad6f189e4f10505",
+      "size_bytes": 6597
+    },
+    {
+      "path": "static_shared/mathjax/linkedom.becd6a7ee73e62236393.js",
+      "sha256": "927d0b99ac6305492bcc4d46222f636666d8fbf1f952664b6c2099df15311fd7",
+      "size_bytes": 3616
+    },
+    {
+      "path": "static_shared/mathjax/liteDOM.965a8f780cf212d7924b.js",
+      "sha256": "4ee6d6e646cdcf3203fee3ede9395b0ddeb7670bfd2fdf06236701733013105c",
+      "size_bytes": 13577
+    },
+    {
+      "path": "static_shared/mathjax/loader.98478cc1c9eb81b9c646.js",
+      "sha256": "54997fce9d5b9ffe347ebdbcfd3fd95551b64e1cf75e480353675065e0aef97e",
+      "size_bytes": 11365
+    },
+    {
+      "path": "static_shared/mathjax/mathtools.964440743180ea438fcf.js",
+      "sha256": "d6dab6acde6634e4b043e38c0c6d4202346aedc0ee614b146c786278a4673c30",
+      "size_bytes": 22353
+    },
+    {
+      "path": "static_shared/mathjax/menu.f4a8061049adac3345bf.js",
+      "sha256": "b500f2dd50552d47a934e4ffee2a4f6fb166860cd243b9fdc4cc3d5e3dd898b8",
+      "size_bytes": 74867
+    },
+    {
+      "path": "static_shared/mathjax/mhchem.341764cc13d0455e1513.js",
+      "sha256": "8398fa620d2bcbf40258b3b63733a41ada58f96d511a8a1c2e8ede8d1c1d6cd0",
+      "size_bytes": 37800
+    },
+    {
+      "path": "static_shared/mathjax/mml-chtml-nofont.ffd84f2ef882302d28b5.js",
+      "sha256": "89bf2d4e00ec5915ef76db9f85a062e4a038c50571cefee638c4df8a04bb1711",
+      "size_bytes": 728671
+    },
+    {
+      "path": "static_shared/mathjax/mml-chtml.1d267789651ad082d5bb.js",
+      "sha256": "cc38c1a37c27929b1e4b1009a47a3e4593e40d0d0a3beaf1392e36e1dee7aeaf",
+      "size_bytes": 837572
+    },
+    {
+      "path": "static_shared/mathjax/mml-svg-nofont.122d7d3d1e46367eeff6.js",
+      "sha256": "60f20019de737284666c7baf8cd80cf16cec1793327e6f5c3b3002e673a8958b",
+      "size_bytes": 714104
+    },
+    {
+      "path": "static_shared/mathjax/mml-svg.a951f7eef65eb75a54cb.js",
+      "sha256": "a99bdc0c3f039227c319ba0baad8b35a8a76c54b0799f0d081148db296728ef3",
+      "size_bytes": 1689752
+    },
+    {
+      "path": "static_shared/mathjax/mml.6b31f3bfa403ae9b49c2.js",
+      "sha256": "ccb777a3698f3d2619876d7fdfc8d307a54896c3e1812f37aac24252687251ea",
+      "size_bytes": 8673
+    },
+    {
+      "path": "static_shared/mathjax/mml3.7fa4e575bbce3dc9aa69.js",
+      "sha256": "ed792479b3343529a2a9a1a813ebf3cea9fe5d381e9d135a07e155c81d036031",
+      "size_bytes": 27784
+    },
+    {
+      "path": "static_shared/mathjax/mml3.sef.e248bbb6bcf23bd666b4.json",
+      "sha256": "0f0eef793f3b97df3b10c386e23528938eb82f7d180affe694397e7346f03a87",
+      "size_bytes": 192556
+    },
+    {
+      "path": "static_shared/mathjax/nb.4623092c7651af59b599.json",
+      "sha256": "8d1ad78f81be49b569ce0011056f70501584843b5a5da8b21b4c2d8d38cb3ae3",
+      "size_bytes": 260745
+    },
+    {
+      "path": "static_shared/mathjax/nemeth.82528d687eede063ec84.json",
+      "sha256": "16f30ad5bc7db02bbcce4623b108626f1a73d65660799891f23efd76dcaa333e",
+      "size_bytes": 227472
+    },
+    {
+      "path": "static_shared/mathjax/newcommand.40654bd3c828b24343c5.js",
+      "sha256": "770b6a794ae654b6897a991eedafb0caf095f7d716ba37b77933cc346e0a9f74",
+      "size_bytes": 8833
+    },
+    {
+      "path": "static_shared/mathjax/nn.3f92603dff43b349a375.json",
+      "sha256": "8481c038bfbf609f53053cb26f86c1de4c6eafebe1a80f909004b3a201b07166",
+      "size_bytes": 262158
+    },
+    {
+      "path": "static_shared/mathjax/no-dark-mode.a4d02764ff39686c860f.js",
+      "sha256": "63d7b52571baf709d0a387459cbb2a9ed70e7ce15be222328e19d155ed255b46",
+      "size_bytes": 2246
+    },
+    {
+      "path": "static_shared/mathjax/node-main-setup.680de4e949b8cd64db88.cjs",
+      "sha256": "4fe20a7938c64ead34b4f32e4f29d5ddc6cf74cb6ba66fd7f3ae88c9c2476b97",
+      "size_bytes": 121
+    },
+    {
+      "path": "static_shared/mathjax/node-main.312ba2296e6965b320f5.mjs",
+      "sha256": "7a52fd967e5af0b75e8b6eb02a3955dc23f9f55acaeb46b9bec38c2914f467c8",
+      "size_bytes": 113
+    },
+    {
+      "path": "static_shared/mathjax/node-main.a1f68a1ba943f03185ad.cjs",
+      "sha256": "81ac6fa9341578b24914d55582b1aa15b547670390e06cd9254e2a33fe92cf71",
+      "size_bytes": 120
+    },
+    {
+      "path": "static_shared/mathjax/node-main.cc0d12776d2f45d80a3d.js",
+      "sha256": "85f247e3e85f4cee56907d52dd8d7e54edcd99d4c6c2e20f3f0c4cc10a7bca32",
+      "size_bytes": 172257
+    },
+    {
+      "path": "static_shared/mathjax/noerrors.452647f1b6bd6b44295a.js",
+      "sha256": "479c00d274f7f38e25d44a13e407bf8adeb83b02dd05639a302ca7c0db3d4cc2",
+      "size_bytes": 1243
+    },
+    {
+      "path": "static_shared/mathjax/noundefined.0439a20c34a9acf01a71.js",
+      "sha256": "d29d871d8d38802cc1581f6e4f5d673c357a8bf9802114ea57f51a53d0a0fef3",
+      "size_bytes": 1384
+    },
+    {
+      "path": "static_shared/mathjax/package.42a8766f1cf9d84c7e0f.json",
+      "sha256": "440cfcbfb317456a774bc7186e857a1f135954105e32a4312d6cdd555f3a4257",
+      "size_bytes": 2435
+    },
+    {
+      "path": "static_shared/mathjax/physics.e4123b34f06f44dd5239.js",
+      "sha256": "739e0d02aa8311493d03159e13a3268da7f180d4888ed49d8f0644dec7defc78",
+      "size_bytes": 19539
+    },
+    {
+      "path": "static_shared/mathjax/require.2f5e2dc61b1adf63a69a.mjs",
+      "sha256": "9e425e715b5f6e6adc20ff285ba6f491b85b037f9dca011f9b0209fe4355027e",
+      "size_bytes": 73
+    },
+    {
+      "path": "static_shared/mathjax/require.aa3cf210b4e9a2145795.js",
+      "sha256": "6ccbfb7f9a6e627fabdc39ce034f99355172b9778891cce33243844501098130",
+      "size_bytes": 4007
+    },
+    {
+      "path": "static_shared/mathjax/require.d.8fd666d212aefcf6f421.mts",
+      "sha256": "946701066b1225bbb539cb3b7b9dfadfea309b7dfb728dc28e59599af97c102d",
+      "size_bytes": 44
+    },
+    {
+      "path": "static_shared/mathjax/safe.2b92ee8222a26906c900.js",
+      "sha256": "ddd5b5eb3076bdf71c9b0508c58fae095b441a22b7bf2ff2e1ad5ace389f49b2",
+      "size_bytes": 6375
+    },
+    {
+      "path": "static_shared/mathjax/semantic-enrich.491ab67000bd5fdd6eb6.js",
+      "sha256": "2c2d8d5e2ab1af07a73e587c036bda41c1d9606b5d8fca7ef2e43f553c743563",
+      "size_bytes": 4782
+    },
+    {
+      "path": "static_shared/mathjax/setoptions.f3653b2e4f65c484a6fb.js",
+      "sha256": "756100054a264bcfd47c1b5c03b7e4dcdd7cca679b78b693a6926e887ab59c39",
+      "size_bytes": 3729
+    },
+    {
+      "path": "static_shared/mathjax/speech-worker.7b5a87f13d48d5bbd15f.js",
+      "sha256": "d8b553a705594bbe99671152541511173eb6c413774eceaa0a3a525d2744996f",
+      "size_bytes": 417319
+    },
+    {
+      "path": "static_shared/mathjax/speech.5ee435297e7c7dda5d87.js",
+      "sha256": "124683e973f0fba5443c85e821b7070a4531737d2e8b08d48f9959088c51f4b8",
+      "size_bytes": 20405
+    },
+    {
+      "path": "static_shared/mathjax/sre.5a7b7b1517f3c7ac252e.js",
+      "sha256": "55831f16704c4530ab27b2d23b2324b32d0672c5bdcc69e10a0cc48ad2e4c4d8",
+      "size_bytes": 253655
+    },
+    {
+      "path": "static_shared/mathjax/startup.9743f3fd4d6f9d716970.js",
+      "sha256": "9d422bd9df67852929a43763fd0d7b7645b00d646c63dde77a3ceeee8f9a3b17",
+      "size_bytes": 17073
+    },
+    {
+      "path": "static_shared/mathjax/sv.eeca274a6ab1bdfcc3f1.json",
+      "sha256": "7436531c326be9449bdbb41c74fcae4235fc58ff7c6816999e571ee636fd15f1",
+      "size_bytes": 271954
+    },
+    {
+      "path": "static_shared/mathjax/svg.3b88ee8e0a986c3a12f3.js",
+      "sha256": "996d304c4925148720990cabbc27d1039a7208ad4777556a94f6db3f32d26577",
+      "size_bytes": 159228
+    },
+    {
+      "path": "static_shared/mathjax/tagformat.edffc1ce0e476457b1b4.js",
+      "sha256": "9da0f12949eb209f8cfa06fd88ddce12bf6b8880d29c067a7ad08f42164a3a57",
+      "size_bytes": 1975
+    },
+    {
+      "path": "static_shared/mathjax/tex-base.a4c788d227933a4dbe34.js",
+      "sha256": "1e5f8fc44e552919ab145d92a6fa80c4bf6a41d08d2c802b6a009be132bc8c8e",
+      "size_bytes": 107605
+    },
+    {
+      "path": "static_shared/mathjax/tex-chtml-nofont.1a4c01112bdf49d022b1.js",
+      "sha256": "bf5ab73ab803d35e02a79fd633f0ce4c977848b9dea360860e03e0230d4db03b",
+      "size_bytes": 873852
+    },
+    {
+      "path": "static_shared/mathjax/tex-chtml.3d44f0d96407e6e343da.js",
+      "sha256": "415067cd20829809061951738091f3c6c77987b42e267c03659d788b7f82069b",
+      "size_bytes": 982772
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-chtml-nofont.fc2bd8e22161628a2dd0.js",
+      "sha256": "e6e0602060c7d72c70a8814f68e69503bc11febc4146e64997518d3a34aeebff",
+      "size_bytes": 873984
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-chtml.c68e377694ee1fef1256.js",
+      "sha256": "1f5a21b33dff5936c39f791a789fee7e5026d02af10bc84d26a0a25fa613ba5d",
+      "size_bytes": 982885
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-svg-nofont.7a7b14c36959378a17b1.js",
+      "sha256": "db5b6ab0ca1a1156cf17bd664a11e9de4b9cb78946badf2e6592003f301fe698",
+      "size_bytes": 859417
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-svg.6080c69fb74dac246e2a.js",
+      "sha256": "8faf7907f243f0961366e4059bd3f1631b1501c251094b39150343ac90a326b1",
+      "size_bytes": 1835065
+    },
+    {
+      "path": "static_shared/mathjax/tex-svg-nofont.035269eaeae7adf40175.js",
+      "sha256": "a2a9dbdeafe507ab23954d46b681e8ae4f1d6858e546defc940fab34ea40e2ab",
+      "size_bytes": 859285
+    },
+    {
+      "path": "static_shared/mathjax/tex-svg.e3bd52162ad7ec8e950f.js",
+      "sha256": "ead0ae2417314d38101959e5df34cdb79e12e37a78c714a09375269fbb19d7e7",
+      "size_bytes": 1834952
+    },
+    {
+      "path": "static_shared/mathjax/tex.64e4e6f1b02236c48d0c.js",
+      "sha256": "e5c5c9a29af31a4809b10ac887c67d938e11b6b8c9e76bda6aba1f859eeaa66a",
+      "size_bytes": 147664
+    },
+    {
+      "path": "static_shared/mathjax/texhtml.0304f785a6a2387af68f.js",
+      "sha256": "6269dda09c28b4291cd4d95e880c9dc053cc95b41c644ce057bab5640cb83113",
+      "size_bytes": 2504
+    },
+    {
+      "path": "static_shared/mathjax/textcomp.80f210729d1a1347c27e.js",
+      "sha256": "e038f7b36ddc4cbaaaa427c8f8554d418f284518cdc4c24eeb296e50084a4b23",
+      "size_bytes": 4875
+    },
+    {
+      "path": "static_shared/mathjax/textmacros.42a818618be1b6ab53be.js",
+      "sha256": "e4de0ad5b86bfe6a90291cb7ac60ed5c43604794c008448c23fc1b7022edb9fe",
+      "size_bytes": 10220
+    },
+    {
+      "path": "static_shared/mathjax/unicode.47afeab5ebff181cca44.js",
+      "sha256": "bf1ddc9fe506f782c0e9271c0c52c4b258f9e4eac3d2905274d0c5d239e2a2b3",
+      "size_bytes": 3586
+    },
+    {
+      "path": "static_shared/mathjax/units.73d3834a074e41e2aa4a.js",
+      "sha256": "25278814cbc050fcd4e8849c014c238cf6801e00405e0acaf5d98924fd1e26a7",
+      "size_bytes": 2118
+    },
+    {
+      "path": "static_shared/mathjax/upgreek.e96035471331c770c1ab.js",
+      "sha256": "3a387e3460f5a4bcfdc170e9ba167165bf1d197259db3478316eb1fbd8c2e621",
+      "size_bytes": 1993
+    },
+    {
+      "path": "static_shared/mathjax/verb.9aa68f128a1f79e26afa.js",
+      "sha256": "bd19e9004bb69b7bb87599957d384b3e873292bcc23b6d6cb184c2af71260774",
+      "size_bytes": 1777
+    },
+    {
+      "path": "video_galleries/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "video_galleries/index.html",
+      "sha256": "843c8855504ef8de9516952b89d0b3fb99976e3ea559962eacef11dc600fc66a",
+      "size_bytes": 49953
+    },
+    {
+      "path": "video_galleries/video-lectures/data.json",
+      "sha256": "4f4952be61d78becc3a937fb6e4218d84af43aa0368e5f0c2da33047e96c797b",
+      "size_bytes": 58468
+    },
+    {
+      "path": "video_galleries/video-lectures/index.html",
+      "sha256": "e652eec7141ab06378d056e2edc3b8e1e861dcf6486f8a90c85f0a2413bb6b05",
+      "size_bytes": 62561
+    }
+  ],
+  "remaining_reviews": [
+    "Complete local links, essential readings, exercises and supplied solutions",
+    "One appropriate original media rendition, playback, captions and notices",
+    "Retain useful complete files; no duplicate renditions or metadata credited as knowledge"
+  ],
+  "schema_version": 1,
+  "source_bytes": 20978287,
+  "source_id": "ocw_6534d0cdfd373b7f15f3",
+  "source_sha256": "c94033c23e21165fd4b849ae3e99d26921e31029717fcfbac135b7b54b4d01f0",
+  "transformation_version": 2,
+  "video_lesson_count": 26
+}

@@ -1,0 +1,4419 @@
+{
+  "content_ready": false,
+  "course": {
+    "course_description": "This string theory course focuses on holographic duality (also known as gauge / gravity duality or AdS / CFT) as a novel method of approaching and connecting a range of diverse subjects, including quantum gravity / black holes, QCD at extreme conditions, exotic condensed matter systems, and quantum information.\n",
+    "course_description_html": "This string theory course focuses on holographic duality (also known as gauge / gravity duality or AdS / CFT) as a novel method of approaching and connecting a range of diverse subjects, including quantum gravity / black holes, QCD at extreme conditions, exotic condensed matter systems, and quantum information.",
+    "course_image": {
+      "content": "529bf14b-1b4a-356d-3394-6b186a3181a5",
+      "website": "8-821-string-theory-and-holographic-duality-fall-2014"
+    },
+    "course_image_metadata": {
+      "content_type": "resource",
+      "description": "In holographic duality, a quantum gravity system in a (d+1)-dimensional spacetime is equivalent to a many-body system defined on its d-dimensional boundary. The boundary system is referred to as a \"hologram\" of the bulk system. For more information about this image, see the syllabus section. Image by Prof. Liu.",
+      "draft": false,
+      "file": "/courses/8-821-string-theory-and-holographic-duality-fall-2014/529bf14b1b4a356d33946b186a3181a5_8-821f14.jpg",
+      "file_size": 35028,
+      "file_type": "image/jpeg",
+      "image_metadata": {
+        "caption": "In holographic duality, a quantum gravity system in a (d+1)-dimensional spacetime is equivalent to a many-body system defined on its d-dimensional boundary. The boundary system is referred to as a \"hologram\" of the bulk system. For more information about this image, see the syllabus section. (Image by Prof. Liu.)",
+        "credit": "Image by Prof. Liu.",
+        "image-alt": "Illustration of how cows at different distances in the bulk correspond to cows of different sizes at a boundary with illustrative text"
+      },
+      "iscjklanguage": false,
+      "learning_resource_types": [],
+      "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "ocw_type": "OCWImage",
+      "resourcetype": "Image",
+      "title": "8-821f14.jpg",
+      "uid": "529bf14b-1b4a-356d-3394-6b186a3181a5",
+      "video_files": {
+        "video_thumbnail_file": null
+      },
+      "video_metadata": {
+        "youtube_id": null
+      }
+    },
+    "course_image_thumbnail": {
+      "content": "adc1b441-45b5-5421-a20d-89ddf3cb0533",
+      "website": "8-821-string-theory-and-holographic-duality-fall-2014"
+    },
+    "course_title": "String Theory and Holographic Duality",
+    "department_numbers": [
+      "8"
+    ],
+    "extra_course_numbers": "8.871",
+    "image_src": "./static_resources/529bf14b1b4a356d33946b186a3181a5_8-821f14.jpg",
+    "instructors": [
+      {
+        "first_name": "Hong",
+        "last_name": "Liu",
+        "middle_initial": "",
+        "salutation": "Prof.",
+        "title": "Prof. Hong Liu",
+        "uid": "a084db3f-ef13-beb4-52b9-7d2ff87ceb36",
+        "url": "https://ocw.mit.edu/search/?q=Prof.+Hong+Liu"
+      }
+    ],
+    "learning_resource_types": [
+      "Lecture Videos",
+      "Lecture Notes",
+      "Instructor Insights",
+      "Problem Sets",
+      "Problem Set Solutions"
+    ],
+    "legacy_uid": "b980a8d4-99a5-280f-0204-ed609fdeffd9",
+    "level": [
+      "Graduate"
+    ],
+    "mit_learn_topics": [
+      [
+        "Science & Math",
+        "Physics"
+      ]
+    ],
+    "primary_course_number": "8.821",
+    "site_short_id": "8.821-fall-2014",
+    "site_uid": "329a9bcd-b9eb-46e8-800b-e77b4bf8971b",
+    "site_url_path": "courses/8-821-string-theory-and-holographic-duality-fall-2014",
+    "term": "Fall",
+    "title": "Course Metadata",
+    "topics": [
+      [
+        "Science",
+        "Physics",
+        "Particle Physics"
+      ],
+      [
+        "Science",
+        "Physics",
+        "Quantum Mechanics"
+      ],
+      [
+        "Science",
+        "Physics",
+        "Theoretical Physics"
+      ]
+    ],
+    "year": "2014"
+  },
+  "excluded_translations": [],
+  "expanded_bytes": 68406947,
+  "gaps": [],
+  "media": [
+    {
+      "id": "ocw_media_01956e38ff688c39b763",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/c898a5a2d5315bd3af5eadd5c017eeed_-mrxN8XcQOQ.vtt",
+              "sha256": "6ec76ccf8f180463fa9de5652394a2e8cc96dbbae6e42272edc5b5bbb7200f4b",
+              "size_bytes": 85260
+            }
+          ],
+          "context_path": "resources/physics-of-d-branes-part-iii/index.html",
+          "end_time": "",
+          "id": "5034e67e-16bb-1549-3407-b5c7feda6a7d",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/physics-of-d-branes-part-iii/data.json",
+            "sha256": "a98c9f985fbdccb753748b3983cab7996fa43c1e4c9662e5ae42d4d615356a38",
+            "size_bytes": 1779
+          },
+          "start_time": "",
+          "title": "Lecture 15: Physics of D-branes, Part III"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec15_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec15_300k.mp4"
+    },
+    {
+      "id": "ocw_media_0507000b562b2df9eb7c",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/6fa949a060005ebd937d417ba3c4848e_WPuDh61Lkpg.vtt",
+              "sha256": "2bda07166ba95674573b8bc7d54d401006433c6e738e1c65942622866fe0db86",
+              "size_bytes": 113199
+            }
+          ],
+          "context_path": "resources/computation-of-the-wilson-loop/index.html",
+          "end_time": "",
+          "id": "74a51ccd-e679-6fb8-74cd-6f7be23aa44a",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/computation-of-the-wilson-loop/data.json",
+            "sha256": "6187f51bc777748fba125404e6af05a5980409e98deee93f218b7190b4e841bc",
+            "size_bytes": 1967
+          },
+          "start_time": "",
+          "title": "Lecture 22: Computation of the Wilson Loop"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec22_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec22_300k.mp4"
+    },
+    {
+      "id": "ocw_media_240837de352467482cd6",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/833d62dd4f3b503a8fe4757ad37fb200_owhNn20aZo8.vtt",
+              "sha256": "e556242650d0f0c92e55a997f2e2e1c5ab425e38b99f1c5d1d529f76bc65b048",
+              "size_bytes": 109468
+            }
+          ],
+          "context_path": "resources/basics-of-string-theory-and-light-cone-gauge/index.html",
+          "end_time": "",
+          "id": "0289440a-e714-5f6b-8a80-166394d74b7a",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/basics-of-string-theory-and-light-cone-gauge/data.json",
+            "sha256": "c447dfb5d21bec77000a211281103086d50f682d923b50789a6196532beac74a",
+            "size_bytes": 1831
+          },
+          "start_time": "",
+          "title": "Lecture 10: Basics of String Theory and Light-cone Gauge"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec10_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec10_300k.mp4"
+    },
+    {
+      "id": "ocw_media_39e497b0fc2e600e433b",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/cd88f4171e0d502598db25685035fe45_LTEtH1gzwoE.vtt",
+              "sha256": "2ef066525607a3196bbc6ad267a13e3bcc48c806ed4064e194ff13b6ab16a2ce",
+              "size_bytes": 77334
+            }
+          ],
+          "context_path": "resources/causal-structure-of-a-black-hole-and-black-hole-temperature/index.html",
+          "end_time": "",
+          "id": "4bdf4158-1ada-74c7-e9ec-c74e21e159d3",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/causal-structure-of-a-black-hole-and-black-hole-temperature/data.json",
+            "sha256": "e287785922e50bcfbeeb3308d68d9ea23814c835f35cf37b3e4ee2a4753d9b1e",
+            "size_bytes": 2043
+          },
+          "start_time": "",
+          "title": "Lecture 3: Causal Structure of a Black Hole and Black Hole Temperature"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec03_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec03_300k.mp4"
+    },
+    {
+      "id": "ocw_media_46d055f23fcee58b203c",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/2b6ff99db647516daee15f99ba6981b5_0fChZwU1zEc.vtt",
+              "sha256": "1381943b28f2b9ab64eb0bc835b2d5bf3cacecd02241f8de3d8e2726b4413782",
+              "size_bytes": 125416
+            }
+          ],
+          "context_path": "resources/more-on-ads-cft-duality/index.html",
+          "end_time": "",
+          "id": "cafab34d-c908-d893-bec3-9549eaa66296",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/more-on-ads-cft-duality/data.json",
+            "sha256": "26bbc6ae8aad787c1012c3b68a6a97a90766605edaa4065ae03196fb36a39bab",
+            "size_bytes": 1701
+          },
+          "start_time": "",
+          "title": "Lecture 17: More on AdS / CFT Duality"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec17_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec17_300k.mp4"
+    },
+    {
+      "id": "ocw_media_6528d205b716609148c6",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/7ca54a86e33655c1bb38240619e91afe_eGPpz9kYUCg.vtt",
+              "sha256": "cae6dca4875035a5235d20986a87844ebc9165e9f6ea71e1d6c28e5c25322b53",
+              "size_bytes": 107307
+            }
+          ],
+          "context_path": "resources/mass-dimension-relation/index.html",
+          "end_time": "",
+          "id": "8150ca7b-c208-857b-c4cf-0cbf6e65d61e",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/mass-dimension-relation/data.json",
+            "sha256": "517fd878f9a957d59d3ccb3c0ed53daf322b1453450ddca23ff9bc7afac3327a",
+            "size_bytes": 1777
+          },
+          "start_time": "",
+          "title": "Lecture 19: Mass-dimension Relation"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec19_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec19_300k.mp4"
+    },
+    {
+      "id": "ocw_media_69630a741aca98d2c867",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/53301618e33d5f71a2c5390d558b837b_1pkoBetgo7s.vtt",
+              "sha256": "c4a7578efb1babe880bf0c5329002bdf1d4990f538ba11c5da74bcb9f1ff5328",
+              "size_bytes": 89941
+            }
+          ],
+          "context_path": "resources/holographic-principle/index.html",
+          "end_time": "",
+          "id": "c75101d6-41ea-f119-0dad-28973450ba72",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/holographic-principle/data.json",
+            "sha256": "7f0fbaff2ba48d2cf809c11c5965941c687aa1fd3e20a653fbe4dc23e9f795b0",
+            "size_bytes": 1800
+          },
+          "start_time": "",
+          "title": "Lecture 6: Holographic Principle"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec06_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec06_300k.mp4"
+    },
+    {
+      "id": "ocw_media_6cf5c6f15ae97806a9d9",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/fb9ec061609f55bfa89b2352d1daefed_WVOIk8en6YE.vtt",
+              "sha256": "0aa23c0824a0ce2be461606133bb6da42bac1ec543050009bce7b14b95d15e8d",
+              "size_bytes": 63152
+            }
+          ],
+          "context_path": "resources/classical-black-hole-geometry/index.html",
+          "end_time": "",
+          "id": "376cad9e-aea4-774b-640d-a4573dafb037",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/classical-black-hole-geometry/data.json",
+            "sha256": "77cdc8a5b1da58966c161dae2776e4d61584b3a281bbc4728300f5487752c8be",
+            "size_bytes": 1730
+          },
+          "start_time": "",
+          "title": "Lecture 2: Classical Black Hole Geometry"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec02_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec02_300k.mp4"
+    },
+    {
+      "id": "ocw_media_7d1bfa22c5cde9cba1fd",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/cafc12e893c05e0fbf029b9067ec27e1_M_8UajiNlDg.vtt",
+              "sha256": "bd9a00314e0b81157c28b1a1d82d80c8911a6689becd6642a4794556101854af",
+              "size_bytes": 119486
+            }
+          ],
+          "context_path": "resources/large-n-expansion-as-a-string-theory-part-ii/index.html",
+          "end_time": "",
+          "id": "c3b4d48d-928a-7b7c-4c36-226083422779",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/large-n-expansion-as-a-string-theory-part-ii/data.json",
+            "sha256": "43cece7ba1e7095078eaa0ad4a666eb6961bd62f8620ab559c6ddae597f21733",
+            "size_bytes": 1919
+          },
+          "start_time": "",
+          "title": "Lecture 9: Large-N expansion as a String Theory, Part II"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec09_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec09_300k.mp4"
+    },
+    {
+      "id": "ocw_media_85dae0d3dc8d197d4b37",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/15df690403705adba47c02517db2bc0c_oXsC9bjMJA4.vtt",
+              "sha256": "5f99667fc0e167211cfc8a00df71a95c398d854ff463f24df4d2a5f493156c91",
+              "size_bytes": 70474
+            }
+          ],
+          "context_path": "resources/euclidean-correlation-functions-higher-point-functions/index.html",
+          "end_time": "",
+          "id": "297ba012-80a6-2cc7-8083-cbbb38fae8fb",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/euclidean-correlation-functions-higher-point-functions/data.json",
+            "sha256": "1d2e0a4eda8b612492ee69e8dacc4d19b5a0b94699a47e7631ca861e061b832a",
+            "size_bytes": 1924
+          },
+          "start_time": "",
+          "title": "Lecture 21: Euclidean Correlation Functions: Higher-point Functions"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec21_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec21_300k.mp4"
+    },
+    {
+      "id": "ocw_media_8b326b101670dd8adabf",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/8f9a064655785a31959e0d726af79297_jhyWwA_bJ5A.vtt",
+              "sha256": "ac9615624445cdb69add3426da271fd563c669a818e3e3988f0fe896ffd3b5a5",
+              "size_bytes": 87623
+            }
+          ],
+          "context_path": "resources/string-theory-in-the-light-cone-gauge/index.html",
+          "end_time": "",
+          "id": "bbc0c8bc-7c65-c495-8800-5ffd962945d4",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/string-theory-in-the-light-cone-gauge/data.json",
+            "sha256": "c5e70c41f236c7ba10cee6fdf844e2a3ea18b6850002808f4e241706825aba9b",
+            "size_bytes": 1719
+          },
+          "start_time": "",
+          "title": "Lecture 11: String Theory in the Light-Cone Gauge"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec11_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec11_300k.mp4"
+    },
+    {
+      "id": "ocw_media_8e1afa7206f0a2e7db87",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/ac03e66ecadc53fe9c1f01f905e33ee5_EUnGZoBa3nc.vtt",
+              "sha256": "cb2e65e1eba232be25e06b0586934d22352878904c844ffc43761c32fdc4db7e",
+              "size_bytes": 77310
+            }
+          ],
+          "context_path": "resources/emergence-of-gravity/index.html",
+          "end_time": "",
+          "id": "333cf7d8-a30b-77af-f8c9-6177f466e52b",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/emergence-of-gravity/data.json",
+            "sha256": "b177e789dc23ef260b7be68f04a53528ef7bd6c22789622e4d885f456297db7b",
+            "size_bytes": 1873
+          },
+          "start_time": "",
+          "title": "Lecture 1: Emergence of Gravity"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec01_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec01_300k.mp4"
+    },
+    {
+      "id": "ocw_media_9682333bcbf91c8a0ead",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/36144acaddbf5bf2924b1c004b634d6f_iPWIqjYkVns.vtt",
+              "sha256": "b2bb193612d3bef5a797c74d075623710a9ef87aeb7b7110e8e9b02f6b28f132",
+              "size_bytes": 88022
+            }
+          ],
+          "context_path": "resources/physics-of-d-branes-part-i/index.html",
+          "end_time": "",
+          "id": "46f74302-17cd-b86b-0b75-0887dcec947e",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/physics-of-d-branes-part-i/data.json",
+            "sha256": "33861f8ddddedf557147f44093a7cf65e178f02e47e7fc4ee0b435e190a7531e",
+            "size_bytes": 1871
+          },
+          "start_time": "",
+          "title": "Lecture 13: Physics of D-branes, Part I"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec13_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec13_300k.mp4"
+    },
+    {
+      "id": "ocw_media_9a18f48ddb45025ea077",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/102d10ab09fb50bc9558514fd9d61add_75zfIar62c.vtt",
+              "sha256": "39d83f82674bb47bffc99c48fa776d1ad93e69f54aa750e69e319a05c36bc637",
+              "size_bytes": 128919
+            }
+          ],
+          "context_path": "resources/holographic-entanglement-entropy/index.html",
+          "end_time": "",
+          "id": "99c10b46-d362-8578-a0e6-0572d8d99df6",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/holographic-entanglement-entropy/data.json",
+            "sha256": "c5815970902c3f39ed191dfb210fcfbc82d9904a84998e2d8b90e819c4621015",
+            "size_bytes": 1838
+          },
+          "start_time": "",
+          "title": "Lecture 24: Holographic Entanglement Entropy"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec24_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec24_300k.mp4"
+    },
+    {
+      "id": "ocw_media_9aa96e23e54004e7adc9",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/d5cbe6975db55e24bb4d4da141fbd0e5_Wcy-zCt8llk.vtt",
+              "sha256": "6ffb79f0b6acd9af0748cfa93e575bd521d7dd525d9e8fa852edc378e1ac28b5",
+              "size_bytes": 107852
+            }
+          ],
+          "context_path": "resources/string-spectrum-and-graviton/index.html",
+          "end_time": "",
+          "id": "c8644c31-5d3c-df73-478b-f747f3a3ca66",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/string-spectrum-and-graviton/data.json",
+            "sha256": "f62f551f043bb6ef552e6e346fe3b410a9fe23753a21eab07b308728f62bebca",
+            "size_bytes": 1980
+          },
+          "start_time": "",
+          "title": "Lecture 12: String Spectrum and Graviton"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec12_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec12_300k.mp4"
+    },
+    {
+      "id": "ocw_media_af7d1af0dab194f88842",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/167d7b03c0bc5a56b3a8089280b0703d_gLYwLyeE8oU.vtt",
+              "sha256": "bb1d8defcb8bf3b8cb0492e8dae26ca20aea29425cd60f2041f046be883d43bf",
+              "size_bytes": 72787
+            }
+          ],
+          "context_path": "resources/physical-interpretation-of-black-hole-temperature/index.html",
+          "end_time": "",
+          "id": "66c7d7c2-d82b-8d59-3745-59845efdc630",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/physical-interpretation-of-black-hole-temperature/data.json",
+            "sha256": "920682bb3fcc408dc24b30b3389430435b618de50e54b3562eab3024aa1ff93f",
+            "size_bytes": 1917
+          },
+          "start_time": "",
+          "title": "Lecture 4: Physical Interpretation of Black Hole Temperature"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec04_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec04_300k.mp4"
+    },
+    {
+      "id": "ocw_media_affce5f78c2cd04967d0",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/9634824fd462594da65620d2c4d5b9b5_hIvrYfwUyZQ.vtt",
+              "sha256": "06107182779162696fb59ea6af449590d3c784a7a18971445a61a660af7e8c46",
+              "size_bytes": 87946
+            }
+          ],
+          "context_path": "resources/black-hole-thermodynamics/index.html",
+          "end_time": "",
+          "id": "136b518b-25a9-6375-9bdb-9ffa690862e1",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/black-hole-thermodynamics/data.json",
+            "sha256": "d455361c7f91d481bd60e397f5d0d6dd211d4db6cf9a54b0153a85463aa781be",
+            "size_bytes": 1877
+          },
+          "start_time": "",
+          "title": "Lecture 5: Black Hole Thermodynamics"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec05_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec05_300k.mp4"
+    },
+    {
+      "id": "ocw_media_b9b172a32f21690bcfa4",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/91e1c73e7e095a7d866517b8df914f05_14_8tzAd1rA.vtt",
+              "sha256": "7f09101f32dfe223845a32dae590a292c1021a269bd12aa175cfe62b1af6a106",
+              "size_bytes": 74613
+            }
+          ],
+          "context_path": "resources/structure-of-large-n-expansion/index.html",
+          "end_time": "",
+          "id": "5133daad-f752-fa2d-07c3-23dcd3535367",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/structure-of-large-n-expansion/data.json",
+            "sha256": "e9773220b9f25fe98fffd2bbeec98ed6f22ee17f12c697f9a1d54e373765d93a",
+            "size_bytes": 1878
+          },
+          "start_time": "",
+          "title": "Lecture 7: Structure of Large-N Expansion"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec07_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec07_300k.mp4"
+    },
+    {
+      "id": "ocw_media_bd70f2c8355f2f862552",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/d8dd839335335c39b29bf99398a37853_1LEYgS8Wzsk.vtt",
+              "sha256": "b9728eb486a18ae4458ef44ae76bc881a9ff4d2222d8e1696c79f5b78a98693a",
+              "size_bytes": 125932
+            }
+          ],
+          "context_path": "resources/geometry-of-d-branes-and-ads-cft-conjecture/index.html",
+          "end_time": "",
+          "id": "d46f6eda-ace2-aa63-5b31-166b5fd0ced0",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/geometry-of-d-branes-and-ads-cft-conjecture/data.json",
+            "sha256": "50d0bcd72f8ea04761b81181683b7a4f4b552c9558aed0dbe94ab4352ac2889b",
+            "size_bytes": 1840
+          },
+          "start_time": "",
+          "title": "Lecture 16: Geometry of D-branes and AdS / CFT Conjecture"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec16_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec16_300k.mp4"
+    },
+    {
+      "id": "ocw_media_cd04302562907942c7cc",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/758ef58f403157dd8854995e95594dad_1OGZCt58GLc.vtt",
+              "sha256": "5e197373aeccd1e0d4ab1c2b542115c97bd6c9d6616e71ac6b9e7735a7c1fdfc",
+              "size_bytes": 78867
+            }
+          ],
+          "context_path": "resources/euclidean-correlation-functions-two-point-functions/index.html",
+          "end_time": "",
+          "id": "cd1a3a95-4639-930c-343e-a13961519810",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/euclidean-correlation-functions-two-point-functions/data.json",
+            "sha256": "447bfc353c980b192b62589d48548acfc0f3ab2bd7d9c8425a64cfa689934c89",
+            "size_bytes": 1834
+          },
+          "start_time": "",
+          "title": "Lecture 20: Euclidean Correlation Functions: Two-point Functions"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec20_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec20_300k.mp4"
+    },
+    {
+      "id": "ocw_media_d1f8892db2c839fc7890",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/5efe83c615125208b0431a1c53955d66_nW4vp_upvmE.vtt",
+              "sha256": "63f820d4e8e61c511d3821550a2dea0c9704148b83447d69d29a92bf751fb029",
+              "size_bytes": 83112
+            }
+          ],
+          "context_path": "resources/general-aspects-of-the-duality/index.html",
+          "end_time": "",
+          "id": "2e0350ed-bf53-bfd0-d7ee-10fca24bb8ea",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/general-aspects-of-the-duality/data.json",
+            "sha256": "006287ab537ece9f4b3bac47a53d6b9fed41f1369138207307556095cce7149b",
+            "size_bytes": 1848
+          },
+          "start_time": "",
+          "title": "Lecture 18: General Aspects of the Duality"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec18_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec18_300k.mp4"
+    },
+    {
+      "id": "ocw_media_e0a7ce6630e8456934df",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/ca72288044ef5a5bb19884beb454a7b4_LoIXB2GJHkg.vtt",
+              "sha256": "cd267c77ec3cd0f373f4b9ee6ce6751e9b02faf0a86271308c3b3f3f2b57782c",
+              "size_bytes": 94402
+            }
+          ],
+          "context_path": "resources/large-n-expansion-as-a-string-theory-part-i/index.html",
+          "end_time": "",
+          "id": "fe956b01-397d-9c97-b94c-4c641796248c",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/large-n-expansion-as-a-string-theory-part-i/data.json",
+            "sha256": "4cdcdfa03957314b28e46348b204af5e917d7160b32d791981a624f5e5f96c4c",
+            "size_bytes": 1841
+          },
+          "start_time": "",
+          "title": "Lecture 8: Large-N Expansion as a String Theory, Part I"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec08_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec08_300k.mp4"
+    },
+    {
+      "id": "ocw_media_f478523023c19b7397bd",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/a604dd69f658590aabdd763c19648be5_k6HCdJ9lKho.vtt",
+              "sha256": "afb71fd4e1aed6a554060466fbd7f15c7d8942492fe7266f2be516e3e6deaa2b",
+              "size_bytes": 114468
+            }
+          ],
+          "context_path": "resources/physics-of-d-branes-part-ii/index.html",
+          "end_time": "",
+          "id": "45820eb0-5611-bc15-31d3-e0acf8549270",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/physics-of-d-branes-part-ii/data.json",
+            "sha256": "41f5d644480aa75bfb8c3e96fc1e737abf8a1be1f44d7b67e43ba2b420477648",
+            "size_bytes": 1813
+          },
+          "start_time": "",
+          "title": "Lecture 14: Physics of D-branes, Part II"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec14_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec14_300k.mp4"
+    },
+    {
+      "id": "ocw_media_f9a4809bc74d37750c14",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/73ef973d3afc50e7a21779ce86ab9723_raP-0nqnF_A.vtt",
+              "sha256": "88585a9ae2df13b3644cc9e4478433624919a7c9ea2fa21dd62fa521b07a114b",
+              "size_bytes": 83307
+            }
+          ],
+          "context_path": "resources/duality-at-a-finite-temperature-and-finite-chemical-potential/index.html",
+          "end_time": "",
+          "id": "b803ce03-4290-80a8-2107-fc336aa067aa",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/duality-at-a-finite-temperature-and-finite-chemical-potential/data.json",
+            "sha256": "d81a680f713f4c0eb6e5db26a021554d8d984bfc9427a08b179366c2a307c880",
+            "size_bytes": 1977
+          },
+          "start_time": "",
+          "title": "Lecture 23: Duality at a Finite Temperature and Finite Chemical Potential"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec23_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT8.821F14/MIT8_821F14_lec23_300k.mp4"
+    }
+  ],
+  "members": [
+    {
+      "path": ".keep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "content_map.json",
+      "sha256": "92fc301b224251ffe875eb3c2d26da91a43c873e9023387d910abd2658debd53",
+      "size_bytes": 11604
+    },
+    {
+      "path": "data.json",
+      "sha256": "614f3d6cd84c0f8f81ec63132df15d9f65a158deabdc1d68db81fc405a6786b1",
+      "size_bytes": 3902
+    },
+    {
+      "path": "download/index.html",
+      "sha256": "9c6c1764900b0201dcc9b2f9f2f07011bf81852c2720a87c4affd4a696f25f10",
+      "size_bytes": 87528
+    },
+    {
+      "path": "download/index.xml",
+      "sha256": "92a00d55d8a04e87086406b93b7808771d57f56cd805eb0b08364efeaf8d5e33",
+      "size_bytes": 1892
+    },
+    {
+      "path": "external-resources/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "external-resources/index.html",
+      "sha256": "445eedc342a2eceb727f99538dee51938c3d204a4ccdbef5601102f15893abec",
+      "size_bytes": 46857
+    },
+    {
+      "path": "favicon.ico",
+      "sha256": "6d27d37a515c3498aa71f8265d21cadc50ca63eb321e223386d48fe87ec7c552",
+      "size_bytes": 5558
+    },
+    {
+      "path": "index.html",
+      "sha256": "a3034047cc558fcc06e7b7d55d4029dade177affe1dc5a9f299d51dfa4dd9612",
+      "size_bytes": 43410
+    },
+    {
+      "path": "pages/assignments/data.json",
+      "sha256": "d02f2514c7fdb64c70355f3413a4a15b676ffc4368ef00913524dd78e1aad0b0",
+      "size_bytes": 1914
+    },
+    {
+      "path": "pages/assignments/index.html",
+      "sha256": "003c2e21f6aca3de66023c06ca397982d3981dbfeef1c85ff2a36c5ea5f95052",
+      "size_bytes": 48389
+    },
+    {
+      "path": "pages/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "pages/index.html",
+      "sha256": "043f076838512317a9740b24ec633ce3829063a2ac47d121464b4c00cf163ba1",
+      "size_bytes": 47081
+    },
+    {
+      "path": "pages/instructor-insights/data.json",
+      "sha256": "628f2bff8516052eb952a1b46bd39f11d0ad1d04340f187970b1bfa3fa6111f1",
+      "size_bytes": 6232
+    },
+    {
+      "path": "pages/instructor-insights/index.html",
+      "sha256": "4433ff4e4ef36a4f3ba44f1d6ac43abff5e035f3b259e7de3ac5943b9fd6bc46",
+      "size_bytes": 52668
+    },
+    {
+      "path": "pages/lecture-notes/data.json",
+      "sha256": "c327b65b0a7a9831a1e29b93fd2a43107c6ba50903f98a76cdfbfc6ba12c1509",
+      "size_bytes": 4685
+    },
+    {
+      "path": "pages/lecture-notes/index.html",
+      "sha256": "b221aee5c6a4af31c19b2b893c748ad74d49b90b7d80b0c61963853327e15c49",
+      "size_bytes": 50919
+    },
+    {
+      "path": "pages/readings/data.json",
+      "sha256": "3db61159e85613cb210bfde69beeda5c525486eddf1584c438199b8cc21cd8e8",
+      "size_bytes": 4867
+    },
+    {
+      "path": "pages/readings/index.html",
+      "sha256": "c98107f2ce90ce17511a988222248f2671449595e414a70b62dd0902a134a0f5",
+      "size_bytes": 51364
+    },
+    {
+      "path": "pages/syllabus/data.json",
+      "sha256": "12ab2cd7caff968f8dc81e45f1101e91df68b8e582688c97fa76fac72ae57201",
+      "size_bytes": 7163
+    },
+    {
+      "path": "pages/syllabus/index.html",
+      "sha256": "f49ffc00757cbfdf0be3a61f3f58f63c48e7150012a727cbfb6a65a3e874dc8f",
+      "size_bytes": 53719
+    },
+    {
+      "path": "resources/-mrxn8xcqoq-1/data.json",
+      "sha256": "262e5955e44ed3e08c7bd7aecda5590505d1af60acfc21d7bdd21ca36f99a014",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/-mrxn8xcqoq-1/index.html",
+      "sha256": "9d8b2ae93ff613d075ac68b4e5c47e85ebe5201dbb515d4bcf4acc9ea288d88c",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/-mrxn8xcqoq-2/data.json",
+      "sha256": "f199a667a3c060d60b67258cbc8c2f030f5b0ede97fd4f1c761a328d55a52d0a",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/-mrxn8xcqoq-2/index.html",
+      "sha256": "890fd7dc7b327fa23ded0ce9a5d2ce642a45f47d3be869514120590f126223b8",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/-mrxn8xcqoq/data.json",
+      "sha256": "8fb916f169b2459ccbf22277ad1b88d641b710a881bdc1df2d847a98e8fe4a14",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/-mrxn8xcqoq/index.html",
+      "sha256": "3de4519059f5e75b15149ca0e459685c523cb377d1ac097274098b87d88cd593",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/0fchzwu1zec-1/data.json",
+      "sha256": "11f9611ef2070b4b18676cf805d7706181333c9b9b977707c99dab76488d0ea3",
+      "size_bytes": 636
+    },
+    {
+      "path": "resources/0fchzwu1zec-1/index.html",
+      "sha256": "27c85377a496942ff66f9824dd6b13d2d2b700684e2ad51a3a604a9a04372feb",
+      "size_bytes": 49502
+    },
+    {
+      "path": "resources/0fchzwu1zec-2/data.json",
+      "sha256": "299d8a1e9d7261432cce12dd07c358e221fed2c5da36909c2694692f1dccd26d",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/0fchzwu1zec-2/index.html",
+      "sha256": "3491d27a5cf460ed672ed8306b185d89e5bc75c1638c11ace1b52b63a10322f9",
+      "size_bytes": 49089
+    },
+    {
+      "path": "resources/0fchzwu1zec/data.json",
+      "sha256": "af2bfa4a3cf35448932b1515d1255494f0c349202d2cd6407130a85c17cefbbc",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/0fchzwu1zec/index.html",
+      "sha256": "093e2bb4dfc1701a24578934af8741fa5ba71a60f028ac0a094b48b28e8f66ce",
+      "size_bytes": 49079
+    },
+    {
+      "path": "resources/14_8tzad1ra-1/data.json",
+      "sha256": "a370000110202f9441ffc48a79697363e6e7b0d4cf95827c7748e58f00628d54",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/14_8tzad1ra-1/index.html",
+      "sha256": "c55ca5ad687a18900cdd3a9b1c87e824e6df02e96f5283a15725e0148786cf79",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/14_8tzad1ra-2/data.json",
+      "sha256": "33634919e0d162406c8eceadeeed7ce3b26c2400dd30c649af42c91bbd4945ec",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/14_8tzad1ra-2/index.html",
+      "sha256": "5ad889fe618023a381555eea099ee9715b8b27425382226b5b6185a128be0ed8",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/14_8tzad1ra/data.json",
+      "sha256": "e3d281805b34fb002f587d282493bd7e355fec9a9a5b1644345e2c7789357aac",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/14_8tzad1ra/index.html",
+      "sha256": "17cb04bb0b9ac8bb91e10f708ebef7a8a5fe53f1f929587b39fbadfa6b48485d",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/1leygs8wzsk-1/data.json",
+      "sha256": "57d8a0509822f59d25227940d66f14d0b2f3c017aac8d0bdb0a22c8639a283ff",
+      "size_bytes": 636
+    },
+    {
+      "path": "resources/1leygs8wzsk-1/index.html",
+      "sha256": "e4e0eb240d1a30a1a07f1037bb18e76c881b1c83eb94abd997e6a9eb58923478",
+      "size_bytes": 49502
+    },
+    {
+      "path": "resources/1leygs8wzsk-2/data.json",
+      "sha256": "6e2453cfcf1f31aa35e7de59e5d0e35140804c787b22376470222857e84e4fd1",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/1leygs8wzsk-2/index.html",
+      "sha256": "48d11e8766ae0fa123f0c5f1217f765334393adc70c843baf14ed1ac598469be",
+      "size_bytes": 49089
+    },
+    {
+      "path": "resources/1leygs8wzsk/data.json",
+      "sha256": "398773c8e47f28a22135c04879e98a0e8d7fb6a665cceb13f7e345da496f4105",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/1leygs8wzsk/index.html",
+      "sha256": "cd1ec948c38adf3daab5e15da5a9fc8faa1a1be1f4623eed4a22dddefd111e5b",
+      "size_bytes": 49079
+    },
+    {
+      "path": "resources/1ogzct58glc-1/data.json",
+      "sha256": "98501bfb8a46bb0bc393f1a70280065998cdee11c3dbfede0de33be1518b179c",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/1ogzct58glc-1/index.html",
+      "sha256": "3f9a1ae58b883e4a90fb0f593745dab4d37225e052f4d7a39256de360916a852",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/1ogzct58glc-2/data.json",
+      "sha256": "ab4d4881491190971bcd60b7e99028d0c45739723782c181f4fd45be6816f2dc",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/1ogzct58glc-2/index.html",
+      "sha256": "4d29dbb0b55c9b3ffb99598770344a4b3b881f50e6ff98ab9d9c7fa3651f92f1",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/1ogzct58glc/data.json",
+      "sha256": "3ca522e40ad443c882ded8a58521674739d337034d54c57ec5315d0ff2d4dbda",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/1ogzct58glc/index.html",
+      "sha256": "b6631ae310ed031ca22dc916c150bcaf870b59fb5bd7dba4722ee5dbad20cfc1",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/1pkobetgo7s-1/data.json",
+      "sha256": "db58ce9ebf5c76459385706b711bf38907121ba5c20b8dcd9f275b400a75ab32",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/1pkobetgo7s-1/index.html",
+      "sha256": "53ab18e588b32e262de0328c1bb4d6ce263c6e726eecef2979204899ff4749c0",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/1pkobetgo7s-2/data.json",
+      "sha256": "10222ed41928f0363446e72acd79fd6c8fb85b8f2be16441344ea9b7e68abef0",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/1pkobetgo7s-2/index.html",
+      "sha256": "2a7e084ffbb8708ae77f55b810d6082bcc3f0b9370ed763f2753d68fd100298c",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/1pkobetgo7s/data.json",
+      "sha256": "e5685c39f9c3b16fbd73e0c986a24a44386344053a67f8cda6b13e7f8ce2dfa7",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/1pkobetgo7s/index.html",
+      "sha256": "dd815b5699cfbad1211a858d531b9d87998c3b4a31c190c3574720776cacbaf3",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/24/data.json",
+      "sha256": "058fe23b8f587ddd6bca453abd2f43a435325ad4768c79560d4c2468eac3fce2",
+      "size_bytes": 837
+    },
+    {
+      "path": "resources/24/index.html",
+      "sha256": "749882702fd5bd0542219ca4791456107b649f7592816afbf02050d97d15e56c",
+      "size_bytes": 49283
+    },
+    {
+      "path": "resources/4-2652/data.json",
+      "sha256": "e8e18e804cab59144e61c24a57255dca3c495273518272d3d701802661a4c57d",
+      "size_bytes": 838
+    },
+    {
+      "path": "resources/4-2652/index.html",
+      "sha256": "2fc2191c81e5ab8953bda7b946276afcb1c2e18b37285f1bba330c34167a5117",
+      "size_bytes": 49291
+    },
+    {
+      "path": "resources/75zfiar62c-1/data.json",
+      "sha256": "64b3522375e4ede132253b963f3e398a1917407694b7d7f006f279682d99d0f1",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/75zfiar62c-1/index.html",
+      "sha256": "f12556eb4fd65ee35756b4910af45215496dc6b333b6fd4fd59d2eed5c365a8a",
+      "size_bytes": 49494
+    },
+    {
+      "path": "resources/75zfiar62c-2/data.json",
+      "sha256": "98602576f9a0d54c14e0b5d1c5bd939ad8e2b90f3c65543600f772034ae0b65b",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/75zfiar62c-2/index.html",
+      "sha256": "bbdf7debea61b045505bebf37b67c4edc7fdb8ecf5763aa55a503593370f16d5",
+      "size_bytes": 49082
+    },
+    {
+      "path": "resources/75zfiar62c/data.json",
+      "sha256": "3730f714856a43deb44873fb5323feeb60457210a95dc2acb3485206faada87d",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/75zfiar62c/index.html",
+      "sha256": "c5e9e86eb117f64d27c696ea10160ec1ed11bf4218a87bcebbd2642041325e13",
+      "size_bytes": 49072
+    },
+    {
+      "path": "resources/8-821f14-th/data.json",
+      "sha256": "0cd1047bdba48d633d604436785c283e11a8ddf25c42c93aa54b78edb53c5e63",
+      "size_bytes": 1828
+    },
+    {
+      "path": "resources/8-821f14-th/index.html",
+      "sha256": "4b3970f995c5c007667376c3857cee2bf90a48325b7e7a4ffe8a82aaba0068b1",
+      "size_bytes": 51253
+    },
+    {
+      "path": "resources/8-821f14/data.json",
+      "sha256": "1d6d62d1a99b5f06884f2a8893aebea6a7ca424ed96f60d8b05600e4240348ec",
+      "size_bytes": 1823
+    },
+    {
+      "path": "resources/8-821f14/index.html",
+      "sha256": "06e9d487a0a56f83da1b683e0159b08e1d51390c13de31af3ca2797a1dae48da",
+      "size_bytes": 51215
+    },
+    {
+      "path": "resources/assignments/index.html",
+      "sha256": "f25dbca83404b37372dadbabdbcc59692e0ca845cbe8dba26314f668a178ead2",
+      "size_bytes": 47409
+    },
+    {
+      "path": "resources/assignments/index.xml",
+      "sha256": "04bcc3b4d213cac53ec9c07f26a75fa845912f883e18e92fe96148565cba6616",
+      "size_bytes": 2891
+    },
+    {
+      "path": "resources/basics-of-string-theory-and-light-cone-gauge/data.json",
+      "sha256": "c447dfb5d21bec77000a211281103086d50f682d923b50789a6196532beac74a",
+      "size_bytes": 1831
+    },
+    {
+      "path": "resources/basics-of-string-theory-and-light-cone-gauge/index.html",
+      "sha256": "b6895c55262e5b6534ba56449a1b51e8ddadbc4b098e17f51456768ed23ac1c2",
+      "size_bytes": 53108
+    },
+    {
+      "path": "resources/black-hole-thermodynamics/data.json",
+      "sha256": "d455361c7f91d481bd60e397f5d0d6dd211d4db6cf9a54b0153a85463aa781be",
+      "size_bytes": 1877
+    },
+    {
+      "path": "resources/black-hole-thermodynamics/index.html",
+      "sha256": "867c5dd2a5cb0d0f3ce0bfa325aeff8e7de49e8079d5e5b28a957f4777108571",
+      "size_bytes": 52990
+    },
+    {
+      "path": "resources/causal-structure-of-a-black-hole-and-black-hole-temperature/data.json",
+      "sha256": "e287785922e50bcfbeeb3308d68d9ea23814c835f35cf37b3e4ee2a4753d9b1e",
+      "size_bytes": 2043
+    },
+    {
+      "path": "resources/causal-structure-of-a-black-hole-and-black-hole-temperature/index.html",
+      "sha256": "097daf8946f6684a2d2257d299814fec51c0d9dbd0ade11a7d1eb7c4e7b5c211",
+      "size_bytes": 53405
+    },
+    {
+      "path": "resources/classical-black-hole-geometry/data.json",
+      "sha256": "77cdc8a5b1da58966c161dae2776e4d61584b3a281bbc4728300f5487752c8be",
+      "size_bytes": 1730
+    },
+    {
+      "path": "resources/classical-black-hole-geometry/index.html",
+      "sha256": "258578150833da7c1314582e8d443cb2993e3425fa1a616f094f5004d4050ba4",
+      "size_bytes": 52903
+    },
+    {
+      "path": "resources/computation-of-the-wilson-loop/data.json",
+      "sha256": "6187f51bc777748fba125404e6af05a5980409e98deee93f218b7190b4e841bc",
+      "size_bytes": 1967
+    },
+    {
+      "path": "resources/computation-of-the-wilson-loop/index.html",
+      "sha256": "a1af23f17c2a4b05f4279196520ebba65bbc12b29518489cc8820ddb9b8987c4",
+      "size_bytes": 53162
+    },
+    {
+      "path": "resources/duality-at-a-finite-temperature-and-finite-chemical-potential/data.json",
+      "sha256": "d81a680f713f4c0eb6e5db26a021554d8d984bfc9427a08b179366c2a307c880",
+      "size_bytes": 1977
+    },
+    {
+      "path": "resources/duality-at-a-finite-temperature-and-finite-chemical-potential/index.html",
+      "sha256": "dc0a3ad0e93c8a602a8558749456dafdb03a6511d062402d70d2e35e1e146f95",
+      "size_bytes": 53456
+    },
+    {
+      "path": "resources/egppz9kyucg-1/data.json",
+      "sha256": "c02963db7fa72040a8a4f1b6d9d8bbc04b3aea28734292517807082a432ebc36",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/egppz9kyucg-1/index.html",
+      "sha256": "a25d1190c3351b07fc4bd495e06b0d80cb7c3f661828ae78e79d67bd37e9ae75",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/egppz9kyucg-2/data.json",
+      "sha256": "2a70f7f58ad751feca06c621344a1f09f30626582da93bf32744bafc9a34c56a",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/egppz9kyucg-2/index.html",
+      "sha256": "e0abb081373514e65c14fc33603a93cb3d76676167a553c18e541766883818cb",
+      "size_bytes": 49089
+    },
+    {
+      "path": "resources/egppz9kyucg/data.json",
+      "sha256": "3787a80639fd1146d420b4aed07fa2621fa0f295b48f41658369a7ed47cccd5a",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/egppz9kyucg/index.html",
+      "sha256": "e0add4d0f243dc5789a281b37750fcdf9e2a37e98203c9e42ec4531773eae9b8",
+      "size_bytes": 49079
+    },
+    {
+      "path": "resources/emergence-of-gravity/data.json",
+      "sha256": "b177e789dc23ef260b7be68f04a53528ef7bd6c22789622e4d885f456297db7b",
+      "size_bytes": 1873
+    },
+    {
+      "path": "resources/emergence-of-gravity/index.html",
+      "sha256": "a633fe230b76ef668017601189faf2897780f8344420b2456b19474d84fe04f2",
+      "size_bytes": 52903
+    },
+    {
+      "path": "resources/euclidean-correlation-functions-higher-point-functions/data.json",
+      "sha256": "1d2e0a4eda8b612492ee69e8dacc4d19b5a0b94699a47e7631ca861e061b832a",
+      "size_bytes": 1924
+    },
+    {
+      "path": "resources/euclidean-correlation-functions-higher-point-functions/index.html",
+      "sha256": "587cddc71eb8b25608317ee1d0f020b7d22763fbb447d3c4b97dd6235e1554a3",
+      "size_bytes": 53290
+    },
+    {
+      "path": "resources/euclidean-correlation-functions-two-point-functions/data.json",
+      "sha256": "447bfc353c980b192b62589d48548acfc0f3ab2bd7d9c8425a64cfa689934c89",
+      "size_bytes": 1834
+    },
+    {
+      "path": "resources/euclidean-correlation-functions-two-point-functions/index.html",
+      "sha256": "4c8f16d47f0a58f481db0d90a1d84ff61f0fa7a2648efd9a358fb6a81a55e8e0",
+      "size_bytes": 53222
+    },
+    {
+      "path": "resources/eungzoba3nc-1/data.json",
+      "sha256": "fb220bbe19be8ce3951df377d56103ee46d821f61a3af81509de16ac3d25aad0",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/eungzoba3nc-1/index.html",
+      "sha256": "4299e6e242d432bc87115690f80e75fcb994c6de097af62f9e009103c3758aa8",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/eungzoba3nc-2/data.json",
+      "sha256": "60e332e5607f5307e8129e30ecbdd3ca5fc376b8c397cfaf3e2fc3e70687f96c",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/eungzoba3nc-2/index.html",
+      "sha256": "9b31779d4ec3746b3f7f0cf0c94e5cc2f1c8bc442ce7f4aa937f93842836d044",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/eungzoba3nc/data.json",
+      "sha256": "9c67dea8230059b9ee0433eb2b2057d967484e36a411e9666d789bad3bfb6b68",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/eungzoba3nc/index.html",
+      "sha256": "cc31d6a054f2f22cb8c6236e7931eac1458944fe71997408f021098b52699557",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/general-aspects-of-the-duality/data.json",
+      "sha256": "006287ab537ece9f4b3bac47a53d6b9fed41f1369138207307556095cce7149b",
+      "size_bytes": 1848
+    },
+    {
+      "path": "resources/general-aspects-of-the-duality/index.html",
+      "sha256": "b52971c4eb8b165b63131d9cad04844ea5f55a346523ed8590efd42cc4015213",
+      "size_bytes": 53012
+    },
+    {
+      "path": "resources/geometry-of-d-branes-and-ads-cft-conjecture/data.json",
+      "sha256": "50d0bcd72f8ea04761b81181683b7a4f4b552c9558aed0dbe94ab4352ac2889b",
+      "size_bytes": 1840
+    },
+    {
+      "path": "resources/geometry-of-d-branes-and-ads-cft-conjecture/index.html",
+      "sha256": "8ff4af896283cca332c30789b7fd4ae0cb016e190696420a6fd13152803db1fb",
+      "size_bytes": 53150
+    },
+    {
+      "path": "resources/glywlyee8ou-1/data.json",
+      "sha256": "f8e3ba4190c7324386103b6f146dca9d65288ef3d83afab6a2c94cce770ef0e3",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/glywlyee8ou-1/index.html",
+      "sha256": "e24af59b599444db3f58513b374bdf9ae21c7508ce862072d759075f60328005",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/glywlyee8ou-2/data.json",
+      "sha256": "6c746b1b28c6cd19b1fa5b683f10175b128c4040c057d18da7218c159684245d",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/glywlyee8ou-2/index.html",
+      "sha256": "79e7a115eded297c8e0db989fbaaa89870f79bbd65e64571014a5f293b3728db",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/glywlyee8ou/data.json",
+      "sha256": "f2fbecc690c4dd40a4b4143972997fc0bc5145add323ca966d43da3a088e5555",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/glywlyee8ou/index.html",
+      "sha256": "c6a57d555dc3cc91c819557b63cf667d70ad7e4ba19f62cfe383cb0afb4a7dd4",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/hivryfwuyzq-1/data.json",
+      "sha256": "b43f0b6e542e7a8bce668656e8ad50064a684629455872018937d88c7d70c4e7",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/hivryfwuyzq-1/index.html",
+      "sha256": "110c1d70070f0f6046dabe187c1482604fe12f2dcfe080b723317984ba3106f5",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/hivryfwuyzq-2/data.json",
+      "sha256": "6502f60ff4118cdd70192fe6a29edddb841f60492f54935120e01323e2c50e2f",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/hivryfwuyzq-2/index.html",
+      "sha256": "ee1470ee5b1c195741a32a58e32cf6bc8f75dd5181e83b009f9e532cace665a7",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/hivryfwuyzq/data.json",
+      "sha256": "45921f4ba02c83c60081a1d54fa5f6eee11201b200f44a4ba3e38f3773a855f1",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/hivryfwuyzq/index.html",
+      "sha256": "3a33f00139504fcf1762ef23faa165ef109f6f5d6b6347f619aea9c7f90a36b2",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/holographic-entanglement-entropy/data.json",
+      "sha256": "c5815970902c3f39ed191dfb210fcfbc82d9904a84998e2d8b90e819c4621015",
+      "size_bytes": 1838
+    },
+    {
+      "path": "resources/holographic-entanglement-entropy/index.html",
+      "sha256": "cbd76b19c9ecb03b7c4ecf944b7206c561b99133f4cf73bdf9cec5b0cd2a1224",
+      "size_bytes": 53033
+    },
+    {
+      "path": "resources/holographic-principle/data.json",
+      "sha256": "7f0fbaff2ba48d2cf809c11c5965941c687aa1fd3e20a653fbe4dc23e9f795b0",
+      "size_bytes": 1800
+    },
+    {
+      "path": "resources/holographic-principle/index.html",
+      "sha256": "e088e87e4740c3bd3f8aca8c154e7b050f1928b80f239cad1130a91131dc1fd9",
+      "size_bytes": 52918
+    },
+    {
+      "path": "resources/ipwiqjykvns-1/data.json",
+      "sha256": "8457baf3a49550d4b36c0571dfe5409d4d8bb4910ad7b4c6a287da813edae5eb",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/ipwiqjykvns-1/index.html",
+      "sha256": "87bcc2484a256d3f45ebfc659bd513eac2efd0c0a520dd6900c67cbd287a072f",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/ipwiqjykvns-2/data.json",
+      "sha256": "2caee23c56e5c267cb2f1bde90f9376cec53fed7579691e135f448ff93452b84",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/ipwiqjykvns-2/index.html",
+      "sha256": "fd316f5f59e21e5cb9ab4dd520472addb70dc0ce7ced6aedb55c924b7d852064",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/ipwiqjykvns/data.json",
+      "sha256": "552642880bfbedc921cea1c18964889ca9cc218c7724b29d2ad70897cc5513a2",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/ipwiqjykvns/index.html",
+      "sha256": "3ffdbc40159fa59c17971b0fc33d4c1626efdf0f9a2f44c20c6277eaf7d1869f",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/jhywwa_bj5a-1/data.json",
+      "sha256": "1a8dfccb15d377aa20c5c117d0958ca56dda964d1f4b727abc88a70dabe6626c",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/jhywwa_bj5a-1/index.html",
+      "sha256": "3c81dae34aca748e5fa00fe1239024b8000839fe75ac110308e1305499f8ebab",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/jhywwa_bj5a-2/data.json",
+      "sha256": "23911ea67f546a36eb613c6494143c5982d1d5c9bd41da559607d27d172af0ea",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/jhywwa_bj5a-2/index.html",
+      "sha256": "7bb5c94cad46bdfd31fad32aa2932edfa927b8349e1fd32c838cb46a001be7e8",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/jhywwa_bj5a/data.json",
+      "sha256": "3a4ff434139561d2e816905ccdb9b3bc606d5dcaa6a08da1a5bab47d45ed7c5b",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/jhywwa_bj5a/index.html",
+      "sha256": "f69919ab17174e486aa8e3758dc25862ad46014fa7b0d8b570b92f148d338cd7",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/k6hcdj9lkho-1/data.json",
+      "sha256": "6d3493848fb525cf920b8446ba59f7610e583abfddaf78ab549776504af6bcf2",
+      "size_bytes": 636
+    },
+    {
+      "path": "resources/k6hcdj9lkho-1/index.html",
+      "sha256": "059059e3691c81ef9d64b29ac5897efef7f5932b12c03123fd62dd69681a7ff4",
+      "size_bytes": 49502
+    },
+    {
+      "path": "resources/k6hcdj9lkho-2/data.json",
+      "sha256": "6d4579eb7ffda74478cc63cb6bd5d073b3e98e36ba011ec7e1f554a8e7e00b01",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/k6hcdj9lkho-2/index.html",
+      "sha256": "9b980793b4deac344a218b2729a2d6a60ee96c95e42647146c387c2a82338544",
+      "size_bytes": 49089
+    },
+    {
+      "path": "resources/k6hcdj9lkho/data.json",
+      "sha256": "59a18658f14008e8ddc3b922fce28381faa80ca4b1db074694d1d23ee45b8827",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/k6hcdj9lkho/index.html",
+      "sha256": "bfe56bd527d2b073f74cfeea00035de5af53298ee18736b65b5bfeeb61ae4333",
+      "size_bytes": 49079
+    },
+    {
+      "path": "resources/large-n-expansion-as-a-string-theory-part-i/data.json",
+      "sha256": "4cdcdfa03957314b28e46348b204af5e917d7160b32d791981a624f5e5f96c4c",
+      "size_bytes": 1841
+    },
+    {
+      "path": "resources/large-n-expansion-as-a-string-theory-part-i/index.html",
+      "sha256": "71aee89b05c525f0df7907eb5022dd47aa904b31e69ce578ea9b7b7c142c8771",
+      "size_bytes": 53122
+    },
+    {
+      "path": "resources/large-n-expansion-as-a-string-theory-part-ii/data.json",
+      "sha256": "43cece7ba1e7095078eaa0ad4a666eb6961bd62f8620ab559c6ddae597f21733",
+      "size_bytes": 1919
+    },
+    {
+      "path": "resources/large-n-expansion-as-a-string-theory-part-ii/index.html",
+      "sha256": "a05db79d3325a8f48ac9bbba5fb123513857778f25928ab7ec2a65fe72cd745f",
+      "size_bytes": 53187
+    },
+    {
+      "path": "resources/lecture-notes/index.html",
+      "sha256": "7db5d64da58491c5627eaf7029c470e0f4780cd8c89596764d37b57b55dd56ef",
+      "size_bytes": 76936
+    },
+    {
+      "path": "resources/lecture-notes/index.xml",
+      "sha256": "4c9f466828c301685feab3ba9deee3b1800ab11f7f16acbf059c1a050a01ba3d",
+      "size_bytes": 12923
+    },
+    {
+      "path": "resources/lecture-videos/index.html",
+      "sha256": "d397532f8e19c8d7330c562a7aa500f5cdf69682d69a15cf2ae9e55372cdac1e",
+      "size_bytes": 77463
+    },
+    {
+      "path": "resources/lecture-videos/index.xml",
+      "sha256": "2ad98fc22afa119eec67c106b4e04442506dbda80f9856840cc3418a6aa95a12",
+      "size_bytes": 34325
+    },
+    {
+      "path": "resources/loixb2gjhkg-1/data.json",
+      "sha256": "bf456fcac8787f269b65f69b38cc3ec7df900bd0f48c886b0d07902f407ffcea",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/loixb2gjhkg-1/index.html",
+      "sha256": "fb195e8887559d3d663ee5c2644e3364d82944e702fab864c55a0adec5fc114f",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/loixb2gjhkg-2/data.json",
+      "sha256": "86759968429b502faa36f02990fca179c132a2779ad7cef4cd3eeee5241273bf",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/loixb2gjhkg-2/index.html",
+      "sha256": "45a9188f1140abf92bccebf870b171e5baabe1b9cacc318f406747abb5acd950",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/loixb2gjhkg/data.json",
+      "sha256": "6235d7d9e26c4ef80e323c29eecd9fdfe0d12ec2448fa33d298dc963f39b46f9",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/loixb2gjhkg/index.html",
+      "sha256": "2cb746f2e562037633559bc2490d86770bdd0371cb92e479836a070e51c3931d",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/lteth1gzwoe-1/data.json",
+      "sha256": "353949f7f8a1f39e40804a019da94180912d3f97abb3182ed5b514c2a6739628",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/lteth1gzwoe-1/index.html",
+      "sha256": "d6b95d0d34fde8fe63ce5de3e288989fd7ecf0efa137e21f88c7b5952934c182",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/lteth1gzwoe-2/data.json",
+      "sha256": "47c5b91fa06a25480fa0c2c5ea2f3db1c097902de7c39ce1599b6622a81234cd",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/lteth1gzwoe-2/index.html",
+      "sha256": "d2421a0bd91505d34e3a32057b8e30caa16dd81adfc693c1a0aba8460c809224",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/lteth1gzwoe/data.json",
+      "sha256": "3bc0f0071a65b6f85437524c06afafe1a02c60a988309600590d9f6340a337d1",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/lteth1gzwoe/index.html",
+      "sha256": "58b4312be996bbbf1f265ca59d91b726a8feefc003d09212efcce80940f977d5",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/m_8uajinldg-1/data.json",
+      "sha256": "12e4fd3ca4afcb36b38744e10cb2bec2d0e6cdec3de196e2b836fc8390bed9bf",
+      "size_bytes": 636
+    },
+    {
+      "path": "resources/m_8uajinldg-1/index.html",
+      "sha256": "2cd4376467f1c12c6cb39cf3b4aafdd43271684ddacab9683ddd7b947fe5025c",
+      "size_bytes": 49502
+    },
+    {
+      "path": "resources/m_8uajinldg-2/data.json",
+      "sha256": "b4c6086ae22073c71e11bbe3147462873bdf434d626c5a61741f49609c50a805",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/m_8uajinldg-2/index.html",
+      "sha256": "772ad746deee61bc1c93e6e009b72fb6140baa5d8d8b6761ddaa375ec8587cf4",
+      "size_bytes": 49089
+    },
+    {
+      "path": "resources/m_8uajinldg/data.json",
+      "sha256": "2217c0782ecb02db6aa5d0362e204fe1be9cf3925d00522a2bd29b045952c7fc",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/m_8uajinldg/index.html",
+      "sha256": "0614b822b5fc1d85d136e2ac3078e2a15b8ad9d016dccbabcf01c71041d71bd1",
+      "size_bytes": 49079
+    },
+    {
+      "path": "resources/mass-dimension-relation/data.json",
+      "sha256": "517fd878f9a957d59d3ccb3c0ed53daf322b1453450ddca23ff9bc7afac3327a",
+      "size_bytes": 1777
+    },
+    {
+      "path": "resources/mass-dimension-relation/index.html",
+      "sha256": "63f950a19a36f8b2b2386b44b1e28b4291c26434073319f512d7df49847ae006",
+      "size_bytes": 52935
+    },
+    {
+      "path": "resources/mit8_821f14_pset1/data.json",
+      "sha256": "330a59c12e8aeb5dfc793e0bffcdca0ef3c249c29a087108e27f766288b987b2",
+      "size_bytes": 1286
+    },
+    {
+      "path": "resources/mit8_821f14_pset1/index.html",
+      "sha256": "7f0d0584ef1c248bf838546cb9e547b1bf48875d513eaf21eb926d7a00f9be7b",
+      "size_bytes": 49746
+    },
+    {
+      "path": "resources/mit8_821f14_pset2/data.json",
+      "sha256": "2283ae09549e5da455777bf7a9c928892a567d5add1e081684c32c471eb7401a",
+      "size_bytes": 1284
+    },
+    {
+      "path": "resources/mit8_821f14_pset2/index.html",
+      "sha256": "1abf8174534653c7170bc80134bc76e0eca4610372650f6a5490391ca2f1d262",
+      "size_bytes": 49736
+    },
+    {
+      "path": "resources/mit8_821f14_pset3/data.json",
+      "sha256": "04f9b9acb2f6882cb7787107603ac5bc4d6cf4d6e7b816b90f357c1e3be131f1",
+      "size_bytes": 1284
+    },
+    {
+      "path": "resources/mit8_821f14_pset3/index.html",
+      "sha256": "6e04cd353741fcf4d89cbe32722da9396805fca3bd0dda0f783fde464e33feb3",
+      "size_bytes": 49736
+    },
+    {
+      "path": "resources/mit8_821f14_pset4/data.json",
+      "sha256": "4c3e79891794d085236345dd362a8adaf518d3175ec632d73739009fc25d4c22",
+      "size_bytes": 1284
+    },
+    {
+      "path": "resources/mit8_821f14_pset4/index.html",
+      "sha256": "21b20fbe5eb00e9fa885db985899bf67a20d41c7eead9674c6b27543ca2dee47",
+      "size_bytes": 49736
+    },
+    {
+      "path": "resources/mit8_821f14_pset5/data.json",
+      "sha256": "85a74702f537af08d716f68dc1c5f135e4827875b4cbcc73279e32b0f8c454fd",
+      "size_bytes": 1284
+    },
+    {
+      "path": "resources/mit8_821f14_pset5/index.html",
+      "sha256": "79d4d2ba1bc488ff3f8c9bedde8c9a4669659182d507562ec0d888864ed305d7",
+      "size_bytes": 49736
+    },
+    {
+      "path": "resources/mit8_821f14_pssol1/data.json",
+      "sha256": "7830b0559069a777850d3c8e4c1c06a71719f6d64ad95e9c5f3f45f7f9e39143",
+      "size_bytes": 1310
+    },
+    {
+      "path": "resources/mit8_821f14_pssol1/index.html",
+      "sha256": "570b01b659432fadc9d11c6ba27659513c29f70d6249b5cf271d31a03e171863",
+      "size_bytes": 49829
+    },
+    {
+      "path": "resources/mit8_821f14_pssol2/data.json",
+      "sha256": "d8dc26e9cc62cb2f866279470b7158c13bad2458d905c35a678d5279f2c90e85",
+      "size_bytes": 1310
+    },
+    {
+      "path": "resources/mit8_821f14_pssol2/index.html",
+      "sha256": "03934a338eae72950fc1f0210ff38ab3e7144fe03d54db40b539622f104afb47",
+      "size_bytes": 49829
+    },
+    {
+      "path": "resources/mit8_821f14_pssol3/data.json",
+      "sha256": "755a24f849824c3b862e81dca1cf63d43efe2b9bf72e32c3b53ec211a2721a0d",
+      "size_bytes": 1290
+    },
+    {
+      "path": "resources/mit8_821f14_pssol3/index.html",
+      "sha256": "67364167c4d3d0addbdd2dce13c86ce54664523be4a6514e95e3cd494cc3eff6",
+      "size_bytes": 49765
+    },
+    {
+      "path": "resources/mit8_821f14_pssol4/data.json",
+      "sha256": "3c207531b4ac084e0fcf7e245eb72f5af0e4a6d99dbb97cce8c3d738db77810a",
+      "size_bytes": 1288
+    },
+    {
+      "path": "resources/mit8_821f14_pssol4/index.html",
+      "sha256": "c0efb02d64ca6e6578580f850d4b26564ff186073eed09ead80270b43aa6dfa4",
+      "size_bytes": 49759
+    },
+    {
+      "path": "resources/mit8_821s15_lec1/data.json",
+      "sha256": "8450480e7265552c49d1a09f2fc62799c0773a388583ba89746483fae9ddf7b4",
+      "size_bytes": 959
+    },
+    {
+      "path": "resources/mit8_821s15_lec1/index.html",
+      "sha256": "85e1fc35f4f8a1cb4995fbba0de44ae9e96b7f3983f84de3508716b9e91df58e",
+      "size_bytes": 49851
+    },
+    {
+      "path": "resources/mit8_821s15_lec10/data.json",
+      "sha256": "7be6511ab764b90184128adfc1adb6525dac8968d0d76a1a1bd89c71eadc7ccf",
+      "size_bytes": 1009
+    },
+    {
+      "path": "resources/mit8_821s15_lec10/index.html",
+      "sha256": "eb65be8d7fe5d7119c2a454c6d253d885c5042f09c992c5020fa6a6b1b49dc63",
+      "size_bytes": 49960
+    },
+    {
+      "path": "resources/mit8_821s15_lec11/data.json",
+      "sha256": "ab4863827ad6659bc056b3e68d92ff381e27f8f65ae4b7e55a5f8750b89bebda",
+      "size_bytes": 989
+    },
+    {
+      "path": "resources/mit8_821s15_lec11/index.html",
+      "sha256": "443b2dc87c0d2c88fe6a86224cda6859c8eae134393d3891643e3deae52d8a12",
+      "size_bytes": 49920
+    },
+    {
+      "path": "resources/mit8_821s15_lec12/data.json",
+      "sha256": "c2963c9b66b95bc18ab0c44517d58494b0d309b5ebf872bbd090afc2ac452404",
+      "size_bytes": 977
+    },
+    {
+      "path": "resources/mit8_821s15_lec12/index.html",
+      "sha256": "07f5d5eb7b7c0c181a64cf83fdb4824bbd595919eb1f6d304ac14ebfbfaf2a91",
+      "size_bytes": 49896
+    },
+    {
+      "path": "resources/mit8_821s15_lec13/data.json",
+      "sha256": "79613a49313c4edc8ddb2b35f304a7251a0e8be56975a5d1786978ce1d82d583",
+      "size_bytes": 975
+    },
+    {
+      "path": "resources/mit8_821s15_lec13/index.html",
+      "sha256": "98977ea30859af206ac23c3e1e41aae10b6010273859a98027f74482c56a5e76",
+      "size_bytes": 49892
+    },
+    {
+      "path": "resources/mit8_821s15_lec14/data.json",
+      "sha256": "d5e9510386d59feab8cf4d021783457eaf0f9bc8703024816ceea15686a880c0",
+      "size_bytes": 977
+    },
+    {
+      "path": "resources/mit8_821s15_lec14/index.html",
+      "sha256": "dd8415a716819e8ead0cb6a500c56f617d3ee8b4b88357f8755052eb2333faa5",
+      "size_bytes": 49896
+    },
+    {
+      "path": "resources/mit8_821s15_lec15/data.json",
+      "sha256": "fae6ec78873fcf584eb18e15d71dcb6f85c0c27b62cf80bedfc606e57e790c1c",
+      "size_bytes": 979
+    },
+    {
+      "path": "resources/mit8_821s15_lec15/index.html",
+      "sha256": "1a64f417d4266ff5c9a6736ac00df7a1ca91f9a84661ca8d2b3af661f11971c4",
+      "size_bytes": 49900
+    },
+    {
+      "path": "resources/mit8_821s15_lec16/data.json",
+      "sha256": "70cc06f5b93234e283b8349622a2890947ebe4426c46b8ec25eadf1208b8e98e",
+      "size_bytes": 1011
+    },
+    {
+      "path": "resources/mit8_821s15_lec16/index.html",
+      "sha256": "d56c5af38c3c8f7127a61755c03431725c904d0b163fbc2fc61a3df6fea2a699",
+      "size_bytes": 49965
+    },
+    {
+      "path": "resources/mit8_821s15_lec17/data.json",
+      "sha256": "25687b321988bdce7b1b2f05b413bc8bdc22eab125a0ed81555e26f0483d2d88",
+      "size_bytes": 971
+    },
+    {
+      "path": "resources/mit8_821s15_lec17/index.html",
+      "sha256": "7ee482a2829aee11781e1b05e24b6036ede878d24bc98bb1353f03cf4d0e5a41",
+      "size_bytes": 49885
+    },
+    {
+      "path": "resources/mit8_821s15_lec18/data.json",
+      "sha256": "4046843778b97277f55743f3304571c4b971ee516a025052bbb358b47aed764e",
+      "size_bytes": 981
+    },
+    {
+      "path": "resources/mit8_821s15_lec18/index.html",
+      "sha256": "5852954a4460fa096d926808630e87ed6bee980c40e7ed71d5b0b7a6d7f47fdb",
+      "size_bytes": 49904
+    },
+    {
+      "path": "resources/mit8_821s15_lec19/data.json",
+      "sha256": "bb35f48b4ab868e2d4497e6957e76b43a11a5e85f39297e059555dbb0ca7c7ed",
+      "size_bytes": 967
+    },
+    {
+      "path": "resources/mit8_821s15_lec19/index.html",
+      "sha256": "a6a331fdbab94f1e9a9b766d274595d40e33fa3337f35a65a1a85a153e516390",
+      "size_bytes": 49876
+    },
+    {
+      "path": "resources/mit8_821s15_lec2/data.json",
+      "sha256": "a784c215fcda6e0151fbda3c583d35ce2a4ca464a6f10f45fcde2b88166130ea",
+      "size_bytes": 977
+    },
+    {
+      "path": "resources/mit8_821s15_lec2/index.html",
+      "sha256": "c4ef31202e328fa2f416f255ef092cb7bef4a88fa4f854e1c84f364a814910d9",
+      "size_bytes": 49887
+    },
+    {
+      "path": "resources/mit8_821s15_lec20/data.json",
+      "sha256": "8b393ba41e14d283a2dce90e004a079f9d5e8d716c50c53b04b9e2ac5525b7dc",
+      "size_bytes": 1025
+    },
+    {
+      "path": "resources/mit8_821s15_lec20/index.html",
+      "sha256": "0ad027180f5c9a50e1d91120e86b541e3566236c6bff12c890b3f4aeeb97067f",
+      "size_bytes": 49992
+    },
+    {
+      "path": "resources/mit8_821s15_lec21/data.json",
+      "sha256": "fd85de7b38b017c6f241bac973306c252f9be8e75328248793585a3aa85b98aa",
+      "size_bytes": 1031
+    },
+    {
+      "path": "resources/mit8_821s15_lec21/index.html",
+      "sha256": "4cc06c097f1dbab27bd5a14aff04d8b60284a93bf30584aefc5334268bc81b99",
+      "size_bytes": 50004
+    },
+    {
+      "path": "resources/mit8_821s15_lec22/data.json",
+      "sha256": "11c77faf536d35469f9802eea8025bbebf0275ec65e2f515c1b4e839ff96cf96",
+      "size_bytes": 981
+    },
+    {
+      "path": "resources/mit8_821s15_lec22/index.html",
+      "sha256": "7ddd081af319d8ff9cd64fa3d8850c8ec9d17ede38830e67847a4100e16dd5c6",
+      "size_bytes": 49904
+    },
+    {
+      "path": "resources/mit8_821s15_lec23/data.json",
+      "sha256": "3eed3aa9b4237fb55d6179f69b55b1c680a446194543922b5cf5f9e23e5f59a0",
+      "size_bytes": 1044
+    },
+    {
+      "path": "resources/mit8_821s15_lec23/index.html",
+      "sha256": "5396c2053b4791d3e93440665c03129c2b1100efc4b02a4c6c3c9ee2183ceafd",
+      "size_bytes": 50026
+    },
+    {
+      "path": "resources/mit8_821s15_lec24/data.json",
+      "sha256": "351a6a5ad474e68668814b6934f64cf1d52a086620887a21b3b090f3596feef2",
+      "size_bytes": 985
+    },
+    {
+      "path": "resources/mit8_821s15_lec24/index.html",
+      "sha256": "aca9caed39870d256ae28d2dd78b301ce2273721bd66fd6dba18febf2835cab6",
+      "size_bytes": 49912
+    },
+    {
+      "path": "resources/mit8_821s15_lec3/data.json",
+      "sha256": "501dc3023ee687339c91eb2e72f76006aab1591405b0b4f1e0411719b7718f36",
+      "size_bytes": 1037
+    },
+    {
+      "path": "resources/mit8_821s15_lec3/index.html",
+      "sha256": "0ade838d0617f1ec56ff3f70a69b21ccd0b5dbefedd2ad1ea0e96869560bcd06",
+      "size_bytes": 50007
+    },
+    {
+      "path": "resources/mit8_821s15_lec4/data.json",
+      "sha256": "f56170ff3225f5f107ea11e299aa239a4f29138ecc6adef1d77a5df0364611c0",
+      "size_bytes": 1017
+    },
+    {
+      "path": "resources/mit8_821s15_lec4/index.html",
+      "sha256": "875cc2ad7db91f56bb58de2409b9551e5afaa86d32560dd8519cba307a8e66bc",
+      "size_bytes": 49967
+    },
+    {
+      "path": "resources/mit8_821s15_lec5/data.json",
+      "sha256": "52a84366d5776410e0271dc2ee4cd7363cb0169ad98260047ed2fe409d3f5ce6",
+      "size_bytes": 969
+    },
+    {
+      "path": "resources/mit8_821s15_lec5/index.html",
+      "sha256": "345a46c949924f1b695892677a74279bd1ffc09d86e3ca343f545bca6a14ceef",
+      "size_bytes": 49871
+    },
+    {
+      "path": "resources/mit8_821s15_lec6/data.json",
+      "sha256": "d55bde3dd0bb43c1f830ba7d5e5d56ecccf56d2430f2342fdc35d22ffef3ac3b",
+      "size_bytes": 961
+    },
+    {
+      "path": "resources/mit8_821s15_lec6/index.html",
+      "sha256": "e56b8ba749b05121878b5d42cb038dc105a4b296d656ad6005920380c2a46bac",
+      "size_bytes": 49855
+    },
+    {
+      "path": "resources/mit8_821s15_lec7/data.json",
+      "sha256": "d8b00dc8c4c27765dc61378618b5e8d494347fb4ce05f305caf2262b23ecd9b3",
+      "size_bytes": 979
+    },
+    {
+      "path": "resources/mit8_821s15_lec7/index.html",
+      "sha256": "a6dfdbd3f953c46dd239fa8a88c0f0fd52bcecf64d4803b2287004d7c5f0a73e",
+      "size_bytes": 49891
+    },
+    {
+      "path": "resources/mit8_821s15_lec8/data.json",
+      "sha256": "cfa13faabc0c9332b48149c75a7934116349ff2175c177fc42e1f22698aa43db",
+      "size_bytes": 1007
+    },
+    {
+      "path": "resources/mit8_821s15_lec8/index.html",
+      "sha256": "2d3002cfd0ac10af46d37f639f1fdebaf009f00f833bada2c2854248677e7ff1",
+      "size_bytes": 49947
+    },
+    {
+      "path": "resources/mit8_821s15_lec9/data.json",
+      "sha256": "3cce77ab9e048627f6b2450b70898a9e43251fa21c7c3568f19f22365c843524",
+      "size_bytes": 1009
+    },
+    {
+      "path": "resources/mit8_821s15_lec9/index.html",
+      "sha256": "2e49ef062f6f67538a46b03350f0916893c08c2b76d996c70dcb4bfbd944fc6f",
+      "size_bytes": 49951
+    },
+    {
+      "path": "resources/more-on-ads-cft-duality/data.json",
+      "sha256": "26bbc6ae8aad787c1012c3b68a6a97a90766605edaa4065ae03196fb36a39bab",
+      "size_bytes": 1701
+    },
+    {
+      "path": "resources/more-on-ads-cft-duality/index.html",
+      "sha256": "1813c5fbc0743dc4ee6216ea18b418dc2d77b4ef1f6d0ecff2f4ca212719d237",
+      "size_bytes": 52865
+    },
+    {
+      "path": "resources/nw4vp_upvme-1/data.json",
+      "sha256": "a1f7282cab26ea90dd7fc147fbf84b74904d5293bfbd466a65c87cf2bdcdc86b",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/nw4vp_upvme-1/index.html",
+      "sha256": "307544e2e9f8580c975c3916dcea25c280e4863f72f64432d9e36450033a219b",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/nw4vp_upvme-2/data.json",
+      "sha256": "8149997e89a2627e3673360fef25af4fcb09d30e037f0afab879b467e9d29312",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/nw4vp_upvme-2/index.html",
+      "sha256": "fa2b6957548d08e7a0f74fd4f0d0df78bcc5b36aced63558cf14cbe66340d353",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/nw4vp_upvme/data.json",
+      "sha256": "0aaa8e9ecb3f26ced1a868f1cb8ae294e5356396554e0db5c43eef1f7b26eb90",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/nw4vp_upvme/index.html",
+      "sha256": "7a4fc1dd5e5288f8f35aaf39f1067a23e971568b19459f2cf06b7f3c85421c87",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/owhnn20azo8-1/data.json",
+      "sha256": "3275596ceb31a9ceeda372f113c145910744d52e395a1ce8a6d58060a709deb9",
+      "size_bytes": 636
+    },
+    {
+      "path": "resources/owhnn20azo8-1/index.html",
+      "sha256": "9869780e9dfc4f1d3fed87315380685c5130f9ba4dc776760834a1db2120b874",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/owhnn20azo8-2/data.json",
+      "sha256": "79e7393b8638a57c10bcd554f6d494239d279600541b585ef5f20d44736718c7",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/owhnn20azo8-2/index.html",
+      "sha256": "b11c9369e482f12c33f13299d34a7dc6198f890d59953c1a52052a3e08828b24",
+      "size_bytes": 49089
+    },
+    {
+      "path": "resources/owhnn20azo8/data.json",
+      "sha256": "13d3cbd589f994cd8aaa2fc0ba9da50c9e2126f8b46ca5128d4789b445649cda",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/owhnn20azo8/index.html",
+      "sha256": "db78bf6be17af583d5d7e1749ac84372b3265d7907d067878451fc43f13f3392",
+      "size_bytes": 49079
+    },
+    {
+      "path": "resources/oxsc9bjmja4-1/data.json",
+      "sha256": "0239fc3ebf38464c324f53340849196e4e51b305ea2c24d84facee299c7d942d",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/oxsc9bjmja4-1/index.html",
+      "sha256": "fbcb64bbd83848bfc9001383ab2669e40e27a442136962ee07d991906bfd9521",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/oxsc9bjmja4-2/data.json",
+      "sha256": "e16a1759fef7671defa7b5e7316d757bc6d7751e6fbb5c90b8bee2c7469fd903",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/oxsc9bjmja4-2/index.html",
+      "sha256": "f111f980fbbfdfc181129a9e33723632e3777cf78f6ebef3318abc8b1c125c6b",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/oxsc9bjmja4/data.json",
+      "sha256": "e185813849e6f48b56f39281627d570e4f27d21101864f2ce5fbd75af5692bc3",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/oxsc9bjmja4/index.html",
+      "sha256": "a436dd377f5ab9d5a750bc5fc5267db7b5b4720d500a4aba93bea16b84375f55",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/physical-interpretation-of-black-hole-temperature/data.json",
+      "sha256": "920682bb3fcc408dc24b30b3389430435b618de50e54b3562eab3024aa1ff93f",
+      "size_bytes": 1917
+    },
+    {
+      "path": "resources/physical-interpretation-of-black-hole-temperature/index.html",
+      "sha256": "14a4bca674f3593e6331fece574ad507cd0a2dd7b13895ef22b592c815502b92",
+      "size_bytes": 53207
+    },
+    {
+      "path": "resources/physics-of-d-branes-part-i/data.json",
+      "sha256": "33861f8ddddedf557147f44093a7cf65e178f02e47e7fc4ee0b435e190a7531e",
+      "size_bytes": 1871
+    },
+    {
+      "path": "resources/physics-of-d-branes-part-i/index.html",
+      "sha256": "d4b9dcca672fdb8a8f83522b8c0cfff7b27be54e6748090c84959455670a6fc0",
+      "size_bytes": 53010
+    },
+    {
+      "path": "resources/physics-of-d-branes-part-ii/data.json",
+      "sha256": "41f5d644480aa75bfb8c3e96fc1e737abf8a1be1f44d7b67e43ba2b420477648",
+      "size_bytes": 1813
+    },
+    {
+      "path": "resources/physics-of-d-branes-part-ii/index.html",
+      "sha256": "2605001e164b7255ebbd36d3dfec6d480bec40d647abb35feb0ba59c68208acd",
+      "size_bytes": 52988
+    },
+    {
+      "path": "resources/physics-of-d-branes-part-iii/data.json",
+      "sha256": "a98c9f985fbdccb753748b3983cab7996fa43c1e4c9662e5ae42d4d615356a38",
+      "size_bytes": 1779
+    },
+    {
+      "path": "resources/physics-of-d-branes-part-iii/index.html",
+      "sha256": "8c8a432cfcb5993360b94a9b1d81de15c82c241ff6f11fd4bfd06dd9abb462a8",
+      "size_bytes": 52978
+    },
+    {
+      "path": "resources/problem-set-solutions/index.html",
+      "sha256": "15095b2379fe4845f18cfbc9144f612ad28e5a593566fd7cead86b69009a39b8",
+      "size_bytes": 49891
+    },
+    {
+      "path": "resources/problem-set-solutions/index.xml",
+      "sha256": "f8b7f4c1d5c6fe6cb0f3f000999b60b6d9418f1231241bd130657b5890e31aed",
+      "size_bytes": 1077
+    },
+    {
+      "path": "resources/problem-sets/index.html",
+      "sha256": "0a74f37a671b508723358cece08f6d6747e8b62663d793c50b2c6e237c294fb6",
+      "size_bytes": 55780
+    },
+    {
+      "path": "resources/problem-sets/index.xml",
+      "sha256": "85d0c47cd2107d6f11115dca6ae80103cb2c0af9074a0ba58d9b3c4b889fc7dc",
+      "size_bytes": 2315
+    },
+    {
+      "path": "resources/rap-0nqnf_a-1/data.json",
+      "sha256": "00a489b1684b848e5aae3098c662d265db820dca763219a8d5fee71527634d97",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/rap-0nqnf_a-1/index.html",
+      "sha256": "dd72b67ee2f69cd9ff738e3873b604cdd1593c0585d45fa34d7fd721eb9a5191",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/rap-0nqnf_a-2/data.json",
+      "sha256": "747c9f9cc218206cd505bbca88a6ab944fbface3770a0fbd810db41362bb77a3",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/rap-0nqnf_a-2/index.html",
+      "sha256": "07053d0465eefcb30a6dcfff769e7c38955d984cdd4a139531f6503cbdcf90c6",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/rap-0nqnf_a/data.json",
+      "sha256": "c76048cb27ebd658f7c058ec4732fe6dbfdc51d2b93e061e35f20761513baa8a",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/rap-0nqnf_a/index.html",
+      "sha256": "65a0f01cea2c3d0c5566d6598414c7e85e53bb6be5b4f9f3bcf0e29858f5b2cd",
+      "size_bytes": 49078
+    },
+    {
+      "path": "resources/readings/index.html",
+      "sha256": "cc976336e57d411c8c3ebe6f432346caa529e25a8a09d0306d01b0a753843161",
+      "size_bytes": 47391
+    },
+    {
+      "path": "resources/readings/index.xml",
+      "sha256": "d6b55f672de946d9b2a3396b7ea1044600063e95cf61077b1fd9eac855fcccc6",
+      "size_bytes": 5820
+    },
+    {
+      "path": "resources/string-spectrum-and-graviton/data.json",
+      "sha256": "f62f551f043bb6ef552e6e346fe3b410a9fe23753a21eab07b308728f62bebca",
+      "size_bytes": 1980
+    },
+    {
+      "path": "resources/string-spectrum-and-graviton/index.html",
+      "sha256": "f10198ba7dc2b253faace420e78a0604d84799d7dd0471a4290386e073731f16",
+      "size_bytes": 53087
+    },
+    {
+      "path": "resources/string-theory-in-the-light-cone-gauge/data.json",
+      "sha256": "c5e70c41f236c7ba10cee6fdf844e2a3ea18b6850002808f4e241706825aba9b",
+      "size_bytes": 1719
+    },
+    {
+      "path": "resources/string-theory-in-the-light-cone-gauge/index.html",
+      "sha256": "34c9281ee8fff02559a05199f3594c8f91a9748211d64203acff0a549ab2a1f8",
+      "size_bytes": 52994
+    },
+    {
+      "path": "resources/structure-of-large-n-expansion/data.json",
+      "sha256": "e9773220b9f25fe98fffd2bbeec98ed6f22ee17f12c697f9a1d54e373765d93a",
+      "size_bytes": 1878
+    },
+    {
+      "path": "resources/structure-of-large-n-expansion/index.html",
+      "sha256": "f981f01bb2f6bb5fbb309b7b35f7cd16b02084fe1af2bcc78c7a2402865c777c",
+      "size_bytes": 53027
+    },
+    {
+      "path": "resources/wcy-zct8llk-1/data.json",
+      "sha256": "9e743237a97128677b24ba4a0dcf818c1dd3e2ec26996601454b4828a63c0297",
+      "size_bytes": 636
+    },
+    {
+      "path": "resources/wcy-zct8llk-1/index.html",
+      "sha256": "31515321da2da56e693492cfa9d4b9eb988f046c1540f536904fadfa9f5ab087",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/wcy-zct8llk-2/data.json",
+      "sha256": "833fd4a1a3fa77613952e2e101cb047fe752dd5d14535518226f5fdc8437f6af",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/wcy-zct8llk-2/index.html",
+      "sha256": "8b79618fb0226bbbc75ec4758030be82149891f7bb5fb75cd2b305ad421c9ea9",
+      "size_bytes": 49089
+    },
+    {
+      "path": "resources/wcy-zct8llk/data.json",
+      "sha256": "c44c053f48723e29766190a28a6e9de6e0d7f291e9e4f19e173631ed4cf2b9de",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/wcy-zct8llk/index.html",
+      "sha256": "1ba183b189bbed620333dcf00a4cf76f2d429a90e03dc1d78e8df548f23fdf1d",
+      "size_bytes": 49079
+    },
+    {
+      "path": "resources/wpudh61lkpg-1/data.json",
+      "sha256": "42de019db5fc94a93e08c63b25afc75a7768c32593c4bbfedae57380352cfd12",
+      "size_bytes": 636
+    },
+    {
+      "path": "resources/wpudh61lkpg-1/index.html",
+      "sha256": "4f3cc762361a959e946038bb0df463e26007eb4a62a78fd73d0370f976eb62bf",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/wpudh61lkpg-2/data.json",
+      "sha256": "a14ceadace20d3680a1229fc7b938465a4cc19b62a4f8221d3f380cf0a819f54",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/wpudh61lkpg-2/index.html",
+      "sha256": "2fd52414123ef455ad178a83c6b10fac54421253a2867f3605137ba6bd8862d1",
+      "size_bytes": 49089
+    },
+    {
+      "path": "resources/wpudh61lkpg/data.json",
+      "sha256": "cb9a9ba66ffed8600e71760ff9c5f009bf6a4fc30d9e7a327c217ec97baca0b1",
+      "size_bytes": 642
+    },
+    {
+      "path": "resources/wpudh61lkpg/index.html",
+      "sha256": "8586ca1c4c1d3e35e966c73b368e47538b76f5b15c9a4950a586b702ff55f2a6",
+      "size_bytes": 49079
+    },
+    {
+      "path": "resources/wvoik8en6ye-1/data.json",
+      "sha256": "9210a9cd6c1b1181a83168a52d86bb95ddaf8fc57e2d7cc0fa7d8dc2451c8e67",
+      "size_bytes": 635
+    },
+    {
+      "path": "resources/wvoik8en6ye-1/index.html",
+      "sha256": "0b520b666de9030dbbcd6d435c7e03e6cb2710a286394b5cfa985e4232e0b1b8",
+      "size_bytes": 49501
+    },
+    {
+      "path": "resources/wvoik8en6ye-2/data.json",
+      "sha256": "9b130f1affd04aad1f91843b5c04a6b2ce188ac9338ddcbf0d3722be8130f540",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/wvoik8en6ye-2/index.html",
+      "sha256": "2f05c16f873eb2d5a3548b9a293777fec7ae51ccf803ea1d3e3ed637fd9b83d0",
+      "size_bytes": 49088
+    },
+    {
+      "path": "resources/wvoik8en6ye/data.json",
+      "sha256": "e9812600a8f4ee033e7a81c9c2083c348c3dd99030848a9e7d2e8531e7f31520",
+      "size_bytes": 641
+    },
+    {
+      "path": "resources/wvoik8en6ye/index.html",
+      "sha256": "84965864aa2198eb1145e3aada5a60af814ca2176990c4c1c1ce86343815df70",
+      "size_bytes": 49078
+    },
+    {
+      "path": "robots.txt",
+      "sha256": "f27970d7026ceb04fe68877b9fa112cf6a93a2bd537c8dce7e7fdc27182d5a62",
+      "size_bytes": 64
+    },
+    {
+      "path": "sitemap.xml",
+      "sha256": "35dec7402c03520d2943e4e5c4a77f69b120771b2d7e6477dea669761112dcf1",
+      "size_bytes": 14869
+    },
+    {
+      "path": "static_resources/0192b3a10a62d34ad36e010f0341d512_jhyWwA_bJ5A.srt",
+      "sha256": "006ec2b53641e8948d56121a684d9a41819e8e2c61a0478b26c52a234001357c",
+      "size_bytes": 93033
+    },
+    {
+      "path": "static_resources/0252c3933c4e097296c1f43cfbc98e37_MIT8_821S15_Lec1.pdf",
+      "sha256": "57aed2a2134b5cc8184e98a488d37acbbd0ffa4b2c1d77739383a3b1602eded1",
+      "size_bytes": 239370
+    },
+    {
+      "path": "static_resources/06f8baf05a275586ba1df735f66f4364_1OGZCt58GLc.vtt",
+      "sha256": "5e197373aeccd1e0d4ab1c2b542115c97bd6c9d6616e71ac6b9e7735a7c1fdfc",
+      "size_bytes": 78867
+    },
+    {
+      "path": "static_resources/07f437a42d6c676c8c47d23c31248f3f_WVOIk8en6YE.srt",
+      "sha256": "9fe61ed77197893ed7d9aa2a0737d14d15ea329313a01bb3c3dba4fa2c317b58",
+      "size_bytes": 66488
+    },
+    {
+      "path": "static_resources/0915dfb9f7fa54c491b6f3b980ad5076_hIvrYfwUyZQ.vtt",
+      "sha256": "06107182779162696fb59ea6af449590d3c784a7a18971445a61a660af7e8c46",
+      "size_bytes": 87946
+    },
+    {
+      "path": "static_resources/09ec1f78d63cc65c21e85e2256aee448_WPuDh61Lkpg.srt",
+      "sha256": "5f02327cdc102ca68c0d7b69a7eb11a161274d52b7d507b52065fe1728aa6da9",
+      "size_bytes": 120079
+    },
+    {
+      "path": "static_resources/0c2437b02c12096ddd465e4527d56120_owhNn20aZo8.srt",
+      "sha256": "1e2cc9e0ab85dcc17a62d02963b2a79c18b8620c360413dcfc111d4bc733d421",
+      "size_bytes": 116228
+    },
+    {
+      "path": "static_resources/0c759048837139844defc08b37a3198a_1pkoBetgo7s.pdf",
+      "sha256": "a7ec1926bb83ac355b7c2fbd06562a32652fb3d8da9a59e1db65273aad0befe0",
+      "size_bytes": 90582
+    },
+    {
+      "path": "static_resources/0cbf6a305866fe217e5d917dab4591d1_4-2652.jpg",
+      "sha256": "a5cb91f07c2437213a68406e81ce4b3748bec160b5e22ce017ce52b2b13c6a18",
+      "size_bytes": 23445
+    },
+    {
+      "path": "static_resources/0d9523eed7c7af4146c6e7769eef16c7_hIvrYfwUyZQ.pdf",
+      "sha256": "374e3e7955a0b71e20bc992028e63c2b619e6866b1bb44ae169f431dbe1ce0f8",
+      "size_bytes": 80283
+    },
+    {
+      "path": "static_resources/0e4c8e5cfe511c8ba9aabc8ee18ba4e6_WPuDh61Lkpg.srt",
+      "sha256": "5f02327cdc102ca68c0d7b69a7eb11a161274d52b7d507b52065fe1728aa6da9",
+      "size_bytes": 120079
+    },
+    {
+      "path": "static_resources/102d10ab09fb50bc9558514fd9d61add_75zfIar62c.vtt",
+      "sha256": "39d83f82674bb47bffc99c48fa776d1ad93e69f54aa750e69e319a05c36bc637",
+      "size_bytes": 128919
+    },
+    {
+      "path": "static_resources/107c04c3759a2e244b8778e9bd616a72_MIT8_821S15_Lec2.pdf",
+      "sha256": "2f8dbd9f6c8bf8a3802befbe5f4de9a96badb9e3c39bc74e6b668a1ce02e428f",
+      "size_bytes": 264052
+    },
+    {
+      "path": "static_resources/1119bf97378aff76fb5c02ae928d930d_MIT8_821S15_Lec7.pdf",
+      "sha256": "97850a659cb157bb878a0b2727c1b2765177ac7c305bdfadcb970a1760f80ac8",
+      "size_bytes": 218315
+    },
+    {
+      "path": "static_resources/131bde177c41273e9d8be49d90d0d8b4_gLYwLyeE8oU.pdf",
+      "sha256": "ce35ed0d9eaba6fe6aa5ba13415a28f00543ce5c812f3c50b84a1a0af3dc3f13",
+      "size_bytes": 69717
+    },
+    {
+      "path": "static_resources/15d96d91461f15eb242d8624c61dc7b3_iPWIqjYkVns.srt",
+      "sha256": "a53744d6762d282d442e19c77c5aa83d9f03ba68ab24d75db2296a4650b32c54",
+      "size_bytes": 93322
+    },
+    {
+      "path": "static_resources/15df690403705adba47c02517db2bc0c_oXsC9bjMJA4.vtt",
+      "sha256": "5f99667fc0e167211cfc8a00df71a95c398d854ff463f24df4d2a5f493156c91",
+      "size_bytes": 70474
+    },
+    {
+      "path": "static_resources/167d7b03c0bc5a56b3a8089280b0703d_gLYwLyeE8oU.vtt",
+      "sha256": "bb1d8defcb8bf3b8cb0492e8dae26ca20aea29425cd60f2041f046be883d43bf",
+      "size_bytes": 72787
+    },
+    {
+      "path": "static_resources/1686e15e30a55d717b6ffa629fcf4959_75zfIar62c.srt",
+      "sha256": "8f8bdaf9ec4195ca75032c7eb847edeaddb4ae856fb6d0e54905640637e60ecf",
+      "size_bytes": 136869
+    },
+    {
+      "path": "static_resources/198d5cfac98cace906a4c4a298b262a3_EUnGZoBa3nc.srt",
+      "sha256": "e518af42609f6531c58adc4f8718653d211ad1881b2fb604f490447f64d474d3",
+      "size_bytes": 81810
+    },
+    {
+      "path": "static_resources/19dfb32cc8cc8c069e8f914c00d7eeb6_1OGZCt58GLc.srt",
+      "sha256": "15daba3f88e2ec3d2b0dc7902c1f9ce8ce7ca81c3f1de65e3739ed1c66dd267c",
+      "size_bytes": 83247
+    },
+    {
+      "path": "static_resources/1a443639fcb75a75bb053e177d071a42_LoIXB2GJHkg.vtt",
+      "sha256": "cd267c77ec3cd0f373f4b9ee6ce6751e9b02faf0a86271308c3b3f3f2b57782c",
+      "size_bytes": 94402
+    },
+    {
+      "path": "static_resources/1e70ef94ceb9268af97b3ffda48e545b_gLYwLyeE8oU.srt",
+      "sha256": "d909d33f24e3e17016163d6e8688d8e0ef52d7e3689766fc258cd914a2b5c69c",
+      "size_bytes": 76682
+    },
+    {
+      "path": "static_resources/21225ed07ca5510a3919375763f1b4ad_LoIXB2GJHkg.srt",
+      "sha256": "e7ae90d850465fd089c8c73895b6e3950522817d4fbcb2157ce480d6e609f4ab",
+      "size_bytes": 100372
+    },
+    {
+      "path": "static_resources/2230f397d057b2fd0aebbfac968bf8bb_iPWIqjYkVns.srt",
+      "sha256": "a53744d6762d282d442e19c77c5aa83d9f03ba68ab24d75db2296a4650b32c54",
+      "size_bytes": 93322
+    },
+    {
+      "path": "static_resources/2254c6b8ddb0f6915e569a9876107d1d_EUnGZoBa3nc.srt",
+      "sha256": "e518af42609f6531c58adc4f8718653d211ad1881b2fb604f490447f64d474d3",
+      "size_bytes": 81810
+    },
+    {
+      "path": "static_resources/2693e77d9faf586caa05d0baf7ec3d67_eGPpz9kYUCg.vtt",
+      "sha256": "cae6dca4875035a5235d20986a87844ebc9165e9f6ea71e1d6c28e5c25322b53",
+      "size_bytes": 107307
+    },
+    {
+      "path": "static_resources/286fa63f1af3829d386c8daa2cda5dc4_1pkoBetgo7s.pdf",
+      "sha256": "a8daf4ff95312cd06e7c8a0c502ac723df5ac254fbf908289da0e238c6aaca0a",
+      "size_bytes": 85976
+    },
+    {
+      "path": "static_resources/28edb64bc15a90f3c5706a8868c8fb11_1OGZCt58GLc.pdf",
+      "sha256": "ee9c0de04e483724b130b8996bd9a62a2aabefbf0dc0031cdafd123ab9fb148c",
+      "size_bytes": 77159
+    },
+    {
+      "path": "static_resources/292b135850e0549eb5adce84ed035956_-mrxN8XcQOQ.pdf",
+      "sha256": "11db44021b5c9381007dedfd45d093a88882ca3e092aab6f8544a679c066c7b1",
+      "size_bytes": 77554
+    },
+    {
+      "path": "static_resources/295cd9b5a85950f8924b216f7b87803d_k6HCdJ9lKho.vtt",
+      "sha256": "afb71fd4e1aed6a554060466fbd7f15c7d8942492fe7266f2be516e3e6deaa2b",
+      "size_bytes": 114468
+    },
+    {
+      "path": "static_resources/2a1375d5511300791320ac8d5200d885_-mrxN8XcQOQ.srt",
+      "sha256": "e9b91b43b3d1b54d3017b453ea0346f32ad488a32d97eec23bc15248613eb594",
+      "size_bytes": 89945
+    },
+    {
+      "path": "static_resources/2b6ff99db647516daee15f99ba6981b5_0fChZwU1zEc.vtt",
+      "sha256": "1381943b28f2b9ab64eb0bc835b2d5bf3cacecd02241f8de3d8e2726b4413782",
+      "size_bytes": 125416
+    },
+    {
+      "path": "static_resources/2bcf65fb9dfeba1838b20e52c38dfb65_MIT8_821S15_Lec11.pdf",
+      "sha256": "7ae25a693adea78fed0cb7b8a6c4eccd04bc6f9dc3afa0ea5550dd3a38b8472f",
+      "size_bytes": 327823
+    },
+    {
+      "path": "static_resources/307d1e79339158f195e5fb62d1a96497_1pkoBetgo7s.vtt",
+      "sha256": "c4a7578efb1babe880bf0c5329002bdf1d4990f538ba11c5da74bcb9f1ff5328",
+      "size_bytes": 89941
+    },
+    {
+      "path": "static_resources/34913a16c2749aec4647cd21c9975d2e_MIT8_821F14_pset1.pdf",
+      "sha256": "c65bc556eba6791ac60a2b82feb019d6dacd58cc87b8982c71066221f34d40d7",
+      "size_bytes": 89198
+    },
+    {
+      "path": "static_resources/36144acaddbf5bf2924b1c004b634d6f_iPWIqjYkVns.vtt",
+      "sha256": "b2bb193612d3bef5a797c74d075623710a9ef87aeb7b7110e8e9b02f6b28f132",
+      "size_bytes": 88022
+    },
+    {
+      "path": "static_resources/3951be2f7e7116a940223cc1309c2f00_MIT8_821F14_pssol2.pdf",
+      "sha256": "2c3dcf608e97ac498466f60c46e57319d1db19fdf17738c56c8653b6d823c345",
+      "size_bytes": 287665
+    },
+    {
+      "path": "static_resources/3c38fd527632291eb27586ea520b7437_jhyWwA_bJ5A.srt",
+      "sha256": "006ec2b53641e8948d56121a684d9a41819e8e2c61a0478b26c52a234001357c",
+      "size_bytes": 93033
+    },
+    {
+      "path": "static_resources/3e6561ddd7c35ffeae517708362d9afe_jhyWwA_bJ5A.vtt",
+      "sha256": "ac9615624445cdb69add3426da271fd563c669a818e3e3988f0fe896ffd3b5a5",
+      "size_bytes": 87623
+    },
+    {
+      "path": "static_resources/3f2ae361e67d6d800f52cf4db38d5da3_Wcy-zCt8llk.srt",
+      "sha256": "8b01f6372cf538a590796e9059562e465bc597ba3c823acefac8bd89f24f65a7",
+      "size_bytes": 114377
+    },
+    {
+      "path": "static_resources/3fcd82c3918732719ba6653587e77cf4_owhNn20aZo8.srt",
+      "sha256": "1e2cc9e0ab85dcc17a62d02963b2a79c18b8620c360413dcfc111d4bc733d421",
+      "size_bytes": 116228
+    },
+    {
+      "path": "static_resources/4045a4ddef7c5f01b8ef674901016773_gLYwLyeE8oU.vtt",
+      "sha256": "bb1d8defcb8bf3b8cb0492e8dae26ca20aea29425cd60f2041f046be883d43bf",
+      "size_bytes": 72787
+    },
+    {
+      "path": "static_resources/40e27f6caf5ea0bf77a3e8f63319f714_nW4vp_upvmE.pdf",
+      "sha256": "085351edb490f6528ccfe9c5366b6d2b97474b81def6fa6cf5d1c34332047de6",
+      "size_bytes": 81626
+    },
+    {
+      "path": "static_resources/41fe9729c5f00f05b58c94e8b65d0314_1OGZCt58GLc.srt",
+      "sha256": "15daba3f88e2ec3d2b0dc7902c1f9ce8ce7ca81c3f1de65e3739ed1c66dd267c",
+      "size_bytes": 83247
+    },
+    {
+      "path": "static_resources/4250ab3d238356029d4c244b1135d7a4_LTEtH1gzwoE.vtt",
+      "sha256": "2ef066525607a3196bbc6ad267a13e3bcc48c806ed4064e194ff13b6ab16a2ce",
+      "size_bytes": 77334
+    },
+    {
+      "path": "static_resources/426687d3fbb37ab4b2c8ce130806ac83_MIT8_821S15_Lec16.pdf",
+      "sha256": "a219a2519959da7871157dfca23b7e8a970232cce7702b0163a3fff63b96e544",
+      "size_bytes": 252209
+    },
+    {
+      "path": "static_resources/446c651502bdaf5253bf47a9b36da974_14_8tzAd1rA.srt",
+      "sha256": "1039df27a58660b950d5a29d12628d7e363bcc1385a0931bda18761e560cd3fc",
+      "size_bytes": 78673
+    },
+    {
+      "path": "static_resources/44ecf4a4f2e8aea22ee30d761e2ad5c8_14_8tzAd1rA.pdf",
+      "sha256": "7c233b57312ab1a787ff35f0f1c8fdb4eda8a36e3efb515ae00de8f6ac38e597",
+      "size_bytes": 69790
+    },
+    {
+      "path": "static_resources/4849e10276bbc0d68b8dc6d90cd882cf_raP-0nqnF_A.srt",
+      "sha256": "0e2b9a326fa31786424c9ce92cae712e479bdf3420b69eb7e57bcdcdb1371545",
+      "size_bytes": 88027
+    },
+    {
+      "path": "static_resources/4ad902feb8e6576ea209d500aed50ca6_Wcy-zCt8llk.vtt",
+      "sha256": "6ffb79f0b6acd9af0748cfa93e575bd521d7dd525d9e8fa852edc378e1ac28b5",
+      "size_bytes": 107852
+    },
+    {
+      "path": "static_resources/4b2db45c2fb352ab84bf4418978dc008_0fChZwU1zEc.vtt",
+      "sha256": "1381943b28f2b9ab64eb0bc835b2d5bf3cacecd02241f8de3d8e2726b4413782",
+      "size_bytes": 125416
+    },
+    {
+      "path": "static_resources/4ca91de39f8a568e51642d5af5802f1f_0fChZwU1zEc.pdf",
+      "sha256": "195cb23ebdcb44b863730b4d2efd5719e0f619d86602a6c95ca7a7c5f2ba6e31",
+      "size_bytes": 113667
+    },
+    {
+      "path": "static_resources/4d56642d2950f39887b581c34474e61f_raP-0nqnF_A.pdf",
+      "sha256": "3575d0bb4b4638dcb881fec9be32aae9cdf7a1843305364e35706d4eee6c40c5",
+      "size_bytes": 74661
+    },
+    {
+      "path": "static_resources/4edc4de400d337d1cbb2595ca2ed3c37_1LEYgS8Wzsk.srt",
+      "sha256": "548f448ccea7dc00d004490127b0a867289ffc6cc73e7391eff1dff452e199dc",
+      "size_bytes": 134402
+    },
+    {
+      "path": "static_resources/508c7948b372bda19d03282f86389071_LoIXB2GJHkg.pdf",
+      "sha256": "4426b5d9fbb580b632eebb1d6b22c23fa0362ecc7276480b6ffa0a7e909ddecb",
+      "size_bytes": 84232
+    },
+    {
+      "path": "static_resources/50e23809db0c4c5d94f900a16e2e929a_WVOIk8en6YE.pdf",
+      "sha256": "90ba611b2d57560106b2abe9266f98b97215cf8eaed96ffc07414e729d76cd56",
+      "size_bytes": 66840
+    },
+    {
+      "path": "static_resources/529bf14b1b4a356d33946b186a3181a5_8-821f14.jpg",
+      "sha256": "f29484c7cd4f4d363711a7936bb4d97a384dc473751dd84714cb6b8da63be023",
+      "size_bytes": 35028
+    },
+    {
+      "path": "static_resources/53301618e33d5f71a2c5390d558b837b_1pkoBetgo7s.vtt",
+      "sha256": "c4a7578efb1babe880bf0c5329002bdf1d4990f538ba11c5da74bcb9f1ff5328",
+      "size_bytes": 89941
+    },
+    {
+      "path": "static_resources/53b1f979f5c08c1dce1769f36adade15_LTEtH1gzwoE.srt",
+      "sha256": "ab861e163e8e6d95d92e1e0ea670f39ec54462ac3c3cafbeb8adc5f6d459b9bd",
+      "size_bytes": 81904
+    },
+    {
+      "path": "static_resources/57654d1104b35df7a39dc8e380d01baf_WPuDh61Lkpg.vtt",
+      "sha256": "2bda07166ba95674573b8bc7d54d401006433c6e738e1c65942622866fe0db86",
+      "size_bytes": 113199
+    },
+    {
+      "path": "static_resources/584b62f85f319bd167efb65047336e0c_MIT8_821S15_Lec5.pdf",
+      "sha256": "ba8d98816aa16ea5495f8a465adba4177a9f83b7555bc07546812d18a7d419e3",
+      "size_bytes": 335289
+    },
+    {
+      "path": "static_resources/5c028d77dcbbd726f07dd6ca19ebcaf7_eGPpz9kYUCg.srt",
+      "sha256": "46c5c2ee3dc0de91ac7e1996f0656dc1616c993e357ad034838e9c1bdbbcd399",
+      "size_bytes": 113707
+    },
+    {
+      "path": "static_resources/5efe83c615125208b0431a1c53955d66_nW4vp_upvmE.vtt",
+      "sha256": "63f820d4e8e61c511d3821550a2dea0c9704148b83447d69d29a92bf751fb029",
+      "size_bytes": 83112
+    },
+    {
+      "path": "static_resources/5fce8d694045db7db74172f60da5399a_MIT8_821S15_Lec18.pdf",
+      "sha256": "c9df7ab41e8411f00efe3bbcb10e401a9766c1ca38726d1fba8b575da0aa232e",
+      "size_bytes": 279459
+    },
+    {
+      "path": "static_resources/6078b0a4de9d2281ea3f9fa781869947_oXsC9bjMJA4.pdf",
+      "sha256": "750d7461fd54c097abe62f761730a2ca01fb496c30daaa62f9b2f052e9ba6c7a",
+      "size_bytes": 73693
+    },
+    {
+      "path": "static_resources/633ca57e91c6cbef40c0b84c785b6c28_MIT8_821S15_Lec4.pdf",
+      "sha256": "2335d6d8f99629f07870a7794a53f819c4b94a4489269bdd5cca7a955ebb3c5f",
+      "size_bytes": 336620
+    },
+    {
+      "path": "static_resources/6413b06251f9e38ac7ff34089501d859_Wcy-zCt8llk.pdf",
+      "sha256": "b25109a897cfd35b2cea8e3341f6463f7aa46add6ba20a39fa9e17cef8da49bb",
+      "size_bytes": 101826
+    },
+    {
+      "path": "static_resources/673f398dc3439b7e64e041a2a836cdb1_iPWIqjYkVns.pdf",
+      "sha256": "653541f28149e6c38e5c3703ed1ca85ed9778861bbba629cd335ccff25834b9d",
+      "size_bytes": 83808
+    },
+    {
+      "path": "static_resources/69298ba5684b550f95f81d9b40178598_M_8UajiNlDg.vtt",
+      "sha256": "bd9a00314e0b81157c28b1a1d82d80c8911a6689becd6642a4794556101854af",
+      "size_bytes": 119486
+    },
+    {
+      "path": "static_resources/69e904df6fa015cb2c8a75173a0cfdf2_MIT8_821S15_Lec21.pdf",
+      "sha256": "ea3bd29d56427474ca6bfe8a3f4fea2e3977c6e51e15c7aac742ceed84584a76",
+      "size_bytes": 273600
+    },
+    {
+      "path": "static_resources/6d151069026e5a98a0a2e3a946b11ec6_iPWIqjYkVns.vtt",
+      "sha256": "b2bb193612d3bef5a797c74d075623710a9ef87aeb7b7110e8e9b02f6b28f132",
+      "size_bytes": 88022
+    },
+    {
+      "path": "static_resources/6f7349b6511db6a72376ded9ad1652bf_WPuDh61Lkpg.pdf",
+      "sha256": "2c69fa72e0766d2a1f53a4304bbba1f48a12bc0ef0bf23bd4693465c4f448c8c",
+      "size_bytes": 101687
+    },
+    {
+      "path": "static_resources/6f9f13a6423ab2ce52e42a11dec88959_MIT8_821S15_Lec15.pdf",
+      "sha256": "6c4f7a4d102a1ad46b6444b88ff093497ff17a51890f7604ec1db0955e996a9d",
+      "size_bytes": 274452
+    },
+    {
+      "path": "static_resources/6fa949a060005ebd937d417ba3c4848e_WPuDh61Lkpg.vtt",
+      "sha256": "2bda07166ba95674573b8bc7d54d401006433c6e738e1c65942622866fe0db86",
+      "size_bytes": 113199
+    },
+    {
+      "path": "static_resources/713ee826041cf0d0d9a5132d29f46df8_75zfIar62c.pdf",
+      "sha256": "3de950e18a09d0a13d6b28d6fb25f3f9b5102e8ae246acbfc075869e939e31a8",
+      "size_bytes": 111403
+    },
+    {
+      "path": "static_resources/73a9c396a954da64daea9c51caa8920a_75zfIar62c.srt",
+      "sha256": "d421c7fd58477cd0494c0e997b8791d577c5b72cd6cf1728b8877ae3817f71b6",
+      "size_bytes": 144972
+    },
+    {
+      "path": "static_resources/73ecbb4d3a505764810bffba7a2200df_EUnGZoBa3nc.vtt",
+      "sha256": "cb2e65e1eba232be25e06b0586934d22352878904c844ffc43761c32fdc4db7e",
+      "size_bytes": 77310
+    },
+    {
+      "path": "static_resources/73ef973d3afc50e7a21779ce86ab9723_raP-0nqnF_A.vtt",
+      "sha256": "88585a9ae2df13b3644cc9e4478433624919a7c9ea2fa21dd62fa521b07a114b",
+      "size_bytes": 83307
+    },
+    {
+      "path": "static_resources/74d5a4ed975a23b2f18606a6844e32b8_M_8UajiNlDg.srt",
+      "sha256": "67178ec7e663330dd73badc220fe0673676bda727f767a157d4dd24fe7c1fe43",
+      "size_bytes": 126821
+    },
+    {
+      "path": "static_resources/758ef58f403157dd8854995e95594dad_1OGZCt58GLc.vtt",
+      "sha256": "5e197373aeccd1e0d4ab1c2b542115c97bd6c9d6616e71ac6b9e7735a7c1fdfc",
+      "size_bytes": 78867
+    },
+    {
+      "path": "static_resources/786299f00b1afdc87c60ea85abcc9bf4_EUnGZoBa3nc.pdf",
+      "sha256": "572724479d195becb5f241db5d0154ed50f3b0c9e5683577c5aad7eb31e26452",
+      "size_bytes": 70626
+    },
+    {
+      "path": "static_resources/78ae51cd912ce2af18cb144b857e3353_owhNn20aZo8.pdf",
+      "sha256": "33b56e0bbd3110cda1bef5300fb3b11e32fedc6a9be4610ce958a52b4ac719a9",
+      "size_bytes": 100620
+    },
+    {
+      "path": "static_resources/7a55afd51dd853ff8502f3475a3eb1aa_75zfIar62c.vtt",
+      "sha256": "39d83f82674bb47bffc99c48fa776d1ad93e69f54aa750e69e319a05c36bc637",
+      "size_bytes": 128919
+    },
+    {
+      "path": "static_resources/7c0bcd43f9f9a3258ffb6ac642d68fa0_1OGZCt58GLc.pdf",
+      "sha256": "35183eea10053f35a3e9ea1662928700467916369315359eb7801f49f25e8553",
+      "size_bytes": 73352
+    },
+    {
+      "path": "static_resources/7ca54a86e33655c1bb38240619e91afe_eGPpz9kYUCg.vtt",
+      "sha256": "cae6dca4875035a5235d20986a87844ebc9165e9f6ea71e1d6c28e5c25322b53",
+      "size_bytes": 107307
+    },
+    {
+      "path": "static_resources/7f0b83707dfc6fe1fb52fd7577ec6cd1_MIT8_821S15_Lec19.pdf",
+      "sha256": "1ab2ccfb29ca15513d81ee56e25a3cd6a56d2fcd64db4fff539fe1487db160a4",
+      "size_bytes": 204164
+    },
+    {
+      "path": "static_resources/7fe9187aac905cc8a7af548e6eba616d_raP-0nqnF_A.vtt",
+      "sha256": "88585a9ae2df13b3644cc9e4478433624919a7c9ea2fa21dd62fa521b07a114b",
+      "size_bytes": 83307
+    },
+    {
+      "path": "static_resources/812d3185f6bcc35b68f0f3607afa01a4_MIT8_821S15_Lec10.pdf",
+      "sha256": "66701d1cdcdc3a4b61cc305f46f0be225a33008f9f0787a94129b8400c718687",
+      "size_bytes": 400128
+    },
+    {
+      "path": "static_resources/81c00ea50944ced0b5853b2553fa37af_MIT8_821S15_Lec17.pdf",
+      "sha256": "49d309581eb10e3d8338c0e0a0f09e80ea6add5da8c3038c00690bbfa2081dcc",
+      "size_bytes": 331745
+    },
+    {
+      "path": "static_resources/81e4ec84aa6a691f76240f04032400ce_MIT8_821F14_pssol1.pdf",
+      "sha256": "f87c51072713dee1302b9273b846c3d587b36c7211a7bf58d1bd429904e220ba",
+      "size_bytes": 272399
+    },
+    {
+      "path": "static_resources/833d62dd4f3b503a8fe4757ad37fb200_owhNn20aZo8.vtt",
+      "sha256": "e556242650d0f0c92e55a997f2e2e1c5ab425e38b99f1c5d1d529f76bc65b048",
+      "size_bytes": 109468
+    },
+    {
+      "path": "static_resources/837a3a7fae929a5bfac2b483e6eb7a34_gLYwLyeE8oU.pdf",
+      "sha256": "0820654ee583fdd7197858ddb4ca3bbe7cd7529703a420d72b38b859c394051b",
+      "size_bytes": 75334
+    },
+    {
+      "path": "static_resources/860d2ac2f73f3caed8eaa35b909eb640_MIT8_821S15_Lec8.pdf",
+      "sha256": "d762e0807bf68beaede704fb9131d6c6429c079d2f1f7234371bbb54cd2641cb",
+      "size_bytes": 880587
+    },
+    {
+      "path": "static_resources/870de434790a8c418b05a6c22745d74a_EUnGZoBa3nc.pdf",
+      "sha256": "cb96a8fca374350179461adf67675dc99372677f3a435cd8adfa8755245fb86f",
+      "size_bytes": 76381
+    },
+    {
+      "path": "static_resources/87111b9dca61147889ac082ab0663f53_MIT8_821S15_Lec13.pdf",
+      "sha256": "822112c09c6147de9e06f12808e8d810dc4f4abcda48fb28a994bec7e5482ad7",
+      "size_bytes": 238154
+    },
+    {
+      "path": "static_resources/895f3c42c163b8ab8868acdf5b796bc3_M_8UajiNlDg.pdf",
+      "sha256": "5d05a2d39da5142acfa8076e716237c28cc3220c7aab72fbe16cd23531010e6e",
+      "size_bytes": 111297
+    },
+    {
+      "path": "static_resources/8bc042f262f8f0c6a659c7f2dd9f6370_oXsC9bjMJA4.srt",
+      "sha256": "fcda7fd122d76f7bc5ee55e9eca28e56d8f434e36b247b08f86c969ef68ba561",
+      "size_bytes": 74230
+    },
+    {
+      "path": "static_resources/8c5f8c337406a4259e3690c7d88a1a1e_MIT8_821S15_Lec3.pdf",
+      "sha256": "f4c307ea4c1d42d2d8df3f02240cc8c407bfccc8384753db5c7c287b5edeb8fc",
+      "size_bytes": 825064
+    },
+    {
+      "path": "static_resources/8d3650a39b0f4d81175ea0e6d9cc5b57_Wcy-zCt8llk.pdf",
+      "sha256": "e16a2f184480e4eed69a7ec76dd60b555a92089738ff8169b030fe8269751966",
+      "size_bytes": 97324
+    },
+    {
+      "path": "static_resources/8f9a064655785a31959e0d726af79297_jhyWwA_bJ5A.vtt",
+      "sha256": "ac9615624445cdb69add3426da271fd563c669a818e3e3988f0fe896ffd3b5a5",
+      "size_bytes": 87623
+    },
+    {
+      "path": "static_resources/90503e88063729b53fd99ab12a424d7b_-mrxN8XcQOQ.pdf",
+      "sha256": "813b5dcbcf8bd64bc1ac803aaaed19c9e2db129e4b68a95ac29bed7d236d7919",
+      "size_bytes": 82728
+    },
+    {
+      "path": "static_resources/9184b7dfa07e733c2e0d347b7ef3fd7c_nW4vp_upvmE.pdf",
+      "sha256": "ad9f91df7c89c8e114d4c22add8863630f0eb31161f64e35a5e6c8a56de928c2",
+      "size_bytes": 76275
+    },
+    {
+      "path": "static_resources/91a2399d2d1baf735fd2e718b06a6938_-mrxN8XcQOQ.srt",
+      "sha256": "e9b91b43b3d1b54d3017b453ea0346f32ad488a32d97eec23bc15248613eb594",
+      "size_bytes": 89945
+    },
+    {
+      "path": "static_resources/91e1c73e7e095a7d866517b8df914f05_14_8tzAd1rA.vtt",
+      "sha256": "7f09101f32dfe223845a32dae590a292c1021a269bd12aa175cfe62b1af6a106",
+      "size_bytes": 74613
+    },
+    {
+      "path": "static_resources/9311b0f4f41cda1ba0ce91c8d962b1ff_MIT8_821F14_pset5.pdf",
+      "sha256": "4e8eb9b9bd1e37c877d4fd836652b25b46a063934204b73001a4b0b630e35532",
+      "size_bytes": 74285
+    },
+    {
+      "path": "static_resources/94f00077cfdcd521b561dc2e9200e36d_raP-0nqnF_A.pdf",
+      "sha256": "7232f253c40c8a459a6d663ef96c45a80bf886cafb3868b05dc03e3de3d67355",
+      "size_bytes": 80699
+    },
+    {
+      "path": "static_resources/9634824fd462594da65620d2c4d5b9b5_hIvrYfwUyZQ.vtt",
+      "sha256": "06107182779162696fb59ea6af449590d3c784a7a18971445a61a660af7e8c46",
+      "size_bytes": 87946
+    },
+    {
+      "path": "static_resources/963719f76f577d6de7d54f9edf3bb8fe_iPWIqjYkVns.pdf",
+      "sha256": "de787eb5847f5497f9079a06d3eb75d51210e707c22eaebbf646e72e246cd63a",
+      "size_bytes": 78717
+    },
+    {
+      "path": "static_resources/97ac9aaa880659d959760cd0755e9647_WPuDh61Lkpg.pdf",
+      "sha256": "e66ef669a7a92620b56a5e7e761bf9aed0430fb4204516653222728c06aaba5c",
+      "size_bytes": 98352
+    },
+    {
+      "path": "static_resources/983c552ac0b74c1aaa6334b7e8600f72_gLYwLyeE8oU.srt",
+      "sha256": "d909d33f24e3e17016163d6e8688d8e0ef52d7e3689766fc258cd914a2b5c69c",
+      "size_bytes": 76682
+    },
+    {
+      "path": "static_resources/996a960f3b238bb6a7371545e17e2bb1_hIvrYfwUyZQ.srt",
+      "sha256": "895cf2790886547325b48a7338b3859e87183a72e6ce7244a8b1dad447e4db36",
+      "size_bytes": 93161
+    },
+    {
+      "path": "static_resources/9a0eed1e007cb3222c55d0525da497b5_LoIXB2GJHkg.pdf",
+      "sha256": "9170070d84a695592e217976ae10547a511fcc0c011f9f1b580fd237036d482e",
+      "size_bytes": 88867
+    },
+    {
+      "path": "static_resources/9af2e9c244d4aa8991f1dc58ab03bb99_LTEtH1gzwoE.pdf",
+      "sha256": "75928efffa28aeff7ec678ebdba10a50834882322ed68f17d14af01b82d069c6",
+      "size_bytes": 68547
+    },
+    {
+      "path": "static_resources/9d59f44dfbe14d6db8775a16915b3dd9_MIT8_821F14_pset2.pdf",
+      "sha256": "8eb7c9d84e8e5f1f1e426eee3ff4f2c3651579d341d1b6f186bb777ccc005d3e",
+      "size_bytes": 87070
+    },
+    {
+      "path": "static_resources/a281a0c6b7be523426bc85c05d193bcf_1pkoBetgo7s.srt",
+      "sha256": "d0e742a0ee55f280d8f07f115156cfdeaadd2ab3a94740eb3a2b7da808e03c6f",
+      "size_bytes": 95576
+    },
+    {
+      "path": "static_resources/a4a795e47e1957aeb2b512a3f855f187_eGPpz9kYUCg.srt",
+      "sha256": "46c5c2ee3dc0de91ac7e1996f0656dc1616c993e357ad034838e9c1bdbbcd399",
+      "size_bytes": 113707
+    },
+    {
+      "path": "static_resources/a57f34d5bcf668ec494b298624768031_jhyWwA_bJ5A.pdf",
+      "sha256": "f8df293b92cd5e33dda804f886dff0dc7a4740240cfc3178595951e674ffa126",
+      "size_bytes": 81557
+    },
+    {
+      "path": "static_resources/a5f51e602ceea50f899dab2c53007537_MIT8_821F14_pset3.pdf",
+      "sha256": "dfe2d2fe6b6174da4ca8b8c465f54de236d6305c1a01e783df99c7eb5e6580fe",
+      "size_bytes": 96993
+    },
+    {
+      "path": "static_resources/a604dd69f658590aabdd763c19648be5_k6HCdJ9lKho.vtt",
+      "sha256": "afb71fd4e1aed6a554060466fbd7f15c7d8942492fe7266f2be516e3e6deaa2b",
+      "size_bytes": 114468
+    },
+    {
+      "path": "static_resources/a6d64db8db7eecd0dabdd2a4e682834a_WVOIk8en6YE.pdf",
+      "sha256": "910694c3ba86ee0771632adf8569a5265914d730d9eca741e584d5b7b19c7ff0",
+      "size_bytes": 60917
+    },
+    {
+      "path": "static_resources/aa67ae4f251be3f6d690ba87f4fc239b_owhNn20aZo8.pdf",
+      "sha256": "a2103da87dc60a54fcd0ce4cb496e85cd67b4450219e6f6b461c5e10faeac9ad",
+      "size_bytes": 97114
+    },
+    {
+      "path": "static_resources/ac03e66ecadc53fe9c1f01f905e33ee5_EUnGZoBa3nc.vtt",
+      "sha256": "cb2e65e1eba232be25e06b0586934d22352878904c844ffc43761c32fdc4db7e",
+      "size_bytes": 77310
+    },
+    {
+      "path": "static_resources/ad8f1e9a6f8a5ad995cef17cd09220ae_14_8tzAd1rA.vtt",
+      "sha256": "7f09101f32dfe223845a32dae590a292c1021a269bd12aa175cfe62b1af6a106",
+      "size_bytes": 74613
+    },
+    {
+      "path": "static_resources/adc1b44145b55421a20d89ddf3cb0533_8-821f14-th.jpg",
+      "sha256": "9f67543803d9355c0be64b4b2ce551bbd1c062bde79330ddd2cedf2a267124d4",
+      "size_bytes": 5803
+    },
+    {
+      "path": "static_resources/ae6fd6cd986db06c253f63144260c6d1_k6HCdJ9lKho.pdf",
+      "sha256": "4ecb7f5b7ed81ed4fef6b3836e135dc1b060f06d715ec10a793912e28e498b5a",
+      "size_bytes": 112645
+    },
+    {
+      "path": "static_resources/b1c0767e762af8c8348283fb206e2906_nW4vp_upvmE.srt",
+      "sha256": "ba5e1d6d2fbe464b98d559bcc5593262b88ea8a150ab2c693ca07e43b67daa9b",
+      "size_bytes": 87737
+    },
+    {
+      "path": "static_resources/b69f0d3d335a9a04d052edf386636f2f_nW4vp_upvmE.srt",
+      "sha256": "ba5e1d6d2fbe464b98d559bcc5593262b88ea8a150ab2c693ca07e43b67daa9b",
+      "size_bytes": 87737
+    },
+    {
+      "path": "static_resources/b8e242bb78a31fc66ccbd3acefb98ef6_1pkoBetgo7s.srt",
+      "sha256": "d0e742a0ee55f280d8f07f115156cfdeaadd2ab3a94740eb3a2b7da808e03c6f",
+      "size_bytes": 95576
+    },
+    {
+      "path": "static_resources/bee519cca2da6543c2dedf64b9af3eed_MIT8_821S15_Lec24.pdf",
+      "sha256": "dd4c5195c22121363ba0360849305a19b9e8b4fd54467975d594ff2774ee7859",
+      "size_bytes": 348865
+    },
+    {
+      "path": "static_resources/bfd5ace2619b537cb9f6f2c420d52021_1LEYgS8Wzsk.vtt",
+      "sha256": "b9728eb486a18ae4458ef44ae76bc881a9ff4d2222d8e1696c79f5b78a98693a",
+      "size_bytes": 125932
+    },
+    {
+      "path": "static_resources/c00d76c476b2dff748631040dfc76834_1LEYgS8Wzsk.pdf",
+      "sha256": "3de9b9dda3fc4870d96548002b1b8e6f98e8e47f7bad26d0e5175bf67ce7ea00",
+      "size_bytes": 109640
+    },
+    {
+      "path": "static_resources/c08799332e42c76b29dd4b4eedaaadbd_WVOIk8en6YE.srt",
+      "sha256": "9fe61ed77197893ed7d9aa2a0737d14d15ea329313a01bb3c3dba4fa2c317b58",
+      "size_bytes": 66488
+    },
+    {
+      "path": "static_resources/c0bd397cc37d5cc6a83f0efee369a67d_oXsC9bjMJA4.vtt",
+      "sha256": "5f99667fc0e167211cfc8a00df71a95c398d854ff463f24df4d2a5f493156c91",
+      "size_bytes": 70474
+    },
+    {
+      "path": "static_resources/c177b755d26fdd6084ecdb1bc02b298c_MIT8_821S15_Lec22.pdf",
+      "sha256": "680ef67eb9f797d73c58470a02ee01709af8b981a841489bdf7b1628fcc3a9b7",
+      "size_bytes": 309884
+    },
+    {
+      "path": "static_resources/c2789725c2cbc972a0e4c00777cd4ce8_k6HCdJ9lKho.pdf",
+      "sha256": "65d540c7f88705d3ee82be1234bd0d8e70c922fed39a6b81528327bfbcc5757d",
+      "size_bytes": 104526
+    },
+    {
+      "path": "static_resources/c386e7b890f8536e931c564a517ef83f_M_8UajiNlDg.srt",
+      "sha256": "67178ec7e663330dd73badc220fe0673676bda727f767a157d4dd24fe7c1fe43",
+      "size_bytes": 126821
+    },
+    {
+      "path": "static_resources/c3d6fb7d30d2f5050e58db549dfcbae9_MIT8_821F14_pssol4.pdf",
+      "sha256": "7918f9eea9cab0766e9c52119f9618ce9980e295df89b68265edce17895e6fc8",
+      "size_bytes": 99478
+    },
+    {
+      "path": "static_resources/c3e2bebf2ac2132ec3738d2cc5c07e92_75zfIar62c.pdf",
+      "sha256": "35050350d4c33a0da88060d561be9b89c7253b148a6fbe23459162914f659f1e",
+      "size_bytes": 114374
+    },
+    {
+      "path": "static_resources/c62499471a5650ac4ae777e0ee2f85e5_oXsC9bjMJA4.srt",
+      "sha256": "fcda7fd122d76f7bc5ee55e9eca28e56d8f434e36b247b08f86c969ef68ba561",
+      "size_bytes": 74230
+    },
+    {
+      "path": "static_resources/c6d6e698575378755341106644067b52_1LEYgS8Wzsk.srt",
+      "sha256": "548f448ccea7dc00d004490127b0a867289ffc6cc73e7391eff1dff452e199dc",
+      "size_bytes": 134402
+    },
+    {
+      "path": "static_resources/c898a5a2d5315bd3af5eadd5c017eeed_-mrxN8XcQOQ.vtt",
+      "sha256": "6ec76ccf8f180463fa9de5652394a2e8cc96dbbae6e42272edc5b5bbb7200f4b",
+      "size_bytes": 85260
+    },
+    {
+      "path": "static_resources/c9be1c68c3d37cacf2ec888e9d8e14bb_hIvrYfwUyZQ.srt",
+      "sha256": "895cf2790886547325b48a7338b3859e87183a72e6ce7244a8b1dad447e4db36",
+      "size_bytes": 93161
+    },
+    {
+      "path": "static_resources/ca72288044ef5a5bb19884beb454a7b4_LoIXB2GJHkg.vtt",
+      "sha256": "cd267c77ec3cd0f373f4b9ee6ce6751e9b02faf0a86271308c3b3f3f2b57782c",
+      "size_bytes": 94402
+    },
+    {
+      "path": "static_resources/cad5bf5f9f45043d66132330e6827bf5_MIT8_821F14_pset4.pdf",
+      "sha256": "b6c06260f1fcfeeaeb9d15b25bc1eda42d64e4639a6666e85fb1cb8f47e91c00",
+      "size_bytes": 89660
+    },
+    {
+      "path": "static_resources/cafc12e893c05e0fbf029b9067ec27e1_M_8UajiNlDg.vtt",
+      "sha256": "bd9a00314e0b81157c28b1a1d82d80c8911a6689becd6642a4794556101854af",
+      "size_bytes": 119486
+    },
+    {
+      "path": "static_resources/cd3effe79002bdae002de9ddaab1ff4d_eGPpz9kYUCg.pdf",
+      "sha256": "3bd05166d3edd62b622f6f6221e5056b0eada9cae96963bedb476e4ad1b03aa1",
+      "size_bytes": 99078
+    },
+    {
+      "path": "static_resources/cd88f4171e0d502598db25685035fe45_LTEtH1gzwoE.vtt",
+      "sha256": "2ef066525607a3196bbc6ad267a13e3bcc48c806ed4064e194ff13b6ab16a2ce",
+      "size_bytes": 77334
+    },
+    {
+      "path": "static_resources/cda99c38ed597b6f00c5e7b8a20356fe_0fChZwU1zEc.srt",
+      "sha256": "6e7e0e87b3cfb1333a1484308d654fe33c975c25aa04b8e2be6a9a965884bcda",
+      "size_bytes": 133506
+    },
+    {
+      "path": "static_resources/cdb21936ad1338a59bb8e177a80b2e96_k6HCdJ9lKho.srt",
+      "sha256": "26aee38f09e894d5f2d5205ad51786378e54201bb04a714dfad623623f5fcebd",
+      "size_bytes": 121578
+    },
+    {
+      "path": "static_resources/d0456620f09d735526015fb0bf72fb89_MIT8_821S15_Lec23.pdf",
+      "sha256": "702bdac2a951d0de951b5f9db25adcfac21b6a6a896180b12878b05d586d95a5",
+      "size_bytes": 1400437
+    },
+    {
+      "path": "static_resources/d121e94a045451f7b8f3c2778aed1fce_nW4vp_upvmE.vtt",
+      "sha256": "63f820d4e8e61c511d3821550a2dea0c9704148b83447d69d29a92bf751fb029",
+      "size_bytes": 83112
+    },
+    {
+      "path": "static_resources/d1bd5bb4f2af5b472e16a2598d820cb5_MIT8_821F14_pssol3.pdf",
+      "sha256": "0c95df319e152da771aed2a6cd39a581611707720d558891e2deba65db5e33ff",
+      "size_bytes": 113450
+    },
+    {
+      "path": "static_resources/d3922f08e785e56e63e6231725112243_LTEtH1gzwoE.srt",
+      "sha256": "ab861e163e8e6d95d92e1e0ea670f39ec54462ac3c3cafbeb8adc5f6d459b9bd",
+      "size_bytes": 81904
+    },
+    {
+      "path": "static_resources/d476535e8ed6dfb4b47cd4e79d69124b_24.png",
+      "sha256": "6dab6f7de9355bde90d0c78d1ec5b2a0dc6efe0b29fb699bfba6c9b0aba66a1c",
+      "size_bytes": 3770
+    },
+    {
+      "path": "static_resources/d4a7cd21914cebcf8f25000e4e09278b_0fChZwU1zEc.pdf",
+      "sha256": "ae94ae574d82daaaaf1297eaa97263396cb6a11f284e1586905f24616d7f7a67",
+      "size_bytes": 109418
+    },
+    {
+      "path": "static_resources/d5cbe6975db55e24bb4d4da141fbd0e5_Wcy-zCt8llk.vtt",
+      "sha256": "6ffb79f0b6acd9af0748cfa93e575bd521d7dd525d9e8fa852edc378e1ac28b5",
+      "size_bytes": 107852
+    },
+    {
+      "path": "static_resources/d8dd839335335c39b29bf99398a37853_1LEYgS8Wzsk.vtt",
+      "sha256": "b9728eb486a18ae4458ef44ae76bc881a9ff4d2222d8e1696c79f5b78a98693a",
+      "size_bytes": 125932
+    },
+    {
+      "path": "static_resources/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "static_resources/db36aa6556f3f48650af3a0eb3f8a4b6_k6HCdJ9lKho.srt",
+      "sha256": "26aee38f09e894d5f2d5205ad51786378e54201bb04a714dfad623623f5fcebd",
+      "size_bytes": 121578
+    },
+    {
+      "path": "static_resources/db5829829a20d41adee9dbfaf127b38e_LoIXB2GJHkg.srt",
+      "sha256": "e7ae90d850465fd089c8c73895b6e3950522817d4fbcb2157ce480d6e609f4ab",
+      "size_bytes": 100372
+    },
+    {
+      "path": "static_resources/db9542856151c8fe5abe54035e61e8fe_MIT8_821S15_Lec14.pdf",
+      "sha256": "b1263d97dba9890b35f24f850c5f1970bc37de55ed4dc62e3c439b857a200e48",
+      "size_bytes": 255458
+    },
+    {
+      "path": "static_resources/de4f1420128475ecbc2b25c42e7055cc_MIT8_821S15_Lec6.pdf",
+      "sha256": "73bdbf4ec96334f19109e2a7b0b9beca7772e621c08885b8e556cb27af99e246",
+      "size_bytes": 725924
+    },
+    {
+      "path": "static_resources/dfe19f6fa5059520802d20d090475257_eGPpz9kYUCg.pdf",
+      "sha256": "77c9df1c012df3747a13aacef017f2c2fc37df3791e038cc7a023e1478e0e1dc",
+      "size_bytes": 94594
+    },
+    {
+      "path": "static_resources/e1dfeee19270915c6c6740e4834dd06b_0fChZwU1zEc.srt",
+      "sha256": "6e7e0e87b3cfb1333a1484308d654fe33c975c25aa04b8e2be6a9a965884bcda",
+      "size_bytes": 133506
+    },
+    {
+      "path": "static_resources/e1e5b53aff14f644c4a91a233fda0d7e_hIvrYfwUyZQ.pdf",
+      "sha256": "15e724df66d286503f530711295726848ef7fafc0abce7636959374d5450cc54",
+      "size_bytes": 85785
+    },
+    {
+      "path": "static_resources/e220540341b84d40f77717ba83501de0_14_8tzAd1rA.pdf",
+      "sha256": "5a73bcb3ee0044d332de66e206f429b3dd10e83bd710e6c82d9c9de22f608a28",
+      "size_bytes": 75684
+    },
+    {
+      "path": "static_resources/e4c430e5a77511a6bf884f180410ff8b_M_8UajiNlDg.pdf",
+      "sha256": "c5adb39541633f7578ceef628eeabbefe8d8becace8301cdec93c614158d2281",
+      "size_bytes": 106590
+    },
+    {
+      "path": "static_resources/e6730b51a2ff9e1a4d209471a8f3ffbb_Wcy-zCt8llk.srt",
+      "sha256": "8b01f6372cf538a590796e9059562e465bc597ba3c823acefac8bd89f24f65a7",
+      "size_bytes": 114377
+    },
+    {
+      "path": "static_resources/e74633448077846bea70feb590cd5a35_14_8tzAd1rA.srt",
+      "sha256": "1039df27a58660b950d5a29d12628d7e363bcc1385a0931bda18761e560cd3fc",
+      "size_bytes": 78673
+    },
+    {
+      "path": "static_resources/e834cf90ebab2379365c49754421bf5e_oXsC9bjMJA4.pdf",
+      "sha256": "db55664965bbc4e4a251f7bd5c0ac826305732fea08b6c2d1c0d8a2bcbbd8701",
+      "size_bytes": 68002
+    },
+    {
+      "path": "static_resources/e89a61ab679855e18fd0dc4de4543780_WVOIk8en6YE.vtt",
+      "sha256": "0aa23c0824a0ce2be461606133bb6da42bac1ec543050009bce7b14b95d15e8d",
+      "size_bytes": 63152
+    },
+    {
+      "path": "static_resources/e972e9e9712237ebd1bb0495f77ca978_MIT8_821S15_Lec20.pdf",
+      "sha256": "f43cf11b66852ef792a0684bb64fd0ce590217ec95dc82f9c3c462774fd31422",
+      "size_bytes": 202264
+    },
+    {
+      "path": "static_resources/ea613fdf1c48dd9bbe0c1801a2b1585f_MIT8_821S15_Lec12.pdf",
+      "sha256": "349575891b4ef6e0f951e6d5c19b0ff754e048d91c10adf56fb0a3c12292a7ee",
+      "size_bytes": 302759
+    },
+    {
+      "path": "static_resources/ebbcca27dd775a30b5facfb0258abb64_-mrxN8XcQOQ.vtt",
+      "sha256": "6ec76ccf8f180463fa9de5652394a2e8cc96dbbae6e42272edc5b5bbb7200f4b",
+      "size_bytes": 85260
+    },
+    {
+      "path": "static_resources/ebe08b128f1ad5fd0efc02810ef9fd82_1LEYgS8Wzsk.pdf",
+      "sha256": "ea7b2000dc2a29e294665e49fedc619f5a292b056b091bf9c9ec3b74645674f4",
+      "size_bytes": 118699
+    },
+    {
+      "path": "static_resources/ee2c7d7ac44555d788cc9b582daaa0fa_owhNn20aZo8.vtt",
+      "sha256": "e556242650d0f0c92e55a997f2e2e1c5ab425e38b99f1c5d1d529f76bc65b048",
+      "size_bytes": 109468
+    },
+    {
+      "path": "static_resources/ef6a97f82e58d10c27b4c7a05b167a7e_jhyWwA_bJ5A.pdf",
+      "sha256": "e4ad1b9985be24bf6b68cf81eb84650f1bffc553dc580251e1024ad68ef7b87d",
+      "size_bytes": 76785
+    },
+    {
+      "path": "static_resources/fafd130fedc261bd2e196a40c3f9dffb_LTEtH1gzwoE.pdf",
+      "sha256": "68bfe286b6f0c9be8e4c60941b796879a3841028f4b2037315a48002cbb63117",
+      "size_bytes": 76159
+    },
+    {
+      "path": "static_resources/fb9ec061609f55bfa89b2352d1daefed_WVOIk8en6YE.vtt",
+      "sha256": "0aa23c0824a0ce2be461606133bb6da42bac1ec543050009bce7b14b95d15e8d",
+      "size_bytes": 63152
+    },
+    {
+      "path": "static_resources/fc3f80331e47349ced0db3c71501745e_MIT8_821S15_Lec9.pdf",
+      "sha256": "b060146009e59cb70fdcc3d01e29c962ff2c168c8b70afb76528ab3d12cd3017",
+      "size_bytes": 206881
+    },
+    {
+      "path": "static_resources/ffe7e3aaf0aaa27ee67fc5767f0f1132_raP-0nqnF_A.srt",
+      "sha256": "0e2b9a326fa31786424c9ce92cae712e479bdf3420b69eb7e57bcdcdb1371545",
+      "size_bytes": 88027
+    },
+    {
+      "path": "static_resources/index.html",
+      "sha256": "4b98f462465cef94f382679394675d26adfd2c7034792a424ab6e184cd5e85e9",
+      "size_bytes": 46847
+    },
+    {
+      "path": "static_resources/vtt0c2437b02c12096ddd465e4527d56120_owhNn20aZo8.vtt",
+      "sha256": "e556242650d0f0c92e55a997f2e2e1c5ab425e38b99f1c5d1d529f76bc65b048",
+      "size_bytes": 109468
+    },
+    {
+      "path": "static_resources/vtt0e4c8e5cfe511c8ba9aabc8ee18ba4e6_WPuDh61Lkpg.vtt",
+      "sha256": "2bda07166ba95674573b8bc7d54d401006433c6e738e1c65942622866fe0db86",
+      "size_bytes": 113199
+    },
+    {
+      "path": "static_resources/vtt198d5cfac98cace906a4c4a298b262a3_EUnGZoBa3nc.vtt",
+      "sha256": "cb2e65e1eba232be25e06b0586934d22352878904c844ffc43761c32fdc4db7e",
+      "size_bytes": 77310
+    },
+    {
+      "path": "static_resources/vtt19dfb32cc8cc8c069e8f914c00d7eeb6_1OGZCt58GLc.vtt",
+      "sha256": "5e197373aeccd1e0d4ab1c2b542115c97bd6c9d6616e71ac6b9e7735a7c1fdfc",
+      "size_bytes": 78867
+    },
+    {
+      "path": "static_resources/vtt2230f397d057b2fd0aebbfac968bf8bb_iPWIqjYkVns.vtt",
+      "sha256": "b2bb193612d3bef5a797c74d075623710a9ef87aeb7b7110e8e9b02f6b28f132",
+      "size_bytes": 88022
+    },
+    {
+      "path": "static_resources/vtt2a1375d5511300791320ac8d5200d885_-mrxN8XcQOQ.vtt",
+      "sha256": "6ec76ccf8f180463fa9de5652394a2e8cc96dbbae6e42272edc5b5bbb7200f4b",
+      "size_bytes": 85260
+    },
+    {
+      "path": "static_resources/vtt3c38fd527632291eb27586ea520b7437_jhyWwA_bJ5A.vtt",
+      "sha256": "ac9615624445cdb69add3426da271fd563c669a818e3e3988f0fe896ffd3b5a5",
+      "size_bytes": 87623
+    },
+    {
+      "path": "static_resources/vtt73a9c396a954da64daea9c51caa8920a_75zfIar62c.vtt",
+      "sha256": "39d83f82674bb47bffc99c48fa776d1ad93e69f54aa750e69e319a05c36bc637",
+      "size_bytes": 128919
+    },
+    {
+      "path": "static_resources/vtt74d5a4ed975a23b2f18606a6844e32b8_M_8UajiNlDg.vtt",
+      "sha256": "bd9a00314e0b81157c28b1a1d82d80c8911a6689becd6642a4794556101854af",
+      "size_bytes": 119486
+    },
+    {
+      "path": "static_resources/vtt983c552ac0b74c1aaa6334b7e8600f72_gLYwLyeE8oU.vtt",
+      "sha256": "bb1d8defcb8bf3b8cb0492e8dae26ca20aea29425cd60f2041f046be883d43bf",
+      "size_bytes": 72787
+    },
+    {
+      "path": "static_resources/vtta4a795e47e1957aeb2b512a3f855f187_eGPpz9kYUCg.vtt",
+      "sha256": "cae6dca4875035a5235d20986a87844ebc9165e9f6ea71e1d6c28e5c25322b53",
+      "size_bytes": 107307
+    },
+    {
+      "path": "static_resources/vttb69f0d3d335a9a04d052edf386636f2f_nW4vp_upvmE.vtt",
+      "sha256": "63f820d4e8e61c511d3821550a2dea0c9704148b83447d69d29a92bf751fb029",
+      "size_bytes": 83112
+    },
+    {
+      "path": "static_resources/vttb8e242bb78a31fc66ccbd3acefb98ef6_1pkoBetgo7s.vtt",
+      "sha256": "c4a7578efb1babe880bf0c5329002bdf1d4990f538ba11c5da74bcb9f1ff5328",
+      "size_bytes": 89941
+    },
+    {
+      "path": "static_resources/vttc08799332e42c76b29dd4b4eedaaadbd_WVOIk8en6YE.vtt",
+      "sha256": "0aa23c0824a0ce2be461606133bb6da42bac1ec543050009bce7b14b95d15e8d",
+      "size_bytes": 63152
+    },
+    {
+      "path": "static_resources/vttc62499471a5650ac4ae777e0ee2f85e5_oXsC9bjMJA4.vtt",
+      "sha256": "5f99667fc0e167211cfc8a00df71a95c398d854ff463f24df4d2a5f493156c91",
+      "size_bytes": 70474
+    },
+    {
+      "path": "static_resources/vttc6d6e698575378755341106644067b52_1LEYgS8Wzsk.vtt",
+      "sha256": "b9728eb486a18ae4458ef44ae76bc881a9ff4d2222d8e1696c79f5b78a98693a",
+      "size_bytes": 125932
+    },
+    {
+      "path": "static_resources/vttc9be1c68c3d37cacf2ec888e9d8e14bb_hIvrYfwUyZQ.vtt",
+      "sha256": "06107182779162696fb59ea6af449590d3c784a7a18971445a61a660af7e8c46",
+      "size_bytes": 87946
+    },
+    {
+      "path": "static_resources/vttcdb21936ad1338a59bb8e177a80b2e96_k6HCdJ9lKho.vtt",
+      "sha256": "afb71fd4e1aed6a554060466fbd7f15c7d8942492fe7266f2be516e3e6deaa2b",
+      "size_bytes": 114468
+    },
+    {
+      "path": "static_resources/vttd3922f08e785e56e63e6231725112243_LTEtH1gzwoE.vtt",
+      "sha256": "2ef066525607a3196bbc6ad267a13e3bcc48c806ed4064e194ff13b6ab16a2ce",
+      "size_bytes": 77334
+    },
+    {
+      "path": "static_resources/vttdb5829829a20d41adee9dbfaf127b38e_LoIXB2GJHkg.vtt",
+      "sha256": "cd267c77ec3cd0f373f4b9ee6ce6751e9b02faf0a86271308c3b3f3f2b57782c",
+      "size_bytes": 94402
+    },
+    {
+      "path": "static_resources/vtte1dfeee19270915c6c6740e4834dd06b_0fChZwU1zEc.vtt",
+      "sha256": "1381943b28f2b9ab64eb0bc835b2d5bf3cacecd02241f8de3d8e2726b4413782",
+      "size_bytes": 125416
+    },
+    {
+      "path": "static_resources/vtte6730b51a2ff9e1a4d209471a8f3ffbb_Wcy-zCt8llk.vtt",
+      "sha256": "6ffb79f0b6acd9af0748cfa93e575bd521d7dd525d9e8fa852edc378e1ac28b5",
+      "size_bytes": 107852
+    },
+    {
+      "path": "static_resources/vtte74633448077846bea70feb590cd5a35_14_8tzAd1rA.vtt",
+      "sha256": "7f09101f32dfe223845a32dae590a292c1021a269bd12aa175cfe62b1af6a106",
+      "size_bytes": 74613
+    },
+    {
+      "path": "static_resources/vttffe7e3aaf0aaa27ee67fc5767f0f1132_raP-0nqnF_A.vtt",
+      "sha256": "88585a9ae2df13b3644cc9e4478433624919a7c9ea2fa21dd62fa521b07a114b",
+      "size_bytes": 83307
+    },
+    {
+      "path": "static_shared/css/303.21a26.css",
+      "sha256": "c1f648b2a07d50db0226cb43b1f5841cf2f306cb556094acf37a9b672fb744a7",
+      "size_bytes": 17807
+    },
+    {
+      "path": "static_shared/css/303.21a26.css.map",
+      "sha256": "7590eab132bd704c0429aff614a94f416b748c2937a65d3cb29a65bb9af6b389",
+      "size_bytes": 40551
+    },
+    {
+      "path": "static_shared/css/common.21a26.css",
+      "sha256": "e648d57168dcccd56d0a43459c3f30d00fbfebee47979683af23506cce653e67",
+      "size_bytes": 47881
+    },
+    {
+      "path": "static_shared/css/common.21a26.css.map",
+      "sha256": "ca8adc60c06a479842b15ce28d22292d093b2fcaaebfa483812dabc0a2d92755",
+      "size_bytes": 61289
+    },
+    {
+      "path": "static_shared/css/course_offline.21a26.css",
+      "sha256": "661e0c900f6164473c23bfe2b422158922816f944ceadab029ba2bf8f706bd21",
+      "size_bytes": 282202
+    },
+    {
+      "path": "static_shared/css/course_offline.21a26.css.map",
+      "sha256": "c07b3cc3961d011d20ef247270a145ac90710873ec2909d9d132ccfd36613589",
+      "size_bytes": 440593
+    },
+    {
+      "path": "static_shared/css/course_offline_v3.21a26.css",
+      "sha256": "0d7f78ed94c17bc997de80768c81bf81834ef7d02ae9b342ae317ede9ea343b4",
+      "size_bytes": 330840
+    },
+    {
+      "path": "static_shared/css/course_offline_v3.21a26.css.map",
+      "sha256": "49def29aa8cdb207347d5c64f4811883a528ca8f61193bd3937b20245746dc33",
+      "size_bytes": 500105
+    },
+    {
+      "path": "static_shared/css/course_v2.21a26.css",
+      "sha256": "8e97b43ee04b92064dce52bc1cda20da8bdeb9e6a55d052a45b0396734b92951",
+      "size_bytes": 216594
+    },
+    {
+      "path": "static_shared/css/course_v2.21a26.css.map",
+      "sha256": "38e040c8e7e10a3f78fd7e698eeddcd0b0a4a9b1c54a93f55c68a359f2534f54",
+      "size_bytes": 338935
+    },
+    {
+      "path": "static_shared/css/course_v3.21a26.css",
+      "sha256": "32e12d049e9de3673b38ea645e2f3ace9b382e3c827d4d15e0662aa54556fca1",
+      "size_bytes": 313066
+    },
+    {
+      "path": "static_shared/css/course_v3.21a26.css.map",
+      "sha256": "b6e0c5f67a48e3493f6a2abd88b85f91c6f4ce91cd4796714722933b3d50432b",
+      "size_bytes": 459655
+    },
+    {
+      "path": "static_shared/css/fonts/e79607e9f7d62450a175.woff2",
+      "sha256": "01a175339f6171f48869d58bd2e48269684c55f03be64596b94bf1284d10e979",
+      "size_bytes": 12360
+    },
+    {
+      "path": "static_shared/css/fonts/ff9cb78ec9a131fc93a6.woff",
+      "sha256": "c87502d41ce30009d0ac09e3158b432e7de2c6ede500d3c580a92bee29b9c000",
+      "size_bytes": 14712
+    },
+    {
+      "path": "static_shared/css/instructor_insights.21a26.css",
+      "sha256": "0f147c57b35c1098980959b757643fa0141d2707937a7db7002e53b3a3e77486",
+      "size_bytes": 1178
+    },
+    {
+      "path": "static_shared/css/instructor_insights.21a26.css.map",
+      "sha256": "18f4a862116026458bd0b09cbf0e7a4228416d792e76f994bbbb34e97207a609",
+      "size_bytes": 6792
+    },
+    {
+      "path": "static_shared/css/www.21a26.css",
+      "sha256": "c011f3808984b641185ea627c62da9345796d7d5352198465604c7e8533ef8fa",
+      "size_bytes": 263643
+    },
+    {
+      "path": "static_shared/css/www.21a26.css.map",
+      "sha256": "46d768a5bb954162b21e2cf40052eb64c0538f1a8a8cf043beac64d70c3c38e9",
+      "size_bytes": 400538
+    },
+    {
+      "path": "static_shared/css/www_offline.21a26.css",
+      "sha256": "b212cf06c1d4e999c825e3e1ffd27c7b4a1061bafab07b4c445d2efabc8a3095",
+      "size_bytes": 283030
+    },
+    {
+      "path": "static_shared/css/www_offline.21a26.css.map",
+      "sha256": "983361cf7e0371dfc1f691025e690e1f52dbae19697fef8dd2bd3a0d803d0e83",
+      "size_bytes": 421729
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Bold.d7bf1aa6f322a64b2fc3.ttf",
+      "sha256": "a2f90f004f37f784b1ae74f2cfce1d97787748e8bd52c28be085bfa2c23e0df1",
+      "size_bytes": 339732
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Italic.0935d2ebbc05be3559b1.ttf",
+      "sha256": "7d27cc3796dfda24ef2f7e779b9269cd0fc08308345965ed7bf43525c3635522",
+      "size_bytes": 254072
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Regular.a0c1dc80c66cc03bfa1e.ttf",
+      "sha256": "67158e7e70dd1c2c5cc44f8d781e836426f143ee004ef100134897d64d8fa093",
+      "size_bytes": 390056
+    },
+    {
+      "path": "static_shared/fonts/Helvetica-Light.70359849afb40079a1c8.ttf",
+      "sha256": "a0b153852ff62a50aceb8f280d8fdb9c2bc77535a04eba5b1685a89965d96965",
+      "size_bytes": 161716
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.0beb27f30d92440091b4.ttf",
+      "sha256": "b854af078512be3f9e54819b4cc874d5485a13adc1e5bd8c22c992ccd7d8669d",
+      "size_bytes": 5784
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.8167faf7e3a9170d282a.woff",
+      "sha256": "a3d7fc991ed83ab545a9971d1114387b56b3c976cc649590cfe8e4aedf77f142",
+      "size_bytes": 3468
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.84f45410d085472240e2.woff2",
+      "sha256": "9fe6fbea73fd5d5941b695e766b50b6fbe78f3a7c66b072503cbe2a22a12c887",
+      "size_bytes": 2516
+    },
+    {
+      "path": "static_shared/fonts/MaterialIconsRound-Regular.subset.7154eae1d0e60e0dabe4.woff2",
+      "sha256": "9bbc544d3126d84861070b63aeb84f737716cfe85c44079528a11671f5f9f119",
+      "size_bytes": 724
+    },
+    {
+      "path": "static_shared/images/2c6f79ea9578979deb06.png",
+      "sha256": "c83ec79c94fdb8aa22b6d21581c3f325da9f22b16f5660edc2e0eec1a5da9d8d",
+      "size_bytes": 10160
+    },
+    {
+      "path": "static_shared/images/Facebook.d1f5caeb73d7d12505a2.png",
+      "sha256": "335d7215d25d5ae1b258faf0247b4c155017bdd7ce2e85af31a1a63a9c89504a",
+      "size_bytes": 550
+    },
+    {
+      "path": "static_shared/images/Instagram.4df41828ffee4ff33d8a.png",
+      "sha256": "67d2c3c11f2e4bf189946d60d3dca71c9b5e4a18c99e15ba36f8896830af8d49",
+      "size_bytes": 1127
+    },
+    {
+      "path": "static_shared/images/MIT-logo-red-gray-54x28.43de571d3abab470ba83.svg",
+      "sha256": "78514ce9eeda2a9ef16048cb823aa4e0cf83652d8e94843cc96fbe92c4691576",
+      "size_bytes": 859
+    },
+    {
+      "path": "static_shared/images/Youtube.7c9f62c4f1dc9515ebb4.png",
+      "sha256": "9131df94f34194ff4cfe9c08e176248eeee333c5672f889722932bb6282eccbc",
+      "size_bytes": 743
+    },
+    {
+      "path": "static_shared/images/a_logo_17.070ebe0244db38bbb10c.gif",
+      "sha256": "039a5a3bf1c2e37e3dd22e33428c88b25ec82a3a4b0d7d004d817ce3c7ac03bc",
+      "size_bytes": 2751
+    },
+    {
+      "path": "static_shared/images/audio_thumbnail.defc385448d97b770bae.png",
+      "sha256": "61e9ff93eefe1d6393d06df2b80492ab4e690f9f1cbf5cdeb20e6bd8a9543a0b",
+      "size_bytes": 9686
+    },
+    {
+      "path": "static_shared/images/bluesky-black.9f4523fcefa9b6f25be7.png",
+      "sha256": "843c15f349a11bdf2c97dda9a743d2860266a73bd26daa3a968f27784008a902",
+      "size_bytes": 1023
+    },
+    {
+      "path": "static_shared/images/button_start.9ec211e3e12cf97ca78d.png",
+      "sha256": "fd98ea4b4c3f3a6bb53f28aafd340839617209af2ed4cc58a30519010c4fe72c",
+      "size_bytes": 10153
+    },
+    {
+      "path": "static_shared/images/close_small.b0a2684ccc0da6407a56.svg",
+      "sha256": "56b7919d6fc87d95eb0a7df342aa696fe802d3d988cb643b04addf21416e44d3",
+      "size_bytes": 952
+    },
+    {
+      "path": "static_shared/images/course-v3-header-bg.69dc3a4c0f449f3641ca.jpg",
+      "sha256": "f009275f0fd0b4a187c9ee2bdb5101cc2be202cb94d152d87e5c3db4c46c1560",
+      "size_bytes": 136352
+    },
+    {
+      "path": "static_shared/images/course_image.5f27062ec0987f54efcf.jpg",
+      "sha256": "b10ce673a3ff24a0035a429002f7d7c60d5b8fa4b7e0a0424b45a1ce8c496d4b",
+      "size_bytes": 160536
+    },
+    {
+      "path": "static_shared/images/default_news.26aee386c42b7364dbd3.png",
+      "sha256": "69180aaf1841d11f848de2962b115334259fd32daa1b26cec7e008979d5421cb",
+      "size_bytes": 58301
+    },
+    {
+      "path": "static_shared/images/expand.a062b1c47b121e3c7e03.svg",
+      "sha256": "dc3a7002769e26ea6c2af7bd62e216a5ed2579e26224850cd76eb1f09da71f1a",
+      "size_bytes": 1326
+    },
+    {
+      "path": "static_shared/images/external_link.58bbdd86c00a2c146c36.svg",
+      "sha256": "c8bb31bb589c2c2e3f3ac8ff4905046ff954ec9201df357f499fdefea2293de8",
+      "size_bytes": 620
+    },
+    {
+      "path": "static_shared/images/heart.788fcfbec39be4547397.svg",
+      "sha256": "47256db6a051a41d7a9d3be758a9d608c157d837a9f422594171be115b026858",
+      "size_bytes": 3016
+    },
+    {
+      "path": "static_shared/images/heart_burgundy.e7c8635e8cc6538b89fa.svg",
+      "sha256": "47795d7e32c39148060ee722ab2e6e95a2e43cc50b662fbf2b563cb17b46af87",
+      "size_bytes": 1145
+    },
+    {
+      "path": "static_shared/images/inacessible.4e75069800b136c59203.gif",
+      "sha256": "ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629",
+      "size_bytes": 42
+    },
+    {
+      "path": "static_shared/images/left_arrow.3c482a1f6223bff3f0e6.svg",
+      "sha256": "f8872074c4ffead4bac353f9ff8c1e4e070aae58c0bc2ce8b9228ed54bd95785",
+      "size_bytes": 851
+    },
+    {
+      "path": "static_shared/images/linkedin-black.2f7f8a6a3899f5d1e1d6.png",
+      "sha256": "12af7d2297df1ad7e19765ebdddd85cae7dee079a3f53f1444f835489cd37762",
+      "size_bytes": 651
+    },
+    {
+      "path": "static_shared/images/mastodon-black.9e2de31a28415c123800.png",
+      "sha256": "ba95e46f4f484bef90e8dac4d383d3c8c5797b0537351e4dd65204a328ef1ea4",
+      "size_bytes": 1074
+    },
+    {
+      "path": "static_shared/images/mit-logo-black-red.1fdb4d046bb785ba6a3b.svg",
+      "sha256": "3509e5abca6ccf86c4b9d69ab031e205fb75721a82c4ee1c996ad81b37f21191",
+      "size_bytes": 860
+    },
+    {
+      "path": "static_shared/images/mit-logo-black.9ac6152a456f0f100d7a.svg",
+      "sha256": "d774a4a0f7c7638c60abe0b7da235f0a35a9baf0366943bca7eb81dc0fea4483",
+      "size_bytes": 509
+    },
+    {
+      "path": "static_shared/images/mit-logo-red.a9444ff319fe22027271.svg",
+      "sha256": "d4b00848632c364c6a80305f351cf3b7a55f294d500db52c8e8915eb355f44c8",
+      "size_bytes": 849
+    },
+    {
+      "path": "static_shared/images/mit-logo-white.ac078b94cc981d280e47.svg",
+      "sha256": "017f3b5994425d3de57e20d7c8a665188894d0fd438558974c03377ebd825d0a",
+      "size_bytes": 578
+    },
+    {
+      "path": "static_shared/images/mit_learn_logo.2ec930205f87bce4013d.svg",
+      "sha256": "5e9e721ae3ff8c9f00eb947288c174d765383a0ff88244751cdf08091eab08d0",
+      "size_bytes": 3118
+    },
+    {
+      "path": "static_shared/images/mit_ol.4165342f87abb1da46fd.svg",
+      "sha256": "f5a91e9d642a37fba3425e80d76618a8d4e99898892f4514baff945110cc401a",
+      "size_bytes": 4759
+    },
+    {
+      "path": "static_shared/images/mobile_video_thumbnail.00125190bb7310b5afff.png",
+      "sha256": "1e39f5d61eb2e239d2fed25680a4f4a741dc73b3ab77a8abbad5297080af0395",
+      "size_bytes": 9677
+    },
+    {
+      "path": "static_shared/images/mp_logo.6428926751199ad28ce6.gif",
+      "sha256": "6f06f5a3e080d5266efd374a4536bb253cccdb164767c57bf71cce00d161d4dc",
+      "size_bytes": 614
+    },
+    {
+      "path": "static_shared/images/ocw_logo_white.cabdc9a745b03db3dad4.svg",
+      "sha256": "c54b2366cc4a6fbea097b9b15cd96d8f888237625282c5bc257f6a62da1bb81c",
+      "size_bytes": 5710
+    },
+    {
+      "path": "static_shared/images/ocw_logo_white_on_black.dc6662ab918cec1c2f31.png",
+      "sha256": "1bccdbe2c80094104e6180f9fcac8a409c9ff0b9034ecff2e7af8591d0a3ffef",
+      "size_bytes": 19788
+    },
+    {
+      "path": "static_shared/images/ocw_stories_home_btn_arrow_right.be61ab3faf488e15d55f.svg",
+      "sha256": "d6f5e3e4c2981ea54bd1073c750ac1672dc3b8362c6ca99c726673b2f1627720",
+      "size_bytes": 1523
+    },
+    {
+      "path": "static_shared/images/ocw_story_single_arrow_left.b1e0f3712e0cc99359df.svg",
+      "sha256": "d9d178640da44f805191615ad8b5e5d75df6a36f13ca8baadc2e70c2117bd445",
+      "size_bytes": 238
+    },
+    {
+      "path": "static_shared/images/ocw_testimonial_quote_modal_close.ef116a87c95eea8ad2a2.svg",
+      "sha256": "4a2e6e2e4d8f946a420f2ea16b61d4e16040574ef37c8e41c03cc4a10a35f42b",
+      "size_bytes": 306
+    },
+    {
+      "path": "static_shared/images/oeg_logo.8a31f7b87f30df2d0169.png",
+      "sha256": "ecda4f1360554b4ec8edcf8017349d4da73c18506324c2e05778ee11194b19a2",
+      "size_bytes": 12817
+    },
+    {
+      "path": "static_shared/images/page_thumbnail.135ca83a823b6c0b4616.png",
+      "sha256": "ca026ff672ec75e27dfeaf21c15842d5d763b3f8578170879eb958d8851946ea",
+      "size_bytes": 3462
+    },
+    {
+      "path": "static_shared/images/resource-download.d374f56f2572d49418bc.svg",
+      "sha256": "06b35e2cf5566816af83b04cae9183e97622801a3e5db022a051dc5205d209ee",
+      "size_bytes": 392
+    },
+    {
+      "path": "static_shared/images/search.42a42bffcdf041e57b97.svg",
+      "sha256": "124f5fbd03f296920f9b118c63b81152e1300813a9075b444d1ec5c9fe80d611",
+      "size_bytes": 395
+    },
+    {
+      "path": "static_shared/images/video_play_overlay.42e62ca534a2528e4ad0.png",
+      "sha256": "8cfe7e6d4f9e06e81d218386077126f8b64fc9602fa29394eda6960c00f08830",
+      "size_bytes": 7219
+    },
+    {
+      "path": "static_shared/images/video_thumbnail.8817e5123be1e39ecd14.png",
+      "sha256": "d31ef7743fad01fa2d36860edc2fc9ea3f6a2195bfcce3b31ae553b609047bd6",
+      "size_bytes": 40410
+    },
+    {
+      "path": "static_shared/images/videojs_download.e0dbb2cfb52d2d71ba4a.svg",
+      "sha256": "0dcb951bccee94b45e7d033f9b5c8912b5807a0018c33e3e2df046a000221e54",
+      "size_bytes": 1050
+    },
+    {
+      "path": "static_shared/images/warning.e29b1060a0fb05a2b927.svg",
+      "sha256": "b6d9ae30e9c6d0ab0a413d1df82ad89dd2d05f9e1f7069070b3dab7c5472483e",
+      "size_bytes": 584
+    },
+    {
+      "path": "static_shared/images/x-formerly-twitter-black.f8c75ad9f42902726d25.png",
+      "sha256": "5dbb75eccbfffc4c6597592e0d61031d5295631ca0752671b6d8387f1a4ade72",
+      "size_bytes": 1240
+    },
+    {
+      "path": "static_shared/images/youtube.1e55fc2f8fc09d36a1a6.svg",
+      "sha256": "c2dfd8eb412c7c946525ff2172ab7344d4c1816ed3359773df726acf4e7f9bdc",
+      "size_bytes": 1155
+    },
+    {
+      "path": "static_shared/js/117.21a26.js",
+      "sha256": "a87e897d05e536240500cac025a504a3820514633199db9c1d4a0bc91afd0f23",
+      "size_bytes": 724892
+    },
+    {
+      "path": "static_shared/js/27.21a26.js",
+      "sha256": "f7935c76f6ae861d565e1799cd4dc65223deae7d1e904404a0f2701f4592ea7d",
+      "size_bytes": 276072
+    },
+    {
+      "path": "static_shared/js/303.21a26.js",
+      "sha256": "76c7d4dfdc26012961584d46a9c4cbc269b54a0760e9f3fd9d793db5235b0f3d",
+      "size_bytes": 204324
+    },
+    {
+      "path": "static_shared/js/658.21a26.js",
+      "sha256": "2e15179a56c3467c0ff92d715d208b967bd3171446e9207759d397f7c704a4ab",
+      "size_bytes": 177
+    },
+    {
+      "path": "static_shared/js/77.21a26.js",
+      "sha256": "3e933148c3a71846820837896d2afd9538e6215f91a4b820cbe42634ea6129de",
+      "size_bytes": 177
+    },
+    {
+      "path": "static_shared/js/common.21a26.js",
+      "sha256": "77cdc0165b782f4e93b7bf1ebe35cb2e710fade629e7734e2ad95fd7195dc8d3",
+      "size_bytes": 881966
+    },
+    {
+      "path": "static_shared/js/course_offline.21a26.js",
+      "sha256": "b2de542cee6224c44041e26482ffdd0f22d7811a16bd3924af757e23595f1020",
+      "size_bytes": 1574235
+    },
+    {
+      "path": "static_shared/js/course_offline_v3.21a26.js",
+      "sha256": "cfe88e20d069b88eb9645a09ca84df7518d3a546b5d9f63707ff431c1e82b91b",
+      "size_bytes": 1576987
+    },
+    {
+      "path": "static_shared/js/course_v2.21a26.js",
+      "sha256": "90a3f958cc45ad8efc8d8c3f859ff789552a37f8c86d74347aefc5b1f8e34bfe",
+      "size_bytes": 25429
+    },
+    {
+      "path": "static_shared/js/course_v3.21a26.js",
+      "sha256": "7ce93e170effd7b3aedc34a896ec83296218bab362becad6db457708034143e2",
+      "size_bytes": 1551659
+    },
+    {
+      "path": "static_shared/js/instructor_insights.21a26.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "static_shared/js/www.21a26.js",
+      "sha256": "79d7e0a8eb20f17591f5fb06b0b4cef285b693eb4f48ace7d0d51f978b350d7f",
+      "size_bytes": 534185
+    },
+    {
+      "path": "static_shared/js/www_offline.21a26.js",
+      "sha256": "4a721af345f0bff2cfbe56910975d9927bc6d60ae0466cdef7199be8166ac1bb",
+      "size_bytes": 666393
+    },
+    {
+      "path": "static_shared/mathjax/CONTRIBUTING.be29e891326e401c2bed.md",
+      "sha256": "89e1f87f7daa9271da9e6c437fe7b05ccd7e29c1ee0e297e782d8a3d7def63ec",
+      "size_bytes": 13948
+    },
+    {
+      "path": "static_shared/mathjax/LICENSE.42368b5a19b817284b3c",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "size_bytes": 11358
+    },
+    {
+      "path": "static_shared/mathjax/README.009b4259a26029ef2261.md",
+      "sha256": "cb4220e9d5884ad79c36b33d617f89e71b6266749fdcd6221565871023a99035",
+      "size_bytes": 10085
+    },
+    {
+      "path": "static_shared/mathjax/action.6c8b472538082988f2c6.js",
+      "sha256": "7c46fc1ef8118723bf2f386d704ab289e5dd683471e0ad4e1e717244959b565b",
+      "size_bytes": 1843
+    },
+    {
+      "path": "static_shared/mathjax/af.03f75fc13a63a3b9d177.json",
+      "sha256": "b906ca6e91517ac8d6f87c304223839c9998daf2d29ac8d79ce5fa967c23dc77",
+      "size_bytes": 267392
+    },
+    {
+      "path": "static_shared/mathjax/ams.0415214124f9103b90eb.js",
+      "sha256": "d430e678d50c5747151ad67eb118df6a67b5844fe2f9183d0820b9fdf52bbbd5",
+      "size_bytes": 20447
+    },
+    {
+      "path": "static_shared/mathjax/amscd.84f30684146fc2e4c8d9.js",
+      "sha256": "2202b36d581834b02c08a2ff62a9cd10409eda2a2f1126913fa3810743895a16",
+      "size_bytes": 4295
+    },
+    {
+      "path": "static_shared/mathjax/asciimath.5ef60e8589351131d7bb.js",
+      "sha256": "4460b49defc8a8eafdcf831faafd5e2dc496c9384d7473ae43eba9ba8f4a2a5f",
+      "size_bytes": 101572
+    },
+    {
+      "path": "static_shared/mathjax/assistive-mml.28169af1dbd9fd16f99c.js",
+      "sha256": "9c1166c7c2ca2e57d5d25cc3bf71dc5369d32b9a4260151f998c0bed77d55dc3",
+      "size_bytes": 3639
+    },
+    {
+      "path": "static_shared/mathjax/autoload.a94e1289e7134d87a3de.js",
+      "sha256": "cb7c9ce44fc81b004e754574733861604b72219879d693ff1396683bc1c4cfe1",
+      "size_bytes": 3331
+    },
+    {
+      "path": "static_shared/mathjax/base.dc579f6c4351ed9a84f7.json",
+      "sha256": "72558700556d997a95e9281044e330eba9a472dda43642a9b5cc0483294d875f",
+      "size_bytes": 217157
+    },
+    {
+      "path": "static_shared/mathjax/bbm.2f6ff24c137fa6f333c4.js",
+      "sha256": "fb780f6e8ca565439b3c6dc78f3e42b525905fd43c5e15471994a2a1da914ca8",
+      "size_bytes": 2143
+    },
+    {
+      "path": "static_shared/mathjax/bboldx.2e870a1015215bd08943.js",
+      "sha256": "d84c426bb390ea51f93b62eb586781c446c6d848600e2fe2e0527b749239f15a",
+      "size_bytes": 6813
+    },
+    {
+      "path": "static_shared/mathjax/bbox.ecc635eb2baeac9fd648.js",
+      "sha256": "9d9ff6d1c592d2a4fe728412d2d5ec29379f4721bfa3b8356ad2045eb939b848",
+      "size_bytes": 2323
+    },
+    {
+      "path": "static_shared/mathjax/begingroup.4671477bfa0bf26c6357.js",
+      "sha256": "0f606d5a71301992e92d8697ccbf8318736110691d8a94303f3f254cd589421a",
+      "size_bytes": 4266
+    },
+    {
+      "path": "static_shared/mathjax/boldsymbol.70316731a9bc7a9b3f6d.js",
+      "sha256": "baaabd9fb430fe4fdbfa9db74aa60b118dd650a68239280368abfd1bc30a0e10",
+      "size_bytes": 2460
+    },
+    {
+      "path": "static_shared/mathjax/braket.98d4c80cdb81eb21b246.js",
+      "sha256": "4a8a6ac1283d7dcee58e7fd71edb178991ba086fa8487f7d26720fe64c002791",
+      "size_bytes": 4635
+    },
+    {
+      "path": "static_shared/mathjax/bussproofs.bb5ca1895bf59c545d5f.js",
+      "sha256": "10997a853480488a009310f8fc35c9ea737af59f608127e647b255a84bc7f8e1",
+      "size_bytes": 12204
+    },
+    {
+      "path": "static_shared/mathjax/ca.8bc2b061fb770836e171.json",
+      "sha256": "750a034984f3b5966a2a391eb5ad0c7b50bfa02eb576a82656a0bf43ebe34ee7",
+      "size_bytes": 247328
+    },
+    {
+      "path": "static_shared/mathjax/cancel.ea96f17cd534ccbc8f62.js",
+      "sha256": "9ff91ff84d9776606cdb66da62ffe9bb39cfdfabcf070f214d35e553689ffece",
+      "size_bytes": 2255
+    },
+    {
+      "path": "static_shared/mathjax/cases.3f7406ef40318a6f8e5f.js",
+      "sha256": "6805d481aaee3f78d82bb9f0b6b9ac47b0804c30f10253394724459d95d41a8c",
+      "size_bytes": 4277
+    },
+    {
+      "path": "static_shared/mathjax/centernot.768e4f081cc8683f1e3e.js",
+      "sha256": "7b89e7a2ddb38908580bcbf5aef3aedeff2231fbc8907d93c516f20e32fc9772",
+      "size_bytes": 2145
+    },
+    {
+      "path": "static_shared/mathjax/chtml.ca0e7adc4fe819207adf.js",
+      "sha256": "00db8c74ce9a68b9bf964712113b8dd71387dd2c04e4237ca2825d8cec59be86",
+      "size_bytes": 173680
+    },
+    {
+      "path": "static_shared/mathjax/color.79630c77474128a4ae41.js",
+      "sha256": "d5e0087b1f06ad49df3264042df0073edc78d09f8a09fb0c3e8622d110f6c73f",
+      "size_bytes": 6817
+    },
+    {
+      "path": "static_shared/mathjax/colortbl.96a1a982f3eba3c55314.js",
+      "sha256": "dff289abcff30d0e109eb51a6f6be2d09e46b7e1db5bc881719f9f1bf483ab8f",
+      "size_bytes": 3185
+    },
+    {
+      "path": "static_shared/mathjax/colorv2.0f5ccf0d5d09a36c88f2.js",
+      "sha256": "3cc6e234d0cd33e8004b9f4864e237a06b5e87c4d0ff17d64fff449464c628ce",
+      "size_bytes": 1524
+    },
+    {
+      "path": "static_shared/mathjax/complexity.c6bb3692efc5a41374a9.js",
+      "sha256": "0fa2a9b23848e516045fd11effc90087c41d793ac9fa69903980d7df3fd4b96d",
+      "size_bytes": 12603
+    },
+    {
+      "path": "static_shared/mathjax/configmacros.968326e72eabfc5a057f.js",
+      "sha256": "5a7b6e7b7980f8d3425ddbcbbe21299da5b1254d5702e91bdbb9d04f487f4664",
+      "size_bytes": 2588
+    },
+    {
+      "path": "static_shared/mathjax/core.cca62069d95b4d05010b.js",
+      "sha256": "989dca5b19443257e70306243a1b2fdad3ed7cdcee211de745407ac25cec050f",
+      "size_bytes": 136139
+    },
+    {
+      "path": "static_shared/mathjax/da.1af6f77cb15eebd92088.json",
+      "sha256": "92b82e15916673ebdcbdd6927aa491a18cf4780432733e534e1071b98b176dae",
+      "size_bytes": 247368
+    },
+    {
+      "path": "static_shared/mathjax/de.5229347b6a7889bb15d6.json",
+      "sha256": "2e56ac4f5a4ce6f831a69c34a81b66d4e260bba4a019499518f356888c146fa5",
+      "size_bytes": 284080
+    },
+    {
+      "path": "static_shared/mathjax/dsfont.2ffd7df91a30456d97d7.js",
+      "sha256": "74a9961b43c43644c28c582fc14031b7f42bac0b771140a5d80af383415ea978",
+      "size_bytes": 1898
+    },
+    {
+      "path": "static_shared/mathjax/empheq.e0c5bc5efaa2ece82970.js",
+      "sha256": "80bf476cd47846a5c93f4e68c6091263e3c427e762176d1718eea0f8bb7b2b1f",
+      "size_bytes": 5898
+    },
+    {
+      "path": "static_shared/mathjax/en.2ae13392310d42a46742.json",
+      "sha256": "5e60d1843351966a159cc409eb73e9abc7c7e375a3311c40d35843d70fee79fb",
+      "size_bytes": 364204
+    },
+    {
+      "path": "static_shared/mathjax/enclose.1ef451815434723333c4.js",
+      "sha256": "5301d91e2e7d6f86a29c13c1b9726b7476b9de9b1745011886c914372fab4cf3",
+      "size_bytes": 1731
+    },
+    {
+      "path": "static_shared/mathjax/entities.5c6373e281bdb19f8ef4.js",
+      "sha256": "8023c697f39b9b85510f2a343878bd18bd2c79ed164ce8cdf5534b2be45cc7f8",
+      "size_bytes": 23248
+    },
+    {
+      "path": "static_shared/mathjax/es.f4db9f8140d97550256a.json",
+      "sha256": "3f273798257eac1bb39082724ac819a0940588aefd21275c2c43a1178badb61b",
+      "size_bytes": 250921
+    },
+    {
+      "path": "static_shared/mathjax/euro.aded2c057b4cef1c52b5.json",
+      "sha256": "564c10b1ecae3d161a50fbf13965b9d326d24d8c5e172152a16253f6334375ac",
+      "size_bytes": 12781
+    },
+    {
+      "path": "static_shared/mathjax/explorer.426e0736fb6dd31457c3.js",
+      "sha256": "56a81c6ffba48aae68468cdcad4edac6ec8ec412088fbe9df74eece776906cc8",
+      "size_bytes": 57792
+    },
+    {
+      "path": "static_shared/mathjax/extpfeil.c29a100d59abcef672e8.js",
+      "sha256": "2d1f82bf22acefe6c358e3a3dca293cc2fda338f2db4fd147befc75122c41841",
+      "size_bytes": 2445
+    },
+    {
+      "path": "static_shared/mathjax/fontsizev3.1d09d18b6f2b30a8a2be.js",
+      "sha256": "0e8fe554424a274d5809efc11f3a48602713bb7d2b2280ae4fcac04181f128f2",
+      "size_bytes": 1637
+    },
+    {
+      "path": "static_shared/mathjax/fr.929e781d8ea8264c952e.json",
+      "sha256": "caf60a882b654ac18f5a168960aeeac014c27708c56195dd6d765aff728839df",
+      "size_bytes": 276403
+    },
+    {
+      "path": "static_shared/mathjax/gensymb.95536d22152609f3564c.js",
+      "sha256": "262d898481e34a5f9683dd15a16cea81a06702de101bf76289bbea83f8f4afc9",
+      "size_bytes": 1575
+    },
+    {
+      "path": "static_shared/mathjax/hi.4bf8aa94f4d208220313.json",
+      "sha256": "debdb8fc8b1c56a7f1ac4f96bc566af9456632b58df556b3331debdf0c2c723d",
+      "size_bytes": 394568
+    },
+    {
+      "path": "static_shared/mathjax/html.64640f2418616faa1a58.js",
+      "sha256": "a647d13d009d5ecee4239cfe681ef831f2bd0f2a91033b922ae6bf3481d156e0",
+      "size_bytes": 2813
+    },
+    {
+      "path": "static_shared/mathjax/it.91ecd5899fdf2bb53bc4.json",
+      "sha256": "b476cbfb4a1e8f6112f69c51e6ebacf86ed4114a9c0b1fbfb419ac2944aa6cfa",
+      "size_bytes": 282065
+    },
+    {
+      "path": "static_shared/mathjax/jsdom.9fdedce9ca3689b85808.js",
+      "sha256": "f321af6481e5c3e6ec5cc0917b528f8f8df3ae53f94485d3b770eb118eb738c5",
+      "size_bytes": 3163
+    },
+    {
+      "path": "static_shared/mathjax/ko.090da32db11725e7e3c8.json",
+      "sha256": "af7fd90bcf06736f5363b752d505d4cc7782bd725c6db4184edccdf56b24a87e",
+      "size_bytes": 392014
+    },
+    {
+      "path": "static_shared/mathjax/lazy.7af99c63170827107829.js",
+      "sha256": "a72e3b41f608f5e2c2b4b2b9a163ab9be1e31fcf84b255b4bad6f189e4f10505",
+      "size_bytes": 6597
+    },
+    {
+      "path": "static_shared/mathjax/linkedom.becd6a7ee73e62236393.js",
+      "sha256": "927d0b99ac6305492bcc4d46222f636666d8fbf1f952664b6c2099df15311fd7",
+      "size_bytes": 3616
+    },
+    {
+      "path": "static_shared/mathjax/liteDOM.965a8f780cf212d7924b.js",
+      "sha256": "4ee6d6e646cdcf3203fee3ede9395b0ddeb7670bfd2fdf06236701733013105c",
+      "size_bytes": 13577
+    },
+    {
+      "path": "static_shared/mathjax/loader.98478cc1c9eb81b9c646.js",
+      "sha256": "54997fce9d5b9ffe347ebdbcfd3fd95551b64e1cf75e480353675065e0aef97e",
+      "size_bytes": 11365
+    },
+    {
+      "path": "static_shared/mathjax/mathtools.964440743180ea438fcf.js",
+      "sha256": "d6dab6acde6634e4b043e38c0c6d4202346aedc0ee614b146c786278a4673c30",
+      "size_bytes": 22353
+    },
+    {
+      "path": "static_shared/mathjax/menu.f4a8061049adac3345bf.js",
+      "sha256": "b500f2dd50552d47a934e4ffee2a4f6fb166860cd243b9fdc4cc3d5e3dd898b8",
+      "size_bytes": 74867
+    },
+    {
+      "path": "static_shared/mathjax/mhchem.341764cc13d0455e1513.js",
+      "sha256": "8398fa620d2bcbf40258b3b63733a41ada58f96d511a8a1c2e8ede8d1c1d6cd0",
+      "size_bytes": 37800
+    },
+    {
+      "path": "static_shared/mathjax/mml-chtml-nofont.ffd84f2ef882302d28b5.js",
+      "sha256": "89bf2d4e00ec5915ef76db9f85a062e4a038c50571cefee638c4df8a04bb1711",
+      "size_bytes": 728671
+    },
+    {
+      "path": "static_shared/mathjax/mml-chtml.1d267789651ad082d5bb.js",
+      "sha256": "cc38c1a37c27929b1e4b1009a47a3e4593e40d0d0a3beaf1392e36e1dee7aeaf",
+      "size_bytes": 837572
+    },
+    {
+      "path": "static_shared/mathjax/mml-svg-nofont.122d7d3d1e46367eeff6.js",
+      "sha256": "60f20019de737284666c7baf8cd80cf16cec1793327e6f5c3b3002e673a8958b",
+      "size_bytes": 714104
+    },
+    {
+      "path": "static_shared/mathjax/mml-svg.a951f7eef65eb75a54cb.js",
+      "sha256": "a99bdc0c3f039227c319ba0baad8b35a8a76c54b0799f0d081148db296728ef3",
+      "size_bytes": 1689752
+    },
+    {
+      "path": "static_shared/mathjax/mml.6b31f3bfa403ae9b49c2.js",
+      "sha256": "ccb777a3698f3d2619876d7fdfc8d307a54896c3e1812f37aac24252687251ea",
+      "size_bytes": 8673
+    },
+    {
+      "path": "static_shared/mathjax/mml3.7fa4e575bbce3dc9aa69.js",
+      "sha256": "ed792479b3343529a2a9a1a813ebf3cea9fe5d381e9d135a07e155c81d036031",
+      "size_bytes": 27784
+    },
+    {
+      "path": "static_shared/mathjax/mml3.sef.e248bbb6bcf23bd666b4.json",
+      "sha256": "0f0eef793f3b97df3b10c386e23528938eb82f7d180affe694397e7346f03a87",
+      "size_bytes": 192556
+    },
+    {
+      "path": "static_shared/mathjax/nb.4623092c7651af59b599.json",
+      "sha256": "8d1ad78f81be49b569ce0011056f70501584843b5a5da8b21b4c2d8d38cb3ae3",
+      "size_bytes": 260745
+    },
+    {
+      "path": "static_shared/mathjax/nemeth.82528d687eede063ec84.json",
+      "sha256": "16f30ad5bc7db02bbcce4623b108626f1a73d65660799891f23efd76dcaa333e",
+      "size_bytes": 227472
+    },
+    {
+      "path": "static_shared/mathjax/newcommand.40654bd3c828b24343c5.js",
+      "sha256": "770b6a794ae654b6897a991eedafb0caf095f7d716ba37b77933cc346e0a9f74",
+      "size_bytes": 8833
+    },
+    {
+      "path": "static_shared/mathjax/nn.3f92603dff43b349a375.json",
+      "sha256": "8481c038bfbf609f53053cb26f86c1de4c6eafebe1a80f909004b3a201b07166",
+      "size_bytes": 262158
+    },
+    {
+      "path": "static_shared/mathjax/no-dark-mode.a4d02764ff39686c860f.js",
+      "sha256": "63d7b52571baf709d0a387459cbb2a9ed70e7ce15be222328e19d155ed255b46",
+      "size_bytes": 2246
+    },
+    {
+      "path": "static_shared/mathjax/node-main-setup.680de4e949b8cd64db88.cjs",
+      "sha256": "4fe20a7938c64ead34b4f32e4f29d5ddc6cf74cb6ba66fd7f3ae88c9c2476b97",
+      "size_bytes": 121
+    },
+    {
+      "path": "static_shared/mathjax/node-main.312ba2296e6965b320f5.mjs",
+      "sha256": "7a52fd967e5af0b75e8b6eb02a3955dc23f9f55acaeb46b9bec38c2914f467c8",
+      "size_bytes": 113
+    },
+    {
+      "path": "static_shared/mathjax/node-main.a1f68a1ba943f03185ad.cjs",
+      "sha256": "81ac6fa9341578b24914d55582b1aa15b547670390e06cd9254e2a33fe92cf71",
+      "size_bytes": 120
+    },
+    {
+      "path": "static_shared/mathjax/node-main.cc0d12776d2f45d80a3d.js",
+      "sha256": "85f247e3e85f4cee56907d52dd8d7e54edcd99d4c6c2e20f3f0c4cc10a7bca32",
+      "size_bytes": 172257
+    },
+    {
+      "path": "static_shared/mathjax/noerrors.452647f1b6bd6b44295a.js",
+      "sha256": "479c00d274f7f38e25d44a13e407bf8adeb83b02dd05639a302ca7c0db3d4cc2",
+      "size_bytes": 1243
+    },
+    {
+      "path": "static_shared/mathjax/noundefined.0439a20c34a9acf01a71.js",
+      "sha256": "d29d871d8d38802cc1581f6e4f5d673c357a8bf9802114ea57f51a53d0a0fef3",
+      "size_bytes": 1384
+    },
+    {
+      "path": "static_shared/mathjax/package.42a8766f1cf9d84c7e0f.json",
+      "sha256": "440cfcbfb317456a774bc7186e857a1f135954105e32a4312d6cdd555f3a4257",
+      "size_bytes": 2435
+    },
+    {
+      "path": "static_shared/mathjax/physics.e4123b34f06f44dd5239.js",
+      "sha256": "739e0d02aa8311493d03159e13a3268da7f180d4888ed49d8f0644dec7defc78",
+      "size_bytes": 19539
+    },
+    {
+      "path": "static_shared/mathjax/require.2f5e2dc61b1adf63a69a.mjs",
+      "sha256": "9e425e715b5f6e6adc20ff285ba6f491b85b037f9dca011f9b0209fe4355027e",
+      "size_bytes": 73
+    },
+    {
+      "path": "static_shared/mathjax/require.aa3cf210b4e9a2145795.js",
+      "sha256": "6ccbfb7f9a6e627fabdc39ce034f99355172b9778891cce33243844501098130",
+      "size_bytes": 4007
+    },
+    {
+      "path": "static_shared/mathjax/require.d.8fd666d212aefcf6f421.mts",
+      "sha256": "946701066b1225bbb539cb3b7b9dfadfea309b7dfb728dc28e59599af97c102d",
+      "size_bytes": 44
+    },
+    {
+      "path": "static_shared/mathjax/safe.2b92ee8222a26906c900.js",
+      "sha256": "ddd5b5eb3076bdf71c9b0508c58fae095b441a22b7bf2ff2e1ad5ace389f49b2",
+      "size_bytes": 6375
+    },
+    {
+      "path": "static_shared/mathjax/semantic-enrich.491ab67000bd5fdd6eb6.js",
+      "sha256": "2c2d8d5e2ab1af07a73e587c036bda41c1d9606b5d8fca7ef2e43f553c743563",
+      "size_bytes": 4782
+    },
+    {
+      "path": "static_shared/mathjax/setoptions.f3653b2e4f65c484a6fb.js",
+      "sha256": "756100054a264bcfd47c1b5c03b7e4dcdd7cca679b78b693a6926e887ab59c39",
+      "size_bytes": 3729
+    },
+    {
+      "path": "static_shared/mathjax/speech-worker.7b5a87f13d48d5bbd15f.js",
+      "sha256": "d8b553a705594bbe99671152541511173eb6c413774eceaa0a3a525d2744996f",
+      "size_bytes": 417319
+    },
+    {
+      "path": "static_shared/mathjax/speech.5ee435297e7c7dda5d87.js",
+      "sha256": "124683e973f0fba5443c85e821b7070a4531737d2e8b08d48f9959088c51f4b8",
+      "size_bytes": 20405
+    },
+    {
+      "path": "static_shared/mathjax/sre.5a7b7b1517f3c7ac252e.js",
+      "sha256": "55831f16704c4530ab27b2d23b2324b32d0672c5bdcc69e10a0cc48ad2e4c4d8",
+      "size_bytes": 253655
+    },
+    {
+      "path": "static_shared/mathjax/startup.9743f3fd4d6f9d716970.js",
+      "sha256": "9d422bd9df67852929a43763fd0d7b7645b00d646c63dde77a3ceeee8f9a3b17",
+      "size_bytes": 17073
+    },
+    {
+      "path": "static_shared/mathjax/sv.eeca274a6ab1bdfcc3f1.json",
+      "sha256": "7436531c326be9449bdbb41c74fcae4235fc58ff7c6816999e571ee636fd15f1",
+      "size_bytes": 271954
+    },
+    {
+      "path": "static_shared/mathjax/svg.3b88ee8e0a986c3a12f3.js",
+      "sha256": "996d304c4925148720990cabbc27d1039a7208ad4777556a94f6db3f32d26577",
+      "size_bytes": 159228
+    },
+    {
+      "path": "static_shared/mathjax/tagformat.edffc1ce0e476457b1b4.js",
+      "sha256": "9da0f12949eb209f8cfa06fd88ddce12bf6b8880d29c067a7ad08f42164a3a57",
+      "size_bytes": 1975
+    },
+    {
+      "path": "static_shared/mathjax/tex-base.a4c788d227933a4dbe34.js",
+      "sha256": "1e5f8fc44e552919ab145d92a6fa80c4bf6a41d08d2c802b6a009be132bc8c8e",
+      "size_bytes": 107605
+    },
+    {
+      "path": "static_shared/mathjax/tex-chtml-nofont.1a4c01112bdf49d022b1.js",
+      "sha256": "bf5ab73ab803d35e02a79fd633f0ce4c977848b9dea360860e03e0230d4db03b",
+      "size_bytes": 873852
+    },
+    {
+      "path": "static_shared/mathjax/tex-chtml.3d44f0d96407e6e343da.js",
+      "sha256": "415067cd20829809061951738091f3c6c77987b42e267c03659d788b7f82069b",
+      "size_bytes": 982772
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-chtml-nofont.fc2bd8e22161628a2dd0.js",
+      "sha256": "e6e0602060c7d72c70a8814f68e69503bc11febc4146e64997518d3a34aeebff",
+      "size_bytes": 873984
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-chtml.c68e377694ee1fef1256.js",
+      "sha256": "1f5a21b33dff5936c39f791a789fee7e5026d02af10bc84d26a0a25fa613ba5d",
+      "size_bytes": 982885
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-svg-nofont.7a7b14c36959378a17b1.js",
+      "sha256": "db5b6ab0ca1a1156cf17bd664a11e9de4b9cb78946badf2e6592003f301fe698",
+      "size_bytes": 859417
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-svg.6080c69fb74dac246e2a.js",
+      "sha256": "8faf7907f243f0961366e4059bd3f1631b1501c251094b39150343ac90a326b1",
+      "size_bytes": 1835065
+    },
+    {
+      "path": "static_shared/mathjax/tex-svg-nofont.035269eaeae7adf40175.js",
+      "sha256": "a2a9dbdeafe507ab23954d46b681e8ae4f1d6858e546defc940fab34ea40e2ab",
+      "size_bytes": 859285
+    },
+    {
+      "path": "static_shared/mathjax/tex-svg.e3bd52162ad7ec8e950f.js",
+      "sha256": "ead0ae2417314d38101959e5df34cdb79e12e37a78c714a09375269fbb19d7e7",
+      "size_bytes": 1834952
+    },
+    {
+      "path": "static_shared/mathjax/tex.64e4e6f1b02236c48d0c.js",
+      "sha256": "e5c5c9a29af31a4809b10ac887c67d938e11b6b8c9e76bda6aba1f859eeaa66a",
+      "size_bytes": 147664
+    },
+    {
+      "path": "static_shared/mathjax/texhtml.0304f785a6a2387af68f.js",
+      "sha256": "6269dda09c28b4291cd4d95e880c9dc053cc95b41c644ce057bab5640cb83113",
+      "size_bytes": 2504
+    },
+    {
+      "path": "static_shared/mathjax/textcomp.80f210729d1a1347c27e.js",
+      "sha256": "e038f7b36ddc4cbaaaa427c8f8554d418f284518cdc4c24eeb296e50084a4b23",
+      "size_bytes": 4875
+    },
+    {
+      "path": "static_shared/mathjax/textmacros.42a818618be1b6ab53be.js",
+      "sha256": "e4de0ad5b86bfe6a90291cb7ac60ed5c43604794c008448c23fc1b7022edb9fe",
+      "size_bytes": 10220
+    },
+    {
+      "path": "static_shared/mathjax/unicode.47afeab5ebff181cca44.js",
+      "sha256": "bf1ddc9fe506f782c0e9271c0c52c4b258f9e4eac3d2905274d0c5d239e2a2b3",
+      "size_bytes": 3586
+    },
+    {
+      "path": "static_shared/mathjax/units.73d3834a074e41e2aa4a.js",
+      "sha256": "25278814cbc050fcd4e8849c014c238cf6801e00405e0acaf5d98924fd1e26a7",
+      "size_bytes": 2118
+    },
+    {
+      "path": "static_shared/mathjax/upgreek.e96035471331c770c1ab.js",
+      "sha256": "3a387e3460f5a4bcfdc170e9ba167165bf1d197259db3478316eb1fbd8c2e621",
+      "size_bytes": 1993
+    },
+    {
+      "path": "static_shared/mathjax/verb.9aa68f128a1f79e26afa.js",
+      "sha256": "bd19e9004bb69b7bb87599957d384b3e873292bcc23b6d6cb184c2af71260774",
+      "size_bytes": 1777
+    },
+    {
+      "path": "video_galleries/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "video_galleries/index.html",
+      "sha256": "36d0d08fcecf4b9b5b2e98b458b9e21b71605d6d76b743d9e375a76d0009e532",
+      "size_bytes": 47138
+    },
+    {
+      "path": "video_galleries/video-lectures/data.json",
+      "sha256": "e23f2920ccaa9ec2efe9facf525b93a920e5ee2d8852647f244a95fa5b43b5e1",
+      "size_bytes": 52472
+    },
+    {
+      "path": "video_galleries/video-lectures/index.html",
+      "sha256": "53dc5d7d929c2032b331c1a810842fd4690f18582753bb2360e5e2bd85da4961",
+      "size_bytes": 58318
+    }
+  ],
+  "remaining_reviews": [
+    "Complete local links, essential readings, exercises and supplied solutions",
+    "One appropriate original media rendition, playback, captions and notices",
+    "Retain useful complete files; no duplicate renditions or metadata credited as knowledge"
+  ],
+  "schema_version": 1,
+  "source_bytes": 28554742,
+  "source_id": "ocw_fbccd60245d9cb173f41",
+  "source_sha256": "c13c36a9d4a2186e1e243bcc0db76829899ee944cfb722ab7193067a3626cea4",
+  "transformation_version": 2,
+  "video_lesson_count": 24
+}

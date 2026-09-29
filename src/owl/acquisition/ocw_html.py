@@ -59,10 +59,14 @@ def _media_key(url):
 
 
 class _Context:
-    def __init__(self, member_path, output_destination, member_destinations, media_bindings):
+    def __init__(self, member_path, output_destination, member_destinations, media_bindings, local_link_repairs=None):
         self.member = _portable(member_path)
         self.output = _portable(output_destination)
         self.members = {_portable(k): _portable(v) for k, v in member_destinations.items()}
+        self.local_link_repairs = local_link_repairs or {}
+        if any(not isinstance(old, str) or target not in self.members
+               for old, target in self.local_link_repairs.items()):
+            raise SafetyError('Explicit OCW link repair must target a pinned package member')
         self.media = {}
         for url, binding in media_bindings.items():
             key = _media_key(url)
@@ -123,6 +127,10 @@ class _Context:
                 destination=self.members[image_member]
                 self.rewrites.append({'kind':'publisher-shared-css-image','original_url':value,'member':image_member})
         if destination is None:
+            repair = self.local_link_repairs.get(value) if where == 'a.href' else None
+            if repair:
+                self.rewrites.append({'kind': 'explicit-publisher-link-repair', 'original_url': value, 'member': repair})
+                return self.relative(self.members[repair]) + ('?' + parts.query if parts.query else '') + ('#' + parts.fragment if parts.fragment else '')
             self.issue('unresolved-local-link', value, member=target, context=where)
             return value
         return self.relative(destination) + ('?' + parts.query if parts.query else '') + ('#' + parts.fragment if parts.fragment else '')
@@ -335,10 +343,21 @@ def _native(token, inner, binding, context, caption_texts):
     return native
 
 
-def localize_html(text, *, member_path, output_destination, member_destinations, media_bindings, caption_texts):
+def localize_html(text, *, member_path, output_destination, member_destinations, media_bindings, caption_texts, local_link_repairs=None, reviewed_omissions=()):
     _bounded(text, MAX_HTML_BYTES, 'OCW HTML')
-    context = _Context(member_path, output_destination, member_destinations, media_bindings)
+    context = _Context(member_path, output_destination, member_destinations, media_bindings, local_link_repairs)
     tokens, edits, covered, generated_bytes = _Tokens(text).tokens, [], [], 0
+    omissions, applied = {}, {}
+    if not isinstance(reviewed_omissions, (list, tuple)) or len(reviewed_omissions)>1000:
+        raise SafetyError('OCW reviewed omissions must be a bounded exact tag list')
+    for row in reviewed_omissions:
+        key=row.get('tag_sha256')
+        if (not isinstance(key,str) or not re.fullmatch('[a-f0-9]{64}',key) or key in omissions
+                or row.get('kind') not in {'decorative-image','obsolete-external-warning-handler'}
+                or not isinstance(row.get('reason'),str) or not 1<=len(row['reason'])<=1000
+                or type(row.get('count')) is not int or not 1<=row['count']<=100):
+            raise SafetyError('OCW omission needs an exact tag pin, finite count and reviewed reason')
+        omissions[key]=row;applied[key]=0
     context.element_ids = {row['attrs']['id'] for row in tokens if row['kind']=='start' and row['attrs'].get('id')}
     context.elements = {row['attrs']['id']:row['attrs'] for row in tokens if row['kind']=='start' and row['attrs'].get('id')}
     for token in tokens:
@@ -373,6 +392,23 @@ def localize_html(text, *, member_path, output_destination, member_destinations,
     for index, token in enumerate(tokens):
         if token['kind'] != 'start' or any(a<=token['start']<b for a,b in covered):
             continue
+        tag_pin=hashlib.sha256(token['raw'].encode()).hexdigest()
+        omission=omissions.get(tag_pin)
+        if omission:
+            attrs=token['attrs']
+            if omission['kind']=='decorative-image':
+                if token['tag']!='img' or attrs.get('alt')!='' or any(attrs.get(k) for k in ['longdesc','usemap','title']):
+                    raise SafetyError('Reviewed decorative omission cannot remove labelled image content')
+                replacement='<span class="owl-omitted-decoration" aria-hidden="true"></span>'
+            else:
+                if (token['tag']!='a' or attrs.get('onclick')!='event.preventDefault()'
+                        or 'external-link-warning' not in attrs.get('class','').split()
+                        or urlsplit(attrs.get('href','')).scheme!='https'):
+                    raise SafetyError('Reviewed warning repair differs from original optional external anchor')
+                replacement=_tag(token,context,remove=('onclick',))
+            edits.append((token['start'],token['end'],replacement));applied[tag_pin]+=1
+            context.rewrites.append({'kind':'explicit-reviewed-omission',**omission})
+            continue
         if token['tag']=='iframe' and token['attrs'].get('src')=='https://www.googletagmanager.com/ns.html?id=GTM-NMQZ25T':
             end = next((row for row in tokens[index+1:] if row['tag']=='iframe'),None)
             if end and end['kind']=='end' and not text[token['end']:end['start']].strip():
@@ -404,6 +440,8 @@ def localize_html(text, *, member_path, output_destination, member_destinations,
         rewritten = _tag(token,context)
         if rewritten != token['raw']:
             edits.append((token['start'],token['end'],rewritten))
+    if any(applied[key]!=row['count'] for key,row in omissions.items()):
+        raise SafetyError('Reviewed OCW omission count differs from exact pinned source tags')
     result = _apply(text,edits)
     # Output includes original complete transcripts plus embedded VTT tracks.
     _bounded(result, MAX_HTML_BYTES + 3*MAX_CAPTION_BYTES, 'Localized OCW HTML')

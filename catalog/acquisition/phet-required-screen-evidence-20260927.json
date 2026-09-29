@@ -1,0 +1,2173 @@
+{
+  "schema_version": 1,
+  "kind": "phet-required-screen-browser-and-structure-evidence",
+  "content_ready": false,
+  "content_review_required": true,
+  "physical_device_certification": "pending",
+  "offline": true,
+  "gates": {
+    "all_named_screens_in_both_viewports": true,
+    "source_pins_rechecked_after_browser": true,
+    "embedded_runtime_versions_and_notices": true,
+    "no_required_external_static_dependencies": true
+  },
+  "counts": {
+    "simulations": 16,
+    "teaching_screens": 38,
+    "passing_checks": 76
+  },
+  "evidence": [
+    {
+      "path": "catalog/acquisition/phet-required-screen-checks-20260927.json",
+      "size_bytes": 51274,
+      "sha256": "2b8c7252ff83a1bcd098669db08801a85c1b4090d56d96df96575e538e45b73a"
+    },
+    {
+      "path": ".owl/acquisition/phet-screen-completion/required-screen-report-20260927.json",
+      "size_bytes": 6252344,
+      "sha256": "315805422b2c0e7828101bc667c839292936aad6f8ed3eeab0c33ba0fbb689e7"
+    },
+    {
+      "path": "scripts/check_phet_screens.cjs",
+      "size_bytes": 12169,
+      "sha256": "cf0252cb01975004ca5fc8899c34cfb9d6043599dbd77a16711f43c7610f84bc"
+    }
+  ],
+  "sources": [
+    {
+      "id": "phet_ohms_law",
+      "source_url": "https://phet.colorado.edu/sims/html/ohms-law/1.4.31/ohms-law_en.html",
+      "version": "1.4.31",
+      "sha256": "731c7203f07967bf295e926e4f60dad51eecd4a132fa68e956819416d3bf83b8",
+      "size_bytes": 1584229,
+      "embedded_version": "1.4.31",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "id": "phet_circuit_construction_kit_dc",
+      "source_url": "https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/1.5.2/circuit-construction-kit-dc_en.html",
+      "version": "1.5.2",
+      "sha256": "1ef2e7af1bc2381c8a376a88aa5a4ccdf608e77089cfc44960bce0df2d3f106a",
+      "size_bytes": 3505055,
+      "embedded_version": "1.5.2",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aLab\u202c"
+        }
+      ]
+    },
+    {
+      "id": "phet_forces_and_motion_basics",
+      "source_url": "https://phet.colorado.edu/sims/html/forces-and-motion-basics/2.6.5/forces-and-motion-basics_en.html",
+      "version": "2.6.5",
+      "sha256": "4d66c947e8390a3af9bd012f6b50a13f031ee5323bc9505c7f0986631bbc6865",
+      "size_bytes": 4847243,
+      "embedded_version": "2.6.5",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aNet Force\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aMotion\u202c"
+        },
+        {
+          "index": 3,
+          "name": "\u202aFriction\u202c"
+        },
+        {
+          "index": 4,
+          "name": "\u202aAcceleration\u202c"
+        }
+      ]
+    },
+    {
+      "id": "phet_energy_skate_park_basics",
+      "source_url": "https://phet.colorado.edu/sims/html/energy-skate-park-basics/1.5.1/energy-skate-park-basics_en.html",
+      "version": "1.5.1",
+      "sha256": "6463e32f15b0dbb61af270b580414b04f2614d0c2edd9c5d61b72cef862568a8",
+      "size_bytes": 4907870,
+      "embedded_version": "1.5.1",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aFriction\u202c"
+        },
+        {
+          "index": 3,
+          "name": "\u202aPlayground\u202c"
+        }
+      ]
+    },
+    {
+      "id": "phet_pendulum_lab",
+      "source_url": "https://phet.colorado.edu/sims/html/pendulum-lab/1.0.35/pendulum-lab_en.html",
+      "version": "1.0.35",
+      "sha256": "f6893c6711a31bdb42968752b3b70772632892e8b9abec64127e0d4524ba015d",
+      "size_bytes": 3804285,
+      "embedded_version": "1.0.35",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 1,
+          "name": "\u202aEnergy\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aLab\u202c"
+        }
+      ]
+    },
+    {
+      "id": "phet_gravity_force_lab_basics",
+      "source_url": "https://phet.colorado.edu/sims/html/gravity-force-lab-basics/1.1.27/gravity-force-lab-basics_en.html",
+      "version": "1.1.27",
+      "sha256": "ca53202ade58e0bd453cda46d810fb3ef9c110ce8e13cbff5de42c3df3e0aa62",
+      "size_bytes": 2849523,
+      "embedded_version": "1.1.27",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "id": "phet_bending_light",
+      "source_url": "https://phet.colorado.edu/sims/html/bending-light/1.2.5/bending-light_en.html",
+      "version": "1.2.5",
+      "sha256": "11555f7cceffa0ac87120c882e7ea2b405ff762881b1f9f3bf05975afe7dcd57",
+      "size_bytes": 3403142,
+      "embedded_version": "1.2.5",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aPrisms\u202c"
+        },
+        {
+          "index": 3,
+          "name": "\u202aMore Tools\u202c"
+        }
+      ]
+    },
+    {
+      "id": "phet_build_an_atom",
+      "source_url": "https://phet.colorado.edu/sims/html/build-an-atom/1.9.3/build-an-atom_en.html",
+      "version": "1.9.3",
+      "sha256": "fd823e6bd8ac0f932bb0db5f370056f6ebdf437469964bbe45f29e9e2bdef5fc",
+      "size_bytes": 2993946,
+      "embedded_version": "1.9.3",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aAtom\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aSymbol\u202c"
+        },
+        {
+          "index": 3,
+          "name": "\u202aGame\u202c"
+        }
+      ]
+    },
+    {
+      "id": "phet_balancing_chemical_equations",
+      "source_url": "https://phet.colorado.edu/sims/html/balancing-chemical-equations/2.1.2/balancing-chemical-equations_en.html",
+      "version": "2.1.2",
+      "sha256": "cc2519edbbf198eb9d200549facb950a8293c478a390fedce0638f7281bf368a",
+      "size_bytes": 2696270,
+      "embedded_version": "2.1.2",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aEquations\u202c"
+        },
+        {
+          "index": 3,
+          "name": "\u202aGame\u202c"
+        }
+      ]
+    },
+    {
+      "id": "phet_natural_selection",
+      "source_url": "https://phet.colorado.edu/sims/html/natural-selection/1.5.15/natural-selection_en.html",
+      "version": "1.5.15",
+      "sha256": "06a982a7faf7be6320496b4a900919b6306e36beb3168ef67fe9a4138606b816",
+      "size_bytes": 3217840,
+      "embedded_version": "1.5.15",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aLab\u202c"
+        }
+      ]
+    },
+    {
+      "id": "phet_fractions_intro",
+      "source_url": "https://phet.colorado.edu/sims/html/fractions-intro/1.0.33/fractions-intro_en.html",
+      "version": "1.0.33",
+      "sha256": "e0f25de1a1b27606c5d6a3c7caa257d8edff081498de3a9c212ade9e7356de4b",
+      "size_bytes": 2523247,
+      "embedded_version": "1.0.33",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 1,
+          "name": "\u202aGame\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aLab\u202c"
+        }
+      ]
+    },
+    {
+      "id": "phet_area_builder",
+      "source_url": "https://phet.colorado.edu/sims/html/area-builder/1.1.38/area-builder_en.html",
+      "version": "1.1.38",
+      "sha256": "87f7e3839bca5638f357bf41e7eb9f467e5e8e578749c49d1e015376d2983c7c",
+      "size_bytes": 1283414,
+      "embedded_version": "1.1.38",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": "\u202aExplore\u202c"
+        },
+        {
+          "index": 1,
+          "name": "\u202aGame\u202c"
+        }
+      ]
+    },
+    {
+      "id": "phet_projectile_motion",
+      "source_url": "https://phet.colorado.edu/sims/html/projectile-motion/1.0.34/projectile-motion_en.html",
+      "version": "1.0.34",
+      "sha256": "795b42cafa55910907b0c48e5f0e39071eecc05651af718285218b6749a5c1d3",
+      "size_bytes": 4374424,
+      "embedded_version": "1.0.34",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 1,
+          "name": "\u202aVectors\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aDrag\u202c"
+        },
+        {
+          "index": 3,
+          "name": "\u202aLab\u202c"
+        }
+      ]
+    },
+    {
+      "id": "phet_wave_on_a_string",
+      "source_url": "https://phet.colorado.edu/sims/html/wave-on-a-string/1.2.4/wave-on-a-string_en.html",
+      "version": "1.2.4",
+      "sha256": "42c848192a98a9e53a01e1bc2b0c33a796ed195eed444d4769439cb2643a8192",
+      "size_bytes": 2483396,
+      "embedded_version": "1.2.4",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": ""
+        }
+      ]
+    },
+    {
+      "id": "phet_states_of_matter_basics",
+      "source_url": "https://phet.colorado.edu/sims/html/states-of-matter-basics/1.2.23/states-of-matter-basics_en.html",
+      "version": "1.2.23",
+      "sha256": "134d176ca8012d2eefa61dfdf8a4b0ed2103be06261ec52be13859c564a3ebcf",
+      "size_bytes": 1910507,
+      "embedded_version": "1.2.23",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aStates\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aPhase Changes\u202c"
+        }
+      ]
+    },
+    {
+      "id": "phet_ph_scale_basics_1_7_5_quarantine_20260927",
+      "source_url": "https://phet.colorado.edu/sims/html/ph-scale-basics/1.7.5/ph-scale-basics_en.html",
+      "version": "1.7.5",
+      "sha256": "1e937f17d1093222ead81eab633842b4be4ebced3ab900fbc0584690f8c12d51",
+      "size_bytes": 2519437,
+      "embedded_version": "1.7.5",
+      "original_notices_retained": true,
+      "static_external_references": [
+        {
+          "tag": "script",
+          "attribute": "src",
+          "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495"
+        }
+      ],
+      "static_external_reference_review": "Cloudflare analytics beacon only; blocked during all successful teaching-screen checks.",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": "\u202aMacro\u202c"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "phet_ohms_law--single",
+      "asset_id": "phet_ohms_law",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 0,
+        "name": ""
+      },
+      "changed_and_restored": [
+        "voltageProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_ohms_law--single",
+      "asset_id": "phet_ohms_law",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 0,
+        "name": ""
+      },
+      "changed_and_restored": [
+        "voltageProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_circuit_construction_kit_dc--intro",
+      "asset_id": "phet_circuit_construction_kit_dc",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "circuit.showCurrentProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_circuit_construction_kit_dc--intro",
+      "asset_id": "phet_circuit_construction_kit_dc",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "circuit.showCurrentProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_circuit_construction_kit_dc--lab",
+      "asset_id": "phet_circuit_construction_kit_dc",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aLab\u202c"
+      },
+      "changed_and_restored": [
+        "circuit.showCurrentProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_circuit_construction_kit_dc--lab",
+      "asset_id": "phet_circuit_construction_kit_dc",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aLab\u202c"
+      },
+      "changed_and_restored": [
+        "circuit.showCurrentProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_forces_and_motion_basics--net-force",
+      "asset_id": "phet_forces_and_motion_basics",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aNet Force\u202c"
+      },
+      "changed_and_restored": [
+        "showSumOfForcesProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_forces_and_motion_basics--net-force",
+      "asset_id": "phet_forces_and_motion_basics",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aNet Force\u202c"
+      },
+      "changed_and_restored": [
+        "showSumOfForcesProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_forces_and_motion_basics--motion",
+      "asset_id": "phet_forces_and_motion_basics",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aMotion\u202c"
+      },
+      "changed_and_restored": [
+        "appliedForceProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_forces_and_motion_basics--motion",
+      "asset_id": "phet_forces_and_motion_basics",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aMotion\u202c"
+      },
+      "changed_and_restored": [
+        "appliedForceProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_forces_and_motion_basics--friction",
+      "asset_id": "phet_forces_and_motion_basics",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 3,
+        "name": "\u202aFriction\u202c"
+      },
+      "changed_and_restored": [
+        "appliedForceProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_forces_and_motion_basics--friction",
+      "asset_id": "phet_forces_and_motion_basics",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 3,
+        "name": "\u202aFriction\u202c"
+      },
+      "changed_and_restored": [
+        "appliedForceProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_forces_and_motion_basics--acceleration",
+      "asset_id": "phet_forces_and_motion_basics",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 4,
+        "name": "\u202aAcceleration\u202c"
+      },
+      "changed_and_restored": [
+        "appliedForceProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_forces_and_motion_basics--acceleration",
+      "asset_id": "phet_forces_and_motion_basics",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 4,
+        "name": "\u202aAcceleration\u202c"
+      },
+      "changed_and_restored": [
+        "appliedForceProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_energy_skate_park_basics--intro",
+      "asset_id": "phet_energy_skate_park_basics",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "skater.massProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_energy_skate_park_basics--intro",
+      "asset_id": "phet_energy_skate_park_basics",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "skater.massProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_energy_skate_park_basics--friction",
+      "asset_id": "phet_energy_skate_park_basics",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aFriction\u202c"
+      },
+      "changed_and_restored": [
+        "frictionProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_energy_skate_park_basics--friction",
+      "asset_id": "phet_energy_skate_park_basics",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aFriction\u202c"
+      },
+      "changed_and_restored": [
+        "frictionProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_energy_skate_park_basics--playground",
+      "asset_id": "phet_energy_skate_park_basics",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 3,
+        "name": "\u202aPlayground\u202c"
+      },
+      "changed_and_restored": [
+        "frictionProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_energy_skate_park_basics--playground",
+      "asset_id": "phet_energy_skate_park_basics",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 3,
+        "name": "\u202aPlayground\u202c"
+      },
+      "changed_and_restored": [
+        "frictionProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_pendulum_lab--intro",
+      "asset_id": "phet_pendulum_lab",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 0,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "pendula.0.lengthProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_pendulum_lab--intro",
+      "asset_id": "phet_pendulum_lab",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 0,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "pendula.0.lengthProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_pendulum_lab--energy",
+      "asset_id": "phet_pendulum_lab",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aEnergy\u202c"
+      },
+      "changed_and_restored": [
+        "pendula.0.lengthProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_pendulum_lab--energy",
+      "asset_id": "phet_pendulum_lab",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aEnergy\u202c"
+      },
+      "changed_and_restored": [
+        "pendula.0.lengthProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_pendulum_lab--lab",
+      "asset_id": "phet_pendulum_lab",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aLab\u202c"
+      },
+      "changed_and_restored": [
+        "pendula.0.lengthProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_pendulum_lab--lab",
+      "asset_id": "phet_pendulum_lab",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aLab\u202c"
+      },
+      "changed_and_restored": [
+        "pendula.0.lengthProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_gravity_force_lab_basics--single",
+      "asset_id": "phet_gravity_force_lab_basics",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 0,
+        "name": ""
+      },
+      "changed_and_restored": [
+        "object1.positionProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_gravity_force_lab_basics--single",
+      "asset_id": "phet_gravity_force_lab_basics",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 0,
+        "name": ""
+      },
+      "changed_and_restored": [
+        "object1.positionProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_bending_light--intro",
+      "asset_id": "phet_bending_light",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "laser.onProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_bending_light--intro",
+      "asset_id": "phet_bending_light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "laser.onProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_bending_light--prisms",
+      "asset_id": "phet_bending_light",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aPrisms\u202c"
+      },
+      "changed_and_restored": [
+        "laser.onProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_bending_light--prisms",
+      "asset_id": "phet_bending_light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aPrisms\u202c"
+      },
+      "changed_and_restored": [
+        "laser.onProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_bending_light--more-tools",
+      "asset_id": "phet_bending_light",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 3,
+        "name": "\u202aMore Tools\u202c"
+      },
+      "changed_and_restored": [
+        "laser.onProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_bending_light--more-tools",
+      "asset_id": "phet_bending_light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 3,
+        "name": "\u202aMore Tools\u202c"
+      },
+      "changed_and_restored": [
+        "laser.onProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_build_an_atom--atom",
+      "asset_id": "phet_build_an_atom",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aAtom\u202c"
+      },
+      "changed_and_restored": [
+        "atom.protonCountProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_build_an_atom--atom",
+      "asset_id": "phet_build_an_atom",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aAtom\u202c"
+      },
+      "changed_and_restored": [
+        "atom.protonCountProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_build_an_atom--symbol",
+      "asset_id": "phet_build_an_atom",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aSymbol\u202c"
+      },
+      "changed_and_restored": [
+        "atom.protonCountProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_build_an_atom--symbol",
+      "asset_id": "phet_build_an_atom",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aSymbol\u202c"
+      },
+      "changed_and_restored": [
+        "atom.protonCountProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_balancing_chemical_equations--intro",
+      "asset_id": "phet_balancing_chemical_equations",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "choices.0.equation.reactants.0.coefficientProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_balancing_chemical_equations--intro",
+      "asset_id": "phet_balancing_chemical_equations",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "choices.0.equation.reactants.0.coefficientProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_balancing_chemical_equations--equations",
+      "asset_id": "phet_balancing_chemical_equations",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aEquations\u202c"
+      },
+      "changed_and_restored": [
+        "allEquations.0.reactants.0.coefficientProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_balancing_chemical_equations--equations",
+      "asset_id": "phet_balancing_chemical_equations",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aEquations\u202c"
+      },
+      "changed_and_restored": [
+        "allEquations.0.reactants.0.coefficientProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_natural_selection--intro",
+      "asset_id": "phet_natural_selection",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "generationClock.isRunningProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_natural_selection--intro",
+      "asset_id": "phet_natural_selection",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "generationClock.isRunningProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_natural_selection--lab",
+      "asset_id": "phet_natural_selection",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aLab\u202c"
+      },
+      "changed_and_restored": [
+        "generationClock.isRunningProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_natural_selection--lab",
+      "asset_id": "phet_natural_selection",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aLab\u202c"
+      },
+      "changed_and_restored": [
+        "generationClock.isRunningProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_fractions_intro--intro",
+      "asset_id": "phet_fractions_intro",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 0,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "numeratorProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_fractions_intro--intro",
+      "asset_id": "phet_fractions_intro",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 0,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "numeratorProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_fractions_intro--lab",
+      "asset_id": "phet_fractions_intro",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aLab\u202c"
+      },
+      "changed_and_restored": [
+        "groupsMap.NUMBER._array.0.hasPiecesProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_fractions_intro--lab",
+      "asset_id": "phet_fractions_intro",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aLab\u202c"
+      },
+      "changed_and_restored": [
+        "groupsMap.NUMBER._array.0.hasPiecesProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_area_builder--explore",
+      "asset_id": "phet_area_builder",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 0,
+        "name": "\u202aExplore\u202c"
+      },
+      "changed_and_restored": [
+        "showDimensionsProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_area_builder--explore",
+      "asset_id": "phet_area_builder",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 0,
+        "name": "\u202aExplore\u202c"
+      },
+      "changed_and_restored": [
+        "showDimensionsProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_projectile_motion--intro",
+      "asset_id": "phet_projectile_motion",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 0,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "launchVelocityProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_projectile_motion--intro",
+      "asset_id": "phet_projectile_motion",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 0,
+        "name": "\u202aIntro\u202c"
+      },
+      "changed_and_restored": [
+        "launchVelocityProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_projectile_motion--vectors",
+      "asset_id": "phet_projectile_motion",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aVectors\u202c"
+      },
+      "changed_and_restored": [
+        "launchVelocityProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_projectile_motion--vectors",
+      "asset_id": "phet_projectile_motion",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aVectors\u202c"
+      },
+      "changed_and_restored": [
+        "launchVelocityProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_projectile_motion--drag",
+      "asset_id": "phet_projectile_motion",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aDrag\u202c"
+      },
+      "changed_and_restored": [
+        "launchVelocityProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_projectile_motion--drag",
+      "asset_id": "phet_projectile_motion",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aDrag\u202c"
+      },
+      "changed_and_restored": [
+        "launchVelocityProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_projectile_motion--lab",
+      "asset_id": "phet_projectile_motion",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 3,
+        "name": "\u202aLab\u202c"
+      },
+      "changed_and_restored": [
+        "launchVelocityProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_projectile_motion--lab",
+      "asset_id": "phet_projectile_motion",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 3,
+        "name": "\u202aLab\u202c"
+      },
+      "changed_and_restored": [
+        "launchVelocityProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_wave_on_a_string--single",
+      "asset_id": "phet_wave_on_a_string",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 0,
+        "name": ""
+      },
+      "changed_and_restored": [
+        "dampingProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_wave_on_a_string--single",
+      "asset_id": "phet_wave_on_a_string",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 0,
+        "name": ""
+      },
+      "changed_and_restored": [
+        "dampingProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_states_of_matter_basics--states",
+      "asset_id": "phet_states_of_matter_basics",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aStates\u202c"
+      },
+      "changed_and_restored": [
+        "temperatureSetPointProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_states_of_matter_basics--states",
+      "asset_id": "phet_states_of_matter_basics",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aStates\u202c"
+      },
+      "changed_and_restored": [
+        "temperatureSetPointProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_states_of_matter_basics--phase-changes",
+      "asset_id": "phet_states_of_matter_basics",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aPhase Changes\u202c"
+      },
+      "changed_and_restored": [
+        "temperatureSetPointProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_states_of_matter_basics--phase-changes",
+      "asset_id": "phet_states_of_matter_basics",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 2,
+        "name": "\u202aPhase Changes\u202c"
+      },
+      "changed_and_restored": [
+        "temperatureSetPointProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_ph_scale_basics_1_7_5_quarantine_20260927--macro",
+      "asset_id": "phet_ph_scale_basics_1_7_5_quarantine_20260927",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 0,
+        "name": "\u202aMacro\u202c"
+      },
+      "changed_and_restored": [
+        "solution.soluteVolumeProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_ph_scale_basics_1_7_5_quarantine_20260927--macro",
+      "asset_id": "phet_ph_scale_basics_1_7_5_quarantine_20260927",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 0,
+        "name": "\u202aMacro\u202c"
+      },
+      "changed_and_restored": [
+        "solution.soluteVolumeProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_build_an_atom--game",
+      "asset_id": "phet_build_an_atom",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 3,
+        "name": "\u202aGame\u202c"
+      },
+      "changed_and_restored": [
+        "scoreProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_build_an_atom--game",
+      "asset_id": "phet_build_an_atom",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 3,
+        "name": "\u202aGame\u202c"
+      },
+      "changed_and_restored": [
+        "scoreProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_balancing_chemical_equations--game",
+      "asset_id": "phet_balancing_chemical_equations",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 3,
+        "name": "\u202aGame\u202c"
+      },
+      "changed_and_restored": [
+        "scoreProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_balancing_chemical_equations--game",
+      "asset_id": "phet_balancing_chemical_equations",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 3,
+        "name": "\u202aGame\u202c"
+      },
+      "changed_and_restored": [
+        "scoreProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_fractions_intro--game",
+      "asset_id": "phet_fractions_intro",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aGame\u202c"
+      },
+      "changed_and_restored": [
+        "active_challengeProperty.scoreProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_fractions_intro--game",
+      "asset_id": "phet_fractions_intro",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aGame\u202c"
+      },
+      "changed_and_restored": [
+        "active_challengeProperty.scoreProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_area_builder--game",
+      "asset_id": "phet_area_builder",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aGame\u202c"
+      },
+      "changed_and_restored": [
+        "simSpecificModel.shapePlacementBoard.residentShapes.lengthProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    },
+    {
+      "id": "phet_area_builder--game",
+      "asset_id": "phet_area_builder",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screen": {
+        "index": 1,
+        "name": "\u202aGame\u202c"
+      },
+      "changed_and_restored": [
+        "simSpecificModel.shapePlacementBoard.residentShapes.lengthProperty"
+      ],
+      "blocked_remote_requests": [
+        "https://www.googletagmanager.com/gtm.js",
+        "https://phet.colorado.edu/yotta/immediate.gif",
+        "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "https://phet.colorado.edu/yotta/sanity.gif",
+        "http://phet.colorado.edu/services/check-html-updates"
+      ]
+    }
+  ],
+  "limits": [
+    "Browser emulation does not certify any physical device.",
+    "Finite interactions do not exhaust all generated questions or possible simulation states.",
+    "No source pin is replaced and no catalog status is changed by this report."
+  ]
+}

@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: survivor_wegmann_water_supply_1918
+assignments:
+- topic_id: water-hygiene
+  purpose: reference
+  description: Historical 1918 water-conveyance engineering; not current drinking-water
+    treatment or potable-material guidance.

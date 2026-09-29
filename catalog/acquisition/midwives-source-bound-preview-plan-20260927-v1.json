@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "kind": "midwives-source-bound-preview-plan",
+  "status": "blocked-before-preview",
+  "content_ready": false,
+  "source_manifest": "catalog/acquisition/midwives-digital-source-review-capture-20260927-v3.json",
+  "source_manifest_sha256": "e1aba25d533bfff734c9caa19014c7ce72efd328d0f40afde8fc591aaa41c5da",
+  "inventory": "catalog/acquisition/midwives-digital-inventory-20260927-v2.json",
+  "assessment": "catalog/acquisition/midwives-expansion-assessment-20260927-v2.json",
+  "assessment_sha256": "4f05a199108fc5c146ac4a75bfcb9d9e8f7debc0d9d9488a724ee5cb20b9065b",
+  "capture_root": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3",
+  "proposed_review_root": "/Volumes/General Backup/OWL-acquisition/midwives-digital-review-v1-1tb",
+  "existing_review_allowance_bytes": 1000000000,
+  "budget_proposal": {
+    "original_image_copy_bytes": 74444051,
+    "html_bytes_cap": 276824064,
+    "style_bytes_cap": 65536,
+    "metadata_bytes_cap": 16777216,
+    "scratch_bytes_cap": 67108864,
+    "browser_evidence_bytes_cap": 268435456,
+    "total_storage_cap_bytes": 703655187
+  },
+  "required_order": [
+    "Resolve or explicitly preserve the exact source punctuation anomaly after official rendered-response comparison; no clinical source edit.",
+    "Finish capture and mandatory validation of all 1455 original images.",
+    "Implement and test ordinary HTML conversion for expanded wiki links/images, 778 source headings, nested lists, and the one original wiki-table; unsupported constructs fail closed.",
+    "Keep clinical labels, notes, complete tables, all figures/captions, and absolute-positioned illustration annotations intact.",
+    "Resolve all canonical page/anchor targets; classify optional external reference and publisher-control links explicitly.",
+    "Write a separate owned bounded preview only after shared-ledger preflight, retaining exact source/renderer/asset hashes.",
+    "Verify every required reading/navigation case at desktop and phone widths, with offline network blocking and actual image/figure/clinical-format review.",
+    "Content review/stage remains a separate explicit process; never auto-admit."
+  ],
+  "known_hidden_cases_report": "catalog/acquisition/midwives-renderer-requirements-20260927.json",
+  "edition_scope": "Canonical digital snapshot, with original dated PDF companions retained and print-only differences disclosed.",
+  "license_scope": "Personal OWL source review; preserve notices and permission terms; no redistribution permission asserted."
+}

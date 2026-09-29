@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "body_downloads": 0,
+  "render_heads": [
+    {
+      "url": "https://en.hesperian.org/w/index.php?oldid=103656&action=render",
+      "final_url": "https://en.hesperian.org/w/index.php?oldid=103656&action=render",
+      "method": "HEAD",
+      "body_read": false,
+      "status": 200,
+      "headers": {
+        "content-type": "text/html; charset=UTF-8"
+      },
+      "checked_at": "2026-09-28T00:02:11.279912+00:00",
+      "cached": false
+    },
+    {
+      "url": "https://en.hesperian.org/w/api.php?action=parse&oldid=103656&prop=text&format=json",
+      "final_url": "https://en.hesperian.org/w/api.php?action=parse&oldid=103656&prop=text&format=json",
+      "method": "HEAD",
+      "body_read": false,
+      "status": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8"
+      },
+      "checked_at": "2026-09-28T00:02:11.400172+00:00",
+      "cached": false
+    },
+    {
+      "url": "https://en.hesperian.org/w/rest.php/v1/revision/103656/html",
+      "final_url": "https://en.hesperian.org/w/rest.php/v1/revision/103656/html",
+      "method": "HEAD",
+      "body_read": false,
+      "status": 404,
+      "headers": {
+        "content-type": "text/html; charset=iso-8859-1"
+      },
+      "checked_at": "2026-09-28T00:02:11.498017+00:00",
+      "cached": false
+    }
+  ],
+  "style_revision_metadata": {
+    "batchcomplete": "",
+    "query": {
+      "pages": {
+        "-1": {
+          "ns": 8,
+          "title": "MediaWiki:Vector.css",
+          "missing": "",
+          "contentmodel": "css",
+          "pagelanguage": "en",
+          "pagelanguagehtmlcode": "en",
+          "pagelanguagedir": "ltr"
+        },
+        "904": {
+          "pageid": 904,
+          "ns": 8,
+          "title": "MediaWiki:Common.css",
+          "contentmodel": "css",
+          "pagelanguage": "en",
+          "pagelanguagehtmlcode": "en",
+          "pagelanguagedir": "ltr",
+          "touched": "2024-01-05T20:10:16Z",
+          "lastrevid": 99594,
+          "length": 0,
+          "revisions": [
+            {
+              "revid": 99594,
+              "parentid": 92523,
+              "timestamp": "2024-01-05T20:10:16Z",
+              "size": 0,
+              "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+            }
+          ]
+        },
+        "1148": {
+          "pageid": 1148,
+          "ns": 8,
+          "title": "MediaWiki:Print.css",
+          "contentmodel": "css",
+          "pagelanguage": "en",
+          "pagelanguagehtmlcode": "en",
+          "pagelanguagedir": "ltr",
+          "touched": "2014-10-22T22:03:13Z",
+          "lastrevid": 5779,
+          "length": 3574,
+          "revisions": [
+            {
+              "revid": 5779,
+              "parentid": 5255,
+              "timestamp": "2014-10-22T22:03:13Z",
+              "size": 3574,
+              "sha1": "3b818fb9d3aa1b5c55fd9321e95f1c831e648e1f"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "style_metadata_evidence": [
+    {
+      "url": "https://en.hesperian.org/w/api.php?action=query&titles=MediaWiki%3ACommon.css%7CMediaWiki%3APrint.css%7CMediaWiki%3AVector.css&prop=info%7Crevisions&rvprop=ids%7Ctimestamp%7Csize%7Csha1&format=json",
+      "kind": "metadata",
+      "final_url": "https://en.hesperian.org/w/api.php?action=query&titles=MediaWiki%3ACommon.css%7CMediaWiki%3APrint.css%7CMediaWiki%3AVector.css&prop=info%7Crevisions&rvprop=ids%7Ctimestamp%7Csize%7Csha1&format=json",
+      "status": 200,
+      "size_bytes": 909,
+      "sha256": "5f58d78221eedb6b8df57467964f284ad9168f126bb3d080c19a2af45b8bf069",
+      "checked_at": "2026-09-28T00:02:11.601557+00:00",
+      "content_type": "application/json",
+      "cached": false
+    }
+  ],
+  "decision": "Official rendered responses require exact size before ordinary source capture; metadata does not establish their complete rendered bytes."
+}

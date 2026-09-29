@@ -1,14 +1,10 @@
 id: full-1tb
-title: Survive + rebuild + educate + preserve
+title: Practical library and world maps, with room for optional collections
 capacity_bytes: 1000000000000
-content_target_min_bytes: 750000000000
-content_target_max_bytes: 820000000000
-search_budget_bytes: 40000000000
+discovery_budget_bytes: 16777216
 readers_budget_bytes: 1000000000
 reserve_bytes: 70000000000
 default_resources:
-- owl-direct-core
-- direct-reading-expansion
 - hesperian-health
 - msf-medical
 - who-emergency-care
@@ -17,44 +13,37 @@ default_resources:
 - food-preservation
 - niosh-chemical-hazards
 - fao-agriculture
-- gutenberg-core
-- childrens-library
-- wikipedia-en
-- wikimed
 - wikem
-- regional-maps
+- civilian-preparedness
+- owl-direct-core
+- school-education
+- hand-tools-repair
 - appropedia
 - cd3wd
 - ifixit
 - low-tech-magazine
-- survivor-tier-a
-- stackoverflow-durable
-- stackexchange-practical
-- openstax-core
-- libretexts-stem
+- phet
+- archive-readers
+- wikimed
 - wikibooks-en
 - wiktionary-en
-- phet
-- wikiversity-en
-- civilian-preparedness
-- wikivoyage-en
-- world-factbook
-- linux-programming-docs
-- stackexchange-science
-- wikisource-en
-- ted-ed
-- khan-core-stem
+- stackexchange-practical
+- survivor-tier-a
+- wikipedia-en
+- gutenberg-core
 - world-maps
-- survivor-tier-b
-- stackoverflow-legacy
-- books-culture-expansion
-- complete-courses-expansion
-index_scratch_budget_bytes: 75000000000
-default_editions:
-  gutenberg-core: compact
-  childrens-library: compact
-  stackexchange-practical: compact
-  stackexchange-science: compact
-resource_overrides:
-  regional-maps:
-    target_bytes: 101000000000
+- sare-practical-farming
+- trail-maintenance
+- seed-processing-quality
+- water-supply-maintenance
+required_domains:
+- health
+- water-sanitation
+- food-preservation
+- agriculture
+- shelter
+- navigation
+- repair
+- hand-tools
+- school-math
+- school-science

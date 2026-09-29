@@ -1,0 +1,6 @@
+schema_version: 1
+asset_id: phet_states_of_matter_basics
+assignments:
+- topic_id: chemistry
+  purpose: explanation
+  description: Explore particle behavior in solids, liquids and gases.

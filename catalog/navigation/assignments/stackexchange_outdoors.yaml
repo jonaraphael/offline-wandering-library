@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: stackexchange_outdoors
+assignments:
+- topic_id: outdoor-shelter
+  purpose: reference
+- topic_id: navigation-maps
+  purpose: reference

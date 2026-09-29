@@ -1,0 +1,6 @@
+schema_version: 1
+asset_id: phet_gravity_force_lab_basics
+assignments:
+- topic_id: physics
+  purpose: explanation
+  description: Explore gravitational attraction, object masses and separation.

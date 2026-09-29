@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "content_ready": false,
+  "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-raw-diagnostic-v1-1tb/sources/midwives_digital_page_1147",
+  "whole_response": {
+    "size_bytes": 16564,
+    "sha256": "33ce0dccc6e0bc6fb736a1dfa42dbc649c6f98299ab6f0270ac3a05f51bcd9d1",
+    "sha1": "cb52ce06805973e62571735a3b89ec8c32c62b04"
+  },
+  "prefix_hex": "0a0a0a0a",
+  "canonical_payload": {
+    "size_bytes": 16560,
+    "sha1": "8a42b17e244f9e3b8756bd8fd4cec40a1e5d5250"
+  },
+  "publisher_revision": {
+    "size_bytes": 16560,
+    "sha1": "8a42b17e244f9e3b8756bd8fd4cec40a1e5d5250"
+  },
+  "exact_publisher_match": true,
+  "scope": "One observed raw response. New exact captures must enforce this literal prefix and the frozen publisher payload checksum on every source independently."
+}

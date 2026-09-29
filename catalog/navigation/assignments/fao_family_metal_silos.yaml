@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: fao_family_metal_silos
+assignments:
+- topic_id: food-preservation
+  purpose: reference
+  description: FAO's 2015 construction and storage manual for family-sized cereal
+    and grain-legume silos.

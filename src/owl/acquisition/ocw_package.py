@@ -15,6 +15,7 @@ from ..archive import ZipSource, MAX_EXPLICIT_PACKAGE_BYTES, MAX_ITEM_BYTES
 from ..safety import SafetyError, atomic_write, safe_path, validate_relative
 from .corpus import verify_sources, check_source_identities
 from .ocw_html import localize_html, localize_css, _media_key
+from .ocw_runtime import localize_runtime, MEMBER, POLICY, SOURCE_SHA256
 
 VERSION = 1
 MAX_ISSUES = 20000
@@ -82,6 +83,20 @@ def _layout(recipe, assets):
         outputs[identity] = asset
     if set(outputs) != set(recipe['output_asset_ids']):
         raise SafetyError('OCW output inventory differs from the complete member selection')
+    repairs = selection.get('local_link_repairs', {})
+    if not isinstance(repairs, dict) or any(path not in by_path or not isinstance(links, dict)
+            or any(not isinstance(url, str) or target not in by_path for url, target in links.items())
+            for path, links in repairs.items()):
+        raise SafetyError('OCW explicit link repairs must bind source pages to pinned package members')
+    omissions=selection.get('reviewed_html_omissions',{})
+    if not isinstance(omissions,dict) or any(path not in by_path or not isinstance(rows,list) for path,rows in omissions.items()):
+        raise SafetyError('OCW reviewed omissions must bind exact pinned package pages')
+    runtimes = selection.get('reviewed_runtime_policies', {})
+    if (not isinstance(runtimes, dict) or len(runtimes) > 1 or any(
+            path != MEMBER or path not in by_path or by_path[path]['sha256'] != SOURCE_SHA256
+            or policy != {'policy': POLICY, 'source_sha256': SOURCE_SHA256}
+            for path, policy in runtimes.items())):
+        raise SafetyError('OCW runtime policy must bind the exactly reviewed bundle')
     # Catch file/directory collisions too, before any output is written.
     for destination in destinations:
         if any('/'.join(destination.split('/')[:i]) in destinations for i in range(1, len(destination.split('/')))):
@@ -146,9 +161,11 @@ def _member(source, row):
     return data
 
 
-def _transform(source, by_path, outputs, contexts, row):
+def _transform(source, by_path, outputs, contexts, row, *, local_link_repairs=None, reviewed_html_omissions=None, reviewed_runtime_policies=None):
     data = _member(source, row)
     path = row['path']
+    if path in (reviewed_runtime_policies or {}):
+        return localize_runtime(data, path, reviewed_runtime_policies[path]), [], []
     if not path.lower().endswith(('.html', '.css')):
         return data, [], []
     text = data.decode('utf-8')
@@ -163,7 +180,9 @@ def _transform(source, by_path, outputs, contexts, row):
         for url, binding in media.items() if _media_key(url) in needed
         for variant in binding.get('caption_variants', [{'captions': binding.get('captions', [])}])
         for caption in variant['captions']}
-    result = localize_html(text, media_bindings=media, caption_texts=captions, **kwargs)
+    result = localize_html(text, media_bindings=media, caption_texts=captions,
+        reviewed_omissions=(reviewed_html_omissions or {}).get(path, []),
+        local_link_repairs=(local_link_repairs or {}).get(path, {}), **kwargs)
     return result['html'].encode(), result['issues'], result.get('external_links', [])
 
 
@@ -179,7 +198,10 @@ def inspect_package(recipe, sources, assets):
         if set(source.entries) != set(by_path):
             raise SafetyError('OCW complete member inventory differs from source ZIP')
         for path, row in sorted(by_path.items()):
-            data, found, external = _transform(source, by_path, outputs, contexts, row)
+            data, found, external = _transform(source, by_path, outputs, contexts, row,
+                local_link_repairs=recipe['selection'].get('local_link_repairs'),
+                reviewed_html_omissions=recipe['selection'].get('reviewed_html_omissions'),
+                reviewed_runtime_policies=recipe['selection'].get('reviewed_runtime_policies'))
             total += len(data)
             issues.extend({'document_member': path, **issue} for issue in found)
             if len(issues) > MAX_ISSUES:
@@ -188,6 +210,7 @@ def inspect_package(recipe, sources, assets):
         source.check_source()
     return {'schema_version': 1, 'transformation_version': VERSION, 'content_ready': False,
         'files': len(outputs), 'output_bytes': total, 'issues': issues, 'external_links': links,
+        'reviewed_runtime_policies': recipe['selection'].get('reviewed_runtime_policies', {}),
         'required_reviews': ['English captions, complete exercises and supplied solutions',
             'External readings: essential versus optional', 'Offline browser/media/layout and notices']}
 
@@ -203,7 +226,10 @@ def render(recipe, sources, assets, output_dir, *, output_writer=None):
     with ZipSource(sources[source_id], assets[source_id], max_archive_bytes=MAX_EXPLICIT_PACKAGE_BYTES,
                    allow_long_member_names=True) as source:
         for path, row in sorted(by_path.items()):
-            data, issues, _ = _transform(source, by_path, outputs, contexts, row)
+            data, issues, _ = _transform(source, by_path, outputs, contexts, row,
+                local_link_repairs=recipe['selection'].get('local_link_repairs'),
+                reviewed_html_omissions=recipe['selection'].get('reviewed_html_omissions'),
+                reviewed_runtime_policies=recipe['selection'].get('reviewed_runtime_policies'))
             if issues:
                 raise SafetyError('OCW dependencies changed during rendering')
             target = safe_path(output_dir, outputs[row['output_asset_id']]['destination'])

@@ -22,7 +22,7 @@ class ExtraCatalogTests(unittest.TestCase):
         self.profiles = self.root / 'profiles'
         self.profiles.mkdir()
         self.profile = dict(id='test', capacity_bytes=100_000_000,
-                            reserve_bytes=0, search_budget_bytes=100_000,
+                            reserve_bytes=0, discovery_budget_bytes=100_000,
                             default_resources=['core'])
         (self.profiles/'test.yaml').write_text(yaml.safe_dump(self.profile))
         self.base = self.asset('source', 'BOOKS/source.txt', b'Original source contents')

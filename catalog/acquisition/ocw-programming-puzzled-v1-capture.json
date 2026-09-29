@@ -1,0 +1,850 @@
+{
+  "budget": {
+    "cache_bytes": 0,
+    "download_bytes": 1143586422,
+    "expanded_bytes": 0,
+    "preview_bytes": 1500000000,
+    "scratch_bytes": 1048576
+  },
+  "content_ready": false,
+  "id": "ocw-programming-puzzled-v1",
+  "kind": "acquisition",
+  "metadata_allowance_bytes": 1344656,
+  "profile": "full-1tb",
+  "review_requirements": [
+    "Source inputs remain unapproved. Frozen optional tag policies preserve original teaching text, notes, assignments, solutions and navigation.",
+    "Complete ordinary output review, observed playback, teaching legibility, captions and notices remain required. No ZIP input or decorative support receives useful-content credit."
+  ],
+  "schema_version": 1,
+  "sources": [
+    {
+      "course_id": "6-s095-programming-for-the-puzzled-january-iap-2018",
+      "id": "ocw_9b2b8cfd95268b1859de",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "4223cabdacd2ce8f52fdb31c80560d516ba5df36646174a3dfc6bf923ff67eca",
+          "size_bytes": 3518,
+          "url": "https://ocw.mit.edu/courses/6-s095-programming-for-the-puzzled-january-iap-2018/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "778307b420015b74b7574f284716e2e26a3a9380bb5a4e15831d4aecde82f0be",
+          "size_bytes": 114125,
+          "url": "https://ocw.mit.edu/courses/6-s095-programming-for-the-puzzled-january-iap-2018/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:21:49.435744+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-s095-programming-for-the-puzzled-january-iap-2018/6.s095-january-iap-2018.zip",
+            "headers": {
+              "content-length": "18564735",
+              "content-type": "application/zip",
+              "etag": "\"255bc29530fc8bfe84b0d9821511f778-3\"",
+              "last-modified": "Tue, 15 Sep 2026 10:09:47 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-s095-programming-for-the-puzzled-january-iap-2018/6.s095-january-iap-2018.zip"
+          },
+          "sha256": "31cd744676096eed1f9434c699917f6e0ffc1ccd549d9f025e55cf192ebf65ab",
+          "url": "https://ocw.mit.edu/courses/6-s095-programming-for-the-puzzled-january-iap-2018/6.s095-january-iap-2018.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+      "size_bytes": 18564735,
+      "source_url": "https://ocw.mit.edu/courses/6-s095-programming-for-the-puzzled-january-iap-2018/6.s095-january-iap-2018.zip",
+      "version": "6-s095-programming-for-the-puzzled-january-iap-2018-metadata-4223cabdacd2ce8f",
+      "work_id": "ocw:8fd24212-1377-4a6d-8f6d-2f1a1ca77f42"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_378417153cae74f21063.mp4",
+        "format": "mp4",
+        "id": "ocw_media_378417153cae74f21063",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 87998695,
+        "source_page": "https://archive.org/details/MIT6.S095IAP18",
+        "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_01_300k.mp4",
+        "title": "Puzzle 1: You Will All Conform",
+        "version": "archive-mtime:1525363881"
+      },
+      "id": "ocw_media_378417153cae74f21063",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "e854c4206ab31cace039072a58caa5d151fa5e7925bd2e46123580323a0c4073",
+          "url": "https://archive.org/metadata/MIT6.S095IAP18"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "e28e9198",
+        "md5": "60646a708d3b9da27c4cf474a7b8fbcb",
+        "sha1": "a50c2e408c3024e6becd601531adae31bceccef0"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Programming for the Puzzled"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/puzzle-1-you-will-all-conform/data.json",
+            "sha256": "c6af4f1f46eec301c0c44e4ab5176433e4bbd914a1c4ed7bfd0637df44bd1a70",
+            "size_bytes": 1650
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+            "source_id": "ocw_9b2b8cfd95268b1859de"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "2256.09",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 87998695,
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_01_300k.mp4",
+      "version": "archive-mtime:1525363881"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_bf2aaa4082182ab47834.mp4",
+        "format": "mp4",
+        "id": "ocw_media_bf2aaa4082182ab47834",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 62728144,
+        "source_page": "https://archive.org/details/MIT6.S095IAP18",
+        "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_02_300k.mp4",
+        "title": "Puzzle 2: The Best Time to Party",
+        "version": "archive-mtime:1525363916"
+      },
+      "id": "ocw_media_bf2aaa4082182ab47834",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "e854c4206ab31cace039072a58caa5d151fa5e7925bd2e46123580323a0c4073",
+          "url": "https://archive.org/metadata/MIT6.S095IAP18"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "3470671a",
+        "md5": "b06b4c8dd663fc3cd42319fa9684b948",
+        "sha1": "f157deba3b7906c0dca8830f5771b2038e2406d0"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Programming for the Puzzled"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/puzzle-2-the-best-time-to-party/data.json",
+            "sha256": "098eca06903bbeaa2f51cdd4d4f688efa9cddfb2711da033859c20d2ade298ee",
+            "size_bytes": 1717
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+            "source_id": "ocw_9b2b8cfd95268b1859de"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "1609.81",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 62728144,
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_02_300k.mp4",
+      "version": "archive-mtime:1525363916"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_f153b052c52a9d192e39.mp4",
+        "format": "mp4",
+        "id": "ocw_media_f153b052c52a9d192e39",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 109132665,
+        "source_page": "https://archive.org/details/MIT6.S095IAP18",
+        "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_03_300k.mp4",
+        "title": "Puzzle 3: You Can Read Minds (with a little calibration)",
+        "version": "archive-mtime:1525363855"
+      },
+      "id": "ocw_media_f153b052c52a9d192e39",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "e854c4206ab31cace039072a58caa5d151fa5e7925bd2e46123580323a0c4073",
+          "url": "https://archive.org/metadata/MIT6.S095IAP18"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "81657bb9",
+        "md5": "00ecaa284f6afb4f8290c00fc90780c6",
+        "sha1": "f58ccc04f00afa1cdc4e4e25c7e2317466c4bd2f"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Programming for the Puzzled"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/puzzle-3-you-can-read-minds/data.json",
+            "sha256": "3651824fb1a79767a04e90783a49a17fb1963eab7f0b132b8374f8bfc919cd96",
+            "size_bytes": 1666
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+            "source_id": "ocw_9b2b8cfd95268b1859de"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "2818.75",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 109132665,
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_03_300k.mp4",
+      "version": "archive-mtime:1525363855"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_44165d3d685113525c93.mp4",
+        "format": "mp4",
+        "id": "ocw_media_44165d3d685113525c93",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 123552002,
+        "source_page": "https://archive.org/details/MIT6.S095IAP18",
+        "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_04_300k.mp4",
+        "title": "Puzzle 4: Please Do Break the Crystal",
+        "version": "archive-mtime:1525363827"
+      },
+      "id": "ocw_media_44165d3d685113525c93",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "e854c4206ab31cace039072a58caa5d151fa5e7925bd2e46123580323a0c4073",
+          "url": "https://archive.org/metadata/MIT6.S095IAP18"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "ef7b64ec",
+        "md5": "4ae7bb2b22ee9a9edc93528f6a6db9c8",
+        "sha1": "968df2a8e780cca4d9421adc6554aca82478d443"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Programming for the Puzzled"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/puzzle-4-please-do-break-the-crystal/data.json",
+            "sha256": "b716fb47270acf23796358d40b532b4dbad234f122c897781f59ff688934f0bf",
+            "size_bytes": 1694
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+            "source_id": "ocw_9b2b8cfd95268b1859de"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "3184.26",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 123552002,
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_04_300k.mp4",
+      "version": "archive-mtime:1525363827"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_1ea021e34769d45ce000.mp4",
+        "format": "mp4",
+        "id": "ocw_media_1ea021e34769d45ce000",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 122620740,
+        "source_page": "https://archive.org/details/MIT6.S095IAP18",
+        "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_05_300k.mp4",
+        "title": "Puzzle 5: Keep Those Queens Apart",
+        "version": "archive-mtime:1525363842"
+      },
+      "id": "ocw_media_1ea021e34769d45ce000",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "e854c4206ab31cace039072a58caa5d151fa5e7925bd2e46123580323a0c4073",
+          "url": "https://archive.org/metadata/MIT6.S095IAP18"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "d8d66aa9",
+        "md5": "59ab27c5cca4045062871a4875bda655",
+        "sha1": "f830a1c319bd31361bc3b3ce232feba6bd5b93c3"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Programming for the Puzzled"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/puzzle-5-keep-those-queens-apart/data.json",
+            "sha256": "dd7eb68693bf68830ea46d0b624b1cc3a796ddac8da60716f9f10c350404466b",
+            "size_bytes": 1670
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+            "source_id": "ocw_9b2b8cfd95268b1859de"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "3163.88",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 122620740,
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_05_300k.mp4",
+      "version": "archive-mtime:1525363842"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_3b51101745a1ea82cc97.mp4",
+        "format": "mp4",
+        "id": "ocw_media_3b51101745a1ea82cc97",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 63477234,
+        "source_page": "https://archive.org/details/MIT6.S095IAP18",
+        "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_06_300k.mp4",
+        "title": "Puzzle 6: A Profusion of Queens",
+        "version": "archive-mtime:1525363907"
+      },
+      "id": "ocw_media_3b51101745a1ea82cc97",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "e854c4206ab31cace039072a58caa5d151fa5e7925bd2e46123580323a0c4073",
+          "url": "https://archive.org/metadata/MIT6.S095IAP18"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "b661e29a",
+        "md5": "6a902c74e31d3efe3e50b732ae74be35",
+        "sha1": "e2a683c479be53be96e3b222c37ce1476fa878a1"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Programming for the Puzzled"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/puzzle-6-a-profusion-of-queens/data.json",
+            "sha256": "71ca1d3649dac43c2dcec46e1263c2162edd4d97843d244759cb2c3e8f123673",
+            "size_bytes": 1670
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+            "source_id": "ocw_9b2b8cfd95268b1859de"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "1622.19",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 63477234,
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_06_300k.mp4",
+      "version": "archive-mtime:1525363907"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_c694067256241a4af677.mp4",
+        "format": "mp4",
+        "id": "ocw_media_c694067256241a4af677",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 65665433,
+        "source_page": "https://archive.org/details/MIT6.S095IAP18",
+        "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_07_300k.mp4",
+        "title": "Puzzle 7: Tile that Courtyard, Please",
+        "version": "archive-mtime:1525363897"
+      },
+      "id": "ocw_media_c694067256241a4af677",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "e854c4206ab31cace039072a58caa5d151fa5e7925bd2e46123580323a0c4073",
+          "url": "https://archive.org/metadata/MIT6.S095IAP18"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "3f98a059",
+        "md5": "266a854e2e178b441b5fb4c3053056f2",
+        "sha1": "133c4dd351e0d755d1ba9c8287ea500bfd1b8b94"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Programming for the Puzzled"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/puzzle-7-tile-that-courtyard-please/data.json",
+            "sha256": "b6c7254c5d8f1fea7ba464479a1d0c58484a316ba741817f4f8ca279a3758ebf",
+            "size_bytes": 1689
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+            "source_id": "ocw_9b2b8cfd95268b1859de"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "1681.94",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 65665433,
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_07_300k.mp4",
+      "version": "archive-mtime:1525363897"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_26875725d1ac5f94d7e4.mp4",
+        "format": "mp4",
+        "id": "ocw_media_26875725d1ac5f94d7e4",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 126683251,
+        "source_page": "https://archive.org/details/MIT6.S095IAP18",
+        "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_08_300k.mp4",
+        "title": "Puzzle 8: You Won't Want to Play Sudoku Again",
+        "version": "archive-mtime:1525363797"
+      },
+      "id": "ocw_media_26875725d1ac5f94d7e4",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "e854c4206ab31cace039072a58caa5d151fa5e7925bd2e46123580323a0c4073",
+          "url": "https://archive.org/metadata/MIT6.S095IAP18"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "74c83ebc",
+        "md5": "82013699e158713b30fdf332afa16c17",
+        "sha1": "979ad56bbaf63582df6087f2c33947405f8b912d"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Programming for the Puzzled"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/puzzle-8-you-wont-want-to-play-sudoku-again/data.json",
+            "sha256": "6fa38dc236feece542794d4567c55f8de90da8b01e626dcf15ebe9015840bddc",
+            "size_bytes": 1698
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+            "source_id": "ocw_9b2b8cfd95268b1859de"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "3262.12",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 126683251,
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_08_300k.mp4",
+      "version": "archive-mtime:1525363797"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_65f5f62a1780439a04d7.mp4",
+        "format": "mp4",
+        "id": "ocw_media_65f5f62a1780439a04d7",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 132470400,
+        "source_page": "https://archive.org/details/MIT6.S095IAP18",
+        "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_09_300k.mp4",
+        "title": "Puzzle 9: The Disorganized Handyman",
+        "version": "archive-mtime:1525363773"
+      },
+      "id": "ocw_media_65f5f62a1780439a04d7",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "e854c4206ab31cace039072a58caa5d151fa5e7925bd2e46123580323a0c4073",
+          "url": "https://archive.org/metadata/MIT6.S095IAP18"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "eb7b0038",
+        "md5": "26e4b2f11a742d3c27584a5fcab0237a",
+        "sha1": "c3a36d330907a3018c58d315063497ba598f2c62"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Programming for the Puzzled"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/puzzle-9-the-disorganized-handyman/data.json",
+            "sha256": "b5b24275591caa3df6f104a247128f2543ad6e93e5aac783a3c6f7727c59b43c",
+            "size_bytes": 1681
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+            "source_id": "ocw_9b2b8cfd95268b1859de"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "3421.42",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 132470400,
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_09_300k.mp4",
+      "version": "archive-mtime:1525363773"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_6b5a4907af6a54b4f625.mp4",
+        "format": "mp4",
+        "id": "ocw_media_6b5a4907af6a54b4f625",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 105303552,
+        "source_page": "https://archive.org/details/MIT6.S095IAP18",
+        "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_10_300k.mp4",
+        "title": "Puzzle 10: A Weekend To Remember",
+        "version": "archive-mtime:1525363868"
+      },
+      "id": "ocw_media_6b5a4907af6a54b4f625",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "e854c4206ab31cace039072a58caa5d151fa5e7925bd2e46123580323a0c4073",
+          "url": "https://archive.org/metadata/MIT6.S095IAP18"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "c8e2f1d4",
+        "md5": "85a5a7f8fe986399981e470fccff1b02",
+        "sha1": "4b812a7ba92a4aa326a8643b6957db555f34a663"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Programming for the Puzzled"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/puzzle-10-a-weekend-to-remember/data.json",
+            "sha256": "b5cc3d7c7beb1caa504cee9154c79301356b8d9713ba7ab8bc16d17da937a170",
+            "size_bytes": 1668
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+            "source_id": "ocw_9b2b8cfd95268b1859de"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "2719.55",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 105303552,
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_10_300k.mp4",
+      "version": "archive-mtime:1525363868"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_8c9a4ea9762331d24b5f.mp4",
+        "format": "mp4",
+        "id": "ocw_media_8c9a4ea9762331d24b5f",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 125389571,
+        "source_page": "https://archive.org/details/MIT6.S095IAP18",
+        "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_11_300k.mp4",
+        "title": "Puzzle 11: Memory Serves You Well",
+        "version": "archive-mtime:1525363812"
+      },
+      "id": "ocw_media_8c9a4ea9762331d24b5f",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "e854c4206ab31cace039072a58caa5d151fa5e7925bd2e46123580323a0c4073",
+          "url": "https://archive.org/metadata/MIT6.S095IAP18"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "1c686b4c",
+        "md5": "46e2301a310e5cf1c69e8b794d3d3a9b",
+        "sha1": "720d8c7a4b37ffc63473d178c029f951ab5670c1"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Programming for the Puzzled"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/puzzle-11-memory-serves-you-well/data.json",
+            "sha256": "d8dd97e0f6583b217338a35a52397578adb29957a43f2e6d97479e368b2dbc52",
+            "size_bytes": 1662
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+            "source_id": "ocw_9b2b8cfd95268b1859de"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "3244.57",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 125389571,
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_11_300k.mp4",
+      "version": "archive-mtime:1525363812"
+    }
+  ],
+  "storage_peak_bytes": 2645979654
+}

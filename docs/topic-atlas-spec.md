@@ -194,18 +194,20 @@ Keep download/integrity metadata in the existing asset catalog. Add a small
 navigation metadata layer; do not duplicate URLs, license declarations, sizes,
 or checksums throughout topic assignments.
 
-Proposed input layout, to be created only during implementation:
+Implemented input layout:
 
 ```text
 catalog/navigation/
 ├── topics.yaml
-├── assignments.yaml
+├── assignments/
+│   └── <asset-id>.yaml
 └── sections/
     └── <asset-id>.yaml
 ```
 
-Files may be split later for editorial convenience without changing the model.
-Use the existing YAML dependency. No new database or service is needed at runtime.
+Each assignment file stores one asset's topic links and aliases. The shared topic
+registry is stored once. Use the existing YAML dependency; no new database or
+service is needed at runtime.
 
 ### 5.1 Topic registry
 

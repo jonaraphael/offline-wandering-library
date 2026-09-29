@@ -1,0 +1,21 @@
+schema_version: 1
+asset_id: sare_manage_weeds
+assignments:
+- topic_id: crop-protection
+  purpose: reference
+  aliases:
+  - mechanical weeding
+  - stale seedbed
+  - weed control without herbicides
+  - weed identification
+  - weed seed banks
+  basis: Brief publisher/contents and sampled-page review on 2026-09-28; see catalog/acquisition/practical-discovery-20260928.json.
+- topic_id: crop-production
+  purpose: reference
+  aliases:
+  - mechanical weeding
+  - stale seedbed
+  - weed control without herbicides
+  - weed identification
+  - weed seed banks
+  basis: Brief publisher/contents and sampled-page review on 2026-09-28; see catalog/acquisition/practical-discovery-20260928.json.

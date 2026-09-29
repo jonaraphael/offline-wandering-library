@@ -26,7 +26,7 @@ class ResourceBuildTests(unittest.TestCase):
         self.registry = self.root/'resources.yaml'
         self.target = self.root/'drive'
         self.profile = dict(id='test', title='Test', capacity_bytes=100_000_000,
-            search_budget_bytes=1_000_000, reserve_bytes=1_000_000, default_resources=['core','pending'])
+            discovery_budget_bytes=1_000_000, reserve_bytes=1_000_000, default_resources=['core','pending'])
         self.assets=[]
         for number in (1,2):
             data=f'Illustrated textbook fixture {number}: independent resource selection.\n'.encode()

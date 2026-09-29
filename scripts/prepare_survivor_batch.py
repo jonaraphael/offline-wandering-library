@@ -74,17 +74,42 @@ def shortlist(report):
         'unmatched_topics':unmatched,'warning':'Title matches do not establish completeness, English language, scan quality, safety or topic coverage.'}
 
 
-def freeze(report, selection, probe):
+def selected_rows(report, selection):
     if selection.get('report_sha256')!=_digest(report):raise SafetyError('Candidate selection is bound to different publisher metadata')
     ids=selection.get('candidate_ids',[])
     if not isinstance(ids,list) or not 1<=len(ids)<=100 or len(set(ids))!=len(ids):raise SafetyError('Choose1–100 distinct candidate IDs')
     rows=candidates(report)
     if set(ids)-rows.keys():raise SafetyError('Unknown/excluded/previously accepted candidate ID')
-    sources=[]
-    for identity in ids:
-        row=rows[identity];observed=probe.probe({'id':identity,'url':row['source_url']})
+    return [rows[identity] for identity in ids]
+
+
+def measure(report, selection, probe):
+    """Probe every selected source; one oversized scan must not hide later work."""
+    measured=[]
+    for row in selected_rows(report,selection):
+        observed=probe.probe({'id':row['id'],'url':row['source_url']})
         size=observed.get('size_bytes')
-        if type(size)is not int or not 0<size<=128*1024*1024:raise SafetyError('Missing exact size or source exceeds128MiB scan-review bound: '+identity)
+        measured.append({'id':row['id'],'title':row['title'],'source_url':row['source_url'],
+            'size_bytes':size,'within_default_review_bound':type(size)is int and 0<size<=128*1024*1024,
+            'evidence':[{k:v for k,v in e.items() if k!='cached'} for e in observed['evidence']]})
+    return {'schema_version':1,'content_ready':False,'body_downloads':0,'kind':'survivor-source-measurements',
+        'selection_sha256':_digest(selection),'sources':measured,
+        'measured_source_bytes':sum(r['size_bytes'] for r in measured if type(r['size_bytes'])is int),
+        'exceptions':[r['id'] for r in measured if not r['within_default_review_bound']]}
+
+
+def freeze(report, selection, probe):
+    rows=selected_rows(report,selection)
+    # A larger scan is an explicit, versioned selection decision, not a global
+    # relaxation of the document, ZIP, renderer, or extraction limits.
+    maximum=selection.get('max_source_bytes',128*1024*1024)
+    if type(maximum)is not int or not 1<=maximum<=512*1024*1024:
+        raise SafetyError('Explicit scan source bound must be between1 byte and512MiB')
+    sources=[]
+    for row in rows:
+        identity=row['id'];observed=probe.probe({'id':identity,'url':row['source_url']})
+        size=observed.get('size_bytes')
+        if type(size)is not int or not 0<size<=maximum:raise SafetyError('Missing exact size or source exceeds explicit scan-review bound: '+identity)
         evidence=[{k:v for k,v in e.items() if k!='cached'} for e in observed['evidence']]
         headers=evidence[0].get('headers',{})
         version='publisher-last-modified:'+headers.get('last-modified','unknown')
@@ -110,22 +135,23 @@ def freeze(report, selection, probe):
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['shortlist','freeze'])
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['shortlist','probe','freeze'])
     p.add_argument('--report',type=Path,required=True);p.add_argument('--selection',type=Path)
     p.add_argument('--output',type=Path,required=True);p.add_argument('--offline',action='store_true')
     p.add_argument('--cache',type=Path,default=ROOT/'.owl/acquisition/survivor-candidate-heads')
     a=p.parse_args()
     if a.report.stat().st_size>32*1024*1024:raise SafetyError('Discovery report exceeds32MiB')
     report=json.loads(a.report.read_text())
-    if a.command=='freeze' and not a.selection:p.error('freeze requires explicit --selection')
-    result=shortlist(report) if a.command=='shortlist' else freeze(report,json.loads(a.selection.read_text()),PinProbe(a.cache,offline=a.offline))
+    if a.command in {'freeze','probe'} and not a.selection:p.error('freeze/probe requires explicit --selection')
+    result=shortlist(report) if a.command=='shortlist' else (measure if a.command=='probe' else freeze)(report,json.loads(a.selection.read_text()),PinProbe(a.cache,offline=a.offline))
     data=(json.dumps(result,sort_keys=True,indent=2)+'\n').encode()
     if len(data)>16*1024*1024:raise SafetyError('Frozen report exceeds16MiB')
     if a.output.exists() and a.output.read_bytes()!=data:raise SafetyError('Frozen output differs; use a new version')
     a.output.parent.mkdir(parents=True,exist_ok=True);atomic_write(a.output,data)
     print(json.dumps({'operation':'survivor-'+a.command,'content_ready':False,'body_downloads':0,'output':str(a.output),
         'candidates':result.get('candidate_count',len(result.get('sources',[]))),
-        'source_bytes':result.get('budget',{}).get('download_bytes'),'unmatched_topics':result.get('unmatched_topics',[])},sort_keys=True))
+        'source_bytes':result.get('budget',{}).get('download_bytes',result.get('measured_source_bytes')),
+        'exceptions':result.get('exceptions',[]),'unmatched_topics':result.get('unmatched_topics',[])},sort_keys=True))
 
 
 if __name__=='__main__':main()

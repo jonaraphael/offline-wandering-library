@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "kind": "midwives-boundary-review",
+  "content_ready": false,
+  "sources": [
+    {
+      "id": "hesperian_en_midw_2026_20",
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_20.pdf",
+      "whole_file_sha256": "348b963bad0e80de6d7c46273c91761d50c8dc7e536438441beba747de81d47f",
+      "pdf_page": 19,
+      "pdf_pages": 19,
+      "page_text_sha256": "da4af07e20ed83e49fcbbe3a9bb7b1ba5fbc74912b1af5019f85cc15c535b8ba",
+      "printed_label": 390
+    },
+    {
+      "id": "hesperian_en_midw_2026_21",
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2026/en_midw_2026_21.pdf",
+      "whole_file_sha256": "ea066734886373c1636c17bd6595c9658ae6ffb916dc833c6a352e646eecda11",
+      "pdf_page": 1,
+      "pdf_pages": 12,
+      "page_text_sha256": "748d7a563ea733e06ecd1a1afbfa394ec7bee01405ce7f1c8646745fd385e04a",
+      "printed_label": 392
+    }
+  ],
+  "visual_findings": [
+    "Chapter20 ends with completed bimanual-exam steps8 and9, aftercare and communicating findings, all intact on printed390.",
+    "Chapter21 begins with the IUD chapter contents on printed392. No cutoff or damaged page was observed."
+  ],
+  "same_publisher_digital_comparison": {
+    "url": "https://en.hesperian.org/hhg/A_Book_for_Midwives:The_bimanual_exam_(2-hand_exam)",
+    "revision": 100565,
+    "last_updated": "2024-07-18",
+    "finding": "Official digital section has the same terminal step9 and aftercare/communication sequence; this supports end-of-section continuity but does not prove missing printed391 blank."
+  },
+  "printed_391_disposition": "Still unresolved as a printed-page object. Do not invent a blank page or use this comparison to claim physical-PDF completeness.",
+  "proposed_closure_path": "Review a separately frozen complete current canonical digital edition, preserving all original2026 PDFs until equivalence and offline image/template/link closure pass.",
+  "older_same_edition_candidate": "Publisher-listed2013 frontmatter,chapter20 and backmatter all returned404; no coherent older PDF set available in bounded check."
+}

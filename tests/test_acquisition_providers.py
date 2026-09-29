@@ -279,6 +279,30 @@ class DocumentTests(unittest.TestCase):
                 with self.assertRaisesRegex(DocumentError, message):
                     render(self.recipe, self.sources, self.assets, self.root / "out")
 
+    def test_publisher_ftp_citation_remains_explicitly_online(self):
+        self.add_source('source',b'<article class="guide"><a href="ftp://ftp.gnu.org/pub/gnu/bash/">Original download citation</a></article>', 'https://example.org/guide.html')
+        result=render(self.recipe,self.sources,self.assets,self.root/'ftp')['output'].read_text()
+        self.assertIn('href="ftp://ftp.gnu.org/pub/gnu/bash/"',result)
+        self.assertIn('class="online"',result);self.assertIn('Internet required',result)
+        self.add_source('source',b'<article class="guide"><a href="javascript:alert(1)">Unsafe</a></article>', 'https://example.org/guide.html')
+        with self.assertRaisesRegex(DocumentError,'Unsupported link'):render(self.recipe,self.sources,self.assets,self.root/'unsafe')
+
+    def test_encoded_fragment_and_counted_missing_index_link_keep_valid_local_targets(self):
+        self.add_source('source',b'<article class="guide"><h2 id="See Also">All instructions</h2>'
+                        b'<a href="#See%20Also">Encoded title</a><a href="#missing-option">Option index</a>'
+                        b'<a id="" href="#">Top of document</a></article>', 'https://example.org/guide.html')
+        section=self.recipe['selection']['outputs'][0]['sections'][0]
+        section['fragment_repairs']=[{'from':'#missing-option','to':'#See%20Also','expected_count':1}]
+        result=render(self.recipe,self.sources,self.assets,self.root/'encoded')['output'].read_text()
+        self.assertEqual(result.count('href="#s0-See Also"'),2)
+        self.assertIn('href="#">Top of document</a>',result)
+        self.assertNotIn('id=""',result)
+        self.assertIn('All instructions',result);self.assertIn('Option index',result)
+        section['fragment_repairs'][0]['expected_count']=2
+        with self.assertRaisesRegex(DocumentError,'occurrence count'):render(self.recipe,self.sources,self.assets,self.root/'changed')
+        section['fragment_repairs'][0].update(expected_count=1,to='#absent')
+        with self.assertRaisesRegex(DocumentError,'existing unique target'):render(self.recipe,self.sources,self.assets,self.root/'absent')
+
     def test_legacy_named_anchors_rewrite_and_duplicate_names_fail(self):
         self.add_source("source", b'<article class="guide"><a href="#table1">Table</a>'
                         b'<a name="table1"></a><table><tr><td>Complete</td></tr></table></article>',
@@ -290,6 +314,27 @@ class DocumentTests(unittest.TestCase):
                         "https://example.org/guide.html")
         with self.assertRaisesRegex(DocumentError, "Duplicate"):
             render(self.recipe, self.sources, self.assets, self.root / "bad")
+
+    def test_source_bound_duplicate_anchor_repair_preserves_content_and_first_target(self):
+        body=(b'<article class="guide"><a href="#v245">First canonical release badge</a>'
+              b'<a id="v245" name="v245">Added in245</a><p>Keep first instructions</p>'
+              b'<a id="v245">Added in245</a><p>Keep second instructions</p></article>')
+        self.add_source('source',body,'https://example.org/guide.html')
+        section=self.recipe['selection']['outputs'][0]['sections'][0]
+        with self.assertRaisesRegex(DocumentError,'Duplicate selected'):render(self.recipe,self.sources,self.assets,self.root/'missing-policy')
+        section['duplicate_id_counts']={'v245':2}
+        output=render(self.recipe,self.sources,self.assets,self.root/'repaired')['output'].read_text()
+        self.assertEqual(output.count('id="s0-v245"'),1)
+        self.assertIn('id="s0-v245--owl-duplicate-2"',output)
+        self.assertIn('href="#s0-v245"',output)
+        self.assertEqual(output.count('Added in245'),2)
+        self.assertIn('Keep first instructions',output);self.assertIn('Keep second instructions',output)
+        section['duplicate_id_counts']={'v245':3}
+        with self.assertRaisesRegex(DocumentError,'repair counts'):render(self.recipe,self.sources,self.assets,self.root/'changed-count')
+        section['duplicate_id_counts']={'v245':2}
+        self.add_source('source',body.replace(b'</article>',b'<span id="v245--owl-duplicate-2">Publisher target</span></article>'),'https://example.org/guide.html')
+        with self.assertRaisesRegex(DocumentError,'collides'):render(self.recipe,self.sources,self.assets,self.root/'collision')
+        self.assertFalse((self.root/'collision').exists())
 
     def test_cross_recipe_links_jump_to_selected_section_and_original_fragment(self):
         self.add_source("source", b'<article class="guide"><a href="recipe.html">Whole recipe</a>'

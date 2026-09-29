@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "title": "A Book for Midwives:Choosing a family planning method",
+      "payload_sha1": "88968d21bd3e9e08a5b03ff8100e1e7d9ec5246e",
+      "whole_response_sha256": "cb05142088a19dceb6f3340718306550210bed44da26aa0ea26fb3e7ae0269ea",
+      "payload_byte_offset": 57293,
+      "literal_hex": "7d7d",
+      "comparison_report_sha256": "36ec791a0fc604bcd2d41dd5dab9a3f70260d64cbf84b10f4a9388a1e57d691e",
+      "official_render_sha256": "4f9e2f154d08202c48b1b01c238561455bdcf75fd630c7173f718276989a27ea",
+      "handling": "Preserve the two closing braces unchanged as literal source punctuation."
+    }
+  ]
+}

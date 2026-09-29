@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: fao_fresh_produce_packinghouse
+assignments:
+- topic_id: food-preservation
+  purpose: reference
+  description: FAO's 2012 fresh-produce packing-house manual for facility design,
+    handling and operation.

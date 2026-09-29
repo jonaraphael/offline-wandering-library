@@ -1,11 +1,41 @@
 id: critical-64gb
-title: Expanded medical, engineering and education library
+title: Practical library with dictionaries and trade references
 capacity_bytes: 64000000000
 reserve_bytes: 6000000000
-search_budget_bytes: 4000000000
-minimum_coverage:
-  textbooks: 22
-  illustrated-guides: 40
-index_scratch_budget_bytes: 12000000000
-content_target_min_bytes: 38000000000
-content_target_max_bytes: 45000000000
+discovery_budget_bytes: 16777216
+default_resources:
+- hesperian-health
+- msf-medical
+- who-emergency-care
+- who-wash
+- sphere-handbook
+- food-preservation
+- niosh-chemical-hazards
+- fao-agriculture
+- wikem
+- civilian-preparedness
+- owl-direct-core
+- school-education
+- hand-tools-repair
+- appropedia
+- cd3wd
+- ifixit
+- low-tech-magazine
+- phet
+- archive-readers
+- wikimed
+- wikibooks-en
+- wiktionary-en
+- stackexchange-practical
+- survivor-tier-a
+required_domains:
+- health
+- water-sanitation
+- food-preservation
+- agriculture
+- shelter
+- navigation
+- repair
+- hand-tools
+- school-math
+- school-science

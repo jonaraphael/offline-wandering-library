@@ -1,0 +1,6 @@
+schema_version: 1
+asset_id: phet_bending_light
+assignments:
+- topic_id: physics
+  purpose: explanation
+  description: Explore light reflection and refraction at material boundaries.

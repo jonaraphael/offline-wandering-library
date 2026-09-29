@@ -2,11 +2,8 @@
 (function (root) {
   "use strict";
   const READERS = "archive-readers", OVERHEAD = 16 * 1024 * 1024;
-  const DIRECT = new Set(["html", "htm", "pdf", "txt", "md", "png", "jpg", "jpeg"]);
   const isSoftware = asset => asset.destination.split("/")[0] === "SOFTWARE";
   const isDocument = asset => !asset.supporting_file && asset.archive_member?.document !== false;
-  const isDirect = asset => isDocument(asset) && DIRECT.has(asset.format.toLowerCase()) && !asset.reader_required &&
-    !["SOFTWARE", "ZIM"].includes(asset.destination.split("/")[0]) && !isSoftware(asset);
   const mapById = rows => Object.fromEntries(rows.map(row => [row.id, row]));
   const sum = values => values.reduce((total, value) => total + value, 0);
   function profileFor(model, id) {
@@ -17,22 +14,9 @@
   function preset(model, id) {
     const profile = profileFor(model, id), defaults = new Set(profile.preset_resource_ids);
     return {profile: id, allowIncomplete: false, atlas: model.atlas_available !== false,
-      indexCacheDir: ".owl/index-cache", workDir: ".owl/index-work", indexCacheBudgetBytes: profile.search_budget_bytes,
       items: Object.fromEntries(model.resources.map(row =>
       [row.id, {included: defaults.has(row.id), edition: !profile.default_resources && defaults.has(row.id) ? "preset" :
         (profile.default_editions?.[row.id] || "published")}]))};
-  }
-  function indexStorage(state) {
-    const errors = [];
-    for (const [key, label] of [["indexCacheDir", "Shared index cache directory"], ["workDir", "Index workspace directory"]]) {
-      const path = state[key];
-      if (typeof path !== "string" || !path.trim() || path.startsWith("-") || /[\x00-\x1f\x7f]/.test(path))
-        errors.push(label + " must be a nonempty path without control characters or a leading dash.");
-    }
-    const value = state.indexCacheBudgetBytes, budget = Number(value);
-    if (!["number", "string"].includes(typeof value) || !/^\d+$/.test(String(value)) || !Number.isSafeInteger(budget) || budget <= 0)
-      errors.push("Retained index cache allowance must be a positive whole number of bytes (at most 9007199254740991).");
-    return {errors, budget: errors.length ? null : budget};
   }
   function selectionArgs(model, state) {
     const profile = profileFor(model, state.profile), defaults = new Set(profile.preset_resource_ids);
@@ -50,9 +34,13 @@
     return {include, exclude, editions};
   }
   function resolve(model, state) {
+    const DIRECT = new Set(model.direct_reading_formats || []);
+  const isDirect = asset => isDocument(asset) && DIRECT.has(asset.format.toLowerCase()) && !asset.reader_required &&
+    !["SOFTWARE", "ZIM"].includes(asset.destination.split("/")[0]) && !isSoftware(asset);
+
     const profile = profileFor(model, state.profile), resources = mapById(model.resources), assets = mapById(model.assets);
     const args = selectionArgs(model, state), selected = new Set(profile.default_resources || []);
-    const storage = indexStorage(state), errors = [...storage.errors], warnings = [], overrides = profile.resource_overrides || {};
+    const errors = [], warnings = [], overrides = profile.resource_overrides || {};
     args.include.forEach(id => selected.add(id)); args.exclude.forEach(id => selected.delete(id));
     const variants = {}, members = {}, credits = {}, replaced = new Set();
     for (const id of selected) {
@@ -190,19 +178,14 @@
     const contentTargetBytes = sum(Object.entries(rowsById).filter(([id]) => id !== READERS).map(([, row]) => row.targetBytes)) + baselineBytes;
     const readerBytes = rowsById[READERS] ? Math.max(profile.readers_budget_bytes || 0, rowsById[READERS].targetBytes) : 0;
     const intendedBytes = Math.max(knownBytes, contentTargetBytes + readerBytes);
-    const finalBytes = intendedBytes + profile.search_budget_bytes + OVERHEAD + acquisitionBytes;
-    const scratchBytes = profile.index_scratch_budget_bytes ?? 2 * profile.search_budget_bytes;
-    const serializationBytes = Math.ceil(3 * profile.search_budget_bytes / 4);
-    const extractionBytes = scratchBytes - serializationBytes;
-    // The verified raw index survives both phases. The owned extraction
-    // database/records are released before browser search files are written.
-    const phaseWorkingBytes = serializationBytes + Math.max(extractionBytes, profile.search_budget_bytes);
+    const finalBytes = intendedBytes + profile.discovery_budget_bytes + OVERHEAD + acquisitionBytes;
+    const phaseWorkingBytes = profile.discovery_budget_bytes;
     const peakBytes = intendedBytes + OVERHEAD + profile.reserve_bytes + Math.max(phaseWorkingBytes, buildInputWorkBytes) + acquisitionBytes;
     const actualPeakBytes = knownBytes + OVERHEAD + profile.reserve_bytes + Math.max(phaseWorkingBytes, buildInputWorkBytes) + acquisitionBytes;
     if (finalBytes + profile.reserve_bytes > profile.capacity_bytes) errors.push("Selected content plus search and reserve exceeds this drive size.");
     if (!pinnedIds.length) errors.push("No verified downloadable files are selected.");
     if (actualPeakBytes > profile.capacity_bytes) errors.push("Even the verified files exceed the conservative in-place build budget. Select less content or a larger drive.");
-    if (peakBytes > profile.capacity_bytes) warnings.push("The complete intended collection exceeds the in-place build budget, including temporary search files. It does not fit as a complete in-place build at these allowances.");
+    if (peakBytes > profile.capacity_bytes) warnings.push("The complete intended collection exceeds the in-place build budget, including discovery output. It does not fit as a complete in-place build at these allowances.");
     if (incomplete.length) warnings.push(incomplete.length + " selected collections need source selection, permissions, or verified files. A partial build contains only currently pinned files.");
     // Count actual cataloged files exactly once, independently of collection planning budgets.
     const pinnedAssets = pinnedIds.map(id => assets[id]);
@@ -271,11 +254,11 @@
          status:resource.status, reason:resource.reason || ""});
       return {id:resource.id, number:resource.number, title:resource.title, included:item.included || autoIncluded.has(resource.id),
         autoIncluded:autoIncluded.has(resource.id), edition:item.edition, options, ...row,
-        scope:subsetOnly ? "Preset subset" : "Full intended collection", include:resource.include || [], preferredFormats:resource.preferred_formats || []};
+        utilityTier:resource.utility_tier || "", utilityReason:resource.utility_reason || "", knowledgeDomains:resource.knowledge_domains || [],
+        scope:subsetOnly ? "Preset subset" : "Published files", include:resource.include || [], preferredFormats:resource.preferred_formats || []};
     });
     const canBuild = errors.length === 0 && (!incomplete.length || state.allowIncomplete);
-    return {rows, estimates:{contentTargetBytes, knownBytes, downloadBytes, buildInputBytes, buildInputExpandedBytes, buildInputWorkBytes, archiveOutputBytes, generatedOutputBytes, acquisitionBytes, readerBytes, searchBytes:profile.search_budget_bytes, scratchBytes,
-      serializationBytes, extractionBytes, phaseWorkingBytes, indexCacheBytes:storage.budget,
+    return {rows, estimates:{contentTargetBytes, knownBytes, downloadBytes, buildInputBytes, buildInputExpandedBytes, buildInputWorkBytes, archiveOutputBytes, generatedOutputBytes, acquisitionBytes, readerBytes, searchBytes:profile.discovery_budget_bytes, phaseWorkingBytes,
       metadataBytes:OVERHEAD, reserveBytes:profile.reserve_bytes, finalBytes, peakBytes, actualPeakBytes, capacityBytes:profile.capacity_bytes},
       coverage, errors, warnings, incomplete, canBuild, selectedAssetIds:pinnedIds.sort(), selectionArgs:args};
   }
@@ -286,8 +269,6 @@
   }
   function command(model, state, options) {
     const report = resolve(model, state);
-    const storage = indexStorage(state);
-    if (storage.errors.length) return "";
     if (!options.plan && !report.canBuild) return "";
     const target = options.target || "";
     if (!target.trim() || target.startsWith("-") || /[\x00-\x1f\x7f]/.test(target)) return "";
@@ -296,8 +277,6 @@
     for (const [flag, value] of Object.entries(model.cli || {})) {
       args.push(flag); if (value !== null) args.push(value);
     }
-    args.push("--index-cache-dir", state.indexCacheDir, "--index-cache-budget-bytes", String(storage.budget),
-      "--work-dir", state.workDir);
     const chosen = report.selectionArgs;
     if (chosen.include.length) args.push("--include", chosen.include.join(","));
     if (chosen.exclude.length) args.push("--exclude", chosen.exclude.join(","));

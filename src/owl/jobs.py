@@ -25,7 +25,7 @@ import time
 import uuid
 
 from .runtime import file_lock, interrupt_signals
-from .safety import SafetyError, atomic_write, guard_directory, reject_symlinks, sha256_file
+from .safety import SafetyError, atomic_write, guard_directory, reject_symlinks, safe_path, sha256_file
 
 SCHEMA = 1
 HEARTBEAT_SECONDS = 2.0
@@ -34,16 +34,27 @@ TAIL_BYTES = 8192
 REPO_ROOT = Path(__file__).resolve().parents[2]
 TERMINAL = {"complete", "failed", "cancelled", "awaiting_review"}
 INPUT_OPTIONS = {"--catalog", "--profiles-dir", "--resources-catalog", "--extra-catalog", "--navigation-dir", "--local-manifest"}
-OUTPUT_OPTIONS = {"--cache-dir", "--work-dir", "--index-cache-dir"}
+OUTPUT_OPTIONS = {"--cache-dir", "--work-dir"}
 TRIAL_SCRIPTS = {
     'trial_supervisor.py': {'run'},
     'prepare_review_packets.py': None,
     'inspect_map_capture.py': None, 'inspect_ocw_packages.py': None,
     'prepare_ocw_preview.py': None, 'inspect_zim_candidates.py': None,
+    'prepare_ocw_followup.py': None,
+    'inspect_survivor_capture.py': None,
+    'check_manual_package.py': None,
+    'prepare_sqlite_package.py': None,
+    'prepare_ocw_complete_preview.py': None,
+    'review_ocw_course.py': None,
+    'inspect_kolibri_capture.py': None,
+    'inspect_kolibri_census.py': None,
+    'probe_source_batches.py': None,
     'prepare_stackoverflow.py': {'inspect'},
     'trial_direct_previews.py': {'run'},
     'acquire_content.py': {'preview', 'inspect-local', 'audit', 'report'},
     'audit_manual_dependencies.py': None,
+    'inspect_midwives_response.py': None,
+    'inspect_midwives_digital.py': None,
 }
 
 
@@ -81,7 +92,7 @@ def _owned(job_dir: Path) -> tuple[Path, dict]:
 
 def _dependencies() -> dict:
     packages = {}
-    for name in ("PyYAML", "pypdf", "cryptography", "fonttools", "libzim", "PyMuPDF"):
+    for name in ("PyYAML", "pypdf", "cryptography", "libzim", "PyMuPDF"):
         try:
             packages[name] = importlib.metadata.version(name)
         except importlib.metadata.PackageNotFoundError:
@@ -111,10 +122,48 @@ def _snapshot(job_dir: Path, argv: list[str], *, scripts=False) -> dict:
         else:
             raise SafetyError(f"Job input is not a regular file/directory: {source}")
 
-    for relative in ("src/owl", "catalog", "profiles", "assets", "docs/sources.md") + (("scripts",) if scripts else ()):
+    for relative in ("src/owl", "profiles", "assets", "docs/sources.md") + (("scripts",) if scripts else ()):
         source = REPO_ROOT / relative
         if source.exists():
             copy(source, snapshot / relative)
+    # Freeze runtime catalogs and their referenced acquisition evidence. Other
+    # candidate histories are independent controls, supplied explicitly by their
+    # jobs; growing discovery history must not fill every worker's snapshot.
+    catalog = REPO_ROOT / "catalog"
+    if catalog.exists():
+        reject_symlinks(catalog)
+        for source in sorted(catalog.iterdir()):
+            if source.name != "acquisition":
+                copy(source, snapshot / "catalog" / source.name)
+        default_recipes = catalog / "acquisition/recipes.yaml"
+        if default_recipes.exists():
+            copy(default_recipes, snapshot / "catalog/acquisition/recipes.yaml")
+        pending = [name for name in manifest if name.startswith("catalog/")]
+        scanned = set()
+        while pending:
+            name = pending.pop()
+            if name in scanned or Path(name).suffix not in {".json", ".yaml", ".yml"}:
+                continue
+            scanned.add(name)
+            import yaml
+            document = snapshot / name
+            body = document.read_text(encoding="utf-8")
+            values = [json.loads(body) if document.suffix == ".json" else yaml.safe_load(body)]
+            visited = 0
+            while values:
+                value = values.pop()
+                visited += 1
+                if visited > 1000000:
+                    raise SafetyError("Catalog snapshot dependency traversal exceeds1,000,000 nodes")
+                if isinstance(value, dict):
+                    values.extend(value.values())
+                elif isinstance(value, list):
+                    values.extend(value)
+                elif isinstance(value, str) and value.startswith("catalog/acquisition/"):
+                    source = safe_path(REPO_ROOT, value)
+                    if source.is_file() and value not in manifest:
+                        copy(source, snapshot / value)
+                        pending.append(value)
     captured = []
     index = 0
     target_seen = False
@@ -130,7 +179,9 @@ def _snapshot(job_dir: Path, argv: list[str], *, scripts=False) -> dict:
             value = inline if separator else argv[index]
             source = _path(Path(value))
             if option in INPUT_OPTIONS:
-                destination = snapshot / "inputs" / str(index) / source.name
+                destination = (snapshot / "catalog/library.yaml" if option == "--catalog" and
+                    source == (REPO_ROOT / "catalog/library.yaml").resolve() else
+                    snapshot / "inputs" / str(index) / source.name)
                 copy(source, destination)
                 if source.is_file() and option == "--catalog":
                     sibling = source.with_name("resources.yaml")
@@ -143,7 +194,7 @@ def _snapshot(job_dir: Path, argv: list[str], *, scripts=False) -> dict:
         else:
             # Build CLI's target is the sole positional value. Known options
             # with scalar values must not have their values mistaken for it.
-            if token in {"--profile", "--include", "--exclude", "--edition", "--index-mode", "--index-cache-budget-bytes"}:
+            if token in {"--profile", "--include", "--exclude", "--edition"}:
                 captured.append(token)
                 index += 1
                 if index >= len(argv):
@@ -229,7 +280,7 @@ def start_job(build_argv: list[str], *, job_dir: Path, max_attempts=3,
 def start_acquisition_job(manifest, staging, *, job_dir: Path, budget_bytes=None,
                           reserve_bytes=1024 * 1024 * 1024, allow_local=False, production_root=None, local_manifest=None,
                           resource_ids=(), profile=None, max_attempts=3, retry_delay=30.0,
-                          retry_deadline=3600.0) -> dict:
+                          retry_deadline=3600.0, continue_missing_sources=False) -> dict:
     """Snapshot and launch a source-review build; terminal success is not library readiness."""
     from .acquisition.capture import capture
     manifest, staging, job_dir = _path(Path(manifest)), _path(Path(staging)), _path(Path(job_dir))
@@ -237,7 +288,8 @@ def start_acquisition_job(manifest, staging, *, job_dir: Path, budget_bytes=None
         raise SafetyError("Acquisition job and capture directories must be separate owned trees")
     kwargs = {"budget_bytes": budget_bytes, "reserve_bytes": reserve_bytes, "allow_local": bool(allow_local),
               "production_root": str(_path(Path(production_root))) if production_root is not None else None,
-              "resource_ids": list(resource_ids), "profile": profile}
+              "resource_ids": list(resource_ids), "profile": profile,
+              "continue_missing_sources": bool(continue_missing_sources)}
     capture(manifest, staging, plan_only=True, local_manifest=local_manifest, **kwargs)
     policy = _policy(max_attempts, retry_delay, retry_deadline)
     job_dir.mkdir(parents=True, exist_ok=True)
@@ -516,15 +568,20 @@ def _run_worker(job_dir: str, run_id: str) -> int:
                     progress.save(state="running", attempt=attempt)
                     try:
                         if recipe.get("kind", "build") == "acquisition":
-                            from .acquisition.capture import capture
+                            from .acquisition.capture import IncompleteCaptureError, capture
                             configuration = recipe["acquisition"]
                             manifest = Path(configuration["manifest"])
                             snapshot_root = job_dir / "snapshot"
                             if (not manifest.is_relative_to(snapshot_root)
                                     or manifest.relative_to(snapshot_root).as_posix() not in recipe["snapshot_files"]):
                                 raise SafetyError("Acquisition manifest is outside its verified job snapshot")
-                            operation_result = capture(manifest, Path(recipe["target"]),
-                                                       progress=progress, **configuration["kwargs"])
+                            try:
+                                operation_result = capture(manifest, Path(recipe["target"]),
+                                                           progress=progress, **configuration["kwargs"])
+                            except IncompleteCaptureError as error:
+                                atomic_write(job_dir / "result.json", _json(error.report))
+                                progress.save(result_file="result.json")
+                                raise
                             if operation_result.get("status") != "awaiting_review" or operation_result.get("content_ready") is not False:
                                 raise RuntimeError("Acquisition returned without a pending review result")
                             terminal = "awaiting_review"

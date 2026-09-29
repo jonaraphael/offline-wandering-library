@@ -1,0 +1,18 @@
+{
+  "content_ready": false,
+  "local_link_repairs": {
+    "pages/instructor-insights/video-playlist/index.html": {
+      "../../resources/collaboration-as-a-problem-solving-approach/index.html": "resources/collaboration-as-a-problem-solving-approach/index.html",
+      "../../resources/course-iteration/index.html": "resources/course-iteration/index.html",
+      "../../resources/final-projects/index.html": "resources/final-projects/index.html",
+      "../../resources/inspiration-for-developing-the-course/index.html": "resources/inspiration-for-developing-the-course/index.html",
+      "../../resources/inviting-students-to-solve-open-problems/index.html": "resources/inviting-students-to-solve-open-problems/index.html",
+      "../../resources/students-scribing-lecture-notes/index.html": "resources/students-scribing-lecture-notes/index.html",
+      "../../resources/the-role-of-fun-in-research-teaching-and-learning/index.html": "resources/the-role-of-fun-in-research-teaching-and-learning/index.html",
+      "../../resources/using-a-survey-to-get-to-know-students/index.html": "resources/using-a-survey-to-get-to-know-students/index.html"
+    }
+  },
+  "reason": "Eight publisher links on nested instructor-insights/video-playlist incorrectly resolve to pages/resources. Each exact retained target is the corresponding pinned resources/.../index.html member; link labels and complete files remain.",
+  "schema_version": 1,
+  "source_sha256": "a86642c237c5cc2f74e918e8cd9b7e5a9c76d5f1f8b5d3a9847cef9526463d35"
+}

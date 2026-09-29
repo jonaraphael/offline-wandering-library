@@ -1,0 +1,4742 @@
+{
+  "content_ready": false,
+  "course": {
+    "course_description": "This course is the second of a two-term sequence with 6.450. The focus is on coding techniques for approaching the Shannon limit of additive white Gaussian noise (AWGN) channels, their performance analysis, and design principles. After a review of 6.450 and the Shannon limit for AWGN channels, the course begins by discussing small signal constellations, performance analysis and coding gain, and hard-decision and soft-decision decoding. It continues with binary linear block codes, Reed-Muller codes, finite fields, Reed-Solomon and BCH codes, binary linear convolutional codes, and the Viterbi algorithm.\n\nMore advanced topics include trellis representations of binary linear block codes and trellis-based decoding; codes on graphs; the sum-product and min-sum algorithms; the BCJR algorithm; turbo codes, LDPC codes and RA codes; and performance of LDPC codes with iterative decoding. Finally, the course addresses coding for the bandwidth-limited regime, including lattice codes, trellis-coded modulation, multilevel coding and shaping. If time permits, it covers equalization of linear Gaussian channels.\n",
+    "course_description_html": "<p>This course is the second of a two-term sequence with 6.450. The focus is on coding techniques for approaching the Shannon limit of additive white Gaussian noise (AWGN) channels, their performance analysis, and design principles. After a review of 6.450 and the Shannon limit for AWGN channels, the course begins by discussing small signal constellations, performance analysis and coding gain, and hard-decision and soft-decision decoding. It continues with binary linear block codes, Reed-Muller codes, finite fields, Reed-Solomon and BCH codes, binary linear convolutional codes, and the Viterbi algorithm.</p>\n<p>More advanced topics include trellis representations of binary linear block codes and trellis-based decoding; codes on graphs; the sum-product and min-sum algorithms; the BCJR algorithm; turbo codes, LDPC codes and RA codes; and performance of LDPC codes with iterative decoding. Finally, the course addresses coding for the bandwidth-limited regime, including lattice codes, trellis-coded modulation, multilevel coding and shaping. If time permits, it covers equalization of linear Gaussian channels.</p>\n",
+    "course_image": {
+      "content": "26272a05-4def-6c36-95d7-d2ef7435104d",
+      "website": "6-451-principles-of-digital-communication-ii-spring-2005"
+    },
+    "course_image_metadata": {
+      "content_type": "resource",
+      "description": "Wireless digital communications. (Image by MIT OCW.)",
+      "draft": false,
+      "file": "/courses/6-451-principles-of-digital-communication-ii-spring-2005/26272a054def6c3695d7d2ef7435104d_6-451s05.jpg",
+      "file_size": 75301,
+      "file_type": "image/jpeg",
+      "image_metadata": {
+        "caption": "Wireless digital communications. (Image by MIT OpenCourseWare.)",
+        "credit": "",
+        "image-alt": "An illustration of a cellular device and a cell tower."
+      },
+      "iscjklanguage": false,
+      "learning_resource_types": [],
+      "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "ocw_type": "OCWImage",
+      "resourcetype": "Image",
+      "title": "6-451s05.jpg",
+      "uid": "26272a05-4def-6c36-95d7-d2ef7435104d"
+    },
+    "course_image_thumbnail": {
+      "content": "478f61df-c2f6-2cab-63bd-40653c0089c7",
+      "website": "6-451-principles-of-digital-communication-ii-spring-2005"
+    },
+    "course_title": "Principles of Digital Communication II",
+    "department_numbers": [
+      "6"
+    ],
+    "extra_course_numbers": "",
+    "image_src": "./static_resources/26272a054def6c3695d7d2ef7435104d_6-451s05.jpg",
+    "instructors": [
+      {
+        "first_name": "David",
+        "last_name": "Forney",
+        "middle_initial": "",
+        "salutation": "Prof.",
+        "title": "Prof. David Forney",
+        "uid": "17f13499-6c12-f320-e324-a5636c3bf972",
+        "url": "https://ocw.mit.edu/search/?q=Prof.+David+Forney"
+      }
+    ],
+    "learning_resource_types": [
+      "Lecture Videos",
+      "Lecture Notes",
+      "Problem Sets",
+      "Problem Set Solutions",
+      "Exams",
+      "Exam Solutions"
+    ],
+    "legacy_uid": "9b58c4a1-5379-7099-365e-5efe06302f9a",
+    "level": [
+      "Graduate"
+    ],
+    "mit_learn_topics": [
+      [
+        "Engineering",
+        "Electrical Engineering"
+      ]
+    ],
+    "primary_course_number": "6.451",
+    "site_short_id": "6.451-spring-2005",
+    "site_uid": "7be06e64-d983-447a-9e55-efce66693db7",
+    "site_url_path": "courses/6-451-principles-of-digital-communication-ii-spring-2005",
+    "term": "Spring",
+    "title": "Course Metadata",
+    "topics": [
+      [
+        "Engineering",
+        "Electrical Engineering",
+        "Digital Systems"
+      ],
+      [
+        "Engineering",
+        "Electrical Engineering",
+        "Telecommunications"
+      ]
+    ],
+    "year": "2005"
+  },
+  "excluded_translations": [],
+  "expanded_bytes": 65734298,
+  "gaps": [],
+  "media": [
+    {
+      "id": "ocw_media_0a6941996d828022878b",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/f197ca86d10053f2aa91a53f0085b4b3_dy44BdqxRAo.vtt",
+              "sha256": "5f05f7ad9da3cd2c17dc9c93ff0563a1d94c06c1b5aae2b08d30ad5c25ad1e6e",
+              "size_bytes": 92308
+            }
+          ],
+          "context_path": "resources/lecture-19-the-sum-product-algorithm/index.html",
+          "end_time": "",
+          "id": "eed1563e-794f-269c-5921-25c3bcd253ce",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-19-the-sum-product-algorithm/data.json",
+            "sha256": "bd67619c15c27fa10b244ed2d44d267981576bf95519ad1218de6ef9842329f4",
+            "size_bytes": 1789
+          },
+          "start_time": "",
+          "title": "Lecture 19: The Sum-Product Algorithm "
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/19ocw-6.451_4-261-20apr2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/19ocw-6.451_4-261-20apr2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_126e04da35f560a08520",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/b3abd8e6fcde51f39f767682c5065ead_q4LsDylKZcI.vtt",
+              "sha256": "d39ef26d9cdf06c54f69defafe3af999fedce74d7ef0fad5f7fcb91671f89551",
+              "size_bytes": 89521
+            }
+          ],
+          "context_path": "resources/lecture-6-introduction-to-binary-block-codes/index.html",
+          "end_time": "",
+          "id": "351150ec-4eae-c6ab-e7a8-c2900b997f62",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-6-introduction-to-binary-block-codes/data.json",
+            "sha256": "d04393bb21dd58563cb6ff32dc4d312ee923eb77538a463b386093118c7592ae",
+            "size_bytes": 1812
+          },
+          "start_time": "",
+          "title": "Lecture 6: Introduction to Binary Block Codes"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/6ocw-6.451_4-261-22feb2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/6ocw-6.451_4-261-22feb2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_1823a58994d66f32d89e",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/5e3c4769a0835141843bbf94cf737a55_2ludHpG_Q60.vtt",
+              "sha256": "f360adfa832eb5243726e1c1e2a850513cdc973fc48a0b2e594e9c4e7bd3de08",
+              "size_bytes": 88316
+            }
+          ],
+          "context_path": "resources/lecture-13-introduction-to-convolutional-codes/index.html",
+          "end_time": "",
+          "id": "b6b78376-8e51-c2f9-5bd3-ca2d397bfda9",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-13-introduction-to-convolutional-codes/data.json",
+            "sha256": "2f7064c08bd7d038b176963b5554247ae5dc214e2a0624c83b7ff4ed6707d869",
+            "size_bytes": 1817
+          },
+          "start_time": "",
+          "title": "Lecture 13: Introduction to Convolutional Codes"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/13ocw-6.451_4-261-28mar2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/13ocw-6.451_4-261-28mar2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_1dba7e239aa57df9b877",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/80fe15004ab2516693b1982acc0f334a_d_Mg_JnnevU.vtt",
+              "sha256": "79918e71e6571c261c35616da5d0c8a3c62e7ca1f4bdf2a6e4ff5fbf5f42ccd0",
+              "size_bytes": 88443
+            }
+          ],
+          "context_path": "resources/lecture-7-introduction-to-finite-fields/index.html",
+          "end_time": "",
+          "id": "efc95bb7-4103-4a5d-7c42-63b837d2a7ce",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-7-introduction-to-finite-fields/data.json",
+            "sha256": "42f9d2933309400684d10de3e04a966cb92e3ae9c3ec5d1e899ba22dd2548ad6",
+            "size_bytes": 1797
+          },
+          "start_time": "",
+          "title": "Lecture 7: Introduction to Finite Fields"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/7ocw-6.451_4-261-23feb2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/7ocw-6.451_4-261-23feb2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_217cf94f65debf5f371d",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/a4dbf0718fe05c12b86e4453cba5093c_4HtXKIbiOvI.vtt",
+              "sha256": "39c5a921ffed6f3edd33aea0131079fd3127fc7431270ee8c36bb6942902ace6",
+              "size_bytes": 87249
+            }
+          ],
+          "context_path": "resources/lecture-21-turbo-ldpc-and-ra-codes/index.html",
+          "end_time": "",
+          "id": "020ef157-cdbf-b005-f756-497600e9763f",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-21-turbo-ldpc-and-ra-codes/data.json",
+            "sha256": "b2fc3b0483c1c74780d28803d5a3f7f1803a8228a7e72c9294a207dbdec580ae",
+            "size_bytes": 1789
+          },
+          "start_time": "",
+          "title": "Lecture 21: Turbo, LDPC, and RA Codes "
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/21ocw-6.451_4-261-27apr2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/21ocw-6.451_4-261-27apr2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_22e3f83722883851723d",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/9a09a6eefc41531685bc32967ccb6391_SV08nmxzdAU.vtt",
+              "sha256": "01137ff210149fcef3f5007282e98ace3d685fc6e109f1ddd498c6e227db31cd",
+              "size_bytes": 87254
+            }
+          ],
+          "context_path": "resources/lecture-8-introduction-to-finite-fields/index.html",
+          "end_time": "",
+          "id": "6bad631f-b668-9f89-6c58-12eef8e6a9a6",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-8-introduction-to-finite-fields/data.json",
+            "sha256": "781a5a567067b0e3a0f21ac94dcf582e2d2cf1d87f87b7ea47dc0d51b1b21811",
+            "size_bytes": 1797
+          },
+          "start_time": "",
+          "title": "Lecture 8: Introduction to Finite Fields"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/8ocw-6.451_4-261-28feb2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/8ocw-6.451_4-261-28feb2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_2b236a330b82a516e881",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/de811242449e5072b7552830550225ea_47yJ7g6DzkA.vtt",
+              "sha256": "0eb7bbbcd2e83fdaeb6c4b8246e2ccc0e0bdae94f23a6f8664359ccc7bf2df68",
+              "size_bytes": 87326
+            }
+          ],
+          "context_path": "resources/lecture-9-introduction-to-finite-fields/index.html",
+          "end_time": "",
+          "id": "62c310fc-f27b-3b82-af67-5f9a14c8a70c",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-9-introduction-to-finite-fields/data.json",
+            "sha256": "7b066a327e8c72f7f58ad5f8f1559eabc4adeb693d0a27439cdf11b6fb1c8d3b",
+            "size_bytes": 1797
+          },
+          "start_time": "",
+          "title": "Lecture 9: Introduction to Finite Fields"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/9ocw-6.451_4-261-02mar2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/9ocw-6.451_4-261-02mar2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_3016b7b06fcf7415680f",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/c5213bce9efe5cf1b2fbe74641f44625_YegKLHb9TOU.vtt",
+              "sha256": "01a0d7d934cff5ac2087a347be83640860403981e10ef6b291f797eee6cd3e77",
+              "size_bytes": 85239
+            }
+          ],
+          "context_path": "resources/lecture-16-trellis-representations-of-binary-linear-block-codes/index.html",
+          "end_time": "",
+          "id": "63d8c331-665d-6d67-09d7-d99954f6aef5",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-16-trellis-representations-of-binary-linear-block-codes/data.json",
+            "sha256": "88b7d1319d7f57c5e23284423931ef451e48d06753c6e4684501ba0502939ff1",
+            "size_bytes": 1869
+          },
+          "start_time": "",
+          "title": "Lecture 16: Trellis Representations of Binary Linear Block Codes"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/16ocw-6.451_4-261-06apr2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/16ocw-6.451_4-261-06apr2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_3f12f80f8df7468ffaba",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/f50c7934c9575f029f31ff5d333681fe_Nnj9lHePqKM.vtt",
+              "sha256": "2b33cf468990a84c0ad4f95fef95802d91de5fde91acc3a89bc46ac57520ac2b",
+              "size_bytes": 74003
+            }
+          ],
+          "context_path": "resources/lecture-10-reed-solomon-codes/index.html",
+          "end_time": "",
+          "id": "3e5d741e-c462-b363-cfaf-c42b6369f678",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-10-reed-solomon-codes/data.json",
+            "sha256": "59ab175ef14685b3baea63905f6fd964e0902c4353eed383eab4b7d0fb1f8bec",
+            "size_bytes": 1766
+          },
+          "start_time": "",
+          "title": "Lecture 10: Reed-Solomon Codes"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/10ocw-6.451_4-261-07mar2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/10ocw-6.451_4-261-07mar2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_43b09473fd62249cd619",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/c7431aa76d2850a0b316e76c43b2a349_YPAbQU7NUZQ.vtt",
+              "sha256": "033cf5053b7160c481a3c40081e6d150acd01f4719878b92ff7e7ad42f8ce955",
+              "size_bytes": 102198
+            }
+          ],
+          "context_path": "resources/lecture-5-introduction-to-binary-block-codes/index.html",
+          "end_time": "",
+          "id": "252c928c-f9e5-e378-101a-4a3aea6b9112",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-5-introduction-to-binary-block-codes/data.json",
+            "sha256": "deef95d9079e1a99ecebfe882321ccfeeaeb1ad9c00b94eda9a6d20943cc06de",
+            "size_bytes": 1812
+          },
+          "start_time": "",
+          "title": "Lecture 5: Introduction to Binary Block Codes"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/5ocw-6.451_4-261-16feb2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/5ocw-6.451_4-261-16feb2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_46170cdfd8f8c82057a1",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/b3f591dfb3255faea861303725c49eb6_eyqoHN4-4jg.vtt",
+              "sha256": "4924d41a272e0034af6ff3f1d31944ba81548562613307eb9c4b1c1f6ac2e7c4",
+              "size_bytes": 79336
+            }
+          ],
+          "context_path": "resources/lecture-23-lattice-and-trellis-codes/index.html",
+          "end_time": "",
+          "id": "a375bcf2-6f59-c56b-39cf-b8b5b96902a8",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-23-lattice-and-trellis-codes/data.json",
+            "sha256": "5536f3c8888e11bc35a5116da436d787c9f5276b8a4286589ec0cb7cb51a7f0d",
+            "size_bytes": 1789
+          },
+          "start_time": "",
+          "title": "Lecture 23: Lattice and Trellis Codes "
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/23ocw-6.451_4-261-04may2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/23ocw-6.451_4-261-04may2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_505f55d17d41d60e4121",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/7db3feefc9a1576aa90414ba5448eb5b_GQVlVhGKfHc.vtt",
+              "sha256": "c60d3b7a9c1c4c8ca59f422113c4899caa6013a604ca197f35e2f4718eb16b34",
+              "size_bytes": 89929
+            }
+          ],
+          "context_path": "resources/lecture-18-codes-on-graphs/index.html",
+          "end_time": "",
+          "id": "e5e282bd-c465-1935-5617-0b868434139f",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-18-codes-on-graphs/data.json",
+            "sha256": "cdc460e97525abeb095de7dafa26f370ad0c645ec6bed5da1ea1c25044845dbe",
+            "size_bytes": 1758
+          },
+          "start_time": "",
+          "title": "Lecture 18: Codes on Graphs"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/18ocw-6.451_4-261-13apr2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/18ocw-6.451_4-261-13apr2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_713050acb8d2185b330c",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/89f028e5ca5a568ba8e8a167ad14bcd2_KalMFMv3_IM.vtt",
+              "sha256": "1df6600cf47fbba5082316f1830b605f4dda2df6c5e8321251178ff02e07d442",
+              "size_bytes": 96783
+            }
+          ],
+          "context_path": "resources/lecture-25-linear-gaussian-channels/index.html",
+          "end_time": "",
+          "id": "5b19f310-a6c5-dee1-5f1a-9bdcea09ced2",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-25-linear-gaussian-channels/data.json",
+            "sha256": "4f3cc92bde33a42c2985f42a67a960615ba52d74ca53ce8b114db8416ef0a68d",
+            "size_bytes": 1669
+          },
+          "start_time": "",
+          "title": "Lecture 25: Linear Gaussian Channels"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/25ocw-6.451_4-261-11may2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/25ocw-6.451_4-261-11may2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_71a2f22b034deafc36f2",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/0ae07dafba3c5f0b81e489c2726bdcdb_8HvTaOrTokc.vtt",
+              "sha256": "0a391f6b6d01bdb3558cf54c659ad37207b869e8a281d5e60c75d17a601a75af",
+              "size_bytes": 92068
+            }
+          ],
+          "context_path": "resources/lecture-1-introduction-sampling-theorem/index.html",
+          "end_time": "",
+          "id": "4a96c050-6bb6-52c1-deef-5d8915fdfff8",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-1-introduction-sampling-theorem/data.json",
+            "sha256": "54ce0cb2fd8ecf5c4afd7c932ccb27fffcceb7540bc15d115552c3d1b14b786f",
+            "size_bytes": 2080
+          },
+          "start_time": "",
+          "title": "Lecture 1: Introduction Sampling Theorem"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/1ocw-6.451-02feb05-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/1ocw-6.451-02feb05-220k.mp4"
+    },
+    {
+      "id": "ocw_media_77560c525be01323fc33",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/a15a016bed8c5e7a978a572d16e6377a_vXB3QmTg8YQ.vtt",
+              "sha256": "7fd769897fa6fc7af381e2d6f64212dad26631afe0b795f377b5a208c3d9f668",
+              "size_bytes": 79089
+            }
+          ],
+          "context_path": "resources/lecture-4-hard-decision-and-soft-decision-decoding/index.html",
+          "end_time": "",
+          "id": "c4eb2579-c9a4-e913-ac69-5873cdaf4c45",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-4-hard-decision-and-soft-decision-decoding/data.json",
+            "sha256": "1889038eaf2b94487dff60358188f53bd242e434c4bcc719714753ea26b0e088",
+            "size_bytes": 1831
+          },
+          "start_time": "",
+          "title": "Lecture 4: Hard-decision and Soft-decision Decoding"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/4ocw-6.451_4-261-14feb2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/4ocw-6.451_4-261-14feb2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_81578cbc99263cdac340",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/3ff24be80368535bb2182be5a768d8c4_3eqYo1LCGdw.vtt",
+              "sha256": "f7a49d86e9e438db9299f5248667667e195d286814721feb3176c25e8d873446",
+              "size_bytes": 88731
+            }
+          ],
+          "context_path": "resources/lecture-15-trellis-representations-of-binary-linear-block-codes/index.html",
+          "end_time": "",
+          "id": "7ad94965-787c-b2d3-8202-c3b259b46d83",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-15-trellis-representations-of-binary-linear-block-codes/data.json",
+            "sha256": "61159a00c4c6bea377ed59061df69cdaa8bc3d1f3a0025b20113ea8ca3b80deb",
+            "size_bytes": 1869
+          },
+          "start_time": "",
+          "title": "Lecture 15: Trellis Representations of Binary Linear Block Codes"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/15ocw-6.451_4-261-04apr2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/15ocw-6.451_4-261-04apr2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_8dc4665102afe671125a",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/ae8aa28e7b9a5b86a2685ab1dce6e19b_MVpmgHSBSc0.vtt",
+              "sha256": "8bb5673dadcbcfc24306ae04a38baae3d1773f57b8a50875285033f6b4c6dc6f",
+              "size_bytes": 77167
+            }
+          ],
+          "context_path": "resources/lecture-2-performance-of-small-signal-constellations/index.html",
+          "end_time": "",
+          "id": "556da27d-9fb5-f014-9419-ffd75e27d76b",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-2-performance-of-small-signal-constellations/data.json",
+            "sha256": "f69037b66fc45629e5e0684f44d4f507bf0b30ab6a5a8003566e9d75fcf16d40",
+            "size_bytes": 1836
+          },
+          "start_time": "",
+          "title": "Lecture 2: Performance of Small Signal Constellations"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/2ocw-6.451_4-261-07feb2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/2ocw-6.451_4-261-07feb2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_9fbb8d395cab3d1a2b5e",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/d31628bf123658c9903a7652a3c4e1e5_CxgU2Gtg5ro.vtt",
+              "sha256": "439de939c910a1a7ee3549b0c309a04ca6927efb072c29f2fea23c25f3a20305",
+              "size_bytes": 89224
+            }
+          ],
+          "context_path": "resources/lecture-24-linear-gaussian-channels/index.html",
+          "end_time": "",
+          "id": "e820ac20-29ca-835e-fefc-ae6ea0b8feb5",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-24-linear-gaussian-channels/data.json",
+            "sha256": "b76421ffa430817f443aec7491c41b82d7bad6f6149d7ade2b3d9e7893e027e1",
+            "size_bytes": 1669
+          },
+          "start_time": "",
+          "title": "Lecture 24: Linear Gaussian Channels"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/24ocw-6.451_4-261-09may2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/24ocw-6.451_4-261-09may2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_a109e6a0731d60b71de2",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/6586f05a379f5942a23e379c8e41a48d_zWZCMrKIikw.vtt",
+              "sha256": "8f385c3739357b0a113b5b36aadc7c8ec7507a7e0174a0f17154b880d61e9fd0",
+              "size_bytes": 89211
+            }
+          ],
+          "context_path": "resources/lecture-3-hard-decision-and-soft-decision-decoding/index.html",
+          "end_time": "",
+          "id": "865032e5-197c-7827-4e85-75806788b269",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-3-hard-decision-and-soft-decision-decoding/data.json",
+            "sha256": "a852a2fb611db4eaf46f14023181c00318aea70b6f8f75ee7631a35938322750",
+            "size_bytes": 1831
+          },
+          "start_time": "",
+          "title": "Lecture 3: Hard-decision and Soft-decision Decoding"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/3ocw-6.451_4-261-09feb2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/3ocw-6.451_4-261-09feb2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_ac32832afaaafd11e90b",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/2ef72bc99981568da97cf6c104ce3bd4_DyRLOmVRQDw.vtt",
+              "sha256": "bd79a8d1fa2ee7d48e0ff386c635f6aff1e42e171f66dee671780dc4b706e690",
+              "size_bytes": 90362
+            }
+          ],
+          "context_path": "resources/lecture-17-codes-on-graphs/index.html",
+          "end_time": "",
+          "id": "1ffb818d-0630-053e-5f9b-6a9864f72bce",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-17-codes-on-graphs/data.json",
+            "sha256": "1de8c93ab130ff778d237ec430f93b63d80d26653e42cb360306d1b4cfcc561d",
+            "size_bytes": 1791
+          },
+          "start_time": "",
+          "title": "Lecture 17: Codes on Graphs"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/17ocw-6.451_4-261-11apr2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/17ocw-6.451_4-261-11apr2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_ca55d3fac41c1be03bd3",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/d7956bfb290f57f7a0ed5acd5450e32e_520074.vtt",
+              "sha256": "b66579c45f52ab4b64e39443c61bbe09e63e3da2819165e5367e2e188aedab7b",
+              "size_bytes": 82821
+            }
+          ],
+          "context_path": "resources/lecture-20-turbo-ldpc-and-ra-codes/index.html",
+          "end_time": "",
+          "id": "5e8ab454-8fc6-d339-0fbe-42b4f5ee6edb",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-20-turbo-ldpc-and-ra-codes/data.json",
+            "sha256": "88bb8d07b1791c3eda4f658ed7c3d04cc7bcebe6833dad691796561212c49486",
+            "size_bytes": 1779
+          },
+          "start_time": "",
+          "title": "Lecture 20: Turbo, LDPC, and RA Codes "
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/20ocw-6.451_4-261-25apr2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/20ocw-6.451_4-261-25apr2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_d776f77db462366b33cf",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/1cf75cf557835e32a4179dda4df95f85_OJafRrE21WE.vtt",
+              "sha256": "9b7533e71ff4688194f4370ad4923aecbae3a7688ef373fe2a4a5a1789a43017",
+              "size_bytes": 102041
+            }
+          ],
+          "context_path": "resources/lecture-12-reed-solomon-codes/index.html",
+          "end_time": "",
+          "id": "e809be35-f6c9-76ea-f8e0-103a99ec2ec0",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-12-reed-solomon-codes/data.json",
+            "sha256": "8fb02c41611c64a3c8f5c715988405f220c496e6b9cf1355842b167c27bb8550",
+            "size_bytes": 1766
+          },
+          "start_time": "",
+          "title": "Lecture 12: Reed-Solomon Codes"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/12ocw-6.451_4-261-14mar2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/12ocw-6.451_4-261-14mar2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_ec88947253a3839d693e",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/8de8bf9772e35b2e86786edb42719f8e_HwGd1CPfIYk.vtt",
+              "sha256": "5f8827ac4440e3b8f594fc2dd7b2813d02897e543ccd0d293c328fcd1a287d9f",
+              "size_bytes": 90684
+            }
+          ],
+          "context_path": "resources/lecture-14-introduction-to-convolutional-codes/index.html",
+          "end_time": "",
+          "id": "6267f432-7a36-eff4-fe06-0220e38f8b92",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-14-introduction-to-convolutional-codes/data.json",
+            "sha256": "e367730e5478dc5198ad5a76f1820ee2932f7e69086b65136c0e6734a1b8f234",
+            "size_bytes": 1817
+          },
+          "start_time": "",
+          "title": "Lecture 14: Introduction to Convolutional Codes"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/14ocw-6.451_4-261-30mar2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/14ocw-6.451_4-261-30mar2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_f60cdb8d9c06b758d1ac",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/79c371b61f1156df80c39980d0a75e53_DNoNTre2Cf4.vtt",
+              "sha256": "fbc031a010380bc16270e815c869c38c7d868ad0f6010c2bcba0177ae212883b",
+              "size_bytes": 96328
+            }
+          ],
+          "context_path": "resources/lecture-22-lattice-and-trellis-codes/index.html",
+          "end_time": "",
+          "id": "42988812-8732-34ef-2576-5179d2511022",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-22-lattice-and-trellis-codes/data.json",
+            "sha256": "ac2b9553f92dedb9559ed6da082c6f407d5b8c13445838f07e7ef1038ecf79a5",
+            "size_bytes": 1821
+          },
+          "start_time": "",
+          "title": "Lecture 22: Lattice and Trellis Codes"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/22ocw-6.451_4-261-02may2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/22ocw-6.451_4-261-02may2005-220k.mp4"
+    },
+    {
+      "id": "ocw_media_fdad88259b7827fa8991",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/3842f83d45775121ab338bba11ae6660_mnkTn0Y6GsU.vtt",
+              "sha256": "1a4abd0258d51fca95607c512fc95aaf03e31c8ef89395d73b400a71eaec1ada",
+              "size_bytes": 80179
+            }
+          ],
+          "context_path": "resources/lecture-11-reed-solomon-codes/index.html",
+          "end_time": "",
+          "id": "b0b90c8a-2a42-ab2a-7c3b-f7391f004c6d",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/lecture-11-reed-solomon-codes/data.json",
+            "sha256": "a3f5438c2746a17a172edc7cbb616c090aa38611780f951fe10257e9d2f77c94",
+            "size_bytes": 1766
+          },
+          "start_time": "",
+          "title": "Lecture 11: Reed-Solomon Codes"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.451S05/11ocw-6.451_4-261-09mar2005-220k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.451S05/11ocw-6.451_4-261-09mar2005-220k.mp4"
+    }
+  ],
+  "members": [
+    {
+      "path": ".keep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "content_map.json",
+      "sha256": "6a594b9e13c5cb368c74c648e08cb62c49c0141b3adb81eb3b814a676047eec0",
+      "size_bytes": 13927
+    },
+    {
+      "path": "data.json",
+      "sha256": "732a0289973b2e1e7915f7ee14e46010ced34e65cfeebe94298771e233547699",
+      "size_bytes": 4793
+    },
+    {
+      "path": "download/index.html",
+      "sha256": "fedfff34233fd32dc58841c78f0cfd8179b29a29a4613d548ce3736bff24439a",
+      "size_bytes": 115421
+    },
+    {
+      "path": "download/index.xml",
+      "sha256": "528b57a52af363ff2450d4d86279ea1edee23b98d42daec9dbb08b060b3ac848",
+      "size_bytes": 2125
+    },
+    {
+      "path": "favicon.ico",
+      "sha256": "6d27d37a515c3498aa71f8265d21cadc50ca63eb321e223386d48fe87ec7c552",
+      "size_bytes": 5558
+    },
+    {
+      "path": "index.html",
+      "sha256": "8cd1ac7052a7bc8d0f81c5f815d70568d3089a15bd43430084c5f0a8011fa396",
+      "size_bytes": 47100
+    },
+    {
+      "path": "pages/assignments/data.json",
+      "sha256": "9fafa07d3a46f318a6a870ea801a6c7528d193efcd7e4cea8f608976f3dedd83",
+      "size_bytes": 2488
+    },
+    {
+      "path": "pages/assignments/index.html",
+      "sha256": "6624cd99945b2c2bdc39d9b006016598a731380add67047440be79d5df6d6ac7",
+      "size_bytes": 49375
+    },
+    {
+      "path": "pages/calendar/data.json",
+      "sha256": "98159cbbfe9fa663be4548e81328499d85b542add79cf25e3019bf0b97bf06eb",
+      "size_bytes": 2621
+    },
+    {
+      "path": "pages/calendar/index.html",
+      "sha256": "7fd8347e30567050ec4cb83b38d62c533ffda22151dc164b52ef61c0c7f52e86",
+      "size_bytes": 49377
+    },
+    {
+      "path": "pages/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "pages/exams/data.json",
+      "sha256": "2f31487657f8f6570b2322c70c326a74e9696c3ed277cc4625141a9a0e50ba66",
+      "size_bytes": 1909
+    },
+    {
+      "path": "pages/exams/index.html",
+      "sha256": "f16da66bb59d954fee36f49d59ee1bc7d1644d184bffb1018f161dd305439a5b",
+      "size_bytes": 48766
+    },
+    {
+      "path": "pages/index.html",
+      "sha256": "817420946d45f68fb7fcab36dc3240921511841871c097f29ca60128e596dc94",
+      "size_bytes": 47299
+    },
+    {
+      "path": "pages/readings-and-lecture-notes/data.json",
+      "sha256": "074b523c4619c775c281f255f90c8674caeec672a5501cb9c1dcac055a2f42ec",
+      "size_bytes": 1757
+    },
+    {
+      "path": "pages/readings-and-lecture-notes/index.html",
+      "sha256": "cbdf86eda8c7482b1c83f1c62efb4db4fbfa894e34549f2c97ad41499bd516bf",
+      "size_bytes": 48854
+    },
+    {
+      "path": "pages/syllabus/data.json",
+      "sha256": "919de1f7c3b58800e04fdcfe4a0d23fc21a35293788fad578f302356b8854272",
+      "size_bytes": 3617
+    },
+    {
+      "path": "pages/syllabus/index.html",
+      "sha256": "f892a0c7fcb7e2cf8fdf899163fb1ca45ff8b8d3b3119b34c75587a0b0943eb0",
+      "size_bytes": 50542
+    },
+    {
+      "path": "resources/1/data.json",
+      "sha256": "5a80137037bdd80981004963d7f88bc93fe3878d81fe7b3f217fa4684e9e2270",
+      "size_bytes": 588
+    },
+    {
+      "path": "resources/1/index.html",
+      "sha256": "8dbcbe85219377f519b4765f96453cd622f908860eb5888985e6ed3466a735c3",
+      "size_bytes": 49388
+    },
+    {
+      "path": "resources/10/data.json",
+      "sha256": "ec4986651dae94a7e08797f99c830ba4529bc82198f106a12de8c51ed3f1bcf6",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/10/index.html",
+      "sha256": "d2955ab8b2c7a37dd99671a3c913cc06b3328cbbc63b0ad97282e8a097749119",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/11/data.json",
+      "sha256": "7b8130cf17569b81b53b916a409dde667b75b2526779befc5c2d5a3f392e111b",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/11/index.html",
+      "sha256": "091d4107b9c1c2a4e941cff72b2d4e61adaed9b42b08949aa31e6e119f794fc3",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/12/data.json",
+      "sha256": "7531034948c88fd5da1a77399a2d9ba9a3b564f50b9701cd9794972995959e1e",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/12/index.html",
+      "sha256": "7efce97008e68780730100017a98730e29b2ddfba9802152594c16c3fbd89970",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/13/data.json",
+      "sha256": "2cbdeb7cecd448f3c779d162f4beb257fdefb3d17ecd4818e995cf70cff8cfbc",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/13/index.html",
+      "sha256": "c466b4f13ed6bb3f634a4124b449ad3883dfa1c4efa041a51c98a32465bc1a38",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/14/data.json",
+      "sha256": "69d70a920f0896527c78ae556e3585d1e4fb18d3f58a7460063b34b20f22ea69",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/14/index.html",
+      "sha256": "b2224c2134a5a4531c9b531c140f9009b7937c75fde970ecc5963f168291c1b4",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/15/data.json",
+      "sha256": "0c23a65011daeca6b0f9d7a41e02ff75ed7dde28841e2ebc4080b9e0733a2c5b",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/15/index.html",
+      "sha256": "051d172672d370497d6035d97369b646cebe5fe1b593954fbe8c6ef187359611",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/16/data.json",
+      "sha256": "c71edbe3a34f80763b266fb219b3c0ba5dfc1eb4c3af33c88affe1397ee9ef44",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/16/index.html",
+      "sha256": "936ad4fddd32b96fd8e88a604062c0257faa66468a9b48b8f4b0b01106b484c8",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/17/data.json",
+      "sha256": "cbd4f7d5a4fc84b7032529b4ffd33de01ab8b4ac5a537bdd62ac1f60c6c02a36",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/17/index.html",
+      "sha256": "e022742e966be368b3fae7fffcba5ebac7b6205de1314cb97a7dd2d7477de000",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/18/data.json",
+      "sha256": "bcd7d2f8c4e0e51da5eacb528b842341904b4526715fceba3307e7ad8a7fdfc8",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/18/index.html",
+      "sha256": "82cbfbbf14c52a38f98e34a1797513b2e068c73678b36075165aea72cb297080",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/19/data.json",
+      "sha256": "0da785f3e3f82a26bf31f0633d47af4b146062c4b9f0518275b255d26291baa4",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/19/index.html",
+      "sha256": "62986d6737e6053cd0df01a0b028d8379de151317672694ecf03b39258fe960b",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/2/data.json",
+      "sha256": "44584d0291025de1eda782c299268e0ef99b0b913c73d44204b3d24efb9afd7b",
+      "size_bytes": 588
+    },
+    {
+      "path": "resources/2/index.html",
+      "sha256": "ca8378ad3c8ab942e2878e3f3e62180ca1c5cdeed7c10a88886e9e3481d818be",
+      "size_bytes": 49388
+    },
+    {
+      "path": "resources/20/data.json",
+      "sha256": "25b906df07078c21e0f7f05b7265911448f37da5938500b59d9ef5059fc1341e",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/20/index.html",
+      "sha256": "c7a0756c9f551488e028ba6c8af1a8e7c6de551d02fb30a1687cd29ae088bd75",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/21/data.json",
+      "sha256": "f32a4020c3401293bdacaf23eb33210de5959faea52163c0aa745cd9ad2eda82",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/21/index.html",
+      "sha256": "236f532f9d4393d6b4b81df2fca71646516777d4df048ebc7a313ce64ba7f008",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/22/data.json",
+      "sha256": "b959474502748c08eddfd4243498f90b5d3f72e16065e0471e63ab9541d590eb",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/22/index.html",
+      "sha256": "c9058d66ee3ff065bf1756fdcd12138d7d31b9912762447048b5a664b18de23c",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/23/data.json",
+      "sha256": "189aa2fb4a2a0f823c70e479426081700bf39b52e5fd6bbdafb7255264be363c",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/23/index.html",
+      "sha256": "c4ad43be2cb43e5aebc5129afd1c8e64b8f8c73875f0beb7455d4375af1f3ec6",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/24/data.json",
+      "sha256": "de22f17884313291f4b3e6b95d13be7f3a8cc58cf232c5b13d35622dffb1f5fb",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/24/index.html",
+      "sha256": "ed552e164cfbc1e6a30ded9779bbbc4ac920237333049d704bcfae1ea44da9a8",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/25/data.json",
+      "sha256": "cc68cab832b5fe2d5b75782061982ed1301704e3f9f765515f32186f45145eac",
+      "size_bytes": 590
+    },
+    {
+      "path": "resources/25/index.html",
+      "sha256": "fcd1f171d61d76bd8c964efc653fb144a58a3268d67532ec353b7077de5ec188",
+      "size_bytes": 49401
+    },
+    {
+      "path": "resources/2ludhpg_q60-1/data.json",
+      "sha256": "e6c96b6d47ce789d90f7c5fb90a56771432f18240780d7e605b9789fb23f8db4",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/2ludhpg_q60-1/index.html",
+      "sha256": "17db99dcc809ed125be6343d52d3cdcefd90a071138ba1d1346c650d678ac96f",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/2ludhpg_q60-2/data.json",
+      "sha256": "b5629b7e4760178fb7440ce110bdb11390d6c9d5e4882d1615aa4245e9ebad34",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/2ludhpg_q60-2/index.html",
+      "sha256": "6d5df8240a5ec0a61dfb8f59d768b3d0f7c7b421d7f1e2ff0554d4d89f4f3545",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/2ludhpg_q60/data.json",
+      "sha256": "ea78dd69b3be091f23805271a496e7704fe50977a238bf216e21c65c84897901",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/2ludhpg_q60/index.html",
+      "sha256": "d4520903730cd2626353538e50efc80e9360bd14b7dd2439ee3b3bdb34540f15",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/3/data.json",
+      "sha256": "6d2eec6008da2233a5388bf447dff0e63d14b0386e99268c4850868176323bf3",
+      "size_bytes": 588
+    },
+    {
+      "path": "resources/3/index.html",
+      "sha256": "453de83eb6227276c387e9f980e116605ace481f5789a7ac3e13a3564e26c4f0",
+      "size_bytes": 49388
+    },
+    {
+      "path": "resources/3eqyo1lcgdw-1/data.json",
+      "sha256": "c0b9b931ac31fcb0e726c13f23daf703b4c5fdab62545802cc65866b09dbd0ef",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/3eqyo1lcgdw-1/index.html",
+      "sha256": "bf026e8ef74497e449ecb0acb92404a22f13fa3ee3fede045e7cf07ef7fe2c0e",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/3eqyo1lcgdw-2/data.json",
+      "sha256": "38f68d18ed85c6cda172a314967298b761d5d168e27f88694b6d10dfb240262f",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/3eqyo1lcgdw-2/index.html",
+      "sha256": "625054bd346e837632942e410211f5e62402596b53a4d8cea072fbebfe291910",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/3eqyo1lcgdw/data.json",
+      "sha256": "9ab6ada8691bf2d3e2451c8209fa592a48d2562bae420528bb44567541e523be",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/3eqyo1lcgdw/index.html",
+      "sha256": "b041084c357ee499c99dfe82c0a487efad3e2f8fb4e9bc30f104082a9dc8c1d0",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/4/data.json",
+      "sha256": "9a7f4f39e1eaa87485fb0441085934db2a8b00ddbf2d3750956427a6c6ed055b",
+      "size_bytes": 588
+    },
+    {
+      "path": "resources/4/index.html",
+      "sha256": "dea5e00215d5093a5529b01505cc4760536666f0ad1d1e3238b3eab51c35f7bf",
+      "size_bytes": 49388
+    },
+    {
+      "path": "resources/47yj7g6dzka-1/data.json",
+      "sha256": "3d028e213d8db0a95dcbbf8b0a9ceb50a109cd9ce3102f8bdc35e55ce756b19c",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/47yj7g6dzka-1/index.html",
+      "sha256": "86039ac0cf5fae3552c06fb38abfdb99d3b86583b93f582c222a3380439c4216",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/47yj7g6dzka-2/data.json",
+      "sha256": "fe0412c477e1cd5735a020145a8bb2965e2bddf88329555fc13f0a701e30bbd0",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/47yj7g6dzka-2/index.html",
+      "sha256": "12252c7c6ab412f1cd21199d32f0bc56123e6401f7125121e0cab1d5eb55ce75",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/47yj7g6dzka/data.json",
+      "sha256": "4b37827e921666c46337662da72ed62dc3ef94807062efb724f703d578b027eb",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/47yj7g6dzka/index.html",
+      "sha256": "e7ec4a35e3efa8ca956fcac67c1b5ec836286325ac511eaf8a35f2b52d17c058",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/4htxkibiovi-1/data.json",
+      "sha256": "ce6b75da5e56b09ad45508e3914bbcc34674dda1942ce66b8dc51ed8c03796a2",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/4htxkibiovi-1/index.html",
+      "sha256": "054e1a8cfc991ab89dfccdb928d451d066c290cd7975eeb02c1ba6759927d646",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/4htxkibiovi-2/data.json",
+      "sha256": "1ceaa0518296b5aafea5651e0b0a6ba15796505c1530b0165530cd19a0ab2478",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/4htxkibiovi-2/index.html",
+      "sha256": "09adbc21331e97ef5388a60487dd10dc070c228b6544614e41669188b8b40d74",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/4htxkibiovi/data.json",
+      "sha256": "43c71a0098481676ae6dc8e433d11e68bcc111ea2d2e1eb8207da50b59448f04",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/4htxkibiovi/index.html",
+      "sha256": "b8c39b43be5aa48d384846f47aa9be2b3c3b7a166cfd7ac95e71e0644f685e9f",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/5/data.json",
+      "sha256": "82ec8549af4ae1a5e165bc535cf36b392fe9a05e7132849ff401bc6b6b1b61f2",
+      "size_bytes": 588
+    },
+    {
+      "path": "resources/5/index.html",
+      "sha256": "6af8d89ed4a7454e8d33cd219d4318fe41b473a059e20390bbc5848b24be9497",
+      "size_bytes": 49388
+    },
+    {
+      "path": "resources/520074-1/data.json",
+      "sha256": "8f09065634efbb4054bd9c2bd73fc8814571e8261456d25c2b1fc634f9991356",
+      "size_bytes": 526
+    },
+    {
+      "path": "resources/520074-1/index.html",
+      "sha256": "85fa39d44c77d08ef96bd9145ad5182107f4a06619d4d7f231c3349008bcaa2b",
+      "size_bytes": 49679
+    },
+    {
+      "path": "resources/520074-2/data.json",
+      "sha256": "9ba6aed22da856505894f8eddf21375f19a675e505c40196fc564d6c3d1dfd73",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/520074-2/index.html",
+      "sha256": "b1f1b3d5ad90aeadb3c62baa8eea5b9963464d1b15c845a18a5c0661b9d840a7",
+      "size_bytes": 49271
+    },
+    {
+      "path": "resources/520074/data.json",
+      "sha256": "b46192bd4df614c6b5e2aed19100c13fcb9e6146be1c4937070a31fefb9fdc01",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/520074/index.html",
+      "sha256": "87799ffdc6863bfe78331d6e179ab7be6100a344147942c6271bb903046ca78c",
+      "size_bytes": 49261
+    },
+    {
+      "path": "resources/6-451s05-th/data.json",
+      "sha256": "ac99eab5d4b4bfe01e23d476157896dd9da4def79413b105966b2fa0b4b2a692",
+      "size_bytes": 768
+    },
+    {
+      "path": "resources/6-451s05-th/index.html",
+      "sha256": "5e1b4699ddec760ec0dfcc02f80480444cf5237054bdaa81908e8876eb9a5134",
+      "size_bytes": 49675
+    },
+    {
+      "path": "resources/6-451s05/data.json",
+      "sha256": "933e96be52bdf05a07b5e89713c08454551c83c1b24665dd48708e3408739aa3",
+      "size_bytes": 834
+    },
+    {
+      "path": "resources/6-451s05/index.html",
+      "sha256": "73f7a1443882e94264f42c98ca4863558bb820dc38f14c6b1bc7a47bbebd77b3",
+      "size_bytes": 49780
+    },
+    {
+      "path": "resources/6/data.json",
+      "sha256": "4b3d08bf19964af7023d2f7a9c7d318b73f57534a71a8bf0d6760d4e6db062c8",
+      "size_bytes": 588
+    },
+    {
+      "path": "resources/6/index.html",
+      "sha256": "0f1521bb8e3d0c7f11e71991f2626ac6fd4c699457c42325176e6844ff931663",
+      "size_bytes": 49388
+    },
+    {
+      "path": "resources/7/data.json",
+      "sha256": "df5ff36e577179b1e661a1050737866583366c904026a6d096d75dc3709d1264",
+      "size_bytes": 588
+    },
+    {
+      "path": "resources/7/index.html",
+      "sha256": "8fbcf250e34f6a1f17a5991b2317edc2b2a31dfd960cc300b3ac89a224059acb",
+      "size_bytes": 49388
+    },
+    {
+      "path": "resources/8/data.json",
+      "sha256": "73ffc11283e5dd82b4a473ea968178a094c2cd67184161ed3f4084c00df4f9c5",
+      "size_bytes": 588
+    },
+    {
+      "path": "resources/8/index.html",
+      "sha256": "272c43ed1e7bec68d717a8831143c30c099398558371734476a1c5e5d25192bd",
+      "size_bytes": 49388
+    },
+    {
+      "path": "resources/8hvtaortokc-1/data.json",
+      "sha256": "3f975c25a22a519e4ca4ab295365ba8114ae15bb57a26ac7e8dca3467d157974",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/8hvtaortokc-1/index.html",
+      "sha256": "bbca0ceb6a158f620801c66937d7ace184e626a8d460921c696b4e0aaa691eed",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/8hvtaortokc-2/data.json",
+      "sha256": "1a0254a5033aca607b9fecd13314559170803883be5c4d78a98ed6edc365ba1d",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/8hvtaortokc-2/index.html",
+      "sha256": "9901dc0d066d20e91b49a14ec9af113cbdfdcc56ade9d619716af8c28986bc13",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/8hvtaortokc/data.json",
+      "sha256": "22489ca7a2d9d0fc674c7b7047868c4fb2eb5fc4a6a7e034b072db5cea3c79fd",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/8hvtaortokc/index.html",
+      "sha256": "9d84b03fbee220003a83105540a82079ddd454e06ea79e4218f31b6717ae9238",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/9/data.json",
+      "sha256": "bb855dd8ea0189f02ddfe95f89169c2f29287a65bb2b5144fd87e948fee75c3d",
+      "size_bytes": 588
+    },
+    {
+      "path": "resources/9/index.html",
+      "sha256": "ed2fa66c761872ccfd74fa6f027d9fd1882f7421279d129fa967c6545b2cb6c6",
+      "size_bytes": 49388
+    },
+    {
+      "path": "resources/assignments/index.html",
+      "sha256": "f221ed5b223e2a831714ace8ab667142766103ddb4dfe31fb2b407fb7a13ab4a",
+      "size_bytes": 47627
+    },
+    {
+      "path": "resources/assignments/index.xml",
+      "sha256": "b34b5bcd156ff834cca68352e6013cff4b64e604bc07f758b8d643dda43cda6d",
+      "size_bytes": 4099
+    },
+    {
+      "path": "resources/chap10/data.json",
+      "sha256": "8bc1bdf1366894656ca963c4c8ade59412e3e204eedbb426e0c172e4a6d0510b",
+      "size_bytes": 1517
+    },
+    {
+      "path": "resources/chap10/index.html",
+      "sha256": "868ad66afddc59aca1b3cd2f3bc9aea7a5798a85004ed418eb6b009281010d6e",
+      "size_bytes": 50333
+    },
+    {
+      "path": "resources/chap11/data.json",
+      "sha256": "c242f5e5b7951eba61ec6904c4975394a5b2a50ebfef19e5826879cd96927825",
+      "size_bytes": 1553
+    },
+    {
+      "path": "resources/chap11/index.html",
+      "sha256": "b149451e11161307aa96c4bf38b0a8117801145a663311724a188ec5ee4668af",
+      "size_bytes": 50405
+    },
+    {
+      "path": "resources/chap12/data.json",
+      "sha256": "35dd9a233c26ab6203a5df35b85f8063033c1843d8444a1caaaaecd8834face0",
+      "size_bytes": 1411
+    },
+    {
+      "path": "resources/chap12/index.html",
+      "sha256": "9c2567a88c5ef0b48e5e641d6c2f8c0b1dd8036e7170d9e9e2e35fa6e3db5d18",
+      "size_bytes": 50121
+    },
+    {
+      "path": "resources/chap13/data.json",
+      "sha256": "7a0c1b680b9654d73c6f4742bdaf0bdf8957a775466fb80308a37efbe2165696",
+      "size_bytes": 1519
+    },
+    {
+      "path": "resources/chap13/index.html",
+      "sha256": "3cec0553421a4b4fb33a81665f9bf6c79206d2d3cf21d36f7032126f2633dce1",
+      "size_bytes": 50337
+    },
+    {
+      "path": "resources/chap14/data.json",
+      "sha256": "f27482bb5784bbc42090df9fbac45de0f1d585deaf75edd27eefde94f48db4d1",
+      "size_bytes": 1705
+    },
+    {
+      "path": "resources/chap14/index.html",
+      "sha256": "ed5ce280c0fe2a0bdc2190d0a3bd4f7d431c39c0084627883e40a9ce6ae85f86",
+      "size_bytes": 50709
+    },
+    {
+      "path": "resources/chap1_3/data.json",
+      "sha256": "414321274e3718d149c023642eec5c8bf7e8b585e008c32c3087e0952b83082a",
+      "size_bytes": 1124
+    },
+    {
+      "path": "resources/chap1_3/index.html",
+      "sha256": "cc1d5bb72aac7a8759c6869b1022ed098c81c537268ac6c52f481d84d2fa813a",
+      "size_bytes": 49899
+    },
+    {
+      "path": "resources/chap4/data.json",
+      "sha256": "d3e6d7fcb1bc39259c107e826d0e6b9dde953dbcb20c49155051bdb48298a53a",
+      "size_bytes": 1501
+    },
+    {
+      "path": "resources/chap4/index.html",
+      "sha256": "5a84b1febb1f29e2ce0f5579d7ee9ebe0af1e6fcb8945bd9e6742c1778150aa3",
+      "size_bytes": 50292
+    },
+    {
+      "path": "resources/chap6/data.json",
+      "sha256": "4101a8fb50fe2e442bbfb7acff09e8b7ccccdc88393c2f291a63efda15123a11",
+      "size_bytes": 1557
+    },
+    {
+      "path": "resources/chap6/index.html",
+      "sha256": "3dad6d95c6e3146b71f388e16989cfb0b22cddade251d6b937c5a8ec1f75f897",
+      "size_bytes": 50404
+    },
+    {
+      "path": "resources/chap7/data.json",
+      "sha256": "710162d74c2354b042b59ee1fbf8de1e2e57eac676c827d28ae1a0027a56a559",
+      "size_bytes": 1653
+    },
+    {
+      "path": "resources/chap7/index.html",
+      "sha256": "2f854332bff96853c943659f4ec7a30043a32fbe9d9c584a17878a33b49ceb62",
+      "size_bytes": 50596
+    },
+    {
+      "path": "resources/chap8/data.json",
+      "sha256": "499bf277a52f0f9ddaa9c2c4b04ac62c1e6a4835e6be2391df10b5109af5a2a7",
+      "size_bytes": 1491
+    },
+    {
+      "path": "resources/chap8/index.html",
+      "sha256": "2a1006e74aeff3fb5d5750834f103c30d2e00b7409b07f9c45a7d3e87910d08a",
+      "size_bytes": 50272
+    },
+    {
+      "path": "resources/chap9/data.json",
+      "sha256": "25b5445f8d4b3cae9606ed083553d449377186b17dc565a2d2a4c9cc47cdadfd",
+      "size_bytes": 1635
+    },
+    {
+      "path": "resources/chap9/index.html",
+      "sha256": "05a0407e5d88742df0e069902ce87f131334a120125a4504d01937ecb40715b8",
+      "size_bytes": 50561
+    },
+    {
+      "path": "resources/chap_1/data.json",
+      "sha256": "c1825890faf411cf8bf2c4a41d509513ba04f153850dcd0c78b97163d8152fed",
+      "size_bytes": 1557
+    },
+    {
+      "path": "resources/chap_1/index.html",
+      "sha256": "b7479264c5902f2a224b590c5c2b1a08ccad59ccb10a17098b8cb4e331c56c03",
+      "size_bytes": 50413
+    },
+    {
+      "path": "resources/chap_2/data.json",
+      "sha256": "3a87ade65cea654e57614f1a217f3a496dc97e379139f448fbb22e73912471fc",
+      "size_bytes": 1535
+    },
+    {
+      "path": "resources/chap_2/index.html",
+      "sha256": "dadf5c9b4a961d9333c6eba0c5f5ec7623852071e8b9576cf95476c0a6627bc7",
+      "size_bytes": 50369
+    },
+    {
+      "path": "resources/chap_3/data.json",
+      "sha256": "b3f3ddd29779eb93708765896b578c6c74d13339992eeeab3d30814ad3ffca20",
+      "size_bytes": 1409
+    },
+    {
+      "path": "resources/chap_3/index.html",
+      "sha256": "d6c120526419945f5c84bc5b463affe58a1ec8c531ca8d0d96fecd910a174f2c",
+      "size_bytes": 50117
+    },
+    {
+      "path": "resources/chap_5/data.json",
+      "sha256": "6ca80f16cea72317de175d465b5a3b3f804e53b5bda3a3a4585f68507bcaffdf",
+      "size_bytes": 1789
+    },
+    {
+      "path": "resources/chap_5/index.html",
+      "sha256": "0e2975993700d0f2cc3e1c7b5e42b16891cf7dd412bb17903ffc1cc085bcc72c",
+      "size_bytes": 50877
+    },
+    {
+      "path": "resources/cxgu2gtg5ro-1/data.json",
+      "sha256": "7636ed559e1f8c586bbcbd4bd7ffa67a3508a02684fb9aaf5cadccc635034c21",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/cxgu2gtg5ro-1/index.html",
+      "sha256": "01a60dc8846d7a360f14e2b5c652bde1ce01ce00c390467c6a70b39b0459e93a",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/cxgu2gtg5ro-2/data.json",
+      "sha256": "9dc2f9c63241bf37610bffff0ff6fcde72788361f8261ea285d86c2b5035428f",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/cxgu2gtg5ro-2/index.html",
+      "sha256": "622ae657dc251bb00c5278442641dbdb4230c92628046e2f1863b5aed982786c",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/cxgu2gtg5ro/data.json",
+      "sha256": "1fd26e20d39f0cdad586b0a912a35c1472fd0e8963ce6224869ef735133dffc9",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/cxgu2gtg5ro/index.html",
+      "sha256": "5a3ec77df53281df006870f78c0eaad902c21ba821a83fe87a3c447e1964d2f8",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/d_mg_jnnevu-1/data.json",
+      "sha256": "b337b8873a0143e7167cccf6e0c3dac360eeb2c2a85ddca3930797cf4721b725",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/d_mg_jnnevu-1/index.html",
+      "sha256": "30edb4c3d07d9ab53bde291cbe8dd5dd3e446d96430ed9d657c051aaa0511016",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/d_mg_jnnevu-2/data.json",
+      "sha256": "2fc0c84fe306fd9ca98ff16aa2146eeecfb11901f08a1902370910da13fa99b3",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/d_mg_jnnevu-2/index.html",
+      "sha256": "25805b2a11f9d14034217f6a3b03c5c315cb183f0a88c67d8e59fa8e1f25b6b7",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/d_mg_jnnevu/data.json",
+      "sha256": "a1c8ac45e744510a4ee4990eb633d77b7c0ed56df34b612b5a556e1e7b69088c",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/d_mg_jnnevu/index.html",
+      "sha256": "8d71ea5c5ba9bc1ef86a519179f3ae3519112685bcc4406e6138a7e7aa2dd12b",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/dnontre2cf4-1/data.json",
+      "sha256": "2c29529b2d57002954de9431f83c7be3809f29980b7df67b5114d3ceb1ab57fa",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/dnontre2cf4-1/index.html",
+      "sha256": "3d3a921826ceb5b46445baa3efec4bc5e87fd82b05750d5e57e992e07000ef13",
+      "size_bytes": 49720
+    },
+    {
+      "path": "resources/dnontre2cf4-2/data.json",
+      "sha256": "68c2e60e70e63f68188c7cdc93c01d3ffa51125f01e362fbbfabe1f1a872c046",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/dnontre2cf4-2/index.html",
+      "sha256": "ac8c6e12698096340be0a31ebc840a1939864fb0ac44df59f4213b33bed0ae66",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/dnontre2cf4/data.json",
+      "sha256": "1cc011129d7c9a8890e3deebd45b311df60aab4f8d0136b5208958d2cb9737a0",
+      "size_bytes": 538
+    },
+    {
+      "path": "resources/dnontre2cf4/index.html",
+      "sha256": "0e6d1d3884133b8ce39b50e18fccbe8343436155513c7733a1c2337f797791a7",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/dy44bdqxrao-1/data.json",
+      "sha256": "5971235c48c0ca4d847493eaf0727449a603b1a0209484e2b5f7ac50eeea5263",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/dy44bdqxrao-1/index.html",
+      "sha256": "4b66568620f1cb0389f8e319674793d050f6c0a5bba4eb9ec58c849aee612a6f",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/dy44bdqxrao-2/data.json",
+      "sha256": "9bf91a1d478afc85f2de3db5c0928702ccacb28bf4de5eb7c073c846f7aa3964",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/dy44bdqxrao-2/index.html",
+      "sha256": "9ccd5894369a11a4c431d9f5e112de178c35b2414ba0a999de66a9e76dbedc3f",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/dy44bdqxrao/data.json",
+      "sha256": "d1707d8839d79df44f341971de4ee3a20c78a50f04f1da7cd77f91ebe20ee5ab",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/dy44bdqxrao/index.html",
+      "sha256": "0099ff8dc3570869c6a1577b12f2ee888251a3e99801de5bd2c23ecc5b98e2c8",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/dyrlomvrqdw-1/data.json",
+      "sha256": "066ebe89b54c502bb15a52bce8877a6edeed868c906b05505e8dee46f39ae1dd",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/dyrlomvrqdw-1/index.html",
+      "sha256": "b783a72a0275afe3e1ebbf333a61a48f0e09bcbac0b09051ea5bc9bf3cfe042a",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/dyrlomvrqdw-2/data.json",
+      "sha256": "13805d36134cca95a112e964ebd44a0e882b9396933f03a459f7364407326523",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/dyrlomvrqdw-2/index.html",
+      "sha256": "be8ad1f2a15b98d31004475eea16d100f9ff698055064a382c111d5440fcf70b",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/dyrlomvrqdw/data.json",
+      "sha256": "035f69fc11fb6c9eb2e74d4fb4518d8428e67249ef8ccc824ec249f97fd858d1",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/dyrlomvrqdw/index.html",
+      "sha256": "c2b9e8d1da8f0785d69ebff2892f04bc0e93fbf48a2226863d662ffb798f4ef5",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/exam-solutions/index.html",
+      "sha256": "a524acf9e879f47e57e571d1f5763a7cf49a82cf4f6089b91050c6016eb31797",
+      "size_bytes": 53624
+    },
+    {
+      "path": "resources/exam-solutions/index.xml",
+      "sha256": "ecf700fa4a9a6d5932fd5bbec6dbf698e299a281d621815b37ab8d167312d5fe",
+      "size_bytes": 2255
+    },
+    {
+      "path": "resources/exams/index.html",
+      "sha256": "35a8ae79c2bd239222e61e7e3d7d991cec872f180e7b81d5249eec10e41c7caa",
+      "size_bytes": 55872
+    },
+    {
+      "path": "resources/exams/index.xml",
+      "sha256": "2a0d5816a4fa40e8c7e77f98564d036c5f8c3b358af7f52c67d7da4cbe7e8646",
+      "size_bytes": 6575
+    },
+    {
+      "path": "resources/eyqohn4-4jg-1/data.json",
+      "sha256": "ff629dc3e92043555b738ed10b3a61b0d8c8a8a1c86fa8467511c5139ea85c50",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/eyqohn4-4jg-1/index.html",
+      "sha256": "13ce231f184df4e9245ef89c10f99cb4ae26be197838679d7c501ae505b9d3cc",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/eyqohn4-4jg-2/data.json",
+      "sha256": "b45be0729366f1b3a69449e2fb5af60e7395768302cb7e2ef65750fb6a933e2e",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/eyqohn4-4jg-2/index.html",
+      "sha256": "83c903979d4013dbfc8a5e8b413c6ade4069238b2003ab612ef1524de053fe84",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/eyqohn4-4jg/data.json",
+      "sha256": "d8015addda1a16a722809bf195b146e31c9c896f812fab5845299beaa6df73f2",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/eyqohn4-4jg/index.html",
+      "sha256": "9183b32baa83f276b317a78a57085b4a2c7cea6670a1e68b90d0134f91288861",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/final02/data.json",
+      "sha256": "de874090b240a9dbde390113298c0ed94858f3596d04ad125748e641d79129d1",
+      "size_bytes": 1332
+    },
+    {
+      "path": "resources/final02/index.html",
+      "sha256": "9b8c12b640df3b44bd57c6dae2f2c239749944cf314f351819e3e078dd18203c",
+      "size_bytes": 50889
+    },
+    {
+      "path": "resources/final02solns2/data.json",
+      "sha256": "ec0237b726501ee4aaf22662560ccb145178c04eea45d12fb62bc4ab9a93b55d",
+      "size_bytes": 1291
+    },
+    {
+      "path": "resources/final02solns2/index.html",
+      "sha256": "82f825de7e6c90ad65790d7e6f0b706875ebbd3f404c0e5a331d45508cc3cb09",
+      "size_bytes": 49952
+    },
+    {
+      "path": "resources/final03/data.json",
+      "sha256": "ec089955216f566fa50bfc5fe425e799cc8d83941a600b5d31039352e3bed54d",
+      "size_bytes": 1356
+    },
+    {
+      "path": "resources/final03/index.html",
+      "sha256": "cac71aa70933b1e1ea88cb4121df34dd7bae7e15ce5a1e40f68e21489eb7218e",
+      "size_bytes": 50937
+    },
+    {
+      "path": "resources/final03solns/data.json",
+      "sha256": "78913168fd1d7ab4a75f70fa2b23c06edf57a402ac0d592beed4f55910206812",
+      "size_bytes": 1299
+    },
+    {
+      "path": "resources/final03solns/index.html",
+      "sha256": "04d8bbb76e538f6e55a76e253ba85e397d4d2a8ea17aa31bdf7821a784daee7b",
+      "size_bytes": 49959
+    },
+    {
+      "path": "resources/final05/data.json",
+      "sha256": "a9152e05b1bca32bbddcab68d884d8887dfde6b542044f46522f1fbf81e8cc2d",
+      "size_bytes": 657
+    },
+    {
+      "path": "resources/final05/index.html",
+      "sha256": "7f61bd6f7d4fb7bee0ba98beefee531ba0d386fcde8d9ae3dbf5e91e72784aa8",
+      "size_bytes": 49882
+    },
+    {
+      "path": "resources/final05solns/data.json",
+      "sha256": "fcec078ae0a5d0f82586e95ec39411955d493adc4016e008280b8e3a0adf97bb",
+      "size_bytes": 1126
+    },
+    {
+      "path": "resources/final05solns/index.html",
+      "sha256": "3d7b6e389cad5dc356058ab6ee37f948d6b24d0105175dc388eb383413a934db",
+      "size_bytes": 49956
+    },
+    {
+      "path": "resources/gqvlvhgkfhc-1/data.json",
+      "sha256": "045bfbb86aea8dc5df65ceb6608d8e9239a0828023605e6686b0608ebd218b7d",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/gqvlvhgkfhc-1/index.html",
+      "sha256": "7fbddb55a8227c6652fd58e1514c93eedf1559f9eafeca01b1c1827e48128171",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/gqvlvhgkfhc-2/data.json",
+      "sha256": "8a89c610ee946d3aa05c4d4fe0efe25ef28b15fdf5d03561c0fd3a7dc6198566",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/gqvlvhgkfhc-2/index.html",
+      "sha256": "96af40e27616c1b83d6b6e73ec605e4b68cf8a3fbbe576987528eec0f45f696c",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/gqvlvhgkfhc/data.json",
+      "sha256": "dcc424cb42171eed938b8c0540736b31551b1f368ff80e0484846b2107afbf69",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/gqvlvhgkfhc/index.html",
+      "sha256": "27c5fc9c01749ffc764a509e205ec50611121ce9ebf34af1aeb1c4a1c28a639a",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/hwgd1cpfiyk-1/data.json",
+      "sha256": "0f6ff21c4dbe4fa5a860c785150b3b7b5c4f59f5dfcdf6080dae13a06dcf0701",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/hwgd1cpfiyk-1/index.html",
+      "sha256": "282a70bb642d9b0712845e517d50ad7d3d74de33243eb67a9f1aaba315139f5d",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/hwgd1cpfiyk-2/data.json",
+      "sha256": "a7c4cb75f295e80c3a56c99640e4098cc71033aa8db2dac242b328242219c7d4",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/hwgd1cpfiyk-2/index.html",
+      "sha256": "199a8eee11cb54f2592fec997de3b394ebf6db6188f41eaa668af99ae7b26290",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/hwgd1cpfiyk/data.json",
+      "sha256": "07784ee35ab7459d8f1252b409303e98e1b182609218b3bd2fbe5fee8bdd97fc",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/hwgd1cpfiyk/index.html",
+      "sha256": "0824af478d437054ec235a8a7b3a67ea5cbc50748c2ee398dfb8ceaf2169e12f",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/kalmfmv3_im-1/data.json",
+      "sha256": "67cd7ca69cb059434190a887a13ee405b6230a96d99d7a601835749d5b4c6924",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/kalmfmv3_im-1/index.html",
+      "sha256": "e6bad586fb547fe465755d1cbd65c68923bfb58b77a49a85accc92669a62757a",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/kalmfmv3_im-2/data.json",
+      "sha256": "72fe864f3bd55687ae4c699c49e53685491310fb9d51a17ac3dcbb3e32d23d94",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/kalmfmv3_im-2/index.html",
+      "sha256": "f49def718e3576f87cb38aa845ccd9fa76528305f0ac6875ca55959e751bbf11",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/kalmfmv3_im/data.json",
+      "sha256": "d2f219096740778ad04b78c4f644973edbc7bfd26c714462279cc8b0785eae65",
+      "size_bytes": 538
+    },
+    {
+      "path": "resources/kalmfmv3_im/index.html",
+      "sha256": "1c7957fe7fe4349bb71ae87a9c27520fdfe190ef151a491d127e7e2b0d5e6aa8",
+      "size_bytes": 49297
+    },
+    {
+      "path": "resources/lecture-1-introduction-sampling-theorem/data.json",
+      "sha256": "54ce0cb2fd8ecf5c4afd7c932ccb27fffcceb7540bc15d115552c3d1b14b786f",
+      "size_bytes": 2080
+    },
+    {
+      "path": "resources/lecture-1-introduction-sampling-theorem/index.html",
+      "sha256": "60c5bab79ffe31584f46c4413b25837a5d81471509df636b1b3bb9af1a7b37de",
+      "size_bytes": 54386
+    },
+    {
+      "path": "resources/lecture-10-reed-solomon-codes/data.json",
+      "sha256": "59ab175ef14685b3baea63905f6fd964e0902c4353eed383eab4b7d0fb1f8bec",
+      "size_bytes": 1766
+    },
+    {
+      "path": "resources/lecture-10-reed-solomon-codes/index.html",
+      "sha256": "468a8478e1143582c490213622a6200314afa146e39260fe074d0532aa334cfa",
+      "size_bytes": 53863
+    },
+    {
+      "path": "resources/lecture-11-reed-solomon-codes/data.json",
+      "sha256": "a3f5438c2746a17a172edc7cbb616c090aa38611780f951fe10257e9d2f77c94",
+      "size_bytes": 1766
+    },
+    {
+      "path": "resources/lecture-11-reed-solomon-codes/index.html",
+      "sha256": "770491a17b46d7850d225fb7d2e1100deb10c47552dcc1c690f165eb84531695",
+      "size_bytes": 53863
+    },
+    {
+      "path": "resources/lecture-12-reed-solomon-codes/data.json",
+      "sha256": "8fb02c41611c64a3c8f5c715988405f220c496e6b9cf1355842b167c27bb8550",
+      "size_bytes": 1766
+    },
+    {
+      "path": "resources/lecture-12-reed-solomon-codes/index.html",
+      "sha256": "a1a3ce3cdaaa3a70c4983c0bc3980ea98270e468488792c2fd25c95b98c74fe1",
+      "size_bytes": 53863
+    },
+    {
+      "path": "resources/lecture-13-introduction-to-convolutional-codes/data.json",
+      "sha256": "2f7064c08bd7d038b176963b5554247ae5dc214e2a0624c83b7ff4ed6707d869",
+      "size_bytes": 1817
+    },
+    {
+      "path": "resources/lecture-13-introduction-to-convolutional-codes/index.html",
+      "sha256": "990050144f6d83878d67ef4fc7e60d49fce1903d81b09e0a1264e7cb322eac3f",
+      "size_bytes": 54050
+    },
+    {
+      "path": "resources/lecture-14-introduction-to-convolutional-codes/data.json",
+      "sha256": "e367730e5478dc5198ad5a76f1820ee2932f7e69086b65136c0e6734a1b8f234",
+      "size_bytes": 1817
+    },
+    {
+      "path": "resources/lecture-14-introduction-to-convolutional-codes/index.html",
+      "sha256": "97477a30e991db1db2736ffa28b9b54b970f33649dd1da2ce8b940237e8ef09d",
+      "size_bytes": 54050
+    },
+    {
+      "path": "resources/lecture-15-trellis-representations-of-binary-linear-block-codes/data.json",
+      "sha256": "61159a00c4c6bea377ed59061df69cdaa8bc3d1f3a0025b20113ea8ca3b80deb",
+      "size_bytes": 1869
+    },
+    {
+      "path": "resources/lecture-15-trellis-representations-of-binary-linear-block-codes/index.html",
+      "sha256": "d24629885759625c60091c143fc480321fff31e85a9b9863964346ad466876ff",
+      "size_bytes": 54238
+    },
+    {
+      "path": "resources/lecture-16-trellis-representations-of-binary-linear-block-codes/data.json",
+      "sha256": "88b7d1319d7f57c5e23284423931ef451e48d06753c6e4684501ba0502939ff1",
+      "size_bytes": 1869
+    },
+    {
+      "path": "resources/lecture-16-trellis-representations-of-binary-linear-block-codes/index.html",
+      "sha256": "942c66d8921e5406f8efe597da51917752c8e14743547f91dbc2602ca98cc146",
+      "size_bytes": 54238
+    },
+    {
+      "path": "resources/lecture-17-codes-on-graphs/data.json",
+      "sha256": "1de8c93ab130ff778d237ec430f93b63d80d26653e42cb360306d1b4cfcc561d",
+      "size_bytes": 1791
+    },
+    {
+      "path": "resources/lecture-17-codes-on-graphs/index.html",
+      "sha256": "e315c6f71cfaa4094e68120d00edcabca6d013b65ad0ebd4b4a31b0a1e78fdca",
+      "size_bytes": 52952
+    },
+    {
+      "path": "resources/lecture-18-codes-on-graphs/data.json",
+      "sha256": "cdc460e97525abeb095de7dafa26f370ad0c645ec6bed5da1ea1c25044845dbe",
+      "size_bytes": 1758
+    },
+    {
+      "path": "resources/lecture-18-codes-on-graphs/index.html",
+      "sha256": "cd6b230f93d5bcb186bbd93d9e97a3aa1a51975443e0ca9f4d172802275f1cbb",
+      "size_bytes": 53831
+    },
+    {
+      "path": "resources/lecture-19-the-sum-product-algorithm/data.json",
+      "sha256": "bd67619c15c27fa10b244ed2d44d267981576bf95519ad1218de6ef9842329f4",
+      "size_bytes": 1789
+    },
+    {
+      "path": "resources/lecture-19-the-sum-product-algorithm/index.html",
+      "sha256": "d223908e7799308b991982ee7dd5af4c9f78ee364d1e2259241301924c941a75",
+      "size_bytes": 53945
+    },
+    {
+      "path": "resources/lecture-2-performance-of-small-signal-constellations/data.json",
+      "sha256": "f69037b66fc45629e5e0684f44d4f507bf0b30ab6a5a8003566e9d75fcf16d40",
+      "size_bytes": 1836
+    },
+    {
+      "path": "resources/lecture-2-performance-of-small-signal-constellations/index.html",
+      "sha256": "6b6e049576bfcde0c0422c59d02330489b242d44ed60b85195056e807a651f84",
+      "size_bytes": 54116
+    },
+    {
+      "path": "resources/lecture-20-turbo-ldpc-and-ra-codes/data.json",
+      "sha256": "88bb8d07b1791c3eda4f658ed7c3d04cc7bcebe6833dad691796561212c49486",
+      "size_bytes": 1779
+    },
+    {
+      "path": "resources/lecture-20-turbo-ldpc-and-ra-codes/index.html",
+      "sha256": "57b71038941dd6d5d1d199811fc5ebccfa6ac438a58dc02816e375d6a3082064",
+      "size_bytes": 53920
+    },
+    {
+      "path": "resources/lecture-21-turbo-ldpc-and-ra-codes/data.json",
+      "sha256": "b2fc3b0483c1c74780d28803d5a3f7f1803a8228a7e72c9294a207dbdec580ae",
+      "size_bytes": 1789
+    },
+    {
+      "path": "resources/lecture-21-turbo-ldpc-and-ra-codes/index.html",
+      "sha256": "4c996c38ba5d68aa9394a1b9f73c02901365133bcd3a4d780001bd35d726087f",
+      "size_bytes": 53935
+    },
+    {
+      "path": "resources/lecture-22-lattice-and-trellis-codes/data.json",
+      "sha256": "ac2b9553f92dedb9559ed6da082c6f407d5b8c13445838f07e7ef1038ecf79a5",
+      "size_bytes": 1821
+    },
+    {
+      "path": "resources/lecture-22-lattice-and-trellis-codes/index.html",
+      "sha256": "e620900b4d52de0e7c7ef7e9cf889972faea4efe0b3548a7c7b2289aaba5b514",
+      "size_bytes": 53052
+    },
+    {
+      "path": "resources/lecture-23-lattice-and-trellis-codes/data.json",
+      "sha256": "5536f3c8888e11bc35a5116da436d787c9f5276b8a4286589ec0cb7cb51a7f0d",
+      "size_bytes": 1789
+    },
+    {
+      "path": "resources/lecture-23-lattice-and-trellis-codes/index.html",
+      "sha256": "477290de606fd722d9ae867af71a81b24d0984d762ab91a4e6bea9c0d4cf1a59",
+      "size_bytes": 53945
+    },
+    {
+      "path": "resources/lecture-24-linear-gaussian-channels/data.json",
+      "sha256": "b76421ffa430817f443aec7491c41b82d7bad6f6149d7ade2b3d9e7893e027e1",
+      "size_bytes": 1669
+    },
+    {
+      "path": "resources/lecture-24-linear-gaussian-channels/index.html",
+      "sha256": "864c5210ee5d26d7cdfe650d1fddf161d2ca05798de48151dec36492f15327a5",
+      "size_bytes": 53042
+    },
+    {
+      "path": "resources/lecture-25-linear-gaussian-channels/data.json",
+      "sha256": "4f3cc92bde33a42c2985f42a67a960615ba52d74ca53ce8b114db8416ef0a68d",
+      "size_bytes": 1669
+    },
+    {
+      "path": "resources/lecture-25-linear-gaussian-channels/index.html",
+      "sha256": "cc9d538ad91e88c60e100ce5e539f69e534447ac008e865b480cf35443328517",
+      "size_bytes": 53042
+    },
+    {
+      "path": "resources/lecture-3-hard-decision-and-soft-decision-decoding/data.json",
+      "sha256": "a852a2fb611db4eaf46f14023181c00318aea70b6f8f75ee7631a35938322750",
+      "size_bytes": 1831
+    },
+    {
+      "path": "resources/lecture-3-hard-decision-and-soft-decision-decoding/index.html",
+      "sha256": "ab237128968c29e7ba102c4ba4e1b4d7dd9c0f51bb0d1c2f23fdb54eea1dee3c",
+      "size_bytes": 54095
+    },
+    {
+      "path": "resources/lecture-4-hard-decision-and-soft-decision-decoding/data.json",
+      "sha256": "1889038eaf2b94487dff60358188f53bd242e434c4bcc719714753ea26b0e088",
+      "size_bytes": 1831
+    },
+    {
+      "path": "resources/lecture-4-hard-decision-and-soft-decision-decoding/index.html",
+      "sha256": "89c7c3bea189373a36a04b42220f7231e55561ab4c225b8c2d1f2e78b6cfb3f2",
+      "size_bytes": 54095
+    },
+    {
+      "path": "resources/lecture-5-introduction-to-binary-block-codes/data.json",
+      "sha256": "deef95d9079e1a99ecebfe882321ccfeeaeb1ad9c00b94eda9a6d20943cc06de",
+      "size_bytes": 1812
+    },
+    {
+      "path": "resources/lecture-5-introduction-to-binary-block-codes/index.html",
+      "sha256": "d3e87725b7e1dd8a33fcbb13d74fee43dda08a37a5e3f135a9e42a35ce8bec88",
+      "size_bytes": 54028
+    },
+    {
+      "path": "resources/lecture-6-introduction-to-binary-block-codes/data.json",
+      "sha256": "d04393bb21dd58563cb6ff32dc4d312ee923eb77538a463b386093118c7592ae",
+      "size_bytes": 1812
+    },
+    {
+      "path": "resources/lecture-6-introduction-to-binary-block-codes/index.html",
+      "sha256": "0165a6541db3fe00bcd9ffdba7a71e1631c85097a41e071847e7f6312a783432",
+      "size_bytes": 54028
+    },
+    {
+      "path": "resources/lecture-7-introduction-to-finite-fields/data.json",
+      "sha256": "42f9d2933309400684d10de3e04a966cb92e3ae9c3ec5d1e899ba22dd2548ad6",
+      "size_bytes": 1797
+    },
+    {
+      "path": "resources/lecture-7-introduction-to-finite-fields/index.html",
+      "sha256": "b17b80cd940920b81afa6bd0bb2305fd50a1a896bb07351e93b8893b2d9483db",
+      "size_bytes": 53973
+    },
+    {
+      "path": "resources/lecture-8-introduction-to-finite-fields/data.json",
+      "sha256": "781a5a567067b0e3a0f21ac94dcf582e2d2cf1d87f87b7ea47dc0d51b1b21811",
+      "size_bytes": 1797
+    },
+    {
+      "path": "resources/lecture-8-introduction-to-finite-fields/index.html",
+      "sha256": "8fbbcf9258dd39eb94b5afa78c30f1af15ea7a81684c22b63bb0c0030e098f11",
+      "size_bytes": 53973
+    },
+    {
+      "path": "resources/lecture-9-introduction-to-finite-fields/data.json",
+      "sha256": "7b066a327e8c72f7f58ad5f8f1559eabc4adeb693d0a27439cdf11b6fb1c8d3b",
+      "size_bytes": 1797
+    },
+    {
+      "path": "resources/lecture-9-introduction-to-finite-fields/index.html",
+      "sha256": "2a3000ffbadd22af5ebba50e29501540f38d9e8a71f094a9bcb4fd054e857500",
+      "size_bytes": 53973
+    },
+    {
+      "path": "resources/lecture-notes/index.html",
+      "sha256": "b2d9081ea6925b0c6437383ecd4e1bde6bd3e61b2006c104bcbab04214336eb6",
+      "size_bytes": 66484
+    },
+    {
+      "path": "resources/lecture-notes/index.xml",
+      "sha256": "8efa02422a4fef936839e70bbfba9405bd7b291c509b256cc1ee0198589e7780",
+      "size_bytes": 7788
+    },
+    {
+      "path": "resources/lecture-videos/index.html",
+      "sha256": "abb5cef824efd4915742be082e35ae716b5d62cd190e7c30e791571b4128c14d",
+      "size_bytes": 79109
+    },
+    {
+      "path": "resources/lecture-videos/index.xml",
+      "sha256": "02145566be4eec0330f2216f8e5bd30b4b2b7f26a30d785bcf8365e715e888f9",
+      "size_bytes": 30433
+    },
+    {
+      "path": "resources/midterm005-1/data.json",
+      "sha256": "8a12b77ddb8729e0d89e8f5d276ee52100921ca7b7a57f07e0d1533e5eddc7d9",
+      "size_bytes": 1321
+    },
+    {
+      "path": "resources/midterm005-1/index.html",
+      "sha256": "c885b5ea1eb37bd0ca731e2750a8da72914f0750c4057c417517ce1d209731f5",
+      "size_bytes": 50905
+    },
+    {
+      "path": "resources/midterm005/data.json",
+      "sha256": "ac82e030fc8641a5329b63a78204b7c8d74b443ef7e733da53ce99996e0a8736",
+      "size_bytes": 1103
+    },
+    {
+      "path": "resources/midterm005/index.html",
+      "sha256": "cad2ba925ad488b1f9f2d996cf2e397ea8d4094b4c46aee84237649a6fcff1ed",
+      "size_bytes": 49773
+    },
+    {
+      "path": "resources/midterm02/data.json",
+      "sha256": "fc8bcc36253f33702387f5a092dd2740860148eb98efa742b59e4a437cf73ce1",
+      "size_bytes": 1233
+    },
+    {
+      "path": "resources/midterm02/index.html",
+      "sha256": "58da1d5c3ab63685f98dad2ca399d033ed32fcd3542568d1810c77c3d50c9cdc",
+      "size_bytes": 50710
+    },
+    {
+      "path": "resources/midterm03/data.json",
+      "sha256": "c2c48a9ff7eaa14e2df36decc2e4f773134e12566826d5a56e20a984eeea0797",
+      "size_bytes": 1239
+    },
+    {
+      "path": "resources/midterm03/index.html",
+      "sha256": "28e5cefc3f41123f41291958fdb9be0c36d542e7cb700be3c696bceea4930af5",
+      "size_bytes": 50722
+    },
+    {
+      "path": "resources/midterm03solns/data.json",
+      "sha256": "085b41b32631cad7062b684ad0c548e72b22aec04bafd781b900ec4ad8463a18",
+      "size_bytes": 1356
+    },
+    {
+      "path": "resources/midterm03solns/index.html",
+      "sha256": "4887b80b63c94a64a9f441f17e79cf02179ead0a5b08cbf9cbccadd54aa73ccf",
+      "size_bytes": 50092
+    },
+    {
+      "path": "resources/midterm05solns/data.json",
+      "sha256": "2ac9f3c5b85ef29cc029c61db3086197741b8c905f0785ea74acf9512f773da2",
+      "size_bytes": 1357
+    },
+    {
+      "path": "resources/midterm05solns/index.html",
+      "sha256": "011f384a812bc0dedb7a939b60247e2aad25821a35ccad5abd6e25aa2eec9b0f",
+      "size_bytes": 50093
+    },
+    {
+      "path": "resources/midtermsol02/data.json",
+      "sha256": "35e18a33464cca38321d18a727d26c8576b2a9d23c4604a7d5cd05ac1d43f680",
+      "size_bytes": 894
+    },
+    {
+      "path": "resources/midtermsol02/index.html",
+      "sha256": "c3b51dff7868d45d34dd93cc14c6dc5d95c88ac6ded8df56729e09aac2d9b1e4",
+      "size_bytes": 50058
+    },
+    {
+      "path": "resources/mit6_451s05_fulllecnotes/data.json",
+      "sha256": "e25fbc9df0d88cc4f3352a93b97221e8e1d641e6dd42fcc8eb51d54cd691d361",
+      "size_bytes": 1423
+    },
+    {
+      "path": "resources/mit6_451s05_fulllecnotes/index.html",
+      "sha256": "4ce412c7af6b656b4a9a18d01e4fd4574b31b4be1d07cc53392b6c525d0ea8a8",
+      "size_bytes": 50306
+    },
+    {
+      "path": "resources/mnktn0y6gsu-1/data.json",
+      "sha256": "72bf15a63a7f081c017a701edbf905e41e20a3896282c1606425a76c46cb8e5f",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/mnktn0y6gsu-1/index.html",
+      "sha256": "8a454d74755918f23c5c8074470d9728677adbed9ce4fae51bd6da8e54108806",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/mnktn0y6gsu-2/data.json",
+      "sha256": "0b7d320924e97f68cfdb2c5248af50090be19f4f3ab5699a926be8f5866699a7",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/mnktn0y6gsu-2/index.html",
+      "sha256": "9851415fe07af54d51574b2c5417b0e6a8158d4f47bef92956739c8945bb4799",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/mnktn0y6gsu/data.json",
+      "sha256": "e88ad7c99c165f77fa8f64ff45fb454f9cb4be12d0945fba781a2d2bb94f8599",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/mnktn0y6gsu/index.html",
+      "sha256": "e8d7b6516c708710d208f6a14b66619bf5d8cfccb4bfc511e8036f2c42d78677",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/mvpmghsbsc0-1/data.json",
+      "sha256": "b1e43945337e53ca82e914ebb134b8e0418dbd0cada42144765827528646486f",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/mvpmghsbsc0-1/index.html",
+      "sha256": "28d03e5092b0ae83fca46bd132bd0904e54696d14f472298692909fed28f3f5a",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/mvpmghsbsc0-2/data.json",
+      "sha256": "4549d1ecde0bbcc03921940d393b707a6459f742c1968b3eefb99e407863dd38",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/mvpmghsbsc0-2/index.html",
+      "sha256": "d3393ecdc4b6da82bd36ed0d892820670f2920b81d884acc99d5de01a7d26b4b",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/mvpmghsbsc0/data.json",
+      "sha256": "e19e65507666d2400c8dde160ff887ef151a467a655845e76f4d039a01930166",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/mvpmghsbsc0/index.html",
+      "sha256": "50e8774d4697dd7a334ae0dba93f5153817d62295b1236648412015481788466",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/nnj9lhepqkm-1/data.json",
+      "sha256": "2be780784d01d0cf9815e1d0e5a2137fb17e41aa432ce12549710c19676eaf2e",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/nnj9lhepqkm-1/index.html",
+      "sha256": "6aa971efcf364d44f329c35a1027b551e2514c65ba3d7fb9a9906057b3dc3779",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/nnj9lhepqkm-2/data.json",
+      "sha256": "a60c009b29c7bda27deb7359c3b431647727dd3b0c045273a682a5ff8bb070d8",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/nnj9lhepqkm-2/index.html",
+      "sha256": "5a60c2d041c2a481785afe0932448f106e4506a8eba33d3f51bdc2d66d50e79b",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/nnj9lhepqkm/data.json",
+      "sha256": "46e603c47fe99f7f30c6e26ec6e581b8973afa70360198794f1f3e737a699d8c",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/nnj9lhepqkm/index.html",
+      "sha256": "8fc39eba0a8fd181d61c0ae9ed624dd65ecf76fc624ba82d11ee5ee900597416",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/ojafrre21we-1/data.json",
+      "sha256": "67de86959c6227760fca3641b05146d4bbd29545b667369f9666597b08b8d028",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/ojafrre21we-1/index.html",
+      "sha256": "485af5ce3188806945e0fc447cc5ed3b16a0b2a8e1b38940fa2b943ae192c211",
+      "size_bytes": 49720
+    },
+    {
+      "path": "resources/ojafrre21we-2/data.json",
+      "sha256": "9d157580b94381d6d715c37b75358e470dcd7bc0ee6ed42fd6a3ac27849adffb",
+      "size_bytes": 538
+    },
+    {
+      "path": "resources/ojafrre21we-2/index.html",
+      "sha256": "bc916ba86af667c00ec6fda8c2de7a838ccd2bbca289c7bfc4ce47636469db14",
+      "size_bytes": 49307
+    },
+    {
+      "path": "resources/ojafrre21we/data.json",
+      "sha256": "208092147c1600b5bb49f7c62f3a95fd8d0ec46a1ef2b990fa325d1ac364ba6b",
+      "size_bytes": 538
+    },
+    {
+      "path": "resources/ojafrre21we/index.html",
+      "sha256": "638f21a5cda9ad94d6c781a94471707e9292ba227ac20ff8f146a576454fd9d2",
+      "size_bytes": 49297
+    },
+    {
+      "path": "resources/problem-set-solutions/index.html",
+      "sha256": "2934977fd5336325afa62b3e607728923604e25b214cd358f9df9d34c208c20f",
+      "size_bytes": 60684
+    },
+    {
+      "path": "resources/problem-set-solutions/index.xml",
+      "sha256": "4c48a61ec87556106084d5383817bedcbc420e43c281bced200871465c594591",
+      "size_bytes": 5544
+    },
+    {
+      "path": "resources/problem-sets/index.html",
+      "sha256": "cf0ab87ec4cd4b37b02ca7efa165d426c71f5a89741097ba46d49fa93f6159e3",
+      "size_bytes": 59286
+    },
+    {
+      "path": "resources/problem-sets/index.xml",
+      "sha256": "ed6a3d4ffaa769f9a1f789e4cd816bbcf904b58e8d0a6ab399f98bb56d1261bb",
+      "size_bytes": 5233
+    },
+    {
+      "path": "resources/ps1/data.json",
+      "sha256": "ef6627ef4422a32405cf26c6d4f0c758ea0228af23ea85b523d771e099518124",
+      "size_bytes": 1402
+    },
+    {
+      "path": "resources/ps1/index.html",
+      "sha256": "6fa9a7bc76b081cb77c0e8b001fe8a9e3f5fbf5c06487350c9c1471ed8582880",
+      "size_bytes": 50081
+    },
+    {
+      "path": "resources/ps10/data.json",
+      "sha256": "b51f0536d4f61064260c54ae94df9f74519a696cdce4f6e4b2a0491d8faecc1e",
+      "size_bytes": 1404
+    },
+    {
+      "path": "resources/ps10/index.html",
+      "sha256": "ee3e71151f7f4aea1cd481780f8fceb028aba435ce76db48f3d0238a7a52732f",
+      "size_bytes": 50094
+    },
+    {
+      "path": "resources/ps10solns/data.json",
+      "sha256": "c73b8bffdd03fcc14ad2fb469d7c1307369aa899c5550100d9c9747d10f1df38",
+      "size_bytes": 1447
+    },
+    {
+      "path": "resources/ps10solns/index.html",
+      "sha256": "3c910205351f95d63c529aba23e17a000898cc0b4c83f18f3861e7d95bec3593",
+      "size_bytes": 50216
+    },
+    {
+      "path": "resources/ps1solns/data.json",
+      "sha256": "a361af2af5eed86799c6362fecac688dbaf1ad30b504184026bb2aeb6f43aa7e",
+      "size_bytes": 1446
+    },
+    {
+      "path": "resources/ps1solns/index.html",
+      "sha256": "04a7631179ab4d9003fdcdd82f9c1288b85afc529bd4cce89b4af3021db5dc88",
+      "size_bytes": 50204
+    },
+    {
+      "path": "resources/ps2/data.json",
+      "sha256": "bc668e0eb86a44b401216a7167a49fe5227ad00b302b7a00e83066f6d7d9e9d8",
+      "size_bytes": 1588
+    },
+    {
+      "path": "resources/ps2/index.html",
+      "sha256": "456a5cd6f06448bd231c65ca1703eceac32500124f7d57d93d1906a05a5ed4b7",
+      "size_bytes": 50453
+    },
+    {
+      "path": "resources/ps2solns/data.json",
+      "sha256": "e83e4a3968b7b5e4179d261010b5b4b71e152e502b0f15cefff2d5975757e2b9",
+      "size_bytes": 1631
+    },
+    {
+      "path": "resources/ps2solns/index.html",
+      "sha256": "73cc351999441d458b216cf5472087e53cb1921d477c47d7a724aefb784d423a",
+      "size_bytes": 50575
+    },
+    {
+      "path": "resources/ps3/data.json",
+      "sha256": "ff20d71bf8c71540c27c9ebd1fcc632b2fe9b42cb900e0863d5ef6ab3a55cf25",
+      "size_bytes": 1530
+    },
+    {
+      "path": "resources/ps3/index.html",
+      "sha256": "5bf8b282d12b72f1e7970f9147e8e8dbb4e4156201476d6256e26f73050b91ad",
+      "size_bytes": 50337
+    },
+    {
+      "path": "resources/ps3solns/data.json",
+      "sha256": "b2f770c3de6a3657dc4da31ef3cfb34a901120796d523cfbd68c37ecf9a84993",
+      "size_bytes": 1572
+    },
+    {
+      "path": "resources/ps3solns/index.html",
+      "sha256": "89ab60271864196119cee783575cbf41b5ceb03042d1b53c8ae842c52bd0290f",
+      "size_bytes": 50456
+    },
+    {
+      "path": "resources/ps4/data.json",
+      "sha256": "cfc33dfe1727d90cc78ef2fd7de5d079dbcc63a865fb6f49d2597826e64a3aeb",
+      "size_bytes": 1550
+    },
+    {
+      "path": "resources/ps4/index.html",
+      "sha256": "032e2c3bc9e0a52b466c7f8dd594d516ccad9443d40e16cba562b57fb898eb96",
+      "size_bytes": 50377
+    },
+    {
+      "path": "resources/ps4solns/data.json",
+      "sha256": "6a4813880fe5f1f209fa16e53c2e533063a3fc7b5efbad59cbd242b2f251db97",
+      "size_bytes": 1131
+    },
+    {
+      "path": "resources/ps4solns/index.html",
+      "sha256": "b5746752307200283acc4b788f6820fbcab8748c964e407fdc6cc7e7a8491821",
+      "size_bytes": 49917
+    },
+    {
+      "path": "resources/ps5/data.json",
+      "sha256": "e0aa794437e1384c7e0ba001fc2e55f14e76d01fcf9a3d44af84c3e68514d205",
+      "size_bytes": 1782
+    },
+    {
+      "path": "resources/ps5/index.html",
+      "sha256": "1210740dbf9625515c64d89194a338d43aecfec8551c0c99d90e7540bcfe9dfa",
+      "size_bytes": 50854
+    },
+    {
+      "path": "resources/ps5solns/data.json",
+      "sha256": "e1f0fd294f09b61ad046309352057588198b54108d53284ebebf23584bf829cc",
+      "size_bytes": 1826
+    },
+    {
+      "path": "resources/ps5solns/index.html",
+      "sha256": "efcb3067a2c01fe25a0a52d07052e8eb029a8d9794d54c28ba9034b48818d7c6",
+      "size_bytes": 50977
+    },
+    {
+      "path": "resources/ps6/data.json",
+      "sha256": "34db5c4d6c8bebab00488e53ed24119059ec03f4ee04e42d20cc2e7682af5ef7",
+      "size_bytes": 1560
+    },
+    {
+      "path": "resources/ps6/index.html",
+      "sha256": "15cfb1357aa85535261ac3feef3745df27303e166d7b4a3bd9f45fe3b950c312",
+      "size_bytes": 50398
+    },
+    {
+      "path": "resources/ps6solns/data.json",
+      "sha256": "5177b81ea0a9d65a5eb543e5650e02d599664cca882fd3a6a5f023ed5e219215",
+      "size_bytes": 1604
+    },
+    {
+      "path": "resources/ps6solns/index.html",
+      "sha256": "df0a3754f5b866a4a480e938d25db302095c4902b8fe281ef8854b647c74ef8d",
+      "size_bytes": 50521
+    },
+    {
+      "path": "resources/ps7/data.json",
+      "sha256": "230398c505f2d475d243684d2b37377c680a95c742fb18e2bee9d70d1217970e",
+      "size_bytes": 1842
+    },
+    {
+      "path": "resources/ps7/index.html",
+      "sha256": "3a5da4be2bfa93984243490fcee6c248193f9e3781f3922f5e8ee0fb953ac66e",
+      "size_bytes": 50962
+    },
+    {
+      "path": "resources/ps7solns/data.json",
+      "sha256": "a75552c9ad49770a80246b5e4eeab944e473e162be6807d3360dd6e7385db943",
+      "size_bytes": 1885
+    },
+    {
+      "path": "resources/ps7solns/index.html",
+      "sha256": "b325c53a93bea2ee88a1cd78fb2451239e19f44a6fe28cdf1e52513e51bd0e36",
+      "size_bytes": 51084
+    },
+    {
+      "path": "resources/ps7solns_2/data.json",
+      "sha256": "3e6e427f4329906513b9fa2af1100a9c37f2c084de9c7c6e8330a0d61488639b",
+      "size_bytes": 1135
+    },
+    {
+      "path": "resources/ps7solns_2/index.html",
+      "sha256": "a9ce2b9e3081933d800b28fcd193c32b09829ba014fa2993c1e9feb90f1b3916",
+      "size_bytes": 49943
+    },
+    {
+      "path": "resources/ps8/data.json",
+      "sha256": "6eafa2f8c8fd2cb3b5c690c63d0c561286c1d99cd97bb5720ff24f5dd5ef2f0d",
+      "size_bytes": 1422
+    },
+    {
+      "path": "resources/ps8/index.html",
+      "sha256": "1640cee8e0d74a00badb22b3259b1fb3c2c162bababc91814a2fe10ae417d955",
+      "size_bytes": 50121
+    },
+    {
+      "path": "resources/ps8solns/data.json",
+      "sha256": "c4a08e6e8679e12b2ebc46eb2785554cbda1cdd1fa495de8985818b5a5ee2e5c",
+      "size_bytes": 1466
+    },
+    {
+      "path": "resources/ps8solns/index.html",
+      "sha256": "6edaacd10b845fd72c911d4f648f95001687975503d6b8b84903a8d05a11bac7",
+      "size_bytes": 50244
+    },
+    {
+      "path": "resources/ps9/data.json",
+      "sha256": "cb560d614dd63f8ba82d1d976e6f0f2ec307995dbed8a7ccf7923600656d1eb7",
+      "size_bytes": 1604
+    },
+    {
+      "path": "resources/ps9/index.html",
+      "sha256": "22459fd61ad98607e5dfbd1796042b0e7c6c38a23204748f6e84d9803e2b088f",
+      "size_bytes": 50485
+    },
+    {
+      "path": "resources/ps9solns/data.json",
+      "sha256": "b5affbe34c58905a7fbbb27c9af15d0b8f87f219b1b8f880ca8a520df6c32cfd",
+      "size_bytes": 1648
+    },
+    {
+      "path": "resources/ps9solns/index.html",
+      "sha256": "b0159847258d1b8ac2e65baa99d36cbedeaeda4ad426dcc329653a46488a1c38",
+      "size_bytes": 50608
+    },
+    {
+      "path": "resources/q4lsdylkzci-1/data.json",
+      "sha256": "f4ac5e3c342ac3a6950536ad184b90f71c731cd080e586a6235aed82157cb41d",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/q4lsdylkzci-1/index.html",
+      "sha256": "fcd91c50f64d50d5e02318e9bf25f0a3d252189896578c43f3b151a1a7e2ccb4",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/q4lsdylkzci-2/data.json",
+      "sha256": "a8caf42f30ec485e9c82984db853b07289bda81d81a45827ed74dbf4804293db",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/q4lsdylkzci-2/index.html",
+      "sha256": "e0765c1900829d3ebc2d224d2b57ee1d4b60a329c1a9aa9f508673d67bd0e9a5",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/q4lsdylkzci/data.json",
+      "sha256": "3af1d57cab2adf44f59d77415be69e09113314d75ec1df74c2a8847907f98a3d",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/q4lsdylkzci/index.html",
+      "sha256": "4cacd89b10046f9c186606995b269007ee6d7705d4096dcf7fae15c05292204c",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/sv08nmxzdau-1/data.json",
+      "sha256": "dee21f198ab129a5a3a374b1a4910f2bfe7a9b1eadb504884ef26990f25b7415",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/sv08nmxzdau-1/index.html",
+      "sha256": "2bfea2b7c7101df1c6f0bf9c60bcdccdc5267bbc05dea5d9b90739ad8446d522",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/sv08nmxzdau-2/data.json",
+      "sha256": "0c3fe34ecf26c0e224d2d6f39fd853df8c645c29630c7dec6aaeee4d2534b216",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/sv08nmxzdau-2/index.html",
+      "sha256": "cbead3fd8e63cf42e13d28fe6f1f4e54809035c89b54804e2686685047fd26be",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/sv08nmxzdau/data.json",
+      "sha256": "0208a5c2a87c3c42eab1bf87363d4a6272a4f581660e3046c67aad32edbb190b",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/sv08nmxzdau/index.html",
+      "sha256": "563757cc97f23b9e98f2f417f8deeeb16e42bad3c7e0a3806ff451a85862eca5",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/vxb3qmtg8yq-1/data.json",
+      "sha256": "6c4886ec49c806d847519fcf4c6c18806f43b4e70be070d0123916c20e643b4e",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/vxb3qmtg8yq-1/index.html",
+      "sha256": "4e575371d794cc5f6fc2fc08ca5e9124e7d5abf1f940802ecd2d6c19842b4e62",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/vxb3qmtg8yq-2/data.json",
+      "sha256": "7ac513d0c5bcd548303f71b33a54bc031c067ea7ad1e6eec6a912450900dc9c8",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/vxb3qmtg8yq-2/index.html",
+      "sha256": "6a1727644a2a7f6445595874e96cf2194312914efa349b457460dc7dbeb8c2f5",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/vxb3qmtg8yq/data.json",
+      "sha256": "a6d3d85f6ecb20678fd915a8a03d41476c7fbc2eff47e10bc802faea815d4ae8",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/vxb3qmtg8yq/index.html",
+      "sha256": "347d1adb3243443d626f09ead997681f8cbc81ba6cf6417b96655a46476d4216",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/yegklhb9tou-1/data.json",
+      "sha256": "420dd31e5a4a1e5840cc371a2d7a8fb79df0be04c8eab0eba77cb74b476d466e",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/yegklhb9tou-1/index.html",
+      "sha256": "61e714d4329522895a7a4c4b6d13c31b08c8d228ce2892c98c816e3b675a48cc",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/yegklhb9tou-2/data.json",
+      "sha256": "1cdeab1dd2422012bba15103e7442c163f90d5e715ee29fb48acfeb46696fd9d",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/yegklhb9tou-2/index.html",
+      "sha256": "df50edfd80bd28a9b1ae5faf902a3ed10961ed24386758f4aaeae8aea500081c",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/yegklhb9tou/data.json",
+      "sha256": "6eb90d9cdfc1e7bfe7828f9edeff43a88cf0aff010980db2bb6224f7565ae0f6",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/yegklhb9tou/index.html",
+      "sha256": "e75dbd74f1eb967442f2aad4cd8d0b4f6974f697e7fa281b305736d0f3a4c459",
+      "size_bytes": 49296
+    },
+    {
+      "path": "resources/ypabqu7nuzq-1/data.json",
+      "sha256": "d1719794d20a7c925fcd3291d46d34530b90f5a9dd83cbc50764912d0963a150",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/ypabqu7nuzq-1/index.html",
+      "sha256": "3b25b517c6dfac826cb68fbdb246c2e63147c331872720544b00b927cae00a91",
+      "size_bytes": 49720
+    },
+    {
+      "path": "resources/ypabqu7nuzq-2/data.json",
+      "sha256": "017a67cd7b78cfebb31bc88277b8fe5ff97d87d9bc2e883ad9516c1e77c7337e",
+      "size_bytes": 538
+    },
+    {
+      "path": "resources/ypabqu7nuzq-2/index.html",
+      "sha256": "266a497dbf567981c3ac2760c27e01d1e35ae5cbd01c7136be9a640f8d5db896",
+      "size_bytes": 49307
+    },
+    {
+      "path": "resources/ypabqu7nuzq/data.json",
+      "sha256": "80faabbc3def327876419cfc80e13451ce9ac82558089ed96612c17a5b2332d5",
+      "size_bytes": 538
+    },
+    {
+      "path": "resources/ypabqu7nuzq/index.html",
+      "sha256": "1af429158abdf653f34a7e72a4b70d80f83a5d6eef89324480a0362a254e55e7",
+      "size_bytes": 49297
+    },
+    {
+      "path": "resources/zwzcmrkiikw-1/data.json",
+      "sha256": "453c7c34e3da46366e537314f42f6bd23593f3382ec922e6b9d17e7b2244e8b3",
+      "size_bytes": 531
+    },
+    {
+      "path": "resources/zwzcmrkiikw-1/index.html",
+      "sha256": "8314b31fc8c8f77a5c332c5c26cd1197884d741beb0031daa0d1dd2e871ed912",
+      "size_bytes": 49719
+    },
+    {
+      "path": "resources/zwzcmrkiikw-2/data.json",
+      "sha256": "82919116d73a93eee2f3ed0758164759c385ab8e263299ec76709dee873910cd",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/zwzcmrkiikw-2/index.html",
+      "sha256": "8a04a97d151ab1f13879f0d08bc98dcb464a4499b9ce21b5ed8a887bb3016324",
+      "size_bytes": 49306
+    },
+    {
+      "path": "resources/zwzcmrkiikw/data.json",
+      "sha256": "7e7bda7f3e18eaecf4ff52015f84c3f5accd3b44d6c8edae1b01f10fc4eecc58",
+      "size_bytes": 537
+    },
+    {
+      "path": "resources/zwzcmrkiikw/index.html",
+      "sha256": "abe8753e6a12dc991c61ec00a55eeaa4f55299603eaf6b10abb7f6dcd790a367",
+      "size_bytes": 49296
+    },
+    {
+      "path": "robots.txt",
+      "sha256": "f27970d7026ceb04fe68877b9fa112cf6a93a2bd537c8dce7e7fdc27182d5a62",
+      "size_bytes": 64
+    },
+    {
+      "path": "sitemap.xml",
+      "sha256": "1187215abe463c3fdb6dafa917410c283f9bb6ede65a3f9a7138e009f1249176",
+      "size_bytes": 18449
+    },
+    {
+      "path": "static_resources/01060b08ba74792ee8d85eb82b9efdb4_chap8.pdf",
+      "sha256": "906d770dda29940bef9a2a5f11550d4c1375ce8f8c7ef047b6b089f400e5c36f",
+      "size_bytes": 922433
+    },
+    {
+      "path": "static_resources/02535788c876bc64a6fadcb80f3cab22_24.jpg",
+      "sha256": "6539cb01485e0d7068ea75535f27d65e1e9e0907d3abe48ee2d8f9b83f3d76a0",
+      "size_bytes": 1916
+    },
+    {
+      "path": "static_resources/0473f8c34eb7c804ca9db14ae43e7929_GQVlVhGKfHc.srt",
+      "sha256": "399e874ab0ee25261e0586532e7a1f73146da18e0de896b03fbbedaa94415899",
+      "size_bytes": 94924
+    },
+    {
+      "path": "static_resources/05011b34c8bda9f85f723da708b4baa7_DyRLOmVRQDw.srt",
+      "sha256": "1559de5a460abb54407c4b87c6cb9b35dcc0c19ec5a82774745241043abd4eda",
+      "size_bytes": 95562
+    },
+    {
+      "path": "static_resources/057008d81a76b0c8e0b937c3b3143e7c_ps7solns_2.pdf",
+      "sha256": "39f77f332e419d103ff6d5de678407ac8e2b169dc415ab63eed4cfb45dadbb3c",
+      "size_bytes": 102833
+    },
+    {
+      "path": "static_resources/072b278828c13d55ce164af1d98da21b_final03.pdf",
+      "sha256": "42f32e5497a5032a3ca81f87bbb1a2c78b634bf4bfe6e74c283548b201fa0ddd",
+      "size_bytes": 105679
+    },
+    {
+      "path": "static_resources/089ae22a325d1e7b9086e83f7505768c_12.jpg",
+      "sha256": "1f751963b95a07f8f67b1ea60c88da0ccb9bb9ddfb5fb442c1694ee220df86fc",
+      "size_bytes": 2049
+    },
+    {
+      "path": "static_resources/0925849f28ee6af4cd84b60d34021e3f_25.jpg",
+      "sha256": "e9c1ab26d8728a9092d8b0b2d466f51eeb551bf1f0e5046be3ca97b0cd8dc7e4",
+      "size_bytes": 2554
+    },
+    {
+      "path": "static_resources/0ae07dafba3c5f0b81e489c2726bdcdb_8HvTaOrTokc.vtt",
+      "sha256": "0a391f6b6d01bdb3558cf54c659ad37207b869e8a281d5e60c75d17a601a75af",
+      "size_bytes": 92068
+    },
+    {
+      "path": "static_resources/0b90ab652f79f402d19a9686dafee4fa_MVpmgHSBSc0.srt",
+      "sha256": "899eb9d16fecdff56c7a9302e8ca33de2721af54195c21c91f2e4bd391b1f1a8",
+      "size_bytes": 81417
+    },
+    {
+      "path": "static_resources/0df71ab812b4291b223ecd69d46de64e_KalMFMv3_IM.pdf",
+      "sha256": "c9425882c3d275ac46637c3d3ba2c3de80de123146876817aed6dd7384b2ef84",
+      "size_bytes": 99507
+    },
+    {
+      "path": "static_resources/0e1fa0150ae8c1292edf410c06a138bc_7.jpg",
+      "sha256": "6228a26df541a93015437fb4098952aa1d65a0b35f1f330e089baa1071a21fb6",
+      "size_bytes": 1856
+    },
+    {
+      "path": "static_resources/0faea0dcb211a416b56436600236a0a7_final05.pdf",
+      "sha256": "e4c759175f2322f1e3dd771c81e691f50a71fcd974f02caac73b3423e29bb26f",
+      "size_bytes": 147207
+    },
+    {
+      "path": "static_resources/1142dd5581763d91d595d214194f95aa_GQVlVhGKfHc.pdf",
+      "sha256": "959eaf0c1761b2d08191ef99738d7e1550e28cce43d65676960155c0a1ea545d",
+      "size_bytes": 92288
+    },
+    {
+      "path": "static_resources/11df17cda2189cb54de7213ad1c6fcd4_4HtXKIbiOvI.pdf",
+      "sha256": "8b0b5c9d85531364e7d52d972d02f0f89840ea16ff26b0100a3145198850e97f",
+      "size_bytes": 92542
+    },
+    {
+      "path": "static_resources/13a4ba8a120cea693cbc1959a80c025b_midterm03.pdf",
+      "sha256": "374106d8ce3ac111ca1a3e4e5548d63643be7fa70e3f6cce3b387fa919ecf3f9",
+      "size_bytes": 89569
+    },
+    {
+      "path": "static_resources/13eb2511ccbd88c109c9011a6b0087b9_18.jpg",
+      "sha256": "4b9a9c3cde0cd186f536fa0066231c6fe6a908b64a710aea44394f37770578a3",
+      "size_bytes": 3186
+    },
+    {
+      "path": "static_resources/147cf944eeb88d98e97f2d8c76f7fcc9_8HvTaOrTokc.pdf",
+      "sha256": "4a449110580e89650bb3ee8b029b6437b70269f70491679ddb207164ab6247f0",
+      "size_bytes": 99758
+    },
+    {
+      "path": "static_resources/178193a41c4ca1a94a8a14d5071bb71e_YegKLHb9TOU.pdf",
+      "sha256": "a04263949d0259886704010ba1763d1512d148424009b44a9c81f56a0ba4705a",
+      "size_bytes": 89496
+    },
+    {
+      "path": "static_resources/1a3ad00d83d1d042da3328a8edd9edc2_chap13.pdf",
+      "sha256": "0c0ec73938b54c9b023a9f1bf435ac93f8fcafbef45189f0ebecb1c82301647e",
+      "size_bytes": 298789
+    },
+    {
+      "path": "static_resources/1b67ae9f5c124c3bd56c8649afa5af47_chap10.pdf",
+      "sha256": "64589f228a1c7d7c69252212b43da4bce33c0d8397240d9d250c75c23c785fd7",
+      "size_bytes": 240928
+    },
+    {
+      "path": "static_resources/1cf75cf557835e32a4179dda4df95f85_OJafRrE21WE.vtt",
+      "sha256": "9b7533e71ff4688194f4370ad4923aecbae3a7688ef373fe2a4a5a1789a43017",
+      "size_bytes": 102041
+    },
+    {
+      "path": "static_resources/1e763fac8a2a9777de7e6c22973a2457_ps4solns.pdf",
+      "sha256": "26f4a571696947689476e0e78fa15348978813b5f61e7f500391dc7ef7e1799b",
+      "size_bytes": 119388
+    },
+    {
+      "path": "static_resources/233218e32dcdaa3019f0aba50e98414b_midtermsol02.pdf",
+      "sha256": "e991654a4bcf1cec837e41ab5e8f82cce4324a1a833412329a5982622b352728",
+      "size_bytes": 271660
+    },
+    {
+      "path": "static_resources/246e78033b721bb45bce2738097a9979_DyRLOmVRQDw.pdf",
+      "sha256": "7ac1cec4ec9bfe42752356fee121f833c70cb6dc41076ea7bf67c8ca2d1c794e",
+      "size_bytes": 94054
+    },
+    {
+      "path": "static_resources/26272a054def6c3695d7d2ef7435104d_6-451s05.jpg",
+      "sha256": "cb72fcf8e7b1f9fdb72b5214c2b8a29efe1ae7d847bdc28deb29c88f561a4045",
+      "size_bytes": 75301
+    },
+    {
+      "path": "static_resources/2717629c83d90e1d8a89c7949fd33e73_mnkTn0Y6GsU.pdf",
+      "sha256": "00041f28edfbbf4b6eca1bf83658a0c7eb942f34e2c0b90fa5855f48e9560047",
+      "size_bytes": 85129
+    },
+    {
+      "path": "static_resources/28eebe8f610d548070dae1bf3f74b6cd_chap_1.pdf",
+      "sha256": "d1ec3532493525b9bd07da0a2d41e1bae970105c8f1483683abde82d81b1baf0",
+      "size_bytes": 189095
+    },
+    {
+      "path": "static_resources/2b96f28a4eeaf227e57f1e419aab8733_21.jpg",
+      "sha256": "96671f0425dec2f6f38395bdd0cad829c5979b083ea1e4c3a5e0385c9acb4dc3",
+      "size_bytes": 2362
+    },
+    {
+      "path": "static_resources/2cafe005e0dde893f4aefa00c2438f28_3eqYo1LCGdw.pdf",
+      "sha256": "6270c18d8ff486d9b4e654217022583ab8f456d5e78355edd2bae23136916911",
+      "size_bytes": 94614
+    },
+    {
+      "path": "static_resources/2ef72bc99981568da97cf6c104ce3bd4_DyRLOmVRQDw.vtt",
+      "sha256": "bd79a8d1fa2ee7d48e0ff386c635f6aff1e42e171f66dee671780dc4b706e690",
+      "size_bytes": 90362
+    },
+    {
+      "path": "static_resources/334ceae860636a0c35b179192be61104_ps1solns.pdf",
+      "sha256": "5368a07e68f1f4149196ef011ccd715d180771d5ac0fe5eb2c3040aa9176ddcd",
+      "size_bytes": 184026
+    },
+    {
+      "path": "static_resources/3842f83d45775121ab338bba11ae6660_mnkTn0Y6GsU.vtt",
+      "sha256": "1a4abd0258d51fca95607c512fc95aaf03e31c8ef89395d73b400a71eaec1ada",
+      "size_bytes": 80179
+    },
+    {
+      "path": "static_resources/3d17eb0cc8732729607664b17cd98cb2_CxgU2Gtg5ro.srt",
+      "sha256": "3dfc128c980c461cc611d198ca99ce4612e703b35b122939a784b7403d0402e9",
+      "size_bytes": 94189
+    },
+    {
+      "path": "static_resources/3e91a9520411d3fa12266784a9927602_ps1.pdf",
+      "sha256": "3657ffb16f2d71238c4df6d5b35c91c5de50af58b6ade14ae34a40fbf154174d",
+      "size_bytes": 89110
+    },
+    {
+      "path": "static_resources/3ff24be80368535bb2182be5a768d8c4_3eqYo1LCGdw.vtt",
+      "sha256": "f7a49d86e9e438db9299f5248667667e195d286814721feb3176c25e8d873446",
+      "size_bytes": 88731
+    },
+    {
+      "path": "static_resources/426c3acf789058f3ca67b31cecb802b5_CxgU2Gtg5ro.pdf",
+      "sha256": "b50e0ec662bf1d16b40e026c7770f1a60f7bf5dc47e321e4130afd01acc1c401",
+      "size_bytes": 95189
+    },
+    {
+      "path": "static_resources/43162a4e10d73639903282f4dd58001b_chap9.pdf",
+      "sha256": "a92a8dfc8d3ae4c7716e39f2de27a761e143b14551bee33bd34e845eb80f7069",
+      "size_bytes": 278178
+    },
+    {
+      "path": "static_resources/44929476b21b20a1172bf92bb01b7dc0_22.jpg",
+      "sha256": "4852897eb0803d3a1fdbeef25d4c95860bfc693737c9c8f35e379811c755dc12",
+      "size_bytes": 2507
+    },
+    {
+      "path": "static_resources/454037ebf1c7b6e7166b926fc576d9e5_2ludHpG_Q60.pdf",
+      "sha256": "65e77bfffa22c40a8a86bc6c2b2316611276b19aee225efdda144d1c1e152829",
+      "size_bytes": 93616
+    },
+    {
+      "path": "static_resources/454288f3c3c843687d65ce1ddf55317d_4.jpg",
+      "sha256": "633201765115b492f153f4c1cc3ae9df133a98b0a508ecc52f38d1ec527d20b8",
+      "size_bytes": 2381
+    },
+    {
+      "path": "static_resources/478f61dfc2f62cab63bd40653c0089c7_6-451s05-th.jpg",
+      "sha256": "3aa022d0dc33a86697cdde4b8527bff9656bb572e6e458d4100f57e3c45adedd",
+      "size_bytes": 13757
+    },
+    {
+      "path": "static_resources/4825a7e6368e7396bf2362dd9c1cb442_Nnj9lHePqKM.srt",
+      "sha256": "07010817beaefe9b4fbd40d9db7a8b56a6bb19f2a351a77b5b6472465e068359",
+      "size_bytes": 78193
+    },
+    {
+      "path": "static_resources/48a03949a4142318ff9a90f4b1dbdc84_final02.pdf",
+      "sha256": "146ad66e5b6b9575de7c610751d18c29fd9106785ddc135896514e071ffd084f",
+      "size_bytes": 102900
+    },
+    {
+      "path": "static_resources/48f6f7022199f81a81a83d15c124f8ec_2.jpg",
+      "sha256": "06c56e1f098a832a4153046a3ebd78b08c6b6b438cf873d2de4cedb7af122cc3",
+      "size_bytes": 2583
+    },
+    {
+      "path": "static_resources/517b4d44dbf4f26508fd2f6effb74aee_19.jpg",
+      "sha256": "8cbd58171e94f4537ffb57d2a1bb9eb6e5d9b65ffbc1f195724c6b39beb0a59f",
+      "size_bytes": 2456
+    },
+    {
+      "path": "static_resources/52c980d47cfedb6cd0614524b04a6e5f_chap11.pdf",
+      "sha256": "35a3dc43309525ff18b4b7b2aea0e67c7c8699b9b405c8f2e95ba2c2ec673946",
+      "size_bytes": 298534
+    },
+    {
+      "path": "static_resources/5507a5832ab1c9b489ea100d9e2dd2bf_chap14.pdf",
+      "sha256": "ad41d26f9fc8bdd52db29909d02e6c18e900c952f9d2c0f560ad5534bce27d11",
+      "size_bytes": 240271
+    },
+    {
+      "path": "static_resources/569b9e7d4587a6962f752cf0f40b9fe6_3eqYo1LCGdw.srt",
+      "sha256": "66fe05f1b5d4235f9f0fb799694726f21780345ba67fe4279700068ffd713ab6",
+      "size_bytes": 93876
+    },
+    {
+      "path": "static_resources/57da10187fabd27e44419335e1ad9efa_16.jpg",
+      "sha256": "fcd43b7ed50be3f95d7438e200a854090825b8f6118d6609f5c2c4bd94c1ff36",
+      "size_bytes": 2159
+    },
+    {
+      "path": "static_resources/586348b4c9923d82157938ca47aef270_chap1_3.pdf",
+      "sha256": "d574b077a7e023a7bf4f4b17667ddec79186fd31879adb22797fa52d8d60e487",
+      "size_bytes": 461178
+    },
+    {
+      "path": "static_resources/5ad518576018197e18919105b7c58cf8_Nnj9lHePqKM.pdf",
+      "sha256": "ccc6f6b2d9095c8d5b0f6202a154a48c1ed8b39246de9e098bcd08205a28e86f",
+      "size_bytes": 80032
+    },
+    {
+      "path": "static_resources/5b8b5d328a5a4df03e4dcbb68bfa2291_HwGd1CPfIYk.pdf",
+      "sha256": "be29b910fa07623d8bba34b00604daf8d12f8a8eaf3de4a4ec7427e691ee1d59",
+      "size_bytes": 97592
+    },
+    {
+      "path": "static_resources/5e3c4769a0835141843bbf94cf737a55_2ludHpG_Q60.vtt",
+      "sha256": "f360adfa832eb5243726e1c1e2a850513cdc973fc48a0b2e594e9c4e7bd3de08",
+      "size_bytes": 88316
+    },
+    {
+      "path": "static_resources/5f867f32084b046154f20699c652c4f5_15.jpg",
+      "sha256": "fd0f62f4813f6e71a8bc25b5e182aed1c4d9ee2ad798b05438e9bd05eb9a8717",
+      "size_bytes": 2147
+    },
+    {
+      "path": "static_resources/619c703ba1c29bad2c2c231325ce2856_3.jpg",
+      "sha256": "fedac5e2ddaf942d26e1525a2e5509a005070e0d844c025bc57fa2e32034790d",
+      "size_bytes": 2380
+    },
+    {
+      "path": "static_resources/6350e2f314e572cb298fa2aae6926033_13.jpg",
+      "sha256": "05f25e21545f4e9cf3111e99c5637c14a85c3fc07013a14280d9735529ba0ac6",
+      "size_bytes": 2235
+    },
+    {
+      "path": "static_resources/6586f05a379f5942a23e379c8e41a48d_zWZCMrKIikw.vtt",
+      "sha256": "8f385c3739357b0a113b5b36aadc7c8ec7507a7e0174a0f17154b880d61e9fd0",
+      "size_bytes": 89211
+    },
+    {
+      "path": "static_resources/68d9eb2c60876d85f6ed4975a891eb4a_8.jpg",
+      "sha256": "fc9e7b89f11fe1d8441c927b6e0a76da4ff4920cd13ce071c985d19dd9aafb6a",
+      "size_bytes": 1988
+    },
+    {
+      "path": "static_resources/73f32807ffae50217bb843a0ecf0133d_ps10solns.pdf",
+      "sha256": "605ababcaadba37aa303a08d088fe3eadeb050f6a169b2b7a75c75435a80fb14",
+      "size_bytes": 92693
+    },
+    {
+      "path": "static_resources/7782bf3c7b424f67c3e1afeb02c6d7d7_midterm005.pdf",
+      "sha256": "8b1a363df7a3505310dbcc6a85e1cc2e2fe12c5bd70b267ff4ff55fd290e69e9",
+      "size_bytes": 80692
+    },
+    {
+      "path": "static_resources/79c371b61f1156df80c39980d0a75e53_DNoNTre2Cf4.vtt",
+      "sha256": "fbc031a010380bc16270e815c869c38c7d868ad0f6010c2bcba0177ae212883b",
+      "size_bytes": 96328
+    },
+    {
+      "path": "static_resources/7a0f144b81bce551485912ecea086e94_10.jpg",
+      "sha256": "58541eb3e273999d9ab82321dc75173aad4763faa54d519661c3ce534242e5f9",
+      "size_bytes": 2467
+    },
+    {
+      "path": "static_resources/7cb3929341f072786598cd05c69a3f5c_chap_2.pdf",
+      "sha256": "5292e20387cbf5c5b0d354eaf75eba500bccba820e8b6cba1ecc24200c6a9f86",
+      "size_bytes": 231547
+    },
+    {
+      "path": "static_resources/7d9ee42ab1d45fff96ea387dc3c6d5f2_9.jpg",
+      "sha256": "ce7115c83acd5c69c3984edac89dd6e26671072a69b2cf82a98042a2c9548f98",
+      "size_bytes": 2472
+    },
+    {
+      "path": "static_resources/7db3feefc9a1576aa90414ba5448eb5b_GQVlVhGKfHc.vtt",
+      "sha256": "c60d3b7a9c1c4c8ca59f422113c4899caa6013a604ca197f35e2f4718eb16b34",
+      "size_bytes": 89929
+    },
+    {
+      "path": "static_resources/7e56a5ed159efe05e691082151b7e078_OJafRrE21WE.srt",
+      "sha256": "ad803bda1b89a070cf26810f3950e45d51a7a3c6090b8a760b06ae85253cb26b",
+      "size_bytes": 108126
+    },
+    {
+      "path": "static_resources/80fe15004ab2516693b1982acc0f334a_d_Mg_JnnevU.vtt",
+      "sha256": "79918e71e6571c261c35616da5d0c8a3c62e7ca1f4bdf2a6e4ff5fbf5f42ccd0",
+      "size_bytes": 88443
+    },
+    {
+      "path": "static_resources/81263d3a8c394108cb1e4be5b0b68cb0_ps9.pdf",
+      "sha256": "84ae5ba9e6047285e3bc5b85ca5bdd932ef590813a7e33079cc00b2e02c5fb1a",
+      "size_bytes": 54439
+    },
+    {
+      "path": "static_resources/8134f1377b33d7b320a2ce03c0b542aa_520074.pdf",
+      "sha256": "d55f7c3b7bccd18134971638126078a2c0d9ceb5ef53de528845f8d423283b78",
+      "size_bytes": 89852
+    },
+    {
+      "path": "static_resources/82a2ba862d566ea32020d7bc78cc2ba4_47yJ7g6DzkA.srt",
+      "sha256": "807bdd3c1a1d41f5b74771e696771dca2626cefbed561b2c7b5a826b9346f88f",
+      "size_bytes": 92606
+    },
+    {
+      "path": "static_resources/8540577a1db1401cf40e82eda3a23148_ps5solns.pdf",
+      "sha256": "cdf6ee58496a0a65a7338b67e7597cd10d71788d4a7bca7486fe9f5e529c1994",
+      "size_bytes": 123534
+    },
+    {
+      "path": "static_resources/8543b757a3f41f99a5482d8d4a59789c_ps3.pdf",
+      "sha256": "ec3efec5659e8108a1a147d4535f2c7290c6ec9f2e7036c52aedeef09137da2c",
+      "size_bytes": 65985
+    },
+    {
+      "path": "static_resources/85db76a1213858265891fb86b0a3e506_520074.srt",
+      "sha256": "dc608234375b881972fcc72f44c4cff573d5488dfccc6770bb29d58bdfb950c5",
+      "size_bytes": 87566
+    },
+    {
+      "path": "static_resources/86039a1323a693da03c2e363a25d0458_d_Mg_JnnevU.srt",
+      "sha256": "0329d76050d7751746836134967725f1ec801ea933781daecefa4ef6bafb6231",
+      "size_bytes": 93713
+    },
+    {
+      "path": "static_resources/8629a5d192b4ceb6aa9eca8a01025d34_6.jpg",
+      "sha256": "4e886eef8e8afc5463d6f5c7fe7907a597e3a3c708349d546943a909f3d5ddbb",
+      "size_bytes": 1728
+    },
+    {
+      "path": "static_resources/8921c013c1d7802bb197572c52442b97_chap7.pdf",
+      "sha256": "b9147d71f648853e9c80d6f3ce896e8e37b34b8c3d9408f8a7cc0a4f089ff368",
+      "size_bytes": 401534
+    },
+    {
+      "path": "static_resources/89f028e5ca5a568ba8e8a167ad14bcd2_KalMFMv3_IM.vtt",
+      "sha256": "1df6600cf47fbba5082316f1830b605f4dda2df6c5e8321251178ff02e07d442",
+      "size_bytes": 96783
+    },
+    {
+      "path": "static_resources/8b4406bfb8580a977c1ea12c022f18d8_DNoNTre2Cf4.pdf",
+      "sha256": "f3e14598fc28a5a977393e8b649f1bf3ade06c28a0007f7e9878e115bf994e85",
+      "size_bytes": 102479
+    },
+    {
+      "path": "static_resources/8ba152c3673b900fe4d63d55bf5f84f6_1.jpg",
+      "sha256": "3c2d2b89b52d1661d95184ce65dde2ffff737b5c218aa38be632c551ac7cb320",
+      "size_bytes": 2278
+    },
+    {
+      "path": "static_resources/8de8bf9772e35b2e86786edb42719f8e_HwGd1CPfIYk.vtt",
+      "sha256": "5f8827ac4440e3b8f594fc2dd7b2813d02897e543ccd0d293c328fcd1a287d9f",
+      "size_bytes": 90684
+    },
+    {
+      "path": "static_resources/8fa5bca3cba59820d2d7f02432423751_8HvTaOrTokc.srt",
+      "sha256": "8929411308babc1d8721677c90911cb86bc9b74fdd0503c128d60d5060be9623",
+      "size_bytes": 97513
+    },
+    {
+      "path": "static_resources/9013f9042abf6a4b6963b5757c7ad9ca_47yJ7g6DzkA.pdf",
+      "sha256": "2d9d4f05b794fe8a5f40c43cd0060978af0e58b5c353c227f8b91fc860e84a70",
+      "size_bytes": 93574
+    },
+    {
+      "path": "static_resources/9162ee3c131cbefcb47ca94d3d47718c_HwGd1CPfIYk.srt",
+      "sha256": "9a16a0ca6e1cbcceb38e3d12cecbdb6429f7ab5880a2db3fba40c5c30ba295df",
+      "size_bytes": 95889
+    },
+    {
+      "path": "static_resources/954a47e7f2e0505a7e7a2b5737e595e9_mnkTn0Y6GsU.srt",
+      "sha256": "c09304af95b09ff7086a7b698da8bd200598b12159a18f2398b8d4d129bb6e2a",
+      "size_bytes": 84999
+    },
+    {
+      "path": "static_resources/96f1d3a709a24e1500dea79d65627db2_DNoNTre2Cf4.srt",
+      "sha256": "a1d28b4e5370458fc9a859d4e0a2ff408e93a46f9edae3f7ab115dc44daee195",
+      "size_bytes": 101813
+    },
+    {
+      "path": "static_resources/98d941477ffc7844265386221faea802_chap6.pdf",
+      "sha256": "15d7f2174abe74c4ab9295abde82a8ab8ea6015b8bc4ae612a375dd14eff2111",
+      "size_bytes": 295877
+    },
+    {
+      "path": "static_resources/9a09a6eefc41531685bc32967ccb6391_SV08nmxzdAU.vtt",
+      "sha256": "01137ff210149fcef3f5007282e98ace3d685fc6e109f1ddd498c6e227db31cd",
+      "size_bytes": 87254
+    },
+    {
+      "path": "static_resources/9bd6ff59c3b9bfb93032ada9e0fe07c1_final03solns.pdf",
+      "sha256": "66854cd4e0ec1f58da523734a81141cf35eca43aad93707e9041a57b887f9c49",
+      "size_bytes": 141075
+    },
+    {
+      "path": "static_resources/9c669af76ebf74ffe46645541f1ff6b3_chap_5.pdf",
+      "sha256": "1bb6119c5707f71d1e1772b4718bc693c491576cc63d74b50834db92c496815a",
+      "size_bytes": 273523
+    },
+    {
+      "path": "static_resources/9ee2e226c7fa2b1c4330b0ba064ed05a_dy44BdqxRAo.srt",
+      "sha256": "7dd6dc313acc17ef93d6400f27503a7d8d707234f434be4bd5c966d2b84e547d",
+      "size_bytes": 97563
+    },
+    {
+      "path": "static_resources/a05a253379aba3efbd400e8b82dde603_midterm03solns.pdf",
+      "sha256": "128ccdfcbe335e4a9b0801a6f7afd19c71a3ffae85e2fe5034d0f1bae3f0f10c",
+      "size_bytes": 91202
+    },
+    {
+      "path": "static_resources/a15a016bed8c5e7a978a572d16e6377a_vXB3QmTg8YQ.vtt",
+      "sha256": "7fd769897fa6fc7af381e2d6f64212dad26631afe0b795f377b5a208c3d9f668",
+      "size_bytes": 79089
+    },
+    {
+      "path": "static_resources/a23d1ab1204c133267c8d7a6abb4c06c_ps8.pdf",
+      "sha256": "36432cc1fbb08a6897671fa18e9955b99b78e333dbb61a8f7f3959391cb45f57",
+      "size_bytes": 30229
+    },
+    {
+      "path": "static_resources/a309f18d7df6d909ebe2d544ed78c0ca_eyqoHN4-4jg.srt",
+      "sha256": "a5addda96dcf26e74da67eab7a2e538c7399bc6cd43107b04385462654789668",
+      "size_bytes": 83701
+    },
+    {
+      "path": "static_resources/a4dbf0718fe05c12b86e4453cba5093c_4HtXKIbiOvI.vtt",
+      "sha256": "39c5a921ffed6f3edd33aea0131079fd3127fc7431270ee8c36bb6942902ace6",
+      "size_bytes": 87249
+    },
+    {
+      "path": "static_resources/a5318ef5e5489f268ad8a08d31618bbe_zWZCMrKIikw.pdf",
+      "sha256": "74eb670d343b43cd9998505f4f85583c5e11e2ed038a1deaf4f8e8cc0ec2ada0",
+      "size_bytes": 96189
+    },
+    {
+      "path": "static_resources/a70beaa36d38e6af7160fc8112db08c3_5.jpg",
+      "sha256": "e4bd3fd2c173d38f76629866e82ed3b7474a5aaae03f9a38782197babb6d3744",
+      "size_bytes": 2434
+    },
+    {
+      "path": "static_resources/ab68368825b0cea85d4492ac5e355124_17.jpg",
+      "sha256": "1d0aaa8eeeefdaa68f6c343f0dbc8889ea98fa5d97ca024d378cc117163f0262",
+      "size_bytes": 2200
+    },
+    {
+      "path": "static_resources/ae35b1fe12361b4ff478fa5d61d917d6_YPAbQU7NUZQ.pdf",
+      "sha256": "4e4b35ade09d04ec20cdba7db1447d1d9bf7c29b90de504ee106be8ce714a66b",
+      "size_bytes": 105406
+    },
+    {
+      "path": "static_resources/ae8aa28e7b9a5b86a2685ab1dce6e19b_MVpmgHSBSc0.vtt",
+      "sha256": "8bb5673dadcbcfc24306ae04a38baae3d1773f57b8a50875285033f6b4c6dc6f",
+      "size_bytes": 77167
+    },
+    {
+      "path": "static_resources/afa5e531ae3a27b59b79fd7007765bb5_zWZCMrKIikw.srt",
+      "sha256": "f693b881310d07c078ead126f685817f05789c9eb205953bfe66e54343657d5a",
+      "size_bytes": 94286
+    },
+    {
+      "path": "static_resources/b0311117e1f97920f4c371472379d361_ps5.pdf",
+      "sha256": "9006cd10572444c63467e46d8ae4c3386f4fd3fe4fd8798708414b6750617495",
+      "size_bytes": 58361
+    },
+    {
+      "path": "static_resources/b286123989945cef13e5a9aa20e56a18_chap4.pdf",
+      "sha256": "c2c27afe0c0fc3c069906e051439166b62a261e5aab73e3cac86a424a9c65fad",
+      "size_bytes": 146291
+    },
+    {
+      "path": "static_resources/b2c6ce6d50aec06dead9b7d1862f4eef_SV08nmxzdAU.pdf",
+      "sha256": "844698d9e18e5fa1b493d0d8af042ce0cefff8ce136a40fb4524556c1535889b",
+      "size_bytes": 90540
+    },
+    {
+      "path": "static_resources/b3a4aba6e9aff98b7fefd0b83bcadd1f_final05solns.pdf",
+      "sha256": "6da9360fc3791ae371f9b5716ed167e0acaae77474e6ac40a37dbb22119c98ac",
+      "size_bytes": 266064
+    },
+    {
+      "path": "static_resources/b3abd8e6fcde51f39f767682c5065ead_q4LsDylKZcI.vtt",
+      "sha256": "d39ef26d9cdf06c54f69defafe3af999fedce74d7ef0fad5f7fcb91671f89551",
+      "size_bytes": 89521
+    },
+    {
+      "path": "static_resources/b3f591dfb3255faea861303725c49eb6_eyqoHN4-4jg.vtt",
+      "sha256": "4924d41a272e0034af6ff3f1d31944ba81548562613307eb9c4b1c1f6ac2e7c4",
+      "size_bytes": 79336
+    },
+    {
+      "path": "static_resources/b629646e1b33265d098dcfd08307af38_MVpmgHSBSc0.pdf",
+      "sha256": "17fc288f7aece643dec68bc37e359f82f633a5c9ae5c7f3131646de37df758a8",
+      "size_bytes": 85364
+    },
+    {
+      "path": "static_resources/bb895c1dee9ce0b39d6846e0aa984981_MIT6_451S05_FullLecNotes.pdf",
+      "sha256": "5c7b97affa617bab701c4882d538a0c8f510e8c04387f0747265fa9d8283e6db",
+      "size_bytes": 3902071
+    },
+    {
+      "path": "static_resources/bc23976ad314dcfd79ba6c6eb5e760ed_d_Mg_JnnevU.pdf",
+      "sha256": "0286938bd7253541cb2a508de940a5086143b686f2eabbc94fb70ec6a1d73b3d",
+      "size_bytes": 94502
+    },
+    {
+      "path": "static_resources/bd17cd34752a985eaab101f08420db4a_ps8solns.pdf",
+      "sha256": "60cd9126b80e67e3c14f2ebbac5d318310aa8297c7642e936ecae3a0f74103c6",
+      "size_bytes": 159232
+    },
+    {
+      "path": "static_resources/c0969ee77c735a95efe3ff6895f66aca_ps2.pdf",
+      "sha256": "4b1be17324bff588950b9d5b8a793ef983595f161a00c66e477711ff281e75f3",
+      "size_bytes": 54032
+    },
+    {
+      "path": "static_resources/c1ae830a3f2eea9ed2bcb2b430ba1bce_ps7.pdf",
+      "sha256": "c716300da22b141903d438ca79d3728d15bdb361fdc81c0a15aa15b9b442668a",
+      "size_bytes": 59682
+    },
+    {
+      "path": "static_resources/c2ecb29ec9cd494a1bd392d14ce22a94_q4LsDylKZcI.srt",
+      "sha256": "61cadc48a0f17d8598b7961f44003b2b31f98d4de89fb1fc7a61832bde946627",
+      "size_bytes": 94701
+    },
+    {
+      "path": "static_resources/c324ba154a33c4f3a7b81d9c11e57077_q4LsDylKZcI.pdf",
+      "sha256": "81092d57a561e9423bd83dc12805d4a9d6fbac907f29cfd93b26e7665b860c08",
+      "size_bytes": 95133
+    },
+    {
+      "path": "static_resources/c33a327b1d7ea22ecc34c229b3d9707b_SV08nmxzdAU.srt",
+      "sha256": "25f7636e7536a1d75ecfce9b3b10a23986a9812b0dde49597515c2bf9fcbf84c",
+      "size_bytes": 92524
+    },
+    {
+      "path": "static_resources/c5213bce9efe5cf1b2fbe74641f44625_YegKLHb9TOU.vtt",
+      "sha256": "01a0d7d934cff5ac2087a347be83640860403981e10ef6b291f797eee6cd3e77",
+      "size_bytes": 85239
+    },
+    {
+      "path": "static_resources/c7431aa76d2850a0b316e76c43b2a349_YPAbQU7NUZQ.vtt",
+      "sha256": "033cf5053b7160c481a3c40081e6d150acd01f4719878b92ff7e7ad42f8ce955",
+      "size_bytes": 102198
+    },
+    {
+      "path": "static_resources/ca4592f49d8a99014e1237d2c7806856_YegKLHb9TOU.srt",
+      "sha256": "f2332577aad456c3399edea90b470b14d55b65228192dbf5d387aba48074b802",
+      "size_bytes": 90004
+    },
+    {
+      "path": "static_resources/cc4381c9d29759cab78daa5bd1405664_chap_3.pdf",
+      "sha256": "275d5f2901cf3b85ce790773f046cbff2e4446396e0c2302ac6d4ef2d1a8d308",
+      "size_bytes": 232043
+    },
+    {
+      "path": "static_resources/cc89c697c7e1d55dbc9098c1685a7298_ps9solns.pdf",
+      "sha256": "7cd977d762c08e27ef7bd69a4f3ee0fb85e10e79442144b5f9f4dd5a494ffc0c",
+      "size_bytes": 193896
+    },
+    {
+      "path": "static_resources/cef8e7489cb24add535a6ca99dcdd838_YPAbQU7NUZQ.srt",
+      "sha256": "00f1de96d6ca93b68cbbafb5e568a368f8f877cc1ab26a1153c70dace7ec6b6a",
+      "size_bytes": 108323
+    },
+    {
+      "path": "static_resources/d0677b8a935754277f68772bb75fec2d_midterm05solns.pdf",
+      "sha256": "0438b0113a1d510fc3f8b6ed19a79fa4cc50d8a79d8dd20b5220ee848e6cc63d",
+      "size_bytes": 154153
+    },
+    {
+      "path": "static_resources/d0b83ebb98447726c9f56f03adc3c0c5_ps4.pdf",
+      "sha256": "6e2692521f06cee9ba165d90d45f49331a13970991173db4c958af69d5207960",
+      "size_bytes": 55406
+    },
+    {
+      "path": "static_resources/d12d3ca76a91bbfecb2e322c37e3c1bf_2ludHpG_Q60.srt",
+      "sha256": "9b47839fb4ade57a7c1ecaa5641d245b7a2228e1675dee8c9db4dbb3e4cfff20",
+      "size_bytes": 93451
+    },
+    {
+      "path": "static_resources/d31139cdb3b4abd6dca50ee450884ae3_ps7solns.pdf",
+      "sha256": "e00fccd0173a567b026d1f9780aff9c3e6a63e0bcba4e55fa9adf1e275310ee3",
+      "size_bytes": 71808
+    },
+    {
+      "path": "static_resources/d31628bf123658c9903a7652a3c4e1e5_CxgU2Gtg5ro.vtt",
+      "sha256": "439de939c910a1a7ee3549b0c309a04ca6927efb072c29f2fea23c25f3a20305",
+      "size_bytes": 89224
+    },
+    {
+      "path": "static_resources/d358ff569378ab1825c189ee1a6e5777_ps6.pdf",
+      "sha256": "aa6f9e8851650e80985212fc89bec66c2e828164a840ce54a2fd9fdd0e38ce8a",
+      "size_bytes": 44496
+    },
+    {
+      "path": "static_resources/d62aaaeafc38cefd6b9a182b1db8b6e1_23.jpg",
+      "sha256": "4759e58ee45d4ae55f0fba9a85297ec5d19cf4b291ce5594bc159e50cfa6e9d8",
+      "size_bytes": 2556
+    },
+    {
+      "path": "static_resources/d7956bfb290f57f7a0ed5acd5450e32e_520074.vtt",
+      "sha256": "b66579c45f52ab4b64e39443c61bbe09e63e3da2819165e5367e2e188aedab7b",
+      "size_bytes": 82821
+    },
+    {
+      "path": "static_resources/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "static_resources/dd07f9dca593c50e11ed8f8a6b401806_4HtXKIbiOvI.srt",
+      "sha256": "8836d852a50f7cc4f43d2b69e5bbf499bf9f13ae739f60409418a4caeffbb035",
+      "size_bytes": 92079
+    },
+    {
+      "path": "static_resources/de811242449e5072b7552830550225ea_47yJ7g6DzkA.vtt",
+      "sha256": "0eb7bbbcd2e83fdaeb6c4b8246e2ccc0e0bdae94f23a6f8664359ccc7bf2df68",
+      "size_bytes": 87326
+    },
+    {
+      "path": "static_resources/dedde0fa6016289cac86c6ebe1e08941_vXB3QmTg8YQ.srt",
+      "sha256": "888212b893775c91212efbbb1a7a1fc35271ecb096a6c9f686ce707231183847",
+      "size_bytes": 83439
+    },
+    {
+      "path": "static_resources/df64fee0e1d69befdd7042d284f49396_midterm005.pdf",
+      "sha256": "8b1a363df7a3505310dbcc6a85e1cc2e2fe12c5bd70b267ff4ff55fd290e69e9",
+      "size_bytes": 80692
+    },
+    {
+      "path": "static_resources/e22f07b085a00cadb730d1f66da290e8_midterm02.pdf",
+      "sha256": "b3a372856e3e93a0ef75a470a8a87e6d1400e1edeb7e0236cbcda62de12c2dae",
+      "size_bytes": 60458
+    },
+    {
+      "path": "static_resources/e7d4844c93a7d1f826d32f23cc5b4da6_dy44BdqxRAo.pdf",
+      "sha256": "494aaea1fc6382a7677c523d61b6a6ec5ffef697b24b6839a4ebf18f5b9e7f48",
+      "size_bytes": 95749
+    },
+    {
+      "path": "static_resources/e85f4721a4f005e56df850e47892a7cf_ps6solns.pdf",
+      "sha256": "745b38b42dfcaef3f278b66998d494583f54f86ff6130bf0c6afbd7ad7162f7e",
+      "size_bytes": 107119
+    },
+    {
+      "path": "static_resources/ea7b0e888a9a878ab1020ce609f22957_ps2solns.pdf",
+      "sha256": "22dbfd178b4c515f806eca835f562afb02b5828a2a2e67db52bed7464c87097a",
+      "size_bytes": 99850
+    },
+    {
+      "path": "static_resources/eb0d2986e382de10ba9ffaec4873d4c0_11.jpg",
+      "sha256": "b770b2b4e8a4e58aa44a75fc27f490329b99f3e34f7293ab1212ed4990d3bf3b",
+      "size_bytes": 2501
+    },
+    {
+      "path": "static_resources/ecc464e775c2b58fc826ec48069692b8_ps3solns.pdf",
+      "sha256": "2c5fb9ff9e953abdb5200ba858f941dd323a6bad8826d2e9682dc11a6f2c7923",
+      "size_bytes": 141902
+    },
+    {
+      "path": "static_resources/ee9e85d57d6d74ab760b827e9b1043c7_chap12.pdf",
+      "sha256": "82fe9c3408a9b36807fc1e999ff98462655ee4c0b133db328d31e27a9a040292",
+      "size_bytes": 149703
+    },
+    {
+      "path": "static_resources/ef73fbc32664b8ff4453efe71f5edaf1_vXB3QmTg8YQ.pdf",
+      "sha256": "7e2dd77f9bd86bee556515ea3ade9fea1aa579863194bf34c222cc83129ca770",
+      "size_bytes": 86629
+    },
+    {
+      "path": "static_resources/f196f2fd02f6a3056c95238470e40473_OJafRrE21WE.pdf",
+      "sha256": "a44776eadd111a347a994480b1f7a27e2fb844cdde0e013207f756329de06f76",
+      "size_bytes": 104956
+    },
+    {
+      "path": "static_resources/f197ca86d10053f2aa91a53f0085b4b3_dy44BdqxRAo.vtt",
+      "sha256": "5f05f7ad9da3cd2c17dc9c93ff0563a1d94c06c1b5aae2b08d30ad5c25ad1e6e",
+      "size_bytes": 92308
+    },
+    {
+      "path": "static_resources/f2b7b756bc9814fe29c5a6a85b255e33_14.jpg",
+      "sha256": "7ddce55a26fb2255d0d6c71d04aee2eb2321835c7a01bc834f03e4929aa3117c",
+      "size_bytes": 2546
+    },
+    {
+      "path": "static_resources/f50c7934c9575f029f31ff5d333681fe_Nnj9lHePqKM.vtt",
+      "sha256": "2b33cf468990a84c0ad4f95fef95802d91de5fde91acc3a89bc46ac57520ac2b",
+      "size_bytes": 74003
+    },
+    {
+      "path": "static_resources/f5c7b33907c2e3116f9f65589d5678ff_20.jpg",
+      "sha256": "85cd754f8bd138b88dc19242df21734eca669ad9e2e5ad1982ff1ad49a9cdc47",
+      "size_bytes": 2236
+    },
+    {
+      "path": "static_resources/f68c5b1c792c544e7015f9c192080881_ps10.pdf",
+      "sha256": "d450fb74a83f2c8c306faf70fa4f786d9a0771cf547ceacbbcbeebebc6081777",
+      "size_bytes": 56474
+    },
+    {
+      "path": "static_resources/f96e2d910415543f5f3fe39a80d006ba_final02solns2.pdf",
+      "sha256": "229e9877a7ac22267afd9140cae47299963a66c238fec7f51c6537225bd5ad02",
+      "size_bytes": 182974
+    },
+    {
+      "path": "static_resources/f9a499f36ac6acd2b6c7e262499690c8_eyqoHN4-4jg.pdf",
+      "sha256": "3940122a3550be802cb2f348e604185127acd9f20d76137bcda1311651435b28",
+      "size_bytes": 85127
+    },
+    {
+      "path": "static_resources/feea86f244e2530b960ee63b63c5e1f9_KalMFMv3_IM.srt",
+      "sha256": "9b6961b3c22487f90d103d159f23d2de9b9028ba88de4f0ed6a08a11203dc40b",
+      "size_bytes": 102173
+    },
+    {
+      "path": "static_resources/index.html",
+      "sha256": "4e85c668d94efa721329941eda202f6d0af9abaa1612143291a5ea855acb6b8e",
+      "size_bytes": 47065
+    },
+    {
+      "path": "static_resources/vtt0473f8c34eb7c804ca9db14ae43e7929_GQVlVhGKfHc.vtt",
+      "sha256": "c60d3b7a9c1c4c8ca59f422113c4899caa6013a604ca197f35e2f4718eb16b34",
+      "size_bytes": 89929
+    },
+    {
+      "path": "static_resources/vtt05011b34c8bda9f85f723da708b4baa7_DyRLOmVRQDw.vtt",
+      "sha256": "bd79a8d1fa2ee7d48e0ff386c635f6aff1e42e171f66dee671780dc4b706e690",
+      "size_bytes": 90362
+    },
+    {
+      "path": "static_resources/vtt0b90ab652f79f402d19a9686dafee4fa_MVpmgHSBSc0.vtt",
+      "sha256": "8bb5673dadcbcfc24306ae04a38baae3d1773f57b8a50875285033f6b4c6dc6f",
+      "size_bytes": 77167
+    },
+    {
+      "path": "static_resources/vtt3d17eb0cc8732729607664b17cd98cb2_CxgU2Gtg5ro.vtt",
+      "sha256": "439de939c910a1a7ee3549b0c309a04ca6927efb072c29f2fea23c25f3a20305",
+      "size_bytes": 89224
+    },
+    {
+      "path": "static_resources/vtt4825a7e6368e7396bf2362dd9c1cb442_Nnj9lHePqKM.vtt",
+      "sha256": "2b33cf468990a84c0ad4f95fef95802d91de5fde91acc3a89bc46ac57520ac2b",
+      "size_bytes": 74003
+    },
+    {
+      "path": "static_resources/vtt569b9e7d4587a6962f752cf0f40b9fe6_3eqYo1LCGdw.vtt",
+      "sha256": "f7a49d86e9e438db9299f5248667667e195d286814721feb3176c25e8d873446",
+      "size_bytes": 88731
+    },
+    {
+      "path": "static_resources/vtt7e56a5ed159efe05e691082151b7e078_OJafRrE21WE.vtt",
+      "sha256": "9b7533e71ff4688194f4370ad4923aecbae3a7688ef373fe2a4a5a1789a43017",
+      "size_bytes": 102041
+    },
+    {
+      "path": "static_resources/vtt82a2ba862d566ea32020d7bc78cc2ba4_47yJ7g6DzkA.vtt",
+      "sha256": "0eb7bbbcd2e83fdaeb6c4b8246e2ccc0e0bdae94f23a6f8664359ccc7bf2df68",
+      "size_bytes": 87326
+    },
+    {
+      "path": "static_resources/vtt85db76a1213858265891fb86b0a3e506_520074.vtt",
+      "sha256": "b66579c45f52ab4b64e39443c61bbe09e63e3da2819165e5367e2e188aedab7b",
+      "size_bytes": 82821
+    },
+    {
+      "path": "static_resources/vtt86039a1323a693da03c2e363a25d0458_d_Mg_JnnevU.vtt",
+      "sha256": "79918e71e6571c261c35616da5d0c8a3c62e7ca1f4bdf2a6e4ff5fbf5f42ccd0",
+      "size_bytes": 88443
+    },
+    {
+      "path": "static_resources/vtt8fa5bca3cba59820d2d7f02432423751_8HvTaOrTokc.vtt",
+      "sha256": "0a391f6b6d01bdb3558cf54c659ad37207b869e8a281d5e60c75d17a601a75af",
+      "size_bytes": 92068
+    },
+    {
+      "path": "static_resources/vtt9162ee3c131cbefcb47ca94d3d47718c_HwGd1CPfIYk.vtt",
+      "sha256": "5f8827ac4440e3b8f594fc2dd7b2813d02897e543ccd0d293c328fcd1a287d9f",
+      "size_bytes": 90684
+    },
+    {
+      "path": "static_resources/vtt954a47e7f2e0505a7e7a2b5737e595e9_mnkTn0Y6GsU.vtt",
+      "sha256": "1a4abd0258d51fca95607c512fc95aaf03e31c8ef89395d73b400a71eaec1ada",
+      "size_bytes": 80179
+    },
+    {
+      "path": "static_resources/vtt96f1d3a709a24e1500dea79d65627db2_DNoNTre2Cf4.vtt",
+      "sha256": "fbc031a010380bc16270e815c869c38c7d868ad0f6010c2bcba0177ae212883b",
+      "size_bytes": 96328
+    },
+    {
+      "path": "static_resources/vtt9ee2e226c7fa2b1c4330b0ba064ed05a_dy44BdqxRAo.vtt",
+      "sha256": "5f05f7ad9da3cd2c17dc9c93ff0563a1d94c06c1b5aae2b08d30ad5c25ad1e6e",
+      "size_bytes": 92308
+    },
+    {
+      "path": "static_resources/vtta309f18d7df6d909ebe2d544ed78c0ca_eyqoHN4-4jg.vtt",
+      "sha256": "4924d41a272e0034af6ff3f1d31944ba81548562613307eb9c4b1c1f6ac2e7c4",
+      "size_bytes": 79336
+    },
+    {
+      "path": "static_resources/vttafa5e531ae3a27b59b79fd7007765bb5_zWZCMrKIikw.vtt",
+      "sha256": "8f385c3739357b0a113b5b36aadc7c8ec7507a7e0174a0f17154b880d61e9fd0",
+      "size_bytes": 89211
+    },
+    {
+      "path": "static_resources/vttc2ecb29ec9cd494a1bd392d14ce22a94_q4LsDylKZcI.vtt",
+      "sha256": "d39ef26d9cdf06c54f69defafe3af999fedce74d7ef0fad5f7fcb91671f89551",
+      "size_bytes": 89521
+    },
+    {
+      "path": "static_resources/vttc33a327b1d7ea22ecc34c229b3d9707b_SV08nmxzdAU.vtt",
+      "sha256": "01137ff210149fcef3f5007282e98ace3d685fc6e109f1ddd498c6e227db31cd",
+      "size_bytes": 87254
+    },
+    {
+      "path": "static_resources/vttca4592f49d8a99014e1237d2c7806856_YegKLHb9TOU.vtt",
+      "sha256": "01a0d7d934cff5ac2087a347be83640860403981e10ef6b291f797eee6cd3e77",
+      "size_bytes": 85239
+    },
+    {
+      "path": "static_resources/vttcef8e7489cb24add535a6ca99dcdd838_YPAbQU7NUZQ.vtt",
+      "sha256": "033cf5053b7160c481a3c40081e6d150acd01f4719878b92ff7e7ad42f8ce955",
+      "size_bytes": 102198
+    },
+    {
+      "path": "static_resources/vttd12d3ca76a91bbfecb2e322c37e3c1bf_2ludHpG_Q60.vtt",
+      "sha256": "f360adfa832eb5243726e1c1e2a850513cdc973fc48a0b2e594e9c4e7bd3de08",
+      "size_bytes": 88316
+    },
+    {
+      "path": "static_resources/vttdd07f9dca593c50e11ed8f8a6b401806_4HtXKIbiOvI.vtt",
+      "sha256": "39c5a921ffed6f3edd33aea0131079fd3127fc7431270ee8c36bb6942902ace6",
+      "size_bytes": 87249
+    },
+    {
+      "path": "static_resources/vttdedde0fa6016289cac86c6ebe1e08941_vXB3QmTg8YQ.vtt",
+      "sha256": "7fd769897fa6fc7af381e2d6f64212dad26631afe0b795f377b5a208c3d9f668",
+      "size_bytes": 79089
+    },
+    {
+      "path": "static_resources/vttfeea86f244e2530b960ee63b63c5e1f9_KalMFMv3_IM.vtt",
+      "sha256": "1df6600cf47fbba5082316f1830b605f4dda2df6c5e8321251178ff02e07d442",
+      "size_bytes": 96783
+    },
+    {
+      "path": "static_shared/css/303.21a26.css",
+      "sha256": "c1f648b2a07d50db0226cb43b1f5841cf2f306cb556094acf37a9b672fb744a7",
+      "size_bytes": 17807
+    },
+    {
+      "path": "static_shared/css/303.21a26.css.map",
+      "sha256": "7590eab132bd704c0429aff614a94f416b748c2937a65d3cb29a65bb9af6b389",
+      "size_bytes": 40551
+    },
+    {
+      "path": "static_shared/css/common.21a26.css",
+      "sha256": "e648d57168dcccd56d0a43459c3f30d00fbfebee47979683af23506cce653e67",
+      "size_bytes": 47881
+    },
+    {
+      "path": "static_shared/css/common.21a26.css.map",
+      "sha256": "ca8adc60c06a479842b15ce28d22292d093b2fcaaebfa483812dabc0a2d92755",
+      "size_bytes": 61289
+    },
+    {
+      "path": "static_shared/css/course_offline.21a26.css",
+      "sha256": "661e0c900f6164473c23bfe2b422158922816f944ceadab029ba2bf8f706bd21",
+      "size_bytes": 282202
+    },
+    {
+      "path": "static_shared/css/course_offline.21a26.css.map",
+      "sha256": "c07b3cc3961d011d20ef247270a145ac90710873ec2909d9d132ccfd36613589",
+      "size_bytes": 440593
+    },
+    {
+      "path": "static_shared/css/course_offline_v3.21a26.css",
+      "sha256": "0d7f78ed94c17bc997de80768c81bf81834ef7d02ae9b342ae317ede9ea343b4",
+      "size_bytes": 330840
+    },
+    {
+      "path": "static_shared/css/course_offline_v3.21a26.css.map",
+      "sha256": "49def29aa8cdb207347d5c64f4811883a528ca8f61193bd3937b20245746dc33",
+      "size_bytes": 500105
+    },
+    {
+      "path": "static_shared/css/course_v2.21a26.css",
+      "sha256": "8e97b43ee04b92064dce52bc1cda20da8bdeb9e6a55d052a45b0396734b92951",
+      "size_bytes": 216594
+    },
+    {
+      "path": "static_shared/css/course_v2.21a26.css.map",
+      "sha256": "38e040c8e7e10a3f78fd7e698eeddcd0b0a4a9b1c54a93f55c68a359f2534f54",
+      "size_bytes": 338935
+    },
+    {
+      "path": "static_shared/css/course_v3.21a26.css",
+      "sha256": "32e12d049e9de3673b38ea645e2f3ace9b382e3c827d4d15e0662aa54556fca1",
+      "size_bytes": 313066
+    },
+    {
+      "path": "static_shared/css/course_v3.21a26.css.map",
+      "sha256": "b6e0c5f67a48e3493f6a2abd88b85f91c6f4ce91cd4796714722933b3d50432b",
+      "size_bytes": 459655
+    },
+    {
+      "path": "static_shared/css/fonts/e79607e9f7d62450a175.woff2",
+      "sha256": "01a175339f6171f48869d58bd2e48269684c55f03be64596b94bf1284d10e979",
+      "size_bytes": 12360
+    },
+    {
+      "path": "static_shared/css/fonts/ff9cb78ec9a131fc93a6.woff",
+      "sha256": "c87502d41ce30009d0ac09e3158b432e7de2c6ede500d3c580a92bee29b9c000",
+      "size_bytes": 14712
+    },
+    {
+      "path": "static_shared/css/instructor_insights.21a26.css",
+      "sha256": "0f147c57b35c1098980959b757643fa0141d2707937a7db7002e53b3a3e77486",
+      "size_bytes": 1178
+    },
+    {
+      "path": "static_shared/css/instructor_insights.21a26.css.map",
+      "sha256": "18f4a862116026458bd0b09cbf0e7a4228416d792e76f994bbbb34e97207a609",
+      "size_bytes": 6792
+    },
+    {
+      "path": "static_shared/css/www.21a26.css",
+      "sha256": "c011f3808984b641185ea627c62da9345796d7d5352198465604c7e8533ef8fa",
+      "size_bytes": 263643
+    },
+    {
+      "path": "static_shared/css/www.21a26.css.map",
+      "sha256": "46d768a5bb954162b21e2cf40052eb64c0538f1a8a8cf043beac64d70c3c38e9",
+      "size_bytes": 400538
+    },
+    {
+      "path": "static_shared/css/www_offline.21a26.css",
+      "sha256": "b212cf06c1d4e999c825e3e1ffd27c7b4a1061bafab07b4c445d2efabc8a3095",
+      "size_bytes": 283030
+    },
+    {
+      "path": "static_shared/css/www_offline.21a26.css.map",
+      "sha256": "983361cf7e0371dfc1f691025e690e1f52dbae19697fef8dd2bd3a0d803d0e83",
+      "size_bytes": 421729
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Bold.d7bf1aa6f322a64b2fc3.ttf",
+      "sha256": "a2f90f004f37f784b1ae74f2cfce1d97787748e8bd52c28be085bfa2c23e0df1",
+      "size_bytes": 339732
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Italic.0935d2ebbc05be3559b1.ttf",
+      "sha256": "7d27cc3796dfda24ef2f7e779b9269cd0fc08308345965ed7bf43525c3635522",
+      "size_bytes": 254072
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Regular.a0c1dc80c66cc03bfa1e.ttf",
+      "sha256": "67158e7e70dd1c2c5cc44f8d781e836426f143ee004ef100134897d64d8fa093",
+      "size_bytes": 390056
+    },
+    {
+      "path": "static_shared/fonts/Helvetica-Light.70359849afb40079a1c8.ttf",
+      "sha256": "a0b153852ff62a50aceb8f280d8fdb9c2bc77535a04eba5b1685a89965d96965",
+      "size_bytes": 161716
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.0beb27f30d92440091b4.ttf",
+      "sha256": "b854af078512be3f9e54819b4cc874d5485a13adc1e5bd8c22c992ccd7d8669d",
+      "size_bytes": 5784
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.8167faf7e3a9170d282a.woff",
+      "sha256": "a3d7fc991ed83ab545a9971d1114387b56b3c976cc649590cfe8e4aedf77f142",
+      "size_bytes": 3468
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.84f45410d085472240e2.woff2",
+      "sha256": "9fe6fbea73fd5d5941b695e766b50b6fbe78f3a7c66b072503cbe2a22a12c887",
+      "size_bytes": 2516
+    },
+    {
+      "path": "static_shared/fonts/MaterialIconsRound-Regular.subset.7154eae1d0e60e0dabe4.woff2",
+      "sha256": "9bbc544d3126d84861070b63aeb84f737716cfe85c44079528a11671f5f9f119",
+      "size_bytes": 724
+    },
+    {
+      "path": "static_shared/images/2c6f79ea9578979deb06.png",
+      "sha256": "c83ec79c94fdb8aa22b6d21581c3f325da9f22b16f5660edc2e0eec1a5da9d8d",
+      "size_bytes": 10160
+    },
+    {
+      "path": "static_shared/images/Facebook.d1f5caeb73d7d12505a2.png",
+      "sha256": "335d7215d25d5ae1b258faf0247b4c155017bdd7ce2e85af31a1a63a9c89504a",
+      "size_bytes": 550
+    },
+    {
+      "path": "static_shared/images/Instagram.4df41828ffee4ff33d8a.png",
+      "sha256": "67d2c3c11f2e4bf189946d60d3dca71c9b5e4a18c99e15ba36f8896830af8d49",
+      "size_bytes": 1127
+    },
+    {
+      "path": "static_shared/images/MIT-logo-red-gray-54x28.43de571d3abab470ba83.svg",
+      "sha256": "78514ce9eeda2a9ef16048cb823aa4e0cf83652d8e94843cc96fbe92c4691576",
+      "size_bytes": 859
+    },
+    {
+      "path": "static_shared/images/Youtube.7c9f62c4f1dc9515ebb4.png",
+      "sha256": "9131df94f34194ff4cfe9c08e176248eeee333c5672f889722932bb6282eccbc",
+      "size_bytes": 743
+    },
+    {
+      "path": "static_shared/images/a_logo_17.070ebe0244db38bbb10c.gif",
+      "sha256": "039a5a3bf1c2e37e3dd22e33428c88b25ec82a3a4b0d7d004d817ce3c7ac03bc",
+      "size_bytes": 2751
+    },
+    {
+      "path": "static_shared/images/audio_thumbnail.defc385448d97b770bae.png",
+      "sha256": "61e9ff93eefe1d6393d06df2b80492ab4e690f9f1cbf5cdeb20e6bd8a9543a0b",
+      "size_bytes": 9686
+    },
+    {
+      "path": "static_shared/images/bluesky-black.9f4523fcefa9b6f25be7.png",
+      "sha256": "843c15f349a11bdf2c97dda9a743d2860266a73bd26daa3a968f27784008a902",
+      "size_bytes": 1023
+    },
+    {
+      "path": "static_shared/images/button_start.9ec211e3e12cf97ca78d.png",
+      "sha256": "fd98ea4b4c3f3a6bb53f28aafd340839617209af2ed4cc58a30519010c4fe72c",
+      "size_bytes": 10153
+    },
+    {
+      "path": "static_shared/images/close_small.b0a2684ccc0da6407a56.svg",
+      "sha256": "56b7919d6fc87d95eb0a7df342aa696fe802d3d988cb643b04addf21416e44d3",
+      "size_bytes": 952
+    },
+    {
+      "path": "static_shared/images/course-v3-header-bg.69dc3a4c0f449f3641ca.jpg",
+      "sha256": "f009275f0fd0b4a187c9ee2bdb5101cc2be202cb94d152d87e5c3db4c46c1560",
+      "size_bytes": 136352
+    },
+    {
+      "path": "static_shared/images/course_image.5f27062ec0987f54efcf.jpg",
+      "sha256": "b10ce673a3ff24a0035a429002f7d7c60d5b8fa4b7e0a0424b45a1ce8c496d4b",
+      "size_bytes": 160536
+    },
+    {
+      "path": "static_shared/images/default_news.26aee386c42b7364dbd3.png",
+      "sha256": "69180aaf1841d11f848de2962b115334259fd32daa1b26cec7e008979d5421cb",
+      "size_bytes": 58301
+    },
+    {
+      "path": "static_shared/images/expand.a062b1c47b121e3c7e03.svg",
+      "sha256": "dc3a7002769e26ea6c2af7bd62e216a5ed2579e26224850cd76eb1f09da71f1a",
+      "size_bytes": 1326
+    },
+    {
+      "path": "static_shared/images/external_link.58bbdd86c00a2c146c36.svg",
+      "sha256": "c8bb31bb589c2c2e3f3ac8ff4905046ff954ec9201df357f499fdefea2293de8",
+      "size_bytes": 620
+    },
+    {
+      "path": "static_shared/images/heart.788fcfbec39be4547397.svg",
+      "sha256": "47256db6a051a41d7a9d3be758a9d608c157d837a9f422594171be115b026858",
+      "size_bytes": 3016
+    },
+    {
+      "path": "static_shared/images/heart_burgundy.e7c8635e8cc6538b89fa.svg",
+      "sha256": "47795d7e32c39148060ee722ab2e6e95a2e43cc50b662fbf2b563cb17b46af87",
+      "size_bytes": 1145
+    },
+    {
+      "path": "static_shared/images/inacessible.4e75069800b136c59203.gif",
+      "sha256": "ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629",
+      "size_bytes": 42
+    },
+    {
+      "path": "static_shared/images/left_arrow.3c482a1f6223bff3f0e6.svg",
+      "sha256": "f8872074c4ffead4bac353f9ff8c1e4e070aae58c0bc2ce8b9228ed54bd95785",
+      "size_bytes": 851
+    },
+    {
+      "path": "static_shared/images/linkedin-black.2f7f8a6a3899f5d1e1d6.png",
+      "sha256": "12af7d2297df1ad7e19765ebdddd85cae7dee079a3f53f1444f835489cd37762",
+      "size_bytes": 651
+    },
+    {
+      "path": "static_shared/images/mastodon-black.9e2de31a28415c123800.png",
+      "sha256": "ba95e46f4f484bef90e8dac4d383d3c8c5797b0537351e4dd65204a328ef1ea4",
+      "size_bytes": 1074
+    },
+    {
+      "path": "static_shared/images/mit-logo-black-red.1fdb4d046bb785ba6a3b.svg",
+      "sha256": "3509e5abca6ccf86c4b9d69ab031e205fb75721a82c4ee1c996ad81b37f21191",
+      "size_bytes": 860
+    },
+    {
+      "path": "static_shared/images/mit-logo-black.9ac6152a456f0f100d7a.svg",
+      "sha256": "d774a4a0f7c7638c60abe0b7da235f0a35a9baf0366943bca7eb81dc0fea4483",
+      "size_bytes": 509
+    },
+    {
+      "path": "static_shared/images/mit-logo-red.a9444ff319fe22027271.svg",
+      "sha256": "d4b00848632c364c6a80305f351cf3b7a55f294d500db52c8e8915eb355f44c8",
+      "size_bytes": 849
+    },
+    {
+      "path": "static_shared/images/mit-logo-white.ac078b94cc981d280e47.svg",
+      "sha256": "017f3b5994425d3de57e20d7c8a665188894d0fd438558974c03377ebd825d0a",
+      "size_bytes": 578
+    },
+    {
+      "path": "static_shared/images/mit_learn_logo.2ec930205f87bce4013d.svg",
+      "sha256": "5e9e721ae3ff8c9f00eb947288c174d765383a0ff88244751cdf08091eab08d0",
+      "size_bytes": 3118
+    },
+    {
+      "path": "static_shared/images/mit_ol.4165342f87abb1da46fd.svg",
+      "sha256": "f5a91e9d642a37fba3425e80d76618a8d4e99898892f4514baff945110cc401a",
+      "size_bytes": 4759
+    },
+    {
+      "path": "static_shared/images/mobile_video_thumbnail.00125190bb7310b5afff.png",
+      "sha256": "1e39f5d61eb2e239d2fed25680a4f4a741dc73b3ab77a8abbad5297080af0395",
+      "size_bytes": 9677
+    },
+    {
+      "path": "static_shared/images/mp_logo.6428926751199ad28ce6.gif",
+      "sha256": "6f06f5a3e080d5266efd374a4536bb253cccdb164767c57bf71cce00d161d4dc",
+      "size_bytes": 614
+    },
+    {
+      "path": "static_shared/images/ocw_logo_white.cabdc9a745b03db3dad4.svg",
+      "sha256": "c54b2366cc4a6fbea097b9b15cd96d8f888237625282c5bc257f6a62da1bb81c",
+      "size_bytes": 5710
+    },
+    {
+      "path": "static_shared/images/ocw_logo_white_on_black.dc6662ab918cec1c2f31.png",
+      "sha256": "1bccdbe2c80094104e6180f9fcac8a409c9ff0b9034ecff2e7af8591d0a3ffef",
+      "size_bytes": 19788
+    },
+    {
+      "path": "static_shared/images/ocw_stories_home_btn_arrow_right.be61ab3faf488e15d55f.svg",
+      "sha256": "d6f5e3e4c2981ea54bd1073c750ac1672dc3b8362c6ca99c726673b2f1627720",
+      "size_bytes": 1523
+    },
+    {
+      "path": "static_shared/images/ocw_story_single_arrow_left.b1e0f3712e0cc99359df.svg",
+      "sha256": "d9d178640da44f805191615ad8b5e5d75df6a36f13ca8baadc2e70c2117bd445",
+      "size_bytes": 238
+    },
+    {
+      "path": "static_shared/images/ocw_testimonial_quote_modal_close.ef116a87c95eea8ad2a2.svg",
+      "sha256": "4a2e6e2e4d8f946a420f2ea16b61d4e16040574ef37c8e41c03cc4a10a35f42b",
+      "size_bytes": 306
+    },
+    {
+      "path": "static_shared/images/oeg_logo.8a31f7b87f30df2d0169.png",
+      "sha256": "ecda4f1360554b4ec8edcf8017349d4da73c18506324c2e05778ee11194b19a2",
+      "size_bytes": 12817
+    },
+    {
+      "path": "static_shared/images/page_thumbnail.135ca83a823b6c0b4616.png",
+      "sha256": "ca026ff672ec75e27dfeaf21c15842d5d763b3f8578170879eb958d8851946ea",
+      "size_bytes": 3462
+    },
+    {
+      "path": "static_shared/images/resource-download.d374f56f2572d49418bc.svg",
+      "sha256": "06b35e2cf5566816af83b04cae9183e97622801a3e5db022a051dc5205d209ee",
+      "size_bytes": 392
+    },
+    {
+      "path": "static_shared/images/search.42a42bffcdf041e57b97.svg",
+      "sha256": "124f5fbd03f296920f9b118c63b81152e1300813a9075b444d1ec5c9fe80d611",
+      "size_bytes": 395
+    },
+    {
+      "path": "static_shared/images/video_play_overlay.42e62ca534a2528e4ad0.png",
+      "sha256": "8cfe7e6d4f9e06e81d218386077126f8b64fc9602fa29394eda6960c00f08830",
+      "size_bytes": 7219
+    },
+    {
+      "path": "static_shared/images/video_thumbnail.8817e5123be1e39ecd14.png",
+      "sha256": "d31ef7743fad01fa2d36860edc2fc9ea3f6a2195bfcce3b31ae553b609047bd6",
+      "size_bytes": 40410
+    },
+    {
+      "path": "static_shared/images/videojs_download.e0dbb2cfb52d2d71ba4a.svg",
+      "sha256": "0dcb951bccee94b45e7d033f9b5c8912b5807a0018c33e3e2df046a000221e54",
+      "size_bytes": 1050
+    },
+    {
+      "path": "static_shared/images/warning.e29b1060a0fb05a2b927.svg",
+      "sha256": "b6d9ae30e9c6d0ab0a413d1df82ad89dd2d05f9e1f7069070b3dab7c5472483e",
+      "size_bytes": 584
+    },
+    {
+      "path": "static_shared/images/x-formerly-twitter-black.f8c75ad9f42902726d25.png",
+      "sha256": "5dbb75eccbfffc4c6597592e0d61031d5295631ca0752671b6d8387f1a4ade72",
+      "size_bytes": 1240
+    },
+    {
+      "path": "static_shared/images/youtube.1e55fc2f8fc09d36a1a6.svg",
+      "sha256": "c2dfd8eb412c7c946525ff2172ab7344d4c1816ed3359773df726acf4e7f9bdc",
+      "size_bytes": 1155
+    },
+    {
+      "path": "static_shared/js/117.21a26.js",
+      "sha256": "a87e897d05e536240500cac025a504a3820514633199db9c1d4a0bc91afd0f23",
+      "size_bytes": 724892
+    },
+    {
+      "path": "static_shared/js/27.21a26.js",
+      "sha256": "f7935c76f6ae861d565e1799cd4dc65223deae7d1e904404a0f2701f4592ea7d",
+      "size_bytes": 276072
+    },
+    {
+      "path": "static_shared/js/303.21a26.js",
+      "sha256": "76c7d4dfdc26012961584d46a9c4cbc269b54a0760e9f3fd9d793db5235b0f3d",
+      "size_bytes": 204324
+    },
+    {
+      "path": "static_shared/js/658.21a26.js",
+      "sha256": "2e15179a56c3467c0ff92d715d208b967bd3171446e9207759d397f7c704a4ab",
+      "size_bytes": 177
+    },
+    {
+      "path": "static_shared/js/77.21a26.js",
+      "sha256": "3e933148c3a71846820837896d2afd9538e6215f91a4b820cbe42634ea6129de",
+      "size_bytes": 177
+    },
+    {
+      "path": "static_shared/js/common.21a26.js",
+      "sha256": "77cdc0165b782f4e93b7bf1ebe35cb2e710fade629e7734e2ad95fd7195dc8d3",
+      "size_bytes": 881966
+    },
+    {
+      "path": "static_shared/js/course_offline.21a26.js",
+      "sha256": "b2de542cee6224c44041e26482ffdd0f22d7811a16bd3924af757e23595f1020",
+      "size_bytes": 1574235
+    },
+    {
+      "path": "static_shared/js/course_offline_v3.21a26.js",
+      "sha256": "cfe88e20d069b88eb9645a09ca84df7518d3a546b5d9f63707ff431c1e82b91b",
+      "size_bytes": 1576987
+    },
+    {
+      "path": "static_shared/js/course_v2.21a26.js",
+      "sha256": "90a3f958cc45ad8efc8d8c3f859ff789552a37f8c86d74347aefc5b1f8e34bfe",
+      "size_bytes": 25429
+    },
+    {
+      "path": "static_shared/js/course_v3.21a26.js",
+      "sha256": "7ce93e170effd7b3aedc34a896ec83296218bab362becad6db457708034143e2",
+      "size_bytes": 1551659
+    },
+    {
+      "path": "static_shared/js/instructor_insights.21a26.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "static_shared/js/www.21a26.js",
+      "sha256": "79d7e0a8eb20f17591f5fb06b0b4cef285b693eb4f48ace7d0d51f978b350d7f",
+      "size_bytes": 534185
+    },
+    {
+      "path": "static_shared/js/www_offline.21a26.js",
+      "sha256": "4a721af345f0bff2cfbe56910975d9927bc6d60ae0466cdef7199be8166ac1bb",
+      "size_bytes": 666393
+    },
+    {
+      "path": "static_shared/mathjax/CONTRIBUTING.be29e891326e401c2bed.md",
+      "sha256": "89e1f87f7daa9271da9e6c437fe7b05ccd7e29c1ee0e297e782d8a3d7def63ec",
+      "size_bytes": 13948
+    },
+    {
+      "path": "static_shared/mathjax/LICENSE.42368b5a19b817284b3c",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "size_bytes": 11358
+    },
+    {
+      "path": "static_shared/mathjax/README.009b4259a26029ef2261.md",
+      "sha256": "cb4220e9d5884ad79c36b33d617f89e71b6266749fdcd6221565871023a99035",
+      "size_bytes": 10085
+    },
+    {
+      "path": "static_shared/mathjax/action.6c8b472538082988f2c6.js",
+      "sha256": "7c46fc1ef8118723bf2f386d704ab289e5dd683471e0ad4e1e717244959b565b",
+      "size_bytes": 1843
+    },
+    {
+      "path": "static_shared/mathjax/af.03f75fc13a63a3b9d177.json",
+      "sha256": "b906ca6e91517ac8d6f87c304223839c9998daf2d29ac8d79ce5fa967c23dc77",
+      "size_bytes": 267392
+    },
+    {
+      "path": "static_shared/mathjax/ams.0415214124f9103b90eb.js",
+      "sha256": "d430e678d50c5747151ad67eb118df6a67b5844fe2f9183d0820b9fdf52bbbd5",
+      "size_bytes": 20447
+    },
+    {
+      "path": "static_shared/mathjax/amscd.84f30684146fc2e4c8d9.js",
+      "sha256": "2202b36d581834b02c08a2ff62a9cd10409eda2a2f1126913fa3810743895a16",
+      "size_bytes": 4295
+    },
+    {
+      "path": "static_shared/mathjax/asciimath.5ef60e8589351131d7bb.js",
+      "sha256": "4460b49defc8a8eafdcf831faafd5e2dc496c9384d7473ae43eba9ba8f4a2a5f",
+      "size_bytes": 101572
+    },
+    {
+      "path": "static_shared/mathjax/assistive-mml.28169af1dbd9fd16f99c.js",
+      "sha256": "9c1166c7c2ca2e57d5d25cc3bf71dc5369d32b9a4260151f998c0bed77d55dc3",
+      "size_bytes": 3639
+    },
+    {
+      "path": "static_shared/mathjax/autoload.a94e1289e7134d87a3de.js",
+      "sha256": "cb7c9ce44fc81b004e754574733861604b72219879d693ff1396683bc1c4cfe1",
+      "size_bytes": 3331
+    },
+    {
+      "path": "static_shared/mathjax/base.dc579f6c4351ed9a84f7.json",
+      "sha256": "72558700556d997a95e9281044e330eba9a472dda43642a9b5cc0483294d875f",
+      "size_bytes": 217157
+    },
+    {
+      "path": "static_shared/mathjax/bbm.2f6ff24c137fa6f333c4.js",
+      "sha256": "fb780f6e8ca565439b3c6dc78f3e42b525905fd43c5e15471994a2a1da914ca8",
+      "size_bytes": 2143
+    },
+    {
+      "path": "static_shared/mathjax/bboldx.2e870a1015215bd08943.js",
+      "sha256": "d84c426bb390ea51f93b62eb586781c446c6d848600e2fe2e0527b749239f15a",
+      "size_bytes": 6813
+    },
+    {
+      "path": "static_shared/mathjax/bbox.ecc635eb2baeac9fd648.js",
+      "sha256": "9d9ff6d1c592d2a4fe728412d2d5ec29379f4721bfa3b8356ad2045eb939b848",
+      "size_bytes": 2323
+    },
+    {
+      "path": "static_shared/mathjax/begingroup.4671477bfa0bf26c6357.js",
+      "sha256": "0f606d5a71301992e92d8697ccbf8318736110691d8a94303f3f254cd589421a",
+      "size_bytes": 4266
+    },
+    {
+      "path": "static_shared/mathjax/boldsymbol.70316731a9bc7a9b3f6d.js",
+      "sha256": "baaabd9fb430fe4fdbfa9db74aa60b118dd650a68239280368abfd1bc30a0e10",
+      "size_bytes": 2460
+    },
+    {
+      "path": "static_shared/mathjax/braket.98d4c80cdb81eb21b246.js",
+      "sha256": "4a8a6ac1283d7dcee58e7fd71edb178991ba086fa8487f7d26720fe64c002791",
+      "size_bytes": 4635
+    },
+    {
+      "path": "static_shared/mathjax/bussproofs.bb5ca1895bf59c545d5f.js",
+      "sha256": "10997a853480488a009310f8fc35c9ea737af59f608127e647b255a84bc7f8e1",
+      "size_bytes": 12204
+    },
+    {
+      "path": "static_shared/mathjax/ca.8bc2b061fb770836e171.json",
+      "sha256": "750a034984f3b5966a2a391eb5ad0c7b50bfa02eb576a82656a0bf43ebe34ee7",
+      "size_bytes": 247328
+    },
+    {
+      "path": "static_shared/mathjax/cancel.ea96f17cd534ccbc8f62.js",
+      "sha256": "9ff91ff84d9776606cdb66da62ffe9bb39cfdfabcf070f214d35e553689ffece",
+      "size_bytes": 2255
+    },
+    {
+      "path": "static_shared/mathjax/cases.3f7406ef40318a6f8e5f.js",
+      "sha256": "6805d481aaee3f78d82bb9f0b6b9ac47b0804c30f10253394724459d95d41a8c",
+      "size_bytes": 4277
+    },
+    {
+      "path": "static_shared/mathjax/centernot.768e4f081cc8683f1e3e.js",
+      "sha256": "7b89e7a2ddb38908580bcbf5aef3aedeff2231fbc8907d93c516f20e32fc9772",
+      "size_bytes": 2145
+    },
+    {
+      "path": "static_shared/mathjax/chtml.ca0e7adc4fe819207adf.js",
+      "sha256": "00db8c74ce9a68b9bf964712113b8dd71387dd2c04e4237ca2825d8cec59be86",
+      "size_bytes": 173680
+    },
+    {
+      "path": "static_shared/mathjax/color.79630c77474128a4ae41.js",
+      "sha256": "d5e0087b1f06ad49df3264042df0073edc78d09f8a09fb0c3e8622d110f6c73f",
+      "size_bytes": 6817
+    },
+    {
+      "path": "static_shared/mathjax/colortbl.96a1a982f3eba3c55314.js",
+      "sha256": "dff289abcff30d0e109eb51a6f6be2d09e46b7e1db5bc881719f9f1bf483ab8f",
+      "size_bytes": 3185
+    },
+    {
+      "path": "static_shared/mathjax/colorv2.0f5ccf0d5d09a36c88f2.js",
+      "sha256": "3cc6e234d0cd33e8004b9f4864e237a06b5e87c4d0ff17d64fff449464c628ce",
+      "size_bytes": 1524
+    },
+    {
+      "path": "static_shared/mathjax/complexity.c6bb3692efc5a41374a9.js",
+      "sha256": "0fa2a9b23848e516045fd11effc90087c41d793ac9fa69903980d7df3fd4b96d",
+      "size_bytes": 12603
+    },
+    {
+      "path": "static_shared/mathjax/configmacros.968326e72eabfc5a057f.js",
+      "sha256": "5a7b6e7b7980f8d3425ddbcbbe21299da5b1254d5702e91bdbb9d04f487f4664",
+      "size_bytes": 2588
+    },
+    {
+      "path": "static_shared/mathjax/core.cca62069d95b4d05010b.js",
+      "sha256": "989dca5b19443257e70306243a1b2fdad3ed7cdcee211de745407ac25cec050f",
+      "size_bytes": 136139
+    },
+    {
+      "path": "static_shared/mathjax/da.1af6f77cb15eebd92088.json",
+      "sha256": "92b82e15916673ebdcbdd6927aa491a18cf4780432733e534e1071b98b176dae",
+      "size_bytes": 247368
+    },
+    {
+      "path": "static_shared/mathjax/de.5229347b6a7889bb15d6.json",
+      "sha256": "2e56ac4f5a4ce6f831a69c34a81b66d4e260bba4a019499518f356888c146fa5",
+      "size_bytes": 284080
+    },
+    {
+      "path": "static_shared/mathjax/dsfont.2ffd7df91a30456d97d7.js",
+      "sha256": "74a9961b43c43644c28c582fc14031b7f42bac0b771140a5d80af383415ea978",
+      "size_bytes": 1898
+    },
+    {
+      "path": "static_shared/mathjax/empheq.e0c5bc5efaa2ece82970.js",
+      "sha256": "80bf476cd47846a5c93f4e68c6091263e3c427e762176d1718eea0f8bb7b2b1f",
+      "size_bytes": 5898
+    },
+    {
+      "path": "static_shared/mathjax/en.2ae13392310d42a46742.json",
+      "sha256": "5e60d1843351966a159cc409eb73e9abc7c7e375a3311c40d35843d70fee79fb",
+      "size_bytes": 364204
+    },
+    {
+      "path": "static_shared/mathjax/enclose.1ef451815434723333c4.js",
+      "sha256": "5301d91e2e7d6f86a29c13c1b9726b7476b9de9b1745011886c914372fab4cf3",
+      "size_bytes": 1731
+    },
+    {
+      "path": "static_shared/mathjax/entities.5c6373e281bdb19f8ef4.js",
+      "sha256": "8023c697f39b9b85510f2a343878bd18bd2c79ed164ce8cdf5534b2be45cc7f8",
+      "size_bytes": 23248
+    },
+    {
+      "path": "static_shared/mathjax/es.f4db9f8140d97550256a.json",
+      "sha256": "3f273798257eac1bb39082724ac819a0940588aefd21275c2c43a1178badb61b",
+      "size_bytes": 250921
+    },
+    {
+      "path": "static_shared/mathjax/euro.aded2c057b4cef1c52b5.json",
+      "sha256": "564c10b1ecae3d161a50fbf13965b9d326d24d8c5e172152a16253f6334375ac",
+      "size_bytes": 12781
+    },
+    {
+      "path": "static_shared/mathjax/explorer.426e0736fb6dd31457c3.js",
+      "sha256": "56a81c6ffba48aae68468cdcad4edac6ec8ec412088fbe9df74eece776906cc8",
+      "size_bytes": 57792
+    },
+    {
+      "path": "static_shared/mathjax/extpfeil.c29a100d59abcef672e8.js",
+      "sha256": "2d1f82bf22acefe6c358e3a3dca293cc2fda338f2db4fd147befc75122c41841",
+      "size_bytes": 2445
+    },
+    {
+      "path": "static_shared/mathjax/fontsizev3.1d09d18b6f2b30a8a2be.js",
+      "sha256": "0e8fe554424a274d5809efc11f3a48602713bb7d2b2280ae4fcac04181f128f2",
+      "size_bytes": 1637
+    },
+    {
+      "path": "static_shared/mathjax/fr.929e781d8ea8264c952e.json",
+      "sha256": "caf60a882b654ac18f5a168960aeeac014c27708c56195dd6d765aff728839df",
+      "size_bytes": 276403
+    },
+    {
+      "path": "static_shared/mathjax/gensymb.95536d22152609f3564c.js",
+      "sha256": "262d898481e34a5f9683dd15a16cea81a06702de101bf76289bbea83f8f4afc9",
+      "size_bytes": 1575
+    },
+    {
+      "path": "static_shared/mathjax/hi.4bf8aa94f4d208220313.json",
+      "sha256": "debdb8fc8b1c56a7f1ac4f96bc566af9456632b58df556b3331debdf0c2c723d",
+      "size_bytes": 394568
+    },
+    {
+      "path": "static_shared/mathjax/html.64640f2418616faa1a58.js",
+      "sha256": "a647d13d009d5ecee4239cfe681ef831f2bd0f2a91033b922ae6bf3481d156e0",
+      "size_bytes": 2813
+    },
+    {
+      "path": "static_shared/mathjax/it.91ecd5899fdf2bb53bc4.json",
+      "sha256": "b476cbfb4a1e8f6112f69c51e6ebacf86ed4114a9c0b1fbfb419ac2944aa6cfa",
+      "size_bytes": 282065
+    },
+    {
+      "path": "static_shared/mathjax/jsdom.9fdedce9ca3689b85808.js",
+      "sha256": "f321af6481e5c3e6ec5cc0917b528f8f8df3ae53f94485d3b770eb118eb738c5",
+      "size_bytes": 3163
+    },
+    {
+      "path": "static_shared/mathjax/ko.090da32db11725e7e3c8.json",
+      "sha256": "af7fd90bcf06736f5363b752d505d4cc7782bd725c6db4184edccdf56b24a87e",
+      "size_bytes": 392014
+    },
+    {
+      "path": "static_shared/mathjax/lazy.7af99c63170827107829.js",
+      "sha256": "a72e3b41f608f5e2c2b4b2b9a163ab9be1e31fcf84b255b4bad6f189e4f10505",
+      "size_bytes": 6597
+    },
+    {
+      "path": "static_shared/mathjax/linkedom.becd6a7ee73e62236393.js",
+      "sha256": "927d0b99ac6305492bcc4d46222f636666d8fbf1f952664b6c2099df15311fd7",
+      "size_bytes": 3616
+    },
+    {
+      "path": "static_shared/mathjax/liteDOM.965a8f780cf212d7924b.js",
+      "sha256": "4ee6d6e646cdcf3203fee3ede9395b0ddeb7670bfd2fdf06236701733013105c",
+      "size_bytes": 13577
+    },
+    {
+      "path": "static_shared/mathjax/loader.98478cc1c9eb81b9c646.js",
+      "sha256": "54997fce9d5b9ffe347ebdbcfd3fd95551b64e1cf75e480353675065e0aef97e",
+      "size_bytes": 11365
+    },
+    {
+      "path": "static_shared/mathjax/mathtools.964440743180ea438fcf.js",
+      "sha256": "d6dab6acde6634e4b043e38c0c6d4202346aedc0ee614b146c786278a4673c30",
+      "size_bytes": 22353
+    },
+    {
+      "path": "static_shared/mathjax/menu.f4a8061049adac3345bf.js",
+      "sha256": "b500f2dd50552d47a934e4ffee2a4f6fb166860cd243b9fdc4cc3d5e3dd898b8",
+      "size_bytes": 74867
+    },
+    {
+      "path": "static_shared/mathjax/mhchem.341764cc13d0455e1513.js",
+      "sha256": "8398fa620d2bcbf40258b3b63733a41ada58f96d511a8a1c2e8ede8d1c1d6cd0",
+      "size_bytes": 37800
+    },
+    {
+      "path": "static_shared/mathjax/mml-chtml-nofont.ffd84f2ef882302d28b5.js",
+      "sha256": "89bf2d4e00ec5915ef76db9f85a062e4a038c50571cefee638c4df8a04bb1711",
+      "size_bytes": 728671
+    },
+    {
+      "path": "static_shared/mathjax/mml-chtml.1d267789651ad082d5bb.js",
+      "sha256": "cc38c1a37c27929b1e4b1009a47a3e4593e40d0d0a3beaf1392e36e1dee7aeaf",
+      "size_bytes": 837572
+    },
+    {
+      "path": "static_shared/mathjax/mml-svg-nofont.122d7d3d1e46367eeff6.js",
+      "sha256": "60f20019de737284666c7baf8cd80cf16cec1793327e6f5c3b3002e673a8958b",
+      "size_bytes": 714104
+    },
+    {
+      "path": "static_shared/mathjax/mml-svg.a951f7eef65eb75a54cb.js",
+      "sha256": "a99bdc0c3f039227c319ba0baad8b35a8a76c54b0799f0d081148db296728ef3",
+      "size_bytes": 1689752
+    },
+    {
+      "path": "static_shared/mathjax/mml.6b31f3bfa403ae9b49c2.js",
+      "sha256": "ccb777a3698f3d2619876d7fdfc8d307a54896c3e1812f37aac24252687251ea",
+      "size_bytes": 8673
+    },
+    {
+      "path": "static_shared/mathjax/mml3.7fa4e575bbce3dc9aa69.js",
+      "sha256": "ed792479b3343529a2a9a1a813ebf3cea9fe5d381e9d135a07e155c81d036031",
+      "size_bytes": 27784
+    },
+    {
+      "path": "static_shared/mathjax/mml3.sef.e248bbb6bcf23bd666b4.json",
+      "sha256": "0f0eef793f3b97df3b10c386e23528938eb82f7d180affe694397e7346f03a87",
+      "size_bytes": 192556
+    },
+    {
+      "path": "static_shared/mathjax/nb.4623092c7651af59b599.json",
+      "sha256": "8d1ad78f81be49b569ce0011056f70501584843b5a5da8b21b4c2d8d38cb3ae3",
+      "size_bytes": 260745
+    },
+    {
+      "path": "static_shared/mathjax/nemeth.82528d687eede063ec84.json",
+      "sha256": "16f30ad5bc7db02bbcce4623b108626f1a73d65660799891f23efd76dcaa333e",
+      "size_bytes": 227472
+    },
+    {
+      "path": "static_shared/mathjax/newcommand.40654bd3c828b24343c5.js",
+      "sha256": "770b6a794ae654b6897a991eedafb0caf095f7d716ba37b77933cc346e0a9f74",
+      "size_bytes": 8833
+    },
+    {
+      "path": "static_shared/mathjax/nn.3f92603dff43b349a375.json",
+      "sha256": "8481c038bfbf609f53053cb26f86c1de4c6eafebe1a80f909004b3a201b07166",
+      "size_bytes": 262158
+    },
+    {
+      "path": "static_shared/mathjax/no-dark-mode.a4d02764ff39686c860f.js",
+      "sha256": "63d7b52571baf709d0a387459cbb2a9ed70e7ce15be222328e19d155ed255b46",
+      "size_bytes": 2246
+    },
+    {
+      "path": "static_shared/mathjax/node-main-setup.680de4e949b8cd64db88.cjs",
+      "sha256": "4fe20a7938c64ead34b4f32e4f29d5ddc6cf74cb6ba66fd7f3ae88c9c2476b97",
+      "size_bytes": 121
+    },
+    {
+      "path": "static_shared/mathjax/node-main.312ba2296e6965b320f5.mjs",
+      "sha256": "7a52fd967e5af0b75e8b6eb02a3955dc23f9f55acaeb46b9bec38c2914f467c8",
+      "size_bytes": 113
+    },
+    {
+      "path": "static_shared/mathjax/node-main.a1f68a1ba943f03185ad.cjs",
+      "sha256": "81ac6fa9341578b24914d55582b1aa15b547670390e06cd9254e2a33fe92cf71",
+      "size_bytes": 120
+    },
+    {
+      "path": "static_shared/mathjax/node-main.cc0d12776d2f45d80a3d.js",
+      "sha256": "85f247e3e85f4cee56907d52dd8d7e54edcd99d4c6c2e20f3f0c4cc10a7bca32",
+      "size_bytes": 172257
+    },
+    {
+      "path": "static_shared/mathjax/noerrors.452647f1b6bd6b44295a.js",
+      "sha256": "479c00d274f7f38e25d44a13e407bf8adeb83b02dd05639a302ca7c0db3d4cc2",
+      "size_bytes": 1243
+    },
+    {
+      "path": "static_shared/mathjax/noundefined.0439a20c34a9acf01a71.js",
+      "sha256": "d29d871d8d38802cc1581f6e4f5d673c357a8bf9802114ea57f51a53d0a0fef3",
+      "size_bytes": 1384
+    },
+    {
+      "path": "static_shared/mathjax/package.42a8766f1cf9d84c7e0f.json",
+      "sha256": "440cfcbfb317456a774bc7186e857a1f135954105e32a4312d6cdd555f3a4257",
+      "size_bytes": 2435
+    },
+    {
+      "path": "static_shared/mathjax/physics.e4123b34f06f44dd5239.js",
+      "sha256": "739e0d02aa8311493d03159e13a3268da7f180d4888ed49d8f0644dec7defc78",
+      "size_bytes": 19539
+    },
+    {
+      "path": "static_shared/mathjax/require.2f5e2dc61b1adf63a69a.mjs",
+      "sha256": "9e425e715b5f6e6adc20ff285ba6f491b85b037f9dca011f9b0209fe4355027e",
+      "size_bytes": 73
+    },
+    {
+      "path": "static_shared/mathjax/require.aa3cf210b4e9a2145795.js",
+      "sha256": "6ccbfb7f9a6e627fabdc39ce034f99355172b9778891cce33243844501098130",
+      "size_bytes": 4007
+    },
+    {
+      "path": "static_shared/mathjax/require.d.8fd666d212aefcf6f421.mts",
+      "sha256": "946701066b1225bbb539cb3b7b9dfadfea309b7dfb728dc28e59599af97c102d",
+      "size_bytes": 44
+    },
+    {
+      "path": "static_shared/mathjax/safe.2b92ee8222a26906c900.js",
+      "sha256": "ddd5b5eb3076bdf71c9b0508c58fae095b441a22b7bf2ff2e1ad5ace389f49b2",
+      "size_bytes": 6375
+    },
+    {
+      "path": "static_shared/mathjax/semantic-enrich.491ab67000bd5fdd6eb6.js",
+      "sha256": "2c2d8d5e2ab1af07a73e587c036bda41c1d9606b5d8fca7ef2e43f553c743563",
+      "size_bytes": 4782
+    },
+    {
+      "path": "static_shared/mathjax/setoptions.f3653b2e4f65c484a6fb.js",
+      "sha256": "756100054a264bcfd47c1b5c03b7e4dcdd7cca679b78b693a6926e887ab59c39",
+      "size_bytes": 3729
+    },
+    {
+      "path": "static_shared/mathjax/speech-worker.7b5a87f13d48d5bbd15f.js",
+      "sha256": "d8b553a705594bbe99671152541511173eb6c413774eceaa0a3a525d2744996f",
+      "size_bytes": 417319
+    },
+    {
+      "path": "static_shared/mathjax/speech.5ee435297e7c7dda5d87.js",
+      "sha256": "124683e973f0fba5443c85e821b7070a4531737d2e8b08d48f9959088c51f4b8",
+      "size_bytes": 20405
+    },
+    {
+      "path": "static_shared/mathjax/sre.5a7b7b1517f3c7ac252e.js",
+      "sha256": "55831f16704c4530ab27b2d23b2324b32d0672c5bdcc69e10a0cc48ad2e4c4d8",
+      "size_bytes": 253655
+    },
+    {
+      "path": "static_shared/mathjax/startup.9743f3fd4d6f9d716970.js",
+      "sha256": "9d422bd9df67852929a43763fd0d7b7645b00d646c63dde77a3ceeee8f9a3b17",
+      "size_bytes": 17073
+    },
+    {
+      "path": "static_shared/mathjax/sv.eeca274a6ab1bdfcc3f1.json",
+      "sha256": "7436531c326be9449bdbb41c74fcae4235fc58ff7c6816999e571ee636fd15f1",
+      "size_bytes": 271954
+    },
+    {
+      "path": "static_shared/mathjax/svg.3b88ee8e0a986c3a12f3.js",
+      "sha256": "996d304c4925148720990cabbc27d1039a7208ad4777556a94f6db3f32d26577",
+      "size_bytes": 159228
+    },
+    {
+      "path": "static_shared/mathjax/tagformat.edffc1ce0e476457b1b4.js",
+      "sha256": "9da0f12949eb209f8cfa06fd88ddce12bf6b8880d29c067a7ad08f42164a3a57",
+      "size_bytes": 1975
+    },
+    {
+      "path": "static_shared/mathjax/tex-base.a4c788d227933a4dbe34.js",
+      "sha256": "1e5f8fc44e552919ab145d92a6fa80c4bf6a41d08d2c802b6a009be132bc8c8e",
+      "size_bytes": 107605
+    },
+    {
+      "path": "static_shared/mathjax/tex-chtml-nofont.1a4c01112bdf49d022b1.js",
+      "sha256": "bf5ab73ab803d35e02a79fd633f0ce4c977848b9dea360860e03e0230d4db03b",
+      "size_bytes": 873852
+    },
+    {
+      "path": "static_shared/mathjax/tex-chtml.3d44f0d96407e6e343da.js",
+      "sha256": "415067cd20829809061951738091f3c6c77987b42e267c03659d788b7f82069b",
+      "size_bytes": 982772
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-chtml-nofont.fc2bd8e22161628a2dd0.js",
+      "sha256": "e6e0602060c7d72c70a8814f68e69503bc11febc4146e64997518d3a34aeebff",
+      "size_bytes": 873984
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-chtml.c68e377694ee1fef1256.js",
+      "sha256": "1f5a21b33dff5936c39f791a789fee7e5026d02af10bc84d26a0a25fa613ba5d",
+      "size_bytes": 982885
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-svg-nofont.7a7b14c36959378a17b1.js",
+      "sha256": "db5b6ab0ca1a1156cf17bd664a11e9de4b9cb78946badf2e6592003f301fe698",
+      "size_bytes": 859417
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-svg.6080c69fb74dac246e2a.js",
+      "sha256": "8faf7907f243f0961366e4059bd3f1631b1501c251094b39150343ac90a326b1",
+      "size_bytes": 1835065
+    },
+    {
+      "path": "static_shared/mathjax/tex-svg-nofont.035269eaeae7adf40175.js",
+      "sha256": "a2a9dbdeafe507ab23954d46b681e8ae4f1d6858e546defc940fab34ea40e2ab",
+      "size_bytes": 859285
+    },
+    {
+      "path": "static_shared/mathjax/tex-svg.e3bd52162ad7ec8e950f.js",
+      "sha256": "ead0ae2417314d38101959e5df34cdb79e12e37a78c714a09375269fbb19d7e7",
+      "size_bytes": 1834952
+    },
+    {
+      "path": "static_shared/mathjax/tex.64e4e6f1b02236c48d0c.js",
+      "sha256": "e5c5c9a29af31a4809b10ac887c67d938e11b6b8c9e76bda6aba1f859eeaa66a",
+      "size_bytes": 147664
+    },
+    {
+      "path": "static_shared/mathjax/texhtml.0304f785a6a2387af68f.js",
+      "sha256": "6269dda09c28b4291cd4d95e880c9dc053cc95b41c644ce057bab5640cb83113",
+      "size_bytes": 2504
+    },
+    {
+      "path": "static_shared/mathjax/textcomp.80f210729d1a1347c27e.js",
+      "sha256": "e038f7b36ddc4cbaaaa427c8f8554d418f284518cdc4c24eeb296e50084a4b23",
+      "size_bytes": 4875
+    },
+    {
+      "path": "static_shared/mathjax/textmacros.42a818618be1b6ab53be.js",
+      "sha256": "e4de0ad5b86bfe6a90291cb7ac60ed5c43604794c008448c23fc1b7022edb9fe",
+      "size_bytes": 10220
+    },
+    {
+      "path": "static_shared/mathjax/unicode.47afeab5ebff181cca44.js",
+      "sha256": "bf1ddc9fe506f782c0e9271c0c52c4b258f9e4eac3d2905274d0c5d239e2a2b3",
+      "size_bytes": 3586
+    },
+    {
+      "path": "static_shared/mathjax/units.73d3834a074e41e2aa4a.js",
+      "sha256": "25278814cbc050fcd4e8849c014c238cf6801e00405e0acaf5d98924fd1e26a7",
+      "size_bytes": 2118
+    },
+    {
+      "path": "static_shared/mathjax/upgreek.e96035471331c770c1ab.js",
+      "sha256": "3a387e3460f5a4bcfdc170e9ba167165bf1d197259db3478316eb1fbd8c2e621",
+      "size_bytes": 1993
+    },
+    {
+      "path": "static_shared/mathjax/verb.9aa68f128a1f79e26afa.js",
+      "sha256": "bd19e9004bb69b7bb87599957d384b3e873292bcc23b6d6cb184c2af71260774",
+      "size_bytes": 1777
+    },
+    {
+      "path": "video_galleries/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "video_galleries/index.html",
+      "sha256": "a7b41c4afab336fe651a8b6931941d237b8ac1a09fc83c085fdd328621842c2a",
+      "size_bytes": 47356
+    },
+    {
+      "path": "video_galleries/video-lectures/data.json",
+      "sha256": "fa715ba495b8646bed24aa6bb18ed483f7dc626eb0d9b14e01c4d24a4c41fd0f",
+      "size_bytes": 58925
+    },
+    {
+      "path": "video_galleries/video-lectures/index.html",
+      "sha256": "bf156f088115028b8aaa36d3beea333f78c524e04282c49204ab07d06529ebb0",
+      "size_bytes": 59449
+    }
+  ],
+  "remaining_reviews": [
+    "Complete local links, essential readings, exercises and supplied solutions",
+    "One appropriate original media rendition, playback, captions and notices",
+    "Retain useful complete files; no duplicate renditions or metadata credited as knowledge"
+  ],
+  "schema_version": 1,
+  "source_bytes": 25075805,
+  "source_id": "ocw_91f8d56c4f9958fdf004",
+  "source_sha256": "609be8f867a182acb506fbac648e222cb40dd494e88c9b4afaaee3613de3303e",
+  "transformation_version": 2,
+  "video_lesson_count": 25
+}

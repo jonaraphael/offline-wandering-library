@@ -11,6 +11,7 @@ from urllib.parse import urlsplit
 import yaml
 
 from .safety import validate_relative
+from .content_policy import load_policy
 
 
 class CatalogError(ValueError):
@@ -32,8 +33,8 @@ def _mapping(loader, node, deep=False):
 
 
 UniqueLoader.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _mapping)
-DIRECT = {"html", "htm", "pdf", "txt", "md", "png", "jpg", "jpeg"}
-SOFTWARE = {"apk", "exe", "msi", "dmg", "appimage", "deb", "rpm"}
+DIRECT = set(load_policy()["direct_reading_formats"])
+SOFTWARE = set(load_policy()["roles"]["software"])
 ROOTS = {"CRITICAL", "REFERENCE", "BOOKS", "MAPS", "ZIM", "SOFTWARE"}
 RESOURCE_TYPES = {"textbook", "guide", "reference", "archive", "software"}
 LEARNING_SHELVES = ("textbooks", "illustrated-guides")
@@ -85,18 +86,14 @@ def load_profiles(directory: Path) -> dict:
         name = profile.get("id")
         if not isinstance(name, str) or not re.fullmatch(r"[a-z0-9-]+", name) or name in result:
             raise CatalogError(f"Invalid/duplicate profile id: {name}")
-        for field in ("capacity_bytes", "reserve_bytes", "search_budget_bytes"):
+        for field in ("capacity_bytes", "reserve_bytes", "discovery_budget_bytes"):
             if type(profile.get(field)) is not int or profile[field] < 0:
                 raise CatalogError(f"{name}: {field} must be a nonnegative integer")
         if profile["capacity_bytes"] <= profile["reserve_bytes"]:
             raise CatalogError(f"{name}: no usable capacity")
-        for field in ("content_target_min_bytes", "content_target_max_bytes", "readers_budget_bytes",
-                      "index_scratch_budget_bytes"):
+        for field in ("content_target_min_bytes", "content_target_max_bytes", "readers_budget_bytes"):
             if field in profile and (type(profile[field]) is not int or profile[field] < 0):
                 raise CatalogError(f"{name}: {field} must be a nonnegative integer")
-        if ("index_scratch_budget_bytes" in profile and
-                profile["index_scratch_budget_bytes"] < (profile["search_budget_bytes"] * 3 + 3) // 4):
-            raise CatalogError(f"{name}: index_scratch_budget_bytes must cover the raw-index serialization allowance")
         if ("content_target_min_bytes" in profile) != ("content_target_max_bytes" in profile):
             raise CatalogError(f"{name}: content target requires both minimum and maximum")
         if profile.get("content_target_min_bytes", 0) > profile.get("content_target_max_bytes", 0):
@@ -411,15 +408,11 @@ def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = No
     expanded_bytes = sum(expanded_inputs.values())
     # Allow complete regeneration while verified sibling outputs remain in place.
     acquisition = sum(generation_work.values()) + sum(input_metadata.values()) + 65536 * len(generation_work) + sum(a['size_bytes'] for a in generated)
-    final = content + profile["search_budget_bytes"] + overhead + acquisition
+    final = content + profile["discovery_budget_bytes"] + overhead + acquisition
     if final + profile["reserve_bytes"] > profile["capacity_bytes"]:
         if acquisition:
             raise CatalogError('Generated content plus retained acquisition workspace exceeds profile capacity')
         raise CatalogError(f"Profile exceeds capacity: {final:,} bytes plus {profile['reserve_bytes']:,} reserve")
-    scratch = profile.get("index_scratch_budget_bytes", profile["search_budget_bytes"] * 2)
-    raw = (profile["search_budget_bytes"] * 3 + 3) // 4
-    if type(scratch) is not int or scratch < raw:
-        raise CatalogError("index_scratch_budget_bytes must be an integer covering the raw-index serialization allowance")
     result = {"download_bytes": sum(a["size_bytes"] for a in assets if "archive_member" not in a and "generation" not in a) + temporary_bytes,
             "build_input_download_bytes": temporary_bytes,
             "build_input_expanded_bytes": expanded_bytes,
@@ -431,9 +424,8 @@ def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = No
             "acquisition_workspace_budget_bytes": acquisition,
             "supporting_file_bytes": supporting,
             "content_bytes": content, "estimated_final_bytes": final,
-            "search_budget_bytes": profile["search_budget_bytes"], "reserve_bytes": profile["reserve_bytes"],
-            "capacity_bytes": profile["capacity_bytes"], "index_scratch_budget_bytes": scratch,
-            "index_serialization_budget_bytes": raw, "index_extraction_budget_bytes": scratch - raw,
+            "discovery_budget_bytes": profile["discovery_budget_bytes"], "reserve_bytes": profile["reserve_bytes"],
+            "capacity_bytes": profile["capacity_bytes"],
             "pinned_knowledge_bytes": knowledge, "pinned_reader_bytes": readers,
             "direct_readable_bytes": direct,
             "actual_content_utilization_percent": knowledge * 100 // profile["capacity_bytes"],
@@ -452,7 +444,7 @@ def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = No
     result["content_complete"] = result["content_floor_met"] and result["content_ceiling_met"] and (not selection or not selection["incomplete_resources"])
     if selection is not None:
         target = max(content, selection["planned_total_bytes"])
-        planned_final = target + profile["search_budget_bytes"] + overhead + acquisition
+        planned_final = target + profile["discovery_budget_bytes"] + overhead + acquisition
         if planned_final + profile["reserve_bytes"] > profile["capacity_bytes"]:
             raise CatalogError(f"Selected resource targets exceed capacity: {planned_final:,} bytes "
                                f"plus {profile['reserve_bytes']:,} reserve. Exclude resources or choose a larger profile.")
@@ -463,13 +455,9 @@ def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = No
             actual = selection["content_target_bytes"]
             result["target_window_status"] = ("below-target" if actual < profile["content_target_min_bytes"]
                 else "above-target" if actual > profile["content_target_max_bytes"] else "in-range")
-    # Extraction files are released after a durable, verified raw-index
-    # checkpoint, before the browser transport is packaged. They never need
-    # to coexist with the finished transport on a fresh build.
-    working_peak = raw + max(scratch - raw, profile["search_budget_bytes"])
-    result["index_working_peak_bytes"] = working_peak
+    # Small discovery output and acquisition inputs occupy sequential stages.
     result["in_place_peak_budget_bytes"] = (result.get("planned_final_bytes", final)
-        - profile["search_budget_bytes"] + max(working_peak, temporary_bytes + expanded_bytes) + profile["reserve_bytes"])
+        - profile["discovery_budget_bytes"] + max(profile["discovery_budget_bytes"], temporary_bytes + expanded_bytes) + profile["reserve_bytes"])
     result["in_place_target_budget_fits"] = result["in_place_peak_budget_bytes"] <= profile["capacity_bytes"]
     return result
 
@@ -484,6 +472,8 @@ def main(argv=None) -> int:
     try:
         profiles = load_profiles(args.profiles_dir)
         assets = load_catalog(args.catalog, profiles, args.allow_local)
+        from .content_policy import require_content_policy
+        require_content_policy(assets)
         lock = read_yaml(args.catalog).get("selection_lock")
         if lock is not None:
             if not isinstance(lock, dict) or lock.get("profile_id") not in profiles:

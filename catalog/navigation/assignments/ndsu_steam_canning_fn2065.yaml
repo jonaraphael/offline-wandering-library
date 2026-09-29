@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: ndsu_steam_canning_fn2065
+assignments:
+- topic_id: canning
+  purpose: reference
+  description: 2022 steam-canner guidance; later NCHFP vent-temperature and postprocessing
+    qualifications are required but not yet included.

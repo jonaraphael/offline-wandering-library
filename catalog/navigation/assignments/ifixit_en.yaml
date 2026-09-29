@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: ifixit_en
+assignments:
+- topic_id: repair-guides
+  purpose: reference

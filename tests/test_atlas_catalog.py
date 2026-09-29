@@ -169,10 +169,10 @@ class ProductionAtlasCatalogTests(unittest.TestCase):
 
     def test_missing_editorial_assignment_is_reported_without_automatic_mapping(self):
         navigation = deepcopy(self.navigation)
-        navigation["assignments"] = [row for row in navigation["assignments"] if row["asset_id"] != "mechanical"]
+        navigation["assignments"] = [row for row in navigation["assignments"] if row["asset_id"] != "cert"]
         _, report = self.render(self.select("critical-64gb"), navigation)
-        self.assertIn("mechanical", report["unmapped_critical"])
-        self.assertNotIn("maintenance", report["included_topic_ids"])
+        self.assertIn("cert", report["unmapped_critical"])
+        self.assertNotIn("cert", report["mapped_asset_ids"])
 
 
 class ProductionAtlasCoverageTests(unittest.TestCase):
@@ -183,9 +183,7 @@ class ProductionAtlasCoverageTests(unittest.TestCase):
         cls.navigation = load_navigation(ROOT / "catalog/navigation", cls.assets)
 
     def test_every_pocket_preset_file_has_a_topic_route(self):
-        selected = {asset["id"] for asset in self.assets
-                    if "flash-16gb" in asset["profiles"] and asset["status"] == "resolved"
-                    and is_document(asset)}
+        selected = {asset["id"] for asset in resolve_content(self.assets, load_profiles(ROOT / "profiles")["flash-16gb"], resources_path=ROOT / "catalog/resources.yaml")[0] if is_document(asset)}
         mapped = {row["asset_id"] for row in self.navigation["assignments"]}
         self.assertTrue(selected)
         self.assertEqual(selected - mapped, set())
@@ -197,7 +195,7 @@ class ProductionAtlasCoverageTests(unittest.TestCase):
         expected.update({asset["id"]: "computing" for asset in self.assets
                          if asset["id"].startswith("docs_python_pdf_") and is_document(asset)})
         expected.update({identity: "computing" for identity in (
-            "docs_bash", "docs_coreutils", "docs_make", "docs_gcc", "docs_cpp",
+            "docs_bash_published_pdf", "docs_coreutils_published_pdf", "docs_make_published_pdf", "docs_gcc", "docs_cpp",
             "docs_binutils", "docs_ld", "docs_libc", "docs_python")})
         expected.update({"phet_ohms_law": "electric-circuits",
                          "phet_circuit_construction_kit_dc": "electric-circuits",

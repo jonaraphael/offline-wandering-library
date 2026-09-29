@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "kind": "acquisition",
+  "id": "midwives-raw-diagnostic-20260927-v1",
+  "profile": "full-1tb",
+  "sources": [
+    {
+      "id": "midwives_digital_page_1147",
+      "resource_ids": [
+        "hesperian-health"
+      ],
+      "source_url": "https://en.hesperian.org/w/index.php?title=A+Book+for+Midwives&oldid=103656&action=raw",
+      "version": "Official digital edition revision 103656 (2026-08-13T20:03:38Z)",
+      "size_bytes": null,
+      "sha256": null,
+      "publisher_checksums": {},
+      "metadata_evidence": [
+        {
+          "url": "https://en.hesperian.org/w/api.php?action=query&titles=A+Book+for+Midwives%7CA+Book+for+Midwives%3AAfter+the+MVA%7CA+Book+for+Midwives%3AAfter+the+checkup%7CA+Book+for+Midwives%3AAfter+you+insert+the+IUD%7CA+Book+for+Midwives%3AAlphabetical+list+of+medicines%7CA+Book+for+Midwives%3AAlternatives+to+breastfeeding%7CA+Book+for+Midwives%3ABaby+is+breech%7CA+Book+for+Midwives%3ABaby+is+very+small+or+more+than+5+weeks+early%7CA+Book+for+Midwives%3ABe+ready+for+emergencies%7CA+Book+for+Midwives%3ABefore+the+exam%7CA+Book+for+Midwives%3ABefore+you+insert+the+IUD%7CA+Book+for+Midwives%3ABody+changes+and+discomforts%7CA+Book+for+Midwives%3ACancer+of+the+cervix%7CA+Book+for+Midwives%3ACare+for+the+mother+during+labor%7CA+Book+for+Midwives%3ACaring+for+a+woman+after+female+genital+cutting+%28circumcision%29%7CA+Book+for+Midwives%3ACaring+for+the+body+for+good+health%7CA+Book+for+Midwives%3ACatheters%7CA+Book+for+Midwives%3AChanging+feelings+and+emotions%7CA+Book+for+Midwives%3AChapter+10%3A+Giving+good+care+during+labor+and+birth%7CA+Book+for+Midwives%3AChapter+11%3A+Opening%3A+stage+1+of+labor&prop=info%7Crevisions%7Cimages%7Clinks%7Ctemplates&rvprop=ids%7Ctimestamp%7Csize%7Csha1&imlimit=500&pllimit=500&tllimit=500&format=json",
+          "sha256": "7e785b4330d04b4eaef290d03455466d0a21073daca143d885e7f4ce57a71d37",
+          "size_bytes": 45922,
+          "checked_at": "2026-09-27T23:23:24.860163+00:00"
+        }
+      ],
+      "source_role": "original-wikitext",
+      "page_title": "A Book for Midwives",
+      "capture_mode": "bounded-response-review",
+      "prior_revision": {
+        "size_bytes": 16560,
+        "sha1": "8a42b17e244f9e3b8756bd8fd4cec40a1e5d5250"
+      },
+      "max_size_bytes": 1048576
+    }
+  ],
+  "budget": {
+    "download_bytes": 1048576,
+    "expanded_bytes": 0,
+    "preview_bytes": 0,
+    "scratch_bytes": 0,
+    "cache_bytes": 0
+  },
+  "content_ready": false,
+  "purpose": "Diagnose raw revision transport exceeding publisher revision metadata; quarantine only, no source acceptance or pin replacement.",
+  "storage_peak_bytes": 2121308,
+  "metadata_allowance_bytes": 1072732
+}

@@ -173,7 +173,7 @@ class CommandTests(unittest.TestCase):
             reason="Published scope unfinished", target_bytes=500, asset_ids=["source"],
             editions={"direct": dict(status="ready", reason="Reviewed direct scope", target_bytes=9, asset_ids=["other"])})]})
         self.write(self.profiles / "test.yaml", dict(id="test", capacity_bytes=100000000, reserve_bytes=0,
-            search_budget_bytes=10000, default_resources=["core"], default_editions={"core": "direct"},
+            discovery_budget_bytes=10000, default_resources=["core"], default_editions={"core": "direct"},
             content_target_min_bytes=100, content_target_max_bytes=1000))
         self.recipes = self.root / "recipes.yaml"
         self.write(self.recipes, {"schema_version": 1, "recipes": []})
@@ -238,7 +238,7 @@ class CommandTests(unittest.TestCase):
         self.write(fragment, {"schema_version": 1, "assets": [asset("addition")], "resource_updates": [
             {"id": "core", "asset_ids": ["source", "addition"], "status": "partial", "reason": "Still needs review"}]})
         self.write(self.profiles / "demo.yaml", dict(id="demo", capacity_bytes=100000000, reserve_bytes=0,
-            search_budget_bytes=10000, minimum_coverage={"textbooks": 1}))
+            discovery_budget_bytes=10000, minimum_coverage={"textbooks": 1}))
         candidate = self.root / "candidate"
         summary, _ = self.run_cli("stage", "--fragment", fragment, "--output", candidate)
         self.assertEqual(summary["added_assets"], 1)
@@ -262,21 +262,21 @@ class CommandTests(unittest.TestCase):
         self.write(fragment, {"schema_version": 1, "assets": [output], "acquisition_recipes": [recipe()],
             "resource_updates": [{"id": "core", "asset_ids": ["source", "output"], "status": "ready"}]})
         error = self.run_cli("stage", "--fragment", fragment, "--output", self.root / "candidate", code=2)
-        self.assertIn("review evidence", error["error"])
+        self.assertIn("Content policy", error["error"])
 
     def test_stage_navigation_assignment_is_validated_and_written(self):
         navigation = self.root / "navigation"
         navigation.mkdir()
         self.write(navigation / "topics.yaml", {"schema_version": 1, "topics": [dict(id="reading", title="Reading", description="Books")],
             "entrances": {"subjects": ["reading"], "tasks": [], "learn": []}})
-        self.write(navigation / "assignments.yaml", {"schema_version": 1, "assignments": []})
         fragment = self.root / "fragment.yaml"
         assignment = {"topic_id": "reading", "asset_id": "addition"}
         self.write(fragment, {"schema_version": 1, "assets": [asset("addition")], "resource_updates": [
             {"id": "core", "asset_ids": ["source", "addition"]}], "navigation_assignments": [assignment]})
         self.run_cli("stage", "--fragment", fragment, "--output", self.root / "candidate")
-        saved = yaml.safe_load((self.root / "candidate/navigation/assignments.yaml").read_text())
-        self.assertEqual(saved["assignments"], [assignment])
+        saved = yaml.safe_load((self.root / "candidate/navigation/assignments/addition.yaml").read_text())
+        self.assertEqual(saved["asset_id"], "addition")
+        self.assertEqual(saved["assignments"], [{"topic_id": "reading"}])
 
     def test_discover_is_filtered_and_never_downloads_local_bodies(self):
         row = recipe()

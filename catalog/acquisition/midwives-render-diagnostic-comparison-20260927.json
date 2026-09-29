@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "content_ready": false,
+  "status": "diagnostic-comparison-complete",
+  "manifest": "catalog/acquisition/midwives-render-diagnostic-capture-20260927-v1.json",
+  "manifest_sha256": "b30c878f50ad0216bf6bac9f2616f04177ad0e18fb70bb1da20b5b39274acc3d",
+  "template_revision_check": "catalog/acquisition/midwives-render-template-recheck-20260927.json",
+  "template_revision_check_sha256": "d77498a5c74b4c463c4d9ca901e031bb325ead5cfaba1e31f79787672b7ca430",
+  "all_35_template_revisions_unchanged": true,
+  "sources": [
+    {
+      "page_title": "A Book for Midwives:Choosing a family planning method",
+      "source_id": "midwives_render_diagnostic_1102",
+      "source_url": "https://en.hesperian.org/w/index.php?oldid=103565&action=render",
+      "size_bytes": 105128,
+      "sha256": "4f9e2f154d08202c48b1b01c238561455bdcf75fd630c7173f718276989a27ea",
+      "whole_response_eof": true,
+      "capture_receipt": "/Volumes/General Backup/OWL-acquisition/midwives-render-diagnostic-v1-1tb/receipts/midwives_render_diagnostic_1102.json",
+      "content_ready": false,
+      "result": "Original unmatched closing braces are included literally in the official HTML paragraph, not an unexpanded template. Preserve them as source text.",
+      "literal_closing_braces": 2,
+      "literal_text_contexts": [
+        {
+          "text_node_sha256": "d916cd31a861b0111de9326626290bef92e4df023883162050dfb7ff4a91e032",
+          "ancestors": [
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "mw-parser-output"
+              }
+            },
+            {
+              "tag": "p",
+              "attrs": {}
+            }
+          ],
+          "literal_count": 1
+        }
+      ],
+      "source_bound_resolution": {
+        "original_source_id": "midwives_digital_page_1102",
+        "original_whole_response_sha256": "cb05142088a19dceb6f3340718306550210bed44da26aa0ea26fb3e7ae0269ea",
+        "original_wire_byte_offset": 57297,
+        "literal_hex": "7d7d",
+        "permitted_future_handling": "Recognize only this source-bound literal punctuation case; preserve both characters. Do not delete text or broadly waive unresolved constructs."
+      }
+    },
+    {
+      "page_title": "A Book for Midwives:After you insert the IUD",
+      "source_id": "midwives_render_diagnostic_1144",
+      "source_url": "https://en.hesperian.org/w/index.php?oldid=100739&action=render",
+      "size_bytes": 7959,
+      "sha256": "c5cc273851dd70837c5738796a3dca38848b5f0bc30f5f95c2236c722b6b7f60",
+      "whole_response_eof": true,
+      "capture_receipt": "/Volumes/General Backup/OWL-acquisition/midwives-render-diagnostic-v1-1tb/receipts/midwives_render_diagnostic_1144.json",
+      "content_ready": false,
+      "result": "Official parser retains the section heading, all six listed infection warning signs and figure reference inside the spannote template.",
+      "warning_signs_present": {
+        "very heavy bleeding": true,
+        "blood between monthly bleeding": true,
+        "vaginal discharge that is different from usual": true,
+        "pain in the pelvic area or belly": true,
+        "pain during vaginal sex": true,
+        "fever, chills, feeling ill": true
+      },
+      "figure_references": [
+        "https://pool.hesperian.org/w/images/thumb/2/29/MW_Ch21_Page_399-1.png/200px-MW_Ch21_Page_399-1.png"
+      ]
+    },
+    {
+      "page_title": "A Book for Midwives:Chapter 1: Word to Midwives",
+      "source_id": "midwives_render_diagnostic_1120",
+      "source_url": "https://en.hesperian.org/w/index.php?oldid=100719&action=render",
+      "size_bytes": 9830,
+      "sha256": "677092834544fde5c00be2bc31b6733c0a90a6647434d395a6ee768761eca3e9",
+      "whole_response_eof": true,
+      "capture_receipt": "/Volumes/General Backup/OWL-acquisition/midwives-render-diagnostic-v1-1tb/receipts/midwives_render_diagnostic_1120.json",
+      "content_ready": false,
+      "result": "Official HTML retains the positioned speech illustration and both text annotations in a table.",
+      "figure_references": [
+        "https://pool.hesperian.org/w/images/thumb/1/1c/MW_Ch1_Page_2-1.png/320px-MW_Ch1_Page_2-1.png"
+      ],
+      "table_count": 2,
+      "annotation_labels": [
+        "Bring the warm water, then come watch.",
+        "Gladly!"
+      ],
+      "annotation_coordinates_preserved": true
+    }
+  ],
+  "limits": [
+    "Publisher diagnostic HTML is quarantined; no content admission.",
+    "No image bodies or external dependencies were fetched during this inspection.",
+    "HTML conversion, image completion, local navigation and visual clinical-format review remain required.",
+    "Source code is frozen for regression; this report records a future exact literal-case resolution without editing the clinical source or expander."
+  ]
+}

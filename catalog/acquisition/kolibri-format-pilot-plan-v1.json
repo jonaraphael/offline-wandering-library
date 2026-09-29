@@ -1,0 +1,57 @@
+{
+  "concurrency": {
+    "capture": 1,
+    "review": 1
+  },
+  "id": "kolibri-format-pilot-v1",
+  "review_items": [
+    {
+      "id": "kolibri-content-gates",
+      "reason": "Resolve explicit metadata gaps and complete all selected courses; a format pilot cannot enable readiness."
+    }
+  ],
+  "schema_version": 1,
+  "tasks": [
+    {
+      "batch": "kolibri-format-pilot",
+      "depends": [],
+      "id": "capture-format-pilot",
+      "kind": "capture",
+      "lane": "capture",
+      "review": "Quarantined source bytes are not approved lessons."
+    },
+    {
+      "argv": [
+        "--staging",
+        "{staging}/kolibri-english-core-format-pilot-1tb",
+        "--output",
+        "{staging}/kolibri-format-review-v1-1tb"
+      ],
+      "batch": "kolibri-format-review",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "format_errors": 0,
+            "status": "awaiting_review"
+          },
+          "lengths": {
+            "rows": 23
+          },
+          "path": "{staging}/kolibri-format-review-v1-1tb/report.json"
+        }
+      ],
+      "depends": [
+        "capture-format-pilot"
+      ],
+      "id": "inspect-exercise-formats",
+      "inputs": [
+        "{workspace}/catalog/acquisition/kolibri-english-core-format-pilot-capture.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review complete exercise structures, dependency closure, video playback, missing captions and permission scope. The format pilot is not whole-course review.",
+      "script": "inspect_kolibri_capture.py"
+    }
+  ]
+}

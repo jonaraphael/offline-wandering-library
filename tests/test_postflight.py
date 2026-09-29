@@ -74,7 +74,7 @@ class PostflightTests(unittest.TestCase):
         with self.assertRaisesRegex(SafetyError, "missing"):
             audit_build(self.root, run_smoke=False)
 
-    def test_rejects_generated_link_and_published_index_manifest_errors(self):
+    def test_rejects_generated_link_and_published_discovery_manifest_errors(self):
         entry = self.root / "START_HERE.html"
         original = entry.read_bytes()
         entry.write_bytes(original + b'<a href="LIBRARY/missing.txt">Missing</a>')
@@ -82,17 +82,17 @@ class PostflightTests(unittest.TestCase):
             audit_build(self.root, run_smoke=False)
         entry.write_bytes(original)
         manifest = self.library / "SEARCH/manifest.js"
-        manifest.write_bytes(manifest.read_bytes().replace(b'"version":1', b'"version":2'))
-        with self.assertRaisesRegex(SafetyError, "published search manifest"):
+        manifest.write_bytes(manifest.read_bytes().replace(b'owl-discovery-v1', b'owl-discovery-v2'))
+        with self.assertRaisesRegex(SafetyError, "published discovery manifest"):
             audit_build(self.root, run_smoke=False)
 
     def test_rejects_coverage_and_capacity_mismatches(self):
-        self.rewrite("SEARCH/coverage.json", lambda x: x.update(documents=x["documents"] + 1))
+        self.rewrite("SEARCH/coverage.json", lambda x: x.update(records=x["records"] + 1))
         with self.assertRaisesRegex(SafetyError, "search coverage"):
             audit_build(self.root, run_smoke=False)
         shutil.copy2(self.baseline / "LIBRARY/SEARCH/coverage.json", self.library / "SEARCH/coverage.json")
         self.rewrite("BUILD_INFO.json", lambda x: x["plan"].update(
-            index_cache_on_drive=True, index_cache_budget_bytes=x["profile"]["capacity_bytes"]))
+            acquisition_workspace_budget_bytes=x["profile"]["capacity_bytes"]))
         with self.assertRaisesRegex(SafetyError, "capacity"):
             audit_build(self.root, run_smoke=False)
 
@@ -103,38 +103,21 @@ class PostflightTests(unittest.TestCase):
             with self.assertRaisesRegex(SafetyError, "Node is required"):
                 audit_build(self.root, run_smoke="required")
 
-    def test_completed_summary_exposes_cold_and_warm_cache_counts(self):
-        common = dict(catalog=ROOT / "catalog/demo.yaml", profiles_dir=ROOT / "profiles",
-                      profile_name="demo", allow_local=True,
-                      index_cache_dir=self.root.parent / "cache", progress=lambda _: None)
-        cold = build(self.root.parent / "cold", **common)["result"]
-        with patch("owl.search._units", side_effect=AssertionError("cache should prevent extraction")):
-            warm = build(self.root.parent / "warm", **common)["result"]
-        self.assertEqual(cold["cache"]["mode"], "shards")
-        self.assertEqual(cold["cache"]["misses"], cold["selection"]["documents"])
-        self.assertEqual(warm["cache"]["hits"], warm["selection"]["documents"])
-        self.assertEqual(warm["cache"]["misses"], 0)
-        self.assertEqual(set(warm["cache"]), {"mode", "hits", "misses", "metadata_reuses"})
 
     @unittest.skipUnless(NODE, "Node is required for runtime smoke integration")
     def test_real_runtime_search_and_facets_use_selected_inventory(self):
         report = audit_build(self.root, run_smoke="required")["search_smoke"]
         self.assertEqual(report["status"], "passed")
-        self.assertGreater(report["positive_queries"], 0)
-        self.assertGreater(report["shelf_queries"], 0)
-        self.assertGreater(report["chunk_reads"], 0)
-        self.assertLessEqual(report["script_bytes_read"], 256 * 1024 * 1024)
+        self.assertGreater(report['queries'], 0)
+        self.assertGreater(report['records'], 0)
 
-    @unittest.skipUnless(NODE, "Node is required for damaged runtime smoke integration")
-    def test_real_runtime_detects_damaged_chunk_without_source_rehash(self):
-        coverage = json.loads((self.library / "SEARCH/coverage.json").read_text())
-        chunk = self.library / "SEARCH/chunks" / coverage["index_sha256"] / "00000000.js"
-        data = bytearray(chunk.read_bytes())
-        at = data.index(b',0,"') + 4
-        data[at] = ord("A") if data[at] != ord("A") else ord("B")
-        chunk.write_bytes(data)
-        with self.assertRaisesRegex(SafetyError, "search runtime smoke failed"):
-            audit_build(self.root, run_smoke="required")
+    def test_damaged_discovery_data_is_rejected_without_source_rehash(self):
+        coverage = json.loads((self.library / 'SEARCH/coverage.json').read_text())
+        path = self.library / coverage['manifest']['path']
+        path.write_text(path.read_text().replace('Demonstration', 'Counterfeit'))
+        with self.assertRaisesRegex(SafetyError, 'discovery data identity'):
+            audit_build(self.root, run_smoke=False)
+
 
     @unittest.skipUnless(NODE, "Node is required for timeout behavior")
     def test_child_timeout_is_a_compact_failure(self):

@@ -1,24 +1,17 @@
-# Unattended builds and reusable indexes
+# Unattended builds
 
 `SELECT.html` generates background build commands. A Python worker downloads,
-indexes, generates navigation, verifies, and writes its completion report without
+compiles discovery, generates navigation, verifies, and writes its completion report without
 an agent supervising it. The launcher returns a saved job directory immediately.
 Keep the computer awake and the drive connected.
 
-The selector explicitly enables reusable per-asset indexes in `.owl/index-cache`
-and generated indexing scratch in `.owl/index-work`, relative to the repository.
-Both locations are editable. Its cache allowance starts at the profile's search
-budget (2,000,000,000 bytes for 16 GB). Original PDFs, ZIMs, reader packages, other
-source assets, and download partials remain exclusively on the external drive.
-The selector never adds `--cache-dir`, which would store another copy of originals.
-Repo-local generated indexes are Git-ignored and persist for future local builds;
-they are not uploaded or included in a clone.
+The selector needs no index cache or search workspace. Python compiles the small
+search catalog and atlas from approved metadata; original downloads and partials
+remain on the destination drive.
 
 ```sh
 python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY \
-    --profile flash-16gb --index-cache-dir .owl/index-cache \
-    --index-cache-budget-bytes 2000000000 --work-dir .owl/index-work \
-    --detach --job-dir .owl/jobs/flash
+    --profile flash-16gb --detach --job-dir .owl/jobs/flash
 ```
 
 The job directory must be new. It contains the saved build recipe, source/input
@@ -36,52 +29,30 @@ python scripts/build_job.py resume .owl/jobs/flash
 ```
 
 `owl-job` is the installed equivalent. Status is compact JSON independent of
-verbose logs and the indexing database. The worker owns bounded transient retries.
+verbose logs. The worker owns bounded transient retries.
 Integrity errors, unsafe directories, missing sources, and insufficient space
 stop with retained work and diagnostics. Cancellation is cooperative: wait for
-terminal job status before ejecting. A slow extraction unit can delay the stop.
+terminal job status before ejecting. An active transfer or integrity check can delay the stop.
 
 The agent workflow is: launch once and end the turn. Inspect status or a bounded
 failure excerpt when requested or when completion/failure is delivered. There is
 no need to feed unchanged progress into a model. Without `--detach`, the ordinary
 build command runs in the foreground with Ctrl-C pause/resume behavior.
 
-## Reuse indexes across drives and selections
+## Refresh discovery without rebuilding content
 
-An explicit shared cache retains immutable per-asset indexes. Warm builds merge
-selected compressed records and sorted postings into the normal browser search
-format. Adding one source builds its missing index; removing one does not require
-parsing other sources.
+To make completed downloads browsable after a stopped batch, run
+`python scripts/discovery.py assemble --output DRIVE --profile flash-16gb`.
+It verifies available files and builds their search and atlas from per-asset Git
+metadata. Missing or unfinished sources are reported and excluded. Rerun after
+more downloads finish. This does not mark an interrupted full build as complete;
+its saved job can still be resumed with the command above.
 
-```sh
-python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY \
-    --profile flash-16gb --detach --job-dir .owl/jobs/flash-cached \
-    --index-cache-dir /path/to/SHARED_INDEX_CACHE \
-    --index-cache-budget-bytes 2000000000
-```
-
-The cache allowance covers total retained cache storage, including other
-selections. It defaults to the profile's search allowance when a cache is
-requested. No cache is implicitly created on the computer. Old artifacts are
-retained; if the allowance is exhausted, choose a larger allowance or another
-cache location. Extraction scratch and final output retain separate budgets.
-
-Put a shared cache outside the destination library. An internal cache must be
-under `LIBRARY/.owl/`, and its whole allowance is added to profile capacity.
-The 16 GB profile cannot assume space for its original peak workspace plus a
-retained cache. `--plan` checks allocations without creating files or downloading.
-
-This cache differs from `--cache-dir` (downloaded originals) and `--work-dir`
-(resumable extraction scratch). Source checksums and semantic recipe versions
-determine reuse; logging, checkpoint timing and SQLite tuning do not. Relevant
-source/extractor/tokenizer changes invalidate the affected work. Metadata-only
-changes reuse a compatible shard's stored passages and rebuild that asset's
-records/postings without parsing the source again.
-
-Cache manifests record hashes, sizes, recipe identities and coverage. Small
-manifests can be reviewed/versioned; binary payloads stay outside normal Git.
-This implementation does not upload artifacts. Index records contain source text,
-so `redistributable: false` assets must not be automatically published.
+Use [the discovery CLI](search.md) to republish titles, aliases, topics, and reviewed
+locations on a completed drive. It reads metadata and checks source presence and
+size. It does not repeat the full source audit. There are no per-asset index
+artifacts to cache or merge. `--cache-dir` still optionally caches original
+downloads; `--work-dir` only serves acquisition recipes that require build inputs.
 
 ## Completion and diagnostics
 

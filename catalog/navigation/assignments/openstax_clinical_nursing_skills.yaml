@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_clinical_nursing_skills
+assignments:
+- topic_id: nursing
+  purpose: explanation

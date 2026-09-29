@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_introduction_sociology_3e
+assignments:
+- topic_id: sociology
+  purpose: explanation

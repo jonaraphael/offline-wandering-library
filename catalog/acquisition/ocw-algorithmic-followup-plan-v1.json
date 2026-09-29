@@ -1,0 +1,102 @@
+{
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "downloads": 1,
+    "review": 1
+  },
+  "content_complete": false,
+  "id": "ocw-algorithmic-complete-course-v1",
+  "review_items": [
+    {
+      "id": "algorithmic-ordinary-course-review",
+      "reason": "Whole-course source inventory and required reading gate reviewed; retain all original notes, problems and solutions. Preview still needs observed playback, caption/figure legibility, notices, and offline browser review before admission."
+    }
+  ],
+  "schema_version": 1,
+  "tasks": [
+    {
+      "batch": "algorithmic-course",
+      "id": "capture-algorithmic-course",
+      "kind": "capture",
+      "lane": "downloads"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-algorithmic-course-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-algorithmic-inventory-v1.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-algorithmic-link-repairs-v1.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-algorithmic-captured-proposal-v1"
+      ],
+      "batch": "algorithmic-course",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-algorithmic-captured-proposal-v1/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-algorithmic-captured-proposal-v1/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-algorithmic-captured-proposal-v1/assets.json"
+        }
+      ],
+      "depends": [
+        "capture-algorithmic-course"
+      ],
+      "id": "freeze-algorithmic-ordinary-course",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-algorithmic-inventory-v1.json",
+        "{workspace}/catalog/acquisition/ocw-algorithmic-link-repairs-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-algorithmic-course-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-algorithmic-captured-proposal-v1/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-algorithmic-captured-proposal-v1/assets.json",
+        "--preview-bytes",
+        "5000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "algorithmic-course",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-algorithmic-course-v1-1tb/previews/ocw_59296f8d4063526ae08e_ordinary_v1/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-algorithmic-ordinary-course"
+      ],
+      "id": "preview-algorithmic-ordinary-course",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-algorithmic-captured-proposal-v1/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-algorithmic-captured-proposal-v1/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Perform offline browser and sampled lecture playback/caption/legibility review of the measured ordinary course. No automatic admission.",
+      "script": "acquire_content.py"
+    }
+  ]
+}

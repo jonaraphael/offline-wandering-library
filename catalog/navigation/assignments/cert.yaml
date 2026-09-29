@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: cert
+assignments:
+- topic_id: first-aid
+  purpose: start-here
+- topic_id: preparedness
+  purpose: practical

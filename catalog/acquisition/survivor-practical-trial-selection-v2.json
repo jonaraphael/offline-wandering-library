@@ -1,0 +1,399 @@
+{
+  "candidate_ids": [
+    "survivor_df205b4816cb7bed1d67",
+    "survivor_9eeea4eed27b834ec316",
+    "survivor_1ff2cb86752f6e51a06a",
+    "survivor_9005ace0aa0da5ce85b4",
+    "survivor_3c701c9dbd6ccfba0846",
+    "survivor_b0418beaec44623ec2cb",
+    "survivor_04be62cf2788e06050e8",
+    "survivor_97f39cf623e767ab1ad3",
+    "survivor_9b6f1269df6bc16b6d36",
+    "survivor_16f51fc9006ec9c94344",
+    "survivor_cb06c2682d54f8a1ec02",
+    "survivor_8a8c76d33ac1d05886f7",
+    "survivor_6158a0bd04500e785b0a",
+    "survivor_66791475d295b0776598",
+    "survivor_645e1e81408ab304fa5f",
+    "survivor_0034bbfb12fe62320d78",
+    "survivor_12716c227b21cf899ba1",
+    "survivor_15a3aaf24c033cd6cd22",
+    "survivor_66ec6b25046318ca84d9",
+    "survivor_c6e6c08d474f8aa9c572",
+    "survivor_57dcfa74237d8fd41ac8",
+    "survivor_d8c42d29569996604093",
+    "survivor_4e2d3c3e613f50b69145",
+    "survivor_583a0d4f0ed9b877e276",
+    "survivor_464c527fb3382a47b36e",
+    "survivor_fea8fe202f0c493bb019",
+    "survivor_22d11b8efbd83a89e7b7",
+    "survivor_784e57d869a749bd21e6",
+    "survivor_12fb28a475a7ab254a7c",
+    "survivor_067766dd3235e0c9b390",
+    "survivor_097e88f8a8bc5b85fe4a",
+    "survivor_c61af8a225e40cb354f6",
+    "survivor_5fe03b122b4be38e9ca7",
+    "survivor_d62e5887ba0beb406189",
+    "survivor_965da6f7fa7d7c2fc3b6",
+    "survivor_adea58669acbf7ab546c",
+    "survivor_6c0372819d09051076aa",
+    "survivor_b96d8eb9a1aef064bed0",
+    "survivor_6a6a72d8ca135036a084",
+    "survivor_f17fbb07bf6600d01b55",
+    "survivor_40b53bcf7237ff1a1941",
+    "survivor_18a5902ddc80585df8b9"
+  ],
+  "candidates": [
+    {
+      "id": "survivor_df205b4816cb7bed1d67",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/american_blacksmithing_toolsmiths_and_steelworkers_manual_1911.pdf",
+      "title": "American Blacksmithing Toolsmiths And Steelworkers Manual 1911"
+    },
+    {
+      "id": "survivor_9eeea4eed27b834ec316",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/forging_manual_of_practical_instruction_in_hand_forging_1919.pdf",
+      "title": "Forging Manual Of Practical Instruction In Hand Forging 1919"
+    },
+    {
+      "id": "survivor_1ff2cb86752f6e51a06a",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/tm_9-242_fundamentals_of_ordnance_corps_machine_tools_1959.pdf",
+      "title": "Tm 9-242 Fundamentals Of Ordnance Corps Machine Tools 1959"
+    },
+    {
+      "id": "survivor_9005ace0aa0da5ce85b4",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/tool_making-a_practical_treatise_on_the_art_of_making_tools_1919.pdf",
+      "title": "Tool Making-A Practical Treatise On The Art Of Making Tools 1919"
+    },
+    {
+      "id": "survivor_3c701c9dbd6ccfba0846",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/electric_welding_1914.pdf",
+      "title": "Electric Welding 1914"
+    },
+    {
+      "id": "survivor_b0418beaec44623ec2cb",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/machine_tools_and_workshop_practice_1905.pdf",
+      "title": "Machine Tools And Workshop Practice 1905"
+    },
+    {
+      "id": "survivor_04be62cf2788e06050e8",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/masonry-a_short_text_book_on_masonry_construction_1915.pdf",
+      "title": "Masonry-A Short Text Book On Masonry Construction 1915"
+    },
+    {
+      "id": "survivor_97f39cf623e767ab1ad3",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/modern_carpentry-a_practical_manual_vol_1_1917.pdf",
+      "title": "Modern Carpentry-A Practical Manual Vol 1 1917"
+    },
+    {
+      "id": "survivor_9b6f1269df6bc16b6d36",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/modern_carpentry-a_practical_manual_vol_2_1917.pdf",
+      "title": "Modern Carpentry-A Practical Manual Vol 2 1917"
+    },
+    {
+      "id": "survivor_16f51fc9006ec9c94344",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/modern_practical_joinery_1908.pdf",
+      "title": "Modern Practical Joinery 1908"
+    },
+    {
+      "id": "survivor_cb06c2682d54f8a1ec02",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/cement_concrete_and_bricks_1914.pdf",
+      "title": "Cement Concrete And Bricks 1914"
+    },
+    {
+      "id": "survivor_8a8c76d33ac1d05886f7",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/concrete_engineers_handbook_1918.pdf",
+      "title": "Concrete Engineers Handbook 1918"
+    },
+    {
+      "id": "survivor_6158a0bd04500e785b0a",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/portland_cement_concrete_roads_1922.pdf",
+      "title": "Portland Cement Concrete Roads 1922"
+    },
+    {
+      "id": "survivor_66791475d295b0776598",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/small_concrete_bridges_and_culverts_1914.pdf",
+      "title": "Small Concrete Bridges And Culverts 1914"
+    },
+    {
+      "id": "survivor_645e1e81408ab304fa5f",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/a_manual_of_the_instruments_used_in_american_engineering_and_surveying_1921.pdf",
+      "title": "A Manual Of The Instruments Used In American Engineering And Surveying 1921"
+    },
+    {
+      "id": "survivor_0034bbfb12fe62320d78",
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/principles_construction_and_application_of_pumping_machinery_1905.pdf",
+      "title": "Principles Construction And Application Of Pumping Machinery 1905"
+    },
+    {
+      "id": "survivor_12716c227b21cf899ba1",
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/power_and_power_transmission_1902.pdf",
+      "title": "Power And Power Transmission 1902"
+    },
+    {
+      "id": "survivor_15a3aaf24c033cd6cd22",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/windmills_and_wind_motors_-_how_to_build_and_run_them_1910.pdf",
+      "title": "Windmills And Wind Motors - How To Build And Run Them 1910"
+    },
+    {
+      "id": "survivor_66ec6b25046318ca84d9",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/hydro_electric_practice-a_manual_of_the_development_of_water_power_1911.pdf",
+      "title": "Hydro Electric Practice-A Manual Of The Development Of Water Power 1911"
+    },
+    {
+      "id": "survivor_c6e6c08d474f8aa9c572",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/farm_machinery_and_farm_motors-1908.pdf",
+      "title": "Farm Machinery And Farm Motors-1908"
+    },
+    {
+      "id": "survivor_57dcfa74237d8fd41ac8",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/dairy_farming-what_cows_to_buy__how_to_house_feed_and_care_for_them_and_make_dairying_pay-1912.pdf",
+      "title": "Dairy Farming-What Cows To Buy How To House Feed And Care For Them And Make Dairying Pay-1912"
+    },
+    {
+      "id": "survivor_d8c42d29569996604093",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/the_practical_bee_guide-a_manual_of_modern_beekeeping_1921.pdf",
+      "title": "The Practical Bee Guide-A Manual Of Modern Beekeeping 1921"
+    },
+    {
+      "id": "survivor_4e2d3c3e613f50b69145",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/how_to_grow_vegetables_and_garden_herbs-a_practical_handbook_and_planting_table_for_the_vegetable_gardener-1911.pdf",
+      "title": "How To Grow Vegetables And Garden Herbs-A Practical Handbook And Planting Table For The Vegetable Gardener-1911"
+    },
+    {
+      "id": "survivor_583a0d4f0ed9b877e276",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/complete_sewing_instructions_1917.pdf",
+      "title": "Complete Sewing Instructions 1917"
+    },
+    {
+      "id": "survivor_464c527fb3382a47b36e",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/practical_tanning_1922.pdf",
+      "title": "Practical Tanning 1922"
+    },
+    {
+      "id": "survivor_fea8fe202f0c493bb019",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/bookbinding_and_the_care_of_books-a_text-book_for_bookbinders_and_librarians_1920.pdf",
+      "title": "Bookbinding And The Care Of Books-A Text-Book For Bookbinders And Librarians 1920"
+    },
+    {
+      "id": "survivor_22d11b8efbd83a89e7b7",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/printing_for_school_and_shop-a_textbook_for_printers_apprentices_1917.pdf",
+      "title": "Printing For School And Shop-A Textbook For Printers Apprentices 1917"
+    },
+    {
+      "id": "survivor_784e57d869a749bd21e6",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/a_handbook_of_laboratory_glass-blowing_1921.pdf",
+      "title": "A Handbook Of Laboratory Glass-Blowing 1921"
+    },
+    {
+      "id": "survivor_12fb28a475a7ab254a7c",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/the_potters_craft_a_practical_guide_for_the_studio_and_workshop-1922.pdf",
+      "title": "The Potters Craft A Practical Guide For The Studio And Workshop-1922"
+    },
+    {
+      "id": "survivor_067766dd3235e0c9b390",
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/weaving_a_practical_guide_1909.pdf",
+      "title": "Weaving A Practical Guide 1909"
+    },
+    {
+      "id": "survivor_097e88f8a8bc5b85fe4a",
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/inexpensive_basketry_1912.pdf",
+      "title": "Inexpensive Basketry 1912"
+    },
+    {
+      "id": "survivor_c61af8a225e40cb354f6",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/furniture_for_the_craftsman-a_manual_for_the_student_and_mechanic_1914.pdf",
+      "title": "Furniture For The Craftsman-A Manual For The Student And Mechanic 1914"
+    },
+    {
+      "id": "survivor_5fe03b122b4be38e9ca7",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/the_metallurgy_of_iron_and_steel_1908.pdf",
+      "title": "The Metallurgy Of Iron And Steel 1908"
+    },
+    {
+      "id": "survivor_d62e5887ba0beb406189",
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/practical_coal_mining-a_manual_for_managers_1905.pdf",
+      "title": "Practical Coal Mining-A Manual For Managers 1905"
+    },
+    {
+      "id": "survivor_965da6f7fa7d7c2fc3b6",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/american_fuels_vol_1_1922.pdf",
+      "title": "American Fuels Vol 1 1922"
+    },
+    {
+      "id": "survivor_adea58669acbf7ab546c",
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/american_fuels_vol_2_1922.pdf",
+      "title": "American Fuels Vol 2 1922"
+    },
+    {
+      "id": "survivor_6c0372819d09051076aa",
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/steam_engines-a_thorough_and_practical_presentation_of_modern_steam_engine_practice_1920.pdf",
+      "title": "Steam Engines-A Thorough And Practical Presentation Of Modern Steam Engine Practice 1920"
+    },
+    {
+      "id": "survivor_b96d8eb9a1aef064bed0",
+      "resource_ids": [
+        "survivor-tier-b"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/handbook_of_mechanical_refrigeration_1928.pdf",
+      "title": "Handbook Of Mechanical Refrigeration 1928"
+    },
+    {
+      "id": "survivor_6a6a72d8ca135036a084",
+      "resource_ids": [
+        "survivor-tier-b"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/elements_of_radio_servicing-first_edition_1947.pdf",
+      "title": "Elements Of Radio Servicing-First Edition 1947"
+    },
+    {
+      "id": "survivor_f17fbb07bf6600d01b55",
+      "resource_ids": [
+        "survivor-tier-b"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/a_practical_course_in_boat_and_ship_building_1919-gaasbeek.pdf",
+      "title": "A Practical Course In Boat And Ship Building 1919-Gaasbeek"
+    },
+    {
+      "id": "survivor_40b53bcf7237ff1a1941",
+      "resource_ids": [
+        "survivor-tier-b"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/practical_locomotive_operating-1913.pdf",
+      "title": "Practical Locomotive Operating-1913"
+    },
+    {
+      "id": "survivor_18a5902ddc80585df8b9",
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "source_url": "https://www.survivorlibrary.com/library/handbook_of_ore_dressing-equipment_and_practice_1920.pdf",
+      "title": "Handbook Of Ore Dressing-Equipment And Practice 1920"
+    }
+  ],
+  "content_ready": false,
+  "id": "survivor-practical-review-trial-v2",
+  "max_source_bytes": 197216364,
+  "report_sha256": "7d3916719c19b1adb5eba5e26db6b6e3b746b11563b46254d601db8ed15fabf8",
+  "schema_version": 1,
+  "selection_rationale": "First explicit scan-review cohort across practical trades, construction, mechanical power, agriculture and traditional fabrication, plus specialist radio/mining/transportation. Include both publisher-listed1917ModernCarpentry volumes and both1922AmericanFuels volumes. Avoid filename-only candidates, known exclusions, false substring matches, giant periodical runs, obsolete medicine, and accepted pilot works. Titles establish candidate relevance only; review actual complete scans, historical warnings and work identities before admitting any topic coverage.",
+  "source_bound_rationale": "All42 selected works now have exact publisher HEAD sizes. Maximum197216364 bytes is explicit for this frozen capture only. Original128MiB generic scan default and all ZIP/extraction/renderer bounds remain unchanged. Large-document review has a separate phase budget; no source is content-ready from capture.",
+  "source_measurements_sha256": "2861f29bee1e966d275e8e712e8d4e28d3f543ba5a2477ac07252c75efacb6ee"
+}

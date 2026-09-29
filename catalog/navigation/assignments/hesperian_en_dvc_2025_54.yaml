@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: hesperian_en_dvc_2025_54
+assignments:
+- topic_id: disability-support
+  purpose: reference

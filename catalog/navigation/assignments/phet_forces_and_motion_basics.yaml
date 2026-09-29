@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: phet_forces_and_motion_basics
+assignments:
+- topic_id: physics
+  purpose: explanation
+  description: Interactive forces and motion simulation; desktop offline checks completed,
+    mobile-device compatibility remains unverified.

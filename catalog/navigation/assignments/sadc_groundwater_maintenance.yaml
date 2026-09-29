@@ -1,0 +1,45 @@
+schema_version: 1
+asset_id: sadc_groundwater_maintenance
+assignments:
+- topic_id: water-supply
+  purpose: reference
+  aliases:
+  - borehole troubleshooting
+  - groundwater monitoring
+  - maintain a water well
+  - reduced borehole yield
+  - spring chamber maintenance
+  - water system maintenance schedule
+  basis: Brief publisher/contents, notices and sampled-page review on 2026-09-28;
+    see catalog/acquisition/seed-water-discovery-20260928.json. Training reference
+    for water managers, operators and technical staff, with Southern African examples
+    and substantial management material. It does not replace site assessment, drilling
+    expertise or equipment-specific manuals.
+- topic_id: public-health-engineering
+  purpose: reference
+  aliases:
+  - borehole troubleshooting
+  - groundwater monitoring
+  - maintain a water well
+  - reduced borehole yield
+  - spring chamber maintenance
+  - water system maintenance schedule
+  basis: Brief publisher/contents, notices and sampled-page review on 2026-09-28;
+    see catalog/acquisition/seed-water-discovery-20260928.json. Training reference
+    for water managers, operators and technical staff, with Southern African examples
+    and substantial management material. It does not replace site assessment, drilling
+    expertise or equipment-specific manuals.
+- topic_id: maintenance
+  purpose: reference
+  aliases:
+  - borehole troubleshooting
+  - groundwater monitoring
+  - maintain a water well
+  - reduced borehole yield
+  - spring chamber maintenance
+  - water system maintenance schedule
+  basis: Brief publisher/contents, notices and sampled-page review on 2026-09-28;
+    see catalog/acquisition/seed-water-discovery-20260928.json. Training reference
+    for water managers, operators and technical staff, with Southern African examples
+    and substantial management material. It does not replace site assessment, drilling
+    expertise or equipment-specific manuals.

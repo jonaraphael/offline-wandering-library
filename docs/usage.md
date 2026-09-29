@@ -10,8 +10,8 @@ to `LIBRARY`, while the global checksum manifest records outer-directory paths.
 
 1. Use a dependable SSD and cable. Format it with your operating system’s ordinary disk tools if needed; OWL does not format drives. exFAT is the intended cross-platform filesystem.
 2. Identify the SSD’s mount location carefully. Use a dedicated `EMERGENCY_LIBRARY` directory so the library is easy to find.
-3. Install Python 3.11+ and OWL on the build computer. Install with `python -m pip install -e '.[zim,pdf]'` for archive indexing and the Book Dash PDF editions. These dependencies are needed only while building.
-4. Review the resource registry, asset catalog, and source notes. The larger profiles describe planned selections with unresolved or partial collections; the small presets retain the verified directly readable collection. Use a profile that fits the actual available space. Reserve space for search output and build scratch storage as well as downloads.
+3. Install Python 3.11+ and OWL on the build computer. Install with `python -m pip install -e .` for normal builds. These dependencies are needed only while building.
+4. Review the resource registry, asset catalog, and source notes. The larger profiles describe planned selections with unresolved or partial collections; the small presets retain the verified directly readable collection. Use a profile that fits the actual available space. Reserve space for discovery, metadata, and downloads.
 5. Run a plan and inspect its selected files, source sizes, and warnings.
 
 ```bash
@@ -29,9 +29,9 @@ Open [`SELECT.html`](../SELECT.html) locally for the [offline selection tool](se
 
 Small-preset rows marked **Preset files only** retain exact files from the preset. Selecting **Published collection** adds the full intended resource with `--include`; it can introduce unresolved scope and a much larger budget. Unchecking a selected row produces `--exclude`. Direct-readable and compact editions require registered alternatives. Larger profiles default to the verified compact Gutenberg/children editions; standard and full add compact practical Stack Exchange, and full adds compact science Stack Exchange. Other unavailable alternatives remain disabled. No compression ratio, conversion, or download is performed by the page.
 
-**Add the human topic atlas** starts checked and adds `--navigation-dir catalog/navigation`. **Build only currently verified files (partial library)** starts unchecked and adds `--allow-incomplete` only when explicitly checked. The page distinguishes intended collection storage from selected verified asset sizes and includes search, scratch, metadata, and reserve in its peak estimates. The CLI checks real free space and existing-file reuse. Refresh the page after recipe changes with `python scripts/build_selector.py`; use `--check` to detect a stale page without rewriting it.
+The bundled atlas is included automatically. **Build only currently verified files (partial library)** starts unchecked and adds `--allow-incomplete` only when explicitly checked. Storage estimates include a small discovery allowance, metadata and reserve. The CLI checks actual free space. Regenerate the selector with `python scripts/build_selector.py`; `--check` detects stale output.
 
-The `flash-16gb` preset selects 551 pinned assets totaling **9,869,555,191 bytes**, including 474 PDFs, 39 direct textbooks, 66 illustrated teaching works, five practical archives and retained source packages. Its 2 GB search, 4.5 GB scratch, 68,497,118-byte acquisition workspace, 16 MiB metadata and 1.5 GB reserve allowances give a **15,954,829,525-byte** in-place planning peak. Extraction workspace is released after a verified raw-index checkpoint, before browser packaging; the two phases do not coexist. The `critical-64gb` preset expands this to **45,226,005,469 bytes** of pinned assets and a **63,311,279,803-byte** planning peak. Both bundle four platform readers. All production sizes retain a common foundation of 479 directly readable documents: 474 PDFs and five HTML files. The 64 GB preset adds 37 more OpenStax PDFs, reaching 516 documents and 76 textbooks. Supporting sources and software packages are excluded from document counts. Search budgets still need checking against actual extraction results.
+Current preset counts and planning peaks are generated in [content selection](content-selection.md). Each profile includes a 16 MiB discovery allowance, with no indexing scratch or cache. Source files, any acquisition workspace, metadata, and reserve are counted separately.
 
 `catalog/resources.yaml` describes the 46 numbered resources and five support collections: `owl-direct-core`, `archive-readers`, `direct-reading-expansion`, `books-culture-expansion`, and `complete-courses-expansion`. Actual downloadable files, licenses, sizes, and hashes live in `catalog/library.yaml`. A resource can be ready, partial, or unresolved. Review the plan's resource coverage as well as its byte totals; a plausible size estimate is not proof that the requested collection is available.
 
@@ -58,12 +58,8 @@ A normal build stops when selected resources are unresolved or only partially re
 The selector adds `--detach` to start a saved background Python job. Use its
 printed directory with `python scripts/build_job.py status JOB_DIR`, `cancel
 JOB_DIR`, or `resume JOB_DIR`. Verification and postflight run automatically; see
-[unattended builds and shared indexes](unattended-builds.md). It also explicitly
-sets `.owl/index-cache` for reusable per-asset indexes and `.owl/index-work` for
-generated scratch. Only derived search data is stored there; source assets and
-download partials stay on the selected external drive. These paths and the
-retained-cache allowance are editable in SELECT.html. The commands below omit
-those options and `--detach`, and run entirely on the drive in the foreground.
+[unattended builds](unattended-builds.md). Search and atlas compile from approved
+metadata without opening document bodies. The commands below run in the foreground.
 
 ```bash
 python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
@@ -77,31 +73,20 @@ python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
     --profile standard-512gb --allow-incomplete
 ```
 
-The SSD is the build workspace and finished product. By default, downloaded
-partials live under `LIBRARY/.owl/downloads/`, search checkpoints under `LIBRARY/.owl/work/`, and
-the unfinished search output under `LIBRARY/SEARCH/`. A verified download is renamed
-into its final location on the same SSD without copying it through the computer.
-SQLite's persistent database and rollback journal stay in the chosen workspace;
-index construction does not spill large sorting files into the computer's OS
-temporary directory. No local server or database service is required.
+The SSD is the build workspace and finished product. Download partials live under
+`LIBRARY/.owl/downloads/`; verified files move into their final locations on the
+same SSD. Discovery output lives under `LIBRARY/SEARCH/` and uses one small metadata
+list, without an indexing database or extraction checkpoints.
 
-Leave `--cache-dir` unset to keep original assets and download partials exclusively
-on the external drive; resumption already works without it. `--index-cache-dir`
-retains generated per-asset indexes, and `--work-dir` relocates generated search
-scratch. Keep these generated-data directories between runs to reuse their work.
+Leave `--cache-dir` unset to keep downloads on the external drive. This optional
+flag caches original files; `--work-dir` applies only to temporary acquisition
+inputs. The selector needs neither option for the current default catalog.
 
-Capacity planning uses decimal capacity, exact available asset sizes, a search
-budget, scratch allowance, and free-space reserve. Allocations on the same
-filesystem are added together. Existing owned partials and search checkpoints
-are credited against new allocation needs, while retained previous versions
-still occupy space. The plan distinguishes final size from peak in-place build
-space. The five default planning peaks fit nominal capacity with the explicit allowances in each profile. Full-corpus indexing for the larger presets remains unmeasured: the plan is a reservation, not proof that the index will fit. Available-file partial builds are checked against their actual allocations.
-The builder neither redirects scratch to the computer automatically nor shrinks
-or silently omits selected content to force a fit.
-
-Search size can exceed the compressed source size. Published-index and raw-assembly writes are checked against their budgets. Extraction workspace and free-space reserves are checked at progress/checkpoint boundaries; a SQLite transaction can grow between checks. Insufficient space or an exceeded allowance stops the build with its checkpoints retained. Files and durable
-checkpoints remain for a later retry after freeing unrelated space yourself or
-choosing a fitting recipe. OWL never automatically prunes personal files.
+Capacity planning includes exact selected file sizes, discovery output, navigation
+metadata, acquisition workspace where applicable, and free-space reserve. Existing
+owned files can be reused after verification. The builder checks actual space and
+rejects discovery output above its allowance before publication. Failed builds
+retain owned partial downloads; unrelated files are preserved.
 
 ## Pause and resume
 
@@ -122,20 +107,15 @@ kill or power cut cannot run cleanup, but prior durable checkpoints remain.
 | --- | --- |
 | Download | Reuse verified files; resume `.part` bytes with HTTP Range where supported. A server that ignores ranges causes that file to restart safely. |
 | Local/cache copy | Compare the saved prefix with the source, append the missing suffix, then check the completed file's SHA-256 before promotion. |
-| PDF, EPUB, or ZIM extraction | Resume at the saved page, member, or raw archive-entry cursor. Checkpoints occur every 50 text-bearing units or five seconds at any raw-unit boundary. Work after the last durable checkpoint repeats. |
-| Plain text or HTML extraction | Resume after completed files; the current file restarts. |
-| Final search-index assembly | Reassemble from retained extracted text and postings; extraction does not repeat. |
-| Browser search packaging | Verify the durable raw-index checkpoint and reuse matching script chunks. Extraction does not repeat, even though its workspace has been reclaimed. |
-| Unchanged completed search index | Verify input bytes, metadata/toolchain fingerprint, and index hash, then reuse. |
+| Discovery compilation | Recompile the small metadata list; no source extraction or index cache is needed. |
 | Static pages, checksums, final verification | Regenerate small pages and repeat integrity checks as needed. Hashing itself is not checkpointed. |
 
 Transfers flush durable checkpoints every 64 MiB or five seconds between chunks,
-and on cooperative interruption. An unusually slow PDF page, decompression, or
+and on cooperative interruption. An unusually slow transfer or
 blocked OS I/O can delay a checkpoint or interrupt response. Reopening and hashing
 large existing files can take substantial time even when no download is needed;
 files are not trusted merely because their name, size, or timestamp matches.
-Changing content, selection metadata, or extractor versions invalidates the
-extraction checkpoint deliberately.
+Changing content or selection requires a new metadata compilation.
 
 An internet outage gets bounded retries with backoff. Foreground commands exit
 after those attempts; restore the connection and rerun. Saved background jobs
@@ -194,7 +174,7 @@ Open PDFs to see diagrams, photographs, charts, and figures. Publisher PDFs reta
 
 Python's reading collection contains 37 original publisher PDFs for Python 3.14.0, dated October 7, 2025. The newer September 2026 EPUB is retained separately as a supporting source package; it is not the source of those older PDFs. See [PDF reading editions](pdf-editions.md) for exact edition and conversion details.
 
-On iPhone or iPad, open the PDFs directly in Files and choose **Preview with Quick Look** if offered. If an HTML preview refuses links, close it and navigate using the exact `LIBRARY/...` paths printed in the start page's inline catalog. Search indexes extractable text; it does not interpret images or provide OCR. A diagram or scanned page can be useful even when its contents are absent from search results.
+On iPhone or iPad, open the PDFs directly in Files and choose **Preview with Quick Look** if offered. If an HTML preview refuses links, close it and navigate using the exact `LIBRARY/...` paths printed in the start page's inline catalog. Search covers titles, approved sections and topics; it does not search bodies or interpret images. A diagram or scanned page can be useful even when its contents are absent from search results.
 
 ## Add the topic atlas after downloading
 
@@ -208,7 +188,11 @@ python scripts/build_atlas.py /media/SSD/EMERGENCY_LIBRARY \
 python scripts/verify.py /media/SSD/EMERGENCY_LIBRARY
 ```
 
-The command verifies existing sources and publishes navigation. It also refreshes the generated search interface and its integrity metadata together, while preserving the search index and cached extraction. It does not download missing files or rebuild the index. An interrupted publication resumes from its saved interface files so the start page and search script stay matched. To include the atlas during a full build, pass the same directory to the builder:
+The command verifies existing sources and publishes both the atlas and metadata
+search. To refresh discovery without that source audit, use the
+[discovery CLI](search.md). It checks inventory/source pins, presence and size and
+records that source verification was not repeated. The bundled production catalog
+includes atlas generation during full builds. Custom catalogs can specify:
 
 ```bash
 python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
@@ -217,7 +201,7 @@ python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
 
 Repeat `--navigation-dir` on later full builds that should generate the atlas. Normal content-selection and completeness rules still apply. After publication, start at `LIBRARY/INDEX/topics.html` or the topic-atlas link on `START_HERE.html`.
 
-The production starter has 46 topics and 40 whole-document assignments. It does not assert chapter, page, or figure locations inside third-party works. Sources absent from the current drive and branches with no available material are omitted. The final include list, topic vocabulary, and deeper section curation remain editorial work. The atlas guide explains how to import publisher contents into drafts, review exact source locations, and use `--strict-coverage` to reject missing critical or textbook routes. Structural coverage does not establish the quality or completeness of the underlying guidance.
+Production routes use the approved topics and assignments in `catalog/navigation/`. Sources absent from the current drive and branches with no available material are omitted. The final include list, topic vocabulary, and deeper section curation remain editorial work. The atlas guide explains how to import publisher contents into drafts, review exact source locations, and use `--strict-coverage` to reject missing critical or textbook routes. Structural coverage does not establish the quality or completeness of the underlying guidance.
 
 ## Verify and practice
 
@@ -246,7 +230,7 @@ Before storing the SSD, disconnect network access and try each intended device:
 2. Open `START_HERE.html`, follow a category link, and open a critical PDF or text file.
 3. If HTML links do not work, use the catalog printed on START_HERE itself. Note a document's `LIBRARY/...` path, close the preview, and open that file through the file manager.
 4. Open a core textbook and an illustrated guide from their dedicated shelves. Navigate between pages and zoom into a diagram to confirm it is readable on the device.
-5. In a compatible browser, search controls appear on `START_HERE.html` after its index loads. Enter known words, then try `LIBRARY/SEARCH.html` as well and open a result in a compatible document viewer. No index-file selection is needed. File previews may block both scripts and local links; the inline catalog and direct folder access remain the fallback.
+5. In a compatible browser, search controls appear on `START_HERE.html` after discovery data loads. Enter known words, then try `LIBRARY/SEARCH.html` as well and open a result in a compatible document viewer. No index-file selection is needed. File previews may block both scripts and local links; the inline catalog and direct folder access remain the fallback.
 6. Open the textbook, illustrated-guide, Gutenberg, children's, category, critical, and alphabetical indexes with JavaScript disabled. If generated, try the atlas through subject, practical-task, and learning entrances, including recovery from a wrong turn. Confirm critical textbooks are reachable through the critical index even when their files are in `LIBRARY/BOOKS/`. Check that missing planned collections are clearly reported.
 7. On platforms that permit offline installation, check that the matching bundled reader can open a ZIM. The builder does not install or run it for you.
 8. Safely eject the SSD before unplugging it.

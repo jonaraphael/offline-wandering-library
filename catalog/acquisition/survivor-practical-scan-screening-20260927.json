@@ -1,0 +1,50 @@
+{
+  "accepted_useful_bytes": 0,
+  "content_ready": false,
+  "decision": "Promising historical work; continue whole-work and cross-collection review before admission.",
+  "inspection_sha256": "1db8174b631f15bae3fe615e6e6b7ee09c2342062f4f0a7de161f2ebb52605d5",
+  "observations": [
+    "PDF page11: printed illustration list legible, lists shop, anvil, hand tools, plows and welding illustrations.",
+    "PDF page71: readable complete paragraphs about sewing/lacing transmission belts; visible original heading and printed page65.",
+    "PDF page295: toolsmith/steelworker welding discussion and labeled Figure34 visible together, caption and surrounding explanation legible."
+  ],
+  "original_preserved": true,
+  "remaining_required_review": [
+    "Actual title/copyright/edition pages and full contents, including both bound parts.",
+    "Expected printed-page sequences and terminal material; these three pages cannot prove completeness.",
+    "Deduplicate work/edition against existing books and both Survivor tiers.",
+    "Inspect other illustrations/tables and retain historical safety warnings; this is not validation of modern practice."
+  ],
+  "review_kind": "bounded-visual-utility-screening",
+  "reviewed_pdf_pages": [
+    11,
+    71,
+    295
+  ],
+  "reviewed_render_pins": [
+    {
+      "page": 11,
+      "path": "page-11.png",
+      "sha256": "9dfbe10e851c9c652937c945769d095f7f7bd4a9b44e73e18b17fa993fac597e",
+      "size_bytes": 205277
+    },
+    {
+      "page": 71,
+      "path": "page-71.png",
+      "sha256": "eaf29c49c51233848e4c598e9836e83ada1c5eabd39c564970bbddb9f86204b8",
+      "size_bytes": 323875
+    },
+    {
+      "page": 295,
+      "path": "page-295.png",
+      "sha256": "234ea39863f75fe4efed8fed25b6297aaf89e2aeebcc4e507318d90a0dbc1bfd",
+      "size_bytes": 322549
+    }
+  ],
+  "schema_version": 1,
+  "source_id": "survivor_df205b4816cb7bed1d67",
+  "source_sha256": "414f5a7510f54cb02f351e08a02b465281ef354f9870297eddea5c578cd3eaf0",
+  "utility_supported": [
+    "Historical practical forging/toolsmithing and mechanical belt techniques"
+  ]
+}

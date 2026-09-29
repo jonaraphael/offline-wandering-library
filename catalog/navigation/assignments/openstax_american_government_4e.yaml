@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_american_government_4e
+assignments:
+- topic_id: government-politics
+  purpose: explanation

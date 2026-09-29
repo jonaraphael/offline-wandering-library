@@ -31,6 +31,17 @@ Open `START_HERE.html` and `INDEX/topics.html`. The demonstration includes:
 - Source version, license, attribution, section location, and complete-document
   fallback alongside the diagram link.
 
+The assignments are saved per asset in `assignments/`. To assemble a subset of
+these fixtures already copied to their catalog destinations under `DRIVE/LIBRARY/`:
+
+```bash
+python scripts/discovery.py assemble --output /path/to/DRIVE --profile demo \
+    --catalog catalog/demo.yaml --navigation-dir catalog/demo-navigation --allow-local
+```
+
+Rerun after copying more fixtures; only verified sources and populated topics
+appear in the resulting atlas.
+
 `sections/demo_textbook.yaml` pins the exact original HTML bytes. The diagram
 claim is specific to the reviewed `diagram-title` location. Editing the fixture
 requires updating its catalog pin and reviewing the section map; a stale map

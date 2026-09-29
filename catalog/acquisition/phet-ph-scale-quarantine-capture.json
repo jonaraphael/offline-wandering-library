@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "kind": "acquisition",
+  "id": "phet-ph-scale-quarantine-20260927",
+  "profile": "full-1tb",
+  "content_ready": false,
+  "sources": [
+    {
+      "fullasset_metadata": {
+        "attribution": "Simulation by PhET Interactive Simulations, University of Colorado Boulder, licensed under CC BY-NC 4.0 (https://phet.colorado.edu).",
+        "category": "education",
+        "critical": false,
+        "description": "Original complete regular English HTML5 simulation with embedded runtime/assets and original notices. Exact-version file downloaded and SHA-256 checked. Optional publisher analytics/update requests remain; offline interaction verification is recorded in the acquisition evidence.",
+        "destination": "REFERENCE/EDUCATION/PHET/CANDIDATES/ph-scale-basics-1.7.5-20260927.html",
+        "format": "html",
+        "id": "phet_ph_scale_basics_1_7_5_quarantine_20260927",
+        "illustrated": true,
+        "language": "en",
+        "license": "CC-BY-NC-4.0",
+        "profiles": [],
+        "publisher": "PhET Interactive Simulations, University of Colorado Boulder",
+        "reader_required": false,
+        "redistributable": true,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 2519437,
+        "snapshot_date": "2026-09-18",
+        "source_page": "https://phet.colorado.edu/en/simulations/ph-scale-basics",
+        "source_url": "https://phet.colorado.edu/sims/html/ph-scale-basics/1.7.5/ph-scale-basics_en.html",
+        "status": "resolved",
+        "tags": [
+          "science",
+          "simulation",
+          "interactive"
+        ],
+        "title": "pH Scale: Basics1.7.5 current official response quarantine candidate",
+        "version": "1.7.5"
+      },
+      "id": "phet_ph_scale_basics_1_7_5_quarantine_20260927",
+      "metadata_evidence": [
+        {
+          "kind": "catalog-record",
+          "record_id": "phet_ph_scale_basics",
+          "scope": "Prior catalog size2519437 is an enforced candidate acquisition condition, not a current HEAD size; old expected SHA256 5c2e09e5cec4be3836a4045b89d911dd3a2ab527b27422a5f49dbbaecafd2f77 was rejected by actual current response. Current HEAD exposes no length or checksum.",
+          "sha256": "d834e7174e74656dac8171cfa3259afe3508a0f5c400510b6ab53ab2cde3722c",
+          "url": "https://phet.colorado.edu/sims/html/ph-scale-basics/1.7.5/ph-scale-basics_en.html"
+        },
+        {
+          "body_read": false,
+          "cached": false,
+          "checked_at": "2026-09-27T22:11:23.597137+00:00",
+          "final_url": "https://phet.colorado.edu/sims/html/ph-scale-basics/1.7.5/ph-scale-basics_en.html",
+          "headers": {
+            "content-type": "text/html; charset=UTF-8",
+            "last-modified": "Mon, 21 Sep 2026 21:10:05 GMT"
+          },
+          "method": "HEAD",
+          "status": 200,
+          "url": "https://phet.colorado.edu/sims/html/ph-scale-basics/1.7.5/ph-scale-basics_en.html",
+          "kind": "official-source-head",
+          "sha256": "7b74ad29eaa66b9643f541b22b0dc3b0093071339d87b5657b15fb3b60eb29b8"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "phet"
+      ],
+      "sha256": null,
+      "size_bytes": 2519437,
+      "source_url": "https://phet.colorado.edu/sims/html/ph-scale-basics/1.7.5/ph-scale-basics_en.html",
+      "version": "1.7.5"
+    }
+  ],
+  "budget": {
+    "download_bytes": 2519437,
+    "expanded_bytes": 0,
+    "preview_bytes": 0,
+    "scratch_bytes": 0,
+    "cache_bytes": 0
+  },
+  "review_requirements": [
+    "Old expected SHA rejected; preserve failure and do not replace current catalog pin.",
+    "Exact prior size is enforced; changed EOF size must fail. Official current HEAD publishes no checksum.",
+    "Observed SHA256 is candidate only; inspect actual internal version, notices, complete HTML and screen interactions before any admission."
+  ],
+  "storage_peak_bytes": 3594773,
+  "metadata_allowance_bytes": 1075336
+}

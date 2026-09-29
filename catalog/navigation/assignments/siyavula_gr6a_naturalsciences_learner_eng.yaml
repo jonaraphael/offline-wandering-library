@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: siyavula_gr6a_naturalsciences_learner_eng
+assignments:
+- topic_id: science
+  purpose: reference
+- topic_id: learn-foundations
+  purpose: reference

@@ -1,31 +1,34 @@
+# Current admission and selection rules
+
+Every active file must pass `src/owl/content_policy.json`. Every asset and collection must declare `utility_tier`, `utility_reason` and `knowledge_domains`; defaults must pass `src/owl/utility_policy.json`. Run `python scripts/check_selection_policy.py` after catalog or profile edits and regenerate SELECT.html and the content-selection reference.
+
+Use finished publisher PDFs, whole ZIMs and verified self-contained files. Do not add build-time conversions, source-only manuscripts or unverified HTML bundles. Preserve full-file size/hash pins and notices. Prefer domain breadth and substantial complete works over object counts. Keep NONESSENTIAL fiction, college education and computing opt-in. New alternatives must record what coverage they do and do not replace.
+
+`catalog/content-review.json` preserves the review of the prior catalog; acquisition recipe descriptions below are historical tooling details, not exemptions from these admission rules.
+
 # Catalog maintenance
+
+The authoritative format and materialization rules are in [`src/owl/content_policy.json`](../src/owl/content_policy.json). `python scripts/check_content_policy.py [CATALOG ...]` reports every violation as JSON and exits nonzero on failure. Catalog validation, candidate staging and selected build inputs enforce this policy, including existing and extra-catalog entries. The low-level structural loader remains usable for inspecting rejected records. Older generated-edition descriptions below document implementation only; they do not authorize admission. HTML/SVG require an `offline_ready: true` review declaration, optional EPUB reading editions require `optional_format: true`, and media codecs must match the policy. Declarations are not a substitute for testing the actual files; the checker does not download or certify content.
 
 `catalog/library.yaml` is the production recipe. `catalog/demo.yaml` is a tiny,
 original fixture for a network-free demonstration; it is not an emergency manual.
 Profiles in `profiles/*.yaml` declare decimal capacity, free-space reserve and a
-search-output allowance. An optional `index_scratch_budget_bytes` overrides the default scratch allowance of twice the search allowance; it must at least cover the temporary raw-index serialization share (ceil(0.75 × search)). The three large profiles select ordered collections
-from `catalog/resources.yaml` through `default_resources`; `resource_overrides`
-specifies smaller map or Survivor allocations. Their asset selection is derived
+`discovery_budget_bytes` allowance (16 MiB in bundled profiles). There is no search scratch budget. All production profiles select collections
+from `catalog/resources.yaml` through `default_resources`. Their asset selection is derived
 from the selected resources, not duplicated in each file's `profiles` list.
-The fixed `flash-16gb`, `critical-64gb`, and demo baselines use asset `profiles` membership.
+The demo baseline uses asset `profiles` membership; all production presets use named collections.
 An empty asset `profiles` list means it is selected only through a named resource.
 
-The fixed flash/critical/demo profiles declare `minimum_coverage` for `textbooks` and
-`illustrated-guides`. These floors count **resolved, required, critical, directly
-readable** assets. The large-profile defaults follow the explicit acquisition
-list, supplemented by the expanded direct foundation: all sizes include a 36-title OpenStax breadth core, electrical textbooks and illustrated practical material; 64 GB and larger include all 73 current English OpenStax PDFs. Explicit resource
-include/exclude customization overrides fixed-profile learning floors so a user
-can remove unwanted books deliberately. Critical-format rules and reader
-dependencies still apply. An illustrated textbook belongs to both learning
-collections; those counts overlap and do not imply additional copies.
+Production profiles select ready named collections through `default_resources`. Every asset has a tier, explanation and topic-domain list. Defaults contain CRITICAL and USEFUL files and meet the domain coverage policy; optional exclusions may deliberately reduce coverage. There are no production file-count or byte quotas. The small `demo` fixture uses direct asset membership.
 
-Resource entries describe intended scope, approximate target bytes, available
-asset IDs, and `ready`, `partial`, or `unresolved` status. Their estimates must
-never be used as exact downloadable file sizes or checksums. `--list-resources`
-enumerates all 46 numbered entries and named support collections. `--include`
-and `--exclude` accept stable IDs or numbers, repeated or comma-separated. Unknown
-selectors or a resource both included and excluded are errors. See
-[content selection](content-selection.md) for the complete curation rules.
+Resources list actual finished files with exact summed sizes, source limitations and shared priority. Split different priorities into separate collections so NONESSENTIAL material can remain opt-in. `--include` and `--exclude` accept stable resource IDs or existing collection numbers. Never create empty wishlist entries to inflate available content.
+
+Maintain [the editorial coverage plan](full-1tb-coverage-plan.md) in
+`catalog/coverage-plan.yaml` in the same change as new selections. Record intended
+depth, existing sources, gaps, next candidates and an adequacy criterion per
+topic. The documentation generator checks references and includes every atlas
+topic; it never treats source counts, tags or completed downloads as proof of
+adequate depth. Unselected candidates belong in this plan, not in ready collections.
 
 A resource can optionally register `editions.direct` and `editions.compact`.
 Each edition requires exactly `asset_ids`, `target_bytes`, `status`, and `reason`;
@@ -44,10 +47,9 @@ selects the original definition. Reader dependencies are recomputed from the
 resulting files. Editions and exact selected assets are recorded in locked build
 metadata. Explicit `--exclude RESOURCE` covers all of its registered editions.
 
-The production registry has verified compact Gutenberg, children, practical Stack Exchange and science Stack Exchange editions. `default_editions` maps a profile’s default resource IDs to registered edition names. These choices are not user customizations; an explicit `--edition` takes precedence. The locked catalog records defaults and explicit overrides so a future profile change cannot alter an old selection. After registering verified alternatives, run `python scripts/build_selector.py` to expose them in
-[the offline selector](selector.md). The same command refreshes resource choices,
-profile defaults, and estimates after any recipe change. CI checks that the
-committed `SELECT.html` matches its inputs.
+The production registry currently selects finished PDFs and ZIMs as published collections. Verified alternative editions may be added later only if their files independently pass the same policy. Regenerate SELECT.html after catalog, topic metadata or profile changes; CI checks freshness.
+
+
 
 Plans distinguish requested budgets from verified available bytes. Known exact
 file sizes raise planning estimates when necessary. A world-map selection
@@ -55,7 +57,11 @@ replaces the North America archive and credits its 21 GB allocation only when
 that archive was otherwise selected; regional topography remains. Exclusion
 changes the next build's inventory but does not delete old drive content.
 
-Selected incomplete collections and unchanged presets below `content_target_min_bytes` of pinned knowledge block a normal build before downloads or writes. Software bytes do not satisfy this content floor. Explicit user customizations can intentionally select a smaller library. A target is never counted as an acquired source.
+Selected incomplete collections block a normal build before downloads or writes.
+Active profiles have no minimum-content-byte or book-count quotas. Intended
+depth and remaining subject gaps are recorded in the editorial coverage plan;
+passing build checks does not mark those gaps complete. A planned source is
+never counted as an acquired file.
 `--allow-incomplete` explicitly builds only available verified assets and records
 `content_complete: false` in the inventory, build metadata, and
 `CONTENT_SELECTION.json`, with prominent navigation notices. It does not bypass
@@ -114,11 +120,10 @@ and a science reference. Both shelves require ordinary formats and no special
 reader; assets under `ZIM/` or `SOFTWARE/` cannot count. The illustrated shelf
 includes guides **and illustrated textbooks**, not every file containing an image.
 
-Keep original illustrated PDFs intact. Text extraction produces the search index,
-not a replacement for their page layouts, figures, captions or diagrams. Inspect
-the original page for image content, which has no OCR guarantee. Keep licensing
-and attribution notices in the PDF and supply its `attribution` field so search
-results retain the required notice beside excerpts.
+Keep original illustrated PDFs intact. Search uses approved metadata and links to
+the source; it does not extract text or understand diagrams. Keep licensing and
+attribution notices and supply the catalog `attribution` field so results display
+the required notice.
 
 Core textbooks and illustrated guides download first, followed by other critical
 documents, supplementary direct learning materials, other ordinary files,
@@ -157,14 +162,10 @@ python scripts/build_drive.py /path/to/drive --profile standard-512gb --plan
 ```
 
 `--plan` checks actual available filesystem space too. It does not create the
-target. Simultaneous allocations for output, cache and indexing scratch are added when
-they share a filesystem, then the peak of sequential extraction and packaging
-phases is checked separately on each filesystem. Owned extraction files are
-released only after a durable, verified raw-index checkpoint. Their space never
-credits a different filesystem. Budgets are deliberately conservative and are not
-benchmarks of a full Wikipedia build. A separate `--work-dir` can place indexing
-scratch on a larger disk. An existing cache is still budgeted conservatively;
-reduce a reviewed profile's allowance only with measured evidence.
+target. Capacity planning includes source files, discovery, metadata, acquisition
+workspace where needed, and reserve. Discovery output is bounded before publication
+and has no indexing scratch or retained cache. `--work-dir` is only for temporary
+acquisition inputs; `--cache-dir` optionally retains original downloads.
 
 To reproduce a build's content, retain its `LOCKED_CATALOG.yaml` and the matching
 profile files, then pass that catalog with `--catalog`. The lock captures the
@@ -174,9 +175,9 @@ add include/exclude/edition flags to a locked selection: customize the source ca
 instead. Rebuilding an explicitly partial selection still requires
 `--allow-incomplete`. Preserve the downloaded cache because upstream snapshots
 may disappear. `BUILD_INFO.json` records Python
-and extractor versions. `requirements-tested.txt` pins the initial tested Python
+and installed dependency versions. `requirements-tested.txt` pins the initial tested Python
 dependencies. Use the same tool commit, Python and dependency versions to reproduce
-index bytes; build timestamps and provenance can legitimately differ.
+discovery bytes; build timestamps and provenance can legitimately differ.
 
 Source refreshes are manual and reviewable. Verify a new snapshot at the original
 publisher, inspect its license, obtain an upstream SHA-256 or compute it after a

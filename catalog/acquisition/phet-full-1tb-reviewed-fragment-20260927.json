@@ -1,0 +1,83 @@
+{
+  "acquisition_capture": {
+    "capture_id": "455bdd44a38e48af9b21f3a3027523b1",
+    "manifest_sha256": "abd2caaa37e8c2abcd954ddb83739bc3a65353fcd359ad0ef1875a053c2b5f62"
+  },
+  "assets": [
+    {
+      "acquisition_provenance": {
+        "manifest_sha256": "abd2caaa37e8c2abcd954ddb83739bc3a65353fcd359ad0ef1875a053c2b5f62",
+        "source_id": "phet_ph_scale_basics_1_7_5_quarantine_20260927"
+      },
+      "attribution": "Simulation by PhET Interactive Simulations, University of Colorado Boulder, licensed under CC BY-NC 4.0 (https://phet.colorado.edu).",
+      "category": "education",
+      "critical": false,
+      "description": "Complete original regular English HTML5 simulation, internal version 1.7.5, publisher build 2026-09-21. Captured from the official versioned URL on 2026-09-27; whole-file SHA-256 is observed after bounded acquisition, with no publisher checksum supplied. Explicit screen, content, dependency and reset review passed; physical-device certification remains pending. Original source and notices are unchanged.",
+      "destination": "REFERENCE/EDUCATION/PHET/ph-scale-basics_1.7.5_20260921_en.html",
+      "format": "html",
+      "id": "phet_ph_scale_basics_1_7_5_quarantine_20260927",
+      "illustrated": true,
+      "language": "en",
+      "license": "CC-BY-NC-4.0",
+      "profiles": [],
+      "publisher": "PhET Interactive Simulations, University of Colorado Boulder",
+      "reader_required": false,
+      "redistributable": true,
+      "required": true,
+      "resource_type": "reference",
+      "sha256": "1e937f17d1093222ead81eab633842b4be4ebced3ab900fbc0584690f8c12d51",
+      "size_bytes": 2519437,
+      "snapshot_date": "2026-09-27",
+      "source_page": "https://phet.colorado.edu/en/simulations/ph-scale-basics",
+      "source_url": "https://phet.colorado.edu/sims/html/ph-scale-basics/1.7.5/ph-scale-basics_en.html",
+      "status": "resolved",
+      "tags": [
+        "science",
+        "simulation",
+        "interactive"
+      ],
+      "title": "pH Scale: Basics",
+      "version": "1.7.5"
+    }
+  ],
+  "resource_updates": [
+    {
+      "id": "phet",
+      "reason": "Published edition preserves the earlier source pins and partial status. A separately reviewed direct edition contains all 16 simulations and 38 teaching screens; physical-device certification remains pending.",
+      "editions": {
+        "direct": {
+          "asset_ids": [
+            "phet_ohms_law",
+            "phet_circuit_construction_kit_dc",
+            "phet_forces_and_motion_basics",
+            "phet_energy_skate_park_basics",
+            "phet_projectile_motion",
+            "phet_pendulum_lab",
+            "phet_wave_on_a_string",
+            "phet_gravity_force_lab_basics",
+            "phet_bending_light",
+            "phet_states_of_matter_basics",
+            "phet_build_an_atom",
+            "phet_balancing_chemical_equations",
+            "phet_ph_scale_basics_1_7_5_quarantine_20260927",
+            "phet_natural_selection",
+            "phet_fractions_intro",
+            "phet_area_builder"
+          ],
+          "target_bytes": 100000000,
+          "status": "ready",
+          "reason": "All 16 ordinary English HTML5 files and 38 teaching screens reviewed, with 76 offline screen/viewport checks plus 8 construction checks. Distinct pH source pin reviewed; physical-device certification remains pending."
+        }
+      },
+      "review": {
+        "status": "approved",
+        "full_scope": true,
+        "evidence": [
+          "catalog/acquisition/phet-content-review-20260927.json sha256=b95ccb6ee0e7b5d0b760b4de7255a26cd6ed5bd82974b5fbae7964606142f674",
+          "catalog/acquisition/phet-required-screen-evidence-20260927.json sha256=144e43b5b6ed2eb8dc9d086fa6fc7da5cc746c23542eeccc00541bc61f0439ec"
+        ]
+      }
+    }
+  ],
+  "schema_version": 1
+}

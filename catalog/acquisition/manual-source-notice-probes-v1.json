@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "requests": [
+    {
+      "id": "docs_linux_tool_blkid_notice_source",
+      "url": "https://manpages.debian.org/trixie/util-linux/blkid.8.en.gz",
+      "source_id": "docs_linux_tool_blkid",
+      "source_page": "https://manpages.debian.org/trixie/util-linux/blkid.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_linux_tool_e2fsck_notice_source",
+      "url": "https://manpages.debian.org/trixie/e2fsprogs/e2fsck.8.en.gz",
+      "source_id": "docs_linux_tool_e2fsck",
+      "source_page": "https://manpages.debian.org/trixie/e2fsprogs/e2fsck.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_linux_tool_fdisk_notice_source",
+      "url": "https://manpages.debian.org/trixie/fdisk/fdisk.8.en.gz",
+      "source_id": "docs_linux_tool_fdisk",
+      "source_page": "https://manpages.debian.org/trixie/fdisk/fdisk.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_linux_tool_findmnt_notice_source",
+      "url": "https://manpages.debian.org/trixie/util-linux/findmnt.8.en.gz",
+      "source_id": "docs_linux_tool_findmnt",
+      "source_page": "https://manpages.debian.org/trixie/util-linux/findmnt.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_linux_tool_fsck_notice_source",
+      "url": "https://manpages.debian.org/trixie/util-linux/fsck.8.en.gz",
+      "source_id": "docs_linux_tool_fsck",
+      "source_page": "https://manpages.debian.org/trixie/util-linux/fsck.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_linux_tool_ip_notice_source",
+      "url": "https://manpages.debian.org/trixie/iproute2/ip.8.en.gz",
+      "source_id": "docs_linux_tool_ip",
+      "source_page": "https://manpages.debian.org/trixie/iproute2/ip.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_linux_tool_lsblk_notice_source",
+      "url": "https://manpages.debian.org/trixie/util-linux/lsblk.8.en.gz",
+      "source_id": "docs_linux_tool_lsblk",
+      "source_page": "https://manpages.debian.org/trixie/util-linux/lsblk.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_linux_tool_mke2fs_notice_source",
+      "url": "https://manpages.debian.org/trixie/e2fsprogs/mke2fs.8.en.gz",
+      "source_id": "docs_linux_tool_mke2fs",
+      "source_page": "https://manpages.debian.org/trixie/e2fsprogs/mke2fs.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_linux_tool_mount_notice_source",
+      "url": "https://manpages.debian.org/trixie/mount/mount.8.en.gz",
+      "source_id": "docs_linux_tool_mount",
+      "source_page": "https://manpages.debian.org/trixie/mount/mount.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_linux_tool_ping_notice_source",
+      "url": "https://manpages.debian.org/trixie/iputils-ping/ping.8.en.gz",
+      "source_id": "docs_linux_tool_ping",
+      "source_page": "https://manpages.debian.org/trixie/iputils-ping/ping.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_linux_tool_ss_notice_source",
+      "url": "https://manpages.debian.org/trixie/iproute2/ss.8.en.gz",
+      "source_id": "docs_linux_tool_ss",
+      "source_page": "https://manpages.debian.org/trixie/iproute2/ss.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_linux_tool_tune2fs_notice_source",
+      "url": "https://manpages.debian.org/trixie/e2fsprogs/tune2fs.8.en.gz",
+      "source_id": "docs_linux_tool_tune2fs",
+      "source_page": "https://manpages.debian.org/trixie/e2fsprogs/tune2fs.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_linux_tool_umount_notice_source",
+      "url": "https://manpages.debian.org/trixie/mount/umount.8.en.gz",
+      "source_id": "docs_linux_tool_umount",
+      "source_page": "https://manpages.debian.org/trixie/mount/umount.8.en.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_bootup_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/bootup.xml",
+      "source_id": "docs_systemd_bootup",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/bootup.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_journalctl_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/journalctl.xml",
+      "source_id": "docs_systemd_journalctl",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/journalctl.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_journald_conf_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/journald.conf.xml",
+      "source_id": "docs_systemd_journald_conf",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/journald.conf.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_networkctl_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/networkctl.xml",
+      "source_id": "docs_systemd_networkctl",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/networkctl.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_resolvectl_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/resolvectl.xml",
+      "source_id": "docs_systemd_resolvectl",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/resolvectl.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemctl_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemctl.xml",
+      "source_id": "docs_systemd_systemctl",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemctl.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd.xml",
+      "source_id": "docs_systemd_systemd",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_analyze_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd-analyze.xml",
+      "source_id": "docs_systemd_systemd_analyze",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd-analyze.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_exec_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd.exec.xml",
+      "source_id": "docs_systemd_systemd_exec",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.exec.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_journald_service_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd-journald.service.xml",
+      "source_id": "docs_systemd_systemd_journald_service",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd-journald.service.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_mount_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd.mount.xml",
+      "source_id": "docs_systemd_systemd_mount",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.mount.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_network_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd.network.xml",
+      "source_id": "docs_systemd_systemd_network",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.network.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_networkd_service_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd-networkd.service.xml",
+      "source_id": "docs_systemd_systemd_networkd_service",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd-networkd.service.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_resource_control_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd.resource-control.xml",
+      "source_id": "docs_systemd_systemd_resource_control",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.resource-control.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_service_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd.service.xml",
+      "source_id": "docs_systemd_systemd_service",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.service.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_socket_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd.socket.xml",
+      "source_id": "docs_systemd_systemd_socket",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.socket.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_special_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd.special.xml",
+      "source_id": "docs_systemd_systemd_special",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.special.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_system_conf_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd-system.conf.xml",
+      "source_id": "docs_systemd_systemd_system_conf",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd-system.conf.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_timer_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd.timer.xml",
+      "source_id": "docs_systemd_systemd_timer",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.timer.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    },
+    {
+      "id": "docs_systemd_systemd_unit_notice_source",
+      "url": "https://raw.githubusercontent.com/systemd/systemd/v259/man/systemd.unit.xml",
+      "source_id": "docs_systemd_systemd_unit",
+      "source_page": "https://www.freedesktop.org/software/systemd/man/259/systemd.unit.html",
+      "scope": "Official same-edition raw manual source candidate; verify full headers and correspondence after quarantine capture."
+    }
+  ]
+}

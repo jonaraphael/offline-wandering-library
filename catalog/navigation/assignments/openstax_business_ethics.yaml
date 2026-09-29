@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_business_ethics
+assignments:
+- topic_id: business-law-ethics
+  purpose: explanation

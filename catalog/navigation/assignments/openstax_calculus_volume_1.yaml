@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_calculus_volume_1
+assignments:
+- topic_id: mathematics
+  purpose: explanation

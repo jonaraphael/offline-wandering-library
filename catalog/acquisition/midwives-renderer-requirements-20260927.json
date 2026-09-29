@@ -1,0 +1,498 @@
+{
+  "schema_version": 1,
+  "content_ready": false,
+  "status": "source-renderer-requirements-only",
+  "manifest_file": "catalog/acquisition/midwives-digital-source-review-capture-20260927-v3.json",
+  "raw_sources_verified": 167,
+  "book_pages": 132,
+  "templates": [
+    {
+      "title": "Template:=",
+      "source_id": "midwives_digital_page_20",
+      "whole_response_sha256": "c431a74e71c6ac17764673180228d50d861002ab80e9ab682b936f4e28c7f051",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "e8c177b9d942da252ba94f7401776df836d3a09f",
+        "size_bytes": 204
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_20"
+    },
+    {
+      "title": "Template:Alphaselect",
+      "source_id": "midwives_digital_page_65",
+      "whole_response_sha256": "7862877f4017d9f425c28a0408a055afc4ffa7e3db819c8dc8b17ee3ef842c82",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "a57647d24cca6242da9a879ecb6384002b668639",
+        "size_bytes": 1449
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_65"
+    },
+    {
+      "title": "Template:Bctrail",
+      "source_id": "midwives_digital_page_27",
+      "whole_response_sha256": "8eb0eb5e0baf7707c22f2e6e92daa2bb0d57d378cc5d9a7705b8fa67af92b5f8",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "65bb41f922a4640e1687eba51bab87d328446453",
+        "size_bytes": 2541
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_27"
+    },
+    {
+      "title": "Template:Cautionbreastfeeding",
+      "source_id": "midwives_digital_page_64",
+      "whole_response_sha256": "b3da9e23ee4b4977b98059fb4821e6afaa6e7dcc3858a8e60b6e07e9d95d559d",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "1f23edf2e9575fad302d26e6da8dcbc8629df567",
+        "size_bytes": 89
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_64"
+    },
+    {
+      "title": "Template:Cautionpregnant",
+      "source_id": "midwives_digital_page_63",
+      "whole_response_sha256": "3323ad6265d28440217b71a7f3a6312c8973bcb2bc1ca9faafd4788af921e4b2",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "919f83d1b143ba86f8d0b46014f25a82b2048976",
+        "size_bytes": 79
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_63"
+    },
+    {
+      "title": "Template:Chaptertoc",
+      "source_id": "midwives_digital_page_19",
+      "whole_response_sha256": "b7f90c5af6e5f9bf8c4adb5d5337e21b940f0a1c4126f8a3249d383a7a108818",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "4ae386e1b3a7f02bb4e12d677d3067d9f0331f7a",
+        "size_bytes": 1409
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_19"
+    },
+    {
+      "title": "Template:Clr",
+      "source_id": "midwives_digital_page_18",
+      "whole_response_sha256": "c7999349b8c7f3b811db2e615f6378e93517f5e5581e86ae510ab78748e136f8",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "05ae77856bd33ff593fce9978e02913fffc969f4",
+        "size_bytes": 290
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_18"
+    },
+    {
+      "title": "Template:Displaynamespace",
+      "source_id": "midwives_digital_page_26",
+      "whole_response_sha256": "426e3776890f4cb76b294495406c0dc38da1fde58985869a2c2b11ed6e7ca22c",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "5e0eb969c7614602daabc5a1ffe5fd49cfd8d357",
+        "size_bytes": 1842
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_26"
+    },
+    {
+      "title": "Template:Greeneffects",
+      "source_id": "midwives_digital_page_62",
+      "whole_response_sha256": "ced29713054dab0d7110227562a2c2a1483b63f2057bcf185f8f215c5784b376",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "f9b9f5929894997ad56cc3c83383ff218a8e4e68",
+        "size_bytes": 12
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_62"
+    },
+    {
+      "title": "Template:Greenforms",
+      "source_id": "midwives_digital_page_61",
+      "whole_response_sha256": "4852421fb28cb11af88a2e2768c79c1691d771275b413854cea775b7fe13eff9",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "2bed4b2cba65823dc985c9ff5ef1279a1d584f51",
+        "size_bytes": 15
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_61"
+    },
+    {
+      "title": "Template:Greenhowmuch",
+      "source_id": "midwives_digital_page_60",
+      "whole_response_sha256": "0ac44482de23862673d7512564c0cc7a29fc76f9f173b4c6d095858b29490f84",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "8e090d332d9dabde6e435eafdb66e7b93d430d7f",
+        "size_bytes": 11
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_60"
+    },
+    {
+      "title": "Template:Greenimportant",
+      "source_id": "midwives_digital_page_1014",
+      "whole_response_sha256": "38fca0c1e9f25dbc2c0a1aba3aac34cbc47f64eab229924e9f058ec1f376e3e8",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "4b6d6a30150a506f9b79caf45da5aecb76b0018e",
+        "size_bytes": 9
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_1014"
+    },
+    {
+      "title": "Template:Greenknow",
+      "source_id": "midwives_digital_page_59",
+      "whole_response_sha256": "65f9e300b1b3e77e2b6943cd682a4c7e66700d8cceca59a056a27acfc743ea04",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "250c79584fc40e675fce7a4dea4eedcc22c3e256",
+        "size_bytes": 31
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_59"
+    },
+    {
+      "title": "Template:Greenothermedicines",
+      "source_id": "midwives_digital_page_58",
+      "whole_response_sha256": "76af4721d0a97ca330fdf904b8dc0e6614ded9be1700c97ead3126c1c7b665c3",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "f7bee3a7b532ebbf6859443002d7ca345a1fa730",
+        "size_bytes": 33
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_58"
+    },
+    {
+      "title": "Template:Greenwarning",
+      "source_id": "midwives_digital_page_54",
+      "whole_response_sha256": "fb6691379b808cd5340b7ab6cfd7d0e92d75d4a24369fa0f05361fe93249a1fe",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "e9c45563358e813f157ba81b33143542165ba84e",
+        "size_bytes": 7
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_54"
+    },
+    {
+      "title": "Template:Healthysigns",
+      "source_id": "midwives_digital_page_736",
+      "whole_response_sha256": "7d39a1c47188bbba26932db9e0a99f7704613e7dc570e3e97e59a39093f9ce1c",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "6202d2444ce1d1391a6b1336786d281cb82487af",
+        "size_bytes": 252
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_736"
+    },
+    {
+      "title": "Template:HowToBox",
+      "source_id": "midwives_digital_page_373",
+      "whole_response_sha256": "420fdbcb5c23c7c17db46f14d0be6a479c0f1034fc17e22f8002b8a1d55a0fcc",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "8cf83f3f0b041e791cb1010739fcd1e17735df68",
+        "size_bytes": 1292
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_373"
+    },
+    {
+      "title": "Template:Important",
+      "source_id": "midwives_digital_page_75",
+      "whole_response_sha256": "ac2a3781a94718379cac798944a87df57df268ac0ab1f34773de3f8108ee36ef",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "4a3ee1e9cb0fce75affa2f4dc07388533e45a897",
+        "size_bytes": 1128
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_75"
+    },
+    {
+      "title": "Template:LastEditDate",
+      "source_id": "midwives_digital_page_1537",
+      "whole_response_sha256": "bea4e0a93a98e0702951109416cd016655b02fdcf196364731c1bf55a702f98c",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "d61286693092e30c45d913a3104054112f170cb8",
+        "size_bytes": 286
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_1537"
+    },
+    {
+      "title": "Template:LinkButton",
+      "source_id": "midwives_digital_page_2401",
+      "whole_response_sha256": "a2cea117c3bb654bff06aee70b765c9d5a39c4b9059f57a47957884beb94fe61",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "6d0fac40790d0e5fb9f56aacbc0724a018457b08",
+        "size_bytes": 1652
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_2401"
+    },
+    {
+      "title": "Template:Moreinfo",
+      "source_id": "midwives_digital_page_72",
+      "whole_response_sha256": "3e45ca990f46133c53e2bf8cb939dce4dbf59b46818affdd33a0a5a68512fa52",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "ae3b3bb7f7d775042c27126019855695cf95669b",
+        "size_bytes": 213
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_72"
+    },
+    {
+      "title": "Template:Next section",
+      "source_id": "midwives_digital_page_15",
+      "whole_response_sha256": "a2cd44534fb1ecf1fae18206363fd40884b4285d3e139a88576b055cef785747",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "c03c2eb0433c0902789ce7456a6ec10db7e11b86",
+        "size_bytes": 558
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_15"
+    },
+    {
+      "title": "Template:Note",
+      "source_id": "midwives_digital_page_1576",
+      "whole_response_sha256": "ae3a362e5495bc893015a6087ab09b089fd831374a155b0c95cbd02fd6ea3c35",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "1e81291b56ffd6cee1e7a09cb2217ce1798eab56",
+        "size_bytes": 609
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_1576"
+    },
+    {
+      "title": "Template:Previous and next sections",
+      "source_id": "midwives_digital_page_24",
+      "whole_response_sha256": "c93ab2a13eeda14ae0a9688cb2896b4d43e8a030485671739cfe45061a9b3136",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "07999a09fe3a2cf75045239062b39d2d618534ae",
+        "size_bytes": 732
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_24"
+    },
+    {
+      "title": "Template:Previous section",
+      "source_id": "midwives_digital_page_22",
+      "whole_response_sha256": "6446f9a26170dbcfed6634f94bd5031d851426af77ddab1a8472869ae70f1432",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "b7da5ce5934c113fda8eda6d79cf381e08daac04",
+        "size_bytes": 468
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_22"
+    },
+    {
+      "title": "Template:SideSupplement",
+      "source_id": "midwives_digital_page_23",
+      "whole_response_sha256": "f34793c3e425c37bc7ab63215412e948f06726528a67c47af7e2474cf03119fc",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "f277523ffae1940facc640d9f29335beb6d9d73d",
+        "size_bytes": 5622
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_23"
+    },
+    {
+      "title": "Template:Sources",
+      "source_id": "midwives_digital_page_2477",
+      "whole_response_sha256": "b5780ce1525e8326c66d71285b0efa2e76ad3ee46fc51814a2244bdf3bada7e6",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "fa10ccde0ee6350138cea150f31a47addb99206f",
+        "size_bytes": 2360
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_2477"
+    },
+    {
+      "title": "Template:Spannote",
+      "source_id": "midwives_digital_page_16",
+      "whole_response_sha256": "0ca337245c7553f979a675e34fceac6b2a82d3aace712261902da5153c2b856b",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "c29f12aca9f420be9e0d1f44c29439fc3823486c",
+        "size_bytes": 989
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_16"
+    },
+    {
+      "title": "Template:Spannote2",
+      "source_id": "midwives_digital_page_909",
+      "whole_response_sha256": "4aa3291b112eab3ac2b382f1645db64d6bc9af4b7542fbf18ec63c09d1b35315",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "27393bf8e730e6b2c9d3ddf76c9e3f11e5ed8bf5",
+        "size_bytes": 958
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_909"
+    },
+    {
+      "title": "Template:StoryBox",
+      "source_id": "midwives_digital_page_14",
+      "whole_response_sha256": "88703216137455c5c74e070a5a48beb3b90460165e0848daf0da8540a0cc1dee",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "627f7a7bb24a4089ed84164bb76644dcd0cc1539",
+        "size_bytes": 2670
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_14"
+    },
+    {
+      "title": "Template:T",
+      "source_id": "midwives_digital_page_2403",
+      "whole_response_sha256": "1bf1fd6ef3fb7ad4ce95bc66d3638a8c5aa9ba5f832c613ba901e053c41a7335",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "92fa93fc779fee4ce42f98415564a45336114f1a",
+        "size_bytes": 572
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_2403"
+    },
+    {
+      "title": "Template:Transportnote",
+      "source_id": "midwives_digital_page_73",
+      "whole_response_sha256": "2e3538991ea7a209b13829941591806f31f1d11d06d7793c0ced3ae89a77d690",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "807ca637bf30d9a8f2cf57ccbca029b5ee6f0717",
+        "size_bytes": 175
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_73"
+    },
+    {
+      "title": "Template:Warning",
+      "source_id": "midwives_digital_page_375",
+      "whole_response_sha256": "b6e41ac772c5056430aa463554e95b9909b41d81a808846eb4032fe74de35600",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "695931c41f135f10ae70c59a81868ce62a6a074e",
+        "size_bytes": 477
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_375"
+    },
+    {
+      "title": "Template:Warningsigns",
+      "source_id": "midwives_digital_page_733",
+      "whole_response_sha256": "eb45661c8dcebad50d1135350267716db2a429d758bfe46981040a6e59f328f1",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "8ad1cc74ee8b87241ee959a8f8989be66d6c8cc0",
+        "size_bytes": 250
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_733"
+    },
+    {
+      "title": "Template:Wordwarning",
+      "source_id": "midwives_digital_page_595",
+      "whole_response_sha256": "b668d84a34d44df2996b721b3520bc0c0376491cd3052cdc7e912538c193da44",
+      "publisher_payload": {
+        "kind": "mediawiki-raw-revision",
+        "prefix_hex": "0a0a0a0a",
+        "sha1": "9a2354d4a5c40198806f483137f4bb30850b24a8",
+        "size_bytes": 36
+      },
+      "source_path": "/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3/sources/midwives_digital_page_595"
+    }
+  ],
+  "parser_functions": {
+    "#switch": 4,
+    "#if": 13,
+    "#time": 1,
+    "#tag": 1
+  },
+  "magic_words": {
+    "DISPLAYTITLE": 132,
+    "PAGENAME": 3,
+    "NAMESPACE": 10,
+    "REVISIONTIMESTAMP": 1,
+    "fullurl": 1,
+    "FULLPAGENAME": 1
+  },
+  "remaining_gates": [
+    "Complete 1455-image acquisition and integrity inventory (capture remains running).",
+    "Faithful template expansion and wikitext/HTML reader; preserve clinical text, headings, lists, tables and figure/caption positioning.",
+    "Make chapter navigation available offline despite publisher dialog/mobile controls; retain all Sources details and notices.",
+    "Resolve original image links and local chapter/anchor links, with explicit optional publisher/external references.",
+    "Source styling or reviewed equivalent must preserve warning/caution labels, framed boxes and visual grouping.",
+    "Visually inspect every required topic/format including IUD steps/figures, due-date wheel and homemade models; no keyword-only equivalence."
+  ],
+  "edition_scope": "One frozen canonical official digital snapshot with per-page revisions. Retain dated print PDFs as companions. Digital TOC does not supply printed index/Other Resources; no claim that printed p391 is blank or acquired.",
+  "license_scope": "Personal OWL source review; preserve publisher permission notices. No redistribution permission asserted.",
+  "hidden_content_cases": [
+    {
+      "template": "Template:Chaptertoc",
+      "source_id": "midwives_digital_page_19",
+      "whole_response_sha256": "b7f90c5af6e5f9bf8c4adb5d5337e21b940f0a1c4126f8a3249d383a7a108818",
+      "construct": "<dialog id=\"sidetoc\"> plus .dialog-open button and form method=\"dialog\"",
+      "required_reader_behavior": "Make every chapter TOC entry accessible offline; default-closed dialog must not hide navigation when publisher JavaScript is absent."
+    },
+    {
+      "template": "Template:Alphaselect",
+      "source_id": "midwives_digital_page_65",
+      "whole_response_sha256": "7862877f4017d9f425c28a0408a055afc4ffa7e3db819c8dc8b17ee3ef842c82",
+      "construct": "JavaScript onchange mobile select + separate .desktop-only alphabet anchors",
+      "required_reader_behavior": "Retain all 26 ordinary anchor links; do not rely on the five-option mobile onchange control."
+    },
+    {
+      "template": "Template:Sources",
+      "source_id": "midwives_digital_page_2477",
+      "whole_response_sha256": "b5780ce1525e8326c66d71285b0efa2e76ad3ee46fc51814a2244bdf3bada7e6",
+      "construct": "Native <details><summary> source list",
+      "required_reader_behavior": "Keep every source citation and make collapsed content reachable; inspect expanded content, not just the summary."
+    },
+    {
+      "template": "Template:Previous and next sections",
+      "source_id": "midwives_digital_page_24",
+      "whole_response_sha256": "c93ab2a13eeda14ae0a9688cb2896b4d43e8a030485671739cfe45061a9b3136",
+      "construct": ".ltr-only and .rtl-only arrows",
+      "required_reader_behavior": "Apply English left-to-right presentation while preserving both navigation destinations."
+    },
+    {
+      "template": "Template:SideSupplement",
+      "source_id": "midwives_digital_page_23",
+      "whole_response_sha256": "f34793c3e425c37bc7ab63215412e948f06726528a67c47af7e2474cf03119fc",
+      "construct": "Lazy #if branches, CSS-driven book cover, optional ad image, publisher PDF/shop/print controls",
+      "required_reader_behavior": "Preserve source attribution and notices. Resolve required visible imagery/styles; classify external publisher controls explicitly. Do not invent missing inactive-branch images or claim older PDF companions are this snapshot."
+    }
+  ],
+  "template_expansion_contract": [
+    "Honor includeonly/noinclude and nowiki semantics; template examples are not book content.",
+    "Support nested positional/named parameters, defaults, literal {{=}} and MediaWiki {{!}} separators, and lazy #if/#switch branch evaluation.",
+    "Support the exact recorded #time revision date, #tag:html, DISPLAYTITLE, NAMESPACE/PAGENAME/FULLPAGENAME, REVISIONTIMESTAMP and fullurl constructs.",
+    "Reject unsupported/unresolved constructs. Preserve every clinical warning, dose/form label, note, table, list and figure/caption relation.",
+    "Rebuild chapter/anchor links using canonical titles and preserve every image pin; browser fidelity and offline navigation checks remain mandatory."
+  ]
+}

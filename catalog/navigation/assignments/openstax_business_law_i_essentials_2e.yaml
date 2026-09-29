@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_business_law_i_essentials_2e
+assignments:
+- topic_id: business-law-ethics
+  purpose: explanation

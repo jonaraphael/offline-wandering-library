@@ -3,9 +3,10 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 from zipfile import ZipFile,ZIP_DEFLATED
 
-from owl.acquisition.ocw import package_inventory
+from owl.acquisition.ocw import package_inventory, inspect_capture
 from owl.archive import ZipSource,ArchiveError,MAX_ARCHIVE_BYTES
 
 
@@ -64,6 +65,31 @@ class OcwPackageTests(unittest.TestCase):
             'sha256':hashlib.sha256(self.path.read_bytes()).hexdigest()}
         with self.assertRaises(ValueError):ZipSource(self.path,asset)
         self.assertEqual(len(package_inventory(self.path,asset)['members']),7)
+
+    def test_explicit_isolation_keeps_bad_package_uninspected_and_finishes_next(self):
+        good=self.package();bad={**good,'id':'bad-course'}
+        inventory=package_inventory(self.path,good)
+        output=self.path.parent/'inventories'
+        def inspect(path, asset):
+            if asset['id']=='bad-course':raise ArchiveError('ZIP member exceeds size/compression-ratio limits')
+            return inventory
+        with patch('owl.acquisition.ocw.load_manifest',return_value={'sources':[bad,good]}), \
+                patch('owl.acquisition.ocw._receipt',return_value={'sha256':good['sha256'],'relative_path':'course.zip'}), \
+                patch('owl.acquisition.ocw.package_inventory',side_effect=inspect):
+            with self.assertRaises(ArchiveError):inspect_capture(self.path.parent,output)
+            report=inspect_capture(self.path.parent,output,isolate_package_failures=True)
+        self.assertEqual([r['source_id'] for r in report['courses']],['course'])
+        self.assertEqual(report['failures'][0]['source_id'],'bad-course')
+        self.assertEqual(report['failures'][0]['status'],'package_inventory_failed')
+        self.assertFalse((output/'bad-course.json').exists())
+        self.assertFalse(report['content_ready'])
+
+    def test_receipt_failure_still_stops_isolated_inventory(self):
+        good=self.package()
+        with patch('owl.acquisition.ocw.load_manifest',return_value={'sources':[good]}), \
+                patch('owl.acquisition.ocw._receipt',side_effect=ValueError('Captured original changed')):
+            with self.assertRaisesRegex(ValueError,'original changed'):
+                inspect_capture(self.path.parent,self.path.parent/'inventories',isolate_package_failures=True)
 
 
 if __name__=='__main__':unittest.main()

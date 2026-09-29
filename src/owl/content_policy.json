@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "owl-finished-downloads-v1",
+  "allowed_materialization": ["download", "unpack"],
+  "forbidden_asset_fields": ["generation"],
+  "direct_reading_formats": ["pdf", "html", "htm", "txt", "png", "jpg", "jpeg", "svg", "gif", "webp"],
+  "roles": {
+    "document": ["pdf", "html", "htm", "txt", "png", "jpg", "jpeg", "svg", "gif", "webp", "mp3", "m4a", "mp4", "zim", "epub"],
+    "companion": ["html", "htm", "txt", "md", "pdf", "png", "jpg", "jpeg", "svg", "gif", "webp", "ico", "css", "js", "json", "xml", "inv", "woff", "woff2", "ttf", "otf", "vtt", "srt"],
+    "package": ["zip", "tar", "tar.gz", "tgz", "tar.xz", "7z"],
+    "software": ["apk", "exe", "msi", "dmg", "appimage", "deb", "rpm", "zip", "tar", "tar.gz", "tgz", "tar.xz", "7z"],
+    "search_index": ["js", "json", "bin", "owlidx"]
+  },
+  "requirements": [
+    {"formats": ["html", "htm", "svg"], "roles": ["document", "companion"], "values": {"offline_ready": [true]}},
+    {"formats": ["zim"], "roles": ["document"], "values": {"reader_required": [true]}},
+    {"formats": ["epub"], "roles": ["document"], "values": {"reader_required": [true], "optional_format": [true], "required": [false]}},
+    {"formats": ["m4a"], "roles": ["document"], "values": {"audio_codec": ["aac"]}},
+    {"formats": ["mp4"], "roles": ["document"], "values": {"video_codec": ["h264"], "audio_codec": ["aac", "none"]}},
+    {"formats": ["js", "json", "bin", "owlidx"], "roles": ["search_index"], "values": {"browser_ready": [true]}}
+  ],
+  "forbidden_true_fields": ["drm", "password_required", "requires_server", "requires_network"],
+  "preferred_book_format": "pdf"
+}

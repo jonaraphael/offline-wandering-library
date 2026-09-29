@@ -7,7 +7,7 @@
     {
       "name": "full-tests",
       "passed": true,
-      "tests_run": 812
+      "tests_run": 904
     },
     {
       "name": "selector-freshness",
@@ -46,7 +46,7 @@
       "passed": true
     }
   ],
-  "completed_at": "2026-09-27T21:54:43.592547+00:00",
+  "completed_at": "2026-09-28T00:19:43.879112+00:00",
   "downloads": 0,
   "fixed_small_preset_expectations": {
     "critical-64gb": {
@@ -61,19 +61,19 @@
   "freshness_checked": true,
   "full_tests": true,
   "input_sha256": {
-    "SELECT.html": "577b51eb0ec7e90867adbe27007cdb596eb37f188ce6effcd4bb66d6d7b34658",
+    "SELECT.html": "3c7e151530975b755dee4f7da4abb47748377b1e4b455b56cf6108c78519c3b8",
     "catalog/acquisition/recipes.yaml": "9afd560aa9be7cc16af5ad5181d8cf6e38d7e273eeaaa7db1b169e7764832350",
-    "catalog/library.yaml": "f95c9060e37993c7d1c54af28ba2418b2dbcd5b72ff1eaf5e84f12961d8571a6",
-    "catalog/resources.yaml": "2b389a04305d8762019bbfc56e90111f1b219132740bb6e7a9227e68eb6663ad",
-    "docs/content-selection.md": "289dbaf219f0e526d54c31d5958c8aac60e95e5f6cb52e82be676a484f3c8a5c",
+    "catalog/library.yaml": "4cf66c7e445df6a0d32d5d89d80d15c7ec0c1d4a8beea0cf4a103e57278421fa",
+    "catalog/resources.yaml": "a8e37247d1ddad372fe5bda1d0e222710b6eea8cdf22136ce40e3a10fd1151ab",
+    "docs/content-selection.md": "186414c92ad13cb1958c92ed624eff56c16540ab4b94367c8ea43d9a9b645b8b",
     "profiles/compact-256gb.yaml": "2066d693623bc9ca1730de0d9507e5caf45d32027620f74ab0fd3d598f6c8e84",
     "profiles/critical-64gb.yaml": "4fb3860ff498af0026a0a48558d11a45ee2519e9324555b9bc233bd887272660",
     "profiles/flash-16gb.yaml": "8d9f6a23a6264b1ea2eb1b3a5d9917b7aa6e682ff7718a96c6cb96892444e97d",
-    "profiles/full-1tb.yaml": "ea70882bf50a86eba4c2d257b413108fe2df03c1862c403f1b1a8c49b84c30ac",
+    "profiles/full-1tb.yaml": "00d3620c8334197d4b7f42a4d14667db1d48cd05dc9802ec9ace1c5b1c8ab16f",
     "profiles/standard-512gb.yaml": "a7f4e75b991cb6323bc22ba6aa6e119f83d99d29a91a7141715d642a700e91b1",
-    "scripts/**": "7429a0a75a696e4854385100d5cc41f301365f63b4d6b519893b7ec21a98dbe6",
-    "src/**": "38ecb7c470e9a95bdcc4ac9b84ac4aec39a3c5cff1cbd447cd1ed82de7e8b033",
-    "tests/**": "2c9d9074ed8745c7a5d10de881dcae48329b04057d2fed28ec65ab857a15b412"
+    "scripts/**": "9dad58f5033d9a214afeb0a71409bd61643a4cc2a09e0df34ad4218c614c6673",
+    "src/**": "d7a5dad9448aa0477b46950a6cabdf0349ea7ee06c5c8cdeba50a4d1deb292dd",
+    "tests/**": "09d28f8ca59d8e1a0563dbde4b338627d5bcd15fa9face5e142e32af2963fb21"
   },
   "passed": true,
   "profiles": [
@@ -157,7 +157,6 @@
         "low-tech-magazine",
         "survivor-tier-a",
         "stackoverflow-durable",
-        "phet",
         "linux-programming-docs",
         "ted-ed",
         "khan-core-stem",
@@ -176,8 +175,8 @@
     }
   ],
   "raw_report": {
-    "sha256": "e4603d7c2ef16946c30ca8bdb7205dfff40bd91ca8cf24860528d5ad326a63bb",
-    "size_bytes": 1644333
+    "sha256": "d6dfa846fec05a368fa01bfa39e70e1f2d144dfd9d877569e7aaf899249f98ca",
+    "size_bytes": 1641204
   },
   "reproduce": "python scripts/validate_acquisition.py --full --export-evidence catalog/acquisition/validation-evidence.json",
   "schema_version": 1,

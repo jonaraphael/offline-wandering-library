@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_algebra_and_trigonometry_2e
+assignments:
+- topic_id: mathematics
+  purpose: explanation

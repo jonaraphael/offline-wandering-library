@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_introduction_intellectual_property
+assignments:
+- topic_id: business-law-ethics
+  purpose: explanation

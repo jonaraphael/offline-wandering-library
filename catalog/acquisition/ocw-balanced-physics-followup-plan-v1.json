@@ -1,0 +1,387 @@
+{
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "capture": 1,
+    "review": 1
+  },
+  "content_complete": false,
+  "id": "ocw-balanced-physics-courses-v1",
+  "review_items": [
+    {
+      "id": "reviewed-course-admission",
+      "reason": "Independent complete-course source and ordinary output evidence precedes admission; source ZIP and decorative support never count."
+    }
+  ],
+  "schema_version": 1,
+  "tasks": [
+    {
+      "batch": "ocw-balanced-physics-courses-v1",
+      "id": "capture-balanced-physics-v1",
+      "kind": "capture",
+      "lane": "capture"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_d9d7c90c2760e07c91a3/inventory.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_d9d7c90c2760e07c91a3/policy.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_d9d7c90c2760e07c91a3"
+      ],
+      "batch": "ocw-balanced-physics-courses-v1",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_d9d7c90c2760e07c91a3/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_d9d7c90c2760e07c91a3/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_d9d7c90c2760e07c91a3/assets.json"
+        }
+      ],
+      "depends": [
+        "capture-balanced-physics-v1"
+      ],
+      "id": "freeze-ocw_d9d7c90c2760e07c91a3",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_d9d7c90c2760e07c91a3/inventory.json",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_d9d7c90c2760e07c91a3/policy.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_d9d7c90c2760e07c91a3/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_d9d7c90c2760e07c91a3/assets.json",
+        "--preview-bytes",
+        "20000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-balanced-physics-courses-v1",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-balanced-physics-courses-v1-1tb/previews/ocw_d9d7c90c2760e07c91a3_ordinary_v1/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-ocw_d9d7c90c2760e07c91a3"
+      ],
+      "id": "preview-ocw_d9d7c90c2760e07c91a3",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_d9d7c90c2760e07c91a3/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_d9d7c90c2760e07c91a3/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_d9d7c90c2760e07c91a3/inventory.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_d9d7c90c2760e07c91a3/report.json"
+        }
+      ],
+      "depends": [
+        "preview-ocw_d9d7c90c2760e07c91a3"
+      ],
+      "id": "review-ocw_d9d7c90c2760e07c91a3",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_d9d7c90c2760e07c91a3/inventory.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_2433420d806e22353638/inventory.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_2433420d806e22353638/policy.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_2433420d806e22353638"
+      ],
+      "batch": "ocw-balanced-physics-courses-v1",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_2433420d806e22353638/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_2433420d806e22353638/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_2433420d806e22353638/assets.json"
+        }
+      ],
+      "depends": [
+        "capture-balanced-physics-v1"
+      ],
+      "id": "freeze-ocw_2433420d806e22353638",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_2433420d806e22353638/inventory.json",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_2433420d806e22353638/policy.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_2433420d806e22353638/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_2433420d806e22353638/assets.json",
+        "--preview-bytes",
+        "20000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-balanced-physics-courses-v1",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-balanced-physics-courses-v1-1tb/previews/ocw_2433420d806e22353638_ordinary_v1/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-ocw_2433420d806e22353638"
+      ],
+      "id": "preview-ocw_2433420d806e22353638",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_2433420d806e22353638/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_2433420d806e22353638/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_2433420d806e22353638/inventory.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_2433420d806e22353638/report.json"
+        }
+      ],
+      "depends": [
+        "preview-ocw_2433420d806e22353638"
+      ],
+      "id": "review-ocw_2433420d806e22353638",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_2433420d806e22353638/inventory.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_6534d0cdfd373b7f15f3/inventory.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_6534d0cdfd373b7f15f3/policy.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_6534d0cdfd373b7f15f3"
+      ],
+      "batch": "ocw-balanced-physics-courses-v1",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_6534d0cdfd373b7f15f3/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_6534d0cdfd373b7f15f3/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_6534d0cdfd373b7f15f3/assets.json"
+        }
+      ],
+      "depends": [
+        "capture-balanced-physics-v1"
+      ],
+      "id": "freeze-ocw_6534d0cdfd373b7f15f3",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_6534d0cdfd373b7f15f3/inventory.json",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_6534d0cdfd373b7f15f3/policy.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_6534d0cdfd373b7f15f3/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_6534d0cdfd373b7f15f3/assets.json",
+        "--preview-bytes",
+        "20000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-balanced-physics-courses-v1",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-balanced-physics-courses-v1-1tb/previews/ocw_6534d0cdfd373b7f15f3_ordinary_v1/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-ocw_6534d0cdfd373b7f15f3"
+      ],
+      "id": "preview-ocw_6534d0cdfd373b7f15f3",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_6534d0cdfd373b7f15f3/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-balanced-physics-captured-proposals-v1/ocw_6534d0cdfd373b7f15f3/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_6534d0cdfd373b7f15f3/inventory.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_6534d0cdfd373b7f15f3/report.json"
+        }
+      ],
+      "depends": [
+        "preview-ocw_6534d0cdfd373b7f15f3"
+      ],
+      "id": "review-ocw_6534d0cdfd373b7f15f3",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_6534d0cdfd373b7f15f3/inventory.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    }
+  ]
+}

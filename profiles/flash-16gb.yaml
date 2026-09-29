@@ -1,11 +1,36 @@
 id: flash-16gb
-title: Medical, repair and rebuilding library with complete illustrated textbooks
+title: Practical essentials and school education
 capacity_bytes: 16000000000
 reserve_bytes: 1500000000
-search_budget_bytes: 2000000000
-minimum_coverage:
-  textbooks: 22
-  illustrated-guides: 40
-index_scratch_budget_bytes: 4500000000
-content_target_min_bytes: 9000000000
-content_target_max_bytes: 11000000000
+discovery_budget_bytes: 16777216
+default_resources:
+- hesperian-health
+- msf-medical
+- who-emergency-care
+- who-wash
+- sphere-handbook
+- food-preservation
+- niosh-chemical-hazards
+- fao-agriculture
+- wikem
+- civilian-preparedness
+- owl-direct-core
+- school-education
+- hand-tools-repair
+- appropedia
+- cd3wd
+- ifixit
+- low-tech-magazine
+- phet
+- archive-readers
+required_domains:
+- health
+- water-sanitation
+- food-preservation
+- agriculture
+- shelter
+- navigation
+- repair
+- hand-tools
+- school-math
+- school-science

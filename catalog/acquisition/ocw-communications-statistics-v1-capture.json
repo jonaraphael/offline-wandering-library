@@ -1,0 +1,3382 @@
+{
+  "budget": {
+    "cache_bytes": 0,
+    "download_bytes": 8141281192,
+    "expanded_bytes": 0,
+    "preview_bytes": 9000000000,
+    "scratch_bytes": 1048576
+  },
+  "content_ready": false,
+  "id": "ocw-communications-statistics-v1",
+  "kind": "acquisition",
+  "metadata_allowance_bytes": 2233352,
+  "profile": "full-1tb",
+  "review_requirements": [
+    "Source inputs remain unapproved. Frozen optional tag policies preserve original teaching text, notes, assignments, solutions and navigation.",
+    "Complete ordinary output review, observed playback, teaching legibility, captions and notices remain required. No ZIP input or decorative support receives useful-content credit."
+  ],
+  "schema_version": 1,
+  "sources": [
+    {
+      "course_id": "6-450-principles-of-digital-communications-i-fall-2006",
+      "id": "ocw_ae3a08d2bbf9ab91edfc",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "9ce07511241fff0dc518755b2262f6595b7f06ca71dd634aa62a3cb7b5f0a88e",
+          "size_bytes": 3983,
+          "url": "https://ocw.mit.edu/courses/6-450-principles-of-digital-communications-i-fall-2006/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "e5f1b216498973f5045fb95d128274a3000b182948eb1ee3842d91879280ce8e",
+          "size_bytes": 92174,
+          "url": "https://ocw.mit.edu/courses/6-450-principles-of-digital-communications-i-fall-2006/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:29.771339+00:00",
+            "final_url": "https://ocw.mit.edu/courses/6-450-principles-of-digital-communications-i-fall-2006/6.450-fall-2006.zip",
+            "headers": {
+              "content-length": "22612081",
+              "content-type": "application/zip",
+              "etag": "\"698f6a7e47944a0a33d20aa7e3cb7389-3\"",
+              "last-modified": "Wed, 16 Sep 2026 07:06:50 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/6-450-principles-of-digital-communications-i-fall-2006/6.450-fall-2006.zip"
+          },
+          "sha256": "1b0a1b7685fd586cbc7e547da6a01ea34d7136a63fdaba29d77939ffc7a4a32d",
+          "url": "https://ocw.mit.edu/courses/6-450-principles-of-digital-communications-i-fall-2006/6.450-fall-2006.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+      "size_bytes": 22612081,
+      "source_url": "https://ocw.mit.edu/courses/6-450-principles-of-digital-communications-i-fall-2006/6.450-fall-2006.zip",
+      "version": "6-450-principles-of-digital-communications-i-fall-2006-metadata-9ce07511241fff0d",
+      "work_id": "ocw:3494981a-2ccd-4813-bb8b-70bbf608eedb"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_341ae9526f61b21e1fec.mp4",
+        "format": "mp4",
+        "id": "ocw_media_341ae9526f61b21e1fec",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 183408754,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-03_300k.mp4",
+        "title": "ocw-6.450-f06-2003-09-03_300k.mp4",
+        "version": "archive-mtime:1438194310"
+      },
+      "id": "ocw_media_341ae9526f61b21e1fec",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "9aa6583d",
+        "md5": "f6da50b6f74e59dfedaefeaaa11b2689",
+        "sha1": "705aad18f6390f4dfb3aab047c64b82b5230ba70"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-1-introduction/data.json",
+            "sha256": "a1c8ea2dc81e2f12a852b645d5bfb24677f8d4c631c362362e50118770b747fb",
+            "size_bytes": 1793
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4775.42",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 183408754,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-03_300k.mp4",
+      "version": "archive-mtime:1438194310"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_4e0391d351d52d8e4ac1.mp4",
+        "format": "mp4",
+        "id": "ocw_media_4e0391d351d52d8e4ac1",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 182906128,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-08_300k.mp4",
+        "title": "ocw-6.450-f06-2003-09-08_300k.mp4",
+        "version": "archive-mtime:1438194405"
+      },
+      "id": "ocw_media_4e0391d351d52d8e4ac1",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "59a7f6f4",
+        "md5": "d63cc46bfa54ec40b5e492c381d5d7c9",
+        "sha1": "43979794065912929cb4215eb941b5d823f0d56b"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-2-discrete-source-encoding/data.json",
+            "sha256": "3013586adc5f1d9ff077c6b3bfb61a119fe9eda2bd9757be004c2475ef49372c",
+            "size_bytes": 1776
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4754.45",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 182906128,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-08_300k.mp4",
+      "version": "archive-mtime:1438194405"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_09938033b78c071b9ecb.mp4",
+        "format": "mp4",
+        "id": "ocw_media_09938033b78c071b9ecb",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 160338194,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-10_300k.mp4",
+        "title": "ocw-6.450-f06-2003-09-10_300k.mp4",
+        "version": "archive-mtime:1438194486"
+      },
+      "id": "ocw_media_09938033b78c071b9ecb",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "89145e5b",
+        "md5": "2103227b37eed81714ec4ba2f72a072a",
+        "sha1": "94550ea869a45f3f3fe8dc2d3ce2418a6d3ab023"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-3-memory-less-sources/data.json",
+            "sha256": "65254960b37237f092ccda9a5d4dd9c38c0092455e32a538444b428e399ffdff",
+            "size_bytes": 1798
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4165.52",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 160338194,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-10_300k.mp4",
+      "version": "archive-mtime:1438194486"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_c2cb1ca3b4736d9800d3.mp4",
+        "format": "mp4",
+        "id": "ocw_media_c2cb1ca3b4736d9800d3",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 187989341,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-15_300k.mp4",
+        "title": "ocw-6.450-f06-2003-09-15_300k.mp4",
+        "version": "archive-mtime:1438194603"
+      },
+      "id": "ocw_media_c2cb1ca3b4736d9800d3",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "8846da52",
+        "md5": "ca460727d77d17bcba35fd595f1279ee",
+        "sha1": "56b4cefc98f92a410eb7ac23827f79595a3d5c29"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-4-entropy-and-asymptotic-equipartition-property/data.json",
+            "sha256": "05d6ee1064510e17eea9444e99a4f15d1224bf04c8b6e7eb86331d25578c3aad",
+            "size_bytes": 1818
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4878.65",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 187989341,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-15_300k.mp4",
+      "version": "archive-mtime:1438194603"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_b7ae2004b2fbd4362c53.mp4",
+        "format": "mp4",
+        "id": "ocw_media_b7ae2004b2fbd4362c53",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 182472404,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-17_300k.mp4",
+        "title": "ocw-6.450-f06-2003-09-17_300k.mp4",
+        "version": "archive-mtime:1438194698"
+      },
+      "id": "ocw_media_b7ae2004b2fbd4362c53",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "056b584f",
+        "md5": "a04fc2e53ee6df2ab075215377e8ea34",
+        "sha1": "38724d391cd8eb04d87f17ce32994dea569169b7"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-5-markov-sources/data.json",
+            "sha256": "7d11c1760d4bc439b3fe45a32d965b2337b214fbc596f6952c942b43192f31f4",
+            "size_bytes": 1787
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4737.85",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 182472404,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-17_300k.mp4",
+      "version": "archive-mtime:1438194698"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_fc7fccbe43d23a2c9f0b.mp4",
+        "format": "mp4",
+        "id": "ocw_media_fc7fccbe43d23a2c9f0b",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 183450287,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-24_300k.mp4",
+        "title": "ocw-6.450-f06-2003-09-24_300k.mp4",
+        "version": "archive-mtime:1438194806"
+      },
+      "id": "ocw_media_fc7fccbe43d23a2c9f0b",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "fa704224",
+        "md5": "3ba8d5ba465f85b8f1f238912b3b9c5f",
+        "sha1": "a9a68cd26e79cf558def7cf35fd1cbb21cde6b79"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-6-quantization/data.json",
+            "sha256": "dea0bea3b30fe4089a3a93c2c6f641c8ec98dec90a97cb8e8af8e48b65bb1138",
+            "size_bytes": 1752
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4771.79",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 183450287,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-24_300k.mp4",
+      "version": "archive-mtime:1438194806"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_95aee1c81f6c0c8c7440.mp4",
+        "format": "mp4",
+        "id": "ocw_media_95aee1c81f6c0c8c7440",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 184946297,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-29_300k.mp4",
+        "title": "ocw-6.450-f06-2003-09-29_300k.mp4",
+        "version": "archive-mtime:1438194927"
+      },
+      "id": "ocw_media_95aee1c81f6c0c8c7440",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "368f9eff",
+        "md5": "24e7a433aaed9fb1e3988bcffa3a0493",
+        "sha1": "b566e9165450d4e9172f6c6c98f6645133cff01a"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-7-high-rate-quantizers-and-waveform-encoding/data.json",
+            "sha256": "4c2f1a54c82ae4fda617f485011a6a45ce866da6aa4865ce46df0024799da720",
+            "size_bytes": 1812
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4800.4",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 184946297,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-09-29_300k.mp4",
+      "version": "archive-mtime:1438194927"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_353bf23b36e6568b7254.mp4",
+        "format": "mp4",
+        "id": "ocw_media_353bf23b36e6568b7254",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 182910072,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-01_300k.mp4",
+        "title": "ocw-6.450-f06-2003-10-01_300k.mp4",
+        "version": "archive-mtime:1438195028"
+      },
+      "id": "ocw_media_353bf23b36e6568b7254",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "3d5aaf3f",
+        "md5": "c31a10dd9f0c20078f6809e8f128abbe",
+        "sha1": "cd23e54a206676f48f83f2cd246420f0aa5530df"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-8-measure/data.json",
+            "sha256": "dc8d55b811e59d6d643807473d76d26ac36af2b63cbf3bb56e94fa3c7b9d4975",
+            "size_bytes": 1778
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4768.96",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 182910072,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-01_300k.mp4",
+      "version": "archive-mtime:1438195028"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_45f43d0421ac761581d9.mp4",
+        "format": "mp4",
+        "id": "ocw_media_45f43d0421ac761581d9",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 177134870,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-08_300k.mp4",
+        "title": "ocw-6.450-f06-2003-10-08_300k.mp4",
+        "version": "archive-mtime:1438195137"
+      },
+      "id": "ocw_media_45f43d0421ac761581d9",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "3f44931e",
+        "md5": "f3b1e76c338dff0ff5589af2808df493",
+        "sha1": "9342a5bc1c5a5696657fda959180e5599d8a0f5c"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-9-discrete-time-fourier-transforms/data.json",
+            "sha256": "d7f689119822d90630739e3cbc292586b9af2518a802caf21fd5b1c7bee47afd",
+            "size_bytes": 1809
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4604.03",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 177134870,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-08_300k.mp4",
+      "version": "archive-mtime:1438195137"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_806f72b51280cd8ca0d2.mp4",
+        "format": "mp4",
+        "id": "ocw_media_806f72b51280cd8ca0d2",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 180918022,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-15_300k.mp4",
+        "title": "ocw-6.450-f06-2003-10-15_300k.mp4",
+        "version": "archive-mtime:1438195503"
+      },
+      "id": "ocw_media_806f72b51280cd8ca0d2",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "f8c0589f",
+        "md5": "8a589c6a996ff9c134597fc38e4959b9",
+        "sha1": "0e6d6049921da705063060db37926317d3bf7957"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-10-degrees-of-freedom/data.json",
+            "sha256": "0a36ac878cc642e5344034cb119475f5997111fb287790c94cbef7426731756c",
+            "size_bytes": 1803
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4707.5",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 180918022,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-15_300k.mp4",
+      "version": "archive-mtime:1438195503"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_2ffe7a041ce335f7dca2.mp4",
+        "format": "mp4",
+        "id": "ocw_media_2ffe7a041ce335f7dca2",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 190649380,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-20_300k.mp4",
+        "title": "ocw-6.450-f06-2003-10-20_300k.mp4",
+        "version": "archive-mtime:1438195644"
+      },
+      "id": "ocw_media_2ffe7a041ce335f7dca2",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "fdbe43de",
+        "md5": "700c4dea67b4c2c84a10687e466b8f5c",
+        "sha1": "378416339bad906df7d775007f5b945a559b24b0"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-11-signal-space/data.json",
+            "sha256": "25ec971ac2190d5f18444a60223dd55d4bf05be5a03fccbca60adc87bdfee7a0",
+            "size_bytes": 1787
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4957.76",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 190649380,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-20_300k.mp4",
+      "version": "archive-mtime:1438195644"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_d6786b7ca7b1c1186b5c.mp4",
+        "format": "mp4",
+        "id": "ocw_media_d6786b7ca7b1c1186b5c",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 186857756,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-22_300k.mp4",
+        "title": "ocw-6.450-f06-2003-10-22_300k.mp4",
+        "version": "archive-mtime:1438195768"
+      },
+      "id": "ocw_media_d6786b7ca7b1c1186b5c",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "42952c9b",
+        "md5": "f2342811c4da359af971f2ca1bbd177c",
+        "sha1": "c986a5051a1e6843ed13e2ee6372498e3f35fa88"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-12-nyquist-theory/data.json",
+            "sha256": "00813dcf9edd02e9f4d0514dde83a7bac01dffd37d337c3b386eb46106cec1a0",
+            "size_bytes": 1620
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4854.9",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 186857756,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-22_300k.mp4",
+      "version": "archive-mtime:1438195768"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_6f5395547a992d5b2d24.mp4",
+        "format": "mp4",
+        "id": "ocw_media_6f5395547a992d5b2d24",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 173425092,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-27_300k.mp4",
+        "title": "ocw-6.450-f06-2003-10-27_300k.mp4",
+        "version": "archive-mtime:1438195852"
+      },
+      "id": "ocw_media_6f5395547a992d5b2d24",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "31c831bb",
+        "md5": "b67962c6e58914f89ef2481f82339450",
+        "sha1": "a402d4604d6285f496a97714b057192245d74f7e"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-13-random-processes/data.json",
+            "sha256": "03cbeff17a4bef9708717f87512bdabd5b79966602484b505fbf97d4cb8a6a0c",
+            "size_bytes": 1761
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4505.21",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 173425092,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-27_300k.mp4",
+      "version": "archive-mtime:1438195852"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_83043de3808d085c9255.mp4",
+        "format": "mp4",
+        "id": "ocw_media_83043de3808d085c9255",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 185475970,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-29_300k.mp4",
+        "title": "ocw-6.450-f06-2003-10-29_300k.mp4",
+        "version": "archive-mtime:1438195962"
+      },
+      "id": "ocw_media_83043de3808d085c9255",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "e0e1049d",
+        "md5": "6d086161d016f20072a3aa31def71841",
+        "sha1": "987cac4db8f48df2baf80c11f44b3ec36dc80721"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-14-jointly-gaussian-random-vectors/data.json",
+            "sha256": "b6bffa81140a84ff7111f47fe548b396b59a2b9726cc52ca21022d74cecca3b5",
+            "size_bytes": 1836
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4833.9",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 185475970,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-10-29_300k.mp4",
+      "version": "archive-mtime:1438195962"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_294ba4b4500aa7b03001.mp4",
+        "format": "mp4",
+        "id": "ocw_media_294ba4b4500aa7b03001",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 180328818,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-11-03_300k.mp4",
+        "title": "ocw-6.450-f06-2003-11-03_300k.mp4",
+        "version": "archive-mtime:1438196051"
+      },
+      "id": "ocw_media_294ba4b4500aa7b03001",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "f1970893",
+        "md5": "d37a2e99e99fa8b64112cac90d120c03",
+        "sha1": "dd9a2958adc5375ba94d62e0f4bdc894f5918f3e"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-15-linear-functionals/data.json",
+            "sha256": "3a6d4d936cc0cbd99970e288636112b4dadc14adf4cf4ecd35fc51e6d43f1040",
+            "size_bytes": 1799
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4683.88",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 180328818,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-11-03_300k.mp4",
+      "version": "archive-mtime:1438196051"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_e98a277d452acbacadc9.mp4",
+        "format": "mp4",
+        "id": "ocw_media_e98a277d452acbacadc9",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 166292213,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-11-05_300k.mp4",
+        "title": "ocw-6.450-f06-2003-11-05_300k.mp4",
+        "version": "archive-mtime:1438196148"
+      },
+      "id": "ocw_media_e98a277d452acbacadc9",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "b8bddd7e",
+        "md5": "bd22d2a06acada8c46f8202fecc6e2c3",
+        "sha1": "38e55c74b5bc273c460f30a00f64af9b2a465e1b"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-16-review-introduction-to-detection/data.json",
+            "sha256": "d2b44dfc87c91d6416c62eae20509212145445711f1087eda5e9693eae5ecc85",
+            "size_bytes": 1795
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4320.45",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 166292213,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-11-05_300k.mp4",
+      "version": "archive-mtime:1438196148"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_3f598e2d0897f5856e22.mp4",
+        "format": "mp4",
+        "id": "ocw_media_3f598e2d0897f5856e22",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 156906770,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-11-17_300k.mp4",
+        "title": "ocw-6.450-f06-2003-11-17_300k.mp4",
+        "version": "archive-mtime:1438196243"
+      },
+      "id": "ocw_media_3f598e2d0897f5856e22",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "62bd86c5",
+        "md5": "21e65fc5e7c4a41bd32155275787febd",
+        "sha1": "9b4b6797236033a368100043d24a54f549874c53"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-17-detection-for-random-vectors-and-processes/data.json",
+            "sha256": "5b27c6b33da87fc259703ee05c26a2d6c5ed6fed0a3be689729749316efbb714",
+            "size_bytes": 1811
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4080.28",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 156906770,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-11-17_300k.mp4",
+      "version": "archive-mtime:1438196243"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_5e62a5b93378cca17366.mp4",
+        "format": "mp4",
+        "id": "ocw_media_5e62a5b93378cca17366",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 167169007,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-11-19_300k.mp4",
+        "title": "ocw-6.450-f06-2003-11-19_300k.mp4",
+        "version": "archive-mtime:1438196339"
+      },
+      "id": "ocw_media_5e62a5b93378cca17366",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "3d8707c5",
+        "md5": "b913bbc571c7780670ccdb709475581e",
+        "sha1": "6ed0f237cf5255b09b3abb771616c36ff6bc3565"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-18-theory-of-irrelevance/data.json",
+            "sha256": "33b75d86010db86e70c57b2ce9a042e14bea6975153a75b95edaba553cab77d0",
+            "size_bytes": 1801
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4358.78",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 167169007,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-11-19_300k.mp4",
+      "version": "archive-mtime:1438196339"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_df9fdc5c8addb4d36382.mp4",
+        "format": "mp4",
+        "id": "ocw_media_df9fdc5c8addb4d36382",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 176399918,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-11-24_300k.mp4",
+        "title": "ocw-6.450-f06-2003-11-24_300k.mp4",
+        "version": "archive-mtime:1438196425"
+      },
+      "id": "ocw_media_df9fdc5c8addb4d36382",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "4ec77af4",
+        "md5": "2b6dddc1fef5a81239fb1ca7a678bf8d",
+        "sha1": "9a4eaad2227ab82166fcd5561e6aeba36af653a6"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-19-baseband-detection/data.json",
+            "sha256": "f71125788709d26513926ac5e95843412c9814bc844ba51ec8ee8bfbc782885c",
+            "size_bytes": 1796
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4593.26",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 176399918,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-11-24_300k.mp4",
+      "version": "archive-mtime:1438196425"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_ca3ebd14809c0d1e1b1e.mp4",
+        "format": "mp4",
+        "id": "ocw_media_ca3ebd14809c0d1e1b1e",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 176492470,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-11-26_300k.mp4",
+        "title": "ocw-6.450-f06-2003-11-26_300k.mp4",
+        "version": "archive-mtime:1438196535"
+      },
+      "id": "ocw_media_ca3ebd14809c0d1e1b1e",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "f8d44269",
+        "md5": "be5a2d9d1a8799cdb58e6522d717ff77",
+        "sha1": "2da4a759f166aeade00ee44d56f13f41898794dc"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-20-introduction-of-wireless-communication/data.json",
+            "sha256": "5489dc1fd1f8f2bad6d6c4a71bc2ebd4cfb9346af44b73b08dc8a2cdb0060adc",
+            "size_bytes": 1805
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4587.75",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 176492470,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-11-26_300k.mp4",
+      "version": "archive-mtime:1438196535"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_8f473d355519c81a1f82.mp4",
+        "format": "mp4",
+        "id": "ocw_media_8f473d355519c81a1f82",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 176924511,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-12-01_300k.mp4",
+        "title": "ocw-6.450-f06-2003-12-01_300k.mp4",
+        "version": "archive-mtime:1438196620"
+      },
+      "id": "ocw_media_8f473d355519c81a1f82",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "197256df",
+        "md5": "191ab46df103a42c6abcd8b56fec2a32",
+        "sha1": "2e028cbe2de37ae1285efba88e553ba7e05ac969"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-21-doppler-spread/data.json",
+            "sha256": "552ab408c7c5cc355cc273696a42e6689f5f0d915e5811441294e010b8139912",
+            "size_bytes": 1811
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4599.97",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 176924511,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-12-01_300k.mp4",
+      "version": "archive-mtime:1438196620"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_2a79b233610cb8965550.mp4",
+        "format": "mp4",
+        "id": "ocw_media_2a79b233610cb8965550",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 163836828,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-12-03_300k.mp4",
+        "title": "ocw-6.450-f06-2003-12-03_300k.mp4",
+        "version": "archive-mtime:1438196703"
+      },
+      "id": "ocw_media_2a79b233610cb8965550",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "8ad2ae4b",
+        "md5": "8175daadcfb5c9b6d56dcc7d2d47ade0",
+        "sha1": "7221486b1dc798b9e5574e20b22b521062c9812a"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-22-discrete-time-baseband-models-for-wireless-channels/data.json",
+            "sha256": "31050df5ced2937954fa734d8b0be5364b90118740a046d15409f4ccb203f034",
+            "size_bytes": 1831
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4255.68",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 163836828,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-12-03_300k.mp4",
+      "version": "archive-mtime:1438196703"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_939387bfcc646f9d83c0.mp4",
+        "format": "mp4",
+        "id": "ocw_media_939387bfcc646f9d83c0",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 148470328,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-12-08_300k.mp4",
+        "title": "ocw-6.450-f06-2003-12-08_300k.mp4",
+        "version": "archive-mtime:1438196793"
+      },
+      "id": "ocw_media_939387bfcc646f9d83c0",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "22abf438",
+        "md5": "964932778243a08d7a97651811d1a6cb",
+        "sha1": "5cdb8adf75822476839faa94efb8723715f5a94d"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-23-detection-for-flat-rayleigh-fading-and-incoherent-channels/data.json",
+            "sha256": "ffb8edefd749cc5fdb7281b49f4c79d432abf9f0235db53dae305852c4897717",
+            "size_bytes": 1865
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "3853.31",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 148470328,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-12-08_300k.mp4",
+      "version": "archive-mtime:1438196793"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_572c1b16382f46944f80.mp4",
+        "format": "mp4",
+        "id": "ocw_media_572c1b16382f46944f80",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 160552235,
+        "source_page": "https://archive.org/details/MIT6.450F06_V2",
+        "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-12-10_300k.mp4",
+        "title": "ocw-6.450-f06-2003-12-10_300k.mp4",
+        "version": "archive-mtime:1438196886"
+      },
+      "id": "ocw_media_572c1b16382f46944f80",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "2f1e03da4226a046de96a1eaca28219a5db52b0546a94e561aff03fe271d81c3",
+          "url": "https://archive.org/metadata/MIT6.450F06_V2"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "7ce85659",
+        "md5": "948b343a7e60ce16e633b35f5ed80664",
+        "sha1": "86f496bfd1ddb0fa67ce1b80ef5f5d38837cc933"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Principles of Digital Communications I"
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-24-case-study-on-code-division-multiple-access/data.json",
+            "sha256": "c8d47867f72f2a4cb662699ea1da8adaac2a710a7343471fc0e6e6b667bcae7f",
+            "size_bytes": 1823
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+            "source_id": "ocw_ae3a08d2bbf9ab91edfc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4169.7",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "480"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 160552235,
+      "source_url": "https://archive.org/download/MIT6.450F06_V2/ocw-6.450-f06-2003-12-10_300k.mp4",
+      "version": "archive-mtime:1438196886"
+    },
+    {
+      "course_id": "18-650-statistics-for-applications-fall-2016",
+      "id": "ocw_8968bc4de565b44a9dcc",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-course-metadata",
+          "sha256": "0921f3daa0275f2c479688315b42b208ac18bfbaf6b071a5295af04355c04917",
+          "size_bytes": 2982,
+          "url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/data.json"
+        },
+        {
+          "kind": "publisher-course-download-page",
+          "sha256": "2f9d697cd3d07504b0a97031be85725d4c303cb98e96274fe2bb556e962d034e",
+          "size_bytes": 84733,
+          "url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/download/"
+        },
+        {
+          "body_read": false,
+          "kind": "HEAD",
+          "record": {
+            "body_read": false,
+            "checked_at": "2026-09-27T22:10:48.962562+00:00",
+            "final_url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/18.650-fall-2016.zip",
+            "headers": {
+              "content-length": "23265002",
+              "content-type": "application/zip",
+              "etag": "\"ad7bf2dbce488b8d953fb16dafda7411-3\"",
+              "last-modified": "Tue, 15 Sep 2026 09:48:37 GMT"
+            },
+            "method": "HEAD",
+            "status": 200,
+            "url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/18.650-fall-2016.zip"
+          },
+          "sha256": "a61e464a0dce0c792b0ba2fba2e732ad7ccc6d3b11942dad2e9c43a2decd274e",
+          "url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/18.650-fall-2016.zip"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+      "size_bytes": 23265002,
+      "source_url": "https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/18.650-fall-2016.zip",
+      "version": "18-650-statistics-for-applications-fall-2016-metadata-0921f3daa0275f2c",
+      "work_id": "ocw:59d3e807-0c95-4c29-81ce-4a4a2875f27d"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_78f828aaeadfb266c0a5.mp4",
+        "format": "mp4",
+        "id": "ocw_media_78f828aaeadfb266c0a5",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 183007538,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec01_300k.mp4",
+        "title": "1. Introduction to Statistics",
+        "version": "archive-mtime:1509379432"
+      },
+      "id": "ocw_media_78f828aaeadfb266c0a5",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "57bccae5",
+        "md5": "399c7d4c52a701ba74436860b5c1ba77",
+        "sha1": "6327105ae14c7f2e940766b4f4bf8d64df7ea594"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-1-introduction-to-statistics/data.json",
+            "sha256": "3390585f18b265c75824763aeba6d987497ee0a96e6f4a453fbcf3a1a0f81bd9",
+            "size_bytes": 1614
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4682.28",
+        "height": "1400",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "1400"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 183007538,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec01_300k.mp4",
+      "version": "archive-mtime:1509379432"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_4ebfe05530e1fb05eb67.mp4",
+        "format": "mp4",
+        "id": "ocw_media_4ebfe05530e1fb05eb67",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 175677851,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec02_300k.mp4",
+        "title": "2. Introduction to Statistics (cont.)",
+        "version": "archive-mtime:1500570077"
+      },
+      "id": "ocw_media_4ebfe05530e1fb05eb67",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "f6b65b60",
+        "md5": "df9d3c89fc1446a97a1d9531aef55ae3",
+        "sha1": "cd155315b82428920e76f3310029088e84399f6b"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-2-video/data.json",
+            "sha256": "fac785953368c21fcd1defa06168e212fbc1cd4447c03fdf459fd0d664f55b3e",
+            "size_bytes": 1527
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4628.82",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 175677851,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec02_300k.mp4",
+      "version": "archive-mtime:1500570077"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_38f47978216da82c8562.mp4",
+        "format": "mp4",
+        "id": "ocw_media_38f47978216da82c8562",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 190369951,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec03_300k.mp4",
+        "title": "3. Parametric Inference",
+        "version": "archive-mtime:1500570109"
+      },
+      "id": "ocw_media_38f47978216da82c8562",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "7901b944",
+        "md5": "4720763755e01d7c7a7b52e9bf264795",
+        "sha1": "7aa4682873f7ec3656050db46a8bb14ebd553868"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-3-video/data.json",
+            "sha256": "953464357e0a3e1aa1646068c3fa66e8ee39f0a45ec7955acdc13f3ef6cc324a",
+            "size_bytes": 1484
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4956.5",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 190369951,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec03_300k.mp4",
+      "version": "archive-mtime:1500570109"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_bd4093e34e22c7796bd0.mp4",
+        "format": "mp4",
+        "id": "ocw_media_bd4093e34e22c7796bd0",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 179570393,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec04_300k.mp4",
+        "title": "4. Parametric Inference (cont.) and Maximum Likelihood Estimation",
+        "version": "archive-mtime:1500570129"
+      },
+      "id": "ocw_media_bd4093e34e22c7796bd0",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "8b32a324",
+        "md5": "9831fdcb44e9f689c23855c20ab971a4",
+        "sha1": "44851837ab226a5d961e2e09d2a19402cf84c489"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-4-video/data.json",
+            "sha256": "80299c2694632a045e14b619e444634f884e2be26da47c2a788ff9d254692fee",
+            "size_bytes": 1539
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4676.37",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 179570393,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec04_300k.mp4",
+      "version": "archive-mtime:1500570129"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_06942ffbb30e27a5a006.mp4",
+        "format": "mp4",
+        "id": "ocw_media_06942ffbb30e27a5a006",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 176433856,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec05_300k.mp4",
+        "title": "5. Maximum Likelihood Estimation (cont.)",
+        "version": "archive-mtime:1500570149"
+      },
+      "id": "ocw_media_06942ffbb30e27a5a006",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "96e16bb8",
+        "md5": "0178bf5330337745d7fe02d898c90936",
+        "sha1": "f84fa237690297a810db990021f4f394b7d9258b"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-5-video/data.json",
+            "sha256": "110776b46fa983b7e6223ccf9c1533f199d5a61616c9c05f8d21c1e721fd2ba5",
+            "size_bytes": 1553
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4591.64",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 176433856,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec05_300k.mp4",
+      "version": "archive-mtime:1500570149"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_49e4d8eeb1ba9c8bb17d.mp4",
+        "format": "mp4",
+        "id": "ocw_media_49e4d8eeb1ba9c8bb17d",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 183007766,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec06_300k.mp4",
+        "title": "6. Maximum Likelihood Estimation (cont.) and the Method of Moments",
+        "version": "archive-mtime:1500570187"
+      },
+      "id": "ocw_media_49e4d8eeb1ba9c8bb17d",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "ae69422b",
+        "md5": "742b9b7c64f12f720e3528c58c6a9ad2",
+        "sha1": "0a236c8f5e0ab0b7f5eb2c8f9444ac05cd24310a"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-6-video/data.json",
+            "sha256": "172ae6057d4b23813df5323ab7e3b3634df75ddd1dc584d422db454aed2af5a5",
+            "size_bytes": 1593
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4748.99",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 183007766,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec06_300k.mp4",
+      "version": "archive-mtime:1500570187"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_71a0668bd752dbc33aa8.mp4",
+        "format": "mp4",
+        "id": "ocw_media_71a0668bd752dbc33aa8",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 182225143,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec07_300k.mp4",
+        "title": "7. Parametric Hypothesis Testing",
+        "version": "archive-mtime:1500570215"
+      },
+      "id": "ocw_media_71a0668bd752dbc33aa8",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "4daf5725",
+        "md5": "ce38102ddbbc02284a9f03e5a29922ad",
+        "sha1": "2874713a4c57c8c72c8f5236781f4767c8d90337"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-7-video/data.json",
+            "sha256": "24f16aeee18968cf082c4aaabc7721e7fab758480c448b273bd6e94fd70a743c",
+            "size_bytes": 1458
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4730.5",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 182225143,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec07_300k.mp4",
+      "version": "archive-mtime:1500570215"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_e4d71f94f2435ff2b024.mp4",
+        "format": "mp4",
+        "id": "ocw_media_e4d71f94f2435ff2b024",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 181459029,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec08_300k.mp4",
+        "title": "8. Parametric Hypothesis Testing (cont.)",
+        "version": "archive-mtime:1500570236"
+      },
+      "id": "ocw_media_e4d71f94f2435ff2b024",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "d71637f1",
+        "md5": "597026070ac2a7526ac589e7b5a62a22",
+        "sha1": "8c749f86a263f2637d60d7f0381d6c3399c309e6"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-8-video/data.json",
+            "sha256": "1deadf897a7445d60e50fd35ef40a2639ca6602a0c53c78ec6d661805f8b5dfe",
+            "size_bytes": 1505
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4712.28",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 181459029,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec08_300k.mp4",
+      "version": "archive-mtime:1500570236"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_b562f09cf8a766f291e6.mp4",
+        "format": "mp4",
+        "id": "ocw_media_b562f09cf8a766f291e6",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 187343470,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec09_300k.mp4",
+        "title": "9. Parametric Hypothesis Testing (cont.)",
+        "version": "archive-mtime:1500570282"
+      },
+      "id": "ocw_media_b562f09cf8a766f291e6",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "72ae455c",
+        "md5": "845fc5bf917e0f47f7867f24db3a708e",
+        "sha1": "4d754f58e8d5b151862952ed61e75246beb162f2"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-9-video/data.json",
+            "sha256": "5e683658d30c872fdb614bbca383abae33a2c4bc5b57c87c9a68171fd679e07b",
+            "size_bytes": 1498
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4881.07",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 187343470,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec09_300k.mp4",
+      "version": "archive-mtime:1500570282"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_683440561289fe536575.mp4",
+        "format": "mp4",
+        "id": "ocw_media_683440561289fe536575",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 191210521,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec11_300k.mp4",
+        "title": "11. Parametric Hypothesis Testing (cont.) and Testing Goodness of Fit",
+        "version": "archive-mtime:1500570305"
+      },
+      "id": "ocw_media_683440561289fe536575",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "e79ee486",
+        "md5": "561d33cf941125170ff4532d1fdda6b9",
+        "sha1": "a5ca873cea4f7ecca2269525370a5691beaafa68"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-11-video/data.json",
+            "sha256": "87789e272b423e089d79b1543acd75fc7f07d60600f82f4c349bfa3ec69324d4",
+            "size_bytes": 1510
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4967.79",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 191210521,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec11_300k.mp4",
+      "version": "archive-mtime:1500570305"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_142faf5a0e5be7e1bdc6.mp4",
+        "format": "mp4",
+        "id": "ocw_media_142faf5a0e5be7e1bdc6",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 187594239,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec12_300k.mp4",
+        "title": "12. Testing Goodness of Fit (cont.)",
+        "version": "archive-mtime:1500570329"
+      },
+      "id": "ocw_media_142faf5a0e5be7e1bdc6",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "e26e0e28",
+        "md5": "b53df4238f61fc25e92ce847057969af",
+        "sha1": "92a467d60306e353147d4f3c69c94cb8d74c6dd6"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-12-video/data.json",
+            "sha256": "d6aa6aa76ec42e3b9873a4ad68c94a2cd745000f48c90ad34e9dda610e8e51ed",
+            "size_bytes": 1511
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4876.03",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 187594239,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec12_300k.mp4",
+      "version": "archive-mtime:1500570329"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_4c16116cd0a336497d46.mp4",
+        "format": "mp4",
+        "id": "ocw_media_4c16116cd0a336497d46",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 175674844,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec13_300k.mp4",
+        "title": "13. Regression",
+        "version": "archive-mtime:1500570350"
+      },
+      "id": "ocw_media_4c16116cd0a336497d46",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "587a640e",
+        "md5": "5573bbd5a6b227509f4b16da5dc039ee",
+        "sha1": "d5731dfd9b658db14221605c28e8bbfcaa7789fb"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-13-video/data.json",
+            "sha256": "16a30c6b13e0892064ac1bf2331b6556d7d49253f84d29230d88249a325954a5",
+            "size_bytes": 1430
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4561.9",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 175674844,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec13_300k.mp4",
+      "version": "archive-mtime:1500570350"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_ab1ff8b619c2de8c494b.mp4",
+        "format": "mp4",
+        "id": "ocw_media_ab1ff8b619c2de8c494b",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 170938946,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec14_300k.mp4",
+        "title": "14. Regression (cont.)",
+        "version": "archive-mtime:1500570371"
+      },
+      "id": "ocw_media_ab1ff8b619c2de8c494b",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "364bac69",
+        "md5": "c9e3484fcf48b57ef138fef2ab1f8568",
+        "sha1": "3ecc8503e1ff3949344e4e7c7b5a148adbdcbf88"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-14-video/data.json",
+            "sha256": "5b26c1aa97006ed0e4090c179dc69bf4cb113c2ce94bef7f1428e1c8fe0568de",
+            "size_bytes": 1463
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4438.44",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 170938946,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec14_300k.mp4",
+      "version": "archive-mtime:1500570371"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_d35fdf2cdd9b6b8657c1.mp4",
+        "format": "mp4",
+        "id": "ocw_media_d35fdf2cdd9b6b8657c1",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 174231717,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec15_300k.mp4",
+        "title": "15. Regression (cont.)",
+        "version": "archive-mtime:1500570409"
+      },
+      "id": "ocw_media_d35fdf2cdd9b6b8657c1",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "6daacd40",
+        "md5": "5b1970a26f3dac19c60f309e56d43985",
+        "sha1": "a8bfa4e868dbeaac80881d4d27e960439815e9c7"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-15-video/data.json",
+            "sha256": "3d677d135fe401636cebfe1a66d84783183e561601492cf48c863c6f4bf9d932",
+            "size_bytes": 1456
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4528.28",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 174231717,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec15_300k.mp4",
+      "version": "archive-mtime:1500570409"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_1f56b37e150100e52241.mp4",
+        "format": "mp4",
+        "id": "ocw_media_1f56b37e150100e52241",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 180537011,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec17_300k.mp4",
+        "title": "17. Bayesian Statistics",
+        "version": "archive-mtime:1500570430"
+      },
+      "id": "ocw_media_1f56b37e150100e52241",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "2900c93c",
+        "md5": "9465c6963ef0e72c55b99117981f543f",
+        "sha1": "2ebc1085cab300d242cf7cd116af22624e5171c4"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-17-video/data.json",
+            "sha256": "a5a4980fa00cc8712cf288c7ee6155b976c822508d17bee15de14e44109019cd",
+            "size_bytes": 1468
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4684.99",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 180537011,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec17_300k.mp4",
+      "version": "archive-mtime:1500570430"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_9fb82c8cb67e29a7ffb1.mp4",
+        "format": "mp4",
+        "id": "ocw_media_9fb82c8cb67e29a7ffb1",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 145717507,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec18_300k.mp4",
+        "title": "18. Bayesian Statistics (cont.)",
+        "version": "archive-mtime:1500570447"
+      },
+      "id": "ocw_media_9fb82c8cb67e29a7ffb1",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "947785eb",
+        "md5": "fb4a158d8fb13103e3c2a1d226d6beef",
+        "sha1": "31347647ece3a785dcd93259f77ad6e1e3cec7f7"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-18-video/data.json",
+            "sha256": "d962364f1bc7e0e2410612304257f00709e748694c5ddf391145cbfb0d45fc5e",
+            "size_bytes": 1480
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "3785.53",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 145717507,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec18_300k.mp4",
+      "version": "archive-mtime:1500570447"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_9f29df95521f07665677.mp4",
+        "format": "mp4",
+        "id": "ocw_media_9f29df95521f07665677",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 177728022,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec19_300k.mp4",
+        "title": "19. Principal Component Analysis",
+        "version": "archive-mtime:1500570468"
+      },
+      "id": "ocw_media_9f29df95521f07665677",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "42e3ac4d",
+        "md5": "6c4e06f58f6a2c83a79daeaced930584",
+        "sha1": "97d0888a716e2db01178f98898d3b7aefd1f790d"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-19-video/data.json",
+            "sha256": "9a0c2195e4af78f4d05ec63a8e8227eab1ec10f0ed588b34c84752ae1bd963e4",
+            "size_bytes": 1507
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4631.13",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 177728022,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec19_300k.mp4",
+      "version": "archive-mtime:1500570468"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_3a6b16f7475ad995d0c9.mp4",
+        "format": "mp4",
+        "id": "ocw_media_3a6b16f7475ad995d0c9",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 178033191,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec20_300k.mp4",
+        "title": "20. Principal Component Analysis (cont.)",
+        "version": "archive-mtime:1500570536"
+      },
+      "id": "ocw_media_3a6b16f7475ad995d0c9",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "1fa1cb13",
+        "md5": "7bc5720a84d5c76828af1ec69578ae50",
+        "sha1": "45057cbf7dbf3309d9c62b757b698447153e134b"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-20-video/data.json",
+            "sha256": "3ed9ff3a81d978098b8c1109c3832708f7e5a3c981c740be0b8e3faa373210fd",
+            "size_bytes": 1502
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4613.78",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 178033191,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec20_300k.mp4",
+      "version": "archive-mtime:1500570536"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_fea9a887a537ad84b36b.mp4",
+        "format": "mp4",
+        "id": "ocw_media_fea9a887a537ad84b36b",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 173187286,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec21_300k.mp4",
+        "title": "21. Generalized Linear Models",
+        "version": "archive-mtime:1500570556"
+      },
+      "id": "ocw_media_fea9a887a537ad84b36b",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "cd483b2d",
+        "md5": "7a114b46f4ce153cc8c4a9dba09e605a",
+        "sha1": "14c24c08e72e112ce14f4dc6cdaa35b88b29012c"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-21-video/data.json",
+            "sha256": "bd155a1a6e05f4bf488388a3c9d523f50680474585b4a6f694891493f98afa57",
+            "size_bytes": 1515
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4514.39",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 173187286,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec21_300k.mp4",
+      "version": "archive-mtime:1500570556"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_33da83381bb49bfcb5c6.mp4",
+        "format": "mp4",
+        "id": "ocw_media_33da83381bb49bfcb5c6",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 178086962,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec22_300k.mp4",
+        "title": "22. Generalized Linear Models (cont.)",
+        "version": "archive-mtime:1500570581"
+      },
+      "id": "ocw_media_33da83381bb49bfcb5c6",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "e0e7188d",
+        "md5": "7d32e2fc607d9f1fd707a544160380f8",
+        "sha1": "e51abb3e995a7a6b071b7b33e3180bf25c7d1e3e"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-22-video/data.json",
+            "sha256": "e200cdb435d2581fb026728bf45419b3e0e2f7444f6fc2b42dddb39d078758f0",
+            "size_bytes": 1496
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4639.51",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 178086962,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec22_300k.mp4",
+      "version": "archive-mtime:1500570581"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_39ff53633d74f7c97c1c.mp4",
+        "format": "mp4",
+        "id": "ocw_media_39ff53633d74f7c97c1c",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 180849227,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec23_300k.mp4",
+        "title": "23. Generalized Linear Models (cont.)",
+        "version": "archive-mtime:1500570601"
+      },
+      "id": "ocw_media_39ff53633d74f7c97c1c",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "4146b91d",
+        "md5": "bd5cb92727f7a314420122259a6c1aee",
+        "sha1": "5b52a9d11c1203dd9958aea68efcca2cd02b8240"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-23-video/data.json",
+            "sha256": "492860c3b07fbaf50db972ba33025fdb64555cbcc32e0256567a8869c674080c",
+            "size_bytes": 1520
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "4701.02",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 180849227,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec23_300k.mp4",
+      "version": "archive-mtime:1500570601"
+    },
+    {
+      "fullasset_metadata": {
+        "attribution": "MIT OpenCourseWare; retain original course, media and individual notices.",
+        "category": "education",
+        "critical": false,
+        "description": "Publisher-linked course media pending integrity, language, rendition and complete-course review.",
+        "destination": "REFERENCE/COURSES/MEDIA/ocw_media_7bb41748bfd9aa52cbec.mp4",
+        "format": "mp4",
+        "id": "ocw_media_7bb41748bfd9aa52cbec",
+        "illustrated": false,
+        "language": "en",
+        "license": "http://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "profiles": [],
+        "publisher": "MIT OpenCourseWare",
+        "reader_required": false,
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 126263974,
+        "source_page": "https://archive.org/details/MIT18.650F16",
+        "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec24_300k.mp4",
+        "title": "24. Generalized Linear Models (cont.)",
+        "version": "archive-mtime:1500570624"
+      },
+      "id": "ocw_media_7bb41748bfd9aa52cbec",
+      "metadata_evidence": [
+        {
+          "kind": "json",
+          "sha256": "d65eb36c8ac51abfefaa438753f6b8529e021389e2d451c4485968213a225fae",
+          "url": "https://archive.org/metadata/MIT18.650F16"
+        }
+      ],
+      "publisher_checksums": {
+        "crc32": "34a5881a",
+        "md5": "01b0c91940fcfff32b7c2723061dec12",
+        "sha1": "fe78966c48e5a07be9fa62ebdecc00c4a7144aad"
+      },
+      "publisher_course_bindings": {
+        "courses": [
+          "Statistics for Applications "
+        ],
+        "metadata_members": [
+          {
+            "path": "resources/lecture-24-video/data.json",
+            "sha256": "74edf72ff190eb92111e0d0016760ace7feba8f1e885eb98ea1ea16b1eef9288",
+            "size_bytes": 1485
+          }
+        ],
+        "package_pins": [
+          {
+            "sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+            "source_id": "ocw_8968bc4de565b44a9dcc"
+          }
+        ]
+      },
+      "rendition": {
+        "duration_seconds": "3285.36",
+        "height": "360",
+        "policy": "One exact publisher-linked rendition; do not upscale or retain alternate encodings",
+        "review": "Check available publisher720p alternative and actual legibility before admission",
+        "width": "640"
+      },
+      "resource_ids": [
+        "complete-courses-expansion"
+      ],
+      "sha256": null,
+      "size_bytes": 126263974,
+      "source_url": "https://archive.org/download/MIT18.650F16/MIT18_650F16_lec24_300k.mp4",
+      "version": "archive-mtime:1500570624"
+    }
+  ],
+  "storage_peak_bytes": 17144563120
+}

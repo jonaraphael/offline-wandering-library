@@ -1,0 +1,21 @@
+schema_version: 1
+asset_id: sare_cover_crops
+assignments:
+- topic_id: soil-compost
+  purpose: reference
+  aliases:
+  - choose a cover crop
+  - cover crop mixtures
+  - green manure
+  - nitrogen fixing legumes
+  - winter rye
+  basis: Brief publisher/contents and sampled-page review on 2026-09-28; see catalog/acquisition/practical-discovery-20260928.json.
+- topic_id: crop-production
+  purpose: reference
+  aliases:
+  - choose a cover crop
+  - cover crop mixtures
+  - green manure
+  - nitrogen fixing legumes
+  - winter rye
+  basis: Brief publisher/contents and sampled-page review on 2026-09-28; see catalog/acquisition/practical-discovery-20260928.json.

@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: openstax_maternal_newborn_nursing
+assignments:
+- topic_id: nursing
+  purpose: explanation
+- topic_id: midwifery
+  purpose: explanation

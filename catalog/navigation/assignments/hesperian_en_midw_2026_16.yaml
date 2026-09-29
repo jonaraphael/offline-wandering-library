@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: hesperian_en_midw_2026_16
+assignments:
+- topic_id: midwifery
+  purpose: reference

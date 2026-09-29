@@ -1,0 +1,56 @@
+{
+  "content_ready": false,
+  "courses": [
+    {
+      "essential_material_review": "Syllabus explicitly identifies the locally supplied nine-chapter manuscript as the only required text. Preface, chapters1–9, bibliography, full24 released lectures with English captions,10 published problem-set assignments referencing that local manuscript, the extra problem PDF, and all5 supplied quiz/solution pairs are retained. The classroom syllabus announces14 problem sets; only10 assignment descriptions are published. Do not claim missing classroom sets, final exam, or TA services are included. All published exercise statements needed for the ten included assignments are inside the retained manuscript.",
+      "inventory": "catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_ae3a08d2bbf9ab91edfc/inventory.json",
+      "optional_policies": [
+        "gallery-posters"
+      ],
+      "policy": "catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_ae3a08d2bbf9ab91edfc/policy.json",
+      "required_runtime_policy": "native-media-no-telemetry-v1",
+      "source_id": "ocw_ae3a08d2bbf9ab91edfc",
+      "source_sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+      "unavailable_material": [
+        "Four of the14 classroom-announced problem-set descriptions are not published; only the10 published assignment descriptions are claimed.",
+        "Classroom final exam and ongoing instructor feedback are not supplied."
+      ],
+      "utility": "Graduate communications foundations: source coding, quantization, signal spaces, random processes, detection and wireless channels; complements already selected Digital Communications II."
+    },
+    {
+      "essential_material_review": "No external textbook or reading is assigned in the captured syllabus. The ten complete local lecture-slide PDFs explicitly cover sessions1–24, including Parametric Hypothesis Testing sessions7–10 and Regression sessions13–16. All22 released lecture recordings and their English captions, all11 problem sets, and all original local slides are retained. Publisher explicitly states recordings10 and16 are unavailable and substitutes its Fall2017 Lecture1 for the unavailable Fall2016 recording; these limitations remain visible. Problem-set solutions and classroom exams are not available and are not claimed. Complete topic coverage comes from the publisher session-indexed slides plus available videos, not an assertion that every classroom recording exists.",
+      "inventory": "catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_8968bc4de565b44a9dcc/inventory.json",
+      "optional_policies": [
+        "gallery-posters"
+      ],
+      "policy": "catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_8968bc4de565b44a9dcc/policy.json",
+      "required_runtime_policy": "native-media-no-telemetry-v1",
+      "source_id": "ocw_8968bc4de565b44a9dcc",
+      "source_sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+      "unavailable_material": [
+        "Lecture10 and16 recordings not released; corresponding complete topic slides are included.",
+        "Lecture1 is the publisher-selected Fall2017 replacement for unavailable Fall2016 recording.",
+        "Publisher provides no problem-set solutions or classroom exam files."
+      ],
+      "utility": "Statistical inference and applied mathematical methods: maximum likelihood, hypothesis tests, regression, Bayesian statistics, PCA and generalized linear models."
+    },
+    {
+      "essential_material_review": "All11 published puzzles have their complete local description/exercise PDF, an original captioned lesson video, Python examples and the publisher supplied solution for one exercise. All11 PDFs were parsed and contain exercise sections;29 Python files parse as Python3 and use no import statements. The syllabus cites the instructor book as the source of most material, but each course assignment explicitly points to its included puzzle PDF; no external book-only exercise or reading is assigned. Keep the original book citation and all publisher/copyright notices. This is the complete published two-week seminar, not a claim to supply the entire commercial book or solutions for every optional puzzle exercise. Running examples requires a Python interpreter; no cloud service, extra module or online dataset is referenced by the29 supplied source files.",
+      "inventory": "catalog/acquisition/ocw-programming-puzzled-controls-v1/ocw_9b2b8cfd95268b1859de/inventory.json",
+      "optional_policies": [
+        "gallery-posters"
+      ],
+      "policy": "catalog/acquisition/ocw-programming-puzzled-controls-v1/ocw_9b2b8cfd95268b1859de/policy.json",
+      "required_runtime_policy": "native-media-no-telemetry-v1",
+      "source_id": "ocw_9b2b8cfd95268b1859de",
+      "source_sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+      "unavailable_material": [
+        "The entire cited commercial book is not included; all11 assigned puzzle PDFs and their exercises are included.",
+        "Only the publisher supplied per-puzzle exercise solutions are included; not every optional exercise has a solution."
+      ],
+      "utility": "Introductory algorithmic programming through11 complete worked puzzle lessons, covering control flow, recursion, sorting, graphs and memoization."
+    }
+  ],
+  "id": "ocw-computing-communications-statistics-v1",
+  "schema_version": 1
+}

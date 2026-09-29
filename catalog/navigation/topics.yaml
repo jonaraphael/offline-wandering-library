@@ -753,3 +753,45 @@ topics:
   aliases:
   - Additive manufacturing
   - 3D printing
+- id: crop-protection
+  title: Crop pests and weeds
+  description: Identify agricultural weeds, support beneficial insects and plan ecological
+    pest management.
+  parents:
+  - crop-production
+  - gardening
+  aliases:
+  - Crop protection
+  - Garden pests
+- id: paths-trails
+  title: Paths and trails
+  description: Plan, build and maintain footpaths, drainage and trail surfaces.
+  parents:
+  - navigation-maps
+  - repair
+  aliases:
+  - Trail building
+  - Footpaths
+- id: seed-production
+  title: Seed processing and quality
+  description: Process harvested seed and assess sampling, germination, purity and
+    crop inspection methods with their equipment and training needs.
+  parents:
+  - crop-production
+  related:
+  - seed-storage
+  aliases:
+  - Seed cleaning
+  - Seed testing
+- id: water-supply
+  title: Water collection and system maintenance
+  description: Rainwater catchments, groundwater systems and equipment-specific hand-pump
+    maintenance; source water still requires appropriate quality assessment and treatment.
+  parents:
+  - water-hygiene
+  related:
+  - drinking-water
+  - maintenance
+  aliases:
+  - Rainwater harvesting
+  - Wells and pumps

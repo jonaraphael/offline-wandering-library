@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "id": "sqlite-package-review-v3",
+  "concurrency": {
+    "capture": 1,
+    "review": 1
+  },
+  "content_complete": false,
+  "completion_state": "awaiting_review",
+  "tasks": [
+    {
+      "id": "prepare",
+      "kind": "script",
+      "batch": "sqlite-package-dependencies-v2",
+      "lane": "review",
+      "script": "prepare_sqlite_package.py",
+      "argv": [
+        "--staging",
+        "{staging}/sqlite-package-dependencies-v2-1tb",
+        "--policy",
+        "{workspace}/catalog/acquisition/sqlite-3-53-4-reference-policy-v3.json",
+        "--source-audit",
+        "{workspace}/.owl/acquisition/manuals-trial/dependency-audit.json",
+        "--members",
+        "{workspace}/catalog/acquisition/programming-zip-members.yaml",
+        "--output",
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.json"
+      ],
+      "inputs": [
+        "{workspace}/catalog/acquisition/sqlite-3-53-4-reference-policy-v3.json",
+        "{workspace}/catalog/acquisition/programming-zip-members.yaml",
+        "{workspace}/.owl/acquisition/manuals-trial/dependency-audit.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.json",
+          "equals": {
+            "content_ready": false
+          },
+          "lengths": {
+            "assets": 1031
+          }
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.recipe.json"
+        }
+      ]
+    },
+    {
+      "id": "preview",
+      "kind": "script",
+      "batch": "sqlite-package-dependencies-v2",
+      "lane": "review",
+      "script": "acquire_content.py",
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/sqlite-package-dependencies-v2-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.json",
+        "--preview-bytes",
+        "120000000",
+        "--scratch-bytes",
+        "50000000",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "depends": [
+        "prepare"
+      ],
+      "inputs": [
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.recipe.json",
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.json"
+      ],
+      "checks": [
+        {
+          "path": "{staging}/sqlite-package-dependencies-v2-1tb/previews/sqlite-3-53-4-local-links-v3/preview-receipt.json",
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "lengths": {
+            "outputs": 1028,
+            "companions": 2
+          }
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.recipe.json"
+        }
+      ]
+    },
+    {
+      "id": "audit",
+      "kind": "script",
+      "batch": "sqlite-package-dependencies-v2",
+      "lane": "review",
+      "script": "audit_manual_dependencies.py",
+      "argv": [
+        "--staging",
+        "{staging}/sqlite-package-dependencies-v2-1tb",
+        "--catalog",
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.json",
+        "--localized-recipe",
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.recipe.json",
+        "--output",
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/whole-package-audit.json"
+      ],
+      "depends": [
+        "preview"
+      ],
+      "inputs": [
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.json",
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.recipe.json",
+        "{staging}/sqlite-package-dependencies-v2-1tb/previews/sqlite-3-53-4-local-links-v3/preview-receipt.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/sqlite-package-review-v3/whole-package-audit.json",
+          "equals": {
+            "content_ready": false,
+            "whole_package_preserved": true,
+            "members_verified": 1028,
+            "html_documents": 838
+          }
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.recipe.json"
+        },
+        {
+          "path": "{staging}/sqlite-package-dependencies-v2-1tb/previews/sqlite-3-53-4-local-links-v3/preview-receipt.json"
+        }
+      ]
+    },
+    {
+      "id": "browser",
+      "kind": "script",
+      "batch": "sqlite-package-dependencies-v2",
+      "lane": "review",
+      "script": "check_manual_package.py",
+      "argv": [
+        "--fragment",
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.json",
+        "--root",
+        "{staging}/sqlite-package-dependencies-v2-1tb/previews/sqlite-3-53-4-local-links-v3/files",
+        "--output",
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/browser",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core"
+      ],
+      "depends": [
+        "audit"
+      ],
+      "inputs": [
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.json",
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/pending.recipe.json",
+        "{staging}/sqlite-package-dependencies-v2-1tb/previews/sqlite-3-53-4-local-links-v3/preview-receipt.json",
+        "{workspace}/.owl/acquisition/sqlite-package-review-v3/whole-package-audit.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/sqlite-package-review-v3/browser/report.json",
+          "equals": {
+            "content_ready": false,
+            "html_pages": 838,
+            "checks": 1676
+          },
+          "equal_fields": [
+            [
+              "checks",
+              "passed"
+            ]
+          ]
+        }
+      ],
+      "review": "Review exact pinned complete package, responsive layouts and visible obsolete-reference annotation; require local comic and complete local license including CC badge. Physical-device certification stays pending."
+    }
+  ],
+  "review_items": [
+    "Observed image/notice hashes remain quarantine pins pending actual review.",
+    "The exact source-pinned SQLite policy proves asyncvfs is an obsolete deprecated extension and retains included WAL documentation.",
+    "Physical-device certification remains pending."
+  ]
+}

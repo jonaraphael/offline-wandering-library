@@ -1,0 +1,33 @@
+{
+  "accepted_useful_bytes": 0,
+  "body_downloads": 0,
+  "capture_peak_bytes": 17144563120,
+  "content_ready": false,
+  "courses": [
+    {
+      "dependency_issues": 0,
+      "files": 659,
+      "media_bytes": 4216255665,
+      "media_sources": 24,
+      "ordinary_package_bytes": 65744233,
+      "reviewed_optional_tags": 24,
+      "source_id": "ocw_ae3a08d2bbf9ab91edfc",
+      "source_sha256": "4d38de82a0f0a756da77f0d65314bec66b77e38f4bfab11aba08d7447d5fc5a3",
+      "title": "Principles of Digital Communications I"
+    },
+    {
+      "dependency_issues": 0,
+      "files": 626,
+      "media_bytes": 3879148444,
+      "media_sources": 22,
+      "ordinary_package_bytes": 67135625,
+      "reviewed_optional_tags": 22,
+      "source_id": "ocw_8968bc4de565b44a9dcc",
+      "source_sha256": "d381fc7364403eae267df5d8afd24b5437c596358b9b049d3c92baf71c260c21",
+      "title": "Statistics for Applications "
+    }
+  ],
+  "expected_ordinary_bytes": 8228283967,
+  "schema_version": 1,
+  "unique_media_source_bytes": 8095404109
+}

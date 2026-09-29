@@ -17,7 +17,7 @@
 <style>
 .owl-search{margin:1.5rem 0;overflow-wrap:anywhere}.owl-search h2{font-size:1.3rem;line-height:1.3}.owl-search label{display:block;font-weight:bold;margin-top:1rem}.owl-search input,.owl-search select,.owl-search button{font:inherit;padding:.65rem;box-sizing:border-box;max-width:100%;min-height:2.75rem}.owl-search input[type=search]{width:100%}.owl-search button{cursor:pointer;margin:.7rem .3rem .7rem 0}.owl-search [hidden]{display:none}.owl-search small,.owl-search .meta{font-size:.85rem;opacity:.85}.owl-search li{margin:1.3rem 0}.owl-search li p{margin:.3rem 0}.owl-search #status{min-height:1.5rem}.owl-search .notice{padding:.8rem;border:1px solid #888;border-radius:.3rem}.owl-search input:focus,.owl-search select:focus,.owl-search button:focus,.owl-search a:focus{outline:3px solid #c88d10;outline-offset:3px}
 </style>
-<h2 id="owlSearchHeading">Search this library</h2>
+<h2 id="owlSearchHeading">Search titles, chapters, and topics</h2>
 <p>Search loads in browsers that can run scripts and read this library’s files. It works offline once loaded.</p>
 <p id="viewerHelp" class="notice"><strong>Using iPhone or iPad Files?</strong> Its preview may show this page without running search or opening links to other files. Close the preview, open this drive’s <code>LIBRARY</code> folder in Files, and open a document directly. The catalog on <code>START_HERE.html</code> lists the folders and filenames on the same page.</p>
 <form id="searchForm" data-library-root="__OWL_LIBRARY_PREFIX__" hidden>
@@ -25,7 +25,7 @@
 <input id="query" type="search" placeholder="water purification" maxlength="2048" autocomplete="off">
 <label for="shelf">Search in</label>
 <select id="shelf" disabled><option value="all">All resources (excluding legacy)</option><option value="textbooks">Textbooks</option><option value="illustrated-guides">Illustrated guides</option><option value="legacy">Legacy systems only</option><option value="all-with-legacy">All resources, including legacy</option></select>
-<button id="searchButton" type="submit" disabled>Search</button><button id="cancelButton" type="button" disabled>Cancel</button>
+<button id="searchButton" type="submit" disabled>Search</button>
 </form>
 <button id="retryButton" type="button" hidden>Retry loading search</button>
 <p id="status" role="status" aria-live="polite">Search controls appear when search is ready. If they do not appear, browse the folders directly in your file manager.</p>
@@ -34,7 +34,6 @@
 <script defer src="__OWL_LIBRARY_PREFIX__SEARCH/search.js"></script>
 </section>
 <!-- OWL_SEARCH_WIDGET_END -->
-<details><summary>Coverage and search help</summary><p>Results are ranked matching passages, including titles, categories, sources, filenames and extracted body text. Words are matched exactly after Unicode normalization; this version has no stemming, phrases, prefix search or language-specific word segmentation. A query can contain up to 32 different words. Results matching any word are considered. Common words can take longer because their full posting lists are streamed.</p><p>Search reads small local index chunks and keeps at most eight decoded chunks in its cache. Keep the SEARCH folder beside this page. Nothing is uploaded, and no remote scripts or services are used.</p><p>PDF scans and images are not OCRed. Software and non-text maps are searchable by catalog metadata. See <a href="SEARCH/coverage.json">the build's coverage report</a> and <a href="INVENTORY.html">inventory</a>. Archive results show the internal article name: open that archive in a compatible reader and find the article there. A browser cannot open an article inside a ZIM by itself.</p><p>Use a browser that permits local scripts. Android support depends on the browser and file manager. iPhone/iPad Files may block both scripts and links between local files. Use the catalog’s printed file paths on START_HERE.html to locate ordinary documents in Files. Try this on each device before relying on it.</p></details>
-<p><small>The textbook and illustrated-guide filters include directly readable files. Illustrated textbooks appear in both. Open the original document to see its diagrams and photographs; search snippets contain text, and figures are not OCRed.</small></p>
+<details><summary>Coverage and search help</summary><p>Search matches catalog titles, topics, aliases, descriptions, and approved chapter locations. It does not read document body text or recognize words in images. Try a topic or open a relevant book to search inside it.</p><p>Exact titles and aliases appear first, followed by results matching all query words and then partial matches. Use up to 32 different words. Nothing is uploaded; all data and scripts stay on this drive.</p><p>See <a href="SEARCH/coverage.json">discovery coverage</a> and <a href="INVENTORY.html">the inventory</a>. Archive results identify their source and internal location; open them with a compatible reader. Static indexes remain available if your viewer blocks scripts.</p></details>
 </body>
 </html>

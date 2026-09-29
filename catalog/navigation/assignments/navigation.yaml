@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: navigation
+assignments:
+- topic_id: map-compass
+  purpose: start-here

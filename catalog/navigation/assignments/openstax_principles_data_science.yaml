@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: openstax_principles_data_science
+assignments:
+- topic_id: statistics-data-science
+  purpose: explanation
+- topic_id: business
+  purpose: explanation

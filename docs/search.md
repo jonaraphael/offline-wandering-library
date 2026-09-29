@@ -1,375 +1,160 @@
-# Offline full-text search
+# Lightweight offline search
 
-Open `START_HERE.html` in a compatible browser and wait for **Search this library**
-to become ready. The same controls are available on `LIBRARY/SEARCH.html`.
-Search automatically loads its manifest and small
-index chunks from `LIBRARY/SEARCH/`. There is no index-file
-selection, installation, server, account, or network connection. The two pages
-share one local runtime and widget. If your viewer blocks local JavaScript or
-neighboring script files, read the catalog printed on START_HERE itself. Its file
-paths let you locate documents in your file manager without following HTML links.
-The category, critical-content, and alphabetical pages are also readable without
-JavaScript when your viewer permits opening them.
+Search titles, approved chapters, topics, aliases, and catalog descriptions from
+`START_HERE.html` or `LIBRARY/SEARCH.html`. Results link to whole documents, reviewed
+sections, or static atlas pages. Body text is not searched: no match does not mean
+the library lacks the information. Search inside a relevant book or archive when
+more detail is needed.
 
-Keep the outer `START_HERE.html` beside the complete `LIBRARY` folder. Opening an
-isolated copy of just one HTML page cannot provide search. Loading failures show
-a retry control and links to static indexes; they do not fall back to a file
-picker or a network service. A drive built only with the topic-atlas command
-clearly reports that full-text search has not been built and has no search widget
-or dangling runtime references.
+A normal build compiles existing metadata without opening source bodies. It does
+not extract PDF text, enumerate archive articles, run OCR, or build postings,
+embeddings, databases, or index caches. Downloading and full integrity verification
+still read source bytes. No AI runs during builds or queries.
 
-The **Search in** selector offers **All resources**, **Textbooks**, and
-**Illustrated guides**. The two learning collections include ordinary readable
-files whose catalog metadata identifies them as textbooks or illustrated guides;
-an illustrated textbook belongs to both. Specialized archives, software, and
-files marked as needing a reader are excluded from these two collections even
-if another catalog label calls them a textbook. They remain available under All
-resources. Textbook/guide and illustration labels also appear beside results and
-are searchable words. There is no ranking boost merely for belonging to a shelf.
+## What is included
 
-Diagrams, photographs, and illustrations remain in the original PDF/HTML/image
-files. Open a result to see them. Text snippets do not reproduce figures, and
-filtering for illustrated guides does not imply image understanding or OCR.
+Every selected readable asset receives a catalog result. Approved section maps
+add destinations only for the exact source hash in the inventory. Topics appear
+only if they lead to selected sources. Supporting packages and excluded assets
+are omitted. Source titles, rights, attribution, and reader requirements travel
+with the results. Descriptions are catalog/editorial text, not excerpts from
+unread documents.
 
-## Coverage is measured, not assumed
+The existing shelf filters apply before ranking. Exact titles and aliases rank
+first, then results containing all query words, then partial matches. Title and
+alias words rank above description words. Matching uses Unicode normalization and
+whole words, with up to 32 distinct query words and 50 results. There is no
+stemming, semantic model, phrase operator, or fuzzy matching.
 
-Every build writes `LIBRARY/SEARCH/coverage.json`; its information is also included in
-the inventory and build metadata. Each asset has a status:
+PDF section links use physical `#page=N` locations where supported. Other reviewed
+locations show a readable locator. A section result also links to the whole
+source. EPUB and ZIM entries require a compatible reader; their internal paths
+are guidance, not universal reader deep links.
 
-| Status | Meaning |
-| --- | --- |
-| `full_text` | All supported text units yielded extractable text; all extracted text was indexed. |
-| `partial` | Some units were empty or a documented extraction limit excluded content. |
-| `metadata_only` | No document text was extracted; catalog metadata and description are searchable. |
-
-`full_text` describes extraction coverage, not a guarantee that a PDF's text layer
-accurately represents every visible word. Text within images, diagrams, embedded
-video, or scripts is not extracted. There is no OCR. A PDF page containing both
-text and scanned images may have unsearchable words even when its status is
-`full_text`. Warnings are counted; the first 20 examples per asset are retained
-(each bounded to 2 KiB of text) so reports remain manageable. PDF/font-decoder
-warnings are captured per asset instead of flooding the terminal. A document
-with such warnings is marked `partial` even when its pages produced text.
-
-Supported extraction:
-
-- HTML: visible text and headings, excluding scripts, styles and templates.
-  Large embedded scripts and styles are discarded in bounded chunks, so offline
-  simulations such as PhET can be indexed without retaining or executing their
-  application code. Text created only by JavaScript is not extracted. Malformed
-  unterminated HTML tokens above 1 MiB still fail explicitly.
-- TXT and Markdown: streamed UTF-8 text. Set the optional `text_encoding` catalog
-  field when a source uses another encoding. Invalid encoded bytes are replaced
-  rather than executed; check original content if a passage looks garbled.
-- PDF: `pypdf` extracts the text layer one page at a time. Empty pages are reported
-  and page numbers are retained for result links.
-- EPUB: every HTML, XHTML, and TXT archive member is streamed, without extracting
-  archive paths onto disk. Member names are shown in results. DRM is unsupported.
-- ZIM: the optional `libzim` build dependency visits archive entries and extracts
-  HTML, XHTML, plain text and Markdown. Redirect targets are indexed once. PDF
-  attachments and text entries above 64 MiB are explicitly reported as partial
-  coverage. Archive media, application code and binary indexes are not text.
-- Other formats: catalog title, description, category, source, filename and tags.
-  Images, raster maps and installer binaries are explicitly metadata-only.
-
-Missing required PDF/ZIM extraction dependencies fail before downloading. A
-corrupt or encrypted document that cannot be extracted fails the build rather
-than silently receiving a `full_text` label. Extraction is not a sandbox for
-hostile documents; use approved, pinned sources and current extraction libraries.
-
-## Index construction
-
-The builder collapses layout whitespace in a streaming pass, then stores the
-complete normalized extracted text in passages of roughly 8 KiB. Whitespace
-normalization crosses input-chunk boundaries without adding or losing tokens;
-original source files remain unchanged. Normal words are preserved at boundaries. Pathological uninterrupted strings longer
-than 8 KiB are divided into segments. Passages retain document title, category,
-source, destination and, where applicable, page or archive-entry identity.
-Repeated passages from the same document can appear separately in results.
-Stored asset destinations remain relative to `LIBRARY/`. Both entry pages resolve
-result links to that same content folder, even though the start page is outside it.
-Resource type, illustration status, license, and attribution are retained on
-every passage. Each document record is individually zlib-compressed when written,
-retaining the complete passage and metadata. Attribution and license notices are displayed beneath each search
-snippet as ordinary text, including publisher-required notices such as
-“Access for free at openstax.org.” The original source's licensing conditions
-still apply to text incorporated into the search index and its displayed results.
-
-A persistent, checkpointed SQLite database orders the inverted index on disk. It uses a 256 MiB
-page-cache budget; neither the corpus nor the vocabulary is collected into one
-Python list. Ordinary text, HTML and EPUB members stream in bounded chunks.
-`pypdf` and `libzim` have their own working memory requirements: a complex PDF
-page or decompressed ZIM cluster can still consume substantial memory. The ZIM
-entry-size guard prevents allocating entries known to exceed 64 MiB, but is not
-a hard process-memory limit. Use a computer with adequate RAM. By default the build database, rollback
-journal, extracted records, and unfinished index all stay on the destination
-SSD. `--work-dir` optionally relocates database/record storage, but is not
-required. Serialization walks primary-key order without temporary sorting
-B-trees; SQLite does not spill large sort files into the computer's OS temporary
-directory. The finished library needs neither SQLite nor the scratch files.
-
-Full Wikipedia indexing may take many hours or days and considerable temporary
-storage. The final index duplicates extracted text and adds postings; it can be
-larger than the compressed source archive. Profile space budgets are planning
-allowances, not measured bounds. A corpus containing highly compressible data
-can exceed any fixed source-size multiplier. Keep additional space available and
-check the actual build. During extraction and serialization, space includes
-compressed records, postings in the checkpoint database, and a temporary raw
-binary index. After that raw index is durable and independently verified, owned
-extraction files are removed before browser chunks are generated. The active
-search stages therefore need raw-index space plus the larger of extraction
-scratch or browser-package space, rather than retaining all three together.
-Base64 increases the binary index size by roughly one third, plus
-small script wrappers. The profile's search budget covers this **published output**,
-not a raw-binary quota. The scratch allowance includes temporary binary assembly
-on the SSD even when `--work-dir` moves the database elsewhere. An existing final
-index remains until its replacement is complete. The default plans fit nominal capacities with explicit per-profile scratch allowances, but final-corpus sizing for the larger presets is still unproven. Building in place is supported,
-but a final-content target alone does not guarantee enough temporary space. Raw serialization writes and exact script-pack sizes are checked before exceeding their allowances; the full generated search output is checked before completion. Extraction scratch and free-space reserves are monitored at checkpoint/progress boundaries. A SQLite transaction can grow between checks, so this is not a filesystem quota. Budget failures retain checkpoints for a reviewed retry.
-
-Extraction checkpoints store the current asset, page/member/raw-entry cursor,
-coverage report, passage count, and durable record-file offset together with
-postings in a SQLite transaction. Records are flushed before committing the
-transaction. On restart, SQLite rolls back unfinished transactions and the record
-file is truncated to the last committed offset. Checkpoints occur every 50
-text-bearing units or five seconds at a raw-unit boundary, plus every completed
-asset. The timer includes archive entries that yield no text. PDF pages, EPUB
-members, and ZIM raw entries resume within the current archive; the current plain
-HTML/TXT file restarts. Very slow individual units can delay a checkpoint.
-
-Final index assembly restarts from retained records and postings after an
-interruption. Once the raw binary has been flushed, fsynced, hashed, and checked
-against its source inputs, the builder saves a durable `serialized.json`
-checkpoint. Raw-index and checkpoint directories are also fsynced where the
-platform and filesystem support it. Unsupported directory synchronization emits
-one notice; genuine I/O errors stop before extraction cleanup. Normal process
-interruption remains resumable, but sudden power loss or unsafe removal also
-depends on the filesystem and USB controller. Only then does it close the database and remove its owned database,
-journal, and record files. An interrupted browser-package stage can reuse this
-verified raw checkpoint and matching completed chunks without extracting the
-corpus again. Only registered scratch files are removed; unrelated files in a
-workspace are preserved. Search workspace ownership markers and OS-held locks
-prevent conflicting writers.
-
-Actual source SHA-256 values, effective search metadata, explicit extraction/index
-semantic versions, Python major/minor and Unicode versions, and relevant format
-dependencies form the build fingerprint. Operational changes such as logging,
-checkpoint timing and SQLite cache size do not invalidate extraction. Changes to
-text extraction or ranking must bump the corresponding semantic version in
-`search.py`; regression tests cover those boundaries. An unchanged completed index is reused only after
-checking the fingerprint and the completed index's SHA-256. Space preflight can credit a complete unchanged index only after verifying every source and search chunk. It then reserves just UI/coverage rewrites, metadata and free-space reserve, without a second index/workspace allocation. A durable raw checkpoint and independently checked partial package chunks can likewise reduce the remaining work allocation. Search rechecks these proofs after locking and refuses unbudgeted fallback extraction if a proof changed. Integrity hashing repeats on restart and can take substantial time; hashing itself is not
-checkpointed. Keep the same work directory and target path to retain an unfinished
-extraction job. See the [pause/resume guide](usage.md#pause-and-resume).
-
-With `--index-cache-dir`, completed assets are retained as immutable compact
-records and sorted postings with checksummed manifests. Builds for another target
-or selection reuse compatible assets and stream-merge their postings, relocating
-document IDs/offsets and recomputing global ranking statistics. Warm compilation
-does not rebuild the global postings database. Metadata changes can reuse stored
-passages from a compatible source shard while rebuilding that asset's records and
-postings. The cache has its own explicit allowance and never evicts old artifacts
-automatically; see [unattended builds and cache setup](unattended-builds.md).
-
-The saved background worker exposes compact progress independently of SQLite and
-keeps verbose logs on disk. Its automatic postflight records measured sizes,
-coverage summaries, verification counts and a bounded search-runtime smoke result.
-Healthy builds require no agent polling or generated narrative updates.
-
-The builder reports each asset's start and completion, including extraction
-warnings, and reports major index-writing stages. During extraction it checks
-progress every 1,000 passages and prints at most every five seconds; posting-list
-and lexicon output are also periodically reported. One unusually slow PDF page
-can still delay progress while the extraction library processes that page.
-
-## Browser queries
-
-Tokens are Unicode letters/numbers, normalized with NFKC and lowercased. There is
-no stemming, stop-word removal, prefix matching, quoted-phrase operator, or
-language-specific segmentation. Titles receive weight 5, category, tags and
-resource labels weight 2, and other metadata/body words weight 1. BM25 uses these weighted frequencies
-and document lengths, with `k1=1.2` and `b=0.75`. IDF is computed over passages.
-Queries consider passages matching any query word. Use up to 32 distinct words;
-longer queries are rejected with an explanation.
-
-The browser binary-searches the sorted lexicon through a range-read interface
-backed by local script chunks. For each query word it streams variable-length
-postings through windows of at most 48 KiB.
-Sorted posting lists are merged and scored, retaining only the best 50 results
-in a bounded heap. This is exact top-K ranking for the implemented query model,
-not a fixed candidate cutoff that loses later matches. Only those result records
-are read and decompressed for snippets. Each document record is separately
-compressed with zlib; the browser rejects either a compressed read or a
-decompressed result exceeding 1 MiB. Output is counted while streaming, before
-assembling the final record. It never loads the entire index or scans the corpus text.
-For a selected learning collection, a separate table supplies one byte of flags
-per passage. The browser reads this table through a single 64 KiB cache. Candidate
-IDs increase during posting-list merging, so each relevant flag block is read at
-most once per query. The collection filter applies **before** top-K selection;
-textbooks outside the unfiltered top 50 are therefore still considered, without
-decoding every candidate's document record. BM25 statistics continue to describe
-the entire corpus, making filtered ranking the same ordering restricted to the
-selected collection.
-Memory for postings is at most approximately 1.5 MiB for 32 query words, plus the
-small lexicon cache, at most 64 KiB of collection flags, and result records. The
-transport additionally caches up to eight decoded 1 MiB chunks; script loading
-and base64 decoding use temporary memory, and the browser may have its own caches.
-This is not an 8 MiB bound on the entire browser process. Common words may still require reading
-large posting lists, so queries can be slow on very large corpora. Progress and
-cancellation remain available while processing.
-
-Result text is assigned using DOM `textContent`; imported snippets are never
-interpreted as HTML. Links are validated as relative paths. PDF links include
-`#page=N` where supported. ZIM results provide the archive location and internal
-article title/path; there is no portable file URL that opens an individual ZIM
-article in an arbitrary reader. Open the archive in the bundled reader and locate
-the article there. EPUB chapter names likewise identify the source but are not
-guaranteed to deep-link into a reader.
-
-## Automatic local loading
-
-The finished drive contains:
+## Files and limits
 
 ```text
 LIBRARY/SEARCH/
-├── search.js
-├── manifest.js
-├── coverage.json
-└── chunks/<index-sha256>/
-    ├── 00000000.js
-    ├── 00000001.js
-    └── ...
+├── search.js                 # shared, small linear-scan runtime
+├── manifest.js               # identifies this generation
+├── coverage.json             # catalog/section coverage and file checksums
+└── data/<sha256>.js           # one flat metadata list
 ```
 
-Both entry pages load the same `LIBRARY/SEARCH/search.js` file as an ordinary
-deferred script. The outer start page uses `LIBRARY/SEARCH/search.js`; the search
-page inside `LIBRARY` uses `SEARCH/search.js`. The
-runtime loads `manifest.js`, then requests only the chunk files needed for index
-headers, lexicon lookups, postings, and results. Each script supplies a bounded
-base64 payload through a registration callback. The final chunk may be shorter
-than 1 MiB. The manifest fixes the index identity, decoded size, and chunk count;
-the runtime rejects mismatched generations, IDs, sizes, and malformed payloads.
-Decoded chunks are retained in an eight-entry least-recently-used cache. The
-reader can assemble small ranges crossing a chunk boundary.
+Both entry pages load neighboring classic scripts under `file://`, without
+`fetch`, a server, account, CDN, or network connection. Text is rendered with
+`textContent`, and links must be safe relative paths. The browser checks generation
+and record counts; the build and independent verifier check file hashes.
 
-The transport uses classic script loading because browsers commonly restrict
-`fetch()` of neighboring `file://` data. It needs no `fetch`, XMLHttpRequest,
-JavaScript modules, service worker, file picker, or local server. The entry pages'
-Content Security Policy permits local script files and prohibits network
-connections. No source document or archive is scanned when someone types a query.
+Profiles allow 16 MiB of generated search output (`discovery_budget_bytes`),
+separate from navigation metadata, content, acquisition workspace, and free-space
+reserve. Compilation stops before publication if its complete output exceeds that
+allowance. There is no indexing scratch or retained index-cache allowance.
 
-A fresh completed library contains the chunked output, not a second standalone
-binary index. The binary OWLIDX3 layout below describes the decoded byte stream.
-Chunk generation and the manifest are covered by the drive's checksum manifest.
-Updates retain previously managed search files rather than automatically deleting
-them; the new manifest selects only the current generation. Allow room for
-retained generations or build into a fresh dedicated destination.
+`coverage.json` lists each selected source as `catalog` or `sections` and reports
+record counts and zero source-body bytes read by the compiler. These labels describe
+discovery metadata, not how much of a book's knowledge has been inspected.
 
-Very large Wikipedia indexes and common-word searches have not been benchmarked
-at production scale with this transport. Small local chunks avoid a single huge
-file read, but loading many chunks can still be slow and consume browser memory.
+Keep `START_HERE.html` next to the entire `LIBRARY` folder. Some phone previews
+block local scripts or neighboring links. The inline file catalog, printed paths,
+and static atlas remain the fallback; test the intended browser and device.
 
-## Platforms and testing
+## AI judgment, Python execution
 
-Full-text search requires native `DecompressionStream('deflate')`, as well as
-permission to run local scripts. The native API avoids another bundled
-compression dependency. Browser vendors document support in
-[Chromium 80 and later](https://developer.chrome.com/blog/compression-streams-api/),
-[Safari and iOS 16.4](https://webkit.org/blog/13966/webkit-features-in-safari-16-4/),
-and [Firefox 113](https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/113).
-Those API versions do not certify the whole OWL interface, external-storage
-permissions, or file-provider behavior. Older browsers get an explicit message
-directing them to static navigation; there is no server, network, or picker fallback.
+Use the same small CLI for preparation, annotation checking, and publication:
 
-The [Compression Standard](https://compression.spec.whatwg.org/#supported-formats)
-defines `deflate` as the zlib-wrapped format used by Python's `zlib.compress`.
-Its decoder checks the checksum and rejects truncated, dictionary-dependent, or
-trailing data. OWL independently validates the zlib header and the physical
-trailer checksum, caps decompressed record size, and rejects invalid UTF-8/JSON.
-A fresh Chrome 153 `file://` fixture with the local-script CSP verified
-successful Unicode decoding and rejection of truncated, damaged, trailing, and
-oversized records with zero network requests. That focused test does not replace
-an actual completed-library search test or certify other browsers.
+```sh
+python scripts/discovery.py prepare \
+    --inventory /path/to/DRIVE/LIBRARY/INVENTORY.json \
+    --asset electrical_dc --output /path/to/draft.json
+```
 
-| Platform | Expected behavior |
-| --- | --- |
-| Windows, macOS, Linux, Raspberry Pi desktop | Use a full browser that permits local JavaScript and neighboring classic script files. File permissions and local policy can still prevent use; test the chosen browser. |
-| Android / Pixel | Browser and file-manager dependent. Some viewers disable scripts or expose only a single document without access to neighboring files. Test your exact combination. |
-| iPhone / iPad | Files/Quick Look may preview local HTML while blocking both scripts and links to neighboring files. START_HERE contains an inline catalog with exact drive-relative paths; close the preview and open documents directly in Files. Offline installation of Kiwix from the SSD is not assumed. |
+By default this collects metadata only. Explicit `--outline` uses the existing
+PDF-bookmark importer against the exact source. This editorial operation can read
+and hash the PDF; it is separate from ordinary compilation. It does not read every
+page looking for text. The existing `scripts/import_sections.py` additionally
+supports HTML headings and produces reviewable section-map drafts.
 
-The search form is hidden in the initial HTML and becomes visible only after the
-manifest and index header load successfully. A visible plain-text fallback remains
-when JavaScript does not run or the runtime fails to load; it does not depend on a
-`noscript` element or a link to another HTML page. If initialization fails after
-scripts start, a retry button remains available outside the hidden form.
+The agent reads the prepared evidence and writes a JSON object (or list):
 
-Changing relative links or moving START_HERE does not grant a file preview access
-to other documents. Apple's [WebKit local-file API](https://developer.apple.com/documentation/webkit/wkwebview/loadfileurl(_:allowingreadaccessto:))
-places that access under the viewer application's control. The inline catalog
-improves manual browsing; it does not make Files run OWL search or open local links.
+```json
+{
+  "asset_id": "electrical_dc",
+  "aliases": ["direct-current circuits"],
+  "topic_ids": ["dc-circuits"],
+  "basis": "Publisher title and contents in the prepared source summary."
+}
+```
 
-An iPhone Files user test on 2026-09-23 showed the original start page but inert
-search and a local-link confirmation whose Open action did not navigate. The
-updated fallback still needs validation on that phone. No general real-phone,
-drive-provider, or browser-version compatibility matrix is claimed.
-Automated tests execute the actual shared JavaScript engine under Node using its
-range-read contract, including BM25 ranking, Unicode, high-frequency
-multi-block postings, snippets, safe links and corrupt-file rejection. Collection
-tests cover exact filtered top-K ranking, overlapping illustrated textbooks,
-reader/archive exclusions, and bounded flag reads across distant passage IDs.
-The actual result-rendering event handler is also exercised with a minimal DOM
-test double to verify that attribution notices and resource labels are rendered
-as text; this does not replace a real-browser layout and local-script test. Python
-tests cover HTML/TXT, real PDF/EPUB fixtures and a small real ZIM when the optional
-dependency is installed. These tests do not certify a phone's external-storage
-permissions or file-provider behavior. Always test the completed SSD on the actual devices
-you intend to use before an emergency.
+The IDs above are illustrative; use actual IDs from the inventory and topics.
+Python rejects unknown fields, wrong types, invalid references, and oversized
+strings. The agent launches validation instead of manually rewriting assignments:
 
-The [validation record](validation.md) distinguishes historical engine and
-file-selection checks from the automatic transport. Evidence for one browser or
-headless fixture does not establish compatibility with an in-app preview or a
-physical phone. If HTML links or local scripts are unavailable, browse the SSD's
-folders and open ordinary PDF or text files with a compatible viewer.
+```sh
+python scripts/discovery.py annotate \
+    --inventory /path/to/DRIVE/LIBRARY/INVENTORY.json \
+    --navigation-dir catalog/navigation --annotations /path/to/annotations.json \
+    --output /path/to/assignments-draft.yaml
+```
 
-## Durable file format: OWLIDX3
+Each annotation run targets one asset. Review the draft diff and save accepted
+labels in `catalog/navigation/assignments/<asset-id>.yaml`. The command never
+silently replaces approved metadata. An evidence note is not proof that a
+semantic claim is correct. Section locations still use reviewed, source-pinned
+maps; the annotation input cannot invent paths or page numbers.
+Supply `--catalog` for custom catalogs. Python validates repository references
+against the full catalog even when the drive inventory contains only a subset.
 
-All integer records use little endian. The first 4,096 bytes are reserved for a
-header: eight-byte `OWLIDX3\n` magic, a uint32 JSON length, then UTF-8 JSON. The
-header includes document/term counts, average weighted length, offset-table
-locations, tokenizer identity, and final file size. It has no timestamps.
-`version` is 3, `document_encoding` is `zlib-json-v1`, and `postings_encoding`
-is `delta-uvarint-v1`. Earlier formats require rebuilding with the matching
-writer and reader; there is no hidden compatibility parser.
+## Assemble completed downloads
 
-Document records are independently zlib-compressed UTF-8 JSON, compressed at level
-6 by the builder. Their table contains one `uint64 offset, uint32 compressed_length`
-pair per passage ID. Compressed and decompressed records are limited to 1 MiB.
-Immediately after that table,
-`flags_offset` locates one byte per passage: bit 0 means textbook and bit 1 means
-illustrated guide; bit 2 marks explicitly classified legacy-system material.
-Multiple bits may be set. Other bits are reserved and rejected. Default searches
-and learning shelves omit legacy material before ranking; the visible **Legacy
-systems only** and **All resources, including legacy** filters opt in. Legacy
-results display a warning. Publication age alone never sets this flag.
-Each term has a contiguous posting list of unsigned LEB128 triples:
-`passage_id_delta, weighted_frequency, document_length`. Each value fits uint32;
-the first delta is an absolute passage ID (zero is valid), and subsequent deltas
-must be positive. Frequency and document length must be positive. Encodings
-longer than five bytes, nonminimal encodings, overflow, truncation, invalid
-ordering, and bytes left after the declared posting count are rejected.
-Lexicon records remain plain UTF-8 JSON arrays
-`[term, posting_offset, posting_count, posting_byte_length]`, sorted by UTF-8 bytes; a second fixed-width
-offset table permits random-access binary search. The browser validates ranges
-before reading and refuses any individual read over 1 MiB. The format supports
-up to 2^32 passages and browser-safe integer byte offsets (below 2^53).
+Reusable metadata lives in Git: shared `topics.yaml`, per-asset
+`assignments/<asset-id>.yaml`, and optional `sections/<asset-id>.yaml` under
+`catalog/navigation/`. An asset needs no assignment file to receive its baseline
+catalog search result. Python selects the relevant records at build time; there
+are no generated per-profile indexes to keep in Git.
 
-The Python source and readable JavaScript are the format reference. SQLite is
-only a build-time implementation detail. SHA-256 verification covers the
-finished chunk scripts and manifest alongside the other managed drive files.
-Keep `START_HERE.html`, `LIBRARY/SEARCH.html`, and `LIBRARY/SEARCH/` from the same completed build;
-an index with a different format is rejected with instructions to rebuild the drive.
+When curl or another downloader has saved files at their catalog destinations
+under `DRIVE/LIBRARY/`, run:
 
-Extractor API references: [pypdf text extraction](https://pypdf.readthedocs.io/en/stable/user/extract-text.html),
-[python-libzim reader API](https://python-libzim.readthedocs.io/en/latest/api_reference/libzim.reader/),
-and [python-libzim's reader type stubs](https://github.com/openzim/python-libzim/blob/main/libzim/reader.pyi).
-The Python binding currently exposes numeric entry iteration through
-`_get_entry_by_id`; OWL pins the supported major version and tests this with a real
-archive. Upgrading that dependency requires re-running the archive test.
+```sh
+python scripts/discovery.py assemble \
+    --output /path/to/DRIVE --profile flash-16gb
+```
+
+This command needs no existing inventory and performs no downloads. It checks
+selected files against catalog sizes and SHA-256 pins, then publishes inventory,
+search, and atlas for the verified subset. Missing files, partial downloads, and
+size/checksum mismatches are excluded and recorded in `INVENTORY.json`. Empty
+topics disappear. A `.part` file does not count as the final catalog destination.
+Rerun the same command after another batch finishes to add those sources.
+
+The inventory records `content_complete: false` while selected content is missing.
+An interrupted full build remains incomplete even though its atlas is usable.
+Files outside the profile and unverified files remain untouched; the full verifier
+may report them as unknown. If no selected files verify, assembly stops without
+publishing an empty library.
+
+This initial admission reads source bytes to check integrity. Metadata compilation
+does not parse them. Normal drive builds already use their verified inventory and
+the same per-asset inputs automatically.
+
+## Refresh metadata
+
+Refresh a completed drive after accepting metadata:
+
+```sh
+python scripts/discovery.py build \
+    --inventory /path/to/DRIVE/LIBRARY/INVENTORY.json \
+    --navigation-dir catalog/navigation --output /path/to/DRIVE
+```
+
+Supply `--catalog` for a custom catalog. This refresh republishes search and atlas
+together under existing ownership and locking rules. It checks the recorded
+inventory, source pins, presence, and sizes, without rehashing or parsing sources.
+Build information explicitly records that source verification was not repeated.
+Same-size source corruption requires `python scripts/verify.py /path/to/DRIVE` to
+detect. Initial builds and the standalone verifier retain their full audit.
+
+Existing drives retain their bundled runtime until refreshed. Finish active saved
+jobs with their saved implementation. Old owned generations and unrelated files
+are preserved; the new build path never uses the retired full-text engine.

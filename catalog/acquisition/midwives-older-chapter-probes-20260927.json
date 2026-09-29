@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "purpose": "Bounded published-link availability check for coherent older edition; no source body download",
+  "body_downloads": 0,
+  "records": [
+    {
+      "id": "midwives_2013_fm",
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_fm.pdf",
+      "status": "pending",
+      "body_downloads": 0,
+      "size_bytes": null,
+      "sha256": null,
+      "blockers": [
+        "Source HEAD returned HTTP 404; availability is unresolved"
+      ],
+      "evidence": [
+        {
+          "url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_fm.pdf",
+          "final_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_fm.pdf",
+          "method": "HEAD",
+          "body_read": false,
+          "status": 404,
+          "headers": {
+            "content-type": "text/html; charset=UTF-8"
+          },
+          "checked_at": "2026-09-27T23:20:09.811214+00:00",
+          "cached": false
+        }
+      ]
+    },
+    {
+      "id": "midwives_2013_20",
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_20.pdf",
+      "status": "pending",
+      "body_downloads": 0,
+      "size_bytes": null,
+      "sha256": null,
+      "blockers": [
+        "Source HEAD returned HTTP 404; availability is unresolved"
+      ],
+      "evidence": [
+        {
+          "url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_20.pdf",
+          "final_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_20.pdf",
+          "method": "HEAD",
+          "body_read": false,
+          "status": 404,
+          "headers": {
+            "content-type": "text/html; charset=UTF-8"
+          },
+          "checked_at": "2026-09-27T23:20:10.221079+00:00",
+          "cached": false
+        }
+      ]
+    },
+    {
+      "id": "midwives_2013_bm",
+      "source_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_bm.pdf",
+      "status": "pending",
+      "body_downloads": 0,
+      "size_bytes": null,
+      "sha256": null,
+      "blockers": [
+        "Source HEAD returned HTTP 404; availability is unresolved"
+      ],
+      "evidence": [
+        {
+          "url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_bm.pdf",
+          "final_url": "https://hesperian.org/wp-content/uploads/pdf/en_midw_2013/en_midw_2013_bm.pdf",
+          "method": "HEAD",
+          "body_read": false,
+          "status": 404,
+          "headers": {
+            "content-type": "text/html; charset=UTF-8"
+          },
+          "checked_at": "2026-09-27T23:20:10.625272+00:00",
+          "cached": false
+        }
+      ]
+    }
+  ]
+}

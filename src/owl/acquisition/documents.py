@@ -7,6 +7,7 @@ a general website crawler or a renderer for executable/interactive content.
 from __future__ import annotations
 
 import base64
+from collections import Counter
 from dataclasses import dataclass, field
 from hashlib import sha256
 from html import escape
@@ -14,7 +15,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 import posixpath
 import re
-from urllib.parse import urldefrag, urljoin, urlsplit
+from urllib.parse import unquote, urldefrag, urljoin, urlsplit
 
 from ..safety import atomic_write, reject_symlinks, validate_relative
 
@@ -132,6 +133,58 @@ def _selected(root, section):
     return matches
 
 
+def _normalize_duplicate_ids(nodes, section):
+    """Repair explicitly counted duplicate anchors, preserving the first target."""
+    entries = [(node, {node.attrs.get('id'), node.attrs.get('name') if node.tag == 'a' else None} - {None, ''})
+               for root in nodes for node in _walk(root)]
+    counts = Counter(name for _, names in entries for name in names)
+    duplicates = {name: count for name, count in counts.items() if count > 1}
+    declared = section.get('duplicate_id_counts', {})
+    if (not isinstance(declared, dict) or len(declared) > 1000
+            or any(not isinstance(name, str) or not 0 < len(name) <= 1024
+                   or type(count) is not int or not 2 <= count <= 10000 for name, count in declared.items())):
+        raise DocumentError('Invalid counted duplicate-ID repair')
+    if duplicates != declared:
+        raise DocumentError('Duplicate selected HTML id differs from the explicit repair counts')
+    used, seen = set(counts), Counter()
+    for node, names in entries:
+        for name in sorted(names):
+            seen[name] += 1
+            if seen[name] == 1:
+                continue
+            replacement = name + '--owl-duplicate-' + str(seen[name])
+            if replacement in used:
+                raise DocumentError('Counted duplicate-ID repair collides with a publisher anchor')
+            used.add(replacement)
+            for key in ('id', 'name'):
+                if node.attrs.get(key) == name and (key == 'id' or node.tag == 'a'):
+                    node.attrs[key] = replacement
+
+
+def _repair_fragment_links(nodes, section):
+    """Apply exact counted repairs only to broken same-document references."""
+    rules = section.get('fragment_repairs', [])
+    if not isinstance(rules, list) or len(rules) > 100:
+        raise DocumentError('Invalid counted fragment repairs')
+    flat = [node for root in nodes for node in _walk(root)]
+    ids = Counter(name for node in flat for name in
+                  {node.attrs.get('id'), node.attrs.get('name') if node.tag == 'a' else None} - {None, ''})
+    used = set()
+    for rule in rules:
+        if (not isinstance(rule, dict) or set(rule) != {'from', 'to', 'expected_count'}
+                or any(not isinstance(rule[k], str) or not rule[k].startswith('#') or len(rule[k]) < 2 for k in ('from', 'to'))
+                or type(rule['expected_count']) is not int or not 1 <= rule['expected_count'] <= 1000):
+            raise DocumentError('Invalid counted fragment repair')
+        if rule['from'] in used or unquote(rule['from'][1:]) in ids or ids[unquote(rule['to'][1:])] != 1:
+            raise DocumentError('Fragment repair needs a missing source and an existing unique target')
+        used.add(rule['from'])
+        matches = [node for node in flat if node.tag == 'a' and node.attrs.get('href') == rule['from']]
+        if len(matches) != rule['expected_count']:
+            raise DocumentError('Fragment repair occurrence count changed')
+        for node in matches:
+            node.attrs['href'] = rule['to']
+
+
 def _image(data):
     if data.startswith(b"\x89PNG\r\n\x1a\n"):
         mime = "image/png"
@@ -184,8 +237,10 @@ def _serialize(node, *, base_url, images, links, ids, anchors, output_id, assets
         # source variants are not separate reading content.
         return children
     attrs = {key: value for key, value in node.attrs.items() if key in ATTRS}
-    if "id" in attrs:
+    if attrs.get("id"):
         attrs["id"] = ids[attrs["id"]]
+    elif "id" in attrs:
+        del attrs["id"]
     if node.tag == "a" and attrs.get("name"):
         attrs["name"] = ids[attrs["name"]]
         attrs.setdefault("id", attrs["name"])
@@ -202,8 +257,12 @@ def _serialize(node, *, base_url, images, links, ids, anchors, output_id, assets
     if node.tag == "a" and node.attrs.get("href"):
         href = node.attrs["href"]
         absolute, fragment = urldefrag(urljoin(base_url, href))
+        # Browsers decode URL fragments before looking up HTML IDs.
+        fragment = unquote(fragment, errors='strict')
         if href.startswith("#"):
-            if fragment in ids:
+            if not fragment:
+                attrs["href"] = "#"
+            elif fragment in ids:
                 attrs["href"] = "#" + ids[fragment]
             elif absolute + "#" + fragment in anchors:
                 target, name = anchors[absolute + "#" + fragment]
@@ -221,7 +280,7 @@ def _serialize(node, *, base_url, images, links, ids, anchors, output_id, assets
                 # IDs in transformed documents are namespaced. Only explicitly
                 # frozen link fragments can safely cross outputs.
                 attrs["href"] += "#" + fragment
-        elif urlsplit(absolute).scheme in {"https", "http", "mailto"}:
+        elif urlsplit(absolute).scheme in {"https", "http", "mailto", "ftp"}:
             attrs.update(href=absolute + ("#" + fragment if fragment else ""),
                          **{"class": "online", "title": "Internet required"})
         else:
@@ -264,6 +323,8 @@ def render(recipe: dict, sources: dict[str, Path], assets: dict[str, dict], outp
             except UnicodeDecodeError as error:
                 raise DocumentError("HTML input must be UTF-8") from error
             selected = _selected(tree.root, section)
+            _repair_fragment_links(selected, section)
+            _normalize_duplicate_ids(selected, section)
             ids = {}
             for node in (n for item in selected for n in _walk(item)):
                 names = {node.attrs.get("id")}

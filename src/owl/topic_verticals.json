@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "verticals": [
+    {
+      "id": "health",
+      "title": "Health & first aid",
+      "domains": [
+        "health",
+        "first-aid",
+        "maternal-child-health",
+        "dentistry",
+        "midwifery",
+        "disability",
+        "vision",
+        "health-worker-training",
+        "clinical-medicine",
+        "womens-health",
+        "environmental-health"
+      ],
+      "x": 220,
+      "y": 215,
+      "radius": 185
+    },
+    {
+      "id": "food",
+      "title": "Food & homesteading",
+      "domains": [
+        "agriculture",
+        "livestock",
+        "gardening",
+        "food-preservation",
+        "food-security"
+      ],
+      "x": 540,
+      "y": 155,
+      "radius": 120
+    },
+    {
+      "id": "shelter",
+      "title": "Water, shelter & safety",
+      "domains": [
+        "water-sanitation",
+        "shelter",
+        "preparedness",
+        "chemical-safety",
+        "construction"
+      ],
+      "x": 785,
+      "y": 165,
+      "radius": 110
+    },
+    {
+      "id": "trades",
+      "title": "Tools, repair & energy",
+      "domains": [
+        "repair",
+        "hand-tools",
+        "woodworking",
+        "crafts",
+        "electrical",
+        "mechanical",
+        "appropriate-technology",
+        "energy",
+        "radio"
+      ],
+      "x": 505,
+      "y": 415,
+      "radius": 125
+    },
+    {
+      "id": "school",
+      "title": "Learning & science",
+      "domains": [
+        "school-math",
+        "school-science",
+        "education",
+        "physics",
+        "natural-science",
+        "mathematics",
+        "biology",
+        "chemistry",
+        "astronomy"
+      ],
+      "x": 220,
+      "y": 550,
+      "radius": 125
+    },
+    {
+      "id": "reference",
+      "title": "Maps & reference",
+      "domains": [
+        "navigation",
+        "general-reference",
+        "language",
+        "additional-language",
+        "geography"
+      ],
+      "x": 790,
+      "y": 410,
+      "radius": 125
+    },
+    {
+      "id": "advanced",
+      "title": "College & computing",
+      "domains": [
+        "college-education",
+        "computing",
+        "advanced-science",
+        "advanced-education",
+        "advanced-reference",
+        "archive-access",
+        "business"
+      ],
+      "x": 530,
+      "y": 695,
+      "radius": 125
+    },
+    {
+      "id": "culture",
+      "title": "Stories & culture",
+      "domains": [
+        "stories",
+        "literature",
+        "enrichment",
+        "travel",
+        "humanities",
+        "social-science"
+      ],
+      "x": 790,
+      "y": 690,
+      "radius": 110
+    }
+  ]
+}

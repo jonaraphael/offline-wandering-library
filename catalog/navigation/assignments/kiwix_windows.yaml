@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: kiwix_windows
+assignments:
+- topic_id: readers
+  purpose: reference

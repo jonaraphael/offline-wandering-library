@@ -1,0 +1,704 @@
+{
+  "budget": {
+    "cache_bytes": 0,
+    "download_bytes": 188475820,
+    "expanded_bytes": 0,
+    "preview_bytes": 0,
+    "scratch_bytes": 1048576
+  },
+  "content_ready": false,
+  "id": "kolibri-english-core-v1-format-pilot",
+  "kind": "acquisition",
+  "metadata_allowance_bytes": 1528312,
+  "profile": "full-1tb",
+  "review_requirements": [
+    "Verify publisher MD5 and exact lengths, then observe whole-file SHA256 in quarantine.",
+    "Inspect complete exercises, prompts, widgets, hints, figures and supplied answers before ordinary rendering.",
+    "Resolve channel permission scope, missing captions and changed-rendition aliases before content admission.",
+    "Pilot is format evidence only; no lesson, course or collection completeness claim."
+  ],
+  "schema_version": 1,
+  "selected_work_ids": [
+    "74091a8de9195ce39da6fa5ed07575f9",
+    "16d35ac46fbd5fdfbd59af8e4823e77a",
+    "293ae265db0e5e2a90d44773aaf718de",
+    "b6184ba152925c3699ba27cdba5c5222",
+    "01457c6b5d5058c6a75e08f454a2b07e",
+    "0d7a9f1b1dec58c284846bd4bb62fd39",
+    "f90d95658e6e54098d2b51bd3ee77b5b",
+    "2fc4c6b34e8e52a6be00b42d0a7df18a",
+    "5204517b8b835edaab8b644f3b1784b3",
+    "a53dd5d66a9b508ca42828e8656321c8"
+  ],
+  "selection_inventory_sha256": "45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+  "sources": [
+    {
+      "id": "kolibri_056bc2d59d957da2a6bee7865d51ea48_png",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:21.006425+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&cursor=cD0zOTcw&descendant_of=cb4a011ac01f5dee8f46c16652681769&max_results=250",
+          "kind": "metadata",
+          "sha256": "fc7f5a8e8b6d93a4df7575712b7cb3c343505e0f7bed0818a3e989f3847ea5da",
+          "size_bytes": 1106918,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&cursor=cD0zOTcw&descendant_of=cb4a011ac01f5dee8f46c16652681769&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "056bc2d59d957da2a6bee7865d51ea48"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 45829,
+      "source_url": "https://studio.learningequality.org/content/storage/0/5/056bc2d59d957da2a6bee7865d51ea48.png",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "a53dd5d66a9b508ca42828e8656321c8"
+      ]
+    },
+    {
+      "id": "kolibri_0a37fd7ee6b0f2f3d8fbc4bf178bd571_vtt",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:33.853677+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=8c23f663a6365140b6c8c448f3b4ef68&max_results=250",
+          "kind": "metadata",
+          "sha256": "6e6a6e90ce17af71a31900038e4de4c864a06e5c7b3cd8869db107853f8bff38",
+          "size_bytes": 988418,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=8c23f663a6365140b6c8c448f3b4ef68&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "0a37fd7ee6b0f2f3d8fbc4bf178bd571"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 9939,
+      "source_url": "https://studio.learningequality.org/content/storage/0/a/0a37fd7ee6b0f2f3d8fbc4bf178bd571.vtt",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "f90d95658e6e54098d2b51bd3ee77b5b"
+      ]
+    },
+    {
+      "id": "kolibri_12aea45892939d5e176ac9b8d348e858_mp4",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:37.935467+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=1e378725d3924b47aa5e1260628820b5&descendant_of=ba195f33c4e65057a324b223d6b35f97&max_results=250",
+          "kind": "metadata",
+          "sha256": "91edab37010755025c971fa8bd571e689eab909cb4c1f57a72481a5eca4965b6",
+          "size_bytes": 37899,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=1e378725d3924b47aa5e1260628820b5&descendant_of=ba195f33c4e65057a324b223d6b35f97&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "12aea45892939d5e176ac9b8d348e858"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "ted-ed"
+      ],
+      "sha256": null,
+      "size_bytes": 80748705,
+      "source_url": "https://studio.learningequality.org/content/storage/1/2/12aea45892939d5e176ac9b8d348e858.mp4",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "2fc4c6b34e8e52a6be00b42d0a7df18a"
+      ]
+    },
+    {
+      "id": "kolibri_144a8c838c41e9d20ee9c6e26f464dc8_mp4",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:40.931111+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=1e378725d3924b47aa5e1260628820b5&descendant_of=4120844028165e219a553a80264a3e00&max_results=250",
+          "kind": "metadata",
+          "sha256": "b9c286165fa32814c8cbd091279abf7f9e1bd164e6be54b23c956c3e7dc47db4",
+          "size_bytes": 70880,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=1e378725d3924b47aa5e1260628820b5&descendant_of=4120844028165e219a553a80264a3e00&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "144a8c838c41e9d20ee9c6e26f464dc8"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "ted-ed"
+      ],
+      "sha256": null,
+      "size_bytes": 92320869,
+      "source_url": "https://studio.learningequality.org/content/storage/1/4/144a8c838c41e9d20ee9c6e26f464dc8.mp4",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "b6184ba152925c3699ba27cdba5c5222"
+      ]
+    },
+    {
+      "id": "kolibri_2f89e6064aa50a1119b388a6487b0255_mp4",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:33.853677+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=8c23f663a6365140b6c8c448f3b4ef68&max_results=250",
+          "kind": "metadata",
+          "sha256": "6e6a6e90ce17af71a31900038e4de4c864a06e5c7b3cd8869db107853f8bff38",
+          "size_bytes": 988418,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=8c23f663a6365140b6c8c448f3b4ef68&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "2f89e6064aa50a1119b388a6487b0255"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 3367859,
+      "source_url": "https://studio.learningequality.org/content/storage/2/f/2f89e6064aa50a1119b388a6487b0255.mp4",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "f90d95658e6e54098d2b51bd3ee77b5b"
+      ]
+    },
+    {
+      "id": "kolibri_35e65ad5183a5e4fcc1c9833a583494b_vtt",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:16.269175+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=4a5293c2249a53fdb491be18b21d8e53&max_results=250",
+          "kind": "metadata",
+          "sha256": "ef363c2df2c3f10c0cc7f1a6df9aed4c19dfb6cd638b782068d3eef0f9560a23",
+          "size_bytes": 1124978,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=4a5293c2249a53fdb491be18b21d8e53&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "35e65ad5183a5e4fcc1c9833a583494b"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 4457,
+      "source_url": "https://studio.learningequality.org/content/storage/3/5/35e65ad5183a5e4fcc1c9833a583494b.vtt",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "0d7a9f1b1dec58c284846bd4bb62fd39"
+      ]
+    },
+    {
+      "id": "kolibri_37b94f861eebb7bd5b5c11a3586e3205_mp4",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:30.501821+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=2a7abce67f76519fa0d08633b12510f8&max_results=250",
+          "kind": "metadata",
+          "sha256": "a6ec794ac15c0e2d9700d5a63fcf20447287b98b30fd7f3feb9c6f2a0cf6ea81",
+          "size_bytes": 480723,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=2a7abce67f76519fa0d08633b12510f8&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "37b94f861eebb7bd5b5c11a3586e3205"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 4352614,
+      "source_url": "https://studio.learningequality.org/content/storage/3/7/37b94f861eebb7bd5b5c11a3586e3205.mp4",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "16d35ac46fbd5fdfbd59af8e4823e77a"
+      ]
+    },
+    {
+      "id": "kolibri_46a5fcf765fd79a799a843f88974dc11_perseus",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:16.269175+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=4a5293c2249a53fdb491be18b21d8e53&max_results=250",
+          "kind": "metadata",
+          "sha256": "ef363c2df2c3f10c0cc7f1a6df9aed4c19dfb6cd638b782068d3eef0f9560a23",
+          "size_bytes": 1124978,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=4a5293c2249a53fdb491be18b21d8e53&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "46a5fcf765fd79a799a843f88974dc11"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 178770,
+      "source_url": "https://studio.learningequality.org/content/storage/4/6/46a5fcf765fd79a799a843f88974dc11.perseus",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "01457c6b5d5058c6a75e08f454a2b07e"
+      ]
+    },
+    {
+      "id": "kolibri_68c7293d0bfc40e6e8ed8339bcb02f9e_perseus",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:30.501821+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=2a7abce67f76519fa0d08633b12510f8&max_results=250",
+          "kind": "metadata",
+          "sha256": "a6ec794ac15c0e2d9700d5a63fcf20447287b98b30fd7f3feb9c6f2a0cf6ea81",
+          "size_bytes": 480723,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=2a7abce67f76519fa0d08633b12510f8&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "68c7293d0bfc40e6e8ed8339bcb02f9e"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 59289,
+      "source_url": "https://studio.learningequality.org/content/storage/6/8/68c7293d0bfc40e6e8ed8339bcb02f9e.perseus",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "74091a8de9195ce39da6fa5ed07575f9"
+      ]
+    },
+    {
+      "id": "kolibri_78a45f32780765585eb928dba76161e6_perseus",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:21.006425+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&cursor=cD0zOTcw&descendant_of=cb4a011ac01f5dee8f46c16652681769&max_results=250",
+          "kind": "metadata",
+          "sha256": "fc7f5a8e8b6d93a4df7575712b7cb3c343505e0f7bed0818a3e989f3847ea5da",
+          "size_bytes": 1106918,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&cursor=cD0zOTcw&descendant_of=cb4a011ac01f5dee8f46c16652681769&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "78a45f32780765585eb928dba76161e6"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 1652478,
+      "source_url": "https://studio.learningequality.org/content/storage/7/8/78a45f32780765585eb928dba76161e6.perseus",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "5204517b8b835edaab8b644f3b1784b3"
+      ]
+    },
+    {
+      "id": "kolibri_7dbf062d7dfc8ec02b486a9a0f515e4c_jpg",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:37.935467+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=1e378725d3924b47aa5e1260628820b5&descendant_of=ba195f33c4e65057a324b223d6b35f97&max_results=250",
+          "kind": "metadata",
+          "sha256": "91edab37010755025c971fa8bd571e689eab909cb4c1f57a72481a5eca4965b6",
+          "size_bytes": 37899,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=1e378725d3924b47aa5e1260628820b5&descendant_of=ba195f33c4e65057a324b223d6b35f97&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "7dbf062d7dfc8ec02b486a9a0f515e4c"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "ted-ed"
+      ],
+      "sha256": null,
+      "size_bytes": 12886,
+      "source_url": "https://studio.learningequality.org/content/storage/7/d/7dbf062d7dfc8ec02b486a9a0f515e4c.jpg",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "2fc4c6b34e8e52a6be00b42d0a7df18a"
+      ]
+    },
+    {
+      "id": "kolibri_8da7e9568314b2ef6773ead8fbd03756_png",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:30.501821+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=2a7abce67f76519fa0d08633b12510f8&max_results=250",
+          "kind": "metadata",
+          "sha256": "a6ec794ac15c0e2d9700d5a63fcf20447287b98b30fd7f3feb9c6f2a0cf6ea81",
+          "size_bytes": 480723,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=2a7abce67f76519fa0d08633b12510f8&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "8da7e9568314b2ef6773ead8fbd03756"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 91927,
+      "source_url": "https://studio.learningequality.org/content/storage/8/d/8da7e9568314b2ef6773ead8fbd03756.png",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "16d35ac46fbd5fdfbd59af8e4823e77a"
+      ]
+    },
+    {
+      "id": "kolibri_954b10182aabb350da5013cce9b2ea5b_mp4",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:16.269175+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=4a5293c2249a53fdb491be18b21d8e53&max_results=250",
+          "kind": "metadata",
+          "sha256": "ef363c2df2c3f10c0cc7f1a6df9aed4c19dfb6cd638b782068d3eef0f9560a23",
+          "size_bytes": 1124978,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=4a5293c2249a53fdb491be18b21d8e53&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "954b10182aabb350da5013cce9b2ea5b"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 1614968,
+      "source_url": "https://studio.learningequality.org/content/storage/9/5/954b10182aabb350da5013cce9b2ea5b.mp4",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "0d7a9f1b1dec58c284846bd4bb62fd39"
+      ]
+    },
+    {
+      "id": "kolibri_af6b1ac92eaab1b658581bd9d3ca1448_vtt",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:30.501821+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=2a7abce67f76519fa0d08633b12510f8&max_results=250",
+          "kind": "metadata",
+          "sha256": "a6ec794ac15c0e2d9700d5a63fcf20447287b98b30fd7f3feb9c6f2a0cf6ea81",
+          "size_bytes": 480723,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=2a7abce67f76519fa0d08633b12510f8&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "af6b1ac92eaab1b658581bd9d3ca1448"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 15174,
+      "source_url": "https://studio.learningequality.org/content/storage/a/f/af6b1ac92eaab1b658581bd9d3ca1448.vtt",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "16d35ac46fbd5fdfbd59af8e4823e77a"
+      ]
+    },
+    {
+      "id": "kolibri_b8542fb082d8f953c8978556f3bb4b8c_png",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:21.006425+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&cursor=cD0zOTcw&descendant_of=cb4a011ac01f5dee8f46c16652681769&max_results=250",
+          "kind": "metadata",
+          "sha256": "fc7f5a8e8b6d93a4df7575712b7cb3c343505e0f7bed0818a3e989f3847ea5da",
+          "size_bytes": 1106918,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&cursor=cD0zOTcw&descendant_of=cb4a011ac01f5dee8f46c16652681769&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "b8542fb082d8f953c8978556f3bb4b8c"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 25559,
+      "source_url": "https://studio.learningequality.org/content/storage/b/8/b8542fb082d8f953c8978556f3bb4b8c.png",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "5204517b8b835edaab8b644f3b1784b3"
+      ]
+    },
+    {
+      "id": "kolibri_bc497890c6b95c76f729118db8b51cd9_png",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:30.501821+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=2a7abce67f76519fa0d08633b12510f8&max_results=250",
+          "kind": "metadata",
+          "sha256": "a6ec794ac15c0e2d9700d5a63fcf20447287b98b30fd7f3feb9c6f2a0cf6ea81",
+          "size_bytes": 480723,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=2a7abce67f76519fa0d08633b12510f8&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "bc497890c6b95c76f729118db8b51cd9"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 28127,
+      "source_url": "https://studio.learningequality.org/content/storage/b/c/bc497890c6b95c76f729118db8b51cd9.png",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "74091a8de9195ce39da6fa5ed07575f9"
+      ]
+    },
+    {
+      "id": "kolibri_bddf559efa1542999371eab71abe6919_mp4",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:21.006425+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&cursor=cD0zOTcw&descendant_of=cb4a011ac01f5dee8f46c16652681769&max_results=250",
+          "kind": "metadata",
+          "sha256": "fc7f5a8e8b6d93a4df7575712b7cb3c343505e0f7bed0818a3e989f3847ea5da",
+          "size_bytes": 1106918,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&cursor=cD0zOTcw&descendant_of=cb4a011ac01f5dee8f46c16652681769&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "bddf559efa1542999371eab71abe6919"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 3799095,
+      "source_url": "https://studio.learningequality.org/content/storage/b/d/bddf559efa1542999371eab71abe6919.mp4",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "a53dd5d66a9b508ca42828e8656321c8"
+      ]
+    },
+    {
+      "id": "kolibri_d377269394a4538181aaeee4c7961763_perseus",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:40.931111+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=1e378725d3924b47aa5e1260628820b5&descendant_of=4120844028165e219a553a80264a3e00&max_results=250",
+          "kind": "metadata",
+          "sha256": "b9c286165fa32814c8cbd091279abf7f9e1bd164e6be54b23c956c3e7dc47db4",
+          "size_bytes": 70880,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=1e378725d3924b47aa5e1260628820b5&descendant_of=4120844028165e219a553a80264a3e00&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "d377269394a4538181aaeee4c7961763"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "ted-ed"
+      ],
+      "sha256": null,
+      "size_bytes": 11307,
+      "source_url": "https://studio.learningequality.org/content/storage/d/3/d377269394a4538181aaeee4c7961763.perseus",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "293ae265db0e5e2a90d44773aaf718de"
+      ]
+    },
+    {
+      "id": "kolibri_dd49fcc09eb203854223423d2641df4a_png",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:33.853677+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=8c23f663a6365140b6c8c448f3b4ef68&max_results=250",
+          "kind": "metadata",
+          "sha256": "6e6a6e90ce17af71a31900038e4de4c864a06e5c7b3cd8869db107853f8bff38",
+          "size_bytes": 988418,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=8c23f663a6365140b6c8c448f3b4ef68&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "dd49fcc09eb203854223423d2641df4a"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 71923,
+      "source_url": "https://studio.learningequality.org/content/storage/d/d/dd49fcc09eb203854223423d2641df4a.png",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "f90d95658e6e54098d2b51bd3ee77b5b"
+      ]
+    },
+    {
+      "id": "kolibri_de49753d1f7b6f9edfa33fc4843c7334_png",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:16.269175+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=4a5293c2249a53fdb491be18b21d8e53&max_results=250",
+          "kind": "metadata",
+          "sha256": "ef363c2df2c3f10c0cc7f1a6df9aed4c19dfb6cd638b782068d3eef0f9560a23",
+          "size_bytes": 1124978,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=4a5293c2249a53fdb491be18b21d8e53&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "de49753d1f7b6f9edfa33fc4843c7334"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 20246,
+      "source_url": "https://studio.learningequality.org/content/storage/d/e/de49753d1f7b6f9edfa33fc4843c7334.png",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "01457c6b5d5058c6a75e08f454a2b07e"
+      ]
+    },
+    {
+      "id": "kolibri_e149e175dec13e1537ff150873d052b1_vtt",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:21.006425+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&cursor=cD0zOTcw&descendant_of=cb4a011ac01f5dee8f46c16652681769&max_results=250",
+          "kind": "metadata",
+          "sha256": "fc7f5a8e8b6d93a4df7575712b7cb3c343505e0f7bed0818a3e989f3847ea5da",
+          "size_bytes": 1106918,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&cursor=cD0zOTcw&descendant_of=cb4a011ac01f5dee8f46c16652681769&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "e149e175dec13e1537ff150873d052b1"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 7429,
+      "source_url": "https://studio.learningequality.org/content/storage/e/1/e149e175dec13e1537ff150873d052b1.vtt",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "a53dd5d66a9b508ca42828e8656321c8"
+      ]
+    },
+    {
+      "id": "kolibri_fa92b315547d4d751fdf3179298fa4c3_png",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:16.269175+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=4a5293c2249a53fdb491be18b21d8e53&max_results=250",
+          "kind": "metadata",
+          "sha256": "ef363c2df2c3f10c0cc7f1a6df9aed4c19dfb6cd638b782068d3eef0f9560a23",
+          "size_bytes": 1124978,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=c9d7f950ab6b5a1199e3d6c10d7f0103&descendant_of=4a5293c2249a53fdb491be18b21d8e53&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "fa92b315547d4d751fdf3179298fa4c3"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "khan-core-stem"
+      ],
+      "sha256": null,
+      "size_bytes": 19097,
+      "source_url": "https://studio.learningequality.org/content/storage/f/a/fa92b315547d4d751fdf3179298fa4c3.png",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "0d7a9f1b1dec58c284846bd4bb62fd39"
+      ]
+    },
+    {
+      "id": "kolibri_fc48eb69fa7ba64398e34cde8f559347_jpg",
+      "metadata_evidence": [
+        {
+          "checked_at": "2026-09-27T23:29:40.931111+00:00",
+          "content_type": "application/json",
+          "final_url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=1e378725d3924b47aa5e1260628820b5&descendant_of=4120844028165e219a553a80264a3e00&max_results=250",
+          "kind": "metadata",
+          "sha256": "b9c286165fa32814c8cbd091279abf7f9e1bd164e6be54b23c956c3e7dc47db4",
+          "size_bytes": 70880,
+          "status": 200,
+          "url": "https://studio.learningequality.org/api/public/v2/contentnode/?channel_id=1e378725d3924b47aa5e1260628820b5&descendant_of=4120844028165e219a553a80264a3e00&max_results=250"
+        }
+      ],
+      "publisher_checksums": {
+        "md5": "fc48eb69fa7ba64398e34cde8f559347"
+      },
+      "purpose": "quarantine format-review input",
+      "resource_ids": [
+        "ted-ed"
+      ],
+      "sha256": null,
+      "size_bytes": 17273,
+      "source_url": "https://studio.learningequality.org/content/storage/f/c/fc48eb69fa7ba64398e34cde8f559347.jpg",
+      "version": "Published Kolibri metadata frozen by inventory SHA256 45413467436a1df8013522909c7cef8b9c59d65a0cfc305a536a0a3f62d5087b",
+      "work_ids": [
+        "b6184ba152925c3699ba27cdba5c5222"
+      ]
+    }
+  ],
+  "storage_peak_bytes": 191052708
+}

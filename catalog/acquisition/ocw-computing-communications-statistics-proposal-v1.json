@@ -1,0 +1,26 @@
+{
+  "admitted_useful_bytes": 0,
+  "all_source_bytes": 9284867614,
+  "capture_peak_bytes": 19788445614,
+  "content_ready": false,
+  "expected_ordinary_bytes_before_runtime_repair": 9406877060,
+  "expected_ordinary_bytes_with_pinned_runtime_repair": 9406876559,
+  "expected_runtime_audit": ".owl/acquisition/ocw-computing-communications-statistics-runtime-audits-v1/report.json",
+  "local_reuse_map": "catalog/acquisition/ocw-computing-communications-statistics-local-v1.json",
+  "media_sources": 57,
+  "new_media_bytes": 9220425796,
+  "overlap_media_sources": 0,
+  "preview_allowance_bytes": 10500000000,
+  "rejected_candidates": {
+    "Design and Analysis of Algorithms": "Assigned exercises depend on missing exact third-edition CLRS textbook.",
+    "Fundamentals of Systems Engineering": "Required outside standards, handbook material and papers remain unresolved.",
+    "Graph Theory and Additive Combinatorics": "The cited course textbook is not in the package.",
+    "Introduction to EECS II": "Required Python2.7/wxPython/numpy/matplotlib setup and Audiocom environment are not bundled or validated offline.",
+    "Public Transportation Systems": "Lectures18 and23 have neither published recordings nor notes; optional outside readings do not close that course topic gap."
+  },
+  "reused_package_sources": 3,
+  "schema_version": 1,
+  "source_manifest": "catalog/acquisition/ocw-computing-communications-statistics-v1-capture.json",
+  "source_zip_bytes": 64441818,
+  "utility_and_scope": "catalog/acquisition/ocw-computing-communications-statistics-selection-v1.json"
+}

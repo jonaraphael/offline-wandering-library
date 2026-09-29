@@ -65,13 +65,12 @@ def plan_atlas(target: Path, assets: list[dict], navigation: dict | None, state:
                *, strict_coverage: bool = False) -> tuple[dict[str, str], dict | None]:
     """Resolve sources and plan every dynamic path before allowing publication."""
     from .atlas import prepare_atlas
-    from .atlas_model import validate_sources
+    from .discovery import selected_navigation
     assets = [asset for asset in assets if is_document(asset)]
     if navigation is None:
         pages, report = {}, None
     else:
-        sections = validate_sources(target, assets, navigation)
-        pages, report = prepare_atlas(target, assets, {**navigation, "sections": sections})
+        pages, report = prepare_atlas(target, assets, selected_navigation(assets, navigation))
         if strict_coverage and any(report.get(key) for key in (
                 "unmapped_critical", "missing_textbook_subject_routes", "missing_textbook_learning_routes")):
             raise SafetyError("Atlas coverage is incomplete for critical assets or required textbook routes; review navigation-report coverage")
@@ -143,7 +142,7 @@ class _SourceAnchors(HTMLParser):
                 self.found.add(value)
 
 
-def validate_links(target: Path, pages: dict[str, str], assets=()) -> None:
+def validate_links(target: Path, pages: dict[str, str], assets=(), *, inspect_sources: bool = False) -> None:
     """Check generated pages, including local HTML fragments, before writing."""
     parsed = {}
     encodings = {a["destination"]: a.get("text_encoding", "utf-8") for a in assets}
@@ -183,7 +182,7 @@ def validate_links(target: Path, pages: dict[str, str], assets=()) -> None:
                     raise SafetyError(f"Missing HTML fragment in {relative}: {href}")
     # Source HTML may be enormous. Scan each referenced file once while retaining
     # only the bounded set of anchors requested by generated navigation pages.
-    for destination, anchors in requested.items():
+    for destination, anchors in (requested.items() if inspect_sources else []):
         parser = _SourceAnchors(anchors)
         path = managed_path(target, destination)
         with path.open(encoding=encodings.get(destination, "utf-8"), errors="replace") as handle:
@@ -209,37 +208,6 @@ def write_outputs(target: Path, pages: dict[str, str]) -> None:
         path, data = managed_path(target, relative), text.encode("utf-8")
         if not path.is_file() or path.read_bytes() != data:
             atomic_write(path, data)
-
-
-def _refresh_search_ui(target: Path, job: dict) -> None:
-    """Checkpoint a matched UI and report without changing the search generation."""
-    from .search import _prepare_ui
-    from .search_ui import render_search_widget
-    inventory, info = job["inventory"], job["build_info"]
-    report = inventory.get("search", {})
-    generated = report.get("generated_files", [])
-    if report.get("status") == "not-built" or not all(
-            relative in generated for relative in ("SEARCH/manifest.js", "SEARCH/search.js")):
-        return
-    required = {"SEARCH.html", "SEARCH/search.js", "SEARCH/manifest.js", "SEARCH/coverage.json"}
-    if (not required.issubset(job["baseline"]) or report.get("format_version") != 3
-            or report.get("transport", {}).get("version") != 1
-            or not isinstance(report.get("file_integrity"), dict)):
-        raise SafetyError("Cannot refresh an unverified or unsupported search UI")
-    coverage = safe_path(target, "SEARCH/coverage.json").read_text(encoding="utf-8")
-    if json.loads(coverage) != report or info.get("search") != report:
-        raise SafetyError("Search coverage, inventory, and build information disagree")
-    updated = deepcopy(report)
-    outputs = _prepare_ui(updated)
-    if updated != report:
-        coverage = json.dumps(updated, ensure_ascii=False, indent=2) + "\n"
-    budget = info.get("profile", {}).get("search_budget_bytes")
-    if budget is not None and sum(item["size_bytes"] for item in updated["file_integrity"].values()) + len(coverage.encode("utf-8")) > budget:
-        raise SafetyError("Refreshed search UI exceeds the profile's search budget")
-    job["support_files"].update({relative: data.decode("utf-8") for relative, data in outputs.items()})
-    job["support_files"]["SEARCH/coverage.json"] = coverage
-    job["search_widget"] = render_search_widget("LIBRARY/")
-    inventory["search"] = info["search"] = updated
 
 
 def _checksums(target: Path) -> dict[str, str]:
@@ -277,7 +245,7 @@ def _verify_entries(target: Path, entries: dict, excluded=(), *, progress=print)
             raise SafetyError(f"Library file failed integrity verification: {relative}")
 
 
-def _new_inventory(target, all_assets, profile, profiles_dir, catalog, state, progress):
+def _new_inventory(target, all_assets, profile, profiles_dir, catalog, state, progress, *, available_only=False):
     profiles = load_profiles(profiles_dir)
     if profile not in profiles:
         raise SafetyError(f"Unknown profile: {profile}")
@@ -290,20 +258,60 @@ def _new_inventory(target, all_assets, profile, profiles_dir, catalog, state, pr
             missing.append({**asset, "unresolved_reason": "Selected file has not been downloaded onto this drive"})
             continue
         progress(f"ATLAS VERIFY {asset['destination']}")
-        if not path.is_file() or path.stat().st_size != asset["size_bytes"]:
-            raise SafetyError(f"Selected source size differs: {asset['destination']}")
-        digest = sha256_file(path)
-        if asset["sha256"] and digest != asset["sha256"]:
-            raise SafetyError(f"Selected source checksum differs: {asset['destination']}")
+        if not path.is_file():
+            raise SafetyError(f"Selected source is not a regular file: {asset['destination']}")
+        problem = None
+        if path.stat().st_size != asset['size_bytes']:
+            problem = 'Selected source size differs'
+        else:
+            digest = sha256_file(path)
+            if asset['sha256'] and digest != asset['sha256']:
+                problem = 'Selected source checksum differs'
+        if problem:
+            if not available_only:
+                raise SafetyError(f"{problem}: {asset['destination']}")
+            missing.append({**asset, 'unresolved_reason': problem})
+            continue
         present.append({**asset, "sha256": digest, "verification": "pinned" if asset["sha256"] else "observed"})
+    # A source-bound archive member is admitted only with its required package.
+    if available_only:
+        changed = True
+        while changed:
+            ids = {a['id'] for a in present}
+            dependent = [a for a in present if a.get('archive_member', {}).get('source_asset_id', a['id']) not in ids]
+            changed = bool(dependent)
+            for asset in dependent:
+                present.remove(asset)
+                missing.append({**asset, 'unresolved_reason': 'Required source package is unavailable'})
     if not present:
-        raise SafetyError("No selected catalog files are present on this drive")
-    complete = not missing and (not selection or not selection["incomplete_resources"])
+        raise SafetyError("No selected catalog files are present and verified on this drive")
+    if available_only and selection:
+        selection = deepcopy(selection)
+        present_by_id = {a['id']: a for a in present}
+        for row in selection['resource_rows']:
+            absent = set(row['resolved_asset_ids']) - present_by_id.keys()
+            row['resolved_asset_ids'] = [aid for aid in row['resolved_asset_ids'] if aid in present_by_id]
+            row['known_bytes'] = sum(present_by_id[aid]['size_bytes'] for aid in row['resolved_asset_ids'])
+            if absent:
+                row['unresolved_asset_ids'] = sorted(set(row['unresolved_asset_ids']) | absent)
+                row['status'] = 'partial' if row['resolved_asset_ids'] else 'unresolved'
+                row['reason'] = '; '.join(filter(None, [row['reason'], 'Some selected files are not downloaded and verified']))
+        selection['incomplete_resources'] = [row for row in selection['resource_rows'] if row['status'] != 'ready']
+        selection['resolved_asset_bytes'] = sum(a['size_bytes'] for a in present)
+        selection['unresolved_asset_ids'] = sorted({a['id'] for a in [*missing, *unresolved]})
+        for field in ('baseline_asset_ids', 'additional_asset_ids'):
+            if field in selection:
+                selection[field] = [aid for aid in selection[field] if aid in present_by_id]
+    complete = not missing and not unresolved and (not selection or not selection["incomplete_resources"])
     inventory = {"schema_version": 1, "assets": present, "search": {"status": "not-built", "assets": [], "warnings": []},
                  "content_selection": selection, "content_complete": complete, "unresolved": [*unresolved, *missing]}
     info = {"schema_version": 1, "complete": True, "build_kind": "human-index-only", "profile": profiles[profile],
             "asset_count": len(present), "content_complete": complete,
             "search": inventory["search"], "catalog_sha256": sha256_file(catalog)}
+    if available_only:
+        info['build_kind'] = 'available-content'
+        info['source_verification'] = 'Available files checked against catalog sizes and SHA-256 values'
+        progress(f"AVAILABLE CONTENT: {len(present)} verified files; {len(missing) + len(unresolved)} unavailable")
     return inventory, info
 
 
@@ -341,9 +349,11 @@ def _inventory_assets(inventory: dict) -> list[dict]:
 
 def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT / "catalog/library.yaml",
                 profile: str | None = None, profiles_dir: Path = REPO_ROOT / "profiles",
-                allow_local: bool = False, strict_coverage: bool = False, progress=print) -> dict:
-    """No downloads or search extraction. An interrupted publication can be rerun."""
+                allow_local: bool = False, strict_coverage: bool = False, metadata_only: bool = False, from_downloads: bool = False, progress=print) -> dict:
+    """No downloads or source-text extraction. An interrupted publication can be rerun."""
     from .atlas_model import load_navigation
+    if from_downloads and (metadata_only or not profile):
+        raise SafetyError('Assembling downloads requires a profile and source verification')
     outer = _root(target)
     target = content_root(outer)
     if not target.is_dir():
@@ -356,7 +366,8 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             state_path = safe_path(target, ".owl/state.json")
             state = _state(state_path)
             job_path = safe_path(target, JOB)
-            if job_path.exists():
+            resuming = job_path.exists()
+            if resuming:
                 job = json.loads(job_path.read_text(encoding="utf-8"))
                 if (not isinstance(job, dict) or type(job.get("schema_version")) is not int or job["schema_version"] != 1
                         or not all(isinstance(job.get(key), dict) for key in ("inventory", "build_info", "baseline", "support_files"))
@@ -364,13 +375,30 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
                         or not isinstance(job.get("atlas_managed"), list)
                         or not isinstance(job["inventory"].get("assets"), list)):
                     raise SafetyError("Invalid atlas publication checkpoint")
+                if (job.get("metadata_only", False) != metadata_only or
+                        job.get('from_downloads', False) != from_downloads or
+                        (from_downloads and job['build_info'].get('profile', {}).get('id') != profile)):
+                    raise SafetyError("Resume with the same source-verification mode and profile as the interrupted publication")
                 inventory, info, baseline = job["inventory"], job["build_info"], job["baseline"]
                 progress("ATLAS RESUME: regenerating small static pages from the saved source inventory")
             else:
                 baseline = _checksums(target)
-                _verify_entries(target, baseline, progress=progress)
+                if from_downloads:
+                    # Reassess source availability; previously published metadata still
+                    # has to match before its ownership can be adopted.
+                    baseline = {p: h for p, h in baseline.items() if p.split('/')[0] not in ROOTS}
+                if not metadata_only:
+                    _verify_entries(target, baseline, progress=progress)
+                if metadata_only:
+                    if not state.get('complete') or not baseline:
+                        raise SafetyError('A metadata-only refresh requires a completed, audited drive')
+                    _verify_entries(target, {p: h for p, h in baseline.items() if p in
+                        {'INVENTORY.json', 'BUILD_INFO.json', 'LOCKED_CATALOG.yaml'}}, progress=progress)
                 inventory_path = safe_path(target, "INVENTORY.json")
-                if inventory_path.exists():
+                if from_downloads:
+                    inventory, info = _new_inventory(target, all_assets, profile, profiles_dir, catalog,
+                                                     state, progress, available_only=True)
+                elif inventory_path.exists():
                     if profile is not None:
                         raise SafetyError("Use the drive's existing inventory; change its profile with the drive builder")
                     if "INVENTORY.json" not in baseline or "BUILD_INFO.json" not in baseline:
@@ -391,12 +419,11 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
                 if baseline:
                     state["managed"] = sorted(set(state["managed"]) | {"SHA256SUMS.txt"})
                 job = {"schema_version": 1, "inventory": inventory, "build_info": info, "baseline": baseline,
-                       "support_files": {}, "atlas_managed": [],
+                       "support_files": {}, "atlas_managed": [], "metadata_only": metadata_only, "from_downloads": from_downloads,
                        "finish_complete": state.get("complete", False) if state_path.exists() else True}
                 if REPORT in baseline:
                     previous_report = json.loads(safe_path(target, REPORT).read_text(encoding="utf-8"))
                     job["atlas_managed"] = _reported_paths(previous_report, baseline)
-                _refresh_search_ui(target, job)
             # This also recovers adoption if stopped after saving the job but
             # before saving state on a drive whose private state was absent.
             state["managed"] = sorted(set(state["managed"]) | set(baseline) | ({"SHA256SUMS.txt"} if baseline else set()))
@@ -405,26 +432,29 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
                 state["atlas_managed"] = sorted(set(_previous(state)) | set(recovered))
             assets = _inventory_assets(inventory)
             atlas_pages, report = plan_atlas(target, assets, navigation, state, strict_coverage=strict_coverage)
-            inventory = {**inventory, "navigation": report}
+            from .discovery import plan_discovery
+            discovery_pages, discovery_report = plan_discovery(assets, navigation,
+                budget=info.get('profile', {}).get('discovery_budget_bytes', 16 * 1024 * 1024))
+            inventory = {**inventory, "navigation": report, "search": discovery_report}
+            info = {**info, "search": discovery_report}
+            if metadata_only:
+                info['source_verification'] = 'Not repeated during this metadata-only refresh'
+            job['inventory'], job['build_info'] = inventory, info
             info = {**info, "navigation": report}
             pages = generate_navigation(target, assets, inventory, inventory.get("search", {}), write=False)
-            if "SEARCH/search.js" in job["support_files"]:
-                from .search_ui import render_search_widget
-                widget = job.get("search_widget")
-                if not isinstance(widget, str) or not widget.strip():
-                    raise SafetyError("Invalid saved search widget")
-                pages["START_HERE.html"] = pages["START_HERE.html"].replace(
-                    render_search_widget("LIBRARY/"), widget, 1)
             pages.update(atlas_pages)
+            pages.update(discovery_pages)
             pages["INVENTORY.json"] = _json(inventory).decode("utf-8")
             pages["BUILD_INFO.json"] = _json(info).decode("utf-8")
+            if from_downloads:
+                # Keep selection/lock metadata consistent when growing a prior build.
+                pages['CONTENT_SELECTION.json'] = _json({'schema_version': 1, 'profile': profile,
+                    'content_complete': inventory['content_complete'],
+                    'selection': inventory.get('content_selection')}).decode('utf-8')
+                pages['LOCKED_CATALOG.yaml'] = _json({'schema_version': 1, 'assets': assets,
+                    'selection_lock': {'profile_id': profile,
+                                       'content_selection': inventory.get('content_selection')}}).decode('utf-8')
             support = job["support_files"]
-            if "SEARCH.html" not in baseline and "SEARCH.html" not in support:
-                support["SEARCH.html"] = ('<!doctype html><html lang="en"><meta charset="utf-8"><title>Search not built</title>'
-                    '<h1>Full-text search has not been built</h1><p>The human topic index is available offline.</p>'
-                    '<a href="INDEX/topics.html">Browse topics</a></html>')
-            if "SEARCH/coverage.json" not in baseline and "SEARCH/coverage.json" not in support:
-                support["SEARCH/coverage.json"] = _json(inventory.get("search", {"status": "not-built"})).decode()
             if "SOURCE_NOTES.txt" not in baseline and "SOURCE_NOTES.txt" not in support:
                 support["SOURCE_NOTES.txt"] = (REPO_ROOT / "docs/sources.md").read_text(encoding="utf-8")
             if "VERIFY.py" not in baseline and "VERIFY.py" not in support:
@@ -437,9 +467,17 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             # On retries, only this operation's previously registered outputs may
             # differ from its immutable baseline. Existing source data never may.
             mutable = set(pages) | set(_previous(state)) | {"SHA256SUMS.txt"}
-            _verify_entries(target, baseline, excluded=mutable, progress=progress)
+            if not metadata_only:
+                _verify_entries(target, baseline, excluded=mutable, progress=progress)
             source_hashes = {a["destination"]: a["sha256"] for a in assets}
-            _verify_entries(target, source_hashes, progress=progress)
+            if not metadata_only and (not from_downloads or resuming):
+                _verify_entries(target, source_hashes, progress=progress)
+            for asset in assets:
+                if metadata_only and baseline.get(asset['destination']) != asset['sha256']:
+                    raise SafetyError('Inventory source pin differs from audit manifest: ' + asset['id'])
+                source = safe_path(target, asset['destination'])
+                if not source.is_file() or source.stat().st_size != asset['size_bytes']:
+                    raise SafetyError('Source missing or size changed: ' + asset['id'])
             preflight_outputs(target, pages, state)
             validate_links(target, {**pages, "SHA256SUMS.txt": ""}, assets)
             check_space(target, sum(len(text.encode("utf-8")) for text in pages.values()) +
@@ -462,10 +500,12 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             for asset in assets:
                 original = {**asset, "sha256": None} if asset.get("verification") == "observed" else asset
                 state["assets"][asset["id"]] = {"sha256": asset["sha256"], "fingerprint": fingerprint(original)}
+            if from_downloads:
+                state.pop('result', None)  # A previous full-build postflight describes a different selection.
             state.update(complete=job["finish_complete"], phase="complete" if job["finish_complete"] else "build-incomplete")
             atomic_write(state_path, _json(state))
             job_path.unlink()
-            progress(f"HUMAN INDEX COMPLETE: {target / 'INDEX/topics.html'}")
+            progress(f"DISCOVERY AND ATLAS COMPLETE: {target / 'INDEX/topics.html'}")
             if not state["complete"]:
                 progress("The human index is usable; the interrupted full drive build remains incomplete. Rerun its build command to finish it.")
             for key in ("unmapped_critical", "missing_textbook_subject_routes", "missing_textbook_learning_routes"):

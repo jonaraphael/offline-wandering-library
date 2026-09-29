@@ -366,6 +366,8 @@ def stage(args, context):
     if recipes:
         catalog_doc["acquisition_recipes"] = list(recipes.values())
     combined = validate_catalog(catalog_doc, profiles, args.allow_local)
+    from ..content_policy import require_content_policy
+    require_content_policy(combined)
     validate_generation(combined, recipes)
     resource_doc = deepcopy(read_yaml(args.resources or args.catalog.with_name("resources.yaml")))
     rows = {row["id"]: row for row in resource_doc["resources"]}
@@ -416,23 +418,32 @@ def stage(args, context):
             if not isinstance(new_assignments, list):
                 raise AcquisitionError("navigation_assignments must be a list")
             if new_assignments:
-                assignments_path = candidate / "navigation/assignments.yaml"
-                assignments = read_yaml(assignments_path)
-                existing = {(row.get("topic_id"), row.get("asset_id"), row.get("section_id")): row
-                            for row in assignments["assignments"]}
+                from ..atlas_model import read_asset_assignments
+                documents = {}
                 for row in new_assignments:
                     if not isinstance(row, dict):
                         raise AcquisitionError("Navigation assignment must be a mapping")
-                    if (args.resource or args.profile) and row.get("asset_id") not in admitted_ids:
+                    aid = row.get('asset_id')
+                    if not isinstance(aid, str):
+                        raise AcquisitionError('Navigation assignment requires an asset_id string')
+                    if (args.resource or args.profile) and aid not in admitted_ids:
                         continue
-                    key = (row.get("topic_id"), row.get("asset_id"), row.get("section_id"))
-                    if key in existing:
-                        if existing[key] != row:
+                    if aid not in documents:
+                        documents[aid] = read_asset_assignments(candidate / 'navigation', aid)
+                    document = documents[aid]
+                    entry = {k: v for k, v in row.items() if k != 'asset_id'}
+                    existing = next((r for r in document['assignments'] if
+                        (r.get('topic_id'), r.get('section_id')) ==
+                        (entry.get('topic_id'), entry.get('section_id'))), None)
+                    if existing is not None:
+                        if existing != entry:
                             raise AcquisitionError("Conflicting staged navigation assignment")
                     else:
-                        assignments["assignments"].append(row)
-                        existing[key] = row
-                assignments_path.write_text(yaml.safe_dump(assignments, sort_keys=False), encoding="utf-8")
+                        document['assignments'].append(entry)
+                for aid, document in documents.items():
+                    path = candidate / 'navigation/assignments' / (aid + '.yaml')
+                    path.parent.mkdir(exist_ok=True)
+                    path.write_text(yaml.safe_dump(document, sort_keys=False), encoding='utf-8')
             from ..atlas_model import load_navigation
             load_navigation(candidate / "navigation", combined)
         elif fragment.get("navigation_assignments"):
@@ -575,6 +586,8 @@ def parser():
             command.add_argument("--plan", action="store_true")
             command.add_argument("--detach", action="store_true")
             command.add_argument("--job-dir", type=Path)
+            command.add_argument("--continue-missing-sources", action="store_true",
+                                 help="Checkpoint HTTP 404/410 failures and attempt remaining sources; the batch still fails incomplete")
         elif name == "preview":
             command.add_argument("--staging-root", type=Path, required=True)
             command.add_argument("--recipe", type=Path, required=True)
@@ -610,6 +623,7 @@ def main(argv=None):
                 raise AcquisitionError("A frozen acquisition batch has one profile; select at most one")
             options = dict(budget_bytes=args.budget_bytes, reserve_bytes=args.reserve_bytes,
                 local_manifest=args.local_manifest,
+                continue_missing_sources=args.continue_missing_sources,
                 allow_local=args.allow_local, production_root=args.production_root,
                 resource_ids=sorted(_ids(args.resource)), profile=profiles[0] if profiles else None)
             if args.detach:

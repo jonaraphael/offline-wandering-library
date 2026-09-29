@@ -128,6 +128,34 @@ class DirectExportTests(unittest.TestCase):
                        max_bytes=20*BLOCK, max_files=30, progress=lambda _: None)
         self.assertEqual(r["documents"], 3)
 
+    def test_css_namespace_is_not_a_fetch_and_native_math_survives(self):
+        self.items['styles/main.css'] = ('text/css', '@namespace m url(MathML); m|math{color:navy}'
+            'body{background-image:url("../images/pump.png")}')
+        self.items['styles/MathML'] = ('text/html', '<h1>Namespace documentation, not a stylesheet dependency</h1>')
+        self.items['A/Start'] = ('text/html', '<link rel="stylesheet" href="../styles/main.css">'
+            '<math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mfrac>'
+            '<mrow><mi>x</mi><mo>+</mo><mn>1</mn></mrow><msqrt><mi>y</mi></msqrt></mfrac>'
+            '<semantics><mi>z</mi><annotation encoding="application/x-tex">z</annotation></semantics>'
+            '<script>bad()</script></math><p>Original equation attribution.</p>')
+        self.make_archive(); report = self.export()
+        byname = {a['source_archive_entry']: a for a in report['assets']}
+        self.assertNotIn('styles/MathML', byname)
+        css = (self.target / byname['styles/main.css']['destination']).read_text()
+        self.assertIn('@namespace m "MathML";', css)
+        self.assertIn('images/pump.png', byname)
+        body = (self.target / byname['A/Start']['destination']).read_text()
+        self.assertIn('<mfrac><mrow><mi>x</mi><mo>+</mo><mn>1</mn></mrow><msqrt><mi>y</mi></msqrt></mfrac>', body)
+        self.assertIn('encoding="application/x-tex"', body)
+        self.assertIn('Original equation attribution.', body)
+        self.assertNotIn('<script', body)
+
+    def test_changed_export_transformation_cannot_reuse_old_checkpoint(self):
+        self.export()
+        owner = self.target / '.owl/exports/fixture/owner.json'
+        data = json.loads(owner.read_text()); data['schema_version'] = 1
+        owner.write_text(json.dumps(data))
+        with self.assertRaises(SafetyError): self.export()
+
     def test_all_stops_at_file_cap_without_loading_million_entry_payloads(self):
         class Item:
             mimetype = "text/html"
@@ -360,12 +388,14 @@ class DirectExportTests(unittest.TestCase):
         self.assertEqual(list(self.target.iterdir()), [])
         self.assertTrue(list((moved / ".owl/exports/fixture/parts").glob("*.part")))
 
-    def test_complete_export_can_be_indexed_without_archive(self):
-        from owl.search import build_search
-        r = self.export()
-        docs = [a for a in r["assets"] if a["export_document"]]
-        search = build_search(self.target, docs)
-        self.assertTrue(all(a["status"] == "full_text" for a in search["assets"]))
+    def test_complete_export_can_be_discovered_without_archive(self):
+        from owl.discovery import compile_records
+        result = self.export()
+        docs = [a for a in result['assets'] if a['export_document']]
+        records, coverage = compile_records(docs)
+        self.assertEqual(len(records), len(docs))
+        self.assertTrue(all(row['status'] == 'catalog' for row in coverage))
+
 
 
 if __name__ == "__main__":

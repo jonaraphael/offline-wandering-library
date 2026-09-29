@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "id": "midwives-response-diagnostic-20260927-v1",
+  "concurrency": {
+    "capture": 1,
+    "review": 1
+  },
+  "tasks": [
+    {
+      "id": "midwives-original-exact-capture",
+      "kind": "capture",
+      "lane": "capture",
+      "batch": "midwives-digital-sources",
+      "depends": [],
+      "inputs": [
+        "{workspace}/catalog/acquisition/midwives-digital-source-review-capture-20260927-v2.json"
+      ],
+      "review": "Original exact publisher-sized revision capture failed; preserve its rejected transport identity."
+    },
+    {
+      "id": "midwives-diagnostic-capture",
+      "kind": "capture",
+      "lane": "capture",
+      "batch": "midwives-raw-diagnostic",
+      "depends": [],
+      "inputs": [
+        "{workspace}/catalog/acquisition/midwives-raw-diagnostic-capture-20260927-v1.json"
+      ],
+      "checks": [
+        {
+          "path": "{staging}/midwives-raw-diagnostic-v1-1tb/capture-report.json",
+          "equals": {
+            "content_ready": false,
+            "source_count": 1
+          }
+        }
+      ],
+      "review": "Bounded response only; source checksum comparisons never imply acceptance."
+    },
+    {
+      "id": "midwives-diagnostic-inspect",
+      "kind": "script",
+      "lane": "review",
+      "batch": "midwives-digital-review",
+      "depends": [
+        "midwives-diagnostic-capture"
+      ],
+      "script": "inspect_midwives_response.py",
+      "argv": [
+        "--capture",
+        "{staging}/midwives-raw-diagnostic-v1-1tb",
+        "--output",
+        "{workspace}/.owl/acquisition/supervisor-midwives-response-diagnostic-20260927-v1/inspection.json"
+      ],
+      "inputs": [
+        "{workspace}/scripts/inspect_midwives_response.py",
+        "{workspace}/catalog/acquisition/midwives-raw-diagnostic-capture-20260927-v1.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/supervisor-midwives-response-diagnostic-20260927-v1/inspection.json",
+          "equals": {
+            "content_ready": false,
+            "admissible": false
+          },
+          "lengths": {
+            "sources": 1
+          }
+        }
+      ],
+      "review": "Read observed transport/body comparison and prepare new exact canonical identities only after the cause is understood."
+    }
+  ]
+}

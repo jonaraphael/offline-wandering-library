@@ -1,0 +1,428 @@
+{
+  "schema_version": 1,
+  "kind": "phet-teaching-content-review",
+  "reviewed_at": "2026-09-27T22:37:50.159236+00:00",
+  "reviewer": "Codex named-screen content review",
+  "resource_id": "phet",
+  "edition": "direct",
+  "profile": "full-1tb",
+  "decision": "approved",
+  "full_scope": true,
+  "scope": "All 16 selected ordinary English HTML5 simulation files and all 38 embedded teaching screens. Original files retained with embedded teaching runtime, media and notices. This is content admission, not physical-device certification.",
+  "review_basis": [
+    "Exact bytes and embedded versions/notices rechecked after the browser run.",
+    "Runtime inventory matched every required teaching screen; all 76 explicit screen/viewport checks passed offline.",
+    "All 38 desktop after-interaction screenshots and extracted teaching text reviewed; eight extra construction checks passed.",
+    "Whole-file originals retain unexercised generated questions and optional modes; finite QA is not an assertion that every possible model state or generated challenge was exhaustively tested."
+  ],
+  "format_review": {
+    "included": "ordinary English HTML5",
+    "excluded": [
+      "Java",
+      "Flash",
+      "PhET-iO"
+    ],
+    "essential_unsupported_content_found": false
+  },
+  "dependency_review": {
+    "required_external_static_dependencies": [],
+    "optional_remote_endpoints": [
+      "http://phet.colorado.edu/services/check-html-updates",
+      "https://phet.colorado.edu/yotta/immediate.gif",
+      "https://phet.colorado.edu/yotta/sanity.gif",
+      "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+      "https://www.googletagmanager.com/gtm.js"
+    ],
+    "classification": "Publisher analytics and update checks; all were blocked throughout successful local teaching-screen runs. Original notices and source links remain intact."
+  },
+  "device_validation": {
+    "status": "pending",
+    "reason": "Emulated desktop and phone-width checks do not certify intended physical device, file-opening workflow, orientation or touch usability. Phone-width rendering fits but uses small scaled controls."
+  },
+  "evidence": [
+    {
+      "path": "catalog/acquisition/phet-required-screen-evidence-20260927.json",
+      "size_bytes": 71746,
+      "sha256": "144e43b5b6ed2eb8dc9d086fa6fc7da5cc746c23542eeccc00541bc61f0439ec"
+    },
+    {
+      "path": "catalog/acquisition/phet-required-screen-checks-20260927.json",
+      "size_bytes": 51274,
+      "sha256": "2b8c7252ff83a1bcd098669db08801a85c1b4090d56d96df96575e538e45b73a"
+    },
+    {
+      "path": ".owl/acquisition/phet-screen-completion/required-screen-report-20260927.json",
+      "size_bytes": 6252344,
+      "sha256": "315805422b2c0e7828101bc667c839292936aad6f8ed3eeab0c33ba0fbb689e7"
+    },
+    {
+      "path": "catalog/acquisition/phet-construction-screen-checks-20260927.json",
+      "size_bytes": 30099,
+      "sha256": "5df341ce61238800fe9c10f9d7767cc20e7400145dffa91c60403232c838bfdb"
+    },
+    {
+      "path": ".owl/acquisition/phet-screen-completion/construction-screen-report-20260927.json",
+      "size_bytes": 504226,
+      "sha256": "1a09c70efd37a187d67c8f5276e26bc383d8d53b1cc6501a6d0a423a30d2bf86"
+    },
+    {
+      "path": "scripts/check_phet_screens.cjs",
+      "size_bytes": 12169,
+      "sha256": "cf0252cb01975004ca5fc8899c34cfb9d6043599dbd77a16711f43c7610f84bc"
+    },
+    {
+      "path": "scripts/summarize_phet_screens.py",
+      "size_bytes": 7433,
+      "sha256": "fb91c2d4c9dab2b821126ca73fea043a5c7def1f852c124686b48dac52215845"
+    }
+  ],
+  "visual_review_contact_sheets": [
+    {
+      "path": ".owl/acquisition/phet-screen-completion/review-contact-sheets/screens-1.jpg",
+      "size_bytes": 281208,
+      "sha256": "8bf33511ea88f913ebaa773df4db8e9671f4706d6e4ddd8c36439975998e76a1"
+    },
+    {
+      "path": ".owl/acquisition/phet-screen-completion/review-contact-sheets/screens-2.jpg",
+      "size_bytes": 256917,
+      "sha256": "682af979f69859250d328e85b1c4eb7bb76d363b589208d9f5789f00ab7f079e"
+    },
+    {
+      "path": ".owl/acquisition/phet-screen-completion/review-contact-sheets/screens-3.jpg",
+      "size_bytes": 235731,
+      "sha256": "57fa05252593d2643298bb3cb11aae8e619039cbf9eaab7a624a66c3ec1ccd7c"
+    },
+    {
+      "path": ".owl/acquisition/phet-screen-completion/review-contact-sheets/screens-4.jpg",
+      "size_bytes": 282143,
+      "sha256": "1deacabc0dfc9370c673ed6aadcb4aee18bef9a1dcc492d514e4f8c66047b28c"
+    },
+    {
+      "path": ".owl/acquisition/phet-screen-completion/review-contact-sheets/screens-5.jpg",
+      "size_bytes": 270360,
+      "sha256": "4042a145150f99b9b0f356947fcc1e465407fa3e96d968be904ade3960bfd3d2"
+    },
+    {
+      "path": ".owl/acquisition/phet-screen-completion/review-contact-sheets/screens-6.jpg",
+      "size_bytes": 248875,
+      "sha256": "ce138bafd132ee4dc509a9acb94afdbcecbbd31828cd8426517a4a93fb808eda"
+    },
+    {
+      "path": ".owl/acquisition/phet-screen-completion/review-contact-sheets/screens-7.jpg",
+      "size_bytes": 77847,
+      "sha256": "2a3eb480fcde9a2711845012423a86fd2ae2ba9a045d3596f0efb1ad116ec5ae"
+    }
+  ],
+  "simulations": [
+    {
+      "id": "phet_ohms_law",
+      "sha256": "731c7203f07967bf295e926e4f60dad51eecd4a132fa68e956819416d3bf83b8",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": ""
+        }
+      ],
+      "teaching_review": "Voltage, resistance, current equation and battery/resistor diagram render; changing voltage gives the corresponding current and Reset All restores defaults."
+    },
+    {
+      "id": "phet_circuit_construction_kit_dc",
+      "sha256": "1ef2e7af1bc2381c8a376a88aa5a4ccdf608e77089cfc44960bce0df2d3f106a",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aLab\u202c"
+        }
+      ],
+      "teaching_review": "Intro and Lab display component palettes, current conventions and meters. Additional checks place a battery in each workspace and verify circuit-element creation and complete reset."
+    },
+    {
+      "id": "phet_forces_and_motion_basics",
+      "sha256": "4d66c947e8390a3af9bd012f6b50a13f031ee5323bc9505c7f0986631bbc6865",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aNet Force\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aMotion\u202c"
+        },
+        {
+          "index": 3,
+          "name": "\u202aFriction\u202c"
+        },
+        {
+          "index": 4,
+          "name": "\u202aAcceleration\u202c"
+        }
+      ],
+      "teaching_review": "Net Force, Motion, Friction and Acceleration retain force vectors and mass/speed controls. Added puller attachment and Go produce tug-of-war motion; applied-force values change in the other three screens."
+    },
+    {
+      "id": "phet_energy_skate_park_basics",
+      "sha256": "6463e32f15b0dbb61af270b580414b04f2614d0c2edd9c5d61b72cef862568a8",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aFriction\u202c"
+        },
+        {
+          "index": 3,
+          "name": "\u202aPlayground\u202c"
+        }
+      ],
+      "teaching_review": "Intro, Friction and Playground retain track, skater, energy and mass/friction controls; mass or friction changes and reset were observed."
+    },
+    {
+      "id": "phet_pendulum_lab",
+      "sha256": "f6893c6711a31bdb42968752b3b70772632892e8b9abec64127e0d4524ba015d",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 1,
+          "name": "\u202aEnergy\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aLab\u202c"
+        }
+      ],
+      "teaching_review": "Intro, Energy and Lab show pendulum geometry, length/mass/gravity controls, energy display or velocity/acceleration tools as appropriate; changing length and resetting works on all three."
+    },
+    {
+      "id": "phet_gravity_force_lab_basics",
+      "sha256": "ca53202ade58e0bd453cda46d810fb3ef9c110ce8e13cbff5de42c3df3e0aa62",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": ""
+        }
+      ],
+      "teaching_review": "Two masses, separation measurement, reciprocal force vectors and numerical force labels render coherently; moving the first mass updates separation and force and resets."
+    },
+    {
+      "id": "phet_bending_light",
+      "sha256": "11555f7cceffa0ac87120c882e7ea2b405ff762881b1f9f3bf05975afe7dcd57",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aPrisms\u202c"
+        },
+        {
+          "index": 3,
+          "name": "\u202aMore Tools\u202c"
+        }
+      ],
+      "teaching_review": "Intro, Prisms and More Tools retain the material interfaces, index controls, ray/wave choices, prism palette, wavelength and measuring tools. Laser interaction produces visible optical rays and resets."
+    },
+    {
+      "id": "phet_build_an_atom",
+      "sha256": "fd823e6bd8ac0f932bb0db5f370056f6ebdf437469964bbe45f29e9e2bdef5fc",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aAtom\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aSymbol\u202c"
+        },
+        {
+          "index": 3,
+          "name": "\u202aGame\u202c"
+        }
+      ],
+      "teaching_review": "Atom and Symbol permit proton construction with matching hydrogen/charge/nuclear-symbol content. Game exercise counts one proton and electron, selects H and Neutral Atom, receives two points and resets."
+    },
+    {
+      "id": "phet_balancing_chemical_equations",
+      "sha256": "cc2519edbbf198eb9d200549facb950a8293c478a390fedce0638f7281bf368a",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aEquations\u202c"
+        },
+        {
+          "index": 3,
+          "name": "\u202aGame\u202c"
+        }
+      ],
+      "teaching_review": "Intro and Equations retain molecular diagrams, subscripts, equation families and editable coefficients. Game exercise adjusts a coefficient, restores C + O2 = CO2, receives balanced/simplified feedback and two points, then resets."
+    },
+    {
+      "id": "phet_natural_selection",
+      "sha256": "06a982a7faf7be6320496b4a900919b6306e36beb3168ef67fe9a4138606b816",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aLab\u202c"
+        }
+      ],
+      "teaching_review": "Intro and Lab retain breeding, dominant/recessive mutation choices, environmental factors and population/proportion/pedigree views. Adding a mate starts the generation simulation and reset clears it."
+    },
+    {
+      "id": "phet_fractions_intro",
+      "sha256": "e0f25de1a1b27606c5d6a3c7caa257d8edff081498de3a9c212ade9e7356de4b",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 1,
+          "name": "\u202aGame\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aLab\u202c"
+        }
+      ],
+      "teaching_review": "Intro displays fraction numerator/denominator and representation choices; Lab supports construction with number cards. Game constructs one whole shape and scores it at the 1/1 target. Generated shape style can vary, so an early manifest comment referring to a circle does not constrain the observed shape; scoring is the asserted invariant."
+    },
+    {
+      "id": "phet_area_builder",
+      "sha256": "87f7e3839bca5638f357bf41e7eb9f467e5e8e578749c49d1e015376d2983c7c",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": "\u202aExplore\u202c"
+        },
+        {
+          "index": 1,
+          "name": "\u202aGame\u202c"
+        }
+      ],
+      "teaching_review": "Explore retains area/perimeter readouts and grid configuration; additional check places a tile and resets. Game shows a generated area challenge, accepts an actual unit tile and erases it. It does not claim completion of all randomly generated challenges."
+    },
+    {
+      "id": "phet_projectile_motion",
+      "sha256": "795b42cafa55910907b0c48e5f0e39071eecc05651af718285218b6749a5c1d3",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": "\u202aIntro\u202c"
+        },
+        {
+          "index": 1,
+          "name": "\u202aVectors\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aDrag\u202c"
+        },
+        {
+          "index": 3,
+          "name": "\u202aLab\u202c"
+        }
+      ],
+      "teaching_review": "Intro, Vectors, Drag and Lab retain cannon, target, measurement tools and each screen\u2019s velocity, force, drag, altitude or gravity controls; initial-speed changes and reset work."
+    },
+    {
+      "id": "phet_wave_on_a_string",
+      "sha256": "42c848192a98a9e53a01e1bc2b0c33a796ed195eed444d4769439cb2643a8192",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": ""
+        }
+      ],
+      "teaching_review": "Manual, oscillation and pulse choices, termination choices and damping/tension controls are embedded on the single screen; damping change and reset work."
+    },
+    {
+      "id": "phet_states_of_matter_basics",
+      "sha256": "134d176ca8012d2eefa61dfdf8a4b0ed2103be06261ec52be13859c564a3ebcf",
+      "required_screens": [
+        {
+          "index": 1,
+          "name": "\u202aStates\u202c"
+        },
+        {
+          "index": 2,
+          "name": "\u202aPhase Changes\u202c"
+        }
+      ],
+      "teaching_review": "States and Phase Changes retain particle diagrams, Neon/Argon/Oxygen/Water choices, temperature/heat controls and phase/pressure context. Gas-state selection and heater changes produce temperature changes and reset."
+    },
+    {
+      "id": "phet_ph_scale_basics_1_7_5_quarantine_20260927",
+      "sha256": "1e937f17d1093222ead81eab633842b4be4ebced3ab900fbc0584690f8c12d51",
+      "required_screens": [
+        {
+          "index": 0,
+          "name": "\u202aMacro\u202c"
+        }
+      ],
+      "teaching_review": "Macro retains pH scale, acidic/basic/neutral labels, selectable liquids, dropper, faucets, volume markings and probe. Water dropper changes solution volume and Reset All restores zero. The new observed source keeps its internal 1.7.5 identity and original notices."
+    }
+  ],
+  "changed_source_review": {
+    "old_pin": {
+      "id": "phet_ph_scale_basics",
+      "source_url": "https://phet.colorado.edu/sims/html/ph-scale-basics/1.7.5/ph-scale-basics_en.html",
+      "version": "1.7.5",
+      "size_bytes": 2519437,
+      "sha256": "5c2e09e5cec4be3836a4045b89d911dd3a2ab527b27422a5f49dbbaecafd2f77"
+    },
+    "old_pin_disposition": "Retained unchanged; current response failed its SHA check. No complete failed body survived, so no content-delta claim is made.",
+    "candidate_pin": {
+      "source_id": "phet_ph_scale_basics_1_7_5_quarantine_20260927",
+      "source_url": "https://phet.colorado.edu/sims/html/ph-scale-basics/1.7.5/ph-scale-basics_en.html",
+      "version": "1.7.5",
+      "size_bytes": 2519437,
+      "sha256": "1e937f17d1093222ead81eab633842b4be4ebced3ab900fbc0584690f8c12d51"
+    },
+    "enforced_size_origin": "Prior catalog size, used as a falsifiable exact acquisition condition; not represented as current HEAD Content-Length.",
+    "publisher_checksum_present": false,
+    "sha256_origin": "Locally observed whole-file SHA-256 after successful bounded capture and EOF; not a publisher checksum.",
+    "http_response_identity": {
+      "content_encoding": "identity",
+      "content_length": null,
+      "content_range": null,
+      "etag": null,
+      "final_url": "https://phet.colorado.edu/sims/html/ph-scale-basics/1.7.5/ph-scale-basics_en.html",
+      "kind": "http",
+      "last_modified": "Mon, 21 Sep 2026 21:10:05 GMT",
+      "offset": 0,
+      "requested_url": "https://phet.colorado.edu/sims/html/ph-scale-basics/1.7.5/ph-scale-basics_en.html",
+      "status": 200
+    },
+    "embedded_build_timestamp": [
+      "2026-09-21 21:09:34 UTC"
+    ],
+    "source_probe": {
+      "path": ".owl/acquisition/phet-screen-completion/ph-scale-source-probe-evidence.json",
+      "size_bytes": 1093,
+      "sha256": "b82f4086736b2292c98309307df385a200306c8bca2685bca559237d3bd8fabf"
+    },
+    "capture_receipt": {
+      "path": "/Volumes/General Backup/OWL-acquisition/phet-ph-scale-quarantine-20260927/receipts/phet_ph_scale_basics_1_7_5_quarantine_20260927.json",
+      "size_bytes": 2132,
+      "sha256": "a8f7e3c1d70e815280f8d978af6bcf822bbc6796a1f7fb5ea293ab5005d4eb94"
+    },
+    "acceptance_scope": "New direct edition selected only by full-1tb; published edition, original pin and fixed small-profile selections stay unchanged."
+  }
+}

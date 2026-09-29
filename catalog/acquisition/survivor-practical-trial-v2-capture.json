@@ -1,0 +1,2958 @@
+{
+  "budget": {
+    "cache_bytes": 0,
+    "download_bytes": 893599990,
+    "expanded_bytes": 0,
+    "preview_bytes": 0,
+    "scratch_bytes": 0
+  },
+  "content_ready": false,
+  "id": "survivor-practical-review-trial-v2",
+  "kind": "acquisition",
+  "metadata_allowance_bytes": 2137300,
+  "profile": "full-1tb",
+  "review_requirements": [
+    "Original complete work, whole-file pins, English language and legible illustrations/tables",
+    "Review actual contents against topic matrix; publisher categories and title matches are not coverage evidence",
+    "Deduplicate works/editions across both tiers and existing books; preserve source exclusions and historical warnings"
+  ],
+  "schema_version": 1,
+  "sources": [
+    {
+      "candidate_topics": [
+        "blacksmithing",
+        "forging"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_df205b4816cb7bed1d67.pdf",
+        "format": "pdf",
+        "id": "survivor_df205b4816cb7bed1d67",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 13942907,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-smithing/",
+        "source_url": "https://www.survivorlibrary.com/library/american_blacksmithing_toolsmiths_and_steelworkers_manual_1911.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: American Blacksmithing Toolsmiths And Steelworkers Manual 1911",
+        "version": "publisher-last-modified:Thu, 13 Dec 2012 18:54:01 GMT"
+      },
+      "id": "survivor_df205b4816cb7bed1d67",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "4eaffb88512f9dc8184e90d43654105862ef590fbfb685aa647be2a01aa05a49",
+          "url": "https://www.survivorlibrary.com/index.php/library-smithing/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:14.047880+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/american_blacksmithing_toolsmiths_and_steelworkers_manual_1911.pdf",
+              "headers": {
+                "content-length": "13942907",
+                "content-type": "application/pdf",
+                "etag": "\"9dc4693763d9cd1:0\"",
+                "last-modified": "Thu, 13 Dec 2012 18:54:01 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/american_blacksmithing_toolsmiths_and_steelworkers_manual_1911.pdf"
+            }
+          ],
+          "sha256": "93888298bec322a34f2d2f100a51c2f949813db714841284f7e90c00451fd92a",
+          "url": "https://www.survivorlibrary.com/library/american_blacksmithing_toolsmiths_and_steelworkers_manual_1911.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 13942907,
+      "source_url": "https://www.survivorlibrary.com/library/american_blacksmithing_toolsmiths_and_steelworkers_manual_1911.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Thu, 13 Dec 2012 18:54:01 GMT"
+    },
+    {
+      "candidate_topics": [
+        "blacksmithing",
+        "forging"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_9eeea4eed27b834ec316.pdf",
+        "format": "pdf",
+        "id": "survivor_9eeea4eed27b834ec316",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 5512442,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-smithing/",
+        "source_url": "https://www.survivorlibrary.com/library/forging_manual_of_practical_instruction_in_hand_forging_1919.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Forging Manual Of Practical Instruction In Hand Forging 1919",
+        "version": "publisher-last-modified:Sun, 28 Jul 2013 15:27:07 GMT"
+      },
+      "id": "survivor_9eeea4eed27b834ec316",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "c723437e0dba6270bc88fee3d11667f6a89ce414d85b666a55b4c313e1f0f3c8",
+          "url": "https://www.survivorlibrary.com/index.php/library-smithing/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:14.418602+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/forging_manual_of_practical_instruction_in_hand_forging_1919.pdf",
+              "headers": {
+                "content-length": "5512442",
+                "content-type": "application/pdf",
+                "etag": "\"94debdeba68bce1:0\"",
+                "last-modified": "Sun, 28 Jul 2013 15:27:07 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/forging_manual_of_practical_instruction_in_hand_forging_1919.pdf"
+            }
+          ],
+          "sha256": "5a5b33b03d5e79d234c409ff6a5a9aa5a8b2febfaeda1bb0019216d11b405aab",
+          "url": "https://www.survivorlibrary.com/library/forging_manual_of_practical_instruction_in_hand_forging_1919.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 5512442,
+      "source_url": "https://www.survivorlibrary.com/library/forging_manual_of_practical_instruction_in_hand_forging_1919.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Sun, 28 Jul 2013 15:27:07 GMT"
+    },
+    {
+      "candidate_topics": [
+        "machine tools",
+        "machining",
+        "toolmaking"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_1ff2cb86752f6e51a06a.pdf",
+        "format": "pdf",
+        "id": "survivor_1ff2cb86752f6e51a06a",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 27396604,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-machine_tools/",
+        "source_url": "https://www.survivorlibrary.com/library/tm_9-242_fundamentals_of_ordnance_corps_machine_tools_1959.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Tm 9-242 Fundamentals Of Ordnance Corps Machine Tools 1959",
+        "version": "publisher-last-modified:Mon, 10 Jun 2013 18:07:03 GMT"
+      },
+      "id": "survivor_1ff2cb86752f6e51a06a",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "6e1c6faeba797b5c25d91bd81e7ad3558930a4f8c7b24f55cd7cbc0e46240407",
+          "url": "https://www.survivorlibrary.com/index.php/library-machine_tools/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:14.599291+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/tm_9-242_fundamentals_of_ordnance_corps_machine_tools_1959.pdf",
+              "headers": {
+                "content-length": "27396604",
+                "content-type": "application/pdf",
+                "etag": "\"f1f824f566ce1:0\"",
+                "last-modified": "Mon, 10 Jun 2013 18:07:03 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/tm_9-242_fundamentals_of_ordnance_corps_machine_tools_1959.pdf"
+            }
+          ],
+          "sha256": "366cbd4c205d5f7a09a0fa2c4468e3ef0d78e5d91d65252e76fe3067f21c70b3",
+          "url": "https://www.survivorlibrary.com/library/tm_9-242_fundamentals_of_ordnance_corps_machine_tools_1959.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 27396604,
+      "source_url": "https://www.survivorlibrary.com/library/tm_9-242_fundamentals_of_ordnance_corps_machine_tools_1959.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Mon, 10 Jun 2013 18:07:03 GMT"
+    },
+    {
+      "candidate_topics": [
+        "machine tools",
+        "machining",
+        "toolmaking"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_9005ace0aa0da5ce85b4.pdf",
+        "format": "pdf",
+        "id": "survivor_9005ace0aa0da5ce85b4",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 12122867,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-machine_tools/",
+        "source_url": "https://www.survivorlibrary.com/library/tool_making-a_practical_treatise_on_the_art_of_making_tools_1919.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Tool Making-A Practical Treatise On The Art Of Making Tools 1919",
+        "version": "publisher-last-modified:Sun, 04 Aug 2013 22:22:30 GMT"
+      },
+      "id": "survivor_9005ace0aa0da5ce85b4",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "7dadc17fe9a7cf7f52ccae83ce36842e7ac02ababb52073d8d45d1582ab1cf0a",
+          "url": "https://www.survivorlibrary.com/index.php/library-machine_tools/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:14.777959+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/tool_making-a_practical_treatise_on_the_art_of_making_tools_1919.pdf",
+              "headers": {
+                "content-length": "12122867",
+                "content-type": "application/pdf",
+                "etag": "\"d89ba51b6191ce1:0\"",
+                "last-modified": "Sun, 04 Aug 2013 22:22:30 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/tool_making-a_practical_treatise_on_the_art_of_making_tools_1919.pdf"
+            }
+          ],
+          "sha256": "b90a2fdcb2f270fec3e0062945e6a97aef84b313421ab2dcc95380098554765f",
+          "url": "https://www.survivorlibrary.com/library/tool_making-a_practical_treatise_on_the_art_of_making_tools_1919.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 12122867,
+      "source_url": "https://www.survivorlibrary.com/library/tool_making-a_practical_treatise_on_the_art_of_making_tools_1919.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Sun, 04 Aug 2013 22:22:30 GMT"
+    },
+    {
+      "candidate_topics": [
+        "blacksmithing",
+        "forging"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_3c701c9dbd6ccfba0846.pdf",
+        "format": "pdf",
+        "id": "survivor_3c701c9dbd6ccfba0846",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 8464471,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-smithing/",
+        "source_url": "https://www.survivorlibrary.com/library/electric_welding_1914.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Electric Welding 1914",
+        "version": "publisher-last-modified:Fri, 03 Oct 2014 17:55:59 GMT"
+      },
+      "id": "survivor_3c701c9dbd6ccfba0846",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "d0c1fb146ab238f393c4d9e91e7f6ca6f2bb79602ba2d594795ffd4d9c3a1ace",
+          "url": "https://www.survivorlibrary.com/index.php/library-smithing/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:15.225922+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/electric_welding_1914.pdf",
+              "headers": {
+                "content-length": "8464471",
+                "content-type": "application/pdf",
+                "etag": "\"794eb4933dfcf1:0\"",
+                "last-modified": "Fri, 03 Oct 2014 17:55:59 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/electric_welding_1914.pdf"
+            }
+          ],
+          "sha256": "0d7655843c1d290955fd945d31205d31fc68bd2df8a77bbc288d175768ef5f94",
+          "url": "https://www.survivorlibrary.com/library/electric_welding_1914.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 8464471,
+      "source_url": "https://www.survivorlibrary.com/library/electric_welding_1914.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Fri, 03 Oct 2014 17:55:59 GMT"
+    },
+    {
+      "candidate_topics": [
+        "machine tools",
+        "machining",
+        "toolmaking"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_b0418beaec44623ec2cb.pdf",
+        "format": "pdf",
+        "id": "survivor_b0418beaec44623ec2cb",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 30480247,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-machine_tools/",
+        "source_url": "https://www.survivorlibrary.com/library/machine_tools_and_workshop_practice_1905.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Machine Tools And Workshop Practice 1905",
+        "version": "publisher-last-modified:Sun, 04 Aug 2013 20:41:18 GMT"
+      },
+      "id": "survivor_b0418beaec44623ec2cb",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "809aec439e76f0b1d2ad59b92ac4596da12cd4dc4bb2e7909d019a2f20f0bd74",
+          "url": "https://www.survivorlibrary.com/index.php/library-machine_tools/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:15.396741+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/machine_tools_and_workshop_practice_1905.pdf",
+              "headers": {
+                "content-length": "30480247",
+                "content-type": "application/pdf",
+                "etag": "\"6a529ef85291ce1:0\"",
+                "last-modified": "Sun, 04 Aug 2013 20:41:18 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/machine_tools_and_workshop_practice_1905.pdf"
+            }
+          ],
+          "sha256": "2fd02a2d25bb79be785b5715356dfbfde24d912cd652edcd8d58b30044c5fd7d",
+          "url": "https://www.survivorlibrary.com/library/machine_tools_and_workshop_practice_1905.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 30480247,
+      "source_url": "https://www.survivorlibrary.com/library/machine_tools_and_workshop_practice_1905.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Sun, 04 Aug 2013 20:41:18 GMT"
+    },
+    {
+      "candidate_topics": [
+        "masonry"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_04be62cf2788e06050e8.pdf",
+        "format": "pdf",
+        "id": "survivor_04be62cf2788e06050e8",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 9391863,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-stone_and_masonry/",
+        "source_url": "https://www.survivorlibrary.com/library/masonry-a_short_text_book_on_masonry_construction_1915.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Masonry-A Short Text Book On Masonry Construction 1915",
+        "version": "publisher-last-modified:Thu, 08 Aug 2013 13:17:04 GMT"
+      },
+      "id": "survivor_04be62cf2788e06050e8",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "e4add46c59e3cbed37f030f2b8179ab12aff59792e9496f2e60009bdc6291bcb",
+          "url": "https://www.survivorlibrary.com/index.php/library-stone_and_masonry/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:15.737729+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/masonry-a_short_text_book_on_masonry_construction_1915.pdf",
+              "headers": {
+                "content-length": "9391863",
+                "content-type": "application/pdf",
+                "etag": "\"a6931933994ce1:0\"",
+                "last-modified": "Thu, 08 Aug 2013 13:17:04 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/masonry-a_short_text_book_on_masonry_construction_1915.pdf"
+            }
+          ],
+          "sha256": "32d012090d033e3e8e9c0bb8eb1723f59e485e870f41b034c56359ea4599014d",
+          "url": "https://www.survivorlibrary.com/library/masonry-a_short_text_book_on_masonry_construction_1915.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 9391863,
+      "source_url": "https://www.survivorlibrary.com/library/masonry-a_short_text_book_on_masonry_construction_1915.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Thu, 08 Aug 2013 13:17:04 GMT"
+    },
+    {
+      "candidate_topics": [
+        "carpentry",
+        "joinery",
+        "woodworking"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_97f39cf623e767ab1ad3.pdf",
+        "format": "pdf",
+        "id": "survivor_97f39cf623e767ab1ad3",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 9950880,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-wood_carpentry/",
+        "source_url": "https://www.survivorlibrary.com/library/modern_carpentry-a_practical_manual_vol_1_1917.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Modern Carpentry-A Practical Manual Vol 1 1917",
+        "version": "publisher-last-modified:Fri, 28 Dec 2012 20:00:29 GMT"
+      },
+      "id": "survivor_97f39cf623e767ab1ad3",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "6cefecd1edcfbd3569915ac6df854cf28dc65a42d6938b2eaa30ec871e04a69f",
+          "url": "https://www.survivorlibrary.com/index.php/library-wood_carpentry/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:16.044051+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/modern_carpentry-a_practical_manual_vol_1_1917.pdf",
+              "headers": {
+                "content-length": "9950880",
+                "content-type": "application/pdf",
+                "etag": "\"b378bcfc35e5cd1:0\"",
+                "last-modified": "Fri, 28 Dec 2012 20:00:29 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/modern_carpentry-a_practical_manual_vol_1_1917.pdf"
+            }
+          ],
+          "sha256": "c0597932583874c8a01b0fc39b9f00f8c17bbc13c1e9119bc08c0243361c12f0",
+          "url": "https://www.survivorlibrary.com/library/modern_carpentry-a_practical_manual_vol_1_1917.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 9950880,
+      "source_url": "https://www.survivorlibrary.com/library/modern_carpentry-a_practical_manual_vol_1_1917.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Fri, 28 Dec 2012 20:00:29 GMT"
+    },
+    {
+      "candidate_topics": [
+        "carpentry",
+        "joinery",
+        "woodworking"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_9b6f1269df6bc16b6d36.pdf",
+        "format": "pdf",
+        "id": "survivor_9b6f1269df6bc16b6d36",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 10410474,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-wood_carpentry/",
+        "source_url": "https://www.survivorlibrary.com/library/modern_carpentry-a_practical_manual_vol_2_1917.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Modern Carpentry-A Practical Manual Vol 2 1917",
+        "version": "publisher-last-modified:Fri, 28 Dec 2012 20:00:35 GMT"
+      },
+      "id": "survivor_9b6f1269df6bc16b6d36",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "6f47d683216c00b46ade0c5ba7bae4a340ccb79a240ddf07fe8275a6d11ac568",
+          "url": "https://www.survivorlibrary.com/index.php/library-wood_carpentry/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:16.402575+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/modern_carpentry-a_practical_manual_vol_2_1917.pdf",
+              "headers": {
+                "content-length": "10410474",
+                "content-type": "application/pdf",
+                "etag": "\"3e8d1c036e5cd1:0\"",
+                "last-modified": "Fri, 28 Dec 2012 20:00:35 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/modern_carpentry-a_practical_manual_vol_2_1917.pdf"
+            }
+          ],
+          "sha256": "417eda6a43817d76887a1575d210f75bf0ea76f2a622421726c2ce2505303584",
+          "url": "https://www.survivorlibrary.com/library/modern_carpentry-a_practical_manual_vol_2_1917.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 10410474,
+      "source_url": "https://www.survivorlibrary.com/library/modern_carpentry-a_practical_manual_vol_2_1917.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Fri, 28 Dec 2012 20:00:35 GMT"
+    },
+    {
+      "candidate_topics": [
+        "furniture"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_16f51fc9006ec9c94344.pdf",
+        "format": "pdf",
+        "id": "survivor_16f51fc9006ec9c94344",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 28253566,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-wood_furniture/",
+        "source_url": "https://www.survivorlibrary.com/library/modern_practical_joinery_1908.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Modern Practical Joinery 1908",
+        "version": "publisher-last-modified:Sun, 23 Feb 2014 09:11:34 GMT"
+      },
+      "id": "survivor_16f51fc9006ec9c94344",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "cffb98a6ff8e10366c2864a60fd3bce6de4bfb20c02e21eb786934ecc8f1a3bc",
+          "url": "https://www.survivorlibrary.com/index.php/library-wood_furniture/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:16.631307+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/modern_practical_joinery_1908.pdf",
+              "headers": {
+                "content-length": "28253566",
+                "content-type": "application/pdf",
+                "etag": "\"6058ee3f7730cf1:0\"",
+                "last-modified": "Sun, 23 Feb 2014 09:11:34 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/modern_practical_joinery_1908.pdf"
+            }
+          ],
+          "sha256": "748d3ce32aca38fd68ea8de6c13ba8556c15ed25c2efb2f86b8609816601f035",
+          "url": "https://www.survivorlibrary.com/library/modern_practical_joinery_1908.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 28253566,
+      "source_url": "https://www.survivorlibrary.com/library/modern_practical_joinery_1908.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Sun, 23 Feb 2014 09:11:34 GMT"
+    },
+    {
+      "candidate_topics": [
+        "concrete"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_cb06c2682d54f8a1ec02.pdf",
+        "format": "pdf",
+        "id": "survivor_cb06c2682d54f8a1ec02",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 31333219,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-concrete/",
+        "source_url": "https://www.survivorlibrary.com/library/cement_concrete_and_bricks_1914.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Cement Concrete And Bricks 1914",
+        "version": "publisher-last-modified:Mon, 12 Jun 2023 19:03:18 GMT"
+      },
+      "id": "survivor_cb06c2682d54f8a1ec02",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "c48e97d5296533f9dfdf044636ee129e73b11080ef254c1a8ace7ca66413e4d9",
+          "url": "https://www.survivorlibrary.com/index.php/library-concrete/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:16.809450+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/cement_concrete_and_bricks_1914.pdf",
+              "headers": {
+                "content-length": "31333219",
+                "content-type": "application/pdf",
+                "etag": "\"497dae8c609dd91:0\"",
+                "last-modified": "Mon, 12 Jun 2023 19:03:18 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/cement_concrete_and_bricks_1914.pdf"
+            }
+          ],
+          "sha256": "1bf8378730fdd9472ad293a8d3cbc7524f5831e6b0b9252d58ddf185ee473be0",
+          "url": "https://www.survivorlibrary.com/library/cement_concrete_and_bricks_1914.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 31333219,
+      "source_url": "https://www.survivorlibrary.com/library/cement_concrete_and_bricks_1914.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Mon, 12 Jun 2023 19:03:18 GMT"
+    },
+    {
+      "candidate_topics": [
+        "concrete"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_8a8c76d33ac1d05886f7.pdf",
+        "format": "pdf",
+        "id": "survivor_8a8c76d33ac1d05886f7",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 60295081,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-concrete/",
+        "source_url": "https://www.survivorlibrary.com/library/concrete_engineers_handbook_1918.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Concrete Engineers Handbook 1918",
+        "version": "publisher-last-modified:Mon, 12 Jun 2023 20:25:37 GMT"
+      },
+      "id": "survivor_8a8c76d33ac1d05886f7",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "4add077b8c02406d469f7eeba00c22ce5ea55f9422edb330e05c75fe5becf208",
+          "url": "https://www.survivorlibrary.com/index.php/library-concrete/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:16.984016+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/concrete_engineers_handbook_1918.pdf",
+              "headers": {
+                "content-length": "60295081",
+                "content-type": "application/pdf",
+                "etag": "\"f2eb3cc6c9dd91:0\"",
+                "last-modified": "Mon, 12 Jun 2023 20:25:37 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/concrete_engineers_handbook_1918.pdf"
+            }
+          ],
+          "sha256": "78094cb6242c48366f062926e02cdc8dd0d1294829045ca075233311c51ad732",
+          "url": "https://www.survivorlibrary.com/library/concrete_engineers_handbook_1918.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 60295081,
+      "source_url": "https://www.survivorlibrary.com/library/concrete_engineers_handbook_1918.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Mon, 12 Jun 2023 20:25:37 GMT"
+    },
+    {
+      "candidate_topics": [
+        "concrete"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_6158a0bd04500e785b0a.pdf",
+        "format": "pdf",
+        "id": "survivor_6158a0bd04500e785b0a",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 7630469,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-concrete/",
+        "source_url": "https://www.survivorlibrary.com/library/portland_cement_concrete_roads_1922.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Portland Cement Concrete Roads 1922",
+        "version": "publisher-last-modified:Mon, 12 Jun 2023 19:59:06 GMT"
+      },
+      "id": "survivor_6158a0bd04500e785b0a",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "c916b8213a5ee2827c8132d3cbea434763d5c11a139e953c3e4c5bed1e2a9795",
+          "url": "https://www.survivorlibrary.com/index.php/library-concrete/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:17.163774+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/portland_cement_concrete_roads_1922.pdf",
+              "headers": {
+                "content-length": "7630469",
+                "content-type": "application/pdf",
+                "etag": "\"58db2058689dd91:0\"",
+                "last-modified": "Mon, 12 Jun 2023 19:59:06 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/portland_cement_concrete_roads_1922.pdf"
+            }
+          ],
+          "sha256": "c0ccc8740b7a34f9ccfd78a0a09b904e0a8e08a3aedb8c3b63d8b67f67c4d446",
+          "url": "https://www.survivorlibrary.com/library/portland_cement_concrete_roads_1922.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 7630469,
+      "source_url": "https://www.survivorlibrary.com/library/portland_cement_concrete_roads_1922.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Mon, 12 Jun 2023 19:59:06 GMT"
+    },
+    {
+      "candidate_topics": [
+        "concrete"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_66791475d295b0776598.pdf",
+        "format": "pdf",
+        "id": "survivor_66791475d295b0776598",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 197216364,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-concrete/",
+        "source_url": "https://www.survivorlibrary.com/library/small_concrete_bridges_and_culverts_1914.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Small Concrete Bridges And Culverts 1914",
+        "version": "publisher-last-modified:Mon, 12 Jun 2023 18:00:50 GMT"
+      },
+      "id": "survivor_66791475d295b0776598",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "3dba1c1bb85b53ae6098bdbdb8e1fb2a9f7ac5e37ee98dd8317d453218239782",
+          "url": "https://www.survivorlibrary.com/index.php/library-concrete/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-23T13:28:17.369240+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/small_concrete_bridges_and_culverts_1914.pdf",
+              "headers": {
+                "content-length": "197216364",
+                "content-type": "application/pdf",
+                "etag": "\"166b2d2579dd91:0\"",
+                "last-modified": "Mon, 12 Jun 2023 18:00:50 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/small_concrete_bridges_and_culverts_1914.pdf"
+            }
+          ],
+          "sha256": "7aaf98faaa8a4ca8f00f81f69f1e468185e44476fe951833d0ad36d88dff9d59",
+          "url": "https://www.survivorlibrary.com/library/small_concrete_bridges_and_culverts_1914.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 197216364,
+      "source_url": "https://www.survivorlibrary.com/library/small_concrete_bridges_and_culverts_1914.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Mon, 12 Jun 2023 18:00:50 GMT"
+    },
+    {
+      "candidate_topics": [
+        "surveying"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_645e1e81408ab304fa5f.pdf",
+        "format": "pdf",
+        "id": "survivor_645e1e81408ab304fa5f",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 29346874,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-surveying/",
+        "source_url": "https://www.survivorlibrary.com/library/a_manual_of_the_instruments_used_in_american_engineering_and_surveying_1921.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: A Manual Of The Instruments Used In American Engineering And Surveying 1921",
+        "version": "publisher-last-modified:Thu, 08 Aug 2013 18:26:19 GMT"
+      },
+      "id": "survivor_645e1e81408ab304fa5f",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "ef7e96d643401b8efb4f28f2a19d545b1297bdd7bfe947813d61ef4bc26ae606",
+          "url": "https://www.survivorlibrary.com/index.php/library-surveying/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:21.743712+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/a_manual_of_the_instruments_used_in_american_engineering_and_surveying_1921.pdf",
+              "headers": {
+                "content-length": "29346874",
+                "content-type": "application/pdf",
+                "etag": "\"bbc16c76494ce1:0\"",
+                "last-modified": "Thu, 08 Aug 2013 18:26:19 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/a_manual_of_the_instruments_used_in_american_engineering_and_surveying_1921.pdf"
+            }
+          ],
+          "sha256": "8b544889316b6b20e0d820f321a664100b5a91829acb67744d97029718d2d01d",
+          "url": "https://www.survivorlibrary.com/library/a_manual_of_the_instruments_used_in_american_engineering_and_surveying_1921.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 29346874,
+      "source_url": "https://www.survivorlibrary.com/library/a_manual_of_the_instruments_used_in_american_engineering_and_surveying_1921.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Thu, 08 Aug 2013 18:26:19 GMT"
+    },
+    {
+      "candidate_topics": [
+        "advanced mining",
+        "mining"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_0034bbfb12fe62320d78.pdf",
+        "format": "pdf",
+        "id": "survivor_0034bbfb12fe62320d78",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 16376252,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-coal_and_mining/",
+        "source_url": "https://www.survivorlibrary.com/library/principles_construction_and_application_of_pumping_machinery_1905.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Principles Construction And Application Of Pumping Machinery 1905",
+        "version": "publisher-last-modified:Tue, 11 Feb 2014 20:57:34 GMT"
+      },
+      "id": "survivor_0034bbfb12fe62320d78",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "d377728a7c9998c3405eff3e193cac977de0264285919469a902725d60c1e0d0",
+          "url": "https://www.survivorlibrary.com/index.php/library-coal_and_mining/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:21.965295+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/principles_construction_and_application_of_pumping_machinery_1905.pdf",
+              "headers": {
+                "content-length": "16376252",
+                "content-type": "application/pdf",
+                "etag": "\"49f72be36b27cf1:0\"",
+                "last-modified": "Tue, 11 Feb 2014 20:57:34 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/principles_construction_and_application_of_pumping_machinery_1905.pdf"
+            }
+          ],
+          "sha256": "0299849453be3234b1e83ced959f9cb266047ea73ba33cb4f552e64d76e78b35",
+          "url": "https://www.survivorlibrary.com/library/principles_construction_and_application_of_pumping_machinery_1905.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "sha256": null,
+      "size_bytes": 16376252,
+      "source_url": "https://www.survivorlibrary.com/library/principles_construction_and_application_of_pumping_machinery_1905.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Tue, 11 Feb 2014 20:57:34 GMT"
+    },
+    {
+      "candidate_topics": [
+        "advanced steam engineering",
+        "engines",
+        "steam engines"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_12716c227b21cf899ba1.pdf",
+        "format": "pdf",
+        "id": "survivor_12716c227b21cf899ba1",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 15442635,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-steam_engines/",
+        "source_url": "https://www.survivorlibrary.com/library/power_and_power_transmission_1902.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Power And Power Transmission 1902",
+        "version": "publisher-last-modified:Mon, 05 Aug 2013 14:31:40 GMT"
+      },
+      "id": "survivor_12716c227b21cf899ba1",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "e442f616b0a23407d311c1a32d03cfd791a80817ee6bf7b97ee8d085985c87aa",
+          "url": "https://www.survivorlibrary.com/index.php/library-steam_engines/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:22.537675+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/power_and_power_transmission_1902.pdf",
+              "headers": {
+                "content-length": "15442635",
+                "content-type": "application/pdf",
+                "etag": "\"7ce61880e891ce1:0\"",
+                "last-modified": "Mon, 05 Aug 2013 14:31:40 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/power_and_power_transmission_1902.pdf"
+            }
+          ],
+          "sha256": "e22fdd4dce3b443bf85aa466652b3c1f764e43b66b5bffac8db0fea5ca9054ef",
+          "url": "https://www.survivorlibrary.com/library/power_and_power_transmission_1902.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "sha256": null,
+      "size_bytes": 15442635,
+      "source_url": "https://www.survivorlibrary.com/library/power_and_power_transmission_1902.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Mon, 05 Aug 2013 14:31:40 GMT"
+    },
+    {
+      "candidate_topics": [
+        "water power",
+        "wind power"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_15a3aaf24c033cd6cd22.pdf",
+        "format": "pdf",
+        "id": "survivor_15a3aaf24c033cd6cd22",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 1995937,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-wind_and_water/",
+        "source_url": "https://www.survivorlibrary.com/library/windmills_and_wind_motors_-_how_to_build_and_run_them_1910.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Windmills And Wind Motors - How To Build And Run Them 1910",
+        "version": "publisher-last-modified:Tue, 06 Aug 2013 15:52:10 GMT"
+      },
+      "id": "survivor_15a3aaf24c033cd6cd22",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "f8ef27c6a7ccbc6cd2e3626b735a14737bdbc112aa5137609516702de44e7b58",
+          "url": "https://www.survivorlibrary.com/index.php/library-wind_and_water/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:22.776930+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/windmills_and_wind_motors_-_how_to_build_and_run_them_1910.pdf",
+              "headers": {
+                "content-length": "1995937",
+                "content-type": "application/pdf",
+                "etag": "\"f7c43de9bc92ce1:0\"",
+                "last-modified": "Tue, 06 Aug 2013 15:52:10 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/windmills_and_wind_motors_-_how_to_build_and_run_them_1910.pdf"
+            }
+          ],
+          "sha256": "75babc439528733a1b0b2df22bd2ba8d278b7918946f22f9c2c7c536a7aede95",
+          "url": "https://www.survivorlibrary.com/library/windmills_and_wind_motors_-_how_to_build_and_run_them_1910.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 1995937,
+      "source_url": "https://www.survivorlibrary.com/library/windmills_and_wind_motors_-_how_to_build_and_run_them_1910.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Tue, 06 Aug 2013 15:52:10 GMT"
+    },
+    {
+      "candidate_topics": [
+        "pumps",
+        "water systems"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_66ec6b25046318ca84d9.pdf",
+        "format": "pdf",
+        "id": "survivor_66ec6b25046318ca84d9",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 21711983,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-engineering_hydraulics/",
+        "source_url": "https://www.survivorlibrary.com/library/hydro_electric_practice-a_manual_of_the_development_of_water_power_1911.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Hydro Electric Practice-A Manual Of The Development Of Water Power 1911",
+        "version": "publisher-last-modified:Mon, 16 Sep 2013 19:54:58 GMT"
+      },
+      "id": "survivor_66ec6b25046318ca84d9",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "586435e029489e9925f77aa3912dcd1f49f56d5d44e14e1a17c772bce9266982",
+          "url": "https://www.survivorlibrary.com/index.php/library-engineering_hydraulics/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:24.228699+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/hydro_electric_practice-a_manual_of_the_development_of_water_power_1911.pdf",
+              "headers": {
+                "content-length": "21711983",
+                "content-type": "application/pdf",
+                "etag": "\"78a1269f16b3ce1:0\"",
+                "last-modified": "Mon, 16 Sep 2013 19:54:58 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/hydro_electric_practice-a_manual_of_the_development_of_water_power_1911.pdf"
+            }
+          ],
+          "sha256": "ecd2e52d42dc509d90ba1060716c7d18239c3a701ac4b72bd3f9c96eaa619670",
+          "url": "https://www.survivorlibrary.com/library/hydro_electric_practice-a_manual_of_the_development_of_water_power_1911.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 21711983,
+      "source_url": "https://www.survivorlibrary.com/library/hydro_electric_practice-a_manual_of_the_development_of_water_power_1911.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Mon, 16 Sep 2013 19:54:58 GMT"
+    },
+    {
+      "candidate_topics": [
+        "crop cultivation",
+        "farming"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_c6e6c08d474f8aa9c572.pdf",
+        "format": "pdf",
+        "id": "survivor_c6e6c08d474f8aa9c572",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 23936495,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-farming/",
+        "source_url": "https://www.survivorlibrary.com/library/farm_machinery_and_farm_motors-1908.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Farm Machinery And Farm Motors-1908",
+        "version": "publisher-last-modified:Tue, 22 Jan 2013 15:45:07 GMT"
+      },
+      "id": "survivor_c6e6c08d474f8aa9c572",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "7c4d01857e4bafb6500a95f75331a656570025f22febacfce97522bbc0cea2d1",
+          "url": "https://www.survivorlibrary.com/index.php/library-farming/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:24.513907+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/farm_machinery_and_farm_motors-1908.pdf",
+              "headers": {
+                "content-length": "23936495",
+                "content-type": "application/pdf",
+                "etag": "\"ae4df74b7f8cd1:0\"",
+                "last-modified": "Tue, 22 Jan 2013 15:45:07 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/farm_machinery_and_farm_motors-1908.pdf"
+            }
+          ],
+          "sha256": "ef54f5e2273fbdd17aba841dc6729c6e6fbffe05818eb06e7f38841a8bdd0bac",
+          "url": "https://www.survivorlibrary.com/library/farm_machinery_and_farm_motors-1908.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 23936495,
+      "source_url": "https://www.survivorlibrary.com/library/farm_machinery_and_farm_motors-1908.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Tue, 22 Jan 2013 15:45:07 GMT"
+    },
+    {
+      "candidate_topics": [
+        "crop cultivation",
+        "farming"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_57dcfa74237d8fd41ac8.pdf",
+        "format": "pdf",
+        "id": "survivor_57dcfa74237d8fd41ac8",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 14050684,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-farming/",
+        "source_url": "https://www.survivorlibrary.com/library/dairy_farming-what_cows_to_buy__how_to_house_feed_and_care_for_them_and_make_dairying_pay-1912.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Dairy Farming-What Cows To Buy How To House Feed And Care For Them And Make Dairying Pay-1912",
+        "version": "publisher-last-modified:Mon, 21 Jan 2013 21:28:12 GMT"
+      },
+      "id": "survivor_57dcfa74237d8fd41ac8",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "6e4a15c0c5eeb313449ed2001cedca9c6ee3e21ff63dfdf9d0c935e500511a11",
+          "url": "https://www.survivorlibrary.com/index.php/library-farming/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:27.695306+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/dairy_farming-what_cows_to_buy__how_to_house_feed_and_care_for_them_and_make_dairying_pay-1912.pdf",
+              "headers": {
+                "content-length": "14050684",
+                "content-type": "application/pdf",
+                "etag": "\"213c7a371ef8cd1:0\"",
+                "last-modified": "Mon, 21 Jan 2013 21:28:12 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/dairy_farming-what_cows_to_buy__how_to_house_feed_and_care_for_them_and_make_dairying_pay-1912.pdf"
+            }
+          ],
+          "sha256": "4aedbccbc33f35a4c5f6987dddda17155b9b81137fdeea20d135c5bd18c36981",
+          "url": "https://www.survivorlibrary.com/library/dairy_farming-what_cows_to_buy__how_to_house_feed_and_care_for_them_and_make_dairying_pay-1912.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 14050684,
+      "source_url": "https://www.survivorlibrary.com/library/dairy_farming-what_cows_to_buy__how_to_house_feed_and_care_for_them_and_make_dairying_pay-1912.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Mon, 21 Jan 2013 21:28:12 GMT"
+    },
+    {
+      "candidate_topics": [
+        "beekeeping"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_d8c42d29569996604093.pdf",
+        "format": "pdf",
+        "id": "survivor_d8c42d29569996604093",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 8407953,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-beekeeping/",
+        "source_url": "https://www.survivorlibrary.com/library/the_practical_bee_guide-a_manual_of_modern_beekeeping_1921.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: The Practical Bee Guide-A Manual Of Modern Beekeeping 1921",
+        "version": "publisher-last-modified:Tue, 11 Dec 2012 14:22:22 GMT"
+      },
+      "id": "survivor_d8c42d29569996604093",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "13c055212e305895e2888ab37127e98a8718fa6f04b538d4d6ecaed4f58e46dc",
+          "url": "https://www.survivorlibrary.com/index.php/library-beekeeping/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:30.279795+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/the_practical_bee_guide-a_manual_of_modern_beekeeping_1921.pdf",
+              "headers": {
+                "content-length": "8407953",
+                "content-type": "application/pdf",
+                "etag": "\"8a6294efaad7cd1:0\"",
+                "last-modified": "Tue, 11 Dec 2012 14:22:22 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/the_practical_bee_guide-a_manual_of_modern_beekeeping_1921.pdf"
+            }
+          ],
+          "sha256": "00dae81eae43b7a88d4b9540f428767917993bb5615c22a0ee0edd5de5b63305",
+          "url": "https://www.survivorlibrary.com/library/the_practical_bee_guide-a_manual_of_modern_beekeeping_1921.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 8407953,
+      "source_url": "https://www.survivorlibrary.com/library/the_practical_bee_guide-a_manual_of_modern_beekeeping_1921.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Tue, 11 Dec 2012 14:22:22 GMT"
+    },
+    {
+      "candidate_topics": [
+        "crop cultivation",
+        "farming"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_4e2d3c3e613f50b69145.pdf",
+        "format": "pdf",
+        "id": "survivor_4e2d3c3e613f50b69145",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 9148253,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-farming/",
+        "source_url": "https://www.survivorlibrary.com/library/how_to_grow_vegetables_and_garden_herbs-a_practical_handbook_and_planting_table_for_the_vegetable_gardener-1911.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: How To Grow Vegetables And Garden Herbs-A Practical Handbook And Planting Table For The Vegetable Gardener-1911",
+        "version": "publisher-last-modified:Tue, 22 Jan 2013 16:08:49 GMT"
+      },
+      "id": "survivor_4e2d3c3e613f50b69145",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "6c199dc6399202b47084103cb42d69bcfa97ba75182667f0b5bd876fc3f270dc",
+          "url": "https://www.survivorlibrary.com/index.php/library-farming/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:32.919031+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/how_to_grow_vegetables_and_garden_herbs-a_practical_handbook_and_planting_table_for_the_vegetable_gardener-1911.pdf",
+              "headers": {
+                "content-length": "9148253",
+                "content-type": "application/pdf",
+                "etag": "\"bac07ac3baf8cd1:0\"",
+                "last-modified": "Tue, 22 Jan 2013 16:08:49 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/how_to_grow_vegetables_and_garden_herbs-a_practical_handbook_and_planting_table_for_the_vegetable_gardener-1911.pdf"
+            }
+          ],
+          "sha256": "b9b20bbefe06523dc3081a0c23351f8f5d8ebb4222df7a06f35d533afda8d08d",
+          "url": "https://www.survivorlibrary.com/library/how_to_grow_vegetables_and_garden_herbs-a_practical_handbook_and_planting_table_for_the_vegetable_gardener-1911.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 9148253,
+      "source_url": "https://www.survivorlibrary.com/library/how_to_grow_vegetables_and_garden_herbs-a_practical_handbook_and_planting_table_for_the_vegetable_gardener-1911.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Tue, 22 Jan 2013 16:08:49 GMT"
+    },
+    {
+      "candidate_topics": [
+        "sewing"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_583a0d4f0ed9b877e276.pdf",
+        "format": "pdf",
+        "id": "survivor_583a0d4f0ed9b877e276",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 5348414,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-sewing/",
+        "source_url": "https://www.survivorlibrary.com/library/complete_sewing_instructions_1917.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Complete Sewing Instructions 1917",
+        "version": "publisher-last-modified:Thu, 08 Aug 2013 19:08:06 GMT"
+      },
+      "id": "survivor_583a0d4f0ed9b877e276",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "fa1947debd9ecf8f6424e3833ac6b5c7ec323f465a556445088badc9056863c1",
+          "url": "https://www.survivorlibrary.com/index.php/library-sewing/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:33.108874+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/complete_sewing_instructions_1917.pdf",
+              "headers": {
+                "content-length": "5348414",
+                "content-type": "application/pdf",
+                "etag": "\"5853429d6a94ce1:0\"",
+                "last-modified": "Thu, 08 Aug 2013 19:08:06 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/complete_sewing_instructions_1917.pdf"
+            }
+          ],
+          "sha256": "fe21b45aa07bd45bfb027530cb66ed5ab055ede64fc8d1a3b3ee37e2f74ce043",
+          "url": "https://www.survivorlibrary.com/library/complete_sewing_instructions_1917.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 5348414,
+      "source_url": "https://www.survivorlibrary.com/library/complete_sewing_instructions_1917.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Thu, 08 Aug 2013 19:08:06 GMT"
+    },
+    {
+      "candidate_topics": [
+        "leatherworking"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_464c527fb3382a47b36e.pdf",
+        "format": "pdf",
+        "id": "survivor_464c527fb3382a47b36e",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 32069858,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-leather/",
+        "source_url": "https://www.survivorlibrary.com/library/practical_tanning_1922.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Practical Tanning 1922",
+        "version": "publisher-last-modified:Tue, 11 Dec 2012 12:32:06 GMT"
+      },
+      "id": "survivor_464c527fb3382a47b36e",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "f63028f14d479340ef11d9e9f9ee28eafaa9794eab51c81c3caadca298bf6482",
+          "url": "https://www.survivorlibrary.com/index.php/library-leather/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:33.304543+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/practical_tanning_1922.pdf",
+              "headers": {
+                "content-length": "32069858",
+                "content-type": "application/pdf",
+                "etag": "\"2163e4879bd7cd1:0\"",
+                "last-modified": "Tue, 11 Dec 2012 12:32:06 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/practical_tanning_1922.pdf"
+            }
+          ],
+          "sha256": "570c4be72240169266f6a009db8345c47ecb33e808d6477454b7bc9ca4cdf8cb",
+          "url": "https://www.survivorlibrary.com/library/practical_tanning_1922.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 32069858,
+      "source_url": "https://www.survivorlibrary.com/library/practical_tanning_1922.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Tue, 11 Dec 2012 12:32:06 GMT"
+    },
+    {
+      "candidate_topics": [
+        "bookbinding"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_fea8fe202f0c493bb019.pdf",
+        "format": "pdf",
+        "id": "survivor_fea8fe202f0c493bb019",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 5572739,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-bookbinding/",
+        "source_url": "https://www.survivorlibrary.com/library/bookbinding_and_the_care_of_books-a_text-book_for_bookbinders_and_librarians_1920.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Bookbinding And The Care Of Books-A Text-Book For Bookbinders And Librarians 1920",
+        "version": "publisher-last-modified:Wed, 26 Jun 2013 19:05:45 GMT"
+      },
+      "id": "survivor_fea8fe202f0c493bb019",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "21987e37c3f82ad389144f614d6971a57a99debc10ed3daae72d24c001ded7b8",
+          "url": "https://www.survivorlibrary.com/index.php/library-bookbinding/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:33.512004+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/bookbinding_and_the_care_of_books-a_text-book_for_bookbinders_and_librarians_1920.pdf",
+              "headers": {
+                "content-length": "5572739",
+                "content-type": "application/pdf",
+                "etag": "\"7ab21e29a072ce1:0\"",
+                "last-modified": "Wed, 26 Jun 2013 19:05:45 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/bookbinding_and_the_care_of_books-a_text-book_for_bookbinders_and_librarians_1920.pdf"
+            }
+          ],
+          "sha256": "0d882b8e63ec2e7bfc917dee287f61a42647bc299ad4c4063d0f323f27daf6d4",
+          "url": "https://www.survivorlibrary.com/library/bookbinding_and_the_care_of_books-a_text-book_for_bookbinders_and_librarians_1920.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 5572739,
+      "source_url": "https://www.survivorlibrary.com/library/bookbinding_and_the_care_of_books-a_text-book_for_bookbinders_and_librarians_1920.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Wed, 26 Jun 2013 19:05:45 GMT"
+    },
+    {
+      "candidate_topics": [
+        "printing"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_22d11b8efbd83a89e7b7.pdf",
+        "format": "pdf",
+        "id": "survivor_22d11b8efbd83a89e7b7",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 7782001,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-printing/",
+        "source_url": "https://www.survivorlibrary.com/library/printing_for_school_and_shop-a_textbook_for_printers_apprentices_1917.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Printing For School And Shop-A Textbook For Printers Apprentices 1917",
+        "version": "publisher-last-modified:Thu, 25 Jul 2013 19:52:55 GMT"
+      },
+      "id": "survivor_22d11b8efbd83a89e7b7",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "ff6dbac2a5fefb510643ceb24dbbc5e28e414922f7784dec6d22c57b78c5023b",
+          "url": "https://www.survivorlibrary.com/index.php/library-printing/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:33.699023+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/printing_for_school_and_shop-a_textbook_for_printers_apprentices_1917.pdf",
+              "headers": {
+                "content-length": "7782001",
+                "content-type": "application/pdf",
+                "etag": "\"8227258e7089ce1:0\"",
+                "last-modified": "Thu, 25 Jul 2013 19:52:55 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/printing_for_school_and_shop-a_textbook_for_printers_apprentices_1917.pdf"
+            }
+          ],
+          "sha256": "c32a3963d78a8b9050c60141c0e3878689b6866f144120fe8a6809afe64a0dde",
+          "url": "https://www.survivorlibrary.com/library/printing_for_school_and_shop-a_textbook_for_printers_apprentices_1917.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 7782001,
+      "source_url": "https://www.survivorlibrary.com/library/printing_for_school_and_shop-a_textbook_for_printers_apprentices_1917.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Thu, 25 Jul 2013 19:52:55 GMT"
+    },
+    {
+      "candidate_topics": [
+        "glassmaking"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_784e57d869a749bd21e6.pdf",
+        "format": "pdf",
+        "id": "survivor_784e57d869a749bd21e6",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 4388360,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-glassmaking/",
+        "source_url": "https://www.survivorlibrary.com/library/a_handbook_of_laboratory_glass-blowing_1921.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: A Handbook Of Laboratory Glass-Blowing 1921",
+        "version": "publisher-last-modified:Mon, 10 Dec 2012 15:37:38 GMT"
+      },
+      "id": "survivor_784e57d869a749bd21e6",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "74a1cda8573bf25606875d21781387780fef12579283000d114f5875974fe2c1",
+          "url": "https://www.survivorlibrary.com/index.php/library-glassmaking/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:34.008782+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/a_handbook_of_laboratory_glass-blowing_1921.pdf",
+              "headers": {
+                "content-length": "4388360",
+                "content-type": "application/pdf",
+                "etag": "\"bbede248ecd6cd1:0\"",
+                "last-modified": "Mon, 10 Dec 2012 15:37:38 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/a_handbook_of_laboratory_glass-blowing_1921.pdf"
+            }
+          ],
+          "sha256": "726d41f70bc7ece9d4e91d075aaa7045959b23acd0f99fc3d8bbb8b066da553b",
+          "url": "https://www.survivorlibrary.com/library/a_handbook_of_laboratory_glass-blowing_1921.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 4388360,
+      "source_url": "https://www.survivorlibrary.com/library/a_handbook_of_laboratory_glass-blowing_1921.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Mon, 10 Dec 2012 15:37:38 GMT"
+    },
+    {
+      "candidate_topics": [
+        "pottery"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_12fb28a475a7ab254a7c.pdf",
+        "format": "pdf",
+        "id": "survivor_12fb28a475a7ab254a7c",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 9652965,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-pottery/",
+        "source_url": "https://www.survivorlibrary.com/library/the_potters_craft_a_practical_guide_for_the_studio_and_workshop-1922.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: The Potters Craft A Practical Guide For The Studio And Workshop-1922",
+        "version": "publisher-last-modified:Tue, 11 Dec 2012 14:20:42 GMT"
+      },
+      "id": "survivor_12fb28a475a7ab254a7c",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "69ad0584da76bbe19c01fcc42a5ade19c5b6c7ac28fd99de2d87fb5f9bf7060d",
+          "url": "https://www.survivorlibrary.com/index.php/library-pottery/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:36.625062+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/the_potters_craft_a_practical_guide_for_the_studio_and_workshop-1922.pdf",
+              "headers": {
+                "content-length": "9652965",
+                "content-type": "application/pdf",
+                "etag": "\"45567b4aad7cd1:0\"",
+                "last-modified": "Tue, 11 Dec 2012 14:20:42 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/the_potters_craft_a_practical_guide_for_the_studio_and_workshop-1922.pdf"
+            }
+          ],
+          "sha256": "348faddb29fc16bae00b57a21e5442db38284c3d3510dfb826526eef36916a7d",
+          "url": "https://www.survivorlibrary.com/library/the_potters_craft_a_practical_guide_for_the_studio_and_workshop-1922.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 9652965,
+      "source_url": "https://www.survivorlibrary.com/library/the_potters_craft_a_practical_guide_for_the_studio_and_workshop-1922.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Tue, 11 Dec 2012 14:20:42 GMT"
+    },
+    {
+      "candidate_topics": [
+        "textile machinery",
+        "weaving"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_067766dd3235e0c9b390.pdf",
+        "format": "pdf",
+        "id": "survivor_067766dd3235e0c9b390",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 19798722,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-weaving/",
+        "source_url": "https://www.survivorlibrary.com/library/weaving_a_practical_guide_1909.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Weaving A Practical Guide 1909",
+        "version": "publisher-last-modified:Tue, 11 Dec 2012 15:10:37 GMT"
+      },
+      "id": "survivor_067766dd3235e0c9b390",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "c62acc686e69c38d331a6b55b1a0c5eecbdf6346bddd433138044adfee3cd78a",
+          "url": "https://www.survivorlibrary.com/index.php/library-weaving/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:39.505735+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/weaving_a_practical_guide_1909.pdf",
+              "headers": {
+                "content-length": "19798722",
+                "content-type": "application/pdf",
+                "etag": "\"72ab1cadb1d7cd1:0\"",
+                "last-modified": "Tue, 11 Dec 2012 15:10:37 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/weaving_a_practical_guide_1909.pdf"
+            }
+          ],
+          "sha256": "fd30e6710775982d1badd8d90bc021fd71fb9b1999c725d20319280fb46dd2df",
+          "url": "https://www.survivorlibrary.com/library/weaving_a_practical_guide_1909.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "sha256": null,
+      "size_bytes": 19798722,
+      "source_url": "https://www.survivorlibrary.com/library/weaving_a_practical_guide_1909.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Tue, 11 Dec 2012 15:10:37 GMT"
+    },
+    {
+      "candidate_topics": [
+        "textile machinery",
+        "weaving"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_097e88f8a8bc5b85fe4a.pdf",
+        "format": "pdf",
+        "id": "survivor_097e88f8a8bc5b85fe4a",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 2787414,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-weaving/",
+        "source_url": "https://www.survivorlibrary.com/library/inexpensive_basketry_1912.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Inexpensive Basketry 1912",
+        "version": "publisher-last-modified:Tue, 14 Jul 2015 12:38:14 GMT"
+      },
+      "id": "survivor_097e88f8a8bc5b85fe4a",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "83629fe9d9ea9e42ed1ebd23d7baf3d8765a0c3384f40b9818d5a715c18f52c2",
+          "url": "https://www.survivorlibrary.com/index.php/library-weaving/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:39.682539+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/inexpensive_basketry_1912.pdf",
+              "headers": {
+                "content-length": "2787414",
+                "content-type": "application/pdf",
+                "etag": "\"be6ae5f331bed01:0\"",
+                "last-modified": "Tue, 14 Jul 2015 12:38:14 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/inexpensive_basketry_1912.pdf"
+            }
+          ],
+          "sha256": "abd552b31efd4799ba0e38c5f3e3e62bdb82739c742fc088b0fdecd0e2b0f54a",
+          "url": "https://www.survivorlibrary.com/library/inexpensive_basketry_1912.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "sha256": null,
+      "size_bytes": 2787414,
+      "source_url": "https://www.survivorlibrary.com/library/inexpensive_basketry_1912.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Tue, 14 Jul 2015 12:38:14 GMT"
+    },
+    {
+      "candidate_topics": [
+        "furniture"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_c61af8a225e40cb354f6.pdf",
+        "format": "pdf",
+        "id": "survivor_c61af8a225e40cb354f6",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 15433067,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-wood_furniture/",
+        "source_url": "https://www.survivorlibrary.com/library/furniture_for_the_craftsman-a_manual_for_the_student_and_mechanic_1914.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Furniture For The Craftsman-A Manual For The Student And Mechanic 1914",
+        "version": "publisher-last-modified:Wed, 26 Dec 2012 19:57:46 GMT"
+      },
+      "id": "survivor_c61af8a225e40cb354f6",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "6275593beb85537c5c252f642f1634ec90364f66fbd5702ef153f31e1e7b2696",
+          "url": "https://www.survivorlibrary.com/index.php/library-wood_furniture/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:42.365769+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/furniture_for_the_craftsman-a_manual_for_the_student_and_mechanic_1914.pdf",
+              "headers": {
+                "content-length": "15433067",
+                "content-type": "application/pdf",
+                "etag": "\"a85e5a46a3e3cd1:0\"",
+                "last-modified": "Wed, 26 Dec 2012 19:57:46 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/furniture_for_the_craftsman-a_manual_for_the_student_and_mechanic_1914.pdf"
+            }
+          ],
+          "sha256": "48d3dd9ec7925f09ce4ac43645b3a0b194ed20e90a13d46ecd19a11fef520560",
+          "url": "https://www.survivorlibrary.com/library/furniture_for_the_craftsman-a_manual_for_the_student_and_mechanic_1914.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 15433067,
+      "source_url": "https://www.survivorlibrary.com/library/furniture_for_the_craftsman-a_manual_for_the_student_and_mechanic_1914.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Wed, 26 Dec 2012 19:57:46 GMT"
+    },
+    {
+      "candidate_topics": [
+        "blacksmithing",
+        "forging"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_5fe03b122b4be38e9ca7.pdf",
+        "format": "pdf",
+        "id": "survivor_5fe03b122b4be38e9ca7",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 35854461,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-smithing/",
+        "source_url": "https://www.survivorlibrary.com/library/the_metallurgy_of_iron_and_steel_1908.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: The Metallurgy Of Iron And Steel 1908",
+        "version": "publisher-last-modified:Thu, 13 Dec 2012 21:00:39 GMT"
+      },
+      "id": "survivor_5fe03b122b4be38e9ca7",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "410cc6cce2445c5d6e6b0b78a2135dc592c6410ef13fef532b3b87f877e9b91d",
+          "url": "https://www.survivorlibrary.com/index.php/library-smithing/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:45.228977+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/the_metallurgy_of_iron_and_steel_1908.pdf",
+              "headers": {
+                "content-length": "35854461",
+                "content-type": "application/pdf",
+                "etag": "\"cb5acde774d9cd1:0\"",
+                "last-modified": "Thu, 13 Dec 2012 21:00:39 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/the_metallurgy_of_iron_and_steel_1908.pdf"
+            }
+          ],
+          "sha256": "ede7fe75dfff74ab0f2083a63f141502dd3664d740271beb58c2d5b1eae672de",
+          "url": "https://www.survivorlibrary.com/library/the_metallurgy_of_iron_and_steel_1908.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 35854461,
+      "source_url": "https://www.survivorlibrary.com/library/the_metallurgy_of_iron_and_steel_1908.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Thu, 13 Dec 2012 21:00:39 GMT"
+    },
+    {
+      "candidate_topics": [
+        "advanced mining",
+        "mining"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_d62e5887ba0beb406189.pdf",
+        "format": "pdf",
+        "id": "survivor_d62e5887ba0beb406189",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 19094126,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-coal_and_mining/",
+        "source_url": "https://www.survivorlibrary.com/library/practical_coal_mining-a_manual_for_managers_1905.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Practical Coal Mining-A Manual For Managers 1905",
+        "version": "publisher-last-modified:Mon, 17 Feb 2014 17:07:48 GMT"
+      },
+      "id": "survivor_d62e5887ba0beb406189",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "353a8a07ef5a2edd736e8f133987189dd63c2f554c90663e812a00129bd7fc37",
+          "url": "https://www.survivorlibrary.com/index.php/library-coal_and_mining/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:45.435703+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/practical_coal_mining-a_manual_for_managers_1905.pdf",
+              "headers": {
+                "content-length": "19094126",
+                "content-type": "application/pdf",
+                "etag": "\"51da97c822ccf1:0\"",
+                "last-modified": "Mon, 17 Feb 2014 17:07:48 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/practical_coal_mining-a_manual_for_managers_1905.pdf"
+            }
+          ],
+          "sha256": "6b16dd005ee4f56e7549e88027cec6fdbb858d3118c4a54d7a2c62f4657a2a6a",
+          "url": "https://www.survivorlibrary.com/library/practical_coal_mining-a_manual_for_managers_1905.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "sha256": null,
+      "size_bytes": 19094126,
+      "source_url": "https://www.survivorlibrary.com/library/practical_coal_mining-a_manual_for_managers_1905.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Mon, 17 Feb 2014 17:07:48 GMT"
+    },
+    {
+      "candidate_topics": [
+        "fuels"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_965da6f7fa7d7c2fc3b6.pdf",
+        "format": "pdf",
+        "id": "survivor_965da6f7fa7d7c2fc3b6",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 14322211,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-fuels/",
+        "source_url": "https://www.survivorlibrary.com/library/american_fuels_vol_1_1922.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: American Fuels Vol 1 1922",
+        "version": "publisher-last-modified:Thu, 15 Oct 2020 20:07:27 GMT"
+      },
+      "id": "survivor_965da6f7fa7d7c2fc3b6",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "318c03216386f93b5cd1282609fbb4560d450abdf13432e4773da628b552a3e8",
+          "url": "https://www.survivorlibrary.com/index.php/library-fuels/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:45.812649+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/american_fuels_vol_1_1922.pdf",
+              "headers": {
+                "content-length": "14322211",
+                "content-type": "application/pdf",
+                "etag": "\"379d59ce2ea3d61:0\"",
+                "last-modified": "Thu, 15 Oct 2020 20:07:27 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/american_fuels_vol_1_1922.pdf"
+            }
+          ],
+          "sha256": "2cc9c18e448ea5452daf4293791e47d39054bbe84c64282b54061838f8f14e5a",
+          "url": "https://www.survivorlibrary.com/library/american_fuels_vol_1_1922.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 14322211,
+      "source_url": "https://www.survivorlibrary.com/library/american_fuels_vol_1_1922.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Thu, 15 Oct 2020 20:07:27 GMT"
+    },
+    {
+      "candidate_topics": [
+        "fuels"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_adea58669acbf7ab546c.pdf",
+        "format": "pdf",
+        "id": "survivor_adea58669acbf7ab546c",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 17228386,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-fuels/",
+        "source_url": "https://www.survivorlibrary.com/library/american_fuels_vol_2_1922.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: American Fuels Vol 2 1922",
+        "version": "publisher-last-modified:Thu, 15 Oct 2020 20:07:52 GMT"
+      },
+      "id": "survivor_adea58669acbf7ab546c",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "fc1eba2c73814ae2669af5c7a485f835abb8ee23152cca5858f8e041ac964097",
+          "url": "https://www.survivorlibrary.com/index.php/library-fuels/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:46.239370+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/american_fuels_vol_2_1922.pdf",
+              "headers": {
+                "content-length": "17228386",
+                "content-type": "application/pdf",
+                "etag": "\"8791d2dc2ea3d61:0\"",
+                "last-modified": "Thu, 15 Oct 2020 20:07:52 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/american_fuels_vol_2_1922.pdf"
+            }
+          ],
+          "sha256": "98367d09461f09d1b486cf16ff4f2a7672a3b1fa7c16f11791cf2681ecf26f3f",
+          "url": "https://www.survivorlibrary.com/library/american_fuels_vol_2_1922.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a"
+      ],
+      "sha256": null,
+      "size_bytes": 17228386,
+      "source_url": "https://www.survivorlibrary.com/library/american_fuels_vol_2_1922.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Thu, 15 Oct 2020 20:07:52 GMT"
+    },
+    {
+      "candidate_topics": [
+        "advanced steam engineering",
+        "engines",
+        "steam engines"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_6c0372819d09051076aa.pdf",
+        "format": "pdf",
+        "id": "survivor_6c0372819d09051076aa",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 8678559,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-steam_engines/",
+        "source_url": "https://www.survivorlibrary.com/library/steam_engines-a_thorough_and_practical_presentation_of_modern_steam_engine_practice_1920.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Steam Engines-A Thorough And Practical Presentation Of Modern Steam Engine Practice 1920",
+        "version": "publisher-last-modified:Fri, 07 Jun 2013 19:45:38 GMT"
+      },
+      "id": "survivor_6c0372819d09051076aa",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "2e6e5197410ca2552ce1a24118c2b1f8d73cb92882b5a2f27e075a4322770110",
+          "url": "https://www.survivorlibrary.com/index.php/library-steam_engines/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:48.947650+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/steam_engines-a_thorough_and_practical_presentation_of_modern_steam_engine_practice_1920.pdf",
+              "headers": {
+                "content-length": "8678559",
+                "content-type": "application/pdf",
+                "etag": "\"effcd495b763ce1:0\"",
+                "last-modified": "Fri, 07 Jun 2013 19:45:38 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/steam_engines-a_thorough_and_practical_presentation_of_modern_steam_engine_practice_1920.pdf"
+            }
+          ],
+          "sha256": "a662ce7848600790d9e229f4c11137b28bc6f06c7d6e72b7be69785e802f6d13",
+          "url": "https://www.survivorlibrary.com/library/steam_engines-a_thorough_and_practical_presentation_of_modern_steam_engine_practice_1920.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "sha256": null,
+      "size_bytes": 8678559,
+      "source_url": "https://www.survivorlibrary.com/library/steam_engines-a_thorough_and_practical_presentation_of_modern_steam_engine_practice_1920.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Fri, 07 Jun 2013 19:45:38 GMT"
+    },
+    {
+      "candidate_topics": [
+        "refrigeration"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_b96d8eb9a1aef064bed0.pdf",
+        "format": "pdf",
+        "id": "survivor_b96d8eb9a1aef064bed0",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 47676304,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-refrigeration/",
+        "source_url": "https://www.survivorlibrary.com/library/handbook_of_mechanical_refrigeration_1928.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Handbook Of Mechanical Refrigeration 1928",
+        "version": "publisher-last-modified:Wed, 10 Dec 2014 13:39:12 GMT"
+      },
+      "id": "survivor_b96d8eb9a1aef064bed0",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "575002b16c4e225d2b0cb889d3f1aff67082dcad5e3afdcc9cb38c96f4e206ff",
+          "url": "https://www.survivorlibrary.com/index.php/library-refrigeration/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:49.117305+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/handbook_of_mechanical_refrigeration_1928.pdf",
+              "headers": {
+                "content-length": "47676304",
+                "content-type": "application/pdf",
+                "etag": "\"aa3ecaf7e14d01:0\"",
+                "last-modified": "Wed, 10 Dec 2014 13:39:12 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/handbook_of_mechanical_refrigeration_1928.pdf"
+            }
+          ],
+          "sha256": "e5d76277e6766a40fd08d2ed410b40ecb5ca9dc1f92c7c249b26675961ede773",
+          "url": "https://www.survivorlibrary.com/library/handbook_of_mechanical_refrigeration_1928.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-b"
+      ],
+      "sha256": null,
+      "size_bytes": 47676304,
+      "source_url": "https://www.survivorlibrary.com/library/handbook_of_mechanical_refrigeration_1928.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Wed, 10 Dec 2014 13:39:12 GMT"
+    },
+    {
+      "candidate_topics": [
+        "electronics history",
+        "radio history"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_6a6a72d8ca135036a084.pdf",
+        "format": "pdf",
+        "id": "survivor_6a6a72d8ca135036a084",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 18198210,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-radio/",
+        "source_url": "https://www.survivorlibrary.com/library/elements_of_radio_servicing-first_edition_1947.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Elements Of Radio Servicing-First Edition 1947",
+        "version": "publisher-last-modified:Fri, 03 May 2019 12:52:34 GMT"
+      },
+      "id": "survivor_6a6a72d8ca135036a084",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "88113f7590e63afb53311326493f61265b2082a069106f43a75744e99cf22820",
+          "url": "https://www.survivorlibrary.com/index.php/library-radio/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:49.546457+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/elements_of_radio_servicing-first_edition_1947.pdf",
+              "headers": {
+                "content-length": "18198210",
+                "content-type": "application/pdf",
+                "etag": "\"694f14af1d51:0\"",
+                "last-modified": "Fri, 03 May 2019 12:52:34 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/elements_of_radio_servicing-first_edition_1947.pdf"
+            }
+          ],
+          "sha256": "4f6269743a7fcfee959dbac48c3663f8546c17e04ca6fdb1dc81053f92cb6866",
+          "url": "https://www.survivorlibrary.com/library/elements_of_radio_servicing-first_edition_1947.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-b"
+      ],
+      "sha256": null,
+      "size_bytes": 18198210,
+      "source_url": "https://www.survivorlibrary.com/library/elements_of_radio_servicing-first_edition_1947.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Fri, 03 May 2019 12:52:34 GMT"
+    },
+    {
+      "candidate_topics": [
+        "shipbuilding"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_f17fbb07bf6600d01b55.pdf",
+        "format": "pdf",
+        "id": "survivor_f17fbb07bf6600d01b55",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 12772072,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-shipbuilding/",
+        "source_url": "https://www.survivorlibrary.com/library/a_practical_course_in_boat_and_ship_building_1919-gaasbeek.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: A Practical Course In Boat And Ship Building 1919-Gaasbeek",
+        "version": "publisher-last-modified:Sat, 27 Jul 2013 01:26:17 GMT"
+      },
+      "id": "survivor_f17fbb07bf6600d01b55",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "c59f9a72e1120d70d4994dadd9d76c67d02bea78a2f6ab89088d7b054795e262",
+          "url": "https://www.survivorlibrary.com/index.php/library-shipbuilding/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:49.716006+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/a_practical_course_in_boat_and_ship_building_1919-gaasbeek.pdf",
+              "headers": {
+                "content-length": "12772072",
+                "content-type": "application/pdf",
+                "etag": "\"8f13894a688ace1:0\"",
+                "last-modified": "Sat, 27 Jul 2013 01:26:17 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/a_practical_course_in_boat_and_ship_building_1919-gaasbeek.pdf"
+            }
+          ],
+          "sha256": "26acedea464263b2fb537f514b4d5e78e4bdf22ad58074eca0299385153e9dd4",
+          "url": "https://www.survivorlibrary.com/library/a_practical_course_in_boat_and_ship_building_1919-gaasbeek.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-b"
+      ],
+      "sha256": null,
+      "size_bytes": 12772072,
+      "source_url": "https://www.survivorlibrary.com/library/a_practical_course_in_boat_and_ship_building_1919-gaasbeek.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Sat, 27 Jul 2013 01:26:17 GMT"
+    },
+    {
+      "candidate_topics": [
+        "historical transportation engineering",
+        "railroad engineering"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_40b53bcf7237ff1a1941.pdf",
+        "format": "pdf",
+        "id": "survivor_40b53bcf7237ff1a1941",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 9539399,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-railroads/",
+        "source_url": "https://www.survivorlibrary.com/library/practical_locomotive_operating-1913.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Practical Locomotive Operating-1913",
+        "version": "publisher-last-modified:Fri, 26 Jul 2013 18:51:16 GMT"
+      },
+      "id": "survivor_40b53bcf7237ff1a1941",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "9d3c0ba7fff5d178627613c9585707d5110473f2e3c0afa4329de6e35e9153b9",
+          "url": "https://www.survivorlibrary.com/index.php/library-railroads/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:49.905745+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/practical_locomotive_operating-1913.pdf",
+              "headers": {
+                "content-length": "9539399",
+                "content-type": "application/pdf",
+                "etag": "\"8fc9d61b318ace1:0\"",
+                "last-modified": "Fri, 26 Jul 2013 18:51:16 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/practical_locomotive_operating-1913.pdf"
+            }
+          ],
+          "sha256": "f7b307f758656178d747b422612141d74764f02bbba687c9688b60e4e1120804",
+          "url": "https://www.survivorlibrary.com/library/practical_locomotive_operating-1913.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-b"
+      ],
+      "sha256": null,
+      "size_bytes": 9539399,
+      "source_url": "https://www.survivorlibrary.com/library/practical_locomotive_operating-1913.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Fri, 26 Jul 2013 18:51:16 GMT"
+    },
+    {
+      "candidate_topics": [
+        "advanced mining",
+        "mining"
+      ],
+      "fullasset_metadata": {
+        "category": "historical-trades",
+        "description": "Candidate practical historical work; does not establish current safety practice. Completeness, language, edition deduplication and scan review pending.",
+        "destination": "REFERENCE/HISTORICAL/SURVIVOR/survivor_18a5902ddc80585df8b9.pdf",
+        "format": "pdf",
+        "id": "survivor_18a5902ddc80585df8b9",
+        "language": "en",
+        "license": "Original publisher and scan notices require review; no blanket redistribution grant asserted",
+        "profiles": [],
+        "publisher": "Scan hosted by Survivor Library",
+        "redistributable": false,
+        "required": true,
+        "resource_type": "reference",
+        "sha256": null,
+        "size_bytes": 14584202,
+        "source_page": "https://www.survivorlibrary.com/index.php/library-coal_and_mining/",
+        "source_url": "https://www.survivorlibrary.com/library/handbook_of_ore_dressing-equipment_and_practice_1920.pdf",
+        "tags": [
+          "historical",
+          "survivor-library",
+          "pending-scan-review"
+        ],
+        "title": "Historical: Handbook Of Ore Dressing-Equipment And Practice 1920",
+        "version": "publisher-last-modified:Mon, 17 Feb 2014 20:30:52 GMT"
+      },
+      "id": "survivor_18a5902ddc80585df8b9",
+      "metadata_evidence": [
+        {
+          "kind": "publisher-category",
+          "scope": "Canonical parsed publisher row; exact metadata page hashes retained in source report",
+          "sha256": "5baf847557d3636755505faf24f5a91bf0fcb8b37e0a35ffda198ff047297597",
+          "url": "https://www.survivorlibrary.com/index.php/library-coal_and_mining/"
+        },
+        {
+          "kind": "source-head",
+          "responses": [
+            {
+              "body_read": false,
+              "checked_at": "2026-09-27T22:06:50.076372+00:00",
+              "final_url": "https://www.survivorlibrary.com/library/handbook_of_ore_dressing-equipment_and_practice_1920.pdf",
+              "headers": {
+                "content-length": "14584202",
+                "content-type": "application/pdf",
+                "etag": "\"69cb10271f2ccf1:0\"",
+                "last-modified": "Mon, 17 Feb 2014 20:30:52 GMT"
+              },
+              "method": "HEAD",
+              "status": 200,
+              "url": "https://www.survivorlibrary.com/library/handbook_of_ore_dressing-equipment_and_practice_1920.pdf"
+            }
+          ],
+          "sha256": "1b76355b623ceb81962494877f40cce9446d3d80feb2008ff795db1b6023e27c",
+          "url": "https://www.survivorlibrary.com/library/handbook_of_ore_dressing-equipment_and_practice_1920.pdf"
+        }
+      ],
+      "publisher_checksums": {},
+      "resource_ids": [
+        "survivor-tier-a",
+        "survivor-tier-b"
+      ],
+      "sha256": null,
+      "size_bytes": 14584202,
+      "source_url": "https://www.survivorlibrary.com/library/handbook_of_ore_dressing-equipment_and_practice_1920.pdf",
+      "topic_review": "pending",
+      "version": "publisher-last-modified:Mon, 17 Feb 2014 20:30:52 GMT"
+    }
+  ],
+  "storage_peak_bytes": 895737290
+}

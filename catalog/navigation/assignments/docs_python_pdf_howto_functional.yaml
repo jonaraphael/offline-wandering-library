@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: docs_python_pdf_howto_functional
+assignments:
+- topic_id: computing
+  purpose: explanation

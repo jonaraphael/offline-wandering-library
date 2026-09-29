@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: hesperian_en_hcwb_2000_03
+assignments:
+- topic_id: vision-support
+  purpose: reference

@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_lifespan_development
+assignments:
+- topic_id: psychology
+  purpose: explanation

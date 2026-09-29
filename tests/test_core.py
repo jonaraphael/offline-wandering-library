@@ -32,7 +32,7 @@ class Fixture(unittest.TestCase):
         self.profiles = self.root / "profiles"
         self.profiles.mkdir()
         self.profile = {"id": "test", "title": "Test", "capacity_bytes": 10**9,
-                        "reserve_bytes": 0, "search_budget_bytes": 1024**2}
+                        "reserve_bytes": 0, "discovery_budget_bytes": 1024**2}
         (self.profiles / "test.yaml").write_text(yaml.safe_dump(self.profile))
         self.catalog = self.root / "catalog.yaml"
         self.write_catalog()
@@ -137,7 +137,7 @@ class CatalogTests(Fixture):
 
     def test_decimal_capacity_and_headroom(self):
         profile = {**self.profile, "capacity_bytes": 512_000_000_000, "reserve_bytes": 51_200_000_000,
-                   "search_budget_bytes": 100_000_000_000}
+                   "discovery_budget_bytes": 100_000_000_000}
         with self.assertRaises(CatalogError):
             capacity_plan([{**self.asset, "size_bytes": 400_000_000_000}], profile)
 
@@ -264,18 +264,12 @@ class DownloadTests(Fixture):
 
 
 class BuildTests(Fixture):
-    def test_observed_hash_survives_stop_between_promotion_and_state_update(self):
+    def test_unpinned_build_is_rejected_before_writing(self):
         self.asset["sha256"] = None
         self.write_catalog()
-        self.run_build()
-        state_path = self.root / "drive/LIBRARY/.owl/state.json"
-        state = json.loads(state_path.read_text())
-        state.update(assets={}, complete=False)
-        state_path.write_text(json.dumps(state))
-        self.source.unlink()
-        with patch("owl.build.download", side_effect=AssertionError("observed staging hash must permit verified reuse")):
+        with self.assertRaisesRegex(CatalogError, "Content policy"):
             self.run_build()
-        self.assertTrue(json.loads(state_path.read_text())["complete"])
+        self.assertFalse((self.root / "drive").exists())
 
     def test_drive_replaced_during_preflight_is_not_used(self):
         self.run_build()
@@ -337,7 +331,7 @@ class BuildTests(Fixture):
         self.assertEqual((self.root / "drive/LIBRARY" / self.asset["destination"]).read_bytes(), self.data)
 
     def test_interrupt_indexing_reuses_in_place_content_on_restart(self):
-        with patch("owl.search.build_search", side_effect=KeyboardInterrupt), self.assertRaises(KeyboardInterrupt):
+        with patch("owl.discovery.plan_discovery", side_effect=KeyboardInterrupt), self.assertRaises(KeyboardInterrupt):
             self.run_build()
         drive = self.root / "drive"
         state = json.loads((drive / "LIBRARY/.owl/state.json").read_text())

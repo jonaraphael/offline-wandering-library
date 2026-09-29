@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_psychology_2e
+assignments:
+- topic_id: psychology
+  purpose: explanation

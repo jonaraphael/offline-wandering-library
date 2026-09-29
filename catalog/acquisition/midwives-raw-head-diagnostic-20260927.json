@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://en.hesperian.org/w/index.php?title=A+Book+for+Midwives&oldid=103656&action=raw",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://en.hesperian.org/w/index.php?title=A_Book_for_Midwives&oldid=103656&action=raw",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://en.hesperian.org/w/index.php?action=raw&oldid=103656",
+    "error": "HTTP Error 403: Forbidden"
+  }
+]

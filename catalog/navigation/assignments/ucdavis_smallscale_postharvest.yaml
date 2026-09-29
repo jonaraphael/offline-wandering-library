@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: ucdavis_smallscale_postharvest
+assignments:
+- topic_id: food-preservation
+  purpose: reference
+  description: UC Davis fifth-edition horticultural handling manual; retain its December
+    2016 notice that some practices may not meet current food-safety standards.

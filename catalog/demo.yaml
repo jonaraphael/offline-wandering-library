@@ -1,4 +1,3 @@
-# Tiny offline fixture. Requires --allow-local. Not an emergency library.
 schema_version: 1
 assets:
 - id: demo_library_guide
@@ -19,6 +18,7 @@ assets:
   reader_required: false
   publisher: OWL contributors
   description: Self-authored test fixture only; not emergency or medical guidance.
+  offline_ready: true
 - id: demo_navigation
   title: 'Demonstration: Compass Navigation Shelf'
   category: navigation
@@ -40,9 +40,9 @@ assets:
 - id: demo_maintenance
   title: 'Demonstration: Library Maintenance'
   category: reference
-  format: md
-  source_url: repo://assets/demo/maintenance.md
-  destination: BOOKS/Demo_Maintenance.md
+  format: txt
+  source_url: repo://assets/demo/maintenance.txt
+  destination: BOOKS/Demo_Maintenance.txt
   version: '1'
   size_bytes: 550
   sha256: 5f452572880ac3205ea7f3bda3e43dba2b626b4c298389a6a048fe05cbe92130
@@ -77,3 +77,4 @@ assets:
   attribution: Original demonstration text and diagram by OWL contributors, CC0 1.0.
   description: Small original systems chapter and diagram for testing the learning
     shelves; not emergency guidance.
+  offline_ready: true

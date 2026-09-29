@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: who_emergency_sbar
+assignments:
+- topic_id: emergency-care
+  purpose: reference

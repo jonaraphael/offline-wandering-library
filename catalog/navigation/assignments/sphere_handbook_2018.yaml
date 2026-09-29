@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: sphere_handbook_2018
+assignments:
+- topic_id: humanitarian-response
+  purpose: reference

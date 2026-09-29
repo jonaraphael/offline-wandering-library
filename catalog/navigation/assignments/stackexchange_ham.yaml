@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: stackexchange_ham
+assignments:
+- topic_id: electricity
+  purpose: reference

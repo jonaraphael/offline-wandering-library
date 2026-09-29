@@ -1,0 +1,62 @@
+{
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "downloads": 1,
+    "review": 1
+  },
+  "content_complete": false,
+  "id": "survivor-practical-v2-capture-and-scan",
+  "review_items": [
+    {
+      "id": "survivor-substantive-review",
+      "reason": "All-page checks and sparse rendering locate defects; full work identity, topic coverage, scan legibility, duplicate editions and completeness still require review."
+    }
+  ],
+  "schema_version": 1,
+  "tasks": [
+    {
+      "batch": "survivor-practical-v2",
+      "id": "capture-survivor-practical-v2",
+      "kind": "capture",
+      "lane": "downloads"
+    },
+    {
+      "argv": [
+        "--staging",
+        "{staging}/survivor-practical-v2-1tb",
+        "--output",
+        "{staging}/survivor-practical-v2-review-1tb",
+        "--output-budget-bytes",
+        "1000000000",
+        "--reserve-bytes",
+        "10000000000"
+      ],
+      "batch": "survivor-practical-v2-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "inspected_sources",
+              "requested_sources"
+            ]
+          ],
+          "equals": {
+            "body_downloads": 0,
+            "content_ready": false,
+            "failed_sources": 0,
+            "status": "awaiting_review"
+          },
+          "path": "{staging}/survivor-practical-v2-review-1tb/report.json"
+        }
+      ],
+      "depends": [
+        "capture-survivor-practical-v2"
+      ],
+      "id": "inspect-survivor-pages",
+      "kind": "script",
+      "lane": "review",
+      "review": "Inspect rendered title/contents/final and randomized pages; retain all flagged scans and incomplete-topic exceptions.",
+      "script": "inspect_survivor_capture.py"
+    }
+  ]
+}

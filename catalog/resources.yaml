@@ -1,14 +1,13 @@
 schema_version: 1
 resources:
 - id: hesperian-health
+  title: Hesperian published health chapters
   number: 1
-  title: Hesperian low-resource health library
-  target_bytes: 500000000
-  status: partial
-  reason: 270 of 271 official chapter PDFs are pinned. Midwives 2026 back matter and the discovered
-    older whole-book URLs return HTTP 404. The official complete 2026 PDF purchase is identified,
-    but its file and whole-file pin are unavailable. A complete same-edition book and review remain
-    required; chapters from different editions are never mixed.
+  target_bytes: 181943133
+  status: ready
+  reason: Selected official chapter PDFs, preserved in their original editions. Midwives
+    2026 back matter is unavailable; this selection does not claim complete books
+    or the entire publisher library.
   asset_ids:
   - hesperian_en_cgeh_2012_01
   - hesperian_en_cgeh_2012_02
@@ -280,27 +279,32 @@ resources:
   - hesperian_en_wwhnd_2024_ob
   - hesperian_en_wwhnd_2024_resc
   - hesperian_en_wwhnd_2024_skills
+  utility_tier: CRITICAL
+  utility_reason: Protects life or supports food, water, shelter and household survival.
+  knowledge_domains:
+  - health
+  - maternal-child-health
+  - clinical-medicine
+  - dentistry
+  - disability
+  - environmental-health
+  - health-worker-training
+  - midwifery
+  - vision
+  - womens-health
   preferred_formats:
   - pdf
-  - html
   include:
-  - Publisher English chapter PDFs for Where There Is No Doctor (2025 printing), Where Women Have No Doctor
-    (2024 printing), Where There Is No Dentist (2024), A Book for Midwives (2026 printing), A Community
-    Guide to Environmental Health (2012), Disabled Village Children (2025 printing), Helping Children
-    Who Are Blind (2000), Helping Health Workers Learn (2026 edition)
-  - Preserve whole-book context through chapter titles, front matter, indexes and publisher supplementary
-    pages; one back-matter file remains missing
-  exclude:
-  - Unlicensed redistribution or adapted digital editions
-  - Claiming these eight books comprise the entire Hesperian catalog
-  - Claiming the missing midwives back matter was acquired
-  source_pages:
-  - https://hesperian.org/open-copyright-policy/
+  - Selected official chapter PDFs, preserved in their original editions. Midwives
+    2026 back matter is unavailable; this selection does not claim complete books
+    or the entire publisher library.
 - id: msf-medical
-  number: 2
   title: MSF Medical Guidelines
-  target_bytes: 250000000
+  number: 2
+  target_bytes: 39265901
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
   asset_ids:
   - msf_guideline-170-en
   - msf_guideline-339-en
@@ -309,26 +313,22 @@ resources:
   - msf_measles_2025_en
   - msf_public_health_engineering_2010
   - msf_tuberculosis_2025_en
+  utility_tier: CRITICAL
+  utility_reason: Protects life or supports food, water, shelter and household survival.
+  knowledge_domains:
+  - health
   preferred_formats:
   - pdf
-  - html
   include:
-  - 'Whole English publisher PDFs: Clinical Guidelines (December 2024), Essential Drugs (January 2026),
-    Essential Obstetric and Newborn Care (2019), Cholera (2018), Measles (2025), Tuberculosis (2025),
-    Public Health Engineering (2010)'
-  - Retain the exact PDF edition and export date; preserve original illustrations, tables, appendices
-    and clinical qualifications
-  exclude:
-  - Claiming PDF editions match all current online updates
-  - HTML mirrors, apps or translations not explicitly pinned
-  - Further redistribution without permission
-  source_pages:
-  - https://medicalguidelines.msf.org/en
+  - Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
 - id: who-emergency-care
-  number: 3
   title: WHO Basic Emergency Care and emergency clinical references
-  target_bytes: 100000000
+  number: 3
+  target_bytes: 21371023
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
   asset_ids:
   - medical_bec
   - who_emergency_acute-referral-form
@@ -341,26 +341,23 @@ resources:
   - who_emergency_pph-quick-card
   - who_emergency_sbar
   - who_emergency_trauma-algorithm
+  utility_tier: CRITICAL
+  utility_reason: Protects life or supports food, water, shelter and household survival.
+  knowledge_domains:
+  - health
+  - first-aid
   preferred_formats:
   - pdf
   include:
-  - Complete 2018 Basic Emergency Care manual
-  - November 2025 postpartum haemorrhage quick card; BEC quick cards; SBAR job aid; BEC frequently asked
-    questions
-  - Emergency Care Toolkit pocket guide; acute transfer checklist; acute referral and counter-referral
-    forms; medical and trauma resuscitation algorithm posters
-  - Original clinical limitations, authorship and image content; some poster text requires OCR for body
-    search
-  exclude:
-  - Unpinned training PowerPoints, videos, online course content and later clinical changes
-  - Presenting professional clinical references as layperson first-aid training
-  source_pages:
-  - https://www.who.int/publications/i/item/9789241513081
+  - Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
 - id: who-wash
-  number: 4
   title: WHO WASH in Emergencies
-  target_bytes: 100000000
+  number: 4
+  target_bytes: 17001586
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
   asset_ids:
   - who_wash_01
   - who_wash_02
@@ -377,53 +374,43 @@ resources:
   - who_wash_13
   - who_wash_14
   - who_wash_15
+  utility_tier: CRITICAL
+  utility_reason: Protects life or supports food, water, shelter and household survival.
+  knowledge_domains:
+  - water-sanitation
   preferred_formats:
   - pdf
   include:
-  - All 15 WHO/WEDC technical notes
-  - Water quantity
-  - Cleaning and disinfecting wells and boreholes
-  - Chlorination and chlorine measurement
-  - Tanks and tankers
-  - Piped distribution and treatment works
-  - Point-of-use drinking-water treatment
-  - Sanitation and excreta disposal
-  - Solid waste
-  - Dead-body disposal
-  - Hygiene promotion
-  - Wells after seawater flooding
-  exclude:
-  - Substituting a general water leaflet for the full technical-note series
-  source_pages:
-  - https://www.who.int/teams/environment-climate-change-and-health/water-sanitation-and-health/environmental-health-in-emergencies/technical-notes-on-wash-in-emergencies
+  - Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
 - id: sphere-handbook
-  number: 5
   title: Sphere Handbook
-  target_bytes: 50000000
+  number: 5
+  target_bytes: 6274447
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
   asset_ids:
   - sphere_handbook_2018
+  utility_tier: CRITICAL
+  utility_reason: Protects life or supports food, water, shelter and household survival.
+  knowledge_domains:
+  - shelter
+  - water-sanitation
+  - food-security
   preferred_formats:
   - pdf
-  - html
   include:
-  - Whole handbook
-  - Humanitarian Charter and protection principles
-  - Core Humanitarian Standard
-  - WASH, food security, nutrition, shelter and health standards
-  exclude:
-  - Handbook fragments presented as the complete edition
-  source_pages:
-  - https://spherestandards.org/handbook/
-  - https://spherestandards.org/handbook/editions/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
 - id: food-preservation
-  number: 6
   title: USDA and NCHFP food preservation
-  target_bytes: 100000000
+  number: 6
+  target_bytes: 30919873
   status: ready
-  reason: 17 pinned PDFs plus a source-pinned build-time HTML snapshot cover the five declared topic groups,
-    27 dated updates, eight complete linked context pages and the UGA oils article. Coverage is frozen
-    to September 18, 2026; it is not a claim about later publisher updates.
+  reason: Complete USDA canning guide and published extension PDFs on freezing, drying
+    and preservation. Replaces snapshot assembly; does not reproduce the removed 2026
+    news or every linked recipe.
   asset_ids:
   - food
   - canning_00
@@ -442,65 +429,41 @@ resources:
   - uga_using_pressure_canners
   - nchfp_kombucha_faq
   - uga_using_boiling_water_canners_2025
-  - food_snapshot_nchfp_newsflash_2026_09_18
-  - food_snapshot_nchfp_newsflash_p10_2026_09_18
-  - food_snapshot_nchfp_newsflash_p20_2026_09_18
-  - food_snapshot_nchfp_tomato_acidification
-  - food_snapshot_nchfp_kombucha_recipe
-  - food_snapshot_nchfp_spaghetti_sauce_meat
-  - food_snapshot_nchfp_green_beans
-  - food_snapshot_nchfp_soups
-  - food_snapshot_nchfp_choice_salsa
-  - food_snapshot_nchfp_mayhaw_pepper_jelly
-  - food_snapshot_nchfp_sterilization_jars
-  - food_snapshot_uga_infused_oils_page
-  - food_snapshot_nchfp_jars
-  - food_snapshot_nchfp_kombucha_photo
-  - food_snapshot_nchfp_ph_chart
-  - food_snapshot_nchfp_calendar_icon
-  - food_updates_2026_09_18_direct
+  utility_tier: CRITICAL
+  utility_reason: Protects life or supports food, water, shelter and household survival.
+  knowledge_domains:
+  - food-preservation
   preferred_formats:
   - pdf
-  - html
   include:
-  - Current canning guidance
-  - Freezing
-  - Drying
-  - Fermentation
-  - Food safety
-  - Retain processing tables and illustrations in context
-  exclude:
-  - Assuming the 2015 canning volumes alone cover all preservation methods or reflect every later update
-  source_pages:
-  - https://nchfp.uga.edu/resources/entry/about-the-usda-guide-to-home-canning-2015-revision
+  - Complete USDA canning guide and published extension PDFs on freezing, drying and
+    preservation. Replaces snapshot assembly; does not reproduce the removed 2026
+    news or every linked recipe.
 - id: niosh-chemical-hazards
-  number: 7
   title: NIOSH Pocket Guide to Chemical Hazards
-  target_bytes: 10000000
+  number: 7
+  target_bytes: 6339883
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
   asset_ids:
   - niosh_pocket_guide_2007
+  utility_tier: CRITICAL
+  utility_reason: Protects life or supports food, water, shelter and household survival.
+  knowledge_domains:
+  - chemical-safety
   preferred_formats:
   - pdf
   include:
-  - Whole current downloadable guide
-  - Chemical names, exposure limits, incompatibilities, protective measures and first aid
-  - Record the edition and differences from online updates
-  exclude:
-  - A mobile-app-only copy
-  source_pages:
-  - https://www.cdc.gov/niosh/npg/default.html
+  - Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
 - id: fao-agriculture
-  number: 8
   title: FAO practical agriculture core
-  target_bytes: 500000000
+  number: 8
+  target_bytes: 192541809
   status: ready
-  reason: 'All 17 requested practical topic areas are covered by 16 complete, pinned PDFs: seven existing
-    guides plus eight FAO manuals and one clearly labeled UC Davis postharvest companion. Direct PDF acquisition
-    is ready for a later user-requested build; no installation/build is implied. Editions and regional
-    contexts are retained. Six of the 16 have no verified redistribution grant and remain individually
-    marked redistributable:false; this readiness is for the personal acquisition catalog, not an unrestricted
-    redistributable bundle.'
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
   asset_ids:
   - fao_farmer_field
   - fao_compost_es
@@ -518,713 +481,283 @@ resources:
   - fao_pressurized_irrigation
   - fao_good_dairy_practice
   - ucdavis_smallscale_postharvest
+  - fao_beekeeping_visual
+  utility_tier: CRITICAL
+  utility_reason: Protects life or supports food, water, shelter and household survival.
+  knowledge_domains:
+  - agriculture
+  - livestock
+  - gardening
   preferred_formats:
   - pdf
-  - html
   include:
-  - Crop production fundamentals
-  - Soil fertility and composting
-  - Irrigation
-  - Crop-water requirements
-  - Seed storage
-  - Small-scale post-harvest handling
-  - Grain storage
-  - Vegetable production
-  - Poultry
-  - Rabbits and small livestock
-  - Dairy basics
-  - Animal feeding
-  - Pest management
-  - Greenhouse and protected growing
-  - Food-loss reduction
-  - Small-farm tools
-  - Basic aquaculture where practical
-  exclude:
-  - Policy documents
-  - Statistical yearbooks
-  - Meeting reports
-  - Economic forecasting
-  - Administrative material
-  - Country programme reports
-  source_pages:
-  - https://www.fao.org/sustainable-food-value-chains/training-and-learning-center/en/
-  - https://openknowledge.fao.org/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
 - id: gutenberg-core
-  number: 9
   title: Project Gutenberg core library
-  target_bytes: 40000000000
-  status: unresolved
-  reason: The requested book-level deduplication, preferred direct HTML/EPUB representations and broad
-    curated selection remain unfinished. The compact edition is a smaller, explicitly selected historical
-    nonfiction archive set; the whole English archive is a pinned optional input only.
-  asset_ids: []
-  preferred_formats:
-  - html
-  - txt
-  - epub
-  include:
-  - Major English-language literature
-  - World classics in English translation
-  - Poetry
-  - Mythology and folklore
-  - History
-  - Philosophy
-  - Biographies
-  - Science classics
-  - Mathematics classics
-  - Practical historical texts
-  - Dictionaries and reference works not better duplicated elsewhere
-  - Children and young-adult classics
-  - Major drama
-  - Language-learning and public-domain grammars
-  - Older technical books complementing Survivor Library
-  - One preferred reading representation per work; HTML with images when useful, UTF-8 TXT fallback and
-    an EPUB where it adds phone-reading value
-  - Retain book-level rights notices and country-specific public-domain limitations
-  exclude:
-  - Audio editions
-  - Kindle and MOBI duplicates
-  - Duplicate EPUB variants
-  - Low-value OCR scans when a good text edition exists
-  - Materially identical editions
-  - Periodicals without clear utility
-  source_pages:
-  - https://www.gutenberg.org/help/mirroring.html
-  editions:
-    compact:
-      asset_ids:
-      - gutenberg_en_lcc_q
-      - gutenberg_en_lcc_t
-      - gutenberg_en_lcc_s
-      - gutenberg_en_lcc_l
-      target_bytes: 36041186827
-      status: ready
-      reason: Published English LCC Science, Technology, Agriculture and Education archives (36.041 GB).
-        This selected nonfiction edition requires Kiwix; it is neither the whole English corpus nor the
-        planned directly readable, book-deduplicated edition.
-- id: childrens-library
-  number: 10
-  title: Children's Library
-  target_bytes: 22000000000
-  status: partial
-  reason: OWL PDF conversions of all 61 complete EPUBs at the publisher Book Dash archive commit are pinned
-    in English, French and Xhosa. Current 221-title Book Dash PDF library download endpoint returns HTTP
-    403, and African Storybook full approved multilingual PDF export is not yet reproducibly acquired.
-    Original EPUBs are retained as supporting sources; the PDFs need no EPUB reader.
+  number: 9
+  target_bytes: 36041186827
+  status: ready
+  reason: 'Four finished English nonfiction ZIM archives: agriculture, technology,
+    science and education. Historical reference, not current clinical or safety guidance.'
   asset_ids:
-  - bookdash_a_beautiful_day_en
-  - bookdash_a_beautiful_day_en_epub_source
-  - bookdash_a_dancers_tale_en
-  - bookdash_a_dancers_tale_en_epub_source
-  - bookdash_a_fish_and_a_gift_en
-  - bookdash_a_fish_and_a_gift_en_epub_source
-  - bookdash_a_fish_and_a_gift_fr
-  - bookdash_a_fish_and_a_gift_fr_epub_source
-  - bookdash_a_fish_and_a_gift_xh
-  - bookdash_a_fish_and_a_gift_xh_epub_source
-  - bookdash_a_house_for_mouse_en
-  - bookdash_a_house_for_mouse_en_epub_source
-  - bookdash_a_house_for_mouse_xh
-  - bookdash_a_house_for_mouse_xh_epub_source
-  - bookdash_a_tiny_seed_en
-  - bookdash_a_tiny_seed_en_epub_source
-  - bookdash_a_tiny_seed_fr
-  - bookdash_a_tiny_seed_fr_epub_source
-  - bookdash_a_tiny_seed_xh
-  - bookdash_a_tiny_seed_xh_epub_source
-  - bookdash_amazing_daisy_en
-  - bookdash_amazing_daisy_en_epub_source
-  - bookdash_amazing_daisy_xh
-  - bookdash_amazing_daisy_xh_epub_source
-  - bookdash_bathtub_safari_en
-  - bookdash_bathtub_safari_en_epub_source
-  - bookdash_come_back_cat_en
-  - bookdash_come_back_cat_en_epub_source
-  - bookdash_come_back_cat_fr
-  - bookdash_come_back_cat_fr_epub_source
-  - bookdash_come_back_cat_xh
-  - bookdash_come_back_cat_xh_epub_source
-  - bookdash_gracas_dream_en
-  - bookdash_gracas_dream_en_epub_source
-  - bookdash_gracas_dream_xh
-  - bookdash_gracas_dream_xh_epub_source
-  - bookdash_grandpas_gold_en
-  - bookdash_grandpas_gold_en_epub_source
-  - bookdash_how_about_you_en
-  - bookdash_how_about_you_en_epub_source
-  - bookdash_i_will_help_you_en
-  - bookdash_i_will_help_you_en_epub_source
-  - bookdash_is_there_anyone_like_me_en
-  - bookdash_is_there_anyone_like_me_en_epub_source
-  - bookdash_is_there_anyone_like_me_xh
-  - bookdash_is_there_anyone_like_me_xh_epub_source
-  - bookdash_karabos_question_en
-  - bookdash_karabos_question_en_epub_source
-  - bookdash_little_ants_big_plan_en
-  - bookdash_little_ants_big_plan_en_epub_source
-  - bookdash_little_ants_big_plan_xh
-  - bookdash_little_ants_big_plan_xh_epub_source
-  - bookdash_londi_the_dreaming_girl_en
-  - bookdash_londi_the_dreaming_girl_en_epub_source
-  - bookdash_lory_dory_en
-  - bookdash_lory_dory_en_epub_source
-  - bookdash_maddy_moona_en
-  - bookdash_maddy_moona_en_epub_source
-  - bookdash_miss_helens_magical_world_en
-  - bookdash_miss_helens_magical_world_en_epub_source
-  - bookdash_queen_of_soweto_en
-  - bookdash_queen_of_soweto_en_epub_source
-  - bookdash_rafikis_style_en
-  - bookdash_rafikis_style_en_epub_source
-  - bookdash_rafikis_style_xh
-  - bookdash_rafikis_style_xh_epub_source
-  - bookdash_sbus_special_shoes_en
-  - bookdash_sbus_special_shoes_en_epub_source
-  - bookdash_searching_for_the_spirit_of_spring_en
-  - bookdash_searching_for_the_spirit_of_spring_en_epub_source
-  - bookdash_searching_for_the_spirit_of_spring_xh
-  - bookdash_searching_for_the_spirit_of_spring_xh_epub_source
-  - bookdash_sima_and_siza_en
-  - bookdash_sima_and_siza_en_epub_source
-  - bookdash_sindi_and_the_moon_en
-  - bookdash_sindi_and_the_moon_en_epub_source
-  - bookdash_sindiwe_and_the_fireflies_en
-  - bookdash_sindiwe_and_the_fireflies_en_epub_source
-  - bookdash_sindiwe_and_the_fireflies_xh
-  - bookdash_sindiwe_and_the_fireflies_xh_epub_source
-  - bookdash_singing_the_truth_en
-  - bookdash_singing_the_truth_en_epub_source
-  - bookdash_singing_the_truth_fr
-  - bookdash_singing_the_truth_fr_epub_source
-  - bookdash_singing_the_truth_xh
-  - bookdash_singing_the_truth_xh_epub_source
-  - bookdash_sizwes_smile_en
-  - bookdash_sizwes_smile_en_epub_source
-  - bookdash_sizwes_smile_fr
-  - bookdash_sizwes_smile_fr_epub_source
-  - bookdash_sizwes_smile_xh
-  - bookdash_sizwes_smile_xh_epub_source
-  - bookdash_sleepy_mr_sloth_en
-  - bookdash_sleepy_mr_sloth_en_epub_source
-  - bookdash_sleepy_mr_sloth_fr
-  - bookdash_sleepy_mr_sloth_fr_epub_source
-  - bookdash_sleepy_mr_sloth_xh
-  - bookdash_sleepy_mr_sloth_xh_epub_source
-  - bookdash_thatos_birthday_surprise_en
-  - bookdash_thatos_birthday_surprise_en_epub_source
-  - bookdash_there_must_be_a_rainbow_en
-  - bookdash_there_must_be_a_rainbow_en_epub_source
-  - bookdash_together_were_strong_en
-  - bookdash_together_were_strong_en_epub_source
-  - bookdash_tortoise_finds_his_home_en
-  - bookdash_tortoise_finds_his_home_en_epub_source
-  - bookdash_tortoise_finds_his_home_fr
-  - bookdash_tortoise_finds_his_home_fr_epub_source
-  - bookdash_tortoise_finds_his_home_xh
-  - bookdash_tortoise_finds_his_home_xh_epub_source
-  - bookdash_walking_together_en
-  - bookdash_walking_together_en_epub_source
-  - bookdash_walking_together_xh
-  - bookdash_walking_together_xh_epub_source
-  - bookdash_what_if_en
-  - bookdash_what_if_en_epub_source
-  - bookdash_whose_button_is_this_en
-  - bookdash_whose_button_is_this_en_epub_source
-  - bookdash_why_is_nita_upside_down_en
-  - bookdash_why_is_nita_upside_down_en_epub_source
-  - bookdash_zanele_situ_my_story_en
-  - bookdash_zanele_situ_my_story_en_epub_source
+  - gutenberg_en_lcc_q
+  - gutenberg_en_lcc_t
+  - gutenberg_en_lcc_s
+  - gutenberg_en_lcc_l
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - agriculture
+  - crafts
+  - education
+  - natural-science
+  preferred_formats:
+  - zim
+  include:
+  - 'Four finished English nonfiction ZIM archives: agriculture, technology, science
+    and education. Historical reference, not current clinical or safety guidance.'
+- id: childrens-library
+  title: Illustrated children’s PDF stories (optional)
+  number: 10
+  target_bytes: 5579025
+  status: ready
+  reason: Finished illustrated Book Dash PDFs, unchanged with original credits. Optional
+    stories; no fixed title quota and no EPUB conversion.
+  asset_ids:
+  - bookdash_pdf_amazing_daisy
+  - bookdash_pdf_come_back_cat_english
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains: &id001
+  - stories
   preferred_formats:
   - pdf
-  - html
-  - epub
-  - png
-  - jpeg
-  - txt
   include:
-  - 'Book Dash: essentially all available books, with normal ebook PDFs, extracted text, covers and illustrations,
-    available translations and optional print-ready PDFs'
-  - 'African Storybook: whole collection initially where authorized exports allow PDF, HTML or images
-    plus text'
-  - 'Gutenberg: picture books, fairy tales, folk tales, early readers, classics, adventure, nature and
-    science, history and biography, teen classics and poetry'
-  - Deduplicate titles already represented better by another source
-  - Top-level navigation alongside Gutenberg, health, food/water, repair, maps and search
-  - Preserve illustrations and per-book author, illustrator, translator and license credits
-  exclude:
-  - Depending solely on the Book Dash ZIM
-  - A ZIM-only children’s collection when direct exports are practical
-  - Redundant editions across publishers
-  source_pages:
-  - https://bookdash.org/
-  - https://www.africanstorybook.org/
-  - https://www.gutenberg.org/help/mirroring.html
-  - https://ftp.fau.de/kiwix/zim/other/
-  editions:
-    compact:
-      asset_ids:
-      - bookdash_a_beautiful_day_en
-      - bookdash_a_beautiful_day_en_epub_source
-      - bookdash_a_dancers_tale_en
-      - bookdash_a_dancers_tale_en_epub_source
-      - bookdash_a_fish_and_a_gift_en
-      - bookdash_a_fish_and_a_gift_en_epub_source
-      - bookdash_a_fish_and_a_gift_fr
-      - bookdash_a_fish_and_a_gift_fr_epub_source
-      - bookdash_a_fish_and_a_gift_xh
-      - bookdash_a_fish_and_a_gift_xh_epub_source
-      - bookdash_a_house_for_mouse_en
-      - bookdash_a_house_for_mouse_en_epub_source
-      - bookdash_a_house_for_mouse_xh
-      - bookdash_a_house_for_mouse_xh_epub_source
-      - bookdash_a_tiny_seed_en
-      - bookdash_a_tiny_seed_en_epub_source
-      - bookdash_a_tiny_seed_fr
-      - bookdash_a_tiny_seed_fr_epub_source
-      - bookdash_a_tiny_seed_xh
-      - bookdash_a_tiny_seed_xh_epub_source
-      - bookdash_amazing_daisy_en
-      - bookdash_amazing_daisy_en_epub_source
-      - bookdash_amazing_daisy_xh
-      - bookdash_amazing_daisy_xh_epub_source
-      - bookdash_bathtub_safari_en
-      - bookdash_bathtub_safari_en_epub_source
-      - bookdash_come_back_cat_en
-      - bookdash_come_back_cat_en_epub_source
-      - bookdash_come_back_cat_fr
-      - bookdash_come_back_cat_fr_epub_source
-      - bookdash_come_back_cat_xh
-      - bookdash_come_back_cat_xh_epub_source
-      - bookdash_gracas_dream_en
-      - bookdash_gracas_dream_en_epub_source
-      - bookdash_gracas_dream_xh
-      - bookdash_gracas_dream_xh_epub_source
-      - bookdash_grandpas_gold_en
-      - bookdash_grandpas_gold_en_epub_source
-      - bookdash_how_about_you_en
-      - bookdash_how_about_you_en_epub_source
-      - bookdash_i_will_help_you_en
-      - bookdash_i_will_help_you_en_epub_source
-      - bookdash_is_there_anyone_like_me_en
-      - bookdash_is_there_anyone_like_me_en_epub_source
-      - bookdash_is_there_anyone_like_me_xh
-      - bookdash_is_there_anyone_like_me_xh_epub_source
-      - bookdash_karabos_question_en
-      - bookdash_karabos_question_en_epub_source
-      - bookdash_little_ants_big_plan_en
-      - bookdash_little_ants_big_plan_en_epub_source
-      - bookdash_little_ants_big_plan_xh
-      - bookdash_little_ants_big_plan_xh_epub_source
-      - bookdash_londi_the_dreaming_girl_en
-      - bookdash_londi_the_dreaming_girl_en_epub_source
-      - bookdash_lory_dory_en
-      - bookdash_lory_dory_en_epub_source
-      - bookdash_maddy_moona_en
-      - bookdash_maddy_moona_en_epub_source
-      - bookdash_miss_helens_magical_world_en
-      - bookdash_miss_helens_magical_world_en_epub_source
-      - bookdash_queen_of_soweto_en
-      - bookdash_queen_of_soweto_en_epub_source
-      - bookdash_rafikis_style_en
-      - bookdash_rafikis_style_en_epub_source
-      - bookdash_rafikis_style_xh
-      - bookdash_rafikis_style_xh_epub_source
-      - bookdash_sbus_special_shoes_en
-      - bookdash_sbus_special_shoes_en_epub_source
-      - bookdash_searching_for_the_spirit_of_spring_en
-      - bookdash_searching_for_the_spirit_of_spring_en_epub_source
-      - bookdash_searching_for_the_spirit_of_spring_xh
-      - bookdash_searching_for_the_spirit_of_spring_xh_epub_source
-      - bookdash_sima_and_siza_en
-      - bookdash_sima_and_siza_en_epub_source
-      - bookdash_sindi_and_the_moon_en
-      - bookdash_sindi_and_the_moon_en_epub_source
-      - bookdash_sindiwe_and_the_fireflies_en
-      - bookdash_sindiwe_and_the_fireflies_en_epub_source
-      - bookdash_sindiwe_and_the_fireflies_xh
-      - bookdash_sindiwe_and_the_fireflies_xh_epub_source
-      - bookdash_singing_the_truth_en
-      - bookdash_singing_the_truth_en_epub_source
-      - bookdash_singing_the_truth_fr
-      - bookdash_singing_the_truth_fr_epub_source
-      - bookdash_singing_the_truth_xh
-      - bookdash_singing_the_truth_xh_epub_source
-      - bookdash_sizwes_smile_en
-      - bookdash_sizwes_smile_en_epub_source
-      - bookdash_sizwes_smile_fr
-      - bookdash_sizwes_smile_fr_epub_source
-      - bookdash_sizwes_smile_xh
-      - bookdash_sizwes_smile_xh_epub_source
-      - bookdash_sleepy_mr_sloth_en
-      - bookdash_sleepy_mr_sloth_en_epub_source
-      - bookdash_sleepy_mr_sloth_fr
-      - bookdash_sleepy_mr_sloth_fr_epub_source
-      - bookdash_sleepy_mr_sloth_xh
-      - bookdash_sleepy_mr_sloth_xh_epub_source
-      - bookdash_thatos_birthday_surprise_en
-      - bookdash_thatos_birthday_surprise_en_epub_source
-      - bookdash_there_must_be_a_rainbow_en
-      - bookdash_there_must_be_a_rainbow_en_epub_source
-      - bookdash_together_were_strong_en
-      - bookdash_together_were_strong_en_epub_source
-      - bookdash_tortoise_finds_his_home_en
-      - bookdash_tortoise_finds_his_home_en_epub_source
-      - bookdash_tortoise_finds_his_home_fr
-      - bookdash_tortoise_finds_his_home_fr_epub_source
-      - bookdash_tortoise_finds_his_home_xh
-      - bookdash_tortoise_finds_his_home_xh_epub_source
-      - bookdash_walking_together_en
-      - bookdash_walking_together_en_epub_source
-      - bookdash_walking_together_xh
-      - bookdash_walking_together_xh_epub_source
-      - bookdash_what_if_en
-      - bookdash_what_if_en_epub_source
-      - bookdash_whose_button_is_this_en
-      - bookdash_whose_button_is_this_en_epub_source
-      - bookdash_why_is_nita_upside_down_en
-      - bookdash_why_is_nita_upside_down_en_epub_source
-      - bookdash_zanele_situ_my_story_en
-      - bookdash_zanele_situ_my_story_en_epub_source
-      - gutenberg_en_lcc_pz
-      target_bytes: 19818807444
-      status: ready
-      reason: 'A bounded published selection: OWL PDF conversions of all 61 pinned Book Dash EPUBs plus
-        the English Gutenberg juvenile-literature archive. Preserves the existing books. The Gutenberg
-        ZIM requires a reader; this does not claim complete African Storybook or a publisher PDF edition.'
+  - Finished illustrated Book Dash PDFs, unchanged with original credits. Optional
+    stories; no fixed title quota and no EPUB conversion.
 - id: wikipedia-en
-  number: 11
   title: English Wikipedia, full
-  target_bytes: 119000000000
-  status: partial
-  reason: The full English maxi archive is pinned. The in-place direct exporter is available; the curated
-    lifeboat article list and visually verified HTML/image edition are still missing.
+  number: 11
+  target_bytes: 127418087648
+  status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikipedia_en
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - general-reference
   preferred_formats:
   - zim
-  - html
   include:
-  - Whole pinned English maxi archive with images
-  - "Small article-list-driven HTML lifeboat under WIKIPEDIA/DIRECT/; aim for roughly 2\u20135 GB within\
-    \ this planning envelope"
-  - 'Lifeboat: human anatomy, common diseases, first-aid concepts and medicines'
-  - 'Lifeboat: crops, food preservation, water treatment and sanitation'
-  - 'Lifeboat: electricity, motors, generators, batteries, radios and mechanical systems'
-  - 'Lifeboat: chemistry, materials, construction, navigation, meteorology and mathematics fundamentals'
-  exclude:
-  - Expanding millions of articles into individual exFAT files
-  - Replacing full maxi with nopic or mini without an explicit profile decision
-  - Selecting lifeboat articles solely to fill a quota
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/wikipedia/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: wikimed
-  number: 12
   title: WikiMed / MDWiki
-  target_bytes: 2100000000
+  number: 12
+  target_bytes: 2215520569
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikimed_en
+  utility_tier: CRITICAL
+  utility_reason: Protects life or supports food, water, shelter and household survival.
+  knowledge_domains:
+  - health
   preferred_formats:
   - zim
   include:
-  - Whole pinned English medical encyclopedia
-  - Preserve clinical and licensing notices
-  exclude:
-  - Treating encyclopedia access as professional medical training
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/wikipedia/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: wikem
-  number: 13
   title: WikEM
-  target_bytes: 360000000
+  number: 13
+  target_bytes: 374632362
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikem_en
+  utility_tier: CRITICAL
+  utility_reason: Protects life or supports food, water, shelter and household survival.
+  knowledge_domains:
+  - health
   preferred_formats:
   - zim
   include:
-  - Whole emergency-medicine reference
-  - Version and clinical caveats
-  exclude:
-  - Unversioned clinical guidance
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/other/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: regional-maps
+  title: North America maps (OpenStreetMap)
   number: 14
-  title: Regional maps and topography
-  target_bytes: 51000000000
-  status: partial
-  reason: North America OSM is pinned. Smaller-profile proposals retain 75 topographic sheets and
-    the national overview. The separate full-1tb capture freezes 1,433 latest 1:24,000 sheets,
-    14 explicit 1:100,000 coastal supplements and the national overview, totaling 72,124,080,891
-    source bytes within the effective 80 GB allowance. Fine-scale gaps remain explicit; mixed-scale
-    publisher footprints do not prove complete 1:24,000 land coverage. Whole-file pins, actual PDF
-    map frames, dates, scale, notices and authoritative water exclusions require acquisition and review.
+  target_bytes: 22652513201
+  status: ready
+  reason: Finished North America OpenStreetMap ZIM. Does not supply local topographic
+    maps or guarantee terrain/elevation detail.
   asset_ids:
   - map_osm_north_america
-  - regional_topographic_maps
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - navigation
   preferred_formats:
   - zim
-  - pdf
   include:
-  - North America OSM archive; 21 GB planning component
-  - "Detailed local and regional GeoPDF/topographic maps; roughly 20\u201340 GB, with 30 GB in this default\
-    \ envelope"
-  - Home state or region
-  - Neighboring states or regions
-  - Likely evacuation corridors
-  - Major watersheds
-  - National and state forests
-  - Major transport corridors
-  - Compact profile may use a 10 GB regional selection instead of the full default envelope
-  - Full 1 TB profile uses an effective 80 GB topographic and national-overview allowance
-  exclude:
-  - High-resolution topography for the entire continent by default
-  - Treating physical-world/tectonic reference sheets as local road or evacuation maps
-  - Automatically retaining North America OSM when the world replacement is selected
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/maps/
-  - https://store.usgs.gov/map-locator
-  - https://www.usgs.gov/the-national-map-data-delivery/topographic-map-access-points
+  - Finished North America OpenStreetMap ZIM. Does not supply local topographic maps
+    or guarantee terrain/elevation detail.
 - id: appropedia
-  number: 15
   title: Appropedia
-  target_bytes: 560000000
-  status: partial
-  reason: The whole Appropedia ZIM is pinned and locally verified. A deterministic inventory freezes
-    1,849 candidate entries, including ten original PDFs. Seven candidate pages with replacement
-    characters and four unsupported archive paths remain explicit exceptions. Complete article,
-    illustration, dependency and local-link review of generated outputs remains pending.
+  number: 15
+  target_bytes: 581641351
+  status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - appropedia_en
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - appropriate-technology
+  - repair
+  - water-sanitation
   preferred_formats:
   - zim
-  - html
   include:
-  - Whole pinned snapshot
-  - Selected critical articles as directly readable HTML
-  exclude:
-  - Critical practical content available only inside ZIM
-  source_pages:
-  - https://www.appropedia.org/Appropedia:Terms_of_use
-  - https://ftp.fau.de/kiwix/zim/other/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: cd3wd
-  number: 16
   title: CD3WD appropriate-development archive
-  target_bytes: 550000000
-  status: partial
-  reason: The complete published 2025-11 Kiwix archive is pinned and locally verified. Candidate selection
-    freezes 5,219 entries across 298 complete captured book directories, including 72 original PDFs.
-    Original-publication completeness, retained notices, dependency closure and generated outputs
-    remain unreviewed. Publication rights vary; no blanket redistribution license is asserted.
+  number: 16
+  target_bytes: 581165229
+  status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - cd3wd_en
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - agriculture
+  - hand-tools
+  - appropriate-technology
   preferred_formats:
   - zim
-  - pdf
   include:
-  - Whole current archive initially
-  - Extract original PDFs where available with notices intact
-  exclude:
-  - Unreviewed assumption that every contained publication has the same redistribution license
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/other/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: ifixit
-  number: 17
   title: iFixit repair references
-  target_bytes: 3300000000
-  status: partial
-  reason: The pinned archive is locally verified and 1,399 repair-guide candidates are frozen. All
-    declare French HTML language tags although sampled procedures are English; full language review
-    remains pending. Three unsupported archive paths, complete procedure steps, photographs, parts,
-    attribution and exported local dependencies require review.
+  number: 17
+  target_bytes: 3570695757
+  status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - ifixit_en
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - repair
   preferred_formats:
   - zim
-  - pdf
-  - html
   include:
-  - Whole pinned English repair archive
-  - Selected critical repair guides as direct PDF or HTML
-  - Retain steps, photographs, parts context and attribution
-  exclude:
-  - Critical repair instructions available only inside ZIM
-  source_pages:
-  - https://www.ifixit.com/Info/Licensing
-  - https://download.kiwix.org/zim/ifixit/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: low-tech-magazine
-  number: 18
   title: Low-tech Magazine
-  target_bytes: 700000000
-  status: partial
-  reason: The January 2025 Kiwix archive is pinned and locally verified. Exact entry IDs for 87 English
-    article candidates are frozen. Complete HTML, images, diagrams, captions, dates, attribution,
-    local links and generated-output review remain pending; candidate payload bytes are not accepted content.
+  number: 18
+  target_bytes: 700555670
+  status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - lowtech_magazine
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - appropriate-technology
+  - energy
   preferred_formats:
-  - html
-  - png
-  - jpeg
+  - zim
   include:
-  - Useful editorial archive
-  - Article images, diagrams, captions and author credits
-  - Static local links and retained publication dates
-  exclude:
-  - Analytics, advertisements and remote-only page dependencies
-  source_pages:
-  - https://solar.lowtechmagazine.com/about/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: survivor-tier-a
+  title: Historical construction and water-supply manuals
   number: 19
-  title: Survivor Library — curated Tier A
   target_bytes: 83536328
-  status: partial
-  reason: Three accepted historical volumes total 83,536,328 bytes and cover sheet-metal cone patterns,
-    ordinary foundations (Volume I), and water distribution. Enumeration across both tiers supports about
-    40.9 GB before exclusions, not a 130 GB collection. Work/edition deduplication, topic coverage and
-    per-volume scan review remain pending. Historical warnings and recorded exclusions remain in force.
+  status: ready
+  reason: Three published historical construction and water-supply manuals; supplemental
+    historical reference, not a complete modern rebuilding collection.
   asset_ids:
   - survivor_fuller_cones_1904
   - survivor_fowler_foundations_vol1_1920
   - survivor_wegmann_water_supply_1918
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - construction
+  - water-sanitation
   preferred_formats:
   - pdf
   include:
-  - 'Metal/workshop: blacksmithing, forging, foundry and casting, machine tools, machining, welding, sheet
-    metal, toolmaking, mechanical drawing, measurement and metrology, bearings and gears, workshop practice'
-  - 'Construction: carpentry, joinery, masonry, concrete, brickmaking, roofing, plumbing fundamentals,
-    drainage, surveying, structural fundamentals, roads and bridges'
-  - 'Mechanical power: water power, wind power, steam engines, transmission, pumps, mills, engines, boilers
-    and refrigeration fundamentals'
-  - 'Agriculture/processing: farming, soil, crop cultivation, animal husbandry, dairying, cheese and butter,
-    butchering, food drying, grain milling, farm machinery, beekeeping and horticulture'
-  - 'Traditional fabrication: leatherworking, sewing, weaving, rope, papermaking, bookbinding, printing,
-    pottery, glassmaking, woodworking, furniture and basketry'
-  - 'Industrial fundamentals: process/materials chemistry, mining, metallurgy, fuels, lubricants and steam/water
-    systems'
-  - Historical safety warnings for boilers and other obsolete industrial practices
-  - Collection target follows measured accepted works; enumerated candidates do not count as content
-  exclude:
-  - Obsolete medical diagnosis and treatment
-  - Anesthesia, historic surgery, old obstetrics as operational medicine, X-ray practice and historical
-    nursing medicine
-  - Old encyclopedias
-  - Great Books and literature duplicated by Gutenberg
-  - Children’s books duplicated by Book Dash or Gutenberg
-  - Christmas and Thanksgiving collections
-  - Giant historical periodical runs
-  - Most finance, banking, accounting and economics
-  - Duplicated general history and repetitive travelogue
-  - Duplicate editions and scans
-  - Low-quality scans when a better edition exists
-  - Medical history outside an explicitly labeled optional HISTORICAL appendix
-  source_pages:
-  - https://www.survivorlibrary.com/
-- id: stackoverflow-durable
-  number: 20
-  title: Stack Overflow — durable curated corpus
-  target_bytes: 25000000000
-  status: unresolved
-  reason: The deterministic durable/legacy selector, canonical duplicate handling, static renderer and
-    attribution preservation are implemented. Four shared official input archives are enumerated with
-    exact sizes and publisher MD5/SHA-1 checksums. Whole-file SHA-256 capture, pinned extracted XML, complete
-    dependency review and measured accepted output remain pending.
-  asset_ids: []
-  preferred_formats:
-  - html
-  include:
-  - 'Languages: C, C++, Python, Java, C#, shell/Bash, core JavaScript and HTML/CSS'
-  - 'Systems: POSIX, Unix/Linux, filesystems, processes, threads, sockets, TCP/IP, serial communications,
-    USB concepts, permissions, networking and memory management'
-  - 'Data: SQL, SQLite, relational fundamentals, parsing, text processing, Unicode, regular expressions,
-    binary file formats and serialization'
-  - 'Tools: Git, GCC, compilers, assemblers, linkers, make/build systems, debuggers and package construction
-    without cloud dependencies'
-  - 'Computer science: algorithms, data structures, numerical computing, compression, basic cryptographic
-    programming and concurrency'
-  - 'Per question: question, accepted answer, one or two useful alternatives, relevant correction/warning
-    comments, tags, dates, version context and attribution/license'
-  - Canonical-question mapping for duplicates
-  - Generated static HTML with a reproducible selection recipe
-  exclude:
-  - The whole roughly 107 GB English ZIM
-  - Unanswered questions
-  - Mapped duplicates and negative or very-low-score junk
-  - User profiles, badges, full edit history and trivial comments
-  - Page chrome, analytics and advertisements
-  - AWS, Azure, GCP, Firebase and SaaS-specific integrations
-  - Stripe, Twilio, advertising and social-media APIs
-  - App Store and Play Store workflows and CI SaaS
-  - React/Angular/framework version churn unless conceptually useful
-  - Old jQuery plugins and ancient web-framework minutiae
-  - WordPress/plugin-version questions
-  - Dead browser APIs, Flash, Flex and Silverlight
-  - BlackBerry, Symbian and Windows Phone app development
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/stack_exchange/
+  - Three published historical construction and water-supply manuals; supplemental
+    historical reference, not a complete modern rebuilding collection.
 - id: stackexchange-practical
-  number: 21
   title: Practical Stack Exchange bundle
-  target_bytes: 12000000000
-  status: unresolved
-  reason: The original quality-filtered direct HTML corpus remains unfinished. A ready compact alternative
-    contains twelve complete published site archives, with broad Super User and GIS coverage rather than
-    a hand-selected subset.
-  asset_ids: []
-  preferred_formats:
-  - html
-  include:
-  - Electrical Engineering
-  - Home Improvement / DIY
-  - Gardening
-  - Mechanics
-  - Unix and Linux
-  - Ham Radio
-  - Outdoors
-  - Sustainability
-  - Woodworking
-  - 3D Printing
-  - Selected SuperUser
-  - Selected GIS
-  - Substantially intact useful site content after quality filtering
-  - Question/answer context, dates, correction comments and per-post attribution
-  - Generated static HTML
-  exclude:
-  - Junk
-  - Unanswered questions
-  - Duplicate material
-  - ZIM as the primary delivered representation
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/stack_exchange/
-  editions:
-    compact:
-      asset_ids:
-      - stackexchange_diy
-      - stackexchange_electronics
-      - stackexchange_gardening
-      - stackexchange_gis
-      - stackexchange_ham
-      - stackexchange_mechanics
-      - stackexchange_outdoors
-      - stackexchange_sustainability
-      - stackexchange_unix
-      - stackexchange_woodworking
-      - stackexchange_3dprinting
-      - stackexchange_superuser
-      target_bytes: 15459760088
-      status: ready
-      reason: 'Twelve pinned published Kiwix site archives: DIY, electrical engineering, gardening, GIS,
-        amateur radio, mechanics, outdoors, sustainability, Unix/Linux, woodworking, 3D printing and Super
-        User. Requires Kiwix; no OWL question-level quality filtering is claimed.'
-- id: openstax-core
-  number: 22
-  title: OpenStax textbooks across all subjects
-  target_bytes: 7674165199
+  number: 21
+  target_bytes: 7893948720
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
+  asset_ids:
+  - stackexchange_diy
+  - stackexchange_electronics
+  - stackexchange_gardening
+  - stackexchange_ham
+  - stackexchange_mechanics
+  - stackexchange_outdoors
+  - stackexchange_sustainability
+  - stackexchange_woodworking
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - repair
+  - woodworking
+  - gardening
+  - appropriate-technology
+  - construction
+  - electrical
+  - mechanical
+  - navigation
+  - radio
+  preferred_formats:
+  - zim
+  include:
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
+- id: openstax-core
+  title: College textbooks (optional)
+  number: 22
+  target_bytes: 7301623553
+  status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
   asset_ids:
   - openstax_additive_manufacturing_essentials
-  - openstax_algebra_1
   - openstax_algebra_and_trigonometry_2e
   - openstax_american_government_4e
   - openstax_anatomy_and_physiology_2e
@@ -1247,11 +780,9 @@ resources:
   - openstax_college_success_concise
   - openstax_concepts_biology
   - openstax_contemporary_mathematics
-  - openstax_elementary_algebra_2e
   - openstax_entrepreneurship
   - openstax_foundations_information_systems
   - openstax_fundamentals_nursing
-  - openstax_intermediate_algebra_2e
   - openstax_introduction_anthropology
   - openstax_introduction_behavioral_neuroscience
   - openstax_introduction_business_2e
@@ -1271,9 +802,7 @@ resources:
   - openstax_organic_chemistry
   - openstax_organizational_behavior
   - openstax_pharmacology
-  - openstax_physics
   - openstax_population_health
-  - openstax_prealgebra_2e
   - openstax_precalculus_2e
   - openstax_preparing_for_college_success
   - openstax_principles_financial_accounting
@@ -1287,7 +816,6 @@ resources:
   - openstax_principles_microeconomics_3e
   - openstax_psychiatric_mental_health
   - openstax_psychology_2e
-  - openstax_statistics
   - openstax_university_physics_volume_1
   - openstax_university_physics_volume_2
   - openstax_university_physics_volume_3
@@ -1296,31 +824,34 @@ resources:
   - openstax_world_history_volume_1
   - openstax_world_history_volume_2
   - openstax_writing_guide
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - college-education
+  - astronomy
+  - biology
+  - business
+  - chemistry
+  - clinical-medicine
+  - computing
+  - health
+  - humanities
+  - mathematics
+  - physics
+  - social-science
   preferred_formats:
   - pdf
-  - html
   include:
-  - Mathematics and science, including course-specific variants in larger presets
-  - Business, economics, accounting, finance, management and law
-  - History, philosophy, writing, anthropology, political science, psychology and sociology
-  - Nursing, computer science, data science, information systems and college preparation
-  - Complete original English textbook PDFs, with illustrations, attribution and searchable text
-  exclude:
-  - Bulk copying ancillary instructor resources
-  - Replacing illustrated books with text extracts
-  - Assuming older OpenStax editions establish the license of current PDFs
-  source_pages:
-  - https://openstax.org/subjects
-  - https://openstax.org/apps/cms/api/v2/pages/30/
-  reason: 73 current English publisher PDFs verified in September 2026 across all eight OpenStax subject
-    families. The fixed 16 GB preset selects a 36-title breadth core; the 64 GB and larger presets include
-    all 73. Online exercises, videos, instructor supplements, translations and retired editions are outside
-    this collection.
+  - Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
 - id: libretexts-stem
-  number: 23
   title: LibreTexts STEM and medicine
-  target_bytes: 8500000000
+  number: 23
+  target_bytes: 9088921656
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - libretexts_bio
   - libretexts_chem
@@ -1330,62 +861,63 @@ resources:
   - libretexts_med
   - libretexts_phys
   - libretexts_stats
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - college-education
   preferred_formats:
   - zim
-  - pdf
   include:
-  - Biology
-  - Chemistry
-  - Engineering
-  - Geology
-  - Mathematics
-  - Medicine
-  - Physics
-  - Statistics
-  - PDFs when easily available and appropriately licensed
-  exclude:
-  - Business, humanities and social-science collections initially
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/libretexts/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: wikibooks-en
-  number: 24
   title: English Wikibooks
-  target_bytes: 5800000000
+  number: 24
+  target_bytes: 6177865115
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikibooks_en
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - education
+  - crafts
   preferred_formats:
   - zim
   include:
-  - Whole pinned English archive
-  exclude:
-  - Treating archive-only books as directly readable critical textbooks
-  source_pages:
-  - https://download.kiwix.org/zim/wikibooks/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: wiktionary-en
-  number: 25
   title: English Wiktionary
-  target_bytes: 8500000000
+  number: 25
+  target_bytes: 9156425592
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wiktionary_en
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - language
   preferred_formats:
   - zim
   include:
-  - Whole pinned English text archive
-  exclude:
-  - Duplicated dictionaries without clear added value
-  source_pages:
-  - https://download.kiwix.org/zim/wiktionary/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: phet
-  number: 26
   title: PhET simulations
-  target_bytes: 100000000
-  status: partial
-  reason: Sixteen exact-version English HTML5 simulations are pinned. All 32 offline desktop and phone-viewport
-    checks pass cold launch, reviewed model interaction, reset and layout checks. Broader required-screen
-    coverage remains a content-review blocker. Original notices and optional analytics/update requests
-    are retained.
+  number: 26
+  target_bytes: 48903828
+  status: ready
+  reason: Sixteen original self-contained school science simulations with hash-bound
+    offline screen-test evidence. Full editorial and physical-device certification
+    remain pending.
   asset_ids:
   - phet_ohms_law
   - phet_circuit_construction_kit_dc
@@ -1399,110 +931,105 @@ resources:
   - phet_states_of_matter_basics
   - phet_build_an_atom
   - phet_balancing_chemical_equations
-  - phet_ph_scale_basics
   - phet_natural_selection
   - phet_fractions_intro
   - phet_area_builder
+  - phet_ph_scale_basics_1_7_5_quarantine_20260927
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - school-science
   preferred_formats:
-  - html5
+  - html
   include:
-  - English self-contained HTML5 simulations
-  - Offline dependencies and attribution retained
-  - Test file-based execution on intended devices
-  exclude:
-  - Java and Flash dependence
-  - Assuming iPhone can execute arbitrary local HTML5 files or install an app offline
-  source_pages:
-  - https://phet.colorado.edu/en/offline-access
-  - https://phet.colorado.edu/en/licensing
-  device_validation:
-    status: pending
-    reason: Physical-device certification remains separate from content review and browser viewport checks.
-    evidence: []
+  - Sixteen original self-contained school science simulations with hash-bound offline
+    screen-test evidence. Full editorial and physical-device certification remain
+    pending.
 - id: wikiversity-en
-  number: 27
   title: English Wikiversity
-  target_bytes: 2300000000
+  number: 27
+  target_bytes: 2459209431
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikiversity_en
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - advanced-education
   preferred_formats:
   - zim
   include:
-  - Whole English archive
-  exclude:
-  - Unpinned latest URLs
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/other/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: civilian-preparedness
-  number: 28
   title: Ready.gov and FEMA civilian preparedness expansion
-  target_bytes: 500000000
+  number: 28
+  target_bytes: 4878661
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
   asset_ids:
   - fema_are_you_ready_2020
+  utility_tier: CRITICAL
+  utility_reason: Protects life or supports food, water, shelter and household survival.
+  knowledge_domains:
+  - preparedness
   preferred_formats:
-  - html
   - pdf
   include:
-  - Whole FEMA P-2064 September 2020 Are You Ready? An In-Depth Guide to Citizen Preparedness
-  - Household planning and supplies, hazard-specific actions, sheltering, evacuation, communication and
-    recovery beyond the existing core checklist/CERT references
-  exclude:
-  - Claiming a complete mirror of all Ready.gov/FEMA web pages
-  - Counting core CERT, safe-room advisory or supply checklist twice
-  source_pages:
-  - https://www.govinfo.gov/app/details/GOVPUB-HS5_100-PURL-gpo185734
-  - https://www.fema.gov/sites/default/files/2020-07/residential-sheltering-safe-rooms_recovery-advisory.pdf
-  - https://www.fema.gov/sites/default/files/documents/fema_hm-emergency-supply-kit-checklist_english.pdf
+  - Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
 - id: wikivoyage-en
-  number: 29
   title: English Wikivoyage
-  target_bytes: 1100000000
+  number: 29
+  target_bytes: 1071168673
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikivoyage_en
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - travel
   preferred_formats:
   - zim
   include:
-  - Whole English travel archive
-  - Clear snapshot date
-  exclude:
-  - Claims of current border, transport or safety conditions
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/other/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: world-factbook
-  number: 30
   title: CIA World Factbook snapshot
-  target_bytes: 400000000
+  number: 30
+  target_bytes: 407350139
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - world_factbook_en
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - geography
   preferred_formats:
-  - html
   - zim
   include:
-  - Whole preserved historical snapshot
-  - Clearly displayed publication and capture dates
-  exclude:
-  - Describing the discontinued publication as a live current service
-  source_pages:
-  - https://www.cia.gov/stories/story/spotlighting-the-world-factbook-as-we-bid-a-fond-farewell/
-  - https://ftp.fau.de/kiwix/zim/other/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: linux-programming-docs
+  title: Programming and computer manuals (optional)
   number: 31
-  title: Offline Linux and programming documentation
-  target_bytes: 5000000000
-  status: partial
-  reason: Complete Python/SQLite packages, selected GNU/Linux/systemd manuals, and all 16 OpenSSH portable
-    10.5p1 manuals are pinned with original sources and notices. Essential dependencies and optional/platform
-    cross-references still need explicit classification and review. Physical-device certification is tracked
-    separately. Direct Python reading uses all 37 official publisher PDFs from October 2025; the newer
-    September 2026 EPUB is retained separately as a supporting source package.
+  target_bytes: 74787261
+  status: ready
+  reason: Finished GNU/Git PDFs and official Python PDF ZIP with unchanged PDF members.
+    SQLite HTML, generated OpenSSH pages and incomplete Linux license companions are
+    excluded; these are coverage gaps, not equivalent replacements.
   asset_ids:
-  - docs_bash
-  - docs_coreutils
-  - docs_make
   - docs_gcc
   - docs_cpp
   - docs_binutils
@@ -1547,2247 +1074,488 @@ resources:
   - docs_python_pdf_howto_cporting
   - docs_python_pdf_howto_free_threading_python
   - docs_python_pdf_source
-  - docs_python_epub_source
-  - docs_linux_manpages_619
-  - docs_systemd_systemd
-  - docs_systemd_systemctl
-  - docs_systemd_journalctl
-  - docs_systemd_systemd_unit
-  - docs_systemd_systemd_service
-  - docs_systemd_systemd_socket
-  - docs_systemd_systemd_timer
-  - docs_systemd_systemd_mount
-  - docs_systemd_systemd_exec
-  - docs_systemd_systemd_resource_control
-  - docs_systemd_systemd_system_conf
-  - docs_systemd_systemd_journald_service
-  - docs_systemd_journald_conf
-  - docs_systemd_systemd_networkd_service
-  - docs_systemd_systemd_network
-  - docs_systemd_networkctl
-  - docs_systemd_resolvectl
-  - docs_systemd_bootup
-  - docs_systemd_systemd_special
-  - docs_systemd_systemd_analyze
-  - docs_linux_tool_ip
-  - docs_linux_tool_ss
-  - docs_linux_tool_ping
-  - docs_linux_tool_mount
-  - docs_linux_tool_umount
-  - docs_linux_tool_lsblk
-  - docs_linux_tool_findmnt
-  - docs_linux_tool_fsck
-  - docs_linux_tool_blkid
-  - docs_linux_tool_fdisk
-  - docs_linux_tool_e2fsck
-  - docs_linux_tool_mke2fs
-  - docs_linux_tool_tune2fs
-  - docs_systemd_lgpl_license
-  - docs_systemd_license_readme
-  - docs_iproute2_copyright
-  - docs_iputils_copyright
-  - docs_e2fsprogs_copyright
-  - docs_util_linux_licensing
-  - docs_gpl2_license
-  - docs_python_html_source
-  - docs_python_html_a9916120a85c0449541b
-  - docs_python_html_2b5a029b48c620471417
-  - docs_python_html_b7ccd2245e3205699e38
-  - docs_python_html_9b758bb6d7122d420bdf
-  - docs_python_html_1cb713c1f275797541e0
-  - docs_python_html_9c13a050b0dc4ea52670
-  - docs_python_html_f4e6c893c940efb3c74a
-  - docs_python_html_d22e129622bf301db74d
-  - docs_python_html_256c3cdde7cf47506eb0
-  - docs_python_html_2e70e91345b3f138ad8e
-  - docs_python_html_623566ffceb17b0ca26a
-  - docs_python_html_3b1cec97f8c5bee004df
-  - docs_python_html_aba42a580639b877b659
-  - docs_python_html_534e566d42bea580df00
-  - docs_python_html_94fb2ac5bc484e3a1068
-  - docs_python_html_838497e471d584001968
-  - docs_python_html_49043006e313b2d1e7a2
-  - docs_python_html_52444724dec41e62dc0c
-  - docs_python_html_0bb263e485e654156c60
-  - docs_python_html_ed6ab3dd0da43e5ea2b0
-  - docs_python_html_ecbc3fb0c8d840957201
-  - docs_python_html_7951fd88302855400718
-  - docs_python_html_1a74893dac72aa08d1bd
-  - docs_python_html_e58aea094bfc7dfd6eb3
-  - docs_python_html_327dd3c1299608c1aa0b
-  - docs_python_html_29ecd8b8ce1af5f35e29
-  - docs_python_html_3c89a8cadd1ac4df9b47
-  - docs_python_html_449a82120472135b5534
-  - docs_python_html_73c74717a8a471281164
-  - docs_python_html_759f60e46eb37e46dcf2
-  - docs_python_html_25706c0f527231245c6b
-  - docs_python_html_765b262f60272f6d230b
-  - docs_python_html_62f0ba7378d1819c5027
-  - docs_python_html_78bd123c1ed5ef197d47
-  - docs_python_html_5dce1b205978f7284466
-  - docs_python_html_3845c62d9fdbe75006b8
-  - docs_python_html_d78a7743ff3e769f8c4c
-  - docs_python_html_8aabe2f1a77604ce4eec
-  - docs_python_html_300f2e91ad2c6b139a12
-  - docs_python_html_18ca2aa444d933ba1fd6
-  - docs_python_html_12254ff9dc82b8c5fd79
-  - docs_python_html_84e71cba7d428752d6ac
-  - docs_python_html_d4d037c974c50f672137
-  - docs_python_html_c83b1e43031883909641
-  - docs_python_html_84839d2200a3c6c85919
-  - docs_python_html_c928f4efe42bdfd71652
-  - docs_python_html_9147cc633ac02df89796
-  - docs_python_html_c50b4f11e092eaf84f11
-  - docs_python_html_a3db44a0c96cf025590f
-  - docs_python_html_8ea207b11b74324d48ff
-  - docs_python_html_517ddfde4302c06eae06
-  - docs_python_html_6676e3fa7e7f8af66f88
-  - docs_python_html_9c1e4ecbd48950445404
-  - docs_python_html_31cd3ba3e0999c75a347
-  - docs_python_html_c725a5eeba1f7021177f
-  - docs_python_html_69441a624bbe39511a88
-  - docs_python_html_1108bafa54a75233d83f
-  - docs_python_html_561ea3eebb06284e3bc8
-  - docs_python_html_645a620788d8fd2d62c8
-  - docs_python_html_e81bf5173818e94c3fb3
-  - docs_python_html_b31d2c602f92c14c8f38
-  - docs_python_html_3dbdb8ed17c399099250
-  - docs_python_html_e81c037ecd7660ac9e38
-  - docs_python_html_cb75f1634c027e2b0d1d
-  - docs_python_html_631c624d988969832325
-  - docs_python_html_b4c929ceedca55556961
-  - docs_python_html_c2bb111d5d045e267b81
-  - docs_python_html_add94084ce0cfb4554b7
-  - docs_python_html_19319edd3b5eb4b8cc39
-  - docs_python_html_3e320220882a0c509890
-  - docs_python_html_989fae243d3e3dcac8f9
-  - docs_python_html_a655227587eebc57f2e5
-  - docs_python_html_2b756d86ea2f9255af44
-  - docs_python_html_d7fdff1e685f7de0df1a
-  - docs_python_html_f73a26a4ad2401351606
-  - docs_python_html_420b091cf229587db649
-  - docs_python_html_9e772705630dff72b426
-  - docs_python_html_faf713ab638d387772ec
-  - docs_python_html_53ad2d81bf145d140f85
-  - docs_python_html_570a41b142edb6ad0b56
-  - docs_python_html_1bb1958691425fb0e59a
-  - docs_python_html_05c999f719bde3a0a5c8
-  - docs_python_html_bd8c10bf1a922d580679
-  - docs_python_html_4c67200c933787729999
-  - docs_python_html_63d2aa132369eb781dcf
-  - docs_python_html_035f4bc3d35af74d8fe7
-  - docs_python_html_90eb3f1c7bcaf5be0a2d
-  - docs_python_html_9c54af6be98aa19039a9
-  - docs_python_html_989c5f3ce3c6bd287c8c
-  - docs_python_html_6f7a0cb2f38b32485285
-  - docs_python_html_d403a68623d758b51ca0
-  - docs_python_html_bcbea617ebf14ba96f99
-  - docs_python_html_c60eff55e86cdad45974
-  - docs_python_html_85629534d8b53b8100c0
-  - docs_python_html_171e143a038bda8f5b87
-  - docs_python_html_7dbcb916c292c0d51fb0
-  - docs_python_html_7f732a0d499b0f6ca3af
-  - docs_python_html_034e7f3f266bf3a333d0
-  - docs_python_html_31d20511cbd043238862
-  - docs_python_html_b8974771ae12780d8645
-  - docs_python_html_811fdfa0fea0c45f2175
-  - docs_python_html_032569173f358ed5f3d4
-  - docs_python_html_2d8d2819e796fdf54f4b
-  - docs_python_html_32822ad99a954b9c25d1
-  - docs_python_html_fbf50a2b3b763847000e
-  - docs_python_html_d8c20a7790a6b3e7e446
-  - docs_python_html_ae2f9f7c3f1be95db68e
-  - docs_python_html_0e58b3d4061575840f1e
-  - docs_python_html_33282f4e6fc708854d0b
-  - docs_python_html_f480d9eca272d7615091
-  - docs_python_html_2a5bc13ededb917203c9
-  - docs_python_html_12ffa4226ec7ce875507
-  - docs_python_html_46958e43b63c9be7b3d8
-  - docs_python_html_15af9f842e5387001498
-  - docs_python_html_c8fda097594e262e8a0c
-  - docs_python_html_1f84e73862a5b57e0131
-  - docs_python_html_5aa3a12712696a96d11d
-  - docs_python_html_210f5f5a35bcd0e62bd3
-  - docs_python_html_b154388d9c4c845937bd
-  - docs_python_html_411e0b6a1302639ca436
-  - docs_python_html_970627140d3ad6757ce5
-  - docs_python_html_5550b95af5341ad12310
-  - docs_python_html_b838ad03dadbb277e823
-  - docs_python_html_8ba2aa43ee34769662ef
-  - docs_python_html_0b4bcfcb8fdcf9cfb439
-  - docs_python_html_8cff496b01e3870d3b41
-  - docs_python_html_adfdf5e956a1f63b5b6c
-  - docs_python_html_69acc0d2cb2a48971093
-  - docs_python_html_8e83c4b6a2926ea5c3bd
-  - docs_python_html_f0e97fe55aef998450f0
-  - docs_python_html_cbbf31886006c0392f40
-  - docs_python_html_1e920d48f1368e5eebd9
-  - docs_python_html_149136370d37e7609e1a
-  - docs_python_html_2ae311d2ac9ba8e640fe
-  - docs_python_html_6d208f6d8c41b328ee47
-  - docs_python_html_2b609333025e8fc2517d
-  - docs_python_html_f810b24c052dba50f4ae
-  - docs_python_html_6ec66c13215a72f88e46
-  - docs_python_html_436c67d4f60460c6a052
-  - docs_python_html_1207c396f15050e7b73f
-  - docs_python_html_b4e5c5e9548e4f68a601
-  - docs_python_html_2940a5a1f08082f65c85
-  - docs_python_html_4a246359a2efb2056f61
-  - docs_python_html_3ffe592c8d887202364a
-  - docs_python_html_ee95019a95c9da77e87c
-  - docs_python_html_4b8156fb52dbfeda0a71
-  - docs_python_html_6c195d3e8e7432cfa132
-  - docs_python_html_2e512f7f219b6505459d
-  - docs_python_html_ce9f57ff4c4661104e6c
-  - docs_python_html_38bf396049406ecc36a0
-  - docs_python_html_6c2e64830abf19f413dc
-  - docs_python_html_d62c3c372dd58618428e
-  - docs_python_html_6cd49a8609fd2a239e0a
-  - docs_python_html_8339ef4f23d8d205d8dd
-  - docs_python_html_fd57801468ba2dc9153e
-  - docs_python_html_d09e8ea473dbeea8b58f
-  - docs_python_html_3069683b8ec09f58493a
-  - docs_python_html_0df1db50c55b3902ef39
-  - docs_python_html_d6107033f0efd728cde6
-  - docs_python_html_163f9921cc9133c23eba
-  - docs_python_html_3ae87225b82293c1e8ac
-  - docs_python_html_0970279f4c19b58b8316
-  - docs_python_html_3ddd3088b5cac9dff395
-  - docs_python_html_4acdf570311f8044bfba
-  - docs_python_html_d5e488194a1301f2db5b
-  - docs_python_html_fe1bfcac5a7fb722da76
-  - docs_python_html_aadbe168872e0f1c5f1d
-  - docs_python_html_4107d1cb2b094b7d8718
-  - docs_python_html_c5bc0ff077783e8feeb8
-  - docs_python_html_6b5f719966d71dbe2451
-  - docs_python_html_6affbcf9508b1a52429d
-  - docs_python_html_c1379cd8722e14f75070
-  - docs_python_html_13063eb6b0126eba1fc6
-  - docs_python_html_f2cb6a508bae190b120d
-  - docs_python_html_4f0bd667e87786ebba7a
-  - docs_python_html_0cc9034e9c972e9b864a
-  - docs_python_html_3b02180d9523febe25dc
-  - docs_python_html_f966d5a4d90c99ae4cd5
-  - docs_python_html_25cb81d345d5a2e87435
-  - docs_python_html_1b7ab2ff9e3a248f4ae5
-  - docs_python_html_8524d94ea0aa0e9af506
-  - docs_python_html_1354d97d426df3951f9e
-  - docs_python_html_1281fab8a9c90ea84ac9
-  - docs_python_html_3899b1202e9a070ee65d
-  - docs_python_html_9f9a36e5f3556c7358a6
-  - docs_python_html_2517630f94dea8b4cab6
-  - docs_python_html_b2bf8965d31e127e0f3a
-  - docs_python_html_6bdb2d33c9ee4766f324
-  - docs_python_html_6cd4aff4eb1a6e16cd56
-  - docs_python_html_bb1531343a38307c5207
-  - docs_python_html_1e64216fefe9684201c4
-  - docs_python_html_854bbb5958158b377d15
-  - docs_python_html_35d231510d2a3be00bb5
-  - docs_python_html_9b86dd0944d20141ce84
-  - docs_python_html_6fe69acd5e9e5346f09c
-  - docs_python_html_078e7e679c2cd7b2b5ef
-  - docs_python_html_c8f88c6a5ba44a531150
-  - docs_python_html_f9ab19dd4bea4d0c3457
-  - docs_python_html_7807ed47237e05c0dc95
-  - docs_python_html_34bd3c0043932b33c076
-  - docs_python_html_97daab6e114da286d5eb
-  - docs_python_html_a419a92e90e5a175846c
-  - docs_python_html_a5f55fb32e4075848752
-  - docs_python_html_452548f4731b987873c1
-  - docs_python_html_7b4fe31ce2c8a262141d
-  - docs_python_html_4f8106c10944109224f8
-  - docs_python_html_025f8a926fd5f124f1a3
-  - docs_python_html_8493a5732f43dd7fb3e5
-  - docs_python_html_d524aafafc6ca30a63e2
-  - docs_python_html_1c5faecda378079e685a
-  - docs_python_html_b28fa9e8207f51ac6b85
-  - docs_python_html_73e57340cf57b4c517eb
-  - docs_python_html_cbd8c87f852b5d283814
-  - docs_python_html_fd2c900a3dc849517e39
-  - docs_python_html_7b6fd6415be4ce9c00e0
-  - docs_python_html_481d870a83d27c816b73
-  - docs_python_html_cefec7437e0db1e98650
-  - docs_python_html_aac9cadb1b59fb8f46d7
-  - docs_python_html_92fa6df8d594632215c7
-  - docs_python_html_7bdf5df35d8c971de9e1
-  - docs_python_html_441f9ff2d66ad7fcd5aa
-  - docs_python_html_f0b4c002a11a40ea9652
-  - docs_python_html_7b6daef99201cd9a25eb
-  - docs_python_html_c404c04bc3b0b0b8dfca
-  - docs_python_html_01184d90adba34f772ee
-  - docs_python_html_7235d49db7c3c397d243
-  - docs_python_html_fa7fe4e64de5a9db948b
-  - docs_python_html_3b2d787c1d17db2fdd1e
-  - docs_python_html_c4ee67229e97b90343a0
-  - docs_python_html_7f1ca3a5ee5a9d906a54
-  - docs_python_html_66166f359e273126c383
-  - docs_python_html_f5dcdfd68716de85fd79
-  - docs_python_html_7ba90519b649d9067d50
-  - docs_python_html_28f2542fffff9da5984e
-  - docs_python_html_cd7b1255896514db4714
-  - docs_python_html_ef5125771cd6b813532d
-  - docs_python_html_86cffbff83a180c9dfd7
-  - docs_python_html_73233f151ce60c301437
-  - docs_python_html_8bae0d7baffc70cbb9f7
-  - docs_python_html_defbb302adb89a2545bc
-  - docs_python_html_2ac2a1713e8ce09d485d
-  - docs_python_html_107491c4036fd466693b
-  - docs_python_html_c0e1e39d441b8c77d140
-  - docs_python_html_9b303da62ca4f72e541f
-  - docs_python_html_5eec0e6fdbdbc9ab3b81
-  - docs_python_html_924353e4c1681e8ff270
-  - docs_python_html_61f334185b370f8635e5
-  - docs_python_html_3926ed048af1d4f69003
-  - docs_python_html_fed45fbce50d5341e9fc
-  - docs_python_html_549ffbe078e178008b68
-  - docs_python_html_a27554bfa4831b0b0010
-  - docs_python_html_4c9b460e75439f2b9437
-  - docs_python_html_c402bc4efa0f394b44bb
-  - docs_python_html_2fb7769fee0b6551a314
-  - docs_python_html_ef1fbea702b268e9c435
-  - docs_python_html_438314059b9644061211
-  - docs_python_html_a817359d850dff5f52af
-  - docs_python_html_092ee687423cf5b8033b
-  - docs_python_html_989d7d7e8778171c5865
-  - docs_python_html_7040f6200ef7faf1a2f3
-  - docs_python_html_06cac9d20086cde4cac8
-  - docs_python_html_3692c0b004ccf40cf62d
-  - docs_python_html_dfe21c20cf16f6461246
-  - docs_python_html_1e330a0537f3c53c5607
-  - docs_python_html_c9425ece855ca909b24d
-  - docs_python_html_266506a7e0aed7468616
-  - docs_python_html_1ad2aba51471f8707fe2
-  - docs_python_html_ddc3edaf7bb511eee027
-  - docs_python_html_6f7f4db06829ae773401
-  - docs_python_html_2a2a3aa937c96de8b1ac
-  - docs_python_html_9dbd4426f9d1c5c08cdf
-  - docs_python_html_7916ea9f8bd81a1ad6c7
-  - docs_python_html_70370d8afb6b388bac1d
-  - docs_python_html_d1c75d71d3e648706a7b
-  - docs_python_html_39dc10d45fd060dae26e
-  - docs_python_html_9fa1695691a5518ea4ef
-  - docs_python_html_81dff3da9b63d7cd5a0a
-  - docs_python_html_b6963a9d9791bd7a28bb
-  - docs_python_html_0ed7f8b71a8f97f1d44a
-  - docs_python_html_3fb05931dc9cdc57d275
-  - docs_python_html_16196cb65a7f0af8df69
-  - docs_python_html_3be973ece566776a76d4
-  - docs_python_html_c5416c547691b7a8bdf6
-  - docs_python_html_540518bda14c8a5b0fa6
-  - docs_python_html_b7e9826f8940b322c8c6
-  - docs_python_html_93196fa81aee4adfe901
-  - docs_python_html_c9e65865e6ddbf8d3174
-  - docs_python_html_a4ebe60d265526b8ec5d
-  - docs_python_html_5a3830bcfb4f6daf04d1
-  - docs_python_html_651cab80d6e5e94ceaec
-  - docs_python_html_6043017e7178963a2dee
-  - docs_python_html_2998299a8fba6598276e
-  - docs_python_html_a2d6b3e6d07aad955233
-  - docs_python_html_7b9b05c4118cf19c6368
-  - docs_python_html_1c21169995a005005940
-  - docs_python_html_0f01718dbe45f78763e0
-  - docs_python_html_2a5d813c02f40bfecada
-  - docs_python_html_6a85f1ba7383cfac0e7b
-  - docs_python_html_2f2e6646efb1c0db8e94
-  - docs_python_html_aec020ed9fb27d10c656
-  - docs_python_html_fd42cc6db923ec7b3a5d
-  - docs_python_html_7dc3a290f2b0201ac743
-  - docs_python_html_89045b2570009fbf20a6
-  - docs_python_html_056afb344016f33deb44
-  - docs_python_html_15a232ec4838ceef54bb
-  - docs_python_html_0aec16eae5fa15cde350
-  - docs_python_html_bec42073fbed94221310
-  - docs_python_html_747fa53b408da1ef67be
-  - docs_python_html_449fcf7d427a7ce15d7f
-  - docs_python_html_31e6f39d75c8c50008ea
-  - docs_python_html_3a6be65fa23f0b2a40de
-  - docs_python_html_ae3a72b0df51bf9e6eb9
-  - docs_python_html_9948f06dc48da16e49b5
-  - docs_python_html_03322e505e677c0f04bc
-  - docs_python_html_0ab2b33e49f25fcecf1d
-  - docs_python_html_3b5032bbfeb44a1c4602
-  - docs_python_html_f195ffb2d0897ad72b79
-  - docs_python_html_3080a82cee2909d60295
-  - docs_python_html_37baac259f410eca7130
-  - docs_python_html_d315577a2f00ed334a66
-  - docs_python_html_974b8a02b14b4d566f00
-  - docs_python_html_0561d2afe1989bec5352
-  - docs_python_html_0a6164d27ebb3ea9e2bf
-  - docs_python_html_992dd54c8811f62f1064
-  - docs_python_html_ae1dd3e189d9efb02ffc
-  - docs_python_html_3ee5b47ea536b4129688
-  - docs_python_html_246a03d3bd90dd26d15e
-  - docs_python_html_b950f7d0ff05c36a2eb5
-  - docs_python_html_ea79c4bb8e7c6d5fbd55
-  - docs_python_html_1a517561c741c58c30b5
-  - docs_python_html_8318d66fbb6f093d8af5
-  - docs_python_html_d56f0664d1980bc65e9e
-  - docs_python_html_f230701f9b827e0adeb1
-  - docs_python_html_7437f3e3e8d59b044d0e
-  - docs_python_html_b81baaee1f4d61f396e5
-  - docs_python_html_50399d738342e01fc18c
-  - docs_python_html_e0fdb03eab097c62b255
-  - docs_python_html_a4448d2dbb8a5cf0185d
-  - docs_python_html_28d565e5669ea60cde83
-  - docs_python_html_668f02affdafc98c4ab6
-  - docs_python_html_0ff1ef4892010698c6ba
-  - docs_python_html_943a4ddd9eefc8f42f0c
-  - docs_python_html_766c5d53495fcbe4ad8a
-  - docs_python_html_48b7edbb39441202a88f
-  - docs_python_html_9c7ec3847019ab7a4f05
-  - docs_python_html_a654f0ed6fc98dbadb82
-  - docs_python_html_4bf8640959a495cc536e
-  - docs_python_html_f2f611e2e64dab739e9f
-  - docs_python_html_4e16e042b2c1c977c371
-  - docs_python_html_55e2137987b21a8ccd8f
-  - docs_python_html_feb2465b39befe2981a5
-  - docs_python_html_9541dda65ad0889900aa
-  - docs_python_html_e9708255145ba1f961dd
-  - docs_python_html_9a8b5b16f0ca97d5d6cb
-  - docs_python_html_17470f7b77da1969625a
-  - docs_python_html_0dad0a6826da1485ac51
-  - docs_python_html_e2d7d6a1bbd3fb25c236
-  - docs_python_html_994e8ab802ae4c96b8e6
-  - docs_python_html_e738a610c9c06c8383e9
-  - docs_python_html_b87456a35d1698f2fdc2
-  - docs_python_html_4f6bff7bf387f55bf314
-  - docs_python_html_689713648d26fa73eb8a
-  - docs_python_html_514aecbd437742df615d
-  - docs_python_html_c62b844ddf14c40cbc20
-  - docs_python_html_c27b6ffff4f358a4f0fc
-  - docs_python_html_303cf4b91424460d3ce6
-  - docs_python_html_b3fbb7091a8a243d958f
-  - docs_python_html_1fe6a44fe0fb12d1eaa3
-  - docs_python_html_b767d2e0f284d46c490f
-  - docs_python_html_505e79cd0770e8c2fdc3
-  - docs_python_html_741e00999c9bff602c4d
-  - docs_python_html_e8269d749d7c55a1c1bf
-  - docs_python_html_a31c227815a8fd136ea4
-  - docs_python_html_154368dbfe9ead314c39
-  - docs_python_html_93c4fb7928b3cf089f21
-  - docs_python_html_d2ed4a43fb1cd114f778
-  - docs_python_html_3e0e8bade831efa05d5b
-  - docs_python_html_c56dd69dc2e5d5db25db
-  - docs_python_html_6af33f2807c8942d6c65
-  - docs_python_html_3a1cd13856b66908bd3f
-  - docs_python_html_287c71a2dd774d8360ba
-  - docs_python_html_e59083cfb5828626581d
-  - docs_python_html_6a80da3664bc97511b0a
-  - docs_python_html_dae077405481e9027718
-  - docs_python_html_c0e6e26e62d3153c26eb
-  - docs_python_html_488876b13eb1932fb4be
-  - docs_python_html_eb4cba1891c17525ea7e
-  - docs_python_html_3df8fafadcb0ee0ada5f
-  - docs_python_html_cc0dc3ef45285fa2936a
-  - docs_python_html_7ba025621752f9ce5eb6
-  - docs_python_html_4d1ec8c882c5b757f412
-  - docs_python_html_760186c8803bbe250ec6
-  - docs_python_html_07dd96940b833ea08a12
-  - docs_python_html_71b5047ca68ac947c852
-  - docs_python_html_89c0755f82e696b0ff02
-  - docs_python_html_50e85167200459f5906d
-  - docs_python_html_000686fd7524545ab938
-  - docs_python_html_27f555e56bb4f885764d
-  - docs_python_html_d6387eaff49106e26a6a
-  - docs_python_html_25efbb46351e7164867f
-  - docs_python_html_f5818469aed15b17aa32
-  - docs_python_html_bb17d1bac91d85162877
-  - docs_python_html_a4fd53cf75e7ad424b1e
-  - docs_python_html_b0168fce40a25c633366
-  - docs_python_html_c3348372a551b437878b
-  - docs_python_html_e5c05ba1fec6708dda1b
-  - docs_python_html_084f2fce5c6247a34dc5
-  - docs_python_html_0e4904368ee3be50ec69
-  - docs_python_html_91537b2706d1ca52c26f
-  - docs_python_html_98a11583a281957938f0
-  - docs_python_html_0400ba867c1b235a5167
-  - docs_python_html_2bea5ff0d238ef8c46d4
-  - docs_python_html_b448dc1f1aec92764e35
-  - docs_python_html_c93165b138269dfd96eb
-  - docs_python_html_5747320aa63484d6705d
-  - docs_python_html_470e5cff555fe4fd4c5c
-  - docs_python_html_e20133b50dcb1a55af50
-  - docs_python_html_810505358dc4b5a0ecd5
-  - docs_python_html_7e9ffa6d27e56a5edf06
-  - docs_python_html_f4c0f0c8badce8d21ac3
-  - docs_python_html_bba2ae628e84f3a1b7d4
-  - docs_python_html_366046537b88ea4d6cf7
-  - docs_python_html_1228d4daa83a57be55e5
-  - docs_python_html_56fe920211008229b23c
-  - docs_python_html_12bf1355f2cf964bfb1f
-  - docs_python_html_b7cb8c3d5311a323cd6c
-  - docs_python_html_084a984f4259abb485e5
-  - docs_python_html_3cc2beeabedcd5d4e20e
-  - docs_python_html_869bd4433fadb16e1e4a
-  - docs_python_html_e6ee55afef08d7c8ac2c
-  - docs_python_html_1999648c16bdfcb8f84f
-  - docs_python_html_2e41a616e5253206101e
-  - docs_python_html_a617fd777a7eea46236b
-  - docs_python_html_38e19f419b5435d39ce6
-  - docs_python_html_78e4d3d74abbf87b1440
-  - docs_python_html_d123bc33c92a33259ba4
-  - docs_python_html_e747d515fab9e24ea108
-  - docs_python_html_d525e6b73f6daa084d21
-  - docs_python_html_7b7e1dca56dbb7961bf8
-  - docs_python_html_3e7018c088a21c86522f
-  - docs_python_html_f8a60b66d463d3c1a8f7
-  - docs_python_html_a9521fda5365f3e62c03
-  - docs_python_html_9878064f26e0f571dcad
-  - docs_python_html_4c59d7e9599a75f72a6b
-  - docs_python_html_36aaec452c97b3d12d29
-  - docs_python_html_e051d42f8f2082f460ad
-  - docs_python_html_c31de766957589c059bf
-  - docs_python_html_86637c0e4b16bcb0154a
-  - docs_python_html_6d401344f0ca7808bc68
-  - docs_python_html_3e03b8948d358152a5b7
-  - docs_python_html_a9db79f3026e61e8814f
-  - docs_python_html_6d847625809e407349a6
-  - docs_python_html_ceacc8b37378a8761326
-  - docs_python_html_7f400cec8eaa4e8c3826
-  - docs_python_html_1b35429a34af6d102488
-  - docs_python_html_d6a0f0f68b5ae88ff34e
-  - docs_python_html_b185bfc61b837ea52a2a
-  - docs_python_html_fec15fb626fa7e5378ea
-  - docs_python_html_2eb251f5bce7e7c18440
-  - docs_python_html_9ba452a1ab508446a42b
-  - docs_python_html_3540b2fd7488717d4aad
-  - docs_python_html_b1ce90f49c1d3462cc78
-  - docs_python_html_27f011b46be5d6daabf7
-  - docs_python_html_52aa60d660aeea014d7a
-  - docs_python_html_7eed7402b80ad1578cee
-  - docs_python_html_07667d926cd627c627ee
-  - docs_python_html_092da465f03d52bdf627
-  - docs_python_html_9444a8c337a8b09f47ba
-  - docs_python_html_1ced5702136e1e5f93b1
-  - docs_python_html_4d5589cc6db061ecdb51
-  - docs_python_html_7618ffa124644cb99986
-  - docs_python_html_4c410c44e0877216d1aa
-  - docs_python_html_c348bd03c56fdc5d2907
-  - docs_python_html_fe4bd2dab8b8f0795922
-  - docs_python_html_e62cbc4ba67c1b1ff826
-  - docs_python_html_b2e0a3e1332cb045e58b
-  - docs_python_html_3b6bea8fca88f22f9d1d
-  - docs_python_html_56cf0d9c03936c1ff485
-  - docs_python_html_43268feb130fd2caee40
-  - docs_python_html_1a0054a785bd222ea872
-  - docs_python_html_93d0b931694b41bbc691
-  - docs_python_html_1fbabcdfd61efb4deb0e
-  - docs_python_html_ca4682e909b985e60be1
-  - docs_python_html_23b33d29b78b37edf014
-  - docs_python_html_3a45d47b65aec2b8ea67
-  - docs_python_html_cfa51d591e8221e0ca89
-  - docs_python_html_cfd64666827020eca6d8
-  - docs_python_html_0d1e66eebe63a36f2c59
-  - docs_python_html_75c1ea2ac4d05478f4fd
-  - docs_python_html_ff933cb2f875ce76ab9f
-  - docs_python_html_aec4a7c9729f965c7f5d
-  - docs_python_html_906f2ab33e077e856a3d
-  - docs_python_html_031a3ed3b1df9de64c18
-  - docs_python_html_e425cb2edbb851d15133
-  - docs_python_html_4d19b4921fffc2fc481d
-  - docs_python_html_d0e2ae2552ed9a9af268
-  - docs_python_html_04fa4f6408f4c3dd99cc
-  - docs_python_html_9b2c2155c36363c3e54b
-  - docs_python_html_f36ab3617aba80fefc7f
-  - docs_python_html_9eed0bee58cd653feef7
-  - docs_python_html_45234b55900f1e1eae34
-  - docs_python_html_77efdd4fb0bdef2c629d
-  - docs_python_html_d4a2b105656f2bd3a859
-  - docs_python_html_c26925f9ee5217ec7cbc
-  - docs_python_html_c54677b118f1a3069676
-  - docs_python_html_2a9e9cce688269a1dcf3
-  - docs_python_html_b340bdc3f0857d7f830c
-  - docs_python_html_c3bfc66a108891950d60
-  - docs_python_html_ca503d585ef1ce45ff7a
-  - docs_python_html_e71802b3f650dfac006b
-  - docs_python_html_5e63cfdbd591b705a2dc
-  - docs_python_html_9fa720c89e3d6f18c8fc
-  - docs_python_html_08b2d69823d90d4cf589
-  - docs_python_html_5f99698a75303dd69cdc
-  - docs_python_html_24afe1d5de421cf56c96
-  - docs_python_html_142719b2497f261401e4
-  - docs_python_html_bbd49a5148584c914d63
-  - docs_python_html_29c79ec333694cb3ea50
-  - docs_python_html_029e3dd67c2dc0c12fef
-  - docs_python_html_690407c6c86b018942f4
-  - docs_python_html_48cb5402ba56f3fb8261
-  - docs_python_html_e5b98db9216190327355
-  - docs_python_html_5aad4eae245f521f64c9
-  - docs_python_html_4ff6cbbbdc9726b07ca6
-  - docs_python_html_4b40269724c3e8779b02
-  - docs_python_html_5a486690d9ccb80923bc
-  - docs_python_html_0881a247dcd12f918e5a
-  - docs_python_html_7abb7e76e32b6b71e559
-  - docs_python_html_fa0dbabc800102e2ae20
-  - docs_python_html_fb697f2c58f51adad7a6
-  - docs_python_html_1f9acd39d97bac215676
-  - docs_python_html_c5c5d5a1159f5d1be414
-  - docs_python_html_ef0924050b7395c15033
-  - docs_python_html_b8d118d3b8ee0a5bd19c
-  - docs_python_html_ce32846ec9e0b665d53a
-  - docs_python_html_8a956bb4e8229b1f1e9a
-  - docs_python_html_cd0c57ce5f64afcdd48f
-  - docs_python_html_c113d75776cc90b5205e
-  - docs_python_html_ecf48989b403135ab6f7
-  - docs_python_html_ddabb4d6b4ef69038a77
-  - docs_python_html_72551028fdf3f6cb30df
-  - docs_python_html_86a0efdb112a7f685ef6
-  - docs_python_html_769143e65943954970e0
-  - docs_python_html_e109d4636a1dfe5931a3
-  - docs_python_html_7efc0299d63f2572adb0
-  - docs_python_html_f4d6f5d11eb69d9a297d
-  - docs_python_html_3ca87c390d7058339a58
-  - docs_python_html_f836fff6707fefcc1933
-  - docs_python_html_0398b1b42328d0c48759
-  - docs_python_html_3c3a460913f63de441b5
-  - docs_python_html_fd6c56691529ce6703ce
-  - docs_python_html_930725133106d80fbef7
-  - docs_python_html_172220f4d7674b87e014
-  - docs_python_html_d2f74eaa3fef9da65131
-  - docs_python_html_101adc470f4265e31df8
-  - docs_python_html_2b95856d9e8f1b9e8804
-  - docs_python_html_eaba99655dcb157b6566
-  - docs_python_html_c09437655e198f51c355
-  - docs_python_html_152bac9623a2c9262b5a
-  - docs_python_html_841ba8e1fc7bf4ae08e1
-  - docs_python_html_0eeec60f33c97de225a8
-  - docs_python_html_1c23f83f48378d1eb526
-  - docs_python_html_cc8a29b2b0ff263a1ec5
-  - docs_python_html_1fc5504b796307356cf6
-  - docs_python_html_8ade407222dbd29b7c71
-  - docs_python_html_bb4bfcc35a9d5f5823d2
-  - docs_python_html_712d0e6573152e584c00
-  - docs_python_html_2ceb77d525f28cc4b0d3
-  - docs_python_html_3720c3431cb1ab87b680
-  - docs_python_html_b6d7979c80b20e34309f
-  - docs_python_html_11771381fde0436085d9
-  - docs_python_html_c3ac441adfdfb414a647
-  - docs_python_html_7d2ff0cffd261a285e0e
-  - docs_python_html_a9ab672f86741bc6c8e9
-  - docs_python_html_16d25707adba5ad28cf3
-  - docs_python_html_31d043668eb0c1655474
-  - docs_python_html_a6162bfc06bccd079904
-  - docs_python_html_448b01e244af33165c0c
-  - docs_python_html_fae03ac834340070b353
-  - docs_python_html_a6eb0179446d67edef0c
-  - docs_python_html_6089ae3387653dfb0b63
-  - docs_python_html_7b117e3f89861df34b1e
-  - docs_python_html_c3e3e2b09d9817afc5e3
-  - docs_python_html_3d30bd0adc491d3b42b9
-  - docs_python_html_5bd009dfc7ed70e10ba4
-  - docs_python_html_aa9662c1de53505b1552
-  - docs_python_html_531f895b740959e9efca
-  - docs_python_html_f9983b131fba6d5867ed
-  - docs_python_html_cfd202f39a5ed286ba56
-  - docs_python_html_8a4bb06f46dbca1d87f5
-  - docs_python_html_a1e789bceaba6ed63680
-  - docs_python_html_889d8c185d720659df44
-  - docs_python_html_b9016a0d37dcbb0e3968
-  - docs_python_html_794b7b6174234d0dc42b
-  - docs_python_html_d905d339965ea45e8ebb
-  - docs_python_html_a69dccce317c6f272b34
-  - docs_python_html_2eae677a5cc80befed84
-  - docs_python_html_87b98865bf7b576d9063
-  - docs_python_html_23a42f0192b814f07ba7
-  - docs_python_html_278be063503fef76d5d5
-  - docs_python_html_59b05bcce6a5e0143796
-  - docs_python_html_d70760b1094ca0e12abd
-  - docs_python_html_faad767456fbcab3a8e1
-  - docs_python_html_993a98a9ac6935dfeb32
-  - docs_python_html_9b7e1c9f6f327784dd6d
-  - docs_python_html_2f8f4475b475dfcad189
-  - docs_python_html_274fe870771e17ddb193
-  - docs_python_html_a0340e5ff20f8faafb21
-  - docs_python_html_72fff5e7b8a842a6b3e6
-  - docs_python_html_816e275de01a5e556ea7
-  - docs_python_html_bb34630ac16d9534b03d
-  - docs_python_html_ce7779c2d1926702edcb
-  - docs_python_html_498be562f2ba61454dec
-  - docs_python_html_67b5e15fa90911b26686
-  - docs_python_html_9ae4b742483c4b632602
-  - docs_python_html_213e5b674711730fc5a8
-  - docs_python_html_778738e3fcdf361289be
-  - docs_python_html_0f95d01804c71c6d73c0
-  - docs_python_html_bffd49c14653b57d6532
-  - docs_python_html_d977ad69ad587a4b1c20
-  - docs_python_html_452e7d95c84e4eca11d1
-  - docs_python_html_a42f5ed9cca8a18711f4
-  - docs_python_html_aaf2ea8421504164ffa6
-  - docs_python_html_f5de5c8b55567e0d8375
-  - docs_python_html_d0e71895da534fdcaec6
-  - docs_python_html_827078de3880d3084d27
-  - docs_python_html_4c4e66f77e821c1ab271
-  - docs_python_html_07ed41cdcc5c15b5e0f6
-  - docs_sqlite_html_source
-  - docs_sqlite_html_c575ecb36dcd7442c0eb
-  - docs_sqlite_html_455f50b644f16cf4b35a
-  - docs_sqlite_html_9d59e91b67b490fc9511
-  - docs_sqlite_html_b1eb399e5af4251887f7
-  - docs_sqlite_html_d7dd8383867939005c26
-  - docs_sqlite_html_1f71b34982a54467995f
-  - docs_sqlite_html_45db38167f634c4619f5
-  - docs_sqlite_html_fc12c042ec308d887e12
-  - docs_sqlite_html_20214324be36f23b97d0
-  - docs_sqlite_html_80e172062291d5791052
-  - docs_sqlite_html_e76ff7d8f9ec9501760d
-  - docs_sqlite_html_f20df457a8629c50cce2
-  - docs_sqlite_html_200babc9459ac6693e2d
-  - docs_sqlite_html_b499b636f63287d47791
-  - docs_sqlite_html_fd1edfd0553e35f3439f
-  - docs_sqlite_html_430d11a6e9373231dbd7
-  - docs_sqlite_html_c0450e5f9eab90ccc2c2
-  - docs_sqlite_html_2a5768df75ac9551070e
-  - docs_sqlite_html_0cb0e461bd10ed92f98d
-  - docs_sqlite_html_d14fbc0d05b61bbe1499
-  - docs_sqlite_html_16d2cab163d368e8fd1d
-  - docs_sqlite_html_7624ebd1370f16decdf5
-  - docs_sqlite_html_972b94ffcee8efe54e71
-  - docs_sqlite_html_efb74e00035cf5139694
-  - docs_sqlite_html_cc7e24d321b3bab42c0c
-  - docs_sqlite_html_1a3f8cced5b266d29632
-  - docs_sqlite_html_1a45b203cf01b4f8dd5f
-  - docs_sqlite_html_31b2c046b9f00885e6e5
-  - docs_sqlite_html_1dca3db70286e1de4cc9
-  - docs_sqlite_html_1f2d1153c11fe0d247c0
-  - docs_sqlite_html_49c62cb5dc66064b3963
-  - docs_sqlite_html_d2bcdf162492eb65ee06
-  - docs_sqlite_html_68e756b44dc45b24c79e
-  - docs_sqlite_html_ab25a0ef29a89eb941d4
-  - docs_sqlite_html_520aafd088f325572a4c
-  - docs_sqlite_html_bb071bd6510532499ffe
-  - docs_sqlite_html_a9806b8c15bc8f805ebe
-  - docs_sqlite_html_8cdf1e181860597b5bc5
-  - docs_sqlite_html_49715d75099e9c9c972d
-  - docs_sqlite_html_38f7764326a94e4bf0fa
-  - docs_sqlite_html_61d9475efe373e6e5651
-  - docs_sqlite_html_b09682de4b081ccae2d0
-  - docs_sqlite_html_43121b66086cddc5daa9
-  - docs_sqlite_html_57c240518e22b409e0de
-  - docs_sqlite_html_f56325a4641084acbdee
-  - docs_sqlite_html_4bfb102636689e94765e
-  - docs_sqlite_html_faa848b6a06f377e6099
-  - docs_sqlite_html_c3a9fca75fb99bfc03c3
-  - docs_sqlite_html_12def71d29212d299d2d
-  - docs_sqlite_html_d64d7622e91f4c88cb0c
-  - docs_sqlite_html_b9af558f111cea4459fa
-  - docs_sqlite_html_401598ce61bd00e2a1a8
-  - docs_sqlite_html_a27523f263c809f0f3eb
-  - docs_sqlite_html_4ad9eb6cadab63e954f0
-  - docs_sqlite_html_6aecd7dc912565611e41
-  - docs_sqlite_html_291993c492861c117cd3
-  - docs_sqlite_html_f58518c3290d1373feb3
-  - docs_sqlite_html_798e500c68715f6b319d
-  - docs_sqlite_html_aa7f9ae02f6efb5861b7
-  - docs_sqlite_html_60a2a8e0ec96c41dd1a9
-  - docs_sqlite_html_8d7804629cd1ec6f3e01
-  - docs_sqlite_html_c203bdee6bc458a8d584
-  - docs_sqlite_html_28dd9e51186df42c4b5f
-  - docs_sqlite_html_8567278c0fcda20ac88b
-  - docs_sqlite_html_9bc99fa09794d1c0cbca
-  - docs_sqlite_html_9ac4e34d9d963fd83bfd
-  - docs_sqlite_html_f5350dff53b2acdba39c
-  - docs_sqlite_html_61535c77233d858a776a
-  - docs_sqlite_html_9be7b4e3a54556b55b8f
-  - docs_sqlite_html_0c6c71132bc3c4cfedc6
-  - docs_sqlite_html_94a14c1c5bc6025649bb
-  - docs_sqlite_html_fd62e3dd2d4067f1acc1
-  - docs_sqlite_html_af5546a9759537b644a5
-  - docs_sqlite_html_a2b6eae24060f4536bb0
-  - docs_sqlite_html_6185320275e0014811f0
-  - docs_sqlite_html_5d464c12250bd85c2728
-  - docs_sqlite_html_4ee0d6f385d816841730
-  - docs_sqlite_html_527dcdd5c0d24652921e
-  - docs_sqlite_html_7513af121b54b0745478
-  - docs_sqlite_html_12c2d74f373d126618f7
-  - docs_sqlite_html_a20ec7d2ce70c618590f
-  - docs_sqlite_html_46632f607c150ed43b60
-  - docs_sqlite_html_e88549d112036c3ad4fd
-  - docs_sqlite_html_8b01d7946a7744e2758a
-  - docs_sqlite_html_012ffee6bf943c7e8c91
-  - docs_sqlite_html_2ddddfe49d8f79401161
-  - docs_sqlite_html_1bc64e021d6c1a15492f
-  - docs_sqlite_html_cdb708b3ad6d45ca5e28
-  - docs_sqlite_html_a8ebd0076ffe27a1f6a5
-  - docs_sqlite_html_3b51f87b4bf2e51cfa1d
-  - docs_sqlite_html_9a3a602d83c52ef6b67a
-  - docs_sqlite_html_7ac1cd444bbbd8466323
-  - docs_sqlite_html_a3fdc42b0ee679cf849e
-  - docs_sqlite_html_6c0769e369a2c26161f5
-  - docs_sqlite_html_abebf6d8bf6b8a4645fe
-  - docs_sqlite_html_bd7c0ed19a27ad06dd2f
-  - docs_sqlite_html_424c1d3cbf4af67a0c23
-  - docs_sqlite_html_af216d8913e75824b2ad
-  - docs_sqlite_html_b2071e1ca76f7f81ebfd
-  - docs_sqlite_html_8aecaac918f793dd9e0e
-  - docs_sqlite_html_c6115b68234567357208
-  - docs_sqlite_html_cb84251be20aaff8e791
-  - docs_sqlite_html_7f025bbae937defcb6eb
-  - docs_sqlite_html_0596602f04bcc8a2a9fa
-  - docs_sqlite_html_aae372c9dde6195f9c50
-  - docs_sqlite_html_6e656bf6fc0ba2c8c8f1
-  - docs_sqlite_html_61436e499aeba353ed58
-  - docs_sqlite_html_dfa6a595b51943ed00ab
-  - docs_sqlite_html_9ff6fe54478e1306167c
-  - docs_sqlite_html_72d561acb03b5389e275
-  - docs_sqlite_html_f034d27d73ac61e2d036
-  - docs_sqlite_html_448d2dcd9a150f174473
-  - docs_sqlite_html_96e9a5b13660b4cb99a0
-  - docs_sqlite_html_9a411e450146ef301bad
-  - docs_sqlite_html_69473d83d0ead5b38b9e
-  - docs_sqlite_html_717e4ba8d92c254cb078
-  - docs_sqlite_html_9920935633e3a7e5fe99
-  - docs_sqlite_html_c2c3ec9feb48b027ceff
-  - docs_sqlite_html_ee74c29ea8684f02f741
-  - docs_sqlite_html_93f897e78f5a1ea0cd7e
-  - docs_sqlite_html_ed4a7a6e21c7bcb37bf0
-  - docs_sqlite_html_0223428fec297d61a9a6
-  - docs_sqlite_html_493fe37529d847702bbe
-  - docs_sqlite_html_62921bda237a6772632e
-  - docs_sqlite_html_28cf5a88920eff532d8a
-  - docs_sqlite_html_a4e1b938dca7b5297fa6
-  - docs_sqlite_html_8fe18660c75a471fe7ae
-  - docs_sqlite_html_b2358fc2a10cc57182ec
-  - docs_sqlite_html_bfc7b0e9d2dc4697648a
-  - docs_sqlite_html_3bc3f613c3fd294ee0e1
-  - docs_sqlite_html_2b086299e47b357d8c48
-  - docs_sqlite_html_9d7042e9c6c5da3672a7
-  - docs_sqlite_html_1a907cf3bc7a54e33a17
-  - docs_sqlite_html_0deebaf46fbf5db34806
-  - docs_sqlite_html_63d850c56d7c8bd302af
-  - docs_sqlite_html_060c2bbcd19f3b18b629
-  - docs_sqlite_html_6c04baac8348aec43aed
-  - docs_sqlite_html_0565f5351bf87b42288a
-  - docs_sqlite_html_57317a29ae39952e9aab
-  - docs_sqlite_html_3b27a6f54a051609a1bb
-  - docs_sqlite_html_bde2738e85cf656cbe13
-  - docs_sqlite_html_efb44b35a9c8cb361d4b
-  - docs_sqlite_html_b9e219bc939589bf3de1
-  - docs_sqlite_html_7a2c6b1405ad164ee07b
-  - docs_sqlite_html_6a6de31cdfa723c88341
-  - docs_sqlite_html_e07bf9f9e1d0e938babe
-  - docs_sqlite_html_d955678ecfcda0cd873b
-  - docs_sqlite_html_76816800cb293e447db5
-  - docs_sqlite_html_95272616fcf102ef35c0
-  - docs_sqlite_html_ddc710fc77785436b01c
-  - docs_sqlite_html_89f42d8ab76ca82a81e5
-  - docs_sqlite_html_51d7d0031505a8c71dcd
-  - docs_sqlite_html_3155a131ac7cfbbe800d
-  - docs_sqlite_html_9b6e54dc1f66f68c3d08
-  - docs_sqlite_html_b2d5f6013c052faffc80
-  - docs_sqlite_html_38ce9153a21f78b0b8be
-  - docs_sqlite_html_2bd6972817e0af615547
-  - docs_sqlite_html_6332841800e95a98a7ee
-  - docs_sqlite_html_6a277550f6020c824261
-  - docs_sqlite_html_da3a397f1bd4211bf78e
-  - docs_sqlite_html_d4f4e6b6b5f8318a69e2
-  - docs_sqlite_html_79a129d322c5a8bcaf33
-  - docs_sqlite_html_5a3ed1f8b4d769c2fabd
-  - docs_sqlite_html_a4340dcea33082939270
-  - docs_sqlite_html_ed8d702c75d4c167e71e
-  - docs_sqlite_html_6a7792bb9d458eb920ba
-  - docs_sqlite_html_65641b2edbd1dc599ea7
-  - docs_sqlite_html_f8d5fe7347bbd640375f
-  - docs_sqlite_html_3bb8addb8342acdbb6f3
-  - docs_sqlite_html_21080f086af82dca92e0
-  - docs_sqlite_html_50020a6599705b59f939
-  - docs_sqlite_html_3ce3b6957c0be9fd0f3e
-  - docs_sqlite_html_62540927fd30f93a56fa
-  - docs_sqlite_html_74ba6db02d120208cc1d
-  - docs_sqlite_html_69bbe902cd73687c47a8
-  - docs_sqlite_html_dc33843484c995cd662d
-  - docs_sqlite_html_01a1abca0cc11b50b146
-  - docs_sqlite_html_50d871dfb8f600ecd7e2
-  - docs_sqlite_html_d9755bda8258dc073039
-  - docs_sqlite_html_2e5759c33251449db2a7
-  - docs_sqlite_html_e6f2da524c0d6abc8f86
-  - docs_sqlite_html_097f5a57ed03bad2535e
-  - docs_sqlite_html_77ee58ebd00df9c9aeb1
-  - docs_sqlite_html_0b9940a87d46d72f2581
-  - docs_sqlite_html_3f50961ac446c7ad2d29
-  - docs_sqlite_html_6b893167f4a520ff0baf
-  - docs_sqlite_html_c49c547c714fc54d0392
-  - docs_sqlite_html_b0c5d2418efabce14ad0
-  - docs_sqlite_html_eb8411306f6269441746
-  - docs_sqlite_html_bda0793f6fc1d334f7d6
-  - docs_sqlite_html_938d69003e651195b565
-  - docs_sqlite_html_6ff3fa17a8189b011a09
-  - docs_sqlite_html_99e44ae358d9f6b62a04
-  - docs_sqlite_html_23c955b8fd074de00452
-  - docs_sqlite_html_213e8c0485d96491e7e2
-  - docs_sqlite_html_4207373b6c474e494a62
-  - docs_sqlite_html_3adba18c903a92ef241d
-  - docs_sqlite_html_f24f751831046e45697e
-  - docs_sqlite_html_6c1490c53600c2eea262
-  - docs_sqlite_html_84b6bd40e9f4c4b4fa6a
-  - docs_sqlite_html_c2412d73ddd74d13f573
-  - docs_sqlite_html_1d9f81c11fb1157dcea0
-  - docs_sqlite_html_0f0fc9ae47bf859209b2
-  - docs_sqlite_html_f46bbec5a66ad7b0c874
-  - docs_sqlite_html_0fa3943e5da8012e23c4
-  - docs_sqlite_html_ae7df50cf00f8ad582c0
-  - docs_sqlite_html_835ce2b2f2710dc4006a
-  - docs_sqlite_html_81788250cc11a4bbaeff
-  - docs_sqlite_html_55db227f34eca78789eb
-  - docs_sqlite_html_faba6a6b71b198f15911
-  - docs_sqlite_html_62ec931d311053d5f63f
-  - docs_sqlite_html_7c103740ad3d6156cd94
-  - docs_sqlite_html_ce5a27ff0022741e0c33
-  - docs_sqlite_html_42829e5508145b0d3f79
-  - docs_sqlite_html_de84b5b7d3b325891472
-  - docs_sqlite_html_931517a173b23f272c91
-  - docs_sqlite_html_b22853c8de7a245dbad3
-  - docs_sqlite_html_860c505fb919613c94c4
-  - docs_sqlite_html_91765cde5171b5463809
-  - docs_sqlite_html_67d0f70d4bc099c4dd37
-  - docs_sqlite_html_ec89f2a9807ea7f4faa7
-  - docs_sqlite_html_3b374bd0e8e9d292b1be
-  - docs_sqlite_html_857bb72ff2fd2d507643
-  - docs_sqlite_html_fd826ad53fc8cfb8a98c
-  - docs_sqlite_html_6cd70dd1701289892fc6
-  - docs_sqlite_html_50ec681c4140c77797b2
-  - docs_sqlite_html_d79d1755847d3e5c7cab
-  - docs_sqlite_html_2c83f75c5a89eb3f27f9
-  - docs_sqlite_html_8931dd80e284f7352339
-  - docs_sqlite_html_e975e5e0e386bc14c39e
-  - docs_sqlite_html_da1d06a7f18a88146c4b
-  - docs_sqlite_html_379092a63d9ceb7fe704
-  - docs_sqlite_html_b1533e57e7f1bf53a233
-  - docs_sqlite_html_2c8db19d3aa18df7db83
-  - docs_sqlite_html_cc000c72256a88cfaf79
-  - docs_sqlite_html_5e7952afc2dd947e3340
-  - docs_sqlite_html_11f0a5643350c0a26eef
-  - docs_sqlite_html_0425fc75f1691088f525
-  - docs_sqlite_html_823153ea9040a6ee87f7
-  - docs_sqlite_html_40bbfb238134c0a5feed
-  - docs_sqlite_html_40dcc37dc4c4df8f9c98
-  - docs_sqlite_html_de14365ed9ce366a3de2
-  - docs_sqlite_html_db01f8baa055d6200d9d
-  - docs_sqlite_html_30dbc726a1d31dd40d07
-  - docs_sqlite_html_08524b52a31ecff07e7f
-  - docs_sqlite_html_7e5957e234689d7954c9
-  - docs_sqlite_html_d1b5f524533ac20f9113
-  - docs_sqlite_html_1b9d5a241b953f9e53d2
-  - docs_sqlite_html_4b835f0037d7c34534a4
-  - docs_sqlite_html_239cd6ab0825da041a07
-  - docs_sqlite_html_cd43c6fdd7bd69318801
-  - docs_sqlite_html_6d7ec0ff8a5c1288b145
-  - docs_sqlite_html_14b03a23838e54fe5821
-  - docs_sqlite_html_f77cbbbdeeea65d1ee48
-  - docs_sqlite_html_8703203a3cc814987519
-  - docs_sqlite_html_dae8d1d5b27cbcf999b5
-  - docs_sqlite_html_bb0e8a36df64cbddb5b1
-  - docs_sqlite_html_e82fe57906735b0eb5aa
-  - docs_sqlite_html_49dd800dc8825a919965
-  - docs_sqlite_html_2c910cf663999b961432
-  - docs_sqlite_html_c155290ba5c38d93077d
-  - docs_sqlite_html_8257e59705f451e34d32
-  - docs_sqlite_html_3c59011d0824574055d5
-  - docs_sqlite_html_95b4129a9a3da9835c61
-  - docs_sqlite_html_642a32e36e094335eabf
-  - docs_sqlite_html_2d20e37d9cb4d1ea191f
-  - docs_sqlite_html_96750dda8ee0034d4d04
-  - docs_sqlite_html_672e8f6d7570ca477a24
-  - docs_sqlite_html_a6812c664aab0932eebf
-  - docs_sqlite_html_4b83f9a53ac5043943ee
-  - docs_sqlite_html_9bd103e0c7440677c6e8
-  - docs_sqlite_html_46ce18c82ba8fa08b171
-  - docs_sqlite_html_61683454f51e817e2aef
-  - docs_sqlite_html_e05531e5f8e748174994
-  - docs_sqlite_html_52d7f23c6ae78f189c48
-  - docs_sqlite_html_d553b20fff486605859e
-  - docs_sqlite_html_0fa3379b5a183cf46f25
-  - docs_sqlite_html_6082b2b3f3ac17b91927
-  - docs_sqlite_html_7b4c9e62b5aeb9ef85bf
-  - docs_sqlite_html_0035e20fd76a4357623b
-  - docs_sqlite_html_45125d8de4f79765fb43
-  - docs_sqlite_html_fcff1e0a3594fa72bfd7
-  - docs_sqlite_html_0951479deea49bcb06ef
-  - docs_sqlite_html_1d54dd72376f77974c3d
-  - docs_sqlite_html_8ca73e9bdbfdc3a1142e
-  - docs_sqlite_html_a552e41b13f8e1853646
-  - docs_sqlite_html_2d96e395300478332382
-  - docs_sqlite_html_4189cc635845658181fe
-  - docs_sqlite_html_4878070a9801f5f41306
-  - docs_sqlite_html_b347fff0667ed7f27b77
-  - docs_sqlite_html_01a77c9c96b581b63fcf
-  - docs_sqlite_html_cec789df5a7c9871e2db
-  - docs_sqlite_html_cc733220499e108e8a5a
-  - docs_sqlite_html_97199cea470f5e78be8e
-  - docs_sqlite_html_233e64a864656a57b4e9
-  - docs_sqlite_html_43d82425732ab593adc7
-  - docs_sqlite_html_c2a52c94050c5a904e91
-  - docs_sqlite_html_d9476f7b065a881c7b53
-  - docs_sqlite_html_1c4a00d2f46240361bce
-  - docs_sqlite_html_59d2c7e1487ddffa73cd
-  - docs_sqlite_html_8974d1fbdf40a623fec6
-  - docs_sqlite_html_25aaf51a4b84d0444a57
-  - docs_sqlite_html_94a4171b6de173c57e03
-  - docs_sqlite_html_60f4d6d4b8aa19df4419
-  - docs_sqlite_html_1e9c9d9f8e468af9d8c4
-  - docs_sqlite_html_e416428e55b67b6c73df
-  - docs_sqlite_html_2afad02885c154b1f024
-  - docs_sqlite_html_068327a6910a7553bcf7
-  - docs_sqlite_html_5b9dede2c300447b7e13
-  - docs_sqlite_html_88493ebcbc64c744003b
-  - docs_sqlite_html_d83c2543e442f2b85dbd
-  - docs_sqlite_html_9f99b080e604b3a7c7c9
-  - docs_sqlite_html_20fdb7b1fe2b10734824
-  - docs_sqlite_html_db5cb598cb5af74c51eb
-  - docs_sqlite_html_dcdddac478ebcb11ba2a
-  - docs_sqlite_html_fa2ee44b3d8d2d7e6bce
-  - docs_sqlite_html_4373fc7739a42f35d178
-  - docs_sqlite_html_9f142dde076d09bd3de7
-  - docs_sqlite_html_6098e04586d74b790e30
-  - docs_sqlite_html_4644826aaae10a25e400
-  - docs_sqlite_html_8ad2358891e3e262b4c2
-  - docs_sqlite_html_0e959460b09b0c54f7bf
-  - docs_sqlite_html_2e41e29014b36871e2a9
-  - docs_sqlite_html_55d9b920eeb624045448
-  - docs_sqlite_html_871636855f90b5c83019
-  - docs_sqlite_html_2694cc2af0fa02bba8ac
-  - docs_sqlite_html_684dc01c7d0c19872f4c
-  - docs_sqlite_html_7e373c2b8ff78e8ecc36
-  - docs_sqlite_html_46b59988e0a7548d254b
-  - docs_sqlite_html_3efb42723547de18ea4c
-  - docs_sqlite_html_d186d75d214db052856f
-  - docs_sqlite_html_4adb1c7da17eb3e2219a
-  - docs_sqlite_html_8531ebd7bade09d50044
-  - docs_sqlite_html_a8354a7e92f89b654400
-  - docs_sqlite_html_5fbc9075b6d8a1df9ce3
-  - docs_sqlite_html_1a93ee2bc508c9ec7179
-  - docs_sqlite_html_4394570748ac7b627317
-  - docs_sqlite_html_aee2b217156864b72273
-  - docs_sqlite_html_ae84eb52bab5765f38a9
-  - docs_sqlite_html_fdb8e602bec2ed65aa1f
-  - docs_sqlite_html_070b8f5865dd2befc975
-  - docs_sqlite_html_0f4787b6ad6ba165c548
-  - docs_sqlite_html_be51f1251ef387c61a78
-  - docs_sqlite_html_75b0274db3ddfdfce5a7
-  - docs_sqlite_html_bc93db9e809cafe3e9bf
-  - docs_sqlite_html_391e6d7cc97889708de4
-  - docs_sqlite_html_12d32ceabf3010e447dc
-  - docs_sqlite_html_c60c56dd61e46eb27320
-  - docs_sqlite_html_bea4909077f1f69f0965
-  - docs_sqlite_html_0c82b39db0fcb842d15e
-  - docs_sqlite_html_1bcd725659328bb984ca
-  - docs_sqlite_html_0cfec63d882242a0f5c7
-  - docs_sqlite_html_dc7cb44011708b445ce4
-  - docs_sqlite_html_d1191750c02a797b8286
-  - docs_sqlite_html_49cdb86a3292ce5afe2f
-  - docs_sqlite_html_297eb278512817c19976
-  - docs_sqlite_html_29a6ed87ff4d035c58f2
-  - docs_sqlite_html_b1966470bc7d3a2dd022
-  - docs_sqlite_html_26c43cab85afa69a7457
-  - docs_sqlite_html_5ef68df60306a6750254
-  - docs_sqlite_html_aca573397cd014956bb7
-  - docs_sqlite_html_e9d334b9e2aaaa8631dc
-  - docs_sqlite_html_84e5a7582e3b72a003a4
-  - docs_sqlite_html_b385f111d8d3e77b2b1e
-  - docs_sqlite_html_3a9d660c5c5e4d631a82
-  - docs_sqlite_html_e7fd548edfa3bdafe407
-  - docs_sqlite_html_58fe166e9470046ffa89
-  - docs_sqlite_html_0a0f8bbb334f8ad4a751
-  - docs_sqlite_html_39622e73a87660c3de75
-  - docs_sqlite_html_68ed4649373f01ca9c3f
-  - docs_sqlite_html_d43f1256143ef7ccdd99
-  - docs_sqlite_html_b3b97ef8c9d6b014f26e
-  - docs_sqlite_html_058b7c8e0aa531d29cc1
-  - docs_sqlite_html_36f807296d5f485279e0
-  - docs_sqlite_html_78fde2fea4ca744f0340
-  - docs_sqlite_html_6312b09df5fb3eaea261
-  - docs_sqlite_html_6c48fe98092e90331458
-  - docs_sqlite_html_d8285c9315e9a288a130
-  - docs_sqlite_html_d2eddda052595ead4b93
-  - docs_sqlite_html_86f35cb76fa739549a63
-  - docs_sqlite_html_3ea478b1bcea97dea452
-  - docs_sqlite_html_314c055ae869de1bf258
-  - docs_sqlite_html_1e202acd452a4f347f26
-  - docs_sqlite_html_d9807ad56d729ff8ebf7
-  - docs_sqlite_html_22f840270de45661d3c1
-  - docs_sqlite_html_4d2a87d4dbf166d9ed3b
-  - docs_sqlite_html_e443c1d87b3b68ef939b
-  - docs_sqlite_html_9822e57e43b224952b98
-  - docs_sqlite_html_19f153379944a1687a02
-  - docs_sqlite_html_5ad5e4d0d13a774272c9
-  - docs_sqlite_html_2562e82dd29d8fdc943c
-  - docs_sqlite_html_1c940f53f9eafa7f5637
-  - docs_sqlite_html_93f649ac2081265b5382
-  - docs_sqlite_html_6627f445edcda4f6887d
-  - docs_sqlite_html_39bb0dfa90de1c1d335a
-  - docs_sqlite_html_1090216e74946aecfb3a
-  - docs_sqlite_html_4f00b19bce3bca28a6cd
-  - docs_sqlite_html_bdd8fbe83dbc07179188
-  - docs_sqlite_html_ac432d3e5acc57a3700b
-  - docs_sqlite_html_d31953be73205a0eba6d
-  - docs_sqlite_html_6d1052bc7bac40634443
-  - docs_sqlite_html_62494779a49f68340b0b
-  - docs_sqlite_html_097881c7eefd00e6befc
-  - docs_sqlite_html_0c0053bbdaffb0ed3eb2
-  - docs_sqlite_html_f70f96b5caf3440b2c0c
-  - docs_sqlite_html_09a7bf76e39aa582f68b
-  - docs_sqlite_html_204f14d1ba4024b0c31d
-  - docs_sqlite_html_a60bf35447880aa539e2
-  - docs_sqlite_html_3dd238993689f552e53e
-  - docs_sqlite_html_97c02ca5d23d7902d2c5
-  - docs_sqlite_html_37d038c139f58efe875b
-  - docs_sqlite_html_c0755296b40e42ad7a92
-  - docs_sqlite_html_003ce967e27db8787288
-  - docs_sqlite_html_48d7f21bb59a7cac22f6
-  - docs_sqlite_html_8291ebe14a224e62ab44
-  - docs_sqlite_html_f1e71814985f565b2e73
-  - docs_sqlite_html_5e70c5a2d667924adf50
-  - docs_sqlite_html_b628fe86c4b223151df3
-  - docs_sqlite_html_7ff72f7f62de7d5d2595
-  - docs_sqlite_html_cc918a1b5375eafcd20b
-  - docs_sqlite_html_65f1c8e0f6b0cb916455
-  - docs_sqlite_html_8deb55c8672491f3e07e
-  - docs_sqlite_html_222fa6c5a3c6780e3276
-  - docs_sqlite_html_327eef4426a0c9ac4903
-  - docs_sqlite_html_7d5499ed098f2eebb7e4
-  - docs_sqlite_html_63ec187aa5377242c639
-  - docs_sqlite_html_b8d70354b9f19f234c3f
-  - docs_sqlite_html_90d1a240ed5a0cc15f8a
-  - docs_sqlite_html_da33faae6315e59624f8
-  - docs_sqlite_html_0b23789da6354bb04e39
-  - docs_sqlite_html_e4a857043a1e167732b3
-  - docs_sqlite_html_374e77a74c6d9db8a7c1
-  - docs_sqlite_html_ed6aba3dd1aa6e719f47
-  - docs_sqlite_html_ce292a4cde9930fd2644
-  - docs_sqlite_html_062c22bb13272392826b
-  - docs_sqlite_html_d145a042f9d908d34876
-  - docs_sqlite_html_412c20f25732756390a5
-  - docs_sqlite_html_30695b73abc7ac0120c7
-  - docs_sqlite_html_b3323f90edc340f20d14
-  - docs_sqlite_html_8ee0a2df011e8cf68aa2
-  - docs_sqlite_html_6ba4a392abb623883a23
-  - docs_sqlite_html_fd9a1adcf2d9d5ab2340
-  - docs_sqlite_html_d3e2e2e4b38484162927
-  - docs_sqlite_html_086796a1336f7e8ca307
-  - docs_sqlite_html_3e023bc9baedaa9d7a1a
-  - docs_sqlite_html_621fe8ef61b343774a9a
-  - docs_sqlite_html_daf9e1cb56668c47286e
-  - docs_sqlite_html_461c44cd772589b8a2af
-  - docs_sqlite_html_8ab151c626096118554e
-  - docs_sqlite_html_466ac24ecd6d667a9732
-  - docs_sqlite_html_6d8ec69f7403195a3c9f
-  - docs_sqlite_html_739b53275a8186bd8eab
-  - docs_sqlite_html_4a6d70d61bbe23e13666
-  - docs_sqlite_html_75242316dade2f696c10
-  - docs_sqlite_html_14a6366623816fb887e6
-  - docs_sqlite_html_e33c09452769aae7a18d
-  - docs_sqlite_html_51cb6feacfafb7098451
-  - docs_sqlite_html_76bb505704bdc18567fe
-  - docs_sqlite_html_0dd1ef4836b96c97db5a
-  - docs_sqlite_html_133a7e3e99d1a5377488
-  - docs_sqlite_html_66010aea3933db0f82e5
-  - docs_sqlite_html_7837a324bad75e2412d1
-  - docs_sqlite_html_0baa02bc3e92d63c4914
-  - docs_sqlite_html_6e4a46641b877db9ccaa
-  - docs_sqlite_html_e1674110c27b94c11803
-  - docs_sqlite_html_e910458eb8965d6a18ab
-  - docs_sqlite_html_26ce353bdc159a1c9588
-  - docs_sqlite_html_d48d09f60d0bbb2e853a
-  - docs_sqlite_html_637a88a73ce8d84e16b9
-  - docs_sqlite_html_7780f989b65ceb3a6a32
-  - docs_sqlite_html_faeb58c99a67f24037ae
-  - docs_sqlite_html_b73c067a957e489b8984
-  - docs_sqlite_html_83d365df76e7d0e804bb
-  - docs_sqlite_html_6a6168cdc2d0679f2eff
-  - docs_sqlite_html_5d63f36ec1d8dbfda125
-  - docs_sqlite_html_eb2abf802cb413b30a2a
-  - docs_sqlite_html_52d20eae94572985299c
-  - docs_sqlite_html_d5a3d3dfadac5b6fb54d
-  - docs_sqlite_html_826d2dc6e61d1b07cdb9
-  - docs_sqlite_html_2b450f0a06ffef392750
-  - docs_sqlite_html_1cde0397412c4cd36f44
-  - docs_sqlite_html_a17e81baf2a1f25808b0
-  - docs_sqlite_html_0e70ec34eff8b6cdcb33
-  - docs_sqlite_html_081a71d923124de1df6a
-  - docs_sqlite_html_83f5cf2a32728546fcb0
-  - docs_sqlite_html_277ad697a8638275a20a
-  - docs_sqlite_html_eb3bc456e94887d3cd3c
-  - docs_sqlite_html_0f82d6db45f09e130b4b
-  - docs_sqlite_html_282ee6e6fd4ed45189d6
-  - docs_sqlite_html_31faa812fdf25e987506
-  - docs_sqlite_html_68d4b66dfba64e5feea0
-  - docs_sqlite_html_99d9bf31b17c57be8f81
-  - docs_sqlite_html_875a0d2d5bc6e1073452
-  - docs_sqlite_html_531a58f65e7603c639d2
-  - docs_sqlite_html_b4bb62fbb5a61c31bfb0
-  - docs_sqlite_html_7ca6d4263ef4a537d63d
-  - docs_sqlite_html_8dee0f7db648279db845
-  - docs_sqlite_html_c51fe9025420184ec356
-  - docs_sqlite_html_3c2be8ca933197946620
-  - docs_sqlite_html_34e1c1db3f539aedcda8
-  - docs_sqlite_html_e4a8249bd7117fa187c0
-  - docs_sqlite_html_ba00797ca7bbca918112
-  - docs_sqlite_html_93acdfcdd75d3f69ec4e
-  - docs_sqlite_html_ad57568932618374af8b
-  - docs_sqlite_html_430136b575742d59ad9b
-  - docs_sqlite_html_72acd8710a420dbb8653
-  - docs_sqlite_html_fa5a5df1847de4ab6ca5
-  - docs_sqlite_html_b44242f2202d9e3ae658
-  - docs_sqlite_html_adc5c30296aa297438d1
-  - docs_sqlite_html_a08b41a1f59b8270ee79
-  - docs_sqlite_html_72d172e14b7757cac384
-  - docs_sqlite_html_4723bbfb348d6abae308
-  - docs_sqlite_html_42039301f0c920511f59
-  - docs_sqlite_html_b776efbfe48abfeecfd1
-  - docs_sqlite_html_0b4bcb37fc4088d438a0
-  - docs_sqlite_html_58aee2f61fef1af9d371
-  - docs_sqlite_html_a5d606efa8ab64c34701
-  - docs_sqlite_html_1b6b9e89323d243c0356
-  - docs_sqlite_html_2072ff2397816cf1e694
-  - docs_sqlite_html_25b2567e44702c44bcfd
-  - docs_sqlite_html_7df0eb7c20992817b378
-  - docs_sqlite_html_0aeda266b3e697f8e5c7
-  - docs_sqlite_html_036c6043091cd86ca352
-  - docs_sqlite_html_d555006d0afda8602702
-  - docs_sqlite_html_91ae78aabace9d34a32e
-  - docs_sqlite_html_b390b9fad94a88999b06
-  - docs_sqlite_html_1547ad52b984d7babff4
-  - docs_sqlite_html_7498bba7de1eb15fd0ff
-  - docs_sqlite_html_bcae74bb46604f68c7cd
-  - docs_sqlite_html_0077503b72cc1273f62a
-  - docs_sqlite_html_8b45cc9744553ff2bada
-  - docs_sqlite_html_a849e00e57bf31dade10
-  - docs_sqlite_html_1a2c1a879625bf18d9d9
-  - docs_sqlite_html_4bb320a8b814ab78fd91
-  - docs_sqlite_html_b5ed39cb4d61032a5cdb
-  - docs_sqlite_html_3dbef746092f77df0381
-  - docs_sqlite_html_3d0546d97973dd602df8
-  - docs_sqlite_html_c6ca1de69c5684688b73
-  - docs_sqlite_html_ea614249aa4995c6d59f
-  - docs_sqlite_html_d476d43aa58e302f9070
-  - docs_sqlite_html_22129fdd5e5c828b54d2
-  - docs_sqlite_html_738f5b9f334520cbaff0
-  - docs_sqlite_html_3222dd99e7e7b22db3a0
-  - docs_sqlite_html_07b5d1ee5e1170fa14d5
-  - docs_sqlite_html_93652927d53a74619f4d
-  - docs_sqlite_html_9ff6d962a3097ec99b41
-  - docs_sqlite_html_e2a75d71cae820774cc1
-  - docs_sqlite_html_556138499977cb9a1823
-  - docs_sqlite_html_2ac7be063cb8350a9782
-  - docs_sqlite_html_023a124eb8dc8abe7461
-  - docs_sqlite_html_0e6016ab8e7c89265189
-  - docs_sqlite_html_d7e82139a065c4c67c8d
-  - docs_sqlite_html_b137e96b64f5bb88169f
-  - docs_sqlite_html_723e3b1a66cec4d1ce68
-  - docs_sqlite_html_5e19d6947f9741d14c9d
-  - docs_sqlite_html_d5d3cf357d6d02276fd0
-  - docs_sqlite_html_70122f81e2f1bdc9c96e
-  - docs_sqlite_html_ece3d38500daa62fe922
-  - docs_sqlite_html_e6b36f381db982b377a0
-  - docs_sqlite_html_e14f1154474a1d0288b9
-  - docs_sqlite_html_edf5dbde9759507b3a3f
-  - docs_sqlite_html_c3ddea58fe68a9624c89
-  - docs_sqlite_html_df97eb74323383dc892e
-  - docs_sqlite_html_d6e67bec3067325aebcc
-  - docs_sqlite_html_24d73c909e344bb209fb
-  - docs_sqlite_html_a6d4dd9bdd5c5511a57a
-  - docs_sqlite_html_80d1f08d02a31c530320
-  - docs_sqlite_html_913c97f7496cd036bbf6
-  - docs_sqlite_html_4c74517d54dc432252b7
-  - docs_sqlite_html_7b19c14e5aae44c74e0f
-  - docs_sqlite_html_746b3bbeee2441f824ac
-  - docs_sqlite_html_cc076f39f9fd393fb157
-  - docs_sqlite_html_f1ced69ccd4d8a7a57a9
-  - docs_sqlite_html_2fb18c0c5c94b193d8bd
-  - docs_sqlite_html_1614b040f584de94e1aa
-  - docs_sqlite_html_fea622585e17296d6ff0
-  - docs_sqlite_html_382f79a415548432cf5b
-  - docs_sqlite_html_3a8b3cc4459f3db11c4e
-  - docs_sqlite_html_a584305ce73856037a5e
-  - docs_sqlite_html_55a4d6dbddda2fcb8cf3
-  - docs_sqlite_html_f37eb4eb58bc3c56aadc
-  - docs_sqlite_html_409305d557ceb866d96e
-  - docs_sqlite_html_c19588e2b7b7fda9eb95
-  - docs_sqlite_html_fc2f2e7720f9b7c27c92
-  - docs_sqlite_html_1c5f90a66bf8c154d12f
-  - docs_sqlite_html_9a3d1c84cabb2ae8d897
-  - docs_sqlite_html_73871c75c30693d15745
-  - docs_sqlite_html_925e3b15ebecbeb54e58
-  - docs_sqlite_html_604810dd8e346b36d202
-  - docs_sqlite_html_9f3f4732404c64240449
-  - docs_sqlite_html_892f51f73d6bc66c70df
-  - docs_sqlite_html_069a5064f8d2fa923f69
-  - docs_sqlite_html_42fcc12cae33f411a10c
-  - docs_sqlite_html_c5ebbbd23b6785903ff2
-  - docs_sqlite_html_81acd8e291f1d0f0ea19
-  - docs_sqlite_html_01aff4ab68ac748d8d5f
-  - docs_sqlite_html_55fd35acc0a3eefd18cb
-  - docs_sqlite_html_808233ee74659b3b1c9c
-  - docs_sqlite_html_dfe3896b61e8ce984e33
-  - docs_sqlite_html_d1856cd71d63979be04f
-  - docs_sqlite_html_8a58ea6191ddd33c982f
-  - docs_sqlite_html_c8f0256585ad0eb1bd7f
-  - docs_sqlite_html_bb6fe7ed32b14ef1fec6
-  - docs_sqlite_html_6339b0e4dd5505cd087b
-  - docs_sqlite_html_7d169eec9c285718b691
-  - docs_sqlite_html_a94d52674e364487bce5
-  - docs_sqlite_html_69b07b9c1ff3235ab843
-  - docs_sqlite_html_813e3dc012b075e9ef27
-  - docs_sqlite_html_bc24920f1bf02a5da561
-  - docs_sqlite_html_a0424d677e8935f15f5b
-  - docs_sqlite_html_1e4cac673a306caaad88
-  - docs_sqlite_html_cb414ae3d49b70a6bd00
-  - docs_sqlite_html_1c1dbeb9d31ab776484d
-  - docs_sqlite_html_ea513849a0964e3443ad
-  - docs_sqlite_html_f47e455bfef9fe548122
-  - docs_sqlite_html_0527b072c1992a75727c
-  - docs_sqlite_html_0627f1c5315d9459aac0
-  - docs_sqlite_html_20a56fc26e66f65a8bb7
-  - docs_sqlite_html_32cde735ad034c30cbbf
-  - docs_sqlite_html_f46b5d37cf5a47ad813c
-  - docs_sqlite_html_686e3ad6bb86be6ded91
-  - docs_sqlite_html_4070a3ef629afcb26ac4
-  - docs_sqlite_html_365b2e0a014a01595782
-  - docs_sqlite_html_b6db68c59c00982347d6
-  - docs_sqlite_html_74417fc18fd9fb3e08c6
-  - docs_sqlite_html_9836b5ea24837c98631f
-  - docs_sqlite_html_6cc25b874852e6a21c7a
-  - docs_sqlite_html_deb6f2ca445b632ffcc3
-  - docs_sqlite_html_f1eb1206134b2cb61965
-  - docs_sqlite_html_e058ceeaf12f50896fad
-  - docs_sqlite_html_d1ec060ef0a2e1cec537
-  - docs_sqlite_html_0b0ee7e8e7e690ca7692
-  - docs_sqlite_html_1e99c7de7daf55649005
-  - docs_sqlite_html_aae35495374fc28b5e40
-  - docs_sqlite_html_3ad511a4db952489303f
-  - docs_sqlite_html_c22716df44919c0dcc59
-  - docs_sqlite_html_eecfab2b65df21ea654d
-  - docs_sqlite_html_8ad9463950b5e536f6e2
-  - docs_sqlite_html_b308d308e41663534849
-  - docs_sqlite_html_df2e33170fd1e1849ac0
-  - docs_sqlite_html_dea7761ec1c9cdc5dc8a
-  - docs_sqlite_html_c1304e1f97d2242af770
-  - docs_sqlite_html_51f5bb5e6796d782cc95
-  - docs_sqlite_html_9553112cfdd003b02ba6
-  - docs_sqlite_html_9a3b08405f144da484a4
-  - docs_sqlite_html_5b653536619d4f48a8b4
-  - docs_sqlite_html_6872c8ddc510395d1639
-  - docs_sqlite_html_66edaa6dc419f775a37b
-  - docs_sqlite_html_300a5ff3cbe13c80815a
-  - docs_sqlite_html_25e8b5558ae64f7de77b
-  - docs_sqlite_html_7a39a0df8ed862d79b55
-  - docs_sqlite_html_85e34b4dd7ad917c78cf
-  - docs_sqlite_html_54077b62ae5e74c24fa7
-  - docs_sqlite_html_99108ed50001af0d36cf
-  - docs_sqlite_html_8c93915d19ec30f24bf5
-  - docs_sqlite_html_628dd962f4fd907f06cd
-  - docs_sqlite_html_0ef57ec8962519228daf
-  - docs_sqlite_html_ae395f0a54d4ba7b87b0
-  - docs_sqlite_html_b422972b2a821bbe38a8
-  - docs_sqlite_html_1967b0f1a7962b6659db
-  - docs_sqlite_html_56602a9fdec1ebbc5f47
-  - docs_sqlite_html_19472e2795d2d4721d03
-  - docs_sqlite_html_f1acef8de6b7b87d8057
-  - docs_sqlite_html_d794ae73a79fd080a643
-  - docs_sqlite_html_7a925520e0718fa56e61
-  - docs_sqlite_html_dae7bd7ff2329800c7a8
-  - docs_sqlite_html_29e899a71789de90281a
-  - docs_sqlite_html_7ae790f6aabde5b06045
-  - docs_sqlite_html_29e6c6e5789d92ab38aa
-  - docs_sqlite_html_ce24cce5759411165047
-  - docs_sqlite_html_d60a670472d65f8af0ac
-  - docs_sqlite_html_ecf0a6a4f2727127cd95
-  - docs_sqlite_html_8450915370ac1981a011
-  - docs_sqlite_html_4fcfef71610ae4ea0028
-  - docs_sqlite_html_004a75c49d2a0731df84
-  - docs_sqlite_html_fb3d568c983baf8fc101
-  - docs_sqlite_html_103e18c595c44440cd1c
-  - docs_sqlite_html_f99c6db8b5681d32eaf9
-  - docs_sqlite_html_25953c0afca76c9bfbad
-  - docs_sqlite_html_65050ce96d8834bfd893
-  - docs_sqlite_html_128f1f265d48cbbfcede
-  - docs_sqlite_html_852aebf670297cab0f44
-  - docs_sqlite_html_c93f209061cb45e2497c
-  - docs_sqlite_html_1e4aa8102b89553e1b43
-  - docs_sqlite_html_bb423809477b70e8ac37
-  - docs_sqlite_html_a3fe7a981c38539aa92d
-  - docs_sqlite_html_1cad89bd37f689e83253
-  - docs_sqlite_html_7a10552d15cd8c6a4045
-  - docs_sqlite_html_11b4fc304f1fde84732a
-  - docs_sqlite_html_b4ee663cd8881b83a8c6
-  - docs_sqlite_html_ae3a182e6d97df2136ea
-  - docs_sqlite_html_20a8b4caf5f389f5faf5
-  - docs_sqlite_html_bce733938a5f2c7d399f
-  - docs_sqlite_html_23115e12daab41b23028
-  - docs_sqlite_html_45b3d7c77d3a7f4530e7
-  - docs_sqlite_html_12106ce51f9b30a3d9ee
-  - docs_sqlite_html_6464a9ee558d74b188a4
-  - docs_sqlite_html_ea719ff319988cad3bc6
-  - docs_sqlite_html_d9d673900146bca1c899
-  - docs_sqlite_html_45d3e03b1e9a4e91b0d8
-  - docs_sqlite_html_7e31adb6513f4899aa37
-  - docs_sqlite_html_12adc7cd40d609b8a180
-  - docs_sqlite_html_51725ac2e5a7c76710fc
-  - docs_sqlite_html_50d3c9ff33140ebb66d1
-  - docs_sqlite_html_a0775e95f58055dbd063
-  - docs_sqlite_html_b6479c0e9ce38004e873
-  - docs_sqlite_html_6a2d74fa8bfdfe7be4d6
-  - docs_sqlite_html_ef70044eadf588a30b15
-  - docs_sqlite_html_5f08286304ef550dd8e4
-  - docs_sqlite_html_67fc814e6998f2ad170a
-  - docs_sqlite_html_ff5ba590f2b83451de9b
-  - docs_sqlite_html_4acd7ffe203afc2680b9
-  - docs_sqlite_html_e61502afca5832391cf5
-  - docs_sqlite_html_1a4fb06302781c416c1c
-  - docs_sqlite_html_2109278e6795e62e72eb
-  - docs_sqlite_html_3d0caf7d6db960b5e446
-  - docs_sqlite_html_95149b11faff9e2ac4cb
-  - docs_sqlite_html_2058893d48162e4ace0a
-  - docs_sqlite_html_85a16333b421bcb325da
-  - docs_sqlite_html_392d32da0c3a9a50c095
-  - docs_sqlite_html_6f7af6a763a10982e622
-  - docs_sqlite_html_bf535fcf94d618ac9ada
-  - docs_sqlite_html_b3637c76300f4b8f8197
-  - docs_sqlite_html_6ccccbabfa2fbfe707bd
-  - docs_sqlite_html_8f225f0be6e885cca1f7
-  - docs_sqlite_html_f2ff59aecae5ba91ebb8
-  - docs_sqlite_html_26eca87347b592fe6ced
-  - docs_sqlite_html_190f2aa03050f614fcdc
-  - docs_sqlite_html_c1a1bd0e8d6cbe5f944a
-  - docs_sqlite_html_f74e85b17f8728ebbf18
-  - docs_sqlite_html_fd2281c806ac4247b97f
-  - docs_sqlite_html_35ff81869153426dca55
-  - docs_sqlite_html_60f1cdb8fdf3ad7a144d
-  - docs_sqlite_html_a81b7a1494a99a4eb3cc
-  - docs_sqlite_html_cb0e4203743ab901edb8
-  - docs_sqlite_html_3d7d025dc2186c84e1c8
-  - docs_sqlite_html_4ec162ca4bf79092a4fc
-  - docs_sqlite_html_eaf806244414f4ae214c
-  - docs_sqlite_html_0e9d953f702505059fe0
-  - docs_sqlite_html_0d8cbb6150a7e3a31a76
-  - docs_sqlite_html_30a60e5e27a0dcf6b7dd
-  - docs_sqlite_html_3ebdda9d1c1f5ff44f9b
-  - docs_sqlite_html_277c93f2d7d59258fe87
-  - docs_sqlite_html_93038e10ca99a7d99a07
-  - docs_sqlite_html_474058251f9501443110
-  - docs_sqlite_html_1dde73a8bec99863d67c
-  - docs_sqlite_html_5cda54525c5a14ffeea6
-  - docs_sqlite_html_92d3206ebd45a92e1b9e
-  - docs_sqlite_html_67a0810ce721a5421c64
-  - docs_sqlite_html_6b01cf990c279ffbce4c
-  - docs_sqlite_html_f7ceefbfa2454742bf89
-  - docs_sqlite_html_20dd3e2eae2be2b57e5b
-  - docs_sqlite_html_fd385a330af0dc031a4a
-  - docs_sqlite_html_83bd5606dfa04221525b
-  - docs_sqlite_html_e2c2a6c8702b8ddeb766
-  - docs_sqlite_html_e67bab55fa375bad40f7
-  - docs_sqlite_html_2c8799bf6ec9577fb157
-  - docs_sqlite_html_f49674e292f6469966c2
-  - docs_sqlite_html_41a7672386256b763eff
-  - docs_sqlite_html_15ac80fc04b15f19b34b
-  - docs_sqlite_html_2e2f9b51533e24f812b4
-  - docs_sqlite_html_b4612329c618386a4627
-  - docs_sqlite_html_87d6f7077d8e82d0eb79
-  - docs_sqlite_html_7d6527d9ca3653588acc
-  - docs_sqlite_html_c0d803829244cabf9ca2
-  - docs_sqlite_html_2f72254a3b7b811c819f
-  - docs_sqlite_html_16c39cbac517af099a33
-  - docs_sqlite_html_9a5c1ecdac4a0d32db4d
-  - docs_sqlite_html_9737cfd719468840b8b4
-  - docs_sqlite_html_f969c80e5abe5c0e1cae
-  - docs_sqlite_html_a4c9e623070fc097ea44
-  - docs_sqlite_html_39bb3dd36f9cb8a03375
-  - docs_sqlite_html_154e5c11f7b91d5c7a75
-  - docs_sqlite_html_2969647081c04cf86b9a
-  - docs_sqlite_html_ee47d98558a6a5293be5
-  - docs_sqlite_html_dd8f6d60ae4446106236
-  - docs_sqlite_html_7bf8942ae4f5c6d5f8b9
-  - docs_sqlite_html_7bbc3612e6cda931b05f
-  - docs_sqlite_html_c58a9ca7d8a63c08d133
-  - docs_sqlite_html_c6247b809e5bd8afcb1a
-  - docs_sqlite_html_2e343b5858d47f8a1d48
-  - docs_sqlite_html_2e3815a33c13f9c8c515
-  - docs_sqlite_html_f94ee0885a234331b3ef
-  - docs_sqlite_html_a60fcd57a1170db3c37e
-  - docs_sqlite_html_24bd7a7cafc0c885ee2f
-  - docs_sqlite_html_e246af10f7d1c54f7cbe
-  - docs_sqlite_html_6bdc044f16640604a633
-  - docs_sqlite_html_380c5f464578f1aa1c75
-  - docs_sqlite_html_4915bdb159b8d4bfa359
-  - docs_sqlite_html_fc092177f5d1b24fc185
-  - docs_sqlite_html_abd1942ffccd1646ac4a
-  - docs_sqlite_html_98429a7cf0e510b2230b
-  - docs_sqlite_html_7ad102fe0eda188f2c7f
-  - docs_sqlite_html_70188f211bf222c897d4
-  - docs_sqlite_html_81fa1746ea6c04e78735
-  - docs_sqlite_html_cd1867f4358759e5f7f7
-  - docs_sqlite_html_93840e1d49549ef670be
-  - docs_sqlite_html_e8761e49641f08cd4c55
-  - docs_sqlite_html_c3945783ec0a8327782e
-  - docs_sqlite_html_303e10a3f6d1b1f968fc
-  - docs_sqlite_html_f1840a010ace6fe800c6
-  - docs_sqlite_html_64f6da852628dc619759
-  - docs_sqlite_html_024b35927c5261a82314
-  - docs_sqlite_html_af8247365988cfd40f9a
-  - docs_sqlite_html_ca8f0c0baf0df4572cdc
-  - docs_sqlite_html_8d9ad9fdd3add0e196e7
-  - docs_sqlite_html_dc25721fa19986ed7abe
-  - docs_sqlite_html_3bbc888165261f25257a
-  - docs_sqlite_html_392c2642e2b9f2e24e3d
-  - docs_sqlite_html_d2ffbace987b6b099baf
-  - docs_sqlite_html_87321cd92ca6c93dc261
-  - docs_sqlite_html_59f7a685caa05150500f
-  - docs_sqlite_html_5ae7dccf690785c342d0
-  - docs_sqlite_html_270d0defb0654e445898
-  - docs_sqlite_html_d132b0afc7ea41b4651c
-  - docs_sqlite_html_8a7d18f2bb773f7cbe2b
-  - docs_sqlite_html_959d98ee6f1442ceb270
-  - docs_sqlite_html_0e772e3db8873068beb9
-  - docs_sqlite_html_9ff15e40fa360455b63e
-  - docs_sqlite_html_698c18d756e8a7c1ca96
-  - docs_sqlite_html_208f78c3eca5698eca1b
-  - docs_sqlite_html_e001162533051215b006
-  - docs_sqlite_html_66ccc9ea070d84fbbf49
-  - docs_sqlite_html_9044481fc94534986183
-  - docs_sqlite_html_7c8afa49203824e39ef3
-  - docs_sqlite_html_77292fffd60a03c8c21d
-  - docs_sqlite_html_3fb7b9f91793607fd8fe
-  - docs_sqlite_html_c997fd398717e1b12010
-  - docs_sqlite_html_b6a3aaf0fe0a1f92b757
-  - docs_sqlite_html_13fc88479ee44cfae9b6
-  - docs_sqlite_html_ad0120cec0542bddb40b
-  - docs_sqlite_html_e46518514c96c24c35da
-  - docs_sqlite_html_da8ecb4214e7c2877653
-  - docs_sqlite_html_709a491173c785d7f22a
-  - docs_sqlite_html_d1ae6ae07c6a63cca312
-  - docs_sqlite_html_c416c20caaea39bc2706
-  - docs_sqlite_html_e62f8b1629d6af08d17b
-  - docs_sqlite_html_674903f08cfbbdcb966f
-  - docs_sqlite_html_437cfe94639d03b078c4
-  - docs_sqlite_html_1db83e9fc04c783950b3
-  - docs_sqlite_html_2e8741a5be34137b855b
-  - docs_sqlite_html_f1da0ebec85300f9f2ca
-  - docs_sqlite_html_eccd0230e9692ce04552
-  - docs_sqlite_html_b9870d49fb59bba70a3f
-  - docs_sqlite_html_0292136c219be6fd29bb
-  - docs_sqlite_html_ecb84d509b6ff148300c
-  - docs_sqlite_html_d12e18b50f5521965703
-  - docs_sqlite_html_c91698d2d80efb02bd9f
-  - docs_sqlite_html_f72274918aac2be2f4f7
-  - docs_sqlite_html_b77dc5c66ac46f018697
-  - docs_sqlite_html_81d0f9dd729adebd88eb
-  - docs_sqlite_html_73a9440375def9d661ad
-  - docs_sqlite_html_b61ef9b9e909501dd485
-  - docs_sqlite_html_fa273f36d70419bf4ec3
-  - docs_sqlite_html_72d3abc9669c91d3af38
-  - docs_sqlite_html_b7b9ba83d9a0c3736d81
-  - docs_sqlite_html_3475bc16342e87c64d5b
-  - docs_sqlite_html_18590676188a89c05b26
-  - docs_sqlite_html_fc36f58b5b4299bb9eb2
-  - docs_sqlite_html_7d6f16a50b86066a6213
-  - docs_sqlite_html_4eae5e7f735fca36995e
-  - docs_sqlite_html_4ecec37f51e87fd418ac
-  - docs_sqlite_html_a30ce0ab194203f1b84c
-  - docs_sqlite_html_8f344dece4f2e765e02f
-  - docs_sqlite_html_eb1219841bc6a033ff3a
-  - docs_sqlite_html_fbfd7a98850603cd61e3
-  - docs_sqlite_html_bad85799cad828dfdc8b
-  - docs_sqlite_html_227ab474cbd46b8ba867
-  - docs_sqlite_html_9ed7750b45cd45562e43
-  - docs_sqlite_html_d45dfb962a2178b5dd04
-  - docs_sqlite_html_6d1cf4ba479ff8e68654
-  - docs_sqlite_html_3bc27b14521b21229797
-  - docs_sqlite_html_d82f69fdc261d0b9a08b
-  - docs_sqlite_html_df53a41dc924c2f44c04
-  - docs_sqlite_html_5e6f4361caedb30abc56
-  - docs_sqlite_html_48e27e54a180e9cd8d3c
-  - docs_sqlite_html_646debe3ae76862c5697
-  - docs_sqlite_html_e867b857c505f9fdf75c
-  - docs_sqlite_html_e8a5cf3a0ef03bef4496
-  - docs_sqlite_html_e4b58bcc79ce2947d919
-  - docs_sqlite_html_0fb63b2718676a621958
-  - docs_sqlite_html_931dcc3e047864718d45
-  - docs_sqlite_html_41bad2ecd3be913a7d5b
-  - docs_sqlite_html_4c56224ed3629d86e44e
-  - docs_sqlite_html_82b88b4311384cf36fb2
-  - docs_sqlite_html_01a9dd63e9b304f2f546
-  - docs_sqlite_html_d5944ce515a5e53564e4
-  - docs_sqlite_html_c0254958104cad173bca
-  - docs_sqlite_html_f6662a48dd9c9e8b0273
-  - docs_sqlite_html_49901dc7542719c63102
-  - docs_sqlite_html_a3ce550c7b23e8d175a0
-  - docs_sqlite_html_480b86a24b3c85c9036c
-  - docs_sqlite_html_fb6fda4e33ceeffc382b
-  - docs_sqlite_html_91e518437873648cb949
-  - docs_sqlite_html_cc3faca0a1592948ff94
-  - docs_sqlite_html_13522852d355ecf2fb68
-  - docs_sqlite_html_362835cdde33b74473e6
-  - docs_sqlite_html_f68b7b21cabdc618f05c
-  - docs_sqlite_html_9ebe4a94a84a3beb9867
-  - docs_sqlite_html_8de5a3127721128b51c2
-  - docs_sqlite_html_e4c73d98ad79cd105460
-  - docs_sqlite_html_94109919629199a8aa3d
-  - docs_sqlite_html_5e098d7e748913383329
-  - docs_sqlite_html_cd41862986ac0622a1fe
-  - docs_sqlite_html_f37053ba7aefca950142
-  - docs_sqlite_html_14c887eecc59b92dc00a
-  - docs_sqlite_html_0f82ecb3399cbaf20503
-  - docs_sqlite_html_050239eaa5bb2bb993a3
-  - docs_sqlite_html_817c4ee3f61ca0ea3add
-  - docs_sqlite_html_127255030fe56ef9419d
-  - docs_sqlite_html_5d13266e5fdd193dd105
-  - docs_sqlite_html_5f350e22b848c53a6d78
-  - docs_sqlite_html_57f6f8996cda9008a467
-  - docs_sqlite_html_90a77ff00068d261c1c7
-  - docs_sqlite_html_6062fbebe26a14028496
-  - docs_sqlite_html_7c24a02a2f2d6a11c871
-  - docs_sqlite_html_13623887d1d5d94b1515
-  - docs_sqlite_html_9038ba29fdac2520fb85
-  - docs_sqlite_html_bd94d497b2cde7f0237e
-  - docs_sqlite_html_4bcfbbd867cce6a36949
-  - docs_sqlite_html_a6631aa787e98e031179
-  - docs_sqlite_html_3508b2aa9bdc2f2df72f
-  - docs_sqlite_html_6b68752e6ec5b1ff74b7
-  - docs_sqlite_html_66153cb80ebb0ace0f58
-  - docs_sqlite_html_c9af97e11e087fa55771
-  - docs_sqlite_html_3d12852e3855a4ab80ba
-  - docs_sqlite_html_5b65ce5d83b0fad95d16
-  - docs_sqlite_html_59a7385213e525683de1
-  - docs_sqlite_html_6f84c7e394aa31bc6aae
-  - docs_sqlite_html_a60159bf4b009b466b2e
-  - docs_sqlite_html_4a17b480b6015288b9fe
-  - docs_sqlite_html_ee4ed7cdf09ba4c2d396
-  - docs_sqlite_html_fae0654bfa35b6f42c0d
-  - docs_sqlite_html_66cb231b56a4cfddbe55
-  - docs_sqlite_html_aee6a3864af9dc8b1b4d
-  - docs_sqlite_html_df085c71ae99e49a4659
-  - docs_sqlite_html_6e71b173df724e478e52
-  - docs_sqlite_html_bb74a187899ebbaf5789
-  - docs_sqlite_html_cd9084b9d5651e2ea80b
-  - docs_sqlite_html_995049e13acd2e3e52eb
-  - docs_sqlite_html_1b3b85d3a465304bfbca
-  - docs_sqlite_html_6343504004382ce9381e
-  - docs_sqlite_html_778de7b4b12a1ef1c904
-  - docs_sqlite_html_0c034698dd146af0d81e
-  - docs_sqlite_html_55c43e60623a32c9b31a
-  - docs_sqlite_html_54a78eaffab6bdd84c70
-  - docs_sqlite_html_dc97b84801eee9c8f35a
-  - docs_sqlite_html_f6b68df008891f4424ef
-  - docs_sqlite_html_bf36d2caa191542d8117
-  - docs_sqlite_html_f8a9bf37bf20fb8df904
-  - docs_sqlite_html_18be6391e2bfac3452c3
-  - docs_sqlite_html_90ce40dcd22eec1cdf15
-  - docs_sqlite_html_3a78137dd51490e66556
-  - docs_sqlite_html_b9bf0d65c961e4798a49
-  - docs_sqlite_html_0deca635587c75444f5a
-  - docs_sqlite_html_959d189893c660ce0f36
-  - docs_sqlite_html_1656138fec41b8cf5356
-  - docs_sqlite_html_f5efaeb6dedf20996935
-  - docs_sqlite_html_9f31f3d9014884842346
-  - docs_sqlite_html_7f4c3659974ee3b9d385
-  - docs_sqlite_html_4a1f2a742366635ce73b
-  - docs_sqlite_html_38f2f471b49dcc6ad9a7
-  - docs_sqlite_html_594a9ddd6340aa107e84
-  - docs_sqlite_html_c46b6607377f1dc54bab
-  - docs_sqlite_html_cf6b7f0acae48288a1ef
-  - docs_sqlite_html_9732b582342a4e2fba1f
-  - docs_sqlite_html_520751bf75d5410319a6
-  - docs_sqlite_html_f9205804b69c538d3066
-  - docs_sqlite_html_8c294fbaf7731ba6164b
-  - docs_sqlite_html_05d93bda16ba17b48c64
-  - docs_sqlite_html_4671cb2fd2db34943441
-  - docs_sqlite_html_2ff1f5821c0e8156955a
-  - docs_sqlite_html_bc92b16e1084630cc1aa
-  - docs_sqlite_html_c7407180c72a1edbde35
-  - docs_sqlite_html_c0c2710e30ea215e96d7
-  - docs_sqlite_html_bca2605f1150746f177a
-  - docs_sqlite_html_bc549d698c7353557272
-  - docs_sqlite_html_ebe091be216bba052e2e
-  - docs_sqlite_html_ac0d1410f02c9a1481fd
-  - docs_sqlite_html_e455136d41415713dd99
-  - docs_sqlite_html_8a7e6a03bad6df30df45
-  - docs_sqlite_html_7b07fe15c9fc76823cec
-  - docs_sqlite_html_89ad2b34385528f20b09
-  - docs_sqlite_html_b5d71e13d6bb620a7137
-  - docs_sqlite_html_cd19fec71cadb189375c
-  - docs_sqlite_html_25e9a6f33b9f4346201a
-  - docs_sqlite_html_daa4aeca156e2fa72838
-  - docs_sqlite_html_b707c5e0541eb8e547e1
-  - docs_sqlite_html_2cfc10c60ad029aa54bf
-  - docs_sqlite_html_6f9e8a89174d3c4bd734
-  - docs_sqlite_html_ff806af23aab15b9f782
-  - docs_sqlite_html_6ea84cb83af3214d5077
-  - docs_sqlite_html_3a0f76da4d67a83386f8
-  - docs_sqlite_html_5f1176829253d97c62ba
-  - docs_sqlite_html_9b96997d874345c4251f
-  - docs_sqlite_html_0cbcedc1da16531c8227
-  - docs_sqlite_html_ed903340d5bb42802f5f
-  - docs_sqlite_html_da3c01d352192ad6739d
-  - docs_sqlite_html_5898982ad1c0ca6eba83
-  - docs_sqlite_html_a87a36af044e78c51c22
-  - docs_sqlite_html_3c5e0ab1545d43d4a79c
-  - docs_sqlite_html_ae8b9d5582832366a042
-  - docs_sqlite_html_0701d093c17293606664
-  - docs_sqlite_html_a8aac66423e87373bb02
-  - docs_sqlite_html_239a5297fd05737b1fc8
-  - docs_sqlite_html_01ed5547e5a5ae0ad431
-  - docs_sqlite_html_b9d17b515fd223d2cf4d
-  - docs_sqlite_html_a36956381319d5ec72c7
-  - docs_sqlite_html_3cfee6613917e54d2d6a
-  - docs_sqlite_html_34fc592ebdf803bedc44
-  - docs_sqlite_html_ede1eb957197b2ab0245
-  - docs_sqlite_html_a115473035a00710e58f
-  - docs_sqlite_html_0077fbc2ba61ce2edb3b
-  - docs_sqlite_html_eaa7a5ae22bdaf9830c9
-  - docs_sqlite_html_0c872718e2229415adff
-  - docs_sqlite_html_6bd959e1d33b7755cecd
-  - docs_sqlite_html_af52d90afb9a75861a8e
-  - docs_sqlite_html_595ab8d598bd885bb72d
-  - docs_sqlite_html_29c74ac0f0727fde84b0
-  - docs_sqlite_html_59e985b2f151082bda1a
-  - docs_sqlite_html_aebb898f5c6192b08289
-  - docs_sqlite_html_6341ee7275a16f1d793d
-  - docs_sqlite_html_38c6c5bc22f7512e2651
-  - docs_sqlite_html_4e5e7812de161394e450
-  - docs_sqlite_html_152ef309c5cfe35a7b68
-  - docs_sqlite_html_943bd4d3fac8305915f7
-  - docs_sqlite_html_4f64db887b24ebef1970
-  - docs_linux_manpages_619_source
-  - docs_openssh_105p1_source
-  - docs_openssh_105p1_ssh_copy_id_1
-  - docs_openssh_105p1_ssh_copy_id_1_source
-  - docs_openssh_105p1_moduli_5
-  - docs_openssh_105p1_moduli_5_source
-  - docs_openssh_105p1_scp_1
-  - docs_openssh_105p1_scp_1_source
-  - docs_openssh_105p1_sftp_server_8
-  - docs_openssh_105p1_sftp_server_8_source
-  - docs_openssh_105p1_sftp_1
-  - docs_openssh_105p1_sftp_1_source
-  - docs_openssh_105p1_ssh_add_1
-  - docs_openssh_105p1_ssh_add_1_source
-  - docs_openssh_105p1_ssh_agent_1
-  - docs_openssh_105p1_ssh_agent_1_source
-  - docs_openssh_105p1_ssh_keygen_1
-  - docs_openssh_105p1_ssh_keygen_1_source
-  - docs_openssh_105p1_ssh_keyscan_1
-  - docs_openssh_105p1_ssh_keyscan_1_source
-  - docs_openssh_105p1_ssh_keysign_8
-  - docs_openssh_105p1_ssh_keysign_8_source
-  - docs_openssh_105p1_ssh_pkcs11_helper_8
-  - docs_openssh_105p1_ssh_pkcs11_helper_8_source
-  - docs_openssh_105p1_ssh_sk_helper_8
-  - docs_openssh_105p1_ssh_sk_helper_8_source
-  - docs_openssh_105p1_ssh_1
-  - docs_openssh_105p1_ssh_1_source
-  - docs_openssh_105p1_ssh_config_5
-  - docs_openssh_105p1_ssh_config_5_source
-  - docs_openssh_105p1_sshd_8
-  - docs_openssh_105p1_sshd_8_source
-  - docs_openssh_105p1_sshd_config_5
-  - docs_openssh_105p1_sshd_config_5_source
-  - docs_openssh_105p1_licence
+  - docs_bash_published_pdf
+  - docs_coreutils_published_pdf
+  - docs_make_published_pdf
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - computing
   preferred_formats:
-  - html
-  - txt
-  - man
   - pdf
+  - zip
   include:
-  - Linux man-pages project
-  - GNU coreutils
-  - Bash
-  - Git documentation
-  - GCC and binutils basics
-  - Python 3 documentation
-  - SQLite documentation
-  - POSIX reference where redistribution permits
-  - OpenSSH
-  - Networking commands
-  - Filesystem tools
-  - systemd documentation where relevant
-  - Basic C-library documentation
-  - Authoritative project docs with versions and licenses
-  - PDF only when it is a canonical offline form
-  exclude:
-  - Substituting Stack Overflow for authoritative documentation
-  - Unnecessary packaging duplication such as a whole Python ZIM when a direct bundle suffices
-  - Restricted POSIX material without permission
-  source_pages:
-  - https://www.kernel.org/doc/man-pages/
-  - https://docs.python.org/3/download.html
-  - https://www.sqlite.org/docs.html
-  device_validation:
-    status: pending
-    reason: Physical-device certification remains separate from content review and browser viewport checks.
-    evidence: []
+  - Finished GNU/Git PDFs and official Python PDF ZIP with unchanged PDF members.
+    SQLite HTML, generated OpenSSH pages and incomplete Linux license companions are
+    excluded; these are coverage gaps, not equivalent replacements.
 - id: stackexchange-science
-  number: 32
   title: Math, Physics and Biology Stack Exchange
-  target_bytes: 9000000000
-  status: unresolved
-  reason: The original quality-filtered direct HTML corpus remains unfinished. A ready compact alternative
-    contains the complete published mathematics, physics, biology and chemistry archives.
-  asset_ids: []
-  preferred_formats:
-  - html
-  include:
-  - Almost all Mathematics questions meeting quality thresholds
-  - Physics
-  - Biology
-  - Chemistry optionally
-  - Question/answer context, dates, corrections and attribution
-  - Generated static HTML
-  exclude:
-  - Junk, unanswered questions and canonical duplicates
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/stack_exchange/
-  editions:
-    compact:
-      asset_ids:
-      - stackexchange_math
-      - stackexchange_physics
-      - stackexchange_biology
-      - stackexchange_chemistry
-      target_bytes: 10085072636
-      status: ready
-      reason: Four pinned published Kiwix archives covering mathematics, physics, biology and chemistry;
-        includes the published answers and context without OWL question-level filtering. Requires Kiwix.
-- id: wikisource-en
-  number: 33
-  title: English Wikisource
-  target_bytes: 18000000000
+  number: 32
+  target_bytes: 10085072636
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
+  asset_ids:
+  - stackexchange_math
+  - stackexchange_physics
+  - stackexchange_biology
+  - stackexchange_chemistry
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - advanced-science
+  - biology
+  - chemistry
+  - mathematics
+  - physics
+  preferred_formats:
+  - zim
+  include:
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
+- id: wikisource-en
+  title: English Wikisource
+  number: 33
+  target_bytes: 19663666206
+  status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikisource_en
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - literature
   preferred_formats:
   - zim
   include:
-  - Whole English archive if space permits
-  exclude:
-  - Assuming every historical work is public domain in every jurisdiction
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/other/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: ted-ed
-  number: 34
   title: TED-Ed
-  target_bytes: 6000000000
-  status: partial
-  reason: Pinned September 2026 TED-Ed topic archive from the Kiwix TED collection (6,380,955,947 bytes),
-    suitable for intact personal noncommercial playback. This is a specific TED topic package; complete
-    ed.ted.com lesson/animation coverage and ordinary-file media exports are not established.
+  number: 34
+  target_bytes: 6380955947
+  status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - ted_ed
-  preferred_formats:
-  - video
-  - html
-  - zim
-  include:
-  - Educational lessons at lower priority
-  - Offline video with lesson context and notices
-  exclude:
-  - Required learning content available only through streamed video
-  source_pages:
-  - https://www.ftp.fau.de/kiwix/zim/zimit/
-- id: khan-core-stem
-  number: 35
-  title: Khan Academy — core STEM
-  target_bytes: 90000000000
-  status: unresolved
-  reason: Curated English core-STEM lesson IDs and complete dependency inventories remain pending. Ordinary
-    HTML/media/caption rendering is implemented; exercises must preserve prompts, figures, hints and supplied
-    solutions. No Kolibri installation or reading-time server is required. The unsplit 180 GB archive
-    is excluded.
-  asset_ids: []
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - enrichment
   preferred_formats:
   - zim
-  - kolibri
   include:
-  - 'Math: arithmetic, pre-algebra, algebra I/II, geometry, trigonometry, precalculus, calculus, differential
-    equations where available, statistics/probability and linear algebra'
-  - 'Science: physics, chemistry, biology, earth science and electrical engineering where present'
-  - 'Computing: algorithms, computer-science basics and durable programming fundamentals'
-  - Subset manifest and original license/attribution retained
-  exclude:
-  - Automatically downloading every course
-  - Standardized-test preparation
-  - Finance
-  - Career preparation
-  - Contemporary civics and news-dependent content
-  - Duplicated humanities
-  - Material substantially duplicated by stronger textbook sources
-  - Substituting the existing unsplit 180 GB archive for this 90 GB subset
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/other/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: wikipedia-es
-  number: 36
   title: Spanish Wikipedia
-  target_bytes: 38000000000
+  number: 36
+  target_bytes: 40766243832
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikipedia_es
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - general-reference
+  - additional-language
   preferred_formats:
   - zim
   include:
-  - Whole maxi archive with images
-  - Select according to languages used by the intended community
-  - Included in the 1 TB default selection
-  exclude:
-  - Selecting a language only because it is globally popular when intended users do not read it
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/wikipedia/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: wikipedia-fr
-  number: 37
   title: French Wikipedia
-  target_bytes: 52000000000
+  number: 37
+  target_bytes: 55438794004
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikipedia_fr
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - general-reference
+  - additional-language
   preferred_formats:
   - zim
   include:
-  - Whole maxi archive with images
-  - Select according to languages used by the intended community
-  - Opt-in language expansion
-  exclude:
-  - Selecting a language only because it is globally popular when intended users do not read it
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/wikipedia/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: wikipedia-zh
-  number: 38
   title: Chinese Wikipedia
-  target_bytes: 25000000000
+  number: 38
+  target_bytes: 26601056121
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikipedia_zh
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - general-reference
+  - additional-language
   preferred_formats:
   - zim
   include:
-  - Whole maxi archive with images
-  - Select according to languages used by the intended community
-  - Opt-in language expansion
-  exclude:
-  - Selecting a language only because it is globally popular when intended users do not read it
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/wikipedia/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: wikipedia-ar
-  number: 39
   title: Arabic Wikipedia
-  target_bytes: 18000000000
+  number: 39
+  target_bytes: 19095710684
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikipedia_ar
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - general-reference
+  - additional-language
   preferred_formats:
   - zim
   include:
-  - Whole maxi archive with images
-  - Select according to languages used by the intended community
-  - Opt-in language expansion
-  exclude:
-  - Selecting a language only because it is globally popular when intended users do not read it
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/wikipedia/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: wikipedia-pt
-  number: 40
   title: Portuguese Wikipedia
-  target_bytes: 19000000000
+  number: 40
+  target_bytes: 20641394954
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikipedia_pt
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - general-reference
+  - additional-language
   preferred_formats:
   - zim
   include:
-  - Whole maxi archive with images
-  - Select according to languages used by the intended community
-  - Opt-in language expansion
-  exclude:
-  - Selecting a language only because it is globally popular when intended users do not read it
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/wikipedia/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: wikipedia-it
-  number: 41
   title: Italian Wikipedia
-  target_bytes: 30000000000
+  number: 41
+  target_bytes: 31788251774
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikipedia_it
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - general-reference
+  - additional-language
   preferred_formats:
   - zim
   include:
-  - Whole maxi archive with images
-  - Select according to languages used by the intended community
-  - Opt-in language expansion
-  exclude:
-  - Selecting a language only because it is globally popular when intended users do not read it
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/wikipedia/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: world-maps
+  title: World maps (OpenStreetMap)
   number: 42
-  title: Upgrade regional map to entire world
-  target_bytes: 72000000000
+  target_bytes: 77731456103
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - map_osm_world
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - navigation
   preferred_formats:
   - zim
   include:
-  - Whole world OSM archive
-  - Replace the 21 GB North America OSM component
-  - Retain selected local GeoPDF/topographic maps from the regional collection
-  - 72 GB absolute planning target, with a conditional 21 GB replacement credit
-  exclude:
-  - Counting both world and North America OSM as independent default content
-  - Removing the local topographic selection when replacing the continent map
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/maps/
-  replaces_asset_ids:
-  - map_osm_north_america
-  replacement_credit:
-    resource_id: regional-maps
-    target_bytes: 21000000000
-- id: gutenberg-multilingual
-  number: 43
-  title: Gutenberg multilingual expansion
-  target_bytes: 30000000000
-  status: unresolved
-  reason: Language choices and a reproducible non-English book-ID selection, rights checks, deduplication
-    and pinned export remain unresolved.
-  asset_ids: []
-  preferred_formats:
-  - html
-  - txt
-  - epub
-  include:
-  - Languages used by likely readers
-  - Canonical literature
-  - "Children\u2019s literature"
-  - Dictionaries
-  - Language instruction
-  - Major historical and scientific works
-  - One preferred representation with useful text fallback and EPUB
-  exclude:
-  - Audio
-  - Redundant formats and materially identical editions
-  - Language selection disconnected from the intended community
-  source_pages:
-  - https://www.gutenberg.org/help/mirroring.html
-- id: survivor-tier-b
-  number: 44
-  title: Survivor Library — Tier B
-  target_bytes: 0
-  status: unresolved
-  reason: Enumerated specialist candidates remain unaccepted pending cross-tier/work deduplication, topic
-    coverage, scan quality, rights evidence and exact pins. No unmeasured 30 GB content claim is made.
-  asset_ids: []
-  preferred_formats:
-  - pdf
-  include:
-  - Only after Tier A
-  - Shipbuilding
-  - Advanced mining
-  - Specialized foundry books
-  - Radio and electronics history
-  - Refrigeration
-  - Advanced steam engineering
-  - Industrial chemical processes
-  - Railroad engineering
-  - Textile machinery
-  - Historical transportation engineering
-  - Specialized agricultural journals
-  - Historical context and safety warnings
-  exclude:
-  - Generic history, literature or obsolete operational medicine added merely to fill space
-  - Duplicates of Tier A or other libraries
-  source_pages:
-  - https://www.survivorlibrary.com/
-- id: khan-remaining
-  number: 45
-  title: Remaining Khan Academy
-  target_bytes: 80000000000
-  status: unresolved
-  reason: A non-overlapping set of complete English courses remains to be frozen, acquired and reviewed
-    as ordinary files with media, captions and readable exercises. The retired whole archive is not a
-    substitute.
-  asset_ids: []
-  preferred_formats:
-  - zim
-  - kolibri
-  include:
-  - Non-core subjects and broader course catalog
-  - Only after the core STEM selection and higher priorities
-  - Explicit opt-in
-  - Deduplicate against the core STEM package
-  exclude:
-  - Automatic default inclusion
-  - Counting the whole 180 GB archive as both core and remaining subsets
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/other/
-- id: stackoverflow-legacy
-  number: 46
-  title: Stack Overflow legacy-computing appendix
-  target_bytes: 15000000000
-  status: unresolved
-  reason: The explicit legacy classifier, separate static rendering and visible legacy search filter are
-    implemented. Shared official archive capture, XML pins, dependency review and measured legacy outputs
-    remain pending; age alone does not classify a question as legacy.
-  asset_ids: []
-  preferred_formats:
-  - html
-  include:
-  - Python 2
-  - Older GCC
-  - Java 6, 7 and 8
-  - Old .NET
-  - Windows XP/7 internals and repair
-  - Old BIOS and MBR booting
-  - 32-bit Linux
-  - Legacy serial and parallel ports
-  - Old filesystems
-  - Ancient compiler/toolchain issues
-  - Older Android only where useful for hardware reuse
-  - Separate from normal search ranking
-  - 'Visible result badge: LEGACY — MAY APPLY ONLY TO OLD SYSTEMS'
-  - Preserve dates, versions and per-post attribution
-  exclude:
-  - Every old web framework
-  - Legacy content silently mixed into current operational advice
-  source_pages:
-  - https://ftp.fau.de/kiwix/zim/stack_exchange/
+  - Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
 - id: owl-direct-core
-  number: null
   title: OWL complementary directly readable core
-  target_bytes: 134021877
+  number: null
+  target_bytes: 32423011
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
   asset_ids:
   - cert
   - water
   - sanitation
   - agriculture
-  - electrical_dc
-  - electrical_ac
-  - mechanical
   - shelter
   - navigation
   - survival_shelter
   - reference
+  utility_tier: CRITICAL
+  utility_reason: Protects life or supports food, water, shelter and household survival.
+  knowledge_domains:
+  - first-aid
+  - water-sanitation
+  - agriculture
+  - shelter
+  - navigation
+  - preparedness
   preferred_formats:
   - pdf
   include:
-  - Verified baseline first aid, water, sanitation, gardening, electrical textbooks, mechanical reference,
-    shelter, navigation and preparedness
-  - Original ordinary PDFs with illustrations and notices
-  - Complements the separately selected WHO, food-preservation and OpenStax resources
-  exclude:
-  - Files already assigned to numbered resource collections
-  - USGS Dynamic Planet reference sheets presented as regional maps
-  source_pages:
-  - https://www.govinfo.gov/app/details/GOVPUB-HS5_100-PURL-gpo185734
-  - https://www.epa.gov/ground-water-and-drinking-water/emergency-disinfection-drinking-water-0
-  - https://www.cdc.gov/water-emergency/communication-resources/fact-sheet-preventing-diarrheal-illness-after-a-disaster.html
-  - https://www.nrcs.usda.gov/plantmaterials/mipmcot9407.pdf
-  - https://www.ibiblio.org/kuphaldt/electricCircuits/DC/index.html
-  - https://www.ibiblio.org/kuphaldt/electricCircuits/index.htm
-  - https://www.faa.gov/regulations_policies/handbooks_manuals/aviation
-  - https://www.fema.gov/sites/default/files/2020-07/residential-sheltering-safe-rooms_recovery-advisory.pdf
-  - https://www.usgs.gov/media/files/finding-your-way-map-and-compass
-  - https://www.armyupress.army.mil/Journals/NCO-Journal/Archives/2020/June/NCO-C3/
-  - https://www.fema.gov/sites/default/files/documents/fema_hm-emergency-supply-kit-checklist_english.pdf
+  - Finished published files covering the listed collection; downloaded unchanged.
+    Ordinary PDF documents.
 - id: archive-readers
-  number: null
   title: Bundled offline archive readers
-  target_bytes: 0
+  number: null
+  target_bytes: 439739570
   status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    Only verified offline files and their packaged dependencies are included.
   asset_ids:
   - kiwix_windows
   - kiwix_linux
   - kiwix_macos
   - kiwix_android
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - archive-access
   preferred_formats:
-  - zip
+  - apk
   - appimage
   - dmg
-  - apk
+  - zip
   include:
-  - Pinned Kiwix Windows portable reader
-  - Pinned Kiwix Linux x86_64 AppImage
-  - Pinned Kiwix macOS package
-  - Pinned standalone Kiwix Android APK
-  - Preserve notices and satisfy corresponding-source obligations before redistributing binaries
-  exclude:
-  - Assuming an iPhone can install Kiwix from the SSD offline
-  - Assuming the x86_64 AppImage runs on Raspberry Pi
-  source_pages:
-  - https://get.kiwix.org/en/solutions/applications/download-options/
-- id: direct-reading-expansion
+  - Finished published files covering the listed collection; downloaded unchanged.
+    Only verified offline files and their packaged dependencies are included.
+- id: school-education
+  title: School mathematics and science
   number: null
-  title: Additional directly readable editions of selected material
-  target_bytes: 60000000000
-  status: unresolved
-  reason: The tested in-place ZIM exporter and extra-catalog import are implemented. Reviewed article/book
-    lists, collection-specific visual checks and complete verified output editions are still missing.
-    The 60 GB target is an additional representation allowance, not downloaded content.
-  asset_ids: []
+  target_bytes: 746278523
+  status: ready
+  reason: Complete school-level learner books and teaching guides. Includes elementary
+    natural science and high-school physics; no claim of a complete literacy or humanities
+    curriculum.
+  asset_ids:
+  - openstax_algebra_1
+  - openstax_elementary_algebra_2e
+  - openstax_intermediate_algebra_2e
+  - openstax_physics
+  - openstax_prealgebra_2e
+  - openstax_statistics
+  - siyavula_gr10_physicalsciences_learner_eng
+  - siyavula_gr10_physicalsciences_teacher_eng
+  - siyavula_gr11_physicalsciences_learner_eng
+  - siyavula_gr11_physicalsciences_teacher_eng
+  - siyavula_gr12_physicalsciences_learner_eng
+  - siyavula_gr12_physicalsciences_teacher_eng
+  - siyavula_gr4a_naturalsciences_learner_eng
+  - siyavula_gr4a_naturalsciences_teacher_eng
+  - siyavula_gr4b_naturalsciences_learner_eng
+  - siyavula_gr4b_naturalsciences_teacher_eng
+  - siyavula_gr5a_naturalsciences_learner_eng
+  - siyavula_gr5a_naturalsciences_teacher_eng
+  - siyavula_gr5b_naturalsciences_learner_eng
+  - siyavula_gr5b_naturalsciences_teacher_eng
+  - siyavula_gr6a_naturalsciences_learner_eng
+  - siyavula_gr6a_naturalsciences_teacher_eng
+  - siyavula_gr6b_naturalsciences_learner_eng
+  - siyavula_gr6b_naturalsciences_teacher_eng
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - school-math
+  - school-science
+  - mathematics
+  - natural-science
+  - physics
   preferred_formats:
-  - html
-  - pdf
-  - txt
-  - png
-  - jpeg
-  include:
-  - Additional directly readable copies of material from source resources already selected for this build
-  - Prioritize Appropedia, CD3WD, iFixit, LibreTexts STEM and English Wikibooks
-  - Broaden the article-list-driven high-priority English Wikipedia HTML lifeboat
-  - Preserve diagrams, photographs, labels, captions, instructions, article context and book context
-  - Retain licensing and attribution notices, source versions and ordinary local entry links
-  - Treat the 60 GB target as additional storage beyond existing direct copies and their existing budgets
-  - Limit derivative subjects to the selected source collections; excluding a source collection excludes
-    its planned derivatives from this expansion
-  - Full-1tb default preference for direct reading without a ZIM reader
-  exclude:
-  - Expanding all of Wikipedia into millions of individual exFAT files
-  - Counting existing directly readable source files or previously budgeted direct editions twice
-  - Acquiring additional Khan, language or map collections to fill this budget
-  - Exporting an excluded collection through this representation resource
-  - Dropping illustrations or presenting decontextualized text as an equivalent illustrated guide
-  - Implying that an ordinary-format derivative is redistributable without checking the source license
-  source_pages:
-  - https://www.appropedia.org/Appropedia:Terms_of_use
-  - https://ftp.fau.de/kiwix/zim/other/
-  - https://www.ifixit.com/Info/Licensing
-  - https://ftp.fau.de/kiwix/zim/libretexts/
-  - https://download.kiwix.org/zim/wikibooks/
-  - https://ftp.fau.de/kiwix/zim/wikipedia/
-- id: books-culture-expansion
-  title: Additional complete English books and culture
-  target_bytes: 0
-  status: unresolved
-  reason: Freeze ranked complete works absent from the compact book collections, then acquire, deduplicate
-    and review measured ordinary-file editions. No estimated bytes count as knowledge.
-  asset_ids: []
-  preferred_formats:
-  - html
-  - epub
   - pdf
   include:
-  - Complete English literature, history, biography, philosophy, language-learning and nonfiction works
-  - Stable Gutenberg book IDs, work and edition comparisons, illustrations and rights notices
-  exclude:
-  - Works already present in compact collections
-  - Duplicate representations, incomplete works and size padding
-  source_pages:
-  - https://www.gutenberg.org/help/mirroring.html
-- id: complete-courses-expansion
-  title: Additional complete English courses
-  target_bytes: 0
-  status: unresolved
-  reason: Freeze ranked MIT OpenCourseWare courses and all essential course-package/media dependencies.
-    Accept complete courses using measured ordinary files with captions, notices and supplied exercise
-    solutions; essential unavailable materials remain blockers.
-  asset_ids: []
+  - Complete school-level learner books and teaching guides. Includes elementary natural
+    science and high-school physics; no claim of a complete literacy or humanities
+    curriculum.
+- id: hand-tools-repair
+  title: Hand tools, woodworking and repair
+  number: null
+  target_bytes: 114015195
+  status: ready
+  reason: Finished illustrated ax and crosscut saw manuals, electrical fundamentals
+    and mechanical maintenance. Supports sharpening, tool care and practical repair.
+  asset_ids:
+  - usfs_ax_manual
+  - usfs_crosscut_manual
+  - electrical_dc
+  - electrical_ac
+  - mechanical
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - hand-tools
+  - woodworking
+  - repair
+  - electrical
+  - mechanical
   preferred_formats:
-  - html
   - pdf
-  - mp4
-  - vtt
   include:
-  - Mathematics, computing, engineering, physical/life sciences and complementary humanities
-  - Complete syllabus, notes, assignments, supplied solutions, captions and media
-  - One appropriate publisher rendition, normally 720p
-  exclude:
-  - Incomplete essential course materials
-  - Redundant renditions, upscaling and size padding
-  source_pages:
-  - https://ocw.mit.edu/pages/get-started/
+  - Finished illustrated ax and crosscut saw manuals, electrical fundamentals and
+    mechanical maintenance. Supports sharpening, tool care and practical repair.
+- id: computing-communities
+  title: Computing, GIS and 3D printing communities
+  number: null
+  target_bytes: 7565811368
+  status: ready
+  reason: Finished community reference ZIMs; optional advanced computing and digital
+    fabrication.
+  asset_ids:
+  - stackexchange_3dprinting
+  - stackexchange_gis
+  - stackexchange_superuser
+  - stackexchange_unix
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - computing
+  preferred_formats:
+  - zim
+  include:
+  - Finished community reference ZIMs; optional advanced computing and digital fabrication.
+- id: juvenile-literature
+  title: Juvenile literature archive (optional)
+  number: null
+  target_bytes: 19770263119
+  status: ready
+  reason: Broad published Gutenberg juvenile-literature archive. Requires the bundled
+    Kiwix reader; independently selectable from the small illustrated PDF collection.
+  asset_ids:
+  - gutenberg_en_lcc_pz
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains: *id001
+  preferred_formats:
+  - zim
+  include:
+  - Broad published Gutenberg juvenile-literature archive. Requires the bundled Kiwix
+    reader; independently selectable from the small illustrated PDF collection.
+- id: sare-practical-farming
+  title: Soil, crop rotation and ecological pest management
+  number: null
+  target_bytes: 38109556
+  status: ready
+  reason: Five complete publisher PDFs on soils, rotations, cover crops, beneficial
+    insects and agricultural weeds. Mostly US examples; brief review only. Free downloads
+    do not establish broader redistribution permission.
+  asset_ids:
+  - sare_building_soils
+  - sare_crop_rotation
+  - sare_manage_insects
+  - sare_manage_weeds
+  - sare_cover_crops
+  utility_tier: CRITICAL
+  utility_reason: Adds practical knowledge selected for the full 1 TB library.
+  knowledge_domains:
+  - agriculture
+  - gardening
+  - food-security
+  preferred_formats:
+  - pdf
+  include:
+  - Five complete publisher PDFs on soils, rotations, cover crops, beneficial insects
+    and agricultural weeds. Mostly US examples; brief review only. Free downloads
+    do not establish broader redistribution permission.
+- id: trail-maintenance
+  title: Trail construction and maintenance
+  number: null
+  target_bytes: 38817772
+  status: ready
+  reason: Complete illustrated 2007 Forest Service trail handbook, retained unchanged.
+    Field paths and drainage; not a road or bridge design standard.
+  asset_ids:
+  - usfs_trail_notebook
+  utility_tier: USEFUL
+  utility_reason: Adds practical knowledge selected for the full 1 TB library.
+  knowledge_domains:
+  - hand-tools
+  - repair
+  - navigation
+  preferred_formats:
+  - pdf
+  include:
+  - Complete illustrated 2007 Forest Service trail handbook, retained unchanged. Field
+    paths and drainage; not a road or bridge design standard.
+- id: seed-processing-quality
+  title: Seed processing and quality checks
+  number: null
+  target_bytes: 21185289
+  status: ready
+  reason: Two complete FAO/AfricaSeeds 2018 modules complement seed storage with processing
+    and quality checks. Practitioner and laboratory scope; crop-specific household
+    seed saving remains a gap. Non-commercial redistribution under the retained FAO
+    notice.
+  asset_ids:
+  - fao_seed_processing
+  - fao_seed_quality
+  utility_tier: CRITICAL
+  utility_reason: Supports practical food production or reliable water supply in the
+    full 1 TB library.
+  knowledge_domains:
+  - agriculture
+  - gardening
+  - food-security
+  preferred_formats:
+  - pdf
+  include:
+  - Two complete FAO/AfricaSeeds 2018 modules complement seed storage with processing
+    and quality checks. Practitioner and laboratory scope; crop-specific household
+    seed saving remains a gap. Non-commercial redistribution under the retained FAO
+    notice.
+- id: water-supply-maintenance
+  title: Rainwater, hand pumps and groundwater maintenance
+  number: null
+  target_bytes: 12249751
+  status: ready
+  reason: Three complete illustrated manuals add rainwater systems, Afridev-specific
+    repair and groundwater operation. Regional, equipment and professional-skill limits
+    apply. CAWST permits attributed sharing; whole-document redistribution of the
+    other two was not established.
+  asset_ids:
+  - cawst_rainwater
+  - rwsn_afridev
+  - sadc_groundwater_maintenance
+  utility_tier: CRITICAL
+  utility_reason: Supports practical food production or reliable water supply in the
+    full 1 TB library.
+  knowledge_domains:
+  - water-sanitation
+  - repair
+  preferred_formats:
+  - pdf
+  include:
+  - Three complete illustrated manuals add rainwater systems, Afridev-specific repair
+    and groundwater operation. Regional, equipment and professional-skill limits apply.
+    CAWST permits attributed sharing; whole-document redistribution of the other two
+    was not established.

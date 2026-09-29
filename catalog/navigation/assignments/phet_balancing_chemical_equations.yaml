@@ -1,0 +1,6 @@
+schema_version: 1
+asset_id: phet_balancing_chemical_equations
+assignments:
+- topic_id: chemistry
+  purpose: explanation
+  description: Explore reaction coefficients and balancing chemical equations.

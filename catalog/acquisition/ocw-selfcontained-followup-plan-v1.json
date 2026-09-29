@@ -1,0 +1,180 @@
+{
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "downloads": 1,
+    "review": 1
+  },
+  "content_complete": false,
+  "id": "ocw-selfcontained-courses-v1",
+  "review_items": [
+    {
+      "id": "ordinary-selfcontained-courses-review",
+      "reason": "No readiness admission: offline browser, video playback/captions, legibility, notices and complete source-output preservation remain pending."
+    }
+  ],
+  "schema_version": 1,
+  "tasks": [
+    {
+      "batch": "ocw-selfcontained-courses",
+      "id": "capture-selfcontained-courses",
+      "kind": "capture",
+      "lane": "downloads"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw_fbccd60245d9cb173f41-inventory-v1.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw_fbccd60245d9cb173f41-link-repairs-v1.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_fbccd60245d9cb173f41"
+      ],
+      "batch": "ocw-selfcontained-courses",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_fbccd60245d9cb173f41/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_fbccd60245d9cb173f41/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_fbccd60245d9cb173f41/assets.json"
+        }
+      ],
+      "depends": [
+        "capture-selfcontained-courses"
+      ],
+      "id": "freeze-ocw_fbccd60245d9cb173f41",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw_fbccd60245d9cb173f41-inventory-v1.json",
+        "{workspace}/catalog/acquisition/ocw_fbccd60245d9cb173f41-link-repairs-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-selfcontained-courses-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_fbccd60245d9cb173f41/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_fbccd60245d9cb173f41/assets.json",
+        "--preview-bytes",
+        "10000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-selfcontained-courses",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-selfcontained-courses-v1-1tb/previews/ocw_fbccd60245d9cb173f41_ordinary_v1/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-ocw_fbccd60245d9cb173f41"
+      ],
+      "id": "preview-ocw_fbccd60245d9cb173f41",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_fbccd60245d9cb173f41/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_fbccd60245d9cb173f41/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review observed media playback, caption language, figures and complete ordinary-course outputs; no automatic admission.",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw_91f8d56c4f9958fdf004-inventory-v1.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw_91f8d56c4f9958fdf004-link-repairs-v1.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_91f8d56c4f9958fdf004"
+      ],
+      "batch": "ocw-selfcontained-courses",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_91f8d56c4f9958fdf004/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_91f8d56c4f9958fdf004/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_91f8d56c4f9958fdf004/assets.json"
+        }
+      ],
+      "depends": [
+        "capture-selfcontained-courses"
+      ],
+      "id": "freeze-ocw_91f8d56c4f9958fdf004",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw_91f8d56c4f9958fdf004-inventory-v1.json",
+        "{workspace}/catalog/acquisition/ocw_91f8d56c4f9958fdf004-link-repairs-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-selfcontained-courses-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_91f8d56c4f9958fdf004/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_91f8d56c4f9958fdf004/assets.json",
+        "--preview-bytes",
+        "10000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-selfcontained-courses",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-selfcontained-courses-v1-1tb/previews/ocw_91f8d56c4f9958fdf004_ordinary_v1/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-ocw_91f8d56c4f9958fdf004"
+      ],
+      "id": "preview-ocw_91f8d56c4f9958fdf004",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_91f8d56c4f9958fdf004/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-selfcontained-captured-proposals-v1/ocw_91f8d56c4f9958fdf004/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review observed media playback, caption language, figures and complete ordinary-course outputs; no automatic admission.",
+      "script": "acquire_content.py"
+    }
+  ]
+}

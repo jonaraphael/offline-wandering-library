@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: uga_using_pressure_canners
+assignments:
+- topic_id: canning
+  purpose: reference
+  description: Complete June 2025 pressure-canner guideline with the original labeled
+    diagram and procedures.

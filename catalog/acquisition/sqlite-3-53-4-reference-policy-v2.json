@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "sqlite-3-53-4-local-links-v2",
+  "source_id": "docs_sqlite_html_source",
+  "source_sha256": "a1d0f5de57485d062796ed7e67daff0758b50d00001a0f233a2c15aaf40bbdc8",
+  "original_audit_sha256": "ad385a9cf225109a39baded3c00426a1dce5243757f3db41c213e79fe827142c",
+  "repairs": [
+    {
+      "member": "sqlite-doc-3530400/capi3ref.html",
+      "original_sha256": "fbd4762ac363d52cda06755b953e0764d0a0307cf8d3fb2fd9b8f106017b9329",
+      "attribute": "href",
+      "from": "../c3ref/intro.html",
+      "expected_count": 1,
+      "target_member": "sqlite-doc-3530400/c3ref/intro.html"
+    },
+    {
+      "member": "sqlite-doc-3530400/changes.html",
+      "original_sha256": "a1516e1c3ecf509a827978b482ad4a7b648383c2c85d04a07bcc1146619d176a",
+      "attribute": "href",
+      "from": "../vfs.html#standard_unix_vfses",
+      "expected_count": 1,
+      "target_member": "sqlite-doc-3530400/vfs.html"
+    },
+    {
+      "member": "sqlite-doc-3530400/releaselog/3_47_0.html",
+      "original_sha256": "aab50af87e7547f0017bc235fda88b9c92b169d4a48fcddc642bd0ee69caa4d8",
+      "attribute": "href",
+      "from": "../../vfs.html#standard_unix_vfses",
+      "expected_count": 1,
+      "target_member": "sqlite-doc-3530400/vfs.html"
+    },
+    {
+      "member": "sqlite-doc-3530400/session.html",
+      "original_sha256": "3609713e22c42755f0c65ab2dc268a4bcc9c8ca85ad393298979cadb615cdf49",
+      "attribute": "href",
+      "from": "../session/intro.html",
+      "expected_count": 1,
+      "target_member": "sqlite-doc-3530400/session/intro.html"
+    },
+    {
+      "member": "sqlite-doc-3530400/fts5.html",
+      "original_sha256": "f3f272957ca6474d59d11b3b4a295dc4cc7f315d8400eca0bb7fa5345d2772d7",
+      "attribute": "href",
+      "from": "the_merge_command",
+      "expected_count": 1,
+      "target_member": "sqlite-doc-3530400/fts5.html",
+      "target_fragment": "the_merge_command"
+    },
+    {
+      "member": "sqlite-doc-3530400/whynotgit.html",
+      "original_sha256": "3d6a55f17af20b5e1ccede5767bbad2349972048b74dd1c6ec8997af787cd336",
+      "attribute": "src",
+      "from": "https://www.fossil-scm.org/fossil/doc/trunk/www/xkcd-git.gif",
+      "target_member": "sqlite-doc-3530400/images/xkcd-git.gif",
+      "expected_count": 1
+    }
+  ],
+  "dependencies": {
+    "sqlite-doc-3530400/images/xkcd-git.gif": "docs_sqlite_xkcd_git_illustration",
+    "sqlite-doc-3530400/notices/somerights20.png": "docs_sqlite_cc_badge"
+  },
+  "optional_historical_reference": {
+    "member": "sqlite-doc-3530400/docs.html",
+    "original_sha256": "40f271a0f19aa4e788aea6ef880633187f4cc5333f1f6961b3a919c9400a6586",
+    "href": "asyncvfs.html",
+    "status": "candidate_optional_deprecated_reference",
+    "publisher_context": "showhide(11)'><span class='sh_mark' id='sh_mark_11'>&#x25ba;</span> Obsolete Documents</a>\n<ul id='sh_sub_11'>\n<li><a class='sh_link' href='asyncvfs.html'>Asynchronous IO Mode</a>\n<span class='desktoponly'>&rarr; \n  This page describes the asynchronous IO extension developed alongside\n  SQLite. Using asynchronous IO can cause SQLite to appear more responsive\n  by delegating database writes to a background thread.  <i>NB:  This\n  extension is deprecated. <a href=\"wal.html\">WAL mode</a> is recommended\n  as a replacement.</i>\n</span>\n<li><a class='sh_link' href='c_interface.html'>Version 2 C/C++ API</a>\n<span class='desktoponly'>&rarr; \n  A description of the C/C++ interface bindings ",
+    "included_replacement": "sqlite-doc-3530400/wal.html",
+    "replacement_sha256": "29315aaa998c5e2acf29e3ac161e9e8bf786d0c82a85ac83eb4f4091234acb7b"
+  },
+  "review_status": "pending_output_and_browser_review",
+  "content_ready": false,
+  "additional_source_ids": [
+    "docs_sqlite_xkcd_license"
+  ],
+  "supplemental_members": [
+    {
+      "source_asset_id": "docs_sqlite_xkcd_license",
+      "path": "sqlite-doc-3530400/notices/xkcd-license.html",
+      "asset_id": "docs_sqlite_xkcd_license_local",
+      "size_bytes": 2580,
+      "sha256": "4b44df9262eb6483189fbf96ac37c9e25acfdf7de46eddbea2bc37500fa3d2da",
+      "rewrites": [
+        {
+          "attribute": "src",
+          "from": "https://creativecommons.org/images/public/somerights20.png",
+          "target_member": "sqlite-doc-3530400/notices/somerights20.png",
+          "expected_count": 1
+        }
+      ]
+    }
+  ],
+  "member_annotations": [
+    {
+      "member": "sqlite-doc-3530400/sqlite.css",
+      "original_sha256": "273c0cab19c9f24614e837e9383e3fa5ca3a4e2a20457a7a1054c0600dc7eb2b",
+      "stylesheet_patch": "sqlite-responsive-v1"
+    },
+    {
+      "member": "sqlite-doc-3530400/docs.html",
+      "original_sha256": "40f271a0f19aa4e788aea6ef880633187f4cc5333f1f6961b3a919c9400a6586",
+      "reference_annotation": "sqlite-obsolete-asyncvfs-v1"
+    }
+  ]
+}

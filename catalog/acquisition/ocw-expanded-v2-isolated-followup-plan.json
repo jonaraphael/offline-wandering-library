@@ -1,0 +1,55 @@
+{
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "downloads": 1,
+    "review": 1
+  },
+  "content_complete": false,
+  "id": "ocw-expanded-v2-isolated-inventory",
+  "review_items": [
+    {
+      "id": "expanded-course-content-gates",
+      "reason": "Package/media metadata is not useful-byte admission. Resolve missing captions, readings, translations and notices; use one legible original rendition and measure complete ordinary outputs."
+    }
+  ],
+  "schema_version": 1,
+  "tasks": [
+    {
+      "argv": [
+        "--package-staging",
+        "{staging}/ocw-expanded-packages-v2-1tb",
+        "--output",
+        "{staging}/ocw-expanded-review-v2-1tb",
+        "--exclude-media-manifest",
+        "{workspace}/catalog/acquisition/ocw-foundational-media-capture.json",
+        "--output-budget-bytes",
+        "3000000000",
+        "--reserve-bytes",
+        "10000000000",
+        "--prior-review",
+        "{staging}/ocw-expanded-review-1tb",
+        "--isolate-package-failures"
+      ],
+      "batch": "expanded-course-review-v2",
+      "checks": [
+        {
+          "equals": {
+            "body_downloads": 0,
+            "content_ready": false,
+            "requested_sources": 78,
+            "status": "awaiting_review_with_failures"
+          },
+          "path": "{staging}/ocw-expanded-review-v2-1tb/report.json"
+        }
+      ],
+      "id": "inspect-expanded-v2-isolated",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-foundational-media-capture.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Each media proposal still needs a combined-space budget, source acquisition, essential reading/caption gap resolution and complete ordinary-course review. No admission.",
+      "script": "prepare_ocw_followup.py"
+    }
+  ]
+}

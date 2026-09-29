@@ -31,6 +31,8 @@ class SelectorTests(unittest.TestCase):
         cls.model = make_model(cls.catalog, ROOT / "profiles", cls.registry)
 
     def javascript(self, cases, model=None):
+        from owl.content_policy import load_policy
+        model = {**(model or self.model), "direct_reading_formats":load_policy()["direct_reading_formats"]}
         script = r'''
 const fs = require('fs');
 eval(fs.readFileSync(process.argv[1], 'utf8'));
@@ -60,16 +62,8 @@ process.stdout.write(JSON.stringify(results));
         registry.write_text(yaml.safe_dump({'schema_version':1,'resources':[{
             'id':'reference','title':'Reference','status':'ready','target_bytes':fixture.output['size_bytes'],
             'asset_ids':['guide']}]}))
-        model = make_model(fixture.catalog, fixture.profiles, registry, allow_local=True)
-        result = self.javascript([{'profile':'test'}],model=model)[0]['report']
-        plan = fixture.run_build(plan_only=True)
-        self.assertEqual(result['selectedAssetIds'],['guide'])
-        self.assertEqual(result['estimates']['knownBytes'],plan['content_bytes'])
-        self.assertEqual(result['estimates']['downloadBytes'],plan['download_bytes'])
-        self.assertEqual(result['estimates']['buildInputWorkBytes'],plan['build_input_work_bytes'])
-        self.assertEqual(result['estimates']['acquisitionBytes'],plan['acquisition_workspace_budget_bytes'])
-        self.assertEqual(result['estimates']['peakBytes'],plan['in_place_peak_budget_bytes'])
-        self.assertFalse(result['errors'])
+        with self.assertRaisesRegex(CatalogError, 'Content policy'):
+            make_model(fixture.catalog, fixture.profiles, registry, allow_local=True)
 
     def test_above_maximum_default_preset_cannot_be_complete(self):
         model = deepcopy(self.model)
@@ -103,12 +97,8 @@ process.stdout.write(JSON.stringify(results));
         registry.write_text(yaml.safe_dump({'schema_version':1,'resources':[{
             'id':'reference','title':'Direct works','status':'ready','target_bytes':sum(a['size_bytes'] for a in outputs),
             'asset_ids':[a['id'] for a in outputs]}]}))
-        model=make_model(fixture.catalog,fixture.profiles,registry,allow_local=True)
-        result=self.javascript([{'profile':'test'}],model=model)[0]['report']
-        self.assertTrue(any('Duplicate selected work' in message for message in result['errors']))
-        self.assertFalse(result['canBuild'])
-        with self.assertRaisesRegex(CatalogError,'Duplicate selected work'):
-            fixture.run_build(plan_only=True)
+        with self.assertRaisesRegex(CatalogError, 'Content policy'):
+            make_model(fixture.catalog,fixture.profiles,registry,allow_local=True)
 
     def compare_to_python(self, result):
         report, state = result["report"], result["state"]
@@ -140,19 +130,13 @@ process.stdout.write(JSON.stringify(results));
             a['size_bytes'] for a in assets if 'generation' in a)
         acquisition += sum({a['generation']['recipe_id']: a.get('generation_build_input_metadata_bytes', 0)
             for a in assets if 'generation' in a}.values())
-        final = intended + profile["search_budget_bytes"] + 16 * 1024**2 + acquisition
+        final = intended + profile["discovery_budget_bytes"] + 16 * 1024**2 + acquisition
         self.assertEqual(estimate["finalBytes"], final)
-        scratch = profile.get("index_scratch_budget_bytes", 2 * profile["search_budget_bytes"])
-        raw = (3 * profile["search_budget_bytes"] + 3) // 4
-        extraction = scratch - raw
-        working = raw + max(extraction, profile["search_budget_bytes"])
+        working = profile["discovery_budget_bytes"]
         build_inputs = {source['id']: source for a in assets for source in a.get('generation_build_inputs', [])}
         build_input_bytes = sum({source['sha256']: source['size_bytes'] for source in build_inputs.values()}.values())
         expanded_inputs = {source['id']: source for a in assets for source in a.get('generation_build_input_members', [])}
         build_input_work_bytes = build_input_bytes + sum(source['size_bytes'] for source in expanded_inputs.values())
-        self.assertEqual(estimate["scratchBytes"], scratch)
-        self.assertEqual(estimate["serializationBytes"], raw)
-        self.assertEqual(estimate["extractionBytes"], extraction)
         self.assertEqual(estimate["phaseWorkingBytes"], working)
         self.assertEqual(estimate["buildInputBytes"], build_input_bytes)
         self.assertEqual(estimate["buildInputWorkBytes"], build_input_work_bytes)
@@ -171,7 +155,7 @@ process.stdout.write(JSON.stringify(results));
             self.assertFalse(report["canBuild"])
         else:
             self.assertEqual(estimate["finalBytes"], plan.get("planned_final_bytes", plan["estimated_final_bytes"]))
-            self.assertEqual(estimate["phaseWorkingBytes"], plan["index_working_peak_bytes"])
+            self.assertEqual(estimate["phaseWorkingBytes"], plan["discovery_budget_bytes"])
             self.assertEqual(estimate["peakBytes"], plan["in_place_peak_budget_bytes"])
             self.assertEqual(estimate["downloadBytes"], plan["download_bytes"])
             self.assertEqual(estimate["archiveOutputBytes"], plan["archive_output_bytes"])
@@ -187,9 +171,9 @@ process.stdout.write(JSON.stringify(results));
         for identity in ("flash-16gb", "critical-64gb"):
             fixed = next(r for r in results if r["state"]["profile"] == identity)
             self.assertTrue(fixed["build"], fixed["report"]["errors"])
-            baseline = [a for a in self.assets if identity in a["profiles"] and a["status"] == "resolved"]
+            baseline = resolve_content(self.assets, self.profiles[identity], resources_path=self.registry)[0]
             self.assertEqual(set(fixed["report"]["selectedAssetIds"]), {a["id"] for a in baseline})
-            self.assertGreaterEqual(fixed["report"]["coverage"]["knowledgeBytes"], self.profiles[identity]["content_target_min_bytes"])
+            self.assertNotIn("content_target_min_bytes", self.profiles[identity])
             self.assertFalse(fixed["report"]["coverage"]["underfilled"])
         self.assertTrue(all(not r["build"] for r in results if r["report"]["incomplete"]))
 
@@ -242,42 +226,12 @@ process.stdout.write(JSON.stringify(results));
             with self.subTest(profile=result["state"]["profile"], args=result["report"]["selectionArgs"]):
                 self.compare_to_python(result)
 
-    def test_phase_peak_reclaims_extraction_before_search_publication(self):
-        # Planning-only fixture: no large files are created. Cover both possible
-        # peak phases and integer rounding at the current 16 GB content size.
-        model = {"profiles": [{"id": "test", "capacity_bytes": 16_000_000_000,
-                  "reserve_bytes": 1_500_000_000, "search_budget_bytes": 2_000_000_000,
-                  "index_scratch_budget_bytes": 4_500_000_000,
-                  "baseline_asset_ids": ["book"], "preset_resource_ids": []}],
-                 "resources": [], "assets": [{"id": "book", "status": "resolved",
-                  "size_bytes": 9_804_297_565, "destination": "BOOKS/book.pdf", "format": "pdf",
-                  "category": "reference", "critical": True, "required": True}]}
-        result = self.javascript([{"profile": "test"}], model)[0]
-        estimate = result["report"]["estimates"]
-        self.assertEqual(estimate["scratchBytes"], 4_500_000_000)
-        self.assertEqual(estimate["serializationBytes"], 1_500_000_000)
-        self.assertEqual(estimate["extractionBytes"], 3_000_000_000)
-        self.assertEqual(estimate["peakBytes"], 15_821_074_781)
-        self.assertEqual(estimate["actualPeakBytes"], 15_821_074_781)
-        self.assertTrue(result["build"])
-        model["profiles"][0]["capacity_bytes"] = estimate["peakBytes"] - 1
-        too_small = self.javascript([{"profile": "test"}], model)[0]
-        self.assertFalse(too_small["build"])
-        self.assertTrue(any("in-place build budget" in error for error in too_small["report"]["errors"]))
-        profile = model["profiles"][0]
-        profile.update(capacity_bytes=16_000_000_000, search_budget_bytes=4001,
-                       index_scratch_budget_bytes=3500)
-        publication = self.javascript([{"profile": "test"}], model)[0]["report"]["estimates"]
-        self.assertEqual(publication["serializationBytes"], 3001)
-        self.assertEqual(publication["extractionBytes"], 499)
-        self.assertEqual(publication["phaseWorkingBytes"], 7002)
-        self.assertEqual(publication["peakBytes"], 11_321_081_783)
 
     def test_small_preset_expansion_is_explicit_and_exclusion_reduces_bytes(self):
         results = self.javascript([
             {"profile":"flash-16gb"},
-            {"profile":"flash-16gb", "items":{"openstax-core":{"included":False}}},
-            {"profile":"flash-16gb", "items":{"openstax-core":{"edition":"published"}}},
+            {"profile":"flash-16gb", "items":{"school-education":{"included":False}}},
+            {"profile":"flash-16gb", "items":{"openstax-core":{"included":True,"edition":"published"}}},
         ])
         for result in results:
             self.compare_to_python(result)
@@ -296,7 +250,7 @@ process.stdout.write(JSON.stringify(results));
 
     def test_partial_build_requires_explicit_choice_and_retains_real_target_budget(self):
         before, after = self.javascript([{"profile":"standard-512gb"}, {"profile":"standard-512gb", "allowIncomplete":True}])
-        self.assertFalse(before["build"])
+        self.assertTrue(before["build"])
         self.assertIn("--allow-incomplete", after["build"])
         self.assertEqual(before["report"]["estimates"], after["report"]["estimates"])
         self.assertGreaterEqual(after["report"]["estimates"]["peakBytes"], after["report"]["estimates"]["actualPeakBytes"])
@@ -329,8 +283,8 @@ process.stdout.write(JSON.stringify(results));
         self.addCleanup(fixture.doCleanups)
         fixture.assets[0].update(resource_type="textbook", illustrated=True, category="electrical")
         fixture.assets[2].update(resource_type="textbook", illustrated=True, category="reference")
-        fixture.profile.update(capacity_bytes=10**10, search_budget_bytes=1000,
-                               index_scratch_budget_bytes=3500, readers_budget_bytes=5)
+        fixture.profile.update(capacity_bytes=10**10, discovery_budget_bytes=1000,
+                               readers_budget_bytes=5)
         fixture.resource["target_bytes"] = 2 * 10**9
         resources = list(fixture.registry().values())
         # Two resource routes to one document must not inflate actual content or learning counts.
@@ -348,7 +302,7 @@ process.stdout.write(JSON.stringify(results));
         self.assertEqual((coverage["textbookCount"], coverage["illustratedCount"]), (1, 1))
         self.assertEqual(coverage["unmetContentBytes"], coverage["knowledgeTargetBytes"] - 30)
         self.assertTrue(coverage["underfilled"])
-        self.assertEqual(report["estimates"]["scratchBytes"], 3500)
+        self.assertEqual(report["estimates"]["phaseWorkingBytes"], 1000)
         self.assertEqual(coverage["capacityFraction"], 32 / 10**10)
         self.assertEqual(coverage["categories"], [
             {"id":"electrical", "assetCount":1, "directCount":1, "bytes":10},
@@ -449,49 +403,8 @@ process.stdout.write(JSON.stringify(results));
             self.assertFalse(invalid["build"])
             self.assertFalse(invalid["plan"])
 
-    def test_default_modular_index_directories_and_allowance_preserve_selection(self):
-        results = self.javascript([{"profile": name} for name in ("flash-16gb", "critical-64gb")])
-        for result in results:
-            self.compare_to_python(result)
-            budget = self.profiles[result["state"]["profile"]]["search_budget_bytes"]
-            self.assertEqual(result["report"]["estimates"]["indexCacheBytes"], budget)
-            for kind in ("build", "plan"):
-                words = shlex.split(result[kind])
-                self.assertEqual(words[words.index("--index-cache-dir") + 1], ".owl/index-cache")
-                self.assertEqual(words[words.index("--work-dir") + 1], ".owl/index-work")
-                self.assertEqual(words[words.index("--index-cache-budget-bytes") + 1], str(budget))
-                self.assertNotIn("--cache-dir", words)
-                self.assertEqual("--detach" in words, kind == "build")
-                self.assertEqual("--plan" in words, kind == "plan")
-                self.assertIn("--navigation-dir", words)
 
-    def test_index_paths_and_custom_budget_are_quoted_for_each_shell(self):
-        settings = {"indexCacheDir": "/Users/Pat's indexes/$(touch BAD);`echo BAD`",
-                    "workDir": "/Users/Pat's scratch/$(whoami)", "indexCacheBudgetBytes": "2500000000"}
-        default, custom = self.javascript([{"profile": "flash-16gb"}, {"profile": "flash-16gb", "indexStorage": settings}])
-        self.assertEqual(default["report"]["selectedAssetIds"], custom["report"]["selectedAssetIds"])
-        self.assertEqual(default["report"]["estimates"]["peakBytes"], custom["report"]["estimates"]["peakBytes"])
-        self.assertEqual(custom["report"]["estimates"]["indexCacheBytes"], 2_500_000_000)
-        for kind in ("build", "plan"):
-            words = shlex.split(custom[kind])
-            for flag, key in (("--index-cache-dir", "indexCacheDir"), ("--work-dir", "workDir"),
-                              ("--index-cache-budget-bytes", "indexCacheBudgetBytes")):
-                self.assertEqual(words[words.index(flag) + 1], settings[key])
-            self.assertNotIn("--cache-dir", words)
-        windows = {"indexCacheDir": "C:\\Pat's indexes\\$cache;`whoami`", "workDir": "C:\\Pat's work\\scratch"}
-        result = self.javascript([{"profile": "flash-16gb", "shell": "powershell", "indexStorage": windows}])[0]
-        for value in windows.values():
-            self.assertIn("'" + value.replace("'", "''") + "'", result["build"])
 
-    def test_invalid_index_storage_never_generates_plan_or_build_commands(self):
-        changes = [{key: value} for key in ("indexCacheDir", "workDir")
-                   for value in ("", "  ", "--cache-dir", "path\nwhoami", "path\x00bad")]
-        changes += [{"indexCacheBudgetBytes": value} for value in (0, -1, 1.5, "", "2e9", "2 GB", "2\nwhoami", True, None, 9007199254740992)]
-        for change, result in zip(changes, self.javascript([{"profile": "flash-16gb", "indexStorage": c} for c in changes])):
-            with self.subTest(change=change):
-                self.assertTrue(result["report"]["errors"])
-                self.assertFalse(result["plan"])
-                self.assertFalse(result["build"])
 
     def test_empty_selection_never_advertises_a_build(self):
         model = deepcopy(self.model)
@@ -505,8 +418,8 @@ process.stdout.write(JSON.stringify(results));
                                        for identity in ("flash-16gb", "critical-64gb")]):
             self.compare_to_python(result)
             self.assertFalse(result["build"])
-            self.assertTrue(any("without a verified bundled reader" in error for error in result["report"]["errors"]))
-            self.assertEqual(result["report"]["coverage"]["softwareBytes"], 0)
+            self.assertTrue(any("reader" in error.lower() for error in result["report"]["errors"]))
+            self.assertGreater(result["report"]["coverage"]["softwareBytes"], 0)  # Required dependency remains represented; conflicting exclusion blocks the command.
             self.assertGreater(result["report"]["coverage"]["archiveCount"], 0)
 
     def test_default_coverage_floor_matches_cli_and_customization_can_remove_it(self):

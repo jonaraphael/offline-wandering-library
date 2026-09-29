@@ -1,0 +1,51 @@
+{
+  "concurrency": {
+    "review": 1
+  },
+  "id": "kolibri-exercise-availability-v1",
+  "review_items": [
+    {
+      "id": "publisher-unavailable-exercises",
+      "reason": "The frozen Apply: mutations package returned404 despite available metadata. Reconcile all HEAD evidence, retain explicit missing-work coverage, and freeze a new reviewed continuation without mutating the failed capture."
+    }
+  ],
+  "schema_version": 1,
+  "tasks": [
+    {
+      "argv": [
+        "{workspace}/catalog/acquisition/kolibri-exercise-availability-probes-v1.json",
+        "--output",
+        "{workspace}/.owl/acquisition/kolibri-exercise-availability-v1/report.json",
+        "--cache-dir",
+        "{workspace}/.owl/acquisition/kolibri-exercise-availability-v1/cache",
+        "--workers",
+        "4",
+        "--request-interval",
+        "0.5"
+      ],
+      "batch": "kolibri-exercise-review-v1",
+      "checks": [
+        {
+          "equals": {
+            "body_downloads": 0,
+            "complete": true,
+            "expected_count": 1372
+          },
+          "lengths": {
+            "records": 1372
+          },
+          "path": "{workspace}/.owl/acquisition/kolibri-exercise-availability-v1/report.json"
+        }
+      ],
+      "depends": [],
+      "id": "probe-exercise-availability",
+      "inputs": [
+        "{workspace}/catalog/acquisition/kolibri-exercise-availability-probes-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "HEAD-only availability census does not approve content or discard required unavailable works.",
+      "script": "probe_source_batches.py"
+    }
+  ]
+}

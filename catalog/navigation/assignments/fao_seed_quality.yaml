@@ -1,0 +1,29 @@
+schema_version: 1
+asset_id: fao_seed_quality
+assignments:
+- topic_id: seed-production
+  purpose: reference
+  aliases:
+  - inspect seed crops
+  - seed health testing
+  - seed purity
+  - seed sampling
+  - seed viability
+  - test seed germination
+  basis: Brief publisher/contents, notices and sampled-page review on 2026-09-28;
+    see catalog/acquisition/seed-water-discovery-20260928.json. Written for seed practitioners;
+    many tests need laboratory equipment and trained staff. Its 2018 certification
+    discussion is not current local regulation.
+- topic_id: crop-production
+  purpose: reference
+  aliases:
+  - inspect seed crops
+  - seed health testing
+  - seed purity
+  - seed sampling
+  - seed viability
+  - test seed germination
+  basis: Brief publisher/contents, notices and sampled-page review on 2026-09-28;
+    see catalog/acquisition/seed-water-discovery-20260928.json. Written for seed practitioners;
+    many tests need laboratory equipment and trained staff. Its 2018 certification
+    discussion is not current local regulation.

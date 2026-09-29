@@ -1,0 +1,22 @@
+{
+  "accepted_useful_bytes": 0,
+  "body_downloads": 0,
+  "capture_peak_bytes": 2645979654,
+  "content_ready": false,
+  "courses": [
+    {
+      "dependency_issues": 0,
+      "files": 517,
+      "media_bytes": 1125021687,
+      "media_sources": 11,
+      "ordinary_package_bytes": 53571406,
+      "reviewed_optional_tags": 0,
+      "source_id": "ocw_9b2b8cfd95268b1859de",
+      "source_sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+      "title": "Programming for the Puzzled"
+    }
+  ],
+  "expected_ordinary_bytes": 1178593093,
+  "schema_version": 1,
+  "unique_media_source_bytes": 1125021687
+}

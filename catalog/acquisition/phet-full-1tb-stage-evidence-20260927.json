@@ -1,0 +1,68 @@
+{
+  "kind": "phet-full-1tb-staged-invariant-check",
+  "candidate": ".owl/acquisition/phet-screen-completion/staged-full-1tb-catalog",
+  "profiles": [
+    {
+      "profile": "compact-256gb",
+      "baseline_count": 2375,
+      "candidate_count": 2375,
+      "baseline_sha256": "494bf328809aa0a61b47ba1ebabaa5a3ebf6adfba9aa88a28a70413c655d755f",
+      "candidate_sha256": "494bf328809aa0a61b47ba1ebabaa5a3ebf6adfba9aa88a28a70413c655d755f",
+      "selection_pins_unchanged": true,
+      "added_ids": [],
+      "removed_ids": []
+    },
+    {
+      "profile": "critical-64gb",
+      "baseline_count": 602,
+      "candidate_count": 602,
+      "baseline_sha256": "e4143168d5ba3d3975e2587a517b537c554c3ba056c9521be087f6572a83db2b",
+      "candidate_sha256": "e4143168d5ba3d3975e2587a517b537c554c3ba056c9521be087f6572a83db2b",
+      "selection_pins_unchanged": true,
+      "added_ids": [],
+      "removed_ids": []
+    },
+    {
+      "profile": "flash-16gb",
+      "baseline_count": 551,
+      "candidate_count": 551,
+      "baseline_sha256": "3d22807862c769b59cc1ab23cc705b93b744ba09165e24e50e5aa9eb545ce72e",
+      "candidate_sha256": "3d22807862c769b59cc1ab23cc705b93b744ba09165e24e50e5aa9eb545ce72e",
+      "selection_pins_unchanged": true,
+      "added_ids": [],
+      "removed_ids": []
+    },
+    {
+      "profile": "full-1tb",
+      "baseline_count": 2410,
+      "candidate_count": 2410,
+      "baseline_sha256": "5366c1a3b250a480b8da907dc39161c3b6297ef45fd708e22f9269d418714abe",
+      "candidate_sha256": "468e1370b045c0f8968065b7b49d09520a07bb719b4ba0c5bb708f4c7cf099dd",
+      "selection_pins_unchanged": false,
+      "added_ids": [
+        "phet_ph_scale_basics_1_7_5_quarantine_20260927"
+      ],
+      "removed_ids": [
+        "phet_ph_scale_basics"
+      ],
+      "phet_selection": {
+        "effective_edition": "direct"
+      }
+    },
+    {
+      "profile": "standard-512gb",
+      "baseline_count": 2404,
+      "candidate_count": 2404,
+      "baseline_sha256": "da4c1f2b5aaf36485554e0a554a430532c987c4d444cdd5f6fa0248e7dbfffc3",
+      "candidate_sha256": "da4c1f2b5aaf36485554e0a554a430532c987c4d444cdd5f6fa0248e7dbfffc3",
+      "selection_pins_unchanged": true,
+      "added_ids": [],
+      "removed_ids": []
+    }
+  ],
+  "published_members_unchanged": true,
+  "published_status": "partial",
+  "full_1tb_direct_status": "ready",
+  "physical_device_certification": "pending",
+  "full_solution_complete": false
+}

@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
-from owl.acquisition.capture import load_manifest,_effective_peak,_usage,_read,_digest
+from owl.acquisition.capture import load_manifest,_effective_peak,_usage,_read,_digest,COMPONENTS
 from owl.jobs import status_job
 from owl.safety import atomic_write,reject_symlinks,safe_path
 
@@ -19,8 +19,15 @@ def report(staging,registry,*,workspace=None):
     reject_symlinks(staging)
     if not staging.is_dir():raise ValueError('Explicit staging root must exist')
     rows=[]
-    if registry.get('schema_version')!=1 or not 1<=len(registry.get('batches',[]))<=32:
-        raise ValueError('Trial registry needs1–32 explicit batches')
+    reserve_full=registry.get('space_accounting')=='reserve-full-peaks'
+    if registry.get('space_accounting','measure-retained') not in {'measure-retained','reserve-full-peaks'}:
+        raise ValueError('Unknown staging-space accounting mode')
+    batches=registry.get('batches',[])
+    if registry.get('schema_version')!=1 or not 1<=len(batches)<=64:
+        raise ValueError('Trial registry needs1–64 explicit batches')
+    if (len({b['id'] for b in batches})!=len(batches)
+            or len({b['staging'] for b in batches})!=len(batches)):
+        raise ValueError('Trial registry repeats a batch identity or staging directory')
     for batch in registry['batches']:
         target=safe_path(staging,batch['staging'])
         row={'id':batch['id'],'staging':str(target),'state':'planned'}
@@ -28,12 +35,14 @@ def report(staging,registry,*,workspace=None):
             # Writers atomically retire short-lived transport/checkpoint files.
             # Retry a fresh traversal rather than call that normal race a job
             # failure. Persistent disappearance still remains an exception.
-            for attempt in range(3):
-                try:
-                    used=_usage(target)
-                    break
-                except FileNotFoundError:
-                    if attempt==2:raise
+            used=None
+            if not reserve_full:
+                for attempt in range(3):
+                    try:
+                        used=_usage(target)
+                        break
+                    except FileNotFoundError:
+                        if attempt==2:raise
             if 'manifest' in batch:
                 manifest=load_manifest(safe_path(root,batch['manifest']),profile=batch.get('profile'),
                     resource_ids=batch.get('resource_ids',()))
@@ -42,7 +51,18 @@ def report(staging,registry,*,workspace=None):
                     if owner.get('owner')!='owl-acquisition-capture' or owner.get('manifest_sha256')!=_digest(manifest):
                         raise ValueError('Staging ownership differs from the registered acquisition manifest and filters')
                 peak=_effective_peak(target,manifest)
+                if 'planned_phase_budget' in batch:
+                    budget=batch['planned_phase_budget']
+                    if (not isinstance(budget,dict) or set(budget)!=set(COMPONENTS)
+                            or any(type(value)is not int or value<manifest['budget'][key]
+                                   for key,value in budget.items())):
+                        raise ValueError('Planned phase budget must preserve every frozen source budget component')
+                    # Reserve successor outputs before their preview owner exists,
+                    # without changing source identity or crediting derivatives.
+                    peak=max(peak,sum(budget.values())+manifest['metadata_allowance_bytes'])
             else:
+                if 'planned_phase_budget' in batch:
+                    raise ValueError('Planned phase budget requires a source-bound manifest batch')
                 peak=batch['review_peak_bytes']
                 if type(peak)is not int or peak<=0:raise ValueError('Invalid review budget')
                 if target.exists() and batch.get('review_owner'):
@@ -83,14 +103,21 @@ def report(staging,registry,*,workspace=None):
                             raise ValueError('Review report count differs from its exact source scope')
                         row.update(inspection_state=evidence.get('status'),inspected_sources=evidence.get('inspected_sources'),
                             requested_sources=evidence.get('requested_sources'),failed_check_counts=evidence.get('failed_check_counts',{}))
-            row.update(retained_bytes=used,storage_peak_bytes=peak,remaining_peak_bytes=max(0,peak-used))
-            if used>peak:raise ValueError('Measured retained bytes exceed recorded phase peak')
+            row.update(retained_bytes=used,storage_peak_bytes=peak,
+                remaining_peak_bytes=peak if reserve_full else max(0,peak-used))
+            if used is not None and used>peak:raise ValueError('Measured retained bytes exceed recorded phase peak')
             if batch.get('job'):
-                status=status_job(safe_path(root,batch['job']))
-                row.update({k:status[k] for k in ('state','phase','completed_assets','total_assets','worker_active') if k in status})
-                if row['state']=='awaiting_review' and 'total_assets' in row:
-                    row['completed_assets']=row['total_assets']
-                if 'message' in status:row['message']=status['message'][:240]
+                job=safe_path(root,batch['job'])
+                reject_symlinks(job)
+                # A declared future writer has no job directory yet; its full
+                # remaining peak is already included above. Existing malformed
+                # directories must still fail ownership checks in status_job.
+                if job.exists():
+                    status=status_job(job)
+                    row.update({k:status[k] for k in ('state','phase','completed_assets','total_assets','worker_active') if k in status})
+                    if row['state']=='awaiting_review' and 'total_assets' in row:
+                        row['completed_assets']=row['total_assets']
+                    if 'message' in status:row['message']=status['message'][:240]
             elif target.exists():row['state']='review-evidence'
         except (ValueError,OSError,KeyError) as error:
             row.update(state='exception',error=str(error)[:500])
@@ -100,6 +127,8 @@ def report(staging,registry,*,workspace=None):
     available=shutil.disk_usage(staging).free
     required=sum(r.get('remaining_peak_bytes',0) for r in rows)+reserve
     return {'schema_version':1,'operation':'trial-status','content_complete':False,
+        'space_accounting':'reserve-full-peaks' if reserve_full else 'measure-retained',
+        'retained_usage_measured':not reserve_full,
         'available_free_bytes':available,'reserved_remaining_bytes':required,'shared_reserve_bytes':reserve,
         'combined_declared_phases_fit':all(r['state']!='exception' for r in rows) and required<=available,
         'batches':rows}
@@ -124,6 +153,11 @@ def main():
     if len(text.encode())>2048:
         summary['batches']=[{'id':r['id'],'state':r['state']} for r in result['batches']]
         text=json.dumps(summary,sort_keys=True)
+    summary['batch_count']=len(result['batches'])
+    summary['exception_count']=sum(r['state']=='exception' for r in result['batches'])
+    while len(json.dumps(summary).encode())>2048 and summary['batches']:
+        summary['batches'].pop()
+    text=json.dumps(summary,sort_keys=True)
     print(text)
 
 

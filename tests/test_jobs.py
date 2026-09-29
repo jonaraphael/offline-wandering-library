@@ -260,14 +260,43 @@ class JobTests(unittest.TestCase):
         catalog.with_name("resources.yaml").write_text("resources: []\n")
         snapshot_job = self.root / "snapshot-test"
         snapshot_job.mkdir()
-        recipe = jobs._snapshot(snapshot_job, ["--index-cache-budget-bytes", "123", str(self.target),
-            "--catalog=" + str(catalog), "--index-cache-dir", "relative-cache"])
+        recipe = jobs._snapshot(snapshot_job, ["--profile", "demo", str(self.target),
+            "--catalog=" + str(catalog), "--work-dir", "relative-cache"])
         argv = recipe["build_argv"]
         self.assertEqual(argv[2], str(self.target))
         captured = Path(argv[argv.index("--catalog") + 1])
         self.assertTrue(captured.is_relative_to(snapshot_job))
         self.assertTrue(captured.with_name("resources.yaml").exists())
-        self.assertTrue(Path(argv[argv.index("--index-cache-dir") + 1]).is_absolute())
+        self.assertTrue(Path(argv[argv.index("--work-dir") + 1]).is_absolute())
+
+    def test_explicit_bundled_catalog_keeps_automatic_navigation_in_snapshot(self):
+        catalog = self.repo / 'catalog'
+        (catalog / 'navigation').mkdir(parents=True)
+        (catalog / 'library.yaml').write_text('schema_version: 1\nassets: []\n')
+        (catalog / 'navigation/topics.yaml').write_text('topics: []\n')
+        job = self.root / 'default-catalog-job'
+        job.mkdir()
+        recipe = jobs._snapshot(job, [str(self.target), '--catalog', str(catalog / 'library.yaml')])
+        captured = Path(recipe['build_argv'][2])
+        self.assertEqual(captured, job / 'snapshot/catalog/library.yaml')
+        self.assertTrue((captured.parent / 'navigation/topics.yaml').is_file())
+
+    def test_snapshot_keeps_active_evidence_without_unrelated_history(self):
+        catalog = self.repo / 'catalog'
+        acquisition = catalog / 'acquisition'
+        acquisition.mkdir(parents=True)
+        (catalog/'library.yaml').write_text('evidence: catalog/acquisition/accepted.json\n')
+        (acquisition/'recipes.yaml').write_text('recipes: []\n')
+        (acquisition/'accepted.json').write_text('{"evidence":"catalog/acquisition/review.json"}')
+        (acquisition/'review.json').write_text('{"evidence":"catalog/acquisition/accepted.json"}')
+        with (acquisition/'unrelated.json').open('wb') as stream:
+            stream.truncate(65*1024*1024)
+        recipe = jobs._snapshot(self.job, [str(self.target)])
+        for name in ('recipes.yaml', 'accepted.json', 'review.json'):
+            self.assertIn('catalog/acquisition/'+name, recipe['snapshot_files'])
+        self.assertNotIn('catalog/acquisition/unrelated.json', recipe['snapshot_files'])
+        with self.assertRaisesRegex(SafetyError, '64 MiB'):
+            jobs._snapshot(self.root/'explicit', [str(self.target), '--catalog', str(acquisition/'unrelated.json')])
 
 
 class DownloadRetryClassificationTests(unittest.TestCase):

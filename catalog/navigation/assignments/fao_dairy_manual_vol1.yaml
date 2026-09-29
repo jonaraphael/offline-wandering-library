@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: fao_dairy_manual_vol1
+assignments:
+- topic_id: small-livestock
+  purpose: reference
+  description: Dairy processing and milk-quality technology units 1–11; 1993 Asia-Pacific
+    manual in its 2008 electronic edition, Volume 1 only.

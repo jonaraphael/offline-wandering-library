@@ -1,0 +1,1000 @@
+{
+  "accepted_useful_bytes": 0,
+  "all_pages_thumbnail_rendered": true,
+  "all_sources_whole_hash_verified": true,
+  "content_ready": false,
+  "manifest_sha256": "291706467ea23e672d1b601f26b879d68fb314cff682705529272b5ef6183ca4",
+  "pdf_pages": 15254,
+  "repair_scope": "Three dense scan samples rendered at unchanged1200-pixel bound using JPEG quality85 within unchanged2MiB image limit; original PDFs unchanged.",
+  "required_review": [
+    "All42 whole-work/edition identities and publisher contents/page inventory",
+    "Legibility and utility of representative illustrations, tables and full statements",
+    "Every flagged page/scan, cross-tier/book deduplication and historical warnings"
+  ],
+  "schema_version": 1,
+  "source_count": 42,
+  "sources": [
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "1db8174b631f15bae3fe615e6e6b7ee09c2342062f4f0a7de161f2ebb52605d5",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 476,
+      "sample_pages": [
+        1,
+        2,
+        11,
+        12,
+        58,
+        71,
+        295,
+        475,
+        476
+      ],
+      "source_id": "survivor_df205b4816cb7bed1d67",
+      "source_record_sha256": "a0a8e4f53585262473bd04fa3baa289b3484d3bfafc5d628394f2f260b87670e",
+      "source_sha256": "414f5a7510f54cb02f351e08a02b465281ef354f9870297eddea5c578cd3eaf0"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "4315f554bbca305c4986751fb35c966d7c314fe3839ab9b5ffcd695ace13e32a",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 148,
+      "sample_pages": [
+        1,
+        2,
+        15,
+        142,
+        147,
+        148
+      ],
+      "source_id": "survivor_9eeea4eed27b834ec316",
+      "source_record_sha256": "fb5a43a1fce43581d86870cc4667271141915c39c0ff3e7ad2d5097c8bbcab10",
+      "source_sha256": "559b3f8153f65a384be67cbf46e8f75cab7cecf5332b0966fd0bf03d331bfe2a"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "970bce8ba377885f088082c8d6e334d6ec08d3bf40b46a8d7547725f9ceebfc8",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 427,
+      "sample_pages": [
+        1,
+        2,
+        26,
+        115,
+        361,
+        426,
+        427
+      ],
+      "source_id": "survivor_1ff2cb86752f6e51a06a",
+      "source_record_sha256": "b557f25928aab8013ca620ec7dea8637d2db91f3681655342344995881c8d655",
+      "source_sha256": "493513aa7dadb02d0adb250924eea870cf0eaa32c82f40d5940ee42fa7a01fab"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "da63eb68de63ae4b1faa9f77742420f6127131601a1f9ab23ce7a2be45426afa",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 314,
+      "sample_pages": [
+        1,
+        2,
+        98,
+        125,
+        174,
+        313,
+        314
+      ],
+      "source_id": "survivor_9005ace0aa0da5ce85b4",
+      "source_record_sha256": "90b8b438b2577e151923b896159d54418ca03f9c07b24af84c9588b6dbec4f4e",
+      "source_sha256": "dff1afc87671d3207eeb5a807e8447a33d6b352509cd3054aefe46f4dc25aa05"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "d5831da7d0fa09c00168b58da6793aac5fb22fe680788c10343d8d8ad8f388b2",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 58,
+      "sample_pages": [
+        1,
+        2,
+        5,
+        7,
+        33,
+        35,
+        56,
+        57,
+        58
+      ],
+      "source_id": "survivor_3c701c9dbd6ccfba0846",
+      "source_record_sha256": "dc5d0cb9678ec95a69dc607e6597e1832bd550e311f3d06f9406d026f3815782",
+      "source_sha256": "7a44682b07f98177108437b3d85ae679a4db8986b2547a708a8c1a622ee9991c"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "8168868d910719ba4d95c66313d16222f56b24e58ca4e7fbb29fdacbfd6deff5",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 491,
+      "sample_pages": [
+        1,
+        2,
+        90,
+        212,
+        228,
+        490,
+        491
+      ],
+      "source_id": "survivor_b0418beaec44623ec2cb",
+      "source_record_sha256": "ef06a31357357bae2bc2daa8f2fdc163c30a27bb4eb6df9ccd906ccb7b44c5ce",
+      "source_sha256": "46435831005d8accfe15ea16bd2a5094f400bbd085dca8e46bf2c40c72d3576a"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Apparently blank pages require TOC/page-sequence reconciliation"
+      ],
+      "inspection_sha256": "7fcc3f9568e714c24e0849e1adcb2993d38bf45c630d694059a00a1f4e6fbf4a",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 186,
+      "sample_pages": [
+        1,
+        2,
+        13,
+        14,
+        15,
+        16,
+        17,
+        25,
+        34,
+        138,
+        185,
+        186
+      ],
+      "source_id": "survivor_04be62cf2788e06050e8",
+      "source_record_sha256": "5bead0ea0809d8ddb657175db700cde6a14efaa789f6681e2b847fc8afe8914c",
+      "source_sha256": "2d4711553c75183ce7530b68e505c56f5022255ec0ecc18fde65abd3a7d400af"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "8c13b8e80fd234993ee04457140c162d9d3b5eb57211ac13802c38bd0129f22a",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 317,
+      "sample_pages": [
+        1,
+        2,
+        117,
+        161,
+        314,
+        316,
+        317
+      ],
+      "source_id": "survivor_97f39cf623e767ab1ad3",
+      "source_record_sha256": "9a50d3e0ada4e04bb2649edf3cb8f95e980e520c45955f6bcff984245bac5d25",
+      "source_sha256": "5a6fa552e1df440da3c6d43f3d33591e9050c5bf1b8cb3c5fa6d890c6155d2d1"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "0af31c415bd944271c281e113a3e7ef92101df6f42571420a1a6f56ca5ca5094",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 418,
+      "sample_pages": [
+        1,
+        2,
+        86,
+        209,
+        336,
+        417,
+        418
+      ],
+      "source_id": "survivor_9b6f1269df6bc16b6d36",
+      "source_record_sha256": "054ece65ca55dd7433d978cad884e46df28fcf5c808c37c3cbdec1539e719646",
+      "source_sha256": "d371a30affe339f22ef01e41d675141b4c46c5a39f5245a3cb157d8d0d2f33fa"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "No table of contents located in extracted text; inspect original front matter",
+        "PDF document actions require review"
+      ],
+      "inspection_sha256": "1e9083941c2b0cf0987fcb20fe3855571cf7a705dc87aa4654ce92e84eab0e55",
+      "inspection_version": "survivor-page-review-2",
+      "page_count": 612,
+      "sample_pages": [
+        1,
+        2,
+        218,
+        429,
+        461,
+        611,
+        612
+      ],
+      "source_id": "survivor_16f51fc9006ec9c94344",
+      "source_record_sha256": "635d780173622a0f1131cbd404bedeaa0e4b43e5e35001c8831b323a254ca946",
+      "source_sha256": "4551bb2125790dd9c299559a031e7625cfc1d90b571c3349eddb5887e444191b"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "01e6f079045a2778aa5de119455a2df38dc6edec91022c35df4aa2c23bb73eae",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 430,
+      "sample_pages": [
+        1,
+        2,
+        5,
+        8,
+        86,
+        265,
+        336,
+        429,
+        430
+      ],
+      "source_id": "survivor_cb06c2682d54f8a1ec02",
+      "source_record_sha256": "b98e761a33c2c1560aae67a395b776e66fc133e817c4513132bc73e3b62b4c69",
+      "source_sha256": "230766216e361254bc1858f65255474e096e815b29f2a7781b4b9e8475cb5149"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "23b0bdfb25684e2d4516d9c06802223fefd1fd29002b38a6750277ba75faf795",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 912,
+      "sample_pages": [
+        1,
+        2,
+        344,
+        578,
+        838,
+        911,
+        912
+      ],
+      "source_id": "survivor_8a8c76d33ac1d05886f7",
+      "source_record_sha256": "d7b9739ac2a112f51b170fa21a5499dd8360c2077b8d25ed2f7ab5cf4cd59881",
+      "source_sha256": "5984f96a0668c3c72c36e1c5113760c47c0ad66c1347244e1038896093594e6e"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "bba4da7402e9c61988c0088b468829becf60ed805af2738331d7ea158d700e41",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 78,
+      "sample_pages": [
+        1,
+        2,
+        9,
+        20,
+        55,
+        77,
+        78
+      ],
+      "source_id": "survivor_6158a0bd04500e785b0a",
+      "source_record_sha256": "3edeabd39c665fc51f4366fc1d028d16827bfa874a70ffc9e3c88ee82bb6d032",
+      "source_sha256": "6ad785235e164c4a0c94f816854984485a311dc54576aba822fd88c956aedd9c"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "ed736037783a7b46f0d7d67647063b5982a77faf27f0f0e9dda896148ce9f07f",
+      "inspection_version": "survivor-page-review-2",
+      "page_count": 76,
+      "sample_pages": [
+        1,
+        2,
+        35,
+        39,
+        60,
+        75,
+        76
+      ],
+      "source_id": "survivor_66791475d295b0776598",
+      "source_record_sha256": "02f34826edff320fb0da6f24cd8860a690ed47f294b582a8a90fb1dde84673be",
+      "source_sha256": "7a7ec2cfe34fc103c8e0800363564b12ab6d680f0bf97cb87b5af63dc66910e9"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "4b616c731ca51be12f3d5d83b8423af61473c84738b218a27b509361125b6eae",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 372,
+      "sample_pages": [
+        1,
+        2,
+        19,
+        50,
+        60,
+        100,
+        371,
+        372
+      ],
+      "source_id": "survivor_645e1e81408ab304fa5f",
+      "source_record_sha256": "77802cdc0ba8d5368c11d2e9912bb6eabc033357dda8cc95f772367dbf44a98d",
+      "source_sha256": "47ae39fd915ea18f92c11b847c228aa06d3c0782d6245f50af43c6c212313472"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Apparently blank pages require TOC/page-sequence reconciliation"
+      ],
+      "inspection_sha256": "05569f41abb436b85bcbb6956620b6a588effe9387e63db5b0bb036cb90785fe",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 451,
+      "sample_pages": [
+        1,
+        2,
+        8,
+        12,
+        14,
+        15,
+        16,
+        82,
+        267,
+        335,
+        450,
+        451
+      ],
+      "source_id": "survivor_0034bbfb12fe62320d78",
+      "source_record_sha256": "da9593f74de907d5de1b2b4fa78fba3196b56f4ebb9e0f48d76e69cd1c32a83c",
+      "source_sha256": "1c727b1f81d7fddcb3d0ce7813fa1bd22d1561769ce9b050df9bd16ceb6ccdb9"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "c3c5949a0dacf449636799ed8dc117552601be86063484c99c2518e7b0ec5dad",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 370,
+      "sample_pages": [
+        1,
+        2,
+        15,
+        124,
+        156,
+        369,
+        370
+      ],
+      "source_id": "survivor_12716c227b21cf899ba1",
+      "source_record_sha256": "24a6c542a85a496dec55805508730b1116915739d048635f94c9e61ad33cc9d6",
+      "source_sha256": "1c661c2a74c0d34edcbfb0c1914eedfa6f65f83e51ed12ec86bd7504f3e14511"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "2b60d5af82cc17d443a2292bb8ef84afd83a46ed984412b5b0e988aaa57a960e",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 86,
+      "sample_pages": [
+        1,
+        2,
+        22,
+        39,
+        76,
+        85,
+        86
+      ],
+      "source_id": "survivor_15a3aaf24c033cd6cd22",
+      "source_record_sha256": "0795dfc62b8689578ae3c4c71945e02231ac9b2c0192db2fdf43e7019e48c3c4",
+      "source_sha256": "d7616f201a6554d29ad4f9c167738ee57243af3551040efe471a33266bd82af2"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "454aa97fc9efb023978f81faa55f781f50a26889c2d8b6c1e1a8b9a83cb1b47a",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 449,
+      "sample_pages": [
+        1,
+        2,
+        153,
+        157,
+        336,
+        448,
+        449
+      ],
+      "source_id": "survivor_66ec6b25046318ca84d9",
+      "source_record_sha256": "2152fe95706cce1eb863acdcfd250d405ff5e43606a618e0a7cd40b924d991d1",
+      "source_sha256": "bc95726e3942987a2394dca166831b4de3535401fc45b41667536786ddd09a8c"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "f4b765588ec99a0e1ae2109d89cb937714b3fc67eb680faa55b155d064640e4c",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 540,
+      "sample_pages": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        18,
+        160,
+        299,
+        539,
+        540
+      ],
+      "source_id": "survivor_c6e6c08d474f8aa9c572",
+      "source_record_sha256": "218299313c75d2fcd22cfd7c6b23e17300b03279c9c79f33c4ec9f6fb4c71bf8",
+      "source_sha256": "df24caac6104501587d2e7a950aec7d9e9cea4a3f0ee59835d9a22e9921ce7ca"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "f2032a5253762129115cc24aac6be5ab944b81806952acb1fe712306c8ee4da4",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 128,
+      "sample_pages": [
+        1,
+        2,
+        5,
+        6,
+        42,
+        53,
+        122,
+        127,
+        128
+      ],
+      "source_id": "survivor_57dcfa74237d8fd41ac8",
+      "source_record_sha256": "f590021ebd95b724b92947470d6c0ed9a9e02a4e002a1a5ad2775f72ee73728e",
+      "source_sha256": "837293b1aad8e0a5d9a000bdf3749c76a32dbc3f693ede745dcaf885cffdcc27"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Apparently blank pages require TOC/page-sequence reconciliation"
+      ],
+      "inspection_sha256": "4ac9a5f99718b60e1f01eb9b52c714467e0d200c57ad4d662dadc7087bfa53e4",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 282,
+      "sample_pages": [
+        1,
+        2,
+        13,
+        14,
+        15,
+        16,
+        17,
+        35,
+        155,
+        266,
+        281,
+        282
+      ],
+      "source_id": "survivor_d8c42d29569996604093",
+      "source_record_sha256": "2c8ac719b884e057e0193cd67dea6e31e3dda9647b4b211a51d9a6cd9586abd2",
+      "source_sha256": "840045ea23dec3d64047361002e3d9bbace1a945abfcebd9b762c092d9432fe4"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Apparently blank pages require TOC/page-sequence reconciliation"
+      ],
+      "inspection_sha256": "bbf6f02539a2f44c2dd4f57b42ce60abfafd428b783a57aa3bd26293beba620d",
+      "inspection_version": "survivor-page-review-2",
+      "page_count": 376,
+      "sample_pages": [
+        1,
+        2,
+        19,
+        160,
+        226,
+        360,
+        375,
+        376
+      ],
+      "source_id": "survivor_4e2d3c3e613f50b69145",
+      "source_record_sha256": "bdc08e93dd6d9dfeba40bc36dcdc00cd7417c8aadde123083ef730c2c8821e37",
+      "source_sha256": "dde40f3c22cee3adb12d6ac968da556a46612411b353022491251c7e00849198"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "59a5e89fd8b979e90297459df6d4435c9350d104bfe570d19a347e1b08099e09",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 100,
+      "sample_pages": [
+        1,
+        2,
+        19,
+        58,
+        88,
+        99,
+        100
+      ],
+      "source_id": "survivor_583a0d4f0ed9b877e276",
+      "source_record_sha256": "6faea94b9b30e6c4ad7eab129977820bbd85ef3d147bb80fd740742f223c9eb5",
+      "source_sha256": "3d02bc727c93205afc4d062fe8b4d41dd283028d503b7c67a4851c57cb844a68"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "de82faae1e0ff3cdd90188aef6c3ec09d7d10cf215e55dbd1d83098f4d87c722",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 744,
+      "sample_pages": [
+        1,
+        2,
+        13,
+        14,
+        15,
+        16,
+        17,
+        120,
+        650,
+        735,
+        743,
+        744
+      ],
+      "source_id": "survivor_464c527fb3382a47b36e",
+      "source_record_sha256": "55d2fbeb83a3838202f2f621250c1d583170fc0425eae076244c76586507c773",
+      "source_sha256": "8f53515947e5c46a34094b35d0ccedcc367971130c97649c6dd9e6624bbcde5e"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Apparently blank pages require TOC/page-sequence reconciliation"
+      ],
+      "inspection_sha256": "774dcb4ab509cfc61708ffbf600621ad92f5eb2e8980d9c0a441846331c1ea57",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 360,
+      "sample_pages": [
+        1,
+        2,
+        9,
+        17,
+        18,
+        146,
+        181,
+        287,
+        359,
+        360
+      ],
+      "source_id": "survivor_fea8fe202f0c493bb019",
+      "source_record_sha256": "acf0b72e1855a69889f82b7b89d2fae485d831c940e8e8494ac441f39b1a6a2d",
+      "source_sha256": "291fa862e4f8f8c8e6df3189372aab96155d57748dd270febbc992ec905bdaff"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "15b8093fbc5a637ec8ab6b5f76e9d5ca3712aece7eadb60f0355d9a635868963",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 336,
+      "sample_pages": [
+        1,
+        2,
+        67,
+        128,
+        174,
+        335,
+        336
+      ],
+      "source_id": "survivor_22d11b8efbd83a89e7b7",
+      "source_record_sha256": "cbb76b107057bf5967d885eea6b7a2ed0682ddc5282c130206ec1b31ff1e2485",
+      "source_sha256": "425beb6403c62240b78b2019baf0a058f81f34fb02e40498814d4323f4827d5a"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "2763a765c69e36ae2917567c7837aea823a59ccac87ccaf011956dbeebeb5a42",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 124,
+      "sample_pages": [
+        1,
+        2,
+        9,
+        10,
+        29,
+        56,
+        123,
+        124
+      ],
+      "source_id": "survivor_784e57d869a749bd21e6",
+      "source_record_sha256": "6a1dbdf83c520ed97d43610abc8d06254c90ece88258524ccac41a3b38b2cd90",
+      "source_sha256": "8c2c4cdce04d12c0b08ed058e320ebd5f6ef9d86bf4b54d9ae4b2f3322bcc0ec"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "298beef2101709883d2250074677cc4ada8921234890f0e2e81cf0bde942d872",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 238,
+      "sample_pages": [
+        1,
+        2,
+        11,
+        17,
+        88,
+        97,
+        126,
+        237,
+        238
+      ],
+      "source_id": "survivor_12fb28a475a7ab254a7c",
+      "source_record_sha256": "53a6334514954a8c4ccea52b4d8f987dca7b3fdfa4477773148e6eacf02b8857",
+      "source_sha256": "fd3c434890cc158a45441dc3d32b3df20b0dfd0dc1c3175442e432698c3e3fd6"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "7af87afe4f3d6ed49ee5c0b980bdc4718a1839a117a5621e4f6a8c997f239ff0",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 362,
+      "sample_pages": [
+        1,
+        2,
+        13,
+        43,
+        182,
+        356,
+        361,
+        362
+      ],
+      "source_id": "survivor_067766dd3235e0c9b390",
+      "source_record_sha256": "e25dbae3a3d7e85ba108c474e8497c951287d7e646d5c9c114869078642ca6ca",
+      "source_sha256": "4e191fee28981d988e085961066c0550f0f3d5be1959eb74268af59024f49aa7"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "c621281963500b615610202fbb2ce2692b63b181f4acc478fe0e89d58da24506",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 49,
+      "sample_pages": [
+        1,
+        2,
+        6,
+        8,
+        9,
+        10,
+        38,
+        48,
+        49
+      ],
+      "source_id": "survivor_097e88f8a8bc5b85fe4a",
+      "source_record_sha256": "5905e1299b657787f7bc3b9d9534e1346446cc1797e2cd74599929d85b3bcf99",
+      "source_sha256": "8a29a1a3a5e846a6f617f66d4b32972bd918a44dccd1593ba5888861769a6c5c"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Apparently blank pages require TOC/page-sequence reconciliation"
+      ],
+      "inspection_sha256": "d08dbe831848aa79c6eeaf580082223a224deb560e759736f9a10e5dd627a528",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 316,
+      "sample_pages": [
+        1,
+        2,
+        9,
+        10,
+        11,
+        17,
+        19,
+        34,
+        83,
+        152,
+        315,
+        316
+      ],
+      "source_id": "survivor_c61af8a225e40cb354f6",
+      "source_record_sha256": "d22ab6dfa823c92926637c0b87822b8c0a8776963c37455e5d64b66c2ebe37d9",
+      "source_sha256": "8b7a5ac85ae9af850d5dddf45f0f4af379709bf4af913528ea1b2327004eaa98"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "ec94ab34ad57cdc8207f05a268a5f902cea2cf264321a01080a09d3f71d45526",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 532,
+      "sample_pages": [
+        1,
+        2,
+        15,
+        16,
+        170,
+        172,
+        423,
+        531,
+        532
+      ],
+      "source_id": "survivor_5fe03b122b4be38e9ca7",
+      "source_record_sha256": "9bbd773246abfbbebc33b13dedc5ef530c41e260b2c9b4c94a8f85767163a208",
+      "source_sha256": "20ca7dfea2d1d632ba35b33c6577334f52f08ec71bd282be0331976a04b62dbd"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "c68edb82e956490962aa58209f19d7c65141ecf9b86da33e783f675b314c8c98",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 516,
+      "sample_pages": [
+        1,
+        2,
+        336,
+        416,
+        421,
+        515,
+        516
+      ],
+      "source_id": "survivor_d62e5887ba0beb406189",
+      "source_record_sha256": "1ac23aa675d7941a7b223b0ccc5752982a77467e692818ec43d9b1311887ad71",
+      "source_sha256": "4728cc85c54d242a916c1c9b429a04bab7fbaf588ca9e3c0626b171450cd2ce3"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "12de9628c618d14fa8680e9ad7d4e890c046f32dd4600668536a62e95d7d1053",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 639,
+      "sample_pages": [
+        1,
+        2,
+        72,
+        200,
+        508,
+        638,
+        639
+      ],
+      "source_id": "survivor_965da6f7fa7d7c2fc3b6",
+      "source_record_sha256": "2aec2a9a6d955a860531de25c9f58f02fad3793dc8eb1e079e89b8aadad94bc6",
+      "source_sha256": "492a48458fe3beae0aa40346f2d05a1331f38b9cdaf968d639fd9fdc2d55368e"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "79a694e140ac086794a94a61ef9c1554c2285227b5d08f04084bb3640ad464dd",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 626,
+      "sample_pages": [
+        1,
+        2,
+        217,
+        322,
+        424,
+        625,
+        626
+      ],
+      "source_id": "survivor_adea58669acbf7ab546c",
+      "source_record_sha256": "0902f03be0a80b9effc7150f2c6d660226e202708dd2c3a076ebf59e5d41b408",
+      "source_sha256": "67f711a2854b29b852b6d92ea3118a01f23b239e9a1abdd7a1c880b1e11528a5"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Apparently blank pages require TOC/page-sequence reconciliation"
+      ],
+      "inspection_sha256": "aff8d1d73d5bc2030fadef496ae0b22e89b72b732c7faa109c68fced0bffedff",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 252,
+      "sample_pages": [
+        1,
+        2,
+        13,
+        14,
+        15,
+        101,
+        185,
+        214,
+        251,
+        252
+      ],
+      "source_id": "survivor_6c0372819d09051076aa",
+      "source_record_sha256": "69cd9d7ef38b1e881bbf43daa900d796a65740fcd685f1f9a4e5036b27bab577",
+      "source_sha256": "ec6f75408d5a5170adbdac98c32d4e1716e1363f9ff5f720eb553468ff6e1a08"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required"
+      ],
+      "inspection_sha256": "8aeff644f3cc2907c7d65af4de798dca3fc5f4a8ababc083ea00c47a8951261a",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 802,
+      "sample_pages": [
+        1,
+        2,
+        11,
+        77,
+        213,
+        490,
+        801,
+        802
+      ],
+      "source_id": "survivor_b96d8eb9a1aef064bed0",
+      "source_record_sha256": "3c2fa622c16f07b3768f5f046da3328ecbf9a630c8931b4f383c6e82ce09b452",
+      "source_sha256": "83c6dac220502412d340912d7ec2cf75c1ff2609ab31fc4185232ed5d6f5c5b7"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [],
+      "inspection_sha256": "eaafe97337f90b9e7f33d1bb96605e09d786d097a44e2c33731f39f302e7e9b1",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 474,
+      "sample_pages": [
+        1,
+        2,
+        5,
+        222,
+        300,
+        388,
+        473,
+        474
+      ],
+      "source_id": "survivor_6a6a72d8ca135036a084",
+      "source_record_sha256": "08782bf602c2f6a252531640b2cbbb1d6cadb90057dfe68be934ff06f9d198b5",
+      "source_sha256": "e2266b937d8eabc4113a16608676b8f761a6b6ac504d73a2382082c2e40cc8ce"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "de23f96f8698778c78701f7be0cf55062459a771de987166dddd8373fe1f99ad",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 236,
+      "sample_pages": [
+        1,
+        2,
+        20,
+        41,
+        87,
+        235,
+        236
+      ],
+      "source_id": "survivor_f17fbb07bf6600d01b55",
+      "source_record_sha256": "1e4fac40859e510a8eb50b9f141e53ad80bb60c863503e5e58fb882c2b30f112",
+      "source_sha256": "a6e511d88327b911cab2e74aada3afd328dcab9cb7d4d5cc00fc55ed570ce763"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "75a8d853109cec6e8683e57405ca75e3599956d72150ce47cafacd13655df59f",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 299,
+      "sample_pages": [
+        1,
+        2,
+        10,
+        14,
+        131,
+        298,
+        299
+      ],
+      "source_id": "survivor_40b53bcf7237ff1a1941",
+      "source_record_sha256": "016f73820fece9f98bca27734e208fda2aafee4f58e26758f105e4c2651f1e4e",
+      "source_sha256": "38ccebf6e3add6f102941783fef1774c1f6b9d66a36a9d0023b18847d754b08f"
+    },
+    {
+      "content_ready": false,
+      "content_review": "pending",
+      "flags": [
+        "Limited searchable text; scan/OCR and topic review required",
+        "Apparently blank pages require TOC/page-sequence reconciliation",
+        "No table of contents located in extracted text; inspect original front matter"
+      ],
+      "inspection_sha256": "b8f1b68b523236a1dbd870329873058ccb0064fb9b6669a6f3902115d1e9162b",
+      "inspection_version": "survivor-page-review-1",
+      "page_count": 252,
+      "sample_pages": [
+        1,
+        2,
+        4,
+        28,
+        79,
+        251,
+        252
+      ],
+      "source_id": "survivor_18a5902ddc80585df8b9",
+      "source_record_sha256": "acb8ac4e0c6ad43936778c6fb6406ec2a41fc703998b8dcc201158a2240bf82c",
+      "source_sha256": "f7bbfeb8ccb61dba1af952aad93aff8f45fc677b66a24b6366e6b89f33717296"
+    }
+  ],
+  "sources_with_review_flags": 28
+}

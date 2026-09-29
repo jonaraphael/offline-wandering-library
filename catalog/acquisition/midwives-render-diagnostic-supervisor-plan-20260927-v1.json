@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "id": "midwives-render-diagnostic-20260927-v1",
+  "concurrency": {
+    "capture": 1,
+    "review": 1
+  },
+  "tasks": [
+    {
+      "id": "midwives-render-diagnostic-capture",
+      "kind": "capture",
+      "lane": "capture",
+      "batch": "midwives-render-diagnostic-v1",
+      "depends": [],
+      "inputs": [
+        "{workspace}/catalog/acquisition/midwives-render-diagnostic-capture-20260927-v1.json"
+      ],
+      "checks": [
+        {
+          "path": "{staging}/midwives-render-diagnostic-v1-1tb/capture-report.json",
+          "equals": {
+            "content_ready": false,
+            "source_count": 3
+          }
+        }
+      ],
+      "review": "Rendered HTML is a distinct representation from original wikitext. Raw revision size/SHA1 comparisons are provenance context, not HTML acceptance checks."
+    },
+    {
+      "id": "midwives-render-diagnostic-inspect",
+      "kind": "script",
+      "lane": "review",
+      "batch": "midwives-digital-review",
+      "depends": [
+        "midwives-render-diagnostic-capture"
+      ],
+      "script": "inspect_midwives_response.py",
+      "argv": [
+        "--capture",
+        "{staging}/midwives-render-diagnostic-v1-1tb",
+        "--output",
+        "{workspace}/.owl/acquisition/supervisor-midwives-render-diagnostic-20260927-v1/inspection.json"
+      ],
+      "inputs": [
+        "{workspace}/scripts/inspect_midwives_response.py",
+        "{workspace}/catalog/acquisition/midwives-render-diagnostic-capture-20260927-v1.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/supervisor-midwives-render-diagnostic-20260927-v1/inspection.json",
+          "equals": {
+            "content_ready": false,
+            "admissible": false
+          },
+          "lengths": {
+            "sources": 3
+          }
+        }
+      ],
+      "review": "Compare exact source anomaly, IUD warning-box heading and positioned illustration with publisher HTML. Preserve clinical content and record live transclusion-version limits. No content admission."
+    }
+  ]
+}

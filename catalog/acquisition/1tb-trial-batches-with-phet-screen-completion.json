@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "shared_reserve_bytes": 10000000000,
+  "batches": [
+    {
+      "id": "maps",
+      "staging": "maps-detailed-1tb",
+      "manifest": "catalog/acquisition/regional-maps-detailed-acquisition.json",
+      "profile": "full-1tb",
+      "resource_ids": [
+        "regional-maps"
+      ],
+      "job": ".owl/jobs/maps-detailed-1tb"
+    },
+    {
+      "id": "map-review",
+      "staging": "maps-review-1tb",
+      "review_peak_bytes": 14000000000,
+      "review_owner": "owl-map-pdf-review",
+      "source_staging": "maps-detailed-1tb"
+    },
+    {
+      "id": "direct",
+      "staging": "direct-originals-1tb",
+      "manifest": "catalog/acquisition/direct-local-acquisition.json",
+      "job": ".owl/jobs/direct-originals-1tb"
+    },
+    {
+      "id": "stackoverflow",
+      "staging": "stackoverflow-2024",
+      "manifest": "catalog/acquisition/stackoverflow-capture.json",
+      "job": ".owl/jobs/stackoverflow-2024"
+    },
+    {
+      "id": "gutenberg",
+      "staging": "gutenberg-compact-originals-1tb",
+      "manifest": "catalog/acquisition/gutenberg-compact-originals-capture.json",
+      "job": ".owl/jobs/gutenberg-compact-originals-1tb"
+    },
+    {
+      "id": "course-packages",
+      "staging": "ocw-course-packages-1tb",
+      "manifest": "catalog/acquisition/ocw-course-package-capture.json",
+      "job": ".owl/jobs/ocw-course-packages-1tb"
+    },
+    {
+      "id": "course-media",
+      "staging": "ocw-complete-candidate-media-1tb",
+      "manifest": "catalog/acquisition/ocw-complete-candidate-media-capture.json",
+      "job": ".owl/jobs/ocw-complete-candidate-media-1tb"
+    },
+    {
+      "id": "manuals-initial",
+      "staging": "manuals-1tb",
+      "manifest": "catalog/acquisition/programming-manuals-trial-capture.json",
+      "job": ".owl/jobs/manuals-1tb"
+    },
+    {
+      "id": "manuals-continuation",
+      "staging": "manuals-v2-1tb",
+      "manifest": "catalog/acquisition/programming-manuals-trial-v2-capture.json",
+      "job": ".owl/jobs/manuals-v2-1tb"
+    },
+    {
+      "id": "python-release",
+      "staging": "python-3-14-7-release-html",
+      "manifest": "catalog/acquisition/python-3-14-7-release-v2-capture.json",
+      "job": ".owl/jobs/python-3-14-7-release-html"
+    },
+    {
+      "id": "python-release-package-review",
+      "staging": "python-release-package-trial",
+      "review_peak_bytes": 500000000
+    },
+    {
+      "id": "course-thumbnails",
+      "staging": "ocw-python-thumbnails-1tb",
+      "manifest": "catalog/acquisition/ocw-python-thumbnails-capture.json",
+      "job": ".owl/jobs/ocw-python-thumbnails-1tb"
+    },
+    {
+      "id": "ocw-python-homepage-qa",
+      "staging": "ocw-python-homepage-qa",
+      "source_staging": "ocw-course-packages-1tb",
+      "review_owner": "owl-ocw-homepage-qa",
+      "review_peak_bytes": 100000000
+    },
+    {
+      "id": "phet-screen-completion",
+      "staging": "phet-screen-completion-1tb",
+      "manifest": "catalog/acquisition/phet-screen-completion-capture.json",
+      "profile": "full-1tb",
+      "resource_ids": [
+        "phet"
+      ]
+    },
+    {
+      "id": "phet-screen-browser-review",
+      "staging": "phet-screen-browser-review-1tb",
+      "review_peak_bytes": 1000000000
+    }
+  ]
+}

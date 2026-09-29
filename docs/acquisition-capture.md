@@ -42,6 +42,33 @@ jobs use the existing `scripts/build_job.py` status/resume/cancel interface.
 Snapshots preserve code and candidate inputs; a completed acquisition job is
 awaiting review, never a completed library.
 
+For an exact-size batch with unavailable publisher objects, explicitly add
+`--continue-missing-sources` to attempt independent remaining sources. Only HTTP
+404 and 410 responses are checkpointed and skipped, without retrying them or
+their mirrors. The default still stops at the first failed source. Size changes,
+checksum mismatches, changed receipts, and other failures still stop capture.
+Each missing source has a bounded identity-bound record under `exceptions/`;
+resume with the same option reuses those records without requesting those URLs
+again. Existing originals, receipts, and partial downloads keep their usual
+verification and resume checks. After the remaining sources have been attempted,
+the command exits unsuccessfully, the detached job is `failed`, and
+`capture-report.json` reports `incomplete` with `content_ready: false` and a
+bounded exception summary. Full exception details stay on disk. No candidate
+fragment is created, and preview/review still require every requested receipt.
+The option is preserved in a new detached job's snapshot; existing frozen job
+snapshots are never edited to add it.
+
+Older jobs have no missing-source checkpoints. When both a prior failure and a
+failed explicit resume have already been preserved, use
+`owl.acquisition.capture.import_missing_source_failure(failed_job_dir,
+evidence_path, source_id=...)` to validate the frozen job manifest, exact source
+identity, and matching terminal HTTP failures without any request. Its default
+is a dry run; `plan_only=False` writes the exception under the capture lock,
+with hashes of the preserved evidence and job records. The helper requires two
+distinct failed runs, rejects HEAD observations as failure proof, and leaves
+the old job snapshot unchanged. A new continuation job can then skip that
+already-confirmed failure on its first run.
+
 Capture budgets separately declare downloads, expansion, previews, scratch,
 and retained caches, with a receipt allowance. A capture-only batch can declare
 zero extraction and preview bytes. After examining an acquired archive's

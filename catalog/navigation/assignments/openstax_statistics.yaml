@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_statistics
+assignments:
+- topic_id: statistics-data-science
+  purpose: explanation

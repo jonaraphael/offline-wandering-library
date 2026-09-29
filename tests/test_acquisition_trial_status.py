@@ -49,6 +49,63 @@ class TrialStatusTests(unittest.TestCase):
         self.assertEqual(self.report([self.batch])["batches"][0]["state"], "exception")
         self.assertFalse(marker.exists())
 
+    def test_absent_future_job_is_planned_with_its_full_peak_reserved(self):
+        batch = {**self.batch, 'staging': 'future-maps', 'job': 'future-job'}
+        result = self.report([batch])
+        row = result['batches'][0]
+        self.assertEqual(row['state'], 'planned')
+        self.assertEqual(row['retained_bytes'], 0)
+        self.assertEqual(row['remaining_peak_bytes'], row['storage_peak_bytes'])
+        self.assertEqual(result['reserved_remaining_bytes'], row['storage_peak_bytes'])
+        self.assertTrue(result['combined_declared_phases_fit'])
+        self.assertFalse((self.root / 'future-job').exists())
+
+    def test_registry_cannot_double_count_a_staging_directory(self):
+        with self.assertRaisesRegex(ValueError, 'repeats'):
+            self.report([self.batch, {**self.batch, 'id': 'second-name'}])
+
+    def test_future_preview_reservation_is_bound_to_frozen_source_budget(self):
+        budget={**self.filtered['budget'],'preview_bytes':2000000}
+        batch={**self.batch,'staging':'future-maps','planned_phase_budget':budget}
+        result=self.report([batch])
+        self.assertTrue(result['combined_declared_phases_fit'])
+        self.assertEqual(result['batches'][0]['storage_peak_bytes'],
+                         sum(budget.values())+self.filtered['metadata_allowance_bytes'])
+        self.assertFalse((self.staging/'future-maps').exists())
+        for invalid in ({**budget,'download_bytes':0},{**budget,'preview_bytes':True},
+                        {'preview_bytes':2000000}):
+            with self.subTest(invalid=invalid):
+                self.assertFalse(self.report([{**batch,'planned_phase_budget':invalid}])['combined_declared_phases_fit'])
+        self.assertFalse(self.report([{'id':'unbound','staging':'unbound','review_peak_bytes':100,
+                                       'planned_phase_budget':budget}])['combined_declared_phases_fit'])
+
+    def test_expanded_registry_keeps_a_finite_batch_bound(self):
+        batches = [{'id': 'phase-'+str(i), 'staging': 'phase-'+str(i), 'review_peak_bytes': 1000}
+                   for i in range(64)]
+        self.assertEqual(self.report(batches)['reserved_remaining_bytes'], 64000)
+        with self.assertRaisesRegex(ValueError, '1–64'):
+            self.report(batches + [{'id': 'overflow', 'staging': 'overflow', 'review_peak_bytes': 1}])
+
+    def test_full_peak_preflight_gives_no_retained_credit(self):
+        from unittest.mock import patch
+        registry={'schema_version':1,'shared_reserve_bytes':17,'batches':[self.batch],
+                  'space_accounting':'reserve-full-peaks'}
+        with patch.object(self.module,'_usage',side_effect=AssertionError('No traversal expected')):
+            result=self.module.report(self.staging,registry)
+        row=result['batches'][0]
+        self.assertIsNone(row['retained_bytes'])
+        self.assertFalse(result['retained_usage_measured'])
+        self.assertEqual(result['reserved_remaining_bytes'],row['storage_peak_bytes']+17)
+        # Avoiding the traversal must never avoid identity validation.
+        (self.staging/'maps/owner.json').unlink()
+        self.assertFalse(self.module.report(self.staging,registry)['combined_declared_phases_fit'])
+
+    def test_existing_ownerless_future_job_is_still_an_error(self):
+        (self.root / 'future-job').mkdir()
+        result = self.report([{**self.batch, 'staging': 'future-maps', 'job': 'future-job'}])
+        self.assertEqual(result['batches'][0]['state'], 'exception')
+        self.assertFalse(result['combined_declared_phases_fit'])
+
     def test_review_budget_source_binding_and_pending_report_are_verified(self):
         review = self.staging / "review"
         review.mkdir()

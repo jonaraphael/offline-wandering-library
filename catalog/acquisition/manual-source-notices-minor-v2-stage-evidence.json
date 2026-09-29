@@ -1,0 +1,183 @@
+{
+  "build_only_source_bytes": 0,
+  "build_only_source_count": 0,
+  "candidate": ".owl/acquisition/manual-source-notices-minor-v2-staged",
+  "candidate_files": {
+    "library.yaml": "df9d2e62281fb7dbd107cd63e0ff5b80a450386e3f5fc1ce0c813d813285372f",
+    "navigation/README.md": "482449781a037fa16292df04be3782e202b895dc4a8d2d8dfe97d84dee64a26b",
+    "navigation/assignments.yaml": "2fe8d0189038fa1488d391a6b6573ed1b127bdb8881d7ffb34095711e345af6b",
+    "navigation/topics.yaml": "ecb2ac8bf6b1b464a72f826283dc009e97aad34734e622997e2fdac321bf41f1",
+    "profiles/compact-256gb.yaml": "2066d693623bc9ca1730de0d9507e5caf45d32027620f74ab0fd3d598f6c8e84",
+    "profiles/critical-64gb.yaml": "4fb3860ff498af0026a0a48558d11a45ee2519e9324555b9bc233bd887272660",
+    "profiles/demo.yaml": "e8d4d6336de69a1cbc39132ae684a6be568a49bb333fe3c2d417835fd3ed72a3",
+    "profiles/flash-16gb.yaml": "8d9f6a23a6264b1ea2eb1b3a5d9917b7aa6e682ff7718a96c6cb96892444e97d",
+    "profiles/full-1tb.yaml": "00d3620c8334197d4b7f42a4d14667db1d48cd05dc9802ec9ace1c5b1c8ab16f",
+    "profiles/standard-512gb.yaml": "a7f4e75b991cb6323bc22ba6aa6e119f83d99d29a91a7141715d642a700e91b1",
+    "resources.yaml": "5f8ffb85bd64599d13f7885bf9f30e796cb4091b3b80871107a8acb305c2d8c0",
+    "stage-report.json": "21aaeb9bd1ba7fc35742c17d5ad8b8d61a0a4d36a4cd66f4002ece6435ce974c"
+  },
+  "checks_passed": true,
+  "fragment_sha256": "1ba0deeae10eb59915ac7af687096dcfe7a1bdfbefa1a29e1f363de372b0c472",
+  "kind": "staged-admission-invariants",
+  "physical_device_certification": "pending",
+  "profiles": [
+    {
+      "acquisition_workspace_bytes": 68497118,
+      "added_ids": [],
+      "after_count": 551,
+      "after_sha256": "166b12e555212f56cf9551ce3cdfc77573171041b557e43f094d2217344cf286",
+      "before_count": 551,
+      "before_sha256": "166b12e555212f56cf9551ce3cdfc77573171041b557e43f094d2217344cf286",
+      "changed_ids": [],
+      "content_bytes": 9869555191,
+      "content_complete": true,
+      "incomplete_resources": [],
+      "pinned_knowledge_bytes": 9350461494,
+      "profile": "flash-16gb",
+      "removed_ids": [],
+      "target_shortfall_bytes": 0,
+      "unresolved_assets": []
+    },
+    {
+      "acquisition_workspace_bytes": 68497118,
+      "added_ids": [],
+      "after_count": 602,
+      "after_sha256": "5e930d99f878187b624ddf7311407a03f89cdfc66bf2627b19dce97a30a964c2",
+      "before_count": 602,
+      "before_sha256": "5e930d99f878187b624ddf7311407a03f89cdfc66bf2627b19dce97a30a964c2",
+      "changed_ids": [],
+      "content_bytes": 45226005469,
+      "content_complete": true,
+      "incomplete_resources": [],
+      "pinned_knowledge_bytes": 44706911772,
+      "profile": "critical-64gb",
+      "removed_ids": [],
+      "target_shortfall_bytes": 0,
+      "unresolved_assets": []
+    },
+    {
+      "acquisition_workspace_bytes": 71876729,
+      "added_ids": [
+        "docs_systemd_systemctl_notice_source",
+        "docs_systemd_systemd_exec_notice_source",
+        "docs_systemd_systemd_network_notice_source",
+        "docs_systemd_systemd_resource_control_notice_source",
+        "docs_systemd_systemd_service_notice_source",
+        "docs_systemd_systemd_special_notice_source",
+        "docs_systemd_systemd_unit_notice_source"
+      ],
+      "after_count": 2408,
+      "after_sha256": "16fda623c5edf19ca58138da4f6884657b72d39f69bf53fe9f843ecc48d79bca",
+      "before_count": 2401,
+      "before_sha256": "238677bee0e0e4306e65b8a4714198d45df8b34abb81301d25215c0152d8238a",
+      "changed_ids": [],
+      "content_bytes": 200383062072,
+      "content_complete": false,
+      "incomplete_resources": [
+        "hesperian-health",
+        "wikipedia-en",
+        "regional-maps",
+        "appropedia",
+        "cd3wd",
+        "ifixit",
+        "low-tech-magazine",
+        "phet",
+        "linux-programming-docs"
+      ],
+      "pinned_knowledge_bytes": 199806023499,
+      "profile": "compact-256gb",
+      "removed_ids": [],
+      "target_shortfall_bytes": 0,
+      "unresolved_assets": [
+        "regional_topographic_maps"
+      ]
+    },
+    {
+      "acquisition_workspace_bytes": 71876729,
+      "added_ids": [
+        "docs_systemd_systemctl_notice_source",
+        "docs_systemd_systemd_exec_notice_source",
+        "docs_systemd_systemd_network_notice_source",
+        "docs_systemd_systemd_resource_control_notice_source",
+        "docs_systemd_systemd_service_notice_source",
+        "docs_systemd_systemd_special_notice_source",
+        "docs_systemd_systemd_unit_notice_source"
+      ],
+      "after_count": 2437,
+      "after_sha256": "0a00d6f526d47b46833a3ad1b21ae5d63d677420b2776a5b91e2594b34d5cce6",
+      "before_count": 2430,
+      "before_sha256": "40117829c31f88e4c2b7ec3e74a293552d41181b9ece353275b84a8819374b28",
+      "changed_ids": [],
+      "content_bytes": 266939812295,
+      "content_complete": false,
+      "incomplete_resources": [
+        "hesperian-health",
+        "wikipedia-en",
+        "regional-maps",
+        "appropedia",
+        "cd3wd",
+        "ifixit",
+        "low-tech-magazine",
+        "survivor-tier-a",
+        "stackoverflow-durable",
+        "phet",
+        "linux-programming-docs"
+      ],
+      "pinned_knowledge_bytes": 266362773722,
+      "profile": "standard-512gb",
+      "removed_ids": [],
+      "target_shortfall_bytes": 123637226278,
+      "unresolved_assets": [
+        "regional_topographic_maps"
+      ]
+    },
+    {
+      "acquisition_workspace_bytes": 71876729,
+      "added_ids": [
+        "docs_systemd_systemctl_notice_source",
+        "docs_systemd_systemd_exec_notice_source",
+        "docs_systemd_systemd_network_notice_source",
+        "docs_systemd_systemd_resource_control_notice_source",
+        "docs_systemd_systemd_service_notice_source",
+        "docs_systemd_systemd_special_notice_source",
+        "docs_systemd_systemd_unit_notice_source"
+      ],
+      "after_count": 2443,
+      "after_sha256": "edcdcf6fba143b29f0252a2aa566590f985a02a4f7c213b6e19cd3a53c8f670e",
+      "before_count": 2436,
+      "before_sha256": "e16702d63a3645d577c3e2be42d6e71d4c99fc21cc3cb296acf3d1d0422c0c80",
+      "changed_ids": [],
+      "content_bytes": 358148449986,
+      "content_complete": false,
+      "incomplete_resources": [
+        "hesperian-health",
+        "wikipedia-en",
+        "regional-maps",
+        "appropedia",
+        "cd3wd",
+        "ifixit",
+        "low-tech-magazine",
+        "survivor-tier-a",
+        "stackoverflow-durable",
+        "linux-programming-docs",
+        "ted-ed",
+        "khan-core-stem",
+        "survivor-tier-b",
+        "stackoverflow-legacy",
+        "direct-reading-expansion",
+        "books-culture-expansion",
+        "complete-courses-expansion"
+      ],
+      "pinned_knowledge_bytes": 357571411413,
+      "profile": "full-1tb",
+      "removed_ids": [],
+      "target_shortfall_bytes": 392428588587,
+      "unresolved_assets": [
+        "regional_topographic_maps"
+      ]
+    }
+  ],
+  "published": false,
+  "review_receipt_sha256": "75ea705c88632240e72da29673dccdec1873ffec3f4ff1916ccc2ce51e64b525",
+  "schema_version": 1
+}

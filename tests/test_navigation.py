@@ -215,7 +215,7 @@ class NavigationTests(unittest.TestCase):
         self.generate()
         landing = (self.outer / "START_HERE.html").read_text(encoding="utf-8")
         self.assertIn(render_search_widget("LIBRARY/"), landing)
-        for identity in ("searchForm", "query", "shelf", "searchButton", "cancelButton", "retryButton", "status", "results"):
+        for identity in ("searchForm", "query", "shelf", "searchButton", "retryButton", "status", "results"):
             self.assertEqual(landing.count(f'id="{identity}"'), 1, identity)
         self.assertLess(landing.index('id="searchForm"'), landing.index('<h2>Books and learning collections</h2>'))
         self.assertNotIn('type="file"', landing)
@@ -231,7 +231,7 @@ class NavigationTests(unittest.TestCase):
         self.assertIn('href="../START_HERE.html"',
                       (self.target / "INVENTORY.html").read_text(encoding="utf-8"))
         readme = (self.target / "README.txt").read_text(encoding="utf-8")
-        self.assertIn("loads its index automatically", readme)
+        self.assertIn("loads its title and topic data automatically", readme)
         self.assertIn("No HTML link is required", readme)
         self.assertNotIn("file-picker", readme)
 
@@ -284,8 +284,8 @@ class NavigationTests(unittest.TestCase):
                 self.assertFalse(parser.scripts)
                 self.assertNotIn('id="searchForm"', landing)
                 self.assertNotIn("SEARCH/search.js", landing)
-                self.assertIn("Full-text search", pages["README.txt"])
-                self.assertNotIn("loads its index automatically", pages["README.txt"])
+                self.assertIn("Title and topic search", pages["README.txt"])
+                self.assertNotIn("loads its title and topic data automatically", pages["README.txt"])
                 self.assertIn('href="LIBRARY/INDEX/critical.html"', landing)
 
     def test_escaping_categories_reader_labels_and_critical_subset(self):

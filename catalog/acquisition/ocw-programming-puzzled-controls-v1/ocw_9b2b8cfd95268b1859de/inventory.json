@@ -1,0 +1,3062 @@
+{
+  "content_ready": false,
+  "course": {
+    "course_description": "This class builds a bridge between the recreational world of algorithmic puzzles (puzzles that can be solved by algorithms) and the pragmatic world of computer programming, teaching students to program while solving puzzles. Python syntax and semantics required to understand the code are explained as needed for each puzzle.\n",
+    "course_description_html": "This class builds a bridge between the recreational world of algorithmic puzzles (puzzles that can be solved by algorithms) and the pragmatic world of computer programming, teaching students to program while solving puzzles. Python syntax and semantics required to understand the code are explained as needed for each puzzle.",
+    "course_image": {
+      "content": "8a47e175-cc72-845e-080f-083fcfbc7c29",
+      "website": "6-s095-programming-for-the-puzzled-january-iap-2018"
+    },
+    "course_image_metadata": {
+      "content_type": "resource",
+      "description": "",
+      "draft": false,
+      "file": "/courses/6-s095-programming-for-the-puzzled-january-iap-2018/8a47e175cc72845e080f083fcfbc7c29_6-S095IAP18.jpg",
+      "file_size": 74525,
+      "file_type": "image/jpeg",
+      "image_metadata": {
+        "caption": "In this course, we use Python to solve a variety of puzzles. Two of the puzzles involve the game of chess. (Image by Brett Paci at MIT OpenCourseWare.)",
+        "credit": "(Image by Brett Paci at MIT OpenCourseWare.)",
+        "image-alt": "A puzzle piece overlaid with Python code on a chess board."
+      },
+      "iscjklanguage": false,
+      "learning_resource_types": [],
+      "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "ocw_type": "OCWImage",
+      "resourcetype": "Image",
+      "title": "6-S095IAP18.jpg",
+      "uid": "8a47e175-cc72-845e-080f-083fcfbc7c29"
+    },
+    "course_image_thumbnail": {
+      "content": "a950986e-fc21-b7a0-b7b2-e5a4c90c24d2",
+      "website": "6-s095-programming-for-the-puzzled-january-iap-2018"
+    },
+    "course_title": "Programming for the Puzzled",
+    "department_numbers": [
+      "6"
+    ],
+    "extra_course_numbers": "",
+    "image_src": "./static_resources/8a47e175cc72845e080f083fcfbc7c29_6-S095IAP18.jpg",
+    "instructors": [
+      {
+        "first_name": "Srini",
+        "last_name": "Devadas",
+        "middle_initial": "",
+        "salutation": "Prof.",
+        "title": "Prof. Srini Devadas",
+        "uid": "97490edb-d1af-d10b-27c8-4045aa33a1af",
+        "url": "https://ocw.mit.edu/search/?q=Prof.+Srini+Devadas"
+      }
+    ],
+    "learning_resource_types": [
+      "Lecture Videos",
+      "Programming Assignments with Examples"
+    ],
+    "legacy_uid": "6fcf1744-bf7b-3aca-9ade-08566aa93c60",
+    "level": [
+      "Undergraduate"
+    ],
+    "mit_learn_topics": [
+      [
+        "Data Science, Analytics & Computer Technology",
+        "Algorithms and Data Structures"
+      ],
+      [
+        "Data Science, Analytics & Computer Technology",
+        "Computer Science"
+      ],
+      [
+        "Engineering"
+      ],
+      [
+        "Data Science, Analytics & Computer Technology",
+        "Programming & Coding"
+      ]
+    ],
+    "primary_course_number": "6.S095",
+    "site_short_id": "6.s095-january-iap-2018",
+    "site_uid": "8fd24212-1377-4a6d-8f6d-2f1a1ca77f42",
+    "site_url_path": "courses/6-s095-programming-for-the-puzzled-january-iap-2018",
+    "term": "January IAP",
+    "title": "Course Metadata",
+    "topics": [
+      [
+        "Engineering",
+        "Computer Science",
+        "Algorithms and Data Structures"
+      ],
+      [
+        "Engineering",
+        "Computer Science",
+        "Programming Languages"
+      ]
+    ],
+    "year": "2018"
+  },
+  "excluded_translations": [],
+  "expanded_bytes": 50445480,
+  "gaps": [],
+  "media": [
+    {
+      "id": "ocw_media_1ea021e34769d45ce000",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/c29a96e4e1515e3ea6911e50431ed485_1_0WwiUUsTc.vtt",
+              "sha256": "658018ae338b36f03da7d118484420b6b46f20d72aa8e681bfa07fbcc22b2751",
+              "size_bytes": 72993
+            }
+          ],
+          "context_path": "resources/puzzle-5-keep-those-queens-apart/index.html",
+          "end_time": "",
+          "id": "3e530d89-e082-c7dd-304b-47bcc2b7e2a2",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/puzzle-5-keep-those-queens-apart/data.json",
+            "sha256": "dd7eb68693bf68830ea46d0b624b1cc3a796ddac8da60716f9f10c350404466b",
+            "size_bytes": 1670
+          },
+          "start_time": "",
+          "title": "Puzzle 5: Keep Those Queens Apart"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_05_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_05_300k.mp4"
+    },
+    {
+      "id": "ocw_media_26875725d1ac5f94d7e4",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/7a7371f4521d53a2874e94f3df42914d_auK3PSZoidc.vtt",
+              "sha256": "2ce1480f308941c06c4db1c17f8d764012fca3254416d9e782f676c1aaf19718",
+              "size_bytes": 81329
+            }
+          ],
+          "context_path": "resources/puzzle-8-you-wont-want-to-play-sudoku-again/index.html",
+          "end_time": "",
+          "id": "28a52a37-871c-c71a-4456-fc951c7543aa",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/puzzle-8-you-wont-want-to-play-sudoku-again/data.json",
+            "sha256": "6fa38dc236feece542794d4567c55f8de90da8b01e626dcf15ebe9015840bddc",
+            "size_bytes": 1698
+          },
+          "start_time": "",
+          "title": "Puzzle 8: You Won't Want to Play Sudoku Again"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_08_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_08_300k.mp4"
+    },
+    {
+      "id": "ocw_media_378417153cae74f21063",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/b990b0e6c43d5120849094845418ed0e_14UlXIZzwE4.vtt",
+              "sha256": "545915ea2c0e3ae5f3cd53c84ba77b8bf48fdec3732c22bc1ffa2018da18f192",
+              "size_bytes": 52308
+            }
+          ],
+          "context_path": "resources/puzzle-1-you-will-all-conform/index.html",
+          "end_time": "",
+          "id": "9ca1f944-77ba-ec9a-f328-9557552377c6",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/puzzle-1-you-will-all-conform/data.json",
+            "sha256": "c6af4f1f46eec301c0c44e4ab5176433e4bbd914a1c4ed7bfd0637df44bd1a70",
+            "size_bytes": 1650
+          },
+          "start_time": "",
+          "title": "Puzzle 1: You Will All Conform"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_01_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_01_300k.mp4"
+    },
+    {
+      "id": "ocw_media_3b51101745a1ea82cc97",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/3f63a796b0f45765a4432f1030dbd129_Pe1MBDbGfwc.vtt",
+              "sha256": "268e271f162dada98da1784a0b447cf946e44e9c941a714e5b0db1e57eba8dd7",
+              "size_bytes": 36563
+            }
+          ],
+          "context_path": "resources/puzzle-6-a-profusion-of-queens/index.html",
+          "end_time": "",
+          "id": "29f99574-93b9-a431-4c29-53cd9dd0bf67",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/puzzle-6-a-profusion-of-queens/data.json",
+            "sha256": "71ca1d3649dac43c2dcec46e1263c2162edd4d97843d244759cb2c3e8f123673",
+            "size_bytes": 1670
+          },
+          "start_time": "",
+          "title": "Puzzle 6: A Profusion of Queens"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_06_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_06_300k.mp4"
+    },
+    {
+      "id": "ocw_media_44165d3d685113525c93",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/392c0f0fc4125f788274ac14c22f58f3_Fp7usgx_CvM.vtt",
+              "sha256": "6e774bd746d52d5f81a01e1541f66f31b1ebfa85364103139fb312b347729546",
+              "size_bytes": 72622
+            }
+          ],
+          "context_path": "resources/puzzle-4-please-do-break-the-crystal/index.html",
+          "end_time": "",
+          "id": "b44491b8-b47b-8bd7-8461-a9f9f89831f8",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/puzzle-4-please-do-break-the-crystal/data.json",
+            "sha256": "b716fb47270acf23796358d40b532b4dbad234f122c897781f59ff688934f0bf",
+            "size_bytes": 1694
+          },
+          "start_time": "",
+          "title": "Puzzle 4: Please Do Break the Crystal"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_04_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_04_300k.mp4"
+    },
+    {
+      "id": "ocw_media_65f5f62a1780439a04d7",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/e6a38ae0153953018e571e06ad9fde7c_9TtLlVBjvR0.vtt",
+              "sha256": "1d9ad2fd1373b3e4b8d9026950aee36b386f23bd44fe2fcca2ebc5f55309e560",
+              "size_bytes": 74717
+            }
+          ],
+          "context_path": "resources/puzzle-9-the-disorganized-handyman/index.html",
+          "end_time": "",
+          "id": "59d584d5-df50-1c53-d241-d48eda2c8d4e",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/puzzle-9-the-disorganized-handyman/data.json",
+            "sha256": "b5b24275591caa3df6f104a247128f2543ad6e93e5aac783a3c6f7727c59b43c",
+            "size_bytes": 1681
+          },
+          "start_time": "",
+          "title": "Puzzle 9: The Disorganized Handyman"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_09_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_09_300k.mp4"
+    },
+    {
+      "id": "ocw_media_6b5a4907af6a54b4f625",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/3ef7addb01115c829b24964bf96883b3_zgk93CwMVk8.vtt",
+              "sha256": "40ec94fca8161faeaa93fc04920be93c2bf8945d1f53e839e4199c47884ccf9d",
+              "size_bytes": 63130
+            }
+          ],
+          "context_path": "resources/puzzle-10-a-weekend-to-remember/index.html",
+          "end_time": "",
+          "id": "7f22da67-423f-25a9-7d4a-546db7afc2e4",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/puzzle-10-a-weekend-to-remember/data.json",
+            "sha256": "b5cc3d7c7beb1caa504cee9154c79301356b8d9713ba7ab8bc16d17da937a170",
+            "size_bytes": 1668
+          },
+          "start_time": "",
+          "title": "Puzzle 10: A Weekend To Remember"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_10_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_10_300k.mp4"
+    },
+    {
+      "id": "ocw_media_8c9a4ea9762331d24b5f",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/ef38163366ca5831904a47274da5a06e_6FYk-3vt4FE.vtt",
+              "sha256": "1f6007c035fc5561dfa5cf632b1fd2d9d45dd10406f39ed32b9eae05ae6a6e0f",
+              "size_bytes": 70785
+            }
+          ],
+          "context_path": "resources/puzzle-11-memory-serves-you-well/index.html",
+          "end_time": "",
+          "id": "501b33ef-2628-804c-1577-f04e16d8e544",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/puzzle-11-memory-serves-you-well/data.json",
+            "sha256": "d8dd97e0f6583b217338a35a52397578adb29957a43f2e6d97479e368b2dbc52",
+            "size_bytes": 1662
+          },
+          "start_time": "",
+          "title": "Puzzle 11: Memory Serves You Well"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_11_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_11_300k.mp4"
+    },
+    {
+      "id": "ocw_media_bf2aaa4082182ab47834",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/8956e99f6bef5ae3b5c119c8e34ad413_a1RaIqkdG0c.vtt",
+              "sha256": "dde0a3676e3cac87b17e05e866443adc44d0ad1387ccb9ddf9420481604a8a42",
+              "size_bytes": 37207
+            }
+          ],
+          "context_path": "resources/puzzle-2-the-best-time-to-party/index.html",
+          "end_time": "",
+          "id": "b72750ed-7db5-be22-b632-00e0df8782f6",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/puzzle-2-the-best-time-to-party/data.json",
+            "sha256": "098eca06903bbeaa2f51cdd4d4f688efa9cddfb2711da033859c20d2ade298ee",
+            "size_bytes": 1717
+          },
+          "start_time": "",
+          "title": "Puzzle 2: The Best Time to Party"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_02_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_02_300k.mp4"
+    },
+    {
+      "id": "ocw_media_c694067256241a4af677",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/6c6f00e6344653d7b9f1ea28f8e08426_eSRNeIyX5dY.vtt",
+              "sha256": "da21c5cfa889925e3545b90e3e76f2f1c5f470cfd46bdea6dae99fe67fc96f9d",
+              "size_bytes": 39638
+            }
+          ],
+          "context_path": "resources/puzzle-7-tile-that-courtyard-please/index.html",
+          "end_time": "",
+          "id": "ac8374ac-d36f-c2aa-f5b1-9b8025428610",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/puzzle-7-tile-that-courtyard-please/data.json",
+            "sha256": "b6c7254c5d8f1fea7ba464479a1d0c58484a316ba741817f4f8ca279a3758ebf",
+            "size_bytes": 1689
+          },
+          "start_time": "",
+          "title": "Puzzle 7: Tile that Courtyard, Please"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_07_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_07_300k.mp4"
+    },
+    {
+      "id": "ocw_media_f153b052c52a9d192e39",
+      "lessons": [
+        {
+          "captions": [
+            {
+              "language": "en",
+              "language_review": "publisher-labelled",
+              "path": "static_resources/53fb19b5eeef5c40ba399a20a3b356f8_zDHhHPZm2rc.vtt",
+              "sha256": "3520700ebd2d3f446f8173f29e9f34111023a135b38b4c09033bd99a3248acd5",
+              "size_bytes": 65113
+            }
+          ],
+          "context_path": "resources/puzzle-3-you-can-read-minds/index.html",
+          "end_time": "",
+          "id": "0e49f2d5-1ca9-6185-f293-5c74103074d8",
+          "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+          "metadata_member": {
+            "path": "resources/puzzle-3-you-can-read-minds/data.json",
+            "sha256": "3651824fb1a79767a04e90783a49a17fb1963eab7f0b132b8374f8bfc919cd96",
+            "size_bytes": 1666
+          },
+          "start_time": "",
+          "title": "Puzzle 3: You Can Read Minds"
+        }
+      ],
+      "publisher_links": [
+        "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_03_300k.mp4"
+      ],
+      "rendition_review": "pending",
+      "source_pin": "pending",
+      "source_url": "https://archive.org/download/MIT6.S095IAP18/MIT6_S095IAP18_Puzzle_03_300k.mp4"
+    }
+  ],
+  "members": [
+    {
+      "path": ".keep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "content_map.json",
+      "sha256": "26ce5079c60b44e6c5f4b83b4963ac7d5f111e5236c9d7293ed8b6c1bcab315e",
+      "size_bytes": 7980
+    },
+    {
+      "path": "data.json",
+      "sha256": "5743d288be163d11d53b6983b6272b20b4220643c0a1919401bb6255f5682485",
+      "size_bytes": 3495
+    },
+    {
+      "path": "download/index.html",
+      "sha256": "aa5745e2ad0327d5083e4008d78f50487598198d754938ab9fdb3bd309388140",
+      "size_bytes": 108200
+    },
+    {
+      "path": "download/index.xml",
+      "sha256": "30380c10cfc4be6d088d0c10c56ef8b8bddd1b9b64ecd1655dc98fe3bb0e19f3",
+      "size_bytes": 1498
+    },
+    {
+      "path": "external-resources/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "external-resources/index.html",
+      "sha256": "f34b251c24ec670b3bba4951bb82142fd714589884d46b75ab8a594aced71d17",
+      "size_bytes": 54658
+    },
+    {
+      "path": "favicon.ico",
+      "sha256": "6d27d37a515c3498aa71f8265d21cadc50ca63eb321e223386d48fe87ec7c552",
+      "size_bytes": 5558
+    },
+    {
+      "path": "index.html",
+      "sha256": "23e508cbed2097d2a857c0750363c2861d558bded40801fda4e63c9fc34e1d82",
+      "size_bytes": 51565
+    },
+    {
+      "path": "pages/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "pages/index.html",
+      "sha256": "ecd17c53002a25afefda26733ad9e0a81c3856c2db01fd156ec05f5355007af3",
+      "size_bytes": 54882
+    },
+    {
+      "path": "pages/puzzle-1-you-will-all-conform/data.json",
+      "sha256": "54c1a8d65add9e5c84cfa8dd9b228b552d95f80c8458025f152a60c6527dcf59",
+      "size_bytes": 6198
+    },
+    {
+      "path": "pages/puzzle-1-you-will-all-conform/index.html",
+      "sha256": "52e1515e1267524584d1d9bf8f8c37e8fbdbfbb0a9b9a8e1431f6263d9b83de4",
+      "size_bytes": 60585
+    },
+    {
+      "path": "pages/puzzle-10-a-weekend-to-remember/data.json",
+      "sha256": "e948fa453a6dabf3586597f27132dc90d2dedd8cc320923e95bfa2b1b7e665aa",
+      "size_bytes": 6083
+    },
+    {
+      "path": "pages/puzzle-10-a-weekend-to-remember/index.html",
+      "sha256": "297f4ef2c6d9040f44c238145989ae04e0cc42bee121b93091e41724a093e792",
+      "size_bytes": 60496
+    },
+    {
+      "path": "pages/puzzle-11-memory-serves-you-well/data.json",
+      "sha256": "55096d6a36d7debae502998c0c11f732058fb773d0d7094b81b64f1e4731e877",
+      "size_bytes": 6099
+    },
+    {
+      "path": "pages/puzzle-11-memory-serves-you-well/index.html",
+      "sha256": "46a2ad7702100d15a99f25dd986184204de293e62ec900ff60cf800985bf79a2",
+      "size_bytes": 60521
+    },
+    {
+      "path": "pages/puzzle-2-the-best-time-to-party/data.json",
+      "sha256": "b6b909e7206bd3b525519fd6bed3670c82dfe864f60767c08830cfdd64e578ca",
+      "size_bytes": 6202
+    },
+    {
+      "path": "pages/puzzle-2-the-best-time-to-party/index.html",
+      "sha256": "d53b22fd52165eee51d77e96206192c66f5b4fee07124c13b7b7db7bfe9a23ba",
+      "size_bytes": 60609
+    },
+    {
+      "path": "pages/puzzle-3-you-can-read-minds/data.json",
+      "sha256": "34dd38a5aa14ac4f48bf9921434e722a0d7ff2a8a447cc4bde420a842943864c",
+      "size_bytes": 6090
+    },
+    {
+      "path": "pages/puzzle-3-you-can-read-minds/index.html",
+      "sha256": "3c82ccf42a03b75c73935ce3f3ca49922ede418f281d284c9d646e95e572d3a3",
+      "size_bytes": 60462
+    },
+    {
+      "path": "pages/puzzle-4-please-do-break-the-crystal/data.json",
+      "sha256": "0a12cd10268b2c0c36269f7a1b841652a62696dd5c187458ad6542e15257e854",
+      "size_bytes": 6061
+    },
+    {
+      "path": "pages/puzzle-4-please-do-break-the-crystal/index.html",
+      "sha256": "159fb5a67609de0250275326908deca4519ec87b0509cae3f7bb0e12aa78705a",
+      "size_bytes": 60524
+    },
+    {
+      "path": "pages/puzzle-5-keep-those-queens-apart/data.json",
+      "sha256": "982197a8d8807dbbdb65cc4c62f9b187038f07e736eea2345af7a61f247ac5a6",
+      "size_bytes": 6275
+    },
+    {
+      "path": "pages/puzzle-5-keep-those-queens-apart/index.html",
+      "sha256": "67ea13dbfbe21d68665bcf5e52aec0ea7c2368055758845307fecfcd270d5aca",
+      "size_bytes": 60692
+    },
+    {
+      "path": "pages/puzzle-6-a-profusion-of-queens/data.json",
+      "sha256": "f44cf1b9736e243ace95680b975b0b72b72b5d7631aed3162b6add21aa6a4c1e",
+      "size_bytes": 6138
+    },
+    {
+      "path": "pages/puzzle-6-a-profusion-of-queens/index.html",
+      "sha256": "a6a969415787f8002d631a6e4114906f825d91b178fe9abcccb5b2e475901e35",
+      "size_bytes": 60538
+    },
+    {
+      "path": "pages/puzzle-7-tile-that-courtyard-please/data.json",
+      "sha256": "70fb7ebd2c0c8046e1b0b6b36983aff90441280d0e5eed2774f48547db701b89",
+      "size_bytes": 6171
+    },
+    {
+      "path": "pages/puzzle-7-tile-that-courtyard-please/index.html",
+      "sha256": "fa765bdac7f9552c3358cdfcc1a42b4136f413cb5471e3636f33181f9193280d",
+      "size_bytes": 60621
+    },
+    {
+      "path": "pages/puzzle-8-you-wont-want-to-play-sudoku-again/data.json",
+      "sha256": "8cf3edc2ae282a5d35282a4bf0851b272fa69b47cf982433ca09d5e7b2e92abf",
+      "size_bytes": 6264
+    },
+    {
+      "path": "pages/puzzle-8-you-wont-want-to-play-sudoku-again/index.html",
+      "sha256": "904a320002bbf8623fef371554b6c3bf163f7705447f8186c7b964ce279be1e6",
+      "size_bytes": 60832
+    },
+    {
+      "path": "pages/puzzle-9-the-disorganized-handyman/data.json",
+      "sha256": "a80630ac3039df7df2722356d10060d5ec772ebc52127ab789d51fed50cdb080",
+      "size_bytes": 6177
+    },
+    {
+      "path": "pages/puzzle-9-the-disorganized-handyman/index.html",
+      "sha256": "8455e9aee3ab2d98e0bd01936ba905f56114dce4c2891df909609fbae39a8227",
+      "size_bytes": 60617
+    },
+    {
+      "path": "pages/syllabus/data.json",
+      "sha256": "226d5787a82e974c9dfa52694bac6a29ac825e837a3ddea2c48e63f9e497cb9f",
+      "size_bytes": 3164
+    },
+    {
+      "path": "pages/syllabus/index.html",
+      "sha256": "e930e0c4ebe1cfa9ed9d2c2badba5bdb55c900c01df2ea4ba95d83708106b194",
+      "size_bytes": 57657
+    },
+    {
+      "path": "resources/14ulxizzwe4-1/data.json",
+      "sha256": "54eccedd1a28672bdc30d48840f9715524efc8f53099faf1e0d891572657e309",
+      "size_bytes": 526
+    },
+    {
+      "path": "resources/14ulxizzwe4-1/index.html",
+      "sha256": "6ee07378e8c195dd3c0ccf0ed6c95e50fac24cd6a3d24bf7ed74f5ac936ebfe0",
+      "size_bytes": 57338
+    },
+    {
+      "path": "resources/14ulxizzwe4-2/data.json",
+      "sha256": "5afffb84947fc14b39b244334c09a6e331c3a04707d46d7ac4757c69736ca5f3",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/14ulxizzwe4-2/index.html",
+      "sha256": "de648811a393d9fc44b3b89257c4dc3490bc628f225e94dd1006681c0cabb5ba",
+      "size_bytes": 56925
+    },
+    {
+      "path": "resources/14ulxizzwe4/data.json",
+      "sha256": "27a9c6d1cb49dfa2ba48c9b928148364e37f060871b2dc6ec918fbc04c217aef",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/14ulxizzwe4/index.html",
+      "sha256": "a9323010bd802ecc92810bfa6ae7b64b4e2767ffb8afb45db5331076998abc1e",
+      "size_bytes": 56915
+    },
+    {
+      "path": "resources/1_0wwiuustc-1/data.json",
+      "sha256": "d7f455bfc29d36d6e09024098e473f062b0c71e1d010bbebd14d9d76bcb0f286",
+      "size_bytes": 526
+    },
+    {
+      "path": "resources/1_0wwiuustc-1/index.html",
+      "sha256": "18854cc5a7e6bccf7606f673d4060d29367b4282f7216f7f46d23881506d70e1",
+      "size_bytes": 57338
+    },
+    {
+      "path": "resources/1_0wwiuustc-2/data.json",
+      "sha256": "0db13a4e48da318287eb914efabf861a6329d6202fbd73c2afee4c768360665f",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/1_0wwiuustc-2/index.html",
+      "sha256": "7bffbcfaf1f8b6810394e77c63da274a55321fff2d605a023b591ad70eeb7b90",
+      "size_bytes": 56925
+    },
+    {
+      "path": "resources/1_0wwiuustc/data.json",
+      "sha256": "af639925d0b1965ac3e28010a18cbe14d58acf23fa54d6d5353edc22df300d33",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/1_0wwiuustc/index.html",
+      "sha256": "16c1af5153319f7318fb1fa14a0feea63ee63c37bbea2890a0578d547c2f7f2c",
+      "size_bytes": 56915
+    },
+    {
+      "path": "resources/4queens-matrix/data.json",
+      "sha256": "04bed55c10a9c7bef38425eb98affce48a78a08433cf031ee1db2d6f56eb8901",
+      "size_bytes": 1510
+    },
+    {
+      "path": "resources/4queens-matrix/index.html",
+      "sha256": "d828c7480e78b53b2ae93b1e255e7ccafcf4b4f34112dd0a9c2e01ffe4eb5a76",
+      "size_bytes": 57117
+    },
+    {
+      "path": "resources/6-s095iap18-th/data.json",
+      "sha256": "9fd1e7f426c3f6beee6bc4af4cd476d24fa25c048a0e36a7ead86d1f42a2d08b",
+      "size_bytes": 818
+    },
+    {
+      "path": "resources/6-s095iap18-th/index.html",
+      "sha256": "25822224fe4e4e3b4d4f9acbf234ebcd535b0196c2753b8d9b8b73f524cf6e7a",
+      "size_bytes": 57688
+    },
+    {
+      "path": "resources/6-s095iap18/data.json",
+      "sha256": "9804b965d18ce904d7dff7d88941b8059db4b8c6fb19f7cb7a1b3fd87dd54a35",
+      "size_bytes": 857
+    },
+    {
+      "path": "resources/6-s095iap18/index.html",
+      "sha256": "320f518cc033df39d04c48137464a0ce498cee2bf82f40c30bad35f4c8d3418c",
+      "size_bytes": 57815
+    },
+    {
+      "path": "resources/6fyk-3vt4fe-1/data.json",
+      "sha256": "f6f8094c57a63fde67af437cc87529f2714e7f10e381de143879c9df863ba606",
+      "size_bytes": 526
+    },
+    {
+      "path": "resources/6fyk-3vt4fe-1/index.html",
+      "sha256": "5f34999482f2636207efffd79f9ab60b1eaa79ac122d7c4e6d28799abe5017a5",
+      "size_bytes": 57338
+    },
+    {
+      "path": "resources/6fyk-3vt4fe-2/data.json",
+      "sha256": "a72c14983ba7ae37b26a03fff6e9e69dc837594e4ab75aff0b8a45ff55ebf3d7",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/6fyk-3vt4fe-2/index.html",
+      "sha256": "aa4dbd4b3fecff663deb361486cb9d29b20f3780f0c8eb74e39801b736396332",
+      "size_bytes": 56925
+    },
+    {
+      "path": "resources/6fyk-3vt4fe/data.json",
+      "sha256": "a1e4a3b6081f5c53d148c9db79712f80d56987d6985da005d74b8b90a3785978",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/6fyk-3vt4fe/index.html",
+      "sha256": "5b05632954363e7d28a599b0250177fb7e7bd2e9aed54c9db9b1cbd90de0823e",
+      "size_bytes": 56915
+    },
+    {
+      "path": "resources/8queens-iterative-exercise1/data.json",
+      "sha256": "34e0ff6c7e2d0a66ad056f6ceac0cee84bf1129f7d8a63037fa783b3a5a4a934",
+      "size_bytes": 1576
+    },
+    {
+      "path": "resources/8queens-iterative-exercise1/index.html",
+      "sha256": "ce79ade5a3b44b8c3163cce1d8d5c785e6b86c1c80a66e6f37d71028a53ef7a7",
+      "size_bytes": 57339
+    },
+    {
+      "path": "resources/8queens-iterative/data.json",
+      "sha256": "1d4df6aec6e90593c18ab05f1a00a3843345e5137281533e7021488761c9cc22",
+      "size_bytes": 1522
+    },
+    {
+      "path": "resources/8queens-iterative/index.html",
+      "sha256": "d854bb1fec0d2e6d50334854a047864cf5739ff43299692629e01352bfd51077",
+      "size_bytes": 57165
+    },
+    {
+      "path": "resources/9ttllvbjvr0-1/data.json",
+      "sha256": "244a022ab1269bbf8d300b59807ded76d0f6cc1d21436803938d86f4e55bb739",
+      "size_bytes": 526
+    },
+    {
+      "path": "resources/9ttllvbjvr0-1/index.html",
+      "sha256": "dece08741d759556b6b2a5cda956fc4ff849935280af7484b4a755e04596d2e8",
+      "size_bytes": 57338
+    },
+    {
+      "path": "resources/9ttllvbjvr0-2/data.json",
+      "sha256": "b5cd8141fa8001e711fbd0115ffaa6d8a0c3c6a4824d19ddfc8393f81993bfb7",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/9ttllvbjvr0-2/index.html",
+      "sha256": "bc49d6c42116309243eedb325ca51d5dcd003acaa4f8a9c32742614a39571913",
+      "size_bytes": 56925
+    },
+    {
+      "path": "resources/9ttllvbjvr0/data.json",
+      "sha256": "7cca33d9fb7f8e14a9027e2401a5f0ea3c31b76c39b21fa77589851d9c56d69f",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/9ttllvbjvr0/index.html",
+      "sha256": "bfa8a8d3ac4b91c7b16c5fe2b31454be155263c3d912df0bcb27c1f573959dfb",
+      "size_bytes": 56915
+    },
+    {
+      "path": "resources/a1raiqkdg0c-1/data.json",
+      "sha256": "0fd82d2f77277bea48b64dbc770310c9b47d870231d6fa5dccac394dc0e49cf1",
+      "size_bytes": 526
+    },
+    {
+      "path": "resources/a1raiqkdg0c-1/index.html",
+      "sha256": "a868956bbed072ee95c376cef578020c2d268116077a8e268b12f14bd004cda4",
+      "size_bytes": 57338
+    },
+    {
+      "path": "resources/a1raiqkdg0c-2/data.json",
+      "sha256": "c8e344629eee1088a7f6f98dc084a7773135b9f977645d83b6c68dba492a16a9",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/a1raiqkdg0c-2/index.html",
+      "sha256": "d6beb7b69b9c0b280bd0f7ae2acd9057e0362ac9ead5686eb91795197a2b8687",
+      "size_bytes": 56925
+    },
+    {
+      "path": "resources/a1raiqkdg0c/data.json",
+      "sha256": "9975be068785930841b600b87fdd3b00f52e0711086288d3e4c6ecd190bc7acf",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/a1raiqkdg0c/index.html",
+      "sha256": "3d844d5d98e51b5eb14462f17fe58138c1496a8be652e50252ec396bd8c85d85",
+      "size_bytes": 56915
+    },
+    {
+      "path": "resources/activity-assignments-with-examples/index.html",
+      "sha256": "aadea3be18b50c23f5403f46031425cb582ca0c34767f6e21569a280396a6da0",
+      "size_bytes": 68683
+    },
+    {
+      "path": "resources/activity-assignments-with-examples/index.xml",
+      "sha256": "5ad63110a38db54892bdb5d6c3fc09f3b91dacda2b8b745f6ad8a707d66aac70",
+      "size_bytes": 4548
+    },
+    {
+      "path": "resources/activity-assignments/index.html",
+      "sha256": "14cfcb063cc141d472c51ac727e2835df12a36152fc470f61d6a1ef595a1b2c1",
+      "size_bytes": 76559
+    },
+    {
+      "path": "resources/activity-assignments/index.xml",
+      "sha256": "08981e82e2d1be7d60a2c959d4b77ea8278615025b9b22864761b2364fe1b3c7",
+      "size_bytes": 6347
+    },
+    {
+      "path": "resources/auk3pszoidc-1/data.json",
+      "sha256": "ed471dd4e8a2ac746a190fd987737450d8cfe73ab7ba23370a5a464fc4918171",
+      "size_bytes": 526
+    },
+    {
+      "path": "resources/auk3pszoidc-1/index.html",
+      "sha256": "43629ca691650c2b4ad4faae8d0033fa60b087e86ffe407fc3167f863c138a93",
+      "size_bytes": 57338
+    },
+    {
+      "path": "resources/auk3pszoidc-2/data.json",
+      "sha256": "7b59c89805656756d00f35b28b9878bfde269a2cc91e0f6c95fdf7fbc3e6163e",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/auk3pszoidc-2/index.html",
+      "sha256": "adc4c32780ceb7c02f50aeffaa6e252e481df38ced87ba7d3e71f78a209c63e2",
+      "size_bytes": 56925
+    },
+    {
+      "path": "resources/auk3pszoidc/data.json",
+      "sha256": "6c3b7578cffb38d79d3b5916213f418529b3ace5434062c0a8fcc7f1e45beb7b",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/auk3pszoidc/index.html",
+      "sha256": "1d158c6e5736fe826ea5dcbf4013c8802e4b70d9c80313e6e8ca9e98976b0d18",
+      "size_bytes": 56915
+    },
+    {
+      "path": "resources/balls-exercise1/data.json",
+      "sha256": "1fedd54c7097b74ce4bbccf75f33ac948e7c88acc8f5c128bd8fa154ba8dd763",
+      "size_bytes": 1532
+    },
+    {
+      "path": "resources/balls-exercise1/index.html",
+      "sha256": "6f1e49ee0dc5c1b265f692aa042c5a3c7a952bd0559e5e402c25a3695a2bd0c1",
+      "size_bytes": 57151
+    },
+    {
+      "path": "resources/balls/data.json",
+      "sha256": "ebde1998815853ce2238e2b540056000deea117208c41b2007f0b802975255b7",
+      "size_bytes": 1478
+    },
+    {
+      "path": "resources/balls/index.html",
+      "sha256": "4b9e735dad4eee21b4599787e9f76fb090aafce038b9d8c89cdfed71472be679",
+      "size_bytes": 56977
+    },
+    {
+      "path": "resources/bipartite-exercise1/data.json",
+      "sha256": "7c10e9aa859e0e623a2205513e62ed41e2d5b34d07327243e7b1eb3dd62cf4fa",
+      "size_bytes": 1543
+    },
+    {
+      "path": "resources/bipartite-exercise1/index.html",
+      "sha256": "6b6c28b3020c32b6c98a304c4aa7228e9d702b31c38c6bb44ff1a1b595bb38a2",
+      "size_bytes": 57210
+    },
+    {
+      "path": "resources/bipartite/data.json",
+      "sha256": "55110231f1e3e8e20ee9d9b133ea45689194b093e874eb4566216bb4367da743",
+      "size_bytes": 1489
+    },
+    {
+      "path": "resources/bipartite/index.html",
+      "sha256": "e5b489833341c8567f58aa7b7a2070bd77b71c52a77c0bb8ff4cb0dd0f06fb91",
+      "size_bytes": 57036
+    },
+    {
+      "path": "resources/conform-opt/data.json",
+      "sha256": "e52ed00b1b31f8610ccf9734b9ae8cfd3ffeebbdedd15519fe81e1aa317a55c0",
+      "size_bytes": 1495
+    },
+    {
+      "path": "resources/conform-opt/index.html",
+      "sha256": "0bedf813114e82982d8cfb0004adabe7480b943255bd4fb51cc1576b9d47a3c7",
+      "size_bytes": 57066
+    },
+    {
+      "path": "resources/conform/data.json",
+      "sha256": "b8d5342fdd22451f83cc4cc1780587bda2fd697474aff6d12199f058410c76f5",
+      "size_bytes": 1479
+    },
+    {
+      "path": "resources/conform/index.html",
+      "sha256": "1ed8d2e111d476e16dd5c0c37eab6d4dea10e21a0179c9f54ed81da6bf16e0a7",
+      "size_bytes": 57002
+    },
+    {
+      "path": "resources/esrneiyx5dy-1/data.json",
+      "sha256": "70adb86c62ce19c609b3eac73554c30234d476234fe37cdeefd118ec50f8ae11",
+      "size_bytes": 526
+    },
+    {
+      "path": "resources/esrneiyx5dy-1/index.html",
+      "sha256": "8cb359eb3c394c3643ce1ba5514d2afc704238edc1a9fe13f2fabb318aadb1e8",
+      "size_bytes": 57338
+    },
+    {
+      "path": "resources/esrneiyx5dy-2/data.json",
+      "sha256": "596c0a6cdbdbc4c2b3109952388c83443df33dbe3d39aa9dedf700dc41b12d57",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/esrneiyx5dy-2/index.html",
+      "sha256": "ee199a5079a50e678d4c9766ae3322130c3bb78b3e90370be09a4f1e3f940664",
+      "size_bytes": 56925
+    },
+    {
+      "path": "resources/esrneiyx5dy/data.json",
+      "sha256": "9b645daa0d29f4e2f5bcad8d131a6f57a8dece0919d32d9ee0b46b4b765bb48b",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/esrneiyx5dy/index.html",
+      "sha256": "a8e2cf81875433b2871d1ecff14332a3870f37ad8581fc8bad53f7a96e88ec58",
+      "size_bytes": 56915
+    },
+    {
+      "path": "resources/fp7usgx_cvm-1/data.json",
+      "sha256": "36a9ef65089335f1e28026e28cb7e64a48059111502af90cf85d39f3d46a5d47",
+      "size_bytes": 526
+    },
+    {
+      "path": "resources/fp7usgx_cvm-1/index.html",
+      "sha256": "477d6128d2caaa048a90b05fe89bf7ec31f036d5e0e67321422df073f519fbb6",
+      "size_bytes": 57338
+    },
+    {
+      "path": "resources/fp7usgx_cvm-2/data.json",
+      "sha256": "5640de84e433875ffbcddb036b7160a24ed0c4d3ceb9117c042df64ddf914544",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/fp7usgx_cvm-2/index.html",
+      "sha256": "b2619e327fcebb0ab13c4a20f98260521c54373d71f9b48117dc4e3257bb95fc",
+      "size_bytes": 56925
+    },
+    {
+      "path": "resources/fp7usgx_cvm/data.json",
+      "sha256": "1d1327dd1be4542b77f859d084d14af106425e3d9eec77efcf3f30135a47c177",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/fp7usgx_cvm/index.html",
+      "sha256": "9828605f985d59e666b87cad33ba4ec6b7cdb11c676bb025edbb4539fe632830",
+      "size_bytes": 56915
+    },
+    {
+      "path": "resources/gcd/data.json",
+      "sha256": "8ea012a6aab998cbddf205a2c86f9bdfae0a7c14773f8a6c9609661230b65b6b",
+      "size_bytes": 1463
+    },
+    {
+      "path": "resources/gcd/index.html",
+      "sha256": "6f01702ae85abe51c64f896295f6c83e06b9d044aa05bbfd783b09a14ec2761a",
+      "size_bytes": 56940
+    },
+    {
+      "path": "resources/lecture-notes/index.html",
+      "sha256": "e87956f1a308306abdb1129168ec5b6a454bac6188ab21afd321919a07b5c1cd",
+      "size_bytes": 69086
+    },
+    {
+      "path": "resources/lecture-notes/index.xml",
+      "sha256": "5450e0e1890e3663e8840d4476ee95de8f18f986f6e40794a70d0c5be85482a6",
+      "size_bytes": 4802
+    },
+    {
+      "path": "resources/lecture-videos/index.html",
+      "sha256": "3ace4e115c165d29e5da0ef2ca681c6c89581ca5815a9c23d5d88ffac28a6751",
+      "size_bytes": 68955
+    },
+    {
+      "path": "resources/lecture-videos/index.xml",
+      "sha256": "88483ef8c7c7b43193df7c670f92b90e55c501c757fb837327ee221c640e2c91",
+      "size_bytes": 3992
+    },
+    {
+      "path": "resources/line-exercise1/data.json",
+      "sha256": "403db84ea9f7dcb5092ca412715ce7a387b8e8b7a39ad4367c7ea6f61ec2b2e1",
+      "size_bytes": 1521
+    },
+    {
+      "path": "resources/line-exercise1/index.html",
+      "sha256": "be5008242d27101e6c559d53684371e7a8c43eed6ac097fc4a15ca8327d48b08",
+      "size_bytes": 57128
+    },
+    {
+      "path": "resources/magic-exercise1/data.json",
+      "sha256": "adb5d95be8ed650774e743b077be230e7353c6536bef1647bb22abb04d704a2c",
+      "size_bytes": 1523
+    },
+    {
+      "path": "resources/magic-exercise1/index.html",
+      "sha256": "2ff56b2012be9aa897b025508714b172e895e64cf50987c7a6adc2a10eeeebf9",
+      "size_bytes": 57142
+    },
+    {
+      "path": "resources/magic/data.json",
+      "sha256": "0b0aec663a90ce5904688465f08a1b5d5a9ddd775f702782c59c0edc60059764",
+      "size_bytes": 1469
+    },
+    {
+      "path": "resources/magic/index.html",
+      "sha256": "a55daeaa9b6b2a47e4a899946b78bdd0ce818f98c2288057475f91348c6a7272",
+      "size_bytes": 56968
+    },
+    {
+      "path": "resources/maxsum-exercise1/data.json",
+      "sha256": "2a1da78f378462baad4a27a2d6fc88ca4d9d53bb7af1a054f5c537f7c98c0316",
+      "size_bytes": 1532
+    },
+    {
+      "path": "resources/maxsum-exercise1/index.html",
+      "sha256": "1bbb2f469df4206b3103ab834026ea3afe36268c0858a9fe0efce971ba3b4321",
+      "size_bytes": 57163
+    },
+    {
+      "path": "resources/maxsum/data.json",
+      "sha256": "24ff2fea9f415cb7c360b06306af2b55e2ed0a38319c6423ea8d3c3009c7c486",
+      "size_bytes": 1478
+    },
+    {
+      "path": "resources/maxsum/index.html",
+      "sha256": "27810d371408bb80c8983db097bc889c5417153392ca809129f300a07d686356",
+      "size_bytes": 56989
+    },
+    {
+      "path": "resources/mergesort/data.json",
+      "sha256": "de42e2d0039da0fe32958a9344c0cbfb90bb89f39c69b7b13e3c8decf2a2490c",
+      "size_bytes": 1493
+    },
+    {
+      "path": "resources/mergesort/index.html",
+      "sha256": "e40a7e6062bbc3406b192f2ba44168a010180967f1f8a1ed7f063494605a8388",
+      "size_bytes": 57040
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_1/data.json",
+      "sha256": "33fc30baa6be61e500280a4238132f234ca0435e0ff9acb57e92154bb5f31a8e",
+      "size_bytes": 1518
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_1/index.html",
+      "sha256": "6b4899f8b554c84bd32b9aaa58eb5bbb45a9e94059eb93029765136d9b7a8b56",
+      "size_bytes": 57727
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_10/data.json",
+      "sha256": "db6ea49f666a20e3194d18b5b66f4a612a96e42c286a305e8d34dc064a682576",
+      "size_bytes": 1525
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_10/index.html",
+      "sha256": "0ff92c0cf5f368f621fae0ac1086e36db66e9590a4eeb4c33881d4802adeca85",
+      "size_bytes": 57744
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_11/data.json",
+      "sha256": "77ac780110dfec3a7d2f0435857e40d7db5daf483cb2e2ba2dc0ef0d994048cc",
+      "size_bytes": 1526
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_11/index.html",
+      "sha256": "671fe95960a52fae457b5b895e02f1ed5677b976252fe5ae48efc4be62827f31",
+      "size_bytes": 57752
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_2/data.json",
+      "sha256": "708ebcb5bf6625f13ff863c5f352071274c5de2e61b2b4b846626ab5688e4df2",
+      "size_bytes": 1522
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_2/index.html",
+      "sha256": "108c143142fc5790c5ba2edbfb54ecd25bfbb446900a119349083eb51370a29c",
+      "size_bytes": 57739
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_3/data.json",
+      "sha256": "328ff8aeb55a552df6d2018a83b4ab7121b35a11de8c9fa08bf05b67921a9918",
+      "size_bytes": 1542
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_3/index.html",
+      "sha256": "fc4d136865e34b15a21727a31e75f14d90131901528f9408272a26cdefa8570d",
+      "size_bytes": 57855
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_4/data.json",
+      "sha256": "6d4607f89c1a99edc4fcd260d8d68e18eff30a94670bbae21ca3b1802b4ee5f2",
+      "size_bytes": 1532
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_4/index.html",
+      "sha256": "25f715d14136594cbdec511ea5180a84d2bfbfbe69055e670577fe68e416ef25",
+      "size_bytes": 57769
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_5/data.json",
+      "sha256": "7f26a143281b09d053a1d8f224507d7ae7e7e837ab589f037096e2e5697a6f1f",
+      "size_bytes": 1524
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_5/index.html",
+      "sha256": "8abc5f1429e90c2ed1c77d4cc13e23c3caee37b7e3e518f2dd34bcc89c9b12ff",
+      "size_bytes": 57745
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_6/data.json",
+      "sha256": "2ca8dfce57f88b268b6a9465c729084e9cb97b64e6d289ac8fae6bdecef8dd91",
+      "size_bytes": 1549
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_6/index.html",
+      "sha256": "b6e468477430c1ed019a0f1cb4dbc3a042da659afd54f4e9418f4404e7a17ac8",
+      "size_bytes": 57882
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_7/data.json",
+      "sha256": "c77081c36d17dd6656a2ef48eeb9cad4bbad551c53d82ca198e9c088e59354c2",
+      "size_bytes": 1531
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_7/index.html",
+      "sha256": "8014efdb1dd86b20f1f48366e9925a6862f24748f2dae004e91ee4ecc4d3d2d8",
+      "size_bytes": 57768
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_8/data.json",
+      "sha256": "ef0a71dbe6250ff088f094721860d6ece31ae2cbf2e97d2fbed47323fa06780c",
+      "size_bytes": 1551
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_8/index.html",
+      "sha256": "ba6bfadeef04325e5c263a0df1656ec26353e4083f5702392188525fcdbfead2",
+      "size_bytes": 57829
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_9/data.json",
+      "sha256": "ba149655d55769131fdf22e38925f8a4d0e2ceff9116905bc9dc3ca428e5aefa",
+      "size_bytes": 1528
+    },
+    {
+      "path": "resources/mit6_s095iap18_puzzle_9/index.html",
+      "sha256": "0d2a6723536a591f35270047a5d22f04cd577080a615db4fa190957f120bc59f",
+      "size_bytes": 57757
+    },
+    {
+      "path": "resources/nqueens-exercise1/data.json",
+      "sha256": "0470df6be4004b7fd9203e58a18ae56e08c4c98e5d680a8882708e772498d477",
+      "size_bytes": 1534
+    },
+    {
+      "path": "resources/nqueens-exercise1/index.html",
+      "sha256": "80dd5bbbc98c88fe11715fe369cc6b2bc68a0b3c7dfe8a435a43a9a5bff499a8",
+      "size_bytes": 57177
+    },
+    {
+      "path": "resources/nqueens/data.json",
+      "sha256": "31288dc636d6eebc75f085ac42083a46384f76866b62eff41f905a136353529b",
+      "size_bytes": 1480
+    },
+    {
+      "path": "resources/nqueens/index.html",
+      "sha256": "216dd42bc249e791a5beef49ec64f49546b4e96141da8252be47fc5b4d7e63f9",
+      "size_bytes": 57003
+    },
+    {
+      "path": "resources/party/data.json",
+      "sha256": "2a82b2ff5babb610fa60981758317799cee962d442ade328c113efcbb1d6f8cf",
+      "size_bytes": 1473
+    },
+    {
+      "path": "resources/party/index.html",
+      "sha256": "de0be6779fa1bf06bcb2b2f804d7ce591ed1629a0212aa354fc1df0bebd9199a",
+      "size_bytes": 56972
+    },
+    {
+      "path": "resources/partysmart-exercise1/data.json",
+      "sha256": "84aabf532958be61cc93b9f6d0efe12e2de399a8823b13820b7a2c35371ae0c3",
+      "size_bytes": 1547
+    },
+    {
+      "path": "resources/partysmart-exercise1/index.html",
+      "sha256": "79dd1de404fa0734b1727c4c6d3b4292b4959501b131c3b2a8c61bc13eff9810",
+      "size_bytes": 57226
+    },
+    {
+      "path": "resources/partysmart/data.json",
+      "sha256": "c3003152e88a065e67adf8785c05fd90eeef57460aa9b91b0e3e00730e199fad",
+      "size_bytes": 1493
+    },
+    {
+      "path": "resources/partysmart/index.html",
+      "sha256": "c63659766898944e0a70d3eea95d54c647e23ce5a398fdda05b77431cd4c08ea",
+      "size_bytes": 57052
+    },
+    {
+      "path": "resources/pe1mbdbgfwc-1/data.json",
+      "sha256": "45463e67972832956eb56bfe170c48d391e26da35dfc0c939f7b045b0b66bd48",
+      "size_bytes": 526
+    },
+    {
+      "path": "resources/pe1mbdbgfwc-1/index.html",
+      "sha256": "6a3c98b1aabec29510a0667c6a3e6302bdce7043c3027a8eac463ef1a39c8c7b",
+      "size_bytes": 57338
+    },
+    {
+      "path": "resources/pe1mbdbgfwc-2/data.json",
+      "sha256": "b6dd6b65a66290bbe43990bbeb4781fa9d99c0d7aaa788ea3d568771f7e991ad",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/pe1mbdbgfwc-2/index.html",
+      "sha256": "102095a37035d493f9fa977b5713a0f093ee877e171175d9f28199ebf2b61f15",
+      "size_bytes": 56925
+    },
+    {
+      "path": "resources/pe1mbdbgfwc/data.json",
+      "sha256": "32d96b61cf31f6df3f6d6549c8c3c9cf310904e9e09c3c879615342bf1c5175f",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/pe1mbdbgfwc/index.html",
+      "sha256": "96c68f7f66d3c7e926c8dbc5fcb89a4c4b419cfd1823284d8fb96dbc19f3426e",
+      "size_bytes": 56915
+    },
+    {
+      "path": "resources/puzzle-1-you-will-all-conform/data.json",
+      "sha256": "c6af4f1f46eec301c0c44e4ab5176433e4bbd914a1c4ed7bfd0637df44bd1a70",
+      "size_bytes": 1650
+    },
+    {
+      "path": "resources/puzzle-1-you-will-all-conform/index.html",
+      "sha256": "09533e80c94c498ecadd423584c67c0b9faf38a03caeefb153059f36093c16dd",
+      "size_bytes": 60503
+    },
+    {
+      "path": "resources/puzzle-10-a-weekend-to-remember/data.json",
+      "sha256": "b5cc3d7c7beb1caa504cee9154c79301356b8d9713ba7ab8bc16d17da937a170",
+      "size_bytes": 1668
+    },
+    {
+      "path": "resources/puzzle-10-a-weekend-to-remember/index.html",
+      "sha256": "c373fe4b396cf4d6b1f20876800194fd4fd2506324ed543a28dc47a65ce259d2",
+      "size_bytes": 60523
+    },
+    {
+      "path": "resources/puzzle-11-memory-serves-you-well/data.json",
+      "sha256": "d8dd97e0f6583b217338a35a52397578adb29957a43f2e6d97479e368b2dbc52",
+      "size_bytes": 1662
+    },
+    {
+      "path": "resources/puzzle-11-memory-serves-you-well/index.html",
+      "sha256": "235128152c096865b9dff5ed2e79cef7ab77bfebf7c25774c796eeb5a2909b7e",
+      "size_bytes": 60533
+    },
+    {
+      "path": "resources/puzzle-2-the-best-time-to-party/data.json",
+      "sha256": "098eca06903bbeaa2f51cdd4d4f688efa9cddfb2711da033859c20d2ade298ee",
+      "size_bytes": 1717
+    },
+    {
+      "path": "resources/puzzle-2-the-best-time-to-party/index.html",
+      "sha256": "e30de24bc3551b44983af5d85cf989e14397fe412f12dae53ee9d54bfdaad393",
+      "size_bytes": 60523
+    },
+    {
+      "path": "resources/puzzle-3-you-can-read-minds/data.json",
+      "sha256": "3651824fb1a79767a04e90783a49a17fb1963eab7f0b132b8374f8bfc919cd96",
+      "size_bytes": 1666
+    },
+    {
+      "path": "resources/puzzle-3-you-can-read-minds/index.html",
+      "sha256": "9c11a89fa59c1a985ad428fc1947afa9d1c6d3005e7eb5bf9aea01f1c096cd28",
+      "size_bytes": 60483
+    },
+    {
+      "path": "resources/puzzle-4-please-do-break-the-crystal/data.json",
+      "sha256": "b716fb47270acf23796358d40b532b4dbad234f122c897781f59ff688934f0bf",
+      "size_bytes": 1694
+    },
+    {
+      "path": "resources/puzzle-4-please-do-break-the-crystal/index.html",
+      "sha256": "10cc46f3fb6a4ff01b180b62a76f398fceaa35fa766c0c70a8cf57c5868f8afb",
+      "size_bytes": 60573
+    },
+    {
+      "path": "resources/puzzle-5-keep-those-queens-apart/data.json",
+      "sha256": "dd7eb68693bf68830ea46d0b624b1cc3a796ddac8da60716f9f10c350404466b",
+      "size_bytes": 1670
+    },
+    {
+      "path": "resources/puzzle-5-keep-those-queens-apart/index.html",
+      "sha256": "ea848d746da19b94dc3f51bc9b6548c8bf1da6a52a0ec90ea9da19895c925737",
+      "size_bytes": 60533
+    },
+    {
+      "path": "resources/puzzle-6-a-profusion-of-queens/data.json",
+      "sha256": "71ca1d3649dac43c2dcec46e1263c2162edd4d97843d244759cb2c3e8f123673",
+      "size_bytes": 1670
+    },
+    {
+      "path": "resources/puzzle-6-a-profusion-of-queens/index.html",
+      "sha256": "e42ea11459cfaad8fefe6e4ee29b385f8977c8e46d3fd6a2ddad0031265e512e",
+      "size_bytes": 60513
+    },
+    {
+      "path": "resources/puzzle-7-tile-that-courtyard-please/data.json",
+      "sha256": "b6c7254c5d8f1fea7ba464479a1d0c58484a316ba741817f4f8ca279a3758ebf",
+      "size_bytes": 1689
+    },
+    {
+      "path": "resources/puzzle-7-tile-that-courtyard-please/index.html",
+      "sha256": "37bfaacbe788f6fa4084d4a57c546ee43e691b2a509be23bd7ad952d272abfc2",
+      "size_bytes": 60567
+    },
+    {
+      "path": "resources/puzzle-8-you-wont-want-to-play-sudoku-again/data.json",
+      "sha256": "6fa38dc236feece542794d4567c55f8de90da8b01e626dcf15ebe9015840bddc",
+      "size_bytes": 1698
+    },
+    {
+      "path": "resources/puzzle-8-you-wont-want-to-play-sudoku-again/index.html",
+      "sha256": "432af3b4e0149c7a8b03a02c5b00ccacf769a125f4e7f7a149cddc753527c41f",
+      "size_bytes": 60673
+    },
+    {
+      "path": "resources/puzzle-9-the-disorganized-handyman/data.json",
+      "sha256": "b5b24275591caa3df6f104a247128f2543ad6e93e5aac783a3c6f7727c59b43c",
+      "size_bytes": 1681
+    },
+    {
+      "path": "resources/puzzle-9-the-disorganized-handyman/index.html",
+      "sha256": "d26e8facd34d11fdefd789a37e539fdc54cd96673b0030ae28774f5326065424",
+      "size_bytes": 60553
+    },
+    {
+      "path": "resources/quicksort-exercise1/data.json",
+      "sha256": "900524685f7c6e8baf271f63134ff0d33767c3d9b0eadff3ab7eb3a90dbaa63f",
+      "size_bytes": 1546
+    },
+    {
+      "path": "resources/quicksort-exercise1/index.html",
+      "sha256": "55b91a5b96772d0434b8d362c8fa10c6e59a8964345cbe7b3ff1db43fff37008",
+      "size_bytes": 57213
+    },
+    {
+      "path": "resources/quicksort-inplace/data.json",
+      "sha256": "e02dac82a6d039386a0b9dfa4137a6a146c80c7a27f5b5c52388aa9cee6688f7",
+      "size_bytes": 1524
+    },
+    {
+      "path": "resources/quicksort-inplace/index.html",
+      "sha256": "b7c1327e07132de1be51647daa686f95dc956bac205cde64556d4c0cbc44f1e3",
+      "size_bytes": 57167
+    },
+    {
+      "path": "resources/quicksort/data.json",
+      "sha256": "7d0aa98cf70b762e11a6cfd6383d86695669a48a4200b4207dab30606955d274",
+      "size_bytes": 1492
+    },
+    {
+      "path": "resources/quicksort/index.html",
+      "sha256": "f99d0bf544f0294eeac1e56033092cbfaddd74e530834e9b83f6e37c65c4c856",
+      "size_bytes": 57039
+    },
+    {
+      "path": "resources/sudoku-opt-exercise1/data.json",
+      "sha256": "e3b0264ccab8e48d97a2fbcecf088f2160f05d47f1d15086ed3e12a39f6d5068",
+      "size_bytes": 1561
+    },
+    {
+      "path": "resources/sudoku-opt-exercise1/index.html",
+      "sha256": "a59bbd21783ca07eea4e3d106e12b46273bde978afba6aa1ce86b2fe898103ec",
+      "size_bytes": 57246
+    },
+    {
+      "path": "resources/sudoku-opt/data.json",
+      "sha256": "fddc69f60e1d7e2dafbf3fb9079b7027636ff06ec05a94fc8981693e06ac409a",
+      "size_bytes": 1507
+    },
+    {
+      "path": "resources/sudoku-opt/index.html",
+      "sha256": "a97b6c35e7ec1f8b7d36c1d37606221cc9543b5ca3a99cf051b7eecbac5c3472",
+      "size_bytes": 57072
+    },
+    {
+      "path": "resources/sudoku/data.json",
+      "sha256": "5b44f7713fd0b2753b630c8b484112da83d8be50fddac87f850263b1b4f8ddd4",
+      "size_bytes": 1490
+    },
+    {
+      "path": "resources/sudoku/index.html",
+      "sha256": "35a2ff63b78e6169daa2b3245af8ba00bc530c209981cd2faaf9a88423ccf83c",
+      "size_bytes": 57005
+    },
+    {
+      "path": "resources/tiling-exercise1/data.json",
+      "sha256": "a1a4fe586cfdc224856f5edf240619b351a551be8d774172ecdbb88322ebb31a",
+      "size_bytes": 1535
+    },
+    {
+      "path": "resources/tiling-exercise1/index.html",
+      "sha256": "dfdd83c0721a901e0956072e85df32cc28873f54cf97729a74d9464e197c67a5",
+      "size_bytes": 57166
+    },
+    {
+      "path": "resources/tiling/data.json",
+      "sha256": "4594bbc2a99834efd86c9437c1f48e1edded5335097a902d3d9bc732f3fdb559",
+      "size_bytes": 1481
+    },
+    {
+      "path": "resources/tiling/index.html",
+      "sha256": "9c6c6c8910e0c3f66bfb8098cf31c5eb4c3ce0d1fb2bdee137f87e1dcae42259",
+      "size_bytes": 56992
+    },
+    {
+      "path": "resources/zdhhhpzm2rc-1/data.json",
+      "sha256": "e04198078165cf2e74cd95a6c053ab99c2408282c6893e26c1d3c49228b777aa",
+      "size_bytes": 526
+    },
+    {
+      "path": "resources/zdhhhpzm2rc-1/index.html",
+      "sha256": "4ef0fb43cd7ce23efa376c38f32753a81ae2bd1decb920632f5b98b2589adc75",
+      "size_bytes": 57338
+    },
+    {
+      "path": "resources/zdhhhpzm2rc-2/data.json",
+      "sha256": "e96e8d19ffd355b745eb5551339c152c50132fc4e72e7569148f400a5f5ff47a",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/zdhhhpzm2rc-2/index.html",
+      "sha256": "2098c1685ad0515ff6c950968433d2070564c972b26577ff3e45cde4bd79f730",
+      "size_bytes": 56925
+    },
+    {
+      "path": "resources/zdhhhpzm2rc/data.json",
+      "sha256": "abf28f5ce8df597c43aa09a9bcb2c1ed3a3f650c7e8e6dbda55494ecdbc82ab2",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/zdhhhpzm2rc/index.html",
+      "sha256": "2b0a38b1b706da2b50b7959e4532f4c8f520f42f8492839793d60693e579a116",
+      "size_bytes": 56915
+    },
+    {
+      "path": "resources/zgk93cwmvk8-1/data.json",
+      "sha256": "61b1a5a35888fddbdcf3c4c8e26cdf80eb2539bae382a7f05a605a8148f1a26a",
+      "size_bytes": 526
+    },
+    {
+      "path": "resources/zgk93cwmvk8-1/index.html",
+      "sha256": "01417a6b33c674f1fc27139056095ca55c48b660dfba6a9d666e1724169fb93c",
+      "size_bytes": 57338
+    },
+    {
+      "path": "resources/zgk93cwmvk8-2/data.json",
+      "sha256": "147e63c9945175f45045af1f83b803706fae204e88a283a53c674a4ad6ba94e9",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/zgk93cwmvk8-2/index.html",
+      "sha256": "55f4575d038113816aeee105801abd8e57653a7014b3dc0ebab2a2a203055b2f",
+      "size_bytes": 56925
+    },
+    {
+      "path": "resources/zgk93cwmvk8/data.json",
+      "sha256": "75ab9e8b09926a898a39f1fcc8b757bb99d535c3535f94b103399a5abaa544d4",
+      "size_bytes": 532
+    },
+    {
+      "path": "resources/zgk93cwmvk8/index.html",
+      "sha256": "ccd85342dca5c5c828512bd9f0e76d3df613d8b37b07d7d9d7c319b122c82a71",
+      "size_bytes": 56915
+    },
+    {
+      "path": "robots.txt",
+      "sha256": "f27970d7026ceb04fe68877b9fa112cf6a93a2bd537c8dce7e7fdc27182d5a62",
+      "size_bytes": 64
+    },
+    {
+      "path": "sitemap.xml",
+      "sha256": "6e7a0233274da80cd66851f2637ce6ad26422bb918dc12444da332435b9089e5",
+      "size_bytes": 10639
+    },
+    {
+      "path": "static_resources/01c2534c56f11b9ef38f6ee2f023e9cc_MIT6_S095IAP18_Puzzle_1.pdf",
+      "sha256": "7ab0b1f7812118f56838c6f02fe9a872cdfa4888af0095fbc0924191e0cfda8e",
+      "size_bytes": 196278
+    },
+    {
+      "path": "static_resources/0549cb1d30fedad2aa8f52e121643923_1_0WwiUUsTc.srt",
+      "sha256": "02eedd92010bea420b66bbc05979475dd9a17f4d34957cb48f0cf51058d75a34",
+      "size_bytes": 77108
+    },
+    {
+      "path": "static_resources/05eea3c3320dd6788ea52ace5a322267_4queens-matrix.py",
+      "sha256": "8d15ce9abeb1c90d0e5218f57d3afea3191d88fa6d9133aa58f553df6a860ecd",
+      "size_bytes": 2312
+    },
+    {
+      "path": "static_resources/0937b4feb932f0f906c68fa9bc924dce_8queens-iterative.py",
+      "sha256": "0d6e942db82f688c4b98499dd787e48bc66c5b926d56fcf9f33959a3f15df9e6",
+      "size_bytes": 2062
+    },
+    {
+      "path": "static_resources/0b63ba694a2a04bc775a5de99f3312ff_a1RaIqkdG0c.srt",
+      "sha256": "bd19781bb6f4ad8c93e53080620e801ca234352cf8cd2b6a941b69c803f16094",
+      "size_bytes": 39235
+    },
+    {
+      "path": "static_resources/0c5643caa16e0cb96284219b455b5afb_maxsum.py",
+      "sha256": "5bedd30aa48117bcc6d0b1ad152e4336c0fc10274370b75ad72d85882bc91441",
+      "size_bytes": 2489
+    },
+    {
+      "path": "static_resources/15f2c69663f9722a7cfee2e011b42204_Fp7usgx_CvM.pdf",
+      "sha256": "0ba9f6968955302e9933a43d2556b705c90775d088d51ba4f1d52435f5d466f7",
+      "size_bytes": 67646
+    },
+    {
+      "path": "static_resources/19f4dcdbaa6adf887942ffebeb80caa5_a1RaIqkdG0c.srt",
+      "sha256": "bd19781bb6f4ad8c93e53080620e801ca234352cf8cd2b6a941b69c803f16094",
+      "size_bytes": 39235
+    },
+    {
+      "path": "static_resources/2440ea89b3e24b8d82eb76176f00c12e_partysmart-exercise1.py",
+      "sha256": "37cf7088ac0961f44187d600f3c0aa5c64ae606373b4e51f206003f5b45f1321",
+      "size_bytes": 2927
+    },
+    {
+      "path": "static_resources/26f6ac568361c9e5a092a988c82a0519_9TtLlVBjvR0.pdf",
+      "sha256": "5e845b78874bb59215b07ed612f46989de18da25c7111c006ff50491d0b66e24",
+      "size_bytes": 69713
+    },
+    {
+      "path": "static_resources/2d431929cbf5369707b39fb7675ecdaf_MIT6_S095IAP18_Puzzle_9.pdf",
+      "sha256": "91cbfd347e62064f9787ed5d32a5c2ef15755b69341e7a0182820378e9e1f7a6",
+      "size_bytes": 850883
+    },
+    {
+      "path": "static_resources/379da87513f17f54e34cddb33b29d774_bipartite-exercise1.py",
+      "sha256": "18837df1538e0edb8a3fb36aa372f8a8d53fe55b3fc34b40b3a6545c58765a82",
+      "size_bytes": 2738
+    },
+    {
+      "path": "static_resources/37e57d5b196fae805d81fdef43f59c17_Pe1MBDbGfwc.srt",
+      "sha256": "7e3a4442c7f06bb9635c2fc77c8e1e71fb1d559e58593f008579e4f8e3360dd7",
+      "size_bytes": 38479
+    },
+    {
+      "path": "static_resources/392c0f0fc4125f788274ac14c22f58f3_Fp7usgx_CvM.vtt",
+      "sha256": "6e774bd746d52d5f81a01e1541f66f31b1ebfa85364103139fb312b347729546",
+      "size_bytes": 72622
+    },
+    {
+      "path": "static_resources/3ef7addb01115c829b24964bf96883b3_zgk93CwMVk8.vtt",
+      "sha256": "40ec94fca8161faeaa93fc04920be93c2bf8945d1f53e839e4199c47884ccf9d",
+      "size_bytes": 63130
+    },
+    {
+      "path": "static_resources/3f63a796b0f45765a4432f1030dbd129_Pe1MBDbGfwc.vtt",
+      "sha256": "268e271f162dada98da1784a0b447cf946e44e9c941a714e5b0db1e57eba8dd7",
+      "size_bytes": 36563
+    },
+    {
+      "path": "static_resources/4519db23262b95d2668381c10226b54f_9TtLlVBjvR0.srt",
+      "sha256": "556fe265c7ad8a451bedcf72e5312281fb4ecd36ba826c9691d9881414144fb3",
+      "size_bytes": 78847
+    },
+    {
+      "path": "static_resources/46888d58beddc5b5a33ce0e44ef72fe2_Fp7usgx_CvM.srt",
+      "sha256": "9209c1c61e24a9e1ff3b81ca99ea4cae8cf9a84da1246215ce9c3f81abb3f18f",
+      "size_bytes": 76852
+    },
+    {
+      "path": "static_resources/4bda18c723c88ca939e5ed0714dabab0_MIT6_S095IAP18_Puzzle_7.pdf",
+      "sha256": "67d52183f09e2f4044eb4ab0ee79c63512bcbcb074afaff49c7e428ef207d78d",
+      "size_bytes": 708842
+    },
+    {
+      "path": "static_resources/4daf155b20b9c9f852cbc5b58467c967_MIT6_S095IAP18_Puzzle_8.pdf",
+      "sha256": "c93a74e63576758e398b831f59e9887d8c2a2bf23ce166f96a1cba69149a94a9",
+      "size_bytes": 1175647
+    },
+    {
+      "path": "static_resources/503b1a16e90d273a2d9080e5d3d5accd_mergesort.py",
+      "sha256": "5ff3f4d517035cccc58a236871f54a174f033c8cd4e5d576ff20c5c228945f8b",
+      "size_bytes": 1116
+    },
+    {
+      "path": "static_resources/53fb19b5eeef5c40ba399a20a3b356f8_zDHhHPZm2rc.vtt",
+      "sha256": "3520700ebd2d3f446f8173f29e9f34111023a135b38b4c09033bd99a3248acd5",
+      "size_bytes": 65113
+    },
+    {
+      "path": "static_resources/54c537bdd14bd93cbd327409e806513c_balls-exercise1.py",
+      "sha256": "a34bbfaa0096bdb50bd7d20e203f7b01184b883bedd99e7a4e4b06421dd1bdb8",
+      "size_bytes": 1819
+    },
+    {
+      "path": "static_resources/55efac79bf93b1d06113d7307174b66f_line-exercise1.py",
+      "sha256": "a693ac5644aea6c8560fe56467b12ee007165feed631fc55cfe8428ee6b86f00",
+      "size_bytes": 1648
+    },
+    {
+      "path": "static_resources/6084ba15c233735338b5ccd0c0c50842_auK3PSZoidc.pdf",
+      "sha256": "ea97d505e1673ed81c85c003f2f0509689a9680c8d3320f6d564555ecd381c5b",
+      "size_bytes": 73460
+    },
+    {
+      "path": "static_resources/6201a1980b42dde419e71adef5e3fd5b_zgk93CwMVk8.srt",
+      "sha256": "b4c309cbe7fd4f490305911ec4778691dad2a5d29d069a9c4c48b8a6fe2b4bd9",
+      "size_bytes": 66674
+    },
+    {
+      "path": "static_resources/6202ff4fd9faaab040b0729b50e3c4fa_Pe1MBDbGfwc.pdf",
+      "sha256": "6242c205eb796e19b8aac8d4be2c05445c71f75b24f63c8a3fa114c913b721b4",
+      "size_bytes": 40426
+    },
+    {
+      "path": "static_resources/6be20a1545140b2956da0264afcf3cf7_a1RaIqkdG0c.pdf",
+      "sha256": "9263a7dc7326f5021f0a8b5211257b7fedc5b9f5a1dbce27490c13ab6eb577c6",
+      "size_bytes": 41003
+    },
+    {
+      "path": "static_resources/6c6f00e6344653d7b9f1ea28f8e08426_eSRNeIyX5dY.vtt",
+      "sha256": "da21c5cfa889925e3545b90e3e76f2f1c5f470cfd46bdea6dae99fe67fc96f9d",
+      "size_bytes": 39638
+    },
+    {
+      "path": "static_resources/6d1fd53a8e3270b063589c70830d5aea_6FYk-3vt4FE.srt",
+      "sha256": "31afd12e0d84490a68f8c4f8a8d4cebe153d27a611464a4febb99d1ce6fdecb3",
+      "size_bytes": 74700
+    },
+    {
+      "path": "static_resources/6ede15b36fb0fc183b9cc6fab98057ca_eSRNeIyX5dY.pdf",
+      "sha256": "8f23b640ff7fa8cc9b4af1590e09f28b7b412b3b5585e139c0d532d20896160e",
+      "size_bytes": 43003
+    },
+    {
+      "path": "static_resources/72fe68c71b963662895677127ca993b8_auK3PSZoidc.pdf",
+      "sha256": "e94581e1f3dacb91611eb7c68c610d95950dd95a21e7e3eadbfe476e0fcd0cfb",
+      "size_bytes": 73460
+    },
+    {
+      "path": "static_resources/76cff0e5542ed6d676388d40435c3227_Pe1MBDbGfwc.srt",
+      "sha256": "7e3a4442c7f06bb9635c2fc77c8e1e71fb1d559e58593f008579e4f8e3360dd7",
+      "size_bytes": 38479
+    },
+    {
+      "path": "static_resources/786d7adf56debd303fff5f49ca042ca2_tiling.py",
+      "sha256": "83bd5ea84fca08973dd0ad46c1f93a3482dd07b67fff0df80c66b10699e07a49",
+      "size_bytes": 3072
+    },
+    {
+      "path": "static_resources/7a7371f4521d53a2874e94f3df42914d_auK3PSZoidc.vtt",
+      "sha256": "2ce1480f308941c06c4db1c17f8d764012fca3254416d9e782f676c1aaf19718",
+      "size_bytes": 81329
+    },
+    {
+      "path": "static_resources/7a9e8b71efb80d44e571a57a943b8a3b_eSRNeIyX5dY.pdf",
+      "sha256": "437eb04773648c2d7d4a7ce5b5d44aae3071d92e0336ea9c2b29720a2fb7b50b",
+      "size_bytes": 43003
+    },
+    {
+      "path": "static_resources/7cf54c0523eeaf3782bedfe2deae163c_Fp7usgx_CvM.srt",
+      "sha256": "9209c1c61e24a9e1ff3b81ca99ea4cae8cf9a84da1246215ce9c3f81abb3f18f",
+      "size_bytes": 76852
+    },
+    {
+      "path": "static_resources/7d963be0312d195c3c2c203f80575145_zgk93CwMVk8.srt",
+      "sha256": "b4c309cbe7fd4f490305911ec4778691dad2a5d29d069a9c4c48b8a6fe2b4bd9",
+      "size_bytes": 66674
+    },
+    {
+      "path": "static_resources/7da87bf8b5aa50eb128fd7441cab293b_eSRNeIyX5dY.srt",
+      "sha256": "6344fb4ff3a7113302e0ae188ca0f32c81d02602c331313a99fa002aba954eb4",
+      "size_bytes": 41742
+    },
+    {
+      "path": "static_resources/81134c67875f6b26d12925661455c09e_zDHhHPZm2rc.pdf",
+      "sha256": "e85c0cb36290363d0250bd10cad6876727c888dcd91e89e32f7657f7e41e851f",
+      "size_bytes": 64607
+    },
+    {
+      "path": "static_resources/83d53e3e8b565b33223891ec978c8894_1_0WwiUUsTc.pdf",
+      "sha256": "a1cf2c81f05a284bda9c91f892a91e3c6ff1cb8d736351f06165a61794a27e5e",
+      "size_bytes": 66800
+    },
+    {
+      "path": "static_resources/867badb70a73fff0951e57b8cc552853_balls.py",
+      "sha256": "70bb731df8a656e24a2135652125f870c93b04f5f483fff582275731a3380589",
+      "size_bytes": 1496
+    },
+    {
+      "path": "static_resources/8706beaa535711f0af45ce2e86f3c9c2_MIT6_S095IAP18_Puzzle_11.pdf",
+      "sha256": "ff57f3b8dad37db65e837e56447c13e19b363c0b3c40e4b276ebf1ed80437f0f",
+      "size_bytes": 715877
+    },
+    {
+      "path": "static_resources/8956e99f6bef5ae3b5c119c8e34ad413_a1RaIqkdG0c.vtt",
+      "sha256": "dde0a3676e3cac87b17e05e866443adc44d0ad1387ccb9ddf9420481604a8a42",
+      "size_bytes": 37207
+    },
+    {
+      "path": "static_resources/8a47e175cc72845e080f083fcfbc7c29_6-S095IAP18.jpg",
+      "sha256": "fa93eb3fb64e256ec51ebbe7dcff31a5913c606fac3579be9f30576f8eb49e05",
+      "size_bytes": 74525
+    },
+    {
+      "path": "static_resources/8a5b264367be48abed7ae1fe59f6a03a_zgk93CwMVk8.pdf",
+      "sha256": "d0aba0778ea1658670aef36109cfa96f74dc816f3d9194e489718447ef8ae072",
+      "size_bytes": 58902
+    },
+    {
+      "path": "static_resources/8c56cccc57050141ab4f00dd33bd58f1_conform-opt.py",
+      "sha256": "cadb0dd2b4886e2d65ff8c269d60daa1f1888f611ced65bcf4a2337bf5c4edc1",
+      "size_bytes": 1598
+    },
+    {
+      "path": "static_resources/8d5494d057f9dc97a796dbdd234685a3_tiling-exercise1.py",
+      "sha256": "ef850223d2be743e0b710ea391bacf5d0d3edb1000a56e76ff6e404d32958823",
+      "size_bytes": 1371
+    },
+    {
+      "path": "static_resources/90820567c715e0734733dfbf926abc74_1_0WwiUUsTc.pdf",
+      "sha256": "10b9acb04bc92e2166ae3126d120ea88e6cad55f96b6459e199b61222537a3c2",
+      "size_bytes": 66800
+    },
+    {
+      "path": "static_resources/9a8203fba60408ef5667d80442c47f43_zgk93CwMVk8.pdf",
+      "sha256": "2edff0ae00d5d3e225dcd62c840c042ecc6c625ee9a877f5938c1965aa55787f",
+      "size_bytes": 58902
+    },
+    {
+      "path": "static_resources/9b243dfc52a73cc6aeccdd610a4e8f1a_conform.py",
+      "sha256": "968514bedf256d6dbb0194131cf2a2543c0f9cc471da2120fabd22a0e21e7533",
+      "size_bytes": 1558
+    },
+    {
+      "path": "static_resources/9d73d153ed0f14d8fd46e216e0acddda_zDHhHPZm2rc.srt",
+      "sha256": "71317d6b6682cc3830380928ee3ca101912ec87ad092ba4f29bd45b096199a84",
+      "size_bytes": 68661
+    },
+    {
+      "path": "static_resources/a00460a6a86d096297b5412ca8a4676a_MIT6_S095IAP18_Puzzle_4.pdf",
+      "sha256": "9f0eae711dbf4aa7c48f204671cc5899b4e595e24880090e2f106aad81f5e6a4",
+      "size_bytes": 195758
+    },
+    {
+      "path": "static_resources/a77926bb1da496cecc8543f9df6a7a66_gcd.py",
+      "sha256": "d7fa9ef5600d5763e69009f1d29146938f598a24cdf778081f59db6079058de1",
+      "size_bytes": 523
+    },
+    {
+      "path": "static_resources/a82f5b4551c0f449f913b1867ee60f8a_eSRNeIyX5dY.srt",
+      "sha256": "6344fb4ff3a7113302e0ae188ca0f32c81d02602c331313a99fa002aba954eb4",
+      "size_bytes": 41742
+    },
+    {
+      "path": "static_resources/a950986efc21b7a0b7b2e5a4c90c24d2_6-S095IAP18-th.jpg",
+      "sha256": "59fde177024625ad324bd19deff9f2664efacf09175f9811af08e50409949223",
+      "size_bytes": 7869
+    },
+    {
+      "path": "static_resources/ab85081969d279a39cf6c398d5287256_1_0WwiUUsTc.srt",
+      "sha256": "02eedd92010bea420b66bbc05979475dd9a17f4d34957cb48f0cf51058d75a34",
+      "size_bytes": 77108
+    },
+    {
+      "path": "static_resources/ad1a6fed9a851d0882e62d381847917b_MIT6_S095IAP18_Puzzle_3.pdf",
+      "sha256": "b87ca3afdd16acc798005e15cce6e9fb8d98b8d7e3c5df2b8e00296755ecc67b",
+      "size_bytes": 116198
+    },
+    {
+      "path": "static_resources/ae4a68b7b63777d498fa2957675a85ab_9TtLlVBjvR0.srt",
+      "sha256": "556fe265c7ad8a451bedcf72e5312281fb4ecd36ba826c9691d9881414144fb3",
+      "size_bytes": 78847
+    },
+    {
+      "path": "static_resources/af619b1e898cb9e5e9a63f2f97bcc9f6_sudoku.py",
+      "sha256": "5b3aa8d53be57cb5f6efaa862a378de150378da4e711cff18d5bc563e3af0024",
+      "size_bytes": 3748
+    },
+    {
+      "path": "static_resources/b367ebbc40fc8cdfc66a8b667dfd72d6_bipartite.py",
+      "sha256": "fa873a80f2f18c132cac5df00d1f81644d7f356226f6f22197cd05cdfb78deb7",
+      "size_bytes": 1839
+    },
+    {
+      "path": "static_resources/b3f040a71e738118f4342b966f51d835_nqueens.py",
+      "sha256": "26c48c6baf452f8532c358d0ab7514914466c093a95204cc0c4ee0b2a3006e5a",
+      "size_bytes": 1374
+    },
+    {
+      "path": "static_resources/b4e9a1e38efcab782107465732020195_MIT6_S095IAP18_Puzzle_5.pdf",
+      "sha256": "506e60b3f91eee4fe22305825300c0338aac254a4dd212cca42c3ab048dec884",
+      "size_bytes": 183667
+    },
+    {
+      "path": "static_resources/b7b07b79b2c31a9f7a850d805bcc3cc5_MIT6_S095IAP18_Puzzle_2.pdf",
+      "sha256": "acddbfa04143332b51f583fbe2861358c62fd9154c911323be438b0818751ed8",
+      "size_bytes": 106956
+    },
+    {
+      "path": "static_resources/b990b0e6c43d5120849094845418ed0e_14UlXIZzwE4.vtt",
+      "sha256": "545915ea2c0e3ae5f3cd53c84ba77b8bf48fdec3732c22bc1ffa2018da18f192",
+      "size_bytes": 52308
+    },
+    {
+      "path": "static_resources/ba74c35c87db1436afae84ae60eca56f_sudoku-opt-exercise1.py",
+      "sha256": "0c1c2bc7a5f93ef248a2e9146c331dab1a91b4dfbdf3fab36c998e331ffe867d",
+      "size_bytes": 5983
+    },
+    {
+      "path": "static_resources/bcbd337b7bf6c2e3a3d3d4dd75c6f1b5_nqueens-exercise1.py",
+      "sha256": "1f9518137b55a8b63c1cf6505aaf088db70f52dae3cd38e1822774d066f0a5a7",
+      "size_bytes": 1781
+    },
+    {
+      "path": "static_resources/c22046724749edc9e95ee93655c47e82_14UlXIZzwE4.srt",
+      "sha256": "a30126dafb1e52cf7d14147938cfc1491d73988d2207f14f9ad86251efc37215",
+      "size_bytes": 55156
+    },
+    {
+      "path": "static_resources/c29a96e4e1515e3ea6911e50431ed485_1_0WwiUUsTc.vtt",
+      "sha256": "658018ae338b36f03da7d118484420b6b46f20d72aa8e681bfa07fbcc22b2751",
+      "size_bytes": 72993
+    },
+    {
+      "path": "static_resources/c40af662bba5baaee6b2adea39136649_14UlXIZzwE4.pdf",
+      "sha256": "7c60be8dd7646394bab3278b353ed702233503d7a5b553043393683e718e5951",
+      "size_bytes": 52983
+    },
+    {
+      "path": "static_resources/c5c4d1c5ab1bb821fdb3a1faf5f0069d_quicksort-exercise1.py",
+      "sha256": "450ad4c362d72dce211488ec6f0003c6ca76bef5120f9d7b02b1001101f30cc9",
+      "size_bytes": 2477
+    },
+    {
+      "path": "static_resources/c78847841fd8602187bb8723e8c490dc_zDHhHPZm2rc.srt",
+      "sha256": "71317d6b6682cc3830380928ee3ca101912ec87ad092ba4f29bd45b096199a84",
+      "size_bytes": 68661
+    },
+    {
+      "path": "static_resources/cbd2959ce4732c4eced73c0ed60f87c2_quicksort.py",
+      "sha256": "9c2e353f032961a82dc18155166f25405c3f34846db486e366d9fba2c1cc4362",
+      "size_bytes": 1552
+    },
+    {
+      "path": "static_resources/cf5e8bbfe93de1fb9124b1059d7b11a8_6FYk-3vt4FE.srt",
+      "sha256": "31afd12e0d84490a68f8c4f8a8d4cebe153d27a611464a4febb99d1ce6fdecb3",
+      "size_bytes": 74700
+    },
+    {
+      "path": "static_resources/d088b8e164066edb941bd14499f148a3_Pe1MBDbGfwc.pdf",
+      "sha256": "f1ab1521a797b8d378ae43fae9045937843dd1d2d665b6162ad05984f79194ce",
+      "size_bytes": 40426
+    },
+    {
+      "path": "static_resources/d4c6cda9666f2ea3bcd50c0062a6d6b8_auK3PSZoidc.srt",
+      "sha256": "df95d894d5716afb60d068968bed80a185633e5a1613f590d1fd286c14c46672",
+      "size_bytes": 85899
+    },
+    {
+      "path": "static_resources/d543b56b3e87f3f3a54438caef81d9c0_auK3PSZoidc.srt",
+      "sha256": "df95d894d5716afb60d068968bed80a185633e5a1613f590d1fd286c14c46672",
+      "size_bytes": 85899
+    },
+    {
+      "path": "static_resources/d9f32eaa4985b67040ea89454c7b1cdd_Fp7usgx_CvM.pdf",
+      "sha256": "d935f57a8a58093e724147eff14a357d40c1a4721d327d9599c6e929a276d2f2",
+      "size_bytes": 67646
+    },
+    {
+      "path": "static_resources/data.json",
+      "sha256": "4ce32459441d87d91946014f023305bea0641c43753b4e554ea030e7a173a2d5",
+      "size_bytes": 66
+    },
+    {
+      "path": "static_resources/ddaa1deb45eeba6ccd3877737690e76b_14UlXIZzwE4.pdf",
+      "sha256": "eba5a0846dc04019e948116f0073268abb1fb91e6d58a28c3e79e64c8d77f984",
+      "size_bytes": 52983
+    },
+    {
+      "path": "static_resources/deac2a81775c2b89c222cefb846eca37_8queens-iterative-exercise1.py",
+      "sha256": "0977a20628851dfe195de1af1eab29d1b16cb20f48e336319597bbda916c2f69",
+      "size_bytes": 2428
+    },
+    {
+      "path": "static_resources/e28839a31ed2b5c954dc7466d01a8db1_9TtLlVBjvR0.pdf",
+      "sha256": "d212a4ee88353c340a97f117735bdf7ad46f387b739bd530b06dc6836c03c972",
+      "size_bytes": 69713
+    },
+    {
+      "path": "static_resources/e535b95ae4ab7d5961368d6533582f06_quicksort-inplace.py",
+      "sha256": "1873d2a5b59da9a2dde0ed91c1fb436de0a65897f332ff24b271095de3ecc396",
+      "size_bytes": 1949
+    },
+    {
+      "path": "static_resources/e6a38ae0153953018e571e06ad9fde7c_9TtLlVBjvR0.vtt",
+      "sha256": "1d9ad2fd1373b3e4b8d9026950aee36b386f23bd44fe2fcca2ebc5f55309e560",
+      "size_bytes": 74717
+    },
+    {
+      "path": "static_resources/e6ae017811af2645d1fcf19b2cc5ee1f_magic-exercise1.py",
+      "sha256": "8d27cdc7068c88a1f5b953249b170a3a2da2eac10c59fc5d8199f8ada2cc8743",
+      "size_bytes": 4166
+    },
+    {
+      "path": "static_resources/eaa19d28ea09e2ef5670c388d57583c6_partysmart.py",
+      "sha256": "6825f229ed31d87ce6d92fbca07fe1066723ec1c491991905f2c78f0cfc6aa5a",
+      "size_bytes": 2723
+    },
+    {
+      "path": "static_resources/eb31ef6d38053b2307364df2aa093556_6FYk-3vt4FE.pdf",
+      "sha256": "4f95b6ab4579ae301eb4a7a3a09b0c0365a4db849cb4e9b7bd2e61df32a7336f",
+      "size_bytes": 67980
+    },
+    {
+      "path": "static_resources/eb4d2a00f0958d6bb0af7b8c6f7c059d_MIT6_S095IAP18_Puzzle_6.pdf",
+      "sha256": "72bc9dd1282ada64aaca3cc27e653a960f3b296cb2652076222d9bc7b6b08bf9",
+      "size_bytes": 98200
+    },
+    {
+      "path": "static_resources/ee8ca5235c36205ad0ec85f1c77c6164_14UlXIZzwE4.srt",
+      "sha256": "a30126dafb1e52cf7d14147938cfc1491d73988d2207f14f9ad86251efc37215",
+      "size_bytes": 55156
+    },
+    {
+      "path": "static_resources/eebfff3ee6946250a57bc132f380f8cb_a1RaIqkdG0c.pdf",
+      "sha256": "6b4844873cfdb2aac193eb87c8f9fc4d29d557b942ade238a1ba869d2c21cd8e",
+      "size_bytes": 41003
+    },
+    {
+      "path": "static_resources/ef38163366ca5831904a47274da5a06e_6FYk-3vt4FE.vtt",
+      "sha256": "1f6007c035fc5561dfa5cf632b1fd2d9d45dd10406f39ed32b9eae05ae6a6e0f",
+      "size_bytes": 70785
+    },
+    {
+      "path": "static_resources/f06b80e31034f2d85a89e5a6345973f4_party.py",
+      "sha256": "5b92224dc693cd086e47de3250bb4e13225767ed8812bc06e5db531e0edea100",
+      "size_bytes": 1758
+    },
+    {
+      "path": "static_resources/f47978c6647fdce8ea2e655efb111c91_magic.py",
+      "sha256": "1a8ce210fb42196f874c889d9dc7b0bcd9b9f8df2da4b947aee63c27cf3983ea",
+      "size_bytes": 6622
+    },
+    {
+      "path": "static_resources/f7a7d0f0ab92e2ebb4914c15232baeea_zDHhHPZm2rc.pdf",
+      "sha256": "1eb3f2a34fcff0f44fdf189f0c28fa72aac093abbb0384567a9434d4fb0ba485",
+      "size_bytes": 64607
+    },
+    {
+      "path": "static_resources/f84343d7081f9b0e454abeb74a29ae60_6FYk-3vt4FE.pdf",
+      "sha256": "ee43d541800c2f0a78382a825e5d4da808dc0d811493d058cde1e160517ae7cf",
+      "size_bytes": 67980
+    },
+    {
+      "path": "static_resources/f9c6aedf1939aed7685c2aa1cd694624_maxsum-EXERCISE1.py",
+      "sha256": "c2a5ce9c08fd172f8687aef335e713a9ee82f28d45675d60aa2bb11ae7bcfccf",
+      "size_bytes": 4733
+    },
+    {
+      "path": "static_resources/fce0fbbf11dde89b1bfce3e0da2557d3_MIT6_S095IAP18_Puzzle_10.pdf",
+      "sha256": "dce325c53da40c12204f00e951b1d9c8316d23156f5a12a0e9981200809b4c8a",
+      "size_bytes": 1491826
+    },
+    {
+      "path": "static_resources/fe7b4c09ce0e2db0d4789a8f0dcc25da_sudoku-opt.py",
+      "sha256": "c852e3dbd42e90ab92993a2c1e7ddd392189d6a7af77d335b4ce03ee09b6b330",
+      "size_bytes": 5668
+    },
+    {
+      "path": "static_resources/index.html",
+      "sha256": "485e11d0208766e43b4fc13d8e27907bd1010f46f847c4a077916f91233d9204",
+      "size_bytes": 54648
+    },
+    {
+      "path": "static_resources/vtt19f4dcdbaa6adf887942ffebeb80caa5_a1RaIqkdG0c.vtt",
+      "sha256": "dde0a3676e3cac87b17e05e866443adc44d0ad1387ccb9ddf9420481604a8a42",
+      "size_bytes": 37207
+    },
+    {
+      "path": "static_resources/vtt37e57d5b196fae805d81fdef43f59c17_Pe1MBDbGfwc.vtt",
+      "sha256": "268e271f162dada98da1784a0b447cf946e44e9c941a714e5b0db1e57eba8dd7",
+      "size_bytes": 36563
+    },
+    {
+      "path": "static_resources/vtt4519db23262b95d2668381c10226b54f_9TtLlVBjvR0.vtt",
+      "sha256": "1d9ad2fd1373b3e4b8d9026950aee36b386f23bd44fe2fcca2ebc5f55309e560",
+      "size_bytes": 74717
+    },
+    {
+      "path": "static_resources/vtt46888d58beddc5b5a33ce0e44ef72fe2_Fp7usgx_CvM.vtt",
+      "sha256": "6e774bd746d52d5f81a01e1541f66f31b1ebfa85364103139fb312b347729546",
+      "size_bytes": 72622
+    },
+    {
+      "path": "static_resources/vtt6201a1980b42dde419e71adef5e3fd5b_zgk93CwMVk8.vtt",
+      "sha256": "40ec94fca8161faeaa93fc04920be93c2bf8945d1f53e839e4199c47884ccf9d",
+      "size_bytes": 63130
+    },
+    {
+      "path": "static_resources/vtt7da87bf8b5aa50eb128fd7441cab293b_eSRNeIyX5dY.vtt",
+      "sha256": "da21c5cfa889925e3545b90e3e76f2f1c5f470cfd46bdea6dae99fe67fc96f9d",
+      "size_bytes": 39638
+    },
+    {
+      "path": "static_resources/vttab85081969d279a39cf6c398d5287256_1_0WwiUUsTc.vtt",
+      "sha256": "658018ae338b36f03da7d118484420b6b46f20d72aa8e681bfa07fbcc22b2751",
+      "size_bytes": 72993
+    },
+    {
+      "path": "static_resources/vttc78847841fd8602187bb8723e8c490dc_zDHhHPZm2rc.vtt",
+      "sha256": "3520700ebd2d3f446f8173f29e9f34111023a135b38b4c09033bd99a3248acd5",
+      "size_bytes": 65113
+    },
+    {
+      "path": "static_resources/vttcf5e8bbfe93de1fb9124b1059d7b11a8_6FYk-3vt4FE.vtt",
+      "sha256": "1f6007c035fc5561dfa5cf632b1fd2d9d45dd10406f39ed32b9eae05ae6a6e0f",
+      "size_bytes": 70785
+    },
+    {
+      "path": "static_resources/vttd4c6cda9666f2ea3bcd50c0062a6d6b8_auK3PSZoidc.vtt",
+      "sha256": "2ce1480f308941c06c4db1c17f8d764012fca3254416d9e782f676c1aaf19718",
+      "size_bytes": 81329
+    },
+    {
+      "path": "static_resources/vttee8ca5235c36205ad0ec85f1c77c6164_14UlXIZzwE4.vtt",
+      "sha256": "545915ea2c0e3ae5f3cd53c84ba77b8bf48fdec3732c22bc1ffa2018da18f192",
+      "size_bytes": 52308
+    },
+    {
+      "path": "static_shared/css/303.21a26.css",
+      "sha256": "c1f648b2a07d50db0226cb43b1f5841cf2f306cb556094acf37a9b672fb744a7",
+      "size_bytes": 17807
+    },
+    {
+      "path": "static_shared/css/303.21a26.css.map",
+      "sha256": "7590eab132bd704c0429aff614a94f416b748c2937a65d3cb29a65bb9af6b389",
+      "size_bytes": 40551
+    },
+    {
+      "path": "static_shared/css/common.21a26.css",
+      "sha256": "e648d57168dcccd56d0a43459c3f30d00fbfebee47979683af23506cce653e67",
+      "size_bytes": 47881
+    },
+    {
+      "path": "static_shared/css/common.21a26.css.map",
+      "sha256": "ca8adc60c06a479842b15ce28d22292d093b2fcaaebfa483812dabc0a2d92755",
+      "size_bytes": 61289
+    },
+    {
+      "path": "static_shared/css/course_offline.21a26.css",
+      "sha256": "661e0c900f6164473c23bfe2b422158922816f944ceadab029ba2bf8f706bd21",
+      "size_bytes": 282202
+    },
+    {
+      "path": "static_shared/css/course_offline.21a26.css.map",
+      "sha256": "c07b3cc3961d011d20ef247270a145ac90710873ec2909d9d132ccfd36613589",
+      "size_bytes": 440593
+    },
+    {
+      "path": "static_shared/css/course_offline_v3.21a26.css",
+      "sha256": "0d7f78ed94c17bc997de80768c81bf81834ef7d02ae9b342ae317ede9ea343b4",
+      "size_bytes": 330840
+    },
+    {
+      "path": "static_shared/css/course_offline_v3.21a26.css.map",
+      "sha256": "49def29aa8cdb207347d5c64f4811883a528ca8f61193bd3937b20245746dc33",
+      "size_bytes": 500105
+    },
+    {
+      "path": "static_shared/css/course_v2.21a26.css",
+      "sha256": "8e97b43ee04b92064dce52bc1cda20da8bdeb9e6a55d052a45b0396734b92951",
+      "size_bytes": 216594
+    },
+    {
+      "path": "static_shared/css/course_v2.21a26.css.map",
+      "sha256": "38e040c8e7e10a3f78fd7e698eeddcd0b0a4a9b1c54a93f55c68a359f2534f54",
+      "size_bytes": 338935
+    },
+    {
+      "path": "static_shared/css/course_v3.21a26.css",
+      "sha256": "32e12d049e9de3673b38ea645e2f3ace9b382e3c827d4d15e0662aa54556fca1",
+      "size_bytes": 313066
+    },
+    {
+      "path": "static_shared/css/course_v3.21a26.css.map",
+      "sha256": "b6e0c5f67a48e3493f6a2abd88b85f91c6f4ce91cd4796714722933b3d50432b",
+      "size_bytes": 459655
+    },
+    {
+      "path": "static_shared/css/fonts/e79607e9f7d62450a175.woff2",
+      "sha256": "01a175339f6171f48869d58bd2e48269684c55f03be64596b94bf1284d10e979",
+      "size_bytes": 12360
+    },
+    {
+      "path": "static_shared/css/fonts/ff9cb78ec9a131fc93a6.woff",
+      "sha256": "c87502d41ce30009d0ac09e3158b432e7de2c6ede500d3c580a92bee29b9c000",
+      "size_bytes": 14712
+    },
+    {
+      "path": "static_shared/css/instructor_insights.21a26.css",
+      "sha256": "0f147c57b35c1098980959b757643fa0141d2707937a7db7002e53b3a3e77486",
+      "size_bytes": 1178
+    },
+    {
+      "path": "static_shared/css/instructor_insights.21a26.css.map",
+      "sha256": "18f4a862116026458bd0b09cbf0e7a4228416d792e76f994bbbb34e97207a609",
+      "size_bytes": 6792
+    },
+    {
+      "path": "static_shared/css/www.21a26.css",
+      "sha256": "c011f3808984b641185ea627c62da9345796d7d5352198465604c7e8533ef8fa",
+      "size_bytes": 263643
+    },
+    {
+      "path": "static_shared/css/www.21a26.css.map",
+      "sha256": "46d768a5bb954162b21e2cf40052eb64c0538f1a8a8cf043beac64d70c3c38e9",
+      "size_bytes": 400538
+    },
+    {
+      "path": "static_shared/css/www_offline.21a26.css",
+      "sha256": "b212cf06c1d4e999c825e3e1ffd27c7b4a1061bafab07b4c445d2efabc8a3095",
+      "size_bytes": 283030
+    },
+    {
+      "path": "static_shared/css/www_offline.21a26.css.map",
+      "sha256": "983361cf7e0371dfc1f691025e690e1f52dbae19697fef8dd2bd3a0d803d0e83",
+      "size_bytes": 421729
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Bold.d7bf1aa6f322a64b2fc3.ttf",
+      "sha256": "a2f90f004f37f784b1ae74f2cfce1d97787748e8bd52c28be085bfa2c23e0df1",
+      "size_bytes": 339732
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Italic.0935d2ebbc05be3559b1.ttf",
+      "sha256": "7d27cc3796dfda24ef2f7e779b9269cd0fc08308345965ed7bf43525c3635522",
+      "size_bytes": 254072
+    },
+    {
+      "path": "static_shared/fonts/Cardo-Regular.a0c1dc80c66cc03bfa1e.ttf",
+      "sha256": "67158e7e70dd1c2c5cc44f8d781e836426f143ee004ef100134897d64d8fa093",
+      "size_bytes": 390056
+    },
+    {
+      "path": "static_shared/fonts/Helvetica-Light.70359849afb40079a1c8.ttf",
+      "sha256": "a0b153852ff62a50aceb8f280d8fdb9c2bc77535a04eba5b1685a89965d96965",
+      "size_bytes": 161716
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.0beb27f30d92440091b4.ttf",
+      "sha256": "b854af078512be3f9e54819b4cc874d5485a13adc1e5bd8c22c992ccd7d8669d",
+      "size_bytes": 5784
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.8167faf7e3a9170d282a.woff",
+      "sha256": "a3d7fc991ed83ab545a9971d1114387b56b3c976cc649590cfe8e4aedf77f142",
+      "size_bytes": 3468
+    },
+    {
+      "path": "static_shared/fonts/MaterialIcons-Regular.subset.84f45410d085472240e2.woff2",
+      "sha256": "9fe6fbea73fd5d5941b695e766b50b6fbe78f3a7c66b072503cbe2a22a12c887",
+      "size_bytes": 2516
+    },
+    {
+      "path": "static_shared/fonts/MaterialIconsRound-Regular.subset.7154eae1d0e60e0dabe4.woff2",
+      "sha256": "9bbc544d3126d84861070b63aeb84f737716cfe85c44079528a11671f5f9f119",
+      "size_bytes": 724
+    },
+    {
+      "path": "static_shared/images/2c6f79ea9578979deb06.png",
+      "sha256": "c83ec79c94fdb8aa22b6d21581c3f325da9f22b16f5660edc2e0eec1a5da9d8d",
+      "size_bytes": 10160
+    },
+    {
+      "path": "static_shared/images/Facebook.d1f5caeb73d7d12505a2.png",
+      "sha256": "335d7215d25d5ae1b258faf0247b4c155017bdd7ce2e85af31a1a63a9c89504a",
+      "size_bytes": 550
+    },
+    {
+      "path": "static_shared/images/Instagram.4df41828ffee4ff33d8a.png",
+      "sha256": "67d2c3c11f2e4bf189946d60d3dca71c9b5e4a18c99e15ba36f8896830af8d49",
+      "size_bytes": 1127
+    },
+    {
+      "path": "static_shared/images/MIT-logo-red-gray-54x28.43de571d3abab470ba83.svg",
+      "sha256": "78514ce9eeda2a9ef16048cb823aa4e0cf83652d8e94843cc96fbe92c4691576",
+      "size_bytes": 859
+    },
+    {
+      "path": "static_shared/images/Youtube.7c9f62c4f1dc9515ebb4.png",
+      "sha256": "9131df94f34194ff4cfe9c08e176248eeee333c5672f889722932bb6282eccbc",
+      "size_bytes": 743
+    },
+    {
+      "path": "static_shared/images/a_logo_17.070ebe0244db38bbb10c.gif",
+      "sha256": "039a5a3bf1c2e37e3dd22e33428c88b25ec82a3a4b0d7d004d817ce3c7ac03bc",
+      "size_bytes": 2751
+    },
+    {
+      "path": "static_shared/images/audio_thumbnail.defc385448d97b770bae.png",
+      "sha256": "61e9ff93eefe1d6393d06df2b80492ab4e690f9f1cbf5cdeb20e6bd8a9543a0b",
+      "size_bytes": 9686
+    },
+    {
+      "path": "static_shared/images/bluesky-black.9f4523fcefa9b6f25be7.png",
+      "sha256": "843c15f349a11bdf2c97dda9a743d2860266a73bd26daa3a968f27784008a902",
+      "size_bytes": 1023
+    },
+    {
+      "path": "static_shared/images/button_start.9ec211e3e12cf97ca78d.png",
+      "sha256": "fd98ea4b4c3f3a6bb53f28aafd340839617209af2ed4cc58a30519010c4fe72c",
+      "size_bytes": 10153
+    },
+    {
+      "path": "static_shared/images/close_small.b0a2684ccc0da6407a56.svg",
+      "sha256": "56b7919d6fc87d95eb0a7df342aa696fe802d3d988cb643b04addf21416e44d3",
+      "size_bytes": 952
+    },
+    {
+      "path": "static_shared/images/course-v3-header-bg.69dc3a4c0f449f3641ca.jpg",
+      "sha256": "f009275f0fd0b4a187c9ee2bdb5101cc2be202cb94d152d87e5c3db4c46c1560",
+      "size_bytes": 136352
+    },
+    {
+      "path": "static_shared/images/course_image.5f27062ec0987f54efcf.jpg",
+      "sha256": "b10ce673a3ff24a0035a429002f7d7c60d5b8fa4b7e0a0424b45a1ce8c496d4b",
+      "size_bytes": 160536
+    },
+    {
+      "path": "static_shared/images/default_news.26aee386c42b7364dbd3.png",
+      "sha256": "69180aaf1841d11f848de2962b115334259fd32daa1b26cec7e008979d5421cb",
+      "size_bytes": 58301
+    },
+    {
+      "path": "static_shared/images/expand.a062b1c47b121e3c7e03.svg",
+      "sha256": "dc3a7002769e26ea6c2af7bd62e216a5ed2579e26224850cd76eb1f09da71f1a",
+      "size_bytes": 1326
+    },
+    {
+      "path": "static_shared/images/external_link.58bbdd86c00a2c146c36.svg",
+      "sha256": "c8bb31bb589c2c2e3f3ac8ff4905046ff954ec9201df357f499fdefea2293de8",
+      "size_bytes": 620
+    },
+    {
+      "path": "static_shared/images/heart.788fcfbec39be4547397.svg",
+      "sha256": "47256db6a051a41d7a9d3be758a9d608c157d837a9f422594171be115b026858",
+      "size_bytes": 3016
+    },
+    {
+      "path": "static_shared/images/heart_burgundy.e7c8635e8cc6538b89fa.svg",
+      "sha256": "47795d7e32c39148060ee722ab2e6e95a2e43cc50b662fbf2b563cb17b46af87",
+      "size_bytes": 1145
+    },
+    {
+      "path": "static_shared/images/inacessible.4e75069800b136c59203.gif",
+      "sha256": "ef1955ae757c8b966c83248350331bd3a30f658ced11f387f8ebf05ab3368629",
+      "size_bytes": 42
+    },
+    {
+      "path": "static_shared/images/left_arrow.3c482a1f6223bff3f0e6.svg",
+      "sha256": "f8872074c4ffead4bac353f9ff8c1e4e070aae58c0bc2ce8b9228ed54bd95785",
+      "size_bytes": 851
+    },
+    {
+      "path": "static_shared/images/linkedin-black.2f7f8a6a3899f5d1e1d6.png",
+      "sha256": "12af7d2297df1ad7e19765ebdddd85cae7dee079a3f53f1444f835489cd37762",
+      "size_bytes": 651
+    },
+    {
+      "path": "static_shared/images/mastodon-black.9e2de31a28415c123800.png",
+      "sha256": "ba95e46f4f484bef90e8dac4d383d3c8c5797b0537351e4dd65204a328ef1ea4",
+      "size_bytes": 1074
+    },
+    {
+      "path": "static_shared/images/mit-logo-black-red.1fdb4d046bb785ba6a3b.svg",
+      "sha256": "3509e5abca6ccf86c4b9d69ab031e205fb75721a82c4ee1c996ad81b37f21191",
+      "size_bytes": 860
+    },
+    {
+      "path": "static_shared/images/mit-logo-black.9ac6152a456f0f100d7a.svg",
+      "sha256": "d774a4a0f7c7638c60abe0b7da235f0a35a9baf0366943bca7eb81dc0fea4483",
+      "size_bytes": 509
+    },
+    {
+      "path": "static_shared/images/mit-logo-red.a9444ff319fe22027271.svg",
+      "sha256": "d4b00848632c364c6a80305f351cf3b7a55f294d500db52c8e8915eb355f44c8",
+      "size_bytes": 849
+    },
+    {
+      "path": "static_shared/images/mit-logo-white.ac078b94cc981d280e47.svg",
+      "sha256": "017f3b5994425d3de57e20d7c8a665188894d0fd438558974c03377ebd825d0a",
+      "size_bytes": 578
+    },
+    {
+      "path": "static_shared/images/mit_learn_logo.2ec930205f87bce4013d.svg",
+      "sha256": "5e9e721ae3ff8c9f00eb947288c174d765383a0ff88244751cdf08091eab08d0",
+      "size_bytes": 3118
+    },
+    {
+      "path": "static_shared/images/mit_ol.4165342f87abb1da46fd.svg",
+      "sha256": "f5a91e9d642a37fba3425e80d76618a8d4e99898892f4514baff945110cc401a",
+      "size_bytes": 4759
+    },
+    {
+      "path": "static_shared/images/mobile_video_thumbnail.00125190bb7310b5afff.png",
+      "sha256": "1e39f5d61eb2e239d2fed25680a4f4a741dc73b3ab77a8abbad5297080af0395",
+      "size_bytes": 9677
+    },
+    {
+      "path": "static_shared/images/mp_logo.6428926751199ad28ce6.gif",
+      "sha256": "6f06f5a3e080d5266efd374a4536bb253cccdb164767c57bf71cce00d161d4dc",
+      "size_bytes": 614
+    },
+    {
+      "path": "static_shared/images/ocw_logo_white.cabdc9a745b03db3dad4.svg",
+      "sha256": "c54b2366cc4a6fbea097b9b15cd96d8f888237625282c5bc257f6a62da1bb81c",
+      "size_bytes": 5710
+    },
+    {
+      "path": "static_shared/images/ocw_logo_white_on_black.dc6662ab918cec1c2f31.png",
+      "sha256": "1bccdbe2c80094104e6180f9fcac8a409c9ff0b9034ecff2e7af8591d0a3ffef",
+      "size_bytes": 19788
+    },
+    {
+      "path": "static_shared/images/ocw_stories_home_btn_arrow_right.be61ab3faf488e15d55f.svg",
+      "sha256": "d6f5e3e4c2981ea54bd1073c750ac1672dc3b8362c6ca99c726673b2f1627720",
+      "size_bytes": 1523
+    },
+    {
+      "path": "static_shared/images/ocw_story_single_arrow_left.b1e0f3712e0cc99359df.svg",
+      "sha256": "d9d178640da44f805191615ad8b5e5d75df6a36f13ca8baadc2e70c2117bd445",
+      "size_bytes": 238
+    },
+    {
+      "path": "static_shared/images/ocw_testimonial_quote_modal_close.ef116a87c95eea8ad2a2.svg",
+      "sha256": "4a2e6e2e4d8f946a420f2ea16b61d4e16040574ef37c8e41c03cc4a10a35f42b",
+      "size_bytes": 306
+    },
+    {
+      "path": "static_shared/images/oeg_logo.8a31f7b87f30df2d0169.png",
+      "sha256": "ecda4f1360554b4ec8edcf8017349d4da73c18506324c2e05778ee11194b19a2",
+      "size_bytes": 12817
+    },
+    {
+      "path": "static_shared/images/page_thumbnail.135ca83a823b6c0b4616.png",
+      "sha256": "ca026ff672ec75e27dfeaf21c15842d5d763b3f8578170879eb958d8851946ea",
+      "size_bytes": 3462
+    },
+    {
+      "path": "static_shared/images/resource-download.d374f56f2572d49418bc.svg",
+      "sha256": "06b35e2cf5566816af83b04cae9183e97622801a3e5db022a051dc5205d209ee",
+      "size_bytes": 392
+    },
+    {
+      "path": "static_shared/images/search.42a42bffcdf041e57b97.svg",
+      "sha256": "124f5fbd03f296920f9b118c63b81152e1300813a9075b444d1ec5c9fe80d611",
+      "size_bytes": 395
+    },
+    {
+      "path": "static_shared/images/video_play_overlay.42e62ca534a2528e4ad0.png",
+      "sha256": "8cfe7e6d4f9e06e81d218386077126f8b64fc9602fa29394eda6960c00f08830",
+      "size_bytes": 7219
+    },
+    {
+      "path": "static_shared/images/video_thumbnail.8817e5123be1e39ecd14.png",
+      "sha256": "d31ef7743fad01fa2d36860edc2fc9ea3f6a2195bfcce3b31ae553b609047bd6",
+      "size_bytes": 40410
+    },
+    {
+      "path": "static_shared/images/videojs_download.e0dbb2cfb52d2d71ba4a.svg",
+      "sha256": "0dcb951bccee94b45e7d033f9b5c8912b5807a0018c33e3e2df046a000221e54",
+      "size_bytes": 1050
+    },
+    {
+      "path": "static_shared/images/warning.e29b1060a0fb05a2b927.svg",
+      "sha256": "b6d9ae30e9c6d0ab0a413d1df82ad89dd2d05f9e1f7069070b3dab7c5472483e",
+      "size_bytes": 584
+    },
+    {
+      "path": "static_shared/images/x-formerly-twitter-black.f8c75ad9f42902726d25.png",
+      "sha256": "5dbb75eccbfffc4c6597592e0d61031d5295631ca0752671b6d8387f1a4ade72",
+      "size_bytes": 1240
+    },
+    {
+      "path": "static_shared/images/youtube.1e55fc2f8fc09d36a1a6.svg",
+      "sha256": "c2dfd8eb412c7c946525ff2172ab7344d4c1816ed3359773df726acf4e7f9bdc",
+      "size_bytes": 1155
+    },
+    {
+      "path": "static_shared/js/117.21a26.js",
+      "sha256": "a87e897d05e536240500cac025a504a3820514633199db9c1d4a0bc91afd0f23",
+      "size_bytes": 724892
+    },
+    {
+      "path": "static_shared/js/27.21a26.js",
+      "sha256": "f7935c76f6ae861d565e1799cd4dc65223deae7d1e904404a0f2701f4592ea7d",
+      "size_bytes": 276072
+    },
+    {
+      "path": "static_shared/js/303.21a26.js",
+      "sha256": "76c7d4dfdc26012961584d46a9c4cbc269b54a0760e9f3fd9d793db5235b0f3d",
+      "size_bytes": 204324
+    },
+    {
+      "path": "static_shared/js/658.21a26.js",
+      "sha256": "2e15179a56c3467c0ff92d715d208b967bd3171446e9207759d397f7c704a4ab",
+      "size_bytes": 177
+    },
+    {
+      "path": "static_shared/js/77.21a26.js",
+      "sha256": "3e933148c3a71846820837896d2afd9538e6215f91a4b820cbe42634ea6129de",
+      "size_bytes": 177
+    },
+    {
+      "path": "static_shared/js/common.21a26.js",
+      "sha256": "77cdc0165b782f4e93b7bf1ebe35cb2e710fade629e7734e2ad95fd7195dc8d3",
+      "size_bytes": 881966
+    },
+    {
+      "path": "static_shared/js/course_offline.21a26.js",
+      "sha256": "b2de542cee6224c44041e26482ffdd0f22d7811a16bd3924af757e23595f1020",
+      "size_bytes": 1574235
+    },
+    {
+      "path": "static_shared/js/course_offline_v3.21a26.js",
+      "sha256": "cfe88e20d069b88eb9645a09ca84df7518d3a546b5d9f63707ff431c1e82b91b",
+      "size_bytes": 1576987
+    },
+    {
+      "path": "static_shared/js/course_v2.21a26.js",
+      "sha256": "90a3f958cc45ad8efc8d8c3f859ff789552a37f8c86d74347aefc5b1f8e34bfe",
+      "size_bytes": 25429
+    },
+    {
+      "path": "static_shared/js/course_v3.21a26.js",
+      "sha256": "7ce93e170effd7b3aedc34a896ec83296218bab362becad6db457708034143e2",
+      "size_bytes": 1551659
+    },
+    {
+      "path": "static_shared/js/instructor_insights.21a26.js",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "static_shared/js/www.21a26.js",
+      "sha256": "79d7e0a8eb20f17591f5fb06b0b4cef285b693eb4f48ace7d0d51f978b350d7f",
+      "size_bytes": 534185
+    },
+    {
+      "path": "static_shared/js/www_offline.21a26.js",
+      "sha256": "4a721af345f0bff2cfbe56910975d9927bc6d60ae0466cdef7199be8166ac1bb",
+      "size_bytes": 666393
+    },
+    {
+      "path": "static_shared/mathjax/CONTRIBUTING.be29e891326e401c2bed.md",
+      "sha256": "89e1f87f7daa9271da9e6c437fe7b05ccd7e29c1ee0e297e782d8a3d7def63ec",
+      "size_bytes": 13948
+    },
+    {
+      "path": "static_shared/mathjax/LICENSE.42368b5a19b817284b3c",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "size_bytes": 11358
+    },
+    {
+      "path": "static_shared/mathjax/README.009b4259a26029ef2261.md",
+      "sha256": "cb4220e9d5884ad79c36b33d617f89e71b6266749fdcd6221565871023a99035",
+      "size_bytes": 10085
+    },
+    {
+      "path": "static_shared/mathjax/action.6c8b472538082988f2c6.js",
+      "sha256": "7c46fc1ef8118723bf2f386d704ab289e5dd683471e0ad4e1e717244959b565b",
+      "size_bytes": 1843
+    },
+    {
+      "path": "static_shared/mathjax/af.03f75fc13a63a3b9d177.json",
+      "sha256": "b906ca6e91517ac8d6f87c304223839c9998daf2d29ac8d79ce5fa967c23dc77",
+      "size_bytes": 267392
+    },
+    {
+      "path": "static_shared/mathjax/ams.0415214124f9103b90eb.js",
+      "sha256": "d430e678d50c5747151ad67eb118df6a67b5844fe2f9183d0820b9fdf52bbbd5",
+      "size_bytes": 20447
+    },
+    {
+      "path": "static_shared/mathjax/amscd.84f30684146fc2e4c8d9.js",
+      "sha256": "2202b36d581834b02c08a2ff62a9cd10409eda2a2f1126913fa3810743895a16",
+      "size_bytes": 4295
+    },
+    {
+      "path": "static_shared/mathjax/asciimath.5ef60e8589351131d7bb.js",
+      "sha256": "4460b49defc8a8eafdcf831faafd5e2dc496c9384d7473ae43eba9ba8f4a2a5f",
+      "size_bytes": 101572
+    },
+    {
+      "path": "static_shared/mathjax/assistive-mml.28169af1dbd9fd16f99c.js",
+      "sha256": "9c1166c7c2ca2e57d5d25cc3bf71dc5369d32b9a4260151f998c0bed77d55dc3",
+      "size_bytes": 3639
+    },
+    {
+      "path": "static_shared/mathjax/autoload.a94e1289e7134d87a3de.js",
+      "sha256": "cb7c9ce44fc81b004e754574733861604b72219879d693ff1396683bc1c4cfe1",
+      "size_bytes": 3331
+    },
+    {
+      "path": "static_shared/mathjax/base.dc579f6c4351ed9a84f7.json",
+      "sha256": "72558700556d997a95e9281044e330eba9a472dda43642a9b5cc0483294d875f",
+      "size_bytes": 217157
+    },
+    {
+      "path": "static_shared/mathjax/bbm.2f6ff24c137fa6f333c4.js",
+      "sha256": "fb780f6e8ca565439b3c6dc78f3e42b525905fd43c5e15471994a2a1da914ca8",
+      "size_bytes": 2143
+    },
+    {
+      "path": "static_shared/mathjax/bboldx.2e870a1015215bd08943.js",
+      "sha256": "d84c426bb390ea51f93b62eb586781c446c6d848600e2fe2e0527b749239f15a",
+      "size_bytes": 6813
+    },
+    {
+      "path": "static_shared/mathjax/bbox.ecc635eb2baeac9fd648.js",
+      "sha256": "9d9ff6d1c592d2a4fe728412d2d5ec29379f4721bfa3b8356ad2045eb939b848",
+      "size_bytes": 2323
+    },
+    {
+      "path": "static_shared/mathjax/begingroup.4671477bfa0bf26c6357.js",
+      "sha256": "0f606d5a71301992e92d8697ccbf8318736110691d8a94303f3f254cd589421a",
+      "size_bytes": 4266
+    },
+    {
+      "path": "static_shared/mathjax/boldsymbol.70316731a9bc7a9b3f6d.js",
+      "sha256": "baaabd9fb430fe4fdbfa9db74aa60b118dd650a68239280368abfd1bc30a0e10",
+      "size_bytes": 2460
+    },
+    {
+      "path": "static_shared/mathjax/braket.98d4c80cdb81eb21b246.js",
+      "sha256": "4a8a6ac1283d7dcee58e7fd71edb178991ba086fa8487f7d26720fe64c002791",
+      "size_bytes": 4635
+    },
+    {
+      "path": "static_shared/mathjax/bussproofs.bb5ca1895bf59c545d5f.js",
+      "sha256": "10997a853480488a009310f8fc35c9ea737af59f608127e647b255a84bc7f8e1",
+      "size_bytes": 12204
+    },
+    {
+      "path": "static_shared/mathjax/ca.8bc2b061fb770836e171.json",
+      "sha256": "750a034984f3b5966a2a391eb5ad0c7b50bfa02eb576a82656a0bf43ebe34ee7",
+      "size_bytes": 247328
+    },
+    {
+      "path": "static_shared/mathjax/cancel.ea96f17cd534ccbc8f62.js",
+      "sha256": "9ff91ff84d9776606cdb66da62ffe9bb39cfdfabcf070f214d35e553689ffece",
+      "size_bytes": 2255
+    },
+    {
+      "path": "static_shared/mathjax/cases.3f7406ef40318a6f8e5f.js",
+      "sha256": "6805d481aaee3f78d82bb9f0b6b9ac47b0804c30f10253394724459d95d41a8c",
+      "size_bytes": 4277
+    },
+    {
+      "path": "static_shared/mathjax/centernot.768e4f081cc8683f1e3e.js",
+      "sha256": "7b89e7a2ddb38908580bcbf5aef3aedeff2231fbc8907d93c516f20e32fc9772",
+      "size_bytes": 2145
+    },
+    {
+      "path": "static_shared/mathjax/chtml.ca0e7adc4fe819207adf.js",
+      "sha256": "00db8c74ce9a68b9bf964712113b8dd71387dd2c04e4237ca2825d8cec59be86",
+      "size_bytes": 173680
+    },
+    {
+      "path": "static_shared/mathjax/color.79630c77474128a4ae41.js",
+      "sha256": "d5e0087b1f06ad49df3264042df0073edc78d09f8a09fb0c3e8622d110f6c73f",
+      "size_bytes": 6817
+    },
+    {
+      "path": "static_shared/mathjax/colortbl.96a1a982f3eba3c55314.js",
+      "sha256": "dff289abcff30d0e109eb51a6f6be2d09e46b7e1db5bc881719f9f1bf483ab8f",
+      "size_bytes": 3185
+    },
+    {
+      "path": "static_shared/mathjax/colorv2.0f5ccf0d5d09a36c88f2.js",
+      "sha256": "3cc6e234d0cd33e8004b9f4864e237a06b5e87c4d0ff17d64fff449464c628ce",
+      "size_bytes": 1524
+    },
+    {
+      "path": "static_shared/mathjax/complexity.c6bb3692efc5a41374a9.js",
+      "sha256": "0fa2a9b23848e516045fd11effc90087c41d793ac9fa69903980d7df3fd4b96d",
+      "size_bytes": 12603
+    },
+    {
+      "path": "static_shared/mathjax/configmacros.968326e72eabfc5a057f.js",
+      "sha256": "5a7b6e7b7980f8d3425ddbcbbe21299da5b1254d5702e91bdbb9d04f487f4664",
+      "size_bytes": 2588
+    },
+    {
+      "path": "static_shared/mathjax/core.cca62069d95b4d05010b.js",
+      "sha256": "989dca5b19443257e70306243a1b2fdad3ed7cdcee211de745407ac25cec050f",
+      "size_bytes": 136139
+    },
+    {
+      "path": "static_shared/mathjax/da.1af6f77cb15eebd92088.json",
+      "sha256": "92b82e15916673ebdcbdd6927aa491a18cf4780432733e534e1071b98b176dae",
+      "size_bytes": 247368
+    },
+    {
+      "path": "static_shared/mathjax/de.5229347b6a7889bb15d6.json",
+      "sha256": "2e56ac4f5a4ce6f831a69c34a81b66d4e260bba4a019499518f356888c146fa5",
+      "size_bytes": 284080
+    },
+    {
+      "path": "static_shared/mathjax/dsfont.2ffd7df91a30456d97d7.js",
+      "sha256": "74a9961b43c43644c28c582fc14031b7f42bac0b771140a5d80af383415ea978",
+      "size_bytes": 1898
+    },
+    {
+      "path": "static_shared/mathjax/empheq.e0c5bc5efaa2ece82970.js",
+      "sha256": "80bf476cd47846a5c93f4e68c6091263e3c427e762176d1718eea0f8bb7b2b1f",
+      "size_bytes": 5898
+    },
+    {
+      "path": "static_shared/mathjax/en.2ae13392310d42a46742.json",
+      "sha256": "5e60d1843351966a159cc409eb73e9abc7c7e375a3311c40d35843d70fee79fb",
+      "size_bytes": 364204
+    },
+    {
+      "path": "static_shared/mathjax/enclose.1ef451815434723333c4.js",
+      "sha256": "5301d91e2e7d6f86a29c13c1b9726b7476b9de9b1745011886c914372fab4cf3",
+      "size_bytes": 1731
+    },
+    {
+      "path": "static_shared/mathjax/entities.5c6373e281bdb19f8ef4.js",
+      "sha256": "8023c697f39b9b85510f2a343878bd18bd2c79ed164ce8cdf5534b2be45cc7f8",
+      "size_bytes": 23248
+    },
+    {
+      "path": "static_shared/mathjax/es.f4db9f8140d97550256a.json",
+      "sha256": "3f273798257eac1bb39082724ac819a0940588aefd21275c2c43a1178badb61b",
+      "size_bytes": 250921
+    },
+    {
+      "path": "static_shared/mathjax/euro.aded2c057b4cef1c52b5.json",
+      "sha256": "564c10b1ecae3d161a50fbf13965b9d326d24d8c5e172152a16253f6334375ac",
+      "size_bytes": 12781
+    },
+    {
+      "path": "static_shared/mathjax/explorer.426e0736fb6dd31457c3.js",
+      "sha256": "56a81c6ffba48aae68468cdcad4edac6ec8ec412088fbe9df74eece776906cc8",
+      "size_bytes": 57792
+    },
+    {
+      "path": "static_shared/mathjax/extpfeil.c29a100d59abcef672e8.js",
+      "sha256": "2d1f82bf22acefe6c358e3a3dca293cc2fda338f2db4fd147befc75122c41841",
+      "size_bytes": 2445
+    },
+    {
+      "path": "static_shared/mathjax/fontsizev3.1d09d18b6f2b30a8a2be.js",
+      "sha256": "0e8fe554424a274d5809efc11f3a48602713bb7d2b2280ae4fcac04181f128f2",
+      "size_bytes": 1637
+    },
+    {
+      "path": "static_shared/mathjax/fr.929e781d8ea8264c952e.json",
+      "sha256": "caf60a882b654ac18f5a168960aeeac014c27708c56195dd6d765aff728839df",
+      "size_bytes": 276403
+    },
+    {
+      "path": "static_shared/mathjax/gensymb.95536d22152609f3564c.js",
+      "sha256": "262d898481e34a5f9683dd15a16cea81a06702de101bf76289bbea83f8f4afc9",
+      "size_bytes": 1575
+    },
+    {
+      "path": "static_shared/mathjax/hi.4bf8aa94f4d208220313.json",
+      "sha256": "debdb8fc8b1c56a7f1ac4f96bc566af9456632b58df556b3331debdf0c2c723d",
+      "size_bytes": 394568
+    },
+    {
+      "path": "static_shared/mathjax/html.64640f2418616faa1a58.js",
+      "sha256": "a647d13d009d5ecee4239cfe681ef831f2bd0f2a91033b922ae6bf3481d156e0",
+      "size_bytes": 2813
+    },
+    {
+      "path": "static_shared/mathjax/it.91ecd5899fdf2bb53bc4.json",
+      "sha256": "b476cbfb4a1e8f6112f69c51e6ebacf86ed4114a9c0b1fbfb419ac2944aa6cfa",
+      "size_bytes": 282065
+    },
+    {
+      "path": "static_shared/mathjax/jsdom.9fdedce9ca3689b85808.js",
+      "sha256": "f321af6481e5c3e6ec5cc0917b528f8f8df3ae53f94485d3b770eb118eb738c5",
+      "size_bytes": 3163
+    },
+    {
+      "path": "static_shared/mathjax/ko.090da32db11725e7e3c8.json",
+      "sha256": "af7fd90bcf06736f5363b752d505d4cc7782bd725c6db4184edccdf56b24a87e",
+      "size_bytes": 392014
+    },
+    {
+      "path": "static_shared/mathjax/lazy.7af99c63170827107829.js",
+      "sha256": "a72e3b41f608f5e2c2b4b2b9a163ab9be1e31fcf84b255b4bad6f189e4f10505",
+      "size_bytes": 6597
+    },
+    {
+      "path": "static_shared/mathjax/linkedom.becd6a7ee73e62236393.js",
+      "sha256": "927d0b99ac6305492bcc4d46222f636666d8fbf1f952664b6c2099df15311fd7",
+      "size_bytes": 3616
+    },
+    {
+      "path": "static_shared/mathjax/liteDOM.965a8f780cf212d7924b.js",
+      "sha256": "4ee6d6e646cdcf3203fee3ede9395b0ddeb7670bfd2fdf06236701733013105c",
+      "size_bytes": 13577
+    },
+    {
+      "path": "static_shared/mathjax/loader.98478cc1c9eb81b9c646.js",
+      "sha256": "54997fce9d5b9ffe347ebdbcfd3fd95551b64e1cf75e480353675065e0aef97e",
+      "size_bytes": 11365
+    },
+    {
+      "path": "static_shared/mathjax/mathtools.964440743180ea438fcf.js",
+      "sha256": "d6dab6acde6634e4b043e38c0c6d4202346aedc0ee614b146c786278a4673c30",
+      "size_bytes": 22353
+    },
+    {
+      "path": "static_shared/mathjax/menu.f4a8061049adac3345bf.js",
+      "sha256": "b500f2dd50552d47a934e4ffee2a4f6fb166860cd243b9fdc4cc3d5e3dd898b8",
+      "size_bytes": 74867
+    },
+    {
+      "path": "static_shared/mathjax/mhchem.341764cc13d0455e1513.js",
+      "sha256": "8398fa620d2bcbf40258b3b63733a41ada58f96d511a8a1c2e8ede8d1c1d6cd0",
+      "size_bytes": 37800
+    },
+    {
+      "path": "static_shared/mathjax/mml-chtml-nofont.ffd84f2ef882302d28b5.js",
+      "sha256": "89bf2d4e00ec5915ef76db9f85a062e4a038c50571cefee638c4df8a04bb1711",
+      "size_bytes": 728671
+    },
+    {
+      "path": "static_shared/mathjax/mml-chtml.1d267789651ad082d5bb.js",
+      "sha256": "cc38c1a37c27929b1e4b1009a47a3e4593e40d0d0a3beaf1392e36e1dee7aeaf",
+      "size_bytes": 837572
+    },
+    {
+      "path": "static_shared/mathjax/mml-svg-nofont.122d7d3d1e46367eeff6.js",
+      "sha256": "60f20019de737284666c7baf8cd80cf16cec1793327e6f5c3b3002e673a8958b",
+      "size_bytes": 714104
+    },
+    {
+      "path": "static_shared/mathjax/mml-svg.a951f7eef65eb75a54cb.js",
+      "sha256": "a99bdc0c3f039227c319ba0baad8b35a8a76c54b0799f0d081148db296728ef3",
+      "size_bytes": 1689752
+    },
+    {
+      "path": "static_shared/mathjax/mml.6b31f3bfa403ae9b49c2.js",
+      "sha256": "ccb777a3698f3d2619876d7fdfc8d307a54896c3e1812f37aac24252687251ea",
+      "size_bytes": 8673
+    },
+    {
+      "path": "static_shared/mathjax/mml3.7fa4e575bbce3dc9aa69.js",
+      "sha256": "ed792479b3343529a2a9a1a813ebf3cea9fe5d381e9d135a07e155c81d036031",
+      "size_bytes": 27784
+    },
+    {
+      "path": "static_shared/mathjax/mml3.sef.e248bbb6bcf23bd666b4.json",
+      "sha256": "0f0eef793f3b97df3b10c386e23528938eb82f7d180affe694397e7346f03a87",
+      "size_bytes": 192556
+    },
+    {
+      "path": "static_shared/mathjax/nb.4623092c7651af59b599.json",
+      "sha256": "8d1ad78f81be49b569ce0011056f70501584843b5a5da8b21b4c2d8d38cb3ae3",
+      "size_bytes": 260745
+    },
+    {
+      "path": "static_shared/mathjax/nemeth.82528d687eede063ec84.json",
+      "sha256": "16f30ad5bc7db02bbcce4623b108626f1a73d65660799891f23efd76dcaa333e",
+      "size_bytes": 227472
+    },
+    {
+      "path": "static_shared/mathjax/newcommand.40654bd3c828b24343c5.js",
+      "sha256": "770b6a794ae654b6897a991eedafb0caf095f7d716ba37b77933cc346e0a9f74",
+      "size_bytes": 8833
+    },
+    {
+      "path": "static_shared/mathjax/nn.3f92603dff43b349a375.json",
+      "sha256": "8481c038bfbf609f53053cb26f86c1de4c6eafebe1a80f909004b3a201b07166",
+      "size_bytes": 262158
+    },
+    {
+      "path": "static_shared/mathjax/no-dark-mode.a4d02764ff39686c860f.js",
+      "sha256": "63d7b52571baf709d0a387459cbb2a9ed70e7ce15be222328e19d155ed255b46",
+      "size_bytes": 2246
+    },
+    {
+      "path": "static_shared/mathjax/node-main-setup.680de4e949b8cd64db88.cjs",
+      "sha256": "4fe20a7938c64ead34b4f32e4f29d5ddc6cf74cb6ba66fd7f3ae88c9c2476b97",
+      "size_bytes": 121
+    },
+    {
+      "path": "static_shared/mathjax/node-main.312ba2296e6965b320f5.mjs",
+      "sha256": "7a52fd967e5af0b75e8b6eb02a3955dc23f9f55acaeb46b9bec38c2914f467c8",
+      "size_bytes": 113
+    },
+    {
+      "path": "static_shared/mathjax/node-main.a1f68a1ba943f03185ad.cjs",
+      "sha256": "81ac6fa9341578b24914d55582b1aa15b547670390e06cd9254e2a33fe92cf71",
+      "size_bytes": 120
+    },
+    {
+      "path": "static_shared/mathjax/node-main.cc0d12776d2f45d80a3d.js",
+      "sha256": "85f247e3e85f4cee56907d52dd8d7e54edcd99d4c6c2e20f3f0c4cc10a7bca32",
+      "size_bytes": 172257
+    },
+    {
+      "path": "static_shared/mathjax/noerrors.452647f1b6bd6b44295a.js",
+      "sha256": "479c00d274f7f38e25d44a13e407bf8adeb83b02dd05639a302ca7c0db3d4cc2",
+      "size_bytes": 1243
+    },
+    {
+      "path": "static_shared/mathjax/noundefined.0439a20c34a9acf01a71.js",
+      "sha256": "d29d871d8d38802cc1581f6e4f5d673c357a8bf9802114ea57f51a53d0a0fef3",
+      "size_bytes": 1384
+    },
+    {
+      "path": "static_shared/mathjax/package.42a8766f1cf9d84c7e0f.json",
+      "sha256": "440cfcbfb317456a774bc7186e857a1f135954105e32a4312d6cdd555f3a4257",
+      "size_bytes": 2435
+    },
+    {
+      "path": "static_shared/mathjax/physics.e4123b34f06f44dd5239.js",
+      "sha256": "739e0d02aa8311493d03159e13a3268da7f180d4888ed49d8f0644dec7defc78",
+      "size_bytes": 19539
+    },
+    {
+      "path": "static_shared/mathjax/require.2f5e2dc61b1adf63a69a.mjs",
+      "sha256": "9e425e715b5f6e6adc20ff285ba6f491b85b037f9dca011f9b0209fe4355027e",
+      "size_bytes": 73
+    },
+    {
+      "path": "static_shared/mathjax/require.aa3cf210b4e9a2145795.js",
+      "sha256": "6ccbfb7f9a6e627fabdc39ce034f99355172b9778891cce33243844501098130",
+      "size_bytes": 4007
+    },
+    {
+      "path": "static_shared/mathjax/require.d.8fd666d212aefcf6f421.mts",
+      "sha256": "946701066b1225bbb539cb3b7b9dfadfea309b7dfb728dc28e59599af97c102d",
+      "size_bytes": 44
+    },
+    {
+      "path": "static_shared/mathjax/safe.2b92ee8222a26906c900.js",
+      "sha256": "ddd5b5eb3076bdf71c9b0508c58fae095b441a22b7bf2ff2e1ad5ace389f49b2",
+      "size_bytes": 6375
+    },
+    {
+      "path": "static_shared/mathjax/semantic-enrich.491ab67000bd5fdd6eb6.js",
+      "sha256": "2c2d8d5e2ab1af07a73e587c036bda41c1d9606b5d8fca7ef2e43f553c743563",
+      "size_bytes": 4782
+    },
+    {
+      "path": "static_shared/mathjax/setoptions.f3653b2e4f65c484a6fb.js",
+      "sha256": "756100054a264bcfd47c1b5c03b7e4dcdd7cca679b78b693a6926e887ab59c39",
+      "size_bytes": 3729
+    },
+    {
+      "path": "static_shared/mathjax/speech-worker.7b5a87f13d48d5bbd15f.js",
+      "sha256": "d8b553a705594bbe99671152541511173eb6c413774eceaa0a3a525d2744996f",
+      "size_bytes": 417319
+    },
+    {
+      "path": "static_shared/mathjax/speech.5ee435297e7c7dda5d87.js",
+      "sha256": "124683e973f0fba5443c85e821b7070a4531737d2e8b08d48f9959088c51f4b8",
+      "size_bytes": 20405
+    },
+    {
+      "path": "static_shared/mathjax/sre.5a7b7b1517f3c7ac252e.js",
+      "sha256": "55831f16704c4530ab27b2d23b2324b32d0672c5bdcc69e10a0cc48ad2e4c4d8",
+      "size_bytes": 253655
+    },
+    {
+      "path": "static_shared/mathjax/startup.9743f3fd4d6f9d716970.js",
+      "sha256": "9d422bd9df67852929a43763fd0d7b7645b00d646c63dde77a3ceeee8f9a3b17",
+      "size_bytes": 17073
+    },
+    {
+      "path": "static_shared/mathjax/sv.eeca274a6ab1bdfcc3f1.json",
+      "sha256": "7436531c326be9449bdbb41c74fcae4235fc58ff7c6816999e571ee636fd15f1",
+      "size_bytes": 271954
+    },
+    {
+      "path": "static_shared/mathjax/svg.3b88ee8e0a986c3a12f3.js",
+      "sha256": "996d304c4925148720990cabbc27d1039a7208ad4777556a94f6db3f32d26577",
+      "size_bytes": 159228
+    },
+    {
+      "path": "static_shared/mathjax/tagformat.edffc1ce0e476457b1b4.js",
+      "sha256": "9da0f12949eb209f8cfa06fd88ddce12bf6b8880d29c067a7ad08f42164a3a57",
+      "size_bytes": 1975
+    },
+    {
+      "path": "static_shared/mathjax/tex-base.a4c788d227933a4dbe34.js",
+      "sha256": "1e5f8fc44e552919ab145d92a6fa80c4bf6a41d08d2c802b6a009be132bc8c8e",
+      "size_bytes": 107605
+    },
+    {
+      "path": "static_shared/mathjax/tex-chtml-nofont.1a4c01112bdf49d022b1.js",
+      "sha256": "bf5ab73ab803d35e02a79fd633f0ce4c977848b9dea360860e03e0230d4db03b",
+      "size_bytes": 873852
+    },
+    {
+      "path": "static_shared/mathjax/tex-chtml.3d44f0d96407e6e343da.js",
+      "sha256": "415067cd20829809061951738091f3c6c77987b42e267c03659d788b7f82069b",
+      "size_bytes": 982772
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-chtml-nofont.fc2bd8e22161628a2dd0.js",
+      "sha256": "e6e0602060c7d72c70a8814f68e69503bc11febc4146e64997518d3a34aeebff",
+      "size_bytes": 873984
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-chtml.c68e377694ee1fef1256.js",
+      "sha256": "1f5a21b33dff5936c39f791a789fee7e5026d02af10bc84d26a0a25fa613ba5d",
+      "size_bytes": 982885
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-svg-nofont.7a7b14c36959378a17b1.js",
+      "sha256": "db5b6ab0ca1a1156cf17bd664a11e9de4b9cb78946badf2e6592003f301fe698",
+      "size_bytes": 859417
+    },
+    {
+      "path": "static_shared/mathjax/tex-mml-svg.6080c69fb74dac246e2a.js",
+      "sha256": "8faf7907f243f0961366e4059bd3f1631b1501c251094b39150343ac90a326b1",
+      "size_bytes": 1835065
+    },
+    {
+      "path": "static_shared/mathjax/tex-svg-nofont.035269eaeae7adf40175.js",
+      "sha256": "a2a9dbdeafe507ab23954d46b681e8ae4f1d6858e546defc940fab34ea40e2ab",
+      "size_bytes": 859285
+    },
+    {
+      "path": "static_shared/mathjax/tex-svg.e3bd52162ad7ec8e950f.js",
+      "sha256": "ead0ae2417314d38101959e5df34cdb79e12e37a78c714a09375269fbb19d7e7",
+      "size_bytes": 1834952
+    },
+    {
+      "path": "static_shared/mathjax/tex.64e4e6f1b02236c48d0c.js",
+      "sha256": "e5c5c9a29af31a4809b10ac887c67d938e11b6b8c9e76bda6aba1f859eeaa66a",
+      "size_bytes": 147664
+    },
+    {
+      "path": "static_shared/mathjax/texhtml.0304f785a6a2387af68f.js",
+      "sha256": "6269dda09c28b4291cd4d95e880c9dc053cc95b41c644ce057bab5640cb83113",
+      "size_bytes": 2504
+    },
+    {
+      "path": "static_shared/mathjax/textcomp.80f210729d1a1347c27e.js",
+      "sha256": "e038f7b36ddc4cbaaaa427c8f8554d418f284518cdc4c24eeb296e50084a4b23",
+      "size_bytes": 4875
+    },
+    {
+      "path": "static_shared/mathjax/textmacros.42a818618be1b6ab53be.js",
+      "sha256": "e4de0ad5b86bfe6a90291cb7ac60ed5c43604794c008448c23fc1b7022edb9fe",
+      "size_bytes": 10220
+    },
+    {
+      "path": "static_shared/mathjax/unicode.47afeab5ebff181cca44.js",
+      "sha256": "bf1ddc9fe506f782c0e9271c0c52c4b258f9e4eac3d2905274d0c5d239e2a2b3",
+      "size_bytes": 3586
+    },
+    {
+      "path": "static_shared/mathjax/units.73d3834a074e41e2aa4a.js",
+      "sha256": "25278814cbc050fcd4e8849c014c238cf6801e00405e0acaf5d98924fd1e26a7",
+      "size_bytes": 2118
+    },
+    {
+      "path": "static_shared/mathjax/upgreek.e96035471331c770c1ab.js",
+      "sha256": "3a387e3460f5a4bcfdc170e9ba167165bf1d197259db3478316eb1fbd8c2e621",
+      "size_bytes": 1993
+    },
+    {
+      "path": "static_shared/mathjax/verb.9aa68f128a1f79e26afa.js",
+      "sha256": "bd19e9004bb69b7bb87599957d384b3e873292bcc23b6d6cb184c2af71260774",
+      "size_bytes": 1777
+    }
+  ],
+  "remaining_reviews": [
+    "Complete local links, essential readings, exercises and supplied solutions",
+    "One appropriate original media rendition, playback, captions and notices",
+    "Retain useful complete files; no duplicate renditions or metadata credited as knowledge"
+  ],
+  "schema_version": 1,
+  "source_bytes": 18564735,
+  "source_id": "ocw_9b2b8cfd95268b1859de",
+  "source_sha256": "296585b6caab1b731668954701f48fd7b4b40d51ae6886f57cacf2762c0a6db9",
+  "transformation_version": 2,
+  "video_lesson_count": 11
+}

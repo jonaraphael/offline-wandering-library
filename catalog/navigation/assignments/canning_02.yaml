@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: canning_02
+assignments:
+- topic_id: canning-fruit
+  purpose: practical

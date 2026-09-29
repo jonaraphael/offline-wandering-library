@@ -1,0 +1,235 @@
+{
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "review": 1
+  },
+  "content_complete": false,
+  "id": "direct-static-math-v2",
+  "schema_version": 1,
+  "tasks": [
+    {
+      "argv": [
+        "run",
+        "--output",
+        "{workspace}/.owl/acquisition/direct-trial-v2",
+        "--candidates",
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "--staging",
+        "{staging}/direct-originals-1tb",
+        "--resource",
+        "appropedia",
+        "--wait-supervisor",
+        "{workspace}/.owl/acquisition/supervisor-1tb-20260927",
+        "--wait-plan",
+        "{workspace}/catalog/acquisition/1tb-supervisor-plan.json",
+        "--wait-task",
+        "preview-appropedia",
+        "--wait-task",
+        "preview-cd3wd",
+        "--wait-task",
+        "preview-ifixit",
+        "--wait-task",
+        "preview-low-tech-magazine"
+      ],
+      "batch": "direct",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "awaiting_review"
+          },
+          "path": "{workspace}/.owl/acquisition/direct-trial-v2/appropedia-trial-v2/result.json"
+        },
+        {
+          "equal_fields": [
+            [
+              "documents",
+              "structural_passed"
+            ]
+          ],
+          "path": "{workspace}/.owl/acquisition/direct-trial-v2/appropedia-trial-v2/structure.json"
+        }
+      ],
+      "id": "preview-appropedia-v2",
+      "inputs": [
+        "{workspace}/.owl/acquisition/direct-trial-v2/trial.json",
+        "{workspace}/.owl/acquisition/direct-trial-v2/appropedia-trial-v2/recipe.json",
+        "{workspace}/.owl/acquisition/direct-trial-v2/appropedia-trial-v2/assets.json",
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "{workspace}/catalog/acquisition/1tb-supervisor-plan.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review original edition, context, language, illustrations, equations, notices and all local links. Machine structural checks cannot approve the collection.",
+      "script": "trial_direct_previews.py"
+    },
+    {
+      "argv": [
+        "run",
+        "--output",
+        "{workspace}/.owl/acquisition/direct-trial-v2",
+        "--candidates",
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "--staging",
+        "{staging}/direct-originals-1tb",
+        "--resource",
+        "cd3wd",
+        "--wait-supervisor",
+        "{workspace}/.owl/acquisition/supervisor-1tb-20260927",
+        "--wait-plan",
+        "{workspace}/catalog/acquisition/1tb-supervisor-plan.json",
+        "--wait-task",
+        "preview-appropedia",
+        "--wait-task",
+        "preview-cd3wd",
+        "--wait-task",
+        "preview-ifixit",
+        "--wait-task",
+        "preview-low-tech-magazine"
+      ],
+      "batch": "direct",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "awaiting_review"
+          },
+          "path": "{workspace}/.owl/acquisition/direct-trial-v2/cd3wd-trial-v2/result.json"
+        },
+        {
+          "equal_fields": [
+            [
+              "documents",
+              "structural_passed"
+            ]
+          ],
+          "path": "{workspace}/.owl/acquisition/direct-trial-v2/cd3wd-trial-v2/structure.json"
+        }
+      ],
+      "id": "preview-cd3wd-v2",
+      "inputs": [
+        "{workspace}/.owl/acquisition/direct-trial-v2/trial.json",
+        "{workspace}/.owl/acquisition/direct-trial-v2/cd3wd-trial-v2/recipe.json",
+        "{workspace}/.owl/acquisition/direct-trial-v2/cd3wd-trial-v2/assets.json",
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "{workspace}/catalog/acquisition/1tb-supervisor-plan.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review original edition, context, language, illustrations, equations, notices and all local links. Machine structural checks cannot approve the collection.",
+      "script": "trial_direct_previews.py"
+    },
+    {
+      "argv": [
+        "run",
+        "--output",
+        "{workspace}/.owl/acquisition/direct-trial-v2",
+        "--candidates",
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "--staging",
+        "{staging}/direct-originals-1tb",
+        "--resource",
+        "ifixit",
+        "--wait-supervisor",
+        "{workspace}/.owl/acquisition/supervisor-1tb-20260927",
+        "--wait-plan",
+        "{workspace}/catalog/acquisition/1tb-supervisor-plan.json",
+        "--wait-task",
+        "preview-appropedia",
+        "--wait-task",
+        "preview-cd3wd",
+        "--wait-task",
+        "preview-ifixit",
+        "--wait-task",
+        "preview-low-tech-magazine"
+      ],
+      "batch": "direct",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "awaiting_review"
+          },
+          "path": "{workspace}/.owl/acquisition/direct-trial-v2/ifixit-trial-v2/result.json"
+        },
+        {
+          "equal_fields": [
+            [
+              "documents",
+              "structural_passed"
+            ]
+          ],
+          "path": "{workspace}/.owl/acquisition/direct-trial-v2/ifixit-trial-v2/structure.json"
+        }
+      ],
+      "id": "preview-ifixit-v2",
+      "inputs": [
+        "{workspace}/.owl/acquisition/direct-trial-v2/trial.json",
+        "{workspace}/.owl/acquisition/direct-trial-v2/ifixit-trial-v2/recipe.json",
+        "{workspace}/.owl/acquisition/direct-trial-v2/ifixit-trial-v2/assets.json",
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "{workspace}/catalog/acquisition/1tb-supervisor-plan.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review original edition, context, language, illustrations, equations, notices and all local links. Machine structural checks cannot approve the collection.",
+      "script": "trial_direct_previews.py"
+    },
+    {
+      "argv": [
+        "run",
+        "--output",
+        "{workspace}/.owl/acquisition/direct-trial-v2",
+        "--candidates",
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "--staging",
+        "{staging}/direct-originals-1tb",
+        "--resource",
+        "low-tech-magazine",
+        "--wait-supervisor",
+        "{workspace}/.owl/acquisition/supervisor-1tb-20260927",
+        "--wait-plan",
+        "{workspace}/catalog/acquisition/1tb-supervisor-plan.json",
+        "--wait-task",
+        "preview-appropedia",
+        "--wait-task",
+        "preview-cd3wd",
+        "--wait-task",
+        "preview-ifixit",
+        "--wait-task",
+        "preview-low-tech-magazine"
+      ],
+      "batch": "direct",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "awaiting_review"
+          },
+          "path": "{workspace}/.owl/acquisition/direct-trial-v2/low-tech-magazine-trial-v2/result.json"
+        },
+        {
+          "equal_fields": [
+            [
+              "documents",
+              "structural_passed"
+            ]
+          ],
+          "path": "{workspace}/.owl/acquisition/direct-trial-v2/low-tech-magazine-trial-v2/structure.json"
+        }
+      ],
+      "id": "preview-low-tech-magazine-v2",
+      "inputs": [
+        "{workspace}/.owl/acquisition/direct-trial-v2/trial.json",
+        "{workspace}/.owl/acquisition/direct-trial-v2/low-tech-magazine-trial-v2/recipe.json",
+        "{workspace}/.owl/acquisition/direct-trial-v2/low-tech-magazine-trial-v2/assets.json",
+        "{workspace}/catalog/acquisition/direct-local-candidates.json",
+        "{workspace}/catalog/acquisition/1tb-supervisor-plan.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review original edition, context, language, illustrations, equations, notices and all local links. Machine structural checks cannot approve the collection.",
+      "script": "trial_direct_previews.py"
+    }
+  ]
+}

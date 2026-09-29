@@ -41,7 +41,7 @@ class AtlasLinkTests(unittest.TestCase):
                 opens.append(path)
             return original_open(path, *args, **kwargs)
         with patch('owl.atlas_build._SourceAnchors', Observed), patch.object(Path, 'open', opened):
-            validate_links(self.target, pages)
+            validate_links(self.target, pages, inspect_sources=True)
         self.assertEqual(opens, [source])
         self.assertEqual(len(parsers), 1)
         self.assertEqual(parsers[0].wanted, {'first', 'last'})
@@ -55,13 +55,13 @@ class AtlasLinkTests(unittest.TestCase):
         (self.target / 'BOOKS/guide.html').write_bytes('<h1 id="café:water">Water</h1>'.encode('utf-16'))
         validate_links(self.target,
             {'INDEX/topics/water.html': '<a href="../../BOOKS/guide.html#caf%C3%A9%3Awater">Water</a>'},
-            [{'destination': 'BOOKS/guide.html', 'text_encoding': 'utf-16'}])
+            [{'destination': 'BOOKS/guide.html', 'text_encoding': 'utf-16'}], inspect_sources=True)
 
     def test_missing_source_fragment_keeps_the_generated_link_context(self):
         (self.target / 'BOOKS/guide.html').write_text('<h1 id="present">Present</h1>', encoding='utf-8')
         with self.assertRaisesRegex(SafetyError, 'Missing HTML fragment in INDEX/topics/water.html'):
             validate_links(self.target,
-                {'INDEX/topics/water.html': '<a href="../../BOOKS/guide.html#missing">Missing</a>'})
+                {'INDEX/topics/water.html': '<a href="../../BOOKS/guide.html#missing">Missing</a>'}, inspect_sources=True)
 
     def test_generated_pages_still_check_fragments_scripts_and_nonlocal_links(self):
         valid = {'INDEX/topics/one.html': '<a href="two.html#section">Next</a>',

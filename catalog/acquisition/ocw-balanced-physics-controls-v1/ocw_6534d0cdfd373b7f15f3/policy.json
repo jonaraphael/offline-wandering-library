@@ -1,0 +1,165 @@
+{
+  "essential_material_review": "No particular textbook is followed; listed books are references. All26topic-matched lecture-note units, complete published lecture videos,6problem sets and3test-review problem/solution pairs are retained. Final project can be an offline explanatory paper or local teaching site. Separate classroom tests and unpublished homework keys are not claimed.",
+  "local_link_repairs": {},
+  "reviewed_html_omissions": {
+    "video_galleries/video-lectures/index.html": [
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "05eed83746bd2e5908e35dedeadaf5077b18a0e5f10c491cd91498292ff3ba06"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "115f80033a8686e70116ed839448abd93e3581f184cd5dcfed0d7fea6a923e16"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "122a0bd71a47b12af2d97118d06856d98aea6d9ae26c1f0508887ff24ddb2c36"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "1a54dee8e210d3393567f3099d7ecde8959490f223ffd96a3c17562edf54dd3b"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "2d2fd2cf72790042cee6945a846b148fdddd55df963fe438bb4add5ed77a4eb5"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "33854c995468f80300e17cf08d587ecf532f845d37d6fc8cfdd57554feeb9a76"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "3a1b8b1531139c41af92a16345b1a593a3a3715494105b350f27770d6014809a"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "3b68bb2b082c5fb93ba9bdfeb13443134a4365c3859c0854721ce35f94923f29"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "477b5dafb2f41f40d156df8e4761b70826881849f465f87cee700bd55163f18f"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "4c53f95b2b20996967ca141d829f28442920788c87d2784de0651150f9141cbd"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "4f74a843da51e16ac3ef6cc1b3a2a91281bc689a7cb60d11edf6c9c47618fa26"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "58c94fc1e5a74a0bf88cf0ce349b968e1d42a93605d75e0e072d865bb0199e12"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "5ffdbe688b51a0d90d69ad23fc293e7f1f814d23357ea150a35b512df07db5d0"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "7294f30b36a7da87ae6975e0315a3da18cbf9b9d3b5beac31f735d0644595165"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "8f802be26cc668325ac7e1be1f5e6a91a2bcf5b0fb0be78d96d3493332e41a3f"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "a8e97ae11ba94671e01696f37644d6de24e135ad8349950871afbaf92061e3d6"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "b0b6a926e180745818d56047b4fccd36979780ccbb3c045e959f9e48d8045a16"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "b99343208dcb25b5d4745e13a561c75199f9fb16ed54d4982e4e2000b475eaa0"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "c5e074bdfd247c33c4be6ef28a82cff74fb361dbd328f31f4400d7f64d94507a"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "cb81dae32b1702676bcde274e636b65ef0aa917c6567e3fd9c5d010475943bcf"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "d425cc55e285f89682aeed5643ab7e7a5e1a2e4551139b354727aa5e1766a7b5"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "d62ef963b5c4bf5b1a9a9e2ad50be14490810ca84188a285752119ceb096093a"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "d7b152b96cb3af20c415fac7a7bb69637d0ae6d1d31ac0b0db5ca554e39a97cf"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "e93bb155927fbae5acc23e6a357c1b5f9ad266d08a3420898e9af91ea9dbd2cf"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "e96ed3a0b5ad4891ea5d264ff8b2cdb224c3e1b5f8265238195b25c7579d6d42"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "f30118c8d5d2c1381839584026e7ba058fb74c913c6245e04711414ecba7ce17"
+      }
+    ]
+  },
+  "source_sha256": "c94033c23e21165fd4b849ae3e99d26921e31029717fcfbac135b7b54b4d01f0"
+}

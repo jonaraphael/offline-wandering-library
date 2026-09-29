@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: fema_are_you_ready_2020
+assignments:
+- topic_id: preparedness
+  purpose: reference

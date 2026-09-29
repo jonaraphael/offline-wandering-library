@@ -1,0 +1,6 @@
+schema_version: 1
+asset_id: demo_textbook
+assignments:
+- topic_id: build-process
+  purpose: explanation
+  section_id: build-diagram

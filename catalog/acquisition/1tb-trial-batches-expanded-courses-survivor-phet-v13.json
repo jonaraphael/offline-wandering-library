@@ -1,0 +1,314 @@
+{
+  "batches": [
+    {
+      "id": "maps",
+      "job": ".owl/jobs/maps-detailed-1tb",
+      "manifest": "catalog/acquisition/regional-maps-detailed-acquisition.json",
+      "profile": "full-1tb",
+      "resource_ids": [
+        "regional-maps"
+      ],
+      "staging": "maps-detailed-1tb"
+    },
+    {
+      "id": "map-review",
+      "review_owner": "owl-map-pdf-review",
+      "review_peak_bytes": 14000000000,
+      "source_staging": "maps-detailed-1tb",
+      "staging": "maps-review-1tb"
+    },
+    {
+      "id": "direct",
+      "job": ".owl/jobs/direct-originals-1tb",
+      "manifest": "catalog/acquisition/direct-local-acquisition.json",
+      "staging": "direct-originals-1tb"
+    },
+    {
+      "id": "stackoverflow",
+      "job": ".owl/jobs/stackoverflow-2024",
+      "manifest": "catalog/acquisition/stackoverflow-capture.json",
+      "staging": "stackoverflow-2024"
+    },
+    {
+      "id": "gutenberg",
+      "job": ".owl/jobs/gutenberg-compact-originals-1tb",
+      "manifest": "catalog/acquisition/gutenberg-compact-originals-capture.json",
+      "staging": "gutenberg-compact-originals-1tb"
+    },
+    {
+      "id": "course-packages",
+      "job": ".owl/jobs/ocw-course-packages-1tb",
+      "manifest": "catalog/acquisition/ocw-course-package-capture.json",
+      "staging": "ocw-course-packages-1tb"
+    },
+    {
+      "id": "course-media",
+      "job": ".owl/jobs/ocw-complete-candidate-media-1tb",
+      "manifest": "catalog/acquisition/ocw-complete-candidate-media-capture.json",
+      "staging": "ocw-complete-candidate-media-1tb"
+    },
+    {
+      "id": "manuals-initial",
+      "job": ".owl/jobs/manuals-1tb",
+      "manifest": "catalog/acquisition/programming-manuals-trial-capture.json",
+      "staging": "manuals-1tb"
+    },
+    {
+      "id": "manuals-continuation",
+      "job": ".owl/jobs/manuals-v2-1tb",
+      "manifest": "catalog/acquisition/programming-manuals-trial-v2-capture.json",
+      "staging": "manuals-v2-1tb"
+    },
+    {
+      "id": "python-release",
+      "job": ".owl/jobs/python-3-14-7-release-html",
+      "manifest": "catalog/acquisition/python-3-14-7-release-v2-capture.json",
+      "staging": "python-3-14-7-release-html"
+    },
+    {
+      "id": "python-release-package-review",
+      "review_peak_bytes": 500000000,
+      "staging": "python-release-package-trial"
+    },
+    {
+      "id": "course-thumbnails",
+      "job": ".owl/jobs/ocw-python-thumbnails-1tb",
+      "manifest": "catalog/acquisition/ocw-python-thumbnails-capture.json",
+      "staging": "ocw-python-thumbnails-1tb"
+    },
+    {
+      "id": "ocw-python-homepage-qa",
+      "review_owner": "owl-ocw-homepage-qa",
+      "review_peak_bytes": 100000000,
+      "source_staging": "ocw-course-packages-1tb",
+      "staging": "ocw-python-homepage-qa"
+    },
+    {
+      "id": "phet-screen-completion",
+      "manifest": "catalog/acquisition/phet-screen-completion-capture.json",
+      "profile": "full-1tb",
+      "resource_ids": [
+        "phet"
+      ],
+      "staging": "phet-screen-completion-1tb"
+    },
+    {
+      "id": "phet-screen-browser-review",
+      "review_peak_bytes": 1000000000,
+      "staging": "phet-screen-browser-review-1tb"
+    },
+    {
+      "id": "phet-screen-remainder",
+      "manifest": "catalog/acquisition/phet-screen-remainder-capture.json",
+      "profile": "full-1tb",
+      "resource_ids": [
+        "phet"
+      ],
+      "staging": "phet-screen-remainder-1tb"
+    },
+    {
+      "id": "survivor-practical-v2",
+      "job": ".owl/jobs/survivor-practical-v2-1tb",
+      "manifest": "catalog/acquisition/survivor-practical-trial-v2-capture.json",
+      "staging": "survivor-practical-v2-1tb"
+    },
+    {
+      "id": "survivor-practical-v2-review",
+      "review_peak_bytes": 1000000000,
+      "staging": "survivor-practical-v2-review-1tb"
+    },
+    {
+      "id": "expanded-course-packages",
+      "job": ".owl/jobs/ocw-expanded-packages-1tb",
+      "manifest": "catalog/acquisition/ocw-expanded-packages-v1-capture.json",
+      "staging": "ocw-expanded-packages-1tb"
+    },
+    {
+      "id": "expanded-course-review",
+      "review_owner": "owl-ocw-expansion-review",
+      "review_peak_bytes": 3000000000,
+      "source_staging": "ocw-expanded-packages-1tb",
+      "staging": "ocw-expanded-review-1tb"
+    },
+    {
+      "id": "phet-ph-scale-quarantine",
+      "job": ".owl/jobs/phet-ph-scale-quarantine-20260927",
+      "manifest": "catalog/acquisition/phet-ph-scale-quarantine-capture.json",
+      "profile": "full-1tb",
+      "resource_ids": [
+        "phet"
+      ],
+      "staging": "phet-ph-scale-quarantine-20260927"
+    },
+    {
+      "id": "expanded-course-packages-v2",
+      "job": ".owl/jobs/ocw-expanded-packages-v2-1tb",
+      "manifest": "catalog/acquisition/ocw-expanded-packages-v2-capture.json",
+      "staging": "ocw-expanded-packages-v2-1tb"
+    },
+    {
+      "id": "expanded-course-review-v2",
+      "review_owner": "owl-ocw-expansion-review",
+      "review_peak_bytes": 3000000000,
+      "source_staging": "ocw-expanded-packages-v2-1tb",
+      "staging": "ocw-expanded-review-v2-1tb"
+    },
+    {
+      "id": "algorithmic-course",
+      "job": ".owl/jobs/ocw-algorithmic-course-v1-1tb",
+      "manifest": "catalog/acquisition/ocw-algorithmic-complete-sources-v1-capture.json",
+      "planned_phase_budget": {
+        "cache_bytes": 0,
+        "download_bytes": 4669606957,
+        "expanded_bytes": 0,
+        "preview_bytes": 10000000000,
+        "scratch_bytes": 1048576
+      },
+      "staging": "ocw-algorithmic-course-v1-1tb"
+    },
+    {
+      "id": "survivor-practical-v2-review-repair",
+      "review_peak_bytes": 250000000,
+      "staging": "survivor-practical-v2-review-repair-1tb"
+    },
+    {
+      "id": "sqlite-package-dependencies",
+      "job": ".owl/jobs/sqlite-package-dependencies-v1-1tb",
+      "manifest": "catalog/acquisition/sqlite-package-dependencies-v1-capture.json",
+      "staging": "sqlite-package-dependencies-v1-1tb"
+    },
+    {
+      "id": "sqlite-package-review",
+      "review_peak_bytes": 300000000,
+      "staging": "sqlite-package-review-v1-1tb"
+    },
+    {
+      "id": "ocw-selfcontained-courses",
+      "job": ".owl/jobs/ocw-selfcontained-courses-v1-1tb",
+      "manifest": "catalog/acquisition/ocw-selfcontained-courses-v1-capture.json",
+      "planned_phase_budget": {
+        "cache_bytes": 0,
+        "download_bytes": 9374204117,
+        "expanded_bytes": 0,
+        "preview_bytes": 20000000000,
+        "scratch_bytes": 1048576
+      },
+      "staging": "ocw-selfcontained-courses-v1-1tb"
+    },
+    {
+      "id": "ocw-complete-course-review",
+      "review_peak_bytes": 500000000,
+      "staging": "ocw-complete-course-review-v1-1tb"
+    },
+    {
+      "id": "sqlite-package-dependencies-v2",
+      "job": ".owl/jobs/sqlite-package-dependencies-v2-1tb",
+      "manifest": "catalog/acquisition/sqlite-package-dependencies-v2-capture.json",
+      "staging": "sqlite-package-dependencies-v2-1tb"
+    },
+    {
+      "id": "midwives-digital-sources",
+      "job": ".owl/jobs/midwives-digital-source-review-20260927-v2",
+      "manifest": "catalog/acquisition/midwives-digital-source-review-capture-20260927-v2.json",
+      "profile": "full-1tb",
+      "resource_ids": [
+        "hesperian-health"
+      ],
+      "staging": "midwives-digital-source-review-20260927-v2"
+    },
+    {
+      "id": "midwives-digital-review",
+      "review_peak_bytes": 1000000000,
+      "staging": "midwives-digital-review-v1-1tb"
+    },
+    {
+      "id": "kolibri-format-pilot",
+      "job": ".owl/jobs/kolibri-english-core-format-pilot-1tb",
+      "manifest": "catalog/acquisition/kolibri-english-core-format-pilot-capture.json",
+      "staging": "kolibri-english-core-format-pilot-1tb"
+    },
+    {
+      "id": "kolibri-format-review",
+      "review_peak_bytes": 1000000000,
+      "staging": "kolibri-format-review-v1-1tb"
+    },
+    {
+      "id": "ocw-selfcontained-courses-v2",
+      "job": ".owl/jobs/ocw-selfcontained-courses-v2-1tb",
+      "manifest": "catalog/acquisition/ocw-selfcontained-courses-v2-capture.json",
+      "planned_phase_budget": {
+        "cache_bytes": 0,
+        "download_bytes": 13332683203,
+        "expanded_bytes": 0,
+        "preview_bytes": 28000000000,
+        "scratch_bytes": 1048576
+      },
+      "staging": "ocw-selfcontained-courses-v2-1tb"
+    },
+    {
+      "id": "midwives-raw-diagnostic",
+      "job": ".owl/jobs/midwives-raw-diagnostic-v1-1tb",
+      "manifest": "catalog/acquisition/midwives-raw-diagnostic-capture-20260927-v1.json",
+      "staging": "midwives-raw-diagnostic-v1-1tb"
+    },
+    {
+      "id": "midwives-digital-sources-v3",
+      "job": ".owl/jobs/midwives-digital-source-review-20260927-v3",
+      "manifest": "catalog/acquisition/midwives-digital-source-review-capture-20260927-v3.json",
+      "profile": "full-1tb",
+      "staging": "midwives-digital-source-review-20260927-v3"
+    },
+    {
+      "id": "ocw-balanced-physics-courses-v1",
+      "job": ".owl/jobs/ocw-balanced-physics-courses-v1-1tb",
+      "manifest": "catalog/acquisition/ocw-balanced-physics-courses-v1-capture.json",
+      "planned_phase_budget": {
+        "cache_bytes": 0,
+        "download_bytes": 18413380565,
+        "expanded_bytes": 0,
+        "preview_bytes": 40000000000,
+        "scratch_bytes": 1048576
+      },
+      "staging": "ocw-balanced-physics-courses-v1-1tb"
+    },
+    {
+      "id": "kolibri-format-review-v2",
+      "review_peak_bytes": 1000000000,
+      "staging": "kolibri-format-review-v2-1tb"
+    },
+    {
+      "id": "manual-complete-articles-v1",
+      "job": ".owl/jobs/manual-complete-articles-v1-1tb",
+      "manifest": "catalog/acquisition/manual-complete-articles-v1-capture.json",
+      "profile": "full-1tb",
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "staging": "manual-complete-articles-v1-1tb"
+    },
+    {
+      "id": "kolibri-exercise-census-v1",
+      "job": ".owl/jobs/kolibri-exercise-census-v1-1tb",
+      "manifest": "catalog/acquisition/kolibri-english-core-exercise-census-v1-capture.json",
+      "staging": "kolibri-exercise-census-v1-1tb"
+    },
+    {
+      "id": "kolibri-exercise-review-v1",
+      "review_peak_bytes": 100000000,
+      "staging": "kolibri-exercise-review-v1-1tb"
+    },
+    {
+      "id": "manual-source-notices-v1",
+      "job": ".owl/jobs/manual-source-notices-v1-1tb",
+      "manifest": "catalog/acquisition/manual-source-notices-v1-capture.json",
+      "profile": "full-1tb",
+      "resource_ids": [
+        "linux-programming-docs"
+      ],
+      "staging": "manual-source-notices-v1-1tb"
+    }
+  ],
+  "schema_version": 1,
+  "shared_reserve_bytes": 10000000000,
+  "space_accounting": "reserve-full-peaks"
+}

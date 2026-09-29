@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "manual-source-notices-minor-v2-followup",
+  "content_complete": false,
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "capture": 1
+  },
+  "tasks": [
+    {
+      "id": "capture-notices",
+      "kind": "capture",
+      "batch": "manual-source-notices-minor-v2",
+      "lane": "capture",
+      "checks": [
+        {
+          "path": "{workspace}/.owl/jobs/manual-source-notices-minor-v2-1tb/result.json",
+          "equals": {
+            "source_count": 7,
+            "content_ready": false,
+            "status": "awaiting_review"
+          }
+        }
+      ]
+    }
+  ],
+  "review_items": [
+    "Seven exact systemd259.6 source/header replacements captured against official Git tree exact sizes. Their observed whole-file hashes remain pending until source review.",
+    "Reuse13 unchanged systemd source files proved identical to exact259.6 Git objects; retain all33 file-specific sources and matching included license texts."
+  ]
+}

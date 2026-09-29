@@ -124,10 +124,11 @@ def inspect(staging, catalog, output):
 
 def inspect_localized(staging, recipe_path, catalog, output):
     """Check the entire captured ZIP against its source-bound localized preview."""
-    from owl.acquisition.zip_localized import rewrite_html, validate_recipe
+    from owl.acquisition.zip_localized import rewrite_member, validate_recipe
     manifest, receipts = load_capture_sources(staging)
     recipe = _read(recipe_path); proposal = _read(catalog)
-    assets = {a['id']: a for a in proposal['assets']}
+    from owl.acquisition.model import build_input_assets
+    assets = {**{a['id']: a for a in proposal['assets']}, **build_input_assets([recipe])}
     validate_recipe(recipe, assets)
     preview = safe_path(staging, 'previews/' + recipe['id'])
     preview_receipt = _preview_receipt(staging, preview/'preview-receipt.json')
@@ -143,17 +144,26 @@ def inspect_localized(staging, recipe_path, catalog, output):
     if set(expected_outputs) != {m['asset_id'] for m in declared}:
         raise SafetyError('Localized preview output membership differs')
     member_paths = {m['path'] for m in declared}
+    dependency_paths = set(recipe.get('selection', {}).get('dependencies', {}))
     source_urls = {s['source_url'] for s in manifest['sources']}
     rows, html_rows, repaired = [], [], 0
     with ZipSource(safe_path(staging, receipt['relative_path']), source) as archive:
-        if member_paths != set(archive.entries):
+        if {m['path'] for m in declared if not m.get('source_asset_id')} != set(archive.entries):
             raise SafetyError('Localized review must cover the complete publisher package')
+        from owl.acquisition.python_manual import auxiliary
+        runtime_inputs=auxiliary(archive,declared)
         for member in declared:
             identity = member['asset_id']; asset = assets[identity]
-            info = archive.entries[member['path']]
-            if info.file_size != member['size_bytes']:
-                raise SafetyError('Source member size differs from its bounded declaration')
-            with archive.archive.open(info) as stream:
+            origin=member.get('source_asset_id')
+            if origin:
+                original_receipt=next(r for r in receipts if r['source_id']==origin)
+                stream=safe_path(staging,original_receipt['relative_path']).open('rb')
+            else:
+                info = archive.entries[member['path']]
+                if info.file_size != member['size_bytes']:
+                    raise SafetyError('Source member size differs from its bounded declaration')
+                stream=archive.archive.open(info)
+            with stream:
                 raw = stream.read(member['size_bytes'] + 1)
                 if stream.read(1): raise SafetyError('Source member exceeds its declared bound')
             if len(raw) != member['size_bytes'] or hashlib.sha256(raw).hexdigest() != member['sha256']:
@@ -163,21 +173,34 @@ def inspect_localized(staging, recipe_path, catalog, output):
                 raise SafetyError('Localized output pin differs from reviewed proposal')
             if any(expected_outputs[identity][key] != asset[key] for key in ('size_bytes', 'sha256')):
                 raise SafetyError('Localized proposal pin differs from preview receipt')
-            expected = rewrite_html(raw, member)
+            expected = rewrite_member(raw, member, runtime_inputs)
             if path.read_bytes() != expected:
-                raise SafetyError('Localized output changed more than declared attribute spans')
+                raise SafetyError('Localized output differs from its declared member transformation')
             repaired += sum(r['expected_count'] for r in member.get('rewrites', []))
             rows.append({'asset_id': identity, 'path': member['path'], 'size_bytes': len(expected),
-                'sha256': asset['sha256'], 'original_sha256': member['sha256'], 'preservation': 'exact_except_declared_attribute_spans'})
+                'sha256': asset['sha256'], 'original_sha256': member['sha256'], 'preservation': 'exact_except_declared_transformations',
+                'stylesheet_patch': member.get('stylesheet_patch'), 'runtime_patch': member.get('runtime_patch'), 'reference_annotation': member.get('reference_annotation'), 'source_asset_id': member.get('source_asset_id')})
             if member['path'].endswith(('.html', '.htm')):
-                html_rows.append({'path': member['path'], **audit_html(expected, member['path'], source_urls, member_paths)})
+                html_rows.append({'path': member['path'], **audit_html(expected, member['path'], source_urls, member_paths | dependency_paths)})
         archive.check_source()
+    companion_rows = []
+    preview_companions = {row['id']: row for row in preview_receipt.get('companions', [])}
+    for member_path, identity in recipe.get('selection', {}).get('dependencies', {}).items():
+        asset = assets[identity]
+        companion = preview_companions.get(identity, {})
+        if any(companion.get(key) != asset[key] for key in ('size_bytes', 'sha256')):
+            raise SafetyError('Supporting dependency differs from its captured preview pins')
+        path = safe_path(preview/'files', asset['destination'])
+        companion_rows.append({'asset_id': identity, 'path': member_path, 'size_bytes': asset['size_bytes'], 'sha256': asset['sha256']})
+        if member_path.endswith(('.html', '.htm')):
+            html_rows.append({'path': member_path, **audit_html(path.read_bytes(), member_path, source_urls, member_paths | dependency_paths)})
     missing = [dict(document=doc['path'], **link) for doc in html_rows for link in doc.get('dependencies', []) if link['status']=='missing_package_member']
     result = {'schema_version': 1, 'content_ready': False, 'status': 'inspected_awaiting_review',
         'manifest_sha256': _digest(manifest), 'recipe_sha256': _digest(recipe), 'proposal_sha256': _digest(proposal),
         'preview_receipt_sha256': _digest(preview_receipt), 'source_sha256': source['sha256'],
         'members_verified': len(rows), 'html_documents': len(html_rows), 'attribute_spans_repaired': repaired,
         'whole_package_preserved': True, 'missing_local_links': missing, 'members': rows, 'html': html_rows,
+        'supporting_dependencies': companion_rows,
         'physical_device_certification': 'pending'}
     atomic_write(output, _json(result))
     return {key: result[key] for key in ('content_ready','members_verified','html_documents','attribute_spans_repaired','whole_package_preserved')} | {

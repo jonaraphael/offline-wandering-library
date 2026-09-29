@@ -1,0 +1,408 @@
+{
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "capture": 1,
+    "review": 1
+  },
+  "content_complete": false,
+  "id": "ocw-computing-communications-statistics-v1",
+  "review_items": [
+    {
+      "id": "published-course-admission",
+      "reason": "Keep all documented unavailable classroom recordings/assessments visible. Review exact course inventory, English captions, media playback, teaching legibility, local notes/exercises/code, notices and offline pages before any admission. Apply the reviewed native-media runtime policy from the first preview; no prior duplicate preview is needed."
+    }
+  ],
+  "schema_version": 1,
+  "tasks": [
+    {
+      "batch": "ocw-computing-communications-statistics-v1",
+      "id": "capture-courses",
+      "kind": "capture",
+      "lane": "capture"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-computing-communications-statistics-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_ae3a08d2bbf9ab91edfc/inventory.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_ae3a08d2bbf9ab91edfc/policy.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_ae3a08d2bbf9ab91edfc",
+        "--preview-id",
+        "ocw_ae3a08d2bbf9ab91edfc_ordinary_v2",
+        "--offline-runtime-policy"
+      ],
+      "batch": "ocw-computing-communications-statistics-v1",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_ae3a08d2bbf9ab91edfc/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_ae3a08d2bbf9ab91edfc/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_ae3a08d2bbf9ab91edfc/assets.json"
+        }
+      ],
+      "depends": [
+        "capture-courses"
+      ],
+      "id": "freeze-ocw_ae3a08d2bbf9ab91edfc",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_ae3a08d2bbf9ab91edfc/inventory.json",
+        "{workspace}/catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_ae3a08d2bbf9ab91edfc/policy.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-computing-communications-statistics-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_ae3a08d2bbf9ab91edfc/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_ae3a08d2bbf9ab91edfc/assets.json",
+        "--preview-bytes",
+        "10500000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-computing-communications-statistics-v1",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-computing-communications-statistics-v1-1tb/previews/ocw_ae3a08d2bbf9ab91edfc_ordinary_v2/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-ocw_ae3a08d2bbf9ab91edfc"
+      ],
+      "id": "preview-ocw_ae3a08d2bbf9ab91edfc",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_ae3a08d2bbf9ab91edfc/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_ae3a08d2bbf9ab91edfc/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-computing-communications-statistics-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_ae3a08d2bbf9ab91edfc/inventory.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core",
+        "--preview-id",
+        "ocw_ae3a08d2bbf9ab91edfc_ordinary_v2",
+        "--review-id",
+        "ocw_ae3a08d2bbf9ab91edfc_offline_runtime_v2"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_ae3a08d2bbf9ab91edfc_offline_runtime_v2/report.json"
+        }
+      ],
+      "depends": [
+        "preview-ocw_ae3a08d2bbf9ab91edfc"
+      ],
+      "id": "review-ocw_ae3a08d2bbf9ab91edfc",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_ae3a08d2bbf9ab91edfc/inventory.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-computing-communications-statistics-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_8968bc4de565b44a9dcc/inventory.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_8968bc4de565b44a9dcc/policy.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_8968bc4de565b44a9dcc",
+        "--preview-id",
+        "ocw_8968bc4de565b44a9dcc_ordinary_v2",
+        "--offline-runtime-policy"
+      ],
+      "batch": "ocw-computing-communications-statistics-v1",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_8968bc4de565b44a9dcc/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_8968bc4de565b44a9dcc/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_8968bc4de565b44a9dcc/assets.json"
+        }
+      ],
+      "depends": [
+        "capture-courses"
+      ],
+      "id": "freeze-ocw_8968bc4de565b44a9dcc",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_8968bc4de565b44a9dcc/inventory.json",
+        "{workspace}/catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_8968bc4de565b44a9dcc/policy.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-computing-communications-statistics-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_8968bc4de565b44a9dcc/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_8968bc4de565b44a9dcc/assets.json",
+        "--preview-bytes",
+        "10500000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-computing-communications-statistics-v1",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-computing-communications-statistics-v1-1tb/previews/ocw_8968bc4de565b44a9dcc_ordinary_v2/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-ocw_8968bc4de565b44a9dcc"
+      ],
+      "id": "preview-ocw_8968bc4de565b44a9dcc",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_8968bc4de565b44a9dcc/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_8968bc4de565b44a9dcc/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-computing-communications-statistics-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_8968bc4de565b44a9dcc/inventory.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core",
+        "--preview-id",
+        "ocw_8968bc4de565b44a9dcc_ordinary_v2",
+        "--review-id",
+        "ocw_8968bc4de565b44a9dcc_offline_runtime_v2"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_8968bc4de565b44a9dcc_offline_runtime_v2/report.json"
+        }
+      ],
+      "depends": [
+        "preview-ocw_8968bc4de565b44a9dcc"
+      ],
+      "id": "review-ocw_8968bc4de565b44a9dcc",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-communications-statistics-controls-v1/ocw_8968bc4de565b44a9dcc/inventory.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-computing-communications-statistics-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-programming-puzzled-controls-v1/ocw_9b2b8cfd95268b1859de/inventory.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-programming-puzzled-controls-v1/ocw_9b2b8cfd95268b1859de/policy.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_9b2b8cfd95268b1859de",
+        "--preview-id",
+        "ocw_9b2b8cfd95268b1859de_ordinary_v2",
+        "--offline-runtime-policy"
+      ],
+      "batch": "ocw-computing-communications-statistics-v1",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_9b2b8cfd95268b1859de/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_9b2b8cfd95268b1859de/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_9b2b8cfd95268b1859de/assets.json"
+        }
+      ],
+      "depends": [
+        "capture-courses"
+      ],
+      "id": "freeze-ocw_9b2b8cfd95268b1859de",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-programming-puzzled-controls-v1/ocw_9b2b8cfd95268b1859de/inventory.json",
+        "{workspace}/catalog/acquisition/ocw-programming-puzzled-controls-v1/ocw_9b2b8cfd95268b1859de/policy.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-computing-communications-statistics-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_9b2b8cfd95268b1859de/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_9b2b8cfd95268b1859de/assets.json",
+        "--preview-bytes",
+        "10500000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-computing-communications-statistics-v1",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-computing-communications-statistics-v1-1tb/previews/ocw_9b2b8cfd95268b1859de_ordinary_v2/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-ocw_9b2b8cfd95268b1859de"
+      ],
+      "id": "preview-ocw_9b2b8cfd95268b1859de",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_9b2b8cfd95268b1859de/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-computing-communications-statistics-v1-captured-proposals/ocw_9b2b8cfd95268b1859de/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-computing-communications-statistics-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-programming-puzzled-controls-v1/ocw_9b2b8cfd95268b1859de/inventory.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core",
+        "--preview-id",
+        "ocw_9b2b8cfd95268b1859de_ordinary_v2",
+        "--review-id",
+        "ocw_9b2b8cfd95268b1859de_offline_runtime_v2"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_9b2b8cfd95268b1859de_offline_runtime_v2/report.json"
+        }
+      ],
+      "depends": [
+        "preview-ocw_9b2b8cfd95268b1859de"
+      ],
+      "id": "review-ocw_9b2b8cfd95268b1859de",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-programming-puzzled-controls-v1/ocw_9b2b8cfd95268b1859de/inventory.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: ndsu_freezing_fn403_2024
+assignments:
+- topic_id: food-preservation
+  purpose: reference
+  description: Food freezing, packaging, storage and thawing; NDSU guide reviewed
+    January 2024.

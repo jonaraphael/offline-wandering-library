@@ -9,6 +9,8 @@ import sys
 
 from .catalog import load_catalog, load_profiles, read_yaml
 from .resources import load_resources, resource_asset_ids
+from .content_policy import require_content_policy, load_policy
+from .utility_policy import require_utility_policy
 from .safety import atomic_write, reject_symlinks
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -18,7 +20,10 @@ TEMPLATES = Path(__file__).with_name("templates")
 def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow_local=False) -> dict:
     profiles = load_profiles(profiles_dir)
     assets = load_catalog(catalog, profiles, allow_local)
+    require_content_policy(assets)
     resources = load_resources(resources_path, assets)
+    if catalog.resolve() == (ROOT / "catalog/library.yaml").resolve():
+        require_utility_policy(assets, resources, profiles, resources_path)
     visible = []
     for profile in sorted(profiles.values(), key=lambda row: (row["capacity_bytes"], row["id"])):
         baseline = [a for a in assets if profile["id"] in a["profiles"]]
@@ -30,7 +35,7 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
         row["preset_resource_ids"] = profile.get("default_resources", [identity for identity, resource in resources.items()
             if pinned & resource_asset_ids(resource)])
         visible.append(row)
-    fields = ("id", "title", "category", "status", "size_bytes", "sha256", "format", "destination", "critical", "required",
+    fields = ("id", "title", "category", "utility_tier", "utility_reason", "knowledge_domains", "status", "size_bytes", "sha256", "format", "destination", "critical", "required",
               "reader_required", "resource_type", "illustrated", "profiles", "supporting_file", "archive_member", "generation", "generation_source_asset_ids",
               "generation_source_resource_ids", "generation_build_inputs", "generation_build_input_members", "generation_build_input_metadata_bytes")
     cli = {}
@@ -41,10 +46,11 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
             cli[flag] = str(path.resolve())
     if allow_local:
         cli["--allow-local"] = None
-    return {"schema_version": 1, "cli": cli, "atlas_available": catalog.resolve() == (ROOT / "catalog/library.yaml").resolve(),
+    return {"schema_version": 1, "direct_reading_formats": load_policy()["direct_reading_formats"], "cli": cli, "atlas_available": catalog.resolve() == (ROOT / "catalog/library.yaml").resolve(),
             "catalog_sha256": hashlib.sha256(catalog.read_bytes()).hexdigest(),
             "resources_sha256": hashlib.sha256(resources_path.read_bytes()).hexdigest(),
-            "profiles": visible, "resources": list(resources.values()),
+            "profiles": visible, "resources": sorted(resources.values(), key=lambda r: ({"CRITICAL": 0, "USEFUL": 1, "NONESSENTIAL": 2}.get(r.get("utility_tier"), 3), r.get("number") or 1000, r["id"])),
+            "topic_verticals": json.loads(Path(__file__).with_name("topic_verticals.json").read_text())["verticals"],
             "acquisition_recipes": read_yaml(catalog).get("acquisition_recipes", []),
             "assets": [{key: a[key] for key in fields if key in a} for a in assets]}
 
@@ -54,7 +60,7 @@ def render_selector(model: dict) -> str:
     data = json.dumps(model, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     data = data.replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
     template = (TEMPLATES / "selector.html").read_text(encoding="utf-8")
-    engine = (TEMPLATES / "selector.js").read_text(encoding="utf-8")
+    engine = (TEMPLATES / "selector.js").read_text(encoding="utf-8") + "\n" + (TEMPLATES / "selector-map.js").read_text(encoding="utf-8")
     if template.count("__OWL_MODEL__") != 1 or template.count("__OWL_ENGINE__") != 1:
         raise ValueError("Selector template requires exactly one model and engine placeholder")
     return template.replace("__OWL_ENGINE__", engine).replace("__OWL_MODEL__", data)

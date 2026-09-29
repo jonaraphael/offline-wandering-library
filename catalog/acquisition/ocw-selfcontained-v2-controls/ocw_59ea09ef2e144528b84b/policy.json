@@ -1,0 +1,1747 @@
+{
+  "essential_material_review": "All26published video lessons, matching study guides, exercises/solutions and7supplementary-note chapters are retained. The publisher says the out-of-print textbook is for expanding topics; the original course materials remain self-contained. Instructor memorial is optional context.",
+  "local_link_repairs": {},
+  "reviewed_html_omissions": {
+    "download/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "external-resources/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "pages/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "pages/study-materials/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/0uz-tr_vzks-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/0uz-tr_vzks-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/0uz-tr_vzks/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/2ppgetgovn0-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/2ppgetgovn0-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/2ppgetgovn0/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/a-w4f0c57ne-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/a-w4f0c57ne-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/a-w4f0c57ne/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/bbkzhydil2c-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/bbkzhydil2c-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/bbkzhydil2c/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/brmq13waa_y-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/brmq13waa_y-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/brmq13waa_y/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/cxueyn4exsg-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/cxueyn4exsg-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/cxueyn4exsg/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/f93pz9zyvdk-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/f93pz9zyvdk-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/f93pz9zyvdk/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/io8ktssnode-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/io8ktssnode-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/io8ktssnode/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/jaxrgacoqta-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/jaxrgacoqta-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/jaxrgacoqta/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/jss_dqq2uwo-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/jss_dqq2uwo-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/jss_dqq2uwo/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-1-double-multiple-sums/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-1-linearity-revisited/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-1-n-dimensional-vector-spaces/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-1-the-game-of-mathematics/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-1-vector-functions-of-a-scalar-variable/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-2-arrow-arithmetic/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-2-calculus-of-several-variables/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-2-tangential-normal-vectors/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-2-the-fundamental-theorem/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-2-the-game-of-matrices/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-3-directional-derivatives/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-3-inverting-a-matrix/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-3-multiple-integration-and-the-jacobian/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-3-polar-coordinates/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-3-three-dimensional-vectors/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-4-introduction-to-line-integrals/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-4-inverting-more-general-systems-of-equations/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-4-the-chain-rule/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-4-the-dot-product/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-4-vectors-in-polar-coordinates/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-5-greens-theorem/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-5-integrals-involving-parameters/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-5-maxima-and-minima-in-several-variables/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-5-the-cross-product/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-6-equations-of-lines-planes/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-6-exact-differentials/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/lecture-videos/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mfn1lqarwag-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mfn1lqarwag-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mfn1lqarwag/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_parti_lec01/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_parti_lec02/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_parti_lec03/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_parti_lec04/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_parti_lec05/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_parti_lec06/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_parti_sol01/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_parti_sol02/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_parti_sol03/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_parti_sol04/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_parti_sol05/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_parti_sol06/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partii_lec01/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partii_lec02/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partii_lec03/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partii_lec04/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partii_lec05/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partii_lec06/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partii_sol01/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partii_sol02/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partii_sol03/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partii_sol04/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partii_sol05/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partii_sol06/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_lec01/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_lec02/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_lec03/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_lec04/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_lec05/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_lec06/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_lec07/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_lec08/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_sol01/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_sol02/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_sol03/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_sol04/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_sol05/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_sol06/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_sol07/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiii_sol08/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_lec01/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_lec02/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_lec03/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_lec04/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_lec05/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_lec06/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_lec07/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_sol01/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_sol02/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_sol03/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_sol04/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_sol05/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_sol06/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partiv_sol07/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_lec01/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_lec02/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_lec03/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_lec04/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_lec05/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_lec06/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_lec07/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_lec08/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_sol01/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_sol02/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_sol03/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_sol04/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_sol05/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_sol06/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_sol07/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_partv_sol08/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_supp_notes01/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_supp_notes02/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_supp_notes03/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_supp_notes04/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_supp_notes05/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_supp_notes06/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/mitres_18_007_supp_notes07/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/nff_sjrwfay-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/nff_sjrwfay-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/nff_sjrwfay/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/ng9hkgqwt3k-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/ng9hkgqwt3k-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/ng9hkgqwt3k/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/nxbjzemcu-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/nxbjzemcu-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/nxbjzemcu/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/oc3ernbhqgo-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/oc3ernbhqgo-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/oc3ernbhqgo/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/problem-set-solutions/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/readings/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/res-18-007f11-th/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/res-18-007f11/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/rrcn5542u7e-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/rrcn5542u7e-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/rrcn5542u7e/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/rvnv3bpdcs8-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/rvnv3bpdcs8-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/rvnv3bpdcs8/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/sfb2fxel6im-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/sfb2fxel6im-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/sfb2fxel6im/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/ssuzn6khlnu-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/ssuzn6khlnu-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/ssuzn6khlnu/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/szh-zowkeqq-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/szh-zowkeqq-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/szh-zowkeqq/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/ugkl1whouho-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/ugkl1whouho-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/ugkl1whouho/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/wsooclvzmic-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/wsooclvzmic-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/wsooclvzmic/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/y9sa8stsx-m-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/y9sa8stsx-m-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/y9sa8stsx-m/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/yez0j9hxgb0-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/yez0j9hxgb0-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/yez0j9hxgb0/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/yw8vbdhvs8o-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/yw8vbdhvs8o-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/yw8vbdhvs8o/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/zyhcnuliapy-1/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/zyhcnuliapy-2/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "resources/zyhcnuliapy/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "static_resources/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "video_galleries/index.html": [
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      }
+    ],
+    "video_galleries/part-i/index.html": [
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "8bb091213447010dc1e0c6d44bad8dcfcbe24dc3c71d8a86e577a6f6a2865dd6"
+      },
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "8ffc0e67f57e0c951226d8a113b5b188acb5068835d67616120a53f775e93b47"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "912a64d5f4f47e73caf1dd285947b41024412e7e09597e7c59ce8a858606da3d"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "a74e84e2ece7fe61c05492b339a13e4de5af5942256ef7d5f96c78ade8077418"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "d62a5a695986a04f2a7134f9d69d01fb23aaec02fc0064a6863cf5746cb17741"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "fbec1fc50ff81b2bcacda1895e3b1d0b9b0e2eda86bbba4e67b97f10739e9f3e"
+      }
+    ],
+    "video_galleries/part-ii/index.html": [
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "3ce21fefc0e36adb10af80697f455980c86de6ca54fef8d920fde84d93742da3"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "7af308d7ed69f86ef0d4e9989a7eefca6a97c166039f91e58f58ebaa66708980"
+      },
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "93a0b1fc4860ffe9953514f2bf1297311cb9b604397e4fa59d66e6cb3959cbe4"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "ed02ce830ca4d863acb3108fb2ba4005ce997823aad85f173e5ed9f643576e67"
+      }
+    ],
+    "video_galleries/part-iii/index.html": [
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "75bc4e93de0626d81672751ea4876cf31dfbe2099e433e8a36295d5bdd628aa4"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "83af1ace6d2ca6b8670787f1fba05842803a8c44deb6bae29de8257feafce180"
+      },
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "a5deb5d5249c165219b6c08e1d5513a28803f41957e58c6e402f088c3c26809f"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "d7b87b840ab5f5c2e2f3b4de0cd5fe49b74e5e76cde6400b03dc865bbdc07176"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "db4b86cee936d4d8df4fe68748267e0ed262be8fab8610e691d4be7807947b5d"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "feffdc22405fa12551872d4acd809c332d7452fd69201018bbd9dd6e53f8f639"
+      }
+    ],
+    "video_galleries/part-iv/index.html": [
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "0543d0a4035da7c6d733a7ef32680f4b517a6dacf799bf15c29889b02d5a7d77"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "266ddbc65e3fd6feb3fe3f95c70487cd986c3dd0bf280ea9b94d2176e7700354"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "55a98b2292eb9deccc78046b0048aa1c097120ec27b2ff163220247c6ad57084"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "58cbc5072569042e5adaf61fb0a2bc2d991a5e37b0623687ca0af264aa120df7"
+      },
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "a51208b6e5c23b922fed8734437dae1159215943a3572ae9e445ea62f238beb5"
+      }
+    ],
+    "video_galleries/part-v/index.html": [
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "11ea122ea6937dc3b5f07cf64b03e3d02b4597b0e099e8b2a4f861afb3026217"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "2dd000e8805f97dccc74249719c8f8d17f92488f117a859a90811c80c67044c1"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "31da8c23f438a92814876c8ae4a9f0f9b732005b604e0bf0a1ee1342f626e931"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "65f81622c030ad1649f8cf46e4e588fee297d6aca04b94bdeed7f97b8a6f67b3"
+      },
+      {
+        "count": 2,
+        "kind": "obsolete-external-warning-handler",
+        "reason": "Optional instructor memorial reference; retain original URL and label while removing retired modal interception.",
+        "tag_sha256": "8f6cdd5da7026cc679fb51812565e8250f95e0f7e81983061f58665c3f7ddde2"
+      },
+      {
+        "count": 1,
+        "kind": "decorative-image",
+        "reason": "Optional gallery poster; the adjacent original lecture title and linked lesson context are retained.",
+        "tag_sha256": "f106327e6dc7d0c6f479a6c5635b02309d296d7c4c292bf216d0570ee186b947"
+      }
+    ]
+  },
+  "source_sha256": "e40c410d791035c0f236caac059a25d79b5470a1d4d6813b6d150126cd7f7833"
+}

@@ -1,0 +1,29 @@
+schema_version: 1
+asset_id: cawst_rainwater
+assignments:
+- topic_id: water-supply
+  purpose: reference
+  aliases:
+  - collect rainwater from a roof
+  - first flush diverter
+  - maintain a rainwater system
+  - rainwater gutters
+  - size a rainwater tank
+  basis: Brief publisher/contents, notices and sampled-page review on 2026-09-28;
+    see catalog/acquisition/seed-water-discovery-20260928.json. The currently offered
+    English PDF is the 2011 edition. Local rainfall, roof materials, freezing conditions
+    and current water-quality requirements need separate assessment; collected rainwater
+    is not automatically potable.
+- topic_id: drinking-water
+  purpose: reference
+  aliases:
+  - collect rainwater from a roof
+  - first flush diverter
+  - maintain a rainwater system
+  - rainwater gutters
+  - size a rainwater tank
+  basis: Brief publisher/contents, notices and sampled-page review on 2026-09-28;
+    see catalog/acquisition/seed-water-discovery-20260928.json. The currently offered
+    English PDF is the 2011 edition. Local rainfall, roof materials, freezing conditions
+    and current water-quality requirements need separate assessment; collected rainwater
+    is not automatically potable.

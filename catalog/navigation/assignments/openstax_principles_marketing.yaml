@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: openstax_principles_marketing
+assignments:
+- topic_id: management-marketing
+  purpose: explanation

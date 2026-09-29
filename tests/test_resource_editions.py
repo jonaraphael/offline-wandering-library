@@ -34,7 +34,7 @@ class EditionTests(unittest.TestCase):
         self.readers = {"id": "archive-readers", "title": "Readers", "target_bytes": 0,
                         "asset_ids": ["reader"], "status": "ready"}
         self.profile = {"id": "test", "default_resources": ["collection"], "readers_budget_bytes": 5,
-                        "capacity_bytes": 10**8, "reserve_bytes": 100, "search_budget_bytes": 1_000_000, "index_scratch_budget_bytes": 3_000_000}
+                        "capacity_bytes": 10**8, "reserve_bytes": 100, "discovery_budget_bytes": 1_000_000}
 
     @staticmethod
     def asset(identity, size, **changes):

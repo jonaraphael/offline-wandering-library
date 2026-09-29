@@ -82,6 +82,54 @@ class ZimWriteLedgerTests(unittest.TestCase):
                 ledger(self.control, 1)
 
 
+class PreviewWriteLedgerTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name).resolve()
+        self.files = self.root / 'previews/manual/files'; self.files.mkdir(parents=True)
+        self.candidate = self.root / 'work/page.html'; self.target = self.files / 'page.html'
+
+    def ledger(self, peak=100, allowance=100, reserve=0):
+        return module._PreviewWriteLedger(self.root, {self.candidate: self.target},
+            peak=peak, allowance=allowance, reserve=reserve)
+
+    def test_reuse_and_many_outputs_do_not_rescan_or_take_replacement_credit(self):
+        with patch.object(module, '_usage', wraps=module._usage) as usage:
+            ledger=self.ledger(); initial=usage.call_count
+            for _ in range(4): ledger(self.candidate,b'complete')
+            self.assertEqual(usage.call_count,initial)
+            self.assertEqual(ledger.used,8); self.assertEqual(ledger.retained,8)
+            ledger.reconcile(); self.assertEqual(usage.call_count,initial+1)
+            with self.assertRaisesRegex(SafetyError,'deterministic rerender'): ledger(self.candidate,b'changed')
+            self.assertEqual(self.target.read_bytes(),b'complete')
+
+    def test_interrupted_atomic_write_needs_fresh_ledger_and_charges_leftover_bytes(self):
+        ledger=self.ledger()
+        def interrupted(target,data):
+            (target.parent/'.owl-write-interrupted').write_bytes(data[:3])
+            raise KeyboardInterrupt
+        with patch.object(module,'atomic_write',side_effect=interrupted):
+            with self.assertRaises(KeyboardInterrupt): ledger(self.candidate,b'complete')
+        with self.assertRaisesRegex(SafetyError,'reconstructed'): ledger(self.candidate,b'complete')
+        fresh=self.ledger(); self.assertEqual(fresh.used,3)
+        fresh(self.candidate,b'complete'); fresh.reconcile()
+        self.assertEqual(fresh.used,11)
+
+    def test_preview_total_free_space_and_collision_fail_before_write(self):
+        for kwargs,pattern in [({'allowance':3},'preview_bytes'),({'peak':3},'total storage peak')]:
+            ledger=self.ledger(**kwargs)
+            with self.assertRaisesRegex(SafetyError,pattern): ledger(self.candidate,b'four')
+            self.assertFalse(self.target.exists())
+        ledger=self.ledger(reserve=10)
+        with patch.object(module.shutil,'disk_usage',return_value=type('Disk',(),{'free':109})()):
+            with self.assertRaisesRegex(SafetyError,'free space'): ledger(self.candidate,b'four')
+        with self.assertRaisesRegex(SafetyError,'undeclared'): ledger(self.root/'other',b'four')
+        self.target.write_bytes(b'')
+        with self.assertRaisesRegex(SafetyError,'deterministic rerender'): ledger(self.candidate,b'four')
+        self.target.unlink(); (self.files/'untracked').write_bytes(b'extra')
+        with self.assertRaisesRegex(SafetyError,'outside'): ledger.reconcile()
+
+
 class CaptureTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -251,6 +299,18 @@ class CaptureTests(unittest.TestCase):
         # A changed immutable phase declaration requires a new recipe identity.
         with self.assertRaisesRegex(SafetyError, "Immutable"):
             self.preview()
+
+    def test_pinned_preview_preflight_counts_other_previews_before_rendering(self):
+        from owl.acquisition import documents
+        self.capture()
+        other=self.staging/'previews/old/files/original.html'
+        other.parent.mkdir(parents=True);other.write_bytes(b'x'*9000)
+        templates=json.loads(self.assets_path.read_text())
+        templates['assets'][0].update(size_bytes=2000,sha256='a'*64)
+        write(self.assets_path,templates)
+        with patch.object(documents,'render',side_effect=AssertionError('must preflight first')):
+            with self.assertRaisesRegex(SafetyError,'combined preview_bytes before rendering'):self.preview()
+        self.assertFalse((self.staging/'previews/fixture/files/references/guide.html').exists())
 
     def test_preview_control_metadata_is_rejected_before_peak_overrun(self):
         self.capture()

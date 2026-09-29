@@ -17,7 +17,7 @@ import time
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 from owl.acquisition.capture import preview, _read, _json, _digest
-from owl.export_direct import _source_identity, DROP_CONTENT
+from owl.export_direct import _source_identity, DROP_CONTENT, VERSION as EXPORT_VERSION
 from owl.safety import SafetyError, atomic_write, reject_symlinks, safe_path, sha256_file
 
 LIMITS = {'appropedia_en': (2_000_000_000, 25000), 'cd3wd_en': (2_000_000_000, 60000),
@@ -59,7 +59,7 @@ def prepare(candidates_path, output):
         if source['candidate_count'] != len(entries) or any(row['size_bytes'] > MAX_ENTRY for row in selected):
             raise SafetyError('Candidate count or item bound changed')
         max_bytes, max_files = LIMITS[sid]
-        identity = source['resource_id'] + '-trial-v1'
+        identity = source['resource_id'] + '-trial-v' + str(EXPORT_VERSION)
         blockers = ['Frozen candidate selection still requires substantive language, completeness, safety/context and illustration review.']
         if source.get('language_tag_conflicts', {}).get('count'):
             blockers.append('HTML language tags conflict with English source/body evidence; per-work body-language review remains required.')
@@ -67,7 +67,7 @@ def prepare(candidates_path, output):
             blockers.append('Source inventory contains explicitly recorded unsafe/unexportable paths outside this selection; coverage remains pending.')
         work_ids = sorted({('document-sha256:' + row['entry_sha256']) if row['mime'] == 'application/pdf'
                            else source['source_asset_id'] + ':' + row.get('context_group', row['entry']) for row in selected})
-        recipe = {'id': identity, 'resource_id': source['resource_id'], 'adapter': 'zim_direct', 'version': '1',
+        recipe = {'id': identity, 'resource_id': source['resource_id'], 'adapter': 'zim_direct', 'version': str(EXPORT_VERSION),
             'source_asset_ids': [sid], 'output_asset_ids': [], 'workspace_bytes': WORKSPACE,
             'selection': {'source_asset_id': sid, 'entries': entries, 'max_bytes': max_bytes,
                 'max_files': max_files, 'max_item_bytes': MAX_ENTRY, 'work_ids': work_ids,
@@ -170,6 +170,28 @@ def inspect(source_record, staging, preview_result, output):
     return {k:v for k,v in report.items() if k != 'records'}
 
 
+def wait_for_prior_queue(directory, plan_path, task_ids, *, timeout=6*60*60, sleep=time.sleep):
+    """Avoid competing with the frozen prior direct-export queue on its batch."""
+    from owl.acquisition.supervisor import digest
+    plan = read(plan_path)
+    expected = digest(plan)
+    if not task_ids or set(task_ids) - {t['id'] for t in plan['tasks']}:
+        raise SafetyError('Unknown prior trial tasks')
+    started = time.monotonic()
+    while True:
+        owner = read(directory / 'owner.json')
+        if owner.get('plan_sha256') != expected:
+            raise SafetyError('Prior supervisor belongs to a different frozen plan')
+        state = read(directory / 'state.json')
+        if all(state['tasks'][identity]['state'] in {'done','needs_review','blocked'} for identity in task_ids):
+            return
+        if state['state'] in {'paused','failed'}:
+            raise SafetyError('Prior supervisor is paused or failed; do not bypass it')
+        if time.monotonic() - started > timeout:
+            raise SafetyError('Prior direct-export queue did not finish within six hours')
+        sleep(30)
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=['prepare','run','report'])
@@ -177,6 +199,9 @@ def main():
     parser.add_argument('--output',type=Path,default=Path('.owl/acquisition/direct-trial'))
     parser.add_argument('--staging',type=Path)
     parser.add_argument('--resource')
+    parser.add_argument('--wait-supervisor',type=Path)
+    parser.add_argument('--wait-plan',type=Path)
+    parser.add_argument('--wait-task',action='append',default=[])
     args=parser.parse_args()
     if args.command=='prepare':
         result=prepare(args.candidates,args.output)
@@ -196,6 +221,9 @@ def main():
             summaries.append(summary)
         print(json.dumps({'content_ready':False,'finished':len(results),'expected':len(trial['recipes']),'results':summaries}));return
     if args.staging is None:parser.error('--staging required for run')
+    if args.wait_supervisor:
+        if args.wait_plan is None:parser.error('--wait-plan is required with --wait-supervisor')
+        wait_for_prior_queue(args.wait_supervisor,args.wait_plan,args.wait_task)
     selected=[r for r in trial['recipes'] if not args.resource or r['id']==args.resource or candidates[r['source_asset_id']]['resource_id']==args.resource]
     if not selected:raise SafetyError('Requested resource absent from trial')
     for row in selected:

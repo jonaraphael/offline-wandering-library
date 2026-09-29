@@ -19,6 +19,8 @@ jobs:
         with:
           node-version: '22'
       - run: python -m pip install -e .
+      - run: python scripts/check_content_policy.py
+      - run: python scripts/check_selection_policy.py
       - run: python -m unittest discover -s tests -v
       - run: python scripts/validate_catalog.py
       - run: python scripts/validate_catalog.py catalog/demo.yaml --allow-local

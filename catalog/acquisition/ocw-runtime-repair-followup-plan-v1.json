@@ -1,0 +1,1194 @@
+{
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "capture": 1,
+    "review": 1
+  },
+  "content_complete": false,
+  "id": "ocw-runtime-repair-v1",
+  "review_items": [
+    {
+      "id": "source-pinned-offline-runtime-review",
+      "reason": "Fresh successor previews disable only two exact source-bound remote startup calls. All original files, prior failed previews and evidence remain; source bytes are reused. Recheck complete pages, navigation, media, captions and notices before admission."
+    }
+  ],
+  "schema_version": 1,
+  "tasks": [
+    {
+      "batch": "algorithmic-course",
+      "id": "runtime-capture-algorithmic-course",
+      "kind": "capture",
+      "lane": "capture"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-algorithmic-course-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-algorithmic-inventory-v1.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-algorithmic-link-repairs-v1.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59296f8d4063526ae08e",
+        "--preview-id",
+        "ocw_59296f8d4063526ae08e_ordinary_v2",
+        "--offline-runtime-policy"
+      ],
+      "batch": "algorithmic-course",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59296f8d4063526ae08e/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59296f8d4063526ae08e/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59296f8d4063526ae08e/assets.json"
+        }
+      ],
+      "depends": [
+        "runtime-capture-algorithmic-course"
+      ],
+      "id": "freeze-runtime-ocw_59296f8d4063526ae08e",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-algorithmic-inventory-v1.json",
+        "{workspace}/catalog/acquisition/ocw-algorithmic-link-repairs-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-algorithmic-course-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59296f8d4063526ae08e/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59296f8d4063526ae08e/assets.json",
+        "--preview-bytes",
+        "10000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "algorithmic-course",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-algorithmic-course-v1-1tb/previews/ocw_59296f8d4063526ae08e_ordinary_v2/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-runtime-ocw_59296f8d4063526ae08e"
+      ],
+      "id": "preview-runtime-ocw_59296f8d4063526ae08e",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59296f8d4063526ae08e/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59296f8d4063526ae08e/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-algorithmic-course-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-algorithmic-inventory-v1.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core",
+        "--preview-id",
+        "ocw_59296f8d4063526ae08e_ordinary_v2",
+        "--review-id",
+        "ocw_59296f8d4063526ae08e_offline_runtime_v2"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_59296f8d4063526ae08e_offline_runtime_v2/report.json"
+        }
+      ],
+      "depends": [
+        "preview-runtime-ocw_59296f8d4063526ae08e"
+      ],
+      "id": "review-runtime-ocw_59296f8d4063526ae08e",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-algorithmic-inventory-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "batch": "ocw-selfcontained-courses",
+      "id": "runtime-capture-selfcontained-courses",
+      "kind": "capture",
+      "lane": "capture"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw_fbccd60245d9cb173f41-inventory-v1.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw_fbccd60245d9cb173f41-link-repairs-v1.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_fbccd60245d9cb173f41",
+        "--preview-id",
+        "ocw_fbccd60245d9cb173f41_ordinary_v2",
+        "--offline-runtime-policy"
+      ],
+      "batch": "ocw-selfcontained-courses",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_fbccd60245d9cb173f41/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_fbccd60245d9cb173f41/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_fbccd60245d9cb173f41/assets.json"
+        }
+      ],
+      "depends": [
+        "runtime-capture-selfcontained-courses"
+      ],
+      "id": "freeze-runtime-ocw_fbccd60245d9cb173f41",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw_fbccd60245d9cb173f41-inventory-v1.json",
+        "{workspace}/catalog/acquisition/ocw_fbccd60245d9cb173f41-link-repairs-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-selfcontained-courses-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_fbccd60245d9cb173f41/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_fbccd60245d9cb173f41/assets.json",
+        "--preview-bytes",
+        "20000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-selfcontained-courses",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-selfcontained-courses-v1-1tb/previews/ocw_fbccd60245d9cb173f41_ordinary_v2/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-runtime-ocw_fbccd60245d9cb173f41"
+      ],
+      "id": "preview-runtime-ocw_fbccd60245d9cb173f41",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_fbccd60245d9cb173f41/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_fbccd60245d9cb173f41/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw_fbccd60245d9cb173f41-inventory-v1.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core",
+        "--preview-id",
+        "ocw_fbccd60245d9cb173f41_ordinary_v2",
+        "--review-id",
+        "ocw_fbccd60245d9cb173f41_offline_runtime_v2"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_fbccd60245d9cb173f41_offline_runtime_v2/report.json"
+        }
+      ],
+      "depends": [
+        "preview-runtime-ocw_fbccd60245d9cb173f41"
+      ],
+      "id": "review-runtime-ocw_fbccd60245d9cb173f41",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw_fbccd60245d9cb173f41-inventory-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw_91f8d56c4f9958fdf004-inventory-v1.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw_91f8d56c4f9958fdf004-link-repairs-v1.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_91f8d56c4f9958fdf004",
+        "--preview-id",
+        "ocw_91f8d56c4f9958fdf004_ordinary_v2",
+        "--offline-runtime-policy"
+      ],
+      "batch": "ocw-selfcontained-courses",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_91f8d56c4f9958fdf004/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_91f8d56c4f9958fdf004/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_91f8d56c4f9958fdf004/assets.json"
+        }
+      ],
+      "depends": [
+        "runtime-capture-selfcontained-courses"
+      ],
+      "id": "freeze-runtime-ocw_91f8d56c4f9958fdf004",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw_91f8d56c4f9958fdf004-inventory-v1.json",
+        "{workspace}/catalog/acquisition/ocw_91f8d56c4f9958fdf004-link-repairs-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-selfcontained-courses-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_91f8d56c4f9958fdf004/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_91f8d56c4f9958fdf004/assets.json",
+        "--preview-bytes",
+        "20000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-selfcontained-courses",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-selfcontained-courses-v1-1tb/previews/ocw_91f8d56c4f9958fdf004_ordinary_v2/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-runtime-ocw_91f8d56c4f9958fdf004"
+      ],
+      "id": "preview-runtime-ocw_91f8d56c4f9958fdf004",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_91f8d56c4f9958fdf004/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_91f8d56c4f9958fdf004/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw_91f8d56c4f9958fdf004-inventory-v1.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core",
+        "--preview-id",
+        "ocw_91f8d56c4f9958fdf004_ordinary_v2",
+        "--review-id",
+        "ocw_91f8d56c4f9958fdf004_offline_runtime_v2"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_91f8d56c4f9958fdf004_offline_runtime_v2/report.json"
+        }
+      ],
+      "depends": [
+        "preview-runtime-ocw_91f8d56c4f9958fdf004"
+      ],
+      "id": "review-runtime-ocw_91f8d56c4f9958fdf004",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw_91f8d56c4f9958fdf004-inventory-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "batch": "ocw-selfcontained-courses-v2",
+      "id": "runtime-capture-selfcontained-v2",
+      "kind": "capture",
+      "lane": "capture"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v2-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_6971a06b62af747d324c/inventory.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_6971a06b62af747d324c/policy.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6971a06b62af747d324c",
+        "--preview-id",
+        "ocw_6971a06b62af747d324c_ordinary_v2",
+        "--offline-runtime-policy"
+      ],
+      "batch": "ocw-selfcontained-courses-v2",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6971a06b62af747d324c/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6971a06b62af747d324c/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6971a06b62af747d324c/assets.json"
+        }
+      ],
+      "depends": [
+        "runtime-capture-selfcontained-v2"
+      ],
+      "id": "freeze-runtime-ocw_6971a06b62af747d324c",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_6971a06b62af747d324c/inventory.json",
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_6971a06b62af747d324c/policy.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-selfcontained-courses-v2-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6971a06b62af747d324c/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6971a06b62af747d324c/assets.json",
+        "--preview-bytes",
+        "28000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-selfcontained-courses-v2",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-selfcontained-courses-v2-1tb/previews/ocw_6971a06b62af747d324c_ordinary_v2/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-runtime-ocw_6971a06b62af747d324c"
+      ],
+      "id": "preview-runtime-ocw_6971a06b62af747d324c",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6971a06b62af747d324c/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6971a06b62af747d324c/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v2-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_6971a06b62af747d324c/inventory.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core",
+        "--preview-id",
+        "ocw_6971a06b62af747d324c_ordinary_v2",
+        "--review-id",
+        "ocw_6971a06b62af747d324c_offline_runtime_v2"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_6971a06b62af747d324c_offline_runtime_v2/report.json"
+        }
+      ],
+      "depends": [
+        "preview-runtime-ocw_6971a06b62af747d324c"
+      ],
+      "id": "review-runtime-ocw_6971a06b62af747d324c",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_6971a06b62af747d324c/inventory.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v2-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_d7c1c31475e19054769e/inventory.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_d7c1c31475e19054769e/policy.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d7c1c31475e19054769e",
+        "--preview-id",
+        "ocw_d7c1c31475e19054769e_ordinary_v2",
+        "--offline-runtime-policy"
+      ],
+      "batch": "ocw-selfcontained-courses-v2",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d7c1c31475e19054769e/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d7c1c31475e19054769e/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d7c1c31475e19054769e/assets.json"
+        }
+      ],
+      "depends": [
+        "runtime-capture-selfcontained-v2"
+      ],
+      "id": "freeze-runtime-ocw_d7c1c31475e19054769e",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_d7c1c31475e19054769e/inventory.json",
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_d7c1c31475e19054769e/policy.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-selfcontained-courses-v2-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d7c1c31475e19054769e/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d7c1c31475e19054769e/assets.json",
+        "--preview-bytes",
+        "28000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-selfcontained-courses-v2",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-selfcontained-courses-v2-1tb/previews/ocw_d7c1c31475e19054769e_ordinary_v2/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-runtime-ocw_d7c1c31475e19054769e"
+      ],
+      "id": "preview-runtime-ocw_d7c1c31475e19054769e",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d7c1c31475e19054769e/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d7c1c31475e19054769e/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v2-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_d7c1c31475e19054769e/inventory.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core",
+        "--preview-id",
+        "ocw_d7c1c31475e19054769e_ordinary_v2",
+        "--review-id",
+        "ocw_d7c1c31475e19054769e_offline_runtime_v2"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_d7c1c31475e19054769e_offline_runtime_v2/report.json"
+        }
+      ],
+      "depends": [
+        "preview-runtime-ocw_d7c1c31475e19054769e"
+      ],
+      "id": "review-runtime-ocw_d7c1c31475e19054769e",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_d7c1c31475e19054769e/inventory.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v2-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_59ea09ef2e144528b84b/inventory.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_59ea09ef2e144528b84b/policy.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59ea09ef2e144528b84b",
+        "--preview-id",
+        "ocw_59ea09ef2e144528b84b_ordinary_v2",
+        "--offline-runtime-policy"
+      ],
+      "batch": "ocw-selfcontained-courses-v2",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59ea09ef2e144528b84b/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59ea09ef2e144528b84b/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59ea09ef2e144528b84b/assets.json"
+        }
+      ],
+      "depends": [
+        "runtime-capture-selfcontained-v2"
+      ],
+      "id": "freeze-runtime-ocw_59ea09ef2e144528b84b",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_59ea09ef2e144528b84b/inventory.json",
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_59ea09ef2e144528b84b/policy.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-selfcontained-courses-v2-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59ea09ef2e144528b84b/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59ea09ef2e144528b84b/assets.json",
+        "--preview-bytes",
+        "28000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-selfcontained-courses-v2",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-selfcontained-courses-v2-1tb/previews/ocw_59ea09ef2e144528b84b_ordinary_v2/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-runtime-ocw_59ea09ef2e144528b84b"
+      ],
+      "id": "preview-runtime-ocw_59ea09ef2e144528b84b",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59ea09ef2e144528b84b/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_59ea09ef2e144528b84b/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v2-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_59ea09ef2e144528b84b/inventory.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core",
+        "--preview-id",
+        "ocw_59ea09ef2e144528b84b_ordinary_v2",
+        "--review-id",
+        "ocw_59ea09ef2e144528b84b_offline_runtime_v2"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_59ea09ef2e144528b84b_offline_runtime_v2/report.json"
+        }
+      ],
+      "depends": [
+        "preview-runtime-ocw_59ea09ef2e144528b84b"
+      ],
+      "id": "review-runtime-ocw_59ea09ef2e144528b84b",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-selfcontained-v2-controls/ocw_59ea09ef2e144528b84b/inventory.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "batch": "ocw-balanced-physics-courses-v1",
+      "id": "runtime-capture-balanced-physics-v1",
+      "kind": "capture",
+      "lane": "capture"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_d9d7c90c2760e07c91a3/inventory.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_d9d7c90c2760e07c91a3/policy.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d9d7c90c2760e07c91a3",
+        "--preview-id",
+        "ocw_d9d7c90c2760e07c91a3_ordinary_v2",
+        "--offline-runtime-policy"
+      ],
+      "batch": "ocw-balanced-physics-courses-v1",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d9d7c90c2760e07c91a3/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d9d7c90c2760e07c91a3/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d9d7c90c2760e07c91a3/assets.json"
+        }
+      ],
+      "depends": [
+        "runtime-capture-balanced-physics-v1"
+      ],
+      "id": "freeze-runtime-ocw_d9d7c90c2760e07c91a3",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_d9d7c90c2760e07c91a3/inventory.json",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_d9d7c90c2760e07c91a3/policy.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d9d7c90c2760e07c91a3/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d9d7c90c2760e07c91a3/assets.json",
+        "--preview-bytes",
+        "40000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-balanced-physics-courses-v1",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-balanced-physics-courses-v1-1tb/previews/ocw_d9d7c90c2760e07c91a3_ordinary_v2/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-runtime-ocw_d9d7c90c2760e07c91a3"
+      ],
+      "id": "preview-runtime-ocw_d9d7c90c2760e07c91a3",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d9d7c90c2760e07c91a3/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_d9d7c90c2760e07c91a3/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_d9d7c90c2760e07c91a3/inventory.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core",
+        "--preview-id",
+        "ocw_d9d7c90c2760e07c91a3_ordinary_v2",
+        "--review-id",
+        "ocw_d9d7c90c2760e07c91a3_offline_runtime_v2"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_d9d7c90c2760e07c91a3_offline_runtime_v2/report.json"
+        }
+      ],
+      "depends": [
+        "preview-runtime-ocw_d9d7c90c2760e07c91a3"
+      ],
+      "id": "review-runtime-ocw_d9d7c90c2760e07c91a3",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_d9d7c90c2760e07c91a3/inventory.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_2433420d806e22353638/inventory.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_2433420d806e22353638/policy.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_2433420d806e22353638",
+        "--preview-id",
+        "ocw_2433420d806e22353638_ordinary_v2",
+        "--offline-runtime-policy"
+      ],
+      "batch": "ocw-balanced-physics-courses-v1",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_2433420d806e22353638/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_2433420d806e22353638/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_2433420d806e22353638/assets.json"
+        }
+      ],
+      "depends": [
+        "runtime-capture-balanced-physics-v1"
+      ],
+      "id": "freeze-runtime-ocw_2433420d806e22353638",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_2433420d806e22353638/inventory.json",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_2433420d806e22353638/policy.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_2433420d806e22353638/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_2433420d806e22353638/assets.json",
+        "--preview-bytes",
+        "40000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-balanced-physics-courses-v1",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-balanced-physics-courses-v1-1tb/previews/ocw_2433420d806e22353638_ordinary_v2/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-runtime-ocw_2433420d806e22353638"
+      ],
+      "id": "preview-runtime-ocw_2433420d806e22353638",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_2433420d806e22353638/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_2433420d806e22353638/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_2433420d806e22353638/inventory.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core",
+        "--preview-id",
+        "ocw_2433420d806e22353638_ordinary_v2",
+        "--review-id",
+        "ocw_2433420d806e22353638_offline_runtime_v2"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_2433420d806e22353638_offline_runtime_v2/report.json"
+        }
+      ],
+      "depends": [
+        "preview-runtime-ocw_2433420d806e22353638"
+      ],
+      "id": "review-runtime-ocw_2433420d806e22353638",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_2433420d806e22353638/inventory.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_6534d0cdfd373b7f15f3/inventory.json",
+        "--link-repairs",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_6534d0cdfd373b7f15f3/policy.json",
+        "--output",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6534d0cdfd373b7f15f3",
+        "--preview-id",
+        "ocw_6534d0cdfd373b7f15f3_ordinary_v2",
+        "--offline-runtime-policy"
+      ],
+      "batch": "ocw-balanced-physics-courses-v1",
+      "checks": [
+        {
+          "equals": {
+            "issues": []
+          },
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6534d0cdfd373b7f15f3/dependency-audit.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6534d0cdfd373b7f15f3/recipe.json"
+        },
+        {
+          "path": "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6534d0cdfd373b7f15f3/assets.json"
+        }
+      ],
+      "depends": [
+        "runtime-capture-balanced-physics-v1"
+      ],
+      "id": "freeze-runtime-ocw_6534d0cdfd373b7f15f3",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_6534d0cdfd373b7f15f3/inventory.json",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_6534d0cdfd373b7f15f3/policy.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "prepare_ocw_complete_preview.py"
+    },
+    {
+      "argv": [
+        "preview",
+        "--staging-root",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--recipe",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6534d0cdfd373b7f15f3/recipe.json",
+        "--assets",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6534d0cdfd373b7f15f3/assets.json",
+        "--preview-bytes",
+        "40000000000",
+        "--scratch-bytes",
+        "1048576",
+        "--reserve-bytes",
+        "10000000000",
+        "--json"
+      ],
+      "batch": "ocw-balanced-physics-courses-v1",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "status": "preview_awaiting_review"
+          },
+          "path": "{staging}/ocw-balanced-physics-courses-v1-1tb/previews/ocw_6534d0cdfd373b7f15f3_ordinary_v2/preview-receipt.json"
+        }
+      ],
+      "depends": [
+        "freeze-runtime-ocw_6534d0cdfd373b7f15f3"
+      ],
+      "id": "preview-runtime-ocw_6534d0cdfd373b7f15f3",
+      "inputs": [
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6534d0cdfd373b7f15f3/recipe.json",
+        "{workspace}/.owl/acquisition/ocw-runtime-repair-proposals-v1/ocw_6534d0cdfd373b7f15f3/assets.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "script": "acquire_content.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-balanced-physics-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_6534d0cdfd373b7f15f3/inventory.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core",
+        "--preview-id",
+        "ocw_6534d0cdfd373b7f15f3_ordinary_v2",
+        "--review-id",
+        "ocw_6534d0cdfd373b7f15f3_offline_runtime_v2"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_6534d0cdfd373b7f15f3_offline_runtime_v2/report.json"
+        }
+      ],
+      "depends": [
+        "preview-runtime-ocw_6534d0cdfd373b7f15f3"
+      ],
+      "id": "review-runtime-ocw_6534d0cdfd373b7f15f3",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-balanced-physics-controls-v1/ocw_6534d0cdfd373b7f15f3/inventory.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all browser failures and source-bound frame/caption samples before content admission.",
+      "script": "review_ocw_course.py"
+    }
+  ]
+}

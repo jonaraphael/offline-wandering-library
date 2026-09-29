@@ -1,5 +1,14 @@
 # Twelve-hour asset resolution plan
 
+The current editorial plan is [the full-1tb topic completion plan](full-1tb-coverage-plan.md).
+It tracks intended depth, selected sources, gaps and next candidates without GB
+quotas. The execution scope and schedules below are historical; active catalog
+rules now select finished publisher files and reusable per-asset pseudoindexes.
+
+> Historical note: full-text indexing constraints below describe the previous
+> implementation. New builds use [lightweight discovery](search.md), without
+> source-text extraction or index caches. Acquisition and integrity checks remain.
+
 Prepared 2026-09-18 from `SELECT.html`, the active catalogs, acquisition evidence, implementation inspection, and current publisher sources. This is the original twelve-hour execution plan; the planning review itself changed no acquisition status. H0 means the start of execution and H12 is the delivery deadline. Effort estimates are engineering budgets, not measured download times.
 
 ## Current execution scope

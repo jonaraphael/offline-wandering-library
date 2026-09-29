@@ -1,13 +1,10 @@
 id: compact-256gb
-title: Survive + read + repair
+title: Practical library, encyclopedia and North America maps
 capacity_bytes: 256000000000
-content_target_min_bytes: 190000000000
-content_target_max_bytes: 210000000000
-search_budget_bytes: 10000000000
+discovery_budget_bytes: 16777216
 readers_budget_bytes: 500000000
 reserve_bytes: 16000000000
 default_resources:
-- owl-direct-core
 - hesperian-health
 - msf-medical
 - who-emergency-care
@@ -16,30 +13,33 @@ default_resources:
 - food-preservation
 - niosh-chemical-hazards
 - fao-agriculture
-- gutenberg-core
-- childrens-library
-- wikipedia-en
-- wikimed
 - wikem
-- regional-maps
+- civilian-preparedness
+- owl-direct-core
+- school-education
+- hand-tools-repair
 - appropedia
 - cd3wd
 - ifixit
 - low-tech-magazine
-- openstax-core
 - phet
-- linux-programming-docs
-- civilian-preparedness
-resource_overrides:
-  regional-maps:
-    target_bytes: 10000000000
-    exclude_asset_ids:
-    - map_osm_north_america
-  phet:
-    target_bytes: 5089284
-  linux-programming-docs:
-    target_bytes: 41537243
-index_scratch_budget_bytes: 18000000000
-default_editions:
-  gutenberg-core: compact
-  childrens-library: compact
+- archive-readers
+- wikimed
+- wikibooks-en
+- wiktionary-en
+- stackexchange-practical
+- survivor-tier-a
+- wikipedia-en
+- regional-maps
+- gutenberg-core
+required_domains:
+- health
+- water-sanitation
+- food-preservation
+- agriculture
+- shelter
+- navigation
+- repair
+- hand-tools
+- school-math
+- school-science

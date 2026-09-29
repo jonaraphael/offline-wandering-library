@@ -14,12 +14,11 @@ import shutil
 import subprocess
 import tempfile
 
-from .archive import document_assets
 from .atlas_build import validate_links
 from .catalog import learning_coverage, learning_shelves
 from .layout import content_root, logical_name, managed_path
 from .safety import SafetyError, reject_symlinks, safe_path
-from .search_pack import _validate as validate_transport, chunk_path
+from .discovery import FORMAT, discovery_assets
 
 METADATA_LIMIT = 64 * 1024 * 1024
 SMOKE_TIMEOUT = 60
@@ -57,26 +56,10 @@ def _smoke(library: Path, assets: list[dict], coverage: dict, required: bool) ->
     runtime = _read(safe_path(library, "SEARCH/search.js"), 1024 * 1024)
     _require(runtime == _read(TEMPLATES / "search.js", 1024 * 1024),
              "published search runtime differs from this OWL installation")
-    by_path = {a["destination"]: a for a in assets}
-    starts, cursor = [], 0
-    for row in coverage["assets"]:
-        starts.append({"id": cursor, "destination": row["destination"]})
-        cursor += row["passages"]
-    samples = []
-    if starts:
-        samples = [starts[0], starts[len(starts) // 2], starts[-1]]
-        for category in ("critical", "textbooks", "illustrated-guides"):
-            for item in starts:
-                asset = by_path[item["destination"]]
-                if (asset.get("critical") if category == "critical" else category in learning_shelves(asset)):
-                    samples.append(item)
-                    break
-    samples = list({row["id"]: row for row in samples}.values())
-    payload = {"library": str(library), "runtime": str(TEMPLATES / "search.js"),
-               "documents": coverage["documents"], "samples": samples,
-               "assets": [{"destination": a["destination"], "shelves": (["legacy"] if a.get("legacy") else sorted(learning_shelves(a))),
-                           "legacy": bool(a.get("legacy"))}
-                          for a in assets]}
+    samples = [{'id': a['id'], 'title': a['title'], 'destination': a['destination']}
+               for a in assets[:3]]
+    payload = {'library': str(library), 'runtime': str(TEMPLATES / 'search.js'),
+               'manifest': coverage['manifest'], 'samples': samples}
     # The helper writes exactly one bounded JSON result. Redirect diagnostics to
     # a file so an unexpected child failure cannot fill parent memory/context.
     with tempfile.TemporaryFile() as output:
@@ -161,35 +144,44 @@ def _audit(drive_root: Path, *, info, run_smoke) -> dict:
         name = asset["destination"]
         _require(name in manifest and manifest[name] == asset["sha256"] and sizes[name] == asset["size_bytes"],
                  f"selected source differs from manifest: {name}")
-    readable = document_assets(assets)
+    readable = discovery_assets(assets)
     rows = coverage["assets"]
     _require(isinstance(rows, list) and [(r["id"], r["destination"]) for r in rows] ==
              [(a["id"], a["destination"]) for a in sorted(readable, key=lambda a: a["destination"])],
              "search coverage does not match selected documents")
-    _require(all(type(row["passages"]) is int and row["passages"] > 0 for row in rows) and
-             sum(row["passages"] for row in rows) == coverage["documents"], "search passage counts differ")
-    _require(all(row["status"] in {"full_text", "partial", "metadata_only"} for row in rows),
-             "invalid search coverage status")
-    transport = coverage["transport"]
-    validate_transport(transport)
-    _require(transport["size"] == coverage["index_bytes"] and transport["index_sha256"] == coverage["index_sha256"],
-             "search index identity differs from coverage")
-    encoded = _read(safe_path(library, "SEARCH/manifest.js"), 4096)
-    prefix, suffix = b"globalThis.OWLSearchManifest(", b");\n"
+    _require(coverage.get('format') == FORMAT and coverage.get('source_body_bytes_read') == 0,
+             'invalid discovery format or source-read claim')
+    _require(all(row['status'] in {'catalog', 'sections'} and type(row['records']) is int and row['records'] > 0
+                 for row in rows), 'invalid discovery coverage')
+    transport = coverage['manifest']
+    path = transport.get('path', '')
+    _require(transport.get('format') == FORMAT and re.fullmatch(r'SEARCH/data/[a-f0-9]{64}\.js', path),
+             'invalid discovery data path')
+    encoded = _read(safe_path(library, 'SEARCH/manifest.js'), 4096)
+    prefix, suffix = b'globalThis.OWLDiscoveryManifest(', b');\n'
     _require(encoded.startswith(prefix) and encoded.endswith(suffix) and
-             json.loads(encoded[len(prefix):-len(suffix)]) == transport, "published search manifest differs")
-    generated = set(coverage["generated_files"])
-    expected = {"SEARCH/manifest.js", "SEARCH/search.js", "SEARCH/coverage.json", "SEARCH.html",
-                f"SEARCH/chunks/{transport['index_sha256']}/owner.json",
-                *(chunk_path(transport, n) for n in range(transport["chunk_count"]))}
-    _require(generated == expected and generated <= manifest.keys(), "search output selection differs")
+             json.loads(encoded[len(prefix):-len(suffix)]) == transport, 'published discovery manifest differs')
+    data = _read(safe_path(library, path))
+    prefix = b'globalThis.OWLDiscoveryData('
+    _require(data.startswith(prefix) and data.endswith(suffix), 'invalid discovery data wrapper')
+    payload = data[len(prefix):-len(suffix)]
+    document = json.loads(payload)
+    records = document['records']
+    metadata_bytes = len(data)
+    _require(document.get('format') == FORMAT and document.get('generation') == transport['generation'] and
+             hashlib.sha256(payload + b'\n').hexdigest() == transport['sha256'] and
+             len(records) == transport['records'] == coverage['records'], 'discovery data identity differs')
+    _require({r['asset_id'] for r in records if r['kind'] != 'topic'} == {a['id'] for a in readable},
+             'discovery selected sources differ')
+    generated = set(coverage['generated_files'])
+    expected = {'SEARCH/manifest.js', 'SEARCH/search.js', 'SEARCH/coverage.json', 'SEARCH.html', path}
+    _require(generated == expected and generated <= manifest.keys(), 'discovery output selection differs')
     for name, integrity in coverage["file_integrity"].items():
         _require(name in generated and sizes[name] == integrity["size_bytes"] and manifest[name] == integrity["sha256"],
                  f"search file differs from integrity metadata: {name}")
     _require(set(coverage["file_integrity"]) == generated - {"SEARCH/coverage.json"},
              "search integrity metadata is incomplete")
-    # Only generated navigation is parsed. Publisher content remains untouched;
-    # the existing link validator streams any referenced source HTML anchors.
+    # Only generated navigation is parsed; approved source locations are not reinspected.
     pages, page_bytes = {}, 0
     for name in manifest:
         if name not in destinations and name.endswith(".html") and name != "SEARCH.html":
@@ -204,13 +196,13 @@ def _audit(drive_root: Path, *, info, run_smoke) -> dict:
     managed_bytes = sum(sizes.values())
     reserve = profile["reserve_bytes"]
     plan = info.get("plan", {})
-    cache_allowance = plan.get("index_cache_budget_bytes", 0) if plan.get("index_cache_on_drive") else 0
+    cache_allowance = 0
     cache_allowance += plan.get("build_input_cache_bytes", 0) if plan.get("build_input_cache_on_drive") else 0
     acquisition_allowance = plan.get("acquisition_workspace_budget_bytes", 0)
     free = shutil.disk_usage(library).free
     _require(managed_bytes + reserve + cache_allowance + acquisition_allowance <= profile["capacity_bytes"],
              "actual managed output and retained cache allowance exceed profile capacity")
-    _require(search_bytes <= profile["search_budget_bytes"], "actual search output exceeds profile budget")
+    _require(search_bytes <= profile["discovery_budget_bytes"], "actual search output exceeds profile budget")
     _require(free >= reserve, "filesystem free space is below the profile reserve")
     verification = info.get("verification")
     if verification is not None:
@@ -224,20 +216,14 @@ def _audit(drive_root: Path, *, info, run_smoke) -> dict:
                           "content_complete": inventory["content_complete"],
                           "sha256": hashlib.sha256(json.dumps(locked, sort_keys=True, separators=(",", ":")).encode()).hexdigest()},
             "bytes": {"managed": managed_bytes, "sources": source_bytes, "search": search_bytes,
-                      "raw_index": coverage["index_bytes"], "capacity": profile["capacity_bytes"],
+                      "metadata": metadata_bytes, "capacity": profile["capacity_bytes"],
                       "reserve": reserve, "filesystem_free": free, "on_drive_cache_allowance": cache_allowance,
                       "acquisition_workspace_allowance": acquisition_allowance,
                       "capacity_remaining_after_reserve": profile["capacity_bytes"] - managed_bytes - reserve - cache_allowance - acquisition_allowance},
-            "coverage": {"passages": coverage["documents"], "assets_by_status": dict(Counter(r["status"] for r in rows)),
+            "coverage": {"records": coverage["records"], "assets_by_status": dict(Counter(r["status"] for r in rows)),
                          "warnings": sum(r.get("warning_count", 0) for r in rows),
                          "learning": inventory["learning_coverage"]},
             "navigation": {"status": "passed", "pages_checked": len(pages)},
             "verification": {"source_hashes_repeated": False, "preceding_counts": verification,
                              "manifest_entries": len(manifest)}, "search_smoke": smoke}
-    cache = coverage.get("cache")
-    if cache is not None:
-        _require(isinstance(cache, dict) and cache.get("mode") in {"shards", "completed-index", "raw-index"} and
-                 all(type(cache.get(key)) is int and cache[key] >= 0 for key in ("hits", "misses", "metadata_reuses")),
-                 "invalid search cache statistics")
-        summary["cache"] = {key: cache[key] for key in ("mode", "hits", "misses", "metadata_reuses")}
     return summary

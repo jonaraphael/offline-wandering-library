@@ -1,0 +1,140 @@
+{
+  "completion_state": "awaiting_review",
+  "concurrency": {
+    "review": 1
+  },
+  "content_complete": false,
+  "id": "ocw-complete-course-review-v1",
+  "review_items": [
+    {
+      "id": "whole-course-admission-review",
+      "reason": "Decode and browser evidence cannot auto-admit; review captions, teaching-frame legibility, essential readings and exact source/output inventory before useful-byte credit."
+    }
+  ],
+  "schema_version": 1,
+  "tasks": [
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-algorithmic-course-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw-algorithmic-inventory-v1.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_59296f8d4063526ae08e/report.json"
+        }
+      ],
+      "id": "review-ocw_59296f8d4063526ae08e",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw-algorithmic-inventory-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review exact all-page browser failures, decoded images and captions. Failure evidence remains explicit; no automatic content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw_fbccd60245d9cb173f41-inventory-v1.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_fbccd60245d9cb173f41/report.json"
+        }
+      ],
+      "id": "review-ocw_fbccd60245d9cb173f41",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw_fbccd60245d9cb173f41-inventory-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review exact all-page browser failures, decoded images and captions. Failure evidence remains explicit; no automatic content admission.",
+      "script": "review_ocw_course.py"
+    },
+    {
+      "argv": [
+        "--capture-staging",
+        "{staging}/ocw-selfcontained-courses-v1-1tb",
+        "--inventory",
+        "{workspace}/catalog/acquisition/ocw_91f8d56c4f9958fdf004-inventory-v1.json",
+        "--output",
+        "{staging}/ocw-complete-course-review-v1-1tb",
+        "--node",
+        "/Users/jonathanraphael/.nvm/versions/node/v20.20.0/bin/node",
+        "--browser",
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "--playwright",
+        "/Users/jonathanraphael/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core"
+      ],
+      "batch": "ocw-complete-course-review",
+      "checks": [
+        {
+          "equal_fields": [
+            [
+              "media_sources",
+              "media_checked"
+            ]
+          ],
+          "equals": {
+            "build_input_bytes_counted": 0,
+            "content_ready": false,
+            "status": "course_evidence_awaiting_review"
+          },
+          "path": "{staging}/ocw-complete-course-review-v1-1tb/ocw_91f8d56c4f9958fdf004/report.json"
+        }
+      ],
+      "id": "review-ocw_91f8d56c4f9958fdf004",
+      "inputs": [
+        "{workspace}/catalog/acquisition/ocw_91f8d56c4f9958fdf004-inventory-v1.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review exact all-page browser failures, decoded images and captions. Failure evidence remains explicit; no automatic content admission.",
+      "script": "review_ocw_course.py"
+    }
+  ]
+}

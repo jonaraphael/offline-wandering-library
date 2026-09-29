@@ -25,7 +25,8 @@ def prepare(path,output):
         identity=row.get('source_id',row.get('asset_id'))
         if not identity or identity in units:raise SafetyError('Machine evidence has missing/duplicate identities')
         units[identity]=row
-        if any(v is False for v in row.get('checks',{}).values()) or row.get('structural_pass') is False or row.get('status') in {'failed','blocked'}:
+        if (any(v is False for v in row.get('checks',{}).values()) or row.get('structural_pass') is False
+                or row.get('status') in {'failed','blocked'} or row.get('flags')):
             failed.append(identity)
     target=sorted(units);plan=sampling_plan(list(units),seed,targeted=[target[0],target[-1]],screening=8)
     selected=list(dict.fromkeys([*plan['targeted_units'],*plan['screening_units']]))
@@ -41,6 +42,11 @@ def prepare(path,output):
             item.update(evidence_path=str(detail),evidence_sha256=sha256_file(detail),
                 excerpt=str(data.get('text_excerpt',''))[:1800],renders=[{**r,'path':str(safe_path(detail.parent,r['path']))} for r in data.get('renders',[])],
                 required_review=data.get('required_review',[]))
+            if data.get('utility_excerpts'):
+                random_pages=set(data.get('sampling',{}).get('screening_units',[]))
+                item['utility_excerpts']=[{'pdf_page':r['pdf_page'],'text':r['text'][:800],
+                    'scope':'Random page excerpt for utility screening; full page/statement remains in original PDF.'}
+                    for r in data['utility_excerpts'] if str(r['pdf_page']) in random_pages][:3]
         packet.append(item)
     result={'schema_version':1,'content_ready':False,'report':str(path),'report_sha256':seed,
         'sampling':plan,'initial_packet':packet,'machine_flagged_units':failed,

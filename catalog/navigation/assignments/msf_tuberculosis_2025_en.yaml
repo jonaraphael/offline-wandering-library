@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: msf_tuberculosis_2025_en
+assignments:
+- topic_id: infectious-disease
+  purpose: reference

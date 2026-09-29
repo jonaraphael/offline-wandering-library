@@ -27,6 +27,15 @@ class TransientDownloadError(DownloadError):
     """A bounded transport failure that a saved build job may retry unchanged."""
 
 
+class MissingSourceError(DownloadError):
+    """An explicitly opted-in acquisition stopped at an HTTP 404 or 410."""
+
+    def __init__(self, source_id, requested_url, http_status):
+        self.requested_url = requested_url
+        self.http_status = http_status
+        super().__init__(f"{source_id}: source unavailable: HTTP {http_status}")
+
+
 def _transient(error: BaseException) -> bool:
     if isinstance(error, HTTPError):
         return error.code in {408, 425, 429, 500, 502, 503, 504}
@@ -56,8 +65,68 @@ def _complete(part: Path, asset: dict) -> str:
     return digest
 
 
+def capture_bounded_response(asset: dict, destination: Path, *, timeout=25, response_evidence=None):
+    """Quarantine one unknown-length response; never resume or imply source acceptance.
+
+    This is only for explicitly bounded acquisition diagnostics. Partial bodies
+    cannot identify a full entity and are preserved, not appended or retried.
+    """
+    maximum = asset.get("max_size_bytes")
+    if type(maximum) is not int or not 1 <= maximum <= 1024 * 1024:
+        raise DownloadError("Diagnostic response requires a positive bound of at most 1 MiB")
+    url = asset["source_url"]
+    if urlsplit(url).scheme != "https":
+        raise DownloadError("Diagnostic response requires HTTPS")
+    reject_symlinks(destination)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    parent_identity = _directory_identity(destination.parent)
+    part = destination.with_name(destination.name + ".part")
+    reject_symlinks(part)
+    if destination.exists() or part.exists():
+        raise DownloadError("Diagnostic response already has bytes; preserve evidence and use new staging")
+    headers = {"Accept-Encoding": "identity", "User-Agent": "Offline-Wandering-Library/0.1 (+offline library builder)"}
+    with urlopen(Request(url, headers=headers), timeout=timeout) as response:
+        if urlsplit(response.url).scheme != "https" or response.status != 200:
+            raise DownloadError("Diagnostic response requires a whole HTTPS 200 response")
+        if response.headers.get("Content-Encoding", "identity") != "identity" or response.headers.get("Content-Range"):
+            raise DownloadError("Diagnostic response must be an uncompressed whole entity")
+        length = response.headers.get("Content-Length")
+        if length is not None and (not length.isdecimal() or not 0 < int(length) <= maximum):
+            raise DownloadError("Diagnostic response declared length exceeds its bound or is invalid")
+        record = {"kind": "http", "requested_url": url, "final_url": response.url, "status": response.status,
+                  "offset": 0, "etag": response.headers.get("ETag"), "last_modified": response.headers.get("Last-Modified"),
+                  "content_length": length, "content_range": None, "content_encoding": "identity",
+                  "content_type": response.headers.get("Content-Type"), "eof": False,
+                  "max_size_bytes": maximum, "resumed": False}
+        if response_evidence is not None:
+            response_evidence(record)
+        observed = 0
+        _check_directory(destination.parent, parent_identity)
+        with _open_regular(part, writable=True) as handle, durable_writer(handle) as checkpoint:
+            while True:
+                # Read only one byte past the bound to distinguish EOF from overflow.
+                block = response.read(min(65536, maximum - observed + 1))
+                if not block:
+                    break
+                if observed + len(block) > maximum:
+                    raise DownloadError("Diagnostic response exceeds its enforced maximum")
+                handle.write(block)
+                observed += len(block)
+                checkpoint.written(len(block))
+        if observed == 0 or length is not None and observed != int(length):
+            raise DownloadError("Diagnostic response ended before its declared length or was empty")
+        record.update(eof=True, observed_size_bytes=observed, observed_sha256=sha256_file(part))
+        if response_evidence is not None:
+            response_evidence(record)
+        _check_directory(destination.parent, parent_identity)
+        reject_symlinks(destination)
+        os.replace(part, destination)
+        return record
+
+
 def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 3,
-             timeout: float = 60, progress=print, sleep=time.sleep, response_evidence=None) -> str:
+             timeout: float = 60, progress=print, sleep=time.sleep, response_evidence=None,
+             stop_on_missing=False) -> str:
     """Destination must be in the builder-owned staging/cache directory."""
     reject_symlinks(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -192,6 +261,8 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
             if isinstance(error, HTTPError):
                 switch_agent = error.code == 403 and url not in standard_user_agent_urls
                 error.close()
+                if stop_on_missing and error.code in {404, 410}:
+                    raise MissingSourceError(asset['id'], url, error.code) from error
             else:
                 switch_agent = isinstance(error, (URLError, TimeoutError, ConnectionError, http.client.HTTPException))
             if switch_agent:

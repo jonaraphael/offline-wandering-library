@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "status": "development_checkpoint",
+  "content_ready": false,
+  "preview_written": false,
+  "code_frozen_for_root_regression": true,
+  "reason": "Stop at coherent checkpoint per user request for intermittent Python-managed supervision and lower token use.",
+  "changes": {
+    "literal_exception": "Exact revision payload SHA1, whole response SHA256 and byte offset bind the single publisher-visible closing-brace case; preserves both literal characters.",
+    "renderer": "Bounded ordinary HTML conversion prototype for known expanded wiki links, figures, headings, lists, one wiki-table, native tables and open chapter/source controls.",
+    "writer": "Explicitly disabled before source access whenever --preview-root is passed. Assessment can write only its report."
+  },
+  "validation": {
+    "command": ".venv/bin/python -m unittest discover -s tests -p 'test_midwives*.py'",
+    "tests_passed": 13,
+    "compile_passed": true,
+    "full_corpus_assessed": false,
+    "browser_review_performed": false
+  },
+  "controls": {
+    "src/owl/acquisition/midwives_wikitext.py": "353d51044d36848a5aa04c0c73a40e36e0e86b39028e393593ce14ac72172472",
+    "src/owl/acquisition/midwives_html.py": "9f60b2dfa133fa7873f18e01156ffc781556b3081a1254875faf6ee55a3ec338",
+    "scripts/render_midwives_preview.py": "293db2a2331a51fa40a4519ed52a4ad8d300f1875e429eca4591de157d106652",
+    "tests/test_midwives_wikitext.py": "9c6d4fb65812f68e21d45280c2d1cebedcba59670007813fcb663d8861c74dfe",
+    "tests/test_midwives_html.py": "b8163b737c72ce7b6b29989d91d4f8d5078f18d81a87c639b3bbd611fa4472b0",
+    "catalog/acquisition/midwives-render-literal-cases-20260927.json": "8e381c4456a4904218b71ce19aca801a6ac2766bb6c7cbfcd18076271ed75925"
+  },
+  "existing_budget_bytes": 703655187,
+  "existing_budget_plan": "catalog/acquisition/midwives-source-bound-preview-plan-20260927-v1.json",
+  "next_action": {
+    "kind": "assessment_only",
+    "command": ".venv/bin/python scripts/render_midwives_preview.py --capture \"/Volumes/General Backup/OWL-acquisition/midwives-digital-source-review-20260927-v3\" --inventory catalog/acquisition/midwives-digital-inventory-20260927-v2.json --literal-cases catalog/acquisition/midwives-render-literal-cases-20260927.json --comparison-report catalog/acquisition/midwives-render-diagnostic-comparison-20260927.json --report .owl/acquisition/midwives-render-development/ordinary-html-assessment-v1.json",
+    "requires_images_complete": false
+  },
+  "remaining_gates": [
+    "Run the complete 132-page assessment and retain source-bound unsupported constructs and missing navigation targets.",
+    "Confirm end-tag/browser repair behavior, heading anchor semantics, whitespace and emphasis, image dimensions and captions against the three captured official render diagnostics. Do not use fixture success as corpus evidence.",
+    "Review publisher controls and every external link; retain all clinical content, notices and references.",
+    "Require complete 1,622-source verified capture including all 1,455 illustrations before proposing any preview writer.",
+    "Before enabling writing, implement single-pass storage accounting, ownership/resume tests, frozen controls and root staging coordination within the existing allowance.",
+    "Perform ordinary desktop/phone visual review of clinical warnings, lists, tables, positioned figure labels and notices; no content admission until all required gates pass."
+  ]
+}

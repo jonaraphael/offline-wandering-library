@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: fao_rabbit_husbandry
+assignments:
+- topic_id: small-livestock
+  purpose: reference
+  description: FAO's 1997 revised rabbit husbandry manual; feeding, housing and reproduction
+    retain their original edition context.

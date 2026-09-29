@@ -1,0 +1,6 @@
+schema_version: 1
+asset_id: phet_wave_on_a_string
+assignments:
+- topic_id: physics
+  purpose: explanation
+  description: Explore waves, oscillation and damping on a string.

@@ -219,7 +219,7 @@ class SectionImporterTests(unittest.TestCase):
         path, asset = self.source('BOOKS/guide.html', '<h1 id="good">Good chapter</h1>')
         inventory = self.target / 'INVENTORY.json'
         inventory.write_text(json.dumps({'assets': [asset]}), encoding='utf-8')
-        assignments = self.target / 'assignments.yaml'
+        assignments = self.target / 'approved-metadata.yaml'
         assignments.write_text('assignments: []\n', encoding='utf-8')
         output = self.target / 'drafts/guide.yaml'
         command = [sys.executable, str(ROOT / 'scripts/import_sections.py'), str(self.target.parent),
@@ -239,7 +239,7 @@ class SectionImporterTests(unittest.TestCase):
         _, asset = self.source('guide.html', '<h1 id="good">Good</h1>')
         inventory = self.target / 'INVENTORY.json'
         inventory.write_text(json.dumps({'assets': [asset]}), encoding='utf-8')
-        output = self.target / 'assignments.yaml'
+        output = self.target / 'approved-metadata.yaml'
         output.write_text('existing assignments', encoding='utf-8')
         base = [str(self.target.parent), '--asset', asset['id'], '--output', str(output)]
         with redirect_stdout(io.StringIO()):

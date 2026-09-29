@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "id": "midwives-digital-sources-20260927-v3",
+  "concurrency": {
+    "capture": 1,
+    "review": 1
+  },
+  "tasks": [
+    {
+      "id": "midwives-exact-capture-v3",
+      "kind": "capture",
+      "lane": "capture",
+      "batch": "midwives-digital-sources-v3",
+      "depends": [],
+      "inputs": [
+        "{workspace}/catalog/acquisition/midwives-digital-source-review-capture-20260927-v3.json"
+      ],
+      "checks": [
+        {
+          "path": "{staging}/midwives-digital-source-review-20260927-v3/capture-report.json",
+          "equals": {
+            "content_ready": false,
+            "source_count": 1622
+          }
+        }
+      ],
+      "review": "All exact captured raw payloads and image pins require faithful ordinary rendering before any content admission."
+    },
+    {
+      "id": "midwives-source-inspection-v3",
+      "kind": "script",
+      "lane": "review",
+      "batch": "midwives-digital-review",
+      "depends": [
+        "midwives-exact-capture-v3"
+      ],
+      "script": "inspect_midwives_digital.py",
+      "argv": [
+        "--capture",
+        "{staging}/midwives-digital-source-review-20260927-v3",
+        "--inventory",
+        "{workspace}/catalog/acquisition/midwives-digital-inventory-20260927-v2.json",
+        "--output",
+        "{workspace}/.owl/acquisition/supervisor-midwives-digital-sources-20260927-v3/inspection.json"
+      ],
+      "inputs": [
+        "{workspace}/scripts/inspect_midwives_digital.py",
+        "{workspace}/catalog/acquisition/midwives-digital-inventory-20260927-v2.json"
+      ],
+      "checks": [
+        {
+          "path": "{workspace}/.owl/acquisition/supervisor-midwives-digital-sources-20260927-v3/inspection.json",
+          "equals": {
+            "content_ready": false,
+            "page_count": 167,
+            "image_count": 1455,
+            "all_publisher_pins_verified": true
+          }
+        }
+      ],
+      "review": "Source completeness inventory only; rendering, navigation, clinical structure, illustrations, notices and visual review remain pending."
+    }
+  ]
+}

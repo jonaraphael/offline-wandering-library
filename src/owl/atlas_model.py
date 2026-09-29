@@ -257,6 +257,21 @@ def _section_map(document: dict, assets: dict, filename: str) -> dict:
     return {"schema_version": 1, "asset_id": identity, "source_sha256": checksum, "sections": list(sections.values())}
 
 
+def read_asset_assignments(directory: Path, asset_id: str, *, hashes=None) -> dict:
+    """Read one Git-owned asset file; missing enrichment needs no placeholder."""
+    _identifier(asset_id, 'assignment asset')
+    path = directory / 'assignments' / (asset_id + '.yaml')
+    reject_symlinks(path)
+    if not path.exists():
+        return {'schema_version': 1, 'asset_id': asset_id, 'assignments': []}
+    document = _read(path, directory, hashes if hashes is not None else {})
+    _keys(document, {'schema_version', 'asset_id', 'assignments'}, set(), path.name)
+    if document['asset_id'] != asset_id:
+        raise AtlasError(f'{path.name}: asset_id must match the filename')
+    _list(document['assignments'], 'assignments')
+    return document
+
+
 def load_navigation(directory: Path, catalog_assets: list[dict]) -> dict:
     """Validate every metadata/reference globally, without opening source files.
 
@@ -320,12 +335,22 @@ def load_navigation(directory: Path, catalog_assets: list[dict]) -> dict:
         for path in sorted(folder.glob("*.yaml")):
             section_map = _section_map(_read(path, directory, hashes), assets, path.name)
             sections[section_map["asset_id"]] = section_map
-    document = _read(directory / "assignments.yaml", directory, hashes)
-    _keys(document, {"schema_version", "assignments"}, set(), "assignments.yaml")
+    folder = directory / 'assignments'
+    reject_symlinks(folder)
+    if folder.exists() and not folder.is_dir():
+        raise AtlasError('Navigation assignments must be a directory')
+    documents = []
+    for path in sorted(folder.glob('*.yaml')):
+        document = read_asset_assignments(directory, path.stem, hashes=hashes)
+        if document['asset_id'] not in assets:
+            raise AtlasError('Assignments reference unknown asset: ' + document['asset_id'])
+        for raw in document['assignments']:
+            _keys(raw, {'topic_id'}, {'section_id', 'purpose', 'order', 'description', 'aliases', 'basis'}, path.name)
+            documents.append({**raw, 'asset_id': document['asset_id']})
     section_ids = {identity: {row["id"] for row in value["sections"]} for identity, value in sections.items()}
     assignments, seen = [], set()
-    for raw in _list(document["assignments"], "assignments"):
-        _keys(raw, {"topic_id", "asset_id"}, {"section_id", "purpose", "order", "description"}, "assignment")
+    for raw in documents:
+        _keys(raw, {"topic_id", "asset_id"}, {"section_id", "purpose", "order", "description", "aliases", "basis"}, "assignment")
         tid, aid = _identifier(raw["topic_id"], "assignment.topic_id"), _identifier(raw["asset_id"], "assignment.asset_id")
         sid = _identifier(raw["section_id"], "assignment.section_id") if raw.get("section_id") is not None else None
         if tid not in topics or aid not in assets:
@@ -339,6 +364,10 @@ def load_navigation(directory: Path, catalog_assets: list[dict]) -> dict:
                "order": _order(raw.get("order"), "assignment")}
         if "description" in raw:
             row["description"] = _text(raw["description"], "assignment.description", 2000)
+        if "aliases" in raw:
+            row["aliases"] = [_text(value, "assignment.alias", 200) for value in _list(raw["aliases"], "assignment.aliases")]
+        if "basis" in raw:
+            row["basis"] = _text(raw["basis"], "assignment.basis", 2000)
         identity = (tid, aid, sid)
         if identity not in seen:
             assignments.append(row)

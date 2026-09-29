@@ -116,13 +116,14 @@ def members(args):
 
 
 def localize(args):
-    from owl.acquisition.zip_localized import rewrite_html, validate_recipe
+    from owl.acquisition.zip_localized import rewrite_member, validate_recipe
+    from owl.acquisition.python_manual import RUNTIME_MEMBERS, auxiliary
     proposal=json.loads(args.fragment.read_text());source_id=proposal['source_id']
     manifest,receipts=load_capture_sources(args.staging);receipt=next(r for r in receipts if r['source_id']==source_id)
     assets=deepcopy(proposal['assets']);source=next(a for a in assets if a['id']==source_id)
     if source['sha256']!=receipt['sha256']:raise SafetyError('Proposal source pin differs from capture')
     originals=[a for a in assets if a.get('archive_member')];paths={a['archive_member']['path'] for a in originals}
-    identity='python-'+source['version'].split()[0].replace('.','-')+'-release-local-links-v1'
+    identity='python-'+source['version'].split()[0].replace('.','-')+'-release-local-layout-v4'
     records=[];outputs=[];repair_count=0
     class Links(HTMLParser):
         def __init__(self):super().__init__(convert_charrefs=True);self.links=[]
@@ -130,6 +131,9 @@ def localize(args):
             self.links.extend((name,value) for name,value in attrs if name in {'href','src'} and value and value.startswith('/') and not value.startswith('//'))
         handle_startendtag=handle_starttag
     with ZipSource(args.staging/receipt['relative_path'],source) as archive:
+        preliminary=[{'path':a['archive_member']['path'],'size_bytes':a['size_bytes'],'sha256':a['sha256'],
+            'runtime_patch':next((key for key,suffix in RUNTIME_MEMBERS.items() if a['archive_member']['path'].endswith(suffix)),None)} for a in originals]
+        runtime_inputs=auxiliary(archive,preliminary)
         for asset in originals:
             name=asset.pop('archive_member')['path'];repairs=[]
             if asset['format']=='html':
@@ -147,19 +151,26 @@ def localize(args):
                     repair_count+=count
             output_id=asset['id']+'_local'
             record={'asset_id':output_id,'path':name,'size_bytes':asset['size_bytes'],'sha256':asset['sha256'],'rewrites':repairs}
-            if repairs:
-                localized=rewrite_html(data,record);asset.update(size_bytes=len(localized),sha256=hashlib.sha256(localized).hexdigest())
-            asset.update(id=output_id,generation={'recipe_id':identity},version=source['version']+'; OWL counted local links v1')
+            if name.endswith('/_static/pydoctheme.css'):
+                record['stylesheet_patch']='python-responsive-v2'
+                data=archive.archive.read(name)
+            patch=next((key for key,suffix in RUNTIME_MEMBERS.items() if name.endswith(suffix)),None)
+            if patch:
+                record['runtime_patch']=patch
+                data=archive.archive.read(name)
+            if repairs or record.get('stylesheet_patch') or patch:
+                localized=rewrite_member(data,record,runtime_inputs);asset.update(size_bytes=len(localized),sha256=hashlib.sha256(localized).hexdigest())
+            asset.update(id=output_id,generation={'recipe_id':identity},version=source['version']+'; OWL counted local links and offline runtime and layout v4')
             outputs.append(asset);records.append(record)
         archive.check_source()
-    recipe={'id':identity,'resource_id':'linux-programming-docs','adapter':'zip_localized','version':'1',
+    recipe={'id':identity,'resource_id':'linux-programming-docs','adapter':'zip_localized','version':'4',
         'source_asset_ids':[source_id],'output_asset_ids':[a['id'] for a in outputs],'workspace_bytes':100_000_000,
         'selection':{'source_asset_id':source_id,'members':records},'review':{'status':'pending','evidence':[]},
         'blockers':['Pending full generated-file pins, offline browser/dependency review and source-notice confirmation.'], 'metadata_sources':[]}
     validate_recipe(recipe,{a['id']:a for a in [source,*outputs]})
     result={'schema_version':1,'kind':'pending-localized-python-release','content_ready':False,'source_id':source_id,'assets':[source,*outputs],
-        'recipes':[recipe],'repaired_attribute_spans':repair_count,'unmodified_member_count':sum(not r['rewrites'] for r in records),
-        'capture_binding':proposal['capture_binding'],'notes':['The original publisher ZIP remains unchanged. HTML changes are limited to exact counted local href/src values.',
+        'recipes':[recipe],'repaired_attribute_spans':repair_count,'unmodified_member_count':sum(not r['rewrites'] and not r.get('stylesheet_patch') and not r.get('runtime_patch') for r in records),
+        'capture_binding':proposal['capture_binding'],'notes':['The original publisher ZIP remains unchanged. Exact counted href/src repairs, fixed responsive theme append and source-bound file-mode search/feedback runtime changes retain every publisher member and all reading text.',
             'Publisher PAGEURL placeholder remains an explicitly recorded non-reading feedback-link gap; physical-device certification remains pending.']}
     immutable(args.output,result);immutable(args.output.with_suffix('.recipe.json'),recipe)
     return {'members':len(records),'repaired_attribute_spans':repair_count,'output_bytes':sum(a['size_bytes'] for a in outputs),'content_ready':False,'fragment':str(args.output)}

@@ -1,0 +1,56 @@
+{
+  "concurrency": {
+    "capture": 1,
+    "review": 1
+  },
+  "id": "kolibri-exercise-census-v1",
+  "review_items": [
+    {
+      "id": "ordinary-exercise-completeness",
+      "reason": "All exercises require faithful ordinary rendering, dependency closure, rights notice and complete course review; a format census does not admit content."
+    }
+  ],
+  "schema_version": 1,
+  "tasks": [
+    {
+      "batch": "kolibri-exercise-census-v1",
+      "depends": [],
+      "id": "capture-exercises",
+      "kind": "capture",
+      "lane": "capture"
+    },
+    {
+      "argv": [
+        "--staging",
+        "{staging}/kolibri-exercise-census-v1-1tb",
+        "--output",
+        "{staging}/kolibri-exercise-review-v1-1tb"
+      ],
+      "batch": "kolibri-exercise-review-v1",
+      "checks": [
+        {
+          "equals": {
+            "content_ready": false,
+            "requested_sources": 1372,
+            "status": "awaiting_review"
+          },
+          "lengths": {
+            "rows": 1372
+          },
+          "path": "{staging}/kolibri-exercise-review-v1-1tb/report.json"
+        }
+      ],
+      "depends": [
+        "capture-exercises"
+      ],
+      "id": "inspect-all-exercises",
+      "inputs": [
+        "{workspace}/catalog/acquisition/kolibri-english-core-exercise-census-v1-capture.json"
+      ],
+      "kind": "script",
+      "lane": "review",
+      "review": "Review all detected format errors, widget types, image/equation dependencies and assessment inventories before a source-bound ordinary exercise export.",
+      "script": "inspect_kolibri_census.py"
+    }
+  ]
+}

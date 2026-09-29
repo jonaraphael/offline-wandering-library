@@ -27,7 +27,7 @@ class ExportError(ValueError):
     pass
 
 
-VERSION = 1
+VERSION = 2
 BLOCK = 1024 * 1024
 RESERVE = 16 * BLOCK
 MAX_STATE = 64 * BLOCK
@@ -46,7 +46,10 @@ TAGS = set("a abbr address article aside b bdi bdo blockquote br caption center 
            "i img ins kbd li link main mark nav noscript ol p picture pre q rp rt ruby s samp section "
            "small source span strong style sub summary sup table tbody td th thead time tr u ul var wbr "
            "svg g path rect circle ellipse line polyline polygon text tspan defs symbol use image "
-           "lineargradient radialgradient stop clippath mask pattern title desc".split())
+           "lineargradient radialgradient stop clippath mask pattern title desc "
+           "math mi mn mo ms mtext mspace mrow mfrac msqrt mroot mstyle merror mpadded mphantom "
+           "mfenced menclose msub msup msubsup munder mover munderover mmultiscripts mprescripts "
+           "none mtable mtr mtd mlabeledtr semantics annotation annotation-xml".split())
 VOID = {"br", "hr", "img", "source", "wbr", "col", "link"}
 DROP_CONTENT = {"script", "iframe", "object", "embed", "applet", "template", "foreignobject"}
 ATTRS = set("id class title lang dir role aria-label aria-describedby aria-hidden colspan rowspan scope "
@@ -54,7 +57,14 @@ ATTRS = set("id class title lang dir role aria-label aria-describedby aria-hidde
             "value align valign border cellpadding cellspacing viewbox xmlns xmlns:xlink d x y x1 y1 x2 y2 cx cy "
             "r rx ry points fill fill-rule stroke stroke-width stroke-linecap stroke-linejoin opacity "
             "transform preserveaspectratio offset stop-color stop-opacity gradientunits gradienttransform "
-            "patternunits patterntransform clip-path mask font-size text-anchor".split())
+            "patternunits patterntransform clip-path mask font-size text-anchor "
+            "display mathvariant mathsize mathcolor mathbackground dir scriptlevel displaystyle "
+            "scriptsizemultiplier scriptminsize linethickness numalign denomalign bevelled "
+            "stretchy symmetric largeop movablelimits accent accentunder fence separator "
+            "lspace rspace minsize maxsize form notation rowalign columnalign rowspacing "
+            "columnspacing rowlines columnlines frame framespacing equalrows equalcolumns "
+            "rowspan columnspan side minlabelspacing subscriptshift superscriptshift "
+            "depth lspace voffset open close separators encoding".split())
 
 
 def _json(path: Path, value, before_write=None) -> None:
@@ -248,6 +258,16 @@ class _Exporter:
             self.warn(f"CSS containing escape syntax omitted: {current}")
             return "/* OWL: unsupported CSS escape syntax omitted. */"
         text = re.sub(r"(?:expression|behavior|-moz-binding)\s*:[^;}]*", "", text, flags=re.I)
+        def namespace(match):
+            # A CSS namespace URL is an identifier, never a fetched dependency.
+            # Use its equivalent string syntax before rewriting actual url()
+            # loads. Preserve the namespace identity, including relative IDs.
+            value = match.group(2).strip().strip("\"'")
+            if not re.fullmatch(r"[A-Za-z0-9_:/?#@%&=+~.,!$()*-]+", value):
+                raise ExportError('Unsupported CSS namespace identifier: ' + current)
+            return '@namespace ' + (match.group(1) or '') + '"' + value + '";'
+        text = re.sub(r'@namespace\s+([A-Za-z_][\w-]*\s+)?url\(\s*([^)]*)\)\s*;',
+                      namespace, text, flags=re.I)
         def url(match):
             value = match.group(1).strip().strip("\"'")
             href = self.link(current, value, resource=True)
@@ -612,7 +632,7 @@ def export_zim(source: Path, target: Path, *, source_asset: dict, entries=(), al
                      "title": record["title"] if record["document"] else "Supporting resource: " + name,
                      "category": source_asset["category"], "format": relative.rsplit(".", 1)[-1],
                      "source_url": _path(target, relative).as_uri(), "destination": relative,
-                     "version": source_asset["version"] + "; owl-export-v1", "size_bytes": record["size_bytes"],
+                     "version": source_asset["version"] + f"; owl-export-v{VERSION}", "size_bytes": record["size_bytes"],
                      "sha256": record["sha256"], "license": source_asset["license"],
                      "redistributable": source_asset["redistributable"], "required": False, "profiles": [],
                      "critical": False, "reader_required": False, "resource_type": "reference", "illustrated": False,

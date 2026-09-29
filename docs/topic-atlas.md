@@ -28,38 +28,36 @@ python scripts/verify.py /media/SSD/EMERGENCY_LIBRARY
 ```
 
 This command uses the drive's existing inventory, verifies source integrity, and
-publishes static navigation. It does not download missing collections, extract
-full-text search again, or change the selected content. Supply `--catalog` when
+publishes static navigation and matching metadata search. It does not download missing collections, extract
+document text, or change the selected content. Supply `--catalog` when
 using a different asset catalog. That catalog must contain every asset ID
 referenced by the navigation metadata, including currently excluded assets.
 Global reference validation does not imply those sources are present on the SSD.
 
-When files have been downloaded to their exact catalog destinations under `LIBRARY/` but the drive
-has no inventory, provide the profile and catalog explicitly:
+When curl or another downloader has saved files at their catalog destinations
+under `LIBRARY/`, assemble the available subset:
 
 ```bash
-python scripts/build_atlas.py /media/SSD/EMERGENCY_LIBRARY \
-    --navigation-dir catalog/navigation \
-    --catalog catalog/library.yaml --profile critical-64gb
+python scripts/discovery.py assemble \
+    --output /media/SSD/EMERGENCY_LIBRARY --profile flash-16gb
 ```
 
-Only present files with matching catalog size and checksum are admitted. Missing
-files are reported; malformed or mismatched existing files fail verification.
-This mode creates a **human-index-only** inventory and navigation. It provides an
-honest search-unavailable page when no search index exists. It does not turn a
-partially populated directory into a complete planned library. If an inventory
-already exists, use that inventory; change its profile through the drive builder.
+Only present files with matching catalog size and checksum are admitted. Missing,
+partial, and mismatched files are reported and excluded. Python creates the
+inventory, search, and atlas from their saved per-asset metadata. Rerun after more
+downloads finish; this also updates an existing inventory. Incomplete selections
+retain `content_complete: false`, and an interrupted full build remains
+incomplete. Use `--catalog` and `--navigation-dir` for custom inputs.
 
-To include the atlas during a full drive build, opt in explicitly:
+Normal builds using the bundled production catalog include the atlas automatically.
+A custom catalog can supply its navigation directory:
 
 ```bash
 python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
     --profile critical-64gb --navigation-dir catalog/navigation
 ```
 
-Repeat `--navigation-dir` on later builds that should retain atlas generation.
-The ordinary build command does not enable this optional metadata layer by
-default. The same source selection and content-completeness rules still apply.
+For custom catalogs, repeat `--navigation-dir` on later builds. The same source selection and content-completeness rules still apply.
 
 The publisher locks the drive, checks output ownership and local links, records
 metadata hashes, and includes generated pages in the drive's checksums. A
@@ -70,13 +68,15 @@ same command; it must not conceal an interrupted full build.
 
 ## What the starter metadata covers
 
-[`catalog/navigation/`](../catalog/navigation/README.md) contains 46 starter
-topics and 40 whole-document assignments based on the current asset catalog.
-Those counts describe navigation metadata, not the 46-resource acquisition plan.
-The vocabulary, assignments, and include list remain open to editorial revision.
-This starter set does not assert chapter, page, or figure locations for third-party
-books. Sources absent from a particular drive disappear from its available routes;
-empty branches are omitted.
+[`catalog/navigation/`](../catalog/navigation/README.md) contains approved topics
+and source assignments. Missing sources disappear from available routes, and
+empty branches are omitted. The vocabulary and deeper chapter mappings can be
+improved through the [Python/AI annotation workflow](search.md).
+
+To refresh a completed library without rehashing source bodies, use
+`scripts/discovery.py build --inventory DRIVE/LIBRARY/INVENTORY.json --output DRIVE`.
+This republishes both experiences and records that source verification was not
+repeated. The standalone atlas command above retains its full audit.
 
 The original [demo metadata](../catalog/demo-navigation/README.md) exercises shared
 parents, ambiguous aliases, and a reviewed HTML anchor for an inline SVG diagram.
@@ -90,7 +90,7 @@ The navigation directory has three inputs:
 
 ```text
 topics.yaml
-assignments.yaml
+assignments/<asset-id>.yaml    # optional topic links, aliases, editorial notes
 sections/<asset-id>.yaml       # optional reviewed source-contents maps
 ```
 
@@ -129,16 +129,17 @@ link alone does not make an orphan topic reachable. Ordered parents determine th
 canonical breadcrumb; the first visible parent is used. This breadcrumb is not a
 record of the visitor's actual path.
 
-`assignments.yaml` declares `schema_version: 1` and an `assignments` list. Each row
-requires `topic_id` and `asset_id`. It may contain `section_id`, `purpose`, integer
-`order`, and a short plain-text `description`. Purposes are `start-here`,
+Each `assignments/<asset-id>.yaml` declares `schema_version: 1`, the matching
+`asset_id`, and an `assignments` list. Each row requires `topic_id` and may contain
+`section_id`, `purpose`, integer
+`order`, a short plain-text `description`, `aliases`, and an evidence `basis`. Purposes are `start-here`,
 `practical`, `explanation`, and `reference`; the default is `reference`.
 
 ```yaml
 schema_version: 1
+asset_id: demo_textbook
 assignments:
   - topic_id: build-process
-    asset_id: demo_textbook
     section_id: build-diagram
     purpose: explanation
 ```
@@ -148,6 +149,13 @@ filesystem path in an assignment. Repeated topic/asset/section declarations reta
 the first declaration; the renderer also deduplicates equivalent locations within
 a topic. Shared descendants do not inflate document or source-location counts.
 Imported contents alone do not create reviewed cross-library assignments.
+
+Save these small files in Git once and reuse them across profiles. Normal builds
+assemble only the verified inventory. For independently downloaded files, use
+`python scripts/discovery.py assemble --output DRIVE --profile flash-16gb`.
+It checks the available catalog destinations, omits unfinished or mismatched
+sources, and rebuilds the atlas from their saved metadata. See the
+[assembly workflow](search.md#assemble-completed-downloads) for details.
 
 ## Import and review source contents
 
@@ -225,7 +233,8 @@ adding its illustration annotation.
 
 PDF pages and text lines are one-based. Physical PDF pages count covers and front
 matter; printed page labels are separate. Page/line bounds, HTML IDs, and EPUB/ZIM
-member existence are validated against the selected source. Media duration is not
+member existence are validated during explicit preparation/review of the selected source. Compilation
+checks approved source pins without reinspecting the body. Media duration is not
 inferred: timestamp ranges require editorial review. Archive paths are reference
 text, not extraction instructions or reader-specific deep links.
 

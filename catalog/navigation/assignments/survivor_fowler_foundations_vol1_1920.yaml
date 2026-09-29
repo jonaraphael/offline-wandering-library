@@ -1,0 +1,7 @@
+schema_version: 1
+asset_id: survivor_fowler_foundations_vol1_1920
+assignments:
+- topic_id: shelter
+  purpose: reference
+  description: Historical 1920 ordinary-foundations reference, Volume I only; image-only
+    scan, not current structural-design or building-code guidance.
