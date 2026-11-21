@@ -42,11 +42,13 @@ python scripts/verify.py /path/to/EMERGENCY_LIBRARY
 
 Python 3.11+ and internet access are needed to build. Reading ordinary PDFs does not require Python. ZIM archives need a compatible reader; packages for Windows, macOS, Linux and Android are included. The planner sets aside 500 MB for them. The builder never formats the drive or executes downloaded software. Leave `--cache-dir` unset so original downloads and resumable partials stay exclusively on the selected drive.
 
-Both builders assemble precomputed search shards for the selected files. Search
+Both builders use the same generated search plan to assemble precomputed shards
+for the selected files. Search
 covers catalog titles, PDF passages, HTML sections and indexed ZIM articles,
 with coverage varying by source. Search combines word matches and compact
 Potion retrieval embeddings for passages and article leads. It favors relevant
-critical references for emergency wording.
+critical references for emergency wording. Indexed results use readable source
+or section titles and keep the physical page or archive path visible.
 Catalog results appear while passage and
 article results load. The search model, indexes and static navigation travel
 on the drive.

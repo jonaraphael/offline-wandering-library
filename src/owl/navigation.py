@@ -279,6 +279,18 @@ def _selection_inventory(inventory: dict) -> str:
     )
 
 
+def navigation_asset(asset, resource_ids=None):
+    """Resolve the file's category, title and shelf destinations for both builders."""
+    memberships = asset.get("resource_ids") if resource_ids is None else resource_ids
+    memberships = memberships if isinstance(memberships, list) else []
+    return {"document": is_document(asset), "group": _group(asset),
+            "letter": _letter(str(asset.get("title", asset["destination"]))),
+            "shelves": sorted(learning_shelves(asset)),
+            "collections": [key for key, _, identities in READING_COLLECTIONS if identities.intersection(memberships)],
+            "publisher": asset.get("publisher"), "attribution": asset.get("attribution"),
+            "legacy": bool(asset.get("legacy"))}
+
+
 def generate_navigation(target: Path, assets: list[dict], inventory: dict, search_report: dict, *, write: bool = True):
     """Write the fixed no-JavaScript navigation set, returning managed paths.
 
@@ -302,14 +314,13 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
     collections: dict[str, list[dict]] = defaultdict(list)
     for entry in entries:
         _href(str(entry["destination"]), "START_HERE.html")
-        groups[_group(entry)].append(entry)
-        letters[_letter(str(entry.get("title", entry["destination"])))].append(entry)
-        for shelf in learning_shelves(entry):
+        placement = navigation_asset(entry)
+        groups[placement["group"]].append(entry)
+        letters[placement["letter"]].append(entry)
+        for shelf in placement["shelves"]:
             shelves[shelf].append(entry)
-        resource_ids = entry.get("resource_ids", [])
-        for key, _label, identities in READING_COLLECTIONS:
-            if isinstance(resource_ids, list) and any(identity in resource_ids for identity in identities):
-                collections[key].append(entry)
+        for key in placement["collections"]:
+            collections[key].append(entry)
 
     pages: dict[str, str] = {}
     cards = "".join(

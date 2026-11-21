@@ -52,7 +52,7 @@ function assetList(assets, layouts, prefix) {
 
 export async function assembleLibrary(drive, {completed, missing, navigation, layouts, parts, signal, search, searchBudget, fetchFile, network}) {
   const {css = "", layout, groups = [], letters = [], collections = [], assets: metadata = {}, sections = {},
-    locators = {}, topics = {}, entrances = {}, assignments = [], verify = ""} = navigation;
+    locators = {}, topics = {}, entrances = {}, assignments = [], input_hashes = {}, verify = ""} = navigation;
   function document(title, body, prefix = "") {
     const policy = '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; base-uri \'none\'; form-action \'none\'">';
     const heading = "<h1>" + escape(title) + "</h1>";
@@ -139,7 +139,7 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
   pages.set("LIBRARY/BUILD_INFO.json", JSON.stringify({schema_version:1, asset_count:inventory.length,
     content_complete:!missing.length, layout:{entry_page:"START_HERE.html", content_directory:"LIBRARY"}}, null, 2) + "\n");
 
-  const indexed = search ? await assembleSearch(drive, {completed, layouts, navigation,
+  const indexed = search ? await assembleSearch(drive, {completed, layouts,
     config: search, fetchFile, signal, network, budget: searchBudget}) : {pages: [], checksums: [], warnings: []};
   for (const [path, contents] of indexed.pages) pages.set(path, contents);
   const entrypoints = documents.flatMap(asset => {
@@ -186,6 +186,13 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
         alphabet + "<ul>" + list.map(([label, id]) => "<li>" + link("../topics/" + id + ".html", label) + "</li>").join("") +
         "</ul>", "../../../"));
     }
+  }
+  if (Object.keys(topics).length) {
+    const included_topic_ids = Object.keys(topics).filter(visible).sort();
+    const source_maps = Object.fromEntries(books.filter(asset => sections[asset.id]?.source_sha256 === asset.sha256)
+      .map(asset => [asset.id, {source_sha256: asset.sha256, section_count: sections[asset.id].sections.length}]));
+    pages.set(index + "navigation-report.json", JSON.stringify({schema_version: 1,
+      selected_asset_count: documents.length, included_topic_ids, input_hashes, source_maps}, null, 2) + "\n");
   }
   const readers = completed.filter(asset => layouts.get(asset.id)[0].path.startsWith("LIBRARY/SOFTWARE/"));
   const readerIndex = readers.length ? '<h2 id="readers">Archive readers</h2>' +

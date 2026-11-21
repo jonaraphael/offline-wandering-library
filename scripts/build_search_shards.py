@@ -9,6 +9,7 @@ from gzip import open as gzip_open
 from hashlib import sha256
 from heapq import nlargest
 from html.parser import HTMLParser
+import re
 from itertools import islice
 import json
 from pathlib import Path
@@ -33,6 +34,14 @@ OWL ships the leading 256 components quantized to signed 8-bit weights.
 FORMATS = {"pdf", "zim", "html", "htm"}
 HTML_MIMES = {"text/html", "application/xhtml+xml"}
 PASSAGE_SIZE = 1600
+FILE_TITLE = re.compile(r"^(?:[a-z]+://|[a-z]:\\|[./\\]*[a-z0-9_.%+-]+[/\\]\S+$)|"
+                        r"\.(?:html?|pdf|docx?|xlsx?|pptx?|jpe?g|png|gif|zip|txt|php|aspx?|epub|djvu|swf)$", re.I)
+
+
+def placeholder_title(value):
+    value = value.strip()
+    return (not any(char.isalnum() for char in value) or
+            bool(re.fullmatch(r"(?:page\s+)?[\d.,]+", value, re.I) or FILE_TITLE.search(value)))
 
 
 class Article(HTMLParser):
@@ -52,8 +61,15 @@ class Article(HTMLParser):
         self.sections = []
         self.text = []
         self.header = []
+        self.title_text = []
+        self.first_heading = []
+        self.article_heading = None
         self.heading = self.anchor = ""
         self.lead_size = self.accepted_size = self.visible_size = 0
+
+    def readable_title(self):
+        return next((value for text in (self.title_text, self.first_heading)
+                     if (value := " ".join(text)) and len(value) <= 200 and not placeholder_title(value)), "")
 
     def finish_section(self):
         if self.document and self.text:
@@ -70,6 +86,8 @@ class Article(HTMLParser):
         accepted = parent[1] or bool(classes & {"accepted-answer", "answer-accepted", "accepted"})
         anchor = attributes.get("id") or attributes.get("name") or parent[3]
         self.stack.append((tag, hidden, accepted, parent[2] or tag == "p", anchor))
+        if not hidden and tag in self.HEADINGS and not self.first_heading and self.article_heading is None:
+            self.article_heading = []
         if self.document and not hidden and tag in self.HEADINGS:
             self.finish_section()
             self.anchor = anchor
@@ -84,17 +102,26 @@ class Article(HTMLParser):
             if self.stack[index][0] == tag:
                 hidden = self.stack[index][1]
                 del self.stack[index:]
+                if not hidden and tag in self.HEADINGS and self.article_heading is not None:
+                    if not placeholder_title(" ".join(self.article_heading)):
+                        self.first_heading = self.article_heading
+                    self.article_heading = None
                 if self.document and not hidden and tag in self.HEADINGS:
                     self.heading = " ".join(self.header)
                 return
 
     def handle_data(self, value):
         tag, hidden, accepted, paragraph, _ = self.stack[-1] if self.stack else ("", False, False, False, "")
-        if hidden:
-            return
         value = " ".join(value.split())
         if not value:
             return
+        if tag == "title":
+            self.title_text.append(value)
+            return
+        if hidden:
+            return
+        if self.article_heading is not None:
+            self.article_heading.append(value)
         if not self.document and self.visible_size < 800:
             self.visible.append(value[:800 - self.visible_size])
             self.visible_size += len(value) + 1
@@ -134,10 +161,11 @@ def html_records(path, asset):
     for heading, anchor, text in parser.sections:
         for body in passage_text(text):
             titled = True
-            yield Record(heading or asset["title"], anchor, heading,
+            title = heading if not placeholder_title(heading) else parser.readable_title() or asset["title"]
+            yield Record(title, anchor, heading,
                          body=body, show_lead=bool(asset.get("redistributable")))
     if not titled:
-        yield Record(asset["title"], "")
+        yield Record(parser.readable_title() or asset["title"], "")
 
 
 def pdf_sections(path, asset):
@@ -173,7 +201,7 @@ def pdf_records(path, asset):
             page = index + 1
             if page in sections:
                 heading = " · ".join(sections[page])
-            title = f"{heading} · Page {page}" if heading else f"Page {page}"
+            title = f"{heading or asset['title']} · Page {page}"
             text = " ".join(extract(index).split())
             for body in passage_text(text):
                 yield Record(title, page, heading, body=body,
@@ -224,6 +252,8 @@ def archive_records(rows, local, asset, metrics, *, lead_paths=None):
                     parser = Article()
                     parser.feed(bytes(item.content).decode("utf-8", "replace"))
                     parser.close()
+                    if placeholder_title(title):
+                        title = parser.readable_title() or title
                     if parser.accepted and question_site:
                         lead = " ".join(parser.accepted)
                         accepted_answer = True

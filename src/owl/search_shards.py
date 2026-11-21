@@ -299,62 +299,80 @@ def source_manifest(asset, shard, destination):
             "license": asset.get("license", ""), "attribution": asset.get("attribution", ""),
             "restricted": asset.get("redistributable") is False, "entrypoints": shard.get("entrypoints", []),
             "main": shard.get("main", ""), "records": shard["records"],
+            **({"title_overrides": shard["title_overrides"]} if "title_overrides" in shard else {}),
             "shelves": asset.get("shelves", []), "legacy": bool(asset.get("legacy"))}
+
+
+def compile_search_plan(assets, manifest, routes):
+    """Compile source order, destinations, physical files and ranker inputs once."""
+    from .catalog import learning_shelves
+
+    candidates = selected_shards(assets, manifest)
+    ordered = sorted(candidates, key=lambda pair: (not pair[0].get("critical"), pair[1]["records"], pair[0]["id"]))
+    chunks = {}
+    sources = []
+    for asset, shard in ordered:
+        digest = asset["sha256"]
+        row = source_manifest(asset, shard, asset["destination"])
+        row["shelves"] = sorted(learning_shelves(asset))
+        paths = []
+        for pool, number, pin in shard_chunks(manifest, digest, shard):
+            path = part_location(pool, number, pin)
+            paths.append(path)
+            if path in chunks:
+                continue
+            rank = {key: pin[key] for key in ("bloom", "vectors", "passages", "lead_vectors", "semantic_vectors")
+                    if key in pin}
+            if pin["sha256"] in routes:
+                rank.update(route=routes[pin["sha256"]], bytes=pin["bytes"])
+            if "path" in pin:
+                rank.update(path=path)
+            else:
+                rank.update(pool=pool, number=number)
+            chunks[path] = {"pin": {key: pin[key] for key in ("bytes", "sha256")}, "rank": rank}
+        sources.append({"row": row, "parts": paths, "sha256": shard["sha256"]})
+    model = list(model_files(manifest)) if candidates else []
+    return {"version": SCHEMA, "sources": sources, "chunks": chunks, "model": model,
+            "model_parts": len(manifest.get("model_parts", ())), "reserve": 64_000}
 
 
 def compose_shards(assets, budget, folder=SEARCH_ROOT):
     """Publish only whole source shards with a common runtime and pinned model."""
     manifest = load_manifest(folder)
-    selected = selected_shards(assets, manifest)
-    if not selected:
+    plan = compile_search_plan(assets, manifest, load_routes(folder))
+    if not plan["sources"]:
         return {}, []
-    from .catalog import learning_shelves
     runtime = Path(__file__).with_name("templates").joinpath("rank.js").read_bytes()
-    model = list(model_files(manifest))
-    remaining = budget - len(runtime) - sum(pin["bytes"] for _, pin in model) - 64_000
+    model = plan["model"]
+    remaining = budget - len(runtime) - sum(pin["bytes"] for _, pin in model) - plan["reserve"]
     if remaining < 0:
         return {}, []
     outputs = {"SEARCH/" + path: ShardPart(folder, path, pin) for path, pin in model}
     outputs[RUNTIME_FILE] = runtime
     rows = []
-    routes = load_routes(folder)
-    for asset, shard in sorted(selected, key=lambda pair: (not pair[0].get("critical"), pair[1]["records"], pair[0]["id"])):
-        digest = asset["sha256"]
-        row = source_manifest(asset, shard, asset["destination"])
-        parts = list(shard_chunks(manifest, digest, shard))
-        row["parts"] = []
-        chunks = {}
-        for pool, number, pin in parts:
-            part = {key: pin[key] for key in ("bloom", "vectors", "passages", "lead_vectors", "semantic_vectors") if key in pin}
-            if pool != digest or shard.get("shared"):
-                part.update(pool=pool, number=number)
-            if pin["sha256"] in routes:
-                part.update(route=routes[pin["sha256"]], bytes=pin["bytes"])
-            row["parts"].append(part)
-            path = part_location(pool, number, pin)
-            if "path" in pin:
-                part["path"] = path
-            chunks[path] = pin
-        row["shelves"] = sorted(learning_shelves(asset))
-        cost = len(encode(row)) + 1 + sum(pin["bytes"] for path, pin in chunks.items() if "SEARCH/" + path not in outputs)
+    for source in plan["sources"]:
+        paths = source["parts"]
+        chunks = plan["chunks"]
+        row = {**source["row"], "parts": [chunks[path]["rank"] for path in paths]}
+        cost = len(encode(row)) + 1 + sum(chunks[path]["pin"]["bytes"] for path in set(paths)
+                                          if "SEARCH/" + path not in outputs)
         if cost > remaining:
             continue
         whole = sha256()
-        for pool, number, pin in parts:
-            relative = part_location(pool, number, pin)
-            part = ShardPart(folder, relative, pin)
+        for path in paths:
+            part = ShardPart(folder, path, chunks[path]["pin"])
             whole.update(part.read())
-            outputs["SEARCH/" + relative] = part
-        if whole.hexdigest() != shard["sha256"]:
-            raise ValueError(f"Search shard digest differs: {asset['id']}")
+            outputs["SEARCH/" + path] = part
+        if whole.hexdigest() != source["sha256"]:
+            raise ValueError(f"Search shard digest differs: {row['id']}")
         remaining -= cost
         rows.append(row)
-    if not rows or remaining < 0:
+    if not rows:
         return {}, []
     for path, pin in model:
         read_file(folder, path, pin)
     outputs[SELECTION_FILE] = script("OWLShardSelection", {
-        "version": SCHEMA, "sources": rows, "model_parts": len(manifest.get("model_parts", ())),
+        "version": plan["version"], "sources": rows, "model_parts": plan["model_parts"],
     })
     return outputs, [{"id": row["id"], "source_sha256": row["sha256"], "records": row["records"]}
                      for row in rows]

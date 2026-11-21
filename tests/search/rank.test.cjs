@@ -129,3 +129,59 @@ test('restricted passage labels retain the book and section with the physical pa
   assert.equal(hit.href, 'HEALTH/basics.pdf#page=3');
   assert.equal(hit.description, '');
 });
+
+test('legacy placeholder titles retain a reference label and the physical locator', () => {
+  const asset = {id: 'cd3wd', title: 'Appropriate development library', format: 'zim',
+    destination: 'ZIM/cd3wd.zim', title_overrides: {'documents/B990_20.HTM': 'How does breastfeeding work?'}};
+  const title = (raw, locator) => rank.result(asset, {row: [raw, locator, ''], index: 0}, 0).record;
+  assert.deepEqual([title('B990 20.HTM', 'documents/B990_20.HTM').title,
+    title('B990 20.HTM', 'documents/B990_20.HTM').location],
+  ['How does breastfeeding work?', 'Archive path: documents/B990_20.HTM']);
+  for (const raw of ['', '235', 'Page 6', '../archive/readme', 'B541 3.HTM']) {
+    assert.ok(rank.placeholderTitle(raw), raw);
+    assert.ok(!rank.placeholderTitle(title(raw, 'other').title), raw);
+  }
+});
+
+test('term dictionaries route title-only postings without opening unrelated record chunks', async () => {
+  const {mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync} = require('node:fs');
+  const {tmpdir} = require('node:os');
+  const {join} = require('node:path');
+  const {gzipSync} = require('node:zlib');
+  const compiler = require('../../scripts/build_query_index.cjs');
+  const queryIndex = require('../../src/owl/templates/query-index.js');
+  const temp = mkdtempSync(join(tmpdir(), 'owl-query-index-'));
+  const digest = 'a'.repeat(64);
+  const partDirectory = join(temp, 'sources', digest);
+  const titles = ['Bearing_parts', 'Hand_loom'];
+  const asset = {id: 'fixture', title: 'Repair handbook', format: 'zim', sha256: digest, shelves: [],
+    destination: 'ZIM/fixture.zim', parts: titles.map(() => ({bloom: '/w==', bytes: 300}))};
+  try {
+    mkdirSync(partDirectory, {recursive: true});
+    const packed = titles.map((title, n) => {
+      const body = {records: [[null, title, '', '', 0, 1]], postings: {}};
+      const encoded = gzipSync(JSON.stringify(body)).toString('base64');
+      writeFileSync(join(partDirectory, '0000' + n + '.js'), 'globalThis.OWLShardPart(' +
+        JSON.stringify([digest, n, encoded]) + ');\n');
+      return encoded;
+    });
+    const output = join(temp, 'query');
+    compiler.compile({sources: [asset]}, temp, output, join(temp, 'work'));
+    const read = async name => {
+      const script = readFileSync(join(output, name), 'utf8');
+      return JSON.parse(script.slice('globalThis.OWLQueryBlock('.length, -3));
+    };
+    const layout = await read('index.js');
+    const files = [];
+    const hits = await queryIndex.search(layout, read, {sources: [asset]}, noVector,
+      async (_digest, part, terms) => {
+        files.push(part);
+        return rank.unpack(packed[part], terms);
+      }, 'bearing');
+    assert.deepEqual(files, [0]);
+    assert.equal(hits[0].record.title, 'Bearing parts');
+    assert.equal(hits[0].record.location, 'Archive path: Bearing_parts');
+  } finally {
+    rmSync(temp, {recursive: true, force: true});
+  }
+});

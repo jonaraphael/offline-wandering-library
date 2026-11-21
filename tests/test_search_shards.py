@@ -104,6 +104,14 @@ class SourceShardTests(unittest.TestCase):
         self.assertNotIn("fallen", chunk["postings"])
         self.assertLess(len(b64decode(bloom)), 8192)
 
+    def test_archive_titles_prefer_html_title_then_first_readable_heading(self):
+        parser = Article()
+        parser.feed("<head><title>chapter.htm</title></head><h1>Wooden <i>hand</i> tools</h1>")
+        self.assertEqual(parser.readable_title(), "Wooden hand tools")
+        parser = Article()
+        parser.feed("<title>Hand tools</title><h1>Chapter 1</h1>")
+        self.assertEqual(parser.readable_title(), "Hand tools")
+
     def test_html_section_anchors_and_accepted_answer(self):
         html = """<h1>Repair guide</h1><p>Introduction</p>
         <section id="bearing"><h2>Check the bearing</h2>

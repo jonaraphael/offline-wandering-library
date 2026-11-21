@@ -16,12 +16,12 @@ from urllib.request import Request, urlopen
 from zipfile import ZipFile
 
 from owl.atlas_model import load_navigation
-from owl.catalog import is_document, learning_shelves, load_catalog, load_profiles
-from owl.navigation import CSS, GROUPS, LETTERS, READING_COLLECTIONS, _group, _letter
+from owl.catalog import load_catalog, load_profiles
+from owl.navigation import CSS, GROUPS, LETTERS, READING_COLLECTIONS, navigation_asset
 from owl.offline_layout import layout
 from owl.discovery import compile_records
 from owl.search_ui import render_search_page
-from owl.search_shards import SEARCH_ROOT, load_manifest, load_routes
+from owl.search_shards import SEARCH_ROOT, compile_search_plan, load_manifest, load_routes
 from owl.selector import ROOT, make_model, render_selector
 
 
@@ -239,28 +239,22 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
         shutil.copytree(SEARCH_ROOT, site / "search")
     templates = ROOT / "src/owl/templates"
     page = render_search_page()
-    write_json(site / "search-build.json", {"manifest": search_index, "base": search_base, "records": records, "queryRoutes": load_routes(),
+    write_json(site / "search-build.json", {"plan": compile_search_plan(assets, search_index, load_routes()), "base": search_base, "records": records,
         "page": page, "runtime": (templates / "search.js").read_text(encoding="utf-8"),
         "rankRuntime": (templates / "rank.js").read_text(encoding="utf-8")})
-    navigation = {key: navigation[key] for key in ("topics", "entrances", "assignments", "sections")}
-    collection_assets = {
-        key: {aid for resource in model["resources"] if resource["id"] in resource_ids
-              for aid in resource["asset_ids"]}
-        for key, _, resource_ids in READING_COLLECTIONS
-    }
+    navigation = {key: navigation[key] for key in ("topics", "entrances", "assignments", "sections", "input_hashes")}
+    resources_by_asset = {}
+    for resource in model["resources"]:
+        for asset_id in resource["asset_ids"]:
+            resources_by_asset.setdefault(asset_id, []).append(resource["id"])
     navigation.update(css=CSS, groups=GROUPS, letters=LETTERS, layout=layout(),
                       collections=[(key, label) for key, label, _ in READING_COLLECTIONS],
                       locators={asset["id"]: {"entrypoints": shard.get("entrypoints"), "main": shard.get("main")}
                                 for asset in assets
                                 if (shard := search_index["sources"].get(asset["sha256"]))},
                       verify=(ROOT / "src/owl/verify.py").read_text(encoding="utf-8"),
-                      assets={asset["id"]: {
-                          "document": is_document(asset), "shelves": sorted(learning_shelves(asset)),
-                          "group": _group(asset), "letter": _letter(asset["title"]),
-                          "collections": [key for key, ids in collection_assets.items() if asset["id"] in ids],
-                          "publisher": asset.get("publisher"), "attribution": asset.get("attribution"),
-                          "legacy": bool(asset.get("legacy"))
-                      } for asset in assets})
+                      assets={asset["id"]: navigation_asset(asset, resources_by_asset.get(asset["id"], []))
+                              for asset in assets})
     write_json(site / "catalog.json", {"planner": model, "routes": routes, "navigation": navigation})
     (site / "index.html").write_text(render_selector(model, pages=True), encoding="utf-8")
     (site / "SELECT.html").write_bytes((ROOT / "SELECT.html").read_bytes())

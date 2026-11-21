@@ -4,78 +4,47 @@ import {createHash, webcrypto} from "node:crypto";
 import {createServer} from "node:http";
 import {once} from "node:events";
 import {test} from "node:test";
-import {archiveCheckpoints, browserSelection, buildLibrary, partLayout, readBuild} from "../web/builder.mjs";
+import {archiveCheckpoints, browserSelection, buildLibrary as runBuild, partLayout, readBuild} from "../web/builder.mjs";
 import {measureFreeSpace} from "../web/drive.mjs";
 import {createNetwork} from "../web/network.mjs";
+import {Directory} from "./browser-drive-fixture.mjs";
 import {probesCapacity} from "../web/builder-ui.mjs";
 
 globalThis.crypto ||= webcrypto;
 const MiB = 2 ** 20;
 const GiB = 2 ** 30;
 const hash = data => createHash("sha256").update(data).digest("hex");
-const missing = () => new DOMException("Missing entry", "NotFoundError");
-
-class Directory {
-  kind = "directory";
-  entries = new Map();
-  constructor(name = "drive", options = {}) {
-    this.name = name;
-    this.options = options;
-  }
-  async getDirectoryHandle(name, {create = false} = {}) {
-    if (!this.entries.has(name) && create) this.entries.set(name, new Directory(name, this.options));
-    if (!this.entries.has(name)) throw missing();
-    const handle = this.entries.get(name);
-    if (handle.kind !== "directory") throw new DOMException("Wrong type", "TypeMismatchError");
-    return handle;
-  }
-  async *values() { yield* this.entries.values(); }
-  async getFileHandle(name, {create = false} = {}) {
-    if (!this.entries.has(name) && create) this.entries.set(name, new FileHandle(name, this.options));
-    if (!this.entries.has(name)) throw missing();
-    const handle = this.entries.get(name);
-    if (handle.kind !== "file") throw new DOMException("Wrong type", "TypeMismatchError");
-    return handle;
-  }
-  async removeEntry(name) { if (!this.entries.delete(name)) throw missing(); }
-  async file(path) {
-    const names = path.split("/");
-    const basename = names.pop();
-    let directory = this;
-    for (const name of names) directory = await directory.getDirectoryHandle(name);
-    return directory.getFileHandle(basename);
-  }
-}
-
-class FileHandle {
-  kind = "file";
-  bytes = new Blob([]);
-  constructor(name, options) {
-    this.name = name;
-    this.options = options;
-  }
-  async getFile() { return this.bytes; }
-  async createWritable({keepExistingData = false} = {}) {
-    let swap = keepExistingData ? this.bytes : new Blob([]);
-    let offset = 0;
-    return {
-      write: async contents => {
-        this.options.beforeWrite?.(this.name, contents);
-        const chunk = new Blob([contents]);
-        swap = new Blob([swap.slice(0, offset), chunk, swap.slice(offset + chunk.size)]);
-        offset += chunk.size;
-      },
-      seek: async bytes => { offset = bytes; },
-      truncate: async bytes => this.options.truncate?.(bytes),
-      close: async () => { this.bytes = swap; },
-      abort: async () => { this.options.onAbort?.(); }
-    };
-  }
-}
-
 function asset(id, body, fields = {}) {
   return {id, title: "File " + id, format: "pdf", destination: "BOOKS/" + id + ".pdf",
     size_bytes: body.length, sha256: hash(body), redistributable: true, utility_tier: "USEFUL", ...fields};
+}
+
+function buildLibrary(drive, options) {
+  if (!options.search) return runBuild(drive, options);
+  const {manifest, ...config} = options.search;
+  const chunks = {};
+  const sources = options.assets.flatMap(asset => {
+    const shard = manifest.sources[asset.sha256];
+    if (!shard) return [];
+    const paths = [];
+    const add = (pool, pin, number) => {
+      const path = "sources/" + pool + "/" + String(number).padStart(5, "0") + ".js";
+      chunks[path] = {pin, rank: {pool, number, bloom: pin.bloom, vectors: pin.vectors}};
+      paths.push(path);
+    };
+    for (const pool of shard.shared || []) manifest.shared[pool].parts.forEach((pin, number) => add(pool, pin, number));
+    (shard.parts || []).forEach((pin, number) => add(asset.sha256, pin, number));
+    const {id, title, category, sha256, source_url = "", format} = asset;
+    return [{row: {id, title, category, sha256, format, critical: Boolean(asset.critical),
+      discussion: source_url.includes("/stack_exchange/"), records: shard.records},
+      parts: paths, sha256: shard.sha256}];
+  });
+  const weights = manifest.model_parts || [];
+  const model = [["model.js", manifest.model], ["model-license.txt", manifest.license],
+    ...weights.map((pin, i) => ["model/" + String(i).padStart(2, "0") + ".js", pin])];
+  return runBuild(drive, {...options, search: {...config, plan: {
+    version: manifest.version, model_parts: weights.length, reserve: 64_000, model, sources, chunks
+  }}});
 }
 
 async function httpFixture(t, handle) {

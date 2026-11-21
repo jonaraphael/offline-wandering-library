@@ -175,7 +175,6 @@
   }
 
   const semanticPart = part => part.semantic_vectors > 0;
-  const mightMatch = (bits, query) => routeHits(bits, query) > 0;
 
   function bytes(encoded) {
     if (Uint8Array.fromBase64) return Uint8Array.fromBase64(encoded);
@@ -325,15 +324,18 @@
     return best;
   }
 
+  function lookupTerms(query) {
+    return query.pediatricHealth ? [...new Set([...query.routing, ...deliveryTerms])] : query.routing;
+  }
+
   function rankPart(part, prepared, asset, limit) {
-    const {query, primary, routing, phrase, vector, focused, evidence, emergency, deliveryQuery, pediatricHealth, language, seed, audience} = prepared;
+    const {query, primary, phrase, vector, focused, evidence, emergency, deliveryQuery, pediatricHealth, language, seed, audience} = prepared;
     const {domains, discussion} = sourcePolicy(asset);
     const trusted = asset.critical && focused.some(rule => domains.includes(rule.domain));
     const pediatricSource = pediatricHealth && domains.includes('health');
     const sourceTitle = emergency || audience || pediatricHealth || language || seed ? normalize(asset.title) : "";
     const lexical = new Map();
-    const lookupTerms = pediatricHealth ? new Set([...routing, ...deliveryTerms]) : routing;
-    for (const word of lookupTerms) {
+    for (const word of lookupTerms(prepared)) {
       const postings = Object.hasOwn(part.postings, word) ? part.postings[word] : [];
       const original = primary.has(word);
       for (const post of postings) {
@@ -421,21 +423,32 @@
     return semanticPart(part) ? 1 : 0;
   }
 
-  function shouldRead(part, query, bloom = atob(part.bloom)) {
-    return mightMatch(bloom, query.routing) ||
-      (query.vector && !query.emergency && semanticPart(part));
+  function placeholderTitle(value) {
+    const title = (value || '').trim();
+    return !/[\p{L}\p{N}]/u.test(title) || /^(?:page\s+)?[\p{N}.,]+$/iu.test(title) ||
+      /^(?:[a-z]+:\/\/|[a-z]:\\|[./\\]*[a-z0-9_.%+-]+[/\\][^\s]+$)|\.(?:html?|pdf|docx?|xlsx?|pptx?|jpe?g|png|gif|zip|txt|php|aspx?|epub|djvu|swf)$/iu.test(title);
+  }
+
+  function displayTitle(asset, rawTitle, locator) {
+    const override = asset.title_overrides;
+    const title = (override && Object.hasOwn(override, locator) ? override[locator] : rawTitle) || '';
+    const sourceTitle = placeholderTitle(asset.title) ? 'Library reference' : asset.title;
+    if (asset.format === 'pdf' && (asset.restricted || placeholderTitle(title))) {
+      const heading = title.replace(/(?:^| · )Page \d+$/i, '');
+      const outline = asset.entrypoints?.findLast(([page, name]) => typeof page === 'number' &&
+        page <= locator && !placeholderTitle(name))?.[1].replace(/ · Page \d+$/i, '');
+      const section = placeholderTitle(heading) ? outline : heading;
+      return [sourceTitle, section && section !== sourceTitle ? section : '', 'Page ' + locator].filter(Boolean).join(' · ');
+    }
+    if (!placeholderTitle(title)) return title;
+    // A numeric entry may name a year, quantity or numbered section.
+    const number = title.trim().match(/^[\p{N}.,]+$/u)?.[0];
+    return sourceTitle + (number ? ' · Entry ' + number : asset.format === 'zim' ? ' · Archive entry' : ' · Section');
   }
 
   function result(asset, hit, part) {
     const [rawTitle, locator, lead] = hit.row;
-    let title = rawTitle;
-    if (asset.restricted && asset.format === 'pdf') {
-      const heading = rawTitle.replace(/(?:^| · )Page \d+$/i, '');
-      const outline = asset.entrypoints?.findLast(([page, name]) => typeof page === 'number' &&
-        page <= locator && !/^Page \d+$/i.test(name))?.[1].replace(/ · Page \d+$/i, '');
-      const section = heading || outline;
-      title = [asset.title, section && section !== asset.title ? section : '', 'Page ' + locator].filter(Boolean).join(' · ');
-    }
+    const title = displayTitle(asset, rawTitle, locator);
     const archive = asset.format === 'zim';
     const destination = asset.destination;
     const href = destination.split('/').map(encodeURIComponent).join('/') +
@@ -542,7 +555,7 @@
       const part = asset.parts[number];
       const address = partAddress(asset, number);
       const chunk = shared.get(address) ?? await readPart(part.pool || asset.sha256, part.number ?? number,
-        query.pediatricHealth ? [...query.routing, ...deliveryTerms] : query.routing, part.path);
+        lookupTerms(query), part.path);
       const left = multiple.get(address) - 1;
       multiple.set(address, left);
       if (left) shared.set(address, chunk);
@@ -579,7 +592,7 @@
     for (const hit of matches.sort(order)) {
       const {record} = hit;
       // Preserve distinct locations and collapse equivalent spellings within an archive.
-      const key = record.asset_id + '\0' + (record.kind === 'article' ? normalize(record.title) : record.href);
+      const key = record.asset_id + '\0' + (record.kind === 'article' ? normalize(hit.rankTitle || record.location) : record.href);
       if (seen.has(key)) continue;
       seen.add(key);
       const count = perSource.get(record.asset_id) || 0;
@@ -607,7 +620,7 @@
     return [...head, ...passages, ...other.filter(hit => !promoted.has(hit)), ...later].slice(0, limit);
   }
 
-  function classic(script, selection, table) {
+  function classic(script, selection, table, run = search) {
     if (selection.version !== 1 || !Array.isArray(selection.sources)) throw Error('Invalid search selection');
     let ready;
     const loadModel = () => ready ??= (async () => {
@@ -658,11 +671,11 @@
       return task;
     };
     return async (text, shelf, limit, cancelled, onProgress) =>
-      search(selection, await loadModel(), readPart, text, shelf, limit, cancelled, onProgress);
+      run(selection, await loadModel(), readPart, text, shelf, limit, cancelled, onProgress);
   }
 
-  const api = {classic, model, binaryQuery, bytes, search, terms, prepareQuery, shouldRead, unpack, rankPart, normalize, result,
-    retainCandidates, topResults, hashTerm, pairHash, rankedQueue, readBudget: READ_BUDGET};
+  const api = {classic, model, binaryQuery, bytes, search, terms, prepareQuery, unpack, rankPart, normalize, result,
+    retainCandidates, topResults, lookupTerms, filter, vectorScore, placeholderTitle, displayTitle, hashTerm, pairHash, rankedQueue, readBudget: READ_BUDGET};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLShardRank = api;
 })(globalThis);

@@ -19,10 +19,14 @@ index passages on individual physical pages and carry forward outline headings.
 New HTML shards segment visible text by headings and use the source’s existing
 anchors where present. Sources with image-only pages still supply page locators.
 A restricted source’s text contributes word postings and vectors. Result
-titles include the book or source title, any available section heading, and
-the physical page. Restricted text excerpts are suppressed. New archive shards index article titles
-and paths, and selected archives also contribute lead paragraphs or accepted
-answers. Archive coverage varies by source. [ZIM coverage](zim-search-coverage.md)
+titles use the book or source title for unnamed PDF pages, with the physical
+page shown separately. Restricted text excerpts are suppressed. New archive
+shards index article titles and paths. For filename-like HTML titles, the
+extractor checks the HTML title and first usable heading. Existing CD3WD
+shards carry title overrides recovered from the pinned archive. When the
+source has no readable heading, the result uses the collection title and
+keeps the archive path visible. Selected archives also contribute lead
+paragraphs or accepted answers. Archive coverage varies by source. [ZIM coverage](zim-search-coverage.md)
 
 Editorial concept groups add common terms, spelling variants and question
 wording at indexing time. At search time, the ranker removes common question
@@ -43,8 +47,9 @@ vectors from preserved search data while keeping restricted excerpts redacted.
 Title-directory entries use word postings reconstructed from their titles.
 [Model revision](https://huggingface.co/minishlab/potion-retrieval-32M/tree/6fc8051fab2a1e0ee76689cf08c853792ac285e7)
 
-The builders verify and copy the model header, weight scripts and MIT notice
-once per drive. The search page loads the weights on its first indexed query.
+The same generated composition plan supplies source order, physical paths,
+pins and ranker metadata to both builders. The builders verify and copy the
+model header, weight scripts and MIT notice once per drive. The search page loads the weights on its first indexed query.
 It uses classic local scripts, DecompressionStream for compressed shards and a
 network-denying CSP. Word postings retrieve literal matches and Bloom filters
 route them to chunks. Hamming distance admits additional passage and lead
@@ -113,3 +118,15 @@ just the first 28 MB of candidate chunks and can return fewer relevant hits.
 The offline UI continues past that budget. The optional task export records the first three
 results for each natural-language task in `tests/search/task-queries.json`,
 with the title, source, locator and any displayable excerpt for grading.
+
+## Term-index experiment
+
+`node scripts/build_query_index.cjs DRIVE/LIBRARY/SEARCH/shards.js DRIVE/LIBRARY/SEARCH OUTPUT WORK`
+compiles an existing drive's selected chunks into an experimental lookup
+index in separate output and work directories. Its classic scripts contain
+sorted term dictionaries, delta-coded posting blocks and binary-code
+partitions. The reader locates terms without scanning other dictionaries and
+uses the selected posting and vector blocks to choose record chunks for the
+existing ranker. Both production builders currently use complete shard
+ranking. The experiment still needs to fit the allocated drive space, preserve
+recall with a bounded queue and decouple final record reads from shard chunks.

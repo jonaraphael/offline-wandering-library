@@ -7,8 +7,11 @@ const root = "LIBRARY/SEARCH/";
 const dig = /^[a-f0-9]{64}$/;
 const encoder = new TextEncoder();
 const charge = row => encoder.encode(JSON.stringify(row)).length;
-const wrap = (name, value) => "globalThis." + name + "(" + JSON.stringify(value) + ");\n";
-const locator = path => path.split("/").map(encodeURIComponent).join("/");
+const canonical = value => JSON.stringify(value, (_key, item) => item && !Array.isArray(item) && typeof item === "object"
+  ? Object.fromEntries(Object.entries(item).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)) : item);
+const wrap = (name, value) => "globalThis." + name + "(" + canonical(value) + ");\n";
+const locator = path => path.split("/").map(segment => encodeURIComponent(segment)
+  .replace(/[!'()*]/g, char => "%" + char.charCodeAt(0).toString(16).toUpperCase())).join("/");
 
 async function transfer(drive, base, path, pin, fetchFile, signal, network) {
   if (!dig.test(pin.sha256) || !Number.isInteger(pin.bytes) || pin.bytes < 1 || pin.bytes > 3_000_000) {
@@ -40,32 +43,35 @@ async function transfer(drive, base, path, pin, fetchFile, signal, network) {
   return pin.sha256 + "  " + relative;
 }
 
-export async function assembleSearch(drive, {completed, layouts, navigation, config, fetchFile, signal, budget, network}) {
-  const {manifest, base, records, page, runtime, rankRuntime, queryRoutes = {}} = config;
+export async function assembleSearch(drive, {completed, layouts, config, fetchFile, signal, budget, network}) {
+  const {plan, base, records, page, runtime, rankRuntime} = config;
   const warnings = [];
   const omittedForSpace = [];
-  const modelParts = manifest.model_parts || [];
-  const selection = {version: 1, sources: [], model_parts: modelParts.length};
+  const selection = {version: plan.version, sources: [], model_parts: plan.model_parts};
   const checksums = new Map();
   const pages = new Map();
   const selected = new Map(completed.map(asset => [asset.id, asset]));
+  const documents = new Map(records.filter(record => record.kind === "document").map(record => [record.asset_id, record]));
   const recordsHere = records.flatMap(record => {
-    if (record.kind === "topic") return record.source_ids.some(id => selected.has(id)) ? [record] : [];
+    if (record.kind === "topic") {
+      const source_ids = record.source_ids.filter(id => selected.has(id));
+      if (!source_ids.length) return [];
+      const shelves = [...new Set(source_ids.flatMap(id => documents.get(id).shelves))].sort();
+      const legacy = source_ids.every(id => documents.get(id).legacy);
+      return [{...record, source_ids, shelves, legacy}];
+    }
     if (!selected.has(record.asset_id)) return [];
     const destination = layouts.get(record.asset_id)[0].path.slice("LIBRARY/".length);
     const fragment = record.href.includes("#") ? "#" + record.href.split("#")[1] : "";
     return [{...record, href: locator(destination) + fragment, destination}];
   });
-  if (manifest.version !== 1) throw Error("Unsupported precomputed search schema");
-  const matches = completed.filter(asset => dig.test(asset.sha256) && Object.hasOwn(manifest.sources, asset.sha256));
-  matches.sort((a, b) => Number(Boolean(b.critical)) - Number(Boolean(a.critical)) ||
-    manifest.sources[a.sha256].records - manifest.sources[b.sha256].records || a.id.localeCompare(b.id, "en"));
-  let remaining = budget - charge(recordsHere) - charge(page) - charge(runtime) - 100_000;
-  if (matches.length && manifest.model && manifest.license) {
-    const files = [["model.js", manifest.model], ["model-license.txt", manifest.license],
-      ...modelParts.map((pin, number) => ["model/" + String(number).padStart(2, "0") + ".js", pin])];
+  if (plan.version !== 1) throw Error("Unsupported precomputed search schema");
+  const matches = plan.sources.filter(({row}) => selected.get(row.id)?.sha256 === row.sha256);
+  let remaining = budget - charge(recordsHere) - charge(page) - charge(runtime) - charge(rankRuntime) - plan.reserve;
+  const files = plan.model;
+  if (matches.length && files.length) {
     if (files.reduce((sum, [, pin]) => sum + pin.bytes, 0) > remaining) {
-      omittedForSpace.push(...matches.map(asset => asset.id));
+      omittedForSpace.push(...matches.map(({row}) => row.id));
       matches.length = 0;
     }
     try {
@@ -80,43 +86,23 @@ export async function assembleSearch(drive, {completed, layouts, navigation, con
       matches.length = 0;
     }
   }
-  for (const asset of matches) {
-    const shard = manifest.sources[asset.sha256];
-    const meta = navigation.assets[asset.id] || {};
-    const parts = [];
-    for (const pool of shard.shared || []) {
-      if (!dig.test(pool) || !Object.hasOwn(manifest.shared, pool)) throw Error("Invalid shared search pool");
-      for (const [number, pin] of manifest.shared[pool].parts.entries()) parts.push({pool, number, pin});
-    }
-    for (const [number, pin] of (shard.parts || []).entries()) parts.push({pool: asset.sha256, number, pin});
-    const row = {id: asset.id, sha256: asset.sha256, title: asset.title, format: asset.format,
-      category: asset.category, critical: Boolean(asset.critical),
-      discussion: (asset.source_url || "").includes("/stack_exchange/"),
-      destination: layouts.get(asset.id)[0].path.slice("LIBRARY/".length), license: asset.license,
-      attribution: meta.attribution, restricted: asset.redistributable === false, shelves: meta.shelves || [], legacy: Boolean(meta.legacy),
-      records: shard.records, main: shard.main, entrypoints: shard.entrypoints, parts: parts.map(
-        ({pool, number, pin}) => {
-          const {bloom, vectors, passages, lead_vectors, semantic_vectors, sha256, bytes, path} = pin;
-          const route = queryRoutes[sha256];
-          return {bloom, vectors, passages, lead_vectors, semantic_vectors, ...(shard.shared && {pool, number}),
-            ...(route && {route, bytes}), ...(path && {path})};
-        })};
-    const paths = parts.map(({pool, number, pin}) => {
-      if (!pin.path) return "sources/" + pool + "/" + String(number).padStart(5, "0") + ".js";
-      if (!dig.test(pin.sha256) || pin.path !== "chunks/" + pin.sha256 + ".js") throw Error("Invalid search chunk path");
-      return pin.path;
-    });
-    const newParts = new Map(paths.flatMap((path, index) => checksums.has(path) ? [] : [[path, parts[index].pin.bytes]]));
-    const cost = charge(row) + [...newParts.values()].reduce((sum, bytes) => sum + bytes, 0);
+  for (const source of matches) {
+    const paths = source.parts;
+    const row = {...source.row, destination: layouts.get(source.row.id)[0].path.slice("LIBRARY/".length),
+      parts: paths.map(path => plan.chunks[path].rank)};
+    const newParts = [...new Set(paths)].filter(path => !checksums.has(path));
+    const cost = charge(row) + 1 + newParts.reduce((sum, path) => sum + plan.chunks[path].pin.bytes, 0);
     if (cost > remaining) {
-      omittedForSpace.push(asset.id);
+      omittedForSpace.push(row.id);
       continue;
     }
     const whole = sha256.create();
     try {
-      for (const [index, {pin}] of parts.entries()) {
+      for (const path of paths) {
         signal?.throwIfAborted();
-        const path = paths[index];
+        const {pin} = plan.chunks[path];
+        if (path !== "chunks/" + pin.sha256 + ".js" && !/^sources\/[a-f0-9]{64}\/\d{5}\.js$/.test(path))
+          throw Error("Invalid search chunk path");
         if (!checksums.has(path)) {
           const line = await transfer(drive, base, path, pin, fetchFile, signal, network);
           checksums.set(path, line);
@@ -125,17 +111,17 @@ export async function assembleSearch(drive, {completed, layouts, navigation, con
         const stored = await (await fileHandle(drive, root + path)).getFile();
         whole.update(new Uint8Array(await stored.arrayBuffer()));
       }
-      if (bytesToHex(whole.digest()) !== shard.sha256) throw Error("Whole search shard SHA-256 differs");
+      if (bytesToHex(whole.digest()) !== source.sha256) throw Error("Whole search shard SHA-256 differs");
       selection.sources.push(row);
-      remaining -= charge(row);
+      remaining -= charge(row) + 1;
     } catch (error) {
       signal?.throwIfAborted();
-      warnings.push(asset.title + " search — " + error.message);
+      warnings.push(row.title + " search — " + error.message);
     }
   }
   const format = "owl-discovery-v1";
-  const generation = bytesToHex(sha256(encoder.encode(JSON.stringify(recordsHere))));
-  const data = JSON.stringify({format, generation, records: recordsHere}) + "\n";
+  const generation = bytesToHex(sha256(encoder.encode(canonical(recordsHere) + "\n")));
+  const data = canonical({format, generation, records: recordsHere}) + "\n";
   const digest = bytesToHex(sha256(encoder.encode(data)));
   const path = "SEARCH/data/" + digest + ".js";
   const composed = selection.sources.length > 0;
