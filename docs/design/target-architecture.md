@@ -2,7 +2,7 @@
 
 ## Catalog and recommendation
 
-Round 1 keeps immutable download pins in the build catalog and gives each
+The planner keeps immutable download pins in the build catalog and gives each
 selectable asset a primary planning domain, depth level (L0 essentials through
 L4 deep collections), rank within that domain and level, and an optional edition
 group. The ten practical domains remain first-class. General reference, additional
@@ -18,31 +18,30 @@ with the measurement scope. Keep archive-source and reader dependencies
 explicit. A search shard reference binds its format version and digest to the
 asset's content hash.
 
-Python compiles a capacity ladder from the catalog. Python and JavaScript consume
-the same ladder, and shared test vectors check both consumers against the same
-plans. Capacity is decimal and the default stops growing at 1 TB. The planner
-deducts filesystem headroom, free reserve, readers and index/workspace before
-recommending content. Advancing to level L requires every domain to have
-reached its highest available level below L. A domain with no such offering has no prerequisite. The same rule applies
-at each transition. Common capacity checkpoints bound the packing passes.
-The compiler tries breadth and depth orderings using whole collections and the
-incremental cost of edition upgrades. Within each packed band, smaller
-eligible steps enter first. At intermediate capacities the planner takes the
-longest fitting prefix. Large archives can leave gaps between
-checkpoints. The default preserves selected assets as capacity
-grows, except for upgrades within a group. Explicit user additions, removals and
-edition changes can change that balance and still pass through the fit check.
+Python compiles the capacity ladder from the catalog. Python and JavaScript
+load those same choices, accept decimal bytes and cap default content at 1 TB.
+The compiler deducts filesystem headroom, free reserve, readers and room for
+metadata and discovery. Every recommendation includes the entire CRITICAL tier
+and small samplers for enrichment, computing and college study.
 
-Measure depth by the highest selected level per domain. Measure proportional
-retention for each domain as its selected bytes divided by its 1 TB selected
-bytes. Compare with overall selected bytes divided by 1 TB selected bytes. At
-the capacity checkpoints, each domain must keep at least 7.5% of its
-proportional share. For example, at 100 GB of selected content against a
-1,000 GB reference, a domain must keep at least 0.75% of its full-selection
-bytes. This floor detects missing foundations while allowing indivisible
-archives. The planning domains beyond the ten practical domains cover general
-reference, advanced study, computing, culture and languages. Reader bytes are
-accounted for as support.
+The persistent core starts with essential collections and grows through larger
+editions and practical archives. A separate subset search fills the remaining
+space with complete collections. It checks exact catalog bytes after searching
+rounded costs. A filler can give way to the next persistent collection. English
+Wikipedia progresses through one selected edition at a time, ending with the
+illustrated edition. The planner checks quarter-GB intervals through the last
+byte of each interval. At the 14 common checkpoints it also checks for at least
+97% of the usable knowledge budget.
+
+Each tier's retention is its selected knowledge bytes divided by its knowledge
+bytes in the 1 TB default. USEFUL retention must meet or exceed NONESSENTIAL
+retention at every drive size. At each checkpoint, a domain with at least 1 GB in
+the full default keeps at least one third of overall retention. A domain can fall
+short when its next asset exceeds 10% of the drive label. The next asset is the
+earliest omitted contributor from the 1 TB default by planning level, rank and ID.
+For multi-subject archives, the catalog records attribution weights and their
+basis. These shares estimate subject breadth. Editorial review of actual tasks
+and relevant source editions determines coverage.
 
 ## Browser build and drive layout
 

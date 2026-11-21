@@ -2,7 +2,7 @@
 
 OWL builds an offline knowledge library directly on an external drive. This repository contains URLs, hashes, selection rules, build tools and small interface assets. Books, maps, encyclopedias and reader packages download during the build.
 
-The defaults prioritize substantial, diversified information useful in a post-internet, low-electronic life. **CRITICAL** covers survival, health, food, water and shelter. **USEFUL** covers practical trades, repair, appropriate technology and education through high school. **NONESSENTIAL** covers stories, college textbooks, computing and enrichment. The recommendation can add these after the practical foundation.
+The defaults prioritize knowledge for a post-internet, low-electronic life. **CRITICAL** covers survival, health, food, water and shelter. Every default includes the entire critical tier. **USEFUL** covers practical trades, repair, appropriate technology, general reference and education through high school. **NONESSENTIAL** covers stories, college textbooks, computing and enrichment. A small sampler preserves those subjects, while recommendations retain at least as much of the full USEFUL tier as of the full NONESSENTIAL tier.
 
 Every selectable asset passes the [machine-readable content-type policy](src/owl/content_policy.json). The [priority policy](src/owl/utility_policy.json) requires practical domain coverage in every default, without book-count or content-size quotas. PDFs and ZIMs download unchanged; Python and Canadian map ZIPs are unpacked without altering the PDF files. No active selection requires EPUB conversion, HTML reconstruction or document rendering.
 
@@ -33,8 +33,10 @@ The selector's command uses `--detach` to start a saved background job. Inspect,
 ## Capacity and content
 
 The default recommendation covers capacities from 16 GB. It accounts for
-filesystem headroom, free space to retain, readers and discovery files. English
-Wikipedia has editions at several depths and occupies one slot in a default.
+filesystem headroom, free space to retain, readers and discovery files. The
+planner keeps a growing set of collections and fills the remaining space with
+collections that can change as the next archive fits. One English Wikipedia
+edition occupies that collection slot, with illustrated Wikipedia in the 1 TB default.
 The 1 TB default applies on larger drives, leaving the extra capacity available
 for optional collections. The builder checks actual free space.
 

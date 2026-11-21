@@ -15,10 +15,15 @@
       throw Error("Enter a capacity of at least 16 GB");
     const capped = Math.min(capacityBytes, policy.limit);
     const margin = capacity => Math.max(policy.minimum_margin, Math.floor(capacity / policy.margin_divisor));
-    const budget = capped - 2 * margin(capped) - policy.readers - policy.discovery - OVERHEAD;
     const editions = {[READERS]: "published"};
     for (const [threshold, resource, edition] of policy.transitions) {
-      if (threshold > budget) break;
+      if (threshold > capped) break;
+      editions[resource] = edition;
+    }
+    let step = policy.fillers.length - 1;
+    while (policy.fillers[step][0] > capped) step--;
+    for (const index of policy.fillers[step][1]) {
+      const [resource, edition] = policy.filler_placements[index];
       editions[resource] = edition;
     }
     const defaults = Object.keys(editions).sort();

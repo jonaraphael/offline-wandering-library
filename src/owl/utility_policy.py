@@ -33,6 +33,12 @@ def require_utility_policy(assets, resources, profiles, resources_path):
                 or (a['utility_tier'] == 'CRITICAL' and level != 0)):
             raise CatalogError(f"{a['id']}: invalid or duplicate domain, level and rank")
         ranking.add((domain, level, rank))
+        weights = data.get('domain_weights')
+        if weights is not None and (not isinstance(weights, dict) or not weights or
+                set(weights) - (planning_domains & set(a['knowledge_domains'])) or
+                any(type(weight) is not int or weight <= 0 for weight in weights.values()) or
+                not isinstance(data.get('weight_basis'), str) or not data['weight_basis'].strip()):
+            raise CatalogError(f"{a['id']}: domain weights require declared planning domains and a basis")
         if a.get('digest_algorithm') != 'sha256':
             raise CatalogError(f"{a['id']}: digest algorithm must be SHA-256")
         browser = a.get('browser_fetch', {})
@@ -40,6 +46,14 @@ def require_utility_policy(assets, resources, profiles, resources_path):
             browser.get(field) not in (True, False, None) for field in ('cors', 'range')
         ):
             raise CatalogError(f"{a['id']}: invalid source browser metadata")
+        mirrors = a.get('mirror_fetch', {})
+        if not isinstance(mirrors, dict) or mirrors.keys() - set(a.get('mirrors', [])) or any(
+            not isinstance(evidence, dict) or evidence.get('sha256_verified') is not True or
+            any(evidence.get(field) is not None and type(evidence[field]) is not bool for field in ('cors', 'range')) or
+            any(not isinstance(evidence.get(field), str) or not evidence[field] for field in ('origin', 'checked_on'))
+            for evidence in mirrors.values()
+        ):
+            raise CatalogError(f"{a['id']}: invalid verified mirror browser metadata")
     mapped = set()
     for resource in resources.values():
         ids = set(resource['asset_ids']).union(*(e['asset_ids'] for e in resource.get('editions', {}).values()))

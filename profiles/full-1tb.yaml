@@ -12,12 +12,14 @@ default_resources:
 - astronomy-picture
 - bookdash-archive
 - cd3wd
+- cdc-travelers-health
 - celtic-scores
 - childrens-library
-- chopin-archive
 - civilian-preparedness
 - computing-communities
 - crash-course
+- desktop-fabrication
+- eawag-sanitation-compendium-2e
 - energypedia
 - engineering-qa
 - environment-encyclopedia
@@ -27,14 +29,12 @@ default_resources:
 - gardenology
 - gutenberg-a
 - gutenberg-b
-- gutenberg-cdef
 - gutenberg-core
 - gutenberg-g
 - gutenberg-h
 - gutenberg-j
 - gutenberg-k
 - gutenberg-m
-- gutenberg-n
 - gutenberg-p
 - gutenberg-pa
 - gutenberg-pb
@@ -45,11 +45,7 @@ default_resources:
 - gutenberg-pg
 - gutenberg-ph
 - gutenberg-pj
-- gutenberg-pk
-- gutenberg-pl
 - gutenberg-pm
-- gutenberg-pn
-- gutenberg-pq
 - gutenberg-pr
 - gutenberg-ps
 - gutenberg-pt
@@ -59,8 +55,12 @@ default_resources:
 - hesperian-health
 - homebrewing-qa
 - ifixit
+- ifrc-shelter-handbook
+- ifrc-shelter-projects
 - juvenile-literature
 - khan-academy
+- librepathology
+- libretexts-statistics
 - libretexts-stem
 - linux-programming-docs
 - low-tech-magazine
@@ -75,7 +75,9 @@ default_resources:
 - niosh-chemical-hazards
 - oer4schools
 - openstax-core
+- osa-seed-saving-2010
 - osm-guides
+- outdoors-qa
 - owl-direct-core
 - phet
 - phet-archive
@@ -93,6 +95,7 @@ default_resources:
 - sustainable-living
 - ted-ed
 - trail-maintenance
+- uaf-root-cellars-hga00331
 - usaid-archive
 - voa-learning
 - water-supply-maintenance
@@ -107,7 +110,7 @@ default_resources:
 - wikiversity-en
 - wikivoyage-en
 - wiktionary-en
+- womens-history
 - world-factbook
 - world-maps
-default_editions:
-  wikipedia-en: nopic
+default_editions: {}

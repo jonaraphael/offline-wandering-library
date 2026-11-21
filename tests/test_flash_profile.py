@@ -6,6 +6,8 @@ from unittest.mock import patch
 
 from owl.build import build
 from owl.catalog import capacity_plan, learning_coverage, load_catalog, load_profiles, resolve_content
+from owl.resources import load_resources
+from owl.selection import MIN_CAPACITY, ladder_choices, load_ladder
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -21,12 +23,11 @@ class FlashProfileTests(unittest.TestCase):
         return resolve_content(self.assets, profile or self.profile,
                                resources_path=ROOT / 'catalog/resources.yaml', **kwargs)
 
-    def test_small_presets_are_pinned_substantial_and_nested(self):
+    def test_small_presets_are_pinned_and_substantial(self):
         flash, unresolved, resources = self.selection()
         critical, _, _ = self.selection(self.profiles['critical-64gb'])
         self.assertGreaterEqual(len(flash), 400)
-        self.assertLess({a.get('selection', {}).get('edition_group') or a['id'] for a in flash},
-                        {a.get('selection', {}).get('edition_group') or a['id'] for a in critical})
+        self.assertGreater(sum(a['size_bytes'] for a in critical), sum(a['size_bytes'] for a in flash))
         self.assertEqual(unresolved, [])
         self.assertFalse(resources["incomplete_resources"])
         for selected in (flash, critical):
@@ -70,9 +71,13 @@ class FlashProfileTests(unittest.TestCase):
             self.assertEqual(plan['content_bytes'], sum(a['size_bytes'] for a in assets))
             self.assertNotIn('content_target_min_bytes', profile)
 
-    def test_every_size_retains_the_expanded_direct_foundation(self):
+    def test_every_size_retains_the_persistent_direct_foundation(self):
+        resources = load_resources(ROOT / 'catalog/resources.yaml', self.assets)
+        core, _ = ladder_choices(MIN_CAPACITY, load_ladder(ROOT / 'catalog/library.yaml'))
+        core_ids = {aid for rid in core for aid in resources[rid]['asset_ids']}
         flash, _, _ = self.selection()
-        direct_ids = {a['id'] for a in flash if a['format'] != 'zim' and not a['destination'].startswith('SOFTWARE/')}
+        direct_ids = {a['id'] for a in flash if a['id'] in core_ids and a['format'] != 'zim'}
+        self.assertTrue({'medical_bec', 'sanitation', 'openstax_physics', 'usfs_ax_manual'} <= direct_ids)
         for name in ('critical-64gb', 'compact-256gb', 'standard-512gb', 'full-1tb'):
             selected, _, _ = self.selection(self.profiles[name])
             self.assertTrue(direct_ids <= {a['id'] for a in selected}, name)

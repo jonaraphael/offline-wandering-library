@@ -17,8 +17,9 @@ capacity, enter decimal GB and select **Recommend files**. The page opens with t
 command carries the entered capacity as `--capacity-bytes`.
 
 Change collection checkboxes or use topic and text filters to select individual
-files. Totals update immediately. The recommendation includes critical material
-and adds other collections with capacity. Regional topographic sheets and
+files. Totals update immediately. Every recommendation includes all critical
+files. The core grows with capacity. Collections that fill its remaining space
+can change when a larger archive becomes available. Regional topographic sheets and
 non-English Wikipedias start unchecked. The
 [generated capacity table](content-selection.md) lists the common-size plans.
 
@@ -38,7 +39,9 @@ navigation metadata still receive title/description search and static file lists
 **Published collection** uses the resource's existing formats and scope, which can
 be ordinary files, archives, or a mixture. **Direct-readable edition** and
 **Compact archive edition** require separately registered entries in the resource's
-optional `editions` mapping, with exact asset references and size. English Wikipedia also offers `top`, `mini` and `nopic` editions.
+optional `editions` mapping, with exact asset references and size. English
+Wikipedia offers `top`, `mini` and `nopic`. Its published edition is the
+illustrated `maxi` archive.
 
 The selector enables an alternate edition only when its actual pinned files are
 registered. Unsupported choices stay disabled. It does not compress PDFs,
@@ -138,6 +141,7 @@ The checked-in selector is generated from the catalog, registry, profiles, and
 templates. After changing those inputs, regenerate it from the repository:
 
 ```bash
+python scripts/build_capacity_ladder.py
 python scripts/build_selector.py
 ```
 

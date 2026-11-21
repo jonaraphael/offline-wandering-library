@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: eawag_sanitation_compendium_2e
+assignments:
+- topic_id: sanitation
+  purpose: reference

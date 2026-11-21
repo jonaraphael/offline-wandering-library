@@ -78,6 +78,10 @@ def load_resources(path: Path, assets: list[dict]) -> dict[str, dict]:
         row["reason"] = reason
         if "opt_in" in row and type(row["opt_in"]) is not bool:
             raise CatalogError(f"{identity}: opt_in must be boolean")
+        if "default_sampler" in row and (type(row["default_sampler"]) is not bool or
+                row["default_sampler"] and (row.get("opt_in") or row["status"] != "ready" or
+                                            row.get("utility_tier") != "NONESSENTIAL" or row.get("editions"))):
+            raise CatalogError(f"{identity}: a default sampler must be one ready NONESSENTIAL collection")
         device = row.get("device_validation")
         if device is not None:
             if (not isinstance(device, dict) or

@@ -21,13 +21,18 @@ An empty asset `profiles` list means it is selected only through a named resourc
 
 The production profiles and `catalog/capacity-ladder.json` are generated.
 Each asset records its primary planning `selection.domain`, `selection.level`,
-and `selection.rank`. Distinct `knowledge_domains` remain available for editorial
-tags. Use `selection.edition_group` for editions that substitute inside one
-collection. `browser_fetch` records CORS and range observations. Record publisher
-SHA-256 provenance in `digest_source` when applicable. See the
+and `selection.rank`. For archives that span planning domains, give their
+shares as positive integer parts in `selection.domain_weights`. Include each
+weighted domain among the asset's `knowledge_domains` and explain the evidence
+or editorial estimate in `selection.weight_basis`. Use `selection.edition_group`
+for editions that substitute inside one collection. `browser_fetch` records
+CORS and range observations for the source. Add a mirror only after comparing
+the entire file to the pin. Record its URL-specific observations in
+`mirror_fetch`, using null for an unmeasured result. Record publisher SHA-256
+provenance in `digest_source` when applicable. See the
 [capacity design](design/target-architecture.md) and [ledger](content-ledger.md).
 
-Resources list actual finished files with exact summed sizes, source limitations and shared priority. Split different priorities into separate collections so NONESSENTIAL material can remain opt-in. `--include` and `--exclude` accept stable resource IDs or existing collection numbers. Never create empty wishlist entries to inflate available content.
+Resources list actual finished files with exact summed sizes, source limitations and shared priority. Split different priorities into separate collections. Assign `default_sampler: true` to a small finished NONESSENTIAL collection that belongs in every default. `--include` and `--exclude` accept stable resource IDs or existing collection numbers. Never create empty wishlist entries to inflate available content.
 
 Maintain [the editorial coverage plan](full-1tb-coverage-plan.md) in
 `catalog/coverage-plan.yaml` in the same change as new selections. Record intended

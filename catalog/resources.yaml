@@ -543,8 +543,8 @@ resources:
   number: 11
   target_bytes: 127418087648
   status: ready
-  reason: Finished published files covering the listed collection; downloaded unchanged.
-    ZIM archives use the bundled Kiwix reader.
+  reason: Illustrated English Wikipedia (maxi) with full articles and media.
+    This is the published edition of the collection.
   asset_ids:
   - wikipedia_en
   utility_tier: USEFUL
@@ -723,7 +723,7 @@ resources:
 - id: stackexchange-practical
   title: Practical Stack Exchange bundle
   number: 21
-  target_bytes: 7893948720
+  target_bytes: 7752540793
   status: ready
   reason: Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
@@ -733,7 +733,6 @@ resources:
   - stackexchange_gardening
   - stackexchange_ham
   - stackexchange_mechanics
-  - stackexchange_outdoors
   - stackexchange_sustainability
   - stackexchange_woodworking
   utility_tier: USEFUL
@@ -853,7 +852,7 @@ resources:
 - id: libretexts-stem
   title: LibreTexts STEM and medicine
   number: 23
-  target_bytes: 9088921656
+  target_bytes: 8873142508
   status: ready
   reason: Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
@@ -865,7 +864,6 @@ resources:
   - libretexts_math
   - libretexts_med
   - libretexts_phys
-  - libretexts_stats
   utility_tier: NONESSENTIAL
   utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
     life.
@@ -1016,9 +1014,8 @@ resources:
     ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - world_factbook_en
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Country profiles and maps provide geographic and civic reference.
   knowledge_domains:
   - geography
   preferred_formats:
@@ -1027,6 +1024,7 @@ resources:
   - Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
 - id: linux-programming-docs
+  default_sampler: true
   title: Programming and computer manuals (optional)
   number: 31
   target_bytes: 74787261
@@ -1436,12 +1434,11 @@ resources:
 - id: computing-communities
   title: Computing, GIS and 3D printing communities
   number: null
-  target_bytes: 7565811368
+  target_bytes: 7445673094
   status: ready
   reason: Finished community reference ZIMs; optional advanced computing and digital
     fabrication.
   asset_ids:
-  - stackexchange_3dprinting
   - stackexchange_gis
   - stackexchange_superuser
   - stackexchange_unix
@@ -1909,9 +1906,8 @@ resources:
     the archive.
   asset_ids:
   - osm_guides
-  utility_tier: NONESSENTIAL
-  utility_reason: Offline reference for this subject. Original publisher notices remain
-    in the archive.
+  utility_tier: USEFUL
+  utility_reason: Published OpenStreetMap reference for understanding maps, routing and geographic data.
   knowledge_domains:
   - navigation
   preferred_formats:
@@ -2202,6 +2198,7 @@ resources:
   preferred_formats:
   - zim
 - id: gutenberg-p
+  default_sampler: true
   title: Project Gutenberg — General linguistics
   target_bytes: 40686240
   status: ready
@@ -2457,6 +2454,7 @@ resources:
   preferred_formats:
   - zim
 - id: gutenberg-pt
+  default_sampler: true
   title: Project Gutenberg — Germanic literatures
   target_bytes: 647007234
   status: ready
@@ -2568,3 +2566,145 @@ resources:
   preferred_formats:
   - pdf
   opt_in: true
+- id: uaf-root-cellars-hga00331
+  title: Root Cellars
+  target_bytes: 245339
+  status: ready
+  asset_ids:
+  - uaf_root_cellars_hga00331
+  utility_tier: USEFUL
+  utility_reason: Illustrated designs for small root cellars and storage conditions
+    for harvested produce.
+  knowledge_domains:
+  - food-preservation
+  preferred_formats:
+  - pdf
+  reason: Illustrated designs for small root cellars and storage conditions for harvested
+    produce.
+- id: ifrc-shelter-handbook
+  title: Shelter Safety Handbook
+  target_bytes: 1120602
+  status: ready
+  asset_ids:
+  - ifrc_shelter_handbook
+  utility_tier: USEFUL
+  utility_reason: Illustrated construction guidance for community shelters exposed
+    to wind, flood and earthquakes.
+  knowledge_domains:
+  - shelter
+  preferred_formats:
+  - pdf
+  reason: Illustrated construction guidance for community shelters exposed to wind,
+    flood and earthquakes.
+- id: ifrc-shelter-projects
+  title: Shelter Projects 2008–2023 — Red Cross Red Crescent edition
+  target_bytes: 132942602
+  status: ready
+  asset_ids:
+  - ifrc_shelter_projects
+  utility_tier: USEFUL
+  utility_reason: 33 case studies on shelter and recovery programmes worldwide.
+  knowledge_domains:
+  - shelter
+  preferred_formats:
+  - pdf
+  reason: 33 case studies on shelter and recovery programmes worldwide.
+- id: eawag-sanitation-compendium-2e
+  title: Compendium of Sanitation Systems and Technologies
+  target_bytes: 9483264
+  status: ready
+  asset_ids:
+  - eawag_sanitation_compendium_2e
+  utility_tier: USEFUL
+  utility_reason: Second edition with 57 illustrated technology sheets and system
+    layouts.
+  knowledge_domains:
+  - water-sanitation
+  preferred_formats:
+  - pdf
+  reason: Second edition with 57 illustrated technology sheets and system layouts.
+- id: osa-seed-saving-2010
+  title: A Seed Saving Guide for Gardeners and Farmers
+  target_bytes: 5463060
+  status: ready
+  asset_ids:
+  - osa_seed_saving_2010
+  utility_tier: USEFUL
+  utility_reason: Seed saving and storage for garden and farm crops.
+  knowledge_domains:
+  - agriculture
+  preferred_formats:
+  - pdf
+  reason: Seed saving and storage for garden and farm crops.
+- id: cdc-travelers-health
+  title: CDC Travelers’ Health
+  target_bytes: 178326622
+  status: ready
+  asset_ids:
+  - cdc_travelers_health
+  utility_tier: USEFUL
+  utility_reason: Archived CDC travel health site, with location-specific health information
+    and prevention references.
+  knowledge_domains:
+  - health
+  preferred_formats:
+  - zim
+  reason: Archived CDC travel health site, with location-specific health information
+    and prevention references.
+- id: librepathology
+  title: Libre Pathology
+  target_bytes: 95279611
+  status: ready
+  asset_ids:
+  - librepathology
+  utility_tier: USEFUL
+  utility_reason: Illustrated pathology reference for clinical and laboratory study.
+  knowledge_domains:
+  - health
+  preferred_formats:
+  - zim
+  reason: Illustrated pathology reference for clinical and laboratory study.
+- id: libretexts-statistics
+  title: LibreTexts Statistics
+  target_bytes: 215779148
+  status: ready
+  asset_ids:
+  - libretexts_stats
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - advanced-study
+  preferred_formats:
+  - zim
+  reason: Published subject archive.
+  default_sampler: true
+- id: desktop-fabrication
+  title: 3D Printing Stack Exchange
+  target_bytes: 120138274
+  status: ready
+  asset_ids:
+  - stackexchange_3dprinting
+  utility_tier: NONESSENTIAL
+  utility_reason: Requires substantial computing infrastructure; optional in a low-electronic
+    library.
+  knowledge_domains:
+  - computing
+  preferred_formats:
+  - zim
+  reason: Published subject archive.
+  default_sampler: true
+- id: outdoors-qa
+  title: The Great Outdoors Stack Exchange
+  target_bytes: 141407927
+  status: ready
+  asset_ids:
+  - stackexchange_outdoors
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - navigation
+  preferred_formats:
+  - zim
+  reason: Published subject archive.

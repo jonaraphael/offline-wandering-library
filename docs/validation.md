@@ -45,12 +45,24 @@ verified backup.
 
 ## Capacity ladder checks
 
-`python -m unittest discover -s tests -p test_capacity_ladder.py` checks the
-capacity grid from 16 GB through 2 TB, priority order, depth continuity, and
-Python and JavaScript parity. `python scripts/build_capacity_ladder.py --check`
-and `python scripts/build_selector.py --check` check generated files.
+`python -m unittest discover -s tests -p test_capacity_ladder.py` checks
+recommendations from 16 GB through 1 TB at intervals no wider than 0.25 GB,
+including the last byte before a change. It covers retained knowledge,
+critical assets, tier retention, persistent collections, domain coverage at the
+14 checkpoints, and Python and JavaScript parity. It also checks the 1 TB cap on
+larger drives. `python scripts/build_capacity_ladder.py --check` and
+`python scripts/build_selector.py --check` check generated files.
+
 `python scripts/check_links.py` checks pinned sizes and HTTP response headers
-with a HEAD and a one-byte range request.
+with a HEAD and a one-byte range request. The scheduled workflow enables
+`--stream-missing-size` for responses that omit the length. It can also use a
+full GET when a range request fails after a successful HEAD or for a mirror
+whose body already matched the hash. This reads one stream at a time, starts
+at most two per second, and checks pins up to 64 MiB. It aborts after the first
+excess byte and writes no payload files.
+Reports retain per-URL results. A catalog asset passes when one source or mirror
+has the pinned size and required response headers. The builder verifies the full
+SHA-256 during a build.
 
 ## Textbooks and illustrated guides
 

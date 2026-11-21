@@ -11,7 +11,7 @@ to `LIBRARY`, while the global checksum manifest records outer-directory paths.
 1. Use a dependable SSD and cable. Format it with your operating system’s ordinary disk tools if needed; OWL does not format drives. exFAT is the intended cross-platform filesystem.
 2. Identify the SSD’s mount location carefully. Use a dedicated `EMERGENCY_LIBRARY` directory so the library is easy to find.
 3. Install Python 3.11+ and OWL on the build computer. Install with `python -m pip install -e .` for normal builds. These dependencies are needed only while building.
-4. Review the resource registry, asset catalog, and source notes. The larger profiles describe planned selections with unresolved or partial collections; the small presets retain the verified directly readable collection. Use a profile that fits the actual available space. Reserve space for discovery, metadata, and downloads.
+4. Review the resource registry, asset catalog, and source notes. The default profiles select finished files with exact size and SHA-256 pins. Choose a capacity that fits the space on the drive. The planner budgets for discovery, metadata, readers and free space.
 5. Run a plan and inspect its selected files, source sizes, and warnings.
 
 ```bash
@@ -32,8 +32,9 @@ destination directory and choose POSIX shell or PowerShell. Run the copied plan
 before starting the build. The selector runs locally. Python and internet access
 are required for the build.
 
-The recommendation starts with critical material then adds depth across the
-domains. Each Wikipedia upgrade occupies the same collection slot. The 1 TB
+The recommendation includes the entire critical tier, adds depth through a
+persistent core, and fills gaps between large archives with replaceable
+collections. An upgrade replaces the selected Wikipedia edition. The 1 TB
 default applies on larger drives, with the extra capacity available for explicit
 additions. The [current selection table](content-selection.md) lists the pinned
 files and in-place planning peaks for the five common sizes.

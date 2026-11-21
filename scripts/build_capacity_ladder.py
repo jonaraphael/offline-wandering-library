@@ -14,6 +14,17 @@ from owl.resources import load_resources
 from owl.selection import BUILTIN_CAPACITIES, GB, compile_ladder, recommended_profile
 
 
+def render_ladder(ladder):
+    def row(value):
+        return json.dumps(value, separators=(",", ":"))
+
+    sections = []
+    for key, value in ladder.items():
+        content = "[\n    " + ",\n    ".join(map(row, value)) + "\n  ]" if isinstance(value, list) else row(value)
+        sections.append(f'  "{key}": {content}')
+    return "{\n" + ",\n".join(sections) + "\n}\n"
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
@@ -21,9 +32,7 @@ def main(argv=None):
     assets = load_catalog(ROOT / "catalog/library.yaml")
     resources = load_resources(ROOT / "catalog/resources.yaml", assets)
     ladder = compile_ladder(assets, resources)
-    outputs = {ROOT / "catalog/capacity-ladder.json": json.dumps(
-        {"schema_version": 1, "transitions": ladder}, indent=2
-    ) + "\n"}
+    outputs = {ROOT / "catalog/capacity-ladder.json": render_ladder(ladder)}
     for identity, gb in BUILTIN_CAPACITIES.items():
         profile = recommended_profile(
             {"id": identity, "title": f"Recommended library for {gb} GB"}, gb * GB, ladder

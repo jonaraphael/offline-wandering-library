@@ -85,6 +85,15 @@ assets:
   knowledge_domains: &id005
   - health
   - first-aid
+  mirrors:
+  - https://web.archive.org/web/20260205152447id_/https://iris.who.int/server/api/core/bitstreams/63432b9f-8808-44c5-9692-cea717c0cbda/content
+  mirror_fetch:
+    ? https://web.archive.org/web/20260205152447id_/https://iris.who.int/server/api/core/bitstreams/63432b9f-8808-44c5-9692-cea717c0cbda/content
+    : cors: null
+      range: null
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: health
     level: 0
@@ -723,6 +732,15 @@ assets:
   utility_reason: Protects life or supports food, water, shelter and household survival.
   knowledge_domains:
   - shelter
+  mirrors:
+  - https://web.archive.org/web/20250717042230id_/https://www.fema.gov/sites/default/files/2020-07/residential-sheltering-safe-rooms_recovery-advisory.pdf
+  mirror_fetch:
+    ? https://web.archive.org/web/20250717042230id_/https://www.fema.gov/sites/default/files/2020-07/residential-sheltering-safe-rooms_recovery-advisory.pdf
+    : cors: false
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: shelter
     level: 0
@@ -832,6 +850,7 @@ assets:
   source_url: https://www.fema.gov/sites/default/files/documents/fema_hm-emergency-supply-kit-checklist_english.pdf
   mirrors:
   - https://www.ready.gov/sites/default/files/2020-03/ready_emergency-supply-kit-checklist.pdf
+  - https://www.ready.gov/sites/default/files/2021-02/ready_checklist.pdf
   destination: REFERENCE/FEMA_Emergency_Supply_Kit.pdf
   version: snapshot 2026-09-18
   size_bytes: 152185
@@ -857,6 +876,13 @@ assets:
   utility_reason: Protects life or supports food, water, shelter and household survival.
   knowledge_domains:
   - preparedness
+  mirror_fetch:
+    https://www.ready.gov/sites/default/files/2021-02/ready_checklist.pdf:
+      cors: false
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: shelter
     level: 0
@@ -1166,11 +1192,35 @@ assets:
     through high school.
   knowledge_domains:
   - general-reference
+  - advanced-study
+  - agriculture
+  - culture
+  - food-preservation
+  - health
+  - navigation
+  - school-math
+  - school-science
+  - shelter
+  - water-sanitation
   selection:
     domain: general-reference
     level: 4
     edition_group: wikipedia-en
     rank: 1
+    domain_weights:
+      general-reference: 74
+      navigation: 2
+      health: 4
+      school-science: 4
+      advanced-study: 4
+      culture: 4
+      agriculture: 2
+      shelter: 2
+      water-sanitation: 2
+      food-preservation: 1
+      school-math: 1
+    weight_basis: General reference receives most of the archive; the remainder is an
+      editorial allocation to broad subject areas. Edition percentages use the same basis.
   mirrors:
   - https://download.kiwix.org/zim/wikipedia/wikipedia_en_all_maxi_2026-08.zim
   digest_source: https://lb.download.kiwix.org/zim/wikipedia/wikipedia_en_all_maxi_2026-08.zim.meta4
@@ -1302,10 +1352,17 @@ assets:
   knowledge_domains:
   - education
   - crafts
+  - hand-tools
+  - school-science
   selection:
     domain: hand-tools
     level: 1
     rank: 1
+    domain_weights:
+      hand-tools: 1
+      school-science: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   mirrors:
   - https://download.kiwix.org/zim/wikibooks/wikibooks_en_all_maxi_2026-04.zim
   digest_source: https://lb.download.kiwix.org/zim/wikibooks/wikibooks_en_all_maxi_2026-04.zim.meta4
@@ -1394,10 +1451,21 @@ assets:
   - appropriate-technology
   - repair
   - water-sanitation
+  - agriculture
+  - food-preservation
+  - shelter
   selection:
     domain: water-sanitation
     level: 0
     rank: 3
+    domain_weights:
+      water-sanitation: 40
+      repair: 30
+      shelter: 15
+      agriculture: 10
+      food-preservation: 5
+    weight_basis: Appropedia spans WASH, appropriate technology, sustainable buildings
+      and food production.
   mirrors:
   - https://download.kiwix.org/zim/other/appropedia_en_all_maxi_2026-02.zim
   digest_source: https://lb.download.kiwix.org/zim/other/appropedia_en_all_maxi_2026-02.zim.meta4
@@ -1731,10 +1799,17 @@ assets:
   - agriculture
   - hand-tools
   - appropriate-technology
+  - repair
   selection:
     domain: hand-tools
     level: 0
     rank: 1
+    domain_weights:
+      agriculture: 1
+      hand-tools: 1
+      repair: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/zimit/cd3wdproject.org_en_all_2025-11.zim.meta4
   browser_fetch:
     cors: true
@@ -2227,10 +2302,17 @@ assets:
     life.
   knowledge_domains:
   - travel
+  - navigation
+  - culture
   selection:
     domain: general-reference
     level: 1
     rank: 1
+    domain_weights:
+      navigation: 60
+      culture: 40
+    weight_basis: Travel guides cover local access, transport, routes and points
+      of interest. The shares are editorial estimates.
   digest_source: https://lb.download.kiwix.org/zim/wikivoyage/wikivoyage_en_all_maxi_2026-09.zim.meta4
   browser_fetch:
     cors: true
@@ -2321,15 +2403,20 @@ assets:
   - https://ny.mirror.driftle.ss/kiwix/zim/other/theworldfactbook_en_all_2026-02.zim
   - https://wi.mirror.driftle.ss/kiwix/zim/other/theworldfactbook_en_all_2026-02.zim
   - https://ftp.nluug.nl/pub/kiwix/zim/other/theworldfactbook_en_all_2026-02.zim
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Country profiles and maps provide geographic and civic reference.
   knowledge_domains:
   - geography
+  - general-reference
+  - navigation
   selection:
     domain: general-reference
     level: 0
     rank: 1
+    domain_weights:
+      general-reference: 60
+      navigation: 40
+    weight_basis: Country profiles combine geographies, maps and general reference.
   digest_source: https://lb.download.kiwix.org/zim/other/theworldfactbook_en_all_2026-02.zim.meta4
   browser_fetch:
     cors: true
@@ -2425,10 +2512,16 @@ assets:
   knowledge_domains:
   - general-reference
   - additional-language
+  - languages
   selection:
     domain: general-reference
     level: 1
     rank: 2
+    domain_weights:
+      general-reference: 1
+      languages: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/wikipedia/wikipedia_es_all_maxi_2026-05.zim.meta4
   browser_fetch:
     cors: true
@@ -2475,10 +2568,16 @@ assets:
   knowledge_domains:
   - general-reference
   - additional-language
+  - languages
   selection:
     domain: general-reference
     level: 1
     rank: 3
+    domain_weights:
+      general-reference: 1
+      languages: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/wikipedia/wikipedia_fr_all_maxi_2026-05.zim.meta4
   browser_fetch:
     cors: true
@@ -2525,10 +2624,16 @@ assets:
   knowledge_domains:
   - general-reference
   - additional-language
+  - languages
   selection:
     domain: general-reference
     level: 1
     rank: 4
+    domain_weights:
+      general-reference: 1
+      languages: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/wikipedia/wikipedia_zh_all_maxi_2026-08.zim.meta4
   browser_fetch:
     cors: true
@@ -2575,10 +2680,16 @@ assets:
   knowledge_domains:
   - general-reference
   - additional-language
+  - languages
   selection:
     domain: general-reference
     level: 1
     rank: 5
+    domain_weights:
+      general-reference: 1
+      languages: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/wikipedia/wikipedia_ar_all_maxi_2026-05.zim.meta4
   browser_fetch:
     cors: true
@@ -2625,10 +2736,16 @@ assets:
   knowledge_domains:
   - general-reference
   - additional-language
+  - languages
   selection:
     domain: general-reference
     level: 1
     rank: 6
+    domain_weights:
+      general-reference: 1
+      languages: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/wikipedia/wikipedia_pt_all_maxi_2026-05.zim.meta4
   browser_fetch:
     cors: true
@@ -2675,10 +2792,16 @@ assets:
   knowledge_domains:
   - general-reference
   - additional-language
+  - languages
   selection:
     domain: general-reference
     level: 1
     rank: 7
+    domain_weights:
+      general-reference: 1
+      languages: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/wikipedia/wikipedia_it_all_maxi_2026-08.zim.meta4
   browser_fetch:
     cors: true
@@ -18805,6 +18928,15 @@ assets:
   knowledge_domains: &id008
   - agriculture
   - livestock
+  mirrors:
+  - https://www.fao.org/4/ca3815en/ca3815en.pdf
+  mirror_fetch:
+    https://www.fao.org/4/ca3815en/ca3815en.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -18903,6 +19035,15 @@ assets:
   knowledge_domains:
   - livestock
   - agriculture
+  mirrors:
+  - https://web.archive.org/web/20260302113953id_/https://openknowledge.fao.org/server/api/core/bitstreams/73edfce9-c9a1-4814-b907-d86917967ed3/content
+  mirror_fetch:
+    ? https://web.archive.org/web/20260302113953id_/https://openknowledge.fao.org/server/api/core/bitstreams/73edfce9-c9a1-4814-b907-d86917967ed3/content
+    : cors: null
+      range: null
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -18951,6 +19092,15 @@ assets:
   - gardening
   - agriculture
   - livestock
+  mirrors:
+  - https://www.fao.org/4/ca1495en/CA1495EN.pdf
+  mirror_fetch:
+    https://www.fao.org/4/ca1495en/CA1495EN.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -19051,6 +19201,15 @@ assets:
   - gardening
   - agriculture
   - livestock
+  mirrors:
+  - https://www.fao.org/4/i3388e/i3388e.pdf
+  mirror_fetch:
+    https://www.fao.org/4/i3388e/i3388e.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -19099,6 +19258,15 @@ assets:
   utility_tier: CRITICAL
   utility_reason: Protects life or supports food, water, shelter and household survival.
   knowledge_domains: *id008
+  mirrors:
+  - https://www.fao.org/4/i4021e/i4021e.pdf
+  mirror_fetch:
+    https://www.fao.org/4/i4021e/i4021e.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -19249,10 +19417,15 @@ assets:
   knowledge_domains:
   - appropriate-technology
   - energy
+  - repair
   selection:
     domain: hand-tools
     level: 0
     rank: 2
+    domain_weights:
+      repair: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim.meta4
   browser_fetch:
     cors: true
@@ -19394,10 +19567,19 @@ assets:
   - agriculture
   - crafts
   - education
+  - advanced-study
+  - school-math
+  - school-science
   selection:
     domain: school-science
     level: 2
     rank: 1
+    domain_weights:
+      school-science: 80
+      school-math: 15
+      advanced-study: 5
+    weight_basis: Library of Congress class Q spans sciences and mathematics, including
+      specialist texts.
   digest_source: https://lb.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim.meta4
   browser_fetch:
     cors: true
@@ -19447,10 +19629,25 @@ assets:
   - crafts
   - agriculture
   - education
+  - advanced-study
+  - food-preservation
+  - hand-tools
+  - repair
+  - shelter
+  - water-sanitation
   selection:
     domain: hand-tools
     level: 2
     rank: 1
+    domain_weights:
+      hand-tools: 44
+      repair: 25
+      shelter: 15
+      food-preservation: 6
+      water-sanitation: 5
+      advanced-study: 5
+    weight_basis: Library of Congress class T spans technology and trades, construction,
+      home economics and sanitary engineering. Shares are editorial estimates.
   digest_source: https://lb.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim.meta4
   browser_fetch:
     cors: true
@@ -19500,10 +19697,18 @@ assets:
   - agriculture
   - crafts
   - education
+  - food-preservation
+  - water-sanitation
   selection:
     domain: agriculture
     level: 2
     rank: 1
+    domain_weights:
+      agriculture: 91
+      food-preservation: 6
+      water-sanitation: 3
+    weight_basis: Library of Congress class S concentrates on crops and animals, with
+      food storage and irrigation material.
   digest_source: https://lb.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim.meta4
   browser_fetch:
     cors: true
@@ -19553,10 +19758,21 @@ assets:
   - education
   - agriculture
   - crafts
+  - advanced-study
+  - culture
+  - school-math
+  - school-science
   selection:
     domain: school-math
     level: 2
     rank: 1
+    domain_weights:
+      school-math: 25
+      school-science: 25
+      culture: 30
+      advanced-study: 20
+    weight_basis: Library of Congress class L covers teaching methods, textbooks and the
+      history of education.
   digest_source: https://lb.download.kiwix.org/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim.meta4
   browser_fetch:
     cors: true
@@ -19660,10 +19876,20 @@ assets:
   - repair
   - woodworking
   - gardening
+  - agriculture
+  - hand-tools
+  - shelter
   selection:
     domain: repair
     level: 1
     rank: 2
+    domain_weights:
+      agriculture: 1
+      hand-tools: 1
+      repair: 1
+      shelter: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim.meta4
   browser_fetch:
     cors: true
@@ -19716,10 +19942,18 @@ assets:
   - repair
   - woodworking
   - gardening
+  - agriculture
+  - hand-tools
   selection:
     domain: repair
     level: 1
     rank: 3
+    domain_weights:
+      agriculture: 1
+      hand-tools: 1
+      repair: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim.meta4
   browser_fetch:
     cors: true
@@ -19771,10 +20005,18 @@ assets:
   - gardening
   - repair
   - woodworking
+  - agriculture
+  - hand-tools
   selection:
     domain: repair
     level: 1
     rank: 4
+    domain_weights:
+      agriculture: 1
+      hand-tools: 1
+      repair: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim.meta4
   browser_fetch:
     cors: true
@@ -19880,10 +20122,18 @@ assets:
   - repair
   - woodworking
   - gardening
+  - agriculture
+  - hand-tools
   selection:
     domain: repair
     level: 1
     rank: 5
+    domain_weights:
+      agriculture: 1
+      hand-tools: 1
+      repair: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim.meta4
   browser_fetch:
     cors: true
@@ -19936,10 +20186,18 @@ assets:
   - repair
   - woodworking
   - gardening
+  - agriculture
+  - hand-tools
   selection:
     domain: repair
     level: 1
     rank: 6
+    domain_weights:
+      agriculture: 1
+      hand-tools: 1
+      repair: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim.meta4
   browser_fetch:
     cors: true
@@ -19992,10 +20250,19 @@ assets:
   - repair
   - woodworking
   - gardening
+  - agriculture
+  - hand-tools
   selection:
     domain: navigation
     level: 1
     rank: 1
+    domain_weights:
+      agriculture: 1
+      hand-tools: 1
+      navigation: 1
+      repair: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim.meta4
   browser_fetch:
     cors: true
@@ -20048,10 +20315,18 @@ assets:
   - repair
   - woodworking
   - gardening
+  - agriculture
+  - hand-tools
   selection:
     domain: repair
     level: 1
     rank: 7
+    domain_weights:
+      agriculture: 1
+      hand-tools: 1
+      repair: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim.meta4
   browser_fetch:
     cors: true
@@ -20156,10 +20431,18 @@ assets:
   - woodworking
   - repair
   - gardening
+  - agriculture
+  - hand-tools
   selection:
     domain: repair
     level: 1
     rank: 8
+    domain_weights:
+      agriculture: 1
+      hand-tools: 1
+      repair: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim.meta4
   browser_fetch:
     cors: true
@@ -20263,10 +20546,17 @@ assets:
   knowledge_domains:
   - mathematics
   - advanced-science
+  - advanced-study
+  - school-math
   selection:
     domain: school-math
     level: 2
     rank: 2
+    domain_weights:
+      advanced-study: 1
+      school-math: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim.meta4
   browser_fetch:
     cors: true
@@ -20317,10 +20607,17 @@ assets:
   knowledge_domains:
   - physics
   - advanced-science
+  - advanced-study
+  - school-science
   selection:
     domain: school-science
     level: 2
     rank: 2
+    domain_weights:
+      advanced-study: 1
+      school-science: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim.meta4
   browser_fetch:
     cors: true
@@ -20371,10 +20668,17 @@ assets:
   knowledge_domains:
   - biology
   - advanced-science
+  - advanced-study
+  - school-science
   selection:
     domain: school-science
     level: 2
     rank: 3
+    domain_weights:
+      advanced-study: 1
+      school-science: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim.meta4
   browser_fetch:
     cors: true
@@ -20425,10 +20729,17 @@ assets:
   knowledge_domains:
   - chemistry
   - advanced-science
+  - advanced-study
+  - school-science
   selection:
     domain: school-science
     level: 2
     rank: 4
+    domain_weights:
+      advanced-study: 1
+      school-science: 1
+    weight_basis: Equal shares across the declared planning subjects. Catalog tags within
+      the same subject share one allocation.
   digest_source: https://lb.download.kiwix.org/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim.meta4
   browser_fetch:
     cors: true
@@ -20528,6 +20839,15 @@ assets:
   utility_tier: CRITICAL
   utility_reason: Protects life or supports food, water, shelter and household survival.
   knowledge_domains: *id008
+  mirrors:
+  - https://www.fao.org/4/i3284e/i3284e.pdf
+  mirror_fetch:
+    https://www.fao.org/4/i3284e/i3284e.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -20579,6 +20899,15 @@ assets:
   utility_tier: CRITICAL
   utility_reason: Protects life or supports food, water, shelter and household survival.
   knowledge_domains: *id008
+  mirrors:
+  - https://www.fao.org/4/t1265e/t1265e.pdf
+  mirror_fetch:
+    https://www.fao.org/4/t1265e/t1265e.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -20627,6 +20956,15 @@ assets:
   utility_tier: CRITICAL
   utility_reason: Protects life or supports food, water, shelter and household survival.
   knowledge_domains: *id008
+  mirrors:
+  - https://www.fao.org/4/t1690e/t1690e.pdf
+  mirror_fetch:
+    https://www.fao.org/4/t1690e/t1690e.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -20680,6 +21018,15 @@ assets:
   utility_tier: CRITICAL
   utility_reason: Protects life or supports food, water, shelter and household survival.
   knowledge_domains: *id008
+  mirrors:
+  - https://www.fao.org/4/i3632e/i3632e.pdf
+  mirror_fetch:
+    https://www.fao.org/4/i3632e/i3632e.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -20730,6 +21077,22 @@ assets:
   utility_tier: CRITICAL
   utility_reason: Protects life or supports food, water, shelter and household survival.
   knowledge_domains: *id008
+  mirrors:
+  - https://www.fao.org/4/i3197e/i3197e.pdf
+  - https://web.archive.org/web/20251107204443id_/https://openknowledge.fao.org/server/api/core/bitstreams/cfd45940-600c-4a1a-b197-babfa7a2026f/content
+  mirror_fetch:
+    https://www.fao.org/4/i3197e/i3197e.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
+    ? https://web.archive.org/web/20251107204443id_/https://openknowledge.fao.org/server/api/core/bitstreams/cfd45940-600c-4a1a-b197-babfa7a2026f/content
+    : cors: false
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -20781,6 +21144,15 @@ assets:
   utility_tier: CRITICAL
   utility_reason: Protects life or supports food, water, shelter and household survival.
   knowledge_domains: *id008
+  mirrors:
+  - https://www.fao.org/4/i2678e/i2678e00.pdf
+  mirror_fetch:
+    https://www.fao.org/4/i2678e/i2678e00.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -20830,6 +21202,15 @@ assets:
   utility_tier: CRITICAL
   utility_reason: Protects life or supports food, water, shelter and household survival.
   knowledge_domains: *id008
+  mirrors:
+  - https://www.fao.org/4/a1336e/a1336e.pdf
+  mirror_fetch:
+    https://www.fao.org/4/a1336e/a1336e.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -20880,6 +21261,15 @@ assets:
   utility_tier: CRITICAL
   utility_reason: Protects life or supports food, water, shelter and household survival.
   knowledge_domains: *id008
+  mirrors:
+  - https://www.fao.org/4/ba0027e/ba0027e00.pdf
+  mirror_fetch:
+    https://www.fao.org/4/ba0027e/ba0027e00.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -24972,6 +25362,15 @@ assets:
   knowledge_domains:
   - livestock
   - agriculture
+  mirrors:
+  - https://www.fao.org/4/cb4576en/cb4576en.pdf
+  mirror_fetch:
+    https://www.fao.org/4/cb4576en/cb4576en.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -26134,6 +26533,15 @@ assets:
   - agriculture
   - gardening
   - food-security
+  mirrors:
+  - https://www.fao.org/4/ca1491en/ca1491en.pdf
+  mirror_fetch:
+    https://www.fao.org/4/ca1491en/ca1491en.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -26181,6 +26589,15 @@ assets:
   - agriculture
   - gardening
   - food-security
+  mirrors:
+  - https://www.fao.org/4/ca1492en/ca1492en.pdf
+  mirror_fetch:
+    https://www.fao.org/4/ca1492en/ca1492en.pdf:
+      cors: true
+      range: true
+      origin: https://jonaraphael.github.io
+      checked_on: '2026-11-21'
+      sha256_verified: true
   selection:
     domain: agriculture
     level: 0
@@ -26364,6 +26781,16 @@ assets:
     across editions have different publication dates.
   knowledge_domains:
   - general-reference
+  - advanced-study
+  - agriculture
+  - culture
+  - food-preservation
+  - health
+  - navigation
+  - school-math
+  - school-science
+  - shelter
+  - water-sanitation
   browser_fetch:
     cors: true
     range: true
@@ -26375,6 +26802,20 @@ assets:
     level: 0
     edition_group: wikipedia-en
     rank: 2
+    domain_weights:
+      general-reference: 74
+      navigation: 2
+      health: 4
+      school-science: 4
+      advanced-study: 4
+      culture: 4
+      agriculture: 2
+      shelter: 2
+      water-sanitation: 2
+      food-preservation: 1
+      school-math: 1
+    weight_basis: General reference receives most of the archive; the remainder is an
+      editorial allocation to broad subject areas. Edition percentages use the same basis.
   mirrors:
   - https://download.kiwix.org/zim/wikipedia/wikipedia_en_top_mini_2026-09.zim
 - id: wikipedia_en_mini
@@ -26408,6 +26849,16 @@ assets:
     snapshots across editions have different publication dates.
   knowledge_domains:
   - general-reference
+  - advanced-study
+  - agriculture
+  - culture
+  - food-preservation
+  - health
+  - navigation
+  - school-math
+  - school-science
+  - shelter
+  - water-sanitation
   browser_fetch:
     cors: true
     range: true
@@ -26419,6 +26870,20 @@ assets:
     level: 2
     edition_group: wikipedia-en
     rank: 1
+    domain_weights:
+      general-reference: 74
+      navigation: 2
+      health: 4
+      school-science: 4
+      advanced-study: 4
+      culture: 4
+      agriculture: 2
+      shelter: 2
+      water-sanitation: 2
+      food-preservation: 1
+      school-math: 1
+    weight_basis: General reference receives most of the archive; the remainder is an
+      editorial allocation to broad subject areas. Edition percentages use the same basis.
   mirrors:
   - https://download.kiwix.org/zim/wikipedia/wikipedia_en_all_mini_2026-09.zim
 - id: wikipedia_en_nopic
@@ -26452,6 +26917,16 @@ assets:
     across editions have different publication dates.
   knowledge_domains:
   - general-reference
+  - advanced-study
+  - agriculture
+  - culture
+  - food-preservation
+  - health
+  - navigation
+  - school-math
+  - school-science
+  - shelter
+  - water-sanitation
   browser_fetch:
     cors: true
     range: true
@@ -26463,6 +26938,20 @@ assets:
     level: 3
     edition_group: wikipedia-en
     rank: 1
+    domain_weights:
+      general-reference: 74
+      navigation: 2
+      health: 4
+      school-science: 4
+      advanced-study: 4
+      culture: 4
+      agriculture: 2
+      shelter: 2
+      water-sanitation: 2
+      food-preservation: 1
+      school-math: 1
+    weight_basis: General reference receives most of the archive; the remainder is an
+      editorial allocation to broad subject areas. Edition percentages use the same basis.
   mirrors:
   - https://download.kiwix.org/zim/wikipedia/wikipedia_en_all_nopic_2026-06.zim
 - id: khanacademy_en_all_2023_03
@@ -26498,6 +26987,8 @@ assets:
   - school-math
   - school-science
   - education
+  - advanced-study
+  - culture
   browser_fetch:
     cors: true
     range: true
@@ -26508,6 +26999,13 @@ assets:
     domain: school-math
     level: 4
     rank: 1
+    domain_weights:
+      school-math: 50
+      school-science: 35
+      culture: 10
+      advanced-study: 5
+    weight_basis: Khan Academy covers mathematics, sciences, humanities and some postsecondary
+      lessons.
   mirrors:
   - https://download.kiwix.org/zim/other/khanacademy_en_all_2023-03.zim
 - id: survivorlibrary_com_en_all_2026_09
@@ -26540,6 +27038,19 @@ assets:
     guidance.
   knowledge_domains:
   - hand-tools
+  - advanced-study
+  - agriculture
+  - culture
+  - food-preservation
+  - general-reference
+  - health
+  - languages
+  - navigation
+  - repair
+  - school-math
+  - school-science
+  - shelter
+  - water-sanitation
   browser_fetch:
     cors: true
     range: true
@@ -26550,6 +27061,25 @@ assets:
     domain: hand-tools
     level: 4
     rank: 1
+    domain_weights:
+      shelter: 72
+      agriculture: 105
+      food-preservation: 12
+      water-sanitation: 18
+      health: 70
+      hand-tools: 125
+      repair: 130
+      school-science: 69
+      school-math: 10
+      navigation: 20
+      culture: 200
+      general-reference: 100
+      languages: 4
+      advanced-study: 65
+    weight_basis: Editorial estimate informed by rounded PDF sizes in 164 public subject
+      listings. Architecture, construction, masonry and heating inform shelter; canning,
+      refrigeration and dairy preservation inform food; sewage and sanitation inform water.
+      No inspection of the 220 GB ZIM.
   mirrors:
   - https://download.kiwix.org/zim/zimit/survivorlibrary.com_en_all_2026-09.zim
 - id: crashcourse_en_all_2026_05
@@ -26583,6 +27113,8 @@ assets:
     remain untested.
   knowledge_domains:
   - school-science
+  - advanced-study
+  - culture
   browser_fetch:
     cors: true
     range: true
@@ -26593,6 +27125,11 @@ assets:
     domain: school-science
     level: 3
     rank: 1
+    domain_weights:
+      school-science: 45
+      culture: 40
+      advanced-study: 15
+    weight_basis: Crash Course spans science, humanities and advanced introductory courses.
   mirrors:
   - https://download.kiwix.org/zim/other/crashcourse_en_all_2026-05.zim
 - id: energypedia_en_all_maxi_2026_06
@@ -26625,6 +27162,8 @@ assets:
     remain untested.
   knowledge_domains:
   - shelter
+  - repair
+  - water-sanitation
   browser_fetch:
     cors: true
     range: true
@@ -26635,6 +27174,12 @@ assets:
     domain: shelter
     level: 2
     rank: 1
+    domain_weights:
+      shelter: 55
+      repair: 35
+      water-sanitation: 10
+    weight_basis: Energypedia resources cover household energy, power equipment and solar
+      water systems.
   mirrors:
   - https://download.kiwix.org/zim/other/energypedia_en_all_maxi_2026-06.zim
 - id: gardenology_org_en_all_2026_09
@@ -26795,6 +27340,7 @@ assets:
     remain untested.
   knowledge_domains:
   - school-math
+  - school-science
   browser_fetch:
     cors: true
     range: true
@@ -26805,6 +27351,11 @@ assets:
     domain: school-math
     level: 1
     rank: 1
+    domain_weights:
+      school-math: 55
+      school-science: 45
+    weight_basis: The OER4Schools training programme uses primary mathematics and
+      science examples alongside general teaching activities.
   mirrors:
   - https://download.kiwix.org/zim/videos/oer4schools_en_all_2025-10.zim
 - id: voa_learning_en_all_2025_01
@@ -27219,6 +27770,11 @@ assets:
     in the archive.
   knowledge_domains:
   - water-sanitation
+  - advanced-study
+  - agriculture
+  - food-preservation
+  - health
+  - shelter
   browser_fetch:
     cors: true
     range: true
@@ -27229,6 +27785,15 @@ assets:
     domain: water-sanitation
     level: 3
     rank: 1
+    domain_weights:
+      water-sanitation: 40
+      agriculture: 20
+      health: 15
+      shelter: 10
+      advanced-study: 10
+      food-preservation: 5
+    weight_basis: Development Experience Clearinghouse spans water, farming, health, disaster
+      response and development policy. Shares are editorial estimates.
   mirrors:
   - https://download.kiwix.org/zim/books/usaid-archive.aiddata.org_en_all_2026-11a.zim
 - id: bookdash_archive
@@ -27425,9 +27990,8 @@ assets:
   description: Offline reference for this subject. Original publisher notices remain
     in the archive.
   resource_type: archive
-  utility_tier: NONESSENTIAL
-  utility_reason: Offline reference for this subject. Original publisher notices remain
-    in the archive.
+  utility_tier: USEFUL
+  utility_reason: Published OpenStreetMap reference for understanding maps, routing and geographic data.
   knowledge_domains:
   - navigation
   browser_fetch:
@@ -27641,6 +28205,7 @@ assets:
     in the archive.
   knowledge_domains:
   - general-reference
+  - culture
   browser_fetch:
     cors: true
     range: true
@@ -27651,6 +28216,11 @@ assets:
     domain: general-reference
     level: 2
     rank: 2
+    domain_weights:
+      culture: 80
+      general-reference: 20
+    weight_basis: Quotations are cultural reference, mainly from literature, people and
+      media.
   mirrors:
   - https://download.kiwix.org/zim/wikiquote/wikiquote_en_all_maxi_2026-10.zim
 - id: mathoverflow
@@ -27894,6 +28464,7 @@ assets:
     archive includes item-specific notices.
   knowledge_domains:
   - general-reference
+  - culture
   browser_fetch:
     cors: true
     range: true
@@ -27904,6 +28475,11 @@ assets:
     domain: general-reference
     level: 2
     rank: 3
+    domain_weights:
+      general-reference: 80
+      culture: 20
+    weight_basis: Library of Congress class A covers general encyclopedias, collections
+      and periodicals.
   mirrors:
   - https://download.kiwix.org/zim/books/gutenberg_en_lcc-a_2026-11a.zim
 - id: gutenberg_b
@@ -27937,6 +28513,8 @@ assets:
     archive includes item-specific notices.
   knowledge_domains:
   - literature
+  - advanced-study
+  - culture
   browser_fetch:
     cors: true
     range: true
@@ -27947,6 +28525,10 @@ assets:
     domain: culture
     level: 2
     rank: 6
+    domain_weights:
+      culture: 75
+      advanced-study: 25
+    weight_basis: Library of Congress class B spans philosophy, religion and psychology.
   mirrors:
   - https://download.kiwix.org/zim/books/gutenberg_en_lcc-b_2026-11a.zim
 - id: gutenberg_cdef
@@ -27980,6 +28562,8 @@ assets:
     archive includes item-specific notices.
   knowledge_domains:
   - literature
+  - culture
+  - general-reference
   browser_fetch:
     cors: true
     range: true
@@ -27990,6 +28574,11 @@ assets:
     domain: culture
     level: 3
     rank: 5
+    domain_weights:
+      culture: 85
+      general-reference: 15
+    weight_basis: Library of Congress classes C through F cover historical methods and
+      regional history.
   mirrors:
   - https://download.kiwix.org/zim/books/gutenberg_en_lcc-cdef_2026-11b.zim
 - id: gutenberg_g
@@ -28023,6 +28612,8 @@ assets:
     archive includes item-specific notices.
   knowledge_domains:
   - navigation
+  - culture
+  - general-reference
   browser_fetch:
     cors: true
     range: true
@@ -28033,6 +28624,12 @@ assets:
     domain: navigation
     level: 1
     rank: 2
+    domain_weights:
+      navigation: 40
+      culture: 40
+      general-reference: 20
+    weight_basis: Library of Congress class G covers maps, geography, anthropology and
+      recreation.
   mirrors:
   - https://download.kiwix.org/zim/books/gutenberg_en_lcc-g_2026-11a.zim
 - id: gutenberg_h
@@ -28066,6 +28663,8 @@ assets:
     archive includes item-specific notices.
   knowledge_domains:
   - literature
+  - advanced-study
+  - culture
   browser_fetch:
     cors: true
     range: true
@@ -28076,6 +28675,10 @@ assets:
     domain: culture
     level: 2
     rank: 7
+    domain_weights:
+      culture: 70
+      advanced-study: 30
+    weight_basis: Library of Congress class H spans social sciences, economics and sociology.
   mirrors:
   - https://download.kiwix.org/zim/books/gutenberg_en_lcc-h_2026-11a.zim
 - id: gutenberg_j
@@ -28109,6 +28712,9 @@ assets:
     archive includes item-specific notices.
   knowledge_domains:
   - literature
+  - advanced-study
+  - culture
+  - general-reference
   browser_fetch:
     cors: true
     range: true
@@ -28119,6 +28725,12 @@ assets:
     domain: culture
     level: 2
     rank: 8
+    domain_weights:
+      culture: 60
+      general-reference: 25
+      advanced-study: 15
+    weight_basis: Library of Congress class J spans political science, government and
+      administration.
   mirrors:
   - https://download.kiwix.org/zim/books/gutenberg_en_lcc-j_2026-11a.zim
 - id: gutenberg_k
@@ -28152,6 +28764,8 @@ assets:
     archive includes item-specific notices.
   knowledge_domains:
   - general-reference
+  - advanced-study
+  - culture
   browser_fetch:
     cors: true
     range: true
@@ -28162,6 +28776,11 @@ assets:
     domain: general-reference
     level: 1
     rank: 8
+    domain_weights:
+      general-reference: 60
+      advanced-study: 25
+      culture: 15
+    weight_basis: Library of Congress class K concentrates on law and legal systems.
   mirrors:
   - https://download.kiwix.org/zim/books/gutenberg_en_lcc-k_2026-11a.zim
 - id: gutenberg_m
@@ -29055,6 +29674,7 @@ assets:
     archive includes item-specific notices.
   knowledge_domains:
   - health
+  - advanced-study
   browser_fetch:
     cors: true
     range: true
@@ -29065,6 +29685,11 @@ assets:
     domain: health
     level: 2
     rank: 2
+    domain_weights:
+      health: 85
+      advanced-study: 15
+    weight_basis: Library of Congress class R spans medicine and its study. Historical
+      works supplement modern guidance.
   mirrors:
   - https://download.kiwix.org/zim/books/gutenberg_en_lcc-r_2026-11a.zim
 - id: gutenberg_z
@@ -29098,6 +29723,8 @@ assets:
     archive includes item-specific notices.
   knowledge_domains:
   - general-reference
+  - advanced-study
+  - culture
   browser_fetch:
     cors: true
     range: true
@@ -29108,6 +29735,12 @@ assets:
     domain: general-reference
     level: 2
     rank: 4
+    domain_weights:
+      general-reference: 65
+      advanced-study: 25
+      culture: 10
+    weight_basis: Library of Congress class Z covers bibliography, libraries and information
+      resources.
   mirrors:
   - https://download.kiwix.org/zim/books/gutenberg_en_lcc-z_2026-11a.zim
 - id: usgs_ne_30891_20240812
@@ -29710,4 +30343,298 @@ assets:
     source_asset_id: nrcan_021l14_0900_canmatrix_prtpdf_zip
     path: 021l14_0900_canmatrix_prt.pdf
     document: true
+- id: uaf_root_cellars_hga00331
+  title: Root Cellars
+  category: food-preservation
+  format: pdf
+  source_url: https://smfarm.cfans.umn.edu/sites/smfarm.cfans.umn.edu/files/2021-03/UAlaskaRootCellarsHGA-00331-2.pdf
+  destination: REFERENCE/FOOD-PRESERVATION/uaf_root_cellars_hga00331.pdf
+  version: '2020'
+  size_bytes: 245339
+  sha256: 945356675b0ce202d647a8e131151093cad9fee70fc35e30b0b58a12454d5c41
+  digest_algorithm: sha256
+  digest_source: complete publisher PDF SHA-256
+  license: University of Alaska Fairbanks Cooperative Extension publication. Keep
+    original notices.
+  redistributable: false
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: University of Alaska Fairbanks Cooperative Extension
+  source_page: https://smfarm.cfans.umn.edu/postharvest-handling
+  language: en
+  snapshot_date: '2026-11-21'
+  attribution: University of Alaska Fairbanks Cooperative Extension. Retain original
+    credits and publication notices.
+  description: Illustrated designs for small root cellars and storage conditions for
+    harvested produce.
+  resource_type: guide
+  illustrated: true
+  utility_tier: USEFUL
+  utility_reason: Illustrated designs for small root cellars and storage conditions
+    for harvested produce.
+  knowledge_domains:
+  - food-preservation
+  browser_fetch:
+    cors: false
+    range: true
+    scope: url
+    origin: https://jonaraphael.github.io
+    checked_on: '2026-11-21'
+  selection:
+    domain: food-preservation
+    level: 1
+    rank: 301
+- id: ifrc_shelter_handbook
+  title: Shelter Safety Handbook
+  category: shelter
+  format: pdf
+  source_url: https://www.ifrc.org/sites/default/files/2021-08/305400-Shelter_safety_handbook-EN-LR.pdf
+  destination: REFERENCE/SHELTER/ifrc_shelter_handbook.pdf
+  version: '2011'
+  size_bytes: 1120602
+  sha256: afac8456b672f3ac26b2ae3938d8a1d5236886f2e0dc65ef304cc2c42c30debe
+  digest_algorithm: sha256
+  digest_source: complete publisher PDF SHA-256
+  license: IFRC permits attributed noncommercial copying. Individually credited materials
+    retain their notices.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: International Federation of Red Cross and Red Crescent Societies
+  source_page: https://www.ifrc.org/document/shelter-safety-handbook
+  language: en
+  snapshot_date: '2026-11-21'
+  attribution: International Federation of Red Cross and Red Crescent Societies. Retain
+    original credits and publication notices.
+  description: Illustrated construction guidance for community shelters exposed to
+    wind, flood and earthquakes.
+  resource_type: guide
+  illustrated: true
+  utility_tier: USEFUL
+  utility_reason: Illustrated construction guidance for community shelters exposed
+    to wind, flood and earthquakes.
+  knowledge_domains:
+  - shelter
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.github.io
+    checked_on: '2026-11-21'
+  selection:
+    domain: shelter
+    level: 1
+    rank: 302
+- id: ifrc_shelter_projects
+  title: Shelter Projects 2008–2023 — Red Cross Red Crescent edition
+  category: shelter
+  format: pdf
+  source_url: https://www.ifrc.org/sites/default/files/2026-06/Shelter-Projects-RCRC-edition_2008-2023.pdf
+  destination: REFERENCE/SHELTER/ifrc_shelter_projects.pdf
+  version: '2026'
+  size_bytes: 132942602
+  sha256: a381c6f6fdd08bc9ea6cc2ac51d0fd5669d99a179bceb919cec67ed5d11ba35e
+  digest_algorithm: sha256
+  digest_source: complete publisher PDF SHA-256
+  license: IFRC and credited contributors. Direct publisher download with original
+    notices.
+  redistributable: false
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: International Federation of Red Cross and Red Crescent Societies
+  source_page: https://www.ifrc.org/document/shelter-projects-red-cross-red-crescent-edition-2008-2023
+  language: en
+  snapshot_date: '2026-11-21'
+  attribution: International Federation of Red Cross and Red Crescent Societies. Retain
+    original credits and publication notices.
+  description: 33 case studies on shelter and recovery programmes worldwide.
+  resource_type: guide
+  illustrated: true
+  utility_tier: USEFUL
+  utility_reason: 33 case studies on shelter and recovery programmes worldwide.
+  knowledge_domains:
+  - shelter
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.github.io
+    checked_on: '2026-11-21'
+  selection:
+    domain: shelter
+    level: 1
+    rank: 303
+- id: eawag_sanitation_compendium_2e
+  title: Compendium of Sanitation Systems and Technologies
+  category: water-sanitation
+  format: pdf
+  source_url: https://www.eawag.ch/fileadmin/Domain1/Abteilungen/sandec/schwerpunkte/sesp/CLUES/Compendium_2nd_pdfs/Compendium_2nd_Ed_Lowres_1p.pdf
+  destination: REFERENCE/WATER-SANITATION/eawag_sanitation_compendium_2e.pdf
+  version: '2014'
+  size_bytes: 9483264
+  sha256: 2ddd904359e2d5f28e45f35a789c430cfbad22b8bf4d32728a7d5fc58338eb09
+  digest_algorithm: sha256
+  digest_source: complete publisher PDF SHA-256
+  license: Eawag / Sandec, with individual notices retained. Publisher offers a free
+    direct download.
+  redistributable: false
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Eawag / Sandec
+  source_page: https://www.eawag.ch/en/department/sandec/publications/compendium/
+  language: en
+  snapshot_date: '2026-11-21'
+  attribution: Eawag / Sandec. Retain original credits and publication notices.
+  description: Second edition with 57 illustrated technology sheets and system layouts.
+  resource_type: guide
+  illustrated: true
+  utility_tier: USEFUL
+  utility_reason: Second edition with 57 illustrated technology sheets and system
+    layouts.
+  knowledge_domains:
+  - water-sanitation
+  browser_fetch:
+    cors: false
+    range: true
+    scope: url
+    origin: https://jonaraphael.github.io
+    checked_on: '2026-11-21'
+  selection:
+    domain: water-sanitation
+    level: 1
+    rank: 304
+- id: osa_seed_saving_2010
+  title: A Seed Saving Guide for Gardeners and Farmers
+  category: agriculture
+  format: pdf
+  source_url: https://seedalliance.org/wp-content/uploads/2010/04/seed_saving_guide.pdf
+  destination: REFERENCE/AGRICULTURE/osa_seed_saving_2010.pdf
+  version: '2010'
+  size_bytes: 5463060
+  sha256: 31a4dbaa2ac16887eb20bd1f8bf9fbe81244f7f851b84ee7af452256bd13763b
+  digest_algorithm: sha256
+  digest_source: complete publisher PDF SHA-256
+  license: Organic Seed Alliance. CC BY-NC-SA; retain author and publisher credits.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Organic Seed Alliance
+  source_page: https://seedalliance.org/publications/seed-saving-guide/
+  language: en
+  snapshot_date: '2026-11-21'
+  attribution: Organic Seed Alliance. Retain original credits and publication notices.
+  description: Seed saving and storage for garden and farm crops.
+  resource_type: guide
+  illustrated: true
+  utility_tier: USEFUL
+  utility_reason: Seed saving and storage for garden and farm crops.
+  knowledge_domains:
+  - agriculture
+  browser_fetch:
+    cors: false
+    range: true
+    scope: url
+    origin: https://jonaraphael.github.io
+    checked_on: '2026-11-21'
+  selection:
+    domain: agriculture
+    level: 1
+    rank: 305
+- id: cdc_travelers_health
+  title: CDC Travelers’ Health
+  category: health
+  format: zim
+  source_url: https://mirror.download.kiwix.org/zim/zimit/wwwnc.cdc.gov_en_all_2024-11.zim
+  destination: ZIM/wwwnc.cdc.gov_en_all_2024-11.zim
+  version: 2024-11
+  size_bytes: 178326622
+  sha256: 45c1c8d79a38a814098be41044a42d4ac7cc3dfa5cdfe398e9974e08d80591dc
+  digest_algorithm: sha256
+  digest_source: https://lb.download.kiwix.org/zim/zimit/wwwnc.cdc.gov_en_all_2024-11.zim.meta4
+  license: CDC-authored material is generally US public domain. Preserve the notices
+    on third-party materials.
+  redistributable: false
+  required: false
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Centers for Disease Control and Prevention
+  source_page: https://wwwnc.cdc.gov/travel/
+  language: en
+  snapshot_date: '2026-11-21'
+  attribution: Centers for Disease Control and Prevention. Retain original credits
+    and publication notices.
+  description: Archived CDC travel health site, with location-specific health information
+    and prevention references.
+  resource_type: archive
+  illustrated: true
+  utility_tier: USEFUL
+  utility_reason: Archived CDC travel health site, with location-specific health information
+    and prevention references.
+  knowledge_domains:
+  - health
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.github.io
+    checked_on: '2026-11-21'
+  selection:
+    domain: health
+    level: 1
+    rank: 306
+  mirrors:
+  - https://download.kiwix.org/zim/zimit/wwwnc.cdc.gov_en_all_2024-11.zim
+- id: librepathology
+  title: Libre Pathology
+  category: health
+  format: zim
+  source_url: https://mirror.download.kiwix.org/zim/other/librepathology_en_all_maxi_2026-09.zim
+  destination: ZIM/librepathology_en_all_maxi_2026-09.zim
+  version: 2026-09
+  size_bytes: 95279611
+  sha256: 9474d11f9104e9e649ea09efefff943e10b3fcc0f3afc60d804eeb1b20bd3a3f
+  digest_algorithm: sha256
+  digest_source: https://lb.download.kiwix.org/zim/other/librepathology_en_all_maxi_2026-09.zim.meta4
+  license: CC BY-NC-SA 3.0 for site contributions, with separate licenses for third-party
+    media.
+  redistributable: false
+  required: false
+  profiles: []
+  critical: false
+  reader_required: true
+  publisher: Libre Pathology
+  source_page: https://librepathology.org/wiki/Libre_Pathology:Copyrights
+  language: en
+  snapshot_date: '2026-11-21'
+  attribution: Libre Pathology. Retain original credits and publication notices.
+  description: Illustrated pathology reference for clinical and laboratory study.
+  resource_type: archive
+  illustrated: true
+  utility_tier: USEFUL
+  utility_reason: Illustrated pathology reference for clinical and laboratory study.
+  knowledge_domains:
+  - health
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.github.io
+    checked_on: '2026-11-21'
+  selection:
+    domain: health
+    level: 1
+    rank: 307
+  mirrors:
+  - https://download.kiwix.org/zim/other/librepathology_en_all_maxi_2026-09.zim
 acquisition_recipes: []
