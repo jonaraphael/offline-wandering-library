@@ -265,3 +265,55 @@ test("Pause preserves the first committed part for a later Resume", async t => {
   assert.equal((await buildLibrary(drive, {...options, resume: true})).completed.length, 1);
   assert.deepEqual(requests.map(row => row.range), ["bytes=5-9", "bytes=10-12"]);
 });
+
+test("search assembly verifies and publishes only selected source digests", async () => {
+  const body = Buffer.from("selected bytes");
+  const chosen = asset("indexed", body);
+  const source = asset("unselected", Buffer.from("other"));
+  const model = "globalThis.OWLShardModel({});\n";
+  const license = "MIT";
+  const chunk = "globalThis.OWLShardPart([]);\n";
+  const pin = data => ({bytes: Buffer.byteLength(data), sha256: hash(data)});
+  const shard = {sha256: hash(chunk), records: 1, parts: [{...pin(chunk), bloom: "", vectors: 1}]};
+  const urls = [];
+  const route = new Map([["https://example.test/book", body], ["/index/model.js", model], ["/index/model-license.txt", license],
+    ["/index/sources/" + chosen.sha256 + "/00000.js", chunk]]);
+  const fetchFile = async url => {
+    urls.push(url);
+    return route.has(url) ? new Response(route.get(url)) : new Response("", {status: 404});
+  };
+  const drive = new Directory();
+  const config = {manifest: {version: 1, model: pin(model), license: pin(license),
+    sources: {[chosen.sha256]: shard, [source.sha256]: shard}}, base: "/index/", records: [],
+    page: "<p>search</p>", runtime: "// catalog runtime", rankRuntime: "// article runtime"};
+  const options = {assets: [chosen], catalogAssets: [chosen, source], routes: {indexed: ["https://example.test/book"]},
+    navigation: {assets: {indexed: {shelves: []}}}, search: config, fetchFile};
+  const result = await buildLibrary(drive, options);
+  assert.deepEqual(result.searchWarnings, []);
+  assert.ok(urls.some(path => path.includes(chosen.sha256)));
+  assert.ok(!urls.some(path => path.includes(source.sha256)));
+  const check = await (await drive.file("LIBRARY/SHA256SUMS.txt")).getFile();
+  assert.match(await check.text(), new RegExp(shard.sha256 + "  LIBRARY/SEARCH/sources/" + chosen.sha256));
+  const beforeResume = urls.length;
+  await buildLibrary(drive, {...options, resume: true});
+  assert.equal(urls.length, beforeResume, "verified data is reused");
+});
+
+test("a corrupted search chunk leaves the catalog search and static pages usable", async () => {
+  const content = Buffer.from("source file");
+  const doc = asset("indexed", content);
+  const pin = text => ({bytes: Buffer.byteLength(text), sha256: hash(text)});
+  const drive = new Directory();
+  const fetchFile = async path => new Response(path === "https://example.test/book" ? content : "good");
+  const result = await buildLibrary(drive, {assets: [doc], routes: {indexed: ["https://example.test/book"]}, fetchFile,
+    navigation: {assets: {indexed: {shelves: []}}},
+    search: {base: "/index/", page: "<p>search</p>", records: [], runtime: "", rankRuntime: "", manifest: {
+      version: 1, model: pin("good"), license: pin("good"),
+      sources: {[doc.sha256]: {records: 1, sha256: hash("evil"),
+        parts: [{...pin("evil"), bloom: "", vectors: 0}]}}
+    }}});
+  assert.equal(result.state.finished, false);
+  assert.match(result.searchWarnings.join(" "), /SHA-256/);
+  assert.match(await (await (await drive.file("LIBRARY/SEARCH/manifest.js")).getFile()).text(), /"shards":false/);
+  assert.match(await (await (await drive.file("START_HERE.html")).getFile()).text(), /Search offline/);
+});

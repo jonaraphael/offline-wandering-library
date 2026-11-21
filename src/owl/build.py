@@ -20,6 +20,7 @@ from .selection import capacity_budget, load_ladder, recommended_profile
 from .catalog import (CatalogError, capacity_plan, fingerprint, load_catalog,
                       load_profiles, read_yaml, resolve_content, resolve_locked_content, validate_catalog)
 from .download import download, verified
+from .filesystem import fat_file_limit, filesystem_type
 from .layout import checksum_name, content_root, managed_path
 from .runtime import file_lock as _lock, interrupt_signals
 from .safety import SafetyError, atomic_write, guard_directory, reject_symlinks, safe_path, sha256_file
@@ -308,6 +309,15 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     # Hashing during preflight can take hours. Capture the mounted filesystem
     # before it starts, not after a disappeared mount could have been recreated.
     anchors = [_directory_anchor(path) for path in (target, work, cache) if path is not None]
+    fs = filesystem_type(target) if any(a["size_bytes"] > (1 << 32) - 1 for a in assets) else ""
+    limit = fat_file_limit(fs)
+    if limit:
+        oversized = [a["title"] for a in assets if a["size_bytes"] > limit]
+        if oversized:
+            raise SafetyError("This FAT volume cannot store " + oversized[0] +
+                              " as a single file. Select exFAT or use the browser builder for split ZIMs.")
+    if fs:
+        plan["filesystem_type"] = fs
     _event(progress, total_assets=len(assets), completed_assets=0)
     progress(f"OWL {__version__} | {profile_name} | {drive_root}")
     progress(f"Content on disk: {plan['content_bytes']:,} bytes ({plan['content_bytes'] / 1e9:.2f} GB); "
@@ -606,7 +616,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         state["phase"] = "search"
         _event(progress, phase="search", active_asset=None, completed_assets=0)
         atomic_write(state_path, _json(state))
-        progress("Building lightweight title, chapter, and topic discovery.")
+        progress("Assembling selected precomputed search shards and catalog discovery.")
         readable_assets = document_assets(inventory_assets)
         discovery_pages, search_report = plan_discovery(readable_assets, navigation,
                                                         budget=plan["discovery_budget_bytes"])
@@ -665,7 +675,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         # Preserve checksum coverage of previous owned search generations. A
         # changed selection never silently prunes files from an existing drive.
         retained_search = {name for name in owned
-                           if (name.startswith(("SEARCH/chunks/", "SEARCH/data/")) or name == "SEARCH/library.owl")
+                           if (name.startswith(("SEARCH/chunks/", "SEARCH/data/", "SEARCH/sources/")) or name == "SEARCH/library.owl")
                            and safe_path(target, name).is_file()}
         managed = sorted(set(nav_files) | set(search_report["generated_files"]) | retained_search | set(CORE_OUTPUTS) |
                          {a["destination"] for a in assets})

@@ -1480,7 +1480,7 @@ assets:
   title: Kiwix Windows x64 portable reader
   category: software
   format: zip
-  source_url: https://ny.mirror.driftle.ss/kiwix/release/kiwix-desktop/kiwix-desktop_windows_x64_2.5.1.zip
+  source_url: https://mirror.download.kiwix.org/release/kiwix-desktop/kiwix-desktop_windows_x64_2.5.1.zip
   destination: SOFTWARE/WINDOWS/kiwix-desktop_windows_x64_2.5.1.zip
   version: 2.5.1
   size_bytes: 157265310
@@ -1526,7 +1526,7 @@ assets:
   title: Kiwix Linux x86_64 AppImage
   category: software
   format: appimage
-  source_url: https://ny.mirror.driftle.ss/kiwix/release/kiwix-desktop/kiwix-desktop_x86_64_2.5.1.appimage
+  source_url: https://mirror.download.kiwix.org/release/kiwix-desktop/kiwix-desktop_x86_64_2.5.1.appimage
   destination: SOFTWARE/LINUX/kiwix-desktop_x86_64_2.5.1.appimage
   version: 2.5.1
   size_bytes: 168125632
@@ -1571,7 +1571,7 @@ assets:
   title: Kiwix macOS disk image
   category: software
   format: dmg
-  source_url: https://ny.mirror.driftle.ss/kiwix/release/kiwix-macos/kiwix-macos_3.14.0.dmg
+  source_url: https://mirror.download.kiwix.org/release/kiwix-macos/kiwix-macos_3.14.0.dmg
   destination: SOFTWARE/MACOS/kiwix-macos_3.14.0.dmg
   version: 3.14.0
   size_bytes: 6082767
@@ -1616,7 +1616,7 @@ assets:
   title: Kiwix Android standalone APK
   category: software
   format: apk
-  source_url: https://ny.mirror.driftle.ss/kiwix/release/kiwix-android/org.kiwix.kiwixmobile.standalone-3.14.0.apk
+  source_url: https://mirror.download.kiwix.org/release/kiwix-android/org.kiwix.kiwixmobile.standalone-3.14.0.apk
   destination: SOFTWARE/ANDROID/org.kiwix.kiwixmobile.standalone-3.14.0.apk
   version: 3.14.0
   size_bytes: 108265861

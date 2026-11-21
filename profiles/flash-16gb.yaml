@@ -3,8 +3,8 @@ id: flash-16gb
 title: Recommended library for 16 GB
 capacity_bytes: 15875000000
 reserve_bytes: 125000000
-discovery_budget_bytes: 16777216
-readers_budget_bytes: 1000000000
+discovery_budget_bytes: 160000000
+readers_budget_bytes: 500000000
 nominal_capacity_bytes: 16000000000
 default_resources:
 - appropedia

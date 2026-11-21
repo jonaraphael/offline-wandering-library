@@ -1,6 +1,7 @@
 import {sha256} from "./vendor/noble-hashes/sha2.js";
 import {bytesToHex} from "./vendor/noble-hashes/utils.js";
 import {writeFile} from "./drive.mjs";
+import {assembleSearch} from "./search-build.mjs";
 
 const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
@@ -27,7 +28,7 @@ function assetList(assets, layouts, prefix) {
   }).join("") + "</ul>";
 }
 
-export async function assembleLibrary(drive, {completed, missing, navigation, layouts, parts, signal, writeSearch}) {
+export async function assembleLibrary(drive, {completed, missing, navigation, layouts, parts, signal, search, searchBudget, fetchFile}) {
   const {css = "", groups = [], assets: metadata = {}, topics = {}, entrances = {}, assignments = [], verify = ""} = navigation;
   const documents = completed.filter(asset => metadata[asset.id]?.document !== false).sort(titleOrder);
   const inventory = completed.map(asset => ({
@@ -40,6 +41,8 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
   const shelfLinks = [];
   const shelves = [
     ["critical", "Critical references", documents.filter(asset => asset.critical)],
+    ["phone", "Critical files for Files and PDF viewers", documents.filter(asset =>
+      asset.critical && ["pdf", "epub", "html", "htm"].includes(asset.format))],
     ["textbooks", "Textbooks", documents.filter(asset => metadata[asset.id]?.shelves.includes("textbooks"))],
     ["illustrated-guides", "Illustrated guides", documents.filter(asset => metadata[asset.id]?.shelves.includes("illustrated-guides"))],
     ...groups.map(([id, title]) => [id, title, documents.filter(asset => metadata[asset.id]?.group === id)])
@@ -85,17 +88,34 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
     file.title, file.license, file.attribution, ...file.parts.map(part => part.path)
   ].filter(Boolean).join("\n")).join("\n\n") + "\n");
 
-  // Future precomputed per-resource search files can join the same verified output.
-  const searchFiles = writeSearch ? await writeSearch(completed) : [];
-  for (const [path, contents] of searchFiles) pages.set(path, contents);
+  const indexed = search ? await assembleSearch(drive, {completed, layouts, navigation,
+    config: search, fetchFile, signal, budget: searchBudget}) : {pages: [], checksums: [], warnings: []};
+  for (const [path, contents] of indexed.pages) pages.set(path, contents);
+  const entrypoints = (indexed.sources || []).flatMap(source => {
+    const marks = (source.entrypoints || []).map(([value, title]) => typeof value === "number"
+      ? '<li><a href="../../LIBRARY/' + href(source.destination) + '#page=' + value + '">' + escape(title) + '</a></li>'
+      : "<li>" + escape(title) + " · <code>" + escape(value) + "</code></li>");
+    if (source.main) marks.unshift("<li>Archive start · <code>" + escape(source.main) + "</code></li>");
+    if (!marks.length) return [];
+    return ["<h2>" + link("../../LIBRARY/" + source.destination, source.title) + "</h2><ul>" + marks.join("") + "</ul>"];
+  });
+  if (entrypoints.length) pages.set(index + "sections.html", document("Sections and archive entry points", css,
+    "<nav>" + link("../../START_HERE.html", "Start here") + "</nav>" + entrypoints.join("")));
+  const readers = completed.filter(asset => layouts.get(asset.id)[0].path.startsWith("LIBRARY/SOFTWARE/"));
+  const readerIndex = readers.length ? '<h2 id="readers">Archive readers</h2>' +
+    assetList(readers, layouts, "") : "";
   const start = document("Offline Wandering Library", css,
-    '<nav>' + link(index + "topics.html", "Topic atlas") + ' <a href="#shelves">Shelves</a> <a href="#files">All files</a></nav>' +
+    '<nav>' + (search ? link("LIBRARY/SEARCH.html", "Search offline") + ' ' : '') +
+    link(index + "topics.html", "Topic atlas") + ' <a href="#shelves">Shelves</a> <a href="#files">All files</a></nav>' +
     '<p class="notice">On a phone, open this page in Files. If a link does not open, find the printed path on this drive. ' +
     'Install Kiwix on your phone while you have internet. For a split archive, keep all parts in one folder.</p>' +
-    omitted + '<h2 id="shelves">Shelves</h2><ul class="cards">' + shelfLinks.join("") + '</ul>' +
+    '<p>' + link(index + "shelf-phone.html", "Open critical files with Files or a PDF viewer") + '</p>' +
+    (entrypoints.length ? '<p>' + link(index + "sections.html", "Sections and archive entry points") + '</p>' : '') +
+    omitted + readerIndex + '<h2 id="shelves">Shelves</h2><ul class="cards">' + shelfLinks.join("") + '</ul>' +
     '<h2 id="files">All files (' + documents.length + ")</h2>" + assetList(documents, layouts, ""));
 
-  const checksums = inventory.flatMap(file => file.parts.map(part => part.sha256 + "  " + part.path));
+  const checksums = [...inventory.flatMap(file => file.parts.map(part => part.sha256 + "  " + part.path)),
+    ...indexed.checksums];
   const encode = new TextEncoder();
   for (const [path, contents] of pages) {
     signal?.throwIfAborted();
@@ -105,4 +125,5 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
   checksums.push(bytesToHex(sha256(encode.encode(start))) + "  START_HERE.html");
   await writeFile(drive, "LIBRARY/SHA256SUMS.txt", checksums.sort().join("\n") + "\n");
   await writeFile(drive, "START_HERE.html", start);
+  return indexed.warnings;
 }

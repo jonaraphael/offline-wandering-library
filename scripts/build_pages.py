@@ -17,6 +17,9 @@ from zipfile import ZipFile
 from owl.atlas_model import load_navigation
 from owl.catalog import is_document, learning_shelves, load_catalog, load_profiles
 from owl.navigation import CSS, GROUPS, _group
+from owl.discovery import compile_records
+from owl.search_ui import render_search_page
+from owl.search_shards import SEARCH_ROOT, load_manifest
 from owl.selector import ROOT, make_model, render_selector
 
 
@@ -45,7 +48,7 @@ def browser_routes(asset: dict) -> list[str]:
     observed = asset.get("browser_fetch") or {}
     candidates = []
     if ((url.hostname in KIWIX_REDIRECTORS and url.path.startswith("/zim/")) or
-            (asset["id"] in READER_IDS and "/kiwix/release/" in url.path)):
+            (asset["id"] in READER_IDS and url.path.removeprefix("/kiwix").startswith("/release/"))):
         candidates.append(urlunsplit(("https", KIWIX, url.path.removeprefix("/kiwix"), url.query, "")))
     elif observed.get("cors") is True and (asset["format"] != "zim" or observed.get("range") is True):
         candidates.append(asset["source_url"])
@@ -165,7 +168,7 @@ def generate_archive_pins(asset: dict, path: Path) -> dict:
     return {"sha256": asset["sha256"], "part_bytes": ZIM_PART, "hashes": hashes}
 
 
-def build_site(site: Path, *, fetch_mirrors: bool, cache: Path) -> dict:
+def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=None) -> dict:
     if site.exists() and any(site.iterdir()):
         raise ValueError("Choose an empty output directory")
     site.mkdir(parents=True, exist_ok=True)
@@ -174,11 +177,32 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path) -> dict:
     by_id = {asset["id"]: asset for asset in assets}
     routes = {asset["id"]: browser_routes(asset) for asset in assets}
     navigation = load_navigation(ROOT / "catalog/navigation", assets)
+    records, _ = compile_records(assets, navigation)
+    search_index = load_manifest()
+    search_base = "./search/"
+    if search_commit:
+        if len(search_commit) != 40 or any(char not in "0123456789abcdef" for char in search_commit):
+            raise ValueError("Search distribution needs an immutable Git commit")
+        search_base = ("https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/"
+                       + search_commit + "/catalog/search/")
+    elif search_index["sources"]:
+        shutil.copytree(SEARCH_ROOT, site / "search")
+    templates = ROOT / "src/owl/templates"
+    page = (render_search_page().replace("INDEX/categories.html", "INDEX/topics.html")
+            .replace("INDEX/A.html", "../START_HERE.html#files")
+            .replace("INDEX/textbooks.html", "INDEX/shelf-textbooks.html")
+            .replace("INDEX/illustrated-guides.html", "INDEX/shelf-illustrated-guides.html")
+            .replace("INDEX/critical.html", "INDEX/shelf-critical.html")
+            .replace("INVENTORY.html", "INVENTORY.json"))
+    write_json(site / "search-build.json", {"manifest": search_index, "base": search_base, "records": records,
+        "page": page, "runtime": (templates / "search.js").read_text(encoding="utf-8"),
+        "rankRuntime": (templates / "rank.js").read_text(encoding="utf-8")})
     navigation = {key: navigation[key] for key in ("topics", "entrances", "assignments")}
     navigation.update(css=CSS, groups=GROUPS, verify=(ROOT / "src/owl/verify.py").read_text(encoding="utf-8"),
                       assets={asset["id"]: {
                           "document": is_document(asset), "shelves": sorted(learning_shelves(asset)),
-                          "group": _group(asset), "publisher": asset.get("publisher"), "attribution": asset.get("attribution")
+                          "group": _group(asset), "publisher": asset.get("publisher"), "attribution": asset.get("attribution"),
+                          "legacy": bool(asset.get("legacy"))
                       } for asset in assets})
     write_json(site / "catalog.json", {"planner": model, "routes": routes, "navigation": navigation})
     (site / "index.html").write_text(render_selector(model, pages=True), encoding="utf-8")
@@ -234,6 +258,7 @@ def main() -> int:
     parser.add_argument("--cache", type=Path, help="external cache for verified mirror downloads")
     parser.add_argument("--archive-pins", nargs=2, metavar=("ASSET_ID", "FILE"),
                         help="emit pins for a local ZIM whose complete SHA-256 matches the catalog")
+    parser.add_argument("--search-commit", help="serve search data from this full Git commit instead of copying it into Pages")
     args = parser.parse_args()
     if args.archive_pins:
         identity, path = args.archive_pins
@@ -243,7 +268,7 @@ def main() -> int:
     if args.output is None:
         parser.error("supply an output directory or --archive-pins")
     with tempfile.TemporaryDirectory(prefix="owl-pages-") as scratch:
-        result = build_site(args.output, fetch_mirrors=args.fetch_mirrors, cache=args.cache or Path(scratch))
+        result = build_site(args.output, fetch_mirrors=args.fetch_mirrors, cache=args.cache or Path(scratch), search_commit=args.search_commit)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0
 

@@ -79,7 +79,7 @@ assert(JSON.stringify(geometry())===positions,'Clearing subtopic changed geometr
 assert(svgItems().find(n=>n.attributes['data-map-subtopic']==='topic:mathematics').attributes['aria-pressed']==='false','Subtopic toggle did not clear');
 clearFilters();search('archive-readers');click('exclude-shown');
 assert(shown()[0].children[0].children[0].checked&&get('bulk-feedback').textContent.includes('required'),'Required reader removed');
-clearFilters();click('exclude-shown');assert(lastReport.selectedAssetIds.length===0,'Unfiltered exclude failed');
+clearFilters();click('exclude-shown');assert(lastReport.selectedAssetIds.length===4&&lastReport.selectedAssetIds.every(id=>id.startsWith('kiwix_')),'Unfiltered exclude failed');
 click('include-shown');assert(cards().every(checked),'Unfiltered include failed');
 search('does-not-match-anything-xyz');assert(shown().length===0&&get('include-shown').disabled,'Empty search failed');
 assert(get('fatal').hidden,get('fatal').textContent);

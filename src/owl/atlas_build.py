@@ -205,8 +205,12 @@ def register_outputs(target: Path, pages: dict, state: dict) -> None:
 
 
 def write_outputs(target: Path, pages: dict[str, str]) -> None:
-    for relative, text in sorted(pages.items()):
-        path, data = managed_path(target, relative), text.encode("utf-8")
+    from .search_shards import output_bytes
+
+    publish_last = {"SEARCH/shards.js": 1, "SEARCH/manifest.js": 2}
+    for relative in sorted(pages, key=lambda name: (publish_last.get(name, 0), name)):
+        text = pages[relative]
+        path, data = managed_path(target, relative), output_bytes(text)
         if not path.is_file() or path.read_bytes() != data:
             atomic_write(path, data)
 
@@ -439,6 +443,7 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             assets = _inventory_assets(inventory)
             atlas_pages, report = plan_atlas(target, assets, navigation, state, strict_coverage=strict_coverage)
             from .discovery import plan_discovery
+            from .search_shards import output_info, output_size
             discovery_pages, discovery_report = plan_discovery(assets, navigation,
                 budget=info.get('profile', {}).get('discovery_budget_bytes', 16 * 1024 * 1024))
             inventory = {**inventory, "navigation": report, "search": discovery_report}
@@ -485,7 +490,7 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
                     raise SafetyError('Source missing or size changed: ' + asset['id'])
             preflight_outputs(target, pages, state)
             validate_links(target, {**pages, "SHA256SUMS.txt": ""}, assets)
-            check_space(target, sum(len(text.encode("utf-8")) for text in pages.values()) +
+            check_space(target, sum(map(output_size, pages.values())) +
                         info.get("profile", {}).get("reserve_bytes", 0) + 1024 * 1024)
             atomic_write(job_path, _json(job))
             state.update(complete=False, phase="atlas")
@@ -495,7 +500,7 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             register_outputs(target, pages, state)
             write_outputs(target, pages)
             checksums = {**baseline, **source_hashes,
-                         **{p: hashlib.sha256(text.encode("utf-8")).hexdigest() for p, text in pages.items()}}
+                         **{p: output_info(text)["sha256"] for p, text in pages.items()}}
             _verify_entries(target, {p: checksums[p] for p in pages}, progress=progress)
             profile_data = info.get("profile", {})
             final_bytes = sum(managed_path(target, p).stat().st_size for p in checksums)

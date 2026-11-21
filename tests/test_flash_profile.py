@@ -67,7 +67,7 @@ class FlashProfileTests(unittest.TestCase):
             self.assertLessEqual(peak, plan['capacity_bytes'])
             self.assertEqual(plan['reserve_bytes'], margin_bytes)
             self.assertEqual(plan['capacity_bytes'] + margin_bytes, nominal_bytes)
-            self.assertEqual(selection['readers_budget_bytes'], 1_000_000_000)
+            self.assertEqual(selection['readers_budget_bytes'], 500_000_000)
             self.assertEqual(plan['content_bytes'], sum(a['size_bytes'] for a in assets))
             self.assertNotIn('content_target_min_bytes', profile)
 

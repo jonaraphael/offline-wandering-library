@@ -175,6 +175,18 @@ def _audit(drive_root: Path, *, info, run_smoke) -> dict:
              'discovery selected sources differ')
     generated = set(coverage['generated_files'])
     expected = {'SEARCH/manifest.js', 'SEARCH/search.js', 'SEARCH/coverage.json', 'SEARCH.html', path}
+    if transport.get('shards'):
+        from .search_shards import LICENSE_FILE, MODEL_FILE, RUNTIME_FILE, SELECTION_FILE, part_path, payload
+        selection = payload(_read(safe_path(library, SELECTION_FILE), 70_000_000), 'OWLShardSelection')
+        _require(selection['version'] == 1, 'unsupported source shard selection schema')
+        selected_pins = {asset['id']: asset['sha256'] for asset in readable}
+        descriptors = selection['sources']
+        _require(coverage.get('shards') == [{'id': row['id'], 'source_sha256': row['sha256'], 'records': row['records']}
+                                            for row in descriptors], 'source shard coverage differs')
+        expected |= {RUNTIME_FILE, SELECTION_FILE, 'SEARCH/' + MODEL_FILE, 'SEARCH/' + LICENSE_FILE}
+        for row in descriptors:
+            _require(selected_pins.get(row['id']) == row['sha256'], 'source shard pin differs')
+            expected.update('SEARCH/' + part_path(row['sha256'], index) for index in range(len(row['parts'])))
     _require(generated == expected and generated <= manifest.keys(), 'discovery output selection differs')
     for name, integrity in coverage["file_integrity"].items():
         _require(name in generated and sizes[name] == integrity["size_bytes"] and manifest[name] == integrity["sha256"],

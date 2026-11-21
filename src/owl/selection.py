@@ -20,9 +20,12 @@ BUILTIN_CAPACITIES = {
 }
 MINIMUM_MARGIN = 125_000_000
 MARGIN_DIVISOR = 200
-READER_BUDGET = GB
+READER_BUDGET = 500_000_000
 DISCOVERY_BUDGET = 16 * 1024 * 1024
+MAX_DISCOVERY_BUDGET = 500_000_000
+DISCOVERY_DIVISOR = 100
 METADATA_BUDGET = 16 * 1024 * 1024
+LADDER_SUPPORT_BUDGET = GB + DISCOVERY_BUDGET
 READERS = "archive-readers"
 
 
@@ -33,7 +36,7 @@ def capacity_budget(capacity_bytes: int) -> dict[str, int]:
     return {
         "capacity_bytes": capacity_bytes - headroom,
         "reserve_bytes": headroom,
-        "discovery_budget_bytes": DISCOVERY_BUDGET,
+        "discovery_budget_bytes": min(MAX_DISCOVERY_BUDGET, max(DISCOVERY_BUDGET, min(capacity_bytes, DEFAULT_LIMIT) // DISCOVERY_DIVISOR)),
         "readers_budget_bytes": READER_BUDGET,
     }
 
@@ -41,7 +44,7 @@ def capacity_budget(capacity_bytes: int) -> dict[str, int]:
 def usable_capacity(capacity_bytes: int) -> int:
     budget = capacity_budget(capacity_bytes)
     return (budget["capacity_bytes"] - budget["reserve_bytes"] -
-            budget["discovery_budget_bytes"] - METADATA_BUDGET - budget["readers_budget_bytes"])
+            LADDER_SUPPORT_BUDGET - METADATA_BUDGET)
 
 
 PUBLISHED = "published"

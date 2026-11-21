@@ -274,7 +274,7 @@ async function buildAsset(drive, state, asset, layout, {routes, published, fetch
 }
 
 export async function buildLibrary(drive, {assets, excluded = [], catalogAssets = assets, routes,
-  published = {}, navigation = {}, partBytes = PART_BYTES, fetchFile = globalThis.fetch, signal,
+  published = {}, navigation = {}, search, searchBudget = 16 * 2 ** 20, partBytes = PART_BYTES, fetchFile = globalThis.fetch, signal,
   onProgress = () => {}, resume = false}) {
   const saved = await readBuild(drive);
   if (saved && !resume) throw Error("This drive has a saved build. Choose Resume.");
@@ -326,8 +326,9 @@ export async function buildLibrary(drive, {assets, excluded = [], catalogAssets 
     const reason = state.dropped[asset.id] || state.failures[asset.id];
     return reason ? [{id: asset.id, title: asset.title, reason}] : [];
   })];
-  await assembleLibrary(drive, {completed, missing, navigation, layouts, parts: state.parts, signal});
-  state.finished = Object.keys(state.failures).length === 0 && Object.keys(state.dropped).length === 0;
+  const searchWarnings = await assembleLibrary(drive, {completed, missing, navigation, layouts, parts: state.parts,
+    search, searchBudget, fetchFile, signal});
+  state.finished = Object.keys(state.failures).length === 0 && Object.keys(state.dropped).length === 0 && !searchWarnings.length;
   await save(drive, state);
-  return {state, completed, missing};
+  return {state, completed, missing, searchWarnings};
 }

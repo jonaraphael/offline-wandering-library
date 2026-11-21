@@ -103,22 +103,35 @@ def _dependencies() -> dict:
 def _snapshot(job_dir: Path, argv: list[str], *, scripts=False) -> dict:
     snapshot = job_dir / "snapshot"
     manifest = {}
-    total = 0
+    total = search_total = 0
 
     def copy(source: Path, destination: Path):
-        nonlocal total
+        nonlocal total, search_total
         reject_symlinks(source)
         if source.is_dir():
             for child in sorted(source.iterdir()):
                 if child.name != "__pycache__" and child.suffix not in {".pyc", ".pyo"}:
                     copy(child, destination / child.name)
         elif source.is_file():
-            total += source.stat().st_size
-            if total > 64 * 1024 * 1024 or len(manifest) >= 10000:
-                raise SafetyError("Job source/input snapshot exceeds 64 MiB or 10,000 files")
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(source, destination)
-            manifest[destination.relative_to(snapshot).as_posix()] = sha256_file(destination)
+            name = destination.relative_to(snapshot).as_posix()
+            size = source.stat().st_size
+            if name.startswith("catalog/search/"):
+                from .search_shards import REPO_LIMIT
+                search_total += size
+                if search_total > REPO_LIMIT:
+                    raise SafetyError("Job search data exceeds the 600 MB shard budget")
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                try:
+                    os.link(source, destination)
+                except OSError:
+                    shutil.copyfile(source, destination)
+            else:
+                total += size
+                if total > 64 * 1024 * 1024 or len(manifest) >= 10000:
+                    raise SafetyError("Job source/input snapshot exceeds 64 MiB or 10,000 files")
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(source, destination)
+            manifest[name] = sha256_file(destination)
         else:
             raise SafetyError(f"Job input is not a regular file/directory: {source}")
 
@@ -138,7 +151,7 @@ def _snapshot(job_dir: Path, argv: list[str], *, scripts=False) -> dict:
         default_recipes = catalog / "acquisition/recipes.yaml"
         if default_recipes.exists():
             copy(default_recipes, snapshot / "catalog/acquisition/recipes.yaml")
-        pending = [name for name in manifest if name.startswith("catalog/")]
+        pending = [name for name in manifest if name.startswith("catalog/") and not name.startswith("catalog/search/")]
         scanned = set()
         while pending:
             name = pending.pop()

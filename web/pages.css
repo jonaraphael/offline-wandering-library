@@ -11,3 +11,7 @@
 .pages #browser-build-errors,.pages #browser-exclusions-list{max-height:12rem;overflow:auto;padding-left:1.3rem}
 .pages #browser-build-status{font-size:.87rem;overflow-wrap:anywhere}
 .pages .mobile-budget-inner{grid-template-columns:1fr auto}
+
+.iphone-setup { margin: 0.75rem 0; }
+.iphone-setup a { display: inline-flex; align-items: center; gap: 1rem; }
+.iphone-setup svg { flex: none; }

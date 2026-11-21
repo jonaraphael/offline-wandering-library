@@ -24,8 +24,8 @@ destination.
 
 After the build, open `START_HERE.html` on the drive. It links to shelves, a
 topic atlas and the files. Paths are printed for file viewers that block links.
-The browser build's atlas uses catalog topic assignments. Search shards are
-planned for a later round. The browser writes a whole-file inventory, a
+The browser build’s atlas uses catalog topic assignments. Offline search uses
+the available precomputed shards and catalog index. The browser writes a whole-file inventory, a
 per-file or per-part checksum listing, and the standalone Python verifier.
 
 ## Drives and readers
@@ -42,10 +42,8 @@ The browser copies the pinned Windows, Linux x86-64, macOS and Android Kiwix
 packages from the publisher. Set up a compatible iPhone reader while online and
 check it with your drive before taking it offline. To open split ZIMs, keep all
 parts together and open the `.zimaa` part in a reader that supports them. Kiwix
-Desktop uses libzim. Kiwix Android supports opening split archives from storage,
-with application variant and platform differences in storage access. Kiwix JS
-groups the parts and may require selecting them together. Its reader
-installation is separate. [Kiwix Desktop file picker](https://github.com/kiwix/kiwix-desktop/blob/main/src/kiwixapp.cpp#L171-L189) ·
+Desktop uses libzim. Android split results vary with the app variant and
+storage provider. See the device matrix for the current evidence and checks. [Kiwix Desktop file picker](https://github.com/kiwix/kiwix-desktop/blob/main/src/kiwixapp.cpp#L171-L189) ·
 [Kiwix Android split archive issue](https://github.com/kiwix/kiwix-android/issues/4510) ·
 [Kiwix JS split archives](https://github.com/kiwix/kiwix-js/issues/1496)
 
@@ -130,3 +128,17 @@ pinned same-origin content. The generator validates checked-in archive part pins
 against their catalog entries. To create a record from a downloaded split-bound
 ZIM, run `python scripts/build_pages.py --archive-pins ASSET_ID FILE`.
 The command emits JSON only after verifying the whole SHA-256.
+
+## Search and phone reading
+
+The build copies the precomputed search files for completed selected sources
+and publishes the local search page, model and static shelves. The workflow
+pins its shard URLs to the same Git commit used to build the site. Retrying a
+search download reuses any verified chunks on the drive. See
+[offline search](search.md).
+
+Open **Set up an iPhone for offline reading** to scan the App Store QR code
+while online. The start page on the drive links to critical files readable in
+Files and lists the exact folders and names. The bundled Android APK can
+install from the drive. Use the [device test kit](device-matrix.md) to check
+file access and native ZIM reading on your devices.

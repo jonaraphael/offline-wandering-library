@@ -428,16 +428,18 @@ process.stdout.write(JSON.stringify(results));
         model = deepcopy(self.model)
         changes = {resource["id"]: {"included":False} for resource in model["resources"]}
         result = self.javascript([{"profile":"flash-16gb", "items":changes}])[0]
-        self.assertEqual(result["report"]["selectedAssetIds"], [])
+        self.assertEqual(set(result["report"]["selectedAssetIds"]),
+                         {"kiwix_windows", "kiwix_linux", "kiwix_macos", "kiwix_android"})
         self.assertFalse(result["build"])
 
     def test_rich_fixed_presets_cannot_drop_readers_while_keeping_archives(self):
         for result in self.javascript([{"profile":identity, "items":{"archive-readers":{"included":False}}}
                                        for identity in ("flash-16gb", "critical-64gb")]):
             self.compare_to_python(result)
-            self.assertFalse(result["build"])
-            self.assertTrue(any("reader" in error.lower() for error in result["report"]["errors"]))
-            self.assertGreater(result["report"]["coverage"]["softwareBytes"], 0)  # Required dependency remains represented; conflicting exclusion blocks the command.
+            self.assertTrue(result["build"])
+            self.assertFalse(result["report"]["errors"])
+            self.assertNotIn("--exclude archive-readers", result["build"])
+            self.assertGreater(result["report"]["coverage"]["softwareBytes"], 0)
             self.assertGreater(result["report"]["coverage"]["archiveCount"], 0)
 
     def test_default_coverage_floor_matches_cli_and_customization_can_remove_it(self):

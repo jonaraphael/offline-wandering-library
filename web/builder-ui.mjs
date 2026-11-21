@@ -5,12 +5,13 @@ import {getRememberedDrive, hasDrivePermission, keepScreenAwake, measureFreeSpac
 const INDEX_ALLOWANCE = 16 * 2 ** 20;
 const byId = id => document.getElementById(id);
 
+async function get(url, signal) {
+  const response = await fetch(url, {cache: "no-cache", signal});
+  if (!response.ok) throw Error("Could not load " + url);
+  return response.json();
+}
+
 export async function load() {
-  async function get(url) {
-    const response = await fetch(url, {cache: "no-cache"});
-    if (!response.ok) throw Error("Could not load " + url);
-    return response.json();
-  }
   const [catalog, published] = await Promise.all([get("./catalog.json"), get("./chunk-manifests.json")]);
   return {...catalog, published};
 }
@@ -66,7 +67,7 @@ export function mount({catalog, recommend}) {
   function refresh() {
     pick.disabled = !supported || busy;
     start.disabled = !supported || busy || !drive || !confirmed || Boolean(saved) || !selection?.assets.length ||
-      Boolean(selection?.over) || Boolean(latest?.result.errors.length) ||
+      Boolean(selection?.over) || !(latest?.result.coverage.knowledgeBytes > 0) || Boolean(latest?.result.errors.length) ||
       Boolean((selection?.excluded.length || latest?.result.incomplete.length) && !consent.checked);
     pause.hidden = !cancel;
     resume.disabled = !supported || busy || !drive;
@@ -88,7 +89,7 @@ export function mount({catalog, recommend}) {
     if (measured === undefined && confirmedCapacity !== label) confirmed = false;
     confirmSize.textContent = "Use " + format(label) + " drive size";
     const available = Math.min(measured ?? Infinity, profile.capacity_bytes);
-    const reserve = Math.max(INDEX_ALLOWANCE, profile.reserve_bytes);
+    const reserve = Math.max(INDEX_ALLOWANCE, profile.reserve_bytes) + profile.discovery_budget_bytes;
     // If a marketed 16 GB drive has less than 16 GB free, apply the minimum
     // ladder then fit its ranked, untouched recommendation to measured bytes.
     const args = result.selectionArgs;
@@ -104,7 +105,7 @@ export function mount({catalog, recommend}) {
       return true;
     });
     const over = Math.max(0, used + reserve - available);
-    selection = {...next, over};
+    selection = {...next, over, searchBudget: profile.discovery_budget_bytes};
     const usedPercent = Math.min(100, 100 * used / available);
     byId("storage-fill").style.width = usedPercent + "%";
     byId("reserve-fill").style.width = "0%";
@@ -196,7 +197,7 @@ export function mount({catalog, recommend}) {
   function progress(event) {
     if (event.kind === "assembling") {
       meter.removeAttribute("value");
-      feedback.textContent = "Writing the start page, shelves and topic atlas…";
+      feedback.textContent = "Writing the offline indexes and start page…";
     } else if (event.kind === "downloading") {
       const now = performance.now();
       if (event.received && event.received < event.bytes && now - lastProgress < 200) return;
@@ -228,12 +229,13 @@ export function mount({catalog, recommend}) {
       feedback.textContent = isResume ? "Opening the saved build…" : "Starting the build…";
       issues.clear();
       textList(errors, []);
+      const search = await get("./search-build.json", cancel.signal);
       const result = await lockDrive(() => buildLibrary(drive, {...selection, catalogAssets: planner.assets,
-        routes, published, navigation, resume: isResume, signal: cancel.signal, onProgress: progress}));
+        routes, published, navigation, search, resume: isResume, signal: cancel.signal, onProgress: progress}));
       saved = result.state;
       meter.max = 1;
       meter.value = 1;
-      textList(errors, result.missing.map(row => row.title + " — " + row.reason));
+      textList(errors, [...result.missing.map(row => row.title + " — " + row.reason), ...result.searchWarnings]);
       const ranOutOfSpace = Object.keys(saved.dropped).length > 0;
       feedback.textContent = ranOutOfSpace ?
         result.completed.length + " files verified. Free space on the drive and choose Resume to retry omitted files." : !saved.finished ?

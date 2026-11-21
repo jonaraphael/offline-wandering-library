@@ -13,7 +13,8 @@ in desktop Chrome or Edge. Connect an exFAT drive and choose its folder. Confirm
 the size if free space cannot be estimated. Edit the recommendation and choose
 **Build library**. Keep the tab open and the drive attached. Use **Resume** to
 continue a saved build. The page lists files that need the Python build.
-[Browser build guide](docs/pages-builder.md)
+Set up iPhone Kiwix with the builder’s App Store QR code while online. The critical shelf also links to files you can read in Files.
+[Browser build guide](docs/pages-builder.md) · [Device tests](docs/device-matrix.md)
 
 ### Build with Python
 
@@ -35,9 +36,12 @@ python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY --profile flash-16gb
 python scripts/verify.py /path/to/EMERGENCY_LIBRARY
 ```
 
-Python 3.11+ and internet access are needed to build. Reading ordinary PDFs does not require Python. ZIM archives need a compatible reader; packages for Windows, macOS, Linux and Android are included. The builder never formats the drive or executes downloaded software. Leave `--cache-dir` unset so original downloads and resumable partials stay exclusively on the selected drive.
+Python 3.11+ and internet access are needed to build. Reading ordinary PDFs does not require Python. ZIM archives need a compatible reader; packages for Windows, macOS, Linux and Android are included. The planner sets aside 500 MB for them. The builder never formats the drive or executes downloaded software. Leave `--cache-dir` unset so original downloads and resumable partials stay exclusively on the selected drive.
 
-Search and atlas now compile from titles, descriptions, aliases, topics, and reviewed section maps. Builds do not extract or index document bodies. Each profile reserves 16 MiB for discovery output; there is no indexing workspace or cache. Downloads and full integrity verification still read source bytes.
+Both builders assemble precomputed search shards for the selected files. Search
+covers catalog titles, PDF sections and indexed ZIM articles, with coverage by
+source. The search model, indexes and static navigation travel on the drive.
+See the [offline search guide](docs/search.md).
 
 The standalone selector's command uses `--detach` to start a saved background job. Inspect, cancel or resume it with `scripts/build_job.py`; see [unattended builds](docs/unattended-builds.md). For foreground builds, pause with Ctrl-C, wait for the prompt and rerun the command to resume. Keep the drive connected while the job is active.
 
@@ -142,17 +146,19 @@ python scripts/discovery.py build \
     --output /path/to/EMERGENCY_LIBRARY
 ```
 
-This checks metadata, source presence and sizes, and republishes search and atlas together. It records that source integrity was not reverified. Use `scripts/verify.py` when a full source audit is needed. See [the discovery workflow](docs/search.md) for preparing metadata, validating AI annotations, and reviewing source locations.
+This checks metadata, source presence and sizes, and republishes search and atlas together. It records that source integrity was not reverified. Use `scripts/verify.py` when a full source audit is needed. See [the discovery workflow](docs/search.md) for precomputing shards and reviewing source locations.
 
 ## Search without a server
 
-Open `START_HERE.html` and enter words in **Search titles, chapters, and topics**. Search loads automatically from neighboring files on the SSD; there is no index file to select. `LIBRARY/SEARCH.html` provides the same interface on a dedicated page. All processing stays on the device, without a server, account, CDN, or network connection.
+Open `START_HERE.html` or `LIBRARY/SEARCH.html` in a desktop browser.
+Search loads its model and index from files on the drive. PDF results link to
+the source page. ZIM results show the archive’s filename and internal path.
+Use an archive reader to open those entries. The topic atlas, sections index and
+critical phone shelf remain readable with JavaScript off.
 
-The browser loads one small metadata list and scans it locally. Exact title and alias matches rank first, followed by all-word and partial matches. Results show source descriptions, locations, attribution, and reader requirements. Reviewed chapters link to their source location and the whole document. Topic matches open static atlas pages.
-
-Search covers titles, catalog descriptions, topics, aliases and headings from available section maps. The current catalog has no reviewed section maps. Search uses metadata only. No match does not establish that the information is absent: open a relevant document or use an archive's own reader search. Software and supporting source packages are excluded.
-
-Choose **All resources**, **Textbooks**, or **Illustrated guides** to narrow the results before ranking. Search data, runtime, manifest, and coverage live in `LIBRARY/SEARCH/`; keep that folder together. Coverage reports distinguish catalog results from sources with approved sections. See [search behavior and the Python/AI workflow](docs/search.md).
+Search coverage varies by source. The coverage file in `LIBRARY/SEARCH/` lists
+the indexed files. Keep that directory together when copying the drive.
+[Search guide](docs/search.md)
 
 Search depends on browser and file-manager capabilities:
 
@@ -163,7 +169,7 @@ Search depends on browser and file-manager capabilities:
 | iPhone / iPad | Files and compatible document previews | Files may block both search scripts and links to neighboring files. Read the catalog and printed paths on START_HERE, then open documents directly in Files | Do not assume a reader can be installed from the SSD offline |
 | Raspberry Pi | Compatible standard browser/viewer | Depends on the installed browser and available memory | Reader must match the Pi’s processor and operating system |
 
-This is a compatibility design, not a claim of hardware testing on every platform. START_HERE includes the catalog and drive-relative file paths on the page itself, so reading it does not require following links to another HTML page. If a file preview refuses links, close it and use those paths to open PDFs or text files directly in the file manager. Search controls appear only after discovery data loads successfully. Adapters, USB power, supported filesystem access, existing viewers, and OS permissions still matter. **Test the finished SSD on the exact devices you intend to use before an emergency.**
+See [device tests](docs/device-matrix.md) for evidence and checks that still need hardware. START_HERE includes the catalog and drive-relative file paths on the page itself, so reading it does not require following links to another HTML page. If a file preview refuses links, close it and use those paths to open PDFs or text files directly in the file manager. Search controls appear only after discovery data loads successfully. Adapters, USB power, supported filesystem access, existing viewers, and OS permissions still matter. **Test the finished SSD on the exact devices you intend to use before an emergency.**
 
 ## Bundled readers
 

@@ -17,6 +17,7 @@ from .catalog import CatalogError, DIRECT, read_yaml
 RESOURCE_ID = re.compile(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*")
 STATUSES = {"ready", "partial", "unresolved"}
 READERS = "archive-readers"
+FIXED_READERS = frozenset({"kiwix_windows", "kiwix_linux", "kiwix_macos", "kiwix_android"})
 EDITIONS = {"published", "direct", "compact", "top", "mini", "nopic"}
 
 
@@ -249,7 +250,12 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
     collisions = set(explicit_include) & set(explicit_exclude)
     if collisions:
         raise CatalogError(f"Resources both included and excluded: {', '.join(sorted(collisions))}")
+    fixed_readers = READERS in resources and FIXED_READERS <= set(resources[READERS]["asset_ids"])
+    if fixed_readers and READERS in explicit_exclude:
+        raise CatalogError("The bundled readers are part of every library")
     selected = (set(defaults) | set(explicit_include)) - set(explicit_exclude)
+    if fixed_readers:
+        selected.add(READERS)
     effective_editions = {identity: edition for identity, edition in
                           {**default_editions, **explicit_editions}.items() if identity in selected}
     for identity in explicit_editions:
@@ -326,6 +332,8 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
         if not changed:
             break
     selected_assets = {member for group in memberships.values() for member in group}
+    if fixed_readers and not FIXED_READERS <= set(memberships[READERS]):
+        raise CatalogError("Keep all four bundled readers in the library")
     needs_readers = any(asset_map[member].get("status", "resolved") == "resolved" and
                         str(asset_map[member].get("format", "")).lower() == "zim"
                         for member in selected_assets)

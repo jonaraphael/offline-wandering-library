@@ -22,6 +22,8 @@ GENERATED_PATHS = (
     "INVENTORY.html",
     "INDEX/categories.html",
     "INDEX/critical.html",
+    "INDEX/phone.html",
+    "INDEX/sections.html",
     "INDEX/textbooks.html",
     "INDEX/illustrated-guides.html",
     "INDEX/gutenberg.html",
@@ -331,6 +333,30 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
         f'<br><span class="meta">{len(collections[key])} files available in this build</span></a></li>'
         for key, label, _identities in READING_COLLECTIONS
     )
+    static_phone = [entry for entry in entries if entry.get("critical") and
+                    entry.get("format") in {"pdf", "epub", "html", "htm"}]
+    inside = "INDEX/sections.html"
+    from .search_shards import load_manifest, selected_shards
+    indexed = selected_shards(entries, load_manifest())
+    routes = []
+    for entry, shard in indexed:
+        hints = shard.get("entrypoints", [])
+        main = shard.get("main")
+        if not hints and not main:
+            continue
+        path = _href(entry["destination"], inside)
+        locators = "".join(f'<li><a href="{path}#page={number}">{_text(heading)}</a></li>'
+                           for number, heading in hints if type(number) is int)
+        if main:
+            locators += f'<li>Archive start · <code>{_text(main)}</code></li>'
+        locators += "".join(f'<li>{_text(heading)} · <code>{_text(number)}</code></li>'
+                            for number, heading in hints if isinstance(number, str))
+        routes.append(f'<h2><a href="{path}">{_text(entry["title"])}</a></h2><ul>{locators}</ul>')
+    pages[inside] = _page("Sections and archive entry points", "".join(routes) or
+                          "<p>Browse the included files through the topic atlas or categories.</p>", inside)
+    pages["INDEX/phone.html"] = _page("Critical files for phones",
+        "<p>Open one of these files in your device’s file viewer. The listed paths start at the drive.</p>"
+        + _asset_list(static_phone, "INDEX/phone.html", show_paths=True), "INDEX/phone.html")
     pages["START_HERE.html"] = _page(
         "Offline Wandering Library",
         _selection_notice(inventory, "START_HERE.html")
@@ -349,7 +375,9 @@ may need a separate reader.</p></section>
             if search_report.get("status") == "not-built" else
             '<strong>Title and topic search is not available in this build.</strong> ') +
            'Use the topic atlas, category, critical-content, and alphabetical indexes.</p>')
-        + '<p><a href="INDEX/critical.html"><strong>Browse all critical content</strong></a></p>'
+        + '<p><a href="INDEX/phone.html">Critical files for phones</a> · '
+          '<a href="INDEX/sections.html">Sections and archive entry points</a> · '
+          '<a href="INDEX/critical.html">All critical content</a></p>'
         + '<h2>Books and learning collections</h2>'
         + '<p>Learn from complete textbooks and practical guides. Open the original files to see their '
         'diagrams, photographs, and illustrations.</p>'

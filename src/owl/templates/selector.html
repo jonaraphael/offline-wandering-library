@@ -247,7 +247,7 @@
       const group = element("div"); group.append(node, document.createTextNode(caption)); numbers.append(group);
     }
     const reason = element("p", "source-reason"); reason.dataset.role = "reason";
-    const dependency = element("p", "dependency-note", "Included automatically for selected archives.");
+    const dependency = element("p", "dependency-note", "Includes the offline archive readers.");
     const details = element("details", "scope-details");
     const summary = element("summary", "", "Collection scope and edition notes");
     const scope = element("div"); details.append(summary, scope);
@@ -395,7 +395,7 @@
       const button=element("button","",(included?"Exclude ":"Include ")+"this file");
       button.type="button";button.disabled=Boolean(row.autoIncluded);
       button.addEventListener("click",()=>selectFiles(!included,[record.id]));info.append(button);
-      if(row.autoIncluded)info.append(element("p","muted","This reader is required by selected archives."));
+      if(row.autoIncluded)info.append(element("p","muted","The archive readers are included with this build."));
     }
 
   }

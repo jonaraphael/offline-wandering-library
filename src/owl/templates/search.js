@@ -62,7 +62,7 @@
   const retry = byId('retryButton'), query = byId('query'), shelf = byId('shelf');
   const prefix = form.dataset.libraryRoot || '';
   if (!['', 'LIBRARY/'].includes(prefix)) return;
-  let prepared = [], timer, loading = false, epoch = 0;
+  let prepared = [], rank, timer, loading = false, epoch = 0;
   function script(path) {
     return new Promise((resolve, reject) => {
       const tag = document.createElement('script');
@@ -76,7 +76,7 @@
   async function load() {
     if (loading) return;
     loading = true; retry.hidden = true; button.disabled = shelf.disabled = true;
-    status.textContent = 'Loading titles, chapters, and topics…';
+    status.textContent = 'Loading offline search…';
     try {
       let manifest, payload;
       root.OWLDiscoveryManifest = value => { manifest = value; };
@@ -86,8 +86,25 @@
       await script(manifest.path);
       if (!payload || payload.format !== FORMAT || payload.generation !== manifest.generation || !Array.isArray(payload.records) || payload.records.length !== manifest.records) throw new Error('Discovery data does not match its manifest.');
       prepared = prepare(payload.records);
+      rank = undefined;
+      let coverageNote = 'Search includes catalog titles, chapters, and topics.';
+      if (manifest.shards) {
+        try {
+          let selection, table;
+          root.OWLShardSelection = value => { selection = value; };
+          root.OWLShardModel = value => { table = value; };
+          await Promise.all([script('SEARCH/rank.js'), script('SEARCH/shards.js'), script('SEARCH/model.js')]);
+          rank = root.OWLShardRank.classic(script, selection, table);
+          coverageNote = 'Search includes indexed articles and document sections.';
+        } catch (_) {
+          coverageNote = 'The article and section index could not load. Catalog search is ready.';
+        } finally {
+          delete root.OWLShardSelection;
+          delete root.OWLShardModel;
+        }
+      }
       form.hidden = false; byId('viewerHelp').hidden = true; button.disabled = shelf.disabled = false;
-      status.textContent = `${prepared.length.toLocaleString()} titles, chapters, and topics ready. Document body text is not searched.`;
+      status.textContent = coverageNote;
     } catch (error) { status.textContent = error.message + ' Use the static indexes below.'; retry.hidden = false; }
     finally { loading = false; delete root.OWLDiscoveryManifest; delete root.OWLDiscoveryData; }
   }
@@ -97,11 +114,24 @@
     if (event) event.preventDefault();
     clearTimeout(timer);
     const mine = ++epoch;
-    results.replaceChildren(); status.textContent = 'Searching titles, chapters, and topics…';
+    results.replaceChildren(); status.textContent = 'Searching the offline library…';
     await new Promise(resolve => setTimeout(resolve, 0));
     if (mine !== epoch) return;
     try {
-      const matches = search(prepared, query.value, shelf.value);
+      let matches = search(prepared, query.value, shelf.value);
+      let fallback = '';
+      if (rank) {
+        try {
+          const hits = await rank(query.value, shelf.value, 30, () => mine !== epoch);
+          if (mine !== epoch) return;
+          matches = [...hits, ...matches.filter(({record}) =>
+            !hits.some(hit => hit.record.href === record.href && hit.record.location === record.location))]
+            .slice(0, 40);
+        } catch (error) {
+          if (mine !== epoch) return;
+          fallback = error.message + ' Showing catalog results. ';
+        }
+      }
       for (const {record: r} of matches) {
         const li = document.createElement('li');
         li.append(link(r.href, r.title));
@@ -111,12 +141,13 @@
         if (r.license || r.attribution) li.append(element('small', [r.license, r.attribution].filter(Boolean).join(' · ')));
         results.append(li);
       }
-      status.textContent = matches.length ? `${matches.length} result${matches.length === 1 ? '' : 's'} shown.` :
-        'No matching title, chapter, or topic. Browse the atlas or search inside a relevant book/archive; body text is not searched here.';
+      status.textContent = fallback + (matches.length
+        ? `${matches.length} result${matches.length === 1 ? '' : 's'} shown.`
+        : 'No matches. Browse the atlas or search inside a relevant book or archive.');
     } catch (error) { status.textContent = error.message; }
   }
   form.addEventListener('submit', run);
-  query.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(run, 180); });
+  query.addEventListener('input', () => { clearTimeout(timer); if (rank) ++epoch; else timer = setTimeout(run, 180); });
   shelf.addEventListener('change', run);
   retry.addEventListener('click', load);
   load();

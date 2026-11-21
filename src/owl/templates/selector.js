@@ -2,6 +2,8 @@
 (function (root) {
   "use strict";
   const READERS = "archive-readers", OVERHEAD = 16 * 1024 * 1024;
+  const readersFixed = resource => ["kiwix_windows", "kiwix_linux", "kiwix_macos", "kiwix_android"]
+    .every(id => resource?.asset_ids.includes(id));
   const isSoftware = asset => asset.destination.split("/")[0] === "SOFTWARE";
   const isDocument = asset => !asset.supporting_file && asset.archive_member?.document !== false;
   const mapById = rows => Object.fromEntries(rows.map(row => [row.id, row]));
@@ -28,7 +30,8 @@
     }
     const defaults = Object.keys(editions).sort();
     return {...profile, nominal_capacity_bytes:capacityBytes, capacity_bytes:capacityBytes-margin(capacityBytes),
-      reserve_bytes:margin(capacityBytes), discovery_budget_bytes:policy.discovery, readers_budget_bytes:policy.readers,
+      reserve_bytes:margin(capacityBytes), readers_budget_bytes:policy.readers,
+      discovery_budget_bytes:Math.min(policy.discovery_max, Math.max(policy.discovery, Math.floor(capped / policy.discovery_divisor))),
       preset_resource_ids:defaults, default_resources:defaults,
       default_editions:Object.fromEntries(defaults.filter(rid => editions[rid] !== "published").map(rid => [rid, editions[rid]]))};
   }
@@ -45,6 +48,7 @@
     for (const row of model.resources) {
       const item = state.items[row.id];
       if (!item) throw Error("Missing resource selection: " + row.id);
+      if (row.id === READERS && readersFixed(row)) continue;
       if (!item.included && defaults.has(row.id)) exclude.push(row.id);
       if (item.included) {
         if(item.assetIds)resourceAssets[row.id]=item.assetIds;
@@ -64,6 +68,8 @@
     const args = selectionArgs(model, state), selected = new Set(profile.default_resources || []);
     const errors = [], warnings = [], overrides = profile.resource_overrides || {};
     args.include.forEach(id => selected.add(id)); args.exclude.forEach(id => selected.delete(id));
+    const fixedRead = readersFixed(resources[READERS]);
+    if (fixedRead) selected.add(READERS);
     const variants = {}, members = {}, credits = {}, replaced = new Set();
     for (const id of selected) {
       const resource = resources[id], mode = args.editions[id] || profile.default_editions?.[id] || "published";
@@ -107,7 +113,7 @@
     }
     let candidateIds = new Set(Object.values(members).flat());
     const needsReaders = [...candidateIds].some(id => assets[id].status === "resolved" && assets[id].format.toLowerCase() === "zim");
-    const autoIncluded = new Set();
+    const autoIncluded = new Set(fixedRead ? [READERS] : []);
     if (needsReaders && !selected.has(READERS)) {
       if (args.exclude.includes(READERS)) errors.push("Selected ZIM archives require bundled readers.");
       if (!resources[READERS]) errors.push("The catalog has no bundled reader resource.");
@@ -281,7 +287,7 @@
         utilityTier:resource.utility_tier || "", utilityReason:resource.utility_reason || "", knowledgeDomains:resource.knowledge_domains || [],
         scope:subsetOnly ? "Preset subset" : "Published files", include:resource.include || [], preferredFormats:resource.preferred_formats || []};
     });
-    const canBuild = errors.length === 0 && (!incomplete.length || state.allowIncomplete);
+    const canBuild = knowledgeBytes > 0 && errors.length === 0 && (!incomplete.length || state.allowIncomplete);
     return {rows, estimates:{contentTargetBytes, knownBytes, downloadBytes, buildInputBytes, buildInputExpandedBytes, buildInputWorkBytes, archiveOutputBytes, generatedOutputBytes, acquisitionBytes, readerBytes, searchBytes:profile.discovery_budget_bytes, phaseWorkingBytes,
       metadataBytes:OVERHEAD, reserveBytes:profile.reserve_bytes, finalBytes, peakBytes, actualPeakBytes, capacityBytes:profile.capacity_bytes},
       coverage, errors, warnings, incomplete, canBuild, selectedAssetIds:pinnedIds.sort(), selectionArgs:args};
