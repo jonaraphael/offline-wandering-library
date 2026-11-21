@@ -12,15 +12,15 @@ Files are selected for substantial, diversified knowledge useful in a post-inter
 
 | Drive | Pinned files, GB | In-place planning peak, GB | Records |
 | --- | ---: | ---: | ---: |
-| flash-16gb | 15.144 | 15.863 | 456 |
-| critical-64gb | 62.766 | 63.679 | 480 |
-| compact-256gb | 251.560 | 253.434 | 532 |
-| standard-512gb | 501.091 | 504.244 | 525 |
+| flash-16gb | 15.145 | 15.864 | 461 |
+| critical-64gb | 62.759 | 63.672 | 511 |
+| compact-256gb | 252.625 | 254.498 | 518 |
+| standard-512gb | 506.258 | 509.412 | 574 |
 | full-1tb | 989.282 | 994.876 | 629 |
 
 Decimal GB. File totals include reader packages. Planning peaks include a small discovery allowance, metadata and reserve. Original downloads stay on the target drive. Search and atlas pages compile from approved metadata without reading source bodies; no indexing workspace or cache is needed.
 
-The five defaults are generated from the [capacity ladder](design/target-architecture.md). The same ladder accepts intermediate sizes and caps default content at 1 TB. Files attributed to health, water and sanitation, food preservation, agriculture or shelter stay selected as capacity grows. A qualifying large archive can replace lower-priority collections. Illustrated English Wikipedia joins the persistent recommendation when it fits in the order. The [content ledger](content-ledger.md) gives active and remaining candidate totals.
+The five defaults are generated from the [capacity ladder](design/target-architecture.md). The same ladder accepts intermediate sizes and caps default content at 1 TB. Health, water and sanitation, food preservation, agriculture, shelter, and navigation retain their attributed bytes as capacity grows. A qualifying large archive can replace lower-priority collections in other fields. English Wikipedia starts with top at 16 GB and upgrades through mini and nopic to illustrated maxi. World maps stay selected after their first entry. The [content ledger](content-ledger.md) gives active and remaining candidate totals.
 
 The [topic-by-topic completion plan](full-1tb-coverage-plan.md) governs intended depth and remaining gaps. Capacity utilization alone does not establish adequate coverage.
 

@@ -32,10 +32,12 @@ destination directory and choose POSIX shell or PowerShell. Run the copied plan
 before starting the build. The selector runs locally. Python and internet access
 are required for the build.
 
-The recommendation includes the entire critical tier and keeps selected files
-that contribute to health, water and sanitation, food preservation, agriculture,
-or shelter. A large, higher-priority archive can displace lower-priority
-collections. Default English Wikipedia starts with the illustrated edition.
+The recommendation includes the entire critical tier and preserves attributed
+bytes in health, water and sanitation, food preservation, agriculture, shelter,
+and navigation as capacity grows. World maps stay selected once they enter.
+The default includes English Wikipedia from 16 GB, with upgrades from top to
+mini, nopic, and illustrated maxi. A large, higher-priority archive can displace
+collections in the other fields.
 The 1 TB default applies on larger drives, with the extra capacity available
 for explicit additions. The [current selection table](content-selection.md) lists the pinned
 files and in-place planning peaks for the five common sizes.

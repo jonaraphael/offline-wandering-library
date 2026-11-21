@@ -55,7 +55,7 @@ FIELD_PRIORITIES = (
     ("culture", "advanced-study", "computing"),
 )
 FIELD_PRIORITY = {field: priority for priority, fields in enumerate(FIELD_PRIORITIES) for field in fields}
-PROTECTED_FIELDS = frozenset(FIELD_PRIORITIES[0])
+PROTECTED_FIELDS = frozenset((*FIELD_PRIORITIES[0], "navigation"))
 
 
 def is_knowledge(asset):
@@ -136,8 +136,11 @@ def _totals(assets):
     return tiers, fields
 
 
-def _validate_transition(capacity, before, after, previous_fields, fields):
+def _validate_transition(capacity, before, after, previous_fields, fields, edition_replacements):
     removed = before.keys() - after.keys()
+    if any(fields[field] < previous_fields[field] for field in PROTECTED_FIELDS):
+        raise CatalogError(f"{capacity / GB:g} GB: capacity order reduces a protected field")
+    removed -= edition_replacements
     if any(PROTECTED_FIELDS & attributed_bytes(before[aid]).keys() for aid in removed):
         raise CatalogError(f"{capacity / GB:g} GB: capacity order removes a protected asset")
     drops = [field for field, size in previous_fields.items() if fields[field] < size]
@@ -153,7 +156,7 @@ def _validate_transition(capacity, before, after, previous_fields, fields):
 
 
 def compile_ladder(assets: list[dict], resources: dict[str, dict], order_path: Path | None = None) -> dict:
-    """Compile a reviewed collection order using exact catalog bytes."""
+    """Compile ordered collection additions, edition upgrades and removals."""
     if order_path is None:
         order_path = Path(__file__).resolve().parents[2] / "catalog/capacity-order.yaml"
     order = read_yaml(order_path).get("steps")
@@ -166,22 +169,36 @@ def compile_ladder(assets: list[dict], resources: dict[str, dict], order_path: P
             if (not isinstance(ids, list) or any(not isinstance(rid, str) for rid in ids)
                     or len(ids) != len(set(ids))):
                 raise CatalogError("Capacity order steps require lists of unique collection IDs")
+    additions = []
+    for step in order:
+        choices = {}
+        for choice in step["add"]:
+            rid, separator, name = choice.partition("=")
+            if rid in choices:
+                raise CatalogError(f"{rid}: capacity order adds two editions in one step")
+            choices[rid] = name if separator else PUBLISHED
+        additions.append(choices)
+
     by_id = {row["id"]: row for row in assets}
     members = {}
-    for identity in {rid for step in order for rid in step["add"]}:
+    for identity, name in {pair for choices in additions for pair in choices.items()}:
         resource = resources.get(identity)
         if (not resource or resource.get("opt_in") or identity == READERS
-                or resource["status"] != "ready" or resource["replaces_asset_ids"]):
+                or resource["replaces_asset_ids"]):
             raise CatalogError(f"{identity}: capacity order requires a ready default collection")
-        rows = {aid: by_id[aid] for aid in resource["asset_ids"]}
-        if (resource["target_bytes"] != sum(row["size_bytes"] for row in rows.values())
+        edition = resource if name == PUBLISHED else resource.get("editions", {}).get(name)
+        if not edition or edition["status"] != "ready":
+            raise CatalogError(f"{identity}={name}: capacity order requires a ready edition")
+        rows = {aid: by_id[aid] for aid in edition["asset_ids"]}
+        if (edition["target_bytes"] != sum(row["size_bytes"] for row in rows.values())
                 or any("generation" in row or "selection" not in row for row in rows.values())):
-            raise CatalogError(f"{identity}: capacity order requires exact downloads")
-        members[identity] = rows
+            raise CatalogError(f"{identity}={name}: capacity order requires exact downloads")
+        members[identity, name] = rows
 
-    def selected_assets(ids):
-        rows = {aid: row for rid in ids for aid, row in members[rid].items()}
-        if len(rows) != sum(len(members[rid]) for rid in ids):
+    def selected_assets(choices):
+        collections = [members[pair] for pair in choices.items()]
+        rows = {aid: row for collection in collections for aid, row in collection.items()}
+        if len(rows) != sum(map(len, collections)):
             raise CatalogError("Capacity order includes overlapping collections")
         return rows
 
@@ -192,7 +209,7 @@ def compile_ladder(assets: list[dict], resources: dict[str, dict], order_path: P
     # A collection is persistent from its last entry. Previous appearances
     # remain in the filler table until an eligible archive replaces them.
     last_removal = {rid: index for index, step in enumerate(order) for rid in step.get("remove", [])}
-    active = set()
+    active = {}
     selected = {}
     fields = Counter()
     history = []
@@ -200,11 +217,25 @@ def compile_ladder(assets: list[dict], resources: dict[str, dict], order_path: P
     transitions = []
     filler_steps = []
     placements = sorted(last_removal)
-    for index, step in enumerate(order):
-        added, removed = set(step["add"]), set(step.get("remove", []))
-        if not added or added & active or not removed <= active:
+    for index, (step, added) in enumerate(zip(order, additions, strict=True)):
+        removed = set(step.get("remove", []))
+        if not added or not removed <= active.keys() or removed & added.keys():
             raise CatalogError(f"Invalid capacity order step {index + 1}")
-        active = (active - removed) | added
+        if any(resources[rid].get("editions") for rid in removed):
+            raise CatalogError(f"Capacity order step {index + 1} removes an edition group")
+        edition_replacements = set()
+        for rid in added.keys() & active.keys():
+            before = members[rid, active[rid]]
+            after = members[rid, added[rid]]
+            _, previous_shares = _totals(before)
+            _, shares = _totals(after)
+            if shares.total() <= previous_shares.total() or previous_shares - shares:
+                raise CatalogError(f"{rid}={added[rid]}: edition upgrade must increase knowledge bytes "
+                                   "and retain every field's attributed bytes")
+            edition_replacements.update(before.keys() - after.keys())
+        for rid in removed:
+            del active[rid]
+        active.update(added)
         current = selected_assets(active)
         size = sum(row["size_bytes"] for row in current.values())
         earliest = _first_fitting_capacity(size)
@@ -216,11 +247,11 @@ def compile_ladder(assets: list[dict], resources: dict[str, dict], order_path: P
         tiers, next_fields = _totals(current)
         if not mandatory <= current.keys():
             raise CatalogError(f"{capacity / GB:g} GB: capacity order omits required files")
-        _validate_transition(capacity, selected, current, fields, next_fields)
+        _validate_transition(capacity, selected, current, fields, next_fields, edition_replacements)
         fields, selected = next_fields, current
         capacities.append(capacity)
         history.append(tiers)
-        transitions.extend([capacity, rid, PUBLISHED] for rid in sorted(added)
+        transitions.extend([capacity, rid, added[rid]] for rid in sorted(added)
                            if last_removal.get(rid, -1) < index)
         current_fillers = [i for i, rid in enumerate(placements) if rid in active
                            and last_removal[rid] > index]

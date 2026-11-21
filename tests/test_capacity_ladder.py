@@ -6,7 +6,7 @@ import shutil
 import subprocess
 import unittest
 
-from owl.catalog import capacity_plan, load_catalog, load_profiles, resolve_content
+from owl.catalog import CatalogError, capacity_plan, load_catalog, load_profiles, resolve_content
 from owl.resources import load_resources, resolve_resources
 from owl.selection import (BUILTIN_CAPACITIES, CAPACITY_GRID_GB, DEFAULT_LIMIT, GB, MIN_CAPACITY,
                            FIELD_PRIORITY, PROTECTED_FIELDS, DomainRetention, attributed_bytes, compile_ladder, fill,
@@ -58,7 +58,7 @@ class CapacityLadderTests(unittest.TestCase):
         full_core, full_fillers = ladder_choices(DEFAULT_LIMIT, self.ladder)
         full = self.tier_bytes(self.files({**full_core, **full_fillers}))
         critical = {a["id"] for a in self.assets if a["utility_tier"] == "CRITICAL"}
-        prior_core = {}
+        prior_core = set()
         prior_assets = set()
         prior_fields = Counter()
         bounds = sorted({MIN_CAPACITY, DEFAULT_LIMIT,
@@ -69,13 +69,11 @@ class CapacityLadderTests(unittest.TestCase):
             with self.subTest(label_bytes=start):
                 core, fillers = ladder_choices(start, self.ladder)
                 self.assertFalse(core.keys() & fillers.keys())
-                self.assertEqual(prior_core, {rid: core[rid] for rid in prior_core})
-                prior_core = core
+                self.assertLessEqual(prior_core, core.keys())
+                prior_core = set(core)
                 assets = list(self.files({**core, **fillers}))
                 ids = {asset["id"] for asset in assets}
                 self.assertEqual(len(ids), len(assets))
-                self.assertFalse([aid for aid in prior_assets - ids
-                                  if PROTECTED_FIELDS & attributed_bytes(self.by_id[aid]).keys()])
                 fields = Counter()
                 for asset in assets:
                     fields.update(attributed_bytes(asset))
@@ -97,25 +95,44 @@ class CapacityLadderTests(unittest.TestCase):
                 self.assertGreaterEqual(tiers["USEFUL"] * full["NONESSENTIAL"],
                                         tiers["NONESSENTIAL"] * full["USEFUL"])
 
-    def test_half_gb_sweep_allows_losses_only_with_a_large_higher_priority_arrival(self):
-        prior_ids, prior_fields = set(), Counter()
+    def test_half_gb_sweep_preserves_protected_fields(self):
+        prior_fields = Counter()
         for capacity in range(MIN_CAPACITY, DEFAULT_LIMIT + 1, GB // 2):
             core, fillers = ladder_choices(capacity, self.ladder)
-            assets = list(self.files({**core, **fillers}))
             fields = Counter()
-            for asset in assets:
+            for asset in self.files({**core, **fillers}):
                 fields.update(attributed_bytes(asset))
-            losses = prior_fields - fields
-            ids = {asset["id"] for asset in assets}
-            if losses:
-                with self.subTest(capacity=capacity):
-                    self.assertFalse(losses.keys() & PROTECTED_FIELDS)
-                    self.assertTrue(any(
-                        10 * row["size_bytes"] >= capacity
-                        and all(FIELD_PRIORITY[row["selection"]["domain"]] < FIELD_PRIORITY[d] for d in losses)
-                        for row in assets if row["id"] not in prior_ids
-                    ))
-            prior_ids, prior_fields = ids, fields
+            with self.subTest(capacity=capacity):
+                self.assertFalse((prior_fields - fields).keys() & PROTECTED_FIELDS)
+            prior_fields = fields
+
+    def test_wikipedia_upgrades_and_world_maps_persist(self):
+        order = ["top", "mini", "nopic", "published"]
+        transitions = [(c, edition) for c, rid, edition in self.ladder["transitions"] if rid == "wikipedia-en"]
+        self.assertEqual([edition for _, edition in transitions], order)
+        self.assertEqual(transitions[0][0], MIN_CAPACITY)
+        edition_shares = []
+        weights = []
+        for edition in order:
+            asset, = self.files({"wikipedia-en": edition})
+            edition_shares.append(Counter(attributed_bytes(asset)))
+            weights.append(asset["selection"]["domain_weights"])
+        self.assertTrue(all(weight == weights[0] for weight in weights))
+        for previous, current in zip(edition_shares, edition_shares[1:]):
+            self.assertGreater(current.total(), previous.total())
+            self.assertLessEqual(previous, current)
+        for index, (start, edition) in enumerate(transitions):
+            core, _ = ladder_choices(start, self.ladder)
+            self.assertEqual(core["wikipedia-en"], edition)
+            if index:
+                before, _ = ladder_choices(start - 1, self.ladder)
+                self.assertEqual(before["wikipedia-en"], order[index - 1])
+        map_entry, = [c for c, rid, _ in self.ladder["transitions"] if rid == "world-maps"]
+        bounds = {MIN_CAPACITY, DEFAULT_LIMIT, *(c for c, _, _ in self.ladder["transitions"]),
+                  *(c for c, _ in self.ladder["fillers"])}
+        for capacity in bounds | {map_entry - 1}:
+            core, fillers = ladder_choices(capacity, self.ladder)
+            self.assertEqual("world-maps" in (core.keys() | fillers.keys()), capacity >= map_entry)
 
     def test_grid_utilization_domain_balance_and_cap(self):
         full_profile, full = self.suggested(1000)
@@ -145,15 +162,23 @@ class CapacityLadderTests(unittest.TestCase):
         entries = {rid: c for c, rid, _ in self.ladder["transitions"]}
         self.assertLess(entries["mdwiki"], entries["wikipedia-en"])
         self.assertLess(entries["mdwiki"], entries["khan-academy"])
-        first_science = min(c for c, encoded in self.ladder["fillers"]
-                            if any(self.ladder["filler_placements"][i][0] == "gutenberg-science"
-                                   for i in encoded))
-        self.assertLess(entries["mdwiki"], min(first_science, entries["gutenberg-science"]))
+        first_science = min(
+            [entries["gutenberg-science"]] +
+            [c for c, encoded in self.ladder["fillers"]
+             if any(self.ladder["filler_placements"][i][0] == "gutenberg-science" for i in encoded)]
+        )
+        self.assertLess(entries["mdwiki"], first_science)
         self.assertLess(threshold, DEFAULT_LIMIT)
         for size, expected in ((threshold - 1, False), (threshold, True), (DEFAULT_LIMIT, True)):
             core, fillers = ladder_choices(size, self.ladder)
             chosen = {a["id"] for a in self.files({**core, **fillers})}
             self.assertEqual(asset["id"] in chosen, expected)
+        full_core, full_fillers = ladder_choices(DEFAULT_LIMIT, self.ladder)
+        retention = DomainRetention(self.files({**full_core, **full_fillers}))
+        core, fillers = ladder_choices(threshold, self.ladder)
+        for domain, missing, next_asset, allowed in retention.gaps(self.files({**core, **fillers}), threshold):
+            self.assertTrue(allowed, (domain, missing, next_asset["id"]))
+
         for identity in ("wikipedia_en", "survivorlibrary_com_en_all_2026_09", "gutenberg_en_lcc_t"):
             with self.subTest(identity=identity):
                 row = self.by_id[identity]
@@ -162,6 +187,15 @@ class CapacityLadderTests(unittest.TestCase):
                 self.assertGreater(len(shares), 1)
                 self.assertTrue(shares.keys() <= set(row["knowledge_domains"]))
                 self.assertTrue(row["selection"]["weight_basis"])
+
+    def test_edition_upgrade_cannot_trade_away_field_attribution(self):
+        mini = self.by_id["wikipedia_en_mini"]
+        altered_mini = {**mini, "selection": {
+            **mini["selection"], "domain_weights": {"general-reference": 100},
+        }}
+        assets = [altered_mini if row is mini else row for row in self.assets]
+        with self.assertRaisesRegex(CatalogError, "edition upgrade must increase knowledge bytes"):
+            compile_ladder(assets, self.resources)
 
     def test_overrides_use_the_normal_resource_resolution(self):
         result = fill(DEFAULT_LIMIT, {"exclude": ["wikipedia-en"]})
@@ -174,7 +208,8 @@ class CapacityLadderTests(unittest.TestCase):
         model = make_model(CATALOG, ROOT / "profiles", REGISTRY)
         capacities = [gb * GB for gb in (*CAPACITY_GRID_GB, 2000)]
         capacities += [23_999_999_999, 78_550_000_000, 319_999_999_999, 921_000_000_001]
-        capacities += [c - 1 for c, rid, _ in self.ladder["transitions"] if rid == "wikipedia-en" and c > MIN_CAPACITY]
+        capacities += [c + delta for c, rid, _ in self.ladder["transitions"]
+                       if rid in {"wikipedia-en", "world-maps"} and c > MIN_CAPACITY for delta in (-1, 0)]
         code = r"""
 const fs = require('fs');
 eval(fs.readFileSync(process.argv[1], 'utf8'));

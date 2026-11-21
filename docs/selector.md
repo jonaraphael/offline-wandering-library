@@ -18,9 +18,11 @@ command carries the entered capacity as `--capacity-bytes`.
 
 Change collection checkboxes or use topic and text filters to select individual
 files. Totals update immediately. Every recommendation includes all critical
-files. Once selected, files about health, water and sanitation, food
-preservation, agriculture, and shelter stay in the recommendation as capacity
-grows. A large, higher-priority archive can displace lower-priority collections.
+files. Attributed bytes in health, water and sanitation, food preservation,
+agriculture, shelter, and navigation stay level or grow with capacity.
+English Wikipedia upgrades from top through mini and nopic to illustrated
+maxi. World maps stay selected after entry. A large, higher-priority archive
+can displace lower-priority collections.
 Regional topographic sheets and non-English Wikipedias start unchecked. The
 [generated capacity table](content-selection.md) lists the common-size plans.
 

@@ -10,13 +10,14 @@ default_resources:
 - appropedia
 - archive-readers
 - cd3wd
+- childrens-library
 - civilian-preparedness
 - desktop-fabrication
 - engineering-qa
 - fao-agriculture
 - food-preservation
-- gutenberg-education
 - gutenberg-j
+- gutenberg-k
 - gutenberg-p
 - gutenberg-pb
 - gutenberg-pt
@@ -32,14 +33,18 @@ default_resources:
 - oer4schools
 - osm-guides
 - owl-direct-core
+- phet-archive
 - sare-practical-farming
 - school-education
 - seed-processing-quality
 - sphere-handbook
 - trail-maintenance
+- uaf-root-cellars-hga00331
 - water-supply-maintenance
 - who-emergency-care
 - who-wash
 - wikimed
+- wikipedia-en
 - world-factbook
-default_editions: {}
+default_editions:
+  wikipedia-en: top

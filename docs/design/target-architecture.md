@@ -24,16 +24,22 @@ and small samplers for enrichment, computing and college study.
 The reviewed order in `catalog/capacity-order.yaml` lists collection additions
 and replacements. The compiler computes each transition from exact catalog
 bytes and the reserve policy. Most steps add one collection. Collections stay
-in the persistent core from their final entry onward. The compiler rejects
-any removal of a file with attribution to health, water and sanitation, food
-preservation, agriculture, or shelter. MDWiki enters before the large school
-and general-reference archives. The default uses illustrated English Wikipedia
-as its sole English Wikipedia edition. Compact Wikipedia editions also
-contribute to protected fields and remain manual choices.
+in the persistent core from their final entry onward. An addition can specify
+a registered edition as `collection=edition`. When the collection is already
+selected, its incoming edition must have more knowledge bytes and retain or
+increase attributed bytes in every field. English Wikipedia uses the same
+weights in all four editions and grows from top at 16 GB to mini, nopic, and
+illustrated maxi. MDWiki enters before the large school and general-reference
+archives.
+
+Health, water and sanitation, food preservation, agriculture, shelter, and
+navigation stay at or above their previous attributed bytes at each transition.
+An individual file that contributes to these fields can leave only through a
+qualifying edition upgrade. World maps stay selected from their first entry.
 
 Each replacement that lowers an attributed field requires an incoming file of
-at least 10% of the drive label whose primary field ranks higher. The five
-protected fields take first priority because they cover basic survival needs.
+at least 10% of the drive label whose primary field ranks higher. Five
+survival fields take first priority.
 Hand tools and repair follow because they help maintain the equipment used to
 meet those needs. Navigation follows the trades. General reference ranks next
 for broad offline lookup, then school math and science, then languages.
@@ -44,8 +50,8 @@ collection of several files qualifies only through an individual file.
 The tests verify each transition and the final byte before the next transition.
 The 14 checkpoints each retain at least 97% of the usable knowledge budget.
 The 90% label-fill target has gaps between checkpoints before some larger
-files fit. The current order retains at least 86.64% of the label at every byte capacity from
-16 GB through 1 TB.
+files fit. The tests enforce an 86.64% label-fill floor at every byte capacity
+from 16 GB through 1 TB.
 
 Each tier's retention is its selected knowledge bytes divided by its knowledge
 bytes in the 1 TB default. USEFUL retention must meet or exceed NONESSENTIAL
