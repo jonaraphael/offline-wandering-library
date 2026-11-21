@@ -25,10 +25,10 @@ class DefaultMapRecipeTests(unittest.TestCase):
         resources = {r['id']:r for r in read_yaml(ROOT / 'catalog/resources.yaml')['resources']}
         self.assertEqual(resources['regional-maps']['asset_ids'], ['map_osm_north_america'])
         self.assertIn('topographic', resources['regional-maps']['reason'])
-        for identity in ('standard-512gb', 'full-1tb'):
-            profile = read_yaml(ROOT / 'profiles' / (identity + '.yaml'))
-            self.assertIn('world-maps', profile['default_resources'])
-            self.assertNotIn('regional-maps', profile['default_resources'])
+        full = read_yaml(ROOT / 'profiles/full-1tb.yaml')
+        self.assertIn('world-maps', full['default_resources'])
+        for path in (ROOT / 'profiles').glob('*.yaml'):
+            self.assertNotIn('regional-maps', read_yaml(path).get('default_resources', []))
 
     def test_all_profile_report_can_freeze_one_profile_without_ambiguous_resource(self):
         sheet = {'sheet_id': 'one', 'scale': 24000, 'source_url': 'https://example.org/one.pdf',

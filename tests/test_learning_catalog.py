@@ -46,12 +46,11 @@ class ProductionLearningCatalogTests(unittest.TestCase):
             selected, _, report = self.selection(name)
             ids = {a['id'] for a in selected}
             self.assertNotIn('map_osm_north_america', ids)
-            self.assertEqual('map_osm_world' in ids, name != 'compact-256gb')
-            self.assertTrue(any(a['selection'].get('edition_group') == 'wikipedia-en' for a in selected))
+            if name == 'full-1tb':
+                self.assertIn('map_osm_world', ids)
+                self.assertIn('wikipedia_en', ids)
             self.assertTrue(capacity_plan(selected, self.profiles[name], report)['in_place_target_budget_fits'])
-        standard = {a['selection'].get('edition_group', a['id']) for a in self.selection('standard-512gb')[0]}
         full = {a['id']: a for a in self.selection('full-1tb')[0]}
-        self.assertLess(standard, {a['selection'].get('edition_group', a['id']) for a in full.values()})
         # The verified practical foundation now fits every size; it is not filler
         # reserved solely to make the largest profile larger.
         batch=json.loads((ROOT/'catalog/acquisition/practical-discovery-20260928.json').read_text())

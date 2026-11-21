@@ -259,7 +259,7 @@ process.stdout.write(JSON.stringify(results));
         self.assertEqual(bool(results[2]["build"]), results[2]["report"]["canBuild"])
 
     def test_missing_editions_never_invent_savings_or_emit_a_build(self):
-        result = self.javascript([{"profile":"compact-256gb", "items":{"wikipedia-en":{"edition":"direct"}}, "allowIncomplete":True}])[0]
+        result = self.javascript([{"profile":"compact-256gb", "items":{"wikipedia-en":{"included":True,"edition":"direct"}}, "allowIncomplete":True}])[0]
         self.assertFalse(result["build"])
         self.assertTrue(any("no verified direct edition" in message for message in result["report"]["errors"]))
         self.compare_to_python(result)

@@ -6,7 +6,7 @@ Practical household and community knowledge for prolonged loss of internet and l
 
 Adequate means the stated learning and practical tasks are supported by reviewed, usable resources with their prerequisites, illustrations, limits and offline access. Tags, file counts, downloads and GB totals establish neither depth nor adequacy.
 
-Current selection: 631 pinned files, 989.283 GB, including reader packages. The 34 editorial workstreams account for all 89 atlas topics, including optional study topics, and additional gaps without atlas tags.
+Current selection: 629 pinned files, 989.282 GB, including reader packages. The 34 editorial workstreams account for all 89 atlas topics, including optional study topics, and additional gaps without atlas tags.
 
 A selected collection establishes availability only. Broad archives are supplementary until specific task coverage is reviewed. Optional collections below do not count toward default depth. Editorial assessments: 0 adequate, 26 partial, 3 gap, 5 optional.
 
@@ -43,7 +43,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** MSF clinical and essential-drug manuals and outbreak guides provide a foundation. WikiMed and MDWiki broaden reference. MedlinePlus supports patient education, and CDC Travelers’ Health and Libre Pathology add specialized references.
 
-**Catalog collections:** MSF Medical Guidelines (selected); WHO Basic Emergency Care and emergency clinical references (selected); WikiMed / MDWiki (selected); College textbooks (optional) (selected); MDWiki Medical Encyclopedia (selected); Project Gutenberg — Medicine (selected); CDC Travelers’ Health (selected); Libre Pathology (selected); MedlinePlus — January 2025 (selected).
+**Catalog collections:** MSF Medical Guidelines (selected); WHO Basic Emergency Care and emergency clinical references (selected); WikiMed / MDWiki (selected); College textbooks (optional) (selected); OpenStax health (selected); OpenStax science (selected); MDWiki Medical Encyclopedia (selected); Project Gutenberg — Medicine (selected); CDC Travelers’ Health (selected); Libre Pathology (selected); MedlinePlus — January 2025 (selected).
 
 **Remaining gaps:** An edition and audience review across overlapping clinical manuals; Coverage of chronic care and rehabilitation in low-resource settings; Reviewed task routes and a currency policy for medicine information.
 
@@ -281,7 +281,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Broad archives may contain relevant works, but no specific current finished manual is selected as a reviewed anchor.
 
-**Catalog collections:** CD3WD appropriate-development archive (selected); Project Gutenberg core library (selected).
+**Catalog collections:** CD3WD appropriate-development archive (selected); Project Gutenberg core library (selected); Project Gutenberg technology and trades (selected).
 
 **Remaining gaps:** An identified beginner sewing and mending sequence; Illustrated hand-stitching and repair; Explicit material and tool requirements.
 
@@ -351,7 +351,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Dictionary and Wikibooks are selected; illustrated stories and college writing are optional. None establishes a beginning-reading curriculum.
 
-**Catalog collections:** English Wiktionary (selected); English Wikibooks (selected); Illustrated children’s PDF stories (optional) (selected); College textbooks (optional) (selected); VOA Learning English — January 2025 (selected); Book Dash picture-book archive (selected); Project Gutenberg — General linguistics (selected); Project Gutenberg — Classical languages and literatures (selected); Project Gutenberg — Modern and Celtic languages (selected); Project Gutenberg — Romance languages (selected); Project Gutenberg — Germanic languages (selected); Project Gutenberg — English language (selected); Project Gutenberg — West Germanic languages (selected); Project Gutenberg — Slavic languages and literatures (selected); Project Gutenberg — Uralic and Basque languages (selected); Project Gutenberg — Near Eastern and North African languages (selected); Project Gutenberg — Indo-Iranian languages (optional; not selected); Project Gutenberg — Asian, African and Oceanian languages (optional; not selected); Project Gutenberg — Indigenous American languages (selected).
+**Catalog collections:** English Wiktionary (selected); English Wikibooks (selected); Illustrated children’s PDF stories (optional) (selected); College textbooks (optional) (selected); OpenStax humanities (selected); VOA Learning English — January 2025 (selected); Book Dash picture-book archive (optional; not selected); Project Gutenberg — General linguistics (selected); Project Gutenberg — Classical languages and literatures (selected); Project Gutenberg — Modern and Celtic languages (selected); Project Gutenberg — Romance languages (selected); Project Gutenberg — Germanic languages (selected); Project Gutenberg — English language (selected); Project Gutenberg — West Germanic languages (selected); Project Gutenberg — Slavic languages and literatures (selected); Project Gutenberg — Uralic and Basque languages (selected); Project Gutenberg — Near Eastern and North African languages (selected); Project Gutenberg — Indo-Iranian languages (optional; not selected); Project Gutenberg — Asian, African and Oceanian languages (optional; not selected); Project Gutenberg — Indigenous American languages (optional; not selected).
 
 **Remaining gaps:** A complete phonics and decodable-reader progression; Teacher instructions and answer/assessment materials; Learner practice and handwriting.
 
@@ -379,7 +379,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Siyavula natural/physical science books, OpenStax school physics and PhET. College textbooks and LibreTexts are optional supplements.
 
-**Catalog collections:** School mathematics and science (selected); PhET simulations (selected); English Wikipedia (selected); College textbooks (optional) (selected); LibreTexts STEM and medicine (selected); Crash Course English — May 2026 (selected); Wikispecies — July 2026 (selected); Encyclopedia of the Environment — May 2026 (selected); PhET simulation archive (selected); CIET / NCERT school audiobooks (selected); Astronomy Picture of the Day (selected).
+**Catalog collections:** School mathematics and science (selected); PhET simulations (selected); English Wikipedia (selected); College textbooks (optional) (selected); OpenStax science (selected); OpenStax mathematics (selected); LibreTexts STEM and medicine (selected); Crash Course English — May 2026 (selected); Wikispecies — July 2026 (selected); Encyclopedia of the Environment — May 2026 (selected); PhET simulation archive (selected); CIET / NCERT school audiobooks (selected); Astronomy Picture of the Day (selected).
 
 **Remaining gaps:** A stage-by-subject scope matrix; Early science and Earth/space progression; Safe practical activities with commonly available materials.
 
@@ -393,7 +393,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Encyclopedia and world map are selected; college history and government books remain optional and are not a school curriculum.
 
-**Catalog collections:** English Wikipedia (selected); World maps (OpenStreetMap) (selected); College textbooks (optional) (selected); Smithsonian American Women’s History (selected); Project Gutenberg — History (optional; not selected).
+**Catalog collections:** English Wikipedia (selected); World maps (OpenStreetMap) (selected); College textbooks (optional) (selected); OpenStax humanities (selected); Smithsonian American Women’s History (optional; not selected); Project Gutenberg — History (optional; not selected).
 
 **Remaining gaps:** A sequenced school curriculum; Teacher guides and student work; Explicit geographic and cultural scope.
 
@@ -407,7 +407,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Whole Wikipedia/Wikibooks and subject-specific historical nonfiction archives.
 
-**Catalog collections:** English Wikipedia (selected); English Wikibooks (selected); Project Gutenberg core library (selected); CD3WD appropriate-development archive (selected); Wikiquote (selected); Project Gutenberg — General works (selected); Project Gutenberg — Law (selected); Project Gutenberg — Bibliography and library science (selected).
+**Catalog collections:** English Wikipedia (selected); English Wikibooks (selected); Project Gutenberg core library (selected); Project Gutenberg science (selected); Project Gutenberg technology and trades (selected); Project Gutenberg agriculture (selected); Project Gutenberg education (selected); CD3WD appropriate-development archive (selected); Wikiquote (selected); Project Gutenberg — General works (selected); Project Gutenberg — Law (selected); Project Gutenberg — Bibliography and library science (selected).
 
 **Remaining gaps:** A small set of useful starting routes; Edition and overlap limitations; Identification of historical or outdated technical guidance.
 
@@ -435,7 +435,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** The sampler includes GNU, Git, Python and the 3D Printing Stack Exchange archive. Larger computing collections provide optional depth.
 
-**Catalog collections:** Programming and computer manuals (optional) (selected); Computing, GIS and 3D printing communities (selected); College textbooks (optional) (selected); Stack Overflow (optional; not selected); MediaWiki documentation (selected); 3D Printing Stack Exchange (selected).
+**Catalog collections:** Programming and computer manuals (optional) (selected); Computing, GIS and 3D printing communities (selected); College textbooks (optional) (selected); OpenStax computing (selected); Stack Overflow (optional; not selected); MediaWiki documentation (selected); 3D Printing Stack Exchange (selected).
 
 **Remaining gaps:** Finished SQLite and OpenSSH replacements; A bounded learning objective for each optional collection; Hardware and software prerequisites.
 
@@ -449,7 +449,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Optional college humanities and philosophy texts, literary archives and a small illustrated-story selection.
 
-**Catalog collections:** College textbooks (optional) (selected); English Wikisource (selected); Juvenile literature archive (optional) (selected); Illustrated children’s PDF stories (optional) (selected); Mutopia Project sheet music (selected); Folgerpedia (selected); Chopin early editions (optional; not selected); Celtic sheet music (selected); Project Gutenberg — Philosophy, psychology and religion (selected); Project Gutenberg — Music (selected); Project Gutenberg — Fine arts (optional; not selected); Project Gutenberg — Literature and drama (optional; not selected); Project Gutenberg — Romance literatures (optional; not selected); Project Gutenberg — English literature (selected); Project Gutenberg — American literature (selected); Project Gutenberg — Germanic literatures (selected).
+**Catalog collections:** College textbooks (optional) (selected); OpenStax humanities (selected); English Wikisource (selected); Juvenile literature archive (optional) (selected); Illustrated children’s PDF stories (optional) (selected); Mutopia Project sheet music (selected); Folgerpedia (selected); Chopin early editions (optional; not selected); Celtic sheet music (selected); Project Gutenberg — Philosophy, psychology and religion (selected); Project Gutenberg — Music (selected); Project Gutenberg — Fine arts (selected); Project Gutenberg — Literature and drama (optional; not selected); Project Gutenberg — Romance literatures (optional; not selected); Project Gutenberg — English literature (selected); Project Gutenberg — American literature (selected); Project Gutenberg — Germanic literatures (selected).
 
 **Remaining gaps:** An explicit reading scope and audience; Balance and perspective review; Sequence and overlap review.
 
@@ -463,7 +463,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Optional OpenStax introductory social-science textbooks and Wikiversity archive.
 
-**Catalog collections:** College textbooks (optional) (selected); English Wikiversity (selected); Project Gutenberg — Social sciences (selected); Project Gutenberg — Political science (selected).
+**Catalog collections:** College textbooks (optional) (selected); OpenStax advanced study (selected); OpenStax humanities (selected); English Wikiversity (selected); Project Gutenberg — Social sciences (selected); Project Gutenberg — Political science (selected).
 
 **Remaining gaps:** Defined learner goals; Edition and exercise review; A chosen sequence rather than a count of textbooks.
 
@@ -477,7 +477,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Optional college economics, accounting, business-law and management texts.
 
-**Catalog collections:** College textbooks (optional) (selected).
+**Catalog collections:** College textbooks (optional) (selected); OpenStax advanced study (selected).
 
 **Remaining gaps:** A defined study or small-enterprise purpose; Currency and jurisdiction limits; Worked practical recordkeeping exercises.
 
@@ -491,7 +491,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Optional College Success, data-science and advanced science resources; school statistics is already selected separately.
 
-**Catalog collections:** College textbooks (optional) (selected); Math, Physics and Biology Stack Exchange (selected); TED-Ed (selected); Milne Open Textbooks (selected); LibreTexts Statistics (selected).
+**Catalog collections:** College textbooks (optional) (selected); OpenStax advanced study (selected); OpenStax mathematics (selected); Math, Physics and Biology Stack Exchange (selected); TED-Ed (selected); Milne Open Textbooks (selected); LibreTexts Statistics (selected).
 
 **Remaining gaps:** Defined prerequisites and learner objectives; Exercise and software-dependency review; Duplication against school statistics.
 

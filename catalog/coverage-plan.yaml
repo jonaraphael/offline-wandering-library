@@ -29,7 +29,7 @@ topics:
   status: partial
   atlas_topics: [clinical-medicine, medicines, infectious-disease, anatomy, nursing]
   intended: Trained health workers can find assessment, infection prevention, medicine references and escalation guidance; professional material remains clearly labelled.
-  resources: [msf-medical, who-emergency-care, wikimed, openstax-core, mdwiki, gutenberg-r, cdc-travelers-health, librepathology, medlineplus]
+  resources: [msf-medical, who-emergency-care, wikimed, openstax-core, openstax-health, openstax-school-science, mdwiki, gutenberg-r, cdc-travelers-health, librepathology, medlineplus]
   existing: MSF clinical and essential-drug manuals and outbreak guides provide a foundation. WikiMed and MDWiki broaden reference. MedlinePlus supports patient education, and CDC Travelers’ Health and Libre Pathology add specialized references.
   gaps: [An edition and audience review across overlapping clinical manuals, Coverage of chronic care and rehabilitation in low-resource settings, Reviewed task routes and a currency policy for medicine information]
   next: ["Audit the selected MSF editions before adding clinical sources. Check current editions and professional scope across MedlinePlus, CDC and Libre Pathology. Identify a current published chronic-care reference."]
@@ -199,7 +199,7 @@ topics:
   status: gap
   atlas_topics: []
   intended: Mend and fit everyday clothing, sew useful household items and understand basic fabric, leather and storage care.
-  resources: [cd3wd, gutenberg-core]
+  resources: [cd3wd, gutenberg-core, gutenberg-trades]
   existing: Broad archives may contain relevant works, but no specific current finished manual is selected as a reviewed anchor.
   gaps: [An identified beginner sewing and mending sequence, Illustrated hand-stitching and repair, Explicit material and tool requirements]
   next: ["NMSU Sewing Shortcuts C-104, revised 2015, is a fully hashed 12-page candidate; illustrated seams, pockets and fasteners were sampled. It assumes machine-sewing skills and does not close the beginner hand-mending gap.", "Select a finished illustrated hand-stitching and mending sequence with tools, materials and complete beginner tasks."]
@@ -249,7 +249,7 @@ topics:
   status: gap
   atlas_topics: [language-books, dictionaries, writing]
   intended: Teach reading, handwriting, comprehension and basic composition from the beginning, with teacher support and assessment.
-  resources: [wiktionary-en, wikibooks-en, childrens-library, openstax-core, voa-learning, bookdash-archive, gutenberg-p, gutenberg-pa, gutenberg-pb, gutenberg-pc, gutenberg-pd, gutenberg-pe, gutenberg-pf, gutenberg-pg, gutenberg-ph, gutenberg-pj, gutenberg-pk, gutenberg-pl, gutenberg-pm]
+  resources: [wiktionary-en, wikibooks-en, childrens-library, openstax-core, openstax-culture, voa-learning, bookdash-archive, gutenberg-p, gutenberg-pa, gutenberg-pb, gutenberg-pc, gutenberg-pd, gutenberg-pe, gutenberg-pf, gutenberg-pg, gutenberg-ph, gutenberg-pj, gutenberg-pk, gutenberg-pl, gutenberg-pm]
   existing: Dictionary and Wikibooks are selected; illustrated stories and college writing are optional. None establishes a beginning-reading curriculum.
   gaps: [A complete phonics and decodable-reader progression, Teacher instructions and answer/assessment materials, Learner practice and handwriting]
   next: ["The complete offered-file inventory now records 366 English curriculum pages and 1,220 distinct PDFs across CKLA/CKMath/CKSci/CKHG, with a grade/component matrix in catalog/acquisition/full-1tb-capacity-20260928/school-units.json.", "Thirty-nine kindergarten Skills unit PDFs are fully downloaded and hashed. Six additional Skills ancillary PDFs are enumerated but need full-body checks; reconcile these and the scope/sequence before calling the sequence ready.", "Review required readers, practice, assessments, materials and live/paid dependencies for the preschool–grade 8 CKLA progression; offered PDFs and video supplements alone do not establish adequate teaching depth."]
@@ -269,7 +269,7 @@ topics:
   status: partial
   atlas_topics: [science, physics, chemistry, biology, astronomy]
   intended: A coherent school-level progression across life, physical and Earth/space science, including safe practical observations and explanations.
-  resources: [school-education, phet, wikipedia-en, openstax-core, libretexts-stem, crash-course, wikispecies, environment-encyclopedia, phet-archive, ncert-audiobooks, astronomy-picture]
+  resources: [school-education, phet, wikipedia-en, openstax-core, openstax-school-science, openstax-school-math, libretexts-stem, crash-course, wikispecies, environment-encyclopedia, phet-archive, ncert-audiobooks, astronomy-picture]
   existing: Siyavula natural/physical science books, OpenStax school physics and PhET. College textbooks and LibreTexts are optional supplements.
   gaps: [A stage-by-subject scope matrix, Early science and Earth/space progression, Safe practical activities with commonly available materials]
   next: ["Use the saved CKSci kindergarten–grade 8 component matrix to reconcile life, physical and Earth/space strands with the selected Siyavula books and PhET. Source PDF availability/signatures passed; full bodies and instructional coverage remain unreviewed.", "Review safe practical activities, required materials and teacher/student assessments. Acquire source hashes before admission; large supplementary science archives do not establish a school progression."]
@@ -279,7 +279,7 @@ topics:
   status: gap
   atlas_topics: [history, government-politics]
   intended: Age-appropriate chronological and geographic foundations, source interpretation and basic civics with multiple perspectives.
-  resources: [wikipedia-en, world-maps, openstax-core, womens-history, gutenberg-cdef]
+  resources: [wikipedia-en, world-maps, openstax-core, openstax-culture, womens-history, gutenberg-cdef]
   existing: Encyclopedia and world map are selected; college history and government books remain optional and are not a school curriculum.
   gaps: [A sequenced school curriculum, Teacher guides and student work, Explicit geographic and cultural scope]
   next: ["CKHG kindergarten–grade 8 offered PDFs are now enumerated by unit and role in school-units.json. Review chronology, geographic/cultural perspective, student work, teacher materials and assessments before admission.", "Hash the complete PDF bodies and inspect dependencies; the publisher unit count, encyclopedia and Crash Course supplement do not establish adequate school coverage."]
@@ -289,7 +289,7 @@ topics:
   status: partial
   atlas_topics: [books, encyclopedias]
   intended: Broad lookup and contextual reading that supplements the practical spine without being mistaken for a reviewed task manual.
-  resources: [wikipedia-en, wikibooks-en, gutenberg-core, cd3wd, wikiquote, gutenberg-a, gutenberg-k, gutenberg-z]
+  resources: [wikipedia-en, wikibooks-en, gutenberg-core, gutenberg-science, gutenberg-trades, gutenberg-agriculture, gutenberg-education, cd3wd, wikiquote, gutenberg-a, gutenberg-k, gutenberg-z]
   existing: Whole Wikipedia/Wikibooks and subject-specific historical nonfiction archives.
   gaps: [A small set of useful starting routes, Edition and overlap limitations, Identification of historical or outdated technical guidance]
   next: [Add concise source-level aliases and selected contents routes from publisher metadata; avoid exhaustive archive indexing., 'The capacity plan saves a whole Survivor Library candidate and its draft pseudoindex. Review embedded PDFs, reader support, rights and overlap first. Keep historical limits visible; do not credit it as modern clinical, building or food-safety guidance.']
@@ -309,7 +309,7 @@ topics:
   status: optional
   atlas_topics: [computing, manufacturing]
   intended: Provide basic computing and fabrication references with larger collections available for deeper study.
-  resources: [linux-programming-docs, computing-communities, openstax-core, stack-overflow, mediawiki-docs, desktop-fabrication]
+  resources: [linux-programming-docs, computing-communities, openstax-core, openstax-computing, stack-overflow, mediawiki-docs, desktop-fabrication]
   existing: The sampler includes GNU, Git, Python and the 3D Printing Stack Exchange archive. Larger computing collections provide optional depth.
   gaps: [Finished SQLite and OpenSSH replacements, A bounded learning objective for each optional collection, Hardware and software prerequisites]
   next: [Keep the existing optional references; assess finished publisher SQLite/OpenSSH alternatives without reviving conversion pipelines.]
@@ -319,7 +319,7 @@ topics:
   status: optional
   atlas_topics: [humanities, philosophy]
   intended: Enrichment and deeper critical reading separate from the missing school curriculum.
-  resources: [openstax-core, wikisource-en, juvenile-literature, childrens-library, mutopia, folgerpedia, chopin-archive, celtic-scores, gutenberg-b, gutenberg-m, gutenberg-n, gutenberg-pn, gutenberg-pq, gutenberg-pr, gutenberg-ps, gutenberg-pt]
+  resources: [openstax-core, openstax-culture, wikisource-en, juvenile-literature, childrens-library, mutopia, folgerpedia, chopin-archive, celtic-scores, gutenberg-b, gutenberg-m, gutenberg-n, gutenberg-pn, gutenberg-pq, gutenberg-pr, gutenberg-ps, gutenberg-pt]
   existing: Optional college humanities and philosophy texts, literary archives and a small illustrated-story selection.
   gaps: [An explicit reading scope and audience, Balance and perspective review, Sequence and overlap review]
   next: [Select named works only against an agreed audience and reading purpose; do not expand archives to consume capacity.]
@@ -329,7 +329,7 @@ topics:
   status: optional
   atlas_topics: [social-sciences, anthropology, psychology, sociology]
   intended: Optional introductory college study with clear limits on applying general texts to personal or community decisions.
-  resources: [openstax-core, wikiversity-en, gutenberg-h, gutenberg-j]
+  resources: [openstax-core, openstax-advanced-study, openstax-culture, wikiversity-en, gutenberg-h, gutenberg-j]
   existing: Optional OpenStax introductory social-science textbooks and Wikiversity archive.
   gaps: [Defined learner goals, Edition and exercise review, A chosen sequence rather than a count of textbooks]
   next: [Review existing book contents against a specific requested study sequence before selecting additions.]
@@ -339,7 +339,7 @@ topics:
   status: optional
   atlas_topics: [business, economics, accounting-finance, business-law-ethics, management-marketing]
   intended: Optional foundational study; distinguish durable accounting and organization concepts from changing law and market conditions.
-  resources: [openstax-core]
+  resources: [openstax-core, openstax-advanced-study]
   existing: Optional college economics, accounting, business-law and management texts.
   gaps: [A defined study or small-enterprise purpose, Currency and jurisdiction limits, Worked practical recordkeeping exercises]
   next: ['If requested, evaluate a finished small-farm or cooperative recordkeeping workbook before adding further college titles.']
@@ -349,7 +349,7 @@ topics:
   status: optional
   atlas_topics: [statistics-data-science, college-success]
   intended: Optional study skills and introductory data reasoning beyond the practical school-math spine.
-  resources: [openstax-core, stackexchange-science, ted-ed, milne-textbooks, libretexts-statistics]
+  resources: [openstax-core, openstax-advanced-study, openstax-school-math, stackexchange-science, ted-ed, milne-textbooks, libretexts-statistics]
   existing: Optional College Success, data-science and advanced science resources; school statistics is already selected separately.
   gaps: [Defined prerequisites and learner objectives, Exercise and software-dependency review, Duplication against school statistics]
   next: [Assess existing optional texts against an explicit learner sequence; preserve software-independent paths where possible.]

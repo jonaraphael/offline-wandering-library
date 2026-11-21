@@ -19,8 +19,11 @@ from the selected resources, not duplicated in each file's `profiles` list.
 The demo baseline uses asset `profiles` membership; all production presets use named collections.
 An empty asset `profiles` list means it is selected only through a named resource.
 
-The production profiles and `catalog/capacity-ladder.json` are generated.
-Each asset records its primary planning `selection.domain`, `selection.level`,
+The production profiles and `catalog/capacity-ladder.json` are generated from
+`catalog/capacity-order.yaml`. Review the order when changing default collections.
+The compiler derives the byte threshold for each addition and uses the asset's
+primary domain to check whether an indivisible archive can replace lower-priority
+material. Each asset records its primary planning `selection.domain`, `selection.level`,
 and `selection.rank`. For archives that span planning domains, give their
 shares as positive integer parts in `selection.domain_weights`. Include each
 weighted domain among the asset's `knowledge_domains` and explain the evidence

@@ -32,11 +32,12 @@ destination directory and choose POSIX shell or PowerShell. Run the copied plan
 before starting the build. The selector runs locally. Python and internet access
 are required for the build.
 
-The recommendation includes the entire critical tier, adds depth through a
-persistent core, and fills gaps between large archives with replaceable
-collections. An upgrade replaces the selected Wikipedia edition. The 1 TB
-default applies on larger drives, with the extra capacity available for explicit
-additions. The [current selection table](content-selection.md) lists the pinned
+The recommendation includes the entire critical tier and keeps selected files
+that contribute to health, water and sanitation, food preservation, agriculture,
+or shelter. A large, higher-priority archive can displace lower-priority
+collections. Default English Wikipedia starts with the illustrated edition.
+The 1 TB default applies on larger drives, with the extra capacity available
+for explicit additions. The [current selection table](content-selection.md) lists the pinned
 files and in-place planning peaks for the five common sizes.
 
 Use collection IDs or numbers shown by `--list-resources`. To exchange the

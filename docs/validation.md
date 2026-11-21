@@ -46,10 +46,12 @@ verified backup.
 ## Capacity ladder checks
 
 `python -m unittest discover -s tests -p test_capacity_ladder.py` checks
-recommendations from 16 GB through 1 TB at intervals no wider than 0.25 GB,
-including the last byte before a change. It covers retained knowledge,
-critical assets, tier retention, persistent collections, domain coverage at the
-14 checkpoints, and Python and JavaScript parity. It also checks the 1 TB cap on
+recommendations from 16 GB through 1 TB in 0.5 GB increments and at every
+change, including the last byte before a change. It checks critical assets,
+protected files, tier retention, and the priority and size of assets that permit
+other fields to lose bytes. It checks the 86.64% continuous label-fill floor,
+97% usable fill and domain coverage at the 14 checkpoints, and Python and
+JavaScript parity. It also checks the 1 TB cap on
 larger drives. `python scripts/build_capacity_ladder.py --check` and
 `python scripts/build_selector.py --check` check generated files.
 

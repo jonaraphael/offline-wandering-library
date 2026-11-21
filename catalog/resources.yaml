@@ -498,6 +498,7 @@ resources:
   number: 9
   target_bytes: 36041186827
   status: ready
+  opt_in: true
   reason: 'Four finished English nonfiction ZIM archives: agriculture, technology,
     science and education. Historical reference, not current clinical or safety guidance.'
   asset_ids:
@@ -518,6 +519,90 @@ resources:
   include:
   - 'Four finished English nonfiction ZIM archives: agriculture, technology, science
     and education. Historical reference, not current clinical or safety guidance.'
+- id: gutenberg-science
+  title: Project Gutenberg science
+  number: 43
+  target_bytes: 17724714270
+  status: ready
+  reason: Pinned English nonfiction ZIM archive. Historical reference.
+  asset_ids:
+  - gutenberg_en_lcc_q
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  preferred_formats:
+  - zim
+  knowledge_domains:
+  - advanced-study
+  - agriculture
+  - crafts
+  - education
+  - natural-science
+  - school-math
+  - school-science
+- id: gutenberg-trades
+  title: Project Gutenberg technology and trades
+  number: 44
+  target_bytes: 13154803470
+  status: ready
+  reason: Pinned English nonfiction ZIM archive. Historical reference.
+  asset_ids:
+  - gutenberg_en_lcc_t
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  preferred_formats:
+  - zim
+  knowledge_domains:
+  - advanced-study
+  - agriculture
+  - crafts
+  - education
+  - food-preservation
+  - hand-tools
+  - repair
+  - shelter
+  - water-sanitation
+- id: gutenberg-agriculture
+  title: Project Gutenberg agriculture
+  number: 45
+  target_bytes: 4532683039
+  status: ready
+  reason: Pinned English nonfiction ZIM archive. Historical reference.
+  asset_ids:
+  - gutenberg_en_lcc_s
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  preferred_formats:
+  - zim
+  knowledge_domains:
+  - agriculture
+  - crafts
+  - education
+  - food-preservation
+  - water-sanitation
+- id: gutenberg-education
+  title: Project Gutenberg education
+  number: 46
+  target_bytes: 628986048
+  status: ready
+  reason: Pinned English nonfiction ZIM archive. Historical reference.
+  asset_ids:
+  - gutenberg_en_lcc_l
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  preferred_formats:
+  - zim
+  knowledge_domains:
+  - advanced-study
+  - agriculture
+  - crafts
+  - culture
+  - education
+  - school-math
+  - school-science
 - id: childrens-library
   title: Illustrated children’s PDF stories (optional)
   number: 10
@@ -758,6 +843,7 @@ resources:
   number: 22
   target_bytes: 7301623553
   status: ready
+  opt_in: true
   reason: Finished published files covering the listed collection; downloaded unchanged.
     Ordinary PDF documents.
   asset_ids:
@@ -849,6 +935,168 @@ resources:
   include:
   - Finished published files covering the listed collection; downloaded unchanged.
     Ordinary PDF documents.
+- id: openstax-advanced-study
+  title: OpenStax advanced study
+  number: 47
+  target_bytes: 1092996285
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_additive_manufacturing_essentials
+  - openstax_business_ethics
+  - openstax_business_law_i_essentials_2e
+  - openstax_college_success
+  - openstax_college_success_concise
+  - openstax_entrepreneurship
+  - openstax_introduction_business_2e
+  - openstax_introduction_intellectual_property
+  - openstax_organizational_behavior
+  - openstax_preparing_for_college_success
+  - openstax_principles_financial_accounting
+  - openstax_principles_managerial_accounting
+  - openstax_principles_economics_3e
+  - openstax_principles_finance_2e
+  - openstax_principles_macroeconomics_3e
+  - openstax_principles_management
+  - openstax_principles_marketing
+  - openstax_principles_microeconomics_3e
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  preferred_formats:
+  - pdf
+  knowledge_domains:
+  - business
+  - college-education
+- id: openstax-computing
+  title: OpenStax computing
+  number: 48
+  target_bytes: 382108855
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_foundations_information_systems
+  - openstax_introduction_computer_science
+  - openstax_introduction_python_programming
+  - openstax_workplace_software_skills
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  preferred_formats:
+  - pdf
+  knowledge_domains:
+  - college-education
+  - computing
+- id: openstax-culture
+  title: OpenStax humanities
+  number: 49
+  target_bytes: 1022430818
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_american_government_4e
+  - openstax_introduction_anthropology
+  - openstax_introduction_philosophy
+  - openstax_introduction_political_science
+  - openstax_introduction_sociology_3e
+  - openstax_psychology_2e
+  - openstax_us_history
+  - openstax_world_history_volume_1
+  - openstax_world_history_volume_2
+  - openstax_writing_guide
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  preferred_formats:
+  - pdf
+  knowledge_domains:
+  - college-education
+  - humanities
+  - social-science
+- id: openstax-health
+  title: OpenStax health
+  number: 50
+  target_bytes: 494145224
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_clinical_nursing_skills
+  - openstax_fundamentals_nursing
+  - openstax_maternal_newborn_nursing
+  - openstax_medical_surgical_nursing
+  - openstax_nutrition
+  - openstax_pharmacology
+  - openstax_population_health
+  - openstax_psychiatric_mental_health
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  preferred_formats:
+  - pdf
+  knowledge_domains:
+  - clinical-medicine
+  - college-education
+  - health
+- id: openstax-school-math
+  title: OpenStax mathematics
+  number: 51
+  target_bytes: 775240550
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_algebra_and_trigonometry_2e
+  - openstax_calculus_volume_1
+  - openstax_calculus_volume_2
+  - openstax_calculus_volume_3
+  - openstax_college_algebra_2e
+  - openstax_college_algebra_corequisite_support_2e
+  - openstax_contemporary_mathematics
+  - openstax_introductory_business_statistics_2e
+  - openstax_introductory_statistics_2e
+  - openstax_precalculus_2e
+  - openstax_principles_data_science
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  preferred_formats:
+  - pdf
+  knowledge_domains:
+  - college-education
+  - mathematics
+- id: openstax-school-science
+  title: OpenStax science
+  number: 52
+  target_bytes: 3534701821
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_anatomy_and_physiology_2e
+  - openstax_astronomy_2e
+  - openstax_biology_2e
+  - openstax_biology_ap_courses
+  - openstax_chemistry_2e
+  - openstax_chemistry_atoms_first_2e
+  - openstax_college_physics_2e
+  - openstax_college_physics_ap_courses_2e
+  - openstax_concepts_biology
+  - openstax_introduction_behavioral_neuroscience
+  - openstax_lifespan_development
+  - openstax_microbiology
+  - openstax_organic_chemistry
+  - openstax_university_physics_volume_1
+  - openstax_university_physics_volume_2
+  - openstax_university_physics_volume_3
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  preferred_formats:
+  - pdf
+  knowledge_domains:
+  - astronomy
+  - biology
+  - chemistry
+  - college-education
+  - physics
 - id: libretexts-stem
   title: LibreTexts STEM and medicine
   number: 23

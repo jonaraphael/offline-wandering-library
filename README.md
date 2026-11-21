@@ -34,9 +34,11 @@ The selector's command uses `--detach` to start a saved background job. Inspect,
 
 The default recommendation covers capacities from 16 GB. It accounts for
 filesystem headroom, free space to retain, readers and discovery files. The
-planner keeps a growing set of collections and fills the remaining space with
-collections that can change as the next archive fits. One English Wikipedia
-edition occupies that collection slot, with illustrated Wikipedia in the 1 TB default.
+planner keeps every selected file that contributes to health, water and
+sanitation, food preservation, agriculture, or shelter as capacity grows.
+Other fields can give up space when a higher-priority archive takes at least
+10% of the drive label. The default adds illustrated English Wikipedia when
+it fits in the capacity order. Smaller editions are available through curation.
 The 1 TB default applies on larger drives, leaving the extra capacity available
 for optional collections. The builder checks actual free space.
 

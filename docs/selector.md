@@ -18,9 +18,10 @@ command carries the entered capacity as `--capacity-bytes`.
 
 Change collection checkboxes or use topic and text filters to select individual
 files. Totals update immediately. Every recommendation includes all critical
-files. The core grows with capacity. Collections that fill its remaining space
-can change when a larger archive becomes available. Regional topographic sheets and
-non-English Wikipedias start unchecked. The
+files. Once selected, files about health, water and sanitation, food
+preservation, agriculture, and shelter stay in the recommendation as capacity
+grows. A large, higher-priority archive can displace lower-priority collections.
+Regional topographic sheets and non-English Wikipedias start unchecked. The
 [generated capacity table](content-selection.md) lists the common-size plans.
 
 Under **Take this plan to your terminal**, enter the drive directory, choose the
