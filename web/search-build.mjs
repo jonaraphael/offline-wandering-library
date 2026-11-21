@@ -82,6 +82,8 @@ export async function assembleSearch(drive, {completed, layouts, navigation, con
     }
     for (const [number, pin] of (shard.parts || []).entries()) parts.push({pool: asset.sha256, number, pin});
     const row = {id: asset.id, sha256: asset.sha256, title: asset.title, format: asset.format,
+      category: asset.category, critical: Boolean(asset.critical),
+      discussion: (asset.source_url || "").includes("/stack_exchange/"),
       destination: layouts.get(asset.id)[0].path.slice("LIBRARY/".length), license: asset.license,
       attribution: meta.attribution, shelves: meta.shelves || [], legacy: Boolean(meta.legacy),
       records: shard.records, main: shard.main, entrypoints: shard.entrypoints, parts: parts.map(

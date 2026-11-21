@@ -18,6 +18,7 @@ from owl.selection import load_ladder, recommended_profile
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="enforce checked-in recall and empty-result bounds")
+    parser.add_argument("--tasks", action="store_true", help="export the three results per graded task query")
     args = parser.parse_args()
     catalog = ROOT / "catalog/library.yaml"
     profiles = load_profiles(ROOT / "profiles")
@@ -51,6 +52,8 @@ def main():
         command = ["node", str(ROOT / "tests/search/benchmark.cjs"), str(plan), str(SEARCH_ROOT)]
         if args.check:
             command.append("--check")
+        if args.tasks:
+            command.append("--tasks")
         subprocess.run(command, check=True)
 
 

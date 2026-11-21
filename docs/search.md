@@ -24,8 +24,15 @@ and paths, and selected archives also contribute lead paragraphs or accepted
 answers. Archive coverage varies by source. [ZIM coverage](zim-search-coverage.md)
 
 Editorial concept groups add common terms, spelling variants and question
-wording at indexing time. The runtime combines the resulting lexical scores
-with similarity to quantized vectors where present. The shared model is a
+wording at indexing time. At search time, the ranker removes common question
+wrappers and handles audience phrases separately. It uses offline phrase groups
+to connect everyday wording with clinical and practical vocabulary. A relevant
+passage or article lead earns more than a title-only match. For health, water
+and survival intents, matching CRITICAL sources receive additional weight.
+Discussion results receive less weight unless a marked accepted-answer excerpt
+or its postings match. Older discussion shards lack per-record answer markers
+and receive the title penalty. The ranker also uses similarity to quantized
+vectors where present. The shared model is a
 32-component, signed 8-bit conversion of Minish Lab’s MIT-licensed
 Potion-base-2M. OWL pools tokens from each passage body before quantization.
 New title-only archive records store up to four bytes of vector data as the
@@ -37,7 +44,8 @@ Browser search loads classic scripts and inflates gzip chunks with
 DecompressionStream. It runs with local files and a network-denying CSP.
 Catalog results appear while the article and passage index loads. The ranker
 reads chunks based on query terms and the presence of passage or lead vectors,
-then updates results as chunks arrive. The catalog remains available if the
+then updates results as chunks arrive. For emergency intents it reads matching
+passage chunks from relevant CRITICAL sources first. The catalog remains available if the
 viewer can load the catalog script and blocks the larger index.
 
 ## Precompute and verify
@@ -46,6 +54,7 @@ viewer can load the catalog script and blocks the larger index.
 python scripts/build_search_shards.py --model-input "$MODEL_INPUT" \
   --cache "$VERIFIED_SOURCE_CACHE" --directories "$ZIM_RECEIPTS"
 python scripts/search_benchmark.py --check
+python scripts/search_benchmark.py --tasks > search-task-results.json
 ```
 
 Store source files in the cache under their catalog SHA-256. The indexing
@@ -85,4 +94,6 @@ to 900 MB by assigning a portion of their on-drive reserve to search. The
 planner leaves at least 125 MB in that reserve. The
 benchmark checks chunk digests and runs the original 100 probes plus body-only
 PDF queries with expected physical page locations. It reports the two query sets
-at 16 GB, 128 GB and 1 TB.
+at 16 GB, 128 GB and 1 TB. The optional task export records the first three
+results for each natural-language task in `tests/search/task-queries.json`,
+with the title, source, locator and any displayable excerpt for grading.

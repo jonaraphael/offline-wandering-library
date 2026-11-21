@@ -7,6 +7,7 @@ const rank = require('../../src/owl/templates/rank.js');
 const catalog = require('../../src/owl/templates/search.js');
 const queries = require('./queries.json');
 const bodyQueries = require('./body-queries.json');
+const taskQueries = require('./task-queries.json');
 
 function payload(data, callback) {
   const prefix = 'globalThis.' + callback + '(';
@@ -27,9 +28,11 @@ async function benchmark(planPath, sourceRoot) {
   const model = rank.model(payload((await pin(join(sourceRoot, 'model.js'), manifest.model)).toString(), 'OWLShardModel'));
   await pin(join(sourceRoot, 'model-license.txt'), manifest.license);
   if (queries.length !== 100 || new Set(queries.map(([q]) => q)).size !== 100) throw Error('Expected 100 unique probes');
-  const prep = (text, target) => ({text, ...target, terms: rank.terms(text), phrase: rank.normalize(text), vector: model(text)});
+  const tasks = process.argv.includes("--tasks") ? taskQueries : [];
+  const prep = (text, target) => ({text, ...target, query: rank.prepareQuery(text, model), phrase: rank.normalize(text)});
   const probes = [...queries.map(([text, target]) => prep(text, {expected: new RegExp(target, 'iu')})),
-    ...bodyQueries.map(([text, asset, pages]) => prep(text, {asset, pages: new Set(pages)}))];
+    ...bodyQueries.map(([text, asset, pages]) => prep(text, {asset, pages: new Set(pages)})),
+    ...tasks.map(task => prep(task.query, {task: task.id}))];
   const scenarios = plans.map(plan => ({
     ...plan, sources: new Map(plan.sources.filter(row => !row.legacy).map(row => [row.sha256, row])),
     hits: probes.map(() => []), catalogPrepared: catalog.prepare(plan.metadata)
@@ -67,7 +70,7 @@ async function benchmark(planPath, sourceRoot) {
       whole.update(data);
       if (!destinations.length) continue;
       const bloom = atob(part.bloom);
-      const selected = probes.map(probe => rank.semanticPart(part) || rank.mightMatch(bloom, probe.terms));
+      const selected = probes.map(probe => rank.shouldRead(part, probe.query, bloom));
       if (!selected.some(Boolean)) continue;
       const row = payload(data.toString(), 'OWLShardPart');
       if (row[0] !== pool || row[1] !== number) throw Error('Chunk ID differs: ' + filename);
@@ -75,7 +78,7 @@ async function benchmark(planPath, sourceRoot) {
       if (chunk.records.length !== part.records || chunk.vectors.length !== part.vectors) throw Error('Record count differs: ' + filename);
       for (const [number, query] of probes.entries()) {
         if (!selected[number]) continue;
-        const partHits = rank.rankPart(chunk, query.terms, query.phrase, query.vector, 30);
+        const partHits = rank.rankPart(chunk, query.query, destinations[0].sources.get(digest), 30);
         if (!partHits.length) continue;
         for (const scenario of destinations) {
           const hits = scenario.hits[number];
@@ -96,11 +99,15 @@ async function benchmark(planPath, sourceRoot) {
   const results = scenarios.map(scenario => {
     const misses = [], zeros = [];
     const totals = {fable_hit: 0, fable_zero: 0, hit: 0, zero: 0, body_hit: 0, body_zero: 0};
-    const body_misses = [];
+    const body_misses = [], task_results = [];
     probes.forEach((query, number) => {
       const hybrid = rank.topResults(scenario.hits[number], 30);
       const metadata = catalog.search(scenario.catalogPrepared, query.text, 'all');
       const results = catalog.mergeRanked(hybrid, metadata, 10);
+      if (query.task) {
+        task_results.push({id: query.task, results: results.slice(0, 3).map(({record}) => record)});
+        return;
+      }
       if (query.asset) {
         const match = results.some(({record}) => record.kind === 'section' && record.asset_id === query.asset &&
           query.pages.has(Number(record.href.split('#page=')[1])) &&
@@ -127,7 +134,7 @@ async function benchmark(planPath, sourceRoot) {
     return {capacity_gb: scenario.capacity_gb, search_bytes: scenario.search_bytes, assets: scenario.selected_assets,
       shard_bytes: scenario.shard_bytes, zims: scenario.selected_zims, indexed_zims: scenario.indexed_zims,
       sampled_zims: scenario.sampled_zims, indexed_sources: scenario.sources.size, ...totals, miss_count: misses.length, misses, zeros, body_misses,
-      query_count: queries.length, body_query_count: bodyQueries.length,
+      query_count: queries.length, body_query_count: bodyQueries.length, ...(tasks.length && {task_results}),
       all_hit: totals.hit + totals.body_hit, all_zero: totals.zero + totals.body_zero};
   });
   console.log(JSON.stringify({artifact: counts, scenarios: results}, null, 2));

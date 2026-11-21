@@ -48,7 +48,9 @@
     const exact = metadata.filter(hit => hit.score >= 100000).slice(0, 2);
     const full = metadata.filter(hit => hit.score >= 10000 && hit.score < 100000).slice(0, 2);
     const seen = new Set();
-    return [...exact, ...indexed.slice(0, 3), ...full, ...indexed.slice(3), ...metadata].filter(({record}) => {
+    const first = indexed.slice(0, 3);
+    const head = first[0]?.focused ? [...first, ...exact] : [...exact, ...first];
+    return [...head, ...full, ...indexed.slice(3), ...metadata].filter(({record}) => {
       const key = record.href + '\0' + record.location;
       if (seen.has(key)) return false;
       seen.add(key);

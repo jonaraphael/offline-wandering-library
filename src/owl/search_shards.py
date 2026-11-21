@@ -146,6 +146,7 @@ class Record:
     vector: bool = True
     redirect: bool = False
     show_lead: bool = True
+    accepted_answer: bool = False
 
 
 def part_path(digest, number):
@@ -173,6 +174,8 @@ def packed_part(source, number, records, model, *, title_paths=False):
             if title == row.locator.rsplit("/", 1)[-1].replace("_", " "):
                 title = None
         compact.append([title, row.locator, (row.lead or row.body)[:160] if row.show_lead else "", vector, int(row.redirect), int(title_only)])
+        if row.accepted_answer:
+            compact[-1].append(1)
         weights = {}
         for field, weight in ((row.body, 1), (row.lead, 3), (concepts, 5), (row.heading, 8)):
             for word in terms(field):
@@ -264,6 +267,8 @@ def shard_chunks(manifest, digest, shard):
 def source_manifest(asset, shard, destination):
     return {"id": asset["id"], "sha256": asset["sha256"], "destination": destination,
             "title": asset["title"], "format": asset["format"],
+            "category": asset.get("category", ""), "critical": bool(asset.get("critical")),
+            "discussion": "/stack_exchange/" in asset.get("source_url", ""),
             "license": asset.get("license", ""), "attribution": asset.get("attribution", ""),
             "main": shard.get("main", ""), "records": shard["records"],
             "shelves": asset.get("shelves", []), "legacy": bool(asset.get("legacy"))}

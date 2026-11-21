@@ -214,6 +214,7 @@ def archive_records(rows, local, asset, metrics, *, lead_paths=None):
     question_site = "/stack_exchange/" in asset.get("source_url", "") or "stackexchange" in asset.get("id", "")
     for title, location, mime, redirect, *_ in rows:
         lead = ""
+        accepted_answer = False
         if archive and not redirect and mime.split(";", 1)[0] in HTML_MIMES:
             metrics["eligible_html"] += 1
             if lead_paths is None or location in lead_paths:
@@ -224,13 +225,14 @@ def archive_records(rows, local, asset, metrics, *, lead_paths=None):
                     parser.close()
                     if parser.accepted and question_site:
                         lead = " ".join(parser.accepted)
+                        accepted_answer = True
                         metrics["accepted_answers"] += 1
                     else:
                         lead = " ".join(parser.lead or parser.visible)
                     metrics["leads"] += bool(lead)
                 except (KeyError, RuntimeError, ValueError):
                     metrics["read_errors"] += 1
-        yield Record(title, location, lead=lead, redirect=redirect,
+        yield Record(title, location, lead=lead, redirect=redirect, accepted_answer=accepted_answer,
                      show_lead=bool(asset.get("redistributable")))
 
 def directory_receipt(asset, ranges, path=None, *, sample=None):

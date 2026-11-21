@@ -24,9 +24,13 @@ class SourceShardTests(unittest.TestCase):
         digest, shard = next((key, value) for key, value in manifest["sources"].items()
                              if value["format"] == "pdf" and len(value["parts"]) == 1)
         asset = {"id": "exact-edition", "title": "Asset", "format": "pdf", "destination": "BOOKS/source.pdf",
-                 "sha256": digest}
+                 "sha256": digest, "critical": True, "category": "medical"}
         files, coverage = compose_shards([asset, {**asset, "id": "new-edition", "sha256": "f" * 64}], 10_000_000)
         self.assertEqual([item["id"] for item in coverage], ["exact-edition"])
+        selected, = payload(files["SEARCH/shards.js"], "OWLShardSelection")["sources"]
+        self.assertTrue(selected["critical"])
+        self.assertEqual(selected["category"], "medical")
+        self.assertFalse(selected["discussion"])
         body = next(value for path, value in files.items() if path.startswith("SEARCH/sources/"))
         self.assertEqual(output_size(body), shard["parts"][0]["bytes"])
         self.assertEqual(sha256(output_bytes(body)).hexdigest(), shard["sha256"])
@@ -65,7 +69,7 @@ class SourceShardTests(unittest.TestCase):
         title = "Page 14"
         body = "The birch bark kept the kindling dry."
         data, vectors, bloom, passages = packed_part("a" * 64, 0, [
-            Record(title, 14, lead=body, body=body, show_lead=False),
+            Record(title, 14, lead=body, body=body, show_lead=False, accepted_answer=True),
             Record("Fallen birch tree", "Fallen_birch_tree"),
         ], model, title_paths=True)
         _, _, encoded = payload(data, "OWLShardPart")
@@ -73,6 +77,8 @@ class SourceShardTests(unittest.TestCase):
         self.assertEqual((vectors, passages), (2, 1))
         self.assertNotIn(body, json.dumps(chunk))
         self.assertEqual(chunk["records"][0][2], "")
+        self.assertEqual(chunk["records"][0][6], 1)
+        self.assertEqual(len(chunk["records"][1]), 6)
         self.assertIn("kindl", chunk["postings"])
         self.assertNotEqual(chunk["records"][0][3], model.encode(title))
         self.assertEqual(len(b64decode(chunk["records"][1][3])), 4)

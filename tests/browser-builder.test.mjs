@@ -311,7 +311,8 @@ test("search assembly verifies and publishes only selected source digests", asyn
 test("selected sources reuse one verified search pool", async () => {
   const first = Buffer.from("first source");
   const second = Buffer.from("second source");
-  const a = asset("first", first), b = asset("second", second);
+  const a = asset("first", first, {category: "medical", critical: true});
+  const b = asset("second", second, {source_url: "https://example.test/zim/stack_exchange/second.zim"});
   const pool = "a".repeat(64);
   const chunk = "shared pool";
   const pin = value => ({bytes: Buffer.byteLength(value), sha256: hash(value)});
@@ -334,6 +335,8 @@ test("selected sources reuse one verified search pool", async () => {
   const script = await (await (await drive.file("LIBRARY/SEARCH/shards.js")).getFile()).text();
   const selection = JSON.parse(script.slice("globalThis.OWLShardSelection(".length, -3));
   assert.deepEqual(selection.sources.map(row => [row.sha256, row.parts[0].pool]), [[a.sha256, pool], [b.sha256, pool]]);
+  assert.deepEqual(selection.sources.map(row => [row.category, row.critical, row.discussion]),
+    [["medical", true, false], [b.category, false, true]]);
 });
 
 test("a corrupted search chunk leaves the catalog search and static pages usable", async () => {
