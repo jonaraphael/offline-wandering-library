@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from array import array
 import base64
+from functools import lru_cache
 from hashlib import sha256
 import json
 from math import sqrt
@@ -20,26 +21,28 @@ DIMENSIONS = 32
 UPSTREAM = "https://huggingface.co/minishlab/potion-base-2M/tree/389b9f64be5aa4ae7a6bc6fe95ef20ce485ae5da"
 
 
-def wordpieces(text, vocab):
-    text = unicodedata.normalize("NFD", text.lower())
-    text = "".join(char for char in text if unicodedata.category(char) != "Mn")
-    for word in re.findall(r"[^\W_]+", text, re.UNICODE):
-        if len(word) > 100:
-            continue
-        ids = []
-        position = 0
-        while position < len(word):
-            prefix = "##" if position else ""
-            for end in range(len(word), position, -1):
-                number = vocab.get(prefix + word[position:end])
-                if number is not None:
-                    ids.append(number)
-                    position = end
-                    break
-            else:
-                ids = []
+def piece_ids(word, vocab):
+    ids = []
+    position = 0
+    while position < len(word):
+        prefix = "##" if position else ""
+        for end in range(len(word), position, -1):
+            number = vocab.get(prefix + word[position:end])
+            if number is not None:
+                ids.append(number)
+                position = end
                 break
-        yield from ids
+        else:
+            return ()
+    return tuple(ids)
+
+
+def words(text):
+    value = text.lower()
+    if not value.isascii():
+        value = unicodedata.normalize("NFD", value)
+        value = "".join(char for char in value if unicodedata.category(char) != "Mn")
+    yield from (word for word in re.findall(r"[^\W_]+", value, re.UNICODE) if len(word) <= 100)
 
 
 class Potion:
@@ -48,7 +51,9 @@ class Potion:
         self.weights = base64.b64decode(table["weights"])
         self.scales = table["scales"]
         self.dim = len(self.scales)
-        self.vocab = {word: idx for idx, word in enumerate(table["vocab"])}
+        vocab = {word: idx for idx, word in enumerate(table["vocab"])}
+        self._pieces = lru_cache(maxsize=32768)(lambda word: piece_ids(word, vocab))
+        self._signed = tuple(Struct(f"{self.dim}b").iter_unpack(self.weights))
 
     @classmethod
     def convert(cls, folder):
@@ -77,14 +82,16 @@ class Potion:
                     "vocab": vocab, "scales": scales,
                     "weights": base64.b64encode(packed).decode("ascii")})
 
-    def encode(self, text):
-        vector = [0] * self.dim
-        for index in wordpieces(text[:4096], self.vocab):
-            start = index * self.dim
-            for column, weight in enumerate(self.weights[start:start + self.dim]):
-                vector[column] += weight - 256 if weight > 127 else weight
+    def encode(self, text, *, binary=False):
+        rows = [self._signed[index] for word in words(text[:4096]) for index in self._pieces(word)]
+        if not rows:
+            return ""
+        vector = tuple(map(sum, zip(*rows))) if len(rows) > 1 else rows[0]
+        if not any(vector):
+            return ""
+        if binary:
+            signs = sum((value >= 0) << col for col, value in enumerate(vector))
+            return base64.b64encode(signs.to_bytes(4, "little")).decode("ascii")
         scaled = [value * scale for value, scale in zip(vector, self.scales)]
         norm = sqrt(sum(value * value for value in scaled))
-        if not norm:
-            return ""
         return base64.b64encode(bytes(round(value * 127 / norm) & 255 for value in scaled)).decode("ascii")

@@ -17,6 +17,7 @@ from urllib.request import Request, urlopen
 
 HEADER = Struct("<IHH16sIIQQQQIIQ")
 DIRENT = Struct("<HBBI")
+REDIRECT = Struct("<I")
 BLOCK = 8 * 1024 * 1024
 MAX_ENTRY = 65536
 MAGIC = 0x044D495A
@@ -69,6 +70,8 @@ class Entry:
     path: str
     mime: str
     redirect: bool
+    offset: int | None = None
+    target_offset: int | None = None
 
 
 class Directory:
@@ -116,7 +119,7 @@ class Directory:
                 block_start = offset
                 data = self.read(offset, min(BLOCK, upper - offset))
                 block_end = offset + len(data)
-            entry = self.entry(data, offset - block_start, offset == main)
+            entry = self.entry(data, offset - block_start, offset == main, pointers=pointers, offset=offset)
             if entry is not None:
                 yield entry
 
@@ -158,7 +161,7 @@ class Directory:
                 if entry is not None:
                     yield entry
 
-    def entry(self, data, index, main, *, include_main=False):
+    def entry(self, data, index, main, *, include_main=False, pointers=None, offset=None):
         mime, _, namespace, _ = DIRENT.unpack_from(data, index)
         namespace = chr(namespace)
         self.counts[namespace] += 1
@@ -168,6 +171,12 @@ class Directory:
             return None
         if not (redirect or mime < len(self.mimes)):
             return None
+        target_offset = None
+        if redirect and pointers is not None:
+            target, = REDIRECT.unpack_from(data, index + DIRENT.size)
+            if target >= len(pointers):
+                raise ValueError("Invalid ZIM redirect target")
+            target_offset = pointers[target]
         index += DIRENT.size + (4 if redirect else 8)
         limit = min(index + MAX_ENTRY, len(data))
         end = data.find(b"\0", index, limit)
@@ -185,5 +194,5 @@ class Directory:
             self.main_path = path
         if path and (include_main or namespace in self.namespaces):
             return Entry(title or path.rsplit("/", 1)[-1].replace("_", " "), path,
-                         "redirect" if redirect else self.mimes[mime], redirect)
+                         "redirect" if redirect else self.mimes[mime], redirect, offset, target_offset)
         return None

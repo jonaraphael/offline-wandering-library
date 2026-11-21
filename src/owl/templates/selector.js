@@ -16,7 +16,10 @@
     if (!policy || !Number.isSafeInteger(capacityBytes) || capacityBytes < policy.min)
       throw Error("Enter a capacity of at least 16 GB");
     const capped = Math.min(capacityBytes, policy.limit);
-    const margin = capacity => Math.max(policy.minimum_margin, Math.floor(capacity / policy.margin_divisor));
+    const headroom = Math.max(policy.minimum_margin, Math.floor(capacityBytes / policy.margin_divisor));
+    const discovery = Math.min(policy.discovery_max, policy.discovery_base + headroom - policy.minimum_margin,
+      Math.max(policy.discovery, Math.floor(capped / policy.discovery_divisor)));
+    const extraSearch = Math.max(0, discovery - policy.discovery_base);
     const editions = {[READERS]: "published"};
     for (const [threshold, resource, edition] of policy.transitions) {
       if (threshold > capped) break;
@@ -33,9 +36,9 @@
       editions[resource] = "published";
     }
     const defaults = Object.keys(editions).sort();
-    return {...profile, nominal_capacity_bytes:capacityBytes, capacity_bytes:capacityBytes-margin(capacityBytes),
-      reserve_bytes:margin(capacityBytes), readers_budget_bytes:policy.readers,
-      discovery_budget_bytes:Math.min(policy.discovery_max, Math.max(policy.discovery, Math.floor(capped / policy.discovery_divisor))),
+    return {...profile, nominal_capacity_bytes:capacityBytes, capacity_bytes:capacityBytes-headroom,
+      reserve_bytes:headroom-extraSearch, readers_budget_bytes:policy.readers,
+      discovery_budget_bytes:discovery,
       preset_resource_ids:defaults, default_resources:defaults,
       default_editions:Object.fromEntries(defaults.filter(rid => editions[rid] !== "published").map(rid => [rid, editions[rid]]))};
   }

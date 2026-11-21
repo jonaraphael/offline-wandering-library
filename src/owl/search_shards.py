@@ -15,7 +15,7 @@ import unicodedata
 
 SCHEMA = 1
 MAX_PART = 3_000_000
-REPO_LIMIT = 600_000_000
+REPO_LIMIT = 900_000_000
 COUNT_PER_PART = 4096
 MODEL_FILE = "model.js"
 RUNTIME_FILE = "SEARCH/rank.js"
@@ -125,10 +125,13 @@ def hash_term(word):
 
 
 def bloom(terms):
-    value = bytearray(8192)
+    terms = list(terms)
+    size = min(8192, max(32, 1 << (max(1, len(terms)) - 1).bit_length()))
+    value = bytearray(size)
+    mask = size * 8 - 1
     for term in terms:
         key = hash_term(term)
-        for bit in (key & 65535, key >> 16):
+        for bit in (key & mask, (key >> 16) & mask):
             value[bit >> 3] |= 1 << (bit & 7)
     return base64.b64encode(value).decode("ascii")
 
@@ -142,6 +145,7 @@ class Record:
     body: str = ""
     vector: bool = True
     redirect: bool = False
+    show_lead: bool = True
 
 
 def part_path(digest, number):
@@ -150,26 +154,43 @@ def part_path(digest, number):
     return f"sources/{digest}/{number:05}.js"
 
 
-def packed_part(source, number, records, model):
+def packed_part(source, number, records, model, *, title_paths=False):
     compact = []
     postings = defaultdict(list)
+    route_terms = set()
     embedded = 0
+    passages = 0
     for index, row in enumerate(records):
-        concepts = " ".join(expansions(" ".join([row.title, row.heading, row.lead[:240]])))
-        vector = model.encode(" ".join((row.title, row.heading, row.lead[:500], concepts))) if row.vector else ""
+        title_terms = terms(row.title)
+        title_only = title_paths and not (row.heading or row.lead or row.body)
+        concepts = " ".join(expansions(" ".join((row.title, row.heading, row.lead[:240]))))
+        fields = (row.title, row.heading, row.lead[:500], concepts, row.body[:3300])
+        vector = model.encode(" ".join(fields), binary=title_only) if row.vector else ""
         embedded += bool(vector)
-        compact.append([row.title, row.locator, row.lead[:280], vector, int(row.redirect)])
+        passages += bool(row.body and vector)
+        title = row.title
+        if title_paths and isinstance(row.locator, str):
+            if title == row.locator.rsplit("/", 1)[-1].replace("_", " "):
+                title = None
+        compact.append([title, row.locator, (row.lead or row.body)[:160] if row.show_lead else "", vector, int(row.redirect), int(title_only)])
         weights = {}
-        for field, weight in ((row.body, 1), (row.lead, 3), (concepts, 5), (row.heading, 8), (row.title, 9)):
+        for field, weight in ((row.body, 1), (row.lead, 3), (concepts, 5), (row.heading, 8)):
             for word in terms(field):
                 weights[word] = weight
+        if title_only:
+            route_terms.update(title_terms)
+            for word in title_terms:
+                weights.pop(word, None)
+        else:
+            weights.update(dict.fromkeys(title_terms, 9))
         for word, weight in weights.items():
             postings[word].append(index * 16 + weight)
+    route_terms.update(postings)
     message = encode({"records": compact, "postings": postings})
     packed = script("OWLShardPart", [source, number, base64.b64encode(compress(message, compresslevel=6, mtime=0)).decode("ascii")])
     if len(packed) > MAX_PART:
         raise ValueError("Index chunk exceeds its bounded script size")
-    return packed, embedded, bloom(postings)
+    return packed, embedded, bloom(route_terms), passages
 
 
 def info(data):
@@ -220,7 +241,8 @@ def load_manifest(folder=SEARCH_ROOT):
     data = json.loads(path.read_bytes())
     if data.get("version") != SCHEMA or not isinstance(data.get("sources"), dict):
         raise ValueError("Unsupported search shard schema")
-    if any(not DIGEST.fullmatch(digest) for digest in data["sources"]):
+    shared = data.get("shared", {})
+    if not isinstance(shared, dict) or any(not DIGEST.fullmatch(digest) for digest in (*data["sources"], *shared)):
         raise ValueError("Invalid source digest in search shard manifest")
     return data
 
@@ -230,9 +252,18 @@ def selected_shards(assets, manifest):
     return [(asset, sources[asset["sha256"]]) for asset in assets if asset.get("sha256") in sources]
 
 
+def shard_chunks(manifest, digest, shard):
+    """Resolve shared directory chunks and source-specific chunks in digest order."""
+    for pool in shard.get("shared", ()):
+        for number, pin in enumerate(manifest["shared"][pool]["parts"]):
+            yield pool, number, pin
+    for number, pin in enumerate(shard.get("parts", ())):
+        yield digest, number, pin
+
+
 def source_manifest(asset, shard, destination):
     return {"id": asset["id"], "sha256": asset["sha256"], "destination": destination,
-            "title": asset["title"], "format": asset["format"], "parts": shard["parts"],
+            "title": asset["title"], "format": asset["format"],
             "license": asset.get("license", ""), "attribution": asset.get("attribution", ""),
             "main": shard.get("main", ""), "records": shard["records"],
             "shelves": asset.get("shelves", []), "legacy": bool(asset.get("legacy"))}
@@ -254,9 +285,16 @@ def compose_shards(assets, budget, folder=SEARCH_ROOT):
     for asset, shard in sorted(selected, key=lambda pair: (not pair[0].get("critical"), pair[1]["records"], pair[0]["id"])):
         digest = asset["sha256"]
         row = source_manifest(asset, shard, asset["destination"])
-        row["parts"] = [{"bloom": part["bloom"], "vectors": part["vectors"]} for part in shard["parts"]]
+        parts = list(shard_chunks(manifest, digest, shard))
+        row["parts"] = []
+        chunks = {}
+        for pool, number, pin in parts:
+            part = {key: pin[key] for key in ("bloom", "vectors", "passages", "lead_vectors") if key in pin}
+            if pool != digest or shard.get("shared"):
+                part.update(pool=pool, number=number)
+            row["parts"].append(part)
+            chunks[part_path(pool, number)] = pin
         row["shelves"] = sorted(learning_shelves(asset))
-        chunks = {part_path(digest, index): pin for index, pin in enumerate(shard["parts"])}
         cost = len(encode(row)) + 1 + sum(pin["bytes"] for path, pin in chunks.items() if "SEARCH/" + path not in outputs)
         if cost > remaining:
             continue

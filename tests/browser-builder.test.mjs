@@ -6,6 +6,7 @@ import {once} from "node:events";
 import {test} from "node:test";
 import {browserSelection, buildLibrary, partLayout, readBuild} from "../web/builder.mjs";
 import {measureFreeSpace} from "../web/drive.mjs";
+import {probesCapacity} from "../web/builder-ui.mjs";
 
 globalThis.crypto ||= webcrypto;
 const MiB = 2 ** 20;
@@ -95,6 +96,11 @@ function sendRange(request, response, content, {interrupt = false, wrongRange = 
   if (interrupt) response.write(data.subarray(0, 1), () => response.destroy());
   else response.end(data);
 }
+
+test("capacity probe runs on macOS and Windows and leaves Linux to label confirmation", () => {
+  for (const platform of ["MacIntel", "macOS", "Win32", "Windows"]) assert.equal(probesCapacity(platform), true, platform);
+  for (const platform of ["Linux x86_64", "Linux", "", undefined]) assert.equal(probesCapacity(platform), false, String(platform));
+});
 
 test("native allocation probe estimates to one MiB and removes the swap placeholder", async () => {
   for (const name of ["QuotaExceededError", "InvalidStateError"]) {
@@ -300,6 +306,34 @@ test("search assembly verifies and publishes only selected source digests", asyn
   const beforeResume = urls.length;
   await buildLibrary(drive, {...options, resume: true});
   assert.equal(urls.length, beforeResume, "verified data is reused");
+});
+
+test("selected sources reuse one verified search pool", async () => {
+  const first = Buffer.from("first source");
+  const second = Buffer.from("second source");
+  const a = asset("first", first), b = asset("second", second);
+  const pool = "a".repeat(64);
+  const chunk = "shared pool";
+  const pin = value => ({bytes: Buffer.byteLength(value), sha256: hash(value)});
+  const path = "/index/sources/" + pool + "/00000.js";
+  const data = new Map([["/index/model.js", "model"], ["/index/model-license.txt", "license"],
+    ["https://example.test/first", first], ["https://example.test/second", second], [path, chunk]]);
+  const shard = {records: 1, shared: [pool], sha256: hash(chunk)};
+  const drive = new Directory();
+  const requests = [];
+  const result = await buildLibrary(drive, {assets: [a, b],
+    routes: {first: ["https://example.test/first"], second: ["https://example.test/second"]},
+    navigation: {assets: {first: {shelves: []}, second: {shelves: []}}},
+    fetchFile: async url => { requests.push(url); return new Response(data.get(url)); },
+    search: {base: "/index/", page: "<p>search</p>", records: [], runtime: "", rankRuntime: "", manifest: {
+      version: 1, model: pin("model"), license: pin("license"), sources: {[a.sha256]: shard, [b.sha256]: shard},
+      shared: {[pool]: {parts: [{...pin(chunk), bloom: "", vectors: 0}]}}
+    }}});
+  assert.deepEqual(result.searchWarnings, []);
+  assert.equal(requests.filter(url => url === path).length, 1);
+  const script = await (await (await drive.file("LIBRARY/SEARCH/shards.js")).getFile()).text();
+  const selection = JSON.parse(script.slice("globalThis.OWLShardSelection(".length, -3));
+  assert.deepEqual(selection.sources.map(row => [row.sha256, row.parts[0].pool]), [[a.sha256, pool], [b.sha256, pool]]);
 });
 
 test("a corrupted search chunk leaves the catalog search and static pages usable", async () => {

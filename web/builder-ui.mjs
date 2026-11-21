@@ -129,6 +129,14 @@ export function recommendBrowser(planner, state, routes, published) {
   return state;
 }
 
+// Platforms where extending a probe file allocates real clusters and fails past
+// free space (docs/capacity-probe.md): macOS and Windows on exFAT or NTFS.
+// Linux exFAT rejects the extension and ntfs-3g allocates sparsely, so Linux
+// users confirm the label size instead.
+export function probesCapacity(platform) {
+  return /^(mac|win)/i.test(platform || "");
+}
+
 export function mount({catalog, recommend}) {
   const {planner, routes, published, navigation} = catalog;
   const assets = new Map(planner.assets.map(asset => [asset.id, asset]));
@@ -136,7 +144,7 @@ export function mount({catalog, recommend}) {
   const platform = navigator.userAgentData?.platform || navigator.platform;
   const android = /android/i.test(platform) || /android/i.test(navigator.userAgent);
   const supported = typeof globalThis.showDirectoryPicker === "function" && !android;
-  const isMac = /^mac/i.test(platform);
+  const probeCapacity = probesCapacity(platform);
   const pick = byId("pick-drive");
   const confirmSize = byId("confirm-drive-size");
   const start = byId("start-build");
@@ -254,7 +262,7 @@ export function mount({catalog, recommend}) {
           mayResume = !saved.finished;
           status.textContent = "Saved build on " + handle.name + ".";
           if (saved.finished) feedback.textContent = "Open START_HERE.html on this drive.";
-        } else if (probe && isMac) {
+        } else if (probe && probeCapacity) {
           status.textContent = "Measuring free space on " + handle.name + "…";
           let capacity;
           try { capacity = await lockDrive(() => measureFreeSpace(handle)); }

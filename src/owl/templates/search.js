@@ -44,6 +44,17 @@
       seen.add(key); return true;
     }).slice(0, limit);
   }
+  function mergeRanked(indexed, metadata, limit = 40) {
+    const exact = metadata.filter(hit => hit.score >= 100000).slice(0, 2);
+    const full = metadata.filter(hit => hit.score >= 10000 && hit.score < 100000).slice(0, 2);
+    const seen = new Set();
+    return [...exact, ...indexed.slice(0, 3), ...full, ...indexed.slice(3), ...metadata].filter(({record}) => {
+      const key = record.href + '\0' + record.location;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).slice(0, limit);
+  }
   function safeHref(href) {
     if (typeof href !== 'string' || !href || /^[\/\\]/.test(href)) return false;
     try {
@@ -51,7 +62,7 @@
       return !/[\x00-\x1f\\?:]/.test(path) && !path.split('/').some(p => !p || p === '.' || p === '..');
     } catch (_) { return false; }
   }
-  const api = {normalize, tokens, prepare, search, safeHref};
+  const api = {normalize, tokens, prepare, search, mergeRanked, safeHref};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLDiscovery = api;
   if (typeof document === 'undefined') return;
@@ -62,7 +73,7 @@
   const retry = byId('retryButton'), query = byId('query'), shelf = byId('shelf');
   const prefix = form.dataset.libraryRoot || '';
   if (!['', 'LIBRARY/'].includes(prefix)) return;
-  let prepared = [], rank, timer, loading = false, epoch = 0;
+  let prepared = [], rankReady, timer, loading = false, epoch = 0;
   function script(path) {
     return new Promise((resolve, reject) => {
       const tag = document.createElement('script');
@@ -86,68 +97,88 @@
       await script(manifest.path);
       if (!payload || payload.format !== FORMAT || payload.generation !== manifest.generation || !Array.isArray(payload.records) || payload.records.length !== manifest.records) throw new Error('Discovery data does not match its manifest.');
       prepared = prepare(payload.records);
-      rank = undefined;
-      let coverageNote = 'Search includes catalog titles, chapters, and topics.';
-      if (manifest.shards) {
-        try {
-          let selection, table;
-          root.OWLShardSelection = value => { selection = value; };
-          root.OWLShardModel = value => { table = value; };
-          await Promise.all([script('SEARCH/rank.js'), script('SEARCH/shards.js'), script('SEARCH/model.js')]);
-          rank = root.OWLShardRank.classic(script, selection, table);
-          coverageNote = 'Search includes indexed articles and document sections.';
-        } catch (_) {
-          coverageNote = 'The article and section index could not load. Catalog search is ready.';
-        } finally {
-          delete root.OWLShardSelection;
-          delete root.OWLShardModel;
-        }
-      }
       form.hidden = false; byId('viewerHelp').hidden = true; button.disabled = shelf.disabled = false;
-      status.textContent = coverageNote;
+      status.textContent = 'Catalog search is ready.';
+      rankReady = manifest.shards ? loadRank() : null;
+      rankReady?.then(({rank, warning}) => {
+        if (!epoch) status.textContent = rank ? 'Search includes indexed articles and passages.' :
+          warning + ' Catalog search is ready.';
+      });
     } catch (error) { status.textContent = error.message + ' Use the static indexes below.'; retry.hidden = false; }
     finally { loading = false; delete root.OWLDiscoveryManifest; delete root.OWLDiscoveryData; }
   }
+  async function loadRank() {
+    let selection, table;
+    root.OWLShardSelection = value => { selection = value; };
+    root.OWLShardModel = value => { table = value; };
+    try {
+      await Promise.all([script('SEARCH/rank.js'), script('SEARCH/shards.js'), script('SEARCH/model.js')]);
+      return {rank: root.OWLShardRank.classic(script, selection, table)};
+    } catch (_) {
+      return {warning: 'The article and passage index could not load.'};
+    } finally {
+      delete root.OWLShardSelection;
+      delete root.OWLShardModel;
+    }
+  }
   function element(tag, text) { const e = document.createElement(tag); e.textContent = text; return e; }
   function link(href, text) { const e = element('a', text); e.href = prefix + href; return e; }
+  function render(matches, scope) {
+    const items = document.createDocumentFragment();
+    for (const {record: r, indexed = false} of matches) {
+      const li = document.createElement('li');
+      li.dataset.indexed = String(indexed);
+      li.append(link(r.href, r.title));
+      li.append(element('p', `${r.source_title} · ${r.location}${r.reader_required ? ' · Compatible reader required' : ''}`));
+      if (r.description) li.append(element('p', r.description));
+      if (r.kind === 'section') li.append(link(r.destination.split('/').map(encodeURIComponent).join('/'), 'Open complete document'));
+      if (r.license || r.attribution) li.append(element('small', [r.license, r.attribution].filter(Boolean).join(' · ')));
+      items.append(li);
+    }
+    results.replaceChildren(items);
+    results.dataset.searchScope = scope;
+  }
   async function run(event) {
     if (event) event.preventDefault();
     clearTimeout(timer);
     const mine = ++epoch;
-    results.replaceChildren(); status.textContent = 'Searching the offline library…';
-    await new Promise(resolve => setTimeout(resolve, 0));
-    if (mine !== epoch) return;
+    const cancelled = () => mine !== epoch;
+    const text = query.value, selectedShelf = shelf.value;
     try {
-      let matches = search(prepared, query.value, shelf.value);
-      let fallback = '';
-      if (rank) {
+      const catalog = search(prepared, text, selectedShelf);
+      render(catalog.slice(0, 40), 'catalog');
+      let matches = catalog.slice(0, 40);
+      let warning = '';
+      if (rankReady && text.trim()) {
+        status.textContent = 'Searching indexed articles and passages…';
+        const showHits = (hits, scope) => {
+          matches = mergeRanked(hits, catalog);
+          render(matches, scope);
+        };
         try {
-          const hits = await rank(query.value, shelf.value, 30, () => mine !== epoch);
-          if (mine !== epoch) return;
-          matches = [...hits, ...matches.filter(({record}) =>
-            !hits.some(hit => hit.record.href === record.href && hit.record.location === record.location))]
-            .slice(0, 40);
+          const engine = await rankReady;
+          if (cancelled()) return;
+          warning = engine.warning || '';
+          if (engine.rank) {
+            const hits = await engine.rank(text, selectedShelf, 30, cancelled, hits => showHits(hits, 'indexed'));
+            if (cancelled()) return;
+            showHits(hits, 'complete');
+          }
         } catch (error) {
-          if (mine !== epoch) return;
-          fallback = error.message + ' Showing catalog results. ';
+          if (cancelled()) return;
+          warning = error.message + ' Showing available results.';
         }
       }
-      for (const {record: r} of matches) {
-        const li = document.createElement('li');
-        li.append(link(r.href, r.title));
-        li.append(element('p', `${r.source_title} · ${r.location}${r.reader_required ? ' · Compatible reader required' : ''}`));
-        if (r.description) li.append(element('p', r.description));
-        if (r.kind === 'section') li.append(link(r.destination.split('/').map(encodeURIComponent).join('/'), 'Open complete document'));
-        if (r.license || r.attribution) li.append(element('small', [r.license, r.attribution].filter(Boolean).join(' · ')));
-        results.append(li);
-      }
-      status.textContent = fallback + (matches.length
+      status.textContent = [warning, matches.length
         ? `${matches.length} result${matches.length === 1 ? '' : 's'} shown.`
-        : 'No matches. Browse the atlas or search inside a relevant book or archive.');
-    } catch (error) { status.textContent = error.message; }
+        : 'No matches. Browse the atlas or search inside a relevant book or archive.'].filter(Boolean).join(' ');
+    } catch (error) {
+      render([], 'catalog');
+      status.textContent = error.message;
+    }
   }
   form.addEventListener('submit', run);
-  query.addEventListener('input', () => { clearTimeout(timer); if (rank) ++epoch; else timer = setTimeout(run, 180); });
+  query.addEventListener('input', () => { clearTimeout(timer); if (rankReady) ++epoch; else timer = setTimeout(run, 180); });
   shelf.addEventListener('change', run);
   retry.addEventListener('click', load);
   load();

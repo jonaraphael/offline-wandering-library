@@ -49,9 +49,12 @@ storage provider. See the device matrix for the current evidence and checks. [Ki
 
 ### How capacity is estimated
 
-On macOS, OWL tries a temporary truncate-and-abort probe. Windows and Linux
-ask for the size on the label. See the native-filesystem methodology, results,
-and Chromium call path. [Capacity probe](capacity-probe.md)
+On macOS and Windows, OWL tries a temporary truncate-and-abort probe; exFAT and
+NTFS volumes return a measured free-space estimate, and FAT32 or an inconclusive
+result falls back to the label size. Linux asks for the size on the label,
+because its exFAT driver rejects the probe and ntfs-3g allocates sparsely. See
+the native-filesystem methodology, results, and Chromium call path.
+[Capacity probe](capacity-probe.md)
 
 ### How files are written and verified
 

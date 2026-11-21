@@ -75,16 +75,24 @@ export async function assembleSearch(drive, {completed, layouts, navigation, con
   for (const asset of matches) {
     const shard = manifest.sources[asset.sha256];
     const meta = navigation.assets[asset.id] || {};
+    const parts = [];
+    for (const pool of shard.shared || []) {
+      if (!dig.test(pool) || !Object.hasOwn(manifest.shared, pool)) throw Error("Invalid shared search pool");
+      for (const [number, pin] of manifest.shared[pool].parts.entries()) parts.push({pool, number, pin});
+    }
+    for (const [number, pin] of (shard.parts || []).entries()) parts.push({pool: asset.sha256, number, pin});
     const row = {id: asset.id, sha256: asset.sha256, title: asset.title, format: asset.format,
       destination: layouts.get(asset.id)[0].path.slice("LIBRARY/".length), license: asset.license,
       attribution: meta.attribution, shelves: meta.shelves || [], legacy: Boolean(meta.legacy),
-      records: shard.records, main: shard.main, entrypoints: shard.entrypoints, parts: shard.parts.map(({bloom, vectors}) => ({bloom, vectors}))};
-    const paths = shard.parts.map((_, index) => "sources/" + asset.sha256 + "/" + String(index).padStart(5, "0") + ".js");
-    const cost = charge(row) + shard.parts.reduce((sum, pin, index) => sum + (checksums.has(paths[index]) ? 0 : pin.bytes), 0);
+      records: shard.records, main: shard.main, entrypoints: shard.entrypoints, parts: parts.map(
+        ({pool, number, pin: {bloom, vectors, passages, lead_vectors}}) =>
+          ({bloom, vectors, passages, lead_vectors, ...(shard.shared && {pool, number})}))};
+    const paths = parts.map(({pool, number}) => "sources/" + pool + "/" + String(number).padStart(5, "0") + ".js");
+    const cost = charge(row) + parts.reduce((sum, {pin}, index) => sum + (checksums.has(paths[index]) ? 0 : pin.bytes), 0);
     if (cost > remaining) continue;
     const whole = sha256.create();
     try {
-      for (const [index, pin] of shard.parts.entries()) {
+      for (const [index, {pin}] of parts.entries()) {
         signal?.throwIfAborted();
         const path = paths[index];
         if (!checksums.has(path)) {

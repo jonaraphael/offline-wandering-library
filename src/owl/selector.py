@@ -13,7 +13,7 @@ from .resources import load_resources, resource_asset_ids
 from .content_policy import require_content_policy, load_policy
 from .utility_policy import require_utility_policy
 from .safety import atomic_write, reject_symlinks
-from .selection import (DEFAULT_LIMIT, DISCOVERY_BUDGET, DISCOVERY_DIVISOR, MAX_DISCOVERY_BUDGET, MARGIN_DIVISOR, MIN_CAPACITY,
+from .selection import (BASE_LADDER_SEARCH_BUDGET, DEFAULT_LIMIT, DISCOVERY_BUDGET, DISCOVERY_DIVISOR, MAX_DISCOVERY_BUDGET, MARGIN_DIVISOR, MIN_CAPACITY,
                         MINIMUM_MARGIN, READER_BUDGET, load_ladder)
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -66,7 +66,8 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
         capacity_policy = {"min": MIN_CAPACITY, "limit": DEFAULT_LIMIT,
                            "minimum_margin": MINIMUM_MARGIN, "margin_divisor": MARGIN_DIVISOR,
                            "readers": READER_BUDGET, "discovery": DISCOVERY_BUDGET,
-                           "discovery_max": MAX_DISCOVERY_BUDGET, "discovery_divisor": DISCOVERY_DIVISOR,
+                           "discovery_base": BASE_LADDER_SEARCH_BUDGET, "discovery_max": MAX_DISCOVERY_BUDGET,
+                           "discovery_divisor": DISCOVERY_DIVISOR,
                            **load_ladder(catalog)}
     return {"schema_version": 1, "direct_reading_formats": load_policy()["direct_reading_formats"], "cli": cli, "atlas_available": catalog.resolve() == (ROOT / "catalog/library.yaml").resolve(),
             "catalog_sha256": hashlib.sha256(catalog.read_bytes()).hexdigest(),

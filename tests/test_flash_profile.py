@@ -65,7 +65,11 @@ class FlashProfileTests(unittest.TestCase):
             plan = capacity_plan(assets, profile, selection)
             peak = plan['in_place_peak_budget_bytes']
             self.assertLessEqual(peak, plan['capacity_bytes'])
-            self.assertEqual(plan['reserve_bytes'], margin_bytes)
+            # Search may borrow headroom above the 500 MB base allowance; the
+            # reserve keeps the rest and never drops below the 125 MB minimum.
+            extra_search = max(0, profile['discovery_budget_bytes'] - 500_000_000)
+            self.assertGreaterEqual(plan['reserve_bytes'], 125_000_000)
+            self.assertEqual(plan['reserve_bytes'] + extra_search, margin_bytes)
             self.assertEqual(plan['capacity_bytes'] + margin_bytes, nominal_bytes)
             self.assertEqual(selection['readers_budget_bytes'], 500_000_000)
             self.assertEqual(plan['content_bytes'], sum(a['size_bytes'] for a in assets))

@@ -2,8 +2,8 @@
 id: standard-512gb
 title: Recommended library for 512 GB
 capacity_bytes: 509440000000
-reserve_bytes: 2560000000
-discovery_budget_bytes: 500000000
+reserve_bytes: 2160000000
+discovery_budget_bytes: 900000000
 readers_budget_bytes: 500000000
 nominal_capacity_bytes: 512000000000
 default_resources:

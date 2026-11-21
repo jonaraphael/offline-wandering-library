@@ -28,8 +28,17 @@ loop device and a Windows VHD. Each matrix job uploads its JSON.
 | macOS exFAT, 6 GiB disk image | 6,439,303,168 bytes estimated from 6,440,255,488 bytes available. Larger requests returned ENOSPC. | 169 ms |
 | macOS FAT32, 6 GiB disk image | 64 MiB allocated. At 4 GiB + 1, EFBIG. | 71 ms |
 | macOS APFS, local temporary directory | All length changes through 2 TiB succeeded with zero allocated bytes. Manual confirmation required. | 0.92 ms |
-| Linux exFAT, FAT32, NTFS loop volumes | CI result pending. Browser uses manual confirmation. | Pending |
-| Windows exFAT, FAT32, NTFS VHDs | CI result pending. Browser uses manual confirmation. | Pending |
+| Windows exFAT VHD (`windows-latest`) | Measured: 6,437,210,112 bytes. | CI |
+| Windows NTFS VHD (`windows-latest`) | Measured: 6,411,046,912 bytes. | CI |
+| Windows FAT32 VHD (`windows-latest`) | File-size limit detected; manual confirmation. | CI |
+| Linux exFAT loop volume (`ubuntu-latest`) | Extension rejected with a file-limit error; manual confirmation. | CI |
+| Linux NTFS (ntfs-3g) loop volume | Oversized length accepted (sparse); manual confirmation. | CI |
+| Linux FAT32 (vfat) loop volume | FAT32 detected; manual confirmation. | CI |
+
+The Windows and Linux rows come from the `Capacity probe` workflow run on commit
+`cb2e222` (one run per volume). The browser therefore probes on macOS and
+Windows (`probesCapacity` in `web/builder-ui.mjs`) and asks Linux users to
+confirm the label size.
 
 These macOS measurements describe one host run. Device throughput and
 filesystem drivers affect timings. The native measurements and a test with a

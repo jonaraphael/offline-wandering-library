@@ -2,7 +2,8 @@
 (function (root) {
   'use strict';
   const stop = new Set('a an and are as at be by do does for from how i in is it of on or the to use what when where with you your'.split(' '));
-  const words = text => text.toLowerCase().normalize('NFKD').replace(/\p{M}/gu, '').match(/[\p{L}\p{N}]+/gu) || [];
+  const fold = text => text.toLowerCase().normalize('NFKD').replace(/\p{M}/gu, '');
+  const words = text => fold(text).match(/[\p{L}\p{N}]+/gu) || [];
   const normalize = text => words(text).join(' ');
 
   function stem(word) {
@@ -28,15 +29,25 @@
     return value >>> 0;
   }
 
-  function mightMatch(bits, query) {
-    return query.some(word => {
+  function routeHits(bits, query) {
+    const mask = bits.length * 8 - 1;
+    let hits = 0;
+    for (const word of query) {
       const key = hashTerm(word);
-      return [key & 65535, key >>> 16].every(bit => bits.charCodeAt(bit >>> 3) & (1 << (bit & 7)));
-    });
+      if ([key & mask, (key >>> 16) & mask].every(bit => bits.charCodeAt(bit >>> 3) & (1 << (bit & 7)))) hits++;
+    }
+    return hits;
   }
 
+  function semanticPart(part) {
+    return part.passages === undefined ? part.vectors > 0 : part.passages + part.lead_vectors > 0;
+  }
+
+  const mightMatch = (bits, query) => routeHits(bits, query) > 0;
+
   function bytes(encoded) {
-    return Uint8Array.from(atob(encoded), char => char.charCodeAt(0));
+    return Uint8Array.fromBase64 ? Uint8Array.fromBase64(encoded) :
+      Uint8Array.from(atob(encoded), char => char.charCodeAt(0));
   }
 
   function model(table) {
@@ -71,10 +82,34 @@
     };
   }
 
-  async function unpack(encoded) {
+  async function unpack(encoded, query) {
+    const needed = query && new Set(query);
+    // Stemming strips suffixes except for the ies-to-y rule. A retained
+    // prefix lets a browser skip titles that cannot produce a query term.
+    const prefixes = query?.map(word => word.endsWith('y') ? word.slice(0, -1) : word);
     const stream = new Blob([bytes(encoded)]).stream().pipeThrough(new DecompressionStream('gzip'));
     const chunk = await new Response(stream).json();
-    chunk.vectors = chunk.records.flatMap((row, index) => row[3] ? [index] : []);
+    chunk.vectors = [];
+    chunk.semantic = [];
+    chunk.vectorCache = [];
+    for (const [index, row] of chunk.records.entries()) {
+      if (row[0] === null) row[0] = row[1].split('/').at(-1).replace(/_/g, ' ');
+      if (row[3]) {
+        chunk.vectors.push(index);
+        if (!row[5]) chunk.semantic.push(index);
+      }
+      if (row[5]) {
+        if (prefixes) {
+          const title = /^[\x00-\x7f]*$/.test(row[0]) ? row[0].toLowerCase() : fold(row[0]);
+          if (!prefixes.some(prefix => title.includes(prefix))) continue;
+        }
+        for (const term of terms(row[0])) {
+          if (needed && !needed.has(term)) continue;
+          if (!Object.hasOwn(chunk.postings, term)) Object.defineProperty(chunk.postings, term, {value: []});
+          chunk.postings[term].push(index * 16 + 9);
+        }
+      }
+    }
     return chunk;
   }
 
@@ -97,24 +132,34 @@
       }
     }
     const found = [];
-    const candidates = vector ? new Set([...lexical.keys(), ...part.vectors]) : lexical.keys();
+    const candidates = vector ? new Set([...lexical.keys(), ...(part.semantic || part.vectors)]) : lexical.keys();
     for (const index of candidates) {
       const row = part.records[index];
       const stats = lexical.get(index);
       if (!stats && !(vector && row[3])) continue;
       let similarity = 0;
       if (vector && row[3]) {
-        const packed = bytes(row[3]);
+        const packed = part.vectorCache ? (part.vectorCache[index] ??= bytes(row[3])) : bytes(row[3]);
         const signed = new Int8Array(packed.buffer);
-        for (let col = 0; col < vector.length; col++) similarity += vector[col] * signed[col];
+        if (row[5]) {
+          const dimensions = packed.length * 8;
+          let sumSquares = 0;
+          for (let col = 0; col < dimensions; col++) {
+            similarity += vector[col] * (packed[col >>> 3] & (1 << (col & 7)) ? 1 : -1);
+            sumSquares += vector[col] ** 2;
+          }
+          similarity = sumSquares ? similarity / Math.sqrt(dimensions * sumSquares) : 0;
+        } else {
+          for (let col = 0; col < vector.length; col++) similarity += vector[col] * signed[col];
+        }
       }
       if (!stats && similarity < 0.64) continue;
       const title = normalize(row[0]);
       const exact = title === phrase, phraseHit = !exact && title.includes(phrase);
       const score = (exact ? 145 : phraseHit ? 29 : 0) +
-        (stats ? 12 + 44 * (stats[0] / query.length) ** 2 + 7 * stats[1] / query.length : 0) +
+        (stats ? 12 + 70 * (stats[0] / query.length) ** 2 + 6 * stats[1] / query.length : 0) +
         65 * Math.max(0, similarity - 0.48) - (row[4] ? 17 : 0);
-      found.push({row, index, score});
+      found.push({row, index, score, fullMatch: stats?.[0] === query.length});
     }
     return found.sort((a, b) => b.score - a.score || a.index - b.index).slice(0, limit);
   }
@@ -124,30 +169,45 @@
     const archive = asset.format === 'zim';
     const destination = asset.destination;
     const href = destination.split('/').map(encodeURIComponent).join('/') +
-      (asset.format === 'pdf' ? '#page=' + locator : '');
-    return {score: hit.score, record: {id: asset.id + ':' + part + ':' + hit.index,
+      (asset.format === 'pdf' ? '#page=' + locator :
+        !archive && locator ? '#' + encodeURIComponent(locator) : '');
+    return {score: hit.score, fullMatch: hit.fullMatch, indexed: true, record: {id: asset.id + ':' + part + ':' + hit.index,
       asset_id: asset.id, title, description: lead, source_title: asset.title, href, destination,
       kind: archive ? 'article' : 'section', reader_required: archive,
-      location: archive ? 'Archive path: ' + locator : asset.format === 'pdf' ? 'Page ' + locator : 'HTML',
+      location: archive ? 'Archive path: ' + locator : asset.format === 'pdf' ? 'Page ' + locator :
+        locator ? 'Section: ' + locator : 'HTML',
       license: asset.license, attribution: asset.attribution}};
   }
 
-  async function search(selection, encodeQuery, readPart, text, shelf = 'all', limit = 30, cancelled = () => false) {
+  async function search(selection, encodeQuery, readPart, text, shelf = 'all', limit = 30,
+                        cancelled = () => false, onProgress) {
     const query = terms(text), phrase = normalize(text);
     if (query.length > 32) throw Error('Use at most 32 different search words.');
-    if (!query.length) return [];
+    if (!query.length || cancelled()) return [];
     const vector = encodeQuery(text);
-    let matches = [];
+    const queue = [];
     for (const asset of selection.sources) {
       if (!filter(asset, shelf)) continue;
-      for (let number = 0; number < asset.parts.length; number++) {
-        if (cancelled()) return [];
-        const part = asset.parts[number];
-        if (!(vector && part.vectors) && !mightMatch(atob(part.bloom), query)) continue;
-        const chunk = await readPart(asset.sha256, number);
-        matches.push(...rankPart(chunk, query, phrase, vector, limit).map(hit => result(asset, hit, number)));
-        matches.sort(order);
-        if (matches.length > limit * 4) matches.length = limit * 4;
+      for (const [number, part] of asset.parts.entries()) {
+        const hits = routeHits(atob(part.bloom), query);
+        if (hits || vector && semanticPart(part)) queue.push({asset, number, hits});
+      }
+    }
+    queue.sort((a, b) => b.hits - a.hits);
+    const matches = [];
+    let updatedAt = -Infinity;
+    for (const {asset, number} of queue) {
+      if (cancelled()) return [];
+      const part = asset.parts[number];
+      const chunk = await readPart(part.pool || asset.sha256, part.number ?? number, query);
+      if (cancelled()) return [];
+      const hits = rankPart(chunk, query, phrase, vector, limit);
+      if (!hits.length) continue;
+      matches.push(...hits.map(hit => result(asset, hit, number)));
+      retainCandidates(matches, limit * 4);
+      if (onProgress && performance.now() - updatedAt >= 150) {
+        onProgress(topResults(matches, limit));
+        updatedAt = performance.now();
       }
     }
     return topResults(matches, limit);
@@ -156,15 +216,32 @@
   const order = (a, b) => b.score - a.score || a.record.title.localeCompare(b.record.title, 'en') ||
     a.record.id.localeCompare(b.record.id, 'en');
 
+  const fullPassage = hit => hit.fullMatch && hit.record.kind === 'section';
+
+  function retainCandidates(matches, limit) {
+    matches.sort(order);
+    if (matches.length > limit) {
+      const passages = matches.slice(limit).filter(fullPassage).slice(0, limit / 4);
+      matches.splice(limit, matches.length, ...passages);
+    }
+  }
+
   function topResults(matches, limit) {
-    const seen = new Set();
-    return matches.sort(order).filter(({record}) => {
-      // Preserve distinct sections and collapse equivalent spellings within the same archive.
+    const seen = new Set(), perSource = new Map();
+    const first = [], later = [];
+    for (const hit of matches.sort(order)) {
+      const {record} = hit;
+      // Preserve distinct locations and collapse equivalent spellings within an archive.
       const key = record.asset_id + '\0' + (record.kind === 'article' ? normalize(record.title) : record.href);
-      if (seen.has(key)) return false;
+      if (seen.has(key)) continue;
       seen.add(key);
-      return true;
-    }).slice(0, limit);
+      const count = perSource.get(record.asset_id) || 0;
+      perSource.set(record.asset_id, count + 1);
+      (count < 3 ? first : later).push(hit);
+    }
+    const passages = new Set(first.filter(fullPassage).slice(0, 3));
+    const [best, second, ...other] = [...first, ...later].filter(hit => !passages.has(hit));
+    return [best, second, ...passages, ...other].filter(Boolean).slice(0, limit);
   }
 
   function classic(script, selection, table) {
@@ -173,7 +250,7 @@
     // Each page owns one script callback at a time. New searches can cancel reads
     // between chunks, so they cannot replace callbacks for an active script.
     let queue = Promise.resolve();
-    const readPart = (digest, number) => {
+    const readPart = (digest, number, query) => {
       if (!/^[a-f0-9]{64}$/.test(digest) || !Number.isInteger(number) || number < 0 || number >= 100000)
         return Promise.reject(Error('Invalid search shard'));
       const task = queue.then(async () => {
@@ -182,7 +259,7 @@
         try {
           await script('SEARCH/sources/' + digest + '/' + String(number).padStart(5, '0') + '.js');
           if (!data || data[0] !== digest || data[1] !== number) throw Error('Search shard identity differs');
-          return await unpack(data[2]);
+          return await unpack(data[2], query);
         } finally {
           delete root.OWLShardPart;
         }
@@ -190,10 +267,10 @@
       queue = task.catch(() => {});
       return task;
     };
-    return (text, shelf, limit, cancelled) => search(selection, encodeQuery, readPart, text, shelf, limit, cancelled);
+    return (text, shelf, limit, cancelled, onProgress) => search(selection, encodeQuery, readPart, text, shelf, limit, cancelled, onProgress);
   }
 
-  const api = {classic, model, search, terms, unpack, rankPart, normalize, mightMatch, result, order, topResults};
+  const api = {classic, model, search, terms, unpack, rankPart, normalize, mightMatch, semanticPart, result, order, retainCandidates, topResults};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLShardRank = api;
 })(globalThis);

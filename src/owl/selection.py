@@ -22,10 +22,10 @@ MINIMUM_MARGIN = 125_000_000
 MARGIN_DIVISOR = 200
 READER_BUDGET = 500_000_000
 DISCOVERY_BUDGET = 16 * 1024 * 1024
-MAX_DISCOVERY_BUDGET = 500_000_000
+MAX_DISCOVERY_BUDGET = 900_000_000
 DISCOVERY_DIVISOR = 100
 METADATA_BUDGET = 16 * 1024 * 1024
-LADDER_SUPPORT_BUDGET = GB + DISCOVERY_BUDGET
+BASE_LADDER_SEARCH_BUDGET = 500_000_000
 READERS = "archive-readers"
 EXPANSION_FILL_PERCENT = 90
 REGIONAL_PACKS = ("regional-maps", "topo-usgs-northeast", "topo-usgs-mid-atlantic",
@@ -38,18 +38,25 @@ def capacity_budget(capacity_bytes: int) -> dict[str, int]:
     if type(capacity_bytes) is not int or not MIN_CAPACITY <= capacity_bytes <= MAX_CAPACITY:
         raise CatalogError("Capacity must be a whole number of bytes from 16 GB to 9,007,199 GB")
     headroom = max(MINIMUM_MARGIN, capacity_bytes // MARGIN_DIVISOR)
+    discovery = min(
+        MAX_DISCOVERY_BUDGET,
+        BASE_LADDER_SEARCH_BUDGET + headroom - MINIMUM_MARGIN,
+        max(DISCOVERY_BUDGET, min(capacity_bytes, DEFAULT_LIMIT) // DISCOVERY_DIVISOR),
+    )
+    extra_search = max(0, discovery - BASE_LADDER_SEARCH_BUDGET)
     return {
         "capacity_bytes": capacity_bytes - headroom,
-        "reserve_bytes": headroom,
-        "discovery_budget_bytes": min(MAX_DISCOVERY_BUDGET, max(DISCOVERY_BUDGET, min(capacity_bytes, DEFAULT_LIMIT) // DISCOVERY_DIVISOR)),
+        "reserve_bytes": headroom - extra_search,
+        "discovery_budget_bytes": discovery,
         "readers_budget_bytes": READER_BUDGET,
     }
 
 
 def usable_capacity(capacity_bytes: int) -> int:
     budget = capacity_budget(capacity_bytes)
+    search_reserve = max(BASE_LADDER_SEARCH_BUDGET, budget["discovery_budget_bytes"])
     return (budget["capacity_bytes"] - budget["reserve_bytes"] -
-            LADDER_SUPPORT_BUDGET - METADATA_BUDGET)
+            READER_BUDGET - search_reserve - DISCOVERY_BUDGET - METADATA_BUDGET)
 
 
 PUBLISHED = "published"

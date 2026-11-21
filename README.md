@@ -40,8 +40,10 @@ python scripts/verify.py /path/to/EMERGENCY_LIBRARY
 Python 3.11+ and internet access are needed to build. Reading ordinary PDFs does not require Python. ZIM archives need a compatible reader; packages for Windows, macOS, Linux and Android are included. The planner sets aside 500 MB for them. The builder never formats the drive or executes downloaded software. Leave `--cache-dir` unset so original downloads and resumable partials stay exclusively on the selected drive.
 
 Both builders assemble precomputed search shards for the selected files. Search
-covers catalog titles, PDF sections and indexed ZIM articles, with coverage by
-source. The search model, indexes and static navigation travel on the drive.
+covers catalog titles, PDF passages, HTML sections and indexed ZIM articles,
+with coverage varying by source. Catalog results appear while passage and
+article results load. The search model, indexes and static navigation travel
+on the drive.
 See the [offline search guide](docs/search.md).
 
 The standalone selector's command uses `--detach` to start a saved background job. Inspect, cancel or resume it with `scripts/build_job.py`; see [unattended builds](docs/unattended-builds.md). For foreground builds, pause with Ctrl-C, wait for the prompt and rerun the command to resume. Keep the drive connected while the job is active.
