@@ -2,7 +2,7 @@
 
 OWL builds an offline knowledge library directly on an external drive. This repository contains URLs, hashes, selection rules, build tools and small interface assets. Books, maps, encyclopedias and reader packages download during the build.
 
-The defaults prioritize knowledge for a post-internet, low-electronic life. **CRITICAL** covers survival, health, food, water and shelter. Every default includes the entire critical tier. **USEFUL** covers practical trades, repair, appropriate technology, general reference and education through high school. **NONESSENTIAL** covers stories, college textbooks, computing and enrichment. A small sampler preserves those subjects, while recommendations retain at least as much of the full USEFUL tier as of the full NONESSENTIAL tier.
+The defaults prioritize knowledge for a post-internet, low-electronic life. **CRITICAL** covers survival, health, food, water and shelter. The Python default includes the entire critical tier. The browser plan shows which selected files it can fetch. **USEFUL** covers practical trades, repair, appropriate technology, general reference and education through high school. **NONESSENTIAL** covers stories, college textbooks, computing and enrichment. A small sampler preserves those subjects, while recommendations retain at least as much of the full USEFUL tier as of the full NONESSENTIAL tier.
 
 Every selectable asset passes the [machine-readable content-type policy](src/owl/content_policy.json). The [priority policy](src/owl/utility_policy.json) requires practical domain coverage in every default, without book-count or content-size quotas. PDFs and ZIMs download unchanged; Python and Canadian map ZIPs are unpacked without altering the PDF files. No active selection requires EPUB conversion, HTML reconstruction or document rendering.
 
@@ -12,7 +12,8 @@ Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-l
 in desktop Chrome or Edge. Connect an exFAT drive and choose its folder. Confirm
 the size if free space cannot be estimated. Edit the recommendation and choose
 **Build library**. Keep the tab open and the drive attached. Use **Resume** to
-continue a saved build. The page lists files that need the Python build.
+continue a saved build. **Verify and repair files** reads the whole drive
+selection again. Files that need Python are labeled in the editor.
 Set up iPhone Kiwix with the builder’s App Store QR code while online. The critical shelf also links to files you can read in Files.
 [Browser build guide](docs/pages-builder.md) · [Device tests](docs/device-matrix.md)
 
@@ -49,15 +50,19 @@ The standalone selector's command uses `--detach` to start a saved background jo
 
 The default recommendation covers capacities from 16 GB. It accounts for
 filesystem headroom, free space to retain, readers and discovery files. The
-planner preserves depth in health, water and sanitation, food preservation,
-agriculture, shelter, and navigation as capacity grows. English Wikipedia
+planner protects a core of essential or introductory references in all 15
+fields. Each field retains at least half its highest earlier attributed size. In the
+base ladder, health, water and sanitation, food preservation, agriculture, shelter and
+navigation retain their prior attributed size at every step. English Wikipedia
 starts with the top edition at 16 GB and upgrades through mini and nopic to
 the illustrated maxi edition. Each upgrade retains or increases attributed
 bytes in every field. World maps stay in the default once they enter.
 A higher-priority archive that takes at least 10% of the drive label can
 displace files in other fields.
-The 1 TB default applies on larger drives, leaving the extra capacity available
-for optional collections. The builder checks actual free space.
+Above 1 TB, the recommendation starts with the 1 TB library and adds
+removable regional maps, additional Wikipedia languages and other pinned
+collections toward 90% of the label, as the catalog and available space permit.
+The Python builder checks actual free space.
 
 For a 128 GB drive, use `--capacity-bytes 128000000000` or enter 128 in the
 selector. The five common-size profiles use the same ladder. Selected content,
@@ -68,7 +73,7 @@ planned storage and the current inventory are in the
 The direct foundation includes published medical and public-health chapters,
 preservation and agriculture manuals, shelter and navigation references, and
 practical trades and school textbooks. Additional Wikipedia languages and
-detailed topographic sheet packs require explicit inclusion. See the
+detailed topographic sheet packs are optional at 1 TB and below. See the
 [topic-by-topic completion plan](docs/full-1tb-coverage-plan.md) for editorial
 coverage and [the target architecture](docs/design/target-architecture.md) for
 the selection model.
@@ -91,7 +96,9 @@ Selecting ZIMs automatically includes their reader packages. Optional additions 
 
 ## Use the completed SSD
 
-Open `START_HERE.html`. A fresh build puts exactly two items in the chosen outer directory: this entry page and a `LIBRARY` folder containing everything else. Keep them together when moving or copying the library. Its first shelves link to textbooks, illustrated guides, Project Gutenberg, and Children's Library, with counts of available files. It also provides topic links, search, and ordinary static indexes. You can navigate directly through `LIBRARY` with the device’s file manager.
+Open `START_HERE.html`. A fresh build puts exactly two items in the chosen outer directory: this entry page and a `LIBRARY` folder containing everything else. Keep them together when moving or copying the library. An emergency directory comes first, followed by the reading shelves and topic atlas. The build report lists unavailable files. It also provides topic links, search, and ordinary static indexes. You can navigate directly through `LIBRARY` with the device’s file manager.
+
+Python builds also write `CONTENT_SELECTION.json` and `LOCKED_CATALOG.yaml` for its rebuild workflow.
 
 The default children's books and Python manuals are PDFs, so reading them does not require an EPUB app. On iPhone or iPad, use Files to open the PDF directly and choose **Preview with Quick Look** if offered. If the start-page preview cannot follow links, use its printed `LIBRARY/...` paths to locate the files manually. Retained EPUBs under `LIBRARY/REFERENCE/SOURCE_PACKAGES/EPUB/` are excluded from the reading shelves and search.
 
@@ -102,7 +109,7 @@ EMERGENCY_LIBRARY/
     ├── SEARCH.html             # Dedicated automatic offline search
     ├── README.txt / VERIFY.py / SOURCE_NOTES.txt
     ├── INVENTORY.html / INVENTORY.json
-    ├── BUILD_INFO.json / CONTENT_SELECTION.json / SHA256SUMS.txt / LOCKED_CATALOG.yaml
+    ├── BUILD_INFO.json / SHA256SUMS.txt
     ├── CRITICAL/               # Ordinary files grouped by emergency topic
     ├── REFERENCE/
     ├── BOOKS/TEXTBOOKS/         # Core directly readable textbooks
@@ -110,7 +117,7 @@ EMERGENCY_LIBRARY/
     ├── ZIM/                    # Large archives; a reader is required
     ├── SOFTWARE/               # Bundled readers for supported platforms
     ├── SEARCH/                 # Small discovery catalog and coverage report
-    ├── INDEX/                  # Learning/reading shelves, critical, category, A–Z
+    ├── INDEX/                  # Shelves, phone files, book routes, atlas and build report
     └── .owl/                   # Private build and resume state
 ```
 

@@ -12,6 +12,7 @@ from urllib.parse import quote
 
 from .catalog import is_document, learning_shelves
 from .layout import checksum_name, managed_path
+from .offline_layout import emergency_directory, render
 from .safety import atomic_write
 from .search_ui import SEARCH_CSP, render_search_widget
 
@@ -20,6 +21,7 @@ GENERATED_PATHS = (
     "START_HERE.html",
     "README.txt",
     "INVENTORY.html",
+    "INDEX/build-report.html",
     "INDEX/categories.html",
     "INDEX/critical.html",
     "INDEX/phone.html",
@@ -175,21 +177,13 @@ def _page(title: str, body: str, current: str, *, inline_search: bool = False) -
     policy = f'<meta http-equiv="Content-Security-Policy" content="{html.escape(SEARCH_CSP, quote=True)}">' if inline_search else ""
     footer = ("Catalog text is readable without JavaScript or internet. Opening links depends on your viewer."
               + (" Search requires a browser that can load local scripts." if inline_search else ""))
-    return f"""<!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="referrer" content="no-referrer">
-{policy}
-<title>{_text(title)} · Offline Wandering Library</title><style>{CSS}</style></head>
-<body><nav aria-label="Library navigation"><a href="{home}">Start here</a>
-<a href="{search}">Search</a><a href="{categories}">Categories</a>
-<a href="{critical}">Critical content</a><a href="{textbooks}">Textbooks</a>
-<a href="{illustrated}">Illustrated guides</a><a href="{gutenberg}">Project Gutenberg</a>
-<a href="{children}">Children’s Library</a></nav>
-<main><h1>{_text(title)}</h1>{body}</main>
-<footer>Offline Wandering Library · {footer}</footer>
-</body></html>
-"""
+    nav = (f'<a href="{home}">Start here</a><a href="{search}">Search</a>'
+           f'<a href="{categories}">Categories</a><a href="{critical}">Critical content</a>'
+           f'<a href="{textbooks}">Textbooks</a><a href="{illustrated}">Illustrated guides</a>'
+           f'<a href="{gutenberg}">Project Gutenberg</a><a href="{children}">Children’s Library</a>')
+    return render("page", title=_text(title), css=CSS, nav=nav, heading=f"<h1>{_text(title)}</h1>",
+                  body=body, policy=policy, footer="Offline Wandering Library · " + footer)
+
 
 
 def _asset_list(assets: list[dict], current: str, *, show_paths: bool = False) -> str:
@@ -357,9 +351,17 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
     pages["INDEX/phone.html"] = _page("Critical files for phones",
         "<p>Open one of these files in your device’s file viewer. The listed paths start at the drive.</p>"
         + _asset_list(static_phone, "INDEX/phone.html", show_paths=True), "INDEX/phone.html")
+    report_path = "INDEX/build-report.html"
+    unresolved = inventory.get("unresolved") or []
+    omitted = "".join(f'<li>{_text(item.get("title") or item.get("id"))}</li>' for item in unresolved)
+    pages[report_path] = _page("Build report", _selection_notice(inventory, report_path)
+                              + ("<h2>Unavailable files</h2><ul>" + omitted + "</ul>" if omitted else
+                                 "<p>All selected files available to this builder are listed in the inventory.</p>")
+                              + '<p><a href="../INVENTORY.html">Inventory and source coverage</a></p>', report_path)
     pages["START_HERE.html"] = _page(
         "Offline Wandering Library",
-        _selection_notice(inventory, "START_HERE.html")
+        emergency_directory(entries, lambda path: _href(path, "START_HERE.html"))
+        + _selection_notice(inventory, "START_HERE.html")
         + """<p>An offline knowledge library. Browse the file catalog below, or search in a compatible browser.</p>
 <section class="notice" id="files-instructions"><h2>Using iPhone Files or another file preview?</h2>
 <p>A preview may display this page while blocking search and links to other files.
@@ -377,7 +379,8 @@ may need a separate reader.</p></section>
            'Use the topic atlas, category, critical-content, and alphabetical indexes.</p>')
         + '<p><a href="INDEX/phone.html">Critical files for phones</a> · '
           '<a href="INDEX/sections.html">Sections and archive entry points</a> · '
-          '<a href="INDEX/critical.html">All critical content</a></p>'
+          '<a href="INDEX/critical.html">All critical content</a> · '
+          '<a href="INDEX/build-report.html">Build report</a></p>'
         + '<h2>Books and learning collections</h2>'
         + '<p>Learn from complete textbooks and practical guides. Open the original files to see their '
         'diagrams, photographs, and illustrations.</p>'

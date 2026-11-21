@@ -13,6 +13,7 @@ import unicodedata
 from urllib.parse import quote
 
 from .catalog import learning_shelves
+from .offline_layout import render
 from .navigation import CSS, LETTERS, _href, _letter, _text
 from .safety import SafetyError, safe_path, validate_relative
 
@@ -51,17 +52,16 @@ def _page(title, body, current):
              ("INDEX/illustrated-guides.html", "Illustrated guides"),
              ("INDEX/categories.html", "Categories"), ("SEARCH.html", "Search")]
     navigation = " ".join(_link(path, label, current) for path, label in links)
-    return f'''<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="referrer" content="no-referrer"><title>{_text(title)} · OWL topic atlas</title>
-<style>{CSS}
-.skip {{ display:inline-block; padding:.6rem; }} .entry {{ margin:1rem 0; border-bottom:1px solid #aab6c0; padding-bottom:.8rem; }}
-.entry h3 {{ margin-bottom:.25rem; }} .entry p {{ margin:.35rem 0; }} li {{ padding:.25rem 0; }}
-.choices a,.actions a {{ display:inline-block; padding:.35rem 0; }} .breadcrumb {{ font-size:.9rem; }}
-</style></head><body><a class="skip" href="#content">Skip to content</a>
-<nav aria-label="Library navigation">{navigation}</nav><main id="content">{body}</main>
-<footer>Static offline navigation. Local links and PDF page fragments depend on your viewer; filenames and locations remain visible for manual access.</footer>
-</body></html>'''
+    css = CSS + """
+.skip { display:inline-block; padding:.6rem; } .entry { margin:1rem 0; border-bottom:1px solid #aab6c0; padding-bottom:.8rem; }
+.entry h3 { margin-bottom:.25rem; } .entry p { margin:.35rem 0; } li { padding:.25rem 0; }
+.choices a,.actions a { display:inline-block; padding:.35rem 0; } .breadcrumb { font-size:.9rem; }
+"""
+    footer = ("Static offline navigation. Local links and PDF page fragments depend on your viewer. "
+              "Filenames and locations remain visible for manual access.")
+    return render("page", title=_text(title), css=css, nav=navigation, body=body,
+                  skip='<a class="skip" href="#content">Skip to content</a>', footer=footer)
+
 
 
 def _store(pages, path, text):

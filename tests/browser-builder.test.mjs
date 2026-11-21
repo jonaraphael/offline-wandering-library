@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
 import {createHash, webcrypto} from "node:crypto";
 import {createServer} from "node:http";
 import {once} from "node:events";
@@ -169,6 +170,8 @@ test("range build resumes after a disrupted stream and only indexes verified fil
   (await drive.file("LIBRARY/ZIM/wiki.zimab")).bytes = new Blob(["wrong"]);
   requests.length = 0;
   await buildLibrary(drive, {...options, resume: true});
+  assert.deepEqual(requests, [], "routine resume trusts same-size checkpoints");
+  await buildLibrary(drive, {...options, resume: true, fullVerify: true});
   assert.deepEqual(requests.map(row => row.range), ["bytes=5-9", "bytes=10-12"]);
 });
 
@@ -316,4 +319,63 @@ test("a corrupted search chunk leaves the catalog search and static pages usable
   assert.match(result.searchWarnings.join(" "), /SHA-256/);
   assert.match(await (await (await drive.file("LIBRARY/SEARCH/manifest.js")).getFile()).text(), /"shards":false/);
   assert.match(await (await (await drive.file("START_HERE.html")).getFile()).text(), /Search offline/);
+});
+
+test("large-file mode joins verified parts and keeps them if a second copy cannot fit", async () => {
+  const content = Buffer.from("ABCDEFGHIJKLM");
+  const zim = asset("wiki", content, {format: "zim", destination: "ZIM/wiki.zim"});
+  const fetchFile = async (url, {headers}) => {
+    const [, first, last] = /^bytes=(\d+)-(\d+)$/.exec(headers.Range);
+    return new Response(content.subarray(Number(first), Number(last) + 1), {status: 206,
+      headers: {"Content-Range": "bytes " + first + "-" + last + "/" + content.length}});
+  };
+  for (const full of [false, true]) {
+    const drive = new Directory("drive", {beforeWrite: name => {
+      if (full && name === "wiki.zim") throw new DOMException("Disk full", "QuotaExceededError");
+    }});
+    const options = {assets: [zim], routes: {wiki: ["https://example.test/wiki"]}, fetchFile, partBytes: 5, joinArchives: true};
+    const result = await buildLibrary(drive, options);
+    assert.equal(result.state.finished, true);
+    assert.equal(Boolean(result.state.joined.wiki), !full);
+    const good = full ? "wiki.zimaa" : "wiki.zim";
+    const absent = full ? "wiki.zim" : "wiki.zimaa";
+    assert.equal((await (await drive.file("LIBRARY/ZIM/" + good)).getFile()).size, full ? 5 : content.length);
+    await assert.rejects(drive.file("LIBRARY/ZIM/" + absent), {name: "NotFoundError"});
+    await buildLibrary(drive, {...options, resume: true, fullVerify: true,
+      fetchFile: () => assert.fail("verified archive should not be downloaded again")});
+  }
+});
+
+test("readers alone cannot start a browser build", async () => {
+  const reader = asset("reader", Buffer.from("reader"), {destination: "SOFTWARE/reader.zip"});
+  await assert.rejects(buildLibrary(new Directory(), {assets: [reader], routes: {}}), /Choose knowledge files/);
+});
+
+test("published Metalink piece mismatch advances to the next source before commit", async () => {
+  const body = Buffer.from("pinned archive");
+  const zim = asset("wiki", body, {format: "zim", destination: "ZIM/wiki.zim"});
+  const bad = "https://example.test/bad", good = "https://example.test/good";
+  const sha1 = createHash("sha1").update(body).digest("base64");
+  const attempts = [];
+  const result = await buildLibrary(new Directory(), {assets:[zim], routes:{wiki:[bad, good]},
+    published:{publisherPieces:{piece_bytes:4 * 2 ** 20, archives:{wiki:{sha256:zim.sha256, sha1}}}},
+    fetchFile: async url => { attempts.push(url); return new Response(url === good ? body : Buffer.alloc(body.length)); }});
+  assert.deepEqual(attempts, [bad, good]);
+  assert.equal(result.state.finished, true);
+});
+
+test("the emergency directory links only to completed files and keeps omissions on the report", async () => {
+  const body = Buffer.from("verified water guide");
+  const water = asset("water", body, {title:"Water guide", critical:true});
+  const layout = JSON.parse(readFileSync(new URL("../src/owl/templates/offline-layout.json", import.meta.url)));
+  const drive = new Directory();
+  await buildLibrary(drive, {assets:[water], routes:{water:["https://example.test/water"]},
+    excluded:[{id:"missing", title:"Unfinished guide", reason:"Source blocked"}],
+    navigation:{layout}, fetchFile:async () => new Response(body)});
+  const read = async path => (await (await drive.file(path)).getFile()).text();
+  const start = await read("START_HERE.html");
+  assert.match(start, /id="emergency".*Make drinking water safer.*LIBRARY\/BOOKS\/water.pdf/);
+  assert.doesNotMatch(start, /Unfinished guide/);
+  assert.match(await read("LIBRARY/INDEX/build-report.html"), /Unfinished guide.*Source blocked/);
+  assert.match(await read("LIBRARY/INDEX/phone.html"), /Water guide/);
 });

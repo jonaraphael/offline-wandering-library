@@ -1,0 +1,142 @@
+{
+  "page": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"referrer\" content=\"no-referrer\">\n{{policy}}\n<title>{{title}} · Offline Wandering Library</title><style>{{css}}</style></head>\n<body>{{skip}}<nav aria-label=\"Library navigation\">{{nav}}</nav>\n<main id=\"content\">{{heading}}{{body}}</main>\n<footer>{{footer}}</footer>\n</body></html>\n",
+  "emergency": "<section id=\"emergency\"><h2>Emergency directory</h2><ul class=\"assets\">{{rows}}</ul></section>",
+  "task_link": "<li><strong>{{task}}</strong><br><a href=\"{{href}}\">{{title}}</a>{{hint}}<br><code>{{path}}</code></li>",
+  "task_missing": "<li><strong>{{task}}</strong><br>No matching guide in this build.</li>",
+  "tasks": [
+    [
+      "Stop severe bleeding",
+      [
+        [
+          "hesperian_en_wtnd_2025_10"
+        ],
+        [
+          "medical_bec"
+        ],
+        [
+          "cert",
+          "",
+          "Open Disaster Medical Operations"
+        ],
+        [
+          "wikimed_en",
+          "",
+          "Search for bleeding in Kiwix"
+        ]
+      ]
+    ],
+    [
+      "Care for burns",
+      [
+        [
+          "hesperian_en_wtnd_2025_10"
+        ],
+        [
+          "medical_bec"
+        ],
+        [
+          "cert",
+          "",
+          "Open Disaster Medical Operations"
+        ],
+        [
+          "wikimed_en",
+          "",
+          "Search for burns in Kiwix"
+        ]
+      ]
+    ],
+    [
+      "Make drinking water safer",
+      [
+        [
+          "water"
+        ],
+        [
+          "appropedia_en",
+          "",
+          "Search for drinking water in Kiwix"
+        ]
+      ]
+    ],
+    [
+      "Find or build shelter",
+      [
+        [
+          "survival_shelter"
+        ],
+        [
+          "cert",
+          "#page=32",
+          "Sheltering"
+        ],
+        [
+          "shelter"
+        ]
+      ]
+    ],
+    [
+      "Preserve food safely",
+      [
+        [
+          "food"
+        ],
+        [
+          "canning_00"
+        ],
+        [
+          "appropedia_en",
+          "",
+          "Search for food preservation in Kiwix"
+        ]
+      ]
+    ],
+    [
+      "Prepare for labor and birth",
+      [
+        [
+          "hesperian_en_midw_2026_10"
+        ],
+        [
+          "hesperian_en_wwhnd_2024_06"
+        ],
+        [
+          "wikimed_en",
+          "",
+          "Search for childbirth in Kiwix"
+        ]
+      ]
+    ],
+    [
+      "Look up fever or diarrhea",
+      [
+        [
+          "hesperian_en_wtnd_2025_13"
+        ],
+        [
+          "wikimed_en",
+          "",
+          "Search for fever or diarrhea in Kiwix"
+        ],
+        [
+          "sanitation",
+          "",
+          "Diarrhea prevention"
+        ]
+      ]
+    ],
+    [
+      "Find your way with map and compass",
+      [
+        [
+          "navigation"
+        ],
+        [
+          "osm_guides",
+          "",
+          "Search for navigation in Kiwix"
+        ]
+      ]
+    ]
+  ]
+}

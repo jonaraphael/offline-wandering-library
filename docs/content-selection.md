@@ -13,10 +13,10 @@ Files are selected for substantial, diversified knowledge useful in a post-inter
 | Drive | Pinned files, GB | In-place planning peak, GB | Records |
 | --- | ---: | ---: | ---: |
 | flash-16gb | 15.145 | 15.507 | 461 |
-| critical-64gb | 62.759 | 63.656 | 511 |
-| compact-256gb | 252.625 | 254.482 | 518 |
-| standard-512gb | 506.258 | 509.395 | 574 |
-| full-1tb | 989.282 | 994.859 | 629 |
+| critical-64gb | 61.609 | 62.506 | 513 |
+| compact-256gb | 252.072 | 253.929 | 563 |
+| standard-512gb | 505.386 | 508.523 | 558 |
+| full-1tb | 989.397 | 994.974 | 631 |
 
 Decimal GB. File totals include reader packages. Planning peaks include a small discovery allowance, metadata and reserve. Original downloads stay on the target drive. Search and atlas pages compile from approved metadata without reading source bodies; no indexing workspace or cache is needed.
 

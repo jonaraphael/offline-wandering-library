@@ -4,12 +4,13 @@ Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-l
 in desktop Chrome or Edge. Connect a drive and choose its root or an empty folder
 on it. Confirm the drive's label size when the page asks. Choose a preset or
 enter a size in decimal GB. The recommendation uses the same capacity ladder
-as the Python builder.
+as the Python builder and fills spare space with files that have browser
+routes. The meter shows deliverable bytes and the size of the selected files
+available through Python.
 
 Edit the plan by collection, file or topic. The meter shows the files the browser
 can build and whether they fit. Expand **Storage details** for the planner's
-estimates. Expand the omitted-files list to see which files need the Python
-builder. You can build the available selection after accepting the omissions.
+estimates. The editor flags collections and individual files that need Python. The build section names the affected critical topics. You can build the available selection after accepting the omissions.
 Use **Python build instructions** for a command that retains the original
 selection, or use the [standalone selector](../SELECT.html) in your checkout.
 
@@ -22,8 +23,7 @@ You can also choose the folder again. Resume uses the original selection. It
 accepts a newer catalog when each saved file retains its original pin, size and
 destination.
 
-After the build, open `START_HERE.html` on the drive. It links to shelves, a
-topic atlas and the files. Paths are printed for file viewers that block links.
+After the build, open `START_HERE.html` on the drive. The emergency directory takes you to the available guide for each task. The build report lists unavailable files. The start page also links to shelves, the topic atlas and book contents. Paths are printed for file viewers that block links.
 The browser build’s atlas uses catalog topic assignments. Offline search uses
 the available precomputed shards and catalog index. The browser writes a whole-file inventory, a
 per-file or per-part checksum listing, and the standalone Python verifier.
@@ -49,51 +49,37 @@ storage provider. See the device matrix for the current evidence and checks. [Ki
 
 ### How capacity is estimated
 
-File System Access supplies a folder handle. On macOS, OWL attempts to estimate
-available bytes by truncating and aborting a temporary writable on the selected
-drive. A quick 64 MiB check precedes attempts above 4 GiB. If the filesystem
-accepts 2 TiB, the drive could be sparse or larger than the probe's range. A
-4 GiB + 1 byte rejection can indicate FAT32 or too little free space. Both cases
-fall back to a drive-size confirmation. A repeatable allocation boundary
-above 4 GiB yields an estimate rounded down within 1 MiB of that boundary.
-Windows and Linux use manual confirmation in this release.
-
-Chromium truncates a swap file through `NativeFileUtil::Truncate`,
-`base::File::SetLength`, and `ftruncate` on POSIX. Chromium converts a failed
-`SetLength` to `FILE_ERROR_FAILED`, which Blink reports as
-`InvalidStateError`, so the probe cannot identify ENOSPC and EFBIG by
-exception name there. Operations that preserve `FILE_ERROR_NO_SPACE` report
-`QuotaExceededError`. The macOS exFAT allocation and FAT32 limit were measured
-with `ftruncate` on disk images. APFS, HFS+, Linux and Windows filesystem
-behavior and browser measurements on removable hardware remain unverified.
-[Chromium writer](https://github.com/chromium/chromium/blob/main/content/browser/file_system_access/file_system_access_file_writer_impl.cc#L199-L224) ·
-[Native truncate](https://github.com/chromium/chromium/blob/main/storage/browser/file_system/native_file_util.cc#L277-L295) ·
-[POSIX SetLength](https://github.com/chromium/chromium/blob/main/base/files/file_posix.cc#L419-L425) ·
-[Blink error mapping](https://github.com/chromium/chromium/blob/main/third_party/blink/renderer/core/fileapi/file_error.cc#L138-L165)
+On macOS, OWL tries a temporary truncate-and-abort probe. Windows and Linux
+ask for the size on the label. See the native-filesystem methodology, results,
+and Chromium call path. [Capacity probe](capacity-probe.md)
 
 ### How files are written and verified
 
-The browser downloads files in priority order, with readers first. When a
-write reports a full drive, it reclaims an unfinished file's space, records the
-omission and tries the remaining files. The start page lists omissions. Use
-**Resume** after freeing space or to retry an upstream download failure. Committed parts are
-re-read on resume to check their SHA-256 and reconstruct the whole-file digest.
+The browser downloads in priority order, with readers first. If a write
+reports a full drive and the drive remains accessible, the builder reclaims
+the current unfinished file and tries later files. Free space and choose
+**Resume** to retry the omitted files.
 
-OWL writes ZIMs over 1 GiB as consecutive parts with a maximum of 1 GiB each.
-Chromium places a swap file beside the destination and replaces it on close.
-Its after-write checks can read and hash the swap again before close completes.
-OWL bounds swap work per part and uses a fresh swap for each piece. A tab close
-can require re-downloading the current, uncommitted part. Source files stream
-directly into the selected drive. [Chromium swap writer](https://github.com/chromium/chromium/blob/main/content/browser/file_system_access/file_system_access_file_handle_impl.cc#L681-L714) ·
-[Chromium after-write checks](https://github.com/chromium/chromium/blob/main/content/browser/file_system_access/file_system_access_safe_move_helper.cc#L169-L219)
+ZIMs over 1 GiB download in consecutive 1 GiB parts. Chromium’s write swap is
+on the destination volume. If a tab closes, the current uncommitted part
+downloads again. Routine resume checks saved sizes and restores the recorded
+digest state. Choose **Verify and repair files** to re-read and hash installed
+payloads and retry damaged files. The standalone verifier on the drive
+offers independent read-only verification.
 
-Single-file downloads are checked against their catalog SHA-256 before close.
-For split ZIMs, separately published SHA-256 part pins are compared when
-available. Other ZIMs use SHA-256 checks recorded on the drive for each part
-during transfer and the catalog's whole-file pin before the archive can
-appear in the offline index. Same-origin copies have a published SHA-256 for
-each hosted piece. Hashing uses the pinned vendored noble-hashes implementation.
-[Vendor record](../web/vendor/noble-hashes/README.md)
+The publisher’s 4 MiB SHA-1 piece digests cover all 117 cataloged Kiwix ZIMs
+and catch wrong bytes during each transfer. SHA-256 pins protect the entire
+archive. The two locally generated SHA-256 part manifests provide another
+check for their matching editions. Every other asset also has a whole-file
+SHA-256 pin. [Transfer evidence](browser-delivery.md)
+
+On exFAT or NTFS, leave **Join archive parts into single files when space
+permits** selected. The builder verifies the assembled ZIM on the drive
+before removing its parts. Joining can temporarily require a second copy of
+that archive. If it cannot fit, the verified parts remain usable with a
+compatible reader. Clear this option for FAT32. A resumed build keeps its
+original setting. [Reader and filesystem tests](device-matrix.md) ·
+[Chromium swap writer](https://github.com/chromium/chromium/blob/main/content/browser/file_system_access/file_system_access_file_handle_impl.cc#L681-L714)
 
 ## Publish to GitHub Pages
 

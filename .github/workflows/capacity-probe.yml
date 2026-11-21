@@ -1,0 +1,90 @@
+name: Capacity probe
+on:
+  push:
+    paths: ['.github/workflows/capacity-probe.yml', 'web/drive.mjs', 'scripts/probe_capacity.mjs']
+  pull_request:
+    paths: ['.github/workflows/capacity-probe.yml', 'web/drive.mjs', 'scripts/probe_capacity.mjs']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        fs: [exfat, vfat, ntfs]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: sudo apt-get update && sudo apt-get install -y exfatprogs dosfstools ntfs-3g
+      - name: Probe a loopback volume
+        env:
+          OWL_TEST_FS: ${{ matrix.fs }}
+        run: |
+          set -euo pipefail
+          image="$RUNNER_TEMP/owl-capacity.img"
+          target="$RUNNER_TEMP/owl-volume"
+          mkdir "$target"
+          truncate -s 6G "$image"
+          loop=$(sudo losetup --find --show "$image")
+          trap 'sudo umount "$target" || true; sudo losetup -d "$loop"' EXIT
+          case "$OWL_TEST_FS" in
+            exfat) sudo mkfs.exfat "$loop" ;;
+            vfat) sudo mkfs.fat -F32 "$loop" ;;
+            ntfs) sudo mkfs.ntfs --quick "$loop" ;;
+          esac
+          sudo mount -t "$OWL_TEST_FS" -o "uid=$(id -u),gid=$(id -g)" "$loop" "$target"
+          node scripts/probe_capacity.mjs "$target" "$OWL_TEST_FS" | tee "$RUNNER_TEMP/probe.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-${{ matrix.fs }}-capacity
+          path: ${{ runner.temp }}/probe.json
+  windows:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        fs: [exfat, fat32, ntfs]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Probe a mounted VHD
+        shell: pwsh
+        env:
+          OWL_TEST_FS: ${{ matrix.fs }}
+        run: |
+          $image = Join-Path $env:RUNNER_TEMP owl-capacity.vhd
+          $setup = Join-Path $env:RUNNER_TEMP owl-setup.txt
+          $detach = Join-Path $env:RUNNER_TEMP owl-detach.txt
+          @"
+          create vdisk file="$image" maximum=6144 type=expandable
+          select vdisk file="$image"
+          attach vdisk
+          create partition primary
+          format fs=$env:OWL_TEST_FS quick label=OWLPROBE
+          assign letter=V
+          exit
+          "@ | Set-Content -Encoding ascii $setup
+          @"
+          select vdisk file="$image"
+          detach vdisk
+          exit
+          "@ | Set-Content -Encoding ascii $detach
+          if (Test-Path 'V:\') { throw 'Drive V is already in use' }
+          try {
+            diskpart /s $setup
+            if ((Get-Volume -DriveLetter V).FileSystem -ne $env:OWL_TEST_FS) { throw 'VHD format failed' }
+            node scripts/probe_capacity.mjs 'V:\' $env:OWL_TEST_FS | Tee-Object "$env:RUNNER_TEMP/probe.json"
+            if ($LASTEXITCODE -ne 0) { throw 'Probe failed' }
+          } finally {
+            diskpart /s $detach
+          }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-${{ matrix.fs }}-capacity
+          path: ${{ runner.temp }}/probe.json

@@ -17,6 +17,10 @@ class SourceError extends Error {
   }
 }
 
+export function isKnowledgeFile(asset) {
+  return !asset.destination.startsWith("SOFTWARE/") && !asset.supporting_file && asset.archive_member?.document !== false;
+}
+
 export function buildOrder(assets) {
   const priority = asset => asset.destination.startsWith("SOFTWARE/") ? 0 : (tier.indexOf(asset.utility_tier) + 1 || tier.length + 1);
   return [...assets].sort((a, b) => priority(a) - priority(b) ||
@@ -68,7 +72,7 @@ async function save(drive, state) {
   await writeFile(drive, MANIFEST, JSON.stringify(state) + "\n");
 }
 
-async function start(drive, {assets, excluded, partBytes}) {
+async function start(drive, {assets, excluded, partBytes, joinArchives}) {
   if (await optional(() => drive.getFileHandle("START_HERE.html"))) {
     throw Error("This drive folder already has a library. Choose an empty folder on the drive.");
   }
@@ -83,7 +87,7 @@ async function start(drive, {assets, excluded, partBytes}) {
       }
     }
   }
-  const state = {version: 1, buildId: globalThis.crypto.randomUUID(), partBytes,
+  const state = {version: 1, buildId: globalThis.crypto.randomUUID(), partBytes, joinArchives, joined: {},
     plan: buildOrder(assets).map(assetPin), excluded, parts: {}, verified: {}, dropped: {}, failures: {}, finished: false};
   await writeFile(drive, MANIFEST, JSON.stringify(state) + "\n");
   return state;
@@ -100,15 +104,34 @@ function partPins(asset, layout, published, partBytes) {
   return record.hashes;
 }
 
-async function readCheckpoint(drive, part, hash, whole) {
-  const file = await optional(async () => (await fileHandle(drive, part.path)).getFile());
-  if (!file || file.size !== part.bytes) return null;
+const fileAt = (drive, path) => optional(async () => (await fileHandle(drive, path)).getFile());
+
+function hashCheckpoint(hash) {
+  return {words: hash.get().map(word => word >>> 0), tail: Array.from(hash.buffer.subarray(0, hash.pos))};
+}
+
+function restoreHash(checkpoint, bytes) {
+  const {words, tail} = checkpoint || {};
+  if (!Array.isArray(words) || words.length !== 8 ||
+      words.some(word => !Number.isInteger(word) || word < 0 || word > 0xffffffff) ||
+      !Array.isArray(tail) || tail.length !== bytes % 64 ||
+      tail.some(byte => !Number.isInteger(byte) || byte < 0 || byte > 255)) return null;
+  const hash = sha256.create();
+  hash.set(...words);
+  hash.length = bytes;
+  hash.pos = tail.length;
+  hash.buffer.set(tail);
+  return hash;
+}
+
+async function readCheckpoint(file, digest, whole, signal) {
   const next = whole.clone(), current = sha256.create();
   for await (const chunk of file.stream()) {
+    signal?.throwIfAborted();
     next.update(chunk);
     current.update(chunk);
   }
-  return bytesToHex(current.digest()) === hash ? next : null;
+  return bytesToHex(current.digest()) === digest ? next : null;
 }
 
 async function streamRequest(url, range, expected, fetchFile, signal, onChunk) {
@@ -150,8 +173,40 @@ async function streamRequest(url, range, expected, fetchFile, signal, onChunk) {
   }
 }
 
+function checkPublisherPieces(published, asset, part) {
+  const record = published?.archives?.[asset.id];
+  if (!record) return null;
+  const size = published.piece_bytes;
+  const digests = atob(record.sha1);
+  if (record.sha256 !== asset.sha256 || size !== 4 * 2 ** 20 ||
+      digests.length !== Math.ceil(asset.size_bytes / size) * 20 ||
+      part.start % size || (part.start + part.bytes !== asset.size_bytes && part.bytes % size)) {
+    throw Error("Publisher piece manifest does not match " + asset.title);
+  }
+  const buffer = new Uint8Array(Math.min(size, part.bytes));
+  let offset = 0, written = 0, index = part.start / size;
+  return async chunk => {
+    for (let cursor = 0; cursor < chunk.length;) {
+      const length = Math.min(buffer.length - offset, chunk.length - cursor);
+      buffer.set(chunk.subarray(cursor, cursor + length), offset);
+      offset += length;
+      cursor += length;
+      written += length;
+      if (offset < buffer.length && written < part.bytes) continue;
+      const digest = new Uint8Array(await globalThis.crypto.subtle.digest("SHA-1", buffer.subarray(0, offset)));
+      const expected = digests.slice(index * 20, (index + 1) * 20);
+      if (digest.some((byte, i) => byte !== expected.charCodeAt(i))) {
+        throw new SourceError("Publisher piece SHA-1 mismatch");
+      }
+      offset = 0;
+      index++;
+    }
+  };
+}
+
 async function writePart(drive, asset, part, source, options) {
-  const {fetchFile, signal, whole, expectedHash, last, range, onBytes} = options;
+  const {fetchFile, signal, whole, expectedHash, publisherPieces, last, range, onBytes} = options;
+  const checkPiece = checkPublisherPieces(publisherPieces, asset, part);
   const writable = await (await fileHandle(drive, part.path, true)).createWritable({mode: "exclusive"});
   const hash = sha256.create(), next = whole.clone();
   try {
@@ -162,6 +217,7 @@ async function writePart(drive, asset, part, source, options) {
         hash.update(chunk);
         next.update(chunk);
         pieceHash?.update(chunk);
+        if (checkPiece) await checkPiece(chunk);
         await writable.write(chunk);
         total += chunk.byteLength;
         onBytes(total);
@@ -205,7 +261,7 @@ async function forgetParts(drive, state, asset, layout) {
   delete state.verified[asset.id];
 }
 
-async function buildAsset(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress}) {
+async function buildAsset(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, fullVerify}) {
   const pins = partPins(asset, layout, published, state.partBytes);
   const checkpoints = state.parts[asset.id] ||= [];
   let whole = sha256.create(), index = 0;
@@ -213,9 +269,15 @@ async function buildAsset(drive, state, asset, layout, {routes, published, fetch
     signal?.throwIfAborted();
     const saved = checkpoints[i];
     if (!DIGEST.test(saved?.sha256) || saved.bytes !== part.bytes || (pins[i] && pins[i] !== saved.sha256)) break;
-    onProgress({kind: "checking", asset, index: i, count: layout.length});
-    const restored = await readCheckpoint(drive, part, saved.sha256, whole);
-    if (!restored) break;
+    const file = await fileAt(drive, part.path);
+    if (file?.size !== part.bytes) break;
+    let restored = fullVerify ? null : restoreHash(saved.hashState, part.start + part.bytes);
+    if (!restored) {
+      onProgress({kind: "checking", asset, index: i, count: layout.length});
+      restored = await readCheckpoint(file, saved.sha256, whole, signal);
+      if (!restored) break;
+      saved.hashState = hashCheckpoint(restored);
+    }
     whole = restored;
     index++;
   }
@@ -248,7 +310,7 @@ async function buildAsset(drive, state, asset, layout, {routes, published, fetch
         try {
           await assertDrive(drive, state);
           downloaded = await writePart(drive, asset, part, source, {fetchFile, signal, whole, range,
-            expectedHash: pins[index], last: index === layout.length - 1,
+            expectedHash: pins[index], publisherPieces: published.publisherPieces, last: index === layout.length - 1,
             onBytes: received => onProgress({kind: "downloading", ...progress, source: source.label, received, bytes: part.bytes})});
           preferred = sourceIndex;
           break;
@@ -267,20 +329,75 @@ async function buildAsset(drive, state, asset, layout, {routes, published, fetch
       await removeFile(drive, part.path);
       throw new SourceError(failures.join(". ") || "No browser source is available", wholeMismatch);
     }
-    checkpoints.push({sha256: downloaded.digest, bytes: part.bytes});
     whole = downloaded.next;
+    checkpoints.push({sha256: downloaded.digest, bytes: part.bytes, hashState: hashCheckpoint(whole)});
     await save(drive, state);
   }
 }
 
+function joinedLayout(asset) {
+  return [{path: "LIBRARY/" + asset.destination, start: 0, bytes: asset.size_bytes}];
+}
+
+async function removeSplitParts(drive, layout) {
+  for (const part of layout) await removeFile(drive, part.path);
+}
+
+async function checkJoined(drive, state, asset, layout, {fullVerify, signal}) {
+  if (!state.joined[asset.id]) return false;
+  const [{path, bytes}] = joinedLayout(asset);
+  const file = await fileAt(drive, path);
+  if (file?.size === bytes && (!fullVerify || await readCheckpoint(file, asset.sha256, sha256.create(), signal))) {
+    await removeSplitParts(drive, layout);
+    return true;
+  }
+  await removeFile(drive, path);
+  delete state.joined[asset.id];
+  delete state.verified[asset.id];
+  await save(drive, state);
+  return false;
+}
+
+async function joinParts(drive, state, asset, layout, {signal, onProgress}) {
+  const [{path}] = joinedLayout(asset);
+  // An interrupted copy may have left a placeholder or a complete but unrecorded swap.
+  await removeFile(drive, path);
+  let writable;
+  try {
+    writable = await (await fileHandle(drive, path, true)).createWritable({mode: "exclusive"});
+    const digest = sha256.create();
+    for (const part of layout) {
+      onProgress({kind: "joining", asset});
+      const file = await fileAt(drive, part.path);
+      for await (const chunk of file.stream()) {
+        signal?.throwIfAborted();
+        digest.update(chunk);
+        await writable.write(chunk);
+      }
+    }
+    if (bytesToHex(digest.digest()) !== asset.sha256) throw new SourceError("Saved parts failed whole-file SHA-256", true);
+    await writable.close();
+  } catch (error) {
+    await writable?.abort().catch(() => {});
+    await removeFile(drive, path);
+    signal?.throwIfAborted();
+    if (isNoSpace(error) || error.name === "InvalidStateError" || /EFBIG|file too large/i.test(error.message)) return;
+    throw error;
+  }
+  state.joined[asset.id] = true;
+  await save(drive, state);
+  await removeSplitParts(drive, layout);
+}
+
 export async function buildLibrary(drive, {assets, excluded = [], catalogAssets = assets, routes,
   published = {}, navigation = {}, search, searchBudget = 16 * 2 ** 20, partBytes = PART_BYTES, fetchFile = globalThis.fetch, signal,
-  onProgress = () => {}, resume = false}) {
+  onProgress = () => {}, resume = false, fullVerify = false, joinArchives = false}) {
   const saved = await readBuild(drive);
   if (saved && !resume) throw Error("This drive has a saved build. Choose Resume.");
   if (!saved && resume) throw Error("No browser build was found on this drive.");
-  if (!saved && !assets.length) throw Error("Choose files with browser-accessible sources.");
-  const state = saved || await start(drive, {assets, excluded, partBytes});
+  if (!saved && !assets.some(isKnowledgeFile)) throw Error("Choose knowledge files with browser-accessible sources.");
+  const state = saved || await start(drive, {assets, excluded, partBytes, joinArchives});
+  state.joined ||= {};
   const byId = new Map(catalogAssets.map(asset => [asset.id, asset]));
   const ordered = state.plan.map(pin => {
     const asset = byId.get(pin.id);
@@ -298,7 +415,12 @@ export async function buildLibrary(drive, {assets, excluded = [], catalogAssets 
     const layout = layouts.get(asset.id);
     const report = event => onProgress({...event, position, total: ordered.length});
     try {
-      await buildAsset(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress: report});
+      if (!await checkJoined(drive, state, asset, layout, {fullVerify, signal})) {
+        await buildAsset(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress: report, fullVerify});
+        if (state.joinArchives && layout.length > 1) {
+          await joinParts(drive, state, asset, layout, {signal, onProgress: report});
+        }
+      }
       state.verified[asset.id] = true;
       delete state.failures[asset.id];
     } catch (error) {
@@ -326,7 +448,14 @@ export async function buildLibrary(drive, {assets, excluded = [], catalogAssets 
     const reason = state.dropped[asset.id] || state.failures[asset.id];
     return reason ? [{id: asset.id, title: asset.title, reason}] : [];
   })];
-  const searchWarnings = await assembleLibrary(drive, {completed, missing, navigation, layouts, parts: state.parts,
+  const installedParts = {...state.parts};
+  for (const asset of completed) {
+    if (state.joined[asset.id]) {
+      layouts.set(asset.id, joinedLayout(asset));
+      installedParts[asset.id] = [{sha256: asset.sha256}];
+    }
+  }
+  const searchWarnings = await assembleLibrary(drive, {completed, missing, navigation, layouts, parts: installedParts,
     search, searchBudget, fetchFile, signal});
   state.finished = Object.keys(state.failures).length === 0 && Object.keys(state.dropped).length === 0 && !searchWarnings.length;
   await save(drive, state);

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from base64 import b64decode
 from hashlib import sha256
 import json
 import os
@@ -16,7 +17,8 @@ from zipfile import ZipFile
 
 from owl.atlas_model import load_navigation
 from owl.catalog import is_document, learning_shelves, load_catalog, load_profiles
-from owl.navigation import CSS, GROUPS, _group
+from owl.navigation import CSS, GROUPS, LETTERS, READING_COLLECTIONS, _group, _letter
+from owl.offline_layout import layout
 from owl.discovery import compile_records
 from owl.search_ui import render_search_page
 from owl.search_shards import SEARCH_ROOT, load_manifest
@@ -58,6 +60,15 @@ def browser_routes(asset: dict) -> list[str]:
                 (asset["format"] != "zim" or evidence.get("range") is True)):
             candidates.append(alternate)
     return list(dict.fromkeys(candidates))
+
+
+def relay_allowlist(assets):
+    """A closed mapping from catalog IDs to exact reviewed publisher URLs."""
+    return {asset["id"]: {"url": asset["source_url"], "bytes": asset["size_bytes"]}
+            for asset in assets if asset["status"] == "resolved" and asset["utility_tier"] == "CRITICAL"
+            and asset["redistributable"] is False and not browser_routes(asset)
+            and not asset.get("archive_member") and not asset.get("generation")
+            and urlsplit(asset["source_url"]).scheme == "https"}
 
 
 def mirror_candidates(assets: list[dict], routes: dict) -> list[dict]:
@@ -168,7 +179,7 @@ def generate_archive_pins(asset: dict, path: Path) -> dict:
     return {"sha256": asset["sha256"], "part_bytes": ZIM_PART, "hashes": hashes}
 
 
-def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=None) -> dict:
+def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=None, relay_base=None) -> dict:
     if site.exists() and any(site.iterdir()):
         raise ValueError("Choose an empty output directory")
     site.mkdir(parents=True, exist_ok=True)
@@ -176,6 +187,13 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
     assets = load_catalog(CATALOG, load_profiles(PROFILES))
     by_id = {asset["id"]: asset for asset in assets}
     routes = {asset["id"]: browser_routes(asset) for asset in assets}
+    if relay_base:
+        relay = urlsplit(relay_base)
+        if (relay.scheme != "https" or not relay.hostname or relay.username or relay.password or
+                relay.query or relay.fragment or relay.path not in {"", "/"}):
+            raise ValueError("Relay base must be an HTTPS origin")
+        for aid in relay_allowlist(assets):
+            routes[aid].append(relay_base.rstrip("/") + "/assets/" + aid)
     navigation = load_navigation(ROOT / "catalog/navigation", assets)
     records, _ = compile_records(assets, navigation)
     search_index = load_manifest()
@@ -188,20 +206,27 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
     elif search_index["sources"]:
         shutil.copytree(SEARCH_ROOT, site / "search")
     templates = ROOT / "src/owl/templates"
-    page = (render_search_page().replace("INDEX/categories.html", "INDEX/topics.html")
-            .replace("INDEX/A.html", "../START_HERE.html#files")
-            .replace("INDEX/textbooks.html", "INDEX/shelf-textbooks.html")
-            .replace("INDEX/illustrated-guides.html", "INDEX/shelf-illustrated-guides.html")
-            .replace("INDEX/critical.html", "INDEX/shelf-critical.html")
-            .replace("INVENTORY.html", "INVENTORY.json"))
+    page = render_search_page()
     write_json(site / "search-build.json", {"manifest": search_index, "base": search_base, "records": records,
         "page": page, "runtime": (templates / "search.js").read_text(encoding="utf-8"),
         "rankRuntime": (templates / "rank.js").read_text(encoding="utf-8")})
-    navigation = {key: navigation[key] for key in ("topics", "entrances", "assignments")}
-    navigation.update(css=CSS, groups=GROUPS, verify=(ROOT / "src/owl/verify.py").read_text(encoding="utf-8"),
+    navigation = {key: navigation[key] for key in ("topics", "entrances", "assignments", "sections")}
+    collection_assets = {
+        key: {aid for resource in model["resources"] if resource["id"] in resource_ids
+              for aid in resource["asset_ids"]}
+        for key, _, resource_ids in READING_COLLECTIONS
+    }
+    navigation.update(css=CSS, groups=GROUPS, letters=LETTERS, layout=layout(),
+                      collections=[(key, label) for key, label, _ in READING_COLLECTIONS],
+                      locators={asset["id"]: {"entrypoints": shard.get("entrypoints"), "main": shard.get("main")}
+                                for asset in assets
+                                if (shard := search_index["sources"].get(asset["sha256"]))},
+                      verify=(ROOT / "src/owl/verify.py").read_text(encoding="utf-8"),
                       assets={asset["id"]: {
                           "document": is_document(asset), "shelves": sorted(learning_shelves(asset)),
-                          "group": _group(asset), "publisher": asset.get("publisher"), "attribution": asset.get("attribution"),
+                          "group": _group(asset), "letter": _letter(asset["title"]),
+                          "collections": [key for key, ids in collection_assets.items() if asset["id"] in ids],
+                          "publisher": asset.get("publisher"), "attribution": asset.get("attribution"),
                           "legacy": bool(asset.get("legacy"))
                       } for asset in assets})
     write_json(site / "catalog.json", {"planner": model, "routes": routes, "navigation": navigation})
@@ -211,6 +236,18 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
     for path in sorted(SOURCE.glob("*.mjs")):
         shutil.copyfile(path, site / path.name)
     shutil.copytree(SOURCE / "vendor", site / "vendor")
+
+    pieces = json.loads((SOURCE / "kiwix-pieces.json").read_text(encoding="utf-8"))
+    piece_bytes = pieces["piece_bytes"]
+    archives = {asset["id"]: asset for asset in assets if asset["format"] == "zim"}
+    if piece_bytes != 4 * BLOCK or pieces["archives"].keys() != archives.keys():
+        raise ValueError("Run scripts/build_kiwix_pins.py to refresh publisher piece coverage")
+    for identity, record in pieces["archives"].items():
+        asset = archives[identity]
+        count = (asset["size_bytes"] + piece_bytes - 1) // piece_bytes
+        if record["sha256"] != asset["sha256"] or len(b64decode(record["sha1"], validate=True)) != count * 20:
+            raise ValueError(f"Publisher piece manifest is stale: {identity}")
+    shutil.copyfile(SOURCE / "kiwix-pieces.json", site / "kiwix-pieces.json")
 
     candidates = mirror_candidates(assets, routes)
     manifest = {"files": {}, "chunks": json.loads((SOURCE / "archive-pins.json").read_text(encoding="utf-8"))}
@@ -254,6 +291,8 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path, nargs="?", help="fresh Pages output directory")
+    parser.add_argument("--relay-base", help="enable approved relay routes at this HTTPS origin")
+    parser.add_argument("--relay-allowlist", type=Path, help="generate the relay's exact publisher URL mapping")
     parser.add_argument("--fetch-mirrors", action="store_true", help="include verified, redistributable source files")
     parser.add_argument("--cache", type=Path, help="external cache for verified mirror downloads")
     parser.add_argument("--archive-pins", nargs=2, metavar=("ASSET_ID", "FILE"),
@@ -265,10 +304,14 @@ def main() -> int:
         asset = next(asset for asset in load_catalog(CATALOG, load_profiles(PROFILES)) if asset["id"] == identity)
         print(json.dumps({identity: generate_archive_pins(asset, Path(path))}, indent=2))
         return 0
+    if args.relay_allowlist:
+        write_json(args.relay_allowlist, relay_allowlist(load_catalog(CATALOG)))
+        return 0
     if args.output is None:
         parser.error("supply an output directory or --archive-pins")
     with tempfile.TemporaryDirectory(prefix="owl-pages-") as scratch:
-        result = build_site(args.output, fetch_mirrors=args.fetch_mirrors, cache=args.cache or Path(scratch), search_commit=args.search_commit)
+        result = build_site(args.output, fetch_mirrors=args.fetch_mirrors, cache=args.cache or Path(scratch),
+                            search_commit=args.search_commit, relay_base=args.relay_base)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0
 

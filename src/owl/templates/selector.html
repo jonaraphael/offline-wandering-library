@@ -192,12 +192,14 @@
   }
   function choosePreset(profile, capacityBytes) {
     state = OWLPlanner.preset(model, profile, capacityBytes);
+    if (browserPage) state = browserPage.recommend(state);
     if (model.capacity_policy) byId("capacity-gb").value =
       String(OWLPlanner.profileFor(model, profile, capacityBytes).nominal_capacity_bytes / 1e9);
     byId("allow-incomplete").checked = Boolean(state.allowIncomplete);
     render();
   }
   function updateItem(id, patch) {
+    state.edited = true;
     state.items[id] = {...(state.items[id] || {}), ...patch};
     if(patch.edition)delete state.items[id].assetIds;
     render();
@@ -258,6 +260,7 @@
     cards.set(row.id, nodes);
     return nodes;
   }
+  const browserFileLabel = id => browserPage && !browserPage.canDownload(id) ? " · Python build only" : "";
   function updateCard(row) {
     const nodes = cards.get(row.id) || makeCard(row);
     const included = Boolean(row.included || row.autoIncluded);
@@ -275,6 +278,12 @@
     const status = ["ready", "partial", "unresolved"].includes(row.status) ? row.status : "unknown";
     nodes.badge.className = "badge " + status;
     nodes.badge.textContent = {ready: "Ready", partial: "Partial", unresolved: "Unresolved", unknown: "Unknown"}[status];
+    if (browserPage) {
+      const resource = model.resources.find(item => item.id === row.id);
+      const ids = state.items[row.id].assetIds || (resource.editions?.[row.edition] || resource).asset_ids;
+      const blocked = ids.filter(id => !browserPage.canDownload(id)).length;
+      if (blocked) nodes.badge.textContent = blocked === ids.length ? "Python build only" : blocked + " files require Python";
+    }
     nodes.edition.replaceChildren(...row.options.map(option => {
       const node = element("option", "", option.label + (option.available === false ? " — unavailable" : ""));
       node.value = option.value; node.disabled = option.available === false;
@@ -335,7 +344,7 @@
         const li=element("li"),label=element("label","check-label"),check=element("input");check.type="checkbox";
         check.checked=selected.has(a.id);check.setAttribute("aria-label",a.title);check.disabled=Boolean(row.autoIncluded);
         check.addEventListener("change",()=>selectFiles(check.checked,[a.id]));
-        label.append(check,element("span","",a.title+" · "+a.format.toUpperCase()+" · "+bytes(a.size_bytes)));
+        label.append(check,element("span","",a.title+" · "+a.format.toUpperCase()+" · "+bytes(a.size_bytes)+browserFileLabel(a.id)));
         li.append(label);li.dataset.assetId=a.id;return li;}));
       nodes.card.hidden = !show;
       if (show) visible++;
@@ -353,6 +362,7 @@
     return (resource.editions?.[edition]||resource).asset_ids;
   }
   function selectFiles(included, ids) {
+    state.edited = true;
     const desired=new Set(result.selectedAssetIds),before=new Set(desired);
     for(const id of ids)included?desired.add(id):desired.delete(id);
     // Archive members still need their original download package.
@@ -390,6 +400,7 @@
     const content=OWLTopicMap.contentSize(record);
     const size=element("p","",record.format.toUpperCase()+" · "+bytes(record.size_bytes)+" stored · "+(content.estimated?"≈ ":"")+bytes(content.bytes)+" uncompressed. "+content.basis+".");
     info.replaceChildren(title,details,reason,size);
+    if (browserFileLabel(record.id)) info.append(element("p", "muted", "This file requires the Python build."));
     for(const owner of owners) {
       const row=result.rows.find(r=>r.id===owner.id), included=result.selectedAssetIds.includes(record.id);
       const button=element("button","",(included?"Exclude ":"Include ")+"this file");

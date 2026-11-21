@@ -11,15 +11,18 @@
       <span>Get Kiwix for iPhone</span>
     </a>
   </details>
+  <p id="browser-critical" class="field-help" role="status" hidden></p>
+  <label class="check-label"><input id="join-archives" type="checkbox" checked><span>Join archive parts into single files when space permits. Clear for FAT32 drives.</span></label>
   <ul id="browser-plan-errors" class="field-help" hidden></ul>
   <details id="browser-exclusions" class="warning-details" hidden>
     <summary id="browser-exclusions-title"></summary>
     <ul id="browser-exclusions-list"></ul>
-    <label class="check-label"><input id="accept-browser-files" type="checkbox"><span>Build with the available files. Use the Python build if you need the full selection.</span></label>
+    <label class="check-label"><input id="accept-browser-files" type="checkbox"><span>Build with the available files. The Python build can fetch more files.</span></label>
   </details>
   <div class="command-actions">
     <button id="start-build" type="button" class="primary" disabled>Build library</button>
     <button id="resume-build" type="button" hidden>Resume</button>
+    <button id="verify-build" type="button" hidden>Verify and repair files</button>
     <button id="pause-build" type="button" hidden>Pause</button>
   </div>
   <progress id="build-progress" aria-label="Build progress" value="0" max="1"></progress>

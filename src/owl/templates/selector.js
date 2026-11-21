@@ -28,6 +28,10 @@
       const [resource, edition] = policy.filler_placements[index];
       editions[resource] = edition;
     }
+    for (const [threshold, resource] of policy.expansion || []) {
+      if (threshold > capacityBytes) break;
+      editions[resource] = "published";
+    }
     const defaults = Object.keys(editions).sort();
     return {...profile, nominal_capacity_bytes:capacityBytes, capacity_bytes:capacityBytes-margin(capacityBytes),
       reserve_bytes:margin(capacityBytes), readers_budget_bytes:policy.readers,

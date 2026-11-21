@@ -54,7 +54,7 @@ export function isNoSpace(error) {
   return error.name === "QuotaExceededError" || /ENOSPC|no space left|disk (?:is )?full/i.test(error.message);
 }
 
-export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolution = MiB} = {}) {
+export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolution = MiB, onAttempt = () => {}} = {}) {
   const filename = "OWL-capacity-" + globalThis.crypto.randomUUID() + ".tmp";
   const handle = await drive.getFileHandle(filename, {create: true});
 
@@ -67,14 +67,16 @@ export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolutio
       await writable.truncate(0);
     } catch (error) {
       if (isNoSpace(error)) result = "full";
-      else if (/EFBIG|file (?:is )?too large/i.test(error.message)) result = "file-limit";
+      else if ((error.code === "EFBIG" || /EFBIG|file (?:is )?too large/i.test(error.message))) result = "file-limit";
       else if (error.name === "InvalidStateError") result = "undifferentiated";
       else throw error;
     } finally {
       // A failing truncate may already have errored and aborted the stream.
       await writable.abort().catch(() => {});
     }
-    return {result, duration: performance.now() - started};
+    const outcome = {result, duration: performance.now() - started};
+    onAttempt(outcome);
+    return outcome;
   }
 
   try {

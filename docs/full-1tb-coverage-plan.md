@@ -6,7 +6,7 @@ Practical household and community knowledge for prolonged loss of internet and l
 
 Adequate means the stated learning and practical tasks are supported by reviewed, usable resources with their prerequisites, illustrations, limits and offline access. Tags, file counts, downloads and GB totals establish neither depth nor adequacy.
 
-Current selection: 629 pinned files, 989.282 GB, including reader packages. The 34 editorial workstreams account for all 89 atlas topics, including optional study topics, and additional gaps without atlas tags.
+Current selection: 631 pinned files, 989.397 GB, including reader packages. The 34 editorial workstreams account for all 89 atlas topics, including optional study topics, and additional gaps without atlas tags.
 
 A selected collection establishes availability only. Broad archives are supplementary until specific task coverage is reviewed. Optional collections below do not count toward default depth. Editorial assessments: 0 adequate, 26 partial, 3 gap, 5 optional.
 
@@ -351,7 +351,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Dictionary and Wikibooks are selected; illustrated stories and college writing are optional. None establishes a beginning-reading curriculum.
 
-**Catalog collections:** English Wiktionary (selected); English Wikibooks (selected); Illustrated children’s PDF stories (optional) (selected); College textbooks (optional) (selected); OpenStax humanities (selected); VOA Learning English — January 2025 (selected); Book Dash picture-book archive (optional; not selected); Project Gutenberg — General linguistics (selected); Project Gutenberg — Classical languages and literatures (selected); Project Gutenberg — Modern and Celtic languages (selected); Project Gutenberg — Romance languages (selected); Project Gutenberg — Germanic languages (selected); Project Gutenberg — English language (selected); Project Gutenberg — West Germanic languages (selected); Project Gutenberg — Slavic languages and literatures (selected); Project Gutenberg — Uralic and Basque languages (selected); Project Gutenberg — Near Eastern and North African languages (selected); Project Gutenberg — Indo-Iranian languages (optional; not selected); Project Gutenberg — Asian, African and Oceanian languages (optional; not selected); Project Gutenberg — Indigenous American languages (optional; not selected).
+**Catalog collections:** English Wiktionary (selected); English Wikibooks (selected); Illustrated children’s PDF stories (optional) (selected); College textbooks (optional) (selected); OpenStax humanities (selected); VOA Learning English — January 2025 (selected); Book Dash picture-book archive (optional; not selected); Project Gutenberg — General linguistics (selected); Project Gutenberg — Classical languages and literatures (selected); Project Gutenberg — Modern and Celtic languages (selected); Project Gutenberg — Romance languages (selected); Project Gutenberg — Germanic languages (selected); Project Gutenberg — English language (selected); Project Gutenberg — West Germanic languages (selected); Project Gutenberg — Slavic languages and literatures (selected); Project Gutenberg — Uralic and Basque languages (selected); Project Gutenberg — Near Eastern and North African languages (selected); Project Gutenberg — Indo-Iranian languages (selected); Project Gutenberg — Asian, African and Oceanian languages (selected); Project Gutenberg — Indigenous American languages (selected).
 
 **Remaining gaps:** A complete phonics and decodable-reader progression; Teacher instructions and answer/assessment materials; Learner practice and handwriting.
 
@@ -379,7 +379,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Siyavula natural/physical science books, OpenStax school physics and PhET. College textbooks and LibreTexts are optional supplements.
 
-**Catalog collections:** School mathematics and science (selected); PhET simulations (selected); English Wikipedia (selected); College textbooks (optional) (selected); OpenStax science (selected); OpenStax mathematics (selected); LibreTexts STEM and medicine (selected); Crash Course English — May 2026 (selected); Wikispecies — July 2026 (selected); Encyclopedia of the Environment — May 2026 (selected); PhET simulation archive (selected); CIET / NCERT school audiobooks (selected); Astronomy Picture of the Day (selected).
+**Catalog collections:** School mathematics and science (selected); PhET simulations (selected); English Wikipedia (selected); College textbooks (optional) (selected); OpenStax science (selected); OpenStax mathematics (selected); LibreTexts STEM and medicine (selected); Crash Course English — May 2026 (selected); Wikispecies — July 2026 (selected); Encyclopedia of the Environment — May 2026 (selected); PhET simulation archive (optional; not selected); CIET / NCERT school audiobooks (selected); Astronomy Picture of the Day (selected).
 
 **Remaining gaps:** A stage-by-subject scope matrix; Early science and Earth/space progression; Safe practical activities with commonly available materials.
 

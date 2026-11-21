@@ -5,8 +5,8 @@
 The planner keeps immutable download pins in the build catalog and gives each
 selectable asset a primary planning domain, depth level (L0 essentials through
 L4 deep collections), rank within that domain and level, and an optional edition
-group. Regional topography and non-English Wikipedia require explicit
-selection. Alternative editions are available for curation.
+group. Regional topography and non-English Wikipedia are opt-in at 1 TB and
+below. Alternative editions are available for curation.
 
 Each asset carries a pinned URL, size, digest algorithm and value, license and
 redistribution decision. Verify publisher digest provenance separately from
@@ -16,7 +16,11 @@ explicit. A search shard reference binds its format version and digest to the
 asset's content hash.
 
 Python compiles the capacity ladder from the catalog. Python and JavaScript
-load those same choices, accept decimal bytes and cap default content at 1 TB.
+load those same choices and accept decimal bytes. Larger drives begin with
+the 1 TB selection. Regional maps and topo sheets enter first, followed by
+non-English Wikipedia and the remaining pinned collections in tier and size
+order. The expansion targets 90% of the drive label when enough distinct
+content exists.
 The compiler deducts filesystem headroom, free reserve, readers and room for
 metadata and discovery. Every recommendation includes the entire CRITICAL tier
 and small samplers for enrichment, computing and college study.
@@ -31,6 +35,11 @@ increase attributed bytes in every field. English Wikipedia uses the same
 weights in all four editions and grows from top at 16 GB to mini, nopic, and
 illustrated maxi. MDWiki enters before the large school and general-reference
 archives.
+
+The 15 core lists in `catalog/capacity-order.yaml` identify specific L0 and
+L1 sources. The compiler keeps those sources at every transition and compares
+each field with its highest earlier attributed byte count. At least half of
+that peak must remain.
 
 Health, water and sanitation, food preservation, agriculture, shelter, and
 navigation stay at or above their previous attributed bytes at each transition.
@@ -47,36 +56,32 @@ Culture, college study, and computing share the last rank. The compiler
 uses the highest priority among the qualifying files entering a step. A
 collection of several files qualifies only through an individual file.
 
-The tests verify each transition and the final byte before the next transition.
-The 14 checkpoints each retain at least 97% of the usable knowledge budget.
-The 90% label-fill target has gaps between checkpoints before some larger
-files fit. The tests enforce an 86.64% label-fill floor at every byte capacity
-from 16 GB through 1 TB.
+The tests verify each transition and check the selection through the final
+byte before the next addition fits. The core and earlier-peak floors can
+leave more free space ahead of a large archive. The browser fills toward
+90% using deliverable collections and limits each proposed addition against
+the smallest later delivered core and depth selection for its fields.
 
 Each tier's retention is its selected knowledge bytes divided by its knowledge
 bytes in the 1 TB default. USEFUL retention must meet or exceed NONESSENTIAL
-retention at every drive size. At each checkpoint, a domain with at least 1 GB in
-the full default keeps at least one third of overall retention. A domain can fall
-short when its next asset exceeds 10% of the drive label. The next asset is the
-earliest omitted contributor from the 1 TB default by planning level, rank and ID.
+retention at every compiled step.
 For multi-subject archives, the catalog records attribution weights and their
 basis. These shares estimate subject breadth. Editorial review of actual tasks
 and relevant source editions determines coverage.
 
 ## Browser build and drive layout
 
-Round 2 uses the static Pages planner and a writable directory selected in
-Chromium. The browser asks the user to confirm available capacity because the
-directory handle exposes no volume statistics. The Python CLI can check free
+The static Pages planner builds into a directory selected in Chromium.
+The directory handle exposes no volume statistics. The site attempts an
+allocation probe on macOS and otherwise asks the user to confirm capacity. The Python CLI can check free
 space using the OS and serves as the fallback for browsers and sources that
 cannot complete the browser flow. Kiwix routes through its CORS mirror. Other
 sources need measured browser access, an authorized mirror or the CLI path.
 
 The build streams into the selected directory. It verifies bytes before
-publishing content and records completed parts on the same drive. It writes
-parts below the FAT32 file limit where the selected reader supports a split
-format. Browser builds need restartable checkpoints that survive a closed tab,
-sleep or drive removal. The drive starts at `START_HERE.html`. Documents,
+publishing content and records completed parts on the same drive. Large ZIMs checkpoint in 1 GiB parts. The browser can join those parts
+on the drive after verification. The journal supports resuming after
+a tab closes or after reconnection to the same drive. The drive starts at `START_HERE.html`. Documents,
 archives, readers, static indexes, search data, build state and checksums live
 under `LIBRARY/`, with stable relative paths and visible manual locators.
 

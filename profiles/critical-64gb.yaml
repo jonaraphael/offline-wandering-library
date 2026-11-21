@@ -16,6 +16,7 @@ default_resources:
 - eawag-sanitation-compendium-2e
 - energypedia
 - engineering-qa
+- environment-encyclopedia
 - fao-agriculture
 - food-preservation
 - gardenology
@@ -29,6 +30,7 @@ default_resources:
 - gutenberg-pf
 - gutenberg-pg
 - gutenberg-ph
+- gutenberg-pj
 - gutenberg-pk
 - gutenberg-pl
 - gutenberg-pm
@@ -41,6 +43,7 @@ default_resources:
 - ifrc-shelter-projects
 - libretexts-statistics
 - linux-programming-docs
+- low-tech-magazine
 - mathoverflow
 - mdwiki
 - medlineplus
@@ -66,7 +69,6 @@ default_resources:
 - water-supply-maintenance
 - who-emergency-care
 - who-wash
-- wikibooks-en
 - wikimed
 - wikipedia-en
 - wikispecies

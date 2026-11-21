@@ -27,6 +27,11 @@ DISCOVERY_DIVISOR = 100
 METADATA_BUDGET = 16 * 1024 * 1024
 LADDER_SUPPORT_BUDGET = GB + DISCOVERY_BUDGET
 READERS = "archive-readers"
+EXPANSION_FILL_PERCENT = 90
+REGIONAL_PACKS = ("regional-maps", "topo-usgs-northeast", "topo-usgs-mid-atlantic",
+                  "topo-usgs-appalachian", "topo-canada-nearby")
+LANGUAGE_PACKS = ("wikipedia-es", "wikipedia-fr", "wikipedia-zh", "wikipedia-ar",
+                  "wikipedia-pt", "wikipedia-it")
 
 
 def capacity_budget(capacity_bytes: int) -> dict[str, int]:
@@ -139,7 +144,13 @@ def _totals(assets):
     return tiers, fields
 
 
-def _validate_transition(capacity, before, after, previous_fields, fields, edition_replacements):
+def _validate_transition(capacity, before, after, previous_fields, fields, edition_replacements, peaks, core):
+    lost_core = sorted({aid for ids in core.values() for aid in ids} - after.keys())
+    if lost_core:
+        raise CatalogError(f"{capacity / GB:g} GB: capacity order omits core assets: {lost_core}")
+    below_floor = [field for field, peak in peaks.items() if 2 * fields[field] < peak]
+    if below_floor:
+        raise CatalogError(f"{capacity / GB:g} GB: field drops below half its earlier peak: {below_floor}")
     removed = before.keys() - after.keys()
     if any(fields[field] < previous_fields[field] for field in PROTECTED_FIELDS):
         raise CatalogError(f"{capacity / GB:g} GB: capacity order reduces a protected field")
@@ -158,11 +169,37 @@ def _validate_transition(capacity, before, after, previous_fields, fields, editi
         raise CatalogError(f"{capacity / GB:g} GB: field losses without a higher-priority archive: {drops}")
 
 
+def _expansion(assets, resources, choices, selected):
+    """Price additional pinned collections in the reviewed pack order."""
+    by_id = {asset["id"]: asset for asset in assets}
+    seen = set(selected) | set(resources[READERS]["asset_ids"])
+    # Other editions of a default collection remain available through the editor.
+    alternatives = {aid for rid in choices for edition in resources[rid].get("editions", {}).values()
+                    for aid in edition["asset_ids"]}
+    remainder = sorted(resources.keys() - choices.keys() - {READERS, *REGIONAL_PACKS, *LANGUAGE_PACKS},
+                       key=lambda rid: (resources[rid].get("utility_tier") != "USEFUL",
+                                        resources[rid]["target_bytes"], rid))
+    total = sum(by_id[aid]["size_bytes"] for aid in seen)
+    for rid in (*REGIONAL_PACKS, *LANGUAGE_PACKS, *remainder):
+        resource = resources.get(rid)
+        if not resource or resource["status"] != "ready" or resource["replaces_asset_ids"]:
+            continue
+        ids = set(resource["asset_ids"])
+        if not ids - seen or ids & alternatives or any(
+                by_id[aid]["status"] != "resolved" or by_id[aid].get("generation") for aid in ids):
+            continue
+        total += sum(by_id[aid]["size_bytes"] for aid in ids - seen)
+        seen.update(ids)
+        threshold = (100 * total + EXPANSION_FILL_PERCENT - 1) // EXPANSION_FILL_PERCENT
+        yield [max(DEFAULT_LIMIT + 1, threshold), rid]
+
+
 def compile_ladder(assets: list[dict], resources: dict[str, dict], order_path: Path | None = None) -> dict:
     """Compile ordered collection additions, edition upgrades and removals."""
     if order_path is None:
         order_path = Path(__file__).resolve().parents[2] / "catalog/capacity-order.yaml"
-    order = read_yaml(order_path).get("steps")
+    policy = read_yaml(order_path)
+    order = policy.get("steps")
     if not isinstance(order, list) or not order:
         raise CatalogError("Capacity order must have a nonempty steps list")
     for step in order:
@@ -183,6 +220,15 @@ def compile_ladder(assets: list[dict], resources: dict[str, dict], order_path: P
         additions.append(choices)
 
     by_id = {row["id"]: row for row in assets}
+    core = policy.get("core")
+    if not isinstance(core, dict) or core.keys() != FIELD_PRIORITY.keys():
+        raise CatalogError("Capacity order requires a core for every planning field")
+    for field, ids in core.items():
+        if (not isinstance(ids, list) or not ids or any(
+                not isinstance(aid, str) or aid not in by_id or
+                by_id[aid]["selection"]["level"] > 1 or not attributed_bytes(by_id[aid]).get(field)
+                for aid in ids) or len(ids) != len(set(ids))):
+            raise CatalogError(f"{field}: capacity core requires distinct level 0 or 1 references")
     members = {}
     for identity, name in {pair for choices in additions for pair in choices.items()}:
         resource = resources.get(identity)
@@ -215,6 +261,7 @@ def compile_ladder(assets: list[dict], resources: dict[str, dict], order_path: P
     active = {}
     selected = {}
     fields = Counter()
+    peaks = Counter()
     history = []
     capacities = []
     transitions = []
@@ -250,7 +297,8 @@ def compile_ladder(assets: list[dict], resources: dict[str, dict], order_path: P
         tiers, next_fields = _totals(current)
         if not mandatory <= current.keys():
             raise CatalogError(f"{capacity / GB:g} GB: capacity order omits required files")
-        _validate_transition(capacity, selected, current, fields, next_fields, edition_replacements)
+        _validate_transition(capacity, selected, current, fields, next_fields, edition_replacements, peaks, core)
+        peaks |= next_fields
         fields, selected = next_fields, current
         capacities.append(capacity)
         history.append(tiers)
@@ -270,6 +318,8 @@ def compile_ladder(assets: list[dict], resources: dict[str, dict], order_path: P
         "transitions": transitions,
         "filler_placements": [[rid, PUBLISHED] for rid in placements],
         "fillers": filler_steps,
+        "field_core": core,
+        "expansion": list(_expansion(assets, resources, active, selected)),
     }
 
 
@@ -282,6 +332,10 @@ def ladder_choices(capacity_bytes: int, ladder: dict) -> tuple[dict, dict]:
         core[resource] = edition
     fillers = ladder["fillers"]
     index = bisect_right(fillers, capacity, key=lambda row: row[0]) - 1
+    for threshold, resource in ladder.get("expansion", ()):
+        if threshold > capacity_bytes:
+            break
+        core[resource] = PUBLISHED
     return core, dict(ladder["filler_placements"][i] for i in fillers[index][1])
 
 

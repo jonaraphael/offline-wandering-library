@@ -27,6 +27,33 @@ the PDF’s first physical page. The bundled fixtures show the same marker
 article in `LIBRARY/ZIM/reader-test.zim` and in the two split parts
 `split-test.zimaa` and `split-test.zimab`.
 
+## Archive policy and reader support
+
+Browser downloads checkpoint in split parts. On drives that accept large
+files, the builder attempts an optional on-drive join. Check free space for
+the temporary second copy. If the join cannot fit, keep the split set
+together. Python writes a single file and rejects archives that exceed its
+detected FAT32 file limit.
+
+Windows and Linux Kiwix Desktop explicitly accepts `.zimaa`. Android
+external storage support depends on the reader variant and the file provider.
+Published reports show split-opening failures in Android 3.8.1/3.9.0 and in
+the 4.0.0 local-library flow. [Desktop file picker](https://github.com/kiwix/kiwix-desktop/blob/main/src/kiwixapp.cpp#L171-L189) ·
+[Android external storage issue](https://github.com/kiwix/kiwix-android/issues/3605) ·
+[Android local split issue](https://github.com/kiwix/kiwix-android/issues/4510)
+
+Apple grants directory-wide access when an app opens the directory through its
+document picker. Opening one external file grants access through that file’s
+security-scoped URL. Kiwix Apple 3.14.0 uses a one-file importer for the
+ZIM type and bookmarks the file’s URL. Split playback from USB remains
+unconfirmed. The Kiwix JS PWA
+documents selecting all pieces together. Test in-place playback and look for
+new phone-local storage use. [Apple directory access](https://developer.apple.com/documentation/uikit/providing-access-to-directories) ·
+[Apple external document access](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/DocumentPickerProgrammingGuide/AccessingDocuments/AccessingDocuments.html) ·
+[Kiwix Apple importer](https://github.com/kiwix/kiwix-apple/blob/3.14.0/Views/ViewModifiers/FileImport.swift#L39-L45) ·
+[Kiwix Apple file bookmark](https://github.com/kiwix/kiwix-apple/blob/3.14.0/Model/ZimFileService/ZimFileService.swift#L106-L123) ·
+[Kiwix JS PWA](https://kiwix.github.io/kiwix-js-pwa/dist/)
+
 ## Platform checks
 
 | Test | Procedure and expected result | Physical result |

@@ -78,7 +78,8 @@ def create_fixtures(drive, readers_from=None):
 <p>Open <a href="LIBRARY/BOOKS/phone-test.pdf">the phone test PDF</a>.
 If the link stays in preview, close it and open <code>LIBRARY/BOOKS/phone-test.pdf</code> in Files.</p>
 <p><a href="LIBRARY/SEARCH.html">Search the test library</a> for weather vane wind direction.
-Open <code>LIBRARY/ZIM/reader-test.zim</code> in Kiwix. Then try <code>LIBRARY/ZIM/split-test.zimaa</code>
+Open the single-file example <code>LIBRARY/ZIM/reader-test.zim</code> in Kiwix.
+Then try the first part of the split fallback, <code>LIBRARY/ZIM/split-test.zimaa</code>
 and keep its sibling part in the same folder.</p></main></html>
 """, encoding="utf-8")
     for name in ("textbooks", "illustrated-guides", "categories", "critical", "A"):

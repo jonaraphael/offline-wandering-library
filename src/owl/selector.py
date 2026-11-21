@@ -93,6 +93,24 @@ def _pages_template(template: str) -> str:
     )
     template = template.replace('<span class="step">1</span>Pick a starting size', "Choose a drive")
     template = template.replace('<span class="step">2</span>Choose your collections', "Choose your collections")
+    template = template.replace('<p class="stat-caption">', '<p id="browser-file-total" class="stat-caption">', 1)
+    for technical, plain in {
+        "Reader / software files, exact": "Apps for reading archives",
+        "Supporting files, exact": "Supporting files",
+        "Build downloads, exact": "Data to download",
+        "Expanded archive files, exact": "Files unpacked from ZIPs",
+        "Generated editions, exact": "Files the Python builder makes",
+        "Selected files on disk, exact": "Size of all selected files",
+        "Knowledge allocation, planned": "Space set aside for books and archives",
+        "Unmet knowledge budget": "Space left for more books and archives",
+        "Navigation / metadata": "Start page and shelf space",
+        "Content generation work and repair allowance": "Workspace for the Python builder",
+        "Free-space reserve": "Space left free",
+        "Planned finished files, before reserve": "Estimated finished library size",
+        "In-place peak reference, with reserve": "Most space the Python build may need",
+        "Available-file in-place reference": "Space needed for files available now",
+    }.items():
+        template = template.replace(technical, plain)
     template = template.replace("Downloadable knowledge</dt>", "Files for this build</dt>", 1)
     template = template.replace("Downloadable knowledge</span>", "Files for this build</span>", 1)
     template = template.replace('<p id="meter-caption"', '<p role="status" id="meter-caption"')
