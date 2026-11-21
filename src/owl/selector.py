@@ -76,7 +76,51 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
             "assets": [{**{key: a[key] for key in fields if key in a}, **({"discovery": discovery[a["id"]]} if a["id"] in discovery else {})} for a in assets]}
 
 
-def render_selector(model: dict) -> str:
+def _pages_template(template: str) -> str:
+    web = ROOT / "web"
+    guide = "https://github.com/jonaraphael/offline-wandering-library/blob/main/README.md"
+    template = template.replace("href=\"README.md\"", f'href="{guide}"')
+    template = template.replace("script-src 'unsafe-inline'", "script-src 'self' 'unsafe-inline'")
+    template = template.replace("connect-src 'none'", "connect-src 'self' https:")
+    template = template.replace("<html lang=\"en\">", '<html lang="en" class="pages">')
+    template = template.replace("</style>", (web / "pages.css").read_text(encoding="utf-8") + "</style>", 1)
+    template = template.replace('<span class="offline-pill">Works offline</span>', "")
+    template = template.replace(
+        'Start with a drive size, choose your collections, then copy the build command. '
+        '<strong>Everything here is a plan.</strong> This page runs no commands and downloads no content.',
+        'Connect an external drive, review the recommended files and build your offline library.',
+    )
+    template = template.replace('<span class="step">1</span>Pick a starting size', "Choose a drive")
+    template = template.replace('<span class="step">2</span>Choose your collections', "Choose your collections")
+    template = template.replace("Downloadable knowledge</dt>", "Files for this build</dt>", 1)
+    template = template.replace("Downloadable knowledge</span>", "Files for this build</span>", 1)
+    template = template.replace('<p id="meter-caption"', '<p role="status" id="meter-caption"')
+    template = template.replace('for="capacity-gb">Drive capacity in decimal GB', 'for="capacity-gb">Drive size in decimal GB')
+    template = template.replace('>Commands</a>', '>Build</a>').replace('href="#commands-heading">Build', 'href="#drive-build-heading">Build')
+    template = template.replace('OWL · No accounts, cloud services, or network requests in this planner.<br>'
+                                'Save the command with your catalog snapshot, then verify the finished SSD.',
+                                '<a href="mirror-credits.txt">Source credits</a> · '
+                                '<a href="SELECT.html">Offline planner</a>')
+    return template.replace(
+        '<script id="owl-model" type="application/json">__OWL_MODEL__</script>',
+        '<script>globalThis.OWLBuildPage = import("./builder-ui.mjs");</script>',
+    ).replace(
+        "<!-- OWL_DRIVE_PICKER -->", (web / "drive-picker.html").read_text(encoding="utf-8"),
+    ).replace(
+        "<!-- OWL_DRIVE_BUILD -->", (web / "drive-build.html").read_text(encoding="utf-8") +
+        '\n<details class="panel"><summary>Python build instructions</summary>',
+    ).replace(
+        "<!-- OWL_ACCOUNTING_START -->", '<details class="warning-details"><summary>Storage details</summary>',
+    ).replace(
+        "<!-- OWL_ACCOUNTING_END -->", "</details>",
+    ).replace(
+        '<span class="step">3</span>Take this plan to your terminal', "Build with Python",
+    ).replace(
+        '<section class="panel"><h3>Finished downloads</h3>', '</details><section class="panel legacy-help"><h3>Finished downloads</h3>',
+    )
+
+
+def render_selector(model: dict, *, pages: bool = False) -> str:
     # JSON lives in an inert script element; an imported title cannot close it.
     data = json.dumps(model, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     data = data.replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
@@ -84,6 +128,11 @@ def render_selector(model: dict) -> str:
     engine = (TEMPLATES / "selector.js").read_text(encoding="utf-8") + "\n" + (TEMPLATES / "selector-map.js").read_text(encoding="utf-8")
     if template.count("__OWL_MODEL__") != 1 or template.count("__OWL_ENGINE__") != 1:
         raise ValueError("Selector template requires exactly one model and engine placeholder")
+    if pages:
+        template = _pages_template(template)
+    else:
+        for marker in ("DRIVE_PICKER", "DRIVE_BUILD", "ACCOUNTING_START", "ACCOUNTING_END"):
+            template = template.replace(f"<!-- OWL_{marker} -->\n", "")
     return template.replace("__OWL_ENGINE__", engine).replace("__OWL_MODEL__", data)
 
 

@@ -1,0 +1,18 @@
+<section class="panel commands drive-build" aria-labelledby="drive-build-heading">
+  <h2 id="drive-build-heading">Build your library</h2>
+  <p class="field-help">Keep the drive connected and this tab open. If the build stops, reconnect the drive and choose Resume.</p>
+  <ul id="browser-plan-errors" class="field-help" hidden></ul>
+  <details id="browser-exclusions" class="warning-details" hidden>
+    <summary id="browser-exclusions-title"></summary>
+    <ul id="browser-exclusions-list"></ul>
+    <label class="check-label"><input id="accept-browser-files" type="checkbox"><span>Build with the available files. Use the Python build if you need the full selection.</span></label>
+  </details>
+  <div class="command-actions">
+    <button id="start-build" type="button" class="primary" disabled>Build library</button>
+    <button id="resume-build" type="button" hidden>Resume</button>
+    <button id="pause-build" type="button" hidden>Pause</button>
+  </div>
+  <progress id="build-progress" aria-label="Build progress" value="0" max="1"></progress>
+  <p id="browser-build-status" role="status"></p>
+  <ul id="browser-build-errors" class="field-help"></ul>
+</section>

@@ -39,7 +39,7 @@
     <div id="fatal" class="fatal" role="alert" hidden></div>
     <section aria-labelledby="preset-heading">
       <div class="section-heading"><h2 id="preset-heading"><span class="step">1</span>Pick a starting size</h2><button id="reset-preset" class="quiet-button" type="button">Reset this preset</button></div>
-      <div id="presets" class="presets" role="group" aria-label="Drive presets"></div>
+            <div id="presets" class="presets" role="group" aria-label="Drive presets"></div>
       <form id="custom-capacity" class="capacity-entry" hidden>
         <label for="capacity-gb">Drive capacity in decimal GB</label>
         <input id="capacity-gb" type="number" min="16" max="9007199" step="any" required>
@@ -93,7 +93,7 @@
           <p id="meter-caption" class="meter-caption"></p>
           <p id="coverage-counts" class="coverage-counts"></p>
           <details class="warning-details"><summary id="categories-title">Categories with downloadable files</summary><ul id="category-list" class="category-list"></ul></details>
-          <dl class="estimate-list">
+                    <dl class="estimate-list">
             <div class="estimate-row"><dt>Directly readable knowledge</dt><dd id="direct-bytes">—</dd></div>
             <div class="estimate-row"><dt>Reader / software files, exact</dt><dd id="software-bytes">—</dd></div>
             <div class="estimate-row"><dt>Supporting files, exact</dt><dd id="supporting-bytes">—</dd></div>
@@ -113,11 +113,11 @@
             <div class="estimate-row"><dt>Available-file in-place reference</dt><dd id="actual-peak-bytes">—</dd></div>
           </dl>
           <p class="estimate-foot">Discovery uses a small catalog of titles, chapters, and topics. Content downloads, verification, and acquisition space are accounted for separately.</p>
-          <div id="selection-status" class="status-box" role="status" aria-live="polite"><strong id="status-title">Loading the catalog…</strong><p id="status-description"></p><ul id="errors" hidden></ul></div>
+                    <div id="selection-status" class="status-box" role="status" aria-live="polite"><strong id="status-title">Loading the catalog…</strong><p id="status-description"></p><ul id="errors" hidden></ul></div>
           <details id="warnings-details" class="warning-details" hidden><summary id="warnings-title">Planning notes</summary><ul id="warnings"></ul></details>
           <details id="incomplete-details" class="warning-details" hidden><summary id="incomplete-title">Incomplete collections</summary><ul id="incomplete-list"></ul></details>
         </section>
-        <section class="panel commands" aria-labelledby="commands-heading">
+                <section class="panel commands" aria-labelledby="commands-heading">
           <h2 id="commands-heading"><span class="step">3</span>Take this plan to your terminal</h2>
           <p class="command-help">Run these from the installed OWL repository. Check the path before pasting. Nothing runs from this page.</p>
           <div class="field-grid">
@@ -202,7 +202,7 @@
     }
     return {include, exclude, editions, resourceAssets};
   }
-  function resolve(model, state) {
+  function resolve(model, state, {ignoreNativeCapacity = false} = {}) {
     const DIRECT = new Set(model.direct_reading_formats || []);
   const isDirect = asset => isDocument(asset) && DIRECT.has(asset.format.toLowerCase()) && !asset.reader_required &&
     !["SOFTWARE", "ZIM"].includes(asset.destination.split("/")[0]) && !isSoftware(asset);
@@ -351,9 +351,9 @@
     const phaseWorkingBytes = profile.discovery_budget_bytes;
     const peakBytes = intendedBytes + OVERHEAD + profile.reserve_bytes + Math.max(phaseWorkingBytes, buildInputWorkBytes) + acquisitionBytes;
     const actualPeakBytes = knownBytes + OVERHEAD + profile.reserve_bytes + Math.max(phaseWorkingBytes, buildInputWorkBytes) + acquisitionBytes;
-    if (finalBytes + profile.reserve_bytes > profile.capacity_bytes) errors.push("Selected content plus search and reserve exceeds this drive size.");
+    if (!ignoreNativeCapacity && finalBytes + profile.reserve_bytes > profile.capacity_bytes) errors.push("Selected content plus search and reserve exceeds this drive size.");
     if (!pinnedIds.length) errors.push("No verified downloadable files are selected.");
-    if (actualPeakBytes > profile.capacity_bytes) errors.push("Even the verified files exceed the conservative in-place build budget. Select less content or a larger drive.");
+    if (!ignoreNativeCapacity && actualPeakBytes > profile.capacity_bytes) errors.push("Even the verified files exceed the conservative in-place build budget. Select less content or a larger drive.");
     if (peakBytes > profile.capacity_bytes) warnings.push("The complete intended collection exceeds the in-place build budget, including discovery output. It does not fit as a complete in-place build at these allowances.");
     if (incomplete.length) warnings.push(incomplete.length + " selected collections need source selection, permissions, or verified files. A partial build contains only currently pinned files.");
     // Count actual cataloged files exactly once, independently of collection planning budgets.
@@ -669,7 +669,7 @@
   const profileSizes = [["flash-16gb", "16 GB", "Pocket essentials"], ["critical-64gb", "64 GB", "Critical library"],
     ["compact-256gb", "256 GB", "Read & repair"], ["standard-512gb", "512 GB", "Rebuild & learn"],
     ["full-1tb", "1 TB", "Broad library"]];
-  let model, state, result, topicMap, inspected, mapAvailable=false, topicScope={}, matchingAssetIds=new Set();
+  let model, state, result, browserPage, topicMap, inspected, mapAvailable=false, topicScope={}, matchingAssetIds=new Set();
   function element(tag, className, text) {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -1000,7 +1000,7 @@
   function render() {
     try {
       byId("fatal").hidden = true;
-      result = OWLPlanner.resolve(model, state);
+      result = OWLPlanner.resolve(model, state, {ignoreNativeCapacity: Boolean(browserPage)});
       const estimate = result.estimates, coverage = result.coverage;
       for (const [profile, button] of presetButtons) button.setAttribute("aria-pressed", String(profile === state.profile && state.capacityBytes === undefined));
       const profile = OWLPlanner.profileFor(model, state.profile, state.capacityBytes);
@@ -1075,6 +1075,7 @@
       byId("selected-count").textContent = result.rows.filter(row => row.included || row.autoIncluded).length + " selected";
       byId("copy-feedback").textContent = "";
       filterCards(); renderCommands();
+      browserPage?.update(result, state);
     } catch (error) { failure(error); }
   }
   async function copyCommand(id) {
@@ -1089,8 +1090,13 @@
       byId("copy-feedback").textContent = "Command selected. Use your device's Copy action, Ctrl+C, or Command+C.";
     }
   }
-  try {
-    model = JSON.parse(byId("owl-model").textContent);
+  async function initialize() {
+    const pages = globalThis.OWLBuildPage && await globalThis.OWLBuildPage;
+    if (pages) {
+      const catalog = await pages.load();
+      model = catalog.planner;
+      browserPage = pages.mount({catalog, recommend: capacity => choosePreset("flash-16gb", capacity)});
+    } else model = JSON.parse(byId("owl-model").textContent);
     mapAvailable=OWLTopicMap.available(model);
     byId("map-panel").hidden=!mapAvailable;
     byId("map-unavailable").hidden=mapAvailable;
@@ -1124,7 +1130,8 @@
     byId("copy-plan").addEventListener("click", () => copyCommand("plan-command"));
     byId("copy-build").addEventListener("click", () => copyCommand("build-command"));
     choosePreset(model.profiles.some(profile => profile.id === "flash-16gb") ? "flash-16gb" : model.profiles[0].id);
-  } catch (error) { failure(error); }
+  }
+  initialize().catch(failure);
 })();
 </script>
 </body>

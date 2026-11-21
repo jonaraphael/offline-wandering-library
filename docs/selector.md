@@ -1,5 +1,8 @@
 # Choose a library with the offline selector
 
+The [Pages builder](pages-builder.md) uses the same collection, file and topic controls.
+This guide describes the standalone selector and the Python build.
+
 Build commands include `--detach`: Python starts a saved background job, then
 returns its job directory for status, cancellation, or resume. Planning commands
 remain read-only foreground checks. See [unattended builds](unattended-builds.md).

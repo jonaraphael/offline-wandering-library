@@ -55,7 +55,7 @@
     }
     return {include, exclude, editions, resourceAssets};
   }
-  function resolve(model, state) {
+  function resolve(model, state, {ignoreNativeCapacity = false} = {}) {
     const DIRECT = new Set(model.direct_reading_formats || []);
   const isDirect = asset => isDocument(asset) && DIRECT.has(asset.format.toLowerCase()) && !asset.reader_required &&
     !["SOFTWARE", "ZIM"].includes(asset.destination.split("/")[0]) && !isSoftware(asset);
@@ -204,9 +204,9 @@
     const phaseWorkingBytes = profile.discovery_budget_bytes;
     const peakBytes = intendedBytes + OVERHEAD + profile.reserve_bytes + Math.max(phaseWorkingBytes, buildInputWorkBytes) + acquisitionBytes;
     const actualPeakBytes = knownBytes + OVERHEAD + profile.reserve_bytes + Math.max(phaseWorkingBytes, buildInputWorkBytes) + acquisitionBytes;
-    if (finalBytes + profile.reserve_bytes > profile.capacity_bytes) errors.push("Selected content plus search and reserve exceeds this drive size.");
+    if (!ignoreNativeCapacity && finalBytes + profile.reserve_bytes > profile.capacity_bytes) errors.push("Selected content plus search and reserve exceeds this drive size.");
     if (!pinnedIds.length) errors.push("No verified downloadable files are selected.");
-    if (actualPeakBytes > profile.capacity_bytes) errors.push("Even the verified files exceed the conservative in-place build budget. Select less content or a larger drive.");
+    if (!ignoreNativeCapacity && actualPeakBytes > profile.capacity_bytes) errors.push("Even the verified files exceed the conservative in-place build budget. Select less content or a larger drive.");
     if (peakBytes > profile.capacity_bytes) warnings.push("The complete intended collection exceeds the in-place build budget, including discovery output. It does not fit as a complete in-place build at these allowances.");
     if (incomplete.length) warnings.push(incomplete.length + " selected collections need source selection, permissions, or verified files. A partial build contains only currently pinned files.");
     // Count actual cataloged files exactly once, independently of collection planning budgets.

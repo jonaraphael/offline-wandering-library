@@ -6,7 +6,15 @@ below take this outer directory; the verifier, inventories, indexes, content and
 private resume state live inside `LIBRARY`. Catalog destinations remain relative
 to `LIBRARY`, while the global checksum manifest records outer-directory paths.
 
-## Prepare
+## Build in Chrome or Edge
+
+The [Pages builder](https://jonaraphael.github.io/offline-wandering-library/) opens
+a folder on your external drive, recommends a selection and writes the verified
+files, shelves and atlas to that drive. If access stops, reopen the site and choose
+**Resume**. The [browser build guide](pages-builder.md) covers size confirmation,
+source exclusions and reader compatibility.
+
+## Prepare for the Python build
 
 1. Use a dependable SSD and cable. Format it with your operating system’s ordinary disk tools if needed; OWL does not format drives. exFAT is the intended cross-platform filesystem.
 2. Identify the SSD’s mount location carefully. Use a dedicated `EMERGENCY_LIBRARY` directory so the library is easy to find.

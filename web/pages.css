@@ -1,0 +1,13 @@
+.pages .drive-picker{margin:1rem 0}
+.pages .hero .eyebrow,.pages .stat-caption,.pages #coverage-summary,
+.pages #coverage-counts,.pages #categories-title,.pages #selection-status,
+.pages #warnings-details,.pages #content-gap,.pages .legacy-help,
+.pages #mobile-peak,.pages .mobile-stat:has(#mobile-peak){display:none}
+.pages #categories-title+ul{display:none}
+.pages #categories-title:only-child{display:none}
+.pages #preset-note{margin-bottom:1.2rem}
+.pages .drive-build progress{width:100%;margin-top:.9rem;accent-color:var(--green)}
+.pages #browser-build-errors:empty,.pages #browser-plan-errors:empty{display:none}
+.pages #browser-build-errors,.pages #browser-exclusions-list{max-height:12rem;overflow:auto;padding-left:1.3rem}
+.pages #browser-build-status{font-size:.87rem;overflow-wrap:anywhere}
+.pages .mobile-budget-inner{grid-template-columns:1fr auto}

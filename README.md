@@ -8,7 +8,18 @@ Every selectable asset passes the [machine-readable content-type policy](src/owl
 
 ## Build a drive
 
-Connect an already formatted drive, clone this repo, and open [SELECT.html](SELECT.html). Choose a common size or enter your drive capacity in decimal GB, edit the recommendation, and copy the generated build command into your terminal. The page itself does not execute commands or download files.
+Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-library/)
+in desktop Chrome or Edge. Connect an exFAT drive and choose its folder. Confirm
+the size if free space cannot be estimated. Edit the recommendation and choose
+**Build library**. Keep the tab open and the drive attached. Use **Resume** to
+continue a saved build. The page lists files that need the Python build.
+[Browser build guide](docs/pages-builder.md)
+
+### Build with Python
+
+Use Python for the full catalog or when your browser cannot write to the drive.
+Clone the repository and open [SELECT.html](SELECT.html) to choose a size, edit
+the recommendation, and copy the build command.
 
 ```bash
 git clone https://github.com/jonaraphael/offline-wandering-library.git
@@ -28,7 +39,7 @@ Python 3.11+ and internet access are needed to build. Reading ordinary PDFs does
 
 Search and atlas now compile from titles, descriptions, aliases, topics, and reviewed section maps. Builds do not extract or index document bodies. Each profile reserves 16 MiB for discovery output; there is no indexing workspace or cache. Downloads and full integrity verification still read source bytes.
 
-The selector's command uses `--detach` to start a saved background job. Inspect, cancel or resume it with `scripts/build_job.py`; see [unattended builds](docs/unattended-builds.md). For foreground builds, pause with Ctrl-C, wait for the prompt and rerun the command to resume. Keep the drive connected while the job is active.
+The standalone selector's command uses `--detach` to start a saved background job. Inspect, cancel or resume it with `scripts/build_job.py`; see [unattended builds](docs/unattended-builds.md). For foreground builds, pause with Ctrl-C, wait for the prompt and rerun the command to resume. Keep the drive connected while the job is active.
 
 ## Capacity and content
 
