@@ -1,6 +1,7 @@
 import {sha256} from "./vendor/noble-hashes/sha2.js";
 import {bytesToHex} from "./vendor/noble-hashes/utils.js";
 import {fileHandle, optional, writeFile} from "./drive.mjs";
+import {receiveFile, SourceError} from "./network.mjs";
 
 const root = "LIBRARY/SEARCH/";
 const dig = /^[a-f0-9]{64}$/;
@@ -9,7 +10,7 @@ const charge = row => encoder.encode(JSON.stringify(row)).length;
 const wrap = (name, value) => "globalThis." + name + "(" + JSON.stringify(value) + ");\n";
 const locator = path => path.split("/").map(encodeURIComponent).join("/");
 
-async function transfer(drive, base, path, pin, fetchFile, signal) {
+async function transfer(drive, base, path, pin, fetchFile, signal, network) {
   if (!dig.test(pin.sha256) || !Number.isInteger(pin.bytes) || pin.bytes < 1 || pin.bytes > 3_000_000) {
     throw Error("Invalid precomputed search file pin");
   }
@@ -18,31 +19,31 @@ async function transfer(drive, base, path, pin, fetchFile, signal) {
   if (existing?.size === pin.bytes && bytesToHex(sha256(new Uint8Array(await existing.arrayBuffer()))) === pin.sha256) {
     return pin.sha256 + "  " + relative;
   }
-  const response = await fetchFile(base + path, {signal, credentials: "omit", cache: "no-store"});
-  if (!response.ok || !response.body) throw Error("HTTP " + response.status + " reading a search file");
   const data = new Uint8Array(pin.bytes);
-  const reader = response.body.getReader();
-  let offset = 0;
-  try {
-    for (;;) {
-      const packet = await reader.read();
-      if (packet.done) break;
-      if (offset + packet.value.length > pin.bytes) throw Error("Search file exceeds pinned size");
-      data.set(packet.value, offset);
-      offset += packet.value.length;
-    }
-  } finally {
-    void reader.cancel().catch(() => {});
-    reader.releaseLock();
-  }
-  if (offset !== pin.bytes || bytesToHex(sha256(data)) !== pin.sha256) throw Error("Search file SHA-256 differs");
+  await network.retry(async () => {
+    let offset = 0;
+    await receiveFile(base + path, {
+      fetchFile, signal,
+      check(response) {
+        if (!response.ok) throw new SourceError("HTTP " + response.status + " reading a search file");
+      },
+      onChunk(chunk) {
+        if (offset + chunk.length > pin.bytes) throw new SourceError("Search file exceeds pinned size");
+        data.set(chunk, offset);
+        offset += chunk.length;
+      }
+    });
+    if (offset !== pin.bytes || bytesToHex(sha256(data)) !== pin.sha256)
+      throw new SourceError("Search file SHA-256 differs", {connection: offset < pin.bytes});
+  });
   await writeFile(drive, relative, data);
   return pin.sha256 + "  " + relative;
 }
 
-export async function assembleSearch(drive, {completed, layouts, navigation, config, fetchFile, signal, budget}) {
-  const {manifest, base, records, page, runtime, rankRuntime} = config;
+export async function assembleSearch(drive, {completed, layouts, navigation, config, fetchFile, signal, budget, network}) {
+  const {manifest, base, records, page, runtime, rankRuntime, queryRoutes = {}} = config;
   const warnings = [];
+  const omittedForSpace = [];
   const modelParts = manifest.model_parts || [];
   const selection = {version: 1, sources: [], model_parts: modelParts.length};
   const checksums = new Map();
@@ -63,10 +64,13 @@ export async function assembleSearch(drive, {completed, layouts, navigation, con
   if (matches.length && manifest.model && manifest.license) {
     const files = [["model.js", manifest.model], ["model-license.txt", manifest.license],
       ...modelParts.map((pin, number) => ["model/" + String(number).padStart(2, "0") + ".js", pin])];
-    if (files.reduce((sum, [, pin]) => sum + pin.bytes, 0) > remaining) matches.length = 0;
+    if (files.reduce((sum, [, pin]) => sum + pin.bytes, 0) > remaining) {
+      omittedForSpace.push(...matches.map(asset => asset.id));
+      matches.length = 0;
+    }
     try {
       for (const [path, pin] of matches.length ? files : []) {
-        const line = await transfer(drive, base, path, pin, fetchFile, signal);
+        const line = await transfer(drive, base, path, pin, fetchFile, signal, network);
         checksums.set(path, line);
         remaining -= pin.bytes;
       }
@@ -89,20 +93,32 @@ export async function assembleSearch(drive, {completed, layouts, navigation, con
       category: asset.category, critical: Boolean(asset.critical),
       discussion: (asset.source_url || "").includes("/stack_exchange/"),
       destination: layouts.get(asset.id)[0].path.slice("LIBRARY/".length), license: asset.license,
-      attribution: meta.attribution, shelves: meta.shelves || [], legacy: Boolean(meta.legacy),
+      attribution: meta.attribution, restricted: asset.redistributable === false, shelves: meta.shelves || [], legacy: Boolean(meta.legacy),
       records: shard.records, main: shard.main, entrypoints: shard.entrypoints, parts: parts.map(
-        ({pool, number, pin: {bloom, vectors, passages, lead_vectors, semantic_vectors}}) =>
-          ({bloom, vectors, passages, lead_vectors, semantic_vectors, ...(shard.shared && {pool, number})}))};
-    const paths = parts.map(({pool, number}) => "sources/" + pool + "/" + String(number).padStart(5, "0") + ".js");
-    const cost = charge(row) + parts.reduce((sum, {pin}, index) => sum + (checksums.has(paths[index]) ? 0 : pin.bytes), 0);
-    if (cost > remaining) continue;
+        ({pool, number, pin}) => {
+          const {bloom, vectors, passages, lead_vectors, semantic_vectors, sha256, bytes, path} = pin;
+          const route = queryRoutes[sha256];
+          return {bloom, vectors, passages, lead_vectors, semantic_vectors, ...(shard.shared && {pool, number}),
+            ...(route && {route, bytes}), ...(path && {path})};
+        })};
+    const paths = parts.map(({pool, number, pin}) => {
+      if (!pin.path) return "sources/" + pool + "/" + String(number).padStart(5, "0") + ".js";
+      if (!dig.test(pin.sha256) || pin.path !== "chunks/" + pin.sha256 + ".js") throw Error("Invalid search chunk path");
+      return pin.path;
+    });
+    const newParts = new Map(paths.flatMap((path, index) => checksums.has(path) ? [] : [[path, parts[index].pin.bytes]]));
+    const cost = charge(row) + [...newParts.values()].reduce((sum, bytes) => sum + bytes, 0);
+    if (cost > remaining) {
+      omittedForSpace.push(asset.id);
+      continue;
+    }
     const whole = sha256.create();
     try {
       for (const [index, {pin}] of parts.entries()) {
         signal?.throwIfAborted();
         const path = paths[index];
         if (!checksums.has(path)) {
-          const line = await transfer(drive, base, path, pin, fetchFile, signal);
+          const line = await transfer(drive, base, path, pin, fetchFile, signal, network);
           checksums.set(path, line);
           remaining -= pin.bytes;
         }
@@ -130,7 +146,7 @@ export async function assembleSearch(drive, {completed, layouts, navigation, con
     pages.set(root + "rank.js", rankRuntime);
     pages.set(root + "shards.js", wrap("OWLShardSelection", selection));
   }
-  const coverage = {format, assets: selection.sources.map(({id, sha256, records}) => ({id, sha256, records})), warnings};
+  const coverage = {format, assets: selection.sources.map(({id, sha256, records}) => ({id, sha256, records})), omittedForSpace, warnings};
   pages.set(root + "coverage.json", JSON.stringify(coverage, null, 2) + "\n");
   pages.set(root + "manifest.js", wrap("OWLDiscoveryManifest", {format, path, sha256: digest,
     generation, records: recordsHere.length, shards: composed}));

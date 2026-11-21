@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from base64 import b64decode
 from hashlib import sha256
 from pathlib import Path
 import shutil
@@ -15,7 +16,8 @@ from pypdf import PdfWriter
 from pypdf.generic import DecodedStreamObject, DictionaryObject, NameObject
 
 from owl.discovery import plan_discovery
-from owl.search_shards import MODEL_FILE, SEARCH_ROOT, payload, packed_part, part_path, Record, script
+from owl.search_shards import (MODEL_FILE, SEARCH_ROOT, Record, load_manifest, model_files,
+                               packed_part, part_path, payload, read_file, script)
 from owl.search_model import Potion
 
 
@@ -95,15 +97,22 @@ and keep its sibling part in the same folder.</p></main></html>
     files, _ = plan_discovery([asset])
     manifest = payload(files["SEARCH/manifest.js"].encode("utf-8"), "OWLDiscoveryManifest")
     manifest["shards"] = True
-    model_bytes = (SEARCH_ROOT / MODEL_FILE).read_bytes()
-    model = Potion(payload(model_bytes, "OWLShardModel"))
+    pins = load_manifest()
+    weights = []
+    for name, pin in model_files(pins):
+        body = read_file(SEARCH_ROOT, name, pin)
+        files["SEARCH/" + name] = body.decode("utf-8")
+        if name.startswith("model/"):
+            weights.append(b64decode(payload(body, "OWLModelWeights")[1]))
+    model = Potion(payload(files["SEARCH/" + MODEL_FILE].encode(), "OWLShardModel"), b"".join(weights))
     row = Record("Weather vane", 1, lead="A vane shows the direction of the wind.")
-    part, vectors, bloom = packed_part(digest, 0, [row], model)
-    entry = {**asset, "parts": [{"bloom": bloom, "vectors": vectors}], "shelves": [], "records": 1,
+    part, vectors, bloom, _ = packed_part(digest, 0, [row], model)
+    entry = {**asset, "parts": [{"bloom": bloom, "vectors": vectors, "semantic_vectors": vectors}], "shelves": [], "records": 1,
              "legacy": False, "license": "MIT", "attribution": ""}
     files["SEARCH/manifest.js"] = script("OWLDiscoveryManifest", manifest).decode("ascii")
-    files["SEARCH/shards.js"] = script("OWLShardSelection", {"version": 1, "sources": [entry]}).decode("ascii")
-    files["SEARCH/" + MODEL_FILE] = model_bytes.decode("ascii")
+    files["SEARCH/shards.js"] = script("OWLShardSelection", {
+        "version": 1, "sources": [entry], "model_parts": len(weights),
+    }).decode("ascii")
     files["SEARCH/" + part_path(digest, 0)] = part.decode("ascii")
     files["SEARCH/rank.js"] = Path(__file__).resolve().parents[1].joinpath("src/owl/templates/rank.js").read_text(encoding="utf-8")
     for name, contents in files.items():

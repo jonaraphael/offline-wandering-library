@@ -54,6 +54,11 @@ new phone-local storage use. [Apple directory access](https://developer.apple.co
 [Kiwix Apple file bookmark](https://github.com/kiwix/kiwix-apple/blob/3.14.0/Model/ZimFileService/ZimFileService.swift#L106-L123) ·
 [Kiwix JS PWA](https://kiwix.github.io/kiwix-js-pwa/dist/)
 
+New browser builds use single-file archives on exFAT or NTFS when the
+single-file option is selected. The FAT32 option writes split files.
+A single file avoids dependence on split-reader support. USB access, phone
+provisioning and in-place playback still depend on the individual device.
+
 ## Platform checks
 
 | Test | Procedure and expected result | Physical result |

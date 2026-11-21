@@ -160,6 +160,10 @@
     return value >>> 0;
   }
 
+  function pairHash(left, right) {
+    return Math.imul(Math.min(left, right) ^ 0x5bd1e995, Math.max(left, right) | 1) >>> 0;
+  }
+
   function routeHits(bits, query) {
     const mask = bits.length * 8 - 1;
     let hits = 0;
@@ -423,13 +427,21 @@
   }
 
   function result(asset, hit, part) {
-    const [title, locator, lead] = hit.row;
+    const [rawTitle, locator, lead] = hit.row;
+    let title = rawTitle;
+    if (asset.restricted && asset.format === 'pdf') {
+      const heading = rawTitle.replace(/(?:^| · )Page \d+$/i, '');
+      const outline = asset.entrypoints?.findLast(([page, name]) => typeof page === 'number' &&
+        page <= locator && !/^Page \d+$/i.test(name))?.[1].replace(/ · Page \d+$/i, '');
+      const section = heading || outline;
+      title = [asset.title, section && section !== asset.title ? section : '', 'Page ' + locator].filter(Boolean).join(' · ');
+    }
     const archive = asset.format === 'zim';
     const destination = asset.destination;
     const href = destination.split('/').map(encodeURIComponent).join('/') +
       (asset.format === 'pdf' ? '#page=' + locator :
         !archive && locator ? '#' + encodeURIComponent(locator) : '');
-    return {score: hit.score, fullMatch: hit.fullMatch, focused: hit.focused, indexed: true, record: {id: asset.id + ':' + part + ':' + hit.index,
+    return {score: hit.score, rankTitle: rawTitle, fullMatch: hit.fullMatch, focused: hit.focused, indexed: true, record: {id: asset.id + ':' + part + ':' + hit.index,
       asset_id: asset.id, title, description: lead, source_title: asset.title, href, destination,
       kind: archive ? 'article' : 'section', reader_required: archive,
       location: archive ? 'Archive path: ' + locator : asset.format === 'pdf' ? 'Page ' + locator :
@@ -437,26 +449,104 @@
       license: asset.license, attribution: asset.attribution}};
   }
 
-  async function search(selection, encodeQuery, readPart, text, shelf = 'all', limit = 30,
-                        cancelled = () => false, onProgress) {
-    const query = prepareQuery(text, encodeQuery);
-    if (!query.query.length || cancelled()) return [];
+  const READ_BUDGET = 28_000_000;
+  const decoded = new WeakMap();
+
+  function rankedQueue(selection, query, shelf = 'all', budget = Infinity) {
     const queue = [];
+    const exact = [hashTerm('^' + query.phrase), hashTerm('^' + query.original)];
+    const pairs = [];
+    for (const terms of [query.query, ...query.evidence]) {
+      const keys = terms.map(hashTerm);
+      for (let left = 0; left < keys.length; left++)
+        for (let right = left + 1; right < keys.length; right++) pairs.push(pairHash(keys[left], keys[right]));
+    }
+    let routed = false;
     for (const asset of selection.sources) {
       if (!filter(asset, shelf)) continue;
+      const discussion = sourcePolicy(asset).discussion;
+      const sourceQueue = [];
       for (const [number, part] of asset.parts.entries()) {
-        const hits = routeHits(atob(part.bloom), query.routing);
-        if (hits || query.vector && !query.emergency && semanticPart(part))
-          queue.push({asset, number, hits, priority: partPriority(asset, part, query)});
+        let data = decoded.get(part);
+        if (!data) {
+          data = {bloom: atob(part.bloom), lexical: part.route && bytes(part.route[0]),
+            centroids: part.route?.[1] ? bytes(part.route[1]) : null};
+          decoded.set(part, data);
+        }
+        const hits = routeHits(data.bloom, query.routing);
+        if (!hits && (!query.vector || query.emergency || discussion || !semanticPart(part))) continue;
+        const priority = partPriority(asset, part, query);
+        let score = priority + hits;
+        if (data.lexical) {
+          routed = true;
+          const mask = data.lexical.length * 8 - 1;
+          const matches = key => [key & mask, (key >>> 15) & mask].every(bit =>
+            data.lexical[bit >>> 3] & (1 << (bit & 7)));
+          const exactMatch = exact.some(matches);
+          const pairStrength = pairs.filter(matches).length;
+          const primaryHits = routeHits(data.bloom, query.query);
+          let affinity = 0;
+          if (query.vector && !query.emergency && !discussion && data.centroids)
+            for (let offset = 0; offset < data.centroids.length; offset += 32)
+              affinity = Math.max(affinity, vectorScore(query.vector, data.centroids.subarray(offset, offset + 32), true));
+          const small = part.bytes < 200_000;
+          score = 6 * priority + 3.5 * primaryHits / query.query.length +
+            (exactMatch ? 3 : 0) + 2.5 * Math.log1p(pairStrength) +
+            12 * Math.max(0, affinity - 0.17) + (asset.format === 'pdf' ? 3 : 0) +
+            (asset.critical ? 1 : 0) + (small ? 1 : 0) - (discussion && semanticPart(part) ? 1 : discussion ? 4 : 0);
+        }
+        sourceQueue.push({asset, number, hits, priority, score});
       }
+      const ranked = [...sourceQueue].sort((a, b) => b.score - a.score || b.hits - a.hits);
+      for (const [index, item] of ranked.entries()) {
+        item.score -= Math.log2(1 + index) * (asset.critical ? 0.45 : 1.4);
+      }
+      queue.push(...sourceQueue);
     }
-    queue.sort((a, b) => b.priority - a.priority || b.hits - a.hits);
+    if (!routed) return queue.sort((a, b) => b.priority - a.priority || b.hits - a.hits);
+    queue.sort((a, b) => b.score - a.score || b.hits - a.hits);
+    const charged = new Set();
+    let remaining = budget;
+    return queue.filter(({asset, number}) => {
+      const part = asset.parts[number];
+      const key = partAddress(asset, number);
+      if (charged.has(key)) return true;
+      const size = part.bytes || 200_000;
+      if (size > remaining) return false;
+      charged.add(key);
+      remaining -= size;
+      return true;
+    });
+  }
+
+  function partAddress(asset, number) {
+    const part = asset.parts[number];
+    return part.path || (part.pool || asset.sha256) + ':' + (part.number ?? number);
+  }
+
+  async function search(selection, encodeQuery, readPart, text, shelf = 'all', limit = 30,
+                        cancelled = () => false, onProgress, budget = Infinity) {
+    const query = prepareQuery(text, encodeQuery);
+    if (!query.query.length || cancelled()) return [];
+    const queue = rankedQueue(selection, query, shelf, budget);
+    const multiple = new Map();
+    for (const {asset, number} of queue) {
+      const key = partAddress(asset, number);
+      multiple.set(key, (multiple.get(key) || 0) + 1);
+    }
+    const shared = new Map();
     const matches = [];
     let updatedAt = -Infinity;
     for (const {asset, number} of queue) {
       if (cancelled()) return [];
       const part = asset.parts[number];
-      const chunk = await readPart(part.pool || asset.sha256, part.number ?? number, query.routing);
+      const address = partAddress(asset, number);
+      const chunk = shared.get(address) ?? await readPart(part.pool || asset.sha256, part.number ?? number,
+        query.pediatricHealth ? [...query.routing, ...deliveryTerms] : query.routing, part.path);
+      const left = multiple.get(address) - 1;
+      multiple.set(address, left);
+      if (left) shared.set(address, chunk);
+      else shared.delete(address);
       if (cancelled()) return [];
       const hits = rankPart(chunk, query, asset, limit);
       if (!hits.length) continue;
@@ -470,7 +560,7 @@
     return topResults(matches, limit);
   }
 
-  const order = (a, b) => b.score - a.score || a.record.title.localeCompare(b.record.title, 'en') ||
+  const order = (a, b) => b.score - a.score || (a.rankTitle || a.record.title).localeCompare(b.rankTitle || b.record.title, 'en') ||
     a.record.id.localeCompare(b.record.id, 'en');
 
   const fullPassage = hit => hit.fullMatch && hit.record.kind === 'section';
@@ -498,7 +588,21 @@
     }
     const [best, second, third, ...other] = first;
     const head = [best, second, third].filter(Boolean);
-    const passages = other.filter(fullPassage).slice(0, 3);
+    const pageHits = other.filter(fullPassage);
+    let passages = pageHits.slice(0, 3);
+    // A reference can have many pages with identical term scores. Let
+    // different books with that score surface before its repeated pages.
+    if (passages.length === 3 && passages[0].score === passages[2].score &&
+        new Set(passages.map(hit => hit.record.asset_id)).size < 3 && !first.some(hit => hit.focused)) {
+      const represented = new Set();
+      const tied = pageHits.filter(hit => {
+        const id = hit.record.asset_id;
+        if (hit.score !== passages[0].score || represented.has(id)) return false;
+        represented.add(id);
+        return true;
+      });
+      if (tied.length >= 3) passages = tied.slice(0, 4);
+    }
     const promoted = new Set(passages);
     return [...head, ...passages, ...other.filter(hit => !promoted.has(hit)), ...later].slice(0, limit);
   }
@@ -530,18 +634,24 @@
     // Each page owns one script callback at a time. New searches can cancel reads
     // between chunks, so they cannot replace callbacks for an active script.
     let queue = Promise.resolve();
-    const readPart = (digest, number, query) => {
+    const readPart = (digest, number, query, path) => {
+      if (path && !/^chunks\/[a-f0-9]{64}\.js$/.test(path)) return Promise.reject(Error('Invalid search chunk path'));
       if (!/^[a-f0-9]{64}$/.test(digest) || !Number.isInteger(number) || number < 0 || number >= 100000)
         return Promise.reject(Error('Invalid search shard'));
       const task = queue.then(async () => {
         let data;
-        root.OWLShardPart = value => { data = value; };
+        const callback = path ? 'OWLShardBlob' : 'OWLShardPart';
+        root[callback] = value => { data = value; };
         try {
-          await script('SEARCH/sources/' + digest + '/' + String(number).padStart(5, '0') + '.js');
+          await script('SEARCH/' + (path || 'sources/' + digest + '/' + String(number).padStart(5, '0') + '.js'));
+          if (path) {
+            if (typeof data !== 'string') throw Error('Search chunk could not load');
+            return await unpack(data, query);
+          }
           if (!data || data[0] !== digest || data[1] !== number) throw Error('Search shard identity differs');
           return await unpack(data[2], query);
         } finally {
-          delete root.OWLShardPart;
+          delete root[callback];
         }
       });
       queue = task.catch(() => {});
@@ -552,7 +662,7 @@
   }
 
   const api = {classic, model, binaryQuery, bytes, search, terms, prepareQuery, shouldRead, unpack, rankPart, normalize, result,
-    retainCandidates, topResults};
+    retainCandidates, topResults, hashTerm, pairHash, rankedQueue, readBudget: READ_BUDGET};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLShardRank = api;
 })(globalThis);

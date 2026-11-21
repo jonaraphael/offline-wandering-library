@@ -18,8 +18,9 @@ postings, vectors and locators for the exact source edition. New PDF shards
 index passages on individual physical pages and carry forward outline headings.
 New HTML shards segment visible text by headings and use the source’s existing
 anchors where present. Sources with image-only pages still supply page locators.
-A restricted source’s text contributes word postings and vectors. The stored
-records carry its headings and locators. New archive shards index article titles
+A restricted source’s text contributes word postings and vectors. Result
+titles include the book or source title, any available section heading, and
+the physical page. Restricted text excerpts are suppressed. New archive shards index article titles
 and paths, and selected archives also contribute lead paragraphs or accepted
 answers. Archive coverage varies by source. [ZIM coverage](zim-search-coverage.md)
 
@@ -50,13 +51,18 @@ route them to chunks. Hamming distance admits additional passage and lead
 candidates. The ranker compares each compact code with the full query vector
 and combines similarity, word matches and source priority. Emergency queries
 prefer matching critical sources. Childhood symptoms and childbirth receive
-different ranking treatment. Catalog results appear while indexed results load.
+different ranking treatment. Catalog results appear first. Precomputed
+token-pair filters and vector centroids order the chunks likely to yield
+relevant hits. The page displays early indexed hits as it goes and continues
+the ranking pass to retain recall. The length of a complete pass depends on
+the query and selected sources.
 
 ## Precompute and verify
 
 ```sh
 python scripts/build_search_shards.py --model-input "$MODEL_INPUT" \
   --cache "$VERIFIED_SOURCE_CACHE" --directories "$ZIM_RECEIPTS"
+node scripts/build_search_routes.cjs catalog/search catalog/search/routes.json
 python scripts/search_benchmark.py --check
 python scripts/search_benchmark.py --tasks > search-task-results.json
 ```
@@ -83,7 +89,11 @@ through those checks. Whole-file SHA-256 verification applies when the full
 source is available and when the asset is built onto the drive.
 
 The manifest keys each logical shard by source SHA-256 and pins its schema,
-ordered chunks and aggregate digest. English Wikipedia editions can refer to
+ordered chunks and aggregate digest. New chunks live under their own content
+SHA-256. The generator reuses an identical chunk and retires unreferenced
+paths after updating the manifest. Existing numbered chunks stay readable.
+Routing descriptions are keyed by chunk digest and reused on regeneration.
+English Wikipedia editions can refer to
 the same stored title chunks. Their logical shards refer to only the chunks
 that match each edition’s directory. A lead from the pinned mini edition can
 serve another edition when its title and internal path match exactly. Each builder selects shards after source
@@ -98,6 +108,8 @@ to 900 MB by assigning a portion of their on-drive reserve to search. The
 planner leaves at least 125 MB in that reserve. The
 benchmark checks chunk digests and runs the original 100 probes plus body-only
 PDF queries with expected physical page locations. It reports the two query sets
-at 16 GB, 128 GB and 1 TB. The optional task export records the first three
+at 16 GB, 128 GB and 1 TB. The experimental `--quick` measurement evaluates
+just the first 28 MB of candidate chunks and can return fewer relevant hits.
+The offline UI continues past that budget. The optional task export records the first three
 results for each natural-language task in `tests/search/task-queries.json`,
 with the title, source, locator and any displayable excerpt for grading.

@@ -21,7 +21,7 @@ from owl.navigation import CSS, GROUPS, LETTERS, READING_COLLECTIONS, _group, _l
 from owl.offline_layout import layout
 from owl.discovery import compile_records
 from owl.search_ui import render_search_page
-from owl.search_shards import SEARCH_ROOT, load_manifest
+from owl.search_shards import SEARCH_ROOT, load_manifest, load_routes
 from owl.selector import ROOT, make_model, render_selector
 
 
@@ -64,11 +64,21 @@ def browser_routes(asset: dict) -> list[str]:
 
 def relay_allowlist(assets):
     """A closed mapping from catalog IDs to exact reviewed publisher URLs."""
-    return {asset["id"]: {"url": asset["source_url"], "bytes": asset["size_bytes"]}
-            for asset in assets if asset["status"] == "resolved" and asset["utility_tier"] == "CRITICAL"
-            and asset["redistributable"] is False and not browser_routes(asset)
-            and not asset.get("archive_member") and not asset.get("generation")
-            and urlsplit(asset["source_url"]).scheme == "https"}
+    allowed = {asset["id"]: {"url": asset["source_url"], "bytes": asset["size_bytes"]}
+               for asset in assets if asset["status"] == "resolved" and asset["utility_tier"] == "CRITICAL"
+               and asset["redistributable"] is False and not browser_routes(asset)
+               and not asset.get("archive_member") and not asset.get("generation")
+               and urlsplit(asset["source_url"]).scheme == "https"}
+    alternate_archives = json.loads((SOURCE / "archive-relay.json").read_text(encoding="utf-8"))
+    for asset in assets:
+        pin = alternate_archives.get(asset["id"])
+        if not pin:
+            continue
+        if (asset["format"] != "zim" or asset["sha256"] != pin["sha256"]
+                or asset["size_bytes"] != pin["bytes"] or urlsplit(pin["url"]).scheme != "https"):
+            raise ValueError(f"Relay archive route is stale: {asset['id']}")
+        allowed[asset["id"]] = {"url": pin["url"], "bytes": pin["bytes"], "max_range_bytes": ZIM_PART}
+    return allowed
 
 
 def mirror_candidates(assets: list[dict], routes: dict) -> list[dict]:
@@ -100,9 +110,12 @@ def copy_pinned(stream, target, asset: dict) -> None:
 def verified_source(asset: dict, cache: Path) -> Path:
     path = cache / asset["sha256"]
     if path.exists():
-        with path.open("rb") as stream, open(os.devnull, "wb") as sink:
-            copy_pinned(stream, sink, asset)
-        return path
+        try:
+            with path.open("rb") as stream, open(os.devnull, "wb") as sink:
+                copy_pinned(stream, sink, asset)
+            return path
+        except ValueError:
+            path.unlink()
     urls = [asset["source_url"]] + [
         url for url in asset.get("mirrors", [])
         if asset.get("mirror_fetch", {}).get(url, {}).get("sha256_verified") is True
@@ -153,6 +166,25 @@ def publish_asset(asset: dict, assets: dict, site: Path, cache: Path) -> list[di
             (directory / filename).write_bytes(chunk)
             entries.append({"url": "./mirrors/" + filename, "bytes": len(chunk), "sha256": sha256(chunk).hexdigest()})
     return entries
+
+
+def publish_locked_mirrors(by_id, site, cache, used):
+    lock = json.loads((SOURCE / "pages-mirrors.json").read_text(encoding="utf-8"))
+    for identity, digest in lock.items():
+        asset = by_id.get(identity)
+        if (not asset or asset["sha256"] != digest or asset["status"] != "resolved"
+                or asset["redistributable"] is not True or asset.get("generation")):
+            raise ValueError(f"Update the Pages mirror lock for {identity}")
+    if used + sum(by_id[identity]["size_bytes"] for identity in lock) > SITE_LIMIT - 2_000_000:
+        raise ValueError("The locked Pages mirrors exceed the available site budget")
+    cache.mkdir(parents=True, exist_ok=True)
+    files = {}
+    for identity in lock:
+        try:
+            files[identity] = publish_asset(by_id[identity], by_id, site, cache)
+        except (OSError, ValueError, KeyError, RuntimeError) as error:
+            raise ValueError(f"Required Pages mirror {identity} is unavailable: {error}") from error
+    return files
 
 
 def generate_archive_pins(asset: dict, path: Path) -> dict:
@@ -207,7 +239,7 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
         shutil.copytree(SEARCH_ROOT, site / "search")
     templates = ROOT / "src/owl/templates"
     page = render_search_page()
-    write_json(site / "search-build.json", {"manifest": search_index, "base": search_base, "records": records,
+    write_json(site / "search-build.json", {"manifest": search_index, "base": search_base, "records": records, "queryRoutes": load_routes(),
         "page": page, "runtime": (templates / "search.js").read_text(encoding="utf-8"),
         "rankRuntime": (templates / "rank.js").read_text(encoding="utf-8")})
     navigation = {key: navigation[key] for key in ("topics", "entrances", "assignments", "sections")}
@@ -258,20 +290,9 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
                 len(entry["hashes"]) != expected_parts or any(len(value) != 64 or
                 any(char not in "0123456789abcdef" for char in value) for value in entry["hashes"])):
             raise ValueError(f"Archive part manifest is stale: {asset_id}")
-    omissions = {}
     used = sum(path.stat().st_size for path in site.rglob("*") if path.is_file())
     if fetch_mirrors:
-        cache.mkdir(parents=True, exist_ok=True)
-        for asset in candidates:
-            if used + asset["size_bytes"] > SITE_LIMIT - 2_000_000:
-                omissions[asset["id"]] = "Pages storage budget"
-                continue
-            try:
-                manifest["files"][asset["id"]] = publish_asset(asset, by_id, site, cache)
-                used += asset["size_bytes"]
-            except (OSError, ValueError, KeyError, RuntimeError) as error:
-                omissions[asset["id"]] = str(error)
-                print(f"Mirror unavailable for {asset['id']}: {error}", file=sys.stderr)
+        manifest["files"] = publish_locked_mirrors(by_id, site, cache, used)
     write_json(site / "chunk-manifests.json", manifest)
     (site / "mirror-credits.txt").write_text("Published source copies\n\n" + "\n\n".join(
         "\n".join((by_id[identity]["title"], by_id[identity]["license"],
@@ -285,7 +306,7 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
         raise ValueError("Generated artifact exceeds the Pages size budget")
     return {"site_bytes": sum(sizes), "largest_file_bytes": max(sizes), "direct_assets": sum(map(bool, routes.values())),
             "mirror_candidates": len(candidates), "mirror_candidate_bytes": sum(asset["size_bytes"] for asset in candidates),
-            "mirrored_assets": len(manifest["files"]), "archive_manifests": len(manifest["chunks"]), "mirror_omissions": omissions}
+            "mirrored_assets": len(manifest["files"]), "archive_manifests": len(manifest["chunks"])}
 
 
 def main() -> int:

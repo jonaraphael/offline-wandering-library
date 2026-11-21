@@ -44,10 +44,14 @@ async function benchmark(planPath, sourceRoot) {
   const probes = [...queries.map(([text, target]) => prep(text, {expected: new RegExp(target, 'iu')})),
     ...bodyQueries.map(([text, asset, pages]) => prep(text, {asset, pages: new Set(pages)})),
     ...tasks.map(task => prep(task.query, {task: task.id}))];
-  const scenarios = plans.map(plan => ({
-    ...plan, sources: new Map(plan.sources.filter(row => !row.legacy).map(row => [row.sha256, row])),
-    hits: probes.map(() => []), catalogPrepared: catalog.prepare(plan.metadata)
-  }));
+  const budget = process.argv.includes('--quick') ? rank.readBudget : Infinity;
+  const scenarios = plans.map(plan => {
+    const sources = new Map(plan.sources.filter(row => !row.legacy).map(row => [row.sha256, row]));
+    const routes = probes.map(({query}) => new Set(rank.rankedQueue(plan, query, 'all', budget)
+      .map(({asset, number}) => asset.sha256 + ':' + number)));
+    return {...plan, sources, routes,
+      hits: probes.map(() => []), catalogPrepared: catalog.prepare(plan.metadata)};
+  });
   const modelFiles = [manifest.model, manifest.license, ...manifest.model_parts];
   const counts = {files: modelFiles.length, bytes: modelFiles.reduce((sum, part) => sum + part.bytes, 0), records: 0,
     largest: Math.max(...modelFiles.map(part => part.bytes)), by_format: {}};
@@ -68,7 +72,8 @@ async function benchmark(planPath, sourceRoot) {
     const parts = [...(shard.shared || []).flatMap(pool => manifest.shared[pool].parts.map(
       (part, number) => ({pool, number, part}))), ...(shard.parts || []).map((part, number) => ({pool: digest, number, part}))];
     for (const [index, {pool, number, part}] of parts.entries()) {
-      const filename = join(sourceRoot, 'sources', pool, String(number).padStart(5, '0') + '.js');
+      const filename = part.path ? join(sourceRoot, part.path) :
+        join(sourceRoot, 'sources', pool, String(number).padStart(5, '0') + '.js');
       const data = await pin(filename, part);
       if (!countedFiles.has(filename)) {
         countedFiles.add(filename);
@@ -81,10 +86,11 @@ async function benchmark(planPath, sourceRoot) {
       totals.passage_vectors += part.passages || 0;
       whole.update(data);
       if (!destinations.length) continue;
-      const bloom = atob(part.bloom);
-      const selected = probes.map(probe => rank.shouldRead(part, probe.query, bloom));
+      const address = digest + ':' + index;
+      const selected = probes.map((_, number) => destinations.some(scenario => scenario.routes[number].has(address)));
       if (!selected.some(Boolean)) continue;
-      const row = payload(data.toString(), 'OWLShardPart');
+      const row = part.path ? [pool, number, payload(data.toString(), 'OWLShardBlob')] :
+        payload(data.toString(), 'OWLShardPart');
       if (row[0] !== pool || row[1] !== number) throw Error('Chunk ID differs: ' + filename);
       const chunk = await rank.unpack(row[2]);
       if (chunk.records.length !== part.records || chunk.vectors.length !== part.vectors) throw Error('Record count differs: ' + filename);
@@ -93,6 +99,7 @@ async function benchmark(planPath, sourceRoot) {
         const partHits = rank.rankPart(chunk, query.query, destinations[0].sources.get(digest), 30);
         if (!partHits.length) continue;
         for (const scenario of destinations) {
+          if (!scenario.routes[number].has(address)) continue;
           const hits = scenario.hits[number];
           hits.push(...partHits.map(hit => rank.result(scenario.sources.get(digest), hit, index)));
           rank.retainCandidates(hits, 120);
@@ -104,7 +111,13 @@ async function benchmark(planPath, sourceRoot) {
     totals.records += count;
   }
   const manifestBytes = (await readFile(join(sourceRoot, 'manifest.json'))).length;
-  counts.bytes += manifestBytes;
+  const routeBytes = await readFile(join(sourceRoot, 'routes.json')).then(data => data.length, error => {
+    if (error.code !== 'ENOENT') throw error;
+    return 0;
+  });
+  counts.files += Number(routeBytes > 0);
+  counts.bytes += manifestBytes + routeBytes;
+  counts.largest = Math.max(counts.largest, routeBytes);
   counts.largest = Math.max(counts.largest, manifestBytes);
   counts.files++;
   if (counts.bytes > 900_000_000 || counts.largest > 50_000_000) throw Error('Repository search data exceeds its byte budgets');

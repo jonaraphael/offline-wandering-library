@@ -11,17 +11,23 @@
           "hesperian_en_wtnd_2025_10"
         ],
         [
-          "medical_bec"
+          "cert",
+          "#page=101",
+          "Controlling Bleeding"
         ],
         [
-          "cert",
-          "",
-          "Open Disaster Medical Operations"
+          "medical_bec"
         ],
         [
           "wikimed_en",
           "",
-          "Search for bleeding in Kiwix"
+          "",
+          [
+            [
+              "Bleeding",
+              "Bleeding"
+            ]
+          ]
         ]
       ]
     ],
@@ -32,17 +38,23 @@
           "hesperian_en_wtnd_2025_10"
         ],
         [
-          "medical_bec"
+          "cert",
+          "#page=107",
+          "Treating Burns"
         ],
         [
-          "cert",
-          "",
-          "Open Disaster Medical Operations"
+          "medical_bec"
         ],
         [
           "wikimed_en",
           "",
-          "Search for burns in Kiwix"
+          "",
+          [
+            [
+              "Burn",
+              "Burn"
+            ]
+          ]
         ]
       ]
     ],
@@ -55,7 +67,13 @@
         [
           "appropedia_en",
           "",
-          "Search for drinking water in Kiwix"
+          "",
+          [
+            [
+              "Water purification",
+              "Water_purification"
+            ]
+          ]
         ]
       ]
     ],
@@ -87,7 +105,13 @@
         [
           "appropedia_en",
           "",
-          "Search for food preservation in Kiwix"
+          "",
+          [
+            [
+              "Food preservation",
+              "Food_preservation"
+            ]
+          ]
         ]
       ]
     ],
@@ -103,7 +127,13 @@
         [
           "wikimed_en",
           "",
-          "Search for childbirth in Kiwix"
+          "",
+          [
+            [
+              "Childbirth",
+              "Childbirth"
+            ]
+          ]
         ]
       ]
     ],
@@ -116,7 +146,17 @@
         [
           "wikimed_en",
           "",
-          "Search for fever or diarrhea in Kiwix"
+          "",
+          [
+            [
+              "Fever",
+              "Fever"
+            ],
+            [
+              "Diarrhea",
+              "Diarrhea"
+            ]
+          ]
         ],
         [
           "sanitation",
@@ -134,9 +174,21 @@
         [
           "osm_guides",
           "",
-          "Search for navigation in Kiwix"
+          "",
+          [
+            [
+              "Orienteering",
+              "Orienteering"
+            ],
+            [
+              "Navigation",
+              "Navigation"
+            ]
+          ]
         ]
       ]
     ]
-  ]
+  ],
+  "archive_task": "<section id=\"{{anchor}}\"><h2>{{task}}</h2><p>Open <a href=\"{{href}}\">{{title}}</a> in Kiwix and search for the article title.</p><ul>{{entries}}</ul><p><code>{{path}}</code></p></section>",
+  "archive_task_entry": "<li><strong>{{title}}</strong> · <code>{{path}}</code></li>"
 }

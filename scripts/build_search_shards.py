@@ -20,7 +20,7 @@ from owl.catalog import load_catalog, load_profiles, resolve_content
 from owl.safety import atomic_write, sha256_file
 from owl.search_model import Potion, UPSTREAM, WEIGHT_CHUNK_BYTES
 from owl.search_shards import (COUNT_PER_PART, LICENSE_FILE, MODEL_FILE, MODEL_PART, REPO_LIMIT, ROOT, SCHEMA,
-                               SEARCH_ROOT, Record, encode, info, load_manifest, packed_part, part_path,
+                               SEARCH_ROOT, Record, encode, info, load_manifest, packed_part, part_location, shard_chunks,
                                payload, read_file, script)
 from owl.selection import CAPACITY_GRID_GB, load_ladder, recommended_profile
 from owl.zim_directory import Directory, RangeSource
@@ -286,9 +286,7 @@ def find_source(asset, directories):
 
 def build_shard(output, asset, rows, model, proof, *, limit, metrics=None):
     source = asset["sha256"]
-    final = output / part_path(source, 0)
-    final.parent.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="shard-", dir=final.parent.parent) as temporary:
+    with tempfile.TemporaryDirectory(prefix="shard-", dir=output) as temporary:
         staging = Path(temporary)
         whole = sha256()
         parts = []
@@ -301,7 +299,7 @@ def build_shard(output, asset, rows, model, proof, *, limit, metrics=None):
             if not batch:
                 break
             data, vectors, bloom, body_vectors = packed_part(
-                source, index, batch, model, title_paths=asset["format"] == "zim")
+                source, index, batch, model, title_paths=asset["format"] == "zim", content_addressed=True)
             records += len(batch)
             lead_vectors = sum(bool(row.lead) for row in batch)
             leads += lead_vectors
@@ -320,17 +318,19 @@ def build_shard(output, asset, rows, model, proof, *, limit, metrics=None):
             if size > limit:
                 return None
             whole.update(data)
-            parts.append({**info(data), "records": len(batch), "vectors": vectors,
+            pin = info(data)
+            filename = pin["sha256"] + ".js"
+            parts.append({**pin, "path": "chunks/" + filename, "records": len(batch), "vectors": vectors,
                           "passages": body_vectors, "lead_vectors": lead_vectors, "semantic_vectors": vectors, "bloom": bloom})
-            (staging / f"{index:05}.js").write_bytes(data)
+            (staging / filename).write_bytes(data)
         if not parts:
             return None
-        final.parent.mkdir(exist_ok=True)
+        content = output / "chunks"
+        content.mkdir(exist_ok=True)
         for file in staging.iterdir():
-            file.replace(final.parent / file.name)
-        for file in final.parent.glob("[0-9][0-9][0-9][0-9][0-9].js"):
-            if int(file.stem) >= len(parts):
-                file.unlink()
+            destination = content / file.name
+            if not destination.exists() or sha256_file(destination) != file.stem:
+                file.replace(destination)
     receipt = {key: proof[key] for key in ("source_verification", "uuid", "namespace_counts", "etag",
                                           "directory_coverage", "range_url", "lead_source_sha256", "lead_selection")
                if key in proof}
@@ -414,6 +414,7 @@ def main(argv=None):
     if manifest["sources"] and (manifest["model"] != info(model_data) or manifest.get("model_parts") != model_parts):
         parser.error("use a new output directory to rebuild all sources for a different model")
     sources = manifest["sources"]
+    retired_paths = set()
     manifest.update(version=SCHEMA, model=info(model_data), license=info(license_data), model_parts=model_parts)
     atomic_write(output / MODEL_FILE, model_data)
     atomic_write(output / LICENSE_FILE, license_data)
@@ -470,6 +471,9 @@ def main(argv=None):
             else:
                 continue
             if result:
+                if old:
+                    retired_paths.update(part_location(pool, number, pin)
+                                         for pool, number, pin in shard_chunks(manifest, source, old))
                 sources[source] = result
                 remaining = limit - sum(part["bytes"] for part in result["parts"]) - len(encode(result))
                 temporary = output / "manifest.json.tmp"
@@ -481,6 +485,11 @@ def main(argv=None):
         except (ValueError, OSError) as error:
             print(identity, "omitted:", error, file=sys.stderr, flush=True)
     atomic_write(output / "manifest.json", encode(manifest) + b"\n")
+    if retired_paths:
+        retained = {part_location(pool, number, pin) for digest, shard in sources.items()
+                    for pool, number, pin in shard_chunks(manifest, digest, shard)}
+        for relative in retired_paths - retained:
+            (output / relative).unlink(missing_ok=True)
     return 0
 
 

@@ -36,3 +36,11 @@ test("the relay rejects unapproved requests, redirects and requests over the rat
   const redirect = relay(allowed, async () => Response.redirect("https://unlisted.example/file"));
   assert.equal((await redirect.fetch(request("/assets/reference"), env)).status, 502);
 });
+
+test("optional archive peers only accept bounded ranged requests", async () => {
+  const worker = relay({archive:{url:publisher, bytes:10, max_range_bytes:3}}, async () =>
+    new Response("abc", {status:206, headers:{"Content-Range":"bytes 2-4/10", "Content-Length":"3"}}));
+  assert.equal((await worker.fetch(request("/assets/archive"), env)).status, 416);
+  assert.equal((await worker.fetch(request("/assets/archive", {Range:"bytes=2-5"}), env)).status, 416);
+  assert.equal((await worker.fetch(request("/assets/archive", {Range:"bytes=2-4"}), env)).status, 206);
+});

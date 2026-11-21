@@ -155,6 +155,7 @@
   "use strict";
   const byId = id => document.getElementById(id);
   const cards = new Map();
+  const openFiles = new Set();
   const presetButtons = new Map();
   const profileSizes = [["flash-16gb", "16 GB", "Pocket essentials"], ["critical-64gb", "64 GB", "Critical library"],
     ["compact-256gb", "256 GB", "Read & repair"], ["standard-512gb", "512 GB", "Rebuild & learn"],
@@ -183,7 +184,9 @@
     list.hidden = entries.length === 0;
   }
   function failure(error) {
-    byId("fatal").textContent = "This planner could not read its catalog or selection: " + text(error.message || error) + ". Use the README and command-line tools to inspect the recipe.";
+    byId("fatal").textContent = globalThis.OWLBuildPage ?
+      "The library plan could not load. Check your connection and reload this page." :
+      "This planner could not read its catalog or selection: " + text(error.message || error) + ". Use the README and command-line tools to inspect the recipe.";
     byId("fatal").hidden = false;
     byId("build-command").value = "";
     byId("plan-command").value = "";
@@ -201,7 +204,15 @@
   function updateItem(id, patch) {
     state.edited = true;
     state.items[id] = {...(state.items[id] || {}), ...patch};
-    if(patch.edition)delete state.items[id].assetIds;
+    if (patch.edition) {
+      delete state.items[id].assetIds;
+      if (browserPage) {
+        const collection = model.resources.find(row => row.id === id);
+        const members = (collection.editions?.[patch.edition] || collection).asset_ids;
+        const reachable = members.filter(member => browserPage.canDownload(member));
+        if (reachable.length < members.length) state.items[id].assetIds = reachable;
+      }
+    }
     render();
   }
   function pinnedFormats(row) {
@@ -253,14 +264,26 @@
     const details = element("details", "scope-details");
     const summary = element("summary", "", "Collection scope and edition notes");
     const scope = element("div"); details.append(summary, scope);
-    body.append(matchesNote, matchesList, topicLabel, formatScope, editionLabel, edition, numbers, reason, dependency, details);
+    const files = element("button", "quiet-button", "Show files");
+    files.type = "button";
+    files.setAttribute("aria-expanded", "false");
+    matchesList.id = "files-" + row.id;
+    files.setAttribute("aria-controls", matchesList.id);
+    files.addEventListener("click", () => {
+      if (openFiles.has(row.id)) openFiles.delete(row.id);
+      else openFiles.add(row.id);
+      filterCards();
+    });
+    const availability = element("p", "field-help");
+    body.append(topicLabel, formatScope, editionLabel, edition, numbers, reason, dependency,
+      availability, files, matchesNote, matchesList, details);
     card.append(top, body);
     byId("resources").append(card);
-    const nodes = {card, checkbox, number, label, badge, edition, target, known, count, reason, dependency, scope, details, formatScope, topicLabel, editionLabel, matchesNote, matchesList};
+    const nodes = {card, checkbox, number, label, badge, edition, target, known, count, reason, dependency, scope, details, formatScope, topicLabel, editionLabel, matchesNote, matchesList, files, availability};
     cards.set(row.id, nodes);
     return nodes;
   }
-  const browserFileLabel = id => browserPage && !browserPage.canDownload(id) ? " · Python build only" : "";
+  const browserFileLabel = id => browserPage && !browserPage.canDownload(id) ? " · Use the desktop tool" : "";
   function updateCard(row) {
     const nodes = cards.get(row.id) || makeCard(row);
     const included = Boolean(row.included || row.autoIncluded);
@@ -271,7 +294,7 @@
     nodes.number.textContent = row.utilityTier + (row.number ? " · Collection " + row.number : "");
     nodes.card.dataset.utilityTier = row.utilityTier;
     nodes.label.textContent = row.title;
-    nodes.topicLabel.textContent = "Topics: " + row.knowledgeDomains.join(" · ").replaceAll("-", " ");
+    nodes.topicLabel.textContent = (browserPage ? "" : "Topics: ") + row.knowledgeDomains.join(" · ").replaceAll("-", " ");
     const formats = pinnedFormats(row);
     nodes.formatScope.textContent = (row.scope ? text(row.scope) + " · " : "") +
       "Pinned formats: " + (formats.length ? formats.join(", ") : "none available");
@@ -280,25 +303,58 @@
     nodes.badge.textContent = {ready: "Ready", partial: "Partial", unresolved: "Unresolved", unknown: "Unknown"}[status];
     if (browserPage) {
       const resource = model.resources.find(item => item.id === row.id);
-      const ids = state.items[row.id].assetIds || (resource.editions?.[row.edition] || resource).asset_ids;
+      const ids = (resource.editions?.[row.edition] || resource).asset_ids;
       const blocked = ids.filter(id => !browserPage.canDownload(id)).length;
-      if (blocked) nodes.badge.textContent = blocked === ids.length ? "Python build only" : blocked + " files require Python";
+      nodes.label.textContent = ({
+        "wikipedia-en": "English Wikipedia",
+        "hesperian-health": "Hesperian community health guides",
+        "msf-medical": "Doctors Without Borders medical guides"
+      })[row.id] || row.title.replace(/\s+(?:\(ZIM\)|ZIM)$/i, "");
+      nodes.badge.hidden = !blocked;
+      nodes.badge.textContent = blocked === ids.length ? "Desktop tool" : blocked + " through desktop tool";
+      nodes.availability.hidden = !blocked;
+      nodes.availability.replaceChildren();
+      if (blocked) {
+        const link = element("a", "", "desktop tool instructions");
+        link.href = "#desktop-tool";
+        link.addEventListener("click", () => { byId("desktop-tool").open = true; });
+        nodes.availability.append("Get " + (blocked === ids.length ? "this collection" : "the remaining files") + " with the ", link, ".");
+      }
+      const reachable = ids.filter(id => browserPage.canDownload(id));
+      const chosen = new Set(result.selectedAssetIds);
+      nodes.target.textContent = bytes(model.assets.filter(asset => reachable.includes(asset.id) &&
+        (!included || chosen.has(asset.id))).reduce((total, asset) => total + asset.size_bytes, 0));
+      nodes.target.nextSibling.textContent = included ? " on this drive" : " if added";
+      nodes.target.parentElement.hidden = !reachable.length;
     }
     nodes.edition.replaceChildren(...row.options.map(option => {
-      const node = element("option", "", option.label + (option.available === false ? " — unavailable" : ""));
-      node.value = option.value; node.disabled = option.available === false;
+      const resource = model.resources.find(item => item.id === row.id);
+      const members = (resource.editions?.[option.value] || resource).asset_ids;
+      const browserAvailable = !browserPage || members.some(id => browserPage.canDownload(id));
+      let label = option.label;
+      if (browserPage && row.id === "wikipedia-en") label = ({
+        published: "Wikipedia with pictures", nopic: "Wikipedia without pictures", mini: "Smaller Wikipedia",
+        top: "Most-read Wikipedia articles"
+      })[option.value] || label;
+      const unavailable = option.available === false || !browserAvailable;
+      const node = element("option", "", label + (unavailable ? " — unavailable here" : ""));
+      node.value = option.value; node.disabled = unavailable;
       if (option.reason) node.title = option.reason;
       return node;
     }));
     nodes.edition.value = row.edition;
     const hasAlternatives = row.options.filter(option => option.available).length > 1;
     nodes.edition.hidden = !hasAlternatives; nodes.editionLabel.hidden = !hasAlternatives;
-    nodes.target.textContent = bytes(row.targetBytes);
+    if (!browserPage) nodes.target.textContent = bytes(row.targetBytes);
     nodes.known.textContent = bytes(row.knownBytes);
     nodes.count.textContent = Number.isFinite(row.assetCount) ? row.assetCount.toLocaleString() : "Unknown";
     nodes.reason.textContent = row.reason || (status === "ready" ? "The selected scope has pinned source metadata. No files are downloaded by this page." : "Source metadata for this scope is not complete.");
     nodes.dependency.hidden = !row.autoIncluded;
     const scope = [];
+    if (browserPage) {
+      scope.push(element("p", "muted", row.id));
+      scope.push(element("p", "muted", nodes.formatScope.textContent));
+    }
     if (row.utilityReason) scope.push(element("p", "", row.utilityReason));
     if (row.knowledgeDomains.length) scope.push(element("p", "", "Knowledge: " + row.knowledgeDomains.join(", ")));
     if (row.scope) scope.push(element("p", "", text(row.scope)));
@@ -307,6 +363,7 @@
     }
     if (row.preferredFormats && row.preferredFormats.length) scope.push(element("p", "muted", "Preferred formats: " + row.preferredFormats.join(", ")));
     const unavailable = [];
+    if (!browserPage) nodes.availability.hidden = true;
     if (unavailable.length) {
       const list = element("ul", "muted");
       list.append(...unavailable.map(option => element("li", "", option.label + ": " + (option.reason || "No verified edition is available."))));
@@ -332,19 +389,24 @@
         (!selectedOnly||selected.has(a.id))&&
         (!query||OWLTopicMap.searchText(a).includes(query)||(!topicScope.vertical&&[row.id,row.title].some(value=>value.toLocaleLowerCase()===query))));
       const show=matches.length>0;
-      if(show)for(const a of matches)matchingAssetIds.add(a.id);
-      nodes.matchingIds=matches.map(a=>a.id);
-      const checked=matches.filter(a=>selected.has(a.id)).length;
-      nodes.checkbox.checked=matches.length>0&&checked===matches.length;
-      nodes.checkbox.indeterminate=checked>0&&checked<matches.length;
-      nodes.checkbox.title="Include or exclude the "+matches.length+" matching files";
-      nodes.matchesNote.hidden=nodes.matchesList.hidden=!(topicScope.vertical||query||tier||selectedOnly);
-      nodes.matchesNote.textContent=matches.length+" matching files · "+checked+" selected. Changes apply only to these files.";
+      if(show)for(const a of matches)if(!browserPage||browserPage.canDownload(a.id))matchingAssetIds.add(a.id);
+      nodes.matchingIds=matches.filter(a=>!browserPage||browserPage.canDownload(a.id)).map(a=>a.id);
+      const checked=nodes.matchingIds.filter(id=>selected.has(id)).length;
+      nodes.checkbox.checked=nodes.matchingIds.length>0&&checked===nodes.matchingIds.length;
+      nodes.checkbox.indeterminate=checked>0&&checked<nodes.matchingIds.length;
+      nodes.checkbox.disabled=Boolean(row.autoIncluded)||!nodes.matchingIds.length;
+      nodes.checkbox.title="Include or exclude the "+nodes.matchingIds.length+" matching files";
+      const showFiles = openFiles.has(row.id) || Boolean(topicScope.vertical||query||tier||selectedOnly);
+      nodes.files.hidden = !browserPage || Boolean(topicScope.vertical||query||tier||selectedOnly);
+      nodes.files.textContent = showFiles ? "Hide files" : "Show files";
+      nodes.files.setAttribute("aria-expanded", String(showFiles));
+      nodes.matchesNote.hidden=nodes.matchesList.hidden=!showFiles;
+      nodes.matchesNote.textContent=matches.length+" files · "+checked+" selected";
       nodes.matchesList.replaceChildren(...(!nodes.matchesList.hidden ? matches : []).map(a=>{
         const li=element("li"),label=element("label","check-label"),check=element("input");check.type="checkbox";
-        check.checked=selected.has(a.id);check.setAttribute("aria-label",a.title);check.disabled=Boolean(row.autoIncluded);
+        check.checked=selected.has(a.id);check.setAttribute("aria-label",a.title);check.disabled=Boolean(row.autoIncluded)||Boolean(browserPage&&!browserPage.canDownload(a.id));
         check.addEventListener("change",()=>selectFiles(check.checked,[a.id]));
-        label.append(check,element("span","",a.title+" · "+a.format.toUpperCase()+" · "+bytes(a.size_bytes)+browserFileLabel(a.id)));
+        label.append(check,element("span","",a.title+" · "+(browserPage?"":a.format.toUpperCase()+" · ")+bytes(a.size_bytes)+browserFileLabel(a.id)));
         li.append(label);li.dataset.assetId=a.id;return li;}));
       nodes.card.hidden = !show;
       if (show) visible++;
@@ -352,7 +414,8 @@
     byId("visible-count").textContent = visible + " of " + result.rows.length + " collections shown";
     byId("no-results").hidden = visible !== 0;
     for(const id of ["include-shown","exclude-shown"])byId(id).disabled=visible===0;
-    byId("bulk-scope").textContent="Applies to "+matchingAssetIds.size+" matching files in "+visible+" collections. Files outside these filters stay unchanged. Required archive readers and source packages stay included.";
+    byId("bulk-scope").textContent=browserPage ? "Changes apply to the "+matchingAssetIds.size+" downloadable files shown." :
+      "Applies to "+matchingAssetIds.size+" matching files in "+visible+" collections. Files outside these filters stay unchanged. Required archive readers and source packages stay included.";
     inspected=null;byId("map-info").replaceChildren(element("p","","Choose a dot for details. Highlight a subtopic to filter the list; click it again to clear."));
     byId("bulk-feedback").textContent="";
     updateMap();
@@ -364,9 +427,12 @@
   function selectFiles(included, ids) {
     state.edited = true;
     const desired=new Set(result.selectedAssetIds),before=new Set(desired);
-    for(const id of ids)included?desired.add(id):desired.delete(id);
+    for(const id of ids) {
+      if (included && (!browserPage || browserPage.canDownload(id))) desired.add(id);
+      else if (!included) desired.delete(id);
+    }
     // Archive members still need their original download package.
-    for(const asset of model.assets)if(desired.has(asset.id)&&asset.archive_member?.source_asset_id)desired.add(asset.archive_member.source_asset_id);
+    for(const asset of model.assets)if(!browserPage&&desired.has(asset.id)&&asset.archive_member?.source_asset_id)desired.add(asset.archive_member.source_asset_id);
     const changed=new Set([...new Set([...before,...desired])].filter(id=>before.has(id)!==desired.has(id)));
     for(const resource of model.resources) {
       const members=resourceMembers(resource);
@@ -393,18 +459,19 @@
   function inspectMap(record) {
     inspected=record;
     const info=byId("map-info");
-    const owners=model.resources.filter(r=>r.asset_ids.includes(record.id));
+    const owners=model.resources.filter(resource=>resourceMembers(resource).includes(record.id));
     const title=element("h3","",record.title);
     const details=element("p","",record.utility_tier+" · "+(record.knowledge_domains||[]).join(" · ").replaceAll("-"," "));
     const reason=element("p","",record.utility_reason);
     const content=OWLTopicMap.contentSize(record);
-    const size=element("p","",record.format.toUpperCase()+" · "+bytes(record.size_bytes)+" stored · "+(content.estimated?"≈ ":"")+bytes(content.bytes)+" uncompressed. "+content.basis+".");
-    info.replaceChildren(title,details,reason,size);
-    if (browserFileLabel(record.id)) info.append(element("p", "muted", "This file requires the Python build."));
+    const size=element("p","",browserPage ? bytes(record.size_bytes)+" on the drive" :
+      record.format.toUpperCase()+" · "+bytes(record.size_bytes)+" stored · "+(content.estimated?"≈ ":"")+bytes(content.bytes)+" uncompressed. "+content.basis+".");
+    info.replaceChildren(...(browserPage ? [title,size] : [title,details,reason,size]));
+    if (browserFileLabel(record.id)) info.append(element("p", "muted", "Get this file with the desktop tool below."));
     for(const owner of owners) {
       const row=result.rows.find(r=>r.id===owner.id), included=result.selectedAssetIds.includes(record.id);
       const button=element("button","",(included?"Exclude ":"Include ")+"this file");
-      button.type="button";button.disabled=Boolean(row.autoIncluded);
+      button.type="button";button.disabled=Boolean(row.autoIncluded)||Boolean(browserPage&&!browserPage.canDownload(record.id));
       button.addEventListener("click",()=>selectFiles(!included,[record.id]));info.append(button);
       if(row.autoIncluded)info.append(element("p","muted","The archive readers are included with this build."));
     }
@@ -412,13 +479,19 @@
   }
   function updateStorage(selected) {
     const groups=OWLTopicMap.storageGroups(model,selected,matchingAssetIds,topicScope);
+    if (browserPage) for (const group of groups) {
+      group.bytes = group.storedBytes;
+      group.estimated = false;
+      group.unknown = 0;
+    }
     const total=groups.reduce((n,g)=>n+g.bytes,0), unknown=groups.reduce((n,g)=>n+g.unknown,0);
     const estimated=groups.some(g=>g.estimated), stored=groups.reduce((n,g)=>n+g.storedBytes,0);
     const count=groups.reduce((n,g)=>n+g.assets.length,0), max=Math.max(0,...groups.map(g=>g.bytes));
     const leaf=Boolean(topicScope.domain), interactive=Boolean(topicScope.vertical), bars=byId("topic-storage-bars"), files=byId("topic-storage-files");
     bars.replaceChildren();files.replaceChildren();
     byId("storage-heading").textContent=leaf?"Content size · "+OWLTopicMap.topicTitle(model,topicScope.domain):topicScope.vertical?"Content size by subtopic":"Content size by topic";
-    byId("topic-storage-total").textContent=(estimated?"≈ ":"")+bytes(total)+" uncompressed"+(unknown?" + "+unknown+" unknown-size files":"")+" · "+bytes(stored)+" stored";
+    byId("topic-storage-total").textContent=browserPage ? bytes(stored)+" on the drive" :
+      (estimated?"≈ ":"")+bytes(total)+" uncompressed"+(unknown?" + "+unknown+" unknown-size files":"")+" · "+bytes(stored)+" stored";
     byId("topic-storage-help").textContent=leaf?"Faint divisions show each file’s share. Click a segment to inspect or exclude it; the file list below also reaches very small segments.":interactive?"Bars share one linear scale. Click a file segment to inspect it, or a subtopic name to filter its files.":"Bars share one linear scale. Faint divisions show each file’s share. Click a topic name to explore it.";
     byId("topic-storage-empty").hidden=count>0;
     byId("topic-storage-key").hidden=!leaf||count===0;
@@ -433,8 +506,8 @@
       const track=element("div","storage-track"), bar=element("div","storage-bar");
       bar.style.width=(max?group.bytes/max*100:0)+"%";
       for(const asset of group.assets) {
-        const size=OWLTopicMap.contentSize(asset);
-        const description=asset.title+" · "+(size.estimated?"≈ ":"")+bytes(size.bytes)+" uncompressed · "+bytes(asset.size_bytes)+" stored"+(group.bytes&&size.bytes!==null?" · "+(size.bytes/group.bytes*100).toLocaleString(undefined,{maximumFractionDigits:2})+"%":"");
+        const size=browserPage ? {bytes: asset.size_bytes, basis: "Size on the drive."} : OWLTopicMap.contentSize(asset);
+        const description=browserPage ? asset.title+" · "+bytes(asset.size_bytes) : asset.title+" · "+(size.estimated?"≈ ":"")+bytes(size.bytes)+" uncompressed · "+bytes(asset.size_bytes)+" stored"+(group.bytes&&size.bytes!==null?" · "+(size.bytes/group.bytes*100).toLocaleString(undefined,{maximumFractionDigits:2})+"%":"");
         if(size.bytes>0) {
           const segment=element(interactive?"button":"span","storage-segment");
           segment.style.width=(size.bytes/group.bytes*100)+"%";
@@ -458,7 +531,8 @@
     updateStorage(selected);
     const included=row=>selected.has(row.id);
     const count=topicMap.update(included,row=>matchingAssetIds.has(row.id));
-    byId("visible-count").textContent=count+" assets shown in topic map · "+result.rows.filter(r=>!cards.get(r.id).card.hidden).length+" collections below";
+    byId("visible-count").textContent=count+(browserPage?" files shown on the map · ":" assets shown in topic map · ")+
+      result.rows.filter(r=>!cards.get(r.id).card.hidden).length+" collections below";
     if(inspected)inspectMap(inspected);
   }
   function chooseTopic(scope) {

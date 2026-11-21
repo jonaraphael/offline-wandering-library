@@ -14,7 +14,7 @@ from .content_policy import require_content_policy, load_policy
 from .utility_policy import require_utility_policy
 from .safety import atomic_write, reject_symlinks
 from .selection import (BASE_LADDER_SEARCH_BUDGET, DEFAULT_LIMIT, DISCOVERY_BUDGET, DISCOVERY_DIVISOR, MAX_DISCOVERY_BUDGET, MARGIN_DIVISOR, MIN_CAPACITY,
-                        MINIMUM_MARGIN, READER_BUDGET, load_ladder)
+                        MINIMUM_MARGIN, PROTECTED_FIELDS, READER_BUDGET, load_ladder)
 
 ROOT = Path(__file__).resolve().parents[2]
 TEMPLATES = Path(__file__).with_name("templates")
@@ -67,7 +67,7 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
                            "minimum_margin": MINIMUM_MARGIN, "margin_divisor": MARGIN_DIVISOR,
                            "readers": READER_BUDGET, "discovery": DISCOVERY_BUDGET,
                            "discovery_base": BASE_LADDER_SEARCH_BUDGET, "discovery_max": MAX_DISCOVERY_BUDGET,
-                           "discovery_divisor": DISCOVERY_DIVISOR,
+                           "discovery_divisor": DISCOVERY_DIVISOR, "protected_fields": sorted(PROTECTED_FIELDS),
                            **load_ladder(catalog)}
     return {"schema_version": 1, "direct_reading_formats": load_policy()["direct_reading_formats"], "cli": cli, "atlas_available": catalog.resolve() == (ROOT / "catalog/library.yaml").resolve(),
             "catalog_sha256": hashlib.sha256(catalog.read_bytes()).hexdigest(),
@@ -115,12 +115,33 @@ def _pages_template(template: str) -> str:
     template = template.replace("Downloadable knowledge</dt>", "Files for this build</dt>", 1)
     template = template.replace("Downloadable knowledge</span>", "Files for this build</span>", 1)
     template = template.replace('<p id="meter-caption"', '<p role="status" id="meter-caption"')
-    template = template.replace('for="capacity-gb">Drive capacity in decimal GB', 'for="capacity-gb">Drive size in decimal GB')
+    template = template.replace('for="capacity-gb">Drive capacity in decimal GB', 'for="capacity-gb">Drive size in GB')
     template = template.replace('>Commands</a>', '>Build</a>').replace('href="#commands-heading">Build', 'href="#drive-build-heading">Build')
     template = template.replace('OWL · No accounts, cloud services, or network requests in this planner.<br>'
                                 'Save the command with your catalog snapshot, then verify the finished SSD.',
                                 '<a href="mirror-credits.txt">Source credits</a> · '
                                 '<a href="SELECT.html">Offline planner</a>')
+    for technical, plain in {
+        "Defaults prioritize CRITICAL survival knowledge and USEFUL trades, repair and school education. "
+        "NONESSENTIAL stories, college study and computing are opt-in. Larger drives leave room for your choices; "
+        "their capacity is not a promise of that much content.":
+            "The recommendation includes first aid, practical guides, school material and reading for pleasure.",
+        "The list below follows your topic selection. Subtopics and search terms reuse the library’s pseudoindexes, "
+        "with catalog topic tags as a fallback. Positions do not analyze document text. A dot represents one file; "
+        "a large ZIM may contain thousands of articles.":
+            "Each dot is a file. An archive can hold thousands of articles.",
+        "Uncompressed content in selected files matching your filters. ≈ marks estimates. "
+        "Actual drive usage stays based on stored files.": "Space used by the selected files shown below.",
+        "Status describes source metadata, not downloaded files.": "",
+        "<option>CRITICAL</option><option>USEFUL</option><option>NONESSENTIAL</option>":
+            '<option value="CRITICAL">Survival essentials</option><option value="USEFUL">Practical and school</option>'
+            '<option value="NONESSENTIAL">Further reading</option>',
+        "</i>CRITICAL": "</i>Survival essentials",
+        "</i>USEFUL": "</i>Practical and school",
+        "</i>NONESSENTIAL": "</i>Further reading",
+        "Choose a dot to inspect its title, priority and topics, then include or exclude that file.": "Choose a dot to see a file or change your selection.",
+    }.items():
+        template = template.replace(technical, plain)
     return template.replace(
         '<script id="owl-model" type="application/json">__OWL_MODEL__</script>',
         '<script>globalThis.OWLBuildPage = import("./builder-ui.mjs");</script>',
@@ -128,7 +149,9 @@ def _pages_template(template: str) -> str:
         "<!-- OWL_DRIVE_PICKER -->", (web / "drive-picker.html").read_text(encoding="utf-8"),
     ).replace(
         "<!-- OWL_DRIVE_BUILD -->", (web / "drive-build.html").read_text(encoding="utf-8") +
-        '\n<details class="panel"><summary>Python build instructions</summary>',
+        '\n<details class="panel" id="desktop-tool"><summary>Desktop tool instructions</summary>'
+        '<p class="field-help">To add files that this browser cannot download, pick them in the '
+        '<a href="SELECT.html">full-catalog planner</a>. The build guide explains how to run the desktop tool.</p>',
     ).replace(
         "<!-- OWL_ACCOUNTING_START -->", '<details class="warning-details"><summary>Storage details</summary>',
     ).replace(

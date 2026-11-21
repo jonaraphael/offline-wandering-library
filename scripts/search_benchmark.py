@@ -18,6 +18,7 @@ from owl.selection import load_ladder, recommended_profile
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="enforce checked-in recall and empty-result bounds")
+    parser.add_argument("--quick", action="store_true", help="measure recall over the first 28 MB of ranked chunks")
     parser.add_argument("--tasks", action="store_true", help="export the three results per graded task query")
     parser.add_argument("--extra-tasks", type=Path, help="JSON list of additional task IDs and queries")
     parser.add_argument("--task-depth", type=int, choices=range(3, 31), metavar="3-30", default=3,
@@ -41,7 +42,7 @@ def main():
                       "search_bytes": sum(row["size_bytes"] for row in report["file_integrity"].values())
                                       + len(files["SEARCH/coverage.json"].encode("utf-8")),
                       "shard_bytes": sum(row["size_bytes"] for path, row in report["file_integrity"].items()
-                                         if path.startswith("SEARCH/sources/")),
+                                         if path.startswith(("SEARCH/sources/", "SEARCH/chunks/"))),
                       "indexed_zims": sum(source["format"] == "zim" for source in selection["sources"]),
                       "sampled_zims": sum(shards[source["sha256"]].get("source_evidence", {}).get("directory_coverage")
                                           in {"sampled", "entry-point"} for source in selection["sources"]
@@ -57,6 +58,8 @@ def main():
             command.append("--check")
         if args.tasks:
             command.append("--tasks")
+        if args.quick:
+            command.append("--quick")
         if args.extra_tasks:
             command.extend(("--extra-tasks", str(args.extra_tasks.resolve())))
         if args.task_depth != 3:

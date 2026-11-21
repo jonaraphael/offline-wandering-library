@@ -1,3 +1,4 @@
+import {createNetwork, SourceError} from "./network.mjs";
 import {browserSelection, buildLibrary, isKnowledgeFile, readBuild} from "./builder.mjs";
 import {getRememberedDrive, hasDrivePermission, keepScreenAwake, measureFreeSpace,
   pickDrive, rememberDrive, requestDrivePermission} from "./drive.mjs";
@@ -6,9 +7,20 @@ const INDEX_ALLOWANCE = 16 * 2 ** 20;
 const byId = id => document.getElementById(id);
 
 async function get(url, signal) {
-  const response = await fetch(url, {cache: "no-cache", signal});
-  if (!response.ok) throw Error("Could not load " + url);
-  return response.json();
+  let response;
+  const timeout = AbortSignal.timeout(120_000);
+  const requestSignal = signal ? AbortSignal.any([signal, timeout]) : timeout;
+  try { response = await fetch(url, {cache: "no-cache", signal: requestSignal}); }
+  catch (_) {
+    signal?.throwIfAborted();
+    throw new SourceError("Could not connect to the library website", {connection: true});
+  }
+  if (!response.ok) throw new SourceError("Could not load " + url);
+  try { return await response.json(); }
+  catch (error) {
+    if (error instanceof TypeError || timeout.aborted) throw new SourceError("Connection interrupted", {connection: true});
+    throw error;
+  }
 }
 
 export async function load() {
@@ -97,6 +109,14 @@ export function recommendBrowser(planner, state, routes, published) {
   const target = Math.min(ceiling, Math.max(Math.floor(profile.nominal_capacity_bytes * 0.90),
     sumBytes([...selected].map(id => assets.get(id)))));
   let used = sumBytes(available);
+  for (const resource of planner.resources) {
+    const item = state.items[resource.id];
+    if (!item.included) continue;
+    const members = (resource.editions?.[item.edition] || resource).asset_ids;
+    const reachable = members.filter(id => hasRoute(id, routes, published));
+    if (reachable.length === 0) item.included = false;
+    else if (reachable.length < members.length) item.assetIds = reachable;
+  }
   if (used >= target) return state;
   const retention = browserRetention(planner, routes, published);
   const floors = retention.limits.get(retention.bounds.findLast(bound => bound <= profile.nominal_capacity_bytes));
@@ -106,25 +126,53 @@ export function recommendBrowser(planner, state, routes, published) {
     const variants = [["published", resource], ...Object.entries(resource.editions || {})];
     return variants.flatMap(([edition, variant]) => {
       if (variant.status !== "ready") return [];
-      const members = variant.asset_ids.map(id => assets.get(id));
-      if (members.some(asset => asset.status !== "resolved" || asset.generation ||
-          !hasRoute(asset.id, routes, published))) return [];
-      return members.length ? [{id:resource.id, edition, members, bytes:sumBytes(members)}] : [];
+      const members = variant.asset_ids.map(id => assets.get(id)).filter(asset =>
+        asset.status === "resolved" && !asset.generation && hasRoute(asset.id, routes, published));
+      return members.length ? [{id: resource.id, edition, members, bytes: sumBytes(members),
+        ...(members.length < variant.asset_ids.length && {assetIds: members.map(asset => asset.id)})}] : [];
     });
   });
   const priority = new Map(planner.capacity_policy.transitions.map(([, id], index) => [id, index]));
   candidates.sort((a, b) => (priority.get(a.id) ?? Infinity) - (priority.get(b.id) ?? Infinity) ||
     a.bytes - b.bytes || a.id.localeCompare(b.id));
-  for (const candidate of candidates) {
-    if (used >= target) break;
-    if (state.items[candidate.id].included || used + candidate.bytes > target ||
-        candidate.members.some(asset => selected.has(asset.id))) continue;
-    const additions = attribute(candidate.members.map(asset => asset.id), retention.shares);
-    if (Object.entries(additions).some(([field, bytes]) => (fields[field] || 0) + bytes > 2 * floors[field])) continue;
+  function fits(candidate, limit = ceiling) {
+    return !state.items[candidate.id].included && used + candidate.bytes <= limit &&
+      !candidate.members.some(asset => selected.has(asset.id));
+  }
+  function add(candidate, additions) {
     for (const [field, bytes] of Object.entries(additions)) fields[field] = (fields[field] || 0) + bytes;
-    state.items[candidate.id] = {included: true, edition: candidate.edition};
+    state.items[candidate.id] = {included: true, edition: candidate.edition,
+      ...(candidate.assetIds && {assetIds: candidate.assetIds})};
     for (const asset of candidate.members) selected.add(asset.id);
     used += candidate.bytes;
+  }
+  function fill(limit, stopAt, allowPartial) {
+    for (const candidate of candidates) {
+      if (used >= stopAt) break;
+      if ((!allowPartial && candidate.assetIds) || !fits(candidate, limit)) continue;
+      const additions = attribute(candidate.members.map(asset => asset.id), retention.shares);
+      if (Object.entries(additions).some(([field, bytes]) => (fields[field] || 0) + bytes > 2 * floors[field])) continue;
+      add(candidate, additions);
+    }
+  }
+  // Keep the reviewed recommendation when its existing fillers reach 90%.
+  const minimum = Math.floor(profile.nominal_capacity_bytes * 0.90);
+  fill(target, target, false);
+  if (used < minimum) fill(ceiling, minimum, true);
+  if (used < minimum) {
+    // Small title selections can be removed at the next edition step. Keep
+    // the six protected fields on the reviewed capacity ladder in this pass.
+    const protectedFields = new Set(planner.capacity_policy.protected_fields);
+    const extras = candidates.filter(candidate => fits(candidate)).map(candidate => ({
+      candidate, additions: attribute(candidate.members.map(asset => asset.id), retention.shares)
+    })).filter(({additions}) => Object.keys(additions).every(field => !protectedFields.has(field)));
+    extras.sort((a, b) => a.candidate.bytes - b.candidate.bytes);
+    while (used < minimum) {
+      const extra = extras.find(({candidate}) => fits(candidate) && used + candidate.bytes >= minimum)
+        || extras.findLast(({candidate}) => fits(candidate));
+      if (!extra) break;
+      add(extra.candidate, extra.additions);
+    }
   }
   return state;
 }
@@ -163,7 +211,7 @@ export function mount({catalog, recommend}) {
   pick.disabled = !supported;
   if (!supported) status.textContent = android ?
     "Use a computer to build directly to the drive. You can read the finished library on this device." :
-    "Use desktop Chrome or Edge to choose a drive, or use the Python build.";
+    "Open this page in Chrome or Edge on a computer to choose a drive.";
   consent.addEventListener("change", () => refresh());
 
   function refresh() {
@@ -210,24 +258,14 @@ export function mount({catalog, recommend}) {
     const over = Math.max(0, used + reserve - available);
     const knowledge = next.assets.filter(isKnowledgeFile);
     const knowledgeBytes = sumBytes(knowledge);
-    selection = {...next, over, knowledgeBytes, searchBudget: profile.discovery_budget_bytes};
+    selection = {...next, over, knowledgeBytes, archiveSpace: available - reserve, searchBudget: profile.discovery_budget_bytes};
     const usedPercent = Math.min(100, 100 * used / available);
     byId("storage-fill").style.width = usedPercent + "%";
     byId("reserve-fill").style.width = "0%";
     byId("storage-meter").classList.toggle("over", over > 0);
     byId("capacity").textContent = format(available) + " available for planning";
     byId("knowledge-bytes").textContent = format(used);
-    const cliOnly = next.excluded.map(row => assets.get(row.id)).filter(asset => asset && isKnowledgeFile(asset));
-    const cliBytes = sumBytes(cliOnly);
-    const critical = cliOnly.filter(asset => asset.utility_tier === "CRITICAL");
-    const topics = [...new Set(critical.map(asset => asset.selection.domain.replaceAll("-", " ")))].sort();
-    const criticalNote = byId("browser-critical");
-    criticalNote.hidden = !critical.length;
-    criticalNote.textContent = critical.length + " critical files require the Python build. Topics include " +
-      new Intl.ListFormat().format(topics) + ".";
-    byId("browser-file-total").textContent = format(knowledgeBytes) + " of knowledge in this browser build" +
-      (cliOnly.length ? " · " + format(cliBytes) + " in " + cliOnly.length + " selected files available through Python" : "") + ".";
-    byId("coverage-counts").textContent = knowledge.length + " knowledge files available in this browser.";
+    byId("browser-file-total").textContent = knowledge.length + " books, guides and collections";
     byId("status-title").textContent = result.errors.length ? "This selection needs changes" :
       knowledgeBytes ? "Browser selection ready" : "Choose a file the browser can download";
     byId("status-description").textContent = knowledgeBytes ? "Check the storage estimate before starting the build." :
@@ -318,7 +356,9 @@ export function mount({catalog, recommend}) {
   const issues = new Map();
   let lastProgress = 0;
   function progress(event) {
-    if (event.kind === "assembling") {
+    if (event.kind === "waiting-network") {
+      feedback.textContent = "Waiting for the internet connection. The build will resume automatically.";
+    } else if (event.kind === "assembling") {
       meter.removeAttribute("value");
       feedback.textContent = "Writing the offline indexes and start page…";
     } else if (event.kind === "downloading") {
@@ -354,11 +394,14 @@ export function mount({catalog, recommend}) {
       feedback.textContent = isResume ? "Opening the saved build…" : "Starting the build…";
       issues.clear();
       textList(errors, []);
+      const network = createNetwork({signal: cancel.signal, probeURL: "./.nojekyll",
+        onWaiting: () => progress({kind: "waiting-network"})});
       const [search, publisherPieces] = await Promise.all([
-        get("./search-build.json", cancel.signal), get("./kiwix-pieces.json", cancel.signal)
+        network.retry(() => get("./search-build.json", cancel.signal)),
+        network.retry(() => get("./kiwix-pieces.json", cancel.signal))
       ]);
       const result = await lockDrive(() => buildLibrary(drive, {...selection, catalogAssets: planner.assets,
-        routes, published: {...published, publisherPieces}, navigation, search, resume: isResume, fullVerify, joinArchives: join.checked, signal: cancel.signal, onProgress: progress}));
+        routes, published: {...published, publisherPieces}, navigation, search, network, resume: isResume, fullVerify, singleArchives: join.checked, signal: cancel.signal, onProgress: progress}));
       saved = result.state;
       meter.max = 1;
       meter.value = 1;
@@ -366,7 +409,7 @@ export function mount({catalog, recommend}) {
       const ranOutOfSpace = Object.keys(saved.dropped).length > 0;
       feedback.textContent = ranOutOfSpace ?
         result.completed.length + " files verified. Free space on the drive and choose Resume to retry omitted files." : !saved.finished ?
-        result.completed.length + " files verified. Open START_HERE.html on the drive. Choose Resume to retry failed downloads, or use the Python build." :
+        result.completed.length + " files verified. Open START_HERE.html on the drive. Choose Resume to retry failed downloads, or use the desktop tool." :
         result.completed.length + " files verified" + (result.missing.length ? ", " + result.missing.length + " omitted" : "") +
         ". Open START_HERE.html on the drive.";
     } catch (error) {
@@ -378,6 +421,7 @@ export function mount({catalog, recommend}) {
       }
     } finally {
       releaseWakeLock?.();
+      cancel?.abort();
       cancel = null;
       busy = false;
       refresh();

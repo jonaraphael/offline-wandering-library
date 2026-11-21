@@ -158,7 +158,16 @@ def part_path(digest, number):
     return f"sources/{digest}/{number:05}.js"
 
 
-def packed_part(source, number, records, model, *, title_paths=False):
+def part_location(pool, number, pin):
+    path = pin.get("path")
+    if path is None:
+        return part_path(pool, number)
+    if not DIGEST.fullmatch(pin["sha256"]) or path != f"chunks/{pin['sha256']}.js":
+        raise ValueError("Invalid content-addressed shard path")
+    return path
+
+
+def packed_part(source, number, records, model, *, title_paths=False, content_addressed=False):
     compact = []
     postings = defaultdict(list)
     route_terms = set()
@@ -194,7 +203,8 @@ def packed_part(source, number, records, model, *, title_paths=False):
             compact[-1].append(1)
     route_terms.update(postings)
     message = encode({"records": compact, "postings": postings})
-    packed = script("OWLShardPart", [source, number, base64.b64encode(compress(message, compresslevel=6, mtime=0)).decode("ascii")])
+    encoded = base64.b64encode(compress(message, compresslevel=6, mtime=0)).decode("ascii")
+    packed = script("OWLShardBlob", encoded) if content_addressed else script("OWLShardPart", [source, number, encoded])
     if len(packed) > MAX_PART:
         raise ValueError("Index chunk exceeds its bounded script size")
     return packed, embedded, bloom(route_terms), passages
@@ -254,6 +264,11 @@ def load_manifest(folder=SEARCH_ROOT):
     return data
 
 
+def load_routes(folder=SEARCH_ROOT):
+    path = folder / "routes.json"
+    return json.loads(path.read_bytes()) if path.is_file() else {}
+
+
 def model_files(manifest):
     """List the shared model header, license and bounded weight scripts."""
     yield MODEL_FILE, manifest["model"]
@@ -282,6 +297,7 @@ def source_manifest(asset, shard, destination):
             "category": asset.get("category", ""), "critical": bool(asset.get("critical")),
             "discussion": "/stack_exchange/" in asset.get("source_url", ""),
             "license": asset.get("license", ""), "attribution": asset.get("attribution", ""),
+            "restricted": asset.get("redistributable") is False, "entrypoints": shard.get("entrypoints", []),
             "main": shard.get("main", ""), "records": shard["records"],
             "shelves": asset.get("shelves", []), "legacy": bool(asset.get("legacy"))}
 
@@ -301,6 +317,7 @@ def compose_shards(assets, budget, folder=SEARCH_ROOT):
     outputs = {"SEARCH/" + path: ShardPart(folder, path, pin) for path, pin in model}
     outputs[RUNTIME_FILE] = runtime
     rows = []
+    routes = load_routes(folder)
     for asset, shard in sorted(selected, key=lambda pair: (not pair[0].get("critical"), pair[1]["records"], pair[0]["id"])):
         digest = asset["sha256"]
         row = source_manifest(asset, shard, asset["destination"])
@@ -311,14 +328,20 @@ def compose_shards(assets, budget, folder=SEARCH_ROOT):
             part = {key: pin[key] for key in ("bloom", "vectors", "passages", "lead_vectors", "semantic_vectors") if key in pin}
             if pool != digest or shard.get("shared"):
                 part.update(pool=pool, number=number)
+            if pin["sha256"] in routes:
+                part.update(route=routes[pin["sha256"]], bytes=pin["bytes"])
             row["parts"].append(part)
-            chunks[part_path(pool, number)] = pin
+            path = part_location(pool, number, pin)
+            if "path" in pin:
+                part["path"] = path
+            chunks[path] = pin
         row["shelves"] = sorted(learning_shelves(asset))
         cost = len(encode(row)) + 1 + sum(pin["bytes"] for path, pin in chunks.items() if "SEARCH/" + path not in outputs)
         if cost > remaining:
             continue
         whole = sha256()
-        for relative, pin in chunks.items():
+        for pool, number, pin in parts:
+            relative = part_location(pool, number, pin)
             part = ShardPart(folder, relative, pin)
             whole.update(part.read())
             outputs["SEARCH/" + relative] = part

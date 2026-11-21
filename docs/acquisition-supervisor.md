@@ -122,8 +122,8 @@ changes to the already running manager's pinned inputs:
   prepares larger title/contents/final/random page samples. Each PDF runs in a
   timed subprocess. The 1 GB review budget includes checkpoints and renders.
 
-These initial additions and the PhET captures began under the v2 ledger. The
-latest combined ledger is
+These initial additions and the PhET captures began under an earlier ledger.
+The combined ledger used by the documented status command is
 `catalog/acquisition/1tb-trial-batches-expanded-courses-survivor-phet-v16.json`,
 including source/review phases for health, Khan/TED, nine whole-course candidates,
 manual repairs and scans. Its conservative reserve-full-peaks mode credits no

@@ -120,3 +120,12 @@ test('cloth and garment queries route to sewing vocabulary', () => {
   assert.ok(mending.routing.includes('darn'));
   assert.equal(rank.prepareQuery('How do I stitch a wound?', noVector).routing.includes('sewing'), false);
 });
+
+test('restricted passage labels retain the book and section with the physical page locator', () => {
+  const asset = {id: 'example', restricted: true, format: 'pdf', title: 'Medical guide — 2 Child health',
+    destination: 'HEALTH/basics.pdf', entrypoints: [[1, 'Assessment · Page 1']]};
+  const hit = rank.result(asset, {row: ['Page 3', 3, ''], index: 1}, 0).record;
+  assert.equal(hit.title, 'Medical guide — 2 Child health · Assessment · Page 3');
+  assert.equal(hit.href, 'HEALTH/basics.pdf#page=3');
+  assert.equal(hit.description, '');
+});

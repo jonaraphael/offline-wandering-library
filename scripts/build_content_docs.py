@@ -14,7 +14,8 @@ from owl.resources import load_resources
 from owl.utility_policy import require_utility_policy
 from owl.catalog import read_yaml
 from owl.atlas_model import load_navigation
-from owl.selection import DEFAULT_LIMIT, usable_capacity
+from owl.search_shards import load_manifest, shard_chunks
+from owl.selection import CAPACITY_GRID_GB, DEFAULT_LIMIT, ladder_choices, load_ladder, usable_capacity
 
 
 def render_coverage_plan():
@@ -109,7 +110,7 @@ def render():
         plan=capacity_plan(selected,p,report)
         out.append(f"| {p['id']} | {sum(a['size_bytes'] for a in selected)/1e9:.3f} | {plan['in_place_peak_budget_bytes']/1e9:.3f} | {len(selected)} |")
     out += ['', 'Decimal GB. File totals include reader packages. Planning peaks include a small discovery allowance, metadata and reserve. Original downloads stay on the target drive. Search and atlas pages compile from approved metadata without reading source bodies; no indexing workspace or cache is needed.', '',
-            'The five defaults are generated from the [capacity ladder](design/target-architecture.md). The same ladder accepts intermediate sizes and caps default content at 1 TB. Health, water and sanitation, food preservation, agriculture, shelter, and navigation retain their attributed bytes as capacity grows. A qualifying large archive can replace lower-priority collections in other fields. English Wikipedia starts with top at 16 GB and upgrades through mini and nopic to illustrated maxi. World maps stay selected after their first entry. The [content ledger](content-ledger.md) gives active and remaining candidate totals.', '',
+            'The five defaults are generated from the [capacity ladder](design/target-architecture.md). The same ladder accepts intermediate sizes. Above 1 TB it keeps the 1 TB base and adds further collections when space allows. Health, water and sanitation, food preservation, agriculture, shelter, and navigation retain their attributed bytes as capacity grows. A qualifying large archive can replace lower-priority collections in other fields. English Wikipedia starts with top at 16 GB and upgrades through mini and nopic to illustrated maxi. World maps stay selected after their first entry. The [content ledger](content-ledger.md) gives active and remaining candidate totals.', '',
             'The [topic-by-topic completion plan](full-1tb-coverage-plan.md) governs intended depth and remaining gaps. Capacity utilization alone does not establish adequate coverage.', '',
             '## Evidence and limits', '',
             '[The machine-readable review](../catalog/content-review.json) records every former asset, its original policy failures, priority, disposition, replacement group and coverage limitations. Download evidence records full-file hashes, byte sizes and PDF page counts for new sources. Existing large ZIM bodies were not downloaded again in this review.', '',
@@ -173,9 +174,49 @@ def render_ledger():
         '',
     ])
 
+def render_zim_coverage():
+    catalog = ROOT / 'catalog/library.yaml'
+    assets = load_catalog(catalog)
+    resources = load_resources(catalog.with_name('resources.yaml'), assets)
+    ladder = load_ladder(catalog)
+    first = {}
+    for gb in CAPACITY_GRID_GB:
+        core, fillers = ladder_choices(gb * 10**9, ladder)
+        for resource, edition in {**core, **fillers}.items():
+            row = resources[resource]
+            for identity in (row['editions'].get(edition) or row)['asset_ids']:
+                first.setdefault(identity, gb)
+    manifest = load_manifest()
+    rows = sorted(
+        ((first.get(shard['asset_id']), digest, shard) for digest, shard in manifest['sources'].items()
+         if shard['format'] == 'zim'),
+        key=lambda row: (row[0] is None, row[0] or 0, row[2]['asset_id']),
+    )
+    lines = [
+        '# Offline archive search coverage', '',
+        'Generated from the current search manifest and capacity ladder by `python scripts/build_content_docs.py`. '
+        'The selected drive includes precomputed shards for completed sources within its search allowance.', '',
+        'A complete directory covers readable entries and redirects in the content namespace. '
+        'The first default size is the first sampled capacity on the desktop tool ladder. '
+        'The three English Wikipedia editions share directory chunks. Indexed records include their additional lead entries.', '',
+        'Whole-file extraction checks the catalog SHA-256. A ranged directory receipt checks byte count, a consistent ETag '
+        'and each range digest. Both builders verify the complete archive before attaching search.', '',
+        '| Archive ID | First sampled default, GB | Directory | Indexed records | Leads | Vector records | Accepted answers |',
+        '| --- | ---: | --- | ---: | ---: | ---: | ---: |',
+    ]
+    for gb, digest, shard in rows:
+        vectors = sum(pin['vectors'] for _, _, pin in shard_chunks(manifest, digest, shard))
+        status = shard.get('source_evidence', {}).get('directory_coverage', 'unknown')
+        lines.append(f"| `{shard['asset_id']}` | {gb or '—'} | {status} | {shard['records']:,} | "
+                     f"{shard.get('lead_records', 0):,} | {vectors:,} | "
+                     f"{shard.get('extraction', {}).get('accepted_answers', 0):,} |")
+    return '\n'.join(lines) + '\n'
+
+
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--check',action='store_true');args=parser.parse_args()
-    outputs = {ROOT/'docs/content-selection.md': render(), ROOT/'docs/full-1tb-coverage-plan.md': render_coverage_plan(), ROOT/'docs/content-ledger.md': render_ledger()}
+    outputs = {ROOT/'docs/content-selection.md': render(), ROOT/'docs/full-1tb-coverage-plan.md': render_coverage_plan(), ROOT/'docs/content-ledger.md': render_ledger(),
+               ROOT/'docs/zim-search-coverage.md': render_zim_coverage()}
     for path, content in outputs.items():
         if args.check:
             if not path.exists() or path.read_text(encoding='utf-8')!=content:raise SystemExit('Content documentation stale; run python scripts/build_content_docs.py')

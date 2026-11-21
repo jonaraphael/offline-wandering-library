@@ -14,19 +14,29 @@ function template(layout, name, values) {
   return layout[name].replace(/\{\{([a-z_]+)\}\}/g, (_, slot) => values[slot] ?? "");
 }
 
-function emergencyDirectory(layout, assets, layouts) {
-  if (!layout) return "";
-  const rows = layout.tasks.map(([task, candidates]) => {
+function emergencyRoutes(layout, assets, layouts) {
+  if (!layout) return {directory: "", archiveTasks: ""};
+  const archiveTasks = [];
+  const rows = layout.tasks.map(([task, candidates], index) => {
     const match = candidates.find(([id]) => assets.has(id));
     if (!match) return template(layout, "task_missing", {task: escape(task)});
-    const [id, fragment = "", hint = ""] = match;
+    const [id, fragment = "", hint = "", entries = []] = match;
     const path = layouts.get(id)[0].path;
-    return template(layout, "task_link", {
-      task: escape(task), title: escape(assets.get(id).title), path: escape(path),
-      href: href(path) + escape(fragment), hint: hint ? " · " + escape(hint) : ""
-    });
+    const title = assets.get(id).title;
+    const row = {task: escape(task), title: escape(title), path: escape(path),
+      href: href(path) + escape(fragment), hint: hint ? " · " + escape(hint) : ""};
+    if (entries.length) {
+      const anchor = "emergency-" + (index + 1);
+      archiveTasks.push(template(layout, "archive_task", {...row, anchor, href: href("../../" + path),
+        entries: entries.map(([label, locator]) => template(layout, "archive_task_entry",
+          {title: escape(label), path: escape(locator)})).join("")}));
+      row.href = "LIBRARY/INDEX/sections.html#" + anchor;
+      row.title = escape(entries.map(([label]) => label).join(" / "));
+      row.hint = " · " + escape(entries.map(([, locator]) => locator).join(", ")) + " in Kiwix";
+    }
+    return template(layout, "task_link", row);
   });
-  return template(layout, "emergency", {rows:rows.join("")});
+  return {directory: template(layout, "emergency", {rows: rows.join("")}), archiveTasks: archiveTasks.join("")};
 }
 
 function assetList(assets, layouts, prefix) {
@@ -40,7 +50,7 @@ function assetList(assets, layouts, prefix) {
   }).join("") + "</ul>";
 }
 
-export async function assembleLibrary(drive, {completed, missing, navigation, layouts, parts, signal, search, searchBudget, fetchFile}) {
+export async function assembleLibrary(drive, {completed, missing, navigation, layouts, parts, signal, search, searchBudget, fetchFile, network}) {
   const {css = "", layout, groups = [], letters = [], collections = [], assets: metadata = {}, sections = {},
     locators = {}, topics = {}, entrances = {}, assignments = [], verify = ""} = navigation;
   function document(title, body, prefix = "") {
@@ -130,7 +140,7 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
     content_complete:!missing.length, layout:{entry_page:"START_HERE.html", content_directory:"LIBRARY"}}, null, 2) + "\n");
 
   const indexed = search ? await assembleSearch(drive, {completed, layouts, navigation,
-    config: search, fetchFile, signal, budget: searchBudget}) : {pages: [], checksums: [], warnings: []};
+    config: search, fetchFile, signal, network, budget: searchBudget}) : {pages: [], checksums: [], warnings: []};
   for (const [path, contents] of indexed.pages) pages.set(path, contents);
   const entrypoints = documents.flatMap(asset => {
     const source = locators[asset.id];
@@ -142,8 +152,9 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
     if (source.main) marks.unshift("<li>Archive start · <code>" + escape(source.main) + "</code></li>");
     return marks.length ? ["<h2>" + link(path, asset.title) + "</h2><ul>" + marks.join("") + "</ul>"] : [];
   });
+  const emergency = emergencyRoutes(layout, byId, layouts);
   pages.set(index + "sections.html", document("Sections and archive entry points",
-    entrypoints.join("") || "<p>Browse the included files through the topic atlas or categories.</p>", "../../"));
+    emergency.archiveTasks + entrypoints.join("") || "<p>Browse the included files through the topic atlas or categories.</p>", "../../"));
   const books = documents.filter(asset => sections[asset.id]?.source_sha256 === asset.sha256 ||
     metadata[asset.id]?.shelves?.includes("textbooks"));
   pages.set(index + "books.html", document("Book and source contents",
@@ -180,7 +191,7 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
   const readerIndex = readers.length ? '<h2 id="readers">Archive readers</h2>' +
     assetList(readers, layouts, "") : "";
   const start = document("Offline Wandering Library",
-    emergencyDirectory(layout, byId, layouts) + '<p>' + (search ? link("LIBRARY/SEARCH.html", "Search offline") + ' ' : '') +
+    emergency.directory + '<p>' + (search ? link("LIBRARY/SEARCH.html", "Search offline") + ' ' : '') +
     link(index + "topics.html", "Topic atlas") + (letters.length ? " · " +
       link(index + "topic-a-z/A.html", "Topics A–Z") : "") + ' <a href="#shelves">Shelves</a> <a href="#file-catalog">All files</a></p>' +
     (missing.length ? '<p class="notice">Some files are missing. ' +

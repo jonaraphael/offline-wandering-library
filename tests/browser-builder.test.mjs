@@ -4,8 +4,9 @@ import {createHash, webcrypto} from "node:crypto";
 import {createServer} from "node:http";
 import {once} from "node:events";
 import {test} from "node:test";
-import {browserSelection, buildLibrary, partLayout, readBuild} from "../web/builder.mjs";
+import {archiveCheckpoints, browserSelection, buildLibrary, partLayout, readBuild} from "../web/builder.mjs";
 import {measureFreeSpace} from "../web/drive.mjs";
+import {createNetwork} from "../web/network.mjs";
 import {probesCapacity} from "../web/builder-ui.mjs";
 
 globalThis.crypto ||= webcrypto;
@@ -54,15 +55,19 @@ class FileHandle {
     this.options = options;
   }
   async getFile() { return this.bytes; }
-  async createWritable() {
-    const chunks = [];
+  async createWritable({keepExistingData = false} = {}) {
+    let swap = keepExistingData ? this.bytes : new Blob([]);
+    let offset = 0;
     return {
       write: async contents => {
         this.options.beforeWrite?.(this.name, contents);
-        chunks.push(contents);
+        const chunk = new Blob([contents]);
+        swap = new Blob([swap.slice(0, offset), chunk, swap.slice(offset + chunk.size)]);
+        offset += chunk.size;
       },
+      seek: async bytes => { offset = bytes; },
       truncate: async bytes => this.options.truncate?.(bytes),
-      close: async () => { this.bytes = new Blob(chunks); },
+      close: async () => { this.bytes = swap; },
       abort: async () => { this.options.onAbort?.(); }
     };
   }
@@ -309,8 +314,9 @@ test("search assembly verifies and publishes only selected source digests", asyn
   const script = await (await (await drive.file("LIBRARY/SEARCH/shards.js")).getFile()).text();
   assert.equal(JSON.parse(script.slice("globalThis.OWLShardSelection(".length, -3)).model_parts, 1);
   const beforeResume = urls.length;
-  await buildLibrary(drive, {...options, resume: true});
-  assert.equal(urls.length, beforeResume, "verified data is reused");
+  const resumed = await buildLibrary(drive, {...options, resume: true, searchBudget: 1});
+  assert.equal(resumed.state.searchBudget, result.state.searchBudget);
+  assert.equal(urls.length, beforeResume, "verified search data is reused at the saved allowance");
 });
 
 test("selected sources reuse one verified search pool", async () => {
@@ -420,4 +426,116 @@ test("the emergency directory links only to completed files and keeps omissions 
   assert.doesNotMatch(start, /Unfinished guide/);
   assert.match(await read("LIBRARY/INDEX/build-report.html"), /Unfinished guide.*Source blocked/);
   assert.match(await read("LIBRARY/INDEX/phone.html"), /Water guide/);
+});
+
+test("a connection cut during a file and again during search pauses the queue and resumes", async t => {
+  const body = Buffer.from("first verified asset");
+  const book = asset("book", body, {critical: true});
+  const next = asset("next", body);
+  const model = "model";
+  const license = "license";
+  const bytes = value => ({bytes: Buffer.byteLength(value), sha256: hash(value)});
+  const start = performance.now();
+  const times = [];
+  let offline = false;
+  const cut = new Set(["/book", "/search/model.js"]);
+  const fixture = await httpFixture(t, (request, response) => {
+    if (cut.delete(request.url)) {
+      response.writeHead(200);
+      response.write("first", () => {
+        offline = true;
+        response.destroy();
+      });
+      return;
+    }
+    if (request.url === "/probe") response.writeHead(204).end();
+    else if (request.url === "/search/model.js") response.end(model);
+    else if (request.url === "/search/model-license.txt") response.end(license);
+    else if (request.url.startsWith("/search/sources/")) response.end("index");
+    else response.end(body);
+  });
+  const events = new EventTarget();
+  let pending = false;
+  let pauses = 0;
+  const fetchFile = (url, options) => {
+    if (offline) throw new TypeError("test network disconnected");
+    return fetch(url, options);
+  };
+  const network = createNetwork({fetchFile, probeURL: fixture.url("/probe"), events, retryMs: 20,
+    onWaiting() {
+      if (pending) return;
+      pending = true;
+      pauses++;
+      const cutAt = performance.now();
+      setTimeout(() => {
+        offline = false;
+        pending = false;
+        times.push(performance.now() - cutAt);
+        events.dispatchEvent(new Event("online"));
+      }, 120);
+    }
+  });
+  const drive = new Directory();
+  const trace = [];
+  const shard = {records: 1, sha256: hash("index"), parts: [{...bytes("index"), bloom: "", vectors: 0}]};
+  const result = await buildLibrary(drive, {assets: [book, next], routes: {
+    book: [fixture.url("/book")], next: [fixture.url("/next")]},
+    fetchFile, network, onProgress: event => trace.push(event.kind),
+    search: {base: fixture.url("/search/"), page: "<p>Search</p>", records: [], runtime: "", rankRuntime: "", manifest: {
+      version: 1, model: bytes(model), license: bytes(license), sources: {[book.sha256]: shard}
+    }}, navigation: {assets: {}}});
+  assert.equal(result.state.finished, true);
+  assert.equal(result.completed.length, 2);
+  assert.deepEqual(result.state.failures, {});
+  assert.deepEqual(result.searchWarnings, []);
+  assert.equal(pauses, 2);
+  assert.equal(trace.includes("failed"), false);
+  assert.equal(fixture.requests.filter(row => row.path === "/next").length, 1);
+  t.diagnostic("Connection cuts lasted " + times.map(value => Math.round(value)).join(" and ") +
+    " ms. Build finished in " + Math.round(performance.now() - start) + " ms.");
+});
+
+test("single-file archives resume from a durable prefix and remain one verified file", async () => {
+  const drive = new Directory();
+  const body = Buffer.from("0123456789abcdefghijklmnopqrstuvwxyz");
+  const item = asset("archive", body, {format: "zim", destination: "ZIM/archive.zim"});
+  const controller = new AbortController();
+  const requests = [];
+  const fetchFile = async (_url, {headers}) => {
+    const [start, end] = headers.Range.slice(6).split("-").map(Number);
+    requests.push(start);
+    return new Response(body.subarray(start, end + 1), {status: 206,
+      headers: {"Content-Range": "bytes " + start + "-" + end + "/" + body.length}});
+  };
+  const options = {assets: [item], routes: {archive: ["https://example.test/archive.zim"]},
+    fetchFile, singleArchives: true, partBytes: 8, archiveSpace: 54};
+  assert.deepEqual(archiveCheckpoints(item.size_bytes, 8, 54), [1, 2]);
+  await assert.rejects(buildLibrary(drive, {...options, signal: controller.signal,
+    onProgress(event) {
+      if (event.kind === "downloading" && event.index === 2 && event.received) controller.abort();
+    }}), {name: "AbortError"});
+  const target = "LIBRARY/ZIM/archive.zim";
+  assert.equal((await (await drive.file(target)).getFile()).size, 16);
+  assert.equal((await readBuild(drive)).prefixes.archive.count, 2);
+  requests.length = 0;
+  const done = await buildLibrary(drive, {...options, resume: true});
+  assert.equal(done.state.finished, true);
+  assert.equal(done.state.joined.archive, true);
+  assert.deepEqual(requests, [16, 24, 32]);
+  assert.equal(hash(Buffer.from(await (await (await drive.file(target)).getFile()).arrayBuffer())), item.sha256);
+  await assert.rejects(drive.file(target + "aa"), {name: "NotFoundError"});
+});
+
+test("emergency archive tasks link to named offline articles and their printed paths", async () => {
+  const drive = new Directory();
+  const body = Buffer.from("synthetic archive");
+  const item = asset("wikimed_en", body, {format: "zim", destination: "ZIM/medical.zim"});
+  const layout = JSON.parse(readFileSync(new URL("../src/owl/templates/offline-layout.json", import.meta.url)));
+  await buildLibrary(drive, {assets: [item], routes: {wikimed_en: ["https://example.test/archive.zim"]},
+    fetchFile: async () => new Response(body), navigation: {layout}});
+  const start = await (await (await drive.file("START_HERE.html")).getFile()).text();
+  const entry = await (await (await drive.file("LIBRARY/INDEX/sections.html")).getFile()).text();
+  assert.match(start, /LIBRARY\/INDEX\/sections.html#emergency-6">Childbirth<\/a>/);
+  assert.match(entry, /id="emergency-6"/);
+  assert.match(entry, /<code>Childbirth<\/code>/);
 });

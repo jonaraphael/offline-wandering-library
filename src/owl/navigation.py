@@ -12,7 +12,7 @@ from urllib.parse import quote
 
 from .catalog import is_document, learning_shelves
 from .layout import checksum_name, managed_path
-from .offline_layout import emergency_directory, render
+from .offline_layout import emergency_routes, render
 from .safety import atomic_write
 from .search_ui import SEARCH_CSP, render_search_widget
 
@@ -346,7 +346,9 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
         locators += "".join(f'<li>{_text(heading)} · <code>{_text(number)}</code></li>'
                             for number, heading in hints if isinstance(number, str))
         routes.append(f'<h2><a href="{path}">{_text(entry["title"])}</a></h2><ul>{locators}</ul>')
-    pages[inside] = _page("Sections and archive entry points", "".join(routes) or
+    emergency, archive_tasks = emergency_routes(entries, lambda path: _href(path, "START_HERE.html"),
+                                                 lambda path: _href(path, inside))
+    pages[inside] = _page("Sections and archive entry points", archive_tasks + "".join(routes) or
                           "<p>Browse the included files through the topic atlas or categories.</p>", inside)
     pages["INDEX/phone.html"] = _page("Critical files for phones",
         "<p>Open one of these files in your device’s file viewer. The listed paths start at the drive.</p>"
@@ -360,8 +362,7 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
                               + '<p><a href="../INVENTORY.html">Inventory and source coverage</a></p>', report_path)
     pages["START_HERE.html"] = _page(
         "Offline Wandering Library",
-        emergency_directory(entries, lambda path: _href(path, "START_HERE.html"))
-        + _selection_notice(inventory, "START_HERE.html")
+        emergency + _selection_notice(inventory, "START_HERE.html")
         + """<p>An offline knowledge library. Browse the file catalog below, or search in a compatible browser.</p>
 <section class="notice" id="files-instructions"><h2>Using iPhone Files or another file preview?</h2>
 <p>A preview may display this page while blocking search and links to other files.

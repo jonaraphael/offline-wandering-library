@@ -73,6 +73,14 @@ class SourceShardTests(unittest.TestCase):
         self.assertEqual([source["sha256"] for source in selection["sources"]], digests)
         self.assertTrue(all(source["parts"][0]["pool"] == pool for source in selection["sources"]))
 
+    def test_content_address_is_independent_of_source_and_chunk_position(self):
+        records = [Record("Reference title", "reference")]
+        first, _, _, _ = packed_part("a" * 64, 0, records, self.model, content_addressed=True)
+        second, _, _, _ = packed_part("b" * 64, 7, records, self.model, content_addressed=True)
+        self.assertEqual(first, second)
+        packed = json.loads(decompress(b64decode(payload(first, "OWLShardBlob"))))
+        self.assertEqual(packed["records"][0][:2], ["Reference title", "reference"])
+
     def test_body_vector_and_postings_survive_snippet_redaction(self):
         model = self.model
         title = "Page 14"

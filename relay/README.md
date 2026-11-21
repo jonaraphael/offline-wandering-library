@@ -11,7 +11,10 @@ python scripts/build_pages.py --relay-allowlist relay/allowlist.json
 ```
 
 The map includes 320 resolved critical files that lack a browser route and
-have redistribution disabled in the catalog. Confirm the applicable
+have redistribution disabled in the catalog. It also includes six publisher-listed
+archive peers, pinned to specific catalog editions. The Worker requires a Range
+request of at most 1 GiB for those archives. Pages adds the relay after the
+direct route when you pass `--relay-base`. Confirm the applicable
 publisher terms and deployment authorization before enabling any of these
 routes. Review the generated map with the approver before deployment.
 

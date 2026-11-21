@@ -10,17 +10,25 @@ cmp /tmp/kiwix-pieces.json web/kiwix-pieces.json
 ```
 
 The builder checks these pieces as bytes arrive. Whole-file SHA-256 remains
-the acceptance check. Parts record SHA-256 and incremental hash state on the
-drive, so routine resume checks sizes and continues hashing from the saved
-checkpoint. A full verification reads the bytes again.
+the acceptance check. The drive journal saves hash state for committed split
+parts and single-file prefixes. Routine resume checks sizes before using that
+state. Full verification reads the installed bytes again.
 
 On 2026-11-21 a single-byte ranged GET with the Pages Origin confirmed the
 pinned total and exposed Content-Range on 6/6 Kiwix project mirror responses for
 the largest six ZIMs. The same check found 31/49 alternate URLs accepted a
 range. Zero of those 49 satisfied the full browser test. The candidates
 included publisher-listed US and European peers, the Wikimedia host and
-the Kiwix archive service. The current master mirror remains the browser
-route. [Kiwix download infrastructure](https://github.com/kiwix/operations/wiki/Downloads)
+the Kiwix archive service. The project mirror remains the default browser
+route. Six exact editions also have a publisher-listed NLUUG route under
+the optional relay configuration. The relay serves bounded byte ranges when
+configured and authorized. The browser tries the direct route first. [Kiwix download infrastructure](https://github.com/kiwix/operations/wiki/Downloads)
+
+During an active build, transfer transport failures try alternate sources,
+check the Pages connection and wait with exponential backoff during an
+outage. The browser’s online event prompts a new probe. Search payloads use
+the same wait and resume logic. An HTTP error or a pin mismatch from a source
+can fail that source while other files continue.
 
 A synthetic 20 GiB Chrome headless fixture used a test picker backed by a
 dedicated Chromium profile. The browser was killed during parts starting

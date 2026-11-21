@@ -2,20 +2,13 @@ import {sha256} from "./vendor/noble-hashes/sha2.js";
 import {bytesToHex} from "./vendor/noble-hashes/utils.js";
 import {fileHandle, isNoSpace, optional, removeFile, writeFile} from "./drive.mjs";
 import {assembleLibrary} from "./offline.mjs";
+import {createNetwork, receiveFile, SourceError} from "./network.mjs";
 
 export const PART_BYTES = 2 ** 30;
 export const MANIFEST = "LIBRARY/.owl/browser-build.json";
 const FAT32_MAX = 2 ** 32 - 1;
 const DIGEST = /^[0-9a-f]{64}$/;
 const tier = ["CRITICAL", "USEFUL", "NONESSENTIAL"];
-const NETWORK_IDLE_MS = 60_000;
-
-class SourceError extends Error {
-  constructor(message, whole = false) {
-    super(message);
-    this.whole = whole;
-  }
-}
 
 export function isKnowledgeFile(asset) {
   return !asset.destination.startsWith("SOFTWARE/") && !asset.supporting_file && asset.archive_member?.document !== false;
@@ -72,7 +65,7 @@ async function save(drive, state) {
   await writeFile(drive, MANIFEST, JSON.stringify(state) + "\n");
 }
 
-async function start(drive, {assets, excluded, partBytes, joinArchives}) {
+async function start(drive, {assets, excluded, partBytes, joinArchives, searchBudget, singleArchives, archiveSpace}) {
   if (await optional(() => drive.getFileHandle("START_HERE.html"))) {
     throw Error("This drive folder already has a library. Choose an empty folder on the drive.");
   }
@@ -87,8 +80,15 @@ async function start(drive, {assets, excluded, partBytes, joinArchives}) {
       }
     }
   }
-  const state = {version: 1, buildId: globalThis.crypto.randomUUID(), partBytes, joinArchives, joined: {},
-    plan: buildOrder(assets).map(assetPin), excluded, parts: {}, verified: {}, dropped: {}, failures: {}, finished: false};
+  const ordered = buildOrder(assets);
+  if (singleArchives) {
+    // Place large archives early so their committed prefixes fit alongside a swap.
+    ordered.sort((a, b) => Number(b.format === "zim" && b.size_bytes > partBytes) * b.size_bytes -
+      Number(a.format === "zim" && a.size_bytes > partBytes) * a.size_bytes);
+  }
+  const state = {version: 1, buildId: globalThis.crypto.randomUUID(), partBytes, joinArchives, searchBudget,
+    singleArchives, archiveSpace, prefixes: {}, joined: {},
+    plan: ordered.map(assetPin), excluded, parts: {}, verified: {}, dropped: {}, failures: {}, finished: false};
   await writeFile(drive, MANIFEST, JSON.stringify(state) + "\n");
   return state;
 }
@@ -135,42 +135,23 @@ async function readCheckpoint(file, digest, whole, signal) {
 }
 
 async function streamRequest(url, range, expected, fetchFile, signal, onChunk) {
-  const controller = new AbortController();
-  const requestSignal = signal ? AbortSignal.any([signal, controller.signal]) : controller.signal;
-  async function receive(operation) {
-    const timer = setTimeout(() => controller.abort(), NETWORK_IDLE_MS);
-    try { return await operation(); }
-    catch (_) {
-      signal?.throwIfAborted();
-      throw new SourceError(controller.signal.aborted ? "Source stopped sending data" : "Connection or browser access failed");
-    } finally { clearTimeout(timer); }
-  }
-  const headers = range ? {Range: "bytes=" + range.start + "-" + range.end} : {};
-  const response = await receive(() => fetchFile(url, {
-    headers, signal: requestSignal, cache: "no-store", credentials: "omit", referrerPolicy: "no-referrer"
-  }));
-  if (!response.body) throw new SourceError("Source returned no data (HTTP " + response.status + ")");
-  const reader = response.body.getReader();
   let count = 0;
-  try {
-    if (range ? response.status !== 206 ||
-        response.headers.get("Content-Range") !== "bytes " + range.start + "-" + range.end + "/" + range.total :
-        response.status !== 200) {
-      throw new SourceError(range && response.ok ? "Source did not return the pinned byte range" : "HTTP " + response.status);
-    }
-    for (;;) {
-      signal?.throwIfAborted();
-      const packet = await receive(() => reader.read());
-      if (packet.done) break;
-      count += packet.value.byteLength;
+  await receiveFile(url, {
+    fetchFile, signal, headers: range ? {Range: "bytes=" + range.start + "-" + range.end} : {},
+    check(response) {
+      if (range ? response.status !== 206 ||
+          response.headers.get("Content-Range") !== "bytes " + range.start + "-" + range.end + "/" + range.total :
+          response.status !== 200) {
+        throw new SourceError(range && response.ok ? "Source did not return the pinned byte range" : "HTTP " + response.status);
+      }
+    },
+    async onChunk(chunk) {
+      count += chunk.byteLength;
       if (count > expected) throw new SourceError("Source exceeded the pinned byte count");
-      await onChunk(packet.value);
+      await onChunk(chunk);
     }
-    if (count !== expected) throw new SourceError("Source ended before the pinned byte count");
-  } finally {
-    void reader.cancel().catch(() => {});
-    reader.releaseLock();
-  }
+  });
+  if (count !== expected) throw new SourceError("Source ended before the pinned byte count", {connection: true});
 }
 
 function checkPublisherPieces(published, asset, part) {
@@ -204,32 +185,38 @@ function checkPublisherPieces(published, asset, part) {
   };
 }
 
-async function writePart(drive, asset, part, source, options) {
+async function transferPart(asset, part, source, writable, options) {
   const {fetchFile, signal, whole, expectedHash, publisherPieces, last, range, onBytes} = options;
   const checkPiece = checkPublisherPieces(publisherPieces, asset, part);
-  const writable = await (await fileHandle(drive, part.path, true)).createWritable({mode: "exclusive"});
   const hash = sha256.create(), next = whole.clone();
+  let total = 0;
+  for (const piece of source.pieces) {
+    const pieceHash = piece.sha256 ? sha256.create() : null;
+    await streamRequest(piece.url, range, piece.bytes ?? part.bytes, fetchFile, signal, async chunk => {
+      hash.update(chunk);
+      next.update(chunk);
+      pieceHash?.update(chunk);
+      if (checkPiece) await checkPiece(chunk);
+      await writable.write(chunk);
+      total += chunk.byteLength;
+      onBytes(total);
+    });
+    if (pieceHash && bytesToHex(pieceHash.digest()) !== piece.sha256) throw new SourceError("Published chunk SHA-256 mismatch");
+  }
+  const digest = bytesToHex(hash.digest());
+  if (total !== part.bytes || (expectedHash && digest !== expectedHash)) throw new SourceError("Part SHA-256 or size mismatch");
+  if (last && bytesToHex(next.clone().digest()) !== asset.sha256)
+    throw new SourceError("Whole-file SHA-256 mismatch", {whole: true});
+  signal?.throwIfAborted();
+  return {digest, next};
+}
+
+async function writePart(drive, asset, part, source, options) {
+  const writable = await (await fileHandle(drive, part.path, true)).createWritable({mode: "exclusive"});
   try {
-    let total = 0;
-    for (const piece of source.pieces) {
-      const pieceHash = piece.sha256 ? sha256.create() : null;
-      await streamRequest(piece.url, range, piece.bytes ?? part.bytes, fetchFile, signal, async chunk => {
-        hash.update(chunk);
-        next.update(chunk);
-        pieceHash?.update(chunk);
-        if (checkPiece) await checkPiece(chunk);
-        await writable.write(chunk);
-        total += chunk.byteLength;
-        onBytes(total);
-      });
-      if (pieceHash && bytesToHex(pieceHash.digest()) !== piece.sha256) throw new SourceError("Published chunk SHA-256 mismatch");
-    }
-    const digest = bytesToHex(hash.digest());
-    if (total !== part.bytes || (expectedHash && digest !== expectedHash)) throw new SourceError("Part SHA-256 or size mismatch");
-    if (last && bytesToHex(next.clone().digest()) !== asset.sha256) throw new SourceError("Whole-file SHA-256 mismatch", true);
-    signal?.throwIfAborted();
+    const result = await transferPart(asset, part, source, writable, options);
     await writable.close();
-    return {digest, next};
+    return result;
   } catch (error) {
     await writable.abort().catch(() => {});
     throw error;
@@ -261,7 +248,7 @@ async function forgetParts(drive, state, asset, layout) {
   delete state.verified[asset.id];
 }
 
-async function buildAsset(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, fullVerify}) {
+async function buildAsset(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, fullVerify, network}) {
   const pins = partPins(asset, layout, published, state.partBytes);
   const checkpoints = state.parts[asset.id] ||= [];
   let whole = sha256.create(), index = 0;
@@ -283,7 +270,7 @@ async function buildAsset(drive, state, asset, layout, {routes, published, fetch
   }
   if (index === layout.length) {
     if (bytesToHex(whole.digest()) === asset.sha256) return;
-    throw new SourceError("Saved parts failed whole-file SHA-256", true);
+    throw new SourceError("Saved parts failed whole-file SHA-256", {whole: true});
   }
   // Discard only this build's untrusted suffix before rewriting it, so a
   // replacement does not hold both the old bytes and a new swap file.
@@ -292,46 +279,145 @@ async function buildAsset(drive, state, asset, layout, {routes, published, fetch
   delete state.verified[asset.id];
   await save(drive, state);
 
-  const choices = routesFor(asset, routes, published);
-  let preferred = (state.sourceOffsets?.[asset.id] || 0) % (choices.length || 1);
+  const download = partDownloader(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network});
   for (; index < layout.length; index++) {
-    signal?.throwIfAborted();
-    await assertDrive(drive, state);
     const part = layout[index];
-    const progress = {asset, index, count: layout.length};
-    const range = layout.length === 1 ? null : {start: part.start, end: part.start + part.bytes - 1, total: asset.size_bytes};
-    const failures = [];
-    let downloaded, wholeMismatch = false;
-    for (let round = 0; round < 2 && !downloaded; round++) {
-      for (let offset = 0; offset < choices.length; offset++) {
-        const sourceIndex = (preferred + offset) % choices.length;
-        const source = choices[sourceIndex];
-        onProgress({kind: "downloading", ...progress, source: source.label, received: 0, bytes: part.bytes});
-        try {
-          await assertDrive(drive, state);
-          downloaded = await writePart(drive, asset, part, source, {fetchFile, signal, whole, range,
-            expectedHash: pins[index], publisherPieces: published.publisherPieces, last: index === layout.length - 1,
-            onBytes: received => onProgress({kind: "downloading", ...progress, source: source.label, received, bytes: part.bytes})});
-          preferred = sourceIndex;
-          break;
-        } catch (error) {
-          if (!(error instanceof SourceError)) throw error;
-          wholeMismatch ||= error.whole;
-          const message = source.label + " — " + error.message;
-          if (!failures.includes(message)) failures.push(message);
-          onProgress({kind: "retrying", ...progress, message});
-        }
-      }
-    }
-    if (!downloaded) {
-      if (wholeMismatch && choices.length > 1) (state.sourceOffsets ||= {})[asset.id] = (preferred + 1) % choices.length;
+    let downloaded;
+    try {
+      downloaded = await download(index, whole, (source, options) => writePart(drive, asset, part, source, options));
+    } catch (error) {
       // Failed swaps leave an empty destination placeholder in Chromium.
-      await removeFile(drive, part.path);
-      throw new SourceError(failures.join(". ") || "No browser source is available", wholeMismatch);
+      if (error instanceof SourceError) await removeFile(drive, part.path);
+      throw error;
     }
     whole = downloaded.next;
     checkpoints.push({sha256: downloaded.digest, bytes: part.bytes, hashState: hashCheckpoint(whole)});
     await save(drive, state);
+  }
+}
+
+function partDownloader(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network}) {
+  const pins = partPins(asset, layout, published, state.partBytes);
+  const choices = routesFor(asset, routes, published);
+  let preferred = (state.sourceOffsets?.[asset.id] || 0) % (choices.length || 1);
+  return async (index, whole, write) => {
+    signal?.throwIfAborted();
+    const part = layout[index];
+    const progress = {asset, index, count: layout.length};
+    const range = layout.length === 1 ? null : {start: part.start, end: part.start + part.bytes - 1, total: asset.size_bytes};
+    const failures = new Set();
+    let wholeMismatch = false, round = 0;
+    while (choices.length && round < 2) {
+      let connection = false;
+      for (let offset = 0; offset < choices.length; offset++) {
+        const sourceIndex = (preferred + offset) % choices.length;
+        const source = choices[sourceIndex];
+        const notify = received => onProgress({kind: "downloading", ...progress, received, bytes: part.bytes});
+        notify(0);
+        try {
+          await assertDrive(drive, state);
+          const result = await write(source, {fetchFile, signal, whole, range,
+            expectedHash: pins[index], publisherPieces: published.publisherPieces, last: index === layout.length - 1,
+            onBytes: notify});
+          preferred = sourceIndex;
+          return result;
+        } catch (error) {
+          if (!(error instanceof SourceError)) throw error;
+          wholeMismatch ||= error.whole;
+          connection ||= error.connection;
+          const message = source.label + " — " + error.message;
+          failures.add(message);
+          onProgress({kind: "retrying", ...progress, message});
+        }
+      }
+      if ((connection || network.offline()) && await network.waitForConnection()) continue;
+      if (++round < 2) await network.delay();
+    }
+    if (wholeMismatch && choices.length > 1) (state.sourceOffsets ||= {})[asset.id] = (preferred + 1) % choices.length;
+    throw new SourceError([...failures].join(". ") || "No browser source is available", {whole: wholeMismatch});
+  };
+}
+
+// Chromium copies existing file data into a new on-volume swap. Before
+// reopening, cap the committed prefix so prefix + final swap can fit.
+export function archiveCheckpoints(bytes, partBytes, available) {
+  const maxParts = Math.max(0, Math.floor(Math.min(available - bytes, bytes / 2) / partBytes));
+  const checkpoints = [];
+  for (let part = 1; part < maxParts; part *= 4) checkpoints.push(part);
+  if (maxParts) checkpoints.push(maxParts);
+  return checkpoints;
+}
+
+async function buildSingleArchive(drive, state, asset, layout, available, options) {
+  const {signal, fullVerify} = options;
+  const [{path}] = joinedLayout(asset);
+  const prefix = state.prefixes[asset.id];
+  const file = await fileAt(drive, path);
+  let whole = sha256.create(), index = 0;
+  if (file?.size === asset.size_bytes &&
+      await readCheckpoint(file, asset.sha256, sha256.create(), signal)) {
+    state.joined[asset.id] = true;
+    delete state.prefixes[asset.id];
+    return;
+  }
+  const start = prefix && layout[prefix.count]?.start;
+  if (start > 0 && file?.size >= start) {
+    const prefixData = file.slice(0, start);
+    const restored = file.size === start && !fullVerify && restoreHash(prefix.hashState, start) ||
+      await readCheckpoint(prefixData, prefix.sha256, sha256.create(), signal);
+    if (restored) {
+      if (file.size !== start) {
+        // A previous close may have committed more bytes before the journal
+        // was saved. Keep the verified prefix and discard the unknown tail.
+        const writer = await (await fileHandle(drive, path)).createWritable({mode: "exclusive"});
+        try {
+          for await (const bytes of prefixData.stream()) {
+            signal?.throwIfAborted();
+            await writer.write(bytes);
+          }
+          await writer.close();
+        } catch (error) {
+          await writer.abort().catch(() => {});
+          throw error;
+        }
+      }
+      whole = restored;
+      index = prefix.count;
+    }
+  }
+  if (!index) {
+    await removeFile(drive, path);
+    delete state.prefixes[asset.id];
+  }
+  const download = partDownloader(drive, state, asset, layout, options);
+  const checkpoints = new Set(archiveCheckpoints(asset.size_bytes, state.partBytes, available));
+  let writable;
+  try {
+    while (index < layout.length) {
+      writable = await (await fileHandle(drive, path, true)).createWritable({mode: "exclusive", keepExistingData: index > 0});
+      do {
+        const part = layout[index];
+        const downloaded = await download(index, whole, async (source, transfer) => {
+          await writable.seek(part.start);
+          return transferPart(asset, part, source, writable, transfer);
+        });
+        whole = downloaded.next;
+        index++;
+      } while (index < layout.length && !checkpoints.has(index));
+      await writable.close();
+      writable = null;
+      if (index < layout.length) {
+        state.prefixes[asset.id] = {count: index, sha256: bytesToHex(whole.clone().digest()),
+          hashState: hashCheckpoint(whole)};
+      } else {
+        state.joined[asset.id] = true;
+        delete state.prefixes[asset.id];
+      }
+      await save(drive, state);
+    }
+  } catch (error) {
+    await writable?.abort().catch(() => {});
+    throw error;
   }
 }
 
@@ -375,7 +461,7 @@ async function joinParts(drive, state, asset, layout, {signal, onProgress}) {
         await writable.write(chunk);
       }
     }
-    if (bytesToHex(digest.digest()) !== asset.sha256) throw new SourceError("Saved parts failed whole-file SHA-256", true);
+    if (bytesToHex(digest.digest()) !== asset.sha256) throw new SourceError("Saved parts failed whole-file SHA-256", {whole: true});
     await writable.close();
   } catch (error) {
     await writable?.abort().catch(() => {});
@@ -391,13 +477,16 @@ async function joinParts(drive, state, asset, layout, {signal, onProgress}) {
 
 export async function buildLibrary(drive, {assets, excluded = [], catalogAssets = assets, routes,
   published = {}, navigation = {}, search, searchBudget = 16 * 2 ** 20, partBytes = PART_BYTES, fetchFile = globalThis.fetch, signal,
-  onProgress = () => {}, resume = false, fullVerify = false, joinArchives = false}) {
+  onProgress = () => {}, resume = false, fullVerify = false, joinArchives = false,
+  singleArchives = false, archiveSpace = 0, network = createNetwork({fetchFile, signal, onWaiting: () => onProgress({kind: "waiting-network"})})}) {
   const saved = await readBuild(drive);
   if (saved && !resume) throw Error("This drive has a saved build. Choose Resume.");
   if (!saved && resume) throw Error("No browser build was found on this drive.");
   if (!saved && !assets.some(isKnowledgeFile)) throw Error("Choose knowledge files with browser-accessible sources.");
-  const state = saved || await start(drive, {assets, excluded, partBytes, joinArchives});
+  const state = saved || await start(drive, {assets, excluded, partBytes, joinArchives, searchBudget, singleArchives, archiveSpace});
+  state.searchBudget ??= searchBudget;
   state.joined ||= {};
+  state.prefixes ||= {};
   const byId = new Map(catalogAssets.map(asset => [asset.id, asset]));
   const ordered = state.plan.map(pin => {
     const asset = byId.get(pin.id);
@@ -409,22 +498,36 @@ export async function buildLibrary(drive, {assets, excluded = [], catalogAssets 
   const layouts = new Map(ordered.map(asset => [asset.id, partLayout(asset, state.partBytes)]));
   state.finished = false;
   if (resume) state.dropped = {};
+  const occupied = new Set(ordered.filter(asset => state.verified[asset.id] ||
+    state.parts[asset.id]?.length || state.prefixes[asset.id] || state.joined[asset.id]).map(asset => asset.id));
+  let used = ordered.filter(asset => occupied.has(asset.id)).reduce((sum, asset) => sum + asset.size_bytes, 0);
   for (const [position, asset] of ordered.entries()) {
+    if (occupied.has(asset.id)) used -= asset.size_bytes;
     signal?.throwIfAborted();
     await assertDrive(drive, state);
     const layout = layouts.get(asset.id);
     const report = event => onProgress({...event, position, total: ordered.length});
     try {
+      const options = {routes, published, fetchFile, signal, onProgress: report, fullVerify, network};
       if (!await checkJoined(drive, state, asset, layout, {fullVerify, signal})) {
-        await buildAsset(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress: report, fullVerify});
-        if (state.joinArchives && layout.length > 1) {
-          await joinParts(drive, state, asset, layout, {signal, onProgress: report});
+        if (state.singleArchives && layout.length > 1) {
+          await buildSingleArchive(drive, state, asset, layout, state.archiveSpace - used, options);
+        } else {
+          await buildAsset(drive, state, asset, layout, options);
+          if (state.joinArchives && layout.length > 1) {
+            await joinParts(drive, state, asset, layout, {signal, onProgress: report});
+          }
         }
       }
+      used += asset.size_bytes;
       state.verified[asset.id] = true;
       delete state.failures[asset.id];
     } catch (error) {
       signal?.throwIfAborted();
+      if (state.singleArchives && layout.length > 1 && (isNoSpace(error) || error.whole)) {
+        await removeFile(drive, joinedLayout(asset)[0].path);
+        delete state.prefixes[asset.id];
+      }
       if (isNoSpace(error)) {
         // Earlier files are higher priority. Reclaim this unfinished file's
         // space and give the remaining, usually smaller files a chance to fit.
@@ -435,6 +538,7 @@ export async function buildLibrary(drive, {assets, excluded = [], catalogAssets 
       } else if (error instanceof SourceError) {
         if (error.whole) await forgetParts(drive, state, asset, layout);
         state.failures[asset.id] = error.message;
+        if (state.parts[asset.id]?.length || state.prefixes[asset.id]) used += asset.size_bytes;
         report({kind: "failed", asset, message: error.message});
       } else throw error;
     }
@@ -456,7 +560,7 @@ export async function buildLibrary(drive, {assets, excluded = [], catalogAssets 
     }
   }
   const searchWarnings = await assembleLibrary(drive, {completed, missing, navigation, layouts, parts: installedParts,
-    search, searchBudget, fetchFile, signal});
+    search, searchBudget: state.searchBudget, fetchFile, signal, network});
   state.finished = Object.keys(state.failures).length === 0 && Object.keys(state.dropped).length === 0 && !searchWarnings.length;
   await save(drive, state);
   return {state, completed, missing, searchWarnings};

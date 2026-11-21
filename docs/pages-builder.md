@@ -5,23 +5,22 @@ in desktop Chrome or Edge. Connect a drive and choose its root or an empty folde
 on it. Confirm the drive's label size when the page asks. Choose a preset or
 enter a size in decimal GB. The recommendation uses the same capacity ladder
 as the Python builder and fills spare space with files that have browser
-routes. The meter shows deliverable bytes and the size of the selected files
-available through Python.
+routes. The meter shows selected download bytes, including reader packages.
 
-Edit the plan by collection, file or topic. The meter shows the files the browser
-can build and whether they fit. Expand **Storage details** for the planner's
-estimates. The editor flags collections and individual files that need Python. The build section names the affected critical topics. You can build the available selection after accepting the omissions.
-Use **Python build instructions** for a command that retains the original
-selection, or use the [standalone selector](../SELECT.html) in your checkout.
+Edit by collection, file or topic. Each collection has **Show files**.
+An unavailable file stays unchecked and its collection links to the desktop
+tool instructions. Use the [standalone selector](../SELECT.html) to include
+those files in a desktop build. Expand **Storage details** to see the planning
+allowances.
 
 Choose **Build library**. Keep the tab open, the computer awake and the drive
 attached. A 1 TB transfer takes about 44–111 hours at 50–20 Mbps, before
-retries and verification. The page requests Screen Wake Lock while visible. Pause, close the tab
-or reconnect the drive and choose **Resume** to continue from saved parts. The
-browser remembers the last drive folder when its storage permissions permit it.
-You can also choose the folder again. Resume uses the original selection. It
-accepts a newer catalog when each saved file retains its original pin, size and
-destination.
+retries and verification. The page requests Screen Wake Lock while visible.
+If the connection drops, it waits, probes with increasing delays and continues
+automatically when it can connect. Pause or choose **Resume** after reopening
+the page or reconnecting the drive. Resume uses the original selection,
+archive layout and search allowance. It accepts a newer catalog when each
+saved file retains its original pin, size and destination.
 
 After the build, open `START_HERE.html` on the drive. The emergency directory takes you to the available guide for each task. The build report lists unavailable files. The start page also links to shelves, the topic atlas and book contents. Paths are printed for file viewers that block links.
 The browser build’s atlas uses catalog topic assignments. Offline search uses
@@ -58,17 +57,16 @@ the native-filesystem methodology, results, and Chromium call path.
 
 ### How files are written and verified
 
-The browser downloads in priority order, with readers first. If a write
+In single-file mode, the browser writes the largest archives first so their
+checkpoints fit. In split mode, it downloads in priority order, with readers first. If a write
 reports a full drive and the drive remains accessible, the builder reclaims
 the current unfinished file and tries later files. Free space and choose
 **Resume** to retry the omitted files.
 
-ZIMs over 1 GiB download in consecutive 1 GiB parts. Chromium’s write swap is
-on the destination volume. If a tab closes, the current uncommitted part
-downloads again. Routine resume checks saved sizes and restores the recorded
-digest state. Choose **Verify and repair files** to re-read and hash installed
-payloads and retry damaged files. The standalone verifier on the drive
-offers independent read-only verification.
+ZIMs over 1 GiB download in verified 1 GiB ranges. Chromium puts its write swap
+beside the target on the drive. Routine resume checks saved sizes and restores
+the digest state. Choose **Verify and repair files** to re-read and hash the
+installed files. The standalone verifier offers independent read-only verification.
 
 The publisher’s 4 MiB SHA-1 piece digests cover all 117 cataloged Kiwix ZIMs
 and catch wrong bytes during each transfer. SHA-256 pins protect the entire
@@ -76,13 +74,22 @@ archive. The two locally generated SHA-256 part manifests provide another
 check for their matching editions. Every other asset also has a whole-file
 SHA-256 pin. [Transfer evidence](browser-delivery.md)
 
-On exFAT or NTFS, leave **Join archive parts into single files when space
-permits** selected. The builder verifies the assembled ZIM on the drive
-before removing its parts. Joining can temporarily require a second copy of
-that archive. If it cannot fit, the verified parts remain usable with a
-compatible reader. Clear this option for FAT32. A resumed build keeps its
-original setting. [Reader and filesystem tests](device-matrix.md) ·
-[Chromium swap writer](https://github.com/chromium/chromium/blob/main/content/browser/file_system_access/file_system_access_file_handle_impl.cc#L681-L714)
+On exFAT or NTFS, leave **Save each archive as one file** selected. OWL writes
+a single destination with durable prefix checkpoints where the file budget
+can accommodate them. Chromium copies the saved prefix into a new swap when
+resuming. OWL limits this prefix to available space and at most half the
+archive. An internet interruption retries the current range in the open
+writer. Closing the tab or stopping the writer can lose bytes after the
+latest committed prefix. The last checkpoint can be well before the end of
+a large archive. With too little room for a prefix, reopening that archive
+starts it again. Existing browser builds retain their previous layout.
+
+Turn off the single-file option for FAT32. Split builds can resume after each
+committed range. The first part is `.zimaa`. Desktop Kiwix supports split
+archives. A single archive avoids split-reader requirements on Android and
+iPhone. Opening external archives in place on phones remains unverified.
+[Reader and filesystem tests](device-matrix.md) ·
+[Chromium swap writer](https://chromium.googlesource.com/chromium/src/+/b694dcb617f6ed6a9e738461017c48cb0de0ba4a/content/browser/file_system_access/file_system_access_file_handle_impl.cc)
 
 ## Publish to GitHub Pages
 
@@ -112,8 +119,11 @@ python -m http.server --directory /tmp/owl-pages 8000
 node --test tests/browser-builder.test.mjs
 ```
 
-Use `--fetch-mirrors --cache /tmp/owl-mirror-cache` on the generator to include
-pinned same-origin content. The generator validates checked-in archive part pins
+Use `--fetch-mirrors --cache /tmp/owl-mirror-cache` to publish the exact editions
+in [the Pages mirror lock](../web/pages-mirrors.json). Pages reuses verified
+cached bytes when available. If a required copy is unavailable or mismatched,
+the build fails before artifact upload and the current deployment stays live.
+Update the lock deliberately when changing published copies. The generator validates checked-in archive part pins
 against their catalog entries. To create a record from a downloaded split-bound
 ZIM, run `python scripts/build_pages.py --archive-pins ASSET_ID FILE`.
 The command emits JSON only after verifying the whole SHA-256.

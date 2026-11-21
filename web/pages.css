@@ -15,3 +15,9 @@
 .iphone-setup { margin: 0.75rem 0; }
 .iphone-setup a { display: inline-flex; align-items: center; gap: 1rem; }
 .iphone-setup svg { flex: none; }
+
+.pages .resource-number,.pages .resource-id,.pages .format-scope,.pages .source-reason,
+.pages .resource-numbers>div:not(:first-child){display:none}
+.pages #browser-file-total{display:block}
+.pages .topic-storage>details.storage-file-key:not(#topic-storage-key){display:none}
+.pages #incomplete-details{display:none}

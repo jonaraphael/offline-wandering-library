@@ -34,10 +34,10 @@ export function relay(allowed, fetchUpstream = fetch) {
       headers.set("Retry-After", "60");
       return reply(429, "Try again later");
     }
-    const {url: upstreamUrl, bytes} = allowed[id];
+    const {url: upstreamUrl, bytes, max_range_bytes: maxRange} = allowed[id];
     const range = request.headers.get("Range");
     const span = requestedRange(range, bytes);
-    if (!span) {
+    if (!span || (maxRange && (!range || span.size > maxRange))) {
       headers.set("Content-Range", "bytes */" + bytes);
       return reply(416, "Range unavailable");
     }

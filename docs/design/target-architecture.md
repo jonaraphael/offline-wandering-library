@@ -73,7 +73,7 @@ and relevant source editions determines coverage.
 
 The static Pages planner builds into a directory selected in Chromium.
 The directory handle exposes no volume statistics. The site attempts an
-allocation probe on macOS and otherwise asks the user to confirm capacity. The Python CLI can check free
+allocation probe on macOS and Windows and otherwise asks the user to confirm capacity. The Python CLI can check free
 space using the OS and serves as the fallback for browsers and sources that
 cannot complete the browser flow. Kiwix routes through its CORS mirror. Other
 sources need measured browser access, an authorized mirror or the CLI path.

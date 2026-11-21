@@ -1,0 +1,32 @@
+{
+  "khanacademy_en_all_2023_03": {
+    "bytes": 180007047736,
+    "sha256": "3b8f4d286c6206a1c00c2252ac33187d30d4e146b8666ae2039d00f0d91eee3a",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/other/khanacademy_en_all_2023-03.zim"
+  },
+  "map_osm_world": {
+    "bytes": 77731456103,
+    "sha256": "399cf845a889018607423562ab467b2ece55b5532af4f5e105a07093866f2655",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/maps/maps_en_all_2026-06.zim"
+  },
+  "stack_overflow": {
+    "bytes": 114855633696,
+    "sha256": "2878fd0bbc4d0d7a05249bc04f45b71f183c09929a843308b923190f1d15436f",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/stackoverflow.com_en_all_2026-07.zim"
+  },
+  "survivorlibrary_com_en_all_2026_09": {
+    "bytes": 220347600505,
+    "sha256": "cf0b00f1f5c0cc840046337ba2d1f9b866be1afb8d5a59c5bc3be31a0994cd25",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/zimit/survivorlibrary.com_en_all_2026-09.zim"
+  },
+  "wikipedia_en": {
+    "bytes": 127418087648,
+    "sha256": "34162d18b9f96f494eac48a73a309c72e0bc95d85f76be405d0f5de795854aa6",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikipedia/wikipedia_en_all_maxi_2026-08.zim"
+  },
+  "wikipedia_fr": {
+    "bytes": 55438794004,
+    "sha256": "61401b1b3618afe736450a868c7205f572f590db310e044a9c72b51fbfcfb431",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikipedia/wikipedia_fr_all_maxi_2026-05.zim"
+  }
+}
