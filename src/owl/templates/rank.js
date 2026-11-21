@@ -54,7 +54,7 @@
       'accidental poisoning|poisoned|ingested poisons|poison control|poisoning'],
     ['health', /\b(?:seizures?|convulsions?|shaking all over)\b/,
       'seizure first aid|epileptic seizure|seizures|convulsions'],
-    ['health', /\b(?:diarrh\w*|oral rehydration|watery stools|dehydration|cannot keep fluids down|can t keep fluids down)\b/,
+    ['health', /\b(?:diarrh\w*|oral rehydration|watery stools|dehydration|(?:cannot|can t|unable to) keep (?:fluids?|liquids?|water|(?:a )?drink) down)\b/,
       'oral rehydration|dehydration|diarrhea|diarrhoea|acute vomiting|rehydration drink'],
     ['health', /\b(?:hypoglyc\w*|low blood sugar|diabet\w* .{0,38}(?:sweat\w*|confus\w*))\b/,
       'hypoglycemia|hypoglycaemia|low blood sugar|insulin shock'],
@@ -100,6 +100,10 @@
       'sauerkraut|fermented cabbage|lactic acid fermentation'],
     ['', /\b(?:cann\w* .{0,18}green beans|jars? of green beans|pressure canning)\b/,
       'pressure canning|canning green beans|low acid vegetables'],
+    ['', /\b(?:hand sew\w*|(?:sew\w*|stitch\w*|join\w*) .{0,24}(?:cloth|fabric|seams?)|(?:cloth|fabric|seams?) .{0,18}by hand)\b/,
+      'hand sewing|hand stitching|sewing stitches|sewing seams|sewing'],
+    ['', /\b(?:darn\w*|(?:mend\w*|repair\w*|patch\w*) .{0,30}(?:garments?|knitwear|sweaters?|jumpers?|socks?|clothing))\b/,
+      'darning|mending clothes|repair knitwear|clothing repair'],
     ['', /\b(?:wire .{0,14}broken .{0,18}meter|continuity test)\b/,
       'continuity test|multimeter|open circuit|electrical continuity'],
   ].map(([domain, trigger, aliases]) => {
@@ -107,27 +111,47 @@
     return {domain, trigger, canonical: phrases[0], evidence: phrases.map(terms)};
   });
 
-  const wrappers = /\b(?:how (?:to|do (?:i|we|you)|can (?:i|we|you))|what (?:can|should) (?:i|we) do|explain(?:ed)? (?:it )?simply|in (?:plain|simple) (?:english|words|terms)|step by step)\b/g;
-  const audiences = /\b(?:for (?:young )?(?:the )?(?:kids|children|beginners|a beginner)|at (?:a )?beginner level|(?:show|teach|explain to) (?:a |my )?(?:child|kid|beginner))\b/g;
+  const wrappers = /\b(?:getting started(?: with)?|how (?:to|do (?:i|we|you)|can (?:i|we|you))|what (?:can|should) (?:i|we) do|explain(?:ed)? (?:it )?simply|in (?:plain|simple) (?:english|words|terms)|step by step)\b/g;
+  const child = /\b(?:bab(?:y|ies)|infants?|newborns?|toddlers?|children|child)\b/;
+  const symptom = /\b(?:ill(?:ness)?|sick(?:ness(?:es)?)?|fever\w*|cough\w*|rash|vomit\w*|throw\w* up|chok\w*|dehydrat\w*|diarrh\w*|breathing|seizures?|letharg\w*|unresponsive|not eating)\b/;
+  const maternity = /\b(?:childbirth|labou?r and (?:birth|delivery)|stages? (?:[1-4] )?of labou?r|birth of the placenta|obstetric delivery|pushing stage)\b/;
+  const deliveryEvidence = ['stages of labor', 'stages of labour', 'labor contractions', 'labour contractions',
+    'cervix dilation', 'birth of the placenta', 'deliver the placenta'].map(terms);
+  const deliveryTerms = [...new Set(deliveryEvidence.flat())];
+  const audiences = /\b(?:for (?:young )?(?:the )?(?:kids|children|beginners|novices|a beginner|a novice|a (?:young )?learner)|at (?:a )?beginner level|(?:show|teach|explain to) (?:a |my )?(?:child|kid|beginner))\b/g;
+  const languages = 'arabic bengali chinese czech danish dutch english farsi finnish french german greek hebrew hindi hungarian indonesian italian japanese korean mandarin norwegian persian polish portuguese romanian russian spanish swahili swedish tagalog thai turkish ukrainian urdu vietnamese'.split(' ');
+  const languageIntent = /\b(?:phrasebook|phrases?|expressions|vocabulary|translate|translation|(?:say|ask|speak) .{0,55} in|(?:learn|learning)(?: to speak)?)\b/;
+  const phraseReference = /\b(?:phrasebook|phrase book|language learners|phrases|vocabulary|conversation|basics of|speak)\b/;
+  const seedIntent = /\b(?:sav\w*|collect\w*|harvest\w*|stor\w*|dry\w*) (?:\w+ ){0,4}seeds?\b|\b(?:grow\w*|plant\w*|sow\w*)\b.*\b(?:next (?:year|season)|seeds?)\b.*\b(?:seed\w*|harvest\w*)\b/;
+  const seedEvidence = ['seed saving', 'saving seed', 'seed collection', 'harvesting seeds', 'seed storage',
+    'seed production', 'seed viability'].map(terms);
   const queryStop = new Set('about also am been being but can could did find get gives got have help here into just like make me my need now onto out people person please should show so some someone something take tell than that them then there these they this those through up us want was way we were which while who why will would'.split(' '));
 
   function prepareQuery(text, encodeQuery) {
     const original = normalize(text);
     if (new Set(words(original).filter(word => word.length > 1)).size > 32)
       throw Error('Use at most 32 different search words.');
-    const audience = original.replace(audiences, '') !== original;
+    const audience = original.replace(audiences, '') !== original || /^getting started\b/.test(original);
     const cleaned = normalize(original.replace(wrappers, ' ').replace(audiences, ' '));
     const phrase = cleaned || original;
-    const focused = rules.filter(rule => rule.trigger.test(original));
+    const focused = rules.filter(rule => rule.trigger.test(phrase));
     const emergency = focused.some(rule => rule.domain);
-    const core = terms(words(phrase).filter(word => !queryStop.has(word)).join(' '));
+    const deliveryQuery = focused.some(rule => maternity.test(rule.canonical));
+    const pediatricHealth = !deliveryQuery && child.test(phrase) && symptom.test(phrase);
+    const queryWords = words(phrase);
+    const core = terms(queryWords.filter(word => !queryStop.has(word)).join(' '));
     const query = core.length ? core : terms(phrase);
+    const language = languageIntent.test(phrase) && languages.find(name => queryWords.includes(name));
+    const seed = seedIntent.test(phrase);
     const evidence = focused.flatMap(rule => rule.evidence);
+    if (language) evidence.push(terms(language + ' phrasebook'), terms(language + ' phrases'));
+    if (seed) evidence.push(...seedEvidence);
     const primary = new Set(query);
     const routing = [...new Set([...query, ...evidence.flat()])];
-    const vector = query.length && encodeQuery(
-      emergency ? focused.filter(rule => rule.domain).map(rule => rule.canonical).join(' ') : phrase);
-    return {original, phrase, query, primary, routing, focused, evidence, emergency, audience, vector};
+    const vector = query.length && encodeQuery(emergency ?
+      focused.filter(rule => rule.domain).map(rule => rule.canonical).join(' ') :
+      seed ? 'seed saving ' + phrase : language ? language + ' phrasebook ' + phrase : phrase);
+    return {original, phrase, query, primary, routing, focused, evidence, emergency, deliveryQuery, pediatricHealth, language, seed, audience, vector};
   }
 
   function hashTerm(word) {
@@ -146,22 +170,27 @@
     return hits;
   }
 
-  function semanticPart(part) {
-    return part.passages === undefined ? part.vectors > 0 : part.passages > 0 || part.lead_vectors > 0;
-  }
-
+  const semanticPart = part => part.semantic_vectors > 0;
   const mightMatch = (bits, query) => routeHits(bits, query) > 0;
 
   function bytes(encoded) {
-    return Uint8Array.fromBase64 ? Uint8Array.fromBase64(encoded) :
-      Uint8Array.from(atob(encoded), char => char.charCodeAt(0));
+    if (Uint8Array.fromBase64) return Uint8Array.fromBase64(encoded);
+    const decoded = atob(encoded), data = new Uint8Array(decoded.length);
+    for (let index = 0; index < data.length; index++) data[index] = decoded.charCodeAt(index);
+    return data;
   }
 
-  function model(table) {
+  function model(table, chunks) {
     const vocab = new Map(table.vocab.map((word, index) => [word, index]));
-    const weights = bytes(table.weights), dim = table.scales.length;
-    if (table.version !== 1 || dim !== 32 || weights.length !== vocab.size * dim) throw Error('Invalid search model');
-    const signed = new Int8Array(weights.buffer);
+    const dim = table.dimensions, size = vocab.size * dim;
+    if (table.version !== 2 || dim !== 256 || table.scales.length !== dim ||
+        chunks.reduce((sum, chunk) => sum + chunk.length, 0) !== size) throw Error('Invalid search model');
+    const signed = new Int8Array(size);
+    let offset = 0;
+    for (const chunk of chunks) {
+      signed.set(new Int8Array(chunk.buffer, chunk.byteOffset, chunk.length), offset);
+      offset += chunk.length;
+    }
     return text => {
       const normalized = text.slice(0, 4096).toLowerCase().normalize('NFD').replace(/\p{Mn}/gu, '');
       const vector = new Float64Array(dim);
@@ -184,9 +213,51 @@
         }
       }
       for (let col = 0; col < dim; col++) vector[col] *= table.scales[col];
-      const norm = Math.hypot(...vector);
-      return norm ? Float64Array.from(vector, value => value / norm / 127) : null;
+      return binaryQuery(vector);
     };
+  }
+
+  const bitCount = Uint8Array.from({length: 256}, (_, number) => {
+    let count = 0;
+    for (; number; number &= number - 1) count++;
+    return count;
+  });
+
+  function binaryQuery(vector) {
+    const norm = Math.hypot(...vector) * Math.sqrt(vector.length);
+    if (!norm) return null;
+    const signs = new Uint8Array(vector.length / 8);
+    // Precompute the signed dot product for all values of each stored byte.
+    const scores = new Float32Array(signs.length * 256);
+    for (let index = 0; index < signs.length; index++) {
+      const start = index * 8;
+      let negative = 0;
+      for (let bit = 0; bit < 8; bit++) {
+        const value = vector[start + bit] / norm;
+        if (value >= 0) signs[index] |= 1 << bit;
+        negative -= value;
+      }
+      const base = index * 256;
+      scores[base] = negative;
+      for (let code = 1; code < 256; code++) {
+        const bit = code & -code;
+        const component = 31 - Math.clz32(bit);
+        scores[base + code] = scores[base + code - bit] + 2 * vector[start + component] / norm;
+      }
+    }
+    return {signs, scores};
+  }
+
+  function vectorScore(query, code, lexicalMatch) {
+    if (code.length !== query.signs.length) throw Error('Search vector dimensions differ');
+    if (!lexicalMatch) {
+      let distance = 0;
+      for (let index = 0; index < code.length; index++) distance += bitCount[code[index] ^ query.signs[index]];
+      if (distance > code.length * 3.55) return 0;
+    }
+    let score = 0;
+    for (let index = 0; index < code.length; index++) score += query.scores[index * 256 + code[index]];
+    return score;
   }
 
   async function unpack(encoded, query) {
@@ -251,18 +322,20 @@
   }
 
   function rankPart(part, prepared, asset, limit) {
-    const {query, primary, routing, phrase, vector, focused, evidence, emergency, audience} = prepared;
+    const {query, primary, routing, phrase, vector, focused, evidence, emergency, deliveryQuery, pediatricHealth, language, seed, audience} = prepared;
     const {domains, discussion} = sourcePolicy(asset);
     const trusted = asset.critical && focused.some(rule => domains.includes(rule.domain));
-    const sourceTitle = emergency || audience ? normalize(asset.title) : "";
+    const pediatricSource = pediatricHealth && domains.includes('health');
+    const sourceTitle = emergency || audience || pediatricHealth || language || seed ? normalize(asset.title) : "";
     const lexical = new Map();
-    for (const word of routing) {
+    const lookupTerms = pediatricHealth ? new Set([...routing, ...deliveryTerms]) : routing;
+    for (const word of lookupTerms) {
       const postings = Object.hasOwn(part.postings, word) ? part.postings[word] : [];
       const original = primary.has(word);
       for (const post of postings) {
         const index = post >>> 4, weight = post & 15;
         let stats = lexical.get(index);
-        if (!stats) lexical.set(index, stats = {hits: 0, strength: 0, body: false, leadHits: 0, weights: evidence.length ? new Map() : null});
+        if (!stats) lexical.set(index, stats = {hits: 0, strength: 0, body: false, leadHits: 0, weights: evidence.length || pediatricHealth ? new Map() : null});
         stats.weights?.set(word, weight);
         if (original) {
           stats.hits++;
@@ -281,22 +354,11 @@
       const support = stats?.weights ? conceptScore(stats.weights, evidence) : 0;
       if (stats && !stats.hits && !support) continue;
       let similarity = 0;
-      if (vector && row[3]) {
+      if (vector && row[3] && !row[5]) {
         const packed = part.vectorCache ? (part.vectorCache[index] ??= bytes(row[3])) : bytes(row[3]);
-        if (row[5]) {
-          const dimensions = packed.length * 8;
-          let sumSquares = 0;
-          for (let col = 0; col < dimensions; col++) {
-            similarity += vector[col] * (packed[col >>> 3] & (1 << (col & 7)) ? 1 : -1);
-            sumSquares += vector[col] ** 2;
-          }
-          similarity = sumSquares ? similarity / Math.sqrt(dimensions * sumSquares) : 0;
-        } else {
-          const signed = new Int8Array(packed.buffer, packed.byteOffset, packed.byteLength);
-          for (let col = 0; col < vector.length; col++) similarity += vector[col] * signed[col];
-        }
+        similarity = vectorScore(vector, packed, Boolean(stats));
       }
-      if (!stats && similarity < 0.70) continue;
+      if (!stats && similarity < 0.37) continue;
       const title = normalize(row[0]);
       const exact = title === phrase || title === prepared.original;
       const phraseHit = !exact && query.length > 1 && title.includes(phrase);
@@ -312,21 +374,34 @@
       const passage = !row[5] && (row[2] || stats?.body || row[3] && asset.format !== 'zim');
       const typedScore = question ? matchedAnswer ? 4 : -55 : passage ? 19 : row[5] ? -12 : 0;
       const reference = title + ' ' + sourceTitle;
-      const emergencyReference = trusted && /\b(?:first aid|emergency care|survival|labor and birth|stage (?:1|2) of labor)\b/.test(reference);
-      const readyReference = audience && /\b(?:elementary|beginner|introduction|arithmetic|grade [1-5])\b/.test(reference);
+      const deliveryPassage = pediatricHealth && stats?.weights &&
+        deliveryEvidence.some(words => words.every(word => stats.weights.has(word)));
+      const maternityReference = ((emergency || pediatricHealth) && maternity.test(reference)) || deliveryPassage;
+      const emergencyReference = trusted && (/\b(?:first aid|emergency care|survival)\b/.test(reference) ||
+        (deliveryQuery && maternityReference));
+      const readyReference = audience && /\b(?:elementary|beginners?|introduction|introductory|wikijunior|arithmetic|grade [1-6])\b/.test(reference);
       const advancedReference = audience && /\b(?:polynomial|graduate|abstract algebra|differential equations)\b/.test(reference) &&
         !/\b(?:polynomial|graduate|abstract algebra|differential equations)\b/.test(phrase);
 
       const titleScore = exact && (!question || matchedAnswer) ? 145 : phraseHit ? 29 : 0;
       let score = titleScore + lexicalScore +
-        55 * Math.max(0, similarity - 0.48) + typedScore - (row[4] ? 19 : 0);
+        (coverage ? 95 : 160) * Math.max(0, similarity - 0.24) + typedScore - (row[4] ? 19 : 0);
       if (emergency) {
         score = support ? (exact && !question ? 58 : 0) + Math.min(lexicalScore, 48) + 1.65 * support +
-          22 * Math.max(0, similarity - 0.45) + typedScore +
-          (trusted ? 39 : 0) + (emergencyReference ? 16 : 0) - (question ? 30 : 0) - (row[4] ? 19 : 0) :
+          22 * Math.max(0, similarity - 0.30) + typedScore +
+          (trusted ? 39 : 0) + (emergencyReference ? 16 : 0) -
+          (maternityReference && !deliveryQuery ? (pediatricHealth ? 50 : 25) : 0) +
+          (pediatricSource && child.test(reference) && symptom.test(reference) ? 12 : 0) - (question ? 30 : 0) - (row[4] ? 19 : 0) :
           Math.min(score, 34);
       } else {
-        score += 0.95 * support + (readyReference ? 18 : 0) - (advancedReference ? 22 : 0);
+        score += 0.95 * support + (asset.critical && (stats?.body || similarity >= 0.43) ? 5 : 0) +
+          (readyReference ? 18 : 0) - (advancedReference ? 22 : 0);
+        if (language && (' ' + reference + ' ').includes(' ' + language + ' ') && phraseReference.test(reference)) score += 90;
+        if (seed && support) score += Math.min(36, support / 2) * (stats?.hits ? 1 : 0.5);
+        if (pediatricHealth) {
+          if (maternityReference) score -= 30;
+          else if (pediatricSource && child.test(reference)) score += 25;
+        }
       }
       found.push({row, index, score, fullMatch: stats?.hits === query.length, focused: emergency && support > 0});
     }
@@ -430,7 +505,28 @@
 
   function classic(script, selection, table) {
     if (selection.version !== 1 || !Array.isArray(selection.sources)) throw Error('Invalid search selection');
-    const encodeQuery = model(table);
+    let ready;
+    const loadModel = () => ready ??= (async () => {
+      const count = selection.model_parts;
+      if (!Number.isInteger(count) || count < 1 || count > 32) throw Error('Invalid search model parts');
+      const chunks = [];
+      root.OWLModelWeights = ([number, encoded]) => {
+        if (Number.isInteger(number) && number >= 0 && number < count) chunks[number] = bytes(encoded);
+      };
+      try {
+        // Await all loads before clearing the callback, including on a failed load.
+        const loaded = await Promise.allSettled(Array.from({length: count}, (_, index) =>
+          script('SEARCH/model/' + String(index).padStart(2, '0') + '.js')));
+        if (loaded.some(result => result.status === 'rejected') || chunks.filter(Boolean).length !== count)
+          throw Error('The local search model could not load.');
+        return model(table, chunks);
+      } finally {
+        delete root.OWLModelWeights;
+      }
+    })().catch(() => {
+      ready = undefined;
+      return () => null;
+    });
     // Each page owns one script callback at a time. New searches can cancel reads
     // between chunks, so they cannot replace callbacks for an active script.
     let queue = Promise.resolve();
@@ -451,10 +547,11 @@
       queue = task.catch(() => {});
       return task;
     };
-    return (text, shelf, limit, cancelled, onProgress) => search(selection, encodeQuery, readPart, text, shelf, limit, cancelled, onProgress);
+    return async (text, shelf, limit, cancelled, onProgress) =>
+      search(selection, await loadModel(), readPart, text, shelf, limit, cancelled, onProgress);
   }
 
-  const api = {classic, model, search, terms, prepareQuery, shouldRead, unpack, rankPart, normalize, result,
+  const api = {classic, model, binaryQuery, bytes, search, terms, prepareQuery, shouldRead, unpack, rankPart, normalize, result,
     retainCandidates, topResults};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLShardRank = api;

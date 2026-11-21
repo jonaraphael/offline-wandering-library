@@ -281,18 +281,20 @@ test("search assembly verifies and publishes only selected source digests", asyn
   const source = asset("unselected", Buffer.from("other"));
   const model = "globalThis.OWLShardModel({});\n";
   const license = "MIT";
+  const weights = "globalThis.OWLModelWeights([0,\"AA==\"]);\n";
   const chunk = "globalThis.OWLShardPart([]);\n";
   const pin = data => ({bytes: Buffer.byteLength(data), sha256: hash(data)});
   const shard = {sha256: hash(chunk), records: 1, parts: [{...pin(chunk), bloom: "", vectors: 1}]};
   const urls = [];
   const route = new Map([["https://example.test/book", body], ["/index/model.js", model], ["/index/model-license.txt", license],
+    ["/index/model/00.js", weights],
     ["/index/sources/" + chosen.sha256 + "/00000.js", chunk]]);
   const fetchFile = async url => {
     urls.push(url);
     return route.has(url) ? new Response(route.get(url)) : new Response("", {status: 404});
   };
   const drive = new Directory();
-  const config = {manifest: {version: 1, model: pin(model), license: pin(license),
+  const config = {manifest: {version: 1, model: pin(model), license: pin(license), model_parts: [pin(weights)],
     sources: {[chosen.sha256]: shard, [source.sha256]: shard}}, base: "/index/", records: [],
     page: "<p>search</p>", runtime: "// catalog runtime", rankRuntime: "// article runtime"};
   const options = {assets: [chosen], catalogAssets: [chosen, source], routes: {indexed: ["https://example.test/book"]},
@@ -303,6 +305,9 @@ test("search assembly verifies and publishes only selected source digests", asyn
   assert.ok(!urls.some(path => path.includes(source.sha256)));
   const check = await (await drive.file("LIBRARY/SHA256SUMS.txt")).getFile();
   assert.match(await check.text(), new RegExp(shard.sha256 + "  LIBRARY/SEARCH/sources/" + chosen.sha256));
+  assert.match(await check.text(), new RegExp(hash(weights) + "  LIBRARY/SEARCH/model/00.js"));
+  const script = await (await (await drive.file("LIBRARY/SEARCH/shards.js")).getFile()).text();
+  assert.equal(JSON.parse(script.slice("globalThis.OWLShardSelection(".length, -3)).model_parts, 1);
   const beforeResume = urls.length;
   await buildLibrary(drive, {...options, resume: true});
   assert.equal(urls.length, beforeResume, "verified data is reused");

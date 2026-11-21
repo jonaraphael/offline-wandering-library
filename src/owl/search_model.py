@@ -6,7 +6,6 @@ import base64
 from functools import lru_cache
 from hashlib import sha256
 import json
-from math import sqrt
 import re
 from struct import Struct
 import sys
@@ -14,11 +13,12 @@ import unicodedata
 
 
 PINS = {
-    "model.safetensors": "f95ffde02ad06f63ae38eb9d400038cd5ccaf8411ec3cb650c6025113f96cbb8",
-    "tokenizer.json": "e67e803f624fb4d67dea1c730d06e1067e1b14d830e2c2202569e3ef0f70bb50",
+    "model.safetensors": "07609e5bd33aad37900b3fd62f4ec96f6daec88ca4d46b9d8b928bfababf6ea0",
+    "tokenizer.json": "7d75cbc54318138807c401b0f0c9721117c628b39de8e8e0edb6cb17e0ee7d18",
 }
-DIMENSIONS = 32
-UPSTREAM = "https://huggingface.co/minishlab/potion-base-2M/tree/389b9f64be5aa4ae7a6bc6fe95ef20ce485ae5da"
+DIMENSIONS = 256
+UPSTREAM = "https://huggingface.co/minishlab/potion-retrieval-32M/tree/6fc8051fab2a1e0ee76689cf08c853792ac285e7"
+WEIGHT_CHUNK_BYTES = 1_920_000
 
 
 def piece_ids(word, vocab):
@@ -45,15 +45,29 @@ def words(text):
     yield from (word for word in re.findall(r"[^\W_]+", value, re.UNICODE) if len(word) <= 100)
 
 
+def semantic_text(title, excerpt, keywords):
+    """Use text retained by every shard, including ones with redacted excerpts."""
+    title = re.sub(r"(?: · )?Page [0-9]+$", "", title).strip()
+    return " ".join((title, title, excerpt, " ".join(keywords)))
+
+
 class Potion:
-    def __init__(self, table):
+    def __init__(self, table, weights):
         self.table = table
-        self.weights = base64.b64decode(table["weights"])
-        self.scales = table["scales"]
-        self.dim = len(self.scales)
+        self.weights = weights
+        self.dim = table["dimensions"]
         vocab = {word: idx for idx, word in enumerate(table["vocab"])}
+        if self.dim != DIMENSIONS or len(weights) != len(vocab) * self.dim:
+            raise ValueError("Invalid Potion weight table")
         self._pieces = lru_cache(maxsize=32768)(lambda word: piece_ids(word, vocab))
-        self._signed = tuple(Struct(f"{self.dim}b").iter_unpack(self.weights))
+        try:
+            import numpy as np
+        except ImportError:
+            self._numpy = None
+            self._signed = tuple(Struct(f"{self.dim}b").iter_unpack(weights))
+        else:
+            self._numpy = np
+            self._signed = np.frombuffer(weights, dtype=np.int8).reshape(-1, self.dim)
 
     @classmethod
     def convert(cls, folder):
@@ -78,20 +92,23 @@ class Potion:
                   for column in range(DIMENSIONS)]
         packed = bytes(round(weights[row * columns + column] / scales[column]) & 255
                        for row in range(rows) for column in range(DIMENSIONS))
-        return cls({"version": 1, "upstream": UPSTREAM, "license": "MIT",
-                    "vocab": vocab, "scales": scales,
-                    "weights": base64.b64encode(packed).decode("ascii")})
+        return cls({"version": 2, "upstream": UPSTREAM, "license": "MIT",
+                    "inputs": PINS, "dimensions": DIMENSIONS, "vocab": vocab,
+                    "scales": scales}, packed)
 
-    def encode(self, text, *, binary=False):
-        rows = [self._signed[index] for word in words(text[:4096]) for index in self._pieces(word)]
-        if not rows:
+    def encode(self, text):
+        ids = [index for word in words(text[:4096]) for index in self._pieces(word)]
+        if not ids:
             return ""
-        vector = tuple(map(sum, zip(*rows))) if len(rows) > 1 else rows[0]
-        if not any(vector):
-            return ""
-        if binary:
-            signs = sum((value >= 0) << col for col, value in enumerate(vector))
-            return base64.b64encode(signs.to_bytes(4, "little")).decode("ascii")
-        scaled = [value * scale for value, scale in zip(vector, self.scales)]
-        norm = sqrt(sum(value * value for value in scaled))
-        return base64.b64encode(bytes(round(value * 127 / norm) & 255 for value in scaled)).decode("ascii")
+        if self._numpy is not None:
+            vector = self._signed[ids].sum(axis=0, dtype=self._numpy.int32)
+            if not vector.any():
+                return ""
+            signs = self._numpy.packbits(vector >= 0, bitorder="little").tobytes()
+        else:
+            vector = tuple(map(sum, zip(*[self._signed[index] for index in ids])))
+            if not any(vector):
+                return ""
+            bits = sum((value >= 0) << col for col, value in enumerate(vector))
+            signs = bits.to_bytes(self.dim // 8, "little")
+        return base64.b64encode(signs).decode("ascii")

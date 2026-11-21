@@ -41,8 +41,9 @@ Python 3.11+ and internet access are needed to build. Reading ordinary PDFs does
 
 Both builders assemble precomputed search shards for the selected files. Search
 covers catalog titles, PDF passages, HTML sections and indexed ZIM articles,
-with coverage varying by source. Search gives weight to passages and
-article leads and favors relevant critical references for emergency wording.
+with coverage varying by source. Search combines word matches and compact
+Potion retrieval embeddings for passages and article leads. It favors relevant
+critical references for emergency wording.
 Catalog results appear while passage and
 article results load. The search model, indexes and static navigation travel
 on the drive.

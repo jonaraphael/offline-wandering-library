@@ -12,12 +12,15 @@ from pathlib import Path
 import re
 import unicodedata
 
+from .search_model import semantic_text
+
 
 SCHEMA = 1
 MAX_PART = 3_000_000
 REPO_LIMIT = 900_000_000
 COUNT_PER_PART = 4096
 MODEL_FILE = "model.js"
+MODEL_PART = "model/{:02}.js"
 RUNTIME_FILE = "SEARCH/rank.js"
 SELECTION_FILE = "SEARCH/shards.js"
 LICENSE_FILE = "model-license.txt"
@@ -165,17 +168,10 @@ def packed_part(source, number, records, model, *, title_paths=False):
         title_terms = terms(row.title)
         title_only = title_paths and not (row.heading or row.lead or row.body)
         concepts = " ".join(expansions(" ".join((row.title, row.heading, row.lead[:240]))))
-        fields = (row.title, row.heading, row.lead[:500], concepts, row.body[:3300])
-        vector = model.encode(" ".join(fields), binary=title_only) if row.vector else ""
-        embedded += bool(vector)
-        passages += bool(row.body and vector)
         title = row.title
         if title_paths and isinstance(row.locator, str):
             if title == row.locator.rsplit("/", 1)[-1].replace("_", " "):
                 title = None
-        compact.append([title, row.locator, (row.lead or row.body)[:160] if row.show_lead else "", vector, int(row.redirect), int(title_only)])
-        if row.accepted_answer:
-            compact[-1].append(1)
         weights = {}
         for field, weight in ((row.body, 1), (row.lead, 3), (concepts, 5), (row.heading, 8)):
             for word in terms(field):
@@ -188,6 +184,14 @@ def packed_part(source, number, records, model, *, title_paths=False):
             weights.update(dict.fromkeys(title_terms, 9))
         for word, weight in weights.items():
             postings[word].append(index * 16 + weight)
+        excerpt = (row.lead or row.body)[:160] if row.show_lead else ""
+        keywords = sorted(word for word, weight in weights.items() if weight < 9)
+        vector = model.encode(semantic_text(row.title, excerpt, keywords)) if row.vector and (row.lead or row.body) else ""
+        embedded += bool(vector)
+        passages += bool(row.body and vector)
+        compact.append([title, row.locator, excerpt, vector, int(row.redirect), int(title_only)])
+        if row.accepted_answer:
+            compact[-1].append(1)
     route_terms.update(postings)
     message = encode({"records": compact, "postings": postings})
     packed = script("OWLShardPart", [source, number, base64.b64encode(compress(message, compresslevel=6, mtime=0)).decode("ascii")])
@@ -250,6 +254,14 @@ def load_manifest(folder=SEARCH_ROOT):
     return data
 
 
+def model_files(manifest):
+    """List the shared model header, license and bounded weight scripts."""
+    yield MODEL_FILE, manifest["model"]
+    yield LICENSE_FILE, manifest["license"]
+    for number, pin in enumerate(manifest.get("model_parts", ())):
+        yield MODEL_PART.format(number), pin
+
+
 def selected_shards(assets, manifest):
     sources = manifest["sources"]
     return [(asset, sources[asset["sha256"]]) for asset in assets if asset.get("sha256") in sources]
@@ -281,11 +293,13 @@ def compose_shards(assets, budget, folder=SEARCH_ROOT):
     if not selected:
         return {}, []
     from .catalog import learning_shelves
-    model = read_file(folder, MODEL_FILE, manifest["model"])
-    license_text = read_file(folder, LICENSE_FILE, manifest["license"])
     runtime = Path(__file__).with_name("templates").joinpath("rank.js").read_bytes()
-    outputs = {"SEARCH/" + MODEL_FILE: model, "SEARCH/" + LICENSE_FILE: license_text, RUNTIME_FILE: runtime}
-    remaining = budget - sum(map(len, outputs.values())) - 64_000
+    model = list(model_files(manifest))
+    remaining = budget - len(runtime) - sum(pin["bytes"] for _, pin in model) - 64_000
+    if remaining < 0:
+        return {}, []
+    outputs = {"SEARCH/" + path: ShardPart(folder, path, pin) for path, pin in model}
+    outputs[RUNTIME_FILE] = runtime
     rows = []
     for asset, shard in sorted(selected, key=lambda pair: (not pair[0].get("critical"), pair[1]["records"], pair[0]["id"])):
         digest = asset["sha256"]
@@ -294,7 +308,7 @@ def compose_shards(assets, budget, folder=SEARCH_ROOT):
         row["parts"] = []
         chunks = {}
         for pool, number, pin in parts:
-            part = {key: pin[key] for key in ("bloom", "vectors", "passages", "lead_vectors") if key in pin}
+            part = {key: pin[key] for key in ("bloom", "vectors", "passages", "lead_vectors", "semantic_vectors") if key in pin}
             if pool != digest or shard.get("shared"):
                 part.update(pool=pool, number=number)
             row["parts"].append(part)
@@ -314,6 +328,10 @@ def compose_shards(assets, budget, folder=SEARCH_ROOT):
         rows.append(row)
     if not rows or remaining < 0:
         return {}, []
-    outputs[SELECTION_FILE] = script("OWLShardSelection", {"version": SCHEMA, "sources": rows})
+    for path, pin in model:
+        read_file(folder, path, pin)
+    outputs[SELECTION_FILE] = script("OWLShardSelection", {
+        "version": SCHEMA, "sources": rows, "model_parts": len(manifest.get("model_parts", ())),
+    })
     return outputs, [{"id": row["id"], "source_sha256": row["sha256"], "records": row["records"]}
                      for row in rows]

@@ -13,19 +13,27 @@ import unittest
 from owl.filesystem import FAT_FILE_LIMIT, fat_file_limit
 from owl.search_model import Potion
 from owl.search_shards import (MODEL_FILE, SEARCH_ROOT, Record, compose_shards, load_manifest,
-                               encode, info, output_bytes, output_size, packed_part, part_path, payload, terms)
+                               encode, info, model_files, output_bytes, output_size, packed_part, part_path, payload, terms)
 
 from scripts.build_search_shards import Article, html_records, prioritized_leads
 
 
 class SourceShardTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.manifest = load_manifest()
+        table = payload((SEARCH_ROOT / MODEL_FILE).read_bytes(), "OWLShardModel")
+        weights = b"".join(b64decode(payload((SEARCH_ROOT / path).read_bytes(), "OWLModelWeights")[1])
+                           for path, _ in list(model_files(cls.manifest))[2:])
+        cls.model = Potion(table, weights)
+
     def test_selection_is_bound_to_the_source_digest(self):
         manifest = load_manifest()
         digest, shard = next((key, value) for key, value in manifest["sources"].items()
                              if value["format"] == "pdf" and len(value["parts"]) == 1)
         asset = {"id": "exact-edition", "title": "Asset", "format": "pdf", "destination": "BOOKS/source.pdf",
                  "sha256": digest, "critical": True, "category": "medical"}
-        files, coverage = compose_shards([asset, {**asset, "id": "new-edition", "sha256": "f" * 64}], 10_000_000)
+        files, coverage = compose_shards([asset, {**asset, "id": "new-edition", "sha256": "f" * 64}], 30_000_000)
         self.assertEqual([item["id"] for item in coverage], ["exact-edition"])
         selected, = payload(files["SEARCH/shards.js"], "OWLShardSelection")["sources"]
         self.assertTrue(selected["critical"])
@@ -38,7 +46,7 @@ class SourceShardTests(unittest.TestCase):
         self.assertEqual(compose_shards([asset], 1_000), ({}, []))
 
     def test_two_source_digests_can_reference_one_verified_title_pool(self):
-        model = Potion(payload((SEARCH_ROOT / MODEL_FILE).read_bytes(), "OWLShardModel"))
+        model = self.model
         pool = "a" * 64
         digests = ["b" * 64, "c" * 64]
         data, vectors, bloom, _ = packed_part(pool, 0, [Record("A title", "A_title")], model, title_paths=True)
@@ -50,7 +58,8 @@ class SourceShardTests(unittest.TestCase):
             path.parent.mkdir(parents=True)
             path.write_bytes(data)
             manifest = load_manifest()
-            for name in (MODEL_FILE, "model-license.txt"):
+            for name, _ in model_files(manifest):
+                (folder / name).parent.mkdir(parents=True, exist_ok=True)
                 (folder / name).write_bytes((SEARCH_ROOT / name).read_bytes())
             manifest["sources"] = {digest: {"shared": [pool], "records": 1, "sha256": info(data)["sha256"]}
                                    for digest in digests}
@@ -58,14 +67,14 @@ class SourceShardTests(unittest.TestCase):
             (folder / "manifest.json").write_bytes(encode(manifest))
             assets = [{"id": f"source-{index}", "sha256": digest, "destination": f"ZIM/{index}.zim",
                        "title": "Archive", "format": "zim"} for index, digest in enumerate(digests)]
-            files, _ = compose_shards(assets, 5_000_000, folder)
+            files, _ = compose_shards(assets, 30_000_000, folder)
         self.assertEqual(sum(path.startswith("SEARCH/sources/") for path in files), 1)
         selection = payload(files["SEARCH/shards.js"], "OWLShardSelection")
         self.assertEqual([source["sha256"] for source in selection["sources"]], digests)
         self.assertTrue(all(source["parts"][0]["pool"] == pool for source in selection["sources"]))
 
     def test_body_vector_and_postings_survive_snippet_redaction(self):
-        model = Potion(payload((SEARCH_ROOT / MODEL_FILE).read_bytes(), "OWLShardModel"))
+        model = self.model
         title = "Page 14"
         body = "The birch bark kept the kindling dry."
         data, vectors, bloom, passages = packed_part("a" * 64, 0, [
@@ -74,14 +83,15 @@ class SourceShardTests(unittest.TestCase):
         ], model, title_paths=True)
         _, _, encoded = payload(data, "OWLShardPart")
         chunk = json.loads(decompress(b64decode(encoded)))
-        self.assertEqual((vectors, passages), (2, 1))
+        self.assertEqual((vectors, passages), (1, 1))
         self.assertNotIn(body, json.dumps(chunk))
         self.assertEqual(chunk["records"][0][2], "")
         self.assertEqual(chunk["records"][0][6], 1)
         self.assertEqual(len(chunk["records"][1]), 6)
         self.assertIn("kindl", chunk["postings"])
         self.assertNotEqual(chunk["records"][0][3], model.encode(title))
-        self.assertEqual(len(b64decode(chunk["records"][1][3])), 4)
+        self.assertEqual(len(b64decode(chunk["records"][0][3])), 32)
+        self.assertEqual(chunk["records"][1][3], "")
         self.assertIsNone(chunk["records"][1][0])
         self.assertNotIn("fallen", chunk["postings"])
         self.assertLess(len(b64decode(bloom)), 8192)

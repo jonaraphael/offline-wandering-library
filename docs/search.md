@@ -32,21 +32,25 @@ and survival intents, matching CRITICAL sources receive additional weight.
 Discussion results receive less weight unless a marked accepted-answer excerpt
 or its postings match. Older discussion shards lack per-record answer markers
 and receive the title penalty. The ranker also uses similarity to quantized
-vectors where present. The shared model is a
-32-component, signed 8-bit conversion of Minish Lab’s MIT-licensed
-Potion-base-2M. OWL pools tokens from each passage body before quantization.
-New title-only archive records store up to four bytes of vector data as the
-signs of those components. Shared Wikipedia title records store eight signs
-in one byte. These vectors help rank term matches.
-The model table and license are copied once per drive. [Pinned model](https://huggingface.co/minishlab/potion-base-2M/tree/389b9f64be5aa4ae7a6bc6fe95ef20ce485ae5da)
+vectors where present. The MIT-licensed Potion-retrieval-32M model uses its
+first 256 components, with signed 8-bit token weights and the pinned WordPiece
+vocabulary. Python and JavaScript use the same text normalization and token
+lookup. Each passage or lead code stores 256 sign bits in 32 bytes before
+script packaging. Its input combines the title, any displayable excerpt and
+terms from the passage or lead postings. This lets the catalog refresh derived
+vectors from preserved search data while keeping restricted excerpts redacted.
+Title-directory entries use word postings reconstructed from their titles.
+[Model revision](https://huggingface.co/minishlab/potion-retrieval-32M/tree/6fc8051fab2a1e0ee76689cf08c853792ac285e7)
 
-Browser search loads classic scripts and inflates gzip chunks with
-DecompressionStream. It runs with local files and a network-denying CSP.
-Catalog results appear while the article and passage index loads. The ranker
-reads chunks based on query terms and the presence of passage or lead vectors,
-then updates results as chunks arrive. For emergency intents it reads matching
-passage chunks from relevant CRITICAL sources first. The catalog remains available if the
-viewer can load the catalog script and blocks the larger index.
+The builders verify and copy the model header, weight scripts and MIT notice
+once per drive. The search page loads the weights on its first indexed query.
+It uses classic local scripts, DecompressionStream for compressed shards and a
+network-denying CSP. Word postings retrieve literal matches and Bloom filters
+route them to chunks. Hamming distance admits additional passage and lead
+candidates. The ranker compares each compact code with the full query vector
+and combines similarity, word matches and source priority. Emergency queries
+prefer matching critical sources. Childhood symptoms and childbirth receive
+different ranking treatment. Catalog results appear while indexed results load.
 
 ## Precompute and verify
 

@@ -43,7 +43,8 @@ async function transfer(drive, base, path, pin, fetchFile, signal) {
 export async function assembleSearch(drive, {completed, layouts, navigation, config, fetchFile, signal, budget}) {
   const {manifest, base, records, page, runtime, rankRuntime} = config;
   const warnings = [];
-  const selection = {version: 1, sources: []};
+  const modelParts = manifest.model_parts || [];
+  const selection = {version: 1, sources: [], model_parts: modelParts.length};
   const checksums = new Map();
   const pages = new Map();
   const selected = new Map(completed.map(asset => [asset.id, asset]));
@@ -60,8 +61,11 @@ export async function assembleSearch(drive, {completed, layouts, navigation, con
     manifest.sources[a.sha256].records - manifest.sources[b.sha256].records || a.id.localeCompare(b.id, "en"));
   let remaining = budget - charge(recordsHere) - charge(page) - charge(runtime) - 100_000;
   if (matches.length && manifest.model && manifest.license) {
+    const files = [["model.js", manifest.model], ["model-license.txt", manifest.license],
+      ...modelParts.map((pin, number) => ["model/" + String(number).padStart(2, "0") + ".js", pin])];
+    if (files.reduce((sum, [, pin]) => sum + pin.bytes, 0) > remaining) matches.length = 0;
     try {
-      for (const [path, pin] of [["model.js", manifest.model], ["model-license.txt", manifest.license]]) {
+      for (const [path, pin] of matches.length ? files : []) {
         const line = await transfer(drive, base, path, pin, fetchFile, signal);
         checksums.set(path, line);
         remaining -= pin.bytes;
@@ -87,8 +91,8 @@ export async function assembleSearch(drive, {completed, layouts, navigation, con
       destination: layouts.get(asset.id)[0].path.slice("LIBRARY/".length), license: asset.license,
       attribution: meta.attribution, shelves: meta.shelves || [], legacy: Boolean(meta.legacy),
       records: shard.records, main: shard.main, entrypoints: shard.entrypoints, parts: parts.map(
-        ({pool, number, pin: {bloom, vectors, passages, lead_vectors}}) =>
-          ({bloom, vectors, passages, lead_vectors, ...(shard.shared && {pool, number})}))};
+        ({pool, number, pin: {bloom, vectors, passages, lead_vectors, semantic_vectors}}) =>
+          ({bloom, vectors, passages, lead_vectors, semantic_vectors, ...(shard.shared && {pool, number})}))};
     const paths = parts.map(({pool, number}) => "sources/" + pool + "/" + String(number).padStart(5, "0") + ".js");
     const cost = charge(row) + parts.reduce((sum, {pin}, index) => sum + (checksums.has(paths[index]) ? 0 : pin.bytes), 0);
     if (cost > remaining) continue;

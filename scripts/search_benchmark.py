@@ -19,6 +19,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="enforce checked-in recall and empty-result bounds")
     parser.add_argument("--tasks", action="store_true", help="export the three results per graded task query")
+    parser.add_argument("--extra-tasks", type=Path, help="JSON list of additional task IDs and queries")
+    parser.add_argument("--task-depth", type=int, choices=range(3, 31), metavar="3-30", default=3,
+                        help="export optional deeper candidate lists for relevance review")
     args = parser.parse_args()
     catalog = ROOT / "catalog/library.yaml"
     profiles = load_profiles(ROOT / "profiles")
@@ -54,6 +57,10 @@ def main():
             command.append("--check")
         if args.tasks:
             command.append("--tasks")
+        if args.extra_tasks:
+            command.extend(("--extra-tasks", str(args.extra_tasks.resolve())))
+        if args.task_depth != 3:
+            command.extend(("--task-depth", str(args.task_depth)))
         subprocess.run(command, check=True)
 
 

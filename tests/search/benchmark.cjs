@@ -25,10 +25,21 @@ async function pin(path, metadata) {
 async function benchmark(planPath, sourceRoot) {
   const plans = JSON.parse(await readFile(planPath, 'utf8'));
   const manifest = JSON.parse(await readFile(join(sourceRoot, 'manifest.json'), 'utf8'));
-  const model = rank.model(payload((await pin(join(sourceRoot, 'model.js'), manifest.model)).toString(), 'OWLShardModel'));
+  const table = payload((await pin(join(sourceRoot, 'model.js'), manifest.model)).toString(), 'OWLShardModel');
+  const weights = await Promise.all(manifest.model_parts.map(async (part, index) => {
+    const path = join(sourceRoot, 'model', String(index).padStart(2, '0') + '.js');
+    const [number, data] = payload((await pin(path, part)).toString(), 'OWLModelWeights');
+    if (number !== index) throw Error('Model part ID differs: ' + path);
+    return rank.bytes(data);
+  }));
+  const model = rank.model(table, weights);
   await pin(join(sourceRoot, 'model-license.txt'), manifest.license);
   if (queries.length !== 100 || new Set(queries.map(([q]) => q)).size !== 100) throw Error('Expected 100 unique probes');
-  const tasks = process.argv.includes("--tasks") ? taskQueries : [];
+  const tasks = process.argv.includes("--tasks") ? [...taskQueries] : [];
+  const extraIndex = process.argv.indexOf('--extra-tasks');
+  if (extraIndex !== -1) tasks.push(...JSON.parse(await readFile(process.argv[extraIndex + 1], 'utf8')));
+  const traceIndex = process.argv.indexOf('--task-depth');
+  const taskDepth = traceIndex === -1 ? 3 : Number(process.argv[traceIndex + 1]);
   const prep = (text, target) => ({text, ...target, query: rank.prepareQuery(text, model), phrase: rank.normalize(text)});
   const probes = [...queries.map(([text, target]) => prep(text, {expected: new RegExp(target, 'iu')})),
     ...bodyQueries.map(([text, asset, pages]) => prep(text, {asset, pages: new Set(pages)})),
@@ -37,8 +48,9 @@ async function benchmark(planPath, sourceRoot) {
     ...plan, sources: new Map(plan.sources.filter(row => !row.legacy).map(row => [row.sha256, row])),
     hits: probes.map(() => []), catalogPrepared: catalog.prepare(plan.metadata)
   }));
-  const counts = {files: 2, bytes: manifest.model.bytes + manifest.license.bytes, records: 0,
-    largest: manifest.model.bytes, by_format: {}};
+  const modelFiles = [manifest.model, manifest.license, ...manifest.model_parts];
+  const counts = {files: modelFiles.length, bytes: modelFiles.reduce((sum, part) => sum + part.bytes, 0), records: 0,
+    largest: Math.max(...modelFiles.map(part => part.bytes)), by_format: {}};
   function formatCounts(format) {
     return counts.by_format[format] ??= {sources: 0, records: 0, vectors: 0, leads: 0,
       passages: 0, passage_vectors: 0, accepted_answers: 0};
@@ -105,7 +117,9 @@ async function benchmark(planPath, sourceRoot) {
       const metadata = catalog.search(scenario.catalogPrepared, query.text, 'all');
       const results = catalog.mergeRanked(hybrid, metadata, 10);
       if (query.task) {
-        task_results.push({id: query.task, results: results.slice(0, 3).map(({record}) => record)});
+        const taskHits = catalog.mergeRanked(hybrid, metadata, taskDepth);
+        task_results.push({id: query.task, results: taskHits.map(({record, score, focused}) =>
+          taskDepth === 3 ? record : {...record, score, focused})});
         return;
       }
       if (query.asset) {

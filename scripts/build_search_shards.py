@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from base64 import b64decode, b64encode
 from collections import Counter, defaultdict
 from gzip import open as gzip_open
 from hashlib import sha256
@@ -17,17 +18,17 @@ import tempfile
 from owl.atlas_import import import_sections
 from owl.catalog import load_catalog, load_profiles, resolve_content
 from owl.safety import atomic_write, sha256_file
-from owl.search_model import Potion, UPSTREAM
-from owl.search_shards import (COUNT_PER_PART, LICENSE_FILE, MODEL_FILE, REPO_LIMIT, ROOT, SCHEMA,
+from owl.search_model import Potion, UPSTREAM, WEIGHT_CHUNK_BYTES
+from owl.search_shards import (COUNT_PER_PART, LICENSE_FILE, MODEL_FILE, MODEL_PART, REPO_LIMIT, ROOT, SCHEMA,
                                SEARCH_ROOT, Record, encode, info, load_manifest, packed_part, part_path,
                                payload, read_file, script)
 from owl.selection import CAPACITY_GRID_GB, load_ladder, recommended_profile
 from owl.zim_directory import Directory, RangeSource
 
 
-NOTICE = """Potion-base-2M by Minish Lab (Stephan Tulkens and Thomas van Dongen)
+NOTICE = """Potion-retrieval-32M by Minish Lab (Stephan Tulkens and Thomas van Dongen)
 Model card and MIT license: {url}
-OWL ships the leading 32 components quantized to signed 8-bit weights.
+OWL ships the leading 256 components quantized to signed 8-bit weights.
 """.format(url=UPSTREAM)
 FORMATS = {"pdf", "zim", "html", "htm"}
 HTML_MIMES = {"text/html", "application/xhtml+xml"}
@@ -320,7 +321,7 @@ def build_shard(output, asset, rows, model, proof, *, limit, metrics=None):
                 return None
             whole.update(data)
             parts.append({**info(data), "records": len(batch), "vectors": vectors,
-                          "passages": body_vectors, "lead_vectors": lead_vectors, "bloom": bloom})
+                          "passages": body_vectors, "lead_vectors": lead_vectors, "semantic_vectors": vectors, "bloom": bloom})
             (staging / f"{index:05}.js").write_bytes(data)
         if not parts:
             return None
@@ -386,7 +387,15 @@ def main(argv=None):
         pins = load_manifest(args.packed_model)
         model_data = read_file(args.packed_model, MODEL_FILE, pins["model"])
         license_data = read_file(args.packed_model, LICENSE_FILE, pins["license"])
-        model = Potion(payload(model_data, "OWLShardModel"))
+        weights = []
+        for number, pin in enumerate(pins["model_parts"]):
+            path = MODEL_PART.format(number)
+            data = read_file(args.packed_model, path, pin)
+            actual, encoded = payload(data, "OWLModelWeights")
+            if actual != number:
+                raise ValueError(f"Unexpected weight script ID: {path}")
+            weights.append(b64decode(encoded))
+        model = Potion(payload(model_data, "OWLShardModel"), b"".join(weights))
     else:
         model = Potion.convert(args.model_input)
         model_data = script("OWLShardModel", model.table)
@@ -397,13 +406,21 @@ def main(argv=None):
     output = args.output
     output.mkdir(parents=True, exist_ok=True)
     manifest = load_manifest(output)
-    if manifest["sources"] and manifest["model"] != info(model_data):
+    weights = [
+        script("OWLModelWeights", [number, b64encode(model.weights[start:start + WEIGHT_CHUNK_BYTES]).decode("ascii")])
+        for number, start in enumerate(range(0, len(model.weights), WEIGHT_CHUNK_BYTES))
+    ]
+    model_parts = [info(data) for data in weights]
+    if manifest["sources"] and (manifest["model"] != info(model_data) or manifest.get("model_parts") != model_parts):
         parser.error("use a new output directory to rebuild all sources for a different model")
     sources = manifest["sources"]
-    manifest.update(version=SCHEMA, model=info(model_data), license=info(license_data))
+    manifest.update(version=SCHEMA, model=info(model_data), license=info(license_data), model_parts=model_parts)
     atomic_write(output / MODEL_FILE, model_data)
     atomic_write(output / LICENSE_FILE, license_data)
+    for number, data in enumerate(weights):
+        atomic_write(output / MODEL_PART.format(number), data)
     remaining = REPO_LIMIT - len(model_data) - len(license_data) - len(encode(manifest)) - 1
+    remaining -= sum(len(data) for data in weights)
     remaining -= sum(part["bytes"] for shard in (*sources.values(), *manifest.get("shared", {}).values())
                      for part in shard.get("parts", ()))
     for asset in assets:
