@@ -1,5 +1,7 @@
 # Full 1 TB source enumeration and verification
 
+This verification record describes the September 2026 acquisition snapshot. See the [current ledger](content-ledger.md) for subsequent admissions.
+
 [Near-full selections for every preset](preset-capacity-plans.md) reuse this shared inventory.
 
 Snapshot: **2026-09-29 UTC**. **7,095 candidate downloads are explicitly enumerated and passed their applicable source checks**, with **7,095 per-asset pseudoindexes** saved. They add **712,148,641,197 retained bytes** to the existing selection. Source verification does not promote these candidates into the ready catalog.
@@ -64,7 +66,7 @@ The seed-saving PDF is the offered **2010 edition**, not the publisher's 2026 we
 ## Saved artifacts and repeatable checks
 
 - [Capacity ledger](../catalog/acquisition/full-1tb-capacity-20260928/plan.json): all exact byte sums, selected scopes and remaining headroom.
-- [Per-asset pseudoindexes](../catalog/acquisition/full-1tb-capacity-20260928/pseudoindexes/): **3,565,685 bytes** of YAML using the existing navigation schema, outside active navigation until each asset is admitted.
+- [Per-asset pseudoindexes](../catalog/acquisition/full-1tb-capacity-20260928/pseudoindexes.jsonl): 7,095 consolidated JSON Lines records using the existing navigation schema, outside active navigation until each asset is admitted.
 - [Evidence](../catalog/acquisition/full-1tb-capacity-20260928/evidence/): per-source HTTP observations, range/signature results, ZIP directories and local full-body SHA-256 results. HEAD observations correctly record zero response-body bytes.
 - [Validation report](../catalog/acquisition/full-1tb-capacity-20260928/validation.json): metadata, deduplication, source-evidence consistency, capacity and navigation-schema results.
 - [HEAD refresh input](../catalog/acquisition/full-1tb-capacity-20260928/source-probe-requests.json): the 7,095 source URLs and expected sizes in the existing probe tool's format. This is a verification queue, not a build queue.

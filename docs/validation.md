@@ -5,9 +5,7 @@ The initial implementation was exercised on macOS/Apple Silicon with Python
 was performed on 2026-09-18 UTC. This document records evidence, not a claim that
 all target hardware or the largest profiles have been tested. The milestones
 below are historical: their test counts, artifact layouts, and browser restrictions
-describe the implementation at that stage. Earlier file-selection and single-file
-index measurements do not validate the current automatic script-chunk transport.
-Use [the search guide](search.md) for the current workflow.
+describe the implementation at that stage. The current builder composes discovery from approved metadata. Its production build compiles zero document-body bytes. Use the [search guide](search.md) for the current workflow and the [content ledger](content-ledger.md) for the current recommendations.
 
 - The automated suite covers catalog validation, decimal capacity/headroom,
   traversal/symlink/reparse-point rejection, streaming checksums, interrupted
@@ -45,9 +43,18 @@ Before relying on a drive, run the verifier and the device checks in
 `docs/usage.md`, offline, on each intended device. Keep a separately stored
 verified backup.
 
+## Capacity ladder checks
+
+`python -m unittest discover -s tests -p test_capacity_ladder.py` checks the
+capacity grid from 16 GB through 2 TB, priority order, depth continuity, and
+Python and JavaScript parity. `python scripts/build_capacity_ladder.py --check`
+and `python scripts/build_selector.py --check` check generated files.
+`python scripts/check_links.py` checks pinned sizes and HTTP response headers
+with a HEAD and a one-byte range request.
+
 ## Textbooks and illustrated guides
 
-The expanded collection was exercised on the same macOS/Python/Node environment:
+This historical run used the retired OWLIDX2 body index on macOS with Python and Node.
 
 - All 70 automated tests passed, including real-catalog policy checks, collection
   filters applied before top-result selection, bounded flag reads, and visible
@@ -89,12 +96,10 @@ include/exclude conflicts, map replacement credits, automatic reader dependencie
 partial-content refusal, explicit partial builds, locked-catalog reproduction,
 malformed lock rejection, preserved excluded files, and the new reading shelves.
 
-Actual production plans resolve to **209,139,967,202**, **407,374,257,909**, and
+The September planning snapshot estimated **209,139,967,202**, **407,374,257,909**, and
 **779,374,257,909** content bytes respectively. These totals combine estimates for
 unresolved collections with larger exact pins where known; they are not acquired
-data. The full plan includes the additional 60 GB direct-reading allocation.
-No new large collections or direct-reading export pipelines were built as part
-of this update.
+data. The direct-reading allocation belonged to that planning snapshot.
 
 The four-file CLI demo built and independently verified **50 managed files**, with
 zero missing, failed, or unknown files. Small local fixtures also exercised the
@@ -237,7 +242,7 @@ an explicitly owned SHA-256 cache on the mounted OWL SSD for future builds.
 Only source metadata, code, docs and fixtures were committed; no large archives
 were downloaded for this pass and no production SSD build was declared complete.
 
-## Automatic search on the start page
+## Historical body index and automatic search on the start page
 
 The start page and dedicated search page now share one widget and local runtime.
 The former index-selection workflow is replaced by automatic loading of a local
@@ -252,7 +257,7 @@ permits only the expected deferred runtime on the start page, requires its
 manifest and script to exist, and rejects inline or unexpected scripts. Topic,
 category, critical-content, and alphabetical indexes remain script-free.
 
-The full local suite passed **325 tests**. Real-browser checks also passed on
+The historical full local suite passed **325 tests**. Real-browser checks also passed on
 Chrome **153.0.8010.48** using a small completed demo build: 18 checks across fresh
 contexts at desktop and 390-pixel widths, with network access disabled, no custom
 file-access flags, and no permission grants. Both `START_HERE.html` and
@@ -264,7 +269,7 @@ disabled. These are desktop-browser and publication checks; they do not certify
 physical phone file providers, embedded previews, or the latency and browser
 memory use of a full Wikipedia index. Device testing remains required.
 
-The same automatic browser checks then passed on the exFAT OWL SSD's real
+The same checks of the retired body-index implementation passed on the historical exFAT
 `flash-16gb` library: 9,505 passages in 50 chunks (51,723,366 decoded bytes;
 68,969,995 bytes including chunk scripts, manifest, and ownership marker).
 Startup requested one chunk, runtime, and manifest, about 1.42 MB of local script
@@ -276,7 +281,7 @@ retained category navigation with scripts disabled. All 18 checks passed with
 no picker events, network attempts, or browser errors. Independent strict drive
 verification reported **199 OK, 0 missing, 0 failed, 0 unknown**. The prior owned
 binary index was retained and checksum-covered during this in-place upgrade;
-fresh builds do not produce that duplicate.
+that historical fresh-build path produced one packaged index.
 
 
 ## Content-density and budget regression pass (2026-09-18)

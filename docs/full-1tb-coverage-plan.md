@@ -6,7 +6,7 @@ Practical household and community knowledge for prolonged loss of internet and l
 
 Adequate means the stated learning and practical tasks are supported by reviewed, usable resources with their prerequisites, illustrations, limits and offline access. Tags, file counts, downloads and GB totals establish neither depth nor adequacy.
 
-Current selection: 433 pinned files, 274.519 GB, including reader packages. The 34 editorial workstreams account for all 89 atlas topics, including optional study topics, and additional gaps without atlas tags.
+Current selection: 630 pinned files, 987.700 GB, including reader packages. The 34 editorial workstreams account for all 89 atlas topics, including optional study topics, and additional gaps without atlas tags.
 
 A selected collection establishes availability only. Broad archives are supplementary until specific task coverage is reviewed. Optional collections below do not count toward default depth. Editorial assessments: 0 adequate, 26 partial, 3 gap, 5 optional.
 
@@ -29,7 +29,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** CERT training, WHO Basic Emergency Care and job aids, FEMA preparedness and WikEM. Clinical material is not automatically suitable for an untrained reader.
 
-**Catalog collections:** OWL complementary directly readable core (selected); Ready.gov and FEMA civilian preparedness expansion (selected); WHO Basic Emergency Care and emergency clinical references (selected); WikEM (selected).
+**Catalog collections:** OWL complementary directly readable core (selected); Ready.gov and FEMA civilian preparedness expansion (selected); WHO Basic Emergency Care and emergency clinical references (selected).
 
 **Remaining gaps:** A clearly separated layperson sequence; Current CPR and first-aid training materials with practical limits; A concise route from symptom or incident to the appropriate source.
 
@@ -43,7 +43,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** MSF clinical and essential-drug manuals and outbreak guides provide a foundation; WikiMed/WikEM broaden reference. College anatomy and nursing books are optional and do not count toward the default selection.
 
-**Catalog collections:** MSF Medical Guidelines (selected); WHO Basic Emergency Care and emergency clinical references (selected); WikiMed / MDWiki (selected); WikEM (selected); College textbooks (optional) (optional; not selected).
+**Catalog collections:** MSF Medical Guidelines (selected); WHO Basic Emergency Care and emergency clinical references (selected); WikiMed / MDWiki (selected); College textbooks (optional) (selected); MDWiki Medical Encyclopedia (selected); Project Gutenberg — Medicine (selected).
 
 **Remaining gaps:** An edition and audience review across overlapping clinical manuals; Coverage of chronic care and rehabilitation in low-resource settings; Reviewed task routes and a currency policy for medicine information.
 
@@ -99,7 +99,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Hesperian community and health-worker material, Sphere standards, MSF public-health engineering and WHO WASH notes; SADC-GMI adds water-system operation, community management and maintenance exercises for trained staff.
 
-**Catalog collections:** Hesperian published health chapters (selected); Sphere Handbook (selected); MSF Medical Guidelines (selected); WHO WASH in Emergencies (selected); Rainwater, hand pumps and groundwater maintenance (selected).
+**Catalog collections:** Hesperian published health chapters (selected); Sphere Handbook (selected); MSF Medical Guidelines (selected); WHO WASH in Emergencies (selected); Rainwater, hand pumps and groundwater maintenance (selected); MedlinePlus — January 2025 (selected).
 
 **Remaining gaps:** A usable learning sequence through the overlapping references; Exercises or checklists for community organization; Applicability review outside formal humanitarian operations.
 
@@ -113,7 +113,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Emergency disinfection guidance, WHO wells and storage notes, MSF engineering and a historical water-supply manual. Newly selected CAWST rainwater (2011), RWSN Afridev (2007) and SADC-GMI groundwater maintenance (2020) add illustrated collection, equipment repair and operation references. Brief contents and page-sample review is recorded in catalog/acquisition/seed-water-discovery-20260928.json.
 
-**Catalog collections:** OWL complementary directly readable core (selected); WHO WASH in Emergencies (selected); MSF Medical Guidelines (selected); Historical construction and water-supply manuals (selected); Rainwater, hand pumps and groundwater maintenance (selected).
+**Catalog collections:** OWL complementary directly readable core (selected); WHO WASH in Emergencies (selected); MSF Medical Guidelines (selected); Historical construction and water-supply manuals (selected); Rainwater, hand pumps and groundwater maintenance (selected); USAID Development Experience Clearinghouse (selected); Sustainable Living Q&A (selected).
 
 **Remaining gaps:** A reviewed source-to-use sequence for household readers rather than trained operators alone; Cold-climate rainwater and well-system applicability; Equipment guidance beyond the specified Afridev configurations; Accessible water-quality testing with interpretation and limits; Current site-specific construction and source-protection requirements.
 
@@ -141,7 +141,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** USDA canning guide, NCHFP/extension PDFs, postharvest handling and FAO grain-silo guidance.
 
-**Catalog collections:** USDA and NCHFP food preservation (selected); FAO practical agriculture core (selected).
+**Catalog collections:** USDA and NCHFP food preservation (selected); FAO practical agriculture core (selected); Seasoned Advice cooking Q&A (selected); Homebrewing Q&A (selected).
 
 **Remaining gaps:** A food-by-method coverage matrix; Root-cellar and ambient storage depth; Clear distinction between tested preservation methods and unsupported historical recipes.
 
@@ -155,7 +155,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Community Garden Guide, FAO production and seed-storage manuals, SARE crop rotation, and newly selected FAO Seeds Toolkit Modules 2 and 3 (2018) for processing and quality assurance. Brief contents and page-sample review is recorded in catalog/acquisition/seed-water-discovery-20260928.json; the enterprise-focused Module 1 was deferred.
 
-**Catalog collections:** OWL complementary directly readable core (selected); FAO practical agriculture core (selected); Soil, crop rotation and ecological pest management (selected); Seed processing and quality checks (selected).
+**Catalog collections:** OWL complementary directly readable core (selected); FAO practical agriculture core (selected); Soil, crop rotation and ecological pest management (selected); Seed processing and quality checks (selected); Gardenology — September 2026 (selected).
 
 **Remaining gaps:** Crop-specific seed selection, isolation, pollination and harvest instructions for home growers; Crop and climate coverage beyond the existing regional examples; An end-to-end beginner growing sequence; A checked distinction between accessible seed tests and laboratory methods.
 
@@ -225,7 +225,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Storm-shelter and outdoor guides, FEMA preparedness, a historical foundations volume and Home Improvement archive.
 
-**Catalog collections:** OWL complementary directly readable core (selected); Ready.gov and FEMA civilian preparedness expansion (selected); Historical construction and water-supply manuals (selected); Practical Stack Exchange bundle (selected).
+**Catalog collections:** OWL complementary directly readable core (selected); Ready.gov and FEMA civilian preparedness expansion (selected); Historical construction and water-supply manuals (selected); Practical Stack Exchange bundle (selected); Post Disaster Resource Library (selected); Engineering Q&A (selected).
 
 **Remaining gaps:** Current step-by-step repair and construction depth; Moisture and ventilation; Seismic and regional hazard guidance beyond storm shelters.
 
@@ -239,7 +239,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Ax and crosscut manuals, FAO agricultural tools, trail techniques and Woodworking archive.
 
-**Catalog collections:** Hand tools, woodworking and repair (selected); FAO practical agriculture core (selected); Trail construction and maintenance (selected); Practical Stack Exchange bundle (selected).
+**Catalog collections:** Hand tools, woodworking and repair (selected); FAO practical agriculture core (selected); Trail construction and maintenance (selected); Practical Stack Exchange bundle (selected); Survivor Library — September 2026 archive (selected).
 
 **Remaining gaps:** Broader planes, chisels, boring and joinery coverage; Workholding and measuring; A current finished timber reference.
 
@@ -267,7 +267,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** AC/DC circuit textbooks and broad appropriate-technology and electrical archives.
 
-**Catalog collections:** Hand tools, woodworking and repair (selected); Low-tech Magazine (selected); Appropedia (selected); CD3WD appropriate-development archive (selected); Practical Stack Exchange bundle (selected).
+**Catalog collections:** Hand tools, woodworking and repair (selected); Low-tech Magazine (selected); Appropedia (selected); CD3WD appropriate-development archive (selected); Practical Stack Exchange bundle (selected); Energypedia English — June 2026 (selected).
 
 **Remaining gaps:** Complete small-system construction and maintenance references; Batteries and fault finding; Stove and chimney operation; ventilation and combustion safety.
 
@@ -295,7 +295,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** USGS map-and-compass guide and a world OSM archive. The North America alternative is not additionally selected by the full profile.
 
-**Catalog collections:** OWL complementary directly readable core (selected); World maps (OpenStreetMap) (selected); North America maps (OpenStreetMap) (optional; not selected).
+**Catalog collections:** OWL complementary directly readable core (selected); World maps (OpenStreetMap) (selected); North America maps (OpenStreetMap) (optional; not selected); English Wikivoyage (selected); CIA World Factbook snapshot (selected); OpenStreetMap Wiki (selected); Project Gutenberg — Geography, anthropology and recreation (selected); Northeastern US topographic sheet sample (optional; not selected); Mid-Atlantic US topographic sheet sample (optional; not selected); Appalachian US topographic sheet sample (optional; not selected); Canada topographic sheet sample (optional; not selected).
 
 **Remaining gaps:** Contiguous topographic coverage for the confirmed northeastern US and nearby Canada scope; Map scale, contour and date review; Offline print/read usability for the actual sheets; Complete source/member integrity checks and reviewed geographic footprint gaps.
 
@@ -323,7 +323,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** FEMA Are You Ready, CERT, supply checklist and NIOSH Pocket Guide.
 
-**Catalog collections:** Ready.gov and FEMA civilian preparedness expansion (selected); OWL complementary directly readable core (selected); NIOSH Pocket Guide to Chemical Hazards (selected); Sphere Handbook (selected).
+**Catalog collections:** Ready.gov and FEMA civilian preparedness expansion (selected); OWL complementary directly readable core (selected); NIOSH Pocket Guide to Chemical Hazards (selected); Sphere Handbook (selected); Ready.gov preparedness guides (selected).
 
 **Remaining gaps:** A local household and community scenario checklist; Chemical-reference currency and audience review; Clear use under loss of power and communications.
 
@@ -351,7 +351,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Dictionary and Wikibooks are selected; illustrated stories and college writing are optional. None establishes a beginning-reading curriculum.
 
-**Catalog collections:** English Wiktionary (selected); English Wikibooks (selected); Illustrated children’s PDF stories (optional) (optional; not selected); College textbooks (optional) (optional; not selected).
+**Catalog collections:** English Wiktionary (selected); English Wikibooks (selected); Illustrated children’s PDF stories (optional) (selected); College textbooks (optional) (selected); VOA Learning English — January 2025 (selected); Book Dash picture-book archive (selected); Project Gutenberg — General linguistics (selected); Project Gutenberg — Classical languages and literatures (selected); Project Gutenberg — Modern and Celtic languages (selected); Project Gutenberg — Romance languages (selected); Project Gutenberg — Germanic languages (selected); Project Gutenberg — English language (selected); Project Gutenberg — West Germanic languages (selected); Project Gutenberg — Slavic languages and literatures (selected); Project Gutenberg — Uralic and Basque languages (selected); Project Gutenberg — Near Eastern and North African languages (selected); Project Gutenberg — Indo-Iranian languages (selected); Project Gutenberg — Asian, African and Oceanian languages (selected); Project Gutenberg — Indigenous American languages (selected).
 
 **Remaining gaps:** A complete phonics and decodable-reader progression; Teacher instructions and answer/assessment materials; Learner practice and handwriting.
 
@@ -365,7 +365,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Prealgebra, algebra, statistics and school materials; PhET adds selected interactive demonstrations.
 
-**Catalog collections:** School mathematics and science (selected); PhET simulations (selected); English Wikibooks (selected).
+**Catalog collections:** School mathematics and science (selected); PhET simulations (selected); English Wikibooks (selected); Khan Academy English — March 2023 (selected); OER4Schools — October 2025 (selected); MathOverflow (selected).
 
 **Remaining gaps:** Complete early-primary arithmetic progression; Grade-by-grade prerequisites and exercise/answer coverage; Reliable low-electricity teaching activities.
 
@@ -379,7 +379,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Siyavula natural/physical science books, OpenStax school physics and PhET. College textbooks and LibreTexts are optional supplements.
 
-**Catalog collections:** School mathematics and science (selected); PhET simulations (selected); English Wikipedia, full (selected); College textbooks (optional) (optional; not selected); LibreTexts STEM and medicine (optional; not selected).
+**Catalog collections:** School mathematics and science (selected); PhET simulations (selected); English Wikipedia (selected); College textbooks (optional) (selected); LibreTexts STEM and medicine (selected); Crash Course English — May 2026 (selected); Wikispecies — July 2026 (selected); Encyclopedia of the Environment — May 2026 (selected); PhET simulation archive (selected); CIET / NCERT school audiobooks (selected); Astronomy Picture of the Day (selected).
 
 **Remaining gaps:** A stage-by-subject scope matrix; Early science and Earth/space progression; Safe practical activities with commonly available materials.
 
@@ -393,7 +393,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Encyclopedia and world map are selected; college history and government books remain optional and are not a school curriculum.
 
-**Catalog collections:** English Wikipedia, full (selected); World maps (OpenStreetMap) (selected); College textbooks (optional) (optional; not selected).
+**Catalog collections:** English Wikipedia (selected); World maps (OpenStreetMap) (selected); College textbooks (optional) (selected); Smithsonian American Women’s History (optional; not selected); Project Gutenberg — History (selected).
 
 **Remaining gaps:** A sequenced school curriculum; Teacher guides and student work; Explicit geographic and cultural scope.
 
@@ -407,7 +407,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Whole Wikipedia/Wikibooks and subject-specific historical nonfiction archives.
 
-**Catalog collections:** English Wikipedia, full (selected); English Wikibooks (selected); Project Gutenberg core library (selected); CD3WD appropriate-development archive (selected).
+**Catalog collections:** English Wikipedia (selected); English Wikibooks (selected); Project Gutenberg core library (selected); CD3WD appropriate-development archive (selected); Wikiquote (selected); Project Gutenberg — General works (selected); Project Gutenberg — Law (selected); Project Gutenberg — Bibliography and library science (selected).
 
 **Remaining gaps:** A small set of useful starting routes; Edition and overlap limitations; Identification of historical or outdated technical guidance.
 
@@ -435,7 +435,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Optional GNU/Git/Python PDFs, computing communities and college fabrication/computing texts.
 
-**Catalog collections:** Programming and computer manuals (optional) (optional; not selected); Computing, GIS and 3D printing communities (optional; not selected); College textbooks (optional) (optional; not selected).
+**Catalog collections:** Programming and computer manuals (optional) (selected); Computing, GIS and 3D printing communities (selected); College textbooks (optional) (selected); Stack Overflow (optional; not selected); MediaWiki documentation (selected).
 
 **Remaining gaps:** Finished SQLite and OpenSSH replacements; A bounded learning objective for each optional collection; Hardware and software prerequisites.
 
@@ -449,7 +449,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Optional college humanities and philosophy texts, literary archives and a small illustrated-story selection.
 
-**Catalog collections:** College textbooks (optional) (optional; not selected); English Wikisource (optional; not selected); Juvenile literature archive (optional) (optional; not selected); Illustrated children’s PDF stories (optional) (optional; not selected).
+**Catalog collections:** College textbooks (optional) (selected); English Wikisource (selected); Juvenile literature archive (optional) (selected); Illustrated children’s PDF stories (optional) (selected); Mutopia Project sheet music (selected); Folgerpedia (selected); Chopin early editions (selected); Celtic sheet music (selected); Project Gutenberg — Philosophy, psychology and religion (selected); Project Gutenberg — Music (selected); Project Gutenberg — Fine arts (selected); Project Gutenberg — Literature and drama (selected); Project Gutenberg — Romance literatures (selected); Project Gutenberg — English literature (selected); Project Gutenberg — American literature (selected); Project Gutenberg — Germanic literatures (selected).
 
 **Remaining gaps:** An explicit reading scope and audience; Balance and perspective review; Sequence and overlap review.
 
@@ -463,7 +463,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Optional OpenStax introductory social-science textbooks and Wikiversity archive.
 
-**Catalog collections:** College textbooks (optional) (optional; not selected); English Wikiversity (optional; not selected).
+**Catalog collections:** College textbooks (optional) (selected); English Wikiversity (selected); Project Gutenberg — Social sciences (selected); Project Gutenberg — Political science (selected).
 
 **Remaining gaps:** Defined learner goals; Edition and exercise review; A chosen sequence rather than a count of textbooks.
 
@@ -477,7 +477,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Optional college economics, accounting, business-law and management texts.
 
-**Catalog collections:** College textbooks (optional) (optional; not selected).
+**Catalog collections:** College textbooks (optional) (selected).
 
 **Remaining gaps:** A defined study or small-enterprise purpose; Currency and jurisdiction limits; Worked practical recordkeeping exercises.
 
@@ -491,7 +491,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** Optional College Success, data-science and advanced science resources; school statistics is already selected separately.
 
-**Catalog collections:** College textbooks (optional) (optional; not selected); Math, Physics and Biology Stack Exchange (optional; not selected); TED-Ed (optional; not selected).
+**Catalog collections:** College textbooks (optional) (selected); Math, Physics and Biology Stack Exchange (selected); TED-Ed (selected); Milne Open Textbooks (selected).
 
 **Remaining gaps:** Defined prerequisites and learner objectives; Exercise and software-dependency review; Duplication against school statistics.
 
@@ -503,4 +503,4 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 Update the affected rows in the same change as each resource admission. Keep gaps and next selections explicit; only an editorial review with recorded evidence may mark a row adequate. Regenerate the documentation with scripts/build_content_docs.py.
 
-Python checks referenced collections and complete atlas-topic coverage when generating this document. It never upgrades an editorial status from tags, file counts or downloads. The latest small acquisition batch is recorded in [the seed and water review](../catalog/acquisition/seed-water-discovery-20260928.json). The [remaining-capacity specification](full-1tb-capacity-spec.md) records enumerated candidate files, source-verification evidence, draft pseudoindexes and remaining admission gates; these are not ready collections.
+Python checks referenced collections and complete atlas-topic coverage when generating this document. It never upgrades an editorial status from tags, file counts or downloads. The latest small acquisition batch is recorded in [the seed and water review](../catalog/acquisition/seed-water-discovery-20260928.json). The [content ledger](content-ledger.md) accounts for current admissions and the remaining dated candidate inventory.

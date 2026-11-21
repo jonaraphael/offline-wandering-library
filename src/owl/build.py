@@ -16,6 +16,7 @@ import yaml
 
 from . import __version__
 from .archive import ZipSource, document_assets, order_archive_assets
+from .selection import capacity_budget, load_ladder, recommended_profile
 from .catalog import (CatalogError, capacity_plan, fingerprint, load_catalog,
                       load_profiles, read_yaml, resolve_content, resolve_locked_content, validate_catalog)
 from .download import download, verified
@@ -186,7 +187,15 @@ def _build_extraction_directory(work, extraction, source):
     return safe_path(work, 'acquisition-inputs/extract-' + digest)
 
 
-def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
+def capacity_profile(profile, capacity_bytes, catalog, *, locked=False):
+    if locked:
+        return {**profile, **capacity_budget(capacity_bytes), "nominal_capacity_bytes": capacity_bytes}
+    if "nominal_capacity_bytes" not in profile or not catalog.with_name("capacity-ladder.json").is_file():
+        raise CatalogError("--capacity-bytes requires a catalog and profile with a capacity ladder")
+    return recommended_profile(profile, capacity_bytes, load_ladder(catalog))
+
+
+def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str, capacity_bytes: int | None = None,
           cache_dir: Path | None = None, work_dir: Path | None = None,
           allow_local: bool = False, plan_only: bool = False,
           resources_catalog: Path | None = None, include=(), exclude=(), editions=(), resource_assets=(),
@@ -229,6 +238,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         raise CatalogError("--strict-coverage requires --navigation-dir")
     profile = profiles[profile_name]
     lock = read_yaml(catalog).get("selection_lock")
+    if capacity_bytes is not None:
+        profile = capacity_profile(profile, capacity_bytes, catalog, locked=lock is not None)
     if lock is not None:
         if include or exclude or editions or resource_assets or extra_catalogs:
             raise CatalogError("Customize the source catalog, not a locked selection")
@@ -322,7 +333,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         if profile.get("content_target_max_bytes"):
             progress(f"Default content target window: {profile['content_target_min_bytes']:,}–"
                      f"{profile['content_target_max_bytes']:,} bytes (not an automatic fill quota)")
-            progress(f"Content allocation: {plan['target_window_status']}. Unallocated space is not filled automatically.")
+            progress(f"Content allocation: {plan['target_window_status']}. Remaining space is available for other files or explicit additions.")
         progress("Selected resources: " + ", ".join(selection["selected_ids"]))
         for row in selection["incomplete_resources"]:
             progress(f"RESOURCE {row['status'].upper()}: {row['id']}: {row['reason']}")
@@ -708,6 +719,7 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("target", type=Path, nargs="?")
     parser.add_argument("--profile", default="critical-64gb")
+    parser.add_argument("--capacity-bytes", type=int, help="recommend files for this decimal drive capacity")
     parser.add_argument("--catalog", type=Path, default=REPO_ROOT / "catalog/library.yaml")
     parser.add_argument("--extra-catalog", type=Path, action="append", default=[],
                         help="add a pinned local export manifest; repeat for multiple exports; file URLs need --allow-local")
@@ -722,7 +734,7 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
     parser.add_argument("--include", action="append", default=[], metavar="RESOURCE", help="add resource ID or list number; repeat or separate by commas")
     parser.add_argument("--exclude", action="append", default=[], metavar="RESOURCE", help="omit resource ID or list number; repeat or separate by commas; does not delete existing files")
     parser.add_argument("--resource-assets", action="append", default=[], metavar="RESOURCE=ASSET,ASSET", help="select only these members of a selected collection; repeat for other collections")
-    parser.add_argument("--edition", action="append", default=[], metavar="RESOURCE=EDITION", help="choose a registered direct, compact, or published edition of a selected resource; repeat as needed")
+    parser.add_argument("--edition", action="append", default=[], metavar="RESOURCE=EDITION", help="choose a registered edition of a selected resource; repeat as needed")
     parser.add_argument("--list-resources", action="store_true", help="list every selectable collection without a target or downloads")
     parser.add_argument("--allow-incomplete", action="store_true", help="explicitly build available verified files from incomplete collections")
     parser.add_argument("--navigation-dir", type=Path, help="generate the static topic atlas using this reviewed YAML directory")
@@ -760,7 +772,11 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
                 raise CatalogError(f"Unknown profile: {args.profile}")
             assets = load_catalog(args.catalog, profiles, args.allow_local)
             resources = load_resources(args.resources_catalog or args.catalog.with_name("resources.yaml"), assets)
-            report = resolve_resources(assets, profiles[args.profile], resources,
+            profile = profiles[args.profile]
+            if args.capacity_bytes is not None:
+                profile = capacity_profile(profile, args.capacity_bytes, args.catalog,
+                                           locked=read_yaml(args.catalog).get("selection_lock") is not None)
+            report = resolve_resources(assets, profile, resources,
                                        include=args.include, exclude=args.exclude, editions=args.edition, resource_assets=args.resource_assets)
             rows = {row["id"]: row for row in report["resource_rows"]}
             print("* = selected; GB = effective selected target, or base estimate when unselected. All units decimal.")
@@ -787,7 +803,7 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
             parser.error("target is required unless --list-resources is used")
         with interrupt_signals():
             build(args.target, catalog=args.catalog, profiles_dir=args.profiles_dir, profile_name=args.profile,
-                  cache_dir=args.cache_dir, work_dir=args.work_dir, allow_local=args.allow_local, plan_only=args.plan,
+                  capacity_bytes=args.capacity_bytes, cache_dir=args.cache_dir, work_dir=args.work_dir, allow_local=args.allow_local, plan_only=args.plan,
                   resources_catalog=args.resources_catalog, include=args.include, exclude=args.exclude,
                   editions=args.edition, resource_assets=args.resource_assets,
                   extra_catalogs=args.extra_catalog,

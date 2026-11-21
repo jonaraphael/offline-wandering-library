@@ -1,5 +1,7 @@
 # Near-full capacity selections for every preset
 
+This September 2026 planning snapshot uses the profiles and candidate inventory from that date. See the [current ledger](content-ledger.md) for admitted files and current recommendations.
+
 Every drive size now has an **exact source-by-source expansion selection**, reusing the shared verified inventory and piecewise pseudoindexes. All five plans fit their practical ceilings. These expansion selections are **not yet the admitted build defaults**: missing full-file/member hashes and required content/offline reviews still gate promotion.
 
 [Machine-readable selections](../catalog/acquisition/preset-capacity-20260929.json) · [Shared source verification](full-1tb-source-verification.md) · [Topic completion plan](full-1tb-coverage-plan.md)
@@ -8,7 +10,7 @@ Every drive size now has an **exact source-by-source expansion selection**, reus
 
 Decimal GB. Expanded footprints include every retained source/member, all four reader packages within a **1 GB total reader/setup budget**, and existing discovery/metadata allowances.
 
-| Preset | Admitted files now, GB | Expanded files + support, GB | Ceiling, GB | Unfilled growth, MB | Free reserve, GB | Filesystem margin, GB |
+| Preset | September baseline, GB | Expanded files + support, GB | Ceiling, GB | Unfilled growth, MB | Free reserve, GB | Filesystem margin, GB |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | 16 GB | 7.801 | **15.738** | 15.750 | 12.1 | 0.125 | 0.125 |
 | 64 GB | 46.824 | **63.303** | 63.360 | 56.7 | 0.320 | 0.320 |

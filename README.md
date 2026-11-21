@@ -2,13 +2,13 @@
 
 OWL builds an offline knowledge library directly on an external drive. This repository contains URLs, hashes, selection rules, build tools and small interface assets. Books, maps, encyclopedias and reader packages download during the build.
 
-The defaults prioritize substantial, diversified information useful in a post-internet, low-electronic life. **CRITICAL** covers survival, health, food, water and shelter. **USEFUL** covers practical trades, repair, appropriate technology and education through high school. **NONESSENTIAL** stories, college textbooks, computing and enrichment remain available as opt-in collections.
+The defaults prioritize substantial, diversified information useful in a post-internet, low-electronic life. **CRITICAL** covers survival, health, food, water and shelter. **USEFUL** covers practical trades, repair, appropriate technology and education through high school. **NONESSENTIAL** covers stories, college textbooks, computing and enrichment. The recommendation can add these after the practical foundation.
 
-Every selectable asset passes the [machine-readable content-type policy](src/owl/content_policy.json). The [priority policy](src/owl/utility_policy.json) requires practical domain coverage in every default, without book-count or content-size quotas. PDFs and ZIMs download unchanged; the optional Python PDF ZIP is unpacked without altering its documents. No active selection requires EPUB conversion, HTML reconstruction or document rendering.
+Every selectable asset passes the [machine-readable content-type policy](src/owl/content_policy.json). The [priority policy](src/owl/utility_policy.json) requires practical domain coverage in every default, without book-count or content-size quotas. PDFs and ZIMs download unchanged; Python and Canadian map ZIPs are unpacked without altering the PDF files. No active selection requires EPUB conversion, HTML reconstruction or document rendering.
 
 ## Build a drive
 
-Connect an already formatted drive, clone this repo, and open [SELECT.html](SELECT.html). Pick a size, select or deselect collections, and copy the generated build command into your terminal. The page itself does not execute commands or download files.
+Connect an already formatted drive, clone this repo, and open [SELECT.html](SELECT.html). Choose a common size or enter your drive capacity in decimal GB, edit the recommendation, and copy the generated build command into your terminal. The page itself does not execute commands or download files.
 
 ```bash
 git clone https://github.com/jonaraphael/offline-wandering-library.git
@@ -30,41 +30,27 @@ Search and atlas now compile from titles, descriptions, aliases, topics, and rev
 
 The selector's command uses `--detach` to start a saved background job. Inspect, cancel or resume it with `scripts/build_job.py`; see [unattended builds](docs/unattended-builds.md). For foreground builds, pause with Ctrl-C, wait for the prompt and rerun the command to resume. Keep the drive connected while the job is active.
 
-## Profiles and content
+## Capacity and content
 
-| Drive preset | Pinned files, including readers | Default emphasis |
-| --- | ---: | --- |
-| 16 GB | 7.801 GB | Medical, food, water, shelter, hand tools, repair, school math/science and small practical archives |
-| 64 GB | 46.824 GB | Adds WikiMed, North America maps, Wikibooks and practical trade communities |
-| 256 GB | 219.440 GB | Adds English Wikipedia, Wiktionary and historical nonfiction |
-| 512 GB | 274.519 GB | Substitutes the world map for North America |
-| 1 TB | 274.519 GB | Same admitted foundation; near-full expansion adds detailed topography and further references |
+The default recommendation covers capacities from 16 GB. It accounts for
+filesystem headroom, free space to retain, readers and discovery files. English
+Wikipedia has editions at several depths and occupies one slot in a default.
+The 1 TB default applies on larger drives, leaving the extra capacity available
+for optional collections. The builder checks actual free space.
 
-These are real pinned file sizes, not allocations for unavailable material. All five default plans fit their nominal drives with their configured discovery, metadata and reserve allowances. A 1 TB drive selection does **not** mean 1 TB of curated content is ready. [Generated content selection](docs/content-selection.md) contains the detailed current totals and collection scopes.
+For a 128 GB drive, use `--capacity-bytes 128000000000` or enter 128 in the
+selector. The five common-size profiles use the same ladder. Selected content,
+planned storage and the current inventory are in the
+[generated capacity table](docs/content-selection.md) and
+[content ledger](docs/content-ledger.md).
 
-The [near-full expansion selections for every preset](docs/preset-capacity-plans.md)
-reach **15.738 / 63.303 / 253.422 / 506.812 / 987.261 GB**, including reader and
-metadata allowances. Their exact file lists are saved; source candidates awaiting
-hashes and review remain separate from the admitted defaults in the table above.
-
-The [topic-by-topic completion plan](docs/full-1tb-coverage-plan.md) records intended
-depth, existing resources, remaining gaps, next selections and adequacy criteria.
-Topic tags establish presence; editorial review establishes whether a subject is
-covered well enough. Update the plan alongside each resource admission.
-
-The [near-full capacity specification](docs/full-1tb-capacity-spec.md) targets
-**990 GB including library files, readers and discovery support** on a nominal
-1 TB drive. The profile allows 5 GB for filesystem/partition variation and retains
-5 GB actually free. Existing files plus **7,095 enumerated candidate downloads**
-total **986.668 GB**; modeled readers and metadata bring this to **987.261 GB**.
-All selected source checks passed, **46 small PDFs** were fully downloaded and hashed,
-and **7,095 piecewise pseudoindexes** are saved. [Verification details](docs/full-1tb-source-verification.md)
-distinguish those checks from the remaining full-body and editorial admission gates.
-These candidates are separate from the ready catalog.
-
-The direct foundation includes published medical and public-health chapters, canning/freezing/drying manuals, agriculture and beekeeping, shelter and navigation, illustrated ax and saw manuals, electrical/mechanical references, and complete school textbooks and teacher guides. PhET simulations have matching offline screen-test evidence. College textbooks, programming references, juvenile literature and additional languages are optional.
-
-Coverage remains incomplete in specific areas: local topographic maps, initial literacy and school humanities, missing Hesperian back matter, and finished SQLite/OpenSSH references. The [JSON review](catalog/content-review.json) records the disposition of every previous asset and distinguishes exact replacements from broader subject alternatives. Existing acquisition reports preserve research history; their old conversion recipes and planned byte targets do not authorize active content.
+The direct foundation includes published medical and public-health chapters,
+preservation and agriculture manuals, shelter and navigation references, and
+practical trades and school textbooks. Additional Wikipedia languages and
+detailed topographic sheet packs require explicit inclusion. See the
+[topic-by-topic completion plan](docs/full-1tb-coverage-plan.md) for editorial
+coverage and [the target architecture](docs/design/target-architecture.md) for
+the selection model.
 
 ## Customize and validate
 
@@ -73,9 +59,10 @@ Use the selector's priority filter and collection checkboxes, or its topic map t
 ```bash
 python scripts/build_drive.py --list-resources
 python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY \
-    --profile critical-64gb --include childrens-library --exclude phet --plan
+    --capacity-bytes 64000000000 --include topo-usgs-northeast --exclude ifixit --plan
 python scripts/check_content_policy.py
 python scripts/check_selection_policy.py
+python scripts/build_capacity_ladder.py --check
 python scripts/build_selector.py --check
 ```
 
@@ -146,7 +133,7 @@ Open `START_HERE.html` and enter words in **Search titles, chapters, and topics*
 
 The browser loads one small metadata list and scans it locally. Exact title and alias matches rank first, followed by all-word and partial matches. Results show source descriptions, locations, attribution, and reader requirements. Reviewed chapters link to their source location and the whole document. Topic matches open static atlas pages.
 
-Search covers titles, chapters, topics, aliases, and catalog descriptions. It does not search body text or interpret images. No match does not establish that the information is absent: open a relevant document or use an archive's own reader search. Software and supporting source packages are excluded.
+Search covers titles, catalog descriptions, topics, aliases and headings from available section maps. The current catalog has no reviewed section maps. Search uses metadata only. No match does not establish that the information is absent: open a relevant document or use an archive's own reader search. Software and supporting source packages are excluded.
 
 Choose **All resources**, **Textbooks**, or **Illustrated guides** to narrow the results before ranking. Search data, runtime, manifest, and coverage live in `LIBRARY/SEARCH/`; keep that folder together. Coverage reports distinguish catalog results from sources with approved sections. See [search behavior and the Python/AI workflow](docs/search.md).
 

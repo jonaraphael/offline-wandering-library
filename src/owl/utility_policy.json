@@ -5,7 +5,7 @@
     "USEFUL": "Practical trades, hand tools, repair, appropriate technology, general reference and education through high school.",
     "NONESSENTIAL": "Optional stories, college education, computing and cultural enrichment."
   },
-  "default_tiers": ["CRITICAL", "USEFUL"],
   "required_default_domains": ["health", "water-sanitation", "food-preservation", "agriculture", "shelter", "navigation", "repair", "hand-tools", "school-math", "school-science"],
+  "additional_planning_domains": ["general-reference", "advanced-study", "culture", "languages", "computing", "archive-access"],
   "forbidden_profile_quotas": ["minimum_coverage", "content_target_min_bytes", "content_target_max_bytes"]
 }

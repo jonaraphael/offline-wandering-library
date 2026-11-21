@@ -12,7 +12,6 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
 from owl.atlas_model import load_navigation
-from owl.catalog import capacity_plan, load_catalog, load_profiles, resolve_content
 from owl.acquisition.pins import probe_manifest
 
 
@@ -24,21 +23,26 @@ def main():
     def read(name):
         return json.loads((directory / name).read_text())
     plan = read('plan.json')
-    assets = load_catalog(ROOT / 'catalog/library.yaml')
-    profile = load_profiles(ROOT / 'profiles')['full-1tb']
-    selected, _, selection = resolve_content(assets, profile, resources_path=ROOT / 'catalog/resources.yaml')
-    capacity = capacity_plan(selected, profile, selection)
+    # This is a dated acquisition plan. Its baseline is the contemporaneous
+    # manifest, which remains stable as the active recommendation changes.
+    preset_path = ROOT / 'catalog/acquisition/preset-capacity-20260929.json'
+    preset_document = json.loads(preset_path.read_text(encoding='utf-8'))
     baseline = plan['baseline']
-    assert baseline['content_bytes'] == capacity['content_bytes']
-    assert baseline['modeled_other_bytes_before_reserve'] == capacity['planned_final_bytes'] - capacity['content_bytes']
-    assert baseline['reader_file_bytes'] == capacity['pinned_reader_bytes']
-    assert baseline['reader_budget_bytes'] == selection['readers_budget_bytes']
-    assert baseline['in_place_peak_budget_bytes'] == capacity['in_place_peak_budget_bytes']
-    assert sum(a['budget_bytes'] for a in plan['allocations']) == plan['additional_headroom_bytes']
-    assert capacity['capacity_bytes'] - capacity['in_place_peak_budget_bytes'] == plan['additional_headroom_bytes']
+    foundation = next(row for row in preset_document['presets'] if row['profile'] == 'full-1tb')
+    foundation_ids = set(foundation['current_build_asset_ids'])
+    assert baseline['selected_asset_count'] == len(foundation_ids)
+    assert baseline['content_bytes'] == foundation['current_build_file_bytes']
+    support = baseline['modeled_other_bytes_before_reserve']
+    assert support == foundation['current_build_modeled_support_bytes']
+    assert baseline['reader_file_bytes'] == foundation['pinned_reader_bytes']
+    assert baseline['reader_budget_bytes'] == foundation['reader_total_budget_bytes']
+    final = baseline['content_bytes'] + support
+    assert baseline['in_place_peak_budget_bytes'] == final + baseline['reserve_bytes']
+    assert sum(row['budget_bytes'] for row in plan['allocations']) == plan['additional_headroom_bytes']
+    assert baseline['capacity_bytes'] - baseline['in_place_peak_budget_bytes'] == plan['additional_headroom_bytes']
     target = plan['packing_target']
-    assert target['library_and_support_ceiling_bytes'] + profile['reserve_bytes'] == profile['capacity_bytes']
-    assert profile['capacity_bytes'] + target['filesystem_and_partition_margin_bytes'] == target['nominal_drive_bytes']
+    assert target['library_and_support_ceiling_bytes'] + baseline['reserve_bytes'] == baseline['capacity_bytes']
+    assert baseline['capacity_bytes'] + target['filesystem_and_partition_margin_bytes'] == target['nominal_drive_bytes']
     downloads, readable, manifests = [], [], ['plan.json']
     total = 0
     for allocation in plan['allocations']:
@@ -80,21 +84,29 @@ def main():
                 readable.append(row)
     assert len({r['id'] for r in downloads}) == len(downloads)
     assert len({r['source_url'] for r in downloads}) == len(downloads)
-    assert not {r['source_url'] for r in downloads}.intersection(a.get('source_url') for a in assets)
     assert len({r['id'] for r in readable}) == len(readable)
-    assert not {r['id'] for r in downloads + readable}.intersection(a['id'] for a in assets)
+    assert not {r['id'] for r in downloads + readable} & foundation_ids
     assert total == plan['totals']['exact_enumerated_candidate_bytes']
-    assert capacity['planned_final_bytes'] + total == plan['totals']['modeled_library_and_support_bytes']
-    assert target['library_and_support_ceiling_bytes'] - (capacity['planned_final_bytes'] + total) == plan['totals']['unfilled_growth_allowance_bytes']
+    assert final + total == plan['totals']['modeled_library_and_support_bytes']
+    assert target['library_and_support_ceiling_bytes'] - (final + total) == plan['totals']['unfilled_growth_allowance_bytes']
     assert len(downloads) == plan['totals']['candidate_download_count']
     assert len(readable) == plan['totals']['draft_pseudoindexes']
-    assert {p.stem for p in (directory / 'pseudoindexes').glob('*.yaml')} == {r['id'] for r in readable}
+    packed_path = directory / 'pseudoindexes.jsonl'
+    packed = [json.loads(line) for line in packed_path.read_text(encoding='utf-8').splitlines()]
+    assert len(packed) == len(readable)
+    assert {row['asset_id'] for row in packed} == {r['id'] for r in readable}
     assert all(r['pseudoindex'] == 'pseudoindexes/' + r['id'] + '.yaml' for r in readable)
     # Resolve the temp root to avoid platform /var -> /private/var symlink aliases.
     with tempfile.TemporaryDirectory(dir=Path(tempfile.gettempdir()).resolve()) as temporary:
         navigation = Path(temporary)
         shutil.copyfile(ROOT / 'catalog/navigation/topics.yaml', navigation / 'topics.yaml')
-        shutil.copytree(directory / 'pseudoindexes', navigation / 'assignments')
+        assignments = navigation / 'assignments'
+        assignments.mkdir()
+        for row in packed:
+            # JSON is valid YAML. Preserve the filename contract of navigation.
+            (assignments / (row['asset_id'] + '.yaml')).write_text(
+                json.dumps(row, ensure_ascii=False), encoding='utf-8'
+            )
         nav = load_navigation(navigation, readable)
     assert not nav['sections']
     usgs = [r for r in downloads if r['id'].startswith('usgs_')]
@@ -180,11 +192,8 @@ def main():
     for path in (directory / 'evidence').glob('*verification.json'):
         check_head_bytes(json.loads(path.read_text()))
     # Every smaller expansion reuses this inventory; no second source catalog.
-    preset_path = ROOT / 'catalog/acquisition/preset-capacity-20260929.json'
-    preset_document = json.loads(preset_path.read_text())
     assert preset_document['schema_version'] == 1
     by_candidate_id = {row['id']: row for row in downloads}
-    profiles = load_profiles(ROOT / 'profiles')
     preset_reports = []
     assert {row['profile'] for row in preset_document['presets']} == {
         'flash-16gb', 'critical-64gb', 'compact-256gb', 'standard-512gb', 'full-1tb'}
@@ -192,30 +201,21 @@ def main():
     for name, digest in preset_document['inventory_manifest_sha256'].items():
         assert hashlib.sha256((directory / name).read_bytes()).hexdigest() == digest
     for preset in preset_document['presets']:
-        profile = profiles[preset['profile']]
-        current, unresolved, selection = resolve_content(assets, profile, resources_path=ROOT / 'catalog/resources.yaml')
-        assert not unresolved and not selection['incomplete_resources']
-        cap = capacity_plan(current, profile, selection)
-        assert set(preset['current_build_asset_ids']) == {row['id'] for row in current}
-        assert preset['current_build_resource_ids'] == profile['default_resources']
-        assert preset['current_build_file_bytes'] == cap['content_bytes']
-        assert preset['current_build_modeled_support_bytes'] == cap['planned_final_bytes'] - cap['content_bytes']
-        assert preset['pinned_reader_bytes'] == cap['pinned_reader_bytes']
-        assert preset['reader_total_budget_bytes'] == profile['readers_budget_bytes']
+        assert len(set(preset['current_build_asset_ids'])) == len(preset['current_build_asset_ids'])
+        assert len(set(preset['current_build_resource_ids'])) == len(preset['current_build_resource_ids'])
+        assert preset['reader_total_budget_bytes'] >= preset['pinned_reader_bytes']
         ids = preset['candidate_download_ids']
         assert len(set(ids)) == len(ids) == preset['candidate_download_count']
         sources = [by_candidate_id[identity] for identity in ids]
         retained = sum(row.get('retained_bytes', row['size_bytes']) for row in sources)
         assert retained == preset['candidate_retained_bytes']
-        assert cap['content_bytes'] + retained == preset['expanded_library_file_bytes']
-        final_bytes = cap['planned_final_bytes'] + retained
+        assert preset['current_build_file_bytes'] + retained == preset['expanded_library_file_bytes']
+        final_bytes = preset['current_build_file_bytes'] + preset['current_build_modeled_support_bytes'] + retained
         assert final_bytes == preset['expanded_library_and_support_bytes']
         ceiling = preset['library_and_support_ceiling_bytes']
         assert final_bytes <= ceiling
         assert ceiling - final_bytes == preset['unfilled_growth_bytes']
-        assert ceiling + preset['free_space_reserve_bytes'] == profile['capacity_bytes']
-        assert preset['free_space_reserve_bytes'] == profile['reserve_bytes']
-        assert profile['capacity_bytes'] + preset['filesystem_and_partition_margin_bytes'] == preset['nominal_drive_bytes']
+        assert ceiling + preset['free_space_reserve_bytes'] + preset['filesystem_and_partition_margin_bytes'] == preset['nominal_drive_bytes']
         assert sum(row['sha256'] is None for row in sources) == preset['candidate_downloads_missing_sha256']
         groups = {group['series']: set(group['grades']) for group in preset['school_groups']}
         expected_school = {row['id'] for row in school if any(
@@ -234,8 +234,8 @@ def main():
         'status': 'passed', 'checked_on': plan['reviewed_on'],
         'checks': ['Baseline and decimal drive capacity reconcile', 'No duplicate selected source URLs, asset IDs or USGS cell IDs', 'Source probes match selected manifests', 'Canadian retained bytes include every extracted member', 'English curriculum component inventory and kindergarten subset reconcile', 'All readable candidates have valid per-asset navigation assignments', 'No invented internal sections or PDF page links', 'Full body hash evidence is distinguished from header/range checks'],
         'candidate_download_count': len(downloads), 'draft_pseudoindex_count': len(readable),
-        'validated_assignments': len(nav['assignments']), 'pseudoindex_file_bytes': sum(p.stat().st_size for p in (directory / 'pseudoindexes').glob('*.yaml')),
-        'exact_enumerated_candidate_bytes': total, 'modeled_library_and_support_bytes': capacity['planned_final_bytes'] + total,
+        'validated_assignments': len(nav['assignments']), 'pseudoindex_file_bytes': packed_path.stat().st_size,
+        'exact_enumerated_candidate_bytes': total, 'modeled_library_and_support_bytes': final + total,
         'fully_downloaded_and_hashed_files': body_count, 'all_candidate_body_integrity_verified': False, 'editorial_adequacy_established': False,
         'preset_capacity_selections': preset_reports,
         'preset_capacity_manifest_sha256': hashlib.sha256(preset_path.read_bytes()).hexdigest(),

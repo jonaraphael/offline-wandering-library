@@ -249,12 +249,12 @@ process.stdout.write(JSON.stringify(results));
         results = self.javascript([
             {"profile":"flash-16gb"},
             {"profile":"flash-16gb", "items":{"school-education":{"included":False}}},
-            {"profile":"flash-16gb", "items":{"openstax-core":{"included":True,"edition":"published"}}},
+            {"profile":"flash-16gb", "items":{"wikipedia-fr":{"included":True,"edition":"published"}}},
         ])
         for result in results:
             self.compare_to_python(result)
         self.assertLess(results[1]["report"]["estimates"]["knownBytes"], results[0]["report"]["estimates"]["knownBytes"])
-        self.assertIn("openstax-core", results[2]["report"]["selectionArgs"]["include"])
+        self.assertIn("wikipedia-fr", results[2]["report"]["selectionArgs"]["include"])
         self.assertGreaterEqual(results[2]["report"]["estimates"]["contentTargetBytes"], results[0]["report"]["estimates"]["contentTargetBytes"])
         self.assertEqual(bool(results[2]["build"]), results[2]["report"]["canBuild"])
 

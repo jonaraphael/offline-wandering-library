@@ -199,7 +199,7 @@ class ProductionAtlasCoverageTests(unittest.TestCase):
             "docs_binutils", "docs_ld", "docs_libc", "docs_python")})
         expected.update({"phet_ohms_law": "electric-circuits",
                          "phet_circuit_construction_kit_dc": "electric-circuits",
-                         "wikem_en": "emergency-care", "cd3wd_en": "appropriate-technology",
+                         "wikimed_en": "emergency-care", "cd3wd_en": "appropriate-technology",
                          "lowtech_magazine": "appropriate-technology"})
         routes = {(row["asset_id"], row["topic_id"], row.get("section_id"))
                   for row in self.navigation["assignments"]}

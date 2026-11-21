@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: encyclopedie_environnement_org_en_all_2026_05
+assignments:
+- topic_id: science
+  purpose: reference

@@ -25,7 +25,8 @@ class FlashProfileTests(unittest.TestCase):
         flash, unresolved, resources = self.selection()
         critical, _, _ = self.selection(self.profiles['critical-64gb'])
         self.assertGreaterEqual(len(flash), 400)
-        self.assertLess({a['id'] for a in flash}, {a['id'] for a in critical})
+        self.assertLess({a.get('selection', {}).get('edition_group') or a['id'] for a in flash},
+                        {a.get('selection', {}).get('edition_group') or a['id'] for a in critical})
         self.assertEqual(unresolved, [])
         self.assertFalse(resources["incomplete_resources"])
         for selected in (flash, critical):
@@ -47,8 +48,8 @@ class FlashProfileTests(unittest.TestCase):
         ids = {a['id'] for a in assets}
         self.assertTrue({'cert', 'medical_bec', 'water', 'sanitation', 'food', 'agriculture',
                          'electrical_dc', 'electrical_ac', 'mechanical', 'shelter',
-                         'survival_shelter', 'navigation', 'reference', 'wikem_en',
-                         'ifixit_en', 'appropedia_en', 'cd3wd_en', 'lowtech_magazine'} <= ids)
+                         'survival_shelter', 'navigation', 'reference', 'wikimed_en',
+                         'appropedia_en', 'lowtech_magazine'} <= ids)
         self.assertTrue({'kiwix_windows', 'kiwix_linux', 'kiwix_macos', 'kiwix_android'} <= ids)
         # Direct emergency documents precede specialized archives during acquisition.
         self.assertLess(max(i for i,a in enumerate(assets) if a.get('critical')),
@@ -78,9 +79,8 @@ class FlashProfileTests(unittest.TestCase):
 
     def test_exclusions_still_allow_a_deliberately_smaller_custom_library(self):
         original, _, _ = self.selection()
-        selected, _, report = self.selection(exclude=['ifixit', 'school-education'])
+        selected, _, report = self.selection(exclude=['openstax-core', 'school-education'])
         self.assertTrue(report['customized'])
-        self.assertNotIn('ifixit_en', {a['id'] for a in selected})
         self.assertFalse(any(a['id'].startswith('openstax_') for a in selected))
         self.assertLess(sum(a['size_bytes'] for a in selected), sum(a['size_bytes'] for a in original))
 

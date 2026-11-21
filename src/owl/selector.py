@@ -13,6 +13,8 @@ from .resources import load_resources, resource_asset_ids
 from .content_policy import require_content_policy, load_policy
 from .utility_policy import require_utility_policy
 from .safety import atomic_write, reject_symlinks
+from .selection import (DEFAULT_LIMIT, DISCOVERY_BUDGET, MARGIN_DIVISOR, MIN_CAPACITY,
+                        MINIMUM_MARGIN, READER_BUDGET, load_ladder)
 
 ROOT = Path(__file__).resolve().parents[2]
 TEMPLATES = Path(__file__).with_name("templates")
@@ -36,7 +38,7 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
         row["preset_resource_ids"] = profile.get("default_resources", [identity for identity, resource in resources.items()
             if pinned & resource_asset_ids(resource)])
         visible.append(row)
-    fields = ("id", "title", "category", "utility_tier", "utility_reason", "knowledge_domains", "status", "size_bytes", "uncompressed_size_bytes", "sha256", "format", "destination", "critical", "required",
+    fields = ("source_url", "mirrors", "selection", "browser_fetch", "digest_algorithm", "digest_source", "license", "redistributable", "id", "title", "category", "utility_tier", "utility_reason", "knowledge_domains", "status", "size_bytes", "uncompressed_size_bytes", "sha256", "format", "destination", "critical", "required",
               "reader_required", "resource_type", "illustrated", "profiles", "supporting_file", "archive_member", "generation", "generation_source_asset_ids",
               "generation_source_resource_ids", "generation_build_inputs", "generation_build_input_members", "generation_build_input_metadata_bytes")
     # Reuse validated pseudoindex metadata; no source document is opened.
@@ -59,10 +61,16 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
             cli[flag] = str(path.resolve())
     if allow_local:
         cli["--allow-local"] = None
+    capacity_policy = None
+    if catalog.resolve() == (ROOT / "catalog/library.yaml").resolve():
+        capacity_policy = {"min": MIN_CAPACITY, "limit": DEFAULT_LIMIT,
+                           "minimum_margin": MINIMUM_MARGIN, "margin_divisor": MARGIN_DIVISOR,
+                           "readers": READER_BUDGET, "discovery": DISCOVERY_BUDGET,
+                           "transitions": load_ladder(catalog)}
     return {"schema_version": 1, "direct_reading_formats": load_policy()["direct_reading_formats"], "cli": cli, "atlas_available": catalog.resolve() == (ROOT / "catalog/library.yaml").resolve(),
             "catalog_sha256": hashlib.sha256(catalog.read_bytes()).hexdigest(),
             "resources_sha256": hashlib.sha256(resources_path.read_bytes()).hexdigest(),
-            "profiles": visible, "resources": sorted(resources.values(), key=lambda r: ({"CRITICAL": 0, "USEFUL": 1, "NONESSENTIAL": 2}.get(r.get("utility_tier"), 3), r.get("number") or 1000, r["id"])),
+            "capacity_policy": capacity_policy, "profiles": visible, "resources": sorted(resources.values(), key=lambda r: ({"CRITICAL": 0, "USEFUL": 1, "NONESSENTIAL": 2}.get(r.get("utility_tier"), 3), r.get("number") or 1000, r["id"])),
             "topic_verticals": json.loads(Path(__file__).with_name("topic_verticals.json").read_text())["verticals"],
             "acquisition_recipes": read_yaml(catalog).get("acquisition_recipes", []),
             "assets": [{**{key: a[key] for key in fields if key in a}, **({"discovery": discovery[a["id"]]} if a["id"] in discovery else {})} for a in assets]}

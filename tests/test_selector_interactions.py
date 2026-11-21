@@ -83,6 +83,13 @@ clearFilters();click('exclude-shown');assert(lastReport.selectedAssetIds.length=
 click('include-shown');assert(cards().every(checked),'Unfiltered include failed');
 search('does-not-match-anything-xyz');assert(shown().length===0&&get('include-shown').disabled,'Empty search failed');
 assert(get('fatal').hidden,get('fatal').textContent);
+clearFilters();
+const capacity=get('capacity-gb');
+capacity.value='78.55';
+capacity.checkValidity=()=>true;
+get('custom-capacity').handlers.submit({preventDefault(){}});
+assert(get('plan-command').value.includes('--capacity-bytes 78550000000'),'Custom capacity missing from CLI handoff');
+assert(lastReport.selectedAssetIds.includes('wikimed_en'),'Custom recommendation lost the critical collection');
 '''
-        result = subprocess.run([shutil.which('node'), '-e', code], input=render_selector(model), text=True, capture_output=True, timeout=30)
+        result = subprocess.run([shutil.which('node'), '-e', code], input=render_selector(model), encoding='utf-8', capture_output=True, timeout=30)
         self.assertEqual(result.returncode, 0, result.stderr)

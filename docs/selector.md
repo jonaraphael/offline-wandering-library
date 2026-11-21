@@ -9,19 +9,22 @@ contains its catalog snapshot, controls, and calculations. It needs JavaScript,
 but no installation, server, account, or network connection. It does not download
 content or write to the chosen drive; it produces commands for the Python builder.
 
-## Choose a preset and inspect the selection
+## Enter a capacity and edit the recommendation
 
-Choose the 16 GB, 64 GB, 256 GB, 512 GB, or 1 TB preset; the page initially selects
-16 GB. Each starts with its configured selection. Change the inclusion checkboxes to add or remove resource
-groups. Totals and warnings update immediately. In **Take this plan to your terminal**,
-enter the destination directory on the drive, choose POSIX shell or PowerShell,
-and review the partial-library option before copying a command.
+Choose 16 GB, 64 GB, 256 GB, 512 GB, or 1 TB for a common drive size. For another
+capacity, enter decimal GB and select **Recommend files**. The page opens with the
+16 GB recommendation. Larger drives start with the 1 TB selection. The build
+command carries the entered capacity as `--capacity-bytes`.
 
-All five presets select actual finished files. Defaults include CRITICAL survival material and USEFUL trades, repair, appropriate technology and school education. NONESSENTIAL fiction, college textbooks, computing and enrichment are opt-in. Additional Wikipedia languages are also opt-in. Filter collections by priority or search their topics, then change individual checkboxes.
+Change collection checkboxes or use topic and text filters to select individual
+files. Totals update immediately. The recommendation includes critical material
+and adds other collections with capacity. Regional topographic sheets and
+non-English Wikipedias start unchecked. The
+[generated capacity table](content-selection.md) lists the common-size plans.
 
-Each collection displays its priority, formats, exact bytes and scope limitations. All active choices pass the content-type policy. School books and practical hand-tool manuals are separate from college textbooks. The 512 GB and 1 TB defaults currently contain the same practical corpus; capacity labels do not promise a full drive.
-
-Required reader packages are added when selected ZIM archives need them. PDF documents remain ordinary files. Python's optional PDF ZIP is unpacked unchanged. No active choice invokes document conversion.
+Under **Take this plan to your terminal**, enter the drive directory, choose the
+shell, and copy the plan. Required readers are included for ZIM files. The
+builder unpacks the selected publisher ZIPs and keeps their original PDFs.
 
 ## Discovery comes with the library
 
@@ -35,8 +38,7 @@ navigation metadata still receive title/description search and static file lists
 **Published collection** uses the resource's existing formats and scope, which can
 be ordinary files, archives, or a mixture. **Direct-readable edition** and
 **Compact archive edition** require separately registered entries in the resource's
-optional `editions` mapping, with exact asset references and explicit size and
-availability information.
+optional `editions` mapping, with exact asset references and size. English Wikipedia also offers `top`, `mini` and `nopic` editions.
 
 The selector enables an alternate edition only when its actual pinned files are
 registered. Unsupported choices stay disabled. It does not compress PDFs,

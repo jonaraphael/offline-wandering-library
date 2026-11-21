@@ -17,7 +17,7 @@ from .catalog import CatalogError, DIRECT, read_yaml
 RESOURCE_ID = re.compile(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*")
 STATUSES = {"ready", "partial", "unresolved"}
 READERS = "archive-readers"
-EDITIONS = {"published", "direct", "compact"}
+EDITIONS = {"published", "direct", "compact", "top", "mini", "nopic"}
 
 
 def _integer(value: object, name: str, minimum: int = 0) -> int:
@@ -76,6 +76,8 @@ def load_resources(path: Path, assets: list[dict]) -> dict[str, dict]:
         if not isinstance(reason, str) or (row["status"] != "ready" and not reason.strip()):
             raise CatalogError(f"{identity}: incomplete resources require a nonempty reason")
         row["reason"] = reason
+        if "opt_in" in row and type(row["opt_in"]) is not bool:
+            raise CatalogError(f"{identity}: opt_in must be boolean")
         device = row.get("device_validation")
         if device is not None:
             if (not isinstance(device, dict) or
@@ -100,8 +102,8 @@ def load_resources(path: Path, assets: list[dict]) -> dict[str, dict]:
             if any(asset_map[member].get("status", "resolved") != "resolved" for member in members):
                 raise CatalogError(f"{identity}: a ready resource contains unresolved source assets")
         editions = row.setdefault("editions", {})
-        if not isinstance(editions, dict) or set(editions) - {"direct", "compact"}:
-            raise CatalogError(f"{identity}: editions may define only direct and compact")
+        if not isinstance(editions, dict) or set(editions) - (EDITIONS - {"published"}):
+            raise CatalogError(f"{identity}: editions may define direct, compact, top, mini, or nopic")
         critical = {member for member in members if asset_map[member].get("critical")}
         for name, edition in editions.items():
             label = f"{identity} edition {name}"
@@ -195,10 +197,10 @@ def _edition_selections(values: Iterable[str] | str, resources: dict[str, dict])
     chosen = {}
     for value in values:
         if not isinstance(value, str):
-            raise CatalogError("edition: use RESOURCE=direct|compact|published")
+            raise CatalogError("edition: use RESOURCE=EDITION")
         for token in value.split(","):
             if token.count("=") != 1:
-                raise CatalogError("edition: use RESOURCE=direct|compact|published")
+                raise CatalogError("edition: use RESOURCE=EDITION")
             resource, edition = (part.strip() for part in token.split("="))
             identity = _selections([resource], resources, "edition")[0]
             if edition not in EDITIONS:

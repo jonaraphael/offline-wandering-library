@@ -25,29 +25,35 @@ Mount locations differ by operating system. Typical roots include `/Volumes/` on
 
 ## Choose what to include
 
-Open [`SELECT.html`](../SELECT.html) locally for the [offline selection tool](selector.md). Choose a 16 GB, 64 GB, 256 GB, 512 GB, or 1 TB preset, adjust inclusion controls, and inspect live totals. Enter the destination without adding shell quotes and choose POSIX shell or PowerShell. Copy the planning command and run it from the installed repository before running the build command. The browser page needs no installation or network; Python builds and fresh downloads still require their normal dependencies and internet access.
+Open [`SELECT.html`](../SELECT.html) for the [offline selection tool](selector.md).
+Choose one of the five common sizes or enter the drive capacity in decimal GB.
+Edit collections or individual files and inspect the live totals. Enter the
+destination directory and choose POSIX shell or PowerShell. Run the copied plan
+before starting the build. The selector runs locally. Python and internet access
+are required for the build.
 
-Small-preset rows marked **Preset files only** retain exact files from the preset. Selecting **Published collection** adds the full intended resource with `--include`; it can introduce unresolved scope and a much larger budget. Unchecking a selected row produces `--exclude`. Direct-readable and compact editions require registered alternatives. Larger profiles default to the verified compact Gutenberg/children editions; standard and full add compact practical Stack Exchange, and full adds compact science Stack Exchange. Other unavailable alternatives remain disabled. No compression ratio, conversion, or download is performed by the page.
+The recommendation starts with critical material then adds depth across the
+domains. Each Wikipedia upgrade occupies the same collection slot. The 1 TB
+default applies on larger drives, with the extra capacity available for explicit
+additions. The [current selection table](content-selection.md) lists the pinned
+files and in-place planning peaks for the five common sizes.
 
-The bundled atlas is included automatically. **Build only currently verified files (partial library)** starts unchecked and adds `--allow-incomplete` only when explicitly checked. Storage estimates include a small discovery allowance, metadata and reserve. The CLI checks actual free space. Regenerate the selector with `python scripts/build_selector.py`; `--check` detects stale output.
-
-Current preset counts and planning peaks are generated in [content selection](content-selection.md). Each profile includes a 16 MiB discovery allowance, with no indexing scratch or cache. Source files, any acquisition workspace, metadata, and reserve are counted separately.
-
-`catalog/resources.yaml` describes the 46 numbered resources and five support collections: `owl-direct-core`, `archive-readers`, `direct-reading-expansion`, `books-culture-expansion`, and `complete-courses-expansion`. Actual downloadable files, licenses, sizes, and hashes live in `catalog/library.yaml`. A resource can be ready, partial, or unresolved. Review the plan's resource coverage as well as its byte totals; a plausible size estimate is not proof that the requested collection is available.
-
-The larger content targets are 190–210 GB for compact, 390–420 GB for standard, and 750–820 GB for full, before search, reader, and free-space budgets. All three select full English Wikipedia. Compact selects the 10 GB topographic-map allocation without North America OSM; standard adds North American coverage; full uses world maps in place of North America. OpenStax contributes 36 complete PDFs across all eight subject families in 16 GB; the 64 GB and larger sizes include all 73 current English PDF titles. The smaller selection preserves math/science foundations and adds nursing, business, humanities, social sciences, computing, and college success. Spanish Wikipedia requires explicit inclusion; compact science Stack Exchange defaults to full. Other languages and noncore Khan material are opt-in. All sizes retain the same acquired ordinary-format foundation, with additional archives chosen by available capacity.
-
-The full profile also allocates 60 GB of its planned content budget to `direct-reading-expansion`: additional ordinary HTML, PDFs, and images from selected Appropedia, CD3WD, iFixit, LibreTexts, and Wikibooks material, plus an expanded small directly readable Wikipedia subset. The [in-place exporter](direct-export.md) is implemented, but curated selections and complete reviewed output editions remain unresolved. It does not automatically turn the full Wikipedia archive into millions of local HTML pages. Preferences apply to selected resources, and any future exports require reviewed source selection, licensing, attribution, and verified files. To omit the allocation, add `--exclude direct-reading-expansion`.
-
-Use stable IDs or resource numbers from `--list-resources`. Both options can be repeated and accept comma-separated selections:
+Use collection IDs or numbers shown by `--list-resources`. To exchange the
+large Survivor Library archive for French Wikipedia and a set of USGS sheets on
+a 1 TB drive, plan with these options.
 
 ```bash
 python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
-    --profile full-1tb \
-    --include wikipedia-fr \
-    --exclude wikipedia-es,ted-ed \
+    --capacity-bytes 1000000000000 \
+    --exclude survivor-library \
+    --include wikipedia-fr,topo-usgs-northeast \
     --plan
 ```
+
+The CLI checks actual free bytes. Use `--edition wikipedia-en=top` for the
+50,000-article introduction collection or choose another pinned edition in the
+selector. The 1 TB recommendation has no automatic direct-reading export.
+See the [content ledger](content-ledger.md) for the selection and source totals.
 
 Selecting resolved ZIM assets automatically brings `archive-readers` into the plan. Explicitly excluding that reader collection while ZIM assets remain selected is an error. Review the resulting selection after adding or excluding resources; an archive cannot be made directly readable by removing its reader requirement. Source and licensing gaps still require resolution.
 
