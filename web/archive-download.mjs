@@ -52,7 +52,7 @@ export function checkAlignment(pin, asset, part) {
 }
 
 export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signal, network}) {
-  let lanes = 6, previousRate = 0, growth = true, sampled = false, preferred = direct[0];
+  let lanes = 6, previousRate = 0, growth = true, sampled = false, preferred = direct[0], windowsSinceSample = 0;
   const relayURLs = new Set(relay);
   // Relay routes ordered by sampled speed. A route that returns wrong or
   // unusable data is dropped; a throttled or dropped request moves the next
@@ -97,11 +97,17 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
 
   async function select(index, length, requestSignal, accept) {
     sampled = true;
+    windowsSinceSample = 0;
+    // Once a relay route answers, the default mirror's sample gets at most
+    // twice that time (at least 3 s). Waiting for it cost a real build 22 s at
+    // 0.19 MB/s before every first window.
+    const baselineStop = new AbortController();
     const measure = async url => {
       const start = performance.now();
       // A nonresponsive optional peer must not block the default route.
       const probeSignal = relayURLs.has(url) ?
-        AbortSignal.any([requestSignal, AbortSignal.timeout(20_000)]) : requestSignal;
+        AbortSignal.any([requestSignal, AbortSignal.timeout(20_000)]) :
+        AbortSignal.any([requestSignal, baselineStop.signal]);
       try {
         const bytes = await read(url, index, length, probeSignal);
         return {url, bytes, elapsed: performance.now() - start};
@@ -111,7 +117,15 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
         return null;
       }
     };
-    const [baseline, ...peers] = await Promise.all([preferred, ...relay].map(measure));
+    const probes = [preferred, ...relay].map(measure);
+    let deadline;
+    for (const probe of probes.slice(1)) {
+      probe.then(result => {
+        if (result && !deadline) deadline = setTimeout(() => baselineStop.abort(), Math.max(3_000, 2 * result.elapsed));
+      });
+    }
+    const [baseline, ...peers] = await Promise.all(probes);
+    clearTimeout(deadline);
     const answered = peers.filter(Boolean).sort((a, b) => a.elapsed - b.elapsed);
     ranked = [...answered.map(peer => peer.url), ...relay.filter(url => !answered.some(peer => peer.url === url))];
     const fastest = answered[0];
@@ -158,7 +172,11 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
           return written;
         }
 
-        if (relay.length && !sampled && lengthOf(start) === pin.size) {
+        // Sample on the first window, and again every 8 windows (512 MiB) while
+        // the default mirror is preferred, so a relay outage at the start of an
+        // archive does not pin the whole archive to 0.46 MB/s.
+        const resample = sampled && !relayURLs.has(preferred) && ++windowsSinceSample >= 8;
+        if (relay.length && (!sampled || resample) && lengthOf(start) === pin.size) {
           const saved = await restore(start, lengthOf(start));
           if (saved) await write(start, saved, false);
           else await select(start, lengthOf(start), requestSignal, (index, bytes) => write(index, bytes, true));

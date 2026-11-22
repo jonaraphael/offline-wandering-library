@@ -74,18 +74,14 @@ export function relay(allowed, fetchUpstream = fetch) {
     for (const name of ["Content-Length", "Content-Range", "Accept-Ranges"]) {
       if (upstream.headers.has(name)) headers.set(name, upstream.headers.get(name));
     }
-    let received = 0;
-    const body = upstream.body?.pipeThrough(new TransformStream({
-      transform(chunk, controller) {
-        received += chunk.byteLength;
-        if (received > span.size) controller.error(Error("Publisher exceeded the catalog size"));
-        else controller.enqueue(chunk);
-      },
-      flush(controller) {
-        if (received !== span.size) controller.error(Error("Publisher response was incomplete"));
-      }
-    }));
-    return new Response(request.method === "HEAD" ? null : body, {status: upstream.status, headers});
+    // Pass the publisher body straight through so the runtime streams it
+    // without running JavaScript per chunk. A byte-counting TransformStream
+    // here used the free plan's per-request CPU allowance under parallel load,
+    // and Cloudflare cut 36/36 parallel 4 MiB responses short (0.4-2.9 MB).
+    // The declared length lets clients detect a short body; the builder also
+    // checks every byte count and publisher SHA-1 itself.
+    headers.set("Content-Length", String(span.size));
+    return new Response(request.method === "HEAD" ? null : upstream.body, {status: upstream.status, headers});
   }};
 }
 
