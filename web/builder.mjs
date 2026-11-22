@@ -233,13 +233,17 @@ async function prunePieceJournal(drive, asset, keep) {
 async function transferRangedPart(asset, part, writable, options) {
   const {whole, expectedHash, signal, last, onBytes, ranged, journal, writeOffset = 0} = options;
   const hash = sha256.create(), next = whole.clone();
-  let total = 0;
+  let total = 0, journalMs = 0, partMs = 0;
   await ranged(part, {
     restore: journal?.restore || (() => null),
     async accept(index, bytes, persist) {
+      const began = performance.now();
       if (persist) await journal?.persist(index, bytes);
+      const journaled = performance.now();
       await writable.seek(writeOffset + index * options.pieceSize - part.start);
       await writable.write(bytes);
+      journalMs += journaled - began;
+      partMs += performance.now() - journaled;
       total += bytes.byteLength;
       onBytes(total);
     },
@@ -249,6 +253,8 @@ async function transferRangedPart(asset, part, writable, options) {
     }
   });
   const digest = bytesToHex(hash.digest());
+  diag("part-writes", {asset: asset.id, start: part.start, mb: +(part.bytes / 1e6).toFixed(1),
+    journalMs: Math.round(journalMs), partMs: Math.round(partMs)});
   if (total !== part.bytes || (expectedHash && digest !== expectedHash)) throw new SourceError("Part SHA-256 or size mismatch");
   if (last && bytesToHex(next.clone().digest()) !== asset.sha256)
     throw new SourceError("Whole-file SHA-256 mismatch", {whole: true});
@@ -261,7 +267,10 @@ async function writePart(drive, asset, part, source, options) {
   try {
     const result = options.ranged ? await transferRangedPart(asset, part, writable, options) :
       await transferPart(asset, part, source, writable, options);
+    const closing = performance.now();
     await writable.close();
+    diag("part-close", {asset: asset.id, start: part.start, mb: +(part.bytes / 1e6).toFixed(1),
+      ms: Math.round(performance.now() - closing)});
     return result;
   } catch (error) {
     await writable.abort().catch(() => {});
@@ -566,6 +575,7 @@ async function joinParts(drive, state, asset, layout, {signal, onProgress}) {
   }
   await removeFile(drive, path);
   let writable;
+  const began = performance.now();
   try {
     writable = await (await fileHandle(drive, path, true)).createWritable({mode: "exclusive"});
     const digest = sha256.create();
@@ -579,7 +589,10 @@ async function joinParts(drive, state, asset, layout, {signal, onProgress}) {
       }
     }
     if (bytesToHex(digest.digest()) !== asset.sha256) throw new SourceError("Saved parts failed whole-file SHA-256", {whole: true});
+    const closing = performance.now();
     await writable.close();
+    diag("join", {asset: asset.id, mb: +(asset.size_bytes / 1e6).toFixed(1),
+      copyMs: Math.round(closing - began), closeMs: Math.round(performance.now() - closing)});
   } catch (error) {
     await writable?.abort().catch(() => {});
     await removeFile(drive, path);
@@ -614,6 +627,8 @@ export async function buildLibrary(drive, {assets, excluded = [], catalogAssets 
     return asset;
   });
   const layouts = new Map(ordered.map(asset => [asset.id, partLayout(asset, state.partBytes)]));
+  diag("build", {resume, files: ordered.length, verified: ordered.filter(asset => state.verified[asset.id]).length,
+    partMb: +(state.partBytes / 1e6).toFixed(1), singleArchives: Boolean(state.singleArchives)});
   state.finished = false;
   if (resume) state.dropped = {};
   const occupied = new Set(ordered.filter(asset => state.verified[asset.id] ||
@@ -625,6 +640,8 @@ export async function buildLibrary(drive, {assets, excluded = [], catalogAssets 
     signal?.throwIfAborted();
     await assertDrive(drive, state);
     const layout = layouts.get(asset.id);
+    if (!state.verified[asset.id]) diag("file", {asset: asset.id, position, mb: +(asset.size_bytes / 1e6).toFixed(1),
+      parts: layout.length, savedParts: state.parts[asset.id]?.length || 0, staged: Boolean(state.stagedArchives[asset.id])});
     const report = event => onProgress({...event, position, total: ordered.length});
     try {
       const options = {routes, published, fetchFile, signal, onProgress: report, fullVerify, network};
