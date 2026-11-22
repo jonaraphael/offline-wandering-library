@@ -10,6 +10,14 @@ const href = path => path.split("/").map(encodeURIComponent).join("/");
 const link = (path, text) => '<a href="' + href(path) + '">' + escape(text) + "</a>";
 const titleOrder = (a, b) => a.title.localeCompare(b.title, "en");
 
+const size = bytes => {
+  const [scale, unit] = bytes >= 1e9 ? [1e9, "GB"] : bytes >= 1e6 ? [1e6, "MB"] : [1e3, "kB"];
+  const value = bytes / scale;
+  return (value >= 10 ? Math.round(value) : Math.round(value * 10) / 10) + " " + unit;
+};
+const count = (number, one, many = one + "s") => number + " " + (number === 1 ? one : many);
+const FORMATS = {pdf: "PDF", html: "Web page", htm: "Web page", epub: "EPUB book", zim: "Kiwix archive", txt: "Text", zip: "ZIP"};
+
 function template(layout, name, values) {
   return layout[name].replace(/\{\{([a-z_]+)\}\}/g, (_, slot) => values[slot] ?? "");
 }
@@ -23,7 +31,7 @@ function emergencyRoutes(layout, assets, layouts) {
     const [id, fragment = "", hint = "", entries = []] = match;
     const path = layouts.get(id)[0].path;
     const title = assets.get(id).title;
-    const row = {task: escape(task), title: escape(title), path: escape(path),
+    const row = {task: escape(task), title: escape(title), path: escape(path), icon: layout.task_icons?.[index] || "",
       href: href(path) + escape(fragment), hint: hint ? " · " + escape(hint) : ""};
     if (entries.length) {
       const anchor = "emergency-" + (index + 1);
@@ -31,23 +39,12 @@ function emergencyRoutes(layout, assets, layouts) {
         entries: entries.map(([label, locator]) => template(layout, "archive_task_entry",
           {title: escape(label), path: escape(locator)})).join("")}));
       row.href = "LIBRARY/INDEX/sections.html#" + anchor;
-      row.title = escape(entries.map(([label]) => label).join(" / "));
-      row.hint = " · " + escape(entries.map(([, locator]) => locator).join(", ")) + " in Kiwix";
+      row.title = escape(title + ": " + entries.map(([label]) => label).join(" / "));
+      row.hint = " · opens in the Kiwix app";
     }
     return template(layout, "task_link", row);
   });
   return {directory: template(layout, "emergency", {rows: rows.join("")}), archiveTasks: archiveTasks.join("")};
-}
-
-function assetList(assets, layouts, prefix) {
-  if (!assets.length) return "<p>No files in this build.</p>";
-  return '<ul class="assets">' + assets.map(asset => {
-    const parts = layouts.get(asset.id);
-    const description = parts.length > 1 ? parts.length + " parts. Open the first part in Kiwix and keep all parts together." :
-      asset.format === "zim" ? "Open in Kiwix." : "";
-    return "<li>" + link(prefix + parts[0].path, asset.title) + (description ? "<br>" + escape(description) : "") +
-      "<br><code>" + escape(parts[0].path) + "</code></li>";
-  }).join("") + "</ul>";
 }
 
 export async function assembleLibrary(drive, {completed, missing, navigation, layouts, parts, signal, search, searchBudget, fetchFile, network}) {
@@ -69,50 +66,121 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
       }
     }
   }
-  function document(title, body, prefix = "") {
-    const policy = '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; base-uri \'none\'; form-action \'none\'">';
-    const heading = "<h1>" + escape(title) + "</h1>";
-    const nav = [["START_HERE.html", "Start here"], ["LIBRARY/SEARCH.html", "Search"],
-      ["LIBRARY/INDEX/categories.html", "Categories"], ["LIBRARY/INDEX/topics.html", "Topic atlas"],
-      ["LIBRARY/INDEX/critical.html", "Critical content"], ["LIBRARY/INDEX/books.html", "Book contents"]]
-      .filter(([, label]) => search || label !== "Search").map(([path, label]) => link(prefix + path, label)).join(" ");
+  const index = "LIBRARY/INDEX/";
+  const hasTopics = Object.keys(topics).length > 0;
+  const tabs = [["START_HERE.html", "Home", true], ["LIBRARY/SEARCH.html", "Search", Boolean(search)],
+    [index + "critical.html", "Essentials", true], [index + "topics.html", "Subjects", hasTopics],
+    [index + "books.html", "Books", true], [index + "categories.html", "All files", true],
+    ["START_HERE.html#help", "Help", Boolean(layout?.help)]];
+  const tabBar = (prefix, current) => tabs.filter(([, , shown]) => shown).map(([path, label]) => {
+    const [file, fragment] = path.split("#");
+    return '<a href="' + href(prefix + file) + (fragment ? "#" + fragment : "") + '"' +
+      (path === current ? ' aria-current="page"' : "") + ">" + label + "</a>";
+  }).join("");
+  const strict = "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'";
+  function document(title, body, prefix = "", current = "", {heading, csp = strict} = {}) {
+    const policy = '<meta http-equiv="Content-Security-Policy" content="' + escape(csp) + '">';
+    heading ??= "<h1>" + escape(title) + "</h1>";
     if (!layout) return "<!doctype html><title>" + escape(title) + "</title>" + heading + body;
-    return template(layout, "page", {title:escape(title), css, heading, nav, body, policy,
-      footer:"Catalog text is readable without JavaScript or internet. Opening links depends on your viewer."});
+    return template(layout, "page", {title: escape(title), css, heading, nav: tabBar(prefix, current), body, policy,
+      footer: "Offline Wandering Library. Every page here works without internet."});
   }
+
+  // A book published as one file per chapter is shown once, with its chapters inside.
+  // On the start page a book opens expanded so it reads in viewers that cannot
+  // unfold it; the search script folds it again where links and scripts work.
+  function assetList(assets, prefix, unfolded = false) {
+    if (!assets.length) return '<p class="meta">Nothing here in this library.</p>';
+    const books = new Map();
+    for (const asset of assets) {
+      const book = metadata[asset.id]?.book;
+      if (!book) continue;
+      const key = layouts.get(asset.id)[0].path.replace(/[^/]+$/, "") + "\n" + book.title;
+      if (!books.has(key)) books.set(key, []);
+      books.get(key).push(asset);
+    }
+    const shown = new Set();
+    const rows = [];
+    for (const asset of assets) {
+      const layoutParts = layouts.get(asset.id);
+      const path = layoutParts[0].path;
+      const book = metadata[asset.id]?.book;
+      const key = book && path.replace(/[^/]+$/, "") + "\n" + book.title;
+      const members = key ? books.get(key) : [];
+      if (members.length >= 3) {
+        if (shown.has(key)) continue;
+        shown.add(key);
+        members.sort((a, b) => metadata[a.id].book.order - metadata[b.id].book.order);
+        const numbered = members.filter(member => /^\d/.test(metadata[member.id].book.chapter)).length * 2 > members.length;
+        const kind = numbered ? "chapters" : asset.format === "zim" ? "archives" : "files";
+        rows.push("<li><details" + (unfolded ? " open" : "") + "><summary>" + escape(book.title) + ' <span class="meta">' + members.length + " " + kind +
+          " · " + (FORMATS[asset.format] || asset.format.toUpperCase()) + (metadata[asset.id]?.publisher ? " · " + escape(metadata[asset.id].publisher) : "") +
+          "</span></summary><ol>" + members.map(member => "<li>" + link(prefix + layouts.get(member.id)[0].path, metadata[member.id].book.chapter) +
+            "</li>").join("") + '</ol><span class="where">' + escape(path.replace(/[^/]+$/, "")) + "</span></details></li>");
+        continue;
+      }
+      const notes = [FORMATS[asset.format] || asset.format.toUpperCase(), size(asset.size_bytes)];
+      if (metadata[asset.id]?.publisher) notes.push(escape(metadata[asset.id].publisher));
+      if (layoutParts.length > 1) notes.push("in " + layoutParts.length + " parts; keep them together and open the first");
+      rows.push("<li>" + link(prefix + path, asset.title) +
+        (asset.format === "zim" ? ' <span class="badge">Opens with Kiwix</span>' : "") +
+        '<span class="meta">' + notes.join(" · ") + '</span><span class="where">' + escape(path) + "</span></li>");
+    }
+    return '<ul class="assets">' + rows.join("") + "</ul>";
+  }
+  const byGroup = (assets, prefix) => {
+    const present = groups.filter(([id]) => assets.some(asset => metadata[asset.id]?.group === id));
+    const rest = assets.filter(asset => !groups.some(([id]) => metadata[asset.id]?.group === id));
+    if (!present.length) return assetList(assets, prefix);
+    return (present.length > 1 ? '<ul class="chips">' + present.map(([id, title]) =>
+      '<li><a href="#' + escape(id) + '">' + escape(title) + "</a></li>").join("") + "</ul>" : "") +
+      present.map(([id, title]) => {
+        const members = assets.filter(asset => metadata[asset.id]?.group === id);
+        return '<section id="' + escape(id) + '"><h2>' + escape(title) + ' <span class="badge">' + members.length +
+          "</span></h2>" + assetList(members, prefix) + "</section>";
+      }).join("") + (rest.length ? "<h2>More</h2>" + assetList(rest, prefix) : "");
+  };
+
   const documents = completed.filter(asset => metadata[asset.id]?.document !== false).sort(titleOrder);
   const inventory = completed.map(asset => ({
     id: asset.id, title: asset.title, destination: layouts.get(asset.id)[0].path.slice("LIBRARY/".length), format: asset.format, license: asset.license, attribution: metadata[asset.id]?.attribution,
     publisher: metadata[asset.id]?.publisher, bytes: asset.size_bytes, sha256: asset.sha256,
     parts: layouts.get(asset.id).map((part, index) => ({path: part.path, bytes: part.bytes, sha256: parts[asset.id][index].sha256}))
   }));
-  const index = "LIBRARY/INDEX/";
   const pages = new Map();
-  const shelfLinks = [];
+  const critical = documents.filter(asset => asset.critical);
+  const direct = critical.filter(asset => ["pdf", "epub", "html", "htm"].includes(asset.format));
+  const handbooks = phoneVolumes.length ? '<h2>WikiMed medical handbooks</h2><p class="meta">The medical encyclopedia as ' +
+    'PDFs, for devices without the Kiwix app.</p><ul class="assets">' + phoneVolumes.map(({path, title}) => "<li>" +
+    link("../../" + path, "WikiMed: " + title) + '<span class="where">' + escape(path) + "</span></li>").join("") + "</ul>" : "";
+  pages.set(index + "critical.html", document("Essentials",
+    '<p class="lede">First aid, medical care, safe water, food and shelter. Start here when it matters.</p>' +
+    (direct.length ? "<p>" + link("phone.html", "Show only what opens without any app") + "</p>" : "") +
+    byGroup(critical, "../../"), "../../", index + "critical.html"));
+  pages.set(index + "phone.html", document("Essentials that open without an app",
+    '<p class="lede">These are ordinary PDFs and web pages. A phone’s Files app opens them directly.</p>' + handbooks +
+    byGroup(direct, "../../"), "../../", index + "critical.html"));
   const shelves = [
-    ["critical", "Critical references", documents.filter(asset => asset.critical)],
-    ["phone", "Critical files for Files and PDF viewers", documents.filter(asset =>
-      asset.critical && ["pdf", "epub", "html", "htm"].includes(asset.format))],
-    ["textbooks", "Textbooks", documents.filter(asset => metadata[asset.id]?.shelves?.includes("textbooks"))],
-    ["illustrated-guides", "Illustrated guides", documents.filter(asset => metadata[asset.id]?.shelves?.includes("illustrated-guides"))],
-    ...collections.map(([id, title]) => [id, title, documents.filter(asset => metadata[asset.id]?.collections?.includes(id))])
+    ["critical", "Essentials", "First aid, medical care, water, food and shelter.", critical],
+    ["textbooks", "Textbooks", "Complete school and college textbooks.",
+      documents.filter(asset => metadata[asset.id]?.shelves?.includes("textbooks"))],
+    ["illustrated-guides", "Illustrated guides", "Practical guides with diagrams and photographs.",
+      documents.filter(asset => metadata[asset.id]?.shelves?.includes("illustrated-guides"))],
+    ...collections.map(([id, title]) => [id, title, "A reading collection.",
+      documents.filter(asset => metadata[asset.id]?.collections?.includes(id))])
   ];
-  for (const [id, title, assets] of shelves) {
-    const path = index + id + ".html";
-    if (assets.length) shelfLinks.push("<li>" + link(path, title + " (" + assets.length + ")") + "</li>");
-    const wiki = id === "phone" && phoneVolumes.length ? '<h2>WikiMed PDFs</h2><ul class="assets">' +
-      phoneVolumes.map(({path, title}) => "<li>" + link("../../" + path, "WikiMed: " + title) +
-        "<br><code>" + escape(path) + "</code></li>").join("") + "</ul>" : "";
-    pages.set(path, document(title, wiki + assetList(assets, layouts, "../../"), "../../"));
+  for (const [id, title, note, assets] of shelves.slice(1)) {
+    pages.set(index + id + ".html", document(title, '<p class="lede">' + note + "</p>" + assetList(assets, "../../"),
+      "../../", index + "books.html"));
   }
-
-  const categories = groups.map(([id, title]) => '<section id="' + escape(id) + '"><h2>' + escape(title) +
-    "</h2>" + assetList(documents.filter(asset => metadata[asset.id]?.group === id), layouts, "../../") + "</section>");
-  pages.set(index + "categories.html", document("Browse by category", categories.join(""), "../../"));
-  const alphabet = "<p>" + letters.map(letter => link(letter + ".html", letter)).join(" ") + "</p>";
+  pages.set(index + "categories.html", document("All files",
+    '<p class="lede">' + count(documents.length, "book, guide or archive", "books, guides and archives") + ", by category.</p>" +
+    byGroup(documents, "../../"), "../../", index + "categories.html"));
+  const alphabet = '<ul class="chips">' + letters.map(letter => "<li>" + link(letter + ".html", letter) + "</li>").join("") + "</ul>";
   for (const letter of letters) {
     pages.set(index + letter + ".html", document("Titles: " + letter,
-      alphabet + assetList(documents.filter(asset => metadata[asset.id]?.letter === letter), layouts, "../../"), "../../"));
+      alphabet + assetList(documents.filter(asset => metadata[asset.id]?.letter === letter), "../../"), "../../",
+      index + "categories.html"));
   }
 
   const byId = new Map(documents.map(asset => [asset.id, asset]));
@@ -128,28 +196,42 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
     }
   }
   const visible = id => topicAssets.get(id)?.size > 0;
-  const topicGroups = Object.entries(entrances).map(([label, ids]) => "<h2>" + escape(label) +
-    "</h2><ul>" + ids.filter(visible).map(id => "<li>" + link("topics/" + id + ".html", topics[id].title) + "</li>").join("") + "</ul>");
-  pages.set(index + "topics.html", document("Topic atlas",
-    topicGroups.join(""), "../../"));
+  const topicCards = (ids, prefix) => '<ul class="cards">' + ids.map(id => '<li><a href="' + href(prefix + id + ".html") +
+    '"><strong>' + escape(topics[id].title) + "</strong><span>" + escape(topics[id].description || "") + "</span>" +
+    '<span>' + count(topicAssets.get(id).size, "document") + "</span></a></li>").join("") + "</ul>";
+  const entranceOrder = ["subjects", "tasks", "learn", ...Object.keys(entrances)].filter((key, at, all) =>
+    entrances[key] && all.indexOf(key) === at);
+  const entranceTitle = key => layout?.entrances?.[key] || key;
+  pages.set(index + "topics.html", document("Subjects",
+    '<p class="lede">Pick a subject to see everything this library holds on it.</p>' +
+    entranceOrder.map(key => [key, entrances[key].filter(visible)]).filter(([, ids]) => ids.length).map(([key, ids]) =>
+      '<section id="' + escape(key) + '"><h2>' + escape(entranceTitle(key)) + "</h2>" + topicCards(ids, "topics/") + "</section>").join("") +
+    (letters.length ? "<p>" + link("topic-a-z/A.html", "All topic names, A to Z") + "</p>" : ""),
+    "../../", index + "topics.html"));
   for (const [id, topic] of Object.entries(topics)) {
     const children = Object.values(topics).filter(child => child.parents.includes(id) && visible(child.id)).sort(titleOrder);
-    const list = children.map(child => "<li>" + link(child.id + ".html", child.title) + "</li>").join("");
-    pages.set(index + "topics/" + id + ".html", document(topic.title, "<p>" +
-      escape(topic.description) + "</p>" + (list ? "<h2>Subtopics</h2><ul>" + list + "</ul>" : "") +
-      assetList([...topicAssets.get(id).values()].sort(titleOrder), layouts, "../../../"), "../../../"));
+    const parents = topic.parents.filter(visible);
+    const trail = '<p class="breadcrumb">' + link("../topics.html", "Subjects") + parents.map(parent =>
+      " › " + link(parent + ".html", topics[parent].title)).join("") + "</p>";
+    pages.set(index + "topics/" + id + ".html", document(topic.title, trail + "<h1>" + escape(topic.title) + "</h1>" +
+      '<p class="lede">' + escape(topic.description) + "</p>" +
+      (children.length ? "<h2>Narrower subjects</h2>" + topicCards(children.map(child => child.id), "") : "") +
+      "<h2>" + count(topicAssets.get(id).size, "document") + "</h2>" +
+      assetList([...topicAssets.get(id).values()].sort(titleOrder), "../../../"), "../../../", index + "topics.html", {heading: ""}));
   }
 
-  const omitted = missing.length ? '<h2>Unavailable files</h2><ul>' + missing.map(row =>
-    "<li>" + escape(row.title) + " — " + escape(row.reason) + "</li>").join("") + "</ul>" :
-    "<p>All requested files were verified.</p>";
+  const omitted = missing.length ? '<h2>Could not be added</h2><ul class="assets">' + missing.map(row =>
+    "<li><strong>" + escape(row.title) + '</strong><span class="meta">' + escape(row.reason) + "</span></li>").join("") + "</ul>" +
+    '<p class="meta">Build again on the library website with this drive attached to retry them.</p>' :
+    '<p class="notice">Every requested file was downloaded and checked.</p>';
   pages.set(index + "build-report.html", document("Build report", omitted +
-    "<p>" + link("../INVENTORY.html", "Inventory and sources") + "</p>", "../../"));
+    "<p>" + link("../INVENTORY.html", "Inventory, sources and licenses") + "</p>", "../../"));
   pages.set("LIBRARY/INVENTORY.json", JSON.stringify({schema_version:1, assets:inventory, unresolved:missing,
     content_complete:!missing.length}, null, 2) + "\n");
   pages.set("LIBRARY/INVENTORY.html", document("Inventory, sources and licenses",
-    "<ul>" + inventory.map(row => "<li>" + link(row.destination, row.title) + " · " + escape(row.license) +
-      (row.attribution ? " · " + escape(row.attribution) : "") + "</li>").join("") + "</ul>", "../"));
+    '<p class="lede">Every file on this drive, with its license and credit.</p><ul class="assets">' + inventory.map(row =>
+      "<li>" + link(row.destination, row.title) + '<span class="meta">' + escape(row.license) +
+      (row.attribution ? " · " + escape(row.attribution) : "") + "</span></li>").join("") + "</ul>", "../"));
   if (verify) pages.set("LIBRARY/VERIFY.py", verify);
   pages.set("LIBRARY/SOURCE_NOTES.txt", inventory.map(file => [
     file.title, file.license, file.attribution, ...file.parts.map(part => part.path)
@@ -160,24 +242,47 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
 
   const indexed = search ? await assembleSearch(drive, {completed, layouts,
     config: search, fetchFile, signal, network, budget: searchBudget - phoneBytes}) : {pages: [], checksums: [], warnings: []};
-  for (const [path, contents] of indexed.pages) pages.set(path, contents);
+  for (const [path, contents] of indexed.pages) {
+    // The search page shares the tab bar of the other pages in this build.
+    pages.set(path, path === "LIBRARY/SEARCH.html" && layout ? contents.replace(/<!-- OWL_NAV -->[\s\S]*?<!-- \/OWL_NAV -->/,
+      () => '<nav aria-label="Library navigation">' + tabBar("../", "LIBRARY/SEARCH.html") + "</nav>") : contents);
+  }
+  // Headings found in each document, without bare page numbers or repeats.
   const entrypoints = documents.flatMap(asset => {
     const source = locators[asset.id];
     if (!source) return [];
     const path = "../../" + layouts.get(asset.id)[0].path;
-    const marks = (source.entrypoints || []).map(([value, title]) => typeof value === "number"
-      ? '<li><a href="' + href(path) + '#page=' + value + '">' + escape(title) + '</a></li>'
-      : "<li>" + escape(title) + " · <code>" + escape(value) + "</code></li>");
+    const seen = new Set();
+    const marks = (source.entrypoints || []).flatMap(([value, title]) => {
+      const heading = String(title).replace(/\s*·\s*Pages? \d+(?:–\d+)?$/, "");
+      if (/^Pages? \d+(?:–\d+)?$/.test(heading) || seen.has(heading)) return [];
+      seen.add(heading);
+      return [typeof value === "number"
+        ? '<li><a href="' + href(path) + '#page=' + value + '">' + escape(heading) + '</a> <span class="meta">page ' + value + "</span></li>"
+        : "<li>" + escape(heading) + " · <code>" + escape(value) + "</code></li>"];
+    });
     if (source.main) marks.unshift("<li>Archive start · <code>" + escape(source.main) + "</code></li>");
-    return marks.length ? ["<h2>" + link(path, asset.title) + "</h2><ul>" + marks.join("") + "</ul>"] : [];
+    return marks.length ? ['<details class="fold"><summary>' + escape(asset.title) + "</summary><div><p>" +
+      link(path, "Open the document") + "</p><ul>" + marks.join("") + "</ul></div></details>"] : [];
   });
   const emergency = emergencyRoutes(layout, byId, layouts);
-  pages.set(index + "sections.html", document("Sections and archive entry points",
-    emergency.archiveTasks + entrypoints.join("") || "<p>Browse the included files through the topic atlas or categories.</p>", "../../"));
+  pages.set(index + "sections.html", document("Find a place inside a document",
+    emergency.archiveTasks + (entrypoints.length ? "<h2>Headings inside each document</h2>" + entrypoints.join("") : "") ||
+    "<p>Browse the files through the subjects or categories.</p>", "../../"));
   const books = documents.filter(asset => sections[asset.id]?.source_sha256 === asset.sha256 ||
     metadata[asset.id]?.shelves?.includes("textbooks"));
-  pages.set(index + "books.html", document("Book and source contents",
-    "<ul>" + books.map(asset => "<li>" + link("books/" + asset.id + ".html", asset.title) + "</li>").join("") + "</ul>", "../../"));
+  const chaptered = documents.filter(asset => metadata[asset.id]?.book && asset.format !== "zim");
+  const chapterBooks = assetList(chaptered, "../../");
+  pages.set(index + "books.html", document("Books",
+    '<p class="lede">Whole books to read from cover to cover.</p>' +
+    (chaptered.length && chapterBooks.includes("<details>") ? "<h2>Handbooks, chapter by chapter</h2>" + chapterBooks : "") +
+    (books.length ? "<h2>Textbooks</h2>" + '<ul class="assets">' + books.map(asset => "<li>" +
+      link("../../" + layouts.get(asset.id)[0].path, asset.title) + '<span class="meta">' +
+      [FORMATS[asset.format] || asset.format.toUpperCase(), size(asset.size_bytes), metadata[asset.id]?.publisher && escape(metadata[asset.id].publisher)].filter(Boolean).join(" · ") +
+      " · " + link("books/" + asset.id + ".html", sections[asset.id]?.source_sha256 === asset.sha256 ? "Contents" : "Details") +
+      '</span><span class="where">' + escape(layouts.get(asset.id)[0].path) + "</span></li>").join("") + "</ul>" : "") +
+    (!books.length && !chaptered.length ? '<p class="meta">No whole books are in this library.</p>' : ""),
+    "../../", index + "books.html"));
   for (const asset of books) {
     const reference = "../../../" + layouts.get(asset.id)[0].path;
     const reviewed = sections[asset.id]?.source_sha256 === asset.sha256 ? sections[asset.id].sections : [];
@@ -187,14 +292,18 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
       return "<li>" + (fragment ? '<a href="' + href(reference) + "#" + fragment + '">' + escape(title) + "</a>" :
         escape(title) + (locator.path ? " · <code>" + escape(locator.path) + "</code>" : "")) + "</li>";
     });
-    const body = "<p>" + link(reference, "Open complete document") + "</p>" +
-      (entries.length ? "<ul>" + entries.join("") + "</ul>" :
-        "<p>No verified source contents are available. See the original contents pages.</p>");
-    pages.set(index + "books/" + asset.id + ".html", document(asset.title + ": source contents", body, "../../../"));
+    const body = '<p class="breadcrumb">' + link("../books.html", "Books") + "</p><h1>" + escape(asset.title) + "</h1>" +
+      '<ul class="cards"><li>' + '<a href="' + href(reference) + '"><strong>Open the book</strong><span>' +
+      [FORMATS[asset.format] || asset.format.toUpperCase(), size(asset.size_bytes)].join(" · ") + "</span></a></li></ul>" +
+      '<p><span class="where">' + escape(layouts.get(asset.id)[0].path) + "</span></p>" +
+      (metadata[asset.id]?.attribution ? '<p class="meta">' + escape(metadata[asset.id].attribution) + "</p>" : "") +
+      (entries.length ? "<h2>Contents</h2><ul>" + entries.join("") + "</ul>" : "");
+    pages.set(index + "books/" + asset.id + ".html", document(asset.title, body, "../../../", index + "books.html", {heading: ""}));
   }
   if (letters.length) {
     const choices = Object.values(topics).filter(topic => visible(topic.id)).flatMap(topic =>
       [topic.title, ...(topic.aliases || [])].map(label => [label, topic.id]));
+    const topicAlphabet = '<ul class="chips">' + letters.map(letter => "<li>" + link(letter + ".html", letter) + "</li>").join("") + "</ul>";
     for (const letter of letters) {
       const list = choices.filter(([label]) => {
         const first = label.trim()[0]?.normalize("NFD")[0].toUpperCase() || "";
@@ -202,8 +311,8 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
         return bucket === letter;
       }).sort(([a], [b]) => a.localeCompare(b, "en"));
       pages.set(index + "topic-a-z/" + letter + ".html", document("Topic names: " + letter,
-        alphabet + "<ul>" + list.map(([label, id]) => "<li>" + link("../topics/" + id + ".html", label) + "</li>").join("") +
-        "</ul>", "../../../"));
+        topicAlphabet + (list.length ? '<ul class="assets">' + list.map(([label, id]) => "<li>" + link("../topics/" + id + ".html", label) + "</li>").join("") +
+        "</ul>" : '<p class="meta">No topic names start with this letter.</p>'), "../../../", index + "topics.html"));
     }
   }
   if (Object.keys(topics).length) {
@@ -213,23 +322,46 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
     pages.set(index + "navigation-report.json", JSON.stringify({schema_version: 1,
       selected_asset_count: documents.length, included_topic_ids, input_hashes, source_maps}, null, 2) + "\n");
   }
-  const readers = completed.filter(asset => layouts.get(asset.id)[0].path.startsWith("LIBRARY/SOFTWARE/"));
-  const readerIndex = readers.length ? '<h2 id="readers">Archive readers</h2>' +
-    assetList(readers, layouts, "") : "";
+
+  // The start page.
+  const widget = search?.widget && layout ? search.widget : "";
+  const subjects = (entrances.subjects || []).filter(visible), tasks = (entrances.tasks || []).filter(visible);
+  const readerLinks = kind => (layout?.readers || []).filter(([, , device]) => device === kind).flatMap(([folder, label]) =>
+    completed.filter(asset => layouts.get(asset.id)[0].path.startsWith("LIBRARY/" + folder)).map(asset =>
+      "<li>" + link(layouts.get(asset.id)[0].path, label) + '<span class="where">' + escape(layouts.get(asset.id)[0].path) + "</span></li>"));
+  const readerHelp = kind => readerLinks(kind).length ? template(layout, "help_readers", {links: readerLinks(kind).join("")}) :
+    completed.some(asset => asset.format === "zim") ? layout.help_no_readers : "";
+  const shelfCard = (path, title, note, number) => '<li><a href="' + href(path) + '"><strong>' + escape(title) +
+    (number === undefined ? "" : ' <span class="badge">' + number + "</span>") + "</strong><span>" + escape(note) + "</span></a></li>";
+  const shelfCards = [
+    ...shelves.filter(([, , , assets]) => assets.length).map(([id, title, note, assets]) => shelfCard(index + id + ".html", title, note, assets.length)),
+    shelfCard(index + "books.html", "Books", "Handbooks chapter by chapter, and whole textbooks."),
+    shelfCard(index + "categories.html", "All files", "Everything on this drive, by category.", documents.length),
+    ...(letters.length ? [shelfCard(index + "A.html", "Titles A to Z", "Look a title up by its first letter.")] : [])
+  ];
+  const fileCatalog = groups.filter(([id]) => documents.some(asset => metadata[asset.id]?.group === id)).map(([id, title]) => {
+    const members = documents.filter(asset => metadata[asset.id]?.group === id);
+    return '<details class="fold" open><summary>' + escape(title) + ' <span class="badge">' + members.length + "</span></summary>" +
+      assetList(members, "", true) + "</details>";
+  }).join("") || assetList(documents, "", true);
+  const hero = '<p class="kicker">Works without internet</p><h1>What do you need to know?</h1><p class="lede">' +
+    count(documents.length, "book, guide or archive is", "books, guides and archives are") + " stored on this drive." +
+    (widget ? " Search them, or start with one of the paths below." : "") + "</p>" +
+    (widget || (search ? "<p>" + link("LIBRARY/SEARCH.html", "Search offline") + "</p>" : ""));
   const start = document("Offline Wandering Library",
-    emergency.directory + '<p>' + (search ? link("LIBRARY/SEARCH.html", "Search offline") + ' ' : '') +
-    link(index + "topics.html", "Topic atlas") + (letters.length ? " · " +
-      link(index + "topic-a-z/A.html", "Topics A–Z") : "") + ' <a href="#shelves">Shelves</a> <a href="#file-catalog">All files</a></p>' +
-    (missing.length ? '<p class="notice">Some files are missing. ' +
-      link(index + "build-report.html", "See the build report") + ".</p>" : "") +
-    '<p class="notice">On a phone, open this page in Files. If a link does not open, find the printed path on this drive. ' +
-    'Install Kiwix on your phone while you have internet. For a split archive, keep all parts in one folder.</p>' +
-    '<p>' + link(index + "phone.html", "Open critical files with Files or a PDF viewer") + '</p>' +
-    '<p>' + link(index + "sections.html", "Sections and archive entry points") + " · " +
-    link(index + "books.html", "Book contents") + " · " +
-    link(index + "build-report.html", "Build report" + (missing.length ? " (" + missing.length + " unavailable)" : "")) + "</p>" +
-    readerIndex + '<h2 id="shelves">Shelves</h2><ul class="cards">' + shelfLinks.join("") + '</ul>' +
-    '<h2 id="file-catalog">All files (' + documents.length + ")</h2>" + assetList(documents, layouts, ""));
+    (missing.length ? '<p class="notice warn">Some files could not be added to this library. ' +
+      link(index + "build-report.html", "See which") + ".</p>" : "") +
+    emergency.directory +
+    (subjects.length ? '<section id="subjects"><h2>Browse by subject</h2>' + topicCards(subjects, index + "topics/") +
+      (tasks.length ? "<h3>Practical guides</h3>" + '<ul class="chips">' + tasks.map(id => "<li>" +
+        link(index + "topics/" + id + ".html", topics[id].title) + "</li>").join("") + "</ul>" : "") + "</section>" : "") +
+    '<section id="shelves"><h2>Shelves</h2><ul class="cards">' + shelfCards.join("") + "</ul></section>" +
+    (layout?.help ? template(layout, "help", {desktop: readerHelp("desktop"), android: readerHelp("android")}) : "") +
+    '<section id="file-catalog"><h2>Everything on this drive</h2><p class="meta">Every file and the folder it is in, for ' +
+    "devices that cannot follow links.</p>" + fileCatalog + "</section>" +
+    '<p class="meta">' + link(index + "build-report.html", "Build report" + (missing.length ? " (" + missing.length + " not added)" : "")) +
+    " · " + link("LIBRARY/INVENTORY.html", "Sources and licenses") + " · " + link(index + "sections.html", "Find a place inside a document") + "</p>",
+    "", "START_HERE.html", {heading: hero, csp: widget ? search.csp || strict : strict});
 
   const checksums = [...inventory.flatMap(file => file.parts.map(part => part.sha256 + "  " + part.path)),
     ...indexed.checksums, ...phoneVolumes.map(({checksum}) => checksum)];

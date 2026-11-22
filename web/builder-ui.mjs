@@ -1,5 +1,5 @@
 import {createNetwork, SourceError} from "./network.mjs";
-import {browserSelection, buildLibrary, isKnowledgeFile, readBuild} from "./builder.mjs";
+import {browserSelection, buildLibrary, isKnowledgeFile, PART_BYTES, readBuild} from "./builder.mjs";
 import {getRememberedDrive, hasDrivePermission, keepScreenAwake, measureFreeSpace,
   pickDrive, rememberDrive, requestDrivePermission} from "./drive.mjs";
 
@@ -28,28 +28,19 @@ export async function load() {
   return {...catalog, published};
 }
 
-// A collapsed list under the drive status showing each free-space check step,
-// so a failed measurement can be reported with a screenshot.
-function probeSteps(status) {
-  let box = document.getElementById("probe-steps");
-  if (!box) {
-    box = document.createElement("details");
-    box.id = "probe-steps";
-    box.className = "field-help";
-    const summary = document.createElement("summary");
-    summary.textContent = "Free-space check steps";
-    box.append(summary, document.createElement("ol"));
-    status.after(box);
-  }
-  const list = box.querySelector("ol");
-  list.replaceChildren();
-  box.hidden = false;
-  return {add(text) { const item = document.createElement("li"); item.textContent = text; list.append(item); }};
+function format(bytes) {
+  const [scale, unit] = bytes >= 1e12 ? [1e12, "TB"] : bytes >= 1e9 ? [1e9, "GB"] : [1e6, "MB"];
+  const value = bytes / scale;
+  return value.toLocaleString(undefined, {maximumFractionDigits: value >= 100 ? 0 : value >= 10 ? 1 : 2}) + " " + unit;
 }
 
-function format(bytes) {
-  const [scale, unit] = bytes >= 1e9 ? [1e9, "GB"] : [1e6, "MB"];
-  return (bytes / scale).toLocaleString(undefined, {maximumFractionDigits: 2}) + " " + unit;
+function duration(seconds) {
+  if (seconds < 90) return "about a minute";
+  const minutes = Math.round(seconds / 60);
+  if (minutes < 60) return "about " + minutes + " min";
+  const hours = Math.floor(minutes / 60), rest = Math.round((minutes % 60) / 5) * 5;
+  if (hours >= 48) return "about " + Math.round(hours / 24) + " days";
+  return "about " + hours + " h" + (rest && hours < 10 ? " " + rest + " min" : "");
 }
 
 function textList(node, rows) {
@@ -71,63 +62,77 @@ function lockDrive(operation) {
 const sumBytes = assets => assets.reduce((sum, asset) => sum + asset.size_bytes, 0);
 const hasRoute = (id, routes, published) => Boolean(routes[id]?.length || published.files?.[id]?.length);
 
-function attributedShares(asset) {
-  if (!isKnowledgeFile(asset)) return [];
-  const {domain, domain_weights: weights} = asset.selection;
-  if (!weights) return [[domain, asset.size_bytes]];
-  const weight = Object.values(weights).reduce((total, part) => total + part, 0);
-  const shares = Object.keys(weights).sort().map(field => [field, Math.floor(asset.size_bytes * weights[field] / weight)]);
-  const remainder = asset.size_bytes - shares.reduce((total, [, bytes]) => total + bytes, 0);
-  for (let i = 0; i < remainder; i++) shares[i][1]++;
-  return shares;
-}
-
-function attribute(ids, shares) {
-  const totals = {};
-  for (const id of ids) for (const [field, bytes] of shares.get(id)) {
-    totals[field] = (totals[field] || 0) + bytes;
-  }
-  return totals;
-}
-
 const retentionCache = new WeakMap();
+const planCeiling = profile => profile.capacity_bytes -
+  Math.max(INDEX_ALLOWANCE, profile.reserve_bytes) - profile.discovery_budget_bytes;
 
 function browserRetention(planner, routes, published) {
   const cached = retentionCache.get(planner);
   if (cached?.routes === routes && cached.published === published) return cached;
-  const {transitions, fillers, expansion, field_core: core} = planner.capacity_policy;
+  const {transitions, fillers, expansion} = planner.capacity_policy;
   const bounds = [...new Set([...transitions, ...fillers, ...expansion].map(row => row[0]))].sort((a, b) => a - b);
+  const profileAt = capacity => globalThis.OWLPlanner.profileFor(planner, planner.profiles[0].id, capacity);
+  const assets = new Map(planner.assets.map(row => [row.id, row]));
   const resources = new Map(planner.resources.map(row => [row.id, row]));
-  const shares = new Map(planner.assets.map(asset => [asset.id, attributedShares(asset)]));
-  const limits = new Map();
-  const floors = Object.fromEntries(Object.keys(core).map(field => [field, Infinity]));
-  for (const capacity of [...bounds].reverse()) {
-    const profile = globalThis.OWLPlanner.profileFor(planner, planner.profiles[0].id, capacity);
-    const ids = new Set(profile.default_resources.flatMap(id => {
+  const members = (id, edition) => {
+    const resource = resources.get(id);
+    return (resource.editions?.[edition] || resource).asset_ids.filter(id => hasRoute(id, routes, published));
+  };
+  const rows = bounds.map(capacity => {
+    const profile = profileAt(capacity);
+    const editions = new Map(profile.default_resources.map(id => [id, profile.default_editions[id] || "published"]));
+    const ids = new Set([...editions].flatMap(([id, edition]) => members(id, edition)));
+    return {capacity, editions, ids, used: sumBytes([...ids].map(id => assets.get(id))), advanced: new Set(), extraBytes: 0};
+  });
+  const advances = [];
+  const surveyed = new Set();
+  for (const [index, row] of rows.entries()) {
+    for (const [id, edition] of row.editions) {
+      if (surveyed.has(id)) continue;
+      surveyed.add(id);
       const resource = resources.get(id);
-      return (resource.editions?.[profile.default_editions[id]] || resource).asset_ids;
-    }).filter(id => hasRoute(id, routes, published)));
-    const current = attribute(ids, shares);
-    for (const field of Object.keys(core)) floors[field] = Math.min(floors[field], current[field] || 0);
-    limits.set(capacity, {...floors});
+      const variant = resource.editions?.[edition] || resource;
+      if (!index || resource.opt_in || resource.replaces_asset_ids?.length || variant.status !== "ready" ||
+          rows.slice(index).some(later => later.editions.get(id) !== edition)) continue;
+      const assetIds = members(id, edition);
+      if (!assetIds.length || assetIds.some(id => assets.get(id).status !== "resolved" || assets.get(id).generation)) continue;
+      const bytes = sumBytes(assetIds.map(id => assets.get(id)));
+      let first = index;
+      let capacity = row.capacity;
+      // Admit an upcoming collection early only while every intervening
+      // reviewed plan can keep it until its ordinary entry point.
+      for (let i = index - 1; i >= 0; i--) {
+        const earlier = rows[i];
+        if (assetIds.some(id => earlier.ids.has(id) || earlier.advanced.has(id))) break;
+        // Allow for one-byte discontinuities in the capacity allowances.
+        const required = earlier.used + earlier.extraBytes + bytes + 8;
+        let low = earlier.capacity, high = rows[i + 1].capacity;
+        if (planCeiling(profileAt(high - 1)) < required) break;
+        if (planCeiling(profileAt(low)) < required) {
+          while (low < high) {
+            const mid = low + Math.floor((high - low) / 2);
+            if (planCeiling(profileAt(mid)) < required) low = mid + 1;
+            else high = mid;
+          }
+        }
+        first = i;
+        capacity = low;
+        if (capacity > earlier.capacity) break;
+      }
+      if (first === index) continue;
+      advances.push({id, edition, assetIds, capacity, until: row.capacity});
+      for (const earlier of rows.slice(first, index)) {
+        earlier.extraBytes += bytes;
+        for (const id of assetIds) earlier.advanced.add(id);
+      }
+    }
   }
-  const result = {routes, published, shares, bounds, limits};
+  const result = {routes, published, advances};
   retentionCache.set(planner, result);
   return result;
 }
 
 export function recommendBrowser(planner, state, routes, published) {
-  const {profileFor, resolve} = globalThis.OWLPlanner;
-  const profile = profileFor(planner, state.profile, state.capacityBytes);
-  const resolved = resolve(planner, state, {ignoreNativeCapacity: true});
-  if (resolved.errors.length) return state;
-  const selected = new Set(resolved.selectedAssetIds);
-  const assets = new Map(planner.assets.map(asset => [asset.id, asset]));
-  const available = [...selected].map(id => assets.get(id)).filter(asset => hasRoute(asset.id, routes, published));
-  const ceiling = profile.capacity_bytes - Math.max(INDEX_ALLOWANCE, profile.reserve_bytes) - profile.discovery_budget_bytes;
-  const target = Math.min(ceiling, Math.max(Math.floor(profile.nominal_capacity_bytes * 0.90),
-    sumBytes([...selected].map(id => assets.get(id)))));
-  let used = sumBytes(available);
   for (const resource of planner.resources) {
     const item = state.items[resource.id];
     if (!item.included) continue;
@@ -136,62 +141,11 @@ export function recommendBrowser(planner, state, routes, published) {
     if (reachable.length === 0) item.included = false;
     else if (reachable.length < members.length) item.assetIds = reachable;
   }
-  if (used >= target) return state;
-  const retention = browserRetention(planner, routes, published);
-  const floors = retention.limits.get(retention.bounds.findLast(bound => bound <= profile.nominal_capacity_bytes));
-  const fields = attribute(available.map(asset => asset.id), retention.shares);
-  const candidates = planner.resources.flatMap(resource => {
-    if (state.items[resource.id].included || resource.opt_in || resource.replaces_asset_ids?.length) return [];
-    const variants = [["published", resource], ...Object.entries(resource.editions || {})];
-    return variants.flatMap(([edition, variant]) => {
-      if (variant.status !== "ready") return [];
-      const members = variant.asset_ids.map(id => assets.get(id)).filter(asset =>
-        asset.status === "resolved" && !asset.generation && hasRoute(asset.id, routes, published));
-      return members.length ? [{id: resource.id, edition, members, bytes: sumBytes(members),
-        ...(members.length < variant.asset_ids.length && {assetIds: members.map(asset => asset.id)})}] : [];
-    });
-  });
-  const priority = new Map(planner.capacity_policy.transitions.map(([, id], index) => [id, index]));
-  candidates.sort((a, b) => (priority.get(a.id) ?? Infinity) - (priority.get(b.id) ?? Infinity) ||
-    a.bytes - b.bytes || a.id.localeCompare(b.id));
-  function fits(candidate, limit = ceiling) {
-    return !state.items[candidate.id].included && used + candidate.bytes <= limit &&
-      !candidate.members.some(asset => selected.has(asset.id));
-  }
-  function add(candidate, additions) {
-    for (const [field, bytes] of Object.entries(additions)) fields[field] = (fields[field] || 0) + bytes;
-    state.items[candidate.id] = {included: true, edition: candidate.edition,
-      ...(candidate.assetIds && {assetIds: candidate.assetIds})};
-    for (const asset of candidate.members) selected.add(asset.id);
-    used += candidate.bytes;
-  }
-  function fill(limit, stopAt, allowPartial) {
-    for (const candidate of candidates) {
-      if (used >= stopAt) break;
-      if ((!allowPartial && candidate.assetIds) || !fits(candidate, limit)) continue;
-      const additions = attribute(candidate.members.map(asset => asset.id), retention.shares);
-      if (Object.entries(additions).some(([field, bytes]) => (fields[field] || 0) + bytes > 2 * floors[field])) continue;
-      add(candidate, additions);
-    }
-  }
-  // Keep the reviewed recommendation when its existing fillers reach 90%.
-  const minimum = Math.floor(profile.nominal_capacity_bytes * 0.90);
-  fill(target, target, false);
-  if (used < minimum) fill(ceiling, minimum, true);
-  if (used < minimum) {
-    // Small title selections can be removed at the next edition step. Keep
-    // the six protected fields on the reviewed capacity ladder in this pass.
-    const protectedFields = new Set(planner.capacity_policy.protected_fields);
-    const extras = candidates.filter(candidate => fits(candidate)).map(candidate => ({
-      candidate, additions: attribute(candidate.members.map(asset => asset.id), retention.shares)
-    })).filter(({additions}) => Object.keys(additions).every(field => !protectedFields.has(field)));
-    extras.sort((a, b) => a.candidate.bytes - b.candidate.bytes);
-    while (used < minimum) {
-      const extra = extras.find(({candidate}) => fits(candidate) && used + candidate.bytes >= minimum)
-        || extras.findLast(({candidate}) => fits(candidate));
-      if (!extra) break;
-      add(extra.candidate, extra.additions);
-    }
+  const {advances} = browserRetention(planner, routes, published);
+  const capacity = state.capacityBytes ??
+    globalThis.OWLPlanner.profileFor(planner, state.profile).nominal_capacity_bytes;
+  for (const {id, edition, assetIds, capacity: start, until} of advances) {
+    if (start <= capacity && capacity < until) state.items[id] = {included: true, edition, assetIds};
   }
   return state;
 }
@@ -204,7 +158,48 @@ export function probesCapacity(platform) {
   return /^(mac|win)/i.test(platform || "");
 }
 
-export function mount({catalog, recommend}) {
+
+// Overall progress in bytes. The builder reports its file order once ("plan");
+// later events carry a position in that order.
+function progressTracker() {
+  let files = [], total = 0, settled = 0, current = 0, position = -1;
+  const samples = [];
+  return {
+    plan(rows) {
+      files = rows;
+      total = rows.reduce((sum, row) => sum + row.bytes, 0);
+      settled = 0; current = 0; position = -1;
+      samples.length = 0;
+    },
+    at(event, partBytes) {
+      if (!files.length || event.position === undefined) return;
+      if (event.position !== position) {
+        settled = files.slice(0, event.position).reduce((sum, row) => sum + (row.skipped ? 0 : row.bytes), 0);
+        position = event.position;
+        current = files[position]?.done ? files[position].bytes : 0;
+      }
+      const row = files[position];
+      if (!row) return;
+      if (event.kind === "failed" || event.kind === "dropped") { row.skipped = true; current = 0; }
+      else if (event.kind === "downloading") {
+        current = Math.min(row.bytes, (event.count > 1 ? event.index * partBytes : 0) + event.received);
+      }
+      const now = performance.now();
+      samples.push([now, settled + current]);
+      while (samples.length > 2 && now - samples[0][0] > 45_000) samples.shift();
+    },
+    get total() { return total; },
+    get done() { return Math.min(total, settled + current); },
+    // Bytes per second over the last 45 seconds, once 8 seconds have been seen.
+    get rate() {
+      if (samples.length < 2) return 0;
+      const [startTime, startBytes] = samples[0], [endTime, endBytes] = samples[samples.length - 1];
+      return endTime - startTime < 8_000 ? 0 : Math.max(0, (endBytes - startBytes) / ((endTime - startTime) / 1000));
+    }
+  };
+}
+
+export function mount({catalog, recommend, ui}) {
   const {planner, routes, published, navigation} = catalog;
   const assets = new Map(planner.assets.map(asset => [asset.id, asset]));
   const readers = planner.resources.find(row => row.id === "archive-readers").asset_ids;
@@ -212,44 +207,68 @@ export function mount({catalog, recommend}) {
   const android = /android/i.test(platform) || /android/i.test(navigator.userAgent);
   const supported = typeof globalThis.showDirectoryPicker === "function" && !android;
   const probeCapacity = probesCapacity(platform);
-  const pick = byId("pick-drive");
-  const confirmSize = byId("confirm-drive-size");
-  const start = byId("start-build");
-  const resume = byId("resume-build");
-  const pause = byId("pause-build");
-  const verify = byId("verify-build");
-  const join = byId("join-archives");
-  const consent = byId("accept-browser-files");
-  const status = byId("drive-status");
-  const feedback = byId("browser-build-status");
-  const meter = byId("build-progress");
-  const errors = byId("browser-build-errors");
-  let drive, saved, measured, selection, latest, busy = false, cancel;
-  let confirmed = false, mayResume = false, confirmedCapacity;
+  const pick = byId("pick-drive"), pickInline = byId("pick-drive-inline"), change = byId("change-drive");
+  const reconnect = byId("reconnect-drive");
+  const start = byId("start-build"), resume = byId("resume-build"), pause = byId("pause-build");
+  const verify = byId("verify-build"), verifyDone = byId("verify-build-done"), retry = byId("retry-build");
+  const join = byId("join-archives"), consent = byId("accept-browser-files");
+  const status = byId("drive-status"), feedback = byId("browser-build-status"), meter = byId("build-progress");
+  const note = byId("build-note"), errors = byId("browser-build-errors");
+  const WELCOME = status.textContent;
+  const tracker = progressTracker();
+  let drive, saved, measured, selection, latest, busy = false, cancel, remembered;
+  let sizeSet = false, stage = "welcome";
 
-  pick.disabled = !supported;
-  if (!supported) status.textContent = android ?
-    "Use a computer to build directly to the drive. You can read the finished library on this device." :
-    "Open this page in Chrome or Edge on a computer to choose a drive.";
-  consent.addEventListener("change", () => refresh());
+  function go(next) {
+    stage = next;
+    ui.setStage(next);
+    byId("build-stage").hidden = next !== "build";
+    byId("done-stage").hidden = next !== "done";
+    byId("phone-card").hidden = next !== "build" && next !== "done";
+    globalThis.scrollTo?.({top: 0, behavior: "smooth"});
+  }
+
+  function describeDrive(detail, working = false) {
+    byId("drive-card").hidden = !drive;
+    if (!drive) return;
+    byId("drive-name").textContent = drive.name;
+    const dot = document.createElement("span");
+    dot.className = "busy-dot";
+    byId("drive-detail").replaceChildren(...(working ? [dot] : []), detail);
+  }
 
   function refresh() {
-    pick.disabled = !supported || busy;
-    start.disabled = !supported || busy || !drive || !confirmed || Boolean(saved) || !(selection?.knowledgeBytes > 0) ||
-      Boolean(selection?.over) || Boolean(latest?.result.errors.length) ||
-      Boolean((selection?.excluded.length || latest?.result.incomplete.length) && !consent.checked);
+    const preview = !drive;
+    const needsConsent = Boolean(selection?.excluded.length || latest?.result.incomplete.length);
+    for (const button of [pick, pickInline, change, reconnect]) button.disabled = !supported || busy;
+    pickInline.hidden = !preview || !supported;
+    start.hidden = preview;
+    start.disabled = !supported || busy || preview || !sizeSet || Boolean(saved) || !(selection?.knowledgeBytes > 0) ||
+      Boolean(selection?.over) || Boolean(latest?.result.errors.length) || (needsConsent && !consent.checked);
+    // Say why Build is unavailable, or exactly what it will do.
+    let message = "", attention = true;
+    if (!supported) message = android ? "Building needs a computer. This page shows what a drive would hold." :
+      "To build, open this page in Chrome, Edge or Arc on a computer.";
+    else if (preview) { message = "This is a preview. Plug in a drive and choose it to build."; attention = false; }
+    else if (!sizeSet) message = "Pick the size printed on your drive, above.";
+    else if (selection?.over) message = "This is " + format(selection.over) + " more than the drive holds. Remove a collection or two.";
+    else if (!(selection?.knowledgeBytes > 0)) message = "Add at least one collection.";
+    else if (latest?.result.errors.length) message = "Fix the points above to continue.";
+    else if (needsConsent && !consent.checked) message = "Tick “Build without them” to continue.";
+    else {
+      message = "Downloads " + format(selection.used) + " straight onto " + drive.name + ". Other files on the drive are left alone.";
+      attention = false;
+    }
+    note.textContent = message;
+    note.classList.toggle("attention", attention);
     pause.hidden = !cancel;
-    verify.hidden = !saved || busy;
-    verify.disabled = !drive || busy;
+    resume.hidden = busy || !drive || !saved || saved.finished === true;
+    verify.hidden = busy || !saved;
+    byId("leave-build").hidden = busy;
+    byId("keep-open").hidden = !busy;
+    for (const button of [resume, verify, verifyDone, retry]) button.disabled = busy || !drive;
     join.disabled = busy || Boolean(saved);
-    resume.disabled = !supported || busy || !drive;
-    resume.hidden = !drive || !mayResume || (saved?.finished === true);
-    confirmSize.hidden = !drive || confirmed || mayResume;
-    confirmSize.disabled = busy;
-    byId("resources-heading").closest("section").inert = Boolean(cancel);
-    byId("presets").inert = busy || Boolean(saved);
-    byId("custom-capacity").inert = busy || Boolean(saved);
-    byId("reset-preset").disabled = busy || Boolean(saved);
+    for (const id of ["presets", "custom-capacity"]) byId(id).inert = busy;
   }
 
   function update(result, state) {
@@ -258,8 +277,6 @@ export function mount({catalog, recommend}) {
     const next = browserSelection(allSelected, routes, published);
     const profile = globalThis.OWLPlanner.profileFor(planner, state.profile, state.capacityBytes);
     const label = profile.nominal_capacity_bytes;
-    if (measured === undefined && confirmedCapacity !== label) confirmed = false;
-    confirmSize.textContent = "Use " + format(label) + " drive size";
     const available = Math.min(measured ?? Infinity, profile.capacity_bytes);
     const reserve = Math.max(INDEX_ALLOWANCE, profile.reserve_bytes) + profile.discovery_budget_bytes;
     // If a marketed 16 GB drive has less than 16 GB free, apply the minimum
@@ -277,29 +294,74 @@ export function mount({catalog, recommend}) {
     const over = Math.max(0, used + reserve - available);
     const knowledge = next.assets.filter(isKnowledgeFile);
     const knowledgeBytes = sumBytes(knowledge);
-    selection = {...next, over, knowledgeBytes, archiveSpace: available - reserve, searchBudget: profile.discovery_budget_bytes};
-    const usedPercent = Math.min(100, 100 * used / available);
-    byId("storage-fill").style.width = usedPercent + "%";
-    byId("reserve-fill").style.width = "0%";
-    byId("storage-meter").classList.toggle("over", over > 0);
-    byId("capacity").textContent = format(available) + " available for planning";
-    byId("knowledge-bytes").textContent = format(used);
-    byId("browser-file-total").textContent = knowledge.length + " books, guides and collections";
-    byId("status-title").textContent = result.errors.length ? "This selection needs changes" :
-      knowledgeBytes ? "Browser selection ready" : "Choose a file the browser can download";
-    byId("status-description").textContent = knowledgeBytes ? "Check the storage estimate before starting the build." :
-      "The library needs at least one document or archive.";
-    byId("meter-caption").textContent = over ? "Over by " + format(over) :
-      (100 * used / label).toFixed(1) + "% of the drive label";
-    byId("mobile-content").textContent = format(used);
-    byId("mobile-status").textContent = over ? "Over budget" : "Fits";
-    byId("mobile-budget").classList.toggle("has-errors", over > 0);
+    selection = {...next, over, used, knowledgeBytes, archiveSpace: available - reserve, searchBudget: profile.discovery_budget_bytes};
+    const capacity = measured ?? label;
+    ui.paintSummary({assets: next.assets, capacityBytes: capacity, over,
+      driveLabel: measured !== undefined ? "free on " + drive.name : drive ? "on " + drive.name : "drive",
+      countLabel: ui.plural(knowledge.length, "book, guide or archive", "books, guides and archives") +
+        ", plus the Kiwix reader apps"});
     byId("browser-exclusions").hidden = !next.excluded.length && !result.incomplete.length;
     byId("browser-exclusions-title").textContent = next.excluded.length ?
-      next.excluded.length + " selected files unavailable in this browser" : "Some collections are incomplete";
+      ui.plural(next.excluded.length, "selected file") + " cannot be downloaded in a browser" : "Some collections are incomplete";
     textList(byId("browser-exclusions-list"), next.excluded.map(row => row.title + " — " + row.reason));
     textList(byId("browser-plan-errors"), result.errors);
     byId("browser-plan-errors").hidden = result.errors.length === 0;
+    refresh();
+  }
+
+  // Choosing a size is the confirmation when the drive could not be measured,
+  // and opens a preview when no drive is attached.
+  function sizeChosen() {
+    sizeSet = true;
+    byId("planner").classList.toggle("awaiting-size", false);
+    if (drive && measured === undefined) describeDrive("Using the size you picked.");
+    if (stage !== "welcome") return;
+    ui.placeSizePicker(true, "Previewing a drive of:");
+    go("plan");
+  }
+
+  function askForSize(reason) {
+    sizeSet = false;
+    describeDrive("Free space not measured." + reason);
+    byId("planner").classList.toggle("awaiting-size", true);
+    byId("size-slot").classList.toggle("needs-size", true);
+    ui.placeSizePicker(true, "What size is this drive? Pick the size printed on it.");
+    go("plan");
+  }
+
+  function showSaved() {
+    go("build");
+    tracker.plan(saved.plan.map(pin => ({id: pin.id, bytes: pin.bytes, done: Boolean(saved.verified[pin.id])})));
+    // Finished files, plus the saved parts of the file that was in progress.
+    const kept = saved.plan.reduce((sum, pin) => sum + (saved.verified[pin.id] ? pin.bytes :
+      (saved.parts[pin.id] || []).reduce((bytes, part) => bytes + (part.bytes || 0), 0)), 0);
+    byId("build-eyebrow").textContent = "Unfinished library";
+    byId("build-heading").textContent = "Pick up where you left off on " + drive.name;
+    paintProgress(kept, tracker.total, false);
+    feedback.textContent = "This drive holds an unfinished library. Resume to download the rest; finished files are kept.";
+    refresh();
+  }
+
+  function showDone({completed, missing = [], searchWarnings = [], existing = false} = {}) {
+    go("done");
+    const finished = saved?.finished === true;
+    const outOfSpace = Object.keys(saved?.dropped || {}).length > 0;
+    const pendingJoin = Object.keys(saved?.stagedArchives || {}).some(id => saved.verified[id]);
+    const count = completed ?? saved.plan.filter(pin => saved.verified[pin.id]).length;
+    const size = saved.plan.reduce((sum, pin) => sum + (saved.verified[pin.id] ? pin.bytes : 0), 0);
+    byId("done-mark").classList.toggle("partial", !finished);
+    byId("done-heading").textContent = existing ? "This drive already holds a library." :
+      finished ? "Your library is ready." : "Your library works, with a few gaps.";
+    byId("done-summary").textContent = ui.plural(count, "file") + ", " + format(size) +
+      ", each one checked against its published fingerprint. It needs no internet from here on.";
+    const problems = [...missing.map(row => row.title + " — " + row.reason), ...searchWarnings];
+    byId("done-problem").hidden = finished;
+    byId("done-problem-title").textContent = outOfSpace ? "The drive ran out of space" : pendingJoin ?
+      "Some large archives are still in parts" : ui.plural(Math.max(problems.length, 1), "item") + " could not be finished";
+    byId("done-problem-text").textContent = outOfSpace ? "Free some space on the drive, then try again for the files that did not fit." :
+      pendingJoin ? "They are readable as they are. Free some space and try again to join each one into a single file." :
+      "Everything else is on the drive and ready. Trying again only downloads what is missing.";
+    textList(byId("done-issues"), problems);
     refresh();
   }
 
@@ -308,126 +370,171 @@ export function mount({catalog, recommend}) {
     saved = null;
     join.checked = true;
     measured = undefined;
-    confirmed = false;
-    mayResume = false;
-    confirmedCapacity = undefined;
-    status.textContent = "Selected " + handle.name + ".";
+    sizeSet = false;
+    byId("returning").hidden = true;
+    byId("probe-steps").hidden = true;
+    byId("planner").classList.toggle("awaiting-size", false);
+    byId("size-slot").classList.toggle("needs-size", false);
+    status.textContent = "Reading " + handle.name + "…";
     try {
-      if (await hasDrivePermission(handle)) {
-        saved = await readBuild(handle);
-        if (saved) {
-          mayResume = !saved.finished;
-          status.textContent = "Saved build on " + handle.name + ".";
-          if (saved.finished) feedback.textContent = "Open START_HERE.html on this drive.";
-        } else if (probe && probeCapacity) {
-          status.textContent = "Measuring free space on " + handle.name + "…";
-          let capacity;
-          // Each probe step is logged so a failed measurement can be diagnosed
-          // from the browser console without extra tooling.
-          const steps = probeSteps(status);
-          const onAttempt = outcome => {
-            console.info("[OWL capacity probe]", JSON.stringify(outcome));
-            steps.add(format(outcome.size) + ": " + (outcome.result === "fits" ? "fits" : outcome.result === "full" ? "too big" :
-              outcome.result) + " (" + Math.round(outcome.duration) + " ms)");
-          };
-          try { capacity = await lockDrive(() => measureFreeSpace(handle, {onAttempt})); }
-          catch (error) {
-            console.warn("[OWL capacity probe] stopped:", error?.name, error?.message);
-            steps.add("Stopped: " + (error?.name || "error") + " " + (error?.message || ""));
-            capacity = {kind: "manual"};
-          }
-          console.info("[OWL capacity probe] result", JSON.stringify(capacity));
-          steps.add("Result: " + (capacity.kind === "measured" ? format(capacity.bytes) + " free" : capacity.kind));
-          if (capacity.kind === "measured") {
-            measured = capacity.bytes;
-            confirmed = true;
-            status.textContent = "About " + format(measured) + " free on " + handle.name + ".";
-            recommend(Math.max(measured, planner.capacity_policy.min));
-          } else {
-            if (["fat32", "limited"].includes(capacity.kind)) join.checked = false;
-            const note = capacity.kind === "fat32" ? " This drive appears to use FAT32." :
-              capacity.kind === "limited" ? " The drive may use FAT32 or have less than 4 GB free." :
-              capacity.kind === "sparse-or-large" ? " The filesystem accepted an oversized probe." :
-              " The free-space check could not finish on " + handle.name + ".";
-            status.textContent = "Choose the size on the drive label." + note;
-          }
-        } else if (probe) status.textContent = "Choose the size on the drive label for " + handle.name + ".";
-      } else {
-        mayResume = true;
-        status.textContent = "Remembered " + handle.name + ". Choose Resume to restore access.";
+      if (!await hasDrivePermission(handle)) {
+        drive = null;
+        offerRemembered(handle);
+        return;
       }
+      saved = await readBuild(handle);
+      if (saved) {
+        describeDrive("Saved library");
+        if (saved.finished) showDone({existing: true}); else showSaved();
+        return;
+      }
+      let reason = "";
+      if (probe && probeCapacity) {
+        status.textContent = "Measuring free space on " + handle.name + "…";
+        let capacity;
+        // Each probe step is logged so a failed measurement can be diagnosed
+        // from the browser console without extra tooling.
+        const steps = byId("probe-list");
+        steps.replaceChildren();
+        const step = text => { const item = document.createElement("li"); item.textContent = text; steps.append(item); };
+        const onAttempt = outcome => {
+          console.info("[OWL capacity probe]", JSON.stringify(outcome));
+          step(format(outcome.size) + ": " + (outcome.result === "fits" ? "fits" : outcome.result === "full" ? "too big" :
+            outcome.result) + " (" + Math.round(outcome.duration) + " ms)");
+        };
+        try { capacity = await lockDrive(() => measureFreeSpace(handle, {onAttempt})); }
+        catch (error) {
+          console.warn("[OWL capacity probe] stopped:", error?.name, error?.message);
+          step("Stopped: " + (error?.name || "error") + " " + (error?.message || ""));
+          capacity = {kind: "manual"};
+        }
+        console.info("[OWL capacity probe] result", JSON.stringify(capacity));
+        step("Result: " + (capacity.kind === "measured" ? format(capacity.bytes) + " free" : capacity.kind));
+        byId("probe-steps").hidden = false;
+        if (capacity.kind === "measured") {
+          measured = capacity.bytes;
+          sizeSet = true;
+          describeDrive(format(measured) + " free, measured just now");
+          ui.placeSizePicker(false);
+          go("plan");
+          recommend(Math.max(measured, planner.capacity_policy.min));
+          return;
+        }
+        if (["fat32", "limited"].includes(capacity.kind)) join.checked = false;
+        reason = capacity.kind === "fat32" ? " It looks like a FAT32 drive, so large archives will be saved in parts." :
+          capacity.kind === "limited" ? " It may be a FAT32 drive or have less than 4 GB free." :
+          capacity.kind === "sparse-or-large" ? " This drive reports more space than it can be checked for." : "";
+      }
+      askForSize(reason);
     } catch (error) {
       drive = null;
+      describeDrive("");
       status.textContent = error.message + " Choose a folder on the attached drive.";
     }
     if (latest) update(latest.result, latest.state);
   }
 
-  confirmSize.addEventListener("click", () => {
-    confirmedCapacity = globalThis.OWLPlanner.profileFor(planner, latest.state.profile, latest.state.capacityBytes).nominal_capacity_bytes;
-    confirmed = true;
-    status.textContent = "Using " + format(confirmedCapacity) + " for " + drive.name + ".";
-    refresh();
-  });
+  function offerRemembered(handle) {
+    remembered = handle;
+    byId("returning-text").textContent = "Welcome back. Last time you used the drive “" + handle.name + "”.";
+    byId("returning").hidden = false;
+  }
 
-  pick.addEventListener("click", async () => {
+  async function choose(getHandle) {
     busy = true;
     consent.checked = false;
     refresh();
     try {
-      const handle = await pickDrive();
+      const handle = await getHandle();
+      if (!handle) return;
       feedback.textContent = "";
       await identify(handle, true);
       if (drive) void rememberDrive(handle).catch(() => {});
     } catch (error) {
       if (error.name !== "AbortError") status.textContent = error.message;
+      else if (!drive) status.textContent = WELCOME;
     } finally {
       busy = false;
       refresh();
     }
-  });
+  }
+  for (const button of [pick, pickInline, change]) button.addEventListener("click", () => void choose(pickDrive));
+  reconnect.addEventListener("click", () => void choose(async () =>
+    await requestDrivePermission(remembered) === "granted" ? remembered : null));
+  consent.addEventListener("change", refresh);
+
+  function paintProgress(done, total, running = true) {
+    const fraction = total ? done / total : 0;
+    meter.max = 1;
+    meter.value = fraction;
+    byId("build-percent").textContent = Math.floor(fraction * 100) + "%";
+    const rate = running ? tracker.rate : 0;
+    byId("build-amount").textContent = format(done) + " of " + format(total) + (rate ? " · " + format(rate) + "/s" : "");
+    byId("build-eta").textContent = rate && total > done ? duration((total - done) / rate) + " left" : "";
+  }
+
+  function phase(current) {
+    const order = ["phase-download", "phase-index", "phase-ready"];
+    for (const [index, id] of order.entries()) {
+      byId(id).classList.toggle("is-current", index === current);
+      byId(id).classList.toggle("is-done", index < current);
+    }
+  }
 
   const issues = new Map();
   let lastProgress = 0;
   function progress(event) {
+    if (event.kind === "plan") { tracker.plan(event.files); paintProgress(tracker.done, tracker.total); return; }
+    tracker.at(event, saved?.partBytes || PART_BYTES);
     if (event.kind === "waiting-network") {
-      feedback.textContent = "Waiting for the internet connection. The build will resume automatically.";
+      feedback.textContent = "Waiting for the internet connection. The build carries on by itself when it returns.";
     } else if (event.kind === "assembling") {
+      phase(1);
       meter.removeAttribute("value");
-      feedback.textContent = "Writing the offline indexes and start page…";
+      byId("build-percent").textContent = "Almost there";
+      byId("build-amount").textContent = "";
+      byId("build-eta").textContent = "";
+      feedback.textContent = "Adding offline search and the start page…";
     } else if (event.kind === "downloading") {
       const now = performance.now();
-      if (event.received && event.received < event.bytes && now - lastProgress < 200) return;
+      if (event.received && event.received < event.bytes && now - lastProgress < 250) return;
       lastProgress = now;
-      meter.max = event.total;
-      meter.value = event.position + event.index / event.count + event.received / event.bytes / event.count;
-      feedback.textContent = event.asset.title + " · file " + (event.position + 1) + " of " + event.total +
-        " · part " + (event.index + 1) + " of " + event.count + " · " + format(event.received) + " of " + format(event.bytes);
+      paintProgress(tracker.done, tracker.total);
+      feedback.textContent = "Downloading " + event.asset.title + " · file " + (event.position + 1).toLocaleString() +
+        " of " + event.total.toLocaleString() + (event.count > 1 ? " · part " + (event.index + 1) + " of " + event.count : "");
     } else if (event.kind === "joining") {
-      feedback.textContent = "Joining " + event.asset.title + " into one archive…";
+      feedback.textContent = "Joining " + event.asset.title + " into one file…";
     } else if (event.kind === "checking") {
-      feedback.textContent = "Checking saved parts of " + event.asset.title + "…";
+      feedback.textContent = "Checking the saved part of " + event.asset.title + "…";
     } else if (event.kind === "retrying") {
-      feedback.textContent = "Retrying " + event.asset.title + ". " + event.message;
+      feedback.textContent = "Trying another source for " + event.asset.title + "…";
     } else {
       issues.set(event.asset.id, event.asset.title + " — " + event.message);
       textList(errors, [...issues.values()]);
+      byId("build-issues").hidden = false;
+      byId("build-issues-title").textContent = ui.plural(issues.size, "file") + " skipped so far. The build continues.";
     }
   }
 
   async function run(isResume, fullVerify = false) {
     busy = true;
-    mayResume = true;
+    go("build");
+    phase(0);
+    byId("build-eyebrow").textContent = "Step 3 of 3";
+    byId("build-heading").textContent = (fullVerify ? "Checking every file on " : "Building your library on ") + drive.name;
+    byId("build-issues").hidden = true;
     refresh();
     let releaseWakeLock;
     try {
-      if (await requestDrivePermission(drive) !== "granted") throw Error("Allow write access to the drive or choose it again.");
+      if (await requestDrivePermission(drive) !== "granted") throw Error("Allow this page to write to the drive, or choose the drive again.");
       cancel = new AbortController();
       refresh();
       releaseWakeLock = keepScreenAwake();
-      feedback.textContent = isResume ? "Opening the saved build…" : "Starting the build…";
+      feedback.textContent = isResume ? "Opening the saved library…" : "Getting started…";
       issues.clear();
       textList(errors, []);
+      if (!isResume) tracker.plan(selection.assets.map(asset => ({id: asset.id, bytes: asset.size_bytes})));
+      paintProgress(tracker.done, tracker.total);
       const network = createNetwork({signal: cancel.signal, probeURL: "./.nojekyll",
         onWaiting: () => progress({kind: "waiting-network"})});
       const [search, publisherPieces] = await Promise.all([
@@ -437,20 +544,13 @@ export function mount({catalog, recommend}) {
       const result = await lockDrive(() => buildLibrary(drive, {...selection, catalogAssets: planner.assets,
         routes, published: {...published, publisherPieces}, navigation, search, network, resume: isResume, fullVerify, singleArchives: join.checked, signal: cancel.signal, onProgress: progress}));
       saved = result.state;
-      meter.max = 1;
-      meter.value = 1;
-      textList(errors, [...result.missing.map(row => row.title + " — " + row.reason), ...result.searchWarnings]);
-      const ranOutOfSpace = Object.keys(saved.dropped).length > 0;
-      const pendingJoin = Object.keys(saved.stagedArchives || {}).some(id => saved.verified[id]);
-      feedback.textContent = ranOutOfSpace ?
-        result.completed.length + " files verified. Free space on the drive and choose Resume to retry omitted files." : pendingJoin ?
-        result.completed.length + " files verified. Free space and choose Resume to join the saved archive parts." : !saved.finished ?
-        result.completed.length + " files verified. Open START_HERE.html on the drive. Choose Resume to retry failed downloads, or use the desktop tool." :
-        result.completed.length + " files verified" + (result.missing.length ? ", " + result.missing.length + " omitted" : "") +
-        ". Open START_HERE.html on the drive.";
+      phase(3);
+      showDone({completed: result.completed.length, missing: result.missing, searchWarnings: result.searchWarnings});
     } catch (error) {
-      feedback.textContent = cancel?.signal.aborted ? "Paused. Choose Resume to continue." :
-        error.message + " Reconnect the same drive if needed, then choose Resume.";
+      byId("build-eyebrow").textContent = cancel?.signal.aborted ? "Paused" : "Stopped";
+      if (tracker.total) paintProgress(tracker.done, tracker.total, false);
+      feedback.textContent = cancel?.signal.aborted ? "Paused. Everything downloaded so far is saved on the drive." :
+        error.message + " Reconnect the same drive if needed, then resume.";
       if (drive) {
         try { saved = await readBuild(drive); }
         catch (_) { /* Keep the handle so Resume can restore permission or report disconnection. */ }
@@ -465,15 +565,39 @@ export function mount({catalog, recommend}) {
   }
 
   start.addEventListener("click", () => void run(false));
-  resume.addEventListener("click", () => void run(true));
-  verify.addEventListener("click", () => void run(true, true));
+  for (const button of [resume, retry]) button.addEventListener("click", () => void run(true));
+  for (const button of [verify, verifyDone]) button.addEventListener("click", () => void run(true, true));
   pause.addEventListener("click", () => cancel?.abort());
-  if (supported) {
-    void getRememberedDrive().then(handle => {
-      if (handle && !drive && !busy) return identify(handle, true);
+  for (const id of ["leave-build", "build-another"]) byId(id).addEventListener("click", () => {
+    drive = null; saved = null; measured = undefined; sizeSet = false;
+    byId("planner").classList.toggle("awaiting-size", false);
+    byId("size-slot").classList.toggle("needs-size", false);
+    status.textContent = WELCOME;
+    describeDrive("");
+    ui.placeSizePicker(false, "No drive handy? See what fits on:");
+    go("welcome");
+    if (latest) update(latest.result, latest.state);
+  });
+
+  function ready() {
+    if (!supported) {
+      status.textContent = android ? "Building needs a computer. You can read a finished library on this device." :
+        "To build onto a drive, open this page in Chrome, Edge or Arc on a computer. You can still see what fits below.";
+      refresh();
+      return;
+    }
+    void getRememberedDrive().then(async handle => {
+      if (!handle || drive || busy) return;
+      // A drive that is still authorized and holds an unfinished library goes
+      // straight to Resume; anything else waits for the user to choose.
+      const unfinished = await hasDrivePermission(handle) && await readBuild(handle).catch(() => null);
+      if (drive || busy) return;
+      if (unfinished && !unfinished.finished) { drive = handle; saved = unfinished; describeDrive("Saved library"); showSaved(); }
+      else offerRemembered(handle);
     }).catch(() => {});
+    refresh();
   }
-  refresh();
-  return {update, canDownload: id => hasRoute(id, routes, published),
+
+  return {update, ready, sizeChosen, sizeIsSet: () => sizeSet, canDownload: id => hasRoute(id, routes, published),
     recommend: state => recommendBrowser(planner, state, routes, published)};
 }

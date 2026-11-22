@@ -9,17 +9,21 @@ Every selectable asset passes the [machine-readable content-type policy](src/owl
 ## Build a drive
 
 Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-library/)
-in desktop Chrome or Edge. Connect an exFAT drive and choose its folder. Confirm
-the size if free space cannot be estimated. Edit the recommendation and choose
-**Build library**. Keep the tab open and the drive attached. Downloads continue
-automatically when an interrupted connection returns. Use **Resume** when
-reopening a saved build. Kiwix archives download in parallel, with up to eight
-verified ranges in flight. With enough free space for temporary files, Resume
-reuses each verified piece saved to the drive. **Verify and repair files** reads
-the whole drive selection again. Use **Show files** to edit individual files. Collections
-available through the desktop tool are labeled in the editor.
-Set up iPhone Kiwix with the builder’s App Store QR code while online.
-The phone shelf links to the directly readable files included in your build.
+in Chrome, Edge or Arc on a computer. Connect an exFAT drive and choose it.
+The page measures the free space and shows the library recommended for that
+size; pick the size printed on the drive if it cannot be measured. Choose
+**Build library**, or **Customize** first to add or remove collections and
+single files. Keep the tab open and the drive attached. Downloads continue
+automatically when an interrupted connection returns. Reopening the page with
+the same drive offers **Resume build**. Kiwix archives download in parallel,
+with up to eight verified ranges in flight. With enough free space for
+temporary files, Resume reuses each verified piece saved to the drive.
+**Check and repair every file** reads the whole drive selection again.
+Collections that need the desktop builder are labeled while customizing.
+The build screen shows an App Store code for setting up Kiwix on an iPhone
+while online. On the finished drive, `START_HERE.html` opens with search, an
+emergency list, subjects and help for each kind of device; its Essentials tab
+can list only the files that open without an app.
 [Browser build guide](docs/pages-builder.md) · [Device tests](docs/device-matrix.md) · [Documentation](docs/README.md)
 
 ### Build with Python
@@ -74,7 +78,9 @@ displace files in other fields.
 Above 1 TB, the recommendation starts with the 1 TB library and adds
 removable regional maps, additional Wikipedia languages and other pinned
 collections toward 90% of the label, as the catalog and available space permit.
-The Python builder checks actual free space.
+The browser advances a collection only when its files can carry through
+intervening recommendations. If a large edition is nearly within reach, the
+default can leave room for it. The Python builder checks actual free space.
 
 For a 128 GB drive, use `--capacity-bytes 128000000000` or enter 128 in the
 selector. The five common-size profiles use the same ladder. Selected content,
@@ -92,7 +98,7 @@ the selection model.
 
 ## Customize and validate
 
-Use the selector's priority filter and collection checkboxes, or its topic map to explore assets grouped by theme. Or use stable collection IDs:
+In the planner, choose **Customize** to search, filter by priority, and tick collections or single files grouped by theme. Or use stable collection IDs:
 
 ```bash
 python scripts/build_drive.py --list-resources

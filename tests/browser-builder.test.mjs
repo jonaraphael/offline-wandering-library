@@ -4,7 +4,7 @@ import {createHash, webcrypto} from "node:crypto";
 import {createServer} from "node:http";
 import {once} from "node:events";
 import {test} from "node:test";
-import {archiveCheckpoints, browserSelection, buildLibrary as runBuild, partLayout, readBuild} from "../web/builder.mjs";
+import {browserSelection, buildLibrary as runBuild, partLayout, readBuild} from "../web/builder.mjs";
 import {assembleLibrary} from "../web/offline.mjs";
 import {measureFreeSpace} from "../web/drive.mjs";
 import {createNetwork} from "../web/network.mjs";
@@ -467,7 +467,7 @@ test("a connection cut during a file and again during search pauses the queue an
     " ms. Build finished in " + Math.round(performance.now() - start) + " ms.");
 });
 
-test("single-file archives resume from a durable prefix and remain one verified file", async () => {
+test("low-space single-file builds resume from durable parts and join without redownloading them", async () => {
   const drive = new Directory();
   const body = Buffer.from("0123456789abcdefghijklmnopqrstuvwxyz");
   const item = asset("archive", body, {format: "zim", destination: "ZIM/archive.zim"});
@@ -481,14 +481,13 @@ test("single-file archives resume from a durable prefix and remain one verified 
   };
   const options = {assets: [item], routes: {archive: ["https://example.test/archive.zim"]},
     fetchFile, singleArchives: true, partBytes: 8, archiveSpace: 54};
-  assert.deepEqual(archiveCheckpoints(item.size_bytes, 8, 54), [1, 2]);
   await assert.rejects(buildLibrary(drive, {...options, signal: controller.signal,
     onProgress(event) {
       if (event.kind === "downloading" && event.index === 2 && event.received) controller.abort();
     }}), {name: "AbortError"});
   const target = "LIBRARY/ZIM/archive.zim";
-  assert.equal((await (await drive.file(target)).getFile()).size, 16);
-  assert.equal((await readBuild(drive)).prefixes.archive.count, 2);
+  await assert.rejects(drive.file(target), {name: "NotFoundError"});
+  assert.equal((await readBuild(drive)).parts.archive.length, 2);
   requests.length = 0;
   const done = await buildLibrary(drive, {...options, resume: true});
   assert.equal(done.state.finished, true);
@@ -507,7 +506,7 @@ test("emergency archive tasks link to named offline articles and their printed p
     fetchFile: async () => new Response(body), navigation: {layout}});
   const start = await (await (await drive.file("START_HERE.html")).getFile()).text();
   const entry = await (await (await drive.file("LIBRARY/INDEX/sections.html")).getFile()).text();
-  assert.match(start, /LIBRARY\/INDEX\/sections.html#emergency-6">Childbirth<\/a>/);
+  assert.match(start, /href="LIBRARY\/INDEX\/sections.html#emergency-6">.*?<strong>Prepare for labor and birth<\/strong><span>[^<]*Childbirth/);
   assert.match(entry, /id="emergency-6"/);
   assert.match(entry, /<code>Childbirth<\/code>/);
 });
@@ -742,4 +741,88 @@ test("a staged archive with insufficient join space stays readable and Resume jo
   assert.equal(done.state.joined[item.id], true);
   assert.equal(Object.hasOwn(done.state.stagedArchives, item.id), false);
   await assert.rejects(drive.file("LIBRARY/" + item.destination + "aa"), {name: "NotFoundError"});
+});
+
+test("a late pause reuses saved ranges when only the split archive fits", async () => {
+  const {item, published, indexOf, response} = rangedFixture(22, 0);
+  const drive = new Directory();
+  const controller = new AbortController();
+  const options = {assets: [item], published, routes: {[item.id]: ["https://example.test/archive.zim"]},
+    singleArchives: true, partBytes: 16 * PIECE_BYTES, archiveSpace: item.size_bytes + 16 * PIECE_BYTES};
+  await assert.rejects(buildLibrary(drive, {...options, signal: controller.signal,
+    fetchFile: async (_url, opts) => response(indexOf(opts)),
+    onProgress(event) {
+      if (event.index === 1 && event.received === 3 * PIECE_BYTES) controller.abort();
+    }}), {name: "AbortError"});
+  const saved = await readBuild(drive);
+  assert.equal(saved.parts[item.id].length, 1);
+  const path = "LIBRARY/.owl/download-pieces/" + item.id + "/" + 16 * PIECE_BYTES + "/";
+  const retained = new Set();
+  for (let index = 16; index <= 21; index++) {
+    try {
+      if ((await (await drive.file(path + index)).getFile()).size) retained.add(index);
+    } catch (error) { assert.equal(error.name, "NotFoundError"); }
+  }
+  assert.equal(retained.size, 3);
+  const resumed = [];
+  const finished = await buildLibrary(drive, {...options, resume: true, fetchFile: async (_url, opts) => {
+    const index = indexOf(opts);
+    resumed.push(index);
+    return response(index);
+  }});
+  assert.ok(finished.state.verified[item.id]);
+  assert.equal(finished.state.joined[item.id], true);
+  assert.deepEqual(resumed.sort((a, b) => a - b), [16, 17, 18, 19, 20, 21].filter(n => !retained.has(n)));
+});
+
+test("a book published as chapter files is listed once, with its chapters in reading order", async () => {
+  const drive = new Directory();
+  const chapter = (id, title) => asset(id, Buffer.from(id), {title, destination: "CRITICAL/GUIDE/" + id + ".pdf", critical: true});
+  const files = [chapter("c10", "Field Guide — 10 Burns"), chapter("c2", "Field Guide — 2 Bleeding"),
+    chapter("front", "Field Guide — Front matter"), asset("solo", Buffer.from("solo"), {title: "Single sheet"})];
+  const book = (chapterTitle, order) => ({group: "medical", shelves: [], book: {title: "Field Guide", chapter: chapterTitle, order}});
+  const layout = JSON.parse(readFileSync(new URL("../src/owl/templates/offline-layout.json", import.meta.url)));
+  await buildLibrary(drive, {assets: files, routes: Object.fromEntries(files.map(file => [file.id, ["https://example.test/" + file.id]])),
+    fetchFile: async url => new Response(Buffer.from(url.split("/").pop())),
+    navigation: {layout, groups: [["medical", "Medical"]], assets: {c10: book("10 Burns", 2), c2: book("2 Bleeding", 1),
+      front: book("Front matter", 0), solo: {group: "medical", shelves: []}}}});
+  const read = async path => (await (await drive.file(path)).getFile()).text();
+  const essentials = await read("LIBRARY/INDEX/critical.html");
+  assert.match(essentials, /<summary>Field Guide <span class="meta">3 chapters · PDF<\/span><\/summary><ol><li><a [^>]+>Front matter<\/a><\/li><li><a [^>]+>2 Bleeding<\/a><\/li><li><a [^>]+>10 Burns<\/a>/);
+  assert.equal(essentials.match(/Field Guide/g).length, 1);
+  assert.match(essentials, /<a href="[^"]+" aria-current="page">Essentials<\/a>/);
+  const everything = await read("LIBRARY/INDEX/categories.html");
+  assert.match(everything, /Single sheet<\/a><span class="meta">PDF · /);
+  const start = await read("START_HERE.html");
+  assert.match(start, /id="help".*id="file-catalog"/s);
+  assert.match(start, /<a href="START_HERE.html" aria-current="page">Home<\/a>/);
+});
+
+test("the start page embeds search with its own policy; headings drop bare page numbers", async () => {
+  const drive = new Directory();
+  const body = Buffer.from("guide");
+  const doc = asset("guide", body, {title: "Water guide"});
+  const layout = JSON.parse(readFileSync(new URL("../src/owl/templates/offline-layout.json", import.meta.url)));
+  const pin = text => ({bytes: Buffer.byteLength(text), sha256: hash(text)});
+  const events = [];
+  await buildLibrary(drive, {assets: [doc], routes: {guide: ["https://example.test/guide"]},
+    fetchFile: async url => new Response(url === "https://example.test/guide" ? body : "good"),
+    onProgress: event => events.push(event),
+    navigation: {layout, assets: {guide: {shelves: []}},
+      locators: {guide: {entrypoints: [[1, "Page 1"], [2, "Boiling water · Page 2"], [3, "Boiling water · Page 3"], [4, "Pages 4–5"]]}}},
+    search: {base: "/index/", page: '<!-- OWL_NAV --><nav>old</nav><!-- /OWL_NAV --><p>search</p>', widget: '<form id="searchForm"></form>',
+      csp: "default-src 'none'; script-src 'self'", records: [], runtime: "", rankRuntime: "",
+      manifest: {version: 1, model: pin("good"), license: pin("good"), sources: {}}}});
+  const read = async path => (await (await drive.file(path)).getFile()).text();
+  const start = await read("START_HERE.html");
+  assert.match(start, /Content-Security-Policy" content="default-src &#39;none&#39;; script-src &#39;self&#39;"/);
+  assert.match(start, /<h1>What do you need to know\?<\/h1>.*<form id="searchForm">/s);
+  const search = await read("LIBRARY/SEARCH.html");
+  assert.match(search, /<a href="\.\.\/LIBRARY\/SEARCH.html" aria-current="page">Search<\/a>/);
+  assert.doesNotMatch(search, /old/);
+  const places = await read("LIBRARY/INDEX/sections.html");
+  assert.equal(places.match(/Boiling water/g).length, 1);
+  assert.match(places, /#page=2">Boiling water<\/a>/);
+  assert.doesNotMatch(places, />Pages? \d/);
+  assert.deepEqual(events.find(event => event.kind === "plan").files, [{id: "guide", bytes: body.length, done: false}]);
 });

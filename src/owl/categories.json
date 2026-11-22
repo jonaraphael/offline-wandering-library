@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "note": "The eight categories shown in the builder's storage bar, in Manage and on the reader's home screen. One source for ids, names, descriptions, colours and icons. See docs/design/sync-ux.md section 6.",
+  "categories": [
+    {"id": "health", "name": "Health", "blurb": "First aid, medical references and community health care", "light": "#2a78d6", "dark": "#3987e5", "icon": "M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"},
+    {"id": "food", "name": "Food and farming", "blurb": "Growing, raising, cooking and preserving food", "light": "#eb6834", "dark": "#d95926", "icon": "M5 19c0-9 5-14 14-14 0 9-5 14-14 14zm0 0l8-8"},
+    {"id": "shelter", "name": "Water, shelter and safety", "blurb": "Safe water, sanitation, shelter and disaster readiness", "light": "#1baf7a", "dark": "#199e70", "icon": "M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z"},
+    {"id": "trades", "name": "Repair and trades", "blurb": "Fixing, building and powering things", "light": "#eda100", "dark": "#c98500", "icon": "M4 20l8-8M14 4l6 6-3 3-6-6z"},
+    {"id": "school", "name": "School", "blurb": "School subjects, from arithmetic to physics", "light": "#e87ba4", "dark": "#d55181", "icon": "M2 9l10-5 10 5-10 5zM6 11v5c3 3 9 3 12 0v-5"},
+    {"id": "reference", "name": "Encyclopedias and maps", "blurb": "Encyclopedias, dictionaries and maps", "light": "#008300", "dark": "#0ca30c", "icon": "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"},
+    {"id": "advanced", "name": "College and technical", "blurb": "College textbooks, programming and research", "light": "#6250d6", "dark": "#9085e9", "icon": "M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M8 15h8"},
+    {"id": "culture", "name": "Stories and culture", "blurb": "Stories, history, music and art", "light": "#e34948", "dark": "#e66767", "icon": "M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11"}
+  ],
+  "other": {"id": "other", "name": "Other", "blurb": "Reader apps and everything unassigned", "light": "#9aa0aa", "dark": "#6f7782"}
+}

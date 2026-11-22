@@ -10,12 +10,10 @@ cmp /tmp/kiwix-pieces.json web/kiwix-pieces.json
 ```
 
 The builder checks 4 MiB pieces before writing them at their archive offsets.
-An ordered SHA-256 pass accepts the whole archive. With working space for
-piece checkpoints, the journal records each piece as a separate committed file
-on the selected drive. Resume checks that piece against the publisher's digest
-before reusing it. The build record retains hash state for committed split
-parts and single-file prefixes. Routine resume checks their sizes. Full
-verification reads the installed bytes again.
+An ordered SHA-256 pass accepts the whole archive. The journal records each piece as a separate committed file on the selected
+drive. Resume checks that piece against the publisher's digest before reusing
+it. The build record retains hash state for committed split parts. Routine
+resume checks their sizes. Full verification reads the installed bytes again.
 
 On 2026-11-21 a single-byte ranged GET with the Pages Origin confirmed the
 pinned total and exposed Content-Range on 6/6 Kiwix project mirror responses for

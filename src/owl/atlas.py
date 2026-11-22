@@ -14,7 +14,7 @@ from urllib.parse import quote
 
 from .catalog import learning_shelves
 from .offline_layout import render
-from .navigation import CSS, LETTERS, _href, _letter, _text
+from .navigation import CSS, LETTERS, _href, _letter, _text, tabs
 from .safety import SafetyError, safe_path, validate_relative
 
 MAX_ENTRIES = 50
@@ -46,16 +46,13 @@ def _link(path, label, current, fragment=None):
 
 
 def _page(title, body, current):
-    links = [("START_HERE.html", "Start here"), ("INDEX/topics.html", "Topic atlas"),
-             ("INDEX/topic-a-z/A.html", "Topics A–Z"), ("INDEX/books.html", "Book contents"),
-             ("INDEX/critical.html", "Critical content"), ("INDEX/textbooks.html", "Textbooks"),
-             ("INDEX/illustrated-guides.html", "Illustrated guides"),
-             ("INDEX/categories.html", "Categories"), ("SEARCH.html", "Search")]
-    navigation = " ".join(_link(path, label, current) for path, label in links)
+    navigation = tabs(current, atlas=True)
     css = CSS + """
-.skip { display:inline-block; padding:.6rem; } .entry { margin:1rem 0; border-bottom:1px solid #aab6c0; padding-bottom:.8rem; }
-.entry h3 { margin-bottom:.25rem; } .entry p { margin:.35rem 0; } li { padding:.25rem 0; }
-.choices a,.actions a { display:inline-block; padding:.35rem 0; } .breadcrumb { font-size:.9rem; }
+.skip { position:absolute; left:-999rem; } .skip:focus { position:static; display:inline-block; padding:.6rem; }
+.entry { margin:.6rem 0; padding:.8rem 1rem; background:var(--surface); border:1px solid var(--line); border-radius:.8rem; }
+.entry h3 { margin:0 0 .25rem; } .entry p { margin:.35rem 0; } li { padding:.25rem 0; }
+.choices { list-style:none; padding:0; } .choices li { margin:.5rem 0; padding:.7rem 1rem; background:var(--surface); border:1px solid var(--line); border-radius:.8rem; }
+.choices a,.actions a { display:inline-block; padding:.2rem 0; font-weight:600; }
 """
     footer = ("Static offline navigation. Local links and PDF page fragments depend on your viewer. "
               "Filenames and locations remain visible for manual access.")

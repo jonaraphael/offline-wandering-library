@@ -6,34 +6,54 @@
 <meta http-equiv="Content-Security-Policy" content="__OWL_SEARCH_CSP__">
 <title>Search · Offline Wandering Library</title>
 <style>
-:root{color-scheme:light dark;font:18px/1.5 system-ui,sans-serif}body{max-width:52rem;margin:auto;padding:1rem}a{color:light-dark(#075aa6,#9bcaff)}h1{line-height:1.2;font-size:1.8rem}nav{display:flex;gap:1rem;flex-wrap:wrap}details{margin:1rem 0}summary{cursor:pointer}a:focus{outline:3px solid #c88d10;outline-offset:3px}
-</style>
+__OWL_SITE_CSS__</style>
 </head>
 <body>
-<nav><a href="../START_HERE.html">Start here</a><a href="INDEX/textbooks.html">Textbooks</a><a href="INDEX/illustrated-guides.html">Illustrated guides</a><a href="INDEX/categories.html">Browse categories</a><a href="INDEX/critical.html">Critical information</a></nav>
-<h1>Search the offline library</h1>
+<header class="top"><span class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 9.5C5 7 6 5 8 4l3.2 3h9.6L24 4c2 1 3 3 3 5.5V17c0 6.6-4.9 11-11 11S5 23.6 5 17z" fill="currentColor"/><circle cx="12" cy="14.5" r="3.7" fill="var(--paper)"/><circle cx="20" cy="14.5" r="3.7" fill="var(--paper)"/><circle cx="12" cy="14.5" r="1.5" fill="currentColor"/><circle cx="20" cy="14.5" r="1.5" fill="currentColor"/><path d="M16 17.5l-1.7 2.7h3.4z" fill="var(--paper)"/></svg>Offline Wandering Library</span><!-- OWL_NAV --><nav aria-label="Library navigation"><a href="../START_HERE.html">Home</a><a href="SEARCH.html" aria-current="page">Search</a><a href="INDEX/critical.html">Essentials</a><a href="INDEX/categories.html">All files</a><a href="../START_HERE.html#help">Help</a></nav><!-- /OWL_NAV --></header>
+<main id="content">
+<h1>Search the library</h1>
 <!-- OWL_SEARCH_WIDGET_START -->
 <section class="owl-search" aria-labelledby="owlSearchHeading">
 <style>
-.owl-search{margin:1.5rem 0;overflow-wrap:anywhere}.owl-search h2{font-size:1.3rem;line-height:1.3}.owl-search label{display:block;font-weight:bold;margin-top:1rem}.owl-search input,.owl-search select,.owl-search button{font:inherit;padding:.65rem;box-sizing:border-box;max-width:100%;min-height:2.75rem}.owl-search input[type=search]{width:100%}.owl-search button{cursor:pointer;margin:.7rem .3rem .7rem 0}.owl-search [hidden]{display:none}.owl-search small,.owl-search .meta{font-size:.85rem;opacity:.85}.owl-search li{margin:1.3rem 0}.owl-search li p{margin:.3rem 0}.owl-search #status{min-height:1.5rem}.owl-search .notice{padding:.8rem;border:1px solid #888;border-radius:.3rem}.owl-search input:focus,.owl-search select:focus,.owl-search button:focus,.owl-search a:focus{outline:3px solid #c88d10;outline-offset:3px}
+.owl-search{margin:1.2rem 0;overflow-wrap:anywhere}.owl-search [hidden]{display:none!important}
+.owl-search h2{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.owl-search .bar{display:flex;gap:.5rem}
+.owl-search input[type=search]{flex:1;min-width:0;min-height:3.3rem;padding:.7rem 1rem;font:inherit;font-size:1.05rem;color:inherit;background:var(--surface);border:2px solid var(--green);border-radius:.9rem}
+.owl-search button{font:inherit;cursor:pointer}
+.owl-search .bar button{min-height:3.3rem;padding:.7rem 1.3rem;font-weight:700;color:var(--paper);background:var(--green);border:0;border-radius:.9rem}
+.owl-search .bar button:disabled{opacity:.5}
+.owl-search .tries{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;margin:.7rem 0 0;font-size:.86rem;color:var(--muted)}
+.owl-search .tries button{padding:.3rem .75rem;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--green);font-size:.86rem;font-weight:600}
+.owl-search details{margin:.6rem 0 0;font-size:.86rem;color:var(--muted)}.owl-search summary{cursor:pointer}
+.owl-search select{font:inherit;min-height:2.6rem;margin:.4rem 0 0 .4rem;padding:.3rem .5rem;max-width:100%}
+.owl-search #status{min-height:1.4rem;margin:.8rem 0 .2rem;font-size:.9rem;color:var(--muted)}
+.owl-search ol{list-style:none;padding:0;margin:0}
+.owl-search ol>li{margin:.6rem 0;padding:.9rem 1rem;background:var(--surface);border:1px solid var(--line);border-radius:.8rem}
+.owl-search .hit{font-size:1.08rem;font-weight:700}
+.owl-search li p{margin:.25rem 0}.owl-search .from{font-size:.86rem;color:var(--muted)}
+.owl-search .text{font-size:.92rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.owl-search mark{background:var(--amber-soft);color:inherit;border-radius:3px;padding:0 .1em}
+.owl-search .more{font-size:.86rem}.owl-search .more a{margin-right:.7rem;white-space:nowrap}
+.owl-search small{display:block;margin-top:.3rem;font-size:.7rem;color:var(--muted);opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style>
-<h2 id="owlSearchHeading">Search articles, chapters, and topics</h2>
-<p>Search loads in browsers that can run scripts and read this library’s files. It works offline once loaded.</p>
-<p id="viewerHelp" class="notice"><strong>Using iPhone or iPad Files?</strong> Its preview may show this page without running search or opening links to other files. Close the preview, open this drive’s <code>LIBRARY</code> folder in Files, and open a document directly. The catalog on <code>START_HERE.html</code> lists the folders and filenames on the same page.</p>
-<form id="searchForm" data-library-root="__OWL_LIBRARY_PREFIX__" hidden>
-<label for="query">Search words</label>
-<input id="query" type="search" placeholder="water purification" maxlength="2048" autocomplete="off">
-<label for="shelf">Search in</label>
-<select id="shelf" disabled><option value="all">All resources (excluding legacy)</option><option value="textbooks">Textbooks</option><option value="illustrated-guides">Illustrated guides</option><option value="legacy">Legacy systems only</option><option value="all-with-legacy">All resources, including legacy</option></select>
-<button id="searchButton" type="submit" disabled>Search</button>
+<h2 id="owlSearchHeading">Search books, guides and articles</h2>
+<p id="viewerHelp" class="notice"><strong>Search needs a web browser.</strong> A phone’s file preview can show this page but cannot run search or follow links. On an iPhone or iPad, close the preview, open this drive’s <code>LIBRARY</code> folder in Files, and open a document directly. <code>START_HERE.html</code> lists every folder and file on one page.</p>
+<form id="searchForm" data-library-root="__OWL_LIBRARY_PREFIX__" role="search" hidden>
+<div class="bar"><label for="query" hidden>Search words</label>
+<input id="query" type="search" placeholder="Search everything on this drive" maxlength="2048" autocomplete="off" aria-label="Search words">
+<button id="searchButton" type="submit" disabled>Search</button></div>
+<p class="tries">Try <button type="button" data-query="stop bleeding">stop bleeding</button><button type="button" data-query="make water safe to drink">make water safe to drink</button><button type="button" data-query="fever in a child">fever in a child</button><button type="button" data-query="preserve vegetables">preserve vegetables</button></p>
+<details><summary>Search options</summary><label for="shelf">Search in</label>
+<select id="shelf" disabled><option value="all">Everything (recommended)</option><option value="textbooks">Textbooks only</option><option value="illustrated-guides">Illustrated guides only</option><option value="legacy">Historical books only</option><option value="all-with-legacy">Everything, including historical books</option></select>
+<p>Search reads titles, chapters, PDF text and article openings stored on this drive, and ranks them with a small language model. Nothing leaves this device. Use up to 32 words.</p></details>
 </form>
-<button id="retryButton" type="button" hidden>Retry loading search</button>
-<p id="status" role="status" aria-live="polite">Search controls appear when search is ready. If they do not appear, browse the folders directly in your file manager.</p>
+<button id="retryButton" type="button" hidden>Try loading search again</button>
+<p id="status" role="status" aria-live="polite"></p>
 <ol id="results" aria-label="Search results"></ol>
-<p><a href="__OWL_LIBRARY_PREFIX__INDEX/categories.html">Browse by category</a> · <a href="__OWL_LIBRARY_PREFIX__INDEX/A.html">Alphabetical index</a> · <a href="__OWL_LIBRARY_PREFIX__INDEX/critical.html">Critical information</a></p>
 <script defer src="__OWL_LIBRARY_PREFIX__SEARCH/search.js"></script>
 </section>
 <!-- OWL_SEARCH_WIDGET_END -->
-<details><summary>Coverage and search help</summary><p>Search uses the indexes available for this build, including catalog metadata, PDF text, archive titles and sampled article leads. Open the source for full text and images.</p><p>Use up to 32 different words. Search uses local word matches and a compact model to rank results. All data and scripts stay on this drive.</p><p>See <a href="SEARCH/coverage.json">discovery coverage</a> and <a href="INVENTORY.html">the inventory</a>. Archive results identify their source and internal location; open them with a compatible reader. Static indexes remain available if your viewer blocks scripts.</p></details>
+<p class="meta">Nothing useful? Browse <a href="INDEX/critical.html">the essentials</a> or <a href="INDEX/categories.html">every file by category</a>. What search covers is listed in <a href="SEARCH/coverage.json">coverage.json</a> and <a href="INVENTORY.html">the inventory</a>.</p>
+</main>
 </body>
 </html>

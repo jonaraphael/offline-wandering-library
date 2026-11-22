@@ -110,17 +110,19 @@ for(const match of html.matchAll(/<[^>]+\bid="([^"]+)"[^>]*>/g)) {
  item.value=(tag.match(/\bvalue="([^"]*)"/)||[])[1]||'';
  nodes.set(match[1],item);
 }
-const get=id=>{if(!nodes.has(id))throw Error('Unknown element '+id);return nodes.get(id);};
+const get=id=>nodes.get(id);
 get('owl-model').textContent=html.match(/<script id="owl-model"[^>]*>([\s\S]*?)<\/script>/)[1];
 get('shell').value='posix';
-globalThis.document={getElementById:get,createElement:node,createTextNode:text=>({textContent:text})};
+globalThis.document={body:node(),getElementById:get,createElement:node,createTextNode:text=>({textContent:text})};
 for(const script of html.matchAll(/<script>([\s\S]*?)<\/script>/g))eval(script[1]);
 if(!get('fatal').hidden)throw Error(get('fatal').textContent);
-if(!get('map-panel').hidden||get('map-unavailable').hidden)throw Error('Missing map explanation');
-if(get('resources').hidden||get('resources').children.length!==1)throw Error('List unavailable');
-if(get('resources').hidden||!get('map-panel').hidden)throw Error('Unsupported map hid the list');
+const themes=get('themes').children;
+if(themes.length!==1||themes[0].dataset.theme!=='other')throw Error('Untagged catalog should have one plain list');
+if(themes[0].children[1].hidden||themes[0].children[1].children.length!==1)throw Error('List unavailable');
+if(!get('size-picker').hidden)throw Error('Size choices offered without a capacity ladder');
 if(!get('plan-command').value||!get('build-command').value)throw Error('Commands unavailable');
-const card=get('resources').children[0], checkbox=card.children[0].children[0];
+get('customize').handlers.click();
+const card=themes[0].children[1].children[0], checkbox=card.children[0].children[0];
 checkbox.checked=false;checkbox.handlers.change();
 if(!get('fatal').hidden)throw Error(get('fatal').textContent);
 if(card.dataset.included!=='false'||!get('plan-command').value)throw Error('List cannot change selection');

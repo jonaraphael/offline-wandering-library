@@ -58,9 +58,10 @@ collection of several files qualifies only through an individual file.
 
 The tests verify each transition and check the selection through the final
 byte before the next addition fits. The core and earlier-peak floors can
-leave more free space ahead of a large archive. The browser fills toward
-90% using deliverable collections and limits each proposed addition against
-the smallest later delivered core and depth selection for its fields.
+leave more free space ahead of a large archive. The browser can admit a
+deliverable collection ahead of its reviewed entry point when the same
+edition can fit through every intervening plan. Some capacities have more
+free space while the next edition is still too large.
 
 Each tier's retention is its selected knowledge bytes divided by its knowledge
 bytes in the 1 TB default. USEFUL retention must meet or exceed NONESSENTIAL

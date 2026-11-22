@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en" class="live">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OWL reader: reference views</title>
+<link rel="stylesheet" href="reader.css">
+<style>
+  /* Reference page only: one view at a time, chosen by #name or the selector. */
+  .view { display: none; }
+  .view.show { display: block; }
+  .static { display: none; }
+  html:not(.live) .static { display: block; }
+  #ref { position: fixed; right: 8px; top: 8px; z-index: 9; font: 12px system-ui; opacity: .75; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.8z"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7M12 17v.4"/></symbol>
+  <symbol id="i-health" viewBox="0 0 24 24"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></symbol>
+  <symbol id="i-food" viewBox="0 0 24 24"><path d="M5 19c0-9 5-14 14-14 0 9-5 14-14 14zm0 0l8-8"/></symbol>
+  <symbol id="i-shelter" viewBox="0 0 24 24"><path d="M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z"/></symbol>
+  <symbol id="i-trades" viewBox="0 0 24 24"><path d="M4 20l8-8M14 4l6 6-3 3-6-6z"/></symbol>
+  <symbol id="i-school" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5zM6 11v5c3 3 9 3 12 0v-5"/></symbol>
+  <symbol id="i-reference" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></symbol>
+  <symbol id="i-advanced" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3M8 15h8"/></symbol>
+  <symbol id="i-culture" viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11"/></symbol>
+</svg>
+
+<template id="t-star"><button class="star" aria-pressed="false" aria-label="Save"><svg viewBox="0 0 24 24"><use href="#i-star"/></svg></button></template>
+
+<!-- Home -->
+<main class="view" id="home" data-tab="home">
+  <h1>Library</h1>
+  <p class="sub">Works without internet</p>
+  <a class="search" href="#search"><svg class="icon"><use href="#i-search"/></svg>Search 412 books and guides</a>
+  <p class="label urgent">Urgent</p>
+  <div class="chips"><a href="#">Stop severe bleeding</a><a href="#">Care for burns</a><a href="#">Make drinking water safer</a><a href="#">Fever or diarrhea</a><a href="#">Labor and birth</a><a href="#">Find or build shelter</a><a href="#">Preserve food safely</a><a href="#">Map and compass</a></div>
+  <p class="label">Recently opened</p>
+  <div class="list"><div class="row go"><a href="#book"><b>Where There Is No Doctor</b><small>Chapter 10 · First aid</small></a></div></div>
+  <p class="label">Everything on this drive</p>
+  <div class="tiles">
+    <a class="tile" href="#category" style="--c:var(--c-health)"><svg class="icon"><use href="#i-health"/></svg>Health<small>112 guides</small></a>
+    <a class="tile" href="#" style="--c:var(--c-food)"><svg class="icon"><use href="#i-food"/></svg>Food and farming<small>64 guides</small></a>
+    <a class="tile" href="#" style="--c:var(--c-shelter)"><svg class="icon"><use href="#i-shelter"/></svg>Water, shelter and safety<small>41 guides</small></a>
+    <a class="tile" href="#" style="--c:var(--c-trades)"><svg class="icon"><use href="#i-trades"/></svg>Repair and trades<small>30 guides</small></a>
+    <a class="tile" href="#" style="--c:var(--c-school)"><svg class="icon"><use href="#i-school"/></svg>School<small>98 courses</small></a>
+    <a class="tile" href="#" style="--c:var(--c-reference)"><svg class="icon"><use href="#i-reference"/></svg>Encyclopedias and maps<small>5 collections</small></a>
+    <a class="tile" href="#" style="--c:var(--c-advanced)"><svg class="icon"><use href="#i-advanced"/></svg>College and technical<small>38 books</small></a>
+    <a class="tile" href="#" style="--c:var(--c-culture)"><svg class="icon"><use href="#i-culture"/></svg>Stories and culture<small>24 books</small></a>
+  </div>
+  <div class="list" style="margin-top:10px"><div class="row go"><a href="#"><b>Everything, A to Z</b></a></div></div>
+</main>
+
+<!-- Category -->
+<main class="view narrow" id="category" data-tab="home">
+  <a class="back" href="#home">‹ Library</a>
+  <h2><span class="dot" style="--c:var(--c-health)"></span>Health</h2>
+  <p class="sub">112 guides · First aid, medical references and community health care</p>
+  <div class="chips plain" style="margin-bottom:12px"><a href="#" aria-pressed="true">All</a><a href="#">First aid</a><a href="#">Children</a><a href="#">Pregnancy and birth</a><a href="#">Medicines</a><a href="#">Teeth</a></div>
+  <div class="list">
+    <div class="row"><a href="#book"><b>Where There Is No Doctor</b><small>Book, 30 chapters · 62 MB</small></a><span data-star></span></div>
+    <div class="row"><a href="#"><b>First-response essentials</b><small>16 short guides · PDF</small></a><span data-star="on"></span></div>
+    <div class="row"><a href="#"><b>WHO Basic Emergency Care</b><small>PDF · 240 pages · 18 MB</small></a><span data-star></span></div>
+    <div class="row"><a href="#"><b>Where Women Have No Doctor</b><small>Book, 32 chapters · 48 MB</small></a><span data-star></span></div>
+    <div class="row"><a href="#"><b>Doctors Without Borders clinical guidelines</b><small>PDF · 384 pages · 9 MB</small></a><span data-star></span></div>
+    <div class="row"><a href="#sheet"><b>WikiMed medical encyclopedia</b><small>Encyclopedia, opens in Kiwix · 2.1 GB</small></a><span data-star></span></div>
+    <div class="row"><a href="#"><b>Where There Is No Dentist</b><small>Book, 14 chapters · 21 MB</small></a><span data-star></span></div>
+  </div>
+</main>
+
+<!-- Book -->
+<main class="view narrow" id="book" data-tab="home">
+  <a class="back" href="#category">‹ Health</a>
+  <h2>Where There Is No Doctor</h2>
+  <p class="sub">Hesperian · Book, 30 chapters · 62 MB</p>
+  <div class="list">
+    <div class="row"><a href="#"><b>1 · Home cures and popular beliefs</b><small>PDF · 20 pages</small></a><span data-star></span></div>
+    <div class="row"><a href="#"><b>2 · Sicknesses that are often confused</b><small>PDF · 18 pages</small></a><span data-star></span></div>
+    <div class="row"><a href="#"><b>3 · How to examine a sick person</b><small>PDF · 10 pages</small></a><span data-star></span></div>
+    <div class="row"><a href="#"><b>4 · How to take care of a sick person</b><small>PDF · 8 pages</small></a><span data-star></span></div>
+    <div class="row"><a href="#"><b>10 · First aid</b><small>PDF · 32 pages · opened yesterday</small></a><span data-star="on"></span></div>
+    <div class="row"><a href="#"><b>11 · Nutrition: what to eat to be healthy</b><small>PDF · 24 pages</small></a><span data-star></span></div>
+  </div>
+</main>
+
+<!-- Search -->
+<main class="view narrow" id="search" data-tab="search">
+  <h1>Search</h1>
+  <p class="sub">Looks inside 412 books and guides</p>
+  <label class="search"><svg class="icon"><use href="#i-search"/></svg><input value="burns" aria-label="Search"></label>
+  <div class="result">
+    <small>Where There Is No Doctor · Chapter 10, First aid</small>
+    <h3>Burns</h3>
+    <p>For <mark>burns</mark> that do not form blisters, put the burned part in cool water at once. No other treatment is needed.</p>
+    <ul class="also"><li><a href="#">Burns that cause blisters</a></li><li><a href="#">Deep burns</a></li></ul>
+    <a class="button" href="#">Open</a>
+  </div>
+  <div class="result">
+    <small>First-response essentials</small>
+    <h3>Care for burns</h3>
+    <p>Cool the <mark>burn</mark> under running water for 20 minutes. Remove rings and tight clothing before swelling starts.</p>
+    <a class="button" href="#">Open</a>
+  </div>
+  <div class="result">
+    <small>WikiMed medical encyclopedia · opens in Kiwix</small>
+    <h3>Burn</h3>
+    <p>A <mark>burn</mark> is an injury to skin or other tissue caused by heat, cold, electricity, chemicals or radiation.</p>
+    <a class="button" href="#sheet">How to open</a>
+  </div>
+</main>
+
+<!-- Saved -->
+<main class="view narrow" id="saved" data-tab="saved">
+  <h1>Saved</h1>
+  <p class="sub">Kept in this browser on this device</p>
+  <div class="list">
+    <div class="row"><a href="#"><b>10 · First aid</b><small>Where There Is No Doctor</small></a><span data-star="on"></span></div>
+    <div class="row"><a href="#"><b>First-response essentials</b><small>16 short guides · PDF</small></a><span data-star="on"></span></div>
+  </div>
+  <p class="label">Recently opened</p>
+  <div class="list">
+    <div class="row"><a href="#"><b>Make drinking water safer</b><small>Yesterday</small></a><span data-star></span></div>
+    <div class="row"><a href="#"><b>USDA Complete Guide to Home Canning</b><small>3 days ago</small></a><span data-star></span></div>
+  </div>
+</main>
+
+<main class="view narrow" id="saved-empty" data-tab="saved">
+  <h1>Saved</h1>
+  <div class="empty"><svg viewBox="0 0 24 24"><use href="#i-star"/></svg><p>Tap the star beside any book or guide to keep it here.</p></div>
+</main>
+
+<!-- Help -->
+<main class="view narrow" id="help" data-tab="help">
+  <h1>Help</h1>
+  <div class="panel">
+    <h3>Opening files on this iPhone</h3>
+    <p>Books and guides open by themselves. Encyclopedias need the free Kiwix app.</p>
+    <ol class="steps"><li>Install Kiwix from the App Store while you have internet.</li><li>In Kiwix, tap Open, then choose this drive.</li><li>Pick the encyclopedia. It stays in the list after that.</li></ol>
+    <p><a href="#">This is not an iPhone</a></p>
+  </div>
+  <div class="panel">
+    <h3>About this drive</h3>
+    <dl class="facts"><div><dt>Last synced</dt><dd>14 March 2026</dd></div><div><dt>Holds</dt><dd>412 items, 58.2 GB</dd></div><div><dt>Could not be downloaded</dt><dd>None</dd></div></dl>
+    <p><a href="#">Every file, with its location</a> · <a href="#">Build report</a></p>
+  </div>
+  <div class="panel"><h3>Make another drive</h3><p>On a computer with internet, open the page below in Chrome, Edge or Arc.</p><span class="where">jonaraphael.github.io/offline-wandering-library</span></div>
+</main>
+
+<!-- Encyclopedia sheet, shown over the category view -->
+<main class="view narrow" id="sheet" data-tab="home">
+  <a class="back" href="#home">‹ Library</a>
+  <h2><span class="dot" style="--c:var(--c-health)"></span>Health</h2>
+  <p class="sub">112 guides · First aid, medical references and community health care</p>
+  <div class="list">
+    <div class="row"><a href="#"><b>Where There Is No Doctor</b><small>Book, 30 chapters · 62 MB</small></a><span data-star></span></div>
+    <div class="row"><a href="#"><b>First-response essentials</b><small>16 short guides · PDF</small></a><span data-star="on"></span></div>
+    <div class="row"><a href="#"><b>WikiMed medical encyclopedia</b><small>Encyclopedia, opens in Kiwix · 2.1 GB</small></a><span data-star></span></div>
+  </div>
+  <div class="scrim"></div>
+  <div class="sheet" role="dialog" aria-label="Open WikiMed medical encyclopedia">
+    <h2>WikiMed medical encyclopedia</h2>
+    <p class="sub">This one opens in the free Kiwix app.</p>
+    <ol class="steps"><li>Open the Kiwix app. On Android it is on this drive, in SOFTWARE/ANDROID.</li><li>Tap Open file and choose this drive.</li><li>Pick the file below.<span class="where">LIBRARY/medical/wikimed/wikipedia_en_medicine_maxi.zim</span></li></ol>
+    <p style="margin:16px 0 0"><a class="button" href="#category">Done</a></p>
+  </div>
+</main>
+
+<nav class="tabs" aria-label="Sections">
+  <a href="#home" data-tab="home"><svg class="icon"><use href="#i-home"/></svg>Home</a>
+  <a href="#search" data-tab="search"><svg class="icon"><use href="#i-search"/></svg>Search</a>
+  <a href="#saved" data-tab="saved"><svg class="icon"><use href="#i-star"/></svg>Saved</a>
+  <a href="#help" data-tab="help"><svg class="icon"><use href="#i-help"/></svg>Help</a>
+</nav>
+
+<!-- Static page: what a viewer shows when scripts do not run. Reference state "static". -->
+<div class="static" id="static">
+  <h1>Library</h1>
+  <p>Files on this drive are in the LIBRARY folder, grouped by subject. Each item below gives its location.</p>
+  <h2>Urgent</h2>
+  <ul>
+    <li><b>Stop severe bleeding</b><span class="where">LIBRARY/medical/first-response/bleeding.pdf</span></li>
+    <li><b>Care for burns</b><span class="where">LIBRARY/medical/first-response/burns.pdf</span></li>
+    <li><b>Make drinking water safer</b><span class="where">LIBRARY/water/who-wash/household-water-treatment.pdf</span></li>
+  </ul>
+  <h2>Health</h2>
+  <ul>
+    <li><b>Where There Is No Doctor</b> · book, 30 chapters<span class="where">LIBRARY/medical/hesperian/where-there-is-no-doctor/</span></li>
+    <li><b>WHO Basic Emergency Care</b> · PDF<span class="where">LIBRARY/medical/who/basic-emergency-care.pdf</span></li>
+    <li><b>WikiMed medical encyclopedia</b> · opens in the Kiwix app<span class="where">LIBRARY/medical/wikimed/wikipedia_en_medicine_maxi.zim</span></li>
+  </ul>
+  <h2>Food and farming</h2>
+  <ul><li><b>USDA Complete Guide to Home Canning</b> · PDF<span class="where">LIBRARY/food/usda/home-canning.pdf</span></li></ul>
+  <h2>Opening files</h2>
+  <p>Books and guides are PDF files and open on any phone or computer. Encyclopedias need the free Kiwix app: on Android and computers it is in the SOFTWARE folder of this drive; on an iPhone, install it from the App Store.</p>
+</div>
+
+<select id="ref" aria-label="Reference view"></select>
+<script>
+  // Reference page only.
+  for (const slot of document.querySelectorAll("[data-star]")) {
+    const star = document.getElementById("t-star").content.cloneNode(true).firstElementChild;
+    if (slot.dataset.star === "on") star.setAttribute("aria-pressed", "true");
+    slot.replaceWith(star);
+  }
+  const views = [...document.querySelectorAll(".view")];
+  for (const name of [...views.map(view => view.id), "static"]) ref.add(new Option(name));
+  function show() {
+    const id = location.hash.slice(1) || "home";
+    document.documentElement.classList.toggle("live", id !== "static");
+    const view = views.find(item => item.id === id);
+    views.forEach(item => item.classList.toggle("show", item === view));
+    document.querySelectorAll(".tabs a").forEach(tab => tab.toggleAttribute("aria-current", tab.dataset.tab === view?.dataset.tab));
+    ref.value = id;
+    if (new URLSearchParams(location.search).has("shot")) ref.hidden = true;
+    scrollTo(0, 0);
+  }
+  ref.onchange = () => { location.hash = ref.value; };
+  addEventListener("hashchange", show);
+  show();
+</script>
+</body>
+</html>

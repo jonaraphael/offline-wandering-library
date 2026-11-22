@@ -18,10 +18,10 @@ from zipfile import ZipFile
 
 from owl.atlas_model import load_navigation
 from owl.catalog import load_catalog, load_profiles
-from owl.navigation import CSS, GROUPS, LETTERS, READING_COLLECTIONS, navigation_asset
+from owl.navigation import CSS, GROUPS, LETTERS, READING_COLLECTIONS, book_chapters, navigation_asset
 from owl.offline_layout import layout
 from owl.discovery import compile_records
-from owl.search_ui import render_search_page
+from owl.search_ui import SEARCH_CSP, render_search_page, render_search_widget
 from owl.search_shards import SEARCH_ROOT, compile_search_plan, load_impact, load_manifest, load_routes, load_transformer
 from owl.selector import ROOT, make_model, render_selector
 
@@ -275,7 +275,8 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
     templates = ROOT / "src/owl/templates"
     page = render_search_page()
     write_json(site / "search-build.json", {"plan": compile_search_plan(assets, search_index, load_routes(), load_impact(), load_transformer()), "base": search_base, "records": records,
-        "page": page, "runtime": (templates / "search.js").read_text(encoding="utf-8"),
+        "page": page, "widget": render_search_widget("LIBRARY/"), "csp": SEARCH_CSP,
+        "runtime": (templates / "search.js").read_text(encoding="utf-8"),
         "rerankRuntime": (templates / "rerank.js").read_text(encoding="utf-8"),
         "rankRuntime": (templates / "rank.js").read_text(encoding="utf-8")})
     navigation = {key: navigation[key] for key in ("topics", "entrances", "assignments", "sections", "input_hashes")}
@@ -291,6 +292,8 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
                       verify=(ROOT / "src/owl/verify.py").read_text(encoding="utf-8"),
                       assets={asset["id"]: navigation_asset(asset, resources_by_asset.get(asset["id"], []))
                               for asset in assets})
+    for identity, book in book_chapters(assets).items():
+        navigation["assets"][identity]["book"] = book
     from owl.wikimed_phone import DESTINATION, manifest as phone_manifest, verified_volume
     phone = phone_manifest()
     if phone and by_id[phone["source_id"]]["sha256"] != phone["source_sha256"]:

@@ -4,15 +4,17 @@ from __future__ import annotations
 
 import html
 import posixpath
+import re
 import string
 import unicodedata
 from collections import defaultdict
+from functools import partial
 from pathlib import Path, PurePosixPath
 from urllib.parse import quote
 
 from .catalog import is_document, learning_shelves
 from .layout import checksum_name, managed_path
-from .offline_layout import emergency_routes, render
+from .offline_layout import emergency_routes, layout, render
 from .wikimed_phone import DESTINATION as PHONE_DESTINATION
 from .safety import atomic_write
 from .search_ui import SEARCH_CSP, render_search_widget
@@ -76,33 +78,38 @@ ALIASES = {
     "education": "books",
 }
 
-CSS = """
-:root { color-scheme: light dark; font: 17px/1.55 system-ui, sans-serif; }
-body { max-width: 68rem; margin: auto; padding: 1rem; background: #fff; color: #16212d; }
-a { color: #125e96; overflow-wrap: anywhere; }
-a:focus-visible { outline: 3px solid #d47d00; outline-offset: 3px; }
-h1 { font-size: clamp(1.65rem, 5vw, 2.5rem); line-height: 1.2; }
-h2 { margin-top: 1.6rem; line-height: 1.3; }
-nav, .notice { padding: .8rem 1rem; background: #eef4f7; border-radius: .4rem; }
-nav a { display: inline-block; padding: .3rem .55rem .3rem 0; }
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  list-style: none; padding: 0; gap: .7rem; }
-.cards a { display: block; padding: .8rem; border: 1px solid #9babba; border-radius: .4rem; }
-.assets { padding-left: 1.3rem; }
-.assets li { padding: .55rem 0; }
-.meta { font-size: .9rem; color: #43576a; }
-.badge { font-size: .8rem; font-weight: 600; }
-.table-scroll { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
-th, td { padding: .55rem; text-align: left; vertical-align: top; border-bottom: 1px solid #aab6c0; }
-code { overflow-wrap: anywhere; }
-footer { border-top: 1px solid #aab6c0; margin-top: 2rem; padding-top: .6rem; font-size: .85rem; }
-@media (prefers-color-scheme: dark) {
-  body { background: #111a23; color: #edf3f7; }
-  a { color: #9ad1fc; } nav, .notice { background: #21303e; }
-  .meta { color: #bed0df; }
-}
-"""
+CSS = (Path(__file__).with_name("templates") / "site.css").read_text(encoding="utf-8")
+_CHAPTER = re.compile(r"^(?P<book>.+?)(?: — |: )(?P<chapter>.+)$")
+_FRONT = re.compile(r"^(?:front|intro|preface|foreword|contents|cover|title|about)", re.I)
+
+
+def book_chapters(assets: list[dict]) -> dict[str, dict]:
+    """Find books published as one file per chapter.
+
+    Files in one folder whose titles share a stem before " — " or ": " form a
+    book when at least three are cataloged. Returns the book title, chapter
+    label and reading order for each member, keyed by asset id.
+    """
+    groups: dict[tuple[str, str], list] = defaultdict(list)
+    for asset in assets:
+        match = _CHAPTER.match(str(asset.get("title", "")))
+        if not match or not is_document(asset) or "/" not in asset["destination"]:
+            continue
+        stem = re.sub(r"\s+\d+$", "", match["book"])
+        number = re.search(r"(\d+)$", match["book"]) if stem != match["book"] else re.match(r"(\d+)", match["chapter"])
+        title = stem + "s" if stem != match["book"] else stem
+        groups[(asset["destination"].rsplit("/", 1)[0], title)].append((asset, match["chapter"], number))
+    books = {}
+    for (_, title), members in groups.items():
+        if len(members) < 3:
+            continue
+        def position(member):
+            asset, chapter, number = member
+            rank = 0 if _FRONT.match(chapter) and not number else 1 if number else 2
+            return rank, int(number[1]) if number else 0, chapter.casefold(), asset["id"]
+        for order, (asset, chapter, _) in enumerate(sorted(members, key=position)):
+            books[asset["id"]] = {"title": title, "chapter": chapter, "order": order}
+    return books
 
 
 def _text(value: object) -> str:
@@ -166,23 +173,29 @@ def _resource_labels(asset: dict) -> str:
     return " · ".join(labels)
 
 
-def _page(title: str, body: str, current: str, *, inline_search: bool = False) -> str:
-    home = _href("START_HERE.html", current)
-    search = _href("SEARCH.html", current)
-    categories = _href("INDEX/categories.html", current)
-    critical = _href("INDEX/critical.html", current)
-    textbooks = _href("INDEX/textbooks.html", current)
-    illustrated = _href("INDEX/illustrated-guides.html", current)
-    gutenberg = _href("INDEX/gutenberg.html", current)
-    children = _href("INDEX/children.html", current)
+def tabs(current: str, *, atlas: bool = False) -> str:
+    """The same tab bar on every page; Subjects and Books exist only with a topic atlas."""
+    section = ("INDEX/critical.html" if current in {"INDEX/critical.html", "INDEX/phone.html"} else
+               "INDEX/topics.html" if current.startswith(("INDEX/topic", "INDEX/topics")) else
+               "INDEX/books.html" if current.startswith("INDEX/books") else
+               "INDEX/categories.html" if current == "INDEX/categories.html" or current[6:-5] in LETTERS else current)
+    rows = [("START_HERE.html", "", "Home"), ("SEARCH.html", "", "Search"), ("INDEX/critical.html", "", "Essentials")]
+    if atlas:
+        rows += [("INDEX/topics.html", "", "Subjects"), ("INDEX/books.html", "", "Books")]
+    rows += [("INDEX/categories.html", "", "All files"), ("START_HERE.html", "#help", "Help")]
+    return "".join(
+        f'<a href="{_href(path, current)}{fragment}"'
+        + (' aria-current="page"' if path == section and not fragment else "") + f">{label}</a>"
+        for path, fragment, label in rows)
+
+
+def _page(title: str, body: str, current: str, *, inline_search: bool = False, atlas: bool = False,
+          heading: str | None = None) -> str:
     policy = f'<meta http-equiv="Content-Security-Policy" content="{html.escape(SEARCH_CSP, quote=True)}">' if inline_search else ""
     footer = ("Catalog text is readable without JavaScript or internet. Opening links depends on your viewer."
               + (" Search requires a browser that can load local scripts." if inline_search else ""))
-    nav = (f'<a href="{home}">Start here</a><a href="{search}">Search</a>'
-           f'<a href="{categories}">Categories</a><a href="{critical}">Critical content</a>'
-           f'<a href="{textbooks}">Textbooks</a><a href="{illustrated}">Illustrated guides</a>'
-           f'<a href="{gutenberg}">Project Gutenberg</a><a href="{children}">Children’s Library</a>')
-    return render("page", title=_text(title), css=CSS, nav=nav, heading=f"<h1>{_text(title)}</h1>",
+    return render("page", title=_text(title), css=CSS, nav=tabs(current, atlas=atlas),
+                  heading=f"<h1>{_text(title)}</h1>" if heading is None else heading,
                   body=body, policy=policy, footer="Offline Wandering Library · " + footer)
 
 
@@ -213,7 +226,7 @@ def _asset_list(assets: list[dict], current: str, *, show_paths: bool = False) -
                     if show_paths else "")
         items.append(
             f'<li><a href="{link}">{title}</a> <span class="badge">({_text(badge)})</span>'
-            f'{location}{labels_html}<br><span class="meta">{_text(metadata)}</span>{description}{attribution}</li>'
+            f'{location}{labels_html}<span class="meta">{_text(metadata)}</span>{description}{attribution}</li>'
         )
     return '<ul class="assets">' + "\n".join(items) + "</ul>"
 
@@ -306,6 +319,7 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
     search_ready = search_report.get("status") != "not-built" and all(
         relative in search_files for relative in ("SEARCH/manifest.js", "SEARCH/search.js")
     )
+    page = partial(_page, atlas=bool(inventory.get("navigation")))
     actual = {entry["destination"]: entry for entry in inventory.get("assets", [])}
     entries = [{**asset, **actual.get(asset["destination"], {})} for asset in assets if is_document(asset)]
     entries.sort(key=lambda asset: (str(asset.get("title", "")).casefold(), asset["destination"]))
@@ -326,7 +340,7 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
     pages: dict[str, str] = {}
     cards = "".join(
         f'<li><a href="INDEX/categories.html#{key}">{label} ({len(groups[key])})</a></li>'
-        for key, label in GROUPS if key != "other" or groups[key]
+        for key, label in GROUPS if groups[key]
     )
     shelf_cards = "".join(
         f'<li><a href="INDEX/{key}.html"><strong>{label} ({len(shelves[key])})</strong>'
@@ -337,7 +351,7 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
     collection_cards = "".join(
         f'<li><a href="INDEX/{key}.html"><strong>{label}</strong>'
         f'<br><span class="meta">{len(collections[key])} files available in this build</span></a></li>'
-        for key, label, _identities in READING_COLLECTIONS
+        for key, label, _identities in READING_COLLECTIONS if collections[key]
     )
     static_phone = [entry for entry in entries if entry.get("critical") and
                     entry.get("format") in {"pdf", "epub", "html", "htm"}]
@@ -360,7 +374,7 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
         routes.append(f'<h2><a href="{path}">{_text(entry["title"])}</a></h2><ul>{locators}</ul>')
     emergency, archive_tasks = emergency_routes(entries, lambda path: _href(path, "START_HERE.html"),
                                                  lambda path: _href(path, inside))
-    pages[inside] = _page("Sections and archive entry points", archive_tasks + "".join(routes) or
+    pages[inside] = page("Sections and archive entry points", archive_tasks + "".join(routes) or
                           "<p>Browse the included files through the topic atlas or categories.</p>", inside)
     phone = inventory.get("phone_volumes", [])
     phone_index = ""
@@ -371,21 +385,27 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
             links.append(f'<li><a href="{_href(path, "INDEX/phone.html")}">'
                          f'WikiMed: {_text(volume["title"])}</a><br><code>LIBRARY/{path}</code></li>')
         phone_index = '<h2>WikiMed PDFs</h2><ul class="assets">' + "".join(links) + "</ul>"
-    pages["INDEX/phone.html"] = _page("Critical files for phones",
+    pages["INDEX/phone.html"] = page("Critical files for phones",
         "<p>Open one of these files in your device’s file viewer. The listed paths start at the drive.</p>"
         + phone_index + _asset_list(static_phone, "INDEX/phone.html", show_paths=True), "INDEX/phone.html")
     report_path = "INDEX/build-report.html"
     unresolved = inventory.get("unresolved") or []
     omitted = "".join(f'<li>{_text(item.get("title") or item.get("id"))}</li>' for item in unresolved)
-    pages[report_path] = _page("Build report", _selection_notice(inventory, report_path)
+    pages[report_path] = page("Build report", _selection_notice(inventory, report_path)
                               + ("<h2>Unavailable files</h2><ul>" + omitted + "</ul>" if omitted else
                                  "<p>All selected files available to this builder are listed in the inventory.</p>")
                               + '<p><a href="../INVENTORY.html">Inventory and source coverage</a></p>', report_path)
-    pages["START_HERE.html"] = _page(
-        "Offline Wandering Library",
-        emergency + _selection_notice(inventory, "START_HERE.html")
-        + """<p>An offline knowledge library. Browse the file catalog below, or search in a compatible browser.</p>
-<section class="notice" id="files-instructions"><h2>Using iPhone Files or another file preview?</h2>
+    readers = {kind: "".join(
+        f'<li><a href="{_href(entry["destination"], "START_HERE.html")}">{label}</a>'
+        f'<span class="where">LIBRARY/{_text(checksum_name(entry["destination"]))}</span></li>'
+        for folder, label, device in layout()["readers"] if device == kind
+        for entry in groups["readers"] if entry["destination"].startswith(folder)) for kind in ("desktop", "android")}
+    archives = any(str(entry.get("format", "")).lower() == "zim" for entry in entries)
+    reader_help = {kind: render("help_readers", links=links) if links else layout()["help_no_readers"] if archives else ""
+                   for kind, links in readers.items()}
+    hero = ('<p class="kicker">Works without internet</p><h1>What do you need to know?</h1>'
+            f'<p class="lede">{len(entries)} books, guides and archives are stored on this drive.</p>'
+            + """<section class="notice static-only" id="files-instructions"><h2>Using iPhone Files or another file preview?</h2>
 <p>A preview may display this page while blocking search and links to other files.
 The file catalog below lists every included document with its exact folder path.</p>
 <p><strong>To open a document:</strong> note its path, close this preview, return to this drive in
@@ -393,22 +413,26 @@ Files or your file manager, and open <code>LIBRARY</code>. Follow the remaining 
 listed path and tap the file. PDFs and text files need a compatible viewer; archives and EPUBs
 may need a separate reader.</p></section>
 """
-        + (render_search_widget("LIBRARY/") if search_ready else
-           '<p class="notice">' +
-           ('<strong>Human index only:</strong> title/topic search has not been built. '
-            if search_report.get("status") == "not-built" else
-            '<strong>Title and topic search is not available in this build.</strong> ') +
-           'Use the topic atlas, category, critical-content, and alphabetical indexes.</p>')
-        + '<p><a href="INDEX/phone.html">Critical files for phones</a> · '
-          '<a href="INDEX/sections.html">Sections and archive entry points</a> · '
-          '<a href="INDEX/critical.html">All critical content</a> · '
-          '<a href="INDEX/build-report.html">Build report</a></p>'
+            + (render_search_widget("LIBRARY/") if search_ready else
+               '<p class="notice">' +
+               ('<strong>Human index only:</strong> title/topic search has not been built. '
+                if search_report.get("status") == "not-built" else
+                '<strong>Title and topic search is not available in this build.</strong> ') +
+               'Use the topic atlas, category, critical-content, and alphabetical indexes.</p>'))
+    pages["START_HERE.html"] = page(
+        "Offline Wandering Library",
+        emergency + _selection_notice(inventory, "START_HERE.html")
         + '<h2>Books and learning collections</h2>'
         + '<p>Learn from complete textbooks and practical guides. Open the original files to see their '
         'diagrams, photographs, and illustrations.</p>'
         + f'<ul class="cards">{shelf_cards}{collection_cards}</ul>'
         + '<h2>Browse by topic</h2>'
         + f'<ul class="cards">{cards}</ul>'
+        + '<p class="meta"><a href="INDEX/phone.html">Essentials that open without an app</a> · '
+          '<a href="INDEX/sections.html">Sections and archive entry points</a> · '
+          '<a href="INDEX/critical.html">All critical content</a> · '
+          '<a href="INDEX/build-report.html">Build report</a></p>'
+        + render("help", desktop=reader_help["desktop"], android=reader_help["android"])
         + """<h2>When search does not work</h2>
 <p><a href="INDEX/categories.html">Browse the category index</a> or use the alphabetical links below.
 These pages need no JavaScript, but opening them still depends on your viewer.
@@ -423,13 +447,7 @@ If links do not open, use the file catalog on this page and navigate through you
             for key, label in GROUPS if groups[key]
         ) or '<p>No documents are included in this build.</p>')
         + '</section>'
-        + """<h2>Large archives and reader software</h2>
-<p>Files ending in <code>.zim</code>, including Wikipedia, need a compatible archive reader.
-<a href="INDEX/categories.html#readers">Bundled reader software</a> is in <code>SOFTWARE/</code>.
-Use the version for your operating system and processor; installation or permissions may be required.
-Do not assume an iPhone can install a reader from this drive while offline. Use the directly readable
-critical files on locked-down devices. EPUB support also depends on an available compatible viewer.</p>
-<h2>What is on this drive</h2>
+        + """<h2>What is on this drive</h2>
 <p><a href="INVENTORY.html">Inventory, sources, licenses, and verification status</a> ·
 <a href="SOURCE_NOTES.txt">Source limitations and license notes</a> ·
 <a href="README.txt">Plain-text instructions</a> · <a href="VERIFY.py">Independent verifier</a> ·
@@ -440,6 +458,7 @@ Coverage depends on the selected profile. Documents retain their original dates,
 """,
         "START_HERE.html",
         inline_search=search_ready,
+        heading=hero,
     )
 
     current = "INDEX/categories.html"
@@ -447,11 +466,11 @@ Coverage depends on the selected profile. Documents retain their original dates,
         f'<section id="{key}"><h2>{label}</h2>{_asset_list(groups[key], current)}</section>'
         for key, label in GROUPS
     )
-    pages[current] = _page("Browse by category", "<p>Files included in this build.</p>" + sections, current)
+    pages[current] = page("Browse by category", "<p>Files included in this build.</p>" + sections, current)
 
     current = "INDEX/critical.html"
     critical = [entry for entry in entries if entry.get("critical")]
-    pages[current] = _page(
+    pages[current] = page(
         "Critical content",
         "<p>Priority resources stored as ordinary files. No specialized archive reader is needed; "
         "use your device’s compatible file viewer. This includes critical textbooks and guides "
@@ -476,7 +495,7 @@ Coverage depends on the selected profile. Documents retain their original dates,
     ):
         current = f"INDEX/{key}.html"
         critical_count = sum(bool(entry.get("critical")) for entry in shelves[key])
-        pages[current] = _page(
+        pages[current] = page(
             title,
             f"<p>{introduction}</p><p>{len(shelves[key])} files · {critical_count} critical.</p>"
             + _asset_list(shelves[key], current),
@@ -484,7 +503,7 @@ Coverage depends on the selected profile. Documents retain their original dates,
         )
     for letter in LETTERS:
         current = f"INDEX/{letter}.html"
-        pages[current] = _page(
+        pages[current] = page(
             f"Titles: {letter}", _alphabet(current) + _asset_list(letters[letter], current), current
         )
 
@@ -511,7 +530,7 @@ Coverage depends on the selected profile. Documents retain their original dates,
         )
         if selection_details:
             content += '<h2>Selected collection coverage</h2><ul>' + selection_details + '</ul>'
-        pages[current] = _page(
+        pages[current] = page(
             title,
             _selection_notice(inventory, current)
             + content + '<p>See <a href="../INVENTORY.html">the inventory</a> for available files and '
@@ -539,7 +558,7 @@ Coverage depends on the selected profile. Documents retain their original dates,
             f'<td>{license_text}{attribution}</td><td>{_text(verification)}</td>'
             f'<td>{_text(search_status)}</td></tr>'
         )
-    pages["INVENTORY.html"] = _page(
+    pages["INVENTORY.html"] = page(
         "Library inventory",
         f"<p>{len(entries)} catalog assets. See <a href=\"INVENTORY.json\">the machine-readable inventory</a> "
         "for exact byte sizes, SHA-256 hashes, and search coverage.</p>"
@@ -639,11 +658,6 @@ This library is a reference collection, not a substitute for professional help.
             '<p>The atlas covers mapped material; category and title indexes retain all included files.</p></section>'
             '<h2>Books and learning collections</h2>', 1)
         pages["START_HERE.html"] = pages["START_HERE.html"].replace('<h2>Browse by topic</h2>', '<h2>Browse by category</h2>')
-        for relative in GENERATED_PATHS:
-            if relative.endswith(".html"):
-                anchor = f'<a href="{_href("START_HERE.html", relative)}">Start here</a>'
-                pages[relative] = pages[relative].replace(anchor, anchor +
-                    f'<a href="{_href("INDEX/topics.html", relative)}">Topic atlas</a>', 1)
         pages["README.txt"] += "\nHUMAN TOPIC INDEX\nOpen INDEX/topics.html for subjects, practical routes, and learning.\nTopic aliases and book contents work without JavaScript. Section links include\nvisible source locations for viewers that ignore PDF page or HTML fragments.\nSee INDEX/navigation-report.json for mapping coverage and gaps.\n"
     if not search_ready:
         pages["README.txt"] = pages["README.txt"].replace(
@@ -663,8 +677,6 @@ This library is a reference collection, not a substitute for professional help.
                    "VERIFY.py", "BUILD_INFO.json", "SHA256SUMS.txt"):
         pages["START_HERE.html"] = pages["START_HERE.html"].replace(
             f'href="{prefix}', f'href="LIBRARY/{prefix}')
-    pages["START_HERE.html"] = pages["START_HERE.html"].replace(
-        '<code>SOFTWARE/</code>', '<code>LIBRARY/SOFTWARE/</code>')
     pages["README.txt"] = pages["README.txt"].replace(
         "Open START_HERE.html", "Open ../START_HERE.html").replace(
         "Search on START_HERE.html", "Search on ../START_HERE.html").replace(

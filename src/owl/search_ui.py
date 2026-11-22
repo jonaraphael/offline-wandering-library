@@ -16,8 +16,11 @@ _END = "<!-- OWL_SEARCH_WIDGET_END -->"
 
 def render_search_page() -> str:
     """Return LIBRARY/SEARCH.html, including its shared widget."""
-    template = Path(__file__).with_name("templates").joinpath("search.html").read_text(encoding="utf-8")
-    return template.replace("__OWL_SEARCH_CSP__", escape(SEARCH_CSP, quote=True)).replace("__OWL_LIBRARY_PREFIX__", "")
+    templates = Path(__file__).with_name("templates")
+    template = templates.joinpath("search.html").read_text(encoding="utf-8")
+    return (template.replace("__OWL_SEARCH_CSP__", escape(SEARCH_CSP, quote=True))
+            .replace("__OWL_SITE_CSS__", templates.joinpath("site.css").read_text(encoding="utf-8"))
+            .replace("__OWL_LIBRARY_PREFIX__", ""))
 
 
 def render_search_widget(library_prefix: str = "") -> str:

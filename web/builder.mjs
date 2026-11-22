@@ -84,7 +84,7 @@ async function start(drive, {assets, excluded, partBytes, joinArchives, searchBu
   }
   const ordered = buildOrder(assets);
   if (singleArchives) {
-    // Place large archives early so their committed prefixes fit alongside a swap.
+    // Place large archives early so their verified parts can fit alongside the join swap.
     ordered.sort((a, b) => Number(b.format === "zim" && b.size_bytes > partBytes) * b.size_bytes -
       Number(a.format === "zim" && a.size_bytes > partBytes) * a.size_bytes);
   }
@@ -304,7 +304,7 @@ async function forgetParts(drive, state, asset, layout) {
   delete state.verified[asset.id];
 }
 
-async function buildAsset(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, fullVerify, network, archiveJournal}) {
+async function buildAsset(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, fullVerify, network}) {
   const pins = partPins(asset, layout, published, state.partBytes);
   const checkpoints = state.parts[asset.id] ||= [];
   let whole = sha256.create(), index = 0;
@@ -336,7 +336,7 @@ async function buildAsset(drive, state, asset, layout, {routes, published, fetch
   delete state.verified[asset.id];
   await save(drive, state);
 
-  const download = partDownloader(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network, archiveJournal});
+  const download = partDownloader(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network});
   for (; index < layout.length; index++) {
     const part = layout[index];
     let downloaded;
@@ -357,7 +357,7 @@ async function buildAsset(drive, state, asset, layout, {routes, published, fetch
   }
 }
 
-function partDownloader(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network, archiveJournal}) {
+function partDownloader(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network}) {
   const pins = partPins(asset, layout, published, state.partBytes);
   const choices = routesFor(asset, routes, published);
   const pin = publisherPin(published.publisherPieces, asset);
@@ -373,7 +373,7 @@ function partDownloader(drive, state, asset, layout, {routes, published, fetchFi
     const failures = new Set();
     if (ranged) {
       checkAlignment(pin, asset, part);
-      const journal = archiveJournal ? await pieceJournal(drive, asset, part, pin) : null;
+      const journal = await pieceJournal(drive, asset, part, pin);
       const notify = received => onProgress({kind: "downloading", ...progress, received, bytes: part.bytes});
       notify(0);
       await assertDrive(drive, state);
@@ -412,90 +412,6 @@ function partDownloader(drive, state, asset, layout, {routes, published, fetchFi
   };
 }
 
-// Chromium copies existing file data into a new on-volume swap. Before
-// reopening, cap the committed prefix so prefix + final swap can fit.
-export function archiveCheckpoints(bytes, partBytes, available) {
-  const maxParts = Math.max(0, Math.floor(Math.min(available - bytes, bytes / 2) / partBytes));
-  const checkpoints = [];
-  for (let part = 1; part < maxParts; part *= 4) checkpoints.push(part);
-  if (maxParts) checkpoints.push(maxParts);
-  return checkpoints;
-}
-
-async function buildSingleArchive(drive, state, asset, layout, available, options) {
-  const {signal, fullVerify} = options;
-  const [{path}] = joinedLayout(asset);
-  const prefix = state.prefixes[asset.id];
-  const file = await fileAt(drive, path);
-  let whole = sha256.create(), index = 0;
-  if (file?.size === asset.size_bytes &&
-      await readCheckpoint(file, asset.sha256, sha256.create(), signal)) {
-    state.joined[asset.id] = true;
-    delete state.prefixes[asset.id];
-    return;
-  }
-  const start = prefix && layout[prefix.count]?.start;
-  if (start > 0 && file?.size >= start) {
-    const prefixData = file.slice(0, start);
-    const restored = file.size === start && !fullVerify && restoreHash(prefix.hashState, start) ||
-      await readCheckpoint(prefixData, prefix.sha256, sha256.create(), signal);
-    if (restored) {
-      if (file.size !== start) {
-        // A previous close may have committed more bytes before the journal
-        // was saved. Keep the verified prefix and discard the unknown tail.
-        const writer = await (await fileHandle(drive, path)).createWritable({mode: "exclusive"});
-        try {
-          for await (const bytes of prefixData.stream()) {
-            signal?.throwIfAborted();
-            await writer.write(bytes);
-          }
-          await writer.close();
-        } catch (error) {
-          await writer.abort().catch(() => {});
-          throw error;
-        }
-      }
-      whole = restored;
-      index = prefix.count;
-    }
-  }
-  if (!index) {
-    await removeFile(drive, path);
-    delete state.prefixes[asset.id];
-  }
-  const download = partDownloader(drive, state, asset, layout, options);
-  const checkpoints = new Set(archiveCheckpoints(asset.size_bytes, state.partBytes, available));
-  let writable;
-  try {
-    while (index < layout.length) {
-      writable = await (await fileHandle(drive, path, true)).createWritable({mode: "exclusive", keepExistingData: index > 0});
-      do {
-        const part = layout[index];
-        const downloaded = await download(index, whole, async (source, transfer) => {
-          if (transfer.ranged) return transferRangedPart(asset, part, writable, {...transfer, writeOffset: part.start});
-          await writable.seek(part.start);
-          return transferPart(asset, part, source, writable, transfer);
-        });
-        whole = downloaded.next;
-        index++;
-      } while (index < layout.length && !checkpoints.has(index));
-      await writable.close();
-      writable = null;
-      if (index < layout.length) {
-        state.prefixes[asset.id] = {count: index, sha256: bytesToHex(whole.clone().digest()),
-          hashState: hashCheckpoint(whole)};
-      } else {
-        state.joined[asset.id] = true;
-        delete state.prefixes[asset.id];
-      }
-      await save(drive, state);
-    }
-  } catch (error) {
-    await writable?.abort().catch(() => {});
-    throw error;
-  }
-}
-
 function joinedLayout(asset) {
   return [{path: "LIBRARY/" + asset.destination, start: 0, bytes: asset.size_bytes}];
 }
@@ -519,7 +435,7 @@ async function checkJoined(drive, state, asset, layout, {fullVerify, signal}) {
   return false;
 }
 
-async function stageSingleArchive(drive, state, asset, layout, {signal, onProgress, published}) {
+async function prepareSingleArchive(drive, state, asset, layout, {signal, onProgress, published}) {
   const [{path}] = joinedLayout(asset);
   const file = await fileAt(drive, path);
   if (file?.size === asset.size_bytes && await readCheckpoint(file, asset.sha256, sha256.create(), signal)) {
@@ -631,6 +547,9 @@ export async function buildLibrary(drive, {assets, excluded = [], catalogAssets 
     partMb: +(state.partBytes / 1e6).toFixed(1), singleArchives: Boolean(state.singleArchives)});
   state.finished = false;
   if (resume) state.dropped = {};
+  // The page shows progress in bytes; later events give a position in this order.
+  onProgress({kind: "plan", files: ordered.map(asset => ({id: asset.id, bytes: asset.size_bytes,
+    done: Boolean(state.verified[asset.id])}))});
   const occupied = new Set(ordered.filter(asset => state.verified[asset.id] ||
     state.parts[asset.id]?.length || state.prefixes[asset.id] || state.joined[asset.id] ||
     state.stagedArchives[asset.id]).map(asset => asset.id));
@@ -646,25 +565,21 @@ export async function buildLibrary(drive, {assets, excluded = [], catalogAssets 
     try {
       const options = {routes, published, fetchFile, signal, onProgress: report, fullVerify, network};
       if (!await checkJoined(drive, state, asset, layout, {fullVerify, signal})) {
-        const available = state.archiveSpace - used;
-        const publisherPinned = Boolean(published.publisherPieces?.archives?.[asset.id]);
         const single = state.singleArchives && layout.length > 1;
-        if (single && !state.stagedArchives[asset.id] && publisherPinned && available >= 2 * asset.size_bytes) {
-          await stageSingleArchive(drive, state, asset, layout, options);
-        }
+        const wasStaged = state.stagedArchives[asset.id];
+        if (single && !wasStaged) await prepareSingleArchive(drive, state, asset, layout, options);
         if (state.joined[asset.id]) {
           await removeSplitParts(drive, layout);
-        } else if (single && !state.stagedArchives[asset.id]) {
-          await buildSingleArchive(drive, state, asset, layout, available, options);
         } else {
-          if (state.stagedArchives[asset.id]) {
+          if (single) {
             const [{path}] = joinedLayout(asset);
             if ((await fileAt(drive, path))?.size < asset.size_bytes) await removeFile(drive, path);
           }
-          options.archiveJournal = Boolean(state.stagedArchives[asset.id]) ||
-            available >= asset.size_bytes + layout[0].bytes;
           await buildAsset(drive, state, asset, layout, options);
-          if ((state.joinArchives || state.stagedArchives[asset.id]) && layout.length > 1) {
+          // Retrying an existing staged build lets users reclaim space without
+          // recalculating the original plan or redownloading the archive.
+          if (layout.length > 1 && (state.joinArchives || (single &&
+              (state.archiveSpace - used >= 2 * asset.size_bytes || resume && wasStaged)))) {
             await joinParts(drive, state, asset, layout, {signal, onProgress: report});
           }
         }
@@ -675,15 +590,19 @@ export async function buildLibrary(drive, {assets, excluded = [], catalogAssets 
       delete state.failures[asset.id];
     } catch (error) {
       signal?.throwIfAborted();
-      if (state.singleArchives && layout.length > 1 && (isNoSpace(error) || error.whole)) {
+      if (state.singleArchives && layout.length > 1 && error.whole) {
         await removeFile(drive, joinedLayout(asset)[0].path);
         delete state.prefixes[asset.id];
       }
       if (isNoSpace(error)) {
-        // Earlier files are higher priority. Reclaim this unfinished file's
-        // space and give the remaining, usually smaller files a chance to fit.
-        await forgetParts(drive, state, asset, layout);
-        delete state.stagedArchives[asset.id];
+        if (layout.length > 1 && publisherPin(published.publisherPieces, asset)) {
+          // Keep the verified archive bytes for a retry after space is freed.
+          used += asset.size_bytes;
+          delete state.verified[asset.id];
+        } else {
+          await forgetParts(drive, state, asset, layout);
+          delete state.stagedArchives[asset.id];
+        }
         state.dropped[asset.id] = "Drive ran out of space";
         delete state.failures[asset.id];
         report({kind: "dropped", asset, message: state.dropped[asset.id]});

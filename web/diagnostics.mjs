@@ -85,19 +85,14 @@ export function diagnosticsText() {
 
 function mount() {
   if (panel || typeof document === "undefined") return;
-  const anchor = document.getElementById("build-progress") || document.getElementById("start-build")?.parentElement;
-  if (!anchor) return;
-  panel = document.createElement("details");
+  const slot = document.getElementById("diagnostics-slot");
+  if (!slot) return;
+  panel = document.createElement("div");
   panel.id = "download-diagnostics";
-  panel.open = true;
-  panel.style.cssText = "margin:1rem 0;padding:.6rem .8rem;border:1px solid currentColor;border-radius:8px;font-size:.78rem";
-  const summary = document.createElement("summary");
-  summary.textContent = "Download diagnostics";
-  summary.style.cursor = "pointer";
   const copy = document.createElement("button");
   copy.type = "button";
+  copy.className = "btn";
   copy.textContent = "Copy diagnostics";
-  copy.style.margin = ".5rem 0";
   copy.addEventListener("click", async () => {
     const text = diagnosticsText();
     try {
@@ -116,11 +111,8 @@ function mount() {
   });
   summaryBox = document.createElement("pre");
   logBox = document.createElement("pre");
-  for (const box of [summaryBox, logBox]) box.style.cssText = "white-space:pre-wrap;margin:.4rem 0;font:11px/1.35 ui-monospace,monospace";
-  logBox.style.maxHeight = "22rem";
-  logBox.style.overflow = "auto";
-  panel.append(summary, copy, summaryBox, logBox);
-  anchor.after(panel);
+  panel.append(copy, summaryBox, logBox);
+  slot.append(panel);
 }
 
 function render() {

@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 import sys
 
 from .atlas_model import load_navigation
@@ -74,93 +75,33 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
             "resources_sha256": hashlib.sha256(resources_path.read_bytes()).hexdigest(),
             "capacity_policy": capacity_policy, "profiles": visible, "resources": sorted(resources.values(), key=lambda r: ({"CRITICAL": 0, "USEFUL": 1, "NONESSENTIAL": 2}.get(r.get("utility_tier"), 3), r.get("number") or 1000, r["id"])),
             "topic_verticals": json.loads(Path(__file__).with_name("topic_verticals.json").read_text())["verticals"],
+            "collection_copy": {identity: entry for identity, entry in json.loads(
+                Path(__file__).with_name("collection_copy.json").read_text(encoding="utf-8"))["collections"].items()
+                if identity in resources},
             "acquisition_recipes": read_yaml(catalog).get("acquisition_recipes", []),
             "assets": [{**{key: a[key] for key in fields if key in a}, **({"discovery": discovery[a["id"]]} if a["id"] in discovery else {})} for a in assets]}
 
 
-def _pages_template(template: str) -> str:
-    web = ROOT / "web"
+def _mode(template: str, pages: bool) -> str:
+    """Keep the blocks for one page: the hosted builder or the offline planner."""
+    keep, drop = ("PAGES", "OFFLINE") if pages else ("OFFLINE", "PAGES")
+    template = re.sub(rf"[ \t]*<!-- {drop} -->.*?<!-- /{drop} -->\n?", "", template, flags=re.S)
+    template = re.sub(rf"[ \t]*<!-- /?{keep} -->\n?", "", template)
+    if not pages:
+        return template
     guide = "https://github.com/jonaraphael/offline-wandering-library/blob/main/README.md"
-    template = template.replace("href=\"README.md\"", f'href="{guide}"')
-    template = template.replace("script-src 'unsafe-inline'", "script-src 'self' 'unsafe-inline'")
-    template = template.replace("connect-src 'none'", "connect-src 'self' https:")
-    template = template.replace("<html lang=\"en\">", '<html lang="en" class="pages">')
-    template = template.replace("</style>", (web / "pages.css").read_text(encoding="utf-8") + "</style>", 1)
-    template = template.replace('<span class="offline-pill">Works offline</span>', "")
-    template = template.replace(
-        'Start with a drive size, choose your collections, then copy the build command. '
-        '<strong>Everything here is a plan.</strong> This page runs no commands and downloads no content.',
-        'Connect an external drive, review the recommended files and build your offline library.',
-    )
-    template = template.replace('<span class="step">1</span>Pick a starting size', "Choose a drive")
-    template = template.replace('<span class="step">2</span>Choose your collections', "Choose your collections")
-    template = template.replace('<p class="stat-caption">', '<p id="browser-file-total" class="stat-caption">', 1)
-    for technical, plain in {
-        "Reader / software files, exact": "Apps for reading archives",
-        "Supporting files, exact": "Supporting files",
-        "Build downloads, exact": "Data to download",
-        "Expanded archive files, exact": "Files unpacked from ZIPs",
-        "Generated editions, exact": "Files the Python builder makes",
-        "Selected files on disk, exact": "Size of all selected files",
-        "Knowledge allocation, planned": "Space set aside for books and archives",
-        "Unmet knowledge budget": "Space left for more books and archives",
-        "Navigation / metadata": "Start page and shelf space",
-        "Content generation work and repair allowance": "Workspace for the Python builder",
-        "Free-space reserve": "Space left free",
-        "Planned finished files, before reserve": "Estimated finished library size",
-        "In-place peak reference, with reserve": "Most space the Python build may need",
-        "Available-file in-place reference": "Space needed for files available now",
-    }.items():
-        template = template.replace(technical, plain)
-    template = template.replace("Downloadable knowledge</dt>", "Files for this build</dt>", 1)
-    template = template.replace("Downloadable knowledge</span>", "Files for this build</span>", 1)
-    template = template.replace('<p id="meter-caption"', '<p role="status" id="meter-caption"')
-    template = template.replace('for="capacity-gb">Drive capacity in decimal GB', 'for="capacity-gb">Drive size in GB')
-    template = template.replace('>Commands</a>', '>Build</a>').replace('href="#commands-heading">Build', 'href="#drive-build-heading">Build')
-    template = template.replace('OWL · No accounts, cloud services, or network requests in this planner.<br>'
-                                'Save the command with your catalog snapshot, then verify the finished SSD.',
-                                '<a href="mirror-credits.txt">Source credits</a> · '
-                                '<a href="SELECT.html">Offline planner</a>')
-    for technical, plain in {
-        "Defaults prioritize CRITICAL survival knowledge and USEFUL trades, repair and school education. "
-        "NONESSENTIAL stories, college study and computing are opt-in. Larger drives leave room for your choices; "
-        "their capacity is not a promise of that much content.":
-            "The recommendation includes first aid, practical guides, school material and reading for pleasure.",
-        "The list below follows your topic selection. Subtopics and search terms reuse the library’s pseudoindexes, "
-        "with catalog topic tags as a fallback. Positions do not analyze document text. A dot represents one file; "
-        "a large ZIM may contain thousands of articles.":
-            "Each dot is a file. An archive can hold thousands of articles.",
-        "Uncompressed content in selected files matching your filters. ≈ marks estimates. "
-        "Actual drive usage stays based on stored files.": "Space used by the selected files shown below.",
-        "Status describes source metadata, not downloaded files.": "",
-        "<option>CRITICAL</option><option>USEFUL</option><option>NONESSENTIAL</option>":
-            '<option value="CRITICAL">Survival essentials</option><option value="USEFUL">Practical and school</option>'
-            '<option value="NONESSENTIAL">Further reading</option>',
-        "</i>CRITICAL": "</i>Survival essentials",
-        "</i>USEFUL": "</i>Practical and school",
-        "</i>NONESSENTIAL": "</i>Further reading",
-        "Choose a dot to inspect its title, priority and topics, then include or exclude that file.": "Choose a dot to see a file or change your selection.",
-    }.items():
-        template = template.replace(technical, plain)
-    return template.replace(
-        '<script id="owl-model" type="application/json">__OWL_MODEL__</script>',
-        '<script>globalThis.OWLBuildPage = import("./builder-ui.mjs");</script>',
-    ).replace(
-        "<!-- OWL_DRIVE_PICKER -->", (web / "drive-picker.html").read_text(encoding="utf-8"),
-    ).replace(
-        "<!-- OWL_DRIVE_BUILD -->", (web / "drive-build.html").read_text(encoding="utf-8") +
-        '\n<details class="panel" id="desktop-tool"><summary>Desktop tool instructions</summary>'
-        '<p class="field-help">To add files that this browser cannot download, pick them in the '
-        '<a href="SELECT.html">full-catalog planner</a>. The build guide explains how to run the desktop tool.</p>',
-    ).replace(
-        "<!-- OWL_ACCOUNTING_START -->", '<details class="warning-details"><summary>Storage details</summary>',
-    ).replace(
-        "<!-- OWL_ACCOUNTING_END -->", "</details>",
-    ).replace(
-        '<span class="step">3</span>Take this plan to your terminal', "Build with Python",
-    ).replace(
-        '<section class="panel"><h3>Finished downloads</h3>', '</details><section class="panel legacy-help"><h3>Finished downloads</h3>',
-    )
+    for offline, hosted in (
+        ('href="README.md"', f'href="{guide}"'),
+        ("script-src 'unsafe-inline'", "script-src 'self' 'unsafe-inline'"),
+        ("connect-src 'none'", "connect-src 'self' https:"),
+        ('<script id="owl-model" type="application/json">__OWL_MODEL__</script>',
+         '<script>globalThis.OWLBuildPage = import("./builder-ui.mjs");</script>'),
+        ("<!-- OWL_KIWIX_QR -->", (ROOT / "web/kiwix-ios-qr.svg").read_text(encoding="utf-8").strip()),
+    ):
+        if offline not in template:
+            raise ValueError(f"Selector template is missing {offline!r}")
+        template = template.replace(offline, hosted)
+    return template
 
 
 def render_selector(model: dict, *, pages: bool = False) -> str:
@@ -171,11 +112,7 @@ def render_selector(model: dict, *, pages: bool = False) -> str:
     engine = (TEMPLATES / "selector.js").read_text(encoding="utf-8") + "\n" + (TEMPLATES / "selector-map.js").read_text(encoding="utf-8")
     if template.count("__OWL_MODEL__") != 1 or template.count("__OWL_ENGINE__") != 1:
         raise ValueError("Selector template requires exactly one model and engine placeholder")
-    if pages:
-        template = _pages_template(template)
-    else:
-        for marker in ("DRIVE_PICKER", "DRIVE_BUILD", "ACCOUNTING_START", "ACCOUNTING_END"):
-            template = template.replace(f"<!-- OWL_{marker} -->\n", "")
+    template = _mode(template, pages)
     return template.replace("__OWL_ENGINE__", engine).replace("__OWL_MODEL__", data)
 
 

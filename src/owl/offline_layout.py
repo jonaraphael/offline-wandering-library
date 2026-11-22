@@ -39,9 +39,9 @@ def emergency_routes(assets, href, archive_href):
                     task=escape(task), href=archive_href(destination), title=escape(title), path=path,
                     entries="".join(render("archive_task_entry", title=escape(name), path=escape(locator))
                                     for name, locator in entries)))
-                title = " / ".join(name for name, _ in entries)
-                hint = ", ".join(locator for _, locator in entries) + " in Kiwix"
-            rows.append(render("task_link", task=escape(task), title=escape(title),
+                title = title + ": " + " / ".join(name for name, _ in entries)
+                hint = "opens in the Kiwix app"
+            rows.append(render("task_link", task=escape(task), title=escape(title), icon=layout()["task_icons"][index - 1],
                                href=target, path=path, hint=f" · {escape(hint)}" if hint else ""))
             break
         else:
