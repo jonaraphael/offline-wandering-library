@@ -122,7 +122,7 @@ class NavigationTests(unittest.TestCase):
         expected = self.generate(assets)
         for _ in range(2):
             written = generate_navigation(self.target, assets, {'assets': assets}, {})
-            self.assertEqual(expected, {key: managed_path(self.target, key).read_text() for key in written})
+            self.assertEqual(expected, {key: managed_path(self.target, key).read_text(encoding='utf-8') for key in written})
         self.assertEqual(self.target.joinpath('personal.txt').read_text(), 'Keep this')
 
     def test_entry_points_to_the_hash_of_the_generation_and_publishes_last(self):

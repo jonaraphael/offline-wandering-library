@@ -22,7 +22,8 @@ globalThis.document = {getElementById: () => null};
 ''' + engine + r'''
 if (typeof globalThis.OWLPlanner === 'undefined' && typeof OWLPlanner === 'undefined') throw Error('Planner engine did not load');
 ''')
-        result = subprocess.run([shutil.which('node'), '-e', code], encoding='utf-8', capture_output=True, timeout=30)
+        # The engine is longer than a Windows command line allows, so it goes in on standard input.
+        result = subprocess.run([shutil.which('node'), '-'], input=code, encoding='utf-8', capture_output=True, timeout=30)
         self.assertEqual(result.returncode, 0, result.stderr)
 
 

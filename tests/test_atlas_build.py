@@ -115,7 +115,7 @@ class AtlasBuildTests(AtlasBuildFixture):
         first = {p: (self.library / p).read_bytes() for p in report["generated_files"]}
         self.atlas()
         self.assertEqual(first, {p: (self.library / p).read_bytes() for p in first})
-        self.assertEqual(json.loads((self.library / 'SEARCH/coverage.json').read_text())['source_body_bytes_read'], 0)
+        self.assertEqual(json.loads((self.library / 'SEARCH/coverage.json').read_text(encoding='utf-8'))['source_body_bytes_read'], 0)
         self.check_verified()
 
 
@@ -151,9 +151,9 @@ class AtlasBuildTests(AtlasBuildFixture):
         with patch.object(Path, 'open', guard):
             self.atlas(metadata_only=True)
         self.check_verified()
-        info = json.loads((self.library / 'BUILD_INFO.json').read_text())
+        info = json.loads((self.library / 'BUILD_INFO.json').read_text(encoding='utf-8'))
         self.assertIn('Not repeated', info['source_verification'])
-        self.assertEqual(info['search'], json.loads((self.library / 'SEARCH/coverage.json').read_text()))
+        self.assertEqual(info['search'], json.loads((self.library / 'SEARCH/coverage.json').read_text(encoding='utf-8')))
 
     def test_full_builder_integrates_atlas_and_disabling_removes_labels(self):
         self.run_build(navigation_dir=self.nav, strict_coverage=True)
@@ -195,8 +195,8 @@ class AtlasBuildTests(AtlasBuildFixture):
         with patch("owl.build.download", side_effect=AssertionError("no downloads")):
             self.atlas(profile="test", strict_coverage=True)
         self.assertTrue((self.library / "SEARCH/manifest.js").exists())
-        self.assertIn('id="reader-view"', (self.drive / "START_HERE.html").read_text())
-        coverage = json.loads((self.library / "SEARCH/coverage.json").read_text())
+        self.assertIn('id="reader-view"', (self.drive / "START_HERE.html").read_text(encoding='utf-8'))
+        coverage = json.loads((self.library / "SEARCH/coverage.json").read_text(encoding='utf-8'))
         self.assertEqual(coverage['source_body_bytes_read'], 0)
         self.check_verified()
 

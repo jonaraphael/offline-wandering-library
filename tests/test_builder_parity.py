@@ -68,7 +68,7 @@ class BuilderParityTests(unittest.TestCase):
                            cwd=ROOT, capture_output=True, text=True)
             self.assertEqual(completed.returncode, 0, completed.stderr)
             native, web = (directory / name for name in ('cli', 'browser'))
-            record = json.loads((web / 'LIBRARY/.owl/browser-build.json').read_text())
+            record = json.loads((web / 'LIBRARY/.owl/browser-build.json').read_text(encoding='utf-8'))
 
             def dated_reader(target, assets, inventory, report, **kwargs):
                 return generate_navigation(target, assets, {**inventory, 'syncedAt': record['syncedAt']}, report, **kwargs)
