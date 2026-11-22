@@ -41,14 +41,14 @@ class CapacityBudgetTests(unittest.TestCase):
         (target / self.asset['destination']).write_bytes(self.source.read_bytes())
         return target
 
-    def test_flash_command_fits_a_1546_gb_drive_and_builds(self):
+    def test_flash_command_fits_a_153_gb_drive_and_builds(self):
         profile = {**self.profile, 'id': 'flash-16gb', 'capacity_bytes': 15_875_000_000,
                    'nominal_capacity_bytes': 16_000_000_000, 'discovery_budget_bytes': 200_000_000,
                    'reserve_bytes': 125_000_000, 'default_resources': ['core', 'optional', 'archive-readers']}
         (self.profiles / 'flash-16gb.yaml').write_text(yaml.safe_dump(profile), encoding='utf-8')
         assets = [{**self.asset, 'profiles': [], 'utility_tier': 'CRITICAL'},
                   {**self.asset, 'id': 'optional', 'profiles': [], 'destination': 'BOOKS/optional.txt',
-                   'size_bytes': 15_145_000_000, 'utility_tier': 'NONESSENTIAL'},
+                   'size_bytes': 15_000_000_000, 'utility_tier': 'NONESSENTIAL'},
                   {**self.asset, 'id': 'reader', 'profiles': [], 'destination': 'SOFTWARE/reader.zip',
                    'format': 'zip', 'utility_tier': 'USEFUL'}]
         self.catalog.write_text(yaml.safe_dump({'schema_version': 1, 'assets': assets}), encoding='utf-8')
@@ -63,16 +63,22 @@ class CapacityBudgetTests(unittest.TestCase):
         target.mkdir()
         argv = [str(target), '--catalog', str(self.catalog), '--profiles-dir', str(self.profiles),
                 '--profile', 'flash-16gb', '--allow-local']
-        with patch('owl.build.shutil.disk_usage', return_value=SimpleNamespace(free=15_460_000_000)), \
-                patch('sys.stdout') as stdout:
+        with patch('owl.build.shutil.disk_usage', return_value=SimpleNamespace(free=15_300_000_000)), \
+                patch('sys.stdout') as stdout, patch('sys.stderr') as stderr:
+            self.assertEqual(main([*argv, '--plan', '--capacity-bytes', '16000000000']), 1)
+            diagnostic = ''.join(call.args[0] for call in stderr.write.call_args_list)
+            self.assertIn('Largest capacity available for this library: 15,300,000,000 bytes.', diagnostic)
+            self.assertIn("python scripts/build_drive.py", diagnostic)
+            self.assertRegex(diagnostic, r"--capacity-bytes[' ]+15300000000")
+            self.assertEqual(main([*argv, '--plan', '--capacity-bytes=15300000000']), 0)
             self.assertEqual(main([*argv, '--plan']), 0)
             self.assertFalse((target / 'START_HERE.html').exists())
             self.assertEqual(main(argv), 0)
-        self.assertIn('Fitting the flash-16gb recommendation to 15,460,000,000 free bytes',
+        self.assertIn('Fitting the flash-16gb recommendation to 15,300,000,000 free bytes',
                       ''.join(call.args[0] for call in stdout.write.call_args_list))
         info = json.loads((target / 'LIBRARY/BUILD_INFO.json').read_bytes())
         self.assertTrue(info['content_complete'])
-        self.assertEqual(info['profile']['nominal_capacity_bytes'], 15_460_000_000)
+        self.assertEqual(info['profile']['nominal_capacity_bytes'], 15_300_000_000)
         self.assertTrue((target / 'LIBRARY/BOOKS/book.txt').is_file())
         self.assertFalse((target / 'LIBRARY/BOOKS/optional.txt').exists())
         tiny = self.root / 'small-drive'

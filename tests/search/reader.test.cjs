@@ -10,6 +10,7 @@ const paraphrases = require('./emergency-paraphrases.json');
 const original = require('./queries.json');
 const emergencySamples = require('./section-emergency-queries.json');
 const semanticSamples = require('./semantic-emergency-queries.json');
+const round5 = require('./round5-queries.json');
 
 test('reviewed routes distinguish similar emergencies and respect selected guide availability', () => {
   const documents = new Map([
@@ -114,6 +115,87 @@ test('reviewed gaps lead to the pinned condition or hazard page', () => {
 });
 
 const reader = process.env.OWL_SEARCH_READER;
+const negationCases = round5.emergency.filter(sample => sample.excluded);
+
+test('reviewed routes discard negated and historical clues and keep independent active situations', () => {
+  const {reviewedGuides} = require('../../src/owl/templates/search.js');
+  const documents = new Map(Object.values(sections.sources).map(([id]) => [id, {
+    id, href: id + (id === 'wikimed_en' ? '.zim' : '.pdf'),
+  }]));
+  const samples = [...round5.routingGate, ...round5.emergency];
+  for (const {query, topics, excluded = [], allTopics} of samples) {
+    const actual = reviewedGuides(documents, query).map(guide => guide.topic);
+    assert.ok(allTopics ? topics.every(topic => actual.includes(topic)) : topics.includes(actual[0]), query);
+    assert.ok(excluded.every(topic => !actual.includes(topic)), query);
+  }
+});
+
+test('16 GB reader keeps current guides, shows excerpt credit and corrects zero-hit spelling', {
+  skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
+}, async () => {
+  const {chromium} = require('playwright-core');
+  const {measure, searchUrl, grade} = require('../../scripts/search_timing.cjs');
+  const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
+  try {
+    const url = searchUrl(reader);
+    for (const sample of [...round5.routingGate, ...negationCases, ...round5.emergency.filter(row => row.allTopics)]) {
+      const result = await measure(browser, url, sample.query);
+      assert.ok(grade(sample, result).good, JSON.stringify(result));
+      assert.ok(result.emergency);
+      if (!sample.allTopics) assert.ok(sample.topics.includes(result.cards[0].topic), JSON.stringify(result));
+    }
+    console.log('Reader routing: both reported failures and controls, 10 new negation or history cases, and independent guides passed.');
+
+    const credited = await measure(browser, url, 'light dependent reactions of photosynthesis');
+    const passage = credited.cards.find(card => /OpenStax_concepts-biology\.pdf/i.test(card.href) && card.excerpt);
+    assert.ok(passage, JSON.stringify(credited));
+    assert.match(passage.credit, /Access for free at openstax\.org/i);
+    assert.match(passage.credit, /CC[- ]BY/i);
+    console.log('Reader attribution: visible OpenStax credit and license accompany the excerpt.');
+
+    const sample = round5.spellingGate;
+    const corrected = await measure(browser, url, sample.query);
+    assert.ok(grade(sample, corrected).good, JSON.stringify(corrected));
+    assert.equal(corrected.correction, 'Showing results for “diarrhea in children”.');
+    console.log('Reader spelling: ' + corrected.correction + ' ' + corrected.cards[0].title);
+  } finally {
+    await browser.close();
+  }
+});
+
+test('16 GB reader meets the frozen round 5 recall and practical-search timing floors', {
+  skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
+}, async () => {
+  const {chromium} = require('playwright-core');
+  const {measure, searchUrl, measureRound5} = require('../../scripts/search_timing.cjs');
+  const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
+  try {
+    const url = searchUrl(reader);
+    assert.equal(round5.emergency.length, 20);
+    assert.equal(negationCases.length, 8);
+    assert.equal(round5.practical.length, 10);
+    assert.equal(round5.misspelled.length, 10);
+    const summary = await measureRound5(browser, url);
+    assert.ok(summary.good >= 34);
+    assert.equal(summary.emergency_empty, 0);
+    assert.equal(summary.negation_failures, 0);
+    assert.ok(summary.practical.max_complete_ms <= 3000);
+    for (const {query, title} of round5.practicalGate) {
+      const result = await measure(browser, url, query);
+      assert.match(result.cards[0].title, new RegExp(title, 'iu'), JSON.stringify(result));
+      if (query === 'how to can green beans') {
+        assert.equal(result.cards[0].title, 'Snap and Italian Beans');
+        assert.match(result.cards[0].href, /USDA_Canning_04_Vegetables_2015\.pdf#page=9$/);
+      }
+      assert.ok(result.complete_ms <= 3000, JSON.stringify(result));
+      console.log('Reader practical: ' + query + ' → ' + result.cards[0].title + ' (' +
+        result.complete_ms + ' ms, ' + result.bytes + ' bytes).');
+    }
+  } finally {
+    await browser.close();
+  }
+});
+
 test('16 GB offline reader meets the emergency recall floors and checks paraphrases in the first card', {
   skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
 }, async () => {

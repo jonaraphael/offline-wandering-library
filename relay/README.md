@@ -6,8 +6,10 @@ requests from `https://jonaraphael.github.io`. It is a pass-through for a fixed
 allowlist of catalog IDs and exact URLs. It stores nothing. The Worker
 validates ranges, declines publisher redirects, strips cookies and streams
 with caching disabled. Browser clients check the returned bytes against the
-catalog SHA-256. The rate limiter counts requests per IP and Cloudflare
-location.
+catalog SHA-256. The rate limiter allows 1,800 requests per minute per IP
+and Cloudflare location. Sync uses up to eight concurrent 4 MiB archive
+requests. Use 600 requests per minute as a conservative ceiling for the
+observed Sync rate. Three times that ceiling is 1,800 requests per minute.
 
 ## Deploy and roll back
 
@@ -99,15 +101,34 @@ separate allowlist governs the exact routes it can serve.
 
 ## Cloudflare plan and publisher terms
 
-A decimal 1 TB transfer in 4 MiB requests takes about 238,419 Worker
-invocations before retries. Workers Free allows 100,000 requests per day
-and 10 ms CPU per invocation. Workers Paid currently starts at USD 5 per
-month with 10 million standard requests included, 30 seconds of CPU per
-invocation by default and no per-byte egress charge. Both plans have
-128 MB of Worker memory and no enforced response-body size limit for
-streaming. Cloudflare’s CDN cache limits are 512 MB on Free, Pro and
-Business and 5 GB on Enterprise. The relay disables caching and streams
-the response. [Workers limits](https://developers.cloudflare.com/workers/platform/limits/) ·
+Assume Workers Free until the owner confirms the account plan. Free allows
+100,000 requests per day across the account and 10 ms of CPU per invocation.
+For an archive transfer entirely through the relay, divide decimal bytes by
+4,194,304 (4 MiB) and round up.
+
+| Transfer | Calculation | Requests |
+| --- | ---: | ---: |
+| 16 GB | ⌈16,000,000,000 ÷ 4,194,304⌉ | 3,815 |
+| 64 GB | ⌈64,000,000,000 ÷ 4,194,304⌉ | 15,259 |
+| 256 GB | ⌈256,000,000,000 ÷ 4,194,304⌉ | 61,036 |
+| 1 TB | ⌈1,000,000,000,000 ÷ 4,194,304⌉ | 238,419 |
+
+These estimates exclude retries, route samples and rounding for separate
+archives. Direct publisher downloads and Pages mirrors use no Worker
+requests. A 1 TB transfer entirely through the relay needs more than two
+full Free daily allowances. The per-IP limit applies separately.
+
+To check the plan, sign in to the Cloudflare dashboard, select the account
+that owns the relay and open **Workers & Pages → Plans**. To upgrade, select
+**Workers Paid** and confirm billing for that account. [Cloudflare dashboard](https://dash.cloudflare.com/)
+
+Workers Paid starts at USD 5 per month. It removes the Free daily request
+cap and includes 10 million requests per month, with USD 0.30 per additional
+million. The default CPU time limit rises to 30 seconds per request. Workers
+charges no per-byte egress fee. Both plans have 128 MB of Worker memory and
+stream response bodies without an enforced size limit. Cloudflare's CDN
+cache limits are 512 MB on Free, Pro and Business and 5 GB on Enterprise.
+The relay disables caching. [Workers limits](https://developers.cloudflare.com/workers/platform/limits/) ·
 [Workers pricing](https://developers.cloudflare.com/workers/platform/pricing/)
 
 Cloudflare’s Free, Pro and Business CDN terms require an eligible paid

@@ -9,7 +9,8 @@ import {assembleLibrary} from "../web/offline.mjs";
 import {measureFreeSpace, writeFile} from "../web/drive.mjs";
 import {createNetwork} from "../web/network.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
-import {completionState, estimateLabelCapacity, probesCapacity, warnBeforeLeaving} from "../web/builder-ui.mjs";
+import {completionState, estimateLabelCapacity, probesCapacity, relayLimitMessage, reportedDriveCapacity,
+  warnBeforeLeaving} from "../web/builder-ui.mjs";
 
 globalThis.crypto ||= webcrypto;
 const MiB = 2 ** 20;
@@ -329,6 +330,197 @@ test("completion distinguishes zero knowledge files, partial content and install
     {mode: "done", extra: "1 encyclopedia kept in parts."});
 });
 
+test("failed Kiwix apps leave the books ready and are reported as missing support", async () => {
+  const body = Buffer.from("field guide");
+  const book = asset("book", body);
+  const app = asset("kiwix_linux", Buffer.from("app"), {title: "Kiwix reader app for Linux", destination: "SOFTWARE/LINUX/kiwix"});
+  const drive = new Directory();
+  const result = await buildLibrary(drive, {assets: [book, app],
+    routes: {book: ["https://example.test/book"], kiwix_linux: ["https://example.test/app"]},
+    fetchFile: async url => url.endsWith("/book") ? new Response(body) : new Response(null, {status: 404})});
+  assert.deepEqual(result.completed.map(row => row.id), ["book"]);
+  const read = async path => (await (await drive.file(path)).getFile()).text();
+  const info = JSON.parse(await read("LIBRARY/BUILD_INFO.json"));
+  assert.equal(info.content_complete, true);
+  assert.equal(info.selected_count, info.asset_count);
+  assert.equal(info.support_complete, false);
+  assert.deepEqual(info.support_missing, [{kind: "app", id: app.id, title: app.title, reason: "example.test — HTTP 404"}]);
+  assert.deepEqual(result.supportMissing, info.support_missing);
+  assert.match(await read("LIBRARY/BUILD_REPORT.html"), /Kiwix reader app for Linux/);
+  const completion = completionState(result);
+  assert.equal(completion.mode, "done-gaps");
+  assert.equal(completion.title, "Ready, with 1 item missing");
+  assert.match(completion.message, /Kiwix opens the encyclopedias on this drive/);
+});
+
+test("free space on a partly full drive is used directly with any space OWL already holds", () => {
+  assert.equal(reportedDriveCapacity(4, "GB", 0), 4e9);
+  assert.equal(estimateLabelCapacity(16e9), 14.4e9);
+  assert.equal(reportedDriveCapacity(4, "GB", 2e9), 6e9);
+  assert.equal(reportedDriveCapacity(4.5, "GiB", GiB), 5.5 * GiB);
+  assert.equal(reportedDriveCapacity(0, "GB", 0), 0);
+  assert.equal(reportedDriveCapacity(NaN, "GB", 0), undefined);
+});
+
+test("the relay notice counts 4 MiB archive pieces and one request per smaller relay file", () => {
+  const url = "https://relay.test/assets/";
+  const routes = {report: [url + "report"], direct: ["https://publisher.test/paper.pdf"]};
+  const published = {archiveRelay: {large: [url + "large"], finished: [url + "finished"]}};
+  const row = (id, format, bytes) => ({asset: {id, format}, bytes});
+  const borderline = [row("large", "zim", 80_000 * 4 * MiB), row("finished", "zim", 0),
+    row("direct", "pdf", MiB), row("same-origin", "zim", 1e12)];
+  assert.equal(relayLimitMessage(borderline, routes, published), "");
+  assert.match(relayLimitMessage([...borderline, row("report", "pdf", MiB)], routes, published), /more than a day/);
+  assert.match(relayLimitMessage([row("large", "zim", 80_000 * 4 * MiB + 1)], routes, published), /no daily download limit/);
+});
+
+function relayFixture() {
+  const body = Buffer.from("verified guide");
+  const relay = "https://relay.test/assets/";
+  const direct = "https://publisher.test/guide";
+  const page = "https://pages.test/.nojekyll";
+  const ids = ["a-relay", "b-relay", "c-relay", "d-relay", "x-mixed", "z-direct"];
+  const assets = ids.map(id => asset(id, body));
+  const routes = Object.fromEntries(ids.slice(0, 5).map(id => [id, [relay + id]]));
+  routes["x-mixed"].push(direct);
+  routes["z-direct"] = [direct];
+  const drive = new Directory();
+  const requests = [];
+  let down = true, offline = false, throttle = false;
+  async function fetchFile(url, {method, mode, headers} = {}) {
+    requests.push({url, method, mode, range: headers?.Range});
+    if (offline) throw new TypeError("The whole network is offline");
+    if (url === page || method === "HEAD") return new Response(null, {status: 204});
+    if (url.startsWith(relay)) {
+      if (down) throw new TypeError("The platform error page has no CORS header");
+      if (throttle) {
+        throttle = false;
+        return new Response(null, {status: 429, headers: {"Retry-After": "7", "Access-Control-Allow-Origin": "https://pages.test"}});
+      }
+      if (headers?.Range) return new Response(body.subarray(0, 1), {status: 206});
+    }
+    return new Response(body);
+  }
+  function network(options = {}) {
+    return createNetwork({fetchFile, retryMs: 0, probeURL: page, online: () => !offline, ...options});
+  }
+  const info = async () => JSON.parse(await (await (await drive.file("LIBRARY/BUILD_INFO.json")).getFile()).text());
+  return {drive, assets, routes, fetchFile, network, info, requests, relay, direct, page,
+    up() { down = false; }, offline(value) { offline = value; }, throttle() { throttle = true; }};
+}
+
+test("a CORS-less relay outage defers distinct files, downloads alternatives, and probes until it can resume", async t => {
+  const fixture = relayFixture();
+  let now = Date.parse("2026-11-22T23:29:00Z");
+  t.mock.method(Date, "now", () => now);
+  const events = [], delays = [];
+  const network = fixture.network();
+  network.delay = async ms => {
+    now += ms || 0;
+    if (!ms) return;
+    delays.push(ms);
+    const saved = await readBuild(fixture.drive);
+    assert.deepEqual(saved.failures, {});
+    assert.equal(saved.pending, true);
+    assert.deepEqual(new Set(saved.relayDeferred), new Set(["a-relay", "b-relay", "c-relay", "d-relay"]));
+    assert.deepEqual(Object.keys(saved.installed).sort(), ["x-mixed", "z-direct"]);
+    assert.deepEqual((await fixture.info()).missing.map(row => row.reason), Array(4).fill("waiting for the download relay"));
+    if (delays.length === 3) fixture.up();
+  };
+  const result = await buildLibrary(fixture.drive, {...fixture, network, onProgress: event => events.push(event)});
+  assert.deepEqual(delays, [15 * 60_000, 15 * 60_000, 6 * 60_000]);
+  const waits = events.filter(row => row.kind === "waiting-relay");
+  assert.equal(waits.length, 3);
+  assert.equal(waits[0].hours, 1);
+  assert.ok(events.findIndex(row => row.kind === "verified" && row.asset.id === "z-direct") < events.indexOf(waits[0]));
+  assert.ok(!events.some(row => row.kind === "failed" || row.kind === "waiting-network"));
+  const probes = fixture.requests.filter(row => row.range);
+  assert.equal(probes.length, 3);
+  assert.ok(probes.every(row => row.url === fixture.relay + "a-relay" && row.range === "bytes=0-0" && row.mode === "cors"));
+  const firstProbe = fixture.requests.indexOf(probes[0]);
+  const beforeProbe = fixture.requests.slice(0, firstProbe);
+  assert.deepEqual(new Set(beforeProbe.filter(row => row.url.startsWith(fixture.relay)).map(row => row.url)),
+    new Set(["a-relay", "b-relay", "c-relay"].map(id => fixture.relay + id)));
+  assert.ok(beforeProbe.some(row => row.url === fixture.page && row.method === "HEAD"));
+  assert.ok(beforeProbe.some(row => row.url === fixture.direct && row.method === "HEAD"));
+  assert.equal(fixture.requests.filter(row => row.url === fixture.direct && row.method !== "HEAD").length, 2);
+  assert.equal(result.state.finished, true);
+  assert.equal(result.completed.length, fixture.assets.length);
+  assert.deepEqual((await fixture.info()).missing, []);
+});
+
+test("a paused relay wait preserves the report and probes first when Sync is reopened", async () => {
+  const fixture = relayFixture(), controller = new AbortController();
+  const {signal} = controller;
+  const network = fixture.network({signal});
+  await assert.rejects(buildLibrary(fixture.drive, {...fixture, signal, network, onProgress(event) {
+    if (event.kind === "waiting-relay") controller.abort();
+  }}), {name: "AbortError"});
+  const saved = await readBuild(fixture.drive);
+  assert.equal(saved.pending, true);
+  assert.equal(saved.relayDeferred.length, 4);
+  assert.deepEqual(saved.failures, {});
+  assert.equal(saved.plan.length, fixture.assets.length);
+  assert.equal((await fixture.info()).missing.length, 4);
+
+  fixture.up();
+  fixture.requests.length = 0;
+  const result = await buildLibrary(fixture.drive, {...fixture, network: fixture.network()});
+  assert.deepEqual(fixture.requests.slice(0, 2).map(row => [row.url, row.method, row.range]), [
+    [fixture.page, "HEAD", undefined], [fixture.relay + "a-relay", undefined, "bytes=0-0"]
+  ]);
+  assert.equal(result.state.pending, false);
+  assert.equal(result.state.finished, true);
+  assert.deepEqual((await fixture.info()).missing, []);
+});
+
+test("Pause during another download still publishes the relay deferrals", async () => {
+  const fixture = relayFixture(), controller = new AbortController();
+  const {signal} = controller;
+  await assert.rejects(buildLibrary(fixture.drive, {...fixture, signal, network: fixture.network({signal}), onProgress(event) {
+    if (event.kind === "downloading" && event.asset.id === "x-mixed") controller.abort();
+  }}), {name: "AbortError"});
+  const info = await fixture.info();
+  assert.equal(info.missing.filter(row => row.reason === "waiting for the download relay").length, 4);
+  assert.equal(info.missing.find(row => row.id === "x-mixed").reason, "Sync paused before this file arrived.");
+  assert.deepEqual((await readBuild(fixture.drive)).failures, {});
+});
+
+test("a readable relay 429 retries after Retry-After without entering the relay wait", async t => {
+  const fixture = relayFixture();
+  fixture.up();
+  fixture.throttle();
+  let now = Date.parse("2026-11-22T12:00:00Z");
+  t.mock.method(Date, "now", () => now);
+  const network = fixture.network(), delays = [];
+  network.delay = async ms => { delays.push(ms); now += ms; };
+  const result = await buildLibrary(fixture.drive, {...fixture, network, assets: [fixture.assets[0]], onProgress(event) {
+    assert.notEqual(event.kind, "waiting-relay");
+  }});
+  assert.deepEqual(delays, [7_000]);
+  assert.equal(fixture.requests.length, 2);
+  assert.equal(result.state.finished, true);
+});
+
+test("an actual loss of internet still waits for the internet and retries the same file", async () => {
+  const fixture = relayFixture();
+  fixture.offline(true);
+  const events = new EventTarget();
+  let networkWaits = 0;
+  const network = fixture.network({events, onWaiting() {
+    networkWaits++;
+    fixture.offline(false);
+    fixture.up();
+    setTimeout(() => events.dispatchEvent(new Event("online")), 0);
+  }});
+  const result = await buildLibrary(fixture.drive, {...fixture, network, onProgress(event) {
+    assert.notEqual(event.kind, "waiting-relay");
+  }});
+  assert.equal(networkWaits, 1);
+  assert.equal(result.state.finished, true);
+  assert.ok(!fixture.requests.some(row => row.range));
+});
+
 test("closing the tab is canceled only while the Sync warning is registered", () => {
   const tab = new EventTarget();
   const leave = () => {
@@ -500,7 +692,7 @@ test("a corrupted search chunk leaves the catalog search and static pages usable
   assert.match(await (await (await drive.file("START_HERE.html")).getFile()).text(), /<main class="static">[^]*How to open a book/);
 });
 
-test("large-file mode joins verified parts and keeps them if a second copy cannot fit", async () => {
+test("FAT32 and large-file mode join verified parts and keep them if a second copy cannot fit", async () => {
   const content = Buffer.from("ABCDEFGHIJKLM");
   const zim = asset("wiki", content, {format: "zim", destination: "ZIM/wiki.zim"});
   const fetchFile = async (url, {headers}) => {
@@ -508,11 +700,12 @@ test("large-file mode joins verified parts and keeps them if a second copy canno
     return new Response(content.subarray(Number(first), Number(last) + 1), {status: 206,
       headers: {"Content-Range": "bytes " + first + "-" + last + "/" + content.length}});
   };
-  for (const full of [false, true]) {
+  const modes = [{joinArchives: true}, {fat32: true}];
+  for (const [mode, full] of modes.flatMap(mode => [[mode, false], [mode, true]])) {
     const drive = new Directory("drive", {beforeWrite: name => {
       if (full && name === "wiki.zim") throw new DOMException("Disk full", "QuotaExceededError");
     }});
-    const options = {assets: [zim], routes: {wiki: ["https://example.test/wiki"]}, fetchFile, partBytes: 5, joinArchives: true};
+    const options = {assets: [zim], routes: {wiki: ["https://example.test/wiki"]}, fetchFile, partBytes: 5, ...mode};
     const result = await buildLibrary(drive, options);
     assert.equal(result.state.finished, true);
     assert.equal(Boolean(result.state.joined.wiki), !full);
@@ -762,6 +955,37 @@ function rangedFixture(count, tail = 7) {
   }
   return {item, published, indexOf, response};
 }
+
+test("an archive falls back to the mirror and counts once toward relay outage detection", async () => {
+  const fixture = relayFixture();
+  const {item, published, indexOf, response} = rangedFixture(1);
+  const mirror = "https://publisher.test/archive.zim";
+  const peer = fixture.relay + "parallel--peer";
+  const routes = {...fixture.routes, [item.id]: [mirror]};
+  let mirrorPieces = 0, relayPieces = 0;
+  async function fetchFile(url, options) {
+    if (url === mirror && options.headers?.Range) {
+      mirrorPieces++;
+      return response(indexOf(options));
+    }
+    if (url === peer) relayPieces++;
+    return fixture.fetchFile(url, options);
+  }
+  const network = createNetwork({fetchFile, probeURL: fixture.page, retryMs: 0});
+  network.delay = async ms => {
+    if (!ms) return;
+    const saved = await readBuild(fixture.drive);
+    assert.ok(saved.installed[item.id], "the mirror installed the archive before waiting");
+    assert.equal(new Set(fixture.requests.filter(row => row.url.startsWith(fixture.relay) &&
+      row.url !== peer).map(row => row.url)).size, 2, "the archive counted once along with two documents");
+    fixture.up();
+  };
+  const result = await buildLibrary(fixture.drive, {assets: [item, ...fixture.assets], routes,
+    published: {...published, archiveRelay: {[item.id]: [peer]}}, fetchFile, network});
+  assert.ok(relayPieces > 0);
+  assert.ok(mirrorPieces > 0);
+  assert.equal(result.state.finished, true);
+});
 
 test("out-of-order pieces survive pause and resume in single-file mode", async () => {
   const {item, published, indexOf, response} = rangedFixture(6);

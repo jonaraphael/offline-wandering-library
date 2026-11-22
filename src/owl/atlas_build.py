@@ -472,7 +472,7 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             discovery_pages, discovery_report = plan_discovery(assets, navigation,
                 budget=info.get('profile', {}).get('discovery_budget_bytes', 16 * 1024 * 1024))
             inventory = {**inventory, "navigation": report, "search": discovery_report}
-            support_missing = [row for row in info.get("support_missing", []) if row["kind"] == "phone"]
+            support_missing = [row for row in info.get("support_missing", []) if row["kind"] in {"app", "phone"}]
             info = {**info, "search": discovery_report, "navigation": report, "reader": True,
                     "support_complete": not support_missing, "support_missing": support_missing}
             if metadata_only:

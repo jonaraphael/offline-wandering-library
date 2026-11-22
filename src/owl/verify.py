@@ -122,7 +122,7 @@ def support_status(root: Path, info: dict | None) -> tuple[bool, str]:
     if complete is not None and type(complete) is not bool:
         raise ValueError("invalid support_complete flag")
     if not isinstance(missing, list) or any(
-            not isinstance(row, dict) or row.get("kind") not in {"reader", "search", "phone"} or
+            not isinstance(row, dict) or row.get("kind") not in {"reader", "search", "phone", "app"} or
             not isinstance(row.get("reason"), str) for row in missing):
         raise ValueError("invalid support_missing list")
     kinds = {row["kind"] for row in missing}
@@ -183,6 +183,11 @@ def support_status(root: Path, info: dict | None) -> tuple[bool, str]:
     phone_count += sum(not exists(row["path"]) for row in phone)
     details = [label for kind, label in (("reader", "reader files missing"), ("search", "search index missing"))
                if kind in kinds]
+    apps = [row for row in missing if row["kind"] == "app"]
+    if apps:
+        titles = ", ".join(row["title"] for row in apps if isinstance(row.get("title"), str) and row["title"])
+        detail = f"{len(apps)} reader app{'s' if len(apps) != 1 else ''} missing"
+        details.append(detail + (f" ({titles})" if titles else ""))
     if phone_count:
         details.append(f"{phone_count} phone volume{'s' if phone_count != 1 else ''} missing")
     if details or complete is False:
@@ -250,7 +255,10 @@ def verify_drive(target: Path, *, emit=print, allow_incomplete: bool = False) ->
     if not allow_incomplete:
         try:
             state = _record(root, STATE)
-            if state is not None and state.get("complete") is not True:
+            # A published partial build has a verified manifest and reports
+            # its omissions through the separate completeness checks.
+            if (state is not None and state.get("complete") is not True and
+                    state.get("phase") != "partial-published"):
                 report("FAILED", STATE, "build was interrupted; rerun the builder")
         except (OSError, ValueError) as error:
             report("FAILED", STATE, str(error))

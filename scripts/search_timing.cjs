@@ -6,6 +6,7 @@ const {statSync} = require('node:fs');
 const {resolve} = require('node:path');
 const {fileURLToPath, pathToFileURL} = require('node:url');
 const {chromium} = require('playwright-core');
+const round5 = require('../tests/search/round5-queries.json');
 
 const emergencyFallback = "My neighbor is lying still on the floor and I can't tell if he's breathing";
 const semanticChecks = new Map([
@@ -82,8 +83,11 @@ async function measure(browser, url, query, {allowEmpty = false} = {}) {
         indexed: card.dataset.indexed === 'true',
         href: card.querySelector('a.button').getAttribute('href'),
         locator: card.querySelector('small')?.textContent,
+        excerpt: card.querySelector('.text')?.textContent,
+        credit: card.querySelector('.attribution')?.textContent,
       })),
     }));
+    const correction = await page.locator('.search-correction:visible').allTextContents();
     const browse = await page.locator('#search-results > a.button:visible').evaluateAll(elements =>
       elements.map(link => [link.textContent, link.getAttribute('href')]));
     const paths = reads.filter(url => url.protocol === 'file:').map(url => fileURLToPath(url));
@@ -91,10 +95,40 @@ async function measure(browser, url, query, {allowEmpty = false} = {}) {
       complete_ms: Math.round(complete * 10) / 10,
       bytes: paths.reduce((sum, path) => sum + statSync(path).size, 0), reads: paths.length,
       chunk_reads: paths.filter(path => /[\\/]SEARCH[\\/](?:chunks|sources)[\\/]/.test(path)).length,
-      emergency, status, cards, cardCount, browse};
+      emergency, status, correction: correction[0], cards, cardCount, browse};
   } finally {
     await context.close();
   }
+}
+
+function grade(sample, result) {
+  const topics = result.cards.map(card => card.topic);
+  const excluded = sample.excluded?.some(topic => topics.includes(topic)) ?? false;
+  const expected = sample.topics?.filter(topic => topics.includes(topic));
+  const good = expected ? !excluded && (sample.allTopics ? expected.length === sample.topics.length : expected.length > 0) :
+    result.cards.some(card => new RegExp(sample.title, 'iu').test(card.title));
+  return {good, negationFailure: Boolean(sample.excluded && !good)};
+}
+
+async function measureRound5(browser, url) {
+  const summary = {good: 0, emergency_empty: 0, negation_failures: 0};
+  for (const group of ['emergency', 'practical', 'misspelled']) {
+    const totals = summary[group] = {queries: round5[group].length, good: 0, empty: 0, max_complete_ms: 0, max_bytes: 0};
+    for (const sample of round5[group]) {
+      const result = await measure(browser, url, sample.query, {allowEmpty: true});
+      const {good, negationFailure} = grade(sample, result);
+      totals.good += Number(good);
+      totals.empty += Number(!result.cardCount);
+      totals.max_complete_ms = Math.max(totals.max_complete_ms, result.complete_ms);
+      totals.max_bytes = Math.max(totals.max_bytes, result.bytes);
+      summary.negation_failures += Number(negationFailure);
+      console.log(JSON.stringify({group, good, ...result}));
+    }
+    summary.good += totals.good;
+  }
+  summary.emergency_empty = summary.emergency.empty;
+  console.log(JSON.stringify(summary));
+  return summary;
 }
 
 function searchUrl(startPage) {
@@ -106,13 +140,22 @@ function searchUrl(startPage) {
 async function main() {
   const {values, positionals} = parseArgs({allowPositionals: true, options: {
     check: {type: 'boolean'},
+    round5: {type: 'boolean'},
     query: {type: 'string', multiple: true},
   }});
-  if (positionals.length !== 1) throw Error('Usage: node scripts/search_timing.cjs START_HERE.html [--check] [--query TEXT]');
+  if (positionals.length !== 1) {
+    throw Error('Usage: node scripts/search_timing.cjs START_HERE.html [--check] [--round5 | --query TEXT ...]');
+  }
   const url = searchUrl(positionals[0]);
   const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
   try {
     console.log(JSON.stringify({chromium: browser.version(), cpu_throttle: 4, offline: true}));
+    if (values.round5) {
+      const summary = await measureRound5(browser, url);
+      if (values.check && (summary.good < 34 || summary.emergency_empty || summary.negation_failures ||
+          summary.practical.max_complete_ms > 3000)) process.exitCode = 1;
+      return;
+    }
     const results = [];
     for (const query of values.query ?? emergencyQueries) {
       const result = await measure(browser, url, query);
@@ -138,5 +181,5 @@ async function main() {
   }
 }
 
-module.exports = {measure, searchUrl, emergencyFallback, semanticChecks};
+module.exports = {measure, searchUrl, emergencyFallback, semanticChecks, grade, measureRound5};
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });

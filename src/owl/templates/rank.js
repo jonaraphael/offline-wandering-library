@@ -39,8 +39,12 @@
       'cardiopulmonary resuscitation|chest compressions|basic life support|rescue breathing|cardiac arrest|cpr'],
     ['health', /\b(?:choking|choke[ds]?|airway obstruction|heimlich|food (?:is )?stuck|something stuck .{0,12}throat)\b/,
       'choking|airway obstruction|abdominal thrusts|heimlich|blocked airway'],
-    ['health', /\b(?:anaphylax\w*|severe allergic reaction|throat .{0,12}swell\w*|epipen)\b/,
-      'anaphylaxis|anaphylactic shock|severe allergic reaction|epinephrine|adrenaline autoinjector'],
+    ['health', /\b(?:anaphylax\w*|severe allergic reaction|throat .{0,12}swell\w*|epipen|hives .{0,18}(?:cannot|can t) breathe)\b/,
+      'anaphylaxis|anaphylactic shock|severe allergic reaction|epinephrine|adrenaline autoinjector',
+      /\b(?:anaphylax\w*|anaphylactic shock|severe allergic reaction)\b/],
+    ['health', /\b(?:heart attack|myocardial infarction|chest (?:pain|pressure|tightness) .{0,40}(?:arm|jaw|sweat\w*))\b/,
+      'heart attack|myocardial infarction|acute coronary syndrome|chest pain',
+      /\b(?:heart attack|myocardial infarction|acute coronary syndrome)\b/],
     ['health', /\b(?:heat ?stroke|heat exhaustion|heat illness|hot and confused|overheat\w* .{0,22}confus\w*)\b/,
       'heat stroke|heatstroke|heat exhaustion|heat illness|hyperthermia'],
     ['health', /\b(?:hypothermia|stopped shivering|dangerously cold|cold exposure)\b/,
@@ -87,7 +91,7 @@
     ['', /\b(?:long subtraction|subtraction with borrowing)\b/,
       'subtraction with regrouping|subtraction with borrowing|subtraction|place value'],
     ['', /\b(?:bicycl\w*|bike)\b.*\b(?:puncture|flat|inner tube)\b|\b(?:puncture|flat|inner tube)\b.*\b(?:bicycl\w*|bike)\b/,
-      'bicycle puncture|bicycle flat tire|patch inner tube|inner tube repair|bicycle tire|bicycle maintenance|puncture repair kit',
+      'bicycle puncture|bicycle flat tire|bicycle tire inner tube replacement|patching a bicycle tire inner tube|patch inner tube|inner tube repair|bicycle tire|bicycle maintenance|puncture repair kit',
       /\b(?:bicycle|bike|cycling)\b.*\b(?:tires?|tyres?|tubes?|puncture|maintenance|repair)\b|\b(?:inner tube|puncture repair|bicycle tire)\b/],
     ['', /\b(?:(?:causes?|why (?:do|are|are there)|why we have) (?:\w+ ){0,5}seasons?|seasons? (?:change|happen|occur))\b/,
       'earth seasons|seasons|season|axial tilt|tilt of the earth|earth orbit|seasonal changes|solstice|equinox',
@@ -103,35 +107,51 @@
     ['', /\b(?:plants? .{0,20}grow\w* .{0,20}(?:light|window)|phototropism)\b/,
       'phototropism|plant tropisms|plant growth toward light'],
     ['', /\b(?:slanted side .{0,18}right triangle|hypotenuse|pythagorean)\b/,
-      'pythagorean theorem|hypotenuse|right triangle'],
+      'pythagorean theorem|hypotenuse|right triangle', /\b(?:pythagorean theorem|right triangle)\b/],
     ['', /\b(?:income and expenses|money (?:earned|spent)|bookkeeping)\b/,
       'bookkeeping|cash book|income and expenses|household budget'],
-    ['', /\b(?:contour lines?|contour spacing)\b/,
-      'contour lines|contour intervals|topographic maps'],
+    ['', /\b(?:contour lines?|contour spacing|topographic maps?)\b/,
+      'contour lines|contour intervals|topographic maps', /\b(?:topograph\w*|contour (?:lines?|intervals?)|map reading|land navigation)\b/],
     ['', /\b(?:count\w* .{0,18}steps|pace counting)\b/,
       'pace counting|land navigation|measure distance by pacing'],
     ['', /\b(?:ferment\w* .{0,30}cabbage|sauerkraut)\b/,
-      'sauerkraut|fermented cabbage|lactic acid fermentation'],
-    ['', /\b(?:cann\w* .{0,18}green beans|jars? of green beans|pressure canning)\b/,
-      'pressure canning|canning green beans|low acid vegetables'],
+      'sauerkraut|fermented cabbage|lactic acid fermentation', /\b(?:sauerkraut|fermented and pickled foods)\b/],
+    ['', /\b(?:can(?:n\w*)? .{0,18}(?:green|snap) beans|jars? of green beans|pressure canning)\b/,
+      'pressure canning|canning green beans|snap and italian beans|low acid vegetables|using pressure canners',
+      /\b(?:snap and italian beans|canning (?:green beans|04 vegetables)|pressure cann\w*)\b/],
+    ['', /\b(?:dry\w*|dehydrat\w*) .{0,22}(?:apple|fruit)\w*\b/,
+      'drying fruit|dehydrating apples|dried fruit|drying foods',
+      /\b(?:drying (?:fruit|apples|foods)|dried (?:apples|fruit)|dehydrating (?:apples|fruit))\b/],
+    ['', /\b(?:compost\w*|kitchen scraps .{0,25}(?:soil|pests))\b/,
+      'compost|composting|compost pile', /\bcompost\w*\b/],
+    ['', /\b(?:start\w*|sow\w*) .{0,18}(?:seedlings?|seeds) .{0,10}indoors\b/,
+      'starting seeds indoors|seed starting|raising seedlings|using egg cartons as seed starters',
+      /\b(?:start\w* .{0,16}seeds?|seed .{0,12}start\w*|seedlings? indoors)\b/],
+    ['', /\bwhole (?:wheat|grain) bread\b/,
+      'whole wheat bread|whole grain bread|baking bread|bread baking',
+      /\b(?:whole (?:wheat|grain) bread(?! teardown)|bread.{0,15}baking|baking.{0,15}bread)\b/],
+    ['', /\b(?:rainwater|rain water|rain catchment)\b/,
+      'rainwater harvesting|rainwater collection|rainwater catchment', /\b(?:rainwater|rain water|rain catchment)\b/],
     ['', /\b(?:hand sew\w*|(?:sew\w*|stitch\w*|join\w*) .{0,24}(?:cloth|fabric|seams?)|(?:cloth|fabric|seams?) .{0,18}by hand)\b/,
       'hand sewing|hand stitching|sewing stitches|sewing seams|sewing'],
     ['', /\b(?:darn\w*|(?:mend\w*|repair\w*|patch\w*) .{0,30}(?:garments?|knitwear|sweaters?|jumpers?|socks?|clothing))\b/,
       'darning|mending clothes|repair knitwear|clothing repair'],
-    ['', /\b(?:wire .{0,14}broken .{0,18}meter|continuity test)\b/,
-      'continuity test|multimeter|open circuit|electrical continuity'],
+    ['', /\b(?:wire .{0,14}broken .{0,18}meter|continuity test|multimeter.*continuity)\b/,
+      'continuity test|multimeter|open circuit|electrical continuity',
+      /\b(?:multimeter|continuity)\b/],
     ['', /\b(?:sand (?:filter|filtration)|(?:filter|purify)\w* .{0,45}(?:sand|gravel))\b/,
       'slow sand filter|sand filter|sand filtration|biosand filter|sand water filter',
       /\b(?:slow sand|bio ?sand|sand water) filter\w*\b|\bsand filtration\b/],
     ['', /\b(?:mosquito\w* .{0,25}(?:bit\w*|repell\w*|nets?)|repel\w* .{0,18}(?:mosquito\w*|insects?)|prevent\w* .{0,21}mosquito)\b/,
-      'mosquito bites|insect repellent|mosquito net|mosquito control|insect bites'],
+      'mosquito bites|mosquito bite prevention|preventing mosquito bites|mosquito repellent|insect repellent|mosquito net|mosquito control|insect bites',
+      /\b(?:mosquito(?:es)? .{0,24}(?:bites?|repell\w*)|insect repell\w*)\b/],
     ['', /\b(?:join\w* .{0,20}(?:wood|boards?)|wood (?:joinery|joints?)|(?:dovetail|mortise|tenon)\w*)\b/,
-      'wood joinery|wood joints|mortise and tenon|dovetail joint|dovetail|woodworking joint',
+      'wood joinery|wood joints|mortise and tenon|mortise and tenon joint|dovetail joint|dovetail|woodworking joint|woodworking joints',
       /\b(?:joinery|wood(?:working)? joints?|mortise and tenon|dovetail)\b/],
     ['', /\b(?:dry toilets?|pit (?:privy|latrine)|(?:toilet|latrine) .{0,35}(?:no sewer|without (?:water|plumbing)|no running water))\b/,
       'dry toilet|pit latrine|composting toilet|sanitation without sewer'],
     ['', /\b(?:roof (?:pitch|slope|angle)|(?:pitch|slope|angle) .{0,12}roof)\b/,
-      'roof pitch|roof slope|setting rafters|rise and run|roof framing'],
+      'roof pitch|roof slope|setting rafters|rise and run|roof framing', /\b(?:roof (?:pitch|slope)|pitch of (?:a |the )?roof)\b/],
     ['', /\b(?:draft\w* .{0,14}(?:door|window)|(?:seal|insulat)\w* .{0,25}(?:door|window)|weather ?stripp\w*)\b/,
       'weatherstripping|air sealing|draft proofing|door seal'],
     ['', /\b(?:ventilat\w*|air exchange|air circulation)\b.*\b(?:shelter|cabin|tent)\b|\b(?:shelter|cabin|tent)\b.*\b(?:ventilat\w*|air exchange|air circulation)\b/,
@@ -157,7 +177,7 @@
     return {domain, trigger, canonical: phrases[0], phrases, evidence: phrases.map(terms), titlePattern};
   });
 
-  const wrappers = /\b(?:getting started(?: with)?|how (?:to|do (?:i|we|you)|can (?:i|we|you))|what (?:can|should) (?:i|we) do|explain(?:ed)? (?:it )?simply|in (?:plain|simple) (?:english|words|terms)|step by step)\b/g;
+  const wrappers = /\b(?:getting started(?: with)?|how (?:to|do (?:i|we|you)|can (?:i|we|you))|what (?:can|should) (?:i|we) do|read (?:the )?(?:novel|book)|explain(?:ed)? (?:it )?simply|in (?:plain|simple) (?:english|words|terms)|step by step)\b/g;
   const child = /\b(?:bab(?:y|ies)|infants?|newborns?|toddlers?|children|child)\b/;
   const symptom = /\b(?:ill(?:ness)?|sick(?:ness(?:es)?)?|fever\w*|cough\w*|rash|vomit\w*|throw\w* up|chok\w*|dehydrat\w*|diarrh\w*|breathing|seizures?|letharg\w*|unresponsive|not eating)\b/;
   const maternity = /\b(?:childbirth|labou?r and (?:birth|delivery)|stages? (?:[1-4] )?of labou?r|birth of the placenta|obstetric delivery|pushing stage)\b/;
@@ -172,6 +192,8 @@
   const seedEvidence = ['seed saving', 'saving seed', 'seed collection', 'harvesting seeds', 'seed storage',
     'seed production', 'seed viability'].map(terms);
   const queryStop = new Set('about also am been being but can could did find get gives got have help here into just like make me my need now onto out people person please should show so some someone something take tell than that them then there these they this those through up us want was way we were which while who why will would'.split(' '));
+  const repairAction = /\b(?:fix(?:ing)?|patch(?:ing)?|repair(?:ing)?|replac(?:e|ing|ement))\b/g;
+  const repairObject = text => terms(text.replace(repairAction, ' '));
 
   function prepareQuery(text, encodeQuery = () => null) {
     const original = normalize(text);
@@ -180,6 +202,7 @@
     const audience = original.replace(audiences, '') !== original || /^getting started\b/.test(original);
     const cleaned = normalize(original.replace(wrappers, ' ').replace(audiences, ' '));
     const phrase = cleaned || original;
+    const repair = /^(?:fix|patch|repair|replace) /.test(phrase) ? repairObject(phrase) : [];
     const matching = rules.filter(rule => rule.trigger.test(phrase));
     const postpartum = matching.some(rule => rule.canonical === 'postpartum hemorrhage');
     const focused = postpartum ? matching.filter(rule => !maternity.test(rule.canonical)) : matching;
@@ -202,7 +225,7 @@
       seed ? 'seed saving ' + phrase : language ? language + ' phrasebook ' + phrase :
       titlePatterns.length ? focused.find(rule => rule.titlePattern).canonical : phrase;
     const vector = query.length && encodeQuery(vectorText);
-    return {original, phrase, query, primary, routing, focused, evidence, titlePatterns, emergency, deliveryQuery,
+    return {original, phrase, query, primary, routing, focused, evidence, titlePatterns, repair, emergency, deliveryQuery,
       postpartum, pediatricHealth, language, seed, audience, vector, vectorText};
   }
 
@@ -276,6 +299,15 @@
 
   // BEGIN GENERATED EMERGENCY VECTORS
   const semanticRoutes = [
+    ["downed-power-line","safety","8Q4NEQT9/PnyAfkN9QcRCgMCF/ACDwP4/gT8AQv87vv7/wD9/QP+/Pr2BiMA+f77//UICwEACAX6CfQF+P78BPf9DP/99vrz/Pv8AQz3DAjy9hAU/wP49QT9B/kFAv8A+Pv6C/8FAv0BARUQCfT4AQwLEfQCDQIJCf7w+vX4DvgEBAT8AP74+gj5Cfn3/f75BfwI+/4PBwILBPn1/vn/CQoABAYCAAH4APz9AAT7BwT8+gD9BQEFBQQJ/v8GCP8D+/sB/gEH/P/7Af76Dvv99wf//fb79vYE/wz+Bv0B/AYDCfwB+ff6APX19QQBAfr3/goJA/0E8/oE8wT8A/wED+8FBhrwD+7/9Pj8BwPu+wEIAgr5Bf8H9v8CEgUG/Pv6AQH4/BgD/xcUAwIZ/wH//gr4BAXqEgT/+f4AB/QADAT/EAoFC/X+/gLz+QgEAQ3+7/H/Dvf+/wX1Cvz4AQv7/vv9AwfyAwX2/QL6EgbxBAr6Bv4EDAMAAQX0/Qv8AgEN/ggA+/gIAAQTBgf5/AX/B/sCAfQCAQb8CQD8APz6+PoI/vsIAvj+CgcEAgD/9gH2Bvv/9AD0AAQGBAL9D/0AAv/4AwHv9gD+BAcFAQL4/wUBCAMGAPYEBAgDCwEEC/7+Df8BB/kB8f/89wEABgj9//8BAP/+B/0HCv3++wMD+f/xCA8KAP757ucH/wIG/wD2//0DAATy/gP98gD0A/37A//3/QEHAgMCEPQRAv//AfwJ+QoI/v8H+/r6+w73CPoE//0OAAXw5/0C+fv5DPwYBfcKFvoBCQP8/QH/CAwDAgr7Afz/BwH78QcHCwYHCfgBAAYL9AMA/gID7PwGAQUGC/z9BuoGAAb3D/oH/gH5AgD8/gH7CQUM/wP5B/Px//8IAAADBvf9BQQH8vkL/vj2//n1Bgb8Agn6/AcMAAL++wf8+Pr9BwYH/fwD+P0B/PIGBvz3AQD2AwsLGPoR+QII+PwO9wMF+/gNBQIHBgYDBvz//QAD+vr6/AD1AAcCDAv8"],
+    ["scald","health","6/n6Dfbt6xHsAPb2BAv9AAEO9Qr5Awv6DgwK+vQA9vnxAhD+/vT2Aur6Cw0E/AoK+/jw//f++gQVCw4HFAD1EAUABAvz+QXzDgPuAQUI9Ab3AwYDAQH59wT5EfIE/fwABgD47fUA+w78/e4F+wHw/PL4BwX/AQr/CwMB/wYH+gIF//zy+wYC/vr8/v/+/gkB+gH7AAH1CQb+BQX8CAf39vwC/gEM9v/+/QPw/wAF/fr9//0E+Aj/BPoBAPsB+wQE/vz7Bff8/fcA+/sB9wACAAIJ/PP2AAYCAvgAAQUE+AL/+wUCAwD+BwL6+f/08P75/gUC/AMBAgQEA/gD/vsA//D29A76B/kK9Qz48PoGAPwGBvYJAf4J9Pv/BvgC6P/9BfwD8en+Bfv1A/gI6QITCwT2/Pv25AX2Av8LBg3/AfsI/v4F+Or7A/8SBwDxCwb8/fD3Aw8H/wEH+Qbu/QEAAQ8BAvf2EvIF/v0HBfz8+/3+CwIMAgUFAvv39AQAAAgEAgH3+f4A/gMHAQT//QgI9gcEAgYN/wMFAvD9/AkA9QYACwQGBf4MABD8+gD8+P/0BPf9B/b+AgL19hEAAP4KC//6//0HCP/7+wT/+QIJEAcQ+wz3Bv//Cv/79QgEBPwDBQABBP339v76A/0H/PYA/Qb8BgH+/f4E+voABAH5/v/l8/4M9ub3/P708Pb8CfMIBhnx+vkJBQj8CgD3BAMHEgkJ/Pb8B/jw9ukACggBDAAM/foZ7PT9+hAOCwUHAvsDAPr7Cvz2/gD9BfEFBwf0AgL5CQ0F/gX8BwYFAAQD+AQJ//L98vv0C/oKAgX1+f4O9gcGDQQAAfv++Qfx/vn/9gQG/vcA/fwG+QHwCAMFBwb6AwYK+Qz9+fsBAwD+Be74//0DCAQD/A/9AvcEAAIF+/4C/wH6B/8DBAIE/QoEAA/+/fsEAgP7//n++PkH/gEBBgL6AgIC9g4GAAAM/wH3+f7//vf9//oECAkC/v759gT+AQL4/QT/+gYD+f0ECAD7"],
+    ["long-lie","health","9wQCBPz57wPs//8DBfUC+/v6BfsEAfX78vn9CPj+CAf79RXt/gASCwj7BgQOAgYC/PsOAv4SDvgI9QAO9v4GDAj8BwH/BfvuChMEBvLz+wUOB/D4+/rw+Af6Avf2AvgADP/2/AUEAe4B+wkFCvz39/4EBgAC4/n2/AQF+QT2B/8HBP4DC/8N8v/3Agn+CwP3CAD29v0EBAMM8wUG/wACAvgI/AoC/fYBC/f8/AwDBAr8+QT9/P72BP8LBgP09v4I/AcRCAT6BAcJCfn59fgKCQAA9w8E+f36/goCA/f/Bf4EAQUKAP0A/v37APsA9P0BDQH8Bvn/DPwC+QoF+P78A/rxCAMJ/Qr8AvsA/vb7Av8A+vf4/f3vAfP2+goE/QYN8AYOAw0KCw0K/f/7APPpBfr0+w7yDP35Dwr6DAcB9Qn59QEAB/v/+P4I+AoFCwD69wMC9fAA+f/8AQQBDP77DAHz8Pz4AwP6CAsQ/wfw+QsI9RIN+wsEEQby/PsE/wUD//4A/wAI+wMC9QDzAAb9Bvv1Agj//AT5BgMH9/8AAgj5AfsDBQP5ARDwCAD99Pr2CPUPCPoGAPb6AQACDwUOB/8HDAYC/QYBAQL+A/r7//r1/wcKDAH9Cv8RBAbz+P0G/QEIAxD6+vT+Avj1BwIA/AABCvz9+wcH/Ar5BAYK9/ry+g3+Cfr9Awj89OoD+Qr2/AMB+gb7AgT38AT0/An+AQMHEgL2+xYCDQULB/8B+/z+9AAKBQn/Av3/+Qf/AwQQCgUS+wgE+vYDAxgFB/T7+P0H//r5BP8D+gL7+/f+8RIMBv/99v/87/ABCA8Q+fkJ/gQH/fz09wYB/vj7CgIF//4N7gMJBRD5APYJAAwN9woFAAEFAPwG/Pz6CAgE9/j8+ATsDPz29fv++fwA+v8I/wUCEv36Bf4K9wL9Af7+AgP6+gf++wMFFAoDBP7/9xAC9Q36Ef0BA/j9Df35BQT9/Qnz+gL2+AAFB/kI+gH+CAMICgAG/gYBAgX/8gQHAf4B"],
+    ["fishhook","health","9e8EFvr39AcCAg8A+wr8/QEBB/cG+gMMDvcCCAT17wj9AAMB8/wJ+Pje9wz/CgT/7QcF//4EDvkF//n99fHp+vrzA/f97PgT+QQA+/j+DvEG8hcRBQEGDAIBCwf9AP0DBPr7AQoOBgH5AQP5+QUNCQcJEwYI/wAEAwATAf0B/v8SDPj9Bf8DBwn8BAEMCf/5/PwFE/0BB/gDB/n///rz/g4GAAT//QMFBv8IBgD+BwH89Af4/wL9/f3+BQAEBgj/AfX+CQYI/f77/v8ECPv+APgK/gEG+wb+/gAD+Pj6/AH7Af0C9gYJBvsBAQb4/fwA/wQECgb9/gAD8QIIAwH5BPMB6xH5BQYB5wMIBfAZ6QD8APoKCPMN9PIGCgn3+PkS+v/95Pf6Cfn0+QD67fb0CP79AgD5+Pz+EQn5CvPw+AP7+Pf09ggIA/0LCQr9BwL4+wIKAAD9AwH5CwQA/gb6Af0TBfMF8P/2AP70/e4AAgoA+gMBCQIDAugI/wD39O/2CQf+/P0C+vP89wv/BP0FAwYAAPn9/gn/Bwj8BQQCBP8B/wIGCPD+Cv3+CPgECQEE+AT6DQMIAAL6/gH9+vz+//77Afn+A/v/AgD9Bfr5+gX8AQQG/gH9/v8DA/4CAgIGA/b6BQAC/AH/CfwB/v75CgUIDvcIBf7yAQj9Awj+AQXx9/8V9v36/vr8E/rzEOz3AgQB+gf6/wX+/goKCuz3Cgf7/PTv/Azx9un5CfYA/wLuBgL09wQD9AoE/wf18PH9/vYD9QH0/ggE/gv8/vwQ8//0EQ32AQkMAQH9AQAF/wP59/3/BAH6AgH9AwH1AwoJ+v8YAgwD/gL8+hD8BAD2+hUQAv0J/gEGBQQFAAoE9/z59wYI+wEE//4H/QYGBPP6DgAEA/34BQ8B9gUAAQUK9Pr6Avn9A/f4//wE/wALCQIC7/r/Af39/vgC+f4G+vv9+w7+CwYBAAL7BAnz/AD8AAUC+AX2AQX/9v8CBAP49wf9AwgDDAb8BQHzAQgKAv8G"],
+    ["embedded-object","health","9Qr5DfX9+/D1BAr9//z1AQUPBvsEEQn3Av8BCAz0+g0OAPn7CQoD/gXv//Pz/vj89QEF/A72//UNDAcJ//n+BP75+ez19wD8Dv/2AO/++w8G/wP9DvUJDwAC+fP+/fQJAgABFP0JEPoBCQj7+f77EwkP/wT+/vTp/wgABBH8AP8K8/oE+wAAAwD5/A4KBgUCDPkE/wAI8AYEBAf8CA4D+wEN/AAC9woI8/v+/vwJAv71Afbz/v8CAvr8CPsLAQAIAP0A9vP++/H/DfH8CP0LAf0HA/j++QUN/AABAAf/BvoGCPwD/v0CBP8A/QL8+vYF+ggD/gv6+Ab8AgT9BwAJ/fQA/w78B/3vEvUI/BLzDQP8BQT9Cfr6BQkC+Pz9AQn8+vn+BQDyDQHzAvoUBAH9EP8DBgUH/v0TC/r8/Prw9Ab29uz9//r3+wD9/Q35/fgG//j6/fb9+RH37QXv/Az+7QQR9QHyAAb7AAoBB/j37fUCBQwPBgb+9Qr9AQn6A/L2/PX2AfsK9v76/fYB/A38AgsE+wAA+PULAgAK+Qr/+wID/PYLA/v59AkG/AL9B/j9/wj7Awj9+QQK+gYCAv/7BgcFAv0K+wP3DwQC/Pv//QX8AQPzA/v1/AIC/PP9Af8ACQb+DgICBAf8/f3/+fDy+fsLBgEL/wIBBwEG8Qj+AgHmB/gRAfkC7PH1Af3++wH5CAUHBfgGBgb99/z9Ce8I/QIBAekH+gYC8fYCCO4G8wT5A/73CQb/DBL/9wT0/f8CDvn9/gH5/P0I//oC/On7Ffz1CAICBQMA/f8F+AH8Bvv7A/sCBPwA9gECBgT+A/YGBQMGAfT+///yAAfuA/YI9gQEAfr8/vz/8Pf+DAQK+AYC/AYG+wP0AQf8+/0GAPsDBf36BQf7Awf+BAUDAQED/QMJ+vf8BPYI9vcGAgEI8wj4+fD1+P4B+AQF6fP1+foBBAQCAgAICgj/AAb+CQXyB/j39BQD/QEI9v/9AgL87Q38Cgr8BQf8C/j5CPwTBQv+"],
+    ["jellyfish-sting","health","9/0BAgH3+/z++vQH/wH5+wECFv4I+wcFAwT0CfT2/RgC8AriBPr8EPv2/+z6ABj3B/YJCPgE/vkEAfgEEQf1AQAE+QYO//oO9vn7/gwF+gAAAwEBGA/9AgEH+g8G/vb5/Pj2AwIS+wQBBRDr/fz9CQgQ+QcE/fMCAQH9APMCAwcHBwb7A/wAAPMJ/w4EBgMB+gH6Afr6AQIECAMFCvj78/z/+wYD/gYGBgn+B/kGCwHwBQL7+vwA+P8CAv0B8/4G+QT9AP31Bwj9/gwR+/j+/BH+/wP9+fr7Bf4GB/0CCfYBBf0D7wL8AwII9A75//0B9/0GAgT5Cvn4Cfn79gb9A+/t8gL18/ft/+7vC/8B+QID/Q0KB/4E/Pn4BQnzBgkJEQcD9fv4/wPs9Pj+/P4FC/btB/f/AvMFBRD6ARP59wIGBw0GAvry+BD0Bv76+vgA+PUNAQ4BAAsDDAj5AgwECP0G//8AAfwHAfP/8P4AABH/Aff/9vTuCvsC9v4C/vUBAQX8AAMJDP3++vkEB/3++wb3/Pj/AfgC9wgFBwr++vz9+wUI//QKEPn/BQcECf/5/QID9/b9Af35+wkGDPz7A/z0Df8N//UG/wsCBvr2/AH/9gv89gYAB/0K/QEBBgH4BgT6/wP8BQv7+wYM9QD6/vUN+v0G+/8HCf4G//oOBP7y8/QF9fIA+QDzEA37D/nzAQQZBAoACfoL/QMI8+72/xoGCgT47RL88Oj59/vwDAUB+gAB9fr//gQG+gIQ7/QC9wEK+wH58ef98gMJAfT29AL++gkVBv/++/wD9vYGDQIEDP37/w39+AX1APkCDPP6BwX9A/779/r8BAL++AP2Ag8G//0EBvwGAPkGAwsVCQcE//r9Bgb5/QEK+wEJBAPw/PYFAgL7/QL/AwT9A/8A/PsECPoDAf8IB/ME/gH5/QcF+AQE/f4A/gQT+wH8/gYDAAn/AAIF/P7+B/z9+gX//gEH/QUL+/oC/v8DCf39/PsACAEAAwEACAb++f8CAAgE"],
+    ["tourniquet","health","+vr4Awf0++/3AQgFAhgC8QACBfzs/A4ICfvpBwv09ev98fgKCO4D7wD/8vgF7BIM7RAM9wUB9/v5Bgv0+gb/+gL9//4JB+n68AEE9gUDEP8B9fcEBgMEDgAJ8fQE//r6BPoB/w///PIGCgj7A/37BAUDDP//7Qr5CAb9Bf/z9fME+QQIAAP5AQkGAAAKEgH+/QYEBvj8Af0F+wn+CgXx+v4G/vsM9v8C/wD+DPj7AQPwBAT+BAQGAv8GBAQH/v4C/gYH/gME/wgBBf74+fr8AQMKAgoEBwAA9PUI/vwDAv3/BPIC/P79BAb5/Pz9A//9A/sD+wEGA/8C/AD/BAQAAAIA/f8BBvj++AH+BAYRA+8B/AD7+Q0HAwkG7A4G9/X7APr2/PnyCvUEBuwBDP7+/uUS/gMB8fb67wEE6/799gMHA/UFBv7yAPwFFf0HDQYKCPj1AwENCAAJBfH5+f76/QT2Df0Q/v38Agf1+wv//fsHBgkCBfkE/AsI+wP8/PL0BfoH+gQFAwcPCPz9/woCAwj/Bgvz+QcAAgEA+QMF7ff++QEBBPr/+AkFAQwD+wYF9v8G+gH6B/oEBQELB/b//gUE/fwEDf4G+wH88/0BBPkEBPML/vv8B/jpCAYEBPr29wb7/QED+wQL+//++gjvBP36CfwC+xQHAv3+/QEL9/rzBwENBOL29vAD/gEHAAQCBv8TAOv/DQoB8fQMAvr79fr7+vcO//EC/vv6+gXzEQwBBAvzDPgH+AQPEv8BAv7wAvsI8woF/QD5De/3AgEADfkGBAYPCgEFBAL+CQQH+QIC+fMEBf/69wn8AwMBBQILAAT4B/71/QECDPv2+/QK9vz/CwcP//0A//QQBQELBQAH/wAL8gID+/8DDPz/CPcG8wIG/QP1+wwBAhIP+/j9Cfb5/fL7/wwBAQj3AQL+BwT+Bv3/BgX7AQEE+wH3+QoBDRAMBv0CBfv2+AEABAL8/wQLAvkK/AUD/AAC+fwIAgEABvcFAgj2+vn++e8BAQIC"],
+    ["root-vegetable-storage","safety","C/YECPkE9g4GCPTqCfr3F/gE/PXxCfoG7fb1+v8EBwYLA/j9AQf+Bv8I+uz4AvwJ/vPvEAr59/oHAwAQ9w/t/vXxBP/4/wf2AP33AQT2A/72Dvr79Qv/Avfw/AUG/fYNAQUIBgoC+BH79wAICv0G/wH++woIAfUJCf/0BQL5CQACA/YE/RAB+AAK+/QABP4H+gUF+vcP/v0CBgUC/fz8BAL+9/gH9fP+/ff88gb5/AAB9vz7BwYDBQwKCPMCBvv4BwP0BPwBBvj37AsECf/+9AD9+AD+/vb5BwEG/wT8/wX9CAP9APkJAfcACfj89f0DBAgH9wMHBwEAAwMO9wD5BAfqDwHgDPr/AgcL+AoI+hPz/vvjAv0LAQUAAQgT6/UA/f8F7/sF/woGBgoJ9Pb+E/z/Bff67g/0Aw8G/AEHAQv09ATq+gIHBP7+9gAH/QsJ+Ar0//z2BQEK9RL9Bv75DAkE/PkE/fgECfQDDAj6BQUA/f4S/voHAf/9/gcGBfYNBAMB/w0B/fX+DPUQ/fz2CPX5CP8AAgP8+AED//b7+gAGA/z8BQH4Af///gEL9vr9Afn6DAIAAQQJAgL2/AX6+P8D/P7+/Ar8+QAD/gEMA/n69gD9+/r7BwL2BP0ABwEEAfoB/P8A/wDzAf38/QAD9gH+A/b5BgD9+PQDAwD9/QkF/gYF/QsAAgcAB+0A7vYH8QH/8voA/wv4DPv6ABEC8///8BAL////DA4F/f8E/v8LCfkNBfoC8gAJCQn0De4B+vYN9/b6APf3A//+CwAI/u0A/QvsCgEGCf30CPwI+RL+/P0ID/f/BvbtBQ7/BgQOBQML/v4K/gQAAPsFBvj1/AL7+voFBwD6/f759/cGCQL7BwL7/wsG9//8/P4I//4DAQD7AAjv+gkD/QD8BvgBDAHz/vj6/AcGBxAH/P8E/vL39fL+/gIK9vT0A/cH9/n9BgL1BAXw7gMUBggDAAf9/P0A+QMF9gL8APoR+fr3A/v7CAv9/wMFBAD4BAUE+/wG"],
+    ["grain-storage","safety","CfoPDufv9wIDCP70Cv3/B/z1+PkICv35AQj/7Qj/+AYT/wX++wT+/fcQBgX8/vH+9AILCvcKBvwA9f/3BAcCD/74/ejy/PsECPvn+fr3D/r9AAkH+/L/+wnyBfzt/PwR/AYA9Abz/vwC+vf6AwkKBwPz+wn9+voBCAP2DQoEDvsO/vsMAgz4/vIBAgIAA/4E/AIFBv0X9/3y/gb6+gYIBPgK+f8D+PkDCQH8+vnxCQUE8/0BCQQEEwn9BPQCAAACCgH8CgD6BPn7AgP6BAf2+vYCAfz//PP9Cf0A//0A/gb3B/7+BvkK9vcFBQL9+/v/BP4G+PoDA/sB/P0AAv38A/kBCRHz7/D6/gDu+gn9/R34+PsDAfjq9QL/AfMB+vYOEAYB/v73/vrtEgXz+AHv9v8G/wf7CfcG/gH3//wDBwcF/+zlAPQDAv8L8vn9/QENCQD//Qb9/PgF8/789fruAe//9gAF//P8/P/3Awn6CRP4/AL2BwH6/wYJ/AkEBv0EEfP///UNCPz1Av0B+AH39gP/+/oAC/L5//gB9AEEAPz+AvoGAfQCAQv/9/0C8QsIAfP8AAL7/voJDAjvAf77CQwG+v4E9gEAAgcP/PcJ9f8DA/r4+gIDBfn5AgH8/QD7+f38AQP/Avj4CAQEBvn8AwAEA/8F/P/8Af4A/gADAwX/+PcR+Pv5AAUT+/QG8vYL7/v/Bg8D6fMIBvn2Ef3nEAv8/fnuA/7+BRQI/vYA9QEEA/wHCfz7BvH/BgD6AxEKCvPk8gzy/hQNBPP6+vUDAv4AAPX0+wb0BfAB/PwG7Qj5AAIC+Pjz/vb5+fz8//4BBfT8/wb//fj+APX8/Aj8+wX0CP75FPz58vgC9fgI+voE/AMA/AX4+fnx//32DPb89vYABgP8+/0IAQAG+/0ICPzu/Pz6+/39CAQD+/f5+/wBAQACBP8EAAH6Bfr6Dv4C/fv8+/wF/wX/+fz8/P7+/f0AAfj5//0D/wP9AAUABPoAAvb5BgP8//j+BP8J/QAA"],
     ["newborn-resuscitation","health","8//2Av/5+RH96uQCA/72/gIN9vwC/f8DAPQHBPAM9fb6CAsJDAD+EQAFAwkFCPcL+AL7AvgC/vrz+Ar0+gP+BAUJB/8F+Pf8C/7tDAD7/fsBAvz8AgAO9+0M/gv8/P3+D/3z+gv1Bwr79fkMBATx+/cHAPgCFAMIBgP3CP4KBPn2+fP8AAn9CwkDAQEMBwEA/ff5APr0/gn6//0B+QgIAgsDEfkE/wn6+fT3AwH/Bfz/AwUEARMBAv/1+wbzAfkD9vUIAQEDCQH6/gcQB/oIAwAM//4AAP8B8vny/fYB//oA/wfyCP0FAP8G/gL+DAH7Bf39FwoOAPsEAgIC9Pj+A/H28wX/7A8F+/ztBvr5CPkCDPz3B/r+Af7w/QrzDO/89AwHAw789hP57wPxA/b/DvIDCgL+/u4C/Ar56/72/f0J/Ab7C/XvBhAE9/0N//X5Bf4G9/7yBwL1Bvj0+fnx/AP87gQPAgMIAvX7BwH/+vsDDvz/Bgj5BfgF8P74A/0A/wz39QP6APwDCwP7CwL1B/368/cA/f/59QcEBgj8AwL5/wQHAAYDA/z0/fz+CwP5DAf+/QQH+A8KAfwEBwYACvzxBfkD+QQG9gcGDQUEAwMFCAX3/AUF/fb2/P7+AgL9APsGBQMICfv9//UDAwT8+AUDBg0BCvoDAwv/Avn4//7tBvgF7f7wEfro7fn//PD4/w78AQD0+wr69wUJ+gj08QsAAAYC9wAMAwb38wgG+AnzAgH1/gP+9/HzDOr9B/cJCAkN+f0E/gwA/vMHAQP0+fsG7wIB/wT0BwAACPUDAAAGBf/6GPf7+/v0/wgK+PX4+QLvAPkPAPYE/vgA/P8FAvb/++wEDgED/wb7Bg0I8/0A+AQB/fcCB/r+AgT5BAX3/AUR/QUEA/kD8voKBQkA+Pn9AwwCBwIFAAf9A/34+fv3AP3/9QEE9/0ABgUGAAkMCAP2+v35CAMA8wIG+A7++vwE+wAE/fz+AgP3+wMGBAQACf8OAgYC+/T9/QEF/AgI"],
     ["newborn-warmth","health","9v33CPf5AQH++OgDBgL++QQL9/n7BAEG//MP/gIA/gMIBg8IAP30EPYIAAIEAvEF9vL39Qb0Bf/6+/z9/wb6AAYGD/MD8fnxCgEBBgT7AAH6AQL59fwF/vYE+fsA/Pb5DwMB9hHzBQPw8gkKEv36BQQJB/kGCQH4Cvz9CfsFD/IBAP77/QwEBgUFA/oPC/b/+/X2BAUCBQbv/wgFCQXzDgv8B/YHAgUE9/P2CwT+APr/+/0C/AwCAwb//wsFCPMB+PQLC/sDAwwGAwUSDP4CCAP7AQgEAgX///vuAfYD9vT7Af31BvT9BQH9/fv4GQIA9wb/Bwn6Bvr9/Ab9/vP8+//2BBb79fUJAu779QILBwX2CfgC+wP59vLh8v/2APwIDg4N/wYH9gjxBv/99QD1/fXx/Av6Av779vz+/v4F+vkC9OrzEfP+BAcD7gQKBf0CAP0CDQf9CAAF9/0C/fT5Af32+/kHAA/+//kAAQf2Awz9/vX9/QcCAg38/AMB9/8HBwz27v4KBAf/+gT7AwX/9f78Afr6EAL8/O8EAv0N/v0FD/79BvwCAvvv+v4L+g0KCv38/wQK9wgICwDwBgP2CgL5+wL5BgQB7/sLDQEP/gcMA/wK+v0BBQH8+fz8CPr9///+BQT5AAH6AgP/+gD+/wcBAvT+AwT+/P4LCAH+9A7r+PYG+P0F/vv/8fz0Cfzw+Q3xAwINCgX88wcE9gYC+Q0TFfj9/voL7v8BBvwA8g7x7/j6//8FBAMPBQf8BPz/9v0P/gLx+O0DAfoNBOsA9v8L+/P6Agb4+Pr6+gn2+PUDCPr7BP7+CPjzDQAQ/wH/AP/7BQkNAvIJ/fwP+wb/BfwCAPT9DgwB+wUB/RP/+gT6AQIJAAcJBu/+BQgFCe4AFPwK/AEJBwAG+PcK/v//8QQF7wQJBwIDBQMDBwYJ+Aj+9wX9BAcECQb//AEFAAH5C/sN+gEHBgUH+gAC/AL5+vr+AQL9/v4ABPz6//8IAgT6BQAADwD/AwH6AfX6+fr/"],
     ["newborn-jaundice","health","+uT2/fPyB/0K+fn+BvkQ8wUGAQD6AwP+/esDCPsL+QwC//79BfUCBPTuAhP8+Pr87gH7AvX0/PsAAw/5/gICBwcNA/r9AQMBC/0I7gL0AfQJ+wQAAgQX9/oJ+gj3/vHv//wC9PkC7gDv+Pv2/voKBv0KBQcQBvr48Qbw8wID+AX/CfzxBwUCBQkK/QsGAP8TAwH8DvMCBP34AgH++QD2Cwz8CgH8CPf/+gD6AAMDAfkDBggE+wYHAAL9BgUHBPYL+AMLAv8JCg8G/v8F//0FA/wEBP3/Cf0G+wj8BQX+AwD8AQUABQkFDQIB/gMAEfb+AgMFCQIE//b++PsD9vXyBPX4+v0F/AYI/fj0+gMCCfL2Bf0H/PMHBfjuCAf8DfsNAwn4/wUG+gH69AMF/Pn7B/QCAwrwAALyAPwVAgcOBAoGBwP8+QMHBQP5BgkI7v0A/vb4+v8BEPUBCPkP+Qvt9xP8/+/2APsK9vP4Dv78BvwAAxL9+f32A/T58O8EBQH8CwP5/gIKA/wCCAIG/fsKCAb7+f4FBgP8/vz7BgELAgIHEf4BChT/APr69AMK+g31Av8FBQAMAf39AQAI9gPy//P5Bfr5Av0QDv8B/fcLCQgABPv/9g3+B/gJ9QP4+QLz/vP//gL+AgX/9fQH+AMB+w8D/wX6Bvz+//bzA/35BQD/6vEA7vQFCQr7+vsLChH2+BECAfzp9vUL8AEK9QT5+f36BgkPAf4S+/ABC/z9+/Tg/wz99Pn+AwT5D+8GDgcFBQPu+AID+v8D+Qr1DPoE+Qr9BAgD9gn5BQUBBfcF9vgP9Pr8APn8+vr5/QT19P0I/gILBQ4C8wH4Bvrz+vr3/vwCA+wCBwECCBABDv/6AwH+BPkCBAAP/fj1Bgb8+gL+BQEDAQkI/gD6//r/CwIF9gT/Bv36AAQCBgUA/QYB/AoI+woF+QkDDvcACAD5EQYJBQIC/f4I/gn9BwID+AAD+f77CPsABwcF+fUBAv4C+/sIAQMG+/wB/P/++gL79gME"],
@@ -628,17 +660,23 @@
       }
       if (!stats && similarity < 0.37) continue;
       row[0] = rowTitle(row);
-      const title = normalize(row[0]);
+      // Some preserved recipes have page numbers for headings. The time
+      // table names the exact recipe even when a page covers multiple foods.
+      const recipe = asset.format === 'pdf' && !asset.restricted && placeholderTitle(row[0]) &&
+        row[2]?.match(/^Recommended process time for (.{3,80}?) in (?:a|an) [^.!?]{1,48} canner\b/i)?.[1];
+      const title = normalize(recipe || row[0]);
       const archivePath = typeof row[1] === 'string' ? row[1] : '';
       const dictionary = /(?:^English-[^/]+\/|(?:^|\/)(?:vocabulary|dictionary|glossary)\/)/i.test(archivePath);
+      const sourceHeading = titlePatterns.length && !recipe && placeholderTitle(row[0]) ? normalize(asset.title) : '';
       const conceptTitle = !dictionary && !/\/[a-z]{2,3}$/i.test(row[0]) &&
-        titlePatterns.some(pattern => pattern.test(title));
+        titlePatterns.some(pattern => pattern.test(title) || support && pattern.test(sourceHeading));
       const deliverySection = deliveryQuery && trusted && asset.format === 'pdf' &&
         /\b(?:pushing|second stage|stage 2|giving good care during labor)\b/.test(title + ' ' + sourceTitle);
       const postpartumSection = postpartum &&
         /\b(?:postpartum (?:bleeding|ha?emorrhage)|birth of the placenta|bleeding after (?:birth|delivery))\b/
           .test(title + ' ' + sourceTitle);
-      const exact = title === phrase || title === prepared.original;
+      const exact = title === phrase || title === prepared.original ||
+        title.replace(/^(?:how to|how do i) | page \d+$/g, '') === phrase;
       const phraseHit = !exact && query.length > 1 && title.includes(phrase);
       const coverage = stats ? stats.hits / query.length : 0;
       const strength = stats ? stats.strength / query.length : 0;
@@ -650,6 +688,11 @@
       const answerConcept = support && answer.length && evidence.some(words => words.every(word => answer.includes(word)));
       const matchedAnswer = row[6] && (answerConcept ||
         answerHits >= Math.min(2, query.length) && answerHits / query.length >= 0.4);
+      const repairTitle = prepared.repair.length > 1 && title !== title.replace(repairAction, ' ') ? repairObject(title) : [];
+      const exactRepair = repairTitle.length > 0 &&
+        repairTitle.length >= prepared.repair.length && repairTitle.length <= prepared.repair.length + 1 &&
+        prepared.repair.every(word => repairTitle.includes(word));
+      const titleMatch = !emergency && !dictionary && (!question || matchedAnswer) ? exact ? 2 : exactRepair ? 1 : 0 : 0;
       const passage = !row[5] && (row[2] || stats?.body || row[3] && asset.format !== 'zim');
       const typedScore = question ? matchedAnswer ? 4 : -55 : passage ? 19 : row[5] ? -12 : 0;
       const reference = title + ' ' + sourceTitle;
@@ -662,7 +705,7 @@
       const advancedReference = audience && /\b(?:polynomial|graduate|abstract algebra|differential equations)\b/.test(reference) &&
         !/\b(?:polynomial|graduate|abstract algebra|differential equations)\b/.test(phrase);
 
-      const titleScore = exact && (!question || matchedAnswer) ? 145 : phraseHit ? 29 : 0;
+      const titleScore = titleMatch ? 125 + 20 * titleMatch : phraseHit ? 29 : 0;
       let score = titleScore + lexicalScore +
         (coverage ? 95 : 160) * Math.max(0, similarity - 0.24) + typedScore - (row[4] ? 19 : 0);
       if (emergency) {
@@ -685,10 +728,10 @@
         }
       }
       const matchedTerms = stats?.hits || 0;
-      found.push({row, index, score, matchedTerms, fullMatch: matchedTerms === query.length,
+      found.push({row, index, score, recipe, titleMatch, matchedTerms, fullMatch: matchedTerms === query.length,
         bodyMatch: !row[5] && Boolean(stats?.body), focused: emergency && support > 0, trusted});
     }
-    return found.sort((a, b) => b.score - a.score || a.index - b.index).slice(0, limit);
+    return found.sort((a, b) => b.titleMatch - a.titleMatch || b.score - a.score || a.index - b.index).slice(0, limit);
   }
 
   function placeholderTitle(value) {
@@ -716,15 +759,15 @@
 
   function result(asset, hit, part) {
     const [rawTitle, locator, lead, , , , , heading] = hit.row;
-    const title = displayTitle(asset, rawTitle, locator);
+    const title = displayTitle(asset, hit.recipe || rawTitle, locator);
     const archive = asset.format === 'zim';
     const destination = asset.destination;
     const href = destination.split('/').map(encodeURIComponent).join('/') +
       (asset.format === 'pdf' ? '#page=' + locator :
         !archive && locator ? '#' + encodeURIComponent(locator) : '');
-    return {score: hit.score, rankTitle: rawTitle, matchedTerms: hit.matchedTerms, fullMatch: hit.fullMatch,
+    return {score: hit.score, titleMatch: hit.titleMatch, rankTitle: rawTitle, matchedTerms: hit.matchedTerms, fullMatch: hit.fullMatch,
       bodyMatch: hit.bodyMatch, focused: hit.focused, trusted: hit.trusted,
-      indexed: true, record: {id: asset.id + ':' + part + ':' + hit.index,
+      indexed: true, redirect: Boolean(hit.row[4]), record: {id: asset.id + ':' + part + ':' + hit.index,
       asset_id: asset.id, title, description: lead, source_title: asset.title, href, destination,
       kind: archive ? 'article' : 'section', reader_required: archive,
       location: archive ? 'Archive path: ' + locator + (heading ? ' · ' + heading : '') : asset.format === 'pdf' ? 'Page ' + locator :
@@ -739,9 +782,61 @@
   const COMPACT_INDEX = 125_000_000;
   const PREVIEW_BYTES = 350_000;
   const TERM_BYTES = 4_000_000;
+  const SPELLING_RETRY_BYTES = 8_000_000;
 
   function impactBucket(word) {
     return (hashTerm(word) >>> 24).toString(16).padStart(2, '0') + '.js';
+  }
+
+  function edits(word) {
+    const candidates = new Set();
+    for (let i = 0; i <= word.length; i++) {
+      const before = word.slice(0, i), after = word.slice(i);
+      if (after) candidates.add(before + after.slice(1));
+      for (const letter of 'abcdefghijklmnopqrstuvwxyz') {
+        candidates.add(before + letter + after);
+        if (after) candidates.add(before + letter + after.slice(1));
+      }
+      if (after.length > 1) candidates.add(before + after[1] + after[0] + after.slice(2));
+    }
+    candidates.delete(word);
+    return candidates;
+  }
+
+  async function correctSpelling(text, vocabulary, impact, read, cancelled) {
+    const replacements = new Map();
+    const unknown = [...new Set(words(text))].filter(word => /^[a-z]{4,32}$/.test(word) && !vocabulary.has(word));
+    // A correction is a fallback. Bound vocabulary and term-bucket reads for it
+    // independently of the ordinary candidate budget.
+    const blocks = new Map();
+    let remaining = TERM_BYTES;
+    for (const word of unknown.slice(0, 4)) {
+      if (cancelled()) return;
+      const candidates = [...edits(word)].filter(candidate => vocabulary.has(candidate));
+      let best, confidence = 0;
+      for (const candidate of candidates) {
+        if (cancelled()) return;
+        const bucket = impactBucket(stem(candidate));
+        if (!Object.hasOwn(impact, bucket)) continue;
+        if (!blocks.has(bucket)) {
+          if (impact[bucket] > remaining) continue;
+          remaining -= impact[bucket];
+          blocks.set(bucket, await read(bucket));
+        }
+        const df = blocks.get(bucket).get(stem(candidate))?.df || 0;
+        // Missing, extra and swapped letters retain more evidence of the
+        // intended word than substitution. Use frequency within that tier.
+        const retainsLetters = candidate.length !== word.length ||
+          [...candidate].sort().join('') === [...word].sort().join('');
+        const score = df ? Number(retainsLetters) + df / (df + 1) : 0;
+        if (score > confidence) {
+          best = candidate;
+          confidence = score;
+        }
+      }
+      if (best) replacements.set(word, best);
+    }
+    if (replacements.size) return text.replace(/[\p{L}\p{N}]+/gu, word => replacements.get(fold(word)) || word);
   }
 
   async function impactBlock(packed) {
@@ -842,12 +937,12 @@
       let score = 0;
       for (const term of phrase) {
         if (!terms.has(term)) return best;
-        score += terms.get(term);
+        score += terms.get(term) * (phrase.length > 1 ? index.weightByWord.get(term) : 1);
       }
       return Math.max(best, score / phrase.length);
     }, 0);
     return (1.4 * total + 16 * present) / (6 + query.query.length) +
-      support * (query.emergency ? 1.4 : 0.65);
+      support * (query.emergency || query.titlePatterns.length ? 1.4 : 0.65);
   }
   const decoded = new WeakMap();
 
@@ -879,6 +974,10 @@
         if (!data) {
           data = {bloom: atob(part.bloom), lexical: part.route && bytes(part.route[0]),
             centroids: part.route?.[1] ? bytes(part.route[1]) : null};
+          if (data.lexical?.length) {
+            const filled = data.lexical.reduce((total, byte) => total + bitCount[byte], 0);
+            data.titleConfidence = 1 - (filled / (data.lexical.length * 8)) ** 2;
+          }
           decoded.set(part, data);
         }
         const hits = routeHits(data.bloom, routing);
@@ -902,7 +1001,7 @@
               conceptMatch = Math.max(conceptMatch, concept.specificity);
             }
           }
-          titlePriority = (exactMatch ? 3 : 0) + conceptMatch;
+          titlePriority = ((exactMatch ? 3 : 0) + conceptMatch) * data.titleConfidence;
           const pairStrength = pairs.filter(matches).length;
           let affinity = 0;
           if (query.vector && !query.emergency && !discussion && data.centroids)
@@ -981,23 +1080,19 @@
     return part.path || (part.pool || asset.sha256) + ':' + (part.number ?? number);
   }
 
+  const selectionBytes = new WeakMap();
   function completionBudget(selection, query) {
-    if (!selection.impact) return Infinity;
     if (query.emergency) return EMERGENCY_BYTES;
-    if (query.query.length > 2 || query.focused.length || query.language || query.seed || query.pediatricHealth)
-      return Infinity;
-    let bytes = 0;
-    const parts = new Set();
-    for (const asset of selection.sources) {
-      for (let number = 0; number < asset.parts.length; number++) {
-        const path = partAddress(asset, number);
-        if (parts.has(path)) continue;
-        parts.add(path);
-        bytes += asset.parts[number].bytes || 200_000;
-        if (bytes > COMPACT_INDEX) return Infinity;
-      }
+    let bytes = selectionBytes.get(selection.sources);
+    if (bytes === undefined) {
+      const parts = new Map();
+      for (const asset of selection.sources)
+        for (const [number, part] of asset.parts.entries())
+          parts.set(partAddress(asset, number), part.bytes || 200_000);
+      bytes = [...parts.values()].reduce((total, size) => total + size, 0);
+      selectionBytes.set(selection.sources, bytes);
     }
-    return COMPACT_BYTES;
+    return bytes > COMPACT_INDEX ? BOUNDED_BYTES : COMPACT_BYTES;
   }
 
   function readChunk(readPart, asset, number, queryTerms) {
@@ -1043,15 +1138,9 @@
     ]);
     if (cancelled()) return [];
     query.vector = encode(query.vectorText);
-    const finalBudget = complete && evidence ? completionBudget(selection, query) : Infinity;
+    const finalBudget = complete ? completionBudget(selection, query) : Infinity;
     const allowance = Math.min(budget, finalBudget);
     const queue = rankedQueue(selection, query, shelf, allowance - (evidence?.readBytes || 0), evidence);
-    const firstPass = queue.length;
-    if (complete && !Number.isFinite(finalBudget) && Number.isFinite(budget)) {
-      const identity = ({asset, number}) => `${asset.id}:${number}`;
-      const selected = new Set(queue.map(identity));
-      queue.push(...rankedQueue(selection, query, shelf).filter(item => !selected.has(identity(item))));
-    }
     const multiple = new Map();
     for (const {asset, number} of queue) {
       const key = partAddress(asset, number);
@@ -1059,8 +1148,7 @@
     }
     const matches = [];
     let updatedAt = -Infinity;
-    for (const [position, {asset, number}] of queue.entries()) {
-      if (position === firstPass) onProgress?.(topResults(matches, limit), 'refining');
+    for (const {asset, number} of queue) {
       if (cancelled()) return [];
       const address = partAddress(asset, number);
       const chunk = shared.get(address) ?? await readChunk(readPart, asset, number, queryTerms);
@@ -1073,7 +1161,7 @@
       if (!hits.length) continue;
       matches.push(...hits.map(hit => result(asset, hit, number)));
       retainCandidates(matches, limit * 4);
-      if (position < firstPass && onProgress && performance.now() - updatedAt >= 150) {
+      if (onProgress && performance.now() - updatedAt >= 150) {
         onProgress(topResults(matches, limit), 'indexed');
         updatedAt = performance.now();
       }
@@ -1081,7 +1169,8 @@
     return topResults(matches, limit);
   }
 
-  const order = (a, b) => b.score - a.score || (a.rankTitle || a.record.title).localeCompare(b.rankTitle || b.record.title, 'en') ||
+  const order = (a, b) => (b.titleMatch || 0) - (a.titleMatch || 0) || b.score - a.score ||
+    (a.rankTitle || a.record.title).localeCompare(b.rankTitle || b.record.title, 'en') ||
     a.record.id.localeCompare(b.record.id, 'en');
 
   const fullPassage = hit => hit.fullMatch && hit.record.kind === 'section';
@@ -1199,17 +1288,22 @@
       if (cache.size > 24) cache.delete(cache.keys().next().value);
       return task;
     }
-    const runQuery = (text, shelf, limit, cancelled, onProgress, lexicalOnly = false) =>
+    const runQuery = (text, shelf, limit, cancelled, onProgress, lexicalOnly = false, spellingRetry = false) =>
       run(selection, lexicalOnly ? () => null : loadModel(), readPart, text, shelf, limit, cancelled, onProgress,
-        selection.impact ? BOUNDED_BYTES : Infinity,
+        spellingRetry ? SPELLING_RETRY_BYTES : BOUNDED_BYTES,
         selection.impact ? readImpact : undefined, true);
-    return Object.assign(runQuery, {embed: async text => (await loadModel()).embed?.(text)});
+    let vocabulary;
+    const correct = selection.impact && ((text, cancelled) => {
+      vocabulary ??= new Set([...table.vocab, ...rules.flatMap(rule => rule.phrases.flatMap(words))]);
+      return correctSpelling(text, vocabulary, selection.impact, readImpact, cancelled);
+    });
+    return Object.assign(runQuery, {embed: async text => (await loadModel()).embed?.(text), correct});
   }
 
   const api = {classic, model, binaryQuery, bytes, search, terms, prepareQuery, unpack, rankPart, normalize, result,
     retainCandidates, topResults, lookupTerms, filter, vectorScore, placeholderTitle, displayTitle,
     emergencyMatches,
-    hashTerm, pairHash, rankedQueue, impactPostings, impactBlock, impactEvidence,
+    hashTerm, pairHash, rankedQueue, impactPostings, impactBlock, impactEvidence, correctSpelling,
     readBudget: READ_BUDGET, boundedBytes: BOUNDED_BYTES, completionBudget};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLShardRank = api;

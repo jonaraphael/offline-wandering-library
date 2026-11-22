@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import http.client
 import errno
+from hashlib import sha256
 import json
 import os
 from pathlib import Path
@@ -14,11 +15,12 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import Request, url2pathname, urlopen
 
+from . import __version__
 from .safety import atomic_write, reject_symlinks, safe_path, sha256_file
 from .transfer import (ChecksumMismatchError, TransferError, _check_directory, _directory_identity,
                        _open_regular, durable_writer, resume_copy)
 
-USER_AGENT = "Offline-Wandering-Library/0.1 (+offline library builder)"
+USER_AGENT = f"Offline-Wandering-Library/{__version__} (+offline library builder)"
 
 
 class DownloadError(RuntimeError):
@@ -27,6 +29,10 @@ class DownloadError(RuntimeError):
 
 class TransientDownloadError(DownloadError):
     """A bounded transport failure that a saved build job may retry unchanged."""
+
+
+class _SplitResumeError(DownloadError):
+    """A range was rejected, so restart this source with a whole request."""
 
 
 class MissingSourceError(DownloadError):
@@ -59,16 +65,14 @@ def verified(path: Path, size: int, checksum: str | None) -> bool:
 
 def inspect_zim_parts(paths, layout, checksum):
     """Return per-part pins only when the ordered on-disk bytes match the whole pin."""
-    from hashlib import sha256
     from .verify import file_hash
 
-    whole = sha256()
-    parts = []
     for path, row in zip(paths, layout, strict=True):
         reject_symlinks(path)
         if not path.is_file() or path.stat().st_size != row["bytes"]:
             return None
-        parts.append({**row, "sha256": file_hash(path, whole)})
+    whole = sha256()
+    parts = [{**row, "sha256": file_hash(path, whole)} for path, row in zip(paths, layout, strict=True)]
     return parts if whole.hexdigest() == checksum else None
 
 
@@ -81,12 +85,41 @@ def _local_source(parsed, repo_root):
     return Path(url2pathname(parsed.path))
 
 
-def download_split_zim(asset, layout, destination, staged, *, repo_root, cached=None, progress=print):
-    """Stream a pinned ZIM into owned partials without allocating a whole file."""
-    from contextlib import closing
+def _split_checkpoint(path, staged, layout):
+    reject_symlinks(path)
+    try:
+        with _open_regular(path) as handle:
+            metadata = json.loads(handle.read(128 * 1024))
+    except (FileNotFoundError, json.JSONDecodeError, UnicodeDecodeError):
+        return None, None, []
+    if not isinstance(metadata, dict) or not isinstance(metadata.get("parts"), list):
+        return None, None, []
+    validator = metadata.get("validator")
+    if not isinstance(validator, str) or not validator or "\r" in validator or "\n" in validator:
+        validator = None
+    prefix = []
+    for path, row, digest in zip(staged, layout, metadata["parts"]):
+        if not isinstance(digest, str) or not re.fullmatch(r"[a-f0-9]{64}", digest) or not verified(path, row["bytes"], digest):
+            break
+        prefix.append(digest)
+    return metadata.get("url"), validator, prefix
 
-    def write_parts(source):
-        for path, row in zip(staged, layout, strict=True):
+
+def download_split_zim(asset, layout, destination, staged, *, repo_root, cached=None, progress=print):
+    """Resume from closed, rehashed parts and verify the whole archive before publishing."""
+    expected = asset["size_bytes"]
+    meta_path = staged[0].with_suffix(".part.json")
+    staging_dir = _directory_identity(meta_path.parent)
+    final_dir = _directory_identity(destination[0].parent)
+
+    def save_checkpoint(url, validator, prefix):
+        _check_directory(meta_path.parent, staging_dir)
+        atomic_write(meta_path, json.dumps({"url": url, "validator": validator, "parts": prefix}).encode())
+
+    def write_parts(source, url, prefix):
+        for path, row in zip(staged[len(prefix):], layout[len(prefix):], strict=True):
+            _check_directory(meta_path.parent, staging_dir)
+            digest = sha256()
             with _open_regular(path, writable=True) as handle, durable_writer(handle) as checkpoint:
                 handle.truncate(0)
                 left = row["bytes"]
@@ -95,9 +128,15 @@ def download_split_zim(asset, layout, destination, staged, *, repo_root, cached=
                     if not block:
                         raise TransientDownloadError("archive ended before its pinned byte count")
                     handle.write(block)
+                    digest.update(block)
                     left -= len(block)
                     checkpoint.written(len(block))
-            progress(f"{asset['id']}: wrote {row['start'] + row['bytes']:,} / {asset['size_bytes']:,} bytes")
+            # Save only complete, durable parts. The next run checks these
+            # hashes before reusing the prefix, then checks the catalog pin.
+            complete = [*prefix, digest.hexdigest()]
+            save_checkpoint(url, validator, complete)
+            prefix[:] = complete
+            progress(f"{asset['id']}: wrote {row['start'] + row['bytes']:,} / {expected:,} bytes")
         if source.read(1):
             raise DownloadError("archive exceeds its pinned byte count")
         parts = inspect_zim_parts(staged, layout, asset["sha256"])
@@ -105,16 +144,43 @@ def download_split_zim(asset, layout, destination, staged, *, repo_root, cached=
             raise ChecksumMismatchError(f"{asset['id']}: split archive SHA-256 mismatch")
         return parts
 
-    def open_source(url, headers):
+    def fetch_parts(url, headers, prefix):
+        nonlocal validator
         parsed = urlsplit(url)
+        offset = layout[len(prefix)]["start"] if prefix else 0
         if parsed.scheme in {"repo", "file"}:
-            return _open_regular(_local_source(parsed, repo_root))
-        response = urlopen(Request(url, headers=headers), timeout=60)
-        if (response.status != 200 or response.headers.get("Content-Encoding", "identity") != "identity" or
-                (parsed.scheme == "https" and urlsplit(response.url).scheme != "https")):
-            response.close()
-            raise DownloadError("expected a full, unencoded archive response")
-        return response
+            with _open_regular(_local_source(parsed, repo_root)) as source:
+                source.seek(offset)
+                return write_parts(source, url, prefix)
+        if offset:
+            headers["Range"] = f"bytes={offset}-"
+            if validator:
+                headers["If-Range"] = validator
+        with urlopen(Request(url, headers=headers), timeout=60) as response:
+            if (response.headers.get("Content-Encoding", "identity") != "identity" or
+                    (parsed.scheme == "https" and urlsplit(response.url).scheme != "https")):
+                raise DownloadError("expected an unencoded archive response without an HTTPS downgrade")
+            if response.status == 200:
+                prefix.clear()
+                offset = 0
+            elif response.status == 206:
+                if response.headers.get("Content-Range") != f"bytes {offset}-{expected - 1}/{expected}":
+                    raise _SplitResumeError("Invalid Content-Range; refusing unsafe split archive resume")
+                if validator and (response.headers.get("ETag" if validator.startswith('"') else "Last-Modified")
+                                  != validator):
+                    raise _SplitResumeError("Split archive resume validator changed")
+            else:
+                raise DownloadError(f"Unexpected archive HTTP status {response.status}")
+            length = response.headers.get("Content-Length")
+            if length is not None and (not length.isdecimal() or int(length) != expected - offset):
+                raise DownloadError("Remote archive size differs from the catalog pin")
+            etag = response.headers.get("ETag", "")
+            validator = etag if etag.startswith('"') else response.headers.get("Last-Modified")
+            # Replace a prior checkpoint before overwriting any of its bytes.
+            save_checkpoint(url, validator, prefix)
+            if offset:
+                progress(f"{asset['id']}: resuming at {offset:,} / {expected:,} bytes")
+            return write_parts(response, url, prefix)
 
     # An interruption during publication can leave verified parts in both
     # locations. Reassemble that staging set before requesting bytes again.
@@ -122,38 +188,64 @@ def download_split_zim(asset, layout, destination, staged, *, repo_root, cached=
                   for partial, final in zip(staged, destination, strict=True)]
     parts = inspect_zim_parts(candidates, layout, asset["sha256"])
     if parts is None:
+        saved_url, validator, prefix = _split_checkpoint(meta_path, staged, layout)
+        # A complete set that failed the whole pin must be overwritten.
+        if len(prefix) == len(layout):
+            prefix.clear()
+        if not prefix:
+            saved_url, validator = None, None
         sources = list(dict.fromkeys([asset["source_url"], *asset.get("mirrors", [])]))
         if cached is not None and cached.is_file():
-            sources.insert(0, cached.as_uri())
+            sources = list(dict.fromkeys([cached.as_uri(), *sources]))
+        if prefix and saved_url in sources:
+            sources.remove(saved_url)
+            sources.insert(0, saved_url)
         headers = {"Accept-Encoding": "identity", "User-Agent": USER_AGENT}
         last_error = None
         for url in sources:
+            if url != saved_url:
+                validator, prefix = None, []
             for attempt in range(3):
                 try:
-                    request_headers = headers if attempt == 0 else {"Accept-Encoding": "identity"}
-                    with closing(open_source(url, request_headers)) as stream:
-                        parts = write_parts(stream)
+                    request_headers = dict(headers) if attempt == 0 else {"Accept-Encoding": "identity"}
+                    parts = fetch_parts(url, request_headers, prefix)
                     break
                 except (OSError, http.client.HTTPException, DownloadError, TransferError) as error:
                     last_error = error
                     if isinstance(error, HTTPError):
                         error.close()
+                    if isinstance(error, ChecksumMismatchError):
+                        _check_directory(meta_path.parent, staging_dir)
+                        meta_path.unlink(missing_ok=True)
+                        for path in staged:
+                            reject_symlinks(path)
+                            path.unlink(missing_ok=True)
+                        break
+                    rejected_range = (isinstance(error, _SplitResumeError) or
+                                      isinstance(error, HTTPError) and error.code == 416)
+                    if prefix and rejected_range:
+                        validator, prefix = None, []
+                        save_checkpoint(url, validator, prefix)
+                        continue
                     if attempt == 2 or not (_transient(error) or isinstance(error, HTTPError) and error.code == 403):
                         break
+                    if len(prefix) == len(layout):
+                        validator, prefix = None, []
                     time.sleep(2 ** attempt)
             if parts is not None:
                 break
         if parts is None:
-            # A complete-looking rejected set must never be promoted on retry.
-            for path in staged:
-                path.unlink(missing_ok=True)
             error_type = TransientDownloadError if _transient(last_error) else DownloadError
             raise error_type(f"{asset['id']}: split ZIM download failed: {last_error}") from last_error
+    _check_directory(meta_path.parent, staging_dir)
+    _check_directory(destination[0].parent, final_dir)
     for partial, final in zip(staged, destination, strict=True):
         if partial.exists():
             reject_symlinks(partial)
             reject_symlinks(final)
             os.replace(partial, final)
+    reject_symlinks(meta_path)
+    meta_path.unlink(missing_ok=True)
     return parts
 
 

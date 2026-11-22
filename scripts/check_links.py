@@ -7,6 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 from hashlib import sha256
 import http.client
+from itertools import chain
 import json
 from pathlib import Path
 import re
@@ -73,7 +74,7 @@ def probe(url: str, size: int, origin: str | None, timeout: float, *, stream_siz
         req = Request(url, method=method, headers={**request_headers, **extra})
         try:
             with urlopen(req, timeout=timeout) as response:
-                return response.status, response.headers, response.url
+                return response.status or 0, response.headers, response.url
         except HTTPError as error:
             with error:
                 return error.code, error.headers, error.url
@@ -147,10 +148,15 @@ def sample(items, limit):
 
 def deployed_routes(assets, pages_base, relay_base, limit, *, archive_relay):
     """Use the checked-in mirror and relay pins for the browser's actual URLs."""
-    from build_pages import PUBLISH_PART, browser_routes
+    from build_pages import PUBLISH_PART, READER_IDS, browser_routes
 
-    for identity, metadata in sample([(a["id"], {"asset": a, "host": urlsplit(a["source_url"]).hostname})
-                                      for a in assets if browser_routes(a)], limit):
+    readers, direct = [], []
+    for asset in assets:
+        if browser_routes(asset):
+            identity = asset["id"]
+            (readers if identity in READER_IDS else direct).append(
+                (identity, {"asset": asset, "host": urlsplit(asset["source_url"]).hostname}))
+    for identity, metadata in chain(readers, sample(direct, limit)):
         asset = metadata["asset"]
         for url in browser_routes(asset):
             expected = {"cors", "range", "exposes_content_range"} if asset["format"] == "zim" else {"cors"}
@@ -219,6 +225,14 @@ def main(argv=None):
         if urls:
             asset_sources[asset["id"]] = urls
     stream_size = StreamSize()
+    allowed_origins = set()
+    if args.pages_base or args.relay_base:
+        from build_pages import SEARCH_PUBLISH_BASE, browser_routes, connect_origins
+        # Derive the policy from every deployed direct origin, even when only
+        # a subset of routes is probed. Pages mirrors use the page's own origin.
+        allowed_origins.update(connect_origins(chain(
+            (args.pages_base or args.origin, args.relay_base or "", SEARCH_PUBLISH_BASE),
+            *(browser_routes(asset) for asset in assets))))
     with ThreadPoolExecutor(max_workers=args.workers) as workers:
         def check(source):
             url, metadata = source
@@ -233,6 +247,11 @@ def main(argv=None):
             row = probe(url, size, args.origin, args.timeout, whole_get=whole_get, stream_size=stream_size,
                         browser_expected=kind == "browser-direct")
             row.update(route=kind, id=identity, browser_drift=sorted(field for field in required if not row[field]))
+            final_url = row.get("final_url", url)
+            if urlsplit(final_url).scheme in {"http", "https", "ftp"} and not allowed_origins.intersection(
+                    connect_origins((final_url,))):
+                row.update(ok=False, outcome="outside page CSP")
+                row["browser_drift"].append("connect-src")
             return row
         routes = list(workers.map(check_route, deployed_routes(
             assets, args.pages_base, args.relay_base, route_sample, archive_relay=args.archive_relay))) if (

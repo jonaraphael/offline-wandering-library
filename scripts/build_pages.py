@@ -43,6 +43,7 @@ KIWIX = "mirror.download.kiwix.org"
 KIWIX_RELEASES = "master.download.kiwix.org"
 KIWIX_REDIRECTORS = {"download.kiwix.org", "lb.download.kiwix.org", KIWIX}
 READER_IDS = {"kiwix_windows", "kiwix_linux", "kiwix_macos", "kiwix_android"}
+SEARCH_PUBLISH_BASE = "https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/"
 TIER = {"CRITICAL": 0, "USEFUL": 1, "NONESSENTIAL": 2}
 
 
@@ -248,7 +249,7 @@ def connect_origins(urls):
     for url in urls:
         parsed = urlsplit(url)
         if parsed.scheme == "https" and parsed.hostname:
-            origin = f"https://{parsed.hostname}" + (f":{parsed.port}" if parsed.port else "")
+            origin = f"https://{parsed.hostname}" + (f":{parsed.port}" if parsed.port not in {None, 443} else "")
             if not re.fullmatch(r"https://[a-z0-9.-]+(?::[0-9]+)?", origin):
                 raise ValueError(f"Invalid browser route origin: {origin}")
             origins.add(origin)
@@ -284,8 +285,7 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
     if search_commit:
         if len(search_commit) != 40 or any(char not in "0123456789abcdef" for char in search_commit):
             raise ValueError("Search distribution needs an immutable Git commit")
-        search_base = ("https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/"
-                       + search_commit + "/catalog/search/")
+        search_base = SEARCH_PUBLISH_BASE + search_commit + "/catalog/search/"
     elif search_index["sources"]:
         # These source indexes are already compiled into search-build.json.
         # The local site only needs the pinned payloads they reference.

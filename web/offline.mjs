@@ -265,17 +265,20 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
   if (searchMissing) supportMissing.push({kind: "search", title: "Search index", reason: "The drive ran out of space."});
   const omissions = missing.map(row => ({id: row.id || "", title: row.title || row.id || "",
     utility_tier: row.utility_tier ?? null, reason: row.reason || row.unresolved_reason || ""})).sort(order);
+  const reportOmissions = [...omissions, ...supportMissing].sort(order);
   let pages;
   if (reader) {
-    try { pages = readerFiles(reader, assets, phoneVolumes, omissions, keptInParts, indexed, shared, syncedAt); }
+    try { pages = readerFiles(reader, assets, phoneVolumes, reportOmissions, keptInParts, indexed, shared, syncedAt); }
     catch (error) {
-      supportMissing.push({kind: "reader", title: "Full reader", reason: error.message});
+      const issue = {kind: "reader", title: "Full reader", reason: error.message};
+      supportMissing.push(issue);
+      reportOmissions.push(issue);
     }
   }
   pages ||= new Map([
-    ["START_HERE.html", startPage(assets, omissions)],
+    ["START_HERE.html", startPage(assets, reportOmissions)],
     ["LIBRARY/BUILD_REPORT.html", '<!doctype html><meta charset="utf-8"><title>Build report</title><h1>Build report</h1>' +
-      reportBody(omissions, keptInParts) + '<p><a href="INVENTORY.json">Every file, with its location</a></p>']
+      reportBody(reportOmissions, keptInParts) + '<p><a href="INVENTORY.json">Every file, with its location</a></p>']
   ]);
   const start = pages.get("START_HERE.html");
   pages.delete("START_HERE.html");

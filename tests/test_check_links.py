@@ -139,6 +139,38 @@ class LinkChecksTests(unittest.TestCase):
         self.assertEqual(probe.call_count, 3)
         self.assertEqual(routes.call_args.args[3], 1)
 
+    def test_final_browser_origin_must_be_in_connect_src(self):
+        primary = "https://source.test/guide"
+        allowed = "https://other.test/guide"
+        outside = "https://outside.test/guide"
+        assets = [
+            {"id": name, "source_url": url, "size_bytes": 42, "format": "pdf", "browser_fetch": {"cors": True}}
+            for name, url in (("guide", primary), ("another", allowed))
+        ]
+        for final_url, status, expected in ((allowed, 200, 0), (outside, 200, 1), (outside, 403, 1),
+                                            ("https://source.test:8443/guide", 200, 1),
+                                            ("http://source.test/guide", 200, 1),
+                                            ("ftp://source.test/guide", 200, 1)):
+            with self.subTest(final_url=final_url, status=status):
+                def probe(url, _size, origin, *_args, **_kwargs):
+                    redirected = origin and url == primary
+                    code = status if redirected else 200
+                    return {"url": url, "final_url": final_url if redirected else url, "ok": code == 200,
+                            "cors": code == 200, "outcome": "matching" if code == 200 else "blocked for this checker"}
+
+                with (tempfile.TemporaryDirectory() as directory,
+                      patch.object(check_links, "load_catalog", return_value=assets),
+                      patch.object(check_links, "probe", side_effect=probe),
+                      patch("sys.stdout"), patch("sys.stderr")):
+                    output = Path(directory) / "report.json"
+                    self.assertEqual(check_links.main(["--pages-base", "https://pages.test/", "--output", str(output)]),
+                                     expected)
+                    failed = json.loads(output.read_bytes())["failed_routes"]
+                    if expected:
+                        self.assertEqual(len(failed), 1)
+                        self.assertEqual(failed[0]["outcome"], "outside page CSP")
+                        self.assertIn("connect-src", failed[0]["browser_drift"])
+
     def test_publisher_uses_builder_agent_without_origin(self):
         response = self.response(200, {"Content-Length": "42"})
         with patch.object(check_links, "urlopen", return_value=response) as fetch:

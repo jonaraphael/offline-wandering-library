@@ -207,7 +207,7 @@ test('term dictionaries route title-only postings without opening unrelated reco
     rmSync(temp, {recursive: true, force: true});
   }
 });
-test('progressive ranking scores chunks outside the preview once and matches the complete pass', async () => {
+test('indexed ranking stays within its requested allowance and cancels between chunks', async () => {
   const path = n => 'chunks/' + String(n).padStart(64, '0') + '.js';
   const parts = [0, 1, 2].map(n => ({path: path(n), bloom: '/w==', bytes: 10, number: n}));
   const selection = {sources: [{id: 'manual', title: 'Manual', format: 'pdf', sha256: 'a'.repeat(64),
@@ -217,27 +217,27 @@ test('progressive ranking scores chunks outside the preview once and matches the
     index([['Patching a Bicycle Tire Inner Tube', 2, 'Replace or patch a puncture', '', 0, 0]]),
     index([['Repairing a handlebar', 3, 'For a bicycle', '', 0, 0]])
   ];
-  const reads = [], preview = [];
+  const reads = [], progress = [];
   const readPart = (_digest, number) => {
     reads.push(number);
     return chunks[number];
   };
   const query = 'How do I fix a flat bicycle tire?';
   const completed = await rank.search(selection, noVector, readPart, query, 'all', 3,
-    () => false, (hits, phase) => { if (phase === 'refining') preview.push(...hits); }, 10, undefined, true);
-  assert.deepEqual(reads, [0, 1, 2]);
-  assert.equal(preview[0].record.location, 'Page 1');
-  assert.equal(completed[0].record.location, 'Page 2');
-  assert.deepEqual(completed, await rank.search(selection, noVector, readPart, query, 'all', 3));
+    () => false, hits => progress.push(...hits), 10, undefined, true);
+  assert.deepEqual(reads, [0]);
+  assert.equal(progress[0].record.location, 'Page 1');
+  assert.equal(completed[0].record.location, 'Page 1');
+  assert.equal((await rank.search(selection, noVector, readPart, query, 'all', 3))[0].record.location, 'Page 2');
   reads.length = 0;
   let cancelled = false;
   const abandoned = await rank.search(selection, noVector, readPart, query, 'all', 3,
-    () => cancelled, (_hits, phase) => { if (phase === 'refining') cancelled = true; }, 10, undefined, true);
+    () => cancelled, () => { cancelled = true; }, 30, undefined, true);
   assert.deepEqual(abandoned, []);
   assert.deepEqual(reads, [0]);
 });
 
-test('term routing bounds compact and emergency searches while large general searches refine', async () => {
+test('ordinary and emergency searches stay bounded across selection sizes and term index availability', async () => {
   const parts = [0, 1, 2].map(n => ({number: n, bloom: '/w==', bytes: 7_000_000}));
   const asset = {id: 'manual', title: 'Manual', format: 'pdf', sha256: 'a'.repeat(64),
     destination: 'Manual.pdf', parts};
@@ -254,11 +254,51 @@ test('term routing bounds compact and emergency searches while large general sea
   assert.deepEqual(reads, [0, 1]);
   reads.length = 0;
   await run({sources: [asset], impact: undefined}, 'signs of dehydration');
-  assert.deepEqual(reads, [0, 1, 2]);
+  assert.deepEqual(reads, [0, 1]);
   const large = {...asset, parts: [...parts, {number: 3, bloom: '/w==', bytes: 125_000_000}]};
   reads.length = 0;
   await run({sources: [large], impact: {}}, 'rehydration');
-  assert.deepEqual(reads, [0, 1, 2, 3]);
+  assert.deepEqual(reads, [0, 1, 2]);
+});
+
+test('a repair guide with the requested object in its title outranks a body mention', () => {
+  const query = rank.prepareQuery('Fix a bicycle inner tube');
+  const part = index([
+    ['Bathing and washing', 1, 'Use a bicycle inner tube to fix the chair.'],
+    ['Patching a Bicycle Tire Inner Tube', 2, 'Troubleshoot tire punctures.'],
+  ]);
+  const hits = rank.rankPart(part, query, {title: 'Repair guides', format: 'pdf'}, 2);
+  assert.equal(hits[0].row[1], 2);
+  assert.ok(hits[0].titleMatch > hits[1].titleMatch);
+});
+
+test('recipe table headings distinguish similar foods on numbered PDF pages', () => {
+  const query = rank.prepareQuery('How to can green beans');
+  const part = index([
+    ['Page 8', 8, 'Recommended process time for Lima Beans in a dial-gauge pressure canner.'],
+    ['Page 9', 9, 'Recommended process time for Snap and Italian Beans in a dial-gauge pressure canner.'],
+  ]);
+  const asset = {id: 'vegetables', title: 'Canning: 04. Vegetables', format: 'pdf',
+    destination: 'Vegetables.pdf', category: 'food'};
+  const [best] = rank.rankPart(part, query, asset, 2);
+  const result = rank.result(asset, best, 0).record;
+  assert.equal(result.title, 'Snap and Italian Beans');
+  assert.equal(result.href, 'Vegetables.pdf#page=9');
+});
+
+test('one-edit correction needs a corresponding indexed term and keeps known words', async () => {
+  const vocabulary = new Set(['diarrhea', 'diary', 'children', 'frostbite']);
+  const bucket = word => (rank.hashTerm(word) >>> 24).toString(16).padStart(2, '0') + '.js';
+  const indexed = new Map([
+    [bucket('diarrhea'), new Map([['diarrhea', {df: 20}]])],
+    [bucket('frostbit'), new Map([['frostbit', {df: 4}]])],
+  ]);
+  const impact = Object.fromEntries([...indexed.keys()].map(name => [name, 200]));
+  const correct = text => rank.correctSpelling(text, vocabulary, impact, name => indexed.get(name), () => false);
+  assert.equal(await correct('diarhea in children'), 'diarrhea in children');
+  assert.equal(await correct('forstbite'), 'frostbite');
+  assert.equal(await correct('diarrhea in children'), undefined);
+  assert.equal(await correct('randomword'), undefined);
 });
 
 test('the lexical preview precedes model loading and shares its chunk with final ranking', {timeout: 1000}, async () => {

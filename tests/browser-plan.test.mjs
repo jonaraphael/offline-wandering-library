@@ -3,7 +3,7 @@ import {readFileSync} from "node:fs";
 import {join} from "node:path";
 import {test} from "node:test";
 import {browserSelection, buildOrder, isKnowledgeFile, PART_BYTES} from "../web/builder.mjs";
-import {completionState, essentialRouteMessage, recommendBrowser, removedEssentialMessage, selectBrowser,
+import {completionState, essentialRouteMessage, recommendBrowser, removedEssentialMessage, reportedDriveCapacity, selectBrowser,
   storageStops} from "../web/builder-ui.mjs";
 import {assemblyReserve} from "../web/offline.mjs";
 import "../src/owl/templates/selector.js";
@@ -33,6 +33,28 @@ test("storage limit stops end at the available space and omit unusable stops", (
   assert.deepEqual(inGB(1500), oneTB);
   assert.deepEqual(inGB(32, stop => stop >= 8e9), [8, 16, 32]);
   assert.deepEqual(inGB(0.6), [0.6]);
+});
+
+test("the hosted builder provides a no-script command-line route without changing its script policy", {skip: !site}, () => {
+  const html = readFileSync(join(site, "index.html"), "utf8");
+  const noScript = html.match(/<noscript>([\s\S]*?)<\/noscript>/)?.[1];
+  assert.match(noScript, /Turn on JavaScript in Chrome, Edge or Arc on a computer/);
+  assert.match(noScript, /<a[^>]+href="https:\/\/github\.com\/[^"]+\/README\.md">Build with the command line<\/a>/);
+  assert.match(html, /default-src 'none'; script-src 'self';/);
+  assert.equal(html.match(/<script\b/g)?.length, 1);
+});
+
+test("entering 4 GB free on a partly full drive produces a library for that free space", {skip: !site}, () => {
+  const {planner, routes, navigation, published, files} = publishedCatalog();
+  const capacity = reportedDriveCapacity(4, "GB", 0);
+  const state = recommendBrowser(planner, OWLPlanner.preset(planner, planner.profiles[0].id, capacity, {browser: true}),
+    routes, published, undefined, {phone: navigation.phone});
+  const resolved = OWLPlanner.resolve(planner, state, {ignoreNativeCapacity: true});
+  const profile = OWLPlanner.profileFor(planner, state.profile, state.capacityBytes, state);
+  const plan = selectBrowser(profile, resolved, {files, routes, published, phone: navigation.phone,
+    kept: () => false, minimum: planner.capacity_policy.min});
+  assert.ok(plan.assets.some(isKnowledgeFile));
+  assert.ok(plan.used + plan.reserve <= 4e9);
 });
 
 test("the browser plan fits every storage stop, including reduced recommendations", {skip: !site}, t => {

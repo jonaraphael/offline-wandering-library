@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {createHash, webcrypto} from "node:crypto";
 import {readFileSync} from "node:fs";
 import {test} from "node:test";
-import {compareLibrary, MANIFEST, readBuild, reconcile} from "../web/builder.mjs";
+import {compareLibrary, DrivePathConflict, inspectDrive, MANIFEST, partLayout, readBuild, reconcile} from "../web/builder.mjs";
 import {removeFile, writeFile} from "../web/drive.mjs";
 import {readPreviewFile} from "../web/reader-preview.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
@@ -165,11 +165,94 @@ test("retirement leaves paths outside the OWL layout and files whose recorded di
   assert.equal(await text(drive, "LIBRARY/BOOKS/old.pdf"), "new");
 });
 
-test("an unrelated start page is never overwritten", async () => {
+test("a personal start page is reported when choosing the drive, before any download or write", async () => {
   const drive = new Directory();
   await writeFile(drive, "START_HERE.html", "My homepage");
-  await assert.rejects(reconcile(drive, options({a: "bytes"})), /existing file blocks/);
+  const conflict = error => error instanceof DrivePathConflict && error.entry === "a different file named START_HERE.html";
+  await assert.rejects(inspectDrive(drive), conflict);
+  await assert.rejects(reconcile(drive, options({a: "bytes"}, {fullVerify: true,
+    prepareSources: () => assert.fail("source metadata must not be fetched"),
+    fetchFile: () => assert.fail("content must not be fetched")})), conflict);
+  assert.deepEqual([...drive.entries.keys()], ["START_HERE.html"]);
   assert.equal(await text(drive, "START_HERE.html"), "My homepage");
+});
+
+test("the reserved entry paths report a file named LIBRARY or a folder named START_HERE.html", async () => {
+  const file = new Directory(), folder = new Directory();
+  await writeFile(file, "LIBRARY", "personal");
+  await folder.getDirectoryHandle("START_HERE.html", {create: true});
+  await assert.rejects(inspectDrive(file), error => error instanceof DrivePathConflict && /file named LIBRARY/.test(error.message));
+  await assert.rejects(inspectDrive(folder), error => error instanceof DrivePathConflict && /folder named START_HERE.html/.test(error.message));
+});
+
+test("Check every file saves same-length changes and verifies the rebuilt start page and build report", async () => {
+  const drive = new Directory();
+  const selection = options({book: "verified content"});
+  await reconcile(drive, selection);
+  const pages = ["START_HERE.html", "LIBRARY/BUILD_REPORT.html"];
+  const originals = await Promise.all(pages.map(path => text(drive, path)));
+  const changes = originals.map(page => "!" + page.slice(1));
+  for (const [index, path] of pages.entries()) {
+    await writeFile(drive, path, changes[index]);
+    assert.equal(Buffer.byteLength(changes[index]), Buffer.byteLength(originals[index]));
+  }
+  const result = await reconcile(drive, {...selection, fullVerify: true,
+    fetchFile: () => assert.fail("the verified book must not be fetched again")});
+  assert.equal(result.state.finished, true);
+  assert.deepEqual(result.repairedPages.map(row => row.path).sort(), pages.toSorted());
+  const checksums = (await text(drive, "LIBRARY/SHA256SUMS.txt")).split("\n");
+  for (const {path, copy} of result.repairedPages) {
+    const index = pages.indexOf(path);
+    assert.match(copy, /\.changed-\d{4}-\d{2}-\d{2}-[a-f\d]+\.html$/);
+    assert.equal(await text(drive, copy), changes[index]);
+    assert.equal(await text(drive, path), originals[index]);
+    assert.ok(checksums.includes(hash(originals[index]) + "  " + path));
+    assert.ok(!checksums.some(line => line.endsWith("  " + copy)));
+  }
+});
+
+test("Check every file leaves a personal build report untouched even on an OWL drive", async () => {
+  const drive = new Directory();
+  const selection = options({book: "content"});
+  await reconcile(drive, selection);
+  const report = "LIBRARY/BUILD_REPORT.html";
+  const record = await readBuild(drive);
+  record.generated = record.generated.filter(path => path !== report);
+  delete record.generatedPins[report];
+  await writeFile(drive, MANIFEST, JSON.stringify(record));
+  await writeFile(drive, report, "personal report");
+  await assert.rejects(reconcile(drive, {...selection, fullVerify: true}), /existing file blocks/);
+  assert.equal(await text(drive, report), "personal report");
+  assert.ok(![...(await drive.getDirectoryHandle("LIBRARY")).entries.keys()].some(path => path.includes(".changed-")));
+});
+
+test("FAT32 migration can join a 2 GiB archive when there is room and keeps a 5 GiB archive in parts", async () => {
+  const GiB = 2 ** 30;
+  const drive = new Directory();
+  const archive = (id, size) => ({...item(id, id), format: "zim", destination: "ZIM/" + id + ".zim", size_bytes: size * GiB});
+  const assets = [archive("fits", 2), archive("split", 5)];
+  const installed = {};
+  for (const asset of assets) {
+    const layout = partLayout(asset);
+    for (const part of layout) {
+      await writeFile(drive, part.path, "");
+      // Only the file size is queried for an already verified, settled build.
+      (await drive.file(part.path)).bytes = {size: part.bytes};
+    }
+    installed[asset.id] = {asset, pin: pin(asset), layout, parts: layout.map(part => ({bytes: part.bytes, sha256: asset.sha256}))};
+  }
+  await writeFile(drive, MANIFEST, JSON.stringify({version: 2, buildId: "fat32", plan: assets.map(pin),
+    excluded: [], installed, working: {}, generated: [], owned: Object.values(installed).flatMap(row => row.layout.map(part => part.path)),
+    parts: {}, verified: {}, dropped: {}, failures: {}, partBytes: GiB, finished: true,
+    choice: {kind: "recommended", split: true}}));
+  const plan = {assets, fat32: true, archiveSpace: 16 * GiB};
+  const short = await compareLibrary(drive, {...plan, freeBytes: 2 * GiB - 1});
+  assert.deepEqual(short.joins, []);
+  const room = await compareLibrary(drive, {...plan, freeBytes: 8 * GiB});
+  assert.deepEqual(room.adds, []);
+  assert.deepEqual(room.joins.map(row => row.asset.id), ["fits"]);
+  assert.deepEqual(room.present.find(row => row.asset.id === "split").layout.map(part => part.path),
+    ["aa", "ab", "ac", "ad", "ae"].map(part => "LIBRARY/ZIM/split.zim" + part));
 });
 
 test("a sync records the choice before waiting for download metadata", async () => {

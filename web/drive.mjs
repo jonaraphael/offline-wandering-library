@@ -69,6 +69,7 @@ export async function writeFile(root, path, contents) {
     await writable.abort().catch(() => {});
     throw error;
   }
+  await root.verifyWrite?.(path, contents);
 }
 
 export function isNoSpace(error) {

@@ -77,9 +77,13 @@ def _path(path: Path) -> Path:
 
 def _read(path: Path, *, max_bytes=4 * 1024 * 1024):
     reject_symlinks(path)
-    if not path.is_file() or path.stat().st_size > max_bytes:
+    if not path.is_file():
         raise SafetyError(f"Invalid job metadata: {path}")
-    return json.loads(path.read_text(encoding="utf-8"))
+    with path.open("rb") as handle:
+        data = handle.read(max_bytes + 1)
+    if len(data) > max_bytes:
+        raise SafetyError(f"Invalid job metadata: {path}")
+    return json.loads(data.decode("utf-8"))
 
 
 def _owned(job_dir: Path) -> tuple[Path, dict]:

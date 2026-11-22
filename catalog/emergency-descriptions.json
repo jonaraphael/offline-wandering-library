@@ -1,14 +1,23 @@
 {
   "safety": [
     "avalanche", "carbon-monoxide", "cyber-safety", "disaster-reaction", "disaster-recovery",
-    "disaster-shelter", "drinking-water", "earthquake", "electrical-fire", "emergency-alerts",
+    "disaster-shelter", "downed-power-line", "drinking-water", "earthquake", "electrical-fire", "emergency-alerts",
     "emergency-supplies", "evacuation", "extreme-heat", "family-plan", "fire-extinguisher", "fire-smoke",
-    "flood", "flood-evacuation", "flood-mold", "food-outage", "gas-leak", "hazardous-spill",
+    "flood", "flood-evacuation", "flood-mold", "food-outage", "gas-leak", "grain-storage", "hazardous-spill",
     "heating-outage", "house-fire", "hurricane", "landslide", "lightning", "mass-casualty",
-    "nuclear-emergency", "outdoor-rescue", "pandemic", "sanitation", "shooter-safety", "tornado",
+    "nuclear-emergency", "outdoor-rescue", "pandemic", "root-vegetable-storage", "sanitation", "shooter-safety", "tornado",
     "tsunami", "volcano", "wildfire", "winter-storm"
   ],
   "situations": {
+    "downed-power-line": ["A storm knocked an overhead electric wire onto the road.", "There is a sparking utility cable lying across the driveway.", "The power lines outside came down and are hanging near the ground."],
+    "scald": ["A cup of steaming tea spilled on a child's shoulder.", "A saucepan tipped over and its hot liquid hit someone.", "Boiling soup splashed onto my son's skin and left a burn."],
+    "long-lie": ["An older person fell and lay on the floor for several hours before being found.", "My grandfather was alone and may have been on the ground since last night.", "We found our elderly neighbor lying on the floor after nobody saw her all day."],
+    "fishhook": ["The barb of a fishing hook caught in someone's skin.", "There is a fishhook lodged in a fingertip and it won't slide out.", "The fishing lure is stuck in my hand with a hook under the skin."],
+    "embedded-object": ["A sharp object went deep into a wound and is still sticking out.", "A shard of glass is embedded in someone's arm.", "A piece of metal is stuck firmly in the skin after an accident."],
+    "jellyfish-sting": ["After swimming in the ocean, long burning stripes appeared on his leg.", "A jellyfish touched her in the water and left painful welts.", "The tentacles brushed against a swimmer and stung their arm."],
+    "tourniquet": ["The limb is bleeding severely and someone has brought a tourniquet.", "I'm looking for the tourniquet section of the first-aid guide.", "Pressure on the wound has not controlled the heavy bleeding from the leg."],
+    "root-vegetable-storage": ["We need to store our potatoes and roots for several months without refrigeration.", "How can I keep harvested carrots and turnips over the winter?", "The power is out and we need a place to store root vegetables."],
+    "grain-storage": ["We need to protect our dry wheat harvest from pests while it is stored.", "The grain must stay dry in storage after a flood.", "How can I keep rice or maize in a grain silo through the rainy season?"],
     "newborn-resuscitation": ["The baby has just been delivered and isn't taking any breaths.", "Our newborn is blue and limp and hasn't cried since the birth.", "How do I help a baby breathe right after delivery?"],
     "newborn-warmth": ["The baby we just delivered feels cold all over.", "We need to keep the newborn warm and dry without a heater.", "Our tiny new baby is shivering and cold to the touch."],
     "newborn-jaundice": ["Our new baby's skin and the whites of her eyes look yellow.", "The baby came home yesterday and his face is turning yellow.", "Does this yellow color in a newborn mean jaundice?"],

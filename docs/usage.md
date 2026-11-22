@@ -19,7 +19,7 @@ source exclusions and reader compatibility.
 1. Use a dependable SSD and cable. Format it with your operating system’s ordinary disk tools if needed; OWL does not format drives. exFAT is the intended cross-platform filesystem.
 2. Identify the SSD’s mount location carefully. Use a dedicated `EMERGENCY_LIBRARY` directory so the library is easy to find.
 3. Install Python 3.11+ and OWL on the build computer. Install with `python -m pip install -e .` for normal builds. These dependencies are needed only while building.
-4. Review the resource registry, asset catalog, and source notes. The default profiles select finished files with exact size and SHA-256 pins. Choose a capacity that fits the space on the drive. The planner budgets for discovery, metadata, readers and free space. For collections with ZIMs larger than 4 GiB, use exFAT with Python. The desktop browser builder writes large ZIMs in split parts.
+4. Review the resource registry, asset catalog, and source notes. The default profiles select finished files with exact size and SHA-256 pins. Choose a capacity that fits the space on the drive. The planner budgets for discovery, metadata, readers and free space. On FAT32, Python writes oversized pinned ZIMs in 1 GiB parts. Choose exFAT when your reader needs a single file.
 5. Run a plan and inspect its selected files, source sizes, and warnings.
 
 ```bash
@@ -123,7 +123,7 @@ kill or power cut cannot run cleanup, but prior durable checkpoints remain.
 
 | Interrupted phase | Behavior on the next run |
 | --- | --- |
-| Download | Reuse verified files; resume `.part` bytes with HTTP Range where supported. A server that ignores ranges causes that file to restart safely. |
+| Download | Reuse verified files and resume with HTTP Range where supported. FAT32 ZIM downloads resume from the last complete part that passes its saved checksum. A server that ignores ranges causes that file to restart safely. |
 | Local/cache copy | Compare the saved prefix with the source, append the missing suffix, then check the completed file's SHA-256 before promotion. |
 | Discovery compilation | Recompile the small metadata list; no source extraction or index cache is needed. |
 | Static pages, checksums, final verification | Regenerate small pages and repeat integrity checks as needed. Hashing itself is not checkpointed. |
@@ -139,6 +139,13 @@ An internet outage gets bounded retries with backoff. Foreground commands exit
 after those attempts; restore the connection and rerun. Saved background jobs
 also apply their configured transient retry window, then record an actionable
 failure if it is exhausted. Use `resume` on the saved job after recovery.
+
+When a selected source fails and other files verify, the build publishes
+`START_HERE.html` for those files and lists omissions in
+`LIBRARY/BUILD_REPORT.html`. It exits with an error. Rerun the same build
+command to retry the missing files. To check a published partial library,
+run the verifier with `--strict --accept-partial`. It still checks the
+published files against their checksums and reports missing reader apps.
 
 `LIBRARY/.owl/state.json` records the phase and stays incomplete until final verification and postflight.
 The independent verifier reports an incomplete build or copy as `FAILED`, even

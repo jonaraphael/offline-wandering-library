@@ -280,6 +280,31 @@
   ];
 
   const routePhrase = text => (normalize(text).replace(/['’]/g, '').match(/[\p{L}\p{N}]+/gu) || []).join(' ');
+  const clauseBoundary = /[.!?;,:]+|\b(?:but|however|whereas|except)\b|\band\s+(?=(?:now|today|just|he|she|they|we|i|my|his|her|there|swallowed|ingested|fell|started bleeding|got bitten|got stung)\b)/iu;
+  const recentEvent = /\b(?:today|now|just|this (?:morning|afternoon|evening))\b/;
+  const historicalEvent = /\b(?:used to|history of|last year|(?:years?|months?) ago|in the past|previously)\b/;
+  const absentSymptom = /\b(?:not|no|isnt|arent|wasnt|werent|without|denies|denied) (?:\b(?:really|currently|any|longer|signs? of|evidence of|having|had|have|a|an|the) +)*(?:chok\w*|stroke|seizure\w*|convuls\w*|asthma|fever\w*|bleed\w*|blood|pain|chest (?:pain|pressure|tightness)|trouble breathing|shortness of breath|wheez\w*|cough\w*|dizz\w*|rash|nausea|vomit\w*|headache|injur\w*|burn\w*|(?:heart|asthma) attack|allergic reaction|hives|swelling|faint\w*|unconscious|diarrh\w*|dehydrat\w*|fractur\w*|broken (?:bone|arm|leg)|poison\w*|swallow\w*|bitten|stung|drown\w*)\b/;
+
+  function currentEvents(text) {
+    let excluded = false;
+    const clauses = text.split(clauseBoundary).flatMap(raw => {
+      let phrase = routePhrase(raw);
+      const history = historicalEvent.exec(phrase);
+      if (history) {
+        // An explicit change of time can also open a clause without punctuation.
+        const current = recentEvent.exec(phrase.slice(history.index + history[0].length));
+        phrase = current ? phrase.slice(history.index + history[0].length + current.index) : '';
+        excluded = true;
+      }
+      const negation = absentSymptom.exec(phrase);
+      if (negation) {
+        phrase = phrase.slice(0, negation.index).trim();
+        excluded = true;
+      }
+      return phrase ? [phrase] : [];
+    });
+    return {clauses, phrase: clauses.join(' '), excluded};
+  }
 
   function compileSectionRoutes(rows) {
     const pattern = value => new RegExp('\\b(?:' + value + ')\\b', 'u');
@@ -293,6 +318,15 @@
 
   // BEGIN GENERATED EMERGENCY SECTIONS
   const sectionRoutes = compileSectionRoutes([
+    ["downed-power-line","Downed power lines",[["fema_are_you_ready_2020",11,"Power lines and flood hazards"]],["(?:downed|fallen|dangling|live) (?:power lines?|electrical (?:lines?|wires?))",["power (?:lines?|cables?)|electrical (?:lines?|cables?|wires?)|overhead (?:lines?|wires?)","down|fell|fallen|sparks?|sparking|on the ground|across (?:the|our) (?:road|driveway)"]]],
+    ["scald","First aid for hot-liquid scalds",[["msf_guideline-170-en",339,"Burns"]],["scald\\w*",["(?:boiling|hot|scalding) (?:water|tea|coffee|soup|milk|liquid|broth|oil)","spill\\w*|splashed|splas\\w*|pour\\w*|fell (?:on|onto)|dropped on|burn\\w*"]]],
+    ["long-lie","Emergency assessment after a long time on the floor",[["medical_bec",26,"Emergency assessment and first aid"]],["long lie after a fall",["elderly|older (?:person|adult|man|woman)|grand\\w*|senior|aged (?:man|woman)","(?:found|lying|lay|fell) .{0,45}(?:floor|ground)|(?:floor|ground) .{0,20}(?:after a fall|unable|couldnt)","all night|overnight|(?:for |several |many )hours|long time|since (?:yesterday|last night)|(?:this morning|early today).{0,35}(?:been there|fell)"]]],
+    ["fishhook","Fishhooks and impaled objects",[["cert",110,"Impaled objects"],["hesperian_en_wtnd_2025_10",15,"Puncture wounds"]],["(?:fish ?hooks?|fishing hooks?) (?:remov\\w*|injur\\w*|first aid)",["fish ?hooks?|fishing hooks?","barb\\w*|stuck|embedded|lodged|remove|pull|went into|skin|finger|thumb"]]],
+    ["embedded-object","First aid for embedded objects",[["cert",110,"Impaled objects"]],["(?:impaled|embedded) objects?|object (?:stuck|embedded) (?:in|into) (?:the )?(?:wound|skin)",["glass|metal|wood|shard\\w*|object|knife|piece","embedded|impaled|deeply stuck|lodged in|stuck in the wound"]]],
+    ["jellyfish-sting","Jellyfish stings",[["wikimed_en","Jellyfish_stings","Jellyfish stings"]],["jellyfish stings?|marine envenomation",["jellyfish|tentacles?|sea nettle","sting\\w*|stung|welts?|burning|painful (?:stripes|marks)|skin|touched"]]],
+    ["tourniquet","Tourniquets for severe limb bleeding",[["medical_bec",170,"Tourniquets for severe bleeding"],["wikimed_en","Tourniquet","Tourniquet"]],["tourniquets?"]],
+    ["root-vegetable-storage","Keeping root vegetables after harvest",[["ucdavis_smallscale_postharvest",147,"Storage requirements for vegetables"]],["root cellar|root vegetable storage",["root (?:vegetables|crops)|potatoes|turnips|carrots|parsnips|beets","keep\\w*|stor\\w*|preserv\\w*|save","winter|harvest|without (?:a )?(?:fridge|refrigerat\\w*)|no power|lost power|long term"]]],
+    ["grain-storage","Storing dried grain",[["fao_family_metal_silos",94,"Loading and sealing a grain silo"]],["grain storage|stor\\w* (?:dry |dried )?(?:grains?|cereals?)",["grains?|wheat|rice|maize|barley|cereals?","stor\\w*|keep|silos?","dry|dried|flood\\w*|pests?|weevils?|rodents?|long term"]]],
     ["febrile-seizure","Febrile seizures in children",[["msf_guideline-170-en",23,"Febrile seizures"],["wikimed_en","Febrile_seizure","Febrile seizure"]],["febrile (?:seizures?|convulsions?)|fever convulsions?",["kid|child|toddler|little (?:boy|girl)|preschooler|year old","fever|temperature|burning up|feels? hot","seizure\\w*|convuls\\w*|went stiff|jerk\\w*|shook|eyes? roll\\w*"]]],
     ["cold-water-injury","Cold-water injury and immersion",[["cert",114,"Treating cold-related injuries"],["wikimed_en","Non-freezing_cold_injury","Non-freezing cold injury"]],["cold water (?:injur\\w*|immersion)|non freezing cold injur\\w*",["icy|freezing|cold|frigid","water|river|lake|creek|sea|ocean","numb\\w*|tingl\\w*|prickl\\w*|pins and needles|shiver\\w*"]]],
     ["immersion-foot","Trench foot and immersion foot",[["wikimed_en","Trench_foot","Trench foot and immersion foot"]],["trench foot|immersion foot",["feet|foot|toes","wet (?:boots|socks|shoes)|soaked (?:boots|socks|shoes)","numb\\w*|swell\\w*|swollen|wrinkl\\w*|pain|blisters?"]]],
@@ -327,7 +361,7 @@
     ["spinal-injury","Spinal cord and neck injuries",[["medical_bec",67,"Spinal cord injury"],["cert",131,"Closed-head, neck, and spinal injuries"],["hesperian_en_wtnd_2025_10",25,"Broken necks and backs"]],["spinal (?:cord )?injur\\w*|broken neck|broken spine|broken back|cervical spine injur\\w*",["neck|spine|back","fall|fell|crash\\w*|wreck|collision|got hit|accident|rear ended","neck (?:really )?(?:hurts?|pain)|numb\\w*|tingl\\w*|cant move"]]],
     ["head-injury","Head injury and concussion",[["medical_bec",65,"Head injury"],["cert",131,"Closed-head, neck, and spinal injuries"]],["head injur\\w*|concussion\\w*|brain injur\\w*",["hit|struck|knock\\w*|bang\\w*|blow to","head|skull","throw\\w* up|vomit\\w*|fall|fell|confus\\w*|cant remember|keeps asking|pass\\w* out|dizz\\w*|severe headache"]]],
     ["amputation","First aid for amputations",[["cert",109,"Amputations"]],["amputat\\w*|severed (?:finger|thumb|toe|hand|arm|foot|limb)",["finger|thumb|toe|hand|foot|arm|leg","cut (?:right |clean )?off|took .{0,28} (?:clean |right )?off|chopped .{0,20}off|sliced .{0,20}off"]]],
-    ["crush-injury","Crush injury",[["medical_bec",70,"Crush injury"]],["crush injur\\w*|crush syndrome|crushed limb",["leg|arm|body|limb|person","trapped under|pinned under|crushed under|beam fell|rock fell"]]],
+    ["crush-injury","Crush injury",[["medical_bec",70,"Crush injury"],["wikimed_en","Crush_syndrome","Crush syndrome"]],["crush injur\\w*|crush syndrome|crushed limb",["leg|arm|body|limb|person","trapped under|pinned under|pinned .{0,25}against|crushed under|beam fell|rock fell"]]],
     ["nosebleed","How to stop nosebleeds",[["hesperian_en_wtnd_2025_10",9,"How to stop nosebleeds"]],["nose ?bleeds?|epistaxis|bleeding from (?:the |his |her |my |their )?nose|nose (?:is |started )?bleed\\w*",["blood|bleed\\w*","from (?:one |a |the |his |her |my |their )?(?:nose|nostril)|out of (?:one |a |the |his |her |my |their )?(?:nose|nostril)"]]],
     ["object-in-eye","Foreign body in the eye",[["hesperian_en_wtnd_2025_16",2,"How to remove a speck of dirt from the eye"]],["foreign bod\\w* in (?:the )?eye|something (?:stuck )?in (?:my |his |her |the )?eye",["speck|grit|dust|sawdust|metal shaving|debris","eye|blink\\w*"],["eye|blink\\w*","flew (?:into|under)|got into","speck|sand|dirt|glasses|grit|particle"]]],
     ["acute-glaucoma","Acute glaucoma",[["hesperian_en_wtnd_2025_16",6,"Acute glaucoma"]],["acute glaucoma|acute angle closure glaucoma",["eye pain","blurred vision|halos around lights","nausea|vomit\\w*"]]],
@@ -493,7 +527,7 @@
   const routeName = text => text.replace(/^(?:first aid for|how to treat|what to do (?:for|about)|help with) /, '');
   const immediateRoutes = new Set(['carbon-monoxide', 'electrical-fire', 'gas-leak', 'house-fire',
     'drowning', 'anaphylaxis', 'choking', 'chemical-eye']);
-  function reviewedGuides(documents, phrase, categoryIds) {
+  function matchReviewedGuides(documents, phrase, categoryIds) {
     const name = routeName(phrase);
     const matches = sectionRoutes.map(route => {
       const score = route.name === name ? 3 :
@@ -528,8 +562,27 @@
     return [];
   }
 
+  function reviewedGuides(documents, {clauses, phrase}, categoryIds) {
+    const whole = matchReviewedGuides(documents, phrase, categoryIds);
+    const matched = new Map();
+    // The latest clause leads when two independent events have reviewed matches.
+    const ordered = [...clauses].reverse().sort((a, b) => Number(recentEvent.test(b)) - Number(recentEvent.test(a)));
+    for (const clause of ordered) {
+      for (const guide of matchReviewedGuides(documents, clause, categoryIds)) {
+        if (!matched.has(guide.topic)) matched.set(guide.topic, []);
+        const group = matched.get(guide.topic);
+        if (!group.some(item => item.href === guide.href && item.location === guide.location)) group.push(guide);
+      }
+    }
+    const groups = [...matched.values()];
+    if (groups.length > 1) {
+      return [...groups.map(group => group[0]), ...groups.flatMap(group => group.slice(1))];
+    }
+    return whole.length ? whole : groups.flat();
+  }
+
   function reviewedGuide(documents, text, categoryIds) {
-    return reviewedGuides(documents, routePhrase(text), categoryIds)[0];
+    return reviewedGuides(documents, currentEvents(text), categoryIds)[0];
   }
 
   const person = /\b(?:my (?:dad|father|mom|mum|mother|sister|brother|friend|son|daughter|partner|husband|wife|grandpa|grandma|uncle|aunt|child|kid|baby)|toddler|newborn|infant|child|baby|old (?:man|woman)|some(?:one|body)|person|he|she|i)\b/;
@@ -646,11 +699,12 @@
       return (exact ? 150 : 20 + lexical * 12) + boost + titleScore;
     };
     return matches.map(hit => ({...hit, displayScore: score(hit)}))
-      .sort((a, b) => b.displayScore - a.displayScore);
+      .sort((a, b) => (b.titleMatch || 0) - (a.titleMatch || 0) || b.displayScore - a.displayScore);
   }
 
   function strongMatch(hit, words, terms, intents) {
     if (!words.length) return false;
+    if (hit.titleMatch) return true;
     if (!hit.indexed && hit.score >= 100000) return true;
     if (hit.indexed && hit.fullMatch && words.length >= 2 && hit.score >= 65) return true;
     if (hit.focused && hit.trusted && hit.score >= 115) return true;
@@ -717,16 +771,17 @@
         const scoped = ids ? {...index, sources: index.sources.filter(source => ids.has(source.id))} : index;
         return ranker.search(scoped, encode, read, query, 'all', ...options);
       });
-      const indexed = (text, category, ...options) => run(text, {category}, ...options);
+      const indexed = (text, category, limit, cancelled, onProgress, spellingRetry) =>
+        run(text, {category}, limit, cancelled, onProgress, false, spellingRetry);
       const emergency = (text, scope, limit, cancelled) => run(text, scope, limit, cancelled, undefined, true);
       const mobile = navigator.userAgentData?.mobile ?? /Android|iPhone|iPad/i.test(navigator.userAgent);
-      if (!selection.reranker || mobile) return {rank: indexed, emergency, embed: run.embed};
+      if (!selection.reranker || mobile) return {rank: indexed, emergency, embed: run.embed, correct: run.correct};
       let reranker;
-      async function rank(text, category, limit, cancelled, onProgress) {
+      async function rank(text, category, limit, cancelled, onProgress, spellingRetry) {
         const all = await indexed(text, category, Math.max(limit, 50), cancelled,
-          (hits, scope) => onProgress(hits.slice(0, limit), scope));
+          (hits, scope) => onProgress(hits.slice(0, limit), scope), spellingRetry);
         const initial = all.slice(0, limit);
-        if (cancelled() || initial.length < 2) return initial;
+        if (cancelled() || initial.length < 2 || initial[0].titleMatch || spellingRetry) return initial;
         onProgress(initial, 'ranked');
         try {
           reranker ??= script(local('rerank.js')).then(() => root.OWLReranker.create(sharedScript));
@@ -741,7 +796,7 @@
           return initial;
         }
       }
-      return {rank, emergency, embed: run.embed};
+      return {rank, emergency, embed: run.embed, correct: run.correct};
     } catch (_) {
       return {warning: 'Full-text search is unavailable. Search still covers titles and topics.'};
     } finally {
@@ -771,6 +826,9 @@
     const form = view.querySelector('form'), status = view.querySelector('#search-status');
     const list = view.querySelector('#search-results'), query = form.querySelector('#query');
     const category = form.querySelector('#search-category'), examples = form.querySelector('#search-examples');
+    const correction = element('p', '', 'note search-correction');
+    correction.hidden = true;
+    status.after(correction);
     let timer, epoch = 0, prepared, documents, rankReady;
     function message(text) {
       status.textContent = text;
@@ -821,14 +879,16 @@
     }
     // One card per document, with its best match and a few distinct locations.
     function render(matches, scope, words = [], urgent, reviewed = [], nearby = []) {
-      const groups = [new Map(), new Map()], subjects = [];
+      const preferred = new Map(), groups = [new Map(), new Map()], subjects = [];
+      const preferredFiles = new Set(matches.filter(hit => hit.titleMatch)
+        .map(({record}) => record.destination || record.href.split('#')[0]));
       for (const match of matches) {
         if (match.record.kind === 'topic') {
           subjects.push(match.record);
           continue;
         }
-        const bucket = groups[Number(isArchive(match.record))];
         const key = match.record.destination || match.record.href.split('#')[0];
+        const bucket = preferredFiles.has(key) ? preferred : groups[Number(isArchive(match.record))];
         if (!bucket.has(key)) bucket.set(key, []);
         bucket.get(key).push(match);
       }
@@ -862,10 +922,17 @@
         const source = record.source_title !== name ? record.source_title : '';
         const where = archive ? 'opens in Kiwix' : record.location;
         const byline = [source, where].filter(Boolean).join(' · ');
-        if (byline) card.append(element('small', byline));
+      if (byline) card.append(element('small', byline));
         card.append(element('h3', name));
-        if (record.description) card.append(passage(/[.!?…:]$/.test(record.description)
-          ? record.description : record.description + '…', words));
+        if (record.description) {
+          card.append(passage(/[.!?…:]$/.test(record.description) ? record.description : record.description + '…', words));
+          if (indexed) {
+            const license = normalize(record.license).replace(/[-\s]+/g, ' ');
+            const alreadyCredited = license && normalize(record.attribution).replace(/[-\s]+/g, ' ').includes(license);
+            const credit = [record.attribution, alreadyCredited ? '' : record.license].filter(Boolean).join(' · ');
+            if (credit) card.append(element('small', credit, 'attribution'));
+          }
+        }
         const locations = new Set([record.href + '\0' + record.location]);
         const places = others.filter(({record: other}) => {
           if (other.kind !== 'section' && other.kind !== 'article' && !other.href.includes('#')) return false;
@@ -892,9 +959,16 @@
         card.append(resultLink(record, name, archive ? 'How to open' : 'Open', 'button'));
         return card;
       }
-      const guides = new Map();
+      const guides = new Map(), firstForTopic = new Map();
+      const fileFor = record => record.destination || record.href.split('#')[0];
       for (const record of reviewed) {
-        const key = record.destination || record.href.split('#')[0];
+        if (!firstForTopic.has(record.topic)) firstForTopic.set(record.topic, fileFor(record));
+      }
+      const leadFiles = new Set(firstForTopic.values());
+      for (const record of reviewed) {
+        const file = fileFor(record);
+        if (file !== firstForTopic.get(record.topic) && leadFiles.has(file)) continue;
+        const key = record.topic + '\0' + file;
         if (!guides.has(key)) guides.set(key, []);
         guides.get(key).push({record});
       }
@@ -904,6 +978,7 @@
         card.dataset.nearby = record.topic || record.id;
         items.append(card);
       }
+      for (const hits of preferred.values()) items.append(resultCard(hits));
       for (const group of groups) {
         if (!group.size) continue;
         const section = element('section', '', 'result-group');
@@ -923,7 +998,7 @@
       }
       list.replaceChildren(items);
       list.dataset.searchScope = scope;
-      return groups[0].size + groups[1].size + subjects.length + guides.size + nearby.length + Number(Boolean(urgent));
+      return preferred.size + groups[0].size + groups[1].size + subjects.length + guides.size + nearby.length + Number(Boolean(urgent));
     }
     const passageNote = 'No reviewed guide matched. These passages may help.';
     const noMatch = 'No close match. Browse Urgent guides and categories on Home.';
@@ -997,6 +1072,7 @@
       const cancelled = () => mine !== epoch;
       const text = query.value.trim(), selected = category.value;
       examples.hidden = Boolean(text);
+      correction.hidden = true;
       if (!text) {
         delete list.dataset.emergency;
         render([], 'catalog');
@@ -1008,84 +1084,105 @@
       try {
         const ids = selected && await categoryIds(selected);
         if (cancelled()) return;
-        const words = tokens(text);
-        const phrase = routePhrase(text);
-        const guides = reviewedGuides(documents, phrase, ids);
-        const domain = emergencyDomain(phrase);
-        list.dataset.emergency = String(Boolean(guides.length || domain));
-        if (guides.length) {
-          showGuides(guides);
-          return;
-        }
-        const routing = routeByMeaning(text, phrase, domain, ids);
-        if (domain) {
-          await runEmergency(text, phrase, words, ids, domain, cancelled, routing);
-          return;
-        }
-        if (rankReady) message('Searching…');
-        const semantic = await routing;
-        if (cancelled()) return;
-        if (semantic.domain) {
-          list.dataset.emergency = 'true';
-          if (semantic.guides.length) showGuides(semantic.guides);
-          else await runEmergency(text, phrase, words, ids, semantic.domain, cancelled, routing);
-          return;
-        }
-        if (words.length > 32) throw Error('Use at most 32 different search words.');
-        const scope = ids ? prepared.filter(({record}) => ids.has(record.asset_id) ||
-          record.kind === 'topic' && record.source_ids.some(id => ids.has(id))) : prepared;
-        let terms = tokens, queryTerms = words, intent;
-        const catalog = search(scope, text, 'all', 90);
-        const urgent = findUrgent(ids ? tasks.filter(task => ids.has(task.id)) : tasks, text);
-        let count, showingPassages = false, warning = '';
-        const showHits = (hits, phase) => {
-          const matches = orderedMatches(hits, catalog, priority, queryTerms, terms, urgent, intent?.pediatricHealth);
-          const strong = new Set(matches.filter(hit => strongMatch(hit, queryTerms, terms, intent?.titlePatterns || [])));
-          const passages = !urgent && (intent?.emergency || strong.size === 0)
-            ? nearbyPassages(matches, strong, queryTerms, terms) : [];
-          showingPassages = passages.length > 0;
-          count = render(showingPassages ? passages : [...strong].slice(0, 70), phase, words, urgent);
-        };
-        if (rankReady) message('Searching…');
-        showHits([], 'catalog');
-        if (rankReady) {
-          try {
-            const engine = await rankReady;
-            if (cancelled()) return;
-            warning = engine.warning || '';
-            if (engine.rank) {
-              const ranker = root.OWLShardRank;
-              terms = ranker.terms;
-              intent = ranker.prepareQuery(text, () => null);
-              queryTerms = intent.query;
-              let rankedText = text;
-              if (!intent.emergency && urgent?.keywords.includes('wound')) rankedText += ' wound care';
-              if (!intent.emergency && urgent?.keywords.includes('scald')) rankedText += ' burn treatment';
-              if (!intent.deliveryQuery && !intent.postpartum && urgent?.keywords.includes('childbirth')) rankedText += ' childbirth';
-              const hits = await engine.rank(rankedText, selected, 85, cancelled, (hits, phase) => {
-                if (cancelled()) return;
-                showHits(hits, 'indexed');
-                const progress = phase === 'refining' || phase === 'ranked' ? 'Still looking for better matches…' : 'Searching…';
-                message(showingPassages ? progress + ' ' + passageNote : progress);
-              });
-              if (cancelled()) return;
-              showHits(hits, 'complete');
-            }
-          } catch (error) {
-            if (cancelled()) return;
-            warning = error.message + ' Showing what was found.';
-          }
-        }
-        list.dataset.searchScope = 'complete';
-        if (!count || showingPassages) appendBrowseHome();
-        let summary = noMatch;
-        if (showingPassages) summary = passageNote;
-        else if (count) summary = count + ' result' + (count === 1 ? '.' : 's, best first.');
-        message([warning, summary].filter(Boolean).join(' '));
+        await searchText(text, selected, ids, cancelled);
       } catch (error) {
+        if (cancelled()) return;
         render([], 'catalog');
         message(error.message);
       }
+    }
+
+    async function searchText(text, selected, ids, cancelled, isCorrection = false) {
+      const words = tokens(text);
+      const events = currentEvents(text);
+      const {phrase} = events;
+      const guides = reviewedGuides(documents, events, ids);
+      const domain = emergencyDomain(phrase);
+      list.dataset.emergency = String(Boolean(guides.length || domain));
+      if (guides.length) {
+        if (isCorrection) showCorrection(text);
+        showGuides(guides);
+        return;
+      }
+      const activeText = events.excluded ? phrase : text;
+      const routing = routeByMeaning(activeText, phrase, domain, ids);
+      if (domain) {
+        if (isCorrection) showCorrection(text);
+        await runEmergency(activeText, phrase, words, ids, domain, cancelled, routing);
+        return;
+      }
+      if (rankReady) message('Searching…');
+      const semantic = await routing;
+      if (cancelled()) return;
+      if (semantic.domain) {
+        if (isCorrection) showCorrection(text);
+        list.dataset.emergency = 'true';
+        if (semantic.guides.length) showGuides(semantic.guides);
+        else await runEmergency(activeText, phrase, words, ids, semantic.domain, cancelled, routing);
+        return;
+      }
+      if (words.length > 32) throw Error('Use at most 32 different search words.');
+      const scope = ids ? prepared.filter(({record}) => ids.has(record.asset_id) ||
+        record.kind === 'topic' && record.source_ids.some(id => ids.has(id))) : prepared;
+      let terms = tokens, queryTerms = words, intent;
+      const catalog = search(scope, text, 'all', 90);
+      const urgent = findUrgent(ids ? tasks.filter(task => ids.has(task.id)) : tasks, activeText);
+      let count, showingPassages = false, warning = '';
+      const showHits = (hits, phase) => {
+        const matches = orderedMatches(hits, catalog, priority, queryTerms, terms, urgent, intent?.pediatricHealth);
+        const strong = new Set(matches.filter(hit => strongMatch(hit, queryTerms, terms, intent?.titlePatterns || [])));
+        const passages = !urgent && (intent?.emergency || strong.size === 0)
+          ? nearbyPassages(matches, strong, queryTerms, terms) : [];
+        showingPassages = passages.length > 0;
+        count = render(showingPassages ? passages : [...strong].slice(0, 70), phase, words, urgent);
+      };
+      if (rankReady) message('Searching…');
+      showHits([], 'catalog');
+      if (rankReady) {
+        try {
+          const engine = await rankReady;
+          if (cancelled()) return;
+          warning = engine.warning || '';
+          if (engine.rank) {
+            const ranker = root.OWLShardRank;
+            terms = ranker.terms;
+            intent = ranker.prepareQuery(text, () => null);
+            queryTerms = intent.query;
+            let rankedText = text;
+            if (!intent.emergency && urgent?.keywords.includes('wound')) rankedText += ' wound care';
+            if (!intent.emergency && urgent?.keywords.includes('scald')) rankedText += ' burn treatment';
+            if (!intent.deliveryQuery && !intent.postpartum && urgent?.keywords.includes('childbirth')) rankedText += ' childbirth';
+            const hits = await engine.rank(rankedText, selected, 85, cancelled, (hits, phase) => {
+              if (cancelled()) return;
+              showHits(hits, 'indexed');
+              const progress = phase === 'ranked' ? 'Still looking for better matches…' : 'Searching…';
+              message(showingPassages ? progress + ' ' + passageNote : progress);
+            }, isCorrection);
+            if (cancelled()) return;
+            showHits(hits, 'indexed');
+            const onlyRedirects = hits.length > 0 && hits.every(hit => hit.redirect || !hit.fullMatch);
+            if ((!count || onlyRedirects) && !isCorrection && engine.correct) {
+              const suggested = await engine.correct(text, cancelled);
+              if (cancelled()) return;
+              if (suggested) return searchText(suggested, selected, ids, cancelled, true);
+            }
+          }
+        } catch (error) {
+          if (cancelled()) return;
+          warning = error.message + ' Showing what was found.';
+        }
+      }
+      if (isCorrection && count) showCorrection(text);
+      list.dataset.searchScope = 'complete';
+      if (!count || showingPassages) appendBrowseHome();
+      let summary = noMatch;
+      if (showingPassages) summary = passageNote;
+      else if (count) summary = count + ' result' + (count === 1 ? '.' : 's, best first.');
+      message([warning, summary].filter(Boolean).join(' '));
+    }
+    function showCorrection(text) {
+      correction.textContent = 'Showing results for “' + text + '”.';
+      correction.hidden = false;
     }
     form.addEventListener('submit', run);
     query.addEventListener('input', () => {
@@ -1102,7 +1199,8 @@
   }
 
   const api = {normalize, tokens, prepare, search, mergeRanked, safeHref, script, local, isArchive, mount,
-    reviewedGuide, semanticGuides, emergencyDomain: text => emergencyDomain(routePhrase(text)), emergencySource, closestUrgent};
+    reviewedGuide, reviewedGuides: (documents, text, ids) => reviewedGuides(documents, currentEvents(text), ids),
+    semanticGuides, emergencyDomain: text => emergencyDomain(currentEvents(text).phrase), emergencySource, closestUrgent};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLDiscovery = api;
   if (typeof document !== 'undefined' && document.querySelector('#reader-view')) {

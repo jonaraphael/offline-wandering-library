@@ -25,7 +25,11 @@ START = "  // BEGIN GENERATED EMERGENCY SECTIONS\n"
 END = "  // END GENERATED EMERGENCY SECTIONS\n"
 SEMANTIC_START = "  // BEGIN GENERATED EMERGENCY VECTORS\n"
 SEMANTIC_END = "  // END GENERATED EMERGENCY VECTORS\n"
-SOURCE_IDS = {"cert", "medical_bec", "msf_guideline-170-en", "msf_guideline-449-en", "fema_are_you_ready_2020", "wikimed_en"}
+SOURCE_IDS = {
+    "cert", "medical_bec", "msf_guideline-170-en", "msf_guideline-449-en",
+    "fema_are_you_ready_2020", "wikimed_en", "fao_family_metal_silos",
+    "ucdavis_smallscale_postharvest",
+}
 HESPERIAN_CHAPTER = re.compile(r"hesperian_en_(?:wtnd_2025|midw_2026)_\d{2}$")
 
 

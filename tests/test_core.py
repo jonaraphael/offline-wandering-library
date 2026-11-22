@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from contextlib import redirect_stdout
 import hashlib
 import io
 import json
@@ -14,7 +15,7 @@ from urllib.error import HTTPError
 
 import yaml
 
-from owl.build import build, check_space, check_space_groups
+from owl.build import build, check_space, check_space_groups, main as build_main
 from owl.copy import copy_drive
 from owl.catalog import CatalogError, capacity_plan, learning_shelves, load_catalog, load_profiles, select_profile
 from owl.download import DownloadError, download, verified
@@ -291,6 +292,48 @@ class DownloadTests(Fixture):
 
 
 class BuildTests(Fixture):
+    def test_missing_navigation_source_publishes_verified_files_and_reruns(self):
+        from tests.navigation_fixture import write_assignments
+
+        missing = {**self.asset, "id": "navigation", "title": "Navigation handbook",
+                   "destination": "REFERENCE/navigation.txt", "source_url": "https://example.test/navigation"}
+        self.write_catalog([self.asset, missing])
+        drive = self.root / "drive"
+        navigation = self.root / "navigation"
+        navigation.mkdir()
+        topic = {"id": "directions", "title": "Directions", "description": "Find the way.",
+                 "parents": [], "related": [], "aliases": []}
+        (navigation / "topics.yaml").write_text(yaml.safe_dump(
+            {"schema_version": 1, "entrances": {"subjects": ["directions"], "tasks": [], "learn": []},
+             "topics": [topic]}), encoding="utf-8")
+        write_assignments(navigation, [{"asset_id": asset_id, "topic_id": "directions", "purpose": "explanation"}
+                                       for asset_id in ("fixture", "navigation")])
+        argv = [str(drive), "--catalog", str(self.catalog), "--profiles-dir", str(self.profiles),
+                "--profile", "test", "--allow-local", "--navigation-dir", str(navigation), "--strict-coverage"]
+        unavailable = HTTPError(missing["source_url"], 404, "Not Found", {}, None)
+        with (patch("owl.download.urlopen", side_effect=unavailable), patch("sys.stderr", new_callable=io.StringIO) as stderr):
+            self.assertEqual(build_main(argv, progress=lambda _: None), 1)
+        self.assertIn("1 file could not be added", stderr.getvalue())
+        self.assertIn("Rerun the same command", stderr.getvalue())
+        library = drive / "LIBRARY"
+        start = (drive / "START_HERE.html").read_text(encoding="utf-8")
+        self.assertIn("fixture.txt", start)
+        self.assertNotIn("navigation.txt", start)
+        self.assertIn("Navigation handbook", (library / "BUILD_REPORT.html").read_text(encoding="utf-8"))
+        inventory = json.loads((library / "INVENTORY.json").read_bytes())
+        self.assertEqual([asset["id"] for asset in inventory["assets"]], ["fixture"])
+        self.assertEqual(inventory["unresolved"][0]["id"], "navigation")
+        self.assertIn("HTTP Error 404", inventory["unresolved"][0]["unresolved_reason"])
+        self.assertFalse(json.loads((library / "BUILD_INFO.json").read_bytes())["complete"])
+        self.assertFalse(json.loads((library / ".owl/state.json").read_bytes())["complete"])
+        self.assertEqual(verify_drive(drive, emit=lambda _: None, allow_incomplete=True)["FAILED"], 0)
+        self.source.unlink()
+        with patch("owl.download.urlopen", return_value=Response(self.data)) as fetch:
+            self.assertEqual(build_main(argv, progress=lambda _: None), 0)
+            self.assertEqual(fetch.call_count, 1)
+        self.assertTrue(json.loads((library / ".owl/state.json").read_bytes())["complete"])
+        self.assertIn("navigation.txt", (drive / "START_HERE.html").read_text(encoding="utf-8"))
+
     def test_missing_phone_volume_leaves_a_verified_partial_support_build(self):
         volume = {"file": "wikimed-emergencies.pdf", "title": "Emergencies"}
         phone = {"source_id": self.asset["id"], "source_sha256": self.asset["sha256"], "volumes": [volume]}
@@ -303,6 +346,26 @@ class BuildTests(Fixture):
         with patch("builtins.print"):
             self.assertEqual(verify_main([str(self.root / "drive"), "--strict"]), 1)
             self.assertEqual(verify_main([str(self.root / "drive"), "--strict", "--accept-partial"]), 0)
+
+    def test_failed_reader_app_is_reported_as_partial_support(self):
+        app = {**self.asset, "id": "kiwix_windows", "title": "Kiwix for Windows",
+               "destination": "SOFTWARE/WINDOWS/kiwix.zip", "source_url": "https://example.test/kiwix",
+               "format": "zip", "critical": False}
+        self.write_catalog([self.asset, app])
+        drive = self.root / "drive"
+        unavailable = HTTPError(app["source_url"], 404, "Not Found", {}, None)
+        with patch("owl.download.urlopen", side_effect=unavailable), self.assertRaises(DownloadError):
+            self.run_build()
+        info = json.loads((drive / "LIBRARY/BUILD_INFO.json").read_bytes())
+        self.assertTrue(info["content_complete"])
+        self.assertFalse(info["support_complete"])
+        self.assertEqual([(row["kind"], row["id"], row["title"]) for row in info["support_missing"]],
+                         [("app", "kiwix_windows", "Kiwix for Windows")])
+        self.assertIn("HTTP Error 404", info["support_missing"][0]["reason"])
+        with redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(verify_main([str(drive), "--strict"]), 1)
+            self.assertEqual(verify_main([str(drive), "--strict", "--accept-partial"]), 0)
+        self.assertIn("SUPPORT INCOMPLETE: 1 reader app missing (Kiwix for Windows)", output.getvalue())
 
     def test_fat32_build_splits_pinned_zim_and_copies_verified_parts(self):
         self.source = self.root / "source.zim"

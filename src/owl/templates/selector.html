@@ -20,6 +20,12 @@ __OWL_BUILDER_CSS__
   .switch-label { min-height: 44px; cursor: pointer; }
 }
 [data-state="needs-size"] .secondary { margin-top: 22px; }
+[data-state="waiting-relay"] .ring .arc { stroke: var(--warn); }
+[data-state="waiting-relay"] .glyph .light { fill: var(--warn); }
+#drive-free-form { display: grid; justify-items: center; gap: 8px; margin-top: 16px; }
+#drive-free-form .primary { margin-top: 4px; }
+#drive-free-space { width: 7em; }
+#builder:has(#sync-noscript) :is(#sync-stage, #sync-rail, #how-link) { display: none; }
 .card:first-child, #open-card { grid-template-columns: 1fr; }
 .card svg { display: block; width: 64px; height: 64px; }
 .legend li.over::before { background: var(--bad); }
@@ -75,6 +81,13 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
     <a id="how-link" href="#how">How it works</a>
   </header>
   <!-- PAGES -->
+  <noscript>
+    <main class="stage" id="sync-noscript">
+      <h1 class="title">This builder needs JavaScript</h1>
+      <p class="status">Turn on JavaScript in Chrome, Edge or Arc on a computer, then reload this page.</p>
+      <a class="primary" href="README.md">Build with the command line</a>
+    </main>
+  </noscript>
   <main class="stage" id="sync-stage" data-state="empty">
     <div class="ringwrap" role="progressbar" id="sync-ring" aria-label="Sync progress" aria-valuemin="0" aria-valuemax="100">
     <svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="55"/><circle class="arc" cx="60" cy="60" r="55"/></svg>
@@ -85,6 +98,14 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
     <div class="sr-only" id="sync-announcement" aria-live="polite" aria-atomic="true"></div>
     <div class="meter" id="sync-meter" hidden><div class="track" id="sync-track"></div><ul class="legend" id="sync-legend"></ul></div>
     <div class="sizes" id="drive-sizes" aria-label="Drive size" hidden></div>
+    <form id="drive-free-form" aria-describedby="sync-status" hidden>
+      <label for="drive-free-space">Free space</label>
+      <div>
+        <input type="number" id="drive-free-space" min="0" step="any" required>
+        <select id="drive-free-unit" aria-label="Free space unit"><option>GB</option><option>GiB</option></select>
+      </div>
+      <button type="submit" class="primary">Use this space</button>
+    </form>
     <button type="button" class="primary" id="sync-primary">Choose drive</button>
     <p class="secondary" id="sync-secondary"><a href="#manage">See what goes on a drive</a></p>
     <div class="cards" id="sync-cards" hidden>
@@ -130,7 +151,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
       <details class="advanced" id="advanced">
         <summary>Advanced</summary>
         <label class="check-label"><input class="switch" type="checkbox" id="split-files" role="switch"> Split large files for FAT32</label>
-        <p id="split-note" hidden>The drive appears to require split files. Choose a different drive to save large files in one piece.</p>
+        <p id="split-note" hidden>Encyclopedias of 4 GiB or more stay in parts on this drive.</p>
         <div><button id="include-filtered" type="button">Include filtered files</button> <button id="exclude-filtered" type="button">Exclude filtered files</button></div>
         <p id="bulk-feedback"></p>
         <table id="storage-accounting"><caption>Storage accounting</caption><tbody id="storage-lines"></tbody></table>
@@ -174,6 +195,11 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
   <div class="donebar" id="manage-done" hidden><span id="manage-changes">No changes</span><button type="button" class="primary" id="manage-return">Done</button></div>
   <!-- PAGES -->
   <ol class="rail" id="sync-rail" aria-label="Drive setup"><li aria-current="step">Choose drive</li><li>Sync</li><li>Read</li></ol>
+  <dialog id="open-library" aria-labelledby="open-library-title">
+    <h2 id="open-library-title">Open your library</h2>
+    <p id="open-library-instructions"></p>
+    <form method="dialog"><button type="submit">Close</button></form>
+  </dialog>
   <!-- /PAGES -->
   <p id="fatal" hidden></p>
   <dialog id="how" aria-labelledby="how-title"><h2 id="how-title">How it works</h2>

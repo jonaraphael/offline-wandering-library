@@ -1,12 +1,16 @@
 import {createNetwork, SourceError} from "./network.mjs";
 import {diag} from "./diagnostics.mjs";
 import {activateReaderPreview, publishReaderLink} from "./reader-preview.mjs";
-import {browserSelection, buildOrder, compareLibrary, inspectDrive, isKnowledgeFile, PART_BYTES, reconcile} from "./builder.mjs";
+import {browserSelection, buildOrder, compareLibrary, DrivePathConflict, inspectDrive, isKnowledgeFile, PART_BYTES, reconcile} from "./builder.mjs";
 import {getRememberedDrive, hasDrivePermission, keepScreenAwake, measureFreeSpace,
   pickDrive, rememberDrive, requestDrivePermission} from "./drive.mjs";
+import {isSmallRelayRoute, RELAY_WAIT_REASON} from "./relay-wait.mjs";
 
 const INDEX_ALLOWANCE = 16 * 2 ** 20;
 const GB = 1e9;
+const GiB = 2 ** 30;
+const RELAY_PIECE_BYTES = 4 * 2 ** 20;
+const RELAY_REQUEST_WARNING = 80_000;
 const READERS = "archive-readers";
 const READER_PUBLICATION = new URL(import.meta.url).searchParams.get("v");
 const byId = id => document.getElementById(id);
@@ -251,13 +255,33 @@ export function recommendBrowser(planner, state, routes, published, kept = () =>
 // Platforms where extending a probe file allocates real clusters and fails past
 // free space (docs/capacity-probe.md): macOS and Windows on exFAT or NTFS.
 // Linux exFAT rejects the extension and ntfs-3g allocates sparsely, so Linux
-// users confirm the label size and plan from a conservative estimate.
+// users enter free space or confirm the label size for an estimate.
 export function probesCapacity(platform, agent = "") {
   if (/linux|android/i.test(platform || agent)) return false;
   return /^(mac|win)/i.test(platform || "") || /Macintosh|Windows/i.test(agent);
 }
 
 export const estimateLabelCapacity = labelBytes => Math.floor(labelBytes * 0.9);
+
+export function reportedDriveCapacity(free, unit, heldBytes) {
+  const bytes = Math.floor(free * (unit === "GiB" ? GiB : GB)) + heldBytes;
+  if (free >= 0 && Number.isSafeInteger(bytes)) return bytes;
+}
+
+export function relayLimitMessage(adds, routes, published) {
+  let requests = 0;
+  for (const {asset, bytes} of adds) {
+    if (!bytes) continue;
+    if (asset.format === "zim") {
+      if (published.archiveRelay?.[asset.id]?.length) requests += Math.ceil(bytes / RELAY_PIECE_BYTES);
+    } else if (routes[asset.id]?.some(url => isSmallRelayRoute(url, asset.id))) {
+      // Pages publishes each smaller relay file at /assets/<id>.
+      requests++;
+    }
+  }
+  return requests > RELAY_REQUEST_WARNING ?
+    "Large libraries can take more than a day through the download relay, and the command-line builder has no daily download limit." : "";
+}
 
 const WELCOME = "Any USB drive or SD card with 16 GB to 1 TB free. Files already on it stay.";
 const rememberedKey = () => "owl-last-sync:" + location.pathname.replace(/index\.html$/, "");
@@ -287,20 +311,26 @@ export function warnBeforeLeaving(target = globalThis) {
 
 export function completionState({state, completed, missing, searchWarnings, supportMissing, keptInParts}) {
   const files = completed.filter(isKnowledgeFile).length;
-  const unavailable = missing.length;
+  const apps = supportMissing?.filter(row => row.kind === "app").length || 0;
+  const unavailable = missing.length + apps;
   const essential = missing.filter(row => row.utility_tier === "CRITICAL").length;
   const summary = [countOf(files, "file") + " arrived. " + countOf(essential, "essential file") + " missing.",
     essentialRouteMessage(state.excluded || [])].filter(Boolean).join(" ");
-  const generalSupport = (supportMissing ? supportMissing.some(row => row.kind !== "phone") : searchWarnings.length) ?
+  const generalSupport = (supportMissing ? supportMissing.some(row => row.kind !== "phone" && row.kind !== "app") : searchWarnings.length) ?
     " Some reader or search files are missing." : "";
   const phoneSupport = supportMissing?.some(row => row.kind === "phone") ? " Some WikiMed phone files are missing." : "";
-  const support = generalSupport + phoneSupport;
+  const appSupport = apps ? " Kiwix opens the encyclopedias on this drive." : "";
+  const deferred = state.relayDeferred?.length;
+  const relaySupport = deferred ? " " + countOf(deferred, "file") +
+    (deferred === 1 ? " is " : " are ") + RELAY_WAIT_REASON + "." : "";
+  const support = appSupport + generalSupport + phoneSupport + relaySupport;
   if (!files) return {mode: "failed", title: "Sync could not finish", message: summary + support};
   if (state.finished && !unavailable) return {mode: "done", extra: partsMessage(keptInParts)};
   return {mode: "done-gaps", title: unavailable ? "Ready, with " + countOf(unavailable, "item") + " missing" :
     "Ready, with some files missing", message: [summary + support, partsMessage(keptInParts)].filter(Boolean).join(" ")};
 }
 
+const canTryLibrary = mode => mode === "done" || mode === "done-gaps";
 const ratio = (done, total) => total ? Math.max(0, Math.min(1, done / total)) : 0;
 const readerTitles = new Map([
   ["kiwix_android", "Kiwix reader app for Android"], ["kiwix_linux", "Kiwix reader app for Linux"],
@@ -312,6 +342,7 @@ export function mount({catalog: supplied} = {}) {
   const stage = byId("sync-stage"), headline = byId("sync-title"), status = byId("sync-status");
   const announcement = byId("sync-announcement");
   const primary = byId("sync-primary"), secondary = byId("sync-secondary"), ring = byId("sync-ring");
+  const freeForm = byId("drive-free-form"), freeField = byId("drive-free-space"), freeUnit = byId("drive-free-unit");
   const tryLink = element("a", "primary", "Try it");
   tryLink.target = "_blank";
   tryLink.rel = "noopener";
@@ -327,10 +358,10 @@ export function mount({catalog: supplied} = {}) {
   essentialStatus.hidden = true;
   byId("collection-search").before(essentialStatus);
   let managePlan, manageBudget, manageEssentials;
-  let measured, minimum, capacity, forceSplit = false, size, mode, previousMode, problem, result, controller, opened = 0;
+  let measured, reported = false, minimum, capacity, forceSplit = false, size, mode, previousMode, problem, result, controller, opened = 0;
   let operation = 0, picker = false, preview = false, fullCheck = false, selectedReplacement = new Set();
   let active = new Map(), transferTotal = 0, transferStarted, rateStart, rateBytes, rate = 0, nowTitle = "", lastPaint = 0;
-  let dirty = false, finishing = false, driveChoice;
+  let dirty = false, finishing = false, driveChoice, relayHours, manageAfterPause = false;
   how();
   try { snapshot = JSON.parse(localStorage.getItem(rememberedKey())); } catch {}
 
@@ -405,7 +436,7 @@ export function mount({catalog: supplied} = {}) {
   const available = () => plan && !plan.over && !plan.errors.length && plan.assets.some(isKnowledgeFile);
   const comparisonOptions = () => ({assets: plan.assets, choice: plan.choice, catalogVersion: catalogVersion(),
     navigation: catalog.navigation, readerPublication: READER_PUBLICATION,
-    singleArchives: !plan.choice.split, freeBytes: effectiveFree(), archiveSpace: plan.capacity - plan.reserve});
+    singleArchives: !plan.choice.split, fat32: plan.choice.split, freeBytes: effectiveFree(), archiveSpace: plan.capacity - plan.reserve});
   const totalDone = () => [...active.values()].reduce((sum, count) => sum + count, 0);
   // A side with nothing to do is left out: "removes 3.57 GB", not "adds 0 B, removes 3.57 GB".
   const changeLine = prefix => {
@@ -423,10 +454,33 @@ export function mount({catalog: supplied} = {}) {
   const verify = () => void run(true);
   const sync = () => void run();
   const pause = () => controller?.abort();
+  const pauseToManage = () => { manageAfterPause = true; pause(); };
+  const enterFreeSpace = () => { render("needs-free-space"); freeField.focus(); };
+  const showOpenInstructions = () => {
+    byId("open-library-instructions").textContent = "In Files or Finder, open " + name() + ", then open START_HERE.html.";
+    byId("open-library").showModal();
+  };
   const manageLink = ["Manage what goes on it", openManage];
   const checkLink = ["Check every file", verify];
   const seeLink = ["See what goes on a drive", openManage];
   const cli = ["Build with the command line", null, byId("how").querySelector("a").href];
+  const installKiwix = ["Install Kiwix while online", null, "https://kiwix.org/"];
+  const freeSpaceLink = ["This drive already has files", enterFreeSpace];
+
+  freeField.oninput = freeUnit.onchange = () => freeField.setCustomValidity("");
+  freeForm.onsubmit = event => {
+    event.preventDefault();
+    const value = reportedDriveCapacity(freeField.valueAsNumber, freeUnit.value, inspection.heldBytes);
+    if (value === undefined) {
+      freeField.setCustomValidity("Enter the free space shown for this drive.");
+      freeField.reportValidity();
+      return;
+    }
+    reported = true;
+    size = undefined;
+    render("measuring");
+    void planDrive(value).catch(showProblem);
+  };
 
   function debug() {
     byId("technical-detail").textContent = problem?.detail || "";
@@ -457,7 +511,12 @@ export function mount({catalog: supplied} = {}) {
         Object.assign(item, {message: "Measuring free space…", links: [different]});
         break;
       case "needs-size":
-        Object.assign(item, {message: "How much space does this drive have? Use the number printed on it.", chart: false, links: [different]});
+        Object.assign(item, {message: "For a new or empty drive, use the number printed on it.",
+          chart: false, links: [freeSpaceLink, different]});
+        break;
+      case "needs-free-space":
+        Object.assign(item, {message: "In Files or Finder, select the drive and choose Get Info or Properties to see how much space is free.",
+          chart: false, links: [["Use the printed drive size", () => render("needs-size")], different]});
         break;
       case "ready":
         Object.assign(item, {step: 2, action: syncButton, links: [manageLink],
@@ -490,12 +549,21 @@ export function mount({catalog: supplied} = {}) {
         Object.assign(item, {step: 2, fraction: syncFraction, title: percent(syncFraction), action: ["Pause", pause, true],
           message: "Waiting for the internet. Sync continues by itself."});
         break;
+      case "waiting-relay":
+        Object.assign(item, {step: 2, fraction: syncFraction, title: "Waiting for the download relay",
+          action: ["Pause", pause, true], links: [["Manage what goes on it", pauseToManage]],
+          message: "Today’s free downloads through the relay may be used up. Sync continues by itself when the relay answers. " +
+            "The daily limit resets at midnight UTC (in about " + countOf(relayHours, "hour") + "). " +
+            "Keep this tab open, or come back later and choose Sync."});
+        break;
       case "finishing":
         Object.assign(item, {step: 2, fraction: 1, title: "Finishing", message: "Building the search index and the start page."});
         break;
       case "paused":
         Object.assign(item, {step: 2, fraction: readyFraction, title: "Paused at " + percent(readyFraction), action: syncButton,
-          message: "Nothing is lost. Sync continues where it stopped.", links: [manageLink]});
+          message: inspection?.state?.relayDeferred?.length ?
+            "Files are waiting for the download relay. The relay was busy. Choose Sync to continue." :
+            "Nothing is lost. Sync continues where it stopped.", links: [manageLink]});
         break;
       case "done":
         Object.assign(item, {step: 3, fraction: 1, title: "Ready",
@@ -507,19 +575,24 @@ export function mount({catalog: supplied} = {}) {
       case "failed":
       case "done-gaps": {
         const outcome = completionState(result);
+        const appsMissing = result.supportMissing.some(row => row.kind === "app");
         Object.assign(item, {step: mode === "failed" ? 2 : 3, fraction: mode === "failed" ? 0 : 1,
-          title: outcome.title, message: outcome.message, action: ["Try those again", sync],
-          links: [["Show details", showMissing], checkLink, ["Sync another drive", changeDrive]]});
+          title: outcome.title, message: outcome.message, action: mode === "failed" ? ["Try those again", sync] : undefined,
+          links: [...(mode === "done-gaps" ? [["Try those again", sync]] : []),
+            ...(appsMissing ? [installKiwix] : []), ["Show details", showMissing], checkLink, ["Sync another drive", changeDrive]]});
         break;
       }
       case "problem":
         Object.assign(item, {step: 2, fraction: syncFraction, title: problem.title, message: problem.message,
-          chart: Boolean(plan), action: problem.action, links: [["Technical details", debug]]});
+          chart: Boolean(plan), action: problem.action, links: [
+            ...(problem.full && inspection && measured === undefined ? [["Update free space", enterFreeSpace]] : []),
+            ["Technical details", debug]]});
         break;
       case "too-small":
         Object.assign(item, {title: "Not enough room", chart: false, action: pick,
           message: "OWL needs at least " + bytes(minimum) + " free. " +
-            (measured === undefined ? "This plan estimates " + bytes(effectiveFree()) + " free." : "This drive has " + bytes(measured) + ".")});
+            (measured !== undefined ? "This drive has " + bytes(measured) + "." :
+              (reported ? "You entered " : "This plan estimates ") + bytes(effectiveFree()) + " free.")});
         break;
       case "unsupported":
         Object.assign(item, {chart: false, title: "Open this page in Chrome, Edge or Arc on a computer",
@@ -535,12 +608,23 @@ export function mount({catalog: supplied} = {}) {
       if (plan?.budget < plan?.capacity) {
         item.message = (measured === undefined ? "Estimated space for OWL is " : "") +
           bytes(plan.capacity) + (measured === undefined ? ", limited to " : " free, limited to ") + bytes(plan.budget) + ". " + item.message;
+      } else if (reported) {
+        item.message = "This plan uses the free space you entered. " + item.message;
       } else if (measured === undefined) {
         item.message = "This plan uses an estimate of " + bytes(plan.capacity) + " for the drive. " + item.message;
       }
     }
+    if (measured === undefined && ["ready", "behind", "current", "paused", "too-small"].includes(mode)) {
+      item.links.push(["Update free space", enterFreeSpace]);
+    }
     if (["ready", "behind", "paused"].includes(mode)) {
-      item.extra = essentialRouteMessage(plan.excluded);
+      const relay = relayLimitMessage(comparison?.adds || [], catalog.routes, catalog.published);
+      item.extra = [essentialRouteMessage(plan.excluded), relay].filter(Boolean).join(" ");
+    }
+    if (canTryLibrary(mode) && !tryLink.hasAttribute("href")) item.action = ["Try it", showOpenInstructions];
+    if (canTryLibrary(mode) || mode === "failed") {
+      const repaired = result.repairedPages.map(({path, copy}) => "Rebuilt and checked " + path + ". The changed copy is at " + copy + ".");
+      item.extra = [item.extra, ...repaired].filter(Boolean).join(" ");
     }
     stage.dataset.state = mode;
     stage.style.setProperty("--p", String(item.fraction));
@@ -564,13 +648,14 @@ export function mount({catalog: supplied} = {}) {
       byId("sync-track").replaceChildren();
       byId("sync-legend").replaceChildren();
     } else if (item.chart && (plan || snapshot)) {
-      const solid = ["syncing", "waiting", "finishing"].includes(mode) ? active : mode === "ready" ? new Map() : savedAmounts();
+      const solid = ["syncing", "waiting", "waiting-relay", "finishing"].includes(mode) ? active : mode === "ready" ? new Map() : savedAmounts();
       const amounts = mode === "remembered" ? snapshot.amounts : manage.amounts(plan, solid);
       meter(byId("sync-track"), byId("sync-legend"), manage?.groups || snapshot.groups, amounts,
         mode === "remembered" ? snapshot.capacity : plan.capacity, mode === "behind" ? plan.over : 0);
     }
     byId("drive-sizes").hidden = mode !== "needs-size";
-    if (mode === "done" && tryLink.hasAttribute("href")) primary.replaceWith(tryLink);
+    freeForm.hidden = mode !== "needs-free-space";
+    if (canTryLibrary(mode) && tryLink.hasAttribute("href")) primary.replaceWith(tryLink);
     else tryLink.replaceWith(primary);
     primary.hidden = !item.action;
     primary.classList.toggle("quiet", Boolean(item.action?.[2]));
@@ -620,13 +705,15 @@ export function mount({catalog: supplied} = {}) {
     const disconnected = /NotFoundError|disconnected|InvalidStateError/i.test(detail);
     const access = /NotAllowedError|SecurityError|NoModificationAllowedError|read.only/i.test(detail);
     const full = /QuotaExceededError|ENOSPC|no space|disk full/i.test(detail);
-    problem = disconnected ? {title: "The drive was disconnected",
+    problem = error instanceof DrivePathConflict ? {title: "There’s already " + error.entry + " on this drive",
+      message: "Choose another drive or folder for your library.", action: ["Choose another drive", changeDrive]} :
+      disconnected ? {title: "The drive was disconnected",
       message: remembered ? "Plug it back in and choose Reconnect. Nothing is lost." : "Plug it back in, then choose its folder again.",
       action: remembered ? ["Reconnect " + name(), reconnect] : ["Choose another drive", changeDrive]} :
       access ? {title: "OWL could not write to the drive", message: "Allow access to this drive or choose a drive you can write to.",
         action: remembered ? ["Reconnect " + name(), reconnect] : ["Choose another drive", changeDrive]} :
       full ? {title: "The drive ran out of space", message: "Free some space on the drive, then choose Sync.",
-        action: ["Sync", sync]} :
+        action: ["Sync", sync], full: true} :
       {title: "OWL could not finish this step", message: "Check the connection and try again, or choose another drive.",
         action: drive && plan ? ["Sync", sync] : ["Choose another drive", changeDrive]};
     problem.detail = detail;
@@ -653,7 +740,7 @@ export function mount({catalog: supplied} = {}) {
       budget: Math.min(saved.choice?.limitBytes || Infinity, saved.capacityBytes || capacity, catalog.planner.capacity_policy.limit),
       files: Object.keys(saved.installed).sort()
     } : undefined;
-    const current = manage.configure({capacityBytes: capacity, size, savedChoice: saved?.choice,
+    const current = manage.configure({capacityBytes: Math.max(1, capacity), size, savedChoice: saved?.choice,
       split: forceSplit, forceSplit, connected: !isPreview, installed});
     managePlan = current;
     if (!isPreview) {
@@ -697,15 +784,22 @@ export function mount({catalog: supplied} = {}) {
     remembered = handle;
     inspection = comparison = plan = result = undefined;
     measured = capacity = size = undefined;
+    freeField.value = "";
+    freeField.setCustomValidity("");
+    freeUnit.value = "GB";
+    reported = false;
     active = new Map();
     transferTotal = 0;
     dirty = forceSplit = false;
     selectedReplacement.clear();
     render("measuring");
-    await init();
+    const hasPermission = await hasDrivePermission(handle);
     if (openedDrive !== operation) return;
-    if (!await hasDrivePermission(handle)) { drive = null; render("remembered"); return; }
-    inspection = await inspectDrive(handle);
+    if (!hasPermission) { drive = null; render("remembered"); return; }
+    const inspected = await inspectDrive(handle);
+    if (openedDrive !== operation) return;
+    inspection = inspected;
+    await init();
     if (openedDrive !== operation) return;
     if (probesCapacity(platform, agent)) {
       const outcome = await lockDrive(() => measureFreeSpace(handle, {onAttempt: value => diag("capacity", value)}));
@@ -719,16 +813,17 @@ export function mount({catalog: supplied} = {}) {
         return;
       }
     }
+    sizesInto(byId("drive-sizes"), undefined, value => {
+      reported = false;
+      size = value;
+      render("measuring");
+      void planDrive(estimateLabelCapacity(value * GB)).catch(showProblem);
+    });
     if (inspection.state?.capacityBytes) {
       const saved = inspection.state;
       await planDrive(saved.capacityEstimated === undefined ? estimateLabelCapacity(saved.capacityBytes) : saved.capacityBytes);
       return;
     }
-    sizesInto(byId("drive-sizes"), undefined, value => {
-      size = value;
-      render("measuring");
-      void planDrive(estimateLabelCapacity(value * GB)).catch(showProblem);
-    });
     render("needs-size");
   }
 
@@ -806,12 +901,19 @@ export function mount({catalog: supplied} = {}) {
 
   function onProgress(event) {
     if (event.kind === "plan") {
+      relayHours = undefined;
+      finishing = false;
       active = new Map(event.files.map(row => [row.id, row.done ? row.bytes : row.savedBytes || 0]));
       transferTotal = event.files.reduce((sum, row) => sum + row.bytes, 0);
       render("syncing");
       return;
     }
     if (event.kind === "waiting-network") { render("waiting"); return; }
+    if (event.kind === "waiting-relay") {
+      relayHours = event.hours;
+      render("waiting-relay");
+      return;
+    }
     if (event.kind === "assembling") { finishing = true; render("finishing"); return; }
     if (mode === "finishing" || !event.asset) return;
     if (event.kind === "downloading") {
@@ -849,6 +951,7 @@ export function mount({catalog: supplied} = {}) {
     transferStarted = rateStart = undefined;
     rate = 0;
     finishing = false;
+    relayHours = undefined;
     nowTitle = "";
     active = savedAmounts();
     transferTotal = plan.used;
@@ -858,7 +961,7 @@ export function mount({catalog: supplied} = {}) {
     try {
       if (await requestDrivePermission(drive) !== "granted") throw new DOMException("Permission was refused", "NotAllowedError");
       const network = createNetwork({signal, probeURL: "./.nojekyll", onWaiting: () => onProgress({kind: "waiting-network"}),
-        onRestored: () => render(finishing ? "finishing" : "syncing")});
+        onRestored: () => render(relayHours !== undefined ? "waiting-relay" : finishing ? "finishing" : "syncing")});
       const prepareSources = async () => {
         const unavailableSupport = [];
         const [search, publisherPieces] = await Promise.all([
@@ -883,7 +986,7 @@ export function mount({catalog: supplied} = {}) {
       selectedReplacement.clear();
       await updateComparison();
       const outcome = completionState(result).mode;
-      if (outcome === "done") {
+      if (canTryLibrary(outcome)) {
         const scope = await readerScope;
         const url = scope && await publishReaderLink(scope, drive, publishedFiles).catch(previewError);
         if (url) tryLink.href = url;
@@ -902,6 +1005,10 @@ export function mount({catalog: supplied} = {}) {
       clearTimeout(phoneTimer);
       release();
       controller = null;
+      if (manageAfterPause) {
+        manageAfterPause = false;
+        openManage();
+      }
     }
   }
 

@@ -86,6 +86,18 @@ class VerifyLayoutTests(unittest.TestCase):
         self.assertIn("SUPPORT INCOMPLETE: reader files missing; search index missing", self.check()[1])
         self.assertEqual(verify.main([str(self.root), "--strict"]), 1)
 
+    def test_missing_reader_app_is_a_support_gap_with_intact_checksums(self):
+        self.record(content_complete=True, asset_count=1, selected_count=1, support_complete=False,
+                    support_missing=[{"kind": "app", "id": "kiwix_windows", "title": "Kiwix for Windows",
+                                      "reason": "HTTP 404"}])
+        result, lines = self.check()
+        self.assertEqual(result["FAILED"], 0)
+        self.assertEqual(result["SUPPORT_INCOMPLETE"], 1)
+        self.assertIn("SUPPORT INCOMPLETE: 1 reader app missing (Kiwix for Windows)", lines)
+        with patch("builtins.print"):
+            self.assertEqual(verify.main([str(self.root), "--strict"]), 1)
+            self.assertEqual(verify.main([str(self.root), "--strict", "--accept-partial"]), 0)
+
     def test_legacy_metadata_and_software_only_inventory(self):
         self.record(content_complete=True, asset_count=1)
         self.assertIn("COMPLETE: 1 files present", self.check()[1])
