@@ -21,6 +21,7 @@
 .capacity-entry{display:flex;align-items:center;flex-wrap:wrap;gap:.55rem;margin:.8rem 0}
 .capacity-entry label{font-size:.85rem;font-weight:650}
 .capacity-entry input{width:8rem}
+button.storage-topic{text-decoration:underline;text-underline-offset:3px;min-height:32px}button.storage-topic::after{content:" ›"}button.storage-track{display:block;width:100%;min-height:0;padding:0;border:0;text-align:left}button.storage-track:hover{background:var(--green-soft)}
 </style>
 </head>
 <body>
@@ -149,7 +150,7 @@
   </div>
 </nav>
 <script id="owl-model" type="application/json">__OWL_MODEL__</script>
-<script>__OWL_ENGINE__</script>
+<script>if (!document.getElementById("owl-model").textContent.trim().startsWith("__")) {__OWL_ENGINE__}</script>
 <script>
 (() => {
   "use strict";
@@ -492,7 +493,7 @@
     byId("storage-heading").textContent=leaf?"Content size · "+OWLTopicMap.topicTitle(model,topicScope.domain):topicScope.vertical?"Content size by subtopic":"Content size by topic";
     byId("topic-storage-total").textContent=browserPage ? bytes(stored)+" on the drive" :
       (estimated?"≈ ":"")+bytes(total)+" uncompressed"+(unknown?" + "+unknown+" unknown-size files":"")+" · "+bytes(stored)+" stored";
-    byId("topic-storage-help").textContent=leaf?"Faint divisions show each file’s share. Click a segment to inspect or exclude it; the file list below also reaches very small segments.":interactive?"Bars share one linear scale. Click a file segment to inspect it, or a subtopic name to filter its files.":"Bars share one linear scale. Faint divisions show each file’s share. Click a topic name to explore it.";
+    byId("topic-storage-help").textContent=leaf?"Faint divisions show each file’s share. Click a segment to inspect or exclude it; the file list below also reaches very small segments.":interactive?"Bars share one linear scale. Click a file segment to inspect it, or a subtopic name to filter its files. The circles and list follow your selection.":"Click a topic name or bar to explore its subtopics. The circles and list follow your selection. Bars share one linear scale; faint divisions show each file’s share.";
     byId("topic-storage-empty").hidden=count>0;
     byId("topic-storage-key").hidden=!leaf||count===0;
     byId("topic-storage-key-title").textContent="Inspect "+count+" selected files (including tiny segments)";
@@ -503,7 +504,8 @@
       if(!leaf){label.type="button";label.addEventListener("click",()=>chooseTopic(group.scope));}
       const amount=element("span","muted",(group.estimated?"≈ ":"")+bytes(group.bytes)+(group.unknown?" + unknown":""));
       amount.title=bytes(group.storedBytes)+" actually stored";heading.append(label,amount);
-      const track=element("div","storage-track"), bar=element("div","storage-bar");
+      const track=element(interactive?"div":"button","storage-track"), bar=element("span","storage-bar");
+      if(!interactive){track.type="button";track.setAttribute("aria-label","Explore "+group.title);track.addEventListener("click",()=>chooseTopic(group.scope));}
       bar.style.width=(max?group.bytes/max*100:0)+"%";
       for(const asset of group.assets) {
         const size=browserPage ? {bytes: asset.size_bytes, basis: "Size on the drive."} : OWLTopicMap.contentSize(asset);
@@ -671,7 +673,18 @@
       const catalog = await pages.load();
       model = catalog.planner;
       browserPage = pages.mount({catalog, recommend: capacity => choosePreset("flash-16gb", capacity)});
-    } else model = JSON.parse(byId("owl-model").textContent);
+    } else {
+      const embeddedModel=byId("owl-model").textContent;
+      if(embeddedModel.trim().startsWith("__")) {
+        const notice=byId("fatal"), link=element("a","","Open SELECT.html");
+        link.href="../../../SELECT.html";
+        notice.replaceChildren(element("p","","This is the selector’s source template. Open SELECT.html at the repository root to choose your library."),link);
+        notice.hidden=false;
+        byId("reset-preset").disabled=byId("include-shown").disabled=byId("exclude-shown").disabled=true;
+        return;
+      }
+      model = JSON.parse(embeddedModel);
+    }
     mapAvailable=OWLTopicMap.available(model);
     byId("map-panel").hidden=!mapAvailable;
     byId("map-unavailable").hidden=mapAvailable;

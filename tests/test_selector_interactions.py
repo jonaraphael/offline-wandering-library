@@ -9,6 +9,21 @@ ROOT = Path(__file__).resolve().parents[1]
 
 @unittest.skipUnless(shutil.which('node'), 'Node required for selector UI checks')
 class SelectorInteractionTests(unittest.TestCase):
+    def test_opening_source_template_links_to_generated_selector(self):
+        code=r'''
+const fs=require('fs'),html=fs.readFileSync(0,'utf8'),nodes=new Map();
+const node=()=>({children:[],hidden:true,replaceChildren(...items){this.children=items;}});
+globalThis.document={getElementById:id=>{if(!nodes.has(id))nodes.set(id,node());return nodes.get(id);},createElement:node};
+document.getElementById('owl-model').textContent=html.match(/<script id="owl-model"[^>]*>([\s\S]*?)<\/script>/)[1];
+for(const script of html.matchAll(/<script>([\s\S]*?)<\/script>/g))eval(script[1]);
+const notice=nodes.get('fatal');
+if(notice.hidden||notice.children[1].href!=='../../../SELECT.html')throw Error('Missing working-selector link');
+if(globalThis.OWLPlanner)throw Error('Unbuilt engine executed');
+'''
+        result=subprocess.run([shutil.which('node'),'-e',code],
+            input=(ROOT/'src/owl/templates/selector.html').read_text(),text=True,capture_output=True,timeout=30)
+        self.assertEqual(result.returncode,0,result.stderr)
+
     def test_drilldown_pseudoindex_search_and_filtered_bulk_selection(self):
         model = make_model(ROOT/'catalog/library.yaml', ROOT/'profiles', ROOT/'catalog/resources.yaml')
         code = r'''
@@ -35,6 +50,17 @@ const click=id=>get(id).handlers.click(), search=value=>{get('resource-filter').
 const svgItems=()=>get('topic-map').children[0].children;
 const clearFilters=()=>{search('');get('priority-filter').value='';get('priority-filter').handlers.change();get('selected-only').checked=false;get('selected-only').handlers.change();if(!get('topic-breadcrumbs').hidden)get('topic-breadcrumbs').children[0].handlers.click();};
 const drill=(attr,value,key)=>{const n=svgItems().find(n=>n.attributes[attr]===value);assert(n,'Missing '+value);key?n.handlers.keydown({key,preventDefault(){}}):n.handlers.click();};
+const chartRow=id=>get('topic-storage-bars').children.find(n=>n.dataset.storageGroup===id);
+chartRow('school').children[1].handlers.click();
+assert(get('storage-heading').textContent==='Content size by subtopic','Topic bar did not drill down');
+assert(svgItems().some(n=>n.attributes['data-map-subtopic']==='topic:mathematics'),'Bar navigation did not update circles');
+assert(get('topic-breadcrumbs').children[2].textContent==='Learning & science','Bar navigation did not update breadcrumbs');
+chartRow('topic:mathematics').children[0].children[0].handlers.click();
+assert(svgItems().find(n=>n.attributes['data-map-subtopic']==='topic:mathematics').attributes['aria-pressed']==='true','Subtopic label did not highlight circle');
+assert(get('topic-list-heading').textContent==='Files in Mathematics','Bar navigation did not filter list');
+drill('data-map-subtopic','topic:physics');
+assert(get('topic-storage-bars').children.length===1&&chartRow('topic:physics'),'Circle navigation did not update bars');
+clearFilters();
 // Establish a partial-selection scenario independently of preset membership.
 search('seed-processing-quality');click('exclude-shown');
 const before=new Set(lastReport.selectedAssetIds);

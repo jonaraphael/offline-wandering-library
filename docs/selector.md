@@ -176,7 +176,9 @@ selected assets, once each. At the overview it compares major themes; inside a
 theme it compares subtopics. Selecting a subtopic leaves one bar whose faint
 segments show its individual files. Click a segment to inspect the file and its
 include/exclude control. The expandable file list reaches segments too small to
-click. Topic labels navigate using the same breadcrumbs and list filters.
+click. Click a major topic’s name or full bar to open its subtopic chart.
+Subtopic names select the corresponding circle and filter the file list;
+clicking circles updates the bar chart in turn. Both use the same breadcrumbs.
 
 Bar lengths use uncompressed content sizes. A cataloged `uncompressed_size_bytes`
 value takes precedence. Without one, the selector uses explicit rough planning
