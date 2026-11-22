@@ -1,5 +1,7 @@
 # Practical resource selections — 28 September 2026
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Six complete publisher PDFs were selected for **full-1tb**, adding **76,927,328
 bytes**. The smaller presets retain their prior selections. Each new asset has
 a reusable YAML pseudoindex in `catalog/navigation/assignments/` with topic

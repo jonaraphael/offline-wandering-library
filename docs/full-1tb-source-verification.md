@@ -1,5 +1,8 @@
 # Full 1 TB source enumeration and verification
 
+Historical evidence for the September 2026 acquisition snapshot. See the
+[current capacity table](content-selection.md) for build defaults.
+
 This verification record describes the September 2026 acquisition snapshot. See the [current ledger](content-ledger.md) for subsequent admissions.
 
 [Near-full selections for every preset](preset-capacity-plans.md) reuse this shared inventory.

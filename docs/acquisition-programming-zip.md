@@ -1,5 +1,7 @@
 # Python and SQLite build-time package recipes
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Prepared from temporary publisher archives already acquired before the user
 clarified link/catalog-only scope. Preparing these recipes performed local reads
 and metadata writes only: no additional network calls, resource-body downloads,

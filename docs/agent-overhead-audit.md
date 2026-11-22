@@ -1,5 +1,7 @@
 # Unattended builds and reusable asset indexes
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 > Historical note: full-text indexing constraints below describe the previous
 > implementation. New builds use [lightweight discovery](search.md), without
 > source-text extraction or index caches. Acquisition and integrity checks remain.

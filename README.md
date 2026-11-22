@@ -20,7 +20,7 @@ the whole drive selection again. Use **Show files** to edit individual files. Co
 available through the desktop tool are labeled in the editor.
 Set up iPhone Kiwix with the builder’s App Store QR code while online.
 The phone shelf links to the directly readable files included in your build.
-[Browser build guide](docs/pages-builder.md) · [Device tests](docs/device-matrix.md)
+[Browser build guide](docs/pages-builder.md) · [Device tests](docs/device-matrix.md) · [Documentation](docs/README.md)
 
 ### Build with Python
 

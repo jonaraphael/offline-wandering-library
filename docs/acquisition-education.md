@@ -1,5 +1,7 @@
 # Education and agriculture acquisition evidence
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 This is the historical September 18 acquisition batch. Current OpenStax coverage is documented in [the subject-breadth expansion](acquisition-openstax-breadth.md); the subsequent [PDF migration](pdf-editions.md) supplies the current Book Dash and Python reading editions.
 
 This acquisition batch adds **85 complete publisher files, 1,554,194,963 bytes**. The

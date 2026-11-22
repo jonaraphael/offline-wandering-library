@@ -1,5 +1,7 @@
 # OpenStax subject breadth — September 2026
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 The previous 20-title mathematics/science core has been replaced by a broader default. The 16 GB preset includes **36 OpenStax books across all eight publisher subject families**. The 64 GB and larger presets include **all 73 current English standard PDFs** from the [official catalog](https://openstax.org/subjects). Retired editions, translations, instructor supplements, online activities and videos are outside this collection.
 
 The 53 additional PDFs were downloaded only to the external OWL drive, checked for exact size, SHA-256 pinned, opened successfully and reviewed for embedded Creative Commons notices. Original publication bytes remain external. The repository stores catalog metadata and generated reusable per-asset search shards. The 13 previous STEM books omitted from the 16 GB selection remain in the full catalog and are preserved externally.

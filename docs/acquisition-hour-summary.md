@@ -1,5 +1,7 @@
 # One-hour source-resolution result
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 This pass prepares **future build-time acquisition**. The public catalog contains
 source URLs, editions, exact sizes, SHA-256 pins and notices; resource bodies are
 not committed. Selected originals had already been downloaded to temporary storage

@@ -1,5 +1,7 @@
 # Near-full capacity selections for every preset
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 This September 2026 planning snapshot uses the profiles and candidate inventory from that date. See the [current ledger](content-ledger.md) for admitted files and current recommendations.
 
 Every drive size now has an **exact source-by-source expansion selection**, reusing the shared verified inventory and piecewise pseudoindexes. All five plans fit their practical ceilings. These expansion selections are **not yet the admitted build defaults**: missing full-file/member hashes and required content/offline reviews still gate promotion.

@@ -1,5 +1,7 @@
 # Midwives whole-book fallback
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 The 2026 chapter set still needs its verified same-edition back matter. The official media API lists complete English 2013 and 2011 PDFs, but both exact publisher URLs returned HEAD 404 on 2026-09-23. Their identities and failed headers are preserved; no older pages are spliced into the current book.
 
 The reviewed current fallback is [Hesperian’s English PDF variant](https://store.hesperian.org/products/a-book-for-midwives?variant=45190704136373), SKU PDF090, product 8160072597685, variant 45190704136373. Official product metadata describes Second Edition, 9th Revised Printing (2026), 527 pages, and lists the PDF at USD 7.95, checked 2026-09-23. This is a purchase identity, not a downloadable-file pin or proof of the delivered PDF edition. No purchase was made.

@@ -1,5 +1,7 @@
 # Useful coverage within a real drive budget
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 The executable policy is `src/owl/utility_policy.json`, checked with `python scripts/check_selection_policy.py`. Every default must include health, water/sanitation, food preservation, agriculture, shelter, navigation, repair, hand tools, school math and school science. Each asset and collection has a priority, explanation and knowledge-domain tags.
 
 Selection aims for substantial, diversified knowledge useful after internet access and plentiful electronics disappear. There are no minimum document counts or invented GB targets. Chapters, support files and extracted archive members are not counted as separate complete books. NONESSENTIAL stories, college textbooks, computing and enrichment require explicit inclusion.

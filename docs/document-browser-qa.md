@@ -1,5 +1,7 @@
 # Reusable offline document checks
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Create a small JSON manifest recording each local HTML file's exact SHA-256, expected image/table counts, and any explicitly absent companion PDFs:
 
 ```json

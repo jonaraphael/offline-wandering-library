@@ -1,4 +1,36 @@
-# Validation evidence
+# Validation
+
+Run these checks from the checkout after installing the package with
+`.[zim,pdf]`. Python and Node fixtures use local input or loopback servers.
+
+```sh
+python -B -m unittest discover -s tests
+python -B scripts/build_selector.py --check
+python -B scripts/build_content_docs.py --check
+node --test tests/*.test.mjs tests/search/*.test.cjs
+python -B scripts/search_benchmark.py --check
+```
+
+The search benchmark verifies index pins and evaluates the 16 GB, 128 GB and
+1 TB selections. Run it with `--bounded --tasks` to measure the initial
+shortlist and with `--tasks` to record completed ranking. See [offline
+search](search.md) for the result format.
+
+The [browser guide](pages-builder.md) describes the local Pages artifact.
+Run `node tests/browser-plan.test.mjs PATH_TO_PAGES` against the build using
+the deployment's relay routes. The fixture supplies the publication lock's
+mirror routes and sweeps the browser defaults from 16 GB through 1 TB.
+See [transfer evidence](browser-delivery.md) for the larger resume fixture.
+
+Use the [device checklist](device-matrix.md) for an offline acceptance pass
+on the intended drive, phones and computers. Software fixtures cover link
+generation, resume, checksums and PDF structure. Device results depend on the
+reader, filesystem and access permissions.
+
+## Historical validation measurements
+
+These recorded runs describe earlier revisions. Use the commands above for the current checkout.
+
 
 The initial implementation was exercised on macOS/Apple Silicon with Python
 3.12, Node.js 20, and the versions in `requirements-tested.txt`. The source audit

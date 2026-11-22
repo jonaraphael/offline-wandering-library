@@ -1,5 +1,7 @@
 # Published archive editions for useful defaults
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Checked 18 September 2026. This acquisition fragment adds exact official download pins; it does not download or commit the archives. The builder must verify every archive against its full-file SHA-256. Twenty-seven new asset records pass the catalog validator. The existing 61 Book Dash EPUBs are referenced, not duplicated.
 
 The proposed compact editions are concrete published collections. They are alternatives to the still unfinished direct HTML and question-level curation projects. Selecting a compact edition must show that it requires a ZIM reader. The critical directly readable library remains separate.

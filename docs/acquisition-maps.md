@@ -1,5 +1,7 @@
 # New England map selection evidence
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 The original proposal freezes **75 USGS sheets, 2,107,297,354 bytes** against a
 30 GB topographic allowance. Default discovery now uses it only for the compact
 and standard presets; the [detailed 1 TB selection](acquisition-detailed-maps.md)

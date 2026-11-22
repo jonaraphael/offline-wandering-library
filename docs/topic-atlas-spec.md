@@ -1,5 +1,7 @@
 # OWL topic atlas: static hierarchical navigation
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 **Status:** The navigation mechanism is implemented. See the
 [topic-atlas guide](topic-atlas.md) for the current commands,
 metadata schema, importer, integrity checks, and limits. This document retains the

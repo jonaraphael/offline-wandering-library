@@ -1,5 +1,8 @@
 # Near-full 1 TB capacity specification
 
+Historical evidence for the September 2026 acquisition snapshot. See the
+[current capacity table](content-selection.md) for build defaults.
+
 This September 2026 specification describes an acquisition plan and its baseline at that date. See the [current ledger](content-ledger.md) for subsequent admissions.
 
 [Near-full selections for every preset](preset-capacity-plans.md) reuse this shared inventory.

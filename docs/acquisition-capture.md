@@ -1,5 +1,7 @@
 # Source-review acquisition
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Acquisition builds write quarantined sources to an explicitly supplied staging
 directory. They finish in `awaiting_review`, with `content_ready: false`.
 They do not assemble or certify a production library. Use a separate volume;

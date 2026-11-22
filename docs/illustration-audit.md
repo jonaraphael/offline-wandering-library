@@ -1,5 +1,7 @@
 # Illustration evidence addendum
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 On 18 September 2026, a second review checked the 15 additional OpenStax PDFs, seven FAO PDFs, and Pro Git against their catalog SHA-256 pins and visually inspected one representative physical page per file. All 23 original PDFs matched both their exact byte counts and their complete SHA-256 hashes in the SSD source cache before rendering. No source file was rewritten, recompressed or copied into Git.
 
 Pages were rendered with Poppler `pdftoppm` 26.06.0 and inspected as page images and contact sheets. Text extraction was used only to locate candidate captions. The observations below describe the rendered source pages; they are not inferred solely from titles, captions, or image-object counts. Page numbers count from the first physical PDF page, including covers and front matter, rather than the printed page label.

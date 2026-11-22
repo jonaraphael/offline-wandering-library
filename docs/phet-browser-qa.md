@@ -1,5 +1,7 @@
 # Repeatable PhET offline browser checks
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 The portable manifest in `catalog/acquisition/phet-browser-checks.json` preserves the sixteen exact source pins and two viewports used for the recorded run. Its destinations are filenames relative to the PhET directory, so it works against either an existing flat acquisition cache or a built library's `REFERENCE/EDUCATION/PHET` directory.
 
 ```sh

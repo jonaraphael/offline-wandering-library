@@ -1,5 +1,7 @@
 # Python-managed acquisition trial and sparse review
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 The active `Finish OWL 1 TB trial` thread timer checks every 30 minutes. Each
 follow-up begins with one local command:
 

@@ -1,5 +1,7 @@
 # Archive acquisition evidence
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Checked on **2026-09-18**. [The acquisition fragment](../catalog/acquisition/archives.yaml)
 contains 23 exact file records and merge instructions for 16 named resources. It
 does not contain the datasets. Resource status describes the requested collection's
