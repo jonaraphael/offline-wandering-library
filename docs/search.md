@@ -60,15 +60,15 @@ different ranking treatment. Catalog results appear first. Precomputed
 token-pair filters and vector centroids order the chunks likely to yield
 relevant hits. The compact term dictionary adds weighted chunk candidates,
 using stronger field matches first. A query loads only its term buckets, then
-opens candidate chunks. A 39.7 MB per-query read allowance covers the term
-buckets and record chunks. Initial selection and model loading are separate.
-The page shows early indexed matches while the remaining candidates are scored.
-Choose **Search all indexed entries** to run a longer pass over the selected
-index when the first results do not answer your query.
+opens candidate chunks. An approximately 40 MB read allowance covers the term
+buckets and chunks for the first pass. The page shows those preliminary hits,
+then automatically scores the remaining eligible chunks and refreshes the
+results. Larger drives can take longer to finish the second pass. Submitting
+a different query cancels the previous one between chunk reads.
 
 When the build fits the 46.6 MB MiniLM bundle in its search allocation,
-desktop search embeds the query and up to 50 shortlisted result titles and
-excerpts. The all-MiniLM-L6-v2 model runs through single-threaded ONNX Runtime
+desktop search preserves the top three indexed hits and uses MiniLM to
+reorder subsequent results from the first 50 indexed hits. The all-MiniLM-L6-v2 model runs through single-threaded ONNX Runtime
 Web WASM using local classic scripts. Potion and term postings supply the
 shortlist. The model reads only excerpts that the index already permits
 displaying. Its results follow the initial lexical and Potion matches. The
@@ -131,7 +131,7 @@ benchmark checks chunk digests and runs the original 100 probes plus body-only
 PDF queries with expected physical page locations. It reports the two query sets
 at 16 GB, 128 GB and 1 TB. The experimental `--quick` measurement evaluates
 just the first 28 MB of candidate chunks and can return fewer relevant hits.
-The `--bounded` run measures the production candidate routing without MiniLM.
+The `--bounded` run measures the initial shortlist without completion or MiniLM.
 The optional task export records the first three
 results for each natural-language task in `tests/search/task-queries.json`,
 with the title, source, locator and any displayable excerpt for grading.

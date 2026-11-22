@@ -185,3 +185,46 @@ test('term dictionaries route title-only postings without opening unrelated reco
     rmSync(temp, {recursive: true, force: true});
   }
 });
+test('progressive ranking scores chunks outside the preview once and matches the complete pass', async () => {
+  const path = n => 'chunks/' + String(n).padStart(64, '0') + '.js';
+  const parts = [0, 1, 2].map(n => ({path: path(n), bloom: '/w==', bytes: 10, number: n}));
+  const selection = {sources: [{id: 'manual', title: 'Manual', format: 'pdf', sha256: 'a'.repeat(64),
+    href: 'Manual.pdf', destination: 'Manual.pdf', parts}]};
+  const chunks = [
+    index([['Workshop supplies', 1, 'A guide to flat bicycle tires', '', 0, 0]]),
+    index([['Patching a Bicycle Tire Inner Tube', 2, 'Replace or patch a puncture', '', 0, 0]]),
+    index([['Repairing a handlebar', 3, 'For a bicycle', '', 0, 0]])
+  ];
+  const reads = [], preview = [];
+  const readPart = (_digest, number) => {
+    reads.push(number);
+    return chunks[number];
+  };
+  const query = 'How do I fix a flat bicycle tire?';
+  const completed = await rank.search(selection, noVector, readPart, query, 'all', 3,
+    () => false, (hits, phase) => { if (phase === 'refining') preview.push(...hits); }, 10, undefined, true);
+  assert.deepEqual(reads, [0, 1, 2]);
+  assert.equal(preview[0].record.location, 'Page 1');
+  assert.equal(completed[0].record.location, 'Page 2');
+  assert.deepEqual(completed, await rank.search(selection, noVector, readPart, query, 'all', 3));
+  reads.length = 0;
+  let cancelled = false;
+  const abandoned = await rank.search(selection, noVector, readPart, query, 'all', 3,
+    () => cancelled, (_hits, phase) => { if (phase === 'refining') cancelled = true; }, 10, undefined, true);
+  assert.deepEqual(abandoned, []);
+  assert.deepEqual(reads, [0]);
+});
+
+test('concept matches favor explanations over unrelated titles sharing words', () => {
+  const source = {title: 'Reference', format: 'zim'};
+  const cases = [
+    ['what causes the seasons', 'Season', 'Atlantic hurricane season', 'Tilt of the Earth'],
+    ['how does a car engine work', 'Internal combustion engine', 'Sports car engine output', 'The four-stroke engine'],
+    ['how do I fix a flat bicycle tire', 'Patching a Bicycle Tire Inner Tube', 'What epistemology studies', 'Bicycle puncture'],
+  ];
+  for (const [query, direct, distractor, lead] of cases) {
+    const records = index([[distractor, 'a', query, '', 0, 0], [direct, 'b', lead, '', 0, 0]]);
+    assert.equal(rank.rankPart(records, rank.prepareQuery(query, noVector), source, 2)[0].row[0], direct);
+  }
+  assert.equal(rank.prepareQuery('how to help a woman give birth', noVector).deliveryQuery, true);
+});

@@ -171,8 +171,9 @@ This checks metadata, source presence and sizes, and republishes search and atla
 
 Open `START_HERE.html` or `LIBRARY/SEARCH.html` in a desktop browser.
 Search loads its model and index from files on the drive. The term index
-focuses reads on likely matches. Desktop search can refine the first results
-with the bundled MiniLM model when the selected search allocation fits it. PDF results link to
+opens likely matches first, then checks the remaining eligible chunks in the
+background. When the selected allocation fits MiniLM, desktop search uses it
+to reorder additional results below the first three indexed hits. PDF results link to
 the source page. ZIM results show the archive’s filename and internal path.
 Use an archive reader to open those entries. The topic atlas, sections index and
 critical phone shelf remain readable with JavaScript off.

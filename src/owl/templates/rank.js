@@ -30,7 +30,9 @@
       'severe bleeding|heavy bleeding|stop bleeding|bleeding wounds|external hemorrhage|direct pressure|tourniquet|hemorrhage|bleeding'],
     ['health', /\b(?:wound (?:care|infection|closure)|(?:cut|wound)s? .{0,38}(?:stitches|sutures|gapes|gaping)|without (?:stitches|sutures)|clean\w* .{0,16}(?:wound|deep cut))\b/,
       'open wounds|cleaning wounds|wound care|wound closure|wound dressing|wound infection|laceration|wounds'],
-    ['health', /\b(?:childbirth|giving birth|(?:deliver|delivery|catch)\w* .{0,16}(?:baby|child)|baby is coming|birth at home|home birth|(?:labor|labour) and (?:birth|delivery)|contractions .{0,26}(?:labor|labour))\b/,
+    ['health', /^(?=.*\b(?:bleed\w*|ha?emorrhag\w*)\b).*\b(?:postpartum|after (?:\w+ ){0,3}(?:giv(?:e|es|ing) birth|childbirth|delivery))\b/,
+      'postpartum hemorrhage|postpartum bleeding|bleeding after birth|uterine atony|third stage of labor'],
+    ['health', /\b(?:childbirth|giv(?:e|es|ing) birth|(?:deliver|delivery|catch)\w* .{0,16}(?:baby|child)|baby is coming|birth at home|home birth|(?:labor|labour) and (?:birth|delivery)|contractions .{0,26}(?:labor|labour))\b/,
       'pushing stage|deliver the baby|catch the baby|help the baby|labor and birth|stages of labor|giving birth|childbirth|obstetric delivery'],
     ['health', /\b(?:cpr|cardiopulmonary resuscitation|chest compressions|cardiac arrest|(?:not|stopped|isnt|isn t) breathing|restart breathing)\b/,
       'cardiopulmonary resuscitation|chest compressions|basic life support|rescue breathing|cardiac arrest|cpr'],
@@ -81,7 +83,14 @@
     ['', /\b(?:long subtraction|subtraction with borrowing)\b/,
       'subtraction with regrouping|subtraction with borrowing|subtraction|place value'],
     ['', /\b(?:bicycl\w*|bike)\b.*\b(?:puncture|flat|inner tube)\b|\b(?:puncture|flat|inner tube)\b.*\b(?:bicycl\w*|bike)\b/,
-      'bicycle puncture|bicycle flat tire|patch inner tube|inner tube repair'],
+      'bicycle puncture|bicycle flat tire|patch inner tube|inner tube repair|bicycle tire|bicycle maintenance|puncture repair kit',
+      /\b(?:bicycle|bike|cycling)\b.*\b(?:tires?|tyres?|tubes?|puncture|maintenance|repair)\b|\b(?:inner tube|puncture repair|bicycle tire)\b/],
+    ['', /\b(?:(?:causes?|why (?:do|are|are there)|why we have) (?:\w+ ){0,5}seasons?|seasons? (?:change|happen|occur))\b/,
+      'earth seasons|seasons|season|axial tilt|tilt of the earth|earth orbit|seasonal changes|solstice|equinox',
+      /^(?:[0-9 ]+ )?(?:the )?(?:earth s )?seasons?(?: on earth)?(?: page [0-9]+)?$|\b(?:axial tilt|tilt of the earth|seasons on earth|solstice|equinox)\b/],
+    ['', /^(?!.*\b(?:throttle|starts?|stops?|stalls?|dies|misfire|repair|troubleshoot)\b).*\b(?:(?:car|automobile|combustion|gasoline|petrol|diesel|four stroke) engines?|engine in (?:a )?car)\b/,
+      'internal combustion engine|four stroke engine|spark ignition|reciprocating engine|engine operation',
+      /\b(?:internal combustion|four stroke|two stroke|spark ignition|reciprocating|petrol|diesel|gasoline) engines?\b|^(?:car|automobile) engines?$/],
     ['', /\b(?:sound out|sounding out|phonics|decod\w* .{0,10}words)\b/,
       'phonics|phonemic awareness|word decoding|beginning reading'],
     ['', /\b(?:sweat .{0,20}(?:dries|drying|evaporat\w*)|evaporative cooling)\b/,
@@ -126,9 +135,9 @@
       'antibiotic dosage|antibiotic therapy|antibiotic treatment|antimicrobial prescribing'],
     ['', /\b(?:sharpen\w* .{0,24}(?:ax|axe|hatchet)|(?:ax|axe|hatchet) .{0,18}(?:sharpen|grind)\w*)\b/,
       'sharpen an axe|axe sharpening|sharpen tools|grinding tools'],
-  ].map(([domain, trigger, aliases]) => {
+  ].map(([domain, trigger, aliases, titlePattern]) => {
     const phrases = aliases.split('|');
-    return {domain, trigger, canonical: phrases[0], evidence: phrases.map(terms)};
+    return {domain, trigger, canonical: phrases[0], phrases, evidence: phrases.map(terms), titlePattern};
   });
 
   const wrappers = /\b(?:getting started(?: with)?|how (?:to|do (?:i|we|you)|can (?:i|we|you))|what (?:can|should) (?:i|we) do|explain(?:ed)? (?:it )?simply|in (?:plain|simple) (?:english|words|terms)|step by step)\b/g;
@@ -154,8 +163,11 @@
     const audience = original.replace(audiences, '') !== original || /^getting started\b/.test(original);
     const cleaned = normalize(original.replace(wrappers, ' ').replace(audiences, ' '));
     const phrase = cleaned || original;
-    const focused = rules.filter(rule => rule.trigger.test(phrase));
+    const matching = rules.filter(rule => rule.trigger.test(phrase));
+    const postpartum = matching.some(rule => rule.canonical === 'postpartum hemorrhage');
+    const focused = postpartum ? matching.filter(rule => !maternity.test(rule.canonical)) : matching;
     const emergency = focused.some(rule => rule.domain);
+    const titlePatterns = focused.filter(rule => rule.titlePattern).map(rule => rule.titlePattern);
     const deliveryQuery = focused.some(rule => maternity.test(rule.canonical));
     const pediatricHealth = !deliveryQuery && child.test(phrase) && symptom.test(phrase);
     const queryWords = words(phrase);
@@ -170,8 +182,9 @@
     const routing = [...new Set([...query, ...evidence.flat()])];
     const vector = query.length && encodeQuery(emergency ?
       focused.filter(rule => rule.domain).map(rule => rule.canonical).join(' ') :
-      seed ? 'seed saving ' + phrase : language ? language + ' phrasebook ' + phrase : phrase);
-    return {original, phrase, query, primary, routing, focused, evidence, emergency, deliveryQuery, pediatricHealth, language, seed, audience, vector};
+      seed ? 'seed saving ' + phrase : language ? language + ' phrasebook ' + phrase :
+      titlePatterns.length ? focused.find(rule => rule.titlePattern).canonical : phrase);
+    return {original, phrase, query, primary, routing, focused, evidence, titlePatterns, emergency, deliveryQuery, postpartum, pediatricHealth, language, seed, audience, vector};
   }
 
   function hashTerm(word) {
@@ -349,7 +362,7 @@
   }
 
   function rankPart(part, prepared, asset, limit) {
-    const {query, primary, phrase, vector, focused, evidence, emergency, deliveryQuery, pediatricHealth, language, seed, audience} = prepared;
+    const {query, primary, phrase, vector, focused, evidence, titlePatterns, emergency, deliveryQuery, postpartum, pediatricHealth, language, seed, audience} = prepared;
     const {domains, discussion} = sourcePolicy(asset);
     const trusted = asset.critical && focused.some(rule => domains.includes(rule.domain));
     const pediatricSource = pediatricHealth && domains.includes('health');
@@ -389,6 +402,15 @@
       }
       if (!stats && similarity < 0.37) continue;
       const title = normalize(row[0]);
+      const archivePath = typeof row[1] === 'string' ? row[1] : '';
+      const dictionary = /(?:^English-[^/]+\/|(?:^|\/)(?:vocabulary|dictionary|glossary)\/)/i.test(archivePath);
+      const conceptTitle = !dictionary && !/\/[a-z]{2,3}$/i.test(row[0]) &&
+        titlePatterns.some(pattern => pattern.test(title));
+      const deliverySection = deliveryQuery && trusted && asset.format === 'pdf' &&
+        /\b(?:pushing|second stage|stage 2|giving good care during labor)\b/.test(title + ' ' + sourceTitle);
+      const postpartumSection = postpartum &&
+        /\b(?:postpartum (?:bleeding|ha?emorrhage)|birth of the placenta|bleeding after (?:birth|delivery))\b/
+          .test(title + ' ' + sourceTitle);
       const exact = title === phrase || title === prepared.original;
       const phraseHit = !exact && query.length > 1 && title.includes(phrase);
       const coverage = stats ? stats.hits / query.length : 0;
@@ -419,13 +441,15 @@
       if (emergency) {
         score = support ? (exact && !question ? 58 : 0) + Math.min(lexicalScore, 48) + 1.65 * support +
           22 * Math.max(0, similarity - 0.30) + typedScore +
-          (trusted ? 39 : 0) + (emergencyReference ? 16 : 0) -
+          (trusted ? 39 : 0) + (emergencyReference ? 16 : 0) +
+          (deliverySection ? 52 : 0) + (postpartumSection ? 70 : 0) -
           (maternityReference && !deliveryQuery ? (pediatricHealth ? 50 : 25) : 0) +
           (pediatricSource && child.test(reference) && symptom.test(reference) ? 12 : 0) - (question ? 30 : 0) - (row[4] ? 19 : 0) :
           Math.min(score, 34);
       } else {
         score += 0.95 * support + (asset.critical && (stats?.body || similarity >= 0.43) ? 5 : 0) +
-          (readyReference ? 18 : 0) - (advancedReference ? 22 : 0);
+          (readyReference ? 18 : 0) - (advancedReference ? 22 : 0) +
+          (conceptTitle && (!question || answerConcept) ? 130 : titlePatterns.length ? -48 : 0);
         if (language && (' ' + reference + ' ').includes(' ' + language + ' ') && phraseReference.test(reference)) score += 90;
         if (seed && support) score += Math.min(36, support / 2) * (stats?.hits ? 1 : 0.5);
         if (pediatricHealth) {
@@ -603,7 +627,9 @@
 
   function rankedQueue(selection, query, shelf = 'all', budget = Infinity, evidence) {
     const queue = [];
-    const exact = [hashTerm('^' + query.phrase), hashTerm('^' + query.original)];
+    const exact = [query.phrase, query.original].map(title => hashTerm('^' + title));
+    const concepts = query.focused.filter(rule => rule.titlePattern)
+      .flatMap(rule => rule.phrases).map(title => hashTerm('^' + title));
     const pairs = [];
     for (const terms of [query.query, ...query.evidence]) {
       const keys = terms.map(hashTerm);
@@ -632,6 +658,7 @@
           const matches = key => [key & mask, (key >>> 15) & mask].every(bit =>
             data.lexical[bit >>> 3] & (1 << (bit & 7)));
           const exactMatch = exact.some(matches);
+          const conceptMatch = concepts.some(matches);
           const pairStrength = pairs.filter(matches).length;
           const primaryHits = routeHits(data.bloom, query.query);
           let affinity = 0;
@@ -640,7 +667,7 @@
               affinity = Math.max(affinity, vectorScore(query.vector, data.centroids.subarray(offset, offset + 32), true));
           const small = part.bytes < 200_000;
           score = 6 * priority + 3.5 * primaryHits / query.query.length +
-            (exactMatch ? 3 : 0) + 2.5 * Math.log1p(pairStrength) +
+            (exactMatch ? 3 : 0) + (conceptMatch ? 4 : 0) + 2.5 * Math.log1p(pairStrength) +
             12 * Math.max(0, affinity - 0.17) + (asset.format === 'pdf' ? 3 : 0) +
             (asset.critical ? 1 : 0) + (small ? 1 : 0) - (discussion && semanticPart(part) ? 1 : discussion ? 4 : 0);
         }
@@ -658,8 +685,7 @@
       }
       queue.push(...sourceQueue);
     }
-    if (!routed) return queue.sort((a, b) => b.priority - a.priority || b.hits - a.hits);
-    queue.sort((a, b) => b.score - a.score || b.hits - a.hits);
+    queue.sort((a, b) => (routed ? b.score - a.score : b.priority - a.priority) || b.hits - a.hits);
     if (evidence && Number.isFinite(budget)) {
       // Share the read allowance between complementary signals. In particular,
       // small chapters must compete with large encyclopedias for term density.
@@ -706,12 +732,18 @@
   }
 
   async function search(selection, encodeQuery, readPart, text, shelf = 'all', limit = 30,
-                        cancelled = () => false, onProgress, budget = Infinity, readImpact) {
+                        cancelled = () => false, onProgress, budget = Infinity, readImpact, complete = false) {
     const query = prepareQuery(text, encodeQuery);
     if (!query.query.length || cancelled()) return [];
     const evidence = readImpact && selection.impact ? await impactEvidence(query, selection.impact, readImpact) : null;
     if (cancelled()) return [];
     const queue = rankedQueue(selection, query, shelf, budget - (evidence?.readBytes || 0), evidence);
+    const firstPass = queue.length;
+    if (complete && Number.isFinite(budget)) {
+      const identity = ({asset, number}) => `${asset.id}:${number}`;
+      const selected = new Set(queue.map(identity));
+      queue.push(...rankedQueue(selection, query, shelf).filter(item => !selected.has(identity(item))));
+    }
     const multiple = new Map();
     for (const {asset, number} of queue) {
       const key = partAddress(asset, number);
@@ -719,13 +751,15 @@
     }
     const shared = new Map();
     const matches = [];
+    const queryTerms = lookupTerms(query);
     let updatedAt = -Infinity;
-    for (const {asset, number} of queue) {
+    for (const [position, {asset, number}] of queue.entries()) {
+      if (position === firstPass) onProgress?.(topResults(matches, limit), 'refining');
       if (cancelled()) return [];
       const part = asset.parts[number];
       const address = partAddress(asset, number);
       const chunk = shared.get(address) ?? await readPart(part.pool || asset.sha256, part.number ?? number,
-        lookupTerms(query), part.path);
+        queryTerms, part.path);
       const left = multiple.get(address) - 1;
       multiple.set(address, left);
       if (left) shared.set(address, chunk);
@@ -735,8 +769,8 @@
       if (!hits.length) continue;
       matches.push(...hits.map(hit => result(asset, hit, number)));
       retainCandidates(matches, limit * 4);
-      if (onProgress && performance.now() - updatedAt >= 150) {
-        onProgress(topResults(matches, limit));
+      if (position < firstPass && onProgress && performance.now() - updatedAt >= 150) {
+        onProgress(topResults(matches, limit), 'indexed');
         updatedAt = performance.now();
       }
     }
@@ -861,10 +895,10 @@
       if (cache.size > 24) cache.delete(cache.keys().next().value);
       return task;
     }
-    return async (text, shelf, limit, cancelled, onProgress, exhaustive = false) =>
+    return async (text, shelf, limit, cancelled, onProgress) =>
       run(selection, await loadModel(), readPart, text, shelf, limit, cancelled, onProgress,
-        selection.impact && !exhaustive ? BOUNDED_BYTES : Infinity,
-        selection.impact && !exhaustive ? readImpact : undefined);
+        selection.impact ? BOUNDED_BYTES : Infinity,
+        selection.impact ? readImpact : undefined, true);
   }
 
   const api = {classic, model, binaryQuery, bytes, search, terms, prepareQuery, unpack, rankPart, normalize, result,
