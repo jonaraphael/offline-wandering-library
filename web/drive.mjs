@@ -59,6 +59,7 @@ export async function removeFile(root, path) {
 }
 
 export async function writeFile(root, path, contents) {
+  if (await root.prepareWrite?.(path, contents) === false) return;
   const handle = await fileHandle(root, path, true);
   const writable = await handle.createWritable({mode: "exclusive"});
   try {

@@ -30,7 +30,7 @@ jobs:
           if [[ "$OWL_ARCHIVE_RELAY" == true ]]; then archive+=(--archive-relay); fi
           python scripts/check_links.py --origin https://jonaraphael.github.io \
             --pages-base https://jonaraphael.github.io/offline-wandering-library/ \
-            --relay-base "$OWL_RELAY_BASE" --workers 4 --sample 48 \
+            --relay-base "$OWL_RELAY_BASE" --workers 8 --route-sample 48 \
             --output link-checks.json "${archive[@]}"
       - uses: actions/upload-artifact@v4
         if: always()
@@ -48,8 +48,9 @@ jobs:
             const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
             const body = [`Latest failed run: ${run}`, `Checked commit: ${context.sha}`];
             if (fs.existsSync(artifact)) {
-              const {failed_assets, failed_routes} = JSON.parse(fs.readFileSync(artifact, 'utf8'));
+              const {failed_assets, failed_routes, blocked_assets, blocked_routes} = JSON.parse(fs.readFileSync(artifact, 'utf8'));
               body.push('', `Publisher sources unavailable for ${failed_assets.length} assets. ${failed_routes.length} browser routes failed.`);
+              body.push(`Blocked for this checker: ${blocked_assets.length} assets, ${blocked_routes.length} browser routes.`);
               const failures = [...failed_assets, ...failed_routes.map(row => `${row.route} / ${row.id}`)];
               body.push(...failures.slice(0, 30).map(value => `- ${value}`));
               body.push('', 'See the run’s `catalog-link-checks` artifact for HTTP statuses, sizes and response headers.');

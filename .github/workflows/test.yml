@@ -65,6 +65,12 @@ jobs:
           mkdir -p "${{ runner.temp }}/owl-browser"
           npm install --prefix "${{ runner.temp }}/owl-browser" playwright-core@1.58.0
           node scripts/check_browser_resume.cjs "${{ runner.temp }}/owl-browser" "$(command -v google-chrome)" "${{ runner.temp }}/owl-browser/node_modules/playwright-core" disk-full
+      - name: Check emergency search in the offline reader
+        env:
+          NODE_PATH: ${{ runner.temp }}/owl-browser/node_modules
+        run: |
+          CHROMIUM_EXECUTABLE_PATH="$(command -v google-chrome)" \
+          python scripts/search_benchmark.py --assemble "${{ runner.temp }}/owl-search-reader" --check-reader
   publish:
     if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     needs: [test, zim, pages]

@@ -5,10 +5,20 @@
 The `tests` workflow runs on pushes, pull requests and manual dispatches. A
 push to `main` or a manual run of **tests** with branch **main** publishes
 that commit after the Python matrix, optional-dependency tests and browser
-tests pass. The Pages build verifies the locked mirrors, pins the search
-paths to that commit, and publishes the artifact to the `github-pages`
-environment. Keep the environment restricted to `main` and set the Pages
-source to **GitHub Actions**. [Workflow](../.github/workflows/test.yml)
+tests pass. Set the `OWL_RELAY_BASE` repository variable to the approved
+publisher relay before deploying. The Pages build verifies the locked mirrors
+and pins the search paths to the publishing commit. Before uploading the
+artifact, the build runs the browser plan suite against it and checks that both
+the 16 GB and 64 GB recommendations contain every CRITICAL file in the
+corresponding Python profile. Keep the `github-pages` environment restricted to
+`main` and set the Pages source to **GitHub Actions**. [Workflow](../.github/workflows/pages.yml)
+
+The hosted builder loads scripts from its own origin. Its Content Security
+Policy derives `connect-src` from the HTTPS origins in the generated catalog's
+direct and relay routes, the configured archive relay routes and the search
+base. Production uses `raw.githubusercontent.com` for commit-pinned search data.
+The site origin serves its own catalog, mirrors, and bundled support files.
+The standalone `SELECT.html` embeds its scripts and disables network access.
 
 If a deployment regresses, use the **github-pages** environment's deployment
 history to identify the last working commit. Revert the offending change on
@@ -41,6 +51,19 @@ restored allowlist. The relay guide has the commands and probe. [Relay guide](..
    selector and content docs, and confirm their `--check` results. If the source
    changed, rebuild and validate its search shards before publishing the new pin.
    [Catalog maintenance](catalog.md) · [Search maintenance](search.md)
+
+The weekly source check probes every publisher URL and samples browser direct
+and relay routes. It counts streamed bytes for small responses without a length.
+The report records FAO, WHO IRIS, and CAWST datacenter HTTP 403 responses and
+Wikimedia rate limits as checker blocks. HTTP 404 or 410, size drift, and other
+unresolved failures still appear in the failed-source report.
+
+The November 2026 pins for PhET Forces and Motion: Basics, Build an Atom,
+and Area Builder use PhET's origin and alternate host. The principal PhET
+domain sometimes adds an analytics tag to the HTML, changing the exact bytes.
+Pages republishes the verified CC BY-NC 4.0 files with their attribution.
+All 18 offline screen and viewport checks passed against the new pins using
+the existing [PhET screen checks](../catalog/acquisition/phet-required-screen-checks-20260927.json).
 
 ## Release tag
 

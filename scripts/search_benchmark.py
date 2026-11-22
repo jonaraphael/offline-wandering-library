@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 import subprocess
 import tempfile
@@ -47,9 +48,12 @@ def main():
     parser.add_argument("--task-depth", type=int, choices=range(3, 51), metavar="3-50", default=3,
                         help="export optional deeper candidate lists for relevance review")
     parser.add_argument("--assemble", type=Path, help="assemble search and reader files into this directory for timing")
+    parser.add_argument("--check-reader", action="store_true", help="check 16 GB emergency recall in offline Chromium")
     parser.add_argument("--capacity", type=int, choices=(16, 128, 1000),
                         help="run one capacity in GB (default: all for ranking, 16 for assembly)")
     args = parser.parse_args()
+    if args.check_reader and (not args.assemble or args.capacity not in (None, 16)):
+        parser.error("--check-reader requires --assemble DIRECTORY at 16 GB")
     catalog = ROOT / "catalog/library.yaml"
     profiles = load_profiles(ROOT / "profiles")
     assets = load_catalog(catalog, profiles)
@@ -65,7 +69,11 @@ def main():
         phone_bytes = sum(volume["bytes"] for volume in phone_volumes(selected, phone))
         files, report = plan_discovery(selected, navigation, budget=profile["discovery_budget_bytes"] - phone_bytes)
         if args.assemble:
-            print(assemble_reader(args.assemble, selected, files, report))
+            start = assemble_reader(args.assemble, selected, files, report)
+            print(start, flush=True)
+            if args.check_reader:
+                subprocess.run(["node", "--test", str(ROOT / "tests/search/reader.test.cjs")], check=True,
+                               env={**os.environ, "OWL_SEARCH_READER": str(start.resolve())})
             return
         selection = payload(files[SELECTION_FILE].encode("utf-8"), "OWLShardSelection")
         name = report["manifest"]["path"]

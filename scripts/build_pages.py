@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from base64 import b64decode
 from hashlib import sha256
+from itertools import chain
 import json
 import re
 import os
@@ -24,6 +25,7 @@ from owl.discovery import compile_records
 from owl.search_ui import render_search_page
 from owl.search_shards import SEARCH_ROOT, compile_search_plan, load_impact, load_manifest, load_routes, load_transformer
 from owl.selector import ROOT, make_model, render_selector
+from owl.verify import ZIM_PART_BYTES
 
 
 CATALOG = ROOT / "catalog/library.yaml"
@@ -32,7 +34,7 @@ SOURCE = ROOT / "web"
 SITE_LIMIT = 950_000_000
 FILE_LIMIT = 100_000_000
 PUBLISH_PART = 80_000_000
-ZIM_PART = 2**30
+ZIM_PART = ZIM_PART_BYTES
 RELAY_RANGE = 64 * 2**20
 BLOCK = 1024 * 1024
 KIWIX = "mirror.download.kiwix.org"
@@ -235,6 +237,18 @@ def version_module_imports(text: str, version) -> str:
     return MODULE_IMPORT.sub(lambda match: match[1] + match[2] + match[3] + "?v=" + version + match[2], text)
 
 
+def connect_origins(urls):
+    origins = set()
+    for url in urls:
+        parsed = urlsplit(url)
+        if parsed.scheme == "https" and parsed.hostname:
+            origin = f"https://{parsed.hostname}" + (f":{parsed.port}" if parsed.port else "")
+            if not re.fullmatch(r"https://[a-z0-9.-]+(?::[0-9]+)?", origin):
+                raise ValueError(f"Invalid browser route origin: {origin}")
+            origins.add(origin)
+    return tuple(sorted(origins))
+
+
 def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=None, relay_base=None, archive_relay=False) -> dict:
     if site.exists() and any(site.iterdir()):
         raise ValueError("Choose an empty output directory")
@@ -294,10 +308,13 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
         navigation["phone"] = {**phone, "destination": DESTINATION, "base": "./wikimed-phone/"}
     write_json(site / "catalog.json", {"planner": model, "routes": routes, "navigation": navigation})
     version = search_commit[:12] if search_commit else None
-    (site / "index.html").write_text(version_module_imports(render_selector(model, pages=True), version), encoding="utf-8")
+    origins = connect_origins(chain.from_iterable((*routes.values(), *archive_routes.values(), (search_base,))))
+    (site / "index.html").write_text(render_selector(model, pages=True, connect_origins=origins, version=version),
+                                     encoding="utf-8")
     (site / "SELECT.html").write_bytes((ROOT / "SELECT.html").read_bytes())
     (site / ".nojekyll").touch()
-    for path in sorted(SOURCE.glob("*.mjs")):
+    hosted_scripts = [templates / name for name in ("pages-entry.mjs", "selector.js", "selector-map.js")]
+    for path in [*sorted(SOURCE.glob("*.mjs")), *hosted_scripts]:
         (site / path.name).write_text(version_module_imports(path.read_text(encoding="utf-8"), version), encoding="utf-8")
     shutil.copytree(SOURCE / "vendor", site / "vendor")
 
@@ -355,6 +372,8 @@ def main() -> int:
                         help="emit pins for a local ZIM whose complete SHA-256 matches the catalog")
     parser.add_argument("--search-commit", help="serve search data from this full Git commit instead of copying it into Pages")
     args = parser.parse_args()
+    if args.fetch_mirrors and not args.relay_base:
+        parser.error("--fetch-mirrors requires --relay-base for a production Pages build")
     if args.archive_pins:
         identity, path = args.archive_pins
         asset = next(asset for asset in load_catalog(CATALOG, load_profiles(PROFILES)) if asset["id"] == identity)

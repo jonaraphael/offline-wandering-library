@@ -298,7 +298,7 @@
     const article = String(record.location || "").match(/^Archive (?:path|article): (.+?)(?: · |$)/)?.[1];
     const row = {id: record.asset_id || record.id, title: record.source_title || name, path,
       href: "LIBRARY/" + record.href, summary: record.location || "",
-      ...(archive ? {format: "zim", articles: ["article", "section"].includes(record.kind) ? [name] : [],
+      ...(archive ? {format: "zim", articles: ["article", "section"].includes(record.kind) ? [record.articleTitle || name] : [],
         articlePaths: article ? [article] : []} : {})};
     remember(row);
     if (archive) {

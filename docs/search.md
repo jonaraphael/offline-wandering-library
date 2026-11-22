@@ -2,11 +2,15 @@
 
 Open **Search** from `START_HERE.html`. Search shows one card per matching
 document, with the best passage and other matching locations when available.
-When the query matches an urgent task, its guide appears first. Documents
-that open directly appear before matches in encyclopedias. Use **Options** to
+When the query matches a reviewed emergency route, search shows an **Urgent**
+card for the guide. Documents that open directly appear
+before matches in encyclopedias in ordinary search. Use **Options** to
 search within a category. PDF matches open at the physical page. **How to
 open** on an encyclopedia match shows the article to find in Kiwix and the
-file's location on the drive. Search labels low-confidence suggestions.
+file's location on the drive. When no reviewed route matches an emergency,
+search can show up to three nearby indexed passages under “No reviewed guide
+matched. These passages may help.” The empty state and the passage fallback
+both offer **Browse Home** for the Urgent shelf and categories.
 
 The static start page shows the urgent tasks, categories, file locations and
 device instructions. When a file preview withholds local links or scripts,
@@ -140,19 +144,87 @@ planner leaves at least 125 MB in that reserve. The
 benchmark checks chunk digests and runs the original 100 probes, 10 body-only
 PDF queries with expected physical page locations, and 10 held-out emergency
 queries. It grades the first ten results at 16 GB, 128 GB and 1 TB using the
-reader's chunk selection and base ranker. `--check` requires a higher original
-probe total at each capacity, a hit for “signs of dehydration” at all three,
-and retention of every previously passing probe. `--quick`, `--bounded`
+reader's chunk selection and base ranker. `--check` enforces the original probe
+totals at each capacity, a hit for “signs of dehydration” at all three, and
+retention of every previously passing probe. `--quick`, `--bounded`
 and `--exhaustive` compare a 28 MB heuristic route, a 39.7 MB term-index route,
 and all eligible chunks. Benchmark scoring stops at the base ranker.
 The optional task export records the first three
 results for each natural-language task in `tests/search/task-queries.json`,
 with the title, source, locator and any displayable excerpt for grading.
 
+## Reviewed emergency routes
+
+The [reader's route table](../src/owl/templates/search.js) matches words and
+phrases in the user's description. More specific situations take precedence
+where symptoms overlap. The route looks up its guide in the reader's installed
+catalog and honors the category filter. A match shows the guide immediately
+without loading search postings. Other queries use the catalog and the impact
+index, with strong matches displayed as they arrive. The passage fallback
+keeps one passage per document and requires evidence from the heading,
+excerpt, or indexed text.
+
+Page numbers in this table are physical PDF pages. Named WikiMed articles use
+the archive paths in the [pinned WikiMed manifest](../catalog/wikimed-phone/manifest.json).
+The standard 16 GB selection contains every listed source.
+
+| Situation | Wording the route recognizes | Destination |
+| --- | --- | --- |
+| Severe bleeding | Blood gushing or a wound that keeps bleeding | FEMA CERT, p. 101 |
+| Burns | Scalds, blisters after a spill, burned skin | MSF Clinical Guidelines, p. 339 |
+| Choking | Food stuck in the throat, inability to speak while eating | WHO/ICRC Basic Emergency Care, p. 155 |
+| CPR | No pulse, stopped breathing, gasping after collapse | WikiMed, Cardiopulmonary resuscitation |
+| Unresponsive person | Fainted, passed out, won't wake or respond | Hesperian Where There Is No Doctor, chapter 10, p. 4 |
+| Drowning | Fell into a pool, river, or well, fell overboard, gasping after a rescue | WikiMed, Drowning |
+| Electric shock | Live wire, shock from a cord or socket | WikiMed, Electrical injury |
+| Heart attack | Chest pressure, chest pain with arm or jaw pain | WHO/ICRC Basic Emergency Care, p. 203 |
+| Stroke | Facial droop, one-sided weakness, slurred speech | WHO/ICRC Basic Emergency Care, p. 139 |
+| Anaphylaxis | Tight throat after a sting, lip swelling after a meal | MSF Clinical Guidelines, p. 14 |
+| Poisoning | Swallowed cleaner, pills from an open bottle | WikiMed, Poisoning |
+| Swallowed objects | Gulped a coin, ate a battery, put missing magnets in the mouth | WikiMed, Foreign body |
+| Chemical eye injury | Cleaning fluid or battery liquid in an eye | WikiMed, Chemical eye injury |
+| Carbon monoxide | CO alarm, a generator indoors, exhaust and headache | WikiMed, Carbon monoxide poisoning |
+| Gas leak | Smell of gas, hissing near a stove | FEMA CERT, p. 176 |
+| House fire | Smoke filling a hallway, fire in a home | FEMA CERT, p. 173 |
+| Electrical fire | Smoking plug, sparking socket | FEMA CERT, p. 175 |
+| Flood | Rising floodwater, a flooded road, trapped in a vehicle | FEMA Are You Ready?, p. 11 |
+| Earthquake | Shaking ground, falling objects | FEMA Are You Ready?, p. 10 |
+| Heat illness | Confusion or collapse in the heat | FEMA Are You Ready?, p. 10 |
+| Cold exposure | Shivering and confusion in freezing conditions | FEMA CERT, p. 114 |
+| Frostbite | White, numb fingers or toes in the cold | FEMA CERT, p. 114 |
+| Fractures | Crooked limb, exposed bone, broken wrist | FEMA CERT, p. 110 |
+| Puncture wounds | Stepped on a nail, a shard or wire went through the skin, tetanus booster | Hesperian Where There Is No Doctor, chapter 10, p. 15 |
+| Animal bites | A dog bite, a stray cat breaking the skin | MSF Clinical Guidelines, p. 258 |
+| Insect bites and stings | Wasps, bees, insect bites | WikiMed, Arthropod bites and stings |
+| Snakebite | Fang marks or a snake slithering away | MSF Clinical Guidelines, p. 355 |
+| Newborn fever | A newborn with a temperature | MSF Essential Obstetric and Newborn Care, p. 221 |
+| Young infant fever | A young baby with fever or a high thermometer reading | MSF Clinical Guidelines, p. 35 |
+| Diarrhea and dehydration | Watery stools, reduced urination, inability to keep water down | Hesperian Where There Is No Doctor, chapter 13, p. 1 |
+| Childbirth | A baby coming before reaching the hospital | Hesperian A Book for Midwives, chapter 12, p. 14 |
+| Postpartum bleeding | Heavy bleeding after the baby is born | Hesperian A Book for Midwives, chapter 13, p. 3 |
+| Drinking water | Dirty tap water, disinfection, whether creek, lake, or rain water is safe to drink | EPA Emergency Disinfection of Drinking Water, pp. 1–2 |
+| Food in an outage | Warm refrigerator, thawed freezer, outage and meat | FEMA Are You Ready?, p. 26 |
+| Emergency sanitation | Toilets that will not flush, nowhere to dispose of human waste | Hesperian A Community Guide to Environmental Health, chapter 7, p. 2 |
+
+To add a route, verify the source edition in the 16 GB catalog and check the
+physical PDF page or WikiMed article path. Add a topic, display title, catalog
+asset ID, locator and a few word or phrase patterns to `reviewedRoutes`.
+Pair actions with relevant objects for ambiguous clues, such as a fall into
+a body of water or swallowing a battery. Test a paraphrase and a similar
+query that should go elsewhere. When replacing a source edition,
+recheck its locators. Run the reader's Chromium check below. These routes
+live in the reader script and use the existing shard data.
+
 ## Held-out emergency queries
 
-The following ten probes and their expected topics were fixed before tuning.
-They use the benchmark's top-ten matching rule.
+The original ten probes were fixed before tuning. The additional
+[30 everyday emergency queries](../tests/search/everyday-emergency-queries.json)
+were fixed before adding the reviewed routes. The browser test submits each
+query to the assembled 16 GB reader in offline Chromium and checks the titles
+of the first three displayed cards, with floors of 8/10 and 24/30. A further
+[15 paraphrases](../tests/search/emergency-paraphrases.json) were fixed before
+the follow-up routing changes. Each must show the expected reviewed guide as
+its first card. The browser test also checks both fallback states.
 
 - Smoke is coming from the outlet where the heater was plugged in.
 - My friend touched a live wire and fell to the floor.
@@ -167,62 +239,58 @@ They use the benchmark's top-ten matching rule.
 
 ## Measured relevance
 
-The baseline uses the ranker at `0fdd5e5d`. A probe passes if its expected
-topic or physical PDF page appears in the top ten. No previously passing
-probe was lost, and “signs of dehydration” passed at all three capacities.
-The original 100 probes had zero empty results both before and after.
+The 16 GB reader scored **10/10** on the original held-out set, **30/30** on
+the everyday set, and **15/15** first reviewed cards on the paraphrase set.
+The base-ranker benchmark retained all probes that passed
+at `fde71516`, including “signs of dehydration” at all three capacities.
 
-| Library size | Original probes | PDF body probes | Held-out emergency probes |
+| Library size | Original probes, top ten | PDF body probes, top ten | Base ranker held-out probes, top ten |
 | --- | ---: | ---: | ---: |
-| 16 GB | 90/100 → 92/100 | 9/10 → 9/10 | 3/10 → 3/10 |
-| 128 GB | 93/100 → 96/100 | 9/10 → 9/10 | 3/10 → 3/10 |
-| 1 TB | 93/100 → 96/100 | 8/10 → 8/10 | 2/10 → 2/10 |
+| 16 GB | 92/100 | 9/10 | 3/10 |
+| 128 GB | 96/100 | 9/10 | 3/10 |
+| 1 TB | 96/100 | 8/10 | 2/10 |
 
 ## Offline timing and reads
 
 ```sh
 scratch=$(mktemp -d "${TMPDIR:-/tmp}/owl-search.XXXXXX")
-PYTHONPATH=src python scripts/search_benchmark.py --assemble "$scratch/16"
+NODE_PATH=/path/to/node_modules PYTHONPATH=src python scripts/search_benchmark.py --assemble "$scratch/16" --check-reader
 PYTHONPATH=src python scripts/search_benchmark.py --assemble "$scratch/1000" --capacity 1000
 NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --check
 NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/1000/START_HERE.html"
 ```
 
 The assembler uses only the checked-in search data and shipped reader files.
-The harness uses `playwright-core` with an installed Chromium. It also
+The checks use `playwright-core` with an installed Chromium. The timing harness also
 accepts an existing `START_HERE.html`, repeated `--query` arguments, and
 `CHROMIUM_EXECUTABLE_PATH` for a browser outside Playwright's cache.
 
 Measurements used Chromium 145.0.7632.6 and an Apple M5 Pro local SSD. Each
 query opens a fresh browser context with 4× CPU throttling, offline network
 emulation and browser cache disabled. First-result time runs from form
-submission to the first indexed result card. Complete time ends when the
-reader publishes its final results and status, including MiniLM where
+submission to the first reviewed or indexed result card. Complete time ends when
+the reader publishes its final results and status, including MiniLM where
 installed. Byte counts sum the sizes of local file requests during each
 query, including cold model and reranker loads. They exclude reader startup
 and in-memory scripts and measure requested file bytes on the SSD run.
 
-| 16 GB query | First before → after | Complete before → after |
-| --- | ---: | ---: |
-| Signs of dehydration | 284.8 → 230.5 ms | 10,922.9 → 2,282.8 ms |
-| Chest compressions | 248.5 → 166.3 ms | 10,990.8 → 2,237.0 ms |
-| Snake bite | 212.7 → 163.8 ms | 6,897.0 → 1,520.1 ms |
-| Make water safe to drink | 268.5 → 202.0 ms | 11,002.0 → 2,379.5 ms |
-| We are stuck outside overnight in heavy rain without a tent | 336.0 → 259.9 ms | 11,744.8 → 1,837.9 ms |
+| Query | 16 GB first card | 16 GB complete | 1 TB requested bytes |
+| --- | ---: | ---: | ---: |
+| Signs of dehydration | 14.5 ms | 14.5 ms | 0 |
+| Chest compressions | 7.4 ms | 7.4 ms | 0 |
+| Snake bite | 8.5 ms | 8.5 ms | 0 |
+| Make water safe to drink | 12.8 ms | 12.8 ms | 0 |
+| We are stuck outside overnight in heavy rain without a tent | 186.8 ms | 1,210.4 ms | 83,790,814 |
 
-The five 16 GB queries requested 102.3–132.2 MB each before the change and
-37.5 MB each after it. The selected 16 GB library contains 110.5 MB of
-record chunks and 155.9 MB of search files overall. At 1 TB, those figures
-are 723.9 MB and 853.5 MB. Open-ended queries that use the second pass can
-exceed the measured times. USB and phone I/O were outside these measurements.
-
-| 1 TB query | Requested bytes before | Requested bytes after |
-| --- | ---: | ---: |
-| Signs of dehydration | 724,617,120 | 83,790,568 |
-| Chest compressions | 746,332,089 | 83,790,858 |
-| Snake bite | 572,153,097 | 83,790,725 |
-| Make water safe to drink | 742,428,660 | 83,790,533 |
-| We are stuck outside overnight in heavy rain without a tent | 754,716,520 | 83,790,814 |
+The 16 GB run passed the limits of 300 ms to the first card and 3 s to
+finish. The four reviewed routes requested zero additional file bytes.
+All 55 held-out emergency queries also requested zero additional bytes
+per query on the 1 TB reader.
+The overnight shelter query used the impact index and requested 37,535,281 bytes at 16 GB.
+Other queries can search more index chunks and take longer to complete.
+The selected 16 GB library contains 110.5 MB of record chunks and 155.9 MB
+of search files overall. At 1 TB, those figures are 723.9 MB and 853.5 MB.
+USB and phone I/O were outside these measurements.
 
 ## Precomputed term index
 

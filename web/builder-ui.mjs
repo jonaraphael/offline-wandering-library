@@ -135,7 +135,7 @@ const isEncyclopedia = asset => asset.format.toLowerCase() === "zim";
 const phoneSpace = (asset, phone) => asset.id === phone?.source_id && asset.sha256 === phone.source_sha256 ?
   phone.volumes.reduce((total, volume) => total + volume.bytes, 0) : 0;
 
-export function selectBrowser(profile, resolved, {files, routes, published, kept, phone, minimum}) {
+export function selectBrowser(profile, resolved, {files, routes, published, kept, phone, minimum, unreachableCritical = []}) {
   const selected = resolved.selectedAssetIds.map(id => files.get(id));
   const {assets, excluded} = browserSelection(selected, routes, published);
   // A verified copy can stay even after its download route disappears.
@@ -147,7 +147,9 @@ export function selectBrowser(profile, resolved, {files, routes, published, kept
   const reserve = Math.max(INDEX_ALLOWANCE, profile.reserve_bytes) + searchBudget;
   const limit = planCeiling(profile) - extraPhone;
   const used = sumBytes(assets);
-  return {assets, excluded: excluded.filter(row => !keptIds.has(row.id)), used, reserve, searchBudget,
+  const unavailable = new Map(unreachableCritical.map(row => [row.id, row]));
+  for (const row of excluded) if (!keptIds.has(row.id)) unavailable.set(row.id, row);
+  return {assets, excluded: [...unavailable.values()], used, reserve, searchBudget,
     limit, over: Math.max(0, used - limit), errors: resolved.errors};
 }
 
@@ -184,7 +186,7 @@ function reduceBrowser(planner, state, reachable, retained, phone) {
   const chosen = new Set();
   const candidates = new Map([...new Set([...collections.values()].flat())].map(id => [id, assets.get(id)]));
   let used = 0, needsReaders = false;
-  for (const asset of buildOrder(candidates.values(), {join: false})) {
+  for (const asset of buildOrder(candidates.values(), {transfer: false})) {
     if (chosen.has(asset.id) || asset.generation) continue;
     const sourceId = asset.archive_member?.source_asset_id;
     const source = candidates.get(sourceId);
@@ -210,7 +212,17 @@ function reduceBrowser(planner, state, reachable, retained, phone) {
 
 export function recommendBrowser(planner, state, routes, published, kept = () => false, {retainedFiles, phone} = {}) {
   const reachable = id => hasRoute(id, routes, published) || kept(id);
-  if (state.browser && (retainedFiles || state.capacityBytes < planner.capacity_policy.min))
+  const reduce = state.browser && (retainedFiles || state.capacityBytes < planner.capacity_policy.min);
+  const unroutable = planner.assets.filter(asset => asset.utility_tier === "CRITICAL" &&
+    asset.status === "resolved" && !reachable(asset.id));
+  if (unroutable.length) {
+    const intended = reduce ? reduceBrowser(planner, structuredClone(state), () => true,
+      retainedFiles && new Set(retainedFiles), phone) : state;
+    const {selectedAssetIds} = globalThis.OWLPlanner.resolve(planner, intended, {ignoreNativeCapacity: true});
+    const selected = new Set(selectedAssetIds);
+    state.unreachableCritical = browserSelection(unroutable.filter(asset => selected.has(asset.id)), routes, published).excluded;
+  }
+  if (reduce)
     return reduceBrowser(planner, state, reachable, retainedFiles && new Set(retainedFiles), phone);
   for (const resource of planner.resources) {
     const item = state.items[resource.id];
@@ -246,13 +258,31 @@ const driveName = handle => handle?.name || "Your drive";
 const dateOf = value => value ? new Date(value).toLocaleDateString("en-GB", {day: "numeric", month: "long", year: "numeric"}) : "";
 const countOf = (count, noun) => count.toLocaleString() + " " + noun + (count === 1 ? "" : "s");
 const partsMessage = rows => rows?.length ? countOf(rows.length, "encyclopedia") + " kept in parts." : "";
+export function essentialRouteMessage(excluded) {
+  const count = excluded.filter(row => row.utility_tier === "CRITICAL").length;
+  return count ? "This browser can’t download " + countOf(count, "essential file") + ". Use the Python builder to get " +
+    (count === 1 ? "it." : "them.") : "";
+}
 
-export function completionState({state, completed, missing, searchWarnings, keptInParts}) {
+export function warnBeforeLeaving(target = globalThis) {
+  const warn = event => {
+    event.preventDefault();
+    event.returnValue = true;
+  };
+  target.addEventListener("beforeunload", warn);
+  return () => target.removeEventListener("beforeunload", warn);
+}
+
+export function completionState({state, completed, missing, searchWarnings, supportMissing, keptInParts}) {
   const files = completed.filter(isKnowledgeFile).length;
   const unavailable = missing.length;
   const essential = missing.filter(row => row.utility_tier === "CRITICAL").length;
-  const summary = countOf(files, "file") + " arrived. " + countOf(essential, "essential file") + " missing.";
-  const support = searchWarnings.length ? " Some reader or search files are missing." : "";
+  const summary = [countOf(files, "file") + " arrived. " + countOf(essential, "essential file") + " missing.",
+    essentialRouteMessage(state.excluded || [])].filter(Boolean).join(" ");
+  const generalSupport = (supportMissing ? supportMissing.some(row => row.kind !== "phone") : searchWarnings.length) ?
+    " Some reader or search files are missing." : "";
+  const phoneSupport = supportMissing?.some(row => row.kind === "phone") ? " Some WikiMed phone files are missing." : "";
+  const support = generalSupport + phoneSupport;
   if (!files) return {mode: "failed", title: "Sync could not finish", message: summary + support};
   if (state.finished && !unavailable) return {mode: "done", extra: partsMessage(keptInParts)};
   return {mode: "done-gaps", title: unavailable ? "Ready, with " + countOf(unavailable, "item") + " missing" :
@@ -303,7 +333,7 @@ export function mount({catalog: supplied} = {}) {
           }
         }
       }
-      const kept = id => Boolean(inspection?.state?.installed[id] || inspection?.candidates?.has(id));
+      const kept = id => Boolean(inspection?.availableInstalled.has(id) || inspection?.candidates?.has(id));
       const phone = catalog.navigation?.phone;
       const sources = {files, routes, published, kept, phone, minimum: planner.capacity_policy.min};
       manage = create(planner, {
@@ -312,7 +342,8 @@ export function mount({catalog: supplied} = {}) {
         recommend: (state, retainedFiles) => recommendBrowser(planner, state, routes, published, kept, {retainedFiles, phone}),
         stops: storageStops,
         useful: selection => selection.assets.some(isKnowledgeFile),
-        select: (profile, _state, resolved) => selectBrowser(profile, resolved, sources),
+        select: (profile, state, resolved) => selectBrowser(profile, resolved,
+          {...sources, unreachableCritical: state.unreachableCritical}),
         onChange(value, {live = false} = {}) {
           if (preview) return;
           plan = value;
@@ -352,7 +383,7 @@ export function mount({catalog: supplied} = {}) {
   const available = () => plan && !plan.over && !plan.errors.length && plan.assets.some(isKnowledgeFile);
   const comparisonOptions = () => ({assets: plan.assets, choice: plan.choice, catalogVersion: catalogVersion(),
     navigation: catalog.navigation, readerPublication: READER_PUBLICATION,
-    singleArchives: !plan.choice.split, freeBytes: effectiveFree()});
+    singleArchives: !plan.choice.split, freeBytes: effectiveFree(), archiveSpace: plan.capacity - plan.reserve});
   const totalDone = () => [...active.values()].reduce((sum, count) => sum + count, 0);
   // A side with nothing to do is left out: "removes 3.57 GB", not "adds 0 B, removes 3.57 GB".
   const changeLine = prefix => {
@@ -417,7 +448,8 @@ export function mount({catalog: supplied} = {}) {
           message: comparison?.adoption ? "A library is already on this drive. Sync keeps files that match." :
             comparison?.changedChoice || dirty ? changeLine("Your changes") :
             comparison?.state?.syncedAt ? (comparison.workCount ?
-              changeLine(countOf(comparison.workCount, "update")) : "Sync refreshes the start page.") +
+              changeLine(countOf(comparison.workCount, "update")) : comparison.joins.length ?
+                "Sync joins the files kept in parts." : "Sync refreshes the start page.") +
               (lastDate ? " Last synced " + lastDate + "." : "") :
             "Unfinished: " + bytes(comparison?.addBytes || 0) + " to go."});
         break;
@@ -486,6 +518,9 @@ export function mount({catalog: supplied} = {}) {
       } else if (measured === undefined) {
         item.message = "This plan uses an estimate of " + bytes(plan.capacity) + " for the drive. " + item.message;
       }
+    }
+    if (["ready", "behind", "paused"].includes(mode)) {
+      item.extra = essentialRouteMessage(plan.excluded);
     }
     stage.dataset.state = mode;
     stage.style.setProperty("--p", String(item.fraction));
@@ -774,20 +809,26 @@ export function mount({catalog: supplied} = {}) {
     transferTotal = plan.used;
     render("syncing");
     const phoneTimer = setTimeout(() => { if (mode === "syncing") render(); }, 20_000);
+    const unbindWarning = warnBeforeLeaving();
     try {
       if (await requestDrivePermission(drive) !== "granted") throw new DOMException("Permission was refused", "NotAllowedError");
       const network = createNetwork({signal, probeURL: "./.nojekyll", onWaiting: () => onProgress({kind: "waiting-network"}),
         onRestored: () => render(finishing ? "finishing" : "syncing")});
       const prepareSources = async () => {
+        const unavailableSupport = [];
         const [search, publisherPieces] = await Promise.all([
-          network.retry(() => get("./search-build.json", signal)),
+          network.retry(() => get("./search-build.json", signal)).catch(error => {
+            signal.throwIfAborted();
+            unavailableSupport.push({kind: "search", title: "Search index", reason: error.message});
+          }),
           network.retry(() => get("./kiwix-pieces.json", signal))
         ]);
-        return {search, publisherPieces};
+        return {search, publisherPieces, unavailableSupport};
       };
       result = await lockDrive(() => reconcile(drive, {...comparisonOptions(), excluded: plan.excluded,
         routes: catalog.routes, published: catalog.published, navigation: catalog.navigation,
-        archiveSpace: plan.limit, searchBudget: plan.searchBudget, capacityBytes: capacity, capacityEstimated: measured === undefined,
+        catalogAssets: catalog.planner.assets,
+        searchBudget: plan.searchBudget, capacityBytes: capacity, capacityEstimated: measured === undefined,
         replaceInPlace: [...selectedReplacement], fullVerify: fullCheck, prepareSources, signal, network, onProgress}));
       inspection = await inspectDrive(drive);
       dirty = false;
@@ -804,6 +845,7 @@ export function mount({catalog: supplied} = {}) {
         render("paused");
       } catch (readError) { showProblem(readError); }
     } finally {
+      unbindWarning();
       clearTimeout(phoneTimer);
       release();
       controller = null;

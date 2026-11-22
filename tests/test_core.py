@@ -15,10 +15,11 @@ from urllib.error import HTTPError
 import yaml
 
 from owl.build import build, check_space, check_space_groups
+from owl.copy import copy_drive
 from owl.catalog import CatalogError, capacity_plan, learning_shelves, load_catalog, load_profiles, select_profile
 from owl.download import DownloadError, download, verified
 from owl.safety import SafetyError, reject_symlinks, safe_path, sha256_file, validate_relative
-from owl.verify import verify_drive
+from owl.verify import main as verify_main, verify_drive
 
 
 class Fixture(unittest.TestCase):
@@ -290,6 +291,68 @@ class DownloadTests(Fixture):
 
 
 class BuildTests(Fixture):
+    def test_missing_phone_volume_leaves_a_verified_partial_support_build(self):
+        volume = {"file": "wikimed-emergencies.pdf", "title": "Emergencies"}
+        phone = {"source_id": self.asset["id"], "source_sha256": self.asset["sha256"], "volumes": [volume]}
+        with (patch("owl.wikimed_phone.manifest", return_value=phone),
+              patch("owl.wikimed_phone.verified_volume", side_effect=FileNotFoundError("fixture volume"))):
+            info = self.run_build()
+        self.assertFalse(info["support_complete"])
+        self.assertEqual(info["support_missing"],
+                         [{"kind": "phone", "id": volume["file"], "title": volume["title"], "reason": "fixture volume"}])
+        with patch("builtins.print"):
+            self.assertEqual(verify_main([str(self.root / "drive"), "--strict"]), 1)
+            self.assertEqual(verify_main([str(self.root / "drive"), "--strict", "--accept-partial"]), 0)
+
+    def test_fat32_build_splits_pinned_zim_and_copies_verified_parts(self):
+        self.source = self.root / "source.zim"
+        self.source.write_bytes(self.data)
+        reader_data = b"reader fixture"
+        self.source.with_name("reader.zip").write_bytes(reader_data)
+        reader = {**self.asset, "id": "reader", "format": "zip", "destination": "SOFTWARE/reader.zip",
+                  "source_url": self.source.with_name("reader.zip").as_uri(), "critical": False,
+                  "size_bytes": len(reader_data), "sha256": hashlib.sha256(reader_data).hexdigest()}
+        self.write_catalog([{**self.asset, "format": "zim", "destination": "ZIM/fixture.zim",
+                             "source_url": self.source.as_uri(), "reader_required": True, "critical": False}, reader])
+        drive = self.root / "drive"
+        with (patch("owl.build.filesystem_type", return_value="msdos"),
+              patch("owl.build.FAT_FILE_LIMIT", 49),
+              patch("owl.build.fat_file_limit", return_value=49),
+              patch("owl.build.ZIM_PART_BYTES", 16)):
+            info = self.run_build()
+            self.assertTrue(info["support_complete"])
+            self.assertEqual(info["support_missing"], [])
+            self.source.unlink()
+            self.run_build()  # Verified split parts are reusable.
+        library = drive / "LIBRARY"
+        row = next(asset for asset in json.loads((library / "INVENTORY.json").read_bytes())["assets"]
+                   if asset["id"] == "fixture")
+        paths = [part["path"] for part in row["parts"]]
+        self.assertEqual(paths, [f"LIBRARY/ZIM/fixture.zima{letter}" for letter in "abcd"])
+        self.assertEqual(b"".join((drive / name).read_bytes() for name in paths), self.data)
+        self.assertFalse((library / "ZIM/fixture.zim").exists())
+        self.assertIn('ZIM/fixture.zimaa', (drive / "START_HERE.html").read_text(encoding="utf-8"))
+        data = library / info["search"]["manifest"]["path"]
+        self.assertIn('"href":"ZIM/fixture.zimaa"', data.read_text(encoding="utf-8"))
+        self.assertEqual(verify_main([str(drive), "--strict"]), 0)
+        other = self.root / "copied"
+        copy_drive(drive, other, progress=lambda _: None)
+        self.assertEqual(verify_main([str(other), "--strict"]), 0)
+        # An internally consistent part manifest still needs the whole-file pin.
+        last = other / paths[-1]
+        changed = bytes([last.read_bytes()[0] ^ 0xff]) + last.read_bytes()[1:]
+        last.write_bytes(changed)
+        new_hash = hashlib.sha256(changed).hexdigest()
+        inventory = other / "LIBRARY/INVENTORY.json"
+        old_inventory_hash = sha256_file(inventory)
+        inventory.write_text(inventory.read_text().replace(row["parts"][-1]["sha256"], new_hash))
+        manifest = other / "LIBRARY/SHA256SUMS.txt"
+        manifest.write_text(manifest.read_text().replace(old_inventory_hash, sha256_file(inventory))
+                            .replace(row["parts"][-1]["sha256"], new_hash))
+        messages = []
+        self.assertEqual(verify_drive(other, emit=messages.append)["FAILED"], 1)
+        self.assertTrue(any("whole split ZIM SHA-256 differs" in line for line in messages))
+
     @unittest.skipUnless(os.name == "posix", "POSIX modes")
     def test_new_drive_files_are_readable_with_a_restrictive_umask(self):
         old = os.umask(0o077)

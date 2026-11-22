@@ -1,0 +1,17 @@
+[
+  ["My sister went over the side of the canoe and my brother is still trying to pull her in", "drowning"],
+  ["The little boy slipped into the deep end and hasn't come back up", "drowning"],
+  ["My dad tumbled into a well and I can't get him out", "drowning"],
+  ["My coworker passed out at the table and won't answer when I call her name", "unresponsive|resuscitation|CPR"],
+  ["He fainted and he's still lying there with his eyes shut", "unresponsive|resuscitation|CPR"],
+  ["I shook his shoulder but he isn't waking up", "unresponsive|resuscitation|CPR"],
+  ["Can the clear rain I caught in a bucket be used for drinking?", "drinking water|water disinfection|water treatment"],
+  ["Our bottles are empty. Is the creek behind us okay to drink from?", "drinking water|water disinfection|water treatment"],
+  ["Is it alright to fill my bottle from the lake if the water looks clean?", "drinking water|water disinfection|water treatment"],
+  ["The little round battery was on the floor and now my toddler says she ate it", "swallowed objects?|foreign bod(?:y|ies)|button batter"],
+  ["I watched him gulp down the penny instead of spitting it out", "swallowed objects?|foreign bod(?:y|ies)"],
+  ["The two magnets from the toy are gone and he says he put them in his mouth", "swallowed objects?|foreign bod(?:y|ies)|magnet ingestion"],
+  ["A rusty tack went through my flip flop and into my foot", "puncture wounds?|tetanus"],
+  ["I put my hand down on a shard and there's a tiny deep hole in my palm", "puncture wounds?|tetanus"],
+  ["Part of a dirty fence wire poked right through my glove and stuck into my finger", "puncture wounds?|tetanus"]
+]

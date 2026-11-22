@@ -67,6 +67,25 @@ class VerifyLayoutTests(unittest.TestCase):
         self.assertIn("COMPLETE: 1 of 1 selected files present", self.check()[1])
         self.assertEqual(verify.main([str(self.root), "--strict"]), 0)
 
+    def test_strict_reports_declared_support_omissions_even_when_all_content_is_present(self):
+        self.record(content_complete=True, asset_count=1, selected_count=1, support_complete=False,
+                    support_missing=[{"kind": "search", "reason": "search not installed"},
+                                     {"kind": "phone", "id": "wiki.pdf", "reason": "HTTP 404"}])
+        self.assertIn("SUPPORT INCOMPLETE: search index missing; 1 phone volume missing", self.check()[1])
+        self.assertEqual(verify.main([str(self.root), "--strict"]), 1)
+        self.assertEqual(verify.main([str(self.root), "--strict", "--accept-partial"]), 0)
+
+    def test_reader_bootstrap_and_search_declarations_are_checked_without_support_omissions(self):
+        generation = "LIBRARY/INDEX/0123456789ab"
+        (self.root / "START_HERE.html").write_text(f'<script defer src="{generation}/search.js"></script>')
+        (self.root / generation).mkdir(parents=True)
+        home = self.root / generation / "home.js"
+        home.write_text('globalThis.OWLReaderData("home",{"search":true});')
+        self.entries.append(f"{generation}/home.js")
+        self.record(content_complete=True, asset_count=1, selected_count=1, support_complete=True)
+        self.assertIn("SUPPORT INCOMPLETE: reader files missing; search index missing", self.check()[1])
+        self.assertEqual(verify.main([str(self.root), "--strict"]), 1)
+
     def test_legacy_metadata_and_software_only_inventory(self):
         self.record(content_complete=True, asset_count=1)
         self.assertIn("COMPLETE: 1 files present", self.check()[1])

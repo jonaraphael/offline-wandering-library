@@ -1,18 +1,16 @@
 {
   "16": {
-    "hit": 90,
+    "hit": 92,
     "zero": 0,
     "fable_hit": 39,
     "fable_zero": 0,
     "misses": [
       "sharpen an axe",
-      "signs of dehydration",
       "save seeds from tomatoes",
       "improve heavy clay garden soil",
       "whole grain bread baking",
       "identify a stripped screw",
       "cut a dovetail joint",
-      "ventilate a small shelter",
       "insulate a drafty door",
       "show hidden files in linux"
     ],
@@ -30,16 +28,13 @@
     ]
   },
   "128": {
-    "hit": 93,
+    "hit": 96,
     "zero": 0,
     "fable_hit": 40,
     "fable_zero": 0,
     "misses": [
-      "signs of dehydration",
       "improve heavy clay garden soil",
-      "safe temperature for leftovers",
       "identify a stripped screw",
-      "ventilate a small shelter",
       "insulate a drafty door",
       "show hidden files in linux"
     ],
@@ -57,16 +52,13 @@
     ]
   },
   "1000": {
-    "hit": 93,
+    "hit": 96,
     "zero": 0,
     "fable_hit": 40,
     "fable_zero": 0,
     "misses": [
-      "signs of dehydration",
       "improve heavy clay garden soil",
-      "safe temperature for leftovers",
       "identify a stripped screw",
-      "ventilate a small shelter",
       "insulate a drafty door",
       "show hidden files in linux"
     ],

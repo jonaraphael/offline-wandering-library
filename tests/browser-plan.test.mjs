@@ -2,8 +2,9 @@ import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {join} from "node:path";
 import {test} from "node:test";
-import {browserSelection, isKnowledgeFile} from "../web/builder.mjs";
-import {recommendBrowser, selectBrowser, storageStops} from "../web/builder-ui.mjs";
+import {browserSelection, buildOrder, isKnowledgeFile, PART_BYTES} from "../web/builder.mjs";
+import {completionState, essentialRouteMessage, recommendBrowser, selectBrowser, storageStops} from "../web/builder-ui.mjs";
+import {assemblyReserve} from "../web/offline.mjs";
 import "../src/owl/templates/selector.js";
 
 const site = process.argv[2];
@@ -19,7 +20,7 @@ function publishedCatalog() {
   const lock = JSON.parse(readFileSync(new URL("../web/pages-mirrors.json", import.meta.url)));
   const published = {files: Object.fromEntries(Object.keys(lock).map(id => [id, [{}]]))};
   const files = new Map(planner.assets.map(asset => [asset.id, asset]));
-  return {planner, routes, phone: navigation.phone, published, files};
+  return {planner, routes, navigation, phone: navigation.phone, published, files};
 }
 
 test("storage limit stops end at the available space and omit unusable stops", () => {
@@ -86,7 +87,9 @@ function attribution(assets) {
 }
 
 test("published browser defaults retain every field across the half-GB sweep", {skip: !site}, t => {
-  const {planner, routes, published, files: catalog} = publishedCatalog();
+  const {planner, routes, published, files: catalog, navigation} = publishedCatalog();
+  const pins = JSON.parse(readFileSync(new URL("../web/kiwix-pieces.json", import.meta.url)));
+  const partCount = asset => asset.format === "zim" ? Math.ceil(asset.size_bytes / PART_BYTES) : 1;
   const {field_core: core, protected_fields: protectedFields} = planner.capacity_policy;
   const coreFiles = browserSelection([...new Set(Object.values(core).flat())].map(id => catalog.get(id)), routes, published).assets;
   const peaks = new Map();
@@ -103,6 +106,18 @@ test("published browser defaults retain every field across the half-GB sweep", {
     const used = selection.assets.reduce((total, asset) => total + asset.size_bytes, 0);
     const reserve = Math.max(16 * 2 ** 20, profile.reserve_bytes) + profile.discovery_budget_bytes;
     assert.ok(used + reserve <= profile.capacity_bytes, gb + " GB must fit the budget");
+    const workspace = assemblyReserve({assets: selection.assets, excluded: [], navigation, search: true,
+      searchBudget: profile.discovery_budget_bytes, partCount});
+    let written = 0;
+    for (const asset of buildOrder(selection.assets)) {
+      if (pins.archives[asset.id] && asset.size_bytes > pins.piece_bytes) {
+        for (let offset = 0; offset < asset.size_bytes; offset += PART_BYTES) {
+          const bytes = Math.min(PART_BYTES, asset.size_bytes - offset);
+          assert.ok(written + offset + 2 * bytes + workspace <= capacity, gb + " GB fits transfer of " + asset.id);
+        }
+      }
+      written += asset.size_bytes;
+    }
     if (used / capacity >= 0.90) above90++;
     if (used / capacity < minimum) { minimum = used / capacity; minimumAt = gb; }
     const fields = attribution(selection.assets);
@@ -127,4 +142,27 @@ test("published browser defaults retain every field across the half-GB sweep", {
   }
   t.diagnostic(above90 + " of 1969 plans reached 90% fill. Minimum " +
     (100 * minimum).toFixed(2) + "% at " + minimumAt + " GB.");
+});
+
+test("missing essential routes are counted before the recommendation filters them out", {skip: !site}, t => {
+  const {planner, routes, published, files, phone} = publishedCatalog();
+  const direct = Object.fromEntries(Object.entries(routes).map(([id, urls]) => [id,
+    urls.filter(url => !new URL(url).host.includes(".workers.dev"))]));
+  const base = OWLPlanner.preset(planner, planner.profiles[0].id, 16e9, {browser: true});
+  const required = OWLPlanner.resolve(planner, base, {ignoreNativeCapacity: true}).selectedAssetIds
+    .filter(id => files.get(id).utility_tier === "CRITICAL");
+  const state = recommendBrowser(planner, base, direct, published, undefined, {phone});
+  const plan = selectBrowser(OWLPlanner.profileFor(planner, state.profile, state.capacityBytes, state),
+    OWLPlanner.resolve(planner, state, {ignoreNativeCapacity: true}),
+    {files, routes: direct, published, phone, kept: () => false, minimum: planner.capacity_policy.min,
+      unreachableCritical: state.unreachableCritical});
+  const reachable = plan.assets.filter(asset => asset.utility_tier === "CRITICAL");
+  assert.ok(reachable.length > 0 && reachable.length < required.length);
+  assert.equal(plan.excluded.filter(row => row.utility_tier === "CRITICAL").length, required.length - reachable.length);
+  const message = essentialRouteMessage(plan.excluded);
+  assert.match(message, /This browser can’t download [\d,]+ essential files\. Use the Python builder to get them\./);
+  t.diagnostic(message);
+  const result = completionState({state: {finished: false, excluded: plan.excluded}, completed: plan.assets,
+    missing: plan.excluded, searchWarnings: []});
+  assert.ok(result.message.includes(message));
 });

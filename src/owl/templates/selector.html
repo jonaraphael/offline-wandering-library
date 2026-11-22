@@ -191,6 +191,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
     <form method="dialog"><button type="submit">Close</button></form>
   </dialog>
 </div>
+<!-- OFFLINE -->
 <script id="owl-model" type="application/json">__OWL_MODEL__</script>
 <script>
 if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) {
@@ -205,5 +206,9 @@ __OWL_ENGINE__
 }
 </script>
 <script>if (globalThis.OWLManage) {__OWL_MANAGE__}</script>
+<!-- /OFFLINE -->
+<!-- PAGES -->
+<script type="module" src="./pages-entry.mjs__OWL_VERSION__"></script>
+<!-- /PAGES -->
 </body>
 </html>

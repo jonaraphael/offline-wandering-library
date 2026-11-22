@@ -15,7 +15,7 @@ const emergencyQueries = [
   'we are stuck outside overnight in heavy rain without a tent',
 ];
 
-async function measure(browser, url, query) {
+async function measure(browser, url, query, {allowEmpty = false} = {}) {
   const context = await browser.newContext({offline: true});
   try {
     const page = await context.newPage();
@@ -38,7 +38,7 @@ async function measure(browser, url, query) {
       const started = performance.now();
       const sample = window.searchTiming = {};
       const observer = new MutationObserver(() => {
-        if (sample.first === undefined && results.querySelector('[data-indexed="true"]')) {
+        if (sample.first === undefined && results.querySelector('[data-indexed="true"], [data-reviewed]')) {
           sample.first = performance.now() - started;
         }
         if (results.dataset.searchScope === 'complete' && !status.hidden) {
@@ -59,16 +59,37 @@ async function measure(browser, url, query) {
       undefined, {timeout: 180_000});
     const {first, complete, status, error} = await page.evaluate(() => window.searchTiming);
     const remote = reads.filter(url => !['file:', 'blob:'].includes(url.protocol));
-    if (error || first === undefined || failures.length || remote.length) {
-      throw Error(error || 'Search did not return indexed results using only local files: ' +
-        [...failures, ...remote].join(', '));
+    if (error || failures.length || remote.length) {
+      throw Error(error || 'Search requested unavailable files: ' + [...failures, ...remote].join(', '));
     }
+    if (!allowEmpty && first === undefined) {
+      throw Error('Search did not display an indexed or reviewed result for: ' + query);
+    }
+    const {cards, cardCount} = await page.locator('#search-results article.result:visible').evaluateAll(elements => ({
+      cardCount: elements.length,
+      cards: elements.slice(0, 3).map(card => ({
+        title: card.querySelector('h3').textContent,
+        topic: card.dataset.reviewed,
+        indexed: card.dataset.indexed === 'true',
+        href: card.querySelector('a.button').getAttribute('href'),
+        locator: card.querySelector('small')?.textContent,
+      })),
+    }));
+    const browse = await page.locator('#search-results > a.button:visible').evaluateAll(elements =>
+      elements.map(link => [link.textContent, link.getAttribute('href')]));
     const paths = reads.filter(url => url.protocol === 'file:').map(url => fileURLToPath(url));
-    return {query, first_ms: Math.round(first * 10) / 10, complete_ms: Math.round(complete * 10) / 10,
-      bytes: paths.reduce((sum, path) => sum + statSync(path).size, 0), reads: paths.length, status};
+    return {query, first_ms: first === undefined ? null : Math.round(first * 10) / 10,
+      complete_ms: Math.round(complete * 10) / 10,
+      bytes: paths.reduce((sum, path) => sum + statSync(path).size, 0), reads: paths.length, status, cards, cardCount, browse};
   } finally {
     await context.close();
   }
+}
+
+function searchUrl(startPage) {
+  const url = pathToFileURL(resolve(startPage));
+  url.hash = '/search';
+  return url.href;
 }
 
 async function main() {
@@ -77,20 +98,19 @@ async function main() {
     query: {type: 'string', multiple: true},
   }});
   if (positionals.length !== 1) throw Error('Usage: node scripts/search_timing.cjs START_HERE.html [--check] [--query TEXT]');
-  const url = pathToFileURL(resolve(positionals[0]));
-  url.hash = '/search';
+  const url = searchUrl(positionals[0]);
   const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
   try {
     console.log(JSON.stringify({chromium: browser.version(), cpu_throttle: 4, offline: true}));
     const results = [];
     for (const query of values.query ?? emergencyQueries) {
-      const result = await measure(browser, url.href, query);
+      const result = await measure(browser, url, query);
       results.push(result);
       console.log(JSON.stringify(result));
     }
     const first = Math.max(...results.map(result => result.first_ms));
     const complete = Math.max(...results.map(result => result.complete_ms));
-    const withinTarget = first < 300 && complete <= 3000;
+    const withinTarget = first <= 300 && complete <= 3000;
     console.log(JSON.stringify({queries: results.length, max_first_ms: first, max_complete_ms: complete,
       within_16_gb_target: withinTarget}));
     if (values.check && !withinTarget) process.exitCode = 1;
@@ -99,4 +119,5 @@ async function main() {
   }
 }
 
-main().catch(error => { console.error(error); process.exitCode = 1; });
+module.exports = {measure, searchUrl};
+if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });

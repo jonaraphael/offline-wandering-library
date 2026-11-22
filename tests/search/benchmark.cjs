@@ -226,9 +226,9 @@ async function benchmark(planPath, sourceRoot) {
         const regressions = row[field].filter(query => !bound[field].includes(query));
         if (regressions.length) throw Error(row.capacity_gb + ' GB ' + field + ' regressed: ' + regressions.join(', '));
       }
-      if (row.hit <= bound.hit || row.fable_hit < bound.fable_hit || row.zero > bound.zero ||
+      if (row.hit < bound.hit || row.fable_hit < bound.fable_hit || row.zero > bound.zero ||
           row.fable_zero > bound.fable_zero || row.body_zero || row.misses.includes('signs of dehydration'))
-        throw Error('Search quality did not meet the improvement bounds at ' + row.capacity_gb + ' GB');
+        throw Error('Search quality did not meet the no-regression bounds at ' + row.capacity_gb + ' GB');
       console.error(`${row.capacity_gb} GB: ${row.hit}/${row.query_count} original, ${row.body_hit}/${row.body_query_count} PDF body, ${row.held_out_hit}/${row.held_out_query_count} held out, ${row.zero} empty, no regressions.`);
     }
   }

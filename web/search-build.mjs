@@ -52,7 +52,7 @@ export async function transfer(drive, base, path, pin, fetchFile, signal, networ
     await receiveFile(base + path, {
       fetchFile, signal,
       check(response) {
-        if (!response.ok) throw new SourceError("HTTP " + response.status + " reading a search file");
+        if (!response.ok) throw new SourceError("HTTP " + response.status);
       },
       onChunk(chunk) {
         if (offset + chunk.length > pin.bytes) throw new SourceError("Search file exceeds pinned size");
@@ -69,7 +69,7 @@ export async function transfer(drive, base, path, pin, fetchFile, signal, networ
 
 export async function assembleSearch(drive, {completed, layouts, config, fetchFile, signal, budget, network, versioned = false}) {
   const {plan, base, records, page, runtime, rankRuntime, rerankRuntime} = config;
-  const warnings = [];
+  const missing = [];
   const omittedForSpace = [];
   const selection = {version: plan.version, sources: [], model_parts: plan.model_parts};
   const checksums = new Map();
@@ -109,7 +109,7 @@ export async function assembleSearch(drive, {completed, layouts, config, fetchFi
     } catch (error) {
       signal?.throwIfAborted();
       if (isNoSpace(error)) throw error;
-      warnings.push("Search model — " + error.message);
+      missing.push({kind: "search", title: "Search model", reason: error.message});
       matches.length = 0;
     }
   }
@@ -144,7 +144,7 @@ export async function assembleSearch(drive, {completed, layouts, config, fetchFi
     } catch (error) {
       signal?.throwIfAborted();
       if (isNoSpace(error)) throw error;
-      warnings.push(row.title + " search — " + error.message);
+      missing.push({kind: "search", id: row.id, title: row.title + " search", reason: error.message});
     }
   }
   const impact = Object.entries(plan.impact || {});
@@ -163,7 +163,7 @@ export async function assembleSearch(drive, {completed, layouts, config, fetchFi
     } catch (error) {
       signal?.throwIfAborted();
       if (isNoSpace(error)) throw error;
-      warnings.push("Term index — " + error.message);
+      missing.push({kind: "search", title: "Term index", reason: error.message});
     }
   }
   const transformer = Object.entries(plan.transformer || {});
@@ -182,7 +182,7 @@ export async function assembleSearch(drive, {completed, layouts, config, fetchFi
     } catch (error) {
       signal?.throwIfAborted();
       if (isNoSpace(error)) throw error;
-      warnings.push("Search reranker — " + error.message);
+      missing.push({kind: "search", title: "Search reranker", reason: error.message});
     }
   }
   const format = "owl-discovery-v1";
@@ -198,9 +198,10 @@ export async function assembleSearch(drive, {completed, layouts, config, fetchFi
     pages.set(root + "rank.js", rankRuntime);
     pages.set(root + "shards.js", wrap("OWLShardSelection", selection));
   }
-  const coverage = {format, assets: selection.sources.map(({id, sha256, records}) => ({id, sha256, records})), omittedForSpace, warnings};
+  const coverage = {format, assets: selection.sources.map(({id, sha256, records}) => ({id, sha256, records})), omittedForSpace,
+    warnings: missing.map(({title, reason}) => title + " — " + reason)};
   pages.set(root + "coverage.json", JSON.stringify(coverage, null, 2) + "\n");
   pages.set(root + "manifest.js", wrap("OWLDiscoveryManifest", {format, path, sha256: digest,
     generation, records: recordsHere.length, ...(composed ? {shards: true} : {})}));
-  return {pages, checksums: [...checksums.values()], warnings, sources: selection.sources};
+  return {pages, checksums: [...checksums.values()], missing, sources: selection.sources};
 }

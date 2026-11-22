@@ -483,7 +483,8 @@
           else if (pediatricSource && child.test(reference)) score += 25;
         }
       }
-      found.push({row, index, score, fullMatch: stats?.hits === query.length, focused: emergency && support > 0});
+      const matchedTerms = stats?.hits || 0;
+      found.push({row, index, score, matchedTerms, fullMatch: matchedTerms === query.length, focused: emergency && support > 0, trusted});
     }
     return found.sort((a, b) => b.score - a.score || a.index - b.index).slice(0, limit);
   }
@@ -519,7 +520,8 @@
     const href = destination.split('/').map(encodeURIComponent).join('/') +
       (asset.format === 'pdf' ? '#page=' + locator :
         !archive && locator ? '#' + encodeURIComponent(locator) : '');
-    return {score: hit.score, rankTitle: rawTitle, fullMatch: hit.fullMatch, focused: hit.focused, indexed: true, record: {id: asset.id + ':' + part + ':' + hit.index,
+    return {score: hit.score, rankTitle: rawTitle, matchedTerms: hit.matchedTerms, fullMatch: hit.fullMatch, focused: hit.focused, trusted: hit.trusted,
+      indexed: true, record: {id: asset.id + ':' + part + ':' + hit.index,
       asset_id: asset.id, title, description: lead, source_title: asset.title, href, destination,
       kind: archive ? 'article' : 'section', reader_required: archive,
       location: archive ? 'Archive path: ' + locator + (heading ? ' · ' + heading : '') : asset.format === 'pdf' ? 'Page ' + locator :

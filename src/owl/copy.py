@@ -11,10 +11,12 @@ import sys
 
 from .build import _json, _owned_directory, _root, _state, check_space
 from .catalog import fingerprint
+from .download import inspect_zim_parts
 from .layout import checksum_name, content_root, logical_name
 from .runtime import file_lock, interrupt_signals
 from .safety import SafetyError, atomic_write, guard_directory, mkdir_readable, safe_path, sha256_file, validate_relative
 from .transfer import resume_copy
+from .verify import split_inventory
 
 
 def _check_names(names) -> None:
@@ -120,12 +122,21 @@ def _source_manifest(source: Path) -> tuple[dict, dict, list[str]]:
         if (not isinstance(identity, str) or not re.fullmatch(r"[a-z0-9_-]+", identity)
                 or identity in asset_state or not isinstance(relative, str) or relative in destinations):
             raise SafetyError("Invalid or duplicate source inventory asset")
-        expected = entries.get(checksum_name(relative))
-        if (expected is None or asset.get("sha256") != expected["sha256"] or
-                type(asset.get("size_bytes")) is not int or asset["size_bytes"] != expected["size_bytes"]):
-            raise SafetyError(f"Source inventory disagrees with checksum manifest: {identity}")
+        parts = split_inventory(asset)
+        if parts:
+            if any(entries.get(part["path"]) != {"sha256": part["sha256"], "size_bytes": part["bytes"]}
+                   for part in parts):
+                raise SafetyError(f"Source split inventory disagrees with checksum manifest: {identity}")
+            paths = [safe_path(source, part["path"]) for part in parts]
+            if inspect_zim_parts(paths, parts, asset["sha256"]) != parts:
+                raise SafetyError(f"Source split ZIM differs from its whole-file pin: {identity}")
+        else:
+            expected = entries.get(checksum_name(relative))
+            if (expected is None or asset.get("sha256") != expected["sha256"] or
+                    type(asset.get("size_bytes")) is not int or asset["size_bytes"] != expected["size_bytes"]):
+                raise SafetyError(f"Source inventory disagrees with checksum manifest: {identity}")
         original = {**asset, "sha256": None} if asset.get("verification") == "observed" else asset
-        asset_state[identity] = {"sha256": expected["sha256"], "fingerprint": fingerprint(original)}
+        asset_state[identity] = {"sha256": asset["sha256"], "fingerprint": fingerprint(original)}
         destinations.add(relative)
     # The public, checksum-covered report carries dynamic output ownership even
     # when a library was copied without its private .owl directory. Never infer

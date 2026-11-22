@@ -1164,7 +1164,7 @@ resources:
 - id: phet
   title: PhET simulations
   number: 26
-  target_bytes: 48903828
+  target_bytes: 48902751
   status: ready
   reason: Sixteen original self-contained school science simulations with hash-bound
     offline screen-test evidence. Full editorial and physical-device certification

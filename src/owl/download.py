@@ -57,6 +57,106 @@ def verified(path: Path, size: int, checksum: str | None) -> bool:
     return bool(checksum and path.is_file() and path.stat().st_size == size and sha256_file(path) == checksum)
 
 
+def inspect_zim_parts(paths, layout, checksum):
+    """Return per-part pins only when the ordered on-disk bytes match the whole pin."""
+    from hashlib import sha256
+    from .verify import file_hash
+
+    whole = sha256()
+    parts = []
+    for path, row in zip(paths, layout, strict=True):
+        reject_symlinks(path)
+        if not path.is_file() or path.stat().st_size != row["bytes"]:
+            return None
+        parts.append({**row, "sha256": file_hash(path, whole)})
+    return parts if whole.hexdigest() == checksum else None
+
+
+def _local_source(parsed, repo_root):
+    if parsed.scheme == "repo":
+        return safe_path(repo_root, (parsed.netloc + parsed.path).lstrip("/"))
+    if parsed.netloc not in {"", "localhost"} or parsed.path.startswith("//"):
+        raise DownloadError("File sources must be local file URLs, not remote authorities or UNC paths")
+    # Convert a Windows drive prefix and decode percent escapes exactly once.
+    return Path(url2pathname(parsed.path))
+
+
+def download_split_zim(asset, layout, destination, staged, *, repo_root, cached=None, progress=print):
+    """Stream a pinned ZIM into owned partials without allocating a whole file."""
+    from contextlib import closing
+
+    def write_parts(source):
+        for path, row in zip(staged, layout, strict=True):
+            with _open_regular(path, writable=True) as handle, durable_writer(handle) as checkpoint:
+                handle.truncate(0)
+                left = row["bytes"]
+                while left:
+                    block = source.read(min(left, 1024 * 1024))
+                    if not block:
+                        raise TransientDownloadError("archive ended before its pinned byte count")
+                    handle.write(block)
+                    left -= len(block)
+                    checkpoint.written(len(block))
+            progress(f"{asset['id']}: wrote {row['start'] + row['bytes']:,} / {asset['size_bytes']:,} bytes")
+        if source.read(1):
+            raise DownloadError("archive exceeds its pinned byte count")
+        parts = inspect_zim_parts(staged, layout, asset["sha256"])
+        if parts is None:
+            raise ChecksumMismatchError(f"{asset['id']}: split archive SHA-256 mismatch")
+        return parts
+
+    def open_source(url, headers):
+        parsed = urlsplit(url)
+        if parsed.scheme in {"repo", "file"}:
+            return _open_regular(_local_source(parsed, repo_root))
+        response = urlopen(Request(url, headers=headers), timeout=60)
+        if (response.status != 200 or response.headers.get("Content-Encoding", "identity") != "identity" or
+                (parsed.scheme == "https" and urlsplit(response.url).scheme != "https")):
+            response.close()
+            raise DownloadError("expected a full, unencoded archive response")
+        return response
+
+    # An interruption during publication can leave verified parts in both
+    # locations. Reassemble that staging set before requesting bytes again.
+    candidates = [partial if partial.is_file() else final
+                  for partial, final in zip(staged, destination, strict=True)]
+    parts = inspect_zim_parts(candidates, layout, asset["sha256"])
+    if parts is None:
+        sources = list(dict.fromkeys([asset["source_url"], *asset.get("mirrors", [])]))
+        if cached is not None and cached.is_file():
+            sources.insert(0, cached.as_uri())
+        headers = {"Accept-Encoding": "identity", "User-Agent": USER_AGENT}
+        last_error = None
+        for url in sources:
+            for attempt in range(3):
+                try:
+                    request_headers = headers if attempt == 0 else {"Accept-Encoding": "identity"}
+                    with closing(open_source(url, request_headers)) as stream:
+                        parts = write_parts(stream)
+                    break
+                except (OSError, http.client.HTTPException, DownloadError, TransferError) as error:
+                    last_error = error
+                    if isinstance(error, HTTPError):
+                        error.close()
+                    if attempt == 2 or not (_transient(error) or isinstance(error, HTTPError) and error.code == 403):
+                        break
+                    time.sleep(2 ** attempt)
+            if parts is not None:
+                break
+        if parts is None:
+            # A complete-looking rejected set must never be promoted on retry.
+            for path in staged:
+                path.unlink(missing_ok=True)
+            error_type = TransientDownloadError if _transient(last_error) else DownloadError
+            raise error_type(f"{asset['id']}: split ZIM download failed: {last_error}") from last_error
+    for partial, final in zip(staged, destination, strict=True):
+        if partial.exists():
+            reject_symlinks(partial)
+            reject_symlinks(final)
+            os.replace(partial, final)
+    return parts
+
+
 def _complete(part: Path, asset: dict) -> str:
     if part.stat().st_size != asset["size_bytes"]:
         error = TransientDownloadError if part.stat().st_size < asset["size_bytes"] else DownloadError
@@ -153,16 +253,7 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
             _check_directory(destination.parent, parent_identity)
             parsed = urlsplit(url)
             if parsed.scheme in {"file", "repo"}:
-                if parsed.scheme == "repo":
-                    relative = (parsed.netloc + parsed.path).lstrip("/")
-                    source = safe_path(repo_root, relative)
-                else:
-                    if parsed.netloc not in {"", "localhost"} or parsed.path.startswith("//"):
-                        raise DownloadError("File sources must be local file URLs, not remote authorities or UNC paths")
-                    # URI paths use /C:/ on Windows; url2pathname converts the
-                    # drive prefix and decodes percent escapes exactly once.
-                    source = Path(url2pathname(parsed.path))
-                    reject_symlinks(source)
+                source = _local_source(parsed, repo_root)
                 digest = resume_copy(source, destination, size=expected, checksum=asset["sha256"],
                                      part=part, progress=progress)
                 _check_directory(destination.parent, parent_identity)

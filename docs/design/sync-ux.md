@@ -119,6 +119,9 @@ Notes on states:
   20 seconds it is joined by the phone card: the Kiwix QR code for iPhone
   ("Install it now, while you are online") and one line for Android and
   computers ("The reader app is copied onto the drive").
+- While Sync is running, including while it waits for the internet and builds
+  the start page, closing or reloading the tab brings up the browser’s
+  confirmation.
 - **Eject instructions** are one line chosen by operating system. macOS: "In
   Finder, click ⏏ beside *name*." Windows: "Click Safely Remove Hardware in
   the taskbar, then *name*." Others: "Eject it in your file manager." The
@@ -129,8 +132,14 @@ Notes on states:
   of *N GB* for the drive." The plan uses 90 percent of the printed size.
 - Finished drives with verified split files say "*N* encyclopedias kept in
   parts." The finish screen links to "Show files kept in parts" and
-  "Check every file." If reader or search files are missing, the status
-  also says "Some reader or search files are missing."
+  "Check every file." If joining is the only work left, the stage says
+  "Sync joins the files kept in parts." If reader or search files are
+  missing, the status also says "Some reader or search files are missing."
+  If the phone PDFs are missing, it says "Some WikiMed phone files are missing."
+- If essential files in the plan have no browser download, the stage before
+  Sync and the completion summary say "This browser can’t download *N*
+  essential files. Use the Python builder to get them." An existing copy
+  on the drive can still be kept.
 - The computer is kept awake during `syncing` where the browser allows it
   (the existing wake lock).
 
@@ -155,9 +164,11 @@ resume paths.
 4. **Add first.** Reserve space for the reader, search and inventory. Put a
    simple start page on a new drive before downloading. Download and verify
    missing and changed items in priority order, essential files first.
-   Within each priority, download and join the largest encyclopedias first
-   when the drive supports single files. A verified encyclopedia that
-   cannot be joined counts as installed and stays in parts on later syncs.
+   Within each priority, download the largest encyclopedias first so there
+   is room to verify the incoming pieces. On drives that support single
+   files, join them when there is room for both copies. A verified
+   encyclopedia kept in parts counts as installed. A later Sync joins it
+   when there is enough free space.
    A changed item's old copy stays until its
    replacement verifies. When the drive lacks room for both copies, the
    update is held back and listed in Manage with a "Replace in place" action;
@@ -171,16 +182,19 @@ resume paths.
    files, write a simple start page that links directly to the files.
    Write the record: the choice, the catalog version, the date, every item
    with its hash, what is missing and which encyclopedias are kept in parts.
+   The build report on the drive records any missing reader, search or
+   WikiMed phone files.
    "Up to date" requires the current reader, navigation and search revision
    and the active reader files on the drive.
 
 Safety rules:
 
-- Sync deletes only files listed in the drive's own record. A file OWL did
-  not write is never deleted, moved or overwritten, inside or outside
-  `LIBRARY/`.
+- Sync deletes a file only when its path belongs to the library layout and
+  its size and checksum match the drive record or the published file.
 - Stopping at any moment (Pause, closed tab, pulled drive, lost network)
-  loses at most the piece being written. The next Sync continues.
+  loses at most the piece being written. The next Sync checks committed
+  archive parts before continuing. It repairs any interrupted start page
+  and checksum publication.
 - A catalog change between two sessions never produces an error. Today's
   "pinned selection has changed" stop is replaced by step 3.
 - Interrupted mid-update, the drive still opens: the reader on the drive
@@ -318,6 +332,13 @@ with the best passage, the searched words marked, other matching places in
 the same document, and "Open". A result inside an encyclopedia file says
 which article to look up in Kiwix. Options (limit to a category) sit behind
 "Options".
+
+When the query describes an emergency that matches a reviewed guide on the
+drive, that guide's card comes first. When no reviewed guide matches but
+indexed passages do, show up to three under "No reviewed guide matched.
+These passages may help." When nothing qualifies, say "No close match.
+Browse Urgent guides and categories on Home." Both states offer "Browse
+Home".
 
 **Saved** (`#/saved`): starred items, then everything opened recently. The
 empty state shows a star and one sentence. Saved items are kept in the
