@@ -74,6 +74,7 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
             "catalog_sha256": hashlib.sha256(catalog.read_bytes()).hexdigest(),
             "resources_sha256": hashlib.sha256(resources_path.read_bytes()).hexdigest(),
             "capacity_policy": capacity_policy, "profiles": visible, "resources": sorted(resources.values(), key=lambda r: ({"CRITICAL": 0, "USEFUL": 1, "NONESSENTIAL": 2}.get(r.get("utility_tier"), 3), r.get("number") or 1000, r["id"])),
+            "categories": json.loads(Path(__file__).with_name("categories.json").read_text(encoding="utf-8")),
             "topic_verticals": json.loads(Path(__file__).with_name("topic_verticals.json").read_text())["verticals"],
             "collection_copy": {identity: entry for identity, entry in json.loads(
                 Path(__file__).with_name("collection_copy.json").read_text(encoding="utf-8"))["collections"].items()
@@ -113,7 +114,19 @@ def render_selector(model: dict, *, pages: bool = False) -> str:
     if template.count("__OWL_MODEL__") != 1 or template.count("__OWL_ENGINE__") != 1:
         raise ValueError("Selector template requires exactly one model and engine placeholder")
     template = _mode(template, pages)
-    return template.replace("__OWL_ENGINE__", engine).replace("__OWL_MODEL__", data)
+    categories = model["categories"]
+    groups = [*categories["categories"], categories["other"]]
+    colors = {
+        theme: ":root { " + " ".join(f"--c-{row['id']}: {row[theme]};" for row in groups) + " }"
+        for theme in ("light", "dark")
+    }
+    css = (ROOT / "docs/design/sync/builder.css").read_text(encoding="utf-8")
+    css += "\n" + colors["light"] + "\n@media (prefers-color-scheme: dark) { " + colors["dark"] + " }"
+    start = ("globalThis.OWLBuildPage.then(page => page.mount()).catch(error => {"
+             " const notice = document.getElementById('fatal'); notice.textContent = error.message; notice.hidden = false; });"
+             if pages else "OWLManage.offline(JSON.parse(document.getElementById('owl-model').textContent));")
+    return (template.replace("__OWL_ENGINE__", engine).replace("__OWL_MODEL__", data)
+            .replace("__OWL_BUILDER_CSS__", css).replace("__OWL_MANAGE__", start))
 
 
 def main(argv=None) -> int:

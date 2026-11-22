@@ -3,516 +3,121 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; base-uri 'none'; form-action 'none'">
-<meta name="referrer" content="no-referrer">
-<!-- OFFLINE -->
-<title>Plan your library · Offline Wandering Library</title>
-<!-- /OFFLINE -->
-<!-- PAGES -->
-<title>Offline Wandering Library · Build a library on a drive</title>
-<!-- /PAGES -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src data:; base-uri 'none'; form-action 'none'">
+<title>Offline Wandering Library</title>
 <style>
-:root {
-  color-scheme: light;
-  --paper: #f5f3ea; --surface: #fffdf8; --sunken: #ebe8db; --ink: #1c2a25; --muted: #56655d; --faint: #7d8a82;
-  --line: #dcdfd2; --line-strong: #c2c8b8;
-  --green: #1f5c42; --green-strong: #164631; --green-soft: #e3eee1; --on-green: #ffffff;
-  --amber: #8a5712; --amber-soft: #fcefd3; --red: #a2372a; --red-soft: #fce9e4; --focus: #c5661a;
-  /* Capacity meter: fixed categorical order, validated for adjacent-pair separation. */
-  --t-health: #2a78d6; --t-food: #eb6834; --t-shelter: #1baf7a; --t-trades: #eda100;
-  --t-school: #e87ba4; --t-reference: #008300; --t-advanced: #6250d6; --t-culture: #e34948;
-  --t-other: #5f7f73; --t-readers: #9aa39b;
-  --radius: 14px;
-  --shadow: 0 1px 2px rgb(28 42 37 / .05), 0 10px 28px -14px rgb(28 42 37 / .22);
-  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-  font: 16px/1.5 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --paper: #131b17; --surface: #1b2620; --sunken: #111814; --ink: #e7ece3; --muted: #a9b6aa; --faint: #84928a;
-    --line: #2f3d35; --line-strong: #43544a;
-    --green: #9fd3a8; --green-strong: #c4e8c8; --green-soft: #22362a; --on-green: #10241a;
-    --amber: #efc98a; --amber-soft: #3b3220; --red: #f0a694; --red-soft: #3c2622; --focus: #e6ad66;
-    --t-health: #3987e5; --t-food: #d95926; --t-shelter: #199e70; --t-trades: #c98500;
-    --t-school: #d55181; --t-reference: #0ca30c; --t-advanced: #9085e9; --t-culture: #e66767;
-    --t-other: #7fa094; --t-readers: #6f7a73;
-    --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 12px 30px -16px rgb(0 0 0 / .7);
-  }
-}
-* { box-sizing: border-box; }
+__OWL_BUILDER_CSS__
+
 [hidden] { display: none !important; }
-body { margin: 0; background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; }
-h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
-ul, ol { padding: 0; list-style: none; }
-a { color: var(--green); text-underline-offset: 3px; }
-button, input, select, textarea { font: inherit; color: inherit; }
-button, select, summary, label, input[type=checkbox] { cursor: pointer; touch-action: manipulation; }
-button:disabled, input:disabled { cursor: not-allowed; }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
-.wrap { width: min(1120px, 100% - 2.5rem); margin-inline: auto; }
-.skip { position: absolute; left: 1rem; top: -6rem; background: var(--surface); padding: .7rem 1rem; border-radius: 8px; z-index: 20; }
-.skip:focus { top: .6rem; }
-.muted { color: var(--muted); }
-.small { font-size: .82rem; }
-
-/* Buttons */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px; padding: .6rem 1.05rem;
-  border: 1px solid var(--line-strong); border-radius: 10px; background: var(--surface); font-weight: 650; text-decoration: none; color: var(--ink); }
-.btn:hover:not(:disabled) { border-color: var(--green); background: var(--green-soft); }
-.btn:disabled { opacity: .5; }
-.btn.primary { background: var(--green); border-color: var(--green); color: var(--on-green); box-shadow: 0 1px 0 rgb(255 255 255 / .12) inset, 0 6px 16px -8px var(--green); }
-.btn.primary:hover:not(:disabled) { background: var(--green-strong); border-color: var(--green-strong); }
-.btn.big { min-height: 56px; padding: .9rem 1.6rem; font-size: 1.08rem; border-radius: 13px; }
-.btn.wide { width: 100%; }
-.link { border: 0; background: none; padding: .25rem 0; min-height: 32px; color: var(--green); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-.link:disabled { opacity: .5; }
-
-/* Masthead */
-.masthead { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.1rem 0; }
-.brand { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; letter-spacing: -.01em; color: var(--ink); text-decoration: none; }
-.brand svg { width: 2rem; height: 2rem; color: var(--green); flex: none; }
-.masthead nav { font-size: .88rem; }
-.steps { display: flex; gap: .35rem; align-items: center; font-size: .82rem; color: var(--faint); font-weight: 600; }
-.steps li { display: flex; align-items: center; gap: .45rem; padding: .3rem .7rem .3rem .35rem; border-radius: 999px; }
-.steps li::before { content: attr(data-n); display: grid; place-items: center; width: 1.45rem; height: 1.45rem; border-radius: 50%;
-  border: 1.5px solid currentColor; font-size: .72rem; }
-.steps li.is-current { color: var(--green); background: var(--green-soft); }
-.steps li.is-done { color: var(--green); }
-.steps li.is-done::before { content: "✓"; background: var(--green); border-color: var(--green); color: var(--on-green); }
-
-/* Welcome */
-.welcome { padding: 3.2rem 0 2.2rem; }
-.eyebrow { font-size: .76rem; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-bottom: .9rem; }
-h1 { font: 500 clamp(2.2rem, 5.2vw, 3.9rem)/1.04 var(--serif); letter-spacing: -.03em; max-width: 16ch; text-wrap: balance; }
-.lede { margin-top: 1.2rem; max-width: 40rem; font-size: 1.13rem; line-height: 1.6; color: var(--muted); text-wrap: pretty; }
-.cta { margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; gap: .9rem 1.2rem; }
-.hint { font-size: .86rem; color: var(--muted); }
-.cta .hint { max-width: 26rem; }
-.returning { margin-top: 1.4rem; display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; padding: .9rem 1.1rem;
-  border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); max-width: 40rem; }
-.returning p { flex: 1 1 14rem; font-size: .93rem; }
-.sizes { margin-top: 2.2rem; }
-.sizes-label { font-size: .86rem; font-weight: 650; color: var(--muted); margin-bottom: .6rem; }
-.presets { display: flex; flex-wrap: wrap; gap: .5rem; }
-.preset { display: grid; gap: .1rem; text-align: left; min-width: 7.6rem; min-height: 58px; padding: .55rem .9rem; border: 1px solid var(--line-strong);
-  border-radius: 11px; background: var(--surface); }
-.preset strong { font-size: 1.02rem; letter-spacing: -.01em; }
-.preset span { font-size: .72rem; color: var(--muted); }
-.preset:hover { border-color: var(--green); }
-.preset[aria-pressed=true] { border-color: var(--green); background: var(--green-soft); box-shadow: 0 0 0 1px var(--green) inset; }
-.other-size { margin-top: .7rem; font-size: .86rem; color: var(--muted); }
-.other-size summary { display: inline-block; text-decoration: underline; text-underline-offset: 3px; }
-.capacity-entry { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: .6rem; }
-.capacity-entry input { width: 7rem; min-height: 40px; padding: .4rem .6rem; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--surface); }
-.how { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-top: 3rem; counter-reset: how; }
-.how li { counter-increment: how; padding: 1.2rem 1.25rem 1.3rem; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
-.how li::before { content: counter(how); display: grid; place-items: center; width: 1.9rem; height: 1.9rem; margin-bottom: .8rem; border-radius: 50%;
-  background: var(--green-soft); color: var(--green); font-weight: 750; font-size: .9rem; }
-.how strong { display: block; font-size: 1.02rem; margin-bottom: .25rem; }
-.how p { font-size: .9rem; color: var(--muted); }
-.devices { margin-top: 1.4rem; font-size: .88rem; color: var(--muted); }
-.tips { margin-top: .9rem; font-size: .88rem; color: var(--muted); max-width: 44rem; }
-.tips summary { display: inline-block; font-weight: 600; color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
-.tips p { margin-top: .5rem; }
-body[data-stage=plan] .welcome { padding: 1.4rem 0 .4rem; }
-body[data-stage=plan] .welcome .hide-in-plan { display: none; }
-body[data-stage=plan] h1 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); max-width: none; }
-body[data-stage=build] .welcome, body[data-stage=done] .welcome { display: none; }
-
-/* Notices */
-.notice { padding: .85rem 1rem; border-radius: 11px; border: 1px solid var(--line); background: var(--surface); font-size: .9rem; }
-.notice strong { display: block; margin-bottom: .15rem; }
-.notice.warn { background: var(--amber-soft); border-color: color-mix(in srgb, var(--amber) 30%, transparent); }
-.notice.error { background: var(--red-soft); border-color: color-mix(in srgb, var(--red) 35%, transparent); }
-.notice ul { list-style: disc; padding-left: 1.2rem; margin-top: .35rem; }
-.fatal { margin: 1rem 0; }
-.noscript { margin: 1rem 0; }
-
-/* Planner */
-.planner { display: grid; grid-template-columns: minmax(0, 1fr) 356px; gap: 1.6rem; align-items: start; padding: 1rem 0 3rem; }
-.drive-card { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1rem; padding: .9rem 1.1rem; margin-bottom: 1.2rem; border-radius: var(--radius);
-  background: var(--surface); border: 1px solid var(--line); }
-.drive-icon { display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 10px; background: var(--green-soft); color: var(--green); flex: none; }
-.drive-icon svg { width: 1.5rem; height: 1.5rem; }
-.drive-text { flex: 1 1 12rem; min-width: 0; }
-.drive-text strong { display: block; font-size: 1.02rem; overflow-wrap: anywhere; }
-.drive-text span { font-size: .86rem; color: var(--muted); }
-.drive-card details { flex-basis: 100%; font-size: .78rem; color: var(--muted); }
-.drive-card ol { list-style: decimal; padding-left: 1.3rem; margin-top: .3rem; }
-.busy-dot { display: inline-block; width: .6rem; height: .6rem; margin-right: .4rem; border-radius: 50%; background: var(--green); animation: pulse 1.1s ease-in-out infinite; }
-@keyframes pulse { 0%, 100% { opacity: .25; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.1); } }
-#size-slot:not(:empty) { margin-bottom: 1.2rem; padding: 1rem 1.1rem; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
-#size-slot.needs-size:not(:empty) { background: var(--amber-soft); border-color: color-mix(in srgb, var(--amber) 30%, transparent); }
-#size-slot .sizes { margin-top: 0; }
-.plan-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: .6rem 1.2rem; margin-bottom: .9rem; }
-.plan-head h2 { font: 500 1.7rem/1.15 var(--serif); letter-spacing: -.02em; }
-.plan-head p { margin-top: .3rem; color: var(--muted); font-size: .95rem; max-width: 38rem; }
-.plan-actions { display: flex; gap: .9rem; align-items: center; }
-.toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: .6rem; align-items: center; margin-bottom: .7rem; }
-.toolbar input[type=search], .toolbar select { min-height: 44px; padding: .55rem .8rem; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--surface); width: 100%; }
-.segmented { display: inline-flex; padding: 3px; border-radius: 10px; background: var(--sunken); border: 1px solid var(--line); }
-.segmented button { border: 0; background: none; min-height: 36px; padding: .3rem .75rem; border-radius: 7px; font-size: .85rem; font-weight: 600; color: var(--muted); white-space: nowrap; }
-.segmented button[aria-pressed=true] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgb(0 0 0 / .12); }
-.bulk { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin-bottom: .7rem; font-size: .86rem; color: var(--muted); }
-.planner:not(.is-editing) .edit-only { display: none !important; }
-.planner.awaiting-size #plan-section, .planner.awaiting-size .side { display: none; }
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-
-/* Themes and collections */
-.themes { display: grid; gap: .6rem; }
-.theme { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: clip; }
-.theme-head { display: flex; align-items: center; gap: .2rem; }
-.theme-check { width: 1.2rem; height: 1.2rem; margin: 0 0 0 1rem; accent-color: var(--green); flex: none; }
-.theme-toggle { flex: 1; min-width: 0; display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: .1rem .85rem;
-  padding: .95rem 1.1rem; border: 0; background: none; text-align: left; }
-.theme-toggle:hover .theme-title { text-decoration: underline; text-underline-offset: 3px; }
-.swatch { width: .8rem; height: .8rem; border-radius: 3px; flex: none; }
-.theme-title { font-weight: 700; font-size: 1.04rem; }
-.theme-sub { grid-column: 2; font-size: .84rem; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.theme-size { grid-row: 1 / span 2; grid-column: 3; text-align: right; font-variant-numeric: tabular-nums; font-weight: 650; white-space: nowrap; }
-.theme-size small { display: block; font-weight: 450; font-size: .76rem; color: var(--muted); }
-.chev { width: .6rem; height: .6rem; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);
-  transform: rotate(45deg); transition: transform .15s ease; margin: 0 .2rem .2rem .3rem; }
-.theme-toggle > .chev { grid-row: 1 / span 2; grid-column: 4; }
-[aria-expanded=true] > .chev { transform: rotate(225deg); margin-bottom: -.2rem; }
-.theme-body { border-top: 1px solid var(--line); }
-.resource { padding: .8rem 1.1rem; border-bottom: 1px solid var(--line); }
-.resource:last-child { border-bottom: 0; }
-.resource-top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: .2rem .8rem; align-items: start; }
-.planner:not(.is-editing) .resource-top { grid-template-columns: minmax(0, 1fr) auto auto; }
-.resource-top > input { width: 1.15rem; height: 1.15rem; margin: .22rem 0 0; accent-color: var(--green); }
-.resource-title h3 { font-size: .98rem; font-weight: 650; line-height: 1.35; }
-.resource-title label { cursor: inherit; }
-.is-editing .resource-title label { cursor: pointer; }
-.resource-blurb { font-size: .87rem; color: var(--muted); margin-top: .1rem; text-wrap: pretty; }
-.resource-meta { display: flex; flex-wrap: wrap; gap: .25rem .6rem; align-items: center; font-size: .76rem; color: var(--faint); margin-top: .3rem; }
-.badge { display: inline-block; padding: .08rem .5rem; border-radius: 999px; font-size: .7rem; font-weight: 700; letter-spacing: .02em; background: var(--sunken); color: var(--muted); }
-.badge.essential { background: var(--red-soft); color: var(--red); }
-.badge.partial, .badge.unresolved, .badge.desktop { background: var(--amber-soft); color: var(--amber); }
-.resource-size { text-align: right; font-variant-numeric: tabular-nums; font-weight: 650; font-size: .93rem; white-space: nowrap; padding-top: .05rem; }
-.row-toggle { width: 34px; height: 34px; display: grid; place-items: center; border: 0; border-radius: 8px; background: none; margin: -.25rem -.4rem 0 0; }
-.row-toggle:hover { background: var(--sunken); }
-.row-toggle .chev { margin: 0 0 .2rem; }
-.row-toggle[aria-expanded=true] .chev { margin: .2rem 0 0; }
-.resource:not(.is-selected) .resource-title h3, .resource:not(.is-selected) .resource-size { color: var(--muted); font-weight: 550; }
-.resource-body { margin: .7rem 0 .2rem; padding: .8rem .95rem; border-radius: 10px; background: var(--sunken); font-size: .86rem; display: grid; gap: .6rem; }
-.is-editing .resource-body { margin-left: 1.95rem; }
-.resource-body select { min-height: 40px; padding: .4rem .6rem; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--surface); max-width: 100%; }
-.edition-label { display: block; font-weight: 650; font-size: .8rem; margin-bottom: .25rem; }
-.files-note { font-weight: 650; font-size: .8rem; }
-.files { max-height: 20rem; overflow: auto; display: grid; gap: .1rem; }
-.files li { display: flex; gap: .55rem; align-items: baseline; padding: .22rem 0; }
-.files label { display: flex; gap: .55rem; align-items: baseline; flex: 1; min-width: 0; }
-.files input { accent-color: var(--green); flex: none; transform: translateY(2px); }
-.files span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
-.files small { color: var(--faint); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.empty { padding: 2rem 1rem; text-align: center; color: var(--muted); border: 1px dashed var(--line-strong); border-radius: var(--radius); }
-
-/* Summary */
-.side { position: sticky; top: 1rem; display: grid; gap: .9rem; }
-.summary { padding: 1.3rem 1.3rem 1.4rem; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
-.summary h2 { font-size: .76rem; font-weight: 750; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); }
-.total { margin-top: .5rem; font: 500 3rem/1 var(--serif); letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-.total-of { margin-top: .35rem; font-size: .9rem; color: var(--muted); }
-.meter { display: flex; gap: 2px; height: 14px; margin-top: 1rem; border-radius: 5px; background: var(--sunken); overflow: hidden; }
-.meter span { display: block; height: 100%; min-width: 3px; border-radius: 2px; transition: flex-basis .35s cubic-bezier(.2, .7, .2, 1); flex: 0 0 auto; }
-.meter.over { outline: 2px solid var(--red); outline-offset: 2px; }
-.meter-caption { margin-top: .5rem; font-size: .82rem; color: var(--muted); }
-.meter-caption.over { color: var(--red); font-weight: 650; }
-.legend { margin-top: .9rem; display: grid; gap: .05rem; }
-.legend button, .legend .legend-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .6rem; align-items: center; width: 100%; padding: .3rem .35rem; margin: 0 -.35rem;
-  border: 0; border-radius: 7px; background: none; text-align: left; font-size: .86rem; }
-.legend button:hover { background: var(--sunken); }
-.legend .amount { font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
-.legend .free .swatch { background: var(--sunken); outline: 1px solid var(--line-strong); outline-offset: -1px; }
-.counts { margin-top: .8rem; padding-top: .8rem; border-top: 1px solid var(--line); font-size: .84rem; color: var(--muted); }
-.build-area { margin-top: 1.1rem; display: grid; gap: .7rem; }
-.build-note { font-size: .86rem; color: var(--muted); }
-.build-note.attention { color: var(--amber); font-weight: 600; }
-.check-label { display: flex; gap: .6rem; align-items: flex-start; font-size: .86rem; }
-.check-label input { width: 1.1rem; height: 1.1rem; margin-top: .15rem; accent-color: var(--green); flex: none; }
-.check-label small { display: block; color: var(--muted); font-size: .78rem; }
-.advanced { font-size: .84rem; color: var(--muted); }
-.advanced summary { font-weight: 600; min-height: 32px; padding: .3rem 0; }
-.advanced > * + * { margin-top: .5rem; }
-.estimate-row { display: flex; justify-content: space-between; gap: 1rem; padding: .28rem 0; font-size: .78rem; }
-.estimate-row dt { color: var(--muted); }
-.estimate-row dd { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
-.estimate-row.total-row { border-top: 1px solid var(--line); margin-top: .3rem; padding-top: .55rem; }
-.hash { font: 10px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; overflow-wrap: anywhere; color: var(--faint); }
-
-/* Commands (offline planner) */
-.commands { padding: 1.3rem; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); display: grid; gap: 1rem; }
-.commands h2 { font: 500 1.35rem/1.2 var(--serif); }
-.field-label { display: block; font-size: .82rem; font-weight: 700; margin-bottom: .35rem; }
-.field-help { font-size: .78rem; color: var(--muted); margin-top: .35rem; }
-.commands input[type=text], .commands select { width: 100%; min-height: 44px; padding: .55rem .7rem; border: 1px solid var(--line-strong); border-radius: 9px; background: var(--paper); }
-.commands textarea { width: 100%; min-height: 6.5rem; padding: .7rem; border: 1px solid var(--line-strong); border-radius: 9px; background: var(--sunken);
-  font: 12.5px/1.55 ui-monospace, SFMono-Regular, Consolas, monospace; resize: vertical; overflow-wrap: anywhere; white-space: pre-wrap; }
-.command-label { display: flex; justify-content: space-between; gap: .6rem; font-size: .82rem; font-weight: 700; margin-bottom: .35rem; }
-.command-label span { font-weight: 450; color: var(--muted); }
-.copy-feedback { font-size: .82rem; min-height: 1.2rem; color: var(--green); }
-
-/* Build and done stages */
-.stage { padding: 2.6rem 0 3.5rem; max-width: 46rem; margin-inline: auto; }
-.stage h1 { max-width: 20ch; font-size: clamp(2rem, 4.4vw, 3.1rem); }
-.progress-card { margin-top: 1.8rem; padding: 1.5rem; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
-.progress-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem 1rem; }
-.progress-top strong { font: 500 3.2rem/1 var(--serif); letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-.progress-top span { color: var(--muted); font-size: .95rem; font-variant-numeric: tabular-nums; }
-.progress-top .eta { margin-left: auto; }
-progress { appearance: none; -webkit-appearance: none; width: 100%; height: 14px; margin-top: 1rem; border: 0; border-radius: 7px; background: var(--sunken); overflow: hidden; display: block; }
-progress::-webkit-progress-bar { background: var(--sunken); border-radius: 7px; }
-progress::-webkit-progress-value { background: var(--green); border-radius: 7px; transition: width .4s ease; }
-progress::-moz-progress-bar { background: var(--green); border-radius: 7px; }
-.activity { margin-top: .9rem; font-size: .95rem; min-height: 1.5rem; overflow-wrap: anywhere; }
-.phases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; margin-top: 1.3rem; }
-.phases li { padding: .6rem .75rem; border-radius: 10px; background: var(--sunken); font-size: .82rem; color: var(--faint); font-weight: 600; }
-.phases li.is-current { background: var(--green-soft); color: var(--green); }
-.phases li.is-done { color: var(--green); }
-.phases li.is-done::before { content: "✓ "; }
-.build-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.3rem; }
-.keep-open { margin-top: 1rem; font-size: .86rem; color: var(--muted); }
-.issues { margin-top: 1rem; }
-.issues summary { font-weight: 650; }
-.issues ul { list-style: disc; padding-left: 1.2rem; margin-top: .4rem; max-height: 14rem; overflow: auto; font-size: .84rem; }
-.technical { margin-top: 1.2rem; font-size: .8rem; color: var(--muted); }
-.technical summary { font-weight: 600; min-height: 32px; padding: .3rem 0; }
-.technical pre { white-space: pre-wrap; margin: .4rem 0; font: 11px/1.4 ui-monospace, SFMono-Regular, Consolas, monospace; overflow: auto; max-height: 20rem; }
-.done-mark { display: grid; place-items: center; width: 4rem; height: 4rem; margin-bottom: 1.3rem; border-radius: 50%; background: var(--green); color: var(--on-green); animation: pop .45s cubic-bezier(.2, 1.4, .4, 1); }
-.done-mark svg { width: 2rem; height: 2rem; }
-.done-mark.partial { background: var(--amber-soft); color: var(--amber); }
-@keyframes pop { from { transform: scale(.4); opacity: 0; } }
-.next { margin-top: 1.8rem; display: grid; gap: .6rem; counter-reset: next; }
-.next li { counter-increment: next; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .9rem; align-items: start; padding: 1rem 1.1rem; border-radius: var(--radius);
-  background: var(--surface); border: 1px solid var(--line); }
-.next li::before { content: counter(next); display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--green-soft); color: var(--green); font-weight: 750; font-size: .9rem; }
-.next strong { display: block; }
-.next span { font-size: .9rem; color: var(--muted); }
-.next code { font: .86em ui-monospace, SFMono-Regular, Consolas, monospace; background: var(--sunken); padding: .08rem .35rem; border-radius: 5px; color: var(--ink); }
-.phone-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.1rem; align-items: center; margin: 1.4rem auto 0; padding: 1.1rem; max-width: 46rem; border-radius: var(--radius);
-  background: var(--surface); border: 1px solid var(--line); }
-.phone-card svg { display: block; border-radius: 8px; }
-.phone-card strong { display: block; margin-bottom: .2rem; }
-.phone-card p { font-size: .9rem; color: var(--muted); }
-body[data-stage=build] .phone-card, body[data-stage=done] .phone-card { margin-bottom: 3rem; }
-
-/* Footer and mobile bar */
-.footer { border-top: 1px solid var(--line); padding: 1.3rem 0 2.2rem; font-size: .8rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; justify-content: space-between; }
-.mobile-bar { display: none; }
-@media (max-width: 900px) {
-  .planner { grid-template-columns: minmax(0, 1fr); }
-  .side { position: static; }
-  .how { grid-template-columns: 1fr; }
-  .steps li:not(.is-current) span { display: none; }
-  .toolbar { grid-template-columns: 1fr; }
-  body[data-stage=plan] { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
-  body[data-stage=plan] .mobile-bar { display: flex; position: fixed; z-index: 10; left: 0; right: 0; bottom: 0; align-items: center; justify-content: space-between; gap: 1rem;
-    padding: .7rem 1.1rem calc(.7rem + env(safe-area-inset-bottom, 0px)); background: var(--surface); border-top: 1px solid var(--line-strong); box-shadow: 0 -6px 20px -12px rgb(0 0 0 / .3); }
-  .mobile-bar strong { display: block; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
-  .mobile-bar span { font-size: .76rem; color: var(--muted); }
-  .mobile-bar.over span { color: var(--red); font-weight: 650; }
+.stage, .manage { animation: enter .15s ease; }
+.stage, .back { overflow-wrap: anywhere; }
+[data-state="problem"] .ring .arc { stroke-dashoffset: calc(345.6px * (1 - max(.08, var(--p, 0)))); }
+@keyframes enter { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .stage, .manage, .switch, .switch::after, .cat > summary::after { animation: none; transition: none; } }
+@media (pointer: coarse) {
+  .bar a, .secondary a, .files, .editions button, .summary button { min-height: 44px; display: inline-flex; align-items: center; }
+  .switch-label { min-height: 44px; cursor: pointer; }
 }
-@media (max-width: 560px) {
-  .wrap { width: calc(100% - 1.8rem); }
-  .masthead nav { display: none; }
-  .brand span { white-space: nowrap; }
-  .steps li span { display: none !important; }
-  .steps li { padding: .25rem; }
-  .welcome { padding-top: 2rem; }
-  .theme-toggle { padding: .85rem .8rem; gap: .1rem .6rem; }
-  .theme-check { margin-left: .8rem; }
-  .resource { padding: .75rem .8rem; }
-  .phases { grid-template-columns: 1fr; }
-  .phone-card { grid-template-columns: 1fr; }
-  .total { font-size: 2.5rem; }
+.stage .secondary.two { margin-top: 26px; }
+[data-state="measuring"] .secondary { margin-top: 82px; }
+[data-state="needs-size"] .secondary { margin-top: 22px; }
+.card:first-child { grid-template-columns: 1fr; }
+.card svg { display: block; width: 64px; height: 64px; }
+.legend li.over::before { background: var(--bad); }
+.manage .sizes { justify-content: start; margin-bottom: 10px; }
+.summary .legend { justify-content: start; }
+.summary-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.editions { flex-wrap: wrap; }
+.editions button { padding: 5px 11px; border: 0; background: var(--surface); color: var(--ink); cursor: pointer; }
+.col .files { margin-left: 0; }
+.file-list { padding: 0; list-style: none; }
+.file-list label { display: flex; align-items: center; gap: 8px; padding: 8px 0; cursor: pointer; }
+.file-list .size { margin-left: auto; }
+.advanced button, dialog button, .commands button { cursor: pointer; }
+.advanced th, .advanced td { text-align: left; padding: 4px 12px 4px 0; }
+.commands { margin-top: 24px; }
+.commands div { margin-top: 16px; }
+.commands input[type="text"], .commands textarea, .commands select { display: block; width: 100%; padding: 10px; font: inherit; }
+.commands textarea { min-height: 5em; }
+.commands p, .commands small { color: var(--muted); }
+.check-label { display: block; margin-top: 16px; }
+.check-label small { display: block; padding-left: 24px; }
+dialog { width: min(480px, calc(100% - 32px)); max-height: 85vh; padding: 24px; border: 1px solid var(--line);
+  border-radius: 16px; background: var(--surface); color: var(--ink); overflow-wrap: anywhere; }
+dialog::backdrop { background: #16191d80; }
+dialog h2 { margin-top: 0; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (min-width: 760px) and (max-height: 760px) {
+  [data-state="syncing"] .meter { width: min(960px, 100%); }
+  [data-state="syncing"] .meter .track { width: min(480px, 100%); margin-inline: auto; }
+  [data-state="syncing"] .cards { margin-top: 12px; gap: 8px; }
+  [data-state="syncing"] .card { padding-block: 9px; }
 }
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+@media (max-width: 520px) {
+  .bar { padding-inline: 12px; }
+  .brand { font-size: 14px; }
+  .cat > summary { gap: 8px; padding: 12px; }
+  .cat .size { white-space: normal; text-align: right; }
+  .col { gap: 8px; padding: 12px 8px; }
+  .col > div { min-width: 0; overflow-wrap: anywhere; }
+  .donebar .primary { width: auto; min-width: 96px; }
+}
 </style>
 </head>
-<!-- OFFLINE -->
-<body data-mode="offline" data-stage="plan">
-<!-- /OFFLINE -->
-<!-- PAGES -->
-<body data-mode="pages" data-stage="welcome">
-<!-- /PAGES -->
-<a class="skip" href="#content">Skip to content</a>
-<header class="masthead wrap">
-  <span class="brand">
-    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 9.5C5 7 6 5 8 4l3.2 3h9.6L24 4c2 1 3 3 3 5.500V17c0 6.600-4.900 11-11 11S5 23.600 5 17z" fill="currentColor"/><circle cx="12" cy="14.500" r="3.700" fill="var(--paper)"/><circle cx="20" cy="14.500" r="3.700" fill="var(--paper)"/><circle cx="12" cy="14.500" r="1.500" fill="currentColor"/><circle cx="20" cy="14.500" r="1.500" fill="currentColor"/><path d="M16 17.500l-1.700 2.700h3.400z" fill="var(--paper)"/></svg>
-    <span>Offline Wandering Library</span>
-  </span>
+<body>
+<div class="app" id="builder">
+  <header class="bar">
+    <span class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 12c0-5 4-8 10-8s10 3 10 8v6c0 6-4 10-10 10S6 24 6 18z" fill="currentColor"/><circle cx="12" cy="14" r="3.7" fill="#fff"/><circle cx="20" cy="14" r="3.7" fill="#fff"/><circle cx="12" cy="14" r="1.6" fill="#16191d"/><circle cx="20" cy="14" r="1.6" fill="#16191d"/><path d="M14.4 18.6l1.6 2.6 1.6-2.6z" fill="#f2b33d"/></svg>Offline Wandering Library</span>
+    <a id="manage-back" class="back" href="#" hidden></a>
+    <a id="how-link" href="#how">How it works</a>
+  </header>
   <!-- PAGES -->
-  <ol class="steps" aria-label="Steps">
-    <li id="step-drive" data-n="1" class="is-current"><span>Choose drive</span></li>
-    <li id="step-plan" data-n="2"><span>Review library</span></li>
-    <li id="step-build" data-n="3"><span>Build</span></li>
-  </ol>
-  <!-- /PAGES -->
-  <nav aria-label="Project information"><a href="README.md">Guide</a></nav>
-</header>
-<main id="content">
-  <div class="wrap">
-    <noscript><p class="notice warn noscript">This page needs JavaScript. The finished library does not: its start page and indexes are ordinary files.</p></noscript>
-    <div id="fatal" class="notice error fatal" role="alert" hidden></div>
+  <main class="stage" id="sync-stage" data-state="empty">
+    <div class="ringwrap" role="progressbar" id="sync-ring" aria-label="Sync progress" aria-valuemin="0" aria-valuemax="100">
+    <svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="55"/><circle class="arc" cx="60" cy="60" r="55"/></svg>
+    <svg class="glyph" viewBox="0 0 120 120" aria-hidden="true"><rect class="plug" x="50" y="28" width="20" height="15" rx="2"/><rect class="body" x="41" y="41" width="38" height="50" rx="7"/><circle class="light" cx="60" cy="80" r="2.7"/><path class="check" d="M51 66l7 7 12-14"/></svg>
   </div>
-
-  <section id="welcome" class="welcome wrap" aria-labelledby="page-title">
-    <!-- PAGES -->
-    <p class="eyebrow hide-in-plan">No signal. No problem.</p>
-    <h1 id="page-title">A whole library on one drive.</h1>
-    <p class="lede hide-in-plan">Plug in a USB drive or SSD. This page measures it, picks the most useful books, guides and archives that fit, and builds the library straight onto the drive. After that it works anywhere, with no internet.</p>
-    <div class="cta hide-in-plan">
-      <button id="pick-drive" type="button" class="btn primary big">Choose your drive</button>
-      <p id="drive-status" class="hint" role="status">Any drive from 16 GB to 1 TB. Nothing already on it is erased.</p>
-    </div>
-    <div id="returning" class="returning hide-in-plan" hidden>
-      <p id="returning-text"></p>
-      <button id="reconnect-drive" type="button" class="btn">Use this drive again</button>
-    </div>
-    <details class="tips hide-in-plan">
-      <summary>Which drive should I use?</summary>
-      <p>Any USB flash drive or SSD from 16 GB to 1 TB. Bigger drives hold more: Wikipedia with pictures starts fitting at 256 GB. Format the drive as <strong>exFAT</strong> so Macs, Windows PCs, Android phones and iPhones can all read it. Use Chrome, Edge or Arc on a computer for this page.</p>
-    </details>
-    <div id="size-home" class="hide-in-plan">
-    <!-- /PAGES -->
-    <!-- OFFLINE -->
-    <h1 id="page-title">Plan a library for your drive.</h1>
-    <p class="lede">Pick a drive size, adjust what goes on it, then copy one command for the desktop builder. This page works offline and downloads nothing.</p>
-    <div id="size-home">
-    <!-- /OFFLINE -->
-      <div id="size-picker" class="sizes">
-        <!-- PAGES -->
-        <p id="sizes-label" class="sizes-label">No drive handy? See what fits on:</p>
-        <!-- /PAGES -->
-        <!-- OFFLINE -->
-        <p id="sizes-label" class="sizes-label">Drive size</p>
-        <!-- /OFFLINE -->
-        <div id="presets" class="presets" role="group" aria-labelledby="sizes-label"></div>
-        <details id="other-size" class="other-size">
-          <summary>Another size</summary>
-          <form id="custom-capacity" class="capacity-entry">
-            <label for="capacity-gb">Drive size in GB</label>
-            <input id="capacity-gb" type="number" min="16" max="9007199" step="any" required>
-            <button type="submit" class="btn">Use this size</button>
-          </form>
-        </details>
+    <h1 class="title" id="sync-title" tabindex="-1">Plug in a drive</h1>
+    <p class="status" id="sync-status" role="status" aria-atomic="true">Any USB drive or SD card with 16 GB to 1 TB free. Files already on it stay.</p>
+    <div class="meter" id="sync-meter" hidden><div class="track" id="sync-track"></div><ul class="legend" id="sync-legend"></ul></div>
+    <div class="sizes" id="drive-sizes" aria-label="Drive size" hidden></div>
+    <button type="button" class="primary" id="sync-primary">Choose drive</button>
+    <p class="secondary" id="sync-secondary"><a href="#manage">See what goes on a drive</a></p>
+    <div class="cards" id="sync-cards" hidden>
+      <div class="card"><span>Keep this tab open and the drive plugged in. You can use the computer for other things.</span></div>
+      <div class="card" id="phone-card" hidden>
+        <a href="https://apps.apple.com/us/app/kiwix/id997079563" aria-label="Kiwix on the App Store"><!-- OWL_KIWIX_QR --></a>
+        <div><b>Reading on an iPhone?</b><span>Scan to install the free Kiwix app now, while you are online. On Android and computers the reader app is copied onto the drive.</span></div>
       </div>
     </div>
-    <!-- PAGES -->
-    <ol class="how hide-in-plan">
-      <li><strong>Choose your drive</strong><p>The page measures the free space, so the library is sized to fit.</p></li>
-      <li><strong>Review your library</strong><p>Survival essentials come first. The rest of the space goes to repair guides, school courses, maps, Wikipedia and books. Change anything you like.</p></li>
-      <li><strong>Press Build</strong><p>Every file downloads straight onto the drive and is checked. Search and a start page are added last.</p></li>
-    </ol>
-    <p class="devices hide-in-plan">The finished drive opens on Windows, Mac, Linux, Android, iPhone and iPad.</p>
-    <!-- /PAGES -->
-  </section>
-
-  <div id="planner" class="planner wrap" hidden>
-    <div>
-      <!-- PAGES -->
-      <section id="drive-card" class="drive-card" aria-label="Selected drive" hidden>
-        <span class="drive-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2.500"/><path d="M7 14.500h.010M10.500 14.500h6.500"/></svg></span>
-        <div class="drive-text"><strong id="drive-name"></strong><span id="drive-detail" role="status"></span></div>
-        <button id="change-drive" type="button" class="link">Change drive</button>
-        <details id="probe-steps" hidden><summary>How the free space was measured</summary><ol id="probe-list"></ol></details>
-      </section>
-      <div id="size-slot"></div>
-      <!-- /PAGES -->
-      <section id="plan-section" aria-labelledby="resources-heading">
-        <div class="plan-head">
-          <div>
-            <h2 id="resources-heading">What goes on your drive</h2>
-            <p id="plan-lede"></p>
-          </div>
-          <div class="plan-actions">
-            <button id="reset-preset" type="button" class="link" hidden>Reset to recommended</button>
-            <button id="customize" type="button" class="btn" aria-pressed="false">Customize</button>
-          </div>
-        </div>
-        <div class="toolbar edit-only">
-          <div><label class="sr-only" for="resource-filter">Find a collection</label><input id="resource-filter" type="search" placeholder="Find a collection: first aid, maps, Wikipedia…" autocomplete="off"></div>
-          <div class="segmented" role="group" aria-label="Show">
-            <button id="view-all" type="button" aria-pressed="true">Everything</button>
-            <button id="view-in" type="button" aria-pressed="false">On your drive</button>
-            <button id="view-out" type="button" aria-pressed="false">Not included</button>
-          </div>
-          <div><label class="sr-only" for="priority-filter">Priority</label><select id="priority-filter"><option value="">Any priority</option><option value="CRITICAL">Survival essentials</option><option value="USEFUL">Practical and school</option><option value="NONESSENTIAL">Further reading</option></select></div>
-        </div>
-        <div id="bulk" class="bulk edit-only" hidden>
-          <span id="bulk-scope"></span>
-          <button id="include-shown" type="button" class="link">Add all shown</button>
-          <button id="exclude-shown" type="button" class="link">Remove all shown</button>
-          <span id="bulk-feedback" role="status" aria-live="polite"></span>
-        </div>
-        <div id="themes" class="themes"></div>
-        <p id="no-results" class="empty" hidden>Nothing matches. Try another word, or show everything.</p>
-      </section>
+  </main>
+  <!-- /PAGES -->
+  <main class="manage" id="manage" hidden aria-labelledby="manage-heading">
+    <h1 id="manage-heading" tabindex="-1">What goes on a drive</h1>
+    <div class="sizes" id="preview-sizes" aria-label="Drive size"></div>
+    <div class="summary">
+      <div class="track" id="manage-track"></div>
+      <ul class="legend" id="manage-legend"></ul>
+      <div class="row"><span id="manage-total"></span><span class="summary-actions">
+        <a id="reset-recommended" href="#" hidden>Reset to recommended</a>
+        <button id="make-fit" type="button" hidden>Make it fit</button>
+      </span></div>
     </div>
-
-    <aside id="side" class="side" aria-label="Library summary">
-      <section class="summary" aria-labelledby="summary-heading">
-        <h2 id="summary-heading">Your library</h2>
-        <p id="knowledge-bytes" class="total">—</p>
-        <p id="capacity" class="total-of"></p>
-        <div id="storage-meter" class="meter" role="img" aria-label="Space used by topic"></div>
-        <p id="meter-caption" class="meter-caption" role="status"></p>
-        <ul id="legend" class="legend"></ul>
-        <p id="library-counts" class="counts"></p>
-        <!-- PAGES -->
-        <div class="build-area">
-          <ul id="browser-plan-errors" class="notice error" hidden></ul>
-          <div id="browser-exclusions" class="notice warn" hidden>
-            <strong id="browser-exclusions-title"></strong>
-            <details><summary>See which</summary><ul id="browser-exclusions-list"></ul></details>
-            <label class="check-label"><input id="accept-browser-files" type="checkbox"><span>Build without them</span></label>
-          </div>
-          <button id="start-build" type="button" class="btn primary big wide" disabled>Build library</button>
-          <button id="pick-drive-inline" type="button" class="btn primary big wide" hidden>Choose your drive to build</button>
-          <p id="build-note" class="build-note" role="status"></p>
-          <details class="advanced">
-            <summary>Advanced</summary>
-            <label class="check-label"><input id="join-archives" type="checkbox" checked><span>Save each large archive as one file<small>Recommended. Turn this off only for a FAT32 drive, which cannot hold a file over 4 GB.</small></span></label>
-            <p>Some publishers block browser downloads. Their files are left out here and can be added with the <a href="SELECT.html">desktop builder</a>.</p>
-          </details>
-        </div>
-        <!-- /PAGES -->
-        <!-- OFFLINE -->
-        <div class="build-area">
-          <div id="selection-status" class="notice" role="status" aria-live="polite"><strong id="status-title">Loading the catalog…</strong><p id="status-description"></p><ul id="errors" hidden></ul></div>
-          <a class="btn primary big wide" href="#commands-heading">Get the build command</a>
-          <details id="warnings-details" class="advanced" hidden><summary id="warnings-title">Planning notes</summary><ul id="warnings"></ul></details>
-          <details id="incomplete-details" class="advanced" hidden><summary id="incomplete-title">Incomplete collections</summary><ul id="incomplete-list"></ul></details>
-          <details class="advanced">
-            <summary>Storage details</summary>
-            <dl>
-              <div class="estimate-row"><dt>Directly readable files</dt><dd id="direct-bytes">—</dd></div>
-              <div class="estimate-row"><dt>Reader apps</dt><dd id="software-bytes">—</dd></div>
-              <div class="estimate-row"><dt>Supporting files</dt><dd id="supporting-bytes">—</dd></div>
-              <div class="estimate-row"><dt>Data to download</dt><dd id="download-bytes">—</dd></div>
-              <div class="estimate-row"><dt>Files unpacked from ZIPs</dt><dd id="archive-output-bytes">—</dd></div>
-              <div class="estimate-row"><dt>Files the builder generates</dt><dd id="generated-output-bytes">—</dd></div>
-              <div class="estimate-row"><dt>All selected files</dt><dd id="known-bytes">—</dd></div>
-              <div class="estimate-row total-row"><dt>Space planned for content</dt><dd id="content-target">—</dd></div>
-              <div class="estimate-row"><dt>Planned content not yet available</dt><dd id="unmet-bytes">—</dd></div>
-              <div class="estimate-row"><dt>Extra reader allowance</dt><dd id="reader-bytes">—</dd></div>
-              <div class="estimate-row"><dt>Search index allowance</dt><dd id="search-bytes">—</dd></div>
-              <div class="estimate-row"><dt>Start page and indexes</dt><dd id="metadata-bytes">—</dd></div>
-              <div class="estimate-row"><dt>Builder workspace</dt><dd id="acquisition-bytes">—</dd></div>
-              <div class="estimate-row"><dt>Space left free</dt><dd id="reserve-bytes">—</dd></div>
-              <div class="estimate-row total-row"><dt>Finished library, estimated</dt><dd id="final-bytes">—</dd></div>
-              <div class="estimate-row"><dt>Most space needed while building</dt><dd id="peak-bytes">—</dd></div>
-              <div class="estimate-row"><dt>Needed for files available now</dt><dd id="actual-peak-bytes">—</dd></div>
-            </dl>
-            <p class="hash">Catalog SHA-256 <span id="catalog-hash">—</span></p>
-          </details>
-        </div>
-        <!-- /OFFLINE -->
-      </section>
-      <!-- OFFLINE -->
-      <section class="commands" aria-labelledby="commands-heading">
+    <input class="find" id="collection-search" type="search" placeholder="Find a collection" aria-label="Find a collection">
+    <p id="no-collections" hidden>No collections match.</p>
+    <div id="categories"></div>
+    <details class="advanced" id="advanced">
+      <summary>Advanced</summary>
+      <label class="check-label"><input type="checkbox" id="split-files"> Split large files for FAT32</label>
+      <p id="split-note" hidden>The drive appears to require split files. Choose a different drive to save large files in one piece.</p>
+      <div><button id="include-filtered" type="button">Include filtered files</button> <button id="exclude-filtered" type="button">Exclude filtered files</button></div>
+      <p id="bulk-feedback"></p>
+      <table id="storage-accounting"><caption>Storage accounting</caption><tbody id="storage-lines"></tbody></table>
+      <div id="held-updates" hidden></div>
+      <button id="diagnostics-link" type="button">Technical details</button>
+    </details>
+    <!-- OFFLINE -->
+    <section class="commands"aria-labelledby="commands-heading">
         <h2 id="commands-heading">Build it with the desktop tool</h2>
         <p class="field-help">Run these from the installed OWL repository. Nothing runs from this page.</p>
         <div><label class="field-label" for="target-path">Library folder on your drive</label><input id="target-path" type="text" value="/path/to/EMERGENCY_LIBRARY" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="target-help"><p id="target-help" class="field-help">Replace this with your drive's real path. The builder never formats the drive.</p></div>
@@ -522,651 +127,42 @@ body[data-stage=build] .phone-card, body[data-stage=done] .phone-card { margin-b
         <div><label class="command-label" for="build-command">2. Build the drive <span>Runs in the background</span></label><textarea id="build-command" readonly spellcheck="false" placeholder="Resolve the notes above before building."></textarea><button id="copy-build" type="button" class="btn primary" disabled>Copy build command</button><p id="build-help" class="field-help"></p></div>
         <p id="copy-feedback" class="copy-feedback" role="status" aria-live="polite"></p>
       </section>
-      <!-- /OFFLINE -->
-    </aside>
-  </div>
-
+    <!-- /OFFLINE -->
+  </main>
+  <div class="donebar" id="manage-done" hidden><span id="manage-changes">No changes</span><button type="button" class="primary" id="manage-return">Done</button></div>
   <!-- PAGES -->
-  <section id="build-stage" class="stage wrap" aria-labelledby="build-heading" hidden>
-    <p id="build-eyebrow" class="eyebrow">Step 3 of 3</p>
-    <h1 id="build-heading">Building your library</h1>
-    <div class="progress-card">
-      <div class="progress-top"><strong id="build-percent">0%</strong><span id="build-amount"></span><span id="build-eta" class="eta"></span></div>
-      <progress id="build-progress" aria-label="Build progress" value="0" max="1"></progress>
-      <p id="browser-build-status" class="activity" role="status"></p>
-      <ol class="phases">
-        <li id="phase-download" class="is-current">Download and check files</li>
-        <li id="phase-index">Add search and start page</li>
-        <li id="phase-ready">Ready to use</li>
-      </ol>
-      <div class="build-actions">
-        <button id="pause-build" type="button" class="btn" hidden>Pause</button>
-        <button id="resume-build" type="button" class="btn primary" hidden>Resume build</button>
-        <button id="verify-build" type="button" class="btn" hidden>Check and repair every file</button>
-        <button id="leave-build" type="button" class="link" hidden>Choose a different drive</button>
-      </div>
-      <p id="keep-open" class="keep-open">Keep this tab open and the drive plugged in. You can pause at any time; the build picks up where it stopped.</p>
-      <details id="build-issues" class="issues" hidden><summary id="build-issues-title"></summary><ul id="browser-build-errors"></ul></details>
-    </div>
-    <details id="technical" class="technical"><summary>Technical details</summary><div id="diagnostics-slot"></div></details>
-  </section>
-
-  <section id="done-stage" class="stage wrap" aria-labelledby="done-heading" hidden>
-    <div id="done-mark" class="done-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg></div>
-    <h1 id="done-heading">Your library is ready.</h1>
-    <p id="done-summary" class="lede"></p>
-    <div id="done-problem" class="notice warn" hidden style="margin-top:1.4rem">
-      <strong id="done-problem-title"></strong>
-      <p id="done-problem-text"></p>
-      <details class="issues"><summary>See the list</summary><ul id="done-issues"></ul></details>
-      <div class="build-actions"><button id="retry-build" type="button" class="btn primary">Try again for the missing files</button></div>
-    </div>
-    <ol class="next">
-      <li><div><strong>Eject the drive, then unplug it</strong><span>Ejecting first makes sure the last files are saved.</span></div></li>
-      <li><div><strong>Plug it into any computer or phone</strong><span>USB-C phones and tablets read it directly in their Files app.</span></div></li>
-      <li><div><strong>Open <code>START_HERE.html</code></strong><span>It is the first thing on the drive. Everything else is one tap from there.</span></div></li>
-    </ol>
-    <div class="build-actions">
-      <button id="verify-build-done" type="button" class="btn">Check every file again</button>
-      <button id="build-another" type="button" class="btn">Build another drive</button>
-    </div>
-  </section>
-
-  <aside id="phone-card" class="phone-card wrap" hidden>
-    <a href="https://apps.apple.com/us/app/kiwix/id997079563" aria-label="Kiwix on the App Store"><!-- OWL_KIWIX_QR --></a>
-    <div><strong>Using an iPhone or iPad? Do this now, while you have internet.</strong>
-    <p>Point the iPhone camera at this code and install the free Kiwix app. It opens Wikipedia and the other large archives on the drive. PDFs and guides need no app. Android, Windows, Mac and Linux get Kiwix from the drive itself.</p></div>
-  </aside>
+  <ol class="rail" id="sync-rail" aria-label="Drive setup"><li aria-current="step">Choose drive</li><li>Sync</li><li>Eject</li></ol>
   <!-- /PAGES -->
-</main>
-<footer class="footer wrap">
-  <!-- OFFLINE -->
-  <p>No accounts, cloud services or network requests. Keep the command with your catalog snapshot, then verify the finished drive.</p>
-  <!-- /OFFLINE -->
-  <!-- PAGES -->
-  <p>Free and open source. Every file is checked against a published fingerprint before it is kept.</p>
-  <p><a href="mirror-credits.txt">Source credits</a> · <a href="SELECT.html">Desktop planner</a> · <a href="README.md">Guide</a></p>
-  <!-- /PAGES -->
-</footer>
-<div id="mobile-bar" class="mobile-bar">
-  <div><strong id="mobile-total">—</strong><span id="mobile-status"></span></div>
-  <a class="btn primary" href="#summary-heading">Review</a>
+  <p id="fatal" hidden></p>
+  <dialog id="how" aria-labelledby="how-title"><h2 id="how-title">How it works</h2>
+    <p>Offline Wandering Library puts books, manuals and courses on a drive so you can read them without internet.</p>
+    <p>Sync downloads and checks the files for your library, then builds a start page and search for the drive.</p>
+    <p>Use Chrome, Edge or Arc on a computer, a drive with 16 GB to 1 TB free, and an internet connection for the download.</p>
+    <p><a href="README.md">Build with the command line</a></p>
+    <form method="dialog"><button type="submit">Close</button></form>
+  </dialog>
+  <dialog id="technical" aria-labelledby="technical-title"><h2 id="technical-title">Technical details</h2>
+    <pre id="technical-detail"></pre><div id="diagnostics-slot"></div>
+    <form method="dialog"><button type="submit">Close</button></form>
+  </dialog>
+  <dialog id="missing-items" aria-labelledby="missing-title"><h2 id="missing-title">Items to try again</h2>
+    <ul id="missing-list"></ul>
+    <form method="dialog"><button type="submit">Close</button></form>
+  </dialog>
 </div>
 <script id="owl-model" type="application/json">__OWL_MODEL__</script>
-<script>if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) {__OWL_ENGINE__}</script>
 <script>
-(() => {
-  "use strict";
-  const byId = id => document.getElementById(id);
-  const READERS = "archive-readers";
-  const SIZES = [["flash-16gb", "16 GB"], ["critical-64gb", "64 GB"], ["compact-256gb", "256 GB"],
-    ["standard-512gb", "512 GB"], ["full-1tb", "1 TB"]];
-  const EDITIONS = {published: "Everything, with pictures", nopic: "Everything, text only",
-    mini: "The introduction of every article", top: "Introductions of the 50,000 top articles",
-    preset: "Only this size's files", direct: "Directly readable edition", compact: "Compact archive edition"};
-  const THEME_NOTES = {health: "First aid, medical references and community health care.",
-    food: "Growing, raising, cooking and preserving food.",
-    shelter: "Safe water, sanitation, shelter and disaster readiness.",
-    trades: "Fixing, building and powering things.", school: "School subjects, from arithmetic to physics.",
-    reference: "Encyclopedias, dictionaries and maps.", advanced: "College textbooks, programming and research.",
-    culture: "Stories, history, music and art.", other: "Everything else in this catalog."};
-  const cards = new Map(), themeNodes = new Map(), presetButtons = new Map();
-  const openThemes = new Set(), openRows = new Set();
-  let model, state, result, browserPage, copy = {}, themes = [], resources = {}, assetsById = new Map();
-  let editing = false, view = "all", matchingAssetIds = new Set(), assetTheme = new Map();
-
-  function element(tag, className, text) {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text !== undefined) node.textContent = String(text);
-    return node;
-  }
-  function text(value) {
-    if (value === null || value === undefined) return "";
-    if (Array.isArray(value)) return value.map(text).join(" · ");
-    return typeof value === "object" ? (value.reason || value.message || value.title || value.id || JSON.stringify(value)) : String(value);
-  }
-  function bytes(value) {
-    if (!Number.isFinite(value) || value < 0) return "Unknown";
-    const unit = value >= 1e12 ? "TB" : value >= 1e9 ? "GB" : value >= 1e6 ? "MB" : value >= 1e3 ? "kB" : "B";
-    const scaled = value / {TB: 1e12, GB: 1e9, MB: 1e6, kB: 1e3, B: 1}[unit];
-    return scaled.toLocaleString(undefined, {maximumFractionDigits: scaled >= 100 ? 0 : scaled >= 10 ? 1 : 2}) + " " + unit;
-  }
-  const plural = (count, word, many) => count.toLocaleString() + " " + (count === 1 ? word : many || word + "s");
-  function setList(id, entries) {
-    const list = byId(id);
-    list.replaceChildren(...entries.map(entry => element("li", "", text(entry))));
-    list.hidden = entries.length === 0;
-  }
-  function failure(error) {
-    globalThis.console?.error(error);
-    byId("fatal").textContent = globalThis.OWLBuildPage ?
-      "The library catalog could not load. Check your connection and reload this page." :
-      "This planner could not read its catalog or selection: " + text(error.message || error) + ". Use the README and command-line tools to inspect the recipe.";
-    byId("fatal").hidden = false;
-    for (const id of ["build-command", "plan-command"]) if (byId(id)) byId(id).value = "";
-    for (const id of ["copy-build", "copy-plan"]) if (byId(id)) byId(id).disabled = true;
-  }
-  const title = row => copy[row.id]?.title || row.title.replace(/\s+(?:\(ZIM\)|ZIM)$/i, "");
-  const themeOf = resource => copy[resource.id]?.theme ||
-    OWLTopicMap.primary(resource, model.topic_verticals || [])?.vertical || "other";
-  const canDownload = id => !browserPage || browserPage.canDownload(id);
-  function resourceMembers(resource) {
-    const edition = state.items[resource.id].edition;
-    return (resource.editions?.[edition] || resource).asset_ids;
-  }
-
-  function setStage(stage) {
-    document.body.dataset.stage = stage;
-    byId("planner").hidden = stage !== "plan";
-    for (const [id, order] of [["step-drive", 0], ["step-plan", 1], ["step-build", 2]]) {
-      const step = byId(id);
-      if (!step) continue;
-      const current = {welcome: 0, plan: 1, build: 2, done: 3}[stage];
-      step.classList.toggle("is-current", order === current);
-      step.classList.toggle("is-done", order < current);
-    }
-  }
-  function placeSizePicker(inPlan, label) {
-    const slot = byId(inPlan ? "size-slot" : "size-home");
-    if (slot) slot.append(byId("size-picker"));
-    if (label) byId("sizes-label").textContent = label;
-  }
-
-  function choosePreset(profile, capacityBytes, chosenByUser) {
-    state = OWLPlanner.preset(model, profile, capacityBytes);
-    if (browserPage) state = browserPage.recommend(state);
-    if (model.capacity_policy) byId("capacity-gb").value =
-      String(OWLPlanner.profileFor(model, profile, capacityBytes).nominal_capacity_bytes / 1e9);
-    if (byId("allow-incomplete")) byId("allow-incomplete").checked = Boolean(state.allowIncomplete);
-    if (chosenByUser) browserPage?.sizeChosen(OWLPlanner.profileFor(model, profile, capacityBytes).nominal_capacity_bytes);
-    render();
-  }
-  function updateItem(id, patch) {
-    state.edited = true;
-    state.items[id] = {...(state.items[id] || {}), ...patch};
-    if (patch.edition) {
-      delete state.items[id].assetIds;
-      if (browserPage) {
-        const members = (resources[id].editions?.[patch.edition] || resources[id]).asset_ids;
-        const reachable = members.filter(canDownload);
-        if (reachable.length < members.length) state.items[id].assetIds = reachable;
-      }
-    }
-    render();
-  }
-  function selectFiles(included, ids) {
-    state.edited = true;
-    const desired = new Set(result.selectedAssetIds), before = new Set(desired);
-    for (const id of ids) {
-      if (included && canDownload(id)) desired.add(id);
-      else if (!included) desired.delete(id);
-    }
-    // Archive members still need their original download package.
-    for (const asset of model.assets) if (!browserPage && desired.has(asset.id) && asset.archive_member?.source_asset_id) desired.add(asset.archive_member.source_asset_id);
-    const changed = new Set([...new Set([...before, ...desired])].filter(id => before.has(id) !== desired.has(id)));
-    for (const resource of model.resources) {
-      const members = resourceMembers(resource);
-      if (!members.some(id => changed.has(id))) continue;
-      const item = state.items[resource.id], keep = members.filter(id => desired.has(id));
-      item.included = keep.length > 0;
-      if (item.edition === "preset") item.edition = "published";
-      if (keep.length && keep.length !== members.length) item.assetIds = keep;
-      else delete item.assetIds;
-    }
-    const next = OWLPlanner.resolve(model, state);
-    if (next.rows.some(row => row.id === READERS && row.autoIncluded)) {
-      state.items[READERS].included = true; delete state.items[READERS].assetIds;
-    }
-    render();
-    const after = new Set(result.selectedAssetIds), count = ids.filter(id => before.has(id) !== after.has(id)).length;
-    const retained = !included ? ids.filter(id => after.has(id)).length : 0;
-    byId("bulk-feedback").textContent = (included ? "Added " : "Removed ") + plural(count, "file") + "." +
-      (retained ? " Kept " + retained + " required reader or source files." : "");
-  }
-
-  function makeTheme(theme) {
-    const section = element("section", "theme");
-    section.dataset.theme = theme.id;
-    const head = element("div", "theme-head");
-    const check = element("input", "theme-check edit-only"); check.type = "checkbox";
-    check.setAttribute("aria-label", "Include everything in " + theme.title);
-    const toggle = element("button", "theme-toggle"); toggle.type = "button";
-    const swatch = element("span", "swatch"); swatch.style.background = "var(--t-" + theme.id + ")";
-    const name = element("span", "theme-title", theme.title), sub = element("span", "theme-sub");
-    const size = element("span", "theme-size"), chev = element("span", "chev");
-    toggle.append(swatch, name, size, chev, sub);
-    const body = element("div", "theme-body"); body.id = "theme-body-" + theme.id; body.hidden = true;
-    toggle.setAttribute("aria-controls", body.id); toggle.setAttribute("aria-expanded", "false");
-    toggle.addEventListener("click", () => {
-      if (openThemes.has(theme.id)) openThemes.delete(theme.id); else openThemes.add(theme.id);
-      filterCards();
-    });
-    const nodes = {section, check, toggle, sub, size, body, ids: []};
-    check.addEventListener("change", () => selectFiles(check.checked, nodes.ids));
-    head.append(check, toggle);
-    section.append(head, body);
-    byId("themes").append(section);
-    themeNodes.set(theme.id, nodes);
-    return nodes;
-  }
-  function makeCard(row) {
-    const resource = resources[row.id], themeId = themeOf(resource), theme = themeNodes.get(themeId);
-    const card = element("article", "resource");
-    card.dataset.resourceId = row.id;
-    const top = element("div", "resource-top");
-    const checkbox = element("input", "edit-only"); checkbox.type = "checkbox"; checkbox.id = "include-" + row.id;
-    checkbox.dataset.role = "include";
-    checkbox.addEventListener("change", () => selectFiles(checkbox.checked, cards.get(row.id).matchingIds));
-    const heading = element("div", "resource-title");
-    const h3 = element("h3"), label = element("label"); label.htmlFor = checkbox.id; h3.append(label);
-    const blurb = element("p", "resource-blurb"), meta = element("p", "resource-meta");
-    heading.append(h3, blurb, meta);
-    const size = element("div", "resource-size");
-    const expand = element("button", "row-toggle"); expand.type = "button";
-    expand.append(element("span", "chev"));
-    expand.setAttribute("aria-expanded", "false");
-    const body = element("div", "resource-body"); body.id = "details-" + row.id; body.hidden = true;
-    expand.setAttribute("aria-controls", body.id);
-    expand.addEventListener("click", () => {
-      if (openRows.has(row.id)) openRows.delete(row.id); else openRows.add(row.id);
-      filterCards();
-    });
-    const editionBox = element("div", "edit-only");
-    const editionLabel = element("label", "edition-label", "Edition"); editionLabel.htmlFor = "edition-" + row.id;
-    const edition = element("select"); edition.id = editionLabel.htmlFor; edition.dataset.role = "edition";
-    edition.addEventListener("change", () => updateItem(row.id, {edition: edition.value}));
-    editionBox.append(editionLabel, edition);
-    const reason = element("p", "muted"), availability = element("p", "muted");
-    const filesNote = element("p", "files-note"), files = element("ul", "files");
-    files.dataset.role = "matching-assets"; files.id = "files-" + row.id;
-    body.append(editionBox, reason, availability, filesNote, files);
-    top.append(checkbox, heading, size, expand);
-    card.append(top, body);
-    theme.body.append(card);
-    const nodes = {card, checkbox, label, blurb, meta, size, expand, body, editionBox, edition, reason, availability, filesNote, files, themeId, matchingIds: []};
-    cards.set(row.id, nodes);
-    return nodes;
-  }
-  function formatNote(assets) {
-    const documents = assets.filter(asset => !asset.supporting_file);
-    if (!documents.length) return "";
-    const archives = documents.filter(asset => asset.format === "zim").length;
-    const kinds = [...new Set(documents.filter(asset => asset.format !== "zim").map(asset => asset.format.toUpperCase()))];
-    if (archives === documents.length) return plural(archives, "archive") + " · opens with the Kiwix app on the drive";
-    if (!archives) return plural(documents.length, "file") + " · " + kinds.join(", ") + " · opens on any device";
-    return plural(documents.length, "file") + " · " + kinds.join(", ") + " and Kiwix archives";
-  }
-  function updateCard(row) {
-    if (row.id === READERS && row.autoIncluded) { if (cards.has(row.id)) cards.get(row.id).card.hidden = true; return; }
-    const nodes = cards.get(row.id) || makeCard(row);
-    const resource = resources[row.id], included = Boolean(row.included || row.autoIncluded);
-    nodes.card.classList.toggle("is-selected", included);
-    nodes.card.dataset.included = String(included);
-    nodes.card.dataset.utilityTier = row.utilityTier;
-    nodes.label.textContent = title(row);
-    nodes.blurb.textContent = copy[row.id]?.blurb || "";
-    nodes.blurb.hidden = !copy[row.id]?.blurb;
-    const members = resourceMembers(resource), assets = members.map(id => assetsById.get(id)).filter(Boolean);
-    const chosen = new Set(result.selectedAssetIds);
-    const reachable = members.filter(canDownload), blocked = members.length - reachable.length;
-    const status = ["ready", "partial", "unresolved"].includes(row.status) ? row.status : "unknown";
-    const tags = [];
-    if (row.utilityTier === "CRITICAL") tags.push(element("span", "badge essential", "Essential"));
-    if (browserPage && blocked) tags.push(element("span", "badge desktop", blocked === members.length ? "Desktop builder only" : blocked + " need the desktop builder"));
-    if (!browserPage && status !== "ready") tags.push(element("span", "badge " + status, {partial: "Partly available", unresolved: "Not available yet", unknown: "Unknown"}[status]));
-    const alternatives = row.options.filter(option => option.available !== false);
-    if (alternatives.length > 1 && row.edition !== "published" && included) tags.push(element("span", "", EDITIONS[row.edition] || row.edition));
-    tags.push(element("span", "", formatNote(assets)));
-    nodes.meta.replaceChildren(...tags);
-    const shown = browserPage ? reachable.filter(id => !included || chosen.has(id))
-      .reduce((total, id) => total + assetsById.get(id).size_bytes, 0) : row.knownBytes;
-    nodes.size.textContent = browserPage && !reachable.length ? "" : bytes(shown);
-    nodes.rowBytes = shown;
-    const recommended = OWLPlanner.profileFor(model, state.profile, state.capacityBytes).default_editions?.[row.id] || "published";
-    nodes.edition.replaceChildren(...row.options.map(option => {
-      const variant = resource.editions?.[option.value] || resource;
-      const available = option.available !== false && variant.asset_ids.some(canDownload);
-      const size = variant.asset_ids.reduce((total, id) => total + (assetsById.get(id)?.size_bytes || 0), 0);
-      const node = element("option", "", (EDITIONS[option.value] || option.label) + " · " + bytes(size) +
-        (option.value === recommended && alternatives.length > 1 ? " (recommended)" : "") + (available ? "" : " · not available here"));
-      node.value = option.value; node.disabled = !available;
-      return node;
-    }));
-    nodes.edition.value = row.edition;
-    nodes.editionBox.hidden = alternatives.length < 2;
-    nodes.reason.textContent = row.reason || resource.reason || "";
-    nodes.reason.hidden = !nodes.reason.textContent || nodes.reason.textContent.startsWith("Finished published files");
-    nodes.availability.hidden = !(browserPage && blocked);
-    nodes.availability.textContent = blocked ? (blocked === members.length ? "This publisher blocks browser downloads. " : "Some of these files cannot be downloaded in a browser. ") +
-      "Add them later with the desktop builder." : "";
-  }
-  function filterCards() {
-    if (!result) return;
-    const query = byId("resource-filter").value.trim().toLocaleLowerCase();
-    const tier = byId("priority-filter").value;
-    const mode = editing ? view : "in";
-    const filtered = Boolean(query || tier || (editing && view !== "all"));
-    const selected = new Set(result.selectedAssetIds);
-    const totals = new Map(themes.map(theme => [theme.id, {shown: 0, included: 0, bytes: 0, names: [], ids: []}]));
-    matchingAssetIds = new Set();
-    for (const [id, theme] of assetTheme) if (selected.has(id) && totals.has(theme)) totals.get(theme).bytes += assetsById.get(id).size_bytes;
-    let visible = 0;
-    for (const row of result.rows) {
-      const nodes = cards.get(row.id);
-      if (!nodes || (row.id === READERS && row.autoIncluded)) continue;
-      const resource = resources[row.id], members = new Set(resourceMembers(resource));
-      const rowMatch = query && [row.id, row.title, title(row)].some(value => value.toLocaleLowerCase().includes(query));
-      const matches = [...members].map(id => assetsById.get(id)).filter(asset => asset &&
-        (!tier || (asset.utility_tier || row.utilityTier) === tier) &&
-        (mode !== "in" || selected.has(asset.id)) && (mode !== "out" || !selected.has(asset.id)) &&
-        (!query || rowMatch || OWLTopicMap.searchText(asset).includes(query)));
-      const show = matches.length > 0;
-      nodes.matchingIds = matches.filter(asset => canDownload(asset.id)).map(asset => asset.id);
-      for (const id of nodes.matchingIds) matchingAssetIds.add(id);
-      const checked = nodes.matchingIds.filter(id => selected.has(id)).length;
-      nodes.checkbox.checked = nodes.matchingIds.length > 0 && checked === nodes.matchingIds.length;
-      nodes.checkbox.indeterminate = checked > 0 && checked < nodes.matchingIds.length;
-      nodes.checkbox.disabled = Boolean(row.autoIncluded) || !nodes.matchingIds.length;
-      nodes.card.hidden = !show;
-      const open = openRows.has(row.id);
-      nodes.expand.setAttribute("aria-expanded", String(open));
-      nodes.expand.setAttribute("aria-label", (open ? "Hide" : "Show") + " what is in " + title(row));
-      nodes.body.hidden = !open;
-      nodes.filesNote.textContent = filtered && matches.length < members.size ?
-        matches.length + " of " + plural(members.size, "file") + " match" : plural(members.size, "file");
-      nodes.files.replaceChildren(...(open ? matches : []).map(asset => {
-        const item = element("li"), name = element("span", "", asset.title), size = element("small", "", bytes(asset.size_bytes));
-        item.dataset.assetId = asset.id;
-        if (editing) {
-          const label = element("label"), check = element("input"); check.type = "checkbox";
-          check.checked = selected.has(asset.id); check.setAttribute("aria-label", asset.title);
-          check.disabled = Boolean(row.autoIncluded) || !canDownload(asset.id);
-          check.addEventListener("change", () => selectFiles(check.checked, [asset.id]));
-          label.append(check, name); item.append(label, size);
-        } else item.append(name, size);
-        return item;
-      }));
-      if (!show) continue;
-      visible++;
-      const total = totals.get(nodes.themeId);
-      total.shown++; total.ids.push(...nodes.matchingIds);
-      if (row.included || row.autoIncluded) { total.included++; total.names.push(title(row)); }
-    }
-    for (const theme of themes) {
-      const nodes = themeNodes.get(theme.id), total = totals.get(theme.id);
-      nodes.section.hidden = total.shown === 0;
-      nodes.ids = total.ids;
-      const open = total.shown > 0 && (openThemes.has(theme.id) || (filtered && Boolean(query)));
-      nodes.body.hidden = !open;
-      nodes.toggle.setAttribute("aria-expanded", String(open));
-      const checked = total.ids.filter(id => selected.has(id)).length;
-      nodes.check.checked = total.ids.length > 0 && checked === total.ids.length;
-      nodes.check.indeterminate = checked > 0 && checked < total.ids.length;
-      nodes.check.disabled = !total.ids.length;
-      const names = total.names.slice(0, 3).join(", ") + (total.names.length > 3 ? " and " + (total.names.length - 3) + " more" : "");
-      nodes.sub.textContent = total.included ? names : THEME_NOTES[theme.id] || "";
-      const small = element("small", "", total.included ? plural(total.included, "collection") : "Not included");
-      nodes.size.replaceChildren(document.createTextNode(total.included ? bytes(total.bytes) : ""), small);
-    }
-    byId("no-results").hidden = visible !== 0;
-    byId("bulk").hidden = !filtered;
-    byId("bulk-scope").textContent = plural(visible, "collection") + " shown";
-    for (const id of ["include-shown", "exclude-shown"]) byId(id).disabled = visible === 0;
-    byId("bulk-feedback").textContent = "";
-  }
-  // Each file is counted once, under the first included collection that holds it.
-  function assignThemes() {
-    assetTheme = new Map();
-    const selected = new Set(result.selectedAssetIds);
-    for (const row of result.rows) {
-      if (!(row.included || row.autoIncluded)) continue;
-      const resource = resources[row.id], theme = row.id === READERS ? "readers" : themeOf(resource);
-      for (const id of resourceMembers(resource)) if (selected.has(id) && !assetTheme.has(id)) assetTheme.set(id, theme);
-    }
-    for (const id of selected) if (!assetTheme.has(id)) assetTheme.set(id, "other");
-  }
-  // One summary for both pages. `assets` are the files that will be written.
-  function paintSummary({assets, capacityBytes, driveLabel, over = 0, countLabel}) {
-    const groups = new Map();
-    let used = 0;
-    for (const asset of assets) {
-      const theme = asset.destination?.startsWith("SOFTWARE/") ? "readers" : assetTheme.get(asset.id) || "other";
-      groups.set(theme, (groups.get(theme) || 0) + asset.size_bytes);
-      used += asset.size_bytes;
-    }
-    const order = [...themes.map(theme => [theme.id, theme.title]), ["readers", "Kiwix reader apps"]].filter(([id]) => groups.get(id) > 0);
-    const scale = Math.max(capacityBytes, used) || 1;
-    byId("knowledge-bytes").textContent = bytes(used);
-    byId("capacity").textContent = "of " + bytes(capacityBytes) + (driveLabel ? " " + driveLabel : "");
-    const meter = byId("storage-meter");
-    meter.replaceChildren(...order.map(([id, name]) => {
-      const segment = element("span");
-      segment.style.flexBasis = (groups.get(id) / scale * 100) + "%";
-      segment.style.background = "var(--t-" + id + ")";
-      segment.title = name + " · " + bytes(groups.get(id));
-      return segment;
-    }));
-    meter.classList.toggle("over", over > 0);
-    const caption = byId("meter-caption");
-    caption.textContent = over > 0 ? "Over by " + bytes(over) + ". Remove something to continue." :
-      Math.round(used / scale * 100) + "% of the drive. The rest holds the search index and a safety margin.";
-    caption.classList.toggle("over", over > 0);
-    byId("legend").replaceChildren(...order.map(([id, name]) => {
-      const item = element("li"), jump = themeNodes.has(id);
-      const row = element(jump ? "button" : "div", jump ? "" : "legend-row"), swatch = element("span", "swatch");
-      swatch.style.background = "var(--t-" + id + ")";
-      row.append(swatch, element("span", "", name), element("span", "amount", bytes(groups.get(id))));
-      if (jump) {
-        row.type = "button";
-        row.setAttribute("aria-label", "Show " + name + ", " + bytes(groups.get(id)));
-        row.addEventListener("click", () => { openThemes.add(id); filterCards(); themeNodes.get(id).section.scrollIntoView?.({behavior: "smooth", block: "start"}); });
-      }
-      item.append(row);
-      return item;
-    }));
-    byId("library-counts").textContent = countLabel;
-    byId("mobile-total").textContent = bytes(used) + " of " + bytes(capacityBytes);
-    byId("mobile-status").textContent = over > 0 ? "Over by " + bytes(over) : "Fits on this drive";
-    byId("mobile-bar").classList.toggle("over", over > 0);
-  }
-  function renderCommands() {
-    if (!state || browserPage) return;
-    const target = byId("target-path").value, shell = byId("shell").value;
-    let plan = "", build = "";
-    if (target.trim()) {
-      try {
-        plan = OWLPlanner.command(model, state, {target, shell, plan: true});
-        build = OWLPlanner.command(model, state, {target, shell, plan: false});
-      } catch (error) {
-        byId("copy-feedback").textContent = "Check the folder path and selection: " + text(error.message || error);
-      }
-    }
-    byId("plan-command").value = plan;
-    byId("build-command").value = build;
-    byId("copy-plan").disabled = !plan;
-    byId("copy-build").disabled = !build;
-    byId("build-help").textContent = !target.trim() ? "Enter the library folder to get the commands." : build ?
-      "Starts a background job that downloads and verifies every file, then builds search and the start page. Keep the computer awake and the drive attached." :
-      "The build command appears once the notes above are resolved, or when you accept the files available now.";
-  }
-  function paintOffline() {
-    const estimate = result.estimates, coverage = result.coverage;
-    const fields = {"known-bytes": "knownBytes", "download-bytes": "downloadBytes", "archive-output-bytes": "archiveOutputBytes",
-      "generated-output-bytes": "generatedOutputBytes", "acquisition-bytes": "acquisitionBytes", "search-bytes": "searchBytes",
-      "metadata-bytes": "metadataBytes", "reserve-bytes": "reserveBytes", "final-bytes": "finalBytes", "peak-bytes": "peakBytes",
-      "actual-peak-bytes": "actualPeakBytes"};
-    for (const [id, key] of Object.entries(fields)) byId(id).textContent = bytes(estimate[key]);
-    for (const [id, key] of Object.entries({"software-bytes": "softwareBytes", "supporting-bytes": "supportingBytes",
-      "direct-bytes": "directBytes", "content-target": "knowledgeTargetBytes", "unmet-bytes": "unmetContentBytes"}))
-      byId(id).textContent = bytes(coverage[key]);
-    byId("reader-bytes").textContent = bytes(Math.max(0, estimate.readerBytes - coverage.softwareBytes));
-    const chosen = new Set(result.selectedAssetIds);
-    const profile = OWLPlanner.profileFor(model, state.profile, state.capacityBytes);
-    paintSummary({assets: model.assets.filter(asset => chosen.has(asset.id)),
-      capacityBytes: profile.nominal_capacity_bytes || estimate.capacityBytes,
-      driveLabel: "drive", over: Math.max(0, estimate.knownBytes - estimate.capacityBytes),
-      countLabel: plural(coverage.knowledgeCount, "book, guide or archive", "books, guides and archives") + " · " +
-        coverage.directCount + " open without any app"});
-    const errors = result.errors || [], warnings = result.warnings || [], incomplete = result.incomplete || [];
-    let heading, description, severity = "";
-    if (errors.length) {
-      heading = "This selection needs changes";
-      description = "Fix the points below to get a build command.";
-      severity = " error";
-    } else if (!result.canBuild) {
-      heading = "Some collections are not fully available";
-      description = "Remove them, or tick “Build with the files available now” below.";
-      severity = " warn";
-    } else if (incomplete.length) {
-      heading = "Ready, with some collections incomplete";
-      description = "The drive will record which collections are partial.";
-      severity = " warn";
-    } else if (coverage.underfilled) {
-      heading = "Ready, with space to spare";
-      description = bytes(coverage.unmetContentBytes) + " of planned content has no verified files yet.";
-    } else {
-      heading = "Ready to build";
-      description = "Copy the plan command to check the drive's free space, then the build command.";
-    }
-    byId("selection-status").className = "notice" + severity;
-    byId("status-title").textContent = heading;
-    byId("status-description").textContent = description;
-    setList("errors", errors);
-    setList("warnings", warnings);
-    byId("warnings-details").hidden = warnings.length === 0;
-    byId("warnings-title").textContent = "Planning notes (" + warnings.length + ")";
-    setList("incomplete-list", incomplete.map(entry => {
-      const row = result.rows.find(row => row.id === (typeof entry === "string" ? entry : entry.id));
-      return row ? title(row) + ": " + (row.reason || "Not all of this collection is verified yet.") : text(entry);
-    }));
-    byId("incomplete-details").hidden = incomplete.length === 0;
-    byId("incomplete-title").textContent = "Incomplete collections (" + incomplete.length + ")";
-    byId("copy-feedback").textContent = "";
-    if (errors.length) byId("mobile-status").textContent = "Needs changes";
-  }
-  function render() {
-    try {
-      byId("fatal").hidden = true;
-      result = OWLPlanner.resolve(model, state, {ignoreNativeCapacity: Boolean(browserPage)});
-      const profile = OWLPlanner.profileFor(model, state.profile, state.capacityBytes);
-      for (const [id, button] of presetButtons) button.setAttribute("aria-pressed",
-        String(id === state.profile && state.capacityBytes === undefined && (!browserPage || browserPage.sizeIsSet())));
-      byId("plan-lede").textContent = state.edited ?
-        "Your own selection. Survival essentials stay first in the build order." :
-        "Recommended for " + (profile.nominal_capacity_bytes ? "a " + bytes(profile.nominal_capacity_bytes) + " drive" : "this drive") +
-        ": survival essentials first, then the most useful collections that fit.";
-      byId("reset-preset").hidden = !state.edited;
-      assignThemes();
-      for (const row of result.rows) updateCard(row);
-      filterCards();
-      if (browserPage) browserPage.update(result, state); else { paintOffline(); renderCommands(); }
-    } catch (error) { failure(error); }
-  }
-  function setEditing(value) {
-    editing = value;
-    byId("planner").classList.toggle("is-editing", editing);
-    byId("customize").setAttribute("aria-pressed", String(editing));
-    byId("customize").textContent = editing ? "Done" : "Customize";
-    byId("resources-heading").textContent = editing ? "Choose what goes on your drive" : "What goes on your drive";
-    if (!editing) { byId("resource-filter").value = ""; byId("priority-filter").value = ""; setView("all"); }
-    filterCards();
-  }
-  function setView(next) {
-    view = next;
-    for (const name of ["all", "in", "out"]) byId("view-" + name).setAttribute("aria-pressed", String(name === view));
-  }
-  async function copyCommand(id) {
-    const field = byId(id);
-    if (!field.value) return;
-    try {
-      if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error("Clipboard unavailable");
-      await navigator.clipboard.writeText(field.value);
-      byId("copy-feedback").textContent = "Copied. Review it in your terminal before running it.";
-    } catch (_) {
-      field.focus(); field.select(); field.setSelectionRange(0, field.value.length);
-      byId("copy-feedback").textContent = "Selected. Copy it with Ctrl+C or Command+C.";
-    }
-  }
-  // Name each size by the largest collection it adds over the size below it.
-  function sizeCaptions() {
-    const captions = new Map();
-    let previous = new Set();
-    for (const [identity] of SIZES) {
-      if (!model.profiles.some(profile => profile.id === identity)) continue;
-      let preset = OWLPlanner.preset(model, identity);
-      if (browserPage) preset = browserPage.recommend(preset);
-      const rows = OWLPlanner.resolve(model, preset, {ignoreNativeCapacity: true}).rows.filter(row => row.included && row.id !== READERS);
-      const added = rows.filter(row => !previous.has(row.id)).sort((a, b) => b.knownBytes - a.knownBytes)[0];
-      captions.set(identity, previous.size && added ? "adds " + title(added) : "Survival essentials");
-      previous = new Set(rows.map(row => row.id));
-    }
-    return captions;
-  }
-  async function initialize() {
-    const pages = globalThis.OWLBuildPage && await globalThis.OWLBuildPage;
-    let catalog;
-    if (pages) {
-      catalog = await pages.load();
-      model = catalog.planner;
-    } else {
-      const embeddedModel = byId("owl-model").textContent;
-      if (embeddedModel.trim().startsWith("__")) {
-        const notice = byId("fatal"), link = element("a", "", "Open SELECT.html");
-        link.href = "../../../SELECT.html";
-        notice.replaceChildren(element("p", "", "This is the planner’s source template. Open SELECT.html at the repository root to plan your library."), link);
-        notice.hidden = false;
-        return;
-      }
-      model = JSON.parse(embeddedModel);
-    }
-    copy = model.collection_copy || {};
-    resources = Object.fromEntries(model.resources.map(resource => [resource.id, resource]));
-    assetsById = new Map(model.assets.map(asset => [asset.id, asset]));
-    themes = (model.topic_verticals || []).map(({id, title}) => ({id, title}));
-    if (model.resources.some(resource => themeOf(resource) === "other")) themes.push({id: "other", title: "More collections"});
-    themes = themes.filter(theme => model.resources.some(resource => themeOf(resource) === theme.id));
-    for (const theme of themes) makeTheme(theme);
-    if (themes.length === 1) openThemes.add(themes[0].id);
-    if (pages) browserPage = pages.mount({catalog, recommend: capacity => choosePreset("flash-16gb", capacity),
-      ui: {setStage, placeSizePicker, paintSummary, bytes, plural, title}});
-    const captions = sizeCaptions();
-    for (const [identity, label] of SIZES) {
-      if (!captions.has(identity)) continue;
-      const button = element("button", "preset"); button.type = "button";
-      button.dataset.profile = identity; button.setAttribute("aria-pressed", "false");
-      button.append(element("strong", "", label), element("span", "", captions.get(identity)));
-      button.addEventListener("click", () => choosePreset(identity, undefined, true));
-      byId("presets").append(button); presetButtons.set(identity, button);
-    }
-    if (byId("catalog-hash")) byId("catalog-hash").textContent = model.catalog_sha256 || "Not supplied";
-    byId("other-size").hidden = !model.capacity_policy;
-    byId("size-picker").hidden = !presetButtons.size && !model.capacity_policy;
-    byId("custom-capacity").addEventListener("submit", event => {
-      event.preventDefault();
-      const drive = byId("capacity-gb");
-      if (drive.checkValidity()) choosePreset(state.profile, Math.round(Number(drive.value) * 1e9), true);
-    });
-    byId("reset-preset").addEventListener("click", () => choosePreset(state.profile, state.capacityBytes));
-    byId("customize").addEventListener("click", () => setEditing(!editing));
-    byId("include-shown").addEventListener("click", () => selectFiles(true, [...matchingAssetIds]));
-    byId("exclude-shown").addEventListener("click", () => selectFiles(false, [...matchingAssetIds]));
-    byId("resource-filter").addEventListener("input", filterCards);
-    byId("priority-filter").addEventListener("change", filterCards);
-    for (const name of ["all", "in", "out"]) byId("view-" + name).addEventListener("click", () => { setView(name); filterCards(); });
-    if (!pages) {
-      byId("allow-incomplete").addEventListener("change", event => { state.allowIncomplete = event.target.checked; render(); });
-      byId("target-path").addEventListener("input", () => { byId("copy-feedback").textContent = ""; renderCommands(); });
-      byId("shell").addEventListener("change", () => { byId("copy-feedback").textContent = ""; renderCommands(); });
-      byId("copy-plan").addEventListener("click", () => copyCommand("plan-command"));
-      byId("copy-build").addEventListener("click", () => copyCommand("build-command"));
-      setStage("plan");
-    }
-    choosePreset(model.profiles.some(profile => profile.id === "flash-16gb") ? "flash-16gb" : model.profiles[0].id);
-    browserPage?.ready();
-  }
-  initialize().catch(failure);
-})();
+if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) {
+__OWL_ENGINE__
+} else {
+  const notice = document.getElementById("fatal");
+  const link = document.createElement("a");
+  link.href = "../../../SELECT.html";
+  link.textContent = "Open SELECT.html";
+  notice.replaceChildren("Open the generated planner. ", link);
+  notice.hidden = false;
+}
 </script>
+<script>if (globalThis.OWLManage) {__OWL_MANAGE__}</script>
 </body>
 </html>

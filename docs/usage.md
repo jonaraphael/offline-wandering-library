@@ -180,23 +180,19 @@ Custom recipes use `--catalog /path/to/catalog.yaml`, `--profiles-dir /path/to/p
 
 ## Find learning and reading collections
 
-`START_HERE.html` links directly to the textbook shelf and illustrated-guide shelf, showing each shelf’s total and critical-resource count. Both pages work without JavaScript. The textbook shelf contains ordinary, directly readable textbooks. The illustrated shelf includes illustrated textbooks and practical guides; reader-dependent archives, EPUBs, and software packages are excluded from these shelves.
+Open `START_HERE.html` and choose a category or **Everything, A to Z**. A book with chapter files opens into a list of its chapters. Use the subject chips in larger categories to narrow the list. **Saved** keeps starred items and recently opened files in this browser on this device.
 
-The critical-content index spans folders. A core textbook stored under `LIBRARY/BOOKS/TEXTBOOKS/` still appears in `LIBRARY/INDEX/critical.html` and carries a Critical label in the other indexes. You do not need to know its folder to find it. The inventory shows resource-type and illustration labels alongside source, license, integrity, and search-coverage information.
+For a partial build, open **Help** and follow the build report or inventory links to review missing files. The machine-readable inventory records available files and selection details.
 
-Project Gutenberg and Children's Library also have prominent landing-page entries and static pages at `LIBRARY/INDEX/gutenberg.html` and `LIBRARY/INDEX/children.html`. These pages list only selected assets actually on the drive, using their catalog resource IDs. Counts refer to files or collection archives, not individual books inside archives. Reader-dependent formats are labeled. With no available assets, the page says the collection is absent; the presence of a shelf page is not a claim that its planned collection was downloaded.
-
-In a partial build, consult the inventory's resource-selection table for missing or incomplete collections and their coverage notes. A successfully verified file set can still represent only part of the selected content plan.
-
-Open PDFs to see diagrams, photographs, charts, and figures. Publisher PDFs retain their original bytes. The 61 Book Dash editions are reviewed PDF conversions with original text, illustrations, language and credits retained; each story illustration starts a page with its following text. Their source EPUBs stay under `LIBRARY/REFERENCE/SOURCE_PACKAGES/EPUB/`, excluded from reading shelves and search. Ordinary PDF viewing does not require an EPUB reader.
+Open PDFs to see diagrams, photographs, charts, and figures. Publisher PDFs retain their original bytes. The 61 Book Dash editions are reviewed PDF conversions with original text, illustrations, language and credits retained; each story illustration starts a page with its following text. Their source EPUBs stay under `LIBRARY/REFERENCE/SOURCE_PACKAGES/EPUB/`, kept out of the reading lists and search. Ordinary PDF viewing does not require an EPUB reader.
 
 Python's reading collection contains 37 original publisher PDFs for Python 3.14.0, dated October 7, 2025. The newer September 2026 EPUB is retained separately as a supporting source package; it is not the source of those older PDFs. See [PDF reading editions](pdf-editions.md) for exact edition and conversion details.
 
-On iPhone or iPad, open the PDFs directly in Files and choose **Preview with Quick Look** if offered. If an HTML preview refuses links, close it and navigate using the exact `LIBRARY/...` paths printed in the start page's inline catalog. Search covers titles, approved sections and topics; it does not search bodies or interpret images. A diagram or scanned page can be useful even when its contents are absent from search results.
+On iPhone or iPad, open the PDFs directly in Files and choose **Preview with Quick Look** if offered. If an HTML preview refuses links, close it and navigate using the exact `LIBRARY/...` paths printed in the start page's inline catalog. Search covers titles, reviewed sections, topics and indexed text. Open the original source to read a scanned page or inspect an illustration. A diagram or scanned page can be useful even when its contents are absent from search results.
 
 ## Add the topic atlas after downloading
 
-The [topic atlas](topic-atlas.md) provides static subject, practical-task, and learning routes alongside the collection shelves. Shared topics can be reached through several broader subjects without duplicating source files. Topic aliases and book contents pages also work without JavaScript.
+The reader’s subject chips and topic search use the reviewed assignments in the topic atlas. Published topics reflect the sources on the drive.
 
 For a library that already has an inventory:
 
@@ -217,7 +213,7 @@ python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
     --profile critical-64gb --navigation-dir catalog/navigation
 ```
 
-Repeat `--navigation-dir` on later full builds that should generate the atlas. Normal content-selection and completeness rules still apply. After publication, start at `LIBRARY/INDEX/topics.html` or the topic-atlas link on `START_HERE.html`.
+Repeat `--navigation-dir` on later full builds that should generate the atlas. Normal content-selection and completeness rules still apply. After publication, use the category filters or search for a subject in `START_HERE.html`.
 
 Production routes use the approved topics and assignments in `catalog/navigation/`. Sources absent from the current drive and branches with no available material are omitted. The final include list, topic vocabulary, and deeper section curation remain editorial work. The atlas guide explains how to import publisher contents into drafts, review exact source locations, and use `--strict-coverage` to reject missing critical or textbook routes. Structural coverage does not establish the quality or completeness of the underlying guidance.
 
@@ -247,9 +243,9 @@ Before storing the SSD, disconnect network access and try each intended device:
 1. Attach the SSD with the necessary adapter and power source; find it in the file manager.
 2. Open `START_HERE.html`, follow a category link, and open a critical PDF or text file.
 3. If HTML links do not work, use the catalog printed on START_HERE itself. Note a document's `LIBRARY/...` path, close the preview, and open that file through the file manager.
-4. Open a core textbook and an illustrated guide from their dedicated shelves. Navigate between pages and zoom into a diagram to confirm it is readable on the device.
-5. In a compatible browser, search controls appear on `START_HERE.html` after discovery data loads. Enter known words, then try `LIBRARY/SEARCH.html` as well and open a result in a compatible document viewer. No index-file selection is needed. File previews may block both scripts and local links; the inline catalog and direct folder access remain the fallback.
-6. Open the textbook, illustrated-guide, Gutenberg, children's, category, critical, and alphabetical indexes with JavaScript disabled. If generated, try the atlas through subject, practical-task, and learning entrances, including recovery from a wrong turn. Confirm critical textbooks are reachable through the critical index even when their files are in `LIBRARY/BOOKS/`. Check that missing planned collections are clearly reported.
+4. Open a textbook and an illustrated guide. Navigate between pages and zoom into a diagram.
+5. Use Search to find a passage and open the result. Star a guide and confirm it appears in Saved after reloading.
+6. Disable JavaScript and reopen `START_HERE.html`. Find the urgent paths, category listings and device instructions on the page. In the app, check Help for the file list and build report.
 7. On platforms that permit offline installation, check that the matching bundled reader can open a ZIM. The builder does not install or run it for you.
 8. Safely eject the SSD before unplugging it.
 

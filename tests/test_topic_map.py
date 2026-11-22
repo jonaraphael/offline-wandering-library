@@ -93,40 +93,16 @@ for(const collection of ['assets','resources']) {
             {'id': 'core', 'title': 'Core', 'status': 'ready', 'target_bytes': len(fixture.data),
              'asset_ids': ['fixture']}]}))
         model = make_model(fixture.catalog, fixture.profiles, resources, allow_local=True)
-        # Run the generated UI and its real click handlers with a small DOM
-        # double. This checks the view transition as well as the layout gate.
-        code = r'''
-const fs=require('fs'), html=fs.readFileSync(0,'utf8'), nodes=new Map();
-function node() {
- return {children:[],dataset:{},style:{},attributes:{},handlers:{},value:'',hidden:false,disabled:false,
-  classList:{toggle(){}},append(...items){this.children.push(...items);},
-  replaceChildren(...items){this.children=items;},
-  setAttribute(key,value){this.attributes[key]=value;},
-  addEventListener(event,handler){this.handlers[event]=handler;}};
-}
-for(const match of html.matchAll(/<[^>]+\bid="([^"]+)"[^>]*>/g)) {
- const item=node(), tag=match[0];
- item.hidden=/\bhidden\b/.test(tag);
- item.value=(tag.match(/\bvalue="([^"]*)"/)||[])[1]||'';
- nodes.set(match[1],item);
-}
-const get=id=>nodes.get(id);
-get('owl-model').textContent=html.match(/<script id="owl-model"[^>]*>([\s\S]*?)<\/script>/)[1];
-get('shell').value='posix';
-globalThis.document={body:node(),getElementById:get,createElement:node,createTextNode:text=>({textContent:text})};
-for(const script of html.matchAll(/<script>([\s\S]*?)<\/script>/g))eval(script[1]);
-if(!get('fatal').hidden)throw Error(get('fatal').textContent);
-const themes=get('themes').children;
-if(themes.length!==1||themes[0].dataset.theme!=='other')throw Error('Untagged catalog should have one plain list');
-if(themes[0].children[1].hidden||themes[0].children[1].children.length!==1)throw Error('List unavailable');
-if(!get('size-picker').hidden)throw Error('Size choices offered without a capacity ladder');
-if(!get('plan-command').value||!get('build-command').value)throw Error('Commands unavailable');
-get('customize').handlers.click();
-const card=themes[0].children[1].children[0], checkbox=card.children[0].children[0];
-checkbox.checked=false;checkbox.handlers.change();
-if(!get('fatal').hidden)throw Error(get('fatal').textContent);
-if(card.dataset.included!=='false'||!get('plan-command').value)throw Error('List cannot change selection');
-'''
-        result = subprocess.run([shutil.which('node'), '-e', code], input=render_selector(model),
-                                encoding='utf-8', capture_output=True, timeout=30)
+        from test_selector_interactions import run_script
+        result = run_script(render_selector(model), r"""
+const categories=get('categories').children;
+const other=categories.find(row=>row.dataset.category==='other');
+assert(other?.children.some(row=>row.dataset.resourceId==='core'),'Untagged collection is unavailable');
+assert(get('preview-sizes').hidden,'Custom profile has no capacity ladder');
+assert(get('plan-command').value&&get('build-command').value,'CLI commands unavailable');
+const toggle=other.children.find(row=>row.dataset.resourceId==='core').children[0].children[0];
+toggle.checked=false;
+toggle.handlers.change();
+assert(get('plan-command').value.includes('--exclude core'),'Collection cannot be deselected');
+""")
         self.assertEqual(result.returncode, 0, result.stderr)

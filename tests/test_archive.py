@@ -216,11 +216,10 @@ class ArchiveTests(unittest.TestCase):
         inventory = json.loads((target/'LIBRARY/INVENTORY.json').read_text())
         self.assertEqual(len(inventory['assets']), len(self.members) + 1)
         self.assertEqual(len(inventory['search']['assets']), 1)
-        for page in ('INVENTORY.html', 'INDEX/TITLE.html'):
-            if (target/'LIBRARY'/page).exists():
-                text = (target/'LIBRARY'/page).read_text()
-                self.assertIn('Useful manual', text)
-                self.assertNotIn('Dependency', text)
+        reader = (target/'LIBRARY/INDEX/c-other.js').read_text()
+        self.assertIn('Useful manual', reader)
+        self.assertNotIn('Dependency', reader)
+        self.assertIn('Dependency', (target/'LIBRARY/INVENTORY.html').read_text())
         for member in self.members:
             self.assertEqual((target/'LIBRARY'/member['destination']).read_bytes(), self.files[member['archive_member']['path']])
         counts = verify_drive(target, emit=lambda _:None)
@@ -254,8 +253,10 @@ class ArchiveTests(unittest.TestCase):
             dict(topic_id='computing', asset_id='member0', purpose='explanation')])
         report = build_atlas(self.root/'drive', navigation_dir=nav, catalog=self.root/'library.yaml',
                             profiles_dir=self.root/'profiles', allow_local=True, progress=lambda _:None)
-        self.assertIn('INDEX/topics/computing.html', report['generated_files'])
-        self.assertNotIn('Dependency', (self.root/'drive/LIBRARY/INVENTORY.html').read_text())
+        self.assertEqual(report['generated_files'], ['INDEX/navigation-report.json'])
+        reader = (self.root/'drive/LIBRARY/INDEX/c-other.js').read_text()
+        self.assertIn('Computing', reader)
+        self.assertNotIn('Dependency', reader)
         inventory = json.loads((self.root/'drive/LIBRARY/INVENTORY.json').read_text())
         self.assertEqual(len(inventory['assets']), len(self.members) + 1)
         counts = verify_drive(self.root/'drive', emit=lambda _:None)

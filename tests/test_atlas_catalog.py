@@ -134,7 +134,8 @@ class ProductionAtlasCatalogTests(unittest.TestCase):
                 self.assertEqual("regional-maps" in report["included_topic_ids"],
                                  bool(ids & {"map_osm_north_america", "regional_topographic_maps"}))
                 self.assertEqual("world-maps" in report["included_topic_ids"], "map_osm_world" in ids)
-                self.assertTrue(pages)
+                self.assertEqual(pages, {})
+                self.assertEqual(set(report["reader_topics"]), expected)
 
     def test_acquired_publisher_documents_have_relevant_whole_file_routes(self):
         families = {

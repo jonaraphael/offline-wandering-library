@@ -21,7 +21,7 @@ Both commands require a new output path.
 
 Open `START_HERE.html`. The HTML page prints paths and works with scripts
 disabled. Open `LIBRARY/BOOKS/phone-test.pdf` and read the fixture sentence.
-Open `LIBRARY/SEARCH.html` in a desktop browser and search for **weather vane
+With this test fixture, open `LIBRARY/SEARCH.html` in a desktop browser and search for **weather vane
 wind direction**. The expected first result is **Weather vane**, linked to
 the PDF’s first physical page. The bundled fixtures show the same marker
 article in `LIBRARY/ZIM/reader-test.zim` and in the two split parts
@@ -96,8 +96,8 @@ picker separately from Files. [Apple external drives](https://support.apple.com/
 1. Use a drive build that includes the April 2026 WikiMed archive. Put the
    iPhone in airplane mode. In Files, open **Browse** and select the drive
    under **Locations**.
-2. Open **Critical files for phones** from `START_HERE.html`. If Files
-   restricts the link, browse directly to
+2. Open **Help** in `START_HERE.html` and look for **WikiMed PDFs**. If Files
+   shows a preview, use the listed locations or browse directly to
    `LIBRARY/CRITICAL/MEDICAL/WIKIMED-PHONE`.
 3. Open `wikimed-emergencies.pdf`. Tap **Choking** in the contents and check
    that it jumps to the article. Open the viewer's outline if offered, then
@@ -113,7 +113,7 @@ has selectable text, linked contents, article outlines, and Wikipedia
 revision links for attribution. The export omits illustrations,
 infoboxes and reference lists. Each volume carries the CC BY-SA 4.0 notice.
 The browser builder downloads the 35.4 MB of prebuilt files from the same
-Pages origin and verifies each SHA-256 before publishing its shelf links.
+Pages origin and verifies each SHA-256 before adding them to Health and Help.
 The Python builder installs the same volumes from the repository and can
 regenerate them from the catalog-pinned ZIM with libzim and ReportLab:
 

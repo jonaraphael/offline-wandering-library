@@ -13,7 +13,7 @@ import yaml
 from test_core import Fixture
 from navigation_fixture import write_assignments
 from owl.atlas_build import build_atlas, validate_links
-from owl.search_ui import render_search_page, render_search_widget
+from owl.search_ui import render_search_page
 from owl.safety import SafetyError, atomic_write
 from owl.verify import verify_drive
 
@@ -69,7 +69,7 @@ class AtlasBuildFixture(Fixture):
         inventory = json.loads((self.library / "INVENTORY.json").read_text(encoding="utf-8"))
         report = inventory["search"]
         previous = {
-            "SEARCH.html": render_search_page().replace('data-library-root="" hidden', 'data-library-root=""'),
+            "SEARCH.html": "<!doctype html><title>Old Search</title><p>Old search page</p>",
             "SEARCH/search.js": (self.library / "SEARCH/search.js").read_text(encoding="utf-8").replace(
                 'element("searchForm").hidden = false; element("viewerHelp").hidden = true;',
                 '/* Older runtime does not reveal a hidden form. */'),
@@ -103,9 +103,9 @@ class AtlasBuildTests(AtlasBuildFixture):
         with patch("owl.build.download", side_effect=AssertionError("no downloads")):
             report = self.atlas(strict_coverage=True)
         self.assertEqual(report["unmapped_critical"], [])
-        self.assertIn("INDEX/topics/shared.html", report["generated_files"])
-        self.assertIn("LIBRARY/INDEX/topics.html#subjects", (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
-        self.assertIn('id="searchForm"', (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
+        self.assertEqual(report["generated_files"], ["INDEX/navigation-report.json"])
+        self.assertIn("Shared topic", (self.library / "INDEX/c-other.js").read_text(encoding="utf-8"))
+        self.assertIn('id="reader-view"', (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
         self.assertIn('src="LIBRARY/SEARCH/search.js"', (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
         first = {p: (self.library / p).read_bytes() for p in report["generated_files"]}
         self.atlas()
@@ -150,37 +150,36 @@ class AtlasBuildTests(AtlasBuildFixture):
         self.assertIn('Not repeated', info['source_verification'])
         self.assertEqual(info['search'], json.loads((self.library / 'SEARCH/coverage.json').read_text()))
 
-    def test_full_builder_integrates_atlas_and_disabling_retires_pages(self):
+    def test_full_builder_integrates_atlas_and_disabling_removes_labels(self):
         self.run_build(navigation_dir=self.nav, strict_coverage=True)
         info = json.loads((self.library / "BUILD_INFO.json").read_text(encoding="utf-8"))
         paths = info["navigation"]["generated_files"]
-        self.assertIn("INDEX/books.html", paths)
+        self.assertEqual(paths, ["INDEX/navigation-report.json"])
+        self.assertIn("Shared topic", (self.library / "INDEX/c-other.js").read_text(encoding="utf-8"))
         self.check_verified()
         self.run_build()
-        self.assertNotIn("topic-atlas", (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
-        for relative in paths:
-            if relative.endswith(".html"):
-                self.assertIn("Unavailable in this build", (self.library / relative).read_text(encoding="utf-8"))
+        self.assertNotIn("Shared topic", (self.library / "INDEX/c-other.js").read_text(encoding="utf-8"))
+        self.assertFalse(list((self.library / "INDEX").rglob("*.html")))
         self.check_verified()
 
-    def test_removed_mapping_retires_old_pages_and_preserves_unrelated_files(self):
+    def test_removed_mapping_updates_data_and_preserves_unrelated_files(self):
         self.run_build()
         self.atlas()
-        personal = self.library / "INDEX/topics/personal.txt"
+        personal = self.library / "INDEX/personal.txt"
         personal.write_text("keep", encoding="utf-8")
         self.assignments["assignments"] = []
         self.write_assignments()
         report = self.atlas()
         self.assertIn("shared", report["omitted_topic_ids"])
-        self.assertIn("Unavailable in this build", (self.library / "INDEX/topics/shared.html").read_text(encoding="utf-8"))
+        self.assertNotIn("Shared topic", (self.library / "INDEX/c-other.js").read_text(encoding="utf-8"))
+        self.assertFalse(list((self.library / "INDEX").rglob("*.html")))
         self.assertEqual(personal.read_text(encoding="utf-8"), "keep")
         counts = verify_drive(self.drive, emit=lambda _: None)
         self.assertEqual((counts["FAILED"], counts["MISSING"], counts["UNKNOWN"]), (0, 0, 1))
 
     def test_unowned_atlas_collision_is_not_overwritten(self):
         self.run_build()
-        destination = self.library / "INDEX/topics/shared.html"
-        destination.parent.mkdir()
+        destination = self.library / "INDEX/navigation-report.json"
         destination.write_text("personal", encoding="utf-8")
         with self.assertRaisesRegex(SafetyError, "unowned"):
             self.atlas()
@@ -191,7 +190,7 @@ class AtlasBuildTests(AtlasBuildFixture):
         with patch("owl.build.download", side_effect=AssertionError("no downloads")):
             self.atlas(profile="test", strict_coverage=True)
         self.assertTrue((self.library / "SEARCH/manifest.js").exists())
-        self.assertIn('id="searchForm"', (self.drive / "START_HERE.html").read_text())
+        self.assertIn('id="reader-view"', (self.drive / "START_HERE.html").read_text())
         coverage = json.loads((self.library / "SEARCH/coverage.json").read_text())
         self.assertEqual(coverage['source_body_bytes_read'], 0)
         self.check_verified()
@@ -244,19 +243,20 @@ class AtlasBuildTests(AtlasBuildFixture):
         with patch("owl.discovery.plan_discovery", side_effect=KeyboardInterrupt), self.assertRaises(KeyboardInterrupt):
             self.run_build()
         self.atlas(profile="test")
-        self.assertTrue((self.library / "INDEX/topics.html").is_file())
+        self.assertTrue((self.library / "INDEX/navigation-report.json").is_file())
         self.assertFalse(json.loads((self.library / ".owl/state.json").read_text(encoding="utf-8"))["complete"])
         self.assertEqual(verify_drive(self.drive, emit=lambda _: None)["FAILED"], 1)
         self.run_build(navigation_dir=self.nav)
         self.check_verified()
 
-    def test_adoption_without_private_state_retires_verified_old_atlas_pages(self):
+    def test_adoption_without_private_state_updates_verified_reader_data(self):
         self.run_build(navigation_dir=self.nav)
         shutil.rmtree(self.library / ".owl")
         self.assignments["assignments"] = []
         self.write_assignments()
         self.atlas()
-        self.assertIn("Unavailable in this build", (self.library / "INDEX/topics/shared.html").read_text(encoding="utf-8"))
+        self.assertNotIn("Shared topic", (self.library / "INDEX/c-other.js").read_text(encoding="utf-8"))
+        self.assertFalse(list((self.library / "INDEX").rglob("*.html")))
         self.check_verified()
 
     def test_changed_source_and_stale_map_fail_before_publication(self):

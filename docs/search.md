@@ -1,14 +1,14 @@
 # Offline search
 
-Open **Search offline** on the drive’s start page. Search covers the catalog and
-adds PDF passages, HTML sections and ZIM entries for sources with precomputed
-shards. PDF results open at the physical page. Archive results give the
-archive’s drive path and the entry’s title and internal path. Open the archive
-in Kiwix and find the title there.
+Open **Search** from `START_HERE.html`. Search shows one card per matching
+document, with the best passage and other matching locations when available.
+Use **Options** to search within a category. PDF matches open at the physical
+page. **How to open** on an encyclopedia match shows the article to find in
+Kiwix and the file's location on the drive.
 
-The start page, topic atlas, sections page and phone shelf work without
-JavaScript. When iPhone Files withholds neighboring links, use the printed
-drive paths to open the files directly. See [device tests](device-matrix.md).
+The static start page shows the urgent tasks, categories, file locations and
+device instructions. When a file preview withholds local links or scripts,
+use the printed paths in your file manager. [Device tests](device-matrix.md)
 
 ## What the search covers
 

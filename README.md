@@ -9,21 +9,20 @@ Every selectable asset passes the [machine-readable content-type policy](src/owl
 ## Build a drive
 
 Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-library/)
-in Chrome, Edge or Arc on a computer. Connect an exFAT drive and choose it.
-The page measures the free space and shows the library recommended for that
-size; pick the size printed on the drive if it cannot be measured. Choose
-**Build library**, or **Customize** first to add or remove collections and
-single files. Keep the tab open and the drive attached. Downloads continue
-automatically when an interrupted connection returns. Reopening the page with
-the same drive offers **Resume build**. Kiwix archives download in parallel,
-with up to eight verified ranges in flight. With enough free space for
-temporary files, Resume reuses each verified piece saved to the drive.
-**Check and repair every file** reads the whole drive selection again.
-Collections that need the desktop builder are labeled while customizing.
-The build screen shows an App Store code for setting up Kiwix on an iPhone
-while online. On the finished drive, `START_HERE.html` opens with search, an
-emergency list, subjects and help for each kind of device; its Essentials tab
-can list only the files that open without an app.
+in Chrome, Edge or Arc on a computer. Plug in and choose a drive. OWL
+recommends a library for the available space and asks for the label size if
+it cannot measure free space. Choose **Sync** to download and verify the
+recommendation directly on the drive. **Manage what goes on it** lets you
+change collections, editions and individual files before syncing.
+
+Keep the tab open and the drive connected during Sync. If the connection
+drops, the download continues when it returns. After pausing or reopening
+the page, reconnect if asked and choose **Sync**. Later syncs use the saved
+choice, apply updates and verify new files before removing superseded copies.
+**Check every file** rereads and repairs the selected files. The iPhone card
+during Sync has a QR code for installing Kiwix while online. Eject the drive
+when Sync finishes, then open `START_HERE.html` from the drive.
+
 [Browser build guide](docs/pages-builder.md) · [Device tests](docs/device-matrix.md) · [Documentation](docs/README.md)
 
 ### Build with Python
@@ -82,7 +81,7 @@ The browser advances a collection only when its files can carry through
 intervening recommendations. If a large edition is nearly within reach, the
 default can leave room for it. The Python builder checks actual free space.
 
-For a 128 GB drive, use `--capacity-bytes 128000000000` or enter 128 in the
+For a 128 GB drive, use `--capacity-bytes 128000000000` or choose **128 GB** in the
 selector. The five common-size profiles use the same ladder. Selected content,
 planned storage and the current inventory are in the
 [generated capacity table](docs/content-selection.md) and
@@ -98,7 +97,7 @@ the selection model.
 
 ## Customize and validate
 
-In the planner, choose **Customize** to search, filter by priority, and tick collections or single files grouped by theme. Or use stable collection IDs:
+In Manage, search for a collection, compare editions and choose individual files. The command line accepts stable collection IDs.
 
 ```bash
 python scripts/build_drive.py --list-resources
@@ -114,7 +113,7 @@ Selecting ZIMs automatically includes their reader packages. Optional additions 
 
 ## Use the completed SSD
 
-Open `START_HERE.html`. A fresh build puts exactly two items in the chosen outer directory: this entry page and a `LIBRARY` folder containing everything else. Keep them together when moving or copying the library. An emergency directory comes first, followed by the reading shelves and topic atlas. The build report lists unavailable files. It also provides topic links, search, and ordinary static indexes. You can navigate directly through `LIBRARY` with the device’s file manager.
+Open `START_HERE.html`. A fresh build puts exactly two items in the chosen outer directory: this entry page and a `LIBRARY` folder containing everything else. Keep them together when moving or copying the library. Home offers urgent guides, recently opened items, categories and an alphabetical list. Use Search to find a passage, Saved to return to items on this device, and Help for opening files, the build report and the inventory. If your device shows a file preview, the page prints each file’s location so you can open it through the file manager.
 
 Python builds also write `CONTENT_SELECTION.json` and `LOCKED_CATALOG.yaml` for its rebuild workflow.
 
@@ -122,11 +121,11 @@ The default children's books and Python manuals are PDFs, so reading them does n
 
 ```text
 EMERGENCY_LIBRARY/
-├── START_HERE.html              # Open this first; static links work without JavaScript
+├── START_HERE.html              # Open this first; lists file locations without scripts
 └── LIBRARY/
-    ├── SEARCH.html             # Dedicated automatic offline search
+    ├── SEARCH.html             # Redirect to Search on START_HERE
     ├── README.txt / VERIFY.py / SOURCE_NOTES.txt
-    ├── INVENTORY.html / INVENTORY.json
+    ├── INVENTORY.html / INVENTORY.json / BUILD_REPORT.html
     ├── BUILD_INFO.json / SHA256SUMS.txt
     ├── CRITICAL/               # Ordinary files grouped by emergency topic
     ├── REFERENCE/
@@ -135,7 +134,7 @@ EMERGENCY_LIBRARY/
     ├── ZIM/                    # Large archives; a reader is required
     ├── SOFTWARE/               # Bundled readers for supported platforms
     ├── SEARCH/                 # Small discovery catalog and coverage report
-    ├── INDEX/                  # Shelves, phone files, book routes, atlas and build report
+    ├── INDEX/                  # Reader code, category data and topic coverage
     └── .owl/                   # Private build and resume state
 ```
 
@@ -146,9 +145,9 @@ such as `BOOKS/manual.pdf` is stored at `EMERGENCY_LIBRARY/LIBRARY/BOOKS/manual.
 The global `LIBRARY/SHA256SUMS.txt` instead records paths relative to the outer
 directory so it covers both `START_HERE.html` and files under `LIBRARY/`.
 
-The static indexes list catalog files, including titles, categories, textbook/illustrated labels, and archive-reader requirements. Dedicated `textbooks.html`, `illustrated-guides.html`, `gutenberg.html`, and `children.html` pages sit alongside `critical.html`, `categories.html`, and the alphabetical pages in `LIBRARY/INDEX/`. They work without JavaScript and contain ordinary relative links. They do not expand every article inside an archive into separate HTML files.
+The static page lists urgent tasks and file locations by category. A book published as chapter files appears once with the book folder’s location. In the reader, open the book to see its chapters.
 
-The [topic atlas](docs/topic-atlas.md) shares subject, practical-task, and learning routes with search. Normal builds with the bundled production catalog include it automatically; custom catalogs can supply `--navigation-dir`. Only topics with selected sources appear. Approved section maps must match the inventory's exact source edition.
+The reader uses the reviewed topic assignments to offer filters in larger categories and topic matches in search. Production builds include these assignments. Custom catalogs can supply `--navigation-dir`. Approved section maps apply to their pinned source editions.
 
 Reusable topic links and aliases are saved per asset in
 `catalog/navigation/assignments/`, alongside the shared topic tree and optional
@@ -175,18 +174,16 @@ This checks metadata, source presence and sizes, and republishes search and atla
 
 ## Search without a server
 
-Open `START_HERE.html` or `LIBRARY/SEARCH.html` in a desktop browser.
+Open Search from `START_HERE.html` in a browser that can load local scripts.
 Search loads its model and index from files on the drive. The term index
 opens likely matches first, then checks the remaining eligible chunks in the
 background. When the selected allocation fits MiniLM, desktop search uses it
 to reorder additional results below the first three indexed hits. PDF results link to
-the source page. ZIM results show the archive’s filename and internal path.
-Use an archive reader to open those entries. The topic atlas, sections index and
-critical phone shelf remain readable with JavaScript off.
+the source page. For an encyclopedia match, the reader shows the article to find
+in Kiwix and where the encyclopedia file is stored.
 
 A drive with the April 2026 WikiMed archive includes 12 selectable-text PDFs
-with 1,125 articles under `LIBRARY/CRITICAL/MEDICAL/WIKIMED-PHONE`. Use the contents page
-or the PDF outline to jump to a reference. The PDFs open in Files without
+with 1,125 articles under `LIBRARY/CRITICAL/MEDICAL/WIKIMED-PHONE`. Find them in Health or Help and use the PDF contents or outline to jump to an article. The PDFs open in Files without
 Kiwix. Install Kiwix while online to read the complete archive.
 [WikiMed phone editions](docs/device-matrix.md#wikimed-in-files)
 

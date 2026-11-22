@@ -194,3 +194,526 @@
   }
   root.OWLTopicMap={layout,primary,subtopic,searchText,topicTitle,matches,contentSize,storageGroups,available,mount};
 })(typeof globalThis!=='undefined'?globalThis:this);
+
+// Manage is shared by the hosted builder and the standalone planner.
+(function (root) {
+  "use strict";
+  const sizes = [16, 32, 64, 128, 256, 512, 1000];
+  const byId = id => document.getElementById(id);
+  const bytes = value => {
+    const units = [[1e12, "TB"], [1e9, "GB"], [1e6, "MB"], [1e3, "kB"], [1, "B"]];
+    const [scale, unit] = units.find(([scale]) => value >= scale) || units.at(-1);
+    return (value / scale).toLocaleString(undefined, {maximumFractionDigits: value >= 1e10 ? 1 : 2}) + " " + unit;
+  };
+  const title = (model, row) => (model.collection_copy?.[row.id]?.title || row.title || row.id)
+    .replace(/\s+(?:\(ZIM\)|ZIM)$/i, "");
+  const element = (tag, className, text) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  };
+  const button = (text, action, className) => {
+    const node = element("button", className, text);
+    node.type = "button";
+    node.addEventListener("click", action);
+    return node;
+  };
+  const link = (text, action, className) => {
+    const node = element("a", className, text);
+    node.href = "#";
+    node.addEventListener("click", event => { event.preventDefault(); action(); });
+    return node;
+  };
+  const sizesInto = (node, selected, choose) => {
+    node.replaceChildren(...sizes.map(size => {
+      const chip = button(size === 1000 ? "1 TB" : size + " GB", () => choose(size));
+      chip.dataset.size = size;
+      chip.setAttribute("aria-pressed", String(size === selected));
+      return chip;
+    }));
+  };
+  const sum = rows => rows.reduce((total, row) => total + (row?.size_bytes || 0), 0);
+  const themeOf = (model, resource) => model.collection_copy?.[resource.id]?.theme ||
+    root.OWLTopicMap.primary(resource, model.topic_verticals || [])?.vertical || "other";
+
+  function meter(track, legend, categories, amounts, capacity, over = 0) {
+    const bars = [], labels = [];
+    const used = amounts.reduce((total, row) => total + row.ready + row.pending, 0);
+    const total = Math.max(used, capacity, 1);
+    const available = Math.max(0, capacity - used);
+    const shown = [...amounts, {id: "free", ready: available, pending: 0}];
+    let budget = over ? used - over : used;
+    for (const {id, ready, pending} of shown) {
+      if (!ready && !pending && id !== "free") continue;
+      const category = categories.find(row => row.id === id);
+      for (const [raw, pale] of [[ready, false], [pending, true]]) {
+        const value = id === "free" ? raw : Math.min(raw, Math.max(0, budget));
+        if (id !== "free") budget -= value;
+        if (!value) continue;
+        const part = element("i", id === "free" ? "free" : pale ? "pending" : "");
+        part.style.flex = String(100 * value / total);
+        part.style.setProperty("--c", "var(--c-" + id + ")");
+        bars.push(part);
+      }
+      const label = element("li", id === "free" ? "free" : "", (category?.name || "Free") + " " + bytes(ready + pending));
+      label.style.setProperty("--c", "var(--c-" + id + ")");
+      labels.push(label);
+    }
+    if (over) {
+      const part = element("i", "over");
+      part.style.flex = String(100 * over / total);
+      bars.push(part);
+      labels.push(element("li", "over", bytes(over) + " over"));
+    }
+    track.replaceChildren(...bars);
+    legend.replaceChildren(...labels);
+  }
+
+  function create(model, {browser = false, download = () => true, recommend = state => state,
+      select, onChange = () => {}, onSize, onDiagnostics = () => byId("technical").showModal()} = {}) {
+    const assetsById = new Map(model.assets.map(asset => [asset.id, asset]));
+    select ??= (profile, _state, result) => {
+      const assets = result.selectedAssetIds.map(id => assetsById.get(id));
+      const reserve = profile.reserve_bytes + profile.discovery_budget_bytes + 16 * 2 ** 20;
+      const limit = profile.capacity_bytes - reserve;
+      const used = sum(assets);
+      return {assets, used, limit, reserve, over: Math.max(0, used - limit), errors: result.errors};
+    };
+    const resources = model.resources.filter(row => row.id !== "archive-readers");
+    const {categories, other} = model.categories;
+    const groups = [...categories, other];
+    const listCategories = resources.some(row => themeOf(model, row) === other.id) ? groups : categories;
+    const baseTheme = new Map();
+    for (const resource of resources) {
+      for (const member of [...resource.asset_ids, ...Object.values(resource.editions || {}).flatMap(row => row.asset_ids)]) {
+        if (!baseTheme.has(member)) baseTheme.set(member, themeOf(model, resource));
+      }
+    }
+    const cards = new Map(), groupNodes = new Map(), open = new Set(), showFiles = new Set();
+    let state, baseline, plan, capacity, choice, splitDefault, requiresSplit, chosenSize, enabled = false;
+    let allowed = false, query = "", attention = [];
+
+    function members(resource, item) {
+      return (resource.editions?.[item.edition] || resource).asset_ids;
+    }
+
+    function measure() {
+      const profile = root.OWLPlanner.profileFor(model, state.profile, state.capacityBytes);
+      const result = root.OWLPlanner.resolve(model, state, {ignoreNativeCapacity: browser});
+      const selected = select(profile, state, result);
+      const theme = new Map();
+      const selectedIds = new Set(selected.assets.map(asset => asset.id));
+      for (const row of result.rows) {
+        if (!row.included && !row.autoIncluded) continue;
+        const resource = model.resources.find(resource => resource.id === row.id);
+        if (resource.id === "archive-readers") continue;
+        for (const id of members(resource, state.items[resource.id])) {
+          if (selectedIds.has(id) && !theme.has(id)) theme.set(id, themeOf(model, resource));
+        }
+      }
+      return {...selected, result, profile, theme, capacity, choice};
+    }
+
+    function amounts(current, present = new Map()) {
+      const parts = new Map(groups.map(({id}) => [id, {id, ready: 0, pending: 0}]));
+      for (const asset of current.assets) {
+        const id = asset.destination.startsWith("SOFTWARE/") ? "other" : current.theme.get(asset.id) || baseTheme.get(asset.id);
+        const group = parts.get(id) || parts.get("other");
+        const ready = Math.min(asset.size_bytes, present.get(asset.id) || 0);
+        group.ready += ready;
+        group.pending += asset.size_bytes - ready;
+      }
+      return [...parts.values()];
+    }
+
+    function apply(resource, patch) {
+      const item = state.items[resource.id];
+      Object.assign(item, patch);
+      if (patch.edition !== undefined) {
+        item.included = true;
+        delete item.assetIds;
+      }
+    }
+
+    function setFile(resource, id, included) {
+      const item = state.items[resource.id];
+      const all = members(resource, item);
+      const chosen = new Set(item.included ? item.assetIds || all : []);
+      if (included) chosen.add(id); else chosen.delete(id);
+      item.included = chosen.size > 0;
+      item.assetIds = all.filter(id => chosen.has(id));
+    }
+
+    function readChoice() {
+      const edits = {};
+      for (const resource of resources) {
+        const {id} = resource;
+        const item = state.items[id], expected = baseline.items[id];
+        const edit = {};
+        if (item.included !== expected.included) edit.included = item.included;
+        if (item.included && item.edition !== expected.edition) edit.edition = item.edition;
+        if (item.included && item.assetIds) {
+          const saved = new Set(item.assetIds);
+          const excluded = members(resource, item).filter(id => download(id) && !saved.has(id));
+          if (excluded.length) edit.excluded = excluded;
+        }
+        if (Object.keys(edit).length) edits[id] = edit;
+      }
+      return Object.keys(edits).length || choice.split !== splitDefault ?
+        {kind: "custom", edits, split: choice.split} : {kind: "recommended", split: choice.split};
+    }
+
+    function refresh({changed = false} = {}) {
+      if (changed) choice = readChoice();
+      plan = measure();
+      if (enabled) render();
+      if (changed) onChange(plan);
+      return plan;
+    }
+
+    function configure({capacityBytes, size, savedChoice, split = false, forceSplit = false}) {
+      capacity = capacityBytes;
+      chosenSize = size;
+      splitDefault = split;
+      requiresSplit = forceSplit;
+      const preset = model.capacity_policy ? model.profiles[0] : model.profiles.reduce((best, row) =>
+        Math.abs(row.nominal_capacity_bytes - capacity) < Math.abs(best.nominal_capacity_bytes - capacity) ? row : best);
+      baseline = recommend(root.OWLPlanner.preset(model, preset.id,
+        model.capacity_policy ? Math.max(model.capacity_policy.min, capacity) : undefined));
+      state = structuredClone(baseline);
+      state.allowIncomplete = allowed;
+      choice = savedChoice || {kind: "recommended", split};
+      if (requiresSplit) choice = {...choice, split: true};
+      if (choice.kind === "custom") {
+        for (const resource of resources) {
+          const edit = choice.edits?.[resource.id];
+          if (!edit) continue;
+          const item = state.items[resource.id];
+          if (typeof edit.included === "boolean") item.included = edit.included;
+          if (edit.edition === "published" || resource.editions?.[edit.edition]) {
+            item.edition = edit.edition;
+            delete item.assetIds;
+          }
+          if (edit.excluded?.length) item.assetIds = members(resource, item).filter(id => !edit.excluded.includes(id));
+        }
+      } else if (choice.kind === "legacy") {
+        const keep = new Set(choice.files);
+        for (const resource of resources) {
+          const item = state.items[resource.id];
+          const variants = [item.edition, "published", ...Object.keys(resource.editions || {})];
+          const [edition, ids] = variants.map(edition => [edition,
+            members(resource, {edition}).filter(id => keep.has(id))]).sort((a, b) => b[1].length - a[1].length)[0];
+          item.included = Boolean(ids.length);
+          item.edition = edition;
+          item.assetIds = ids;
+        }
+        choice = readChoice();
+      }
+      return refresh();
+    }
+
+    function matching(resource) {
+      const item = state.items[resource.id];
+      const ids = members(resource, item);
+      const copy = model.collection_copy?.[resource.id];
+      if (!query || [resource.id, title(model, resource), copy?.blurb || ""].some(text => text.toLowerCase().includes(query))) return ids;
+      return ids.filter(id => {
+        const file = assetsById.get(id);
+        return file && (id.includes(query) || root.OWLTopicMap.searchText(file).includes(query));
+      });
+    }
+
+    function makeCard(resource) {
+      const {id} = resource, heading = title(model, resource);
+      const card = element("div", "col");
+      card.dataset.resourceId = id;
+      const toggle = element("input", "switch");
+      toggle.type = "checkbox";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-label", heading);
+      toggle.addEventListener("change", () => {
+        apply(resource, {included: toggle.checked});
+        if (toggle.checked) delete state.items[id].assetIds;
+        refresh({changed: true});
+      });
+      const label = element("label", "switch-label");
+      label.append(toggle);
+      const content = element("div");
+      content.append(element("b", "", heading));
+      if (resource.utility_tier === "CRITICAL") content.append(element("span", "tag", "Essential"));
+      const description = model.collection_copy?.[id]?.blurb || "";
+      if (description) content.append(element("p", "", description));
+      const editions = element("div", "editions"), files = element("ul", "file-list");
+      const choose = link("Choose files", () => {
+        if (showFiles.has(id)) showFiles.delete(id); else showFiles.add(id);
+        renderCard(resource, cards.get(id));
+      }, "files");
+      choose.setAttribute("aria-controls", "files-" + id);
+      files.id = "files-" + id;
+      const note = element("p");
+      const size = element("span", "size");
+      content.append(editions, document.createElement("br"), choose, files, note);
+      card.append(label, content, size);
+      return {card, toggle, editions, choose, files, note, size};
+    }
+
+    function renderCard(resource, nodes) {
+      const {id} = resource, item = state.items[id];
+      const {card, toggle, editions, choose, files, note, size} = nodes;
+      const ids = members(resource, item);
+      const visible = matching(resource);
+      card.hidden = !visible.length;
+      const canChoose = ids.some(download);
+      card.classList.toggle("off", !item.included);
+      toggle.checked = item.included && canChoose;
+      toggle.disabled = !canChoose;
+      note.textContent = canChoose ? "" : "This collection has no files available here.";
+      const chosen = (item.assetIds || ids).filter(download);
+      size.textContent = bytes(sum((item.included ? chosen : ids.filter(download)).map(id => assetsById.get(id))));
+      const variants = Object.entries(resource.editions || {}).filter(([, variant]) => variant.asset_ids.some(download));
+      const recommended = baseline.items[id].edition;
+      const names = {published: "With pictures", nopic: "Text only", mini: "Intro only",
+        top: "50,000 article introductions", direct: "Opens directly", compact: "Compact edition"};
+      editions.hidden = !variants.length;
+      const previous = document.activeElement?.dataset.edition;
+      editions.replaceChildren(...(!variants.length ? [] : [["published", resource], ...variants]
+        .filter(([value]) => value !== "published" || resource.asset_ids.some(download))
+        .map(([value, variant]) => {
+          const option = button((names[value] || variant.label || value) + " · " +
+            bytes(sum(variant.asset_ids.filter(download).map(id => assetsById.get(id)))) +
+            (value === recommended ? " (recommended)" : ""), () => {
+            apply(resource, {edition: value});
+            refresh({changed: true});
+          }, value === item.edition ? "on" : "");
+          option.dataset.edition = value;
+          option.setAttribute("aria-pressed", String(value === item.edition));
+          return option;
+        })));
+      if (previous && document.activeElement === document.body && editions.querySelector) {
+        [...editions.children].find(child => child.dataset.edition === previous)?.focus();
+      }
+      const expanded = showFiles.has(id);
+      choose.hidden = ids.length < 2 || !canChoose;
+      choose.setAttribute("aria-expanded", String(expanded));
+      files.hidden = !expanded;
+      const focusId = files.contains(document.activeElement) && document.activeElement?.dataset.file;
+      if (expanded) files.replaceChildren(...visible.map(id => {
+        const asset = assetsById.get(id);
+        const row = element("li");
+        const label = element("label");
+        const check = element("input");
+        check.type = "checkbox";
+        check.dataset.file = id;
+        check.checked = item.included && chosen.includes(id);
+        check.disabled = !download(id);
+        check.addEventListener("change", () => { setFile(resource, id, check.checked); refresh({changed: true}); });
+        label.append(check, element("span", "", title(model, asset)), element("span", "size", download(id) ? bytes(asset.size_bytes) : "Unavailable"));
+        row.append(label);
+        return row;
+      }));
+      if (focusId) [...files.querySelectorAll("input")].find(input => input.dataset.file === focusId)?.focus();
+    }
+
+    function render() {
+      const solid = new Map(plan.assets.map(asset => [asset.id, asset.size_bytes]));
+      meter(byId("manage-track"), byId("manage-legend"), groups, amounts(plan, solid), capacity, plan.over);
+      const used = bytes(plan.used), available = bytes(capacity);
+      const unit = available.split(" ").at(-1);
+      const total = byId("manage-total");
+      total.replaceChildren(element("b", "", used.endsWith(" " + unit) ? used.slice(0, -unit.length - 1) : used),
+        " of " + available, ...(plan.over ? [" · ", element("span", "over", bytes(plan.over) + " over")] :
+          choice.kind === "recommended" ? [" · the recommended library"] : []));
+      byId("reset-recommended").hidden = choice.kind === "recommended" && choice.split === splitDefault;
+      byId("make-fit").hidden = !plan.over;
+      byId("split-files").checked = choice.split;
+      byId("split-files").disabled = requiresSplit;
+      byId("split-note").hidden = !requiresSplit;
+      let count = 0;
+      for (const category of listCategories) {
+        const nodes = groupNodes.get(category.id);
+        const rows = resources.filter(resource => themeOf(model, resource) === category.id);
+        const visible = rows.filter(row => matching(row).length);
+        count += visible.length;
+        nodes.details.hidden = Boolean(query) && !visible.length;
+        nodes.details.open = query ? Boolean(visible.length) : open.has(category.id);
+        const included = rows.filter(row => state.items[row.id].included).length;
+        const used = plan.assets.filter(asset => (plan.theme.get(asset.id) || baseTheme.get(asset.id)) === category.id);
+        nodes.size.textContent = bytes(sum(used)) + " · " + included + " of " + rows.length;
+        for (const resource of rows) renderCard(resource, cards.get(resource.id));
+      }
+      byId("no-collections").hidden = count > 0;
+      byId("include-filtered").disabled = count === 0;
+      byId("exclude-filtered").disabled = count === 0;
+      byId("storage-lines").replaceChildren(...[
+        ["Selected files", bytes(plan.used)], ["Space for search and the reader", bytes(plan.reserve)],
+        ["Space available for files", bytes(Math.max(0, plan.limit))],
+        ...plan.errors.map(message => ["Selection", message]),
+        ...plan.result.incomplete.map(row => [title(model, row), row.reason])
+      ].map(([key, text]) => {
+        const row = element("tr"), label = element("th", "", key);
+        label.scope = "row";
+        row.append(label, element("td", "", text));
+        return row;
+      }));
+      const held = byId("held-updates");
+      held.hidden = attention.length === 0;
+      held.replaceChildren(...attention.map(({name, replace}) => {
+        const row = element("p", "", name + " needs room for a second copy. ");
+        if (replace) row.append(button("Replace in place", replace));
+        return row;
+      }));
+      renderCommands();
+    }
+
+    function renderCommands() {
+      if (browser || !byId("target-path")) return;
+      const target = byId("target-path").value, shell = byId("shell").value;
+      for (const id of ["plan", "build"]) {
+        let command = "";
+        if (target.trim()) {
+          try { command = root.OWLPlanner.command(model, state, {target, shell, plan: id === "plan"}); }
+          catch (error) { byId("copy-feedback").textContent = error.message; }
+        }
+        byId(id + "-command").value = command;
+        byId("copy-" + id).disabled = !command;
+      }
+      byId("build-help").textContent = !target.trim() ? "Enter the library folder to get the commands." :
+        byId("build-command").value ? "Keep this computer awake and the drive connected while the command runs." :
+          "See storage accounting under Advanced or choose to build with the files available now.";
+    }
+
+    function fit() {
+      const weakest = resources.filter(resource => state.items[resource.id].included).map(resource => {
+        const chosen = members(resource, state.items[resource.id]).map(id => assetsById.get(id));
+        const tier = ["CRITICAL", "USEFUL", "NONESSENTIAL"].indexOf(resource.utility_tier);
+        return {resource, priority: tier < 0 ? 3 : tier, level: Math.min(...chosen.map(asset => asset?.selection?.level ?? Infinity)),
+          rank: Math.min(...chosen.map(asset => asset?.selection?.rank ?? Infinity))};
+      }).sort((a, b) => b.priority - a.priority || b.level - a.level || b.rank - a.rank);
+      for (const {resource} of weakest) {
+        if (!plan.over) break;
+        apply(resource, {included: false});
+        plan = measure();
+      }
+      refresh({changed: true});
+    }
+
+    function bulk(included) {
+      let count = 0;
+      for (const resource of resources) {
+        for (const id of matching(resource).filter(download)) { setFile(resource, id, included); count++; }
+      }
+      byId("bulk-feedback").textContent = (included ? "Included " : "Excluded ") + count + " matching files.";
+      refresh({changed: true});
+    }
+
+    for (const category of listCategories) {
+      const details = element("details", "cat");
+      details.dataset.category = category.id;
+      details.style.setProperty("--c", "var(--c-" + category.id + ")");
+      const summary = element("summary");
+      const name = element("span", "name");
+      name.append(element("b", "", category.name), element("span", "", category.blurb));
+      const size = element("span", "size");
+      summary.append(element("span", "dot"), name, size);
+      summary.addEventListener("click", () => {
+        if (details.open) open.delete(category.id); else open.add(category.id);
+      });
+      details.append(summary);
+      for (const resource of resources.filter(row => themeOf(model, row) === category.id)) {
+        const card = makeCard(resource);
+        cards.set(resource.id, card);
+        details.append(card.card);
+      }
+      groupNodes.set(category.id, {details, size});
+      byId("categories").append(details);
+    }
+
+    byId("collection-search").addEventListener("input", event => {
+      query = event.target.value.trim().toLowerCase();
+      render();
+    });
+    byId("split-files").addEventListener("change", event => {
+      choice = {...choice, split: event.target.checked};
+      refresh({changed: true});
+    });
+    byId("reset-recommended").addEventListener("click", event => {
+      event.preventDefault();
+      state = structuredClone(baseline);
+      state.allowIncomplete = allowed;
+      choice = {kind: "recommended", split: splitDefault};
+      refresh({changed: true});
+    });
+    byId("make-fit").addEventListener("click", fit);
+    byId("include-filtered").addEventListener("click", () => bulk(true));
+    byId("exclude-filtered").addEventListener("click", () => bulk(false));
+    byId("diagnostics-link").addEventListener("click", onDiagnostics);
+    if (!browser) {
+      for (const id of ["target-path", "shell"]) byId(id).addEventListener("input", renderCommands);
+      byId("allow-incomplete").addEventListener("change", event => {
+        allowed = state.allowIncomplete = event.target.checked;
+        refresh();
+      });
+      for (const id of ["plan", "build"]) byId("copy-" + id).addEventListener("click", async () => {
+        const command = byId(id + "-command");
+        try {
+          await navigator.clipboard.writeText(command.value);
+          byId("copy-feedback").textContent = "Command copied.";
+        } catch {
+          command.select();
+          byId("copy-feedback").textContent = "The command is selected. Use your keyboard to copy it.";
+        }
+      });
+    }
+
+    return {configure, amounts, groups, get plan() { return plan; },
+      held(rows) { attention = rows; if (enabled) render(); },
+      show({name, onBack, onDone, changes}) {
+        enabled = true;
+        const drive = Boolean(name);
+        const back = byId("manage-back");
+        back.hidden = !onBack;
+        back.textContent = drive ? "‹ " + name : "‹ Back";
+        back.onclick = onBack ? event => { event.preventDefault(); onBack(); } : null;
+        document.querySelector(".brand").hidden = Boolean(onBack);
+        byId("manage-heading").textContent = drive ? "What goes on " + name : "What goes on a drive";
+        const sizes = byId("preview-sizes");
+        sizes.hidden = drive || !model.capacity_policy;
+        if (!sizes.hidden) sizesInto(sizes, chosenSize, size => {
+          if (onSize) onSize(size);
+          else {
+            configure({capacityBytes: size * 1e9, size});
+            [...sizes.children].forEach(chip => chip.setAttribute("aria-pressed",
+              String(Number(chip.dataset.size) === size)));
+          }
+        });
+        byId("manage").hidden = false;
+        byId("manage-done").hidden = !drive;
+        byId("manage-return").onclick = onDone;
+        byId("manage-changes").textContent = changes || "No changes";
+        render();
+        if (onBack) byId("manage-heading").focus({preventScroll: true});
+      },
+      hide() {
+        enabled = false;
+        byId("manage").hidden = true;
+        byId("manage-done").hidden = true;
+        byId("manage-back").hidden = true;
+        document.querySelector(".brand").hidden = false;
+      }
+    };
+  }
+
+  function how() {
+    byId("how-link").addEventListener("click", event => { event.preventDefault(); byId("how").showModal(); });
+  }
+
+  function offline(model) {
+    how();
+    const manage = create(model);
+    manage.configure({capacityBytes: model.capacity_policy ? 64e9 : model.profiles[0].nominal_capacity_bytes, size: 64});
+    manage.show({});
+  }
+
+  root.OWLManage = {create, offline, how, bytes, meter, element, sizesInto, title, link};
+})(globalThis);

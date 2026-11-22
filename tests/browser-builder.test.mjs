@@ -20,6 +20,22 @@ function asset(id, body, fields = {}) {
     size_bytes: body.length, sha256: hash(body), redistributable: true, utility_tier: "USEFUL", ...fields};
 }
 
+function readerNavigation(assets, extra = {}) {
+  const template = file => readFileSync(new URL("../src/owl/templates/" + file, import.meta.url), "utf8");
+  const categories = JSON.parse(readFileSync(new URL("../src/owl/categories.json", import.meta.url)));
+  return {...extra, reader: {assets, categories: [...categories.categories, categories.other],
+    layout: JSON.parse(template("offline-layout.json")), css: template("site.css"), reader: template("reader.html"),
+    document: template("reader-document.html"), runtime: template("reader.js"), bootstrap: template("search.js"),
+    readme: template("reader-readme.txt"), redirect: template("search.html"),
+    csp: "default-src 'none'; script-src 'self' file:; style-src 'unsafe-inline'"}};
+}
+
+function readerData(script, id) {
+  const prefix = "globalThis.OWLReaderData(" + JSON.stringify(id) + ",";
+  assert.ok(script.startsWith(prefix) && script.endsWith(");\n"));
+  return JSON.parse(script.slice(prefix.length, -3));
+}
+
 function buildLibrary(drive, options) {
   if (!options.search) return runBuild(drive, options);
   const {manifest, ...config} = options.search;
@@ -118,15 +134,14 @@ test("range build resumes after a disrupted stream and only indexes verified fil
   }));
   const drive = new Directory();
   const options = {assets: [zim], routes: {wiki: [url("/wiki")]}, fetchFile, partBytes: 5,
-    navigation: {topics: {medical: {title: "Medicine", parents: []}},
-      entrances: {Subjects: ["medical"]}, assignments: [{topic_id: "medical", asset_id: "wiki"}]}};
+    navigation: readerNavigation({wiki: {category:"health", topics:[["medical","Medicine"]]}})};
   const first = await buildLibrary(drive, options);
   assert.equal(first.completed.length, 0);
   assert.match(first.state.failures.wiki, /Connection or browser access failed/);
   const state = await readBuild(drive);
   assert.equal(state.parts.wiki.length, 1);
   assert.equal(state.parts.wiki[0].sha256, hash(content.subarray(0, 5)));
-  assert.doesNotMatch(await (await (await drive.file("START_HERE.html")).getFile()).text(), /href="LIBRARY\/ZIM/);
+  assert.doesNotMatch(await (await (await drive.file("START_HERE.html")).getFile()).text(), /LIBRARY\/ZIM\/wiki/);
   const checkpoint = requests.length;
   interrupted = false;
   const finish = await buildLibrary(drive, {...options, resume: true});
@@ -141,21 +156,20 @@ test("range build resumes after a disrupted stream and only indexes verified fil
     assert.equal(blob.size, part.bytes);
     assert.equal(await blob.text(), content.subarray(part.start, part.start + part.bytes).toString());
   }
-  const atlas = await (await (await drive.file("LIBRARY/INDEX/topics/medical.html")).getFile()).text();
-  assert.match(atlas, /href="..\/..\/..\/LIBRARY\/ZIM\/wiki.zimaa"/);
   const sumFile = await (await (await drive.file("LIBRARY/SHA256SUMS.txt")).getFile()).text();
   for (const line of sumFile.trim().split("\n")) {
     const [digest, path] = line.split("  ");
     assert.equal(digest, hash(Buffer.from(await (await (await drive.file(path)).getFile()).arrayBuffer())));
   }
 
-  // Corruption of an existing part must trigger a new range beginning at that part.
+  // A repair verifies a replacement before removing the recorded archive.
   (await drive.file("LIBRARY/ZIM/wiki.zimab")).bytes = new Blob(["wrong"]);
   requests.length = 0;
   await buildLibrary(drive, {...options, resume: true});
   assert.deepEqual(requests, [], "routine resume trusts same-size checkpoints");
-  await buildLibrary(drive, {...options, resume: true, fullVerify: true});
-  assert.deepEqual(requests.map(row => row.range), ["bytes=5-9", "bytes=10-12"]);
+  const repaired = await buildLibrary(drive, {...options, fullVerify: true});
+  assert.deepEqual(requests.map(row => row.range), ["bytes=0-4", "bytes=5-9", "bytes=10-12"]);
+  assert.equal(repaired.state.installed.wiki.pin.sha256, zim.sha256);
 });
 
 test("bad range or published digest advances to the byte-identical fallback", async t => {
@@ -212,7 +226,7 @@ test("a mismatched source or full drive yields a partial library and keeps later
   await assert.rejects(drive.file("LIBRARY/BOOKS/huge.pdf"), {name: "NotFoundError"});
 });
 
-test("browser selection names unroutable assets and protects an existing library", async () => {
+test("browser selection names unroutable assets and leaves unrelated library files alone", async () => {
   const row = asset("blocked", Buffer.from("bytes"), {redistributable: false});
   const available = asset("open", Buffer.from("bytes"));
   const routes = {open: ["https://example.com/open"]};
@@ -222,8 +236,9 @@ test("browser selection names unroutable assets and protects an existing library
   const drive = new Directory();
   const library = await drive.getDirectoryHandle("LIBRARY", {create: true});
   await library.getFileHandle("existing.pdf", {create: true});
-  await assert.rejects(buildLibrary(drive, {...selection, routes}), /already contains library files/);
-  await assert.rejects(drive.file("START_HERE.html"), {name: "NotFoundError"});
+  const result = await buildLibrary(drive, {...selection, routes, fetchFile: async () => new Response("bytes")});
+  assert.equal(result.completed[0].id, "open");
+  assert.equal((await (await library.getFileHandle("existing.pdf")).getFile()).size, 0);
 });
 
 test("the largest archive in the catalog fits within the split naming and FAT32 limits", () => {
@@ -287,7 +302,7 @@ test("search assembly verifies and publishes only selected source digests", asyn
   assert.equal(JSON.parse(script.slice("globalThis.OWLShardSelection(".length, -3)).model_parts, 1);
   const beforeResume = urls.length;
   const resumed = await buildLibrary(drive, {...options, resume: true, searchBudget: 1});
-  assert.equal(resumed.state.searchBudget, result.state.searchBudget);
+  assert.equal(resumed.state.searchBudget, 1);
   assert.equal(urls.length, beforeResume, "verified search data is reused at the saved allowance");
 });
 
@@ -329,7 +344,7 @@ test("a corrupted search chunk leaves the catalog search and static pages usable
   const drive = new Directory();
   const fetchFile = async path => new Response(path === "https://example.test/book" ? content : "good");
   const result = await buildLibrary(drive, {assets: [doc], routes: {indexed: ["https://example.test/book"]}, fetchFile,
-    navigation: {assets: {indexed: {shelves: []}}},
+    navigation: readerNavigation({indexed: {category:"health"}}),
     search: {base: "/index/", page: "<p>search</p>", records: [], runtime: "", rankRuntime: "", manifest: {
       version: 1, model: pin("good"), license: pin("good"),
       sources: {[doc.sha256]: {records: 1, sha256: hash("evil"),
@@ -338,7 +353,7 @@ test("a corrupted search chunk leaves the catalog search and static pages usable
   assert.equal(result.state.finished, false);
   assert.match(result.searchWarnings.join(" "), /SHA-256/);
   assert.match(await (await (await drive.file("LIBRARY/SEARCH/manifest.js")).getFile()).text(), /"shards":false/);
-  assert.match(await (await (await drive.file("START_HERE.html")).getFile()).text(), /Search offline/);
+  assert.match(await (await (await drive.file("START_HERE.html")).getFile()).text(), /Files on this drive are in the LIBRARY folder/);
 });
 
 test("large-file mode joins verified parts and keeps them if a second copy cannot fit", async () => {
@@ -384,20 +399,22 @@ test("published Metalink piece mismatch advances to the next source before commi
   assert.equal(result.state.finished, true);
 });
 
-test("the emergency directory links only to completed files and keeps omissions on the report", async () => {
+test("the static reader lists completed urgent files and reports omissions", async () => {
   const body = Buffer.from("verified water guide");
   const water = asset("water", body, {title:"Water guide", critical:true});
-  const layout = JSON.parse(readFileSync(new URL("../src/owl/templates/offline-layout.json", import.meta.url)));
   const drive = new Directory();
   await buildLibrary(drive, {assets:[water], routes:{water:["https://example.test/water"]},
     excluded:[{id:"missing", title:"Unfinished guide", reason:"Source blocked"}],
-    navigation:{layout}, fetchFile:async () => new Response(body)});
+    navigation: readerNavigation({water:{category:"shelter"}}), fetchFile:async () => new Response(body)});
   const read = async path => (await (await drive.file(path)).getFile()).text();
   const start = await read("START_HERE.html");
-  assert.match(start, /id="emergency".*Make drinking water safer.*LIBRARY\/BOOKS\/water.pdf/);
+  assert.match(start, /Make drinking water safer.*LIBRARY\/BOOKS\/water.pdf/);
   assert.doesNotMatch(start, /Unfinished guide/);
-  assert.match(await read("LIBRARY/INDEX/build-report.html"), /Unfinished guide.*Source blocked/);
-  assert.match(await read("LIBRARY/INDEX/phone.html"), /Water guide/);
+  assert.match(await read("LIBRARY/BUILD_REPORT.html"), /Unfinished guide.*Source blocked/);
+  const home = readerData(await read("LIBRARY/INDEX/home.js"), "home");
+  const route = home.tasks.find(task => task.task === "Make drinking water safer");
+  assert.equal(route.href, "LIBRARY/BOOKS/water.pdf");
+  assert.equal(home.stats.missing, 1);
 });
 
 test("a connection cut during a file and again during search pauses the queue and resumes", async t => {
@@ -458,7 +475,7 @@ test("a connection cut during a file and again during search pauses the queue an
     }}, navigation: {assets: {}}});
   assert.equal(result.state.finished, true);
   assert.equal(result.completed.length, 2);
-  assert.deepEqual(result.state.failures, {});
+  assert.deepEqual(Object.keys(result.state.failures), []);
   assert.deepEqual(result.searchWarnings, []);
   assert.equal(pauses, 2);
   assert.equal(trace.includes("failed"), false);
@@ -497,18 +514,18 @@ test("low-space single-file builds resume from durable parts and join without re
   await assert.rejects(drive.file(target + "aa"), {name: "NotFoundError"});
 });
 
-test("emergency archive tasks link to named offline articles and their printed paths", async () => {
+test("emergency encyclopedia tasks carry their Kiwix article and file location", async () => {
   const drive = new Directory();
   const body = Buffer.from("synthetic archive");
   const item = asset("wikimed_en", body, {format: "zim", destination: "ZIM/medical.zim"});
-  const layout = JSON.parse(readFileSync(new URL("../src/owl/templates/offline-layout.json", import.meta.url)));
   await buildLibrary(drive, {assets: [item], routes: {wikimed_en: ["https://example.test/archive.zim"]},
-    fetchFile: async () => new Response(body), navigation: {layout}});
+    fetchFile: async () => new Response(body), navigation: readerNavigation({wikimed_en:{category:"health"}})});
   const start = await (await (await drive.file("START_HERE.html")).getFile()).text();
-  const entry = await (await (await drive.file("LIBRARY/INDEX/sections.html")).getFile()).text();
-  assert.match(start, /href="LIBRARY\/INDEX\/sections.html#emergency-6">.*?<strong>Prepare for labor and birth<\/strong><span>[^<]*Childbirth/);
-  assert.match(entry, /id="emergency-6"/);
-  assert.match(entry, /<code>Childbirth<\/code>/);
+  const home = readerData(await (await (await drive.file("LIBRARY/INDEX/home.js")).getFile()).text(), "home");
+  assert.match(start, /Labor and birth.*Look up Childbirth in Kiwix.*LIBRARY\/ZIM\/medical.zim/);
+  const route = home.tasks.find(task => task.task === "Labor and birth");
+  assert.deepEqual(route.articles, ["Childbirth"]);
+  assert.equal(route.format, "zim");
 });
 
 test("the browser installs the largest pinned phone PDF and indexes its checksum", async () => {
@@ -522,7 +539,8 @@ test("the browser installs the largest pinned phone PDF and indexes its checksum
   const drive = new Directory();
   const warnings = await assembleLibrary(drive, {
     completed: [archive], missing: [],
-    navigation: {phone: {...pin, destination, base: "./phone/", volumes: [volume]}},
+    navigation: readerNavigation({[archive.id]:{category:"health"}},
+      {phone: {...pin, destination, base: "./phone/", volumes: [volume]}}),
     layouts: new Map([[archive.id, [{path: "LIBRARY/" + archive.destination, bytes: archive.size_bytes}]]]),
     parts: {[archive.id]: [{sha256: archive.sha256}]}, searchBudget: 200_000_000,
     network: {retry: task => task()},
@@ -535,7 +553,7 @@ test("the browser installs the largest pinned phone PDF and indexes its checksum
   const contents = await (await drive.file(path)).getFile();
   assert.equal(hash(Buffer.from(await contents.arrayBuffer())), volume.sha256);
   const checksums = await (await (await drive.file("LIBRARY/SHA256SUMS.txt")).getFile()).text();
-  const shelf = await (await (await drive.file("LIBRARY/INDEX/phone.html")).getFile()).text();
+  const shelf = await (await (await drive.file("LIBRARY/INDEX/c-health.js")).getFile()).text();
   assert.ok(checksums.includes(volume.sha256 + "  " + path));
   assert.ok(shelf.includes(path));
 });
@@ -775,54 +793,43 @@ test("a late pause reuses saved ranges when only the split archive fits", async 
   assert.deepEqual(resumed.sort((a, b) => a - b), [16, 17, 18, 19, 20, 21].filter(n => !retained.has(n)));
 });
 
-test("a book published as chapter files is listed once, with its chapters in reading order", async () => {
+test("the reader folds chapter files and keeps the order within the book", async () => {
   const drive = new Directory();
   const chapter = (id, title) => asset(id, Buffer.from(id), {title, destination: "CRITICAL/GUIDE/" + id + ".pdf", critical: true});
   const files = [chapter("c10", "Field Guide — 10 Burns"), chapter("c2", "Field Guide — 2 Bleeding"),
     chapter("front", "Field Guide — Front matter"), asset("solo", Buffer.from("solo"), {title: "Single sheet"})];
-  const book = (chapterTitle, order) => ({group: "medical", shelves: [], book: {title: "Field Guide", chapter: chapterTitle, order}});
-  const layout = JSON.parse(readFileSync(new URL("../src/owl/templates/offline-layout.json", import.meta.url)));
+  const book = (chapterTitle, order) => ({category: "health", book: {title: "Field Guide", chapter: chapterTitle, order}});
   await buildLibrary(drive, {assets: files, routes: Object.fromEntries(files.map(file => [file.id, ["https://example.test/" + file.id]])),
     fetchFile: async url => new Response(Buffer.from(url.split("/").pop())),
-    navigation: {layout, groups: [["medical", "Medical"]], assets: {c10: book("10 Burns", 2), c2: book("2 Bleeding", 1),
-      front: book("Front matter", 0), solo: {group: "medical", shelves: []}}}});
+    navigation: readerNavigation({c10: book("10 Burns", 2), c2: book("2 Bleeding", 1),
+      front: book("Front matter", 0), solo: {category: "health"}})});
   const read = async path => (await (await drive.file(path)).getFile()).text();
-  const essentials = await read("LIBRARY/INDEX/critical.html");
-  assert.match(essentials, /<summary>Field Guide <span class="meta">3 chapters · PDF<\/span><\/summary><ol><li><a [^>]+>Front matter<\/a><\/li><li><a [^>]+>2 Bleeding<\/a><\/li><li><a [^>]+>10 Burns<\/a>/);
-  assert.equal(essentials.match(/Field Guide/g).length, 1);
-  assert.match(essentials, /<a href="[^"]+" aria-current="page">Essentials<\/a>/);
-  const everything = await read("LIBRARY/INDEX/categories.html");
-  assert.match(everything, /Single sheet<\/a><span class="meta">PDF · /);
+  const rows = readerData(await read("LIBRARY/INDEX/c-health.js"), "health");
+  assert.deepEqual(rows.map(row => row.title), ["Field Guide", "Single sheet"]);
+  assert.deepEqual(rows[0].chapters.map(row => row.title), ["Front matter", "2 Bleeding", "10 Burns"]);
   const start = await read("START_HERE.html");
-  assert.match(start, /id="help".*id="file-catalog"/s);
-  assert.match(start, /<a href="START_HERE.html" aria-current="page">Home<\/a>/);
+  assert.equal(start.match(/Field Guide/g).length, 1);
+  assert.match(start, /Book, 3 chapters.*LIBRARY\/CRITICAL\/GUIDE\//);
+  assert.doesNotMatch(start, /10 Burns|2 Bleeding/);
+  await assert.rejects(drive.file("LIBRARY/INDEX/categories.html"), {name:"NotFoundError"});
 });
 
-test("the start page embeds search with its own policy; headings drop bare page numbers", async () => {
+test("the reader starts from local scripts and the old search address redirects", async () => {
   const drive = new Directory();
   const body = Buffer.from("guide");
   const doc = asset("guide", body, {title: "Water guide"});
-  const layout = JSON.parse(readFileSync(new URL("../src/owl/templates/offline-layout.json", import.meta.url)));
   const pin = text => ({bytes: Buffer.byteLength(text), sha256: hash(text)});
-  const events = [];
   await buildLibrary(drive, {assets: [doc], routes: {guide: ["https://example.test/guide"]},
     fetchFile: async url => new Response(url === "https://example.test/guide" ? body : "good"),
-    onProgress: event => events.push(event),
-    navigation: {layout, assets: {guide: {shelves: []}},
-      locators: {guide: {entrypoints: [[1, "Page 1"], [2, "Boiling water · Page 2"], [3, "Boiling water · Page 3"], [4, "Pages 4–5"]]}}},
-    search: {base: "/index/", page: '<!-- OWL_NAV --><nav>old</nav><!-- /OWL_NAV --><p>search</p>', widget: '<form id="searchForm"></form>',
-      csp: "default-src 'none'; script-src 'self'", records: [], runtime: "", rankRuntime: "",
+    navigation: readerNavigation({guide: {category:"shelter"}}),
+    search: {base: "/index/", page: "", records: [], runtime: "", rankRuntime: "",
       manifest: {version: 1, model: pin("good"), license: pin("good"), sources: {}}}});
   const read = async path => (await (await drive.file(path)).getFile()).text();
   const start = await read("START_HERE.html");
-  assert.match(start, /Content-Security-Policy" content="default-src &#39;none&#39;; script-src &#39;self&#39;"/);
-  assert.match(start, /<h1>What do you need to know\?<\/h1>.*<form id="searchForm">/s);
-  const search = await read("LIBRARY/SEARCH.html");
-  assert.match(search, /<a href="\.\.\/LIBRARY\/SEARCH.html" aria-current="page">Search<\/a>/);
-  assert.doesNotMatch(search, /old/);
-  const places = await read("LIBRARY/INDEX/sections.html");
-  assert.equal(places.match(/Boiling water/g).length, 1);
-  assert.match(places, /#page=2">Boiling water<\/a>/);
-  assert.doesNotMatch(places, />Pages? \d/);
-  assert.deepEqual(events.find(event => event.kind === "plan").files, [{id: "guide", bytes: body.length, done: false}]);
+  assert.match(start, /Content-Security-Policy" content="default-src &#39;none&#39;; script-src &#39;self&#39; file:/);
+  assert.match(start, /<script defer src="LIBRARY\/SEARCH\/search.js"><\/script>/);
+  assert.match(start, /<h1>Library<\/h1>.*Water guide/s);
+  assert.match(start, /<nav class="tabs" aria-label="Sections" hidden>/);
+  assert.doesNotMatch(start, /<input|<form/);
+  assert.match(await read("LIBRARY/SEARCH.html"), /url=..\/START_HERE.html#\/search/);
 });

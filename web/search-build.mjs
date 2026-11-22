@@ -7,10 +7,10 @@ const root = "LIBRARY/SEARCH/";
 const dig = /^[a-f0-9]{64}$/;
 const encoder = new TextEncoder();
 const charge = row => encoder.encode(JSON.stringify(row)).length;
-const canonical = value => JSON.stringify(value, (_key, item) => item && !Array.isArray(item) && typeof item === "object"
+export const canonical = value => JSON.stringify(value, (_key, item) => item && !Array.isArray(item) && typeof item === "object"
   ? Object.fromEntries(Object.entries(item).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)) : item);
 const wrap = (name, value) => "globalThis." + name + "(" + canonical(value) + ");\n";
-const locator = path => path.split("/").map(segment => encodeURIComponent(segment)
+export const locator = path => path.split("/").map(segment => encodeURIComponent(segment)
   .replace(/[!'()*]/g, char => "%" + char.charCodeAt(0).toString(16).toUpperCase())).join("/");
 
 export async function transfer(drive, base, path, pin, fetchFile, signal, network,

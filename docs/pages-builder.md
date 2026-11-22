@@ -1,52 +1,38 @@
 # Build a library in your browser
 
 Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-library/)
-in Chrome, Edge or Arc on a computer. The page has three steps.
+in Chrome, Edge or Arc on a computer. Plug in a USB drive or SD card and
+choose **Choose drive**. Select the drive's folder in the browser dialog.
+OWL measures free space where the filesystem allows it and asks for the
+label size when a measurement is unavailable. The category bar shows the
+recommended library and the space left.
 
-1. **Choose your drive.** Pick the drive's root or an empty folder on it. The
-   page measures the free space. When it cannot, it asks for the size printed
-   on the drive; picking a size is the confirmation. Without a drive, the size
-   buttons preview what each size would hold.
-2. **Review the library.** The recommendation uses the same capacity ladder as
-   the Python builder and fills spare space with files that have browser
-   routes while preserving the field allocations that the reviewed ladder
-   protects. The summary shows the selected download bytes by theme, including
-   the reader packages. The list shows what is on the drive, grouped by theme;
-   a theme or collection unfolds to show what is inside.
-3. **Build.** The build screen shows progress in bytes, speed, time left and
-   the file in hand, with **Pause**.
+Choose **Sync** to download and verify files directly on the drive. **Pause**
+keeps completed files and verified archive pieces. Open the page again and
+choose **Reconnect** if the browser needs permission. **Sync** continues from
+the drive's record. If the connection drops, the page waits and continues
+when it returns. Keep the drive connected and the tab open during Sync. OWL
+requests Screen Wake Lock while the tab is visible.
 
-**Customize** switches the list to editing: every collection appears with a
-checkbox, a search field, an on-drive / not-included switch and a priority
-filter. A collection unfolds to its files and, where one exists, its editions
-(the recommended edition is marked). A file the browser cannot download stays
-unchecked and is labeled for the desktop builder. Use the
-[standalone planner](../SELECT.html) to include those files in a desktop build;
-its **Storage details** lists the planning allowances. **Reset to recommended**
-discards the changes.
+Choose **Manage what goes on it** to search eight categories, turn collections
+on or off, compare editions and choose individual files. **Reset to recommended**
+restores the default. **Make it fit** removes the lowest-priority selections
+when the choice exceeds the drive budget. Advanced holds the FAT32 option,
+bulk actions, storage accounting and diagnostics. **See what goes on a drive**
+opens the same view as a preview. The [standalone planner](../SELECT.html)
+also generates commands for a Python build.
 
-Choose **Build library**. Keep the tab open, the computer awake and the drive
-attached. A 1 TB transfer takes about 44–111 hours at 50–20 Mbps, before
-retries and verification. The page requests Screen Wake Lock while visible.
-If the connection drops, it waits, probes with increasing delays and continues
-automatically when it can connect. Pause, or choose **Resume build** after
-reopening the page or reconnecting the drive; a remembered drive with an
-unfinished library opens on that screen. Resume uses the original selection,
-archive layout and search allowance. It accepts a newer catalog when each
-saved file retains its original pin, size and destination.
+The drive stores its choice and verified content. A later Sync applies that
+choice to the latest available files. It verifies additions and replacements
+before removing dropped files recorded by OWL. A replacement that needs
+space beside the original waits for more room or an explicit **Replace in
+place** choice in Manage. Files outside OWL's record stay on the drive.
+**Check every file** rereads the selected files and downloads replacements
+for failed checks.
 
-After the build, open `START_HERE.html` on the drive. It starts with search,
-then "Need help right now?" cards that open the guide for each emergency task,
-subjects, shelves and help for each kind of device. Every page carries the same
-tabs: Home, Search, Essentials, Subjects, Books, All files and Help. A book
-published as one file per chapter appears once, with its chapters inside. The
-build report lists unavailable files. In a viewer that cannot run the search
-script (an iPhone file preview, for example) the start page prints each item's
-folder path and unfolds its full file list; where the script runs, the paths
-are hidden and the lists fold.
-The browser build’s atlas uses catalog topic assignments. Offline search uses
-the available precomputed shards and catalog index. The browser writes a whole-file inventory, a
-per-file or per-part checksum listing, and the standalone Python verifier.
+When Sync finishes, eject the drive through your operating system. Open
+`START_HERE.html` on the drive to read offline. The build report lists any
+files that could not be downloaded.
 
 ## Drives and readers
 
@@ -78,11 +64,10 @@ the native-filesystem methodology, results, and Chromium call path.
 
 ### How files are written and verified
 
-When single-file output is selected, the browser writes the largest archives
-first to leave more room for joining. Split-only builds download in priority
-order, with readers first. If the drive fills, verified archive pieces and
-parts stay available for **Resume**. The builder can reclaim an unfinished
-ordinary file and try later files.
+Sync writes files in priority order with reader apps first. Verified archive
+parts and pieces stay on the drive for the next Sync after a pause. When an
+ordinary file runs out of space, Sync can release the unfinished copy and
+try later files.
 
 Kiwix ZIMs over 4 MiB start with six concurrent 4 MiB range requests. The
 builder adds another request when throughput improves, up to eight. It reduces
@@ -91,20 +76,20 @@ up to 64 MiB of archive payload for ordered hashing. Each piece passes the
 publisher’s SHA-1 check before writing. The whole archive must match its
 SHA-256 pin before it appears in the offline library. The two published
 SHA-256 part manifests add a check for the matching editions. Other files
-use their whole-file SHA-256. **Check and repair every file** rehashes installed
+use their whole-file SHA-256. **Check every file** rehashes installed
 files on the drive. [Transfer evidence](browser-delivery.md)
 
-On exFAT or NTFS, leave **Save each archive as one file** selected. OWL
+On exFAT or NTFS, leave **Split large files for FAT32** off in Manage. OWL
 closes each verified 4 MiB piece on the drive, assembles it into a 1 GiB part,
 then joins the verified parts when there is temporary space for a second
 copy. Without room for the join, the split archive remains available in the
-library. Free space and choose **Resume** to retry the join using those parts.
+library. Free space and choose **Sync** to retry the join using those parts.
 
 Closing the tab can repeat at most the 64 MiB window being downloaded for a
 publisher-pinned archive. Interrupted joins can repeat local copying. The
 piece files need up to one extra split part's space while a part is being
-written. Resume can import a prefix saved by the previously deployed builder.
-Turn off single-file output for FAT32. Keep the resulting files together and
+written. Sync can import a prefix saved by an earlier browser build.
+Turn on **Split large files for FAT32** for FAT32 drives. Keep the resulting files together and
 open the `.zimaa` part in a compatible reader. Opening external archives in
 place on phones remains unverified.
 [Reader and filesystem tests](device-matrix.md) ·
@@ -137,7 +122,7 @@ Generate the site in a fresh directory and run the local fixtures.
 ```sh
 python scripts/build_pages.py /tmp/owl-pages
 python -m http.server --directory /tmp/owl-pages 8000
-node --test tests/browser-builder.test.mjs
+node --test tests/browser-builder.test.mjs tests/sync-reconcile.test.mjs
 ```
 
 Use `--fetch-mirrors --cache /tmp/owl-mirror-cache` to publish the exact editions
@@ -157,8 +142,7 @@ pins its shard URLs to the same Git commit used to build the site. Retrying a
 search download reuses any verified chunks on the drive. See
 [offline search](search.md).
 
-Open **Set up an iPhone for offline reading** to scan the App Store QR code
-while online. The start page on the drive links to critical files readable in
+Scan the **Reading on an iPhone?** card during Sync to install Kiwix while online. The start page on the drive links to critical files readable in
 Files and lists the exact folders and names. The bundled Android APK can
 install from the drive. Use the [device test kit](device-matrix.md) to check
 file access and native ZIM reading on your devices.

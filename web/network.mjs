@@ -10,7 +10,7 @@ export class SourceError extends Error {
   }
 }
 
-export function createNetwork({fetchFile = globalThis.fetch, signal, probeURL, onWaiting = () => {},
+export function createNetwork({fetchFile = globalThis.fetch, signal, probeURL, onWaiting = () => {}, onRestored = () => {},
     events = globalThis, online = () => globalThis.navigator?.onLine !== false, retryMs = 1_000} = {}) {
   function delay(ms, wakeOnline = false) {
     signal?.throwIfAborted();
@@ -51,6 +51,7 @@ export function createNetwork({fetchFile = globalThis.fetch, signal, probeURL, o
       await delay(backoff, true);
       backoff = Math.min(backoff * 2, 60_000);
     }
+    if (waited) onRestored();
     return waited;
   }
 

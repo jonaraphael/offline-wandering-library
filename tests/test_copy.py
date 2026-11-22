@@ -347,7 +347,7 @@ class CopyTests(unittest.TestCase):
         self.assertEqual((self.target / "LIBRARY/BOOKS/book.txt").read_bytes(), self.data)
         self.assertEqual(verify_drive(self.target, emit=lambda _: None)["FAILED"], 0)
 
-    def test_atlas_backup_retains_ownership_and_later_build_retires_old_pages(self):
+    def test_atlas_backup_retains_ownership_and_later_build_refreshes_reader_data(self):
         local = self.root / "atlas-source"
         build(local, catalog=ROOT / "catalog/demo.yaml", profiles_dir=ROOT / "profiles",
               profile_name="demo", allow_local=True, navigation_dir=ROOT / "catalog/demo-navigation",
@@ -363,7 +363,9 @@ class CopyTests(unittest.TestCase):
                 self.assertEqual(state["atlas_managed"], sorted(report["generated_files"]))
                 build(destination, catalog=ROOT / "catalog/demo.yaml", profiles_dir=ROOT / "profiles",
                       profile_name="demo", allow_local=True, progress=lambda _: None)
-                self.assertIn("Unavailable in this build", (destination / "LIBRARY/INDEX/topics/build-process.html").read_text())
+                reader = (destination / "LIBRARY/INDEX/c-other.js").read_text()
+                self.assertNotIn("build-process", reader)
+                self.assertFalse(list((destination / "LIBRARY/INDEX").rglob("*.html")))
                 checked = verify_drive(destination, emit=lambda _: None)
                 self.assertEqual((checked["FAILED"], checked["MISSING"], checked["UNKNOWN"]), (0, 0, 0))
 

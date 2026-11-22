@@ -64,66 +64,42 @@
       return !/[\x00-\x1f\\?:]/.test(path) && !path.split('/').some(p => !p || p === '.' || p === '..');
     } catch (_) { return false; }
   }
-  const api = {normalize, tokens, prepare, search, mergeRanked, safeHref};
-  if (typeof module !== 'undefined' && module.exports) module.exports = api;
-  root.OWLDiscovery = api;
-  if (typeof document === 'undefined') return;
-  const form = document.getElementById('searchForm');
-  if (!form) return;
-  const byId = id => document.getElementById(id);
-  const status = byId('status'), results = byId('results'), button = byId('searchButton');
-  const retry = byId('retryButton'), query = byId('query'), shelf = byId('shelf');
-  const prefix = form.dataset.libraryRoot || '';
-  if (!['', 'LIBRARY/'].includes(prefix)) return;
-  // This script loaded from the drive, so this viewer follows local links:
-  // pages can hide the printed folder paths kept for viewers that do not.
-  document.documentElement.classList.add('live');
-  for (const fold of document.querySelectorAll('details[open]')) fold.open = false;
-  let prepared = [], rankReady, timer, loading = false, epoch = 0;
   function script(path) {
     return new Promise((resolve, reject) => {
       const tag = document.createElement('script');
-      const timeout = setTimeout(() => { tag.remove(); reject(new Error('Search loading timed out.')); }, 15000);
-      tag.src = prefix + path;
-      tag.onload = () => { clearTimeout(timeout); tag.remove(); resolve(); };
-      tag.onerror = () => { clearTimeout(timeout); tag.remove(); reject(new Error('This viewer could not load the local search files.')); };
+      const finish = error => {
+        clearTimeout(timeout);
+        tag.remove();
+        if (error) reject(Error(error));
+        else resolve();
+      };
+      const timeout = setTimeout(() => finish('Loading local files timed out.'), 15000);
+      tag.src = 'LIBRARY/' + path;
+      tag.onload = () => finish();
+      tag.onerror = () => finish('This viewer could not load the local files.');
       document.head.appendChild(tag);
     });
   }
-  async function load() {
-    if (loading) return;
-    loading = true; retry.hidden = true; button.disabled = shelf.disabled = true;
-    status.textContent = 'Getting search ready…';
-    try {
-      let manifest, payload;
-      root.OWLDiscoveryManifest = value => { manifest = value; };
-      await script('SEARCH/manifest.js');
-      if (!manifest || manifest.format !== FORMAT || !/^SEARCH\/data\/[a-f0-9]{64}\.js$/.test(manifest.path)) throw new Error('Invalid discovery manifest.');
-      root.OWLDiscoveryData = value => { payload = value; };
-      await script(manifest.path);
-      if (!payload || payload.format !== FORMAT || payload.generation !== manifest.generation || !Array.isArray(payload.records) || payload.records.length !== manifest.records) throw new Error('Discovery data does not match its manifest.');
-      prepared = prepare(payload.records);
-      form.hidden = false; byId('viewerHelp').hidden = true; button.disabled = shelf.disabled = false;
-      status.textContent = '';
-      rankReady = manifest.shards ? loadRank() : null;
-      rankReady?.then(({rank, warning}) => {
-        if (!epoch && !rank) status.textContent = warning + ' Titles and topics can still be searched.';
-      });
-    } catch (error) { status.textContent = error.message + ' Use the lists on this page instead.'; retry.hidden = false; }
-    finally { loading = false; delete root.OWLDiscoveryManifest; delete root.OWLDiscoveryData; }
+  function isArchive(record) {
+    return record.kind === 'article' || /\.zim(?:[a-z]{2})?$/i.test((record.destination || record.href).split('#')[0]);
   }
-  async function loadRank() {
+  async function loadRank(categoryIds) {
     let selection, table;
     root.OWLShardSelection = value => { selection = value; };
     root.OWLShardModel = value => { table = value; };
     try {
       await Promise.all([script('SEARCH/rank.js'), script('SEARCH/shards.js'), script('SEARCH/model.js')]);
-      const indexed = root.OWLShardRank.classic(script, selection, table);
+      const ranker = root.OWLShardRank;
+      const indexed = ranker.classic(script, selection, table, async (index, encode, read, query, category, ...options) => {
+        const ids = category && await categoryIds(category);
+        const scoped = ids ? {...index, sources: index.sources.filter(source => ids.has(source.id))} : index;
+        return ranker.search(scoped, encode, read, query, 'all', ...options);
+      });
       const mobile = navigator.userAgentData?.mobile ?? /Android|iPhone|iPad/i.test(navigator.userAgent);
       if (!selection.reranker || mobile) return {rank: indexed};
       let reranker;
-      async function rank(text, shelf, limit, cancelled, onProgress) {
-        const all = await indexed(text, shelf, Math.max(limit, 50), cancelled,
+      async function rank(text, category, limit, cancelled, onProgress) {
+        const all = await indexed(text, category, Math.max(limit, 50), cancelled,
           (hits, scope) => onProgress(hits.slice(0, limit), scope));
         const initial = all.slice(0, limit);
         if (cancelled() || initial.length < 2) return initial;
@@ -133,7 +109,7 @@
           const rerank = await reranker;
           const head = all.slice(0, 3);
           const rescored = await rerank(text, all.slice(3), cancelled);
-          return cancelled() ? [] : [...head, ...root.OWLShardRank.topResults(rescored, limit - head.length)];
+          return cancelled() ? [] : [...head, ...ranker.topResults(rescored, limit - head.length)];
         } catch (_) {
           reranker = undefined;
           return initial;
@@ -141,114 +117,204 @@
       }
       return {rank};
     } catch (_) {
-      return {warning: 'The full-text index could not load.'};
+      return {warning: 'Full-text search is unavailable. Search still covers titles and topics.'};
     } finally {
       delete root.OWLShardSelection;
       delete root.OWLShardModel;
     }
   }
+
   function element(tag, text, className) {
-    const e = document.createElement(tag);
-    e.textContent = text;
-    if (className) e.className = className;
-    return e;
+    const node = document.createElement(tag);
+    node.textContent = text;
+    if (className) node.className = className;
+    return node;
   }
-  function link(href, text, className) { const e = element('a', text, className); e.href = prefix + href; return e; }
-  // Mark the searched words in a passage.
   function passage(text, words) {
     const node = element('p', '', 'text');
-    const pattern = words.length ? new RegExp('(' + words.map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'giu') : null;
+    const pattern = words.length ? new RegExp('(' + words.map(word =>
+      word.replace(/[.*+?^$${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'giu') : null;
     for (const [index, part] of (pattern ? text.split(pattern) : [text]).entries()) {
       node.append(index % 2 ? element('mark', part) : document.createTextNode(part));
     }
     return node;
   }
-  // One card per document: its best match first, then other matching places in it.
-  function render(matches, scope, words = []) {
-    const groups = new Map();
-    for (const match of matches) {
-      const key = match.record.destination || match.record.href.split('#')[0];
-      if (!groups.has(key)) groups.set(key, []);
-      groups.get(key).push(match);
+
+  function mount(view, {open, categoryIds}) {
+    const form = view.querySelector('form'), status = view.querySelector('#search-status');
+    const list = view.querySelector('#search-results'), query = form.querySelector('#query');
+    const category = form.querySelector('#search-category'), examples = form.querySelector('#search-examples');
+    let timer, epoch = 0, prepared, rankReady;
+    function message(text) {
+      status.textContent = text;
+      status.hidden = !text;
     }
-    const items = document.createDocumentFragment();
-    for (const [{record: r, indexed = false}, ...others] of groups.values()) {
-      const li = document.createElement('li');
-      li.dataset.indexed = String(indexed);
-      const archive = Boolean(r.reader_required);
-      // A passage title repeats its page; the page is shown once, on the line below.
-      const name = r.location && r.title.endsWith(' · ' + r.location) ? r.title.slice(0, -r.location.length - 3) : r.title;
-      li.append(link(r.href, name, 'hit'));
-      const source = r.source_title && r.source_title !== name ? r.source_title : '';
-      const where = archive ? 'Open it in the Kiwix app, then search there for “' + name + '”' : r.location;
-      li.append(element('p', [source, where].filter(Boolean).join(' · '), 'from'));
-      if (r.description) li.append(passage(/[.!?…:]$/.test(r.description) ? r.description : r.description + '…', words));
-      const more = element('p', '', 'more');
-      // The whole-document entry is offered once, by the link below.
-      const places = others.filter(({record}) => record.kind === 'section' || record.href.includes('#'));
-      for (const {record: other} of places.slice(0, 4)) more.append(link(other.href, other.location || other.title));
-      if (r.kind === 'section') more.append(link(r.destination.split('/').map(encodeURIComponent).join('/'), 'Open the whole document'));
-      if (more.childNodes.length) { more.prepend(places.length ? 'Also in this document: ' : ''); li.append(more); }
-      if (r.license || r.attribution) li.append(element('small', [r.license, r.attribution].filter(Boolean).join(' · ')));
-      items.append(li);
-    }
-    results.replaceChildren(items);
-    results.dataset.searchScope = scope;
-  }
-  async function run(event) {
-    if (event) event.preventDefault();
-    clearTimeout(timer);
-    const mine = ++epoch;
-    const cancelled = () => mine !== epoch;
-    const text = query.value, selectedShelf = shelf.value;
-    try {
-      const catalog = search(prepared, text, selectedShelf), words = tokens(text);
-      render(catalog.slice(0, 40), 'catalog', words);
-      let matches = catalog.slice(0, 40);
-      let warning = '';
-      if (rankReady && text.trim()) {
-        status.textContent = 'Searching…';
-        const showHits = (hits, scope) => {
-          matches = mergeRanked(hits, catalog);
-          render(matches, scope, words);
-        };
-        try {
-          const engine = await rankReady;
-          if (cancelled()) return;
-          warning = engine.warning || '';
-          if (engine.rank) {
-            const hits = await engine.rank(text, selectedShelf, 30, cancelled, (hits, phase) => {
-              if (cancelled()) return;
-              showHits(hits, phase === 'ranked' ? 'complete' : 'indexed');
-              if (phase === 'refining' || phase === 'ranked') status.textContent = 'Still looking for better matches…';
-            });
-            if (cancelled()) return;
-            showHits(hits, 'complete');
-          }
-        } catch (error) {
-          if (cancelled()) return;
-          warning = error.message + ' Showing what was found.';
+    async function load() {
+      message('Getting search ready…');
+      let manifest, payload;
+      root.OWLDiscoveryManifest = value => { manifest = value; };
+      try {
+        await script('SEARCH/manifest.js');
+        if (manifest?.format !== FORMAT || !/^SEARCH\/data\/[a-f0-9]{64}\.js$/.test(manifest.path)) {
+          throw Error('The search information could not be read.');
         }
+        root.OWLDiscoveryData = value => { payload = value; };
+        await script(manifest.path);
+        if (payload?.format !== FORMAT || payload.generation !== manifest.generation ||
+            !Array.isArray(payload.records) || payload.records.length !== manifest.records) {
+          throw Error('The search information does not match this drive.');
+        }
+        prepared = prepare(payload.records);
+        if (manifest.shards) rankReady = loadRank(categoryIds);
+        message('');
+      } catch (error) {
+        message(error.message + ' Browse the books and guides from Home.');
+      } finally {
+        delete root.OWLDiscoveryManifest;
+        delete root.OWLDiscoveryData;
       }
-      status.textContent = [warning, !text.trim() ? '' : matches.length
-        ? `${matches.length} result${matches.length === 1 ? '' : 's'}, best first.`
-        : 'Nothing found. Try fewer or different words.'].filter(Boolean).join(' ');
-    } catch (error) {
-      render([], 'catalog');
-      status.textContent = error.message;
     }
+    const ready = load();
+
+    function resultLink(record, name, text, className) {
+      const anchor = element('a', text, className);
+      const topic = record.kind === 'topic';
+      const archive = isArchive(record);
+      anchor.href = topic ? '#/topic/' + encodeURIComponent(record.id.slice('topic:'.length))
+        : archive ? '#open-encyclopedia' : 'LIBRARY/' + record.href;
+      if (archive) anchor.setAttribute('aria-haspopup', 'dialog');
+      anchor.addEventListener('click', event => {
+        if (event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
+          open(record, name, event);
+        }
+      });
+      return anchor;
+    }
+    // One card per document, with its best match and a few distinct locations.
+    function render(matches, scope, words = []) {
+      const groups = new Map(), subjects = [];
+      for (const match of matches) {
+        if (match.record.kind === 'topic') {
+          subjects.push(match.record);
+          continue;
+        }
+        const key = match.record.destination || match.record.href.split('#')[0];
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(match);
+      }
+      const items = document.createDocumentFragment();
+      const title = row => row.location && row.title.endsWith(' · ' + row.location)
+        ? row.title.slice(0, -row.location.length - 3) : row.title;
+      for (const [{record: record, indexed = false}, ...others] of groups.values()) {
+        const card = element('article', '', 'result');
+        card.dataset.indexed = String(indexed);
+        const archive = isArchive(record), name = title(record);
+        const source = record.source_title !== name ? record.source_title : '';
+        const where = archive ? 'opens in Kiwix' : record.location;
+        const byline = [source, where].filter(Boolean).join(' · ');
+        if (byline) card.append(element('small', byline));
+        card.append(element('h3', name));
+        if (record.description) card.append(passage(/[.!?…:]$/.test(record.description)
+          ? record.description : record.description + '…', words));
+        const places = others.filter(({record: other}) => other.kind === 'section' || other.kind === 'article' ||
+          other.href.includes('#')).slice(0, 4);
+        if (places.length) {
+          const more = element('ul', '', 'also');
+          more.setAttribute('aria-label', 'Other matches in this document');
+          for (const {record: other} of places) {
+            const item = element('li', '');
+            item.append(resultLink(other, title(other), title(other)));
+            more.append(item);
+          }
+          card.append(more);
+        }
+        if (archive && record.kind !== 'document') {
+          card.append(element('p', 'In Kiwix, look up “' + name + '”.', 'note'));
+        }
+        card.append(resultLink(record, name, archive ? 'How to open' : 'Open', 'button'));
+        items.append(card);
+      }
+      if (subjects.length) {
+        const panel = element('section', '', 'panel');
+        panel.append(element('h3', 'Subjects'));
+        const links = element('div', '', 'chips plain');
+        for (const subject of subjects) links.append(resultLink(subject, subject.title, subject.title));
+        panel.append(links);
+        items.append(panel);
+      }
+      list.replaceChildren(items);
+      list.dataset.searchScope = scope;
+      return groups.size + subjects.length;
+    }
+    async function run(event) {
+      event?.preventDefault();
+      clearTimeout(timer);
+      const mine = ++epoch;
+      const cancelled = () => mine !== epoch;
+      const text = query.value.trim(), selected = category.value;
+      examples.hidden = Boolean(text);
+      if (!text) {
+        render([], 'catalog');
+        if (prepared) message('');
+        return;
+      }
+      await ready;
+      if (cancelled() || !prepared) return;
+      try {
+        const ids = selected && await categoryIds(selected);
+        if (cancelled()) return;
+        const scope = ids ? prepared.filter(({record}) => ids.has(record.asset_id) ||
+          record.kind === 'topic' && record.source_ids.some(id => ids.has(id))) : prepared;
+        const catalog = search(scope, text), words = tokens(text);
+        let count = render(catalog.slice(0, 40), 'catalog', words), warning = '';
+        if (rankReady) {
+          message('Searching…');
+          const showHits = (hits, phase) => {
+            count = render(mergeRanked(hits, catalog), phase, words);
+          };
+          try {
+            const engine = await rankReady;
+            if (cancelled()) return;
+            warning = engine.warning || '';
+            if (engine.rank) {
+              const hits = await engine.rank(text, selected, 30, cancelled, (hits, phase) => {
+                if (cancelled()) return;
+                showHits(hits, phase === 'ranked' ? 'complete' : 'indexed');
+                if (phase === 'refining' || phase === 'ranked') message('Still looking for better matches…');
+              });
+              if (cancelled()) return;
+              showHits(hits, 'complete');
+            }
+          } catch (error) {
+            if (cancelled()) return;
+            warning = error.message + ' Showing what was found.';
+          }
+        }
+        message([warning, count ? count + ' result' + (count === 1 ? '' : 's') + ', best first.'
+          : 'Nothing found. Try fewer or different words.'].filter(Boolean).join(' '));
+      } catch (error) {
+        render([], 'catalog');
+        message(error.message);
+      }
+    }
+    form.addEventListener('submit', run);
+    query.addEventListener('input', () => {
+      clearTimeout(timer);
+      ++epoch;
+      examples.hidden = Boolean(query.value.trim());
+      if (!query.value.trim()) run();
+      else timer = setTimeout(run, 350);
+    });
+    for (const example of form.querySelectorAll('[data-query]')) {
+      example.addEventListener('click', () => { query.value = example.dataset.query; query.focus(); run(); });
+    }
+    category.addEventListener('change', run);
   }
-  form.addEventListener('submit', run);
-  query.addEventListener('input', () => {
-    clearTimeout(timer);
-    if (!query.value.trim()) run();
-    else if (rankReady) ++epoch;
-    else timer = setTimeout(run, 180);
-  });
-  for (const example of form.querySelectorAll('[data-query]')) {
-    example.addEventListener('click', () => { query.value = example.dataset.query; run(); });
+
+  const api = {normalize, tokens, prepare, search, mergeRanked, safeHref, script, isArchive, mount};
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  root.OWLDiscovery = api;
+  if (typeof document !== 'undefined' && document.querySelector('#reader-view')) {
+    script('INDEX/reader.js').catch(() => {});
   }
-  shelf.addEventListener('change', run);
-  retry.addEventListener('click', load);
-  load();
 })(globalThis);
