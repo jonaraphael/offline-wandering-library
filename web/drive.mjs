@@ -63,9 +63,13 @@ export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolutio
   async function attempt(size) {
     const started = performance.now();
     const writable = await handle.createWritable({mode: "exclusive"});
-    let result = "fits";
+    // Time only the extension. Opening and discarding the swap file costs
+    // tens to hundreds of ms on a USB drive and says nothing about zero-fill.
+    const opened = performance.now();
+    let result = "fits", grown;
     try {
       await writable.truncate(size);
+      grown = performance.now();
       await writable.truncate(0);
     } catch (error) {
       if (isNoSpace(error)) result = "full";
@@ -76,7 +80,8 @@ export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolutio
       // A failing truncate may already have errored and aborted the stream.
       await writable.abort().catch(() => {});
     }
-    const outcome = {result, duration: performance.now() - started};
+    const finished = performance.now();
+    const outcome = {size, result, duration: (grown ?? finished) - opened, total: finished - started};
     onAttempt(outcome);
     return outcome;
   }
@@ -105,10 +110,14 @@ export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolutio
       else return {kind: "manual"};
     }
     // Native truncate maps both ENOSPC and EFBIG to InvalidStateError. Check
-    // both sides of the boundary again and describe the result as an estimate.
-    if ((await attempt(lo)).result !== "fits" ||
-        !["full", "undifferentiated"].includes((await attempt(hi)).result)) return {kind: "manual"};
-    return {kind: "measured", bytes: lo};
+    // the boundary again and describe the result as an estimate. A mounted
+    // volume changes by small amounts while we search (macOS indexing and
+    // event logs took about 1 MB on a physical exFAT drive), so a miss at the
+    // boundary backs off by 64 MiB instead of discarding the measurement.
+    if ((await attempt(lo)).result === "fits") return {kind: "measured", bytes: lo};
+    const margin = Math.max(4 * GiB + 1, lo - 64 * MiB);
+    if ((await attempt(margin)).result === "fits") return {kind: "measured", bytes: margin};
+    return {kind: "manual"};
   } finally {
     await removeFile(drive, filename);
   }

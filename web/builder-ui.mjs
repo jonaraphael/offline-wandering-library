@@ -303,8 +303,15 @@ export function mount({catalog, recommend}) {
         } else if (probe && probeCapacity) {
           status.textContent = "Measuring free space on " + handle.name + "…";
           let capacity;
-          try { capacity = await lockDrive(() => measureFreeSpace(handle)); }
-          catch (_) { capacity = {kind: "manual"}; }
+          // Each probe step is logged so a failed measurement can be diagnosed
+          // from the browser console without extra tooling.
+          const onAttempt = outcome => console.info("[OWL capacity probe]", JSON.stringify(outcome));
+          try { capacity = await lockDrive(() => measureFreeSpace(handle, {onAttempt})); }
+          catch (error) {
+            console.warn("[OWL capacity probe] stopped:", error?.name, error?.message);
+            capacity = {kind: "manual"};
+          }
+          console.info("[OWL capacity probe] result", JSON.stringify(capacity));
           if (capacity.kind === "measured") {
             measured = capacity.bytes;
             confirmed = true;
@@ -314,7 +321,8 @@ export function mount({catalog, recommend}) {
             if (["fat32", "limited"].includes(capacity.kind)) join.checked = false;
             const note = capacity.kind === "fat32" ? " This drive appears to use FAT32." :
               capacity.kind === "limited" ? " The drive may use FAT32 or have less than 4 GB free." :
-              capacity.kind === "sparse-or-large" ? " The filesystem accepted an oversized probe." : "";
+              capacity.kind === "sparse-or-large" ? " The filesystem accepted an oversized probe." :
+              " The free-space check could not finish on " + handle.name + ".";
             status.textContent = "Choose the size on the drive label." + note;
           }
         } else if (probe) status.textContent = "Choose the size on the drive label for " + handle.name + ".";
