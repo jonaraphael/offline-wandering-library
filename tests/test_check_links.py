@@ -1,8 +1,10 @@
 """Exercise header probes, bounded streams and source fallback."""
 from io import BytesIO
+import json
 from pathlib import Path
 from types import SimpleNamespace
 import sys
+import tempfile
 import unittest
 from unittest.mock import MagicMock, patch
 
@@ -102,8 +104,48 @@ class LinkChecksTests(unittest.TestCase):
             ok = url == mirror
             return {"url": url, "ok": ok, "range": ok, "cors": ok}
         with patch.object(check_links, "load_catalog", return_value=catalog), patch.object(
-                check_links, "probe", side_effect=probe), patch("sys.stdout"), patch("sys.stderr"):
+                check_links, "probe", side_effect=probe) as mocked, patch("sys.stdout"), patch("sys.stderr"):
             self.assertEqual(check_links.main([]), 0)
+            self.assertTrue(all(call.args[2] is None for call in mocked.call_args_list))
             with patch.object(check_links, "probe", side_effect=lambda url, *_a, **_k:
-                              {"url": url, "ok": url == mirror, "range": False, "cors": True}):
+                              {"url": url, "ok": False, "range": False, "cors": True}):
                 self.assertEqual(check_links.main([]), 1)
+
+    def test_publisher_uses_builder_agent_without_origin(self):
+        response = self.response(200, {"Content-Length": "42"})
+        with patch.object(check_links, "urlopen", return_value=response) as fetch:
+            self.assertTrue(check_links.probe("https://publisher.test/guide", 42, None, 1)["ok"])
+        for call in fetch.call_args_list:
+            self.assertIsNone(call.args[0].get_header("Origin"))
+            self.assertEqual(call.args[0].get_header("User-agent"), check_links.USER_AGENT)
+
+    def test_checks_published_mirror_parts_and_relay_with_pages_origin(self):
+        url = "https://publisher.test/guide"
+        asset = {"id": "guide", "source_url": url, "size_bytes": 80_000_010, "format": "pdf"}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "web").mkdir()
+            (root / "relay").mkdir()
+            (root / "web/pages-mirrors.json").write_text(json.dumps({"guide": "pinned"}))
+            (root / "relay/allowlist.json").write_text(json.dumps({
+                "guide": {"url": url, "bytes": asset["size_bytes"]},
+                "archive--peer": {"url": url, "bytes": 200, "archive": "archive"}}))
+            output = root / "report.json"
+            def response(route, size, origin, _timeout, *, whole_get=False, **_kwargs):
+                self.assertEqual(origin, None if route == url else check_links.DEFAULT_ORIGIN)
+                if route.endswith("/assets/guide"):
+                    self.assertTrue(whole_get)
+                if route.endswith("/assets/archive--peer"):
+                    self.assertFalse(whole_get)
+                return {"url": route, "observed_bytes": size, "ok": True, "cors": True, "range": True,
+                        "exposes_content_range": not route.endswith("archive--peer")}
+            with patch.object(check_links, "ROOT", root), patch.object(check_links, "load_catalog", return_value=[asset]), \
+                    patch.object(check_links, "probe", side_effect=response), patch("sys.stdout"), patch("sys.stderr"):
+                result = check_links.main(["--pages-base", "https://pages.test/owl/", "--relay-base", "https://relay.test",
+                                           "--archive-relay", "--output", str(output)])
+            self.assertEqual(result, 1)
+            report = json.loads(output.read_bytes())
+            parts = [(row["url"], row["observed_bytes"]) for row in report["responses"] if row["route"] == "pages-mirror"]
+            self.assertEqual(parts, [("https://pages.test/owl/mirrors/guide-0.bin", 80_000_000),
+                                     ("https://pages.test/owl/mirrors/guide-1.bin", 10)])
+            self.assertEqual(report["failed_routes"][0]["browser_drift"], ["exposes_content_range"])

@@ -16,7 +16,7 @@ import struct
 from zipfile import BadZipFile, ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 from .catalog import is_document
-from .safety import SafetyError, reject_symlinks, validate_relative
+from .safety import SafetyError, mkdir_readable, reject_symlinks, validate_relative
 from .transfer import (_check_directory, _directory_identity, _open_regular,
                        durable_writer, _digest)
 
@@ -236,7 +236,7 @@ class ZipSource:
                 any(os.path.abspath(p).casefold() == os.path.abspath(self.path).casefold()
                     for p in (destination, part))):
             raise ArchiveError("ZIP source, destination and partial must not alias")
-        destination.parent.mkdir(parents=True, exist_ok=True)
+        mkdir_readable(destination.parent)
         part.parent.mkdir(parents=True, exist_ok=True)
         destination_parent = _directory_identity(destination.parent)
         partial_parent = _directory_identity(part.parent)

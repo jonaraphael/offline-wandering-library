@@ -1,6 +1,6 @@
 # Source-pin discovery for the 1 TB plan
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 `scripts/probe_source_pins.py` checks exact source identities using HEAD requests
 and explicitly declared checksum sidecars. It never reads a library file body,
@@ -42,29 +42,29 @@ as ready catalog assets.
 
 - All 75 proposed New England map objects returned HTTP 200. Their exact HEAD
   total is **2,107,297,354 bytes**; 65 API size values were stale, with a total
-  difference of 1,470,212 bytes. The [map probe evidence](../catalog/acquisition/regional-map-source-probe-evidence.json)
+  difference of 1,470,212 bytes. The [map probe evidence](../../catalog/acquisition/regional-map-source-probe-evidence.json)
   preserves both the observed size and a changed-size blocker. These S3 objects
   expose no qualifying whole-file SHA-256; multipart ETags are retained only as
   evidence.
 - The exact 2026 Hesperian midwives back-matter URL returned HTTP 404. The
-  [source report](../catalog/acquisition/full-1tb-source-probe-evidence.json)
+  [source report](../../catalog/acquisition/full-1tb-source-probe-evidence.json)
   records the unavailable file; a different edition is not substituted.
 - The publisher's [Stack Exchange archive metadata](https://archive.org/metadata/stackexchange)
   identifies separate Posts, Comments, Users and PostLinks archives totaling
   **31,166,034,729 bytes**. HEAD confirms all four sizes. The
-  [candidate manifest](../catalog/acquisition/stackoverflow-input-candidates.json)
+  [candidate manifest](../../catalog/acquisition/stackoverflow-input-candidates.json)
   freezes their identities, metadata hash, expected XML members and correctly
   labeled publisher MD5/SHA-1/CRC32 values. Whole-file SHA-256, safe 7z extraction,
   unpacked XML pins, per-post metadata and illustration review remain required.
   The four shared inputs serve both durable and legacy selections and must not
   be counted twice. `stackoverflow_input_candidates()` in the pin module
   reproduces this freeze from cached publisher metadata.
-- The [Kiwix directory observation](../catalog/acquisition/khan-source-discovery.json)
+- The [Kiwix directory observation](../../catalog/acquisition/khan-source-discovery.json)
   lists only the whole English Khan archive. That collection is excluded from
   the declared 90 GB subject subset, so it has not been selected as a substitute
   for course and lesson manifests.
 
-The [USA overview candidate](../catalog/acquisition/usa-overview-candidate.json)
+The [USA overview candidate](../../catalog/acquisition/usa-overview-candidate.json)
 now identifies USGS product **112764**, a 2001 General Reference map printed in
 2002. The [publisher product metadata](https://store.usgs.gov/product/112764)
 declares all 50 states, including Alaska and Hawaii, at a common 1:5,000,000 scale.

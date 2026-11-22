@@ -37,7 +37,7 @@ These references have uneven depth and different publication dates. Garden guida
 
 ## Required textbooks and illustrated guides
 
-Every production preset includes two complete Kuphaldt electrical textbooks and all 20 acquired OpenStax mathematics/science PDFs. The original five-book seed is listed below for historical provenance; it is no longer the full default. The additional PDFs and their notices are documented in [education acquisition evidence](acquisition-education.md). Their explanations, figures and exercises support repair, agriculture and medical understanding; they do not replace task-specific safety or clinical guidance.
+Every production preset includes two complete Kuphaldt electrical textbooks and all 20 acquired OpenStax mathematics/science PDFs. The original five-book seed is listed below for historical provenance; it is no longer the full default. The additional PDFs and their notices are documented in [education acquisition evidence](archive/acquisition-education.md). Their explanations, figures and exercises support repair, agriculture and medical understanding; they do not replace task-specific safety or clinical guidance.
 
 | Textbook | PDF pages | Exact downloaded bytes | Foundation |
 | --- | ---: | ---: | --- |
@@ -93,10 +93,10 @@ The archive contents and applications have not all been opened or run during rep
 
 | Platform | Pinned offline package | Upstream source |
 | --- | --- | --- |
-| Windows x64 | Kiwix Desktop 2.5.1 portable ZIP | [kiwix-desktop](https://github.com/kiwix/kiwix-desktop) |
-| Linux x86_64 | Kiwix Desktop 2.5.1 AppImage | [kiwix-desktop](https://github.com/kiwix/kiwix-desktop) |
-| macOS | Kiwix 3.14.0 DMG | [apple](https://github.com/kiwix/apple) |
-| Android | Kiwix standalone 3.14.0 APK | [kiwix-android](https://github.com/kiwix/kiwix-android) |
+| Windows x64 | Kiwix Desktop 2.5.1 portable ZIP | [Desktop 2.5.1](https://github.com/kiwix/kiwix-desktop/tree/2.5.1) |
+| Linux x86_64 | Kiwix Desktop 2.5.1 AppImage | [Desktop 2.5.1](https://github.com/kiwix/kiwix-desktop/tree/2.5.1) |
+| macOS | Kiwix 3.14.0 DMG | [Apple 3.14.0](https://github.com/kiwix/kiwix-apple/tree/3.14.0) |
+| Android | Kiwix standalone 3.14.0 APK | [Android 3.14.0](https://github.com/kiwix/kiwix-android/tree/3.14.0) |
 
 These pinned versions are selected verified releases, not a claim to be the newest release. [Official download options](https://get.kiwix.org/en/solutions/applications/download-options/) link to the release channels. The standalone Android package can open external files through its file picker; it differs from the restricted Play Store package. Installation can still be forbidden by device policy.
 
@@ -107,9 +107,9 @@ The AppImage is not an ARM Raspberry Pi reader. Linux AppImages may need FUSE or
 ## Acquisition status and personal use
 
 The current [resource report](content-selection.md) describes every ready, partial
-and unresolved tag. Detailed evidence is in [medical](acquisition-medical.md),
-[education](acquisition-education.md), [archives](acquisition-archives.md), and
-[programming/Low-tech](acquisition-reference.md) acquisition notes.
+and unresolved tag. Detailed evidence is in [medical](archive/acquisition-medical.md),
+[education](archive/acquisition-education.md), [archives](archive/acquisition-archives.md), and
+[programming/Low-tech](archive/acquisition-reference.md) acquisition notes.
 
 Official Hesperian, MSF, WHO and other offered downloads are included for
 personal, noncommercial offline use with their original notices. A

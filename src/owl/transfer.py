@@ -9,7 +9,7 @@ import re
 import stat
 import time
 
-from .safety import SafetyError, reject_symlinks
+from .safety import SafetyError, make_readable, mkdir_readable, reject_symlinks
 
 
 CHUNK_BYTES = 1024 * 1024
@@ -18,6 +18,10 @@ CHECKPOINT_SECONDS = 5.0
 
 
 class TransferError(RuntimeError):
+    pass
+
+
+class ChecksumMismatchError(TransferError):
     pass
 
 
@@ -77,7 +81,7 @@ def _open_regular(path: Path, *, writable: bool = False):
     _regular(path)
     flags = os.O_RDWR | os.O_CREAT if writable else os.O_RDONLY
     flags |= getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0) | getattr(os, "O_BINARY", 0)
-    fd = os.open(path, flags, 0o600)
+    fd = os.open(path, flags, 0o644)
     try:
         info = os.fstat(fd)
         if not stat.S_ISREG(info.st_mode):
@@ -85,6 +89,8 @@ def _open_regular(path: Path, *, writable: bool = False):
         # Truncating or appending a linked partial would also alter another name.
         if writable and info.st_nlink > 1:
             raise SafetyError(f"Refusing hard-linked transfer partial: {path}")
+        if writable:
+            make_readable(fd)
         return os.fdopen(fd, "r+b" if writable else "rb")
     except BaseException:
         os.close(fd)
@@ -169,9 +175,9 @@ def resume_copy(source: Path, destination: Path, *, size: int,
             if _digest(destination, size) == checksum:
                 progress(f"{destination.name}: reusing verified copy")
                 return checksum
-        destination.parent.mkdir(parents=True, exist_ok=True)
+        mkdir_readable(destination.parent)
         destination_parent = _directory_identity(destination.parent)
-        part.parent.mkdir(parents=True, exist_ok=True)
+        part.parent.mkdir(mode=0o755, parents=True, exist_ok=True)
         partial_parent = _directory_identity(part.parent)
         for path in (destination, part):
             _regular(path)
@@ -217,7 +223,7 @@ def resume_copy(source: Path, destination: Path, *, size: int,
 
     digest = _digest(part, size)
     if checksum is not None and digest != checksum:
-        raise TransferError(f"{destination.name}: SHA-256 mismatch; refusing completed copy")
+        raise ChecksumMismatchError(f"{destination.name}: SHA-256 mismatch; refusing completed copy")
     _check_directory(destination.parent, destination_parent)
     _check_directory(part.parent, partial_parent)
     for path in (destination, part):

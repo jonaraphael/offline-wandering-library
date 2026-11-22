@@ -21,8 +21,8 @@ Both commands require a new output path.
 
 Open `START_HERE.html`. The HTML page prints paths and works with scripts
 disabled. Open `LIBRARY/BOOKS/phone-test.pdf` and read the fixture sentence.
-With this test fixture, open `LIBRARY/SEARCH.html` in a desktop browser and search for **weather vane
-wind direction**. The expected first result is **Weather vane**, linked to
+With this test fixture, open **Search** in the reader and enter **weather vane**.
+The expected first result is **Weather vane**, linked to
 the PDF’s first physical page. The bundled fixtures show the same marker
 article in `LIBRARY/ZIM/reader-test.zim` and in the two split parts
 `split-test.zimaa` and `split-test.zimab`.

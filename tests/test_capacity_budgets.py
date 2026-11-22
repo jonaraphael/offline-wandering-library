@@ -1,5 +1,6 @@
 """Honest content accounting, explicit working space, and resumable quota stops."""
 from pathlib import Path
+from types import SimpleNamespace
 import hashlib
 import json
 import tempfile
@@ -8,7 +9,7 @@ from unittest.mock import patch
 
 import yaml
 
-from owl.build import build, check_space_phases
+from owl.build import build, check_space_phases, main
 from owl.catalog import CatalogError, capacity_plan, load_profiles
 
 
@@ -40,6 +41,47 @@ class CapacityBudgetTests(unittest.TestCase):
         (target / self.asset['destination']).write_bytes(self.source.read_bytes())
         return target
 
+    def test_flash_command_fits_a_1546_gb_drive_and_builds(self):
+        profile = {**self.profile, 'id': 'flash-16gb', 'capacity_bytes': 15_875_000_000,
+                   'nominal_capacity_bytes': 16_000_000_000, 'discovery_budget_bytes': 200_000_000,
+                   'reserve_bytes': 125_000_000, 'default_resources': ['core', 'optional', 'archive-readers']}
+        (self.profiles / 'flash-16gb.yaml').write_text(yaml.safe_dump(profile), encoding='utf-8')
+        assets = [{**self.asset, 'profiles': [], 'utility_tier': 'CRITICAL'},
+                  {**self.asset, 'id': 'optional', 'profiles': [], 'destination': 'BOOKS/optional.txt',
+                   'size_bytes': 15_145_000_000, 'utility_tier': 'NONESSENTIAL'},
+                  {**self.asset, 'id': 'reader', 'profiles': [], 'destination': 'SOFTWARE/reader.zip',
+                   'format': 'zip', 'utility_tier': 'USEFUL'}]
+        self.catalog.write_text(yaml.safe_dump({'schema_version': 1, 'assets': assets}), encoding='utf-8')
+        resources = [{'id': identity, 'title': identity, 'status': 'ready', 'target_bytes': asset['size_bytes'],
+                      'asset_ids': [asset['id']]} for identity, asset in zip(profile['default_resources'], assets)]
+        self.catalog.with_name('resources.yaml').write_text(yaml.safe_dump({'schema_version': 1, 'resources': resources}),
+                                                          encoding='utf-8')
+        self.catalog.with_name('capacity-ladder.json').write_text(json.dumps({
+            'schema_version': 2, 'transitions': [[16_000_000_000, identity, 'published'] for identity in ('core', 'optional')],
+            'filler_placements': [], 'fillers': [[16_000_000_000, []]]}), encoding='utf-8')
+        target = self.root / 'drive'
+        target.mkdir()
+        argv = [str(target), '--catalog', str(self.catalog), '--profiles-dir', str(self.profiles),
+                '--profile', 'flash-16gb', '--allow-local']
+        with patch('owl.build.shutil.disk_usage', return_value=SimpleNamespace(free=15_460_000_000)), \
+                patch('sys.stdout') as stdout:
+            self.assertEqual(main([*argv, '--plan']), 0)
+            self.assertFalse((target / 'START_HERE.html').exists())
+            self.assertEqual(main(argv), 0)
+        self.assertIn('Fitting the flash-16gb recommendation to 15,460,000,000 free bytes',
+                      ''.join(call.args[0] for call in stdout.write.call_args_list))
+        info = json.loads((target / 'LIBRARY/BUILD_INFO.json').read_bytes())
+        self.assertTrue(info['content_complete'])
+        self.assertEqual(info['profile']['nominal_capacity_bytes'], 15_460_000_000)
+        self.assertTrue((target / 'LIBRARY/BOOKS/book.txt').is_file())
+        self.assertFalse((target / 'LIBRARY/BOOKS/optional.txt').exists())
+        tiny = self.root / 'small-drive'
+        tiny.mkdir()
+        with patch('owl.build.shutil.disk_usage', return_value=SimpleNamespace(free=7_000_000_000)), \
+                patch('sys.stdout'), patch('sys.stderr') as stderr:
+            self.assertEqual(main([str(tiny), *argv[1:], '--plan']), 1)
+        self.assertIn('Free at least 1,000,000,000 more bytes for the 8 GB plan',
+                      ''.join(call.args[0] for call in stderr.write.call_args_list))
 
 
     def test_metrics_exclude_readers_and_distinguish_plans_from_known_content(self):

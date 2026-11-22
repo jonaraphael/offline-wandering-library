@@ -1,6 +1,6 @@
 # Bounded 7z acquisition and local QA
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 Build recipes can declare pinned 7z archives under `build_inputs` and exact,
 reviewed XML members under `build_input_extractions`. The archive remains a

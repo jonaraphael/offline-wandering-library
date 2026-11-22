@@ -8,3 +8,11 @@ your device's compatible viewer. Encyclopedias open with Kiwix.
 Help in the Library page links to the file list and build report.
 SHA256SUMS.txt lists the hashes of the managed files. To check the drive,
 run python LIBRARY/VERIFY.py /path/to/drive with Python 3.11 or later.
+
+Kiwix reader source for the bundled GPL releases
+- Windows and Linux, Kiwix Desktop 2.5.1: https://github.com/kiwix/kiwix-desktop/tree/2.5.1
+- macOS, Kiwix 3.14.0: https://github.com/kiwix/kiwix-apple/tree/3.14.0
+- Android, Kiwix standalone 3.14.0: https://github.com/kiwix/kiwix-android/tree/3.14.0
+Keep the license notices included in the reader packages. If you distribute
+binary copies, arrange corresponding source for the packages and bundled
+GPL components under their applicable licenses.

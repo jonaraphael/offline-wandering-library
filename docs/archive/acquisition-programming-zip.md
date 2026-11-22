@@ -1,6 +1,6 @@
 # Python and SQLite build-time package recipes
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 Prepared from temporary publisher archives already acquired before the user
 clarified link/catalog-only scope. Preparing these recipes performed local reads
@@ -9,7 +9,7 @@ real-content extraction, drive builds or SSD writes. Synthetic tests exercise th
 future build behavior without real library content.
 
 The portable fragment is
-[`catalog/acquisition/programming-zip-members.yaml`](../catalog/acquisition/programming-zip-members.yaml).
+[`catalog/acquisition/programming-zip-members.yaml`](../../catalog/acquisition/programming-zip-members.yaml).
 It contains the two source ZIPs and every one of their 1,655 ordinary output files.
 The parent collection remains **partial**: these packages complete the bounded
 Python/SQLite documentation additions, not the whole Linux/programming collection.
@@ -54,7 +54,7 @@ every hyperlink or every page in both packages.
 ## Future build and remaining limits
 
 Select both source IDs and all member IDs under `linux-programming-docs`. The new
-[archive extraction contract](archive-extraction.md) makes a future build download
+[archive extraction contract](../archive-extraction.md) makes a future build download
 each ZIP once, verify it, and produce directly readable files with independent pins.
 Useful entry points will be:
 

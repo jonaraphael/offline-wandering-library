@@ -19,9 +19,12 @@ for (let offset = 0; offset < bytes; offset += block.length) digest.update(block
 const archive = {id:"scale", title:"Scale fixture", format:"zim", destination:"ZIM/scale.zim",
   size_bytes:bytes, sha256:digest.digest("hex"), utility_tier:"USEFUL"};
 const requests = [];
-if (diskFull) Object.assign(archive, {format:"pdf", destination:"BOOKS/too-big.pdf"});
+if (diskFull) Object.assign(archive, {format:"pdf", destination:"BOOKS/too-big.pdf", utility_tier:"CRITICAL",
+  selection:{level:0, rank:1}});
 const marker = {id:"marker", title:"After disk full", format:"pdf", destination:"BOOKS/marker.pdf",
-  size_bytes:5, sha256:createHash("sha256").update("works").digest("hex"), utility_tier:"NONESSENTIAL"};
+  size_bytes:5, sha256:createHash("sha256").update("works").digest("hex"), utility_tier:"CRITICAL",
+  selection:{level:0, rank:2}};
+const optional = {...marker, id:"optional", destination:"BOOKS/optional.pdf", utility_tier:"NONESSENTIAL"};
 const server = createServer(async (request, response) => {
   if (request.url === "/") return response.end("<!doctype html><title>OWL local scale test</title>");
   if (request.url === "/marker") return response.end("works");
@@ -80,7 +83,7 @@ async function main() {
     const {browser, page, process: child} = await openChrome();
     const before = performance.now();
     try {
-      const result = await page.evaluate(async ({archive, marker}) => {
+      const result = await page.evaluate(async ({archive, marker, optional}) => {
         const {buildLibrary} = await import("/web/builder.mjs");
         const {pickDrive} = await import("/web/drive.mjs");
         const wrap = handle => ({
@@ -105,12 +108,13 @@ async function main() {
         });
         globalThis.showDirectoryPicker = async () => wrap(await navigator.storage.getDirectory());
         const drive = await pickDrive();
-        const result = await buildLibrary(drive, {assets:[archive, marker],
-          routes:{scale:[location.origin + "/asset"], marker:[location.origin + "/marker"]}});
+        const result = await buildLibrary(drive, {assets:[archive, marker, optional],
+          routes:{scale:[location.origin + "/asset"], marker:[location.origin + "/marker"],
+            optional:[location.origin + "/marker"]}});
         return {dropped:result.state.dropped, verified:result.completed.map(asset => asset.id)};
-      }, {archive, marker});
+      }, {archive, marker, optional});
       console.log(JSON.stringify({seconds:(performance.now()-before)/1000,...result}));
-      assert.deepEqual(result, {dropped:{scale:"Drive ran out of space"}, verified:["marker"]});
+      assert.deepEqual(result, {dropped:{scale:"Drive ran out of space", optional:"Drive ran out of space"}, verified:["marker"]});
     } finally {
       await browser.close();
       if (child.exitCode === null && child.signalCode === null) child.kill("SIGTERM");

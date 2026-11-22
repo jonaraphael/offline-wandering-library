@@ -1,6 +1,6 @@
 # Midwives 2026 scope review
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 Retain the 31 included same-edition publisher PDFs. Removing the entire book
 is not supported by the present equivalence evidence. No purchase was made.

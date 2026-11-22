@@ -1,6 +1,6 @@
 # Practical resource selections — 28 September 2026
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 Six complete publisher PDFs were selected for **full-1tb**, adding **76,927,328
 bytes**. The smaller presets retain their prior selections. Each new asset has
@@ -35,7 +35,7 @@ transfer bound; the earlier Wood Handbook attempt was rejected as encrypted;
 the revised 2026 Organic Seed Alliance page did not offer a finished PDF link
 in this check. The older seed PDF was not relabelled as the current revision.
 
-[Machine-readable decisions and source pins](../catalog/acquisition/practical-discovery-20260928.json)
-preserve this batch. The [topic-by-topic completion plan](full-1tb-coverage-plan.md)
+[Machine-readable decisions and source pins](../../catalog/acquisition/practical-discovery-20260928.json)
+preserve this batch. The [topic-by-topic completion plan](../full-1tb-coverage-plan.md)
 defines the remaining depth work and next selections. None of these additions
 automatically marks a topic adequate.

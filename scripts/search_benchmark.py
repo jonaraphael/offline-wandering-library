@@ -11,20 +11,44 @@ import tempfile
 from owl.atlas_model import load_navigation
 from owl.catalog import load_catalog, load_profiles, resolve_content
 from owl.discovery import plan_discovery
-from owl.search_shards import ROOT, SEARCH_ROOT, SELECTION_FILE, load_manifest, payload
+from owl.navigation import generate_navigation
+from owl.search_shards import ROOT, SEARCH_ROOT, SELECTION_FILE, load_manifest, output_bytes, payload
 from owl.selection import load_ladder, recommended_profile
 from owl.wikimed_phone import manifest as phone_manifest, volumes as phone_volumes
+
+
+def assemble_reader(directory, selected, files, report):
+    """Assemble the shipped search and reader without downloading source content."""
+    directory.mkdir(parents=True, exist_ok=True)
+    library = directory / "LIBRARY"
+    pages = generate_navigation(library, selected, {"assets": selected}, report,
+                                write=False, search_outputs=files)
+    start = directory / "START_HERE.html"
+    with start.open("x", encoding="utf-8") as stream:
+        stream.write(pages.pop(start.name))
+    # The reader loads manifest/runtime scripts from its generation and support
+    # assets from SEARCH/shared. Catalog records and chunks keep their own paths.
+    for name, value in {**pages, **{name: value for name, value in files.items()
+                                    if name.startswith(("SEARCH/data/", "SEARCH/sources/", "SEARCH/chunks/"))}}.items():
+        path = library / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(output_bytes(value))
+    return start
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="enforce checked-in recall and empty-result bounds")
-    parser.add_argument("--bounded", action="store_true", help="measure the bounded term-index route")
+    parser.add_argument("--bounded", action="store_true", help="measure the 39.7 MB term-index allowance")
+    parser.add_argument("--exhaustive", action="store_true", help="score all eligible chunks for comparison")
     parser.add_argument("--quick", action="store_true", help="measure recall over the first 28 MB of ranked chunks")
     parser.add_argument("--tasks", action="store_true", help="export the three results per graded task query")
     parser.add_argument("--extra-tasks", type=Path, help="JSON list of additional task IDs and queries")
     parser.add_argument("--task-depth", type=int, choices=range(3, 51), metavar="3-50", default=3,
                         help="export optional deeper candidate lists for relevance review")
+    parser.add_argument("--assemble", type=Path, help="assemble search and reader files into this directory for timing")
+    parser.add_argument("--capacity", type=int, choices=(16, 128, 1000),
+                        help="run one capacity in GB (default: all for ranking, 16 for assembly)")
     args = parser.parse_args()
     catalog = ROOT / "catalog/library.yaml"
     profiles = load_profiles(ROOT / "profiles")
@@ -34,11 +58,15 @@ def main():
     shards = load_manifest()["sources"]
     plans = []
     phone = phone_manifest()
-    for capacity in (16, 128, 1000):
+    capacities = (args.capacity,) if args.capacity else (16,) if args.assemble else (16, 128, 1000)
+    for capacity in capacities:
         profile = recommended_profile(profiles["flash-16gb"], capacity * 10**9, ladder)
         selected, _, _ = resolve_content(assets, profile, resources_path=catalog.with_name("resources.yaml"))
         phone_bytes = sum(volume["bytes"] for volume in phone_volumes(selected, phone))
         files, report = plan_discovery(selected, navigation, budget=profile["discovery_budget_bytes"] - phone_bytes)
+        if args.assemble:
+            print(assemble_reader(args.assemble, selected, files, report))
+            return
         selection = payload(files[SELECTION_FILE].encode("utf-8"), "OWLShardSelection")
         name = report["manifest"]["path"]
         catalog_records = payload(files[name].encode("utf-8"), "OWLDiscoveryData")["records"]
@@ -65,6 +93,8 @@ def main():
             command.append("--tasks")
         if args.bounded:
             command.append("--bounded")
+        if args.exhaustive:
+            command.append("--exhaustive")
         if args.quick:
             command.append("--quick")
         if args.extra_tasks:

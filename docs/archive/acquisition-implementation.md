@@ -1,6 +1,6 @@
 # Acquisition implementation and remaining content gaps
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 The reusable acquisition workflow is implemented. It closes the dated
 food-preservation snapshot gap, registers two preserved programming source
@@ -29,7 +29,7 @@ bounded publisher metadata only.
 - The complete OpenSSH portable 10.5p1 edition replaces the eight partial OpenBSD
   default manuals in larger presets with 16 manuals, original roff companions and
   the release notice. All 33 generated outputs are pinned; 32 offline browser
-  checks pass. [Edition and build evidence](acquisition-openssh.md).
+  checks pass. [Edition and build evidence](../acquisition-openssh.md).
 - Linux man-pages 6.19 and OpenSSH portable 10.5p1 original release archives now
   accompany the programming manuals and notices. Their 4,241,795 bytes count as
   supporting files, adding no artificial knowledge coverage.
@@ -44,10 +44,10 @@ bounded publisher metadata only.
   16/64 GB presets, compact book/Stack Exchange editions, and original larger
   content windows remain intact.
 
-The accepted manifests are [food updates](../catalog/acquisition/food-updates.yaml)
-and [programming companions](../catalog/acquisition/programming-source-companions.yaml).
-Food [source evidence](../catalog/acquisition/food-updates-evidence.json) and
-[browser evidence](../catalog/acquisition/food-updates-browser-evidence.json)
+The accepted manifests are [food updates](../../catalog/acquisition/food-updates.yaml)
+and [programming companions](../../catalog/acquisition/programming-source-companions.yaml).
+Food [source evidence](../../catalog/acquisition/food-updates-evidence.json) and
+[browser evidence](../../catalog/acquisition/food-updates-browser-evidence.json)
 bind the edition to its reviewed bytes. Desktop and mobile browser checks found
 all images/tables, valid internal anchors, every companion PDF, no page overflow,
 and no network requests or browser errors.
@@ -63,9 +63,9 @@ and no network requests or browser errors.
 | Stack Overflow | [Four official input identities](acquisition-source-pins.md) now cover Posts, Comments, Users and PostLinks, totaling 31,166,034,729 download bytes. Publisher hashes are SHA-1/MD5, so whole-file SHA-256, safe extraction, XML/dependency pins and reviewed question selections remain pending. |
 | Khan/TED | Ordinary media/caption rendering is implemented and browser-tested. Actual English course/lesson manifests, media pins and unsupported essential lesson decisions remain pending. |
 | Programming | Complete portable OpenSSH 10.5p1 manuals close the four missing functional manuals and add the rest of the release. Outside-release system/platform references remain explicit; programming stays partial. |
-| PhET | The [portable runner and pinned check manifest](phet-browser-qa.md) now pass 32/32 checks: 16 simulations at desktop and phone-sized viewports with reviewed interaction/reset state. Physical-device usability and broader screen coverage remain outstanding. |
+| PhET | The [portable runner and pinned check manifest](../phet-browser-qa.md) now pass 32/32 checks: 16 simulations at desktop and phone-sized viewports with reviewed interaction/reset state. Physical-device usability and broader screen coverage remain outstanding. |
 
-[Portable discovery evidence](../catalog/acquisition/discovery-evidence.json)
+[Portable discovery evidence](../../catalog/acquisition/discovery-evidence.json)
 records publisher URLs, metadata hashes, observed counts and explicit blockers.
 Map discovery uses the official [USGS access routes](https://www.usgs.gov/the-national-map-data-delivery/topographic-map-access-points)
 and never truncates a selected sheet list to claim complete coverage. Historical
@@ -96,7 +96,7 @@ editions were added to fill those windows.
 Final validation passed **all 10 checks**, including the **612-test regression
 suite**, all five plans and generated-file freshness. The default environment
 skipped three optional geometry tests; a separate 49-test map/provider/pin pass
-with Shapely installed passed without skips. [Portable validation evidence](../catalog/acquisition/validation-evidence.json)
+with Shapely installed passed without skips. [Portable validation evidence](../../catalog/acquisition/validation-evidence.json)
 records the checked catalog/profile hashes, exact plan counts and raw-report digest.
 The bound PhET browser run passed 32/32 checks; OpenSSH passed 32/32 page checks,
 83-file local build verification and a fully reused second build.

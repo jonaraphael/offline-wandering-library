@@ -1,5 +1,5 @@
 name: tests
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
 jobs:
@@ -57,6 +57,19 @@ jobs:
           node-version: '22'
       - run: python -m pip install -e .
       - run: python scripts/build_pages.py "${{ runner.temp }}/owl-pages" --search-commit "${{ github.sha }}"
-      - run: node --test tests/browser-builder.test.mjs tests/sync-reconcile.test.mjs tests/relay.test.mjs tests/search/rank.test.cjs tests/search/impact.test.cjs
+      - run: node --test tests/archive-resume-route.test.mjs tests/browser-builder.test.mjs tests/capacity-probe.test.mjs tests/diagnostics.test.mjs tests/relay.test.mjs tests/remove-tree.test.mjs tests/sync-reconcile.test.mjs tests/search/*.test.cjs
       - run: node tests/browser-plan.test.mjs "${{ runner.temp }}/owl-pages"
       - run: python scripts/search_benchmark.py --check
+      - name: Test disk-full handling in headless Chrome
+        run: |
+          mkdir -p "${{ runner.temp }}/owl-browser"
+          npm install --prefix "${{ runner.temp }}/owl-browser" playwright-core@1.58.0
+          node scripts/check_browser_resume.cjs "${{ runner.temp }}/owl-browser" "$(command -v google-chrome)" "${{ runner.temp }}/owl-browser/node_modules/playwright-core" disk-full
+  publish:
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    needs: [test, zim, pages]
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml

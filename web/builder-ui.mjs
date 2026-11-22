@@ -7,6 +7,7 @@ import {getRememberedDrive, hasDrivePermission, keepScreenAwake, measureFreeSpac
 const INDEX_ALLOWANCE = 16 * 2 ** 20;
 const GB = 1e9;
 const READERS = "archive-readers";
+const READER_PUBLICATION = new URL(import.meta.url).searchParams.get("v");
 const byId = id => document.getElementById(id);
 
 async function get(url, signal) {
@@ -183,7 +184,7 @@ function reduceBrowser(planner, state, reachable, retained, phone) {
   const chosen = new Set();
   const candidates = new Map([...new Set([...collections.values()].flat())].map(id => [id, assets.get(id)]));
   let used = 0, needsReaders = false;
-  for (const asset of buildOrder(candidates.values())) {
+  for (const asset of buildOrder(candidates.values(), {join: false})) {
     if (chosen.has(asset.id) || asset.generation) continue;
     const sourceId = asset.archive_member?.source_asset_id;
     const source = candidates.get(sourceId);
@@ -231,17 +232,33 @@ export function recommendBrowser(planner, state, routes, published, kept = () =>
 // Platforms where extending a probe file allocates real clusters and fails past
 // free space (docs/capacity-probe.md): macOS and Windows on exFAT or NTFS.
 // Linux exFAT rejects the extension and ntfs-3g allocates sparsely, so Linux
-// users confirm the label size instead.
-export function probesCapacity(platform) {
-  return /^(mac|win)/i.test(platform || "");
+// users confirm the label size and plan from a conservative estimate.
+export function probesCapacity(platform, agent = "") {
+  if (/linux|android/i.test(platform || agent)) return false;
+  return /^(mac|win)/i.test(platform || "") || /Macintosh|Windows/i.test(agent);
 }
 
+export const estimateLabelCapacity = labelBytes => Math.floor(labelBytes * 0.9);
 
 const WELCOME = "Any USB drive or SD card with 16 GB to 1 TB free. Files already on it stay.";
 const rememberedKey = () => "owl-last-sync:" + location.pathname.replace(/index\.html$/, "");
 const driveName = handle => handle?.name || "Your drive";
 const dateOf = value => value ? new Date(value).toLocaleDateString("en-GB", {day: "numeric", month: "long", year: "numeric"}) : "";
 const countOf = (count, noun) => count.toLocaleString() + " " + noun + (count === 1 ? "" : "s");
+const partsMessage = rows => rows?.length ? countOf(rows.length, "encyclopedia") + " kept in parts." : "";
+
+export function completionState({state, completed, missing, searchWarnings, keptInParts}) {
+  const files = completed.filter(isKnowledgeFile).length;
+  const unavailable = missing.length;
+  const essential = missing.filter(row => row.utility_tier === "CRITICAL").length;
+  const summary = countOf(files, "file") + " arrived. " + countOf(essential, "essential file") + " missing.";
+  const support = searchWarnings.length ? " Some reader or search files are missing." : "";
+  if (!files) return {mode: "failed", title: "Sync could not finish", message: summary + support};
+  if (state.finished && !unavailable) return {mode: "done", extra: partsMessage(keptInParts)};
+  return {mode: "done-gaps", title: unavailable ? "Ready, with " + countOf(unavailable, "item") + " missing" :
+    "Ready, with some files missing", message: [summary + support, partsMessage(keptInParts)].filter(Boolean).join(" ")};
+}
+
 const ratio = (done, total) => total ? Math.max(0, Math.min(1, done / total)) : 0;
 const readerTitles = new Map([
   ["kiwix_android", "Kiwix reader app for Android"], ["kiwix_linux", "Kiwix reader app for Linux"],
@@ -334,6 +351,7 @@ export function mount({catalog: supplied} = {}) {
   const name = () => driveName(drive || remembered);
   const available = () => plan && !plan.over && !plan.errors.length && plan.assets.some(isKnowledgeFile);
   const comparisonOptions = () => ({assets: plan.assets, choice: plan.choice, catalogVersion: catalogVersion(),
+    navigation: catalog.navigation, readerPublication: READER_PUBLICATION,
     singleArchives: !plan.choice.split, freeBytes: effectiveFree()});
   const totalDone = () => [...active.values()].reduce((sum, count) => sum + count, 0);
   // A side with nothing to do is left out: "removes 3.57 GB", not "adds 0 B, removes 3.57 GB".
@@ -405,7 +423,8 @@ export function mount({catalog: supplied} = {}) {
         break;
       case "current":
         Object.assign(item, {step: 3, fraction: 1, title: "Up to date", links: [manageLink, checkLink],
-          message: (lastDate ? "Synced " + lastDate + ". " : "") + countOf(plan.assets.length, "item") + ", " + bytes(plan.used) + "."});
+          message: (lastDate ? "Synced " + lastDate + ". " : "") + countOf(plan.assets.length, "item") + ", " + bytes(plan.used) + ".",
+          extra: partsMessage(inspection.state?.keptInParts)});
         break;
       case "syncing":
         Object.assign(item, {step: 2, fraction: syncFraction, title: percent(syncFraction), action: ["Pause", pause, true],
@@ -428,14 +447,17 @@ export function mount({catalog: supplied} = {}) {
         const eject = /^mac/i.test(platform) ? "In Finder, click ⏏ beside " + name() + "." :
           /^win/i.test(platform) ? "Click Safely Remove Hardware in the taskbar, then " + name() + "." : "Eject it in your file manager.";
         Object.assign(item, {step: 3, fraction: 1, title: "Ready", action: ["Sync another drive", changeDrive, true],
-          message: "Eject " + name() + ", then unplug it. " + eject, extra: "Open START_HERE on any computer or phone.", links: [checkLink]});
+          message: "Eject " + name() + ", then unplug it. " + eject,
+          extra: ["Open START_HERE on any computer or phone.", completionState(result).extra].filter(Boolean).join(" "),
+          links: [checkLink, ...(result.keptInParts.length ? [["Show files kept in parts", showMissing]] : [])]});
         break;
       }
+      case "failed":
       case "done-gaps": {
-        const missing = result.missing.length + result.searchWarnings.length + Number(!result.missing.length && !result.searchWarnings.length);
-        Object.assign(item, {step: 3, fraction: 1, title: "Ready, with " + countOf(missing, "item") + " missing",
-          message: "The library works. " + countOf(missing, "item") + " could not be downloaded.",
-          action: ["Try those again", sync], links: [["Show the " + countOf(missing, "item"), showMissing], ["Sync another drive", changeDrive]]});
+        const outcome = completionState(result);
+        Object.assign(item, {step: mode === "failed" ? 2 : 3, fraction: mode === "failed" ? 0 : 1,
+          title: outcome.title, message: outcome.message, action: ["Try those again", sync],
+          links: [["Show details", showMissing], checkLink, ["Sync another drive", changeDrive]]});
         break;
       }
       case "problem":
@@ -444,7 +466,8 @@ export function mount({catalog: supplied} = {}) {
         break;
       case "too-small":
         Object.assign(item, {title: "Not enough room", chart: false, action: pick,
-          message: "OWL needs at least " + bytes(minimum) + " free. This drive has " + bytes(measured) + "."});
+          message: "OWL needs at least " + bytes(minimum) + " free. " +
+            (measured === undefined ? "This plan estimates " + bytes(effectiveFree()) + " free." : "This drive has " + bytes(measured) + ".")});
         break;
       case "unsupported":
         Object.assign(item, {chart: false, title: "Open this page in Chrome, Edge or Arc on a computer",
@@ -456,8 +479,14 @@ export function mount({catalog: supplied} = {}) {
       item.message = plan.over ? bytes(plan.over) + " over. Make it fit in Manage before syncing." :
         plan.errors.length ? "Review the selection in Manage before syncing." : "Choose at least one available collection in Manage.";
     }
-    if (plan?.budget < plan?.capacity && ["ready", "behind", "current", "paused"].includes(mode))
-      item.message = bytes(plan.capacity) + " free, limited to " + bytes(plan.budget) + ". " + item.message;
+    if (["ready", "behind", "current", "paused"].includes(mode)) {
+      if (plan?.budget < plan?.capacity) {
+        item.message = (measured === undefined ? "Estimated space for OWL is " : "") +
+          bytes(plan.capacity) + (measured === undefined ? ", limited to " : " free, limited to ") + bytes(plan.budget) + ". " + item.message;
+      } else if (measured === undefined) {
+        item.message = "This plan uses an estimate of " + bytes(plan.capacity) + " for the drive. " + item.message;
+      }
+    }
     stage.dataset.state = mode;
     stage.style.setProperty("--p", String(item.fraction));
     if (headline.textContent !== item.title) {
@@ -513,7 +542,7 @@ export function mount({catalog: supplied} = {}) {
   }
 
   function savedAmounts() {
-    if (mode === "done" || mode === "done-gaps") return new Map(result.completed.map(asset => [asset.id, asset.size_bytes]));
+    if (["done", "done-gaps", "failed"].includes(mode)) return new Map(result.completed.map(asset => [asset.id, asset.size_bytes]));
     return new Map([...(comparison?.present || []).map(row => [row.asset.id, row.asset.size_bytes]),
       ...(comparison?.adds || []).map(row => [row.asset.id, row.savedBytes])]);
   }
@@ -546,7 +575,7 @@ export function mount({catalog: supplied} = {}) {
 
   function showMissing() {
     textList(byId("missing-list"), [...result.missing.map(item => item.title + " — " + item.reason), ...result.searchWarnings,
-      ...(!result.missing.length && !result.searchWarnings.length ? ["Some large files still need to be joined."] : [])]);
+      ...result.keptInParts.map(item => item.title + " — Kept in " + item.parts + " parts.")]);
     byId("missing-items").showModal();
   }
 
@@ -616,11 +645,11 @@ export function mount({catalog: supplied} = {}) {
     if (!await hasDrivePermission(handle)) { drive = null; render("remembered"); return; }
     inspection = await inspectDrive(handle);
     if (openedDrive !== operation) return;
-    if (probesCapacity(platform)) {
+    if (probesCapacity(platform, agent)) {
       const outcome = await lockDrive(() => measureFreeSpace(handle, {onAttempt: value => diag("capacity", value)}));
       if (openedDrive !== operation) return;
       diag("capacity-result", outcome);
-      forceSplit = outcome.kind === "fat32" || outcome.kind === "limited";
+      forceSplit = Boolean(outcome.splitArchives);
       if (outcome.kind === "measured") {
         measured = outcome.bytes;
         const total = measured + inspection.heldBytes;
@@ -628,11 +657,15 @@ export function mount({catalog: supplied} = {}) {
         return;
       }
     }
-    if (inspection.state?.capacityBytes) { await planDrive(inspection.state.capacityBytes); return; }
+    if (inspection.state?.capacityBytes) {
+      const saved = inspection.state;
+      await planDrive(saved.capacityEstimated === undefined ? estimateLabelCapacity(saved.capacityBytes) : saved.capacityBytes);
+      return;
+    }
     sizesInto(byId("drive-sizes"), undefined, value => {
       size = value;
       render("measuring");
-      void planDrive(value * 1e9).catch(showProblem);
+      void planDrive(estimateLabelCapacity(value * GB)).catch(showProblem);
     });
     render("needs-size");
   }
@@ -754,14 +787,14 @@ export function mount({catalog: supplied} = {}) {
       };
       result = await lockDrive(() => reconcile(drive, {...comparisonOptions(), excluded: plan.excluded,
         routes: catalog.routes, published: catalog.published, navigation: catalog.navigation,
-        archiveSpace: plan.limit, searchBudget: plan.searchBudget, capacityBytes: capacity,
+        archiveSpace: plan.limit, searchBudget: plan.searchBudget, capacityBytes: capacity, capacityEstimated: measured === undefined,
         replaceInPlace: [...selectedReplacement], fullVerify: fullCheck, prepareSources, signal, network, onProgress}));
       inspection = await inspectDrive(drive);
       dirty = false;
       driveChoice = JSON.stringify(plan.choice);
       selectedReplacement.clear();
       await updateComparison();
-      render(result.state.finished && !result.missing.length ? "done" : "done-gaps");
+      render(completionState(result).mode);
       storeSnapshot();
     } catch (error) {
       if (!signal.aborted) { showProblem(error); return; }

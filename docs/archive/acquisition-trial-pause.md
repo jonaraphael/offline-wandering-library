@@ -1,6 +1,6 @@
 # Trial paused by user — 23 September 2026
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 This is the historical 23 September pause checkpoint. On 27 September the user
 authorized resuming through a Python-managed queue to minimize model calls.

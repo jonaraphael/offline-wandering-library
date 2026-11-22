@@ -1,6 +1,6 @@
 # Seed and water selections — 28 September 2026
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 Five complete publisher PDFs were selected for **full-1tb**, adding **33,435,040
 bytes (33.44 MB)**. Their five per-asset YAML pseudoindexes total **6,398 bytes**.
@@ -53,8 +53,8 @@ finding tasks and the repository suite passed (842 tests, 5 skipped). Existing
 catalog records and all smaller-profile selections were checked against the
 pre-batch snapshot and remain unchanged.
 
-[Machine-readable decisions and source pins](../catalog/acquisition/seed-water-discovery-20260928.json)
+[Machine-readable decisions and source pins](../../catalog/acquisition/seed-water-discovery-20260928.json)
 preserve the evaluations and review scope. The updated
-[topic-by-topic completion plan](full-1tb-coverage-plan.md) keeps these areas
+[topic-by-topic completion plan](../full-1tb-coverage-plan.md) keeps these areas
 **partial**: crop-specific seed saving, household applicability, cold-climate water
 systems, other pump types and accessible water-quality testing still need work.

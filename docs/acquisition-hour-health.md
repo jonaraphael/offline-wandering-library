@@ -2,7 +2,7 @@
 
 **Subsequent implementation:** the preserved September 18 snapshot is now a
 source-pinned build-time recipe with complete desktop/mobile browser checks.
-See the [implementation report](acquisition-implementation.md). The historical
+See the [implementation report](archive/acquisition-implementation.md). The historical
 partial-status notes below describe the earlier research checkpoint.
 
 Research date: September 18, 2026, US Eastern time (HTTP checks occurred

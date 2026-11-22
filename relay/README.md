@@ -1,15 +1,45 @@
-# Optional publisher relay
+# Publisher relay
 
-The Worker is prepared for an explicit owner decision. The default Pages
-build never emits relay routes. The supplied configuration also disables
-Workers.dev, previews and all origins.
+`owl-publisher-relay` runs at
+`https://owl-publisher-relay.snapandshop-jonaraphael.workers.dev` and allows
+requests from `https://jonaraphael.github.io`. It is a pass-through for a fixed
+allowlist of catalog IDs and exact URLs. It stores nothing. The Worker
+validates ranges, declines publisher redirects, strips cookies and streams
+with caching disabled. Browser clients check the returned bytes against the
+catalog SHA-256. The rate limiter counts requests per IP and Cloudflare
+location.
 
-Generate the exact URL map from the catalog at the same revision as Pages.
+## Deploy and roll back
+
+The Cloudflare account owner deploys from the reviewed revision used by Pages.
+Check that the generated allowlist matches the checked-in copy before deploy.
 
 ```sh
-python scripts/build_pages.py --relay-allowlist relay/allowlist.json
+python scripts/build_pages.py --relay-allowlist /tmp/owl-relay-allowlist.json
+diff -u relay/allowlist.json /tmp/owl-relay-allowlist.json
+node --test tests/relay.test.mjs
+cd relay
+npx wrangler whoami
+npx wrangler deployments list
+npx wrangler deploy
 ```
 
+Record the previous working Worker version and the deploy commit. Use the
+owner's Wrangler login or credentials supplied outside the repository.
+To roll back, run `npx wrangler rollback <previous-version-id>` from `relay/`
+and probe a known relay ID. Use a bounded range for an archive route.
+Check that the restored allowlist contains the IDs in the live Pages catalog.
+[Cloudflare rollback guide](https://developers.cloudflare.com/workers/versions-and-deployments/rollbacks/)
+
+```sh
+curl --head -H 'Origin: https://jonaraphael.github.io' \
+  -H 'Range: bytes=0-0' \
+  https://owl-publisher-relay.snapandshop-jonaraphael.workers.dev/assets/wikipedia_en_top
+```
+
+## Pages integration
+
+Set the repository variable `OWL_RELAY_BASE` to the Worker HTTPS origin.
 The map includes critical publisher files and exact archive peers from
 [`web/archive-relay.json`](../web/archive-relay.json). The English Wikipedia
 and Survivor Library pins include FAU and Dotsrc URLs. The Worker accepts
@@ -21,27 +51,51 @@ route and switches when a peer is at least 25% faster or the direct sample
 fails. If a peer fails
 during transfer, the current archive returns to the direct route.
 
-Set the Worker’s `ALLOWED_ORIGIN` to the exact Pages origin and configure a
-Worker custom domain or route. Set up the rate-limit binding with a namespace
-unique to your account. Once approved and configured, deploy from the
-`relay/` directory with Wrangler. Turn off cache rules on the relay route and
-leave browser caching disabled. The Worker validates Range, serves the pinned
-URL, declines publisher redirects, strips cookies and streams without
-retaining a copy. Large publisher redirects or changed files require a
-catalog review. Publisher 403 responses remain request failures.
-
 Generate a Pages artifact with relay routes using the corresponding origin.
 
 ```sh
-python scripts/build_pages.py /tmp/owl-pages --relay-base https://relay.example.org \
+python scripts/build_pages.py /tmp/owl-pages \
+    --relay-base https://owl-publisher-relay.snapandshop-jonaraphael.workers.dev \
     --archive-relay --search-commit <full-git-commit>
 ```
 
-The client checks each response against the existing catalog SHA-256. The
-rate limiter counts requests per IP and Cloudflare location.
 [Workers rate limits](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/) ·
 [Cloudflare cache behavior](https://developers.cloudflare.com/workers/reference/how-the-cache-works/)
 
+## Publishers with restricted files
+
+The [catalog](../catalog/library.yaml) marks one or more files from each
+publisher below `redistributable: false`. This is a per-file flag. The relay's
+separate allowlist governs the exact routes it can serve.
+
+- CD3WD Project and original publication authors
+- Centers for Disease Control and Prevention
+- D. Van Nostrand Company, New York; scan hosted by Survivor Library
+- David Williams Company, New York; scan hosted by Survivor Library
+- Eawag / Sandec
+- Food and Agriculture Organization of the United Nations
+- Hesperian Health Guides
+- International Federation of Red Cross and Red Crescent Societies
+- John Wiley & Sons, Inc., New York / Chapman & Hall, Limited, London; scan hosted by Survivor Library
+- Kiwix / openZIM
+- Libre Pathology
+- Low-tech Magazine; archived by Kiwix/openZIM
+- Medecins Sans Frontieres
+- Montana State University Extension
+- National Center for Home Food Preservation / University of Georgia
+- North Central Food Safety Extension Network / NDSU Extension
+- Project Gutenberg contributors; Kiwix/openZIM
+- Skat / Rural Water Supply Network (RWSN)
+- Southern African Development Community Groundwater Management Institute (SADC-GMI)
+- Sphere Association
+- Sustainable Agriculture Research and Education (SARE)
+- University of Alaska Fairbanks Cooperative Extension
+- University of California, Davis, Postharvest Technology Research and Information Center
+- University of Georgia Cooperative Extension
+- University of Georgia Extension
+- University of Maryland Extension
+- World Health Organization
+- World Health Organization / WEDC
 
 ## Cloudflare plan and publisher terms
 

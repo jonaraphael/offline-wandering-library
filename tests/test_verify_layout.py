@@ -41,6 +41,42 @@ class VerifyLayoutTests(unittest.TestCase):
         result = verify.verify_drive(self.root, emit=messages.append, **kwargs)
         return result, messages
 
+    def record(self, **info):
+        (self.library / "BUILD_INFO.json").write_text(json.dumps(info), encoding="utf-8")
+        self.entries.append("LIBRARY/BUILD_INFO.json")
+        self.write_manifest()
+
+    def test_partial_selection_and_checksum_integrity_are_separate(self):
+        self.record(content_complete=False, asset_count=0, selected_count=1,
+                    missing=[{"id": "guide", "utility_tier": "CRITICAL"}])
+        messages = []
+        status, lines = self.check()
+        self.assertEqual(status["FAILED"], 0)
+        self.assertIn("Integrity: OK=4, MISSING=0, FAILED=0, UNKNOWN=0", lines)
+        self.assertIn("INCOMPLETE: 1 of 1 selected files missing (1 critical)", "\n".join(lines))
+        with patch("builtins.print", side_effect=messages.append):
+            self.assertEqual(verify.main([str(self.root)]), 0)
+            self.assertEqual(verify.main([str(self.root), "--strict"]), 1)
+            self.assertEqual(verify.main([str(self.root), "--strict", "--accept-partial"]), 0)
+            (self.library / "README.txt").unlink()
+            self.assertEqual(verify.main([str(self.root), "--strict", "--accept-partial"]), 1)
+
+    def test_split_archive_counts_as_present(self):
+        self.record(content_complete=True, asset_count=1, selected_count=1,
+                    kept_in_parts=[{"id": "archive", "parts": 2}])
+        self.assertIn("COMPLETE: 1 of 1 selected files present", self.check()[1])
+        self.assertEqual(verify.main([str(self.root), "--strict"]), 0)
+
+    def test_legacy_metadata_and_software_only_inventory(self):
+        self.record(content_complete=True, asset_count=1)
+        self.assertIn("COMPLETE: 1 files present", self.check()[1])
+        (self.library / "INVENTORY.json").write_text(json.dumps({"assets": [
+            {"destination": "SOFTWARE/reader.zip"}]}), encoding="utf-8")
+        self.entries.append("LIBRARY/INVENTORY.json")
+        self.write_manifest()
+        self.assertEqual(verify.main([str(self.root), "--strict"]), 1)
+        self.assertIn("INCOMPLETE: zero knowledge files present", self.check()[1])
+
     def test_outer_manifest_covers_start_and_library_files(self):
         result, messages = self.check()
         self.assertEqual(result, {"OK": 3, "MISSING": 0, "FAILED": 0, "UNKNOWN": 0})

@@ -41,6 +41,7 @@ python -m pip install -e '.[zim]'
 python scripts/check_selection_policy.py
 
 # Replace this path with a directory on the external drive.
+mkdir -p /path/to/EMERGENCY_LIBRARY
 python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY --profile flash-16gb --plan
 python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY --profile flash-16gb
 python scripts/verify.py /path/to/EMERGENCY_LIBRARY
@@ -64,7 +65,12 @@ The standalone selector's command uses `--detach` to start a saved background jo
 
 ## Capacity and content
 
-The default recommendation covers capacities from 16 GB. It accounts for
+The Python builder measures free space in an existing destination folder. If the preset
+needs more than the drive has free, it tries the recommendation for the measured capacity.
+From 8 GB to 16 GB, the command keeps the higher-priority collections that fit from
+the 16 GB preset. Use `--capacity-bytes` to set a specific decimal byte limit.
+
+The full preset ladder starts at 16 GB. It accounts for
 filesystem headroom, free space to retain, readers and discovery files. The
 planner protects a core of essential or introductory references in all 15
 fields. Each field retains at least half its highest earlier attributed size. In the

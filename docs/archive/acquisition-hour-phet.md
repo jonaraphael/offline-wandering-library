@@ -1,9 +1,9 @@
 # PhET: build-time source pins and desktop checks
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 Fourteen additional original, regular English HTML5 simulations are pinned in
-[`catalog/acquisition/hour-phet.yaml`](../catalog/acquisition/hour-phet.yaml), bringing
+[`catalog/acquisition/hour-phet.yaml`](../../catalog/acquisition/hour-phet.yaml), bringing
 the collection to 16. Each has an exact-version HTTPS URL, whole-file SHA-256 and
 byte count. Publisher runtimes, embedded assets, attribution and CC BY-NC 4.0 notices
 are retained. No Java, Flash or PhET-iO files are included.
@@ -39,7 +39,7 @@ to suppress those requests.
 | Fractions: Intro | 1.0.33 | mouse: numerator increase |
 | Area Builder | 1.1.38 | mouse: dimensions checkbox |
 
-[Machine-readable observations](acquisition-hour-phet-checks.json) record source
+[Machine-readable observations](../acquisition-hour-phet-checks.json) record source
 hashes and before/after/reset values. Initial harness checks missed some older
 runtime property paths and attempted clicks on sliders requiring drags; corrected
 checks verified those interactions using the same source files. Every simulation

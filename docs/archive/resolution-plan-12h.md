@@ -1,14 +1,14 @@
 # Twelve-hour asset resolution plan
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
-The current editorial plan is [the full-1tb topic completion plan](full-1tb-coverage-plan.md).
+The current editorial plan is [the full-1tb topic completion plan](../full-1tb-coverage-plan.md).
 It tracks intended depth, selected sources, gaps and next candidates without GB
 quotas. The execution scope and schedules below are historical; active catalog
 rules now select finished publisher files and reusable per-asset pseudoindexes.
 
 > Historical note: full-text indexing constraints below describe the previous
-> implementation. New builds use [lightweight discovery](search.md), without
+> implementation. New builds use [lightweight discovery](../search.md), without
 > source-text extraction or index caches. Acquisition and integrity checks remain.
 
 Prepared 2026-09-18 from `SELECT.html`, the active catalogs, acquisition evidence, implementation inspection, and current publisher sources. This is the original twelve-hour execution plan; the planning review itself changed no acquisition status. H0 means the start of execution and H12 is the delivery deadline. Effort estimates are engineering budgets, not measured download times.
@@ -65,7 +65,7 @@ At H2, abandon repeated inaccessible-endpoint experiments and record the exact b
 
 ### 6. Food preservation — `food-preservation` — partial
 
-**One-hour update:** seven new originals are pinned; freezing, broader drying and safety references are now covered. Remaining work is reproducible current NCHFP statements/recipe context. See [evidence](acquisition-hour-health.md).
+**One-hour update:** seven new originals are pinned; freezing, broader drying and safety references are now covered. Remaining work is reproducible current NCHFP statements/recipe context. See [evidence](../acquisition-hour-health.md).
 
 **Budget:** 2–3 hours; strong completion candidate. Add the publisher's [NDSU Food Freezing Guide, reviewed January 2024](https://www.ndsu.edu/agriculture/extension/publications/food-freezing-guide), broader fruit/general drying guidance from [NCHFP](https://nchfp.uga.edu/how/dry/), and an explicit food-safety reference. Preserve the existing canning and fermentation originals. Review and capture complete dated [NCHFP updates](https://nchfp.uga.edu/newsflash), including the September 2026 steam-canning statement, and connect updates to the affected older guidance.
 
@@ -115,7 +115,7 @@ The prior African Storybook PDF response had text before the PDF signature. If s
 
 **Budget:** 1 hour inspection, another hour only if straightforward. Download the 0.581 GB pinned archive, enumerate original PDF/HTML entries, and distinguish actual manuals from navigation/JavaScript wrappers. Export complete originals and a title/topic index with publication-level notices. Inventory what the published archive actually contains before claiming it is the historical full CD3WD corpus.
 
-**Done:** requested ordinary originals present in the pinned archive are acquired and reviewed, with complete supporting files. Any missing required publication or chapter keeps the resource partial; exception reports only document the gap. **Gate:** stop the compatibility investigation after 45–60 minutes if replay-generated pages, oversized items, or missing originals require a new crawler. **Fallback:** preserve usable complete exports but leave partial. The [existing archive evidence](acquisition-archives.md) and [exporter limitations](direct-export.md) govern this work.
+**Done:** requested ordinary originals present in the pinned archive are acquired and reviewed, with complete supporting files. Any missing required publication or chapter keeps the resource partial; exception reports only document the gap. **Gate:** stop the compatibility investigation after 45–60 minutes if replay-generated pages, oversized items, or missing originals require a new crawler. **Fallback:** preserve usable complete exports but leave partial. The [existing archive evidence](acquisition-archives.md) and [exporter limitations](../direct-export.md) govern this work.
 
 ### 17. iFixit — `ifixit` — partial
 
@@ -131,7 +131,7 @@ The prior African Storybook PDF response had text before the PDF signature. If s
 
 ### 19. Survivor Tier A — `survivor-tier-a` — unresolved
 
-**One-hour update: partial.** Three reviewed historical source pins cover cone-pattern sheet metal, ordinary foundations and water distribution. Three candidates were excluded. Broad trade coverage remains. See [title decisions](acquisition-hour-survivor.md).
+**One-hour update: partial.** Three reviewed historical source pins cover cone-pattern sheet metal, ordinary foundations and water distribution. Three candidates were excluded. Broad trade coverage remains. See [title decisions](../acquisition-hour-survivor.md).
 
 **Budget:** 2 hours for title selection and a verified first batch. Freeze a title manifest spanning all six requested trade groups; prioritize roughly 40–80 strong candidates, then remove duplicate editions and poor scans. Follow individual PDFs from the [publisher's category indexes](https://www.survivorlibrary.com/), rather than depending on bulk ZIPs. Check each volume's identity, contents, rights evidence, scan legibility and diagrams. Retain historical context, especially for obsolete machinery/practices.
 
@@ -213,7 +213,7 @@ The planning pass saved [17 exact candidate input pins](resolution-input-pins.js
 
 **Budget:** 1 hour incremental planning/integration, then spare conversion time. Track reviewed additional Appropedia/CD3WD/iFixit/LibreTexts/Wikibooks/Wikipedia editions in one manifest with source asset IDs, source hashes, exact entry lists and output hashes. Add LibreTexts/Wikibooks chapters or whole small books only after the baseline direct editions above are reviewed. Preserve book context and equations.
 
-**Done:** a complete explicitly selected additional-edition manifest, verified files, source-selection dependency handling and measured storage. Baseline direct copies required by resources #11/#15/#16/#17 are not automatically an additional 60 GB expansion. **Likely H12 result:** a smaller reviewed tranche, with broad expansion still partial. Do not count the same files twice or export an excluded source collection. Existing behavior and limits are documented in [direct export](direct-export.md).
+**Done:** a complete explicitly selected additional-edition manifest, verified files, source-selection dependency handling and measured storage. Baseline direct copies required by resources #11/#15/#16/#17 are not automatically an additional 60 GB expansion. **Likely H12 result:** a smaller reviewed tranche, with broad expansion still partial. Do not count the same files twice or export an excluded source collection. Existing behavior and limits are documented in [direct export](../direct-export.md).
 
 ## Shared engineering work that makes the result real
 

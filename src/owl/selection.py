@@ -10,7 +10,8 @@ from pathlib import Path
 from .catalog import CatalogError, is_document, read_yaml
 
 GB = 1_000_000_000
-MIN_CAPACITY = 16 * GB
+MIN_CAPACITY = 16 * GB  # First full preset in the published ladder.
+MIN_BUILD_CAPACITY = 8 * GB
 DEFAULT_LIMIT = 1000 * GB
 MAX_CAPACITY = 2**53 - 1  # Exact bytes in both Python and JavaScript.
 CAPACITY_GRID_GB = (16, 24, 32, 48, 64, 100, 128, 200, 256, 384, 500, 512, 750, 1000)
@@ -36,8 +37,8 @@ LANGUAGE_PACKS = ("wikipedia-es", "wikipedia-fr", "wikipedia-zh", "wikipedia-ar"
 
 
 def capacity_budget(capacity_bytes: int) -> dict[str, int]:
-    if type(capacity_bytes) is not int or not MIN_CAPACITY <= capacity_bytes <= MAX_CAPACITY:
-        raise CatalogError("Capacity must be a whole number of bytes from 16 GB to 9,007,199 GB")
+    if type(capacity_bytes) is not int or not MIN_BUILD_CAPACITY <= capacity_bytes <= MAX_CAPACITY:
+        raise CatalogError("Capacity must be a whole number of bytes from 8 GB to 9,007,199 GB")
     headroom = max(MINIMUM_MARGIN, capacity_bytes // MARGIN_DIVISOR)
     discovery = min(
         MAX_DISCOVERY_BUDGET,
@@ -349,7 +350,7 @@ def ladder_choices(capacity_bytes: int, ladder: dict) -> tuple[dict, dict]:
 
 def recommended_profile(profile: dict, capacity_bytes: int, ladder: dict) -> dict:
     budget = capacity_budget(capacity_bytes)
-    core, fillers = ladder_choices(capacity_bytes, ladder)
+    core, fillers = ladder_choices(max(MIN_CAPACITY, capacity_bytes), ladder)
     choices = {READERS: PUBLISHED, **core, **fillers}
     return {
         **profile,
@@ -358,6 +359,43 @@ def recommended_profile(profile: dict, capacity_bytes: int, ladder: dict) -> dic
         "default_resources": sorted(choices),
         "default_editions": {rid: edition for rid, edition in sorted(choices.items()) if edition != PUBLISHED},
     }
+
+
+def fit_recommended_profile(profile, assets, resources):
+    """Reduce the 16 GB selection by collection, starting with the least essential."""
+    from .catalog import CapacityError, capacity_plan
+    from .resources import resolve_resources
+
+    by_id = {asset["id"]: asset for asset in assets}
+    defaults = set(profile["default_resources"])
+    editions = profile["default_editions"]
+    tiers = {"CRITICAL": 0, "USEFUL": 1, "NONESSENTIAL": 2}
+
+    def priority(identity):
+        resource = resources[identity]
+        variant = resource["editions"][editions[identity]] if identity in editions else resource
+        return min((tiers.get(by_id[member].get("utility_tier"), 3),
+                    by_id[member].get("selection", {}).get("level", MAX_CAPACITY),
+                    by_id[member].get("selection", {}).get("rank", MAX_CAPACITY))
+                   for member in variant["asset_ids"]) if variant["asset_ids"] else (3, 0, 0)
+
+    drops = sorted(defaults - {READERS}, key=lambda rid: (priority(rid), rid))
+    fitted = {**profile, "default_resources": sorted(defaults)}
+    while drops:
+        fitted["default_resources"] = sorted(defaults)
+        fitted["default_editions"] = {rid: value for rid, value in editions.items() if rid in defaults}
+        selection = resolve_resources(assets, fitted, resources)
+        available = [asset for asset in selection.pop("assets") if asset["status"] == "resolved"]
+        if not any(is_knowledge(asset) for asset in available):
+            break
+        try:
+            capacity_plan(available, fitted, selection)
+        except CapacityError:
+            defaults.remove(drops.pop())
+        else:
+            return fitted
+    raise CapacityError("No recommended library fits. Free at least 8 GB and retry with a larger "
+                        "--capacity-bytes value, or choose a larger drive.")
 
 
 def fill(capacity_bytes: int, overrides: dict | None = None, *, assets=None, resources=None) -> dict:
@@ -374,6 +412,8 @@ def fill(capacity_bytes: int, overrides: dict | None = None, *, assets=None, res
         resources = load_resources(root / "catalog/resources.yaml", assets)
     ladder = load_ladder(catalog) if use_generated else compile_ladder(assets, resources)
     profile = recommended_profile({"id": "capacity"}, capacity_bytes, ladder)
+    if capacity_bytes < MIN_CAPACITY:
+        profile = fit_recommended_profile(profile, assets, resources)
     return {"profile": profile, **resolve_resources(assets, profile, resources, **(overrides or {}))}
 
 

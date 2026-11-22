@@ -1,6 +1,6 @@
 # Published archive editions for useful defaults
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 Checked 18 September 2026. This acquisition fragment adds exact official download pins; it does not download or commit the archives. The builder must verify every archive against its full-file SHA-256. Twenty-seven new asset records pass the catalog validator. The existing 61 Book Dash EPUBs are referenced, not duplicated.
 
@@ -45,7 +45,7 @@ One misleading candidate was rejected: Kiwix's `survivors_en_all_maxi` is the **
 
 ## Pinned files
 
-The complete hashes and metadata evidence are in [the acquisition fragment](../catalog/acquisition/enrichment.yaml). These exact sizes are source content only; search, scratch space, reader software and free-space reserve are additional.
+The complete hashes and metadata evidence are in [the acquisition fragment](../../catalog/acquisition/enrichment.yaml). These exact sizes are source content only; search, scratch space, reader software and free-space reserve are additional.
 
 | Asset | Source bytes | Version |
 |---|---:|---|

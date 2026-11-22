@@ -1,6 +1,6 @@
 # Pinned local direct-reading candidates
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 Four existing originals were read without modifying the library drive. Their whole-file sizes and SHA256 values match the active catalog: Appropedia February 2026, CD3WD November 2025, iFixit December 2025 and Low-tech Magazine January 2025. The reusable inventory does no networking, extraction, export or production-library writes.
 

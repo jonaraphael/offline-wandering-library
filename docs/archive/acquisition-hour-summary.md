@@ -1,6 +1,6 @@
 # One-hour source-resolution result
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 This pass prepares **future build-time acquisition**. The public catalog contains
 source URLs, editions, exact sizes, SHA-256 pins and notices; resource bodies are
@@ -47,7 +47,7 @@ and changed source/output bytes; completed outputs support verified reuse. A
 locked catalog preserves the recipe. The selector distinguishes build downloads
 from files on disk and does not count supporting files as readable knowledge.
 See [package evidence](acquisition-programming-zip.md) and the
-[extraction contract](archive-extraction.md). Python's publisher URL follows a
+[extraction contract](../archive-extraction.md). Python's publisher URL follows a
 release line: a replaced upstream archive will fail the old hash and requires a
 reviewed full-package refresh. No archive body was fetched during implementation.
 
@@ -57,10 +57,10 @@ three historical references and the two documentation home pages.
 ## Evidence and limits
 
 - [FAO topic matrix and source/notice review](acquisition-hour-fao.md).
-- [Food preservation and Hesperian investigation](acquisition-hour-health.md).
-- [PhET desktop checks](acquisition-hour-phet.md) and [observations](acquisition-hour-phet-checks.json).
+- [Food preservation and Hesperian investigation](../acquisition-hour-health.md).
+- [PhET desktop checks](acquisition-hour-phet.md) and [observations](../acquisition-hour-phet-checks.json).
 - [Programming source pins and archive inputs](acquisition-hour-programming.md).
-- [Survivor accepted titles and excluded scans](acquisition-hour-survivor.md).
+- [Survivor accepted titles and excluded scans](../acquisition-hour-survivor.md).
 
 PDF verification used exact full-body hashes and structural checks, with sampled
 visual review of notices, illustrations, tables and endings. It does not certify

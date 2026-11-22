@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from base64 import b64decode
 from hashlib import sha256
+import json
 from pathlib import Path
 import shutil
 from subprocess import run
@@ -16,8 +17,10 @@ from pypdf import PdfWriter
 from pypdf.generic import DecodedStreamObject, DictionaryObject, NameObject
 
 from owl.discovery import plan_discovery
+from owl.layout import managed_path
+from owl.navigation import generate_navigation
 from owl.search_shards import (MODEL_FILE, SEARCH_ROOT, Record, load_manifest, model_files,
-                               packed_part, part_path, payload, read_file, script)
+                               output_bytes, output_info, packed_part, part_path, payload, read_file, script)
 from owl.search_model import Potion
 
 
@@ -57,6 +60,7 @@ def create_pdf(path):
 
 
 def create_fixtures(drive, readers_from=None):
+    drive = drive.resolve()
     library = drive / "LIBRARY"
     install = library / "SOFTWARE"
     for folder in ("BOOKS", "ZIM", "INDEX"):
@@ -75,26 +79,20 @@ def create_fixtures(drive, readers_from=None):
     (whole.parent / "split-test.zimab").write_bytes(data[mid:])
     if readers_from is not None:
         shutil.copytree(readers_from / "LIBRARY/SOFTWARE", install)
-    (drive / "START_HERE.html").write_text("""<!doctype html><html lang="en"><meta charset="utf-8">
-<title>OWL device test</title><main><h1>OWL device test</h1>
-<p>Open <a href="LIBRARY/BOOKS/phone-test.pdf">the phone test PDF</a>.
-If the link stays in preview, close it and open <code>LIBRARY/BOOKS/phone-test.pdf</code> in Files.</p>
-<p><a href="LIBRARY/SEARCH.html">Search the test library</a> for weather vane wind direction.
-Open the single-file example <code>LIBRARY/ZIM/reader-test.zim</code> in Kiwix.
-Then try the first part of the split fallback, <code>LIBRARY/ZIM/split-test.zimaa</code>
-and keep its sibling part in the same folder.</p></main></html>
-""", encoding="utf-8")
-    for name in ("textbooks", "illustrated-guides", "categories", "critical", "A"):
-        (library / "INDEX" / (name + ".html")).write_text(
-            '<!doctype html><title>Fixture index</title><a href="../BOOKS/phone-test.pdf">Test PDF</a>',
-            encoding="utf-8")
-    (library / "INVENTORY.html").write_text(
-        '<!doctype html><title>Fixture inventory</title><p>One PDF and two copies of the same test archive.',
-        encoding="utf-8")
     digest = sha256(pdf.read_bytes()).hexdigest()
     asset = {"id": "phone-test", "title": "OWL phone fixture", "destination": "BOOKS/phone-test.pdf",
-             "sha256": digest, "format": "pdf", "description": DOCUMENT, "category": "test"}
-    files, _ = plan_discovery([asset])
+             "sha256": digest, "format": "pdf", "description": DOCUMENT, "category": "test",
+             "size_bytes": pdf.stat().st_size}
+    archive = {"id": "reader-test", "title": "OWL reader fixture", "destination": "ZIM/reader-test.zim",
+               "format": "zim", "category": "reference", "size_bytes": len(data), "sha256": sha256(data).hexdigest()}
+    documents = [asset, archive, {**archive, "id": "split-test", "title": "OWL split reader fixture",
+                                  "destination": "ZIM/split-test.zimaa", "parts": ["split-test.zimaa", "split-test.zimab"]}]
+    readers = [{"id": file.relative_to(library).as_posix(), "title": file.name,
+                "destination": file.relative_to(library).as_posix(), "format": file.suffix[1:],
+                "size_bytes": file.stat().st_size}
+               for file in sorted(install.rglob("*")) if file.is_file()]
+    inventory = {"content_complete": True, "assets": [*documents, *readers]}
+    files, report = plan_discovery(documents)
     manifest = payload(files["SEARCH/manifest.js"].encode("utf-8"), "OWLDiscoveryManifest")
     manifest["shards"] = True
     pins = load_manifest()
@@ -115,10 +113,17 @@ and keep its sibling part in the same folder.</p></main></html>
     }).decode("ascii")
     files["SEARCH/" + part_path(digest, 0)] = part.decode("ascii")
     files["SEARCH/rank.js"] = Path(__file__).resolve().parents[1].joinpath("src/owl/templates/rank.js").read_text(encoding="utf-8")
+    report["manifest"] = manifest
+    report["generated_files"] = sorted(files)
+    report["file_integrity"] = {name: output_info(value) for name, value in files.items()
+                                if name != "SEARCH/coverage.json"}
+    files["SEARCH/coverage.json"] = json.dumps(report, indent=2) + "\n"
+    files["INVENTORY.json"] = json.dumps(inventory, indent=2) + "\n"
+    files.update(generate_navigation(library, inventory["assets"], inventory, report, write=False, search_outputs=files))
     for name, contents in files.items():
-        path = library / name
+        path = managed_path(library, name)
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(contents, encoding="utf-8")
+        path.write_bytes(output_bytes(contents))
 
 
 def main():

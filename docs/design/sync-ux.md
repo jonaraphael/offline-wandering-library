@@ -96,7 +96,8 @@ state. Only their contents change, so the page never jumps.
 | `paused` | Paused, or the tab was reopened mid-sync | Arc stopped, amber | Paused at *42%* | Nothing is lost. Sync continues where it stopped. | As `behind` | **Sync** | Manage what goes on it |
 | `waiting` | Network dropped during sync | Arc stopped, amber | *42%* | Waiting for the internet. Sync continues by itself. | As `syncing` | **Pause** | None |
 | `done` | Sync finished | Full green ring, check mark | Ready | Eject *drive name*, then unplug it. *(one line of eject instructions for this operating system)* Open START_HERE on any computer or phone. | Solid | **Sync another drive** | Check every file |
-| `done-gaps` | Finished, some items failed | Full amber ring | Ready, with *3* items missing | The library works. *3* items could not be downloaded. | Solid, gap marked | **Try those again** | Show the 3 items · Sync another drive |
+| `done-gaps` | At least one knowledge file arrived, with files still missing | Full amber ring | Ready, with *3* items missing | *409* files arrived. *1* essential file missing. | Solid, gap marked | **Try those again** | Show details · Check every file · Sync another drive |
+| `failed` | No knowledge files arrived | Red arc | Sync could not finish | *0* files arrived. *1* essential file missing. | Last known | **Try those again** | Show details · Check every file · Sync another drive |
 | `problem` | Drive unplugged, read-only, full, permission refused | Red arc | One plain sentence naming the problem | One sentence saying what to do. "Nothing is lost" when true. | Last known | The fix: **Reconnect**, **Choose another drive** or **Sync** | Technical details |
 | `too-small` | Free space below the smallest plan | Empty ring | Not enough room | OWL needs at least *N GB* free. This drive has *M GB*. | Hidden | **Choose another drive** | None |
 | `unsupported` | Safari, Firefox, any phone | Drive outlined | Open this page in Chrome, Edge or Arc on a computer | Those browsers can write straight to a drive. This one cannot. | Hidden | **Copy link** | See what goes on a drive · Build with the command line |
@@ -124,6 +125,12 @@ Notes on states:
   page never says the drive is safe to unplug; it cannot know.
 - **`current` has no primary button.** A disabled Sync button reads as a
   fault.
+- If measurement is unavailable, the stage says "This plan uses an estimate
+  of *N GB* for the drive." The plan uses 90 percent of the printed size.
+- Finished drives with verified split files say "*N* encyclopedias kept in
+  parts." The finish screen links to "Show files kept in parts" and
+  "Check every file." If reader or search files are missing, the status
+  also says "Some reader or search files are missing."
 - The computer is kept awake during `syncing` where the browser allows it
   (the existing wake lock).
 
@@ -145,16 +152,27 @@ resume paths.
    found on the drive with matching size and SHA-256), *missing* or
    *changed*. Each recorded item that is no longer a target is *dropped*.
    The status line reports the totals before anything is written.
-4. **Add first.** Download and verify missing and changed items in priority
-   order, most essential first. A changed item's old copy stays until its
+4. **Add first.** Reserve space for the reader, search and inventory. Put a
+   simple start page on a new drive before downloading. Download and verify
+   missing and changed items in priority order, essential files first.
+   Within each priority, download and join the largest encyclopedias first
+   when the drive supports single files. A verified encyclopedia that
+   cannot be joined counts as installed and stays in parts on later syncs.
+   A changed item's old copy stays until its
    replacement verifies. When the drive lacks room for both copies, the
    update is held back and listed in Manage with a "Replace in place" action;
    it is not applied silently.
 5. **Remove last.** Delete dropped items and replaced copies after all
    additions verify.
 6. **Finish.** Rebuild the search index, the reader and the reader data.
+   If the drive runs out of space, stop adding lower-priority files. If
+   finishing needs more room, remove the least essential files added by
+   this sync. If the full reader still cannot fit beside the essential
+   files, write a simple start page that links directly to the files.
    Write the record: the choice, the catalog version, the date, every item
-   with its hash.
+   with its hash, what is missing and which encyclopedias are kept in parts.
+   "Up to date" requires the current reader, navigation and search revision
+   and the active reader files on the drive.
 
 Safety rules:
 
@@ -170,10 +188,10 @@ Safety rules:
 - "Check every file" re-hashes every item and re-downloads the ones that
   fail. It is reconcile with nothing trusted.
 
-Space: the planner fills the available space as it does today, including the
-reserve for the index and readers. On a FAT32 drive (detected while
-measuring, as today) large files are written in parts; the control for this
-sits in Manage under Advanced with the detected value preselected.
+Space: the planner fills the available space, including the reserve for the
+index and readers. On FAT32, the probe measures free space across files
+smaller than 4 GiB. Large files are written in parts. The control sits in
+Manage under Advanced with the detected value preselected.
 
 ### 4.4 Manage
 

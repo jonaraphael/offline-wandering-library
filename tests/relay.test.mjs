@@ -60,6 +60,10 @@ test("a busy or unreachable publisher is reported as retryable, not as a catalog
   const answer = await busy.fetch(request("/assets/reference", {Range:"bytes=2-4"}), env);
   assert.equal(answer.status, 429);
   assert.equal(answer.headers.get("Retry-After"), "5");
+  assert.match(answer.headers.get("Access-Control-Expose-Headers"), /\bRetry-After\b/i);
+  const date = "Sun, 22 Nov 2026 12:00:00 GMT";
+  const retry = relay(allowed, async () => new Response(null, {status: 503, headers: {"Retry-After": date}}));
+  assert.equal((await retry.fetch(request("/assets/reference"), env)).headers.get("Retry-After"), date);
   assert.equal((await relay(allowed, async () => new Response("", {status:503})).fetch(
     request("/assets/reference", {Range:"bytes=2-4"}), env)).status, 503);
   assert.equal((await relay(allowed, async () => { throw new TypeError("network"); }).fetch(

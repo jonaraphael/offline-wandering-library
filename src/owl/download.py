@@ -15,8 +15,10 @@ from urllib.parse import urlsplit
 from urllib.request import Request, url2pathname, urlopen
 
 from .safety import atomic_write, reject_symlinks, safe_path, sha256_file
-from .transfer import (TransferError, _check_directory, _directory_identity,
+from .transfer import (ChecksumMismatchError, TransferError, _check_directory, _directory_identity,
                        _open_regular, durable_writer, resume_copy)
+
+USER_AGENT = "Offline-Wandering-Library/0.1 (+offline library builder)"
 
 
 class DownloadError(RuntimeError):
@@ -61,7 +63,7 @@ def _complete(part: Path, asset: dict) -> str:
         raise error(f"{asset['id']}: size mismatch: {part.stat().st_size} != {asset['size_bytes']}")
     digest = sha256_file(part)
     if asset["sha256"] and digest != asset["sha256"]:
-        raise DownloadError(f"{asset['id']}: SHA-256 mismatch; refusing completed download")
+        raise ChecksumMismatchError(f"{asset['id']}: SHA-256 mismatch; refusing completed download")
     return digest
 
 
@@ -84,7 +86,7 @@ def capture_bounded_response(asset: dict, destination: Path, *, timeout=25, resp
     reject_symlinks(part)
     if destination.exists() or part.exists():
         raise DownloadError("Diagnostic response already has bytes; preserve evidence and use new staging")
-    headers = {"Accept-Encoding": "identity", "User-Agent": "Offline-Wandering-Library/0.1 (+offline library builder)"}
+    headers = {"Accept-Encoding": "identity", "User-Agent": USER_AGENT}
     with urlopen(Request(url, headers=headers), timeout=timeout) as response:
         if urlsplit(response.url).scheme != "https" or response.status != 200:
             raise DownloadError("Diagnostic response requires a whole HTTPS 200 response")
@@ -136,12 +138,16 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
     reject_symlinks(part)
     reject_symlinks(meta_path)
     expected = asset["size_bytes"]
-    urls = [asset["source_url"], *asset.get("mirrors", [])]
+    urls = list(dict.fromkeys([asset["source_url"], *asset.get("mirrors", [])]))
     standard_user_agent_urls = set()
     attempted_urls = set()
     last_error = None
-    for attempt in range(retries + 1):
-        url = urls[attempt % len(urls)]
+    saw_bad_hash = False
+    attempt = route = 0
+    while urls and attempt <= retries:
+        index = route % len(urls)
+        url = urls[index]
+        route = index + 1
         attempted_urls.add(url)
         try:
             _check_directory(destination.parent, parent_identity)
@@ -174,22 +180,26 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                     except (ValueError, OSError):
                         pass
                 if offset == expected and asset["sha256"]:
-                    digest = _complete(part, asset)
+                    if verified(part, expected, asset["sha256"]):
+                        _check_directory(destination.parent, parent_identity)
+                        with _open_regular(part, writable=True) as handle, durable_writer(handle):
+                            pass
+                        reject_symlinks(destination)
+                        if response_evidence is not None:
+                            response_evidence(metadata.get("response_evidence", {"kind": "unavailable", "requested_url": url}))
+                        os.replace(part, destination)
+                        meta_path.unlink(missing_ok=True)
+                        return asset["sha256"]
                     _check_directory(destination.parent, parent_identity)
-                    with _open_regular(part, writable=True) as handle, durable_writer(handle):
-                        pass
-                    reject_symlinks(destination)
-                    if response_evidence is not None:
-                        response_evidence(metadata.get("response_evidence", {"kind": "unavailable", "requested_url": url}))
-                    os.replace(part, destination)
+                    part.unlink(missing_ok=True)
                     meta_path.unlink(missing_ok=True)
-                    return digest
+                    offset = 0
                 validator = metadata.get("validator") if metadata.get("url") == url else None
                 if offset >= expected or (offset and not asset["sha256"] and not validator):
                     offset = 0
                 headers = {"Accept-Encoding": "identity"}
                 if url not in standard_user_agent_urls:
-                    headers["User-Agent"] = "Offline-Wandering-Library/0.1 (+offline library builder)"
+                    headers["User-Agent"] = USER_AGENT
                 if offset:
                     headers["Range"] = f"bytes={offset}-"
                     if validator:
@@ -267,11 +277,26 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                 switch_agent = isinstance(error, (URLError, TimeoutError, ConnectionError, http.client.HTTPException))
             if switch_agent:
                 standard_user_agent_urls.add(url)
-            if isinstance(error, DownloadError) and "SHA-256 mismatch" in str(error):
-                # Corrupt bytes must never be reused, including on the next run.
-                _check_directory(destination.parent, parent_identity)
-                part.unlink(missing_ok=True)
-                meta_path.unlink(missing_ok=True)
+            if isinstance(error, ChecksumMismatchError):
+                # Keep a lone local copy as evidence. A different route must
+                # always start without bytes from the rejected source.
+                if len(urls) > 1 or parsed.scheme not in {"file", "repo"}:
+                    _check_directory(destination.parent, parent_identity)
+                    part.unlink(missing_ok=True)
+                    meta_path.unlink(missing_ok=True)
+                urls.pop(index)
+                route = index
+                saw_bad_hash = True
+                if urls:
+                    progress(f"{asset['id']}: {error}; trying another source")
+                continue
+            if saw_bad_hash:
+                # A transport error on one fallback must not hide an untried
+                # pinned mirror after the original source failed integrity.
+                untried = next((i for i, candidate in enumerate(urls) if candidate not in attempted_urls), None)
+                if untried is not None:
+                    route = untried
+                    continue
             # A rejected identifier or untried reviewed mirror gets its existing
             # bounded fallback. Permanent pins, local I/O and safety errors do
             # not become repeatable job failures.
@@ -281,5 +306,6 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
             if attempt < retries:
                 progress(f"{asset['id']}: retry {attempt + 1}/{retries}: {error}")
                 sleep(min(2 ** attempt, 30))
+            attempt += 1
     error_type = TransientDownloadError if _transient(last_error) else DownloadError
     raise error_type(f"{asset['id']}: download failed: {last_error}") from last_error

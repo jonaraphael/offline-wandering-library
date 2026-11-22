@@ -1,6 +1,6 @@
 # Complete source-review trial for Stack Overflow
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 The four publisher archives are captured once with
 `catalog/acquisition/stackoverflow-capture.json`. Capture verifies the frozen

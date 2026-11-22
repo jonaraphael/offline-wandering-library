@@ -1,10 +1,6 @@
 name: Pages
 on:
-  push:
-    branches:
-      - main
-      - t3/council-offline-library-audit
-  workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -15,6 +11,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:

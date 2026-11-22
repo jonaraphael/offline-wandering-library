@@ -1,6 +1,6 @@
 # OpenStax subject breadth — September 2026
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 The previous 20-title mathematics/science core has been replaced by a broader default. The 16 GB preset includes **36 OpenStax books across all eight publisher subject families**. The 64 GB and larger presets include **all 73 current English standard PDFs** from the [official catalog](https://openstax.org/subjects). Retired editions, translations, instructor supplements, online activities and videos are outside this collection.
 
@@ -88,6 +88,6 @@ Books may belong to several subject families; subject counts cannot be summed. P
 | World History, Volume 2: from 1400 | Humanities | Included | 132,663,448 |
 | Writing Guide with Handbook | Humanities | Included | 63,546,834 |
 
-Machine-readable evidence: [new source pins](../catalog/acquisition/openstax-breadth.yaml), [review and 16 GB selection](../catalog/acquisition/openstax-breadth-review.json). The earlier [education acquisition](acquisition-education.md) documents the initial STEM batch, not the current subject scope.
+Machine-readable evidence: [new source pins](../../catalog/acquisition/openstax-breadth.yaml), [review and 16 GB selection](../../catalog/acquisition/openstax-breadth-review.json). The earlier [education acquisition](acquisition-education.md) documents the initial STEM batch, not the current subject scope.
 
 Local build acceptance and exact SELECT command results are recorded in `.owl/openstax-breadth/REPORT.md`. Actual iPhone/Files interaction is not certified by the command-line checks.

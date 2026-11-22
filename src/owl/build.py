@@ -16,14 +16,15 @@ import yaml
 
 from . import __version__
 from .archive import ZipSource, document_assets, order_archive_assets
-from .selection import capacity_budget, load_ladder, recommended_profile
+from .selection import (MIN_BUILD_CAPACITY, MIN_CAPACITY, capacity_budget, fit_recommended_profile,
+                        is_knowledge, load_ladder, recommended_profile)
 from .catalog import (CatalogError, capacity_plan, fingerprint, load_catalog,
                       load_profiles, read_yaml, resolve_content, resolve_locked_content, validate_catalog)
 from .download import download, verified
 from .filesystem import fat_file_limit, filesystem_type
 from .layout import checksum_name, content_root, managed_path
 from .runtime import file_lock as _lock, interrupt_signals
-from .safety import SafetyError, atomic_write, guard_directory, reject_symlinks, safe_path, sha256_file
+from .safety import SafetyError, atomic_write, guard_directory, mkdir_readable, reject_symlinks, safe_path, sha256_file
 from .transfer import resume_copy
 from .verify import verify_drive
 
@@ -83,13 +84,21 @@ def _state(path: Path) -> dict:
     return result
 
 
+class InsufficientSpace(SafetyError):
+    def __init__(self, path, required, free):
+        self.path = path
+        self.free = free
+        super().__init__(f"Insufficient disk space at {path}: need {required:,} bytes, available {free:,}. "
+                         f"Free at least {required - free:,} more bytes there and rerun.")
+
+
 def check_space(path: Path, required: int) -> None:
     existing = path
     while not existing.exists():
         existing = existing.parent
     free = shutil.disk_usage(existing).free
     if free < required:
-        raise SafetyError(f"Insufficient disk space at {path}: need {required:,} bytes, available {free:,}")
+        raise InsufficientSpace(path, required, free)
 
 
 def check_space_groups(allocations: list[tuple[Path, int]]) -> list[dict]:
@@ -188,12 +197,19 @@ def _build_extraction_directory(work, extraction, source):
     return safe_path(work, 'acquisition-inputs/extract-' + digest)
 
 
-def capacity_profile(profile, capacity_bytes, catalog, *, locked=False):
+def capacity_profile(profile, capacity_bytes, catalog, *, locked=False, assets=None, resources_path=None):
     if locked:
         return {**profile, **capacity_budget(capacity_bytes), "nominal_capacity_bytes": capacity_bytes}
     if "nominal_capacity_bytes" not in profile or not catalog.with_name("capacity-ladder.json").is_file():
         raise CatalogError("--capacity-bytes requires a catalog and profile with a capacity ladder")
-    return recommended_profile(profile, capacity_bytes, load_ladder(catalog))
+    recommended = recommended_profile(profile, capacity_bytes, load_ladder(catalog))
+    if capacity_bytes < MIN_CAPACITY:
+        from .resources import load_resources
+        registry = resources_path or catalog.with_name("resources.yaml")
+        if assets is None:
+            assets = load_catalog(catalog)
+        recommended = fit_recommended_profile(recommended, assets, load_resources(registry, assets))
+    return recommended
 
 
 def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str, capacity_bytes: int | None = None,
@@ -240,7 +256,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     profile = profiles[profile_name]
     lock = read_yaml(catalog).get("selection_lock")
     if capacity_bytes is not None:
-        profile = capacity_profile(profile, capacity_bytes, catalog, locked=lock is not None)
+        profile = capacity_profile(profile, capacity_bytes, catalog, locked=lock is not None,
+                                   assets=all_assets, resources_path=resources_catalog)
     if lock is not None:
         if include or exclude or editions or resource_assets or extra_catalogs:
             raise CatalogError("Customize the source catalog, not a locked selection")
@@ -457,7 +474,28 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             for phase in phases.values():
                 if phase is not phases['generation']:
                     phase.append((cache, input_pending))
-    plan["filesystem_allocations"] = check_space_phases(phases)
+    try:
+        plan["filesystem_allocations"] = check_space_phases(phases)
+    except InsufficientSpace as error:
+        if (capacity_bytes is not None or lock is not None or "nominal_capacity_bytes" not in profile
+                or error.path != target or not drive_root.is_dir()):
+            raise
+        # The planner budgets total library bytes. Verified existing files on
+        # the drive already occupy some of that space on an interrupted build.
+        installed = sum(asset["size_bytes"] for asset in assets if reusable[asset["id"]])
+        capacity = error.free + installed
+        if capacity < MIN_BUILD_CAPACITY:
+            raise SafetyError(f"Only {error.free:,} bytes are free at {drive_root}. Free at least "
+                              f"{MIN_BUILD_CAPACITY - capacity:,} more bytes for the 8 GB plan, then rerun, "
+                              "or choose a drive with at least 8 GB free.") from error
+        space = f"{error.free:,} free bytes" + (f" plus {installed:,} verified bytes" if installed else "")
+        progress(f"Fitting the {profile_name} recommendation to {space} on {drive_root}.")
+        return build(drive_root, catalog=catalog, profiles_dir=profiles_dir, profile_name=profile_name,
+                     capacity_bytes=capacity, cache_dir=cache_dir, work_dir=work_dir, allow_local=allow_local,
+                     plan_only=plan_only, resources_catalog=resources_catalog, include=include, exclude=exclude,
+                     editions=editions, resource_assets=resource_assets, extra_catalogs=extra_catalogs,
+                     allow_incomplete=allow_incomplete, navigation_dir=navigation_dir, strict_coverage=strict_coverage,
+                     progress=progress)
     plan["required_free_bytes"] = sum(item["required_bytes"] for item in plan["filesystem_allocations"] if str(target) in item["uses"])
     if plan_only:
         progress("Plan only: no files created or downloaded. Discovery uses catalog metadata; "
@@ -489,7 +527,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                 raise SafetyError(f"Build directory changed during preflight; reconnect the original drive and rerun: {anchor}")
             guards.enter_context(guard_directory(anchor))
         reject_symlinks(target)
-        target.mkdir(parents=True, exist_ok=True)
+        mkdir_readable(target)
         guards.enter_context(guard_directory(drive_root))
         guards.enter_context(guard_directory(target))
         _owned_directory(private)
@@ -503,7 +541,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             _owned_directory(cache)
             guards.enter_context(guard_directory(cache))
         for relative in LAYOUT:
-            safe_path(target, relative).mkdir(parents=True, exist_ok=True)
+            mkdir_readable(safe_path(target, relative))
         safe_path(target, ".owl/downloads").mkdir(exist_ok=True)
         reject_symlinks(work)
         work.mkdir(parents=True, exist_ok=True)
@@ -582,7 +620,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                         pinned = {**asset, "sha256": expected}
                         digest = download(pinned, staged, repo_root=REPO_ROOT, progress=progress)
                         atomic_write(metadata_path, _json({"sha256": digest, "fingerprint": fingerprint(asset)}))
-                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    mkdir_readable(destination.parent)
                     reject_symlinks(destination)
                     if cache:
                         copy = safe_path(target, ".owl/downloads/" + key + ".copy")
@@ -676,7 +714,11 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                 "profile": profile, "catalog_sha256": sha256_file(catalog.resolve()), "plan": plan,
                 "extra_catalogs": [{"path": str(Path(path)), "sha256": sha256_file(Path(path))}
                                    for path in extra_catalogs],
-                "asset_count": len(assets), "unresolved_asset_ids": [a["id"] for a in unresolved],
+                "asset_count": len(assets), "selected_count": len(assets) + len(unresolved),
+                "knowledge_count": sum(is_knowledge(asset) for asset in inventory_assets),
+                "missing": [{"id": asset["id"], "title": asset["title"], "utility_tier": asset.get("utility_tier"),
+                             "reason": asset.get("unresolved_reason", "Source is unresolved")} for asset in unresolved],
+                "kept_in_parts": [], "unresolved_asset_ids": [a["id"] for a in unresolved],
                 "search": search_report, "navigation": atlas_report, "complete": True,
                 "integrity_note": "SHA-256 detects damage, not publisher identity. Save SHA256SUMS.txt separately."}
         atomic_write(safe_path(target, "BUILD_INFO.json"), _json(info))
@@ -793,7 +835,8 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
             profile = profiles[args.profile]
             if args.capacity_bytes is not None:
                 profile = capacity_profile(profile, args.capacity_bytes, args.catalog,
-                                           locked=read_yaml(args.catalog).get("selection_lock") is not None)
+                                           locked=read_yaml(args.catalog).get("selection_lock") is not None,
+                                           assets=assets, resources_path=args.resources_catalog)
             report = resolve_resources(assets, profile, resources,
                                        include=args.include, exclude=args.exclude, editions=args.edition, resource_assets=args.resource_assets)
             rows = {row["id"]: row for row in report["resource_rows"]}

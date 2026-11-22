@@ -1,6 +1,6 @@
 # FAO practical agriculture: build-time catalog handoff
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 Prepared 2026-09-18 local date (2026-09-19 UTC). **Metadata only:** this fragment changes no shared catalog, creates no SSD output and runs no library build. Temporary public publisher originals had already been acquired before the user clarified that downloads should occur only at build time. All further acquisition stopped; existing temporary files are preserved.
 

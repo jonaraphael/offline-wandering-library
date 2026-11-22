@@ -18,6 +18,10 @@ class CatalogError(ValueError):
     pass
 
 
+class CapacityError(CatalogError):
+    pass
+
+
 class UniqueLoader(yaml.SafeLoader):
     pass
 
@@ -412,8 +416,8 @@ def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = No
     final = content + profile["discovery_budget_bytes"] + overhead + acquisition
     if final + profile["reserve_bytes"] > profile["capacity_bytes"]:
         if acquisition:
-            raise CatalogError('Generated content plus retained acquisition workspace exceeds profile capacity')
-        raise CatalogError(f"Profile exceeds capacity: {final:,} bytes plus {profile['reserve_bytes']:,} reserve")
+            raise CapacityError('Generated content plus retained acquisition workspace exceeds profile capacity')
+        raise CapacityError(f"Profile exceeds capacity: {final:,} bytes plus {profile['reserve_bytes']:,} reserve")
     result = {"download_bytes": sum(a["size_bytes"] for a in assets if "archive_member" not in a and "generation" not in a) + temporary_bytes,
             "build_input_download_bytes": temporary_bytes,
             "build_input_expanded_bytes": expanded_bytes,
@@ -447,7 +451,7 @@ def capacity_plan(assets: list[dict], profile: dict, selection: dict | None = No
         target = max(content, selection["planned_total_bytes"])
         planned_final = target + profile["discovery_budget_bytes"] + overhead + acquisition
         if planned_final + profile["reserve_bytes"] > profile["capacity_bytes"]:
-            raise CatalogError(f"Selected resource targets exceed capacity: {planned_final:,} bytes "
+            raise CapacityError(f"Selected resource targets exceed capacity: {planned_final:,} bytes "
                                f"plus {profile['reserve_bytes']:,} reserve. Exclude resources or choose a larger profile.")
         result.update(content_selection=selection, planned_final_bytes=planned_final,
                       content_target_min_bytes=profile.get("content_target_min_bytes"),

@@ -1,12 +1,12 @@
 # 1 TB content-completion checkpoint
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
-**Current selection and planning:** use [the topic-by-topic completion plan](full-1tb-coverage-plan.md)
-and [generated selection](content-selection.md). They supersede the historical
+**Current selection and planning:** use [the topic-by-topic completion plan](../full-1tb-coverage-plan.md)
+and [generated selection](../content-selection.md). They supersede the historical
 byte-floor targets and conversion queues below. On 28 September, six finished
 farming/trail manuals and their per-asset pseudoindexes were added to full-1tb;
-[the brief review](../catalog/acquisition/practical-discovery-20260928.json) records
+[the brief review](../../catalog/acquisition/practical-discovery-20260928.json) records
 decisions and limits. Required topic tags establish presence, not sufficient depth.
 No minimum GB quota is used by the active profiles.
 
@@ -47,7 +47,7 @@ library or measurement of the pending candidates.
   allowance. Survivor targets use accepted measured works, not the old 130 GB
   assumption.
 
-See [capture and admission commands](acquisition-capture.md),
+See [capture and admission commands](../acquisition-capture.md),
 [7z verification](acquisition-sevenzip.md) and the reproducible
 `scripts/validate_acquisition.py` runner. Validation fails if its catalog,
 profile, generated-file or source-code inputs change during the run.

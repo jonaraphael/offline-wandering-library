@@ -34,9 +34,9 @@ For exact URL availability, byte counts and publisher checksum sidecars, use
 `scripts/probe_source_pins.py`. Its HEAD requests never read library bodies,
 including error/redirect bodies; cached reruns support `--offline`. MD5, SHA-1
 and multipart ETags remain evidence rather than SHA-256 pins. The
-[source-pin report](acquisition-source-pins.md) records the current 1 TB findings.
+[source-pin report](archive/acquisition-source-pins.md) records the current 1 TB findings.
 `scripts/freeze_map_selection.py` turns accepted discovery and HEAD evidence into
-a deterministic [sheet manifest](acquisition-maps.md), retaining every unresolved
+a deterministic [sheet manifest](archive/acquisition-maps.md), retaining every unresolved
 content pin and review requirement.
 
 ## Inspect and stage without downloading
@@ -183,5 +183,5 @@ plans, fixed small-preset bytes, optional language selection, and generated-file
 freshness. Plan checks simulate ample development-disk space and separately
 enforce each profile's real nominal capacity. They are not device certification.
 
-See the [implementation report](acquisition-implementation.md) for completed
+See the [implementation report](archive/acquisition-implementation.md) for completed
 content gaps, verification evidence and remaining source/review blockers.

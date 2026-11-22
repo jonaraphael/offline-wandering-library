@@ -1,6 +1,6 @@
 # Midwives whole-book fallback
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 The 2026 chapter set still needs its verified same-edition back matter. The official media API lists complete English 2013 and 2011 PDFs, but both exact publisher URLs returned HEAD 404 on 2026-09-23. Their identities and failed headers are preserved; no older pages are spliced into the current book.
 

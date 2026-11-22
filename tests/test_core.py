@@ -3,11 +3,14 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import os
 import re
+import stat
 from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
+from urllib.error import HTTPError
 
 import yaml
 
@@ -190,6 +193,28 @@ class Response(io.BytesIO):
 
 
 class DownloadTests(Fixture):
+    def test_bad_hash_falls_through_to_a_pinned_mirror(self):
+        asset = {**self.asset, "source_url": "https://example.test/primary",
+                 "mirrors": ["https://example.test/unavailable", "https://example.test/mirror"], "size_bytes": 4,
+                 "sha256": hashlib.sha256(b"good").hexdigest()}
+        destination = self.root / "download"
+
+        def response(request, timeout):
+            self.assertIsNone(request.get_header("Range"))
+            if request.full_url == asset["mirrors"][0]:
+                raise HTTPError(request.full_url, 404, "Missing", {}, None)
+            body = b"good" if request.full_url == asset["mirrors"][1] else b"bad!"
+            response = Response(body, 200, {"Content-Length": "4"})
+            response.url = request.full_url
+            return response
+
+        with patch("owl.download.urlopen", side_effect=response) as fetch:
+            self.assertEqual(download(asset, destination, repo_root=self.root, retries=0,
+                                      progress=lambda _: None), asset["sha256"])
+        self.assertEqual([call.args[0].full_url for call in fetch.call_args_list],
+                         [asset["source_url"], *asset["mirrors"]])
+        self.assertEqual(destination.read_bytes(), b"good")
+
     def test_local_file_uri_preserves_spaces_unicode_and_literal_percent(self):
         source = self.root / "source caf\u00e9 %20.txt"
         source.write_bytes(self.data)
@@ -265,6 +290,19 @@ class DownloadTests(Fixture):
 
 
 class BuildTests(Fixture):
+    @unittest.skipUnless(os.name == "posix", "POSIX modes")
+    def test_new_drive_files_are_readable_with_a_restrictive_umask(self):
+        old = os.umask(0o077)
+        try:
+            self.run_build()
+        finally:
+            os.umask(old)
+        drive = self.root / "drive"
+        for path in (drive / "START_HERE.html", drive / "LIBRARY/REFERENCE/fixture.txt"):
+            self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o644)
+        for path in (drive, drive / "LIBRARY", drive / "LIBRARY/REFERENCE"):
+            self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o755)
+
     def test_unpinned_build_is_rejected_before_writing(self):
         self.asset["sha256"] = None
         self.write_catalog()

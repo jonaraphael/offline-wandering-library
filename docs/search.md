@@ -60,15 +60,21 @@ candidates. The ranker compares each compact code with the full query vector
 and combines similarity, word matches and source priority. Emergency queries
 prefer matching critical sources. Childhood symptoms and childbirth receive
 different ranking treatment. Among similar matches in directly readable files,
-essential documents and first-aid chapters move up. Precomputed
-token-pair filters and vector centroids order the chunks likely to yield
-relevant hits. The compact term dictionary adds weighted chunk candidates,
-using stronger field matches first. A query loads only its term buckets, then
-opens candidate chunks. An approximately 40 MB read allowance covers the term
-buckets and chunks for the first pass. The page shows those preliminary hits,
-then automatically scores the remaining eligible chunks and refreshes the
-results. Larger drives can take longer to finish the second pass. Submitting
-a different query cancels the previous one between chunk reads.
+essential documents and first-aid chapters move up. Precomputed token-pair
+filters and vector centroids order the chunks likely to yield relevant hits.
+The compact term dictionary adds weighted chunk candidates, using stronger
+field matches first. Title signatures and short references get dedicated
+portions of the read allowance. The reader can show a lexical preview from
+up to 350 KB of record chunks while the model and relevant term buckets load.
+If final ranking opens a preview chunk, it reuses the parsed records.
+
+With the term index installed, recognized emergency queries finish ranking
+within a 16 MB allowance for term buckets and record chunks. Libraries with
+up to 125 MB of record chunks use a 20 MB allowance for simple one- and
+two-term lookups. Other searches preview results within a 39.7 MB allowance,
+then score the remaining eligible chunks. That second pass can take longer,
+especially on large libraries. Submitting a different query cancels the
+previous one between chunk reads.
 
 When the build fits the 46.6 MB MiniLM bundle in its search allocation,
 desktop search preserves the top three indexed hits and uses MiniLM to
@@ -131,14 +137,92 @@ The search catalog is limited to 900 MB with files no larger than 50 MB.
 The default 16 GB plan reserves 200 MB for search and the WikiMed phone volumes. Larger plans can allocate up
 to 900 MB by assigning a portion of their on-drive reserve to search. The
 planner leaves at least 125 MB in that reserve. The
-benchmark checks chunk digests and runs the original 100 probes plus body-only
-PDF queries with expected physical page locations. It reports the two query sets
-at 16 GB, 128 GB and 1 TB. The experimental `--quick` measurement evaluates
-just the first 28 MB of candidate chunks and can return fewer relevant hits.
-The `--bounded` run measures the initial shortlist without completion or MiniLM.
+benchmark checks chunk digests and runs the original 100 probes, 10 body-only
+PDF queries with expected physical page locations, and 10 held-out emergency
+queries. It grades the first ten results at 16 GB, 128 GB and 1 TB using the
+reader's chunk selection and base ranker. `--check` requires a higher original
+probe total at each capacity, a hit for “signs of dehydration” at all three,
+and retention of every previously passing probe. `--quick`, `--bounded`
+and `--exhaustive` compare a 28 MB heuristic route, a 39.7 MB term-index route,
+and all eligible chunks. Benchmark scoring stops at the base ranker.
 The optional task export records the first three
 results for each natural-language task in `tests/search/task-queries.json`,
 with the title, source, locator and any displayable excerpt for grading.
+
+## Held-out emergency queries
+
+The following ten probes and their expected topics were fixed before tuning.
+They use the benchmark's top-ten matching rule.
+
+- Smoke is coming from the outlet where the heater was plugged in.
+- My friend touched a live wire and fell to the floor.
+- A dog we do not know bit my hand and broke the skin.
+- Cleaning spray got in my eye and it will not stop burning.
+- A swimmer was pulled from the water and is barely breathing.
+- Someone woke up with sudden chest pressure and pain down one arm.
+- My friend has hives and cannot breathe after a bee sting.
+- The power has been out all night and the meat in the fridge feels warm.
+- We smell gas next to the stove and the burner is off.
+- Floodwater is rising around the car and we cannot drive out.
+
+## Measured relevance
+
+The baseline uses the ranker at `0fdd5e5d`. A probe passes if its expected
+topic or physical PDF page appears in the top ten. No previously passing
+probe was lost, and “signs of dehydration” passed at all three capacities.
+The original 100 probes had zero empty results both before and after.
+
+| Library size | Original probes | PDF body probes | Held-out emergency probes |
+| --- | ---: | ---: | ---: |
+| 16 GB | 90/100 → 92/100 | 9/10 → 9/10 | 3/10 → 3/10 |
+| 128 GB | 93/100 → 96/100 | 9/10 → 9/10 | 3/10 → 3/10 |
+| 1 TB | 93/100 → 96/100 | 8/10 → 8/10 | 2/10 → 2/10 |
+
+## Offline timing and reads
+
+```sh
+scratch=$(mktemp -d "${TMPDIR:-/tmp}/owl-search.XXXXXX")
+PYTHONPATH=src python scripts/search_benchmark.py --assemble "$scratch/16"
+PYTHONPATH=src python scripts/search_benchmark.py --assemble "$scratch/1000" --capacity 1000
+NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --check
+NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/1000/START_HERE.html"
+```
+
+The assembler uses only the checked-in search data and shipped reader files.
+The harness uses `playwright-core` with an installed Chromium. It also
+accepts an existing `START_HERE.html`, repeated `--query` arguments, and
+`CHROMIUM_EXECUTABLE_PATH` for a browser outside Playwright's cache.
+
+Measurements used Chromium 145.0.7632.6 and an Apple M5 Pro local SSD. Each
+query opens a fresh browser context with 4× CPU throttling, offline network
+emulation and browser cache disabled. First-result time runs from form
+submission to the first indexed result card. Complete time ends when the
+reader publishes its final results and status, including MiniLM where
+installed. Byte counts sum the sizes of local file requests during each
+query, including cold model and reranker loads. They exclude reader startup
+and in-memory scripts and measure requested file bytes on the SSD run.
+
+| 16 GB query | First before → after | Complete before → after |
+| --- | ---: | ---: |
+| Signs of dehydration | 284.8 → 230.5 ms | 10,922.9 → 2,282.8 ms |
+| Chest compressions | 248.5 → 166.3 ms | 10,990.8 → 2,237.0 ms |
+| Snake bite | 212.7 → 163.8 ms | 6,897.0 → 1,520.1 ms |
+| Make water safe to drink | 268.5 → 202.0 ms | 11,002.0 → 2,379.5 ms |
+| We are stuck outside overnight in heavy rain without a tent | 336.0 → 259.9 ms | 11,744.8 → 1,837.9 ms |
+
+The five 16 GB queries requested 102.3–132.2 MB each before the change and
+37.5 MB each after it. The selected 16 GB library contains 110.5 MB of
+record chunks and 155.9 MB of search files overall. At 1 TB, those figures
+are 723.9 MB and 853.5 MB. Open-ended queries that use the second pass can
+exceed the measured times. USB and phone I/O were outside these measurements.
+
+| 1 TB query | Requested bytes before | Requested bytes after |
+| --- | ---: | ---: |
+| Signs of dehydration | 724,617,120 | 83,790,568 |
+| Chest compressions | 746,332,089 | 83,790,858 |
+| Snake bite | 572,153,097 | 83,790,725 |
+| Make water safe to drink | 742,428,660 | 83,790,533 |
+| We are stuck outside overnight in heavy rain without a tent | 754,716,520 | 83,790,814 |
 
 ## Precomputed term index
 

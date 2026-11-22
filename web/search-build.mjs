@@ -1,6 +1,6 @@
 import {sha256} from "./vendor/noble-hashes/sha2.js";
 import {bytesToHex} from "./vendor/noble-hashes/utils.js";
-import {fileHandle, optional, writeFile} from "./drive.mjs";
+import {fileHandle, isNoSpace, optional, writeFile} from "./drive.mjs";
 import {receiveFile, SourceError} from "./network.mjs";
 
 const root = "LIBRARY/SEARCH/";
@@ -108,6 +108,7 @@ export async function assembleSearch(drive, {completed, layouts, config, fetchFi
       }
     } catch (error) {
       signal?.throwIfAborted();
+      if (isNoSpace(error)) throw error;
       warnings.push("Search model — " + error.message);
       matches.length = 0;
     }
@@ -142,6 +143,7 @@ export async function assembleSearch(drive, {completed, layouts, config, fetchFi
     remaining -= copies * (charge(row) + 1);
     } catch (error) {
       signal?.throwIfAborted();
+      if (isNoSpace(error)) throw error;
       warnings.push(row.title + " search — " + error.message);
     }
   }
@@ -160,6 +162,7 @@ export async function assembleSearch(drive, {completed, layouts, config, fetchFi
       selection.impact = Object.fromEntries(impact.map(([name, pin]) => [name, pin.bytes]));
     } catch (error) {
       signal?.throwIfAborted();
+      if (isNoSpace(error)) throw error;
       warnings.push("Term index — " + error.message);
     }
   }
@@ -178,6 +181,7 @@ export async function assembleSearch(drive, {completed, layouts, config, fetchFi
       selection.reranker = true;
     } catch (error) {
       signal?.throwIfAborted();
+      if (isNoSpace(error)) throw error;
       warnings.push("Search reranker — " + error.message);
     }
   }

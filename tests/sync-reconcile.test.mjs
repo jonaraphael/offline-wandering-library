@@ -292,3 +292,21 @@ test("an adopted reader generation remains recorded across an interrupted public
   await openGeneration(drive, "updated");
   await assert.rejects(drive.file("LIBRARY/INDEX/" + oldId + "/search.js"), {name: "NotFoundError"});
 });
+
+test("an active reader must exist and match the current reader, navigation and search revision", async () => {
+  const drive = new Directory();
+  const {selection} = generationOptions("original");
+  const {navigation, search} = selection;
+  const settings = {...selection, readerPublication: "release-one"};
+  await reconcile(drive, settings);
+  assert.equal((await compareLibrary(drive, settings)).current, true);
+  for (const edit of [
+    {navigation: {...navigation, input_hashes: {topics: "changed"}}},
+    {navigation: {...navigation, reader: {...navigation.reader, bootstrap: "changed"}}},
+    {search: {...search, rankRuntime: "changed"}},
+    {readerPublication: "release-two"}
+  ]) assert.equal((await compareLibrary(drive, {...settings, ...edit})).current, false);
+  const generation = await openGeneration(drive, "original");
+  await removeFile(drive, "LIBRARY/INDEX/" + generation + "/search.js");
+  assert.equal((await compareLibrary(drive, settings)).current, false);
+});

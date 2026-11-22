@@ -13,7 +13,7 @@ from .build import _json, _owned_directory, _root, _state, check_space
 from .catalog import fingerprint
 from .layout import checksum_name, content_root, logical_name
 from .runtime import file_lock, interrupt_signals
-from .safety import SafetyError, atomic_write, guard_directory, safe_path, sha256_file, validate_relative
+from .safety import SafetyError, atomic_write, guard_directory, mkdir_readable, safe_path, sha256_file, validate_relative
 from .transfer import resume_copy
 
 
@@ -174,9 +174,9 @@ def copy_drive(source: Path, target: Path, *, progress=print) -> dict:
             path = safe_path(target, relative)
             if path.exists() and not path.is_file():
                 raise SafetyError(f"Destination is not a regular file: {relative}")
-        target.mkdir(parents=True, exist_ok=True)
+        mkdir_readable(target)
         guards.enter_context(guard_directory(target))
-        target_library.mkdir(exist_ok=True)
+        mkdir_readable(target_library)
         guards.enter_context(guard_directory(target_library))
         _owned_directory(safe_path(target_library, ".owl"))
         with file_lock(safe_path(target_library, ".owl/build.lock")):
@@ -241,7 +241,6 @@ def copy_drive(source: Path, target: Path, *, progress=print) -> dict:
                     progress(f"REUSE {relative}")
                     reused += 1
                 else:
-                    destination.parent.mkdir(parents=True, exist_ok=True)
                     part_name, _ = parts[relative]
                     digest = resume_copy(source_file, destination, size=entry["size_bytes"],
                                          checksum=entry["sha256"], part=safe_path(target_library, part_name), progress=progress)

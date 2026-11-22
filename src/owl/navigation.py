@@ -345,6 +345,5 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
         return pages
     for relative, content in pages.items():
         destination = managed_path(target, relative)
-        destination.parent.mkdir(parents=True, exist_ok=True)
         atomic_write(destination, content.encode("utf-8"))
     return list(pages)

@@ -2,8 +2,9 @@ import {sha256} from "./vendor/noble-hashes/sha2.js";
 import {bytesToHex} from "./vendor/noble-hashes/utils.js";
 import {fileHandle, isNoSpace, optional, removeFile, writeFile} from "./drive.mjs";
 import {diag} from "./diagnostics.mjs";
-import {assembleLibrary} from "./offline.mjs";
-import {createNetwork, SourceError} from "./network.mjs";
+import {assembleLibrary, assemblyReserve, startPage} from "./offline.mjs";
+import {createNetwork, routeCooldowns, SourceError} from "./network.mjs";
+import {canonical} from "./search-build.mjs";
 import {archiveSession, checkAlignment, publisherPin, streamRequest} from "./archive-download.mjs";
 
 export const PART_BYTES = 2 ** 30;
@@ -11,14 +12,17 @@ export const MANIFEST = "LIBRARY/.owl/browser-build.json";
 const FAT32_MAX = 2 ** 32 - 1;
 const DIGEST = /^[0-9a-f]{64}$/;
 const tier = ["CRITICAL", "USEFUL", "NONESSENTIAL"];
+const priority = asset => tier.includes(asset.utility_tier) ? tier.indexOf(asset.utility_tier) : tier.length;
+const noSpace = "Drive ran out of space";
 
 export function isKnowledgeFile(asset) {
   return !asset.destination.startsWith("SOFTWARE/") && !asset.supporting_file && asset.archive_member?.document !== false;
 }
 
-export function buildOrder(assets) {
-  const priority = asset => asset.destination.startsWith("SOFTWARE/") ? 0 : (tier.indexOf(asset.utility_tier) + 1 || tier.length + 1);
+export function buildOrder(assets, {join = true, partBytes = PART_BYTES} = {}) {
+  const archiveSize = asset => join && partBytes !== null && asset.format === "zim" && asset.size_bytes > partBytes ? asset.size_bytes : 0;
   return [...assets].sort((a, b) => priority(a) - priority(b) ||
+    archiveSize(b) - archiveSize(a) ||
     (a.selection?.level ?? Infinity) - (b.selection?.level ?? Infinity) ||
     (a.selection?.rank ?? Infinity) - (b.selection?.rank ?? Infinity) ||
     a.id.localeCompare(b.id));
@@ -292,7 +296,7 @@ export function browserSelection(assets, routes, published) {
   const available = [], excluded = [];
   for (const asset of buildOrder(assets)) {
     if (routesFor(asset, routes, published).length) available.push(asset);
-    else excluded.push({id: asset.id, title: asset.title,
+    else excluded.push({id: asset.id, title: asset.title, utility_tier: asset.utility_tier ?? null,
       reason: asset.redistributable ? "No browser-accessible pinned copy is published." : "Publisher blocks browser downloads and this site cannot host a copy."});
   }
   return {assets: available, excluded};
@@ -360,6 +364,8 @@ async function buildAsset(drive, state, asset, layout, {routes, published, fetch
 function partDownloader(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network}) {
   const pins = partPins(asset, layout, published, state.partBytes);
   const choices = routesFor(asset, routes, published);
+  const cooldown = routeCooldowns(network);
+  const sources = choices.flatMap(source => source.pieces.map(piece => piece.url));
   const pin = publisherPin(published.publisherPieces, asset);
   const direct = routes[asset.id] || [];
   const ranged = pin && direct.length && asset.size_bytes > pin.size ?
@@ -386,6 +392,7 @@ function partDownloader(drive, state, asset, layout, {routes, published, fetchFi
       for (let offset = 0; offset < choices.length; offset++) {
         const sourceIndex = (preferred + offset) % choices.length;
         const source = choices[sourceIndex];
+        if (source.pieces.some(piece => cooldown.waiting(piece.url))) continue;
         const notify = received => onProgress({kind: "downloading", ...progress, received, bytes: part.bytes});
         notify(0);
         try {
@@ -397,6 +404,9 @@ function partDownloader(drive, state, asset, layout, {routes, published, fetchFi
           return result;
         } catch (error) {
           if (!(error instanceof SourceError)) throw error;
+          for (const {url} of source.pieces) {
+            cooldown.defer(url, error.retryAfterMs ?? (error.status === 429 ? 60_000 : 0));
+          }
           wholeMismatch ||= error.whole;
           connection ||= error.connection;
           const message = source.label + " — " + error.message;
@@ -405,7 +415,7 @@ function partDownloader(drive, state, asset, layout, {routes, published, fetchFi
         }
       }
       if ((connection || network.offline()) && await network.waitForConnection()) continue;
-      if (++round < 2) await network.delay();
+      if (++round < 2) await cooldown.delay(sources);
     }
     if (wholeMismatch && choices.length > 1) (state.sourceOffsets ||= {})[asset.id] = (preferred + 1) % choices.length;
     throw new SourceError([...failures].join(". ") || "No browser source is available", {whole: wholeMismatch});
@@ -520,7 +530,13 @@ async function joinParts(drive, state, asset, layout, {signal, onProgress}) {
     throw error;
   }
   state.joined[asset.id] = true;
-  await save(drive, state);
+  try { await save(drive, state); }
+  catch (error) {
+    if (!isNoSpace(error)) throw error;
+    await removeFile(drive, path);
+    delete state.joined[asset.id];
+    return;
+  }
   await removeSplitParts(drive, state, asset, layout);
 }
 
@@ -588,7 +604,15 @@ export async function inspectDrive(drive) {
   return {state, hasLibrary: Boolean(library), adoption, heldBytes, candidates, legacy};
 }
 
-export async function compareLibrary(drive, {assets, choice, catalogVersion, partBytes = PART_BYTES,
+const readerRevision = (navigation, search, publication) => bytesToHex(sha256(new TextEncoder().encode(
+  canonical([navigation, search, publication]))));
+
+async function activeReaderExists(drive, state) {
+  if (!(await candidateFile(drive, "START_HERE.html"))?.size) return false;
+  return (await Promise.all(state.generated.map(path => candidateFile(drive, path)))).every(Boolean);
+}
+
+export async function compareLibrary(drive, {assets, choice, catalogVersion, navigation = {}, search, readerPublication, partBytes = PART_BYTES,
     singleArchives = false, joinArchives = false, fullVerify = false, signal, inspection, freeBytes = Infinity} = {}) {
   const {state, adoption, legacy} = inspection || await inspectDrive(drive);
   const wantsSingle = singleArchives || joinArchives;
@@ -597,16 +621,15 @@ export async function compareLibrary(drive, {assets, choice, catalogVersion, par
   const adds = [], drops = [], present = [], held = [];
   const planned = new Map(state?.plan.map(pin => [pin.id, pin]));
   let room = freeBytes;
-  for (const asset of buildOrder(assets)) {
+  for (const asset of buildOrder(assets, {join: wantsSingle, partBytes})) {
     signal?.throwIfAborted();
     const old = state?.installed[asset.id];
     const previous = planned.get(asset.id);
     const split = layoutFor(asset, partBytes).length > 1;
-    const compatible = !split || (sameOptions && !wantsSingle) || (wantsSingle && old?.layout.length === 1);
+    const compatible = !split || sameOptions || (wantsSingle && old?.layout.length === 1);
     const working = (sameOptions || !split) && matches(asset, previous) && state?.working[asset.id];
-    const staged = working && state.stagedArchives?.[asset.id];
-    let installed = compatible && !staged && matches(asset, old?.pin) ? old : null;
-    if (!installed && working && state.verified[asset.id] && !state.stagedArchives?.[asset.id]) {
+    let installed = compatible && matches(asset, old?.pin) ? old : null;
+    if (!installed && working && state.verified[asset.id]) {
       const file = diskAsset(asset, working);
       const layout = state.joined?.[asset.id] ? joinedLayout(file) : layoutFor(file, partBytes);
       installed = {pin: assetPin(asset), asset, layout, parts: state.joined?.[asset.id] ?
@@ -614,7 +637,7 @@ export async function compareLibrary(drive, {assets, choice, catalogVersion, par
     }
     if (installed && await layoutExists(drive, installed.layout)) {
       const parts = fullVerify ? await verifyLayout(drive, asset, installed.layout, signal) : installed.parts;
-      if (parts?.length) { present.push({asset, ...installed, parts}); continue; }
+      if (parts?.length) { present.push({...installed, asset, parts}); continue; }
     }
     if (!old && !working && !state?.owned.includes(joinedLayout(asset)[0].path)) {
       const canonical = joinedLayout(asset);
@@ -645,8 +668,9 @@ export async function compareLibrary(drive, {assets, choice, catalogVersion, par
   }
   const removes = [...drops, ...adds.flatMap(row => row.old && !row.old.protected ? [row.old] : [])];
   const changedChoice = Boolean(state && choice && JSON.stringify(choice) !== JSON.stringify(state.choice));
-  const current = Boolean(state?.finished && !adds.length && !drops.length && !changedChoice && !state.migrated &&
-    state.catalogVersion === catalogVersion && await candidateFile(drive, "START_HERE.html"));
+  const current = Boolean(state?.finished && sameOptions && !adds.length && !drops.length && !changedChoice && !state.migrated &&
+    state.catalogVersion === catalogVersion && state.readerRevision === readerRevision(navigation, search, readerPublication) &&
+    await activeReaderExists(drive, state));
   return {state, adoption, adds, drops, present, held, changedChoice, current, workCount: adds.length + drops.length,
     addBytes: bytesOf(adds), removeBytes: bytesOf(removes.filter(row => !row.protected).map(row => row.pin)),
     presentBytes: bytesOf(present.map(row => row.pin)) + adds.reduce((sum, row) => sum + row.savedBytes, 0)};
@@ -775,35 +799,38 @@ async function retireReaderFiles(drive, state, signal) {
   state.generated = state.generated.filter(path => active.has(path));
 }
 
-function beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, singleArchives, archiveSpace, searchBudget, capacityBytes}) {
+function beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, singleArchives, archiveSpace, searchBudget,
+    capacityBytes, capacityEstimated}) {
   return {version: 2, buildId: saved?.buildId || globalThis.crypto.randomUUID(), plan: [], excluded: [],
     installed: saved?.installed || map(), working: map(), owned: [...(saved?.owned || [])], generated: [...(saved?.generated || [])],
     parts: map(), verified: map(), joined: map(), prefixes: map(), stagedArchives: map(), sourceOffsets: map(),
     dropped: map(), failures: map(), partBytes, joinArchives, singleArchives, archiveSpace,
-    choice, catalogVersion, searchBudget, capacityBytes, pending: true, finished: false, migrated: saved?.migrated,
+    choice, catalogVersion, searchBudget, capacityBytes, capacityEstimated, pending: true, finished: false, migrated: saved?.migrated,
     syncedAt: saved?.syncedAt};
 }
 
 export async function reconcile(drive, {assets, excluded = [], routes = {}, published = {}, navigation = {}, search,
     partBytes = PART_BYTES, fetchFile = globalThis.fetch, signal, onProgress = () => {}, fullVerify = false,
-    joinArchives = false, singleArchives = false, archiveSpace = 0, choice, catalogVersion,
-    freeBytes = Infinity, capacityBytes, replaceInPlace = [], searchBudget = 16 * 2 ** 20, prepareSources,
+    joinArchives = false, singleArchives = false, archiveSpace = Infinity, choice, catalogVersion, readerPublication,
+    freeBytes = Infinity, capacityBytes, capacityEstimated, replaceInPlace = [], searchBudget = 16 * 2 ** 20, prepareSources,
     network = createNetwork({fetchFile, signal, onWaiting: () => onProgress({kind: "waiting-network"})})}) {
   const inspection = await inspectDrive(drive), saved = inspection.state;
   if (!assets.some(isKnowledgeFile)) throw Error("Choose knowledge files with browser-accessible sources.");
   choice ??= saved?.choice || {kind: "recommended", split: !singleArchives && !joinArchives};
-  const comparison = await compareLibrary(drive, {assets, choice, catalogVersion, partBytes, singleArchives, joinArchives, fullVerify, signal,
-    inspection, freeBytes});
+  const revision = readerRevision(navigation, search, readerPublication);
+  const joining = singleArchives || joinArchives;
+  const comparison = await compareLibrary(drive, {assets, choice, catalogVersion, navigation, search, readerPublication,
+    partBytes, singleArchives, joinArchives, fullVerify, signal, inspection, freeBytes});
   const resuming = saved?.pending && !comparison.changedChoice && catalogVersion === saved.catalogVersion;
   const state = beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, singleArchives, archiveSpace,
-    capacityBytes: capacityBytes ?? saved?.capacityBytes,
+    capacityBytes: capacityBytes ?? saved?.capacityBytes, capacityEstimated: capacityEstimated ?? saved?.capacityEstimated,
     searchBudget: resuming ? Math.min(saved.searchBudget ?? searchBudget, searchBudget) : searchBudget});
   const {legacy} = inspection;
   state.adopting = comparison.adoption && legacy.size > 0;
   const held = new Set(comparison.held.filter(row => !replaceInPlace.includes(row.asset.id) || row.old.protected).map(row => row.asset.id));
   const present = new Map(comparison.present.map(row => [row.pin.id, row]));
   const additions = new Map(comparison.adds.map(row => [row.asset.id, row]));
-  const ordered = buildOrder(assets);
+  const ordered = buildOrder(assets, {join: joining, partBytes});
   state.plan = ordered.map(assetPin);
   state.excluded = excluded;
   const workingFields = ["parts", "verified", "joined", "prefixes", "stagedArchives", "sourceOffsets"];
@@ -818,108 +845,169 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
   }
   onProgress({kind: "plan", files: ordered.map(asset => ({id: asset.id, bytes: asset.size_bytes,
     done: present.has(asset.id), savedBytes: additions.get(asset.id)?.savedBytes || 0}))});
-  if (saved) await save(drive, state);
-  else {
+  const starter = startPage();
+  const start = await fileAt(drive, "START_HERE.html");
+  if (saved) {
+    await save(drive, state);
+    if (!start?.size) await writeFile(guardReader(drive, state, legacy), "START_HERE.html", starter);
+  } else {
     if (await readBuild(drive)) throw Error("Another sync started on this drive.");
-    await writeFile(drive, MANIFEST, JSON.stringify(state) + "\n");
+    if (!start) {
+      await drive.getDirectoryHandle("LIBRARY", {create: true});
+      await writeFile(drive, "START_HERE.html", starter);
+      state.generated.push("START_HERE.html");
+    } else if (start.size === new TextEncoder().encode(starter).length && await start.text() === starter) {
+      // The start page can commit before the first drive record.
+      state.generated.push("START_HERE.html");
+    }
+    try { await writeFile(drive, MANIFEST, JSON.stringify(state) + "\n"); }
+    catch (error) {
+      if (isNoSpace(error) && (await fileAt(drive, MANIFEST))?.size === 0) await removeFile(drive, MANIFEST);
+      throw error;
+    }
   }
   if (prepareSources) {
     const support = await prepareSources();
     search = support.search;
     published = {...published, publisherPieces: support.publisherPieces};
   }
-  const layouts = new Map(), installedParts = map();
-  let used = comparison.presentBytes;
-  for (const [position, asset] of ordered.entries()) {
-    signal?.throwIfAborted();
-    const report = event => onProgress({...event, position, total: ordered.length});
-    const row = additions.get(asset.id);
-    if (present.has(asset.id)) {
-      state.verified[asset.id] = true;
-      state.parts[asset.id] = present.get(asset.id).parts;
-      if (present.get(asset.id).layout.length === 1 && layoutFor(asset, partBytes).length > 1) state.joined[asset.id] = true;
-      report({kind: "verified", asset});
-      continue;
-    }
-    used -= row.savedBytes;
-    if (held.has(asset.id)) {
-      state.failures[asset.id] = "The replacement needs more free space beside the existing copy.";
-      report({kind: "failed", asset, message: state.failures[asset.id]});
-      continue;
-    }
-    let file = row.working ? diskAsset(asset, row.working) : await reservePaths(drive, state, asset, partBytes, joinArchives || singleArchives);
-    const layout = layoutFor(file, partBytes);
-    const single = singleArchives && layout.length > 1;
-    if (single || joinArchives && layout.length > 1) {
-      const path = joinedLayout(file)[0].path;
-      if (!state.owned.includes(path)) {
-        if (await fileAt(drive, path)) throw Error("An existing file blocks the archive. Choose another library folder.");
-        state.owned.push(path);
-      }
-    }
-    await save(drive, state);
-    if (replaceInPlace.includes(asset.id) && comparison.held.includes(row) && !row.old.protected) {
-      for (const part of row.old.layout) if (state.owned.includes(part.path)) await removeFile(drive, part.path);
-      delete state.installed[asset.id];
-      await save(drive, state);
-    }
-    const options = {routes, published, fetchFile, signal, onProgress: report, fullVerify, network};
-    try {
-      const wasStaged = state.stagedArchives[asset.id];
-      if (!await checkJoined(drive, state, file, layout, options)) {
-        if (single && !wasStaged) await prepareSingleArchive(drive, state, file, layout, options);
-        if (state.joined[asset.id]) await removeSplitParts(drive, state, file, layout);
-        else {
-          if (single) {
-            const [{path}] = joinedLayout(file);
-            if ((await fileAt(drive, path))?.size < asset.size_bytes) await removeFile(drive, path);
-          }
-          await buildAsset(drive, state, file, layout, options);
-          if (layout.length > 1 && (joinArchives || (single && (archiveSpace - used >= 2 * asset.size_bytes || wasStaged)))) {
-            await joinParts(drive, state, file, layout, options);
-          }
-        }
-      }
-      if (state.joined[asset.id]) delete state.stagedArchives[asset.id];
-      used += asset.size_bytes;
-      state.verified[asset.id] = true;
-      const savedLayout = state.joined[asset.id] ? joinedLayout(file) : layout;
-      present.set(asset.id, {asset, pin: assetPin(asset), layout: savedLayout,
-        parts: state.joined[asset.id] ? [{sha256: asset.sha256, bytes: asset.size_bytes}] : state.parts[asset.id]});
-      report({kind: "verified", asset});
-    } catch (error) {
-      signal?.throwIfAborted();
-      if (isNoSpace(error)) {
-        if (!(layout.length > 1 && publisherPin(published.publisherPieces, asset))) {
-          await forgetParts(drive, state, file, layout);
-          delete state.stagedArchives[asset.id];
-        }
-        state.dropped[asset.id] = "Drive ran out of space";
-        report({kind: "dropped", asset, message: state.dropped[asset.id]});
-      } else if (error instanceof SourceError) {
-        if (error.whole) await forgetParts(drive, state, file, layout);
-        state.failures[asset.id] = error.message;
-        report({kind: "failed", asset, message: error.message});
-      } else throw error;
-    }
-    await save(drive, state);
+  const reservePath = "LIBRARY/.owl/assembly-" + state.buildId + ".tmp";
+  const releaseReserve = async () => {
+    if (!state.owned.includes(reservePath)) return;
+    await removeFile(drive, reservePath);
+    state.owned = state.owned.filter(path => path !== reservePath);
+  };
+  await releaseReserve();
+  if (await candidateFile(drive, reservePath)) throw Error("An existing file blocks the assembly reserve.");
+  const reserveBytes = assemblyReserve({assets, excluded, navigation, search, searchBudget: state.searchBudget,
+    partCount: asset => layoutFor(asset, partBytes).length});
+  state.owned.push(reservePath);
+  await save(drive, state);
+  let reserved = false;
+  try {
+    await writeFile(drive, reservePath, new Uint8Array(reserveBytes));
+    reserved = true;
+  } catch (error) {
+    await releaseReserve();
+    if (!isNoSpace(error)) throw error;
   }
+  let used = comparison.presentBytes;
+  let free = freeBytes;
+  let full = false;
+  const downloaded = new Map(), incomplete = new Map();
+  try {
+    for (const [position, asset] of ordered.entries()) {
+      signal?.throwIfAborted();
+      const report = event => onProgress({...event, position, total: ordered.length});
+      const row = additions.get(asset.id);
+      if (present.has(asset.id)) {
+        state.verified[asset.id] = true;
+        state.parts[asset.id] = present.get(asset.id).parts;
+        if (present.get(asset.id).layout.length === 1 && layoutFor(asset, partBytes).length > 1) state.joined[asset.id] = true;
+        report({kind: "verified", asset});
+        continue;
+      }
+      used -= row.savedBytes;
+      if (full && asset.utility_tier !== "CRITICAL") {
+        state.dropped[asset.id] = noSpace;
+        report({kind: "dropped", asset, message: noSpace});
+        continue;
+      }
+      if (held.has(asset.id)) {
+        state.failures[asset.id] = "The replacement needs more free space beside the existing copy.";
+        report({kind: "failed", asset, message: state.failures[asset.id]});
+        continue;
+      }
+      const file = row.working ? diskAsset(asset, row.working) : await reservePaths(drive, state, asset, partBytes, joining);
+      const layout = layoutFor(file, partBytes);
+      const single = singleArchives && layout.length > 1;
+      if (joining && layout.length > 1) {
+        const path = joinedLayout(file)[0].path;
+        if (!state.owned.includes(path)) {
+          if (await fileAt(drive, path)) throw Error("An existing file blocks the archive. Choose another library folder.");
+          state.owned.push(path);
+        }
+      }
+      const replacement = replaceInPlace.includes(asset.id) && comparison.held.includes(row) && !row.old.protected;
+      const options = {routes, published, fetchFile, signal, onProgress: report, fullVerify, network};
+      const download = async () => {
+        await save(drive, state);
+        if (replacement && state.installed[asset.id]) {
+          for (const part of row.old.layout) if (state.owned.includes(part.path)) await removeFile(drive, part.path);
+          delete state.installed[asset.id];
+          await save(drive, state);
+        }
+        const wasStaged = state.stagedArchives[asset.id];
+        if (!await checkJoined(drive, state, file, layout, options)) {
+          if (single && !wasStaged) await prepareSingleArchive(drive, state, file, layout, options);
+          if (state.joined[asset.id]) await removeSplitParts(drive, state, file, layout);
+          else {
+            if (single) {
+              const [{path}] = joinedLayout(file);
+              if ((await fileAt(drive, path))?.size < asset.size_bytes) await removeFile(drive, path);
+            }
+            await buildAsset(drive, state, file, layout, options);
+            const joinRoom = Math.min(archiveSpace - used - asset.size_bytes, free - row.bytes - (reserved ? reserveBytes : 0));
+            if (joining && layout.length > 1 && joinRoom >= asset.size_bytes) {
+              await joinParts(drive, state, file, layout, options);
+            }
+          }
+        }
+        delete state.stagedArchives[asset.id];
+        used += asset.size_bytes;
+        free -= row.bytes;
+        state.verified[asset.id] = true;
+        const savedLayout = state.joined[asset.id] ? joinedLayout(file) : layout;
+        const installed = {asset, pin: assetPin(asset), layout: savedLayout,
+          parts: state.joined[asset.id] ? [{sha256: asset.sha256, bytes: asset.size_bytes}] : state.parts[asset.id]};
+        present.set(asset.id, installed);
+        downloaded.set(asset.id, installed);
+        report({kind: "verified", asset});
+      };
+      try {
+        try { await download(); }
+        catch (error) {
+          if (!reserved || asset.utility_tier !== "CRITICAL" || !isNoSpace(error)) throw error;
+          await releaseReserve();
+          reserved = false;
+          full = true;
+          await download();
+        }
+      } catch (error) {
+        signal?.throwIfAborted();
+        if (isNoSpace(error)) {
+          full = true;
+          await releaseReserve();
+          reserved = false;
+          if (!(layout.length > 1 && publisherPin(published.publisherPieces, asset))) {
+            await forgetParts(drive, state, file, layout);
+            delete state.stagedArchives[asset.id];
+          }
+          incomplete.set(asset.id, {file, layout});
+          state.dropped[asset.id] = noSpace;
+          report({kind: "dropped", asset, message: state.dropped[asset.id]});
+        } else if (error instanceof SourceError) {
+          if (error.whole) await forgetParts(drive, state, file, layout);
+          state.failures[asset.id] = error.message;
+          report({kind: "failed", asset, message: error.message});
+        } else throw error;
+      }
+      try { await save(drive, state); }
+      catch (error) {
+        if (!reserved || !isNoSpace(error)) throw error;
+        await releaseReserve();
+        reserved = false;
+        full = true;
+        await save(drive, state);
+      }
+    }
+  } finally { await releaseReserve(); }
   signal?.throwIfAborted();
-  const complete = !excluded.length && !Object.keys(state.failures).length && !Object.keys(state.dropped).length;
-  if (!complete) {
+  if (excluded.length || Object.keys(state.failures).length || Object.keys(state.dropped).length) {
     for (const old of Object.values(state.installed)) {
       if (!present.has(old.pin.id) && !additions.get(old.pin.id)?.corrupt && await layoutExists(drive, old.layout)) present.set(old.pin.id, old);
     }
   }
-  for (const [id, row] of present) {
-    layouts.set(id, row.layout);
-    installedParts[id] = row.parts;
-  }
-  const completed = [...present.values()].map(row => row.asset);
-  const missing = [...excluded, ...ordered.flatMap(asset => {
-    const reason = state.dropped[asset.id] || state.failures[asset.id];
-    return reason ? [{id: asset.id, title: asset.title, reason}] : [];
-  })];
   onProgress({kind: "assembling"});
   if (legacy.size) {
     // Keep ownership available on retry even if assembly replaces the old checksum list.
@@ -927,8 +1015,49 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
     await save(drive, state);
   }
   const syncedAt = new Date().toISOString();
-  const searchWarnings = await assembleLibrary(guardReader(drive, state, legacy), {completed, missing, navigation, layouts,
-    parts: installedParts, search, searchBudget: state.searchBudget, fetchFile, signal, network, syncedAt});
+  let completed, missing, keptInParts, searchWarnings, compact = false;
+  for (;;) {
+    completed = [...present.values()].map(row => row.asset);
+    missing = [...excluded, ...ordered.flatMap(asset => {
+      const reason = state.dropped[asset.id] || state.failures[asset.id];
+      return reason ? [{id: asset.id, title: asset.title, utility_tier: asset.utility_tier ?? null, reason}] : [];
+    })];
+    keptInParts = [...present.values()].filter(row => row.layout.length > 1)
+      .map(({asset, layout}) => ({id: asset.id, title: asset.title, parts: layout.length}));
+    const before = new Set(state.generated);
+    try {
+      searchWarnings = await assembleLibrary(guardReader(drive, state, legacy), {completed, missing, keptInParts, compact,
+        selectedCount: assets.length + excluded.length, navigation, search: compact ? undefined : search,
+        layouts: new Map([...present].map(([id, row]) => [id, row.layout])),
+        parts: Object.fromEntries([...present].map(([id, row]) => [id, row.parts])),
+        searchBudget: state.searchBudget, fetchFile, signal, network, syncedAt});
+      break;
+    } catch (error) {
+      signal?.throwIfAborted();
+      if (!isNoSpace(error)) throw error;
+      for (const path of state.generated) if (!before.has(path)) await removeFile(drive, path);
+      state.generated = [...before];
+      if (incomplete.size) {
+        for (const {file, layout} of incomplete.values()) await forgetParts(drive, state, file, layout);
+        incomplete.clear();
+        continue;
+      }
+      const lowest = [...downloaded.values()].at(-1);
+      if (!compact && (!lowest || lowest.asset.utility_tier === "CRITICAL" ||
+          isKnowledgeFile(lowest.asset) && completed.filter(isKnowledgeFile).length === 1)) {
+        compact = true;
+        continue;
+      }
+      if (!lowest) throw error;
+      const {asset, layout} = lowest;
+      await forgetParts(drive, state, asset, layout);
+      delete state.joined[asset.id];
+      downloaded.delete(asset.id);
+      present.delete(asset.id);
+      state.dropped[asset.id] = noSpace;
+      onProgress({kind: "dropped", asset, message: noSpace});
+    }
+  }
   // The start page now points to the new reader, and the checksum list includes reused shards.
   await retireReaderFiles(drive, state, signal);
   state.installed = Object.fromEntries(present);
@@ -938,8 +1067,10 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
     for (const part of row.layout) recorded.add(part.path);
   }
   state.owned = [...recorded];
-  const finished = complete && !Object.keys(state.stagedArchives).length && !searchWarnings.length;
+  const finished = !missing.length && completed.some(isKnowledgeFile) && !searchWarnings.length;
   state.syncedAt = syncedAt;
+  state.readerRevision = revision;
+  state.keptInParts = keptInParts;
   if (finished) {
     await save(drive, state);
     const keep = new Set([...present.values()].flatMap(row => row.layout.map(part => part.path)));
@@ -954,7 +1085,7 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
   state.pending = false;
   state.finished = finished;
   await save(drive, state);
-  return {state, completed, missing, searchWarnings};
+  return {state, completed, missing, keptInParts, searchWarnings};
 }
 
 export {reconcile as buildLibrary};

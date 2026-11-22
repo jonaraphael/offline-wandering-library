@@ -1,6 +1,6 @@
 # Programming documentation: metadata handoff
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 Prepared 2026-09-19 UTC. The user clarified that this pass should resolve links and
 catalog/build-time acquisition, not download library content yet. Temporary
@@ -9,13 +9,13 @@ the existing temporary files were preserved as verification evidence. **No SSD
 writes, library build, or shared-catalog changes were performed by this worker.**
 
 The proposed fragment is
-[`catalog/acquisition/hour-programming.yaml`](../catalog/acquisition/hour-programming.yaml).
+[`catalog/acquisition/hour-programming.yaml`](../../catalog/acquisition/hour-programming.yaml).
 It contains **50 ordinary-file records, 13,124,479 bytes**, and separately records
 four archive inputs. All proposed active URLs are HTTPS; no temporary `file:` URLs
 are proposed as portable assets. The parent resource remains **partial**.
 
 The subsequent local-only implementation adds a separate complete Python/SQLite
-recipe in [`programming-zip-members.yaml`](../catalog/acquisition/programming-zip-members.yaml).
+recipe in [`programming-zip-members.yaml`](../../catalog/acquisition/programming-zip-members.yaml).
 It contains two ZIP inputs and all 1,655 output-member pins, including 1,373 substantive
 HTML reading documents and 282 supporting members. The normal builder now supports
 verified build-time extraction and hides dependencies from search/navigation while

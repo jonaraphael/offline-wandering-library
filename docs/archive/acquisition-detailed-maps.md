@@ -1,6 +1,6 @@
 # Detailed New England maps for the 1 TB preset
 
-> Historical write-up. See the [documentation index](README.md) for the current guides.
+> Historical write-up. See the [documentation index](../README.md) for the current guides.
 
 The pending full-preset selection retains all 1,433 latest relevant US Topo 1:24,000 sheets, adds 14 explicitly historical 1:100,000 coastal supplements, and includes the all-50-state USGS national overview. The exact HEAD-verified download total is **72,124,080,891 bytes** within the new 80 GB allowance. The ordinary source-review capture reserves **72,164,924,091 bytes**, including metadata and receipts. PDFs are neither expanded nor duplicated in this accounting. Review images require a later separately reserved preview phase.
 
@@ -20,7 +20,7 @@ python scripts/freeze_map_selection.py --discovery .owl/acquisition/reports/disc
 python scripts/prepare_map_capture.py --discovery .owl/acquisition/reports/discover-ba5bcd3f7e87c2ce.json --source-probes catalog/acquisition/regional-maps-detailed-source-probe-evidence.json --overview catalog/acquisition/usa-overview-candidate.json --overview-metadata-cache .owl/acquisition/overview-metadata --output catalog/acquisition/regional-maps-detailed-acquisition.json
 ```
 
-Use the discovery detail path printed by the first command if the recipe changes. Metadata caches are local and not committed. The HEAD batch command validates every request before networking, uses at most four workers, spaces request starts by 150 ms, checkpoints every 100 records, and reuses per-URL evidence. Omit `--offline` only to acquire missing headers; it never reads PDF bodies. The capture-preparation command is always offline and binds each source identity to its original verified publisher metadata page. See [the source-review build workflow](acquisition-capture.md) for the explicit body-acquisition phase.
+Use the discovery detail path printed by the first command if the recipe changes. Metadata caches are local and not committed. The HEAD batch command validates every request before networking, uses at most four workers, spaces request starts by 150 ms, checkpoints every 100 records, and reuses per-URL evidence. Omit `--offline` only to acquire missing headers; it never reads PDF bodies. The capture-preparation command is always offline and binds each source identity to its original verified publisher metadata page. See [the source-review build workflow](../acquisition-capture.md) for the explicit body-acquisition phase.
 
 The request-preparation command deterministically freezes every selected sheet URL before probing. Review changed selections before replacing their portable manifests. Missing exact HEAD sizes, changed metadata, missing publisher identities, duplicate inputs, mixed-up overview identity, or capacity overflow prevent generation of a capture manifest.
 # Captured PDF inspection

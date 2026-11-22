@@ -88,16 +88,18 @@ JavaScript parity. It also checks the 1 TB cap on
 larger drives. `python scripts/build_capacity_ladder.py --check` and
 `python scripts/build_selector.py --check` check generated files.
 
-`python scripts/check_links.py` checks pinned sizes and HTTP response headers
-with a HEAD and a one-byte range request. The scheduled workflow enables
-`--stream-missing-size` for responses that omit the length. It can also use a
-full GET when a range request fails after a successful HEAD or for a mirror
-whose body already matched the hash. This reads one stream at a time, starts
-at most two per second, and checks pins up to 64 MiB. It aborts after the first
-excess byte and writes no payload files.
-Reports retain per-URL results. A catalog asset passes when one source or mirror
-has the pinned size and required response headers. The builder verifies the full
-SHA-256 during a build.
+`python scripts/check_links.py` checks publisher sizes with the Python
+builder's user agent. `--pages-base` and `--relay-base` also check browser
+routes with the Pages origin. The scheduled job checks every locked Pages
+mirror part and a rotating sample of publishers, direct browser URLs and
+relay IDs with four workers. It uses response headers and one-byte ranges,
+with a regular GET opened and closed at the headers for ordinary relay files.
+It uploads the results and opens or updates a single issue on failure.
+
+For a local diagnosis, `--stream-missing-size` can count a publisher response
+of up to 64 MiB when headers lack the size or a reviewed URL rejects ranges.
+It processes one body at a time and stops after the first excess byte.
+The builder verifies full SHA-256 pins during a build.
 
 ## Textbooks and illustrated guides
 
