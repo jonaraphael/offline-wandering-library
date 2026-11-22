@@ -133,8 +133,8 @@ EMERGENCY_LIBRARY/
     ├── MAPS/
     ├── ZIM/                    # Large archives; a reader is required
     ├── SOFTWARE/               # Bundled readers for supported platforms
-    ├── SEARCH/                 # Small discovery catalog and coverage report
-    ├── INDEX/                  # Reader code, category data and topic coverage
+    ├── SEARCH/                 # Shared search data and coverage report
+    ├── INDEX/                  # Reader generations and topic coverage
     └── .owl/                   # Private build and resume state
 ```
 
@@ -178,9 +178,10 @@ Open Search from `START_HERE.html` in a browser that can load local scripts.
 Search loads its model and index from files on the drive. The term index
 opens likely matches first, then checks the remaining eligible chunks in the
 background. When the selected allocation fits MiniLM, desktop search uses it
-to reorder additional results below the first three indexed hits. PDF results link to
-the source page. For an encyclopedia match, the reader shows the article to find
-in Kiwix and where the encyclopedia file is stored.
+to reorder additional indexed hits. An urgent guide appears first for a matching
+task. Direct results precede encyclopedia matches. PDF results link to the
+source page. For an encyclopedia match, the reader shows the article to find in
+Kiwix and where the encyclopedia file is stored.
 
 A drive with the April 2026 WikiMed archive includes 12 selectable-text PDFs
 with 1,125 articles under `LIBRARY/CRITICAL/MEDICAL/WIKIMED-PHONE`. Find them in Health or Help and use the PDF contents or outline to jump to an article. The PDFs open in Files without

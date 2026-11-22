@@ -160,10 +160,15 @@ const driveName = handle => handle?.name || "Your drive";
 const dateOf = value => value ? new Date(value).toLocaleDateString("en-GB", {day: "numeric", month: "long", year: "numeric"}) : "";
 const countOf = (count, noun) => count.toLocaleString() + " " + noun + (count === 1 ? "" : "s");
 const ratio = (done, total) => total ? Math.max(0, Math.min(1, done / total)) : 0;
+const readerTitles = new Map([
+  ["kiwix_android", "Kiwix reader app for Android"], ["kiwix_linux", "Kiwix reader app for Linux"],
+  ["kiwix_macos", "Kiwix reader app for Mac"], ["kiwix_windows", "Kiwix reader app for Windows"]
+]);
 
 export function mount({catalog: supplied} = {}) {
   const {create, meter, bytes, sizesInto, title, link, element, how} = globalThis.OWLManage;
   const stage = byId("sync-stage"), headline = byId("sync-title"), status = byId("sync-status");
+  const announcement = byId("sync-announcement");
   const primary = byId("sync-primary"), secondary = byId("sync-secondary"), ring = byId("sync-ring");
   const platform = navigator.userAgentData?.platform || navigator.platform || "";
   const agent = navigator.userAgent || "";
@@ -186,9 +191,15 @@ export function mount({catalog: supplied} = {}) {
       const {planner, routes, published} = catalog;
       const files = new Map(planner.assets.map(asset => [asset.id, asset]));
       for (const resource of planner.resources) {
+        const name = title(planner, resource);
+        if (name === resource.id) continue;
         for (const edition of [resource, ...Object.values(resource.editions || {})]) {
-          if (edition.asset_ids.length === 1 && planner.collection_copy?.[resource.id]) {
-            collectionTitles.set(edition.asset_ids[0], title(planner, resource));
+          for (const id of edition.asset_ids) {
+            const file = files.get(id);
+            if (!file || collectionTitles.has(id)) continue;
+            if (!file.title || file.title === id || (edition.asset_ids.length === 1 && planner.collection_copy?.[resource.id])) {
+              collectionTitles.set(id, name);
+            }
           }
         }
       }
@@ -244,7 +255,12 @@ export function mount({catalog: supplied} = {}) {
   const comparisonOptions = () => ({assets: plan.assets, choice: plan.choice, catalogVersion: catalogVersion(),
     singleArchives: !plan.choice.split, freeBytes: effectiveFree()});
   const totalDone = () => [...active.values()].reduce((sum, count) => sum + count, 0);
-  const changeLine = prefix => prefix + ": adds " + bytes(comparison?.addBytes || 0) + ", removes " + bytes(comparison?.removeBytes || 0) + ".";
+  // A side with nothing to do is left out: "removes 3.57 GB", not "adds 0 B, removes 3.57 GB".
+  const changeLine = prefix => {
+    const adds = comparison?.addBytes || 0, removes = comparison?.removeBytes || 0;
+    const parts = [adds && "adds " + bytes(adds), removes && "removes " + bytes(removes)].filter(Boolean);
+    return prefix + ": " + (parts.join(", ") || "nothing to add or remove") + ".";
+  };
   const percent = value => Math.floor(value * 100) + "%";
   const changeDrive = () => void choose(pickDrive);
   const reconnect = () => void choose(async () => {
@@ -361,15 +377,20 @@ export function mount({catalog: supplied} = {}) {
     }
     stage.dataset.state = mode;
     stage.style.setProperty("--p", String(item.fraction));
-    if (headline.textContent !== item.title) headline.textContent = item.title;
+    if (headline.textContent !== item.title) {
+      headline.textContent = item.title;
+      headline.title = item.title;
+    }
     const messageKey = item.message + "\n" + (item.extra || "");
     if (status.dataset.message !== messageKey) {
       status.dataset.message = messageKey;
-      status.replaceChildren(item.message, ...(item.extra ? [element("span", "now", item.extra)] : []));
+      const extra = item.extra ? element("span", "now", item.extra) : null;
+      if (extra && mode === "syncing") extra.title = nowTitle;
+      status.replaceChildren(item.message, ...(extra ? [extra] : []));
     }
-    ring.setAttribute("aria-valuetext", mode === "measuring" ? item.message : item.title);
-    if (mode === "measuring") ring.removeAttribute("aria-valuenow");
-    else ring.setAttribute("aria-valuenow", String(Math.floor(item.fraction * 100)));
+    if (previousMode !== mode) announcement.textContent = [item.title, item.message, item.extra].filter(Boolean).join(" ");
+    ring.setAttribute("aria-valuetext", item.title);
+    ring.setAttribute("aria-valuenow", String(Math.floor(item.fraction * 100)));
     const chart = byId("sync-meter");
     chart.hidden = !item.chart;
     if (item.chart && mode === "measuring") {
@@ -390,7 +411,6 @@ export function mount({catalog: supplied} = {}) {
       primary.onclick = item.action[1];
     }
     secondary.hidden = !item.links.length;
-    secondary.classList.toggle("two", mode === "current");
     if (previousMode !== mode || secondary.dataset.links !== item.links.map(row => row[0]).join("|")) {
       secondary.dataset.links = item.links.map(row => row[0]).join("|");
       secondary.replaceChildren(...item.links.map(([label, action, href]) => {
@@ -599,7 +619,9 @@ export function mount({catalog: supplied} = {}) {
     if (mode === "finishing" || !event.asset) return;
     if (event.kind === "downloading") {
       active.set(event.asset.id, Math.min(event.asset.size_bytes, event.index * PART_BYTES + event.received));
-      nowTitle = collectionTitles.get(event.asset.id) || title(catalog.planner, event.asset);
+      const fileTitle = title(catalog.planner, event.asset);
+      nowTitle = readerTitles.get(event.asset.id) || collectionTitles.get(event.asset.id) ||
+        (fileTitle !== event.asset.id ? fileTitle : "Library file");
       const now = performance.now(), done = totalDone();
       transferStarted ??= now;
       if (rateStart === undefined || done < rateBytes) { rateStart = now; rateBytes = done; }

@@ -1,7 +1,9 @@
 """Exercise the generated reader and its complete static layer."""
 from html.parser import HTMLParser
+from hashlib import sha256
 import json
 from pathlib import Path
+import re
 import tempfile
 import unittest
 
@@ -16,6 +18,14 @@ def reader_data(text, name):
     prefix = 'globalThis.OWLReaderData(' + json.dumps(name) + ','
     assert text.startswith(prefix) and text.endswith(');\n')
     return json.loads(text[len(prefix):-3])
+
+
+def generation(pages):
+    return re.search(r'src="LIBRARY/(INDEX/[a-f0-9]{12})/search\.js"', pages["START_HERE.html"])[1]
+
+
+def script(pages, file):
+    return pages[f"{generation(pages)}/{file}"]
 
 
 class StaticHTML(HTMLParser):
@@ -56,15 +66,14 @@ class NavigationTests(unittest.TestCase):
                 'format': 'pdf', 'size_bytes': 10, 'license': 'CC BY-SA', **extra}
 
     def generate(self, assets, **inventory):
-        return generate_navigation(self.target, assets, {'assets': assets, **inventory},
-                                   {'generated_files': ['SEARCH/manifest.js', 'SEARCH/search.js']}, write=False)
+        return generate_navigation(self.target, assets, {'assets': assets, **inventory}, {}, write=False)
 
     def test_static_page_folds_chapters_and_lists_precise_escaped_locations(self):
         chapters = [self.asset(f'chapter{i}', f'Field Guide — {i} Work', f'BOOKS/GUIDE/{i}.pdf')
                     for i in (10, 3, 2)]
         water = self.asset('water', 'Water & <Guide>', 'CRITICAL/WATER/water #1.pdf')
         pages = self.generate([water, *chapters])
-        self.assertEqual(set(pages), set(GENERATED_PATHS))
+        self.assertEqual({path for path in pages if not path.startswith("INDEX/")}, set(GENERATED_PATHS))
         reader = StaticHTML(pages['START_HERE.html'])
         content = ''.join(reader.text)
         self.assertFalse(reader.interactive)
@@ -76,30 +85,30 @@ class NavigationTests(unittest.TestCase):
         self.assertNotIn('/10.pdf', content)
         for device in ('iPhone', 'Android phone', 'Windows PC', 'Mac'):
             self.assertIn(device, content)
-        self.assertNotIn('Field Guide', pages['INDEX/home.js'])
-        book, = [row for row in reader_data(pages['INDEX/c-other.js'], 'other') if row.get('chapters')]
+        self.assertNotIn('Field Guide', script(pages, 'home.js'))
+        book, = [row for row in reader_data(script(pages, 'c-other.js'), 'other') if row.get('chapters')]
         self.assertEqual(book['kind'], 'Book, 3 chapters')
         self.assertEqual([row['title'] for row in book['chapters']], ['2 Work', '3 Work', '10 Work'])
         self.assertIn('href="CRITICAL/WATER/water%20%231.pdf"', pages['INVENTORY.html'])
-        validate_links(self.target, {**pages, 'INVENTORY.json': '', 'SEARCH/manifest.js': '', 'SEARCH/search.js': ''})
+        validate_links(self.target, {**pages, 'INVENTORY.json': ''})
 
     def test_emergency_uses_article_route_or_reports_the_missing_file(self):
         wiki = self.asset('wikimed_en', 'Medical encyclopedia', 'ZIM/medicine.zim', format='zim')
         pages = self.generate([wiki])
-        home = reader_data(pages['INDEX/home.js'], 'home')
+        home = reader_data(script(pages, 'home.js'), 'home')
         task = next(task for task in home['tasks'] if task['task'] == 'Care for burns')
         self.assertEqual(task['articles'], ['Burn'])
         self.assertEqual(task['format'], 'zim')
         self.assertIn('Look up Burn in Kiwix', pages['START_HERE.html'])
         self.assertEqual(len(home['tasks']), len(layout()['tasks']))
         self.assertTrue(all('path' not in task for task in
-                            reader_data(self.generate([])['INDEX/home.js'], 'home')['tasks']))
+                            reader_data(script(self.generate([]), 'home.js'), 'home')['tasks']))
 
     def test_inventory_reports_missing_and_software_without_counting_software_as_documents(self):
         app = self.asset('kiwix_android', 'Kiwix', 'SOFTWARE/ANDROID/kiwix.apk', format='apk')
         pages = self.generate([app], content_complete=False,
                               unresolved=[{'id': 'missing', 'title': '<Missing>', 'reason': 'Unavailable'}])
-        home = reader_data(pages['INDEX/home.js'], 'home')
+        home = reader_data(script(pages, 'home.js'), 'home')
         self.assertEqual(home['searchCount'], 0)
         self.assertEqual(home['stats']['count'], 1)
         self.assertEqual(home['readers'][0]['path'], 'LIBRARY/SOFTWARE/ANDROID/kiwix.apk')
@@ -112,10 +121,26 @@ class NavigationTests(unittest.TestCase):
         assets = [self.asset('water', 'Water', 'BOOKS/water.pdf')]
         expected = self.generate(assets)
         for _ in range(2):
-            written = generate_navigation(self.target, assets, {'assets': assets},
-                                          {'generated_files': ['SEARCH/manifest.js', 'SEARCH/search.js']})
+            written = generate_navigation(self.target, assets, {'assets': assets}, {})
             self.assertEqual(expected, {key: managed_path(self.target, key).read_text() for key in written})
         self.assertEqual(self.target.joinpath('personal.txt').read_text(), 'Keep this')
+
+    def test_entry_points_to_the_hash_of_the_generation_and_publishes_last(self):
+        from owl.atlas_build import write_outputs
+        from unittest.mock import patch
+
+        assets = [self.asset('water', 'Water', 'BOOKS/water.pdf')]
+        before = self.generate(assets)
+        pages = self.generate(assets, syncedAt='2026-02-01T04:05:06Z')
+        prefix = generation(pages)
+        self.assertNotEqual(prefix, generation(before))
+        hashes = [[path.removeprefix(prefix + '/'), sha256(value.encode()).hexdigest()]
+                  for path, value in sorted(pages.items()) if path.startswith(prefix + '/')]
+        self.assertEqual(prefix, 'INDEX/' + sha256(json.dumps(hashes, separators=(',', ':')).encode()).hexdigest()[:12])
+        self.assertEqual(reader_data(script(pages, 'home.js'), 'home')['syncedAt'], '2026-02-01T04:05:06Z')
+        with patch('owl.atlas_build.atomic_write') as atomic:
+            write_outputs(self.target, pages)
+        self.assertEqual(atomic.call_args_list[-1].args[0], self.target.parent / 'START_HERE.html')
 
     def test_untrusted_paths_are_rejected(self):
         asset = {'id': 'bad', 'title': 'Bad', 'destination': '../personal.pdf', 'format': 'pdf'}

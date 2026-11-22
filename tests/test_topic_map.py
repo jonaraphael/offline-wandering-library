@@ -99,6 +99,7 @@ const categories=get('categories').children;
 const other=categories.find(row=>row.dataset.category==='other');
 assert(other?.children.some(row=>row.dataset.resourceId==='core'),'Untagged collection is unavailable');
 assert(get('preview-sizes').hidden,'Custom profile has no capacity ladder');
+assert(get('manage-total').children.includes(' of 1 GB'),'Storage summary uses the custom profile capacity');
 assert(get('plan-command').value&&get('build-command').value,'CLI commands unavailable');
 const toggle=other.children.find(row=>row.dataset.resourceId==='core').children[0].children[0];
 toggle.checked=false;

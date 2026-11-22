@@ -33,7 +33,7 @@
     if (loaded.has(id)) return Promise.resolve(loaded.get(id));
     if (!pending.has(id)) {
       const name = id === "home" ? "home" : "c-" + id;
-      pending.set(id, engine.script("INDEX/" + name + ".js").then(() => {
+      pending.set(id, engine.script(engine.local(name + ".js")).then(() => {
         if (!loaded.has(id)) throw Error("Could not read the list from this drive.");
         return loaded.get(id);
       }).finally(() => pending.delete(id)));
@@ -234,9 +234,11 @@
         '</a><span class="where">' + escape(row.path) + "</span></li>").join("") + "</ul></div>" : "";
     const phone = home.phone.length ? '<div class="panel"><h3>WikiMed PDFs</h3><p>Read these without Kiwix.</p>' +
       list(home.phone) + "</div>" : "";
-    const stamp = document.lastModified;
-    const date = stamp && !Number.isNaN(new Date(stamp).getTime()) ? new Intl.DateTimeFormat("en-GB",
-      {day: "numeric", month: "long", year: "numeric"}).format(new Date(stamp)) : "Unknown";
+    const recorded = new Date(home.syncedAt || "");
+    const fromRecord = !Number.isNaN(recorded.getTime());
+    const stamp = fromRecord ? recorded : new Date(document.lastModified);
+    const date = !Number.isNaN(stamp.getTime()) ? new Intl.DateTimeFormat("en-GB",
+      {day: "numeric", month: "long", year: "numeric", ...(fromRecord ? {timeZone: "UTC"} : {})}).format(stamp) : "Unknown";
     return heading("Help") + '<div class="panel"><h3>Opening files on this ' + escape(instructions.label) + "</h3>" +
       "<p>Books and guides open by themselves. Encyclopedias need the free Kiwix app.</p>" +
       steps(instructionsText.map(escape)) + choose + "</div>" +
@@ -266,7 +268,15 @@
         .map(query => '<button type="button" data-query="' + escape(query) + '">' + escape(query) + "</button>").join("") +
       '</div></div></form><p class="note" id="search-status" role="status" hidden></p><div id="search-results"></div>';
     if (home.search) {
-      engine.mount(container, {open: openResult, categoryIds: async id => new Set((await data(id))
+      engine.mount(container, {open: openResult, tasks: home.tasks, priority: home.searchPriority,
+        openUrgent: (task, event) => {
+          remember(task);
+          if (task.format === "zim") {
+            event.preventDefault();
+            openSheet(task);
+          }
+        },
+        categoryIds: async id => new Set((await data(id))
         .flatMap(row => (row.chapters || [row]).map(item => item.id)))});
     } else {
       container.querySelector("#search-form").hidden = true;

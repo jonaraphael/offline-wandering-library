@@ -30,6 +30,13 @@ function readerNavigation(assets, extra = {}) {
     csp: "default-src 'none'; script-src 'self' file:; style-src 'unsafe-inline'"}};
 }
 
+async function readReaderFile(drive, name) {
+  const start = await (await (await drive.file("START_HERE.html")).getFile()).text();
+  const generation = start.match(/src="(LIBRARY\/INDEX\/[a-f0-9]{12})\/search\.js"/)?.[1];
+  assert.ok(generation);
+  return (await (await drive.file(generation + "/" + name)).getFile()).text();
+}
+
 function readerData(script, id) {
   const prefix = "globalThis.OWLReaderData(" + JSON.stringify(id) + ",";
   assert.ok(script.startsWith(prefix) && script.endsWith(");\n"));
@@ -352,7 +359,7 @@ test("a corrupted search chunk leaves the catalog search and static pages usable
     }}});
   assert.equal(result.state.finished, false);
   assert.match(result.searchWarnings.join(" "), /SHA-256/);
-  assert.match(await (await (await drive.file("LIBRARY/SEARCH/manifest.js")).getFile()).text(), /"shards":false/);
+  assert.doesNotMatch(await readReaderFile(drive, "manifest.js"), /"shards":true/);
   assert.match(await (await (await drive.file("START_HERE.html")).getFile()).text(), /Files on this drive are in the LIBRARY folder/);
 });
 
@@ -411,7 +418,7 @@ test("the static reader lists completed urgent files and reports omissions", asy
   assert.match(start, /Make drinking water safer.*LIBRARY\/BOOKS\/water.pdf/);
   assert.doesNotMatch(start, /Unfinished guide/);
   assert.match(await read("LIBRARY/BUILD_REPORT.html"), /Unfinished guide.*Source blocked/);
-  const home = readerData(await read("LIBRARY/INDEX/home.js"), "home");
+  const home = readerData(await readReaderFile(drive, "home.js"), "home");
   const route = home.tasks.find(task => task.task === "Make drinking water safer");
   assert.equal(route.href, "LIBRARY/BOOKS/water.pdf");
   assert.equal(home.stats.missing, 1);
@@ -521,7 +528,7 @@ test("emergency encyclopedia tasks carry their Kiwix article and file location",
   await buildLibrary(drive, {assets: [item], routes: {wikimed_en: ["https://example.test/archive.zim"]},
     fetchFile: async () => new Response(body), navigation: readerNavigation({wikimed_en:{category:"health"}})});
   const start = await (await (await drive.file("START_HERE.html")).getFile()).text();
-  const home = readerData(await (await (await drive.file("LIBRARY/INDEX/home.js")).getFile()).text(), "home");
+  const home = readerData(await readReaderFile(drive, "home.js"), "home");
   assert.match(start, /Labor and birth.*Look up Childbirth in Kiwix.*LIBRARY\/ZIM\/medical.zim/);
   const route = home.tasks.find(task => task.task === "Labor and birth");
   assert.deepEqual(route.articles, ["Childbirth"]);
@@ -553,7 +560,7 @@ test("the browser installs the largest pinned phone PDF and indexes its checksum
   const contents = await (await drive.file(path)).getFile();
   assert.equal(hash(Buffer.from(await contents.arrayBuffer())), volume.sha256);
   const checksums = await (await (await drive.file("LIBRARY/SHA256SUMS.txt")).getFile()).text();
-  const shelf = await (await (await drive.file("LIBRARY/INDEX/c-health.js")).getFile()).text();
+  const shelf = await readReaderFile(drive, "c-health.js");
   assert.ok(checksums.includes(volume.sha256 + "  " + path));
   assert.ok(shelf.includes(path));
 });
@@ -804,7 +811,7 @@ test("the reader folds chapter files and keeps the order within the book", async
     navigation: readerNavigation({c10: book("10 Burns", 2), c2: book("2 Bleeding", 1),
       front: book("Front matter", 0), solo: {category: "health"}})});
   const read = async path => (await (await drive.file(path)).getFile()).text();
-  const rows = readerData(await read("LIBRARY/INDEX/c-health.js"), "health");
+  const rows = readerData(await readReaderFile(drive, "c-health.js"), "health");
   assert.deepEqual(rows.map(row => row.title), ["Field Guide", "Single sheet"]);
   assert.deepEqual(rows[0].chapters.map(row => row.title), ["Front matter", "2 Bleeding", "10 Burns"]);
   const start = await read("START_HERE.html");
@@ -827,7 +834,9 @@ test("the reader starts from local scripts and the old search address redirects"
   const read = async path => (await (await drive.file(path)).getFile()).text();
   const start = await read("START_HERE.html");
   assert.match(start, /Content-Security-Policy" content="default-src &#39;none&#39;; script-src &#39;self&#39; file:/);
-  assert.match(start, /<script defer src="LIBRARY\/SEARCH\/search.js"><\/script>/);
+  assert.match(start, /<script defer src="LIBRARY\/INDEX\/[a-f0-9]{12}\/search\.js"><\/script>/);
+  assert.match(await readReaderFile(drive, "manifest.js"), /OWLDiscoveryManifest/);
+  assert.equal(readerData(await readReaderFile(drive, "home.js"), "home").syncedAt, (await readBuild(drive)).syncedAt);
   assert.match(start, /<h1>Library<\/h1>.*Water guide/s);
   assert.match(start, /<nav class="tabs" aria-label="Sections" hidden>/);
   assert.doesNotMatch(start, /<input|<form/);

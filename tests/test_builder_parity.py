@@ -13,7 +13,7 @@ from owl.atlas_model import load_navigation
 from owl.build import build
 from owl.catalog import load_catalog, load_profiles
 from owl.discovery import compile_records
-from owl.navigation import GENERATED_PATHS, collection_category, reader_payload
+from owl.navigation import GENERATED_PATHS, collection_category, generate_navigation, reader_payload
 from owl.layout import checksum_name
 from owl.selector import make_model
 from owl.search_shards import ROOT, Record, compile_search_plan, encode, info, load_manifest
@@ -64,16 +64,21 @@ class BuilderParityTests(unittest.TestCase):
                                                    'runtime': (templates / 'search.js').read_text(encoding='utf8'),
                                                    'rankRuntime': (templates / 'rank.js').read_text(encoding='utf8')}}, sort_keys=True),
                             encoding='utf8')
-            # Keep the public build entry point and inject the precomputed
-            # source fixture at its manifest lookup boundary.
-            with patch('owl.search_shards.load_manifest', side_effect=lambda *_: load_manifest(source)), \
-                 patch('owl.search_shards.read_file', side_effect=lambda _, name, pin: read_file(source, name, pin)):
-                build(directory / 'cli', catalog=catalog, profiles_dir=profiles, profile_name='demo',
-                      allow_local=True, navigation_dir=navigation_dir, progress=lambda *_: None)
             completed = subprocess.run(['node', str(ROOT / 'tests/parity-build.mjs'), str(spec), str(directory / 'browser')],
                            cwd=ROOT, capture_output=True, text=True)
             self.assertEqual(completed.returncode, 0, completed.stderr)
             native, web = (directory / name for name in ('cli', 'browser'))
+            record = json.loads((web / 'LIBRARY/.owl/browser-build.json').read_text())
+
+            def dated_reader(target, assets, inventory, report, **kwargs):
+                return generate_navigation(target, assets, {**inventory, 'syncedAt': record['syncedAt']}, report, **kwargs)
+
+            # Both builders receive the same inventory and recorded date.
+            with patch('owl.search_shards.load_manifest', side_effect=lambda *_: load_manifest(source)), \
+                 patch('owl.search_shards.read_file', side_effect=lambda _, name, pin: read_file(source, name, pin)), \
+                 patch('owl.navigation.generate_navigation', side_effect=dated_reader):
+                build(native, catalog=catalog, profiles_dir=profiles, profile_name='demo',
+                      allow_local=True, navigation_dir=navigation_dir, progress=lambda *_: None)
             for asset in assets:
                 key = f"LIBRARY/{asset['destination']}"
                 self.assertEqual((native / key).read_bytes(), (web / key).read_bytes())
@@ -83,6 +88,8 @@ class BuilderParityTests(unittest.TestCase):
             self.assertEqual(tree(native, 'INDEX'), tree(web, 'INDEX'))
             self.assertFalse(list((native / 'LIBRARY/INDEX').rglob('*.html')))
             reader_paths = {checksum_name(path) for path in GENERATED_PATHS}
+            reader_paths.update(path for path in tree(native, 'INDEX') if path.endswith('.js'))
+            reader_paths.update(path for path in tree(native, 'SEARCH') if '/shared/' in path)
             reader_paths.update({'LIBRARY/SEARCH.html', 'LIBRARY/SEARCH/search.js'})
             for key in sorted(reader_paths):
                 with self.subTest(reader_file=key):

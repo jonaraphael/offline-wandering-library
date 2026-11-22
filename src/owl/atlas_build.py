@@ -17,7 +17,7 @@ from .build import REPO_ROOT, _json, _owned_directory, _root, _state, check_spac
 from .catalog import ROOTS, fingerprint, is_document, learning_coverage, load_catalog, load_profiles, resolve_content, validate_catalog
 from .content_policy import require_content_policy
 from .layout import checksum_name, content_root, logical_name, managed_path
-from .navigation import GENERATED_PATHS, generate_navigation
+from .navigation import READER_GENERATION, SHARED_SEARCH, generate_navigation
 from .runtime import file_lock, interrupt_signals
 from .safety import SafetyError, atomic_write, guard_directory, safe_path, sha256_file, validate_relative
 
@@ -27,7 +27,7 @@ JOB = ".owl/atlas-job.json"
 
 def _atlas_path(relative: str) -> bool:
     validate_relative(relative)
-    return (relative in {"INDEX/topics.html", "INDEX/books.html", REPORT} or
+    return (relative == REPORT or re.fullmatch(r"INDEX/(?:topics|books)\.html", relative) is not None or
             any(relative.startswith(prefix) and relative.endswith(".html")
                 for prefix in ("INDEX/topics/", "INDEX/topic-a-z/", "INDEX/books/", "INDEX/topic-entrances/")))
 
@@ -52,14 +52,12 @@ def _reported_paths(report: dict, managed) -> list[str]:
 
 def _unavailable(relative: str) -> str:
     home = posixpath.relpath(checksum_name("START_HERE.html"), posixpath.dirname(checksum_name(relative)))
-    categories = posixpath.relpath("INDEX/categories.html", posixpath.dirname(relative))
     return ('<!doctype html><html lang="en"><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             '<title>Unavailable in this build · OWL</title><body><main>'
             '<h1>Unavailable in this build</h1><p>This previously managed navigation page '
             'is no longer part of the current topic selection.</p>'
-            f'<p><a href="{html.escape(home)}">Start here</a> · '
-            f'<a href="{html.escape(categories)}">Current category index</a></p></main></body></html>')
+            f'<p><a href="{html.escape(home)}">Start here</a></p></main></body></html>')
 
 
 def plan_atlas(target: Path, assets: list[dict], navigation: dict | None, state: dict,
@@ -153,14 +151,18 @@ def validate_links(target: Path, pages: dict[str, str], assets=(), *, inspect_so
             parsed[relative].feed(text)
             page = parsed[relative]
             if page.scripts:
-                script_source = {"START_HERE.html": "LIBRARY/SEARCH/search.js",
-                                 "SEARCH.html": "SEARCH/search.js"}.get(relative)
+                source = dict(page.scripts[0]).get("src") or ""
+                generation = re.fullmatch(r"LIBRARY/(INDEX/[a-f0-9]{12}/)search\.js", source)
+                script_source = source if relative == "START_HERE.html" and generation else {
+                    "START_HERE.html": "LIBRARY/SEARCH/search.js", "SEARCH.html": "SEARCH/search.js"}.get(relative)
                 allowed = (script_source is not None and not page.inline_script and
                            len(page.scripts) == 1 and len(page.scripts[0]) == 2 and
                            dict(page.scripts[0]) == {"defer": None, "src": script_source})
                 if not allowed:
                     raise SafetyError(f"Unexpected generated script: {relative}")
-                for required in ("SEARCH/search.js", "SEARCH/manifest.js"):
+                required_files = [generation[1] + name for name in ("search.js", "reader.js", "home.js")] if generation else (
+                    "SEARCH/search.js", "SEARCH/manifest.js")
+                for required in required_files:
                     if required not in pages and not safe_path(target, required).is_file():
                         raise SafetyError(f"Missing automatic search dependency: {required}")
     requested = {}
@@ -207,12 +209,33 @@ def register_outputs(target: Path, pages: dict, state: dict) -> None:
 def write_outputs(target: Path, pages: dict[str, str]) -> None:
     from .search_shards import output_bytes
 
-    publish_last = {"SEARCH/shards.js": 1, "SEARCH/manifest.js": 2}
+    publish_last = {"SEARCH/shards.js": 1, "SEARCH/manifest.js": 2, "START_HERE.html": 3}
     for relative in sorted(pages, key=lambda name: (publish_last.get(name, 0), name)):
         text = pages[relative]
         path, data = managed_path(target, relative), output_bytes(text)
         if not path.is_file() or path.read_bytes() != data:
             atomic_write(path, data)
+    if "START_HERE.html" in pages and any(READER_GENERATION.match(name) for name in pages):
+        retire_reader_generations(target, pages)
+
+
+def retire_reader_generations(target, pages):
+    """After the entry page is in place, remove superseded reader files we own."""
+    state = _state(safe_path(target, ".owl/state.json"))
+    folders = set()
+    for relative in retired_reader_paths(state, pages):
+        path = managed_path(target, relative)
+        if path.is_file():
+            path.unlink()
+            folders.add(path.parent)
+    for folder in sorted(folders):
+        if not any(folder.iterdir()):
+            folder.rmdir()
+
+
+def retired_reader_paths(state, pages):
+    return {name for name in state["managed"] if name not in pages and
+            (READER_GENERATION.match(name) or SHARED_SEARCH.fullmatch(name))}
 
 
 def _checksums(target: Path) -> dict[str, str]:
@@ -451,7 +474,10 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             if metadata_only:
                 info['source_verification'] = 'Not repeated during this metadata-only refresh'
             job['inventory'], job['build_info'] = inventory, info
-            pages = generate_navigation(target, assets, inventory, inventory.get("search", {}), write=False)
+            if info.get("built_at"):
+                inventory["syncedAt"] = info["built_at"]
+            pages = generate_navigation(target, assets, inventory, discovery_report, write=False,
+                                        search_outputs=discovery_pages)
             pages.update(atlas_pages)
             pages.update(discovery_pages)
             pages["INVENTORY.json"] = _json(inventory).decode("utf-8")
@@ -476,7 +502,8 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
                 raise SafetyError("Generated atlas output conflicts with a source document")
             # On retries, only this operation's previously registered outputs may
             # differ from its immutable baseline. Existing source data never may.
-            mutable = set(pages) | set(_previous(state)) | {"SHA256SUMS.txt"}
+            retired = retired_reader_paths(state, pages)
+            mutable = set(pages) | set(_previous(state)) | retired | {"SHA256SUMS.txt"}
             if not metadata_only:
                 _verify_entries(target, baseline, excluded=mutable, progress=progress)
             source_hashes = {a["destination"]: a["sha256"] for a in assets}
@@ -499,7 +526,8 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             state["managed"] = sorted(set(state["managed"]) | set(source_hashes) | {"SHA256SUMS.txt"})
             register_outputs(target, pages, state)
             write_outputs(target, pages)
-            checksums = {**baseline, **source_hashes,
+            state["managed"] = [path for path in state["managed"] if path not in retired]
+            checksums = {**{path: digest for path, digest in baseline.items() if path not in retired}, **source_hashes,
                          **{p: output_info(text)["sha256"] for p, text in pages.items()}}
             _verify_entries(target, {p: checksums[p] for p in pages}, progress=progress)
             profile_data = info.get("profile", {})
@@ -519,7 +547,7 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             state.update(complete=job["finish_complete"], phase="complete" if job["finish_complete"] else "build-incomplete")
             atomic_write(state_path, _json(state))
             job_path.unlink()
-            progress(f"DISCOVERY AND ATLAS COMPLETE: {target / 'INDEX/topics.html'}")
+            progress(f"DISCOVERY AND ATLAS COMPLETE: {outer / 'START_HERE.html'}")
             if not state["complete"]:
                 progress("The human index is usable; the interrupted full drive build remains incomplete. Rerun its build command to finish it.")
             for key in ("unmapped_critical", "missing_textbook_subject_routes", "missing_textbook_learning_routes"):

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from functools import lru_cache
+from hashlib import sha256
 from html import escape
 import json
 from pathlib import Path, PurePosixPath
@@ -31,10 +32,12 @@ _READER_CSS = (TEMPLATES / "site.css").read_text(encoding="utf-8")
 _DEVICES = ("iphone", "android", "windows", "mac", "linux")
 _FORMATS = {"pdf": "PDF", "html": "Web page", "htm": "Web page", "epub": "EPUB book",
             "zim": "Encyclopedia, opens in Kiwix", "txt": "Text", "zip": "ZIP"}
-GENERATED_PATHS = (
-    "START_HERE.html", "README.txt", "INVENTORY.html", "BUILD_REPORT.html",
-    "INDEX/reader.js", "INDEX/home.js", *(f"INDEX/c-{cat['id']}.js" for cat in CATEGORIES),
-)
+GENERATED_PATHS = ("START_HERE.html", "README.txt", "INVENTORY.html", "BUILD_REPORT.html")
+READER_GENERATION = re.compile(r"INDEX/[0-9a-f]{12}/")
+SHARED_SEARCH = re.compile(r"SEARCH/shared/[0-9a-f]{64}\.js\Z")
+SEARCH_SCRIPTS = ("manifest.js", "rank.js", "shards.js", "rerank.js")
+SEARCH_SUPPORT = re.compile(r"SEARCH/(?:model\.js|(?:model|impact|transformer)/[a-zA-Z0-9.-]+\.js)\Z")
+FIRST_RESPONSE = {"cert", "medical_bec"}
 
 _CHAPTER = re.compile(r"^(?P<book>.+?)(?: — |: )(?P<chapter>.+)$")
 _FRONT = re.compile(r"^(?:front|intro|preface|foreword|contents|cover|title|about)", re.I)
@@ -110,17 +113,21 @@ def navigation_assets(assets, collections=None, topics=None) -> dict:
     for collection in sorted(collections, key=lambda row: (
             order.get(row.get("utility_tier"), 3), row.get("number") or 1000, row["id"])):
         category = collection_category(collection)
+        importance = order.get(collection.get("utility_tier"), 3)
         for identity in resource_asset_ids(collection):
-            owners.setdefault(identity, (category, collection["id"]))
+            owners.setdefault(identity, (category, collection["id"], importance))
     books = book_chapters(assets)
     result = {}
     for asset in assets:
         identity = asset["id"]
         software = asset["destination"].startswith("SOFTWARE/") or asset.get("resource_type") == "software"
-        category, owner = ("other", "") if software else owners.get(identity, ("other", ""))
+        category, owner, importance = ("other", "", 3) if software else owners.get(identity, ("other", "", 3))
         course = owner in {"khan-academy", "crash-course"} or asset.get("resource_type") == "course"
         kind = ("Course, opens in Kiwix" if asset["format"] == "zim" else "Course") if course else None
         result[identity] = {"document": is_document(asset) and not software, "category": category,
+                            "importance": importance,
+                            "first_aid": (asset.get("category") == "first_aid" or identity in FIRST_RESPONSE or
+                                          asset.get("title", "").lower().endswith(" first aid")),
                             "book": books.get(identity), "topics": (topics or {}).get(identity, []), "kind": kind,
                             "publisher": asset.get("publisher"), "attribution": asset.get("attribution")}
     return result
@@ -164,7 +171,7 @@ def _row(asset, data):
     return row
 
 
-def _grouped(rows, metadata):
+def _grouped(rows, metadata, category):
     books = defaultdict(list)
     output = []
     for row in rows:
@@ -186,10 +193,21 @@ def _grouped(rows, metadata):
                        "kind": f"Book, {len(members)} chapters", "bytes": sum(row["bytes"] for row in members),
                        "publisher": metadata[members[0]["id"]].get("publisher") or "", "chapters": chapters,
                        "topics": topics})
-    return sorted(output, key=_order)
+    def importance(row):
+        members = row.get("chapters", [row])
+        return min(metadata.get(member["id"], {}).get("importance", 3) for member in members)
+
+    def first_response(row):
+        if category != "health":
+            return 2
+        if row["id"] in FIRST_RESPONSE:
+            return 0
+        return 1 if row.get("chapters") and row["title"] == "Where There Is No Doctor" else 2
+
+    return sorted(output, key=lambda row: (first_response(row), importance(row), *_order(row)))
 
 
-def _reader_files(assets, inventory, search_ready):
+def _reader_files(assets, inventory, scripts, shared):
     report = inventory.get("navigation") or {}
     config = reader_payload(assets, topics=report.get("reader_topics"))
     markup = config["layout"]
@@ -212,7 +230,7 @@ def _reader_files(assets, inventory, search_ready):
     actual = inventory.get("assets") or assets
     home = {"version": 1, "tasks": tasks, "readers": readers, "devices": markup["devices"], "phone": phone,
             "stats": {"count": len(actual), "bytes": sum(row.get("size_bytes", row.get("bytes", 0)) for row in actual),
-                      "missing": len(missing)}, "search": search_ready, "searchCount": len(documents), "categories": []}
+                      "missing": len(missing)}, "searchCount": len(documents), "categories": []}
     pages = {"INDEX/reader.js": config["runtime"], "README.txt": config["readme"]}
 
     def section(title, items):
@@ -232,7 +250,7 @@ def _reader_files(assets, inventory, search_ready):
         members = [row for row in documents if meta[row["id"]]["category"] == identity]
         if identity == "health":
             members.extend(phone)
-        grouped = _grouped(members, meta)
+        grouped = _grouped(members, meta, identity)
         home["categories"].append({**category, "count": len(grouped)})
         pages[f"INDEX/c-{identity}.js"] = _script("OWLReaderData", identity, grouped)
         if grouped:
@@ -255,6 +273,11 @@ def _reader_files(assets, inventory, search_ready):
                          + "".join(devices) + software))
     if inventory.get("content_complete") is False:
         static.append('<p>This library is incomplete. See the <a href="LIBRARY/BUILD_REPORT.html">build report</a>.</p>')
+    home["search"] = "manifest.js" in scripts
+    home["searchPriority"] = {identity: (2 if row["first_aid"] else 1) for identity, row in meta.items()
+                              if row["first_aid"] or row["importance"] == 0}
+    if inventory.get("syncedAt"):
+        home["syncedAt"] = inventory["syncedAt"]
     pages["INDEX/home.js"] = _script("OWLReaderData", "home", home)
 
     def document(title, body):
@@ -280,16 +303,44 @@ def _reader_files(assets, inventory, search_ready):
     pages["BUILD_REPORT.html"] = document("Build report", omission + '<p><a href="INVENTORY.html">Every file, with its location</a></p>')
     colors = ":root{" + "".join(f"--c-{cat['id']}:{cat['light']};" for cat in CATEGORIES if cat["id"] not in {"trades", "school"}) + "}\n"
     colors += "@media(prefers-color-scheme:dark){:root{" + "".join(f"--c-{cat['id']}:{cat['dark']};" for cat in CATEGORIES) + "}}"
+    generation = {path.removeprefix("INDEX/"): pages.pop(path) for path in list(pages) if path.startswith("INDEX/")}
+    generation.update(scripts)
+    generation["search.js"] = config["bootstrap"]
+    generation["search-paths.js"] = _script("OWLSearchPaths", shared)
+    hashes = [[path, sha256(text.encode()).hexdigest()] for path, text in sorted(generation.items())]
+    digest = sha256(json.dumps(hashes, separators=(",", ":")).encode()).hexdigest()[:12]
+    base = f"INDEX/{digest}"
+    pages.update({f"{base}/{path}": text for path, text in generation.items()})
     pages["START_HERE.html"] = render(config["reader"], css=config["css"], colors=colors,
-                                     static="\n".join(static), policy=_text(config["csp"]))
+                                     static="\n".join(static), policy=_text(config["csp"]), generation=base)
     return pages
 
 
-def generate_navigation(target: Path, assets: list[dict], inventory: dict, search_report: dict, *, write: bool = True):
+def generate_navigation(target: Path, assets: list[dict], inventory: dict, search_report: dict, *,
+                        write: bool = True, search_outputs=None):
     """Return library-relative reader files, or publish them to the drive."""
-    search_files = search_report.get("generated_files") or ()
-    ready = search_report.get("status") != "not-built" and "SEARCH/manifest.js" in search_files
-    pages = _reader_files([asset for asset in assets if is_document(asset)], inventory, ready)
+    from .search_shards import output_bytes
+
+    search_files = search_report.get("file_integrity") or {}
+    scripts, shared, objects = {}, {}, {}
+    for path, pin in search_files.items():
+        name = path.removeprefix("SEARCH/")
+        if name not in SEARCH_SCRIPTS and not SEARCH_SUPPORT.fullmatch(path):
+            continue
+        if search_outputs is not None:
+            raw = output_bytes(search_outputs[path])
+        else:
+            with managed_path(target, path).open("rb") as source:
+                raw = source.read(pin["size_bytes"] + 1)
+        if len(raw) != pin["size_bytes"] or sha256(raw).hexdigest() != pin["sha256"]:
+            raise ValueError(f"Search file changed before reader publication: {path}")
+        if name in SEARCH_SCRIPTS:
+            scripts[name] = raw.decode("utf-8")
+        else:
+            alias = f"SEARCH/shared/{pin['sha256']}.js"
+            shared[path] = alias
+            objects[alias] = raw.decode("utf-8")
+    pages = {**objects, **_reader_files([asset for asset in assets if is_document(asset)], inventory, scripts, shared)}
     if not write:
         return pages
     for relative, content in pages.items():

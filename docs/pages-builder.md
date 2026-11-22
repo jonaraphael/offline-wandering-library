@@ -30,9 +30,10 @@ place** choice in Manage. Files outside OWL's record stay on the drive.
 **Check every file** rereads the selected files and downloads replacements
 for failed checks.
 
-When Sync finishes, eject the drive through your operating system. Open
-`START_HERE.html` on the drive to read offline. The build report lists any
-files that could not be downloaded.
+Sync writes the new reader and updates `START_HERE.html` before clearing the
+older reader files listed in the drive record. When Sync finishes, eject the
+drive through your operating system. Open `START_HERE.html` on the drive to read
+offline. The build report lists any files that could not be downloaded.
 
 ## Drives and readers
 

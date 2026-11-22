@@ -685,10 +685,10 @@ async function reservePaths(drive, state, asset, partBytes, joining) {
 
 const readerPath = path => path === "START_HERE.html" ||
   /^LIBRARY\/(?:INDEX\/|SEARCH(?:\/|\.html$)|INVENTORY(?:\.|\/)|VERIFY\.py$|README\.txt$|BUILD_INFO\.json$|BUILD_REPORT\.html$|SOURCE_NOTES\.txt$|CRITICAL\/MEDICAL\/WIKIMED-PHONE\/)/.test(path);
+const readerChecksums = "LIBRARY/SHA256SUMS.txt";
+const generationPath = /^LIBRARY\/INDEX\/([a-f0-9]{8,64})\//;
 
-async function previousReader(drive) {
-  const checksums = await fileAt(drive, "LIBRARY/SHA256SUMS.txt");
-  if (!checksums || checksums.size > 16 * 2 ** 20) return new Map();
+async function checksumPins(checksums) {
   const pins = new Map();
   for (const line of (await checksums.text()).split("\n")) {
     const match = /^([0-9a-f]{64})  (.+)$/.exec(line);
@@ -697,11 +697,18 @@ async function previousReader(drive) {
       match[2].startsWith("LIBRARY/") ? match[2] : "LIBRARY/" + match[2];
     if (!path.split("/").some(piece => !piece || piece === "." || piece === "..")) pins.set(path, match[1]);
   }
+  return pins;
+}
+
+async function previousReader(drive) {
+  const checksums = await fileAt(drive, readerChecksums);
+  if (!checksums || checksums.size > 16 * 2 ** 20) return new Map();
+  const pins = await checksumPins(checksums);
   const start = await fileAt(drive, "START_HERE.html");
   if (!start || start.size > 16 * 2 ** 20 || !pins.has("START_HERE.html") ||
       !/offline wandering library/i.test(await start.text()) ||
       !await readCheckpoint(start, pins.get("START_HERE.html"), sha256.create())) return new Map();
-  pins.set("LIBRARY/SHA256SUMS.txt", null);
+  pins.set(readerChecksums, null);
   return pins;
 }
 
@@ -715,7 +722,7 @@ function guardReader(drive, state, legacy) {
       const path = prefix + name;
       if (options?.create && !known.has(path)) {
         const file = await optional(async () => (await dir.getFileHandle(name)).getFile());
-        if (file && (!(readerPath(path) || path === "LIBRARY/SHA256SUMS.txt") || !legacy.has(path) || (legacy.get(path) &&
+        if (file && (!(readerPath(path) || path === readerChecksums) || !legacy.has(path) || (legacy.get(path) &&
             !await readCheckpoint(file, legacy.get(path), sha256.create())))) {
           throw Error("An existing file blocks the start page or search index. Choose another library folder.");
         }
@@ -727,6 +734,45 @@ function guardReader(drive, state, legacy) {
     }
   });
   return wrap(drive, "");
+}
+
+async function recordAdoptedGeneration(drive, state, legacy, signal) {
+  const known = new Set(state.generated);
+  for (const path of ["START_HERE.html", readerChecksums]) {
+    if (!known.has(path)) state.generated.push(path);
+  }
+  for (const [path, digest] of legacy) {
+    if (!generationPath.test(path) || known.has(path)) continue;
+    const file = await candidateFile(drive, path);
+    if (file && await readCheckpoint(file, digest, sha256.create(), signal)) state.generated.push(path);
+  }
+}
+
+async function retireReaderFiles(drive, state, signal) {
+  signal?.throwIfAborted();
+  const active = await checksumPins(await fileAt(drive, readerChecksums));
+  active.set(readerChecksums, null);
+  const generations = new Set();
+  for (const path of state.generated) {
+    if (active.has(path)) continue;
+    signal?.throwIfAborted();
+    if (await candidateFile(drive, path)) await removeFile(drive, path);
+    const id = generationPath.exec(path)?.[1];
+    if (id) generations.add(id);
+  }
+  const index = generations.size && await optional(async () => (await drive.getDirectoryHandle("LIBRARY")).getDirectoryHandle("INDEX"));
+  for (const id of generations) {
+    signal?.throwIfAborted();
+    await optional(async () => {
+      const dir = await index?.getDirectoryHandle(id);
+      if (!dir) return;
+      for await (const entry of dir.values()) return;
+      await index.removeEntry(id).catch(error => {
+        if (error.name !== "InvalidModificationError") throw error;
+      });
+    });
+  }
+  state.generated = state.generated.filter(path => active.has(path));
 }
 
 function beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, singleArchives, archiveSpace, searchBudget, capacityBytes}) {
@@ -873,8 +919,16 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
     return reason ? [{id: asset.id, title: asset.title, reason}] : [];
   })];
   onProgress({kind: "assembling"});
+  if (legacy.size) {
+    // Keep ownership available on retry even if assembly replaces the old checksum list.
+    await recordAdoptedGeneration(drive, state, legacy, signal);
+    await save(drive, state);
+  }
+  const syncedAt = new Date().toISOString();
   const searchWarnings = await assembleLibrary(guardReader(drive, state, legacy), {completed, missing, navigation, layouts,
-    parts: installedParts, search, searchBudget: state.searchBudget, fetchFile, signal, network});
+    parts: installedParts, search, searchBudget: state.searchBudget, fetchFile, signal, network, syncedAt});
+  // The start page now points to the new reader, and the checksum list includes reused shards.
+  await retireReaderFiles(drive, state, signal);
   state.installed = Object.fromEntries(present);
   const recorded = new Set(state.owned);
   for (const row of present.values()) {
@@ -883,7 +937,7 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
   }
   state.owned = [...recorded];
   const finished = complete && !Object.keys(state.stagedArchives).length && !searchWarnings.length;
-  state.syncedAt = new Date().toISOString();
+  state.syncedAt = syncedAt;
   if (finished) {
     await save(drive, state);
     const keep = new Set([...present.values()].flatMap(row => row.layout.map(part => part.path)));

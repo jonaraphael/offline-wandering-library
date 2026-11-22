@@ -202,11 +202,13 @@
   const byId = id => document.getElementById(id);
   const bytes = value => {
     const units = [[1e12, "TB"], [1e9, "GB"], [1e6, "MB"], [1e3, "kB"], [1, "B"]];
-    const [scale, unit] = units.find(([scale]) => value >= scale) || units.at(-1);
-    return (value / scale).toLocaleString(undefined, {maximumFractionDigits: value >= 1e10 ? 1 : 2}) + " " + unit;
+    const rounded = Number(value.toPrecision(3));
+    const [scale, unit] = units.find(([scale]) => rounded >= scale) || units.at(-1);
+    return (rounded / scale).toLocaleString(undefined, {maximumSignificantDigits: 3}) + " " + unit;
   };
   const title = (model, row) => (model.collection_copy?.[row.id]?.title || row.title || row.id)
     .replace(/\s+(?:\(ZIM\)|ZIM)$/i, "");
+  const profileCapacity = profile => profile.nominal_capacity_bytes ?? profile.capacity_bytes;
   const element = (tag, className, text) => {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -256,18 +258,20 @@
         part.style.setProperty("--c", "var(--c-" + id + ")");
         bars.push(part);
       }
-      const label = element("li", id === "free" ? "free" : "", (category?.name || "Free") + " " + bytes(ready + pending));
-      label.style.setProperty("--c", "var(--c-" + id + ")");
-      labels.push(label);
+      if (legend) {
+        const label = element("li", id === "free" ? "free" : "", (category?.name || "Free") + " " + bytes(ready + pending));
+        label.style.setProperty("--c", "var(--c-" + id + ")");
+        labels.push(label);
+      }
     }
     if (over) {
       const part = element("i", "over");
       part.style.flex = String(100 * over / total);
       bars.push(part);
-      labels.push(element("li", "over", bytes(over) + " over"));
+      if (legend) labels.push(element("li", "over", bytes(over) + " over"));
     }
     track.replaceChildren(...bars);
-    legend.replaceChildren(...labels);
+    legend?.replaceChildren(...labels);
   }
 
   function create(model, {browser = false, download = () => true, recommend = state => state,
@@ -378,7 +382,7 @@
       splitDefault = split;
       requiresSplit = forceSplit;
       const preset = model.capacity_policy ? model.profiles[0] : model.profiles.reduce((best, row) =>
-        Math.abs(row.nominal_capacity_bytes - capacity) < Math.abs(best.nominal_capacity_bytes - capacity) ? row : best);
+        Math.abs(profileCapacity(row) - capacity) < Math.abs(profileCapacity(best) - capacity) ? row : best);
       baseline = recommend(root.OWLPlanner.preset(model, preset.id,
         model.capacity_policy ? Math.max(model.capacity_policy.min, capacity) : undefined));
       state = structuredClone(baseline);
@@ -517,7 +521,7 @@
 
     function render() {
       const solid = new Map(plan.assets.map(asset => [asset.id, asset.size_bytes]));
-      meter(byId("manage-track"), byId("manage-legend"), groups, amounts(plan, solid), capacity, plan.over);
+      meter(byId("manage-track"), null, groups, amounts(plan, solid), capacity, plan.over);
       const used = bytes(plan.used), available = bytes(capacity);
       const unit = available.split(" ").at(-1);
       const total = byId("manage-total");
@@ -705,13 +709,23 @@
   }
 
   function how() {
-    byId("how-link").addEventListener("click", event => { event.preventDefault(); byId("how").showModal(); });
+    const opener = byId("how-link"), sheet = byId("how");
+    opener.addEventListener("click", event => {
+      event.preventDefault();
+      sheet.showModal();
+    });
+    sheet.addEventListener("click", event => {
+      if (event.target !== sheet) return;
+      const {left, right, top, bottom} = sheet.getBoundingClientRect();
+      if (event.clientX < left || event.clientX >= right || event.clientY < top || event.clientY >= bottom) sheet.close();
+    });
+    sheet.addEventListener("close", () => opener.focus({preventScroll: true}));
   }
 
   function offline(model) {
     how();
     const manage = create(model);
-    manage.configure({capacityBytes: model.capacity_policy ? 64e9 : model.profiles[0].nominal_capacity_bytes, size: 64});
+    manage.configure({capacityBytes: model.capacity_policy ? 64e9 : profileCapacity(model.profiles[0]), size: 64});
     manage.show({});
   }
 

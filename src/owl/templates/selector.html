@@ -9,23 +9,21 @@
 __OWL_BUILDER_CSS__
 
 [hidden] { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .stage, .manage { animation: enter .15s ease; }
 .stage, .back { overflow-wrap: anywhere; }
 [data-state="problem"] .ring .arc { stroke-dashoffset: calc(345.6px * (1 - max(.08, var(--p, 0)))); }
 @keyframes enter { from { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .stage, .manage, .switch, .switch::after, .cat > summary::after { animation: none; transition: none; } }
 @media (pointer: coarse) {
-  .bar a, .secondary a, .files, .editions button, .summary button { min-height: 44px; display: inline-flex; align-items: center; }
+  .bar a, .secondary a, .files, .editions button, .summary button, .advanced button { min-height: 44px; display: inline-flex; align-items: center; }
   .switch-label { min-height: 44px; cursor: pointer; }
 }
-.stage .secondary.two { margin-top: 26px; }
-[data-state="measuring"] .secondary { margin-top: 82px; }
 [data-state="needs-size"] .secondary { margin-top: 22px; }
 .card:first-child { grid-template-columns: 1fr; }
 .card svg { display: block; width: 64px; height: 64px; }
 .legend li.over::before { background: var(--bad); }
 .manage .sizes { justify-content: start; margin-bottom: 10px; }
-.summary .legend { justify-content: start; }
 .summary-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .editions { flex-wrap: wrap; }
 .editions button { padding: 5px 11px; border: 0; background: var(--surface); color: var(--ink); cursor: pointer; }
@@ -33,26 +31,26 @@ __OWL_BUILDER_CSS__
 .file-list { padding: 0; list-style: none; }
 .file-list label { display: flex; align-items: center; gap: 8px; padding: 8px 0; cursor: pointer; }
 .file-list .size { margin-left: auto; }
-.advanced button, dialog button, .commands button { cursor: pointer; }
+dialog button { cursor: pointer; }
 .advanced th, .advanced td { text-align: left; padding: 4px 12px 4px 0; }
-.commands { margin-top: 24px; }
-.commands div { margin-top: 16px; }
-.commands input[type="text"], .commands textarea, .commands select { display: block; width: 100%; padding: 10px; font: inherit; }
-.commands textarea { min-height: 5em; }
-.commands p, .commands small { color: var(--muted); }
-.check-label { display: block; margin-top: 16px; }
-.check-label small { display: block; padding-left: 24px; }
+.commands { margin-top: 24px; padding: 18px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+.commands label { font-weight: 600; }
+.commands label > span > small { display: block; font-size: 14px; font-weight: 400; }
+.commands .find { margin-block: 6px; }
+.commands select { appearance: none; padding-right: 34px; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: right 18px center, right 13px center; background-size: 5px 5px; background-repeat: no-repeat; }
+.commands textarea { min-height: 6em; padding-block: 10px; resize: vertical; font-family: ui-monospace, monospace; font-size: 14px; }
+.commands .field-help, .commands small { color: var(--muted); }
+.commands .field-help { margin-block: 4px 0; font-size: 14px; }
+.command-field { margin-top: 16px; }
+.commands .primary, #how .primary { min-width: 0; height: 44px; margin-top: 8px; padding-inline: 18px; font-size: 15px; }
+.check-label { display: flex; align-items: start; gap: 12px; margin-top: 16px; cursor: pointer; }
 dialog { width: min(480px, calc(100% - 32px)); max-height: 85vh; padding: 24px; border: 1px solid var(--line);
-  border-radius: 16px; background: var(--surface); color: var(--ink); overflow-wrap: anywhere; }
+  border-radius: 14px; background: var(--surface); color: var(--ink); overflow-wrap: anywhere; }
 dialog::backdrop { background: #16191d80; }
 dialog h2 { margin-top: 0; }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; }
-@media (min-width: 760px) and (max-height: 760px) {
-  [data-state="syncing"] .meter { width: min(960px, 100%); }
-  [data-state="syncing"] .meter .track { width: min(480px, 100%); margin-inline: auto; }
-  [data-state="syncing"] .cards { margin-top: 12px; gap: 8px; }
-  [data-state="syncing"] .card { padding-block: 9px; }
-}
 @media (max-width: 520px) {
   .bar { padding-inline: 12px; }
   .brand { font-size: 14px; }
@@ -78,7 +76,8 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
     <svg class="glyph" viewBox="0 0 120 120" aria-hidden="true"><rect class="plug" x="50" y="28" width="20" height="15" rx="2"/><rect class="body" x="41" y="41" width="38" height="50" rx="7"/><circle class="light" cx="60" cy="80" r="2.7"/><path class="check" d="M51 66l7 7 12-14"/></svg>
   </div>
     <h1 class="title" id="sync-title" tabindex="-1">Plug in a drive</h1>
-    <p class="status" id="sync-status" role="status" aria-atomic="true">Any USB drive or SD card with 16 GB to 1 TB free. Files already on it stay.</p>
+    <p class="status" id="sync-status">Any USB drive or SD card with 16 GB to 1 TB free. Files already on it stay.</p>
+    <div class="sr-only" id="sync-announcement" aria-live="polite" aria-atomic="true"></div>
     <div class="meter" id="sync-meter" hidden><div class="track" id="sync-track"></div><ul class="legend" id="sync-legend"></ul></div>
     <div class="sizes" id="drive-sizes" aria-label="Drive size" hidden></div>
     <button type="button" class="primary" id="sync-primary">Choose drive</button>
@@ -95,38 +94,59 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
   <main class="manage" id="manage" hidden aria-labelledby="manage-heading">
     <h1 id="manage-heading" tabindex="-1">What goes on a drive</h1>
     <div class="sizes" id="preview-sizes" aria-label="Drive size"></div>
-    <div class="summary">
-      <div class="track" id="manage-track"></div>
-      <ul class="legend" id="manage-legend"></ul>
-      <div class="row"><span id="manage-total"></span><span class="summary-actions">
-        <a id="reset-recommended" href="#" hidden>Reset to recommended</a>
-        <button id="make-fit" type="button" hidden>Make it fit</button>
-      </span></div>
+    <div>
+      <div class="summary">
+        <div class="track" id="manage-track"></div>
+        <div class="row"><span id="manage-total"></span><span class="summary-actions">
+          <a id="reset-recommended" href="#" hidden>Reset to recommended</a>
+          <button id="make-fit" type="button" hidden>Make it fit</button>
+        </span></div>
+      </div>
+      <input class="find" id="collection-search" type="search" placeholder="Find a collection" aria-label="Find a collection">
+      <p id="no-collections" hidden>No collections match.</p>
+      <div id="categories"></div>
+      <details class="advanced" id="advanced">
+        <summary>Advanced</summary>
+        <label class="check-label"><input class="switch" type="checkbox" id="split-files" role="switch"> Split large files for FAT32</label>
+        <p id="split-note" hidden>The drive appears to require split files. Choose a different drive to save large files in one piece.</p>
+        <div><button id="include-filtered" type="button">Include filtered files</button> <button id="exclude-filtered" type="button">Exclude filtered files</button></div>
+        <p id="bulk-feedback"></p>
+        <table id="storage-accounting"><caption>Storage accounting</caption><tbody id="storage-lines"></tbody></table>
+        <div id="held-updates" hidden></div>
+        <button id="diagnostics-link" type="button">Technical details</button>
+      </details>
     </div>
-    <input class="find" id="collection-search" type="search" placeholder="Find a collection" aria-label="Find a collection">
-    <p id="no-collections" hidden>No collections match.</p>
-    <div id="categories"></div>
-    <details class="advanced" id="advanced">
-      <summary>Advanced</summary>
-      <label class="check-label"><input type="checkbox" id="split-files"> Split large files for FAT32</label>
-      <p id="split-note" hidden>The drive appears to require split files. Choose a different drive to save large files in one piece.</p>
-      <div><button id="include-filtered" type="button">Include filtered files</button> <button id="exclude-filtered" type="button">Exclude filtered files</button></div>
-      <p id="bulk-feedback"></p>
-      <table id="storage-accounting"><caption>Storage accounting</caption><tbody id="storage-lines"></tbody></table>
-      <div id="held-updates" hidden></div>
-      <button id="diagnostics-link" type="button">Technical details</button>
-    </details>
     <!-- OFFLINE -->
-    <section class="commands"aria-labelledby="commands-heading">
-        <h2 id="commands-heading">Build it with the desktop tool</h2>
-        <p class="field-help">Run these from the installed OWL repository. Nothing runs from this page.</p>
-        <div><label class="field-label" for="target-path">Library folder on your drive</label><input id="target-path" type="text" value="/path/to/EMERGENCY_LIBRARY" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="target-help"><p id="target-help" class="field-help">Replace this with your drive's real path. The builder never formats the drive.</p></div>
-        <div><label class="field-label" for="shell">Terminal</label><select id="shell"><option value="posix">macOS / Linux shell</option><option value="powershell">Windows PowerShell</option></select></div>
-        <label class="check-label" for="allow-incomplete"><input id="allow-incomplete" type="checkbox"><span>Build with the files available now<small>Accept that some collections are incomplete. Every included file is still verified.</small></span></label>
-        <div><label class="command-label" for="plan-command">1. Check the plan <span>No downloads or writes</span></label><textarea id="plan-command" readonly spellcheck="false" aria-describedby="plan-help" placeholder="Your plan command will appear here."></textarea><button id="copy-plan" type="button" class="btn" disabled>Copy plan command</button><p id="plan-help" class="field-help">Lists what will be built and checks the drive's free space.</p></div>
-        <div><label class="command-label" for="build-command">2. Build the drive <span>Runs in the background</span></label><textarea id="build-command" readonly spellcheck="false" placeholder="Resolve the notes above before building."></textarea><button id="copy-build" type="button" class="btn primary" disabled>Copy build command</button><p id="build-help" class="field-help"></p></div>
-        <p id="copy-feedback" class="copy-feedback" role="status" aria-live="polite"></p>
-      </section>
+    <section class="commands" aria-labelledby="commands-heading">
+      <h2 id="commands-heading">Build it with the desktop tool</h2>
+      <p class="field-help">Run these commands from the installed OWL repository.</p>
+      <div class="command-field">
+        <label for="target-path">Library folder on your drive</label>
+        <input class="find" id="target-path" type="text" value="/path/to/EMERGENCY_LIBRARY" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="target-help">
+        <p id="target-help" class="field-help">Enter the path to the library folder on your drive.</p>
+      </div>
+      <div class="command-field">
+        <label for="shell">Terminal</label>
+        <select class="find" id="shell"><option value="posix">macOS / Linux shell</option><option value="powershell">Windows PowerShell</option></select>
+      </div>
+      <label class="check-label" for="allow-incomplete">
+        <input class="switch" id="allow-incomplete" type="checkbox" role="switch">
+        <span>Build with the files available now<small>Accept that some collections are incomplete. The builder still verifies every included file.</small></span>
+      </label>
+      <div class="command-field">
+        <label for="plan-command">1. Check the plan</label>
+        <textarea class="find" id="plan-command" readonly spellcheck="false" aria-describedby="plan-help" placeholder="Your plan command will appear here."></textarea>
+        <button id="copy-plan" type="button" class="primary quiet" disabled>Copy plan command</button>
+        <p id="plan-help" class="field-help">Lists what will be built and checks the drive's free space.</p>
+      </div>
+      <div class="command-field">
+        <label for="build-command">2. Build the drive</label>
+        <textarea class="find" id="build-command" readonly spellcheck="false" aria-describedby="build-help" placeholder="Resolve the notes above before building."></textarea>
+        <button id="copy-build" type="button" class="primary" disabled>Copy build command</button>
+        <p id="build-help" class="field-help"></p>
+      </div>
+      <p id="copy-feedback" class="field-help" role="status"></p>
+    </section>
     <!-- /OFFLINE -->
   </main>
   <div class="donebar" id="manage-done" hidden><span id="manage-changes">No changes</span><button type="button" class="primary" id="manage-return">Done</button></div>
@@ -139,7 +159,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
     <p>Sync downloads and checks the files for your library, then builds a start page and search for the drive.</p>
     <p>Use Chrome, Edge or Arc on a computer, a drive with 16 GB to 1 TB free, and an internet connection for the download.</p>
     <p><a href="README.md">Build with the command line</a></p>
-    <form method="dialog"><button type="submit">Close</button></form>
+    <form method="dialog"><button class="primary quiet" type="submit" autofocus>Close</button></form>
   </dialog>
   <dialog id="technical" aria-labelledby="technical-title"><h2 id="technical-title">Technical details</h2>
     <pre id="technical-detail"></pre><div id="diagnostics-slot"></div>

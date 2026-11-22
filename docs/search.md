@@ -2,9 +2,11 @@
 
 Open **Search** from `START_HERE.html`. Search shows one card per matching
 document, with the best passage and other matching locations when available.
-Use **Options** to search within a category. PDF matches open at the physical
-page. **How to open** on an encyclopedia match shows the article to find in
-Kiwix and the file's location on the drive.
+When the query matches an urgent task, its guide appears first. Documents
+that open directly appear before matches in encyclopedias. Use **Options** to
+search within a category. PDF matches open at the physical page. **How to
+open** on an encyclopedia match shows the article to find in Kiwix and the
+file's location on the drive. Search labels low-confidence suggestions.
 
 The static start page shows the urgent tasks, categories, file locations and
 device instructions. When a file preview withholds local links or scripts,
@@ -48,15 +50,17 @@ Title-directory entries use word postings reconstructed from their titles.
 [Model revision](https://huggingface.co/minishlab/potion-retrieval-32M/tree/6fc8051fab2a1e0ee76689cf08c853792ac285e7)
 
 The same generated composition plan supplies source order, physical paths,
-pins and ranker metadata to both builders. The builders verify and copy the
-model header, weight scripts and MIT notice once per drive. The search page loads the weights on its first indexed query.
+pins and ranker metadata to both builders. The reader loads its own search
+manifest and shares content-addressed shards and model files across builds.
+The search page loads the weights on its first indexed query.
 It uses classic local scripts, DecompressionStream for compressed shards and a
 network-denying CSP. Word postings retrieve literal matches and Bloom filters
 route them to chunks. Hamming distance admits additional passage and lead
 candidates. The ranker compares each compact code with the full query vector
 and combines similarity, word matches and source priority. Emergency queries
 prefer matching critical sources. Childhood symptoms and childbirth receive
-different ranking treatment. Catalog results appear first. Precomputed
+different ranking treatment. Among similar matches in directly readable files,
+essential documents and first-aid chapters move up. Precomputed
 token-pair filters and vector centroids order the chunks likely to yield
 relevant hits. The compact term dictionary adds weighted chunk candidates,
 using stronger field matches first. A query loads only its term buckets, then

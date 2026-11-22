@@ -216,7 +216,7 @@ class ArchiveTests(unittest.TestCase):
         inventory = json.loads((target/'LIBRARY/INVENTORY.json').read_text())
         self.assertEqual(len(inventory['assets']), len(self.members) + 1)
         self.assertEqual(len(inventory['search']['assets']), 1)
-        reader = (target/'LIBRARY/INDEX/c-other.js').read_text()
+        reader = next((target/'LIBRARY/INDEX').glob('*/c-other.js')).read_text()
         self.assertIn('Useful manual', reader)
         self.assertNotIn('Dependency', reader)
         self.assertIn('Dependency', (target/'LIBRARY/INVENTORY.html').read_text())
@@ -254,7 +254,7 @@ class ArchiveTests(unittest.TestCase):
         report = build_atlas(self.root/'drive', navigation_dir=nav, catalog=self.root/'library.yaml',
                             profiles_dir=self.root/'profiles', allow_local=True, progress=lambda _:None)
         self.assertEqual(report['generated_files'], ['INDEX/navigation-report.json'])
-        reader = (self.root/'drive/LIBRARY/INDEX/c-other.js').read_text()
+        reader = next((self.root/'drive/LIBRARY/INDEX').glob('*/c-other.js')).read_text()
         self.assertIn('Computing', reader)
         self.assertNotIn('Dependency', reader)
         inventory = json.loads((self.root/'drive/LIBRARY/INVENTORY.json').read_text())

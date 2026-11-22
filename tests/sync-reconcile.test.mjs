@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import {createHash, webcrypto} from "node:crypto";
+import {readFileSync} from "node:fs";
 import {test} from "node:test";
 import {compareLibrary, MANIFEST, readBuild, reconcile} from "../web/builder.mjs";
-import {writeFile} from "../web/drive.mjs";
+import {removeFile, writeFile} from "../web/drive.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
 
 globalThis.crypto ||= webcrypto;
@@ -166,4 +167,128 @@ test("a user file that blocks a library subfolder stops the sync without overwri
   await writeFile(drive, "LIBRARY/BOOKS", "original bytes");
   await assert.rejects(reconcile(drive, options({a: "new"})), /existing file or folder blocks/);
   assert.equal(await text(drive, "LIBRARY/BOOKS"), "original bytes");
+});
+
+function generationOptions(id) {
+  const template = name => readFileSync(new URL("../src/owl/templates/" + name, import.meta.url), "utf8");
+  const {categories, other} = JSON.parse(readFileSync(new URL("../src/owl/categories.json", import.meta.url)));
+  const retained = item("shared", "same content");
+  const data = "globalThis.OWLTestShard();\n";
+  const chunk = "chunks/" + hash(data) + ".js";
+  const selection = options({[id]: id + " content", shared: "same content"}, {
+    catalogVersion: id,
+    navigation: {reader: {
+      assets: {[id]: {category: "health"}, shared: {category: "reference"}},
+      categories: [...categories, other], layout: JSON.parse(template("offline-layout.json")),
+      css: template("site.css"), reader: template("reader.html"), document: template("reader-document.html"),
+      runtime: template("reader.js"), bootstrap: template("search.js"), readme: template("reader-readme.txt"),
+      redirect: template("search.html"), csp: "default-src 'none'; script-src 'self' file:; style-src 'unsafe-inline'"
+    }},
+    search: {base: "https://example.test/", records: [], page: "", runtime: "", rankRuntime: "", rerankRuntime: "",
+      plan: {version: 1, model: [], model_parts: 0, reserve: 0,
+        sources: [{row: {id: retained.id, title: retained.title, sha256: retained.sha256}, parts: [chunk], sha256: hash(data)}],
+        chunks: {[chunk]: {pin: {bytes: Buffer.byteLength(data), sha256: hash(data)}, rank: {path: chunk}}}
+      }}
+  });
+  const fetch = selection.fetchFile;
+  selection.fetchFile = async url => url.endsWith(chunk) ? new Response(data) : fetch(url);
+  return {selection, shared: "LIBRARY/SEARCH/" + chunk};
+}
+
+async function openGeneration(drive, book) {
+  const start = await text(drive, "START_HERE.html");
+  const [, id] = /<script defer src="LIBRARY\/INDEX\/([a-f0-9]{12})\/search\.js"/.exec(start) || [];
+  assert.ok(id, "START_HERE links to a content-named reader");
+  assert.ok(start.includes("LIBRARY/BOOKS/" + book + ".pdf"));
+  const generation = await (await (await drive.getDirectoryHandle("LIBRARY")).getDirectoryHandle("INDEX")).getDirectoryHandle(id);
+  const names = [...generation.entries.keys()].filter(name => name.endsWith(".js")).sort();
+  for (const required of ["search.js", "reader.js", "home.js", "c-health.js", "manifest.js", "shards.js", "search-paths.js"]) {
+    assert.ok(names.includes(required), required + " is present in the linked generation");
+  }
+  assert.match(await text(generation, "c-health.js"), new RegExp("/" + book + "\\.pdf"));
+  const pins = await Promise.all(names.map(async name => [name, hash(await text(generation, name))]));
+  assert.equal(hash(JSON.stringify(pins)).slice(0, 12), id, "every reader script and data file matches the start page");
+  const manifest = await text(generation, "manifest.js");
+  const [, dataPath] = /"path":"([^"]+)"/.exec(manifest) || [];
+  assert.ok(dataPath);
+  await text(drive, "LIBRARY/" + dataPath);
+  return id;
+}
+
+test("reader generation stays consistent when interrupted at every assembly write", async () => {
+  const old = generationOptions("original"), next = generationOptions("updated");
+  const update = {...next.selection, fetchFile: url => {
+    assert.equal(new URL(url).pathname, "/updated", "reuse the stored search shard");
+    return next.selection.fetchFile(url);
+  }};
+  const writes = [];
+  async function fixture(beforeWrite) {
+    const drive = new Directory("drive", {beforeWrite});
+    await reconcile(drive, old.selection);
+    return {drive, oldId: await openGeneration(drive, "original")};
+  }
+  let assembling = false;
+  const sample = await fixture(name => { if (assembling) writes.push(name); });
+  await reconcile(sample.drive, {...update, onProgress: ({kind}) => { assembling ||= kind === "assembling"; }});
+  assert.ok(writes.includes("START_HERE.html"));
+  const startWrite = writes.indexOf("START_HERE.html");
+
+  for (const [stop, expected] of writes.entries()) {
+    let position = 0;
+    let assembling = false;
+    const {drive, oldId} = await fixture(name => {
+      if (assembling && position++ === stop) {
+        assert.equal(name, expected);
+        throw new DOMException("Interrupted before " + name, "AbortError");
+      }
+    });
+    await assert.rejects(reconcile(drive, {...update, onProgress: ({kind}) => { assembling ||= kind === "assembling"; }}),
+      {name: "AbortError"});
+    assert.equal((await readBuild(drive)).pending, true);
+    const openId = await openGeneration(drive, stop <= startWrite ? "original" : "updated");
+    assert.equal(openId === oldId, stop <= startWrite, "which generation opens when interrupted before " + expected);
+    assert.equal(await text(drive, next.shared), "globalThis.OWLTestShard();\n");
+  }
+
+  const controller = new AbortController();
+  let cutAfterStart = false;
+  const {drive, oldId} = await fixture(name => { if (cutAfterStart && name === "START_HERE.html") controller.abort(); });
+  const oldPath = "LIBRARY/INDEX/" + oldId;
+  await writeFile(drive, oldPath + "/owner-note.txt", "keep");
+  cutAfterStart = true;
+  await assert.rejects(reconcile(drive, {...update, signal: controller.signal}), {name: "AbortError"});
+  assert.notEqual(await openGeneration(drive, "updated"), oldId);
+  assert.equal((await readBuild(drive)).pending, true);
+  assert.ok(await text(drive, oldPath + "/search.js"), "cleanup has not started");
+  cutAfterStart = false;
+  const result = await reconcile(drive, {...update, fetchFile: () => assert.fail("all pinned files are already on the drive")});
+  assert.equal(result.state.finished, true);
+  await openGeneration(drive, "updated");
+  assert.equal(result.state.generated.some(path => path.startsWith(oldPath + "/")), false);
+  assert.equal(await text(drive, oldPath + "/owner-note.txt"), "keep");
+  const index = await (await drive.getDirectoryHandle("LIBRARY")).getDirectoryHandle("INDEX");
+  assert.deepEqual([...((await index.getDirectoryHandle(oldId)).entries.keys())], ["owner-note.txt"]);
+  assert.equal([...index.entries.keys()].filter(name => name !== oldId).length, 1);
+  const sampleIndex = await (await sample.drive.getDirectoryHandle("LIBRARY")).getDirectoryHandle("INDEX");
+  await assert.rejects(sampleIndex.getDirectoryHandle(sample.oldId), {name: "NotFoundError"});
+});
+
+test("an adopted reader generation remains recorded across an interrupted publication", async () => {
+  let cut = false;
+  const drive = new Directory("drive", {beforeWrite(name) {
+    if (cut && name === "START_HERE.html") throw new DOMException("Interrupted before publication", "AbortError");
+  }});
+  await reconcile(drive, generationOptions("original").selection);
+  await removeFile(drive, MANIFEST);
+  const oldId = await openGeneration(drive, "original");
+  const update = generationOptions("updated").selection;
+  assert.equal((await compareLibrary(drive, update)).adoption, true);
+  cut = true;
+  await assert.rejects(reconcile(drive, update), {name: "AbortError"});
+  assert.equal(await openGeneration(drive, "original"), oldId);
+  assert.ok((await readBuild(drive)).generated.includes("LIBRARY/INDEX/" + oldId + "/search.js"));
+  cut = false;
+  await reconcile(drive, {...update, fetchFile: () => assert.fail("all requested files are already on the drive")});
+  await openGeneration(drive, "updated");
+  await assert.rejects(drive.file("LIBRARY/INDEX/" + oldId + "/search.js"), {name: "NotFoundError"});
 });

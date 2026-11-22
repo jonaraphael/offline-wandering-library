@@ -1,7 +1,7 @@
 import {sha256} from "./vendor/noble-hashes/sha2.js";
 import {bytesToHex} from "./vendor/noble-hashes/utils.js";
 import {writeFile} from "./drive.mjs";
-import {assembleSearch, canonical, locator, transfer} from "./search-build.mjs";
+import {assembleSearch, canonical, locator, shareSearchSupport, transfer} from "./search-build.mjs";
 
 const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
@@ -10,22 +10,25 @@ const compare = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 const order = (a, b) => compare(a.title.toLowerCase(), b.title.toLowerCase()) || compare(a.id, b.id);
 const render = (template, values) => template.replace(/\{\{([a-z_]+)\}\}/g, (_, slot) => values[slot] ?? "");
 const data = (id, value) => "globalThis.OWLReaderData(" + canonical(id) + "," + canonical(value) + ");\n";
+const hash = value => bytesToHex(sha256(new TextEncoder().encode(value)));
+const firstResponse = new Set(["cert", "medical_bec"]);
+const searchScripts = ["manifest.js", "rank.js", "shards.js", "rerank.js"];
 const FORMATS = {pdf: "PDF", html: "Web page", htm: "Web page", epub: "EPUB book",
   zim: "Encyclopedia, opens in Kiwix", txt: "Text", zip: "ZIP"};
 
 function emergencyRoutes(tasks, documents) {
   const rows = new Map(documents.map(row => [row.id, row]));
-  return tasks.map(([task, candidates]) => {
+  return tasks.map(([task, keywords, candidates]) => {
     const match = candidates.find(([id]) => rows.has(id));
-    if (!match) return {task};
+    if (!match) return {task, keywords};
     const [id, fragment = "", hint = "", entries = []] = match;
     const row = rows.get(id);
-    return {...row, task, href: row.href + fragment, hint, articles: entries.map(([name]) => name),
+    return {...row, task, keywords, href: row.href + fragment, hint, articles: entries.map(([name]) => name),
       articlePaths: entries.map(([, path]) => path)};
   });
 }
 
-function grouped(rows, metadata) {
+function grouped(rows, metadata, category) {
   const books = new Map(), output = [];
   for (const row of rows) {
     const entry = metadata[row.id];
@@ -50,10 +53,13 @@ function grouped(rows, metadata) {
       bytes: members.reduce((sum, row) => sum + row.bytes, 0), publisher: metadata[members[0].id].publisher || "",
       chapters, topics});
   }
-  return output.sort(order);
+  const importance = row => Math.min(...(row.chapters || [row]).map(member => metadata[member.id]?.importance ?? 3));
+  const first = row => category !== "health" ? 2
+    : firstResponse.has(row.id) ? 0 : row.chapters && row.title === "Where There Is No Doctor" ? 1 : 2;
+  return output.sort((a, b) => first(a) - first(b) || importance(a) - importance(b) || order(a, b));
 }
 
-function readerFiles(config, inventory, phone, missing, search) {
+function readerFiles(config, inventory, phone, missing, indexed, shared, syncedAt) {
   const {layout, css, assets: metadata, categories} = config;
   const files = inventory.map(asset => {
     const path = asset.parts[0].path;
@@ -67,7 +73,11 @@ function readerFiles(config, inventory, phone, missing, search) {
   const tasks = emergencyRoutes(layout.tasks, documents);
   const home = {version: 1, tasks, readers, devices: layout.devices, phone, stats: {count: files.length,
     bytes: files.reduce((sum, row) => sum + row.bytes, 0), missing: missing.length},
-    search, searchCount: documents.length, categories: []};
+    search: indexed.pages.has("LIBRARY/SEARCH/manifest.js"), searchCount: documents.length, categories: [],
+    searchPriority: Object.fromEntries(documents.flatMap(({id}) => {
+      const row = metadata[id];
+      return row?.first_aid || row?.importance === 0 ? [[id, row.first_aid ? 2 : 1]] : [];
+    })), ...(syncedAt ? {syncedAt} : {})};
   const pages = new Map([["LIBRARY/INDEX/reader.js", config.runtime], ["LIBRARY/README.txt", config.readme]]);
   const section = (title, items) => render(layout.static_section, {title: escape(title), body: "<ul>" + items.join("") + "</ul>"});
   const staticRow = (title, path, detail) => render(layout.static_row,
@@ -80,7 +90,7 @@ function readerFiles(config, inventory, phone, missing, search) {
     const {id, name} = category;
     const members = documents.filter(row => (metadata[row.id]?.category || "other") === id);
     if (id === "health") members.push(...phone);
-    const rows = grouped(members, metadata);
+    const rows = grouped(members, metadata, id);
     home.categories.push({...category, count: rows.length});
     pages.set("LIBRARY/INDEX/c-" + id + ".js", data(id, rows));
     if (rows.length) staticSections.push(section(name, rows.map(row =>
@@ -122,11 +132,27 @@ function readerFiles(config, inventory, phone, missing, search) {
   const colors = ":root{" + categories.filter(({id}) => !["trades", "school"].includes(id))
     .map(({id, light}) => "--c-" + id + ":" + light + ";").join("") + "}\n" +
     "@media(prefers-color-scheme:dark){:root{" + categories.map(({id, dark}) => "--c-" + id + ":" + dark + ";").join("") + "}}";
-  pages.set("START_HERE.html", render(config.reader, {css, colors, static: staticSections.join("\n"), policy: escape(config.csp)}));
+  const scripts = new Map();
+  for (const [path, text] of pages) {
+    if (!path.startsWith("LIBRARY/INDEX/")) continue;
+    scripts.set(path.slice("LIBRARY/INDEX/".length), text);
+    pages.delete(path);
+  }
+  for (const name of searchScripts) {
+    const contents = indexed.pages.get("LIBRARY/SEARCH/" + name);
+    if (contents) scripts.set(name, contents);
+  }
+  scripts.set("search.js", config.bootstrap);
+  scripts.set("search-paths.js", "globalThis.OWLSearchPaths(" + canonical(shared) + ");\n");
+  const hashes = [...scripts].sort(([a], [b]) => compare(a, b)).map(([path, text]) => [path, hash(text)]);
+  const generation = "INDEX/" + hash(canonical(hashes)).slice(0, 12);
+  for (const [name, text] of scripts) pages.set("LIBRARY/" + generation + "/" + name, text);
+  pages.set("START_HERE.html", render(config.reader,
+    {css, colors, static: staticSections.join("\n"), policy: escape(config.csp), generation}));
   return pages;
 }
 
-export async function assembleLibrary(drive, {completed, missing, navigation, layouts, parts, signal, search, searchBudget, fetchFile, network}) {
+export async function assembleLibrary(drive, {completed, missing, navigation, layouts, parts, signal, search, searchBudget, fetchFile, network, syncedAt}) {
   const {reader, verify, phone} = navigation;
   const phoneVolumes = [], phoneChecksums = [], phoneWarnings = [];
   let phoneBytes = 0;
@@ -152,10 +178,13 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
       parts: layouts.get(asset.id).map((part, index) => ({...part, sha256: parts[asset.id][index].sha256}))};
   });
   const indexed = search ? await assembleSearch(drive, {completed, layouts,
-    config: search, fetchFile, signal, network, budget: searchBudget - phoneBytes}) : {pages: [], checksums: [], warnings: []};
+    config: search, fetchFile, signal, network, budget: searchBudget - phoneBytes, versioned: Boolean(reader)})
+    : {pages: new Map(), checksums: [], warnings: []};
+  const {paths: shared, checksums: sharedChecksums} = reader && indexed.pages.has("LIBRARY/SEARCH/rank.js")
+    ? await shareSearchSupport(drive, indexed.checksums, signal) : {paths: {}, checksums: []};
   const omissions = missing.map(row => ({id: row.id || "", title: row.title || row.id || "",
     reason: row.reason || row.unresolved_reason || ""})).sort(order);
-  const pages = reader ? readerFiles(reader, assets, phoneVolumes, omissions, Boolean(search)) : new Map([
+  const pages = reader ? readerFiles(reader, assets, phoneVolumes, omissions, indexed, shared, syncedAt) : new Map([
     ["START_HERE.html", "<!doctype html><title>Library</title><h1>Library</h1><p>Files on this drive are in the LIBRARY folder, grouped by subject.</p>"]
   ]);
   const start = pages.get("START_HERE.html");
@@ -179,14 +208,13 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
     content_complete: !missing.length, layout: {entry_page: "START_HERE.html", content_directory: "LIBRARY"}}, null, 2) + "\n");
 
   const checksums = [...assets.flatMap(file => file.parts.map(part => part.sha256 + "  " + part.path)),
-    ...indexed.checksums, ...phoneChecksums];
-  const encode = new TextEncoder();
+    ...indexed.checksums, ...sharedChecksums, ...phoneChecksums];
   for (const [path, contents] of pages) {
     signal?.throwIfAborted();
     await writeFile(drive, path, contents);
-    checksums.push(bytesToHex(sha256(encode.encode(contents))) + "  " + path);
+    checksums.push(hash(contents) + "  " + path);
   }
-  checksums.push(bytesToHex(sha256(encode.encode(start))) + "  START_HERE.html");
+  checksums.push(hash(start) + "  START_HERE.html");
   await writeFile(drive, "LIBRARY/SHA256SUMS.txt", checksums.sort().join("\n") + "\n");
   await writeFile(drive, "START_HERE.html", start);
   return [...phoneWarnings, ...indexed.warnings];

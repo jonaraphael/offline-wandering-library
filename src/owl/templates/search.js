@@ -2,6 +2,9 @@
 (function (root) {
   'use strict';
   const FORMAT = 'owl-discovery-v1';
+  const generation = typeof document === 'undefined' ? '' :
+    document.currentScript?.getAttribute('src')?.match(/^LIBRARY\/(INDEX\/[0-9a-f]{12})\/search\.js$/)?.[1] || '';
+  const local = path => (generation || 'SEARCH') + '/' + path;
   const normalize = value => String(value || '').normalize('NFKC').toLowerCase().replace(/\s+/gu, ' ').trim();
   const tokens = value => [...new Set(normalize(value).match(/[\p{L}\p{N}]+/gu) || [])];
   function prepare(records) {
@@ -83,14 +86,94 @@
   function isArchive(record) {
     return record.kind === 'article' || /\.zim(?:[a-z]{2})?$/i.test((record.destination || record.href).split('#')[0]);
   }
+  function findUrgent(tasks, text) {
+    const phrase = ' ' + (normalize(text).match(/[\p{L}\p{N}]+/gu) || []).join(' ') + ' ';
+    return tasks.filter(task => task.href).map(task => {
+      const score = Math.max(0, ...[task.task, ...task.keywords].map(value => {
+        const words = tokens(value).join(' ');
+        return phrase.includes(' ' + words + ' ') ? words.length : 0;
+      }));
+      return {task, score};
+    }).filter(row => row.score).sort((a, b) => b.score - a.score)[0]?.task;
+  }
+  function heading(record) {
+    const source = record.source_title || '';
+    let title = record.title;
+    if (record.location && title.endsWith(' · ' + record.location)) {
+      title = title.slice(0, -record.location.length - 3);
+    }
+    if (source && title.startsWith(source + ' · ')) title = title.slice(source.length + 3);
+    return !title || title === 'Section' ? source : title;
+  }
+  function orderedMatches(indexed, metadata, priority, words, terms, urgent, pediatricHealth) {
+    const seen = new Set(), indexedFiles = new Set(indexed.map(({record}) => record.asset_id));
+    const matches = [...indexed, ...metadata.filter(({record}) =>
+      record.kind !== 'document' || !indexedFiles.has(record.asset_id))].filter(({record}) => {
+      const key = record.href + '\0' + record.location;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    const score = hit => {
+      const {record} = hit;
+      const boost = isArchive(record) ? 0 : (Object.hasOwn(priority, record.asset_id) ? priority[record.asset_id] * 8 : 0);
+      const title = heading(record) + ' ' + (record.source_title || '');
+      const titleTerms = new Set(terms(title));
+      const titleMatches = words.filter(word => titleTerms.has(word)).length;
+      const titleScore = titleMatches && titleMatches === words.length ? 32 : 0;
+      if (hit.indexed) {
+        const guide = record.asset_id === urgent?.id ? 28 : 0;
+        const childIllness = pediatricHealth && /\b(?:health and sicknesses of children|fever|childhood illnesses)\b/i.test(title) ? 18 : 0;
+        return hit.score + boost + titleScore + guide + childIllness;
+      }
+      const lexical = hit.score % 10000 / 110;
+      const exact = hit.score >= 100000;
+      return (exact ? 150 : 20 + lexical * 12) + boost + titleScore;
+    };
+    return matches.map(hit => ({...hit, displayScore: score(hit)}))
+      .sort((a, b) => b.displayScore - a.displayScore);
+  }
+
+  function closeMatch(matches, words, terms) {
+    if (!words.length) return false;
+    const documents = matches.filter(({record}) => record.kind !== 'topic');
+    const direct = documents.filter(({record}) => !isArchive(record));
+    return (direct.length ? direct : documents).some(hit => {
+      if (hit.focused || hit.score >= 100000 && !hit.indexed) return true;
+      const {record} = hit;
+      const evidence = new Set(terms([heading(record), record.source_title, record.description].join(' ')));
+      const covered = words.filter(word => evidence.has(word)).length;
+      return covered >= Math.max(1, Math.ceil(words.length * 0.75)) &&
+        (hit.indexed ? hit.score >= 65 : hit.displayScore >= 48);
+    });
+  }
+
+  function suggestions(matches, words, terms) {
+    const relevant = matches.filter(({record}) => {
+      if (record.kind === 'topic') return false;
+      const evidence = new Set(terms([heading(record), record.source_title, record.description].join(' ')));
+      return words.filter(word => evidence.has(word)).length >= Math.min(2, words.length);
+    });
+    return (relevant.length ? relevant : matches).slice(0, 10);
+  }
+
   async function loadRank(categoryIds) {
-    let selection, table;
+    let selection, table, paths = {};
     root.OWLShardSelection = value => { selection = value; };
     root.OWLShardModel = value => { table = value; };
+    root.OWLSearchPaths = value => { paths = value; };
     try {
-      await Promise.all([script('SEARCH/rank.js'), script('SEARCH/shards.js'), script('SEARCH/model.js')]);
+      if (generation) await script(local('search-paths.js'));
+      const sharedScript = path => {
+        if (!generation) return script(path);
+        if (/^SEARCH\/(?:chunks|sources)\/[a-f0-9]{64}(?:\/\d{5})?\.js$/.test(path)) return script(path);
+        const pinned = paths[path];
+        if (!/^SEARCH\/shared\/[a-f0-9]{64}\.js$/.test(pinned)) return Promise.reject(Error('Missing pinned search file.'));
+        return script(pinned);
+      };
+      await Promise.all([script(local('rank.js')), script(local('shards.js')), sharedScript('SEARCH/model.js')]);
       const ranker = root.OWLShardRank;
-      const indexed = ranker.classic(script, selection, table, async (index, encode, read, query, category, ...options) => {
+      const indexed = ranker.classic(sharedScript, selection, table, async (index, encode, read, query, category, ...options) => {
         const ids = category && await categoryIds(category);
         const scoped = ids ? {...index, sources: index.sources.filter(source => ids.has(source.id))} : index;
         return ranker.search(scoped, encode, read, query, 'all', ...options);
@@ -105,11 +188,13 @@
         if (cancelled() || initial.length < 2) return initial;
         onProgress(initial, 'ranked');
         try {
-          reranker ??= script('SEARCH/rerank.js').then(() => root.OWLReranker.create(script));
+          reranker ??= script(local('rerank.js')).then(() => root.OWLReranker.create(sharedScript));
           const rerank = await reranker;
           const head = all.slice(0, 3);
-          const rescored = await rerank(text, all.slice(3), cancelled);
-          return cancelled() ? [] : [...head, ...ranker.topResults(rescored, limit - head.length)];
+          const shortlist = all.slice(3, 53);
+          const rescored = await rerank(text, shortlist, cancelled);
+          const remaining = [...rescored, ...all.slice(head.length + shortlist.length)];
+          return cancelled() ? [] : [...head, ...ranker.topResults(remaining, limit - head.length)];
         } catch (_) {
           reranker = undefined;
           return initial;
@@ -121,6 +206,7 @@
     } finally {
       delete root.OWLShardSelection;
       delete root.OWLShardModel;
+      delete root.OWLSearchPaths;
     }
   }
 
@@ -140,7 +226,7 @@
     return node;
   }
 
-  function mount(view, {open, categoryIds}) {
+  function mount(view, {open, openUrgent, tasks = [], priority = {}, categoryIds}) {
     const form = view.querySelector('form'), status = view.querySelector('#search-status');
     const list = view.querySelector('#search-results'), query = form.querySelector('#query');
     const category = form.querySelector('#search-category'), examples = form.querySelector('#search-examples');
@@ -154,7 +240,7 @@
       let manifest, payload;
       root.OWLDiscoveryManifest = value => { manifest = value; };
       try {
-        await script('SEARCH/manifest.js');
+        await script(local('manifest.js'));
         if (manifest?.format !== FORMAT || !/^SEARCH\/data\/[a-f0-9]{64}\.js$/.test(manifest.path)) {
           throw Error('The search information could not be read.');
         }
@@ -191,24 +277,38 @@
       return anchor;
     }
     // One card per document, with its best match and a few distinct locations.
-    function render(matches, scope, words = []) {
-      const groups = new Map(), subjects = [];
+    function render(matches, scope, words = [], urgent) {
+      const groups = [new Map(), new Map()], subjects = [];
       for (const match of matches) {
         if (match.record.kind === 'topic') {
           subjects.push(match.record);
           continue;
         }
+        const bucket = groups[Number(isArchive(match.record))];
         const key = match.record.destination || match.record.href.split('#')[0];
-        if (!groups.has(key)) groups.set(key, []);
-        groups.get(key).push(match);
+        if (!bucket.has(key)) bucket.set(key, []);
+        bucket.get(key).push(match);
       }
       const items = document.createDocumentFragment();
-      const title = row => row.location && row.title.endsWith(' · ' + row.location)
-        ? row.title.slice(0, -row.location.length - 3) : row.title;
-      for (const [{record: record, indexed = false}, ...others] of groups.values()) {
+      if (urgent) {
+        const card = element('article', '', 'result urgent-result');
+        card.append(element('span', 'Urgent', 'label urgent'), element('h3', urgent.task));
+        const archive = urgent.format === 'zim';
+        const link = element('a', archive ? 'How to open' : 'Open', 'button');
+        link.href = archive ? '#open-encyclopedia' : urgent.href;
+        if (archive) link.setAttribute('aria-haspopup', 'dialog');
+        link.addEventListener('click', event => {
+          if (event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
+            openUrgent(urgent, event);
+          }
+        });
+        card.append(link);
+        items.append(card);
+      }
+      function resultCard([{record, indexed = false}, ...others]) {
         const card = element('article', '', 'result');
         card.dataset.indexed = String(indexed);
-        const archive = isArchive(record), name = title(record);
+        const archive = isArchive(record), name = heading(record);
         const source = record.source_title !== name ? record.source_title : '';
         const where = archive ? 'opens in Kiwix' : record.location;
         const byline = [source, where].filter(Boolean).join(' · ');
@@ -216,14 +316,22 @@
         card.append(element('h3', name));
         if (record.description) card.append(passage(/[.!?…:]$/.test(record.description)
           ? record.description : record.description + '…', words));
-        const places = others.filter(({record: other}) => other.kind === 'section' || other.kind === 'article' ||
-          other.href.includes('#')).slice(0, 4);
+        const locations = new Set([record.href + '\0' + record.location]);
+        const places = others.filter(({record: other}) => {
+          if (other.kind !== 'section' && other.kind !== 'article' && !other.href.includes('#')) return false;
+          const key = other.href + '\0' + other.location;
+          if (locations.has(key)) return false;
+          locations.add(key);
+          return true;
+        }).slice(0, 3);
         if (places.length) {
+          card.append(element('p', 'Also in this document', 'also-label'));
           const more = element('ul', '', 'also');
-          more.setAttribute('aria-label', 'Other matches in this document');
+          more.setAttribute('aria-label', 'Also in this document');
           for (const {record: other} of places) {
             const item = element('li', '');
-            item.append(resultLink(other, title(other), title(other)));
+            const title = heading(other);
+            item.append(resultLink(other, title, title === name && other.location ? other.location : title));
             more.append(item);
           }
           card.append(more);
@@ -232,7 +340,16 @@
           card.append(element('p', 'In Kiwix, look up “' + name + '”.', 'note'));
         }
         card.append(resultLink(record, name, archive ? 'How to open' : 'Open', 'button'));
-        items.append(card);
+        return card;
+      }
+      for (const group of groups) {
+        if (!group.size) continue;
+        const section = element('section', '', 'result-group');
+        if (group === groups[1]) {
+          section.append(element('h2', 'In encyclopedias (open in Kiwix)', 'label encyclopedia-results'));
+        }
+        for (const hits of group.values()) section.append(resultCard(hits));
+        items.append(section);
       }
       if (subjects.length) {
         const panel = element('section', '', 'panel');
@@ -244,7 +361,7 @@
       }
       list.replaceChildren(items);
       list.dataset.searchScope = scope;
-      return groups.size + subjects.length;
+      return groups[0].size + groups[1].size + subjects.length + Number(Boolean(urgent));
     }
     async function run(event) {
       event?.preventDefault();
@@ -265,21 +382,34 @@
         if (cancelled()) return;
         const scope = ids ? prepared.filter(({record}) => ids.has(record.asset_id) ||
           record.kind === 'topic' && record.source_ids.some(id => ids.has(id))) : prepared;
-        const catalog = search(scope, text), words = tokens(text);
-        let count = render(catalog.slice(0, 40), 'catalog', words), warning = '';
+        const words = tokens(text);
+        let terms = tokens, queryTerms = words, intent;
+        const catalog = search(scope, text, 'all', 90);
+        const urgent = findUrgent(tasks, text);
+        let matches, count, warning = '';
+        const showHits = (hits, phase) => {
+          matches = orderedMatches(hits, catalog, priority, queryTerms, terms, urgent, intent?.pediatricHealth);
+          count = render(matches.slice(0, 70), phase, words, urgent);
+        };
+        showHits([], 'catalog');
         if (rankReady) {
           message('Searching…');
-          const showHits = (hits, phase) => {
-            count = render(mergeRanked(hits, catalog), phase, words);
-          };
           try {
             const engine = await rankReady;
             if (cancelled()) return;
             warning = engine.warning || '';
             if (engine.rank) {
-              const hits = await engine.rank(text, selected, 30, cancelled, (hits, phase) => {
+              const ranker = root.OWLShardRank;
+              terms = ranker.terms;
+              intent = ranker.prepareQuery(text, () => null);
+              queryTerms = intent.query;
+              let rankedText = text;
+              if (!intent.emergency && urgent?.keywords.includes('wound')) rankedText += ' wound care';
+              if (!intent.emergency && urgent?.keywords.includes('scald')) rankedText += ' burn treatment';
+              if (!intent.deliveryQuery && !intent.postpartum && urgent?.keywords.includes('childbirth')) rankedText += ' childbirth';
+              const hits = await engine.rank(rankedText, selected, 85, cancelled, (hits, phase) => {
                 if (cancelled()) return;
-                showHits(hits, phase === 'ranked' ? 'complete' : 'indexed');
+                showHits(hits, 'indexed');
                 if (phase === 'refining' || phase === 'ranked') message('Still looking for better matches…');
               });
               if (cancelled()) return;
@@ -290,7 +420,11 @@
             warning = error.message + ' Showing what was found.';
           }
         }
-        message([warning, count ? count + ' result' + (count === 1 ? '' : 's') + ', best first.'
+        const close = urgent || closeMatch(matches, queryTerms, terms);
+        if (count && !close) count = render(suggestions(matches, queryTerms, terms), list.dataset.searchScope, words);
+        message([warning, count ? close
+          ? count + ' result' + (count === 1 ? '' : 's') + ', best first.'
+          : 'No close match. These may help:'
           : 'Nothing found. Try fewer or different words.'].filter(Boolean).join(' '));
       } catch (error) {
         render([], 'catalog');
@@ -311,10 +445,10 @@
     category.addEventListener('change', run);
   }
 
-  const api = {normalize, tokens, prepare, search, mergeRanked, safeHref, script, isArchive, mount};
+  const api = {normalize, tokens, prepare, search, mergeRanked, safeHref, script, local, isArchive, mount};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLDiscovery = api;
   if (typeof document !== 'undefined' && document.querySelector('#reader-view')) {
-    script('INDEX/reader.js').catch(() => {});
+    script(generation ? local('reader.js') : 'INDEX/reader.js').catch(() => {});
   }
 })(globalThis);

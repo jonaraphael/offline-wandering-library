@@ -27,6 +27,9 @@
     <svg class="glyph" viewBox="0 0 120 120" aria-hidden="true"><rect class="plug" x="50" y="28" width="20" height="15" rx="2"/><rect class="body" x="41" y="41" width="38" height="50" rx="7"/><circle class="light" cx="60" cy="80" r="2.7"/><path class="check" d="M51 66l7 7 12-14"/></svg>
   </div>
 </template>
+<template id="t-legend">
+  <ul class="legend"><li style="--c:var(--c-health)">Health 9 GB</li><li style="--c:var(--c-food)">Food and farming 6 GB</li><li style="--c:var(--c-shelter)">Water, shelter and safety 5 GB</li><li style="--c:var(--c-trades)">Repair and trades 4 GB</li><li style="--c:var(--c-school)">School 18 GB</li><li style="--c:var(--c-reference)">Encyclopedias and maps 12 GB</li><li style="--c:var(--c-advanced)">College and technical 3 GB</li><li style="--c:var(--c-culture)">Stories and culture 1.2 GB</li><li class="free">Free 1.4 GB</li></ul>
+</template>
 <template id="t-rail">
   <ol class="rail"><li>Choose drive</li><li>Sync</li><li>Eject</li></ol>
 </template>
@@ -52,7 +55,8 @@
   <h1 class="title">OWL</h1>
   <p class="status">Measuring free space…</p>
   <div class="meter"><div class="track"></div></div>
-  <p class="secondary" style="margin-top:82px"><a href="#">Choose a different drive</a></p>
+  <button class="primary" hidden>Sync</button>
+  <p class="secondary"><a href="#">Choose a different drive</a></p>
 </main></div>
 
 <div class="app" id="needs-size" data-step="1"><main class="stage" data-state="needs-size">
@@ -66,7 +70,7 @@
   <h1 class="title">OWL</h1>
   <p class="status">59.6 GB free. The recommended library uses 58.2 GB: 412 books, manuals and courses.</p>
   <div class="meter"><div class="track"><i class="pending" style="flex:9;--c:var(--c-health)"></i><i class="pending" style="flex:6;--c:var(--c-food)"></i><i class="pending" style="flex:5;--c:var(--c-shelter)"></i><i class="pending" style="flex:4;--c:var(--c-trades)"></i><i class="pending" style="flex:18;--c:var(--c-school)"></i><i class="pending" style="flex:12;--c:var(--c-reference)"></i><i class="pending" style="flex:3;--c:var(--c-advanced)"></i><i class="pending" style="flex:1.2;--c:var(--c-culture)"></i><i class="free" style="flex:1.4"></i></div>
-    <ul class="legend"><li style="--c:var(--c-health)">Health 9 GB</li><li style="--c:var(--c-food)">Food and farming 6</li><li style="--c:var(--c-shelter)">Water, shelter and safety 5</li><li style="--c:var(--c-trades)">Repair and trades 4</li><li style="--c:var(--c-school)">School 18</li><li style="--c:var(--c-reference)">Encyclopedias and maps 12</li><li style="--c:var(--c-advanced)">College and technical 3</li><li style="--c:var(--c-culture)">Stories and culture 1.2</li><li class="free">Free 1.4</li></ul></div>
+  </div>
   <button class="primary">Sync</button>
   <p class="secondary"><a href="#manage">Manage what goes on it</a></p>
 </main></div>
@@ -75,7 +79,7 @@
   <h1 class="title">OWL</h1>
   <p class="status">3 updates: adds 1.1 GB, removes 0.3 GB. Last synced 14 March 2026.</p>
   <div class="meter"><div class="track"><i style="flex:8.6;--c:var(--c-health)"></i><i class="pending" style="flex:.9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i style="flex:18;--c:var(--c-school)"></i><i style="flex:12;--c:var(--c-reference)"></i><i style="flex:3;--c:var(--c-advanced)"></i><i style="flex:1.2;--c:var(--c-culture)"></i><i class="pending" style="flex:.2;--c:var(--c-culture)"></i><i class="free" style="flex:.6"></i></div>
-    <ul class="legend"><li style="--c:var(--c-health)">Health 9.5 GB</li><li style="--c:var(--c-food)">Food and farming 6</li><li style="--c:var(--c-shelter)">Water, shelter and safety 5</li><li style="--c:var(--c-trades)">Repair and trades 4</li><li style="--c:var(--c-school)">School 18</li><li style="--c:var(--c-reference)">Encyclopedias and maps 12</li><li style="--c:var(--c-advanced)">College and technical 3</li><li style="--c:var(--c-culture)">Stories and culture 1.4</li><li class="free">Free 0.6</li></ul></div>
+  </div>
   <button class="primary">Sync</button>
   <p class="secondary"><a href="#manage">Manage what goes on it</a></p>
 </main></div>
@@ -84,7 +88,8 @@
   <h1 class="title">Up to date</h1>
   <p class="status">Synced 14 March 2026. 412 items, 58.2 GB.</p>
   <div class="meter"><div class="track"><i style="flex:9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i style="flex:18;--c:var(--c-school)"></i><i style="flex:12;--c:var(--c-reference)"></i><i style="flex:3;--c:var(--c-advanced)"></i><i style="flex:1.2;--c:var(--c-culture)"></i><i class="free" style="flex:1.4"></i></div></div>
-  <p class="secondary" style="margin-top:26px"><a href="#manage">Manage what goes on it</a><a href="#">Check every file</a></p>
+  <button class="primary" hidden>Sync</button>
+  <p class="secondary"><a href="#manage">Manage what goes on it</a><a href="#">Check every file</a></p>
 </main></div>
 
 <div class="app" id="syncing" data-step="2"><main class="stage" data-state="syncing" style="--p:.42">
@@ -192,6 +197,17 @@
     const stage = app.querySelector(".stage");
     if (stage) {
       stage.prepend(stamp("t-ring"));
+      const meter = stage.querySelector(".meter");
+      if (meter) {
+        meter.append(stamp("t-legend"));
+        const labels = meter.querySelectorAll(".legend li");
+        if (app.id === "measuring") meter.querySelector(".legend").replaceChildren();
+        if (app.id === "behind") {
+          labels[0].textContent = "Health 9.5 GB";
+          labels[7].textContent = "Stories and culture 1.4 GB";
+          labels[8].textContent = "Free 600 MB";
+        }
+      }
       app.append(stamp("t-rail"));
       [...app.querySelectorAll(".rail li")].forEach((step, index) => {
         const current = Number(app.dataset.step) - 1;

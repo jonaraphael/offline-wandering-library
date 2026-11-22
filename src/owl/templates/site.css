@@ -68,12 +68,17 @@ h2 { font-size: 22px; line-height: 1.2; margin: 6px 0 2px; }
 
 /* Search results */
 .result { margin-top: 10px; padding: 14px 15px; border-radius: 14px; background: var(--surface); }
-.result small { color: var(--muted); font-size: 13px; }
+.result small { display: block; color: var(--muted); font-size: 13px; line-height: normal; }
 .result h3 { margin: 2px 0 6px; font-size: 18px; line-height: 1.25; }
 .result p { margin: 0 0 10px; }
+.result .also-label { color: var(--muted); font-size: 13px; line-height: normal; margin: 0; }
 .result mark { background: color-mix(in srgb, var(--star) 38%, transparent); color: inherit; border-radius: 3px; padding: 0 2px; }
-.result .also { margin: 0 0 12px; padding: 0; list-style: none; font-size: 14.5px; }
-.result .also li { padding: 3px 0; }
+.result .also { display: flex; flex-wrap: wrap; gap: 0 14px; margin: 0 0 8px; padding: 0; list-style: none; font-size: 14px; }
+.result .also a { display: inline-flex; align-items: center; min-height: 28px; }
+.result .also li { max-width: 100%; overflow-wrap: anywhere; }
+.urgent-result { border: 1px solid var(--urgent); }
+.urgent-result .label { display: block; margin: 0; }
+.encyclopedia-results { margin: 22px 0 0; text-transform: none; }
 .button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 20px; border-radius: 22px;
   background: var(--accent); color: var(--bg); font-weight: 650; text-decoration: none; border: 0; font-size: 16px; }
 .empty { text-align: center; color: var(--muted); padding: 46px 20px; }
@@ -147,13 +152,12 @@ html:not(.live) .view, html:not(.live) .tabs { display: none; }
 .search-options { margin: 4px 0; }
 .search-options summary, .device-choice summary { cursor: pointer; min-height: 44px; align-content: center; color: var(--accent); }
 .search-options select, .device-choice select { max-width: 100%; min-height: 44px; font: inherit; }
-.result .also a { display: inline-flex; align-items: center; min-height: 44px; }
-.result .also li { padding: 0; }
 .button { cursor: pointer; }
 .sheet { top: auto; width: 100%; max-height: calc(100% - 16px); overflow-y: auto; border: 0; color: var(--ink); }
 .sheet::backdrop { background: rgba(0, 0, 0, .42); }
 .sheet .button { margin-top: 16px; }
 @media (pointer: coarse) {
+  .result .also a { min-height: 44px; }
   .tabs a { min-height: 44px; }
   .panel a { display: inline-flex; align-items: center; min-height: 44px; }
 }

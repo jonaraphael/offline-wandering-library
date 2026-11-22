@@ -2,9 +2,11 @@
   "tasks": [
     [
       "Stop severe bleeding",
+      ["bleeding", "bleed", "blood", "cut", "cuts", "wound", "wounds", "hemorrhage", "haemorrhage"],
       [
         [
-          "hesperian_en_wtnd_2025_10"
+          "hesperian_en_wtnd_2025_10",
+          "#page=6"
         ],
         [
           "cert",
@@ -29,6 +31,7 @@
     ],
     [
       "Care for burns",
+      ["burn", "burns", "burned", "scald", "scalds", "scalded"],
       [
         [
           "hesperian_en_wtnd_2025_10"
@@ -56,6 +59,7 @@
     ],
     [
       "Make drinking water safer",
+      ["drinking water", "safe water", "water safe", "purify water", "water purification", "disinfect water", "boil water"],
       [
         [
           "water"
@@ -75,6 +79,7 @@
     ],
     [
       "Fever or diarrhea",
+      ["fever", "fevers", "diarrhea", "diarrhoea", "dehydration", "oral rehydration", "watery stools"],
       [
         [
           "hesperian_en_wtnd_2025_13"
@@ -103,6 +108,7 @@
     ],
     [
       "Labor and birth",
+      ["childbirth", "birth", "giving birth", "labor and delivery", "labour", "deliver a baby", "delivery complications"],
       [
         [
           "hesperian_en_midw_2026_10"
@@ -125,6 +131,7 @@
     ],
     [
       "Find or build shelter",
+      ["shelter", "sheltering", "sleep outside", "stay warm outdoors"],
       [
         [
           "survival_shelter"
@@ -141,6 +148,7 @@
     ],
     [
       "Preserve food safely",
+      ["canning", "can tomatoes", "can vegetables", "food preservation", "preserve food", "store food in jars", "food in jars"],
       [
         [
           "food"
@@ -163,6 +171,7 @@
     ],
     [
       "Map and compass",
+      ["compass", "orienteering", "map reading", "read a map", "take a bearing"],
       [
         [
           "navigation"

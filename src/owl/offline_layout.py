@@ -21,16 +21,16 @@ def emergency_routes(rows):
     """Use the first present file for each task, retaining precise locations."""
     by_id = {row["id"]: row for row in rows}
     tasks = []
-    for title, candidates in layout()["tasks"]:
+    for title, keywords, candidates in layout()["tasks"]:
         for identity, *details in candidates:
             if identity not in by_id:
                 continue
             fragment, hint, articles = details + ["", "", []][len(details):]
             row = by_id[identity]
-            tasks.append({**row, "task": title, "href": row["href"] + fragment, "hint": hint,
+            tasks.append({**row, "task": title, "keywords": keywords, "href": row["href"] + fragment, "hint": hint,
                           "articles": [name for name, _ in articles],
                           "articlePaths": [path for _, path in articles]})
             break
         else:
-            tasks.append({"task": title})
+            tasks.append({"task": title, "keywords": keywords})
     return tasks

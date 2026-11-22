@@ -97,6 +97,7 @@ class AtlasBuildFixture(Fixture):
 class AtlasBuildTests(AtlasBuildFixture):
     def test_post_download_atlas_preserves_search_and_is_deterministic(self):
         self.run_build()
+        previous, = (self.library / "INDEX").glob("*/home.js")
         inventory = json.loads((self.library / "INVENTORY.json").read_text(encoding="utf-8"))
         search_files = inventory["search"]["generated_files"]
         before = {p: ((self.library / p).read_bytes(), (self.library / p).stat().st_mtime_ns) for p in search_files}
@@ -104,9 +105,13 @@ class AtlasBuildTests(AtlasBuildFixture):
             report = self.atlas(strict_coverage=True)
         self.assertEqual(report["unmapped_critical"], [])
         self.assertEqual(report["generated_files"], ["INDEX/navigation-report.json"])
-        self.assertIn("Shared topic", (self.library / "INDEX/c-other.js").read_text(encoding="utf-8"))
+        self.assertIn("Shared topic", next((self.library / "INDEX").glob("*/c-other.js")).read_text(encoding="utf-8"))
         self.assertIn('id="reader-view"', (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
-        self.assertIn('src="LIBRARY/SEARCH/search.js"', (self.drive / "START_HERE.html").read_text(encoding="utf-8"))
+        self.assertRegex((self.drive / "START_HERE.html").read_text(encoding="utf-8"),
+                         r'src="LIBRARY/INDEX/[a-f0-9]{12}/search\.js"')
+        current, = (self.library / "INDEX").glob("*/home.js")
+        self.assertNotEqual(previous, current)
+        self.assertFalse(previous.parent.exists())
         first = {p: (self.library / p).read_bytes() for p in report["generated_files"]}
         self.atlas()
         self.assertEqual(first, {p: (self.library / p).read_bytes() for p in first})
@@ -155,10 +160,10 @@ class AtlasBuildTests(AtlasBuildFixture):
         info = json.loads((self.library / "BUILD_INFO.json").read_text(encoding="utf-8"))
         paths = info["navigation"]["generated_files"]
         self.assertEqual(paths, ["INDEX/navigation-report.json"])
-        self.assertIn("Shared topic", (self.library / "INDEX/c-other.js").read_text(encoding="utf-8"))
+        self.assertIn("Shared topic", next((self.library / "INDEX").glob("*/c-other.js")).read_text(encoding="utf-8"))
         self.check_verified()
         self.run_build()
-        self.assertNotIn("Shared topic", (self.library / "INDEX/c-other.js").read_text(encoding="utf-8"))
+        self.assertNotIn("Shared topic", next((self.library / "INDEX").glob("*/c-other.js")).read_text(encoding="utf-8"))
         self.assertFalse(list((self.library / "INDEX").rglob("*.html")))
         self.check_verified()
 
@@ -171,7 +176,7 @@ class AtlasBuildTests(AtlasBuildFixture):
         self.write_assignments()
         report = self.atlas()
         self.assertIn("shared", report["omitted_topic_ids"])
-        self.assertNotIn("Shared topic", (self.library / "INDEX/c-other.js").read_text(encoding="utf-8"))
+        self.assertNotIn("Shared topic", next((self.library / "INDEX").glob("*/c-other.js")).read_text(encoding="utf-8"))
         self.assertFalse(list((self.library / "INDEX").rglob("*.html")))
         self.assertEqual(personal.read_text(encoding="utf-8"), "keep")
         counts = verify_drive(self.drive, emit=lambda _: None)
@@ -255,7 +260,7 @@ class AtlasBuildTests(AtlasBuildFixture):
         self.assignments["assignments"] = []
         self.write_assignments()
         self.atlas()
-        self.assertNotIn("Shared topic", (self.library / "INDEX/c-other.js").read_text(encoding="utf-8"))
+        self.assertNotIn("Shared topic", next((self.library / "INDEX").glob("*/c-other.js")).read_text(encoding="utf-8"))
         self.assertFalse(list((self.library / "INDEX").rglob("*.html")))
         self.check_verified()
 

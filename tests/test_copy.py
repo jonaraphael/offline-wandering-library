@@ -363,7 +363,7 @@ class CopyTests(unittest.TestCase):
                 self.assertEqual(state["atlas_managed"], sorted(report["generated_files"]))
                 build(destination, catalog=ROOT / "catalog/demo.yaml", profiles_dir=ROOT / "profiles",
                       profile_name="demo", allow_local=True, progress=lambda _: None)
-                reader = (destination / "LIBRARY/INDEX/c-other.js").read_text()
+                reader = next((destination / "LIBRARY/INDEX").glob("*/c-other.js")).read_text()
                 self.assertNotIn("build-process", reader)
                 self.assertFalse(list((destination / "LIBRARY/INDEX").rglob("*.html")))
                 checked = verify_drive(destination, emit=lambda _: None)
