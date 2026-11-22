@@ -7,12 +7,14 @@ const {resolve} = require('node:path');
 const {fileURLToPath, pathToFileURL} = require('node:url');
 const {chromium} = require('playwright-core');
 
+const emergencyFallback = "My neighbor is lying still on the floor and I can't tell if he's breathing";
 const emergencyQueries = [
   'signs of dehydration',
   'chest compressions',
   'snake bite',
   'make water safe to drink',
   'we are stuck outside overnight in heavy rain without a tent',
+  emergencyFallback,
 ];
 
 async function measure(browser, url, query, {allowEmpty = false} = {}) {
@@ -38,12 +40,13 @@ async function measure(browser, url, query, {allowEmpty = false} = {}) {
       const started = performance.now();
       const sample = window.searchTiming = {};
       const observer = new MutationObserver(() => {
-        if (sample.first === undefined && results.querySelector('[data-indexed="true"], [data-reviewed]')) {
+        if (sample.first === undefined && results.querySelector('[data-indexed="true"], [data-reviewed], [data-nearby]')) {
           sample.first = performance.now() - started;
         }
         if (results.dataset.searchScope === 'complete' && !status.hidden) {
           sample.complete = performance.now() - started;
           sample.status = status.textContent;
+          sample.emergency = results.dataset.emergency === 'true';
           observer.disconnect();
         } else if (!status.hidden && !/^(?:Searching|Still looking)/.test(status.textContent)) {
           sample.error = status.textContent;
@@ -57,19 +60,20 @@ async function measure(browser, url, query, {allowEmpty = false} = {}) {
     }, query);
     await page.waitForFunction(() => window.searchTiming.complete !== undefined || window.searchTiming.error,
       undefined, {timeout: 180_000});
-    const {first, complete, status, error} = await page.evaluate(() => window.searchTiming);
+    const {first, complete, status, emergency, error} = await page.evaluate(() => window.searchTiming);
     const remote = reads.filter(url => !['file:', 'blob:'].includes(url.protocol));
     if (error || failures.length || remote.length) {
       throw Error(error || 'Search requested unavailable files: ' + [...failures, ...remote].join(', '));
     }
     if (!allowEmpty && first === undefined) {
-      throw Error('Search did not display an indexed or reviewed result for: ' + query);
+      throw Error('Search did not display an indexed or emergency guide result for: ' + query);
     }
     const {cards, cardCount} = await page.locator('#search-results article.result:visible').evaluateAll(elements => ({
       cardCount: elements.length,
       cards: elements.slice(0, 3).map(card => ({
         title: card.querySelector('h3').textContent,
         topic: card.dataset.reviewed,
+        nearby: card.dataset.nearby,
         indexed: card.dataset.indexed === 'true',
         href: card.querySelector('a.button').getAttribute('href'),
         locator: card.querySelector('small')?.textContent,
@@ -80,7 +84,9 @@ async function measure(browser, url, query, {allowEmpty = false} = {}) {
     const paths = reads.filter(url => url.protocol === 'file:').map(url => fileURLToPath(url));
     return {query, first_ms: first === undefined ? null : Math.round(first * 10) / 10,
       complete_ms: Math.round(complete * 10) / 10,
-      bytes: paths.reduce((sum, path) => sum + statSync(path).size, 0), reads: paths.length, status, cards, cardCount, browse};
+      bytes: paths.reduce((sum, path) => sum + statSync(path).size, 0), reads: paths.length,
+      chunk_reads: paths.filter(path => /[\\/]SEARCH[\\/](?:chunks|sources)[\\/]/.test(path)).length,
+      emergency, status, cards, cardCount, browse};
   } finally {
     await context.close();
   }
@@ -105,6 +111,10 @@ async function main() {
     const results = [];
     for (const query of values.query ?? emergencyQueries) {
       const result = await measure(browser, url, query);
+      if (values.check && query === emergencyFallback && (!result.emergency ||
+          !result.status.startsWith('No reviewed guide matched') || !result.chunk_reads || result.cards.some(card => card.topic))) {
+        throw Error('Expected an emergency index fallback for: ' + query);
+      }
       results.push(result);
       console.log(JSON.stringify(result));
     }
@@ -119,5 +129,5 @@ async function main() {
   }
 }
 
-module.exports = {measure, searchUrl};
+module.exports = {measure, searchUrl, emergencyFallback};
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });

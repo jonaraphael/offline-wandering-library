@@ -7,7 +7,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const {pathToFileURL} = require('node:url');
-const base = require('./check_phet.cjs');
+const base = require('../check_phet.cjs');
 
 function options(argv) {
   const out = {};

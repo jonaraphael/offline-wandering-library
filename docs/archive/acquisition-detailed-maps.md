@@ -14,10 +14,10 @@ Reproduce using a Python environment with the optional Shapely dependency for re
 
 ```sh
 python scripts/acquire_content.py discover --resource regional-maps --profile full-1tb --recipes catalog/acquisition/regional-maps-detailed-1tb.yaml --offline --json
-python scripts/prepare_map_capture.py --discovery .owl/acquisition/reports/discover-ba5bcd3f7e87c2ce.json --request-output catalog/acquisition/regional-maps-detailed-source-probes.json
+python scripts/acquisition/prepare_map_capture.py --discovery .owl/acquisition/reports/discover-ba5bcd3f7e87c2ce.json --request-output catalog/acquisition/regional-maps-detailed-source-probes.json
 python scripts/probe_source_batches.py catalog/acquisition/regional-maps-detailed-source-probes.json --output catalog/acquisition/regional-maps-detailed-source-probe-evidence.json --offline
 python scripts/freeze_map_selection.py --discovery .owl/acquisition/reports/discover-ba5bcd3f7e87c2ce.json --source-probes catalog/acquisition/regional-maps-detailed-source-probe-evidence.json --output catalog/acquisition/regional-maps-detailed-selection.json
-python scripts/prepare_map_capture.py --discovery .owl/acquisition/reports/discover-ba5bcd3f7e87c2ce.json --source-probes catalog/acquisition/regional-maps-detailed-source-probe-evidence.json --overview catalog/acquisition/usa-overview-candidate.json --overview-metadata-cache .owl/acquisition/overview-metadata --output catalog/acquisition/regional-maps-detailed-acquisition.json
+python scripts/acquisition/prepare_map_capture.py --discovery .owl/acquisition/reports/discover-ba5bcd3f7e87c2ce.json --source-probes catalog/acquisition/regional-maps-detailed-source-probe-evidence.json --overview catalog/acquisition/usa-overview-candidate.json --overview-metadata-cache .owl/acquisition/overview-metadata --output catalog/acquisition/regional-maps-detailed-acquisition.json
 ```
 
 Use the discovery detail path printed by the first command if the recipe changes. Metadata caches are local and not committed. The HEAD batch command validates every request before networking, uses at most four workers, spaces request starts by 150 ms, checkpoints every 100 records, and reuses per-URL evidence. Omit `--offline` only to acquire missing headers; it never reads PDF bodies. The capture-preparation command is always offline and binds each source identity to its original verified publisher metadata page. See [the source-review build workflow](../acquisition-capture.md) for the explicit body-acquisition phase.

@@ -56,10 +56,10 @@ replacement. Detailed local page locators are in
 without fetching any new resource bodies:
 
 ```sh
-.venv/bin/python scripts/inspect_midwives_scope.py \
+.venv/bin/python scripts/acquisition/inspect_midwives_scope.py \
   --library-root /Volumes/OWL/LIBRARY \
   --output .owl/acquisition/midwives-scope.json
-.venv/bin/python scripts/inspect_pdf_topic_coverage.py \
+.venv/bin/python scripts/acquisition/inspect_pdf_topic_coverage.py \
   --recipe catalog/acquisition/maternal-coverage-probes.json \
   --library-root /Volumes/OWL/LIBRARY \
   --output .owl/acquisition/maternal-coverage-evidence.json

@@ -239,6 +239,8 @@ To update, review catalog changes, inspect the new plan, rebuild with the intend
 
 ## Develop and test
 
+See the [script index](scripts/README.md) for build, catalog and CI commands.
+
 ```bash
 python -m pip install -e .
 python -m unittest discover -s tests -v

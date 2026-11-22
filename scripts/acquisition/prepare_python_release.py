@@ -13,7 +13,7 @@ from pathlib import Path
 import re
 import sys
 
-ROOT=Path(__file__).resolve().parents[1]
+ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'src'))
 from owl.acquisition.capture import normalize_manifest, load_capture_sources, _json, _digest
 from owl.acquisition.metadata import Fetcher

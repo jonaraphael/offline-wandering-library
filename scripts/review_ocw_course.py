@@ -88,7 +88,7 @@ def run(args):
                     captions.append({'media_id':media_record['id'],'lesson':lesson['title'],'member':caption['path'],'sha256':caption['sha256'],
                         'language':caption['language'],**evidence})
         immutable_json(course/'media-input.json',{'media':media})
-        command=[args.node,str(ROOT/'scripts/check_ocw_media.cjs'),'--input',str(course/'media-input.json'),'--output',str(course/'media'),
+        command=[args.node,str(ROOT/'scripts/acquisition/check_ocw_media.cjs'),'--input',str(course/'media-input.json'),'--output',str(course/'media'),
             '--budget-root',str(args.output),'--browser',args.browser,'--playwright',args.playwright]
         with (course/'media.log').open('w') as log:
             subprocess.run(command,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=6*3600)

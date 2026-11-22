@@ -7,14 +7,15 @@ import json
 from pathlib import Path
 import sys
 
-import pymupdf
 import yaml
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 from owl.safety import SafetyError, atomic_write, reject_symlinks, safe_path
 
 
 def inspect(catalog, library):
+    import pymupdf
+
     selected = [a for a in catalog["assets"] if a["id"].startswith("hesperian_en_midw_2026_")]
     required = {"hesperian_en_midw_2026_" + suffix for suffix in [*(f"{i:02d}" for i in range(1, 26)), "fm", "gp", "resc", "gloss", "indx", "ddc"]}
     if {a["id"] for a in selected} != required or len(selected) != len(required):

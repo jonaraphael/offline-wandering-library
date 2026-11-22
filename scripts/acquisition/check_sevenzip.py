@@ -20,7 +20,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-ROOT=Path(__file__).resolve().parents[1]
+ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'src'),str(ROOT)]
 from owl.acquisition import sevenzip
 from owl.download import download,verified
@@ -171,7 +171,7 @@ def main(argv=None):
     parser.add_argument('--export-evidence',type=Path)
     args=parser.parse_args(argv)
     report={'schema_version':1,'kind':'sevenzip-real-integration','passed':False,'library_bodies_downloaded':False,
-            'command':'python scripts/check_sevenzip.py --export-evidence catalog/acquisition/sevenzip-real-evidence.json',
+            'command':'python scripts/acquisition/check_sevenzip.py --export-evidence catalog/acquisition/sevenzip-real-evidence.json',
             'checker_sha256':sha256_file(Path(__file__))}
     try:
         EXECUTABLE=prepare_official_macos() if args.prepare_official_macos else args.executable.resolve()

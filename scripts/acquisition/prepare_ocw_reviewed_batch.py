@@ -12,7 +12,7 @@ import json
 from pathlib import Path
 import sys
 
-ROOT=Path(__file__).resolve().parents[1]
+ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'src'))
 from owl.acquisition.capture import _read, _digest, load_manifest, normalize_manifest
 from owl.acquisition.ocw_expansion import immutable_json

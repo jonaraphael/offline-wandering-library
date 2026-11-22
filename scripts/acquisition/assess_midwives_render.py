@@ -8,7 +8,7 @@ from pathlib import Path
 import re
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'src'))
 from owl.acquisition.capture import _digest, _owner, _read, _receipt, normalize_manifest
 from owl.acquisition.midwives_wikitext import Expander, RenderError
 from owl.acquisition.supervisor import save
@@ -59,7 +59,7 @@ def assess(capture, inventory_path, output):
             errors.append({'title': title, **pins[title], 'error': str(exc)})
     result = {'schema_version': 1, 'status': 'awaiting_review', 'content_ready': False, 'preview_written': False,
               'inventory_sha256': hashlib.sha256(inventory_path.read_bytes()).hexdigest(),
-              'renderer_sha256': hashlib.sha256((Path(__file__).resolve().parents[1] / 'src/owl/acquisition/midwives_wikitext.py').read_bytes()).hexdigest(),
+              'renderer_sha256': hashlib.sha256((Path(__file__).resolve().parents[2] / 'src/owl/acquisition/midwives_wikitext.py').read_bytes()).hexdigest(),
               'book_pages': 132, 'expanded_pages': len(results), 'unhandled_count': len(errors), 'errors': errors, 'pages': results,
               'next_gate': 'Convert expanded wiki links/images/lists/headings/table to ordinary HTML, validate all structure and dependencies, then render and inspect clinical content.'}
     save(output, result)

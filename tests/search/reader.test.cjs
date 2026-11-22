@@ -1,12 +1,14 @@
 'use strict';
 const {test} = require('node:test');
 const assert = require('node:assert/strict');
-const {reviewedGuide} = require('../../src/owl/templates/search.js');
+const {reviewedGuide, emergencyDomain, emergencySource} = require('../../src/owl/templates/search.js');
+const sections = require('../../catalog/emergency-sections.json');
 const wikiMed = require('../../catalog/wikimed-phone/manifest.json');
 const heldOut = require('./held-out-queries.json');
 const everyday = require('./everyday-emergency-queries.json');
 const paraphrases = require('./emergency-paraphrases.json');
 const original = require('./queries.json');
+const emergencySamples = require('./section-emergency-queries.json');
 
 test('reviewed routes distinguish similar emergencies and respect selected guide availability', () => {
   const documents = new Map([
@@ -52,12 +54,45 @@ test('reviewed routes distinguish similar emergencies and respect selected guide
   assert.equal(reviewedGuide(documents, 'choking', new Set(['medical_bec'])).topic, 'choking');
 });
 
+test('section routes prefer specific situations and ambiguous clues use the right domain', () => {
+  const documents = new Map(Object.values(sections.sources).map(([id]) => [id, {id, href: id + '.pdf'}]));
+  for (const [query, topic, page] of [
+    ['His arms are jerking and his eyes rolled back', 'seizure', 22],
+    ['Gran fell and her hip hurts', 'hip-fracture', 25],
+    ['The toddler shoved a pea into a nostril', undefined, undefined],
+    ['A wildfire evacuation order', 'wildfire', 15],
+    ['A newborn has not started breathing', 'newborn-resuscitation', 20],
+    ['Cut her finger and it is gaping', 'large-cuts', 11],
+    ['Hypoglycaemia', 'low-blood-sugar', 32],
+  ]) {
+    const result = reviewedGuide(documents, query);
+    assert.equal(result?.topic, topic, query);
+    if (page) assert.ok(result.href.endsWith('#page=' + page), query);
+  }
+  for (const query of ['My friend is turning blue', 'My toddler stuffed an object in her nose', 'The old man fell and hurt his hip',
+    'My dad is lying still on the ground', 'Her finger was cut by a saw', 'The jellyfish left marks on his arm']) {
+    assert.equal(emergencyDomain(query), 'health', query);
+  }
+  for (const query of ['My dad wants to fix a four stroke engine', 'How to pressure can green beans',
+    'An Old Man and the Sea audiobook', 'blood orange jam', 'flood fill algorithm', 'aircraft stall descent',
+    'the ticket is stuck in the printer', 'yellow marks on a spider plant']) {
+    assert.equal(emergencyDomain(query), '', query);
+    assert.equal(reviewedGuide(documents, query), undefined, query);
+  }
+  for (const category of ['fiction', 'music', 'aviation', 'food_preservation', 'agriculture']) {
+    assert.equal(emergencySource({category}, 'health'), false);
+    assert.equal(emergencySource({category}, 'safety'), false);
+  }
+  assert.equal(emergencySource({category: 'first_aid'}, 'health'), true);
+  assert.equal(emergencySource({category: 'preparedness'}, 'safety'), true);
+});
+
 const reader = process.env.OWL_SEARCH_READER;
 test('16 GB offline reader meets the emergency recall floors and checks paraphrases in the first card', {
   skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
 }, async () => {
   const {chromium} = require('playwright-core');
-  const {measure, searchUrl} = require('../../scripts/search_timing.cjs');
+  const {measure, searchUrl, emergencyFallback} = require('../../scripts/search_timing.cjs');
   const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
   try {
     const url = searchUrl(reader);
@@ -97,13 +132,14 @@ test('16 GB offline reader meets the emergency recall floors and checks paraphra
     assert.match(animal.cards[0].href, /\/msf_guideline-170-en\.pdf#page=258$/);
     console.log('Smoking outlet and dog bite: both lead with the reviewed guide.');
 
-    const nearby = await measure(browser, url, 'what is the danger after a blow to the head and repeated vomiting');
+    const nearby = await measure(browser, url, emergencyFallback);
+    assert.equal(nearby.emergency, true);
     assert.ok(nearby.cardCount >= 1 && nearby.cardCount <= 3);
-    assert.ok(nearby.cards.every(card => card.indexed && !card.topic));
-    assert.ok(nearby.cards.some(card => /vomiting/i.test(card.title)));
+    assert.ok(nearby.cards.every(card => (card.indexed || card.nearby) && !card.topic));
+    assert.ok(nearby.chunk_reads > 0, 'the emergency fallback must attempt an index read');
     assert.equal(nearby.status, 'No reviewed guide matched. These passages may help.');
     assert.deepEqual(nearby.browse, [['Browse Home', '#/']]);
-    console.log('Passage fallback: ' + nearby.cardCount + ' indexed cards, plain label, and Browse Home link.');
+    console.log('Emergency fallback: ' + nearby.cardCount + ' cards, index reads, plain label, and Browse Home link.');
 
     const fallback = await measure(browser, url, 'outlet left by the zephyric mailbox keeps flickering', {allowEmpty: true});
     assert.deepEqual(fallback.cards, []);
@@ -112,8 +148,43 @@ test('16 GB offline reader meets the emergency recall floors and checks paraphra
     console.log('Weak-result fallback: no displayed cards and Browse Home link.');
 
     const headInjury = await measure(browser, url, 'my friend hit his head and keeps throwing up', {allowEmpty: true});
-    assert.ok(headInjury.cards.every(card => !/Traditional processing/i.test(card.title)));
+    assert.equal(headInjury.cards[0]?.topic, 'head-injury');
   } finally {
     await browser.close();
   }
+});
+
+test('16 GB section emergency queries meet top-three and non-empty floors', {
+  skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
+}, async () => {
+  const {chromium} = require('playwright-core');
+  const {measure, searchUrl} = require('../../scripts/search_timing.cjs');
+  const allQueries = [...emergencySamples, ...heldOut, ...everyday, ...paraphrases, ...original];
+  assert.equal(emergencySamples.length, 40);
+  assert.ok(new Set(emergencySamples.map(([, situation]) => situation)).size >= 25);
+  assert.equal(new Set(allQueries.map(([query]) => query)).size, allQueries.length);
+  const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
+  const reviewedSource = /CERT_2019\.pdf|msf_guideline-(?:170|449)-en\.pdf|medical_bec|basic.emergency.care|are.you.ready|hesperian|where.there.is.no.doctor|a.book.for.midwives/i;
+  const grades = {good: 0, partial: 0, poor: 0};
+  const empty = [], unclassified = [];
+  try {
+    for (const [query, situation, expected, nearby] of emergencySamples) {
+      const {cards, cardCount, emergency} = await measure(browser, searchUrl(reader), query, {allowEmpty: true});
+      if (!emergency) unclassified.push(query);
+      if (!cardCount) empty.push(query);
+      const exact = new RegExp(expected, 'iu'), related = new RegExp(nearby, 'iu');
+      const grade = cards.some(card => exact.test(card.title) &&
+        (card.topic || reviewedSource.test(card.href + ' ' + card.locator))) ? 'good'
+        : cards.some(card => exact.test(card.title) || related.test(card.title)) ? 'partial' : 'poor';
+      grades[grade]++;
+      if (grade !== 'good') console.log(JSON.stringify({situation, query, grade, titles: cards.map(card => card.title)}));
+    }
+  } finally {
+    await browser.close();
+  }
+  console.log('Section emergency top 3: ' + grades.good + ' good / ' + grades.partial + ' partial / ' + grades.poor +
+    ' poor, ' + empty.length + ' empty, ' + unclassified.length + ' unclassified (floors 32 good, 0 empty)');
+  assert.ok(grades.good >= 32, JSON.stringify(grades));
+  assert.deepEqual(empty, []);
+  assert.deepEqual(unclassified, []);
 });

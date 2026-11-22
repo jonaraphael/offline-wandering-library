@@ -3,7 +3,8 @@ import {readFileSync} from "node:fs";
 import {join} from "node:path";
 import {test} from "node:test";
 import {browserSelection, buildOrder, isKnowledgeFile, PART_BYTES} from "../web/builder.mjs";
-import {completionState, essentialRouteMessage, recommendBrowser, selectBrowser, storageStops} from "../web/builder-ui.mjs";
+import {completionState, essentialRouteMessage, recommendBrowser, removedEssentialMessage, selectBrowser,
+  storageStops} from "../web/builder-ui.mjs";
 import {assemblyReserve} from "../web/offline.mjs";
 import "../src/owl/templates/selector.js";
 
@@ -46,7 +47,8 @@ test("the browser plan fits every storage stop, including reduced recommendation
     const result = selectBrowser(profile, resolved, {files, routes, published, phone, kept: () => false,
       minimum: planner.capacity_policy.min});
     assert.deepEqual(result.errors, [], capacity + " B");
-    assert.deepEqual(result.excluded, [], capacity + " B");
+    assert.ok(result.excluded.every(row => row.utility_tier === "CRITICAL" &&
+      !routes[row.id]?.length && !published.files[row.id]?.length), capacity + " B only lacks essential routes");
     assert.ok(result.assets.some(isKnowledgeFile), capacity + " B has a useful library");
     assert.ok(result.used + result.reserve <= profile.capacity_bytes, capacity + " B includes search and reserve");
     assert.equal(result.over, 0);
@@ -102,7 +104,8 @@ test("published browser defaults retain every field across the half-GB sweep", {
     assert.deepEqual(result.errors, [], gb + " GB");
     const chosen = result.selectedAssetIds.map(id => catalog.get(id));
     const selection = browserSelection(chosen, routes, published);
-    assert.deepEqual(selection.excluded, [], gb + " GB");
+    assert.ok(selection.excluded.every(row => row.utility_tier === "CRITICAL" &&
+      !routes[row.id]?.length && !published.files[row.id]?.length), gb + " GB only lacks essential routes");
     const used = selection.assets.reduce((total, asset) => total + asset.size_bytes, 0);
     const reserve = Math.max(16 * 2 ** 20, profile.reserve_bytes) + profile.discovery_budget_bytes;
     assert.ok(used + reserve <= profile.capacity_bytes, gb + " GB must fit the budget");
@@ -144,18 +147,19 @@ test("published browser defaults retain every field across the half-GB sweep", {
     (100 * minimum).toFixed(2) + "% at " + minimumAt + " GB.");
 });
 
-test("missing essential routes are counted before the recommendation filters them out", {skip: !site}, t => {
-  const {planner, routes, published, files, phone} = publishedCatalog();
+test("only selected essentials without routes count as missing", {skip: !site}, t => {
+  const {planner, routes, files, phone} = publishedCatalog();
+  const published = {files: {}};
   const direct = Object.fromEntries(Object.entries(routes).map(([id, urls]) => [id,
     urls.filter(url => !new URL(url).host.includes(".workers.dev"))]));
   const base = OWLPlanner.preset(planner, planner.profiles[0].id, 16e9, {browser: true});
   const required = OWLPlanner.resolve(planner, base, {ignoreNativeCapacity: true}).selectedAssetIds
     .filter(id => files.get(id).utility_tier === "CRITICAL");
   const state = recommendBrowser(planner, base, direct, published, undefined, {phone});
-  const plan = selectBrowser(OWLPlanner.profileFor(planner, state.profile, state.capacityBytes, state),
+  const select = state => selectBrowser(OWLPlanner.profileFor(planner, state.profile, state.capacityBytes, state),
     OWLPlanner.resolve(planner, state, {ignoreNativeCapacity: true}),
-    {files, routes: direct, published, phone, kept: () => false, minimum: planner.capacity_policy.min,
-      unreachableCritical: state.unreachableCritical});
+    {files, routes: direct, published, phone, kept: () => false, minimum: planner.capacity_policy.min});
+  const plan = select(state);
   const reachable = plan.assets.filter(asset => asset.utility_tier === "CRITICAL");
   assert.ok(reachable.length > 0 && reachable.length < required.length);
   assert.equal(plan.excluded.filter(row => row.utility_tier === "CRITICAL").length, required.length - reachable.length);
@@ -165,4 +169,35 @@ test("missing essential routes are counted before the recommendation filters the
   const result = completionState({state: {finished: false, excluded: plan.excluded}, completed: plan.assets,
     missing: plan.excluded, searchWarnings: []});
   assert.ok(result.message.includes(message));
+
+  const unavailable = plan.excluded.find(row => row.utility_tier === "CRITICAL");
+  const resource = planner.resources.find(row => {
+    const item = state.items[row.id];
+    return item.included && (item.assetIds || (row.editions?.[item.edition] || row).asset_ids).includes(unavailable.id);
+  });
+  const file = reachable.find(asset => asset.format === "pdf");
+  const single = planner.resources.find(row => {
+    const item = state.items[row.id];
+    return item.included && (item.assetIds || (row.editions?.[item.edition] || row).asset_ids).includes(file.id);
+  });
+  const item = state.items[resource.id];
+  const members = item.assetIds || (resource.editions?.[item.edition] || resource).asset_ids;
+  const modified = structuredClone(state);
+  modified.items[resource.id].assetIds = members.filter(id => id !== unavailable.id);
+  const oneRemoved = select(modified);
+  assert.ok(!oneRemoved.excluded.some(row => row.id === unavailable.id));
+  assert.equal(removedEssentialMessage(plan.essentials, oneRemoved.essentials), "You removed 1 essential file.");
+
+  for (const item of Object.values(modified.items)) item.included = false;
+  Object.assign(modified.items[single.id], {included: true, assetIds: [file.id]});
+  const edited = select(modified);
+  assert.deepEqual(edited.errors, []);
+  assert.deepEqual(edited.assets.map(asset => asset.id), [file.id]);
+  assert.deepEqual(edited.excluded, []);
+  assert.equal(essentialRouteMessage(edited.excluded), "");
+  t.diagnostic(removedEssentialMessage(plan.essentials, edited.essentials));
+  const outcome = completionState({state: {finished: true, excluded: edited.excluded}, completed: edited.assets,
+    missing: edited.excluded, searchWarnings: []});
+  assert.equal(outcome.mode, "done");
+  t.diagnostic("Ready with 0 items missing");
 });

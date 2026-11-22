@@ -484,7 +484,8 @@
         }
       }
       const matchedTerms = stats?.hits || 0;
-      found.push({row, index, score, matchedTerms, fullMatch: matchedTerms === query.length, focused: emergency && support > 0, trusted});
+      found.push({row, index, score, matchedTerms, fullMatch: matchedTerms === query.length,
+        bodyMatch: !row[5] && Boolean(stats?.body), focused: emergency && support > 0, trusted});
     }
     return found.sort((a, b) => b.score - a.score || a.index - b.index).slice(0, limit);
   }
@@ -520,7 +521,8 @@
     const href = destination.split('/').map(encodeURIComponent).join('/') +
       (asset.format === 'pdf' ? '#page=' + locator :
         !archive && locator ? '#' + encodeURIComponent(locator) : '');
-    return {score: hit.score, rankTitle: rawTitle, matchedTerms: hit.matchedTerms, fullMatch: hit.fullMatch, focused: hit.focused, trusted: hit.trusted,
+    return {score: hit.score, rankTitle: rawTitle, matchedTerms: hit.matchedTerms, fullMatch: hit.fullMatch,
+      bodyMatch: hit.bodyMatch, focused: hit.focused, trusted: hit.trusted,
       indexed: true, record: {id: asset.id + ':' + part + ':' + hit.index,
       asset_id: asset.id, title, description: lead, source_title: asset.title, href, destination,
       kind: archive ? 'article' : 'section', reader_required: archive,
@@ -996,8 +998,8 @@
       if (cache.size > 24) cache.delete(cache.keys().next().value);
       return task;
     }
-    return (text, shelf, limit, cancelled, onProgress) =>
-      run(selection, loadModel(), readPart, text, shelf, limit, cancelled, onProgress,
+    return (text, shelf, limit, cancelled, onProgress, lexicalOnly = false) =>
+      run(selection, lexicalOnly ? () => null : loadModel(), readPart, text, shelf, limit, cancelled, onProgress,
         selection.impact ? BOUNDED_BYTES : Infinity,
         selection.impact ? readImpact : undefined, true);
   }

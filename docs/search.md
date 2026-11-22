@@ -72,8 +72,9 @@ portions of the read allowance. The reader can show a lexical preview from
 up to 350 KB of record chunks while the model and relevant term buckets load.
 If final ranking opens a preview chunk, it reuses the parsed records.
 
-With the term index installed, recognized emergency queries finish ranking
-within a 16 MB allowance for term buckets and record chunks. Libraries with
+The base ranker uses a 16 MB allowance for emergency intents when running
+with the term index. The reader uses the smaller emergency fallback below
+for descriptions it classifies as health or safety. Libraries with
 up to 125 MB of record chunks use a 20 MB allowance for simple one- and
 two-term lookups. Other searches preview results within a 39.7 MB allowance,
 then score the remaining eligible chunks. That second pass can take longer,
@@ -155,18 +156,59 @@ with the title, source, locator and any displayable excerpt for grading.
 
 ## Reviewed emergency routes
 
-The [reader's route table](../src/owl/templates/search.js) matches words and
-phrases in the user's description. More specific situations take precedence
-where symptoms overlap. The route looks up its guide in the reader's installed
-catalog and honors the category filter. A match shows the guide immediately
-without loading search postings. Other queries use the catalog and the impact
-index, with strong matches displayed as they arrive. The passage fallback
-keeps one passage per document and requires evidence from the heading,
-excerpt, or indexed text.
+The section review covers **151 destinations in 110 situations** from the
+default 16 GB editions of *Where There Is No Doctor*, *A Book for Midwives*,
+FEMA CERT, *Basic Emergency Care*, the MSF clinical and obstetric guides,
+and FEMA *Are You Ready?* It links to physical PDF pages. The review records
+the edition digest, section heading and everyday terms for each situation.
+[Section review](../catalog/emergency-sections.json)
 
-Page numbers in this table are physical PDF pages. Named WikiMed articles use
-the archive paths in the [pinned WikiMed manifest](../catalog/wikimed-phone/manifest.json).
-The standard 16 GB selection contains every listed source.
+The route compiler reads the default selection and verifies each destination
+against its edition and its existing indexed pages. The reader matches
+section names and everyday synonyms. Descriptions that depend on several
+clues require each clue, such as a fall, hip pain, and the affected body
+part. Existing time-critical routes keep precedence where clues overlap.
+Matching sections open immediately from the installed catalog and respect
+the optional category filter. Multiple locations in the same book share a
+card. [Reader implementation](../src/owl/templates/search.js)
+
+For a new edition, start with the pinned PDFs on an installed default
+16 GB library and install the PDF extra. Candidate extraction verifies
+the PDFs against the catalog and emits a list
+from bookmarks, tables of contents and visually marked headings. The
+first column on each candidate is the physical page where the text was
+found. A contents entry may name a different printed page.
+
+~~~sh
+python scripts/build_search_emergency.py --candidates /path/to/LIBRARY > "$scratch/headings.tsv"
+python scripts/build_search_emergency.py
+python scripts/build_search_emergency.py --check
+~~~
+
+Review the relevant candidate headings and open the cited sections to check
+their contents and physical page numbers. Record the destination and add
+common wording for its symptoms, actions or hazards. Keep alternatives that
+lead to the same situation together. Test an everyday paraphrase and similar
+wording with a different meaning. The compiler writes the small generated
+table into the reader script. CI checks that the table matches the review.
+
+When a query lacks a reviewed match, the reader classifies health and safety
+descriptions using symptoms, injuries, body parts, people, urgency and
+hazard words. It immediately shows the closest installed guide. For
+example, trouble breathing or waking points to an airway or responsiveness
+guide, and bleeding points to a bleeding guide. It reads up to 1.2 MB of
+existing index chunks from the appropriate categories using lexical evidence.
+Indexed passages require matching body postings to displace the initial
+guide. The search shows up to three passages, one per document, under
+“No reviewed guide matched. These passages may help.” Ordinary searches
+continue through the catalog, term index and base ranker.
+
+The reader also retains the following previously reviewed routes. Named
+WikiMed articles use the archive paths in the pinned manifest.
+[WikiMed manifest](../catalog/wikimed-phone/manifest.json)
+
+Page numbers in the table are physical PDF pages. The standard 16 GB
+selection contains every listed source.
 
 | Situation | Wording the route recognizes | Destination |
 | --- | --- | --- |
@@ -206,15 +248,6 @@ The standard 16 GB selection contains every listed source.
 | Food in an outage | Warm refrigerator, thawed freezer, outage and meat | FEMA Are You Ready?, p. 26 |
 | Emergency sanitation | Toilets that will not flush, nowhere to dispose of human waste | Hesperian A Community Guide to Environmental Health, chapter 7, p. 2 |
 
-To add a route, verify the source edition in the 16 GB catalog and check the
-physical PDF page or WikiMed article path. Add a topic, display title, catalog
-asset ID, locator and a few word or phrase patterns to `reviewedRoutes`.
-Pair actions with relevant objects for ambiguous clues, such as a fall into
-a body of water or swallowing a battery. Test a paraphrase and a similar
-query that should go elsewhere. When replacing a source edition,
-recheck its locators. Run the reader's Chromium check below. These routes
-live in the reader script and use the existing shard data.
-
 ## Held-out emergency queries
 
 The original ten probes were fixed before tuning. The additional
@@ -225,6 +258,14 @@ of the first three displayed cards, with floors of 8/10 and 24/30. A further
 [15 paraphrases](../tests/search/emergency-paraphrases.json) were fixed before
 the follow-up routing changes. Each must show the expected reviewed guide as
 its first card. The browser test also checks both fallback states.
+
+A fourth set contains 40 new everyday queries across 39 situations. Six
+situations overlap the old route table. This set was fixed before the
+section routes were implemented. The offline reader grades the first three
+cards as good when a reviewed guide or named first-aid reference covers the
+expected topic, partial for an adjacent topic or a weaker source, and poor
+otherwise. CI requires at least 32 good and no empty emergency results.
+[40-query section benchmark](../tests/search/section-emergency-queries.json)
 
 - Smoke is coming from the outlet where the heater was plugged in.
 - My friend touched a live wire and fell to the floor.
@@ -241,6 +282,18 @@ its first card. The browser test also checks both fallback states.
 
 The 16 GB reader scored **10/10** on the original held-out set, **30/30** on
 the everyday set, and **15/15** first reviewed cards on the paraphrase set.
+The 40-query section benchmark used the same grading rules before and after
+the change.
+
+| Reader | Good in top three | Partial | Poor | Empty |
+| --- | ---: | ---: | ---: | ---: |
+| At 772a1dba | 0 | 2 | 38 | 22 |
+| With section routes and emergency fallback | 37 | 2 | 1 | 0 |
+
+The object-in-nose and object-in-ear queries show the general foreign-body
+reference. The jellyfish sting query shows the general emergency assessment
+guide.
+
 The base-ranker benchmark retained all probes that passed
 at `fde71516`, including “signs of dehydration” at all three capacities.
 
@@ -268,26 +321,26 @@ accepts an existing `START_HERE.html`, repeated `--query` arguments, and
 Measurements used Chromium 145.0.7632.6 and an Apple M5 Pro local SSD. Each
 query opens a fresh browser context with 4× CPU throttling, offline network
 emulation and browser cache disabled. First-result time runs from form
-submission to the first reviewed or indexed result card. Complete time ends when
+submission to the first reviewed, fallback or indexed result card. Complete time ends when
 the reader publishes its final results and status, including MiniLM where
 installed. Byte counts sum the sizes of local file requests during each
 query, including cold model and reranker loads. They exclude reader startup
 and in-memory scripts and measure requested file bytes on the SSD run.
 
-| Query | 16 GB first card | 16 GB complete | 1 TB requested bytes |
+| Query | 16 GB first card | 16 GB complete | 16 GB requested bytes |
 | --- | ---: | ---: | ---: |
-| Signs of dehydration | 14.5 ms | 14.5 ms | 0 |
-| Chest compressions | 7.4 ms | 7.4 ms | 0 |
-| Snake bite | 8.5 ms | 8.5 ms | 0 |
-| Make water safe to drink | 12.8 ms | 12.8 ms | 0 |
-| We are stuck outside overnight in heavy rain without a tent | 186.8 ms | 1,210.4 ms | 83,790,814 |
+| Signs of dehydration | 21.2 ms | 21.2 ms | 0 |
+| Chest compressions | 23.3 ms | 23.3 ms | 0 |
+| Snake bite | 23.0 ms | 23.0 ms | 0 |
+| Make water safe to drink | 22.5 ms | 22.6 ms | 0 |
+| We are stuck outside overnight in heavy rain without a tent | 20.4 ms | 147.5 ms | 1,199,596 |
+| My neighbor is lying still on the floor and I can't tell if he's breathing | 23.2 ms | 213.3 ms | 1,199,798 |
 
 The 16 GB run passed the limits of 300 ms to the first card and 3 s to
 finish. The four reviewed routes requested zero additional file bytes.
-All 55 held-out emergency queries also requested zero additional bytes
-per query on the 1 TB reader.
-The overnight shelter query used the impact index and requested 37,535,281 bytes at 16 GB.
-Other queries can search more index chunks and take longer to complete.
+The last two queries both used the emergency fallback. The timing check
+requires the last query to read index chunks and show the fallback label.
+Ordinary searches can read more index chunks and take longer to complete.
 The selected 16 GB library contains 110.5 MB of record chunks and 155.9 MB
 of search files overall. At 1 TB, those figures are 723.9 MB and 853.5 MB.
 USB and phone I/O were outside these measurements.

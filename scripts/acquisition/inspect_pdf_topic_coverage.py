@@ -7,14 +7,15 @@ from pathlib import Path
 import re
 import sys
 
-import pymupdf
 import yaml
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 from owl.safety import SafetyError, atomic_write, reject_symlinks, safe_path
 
 
 def inspect(catalog, recipe, library):
+    import pymupdf
+
     patterns = {row["id"]: re.compile(row["pattern"], re.I) for row in recipe["topics"]}
     if not 1 <= len(patterns) == len(recipe["topics"]) <= 100:
         raise SafetyError("Topic recipe must have 1–100 unique probes")

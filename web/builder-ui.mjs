@@ -59,6 +59,8 @@ function lockDrive(operation) {
 
 const sumBytes = assets => assets.reduce((sum, asset) => sum + asset.size_bytes, 0);
 const hasRoute = (id, routes, published) => Boolean(routes[id]?.length || published.files?.[id]?.length);
+const isEssential = asset => asset?.status === "resolved" && asset.utility_tier === "CRITICAL";
+const membersOf = (resource, edition) => (resource.editions?.[edition] || resource).asset_ids;
 
 const retentionCache = new WeakMap();
 const planCeiling = profile => profile.capacity_bytes -
@@ -135,7 +137,7 @@ const isEncyclopedia = asset => asset.format.toLowerCase() === "zim";
 const phoneSpace = (asset, phone) => asset.id === phone?.source_id && asset.sha256 === phone.source_sha256 ?
   phone.volumes.reduce((total, volume) => total + volume.bytes, 0) : 0;
 
-export function selectBrowser(profile, resolved, {files, routes, published, kept, phone, minimum, unreachableCritical = []}) {
+export function selectBrowser(profile, resolved, {files, routes, published, kept, phone, minimum}) {
   const selected = resolved.selectedAssetIds.map(id => files.get(id));
   const {assets, excluded} = browserSelection(selected, routes, published);
   // A verified copy can stay even after its download route disappears.
@@ -147,10 +149,9 @@ export function selectBrowser(profile, resolved, {files, routes, published, kept
   const reserve = Math.max(INDEX_ALLOWANCE, profile.reserve_bytes) + searchBudget;
   const limit = planCeiling(profile) - extraPhone;
   const used = sumBytes(assets);
-  const unavailable = new Map(unreachableCritical.map(row => [row.id, row]));
-  for (const row of excluded) if (!keptIds.has(row.id)) unavailable.set(row.id, row);
-  return {assets, excluded: [...unavailable.values()], used, reserve, searchBudget,
-    limit, over: Math.max(0, used - limit), errors: resolved.errors};
+  const essentials = new Set(selected.filter(isEssential).map(asset => asset.id));
+  return {assets, excluded: excluded.filter(row => !keptIds.has(row.id)), used, reserve, searchBudget,
+    essentials, limit, over: Math.max(0, used - limit), errors: resolved.errors};
 }
 
 export function storageStops(capacity, canPlan = () => true) {
@@ -172,7 +173,7 @@ function reduceBrowser(planner, state, reachable, retained, phone) {
     if (resource.id === READERS) continue;
     const item = state.items[resource.id];
     if (!item.included && !retained) continue;
-    const variant = edition => (resource.editions?.[edition] || resource).asset_ids.filter(available);
+    const variant = edition => membersOf(resource, edition).filter(available);
     let ids = variant(item.edition);
     // A lower limit on a synced drive keeps the editions already present.
     if (retained) for (const edition of ["published", ...Object.keys(resource.editions || {})]) {
@@ -212,23 +213,28 @@ function reduceBrowser(planner, state, reachable, retained, phone) {
 
 export function recommendBrowser(planner, state, routes, published, kept = () => false, {retainedFiles, phone} = {}) {
   const reachable = id => hasRoute(id, routes, published) || kept(id);
-  const reduce = state.browser && (retainedFiles || state.capacityBytes < planner.capacity_policy.min);
-  const unroutable = planner.assets.filter(asset => asset.utility_tier === "CRITICAL" &&
-    asset.status === "resolved" && !reachable(asset.id));
-  if (unroutable.length) {
-    const intended = reduce ? reduceBrowser(planner, structuredClone(state), () => true,
-      retainedFiles && new Set(retainedFiles), phone) : state;
-    const {selectedAssetIds} = globalThis.OWLPlanner.resolve(planner, intended, {ignoreNativeCapacity: true});
-    const selected = new Set(selectedAssetIds);
-    state.unreachableCritical = browserSelection(unroutable.filter(asset => selected.has(asset.id)), routes, published).excluded;
+  const unreachable = new Set(planner.assets.filter(asset => isEssential(asset) && !reachable(asset.id)).map(asset => asset.id));
+  if (state.browser && (retainedFiles || state.capacityBytes < planner.capacity_policy.min)) {
+    const retained = retainedFiles && new Set(retainedFiles);
+    const intended = unreachable.size && reduceBrowser(planner, structuredClone(state), () => true, retained, phone);
+    reduceBrowser(planner, state, reachable, retained, phone);
+    // Keep the intended essentials in the selection even though they consume no download space.
+    if (intended) for (const resource of planner.resources) {
+      const wanted = intended.items[resource.id];
+      if (!wanted.included) continue;
+      const missing = (wanted.assetIds || membersOf(resource, wanted.edition)).filter(id => unreachable.has(id));
+      if (!missing.length) continue;
+      const item = state.items[resource.id];
+      if (!item.included) state.items[resource.id] = {...wanted, assetIds: missing};
+      else if (item.edition === wanted.edition) item.assetIds = [...new Set([...item.assetIds, ...missing])];
+    }
+    return state;
   }
-  if (reduce)
-    return reduceBrowser(planner, state, reachable, retainedFiles && new Set(retainedFiles), phone);
   for (const resource of planner.resources) {
     const item = state.items[resource.id];
     if (!item.included) continue;
-    const members = (resource.editions?.[item.edition] || resource).asset_ids;
-    const found = members.filter(reachable);
+    const members = membersOf(resource, item.edition);
+    const found = members.filter(id => reachable(id) || unreachable.has(id));
     if (found.length === 0) item.included = false;
     else if (found.length < members.length) item.assetIds = found;
   }
@@ -262,6 +268,11 @@ export function essentialRouteMessage(excluded) {
   const count = excluded.filter(row => row.utility_tier === "CRITICAL").length;
   return count ? "This browser can’t download " + countOf(count, "essential file") + ". Use the Python builder to get " +
     (count === 1 ? "it." : "them.") : "";
+}
+
+export function removedEssentialMessage(previous, selected) {
+  const count = [...previous].filter(id => !selected.has(id)).length;
+  return count ? "You removed " + countOf(count, "essential file") + "." : "";
 }
 
 export function warnBeforeLeaving(target = globalThis) {
@@ -307,6 +318,11 @@ export function mount({catalog: supplied} = {}) {
     !(navigator.maxTouchPoints > 1 && /^mac/i.test(platform));
   let catalog, manage, catalogRequest, drive, remembered, snapshot, inspection, comparison, plan, pendingCompare;
   const collectionTitles = new Map();
+  const essentialStatus = element("p", "field-help");
+  essentialStatus.setAttribute("role", "status");
+  essentialStatus.hidden = true;
+  byId("collection-search").before(essentialStatus);
+  let managePlan, manageBudget, manageEssentials;
   let measured, minimum, capacity, forceSplit = false, size, mode, previousMode, problem, result, controller, opened = 0;
   let operation = 0, picker = false, preview = false, fullCheck = false, selectedReplacement = new Set();
   let active = new Map(), transferTotal = 0, transferStarted, rateStart, rateBytes, rate = 0, nowTitle = "", lastPaint = 0;
@@ -338,13 +354,15 @@ export function mount({catalog: supplied} = {}) {
       const sources = {files, routes, published, kept, phone, minimum: planner.capacity_policy.min};
       manage = create(planner, {
         browser: true,
-        download: id => hasRoute(id, routes, published) || kept(id),
+        // Manage must allow a selected essential to be removed even when its route is unavailable.
+        download: id => isEssential(files.get(id)) || hasRoute(id, routes, published) || kept(id),
         recommend: (state, retainedFiles) => recommendBrowser(planner, state, routes, published, kept, {retainedFiles, phone}),
         stops: storageStops,
         useful: selection => selection.assets.some(isKnowledgeFile),
-        select: (profile, state, resolved) => selectBrowser(profile, resolved,
-          {...sources, unreachableCritical: state.unreachableCritical}),
+        select: (profile, _state, resolved) => selectBrowser(profile, resolved, sources),
         onChange(value, {live = false} = {}) {
+          managePlan = value;
+          if (!byId("manage").hidden) showEssentialStatus();
           if (preview) return;
           plan = value;
           dirty = JSON.stringify(value.choice) !== driveChoice;
@@ -629,6 +647,7 @@ export function mount({catalog: supplied} = {}) {
     } : undefined;
     const current = manage.configure({capacityBytes: capacity, size, savedChoice: saved?.choice,
       split: forceSplit, forceSplit, connected: !isPreview, installed});
+    managePlan = current;
     if (!isPreview) {
       plan = current;
       driveChoice = JSON.stringify(plan.choice);
@@ -733,8 +752,21 @@ export function mount({catalog: supplied} = {}) {
     })));
   }
 
+  function showEssentialStatus() {
+    if (manageBudget !== managePlan.budget) {
+      manageBudget = managePlan.budget;
+      manageEssentials = new Set();
+    }
+    for (const id of managePlan.essentials) manageEssentials.add(id);
+    const message = [removedEssentialMessage(manageEssentials, managePlan.essentials),
+      essentialRouteMessage(managePlan.excluded)].filter(Boolean).join(" ");
+    if (essentialStatus.textContent !== message) essentialStatus.textContent = message;
+    essentialStatus.hidden = !message;
+  }
+
   function showManage() {
     if (!preview) showHeld();
+    showEssentialStatus();
     manage.show({name: preview ? undefined : name(), onBack: () => void leaveManage().catch(showProblem),
       onDone: () => void leaveManage().catch(showProblem), changes: dirty ? changeLine("Your changes") : "No changes"});
   }
@@ -749,6 +781,7 @@ export function mount({catalog: supplied} = {}) {
     }
     stage.hidden = true;
     byId("sync-rail").hidden = true;
+    manageBudget = undefined;
     showManage();
   }
 

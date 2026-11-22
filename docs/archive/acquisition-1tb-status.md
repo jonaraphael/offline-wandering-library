@@ -158,8 +158,8 @@ certification remains separately pending.
 ## Timed continuation checkpoint
 
 The active thread heartbeat checks every 30 minutes using
-`scripts/check_acquisition_progress.py`. Python workers perform acquisition and
-review between checks. The v16 combined preflight passed with 701,446,479,872
+`scripts/acquisition/check_acquisition_progress.py`. Python workers perform
+acquisition and review between checks. The v16 combined preflight passed with 701,446,479,872
 bytes free against 412,618,245,971 bytes reserved for all declared phase peaks
 and shared reserve. This conservative mode grants no credit for already
 retained files; each writer still checks its actual live usage. Older managers

@@ -3,7 +3,7 @@
 from __future__ import annotations
 import argparse,hashlib,json,shutil,sys
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
+sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'src'))
 from owl.acquisition import capture,ocw_html
 from owl.archive import ZipSource,MAX_EXPLICIT_PACKAGE_BYTES
 from owl.safety import SafetyError,atomic_write,guard_directory,safe_path

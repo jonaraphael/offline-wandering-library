@@ -14,7 +14,8 @@
 - Reproduce the [validation checks](validation.md) and see the
   [architecture and selection policy](design/target-architecture.md).
 
-- Publish and roll back through the [operations guide](operations.md).
+- Publish with the [release checklist](release-checklist.md) and see the
+  [operations guide](operations.md) for deployment and catalog maintenance.
 
 See the [acquisition archive](archive/README.md) for working notes and trial logs.
 The original capacity specification, source verification and frozen recipe evidence

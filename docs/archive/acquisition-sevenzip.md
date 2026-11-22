@@ -18,7 +18,7 @@ unapproved review evidence when a member pin has not yet been established.
 Run the real-format checks offline after obtaining a local development tool:
 
 ```sh
-.venv/bin/python scripts/check_sevenzip.py \
+.venv/bin/python scripts/acquisition/check_sevenzip.py \
   --export-evidence catalog/acquisition/sevenzip-real-evidence.json
 ```
 
@@ -28,7 +28,7 @@ the normal downloader, verifies the GitHub-published archive SHA-256, extracts
 the executable and notices within finite bounds, and changes no global setup:
 
 ```sh
-.venv/bin/python scripts/check_sevenzip.py --prepare-official-macos \
+.venv/bin/python scripts/acquisition/check_sevenzip.py --prepare-official-macos \
   --export-evidence catalog/acquisition/sevenzip-real-evidence.json
 ```
 

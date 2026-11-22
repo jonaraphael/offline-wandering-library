@@ -6,7 +6,7 @@ The active `Finish OWL 1 TB trial` thread timer checks every 30 minutes. Each
 follow-up begins with one local command:
 
 ```sh
-.venv/bin/python scripts/check_acquisition_progress.py
+.venv/bin/python scripts/acquisition/check_acquisition_progress.py
 ```
 
 It discovers the bounded set of supervisor controls, saves details in

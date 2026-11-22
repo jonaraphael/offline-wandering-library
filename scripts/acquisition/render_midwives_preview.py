@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'src'))
 from assess_midwives_render import load_raw
 from owl.acquisition.midwives_wikitext import Expander, RenderError
 from owl.acquisition.midwives_html import OrdinaryHTML, CSS, normal_title
@@ -52,8 +52,8 @@ def render(capture, inventory_path, literal_path, comparison_path, report_path, 
             if target is None or link['fragment'] and link['fragment'] not in target['ids']:
                 missing_links.append({'source': page['title'], **link, 'reason': 'page_not_rendered' if target is None else 'missing_anchor'})
     code = [Path(__file__), Path(__file__).parent / 'assess_midwives_render.py',
-            Path(__file__).resolve().parents[1] / 'src/owl/acquisition/midwives_wikitext.py',
-            Path(__file__).resolve().parents[1] / 'src/owl/acquisition/midwives_html.py']
+            Path(__file__).resolve().parents[2] / 'src/owl/acquisition/midwives_wikitext.py',
+            Path(__file__).resolve().parents[2] / 'src/owl/acquisition/midwives_html.py']
     controls = {str(p): sha256_file(p) for p in [inventory_path, literal_path, comparison_path, *code]}
     result = {'schema_version': 1, 'status': 'awaiting_review', 'content_ready': False, 'preview_written': False,
               'source_manifest_sha256': sha256_file(capture / 'manifest.json'), 'controls': controls,

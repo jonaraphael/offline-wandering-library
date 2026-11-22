@@ -136,7 +136,7 @@ Notes on states:
   "Sync joins the files kept in parts." If reader or search files are
   missing, the status also says "Some reader or search files are missing."
   If the phone PDFs are missing, it says "Some WikiMed phone files are missing."
-- If essential files in the plan have no browser download, the stage before
+- If selected essential files have no browser download, the stage before
   Sync and the completion summary say "This browser can’t download *N*
   essential files. Use the Python builder to get them." An existing copy
   on the drive can still be kept.
@@ -255,7 +255,10 @@ screen.
   collection with several editions shows them as a choice beneath the title
   with the recommended one marked. "Choose files" opens the per-file list.
   The planner's must-have items carry an "Essential" label and can still be
-  switched off.
+  switched off. If selected essential files have no browser download,
+  Manage shows the same download warning as the stage. Removing essential
+  files shows one note in Manage, "You removed *N* essential files."
+  The Sync result counts only files still selected.
 - **Over capacity:** the bar's overflow turns red and the summary reads
   "*3.1 GB* over." with a "Make it fit" button that removes the least
   essential items until the library fits. The back link stays enabled; an

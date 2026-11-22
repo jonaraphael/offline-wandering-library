@@ -109,7 +109,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     for flag in ("manifest", "report", "root", "output"):
         parser.add_argument("--" + flag, type=Path, required=True)
-    parser.add_argument("--runner", type=Path, default=Path("scripts/check_phet_screens.cjs"))
+    parser.add_argument("--runner", type=Path, default=Path(__file__).resolve().with_name("check_phet_screens.cjs"))
     args = parser.parse_args()
     result = summarize(args.manifest, args.report, args.root, args.runner)
     args.output.parent.mkdir(parents=True, exist_ok=True)
