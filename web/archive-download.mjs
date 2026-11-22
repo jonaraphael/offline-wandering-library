@@ -176,10 +176,14 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
         // the default mirror is preferred, so a relay outage at the start of an
         // archive does not pin the whole archive to 0.46 MB/s.
         const resample = sampled && !relayURLs.has(preferred) && ++windowsSinceSample >= 8;
-        if (relay.length && (!sampled || resample) && lengthOf(start) === pin.size) {
+        let needSample = relay.length > 0 && (!sampled || resample), sampling = null;
+        if (needSample && lengthOf(start) === pin.size) {
           const saved = await restore(start, lengthOf(start));
           if (saved) await write(start, saved, false);
-          else await select(start, lengthOf(start), requestSignal, (index, bytes) => write(index, bytes, true));
+          else {
+            await select(start, lengthOf(start), requestSignal, (index, bytes) => write(index, bytes, true));
+            needSample = false;
+          }
         }
         let remaining = Array.from({length: end - committed}, (_, i) => committed + i);
         let attempt = 0;
@@ -195,6 +199,17 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
               if (saved) {
                 await write(index, saved, false);
                 continue;
+              }
+              // On Resume the window's first piece is usually already on the
+              // drive, so the route was never sampled and a real build stayed on
+              // the 0.36 MB/s default mirror. Sample on the first piece that needs
+              // downloading; other lanes wait for the choice.
+              if (needSample && length === pin.size) {
+                sampling ??= select(index, length, requestSignal, (i, bytes) => write(i, bytes, true)).then(() => index);
+                if (await sampling === index) {
+                  transferred += length;
+                  continue;
+                }
               }
               let failure, bytes;
               for (const url of routes()) {
