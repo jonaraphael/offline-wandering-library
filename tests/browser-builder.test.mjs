@@ -648,6 +648,50 @@ test("a throttled relay stays preferred for later pieces", async () => {
   assert.ok(later.every(([url]) => url === peer), "later pieces left the relay: " + JSON.stringify(later));
 });
 
+test("a relay route with bad data is dropped and the next relay route carries the archive", async () => {
+  const {item, published, indexOf, response} = rangedFixture(40);
+  const direct = "https://example.test/archive.zim";
+  const peerA = "https://relay.example.test/a", peerB = "https://relay.example.test/b";
+  const seen = [];
+  const result = await buildLibrary(new Directory(), {assets: [item],
+    published: {...published, archiveRelay: {[item.id]: [peerA, peerB]}}, routes: {[item.id]: [direct]},
+    async fetchFile(url, options) {
+      const index = indexOf(options);
+      seen.push([url, index]);
+      if (url === direct) await new Promise(resolve => setTimeout(resolve, 150));
+      // Route A samples fastest, so it is preferred until it returns bad data.
+      if (url === peerB) await new Promise(resolve => setTimeout(resolve, 40));
+      if (url === peerA && index === 1) return new Response("mismatch", {status: 502});
+      return response(index);
+    }});
+  assert.equal(result.state.finished, true);
+  const later = seen.filter(([, index]) => index >= 20);
+  assert.ok(later.every(([url]) => url === peerB), "later pieces: " + JSON.stringify(later.slice(0, 6)));
+});
+
+test("a busy relay route rotates to another relay route instead of the slow mirror", async () => {
+  const {item, published, indexOf, response} = rangedFixture(40);
+  const direct = "https://example.test/archive.zim";
+  const peerA = "https://relay.example.test/a", peerB = "https://relay.example.test/b";
+  const seen = [];
+  let busy = 0;
+  const result = await buildLibrary(new Directory(), {assets: [item],
+    published: {...published, archiveRelay: {[item.id]: [peerA, peerB]}}, routes: {[item.id]: [direct]},
+    async fetchFile(url, options) {
+      const index = indexOf(options);
+      seen.push([url, index]);
+      if (url === direct) await new Promise(resolve => setTimeout(resolve, 150));
+      if (url === peerB) await new Promise(resolve => setTimeout(resolve, 40));
+      if (url === peerA && index >= 1 && busy++ < 3) return new Response("busy", {status: 429});
+      return response(index);
+    }});
+  assert.equal(result.state.finished, true);
+  assert.ok(seen.some(([url, index]) => url === peerA && index >= 1), "route A was never preferred");
+  // After sampling piece 0, no piece should touch the slow mirror: busy pieces
+  // retry on route B.
+  assert.deepEqual(seen.filter(([url, index]) => url === direct && index >= 1), []);
+});
+
 test("a staged archive with insufficient join space stays readable and Resume joins it without HTTP", async () => {
   const {item, published, indexOf, response} = rangedFixture(3);
   let allowJoin = false;

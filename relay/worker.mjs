@@ -52,7 +52,15 @@ export function relay(allowed, fetchUpstream = fetch) {
       upstream = await fetchUpstream(upstreamUrl, {method: request.method, headers: upstreamHeaders,
         redirect: "manual", cache: "no-store", signal: request.signal});
     } catch {
-      return reply(502, "Publisher unavailable");
+      // A connection failure is transient; 503 tells the builder to retry or
+      // rotate to another route instead of treating the route as wrong.
+      return reply(503, "Publisher unavailable");
+    }
+    if (upstream.status === 429 || upstream.status === 503) {
+      await upstream.body?.cancel();
+      const retry = upstream.headers.get("Retry-After");
+      if (retry && /^\d{1,4}$/.test(retry)) headers.set("Retry-After", retry);
+      return reply(upstream.status, "Publisher is busy");
     }
     const length = upstream.headers.get("Content-Length");
     const encoding = upstream.headers.get("Content-Encoding");

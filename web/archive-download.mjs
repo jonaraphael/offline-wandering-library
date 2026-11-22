@@ -53,6 +53,20 @@ export function checkAlignment(pin, asset, part) {
 export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signal, network}) {
   let lanes = 6, previousRate = 0, growth = true, sampled = false, preferred = direct[0];
   const relayURLs = new Set(relay);
+  // Relay routes ordered by sampled speed. A route that returns wrong or
+  // unusable data is dropped; a throttled or dropped request moves the next
+  // pieces to another relay route. The slow default mirror is the last resort
+  // for a piece, so one relay hiccup no longer costs a 4 MiB piece at 0.46 MB/s.
+  let ranked = [...relay];
+  const dropped = new Set();
+  const liveRelays = () => ranked.filter(url => !dropped.has(url));
+  const routes = () => [...new Set([...(dropped.has(preferred) ? [] : [preferred]), ...liveRelays(), ...direct])];
+  function rotate(url) {
+    const relays = liveRelays();
+    if (!relays.length) return direct[0];
+    const next = relays[(relays.indexOf(url) + 1) % relays.length];
+    return next === undefined ? relays[0] : next;
+  }
 
   async function read(url, index, length, requestSignal) {
     const start = index * pin.size;
@@ -84,7 +98,9 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
       }
     };
     const [baseline, ...peers] = await Promise.all([preferred, ...relay].map(measure));
-    const fastest = peers.filter(Boolean).sort((a, b) => a.elapsed - b.elapsed)[0];
+    const answered = peers.filter(Boolean).sort((a, b) => a.elapsed - b.elapsed);
+    ranked = [...answered.map(peer => peer.url), ...relay.filter(url => !answered.some(peer => peer.url === url))];
+    const fastest = answered[0];
     if (fastest && (!baseline || fastest.elapsed * 1.25 < baseline.elapsed)) preferred = fastest.url;
     const sample = baseline || fastest;
     if (sample) await accept(index, sample.bytes);
@@ -139,7 +155,7 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
                 continue;
               }
               let failure, bytes;
-              for (const url of new Set([preferred, ...direct])) {
+              for (const url of routes()) {
                 try {
                   bytes = await read(url, index, length, requestSignal);
                   break;
@@ -148,12 +164,13 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
                   if (!(error instanceof SourceError)) throw error;
                   failure = error;
                   backoff = true;
-                  // A throttled (429/503) or dropped relay request is retried on
-                  // the relay after back-off; only a wrong or unusable response
-                  // demotes it. Demoting on 429 sent a real build back to the
-                  // 0.46 MB/s mirror after the relay's per-minute limit tripped.
-                  if (relayURLs.has(url) && !(error.status === 429 || error.status === 503 || error.connection)) {
-                    preferred = direct[0];
+                  // Throttled (429/503) or dropped relay requests rotate to the
+                  // next relay route; only a wrong or unusable response drops a
+                  // route. Falling back to the 0.46 MB/s mirror on the first relay
+                  // error made a real build crawl seconds after starting.
+                  if (relayURLs.has(url)) {
+                    if (!(error.status === 429 || error.status === 503 || error.connection)) dropped.add(url);
+                    if (preferred === url) preferred = rotate(url);
                   }
                 }
               }

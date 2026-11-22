@@ -54,3 +54,14 @@ test("the Worker enforces 64 MiB even with an older allowlist and rejects open o
     assert.equal((await worker.fetch(request("/assets/archive", {Range}), env)).status, 416);
   }
 });
+
+test("a busy or unreachable publisher is reported as retryable, not as a catalog mismatch", async () => {
+  const busy = relay(allowed, async () => new Response("slow down", {status:429, headers:{"Retry-After":"5"}}));
+  const answer = await busy.fetch(request("/assets/reference", {Range:"bytes=2-4"}), env);
+  assert.equal(answer.status, 429);
+  assert.equal(answer.headers.get("Retry-After"), "5");
+  assert.equal((await relay(allowed, async () => new Response("", {status:503})).fetch(
+    request("/assets/reference", {Range:"bytes=2-4"}), env)).status, 503);
+  assert.equal((await relay(allowed, async () => { throw new TypeError("network"); }).fetch(
+    request("/assets/reference", {Range:"bytes=2-4"}), env)).status, 503);
+});
