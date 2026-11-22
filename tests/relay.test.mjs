@@ -44,3 +44,13 @@ test("optional archive peers only accept bounded ranged requests", async () => {
   assert.equal((await worker.fetch(request("/assets/archive", {Range:"bytes=2-5"}), env)).status, 416);
   assert.equal((await worker.fetch(request("/assets/archive", {Range:"bytes=2-4"}), env)).status, 206);
 });
+
+test("the Worker enforces 64 MiB even with an older allowlist and rejects open or out-of-bounds archive ranges", async () => {
+  const limit = 64 * 2 ** 20;
+  const size = 2 ** 30;
+  const worker = relay({archive:{url:publisher, bytes:size, max_range_bytes:size}},
+    () => assert.fail("No upstream request for an invalid range"));
+  for (const Range of ["bytes=0-" + limit, "bytes=0-", "bytes=1-" + size, "bytes=0-9999999999999999999999"]) {
+    assert.equal((await worker.fetch(request("/assets/archive", {Range}), env)).status, 416);
+  }
+});

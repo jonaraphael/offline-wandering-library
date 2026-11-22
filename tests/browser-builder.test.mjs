@@ -510,3 +510,141 @@ test("emergency archive tasks link to named offline articles and their printed p
   assert.match(entry, /id="emergency-6"/);
   assert.match(entry, /<code>Childbirth<\/code>/);
 });
+
+const PIECE_BYTES = 4 * MiB;
+function rangedFixture(count, tail = 7) {
+  const body = Buffer.concat([...Array.from({length: count}, (_, i) => Buffer.alloc(PIECE_BYTES, i)), Buffer.alloc(tail, count)]);
+  const item = asset("parallel", body, {format: "zim", destination: "ZIM/parallel.zim"});
+  const pins = [];
+  for (let start = 0; start < body.length; start += PIECE_BYTES) {
+    pins.push(createHash("sha1").update(body.subarray(start, start + PIECE_BYTES)).digest());
+  }
+  const published = {publisherPieces: {piece_bytes: PIECE_BYTES, archives: {
+    [item.id]: {sha256: item.sha256, sha1: Buffer.concat(pins).toString("base64")}
+  }}};
+  const indexOf = options => Number(/^bytes=(\d+)-/.exec(options.headers.Range)[1]) / PIECE_BYTES;
+  function response(index) {
+    const start = index * PIECE_BYTES;
+    const end = Math.min(start + PIECE_BYTES, body.length);
+    return new Response(body.subarray(start, end), {status: 206,
+      headers: {"Content-Range": "bytes " + start + "-" + (end - 1) + "/" + body.length}});
+  }
+  return {item, published, indexOf, response};
+}
+
+test("out-of-order pieces survive pause and resume in single-file mode", async () => {
+  const {item, published, indexOf, response} = rangedFixture(6);
+  const drive = new Directory();
+  const controller = new AbortController();
+  const received = [];
+  let active = 0, maxActive = 0;
+  const direct = "https://example.test/archive.zim";
+  const options = {assets: [item], routes: {[item.id]: [direct]}, published,
+    singleArchives: true, partBytes: 4 * PIECE_BYTES, archiveSpace: item.size_bytes * 3,
+    async fetchFile(url, fetchOptions) {
+      active++;
+      maxActive = Math.max(active, maxActive);
+      const index = indexOf(fetchOptions);
+      received.push(index);
+      try {
+        if (index === 0 && !controller.signal.aborted) {
+          await new Promise((resolve, reject) => {
+            fetchOptions.signal.addEventListener("abort", () => reject(fetchOptions.signal.reason), {once: true});
+          });
+        }
+        await new Promise(resolve => setTimeout(resolve, 10));
+        return response(index);
+      } finally { active--; }
+    }};
+  await assert.rejects(buildLibrary(drive, {...options, signal: controller.signal, onProgress(event) {
+    if (event.received === 2 * PIECE_BYTES) controller.abort();
+  }}), {name: "AbortError"});
+  assert.equal(maxActive, 4);
+  const root = "LIBRARY/.owl/download-pieces/" + item.id + "/0/";
+  const saved = [];
+  for (const index of [1, 2, 3]) {
+    try {
+      const piece = await (await drive.file(root + index)).getFile();
+      if (piece.size === PIECE_BYTES) saved.push(index);
+    } catch (error) { assert.equal(error.name, "NotFoundError"); }
+  }
+  assert.equal(saved.length >= 2, true);
+  // Corruption invalidates only this independently pinned piece.
+  const corrupt = await (await drive.file(root + saved[0])).createWritable();
+  await corrupt.write(Buffer.alloc(PIECE_BYTES, 255));
+  await corrupt.close();
+  received.length = 0;
+  const result = await buildLibrary(drive, {...options, resume: true});
+  assert.equal(result.state.joined[item.id], true);
+  assert.equal(result.state.finished, true);
+  const expected = [0, 1, 2, 3, 4, 5, 6].filter(index => !saved.slice(1).includes(index));
+  assert.deepEqual(received.sort((a, b) => a - b), expected);
+  const joined = await (await drive.file("LIBRARY/" + item.destination)).getFile();
+  assert.equal(hash(Buffer.from(await joined.arrayBuffer())), item.sha256);
+  await assert.rejects(drive.file(root + saved[0]), {name: "NotFoundError"});
+});
+
+test("a throttled range retries on fewer workers and successful pieces are not fetched again", async () => {
+  const {item, published, indexOf, response} = rangedFixture(8);
+  const seen = new Map();
+  const delays = [];
+  let active = 0, retryPeak = 0;
+  const result = await buildLibrary(new Directory(), {assets: [item], published,
+    routes: {[item.id]: ["https://example.test/archive.zim"]},
+    network: {offline: () => false, delay: async delay => { delays.push(delay); }},
+    async fetchFile(_url, options) {
+      const index = indexOf(options);
+      seen.set(index, (seen.get(index) || 0) + 1);
+      if (index === 0 && seen.get(index) === 1) return new Response(null, {status: 429});
+      active++;
+      if (delays.length) retryPeak = Math.max(retryPeak, active);
+      await new Promise(resolve => setTimeout(resolve, 10));
+      active--;
+      return response(index);
+    }});
+  assert.equal(result.state.finished, true);
+  assert.deepEqual(delays, [2000]);
+  assert.equal(seen.get(0), 2);
+  assert.equal([...seen].slice(1).every(([, attempts]) => attempts === 1), true);
+  assert.equal(retryPeak <= 3, true);
+});
+
+test("a faster verified archive relay is tried and a limited peer falls back to direct", async () => {
+  const {item, published, indexOf, response} = rangedFixture(5);
+  const direct = "https://example.test/archive.zim", peer = "https://relay.example.test/peer";
+  const seen = [];
+  const result = await buildLibrary(new Directory(), {assets: [item],
+    published: {...published, archiveRelay: {[item.id]: [peer]}}, routes: {[item.id]: [direct]},
+    async fetchFile(url, options) {
+      const index = indexOf(options);
+      seen.push([url, index]);
+      if (index === 0 && url === direct) await new Promise(resolve => setTimeout(resolve, 150));
+      if (index === 1 && url === peer) return new Response("Limited", {status: 503});
+      return response(index);
+    }});
+  assert.equal(result.state.finished, true);
+  assert.equal(seen.some(([url, index]) => url === peer && index === 1), true);
+  assert.equal(seen.some(([url, index]) => url === direct && index === 1), true);
+});
+
+test("a staged archive with insufficient join space stays readable and Resume joins it without HTTP", async () => {
+  const {item, published, indexOf, response} = rangedFixture(3);
+  let allowJoin = false;
+  const drive = new Directory("drive", {beforeWrite(name) {
+    if (name === "parallel.zim" && !allowJoin) throw new DOMException("Disk full during join", "QuotaExceededError");
+  }});
+  const options = {assets: [item], routes: {[item.id]: ["https://example.test/archive.zim"]}, published,
+    singleArchives: true, partBytes: 2 * PIECE_BYTES, archiveSpace: item.size_bytes * 3};
+  const partial = await buildLibrary(drive, {...options, fetchFile: async (_url, opts) => response(indexOf(opts))});
+  assert.equal(partial.state.finished, false);
+  assert.equal(partial.state.verified[item.id], true);
+  assert.equal(partial.state.stagedArchives[item.id], true);
+  assert.equal((await (await drive.file("LIBRARY/" + item.destination + "aa")).getFile()).size, 2 * PIECE_BYTES);
+  allowJoin = true;
+  const done = await buildLibrary(drive, {...options, resume: true,
+    fetchFile: () => assert.fail("The verified parts must be reused")});
+  assert.equal(done.state.finished, true);
+  assert.equal(done.state.joined[item.id], true);
+  assert.equal(Object.hasOwn(done.state.stagedArchives, item.id), false);
+  await assert.rejects(drive.file("LIBRARY/" + item.destination + "aa"), {name: "NotFoundError"});
+});

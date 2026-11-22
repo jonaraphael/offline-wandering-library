@@ -63,29 +63,35 @@ reports a full drive and the drive remains accessible, the builder reclaims
 the current unfinished file and tries later files. Free space and choose
 **Resume** to retry the omitted files.
 
-ZIMs over 1 GiB download in verified 1 GiB ranges. Chromium puts its write swap
-beside the target on the drive. Routine resume checks saved sizes and restores
-the digest state. Choose **Verify and repair files** to re-read and hash the
-installed files. The standalone verifier offers independent read-only verification.
+Kiwix ZIMs over 4 MiB start with six concurrent 4 MiB range requests. The
+builder adds another request when throughput improves, up to eight. It reduces
+concurrency after errors and retries missing ranges. A 16-piece window holds
+up to 64 MiB of archive payload for ordered hashing. Each piece passes the
+publisher’s SHA-1 check before writing. The whole archive must match its
+SHA-256 pin before it appears in the offline library. The two published
+SHA-256 part manifests add a check for the matching editions. Other files
+use their whole-file SHA-256. **Verify and repair files** rehashes installed
+files on the drive. [Transfer evidence](browser-delivery.md)
 
-The publisher’s 4 MiB SHA-1 piece digests cover all 117 cataloged Kiwix ZIMs
-and catch wrong bytes during each transfer. SHA-256 pins protect the entire
-archive. The two locally generated SHA-256 part manifests provide another
-check for their matching editions. Every other asset also has a whole-file
-SHA-256 pin. [Transfer evidence](browser-delivery.md)
+On exFAT or NTFS, leave **Save each archive as one file** selected. When
+the drive has room for two copies of the current archive, OWL saves verified
+pieces on the drive, commits them into 1 GiB parts, then joins those parts.
+A paused or closed tab can reuse every saved, intact piece. At most 64 MiB
+of the current transfer window can be in flight or awaiting a commit. If the
+drive fills while joining, the verified parts remain readable. Resume can
+try the join again after space is freed.
 
-On exFAT or NTFS, leave **Save each archive as one file** selected. OWL writes
-a single destination with durable prefix checkpoints where the file budget
-can accommodate them. Chromium copies the saved prefix into a new swap when
-resuming. OWL limits this prefix to available space and at most half the
-archive. An internet interruption retries the current range in the open
-writer. Closing the tab or stopping the writer can lose bytes after the
-latest committed prefix. The last checkpoint can be well before the end of
-a large archive. With too little room for a prefix, reopening that archive
-starts it again. Existing browser builds retain their previous layout.
+With less working space, OWL still downloads ranges in parallel. The
+single-file writer uses the last committed prefix it can fit beside the
+on-drive swap. Closing the tab can lose everything after that prefix,
+or the entire unfinished archive if no prefix fits. For split mode,
+piece-by-piece checkpoints need space for one additional part. With less
+space, committed 1 GiB parts are the resume points. Existing browser-build
+records keep their selection and layout. A saved single-file prefix can
+be reused directly or imported to verified parts when space allows.
 
 Turn off the single-file option for FAT32. Split builds can resume after each
-committed range. The first part is `.zimaa`. Desktop Kiwix supports split
+committed part. The first part is `.zimaa`. Desktop Kiwix supports split
 archives. A single archive avoids split-reader requirements on Android and
 iPhone. Opening external archives in place on phones remains unverified.
 [Reader and filesystem tests](device-matrix.md) ·
@@ -102,7 +108,9 @@ The separate Pages build job generates `index.html`, `catalog.json`,
 for the deploy job. [GitHub Pages workflow documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
 
 Sources with recorded browser access go direct, including the Kiwix CORS mirror.
-Recorded byte-identical CORS alternates follow the direct route. The site can
+Recorded byte-identical CORS alternates follow the direct route. A publisher
+relay can serve configured non-archive files. Archive relay sampling is
+separately opt-in. [Relay guide](../relay/README.md) The site can
 serve eligible redistributable files whose primary sources lack CORS. The build
 verifies their size and whole-file SHA-256 before publishing them and preserves
 source credits. For selected ZIP members it verifies the ZIP source and each

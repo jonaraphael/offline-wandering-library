@@ -441,8 +441,10 @@ export function mount({catalog, recommend}) {
       meter.value = 1;
       textList(errors, [...result.missing.map(row => row.title + " — " + row.reason), ...result.searchWarnings]);
       const ranOutOfSpace = Object.keys(saved.dropped).length > 0;
+      const pendingJoin = Object.keys(saved.stagedArchives || {}).some(id => saved.verified[id]);
       feedback.textContent = ranOutOfSpace ?
-        result.completed.length + " files verified. Free space on the drive and choose Resume to retry omitted files." : !saved.finished ?
+        result.completed.length + " files verified. Free space on the drive and choose Resume to retry omitted files." : pendingJoin ?
+        result.completed.length + " files verified. Free space and choose Resume to join the saved archive parts." : !saved.finished ?
         result.completed.length + " files verified. Open START_HERE.html on the drive. Choose Resume to retry failed downloads, or use the desktop tool." :
         result.completed.length + " files verified" + (result.missing.length ? ", " + result.missing.length + " omitted" : "") +
         ". Open START_HERE.html on the drive.";

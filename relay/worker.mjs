@@ -1,11 +1,15 @@
 import allowlist from "./allowlist.json" with {type: "json"};
 
-function requestedRange(header, size) {
-  if (!header) return {size};
+const MAX_ARCHIVE_RANGE = 64 * 2 ** 20;
+
+function requestedRange(header, size, bounded) {
+  if (!header) return bounded ? null : {size};
   const match = /^bytes=(\d+)-(\d*)$/.exec(header);
   if (!match) return null;
   const start = Number(match[1]);
-  const end = match[2] ? Math.min(Number(match[2]), size - 1) : size - 1;
+  const requestedEnd = match[2] ? Number(match[2]) : size - 1;
+  if (!Number.isSafeInteger(requestedEnd) || (bounded && (!match[2] || requestedEnd >= size))) return null;
+  const end = Math.min(requestedEnd, size - 1);
   if (!Number.isSafeInteger(start) || start > end) return null;
   return {size: end - start + 1, expected: "bytes " + start + "-" + end + "/" + size};
 }
@@ -36,8 +40,8 @@ export function relay(allowed, fetchUpstream = fetch) {
     }
     const {url: upstreamUrl, bytes, max_range_bytes: maxRange} = allowed[id];
     const range = request.headers.get("Range");
-    const span = requestedRange(range, bytes);
-    if (!span || (maxRange && (!range || span.size > maxRange))) {
+    const span = requestedRange(range, bytes, Boolean(maxRange));
+    if (!span || (maxRange && span.size > Math.min(maxRange, MAX_ARCHIVE_RANGE))) {
       headers.set("Content-Range", "bytes */" + bytes);
       return reply(416, "Range unavailable");
     }

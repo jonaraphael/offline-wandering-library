@@ -2,10 +2,11 @@ const NETWORK_IDLE_MS = 60_000;
 const PROBE_TIMEOUT_MS = 5_000;
 
 export class SourceError extends Error {
-  constructor(message, {whole = false, connection = false} = {}) {
+  constructor(message, {whole = false, connection = false, status} = {}) {
     super(message);
     this.whole = whole;
     this.connection = connection;
+    this.status = status;
   }
 }
 
@@ -67,7 +68,7 @@ export function createNetwork({fetchFile = globalThis.fetch, signal, probeURL, o
     }
   }
 
-  return {waitForConnection, retry, delay: () => delay(retryMs), offline: () => !online()};
+  return {waitForConnection, retry, delay: (ms = retryMs) => delay(ms), offline: () => !online()};
 }
 
 export async function receiveFile(url, {fetchFile, signal, headers = {}, check, onChunk}) {
@@ -85,7 +86,7 @@ export async function receiveFile(url, {fetchFile, signal, headers = {}, check, 
   const response = await receive(() => fetchFile(url, {
     headers, signal: requestSignal, cache: "no-store", credentials: "omit", referrerPolicy: "no-referrer"
   }));
-  if (!response.body) throw new SourceError("Source returned no data (HTTP " + response.status + ")");
+  if (!response.body) throw new SourceError("Source returned no data (HTTP " + response.status + ")", {status: response.status});
   const reader = response.body.getReader();
   try {
     check(response);

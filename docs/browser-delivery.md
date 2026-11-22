@@ -9,10 +9,13 @@ python scripts/build_kiwix_pins.py /tmp/kiwix-pieces.json --mirrors /tmp/kiwix-m
 cmp /tmp/kiwix-pieces.json web/kiwix-pieces.json
 ```
 
-The builder checks these pieces as bytes arrive. Whole-file SHA-256 remains
-the acceptance check. The drive journal saves hash state for committed split
-parts and single-file prefixes. Routine resume checks sizes before using that
-state. Full verification reads the installed bytes again.
+The builder checks 4 MiB pieces before writing them at their archive offsets.
+An ordered SHA-256 pass accepts the whole archive. With working space for
+piece checkpoints, the journal records each piece as a separate committed file
+on the selected drive. Resume checks that piece against the publisher's digest
+before reusing it. The build record retains hash state for committed split
+parts and single-file prefixes. Routine resume checks their sizes. Full
+verification reads the installed bytes again.
 
 On 2026-11-21 a single-byte ranged GET with the Pages Origin confirmed the
 pinned total and exposed Content-Range on 6/6 Kiwix project mirror responses for
@@ -20,9 +23,12 @@ the largest six ZIMs. The same check found 31/49 alternate URLs accepted a
 range. Zero of those 49 satisfied the full browser test. The candidates
 included publisher-listed US and European peers, the Wikimedia host and
 the Kiwix archive service. The project mirror remains the default browser
-route. Six exact editions also have a publisher-listed NLUUG route under
-the optional relay configuration. The relay serves bounded byte ranges when
-configured and authorized. The browser tries the direct route first. [Kiwix download infrastructure](https://github.com/kiwix/operations/wiki/Downloads)
+route. Six exact editions also have a publisher-listed NLUUG route. FAU and
+Dotsrc returned the pinned byte count on a one-byte ranged GET for both English
+Wikipedia and the Survivor Library. The optional relay serves those configured
+URLs with a 64 MiB request limit. With archive relay sampling enabled, the
+browser compares each peer against a direct sample before selecting a route.
+[Relay guide](../relay/README.md) · [Kiwix download infrastructure](https://github.com/kiwix/operations/wiki/Downloads)
 
 During an active build, transfer transport failures try alternate sources,
 check the Pages connection and wait with exponential backoff during an

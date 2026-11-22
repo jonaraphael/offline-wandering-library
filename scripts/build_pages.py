@@ -32,6 +32,7 @@ SITE_LIMIT = 950_000_000
 FILE_LIMIT = 100_000_000
 PUBLISH_PART = 80_000_000
 ZIM_PART = 2**30
+RELAY_RANGE = 64 * 2**20
 BLOCK = 1024 * 1024
 KIWIX = "mirror.download.kiwix.org"
 KIWIX_REDIRECTORS = {"download.kiwix.org", "lb.download.kiwix.org", KIWIX}
@@ -77,7 +78,15 @@ def relay_allowlist(assets):
         if (asset["format"] != "zim" or asset["sha256"] != pin["sha256"]
                 or asset["size_bytes"] != pin["bytes"] or urlsplit(pin["url"]).scheme != "https"):
             raise ValueError(f"Relay archive route is stale: {asset['id']}")
-        allowed[asset["id"]] = {"url": pin["url"], "bytes": pin["bytes"], "max_range_bytes": ZIM_PART}
+        for name, url in {"nluug": pin["url"], **pin.get("peers", {})}.items():
+            peer = urlsplit(url)
+            source = urlsplit(asset["source_url"])
+            if (peer.scheme != "https" or not peer.hostname or peer.username or peer.password or
+                    peer.query or peer.fragment or not peer.path.endswith(source.path)):
+                raise ValueError(f"Invalid archive peer URL: {asset['id']}/{name}")
+            key = asset["id"] if name == "nluug" else asset["id"] + "--" + name
+            allowed[key] = {"url": url, "bytes": pin["bytes"], "max_range_bytes": RELAY_RANGE,
+                            "archive": asset["id"]}
     return allowed
 
 
@@ -211,7 +220,7 @@ def generate_archive_pins(asset: dict, path: Path) -> dict:
     return {"sha256": asset["sha256"], "part_bytes": ZIM_PART, "hashes": hashes}
 
 
-def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=None, relay_base=None) -> dict:
+def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=None, relay_base=None, archive_relay=False) -> dict:
     if site.exists() and any(site.iterdir()):
         raise ValueError("Choose an empty output directory")
     site.mkdir(parents=True, exist_ok=True)
@@ -219,13 +228,20 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
     assets = load_catalog(CATALOG, load_profiles(PROFILES))
     by_id = {asset["id"]: asset for asset in assets}
     routes = {asset["id"]: browser_routes(asset) for asset in assets}
+    archive_routes = {}
+    if archive_relay and not relay_base:
+        raise ValueError("Archive relay requires a relay origin")
     if relay_base:
         relay = urlsplit(relay_base)
         if (relay.scheme != "https" or not relay.hostname or relay.username or relay.password or
                 relay.query or relay.fragment or relay.path not in {"", "/"}):
             raise ValueError("Relay base must be an HTTPS origin")
-        for aid in relay_allowlist(assets):
-            routes[aid].append(relay_base.rstrip("/") + "/assets/" + aid)
+        for aid, entry in relay_allowlist(assets).items():
+            url = relay_base.rstrip("/") + "/assets/" + aid
+            if "archive" not in entry:
+                routes[aid].append(url)
+            elif archive_relay:
+                archive_routes.setdefault(entry["archive"], []).append(url)
     navigation = load_navigation(ROOT / "catalog/navigation", assets)
     records, _ = compile_records(assets, navigation)
     search_index = load_manifest()
@@ -287,6 +303,8 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
 
     candidates = mirror_candidates(assets, routes)
     manifest = {"files": {}, "chunks": json.loads((SOURCE / "archive-pins.json").read_text(encoding="utf-8"))}
+    if archive_routes:
+        manifest["archiveRelay"] = archive_routes
     for asset_id, entry in manifest["chunks"].items():
         asset = by_id[asset_id]
         expected_parts = (asset["size_bytes"] + ZIM_PART - 1) // ZIM_PART
@@ -317,6 +335,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path, nargs="?", help="fresh Pages output directory")
     parser.add_argument("--relay-base", help="enable approved relay routes at this HTTPS origin")
+    parser.add_argument("--archive-relay", action="store_true", help="sample approved archive peers through the relay")
     parser.add_argument("--relay-allowlist", type=Path, help="generate the relay's exact publisher URL mapping")
     parser.add_argument("--fetch-mirrors", action="store_true", help="include verified, redistributable source files")
     parser.add_argument("--cache", type=Path, help="external cache for verified mirror downloads")
@@ -336,7 +355,8 @@ def main() -> int:
         parser.error("supply an output directory or --archive-pins")
     with tempfile.TemporaryDirectory(prefix="owl-pages-") as scratch:
         result = build_site(args.output, fetch_mirrors=args.fetch_mirrors, cache=args.cache or Path(scratch),
-                            search_commit=args.search_commit, relay_base=args.relay_base)
+                            search_commit=args.search_commit, relay_base=args.relay_base,
+                            archive_relay=args.archive_relay)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0
 

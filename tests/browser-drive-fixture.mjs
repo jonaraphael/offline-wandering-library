@@ -47,7 +47,8 @@ class FileHandle {
       write: async contents => {
         this.options.beforeWrite?.(this.name, contents);
         const chunk = new Blob([contents]);
-        swap = new Blob([swap.slice(0, offset), chunk, swap.slice(offset + chunk.size)]);
+        const gap = offset > swap.size ? new Uint8Array(offset - swap.size) : new Uint8Array();
+        swap = new Blob([swap.slice(0, offset), gap, chunk, swap.slice(offset + chunk.size)]);
         offset += chunk.size;
       },
       seek: async bytes => { offset = bytes; },

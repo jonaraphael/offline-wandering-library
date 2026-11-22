@@ -13,8 +13,10 @@ in desktop Chrome or Edge. Connect an exFAT drive and choose its folder. Confirm
 the size if free space cannot be estimated. Edit the recommendation and choose
 **Build library**. Keep the tab open and the drive attached. Downloads continue
 automatically when an interrupted connection returns. Use **Resume** when
-reopening a saved build. **Verify and repair files** reads the whole drive
-selection again. Use **Show files** to edit individual files. Collections
+reopening a saved build. Kiwix archives download in parallel, with up to eight
+verified ranges in flight. With enough free space for temporary files, Resume
+reuses each verified piece saved to the drive. **Verify and repair files** reads
+the whole drive selection again. Use **Show files** to edit individual files. Collections
 available through the desktop tool are labeled in the editor.
 Set up iPhone Kiwix with the builder’s App Store QR code while online.
 The phone shelf links to the directly readable files included in your build.
