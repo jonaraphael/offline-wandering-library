@@ -1,4 +1,5 @@
 import {receiveFile, SourceError} from "./network.mjs";
+import {diag, routeLabel} from "./diagnostics.mjs";
 
 const MiB = 2 ** 20;
 const WINDOW_PIECES = 16;
@@ -67,17 +68,30 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
     const next = relays[(relays.indexOf(url) + 1) % relays.length];
     return next === undefined ? relays[0] : next;
   }
+  diag("session", {asset: asset.id, mb: +(asset.size_bytes / 1e6).toFixed(1),
+    direct: direct.map(routeLabel), relay: relay.map(routeLabel)});
 
   async function read(url, index, length, requestSignal) {
     const start = index * pin.size;
     const range = {start, end: start + length - 1, total: asset.size_bytes};
     const bytes = new Uint8Array(length);
     let cursor = 0;
-    await streamRequest(url, range, length, fetchFile, requestSignal, chunk => {
-      bytes.set(chunk, cursor);
-      cursor += chunk.byteLength;
-    });
-    if (!await pin.matches(index, bytes)) throw new SourceError("Publisher piece SHA-1 mismatch");
+    const began = performance.now();
+    try {
+      await streamRequest(url, range, length, fetchFile, requestSignal, chunk => {
+        bytes.set(chunk, cursor);
+        cursor += chunk.byteLength;
+      });
+      if (!await pin.matches(index, bytes)) throw new SourceError("Publisher piece SHA-1 mismatch");
+    } catch (error) {
+      diag("request", {asset: asset.id, piece: index, route: routeLabel(url), ok: false, got: cursor,
+        ms: Math.round(performance.now() - began), status: error.status, connection: Boolean(error.connection),
+        error: error.name === "AbortError" ? "aborted" : error.message});
+      throw error;
+    }
+    const ms = performance.now() - began;
+    diag("request", {asset: asset.id, piece: index, route: routeLabel(url), ok: true, bytes: length,
+      ms: Math.round(ms), mbps: +(length / 1e6 / (ms / 1000)).toFixed(2)});
     return bytes;
   }
 
@@ -101,7 +115,13 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
     const answered = peers.filter(Boolean).sort((a, b) => a.elapsed - b.elapsed);
     ranked = [...answered.map(peer => peer.url), ...relay.filter(url => !answered.some(peer => peer.url === url))];
     const fastest = answered[0];
+    diag("sample", {asset: asset.id, piece: index, baseline: baseline ? Math.round(baseline.elapsed) + "ms" : "failed",
+      relays: Object.fromEntries(relay.map(url => {
+        const peer = peers.find(entry => entry?.url === url);
+        return [routeLabel(url), peer ? Math.round(peer.elapsed) + "ms" : "failed"];
+      }))});
     if (fastest && (!baseline || fastest.elapsed * 1.25 < baseline.elapsed)) preferred = fastest.url;
+    diag("route", {asset: asset.id, preferred: routeLabel(preferred), reason: "sampled"});
     const sample = baseline || fastest;
     if (sample) await accept(index, sample.bytes);
   }
@@ -116,14 +136,18 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
         requestSignal.throwIfAborted();
         const end = Math.min(start + WINDOW_PIECES, limit);
         const window = new Array(end - start);
-        let committed = start, written = Promise.resolve(), transferred = 0, backoff = false;
+        let committed = start, written = Promise.resolve(), transferred = 0, backoff = false, writeMs = 0;
         const began = performance.now();
         const lengthOf = index => Math.min(pin.size, asset.size_bytes - index * pin.size);
         // Serialize positioned writes and advance SHA-256 over the contiguous prefix.
         function write(index, bytes, persist) {
           written = written.then(async () => {
             requestSignal.throwIfAborted();
+            const writeBegan = performance.now();
             await accept(index, bytes, persist);
+            const took = performance.now() - writeBegan;
+            writeMs += took;
+            if (took > 250) diag("slow-write", {asset: asset.id, piece: index, ms: Math.round(took), persist});
             window[index - start] = bytes;
             while (window[committed - start]) {
               ordered(window[committed - start]);
@@ -169,8 +193,15 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
                   // route. Falling back to the 0.46 MB/s mirror on the first relay
                   // error made a real build crawl seconds after starting.
                   if (relayURLs.has(url)) {
-                    if (!(error.status === 429 || error.status === 503 || error.connection)) dropped.add(url);
-                    if (preferred === url) preferred = rotate(url);
+                    const busy = error.status === 429 || error.status === 503 || error.connection;
+                    if (!busy) {
+                      dropped.add(url);
+                      diag("drop", {asset: asset.id, route: routeLabel(url), reason: error.status ? "HTTP " + error.status : error.message});
+                    }
+                    if (preferred === url) {
+                      preferred = rotate(url);
+                      diag("route", {asset: asset.id, preferred: routeLabel(preferred), reason: busy ? "busy" : "dropped"});
+                    }
                   }
                 }
               }
@@ -196,8 +227,10 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
           remaining = [...failed.map(({index}) => index), ...remaining.slice(cursor)];
           lanes = Math.max(MIN_LANES, Math.floor(lanes / 2));
           if ((failed.some(({error}) => error.connection) || network.offline()) &&
-              await network.waitForConnection()) continue;
+              (diag("wait", {asset: asset.id, reason: "offline or connection lost"}), await network.waitForConnection())) continue;
           if (++attempt >= 3) throw failed[0].error;
+          diag("wait", {asset: asset.id, reason: throttled ? "throttled" : "retry", attempt, failed: failed.length,
+            ms: throttled ? 1_000 * 2 ** attempt : "default"});
           await network.delay(throttled ? 1_000 * 2 ** attempt : undefined);
         }
         if (backoff) {
@@ -213,7 +246,14 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
           }
           previousRate = rate;
         }
+        const windowMs = performance.now() - began;
+        diag("window", {asset: asset.id, pieces: start + "-" + (end - 1), mb: +(transferred / 1e6).toFixed(1),
+          ms: Math.round(windowMs), mbps: +(transferred / 1e6 / Math.max(windowMs / 1000, 0.001)).toFixed(2),
+          writeMs: Math.round(writeMs), lanesNext: lanes, backoff, attempts: attempt, preferred: routeLabel(preferred)});
       }
+    } catch (error) {
+      diag("transfer-error", {asset: asset.id, error: error.name === "AbortError" ? "aborted" : error.message});
+      throw error;
     } finally {
       controller.abort();
     }
