@@ -2,6 +2,9 @@ import {receiveFile, SourceError} from "./network.mjs";
 import {diag, routeLabel} from "./diagnostics.mjs";
 
 const MiB = 2 ** 20;
+// 16 pieces (64 MiB) per window. A window's writes drain while the next window
+// downloads (at most two windows in memory), so throughput approaches the
+// slower of network and drive instead of their sum.
 const WINDOW_PIECES = 16;
 const MIN_LANES = 1;
 const MAX_LANES = 8;
@@ -145,12 +148,15 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
     const limit = first + Math.ceil(part.bytes / pin.size);
     const controller = new AbortController();
     const requestSignal = signal ? AbortSignal.any([signal, controller.signal]) : controller.signal;
+    // The previous window's write chain. Each window's writes queue behind it,
+    // which keeps positioned writes and the in-order SHA-256 sequential.
+    let pending = Promise.resolve();
     try {
       for (let start = first; start < limit; start += WINDOW_PIECES) {
         requestSignal.throwIfAborted();
         const end = Math.min(start + WINDOW_PIECES, limit);
         const window = new Array(end - start);
-        let committed = start, written = Promise.resolve(), transferred = 0, backoff = false, writeMs = 0;
+        let committed = start, written = pending, transferred = 0, backoff = false, writeMs = 0;
         const began = performance.now();
         const lengthOf = index => Math.min(pin.size, asset.size_bytes - index * pin.size);
         // Serialize positioned writes and advance SHA-256 over the contiguous prefix.
@@ -169,6 +175,10 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
               committed++;
             }
           });
+          // Queued writes outlive a lane that stops on pause or failure; mark the
+          // chain observed so a late rejection is not unhandled. Draining it with
+          // "await written" still raises the error.
+          written.catch(() => {});
           return written;
         }
 
@@ -240,7 +250,10 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
               }
               if (bytes) {
                 transferred += length;
-                await write(index, bytes, true);
+                // Queue the ordered write and keep downloading; the window drains
+                // the queue before it ends. Awaiting here made a real USB build
+                // alternate between downloading and writing (2.3 of 4.2 s writing).
+                write(index, bytes, true);
               } else {
                 failed.push({index, error: failure});
                 throttled ||= failure.status === 429 || failure.status === 503;
@@ -255,7 +268,10 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
             }
           });
           await Promise.all(jobs);
-          if (fatal) throw fatal;
+          if (fatal) {
+            await written.catch(() => {});
+            throw fatal;
+          }
           if (!failed.length) break;
           remaining = [...failed.map(({index}) => index), ...remaining.slice(cursor)];
           lanes = Math.max(MIN_LANES, Math.floor(lanes / 2));
@@ -279,11 +295,17 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
           }
           previousRate = rate;
         }
+        // Let this window's writes finish while the next window downloads, but
+        // never run more than one window ahead of the drive.
+        await pending;
+        pending = written;
         const windowMs = performance.now() - began;
         diag("window", {asset: asset.id, pieces: start + "-" + (end - 1), mb: +(transferred / 1e6).toFixed(1),
           ms: Math.round(windowMs), mbps: +(transferred / 1e6 / Math.max(windowMs / 1000, 0.001)).toFixed(2),
           writeMs: Math.round(writeMs), lanesNext: lanes, backoff, attempts: attempt, preferred: routeLabel(preferred)});
       }
+      // The caller closes the writable after this returns: drain every write.
+      await pending;
     } catch (error) {
       diag("transfer-error", {asset: asset.id, error: error.name === "AbortError" ? "aborted" : error.message});
       throw error;

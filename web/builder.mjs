@@ -341,7 +341,10 @@ async function buildAsset(drive, state, asset, layout, {routes, published, fetch
     whole = downloaded.next;
     checkpoints.push({sha256: downloaded.digest, bytes: part.bytes, hashState: hashCheckpoint(whole)});
     await save(drive, state);
-    await prunePieceJournal(drive, asset);
+    // Deleting a finished part's 256 piece files took about 20 s on the owner's
+    // USB drive and held up the next part. Run it beside the next part, keeping
+    // that part's own journal; cleanup failures only reach diagnostics.
+    void prunePieceJournal(drive, asset, layout[index + 1]?.start);
   }
 }
 
