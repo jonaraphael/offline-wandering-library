@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 from contextlib import contextmanager
 from contextvars import ContextVar
+import errno
 import os
 from pathlib import Path, PurePosixPath
 import re
@@ -95,13 +96,45 @@ def safe_path(root: Path, relative: str) -> Path:
     return result
 
 
+def make_readable(fd: int) -> None:
+    if os.name == "posix" and stat.S_IMODE(os.fstat(fd).st_mode) != 0o644:
+        try:
+            os.fchmod(fd, 0o644)
+        except OSError as error:
+            # FAT mounts synthesize permissions from the mount options.
+            if error.errno not in {errno.ENOTSUP, errno.EPERM}:
+                raise
+
+
+def mkdir_readable(path: Path) -> None:
+    reject_symlinks(path)
+    if path.is_dir():
+        return
+    mkdir_readable(path.parent)
+    try:
+        path.mkdir(mode=0o755)
+    except FileExistsError:
+        reject_symlinks(path)
+        if not path.is_dir():
+            raise
+    else:
+        if os.name == "posix" and stat.S_IMODE(path.stat().st_mode) != 0o755:
+            reject_symlinks(path)
+            try:
+                path.chmod(0o755)
+            except OSError as error:
+                if error.errno not in {errno.ENOTSUP, errno.EPERM}:
+                    raise
+
+
 def atomic_write(path: Path, data: bytes) -> None:
     reject_symlinks(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
+    mkdir_readable(path.parent)
     fd, name = tempfile.mkstemp(prefix=".owl-write-", dir=path.parent)
     try:
         with os.fdopen(fd, "wb") as handle:
             handle.write(data)
+            make_readable(handle.fileno())
             handle.flush()
             os.fsync(handle.fileno())
         reject_symlinks(path)

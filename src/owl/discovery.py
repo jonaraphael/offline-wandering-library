@@ -17,6 +17,7 @@ from .archive import document_assets
 from .atlas import _locator, _location_key
 from .atlas_model import AtlasError, load_navigation, read_asset_assignments
 from .catalog import learning_shelves, read_yaml
+from .layout import reader_destination
 from .safety import SafetyError, atomic_write, reject_symlinks, validate_relative
 
 DEFAULT_BUDGET = 16 * 1024 * 1024
@@ -65,7 +66,8 @@ def compile_records(assets: list[dict], navigation: dict | None = None) -> tuple
     for asset in assets:
         aid = asset['id']
         validate_relative(asset['destination'])
-        base = {'asset_id': aid, 'source_title': asset['title'], 'destination': asset['destination'],
+        destination = reader_destination(asset)
+        base = {'asset_id': aid, 'source_title': asset['title'], 'destination': destination,
                 'category': asset['category'], 'publisher': asset.get('publisher', ''),
                 'shelves': sorted(learning_shelves(asset)), 'legacy': bool(asset.get('legacy')),
                 'reader_required': bool(asset.get('reader_required')) or asset['format'] in {'zim', 'epub'},
@@ -79,7 +81,7 @@ def compile_records(assets: list[dict], navigation: dict | None = None) -> tuple
                 records[key]['aliases'].append(section['title'])
                 continue
             fragment, location = _locator(section)
-            href = '/'.join(quote(part, safe='') for part in asset['destination'].split('/'))
+            href = '/'.join(quote(part, safe='') for part in destination.split('/'))
             if fragment:
                 href += '#' + (fragment if section['locator']['type'] == 'pdf-page' else quote(fragment, safe=''))
             record = {**base, 'id': aid + (':' + section['id'] if section else ''),
@@ -146,7 +148,8 @@ def plan_discovery(assets, navigation=None, *, budget=DEFAULT_BUDGET):
                'SEARCH.html': render_search_page().encode()}
     if sum(map(len, outputs.values())) > budget:
         raise SafetyError(f'Discovery output exceeds its {budget:,}-byte allowance')
-    shards, indexed = compose_shards(discovery_assets(assets), budget - sum(map(len, outputs.values())))
+    search_assets = [{**asset, 'destination': reader_destination(asset)} for asset in discovery_assets(assets)]
+    shards, indexed = compose_shards(search_assets, budget - sum(map(len, outputs.values())))
     if indexed:
         manifest['shards'] = True
         outputs['SEARCH/manifest.js'] = b'globalThis.OWLDiscoveryManifest(' + encode(manifest).rstrip() + b');\n'

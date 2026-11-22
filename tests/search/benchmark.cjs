@@ -7,6 +7,7 @@ const rank = require('../../src/owl/templates/rank.js');
 const catalog = require('../../src/owl/templates/search.js');
 const queries = require('./queries.json');
 const bodyQueries = require('./body-queries.json');
+const heldOutQueries = require('./held-out-queries.json');
 const taskQueries = require('./task-queries.json');
 
 function payload(data, callback) {
@@ -35,6 +36,8 @@ async function benchmark(planPath, sourceRoot) {
   const model = rank.model(table, weights);
   await pin(join(sourceRoot, 'model-license.txt'), manifest.license);
   if (queries.length !== 100 || new Set(queries.map(([q]) => q)).size !== 100) throw Error('Expected 100 unique probes');
+  if (heldOutQueries.length !== 10 || new Set([...queries, ...heldOutQueries].map(([q]) => q)).size !== 110)
+    throw Error('Expected 10 distinct held-out probes');
   const tasks = process.argv.includes("--tasks") ? [...taskQueries] : [];
   const extraIndex = process.argv.indexOf('--extra-tasks');
   if (extraIndex !== -1) tasks.push(...JSON.parse(await readFile(process.argv[extraIndex + 1], 'utf8')));
@@ -44,10 +47,13 @@ async function benchmark(planPath, sourceRoot) {
   const prep = (text, target) => ({text, ...target, query: rank.prepareQuery(text, model), phrase: rank.normalize(text)});
   const probes = [...queries.map(([text, target]) => prep(text, {expected: new RegExp(target, 'iu')})),
     ...bodyQueries.map(([text, asset, pages]) => prep(text, {asset, pages: new Set(pages)})),
+    ...heldOutQueries.map(([text, target]) => prep(text, {expected: new RegExp(target, 'iu'), heldOut: true})),
     ...tasks.map(task => prep(task.query, {task: task.id}))];
+  const quick = process.argv.includes('--quick');
   const bounded = process.argv.includes('--bounded');
-  const budget = process.argv.includes('--quick') ? rank.readBudget : Infinity;
-  const impactManifest = bounded ? JSON.parse(await readFile(join(sourceRoot, 'impact/manifest.json'))) : null;
+  const runtime = !quick && !bounded && !process.argv.includes('--exhaustive');
+  const budget = quick ? rank.readBudget : Infinity;
+  const impactManifest = bounded || runtime ? JSON.parse(await readFile(join(sourceRoot, 'impact/manifest.json'))) : null;
   const impactCache = new Map();
   const readImpact = async filename => {
     if (!impactCache.has(filename)) {
@@ -57,16 +63,16 @@ async function benchmark(planPath, sourceRoot) {
     return impactCache.get(filename);
   };
   const evidence = [];
-  if (bounded) {
+  if (impactManifest) {
     const sizes = Object.fromEntries(Object.entries(impactManifest.files).map(([name, pin]) => [name, pin.bytes]));
     for (const {query} of probes) evidence.push(await rank.impactEvidence(query, sizes, readImpact));
   }
   const scenarios = plans.map(plan => {
     const sources = new Map(plan.sources.filter(row => !row.legacy).map(row => [row.sha256, row]));
-    const indexed = bounded && plan.impact;
     const routes = probes.map(({query}, i) => {
-      const route = indexed ? evidence[i] : undefined;
-      const allowance = route ? rank.boundedBytes - route.readBytes : budget;
+      const planned = bounded ? rank.boundedBytes : runtime ? rank.completionBudget(plan, query) : budget;
+      const route = plan.impact && Number.isFinite(planned) ? evidence[i] : undefined;
+      const allowance = planned - (route?.readBytes || 0);
       return new Set(rank.rankedQueue(plan, query, 'all', allowance, route)
         .map(({asset, number}) => asset.sha256 + ':' + number));
     });
@@ -163,7 +169,7 @@ async function benchmark(planPath, sourceRoot) {
   const results = scenarios.map(scenario => {
     const misses = [], zeros = [];
     const totals = {fable_hit: 0, fable_zero: 0, hit: 0, zero: 0, body_hit: 0, body_zero: 0};
-    const body_misses = [], task_results = [];
+    const body_misses = [], held_out_misses = [], task_results = [];
     probes.forEach((query, number) => {
       const hybrid = rank.topResults(scenario.hits[number], query.task ? depth : 30);
       const metadata = catalog.search(scenario.catalogPrepared, query.text, 'all');
@@ -185,6 +191,10 @@ async function benchmark(planPath, sourceRoot) {
       }
       const match = results.some(({record}) => query.expected.test([record.title, record.description, record.source_title,
         record.kind === 'article' ? record.location : ''].join(' ')));
+      if (query.heldOut) {
+        if (!match) held_out_misses.push(query.text);
+        return;
+      }
       if (match) {
         totals.hit++;
         if (number < 40) totals.fable_hit++;
@@ -200,7 +210,9 @@ async function benchmark(planPath, sourceRoot) {
     return {capacity_gb: scenario.capacity_gb, search_bytes: scenario.search_bytes, assets: scenario.selected_assets,
       shard_bytes: scenario.shard_bytes, zims: scenario.selected_zims, indexed_zims: scenario.indexed_zims,
       sampled_zims: scenario.sampled_zims, indexed_sources: scenario.sources.size, ...totals, miss_count: misses.length, misses, zeros, body_misses,
-      query_count: queries.length, body_query_count: bodyQueries.length, ...(tasks.length && {task_results}),
+      query_count: queries.length, body_query_count: bodyQueries.length,
+      held_out_hit: heldOutQueries.length - held_out_misses.length, held_out_misses,
+      held_out_query_count: heldOutQueries.length, ...(tasks.length && {task_results}),
       bounded: Boolean(bounded && scenario.impact),
       all_hit: totals.hit + totals.body_hit, all_zero: totals.zero + totals.body_zero};
   });
@@ -210,8 +222,14 @@ async function benchmark(planPath, sourceRoot) {
     for (const row of results) {
       const bound = bounds[row.capacity_gb];
       if (row.capacity_gb === 16 && row.search_bytes > 480_000_000) throw Error('16 GB search budget exceeded');
-      if (row.hit < bound.hit || row.fable_hit < bound.fable_hit || row.zero > bound.zero || row.fable_zero > bound.fable_zero)
-        throw Error('Search quality regressed at ' + row.capacity_gb + ' GB');
+      for (const field of ['misses', 'body_misses', 'held_out_misses']) {
+        const regressions = row[field].filter(query => !bound[field].includes(query));
+        if (regressions.length) throw Error(row.capacity_gb + ' GB ' + field + ' regressed: ' + regressions.join(', '));
+      }
+      if (row.hit < bound.hit || row.fable_hit < bound.fable_hit || row.zero > bound.zero ||
+          row.fable_zero > bound.fable_zero || row.body_zero || row.misses.includes('signs of dehydration'))
+        throw Error('Search quality did not meet the no-regression bounds at ' + row.capacity_gb + ' GB');
+      console.error(`${row.capacity_gb} GB: ${row.hit}/${row.query_count} original, ${row.body_hit}/${row.body_query_count} PDF body, ${row.held_out_hit}/${row.held_out_query_count} held out, ${row.zero} empty, no regressions.`);
     }
   }
 }

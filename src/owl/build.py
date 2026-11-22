@@ -16,16 +16,17 @@ import yaml
 
 from . import __version__
 from .archive import ZipSource, document_assets, order_archive_assets
-from .selection import capacity_budget, load_ladder, recommended_profile
+from .selection import (MIN_BUILD_CAPACITY, MIN_CAPACITY, capacity_budget, fit_recommended_profile,
+                        is_knowledge, load_ladder, recommended_profile)
 from .catalog import (CatalogError, capacity_plan, fingerprint, load_catalog,
                       load_profiles, read_yaml, resolve_content, resolve_locked_content, validate_catalog)
-from .download import download, verified
-from .filesystem import fat_file_limit, filesystem_type
-from .layout import checksum_name, content_root, managed_path
+from .download import download, download_split_zim, inspect_zim_parts, verified
+from .filesystem import FAT_FILE_LIMIT, fat_file_limit, filesystem_type
+from .layout import checksum_name, content_root, logical_name, managed_path
 from .runtime import file_lock as _lock, interrupt_signals
-from .safety import SafetyError, atomic_write, guard_directory, reject_symlinks, safe_path, sha256_file
+from .safety import SafetyError, atomic_write, guard_directory, mkdir_readable, reject_symlinks, safe_path, sha256_file
 from .transfer import resume_copy
-from .verify import verify_drive
+from .verify import ZIM_PART_BYTES, verify_drive, zim_part_paths
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LAYOUT = [f"CRITICAL/{name}" for name in ("FIRST_AID", "MEDICAL", "WATER_SANITATION", "FOOD", "AGRICULTURE", "ELECTRICAL", "MECHANICAL", "SHELTER")]
@@ -83,13 +84,21 @@ def _state(path: Path) -> dict:
     return result
 
 
+class InsufficientSpace(SafetyError):
+    def __init__(self, path, required, free):
+        self.path = path
+        self.free = free
+        super().__init__(f"Insufficient disk space at {path}: need {required:,} bytes, available {free:,}. "
+                         f"Free at least {required - free:,} more bytes there and rerun.")
+
+
 def check_space(path: Path, required: int) -> None:
     existing = path
     while not existing.exists():
         existing = existing.parent
     free = shutil.disk_usage(existing).free
     if free < required:
-        raise SafetyError(f"Insufficient disk space at {path}: need {required:,} bytes, available {free:,}")
+        raise InsufficientSpace(path, required, free)
 
 
 def check_space_groups(allocations: list[tuple[Path, int]]) -> list[dict]:
@@ -157,12 +166,17 @@ def _directory_anchor(path: Path) -> tuple[Path, tuple[int, int]]:
     return existing, (info.st_dev, info.st_ino)
 
 
-def _transfer_space(target, cache, assets, reusable, state):
+def _transfer_space(target, cache, assets, reusable, state, *, split=None):
     target_bytes = cache_bytes = 0
     for asset in assets:
         if reusable[asset["id"]]:
             continue
         size = asset["size_bytes"]
+        if split and asset["id"] in split:
+            layout, _, staged = split[asset["id"]]
+            target_bytes += size - sum(_partial_bytes(path, part["bytes"])
+                                       for path, part in zip(staged, layout, strict=True))
+            continue
         if "archive_member" in asset or "generation" in asset:
             # Members stream into target-owned partials, never the download
             # cache. They restart safely; reserve their full output size.
@@ -188,12 +202,19 @@ def _build_extraction_directory(work, extraction, source):
     return safe_path(work, 'acquisition-inputs/extract-' + digest)
 
 
-def capacity_profile(profile, capacity_bytes, catalog, *, locked=False):
+def capacity_profile(profile, capacity_bytes, catalog, *, locked=False, assets=None, resources_path=None):
     if locked:
         return {**profile, **capacity_budget(capacity_bytes), "nominal_capacity_bytes": capacity_bytes}
     if "nominal_capacity_bytes" not in profile or not catalog.with_name("capacity-ladder.json").is_file():
         raise CatalogError("--capacity-bytes requires a catalog and profile with a capacity ladder")
-    return recommended_profile(profile, capacity_bytes, load_ladder(catalog))
+    recommended = recommended_profile(profile, capacity_bytes, load_ladder(catalog))
+    if capacity_bytes < MIN_CAPACITY:
+        from .resources import load_resources
+        registry = resources_path or catalog.with_name("resources.yaml")
+        if assets is None:
+            assets = load_catalog(catalog)
+        recommended = fit_recommended_profile(recommended, assets, load_resources(registry, assets))
+    return recommended
 
 
 def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str, capacity_bytes: int | None = None,
@@ -240,7 +261,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     profile = profiles[profile_name]
     lock = read_yaml(catalog).get("selection_lock")
     if capacity_bytes is not None:
-        profile = capacity_profile(profile, capacity_bytes, catalog, locked=lock is not None)
+        profile = capacity_profile(profile, capacity_bytes, catalog, locked=lock is not None,
+                                   assets=all_assets, resources_path=resources_catalog)
     if lock is not None:
         if include or exclude or editions or resource_assets or extra_catalogs:
             raise CatalogError("Customize the source catalog, not a locked selection")
@@ -309,13 +331,27 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     # Hashing during preflight can take hours. Capture the mounted filesystem
     # before it starts, not after a disappeared mount could have been recreated.
     anchors = [_directory_anchor(path) for path in (target, work, cache) if path is not None]
-    fs = filesystem_type(target) if any(a["size_bytes"] > (1 << 32) - 1 for a in assets) else ""
+    fs = filesystem_type(target) if any(a["size_bytes"] > FAT_FILE_LIMIT for a in assets) else ""
     limit = fat_file_limit(fs)
+    split = {}
     if limit:
-        oversized = [a["title"] for a in assets if a["size_bytes"] > limit]
-        if oversized:
-            raise SafetyError("This FAT volume cannot store " + oversized[0] +
-                              " as a single file. Select exFAT or use the browser builder for split ZIMs.")
+        names = {a["destination"].casefold() for a in assets}
+        for asset in assets:
+            if asset["size_bytes"] <= limit:
+                continue
+            if (asset["format"] != "zim" or not asset["sha256"] or
+                    "generation" in asset or "archive_member" in asset):
+                raise SafetyError(f"This FAT volume cannot store {asset['title']} as a single file. Select exFAT.")
+            layout = list(zim_part_paths(asset["destination"], asset["size_bytes"], ZIM_PART_BYTES))
+            relative = [logical_name(part["path"]) for part in layout]
+            if names.intersection(name.casefold() for name in relative):
+                raise SafetyError(f"Split ZIM parts conflict with another asset: {asset['destination']}")
+            names.update(name.casefold() for name in relative)
+            key = fingerprint(asset)
+            split[asset["id"]] = (layout, [safe_path(target, name) for name in relative],
+                                  [safe_path(target, f".owl/downloads/{asset['id']}-{key}.{index}.part")
+                                   for index in range(len(layout))])
+        plan["split_zim_count"] = len(split)
     if fs:
         plan["filesystem_type"] = fs
     _event(progress, total_assets=len(assets), completed_assets=0)
@@ -376,8 +412,21 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         path = managed_path(target, relative)
         if path.exists() and (relative not in owned or not path.is_file()):
             raise SafetyError(f"Generated output would overwrite an unowned file/directory: {path}")
-    reusable = {}
+    reusable, split_pins = {}, {}
     for asset in assets:
+        identity = asset["id"]
+        if identity in split:
+            layout, destinations, staged = split[identity]
+            pins = inspect_zim_parts(destinations, layout, asset["sha256"])
+            split_pins[identity] = pins
+            reusable[identity] = pins is not None
+            for part, path in zip(layout, destinations, strict=True):
+                if path.exists() and (not path.is_file() or (pins is None and logical_name(part["path"]) not in owned)):
+                    raise SafetyError(f"Split ZIM destination is not verified or owned: {path}")
+            for path in staged:
+                if path.exists() and not path.is_file():
+                    raise SafetyError(f"Split ZIM staging path is not a regular file: {path}")
+            continue
         path = safe_path(target, asset["destination"])
         checksum = _expected(asset, state, spool)
         if path.is_file():
@@ -390,7 +439,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     missing_bytes = sum(a["size_bytes"] for a in assets if not reusable[a["id"]])
     plan["remaining_content_bytes"] = missing_bytes
     progress(f"Verified reusable files: {sum(reusable.values())}/{len(assets)}; remaining content: {missing_bytes:,} bytes")
-    transfer_bytes, cache_bytes = _transfer_space(target, cache, assets, reusable, state)
+    transfer_bytes, cache_bytes = _transfer_space(target, cache, assets, reusable, state, split=split)
     active_input_recipes = {identity: recipe for identity, recipe in recipes.items()
                            if any(not reusable[oid] for oid in recipe['output_asset_ids'])}
     needed_inputs = build_inputs(active_input_recipes)
@@ -457,7 +506,28 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             for phase in phases.values():
                 if phase is not phases['generation']:
                     phase.append((cache, input_pending))
-    plan["filesystem_allocations"] = check_space_phases(phases)
+    try:
+        plan["filesystem_allocations"] = check_space_phases(phases)
+    except InsufficientSpace as error:
+        if (capacity_bytes is not None or lock is not None or "nominal_capacity_bytes" not in profile
+                or error.path != target or not drive_root.is_dir()):
+            raise
+        # The planner budgets total library bytes. Verified existing files on
+        # the drive already occupy some of that space on an interrupted build.
+        installed = sum(asset["size_bytes"] for asset in assets if reusable[asset["id"]])
+        capacity = error.free + installed
+        if capacity < MIN_BUILD_CAPACITY:
+            raise SafetyError(f"Only {error.free:,} bytes are free at {drive_root}. Free at least "
+                              f"{MIN_BUILD_CAPACITY - capacity:,} more bytes for the 8 GB plan, then rerun, "
+                              "or choose a drive with at least 8 GB free.") from error
+        space = f"{error.free:,} free bytes" + (f" plus {installed:,} verified bytes" if installed else "")
+        progress(f"Fitting the {profile_name} recommendation to {space} on {drive_root}.")
+        return build(drive_root, catalog=catalog, profiles_dir=profiles_dir, profile_name=profile_name,
+                     capacity_bytes=capacity, cache_dir=cache_dir, work_dir=work_dir, allow_local=allow_local,
+                     plan_only=plan_only, resources_catalog=resources_catalog, include=include, exclude=exclude,
+                     editions=editions, resource_assets=resource_assets, extra_catalogs=extra_catalogs,
+                     allow_incomplete=allow_incomplete, navigation_dir=navigation_dir, strict_coverage=strict_coverage,
+                     progress=progress)
     plan["required_free_bytes"] = sum(item["required_bytes"] for item in plan["filesystem_allocations"] if str(target) in item["uses"])
     if plan_only:
         progress("Plan only: no files created or downloaded. Discovery uses catalog metadata; "
@@ -489,7 +559,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                 raise SafetyError(f"Build directory changed during preflight; reconnect the original drive and rerun: {anchor}")
             guards.enter_context(guard_directory(anchor))
         reject_symlinks(target)
-        target.mkdir(parents=True, exist_ok=True)
+        mkdir_readable(target)
         guards.enter_context(guard_directory(drive_root))
         guards.enter_context(guard_directory(target))
         _owned_directory(private)
@@ -503,7 +573,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             _owned_directory(cache)
             guards.enter_context(guard_directory(cache))
         for relative in LAYOUT:
-            safe_path(target, relative).mkdir(parents=True, exist_ok=True)
+            mkdir_readable(safe_path(target, relative))
         safe_path(target, ".owl/downloads").mkdir(exist_ok=True)
         reject_symlinks(work)
         work.mkdir(parents=True, exist_ok=True)
@@ -515,7 +585,9 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         state["complete"] = False
         state["phase"] = "content"
         _event(progress, phase="content")
-        state["managed"] = sorted(owned | set(generated) | {a["destination"] for a in assets})
+        source_paths = {a["destination"] for a in assets if a["id"] not in split}
+        source_paths.update(logical_name(part["path"]) for layout, _, _ in split.values() for part in layout)
+        state["managed"] = sorted(owned | set(generated) | source_paths)
         atomic_write(state_path, _json(state))
         input_receipts = []
         for identity, source in needed_inputs.items():
@@ -550,7 +622,18 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
             atomic_write(state_path, _json(state))
             destination = safe_path(target, asset["destination"])
             expected = _expected(asset, state, spool)
-            if reusable[asset["id"]]:
+            parts = None
+            if asset["id"] in split:
+                layout, destinations, staged = split[asset["id"]]
+                parts = split_pins[asset["id"]]
+                digest = asset["sha256"]
+                if parts is None:
+                    mkdir_readable(destinations[0].parent)
+                    parts = download_split_zim(asset, layout, destinations, staged, repo_root=REPO_ROOT,
+                                               cached=safe_path(cache, digest) if cache else None, progress=progress)
+                else:
+                    progress(f"REUSE {asset['destination']} ({len(parts)} parts)")
+            elif reusable[asset["id"]]:
                 digest = expected
                 progress(f"REUSE {asset['destination']}")
             elif "generation" in asset:
@@ -582,7 +665,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                         pinned = {**asset, "sha256": expected}
                         digest = download(pinned, staged, repo_root=REPO_ROOT, progress=progress)
                         atomic_write(metadata_path, _json({"sha256": digest, "fingerprint": fingerprint(asset)}))
-                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    mkdir_readable(destination.parent)
                     reject_symlinks(destination)
                     if cache:
                         copy = safe_path(target, ".owl/downloads/" + key + ".copy")
@@ -592,8 +675,10 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                         os.replace(staged, destination)
             state["assets"][asset["id"]] = {"sha256": digest, "fingerprint": fingerprint(asset)}
             atomic_write(state_path, _json(state))
-            inventory_assets.append({**asset, "sha256": digest,
-                                     "verification": "pinned" if asset["sha256"] else "observed"})
+            inventory_asset = {key: value for key, value in asset.items() if key != "parts"}
+            inventory_assets.append({**inventory_asset, "sha256": digest,
+                                     "verification": "pinned" if asset["sha256"] else "observed",
+                                     **({"parts": parts} if parts else {})})
         state.pop("active_asset", None)
         # Outputs and state are durable. These sources are deliberately absent
         # from inventory/checksums/navigation; retain only a requested cache.
@@ -620,7 +705,14 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         readable_assets = document_assets(inventory_assets)
         from .wikimed_phone import DESTINATION, manifest as phone_manifest, verified_volume, volumes
         phone = volumes(readable_assets, phone_manifest())
-        phone_pages = {DESTINATION + row["file"]: verified_volume(row) for row in phone}
+        support_missing, phone_pages, installed_phone = [], {}, []
+        for row in phone:
+            try:
+                phone_pages[DESTINATION + row["file"]] = verified_volume(row)
+                installed_phone.append(row)
+            except (OSError, SafetyError) as error:
+                support_missing.append({"kind": "phone", "id": row["file"], "title": row["title"],
+                                        "reason": str(error)})
         phone_bytes = sum(map(len, phone_pages.values()))
         discovery_pages, search_report = plan_discovery(readable_assets, navigation,
                                                         budget=plan["discovery_budget_bytes"] - phone_bytes)
@@ -636,8 +728,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                      "content_selection": selection, "content_complete": content_complete,
                      "learning_coverage": plan["learning_coverage"],
                      "unresolved": unresolved}
-        if phone:
-            inventory["phone_volumes"] = phone
+        if installed_phone:
+            inventory["phone_volumes"] = installed_phone
         atlas_pages, atlas_report = plan_atlas(target, readable_assets, navigation, state,
                                               strict_coverage=strict_coverage)
         inventory["navigation"] = atlas_report
@@ -676,8 +768,15 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                 "profile": profile, "catalog_sha256": sha256_file(catalog.resolve()), "plan": plan,
                 "extra_catalogs": [{"path": str(Path(path)), "sha256": sha256_file(Path(path))}
                                    for path in extra_catalogs],
-                "asset_count": len(assets), "unresolved_asset_ids": [a["id"] for a in unresolved],
-                "search": search_report, "navigation": atlas_report, "complete": True,
+                "asset_count": len(assets), "selected_count": len(assets) + len(unresolved),
+                "knowledge_count": sum(is_knowledge(asset) for asset in inventory_assets),
+                "missing": [{"id": asset["id"], "title": asset["title"], "utility_tier": asset.get("utility_tier"),
+                             "reason": asset.get("unresolved_reason", "Source is unresolved")} for asset in unresolved],
+                "kept_in_parts": [{"id": a["id"], "title": a["title"], "parts": len(a["parts"])}
+                                  for a in inventory_assets if a.get("parts")],
+                "unresolved_asset_ids": [a["id"] for a in unresolved],
+                "support_complete": not support_missing, "support_missing": support_missing,
+                "reader": True, "search": search_report, "navigation": atlas_report, "complete": True,
                 "integrity_note": "SHA-256 detects damage, not publisher identity. Save SHA256SUMS.txt separately."}
         atomic_write(safe_path(target, "BUILD_INFO.json"), _json(info))
         # Preserve checksum coverage of previous owned search generations. A
@@ -686,13 +785,16 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                            if (name.startswith(("SEARCH/chunks/", "SEARCH/data/", "SEARCH/sources/")) or name == "SEARCH/library.owl")
                            and safe_path(target, name).is_file()}
         managed = sorted(set(nav_files) | set(search_report["generated_files"]) | retained_search | set(CORE_OUTPUTS) |
-                         {a["destination"] for a in assets})
+                         source_paths)
         state["phase"] = "checksums"
         _event(progress, phase="checksums")
         atomic_write(state_path, _json(state))
         progress("Generating checksums (streaming each managed file).")
         # Stream hashes; never load content files into memory.
-        expected_files = {a["destination"]: (a["sha256"], a["size_bytes"]) for a in inventory_assets}
+        expected_files = {a["destination"]: (a["sha256"], a["size_bytes"])
+                          for a in inventory_assets if not a.get("parts")}
+        expected_files.update({logical_name(part["path"]): (part["sha256"], part["bytes"])
+                               for a in inventory_assets for part in a.get("parts", [])})
         expected_files.update({name: (item["sha256"], item["size_bytes"])
                                for name, item in search_report["file_integrity"].items()})
         checksum_lines = []
@@ -793,7 +895,8 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
             profile = profiles[args.profile]
             if args.capacity_bytes is not None:
                 profile = capacity_profile(profile, args.capacity_bytes, args.catalog,
-                                           locked=read_yaml(args.catalog).get("selection_lock") is not None)
+                                           locked=read_yaml(args.catalog).get("selection_lock") is not None,
+                                           assets=assets, resources_path=args.resources_catalog)
             report = resolve_resources(assets, profile, resources,
                                        include=args.include, exclude=args.exclude, editions=args.edition, resource_assets=args.resource_assets)
             rows = {row["id"]: row for row in report["resource_rows"]}

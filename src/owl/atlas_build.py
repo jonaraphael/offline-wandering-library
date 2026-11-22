@@ -17,6 +17,7 @@ from .build import REPO_ROOT, _json, _owned_directory, _root, _state, check_spac
 from .catalog import ROOTS, fingerprint, is_document, learning_coverage, load_catalog, load_profiles, resolve_content, validate_catalog
 from .content_policy import require_content_policy
 from .layout import checksum_name, content_root, logical_name, managed_path
+from .verify import split_inventory
 from .navigation import READER_GENERATION, SHARED_SEARCH, generate_navigation
 from .runtime import file_lock, interrupt_signals
 from .safety import SafetyError, atomic_write, guard_directory, safe_path, sha256_file, validate_relative
@@ -366,6 +367,7 @@ def _inventory_assets(inventory: dict) -> list[dict]:
                 raise SafetyError(f"Invalid atlas source metadata: {key}")
         identities.add(identity)
         paths.append(destination)
+        paths.extend(logical_name(part["path"]) for part in split_inventory(asset))
     _check_names(paths)
     require_content_policy(inventory["assets"])
     if any(asset.get("verification") == "observed" for asset in inventory["assets"]):
@@ -470,7 +472,9 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             discovery_pages, discovery_report = plan_discovery(assets, navigation,
                 budget=info.get('profile', {}).get('discovery_budget_bytes', 16 * 1024 * 1024))
             inventory = {**inventory, "navigation": report, "search": discovery_report}
-            info = {**info, "search": discovery_report, "navigation": report}
+            support_missing = [row for row in info.get("support_missing", []) if row["kind"] == "phone"]
+            info = {**info, "search": discovery_report, "navigation": report, "reader": True,
+                    "support_complete": not support_missing, "support_missing": support_missing}
             if metadata_only:
                 info['source_verification'] = 'Not repeated during this metadata-only refresh'
             job['inventory'], job['build_info'] = inventory, info
@@ -498,7 +502,15 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             if set(support) - {"SEARCH.html", "SEARCH/search.js", "SEARCH/coverage.json", "SOURCE_NOTES.txt", "VERIFY.py"} or any(not isinstance(v, str) for v in support.values()):
                 raise SafetyError("Invalid atlas checkpoint support-file paths")
             pages.update(support)
-            if set(pages) & {a["destination"] for a in assets}:
+            source_hashes, source_sizes = {}, {}
+            for asset in assets:
+                parts = split_inventory(asset)
+                for path, digest, size in ([(logical_name(part["path"]), part["sha256"], part["bytes"])
+                                            for part in parts] if parts else
+                                           [(asset["destination"], asset["sha256"], asset["size_bytes"])]):
+                    source_hashes[path] = digest
+                    source_sizes[path] = size
+            if set(pages) & set(source_hashes):
                 raise SafetyError("Generated atlas output conflicts with a source document")
             # On retries, only this operation's previously registered outputs may
             # differ from its immutable baseline. Existing source data never may.
@@ -506,15 +518,14 @@ def build_atlas(target: Path, *, navigation_dir: Path, catalog: Path = REPO_ROOT
             mutable = set(pages) | set(_previous(state)) | retired | {"SHA256SUMS.txt"}
             if not metadata_only:
                 _verify_entries(target, baseline, excluded=mutable, progress=progress)
-            source_hashes = {a["destination"]: a["sha256"] for a in assets}
             if not metadata_only and (not from_downloads or resuming):
                 _verify_entries(target, source_hashes, progress=progress)
-            for asset in assets:
-                if metadata_only and baseline.get(asset['destination']) != asset['sha256']:
-                    raise SafetyError('Inventory source pin differs from audit manifest: ' + asset['id'])
-                source = safe_path(target, asset['destination'])
-                if not source.is_file() or source.stat().st_size != asset['size_bytes']:
-                    raise SafetyError('Source missing or size changed: ' + asset['id'])
+            for path, size in source_sizes.items():
+                if metadata_only and baseline.get(path) != source_hashes[path]:
+                    raise SafetyError('Inventory source pin differs from audit manifest: ' + path)
+                source = safe_path(target, path)
+                if not source.is_file() or source.stat().st_size != size:
+                    raise SafetyError('Source missing or size changed: ' + path)
             preflight_outputs(target, pages, state)
             validate_links(target, {**pages, "SHA256SUMS.txt": ""}, assets)
             check_space(target, sum(map(output_size, pages.values())) +

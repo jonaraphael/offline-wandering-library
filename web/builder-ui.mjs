@@ -8,6 +8,7 @@ import {getRememberedDrive, hasDrivePermission, keepScreenAwake, measureFreeSpac
 const INDEX_ALLOWANCE = 16 * 2 ** 20;
 const GB = 1e9;
 const READERS = "archive-readers";
+const READER_PUBLICATION = new URL(import.meta.url).searchParams.get("v");
 const byId = id => document.getElementById(id);
 
 async function get(url, signal) {
@@ -59,6 +60,8 @@ function lockDrive(operation) {
 
 const sumBytes = assets => assets.reduce((sum, asset) => sum + asset.size_bytes, 0);
 const hasRoute = (id, routes, published) => Boolean(routes[id]?.length || published.files?.[id]?.length);
+const isEssential = asset => asset?.status === "resolved" && asset.utility_tier === "CRITICAL";
+const membersOf = (resource, edition) => (resource.editions?.[edition] || resource).asset_ids;
 
 const retentionCache = new WeakMap();
 const planCeiling = profile => profile.capacity_bytes -
@@ -147,8 +150,9 @@ export function selectBrowser(profile, resolved, {files, routes, published, kept
   const reserve = Math.max(INDEX_ALLOWANCE, profile.reserve_bytes) + searchBudget;
   const limit = planCeiling(profile) - extraPhone;
   const used = sumBytes(assets);
+  const essentials = new Set(selected.filter(isEssential).map(asset => asset.id));
   return {assets, excluded: excluded.filter(row => !keptIds.has(row.id)), used, reserve, searchBudget,
-    limit, over: Math.max(0, used - limit), errors: resolved.errors};
+    essentials, limit, over: Math.max(0, used - limit), errors: resolved.errors};
 }
 
 export function storageStops(capacity, canPlan = () => true) {
@@ -170,7 +174,7 @@ function reduceBrowser(planner, state, reachable, retained, phone) {
     if (resource.id === READERS) continue;
     const item = state.items[resource.id];
     if (!item.included && !retained) continue;
-    const variant = edition => (resource.editions?.[edition] || resource).asset_ids.filter(available);
+    const variant = edition => membersOf(resource, edition).filter(available);
     let ids = variant(item.edition);
     // A lower limit on a synced drive keeps the editions already present.
     if (retained) for (const edition of ["published", ...Object.keys(resource.editions || {})]) {
@@ -184,7 +188,7 @@ function reduceBrowser(planner, state, reachable, retained, phone) {
   const chosen = new Set();
   const candidates = new Map([...new Set([...collections.values()].flat())].map(id => [id, assets.get(id)]));
   let used = 0, needsReaders = false;
-  for (const asset of buildOrder(candidates.values())) {
+  for (const asset of buildOrder(candidates.values(), {transfer: false})) {
     if (chosen.has(asset.id) || asset.generation) continue;
     const sourceId = asset.archive_member?.source_asset_id;
     const source = candidates.get(sourceId);
@@ -210,13 +214,28 @@ function reduceBrowser(planner, state, reachable, retained, phone) {
 
 export function recommendBrowser(planner, state, routes, published, kept = () => false, {retainedFiles, phone} = {}) {
   const reachable = id => hasRoute(id, routes, published) || kept(id);
-  if (state.browser && (retainedFiles || state.capacityBytes < planner.capacity_policy.min))
-    return reduceBrowser(planner, state, reachable, retainedFiles && new Set(retainedFiles), phone);
+  const unreachable = new Set(planner.assets.filter(asset => isEssential(asset) && !reachable(asset.id)).map(asset => asset.id));
+  if (state.browser && (retainedFiles || state.capacityBytes < planner.capacity_policy.min)) {
+    const retained = retainedFiles && new Set(retainedFiles);
+    const intended = unreachable.size && reduceBrowser(planner, structuredClone(state), () => true, retained, phone);
+    reduceBrowser(planner, state, reachable, retained, phone);
+    // Keep the intended essentials in the selection even though they consume no download space.
+    if (intended) for (const resource of planner.resources) {
+      const wanted = intended.items[resource.id];
+      if (!wanted.included) continue;
+      const missing = (wanted.assetIds || membersOf(resource, wanted.edition)).filter(id => unreachable.has(id));
+      if (!missing.length) continue;
+      const item = state.items[resource.id];
+      if (!item.included) state.items[resource.id] = {...wanted, assetIds: missing};
+      else if (item.edition === wanted.edition) item.assetIds = [...new Set([...item.assetIds, ...missing])];
+    }
+    return state;
+  }
   for (const resource of planner.resources) {
     const item = state.items[resource.id];
     if (!item.included) continue;
-    const members = (resource.editions?.[item.edition] || resource).asset_ids;
-    const found = members.filter(reachable);
+    const members = membersOf(resource, item.edition);
+    const found = members.filter(id => reachable(id) || unreachable.has(id));
     if (found.length === 0) item.included = false;
     else if (found.length < members.length) item.assetIds = found;
   }
@@ -232,17 +251,56 @@ export function recommendBrowser(planner, state, routes, published, kept = () =>
 // Platforms where extending a probe file allocates real clusters and fails past
 // free space (docs/capacity-probe.md): macOS and Windows on exFAT or NTFS.
 // Linux exFAT rejects the extension and ntfs-3g allocates sparsely, so Linux
-// users confirm the label size instead.
-export function probesCapacity(platform) {
-  return /^(mac|win)/i.test(platform || "");
+// users confirm the label size and plan from a conservative estimate.
+export function probesCapacity(platform, agent = "") {
+  if (/linux|android/i.test(platform || agent)) return false;
+  return /^(mac|win)/i.test(platform || "") || /Macintosh|Windows/i.test(agent);
 }
 
+export const estimateLabelCapacity = labelBytes => Math.floor(labelBytes * 0.9);
 
 const WELCOME = "Any USB drive or SD card with 16 GB to 1 TB free. Files already on it stay.";
 const rememberedKey = () => "owl-last-sync:" + location.pathname.replace(/index\.html$/, "");
 const driveName = handle => handle?.name || "Your drive";
 const dateOf = value => value ? new Date(value).toLocaleDateString("en-GB", {day: "numeric", month: "long", year: "numeric"}) : "";
 const countOf = (count, noun) => count.toLocaleString() + " " + noun + (count === 1 ? "" : "s");
+const partsMessage = rows => rows?.length ? countOf(rows.length, "encyclopedia") + " kept in parts." : "";
+export function essentialRouteMessage(excluded) {
+  const count = excluded.filter(row => row.utility_tier === "CRITICAL").length;
+  return count ? "This browser can’t download " + countOf(count, "essential file") + ". Use the Python builder to get " +
+    (count === 1 ? "it." : "them.") : "";
+}
+
+export function removedEssentialMessage(previous, selected) {
+  const count = [...previous].filter(id => !selected.has(id)).length;
+  return count ? "You removed " + countOf(count, "essential file") + "." : "";
+}
+
+export function warnBeforeLeaving(target = globalThis) {
+  const warn = event => {
+    event.preventDefault();
+    event.returnValue = true;
+  };
+  target.addEventListener("beforeunload", warn);
+  return () => target.removeEventListener("beforeunload", warn);
+}
+
+export function completionState({state, completed, missing, searchWarnings, supportMissing, keptInParts}) {
+  const files = completed.filter(isKnowledgeFile).length;
+  const unavailable = missing.length;
+  const essential = missing.filter(row => row.utility_tier === "CRITICAL").length;
+  const summary = [countOf(files, "file") + " arrived. " + countOf(essential, "essential file") + " missing.",
+    essentialRouteMessage(state.excluded || [])].filter(Boolean).join(" ");
+  const generalSupport = (supportMissing ? supportMissing.some(row => row.kind !== "phone") : searchWarnings.length) ?
+    " Some reader or search files are missing." : "";
+  const phoneSupport = supportMissing?.some(row => row.kind === "phone") ? " Some WikiMed phone files are missing." : "";
+  const support = generalSupport + phoneSupport;
+  if (!files) return {mode: "failed", title: "Sync could not finish", message: summary + support};
+  if (state.finished && !unavailable) return {mode: "done", extra: partsMessage(keptInParts)};
+  return {mode: "done-gaps", title: unavailable ? "Ready, with " + countOf(unavailable, "item") + " missing" :
+    "Ready, with some files missing", message: [summary + support, partsMessage(keptInParts)].filter(Boolean).join(" ")};
+}
+
 const ratio = (done, total) => total ? Math.max(0, Math.min(1, done / total)) : 0;
 const readerTitles = new Map([
   ["kiwix_android", "Kiwix reader app for Android"], ["kiwix_linux", "Kiwix reader app for Linux"],
@@ -264,6 +322,11 @@ export function mount({catalog: supplied} = {}) {
     !(navigator.maxTouchPoints > 1 && /^mac/i.test(platform));
   let catalog, manage, catalogRequest, drive, remembered, snapshot, inspection, comparison, plan, pendingCompare;
   const collectionTitles = new Map();
+  const essentialStatus = element("p", "field-help");
+  essentialStatus.setAttribute("role", "status");
+  essentialStatus.hidden = true;
+  byId("collection-search").before(essentialStatus);
+  let managePlan, manageBudget, manageEssentials;
   let measured, minimum, capacity, forceSplit = false, size, mode, previousMode, problem, result, controller, opened = 0;
   let operation = 0, picker = false, preview = false, fullCheck = false, selectedReplacement = new Set();
   let active = new Map(), transferTotal = 0, transferStarted, rateStart, rateBytes, rate = 0, nowTitle = "", lastPaint = 0;
@@ -290,17 +353,20 @@ export function mount({catalog: supplied} = {}) {
           }
         }
       }
-      const kept = id => Boolean(inspection?.state?.installed[id] || inspection?.candidates?.has(id));
+      const kept = id => Boolean(inspection?.availableInstalled.has(id) || inspection?.candidates?.has(id));
       const phone = catalog.navigation?.phone;
       const sources = {files, routes, published, kept, phone, minimum: planner.capacity_policy.min};
       manage = create(planner, {
         browser: true,
-        download: id => hasRoute(id, routes, published) || kept(id),
+        // Manage must allow a selected essential to be removed even when its route is unavailable.
+        download: id => isEssential(files.get(id)) || hasRoute(id, routes, published) || kept(id),
         recommend: (state, retainedFiles) => recommendBrowser(planner, state, routes, published, kept, {retainedFiles, phone}),
         stops: storageStops,
         useful: selection => selection.assets.some(isKnowledgeFile),
         select: (profile, _state, resolved) => selectBrowser(profile, resolved, sources),
         onChange(value, {live = false} = {}) {
+          managePlan = value;
+          if (!byId("manage").hidden) showEssentialStatus();
           if (preview) return;
           plan = value;
           dirty = JSON.stringify(value.choice) !== driveChoice;
@@ -338,7 +404,8 @@ export function mount({catalog: supplied} = {}) {
   const name = () => driveName(drive || remembered);
   const available = () => plan && !plan.over && !plan.errors.length && plan.assets.some(isKnowledgeFile);
   const comparisonOptions = () => ({assets: plan.assets, choice: plan.choice, catalogVersion: catalogVersion(),
-    singleArchives: !plan.choice.split, freeBytes: effectiveFree()});
+    navigation: catalog.navigation, readerPublication: READER_PUBLICATION,
+    singleArchives: !plan.choice.split, freeBytes: effectiveFree(), archiveSpace: plan.capacity - plan.reserve});
   const totalDone = () => [...active.values()].reduce((sum, count) => sum + count, 0);
   // A side with nothing to do is left out: "removes 3.57 GB", not "adds 0 B, removes 3.57 GB".
   const changeLine = prefix => {
@@ -403,13 +470,15 @@ export function mount({catalog: supplied} = {}) {
           message: comparison?.adoption ? "A library is already on this drive. Sync keeps files that match." :
             comparison?.changedChoice || dirty ? changeLine("Your changes") :
             comparison?.state?.syncedAt ? (comparison.workCount ?
-              changeLine(countOf(comparison.workCount, "update")) : "Sync refreshes the start page.") +
+              changeLine(countOf(comparison.workCount, "update")) : comparison.joins.length ?
+                "Sync joins the files kept in parts." : "Sync refreshes the start page.") +
               (lastDate ? " Last synced " + lastDate + "." : "") :
             "Unfinished: " + bytes(comparison?.addBytes || 0) + " to go."});
         break;
       case "current":
         Object.assign(item, {step: 3, fraction: 1, title: "Up to date", links: [manageLink, checkLink],
-          message: (lastDate ? "Synced " + lastDate + ". " : "") + countOf(plan.assets.length, "item") + ", " + bytes(plan.used) + "."});
+          message: (lastDate ? "Synced " + lastDate + ". " : "") + countOf(plan.assets.length, "item") + ", " + bytes(plan.used) + ".",
+          extra: partsMessage(inspection.state?.keptInParts)});
         break;
       case "syncing":
         Object.assign(item, {step: 2, fraction: syncFraction, title: percent(syncFraction), action: ["Pause", pause, true],
@@ -431,13 +500,16 @@ export function mount({catalog: supplied} = {}) {
       case "done":
         Object.assign(item, {step: 3, fraction: 1, title: "Ready",
           message: tryLink.hasAttribute("href") ? "Open your library on " + name() + "." : "Open START_HERE.html on " + name() + ".",
-          links: [checkLink, ["Sync another drive", changeDrive]]});
+          extra: completionState(result).extra || undefined,
+          links: [checkLink, ...(result.keptInParts.length ? [["Show files kept in parts", showMissing]] : []),
+            ["Sync another drive", changeDrive]]});
         break;
+      case "failed":
       case "done-gaps": {
-        const missing = result.missing.length + result.searchWarnings.length + Number(!result.missing.length && !result.searchWarnings.length);
-        Object.assign(item, {step: 3, fraction: 1, title: "Ready, with " + countOf(missing, "item") + " missing",
-          message: "The library works. " + countOf(missing, "item") + " could not be downloaded.",
-          action: ["Try those again", sync], links: [["Show the " + countOf(missing, "item"), showMissing], ["Sync another drive", changeDrive]]});
+        const outcome = completionState(result);
+        Object.assign(item, {step: mode === "failed" ? 2 : 3, fraction: mode === "failed" ? 0 : 1,
+          title: outcome.title, message: outcome.message, action: ["Try those again", sync],
+          links: [["Show details", showMissing], checkLink, ["Sync another drive", changeDrive]]});
         break;
       }
       case "problem":
@@ -446,7 +518,8 @@ export function mount({catalog: supplied} = {}) {
         break;
       case "too-small":
         Object.assign(item, {title: "Not enough room", chart: false, action: pick,
-          message: "OWL needs at least " + bytes(minimum) + " free. This drive has " + bytes(measured) + "."});
+          message: "OWL needs at least " + bytes(minimum) + " free. " +
+            (measured === undefined ? "This plan estimates " + bytes(effectiveFree()) + " free." : "This drive has " + bytes(measured) + ".")});
         break;
       case "unsupported":
         Object.assign(item, {chart: false, title: "Open this page in Chrome, Edge or Arc on a computer",
@@ -458,8 +531,17 @@ export function mount({catalog: supplied} = {}) {
       item.message = plan.over ? bytes(plan.over) + " over. Make it fit in Manage before syncing." :
         plan.errors.length ? "Review the selection in Manage before syncing." : "Choose at least one available collection in Manage.";
     }
-    if (plan?.budget < plan?.capacity && ["ready", "behind", "current", "paused"].includes(mode))
-      item.message = bytes(plan.capacity) + " free, limited to " + bytes(plan.budget) + ". " + item.message;
+    if (["ready", "behind", "current", "paused"].includes(mode)) {
+      if (plan?.budget < plan?.capacity) {
+        item.message = (measured === undefined ? "Estimated space for OWL is " : "") +
+          bytes(plan.capacity) + (measured === undefined ? ", limited to " : " free, limited to ") + bytes(plan.budget) + ". " + item.message;
+      } else if (measured === undefined) {
+        item.message = "This plan uses an estimate of " + bytes(plan.capacity) + " for the drive. " + item.message;
+      }
+    }
+    if (["ready", "behind", "paused"].includes(mode)) {
+      item.extra = essentialRouteMessage(plan.excluded);
+    }
     stage.dataset.state = mode;
     stage.style.setProperty("--p", String(item.fraction));
     if (headline.textContent !== item.title) {
@@ -521,7 +603,7 @@ export function mount({catalog: supplied} = {}) {
   }
 
   function savedAmounts() {
-    if (mode === "done" || mode === "done-gaps") return new Map(result.completed.map(asset => [asset.id, asset.size_bytes]));
+    if (["done", "done-gaps", "failed"].includes(mode)) return new Map(result.completed.map(asset => [asset.id, asset.size_bytes]));
     return new Map([...(comparison?.present || []).map(row => [row.asset.id, row.asset.size_bytes]),
       ...(comparison?.adds || []).map(row => [row.asset.id, row.savedBytes])]);
   }
@@ -554,7 +636,7 @@ export function mount({catalog: supplied} = {}) {
 
   function showMissing() {
     textList(byId("missing-list"), [...result.missing.map(item => item.title + " — " + item.reason), ...result.searchWarnings,
-      ...(!result.missing.length && !result.searchWarnings.length ? ["Some large files still need to be joined."] : [])]);
+      ...result.keptInParts.map(item => item.title + " — Kept in " + item.parts + " parts.")]);
     byId("missing-items").showModal();
   }
 
@@ -573,6 +655,7 @@ export function mount({catalog: supplied} = {}) {
     } : undefined;
     const current = manage.configure({capacityBytes: capacity, size, savedChoice: saved?.choice,
       split: forceSplit, forceSplit, connected: !isPreview, installed});
+    managePlan = current;
     if (!isPreview) {
       plan = current;
       driveChoice = JSON.stringify(plan.choice);
@@ -624,11 +707,11 @@ export function mount({catalog: supplied} = {}) {
     if (!await hasDrivePermission(handle)) { drive = null; render("remembered"); return; }
     inspection = await inspectDrive(handle);
     if (openedDrive !== operation) return;
-    if (probesCapacity(platform)) {
+    if (probesCapacity(platform, agent)) {
       const outcome = await lockDrive(() => measureFreeSpace(handle, {onAttempt: value => diag("capacity", value)}));
       if (openedDrive !== operation) return;
       diag("capacity-result", outcome);
-      forceSplit = outcome.kind === "fat32" || outcome.kind === "limited";
+      forceSplit = Boolean(outcome.splitArchives);
       if (outcome.kind === "measured") {
         measured = outcome.bytes;
         const total = measured + inspection.heldBytes;
@@ -636,11 +719,15 @@ export function mount({catalog: supplied} = {}) {
         return;
       }
     }
-    if (inspection.state?.capacityBytes) { await planDrive(inspection.state.capacityBytes); return; }
+    if (inspection.state?.capacityBytes) {
+      const saved = inspection.state;
+      await planDrive(saved.capacityEstimated === undefined ? estimateLabelCapacity(saved.capacityBytes) : saved.capacityBytes);
+      return;
+    }
     sizesInto(byId("drive-sizes"), undefined, value => {
       size = value;
       render("measuring");
-      void planDrive(value * 1e9).catch(showProblem);
+      void planDrive(estimateLabelCapacity(value * GB)).catch(showProblem);
     });
     render("needs-size");
   }
@@ -673,8 +760,21 @@ export function mount({catalog: supplied} = {}) {
     })));
   }
 
+  function showEssentialStatus() {
+    if (manageBudget !== managePlan.budget) {
+      manageBudget = managePlan.budget;
+      manageEssentials = new Set();
+    }
+    for (const id of managePlan.essentials) manageEssentials.add(id);
+    const message = [removedEssentialMessage(manageEssentials, managePlan.essentials),
+      essentialRouteMessage(managePlan.excluded)].filter(Boolean).join(" ");
+    if (essentialStatus.textContent !== message) essentialStatus.textContent = message;
+    essentialStatus.hidden = !message;
+  }
+
   function showManage() {
     if (!preview) showHeld();
+    showEssentialStatus();
     manage.show({name: preview ? undefined : name(), onBack: () => void leaveManage().catch(showProblem),
       onDone: () => void leaveManage().catch(showProblem), changes: dirty ? changeLine("Your changes") : "No changes"});
   }
@@ -689,6 +789,7 @@ export function mount({catalog: supplied} = {}) {
     }
     stage.hidden = true;
     byId("sync-rail").hidden = true;
+    manageBudget = undefined;
     showManage();
   }
 
@@ -753,21 +854,27 @@ export function mount({catalog: supplied} = {}) {
     transferTotal = plan.used;
     render("syncing");
     const phoneTimer = setTimeout(() => { if (mode === "syncing") render(); }, 20_000);
+    const unbindWarning = warnBeforeLeaving();
     try {
       if (await requestDrivePermission(drive) !== "granted") throw new DOMException("Permission was refused", "NotAllowedError");
       const network = createNetwork({signal, probeURL: "./.nojekyll", onWaiting: () => onProgress({kind: "waiting-network"}),
         onRestored: () => render(finishing ? "finishing" : "syncing")});
       const prepareSources = async () => {
+        const unavailableSupport = [];
         const [search, publisherPieces] = await Promise.all([
-          network.retry(() => get("./search-build.json", signal)),
+          network.retry(() => get("./search-build.json", signal)).catch(error => {
+            signal.throwIfAborted();
+            unavailableSupport.push({kind: "search", title: "Search index", reason: error.message});
+          }),
           network.retry(() => get("./kiwix-pieces.json", signal))
         ]);
-        return {search, publisherPieces};
+        return {search, publisherPieces, unavailableSupport};
       };
       let publishedFiles;
       result = await lockDrive(() => reconcile(drive, {...comparisonOptions(), excluded: plan.excluded,
         routes: catalog.routes, published: catalog.published, navigation: catalog.navigation,
-        archiveSpace: plan.limit, searchBudget: plan.searchBudget, capacityBytes: capacity,
+        catalogAssets: catalog.planner.assets,
+        searchBudget: plan.searchBudget, capacityBytes: capacity, capacityEstimated: measured === undefined,
         replaceInPlace: [...selectedReplacement], fullVerify: fullCheck, prepareSources, signal, network, onProgress,
         onPublished: files => { publishedFiles = files; }}));
       inspection = await inspectDrive(drive);
@@ -775,13 +882,13 @@ export function mount({catalog: supplied} = {}) {
       driveChoice = JSON.stringify(plan.choice);
       selectedReplacement.clear();
       await updateComparison();
-      const complete = result.state.finished && !result.missing.length;
-      if (complete) {
+      const outcome = completionState(result).mode;
+      if (outcome === "done") {
         const scope = await readerScope;
         const url = scope && await publishReaderLink(scope, drive, publishedFiles).catch(previewError);
         if (url) tryLink.href = url;
       }
-      render(complete ? "done" : "done-gaps");
+      render(outcome);
       storeSnapshot();
     } catch (error) {
       if (!signal.aborted) { showProblem(error); return; }
@@ -791,6 +898,7 @@ export function mount({catalog: supplied} = {}) {
         render("paused");
       } catch (readError) { showProblem(readError); }
     } finally {
+      unbindWarning();
       clearTimeout(phoneTimer);
       release();
       controller = null;

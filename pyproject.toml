@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "offline-wandering-library"
-version = "0.1.0"
+version = "0.2.0"
 description = "Reproducible, directly readable offline emergency SSD libraries"
 requires-python = ">=3.11"
 license = {text = "MIT"}

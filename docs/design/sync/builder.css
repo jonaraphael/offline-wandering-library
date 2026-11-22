@@ -91,8 +91,8 @@ a:hover { text-decoration: underline; }
 [data-state="done"] .ring .arc, [data-state="current"] .ring .arc { stroke: var(--ok); }
 [data-state="done"] .glyph .check, [data-state="current"] .glyph .check, [data-state="done-gaps"] .glyph .check { display: block; }
 [data-state="done"] .glyph .light, [data-state="current"] .glyph .light, [data-state="done-gaps"] .glyph .light { display: none; }
-[data-state="problem"] .ring .arc { stroke: var(--bad); }
-[data-state="problem"] .glyph .light { fill: var(--bad); }
+:is([data-state="problem"], [data-state="failed"]) .ring .arc { stroke: var(--bad); }
+:is([data-state="problem"], [data-state="failed"]) .glyph .light { fill: var(--bad); }
 @keyframes owl-spin { to { transform: rotate(270deg); } }
 @keyframes owl-pulse { 50% { opacity: .45; } }
 @media (prefers-reduced-motion: reduce) { .ring .arc, .glyph .light, .track { animation: none !important; transition: none; } }

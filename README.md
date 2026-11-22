@@ -41,9 +41,10 @@ python -m pip install -e '.[zim]'
 python scripts/check_selection_policy.py
 
 # Replace this path with a directory on the external drive.
+mkdir -p /path/to/EMERGENCY_LIBRARY
 python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY --profile flash-16gb --plan
 python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY --profile flash-16gb
-python scripts/verify.py /path/to/EMERGENCY_LIBRARY
+python scripts/verify.py /path/to/EMERGENCY_LIBRARY --strict
 ```
 
 Python 3.11+ and internet access are needed to build. Reading ordinary PDFs does not require Python. ZIM archives need a compatible reader; packages for Windows, macOS, Linux and Android are included. The planner sets aside 500 MB for them. The builder never formats the drive or executes downloaded software. Leave `--cache-dir` unset so original downloads and resumable partials stay exclusively on the selected drive.
@@ -64,7 +65,12 @@ The standalone selector's command uses `--detach` to start a saved background jo
 
 ## Capacity and content
 
-The default recommendation covers capacities from 16 GB. It accounts for
+The Python builder measures free space in an existing destination folder. If the preset
+needs more than the drive has free, it tries the recommendation for the measured capacity.
+From 8 GB to 16 GB, the command keeps the higher-priority collections that fit from
+the 16 GB preset. Use `--capacity-bytes` to set a specific decimal byte limit.
+
+The full preset ladder starts at 16 GB. It accounts for
 filesystem headroom, free space to retain, readers and discovery files. The
 planner protects a core of essential or introductory references in all 15
 fields. Each field retains at least half its highest earlier attributed size. In the
@@ -215,13 +221,15 @@ A package’s presence does not guarantee it will run: CPU architecture, operati
 `LIBRARY/SHA256SUMS.txt` records managed files using SHA-256. `LIBRARY/INVENTORY.json` records the assets, source metadata, hashes, and verification provenance; `LIBRARY/BUILD_INFO.json` records the build configuration and search results. The independent verifier uses the Python standard library and can run without installing OWL:
 
 ```bash
-python scripts/verify.py /path/to/EMERGENCY_LIBRARY
+python scripts/verify.py /path/to/EMERGENCY_LIBRARY --strict
 
 # A copy also travels with the drive:
-python /path/to/EMERGENCY_LIBRARY/LIBRARY/VERIFY.py /path/to/EMERGENCY_LIBRARY
+python -I /path/to/EMERGENCY_LIBRARY/LIBRARY/VERIFY.py --strict
 ```
 
 It reports `OK` for matching files, `MISSING` for absent expected files, `FAILED` for mismatches or unsafe entries, and `UNKNOWN` for files outside the checksum manifest. Unknown personal files are not deleted. Checking a large drive reads its content and can take hours. A stored checksum detects accidental changes, but it is not a digital signature: retain a trusted independent copy of the checksum manifest to detect changes to both files and checksums.
+
+Strict verification also checks selection and support completeness. Use `--accept-partial` if you intend to accept missing content, reader files, search, or WikiMed phone volumes. Checksum errors still fail verification. On FAT32, the Python builder stores oversized ZIMs as 1 GiB parts. Keep the parts together and open the `.zimaa` file in a compatible reader.
 
 A pinned source hash verifies against the catalog’s expected bytes. When an upstream source supplies no trusted SHA-256, OWL records an observed hash after download; that is a baseline for future integrity checks, not independent authentication of the original download. The generated `LIBRARY/LOCKED_CATALOG.yaml` captures measured hashes for repeat builds. Exact reproduction requires those bytes to remain available at the source or in your cache; timestamps and build metadata can differ.
 
@@ -230,6 +238,8 @@ To update, review catalog changes, inspect the new plan, rebuild with the intend
 **Build two identical SSDs, verify both, and store the backup separately.** Keep the catalog and checksum manifests with your backup records. Periodically read and verify both drives, safely eject them, and replace unreliable media. Carry required adapters and power accessories with each drive. See [operating guide](docs/usage.md) for a practical checklist.
 
 ## Develop and test
+
+See the [script index](scripts/README.md) for build, catalog and CI commands.
 
 ```bash
 python -m pip install -e .

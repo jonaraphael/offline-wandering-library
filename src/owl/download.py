@@ -15,8 +15,10 @@ from urllib.parse import urlsplit
 from urllib.request import Request, url2pathname, urlopen
 
 from .safety import atomic_write, reject_symlinks, safe_path, sha256_file
-from .transfer import (TransferError, _check_directory, _directory_identity,
+from .transfer import (ChecksumMismatchError, TransferError, _check_directory, _directory_identity,
                        _open_regular, durable_writer, resume_copy)
+
+USER_AGENT = "Offline-Wandering-Library/0.1 (+offline library builder)"
 
 
 class DownloadError(RuntimeError):
@@ -55,13 +57,113 @@ def verified(path: Path, size: int, checksum: str | None) -> bool:
     return bool(checksum and path.is_file() and path.stat().st_size == size and sha256_file(path) == checksum)
 
 
+def inspect_zim_parts(paths, layout, checksum):
+    """Return per-part pins only when the ordered on-disk bytes match the whole pin."""
+    from hashlib import sha256
+    from .verify import file_hash
+
+    whole = sha256()
+    parts = []
+    for path, row in zip(paths, layout, strict=True):
+        reject_symlinks(path)
+        if not path.is_file() or path.stat().st_size != row["bytes"]:
+            return None
+        parts.append({**row, "sha256": file_hash(path, whole)})
+    return parts if whole.hexdigest() == checksum else None
+
+
+def _local_source(parsed, repo_root):
+    if parsed.scheme == "repo":
+        return safe_path(repo_root, (parsed.netloc + parsed.path).lstrip("/"))
+    if parsed.netloc not in {"", "localhost"} or parsed.path.startswith("//"):
+        raise DownloadError("File sources must be local file URLs, not remote authorities or UNC paths")
+    # Convert a Windows drive prefix and decode percent escapes exactly once.
+    return Path(url2pathname(parsed.path))
+
+
+def download_split_zim(asset, layout, destination, staged, *, repo_root, cached=None, progress=print):
+    """Stream a pinned ZIM into owned partials without allocating a whole file."""
+    from contextlib import closing
+
+    def write_parts(source):
+        for path, row in zip(staged, layout, strict=True):
+            with _open_regular(path, writable=True) as handle, durable_writer(handle) as checkpoint:
+                handle.truncate(0)
+                left = row["bytes"]
+                while left:
+                    block = source.read(min(left, 1024 * 1024))
+                    if not block:
+                        raise TransientDownloadError("archive ended before its pinned byte count")
+                    handle.write(block)
+                    left -= len(block)
+                    checkpoint.written(len(block))
+            progress(f"{asset['id']}: wrote {row['start'] + row['bytes']:,} / {asset['size_bytes']:,} bytes")
+        if source.read(1):
+            raise DownloadError("archive exceeds its pinned byte count")
+        parts = inspect_zim_parts(staged, layout, asset["sha256"])
+        if parts is None:
+            raise ChecksumMismatchError(f"{asset['id']}: split archive SHA-256 mismatch")
+        return parts
+
+    def open_source(url, headers):
+        parsed = urlsplit(url)
+        if parsed.scheme in {"repo", "file"}:
+            return _open_regular(_local_source(parsed, repo_root))
+        response = urlopen(Request(url, headers=headers), timeout=60)
+        if (response.status != 200 or response.headers.get("Content-Encoding", "identity") != "identity" or
+                (parsed.scheme == "https" and urlsplit(response.url).scheme != "https")):
+            response.close()
+            raise DownloadError("expected a full, unencoded archive response")
+        return response
+
+    # An interruption during publication can leave verified parts in both
+    # locations. Reassemble that staging set before requesting bytes again.
+    candidates = [partial if partial.is_file() else final
+                  for partial, final in zip(staged, destination, strict=True)]
+    parts = inspect_zim_parts(candidates, layout, asset["sha256"])
+    if parts is None:
+        sources = list(dict.fromkeys([asset["source_url"], *asset.get("mirrors", [])]))
+        if cached is not None and cached.is_file():
+            sources.insert(0, cached.as_uri())
+        headers = {"Accept-Encoding": "identity", "User-Agent": USER_AGENT}
+        last_error = None
+        for url in sources:
+            for attempt in range(3):
+                try:
+                    request_headers = headers if attempt == 0 else {"Accept-Encoding": "identity"}
+                    with closing(open_source(url, request_headers)) as stream:
+                        parts = write_parts(stream)
+                    break
+                except (OSError, http.client.HTTPException, DownloadError, TransferError) as error:
+                    last_error = error
+                    if isinstance(error, HTTPError):
+                        error.close()
+                    if attempt == 2 or not (_transient(error) or isinstance(error, HTTPError) and error.code == 403):
+                        break
+                    time.sleep(2 ** attempt)
+            if parts is not None:
+                break
+        if parts is None:
+            # A complete-looking rejected set must never be promoted on retry.
+            for path in staged:
+                path.unlink(missing_ok=True)
+            error_type = TransientDownloadError if _transient(last_error) else DownloadError
+            raise error_type(f"{asset['id']}: split ZIM download failed: {last_error}") from last_error
+    for partial, final in zip(staged, destination, strict=True):
+        if partial.exists():
+            reject_symlinks(partial)
+            reject_symlinks(final)
+            os.replace(partial, final)
+    return parts
+
+
 def _complete(part: Path, asset: dict) -> str:
     if part.stat().st_size != asset["size_bytes"]:
         error = TransientDownloadError if part.stat().st_size < asset["size_bytes"] else DownloadError
         raise error(f"{asset['id']}: size mismatch: {part.stat().st_size} != {asset['size_bytes']}")
     digest = sha256_file(part)
     if asset["sha256"] and digest != asset["sha256"]:
-        raise DownloadError(f"{asset['id']}: SHA-256 mismatch; refusing completed download")
+        raise ChecksumMismatchError(f"{asset['id']}: SHA-256 mismatch; refusing completed download")
     return digest
 
 
@@ -84,7 +186,7 @@ def capture_bounded_response(asset: dict, destination: Path, *, timeout=25, resp
     reject_symlinks(part)
     if destination.exists() or part.exists():
         raise DownloadError("Diagnostic response already has bytes; preserve evidence and use new staging")
-    headers = {"Accept-Encoding": "identity", "User-Agent": "Offline-Wandering-Library/0.1 (+offline library builder)"}
+    headers = {"Accept-Encoding": "identity", "User-Agent": USER_AGENT}
     with urlopen(Request(url, headers=headers), timeout=timeout) as response:
         if urlsplit(response.url).scheme != "https" or response.status != 200:
             raise DownloadError("Diagnostic response requires a whole HTTPS 200 response")
@@ -136,27 +238,22 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
     reject_symlinks(part)
     reject_symlinks(meta_path)
     expected = asset["size_bytes"]
-    urls = [asset["source_url"], *asset.get("mirrors", [])]
+    urls = list(dict.fromkeys([asset["source_url"], *asset.get("mirrors", [])]))
     standard_user_agent_urls = set()
     attempted_urls = set()
     last_error = None
-    for attempt in range(retries + 1):
-        url = urls[attempt % len(urls)]
+    saw_bad_hash = False
+    attempt = route = 0
+    while urls and attempt <= retries:
+        index = route % len(urls)
+        url = urls[index]
+        route = index + 1
         attempted_urls.add(url)
         try:
             _check_directory(destination.parent, parent_identity)
             parsed = urlsplit(url)
             if parsed.scheme in {"file", "repo"}:
-                if parsed.scheme == "repo":
-                    relative = (parsed.netloc + parsed.path).lstrip("/")
-                    source = safe_path(repo_root, relative)
-                else:
-                    if parsed.netloc not in {"", "localhost"} or parsed.path.startswith("//"):
-                        raise DownloadError("File sources must be local file URLs, not remote authorities or UNC paths")
-                    # URI paths use /C:/ on Windows; url2pathname converts the
-                    # drive prefix and decodes percent escapes exactly once.
-                    source = Path(url2pathname(parsed.path))
-                    reject_symlinks(source)
+                source = _local_source(parsed, repo_root)
                 digest = resume_copy(source, destination, size=expected, checksum=asset["sha256"],
                                      part=part, progress=progress)
                 _check_directory(destination.parent, parent_identity)
@@ -174,22 +271,26 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                     except (ValueError, OSError):
                         pass
                 if offset == expected and asset["sha256"]:
-                    digest = _complete(part, asset)
+                    if verified(part, expected, asset["sha256"]):
+                        _check_directory(destination.parent, parent_identity)
+                        with _open_regular(part, writable=True) as handle, durable_writer(handle):
+                            pass
+                        reject_symlinks(destination)
+                        if response_evidence is not None:
+                            response_evidence(metadata.get("response_evidence", {"kind": "unavailable", "requested_url": url}))
+                        os.replace(part, destination)
+                        meta_path.unlink(missing_ok=True)
+                        return asset["sha256"]
                     _check_directory(destination.parent, parent_identity)
-                    with _open_regular(part, writable=True) as handle, durable_writer(handle):
-                        pass
-                    reject_symlinks(destination)
-                    if response_evidence is not None:
-                        response_evidence(metadata.get("response_evidence", {"kind": "unavailable", "requested_url": url}))
-                    os.replace(part, destination)
+                    part.unlink(missing_ok=True)
                     meta_path.unlink(missing_ok=True)
-                    return digest
+                    offset = 0
                 validator = metadata.get("validator") if metadata.get("url") == url else None
                 if offset >= expected or (offset and not asset["sha256"] and not validator):
                     offset = 0
                 headers = {"Accept-Encoding": "identity"}
                 if url not in standard_user_agent_urls:
-                    headers["User-Agent"] = "Offline-Wandering-Library/0.1 (+offline library builder)"
+                    headers["User-Agent"] = USER_AGENT
                 if offset:
                     headers["Range"] = f"bytes={offset}-"
                     if validator:
@@ -267,11 +368,26 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
                 switch_agent = isinstance(error, (URLError, TimeoutError, ConnectionError, http.client.HTTPException))
             if switch_agent:
                 standard_user_agent_urls.add(url)
-            if isinstance(error, DownloadError) and "SHA-256 mismatch" in str(error):
-                # Corrupt bytes must never be reused, including on the next run.
-                _check_directory(destination.parent, parent_identity)
-                part.unlink(missing_ok=True)
-                meta_path.unlink(missing_ok=True)
+            if isinstance(error, ChecksumMismatchError):
+                # Keep a lone local copy as evidence. A different route must
+                # always start without bytes from the rejected source.
+                if len(urls) > 1 or parsed.scheme not in {"file", "repo"}:
+                    _check_directory(destination.parent, parent_identity)
+                    part.unlink(missing_ok=True)
+                    meta_path.unlink(missing_ok=True)
+                urls.pop(index)
+                route = index
+                saw_bad_hash = True
+                if urls:
+                    progress(f"{asset['id']}: {error}; trying another source")
+                continue
+            if saw_bad_hash:
+                # A transport error on one fallback must not hide an untried
+                # pinned mirror after the original source failed integrity.
+                untried = next((i for i, candidate in enumerate(urls) if candidate not in attempted_urls), None)
+                if untried is not None:
+                    route = untried
+                    continue
             # A rejected identifier or untried reviewed mirror gets its existing
             # bounded fallback. Permanent pins, local I/O and safety errors do
             # not become repeatable job failures.
@@ -281,5 +397,6 @@ def download(asset: dict, destination: Path, *, repo_root: Path, retries: int = 
             if attempt < retries:
                 progress(f"{asset['id']}: retry {attempt + 1}/{retries}: {error}")
                 sleep(min(2 ** attempt, 30))
+            attempt += 1
     error_type = TransientDownloadError if _transient(last_error) else DownloadError
     raise error_type(f"{asset['id']}: download failed: {last_error}") from last_error

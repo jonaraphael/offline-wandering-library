@@ -12,7 +12,7 @@ import re
 from urllib.parse import quote
 
 from .catalog import is_document, read_yaml
-from .layout import checksum_name, managed_path
+from .layout import checksum_name, managed_path, reader_destination
 from .offline_layout import TEMPLATES, emergency_routes, layout, render
 from .resources import resource_asset_ids
 from .safety import atomic_write
@@ -161,9 +161,10 @@ def _order(row):
 
 
 def _row(asset, data):
-    path = checksum_name(asset["destination"])
+    destination = reader_destination(asset)
+    path = checksum_name(destination)
     row = {"id": asset["id"], "title": asset["title"], "path": path,
-           "href": _href(asset["destination"], "START_HERE.html"),
+           "href": _href(destination, "START_HERE.html"),
            "kind": data.get("kind") or _FORMATS.get(asset["format"], asset["format"].upper()),
            "format": asset["format"], "bytes": asset.get("size_bytes", asset.get("bytes", 0))}
     if len(asset.get("parts") or ()) > 1:
@@ -371,6 +372,5 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
         return pages
     for relative, content in pages.items():
         destination = managed_path(target, relative)
-        destination.parent.mkdir(parents=True, exist_ok=True)
         atomic_write(destination, content.encode("utf-8"))
     return list(pages)

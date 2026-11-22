@@ -95,8 +95,9 @@ state. Only their contents change, so the page never jumps.
 | `finishing` | Downloads done, index and reader being written | Full arc, pulsing | Finishing | Building the search index and the start page. | Solid | None | None |
 | `paused` | Paused, or the tab was reopened mid-sync | Arc stopped, amber | Paused at *42%* | Nothing is lost. Sync continues where it stopped. | As `behind` | **Sync** | Manage what goes on it |
 | `waiting` | Network dropped during sync | Arc stopped, amber | *42%* | Waiting for the internet. Sync continues by itself. | As `syncing` | **Pause** | None |
-| `done` | Sync finished | Full green ring, check mark | Ready | Open your library on *drive name*. | Solid | **Try it** | Check every file · Sync another drive |
-| `done-gaps` | Finished, some items failed | Full amber ring | Ready, with *3* items missing | The library works. *3* items could not be downloaded. | Solid, gap marked | **Try those again** | Show the 3 items · Sync another drive |
+| `done` | Sync finished | Full green ring, check mark | Ready | Open your library on *drive name*. | Solid | **Try it** | Check every file · Show files kept in parts (when any) · Sync another drive |
+| `done-gaps` | At least one knowledge file arrived, with files still missing | Full amber ring | Ready, with *3* items missing | *409* files arrived. *1* essential file missing. | Solid, gap marked | **Try those again** | Show details · Check every file · Sync another drive |
+| `failed` | No knowledge files arrived | Red arc | Sync could not finish | *0* files arrived. *1* essential file missing. | Last known | **Try those again** | Show details · Check every file · Sync another drive |
 | `problem` | Drive unplugged, read-only, full, permission refused | Red arc | One plain sentence naming the problem | One sentence saying what to do. "Nothing is lost" when true. | Last known | The fix: **Reconnect**, **Choose another drive** or **Sync** | Technical details |
 | `too-small` | Free space below the smallest plan | Empty ring | Not enough room | OWL needs at least *N GB* free. This drive has *M GB*. | Hidden | **Choose another drive** | None |
 | `unsupported` | Safari, Firefox, any phone | Drive outlined | Open this page in Chrome, Edge or Arc on a computer | Those browsers can write straight to a drive. This one cannot. | Hidden | **Copy link** | See what goes on a drive · Build with the command line |
@@ -118,6 +119,9 @@ Notes on states:
   20 seconds it is joined by the phone card: the Kiwix QR code for iPhone
   ("Install it now, while you are online") and one line for Android and
   computers ("The reader app is copied onto the drive").
+- While Sync is running, including while it waits for the internet and builds
+  the start page, closing or reloading the tab brings up the browser’s
+  confirmation.
 - **In `done`, `done-gaps` and `current`** a card below the stage reads
   "Using it on a phone. A phone opens nothing by itself when the drive is
   plugged in. Open the Files app, tap the drive's name (on an iPhone it is
@@ -126,6 +130,18 @@ Notes on states:
   cannot open the preview, the status gives the file name and drive.
 - **`current` has no primary button.** A disabled Sync button reads as a
   fault.
+- If measurement is unavailable, the stage says "This plan uses an estimate
+  of *N GB* for the drive." The plan uses 90 percent of the printed size.
+- Finished drives with verified split files say "*N* encyclopedias kept in
+  parts." The finish screen links to "Show files kept in parts" and
+  "Check every file." If joining is the only work left, the stage says
+  "Sync joins the files kept in parts." If reader or search files are
+  missing, the status also says "Some reader or search files are missing."
+  If the phone PDFs are missing, it says "Some WikiMed phone files are missing."
+- If selected essential files have no browser download, the stage before
+  Sync and the completion summary say "This browser can’t download *N*
+  essential files. Use the Python builder to get them." An existing copy
+  on the drive can still be kept.
 - The computer is kept awake during `syncing` where the browser allows it
   (the existing wake lock).
 
@@ -147,24 +163,40 @@ resume paths.
    found on the drive with matching size and SHA-256), *missing* or
    *changed*. Each recorded item that is no longer a target is *dropped*.
    The status line reports the totals before anything is written.
-4. **Add first.** Download and verify missing and changed items in priority
-   order, most essential first. A changed item's old copy stays until its
+4. **Add first.** Reserve space for the reader, search and inventory. Put a
+   simple start page on a new drive before downloading. Download and verify
+   missing and changed items in priority order, essential files first.
+   Within each priority, download the largest encyclopedias first so there
+   is room to verify the incoming pieces. On drives that support single
+   files, join them when there is room for both copies. A verified
+   encyclopedia kept in parts counts as installed. A later Sync joins it
+   when there is enough free space.
+   A changed item's old copy stays until its
    replacement verifies. When the drive lacks room for both copies, the
    update is held back and listed in Manage with a "Replace in place" action;
    it is not applied silently.
 5. **Remove last.** Delete dropped items and replaced copies after all
    additions verify.
 6. **Finish.** Rebuild the search index, the reader and the reader data.
+   If the drive runs out of space, stop adding lower-priority files. If
+   finishing needs more room, remove the least essential files added by
+   this sync. If the full reader still cannot fit beside the essential
+   files, write a simple start page that links directly to the files.
    Write the record: the choice, the catalog version, the date, every item
-   with its hash.
+   with its hash, what is missing and which encyclopedias are kept in parts.
+   The build report on the drive records any missing reader, search or
+   WikiMed phone files.
+   "Up to date" requires the current reader, navigation and search revision
+   and the active reader files on the drive.
 
 Safety rules:
 
-- Sync deletes only files listed in the drive's own record. A file OWL did
-  not write is never deleted, moved or overwritten, inside or outside
-  `LIBRARY/`.
+- Sync deletes a file only when its path belongs to the library layout and
+  its size and checksum match the drive record or the published file.
 - Stopping at any moment (Pause, closed tab, pulled drive, lost network)
-  loses at most the piece being written. The next Sync continues.
+  loses at most the piece being written. The next Sync checks committed
+  archive parts before continuing. It repairs any interrupted start page
+  and checksum publication.
 - A catalog change between two sessions never produces an error. Today's
   "pinned selection has changed" stop is replaced by step 3.
 - Interrupted mid-update, the drive still opens: the reader on the drive
@@ -172,10 +204,10 @@ Safety rules:
 - "Check every file" re-hashes every item and re-downloads the ones that
   fail. It is reconcile with nothing trusted.
 
-Space: the planner fills the available space as it does today, including the
-reserve for the index and readers. On a FAT32 drive (detected while
-measuring, as today) large files are written in parts; the control for this
-sits in Manage under Advanced with the detected value preselected.
+Space: the planner fills the available space, including the reserve for the
+index and readers. On FAT32, the probe measures free space across files
+smaller than 4 GiB. Large files are written in parts. The control sits in
+Manage under Advanced with the detected value preselected.
 
 ### 4.4 Manage
 
@@ -225,7 +257,10 @@ screen.
   collection with several editions shows them as a choice beneath the title
   with the recommended one marked. "Choose files" opens the per-file list.
   The planner's must-have items carry an "Essential" label and can still be
-  switched off.
+  switched off. If selected essential files have no browser download,
+  Manage shows the same download warning as the stage. Removing essential
+  files shows one note in Manage, "You removed *N* essential files."
+  The Sync result counts only files still selected.
 - **Over capacity:** the bar's overflow turns red and the summary reads
   "*3.1 GB* over." with a "Make it fit" button that removes the least
   essential items until the library fits. The back link stays enabled; an
@@ -305,6 +340,13 @@ with the best passage, the searched words marked, other matching places in
 the same document, and "Open". A result inside an encyclopedia file says
 which article to look up in Kiwix. Options (limit to a category) sit behind
 "Options".
+
+When the query describes an emergency that matches a reviewed guide on the
+drive, that guide's card comes first. When no reviewed guide matches but
+indexed passages do, show up to three under "No reviewed guide matched.
+These passages may help." When nothing qualifies, say "No close match.
+Browse Urgent guides and categories on Home." Both states offer "Browse
+Home".
 
 **Saved** (`#/saved`): starred items, then everything opened recently. The
 empty state shows a star and one sentence. Saved items are kept in the

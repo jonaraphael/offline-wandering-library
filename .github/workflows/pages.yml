@@ -1,10 +1,6 @@
 name: Pages
 on:
-  push:
-    branches:
-      - main
-      - t3/council-offline-library-audit
-  workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -15,6 +11,7 @@ concurrency:
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -22,6 +19,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - uses: actions/configure-pages@v5
       - run: python -m pip install -e .
       - run: python scripts/build_selector.py --check
@@ -30,18 +30,20 @@ jobs:
           path: ${{ runner.temp }}/owl-mirrors
           key: owl-pages-mirrors-${{ hashFiles('web/pages-mirrors.json') }}
           restore-keys: owl-pages-mirrors-
-      # OWL_RELAY_BASE (repository variable) is the owner-approved publisher relay
-      # origin; when unset the site is built without relay routes.
+      # OWL_RELAY_BASE is the required owner-approved publisher relay origin.
       - env:
           OWL_RELAY_BASE: ${{ vars.OWL_RELAY_BASE }}
           OWL_ARCHIVE_RELAY: ${{ vars.OWL_ARCHIVE_RELAY }}
         run: |
-          relay=()
-          if [[ -n "$OWL_RELAY_BASE" ]]; then
-            relay+=(--relay-base "$OWL_RELAY_BASE")
-            if [[ "$OWL_ARCHIVE_RELAY" == true ]]; then relay+=(--archive-relay); fi
+          if [[ -z "$OWL_RELAY_BASE" ]]; then
+            echo "::error::Set the OWL_RELAY_BASE repository variable before publishing Pages."
+            exit 1
           fi
+          relay=(--relay-base "$OWL_RELAY_BASE")
+          if [[ "$OWL_ARCHIVE_RELAY" == true ]]; then relay+=(--archive-relay); fi
           python scripts/build_pages.py "${{ runner.temp }}/owl-pages" --fetch-mirrors --cache "${{ runner.temp }}/owl-mirrors" --search-commit "${{ github.sha }}" "${relay[@]}"
+      - run: node tests/browser-plan.test.mjs "${{ runner.temp }}/owl-pages"
+      - run: python scripts/check_pages_profiles.py "${{ runner.temp }}/owl-pages"
       - uses: actions/upload-pages-artifact@v4
         with:
           path: ${{ runner.temp }}/owl-pages

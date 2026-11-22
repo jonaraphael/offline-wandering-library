@@ -99,3 +99,15 @@ test("a per-file limit below free space is summed across files", async () => {
   assert.equal(names.size, 0);
   assert.equal(allocated.size, 0);
 });
+
+test("FAT32 measures free space across files smaller than 4 GiB", async () => {
+  const free = 31 * GiB + 300 * MiB;
+  const {drive, clock, names, allocated} = fakeDrive({free, perFileCap: 4 * GiB - 1});
+  const result = await withClock(clock, () => measureFreeSpace(drive));
+  assert.equal(result.kind, "measured");
+  assert.equal(result.splitArchives, true);
+  assert.ok(result.files > 1);
+  assert.ok(free >= result.bytes && free - result.bytes <= MiB, String(result.bytes));
+  assert.equal(names.size, 0);
+  assert.equal(allocated.size, 0);
+});

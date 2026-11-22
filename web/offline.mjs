@@ -1,6 +1,6 @@
 import {sha256} from "./vendor/noble-hashes/sha2.js";
 import {bytesToHex} from "./vendor/noble-hashes/utils.js";
-import {writeFile} from "./drive.mjs";
+import {isNoSpace, writeFile} from "./drive.mjs";
 import {assembleSearch, canonical, locator, shareSearchSupport, transfer} from "./search-build.mjs";
 
 const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({
@@ -8,9 +8,10 @@ const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({
 })[char]);
 const compare = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 const order = (a, b) => compare(a.title.toLowerCase(), b.title.toLowerCase()) || compare(a.id, b.id);
+const encoder = new TextEncoder();
 const render = (template, values) => template.replace(/\{\{([a-z_]+)\}\}/g, (_, slot) => values[slot] ?? "");
 const data = (id, value) => "globalThis.OWLReaderData(" + canonical(id) + "," + canonical(value) + ");\n";
-const hash = value => bytesToHex(sha256(new TextEncoder().encode(value)));
+const hash = value => bytesToHex(sha256(encoder.encode(value)));
 const firstResponse = new Set(["cert", "medical_bec"]);
 const searchScripts = ["manifest.js", "rank.js", "shards.js", "rerank.js"];
 const FORMATS = {pdf: "PDF", html: "Web page", htm: "Web page", epub: "EPUB book",
@@ -59,7 +60,45 @@ function grouped(rows, metadata, category) {
   return output.sort((a, b) => first(a) - first(b) || importance(a) - importance(b) || order(a, b));
 }
 
-function readerFiles(config, inventory, phone, missing, indexed, shared, syncedAt) {
+export function startPage(assets = [], missing = []) {
+  const links = assets.map(asset => {
+    const path = asset.parts[0].path;
+    return '<li><a href="' + locator(path) + '">' + escape(asset.title) + "</a> · " + escape(path) +
+      (asset.parts.length > 1 ? " · Keep all parts together and open the first in Kiwix." : "") + "</li>";
+  });
+  return '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+    "<title>Library · Offline Wandering Library</title><h1>Library</h1>" +
+    '<p>Files on this drive are in the <a href="LIBRARY/">LIBRARY folder</a>, grouped by subject.</p>' +
+    (links.length ? "<ul>" + links.join("") + "</ul>" : "") +
+    (missing.length ? '<p>This library is incomplete. See the <a href="LIBRARY/BUILD_REPORT.html">build report</a>.</p>' : "");
+}
+
+export function assemblyReserve({assets, excluded, navigation, search, searchBudget, partCount}) {
+  const {reader, verify} = navigation;
+  const size = value => encoder.encode(value || "").length;
+  // Include the root page, both documents with embedded CSS, reader scripts,
+  // inventory, checksums and the browser record's swap file.
+  const fixed = reader ? 3 * size(reader.css) + size(reader.reader) + 2 * size(reader.document) +
+    2 * size(reader.bootstrap) + size(reader.runtime) + size(reader.readme) + size(reader.redirect) : 0;
+  const metadata = assets.reduce((sum, asset) => sum + 1400 + 4 * size(JSON.stringify([
+    asset.id, asset.title, asset.destination, asset.license, asset.attribution, asset.source_url, asset.version,
+    reader?.assets?.[asset.id]?.topics
+  ])) + 600 * partCount(asset), 0);
+  // The planner already accounts for the optional search payload. Limit
+  // the on-drive placeholder so probing an estimated drive costs a small write.
+  const searchReserve = search ? Math.min(searchBudget, 16 * 2 ** 20) : 0;
+  return fixed + metadata + size(verify) + 4096 + excluded.length * 512 + searchReserve;
+}
+
+function reportBody(missing, keptInParts) {
+  const omissions = missing.length ? "<h2>Missing files</h2><ul>" + missing.map(row =>
+    "<li>" + escape(row.title) + " · " + escape(row.reason) + "</li>").join("") + "</ul>"
+    : "<p>Every requested file available to this build is listed in the inventory.</p>";
+  return omissions + (keptInParts.length ? "<h2>Kept in parts</h2><ul>" + keptInParts.map(row =>
+    "<li>" + escape(row.title) + " · " + row.parts + " parts</li>").join("") + "</ul>" : "");
+}
+
+function readerFiles(config, inventory, phone, missing, keptInParts, indexed, shared, syncedAt) {
   const {layout, css, assets: metadata, categories} = config;
   const files = inventory.map(asset => {
     const path = asset.parts[0].path;
@@ -141,11 +180,8 @@ function readerFiles(config, inventory, phone, missing, indexed, shared, syncedA
   });
   pages.set("LIBRARY/INVENTORY.html", document("Every file, with its location",
     '<p>See <a href="INVENTORY.json">file details, sources and checksums</a>.</p><ul>' + inventoryRows.join("") + "</ul>"));
-  const omission = missing.length ? "<h2>Could not be downloaded</h2><ul>" + missing.map(row => render(layout.report_row, {
-    title: escape(row.title), detail: row.reason ? " · " + escape(row.reason) : ""
-  })).join("") + "</ul>" : "<p>Every requested file available to this build is listed in the inventory.</p>";
   pages.set("LIBRARY/BUILD_REPORT.html", document("Build report",
-    omission + '<p><a href="INVENTORY.html">Every file, with its location</a></p>'));
+    reportBody(missing, keptInParts) + '<p><a href="INVENTORY.html">Every file, with its location</a></p>'));
   const colors = ":root{" + categories.filter(({id}) => !["trades", "school"].includes(id))
     .map(({id, light}) => "--c-" + id + ":" + light + ";").join("") + "}\n" +
     "@media(prefers-color-scheme:dark){:root{" + categories.map(({id, dark}) => "--c-" + id + ":" + dark + ";").join("") + "}}";
@@ -169,50 +205,87 @@ function readerFiles(config, inventory, phone, missing, indexed, shared, syncedA
   return pages;
 }
 
-export async function assembleLibrary(drive, {completed, missing, navigation, layouts, parts, signal, search, searchBudget, fetchFile, network, syncedAt, onPublished}) {
-  const {reader, verify, phone} = navigation;
-  const phoneVolumes = [], phoneChecksums = [], phoneWarnings = [];
+export async function assembleLibrary(drive, {completed, missing, keptInParts = [], selectedCount = completed.length + missing.length,
+    navigation, layouts, parts, signal, search, searchBudget, fetchFile, network, syncedAt, compact = false,
+    unavailableSupport = [], searchMissing = false, onPublished}) {
+  const {verify} = navigation;
+  const {reader, phone} = compact ? {} : navigation;
+  const phoneVolumes = [], phoneChecksums = [], supportMissing = [...unavailableSupport];
   let phoneBytes = 0;
-  if (phone && completed.some(asset => asset.id === phone.source_id && asset.sha256 === phone.source_sha256)) {
-    for (const volume of phone.volumes) {
+  const phoneConfig = navigation.phone;
+  if (phoneConfig && completed.some(asset => asset.id === phoneConfig.source_id && asset.sha256 === phoneConfig.source_sha256)) {
+    for (const volume of phoneConfig.volumes) {
+      const id = "wikimed-phone-" + volume.file;
+      const title = "WikiMed phone volume " + volume.title;
+      if (!phone) {
+        supportMissing.push({kind: "phone", id, title, reason: "The drive ran out of space."});
+        continue;
+      }
       try {
         const path = "LIBRARY/" + phone.destination + volume.file;
         phoneBytes += volume.bytes;
         phoneChecksums.push(await transfer(drive, phone.base, volume.file, volume, fetchFile, signal, network, path, 8_000_000));
-        phoneVolumes.push({path, id: "wikimed-phone-" + volume.file, title: "WikiMed: " + volume.title,
+        phoneVolumes.push({path, id, title: "WikiMed: " + volume.title,
           href: locator(path), kind: "PDF", format: "pdf", bytes: volume.bytes});
       } catch (error) {
         signal?.throwIfAborted();
-        phoneWarnings.push("WikiMed phone volume " + volume.title + " — " + error.message);
+        if (isNoSpace(error)) throw error;
+        supportMissing.push({kind: "phone", id, title, reason: error.message});
       }
     }
   }
   const assets = completed.map(asset => {
-    const meta = reader?.assets[asset.id];
+    const meta = navigation.reader?.assets?.[asset.id];
     return {id: asset.id, title: asset.title, destination: layouts.get(asset.id)[0].path.slice("LIBRARY/".length),
       format: asset.format, license: asset.license, attribution: meta?.attribution ?? asset.attribution,
       publisher: meta?.publisher ?? asset.publisher, bytes: asset.size_bytes, sha256: asset.sha256,
+      source_url: asset.source_url ?? null, version: asset.version ?? null, redistributable: asset.redistributable ?? null,
       parts: layouts.get(asset.id).map((part, index) => ({...part, sha256: parts[asset.id][index].sha256}))};
   });
-  const indexed = search ? await assembleSearch(drive, {completed, layouts,
-    config: search, fetchFile, signal, network, budget: searchBudget - phoneBytes, versioned: Boolean(reader)})
-    : {pages: new Map(), checksums: [], warnings: []};
-  const {paths: shared, checksums: sharedChecksums} = reader && indexed.pages.has("LIBRARY/SEARCH/rank.js")
-    ? await shareSearchSupport(drive, indexed.checksums, signal) : {paths: {}, checksums: []};
+  let indexed = {pages: new Map(), checksums: [], missing: []};
+  let shared = {}, sharedChecksums = [];
+  if (search) {
+    try {
+      const result = await assembleSearch(drive, {completed, layouts, config: search, fetchFile, signal, network,
+        budget: searchBudget - phoneBytes, versioned: Boolean(reader)});
+      if (reader && result.pages.has("LIBRARY/SEARCH/rank.js")) {
+        ({paths: shared, checksums: sharedChecksums} = await shareSearchSupport(drive, result.checksums, signal));
+      }
+      indexed = result;
+    } catch (error) {
+      signal?.throwIfAborted();
+      if (isNoSpace(error) || error instanceof DOMException) throw error;
+      supportMissing.push({kind: "search", title: "Search index", reason: error.message});
+    }
+  }
+  supportMissing.push(...indexed.missing);
+  if (compact && navigation.reader) {
+    supportMissing.push({kind: "reader", title: "Full reader", reason: "The drive ran out of space."});
+  }
+  if (searchMissing) supportMissing.push({kind: "search", title: "Search index", reason: "The drive ran out of space."});
   const omissions = missing.map(row => ({id: row.id || "", title: row.title || row.id || "",
-    reason: row.reason || row.unresolved_reason || ""})).sort(order);
-  const pages = reader ? readerFiles(reader, assets, phoneVolumes, omissions, indexed, shared, syncedAt) : new Map([
-    ["START_HERE.html", "<!doctype html><title>Library</title><h1>Library</h1><p>Files on this drive are in the LIBRARY folder, grouped by subject.</p>"]
+    utility_tier: row.utility_tier ?? null, reason: row.reason || row.unresolved_reason || ""})).sort(order);
+  let pages;
+  if (reader) {
+    try { pages = readerFiles(reader, assets, phoneVolumes, omissions, keptInParts, indexed, shared, syncedAt); }
+    catch (error) {
+      supportMissing.push({kind: "reader", title: "Full reader", reason: error.message});
+    }
+  }
+  pages ||= new Map([
+    ["START_HERE.html", startPage(assets, omissions)],
+    ["LIBRARY/BUILD_REPORT.html", '<!doctype html><meta charset="utf-8"><title>Build report</title><h1>Build report</h1>' +
+      reportBody(omissions, keptInParts) + '<p><a href="INVENTORY.json">Every file, with its location</a></p>']
   ]);
   const start = pages.get("START_HERE.html");
   pages.delete("START_HERE.html");
   for (const [path, contents] of indexed.pages) pages.set(path, contents);
-  if (reader) {
+  if (reader && !supportMissing.some(row => row.kind === "reader")) {
     pages.set("LIBRARY/SEARCH.html", reader.redirect);
     if (!search) pages.set("LIBRARY/SEARCH/search.js", reader.bootstrap);
   }
-  if (navigation.atlas) {
-    const included_topic_ids = [...new Set(assets.flatMap(row => reader.assets[row.id]?.topics?.map(([id]) => id) || []))].sort();
+  if (reader && navigation.atlas) {
+    const included_topic_ids = [...new Set(assets.flatMap(row => reader.assets?.[row.id]?.topics?.map(([id]) => id) || []))].sort();
     pages.set("LIBRARY/INDEX/navigation-report.json", JSON.stringify({schema_version: 1, included_topic_ids,
       input_hashes: navigation.input_hashes}, null, 2) + "\n");
   }
@@ -222,7 +295,10 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
   pages.set("LIBRARY/SOURCE_NOTES.txt", assets.map(file => [file.title, file.license, file.attribution,
     ...file.parts.map(part => part.path)].filter(Boolean).join("\n")).join("\n\n") + "\n");
   pages.set("LIBRARY/BUILD_INFO.json", JSON.stringify({schema_version: 1, asset_count: assets.length,
-    content_complete: !missing.length, layout: {entry_page: "START_HERE.html", content_directory: "LIBRARY"}}, null, 2) + "\n");
+    selected_count: selectedCount, missing: omissions, kept_in_parts: keptInParts,
+    content_complete: !missing.length && assets.length > 0,
+    support_complete: supportMissing.length === 0, support_missing: supportMissing,
+    layout: {entry_page: "START_HERE.html", content_directory: "LIBRARY"}}, null, 2) + "\n");
 
   const checksums = [...assets.flatMap(file => file.parts.map(part => part.sha256 + "  " + part.path)),
     ...indexed.checksums, ...sharedChecksums, ...phoneChecksums];
@@ -232,9 +308,14 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
     checksums.push(hash(contents) + "  " + path);
   }
   checksums.push(hash(start) + "  START_HERE.html");
+  // Keep the previous reader openable until its complete replacement exists.
+  // Reconcile journals both versions of the affected files before each write
+  // so that a pending Sync can rebuild the list and start page together.
+  signal?.throwIfAborted();
   await writeFile(drive, "LIBRARY/SHA256SUMS.txt", checksums.sort().join("\n") + "\n");
+  signal?.throwIfAborted();
   await writeFile(drive, "START_HERE.html", start);
   // SHA256SUMS lines contain a 64-character digest, two spaces and the full path.
   onPublished?.(new Map(checksums.map(line => [line.slice(66), line.slice(0, 64)])));
-  return [...phoneWarnings, ...indexed.warnings];
+  return {supportMissing, warnings: supportMissing.map(({title, reason}) => title + " — " + reason)};
 }

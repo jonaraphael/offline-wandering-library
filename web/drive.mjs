@@ -1,6 +1,7 @@
 const READ_WRITE = {mode: "readwrite"};
 const GiB = 2 ** 30;
 const MiB = 2 ** 20;
+const FAT32_MAX = 4 * GiB - 1;
 
 function pathParts(path) {
   const parts = path.split("/");
@@ -58,6 +59,7 @@ export async function removeFile(root, path) {
 }
 
 export async function writeFile(root, path, contents) {
+  if (await root.prepareWrite?.(path, contents) === false) return;
   const handle = await fileHandle(root, path, true);
   const writable = await handle.createWritable({mode: "exclusive"});
   try {
@@ -74,7 +76,7 @@ export function isNoSpace(error) {
 }
 
 export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolution = MiB, onAttempt = () => {},
-  budgetMs = 120_000, maxFiles = 4} = {}) {
+  budgetMs = 120_000, maxFiles = 4, maxFat32Files = 256} = {}) {
   const deadline = performance.now() + budgetMs;
   const prefix = "OWL-capacity-" + globalThis.crypto.randomUUID();
   const created = [], held = [];
@@ -145,31 +147,52 @@ export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolutio
     return (await attempt(margin, {hold: true})).result === "fits" ? margin : null;
   }
 
+  // A browser can report the 4 GiB file limit and a full disk with the same
+  // error. Hold real allocations below the limit until a smaller final file
+  // establishes the remaining space.
+  async function measureSmallFiles() {
+    const cap = Math.min(FAT32_MAX, upper);
+    let total = 0;
+    for (let files = 0; files < maxFat32Files && total < upper; files++) {
+      if (performance.now() > deadline) break;
+      const size = Math.min(cap, upper - total);
+      if ((await attempt(size, {hold: true})).result === "fits") {
+        total += size;
+        continue;
+      }
+      const last = await boundary(0, size, resolution);
+      if (last !== null) return {kind: "measured", bytes: total + last, files: held.length, splitArchives: true};
+      break;
+    }
+    return {kind: "limited", splitArchives: true};
+  }
+
   try {
     let seed = await attempt(64 * MiB);
     // A sleeping USB drive can take seconds on its first allocation (0.4-6 s on
     // a physical exFAT drive, then 0.01 s natively; a browser adds fixed per-call
     // latency). Time a second, warm attempt before judging the drive.
     if (seed.result === "fits" && seed.duration > 250) seed = await attempt(64 * MiB);
-    if (seed.result !== "fits" || seed.duration > 5_000) return {kind: "manual"};
+    if (seed.result !== "fits") return await measureSmallFiles();
+    if (seed.duration > 5_000) return {kind: "manual"};
     // A filesystem that writes zeros on extension takes about 16x longer for
     // 1 GiB than for 64 MiB; one that only allocates takes about the same time.
     // Only the first kind would make the search slow, so only it stops here.
     const gig = await attempt(GiB);
-    if (gig.result !== "fits") return {kind: "limited"};
+    if (gig.result !== "fits") return await measureSmallFiles();
     if (gig.duration > 2_000 && gig.duration > 6 * Math.max(seed.duration, 1)) return {kind: "manual"};
-    const largeFile = await attempt(4 * GiB + 1);
-    if (largeFile.result === "file-limit") return {kind: "fat32"};
-    if (largeFile.result !== "fits") return {kind: "limited"};
+    if (upper <= FAT32_MAX + 1) return await measureSmallFiles();
+    const largeFile = await attempt(FAT32_MAX + 1);
+    if (largeFile.result !== "fits") return await measureSmallFiles();
     const ceiling = await attempt(upper);
     if (ceiling.result === "fits") return {kind: "sparse-or-large"};
     if (ceiling.result === "file-limit") return {kind: "manual"};
 
     // Native truncate maps both ENOSPC and EFBIG to InvalidStateError, so the
     // result is an estimate.
-    const first = await boundary(4 * GiB + 1, upper, resolution);
+    const first = await boundary(FAT32_MAX + 1, upper, resolution);
     if (first === null) return {kind: "manual"};
-    let total = await holdAt(first, 4 * GiB + 1);
+    let total = await holdAt(first, FAT32_MAX + 1);
     if (total === null) return {kind: "manual"};
     // Chromium refused to grow one file past 793.02 GB on a physical exFAT
     // partition with 959.05 GB free, while native truncate reached 959 GB. With

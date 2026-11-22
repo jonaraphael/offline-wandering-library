@@ -10,8 +10,8 @@ to `LIBRARY`, while the global checksum manifest records outer-directory paths.
 
 The [Pages builder](https://jonaraphael.github.io/offline-wandering-library/) opens
 a folder on your external drive, recommends a selection and writes the verified
-files, search indexes, shelves and atlas to that drive. If access stops, reopen the site and choose
-**Resume**. The [browser build guide](pages-builder.md) covers size confirmation,
+files, search indexes, shelves and atlas to that drive. If access stops, reopen the site, choose
+**Reconnect** if prompted, then choose **Sync**. The [browser build guide](pages-builder.md) covers size confirmation,
 source exclusions and reader compatibility.
 
 ## Prepare for the Python build

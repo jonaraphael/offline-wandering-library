@@ -1,20 +1,84 @@
 {
   "16": {
-    "hit": 84,
-    "fable_hit": 36,
+    "hit": 91,
     "zero": 0,
-    "fable_zero": 0
+    "fable_hit": 39,
+    "fable_zero": 0,
+    "misses": [
+      "sharpen an axe",
+      "save seeds from tomatoes",
+      "improve heavy clay garden soil",
+      "whole grain bread baking",
+      "identify a stripped screw",
+      "cut a dovetail joint",
+      "insulate a drafty door",
+      "show hidden files in linux",
+      "create a shell script"
+    ],
+    "body_misses": [
+      "silica gel",
+      "dangling blob"
+    ],
+    "held_out_misses": [
+      "My friend touched a live wire and fell to the floor",
+      "A dog we do not know bit my hand and broke the skin",
+      "Cleaning spray got in my eye and it will not stop burning",
+      "A swimmer was pulled from the water and is barely breathing",
+      "The power has been out all night and the meat in the fridge feels warm",
+      "We smell gas next to the stove and the burner is off",
+      "Floodwater is rising around the car and we cannot drive out"
+    ]
   },
   "128": {
-    "hit": 83,
-    "fable_hit": 34,
+    "hit": 96,
     "zero": 0,
-    "fable_zero": 0
+    "fable_hit": 40,
+    "fable_zero": 0,
+    "misses": [
+      "improve heavy clay garden soil",
+      "identify a stripped screw",
+      "insulate a drafty door",
+      "show hidden files in linux"
+    ],
+    "body_misses": [
+      "silica gel",
+      "mosquito larvae"
+    ],
+    "held_out_misses": [
+      "My friend touched a live wire and fell to the floor",
+      "A dog we do not know bit my hand and broke the skin",
+      "Cleaning spray got in my eye and it will not stop burning",
+      "Someone woke up with sudden chest pressure and pain down one arm",
+      "The power has been out all night and the meat in the fridge feels warm",
+      "We smell gas next to the stove and the burner is off",
+      "Floodwater is rising around the car and we cannot drive out",
+      "A swimmer was pulled from the water and is barely breathing"
+    ]
   },
   "1000": {
-    "hit": 86,
-    "fable_hit": 35,
+    "hit": 96,
     "zero": 0,
-    "fable_zero": 0
+    "fable_hit": 40,
+    "fable_zero": 0,
+    "misses": [
+      "improve heavy clay garden soil",
+      "identify a stripped screw",
+      "insulate a drafty door",
+      "show hidden files in linux"
+    ],
+    "body_misses": [
+      "silica gel",
+      "mosquito larvae"
+    ],
+    "held_out_misses": [
+      "My friend touched a live wire and fell to the floor",
+      "A dog we do not know bit my hand and broke the skin",
+      "Cleaning spray got in my eye and it will not stop burning",
+      "A swimmer was pulled from the water and is barely breathing",
+      "Someone woke up with sudden chest pressure and pain down one arm",
+      "The power has been out all night and the meat in the fridge feels warm",
+      "We smell gas next to the stove and the burner is off",
+      "Floodwater is rising around the car and we cannot drive out"
+    ]
   }
 }

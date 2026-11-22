@@ -1,4 +1,4 @@
-import {receiveFile, SourceError} from "./network.mjs";
+import {receiveFile, routeCooldowns, SourceError} from "./network.mjs";
 import {diag, routeLabel} from "./diagnostics.mjs";
 
 const MiB = 2 ** 20;
@@ -57,6 +57,7 @@ export function checkAlignment(pin, asset, part) {
 export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signal, network}) {
   let lanes = 6, previousRate = 0, growth = true, sampled = false, preferred = direct[0], windowsSinceSample = 0;
   const relayURLs = new Set(relay);
+  const cooldown = routeCooldowns(network);
   // Relay routes ordered by sampled speed. A route that returns wrong or
   // unusable data is dropped; a throttled or dropped request moves the next
   // pieces to another relay route. The slow default mirror is the last resort
@@ -87,6 +88,7 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
       });
       if (!await pin.matches(index, bytes)) throw new SourceError("Publisher piece SHA-1 mismatch");
     } catch (error) {
+      cooldown.defer(url, error.retryAfterMs ?? (relayURLs.has(url) && error.status === 429 ? 60_000 : 0));
       diag("request", {asset: asset.id, piece: index, route: routeLabel(url), ok: false, got: cursor,
         ms: Math.round(performance.now() - began), status: error.status, connection: Boolean(error.connection),
         error: error.name === "AbortError" ? "aborted" : error.message});
@@ -106,6 +108,7 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
     // 0.19 MB/s before every first window.
     const baselineStop = new AbortController();
     const measure = async url => {
+      if (dropped.has(url) || cooldown.waiting(url)) return null;
       const start = performance.now();
       // A nonresponsive optional peer must not block the default route.
       const probeSignal = relayURLs.has(url) ?
@@ -125,10 +128,9 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
     for (const probe of probes.slice(1)) {
       probe.then(result => {
         if (result && !deadline) deadline = setTimeout(() => baselineStop.abort(), Math.max(3_000, 2 * result.elapsed));
-      });
+      }, () => {});
     }
-    const [baseline, ...peers] = await Promise.all(probes);
-    clearTimeout(deadline);
+    const [baseline, ...peers] = await Promise.all(probes).finally(() => clearTimeout(deadline));
     const answered = peers.filter(Boolean).sort((a, b) => a.elapsed - b.elapsed);
     ranked = [...answered.map(peer => peer.url), ...relay.filter(url => !answered.some(peer => peer.url === url))];
     const fastest = answered[0];
@@ -140,7 +142,9 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
     if (fastest && (!baseline || fastest.elapsed * 1.25 < baseline.elapsed)) preferred = fastest.url;
     diag("route", {asset: asset.id, preferred: routeLabel(preferred), reason: "sampled"});
     const sample = baseline || fastest;
-    if (sample) await accept(index, sample.bytes);
+    if (!sample) return false;
+    await accept(index, sample.bytes);
+    return true;
   }
 
   return async function transfer(part, {restore, accept, ordered}) {
@@ -215,7 +219,8 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
               // the 0.36 MB/s default mirror. Sample on the first piece that needs
               // downloading; other lanes wait for the choice.
               if (needSample && length === pin.size) {
-                sampling ??= select(index, length, requestSignal, (i, bytes) => write(i, bytes, true)).then(() => index);
+                sampling ??= select(index, length, requestSignal, (i, bytes) => write(i, bytes, true))
+                  .then(accepted => accepted ? index : null);
                 if (await sampling === index) {
                   transferred += length;
                   continue;
@@ -223,6 +228,7 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
               }
               let failure, bytes;
               for (const url of routes()) {
+                if (dropped.has(url) || cooldown.waiting(url)) continue;
                 try {
                   bytes = await read(url, index, length, requestSignal);
                   break;
@@ -255,6 +261,7 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
                 // alternate between downloading and writing (2.3 of 4.2 s writing).
                 write(index, bytes, true);
               } else {
+                failure ??= new SourceError("Download sources are cooling down", {status: 429});
                 failed.push({index, error: failure});
                 throttled ||= failure.status === 429 || failure.status === 503;
               }
@@ -280,7 +287,7 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
           if (++attempt >= 3) throw failed[0].error;
           diag("wait", {asset: asset.id, reason: throttled ? "throttled" : "retry", attempt, failed: failed.length,
             ms: throttled ? 1_000 * 2 ** attempt : "default"});
-          await network.delay(throttled ? 1_000 * 2 ** attempt : undefined);
+          await cooldown.delay(routes().filter(url => !dropped.has(url)), throttled ? 1_000 * 2 ** attempt : undefined);
         }
         if (backoff) {
           if (!attempt) lanes = Math.max(MIN_LANES, Math.floor(lanes / 2));

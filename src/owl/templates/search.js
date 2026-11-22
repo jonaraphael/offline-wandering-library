@@ -86,12 +86,445 @@
   function isArchive(record) {
     return record.kind === 'article' || /\.zim(?:[a-z]{2})?$/i.test((record.destination || record.href).split('#')[0]);
   }
+  const naturalWater = /\b(?:creeks?|rivers?|streams?|lakes?|rain(?: ?water)?|ponds?|springs?|brooks?|reservoirs?|wells?|snowmelt)\b/;
+  const wherePeopleSubmerge = /\b(?:water|pools?|rivers?|lakes?|creeks?|streams?|ponds?|sea|ocean|surf|canals?|reservoirs?|bathtubs?|tub|wells?|deep end)\b/;
+  // Keep the movement and the body of water in the same phrase.
+  const entersWater = new RegExp(
+    /\b(?:fell|fall\w*|slip\w*|tumbl\w*|plung\w*|went|got|jump\w*|knocked|swept)(?: \w+){0,3} (?:into|in|under)(?: \w+){0,4} /.source +
+    wherePeopleSubmerge.source);
+  const swallowableObject = /\b(?:batter(?:y|ies)|button cells?|coins?|penn(?:y|ies)|dimes?|nickels?|magnets?|toys?|lego|beads?|marbles?|buttons?|screws?|small objects?|plastic pieces?)\b/;
+  const sharpObject = /\b(?:nails?|tacks?|screws?|needles?|pins?|splinters?|shards?|glass|barbs?|thorns?|wire|(?:sharp|rusty|dirty) metal)\b/;
+  // Ordered from specific situations to the more general injuries they can
+  // resemble. Each row names a selected catalog document and its physical PDF
+  // page, or a named article in the selected WikiMed edition.
+  const reviewedRoutes = [
+    ['electrical-fire', 'Electrical fire safety', 'cert', 175, [
+      /\b(?:electrical fire|overloaded (?:outlet|circuit))\b/,
+      [/\b(?:outlet|socket|plug|breaker|power strip|wiring)\b/, /\b(?:smok\w*|spark\w*|on fire|burning smell|smells? burnt|scorch\w*)\b/],
+    ]],
+    ['carbon-monoxide', 'Carbon monoxide poisoning', 'wikimed_en', 'Carbon_monoxide_poisoning', [
+      /\b(?:carbon monoxide|co (?:alarm|poisoning)|generator exhaust)\b/,
+      [/\b(?:generator|charcoal|exhaust|heater|car engine)\b/, /\b(?:indoors|inside|garage|basement|enclosed|tent)\b/,
+        /\b(?:headache|dizz\w*|nause\w*|passed out|faint\w*|sick|generator)\b/],
+    ]],
+    ['gas-leak', 'Natural gas leak', 'cert', 176, [
+      /\b(?:gas leak|leaking gas|smells? (?:like |of )?(?:natural )?gas|gas smell|gas shutoff)\b/,
+      [/\b(?:rotten eggs|hiss\w*)\b/, /\b(?:stove|gas|burner|furnace|oven|propane)\b/],
+    ]],
+    ['house-fire', 'House fire and smoke', 'cert', 173, [
+      /\b(?:house fire|home fire|building (?:is )?on fire|fire escape|smoke inhalation)\b/,
+      [/\b(?:smoke|fire|flames)\b/, /\b(?:fill\w*|trapped|hallway|stairs|upstairs|bedroom|house|escape|apartment)\b/],
+    ]],
+    ['flood', 'Flood safety', 'fema_are_you_ready_2020', 11, [
+      /\b(?:floodwaters?|flash floods?|flood safety|flooded (?:road|car)|rising (?:flood|water))\b/,
+      [/\b(?:water|creek|river)\b/, /\b(?:rising|overflow\w*|over the road|coming in|trapped|stranded)\b/,
+        /\b(?:car|truck|road|vehicle|bridge|doors)\b/],
+      [/\b(?:creek|river|stream)\b/, /\b(?:overflow\w*|burst its banks)\b/],
+      /^floods?$/,
+    ]],
+    ['earthquake', 'Earthquake safety', 'fema_are_you_ready_2020', 10, [
+      /\b(?:earthquake|ground (?:is )?(?:shaking|moving)|drop cover and hold)\b/,
+      [/\b(?:room|house|floor|building|ground)\b/, /\b(?:shak\w*|trembl\w*|rumbl\w*)\b/, /\b(?:whole|fall\w*|mov\w*|what do)\b/],
+    ]],
+    ['postpartum', 'Bleeding after birth', 'hesperian_en_midw_2026_13', 3, [
+      /\b(?:postpartum h(?:a)?emorrhage|postpartum bleeding|bleeding after (?:birth|delivery))\b/,
+      [/\b(?:blood|bleed\w*|hemorrhag\w*|haemorrhag\w*)\b/,
+        /\b(?:after .{0,24}(?:birth|delivery|having (?:a|the) baby)|gave birth|(?:baby|placenta) .{0,16}(?:born|came out|delivered))\b/],
+    ]],
+    ['chemical-eye', 'Chemical eye injury', 'wikimed_en', 'Chemical_eye_injury', [
+      /\b(?:chemical eye injur\w*|eye wash|chemicals? in (?:my |the )?eyes?)\b/,
+      [/\beyes?\b/, /\b(?:chemical\w*|bleach|cleaner|detergent|cleaning (?:spray|fluid|solution)|acid|battery (?:liquid|fluid)|ammonia)\b/],
+    ]],
+    ['electric-shock', 'Electrical injury', 'wikimed_en', 'Electrical_injury', [
+      /\b(?:electric(?:al)? shock\w*|electrical injur\w*|electrocut\w*|shock from .{0,20}(?:outlet|wire|cord)|(?:touched|grabbed|holding) .{0,24}(?:live wire|power line|exposed wire))\b/,
+      [/\b(?:wire|wires|cable|cord|outlet|socket|power line|current)\b/,
+        /\b(?:shock\w*|zapp\w*|knocked .{0,12}down|cant let go|locked up|tingl\w*|fell|collaps\w*)\b/,
+        /\b(?:touch\w*|grab\w*|current|live|bare|shock\w*|zapp\w*)\b/],
+    ]],
+    ['drowning', 'Drowning', 'wikimed_en', 'Drowning', [
+      /\b(?:drown\w*|near drowning|submersion injury)\b/,
+      entersWater,
+      /\b(?:fell|fallen|went|washed|swept|knocked) (?:\w+ ){0,3}overboard\b/,
+      [/\b(?:canoes?|kayaks?|boats?|rafts?|ferr(?:y|ies)|ships?|dingh(?:y|ies))\b/,
+        /\b(?:fell|slip\w*|went|knocked|swept) (?:\w+ ){0,3}(?:off|over) (?:\w+ ){0,3}(?:side|edge|rail)\b/],
+      [wherePeopleSubmerge,
+        /\b(?:pulled|dragged|rescued|underwater|fell in|sank|submerged|gasp\w*|not breathing)\b/,
+        /\b(?:swimmer|swimming|breath\w*|gasp\w*|unconscious|unresponsive|underwater|submerged|limp)\b/],
+    ]],
+    ['anaphylaxis', 'Anaphylaxis and severe allergic reactions', 'msf_guideline-170-en', 14, [
+      /\b(?:anaphylax\w*|anaphylactic|severe allergic reaction|epipen|epinephrine (?:pen|autoinjector))\b/,
+      [/\b(?:sting|stung|allerg\w*|hives|peanuts?|shellfish|medicine|medication)\b/,
+        /\b(?:(?:throat|tongue|lips?|mouth|face) .{0,26}(?:swell\w*|swollen|tight|closing)|(?:swell\w*|swollen) .{0,16}(?:throat|tongue|lips?|mouth|face)|cant breathe|cannot breathe|barely breathe|trouble breathing|wheez\w*)\b/],
+      [/\b(?:ate|eating|food|meal|new medication)\b/, /\b(?:tongue|throat|lips?|mouth|face)\b/, /\b(?:swell\w*|swollen|closing)\b/],
+    ]],
+    ['choking', 'Choking first aid', 'medical_bec', 155, [
+      /\b(?:choking|choked|airway obstruction|heimlich|back blows|food (?:is )?stuck|something stuck .{0,14}throat)\b/,
+      [/\b(?:food|eating|swallow\w*|throat)\b/, /\b(?:cant (?:speak|make a sound|cough|breathe)|cannot (?:speak|cough|breathe)|turning blue|wedged)\b/],
+    ]],
+    ['cold-exposure', 'Hypothermia', 'cert', 114, [
+      /\b(?:hypothermia|stopped shivering|dangerously cold|cold exposure)\b/,
+      [/\b(?:cold|freezing|icy|snow|soaked)\b/, /\b(?:shiver\w*|confus\w*|drowsy|slurr\w*|cant get warm)\b/],
+    ]],
+    ['frostbite', 'Frostbite', 'cert', 114, [
+      /\b(?:frostbite|frostnip|frozen skin)\b/,
+      [/\b(?:toes?|fingers?|skin|nose|ears?|hands?|feet)\b/, /\b(?:numb|waxy|turn\w* white|went white)\b/,
+        /\b(?:cold|snow|ice|freez\w*|white|pale)\b/],
+    ]],
+    ['heat-illness', 'Heat stroke and heat illness', 'fema_are_you_ready_2020', 10, [
+      /\b(?:heat ?stroke|heat exhaustion|heat illness|overheat\w* .{0,18}confus\w*)\b/,
+      [/\b(?:heat|hot|sun|overheat\w*)\b/,
+        /\b(?:confus\w*|disorient\w*|talking nonsense|not making sense|passed out|collaps\w*|stopped sweating|dizz\w*)\b/],
+    ]],
+    ['stroke', 'Stroke and sudden weakness', 'medical_bec', 139, [
+      /\b(?:stroke (?:signs|symptoms|first aid)|slurred speech|(?:having|had) a stroke|facial droop)\b/,
+      [/\b(?:face|mouth|smile|(?:one|left|right) side)\b/,
+        /\b(?:droop\w*|numb|weak\w*|uneven|lopsided|cant lift|wont move|paraly\w*|garbled)\b/],
+      [/\b(?:sudden\w*|(?:one|left|right) side|weak\w*)\b/,
+        /\b(?:words? .{0,18}(?:garbled|wrong|slurr\w*)|cant (?:talk|speak)|slurr\w* .{0,14}(?:words|speech))\b/],
+      /^stroke$/,
+    ]],
+    ['heart-attack', 'Heart attack and chest pain', 'medical_bec', 203, [
+      /\b(?:heart attack|myocardial infarction|chest (?:pain|pressure|tightness|heaviness)|pressure (?:on|in) .{0,14}chest)\b/,
+      [/\bchest\b/, /\b(?:arm|jaw|crush\w*|squeez\w*|heavy|pressure|tight\w*)\b/, /\b(?:pain|hurts?|sitt\w*|sweat\w*|squeez\w*|crush\w*)\b/],
+    ]],
+    ['resuscitation', 'CPR and cardiac arrest', 'wikimed_en', 'Cardiopulmonary_resuscitation', [
+      /\b(?:cpr|aed|resuscitation|chest compressions|cardiac arrest|not breathing|stopped breathing|isnt breathing|no pulse)\b/,
+      [/\b(?:collaps\w*|faint\w*|passed out|unconscious|unresponsive|wont wake|cant wake)\b/,
+        /\b(?:gasp\w*|is (?:barely|hardly) breathing|no breaths?)\b/],
+    ]],
+    ['unresponsive', 'Unresponsive person and fainting', 'hesperian_en_wtnd_2025_10', 4, [
+      /\b(?:unconscious|unresponsive|faint(?:ed|ing|s)|passed out|blacked out|lost consciousness|not (?:responding|waking)|(?:isnt|arent) (?:waking|responding)|(?:wont|cant|cannot) (?:wake|come (?:to|round|around)|respond))\b/,
+      [/\b(?:collaps\w*|lying|shook|shake)\b/, /\b(?:waking|no response|eyes shut|wont answer|not moving)\b/],
+    ]],
+    ['swallowed-object', 'Swallowed objects and foreign bodies', 'wikimed_en', 'Foreign_body', [
+      /\b(?:foreign body ingestion|swallowed (?:a |an |the )?objects?)\b/,
+      /\b(?:swallow\w*|gulp\w*) (?:\w+ ){0,2}quarters?\b(?! (?:of|cup|spoon|hour|inch))/,
+      [swallowableObject,
+        /\b(?:swallow\w*|gulp\w*|ate|eaten|ingest\w*|gobbl\w*|down (?:his|her|their|my|the) throat|put (?:\w+ ){0,3}in (?:his|her|their|my|the) mouth)\b/],
+      [/\b(?:batter(?:y|ies)|button cells?|magnets?)\b/, /\b(?:missing|gone)\b/,
+        /\b(?:child|kid|toddler|baby|mouth)\b/],
+    ]],
+    ['ingestion', 'Poisoning and accidental ingestion', 'wikimed_en', 'Poisoning', [
+      /\b(?:accidental poisoning|poison control|overdose|swallowed poison|drank poison|poisoning first aid)\b/,
+      [/\b(?:swallow\w*|drank|drink\w*|ate|eaten|unknown amount|open bottle|too many)\b/,
+        /\b(?:poison\w*|bleach|cleaner|detergent|pills?|tablets?|medicine|medication|antifreeze|rat bait)\b/],
+      /^poisoning$/,
+    ]],
+    ['snakebite', 'Snakebite', 'msf_guideline-170-en', 355, [
+      /\b(?:snakebites?|snake (?:bite|bit|venom)|bitten by (?:a |the )?snake)\b/,
+      [/\b(?:snake|slither\w*)\b/, /\b(?:bit\w*|puncture\w*|fang\w*)\b/],
+    ]],
+    ['animal-bite', 'Animal bites and rabies', 'msf_guideline-170-en', 258, [
+      /\b(?:animal bites?|dog bites?|cat bites?|rabies exposure|rabies after)\b/,
+      [/\b(?:dog|cat|animal|bat|raccoon|fox|stray)\b/,
+        /\b(?:bite|bites|bit|bitten|sank .{0,12}teeth|broke the skin|scratch\w*)\b/],
+    ]],
+    ['insect-sting', 'Insect bites and stings', 'wikimed_en', 'Arthropod_bites_and_stings', [
+      /\b(?:bee stings?|wasp stings?|insect (?:bites?|stings?)|hornet stings?|stung by)\b/,
+      [/\b(?:bee|wasp|hornet|insect|scorpion)\b/, /\b(?:sting\w*|stung|bite|bitten)\b/],
+    ]],
+    ['newborn-fever', 'Fever and other danger signs in newborns', 'msf_guideline-449-en', 221, [
+      [/\b(?:newborn|neonat\w*|(?:[1-4]|one|two|three|four) weeks? old|days? old)\b/,
+        /\b(?:fever|temperature|thermometer|feels? hot|burning up)\b/],
+    ]],
+    ['infant-fever', 'Fever in young infants', 'msf_guideline-170-en', 35, [
+      [/\b(?:baby|babies|infant|(?:[5-9]|1[0-2]|five|six|seven|eight|nine|ten|eleven|twelve) weeks? old|(?:[1-3]|one|two|three) months? old)\b/,
+        /\b(?:fever|temperature|thermometer|feels? hot|burning up)\b/],
+    ]],
+    ['childbirth', 'Childbirth and delivery', 'hesperian_en_midw_2026_12', 14, [
+      /\b(?:childbirth|giving birth|baby (?:is )?coming|birth at home|home birth|imminent delivery|head is crowning|(?:labor|labour) and (?:birth|delivery)|(?:deliver|catch) .{0,12}baby)\b/,
+      [/\b(?:pregnant|contractions|labour|labor|baby)\b/, /\b(?:cant make it|need\w* to push|urge to push|water broke|can see .{0,14}head)\b/],
+    ]],
+    ['fracture', 'Fractures and broken bones', 'cert', 110, [
+      /\b(?:fractures?|broken (?:bones?|arms?|legs?|ankle|wrist)|bone (?:is )?(?:sticking|poking) out)\b/,
+      [/\b(?:ankle|wrist|arm|leg|bone)\b/, /\b(?:crooked|deform\w*|bent (?:the )?wrong way|odd angle|unnatural angle)\b/],
+    ]],
+    ['burn', 'First aid for burns and scalds', 'msf_guideline-170-en', 339, [
+      /\b(?:scald\w*|burns? (?:first aid|treatment)|(?:treat|cool) .{0,14}(?:burns?|burned skin)|burn(?:t|ed) (?:my |his |her |their )?(?:skin|arm|hand|face|leg))\b/,
+      [/\b(?:boiling|hot water|hot oil|steam|flame|fire|burn\w*)\b/, /\b(?:skin|arm|hand|leg|face|blister\w*|scald\w*|spilled|splashed)\b/],
+      /^burns?$/,
+    ]],
+    ['bleeding', 'Controlling severe bleeding', 'cert', 101, [
+      /\b(?:heavy bleeding|severe bleeding|(?:stop|control) .{0,12}bleed\w*|wont stop bleeding|(?:external )?h(?:a)?emorrhage|blood (?:spurting|gushing|pouring)|bleeding (?:badly|a lot))\b/,
+      [/\b(?:blood|bleed\w*)\b/, /\b(?:wont stop|keeps bleeding|soak\w*|spurting|gushing|pouring|so much|a lot|losing)\b/],
+      /^(?:bleeding|bleeding wound)$/,
+    ]],
+    ['puncture-wound', 'Puncture wounds and tetanus', 'hesperian_en_wtnd_2025_10', 15, [
+      /\b(?:puncture wounds?|punctured (?:skin|foot|hand)|tetanus (?:shot|booster|risk)|lockjaw)\b/,
+      [sharpObject, /\b(?:step\w* on|stood on|tro(?:d|dden) on|went through|stuck into|stab\w*|pierc\w*|pok\w*|punctur\w*)\b/],
+      [sharpObject, /\b(?:hole|blood|wound|tetanus)\b/,
+        /\b(?:foot|feet|heel|toes?|hand|palm|fingers?|arm|leg|skin|rusty|dirty)\b/],
+      /^tetanus$/,
+    ]],
+    ['dehydration', 'Diarrhea, dehydration and oral rehydration', 'hesperian_en_wtnd_2025_13', 1, [
+      /\b(?:dehydrat\w*|diarrh\w*|oral rehydration|watery (?:poop|stools?)|loose stools|(?:cant|cannot) keep (?:fluids|water) down)\b/,
+      [/\b(?:not peeing|hasnt peed|no wet diapers|dry nappies)\b/, /\b(?:vomit\w*|throwing up|sick|dry mouth|diarrh\w*|watery)\b/],
+    ]],
+    ['drinking-water', 'Drinking water disinfection', 'water', 1, [
+      /\b(?:drinking water (?:safe|disinfection|treatment)|water purification|purify water|disinfect water|boil water|make water (?:safe|drinkable))\b/,
+      [/\b(?:tap water|well water|river water|stream water|drinking water|water .{0,15}drink)\b/,
+        /\b(?:dirty|cloudy|contaminat\w*|safe|only|untreated|boil\w*)\b/],
+      [naturalWater, /\b(?:drink\w*|potable|(?:fill|refill) (?:\w+ ){0,3}(?:bottle|canteen|flask)s?)\b/],
+      [naturalWater, /\bwater\b/, /\b(?:safe|clean|purif\w*|disinfect\w*|treat\w*|boil\w*)\b/],
+    ]],
+    ['food-outage', 'Food safety during a power outage', 'fema_are_you_ready_2020', 26, [
+      /\b(?:food safety .{0,20}(?:power|outage)|power (?:outage|cut) .{0,20}(?:food|fridge|freezer))\b/,
+      [/\b(?:power|electricity|blackout|outage)\b/, /\b(?:fridge|refrigerator|freezer|thaw\w*|meat|milk|perishable\w*)\b/],
+    ]],
+    ['sanitation', 'Emergency sanitation and toilets', 'hesperian_en_cgeh_2012_07', 2, [
+      /\b(?:emergency sanitation|toilet (?:wont|doesnt|cant) flush|no working toilets?|bucket toilet|human waste after)\b/,
+      [/\b(?:toilets?|bathroom|latrine|human waste|sewer)\b/, /\b(?:no plumbing|without water|no (?:running )?water|nowhere to go|emergency|disaster|no sewer|not flushing)\b/],
+    ]],
+  ];
+
+  const routePhrase = text => (normalize(text).replace(/['’]/g, '').match(/[\p{L}\p{N}]+/gu) || []).join(' ');
+
+  function compileSectionRoutes(rows) {
+    const pattern = value => new RegExp('\\b(?:' + value + ')\\b', 'u');
+    return rows.map(([topic, title, locations, aliases]) => ({
+      topic, title, locations,
+      name: routePhrase(title),
+      headings: locations.map(([, , heading]) => routePhrase(heading)),
+      aliases: aliases.map(group => (Array.isArray(group) ? group : [group]).map(pattern)),
+    }));
+  }
+
+  // BEGIN GENERATED EMERGENCY SECTIONS
+  const sectionRoutes = compileSectionRoutes([
+    ["newborn-resuscitation","Newborn resuscitation and breathing",[["hesperian_en_midw_2026_13",20,"Breathing"],["msf_guideline-449-en",217,"Neonatal resuscitation"]],["(?:newborn|neonatal) resuscitation",["newborn|neonatal|baby","baby came out|baby was (?:just )?born|just (?:been )?born|after birth|newborn|neonatal","(?:hasnt|has not) (?:taken|started)|not breathing|wont breathe|isnt breathing|no breaths?|stopped breathing|never (?:cried|breathed)"]]],
+    ["newborn-warmth","Keeping a newborn warm",[["hesperian_en_midw_2026_14",10,"Keep the baby warm"],["hesperian_en_midw_2026_13",19,"Keep the baby warm and dry"]],[["newborn|new baby|just born|neonat\\w*|premature baby|infant|baby","cold to the touch|feels? cold|body (?:is )?cold|keep\\w* (?:\\w{1,} ){0,5}warm|hypotherm\\w*|no heater"]]],
+    ["newborn-jaundice","Newborn jaundice",[["msf_guideline-449-en",224,"Jaundice"],["hesperian_en_midw_2026_14",21,"If the baby looks yellow"]],[["newborns?|baby|neonatal","yellow\\w*|jaundice|hyperbilirubin\\w*"]]],
+    ["newborn-seizure","Newborn seizures",[["msf_guideline-449-en",225,"Seizures"]],[["newborn|neonat\\w*","seizure\\w*|convuls\\w*|jerk\\w*|twitch\\w*"]]],
+    ["preeclampsia","Pre-eclampsia and eclampsia",[["hesperian_en_midw_2026_08",18,"Check for signs of pre-eclampsia"],["msf_guideline-449-en",69,"Management of pre-eclampsia with severe features"]],["pre ?eclampsia|eclampsia|toxemia of pregnancy",["pregnan\\w*|(?:[5-9]|five|six|seven|eight|nine) months? along","headache\\w*|seizure\\w*|convuls\\w*","flash\\w*|vision|spots|blur\\w*|blood pressure"]]],
+    ["ectopic-pregnancy","Ectopic pregnancy",[["msf_guideline-449-en",32,"Ectopic pregnancy"]],["ectopic pregnancy|tubal pregnancy",["pregnan\\w*|missed (?:her|my) period","one sided (?:belly|abdominal|pelvic) pain|shoulder tip pain","bleed\\w*"]]],
+    ["bleeding-during-pregnancy","Vaginal bleeding during pregnancy",[["hesperian_en_midw_2026_08",5,"Ask if she has any bleeding from the vagina"],["msf_guideline-449-en",39,"Bleeding during the second half of pregnancy"]],["antepartum h(?:a)?emorrhag\\w*|bleeding (?:in|during) pregnancy|bleeding before birth",["pregnan\\w*","vaginal bleed\\w*|vagina (?:is )?bleed\\w*|spotting blood"],["pregnan\\w*","bleed\\w*","too early|not due|before (?:labor|labour|birth)|weeks? along"]]],
+    ["placenta-praevia","Placenta previa and bleeding",[["msf_guideline-449-en",40,"Placenta praevia"]],["placenta pr(?:ae|e)via|placenta covering (?:the )?cervix"]],
+    ["placental-abruption","Placental abruption",[["msf_guideline-449-en",43,"Abruptio placentae"]],["placental abruption|abruptio placentae|placenta (?:came|is coming) away early"]],
+    ["retained-placenta","Retained placenta",[["msf_guideline-449-en",179,"Retained placenta"],["hesperian_en_midw_2026_13",6,"Help the mother push out the placenta"]],["retain\\w* placenta",["placenta|afterbirth","still inside|not (?:come|coming|out)|wont come|stuck|hasnt come|didnt come"]]],
+    ["placenta-delivery","Delivery of the placenta",[["hesperian_en_midw_2026_13",2,"The birth of the placenta"],["msf_guideline-449-en",172,"Normal third stage of labour"]],["placenta delivery|delivery of (?:the )?placenta|third stage of labo[u]?r"]],
+    ["shoulder-dystocia","Shoulder dystocia",[["msf_guideline-449-en",154,"Shoulder dystocia"]],["shoulder dystocia",["baby|childbirth","head (?:is )?out|head (?:was|has been) delivered","shoulders?|stuck|wont come"]]],
+    ["breech","Breech birth",[["msf_guideline-449-en",122,"Breech presentation"]],["breech (?:birth|presentation|baby|delivery)|baby (?:is )?coming (?:feet|bottom) first"]],
+    ["rupture-membranes","Early rupture of membranes",[["msf_guideline-449-en",77,"Premature rupture of membranes"]],["(?:premature|prelabor|prelabour) rupture of membranes",["water broke|waters broke","no contractions|not due|too early|preterm"]]],
+    ["preterm-delivery","Preterm delivery",[["msf_guideline-449-en",81,"Preterm delivery"]],["premature labo[u]?r|preterm (?:delivery|labo[u]?r)|contractions too early"]],
+    ["uterine-rupture","Uterine rupture",[["msf_guideline-449-en",46,"Uterine rupture"]],["uterine rupture|ruptured uterus"]],
+    ["newborn-infection","Danger signs and infection in newborns",[["msf_guideline-449-en",220,"Danger signs"],["msf_guideline-449-en",222,"Neonatal infection"]],["neonatal (?:sepsis|infection)|newborn (?:danger signs|infection|sepsis)",["newborn|days old","too sleepy to feed|not feeding|wont feed|wont nurse","fever|very cold|limp"]]],
+    ["newborn-low-sugar","Low blood sugar in newborns",[["msf_guideline-449-en",223,"Hypoglycaemia"]],[["newborn|neonat\\w*","low blood (?:sugar|glucose)|hypoglyc\\w*"]]],
+    ["postpartum-infection","Infection after birth",[["msf_guideline-449-en",242,"Infectious complications"]],["postpartum infection|puerperal sepsis|postpartum endometritis",["gave birth|after delivery|after (?:giving )?birth","fever|chills","pelvic pain|smelly discharge|foul discharge"]]],
+    ["late-postpartum-bleeding","Late bleeding after birth",[["msf_guideline-449-en",181,"Late postpartum haemorrhage"]],["late postpartum (?:bleeding|h(?:a)?emorrhage)",["bleed\\w*","weeks? after (?:giving )?birth|weeks? since (?:giving )?birth"]]],
+    ["gastrointestinal-bleeding","Gastrointestinal bleeding and vomiting blood",[["medical_bec",107,"Blood in stool or vomit"],["msf_guideline-170-en",122,"Gastrointestinal bleeding"]],[["coffee grounds","vomit\\w*|threw up|throw\\w* up"],"gastrointestinal bleeding|h(?:a)?ematemesis|vomit\\w* blood|bloody vomit|threw up blood|black tarry stools?"]],
+    ["opioid-overdose","Opioid overdose",[["medical_bec",96,"Opioid overdose"],["medical_bec",234,"Critical actions for high-risk conditions"]],["opioid overdose|opiate overdose|heroin overdose|naloxone|narcan",["heroin|opioids?|fentanyl|pain pills","overdos\\w*|barely breathing|wont wake|slow breathing"]]],
+    ["spinal-injury","Spinal cord and neck injuries",[["medical_bec",67,"Spinal cord injury"],["cert",131,"Closed-head, neck, and spinal injuries"],["hesperian_en_wtnd_2025_10",25,"Broken necks and backs"]],["spinal (?:cord )?injur\\w*|broken neck|broken spine|broken back|cervical spine injur\\w*",["neck|spine|back","fall|fell|crash\\w*|wreck|collision|got hit|accident|rear ended","neck (?:really )?(?:hurts?|pain)|numb\\w*|tingl\\w*|cant move"]]],
+    ["head-injury","Head injury and concussion",[["medical_bec",65,"Head injury"],["cert",131,"Closed-head, neck, and spinal injuries"]],["head injur\\w*|concussion\\w*|brain injur\\w*",["hit|struck|knock\\w*|bang\\w*|blow to","head|skull","throw\\w* up|vomit\\w*|fall|fell|confus\\w*|cant remember|keeps asking|pass\\w* out|dizz\\w*|severe headache"]]],
+    ["amputation","First aid for amputations",[["cert",109,"Amputations"]],["amputat\\w*|severed (?:finger|thumb|toe|hand|arm|foot|limb)",["finger|thumb|toe|hand|foot|arm|leg","cut (?:right |clean )?off|took .{0,28} (?:clean |right )?off|chopped .{0,20}off|sliced .{0,20}off"]]],
+    ["crush-injury","Crush injury",[["medical_bec",70,"Crush injury"]],["crush injur\\w*|crush syndrome|crushed limb",["leg|arm|body|limb|person","trapped under|pinned under|crushed under|beam fell|rock fell"]]],
+    ["nosebleed","How to stop nosebleeds",[["hesperian_en_wtnd_2025_10",9,"How to stop nosebleeds"]],["nose ?bleeds?|epistaxis|bleeding from (?:the |his |her |my |their )?nose|nose (?:is |started )?bleed\\w*",["blood|bleed\\w*","from (?:one |a |the |his |her |my |their )?(?:nose|nostril)|out of (?:one |a |the |his |her |my |their )?(?:nose|nostril)"]]],
+    ["object-in-eye","Foreign body in the eye",[["hesperian_en_wtnd_2025_16",2,"How to remove a speck of dirt from the eye"]],["foreign bod\\w* in (?:the )?eye|something (?:stuck )?in (?:my |his |her |the )?eye",["speck|grit|dust|sawdust|metal shaving|debris","eye|blink\\w*"],["eye|blink\\w*","flew (?:into|under)|got into","speck|sand|dirt|glasses|grit|particle"]]],
+    ["injury-to-eye","Eye injuries",[["hesperian_en_wtnd_2025_16",2,"Injuries to the eye"]],["eye injur\\w*|injur\\w* to (?:the )?eye|corneal abrasion|scratched cornea",["eye|eyeball","poked|scratched|cut|hit","vision|pain|bleed\\w*|blood"]]],
+    ["acute-glaucoma","Acute glaucoma",[["hesperian_en_wtnd_2025_16",6,"Acute glaucoma"]],["acute glaucoma|acute angle closure glaucoma",["eye pain","blurred vision|halos around lights","nausea|vomit\\w*"]]],
+    ["tick-bite","Tick bites and tick removal",[["hesperian_en_wtnd_2025_15",9,"Ticks and chiggers"]],["tick bite\\w*|bitten by (?:a |the )?tick|remove (?:a |the )?tick",["ticks?","attach\\w*|embed\\w*|stuck|skin|bite\\w*|bitten|bit|pull|remov\\w*|get .{0,12}off"]]],
+    ["scorpion-sting","Scorpion stings",[["hesperian_en_wtnd_2025_10",32,"Scorpion sting"],["msf_guideline-170-en",357,"Scorpion stings and envenomation"]],[["scorpion\\w*","sting\\w*|stung|bit\\w*|got me|hurts?"]]],
+    ["spider-bite","Spider bites",[["hesperian_en_wtnd_2025_10",32,"Black widow and other spider bites"],["msf_guideline-170-en",357,"Spider bites and envenomation"]],["spider bites?|black widow bite|brown recluse bite",["spiders?","bites?|bit|bitten|skin|swoll\\w*|pain"],["spiders?","marks?","arm|hand|leg|redder"]]],
+    ["lizard-bite","Beaded lizard and Gila monster bites",[["hesperian_en_wtnd_2025_10",32,"Bite of the beaded lizard"]],[["(?:gila monster|beaded lizard)","bit\\w*|venom"]]],
+    ["sprain","Sprains and strains",[["cert",110,"Treating fractures, dislocations, sprains, and strains"],["hesperian_en_wtnd_2025_10",28,"Strains and sprains"]],["sprains?|muscle strain",["ankle|joint","twist\\w*|roll\\w*|slip\\w*","swell\\w*|swoll\\w*|hurts?|pain"]]],
+    ["dislocation","Dislocations",[["hesperian_en_wtnd_2025_10",27,"Dislocations"],["cert",110,"Treating fractures, dislocations, sprains, and strains"]],["dislocat\\w*|shoulder came out|kneecap popped out",["kneecap|shoulder|elbow|joint","slid off|popped out|out of place|came out of (?:its )?socket"]]],
+    ["hip-fracture","Hip fractures and broken hip bones",[["hesperian_en_wtnd_2025_10",25,"Broken thigh or hip bone"]],["hip fractures?|broken hip",["hip|groin","fell|fallen|tumbled|fall|slipp\\w*","hurts?|pain|cant stand|cannot stand|cant walk|cannot walk"]]],
+    ["wrist-fracture","Broken wrist and wrist fractures",[["hesperian_en_wtnd_2025_10",24,"How to set a broken wrist"]],["broken wrist|wrist fracture"]],
+    ["rib-fracture","Broken ribs and rib fractures",[["hesperian_en_wtnd_2025_10",25,"Broken ribs"]],["broken ribs?|rib fracture\\w*"]],
+    ["open-fracture","Open fractures",[["hesperian_en_wtnd_2025_10",25,"Broken bones that break through the skin"],["cert",110,"Treating fractures, dislocations, sprains, and strains"]],["open fracture\\w*|compound fracture\\w*|bone (?:is )?(?:sticking|poking) (?:out|through)"]],
+    ["splinting","Splinting fractures and injuries",[["cert",112,"Splinting"]],["splint (?:a |the )?(?:broken|injured)|splinting|improvis\\w* splint"]],
+    ["appendicitis","Appendicitis and peritonitis",[["hesperian_en_wtnd_2025_10",20,"Appendicitis, peritonitis"]],["appendicit\\w*|peritonitis",["right side|on the right|lower right","belly|abdom\\w*|stomach","hurt\\w*|pain|tender\\w*"]]],
+    ["acute-abdomen","Severe abdominal pain and the acute abdomen",[["hesperian_en_wtnd_2025_10",19,"Emergency problems of the gut"]],["acute abdomen|severe (?:abdominal|belly) pain",["belly|abdom\\w*|stomach","rock hard|hard as a board|rigid","pain|hurts"]]],
+    ["seizure","Seizures and convulsions",[["msf_guideline-170-en",22,"First aid during a seizure"],["medical_bec",139,"Seizures and convulsions"]],["seizure\\w*|convuls\\w*|epileptic fit|epilepsy","shaking all over|body (?:went|got) stiff",["jerk\\w*|twitch\\w*","eyes? roll\\w*|unresponsive|foaming|went stiff|cant wake"]]],
+    ["asthma-attack","Acute asthma attack",[["msf_guideline-170-en",104,"Acute asthma (asthma attack)"],["medical_bec",97,"Asthma and COPD"]],["asthma attacks?|asthma exacerbation|bronchospasm|rescue inhaler",["asthma\\w*|puffer|inhaler","wheez\\w*|breath\\w*|isnt (?:doing|helping|working)|not (?:helping|working)|cant (?:get air|talk)|didnt help"]]],
+    ["low-blood-sugar","Low blood sugar (hypoglycaemia)",[["msf_guideline-170-en",32,"Hypoglycaemia"],["medical_bec",137,"Hypoglycaemia"]],["hypoglyc\\w*|low blood (?:sugar|glucose)|insulin shock",["diabet\\w*|insulin","shak\\w*|sweat\\w*|confus\\w*|missed (?:a meal|lunch)|skipped (?:lunch|food|dinner|breakfast)"]]],
+    ["pneumonia","Pneumonia and difficulty breathing",[["medical_bec",94,"Pneumonia"],["msf_guideline-170-en",98,"Pneumonia in children over five years and adults"],["hesperian_en_wtnd_2025_13",21,"Pneumonia"]],["pneumonia|lower respiratory tract infection",["fever|high temperature","cough\\w*","breathing (?:hard|fast)|short of breath|struggl\\w* to breathe|blue lips|gray lips|grey lips"]]],
+    ["meningitis","Meningitis",[["msf_guideline-170-en",219,"Meningitis"]],["meningit\\w*",["fever|high temperature","stiff neck|neck (?:is )?stiff","headache|light hurts|rash"]]],
+    ["shock","Recognizing shock",[["hesperian_en_wtnd_2025_10",3,"Shock"],["msf_guideline-170-en",11,"Shock"],["medical_bec",54,"Hypovolaemic shock"]],["medical shock|hypovol(?:ae|e)mic shock|circulatory shock|(?:signs|symptoms) of shock",["clammy|cold sweat\\w*","pale|ashen","fast pulse|pulse .{0,20}fast|weak pulse|feel faint"]]],
+    ["tension-pneumothorax","Pneumothorax and chest injury",[["medical_bec",31,"Tension pneumothorax"]],["pneumothorax|punctured lung|collapsed lung"]],
+    ["dangerous-wounds","Deep and contaminated wounds",[["hesperian_en_wtnd_2025_10",15,"Wounds that are likely to become dangerously infected"]],["deep contaminated wounds?|dirty deep cuts?"]],
+    ["wound-infection","Recognizing infected wounds",[["hesperian_en_wtnd_2025_10",14,"Infected wounds"],["cert",109,"Wound care"]],["infected (?:wounds?|cuts?)|wound infection",["cut|wound|scrape","pus|spreading redness|red streak\\w*|festering"]]],
+    ["small-wounds","First aid for cuts, scrapes, and small wounds",[["hesperian_en_wtnd_2025_10",10,"Cuts, scrapes, and small wounds"],["cert",109,"Wound care"]],["small wounds?|minor cuts?|clean (?:a |the )?(?:cut|scrape)|grazed (?:knee|elbow)"]],
+    ["large-cuts","Large cuts and wound closure",[["hesperian_en_wtnd_2025_10",11,"Large cuts: how to close them"]],["wound closure|butterfly bandage\\w*",["cut|wound","gaping|edges wont meet|needs? stitches"]]],
+    ["dressings","Bandages and dressings",[["hesperian_en_wtnd_2025_10",13,"Bandages"],["cert",109,"Wound care"]],["wound dressing|bandage (?:a |the )?wound|bandag\\w* (?:an? )?injur\\w*"]],
+    ["impaled-object","Impaled objects",[["cert",110,"Impaled objects"]],["impaled (?:object|person|limb)|impalement",["object|knife|metal rod|glass","still stuck in|sticking out of","body|skin|leg|arm|chest|belly"]]],
+    ["penetrating-wound","Bullet, knife, and other serious wounds",[["hesperian_en_wtnd_2025_10",16,"Bullet, knife, and other serious wounds"]],["gunshot wounds?|bullet wounds?|stab wounds?",["shot|stabbed","bleed\\w*|wound|hurt"]]],
+    ["infection-protection","Protecting yourself while providing first aid",[["hesperian_en_wtnd_2025_10",1,"Basic cleanliness and protection"],["cert",128,"Safety for rescuers and survivors"]],["first aid gloves|bloodborne (?:infection|exposure)|protect .{0,22}from blood"]],
+    ["first-aid-assessment","Emergency assessment and first aid",[["cert",100,"Treating life-threatening conditions"],["medical_bec",26,"The ABCDE assessment and management"]],["abcde (?:approach|assessment)|primary survey first aid|life threatening condition\\w*"]],
+    ["recovery-position","Recovery position",[["cert",106,"Recovery position"],["medical_bec",139,"Seizures and recovery position"]],["recovery position|side lying position first aid"]],
+    ["opening-airway","Opening the airway",[["cert",104,"Opening the airway"],["medical_bec",29,"Airway conditions"]],["open (?:the )?airway|opening the airway|jaw thrust|head tilt chin lift"]],
+    ["patient-warmth","Keeping an injured person warm",[["cert",103,"Maintaining body temperature"]],[["injur\\w*|shock","keep .{0,20}warm|warm (?:the )?patient"]]],
+    ["patient-movement","Moving a badly injured person",[["hesperian_en_wtnd_2025_10",26,"How to move a badly injured person"]],["mov\\w* (?:a |an |the )?(?:badly )?injur\\w* (?:person|patient)|carry (?:an? )?injured person"]],
+    ["head-to-toe","Head-to-toe injury assessment",[["cert",130,"Conducting head-to-toe assessments"]],["head to toe (?:injury )?(?:check|assessment)|secondary survey trauma"]],
+    ["trauma","Emergency care for trauma",[["medical_bec",48,"Approach to trauma"],["cert",107,"Basic first-aid care"]],["serious injur\\w*|major trauma|multiple injur\\w*|trauma first aid"]],
+    ["vomiting","Vomiting",[["hesperian_en_wtnd_2025_13",11,"Vomiting"]],["frequent vomit\\w*|vomiting first aid|throwing up repeatedly"]],
+    ["fever","Fever first aid",[["hesperian_en_wtnd_2025_10",1,"Fever"],["msf_guideline-170-en",34,"Fever"]],["fever first aid|(?:really high|very high) fever|what to do (?:about|for) (?:a )?fever"]],
+    ["ear-infection","Ear infections",[["msf_guideline-170-en",82,"Acute otitis media"]],["ear infection\\w*|otitis media",["earache|ear pain","fever|pus"]]],
+    ["skin-abscess","Boils and skin abscesses",[["hesperian_en_wtnd_2025_15",10,"Boils and abscesses"]],["skin abscess\\w*|infected boil|painful boil|boil on (?:the |my )?skin"]],
+    ["wildfire","Wildfire safety and evacuation",[["fema_are_you_ready_2020",15,"Wildfire"]],["wildfires?|wildland fires?|brush fires?|forest fire\\w*"]],
+    ["tornado","Tornado safety and shelter",[["fema_are_you_ready_2020",14,"Tornado"]],["tornad\\w* (?:warn\\w*|shelter|sirens?|coming|nearby)|twisters? (?:is |are )?(?:coming|heading|approach\\w*)|tornado sirens?"]],
+    ["tsunami","Tsunami warning and safety",[["fema_are_you_ready_2020",14,"Tsunami"]],["tsunamis?",["ocean|sea","pulled back|pulled way back|receded|receding|went out suddenly","shak\\w*|quake|earthquake"]]],
+    ["landslide","Landslide and debris flow safety",[["fema_are_you_ready_2020",12,"Landslide"]],["landslides?|mudslides?|debris flow",["hill\\w*|slope|mountainside","sliding down|giving way|collaps\\w*","rain|house|road"]]],
+    ["lightning","Lightning and thunderstorm safety",[["fema_are_you_ready_2020",13,"Thunderstorm, lightning, and hail"]],["lightning (?:strike|strikes|storm|safety)|thunderstorm\\w* (?:warn\\w*|shelter|approach\\w*|coming)",["thunder|lightning","open field|outside|getting closer|nowhere to shelter"]]],
+    ["hurricane","Hurricane and storm surge safety",[["fema_are_you_ready_2020",11,"Hurricane"]],["hurricanes?|storm surges?|tropical cyclones?"]],
+    ["winter-storm","Winter storm safety",[["fema_are_you_ready_2020",15,"Winter storm"]],["winter storm\\w*|blizzard\\w*|whiteout\\w*|ice storm\\w*"]],
+    ["volcano","Volcano and ashfall safety",[["fema_are_you_ready_2020",14,"Volcano"]],["volcanic eruption\\w*|ashfall|volcano (?:is )?erupt\\w*"]],
+    ["avalanche","Avalanche safety",[["fema_are_you_ready_2020",9,"Avalanche"]],[["avalanches?|snow slide","buried|trapped"]]],
+    ["evacuation","Evacuation and shelter plans",[["fema_are_you_ready_2020",17,"Make an evacuation and shelter plan"]],["evacuation (?:order|plan|route)|ordered to evacuate|forced to evacuate|shelter in place"]],
+    ["disaster-shelter","Basic protective actions in a disaster",[["fema_are_you_ready_2020",8,"Basic protective actions for all disasters"],["fema_are_you_ready_2020",17,"Make an evacuation and shelter plan"]],["disaster shelter|storm shelter|public emergency shelter"]],
+    ["emergency-alerts","Emergency alerts and warnings",[["fema_are_you_ready_2020",20,"Keep informed: alerts and warnings"]],["emergency alerts?|weather alerts?|disaster warnings?|alert siren\\w*"]],
+    ["emergency-supplies","Gathering emergency supplies",[["fema_are_you_ready_2020",18,"Gather emergency supplies"]],["emergency (?:kit|supplies)|disaster supplies|go bag|bug out bag"]],
+    ["family-plan","Family emergency communication plan",[["fema_are_you_ready_2020",16,"Create a family emergency communication plan"],["cert",24,"Family disaster plan"]],["family (?:disaster|emergency) plan|emergency communication plan|emergency meeting place"]],
+    ["disaster-recovery","Returning home after a disaster",[["fema_are_you_ready_2020",25,"Recovering from a disaster"],["fema_are_you_ready_2020",26,"Before you enter your home"]],["return\\w* home after (?:a |the )?disaster|is it safe to go back home after"]],
+    ["hazardous-spill","Hazardous materials and chemical spills",[["cert",179,"Hazardous materials"]],["hazmat|hazardous materials spill|chemical spill|tanker (?:is )?leaking"]],
+    ["fire-extinguisher","Fire extinguishers and small fires",[["cert",168,"Fire extinguishers"],["cert",170,"Deciding to use a fire extinguisher"]],["fire extinguishers?|put out (?:a |the )?small fire"]],
+    ["mass-casualty","Mass casualty incidents",[["cert",125,"Mass casualty incidents"]],["mass casualty|mass injury incident|disaster triage"]],
+    ["heating-outage","Power outage safety",[["fema_are_you_ready_2020",13,"Power outage"]],["power outage safety|blackout safety"]],
+    ["anaphylaxis-signs","Anaphylaxis and severe allergic reactions",[["msf_guideline-170-en",14,"Anaphylaxis"],["cert",116,"Allergic reactions to bites and stings"]],[["bee|wasp|hornet|sting\\w*|peanuts?|allergen|allerg\\w*","hoarse|voice (?:changed|is changing)|stridor|hives","swoll\\w*|puff\\w*|breath\\w*|hives"],["bee|wasp|sting\\w*","swoll\\w*|puff\\w*|hives","face|lips?|tongue","hoarse|breath\\w*|throat"]]],
+    ["electric-injury","Electrical injury",[["cert",175,"Responding to electrical emergencies"]],[["jolt|shock\\w*","touch\\w*|grab\\w*","plug|appliance|washing machine|dryer|metal case|power tool"]]],
+    ["poison-ingestion","Poisoning and accidental ingestion",[["hesperian_en_wtnd_2025_10",29,"Poisoning"]],[["drank|swallow\\w*|took a sip","unmarked (?:bottle|container)|unknown liquid|chemical bottle","mouth|throat|burn\\w*|sick|vomit\\w*"]]],
+    ["breathing-difficulty","Difficulty breathing",[["medical_bec",86,"Approach to difficulty in breathing"]],["difficulty (?:in )?breathing|shortness of breath|respiratory distress"]],
+    ["altered-mental-status","Sudden confusion and altered mental status",[["medical_bec",129,"Approach to altered mental status"]],["altered mental status|person suddenly confused|sudden confusion"]],
+    ["smoke-inhalation","Smoke inhalation and airway burns",[["medical_bec",91,"Early signs of smoke inhalation"],["medical_bec",229,"Smoke inhalation and airway burns"]],["smoke inhalation|inhaled smoke|airway burns"]],
+    ["childhood-pneumonia","Pneumonia in young children",[["msf_guideline-170-en",95,"Pneumonia in children under five years of age"]],["pneumonia in (?:babies|toddlers|young children)|childhood pneumonia"]],
+    ["diarrhea-disentery","Diarrhea and dysentery",[["hesperian_en_wtnd_2025_13",3,"Diarrhea and dysentery"],["msf_guideline-170-en",114,"Acute diarrhoea"]],["dysenter\\w*|blood\\w* (?:diarrh\\w*|stool)|diarrh\\w* with blood"]],
+    ["prolapsed-cord","Umbilical cord prolapse",[["msf_guideline-449-en",100,"Prolapsed cord"]],["cord prolapse|prolapsed (?:umbilical )?cord",["pregnan\\w*|labo[u]?r|contractions","cord (?:is )?(?:coming|hanging) out"]]],
+    ["severe-fever-pregnancy","Fever during pregnancy",[["hesperian_en_midw_2026_08",12,"Check the mother\u2019s temperature"]],["fever (?:while pregnant|in pregnancy|during pregnancy)",["pregnan\\w*","high fever|fever and chills"]]],
+    ["postpartum-mental-health","Severe mood changes after birth",[["msf_guideline-449-en",245,"Psychological disorders"]],["postpartum (?:depression|psychosis)|postnatal (?:depression|psychosis)"]],
+    ["newborn-care","First care for a newborn",[["msf_guideline-449-en",210,"In the first hours of life"],["hesperian_en_midw_2026_14",11,"Danger signs in a newborn"]],["newborn care|newborn first hours|care of (?:a |the )?newborn"]],
+    ["fire-smoke","Home fire safety",[["cert",173,"Fire suppression safety rules"],["cert",174,"Proper fire suppression procedures"]],["home fire safety|residential fire safety"]],
+    ["nuclear-emergency","Nuclear emergency shelter",[["fema_are_you_ready_2020",12,"Nuclear explosion"]],["nuclear (?:emergency|fallout|explosion)|radioactive fallout"]],
+    ["shooter-safety","Active shooter safety",[["fema_are_you_ready_2020",9,"Active shooter"]],["active shooter",["someone (?:is )?shooting","shelter|hide|escape"]]],
+    ["cyber-safety","Cyberattack preparedness",[["fema_are_you_ready_2020",9,"Cyberattack"]],["cyberattack (?:preparedness|safety)|protect (?:against|from) cyberattacks"]],
+    ["pandemic","Pandemic preparedness",[["fema_are_you_ready_2020",13,"Pandemics"]],["pandemic preparedness|pandemic safety"]],
+    ["extreme-heat","Extreme heat safety",[["fema_are_you_ready_2020",10,"Extreme heat"],["cert",115,"Treating heat-related injuries"],["hesperian_en_wtnd_2025_10",7,"Emergencies caused by heat"]],["extreme heat safety|heat related injuries"]],
+    ["cold-injury","Cold-related injuries",[["cert",114,"Treating cold-related injuries"]],["cold related injur\\w*|cold weather injur\\w*"]],
+    ["disaster-reaction","Stress and emotional responses after a disaster",[["cert",144,"Disaster reactions"],["cert",150,"Working with survivors emotional responses"]],["disaster stress|traumatic stress after a disaster|emotional responses after a disaster"]],
+    ["outdoor-rescue","Light search and rescue",[["cert",185,"Light search and rescue operations"]],["light search and rescue|rescue (?:a |the )?trapped person"]],
+    ["stroke-signs","Stroke and sudden weakness",[["medical_bec",139,"Stroke"],["hesperian_en_wtnd_2025_22",5,"Stroke"]],[["left arm|right arm|one arm|left side|right side|one side","heavy|weak\\w*|numb\\w*|cant lift|wont move","cant say|cant get (?:the )?words|cant speak|cant talk|speech|slurr\\w*"]]],
+  ]);
+  // END GENERATED EMERGENCY SECTIONS
+
+  function guideAt(documents, categoryIds, topic, title, id, locator) {
+    const guide = documents.get(id);
+    if (!guide || categoryIds && !categoryIds.has(id)) return;
+    if (typeof locator === 'number' && /\.pdf$/i.test(guide.href)) {
+      return {...guide, topic, title, description: '', kind: 'section',
+        href: guide.href + '#page=' + locator, location: 'Page ' + locator};
+    }
+    if (id === 'wikimed_en' && isArchive(guide)) {
+      return {...guide, topic, title, description: '', kind: 'article',
+        articleTitle: locator.replace(/_/g, ' '), location: 'Archive path: ' + locator};
+    }
+  }
+
+  const routeName = text => text.replace(/^(?:first aid for|how to treat|what to do (?:for|about)|help with) /, '');
+  const immediateRoutes = new Set(['carbon-monoxide', 'electrical-fire', 'gas-leak', 'house-fire',
+    'drowning', 'anaphylaxis', 'choking', 'chemical-eye']);
+  function reviewedGuides(documents, phrase, categoryIds) {
+    const name = routeName(phrase);
+    const matches = sectionRoutes.map(route => {
+      const score = route.name === name ? 3 :
+        route.aliases.some(group => group.every(part => part.test(phrase))) ? 2 :
+          route.headings.includes(name) ? 1 : 0;
+      return {route, score};
+    }).filter(match => match.score).sort((a, b) => b.score - a.score);
+    // Keep the tested response order for existing high-risk matches.
+    const established = reviewedRoutes.filter(([, , , , patterns]) => patterns.some(pattern =>
+      Array.isArray(pattern) ? pattern.every(part => part.test(phrase)) : pattern.test(phrase)));
+    for (const row of established.filter(([topic]) => immediateRoutes.has(topic))) {
+      const guide = guideAt(documents, categoryIds, ...row.slice(0, 4));
+      if (guide) return [guide];
+    }
+    for (const {route: {topic, title, locations}} of matches) {
+      const ordered = [...locations].sort((a, b) =>
+        Number(routePhrase(b[2]) === name) - Number(routePhrase(a[2]) === name));
+      const guides = ordered.map(([id, page, heading]) =>
+        guideAt(documents, categoryIds, topic, heading, id, page)).filter(Boolean);
+      if (guides.length) return guides.map((guide, index) => index ? guide : {...guide, title});
+    }
+    for (const row of established) {
+      const guide = guideAt(documents, categoryIds, ...row.slice(0, 4));
+      if (guide) return [guide];
+    }
+    return [];
+  }
+
+  function reviewedGuide(documents, text, categoryIds) {
+    return reviewedGuides(documents, routePhrase(text), categoryIds)[0];
+  }
+
+  const person = /\b(?:my (?:dad|father|mom|mum|mother|sister|brother|friend|son|daughter|partner|husband|wife|grandpa|grandma|uncle|aunt|child|kid|baby)|toddler|newborn|infant|child|baby|old (?:man|woman)|some(?:one|body)|person|he|she|i)\b/;
+  const body = /\b(?:head|face|eyes?|ears?|nose|nostrils?|lips?|tongue|cheeks?|teeth|tooth|throat|jaw|neck|chest|ribs?|spine|back|belly|abdomen|stomach|skin|shoulders?|arms?|elbows?|wrists?|hands?|fingers?|hips?|legs?|knees?|ankles?|heels?|feet|foot|toes?)\b/;
+  const symptom = /\b(?:hurts?|pain|stiff|tender|sore|numb\w*|tingl\w*|bruis\w*|swoll\w*|swell\w*|sick|not moving|wont move|cant (?:stand|walk|move)|dizz\w*|limp|pale|clammy|seeing spots)\b/;
+  const injury = /\b(?:injur\w*|wounds?|broken|fractur\w*|fell|fallen|crash\w*|struck|got hit|hit (?:his|her|their|my)|cut|cutting|pinched|stuck|trapped|bitten|stung|bleed\w*|blood|burn\w*)\b/;
+  const medical = /\b(?:first aid|medical emergency|need an ambulance|no pulse|cardiac arrest|heart attack|breathing (?:fast|hard|slowly)|breath\w*|gasp\w*|wheez\w*|blue (?:lips?|face)|bluish|unconscious|not waking|not responding|wont wake|wont respond|hasnt moved|limp and still|collaps\w*|chok\w*|seizure\w*|convuls\w*|low blood sugar|epilep\w*|asthma|poison\w*|overdos\w*|bleeding|vomit\w*|throwing up|fever\w*|diarrh\w*|dehydrat\w*|rash\w*|infection|allergic reaction|anaphyla\w*|pregnan\w*|childbirth|afterbirth|snakebite\w*)\b/;
+  const safety = /\b(?:emergency shelter|outside overnight|flood\w*|wildfire\w*|brush fire\w*|tornado\w*|hurricane\w*|tsunami\w*|earthquake\w*|landslide\w*|evacuat\w*|fire alarm|smoke (?:filling|in the house)|carbon monoxide|gas leak|power outage|blackout|lightning strike\w*|thunderstorm\w*|dirty (?:tap|drinking) water)\b/;
+  const airway = /\b(?:breath\w*|gasp\w*|chok\w*|wheez\w*|(?:blue|bluish|grey|gray) (?:lips?|face)|airway|turn\w* (?:blue|purple))\b/;
+  const awareness = /\b(?:wake|waking|conscious\w*|respond\w*|collaps\w*|faint\w*|passed out|lying still|lying there|not moving|no pulse)\b/;
+  const hazard = /\b(?:danger|unsafe|warning|immediately|urgent|emergency|right now|severe|badly|cant stop)\b/;
+  const lodgedObject = phrase => /\b(?:nostrils?|nose|ears?)\b/.test(phrase) &&
+    /\b(?:stuck|lodged|stuffed|jammed|pushed|insert\w*|object|bead|bug|pea|marble|lego|small toy)\b/.test(phrase);
+
+  function emergencyDomain(phrase) {
+    if (/\b(?:flood fill|carburetor choke|choke valve)\b/.test(phrase)) return '';
+    if (safety.test(phrase)) return 'safety';
+    if (medical.test(phrase) || airway.test(phrase) || lodgedObject(phrase) || /\b(?:jellyfish|envenom\w*)\b/.test(phrase) ||
+        (body.test(phrase) && (symptom.test(phrase) || injury.test(phrase))) ||
+        (person.test(phrase) && (symptom.test(phrase) || awareness.test(phrase) ||
+          injury.test(phrase) && hazard.test(phrase)))) return 'health';
+    return '';
+  }
+
+  function emergencySource(source, domain) {
+    return (domain === 'health' ? /^(?:medical|first[_-]aid|health|dental)$/ :
+      /^(?:shelter|preparedness|navigation|water.*|first[_-]aid|safety)$/).test(source.category);
+  }
+
+  function closestUrgent(documents, phrase, domain, ids) {
+    let locations;
+    if (domain === 'safety') locations = [
+      ['protective-actions', 'Basic protective actions in a disaster', 'fema_are_you_ready_2020', 8],
+      ['evacuation-shelter', 'Evacuation and shelter plans', 'fema_are_you_ready_2020', 17],
+    ];
+    else if (awareness.test(phrase) || /\b(?:cant|cannot|couldnt) (?:tell|see) if\b/.test(phrase) && airway.test(phrase)) locations = [
+      ['unresponsive', 'Unresponsive person and fainting', 'hesperian_en_wtnd_2025_10', 4],
+      ['emergency-assessment', 'Emergency assessment and first aid', 'medical_bec', 26],
+    ];
+    else if (airway.test(phrase)) locations = [
+      ['breathing', 'Difficulty breathing', 'medical_bec', 86],
+      ['airway', 'Opening the airway', 'cert', 104],
+    ];
+    else if (/\b(?:blood|bleed\w*|ha?emorrhag\w*)\b/.test(phrase)) locations = [
+      ['bleeding', 'Controlling bleeding', 'cert', 101],
+      ['bleeding', 'Controlling bleeding from a wound', 'hesperian_en_wtnd_2025_10', 8],
+    ];
+    else if (lodgedObject(phrase)) locations = [
+      ['foreign-body', 'Foreign bodies', 'wikimed_en', 'Foreign_body'],
+      ['first-aid', 'Basic first-aid care', 'cert', 107],
+    ];
+    else locations = [
+      ['emergency-assessment', 'Emergency assessment and first aid', 'medical_bec', 26],
+      ['first-aid', 'Basic first-aid care', 'cert', 107],
+      ['first-aid', 'First aid', 'hesperian_en_wtnd_2025_10', 1],
+    ];
+    for (const idFilter of ids ? [ids, undefined] : [undefined]) {
+      for (const location of locations) {
+        const guide = guideAt(documents, idFilter, ...location);
+        if (guide) return guide;
+      }
+    }
+    const guide = [...documents.values()].find(record => emergencySource(record, domain)) ||
+      [...documents.values()].find(record => emergencySource(record, domain === 'health' ? 'safety' : 'health'));
+    return guide;
+  }
+
   function findUrgent(tasks, text) {
     const phrase = ' ' + (normalize(text).match(/[\p{L}\p{N}]+/gu) || []).join(' ') + ' ';
     return tasks.filter(task => task.href).map(task => {
       const score = Math.max(0, ...[task.task, ...task.keywords].map(value => {
         const words = tokens(value).join(' ');
-        return phrase.includes(' ' + words + ' ') ? words.length : 0;
+        return (words.includes(' ') ? phrase.includes(' ' + words + ' ') : phrase.trim() === words)
+          ? words.length : 0;
       }));
       return {task, score};
     }).filter(row => row.score).sort((a, b) => b.score - a.score)[0]?.task;
@@ -134,27 +567,44 @@
       .sort((a, b) => b.displayScore - a.displayScore);
   }
 
-  function closeMatch(matches, words, terms) {
+  function strongMatch(hit, words, terms, intents) {
     if (!words.length) return false;
-    const documents = matches.filter(({record}) => record.kind !== 'topic');
-    const direct = documents.filter(({record}) => !isArchive(record));
-    return (direct.length ? direct : documents).some(hit => {
-      if (hit.focused || hit.score >= 100000 && !hit.indexed) return true;
-      const {record} = hit;
-      const evidence = new Set(terms([heading(record), record.source_title, record.description].join(' ')));
-      const covered = words.filter(word => evidence.has(word)).length;
-      return covered >= Math.max(1, Math.ceil(words.length * 0.75)) &&
-        (hit.indexed ? hit.score >= 65 : hit.displayScore >= 48);
-    });
+    if (!hit.indexed && hit.score >= 100000) return true;
+    if (hit.indexed && hit.fullMatch && words.length >= 2 && hit.score >= 65) return true;
+    if (hit.focused && hit.trusted && hit.score >= 115) return true;
+    const {record} = hit;
+    const title = new Set(terms(heading(record)));
+    if (hit.indexed && intents.some(pattern => pattern.test(tokens(heading(record)).join(' ')))) return true;
+    const evidence = new Set([...title, ...terms([record.source_title, record.description].join(' '))]);
+    const covered = words.filter(word => evidence.has(word)).length;
+    return covered >= Math.ceil(words.length * 0.75) && words.some(word => title.has(word)) &&
+      (hit.indexed ? hit.score >= 65 : hit.displayScore >= 48);
   }
 
-  function suggestions(matches, words, terms) {
-    const relevant = matches.filter(({record}) => {
-      if (record.kind === 'topic') return false;
-      const evidence = new Set(terms([heading(record), record.source_title, record.description].join(' ')));
-      return words.filter(word => evidence.has(word)).length >= Math.min(2, words.length);
-    });
-    return (relevant.length ? relevant : matches).slice(0, 10);
+  function nearbyPassages(matches, strong, words, terms) {
+    const chosen = [];
+    const documents = new Set();
+    const minimum = Math.max(2, Math.ceil(words.length / 2));
+    for (const hit of matches) {
+      if (!hit.indexed) continue;
+      const {record} = hit;
+      const document = record.destination || record.href.split('#')[0];
+      if (documents.has(document)) continue;
+      if (!strong.has(hit)) {
+        const matched = hit.matchedTerms ?? 0;
+        if (hit.score < 55 || matched < minimum) continue;
+        const visible = new Set(terms(heading(record) + ' ' + (record.description || '')));
+        const visibleMatches = words.filter(word => visible.has(word)).length;
+        // Some indexed sources cannot show excerpts. Require stronger posting
+        // evidence when the heading and visible excerpt share fewer words.
+        if (visibleMatches < 2 &&
+            (record.description || hit.score < 80 || matched < Math.max(4, Math.ceil(words.length * 2 / 3)))) continue;
+      }
+      chosen.push(hit);
+      documents.add(document);
+      if (chosen.length === 3) break;
+    }
+    return chosen;
   }
 
   async function loadRank(categoryIds) {
@@ -173,13 +623,22 @@
       };
       await Promise.all([script(local('rank.js')), script(local('shards.js')), sharedScript('SEARCH/model.js')]);
       const ranker = root.OWLShardRank;
-      const indexed = ranker.classic(sharedScript, selection, table, async (index, encode, read, query, category, ...options) => {
+      const run = ranker.classic(sharedScript, selection, table, async (index, encode, read, query, scope, ...options) => {
+        const {category, domain} = scope;
+        if (domain) {
+          const [limit, cancelled] = options;
+          const sources = index.sources.filter(source =>
+            (!scope.ids || scope.ids.has(source.id)) && emergencySource(source, domain));
+          return ranker.search({...index, sources}, encode, read, query, 'all', limit, cancelled, undefined, 1_200_000);
+        }
         const ids = category && await categoryIds(category);
         const scoped = ids ? {...index, sources: index.sources.filter(source => ids.has(source.id))} : index;
         return ranker.search(scoped, encode, read, query, 'all', ...options);
       });
+      const indexed = (text, category, ...options) => run(text, {category}, ...options);
+      const emergency = (text, scope, limit, cancelled) => run(text, scope, limit, cancelled, undefined, true);
       const mobile = navigator.userAgentData?.mobile ?? /Android|iPhone|iPad/i.test(navigator.userAgent);
-      if (!selection.reranker || mobile) return {rank: indexed};
+      if (!selection.reranker || mobile) return {rank: indexed, emergency};
       let reranker;
       async function rank(text, category, limit, cancelled, onProgress) {
         const all = await indexed(text, category, Math.max(limit, 50), cancelled,
@@ -200,7 +659,7 @@
           return initial;
         }
       }
-      return {rank};
+      return {rank, emergency};
     } catch (_) {
       return {warning: 'Full-text search is unavailable. Search still covers titles and topics.'};
     } finally {
@@ -230,7 +689,7 @@
     const form = view.querySelector('form'), status = view.querySelector('#search-status');
     const list = view.querySelector('#search-results'), query = form.querySelector('#query');
     const category = form.querySelector('#search-category'), examples = form.querySelector('#search-examples');
-    let timer, epoch = 0, prepared, rankReady;
+    let timer, epoch = 0, prepared, documents, rankReady;
     function message(text) {
       status.textContent = text;
       status.hidden = !text;
@@ -251,6 +710,8 @@
           throw Error('The search information does not match this drive.');
         }
         prepared = prepare(payload.records);
+        documents = new Map(payload.records.filter(record => record.kind === 'document' && !record.legacy)
+          .map(record => [record.id, record]));
         if (manifest.shards) rankReady = loadRank(categoryIds);
         message('');
       } catch (error) {
@@ -277,7 +738,7 @@
       return anchor;
     }
     // One card per document, with its best match and a few distinct locations.
-    function render(matches, scope, words = [], urgent) {
+    function render(matches, scope, words = [], urgent, reviewed = [], nearby) {
       const groups = [new Map(), new Map()], subjects = [];
       for (const match of matches) {
         if (match.record.kind === 'topic') {
@@ -305,9 +766,13 @@
         card.append(link);
         items.append(card);
       }
-      function resultCard([{record, indexed = false}, ...others]) {
-        const card = element('article', '', 'result');
+      function resultCard([{record, indexed = false}, ...others], isReviewed = false) {
+        const card = element('article', '', isReviewed ? 'result urgent-result' : 'result');
         card.dataset.indexed = String(indexed);
+        if (isReviewed) {
+          card.dataset.reviewed = record.topic;
+          card.append(element('span', 'Urgent', 'label urgent'));
+        }
         const archive = isArchive(record), name = heading(record);
         const source = record.source_title !== name ? record.source_title : '';
         const where = archive ? 'opens in Kiwix' : record.location;
@@ -337,10 +802,22 @@
           card.append(more);
         }
         if (archive && record.kind !== 'document') {
-          card.append(element('p', 'In Kiwix, look up “' + name + '”.', 'note'));
+          card.append(element('p', 'In Kiwix, look up “' + (record.articleTitle || name) + '”.', 'note'));
         }
         card.append(resultLink(record, name, archive ? 'How to open' : 'Open', 'button'));
         return card;
+      }
+      const guides = new Map();
+      for (const record of reviewed) {
+        const key = record.destination || record.href.split('#')[0];
+        if (!guides.has(key)) guides.set(key, []);
+        guides.get(key).push({record});
+      }
+      for (const group of guides.values()) items.append(resultCard(group, true));
+      if (nearby) {
+        const card = resultCard([{record: nearby}]);
+        card.dataset.nearby = nearby.topic || nearby.id;
+        items.append(card);
       }
       for (const group of groups) {
         if (!group.size) continue;
@@ -361,7 +838,42 @@
       }
       list.replaceChildren(items);
       list.dataset.searchScope = scope;
-      return groups[0].size + groups[1].size + subjects.length + Number(Boolean(urgent));
+      return groups[0].size + groups[1].size + subjects.length + guides.size + Number(Boolean(urgent || nearby));
+    }
+    const passageNote = 'No reviewed guide matched. These passages may help.';
+    function appendBrowseHome() {
+      const home = element('a', 'Browse Home', 'button');
+      home.href = '#/';
+      list.append(home);
+    }
+    async function runEmergency(text, phrase, words, ids, domain, cancelled) {
+      const nearby = closestUrgent(documents, phrase, domain, ids);
+      const urgent = nearby ? undefined : tasks.find(task => task.href);
+      render([], 'indexed', [], urgent, [], nearby);
+      message(rankReady ? 'Searching… ' + passageNote : passageNote);
+      let passages = [];
+      if (rankReady && words.length <= 32) {
+        try {
+          const engine = await rankReady;
+          if (cancelled()) return;
+          if (engine.emergency) {
+            const ranker = root.OWLShardRank;
+            const intent = ranker.prepareQuery(text);
+            const hits = await engine.emergency(text, {ids, domain}, 18, cancelled);
+            if (cancelled()) return;
+            const matches = orderedMatches(hits.filter(hit => hit.bodyMatch), [], priority,
+              intent.query, ranker.terms, undefined, intent.pediatricHealth);
+            const strong = new Set(matches.filter(hit => strongMatch(hit, intent.query, ranker.terms, intent.titlePatterns)));
+            passages = nearbyPassages(matches, strong, intent.query, ranker.terms);
+          }
+        } catch (_) {
+          // Keep the installed guide available when the local index fails.
+        }
+      }
+      if (cancelled()) return;
+      render(passages, 'complete', words, passages.length ? undefined : urgent, [], passages.length ? undefined : nearby);
+      appendBrowseHome();
+      message(passageNote);
     }
     async function run(event) {
       event?.preventDefault();
@@ -371,6 +883,7 @@
       const text = query.value.trim(), selected = category.value;
       examples.hidden = Boolean(text);
       if (!text) {
+        delete list.dataset.emergency;
         render([], 'catalog');
         if (prepared) message('');
         return;
@@ -380,20 +893,38 @@
       try {
         const ids = selected && await categoryIds(selected);
         if (cancelled()) return;
+        const words = tokens(text);
+        const phrase = routePhrase(text);
+        const guides = reviewedGuides(documents, phrase, ids);
+        const domain = emergencyDomain(phrase);
+        list.dataset.emergency = String(Boolean(guides.length || domain));
+        if (guides.length) {
+          const count = render([], 'complete', [], undefined, guides);
+          message(count === 1 ? '1 result.' : count + ' results, best first.');
+          return;
+        }
+        if (domain) {
+          await runEmergency(text, phrase, words, ids, domain, cancelled);
+          return;
+        }
+        if (words.length > 32) throw Error('Use at most 32 different search words.');
         const scope = ids ? prepared.filter(({record}) => ids.has(record.asset_id) ||
           record.kind === 'topic' && record.source_ids.some(id => ids.has(id))) : prepared;
-        const words = tokens(text);
         let terms = tokens, queryTerms = words, intent;
         const catalog = search(scope, text, 'all', 90);
-        const urgent = findUrgent(tasks, text);
-        let matches, count, warning = '';
+        const urgent = findUrgent(ids ? tasks.filter(task => ids.has(task.id)) : tasks, text);
+        let count, showingPassages = false, warning = '';
         const showHits = (hits, phase) => {
-          matches = orderedMatches(hits, catalog, priority, queryTerms, terms, urgent, intent?.pediatricHealth);
-          count = render(matches.slice(0, 70), phase, words, urgent);
+          const matches = orderedMatches(hits, catalog, priority, queryTerms, terms, urgent, intent?.pediatricHealth);
+          const strong = new Set(matches.filter(hit => strongMatch(hit, queryTerms, terms, intent?.titlePatterns || [])));
+          const passages = !urgent && (intent?.emergency || strong.size === 0)
+            ? nearbyPassages(matches, strong, queryTerms, terms) : [];
+          showingPassages = passages.length > 0;
+          count = render(showingPassages ? passages : [...strong].slice(0, 70), phase, words, urgent);
         };
+        if (rankReady) message('Searching…');
         showHits([], 'catalog');
         if (rankReady) {
-          message('Searching…');
           try {
             const engine = await rankReady;
             if (cancelled()) return;
@@ -410,7 +941,8 @@
               const hits = await engine.rank(rankedText, selected, 85, cancelled, (hits, phase) => {
                 if (cancelled()) return;
                 showHits(hits, 'indexed');
-                if (phase === 'refining' || phase === 'ranked') message('Still looking for better matches…');
+                const progress = phase === 'refining' || phase === 'ranked' ? 'Still looking for better matches…' : 'Searching…';
+                message(showingPassages ? progress + ' ' + passageNote : progress);
               });
               if (cancelled()) return;
               showHits(hits, 'complete');
@@ -420,12 +952,12 @@
             warning = error.message + ' Showing what was found.';
           }
         }
-        const close = urgent || closeMatch(matches, queryTerms, terms);
-        if (count && !close) count = render(suggestions(matches, queryTerms, terms), list.dataset.searchScope, words);
-        message([warning, count ? close
-          ? count + ' result' + (count === 1 ? '' : 's') + ', best first.'
-          : 'No close match. These may help:'
-          : 'Nothing found. Try fewer or different words.'].filter(Boolean).join(' '));
+        list.dataset.searchScope = 'complete';
+        if (!count || showingPassages) appendBrowseHome();
+        let summary = 'No close match. Browse Urgent guides and categories on Home.';
+        if (showingPassages) summary = passageNote;
+        else if (count) summary = count + ' result' + (count === 1 ? '.' : 's, best first.');
+        message([warning, summary].filter(Boolean).join(' '));
       } catch (error) {
         render([], 'catalog');
         message(error.message);
@@ -445,7 +977,8 @@
     category.addEventListener('change', run);
   }
 
-  const api = {normalize, tokens, prepare, search, mergeRanked, safeHref, script, local, isArchive, mount};
+  const api = {normalize, tokens, prepare, search, mergeRanked, safeHref, script, local, isArchive, mount,
+    reviewedGuide, emergencyDomain: text => emergencyDomain(routePhrase(text)), emergencySource, closestUrgent};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLDiscovery = api;
   if (typeof document !== 'undefined' && document.querySelector('#reader-view')) {

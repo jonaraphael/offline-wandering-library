@@ -142,6 +142,29 @@ test("a file with the wrong digest at a target path stays untouched", async () =
   assert.equal(await text(drive, logical), "old");
 });
 
+test("retirement leaves paths outside the OWL layout and files whose recorded digest differs", async () => {
+  const drive = new Directory();
+  await reconcile(drive, options({old: "old", keep: "keep"}));
+  await writeFile(drive, "owner.txt", "personal");
+  await writeFile(drive, "LIBRARY/BOOKS/owner.txt", "personal");
+  await writeFile(drive, "LIBRARY/BOOKS/old.pdf", "new");
+  const record = await readBuild(drive);
+  const personal = {bytes: 8, sha256: hash("personal")};
+  record.owned.push("owner.txt", "LIBRARY/BOOKS/owner.txt");
+  record.generated.push("owner.txt", "LIBRARY/BOOKS/owner.txt");
+  record.generatedPins["owner.txt"] = [personal];
+  record.generatedPins["LIBRARY/BOOKS/owner.txt"] = [personal];
+  const foreign = {...item("foreign", "personal"), destination: "BOOKS/owner.txt"};
+  record.installed.foreign = {pin: pin(foreign), asset: foreign,
+    layout: [{path: path(foreign), bytes: personal.bytes, start: 0}], parts: [personal]};
+  await writeFile(drive, MANIFEST, JSON.stringify(record));
+  const result = await reconcile(drive, options({keep: "keep"}));
+  assert.equal(result.state.finished, true);
+  assert.equal(await text(drive, "owner.txt"), "personal");
+  assert.equal(await text(drive, "LIBRARY/BOOKS/owner.txt"), "personal");
+  assert.equal(await text(drive, "LIBRARY/BOOKS/old.pdf"), "new");
+});
+
 test("an unrelated start page is never overwritten", async () => {
   const drive = new Directory();
   await writeFile(drive, "START_HERE.html", "My homepage");
@@ -267,6 +290,15 @@ test("reader generation stays consistent when interrupted at every assembly writ
     const openId = await openGeneration(drive, stop <= startWrite ? "original" : "updated");
     assert.equal(openId === oldId, stop <= startWrite, "which generation opens when interrupted before " + expected);
     assert.equal(await text(drive, next.shared), "globalThis.OWLTestShard();\n");
+    assembling = false;
+    const repaired = await reconcile(drive, {...update, fetchFile: () => assert.fail("the downloads were already committed")});
+    assert.equal(repaired.state.finished, true, "retry finished after interruption before " + expected);
+    await openGeneration(drive, "updated");
+    const checksums = await text(drive, "LIBRARY/SHA256SUMS.txt");
+    for (const line of checksums.trim().split("\n")) {
+      const [digest, path] = line.split("  ");
+      assert.equal(hash(await text(drive, path)), digest, "checksum after retry: " + path);
+    }
   }
 
   const controller = new AbortController();
@@ -279,14 +311,16 @@ test("reader generation stays consistent when interrupted at every assembly writ
   assert.notEqual(await openGeneration(drive, "updated"), oldId);
   assert.equal((await readBuild(drive)).pending, true);
   assert.ok(await text(drive, oldPath + "/search.js"), "cleanup has not started");
+  await writeFile(drive, oldPath + "/c-culture.js", "owner changed this file");
   cutAfterStart = false;
   const result = await reconcile(drive, {...update, fetchFile: () => assert.fail("all pinned files are already on the drive")});
   assert.equal(result.state.finished, true);
   await openGeneration(drive, "updated");
   assert.equal(result.state.generated.some(path => path.startsWith(oldPath + "/")), false);
   assert.equal(await text(drive, oldPath + "/owner-note.txt"), "keep");
+  assert.equal(await text(drive, oldPath + "/c-culture.js"), "owner changed this file");
   const index = await (await drive.getDirectoryHandle("LIBRARY")).getDirectoryHandle("INDEX");
-  assert.deepEqual([...((await index.getDirectoryHandle(oldId)).entries.keys())], ["owner-note.txt"]);
+  assert.deepEqual([...((await index.getDirectoryHandle(oldId)).entries.keys())].sort(), ["c-culture.js", "owner-note.txt"]);
   assert.equal([...index.entries.keys()].filter(name => name !== oldId).length, 1);
   const sampleIndex = await (await sample.drive.getDirectoryHandle("LIBRARY")).getDirectoryHandle("INDEX");
   await assert.rejects(sampleIndex.getDirectoryHandle(sample.oldId), {name: "NotFoundError"});
@@ -310,4 +344,22 @@ test("an adopted reader generation remains recorded across an interrupted public
   await reconcile(drive, {...update, fetchFile: () => assert.fail("all requested files are already on the drive")});
   await openGeneration(drive, "updated");
   await assert.rejects(drive.file("LIBRARY/INDEX/" + oldId + "/search.js"), {name: "NotFoundError"});
+});
+
+test("an active reader must exist and match the current reader, navigation and search revision", async () => {
+  const drive = new Directory();
+  const {selection} = generationOptions("original");
+  const {navigation, search} = selection;
+  const settings = {...selection, readerPublication: "release-one"};
+  await reconcile(drive, settings);
+  assert.equal((await compareLibrary(drive, settings)).current, true);
+  for (const edit of [
+    {navigation: {...navigation, input_hashes: {topics: "changed"}}},
+    {navigation: {...navigation, reader: {...navigation.reader, bootstrap: "changed"}}},
+    {search: {...search, rankRuntime: "changed"}},
+    {readerPublication: "release-two"}
+  ]) assert.equal((await compareLibrary(drive, {...settings, ...edit})).current, false);
+  const generation = await openGeneration(drive, "original");
+  await removeFile(drive, "LIBRARY/INDEX/" + generation + "/search.js");
+  assert.equal((await compareLibrary(drive, settings)).current, false);
 });

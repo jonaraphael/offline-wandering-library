@@ -81,7 +81,7 @@ apply. Neither rebuilding nor changing selection deletes unrelated or older file
 
 `catalog/acquisition/programming-zip-members.yaml` contains full Python and SQLite
 packages prepared from already-preserved publisher bytes. See
-[the package acquisition note](acquisition-programming-zip.md). Activate complete
+[the package acquisition note](archive/acquisition-programming-zip.md). Activate complete
 packages through resource membership; they are not direct-edition declarations.
 The direct-edition registry currently requires ordinary document formats for every
 record, so it does not accept a ZIP dependency.

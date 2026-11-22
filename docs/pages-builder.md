@@ -93,7 +93,8 @@ On exFAT or NTFS, leave **Split large files for FAT32** off in Manage. OWL
 closes each verified 4 MiB piece on the drive, assembles it into a 1 GiB part,
 then joins the verified parts when there is temporary space for a second
 copy. Without room for the join, the split archive remains available in the
-library. Free space and choose **Sync** to retry the join using those parts.
+library. A later **Sync** joins the existing parts once there is room for the
+second copy, without downloading the archive again.
 
 Closing the tab can repeat at most the 64 MiB window being downloaded for a
 publisher-pinned archive. Interrupted joins can repeat local copying. The
@@ -108,10 +109,11 @@ place on phones remains unverified.
 ## Publish to GitHub Pages
 
 Under **Settings → Pages → Build and deployment → Source**, choose **GitHub
-Actions**. The Pages workflow runs on a push to `main` or
-`t3/council-offline-library-audit`. If the repository already restricts the
-`github-pages` environment to particular branches, include the deployment branch.
-The separate Pages build job generates `index.html`, `catalog.json`,
+Actions**. A push to `main` or a manual run of **tests** on `main` publishes
+only after the same commit passes the test jobs. Set the `github-pages`
+environment to allow deployments from `main` and set the `OWL_RELAY_BASE`
+repository variable to the approved publisher relay origin.
+The Pages build job generates `index.html`, `catalog.json`,
 `chunk-manifests.json` and the same-origin copies, then uploads the site artifact
 for the deploy job. [GitHub Pages workflow documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
 
@@ -156,3 +158,15 @@ Scan the **Reading on an iPhone?** card during Sync to install Kiwix while onlin
 Files and lists the exact folders and names. The bundled Android APK can
 install from the drive. Use the [device test kit](device-matrix.md) to check
 file access and native ZIM reading on your devices.
+
+## Troubleshooting
+
+| What you see | What to do |
+| --- | --- |
+| The drive is full | Free space or choose a larger drive. In **Manage what goes on it**, lower **Space for the library** and, if the selection still exceeds the limit, choose **Make it fit**. Then choose **Sync**. |
+| The browser refused folder permission | Choose **Reconnect** or **Choose drive**, pick the drive folder and grant access when the browser asks. If the browser refuses the root, choose a folder on the drive that your account can write to. |
+| The browser is unsupported | Open the builder in Chrome, Edge or Arc on a computer. You can also use the [Python builder](usage.md). |
+| OWL asks for the drive size on Linux or FAT32 | Choose the size printed on the drive. Reduce **Space for the library** if other files already use some of it. For FAT32, keep **Split large files for FAT32** on. |
+| An archive was kept in parts | Keep the parts together and open `.zimaa` in a compatible reader. On exFAT or NTFS, free room for a second copy and choose **Sync** to retry joining. |
+| Items are missing after Sync | Open **Show details** or the drive’s build report to see the source errors. Reconnect the drive, check free space and the connection, then choose **Try those again**. |
+| The verifier says `INCOMPLETE` or `SUPPORT INCOMPLETE` | Check the build report for missing titles and choose **Sync** or **Try those again**. Rerun `python -I LIBRARY/VERIFY.py --strict` from the drive. Use `--accept-partial` only when you intend to accept missing content or support files. Checksum errors still fail verification. |

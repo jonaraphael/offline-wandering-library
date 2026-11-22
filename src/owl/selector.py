@@ -39,7 +39,7 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
         row["preset_resource_ids"] = profile.get("default_resources", [identity for identity, resource in resources.items()
             if pinned & resource_asset_ids(resource)])
         visible.append(row)
-    fields = ("source_url", "mirrors", "mirror_fetch", "selection", "browser_fetch", "digest_algorithm", "digest_source", "license", "redistributable", "id", "title", "category", "utility_tier", "utility_reason", "knowledge_domains", "status", "size_bytes", "uncompressed_size_bytes", "sha256", "format", "destination", "critical", "required",
+    fields = ("source_url", "mirrors", "mirror_fetch", "selection", "browser_fetch", "digest_algorithm", "digest_source", "license", "attribution", "version", "redistributable", "id", "title", "category", "utility_tier", "utility_reason", "knowledge_domains", "status", "size_bytes", "uncompressed_size_bytes", "sha256", "format", "destination", "critical", "required",
               "reader_required", "resource_type", "illustrated", "profiles", "supporting_file", "archive_member", "generation", "generation_source_asset_ids",
               "generation_source_resource_ids", "generation_build_inputs", "generation_build_input_members", "generation_build_input_metadata_bytes")
     # Reuse validated pseudoindex metadata; no source document is opened.
@@ -83,7 +83,7 @@ def make_model(catalog: Path, profiles_dir: Path, resources_path: Path, *, allow
             "assets": [{**{key: a[key] for key in fields if key in a}, **({"discovery": discovery[a["id"]]} if a["id"] in discovery else {})} for a in assets]}
 
 
-def _mode(template: str, pages: bool) -> str:
+def _mode(template: str, pages: bool, connect_origins: tuple[str, ...]) -> str:
     """Keep the blocks for one page: the hosted builder or the offline planner."""
     keep, drop = ("PAGES", "OFFLINE") if pages else ("OFFLINE", "PAGES")
     template = re.sub(rf"[ \t]*<!-- {drop} -->.*?<!-- /{drop} -->\n?", "", template, flags=re.S)
@@ -93,10 +93,8 @@ def _mode(template: str, pages: bool) -> str:
     guide = "https://github.com/jonaraphael/offline-wandering-library/blob/main/README.md"
     for offline, hosted in (
         ('href="README.md"', f'href="{guide}"'),
-        ("script-src 'unsafe-inline'", "script-src 'self' 'unsafe-inline'"),
-        ("connect-src 'none'", "connect-src 'self' https:"),
-        ('<script id="owl-model" type="application/json">__OWL_MODEL__</script>',
-         '<script>globalThis.OWLBuildPage = import("./builder-ui.mjs");</script>'),
+        ("script-src 'unsafe-inline'", "script-src 'self'"),
+        ("connect-src 'none'", " ".join(("connect-src 'self'", *connect_origins))),
         ("<!-- OWL_KIWIX_QR -->", (ROOT / "web/kiwix-ios-qr.svg").read_text(encoding="utf-8").strip()),
     ):
         if offline not in template:
@@ -105,15 +103,12 @@ def _mode(template: str, pages: bool) -> str:
     return template
 
 
-def render_selector(model: dict, *, pages: bool = False) -> str:
-    # JSON lives in an inert script element; an imported title cannot close it.
-    data = json.dumps(model, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-    data = data.replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
+def render_selector(model: dict, *, pages: bool = False, connect_origins: tuple[str, ...] = (),
+                    version: str | None = None) -> str:
     template = (TEMPLATES / "selector.html").read_text(encoding="utf-8")
-    engine = (TEMPLATES / "selector.js").read_text(encoding="utf-8") + "\n" + (TEMPLATES / "selector-map.js").read_text(encoding="utf-8")
     if template.count("__OWL_MODEL__") != 1 or template.count("__OWL_ENGINE__") != 1:
         raise ValueError("Selector template requires exactly one model and engine placeholder")
-    template = _mode(template, pages)
+    template = _mode(template, pages, connect_origins)
     categories = model["categories"]
     groups = [*categories["categories"], categories["other"]]
     colors = {
@@ -122,11 +117,15 @@ def render_selector(model: dict, *, pages: bool = False) -> str:
     }
     css = (ROOT / "docs/design/sync/builder.css").read_text(encoding="utf-8")
     css += "\n" + colors["light"] + "\n@media (prefers-color-scheme: dark) { " + colors["dark"] + " }"
-    start = ("globalThis.OWLBuildPage.then(page => page.mount()).catch(error => {"
-             " const notice = document.getElementById('fatal'); notice.textContent = error.message; notice.hidden = false; });"
-             if pages else "OWLManage.offline(JSON.parse(document.getElementById('owl-model').textContent));")
-    return (template.replace("__OWL_ENGINE__", engine).replace("__OWL_MODEL__", data)
-            .replace("__OWL_BUILDER_CSS__", css).replace("__OWL_MANAGE__", start))
+    template = template.replace("__OWL_BUILDER_CSS__", css)
+    if pages:
+        return template.replace("__OWL_VERSION__", f"?v={version}" if version else "")
+    # JSON lives in an inert script element; an imported title cannot close it.
+    data = json.dumps(model, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    data = data.replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e").replace("\u2028", "\\u2028").replace("\u2029", "\\u2029")
+    engine = (TEMPLATES / "selector.js").read_text(encoding="utf-8") + "\n" + (TEMPLATES / "selector-map.js").read_text(encoding="utf-8")
+    start = "OWLManage.offline(JSON.parse(document.getElementById('owl-model').textContent));"
+    return template.replace("__OWL_ENGINE__", engine).replace("__OWL_MODEL__", data).replace("__OWL_MANAGE__", start)
 
 
 def main(argv=None) -> int:

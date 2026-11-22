@@ -39,3 +39,11 @@ def logical_name(relative: str) -> str:
     if logical.casefold() == START_PAGE.casefold():
         raise SafetyError("The start page belongs beside LIBRARY, not inside it")
     return logical
+
+
+def reader_destination(asset: dict) -> str:
+    """Kiwix opens the first file of a split archive."""
+    parts = asset.get("parts")
+    if parts and isinstance(parts[0], dict):
+        return logical_name(parts[0]["path"])
+    return asset["destination"]

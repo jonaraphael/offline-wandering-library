@@ -6,10 +6,10 @@ import {once} from "node:events";
 import {test} from "node:test";
 import {browserSelection, buildLibrary as runBuild, partLayout, readBuild} from "../web/builder.mjs";
 import {assembleLibrary} from "../web/offline.mjs";
-import {measureFreeSpace} from "../web/drive.mjs";
+import {measureFreeSpace, writeFile} from "../web/drive.mjs";
 import {createNetwork} from "../web/network.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
-import {probesCapacity} from "../web/builder-ui.mjs";
+import {completionState, estimateLabelCapacity, probesCapacity, warnBeforeLeaving} from "../web/builder-ui.mjs";
 
 globalThis.crypto ||= webcrypto;
 const MiB = 2 ** 20;
@@ -98,6 +98,8 @@ function sendRange(request, response, content, {interrupt = false, wrongRange = 
 test("capacity probe runs on macOS and Windows and leaves Linux to label confirmation", () => {
   for (const platform of ["MacIntel", "macOS", "Win32", "Windows"]) assert.equal(probesCapacity(platform), true, platform);
   for (const platform of ["Linux x86_64", "Linux", "", undefined]) assert.equal(probesCapacity(platform), false, String(platform));
+  assert.equal(probesCapacity("", "Mozilla/5.0 (X11; Linux x86_64) Chrome/130.0.0.0"), false);
+  assert.equal(estimateLabelCapacity(128e9), 115.2e9);
 });
 
 test("changing the saved storage limit replaces a pending sync's search budget", async () => {
@@ -139,14 +141,14 @@ test("native allocation probe estimates to one MiB and removes the swap placehol
   }
 });
 
-test("probe falls back for sparse files, FAT32, indistinguishable limits and denied access", async () => {
+test("probe falls back for sparse files and when capped files never locate the volume boundary", async () => {
   assert.deepEqual(await measureFreeSpace(new Directory()), {kind: "sparse-or-large"});
-  for (const [error, expected] of [
-    [new DOMException("EFBIG", "InvalidStateError"), "fat32"],
-    [new DOMException("Cannot set length", "InvalidStateError"), "limited"]
+  for (const error of [
+    new DOMException("EFBIG", "InvalidStateError"),
+    new DOMException("Cannot set length", "InvalidStateError")
   ]) {
     const drive = new Directory("drive", {truncate: length => { if (length > 2 ** 32 - 1) throw error; }});
-    assert.deepEqual(await measureFreeSpace(drive), {kind: expected});
+    assert.deepEqual(await measureFreeSpace(drive, {maxFat32Files: 2}), {kind: "limited", splitArchives: true});
     assert.equal(drive.entries.size, 0);
   }
   const denied = new Directory("drive", {truncate: () => { throw new DOMException("Denied", "NotAllowedError"); }});
@@ -235,10 +237,10 @@ test("same-origin parts are checked before closing a single ordinary file", asyn
   assert.deepEqual(requests.map(row => row.path), ["/unavailable", "/a", "/b"]);
 });
 
-test("a mismatched source or full drive yields a partial library and keeps later files moving", async t => {
+test("a mismatched source is reported and a full drive stops later downloads", async t => {
   const correct = Buffer.from("correct"), corrupt = Buffer.from("corrupt");
   const first = asset("first", correct, {utility_tier: "CRITICAL"});
-  const wrong = asset("wrong", correct);
+  const wrong = asset("wrong", correct, {utility_tier: "CRITICAL"});
   const huge = asset("huge", correct);
   const small = asset("small", correct);
   const {url, fetchFile} = await httpFixture(t, (request, response) => response.end(request.url === "/wrong" ? corrupt : correct));
@@ -247,12 +249,98 @@ test("a mismatched source or full drive yields a partial library and keeps later
   }});
   const routes = Object.fromEntries([first, huge, small, wrong].map(row => [row.id, [url("/" + row.id)]]));
   const result = await buildLibrary(drive, {assets: [huge, small, wrong, first], routes, fetchFile});
-  assert.deepEqual(result.completed.map(row => row.id), ["first", "small"]);
+  assert.deepEqual(result.completed.map(row => row.id), ["first"]);
   assert.equal(result.state.dropped.huge, "Drive ran out of space");
   assert.match(result.state.failures.wrong, /SHA-256/);
-  assert.deepEqual(result.missing.map(row => row.id), ["huge", "wrong"]);
+  assert.deepEqual(result.missing.map(row => row.id), ["wrong", "huge", "small"]);
   await assert.rejects(drive.file("LIBRARY/BOOKS/wrong.pdf"), {name: "NotFoundError"});
   await assert.rejects(drive.file("LIBRARY/BOOKS/huge.pdf"), {name: "NotFoundError"});
+});
+
+test("a fresh sync writes a start page and reserves space before the first content download", async () => {
+  const body = Buffer.from("emergency guide");
+  const critical = asset("critical", body, {utility_tier: "CRITICAL"});
+  const drive = new Directory();
+  await buildLibrary(drive, {assets: [critical], routes: {critical: ["https://example.test/guide"]}, async fetchFile() {
+    assert.match(await (await (await drive.file("START_HERE.html")).getFile()).text(), /href="LIBRARY\/"/);
+    const library = await drive.getDirectoryHandle("LIBRARY");
+    const work = await library.getDirectoryHandle(".owl");
+    assert.ok([...work.entries.keys()].some(name => /^assembly-.*\.tmp$/.test(name)));
+    return new Response(body);
+  }});
+  const library = await drive.getDirectoryHandle("LIBRARY");
+  assert.ok([...((await library.getDirectoryHandle(".owl")).entries.keys())].every(name => !name.endsWith(".tmp")));
+});
+
+test("a fresh start page survives a quota error on the first record and is adopted on retry", async () => {
+  const body = Buffer.from("emergency guide");
+  const critical = asset("critical", body, {utility_tier: "CRITICAL"});
+  let full = true;
+  const drive = new Directory("drive", {beforeWrite(name) {
+    if (full && name === "browser-build.json") throw new DOMException("Disk full", "QuotaExceededError");
+  }});
+  const options = {assets: [critical], routes: {critical: ["https://example.test/guide"]}, fetchFile: async () => new Response(body)};
+  await assert.rejects(buildLibrary(drive, options), {name: "QuotaExceededError"});
+  assert.ok((await (await drive.file("START_HERE.html")).getFile()).size);
+  full = false;
+  assert.equal((await buildLibrary(drive, options)).state.finished, true);
+});
+
+test("assembly quota recovery drops the least essential new file and writes the build report", async () => {
+  const body = Buffer.from("emergency guide");
+  const essential = asset("critical", body, {utility_tier: "CRITICAL", source_url: "https://example.test/guide",
+    version: "2026-11", redistributable: false});
+  const optional = asset("optional", body, {utility_tier: "NONESSENTIAL"});
+  let assembling, ranOut = false;
+  const drive = new Directory("drive", {beforeWrite(name) {
+    if (assembling && !ranOut && name === "INVENTORY.json") {
+      ranOut = true;
+      throw new DOMException("Drive is full", "QuotaExceededError");
+    }
+  }});
+  const result = await buildLibrary(drive, {assets: [optional, essential],
+    routes: {critical: ["https://example.test/guide"], optional: ["https://example.test/optional"]},
+    fetchFile: async () => new Response(body), onProgress: ({kind}) => { assembling ||= kind === "assembling"; }});
+  assert.deepEqual(result.completed.map(file => file.id), ["critical"]);
+  const readJSON = async name => JSON.parse(await (await (await drive.file("LIBRARY/" + name)).getFile()).text());
+  assert.deepEqual(await readJSON("BUILD_INFO.json"), {schema_version: 1, asset_count: 1, selected_count: 2,
+    missing: [{id: "optional", title: "File optional", utility_tier: "NONESSENTIAL", reason: "Drive ran out of space"}],
+    kept_in_parts: [], content_complete: false, support_complete: true, support_missing: [],
+    layout: {entry_page: "START_HERE.html", content_directory: "LIBRARY"}});
+  const [{source_url, version, redistributable}] = (await readJSON("INVENTORY.json")).assets;
+  assert.deepEqual({source_url, version, redistributable},
+    {source_url: essential.source_url, version: essential.version, redistributable: essential.redistributable});
+  const retry = await buildLibrary(drive, {assets: [optional, essential], routes: {optional: ["https://example.test/optional"]},
+    fetchFile: async () => new Response(body)});
+  assert.equal(retry.state.finished, true);
+  assert.equal(retry.state.installed.optional.layout[0].path, "LIBRARY/BOOKS/optional.pdf");
+});
+
+test("completion distinguishes zero knowledge files, partial content and installed split archives", () => {
+  const book = asset("book", Buffer.from("book"));
+  const app = asset("app", Buffer.from("app"), {destination: "SOFTWARE/app.zip"});
+  const missing = [{utility_tier: "CRITICAL"}, {utility_tier: "NONESSENTIAL"}];
+  const outcome = {state: {finished: false}, missing, searchWarnings: [], keptInParts: []};
+  assert.deepEqual(completionState({...outcome, completed: [app]}), {
+    mode: "failed", title: "Sync could not finish", message: "0 files arrived. 1 essential file missing."});
+  assert.deepEqual(completionState({...outcome, completed: [book, app]}), {
+    mode: "done-gaps", title: "Ready, with 2 items missing", message: "1 file arrived. 1 essential file missing."});
+  assert.deepEqual(completionState({...outcome, state: {finished: true}, completed: [book], missing: [], keptInParts: [{parts: 2}]}),
+    {mode: "done", extra: "1 encyclopedia kept in parts."});
+});
+
+test("closing the tab is canceled only while the Sync warning is registered", () => {
+  const tab = new EventTarget();
+  const leave = () => {
+    const event = new Event("beforeunload", {cancelable: true});
+    Object.defineProperty(event, "returnValue", {writable: true});
+    return tab.dispatchEvent(event);
+  };
+  assert.equal(leave(), true);
+  const finished = warnBeforeLeaving(tab);
+  assert.equal(leave(), false);
+  finished();
+  assert.equal(leave(), true);
 });
 
 test("browser selection names unroutable assets and leaves unrelated library files alone", async () => {
@@ -294,6 +382,32 @@ test("Pause preserves the first committed part for a later Resume", async t => {
   requests.length = 0;
   assert.equal((await buildLibrary(drive, {...options, resume: true})).completed.length, 1);
   assert.deepEqual(requests.map(row => row.range), ["bytes=5-9", "bytes=10-12"]);
+});
+
+test("resuming a split archive repairs a same-length change before publishing the archive", async () => {
+  const contents = Buffer.from("ABCDEFGHIJKLM");
+  const wiki = asset("wiki", contents, {format: "zim", destination: "ZIM/wiki.zim"});
+  const drive = new Directory(), abort = new AbortController();
+  const ranges = [];
+  const options = {assets: [wiki], routes: {wiki: ["https://example.test/wiki"]}, partBytes: 5,
+    fetchFile: async (_url, {headers}) => {
+      const [, first, last] = /^bytes=(\d+)-(\d+)$/.exec(headers.Range);
+      ranges.push(headers.Range);
+      return new Response(contents.subarray(Number(first), Number(last) + 1), {status: 206,
+        headers: {"Content-Range": "bytes " + first + "-" + last + "/" + contents.length}});
+    }};
+  await assert.rejects(buildLibrary(drive, {...options, signal: abort.signal, onProgress(event) {
+    if (event.kind === "downloading" && event.index === 1) abort.abort();
+  }}), {name: "AbortError"});
+  const layout = partLayout(wiki, 5);
+  await writeFile(drive, layout[0].path, "XBCDE");
+  ranges.length = 0;
+  const result = await buildLibrary(drive, options);
+  assert.equal(result.state.finished, true);
+  assert.deepEqual(ranges, ["bytes=0-4", "bytes=5-9", "bytes=10-12"]);
+  const parts = await Promise.all(layout.map(async ({path}) =>
+    Buffer.from(await (await (await drive.file(path)).getFile()).arrayBuffer())));
+  assert.equal(hash(Buffer.concat(parts)), wiki.sha256);
 });
 
 test("search assembly verifies and publishes only selected source digests", async () => {
@@ -381,6 +495,7 @@ test("a corrupted search chunk leaves the catalog search and static pages usable
     }}});
   assert.equal(result.state.finished, false);
   assert.match(result.searchWarnings.join(" "), /SHA-256/);
+  assert.equal(result.supportMissing[0].kind, "search");
   assert.doesNotMatch(await readReaderFile(drive, "manifest.js"), /"shards":true/);
   assert.match(await (await (await drive.file("START_HERE.html")).getFile()).text(), /<main class="static">[^]*How to open a book/);
 });
@@ -518,7 +633,7 @@ test("a connection cut during a file and again during search pauses the queue an
     " ms. Build finished in " + Math.round(performance.now() - start) + " ms.");
 });
 
-test("low-space single-file builds resume from durable parts and join without redownloading them", async () => {
+test("low-space single-file builds resume from durable parts and join when the workspace fits", async () => {
   const drive = new Directory();
   const body = Buffer.from("0123456789abcdefghijklmnopqrstuvwxyz");
   const item = asset("archive", body, {format: "zim", destination: "ZIM/archive.zim"});
@@ -531,7 +646,7 @@ test("low-space single-file builds resume from durable parts and join without re
       headers: {"Content-Range": "bytes " + start + "-" + end + "/" + body.length}});
   };
   const options = {assets: [item], routes: {archive: ["https://example.test/archive.zim"]},
-    fetchFile, singleArchives: true, partBytes: 8, archiveSpace: 54};
+    fetchFile, singleArchives: true, partBytes: 8, archiveSpace: 72};
   await assert.rejects(buildLibrary(drive, {...options, signal: controller.signal,
     onProgress(event) {
       if (event.kind === "downloading" && event.index === 2 && event.received) controller.abort();
@@ -572,7 +687,7 @@ test("the browser installs the largest pinned phone PDF and indexes its checksum
   const destination = "CRITICAL/MEDICAL/WIKIMED-PHONE/";
   const path = "LIBRARY/" + destination + volume.file;
   const drive = new Directory();
-  const warnings = await assembleLibrary(drive, {
+  const {warnings} = await assembleLibrary(drive, {
     completed: [archive], missing: [],
     navigation: readerNavigation({[archive.id]:{category:"health"}},
       {phone: {...pin, destination, base: "./phone/", volumes: [volume]}}),
@@ -591,6 +706,40 @@ test("the browser installs the largest pinned phone PDF and indexes its checksum
   const shelf = await readReaderFile(drive, "c-health.js");
   assert.ok(checksums.includes(volume.sha256 + "  " + path));
   assert.ok(shelf.includes(path));
+});
+
+test("the build report records a missing phone volume even when every selected content file arrived", async () => {
+  const body = Buffer.from("WikiMed");
+  const archive = asset("wikimed_en", body, {format: "zim", destination: "ZIM/medicine.zim"});
+  const title = "Emergencies", file = "wikimed-emergencies.pdf";
+  const drive = new Directory();
+  const result = await buildLibrary(drive, {assets: [archive], routes: {wikimed_en: ["https://example.test/archive"]},
+    fetchFile: async url => url.endsWith("/archive") ? new Response(body) : new Response(null, {status: 404}),
+    navigation: {phone: {source_id: archive.id, source_sha256: archive.sha256, base: "https://example.test/phone/",
+      destination: "CRITICAL/MEDICAL/WIKIMED-PHONE/", volumes: [{file, title, bytes: body.length, sha256: hash(body)}]}}});
+  const info = JSON.parse(await (await (await drive.file("LIBRARY/BUILD_INFO.json")).getFile()).text());
+  assert.equal(info.content_complete, true);
+  assert.equal(info.support_complete, false);
+  assert.deepEqual(info.support_missing, [{kind: "phone", id: "wikimed-phone-" + file, title: "WikiMed phone volume " + title,
+    reason: "HTTP 404"}]);
+  assert.deepEqual(result.supportMissing, info.support_missing);
+  assert.match(completionState(result).message, /Some WikiMed phone files are missing/);
+});
+
+test("reader assembly failure leaves the simple start page and records missing reader support", async () => {
+  const body = Buffer.from("Emergency guide");
+  const doc = asset("guide", body, {utility_tier: "CRITICAL"});
+  const navigation = readerNavigation({guide: {category: "health"}});
+  delete navigation.reader.layout.tasks;
+  const drive = new Directory();
+  const result = await buildLibrary(drive, {assets: [doc], routes: {guide: ["https://example.test/guide"]}, navigation,
+    fetchFile: async () => new Response(body)});
+  const info = JSON.parse(await (await (await drive.file("LIBRARY/BUILD_INFO.json")).getFile()).text());
+  assert.equal(info.content_complete, true);
+  assert.equal(info.support_complete, false);
+  assert.deepEqual(info.support_missing.map(row => row.kind), ["reader"]);
+  assert.match(await (await (await drive.file("START_HERE.html")).getFile()).text(), /LIBRARY\/BOOKS\/guide.pdf/);
+  assert.match(completionState(result).message, /Some reader or search files are missing/);
 });
 
 const PIECE_BYTES = 4 * MiB;
@@ -709,7 +858,7 @@ test("a faster verified archive relay is tried and a limited peer falls back to 
   assert.equal(seen.some(([url, index]) => url === direct && index === 1), true);
 });
 
-test("a throttled relay stays preferred for later pieces", async () => {
+test("a relay 429 without Retry-After rotates to the direct route for later pieces", async () => {
   // More pieces than lanes, so later pieces start after the 429 arrives.
   const {item, published, indexOf, response} = rangedFixture(40);
   const direct = "https://example.test/archive.zim", peer = "https://relay.example.test/peer";
@@ -727,7 +876,7 @@ test("a throttled relay stays preferred for later pieces", async () => {
     }});
   assert.equal(result.state.finished, true);
   const later = seen.filter(([, index]) => index >= 20);
-  assert.ok(later.every(([url]) => url === peer), "later pieces left the relay: " + JSON.stringify(later));
+  assert.ok(later.length > 0 && later.every(([url]) => url === direct), "later pieces reused the relay: " + JSON.stringify(later));
 });
 
 test("a relay route with bad data is dropped and the next relay route carries the archive", async () => {
@@ -774,25 +923,37 @@ test("a busy relay route rotates to another relay route instead of the slow mirr
   assert.deepEqual(seen.filter(([url, index]) => url === direct && index >= 1), []);
 });
 
-test("a staged archive with insufficient join space stays readable and Resume joins it without HTTP", async () => {
+test("a split archive retries the join only when the drive has room", async () => {
   const {item, published, indexOf, response} = rangedFixture(3);
-  let allowJoin = false;
+  let attempts = 0, full = true;
   const drive = new Directory("drive", {beforeWrite(name) {
-    if (name === "parallel.zim" && !allowJoin) throw new DOMException("Disk full during join", "QuotaExceededError");
+    if (name === "parallel.zim") {
+      attempts++;
+      if (full) throw new DOMException("Disk full during join", "QuotaExceededError");
+    }
   }});
   const options = {assets: [item], routes: {[item.id]: ["https://example.test/archive.zim"]}, published,
     singleArchives: true, partBytes: 2 * PIECE_BYTES, archiveSpace: item.size_bytes * 3};
   const partial = await buildLibrary(drive, {...options, fetchFile: async (_url, opts) => response(indexOf(opts))});
-  assert.equal(partial.state.finished, false);
+  const keptInParts = [{id: item.id, title: item.title, parts: 2}];
+  assert.equal(partial.state.finished, true);
   assert.equal(partial.state.verified[item.id], true);
-  assert.equal(partial.state.stagedArchives[item.id], true);
+  assert.deepEqual(partial.keptInParts, keptInParts);
+  const report = JSON.parse(await (await (await drive.file("LIBRARY/BUILD_INFO.json")).getFile()).text());
+  assert.deepEqual(report.kept_in_parts, keptInParts);
   assert.equal((await (await drive.file("LIBRARY/" + item.destination + "aa")).getFile()).size, 2 * PIECE_BYTES);
-  allowJoin = true;
-  const done = await buildLibrary(drive, {...options, resume: true,
+  assert.equal(attempts, 1);
+  const limited = await buildLibrary(drive, {...options, freeBytes: item.size_bytes - 1,
+    fetchFile: () => assert.fail("The verified parts must be reused")});
+  assert.equal(limited.state.finished, true);
+  assert.deepEqual(limited.keptInParts, keptInParts);
+  assert.equal(attempts, 1);
+  full = false;
+  const done = await buildLibrary(drive, {...options, freeBytes: item.size_bytes,
     fetchFile: () => assert.fail("The verified parts must be reused")});
   assert.equal(done.state.finished, true);
-  assert.equal(done.state.joined[item.id], true);
-  assert.equal(Object.hasOwn(done.state.stagedArchives, item.id), false);
+  assert.deepEqual(done.keptInParts, []);
+  assert.ok(attempts > 1);
   await assert.rejects(drive.file("LIBRARY/" + item.destination + "aa"), {name: "NotFoundError"});
 });
 
@@ -824,7 +985,8 @@ test("a late pause reuses saved ranges when only the split archive fits", async 
     return response(index);
   }});
   assert.ok(finished.state.verified[item.id]);
-  assert.equal(finished.state.joined[item.id], true);
+  assert.equal(finished.state.finished, true);
+  assert.deepEqual(finished.keptInParts, [{id: item.id, title: item.title, parts: 2}]);
   assert.deepEqual(resumed.sort((a, b) => a - b), [16, 17, 18, 19, 20, 21].filter(n => !retained.has(n)));
 });
 

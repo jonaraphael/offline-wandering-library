@@ -1,0 +1,12 @@
+[
+  ["Smoke is coming from the outlet where the heater was plugged in", "electrical fire|electrical safety|overload(?:ed)? (?:outlet|circuit)|fire safety"],
+  ["My friend touched a live wire and fell to the floor", "electric shock|electrical (?:shock|injur)|electrocution"],
+  ["A dog we do not know bit my hand and broke the skin", "dog bite|animal bites?|rabies"],
+  ["Cleaning spray got in my eye and it will not stop burning", "chemical (?:burn|eye injur)|eye (?:injur|wash|irrigat)|chemicals? in the eye"],
+  ["A swimmer was pulled from the water and is barely breathing", "drowning|rescue breathing|resuscitation"],
+  ["Someone woke up with sudden chest pressure and pain down one arm", "heart attack|myocardial infarction|acute coronary syndrome"],
+  ["My friend has hives and cannot breathe after a bee sting", "anaphylax|allergic reaction|insect stings?|bee stings?"],
+  ["The power has been out all night and the meat in the fridge feels warm", "food safety|power outag|refrigerat.{0,30}food|food.{0,30}refrigerat"],
+  ["We smell gas next to the stove and the burner is off", "gas leak|gas safety|gas shutoff|natural gas emergency"],
+  ["Floodwater is rising around the car and we cannot drive out", "flood safety|flash floods?|floodwaters?|flood preparedness"]
+]

@@ -19,6 +19,7 @@ from .catalog import learning_coverage, learning_shelves
 from .layout import content_root, logical_name, managed_path
 from .safety import SafetyError, reject_symlinks, safe_path
 from .discovery import FORMAT, discovery_assets
+from .verify import split_inventory
 
 METADATA_LIMIT = 64 * 1024 * 1024
 SMOKE_TIMEOUT = 60
@@ -107,7 +108,8 @@ def _audit(drive_root: Path, *, info, run_smoke) -> dict:
     locked = _json(safe_path(library, "LOCKED_CATALOG.yaml"))
     selection = _json(safe_path(library, "CONTENT_SELECTION.json"))
     coverage = _json(safe_path(library, "SEARCH/coverage.json"))
-    for name in ("profile", "content_selection", "content_complete", "asset_count", "search"):
+    for name in ("profile", "content_selection", "content_complete", "asset_count", "search",
+                 "support_complete", "support_missing"):
         _require(info.get(name) == stored.get(name), f"BUILD_INFO differs from the supplied {name}")
     assets = inventory["assets"]
     _require(isinstance(assets, list) and locked.get("assets") == assets, "locked catalog and inventory assets differ")
@@ -140,10 +142,20 @@ def _audit(drive_root: Path, *, info, run_smoke) -> dict:
         path = managed_path(library, name)
         _require(path.is_file(), f"managed file is missing: {name}")
         sizes[name] = path.stat().st_size
+    source_bytes = 0
     for asset in assets:
+        parts = split_inventory(asset)
+        if parts:
+            for part in parts:
+                name = logical_name(part["path"])
+                _require(manifest.get(name) == part["sha256"] and sizes[name] == part["bytes"],
+                         f"selected split part differs from manifest: {name}")
+            source_bytes += sum(part["bytes"] for part in parts)
+            continue
         name = asset["destination"]
         _require(name in manifest and manifest[name] == asset["sha256"] and sizes[name] == asset["size_bytes"],
                  f"selected source differs from manifest: {name}")
+        source_bytes += sizes[name]
     readable = discovery_assets(assets)
     rows = coverage["assets"]
     _require(isinstance(rows, list) and [(r["id"], r["destination"]) for r in rows] ==
@@ -213,7 +225,6 @@ def _audit(drive_root: Path, *, info, run_smoke) -> dict:
             pages[name] = data.decode("utf-8")
     validate_links(library, pages, assets)
     _require(inventory.get("learning_coverage") == learning_coverage(assets), "learning coverage differs")
-    source_bytes = sum(sizes[name] for name in destinations)
     search_bytes = sum(sizes[name] for name in generated)
     managed_bytes = sum(sizes.values())
     reserve = profile["reserve_bytes"]

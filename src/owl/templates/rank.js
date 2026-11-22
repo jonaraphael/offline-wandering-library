@@ -5,11 +5,12 @@
   const fold = text => text.toLowerCase().normalize('NFKD').replace(/\p{M}/gu, '');
   const words = text => fold(text).match(/[\p{L}\p{N}]+/gu) || [];
   const normalize = text => words(text).join(' ');
+  const suffixes = ['ing', 'ed', 'es', 's'];
 
   function stem(word) {
     if (word.length > 4 && word.endsWith('ies')) return word.slice(0, -3) + 'y';
     if (word.length > 5 && word.endsWith('oes')) return word.slice(0, -2);
-    for (const suffix of ['ing', 'ed', 'es', 's']) {
+    for (const suffix of suffixes) {
       if (word.length > suffix.length + 3 && word.endsWith(suffix) && !/(ss|us)$/.test(word)) {
         word = word.slice(0, -suffix.length);
         if ((suffix === 'ing' || suffix === 'ed') && /(bb|dd|gg|mm|nn|pp|rr|tt)$/.test(word)) word = word.slice(0, -1);
@@ -56,6 +57,9 @@
       'accidental poisoning|poisoned|ingested poisons|poison control|poisoning'],
     ['health', /\b(?:seizures?|convulsions?|shaking all over)\b/,
       'seizure first aid|epileptic seizure|seizures|convulsions'],
+    ['health', /\b(?:(?:signs?|symptoms?|recogniz\w*|assess\w*) (?:\w+ ){0,3}dehydration|dehydration (?:signs?|symptoms?|assessment))\b/,
+      'dehydration signs|dehydration assessment|dehydration|oral rehydration',
+      /\b(?:dehydration|oral rehydration)\b/],
     ['health', /\b(?:diarrh\w*|oral rehydration|watery stools|dehydration|(?:cannot|can t|unable to) keep (?:fluids?|liquids?|water|(?:a )?drink) down)\b/,
       'oral rehydration|dehydration|diarrhea|diarrhoea|acute vomiting|rehydration drink'],
     ['health', /\b(?:hypoglyc\w*|low blood sugar|diabet\w* .{0,38}(?:sweat\w*|confus\w*))\b/,
@@ -93,8 +97,9 @@
       /\b(?:internal combustion|four stroke|two stroke|spark ignition|reciprocating|petrol|diesel|gasoline) engines?\b|^(?:car|automobile) engines?$/],
     ['', /\b(?:sound out|sounding out|phonics|decod\w* .{0,10}words)\b/,
       'phonics|phonemic awareness|word decoding|beginning reading'],
-    ['', /\b(?:sweat .{0,20}(?:dries|drying|evaporat\w*)|evaporative cooling)\b/,
-      'evaporative cooling|evaporation|latent heat'],
+    ['', /\b(?:sweat .{0,20}(?:dries|drying|evaporat\w*)|evaporative cooling|water .{0,16}vapou?r)\b/,
+      'evaporation|evaporative cooling|vaporization|latent heat',
+      /\b(?:evaporat\w*|vapori[sz]ation|evaporative cooling)\b/],
     ['', /\b(?:plants? .{0,20}grow\w* .{0,20}(?:light|window)|phototropism)\b/,
       'phototropism|plant tropisms|plant growth toward light'],
     ['', /\b(?:slanted side .{0,18}right triangle|hypotenuse|pythagorean)\b/,
@@ -116,19 +121,31 @@
     ['', /\b(?:wire .{0,14}broken .{0,18}meter|continuity test)\b/,
       'continuity test|multimeter|open circuit|electrical continuity'],
     ['', /\b(?:sand (?:filter|filtration)|(?:filter|purify)\w* .{0,45}(?:sand|gravel))\b/,
-      'slow sand filter|sand filtration|biosand filter|sand water filter'],
+      'slow sand filter|sand filter|sand filtration|biosand filter|sand water filter',
+      /\b(?:slow sand|bio ?sand|sand water) filter\w*\b|\bsand filtration\b/],
     ['', /\b(?:mosquito\w* .{0,25}(?:bit\w*|repell\w*|nets?)|repel\w* .{0,18}(?:mosquito\w*|insects?)|prevent\w* .{0,21}mosquito)\b/,
       'mosquito bites|insect repellent|mosquito net|mosquito control|insect bites'],
     ['', /\b(?:join\w* .{0,20}(?:wood|boards?)|wood (?:joinery|joints?)|(?:dovetail|mortise|tenon)\w*)\b/,
-      'wood joinery|wood joints|mortise and tenon|dovetail joint|woodworking joint'],
+      'wood joinery|wood joints|mortise and tenon|dovetail joint|dovetail|woodworking joint',
+      /\b(?:joinery|wood(?:working)? joints?|mortise and tenon|dovetail)\b/],
     ['', /\b(?:dry toilets?|pit (?:privy|latrine)|(?:toilet|latrine) .{0,35}(?:no sewer|without (?:water|plumbing)|no running water))\b/,
       'dry toilet|pit latrine|composting toilet|sanitation without sewer'],
     ['', /\b(?:roof (?:pitch|slope|angle)|(?:pitch|slope|angle) .{0,12}roof)\b/,
       'roof pitch|roof slope|setting rafters|rise and run|roof framing'],
     ['', /\b(?:draft\w* .{0,14}(?:door|window)|(?:seal|insulat)\w* .{0,25}(?:door|window)|weather ?stripp\w*)\b/,
       'weatherstripping|air sealing|draft proofing|door seal'],
+    ['', /\b(?:ventilat\w*|air exchange|air circulation)\b.*\b(?:shelter|cabin|tent)\b|\b(?:shelter|cabin|tent)\b.*\b(?:ventilat\w*|air exchange|air circulation)\b/,
+      'shelter ventilation|ventilation holes|natural ventilation|ventilation|air exchange|air circulation',
+      /\b(?:shelter|cabin|tent|natural|building|passive|home|cross) ventilation\b|^ventilation$/],
+    ['', /\b(?:reheat\w*|temperatures?|safe|stor\w*)\b.{0,28}\bleftovers?\b|\bleftovers?\b.{0,28}\b(?:reheat\w*|temperatures?|safe|stor\w*)\b/,
+      'reheating leftovers|food safety|food storage|reheating|leftovers',
+      /\b(?:leftovers|food safety|reheating)\b/],
     ['', /\b(?:primary sources?|firsthand (?:account|evidence|record))\b/,
-      'primary source|firsthand account|historical sources'],
+      'primary source|primary sources|firsthand account|historical sources',
+      /\b(?:primary sources?|firsthand accounts?|historical sources)\b/],
+    ['', /^(?:(?:what is|define|explain) (?:an? |the )?)?acute angles?$/,
+      'acute angle|acute angles|types of angles|angle',
+      /\bacute angles?\b(?! (?:closure|glaucoma))|^(?:types of )?angles?$/],
     ['', /\b(?:loose stools|fluid loss .{0,12}(?:diarrh|vomit))\b/,
       'oral rehydration|rehydration drink|dehydration|diarrhea|diarrhoea'],
     ['', /\b(?:antibiotic\w* .{0,24}(?:dos\w*|course|prescri\w*)|(?:dos\w*|prescri\w*) .{0,18}antibiotic)\b/,
@@ -156,7 +173,7 @@
     'seed production', 'seed viability'].map(terms);
   const queryStop = new Set('about also am been being but can could did find get gives got have help here into just like make me my need now onto out people person please should show so some someone something take tell than that them then there these they this those through up us want was way we were which while who why will would'.split(' '));
 
-  function prepareQuery(text, encodeQuery) {
+  function prepareQuery(text, encodeQuery = () => null) {
     const original = normalize(text);
     if (new Set(words(original).filter(word => word.length > 1)).size > 32)
       throw Error('Use at most 32 different search words.');
@@ -180,11 +197,13 @@
     if (seed) evidence.push(...seedEvidence);
     const primary = new Set(query);
     const routing = [...new Set([...query, ...evidence.flat()])];
-    const vector = query.length && encodeQuery(emergency ?
+    const vectorText = emergency ?
       focused.filter(rule => rule.domain).map(rule => rule.canonical).join(' ') :
       seed ? 'seed saving ' + phrase : language ? language + ' phrasebook ' + phrase :
-      titlePatterns.length ? focused.find(rule => rule.titlePattern).canonical : phrase);
-    return {original, phrase, query, primary, routing, focused, evidence, titlePatterns, emergency, deliveryQuery, postpartum, pediatricHealth, language, seed, audience, vector};
+      titlePatterns.length ? focused.find(rule => rule.titlePattern).canonical : phrase;
+    const vector = query.length && encodeQuery(vectorText);
+    return {original, phrase, query, primary, routing, focused, evidence, titlePatterns, emergency, deliveryQuery,
+      postpartum, pediatricHealth, language, seed, audience, vector, vectorText};
   }
 
   function hashTerm(word) {
@@ -197,12 +216,13 @@
     return Math.imul(Math.min(left, right) ^ 0x5bd1e995, Math.max(left, right) | 1) >>> 0;
   }
 
-  function routeHits(bits, query) {
+  function routeHits(bits, keys) {
     const mask = bits.length * 8 - 1;
     let hits = 0;
-    for (const word of query) {
-      const key = hashTerm(word);
-      if ([key & mask, (key >>> 16) & mask].every(bit => bits.charCodeAt(bit >>> 3) & (1 << (bit & 7)))) hits++;
+    for (const key of keys) {
+      const first = key & mask, second = (key >>> 16) & mask;
+      if ((bits.charCodeAt(first >>> 3) & (1 << (first & 7))) &&
+          (bits.charCodeAt(second >>> 3) & (1 << (second & 7)))) hits++;
     }
     return hits;
   }
@@ -296,33 +316,38 @@
     return score;
   }
 
+  function rowTitle(row) {
+    return row[0] ?? row[1].slice(row[1].lastIndexOf('/') + 1).replace(/_/g, ' ');
+  }
+
   async function unpack(encoded, query) {
     const needed = query && new Set(query);
     // Stemming strips suffixes except for the ies-to-y rule. A retained
     // prefix lets a browser skip titles that cannot produce a query term.
-    const prefixes = query?.map(word => word.endsWith('y') ? word.slice(0, -1) : word);
+    const prefix = query?.length && new RegExp(query.map(word => word.endsWith('y') ? word.slice(0, -1) : word).join('|'), 'iu');
     const stream = new Blob([bytes(encoded)]).stream().pipeThrough(new DecompressionStream('gzip'));
     const chunk = await new Response(stream).json();
     chunk.vectors = [];
     chunk.semantic = [];
     chunk.vectorCache = [];
-    for (const [index, row] of chunk.records.entries()) {
-      if (row[0] === null) row[0] = row[1].split('/').at(-1).replace(/_/g, ' ');
+    for (let index = 0; index < chunk.records.length; index++) {
+      const row = chunk.records[index];
       if (row[3]) {
         chunk.vectors.push(index);
         if (!row[5]) chunk.semantic.push(index);
       }
       if (row[5]) {
-        if (prefixes) {
-          const title = /^[\x00-\x7f]*$/.test(row[0]) ? row[0].toLowerCase() : fold(row[0]);
-          if (!prefixes.some(prefix => title.includes(prefix))) continue;
+        if (prefix) {
+          const title = row[0] ?? row[1].slice(row[1].lastIndexOf('/') + 1);
+          if (!prefix.test(/[^\x00-\x7f]/.test(title) ? fold(title) : title)) continue;
         }
+        row[0] = rowTitle(row);
         for (const term of terms(row[0])) {
           if (needed && !needed.has(term)) continue;
           if (!Object.hasOwn(chunk.postings, term)) Object.defineProperty(chunk.postings, term, {value: []});
           chunk.postings[term].push(index * 16 + 9);
         }
-      }
+      } else row[0] = rowTitle(row);
     }
     return chunk;
   }
@@ -401,6 +426,7 @@
         similarity = vectorScore(vector, packed, Boolean(stats));
       }
       if (!stats && similarity < 0.37) continue;
+      row[0] = rowTitle(row);
       const title = normalize(row[0]);
       const archivePath = typeof row[1] === 'string' ? row[1] : '';
       const dictionary = /(?:^English-[^/]+\/|(?:^|\/)(?:vocabulary|dictionary|glossary)\/)/i.test(archivePath);
@@ -441,7 +467,7 @@
       if (emergency) {
         score = support ? (exact && !question ? 58 : 0) + Math.min(lexicalScore, 48) + 1.65 * support +
           22 * Math.max(0, similarity - 0.30) + typedScore +
-          (trusted ? 39 : 0) + (emergencyReference ? 16 : 0) +
+          (trusted ? 39 : 0) + (emergencyReference ? 16 : 0) + (conceptTitle && !question ? 105 : 0) +
           (deliverySection ? 52 : 0) + (postpartumSection ? 70 : 0) -
           (maternityReference && !deliveryQuery ? (pediatricHealth ? 50 : 25) : 0) +
           (pediatricSource && child.test(reference) && symptom.test(reference) ? 12 : 0) - (question ? 30 : 0) - (row[4] ? 19 : 0) :
@@ -457,18 +483,11 @@
           else if (pediatricSource && child.test(reference)) score += 25;
         }
       }
-      found.push({row, index, score, fullMatch: stats?.hits === query.length, focused: emergency && support > 0});
+      const matchedTerms = stats?.hits || 0;
+      found.push({row, index, score, matchedTerms, fullMatch: matchedTerms === query.length,
+        bodyMatch: !row[5] && Boolean(stats?.body), focused: emergency && support > 0, trusted});
     }
     return found.sort((a, b) => b.score - a.score || a.index - b.index).slice(0, limit);
-  }
-
-  function partPriority(asset, part, query) {
-    if (!query.emergency) return 0;
-    const {domains} = sourcePolicy(asset);
-    const onTopic = query.focused.some(rule => domains.includes(rule.domain));
-    if (asset.critical && onTopic && semanticPart(part)) return asset.format === "zim" ? 3 : 4;
-    if (onTopic && semanticPart(part)) return 2;
-    return semanticPart(part) ? 1 : 0;
   }
 
   function placeholderTitle(value) {
@@ -502,7 +521,9 @@
     const href = destination.split('/').map(encodeURIComponent).join('/') +
       (asset.format === 'pdf' ? '#page=' + locator :
         !archive && locator ? '#' + encodeURIComponent(locator) : '');
-    return {score: hit.score, rankTitle: rawTitle, fullMatch: hit.fullMatch, focused: hit.focused, indexed: true, record: {id: asset.id + ':' + part + ':' + hit.index,
+    return {score: hit.score, rankTitle: rawTitle, matchedTerms: hit.matchedTerms, fullMatch: hit.fullMatch,
+      bodyMatch: hit.bodyMatch, focused: hit.focused, trusted: hit.trusted,
+      indexed: true, record: {id: asset.id + ':' + part + ':' + hit.index,
       asset_id: asset.id, title, description: lead, source_title: asset.title, href, destination,
       kind: archive ? 'article' : 'section', reader_required: archive,
       location: archive ? 'Archive path: ' + locator + (heading ? ' · ' + heading : '') : asset.format === 'pdf' ? 'Page ' + locator :
@@ -512,6 +533,10 @@
 
   const READ_BUDGET = 28_000_000;
   const BOUNDED_BYTES = 39_700_000;
+  const EMERGENCY_BYTES = 16_000_000;
+  const COMPACT_BYTES = 20_000_000;
+  const COMPACT_INDEX = 125_000_000;
+  const PREVIEW_BYTES = 350_000;
   const TERM_BYTES = 4_000_000;
 
   function impactBucket(word) {
@@ -627,9 +652,14 @@
 
   function rankedQueue(selection, query, shelf = 'all', budget = Infinity, evidence) {
     const queue = [];
+    const routing = query.routing.map(hashTerm), primary = query.query.map(hashTerm);
     const exact = [query.phrase, query.original].map(title => hashTerm('^' + title));
     const concepts = query.focused.filter(rule => rule.titlePattern)
-      .flatMap(rule => rule.phrases).map(title => hashTerm('^' + title));
+      .flatMap(rule => rule.phrases).map(title => {
+        const termsInTitle = terms(title);
+        return {signature: hashTerm('^' + title), terms: termsInTitle.map(hashTerm),
+          specificity: termsInTitle.reduce((total, term) => total + (evidence?.weightByWord.get(term) || 1), 0)};
+      });
     const pairs = [];
     for (const terms of [query.query, ...query.evidence]) {
       const keys = terms.map(hashTerm);
@@ -639,7 +669,9 @@
     let routed = false;
     for (const asset of selection.sources) {
       if (!filter(asset, shelf)) continue;
-      const discussion = sourcePolicy(asset).discussion;
+      const {domains, discussion} = sourcePolicy(asset);
+      const onTopic = query.focused.some(rule => domains.includes(rule.domain));
+      const sourcePriority = onTopic ? asset.critical ? (asset.format === 'zim' ? 3 : 4) : 2 : 1;
       const sourceQueue = [];
       for (const [number, part] of asset.parts.entries()) {
         let data = decoded.get(part);
@@ -648,26 +680,36 @@
             centroids: part.route?.[1] ? bytes(part.route[1]) : null};
           decoded.set(part, data);
         }
-        const hits = routeHits(data.bloom, query.routing);
+        const hits = routeHits(data.bloom, routing);
         if (!hits && !evidence?.hits.has(part.impact) && (!query.vector || query.emergency || discussion || !semanticPart(part))) continue;
-        const priority = partPriority(asset, part, query);
+        const priority = query.emergency && semanticPart(part) ? sourcePriority : 0;
+        let titlePriority = 0;
+        const primaryHits = routeHits(data.bloom, primary);
         let score = priority + hits;
         if (data.lexical) {
           routed = true;
           const mask = data.lexical.length * 8 - 1;
-          const matches = key => [key & mask, (key >>> 15) & mask].every(bit =>
-            data.lexical[bit >>> 3] & (1 << (bit & 7)));
-          const exactMatch = exact.some(matches);
-          const conceptMatch = concepts.some(matches);
+          const matches = key => {
+            const first = key & mask, second = (key >>> 15) & mask;
+            return (data.lexical[first >>> 3] & (1 << (first & 7))) &&
+              (data.lexical[second >>> 3] & (1 << (second & 7)));
+          };
+          const exactMatch = primaryHits === primary.length && exact.some(matches);
+          let conceptMatch = 0;
+          for (const concept of concepts) {
+            if (matches(concept.signature) && routeHits(data.bloom, concept.terms) === concept.terms.length) {
+              conceptMatch = Math.max(conceptMatch, concept.specificity);
+            }
+          }
+          titlePriority = (exactMatch ? 3 : 0) + conceptMatch;
           const pairStrength = pairs.filter(matches).length;
-          const primaryHits = routeHits(data.bloom, query.query);
           let affinity = 0;
           if (query.vector && !query.emergency && !discussion && data.centroids)
             for (let offset = 0; offset < data.centroids.length; offset += 32)
               affinity = Math.max(affinity, vectorScore(query.vector, data.centroids.subarray(offset, offset + 32), true));
           const small = part.bytes < 200_000;
           score = 6 * priority + 3.5 * primaryHits / query.query.length +
-            (exactMatch ? 3 : 0) + (conceptMatch ? 4 : 0) + 2.5 * Math.log1p(pairStrength) +
+            (exactMatch ? 14 : 0) + (conceptMatch ? 10 : 0) + 2.5 * Math.log1p(pairStrength) +
             12 * Math.max(0, affinity - 0.17) + (asset.format === 'pdf' ? 3 : 0) +
             (asset.critical ? 1 : 0) + (small ? 1 : 0) - (discussion && semanticPart(part) ? 1 : discussion ? 4 : 0);
         }
@@ -677,7 +719,8 @@
           score = score * 0.65 + lexical;
           if (!semanticPart(part) && asset.format === 'zim' && hits > 1) score += 0.7;
         }
-        sourceQueue.push({asset, number, hits, priority, score, heuristic});
+        sourceQueue.push({asset, number, hits, priority, score, heuristic,
+          completeTerms: primaryHits === primary.length, titlePriority});
       }
       const ranked = [...sourceQueue].sort((a, b) => b.score - a.score || b.hits - a.hits);
       for (const [index, item] of ranked.entries()) {
@@ -704,10 +747,16 @@
       }
       const head = budget * 0.58;
       let available = budget - head + add(queue, head);
+      const exact = queue.filter(item => item.titlePriority)
+        .sort((a, b) => b.titlePriority - a.titlePriority || b.score - a.score);
+      const titles = budget * 0.17;
+      available = available - titles + add(exact, titles);
       const small = queue.filter(({asset, number}) =>
         (asset.format !== 'zim' || asset.parts.length <= 4) && semanticPart(asset.parts[number]));
       const reference = budget * 0.20;
-      available = available - reference + add(small, reference);
+      const short = small.filter(({asset, number, completeTerms}) =>
+        completeTerms && asset.parts[number].bytes <= 38_000);
+      available = available - reference + add(small, add(short, reference));
       const fallback = [...queue].sort((a, b) => b.heuristic - a.heuristic || b.score - a.score);
       add(fallback, available);
       return queue.filter(({asset, number}) => selected.has(partAddress(asset, number)));
@@ -731,15 +780,73 @@
     return part.path || (part.pool || asset.sha256) + ':' + (part.number ?? number);
   }
 
+  function completionBudget(selection, query) {
+    if (!selection.impact) return Infinity;
+    if (query.emergency) return EMERGENCY_BYTES;
+    if (query.query.length > 2 || query.focused.length || query.language || query.seed || query.pediatricHealth)
+      return Infinity;
+    let bytes = 0;
+    const parts = new Set();
+    for (const asset of selection.sources) {
+      for (let number = 0; number < asset.parts.length; number++) {
+        const path = partAddress(asset, number);
+        if (parts.has(path)) continue;
+        parts.add(path);
+        bytes += asset.parts[number].bytes || 200_000;
+        if (bytes > COMPACT_INDEX) return Infinity;
+      }
+    }
+    return COMPACT_BYTES;
+  }
+
+  function readChunk(readPart, asset, number, queryTerms) {
+    const part = asset.parts[number];
+    return readPart(part.pool || asset.sha256, part.number ?? number, queryTerms, part.path);
+  }
+
+  async function lexicalPreview(selection, query, shelf, limit, readPart, queryTerms, cached, cancelled, onProgress) {
+    const queue = rankedQueue(selection, query, shelf, PREVIEW_BYTES);
+    for (const {asset, number} of queue) {
+      if (cancelled()) return;
+      const address = partAddress(asset, number);
+      let chunk = cached.get(address);
+      if (!chunk) {
+        try {
+          chunk = await readChunk(readPart, asset, number, queryTerms);
+        } catch (_) {
+          // A preview-only read can fail. Final ranking verifies its own reads.
+          continue;
+        }
+        cached.set(address, chunk);
+      }
+      if (cancelled()) return;
+      const hits = rankPart(chunk, query, asset, limit).map(hit => result(asset, hit, number));
+      if (!hits.length) continue;
+      onProgress(topResults(hits, limit), 'indexed');
+      return;
+    }
+  }
+
   async function search(selection, encodeQuery, readPart, text, shelf = 'all', limit = 30,
                         cancelled = () => false, onProgress, budget = Infinity, readImpact, complete = false) {
-    const query = prepareQuery(text, encodeQuery);
+    const query = prepareQuery(text);
     if (!query.query.length || cancelled()) return [];
-    const evidence = readImpact && selection.impact ? await impactEvidence(query, selection.impact, readImpact) : null;
+    const queryTerms = lookupTerms(query);
+    const canRoute = readImpact && selection.impact;
+    const shared = new Map();
+    const [encode, evidence] = await Promise.all([
+      encodeQuery,
+      canRoute ? impactEvidence(query, selection.impact, readImpact) : null,
+      complete && canRoute && onProgress ?
+        lexicalPreview(selection, query, shelf, limit, readPart, queryTerms, shared, cancelled, onProgress) : null,
+    ]);
     if (cancelled()) return [];
-    const queue = rankedQueue(selection, query, shelf, budget - (evidence?.readBytes || 0), evidence);
+    query.vector = encode(query.vectorText);
+    const finalBudget = complete && evidence ? completionBudget(selection, query) : Infinity;
+    const allowance = Math.min(budget, finalBudget);
+    const queue = rankedQueue(selection, query, shelf, allowance - (evidence?.readBytes || 0), evidence);
     const firstPass = queue.length;
-    if (complete && Number.isFinite(budget)) {
+    if (complete && !Number.isFinite(finalBudget) && Number.isFinite(budget)) {
       const identity = ({asset, number}) => `${asset.id}:${number}`;
       const selected = new Set(queue.map(identity));
       queue.push(...rankedQueue(selection, query, shelf).filter(item => !selected.has(identity(item))));
@@ -749,17 +856,13 @@
       const key = partAddress(asset, number);
       multiple.set(key, (multiple.get(key) || 0) + 1);
     }
-    const shared = new Map();
     const matches = [];
-    const queryTerms = lookupTerms(query);
     let updatedAt = -Infinity;
     for (const [position, {asset, number}] of queue.entries()) {
       if (position === firstPass) onProgress?.(topResults(matches, limit), 'refining');
       if (cancelled()) return [];
-      const part = asset.parts[number];
       const address = partAddress(asset, number);
-      const chunk = shared.get(address) ?? await readPart(part.pool || asset.sha256, part.number ?? number,
-        queryTerms, part.path);
+      const chunk = shared.get(address) ?? await readChunk(readPart, asset, number, queryTerms);
       const left = multiple.get(address) - 1;
       multiple.set(address, left);
       if (left) shared.set(address, chunk);
@@ -848,14 +951,14 @@
       ready = undefined;
       return () => null;
     });
-    // Each page owns one script callback at a time. New searches can cancel reads
-    // between chunks, so they cannot replace callbacks for an active script.
-    let queue = Promise.resolve();
+    // Keep each callback type serial across searches, while allowing term
+    // buckets and record reads to overlap.
+    let partQueue = Promise.resolve(), impactQueue = Promise.resolve();
     const readPart = (digest, number, query, path) => {
       if (path && !/^chunks\/[a-f0-9]{64}\.js$/.test(path)) return Promise.reject(Error('Invalid search chunk path'));
       if (!/^[a-f0-9]{64}$/.test(digest) || !Number.isInteger(number) || number < 0 || number >= 100000)
         return Promise.reject(Error('Invalid search shard'));
-      const task = queue.then(async () => {
+      const task = partQueue.then(async () => {
         let data;
         const callback = path ? 'OWLShardBlob' : 'OWLShardPart';
         root[callback] = value => { data = value; };
@@ -871,14 +974,14 @@
           delete root[callback];
         }
       });
-      queue = task.catch(() => {});
+      partQueue = task.catch(() => {});
       return task;
     };
     const cache = new Map();
     function readImpact(path) {
       if (!/^[a-f0-9]{2}\.js$/.test(path)) return Promise.reject(Error('Invalid term bucket'));
       if (cache.has(path)) return cache.get(path);
-      const task = queue.then(async () => {
+      const task = impactQueue.then(async () => {
         let data;
         root.OWLImpactBlock = value => { data = value; };
         try {
@@ -889,14 +992,14 @@
           delete root.OWLImpactBlock;
         }
       });
-      queue = task.catch(() => {});
+      impactQueue = task.catch(() => {});
       cache.set(path, task);
       task.catch(() => { if (cache.get(path) === task) cache.delete(path); });
       if (cache.size > 24) cache.delete(cache.keys().next().value);
       return task;
     }
-    return async (text, shelf, limit, cancelled, onProgress) =>
-      run(selection, await loadModel(), readPart, text, shelf, limit, cancelled, onProgress,
+    return (text, shelf, limit, cancelled, onProgress, lexicalOnly = false) =>
+      run(selection, lexicalOnly ? () => null : loadModel(), readPart, text, shelf, limit, cancelled, onProgress,
         selection.impact ? BOUNDED_BYTES : Infinity,
         selection.impact ? readImpact : undefined, true);
   }
@@ -904,7 +1007,7 @@
   const api = {classic, model, binaryQuery, bytes, search, terms, prepareQuery, unpack, rankPart, normalize, result,
     retainCandidates, topResults, lookupTerms, filter, vectorScore, placeholderTitle, displayTitle,
     hashTerm, pairHash, rankedQueue, impactPostings, impactBlock, impactEvidence,
-    readBudget: READ_BUDGET, boundedBytes: BOUNDED_BYTES};
+    readBudget: READ_BUDGET, boundedBytes: BOUNDED_BYTES, completionBudget};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLShardRank = api;
 })(globalThis);

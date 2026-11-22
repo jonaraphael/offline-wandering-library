@@ -5,6 +5,10 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  issues: write
+concurrency:
+  group: catalog-source-checks
+  cancel-in-progress: false
 jobs:
   check-links:
     runs-on: ubuntu-latest
@@ -15,9 +19,48 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install -e .
-      - run: python scripts/check_links.py --origin https://jonaraphael.github.io --stream-missing-size --output link-checks.json
+      - name: Probe pinned sources and live routes
+        id: probe
+        timeout-minutes: 21
+        env:
+          OWL_RELAY_BASE: ${{ vars.OWL_RELAY_BASE || 'https://owl-publisher-relay.snapandshop-jonaraphael.workers.dev' }}
+          OWL_ARCHIVE_RELAY: ${{ vars.OWL_ARCHIVE_RELAY }}
+        run: |
+          archive=()
+          if [[ "$OWL_ARCHIVE_RELAY" == true ]]; then archive+=(--archive-relay); fi
+          python scripts/check_links.py --origin https://jonaraphael.github.io \
+            --pages-base https://jonaraphael.github.io/offline-wandering-library/ \
+            --relay-base "$OWL_RELAY_BASE" --workers 8 --route-sample 48 \
+            --output link-checks.json "${archive[@]}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: catalog-link-checks
           path: link-checks.json
+      - name: Report failing routes
+        if: failure() && steps.probe.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('node:fs');
+            const artifact = 'link-checks.json';
+            const title = 'Catalog source or browser route check failed';
+            const run = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [`Latest failed run: ${run}`, `Checked commit: ${context.sha}`];
+            if (fs.existsSync(artifact)) {
+              const {failed_assets, failed_routes, blocked_assets, blocked_routes} = JSON.parse(fs.readFileSync(artifact, 'utf8'));
+              body.push('', `Publisher sources unavailable for ${failed_assets.length} assets. ${failed_routes.length} browser routes failed.`);
+              body.push(`Blocked for this checker: ${blocked_assets.length} assets, ${blocked_routes.length} browser routes.`);
+              const failures = [...failed_assets, ...failed_routes.map(row => `${row.route} / ${row.id}`)];
+              body.push(...failures.slice(0, 30).map(value => `- ${value}`));
+              body.push('', 'See the run’s `catalog-link-checks` artifact for HTTP statuses, sizes and response headers.');
+            } else {
+              body.push('', 'See the workflow log for the error that stopped the check.');
+            }
+            const issues = await github.paginate(github.rest.issues.listForRepo, {...context.repo, state: 'all', per_page: 100});
+            const issue = issues.find(item => !item.pull_request && item.title === title && item.user?.login === 'github-actions[bot]');
+            if (issue) {
+              await github.rest.issues.update({...context.repo, issue_number: issue.number, body: body.join('\n'), state: 'open'});
+            } else {
+              await github.rest.issues.create({...context.repo, title, body: body.join('\n')});
+            }

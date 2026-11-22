@@ -10,6 +10,30 @@ export class SourceError extends Error {
   }
 }
 
+function retryAfter(response) {
+  const value = response.headers.get("Retry-After")?.trim();
+  if (!value) return;
+  if (/^\d+$/.test(value)) return Math.min(Number(value) * 1000, 2 ** 31 - 1);
+  const date = Date.parse(value);
+  if (Number.isFinite(date)) return Math.min(Math.max(0, date - Date.now()), 2 ** 31 - 1);
+}
+
+// Use route cooldowns so one throttled source never holds up a usable mirror.
+export function routeCooldowns(network) {
+  const until = new Map();
+  const waiting = route => Math.max(0, (until.get(route) || 0) - Date.now());
+  return {
+    waiting,
+    defer(route, ms) {
+      if (ms > 0) until.set(route, Math.max(until.get(route) || 0, Date.now() + ms));
+    },
+    async delay(routes, minimum) {
+      const retry = Math.min(...routes.map(waiting).filter(Boolean));
+      await network.delay(Math.max(minimum || 0, Number.isFinite(retry) ? retry : 0) || minimum);
+    }
+  };
+}
+
 export function createNetwork({fetchFile = globalThis.fetch, signal, probeURL, onWaiting = () => {}, onRestored = () => {},
     events = globalThis, online = () => globalThis.navigator?.onLine !== false, retryMs = 1_000} = {}) {
   function delay(ms, wakeOnline = false) {
@@ -64,7 +88,7 @@ export function createNetwork({fetchFile = globalThis.fetch, signal, probeURL, o
         if (!(error instanceof SourceError)) throw error;
         if ((error.connection || !online()) && await waitForConnection()) continue;
         if (attempt++) throw error;
-        await delay(retryMs);
+        await delay(Math.max(retryMs, error.retryAfterMs || 0));
       }
     }
   }
@@ -87,18 +111,21 @@ export async function receiveFile(url, {fetchFile, signal, headers = {}, check, 
   const response = await receive(() => fetchFile(url, {
     headers, signal: requestSignal, cache: "no-store", credentials: "omit", referrerPolicy: "no-referrer"
   }));
-  if (!response.body) throw new SourceError("Source returned no data (HTTP " + response.status + ")", {status: response.status});
-  const reader = response.body.getReader();
+  const reader = response.body?.getReader();
   try {
     check(response);
+    if (!reader) throw new SourceError("Source returned no data (HTTP " + response.status + ")", {status: response.status});
     for (;;) {
       signal?.throwIfAborted();
       const packet = await receive(() => reader.read());
       if (packet.done) break;
       await onChunk(packet.value);
     }
+  } catch (error) {
+    if (error instanceof SourceError) error.retryAfterMs = retryAfter(response);
+    throw error;
   } finally {
-    void reader.cancel().catch(() => {});
-    reader.releaseLock();
+    void reader?.cancel().catch(() => {});
+    reader?.releaseLock();
   }
 }

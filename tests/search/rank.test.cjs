@@ -46,6 +46,28 @@ test('lay emergency terminology routes to relevant clinical references', () => {
   assert.equal(rank.prepareQuery('bleed a radiator', noVector).emergency, false);
 });
 
+test('dehydration assessment favors a dedicated reference over passing mentions', () => {
+  const query = rank.prepareQuery('What are the symptoms of dehydration?', noVector);
+  const mentions = index([['Assessment of shock', 5, 'Check for signs of dehydration, bleeding and infection.', '', 0, 0]]);
+  const dedicated = index([['Dehydration', 'Dehydration', '', '', 0, 0]]);
+  const general = rank.rankPart(mentions, query,
+    {title: 'First Aid', category: 'medical', critical: true, format: 'pdf'}, 1)[0];
+  const reference = rank.rankPart(dedicated, query, {title: 'Health reference', format: 'zim'}, 1)[0];
+  assert.equal(reference.focused, true);
+  assert.ok(reference.score > general.score);
+});
+
+test('leftover and shelter queries rank guides by their treatment of the topic', () => {
+  const source = {title: 'Reference', format: 'zim'};
+  for (const [text, title, distractor] of [
+    ['What temperature should I use to reheat leftovers?', 'Reheating leftovers', 'Operating temperature'],
+    ['How can I ventilate a small tent?', 'Natural ventilation', 'Emergency shelter'],
+  ]) {
+    const part = index([[distractor, 'other', text, '', 0, 0], [title, 'guide', title, '', 0, 0]]);
+    assert.equal(rank.rankPart(part, rank.prepareQuery(text, noVector), source, 2)[0].row[0], title);
+  }
+});
+
 test('only a marked, matching answer clears the discussion penalty', () => {
   const query = rank.prepareQuery('solder copper wire', noVector);
   const article = ['Solder copper wire', 'sample', 'Solder the copper wire', '', 0, 0];
@@ -213,6 +235,61 @@ test('progressive ranking scores chunks outside the preview once and matches the
     () => cancelled, (_hits, phase) => { if (phase === 'refining') cancelled = true; }, 10, undefined, true);
   assert.deepEqual(abandoned, []);
   assert.deepEqual(reads, [0]);
+});
+
+test('term routing bounds compact and emergency searches while large general searches refine', async () => {
+  const parts = [0, 1, 2].map(n => ({number: n, bloom: '/w==', bytes: 7_000_000}));
+  const asset = {id: 'manual', title: 'Manual', format: 'pdf', sha256: 'a'.repeat(64),
+    destination: 'Manual.pdf', parts};
+  const content = index([['Dehydration', 3, 'Treatment with oral rehydration', '', 0, 0]]);
+  const reads = [];
+  const readPart = (_digest, number) => { reads.push(number); return content; };
+  const readImpact = () => assert.fail('No buckets in the fixture');
+  const run = (selection, text) => rank.search(selection, noVector, readPart, text, 'all', 5,
+    () => false, undefined, rank.boundedBytes, readImpact, true);
+  await run({sources: [asset], impact: {}}, 'signs of dehydration');
+  assert.deepEqual(reads, [0, 1]);
+  reads.length = 0;
+  await run({sources: [asset], impact: {}}, 'rehydration');
+  assert.deepEqual(reads, [0, 1]);
+  reads.length = 0;
+  await run({sources: [asset], impact: undefined}, 'signs of dehydration');
+  assert.deepEqual(reads, [0, 1, 2]);
+  const large = {...asset, parts: [...parts, {number: 3, bloom: '/w==', bytes: 125_000_000}]};
+  reads.length = 0;
+  await run({sources: [large], impact: {}}, 'rehydration');
+  assert.deepEqual(reads, [0, 1, 2, 3]);
+});
+
+test('the lexical preview precedes model loading and shares its chunk with final ranking', {timeout: 1000}, async () => {
+  const asset = {id: 'manual', title: 'Manual', format: 'pdf', sha256: 'a'.repeat(64),
+    destination: 'Manual.pdf', parts: [{bloom: '/w==', bytes: 50_000}]};
+  const content = index([['Dehydration', 3, 'Oral rehydration', '', 0, 0]]);
+  let finishModel, showPreview, reads = 0;
+  const model = new Promise(resolve => { finishModel = resolve; });
+  const preview = new Promise(resolve => { showPreview = resolve; });
+  const completed = rank.search({sources: [asset], impact: {}}, model, () => { reads++; return content; },
+    'signs of dehydration', 'all', 3, () => false, showPreview, rank.boundedBytes, () => null, true);
+  assert.equal((await preview)[0].record.location, 'Page 3');
+  finishModel(noVector);
+  assert.equal((await completed)[0].record.location, 'Page 3');
+  assert.equal(reads, 1);
+});
+
+test('query-filtered unpacking retains accented, inflected and concept-only archive titles', async () => {
+  const {gzipSync} = require('node:zlib');
+  const payload = {records: [
+    [null, 'other/Bérries_and_nuts', '', '', 0, 1],
+    [null, 'berries/Unrelated_entry', '', '', 0, 1],
+    [null, 'other/Foraging', '', '', 0, 1],
+  ], postings: {berry: [37]}};
+  const packed = gzipSync(JSON.stringify(payload)).toString('base64');
+  const query = rank.prepareQuery('berry', noVector);
+  const asset = {title: 'Reference', format: 'zim'};
+  const full = rank.rankPart(await rank.unpack(packed), query, asset, 5);
+  const filtered = rank.rankPart(await rank.unpack(packed, rank.lookupTerms(query)), query, asset, 5);
+  assert.deepEqual(filtered, full);
+  assert.deepEqual(filtered.map(hit => hit.row[0]), ['Bérries and nuts', 'Foraging']);
 });
 
 test('concept matches favor explanations over unrelated titles sharing words', () => {

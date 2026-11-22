@@ -22,7 +22,7 @@ export function relay(allowed, fetchUpstream = fetch) {
     const reply = (status, text) => new Response(request.method === "HEAD" ? null : text, {status, headers});
     if (!env.ALLOWED_ORIGIN || origin !== env.ALLOWED_ORIGIN) return reply(403, "Origin denied");
     headers.set("Access-Control-Allow-Origin", origin);
-    headers.set("Access-Control-Expose-Headers", "Content-Length, Content-Range, Accept-Ranges");
+    headers.set("Access-Control-Expose-Headers", "Content-Length, Content-Range, Accept-Ranges, Retry-After");
     const url = new URL(request.url);
     const id = /^\/assets\/([a-z0-9_-]+)$/.exec(url.pathname)?.[1];
     if (url.search || !Object.hasOwn(allowed, id)) return reply(404, "Unknown asset");
@@ -59,7 +59,7 @@ export function relay(allowed, fetchUpstream = fetch) {
     if (upstream.status === 429 || upstream.status === 503) {
       await upstream.body?.cancel();
       const retry = upstream.headers.get("Retry-After");
-      if (retry && /^\d{1,4}$/.test(retry)) headers.set("Retry-After", retry);
+      if (retry && (/^\d+$/.test(retry) || Number.isFinite(Date.parse(retry)))) headers.set("Retry-After", retry);
       return reply(upstream.status, "Publisher is busy");
     }
     const length = upstream.headers.get("Content-Length");

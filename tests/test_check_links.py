@@ -1,8 +1,10 @@
 """Exercise header probes, bounded streams and source fallback."""
 from io import BytesIO
+import json
 from pathlib import Path
 from types import SimpleNamespace
 import sys
+import tempfile
 import unittest
 from unittest.mock import MagicMock, patch
 
@@ -46,14 +48,17 @@ class LinkChecksTests(unittest.TestCase):
         self.assertFalse(row["cors"])
         self.assertEqual(row["observed_bytes"], 75)
 
-    def test_missing_size_stream_is_opt_in(self):
+    def test_missing_size_stream_runs_by_default(self):
         head = self.response(200, {})
         ignored = self.response(200, {})
         limit = 42
-        with patch.object(check_links, "urlopen", side_effect=[head, ignored]):
+        stream_response = MagicMock()
+        stream_response.__enter__.return_value = SimpleNamespace(
+            status=200, headers={}, url="https://example.test/file", read1=BytesIO(b"a" * limit).read1)
+        with patch.object(check_links, "urlopen", side_effect=[head, ignored, stream_response]):
             row = check_links.probe("https://example.test/file", limit, check_links.DEFAULT_ORIGIN, 1)
-        self.assertFalse(row["ok"])
-        self.assertIsNone(row["size_method"])
+        self.assertTrue(row["ok"])
+        self.assertEqual(row["size_method"], "stream")
         with patch.object(check_links, "urlopen", side_effect=[head, ignored]):
             stream = MagicMock(return_value=(42, {}, "https://example.test/file"))
             row = check_links.probe("https://example.test/file", limit, check_links.DEFAULT_ORIGIN, 1,
@@ -61,6 +66,19 @@ class LinkChecksTests(unittest.TestCase):
         self.assertTrue(row["ok"])
         self.assertEqual(row["size_method"], "stream")
         stream.assert_called_once()
+
+    def test_known_checker_blocks_are_distinct_from_gone_sources(self):
+        cases = [("openknowledge.fao.org", 403, False, "blocked for this checker"),
+                 ("upload.wikimedia.org", 429, False, "blocked for this checker"),
+                 ("example.test", 403, True, "blocked for this checker"),
+                 ("example.test", 403, False, "unverified"),
+                 ("openknowledge.fao.org", 410, False, "gone")]
+        for host, code, browser, expected in cases:
+            with self.subTest(host=host, code=code, browser=browser), patch.object(
+                    check_links, "urlopen", return_value=self.response(code, {"Content-Length": "42"})):
+                row = check_links.probe(f"https://{host}/file", 42, None, 1, browser_expected=browser)
+            self.assertEqual(row["outcome"], expected)
+            self.assertFalse(row["ok"])
 
     def test_head_success_can_use_a_full_get_when_range_request_fails(self):
         head = self.response(200, {"Content-Length": "42"})
@@ -102,8 +120,69 @@ class LinkChecksTests(unittest.TestCase):
             ok = url == mirror
             return {"url": url, "ok": ok, "range": ok, "cors": ok}
         with patch.object(check_links, "load_catalog", return_value=catalog), patch.object(
-                check_links, "probe", side_effect=probe), patch("sys.stdout"), patch("sys.stderr"):
+                check_links, "probe", side_effect=probe) as mocked, patch("sys.stdout"), patch("sys.stderr"):
             self.assertEqual(check_links.main([]), 0)
+            self.assertTrue(all(call.args[2] is None for call in mocked.call_args_list))
             with patch.object(check_links, "probe", side_effect=lambda url, *_a, **_k:
-                              {"url": url, "ok": url == mirror, "range": False, "cors": True}):
+                              {"url": url, "ok": False, "range": False, "cors": True}):
                 self.assertEqual(check_links.main([]), 1)
+
+    def test_sampling_browser_routes_keeps_every_publisher_source_in_the_run(self):
+        assets = [{"id": str(i), "source_url": f"https://example.test/{i}", "size_bytes": 42}
+                  for i in range(3)]
+        with (patch.object(check_links, "load_catalog", return_value=assets),
+              patch.object(check_links, "deployed_routes", return_value=[]) as routes,
+              patch.object(check_links, "probe", side_effect=lambda url, *_a, **_k:
+                           {"url": url, "ok": True}) as probe,
+              patch("sys.stdout")):
+            self.assertEqual(check_links.main(["--route-sample", "1", "--pages-base", "https://pages.test"]), 0)
+        self.assertEqual(probe.call_count, 3)
+        self.assertEqual(routes.call_args.args[3], 1)
+
+    def test_publisher_uses_builder_agent_without_origin(self):
+        response = self.response(200, {"Content-Length": "42"})
+        with patch.object(check_links, "urlopen", return_value=response) as fetch:
+            self.assertTrue(check_links.probe("https://publisher.test/guide", 42, None, 1)["ok"])
+        for call in fetch.call_args_list:
+            self.assertIsNone(call.args[0].get_header("Origin"))
+            self.assertEqual(call.args[0].get_header("User-agent"), check_links.USER_AGENT)
+
+    def test_standard_identifier_can_recover_a_publisher_403(self):
+        forbidden = self.response(403, {})
+        body = self.response(200, {"Content-Length": "42"})
+        with patch.object(check_links, "urlopen", side_effect=[forbidden, forbidden, body]) as fetch:
+            row = check_links.probe("https://publisher.test/file", 42, None, 1, whole_get=True)
+        self.assertTrue(row["ok"])
+        self.assertEqual(row["outcome"], "matching")
+        self.assertIsNone(fetch.call_args.args[0].get_header("User-agent"))
+
+    def test_checks_published_mirror_parts_and_relay_with_pages_origin(self):
+        url = "https://publisher.test/guide"
+        asset = {"id": "guide", "source_url": url, "size_bytes": 80_000_010, "format": "pdf"}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "web").mkdir()
+            (root / "relay").mkdir()
+            (root / "web/pages-mirrors.json").write_text(json.dumps({"guide": "pinned"}))
+            (root / "relay/allowlist.json").write_text(json.dumps({
+                "guide": {"url": url, "bytes": asset["size_bytes"]},
+                "archive--peer": {"url": url, "bytes": 200, "archive": "archive"}}))
+            output = root / "report.json"
+            def response(route, size, origin, _timeout, *, whole_get=False, **_kwargs):
+                self.assertEqual(origin, None if route == url else check_links.DEFAULT_ORIGIN)
+                if route.endswith("/assets/guide"):
+                    self.assertTrue(whole_get)
+                if route.endswith("/assets/archive--peer"):
+                    self.assertFalse(whole_get)
+                return {"url": route, "observed_bytes": size, "ok": True, "cors": True, "range": True,
+                        "exposes_content_range": not route.endswith("archive--peer")}
+            with patch.object(check_links, "ROOT", root), patch.object(check_links, "load_catalog", return_value=[asset]), \
+                    patch.object(check_links, "probe", side_effect=response), patch("sys.stdout"), patch("sys.stderr"):
+                result = check_links.main(["--pages-base", "https://pages.test/owl/", "--relay-base", "https://relay.test",
+                                           "--archive-relay", "--output", str(output)])
+            self.assertEqual(result, 1)
+            report = json.loads(output.read_bytes())
+            parts = [(row["url"], row["observed_bytes"]) for row in report["responses"] if row["route"] == "pages-mirror"]
+            self.assertEqual(parts, [("https://pages.test/owl/mirrors/guide-0.bin", 80_000_000),
+                                     ("https://pages.test/owl/mirrors/guide-1.bin", 10)])
+            self.assertEqual(report["failed_routes"][0]["browser_drift"], ["exposes_content_range"])
