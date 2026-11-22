@@ -6,6 +6,7 @@ import argparse
 from base64 import b64decode
 from hashlib import sha256
 import json
+import re
 import os
 from pathlib import Path
 import shutil
@@ -220,6 +221,20 @@ def generate_archive_pins(asset: dict, path: Path) -> dict:
     return {"sha256": asset["sha256"], "part_bytes": ZIM_PART, "hashes": hashes}
 
 
+MODULE_IMPORT = re.compile(r"""((?:\bfrom|\bimport)\s*\(?\s*)(["'])(\./[^"'?#]+\.m?js)\2""")
+
+
+def version_module_imports(text: str, version) -> str:
+    """Append ?v=<commit> to relative module imports.
+
+    GitHub Pages serves modules with max-age=600, so a reload within ten
+    minutes of a deploy ran stale builder code on the owner's drive. Commit-
+    versioned URLs make each deploy take effect on the next reload."""
+    if not version:
+        return text
+    return MODULE_IMPORT.sub(lambda match: match[1] + match[2] + match[3] + "?v=" + version + match[2], text)
+
+
 def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=None, relay_base=None, archive_relay=False) -> dict:
     if site.exists() and any(site.iterdir()):
         raise ValueError("Choose an empty output directory")
@@ -282,11 +297,12 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
             (site / "wikimed-phone" / volume["file"]).write_bytes(verified_volume(volume))
         navigation["phone"] = {**phone, "destination": DESTINATION, "base": "./wikimed-phone/"}
     write_json(site / "catalog.json", {"planner": model, "routes": routes, "navigation": navigation})
-    (site / "index.html").write_text(render_selector(model, pages=True), encoding="utf-8")
+    version = search_commit[:12] if search_commit else None
+    (site / "index.html").write_text(version_module_imports(render_selector(model, pages=True), version), encoding="utf-8")
     (site / "SELECT.html").write_bytes((ROOT / "SELECT.html").read_bytes())
     (site / ".nojekyll").touch()
     for path in sorted(SOURCE.glob("*.mjs")):
-        shutil.copyfile(path, site / path.name)
+        (site / path.name).write_text(version_module_imports(path.read_text(encoding="utf-8"), version), encoding="utf-8")
     shutil.copytree(SOURCE / "vendor", site / "vendor")
 
     pieces = json.loads((SOURCE / "kiwix-pieces.json").read_text(encoding="utf-8"))
