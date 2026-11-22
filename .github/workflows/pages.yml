@@ -30,7 +30,11 @@ jobs:
           path: ${{ runner.temp }}/owl-mirrors
           key: owl-pages-mirrors-${{ hashFiles('web/pages-mirrors.json') }}
           restore-keys: owl-pages-mirrors-
-      - run: python scripts/build_pages.py "${{ runner.temp }}/owl-pages" --fetch-mirrors --cache "${{ runner.temp }}/owl-mirrors" --search-commit "${{ github.sha }}"
+      # OWL_RELAY_BASE (repository variable) is the owner-approved publisher relay
+      # origin; when unset the site is built without relay routes.
+      - env:
+          OWL_RELAY_BASE: ${{ vars.OWL_RELAY_BASE }}
+        run: python scripts/build_pages.py "${{ runner.temp }}/owl-pages" --fetch-mirrors --cache "${{ runner.temp }}/owl-mirrors" --search-commit "${{ github.sha }}" ${OWL_RELAY_BASE:+--relay-base "$OWL_RELAY_BASE"}
       - uses: actions/upload-pages-artifact@v4
         with:
           path: ${{ runner.temp }}/owl-pages
