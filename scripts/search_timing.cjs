@@ -8,6 +8,10 @@ const {fileURLToPath, pathToFileURL} = require('node:url');
 const {chromium} = require('playwright-core');
 
 const emergencyFallback = "My neighbor is lying still on the floor and I can't tell if he's breathing";
+const semanticChecks = new Map([
+  ['After a twelve hour bus ride my left calf is warm and painfully swollen', 'deep-vein-thrombosis'],
+  ['The downstairs stayed wet for days after the rain and now the walls are fuzzy and musty', 'flood-mold'],
+]);
 const emergencyQueries = [
   'signs of dehydration',
   'chest compressions',
@@ -15,6 +19,7 @@ const emergencyQueries = [
   'make water safe to drink',
   'we are stuck outside overnight in heavy rain without a tent',
   emergencyFallback,
+  ...semanticChecks.keys(),
 ];
 
 async function measure(browser, url, query, {allowEmpty = false} = {}) {
@@ -115,6 +120,10 @@ async function main() {
           !result.status.startsWith('No reviewed guide matched') || !result.chunk_reads || result.cards.some(card => card.topic))) {
         throw Error('Expected an emergency index fallback for: ' + query);
       }
+      if (values.check && semanticChecks.has(query) &&
+          (!result.emergency || result.cards[0]?.topic !== semanticChecks.get(query))) {
+        throw Error('Expected a semantic emergency guide for: ' + query);
+      }
       results.push(result);
       console.log(JSON.stringify(result));
     }
@@ -129,5 +138,5 @@ async function main() {
   }
 }
 
-module.exports = {measure, searchUrl, emergencyFallback};
+module.exports = {measure, searchUrl, emergencyFallback, semanticChecks};
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });

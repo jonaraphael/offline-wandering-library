@@ -342,11 +342,13 @@ which article to look up in Kiwix. Options (limit to a category) sit behind
 "Options".
 
 When the query describes an emergency that matches a reviewed guide on the
-drive, that guide's card comes first. When no reviewed guide matches but
-indexed passages do, show up to three under "No reviewed guide matched.
-These passages may help." When nothing qualifies, say "No close match.
-Browse Urgent guides and categories on Home." Both states offer "Browse
-Home".
+drive, that guide's card comes first. A match can come from the words or
+from the meaning of the description. When no reviewed guide is confident,
+show up to three nearby sections or passages under "No reviewed guide
+matched. These passages may help." An emergency description never shows an
+empty page: if nothing on the drive relates to it, show the Urgent guides
+card with the single action "Browse Home". Other queries with no close match
+say "No close match. Browse Urgent guides and categories on Home."
 
 **Saved** (`#/saved`): starred items, then everything opened recently. The
 empty state shows a star and one sentence. Saved items are kept in the

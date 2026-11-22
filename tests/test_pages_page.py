@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 from owl.selector import make_model, render_selector
-from scripts.build_pages import connect_origins, version_module_imports
+from scripts.build_pages import browser_routes, connect_origins, version_module_imports
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -34,6 +34,18 @@ if (!globalThis.OWLPlanner || !globalThis.OWLManage) throw Error('Planner engine
                                  *((templates / name).as_uri() for name in ("selector.js", "selector-map.js"))],
                                 encoding='utf-8', capture_output=True, timeout=30)
         self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_reader_packages_use_the_release_host_the_csp_allows(self):
+        # mirror.download.kiwix.org answers /release/ with a 301 to master.download.kiwix.org;
+        # a fetch that follows the redirect needs that origin in connect-src.
+        asset = {"id": "kiwix_windows", "format": "zip",
+                 "source_url": "https://download.kiwix.org/release/kiwix-desktop/kiwix-desktop_windows_x64_2.5.1.zip"}
+        routes = browser_routes(asset)
+        self.assertEqual(routes[0], "https://master.download.kiwix.org/release/kiwix-desktop/kiwix-desktop_windows_x64_2.5.1.zip")
+        self.assertIn("https://master.download.kiwix.org", connect_origins(routes))
+        archive = {"id": "wikipedia_en_top", "format": "zim",
+                   "source_url": "https://download.kiwix.org/zim/wikipedia/wikipedia_en_top_mini_2026-09.zim"}
+        self.assertEqual(browser_routes(archive), ["https://mirror.download.kiwix.org/zim/wikipedia/wikipedia_en_top_mini_2026-09.zim"])
 
     def test_production_build_requires_relay(self):
         result = subprocess.run([sys.executable, str(ROOT / "scripts/build_pages.py"), "--fetch-mirrors"],

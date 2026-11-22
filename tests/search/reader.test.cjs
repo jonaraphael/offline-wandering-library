@@ -9,6 +9,7 @@ const everyday = require('./everyday-emergency-queries.json');
 const paraphrases = require('./emergency-paraphrases.json');
 const original = require('./queries.json');
 const emergencySamples = require('./section-emergency-queries.json');
+const semanticSamples = require('./semantic-emergency-queries.json');
 
 test('reviewed routes distinguish similar emergencies and respect selected guide availability', () => {
   const documents = new Map([
@@ -87,12 +88,37 @@ test('section routes prefer specific situations and ambiguous clues use the righ
   assert.equal(emergencySource({category: 'preparedness'}, 'safety'), true);
 });
 
+test('reviewed gaps lead to the pinned condition or hazard page', () => {
+  const documents = new Map(Object.values(sections.sources).map(([id]) => [id, {
+    id, href: id + (id === 'wikimed_en' ? '.zim' : '.pdf'),
+  }]));
+  for (const [query, topic, file, locator] of [
+    ['Dad has facial drooping and slurred speech', /stroke/, 'medical_bec', 139],
+    ['I am throwing up blood', /gastrointestinal-bleeding/, 'msf_guideline-170-en', 122],
+    ['A branch struck my eye and my vision is blurry', /injury-to-eye/, 'hesperian_en_wtnd_2025_16', 2],
+    ['My kid is limp after a febrile seizure', /febrile-seizure/, 'msf_guideline-170-en', 23],
+    ['His hands are tingling after swimming in cold water', /cold-water-injury/, 'cert', 114],
+    ['Stabbed in the abdomen', /penetrating-wound/, 'hesperian_en_wtnd_2025_10', 16],
+    ['He fell from the roof and is not moving', /fall-from-height/, 'medical_bec', 58],
+    ['There is mold after the flood in our basement', /flood-mold/, 'wikimed_en', 'Mold_health_issues'],
+    ['I smell smoke from inside the walls', /fire-smoke/, 'cert', 173],
+    ['The river is rising and we need to leave our house', /flood-evacuation/, 'fema_are_you_ready_2020', 11],
+  ]) {
+    const result = reviewedGuide(documents, query);
+    assert.ok(result, query);
+    assert.match(result.topic, topic, query);
+    assert.equal(result.id, file, query);
+    if (typeof locator === 'number') assert.equal(result.href, file + '.pdf#page=' + locator, query);
+    else assert.equal(result.location, 'Archive path: ' + locator, query);
+  }
+});
+
 const reader = process.env.OWL_SEARCH_READER;
 test('16 GB offline reader meets the emergency recall floors and checks paraphrases in the first card', {
   skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
 }, async () => {
   const {chromium} = require('playwright-core');
-  const {measure, searchUrl, emergencyFallback} = require('../../scripts/search_timing.cjs');
+  const {measure, searchUrl, emergencyFallback, semanticChecks} = require('../../scripts/search_timing.cjs');
   const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
   try {
     const url = searchUrl(reader);
@@ -132,6 +158,20 @@ test('16 GB offline reader meets the emergency recall floors and checks paraphra
     assert.match(animal.cards[0].href, /\/msf_guideline-170-en\.pdf#page=258$/);
     console.log('Smoking outlet and dog bite: both lead with the reviewed guide.');
 
+    const immersion = await measure(browser, url, 'My friend fell into icy water and her hands are tingling');
+    assert.deepEqual(immersion.cards.map(card => card.topic), ['drowning', 'cold-water-injury']);
+
+    const documents = new Map(Object.values(sections.sources).map(([id]) => [id,
+      {id, href: id + (id === 'wikimed_en' ? '.zim' : '.pdf')}]));
+    for (const [text, expected] of semanticChecks) {
+      assert.equal(reviewedGuide(documents, text), undefined, text);
+      assert.equal(emergencyDomain(text), '', text);
+      const byMeaning = await measure(browser, url, text);
+      assert.equal(byMeaning.emergency, true, text);
+      assert.equal(byMeaning.cards[0]?.topic, expected, text);
+    }
+    console.log('Health and hazard descriptions with no lexical trigger lead with the Potion match.');
+
     const nearby = await measure(browser, url, emergencyFallback);
     assert.equal(nearby.emergency, true);
     assert.ok(nearby.cardCount >= 1 && nearby.cardCount <= 3);
@@ -146,6 +186,12 @@ test('16 GB offline reader meets the emergency recall floors and checks paraphra
     assert.equal(fallback.status, 'No close match. Browse Urgent guides and categories on Home.');
     assert.deepEqual(fallback.browse, [['Browse Home', '#/']]);
     console.log('Weak-result fallback: no displayed cards and Browse Home link.');
+
+    for (const text of ['book about art and smoke', 'prevent mosquito bites', 'how rain barrels collect water']) {
+      const reference = await measure(browser, url, text, {allowEmpty: true});
+      assert.equal(reference.emergency, false, text);
+      assert.ok(reference.cards.every(card => !card.topic), text);
+    }
 
     const headInjury = await measure(browser, url, 'my friend hit his head and keeps throwing up', {allowEmpty: true});
     assert.equal(headInjury.cards[0]?.topic, 'head-injury');
@@ -186,5 +232,42 @@ test('16 GB section emergency queries meet top-three and non-empty floors', {
     ' poor, ' + empty.length + ' empty, ' + unclassified.length + ' unclassified (floors 32 good, 0 empty)');
   assert.ok(grades.good >= 32, JSON.stringify(grades));
   assert.deepEqual(empty, []);
+  assert.deepEqual(unclassified, []);
+});
+
+test('16 GB unseen emergency descriptions meet top-three and non-empty floors', {
+  skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
+}, async () => {
+  const {chromium} = require('playwright-core');
+  const {measure, searchUrl} = require('../../scripts/search_timing.cjs');
+  const previous = [...emergencySamples, ...heldOut, ...everyday, ...paraphrases, ...original];
+  const all = [...previous, ...semanticSamples];
+  assert.equal(semanticSamples.length, 40);
+  assert.ok(new Set(semanticSamples.map(([, situation]) => situation)).size >= 30);
+  assert.equal(new Set(all.map(([query]) => query)).size, all.length);
+
+  const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
+  const reviewedSource = /CERT_2019\.pdf|msf_guideline-(?:170|449)-en\.pdf|medical_bec|basic.emergency.care|are.you.ready|hesperian|where.there.is.no.doctor|wiki.?med/i;
+  const grades = {good: 0, partial: 0, poor: 0, empty: 0};
+  const unclassified = [];
+  try {
+    for (const [query, situation, expected, nearby] of semanticSamples) {
+      const {cards, emergency} = await measure(browser, searchUrl(reader), query, {allowEmpty: true});
+      if (!emergency) unclassified.push(query);
+      const exact = new RegExp(expected, 'iu'), related = new RegExp(nearby, 'iu');
+      const grade = !cards.length ? 'empty' : cards.some(card => exact.test(card.title) &&
+        (card.topic || reviewedSource.test(card.href + ' ' + card.locator))) ? 'good'
+        : cards.some(card => exact.test(card.title) || related.test(card.title)) ? 'partial' : 'poor';
+      grades[grade]++;
+      if (grade !== 'good') console.log(JSON.stringify({situation, query, grade, titles: cards.map(card => card.title)}));
+    }
+  } finally {
+    await browser.close();
+  }
+  console.log('Unseen emergency top 3: ' + grades.good + ' good / ' + grades.partial + ' partial / ' +
+    grades.poor + ' poor / ' + grades.empty + ' empty, ' + unclassified.length +
+    ' unclassified (floors 34 good, 0 empty)');
+  assert.ok(grades.good >= 34, JSON.stringify(grades));
+  assert.equal(grades.empty, 0);
   assert.deepEqual(unclassified, []);
 });
