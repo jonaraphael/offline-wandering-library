@@ -25,6 +25,7 @@ loop device and a Windows VHD. Each matrix job uploads its JSON.
 
 | System and volume | Native allocation result | Total probe time |
 | --- | --- | ---: |
+| macOS exFAT, 1 TB partition on a physical USB drive (2026-11-22) | 959,040,368,640 bytes estimated from 959,050,285,056 bytes available (9.92 MB, 0.001% low) in 26 attempts. The first 64 MiB allocation took 364–418 ms while the drive woke, later ones 0.1 ms; 100 GiB took 0.75 s; 2,000 GiB returned ENOSPC in 2.7 s. | 8.3 s |
 | macOS exFAT, 6 GiB disk image | 6,439,303,168 bytes estimated from 6,440,255,488 bytes available. Larger requests returned ENOSPC. | 169 ms |
 | macOS FAT32, 6 GiB disk image | 64 MiB allocated. At 4 GiB + 1, EFBIG. | 71 ms |
 | macOS APFS, local temporary directory | All length changes through 2 TiB succeeded with zero allocated bytes. Manual confirmation required. | 0.92 ms |

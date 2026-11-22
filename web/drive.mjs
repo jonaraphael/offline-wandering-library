@@ -54,7 +54,9 @@ export function isNoSpace(error) {
   return error.name === "QuotaExceededError" || /ENOSPC|no space left|disk (?:is )?full/i.test(error.message);
 }
 
-export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolution = MiB, onAttempt = () => {}} = {}) {
+export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolution = MiB, onAttempt = () => {},
+  budgetMs = 120_000} = {}) {
+  const deadline = performance.now() + budgetMs;
   const filename = "OWL-capacity-" + globalThis.crypto.randomUUID() + ".tmp";
   const handle = await drive.getFileHandle(filename, {create: true});
 
@@ -80,7 +82,11 @@ export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolutio
   }
 
   try {
-    const seed = await attempt(64 * MiB);
+    let seed = await attempt(64 * MiB);
+    // A sleeping USB drive can take a few hundred ms on its first allocation
+    // (364-418 ms on a physical exFAT drive, then 0.1 ms). Time a second, warm
+    // attempt before deciding that extension is too slow to probe.
+    if (seed.result === "fits" && seed.duration > 250) seed = await attempt(64 * MiB);
     if (seed.result !== "fits" || seed.duration > 250) return {kind: "manual"};
     const largeFile = await attempt(4 * GiB + 1);
     if (largeFile.result === "file-limit") return {kind: "fat32"};
@@ -91,6 +97,7 @@ export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolutio
 
     let lo = 4 * GiB + 1, hi = upper;
     while (hi - lo > resolution) {
+      if (performance.now() > deadline) return {kind: "manual"};
       const mid = Math.floor((lo + hi) / 2);
       const trial = await attempt(mid);
       if (trial.result === "fits") lo = mid;
