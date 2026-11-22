@@ -1,6 +1,7 @@
 import {sha256} from "./vendor/noble-hashes/sha2.js";
 import {bytesToHex} from "./vendor/noble-hashes/utils.js";
-import {fileHandle, isNoSpace, optional, removeFile, writeFile} from "./drive.mjs";
+import {fileHandle, isNoSpace, optional, removeFile, removeTree, writeFile} from "./drive.mjs";
+import {diag} from "./diagnostics.mjs";
 import {assembleLibrary} from "./offline.mjs";
 import {createNetwork, SourceError} from "./network.mjs";
 import {archiveSession, checkAlignment, publisherPin, streamRequest} from "./archive-download.mjs";
@@ -203,20 +204,29 @@ async function pieceJournal(drive, asset, part, pin) {
   };
 }
 
+// Cleanup frees journal space but must never stop a build: on exFAT, macOS
+// AppleDouble "._" files made a recursive delete fail mid-build with
+// NotFoundError. Remove entry by entry and report failures to diagnostics.
 async function prunePieceJournal(drive, asset, keep) {
-  const downloads = await optional(async () => {
-    const library = await drive.getDirectoryHandle("LIBRARY");
-    const root = await library.getDirectoryHandle(".owl");
-    return root.getDirectoryHandle("download-pieces");
-  });
-  if (!downloads) return;
-  const directory = await optional(() => downloads.getDirectoryHandle(asset.id));
-  if (!directory) return;
-  if (keep === undefined) await downloads.removeEntry(asset.id, {recursive: true});
-  else {
-    for await (const entry of directory.values()) {
-      if (entry.name !== String(keep)) await directory.removeEntry(entry.name, {recursive: true});
+  try {
+    const downloads = await optional(async () => {
+      const library = await drive.getDirectoryHandle("LIBRARY");
+      const root = await library.getDirectoryHandle(".owl");
+      return root.getDirectoryHandle("download-pieces");
+    });
+    if (!downloads) return;
+    const directory = await optional(() => downloads.getDirectoryHandle(asset.id));
+    if (!directory) return;
+    if (keep === undefined) await removeTree(downloads, asset.id);
+    else {
+      const names = [];
+      for await (const entry of directory.values()) names.push(entry.name);
+      for (const name of names) {
+        if (name !== String(keep) && !name.startsWith("._")) await removeTree(directory, name);
+      }
     }
+  } catch (error) {
+    diag("cleanup-error", {asset: asset.id, keep, error: error.name + ": " + error.message});
   }
 }
 

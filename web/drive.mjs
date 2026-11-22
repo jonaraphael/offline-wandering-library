@@ -26,6 +26,25 @@ export async function optional(operation) {
   }
 }
 
+// Remove a directory entry by entry. On exFAT, macOS keeps "._name"
+// AppleDouble files beside files and deletes them together, so Chromium's
+// recursive removeEntry failed with NotFoundError partway through a 1 GiB
+// piece folder on the owner's drive (2026-11-22). Skip "._" entries and
+// ignore entries that are already gone.
+export async function removeTree(parent, name) {
+  const directory = await optional(() => parent.getDirectoryHandle(name));
+  if (directory) {
+    const entries = [];
+    for await (const entry of directory.values()) entries.push(entry);
+    for (const entry of entries) {
+      if (entry.name.startsWith("._")) continue;
+      if (entry.kind === "directory") await removeTree(directory, entry.name);
+      else await optional(() => directory.removeEntry(entry.name));
+    }
+  }
+  await optional(() => parent.removeEntry(name, {recursive: true}));
+}
+
 export async function fileHandle(root, path, create = false) {
   const {directory, name} = await parentOf(root, path, create);
   return directory.getFileHandle(name, {create});
