@@ -15,7 +15,8 @@ from owl.search_model import Potion
 from owl.search_shards import (MODEL_FILE, SEARCH_ROOT, Record, compose_shards, load_manifest,
                                encode, info, model_files, output_bytes, output_size, packed_part, part_path, payload, terms)
 
-from scripts.build_search_emergency import END, RUNTIME, START, compile_routes, default_library
+from scripts.build_search_emergency import (END, RANK_RUNTIME, RUNTIME, SEMANTIC_END, SEMANTIC_START, START,
+                                            compile_routes, default_library)
 from scripts.build_search_shards import Article, html_records, prioritized_leads
 
 
@@ -29,9 +30,12 @@ class SourceShardTests(unittest.TestCase):
         cls.model = Potion(table, weights)
 
     def test_reader_emergency_sections_match_the_pinned_16_gb_sources(self):
-        generated, destinations, situations = compile_routes(default_library())
+        generated, vectors, destinations, situations = compile_routes(default_library())
         reader = RUNTIME.read_text(encoding="utf-8")
         self.assertEqual(reader.split(START, 1)[1].split(END, 1)[0], generated)
+        ranker = RANK_RUNTIME.read_text(encoding="utf-8")
+        self.assertEqual(ranker.split(SEMANTIC_START, 1)[1].split(SEMANTIC_END, 1)[0], vectors)
+        self.assertLess(len(vectors.encode("ascii")), 200_000)
         self.assertGreater(destinations, situations)
         self.assertGreater(situations, 35)
 

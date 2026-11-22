@@ -6,6 +6,7 @@ import base64
 from functools import lru_cache
 from hashlib import sha256
 import json
+from math import hypot
 import re
 from struct import Struct
 import sys
@@ -96,19 +97,36 @@ class Potion:
                     "inputs": PINS, "dimensions": DIMENSIONS, "vocab": vocab,
                     "scales": scales}, packed)
 
-    def encode(self, text):
+    def _sum(self, text):
         ids = [index for word in words(text[:4096]) for index in self._pieces(word)]
         if not ids:
+            return None
+        if self._numpy is not None:
+            return self._signed[ids].sum(axis=0, dtype=self._numpy.int32)
+        return tuple(map(sum, zip(*[self._signed[index] for index in ids])))
+
+    def encode(self, text):
+        vector = self._sum(text)
+        if vector is None:
             return ""
         if self._numpy is not None:
-            vector = self._signed[ids].sum(axis=0, dtype=self._numpy.int32)
             if not vector.any():
                 return ""
             signs = self._numpy.packbits(vector >= 0, bitorder="little").tobytes()
         else:
-            vector = tuple(map(sum, zip(*[self._signed[index] for index in ids])))
             if not any(vector):
                 return ""
             bits = sum((value >= 0) << col for col, value in enumerate(vector))
             signs = bits.to_bytes(self.dim // 8, "little")
         return base64.b64encode(signs).decode("ascii")
+
+    def unit_code(self, text):
+        """Pack a unit vector as signed bytes for comparing short descriptions."""
+        summed = self._sum(text)
+        if summed is None:
+            raise ValueError("Emergency description has no model terms")
+        vector = [int(value) * scale for value, scale in zip(summed, self.table["scales"])]
+        norm = hypot(*vector)
+        if not norm:
+            raise ValueError("Emergency description has no model terms")
+        return bytes(round(127 * value / norm) & 255 for value in vector)

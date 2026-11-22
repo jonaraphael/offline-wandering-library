@@ -7,10 +7,10 @@ card for the guide. Documents that open directly appear
 before matches in encyclopedias in ordinary search. Use **Options** to
 search within a category. PDF matches open at the physical page. **How to
 open** on an encyclopedia match shows the article to find in Kiwix and the
-file's location on the drive. When no reviewed route matches an emergency,
-search can show up to three nearby indexed passages under “No reviewed guide
-matched. These passages may help.” The empty state and the passage fallback
-both offer **Browse Home** for the Urgent shelf and categories.
+file's location on the drive. When the emergency is uncertain, search can
+show up to three related sections or passages under “No reviewed guide
+matched. These passages may help.” **Browse Home** opens the Urgent shelf
+and categories.
 
 The static start page shows the urgent tasks, categories, file locations and
 device instructions. When a file preview withholds local links or scripts,
@@ -56,7 +56,9 @@ Title-directory entries use word postings reconstructed from their titles.
 The same generated composition plan supplies source order, physical paths,
 pins and ranker metadata to both builders. The reader loads its own search
 manifest and shares content-addressed shards and model files across builds.
-The search page loads the weights on its first indexed query.
+The search page loads the weights on its first query that needs semantic
+routing or indexed ranking. A reviewed lexical match can open without loading
+the weights.
 It uses classic local scripts, DecompressionStream for compressed shards and a
 network-denying CSP. Word postings retrieve literal matches and Bloom filters
 route them to chunks. Hamming distance admits additional passage and lead
@@ -156,21 +158,80 @@ with the title, source, locator and any displayable excerpt for grading.
 
 ## Reviewed emergency routes
 
-The section review covers **151 destinations in 110 situations** from the
+The section review covers **189 destinations in 137 situations** from the
 default 16 GB editions of *Where There Is No Doctor*, *A Book for Midwives*,
 FEMA CERT, *Basic Emergency Care*, the MSF clinical and obstetric guides,
-and FEMA *Are You Ready?* It links to physical PDF pages. The review records
-the edition digest, section heading and everyday terms for each situation.
+FEMA *Are You Ready?*, and WikiMed. The review records the edition digest,
+physical PDF page or WikiMed path, heading, and everyday terms for each
+situation.
 [Section review](../catalog/emergency-sections.json)
 
 The route compiler reads the default selection and verifies each destination
-against its edition and its existing indexed pages. The reader matches
+against its edition and its existing indexed locators. The reader matches
 section names and everyday synonyms. Descriptions that depend on several
 clues require each clue, such as a fall, hip pain, and the affected body
 part. Existing time-critical routes keep precedence where clues overlap.
 Matching sections open immediately from the installed catalog and respect
 the optional category filter. Multiple locations in the same book share a
 card. [Reader implementation](../src/owl/templates/search.js)
+
+The expanded review includes the following destinations in the standard
+16 GB selection.
+
+| Situation | Destination |
+| --- | --- |
+| Stroke signs | *Basic Emergency Care*, pp. 139 and 147 |
+| Blood in vomit or stool | MSF clinical guide, p. 122 |
+| A blow or scratch to the eye | *Where There Is No Doctor*, chapter 16, p. 2 |
+| A child with fever and a seizure | MSF clinical guide, p. 23 |
+| Cold-water exposure and numb extremities | FEMA CERT, p. 114, and WikiMed’s *Non-freezing cold injury* |
+| Prolonged exposure in wet shoes | WikiMed’s *Trench foot* |
+| Penetrating injury or stab wound | *Where There Is No Doctor*, chapter 10, p. 16 |
+| A fall from height | *Basic Emergency Care*, p. 58 |
+| Mold in a flooded building | WikiMed’s *Mold health issues* |
+| House fire and indoor smoke | FEMA CERT, pp. 173 and 30 |
+| Evacuation as floodwaters rise | FEMA *Are You Ready?*, pp. 11 and 12 |
+
+### Semantic matching and emergency fallback
+
+Each situation, including the 35 established routes, has three plain-language
+descriptions of symptoms, events, or hazards. Alternative locations for
+the same situation share those descriptions. The compiler encodes each
+description separately with the pinned 256-component Potion model and
+stores its normalized vector as 256 signed bytes. The **182,218-byte**
+generated table ships inside `rank.js`, so it adds no separate request.
+Metadata-only builds omit the ranker. The reader uses the same locally
+installed model as passage ranking.
+[Situation descriptions](../catalog/emergency-descriptions.json)
+
+The reader tries reviewed lexical matches first. Otherwise it embeds the
+query and scores each situation by the highest approximate cosine similarity
+to any of its descriptions. Injury mechanisms, danger signs, and hazard
+terms can independently trigger emergency routing and constrain candidates
+to health or safety. The calibrated recognition floor is **0.48**. A
+specific route at or above that floor earns the Urgent label with a lead of
+at least **0.08**, or a score of at least **0.55**. Generic assessment guides
+and ambiguous similarities are shown as related sections. Straightforward
+reference and prevention wording bypasses semantic emergency inference,
+as do single-word searches without a reviewed name.
+
+Calibration compared the new emergency descriptions with similar wording
+from ordinary searches. “Yellow marks on a spider plant” scored about 0.47
+against the spider-bite description, below the recognition floor. “Book
+about art and smoke” scored about 0.53 against indoor smoke and is handled
+by the reference filter. Flashes and a dark curtain in one eye scored
+about 0.43 against retinal detachment. The vision danger sign allows the
+section to appear as a related result at that score.
+
+An emergency recognized from words or meaning gets an installed Urgent
+guide while the reader looks for passages. If no reviewed route qualifies,
+the reader can show up to three related sections or passages from different
+documents. Nearby sections need a score of at least **0.42** and must be
+within **0.13** of the strongest match. The reader can fill open slots with
+matching body passages from up to 1.2 MB of existing index chunks in the
+applicable categories. If no passage qualifies, it keeps an installed
+urgent guide or offers **Browse Home** in the results. Ordinary searches
+continue through the catalog, term index, and base ranker.
 
 For a new edition, start with the pinned PDFs on an installed default
 16 GB library and install the PDF extra. Candidate extraction verifies
@@ -185,23 +246,13 @@ python scripts/build_search_emergency.py
 python scripts/build_search_emergency.py --check
 ~~~
 
-Review the relevant candidate headings and open the cited sections to check
-their contents and physical page numbers. Record the destination and add
-common wording for its symptoms, actions or hazards. Keep alternatives that
-lead to the same situation together. Test an everyday paraphrase and similar
-wording with a different meaning. The compiler writes the small generated
-table into the reader script. CI checks that the table matches the review.
-
-When a query lacks a reviewed match, the reader classifies health and safety
-descriptions using symptoms, injuries, body parts, people, urgency and
-hazard words. It immediately shows the closest installed guide. For
-example, trouble breathing or waking points to an airway or responsiveness
-guide, and bleeding points to a bleeding guide. It reads up to 1.2 MB of
-existing index chunks from the appropriate categories using lexical evidence.
-Indexed passages require matching body postings to displace the initial
-guide. The search shows up to three passages, one per document, under
-“No reviewed guide matched. These passages may help.” Ordinary searches
-continue through the catalog, term index and base ranker.
+Review the relevant headings and check the cited sections and their physical
+page numbers. Record the destination and add three to six short descriptions
+of the situation, using a mix of wording a caregiver or bystander might use.
+Check unusual paraphrases, reviewed routes that share symptoms, and unrelated
+searches that use the same words. The compiler writes the reviewed locations
+and vectors into the reader script. CI checks the generated table against
+the review and exercises the displayed results in the offline reader.
 
 The reader also retains the following previously reviewed routes. Named
 WikiMed articles use the archive paths in the pinned manifest.
@@ -267,6 +318,13 @@ expected topic, partial for an adjacent topic or a weaker source, and poor
 otherwise. CI requires at least 32 good and no empty emergency results.
 [40-query section benchmark](../tests/search/section-emergency-queries.json)
 
+The new semantic routing fixture contains 40 independently worded queries
+across 32 situations. It was frozen and run against the baseline reader
+before routing changes. It includes symptoms, injury mechanisms, approaching
+hazards, and descriptions from bystanders. It grades the first three
+displayed cards, with **34 good** and **zero empty** required in CI.
+[40-query semantic benchmark](../tests/search/semantic-emergency-queries.json)
+
 - Smoke is coming from the outlet where the heater was plugged in.
 - My friend touched a live wire and fell to the floor.
 - A dog we do not know bit my hand and broke the skin.
@@ -290,9 +348,24 @@ the change.
 | At 772a1dba | 0 | 2 | 38 | 22 |
 | With section routes and emergency fallback | 37 | 2 | 1 | 0 |
 
-The object-in-nose and object-in-ear queries show the general foreign-body
-reference. The jellyfish sting query shows the general emergency assessment
+The object-in-nose and object-in-ear cases still retrieve only adjacent
+topics. The jellyfish sting case shows the general emergency assessment
 guide.
+
+The new 40-query set uses mutually exclusive grades. An empty result counts
+only as empty. A good result includes a section or article on the expected
+situation among the first three displayed cards. A partial result finds a
+related topic or a less specific reference.
+
+| Reader | Good in top three | Partial | Poor | Empty |
+| --- | ---: | ---: | ---: | ---: |
+| At `8e41895a` | 0 | 8 | 12 | 20 |
+| With lexical and semantic routing | 40 | 0 | 0 | 0 |
+
+The older browser floors still pass at 10/10 held out, 30/30 everyday,
+15/15 first-card paraphrases, and 37/40 section cases with zero empty.
+Separate timing probes exercise health and safety descriptions with no
+lexical trigger.
 
 The base-ranker benchmark retained all probes that passed
 at `fde71516`, including “signs of dehydration” at all three capacities.
@@ -344,6 +417,25 @@ Ordinary searches can read more index chunks and take longer to complete.
 The selected 16 GB library contains 110.5 MB of record chunks and 155.9 MB
 of search files overall. At 1 TB, those figures are 723.9 MB and 853.5 MB.
 USB and phone I/O were outside these measurements.
+
+With semantic routing, Chromium 158.0.8127.36 measured a maximum of
+**95.3 ms to the first card** and **289.9 ms to completion** across eight
+cold 16 GB queries at 4× CPU throttling. The two queries that had no
+lexical trigger but found a reviewed guide took 93.0 and 95.3 ms. Both
+read the existing 21.54 MB model and no record chunks. Lexical matches
+still requested zero additional bytes. Node measured about **0.21 ms per
+query** for embedding and scoring with the model already loaded, averaged
+over 4,000 queries without throttling.
+
+| Emergency fallback | Baseline first card | Current first card | Baseline complete | Current complete |
+| --- | ---: | ---: | ---: | ---: |
+| Stuck outside in heavy rain | 17.1 ms | 18.0 ms | 158.7 ms | 238.8 ms |
+| Lying still with uncertain breathing | 17.6 ms | 18.8 ms | 212.3 ms | 289.9 ms |
+
+The fallback draws its first guide before loading the model, then adds the
+nearby sections or indexed passages. On these cold runs the first-card time
+increased by 0.9 to 1.2 ms and completion time by 77.6 to 80.1 ms. No
+additional model reads are needed on subsequent queries in the same view.
 
 ## Precomputed term index
 
