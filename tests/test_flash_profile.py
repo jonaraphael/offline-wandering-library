@@ -88,10 +88,22 @@ class FlashProfileTests(unittest.TestCase):
 
     def test_exclusions_still_allow_a_deliberately_smaller_custom_library(self):
         original, _, _ = self.selection()
-        selected, _, report = self.selection(exclude=['openstax-core', 'school-education'])
+        selected, _, report = self.selection(exclude=['openstax-health', 'school-education'])
         self.assertTrue(report['customized'])
-        self.assertFalse(any(a['id'].startswith('openstax_') for a in selected))
+        self.assertNotIn('openstax_clinical_nursing_skills', {a['id'] for a in selected})
         self.assertLess(sum(a['size_bytes'] for a in selected), sum(a['size_bytes'] for a in original))
+
+    def test_flash_prioritizes_college_courses_for_off_grid_use(self):
+        selected, _, _ = self.selection()
+        ids = {asset['id'] for asset in selected}
+        self.assertLessEqual({
+            'libretexts_eng', 'openstax_university_physics_volume_1',
+            'openstax_calculus_volume_1', 'openstax_concepts_biology',
+            'openstax_anatomy_and_physiology_2e', 'openstax_clinical_nursing_skills',
+            'openstax_psychology_2e', 'openstax_principles_economics_3e',
+        }, ids)
+        self.assertTrue({'docs_gcc', 'docs_progit', 'stackexchange_3dprinting',
+                         'libretexts_stats', 'osm_guides'}.isdisjoint(ids))
 
     def test_real_plan_does_not_download_or_write(self):
         with tempfile.TemporaryDirectory() as directory:

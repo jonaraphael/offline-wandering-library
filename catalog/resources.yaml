@@ -839,9 +839,9 @@ resources:
   - Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
 - id: openstax-core
-  title: College textbooks (optional)
+  title: Additional college textbooks (optional)
   number: 22
-  target_bytes: 7301623553
+  target_bytes: 5320414934
   status: ready
   opt_in: true
   reason: Finished published files covering the listed collection; downloaded unchanged.
@@ -850,7 +850,6 @@ resources:
   - openstax_additive_manufacturing_essentials
   - openstax_algebra_and_trigonometry_2e
   - openstax_american_government_4e
-  - openstax_anatomy_and_physiology_2e
   - openstax_astronomy_2e
   - openstax_biology_2e
   - openstax_biology_ap_courses
@@ -859,20 +858,16 @@ resources:
   - openstax_calculus_volume_1
   - openstax_calculus_volume_2
   - openstax_calculus_volume_3
-  - openstax_chemistry_2e
   - openstax_chemistry_atoms_first_2e
-  - openstax_clinical_nursing_skills
   - openstax_college_algebra_2e
   - openstax_college_algebra_corequisite_support_2e
   - openstax_college_physics_2e
   - openstax_college_physics_ap_courses_2e
   - openstax_college_success
   - openstax_college_success_concise
-  - openstax_concepts_biology
   - openstax_contemporary_mathematics
   - openstax_entrepreneurship
   - openstax_foundations_information_systems
-  - openstax_fundamentals_nursing
   - openstax_introduction_anthropology
   - openstax_introduction_behavioral_neuroscience
   - openstax_introduction_business_2e
@@ -885,27 +880,17 @@ resources:
   - openstax_introductory_business_statistics_2e
   - openstax_introductory_statistics_2e
   - openstax_lifespan_development
-  - openstax_maternal_newborn_nursing
-  - openstax_medical_surgical_nursing
-  - openstax_microbiology
-  - openstax_nutrition
   - openstax_organic_chemistry
   - openstax_organizational_behavior
-  - openstax_pharmacology
-  - openstax_population_health
   - openstax_precalculus_2e
   - openstax_preparing_for_college_success
-  - openstax_principles_financial_accounting
   - openstax_principles_managerial_accounting
   - openstax_principles_data_science
-  - openstax_principles_economics_3e
   - openstax_principles_finance_2e
   - openstax_principles_macroeconomics_3e
   - openstax_principles_management
   - openstax_principles_marketing
   - openstax_principles_microeconomics_3e
-  - openstax_psychiatric_mental_health
-  - openstax_psychology_2e
   - openstax_university_physics_volume_1
   - openstax_university_physics_volume_2
   - openstax_university_physics_volume_3
@@ -938,7 +923,7 @@ resources:
 - id: openstax-advanced-study
   title: OpenStax advanced study
   number: 47
-  target_bytes: 1092996285
+  target_bytes: 876533875
   status: ready
   reason: Pinned OpenStax textbooks in PDF format.
   asset_ids:
@@ -952,9 +937,7 @@ resources:
   - openstax_introduction_intellectual_property
   - openstax_organizational_behavior
   - openstax_preparing_for_college_success
-  - openstax_principles_financial_accounting
   - openstax_principles_managerial_accounting
-  - openstax_principles_economics_3e
   - openstax_principles_finance_2e
   - openstax_principles_macroeconomics_3e
   - openstax_principles_management
@@ -971,13 +954,12 @@ resources:
 - id: openstax-computing
   title: OpenStax computing
   number: 48
-  target_bytes: 382108855
+  target_bytes: 372145467
   status: ready
   reason: Pinned OpenStax textbooks in PDF format.
   asset_ids:
   - openstax_foundations_information_systems
   - openstax_introduction_computer_science
-  - openstax_introduction_python_programming
   - openstax_workplace_software_skills
   utility_tier: NONESSENTIAL
   utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
@@ -990,7 +972,7 @@ resources:
 - id: openstax-culture
   title: OpenStax humanities
   number: 49
-  target_bytes: 1022430818
+  target_bytes: 964690899
   status: ready
   reason: Pinned OpenStax textbooks in PDF format.
   asset_ids:
@@ -999,7 +981,6 @@ resources:
   - openstax_introduction_philosophy
   - openstax_introduction_political_science
   - openstax_introduction_sociology_3e
-  - openstax_psychology_2e
   - openstax_us_history
   - openstax_world_history_volume_1
   - openstax_world_history_volume_2
@@ -1028,9 +1009,8 @@ resources:
   - openstax_pharmacology
   - openstax_population_health
   - openstax_psychiatric_mental_health
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Supports nursing, maternal and newborn care, nutrition and public health.
   preferred_formats:
   - pdf
   knowledge_domains:
@@ -1040,14 +1020,10 @@ resources:
 - id: openstax-school-math
   title: OpenStax mathematics
   number: 51
-  target_bytes: 775240550
+  target_bytes: 480317431
   status: ready
   reason: Pinned OpenStax textbooks in PDF format.
   asset_ids:
-  - openstax_algebra_and_trigonometry_2e
-  - openstax_calculus_volume_1
-  - openstax_calculus_volume_2
-  - openstax_calculus_volume_3
   - openstax_college_algebra_2e
   - openstax_college_algebra_corequisite_support_2e
   - openstax_contemporary_mathematics
@@ -1066,26 +1042,19 @@ resources:
 - id: openstax-school-science
   title: OpenStax science
   number: 52
-  target_bytes: 3534701821
+  target_bytes: 2123069868
   status: ready
   reason: Pinned OpenStax textbooks in PDF format.
   asset_ids:
-  - openstax_anatomy_and_physiology_2e
   - openstax_astronomy_2e
   - openstax_biology_2e
   - openstax_biology_ap_courses
-  - openstax_chemistry_2e
   - openstax_chemistry_atoms_first_2e
   - openstax_college_physics_2e
   - openstax_college_physics_ap_courses_2e
-  - openstax_concepts_biology
   - openstax_introduction_behavioral_neuroscience
   - openstax_lifespan_development
-  - openstax_microbiology
   - openstax_organic_chemistry
-  - openstax_university_physics_volume_1
-  - openstax_university_physics_volume_2
-  - openstax_university_physics_volume_3
   utility_tier: NONESSENTIAL
   utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
     life.
@@ -1100,14 +1069,13 @@ resources:
 - id: libretexts-stem
   title: LibreTexts STEM and medicine
   number: 23
-  target_bytes: 8873142508
+  target_bytes: 8194747877
   status: ready
   reason: Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - libretexts_bio
   - libretexts_chem
-  - libretexts_eng
   - libretexts_geo
   - libretexts_math
   - libretexts_med
@@ -1272,7 +1240,6 @@ resources:
   - Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
 - id: linux-programming-docs
-  default_sampler: true
   title: Programming and computer manuals (optional)
   number: 31
   target_bytes: 74787261
@@ -2702,7 +2669,6 @@ resources:
   preferred_formats:
   - zim
 - id: gutenberg-pt
-  default_sampler: true
   title: Project Gutenberg — Germanic literatures
   target_bytes: 647007234
   status: ready
@@ -2926,7 +2892,6 @@ resources:
   preferred_formats:
   - zim
   reason: Published subject archive.
-  default_sampler: true
 - id: desktop-fabrication
   title: 3D Printing Stack Exchange
   target_bytes: 120138274
@@ -2941,7 +2906,6 @@ resources:
   preferred_formats:
   - zim
   reason: Published subject archive.
-  default_sampler: true
 - id: outdoors-qa
   title: The Great Outdoors Stack Exchange
   target_bytes: 141407927
@@ -2956,3 +2920,136 @@ resources:
   preferred_formats:
   - zim
   reason: Published subject archive.
+- id: openstax-health-science
+  title: Anatomy, physiology and microbiology
+  target_bytes: 809208052
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_anatomy_and_physiology_2e
+  - openstax_microbiology
+  utility_tier: USEFUL
+  utility_reason: Provides the anatomy and physiology foundation for clinical study.
+  knowledge_domains:
+  - astronomy
+  - biology
+  - chemistry
+  - college-education
+  - physics
+  preferred_formats:
+  - pdf
+- id: openstax-foundational-science
+  title: Chemistry and biology
+  target_bytes: 403653014
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_chemistry_2e
+  - openstax_concepts_biology
+  utility_tier: USEFUL
+  utility_reason: Provides chemistry and biology foundations for agriculture and technical trades.
+  knowledge_domains:
+  - astronomy
+  - biology
+  - chemistry
+  - college-education
+  - physics
+  preferred_formats:
+  - pdf
+- id: openstax-university-physics
+  title: University physics
+  target_bytes: 198770887
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_university_physics_volume_1
+  - openstax_university_physics_volume_2
+  - openstax_university_physics_volume_3
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - astronomy
+  - biology
+  - chemistry
+  - college-education
+  - physics
+  preferred_formats:
+  - pdf
+- id: openstax-engineering-math
+  title: Algebra, trigonometry and calculus
+  target_bytes: 294923119
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_algebra_and_trigonometry_2e
+  - openstax_calculus_volume_1
+  - openstax_calculus_volume_2
+  - openstax_calculus_volume_3
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - college-education
+  - mathematics
+  preferred_formats:
+  - pdf
+- id: openstax-economics-accounting
+  title: Economics and financial accounting
+  target_bytes: 216462410
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_principles_economics_3e
+  - openstax_principles_financial_accounting
+  utility_tier: USEFUL
+  utility_reason: Supports bookkeeping and the study of trade and allocation.
+  knowledge_domains:
+  - business
+  - college-education
+  preferred_formats:
+  - pdf
+- id: openstax-psychology
+  title: Psychology
+  target_bytes: 57739919
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_psychology_2e
+  utility_tier: USEFUL
+  utility_reason: Supports the study of behavior, learning and mental health.
+  knowledge_domains:
+  - college-education
+  - humanities
+  - social-science
+  preferred_formats:
+  - pdf
+- id: openstax-python
+  title: Introduction to Python programming
+  target_bytes: 9963388
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_introduction_python_programming
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - college-education
+  - computing
+  preferred_formats:
+  - pdf
+- id: libretexts-engineering
+  title: LibreTexts Engineering
+  target_bytes: 678394631
+  status: ready
+  reason: Finished published files covering the listed collection; downloaded unchanged.
+    ZIM archives use the bundled Kiwix reader.
+  asset_ids:
+  - libretexts_eng
+  utility_tier: USEFUL
+  utility_reason: Provides engineering references for infrastructure, machinery and power.
+  knowledge_domains:
+  - college-education
+  preferred_formats:
+  - zim

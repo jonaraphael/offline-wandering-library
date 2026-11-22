@@ -41,7 +41,6 @@ default_resources:
 - gutenberg-pl
 - gutenberg-pm
 - gutenberg-pt
-- gutenberg-r
 - gutenberg-trades
 - gutenberg-z
 - hand-tools-repair
@@ -50,6 +49,8 @@ default_resources:
 - ifixit
 - ifrc-shelter-handbook
 - ifrc-shelter-projects
+- librepathology
+- libretexts-engineering
 - libretexts-statistics
 - linux-programming-docs
 - low-tech-magazine
@@ -63,7 +64,15 @@ default_resources:
 - oer4schools
 - openstax-advanced-study
 - openstax-computing
+- openstax-economics-accounting
+- openstax-engineering-math
+- openstax-foundational-science
+- openstax-health
+- openstax-health-science
+- openstax-psychology
+- openstax-python
 - openstax-school-math
+- openstax-university-physics
 - osa-seed-saving-2010
 - osm-guides
 - outdoors-qa
@@ -87,7 +96,6 @@ default_resources:
 - wikibooks-en
 - wikimed
 - wikipedia-en
-- wikiquote
 - wikispecies
 - wikivoyage-en
 - world-factbook

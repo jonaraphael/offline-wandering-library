@@ -22,7 +22,6 @@ default_resources:
 - gardenology
 - gutenberg-education
 - gutenberg-k
-- gutenberg-m
 - gutenberg-p
 - gutenberg-pa
 - gutenberg-pb
@@ -41,6 +40,8 @@ default_resources:
 - ifixit
 - ifrc-shelter-handbook
 - ifrc-shelter-projects
+- librepathology
+- libretexts-engineering
 - libretexts-statistics
 - linux-programming-docs
 - low-tech-magazine
@@ -53,7 +54,15 @@ default_resources:
 - oer4schools
 - openstax-computing
 - openstax-culture
+- openstax-economics-accounting
+- openstax-engineering-math
+- openstax-foundational-science
+- openstax-health
+- openstax-health-science
+- openstax-psychology
+- openstax-python
 - openstax-school-math
+- openstax-university-physics
 - osa-seed-saving-2010
 - osm-guides
 - outdoors-qa

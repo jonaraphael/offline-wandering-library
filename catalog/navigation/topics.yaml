@@ -77,6 +77,15 @@ topics:
   parents: []
   related: []
   aliases: []
+- id: engineering
+  title: Engineering
+  description: Engineering textbooks and references for machines, materials, structures, and infrastructure.
+  parents:
+  - science
+  - learn-foundations
+  related:
+  - maintenance
+  aliases: []
 - id: language-books
   title: Language and books
   description: Dictionaries, books, and broader reading collections.
