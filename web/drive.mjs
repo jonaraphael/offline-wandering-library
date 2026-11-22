@@ -55,14 +55,27 @@ export function isNoSpace(error) {
 }
 
 export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolution = MiB, onAttempt = () => {},
-  budgetMs = 120_000} = {}) {
+  budgetMs = 120_000, maxFiles = 4} = {}) {
   const deadline = performance.now() + budgetMs;
-  const filename = "OWL-capacity-" + globalThis.crypto.randomUUID() + ".tmp";
-  const handle = await drive.getFileHandle(filename, {create: true});
+  const prefix = "OWL-capacity-" + globalThis.crypto.randomUUID();
+  const created = [], held = [];
+  let attempts = 0;
 
-  async function attempt(size) {
+  async function cleanup(name) {
+    await removeFile(drive, name);
+    await removeFile(drive, name + ".crswap");
+  }
+
+  // Grow a fresh file to `size`. Each step uses its own file in the default
+  // (siloed) mode: after a deliberate out-of-space failure Chromium can keep a
+  // writer's lock and swap file, so reusing one file made the next step fail.
+  // With `hold`, a file that fits stays allocated until the measurement ends.
+  async function attempt(size, {hold = false} = {}) {
     const started = performance.now();
-    const writable = await handle.createWritable({mode: "exclusive"});
+    const filename = prefix + "-" + (++attempts) + ".tmp";
+    created.push(filename);
+    const handle = await drive.getFileHandle(filename, {create: true});
+    const writable = await handle.createWritable();
     // Time only the extension. Opening and discarding the swap file costs
     // tens to hundreds of ms on a USB drive and says nothing about zero-fill.
     const opened = performance.now();
@@ -70,15 +83,19 @@ export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolutio
     try {
       await writable.truncate(size);
       grown = performance.now();
-      await writable.truncate(0);
+      if (hold) held.push(writable);
+      else await writable.truncate(0);
     } catch (error) {
       if (isNoSpace(error)) result = "full";
       else if ((error.code === "EFBIG" || /EFBIG|file (?:is )?too large/i.test(error.message))) result = "file-limit";
       else if (error.name === "InvalidStateError") result = "undifferentiated";
       else throw error;
     } finally {
-      // A failing truncate may already have errored and aborted the stream.
-      await writable.abort().catch(() => {});
+      if (!(hold && result === "fits")) {
+        // A failing truncate may already have errored and aborted the stream.
+        await writable.abort().catch(() => {});
+        await cleanup(filename);
+      }
     }
     const finished = performance.now();
     const outcome = {size, result, duration: (grown ?? finished) - opened, total: finished - started};
@@ -86,13 +103,42 @@ export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolutio
     return outcome;
   }
 
+  // Largest size in [low, high) that a fresh file accepts, or null.
+  async function boundary(low, high, step) {
+    let lo = low, hi = high;
+    while (hi - lo > step) {
+      if (performance.now() > deadline) return null;
+      const mid = Math.floor((lo + hi) / 2);
+      const trial = await attempt(mid);
+      if (trial.result === "fits") lo = mid;
+      else if (trial.result === "full" || trial.result === "undifferentiated") hi = mid;
+      else return null;
+    }
+    return lo;
+  }
+
+  // Keep `size` allocated. A mounted volume changes by small amounts while we
+  // search (macOS indexing and event logs took about 1 MB on a physical exFAT
+  // drive), so a miss at the boundary backs off by 64 MiB.
+  async function holdAt(size, floor) {
+    if ((await attempt(size, {hold: true})).result === "fits") return size;
+    const margin = Math.max(floor, size - 64 * MiB);
+    return (await attempt(margin, {hold: true})).result === "fits" ? margin : null;
+  }
+
   try {
     let seed = await attempt(64 * MiB);
-    // A sleeping USB drive can take a few hundred ms on its first allocation
-    // (364-418 ms on a physical exFAT drive, then 0.1 ms). Time a second, warm
-    // attempt before deciding that extension is too slow to probe.
+    // A sleeping USB drive can take seconds on its first allocation (0.4-6 s on
+    // a physical exFAT drive, then 0.01 s natively; a browser adds fixed per-call
+    // latency). Time a second, warm attempt before judging the drive.
     if (seed.result === "fits" && seed.duration > 250) seed = await attempt(64 * MiB);
-    if (seed.result !== "fits" || seed.duration > 250) return {kind: "manual"};
+    if (seed.result !== "fits" || seed.duration > 5_000) return {kind: "manual"};
+    // A filesystem that writes zeros on extension takes about 16x longer for
+    // 1 GiB than for 64 MiB; one that only allocates takes about the same time.
+    // Only the first kind would make the search slow, so only it stops here.
+    const gig = await attempt(GiB);
+    if (gig.result !== "fits") return {kind: "limited"};
+    if (gig.duration > 2_000 && gig.duration > 6 * Math.max(seed.duration, 1)) return {kind: "manual"};
     const largeFile = await attempt(4 * GiB + 1);
     if (largeFile.result === "file-limit") return {kind: "fat32"};
     if (largeFile.result !== "fits") return {kind: "limited"};
@@ -100,26 +146,28 @@ export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolutio
     if (ceiling.result === "fits") return {kind: "sparse-or-large"};
     if (ceiling.result === "file-limit") return {kind: "manual"};
 
-    let lo = 4 * GiB + 1, hi = upper;
-    while (hi - lo > resolution) {
-      if (performance.now() > deadline) return {kind: "manual"};
-      const mid = Math.floor((lo + hi) / 2);
-      const trial = await attempt(mid);
-      if (trial.result === "fits") lo = mid;
-      else if (trial.result === "full" || trial.result === "undifferentiated") hi = mid;
-      else return {kind: "manual"};
+    // Native truncate maps both ENOSPC and EFBIG to InvalidStateError, so the
+    // result is an estimate.
+    const first = await boundary(4 * GiB + 1, upper, resolution);
+    if (first === null) return {kind: "manual"};
+    let total = await holdAt(first, 4 * GiB + 1);
+    if (total === null) return {kind: "manual"};
+    // Chromium refused to grow one file past 793.02 GB on a physical exFAT
+    // partition with 959.05 GB free, while native truncate reached 959 GB. With
+    // earlier files still allocated, measure what another file can take and add
+    // it, so a per-file limit does not hide free space.
+    for (let files = 1; files < maxFiles; files++) {
+      if ((await attempt(GiB)).result !== "fits") break;
+      const more = await boundary(GiB, upper, 64 * MiB);
+      if (more === null) break;
+      const kept = await holdAt(more, GiB);
+      if (kept === null) break;
+      total += kept;
     }
-    // Native truncate maps both ENOSPC and EFBIG to InvalidStateError. Check
-    // the boundary again and describe the result as an estimate. A mounted
-    // volume changes by small amounts while we search (macOS indexing and
-    // event logs took about 1 MB on a physical exFAT drive), so a miss at the
-    // boundary backs off by 64 MiB instead of discarding the measurement.
-    if ((await attempt(lo)).result === "fits") return {kind: "measured", bytes: lo};
-    const margin = Math.max(4 * GiB + 1, lo - 64 * MiB);
-    if ((await attempt(margin)).result === "fits") return {kind: "measured", bytes: margin};
-    return {kind: "manual"};
+    return {kind: "measured", bytes: total, files: held.length};
   } finally {
-    await removeFile(drive, filename);
+    for (const writable of held) await writable.abort().catch(() => {});
+    for (const name of created) await cleanup(name);
   }
 }
 

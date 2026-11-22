@@ -83,7 +83,9 @@ test("native allocation probe estimates to one MiB and removes the swap placehol
     const drive = new Directory("drive", {truncate: length => {
       if (length > free) throw new DOMException("Cannot set length", name);
     }, onAbort: () => aborts++});
-    const result = await measureFreeSpace(drive);
+    // This fake gives every file the whole free space, so measure one file;
+    // tests/capacity-probe.test.mjs covers space shared across files.
+    const result = await measureFreeSpace(drive, {maxFiles: 1});
     assert.equal(result.kind, "measured");
     assert.ok(result.bytes <= free && free - result.bytes <= MiB);
     assert.equal(drive.entries.size, 0);

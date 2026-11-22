@@ -28,6 +28,25 @@ export async function load() {
   return {...catalog, published};
 }
 
+// A collapsed list under the drive status showing each free-space check step,
+// so a failed measurement can be reported with a screenshot.
+function probeSteps(status) {
+  let box = document.getElementById("probe-steps");
+  if (!box) {
+    box = document.createElement("details");
+    box.id = "probe-steps";
+    box.className = "field-help";
+    const summary = document.createElement("summary");
+    summary.textContent = "Free-space check steps";
+    box.append(summary, document.createElement("ol"));
+    status.after(box);
+  }
+  const list = box.querySelector("ol");
+  list.replaceChildren();
+  box.hidden = false;
+  return {add(text) { const item = document.createElement("li"); item.textContent = text; list.append(item); }};
+}
+
 function format(bytes) {
   const [scale, unit] = bytes >= 1e9 ? [1e9, "GB"] : [1e6, "MB"];
   return (bytes / scale).toLocaleString(undefined, {maximumFractionDigits: 2}) + " " + unit;
@@ -305,13 +324,20 @@ export function mount({catalog, recommend}) {
           let capacity;
           // Each probe step is logged so a failed measurement can be diagnosed
           // from the browser console without extra tooling.
-          const onAttempt = outcome => console.info("[OWL capacity probe]", JSON.stringify(outcome));
+          const steps = probeSteps(status);
+          const onAttempt = outcome => {
+            console.info("[OWL capacity probe]", JSON.stringify(outcome));
+            steps.add(format(outcome.size) + ": " + (outcome.result === "fits" ? "fits" : outcome.result === "full" ? "too big" :
+              outcome.result) + " (" + Math.round(outcome.duration) + " ms)");
+          };
           try { capacity = await lockDrive(() => measureFreeSpace(handle, {onAttempt})); }
           catch (error) {
             console.warn("[OWL capacity probe] stopped:", error?.name, error?.message);
+            steps.add("Stopped: " + (error?.name || "error") + " " + (error?.message || ""));
             capacity = {kind: "manual"};
           }
           console.info("[OWL capacity probe] result", JSON.stringify(capacity));
+          steps.add("Result: " + (capacity.kind === "measured" ? format(capacity.bytes) + " free" : capacity.kind));
           if (capacity.kind === "measured") {
             measured = capacity.bytes;
             confirmed = true;
