@@ -10,4 +10,4 @@ ALLOWED_ORIGIN = ""
 [[ratelimits]]
 name = "REQUEST_LIMIT"
 namespace_id = "1001"
-simple = { limit = 480, period = 60 }
+simple = { limit = 6000, period = 60 }

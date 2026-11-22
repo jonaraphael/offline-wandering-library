@@ -627,6 +627,27 @@ test("a faster verified archive relay is tried and a limited peer falls back to 
   assert.equal(seen.some(([url, index]) => url === direct && index === 1), true);
 });
 
+test("a throttled relay stays preferred for later pieces", async () => {
+  // More pieces than lanes, so later pieces start after the 429 arrives.
+  const {item, published, indexOf, response} = rangedFixture(40);
+  const direct = "https://example.test/archive.zim", peer = "https://relay.example.test/peer";
+  const seen = [];
+  const result = await buildLibrary(new Directory(), {assets: [item],
+    published: {...published, archiveRelay: {[item.id]: [peer]}}, routes: {[item.id]: [direct]},
+    async fetchFile(url, options) {
+      const index = indexOf(options);
+      seen.push([url, index]);
+      if (url === direct) await new Promise(resolve => setTimeout(resolve, 150));
+      if (index === 1 && url === peer && !seen.some(([u, i], n) => u === peer && i === 1 && n < seen.length - 1)) {
+        return new Response("Try again later", {status: 429});
+      }
+      return response(index);
+    }});
+  assert.equal(result.state.finished, true);
+  const later = seen.filter(([, index]) => index >= 20);
+  assert.ok(later.every(([url]) => url === peer), "later pieces left the relay: " + JSON.stringify(later));
+});
+
 test("a staged archive with insufficient join space stays readable and Resume joins it without HTTP", async () => {
   const {item, published, indexOf, response} = rangedFixture(3);
   let allowJoin = false;

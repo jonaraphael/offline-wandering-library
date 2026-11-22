@@ -148,7 +148,13 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
                   if (!(error instanceof SourceError)) throw error;
                   failure = error;
                   backoff = true;
-                  if (relayURLs.has(url)) preferred = direct[0];
+                  // A throttled (429/503) or dropped relay request is retried on
+                  // the relay after back-off; only a wrong or unusable response
+                  // demotes it. Demoting on 429 sent a real build back to the
+                  // 0.46 MB/s mirror after the relay's per-minute limit tripped.
+                  if (relayURLs.has(url) && !(error.status === 429 || error.status === 503 || error.connection)) {
+                    preferred = direct[0];
+                  }
                 }
               }
               if (bytes) {
