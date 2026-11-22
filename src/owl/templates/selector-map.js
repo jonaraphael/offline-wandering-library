@@ -274,7 +274,7 @@
     legend?.replaceChildren(...labels);
   }
 
-  function create(model, {browser = false, download = () => true, recommend = state => state,
+  function create(model, {browser = false, download = () => true, recommend = state => state, stops, useful,
       select, onChange = () => {}, onSize, onDiagnostics = () => byId("technical").showModal()} = {}) {
     const assetsById = new Map(model.assets.map(asset => [asset.id, asset]));
     select ??= (profile, _state, result) => {
@@ -297,18 +297,30 @@
     const cards = new Map(), groupNodes = new Map(), open = new Set(), showFiles = new Set();
     let state, baseline, plan, capacity, choice, splitDefault, requiresSplit, chosenSize, enabled = false;
     let allowed = false, query = "", attention = [];
+    const slider = byId("manage-limit");
+    const edited = new Set();
+    let presetId, ceiling, limitStops = [], savedLimit, shrink, limitChanged = false;
 
     function members(resource, item) {
       return (resource.editions?.[item.edition] || resource).asset_ids;
     }
 
+    function selectionOf(candidate) {
+      const profile = root.OWLPlanner.profileFor(model, candidate.profile, candidate.capacityBytes, candidate);
+      const result = root.OWLPlanner.resolve(model, candidate, {ignoreNativeCapacity: browser});
+      return {...select(profile, candidate, result), result, profile};
+    }
+
+    function fits(candidate) {
+      const selection = selectionOf(candidate);
+      return !selection.over && !selection.errors.length && useful(selection);
+    }
+
     function measure() {
-      const profile = root.OWLPlanner.profileFor(model, state.profile, state.capacityBytes);
-      const result = root.OWLPlanner.resolve(model, state, {ignoreNativeCapacity: browser});
-      const selected = select(profile, state, result);
+      const selected = selectionOf(state);
       const theme = new Map();
       const selectedIds = new Set(selected.assets.map(asset => asset.id));
-      for (const row of result.rows) {
+      for (const row of selected.result.rows) {
         if (!row.included && !row.autoIncluded) continue;
         const resource = model.resources.find(resource => resource.id === row.id);
         if (resource.id === "archive-readers") continue;
@@ -316,7 +328,7 @@
           if (selectedIds.has(id) && !theme.has(id)) theme.set(id, themeOf(model, resource));
         }
       }
-      return {...selected, result, profile, theme, capacity, choice};
+      return {...selected, theme, capacity, budget: state.capacityBytes ?? capacity, choice};
     }
 
     function amounts(current, present = new Map()) {
@@ -332,6 +344,7 @@
     }
 
     function apply(resource, patch) {
+      edited.add(resource.id);
       const item = state.items[resource.id];
       Object.assign(item, patch);
       if (patch.edition !== undefined) {
@@ -341,6 +354,7 @@
     }
 
     function setFile(resource, id, included) {
+      edited.add(resource.id);
       const item = state.items[resource.id];
       const all = members(resource, item);
       const chosen = new Set(item.included ? item.assetIds || all : []);
@@ -350,22 +364,27 @@
     }
 
     function readChoice() {
-      const edits = {};
+      const edits = {...choice.edits};
       for (const resource of resources) {
         const {id} = resource;
+        if (!edited.has(id)) continue;
+        delete edits[id];
         const item = state.items[id], expected = baseline.items[id];
-        const edit = {};
-        if (item.included !== expected.included) edit.included = item.included;
-        if (item.included && item.edition !== expected.edition) edit.edition = item.edition;
-        if (item.included && item.assetIds) {
-          const saved = new Set(item.assetIds);
-          const excluded = members(resource, item).filter(id => download(id) && !saved.has(id));
-          if (excluded.length) edit.excluded = excluded;
+        const chosen = new Set((item.assetIds || members(resource, item)).filter(download));
+        const defaults = (expected.assetIds || members(resource, expected)).filter(download);
+        if (item.included && (!expected.included || item.edition !== expected.edition ||
+            chosen.size !== defaults.length || defaults.some(id => !chosen.has(id)))) {
+          const excluded = members(resource, item).filter(id => download(id) && !chosen.has(id));
+          edits[id] = {included: true, edition: item.edition, ...(excluded.length ? {excluded} : {})};
+        } else if (!item.included && expected.included) {
+          edits[id] = {included: false};
         }
-        if (Object.keys(edit).length) edits[id] = edit;
       }
-      return Object.keys(edits).length || choice.split !== splitDefault ?
-        {kind: "custom", edits, split: choice.split} : {kind: "recommended", split: choice.split};
+      edited.clear();
+      const custom = Object.keys(edits).length || choice.split !== splitDefault;
+      const {split, limitBytes, retainedFiles} = choice;
+      return {kind: custom ? "custom" : "recommended", ...(custom ? {edits} : {}), split,
+        ...(limitBytes ? {limitBytes} : {}), ...(retainedFiles ? {retainedFiles} : {})};
     }
 
     function refresh({changed = false} = {}) {
@@ -376,25 +395,32 @@
       return plan;
     }
 
-    function configure({capacityBytes, size, savedChoice, split = false, forceSplit = false}) {
-      capacity = capacityBytes;
-      chosenSize = size;
-      splitDefault = split;
-      requiresSplit = forceSplit;
-      const preset = model.capacity_policy ? model.profiles[0] : model.profiles.reduce((best, row) =>
-        Math.abs(profileCapacity(row) - capacity) < Math.abs(profileCapacity(best) - capacity) ? row : best);
-      baseline = recommend(root.OWLPlanner.preset(model, preset.id,
-        model.capacity_policy ? Math.max(model.capacity_policy.min, capacity) : undefined));
+    function recommended(budget, retainedFiles) {
+      return recommend(root.OWLPlanner.preset(model, presetId, model.capacity_policy ? Math.max(1, budget) : undefined,
+        {browser}), retainedFiles);
+    }
+
+    function currentBudget() {
+      return ceiling === undefined ? capacity : Math.min(choice.limitBytes || ceiling, ceiling);
+    }
+
+    function retainedAt(budget) {
+      if (budget === currentBudget()) return choice.retainedFiles;
+      if (budget === savedLimit.budget) return savedLimit.retainedFiles;
+      return budget < shrink?.budget ? shrink.files : undefined;
+    }
+
+    function restoreSelection() {
+      baseline = recommended(currentBudget(), choice.retainedFiles);
       state = structuredClone(baseline);
       state.allowIncomplete = allowed;
-      choice = savedChoice || {kind: "recommended", split};
-      if (requiresSplit) choice = {...choice, split: true};
       if (choice.kind === "custom") {
         for (const resource of resources) {
           const edit = choice.edits?.[resource.id];
           if (!edit) continue;
           const item = state.items[resource.id];
           if (typeof edit.included === "boolean") item.included = edit.included;
+          else if (edit.edition || edit.excluded?.length) item.included = true;
           if (edit.edition === "published" || resource.editions?.[edit.edition]) {
             item.edition = edit.edition;
             delete item.assetIds;
@@ -411,10 +437,55 @@
           item.included = Boolean(ids.length);
           item.edition = edition;
           item.assetIds = ids;
+          edited.add(resource.id);
         }
         choice = readChoice();
       }
+    }
+
+    function configure({capacityBytes, size, savedChoice, split = false, forceSplit = false, connected = false,
+        installed}) {
+      capacity = capacityBytes;
+      chosenSize = size;
+      splitDefault = split;
+      requiresSplit = forceSplit;
+      ceiling = connected && model.capacity_policy ? Math.min(capacity, model.capacity_policy.limit) : undefined;
+      const preset = model.capacity_policy ? model.profiles[0] : model.profiles.reduce((best, row) =>
+        Math.abs(profileCapacity(row) - capacity) < Math.abs(profileCapacity(best) - capacity) ? row : best);
+      presetId = preset.id;
+      choice = savedChoice || {kind: "recommended", split};
+      if (requiresSplit) choice = {...choice, split: true};
+      savedLimit = {budget: currentBudget(), limitBytes: choice.limitBytes, retainedFiles: choice.retainedFiles};
+      shrink = installed;
+      limitChanged = false;
+      edited.clear();
+      restoreSelection();
+      limitStops = ceiling === undefined ? [] : stops(ceiling, budget => budget > 0 &&
+        fits(budget === currentBudget() ? baseline : recommended(budget, retainedAt(budget))));
       return refresh();
+    }
+
+    function changeLimit(budget) {
+      if (budget === currentBudget() && (budget !== ceiling || !choice.limitBytes)) {
+        slider.value = String(budget);
+        return;
+      }
+      const retainedFiles = budget === ceiling ? undefined : retainedAt(budget);
+      const limitBytes = budget === ceiling ? undefined :
+        budget === savedLimit.budget ? savedLimit.limitBytes : budget;
+      const {kind, edits, split} = choice;
+      choice = {kind, ...(edits ? {edits} : {}), split,
+        ...(limitBytes ? {limitBytes} : {}), ...(retainedFiles ? {retainedFiles} : {})};
+      restoreSelection();
+      refresh();
+      limitChanged = true;
+      onChange(plan, {live: true});
+    }
+
+    function commitLimit() {
+      if (!limitChanged) return;
+      limitChanged = false;
+      onChange(plan);
     }
 
     function matching(resource) {
@@ -521,8 +592,34 @@
 
     function render() {
       const solid = new Map(plan.assets.map(asset => [asset.id, asset.size_bytes]));
-      meter(byId("manage-track"), null, groups, amounts(plan, solid), capacity, plan.over);
-      const used = bytes(plan.used), available = bytes(capacity);
+      const parts = amounts(plan, solid);
+      const limited = limitStops.length > 0;
+      byId("manage-track").hidden = limited;
+      if (slider) {
+        byId("manage-limit-control").hidden = !limited;
+        const kept = byId("manage-kept-free");
+        kept.hidden = !limited || plan.budget >= capacity;
+        if (limited) {
+          const budget = currentBudget();
+          const all = budget === ceiling;
+          const track = byId("manage-limit-budget");
+          meter(track, null, groups, parts, budget, plan.over);
+          track.style.width = (100 * budget / capacity) + "%";
+          byId("manage-limit-kept").hidden = budget === capacity;
+          slider.max = String(capacity);
+          slider.value = String(budget);
+          slider.setAttribute("aria-valuetext", all && budget === capacity ? "All " + bytes(budget) :
+            bytes(budget) + " of " + bytes(capacity));
+          byId("manage-limit-value").value = (all ? "All " : "") + bytes(budget);
+          byId("manage-use-all").hidden = all || !limitStops.includes(ceiling);
+          byId("manage-all").textContent = "Use all " + bytes(ceiling);
+          byId("manage-limit-min").textContent = bytes(limitStops[0]);
+          byId("manage-limit-max").textContent = bytes(capacity) + " free on this drive";
+          kept.textContent = bytes(capacity - budget) + " stays free";
+        }
+      }
+      if (!limited) meter(byId("manage-track"), null, groups, parts, capacity, plan.over);
+      const used = bytes(plan.used), available = bytes(limited ? plan.budget : capacity);
       const unit = available.split(" ").at(-1);
       const total = byId("manage-total");
       total.replaceChildren(element("b", "", used.endsWith(" " + unit) ? used.slice(0, -unit.length - 1) : used),
@@ -645,9 +742,43 @@
       event.preventDefault();
       state = structuredClone(baseline);
       state.allowIncomplete = allowed;
-      choice = {kind: "recommended", split: splitDefault};
+      const {limitBytes, retainedFiles} = choice;
+      choice = {kind: "recommended", split: splitDefault,
+        ...(limitBytes ? {limitBytes} : {}), ...(retainedFiles ? {retainedFiles} : {})};
       refresh({changed: true});
     });
+    if (slider) {
+      slider.addEventListener("input", () => {
+        const value = slider.valueAsNumber;
+        const nearest = limitStops.reduce((best, stop) => Math.abs(stop - value) < Math.abs(best - value) ? stop : best);
+        changeLimit(nearest);
+      });
+      slider.addEventListener("change", commitLimit);
+      slider.addEventListener("keydown", event => {
+        const steps = {ArrowLeft: -1, ArrowDown: -1, ArrowRight: 1, ArrowUp: 1, PageDown: -5, PageUp: 5};
+        const last = limitStops.length - 1;
+        const current = limitStops.indexOf(currentBudget());
+        let next = event.key === "Home" ? 0 : event.key === "End" ? last : undefined;
+        if (Object.hasOwn(steps, event.key)) {
+          if (current >= 0) next = current + steps[event.key];
+          else {
+            const higher = limitStops.findIndex(stop => stop > currentBudget());
+            const insertion = higher === -1 ? limitStops.length : higher;
+            next = insertion + steps[event.key] - Number(steps[event.key] > 0);
+          }
+        }
+        if (next === undefined) return;
+        event.preventDefault();
+        changeLimit(limitStops[Math.max(0, Math.min(last, next))]);
+        commitLimit();
+      });
+      byId("manage-all").addEventListener("click", event => {
+        event.preventDefault();
+        changeLimit(ceiling);
+        commitLimit();
+        slider.focus({preventScroll: true});
+      });
+    }
     byId("make-fit").addEventListener("click", fit);
     byId("include-filtered").addEventListener("click", () => bulk(true));
     byId("exclude-filtered").addEventListener("click", () => bulk(false));
@@ -670,7 +801,17 @@
       });
     }
 
-    return {configure, amounts, groups, get plan() { return plan; },
+    return {configure, amounts, groups, commitLimit,
+      get hasRecommendation() { return fits(baseline); },
+      minimumCapacity() {
+        let low = 1, high = model.capacity_policy.min;
+        while (low < high) {
+          const mid = Math.floor((low + high) / 2);
+          if (fits(recommended(mid))) high = mid;
+          else low = mid + 1;
+        }
+        return high;
+      },
       held(rows) { attention = rows; if (enabled) render(); },
       show({name, onBack, onDone, changes}) {
         enabled = true;

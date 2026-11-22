@@ -8,17 +8,20 @@
   const isDocument = asset => !asset.supporting_file && asset.archive_member?.document !== false;
   const mapById = rows => Object.fromEntries(rows.map(row => [row.id, row]));
   const sum = values => values.reduce((total, value) => total + value, 0);
-  function profileFor(model, id, capacityBytes) {
+  function profileFor(model, id, capacityBytes, {browser = false} = {}) {
     const profile = model.profiles.find(row => row.id === id);
     if (!profile) throw Error("Unknown profile: " + id);
     if (capacityBytes === undefined) return profile;
     const policy = model.capacity_policy;
-    if (!policy || !Number.isSafeInteger(capacityBytes) || capacityBytes < policy.min)
+    if (!policy || !Number.isSafeInteger(capacityBytes) || capacityBytes < (browser ? 1 : policy.min))
       throw Error("Enter a capacity of at least 16 GB");
-    const capped = Math.min(capacityBytes, policy.limit);
-    const headroom = Math.max(policy.minimum_margin, Math.floor(capacityBytes / policy.margin_divisor));
-    const discovery = Math.min(policy.discovery_max, policy.discovery_base + headroom - policy.minimum_margin,
-      Math.max(policy.discovery, Math.floor(capped / policy.discovery_divisor)));
+    const reduced = capacityBytes < policy.min;
+    const capped = Math.max(policy.min, Math.min(capacityBytes, policy.limit));
+    const margin = reduced ? Math.floor(policy.minimum_margin * (capacityBytes / policy.min)) : policy.minimum_margin;
+    const headroom = Math.max(margin, Math.floor(capacityBytes / policy.margin_divisor));
+    const discovery = reduced ? Math.max(OVERHEAD, Math.floor(policy.discovery * (capacityBytes / policy.min))) :
+      Math.min(policy.discovery_max, policy.discovery_base + headroom - policy.minimum_margin,
+        Math.max(policy.discovery, Math.floor(capped / policy.discovery_divisor)));
     const extraSearch = Math.max(0, discovery - policy.discovery_base);
     const editions = {[READERS]: "published"};
     for (const [threshold, resource, edition] of policy.transitions) {
@@ -42,15 +45,15 @@
       preset_resource_ids:defaults, default_resources:defaults,
       default_editions:Object.fromEntries(defaults.filter(rid => editions[rid] !== "published").map(rid => [rid, editions[rid]]))};
   }
-  function preset(model, id, capacityBytes) {
-    const profile = profileFor(model, id, capacityBytes), defaults = new Set(profile.preset_resource_ids);
-    return {profile: id, capacityBytes, allowIncomplete: false, atlas: model.atlas_available !== false,
+  function preset(model, id, capacityBytes, options) {
+    const profile = profileFor(model, id, capacityBytes, options), defaults = new Set(profile.preset_resource_ids);
+    return {profile: id, capacityBytes, browser: options?.browser, allowIncomplete: false, atlas: model.atlas_available !== false,
       items: Object.fromEntries(model.resources.map(row =>
       [row.id, {included: defaults.has(row.id), edition: !profile.default_resources && defaults.has(row.id) ? "preset" :
         (profile.default_editions?.[row.id] || "published")}]))};
   }
   function selectionArgs(model, state) {
-    const profile = profileFor(model, state.profile, state.capacityBytes), defaults = new Set(profile.preset_resource_ids);
+    const profile = profileFor(model, state.profile, state.capacityBytes, state), defaults = new Set(profile.preset_resource_ids);
     const include = [], exclude = [], editions = {}, resourceAssets={};
     for (const row of model.resources) {
       const item = state.items[row.id];
@@ -71,12 +74,13 @@
   const isDirect = asset => isDocument(asset) && DIRECT.has(asset.format.toLowerCase()) && !asset.reader_required &&
     !["SOFTWARE", "ZIM"].includes(asset.destination.split("/")[0]) && !isSoftware(asset);
 
-    const profile = profileFor(model, state.profile, state.capacityBytes), resources = mapById(model.resources), assets = mapById(model.assets);
+    const profile = profileFor(model, state.profile, state.capacityBytes, state), resources = mapById(model.resources), assets = mapById(model.assets);
     const args = selectionArgs(model, state), selected = new Set(profile.default_resources || []);
     const errors = [], warnings = [], overrides = profile.resource_overrides || {};
     args.include.forEach(id => selected.add(id)); args.exclude.forEach(id => selected.delete(id));
-    const fixedRead = readersFixed(resources[READERS]);
+    const fixedRead = !state.browser && readersFixed(resources[READERS]);
     if (fixedRead) selected.add(READERS);
+    if (state.browser) selected.delete(READERS);
     const variants = {}, members = {}, credits = {}, replaced = new Set();
     for (const id of selected) {
       const resource = resources[id], mode = args.editions[id] || profile.default_editions?.[id] || "published";
@@ -122,7 +126,7 @@
     const needsReaders = [...candidateIds].some(id => assets[id].status === "resolved" && assets[id].format.toLowerCase() === "zim");
     const autoIncluded = new Set(fixedRead ? [READERS] : []);
     if (needsReaders && !selected.has(READERS)) {
-      if (args.exclude.includes(READERS)) errors.push("Selected ZIM archives require bundled readers.");
+      if (!state.browser && args.exclude.includes(READERS)) errors.push("Selected ZIM archives require bundled readers.");
       if (!resources[READERS]) errors.push("The catalog has no bundled reader resource.");
       else {
         selected.add(READERS); autoIncluded.add(READERS); variants[READERS] = resources[READERS]; credits[READERS] = 0;

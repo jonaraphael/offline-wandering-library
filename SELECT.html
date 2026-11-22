@@ -122,6 +122,26 @@ a:hover { text-decoration: underline; }
 .summary .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 7px; font-size: 14px; color: var(--muted); }
 .summary .row b { color: var(--ink); }
 .summary .over { color: var(--bad); font-weight: 650; }
+/* Space for the library: the summary bar spans the drive's available space and carries a limit handle.
+   The range input is linear in bytes (min 0, max = available space) and snaps to the stops in the spec. */
+.limit-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 6px; font-size: 14px; color: var(--muted); }
+.limit-head b { color: var(--ink); font-size: 15px; }
+.limit-head output { color: var(--ink); font-weight: 650; font-variant-numeric: tabular-nums; }
+.limit { position: relative; height: 30px; }
+.limit .track { position: absolute; left: 14px; right: 14px; top: 9px; }
+.limit .track i.kept { background: repeating-linear-gradient(135deg, transparent 0 4px, color-mix(in srgb, var(--muted) 38%, transparent) 4px 6px); }
+.limit input[type="range"] { position: absolute; inset: 0; width: 100%; height: 30px; margin: 0; background: none; cursor: ew-resize;
+  appearance: none; -webkit-appearance: none; touch-action: pan-y; }
+.limit input[type="range"]::-webkit-slider-runnable-track { height: 30px; background: none; }
+.limit input[type="range"]::-moz-range-track { height: 30px; background: none; }
+.limit input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; margin-top: 1px; border-radius: 50%;
+  background: var(--surface); border: 2.5px solid var(--accent); box-shadow: 0 1px 4px rgba(0, 0, 0, .3); }
+.limit input[type="range"]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: var(--surface);
+  border: 2.5px solid var(--accent); box-shadow: 0 1px 4px rgba(0, 0, 0, .3); }
+.limit input[type="range"]:focus-visible { outline: none; }
+.limit input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 35%, transparent); }
+.limit input[type="range"]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 35%, transparent); }
+.limit-scale { display: flex; justify-content: space-between; padding: 0 14px; font-size: 12px; color: var(--muted); }
 .summary button, .advanced button { height: 34px; padding: 0 14px; border-radius: 17px; border: 0; background: var(--accent); color: #fff; font-weight: 650; cursor: pointer; }
 .advanced button { margin-block: 2px; background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
 .advanced button:disabled { opacity: .6; cursor: default; }
@@ -199,6 +219,11 @@ a:hover { text-decoration: underline; }
 .legend li.over::before { background: var(--bad); }
 .manage .sizes { justify-content: start; margin-bottom: 10px; }
 .summary-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.limit-budget { display: flex; min-width: 0; gap: min(2px, 2%); overflow: hidden; }
+.limit .track .limit-budget i { min-width: 0; }
+.limit .track { gap: 0; }
+.limit .track i.kept { flex: 1; min-width: 0; }
+@media (pointer: coarse) { .limit input[type="range"] { inset: -7px 0 auto; height: 44px; } }
 .editions { flex-wrap: wrap; }
 .editions button { padding: 5px 11px; border: 0; background: var(--surface); color: var(--ink); cursor: pointer; }
 .col .files { margin-left: 0; }
@@ -330,17 +355,20 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
   const isDocument = asset => !asset.supporting_file && asset.archive_member?.document !== false;
   const mapById = rows => Object.fromEntries(rows.map(row => [row.id, row]));
   const sum = values => values.reduce((total, value) => total + value, 0);
-  function profileFor(model, id, capacityBytes) {
+  function profileFor(model, id, capacityBytes, {browser = false} = {}) {
     const profile = model.profiles.find(row => row.id === id);
     if (!profile) throw Error("Unknown profile: " + id);
     if (capacityBytes === undefined) return profile;
     const policy = model.capacity_policy;
-    if (!policy || !Number.isSafeInteger(capacityBytes) || capacityBytes < policy.min)
+    if (!policy || !Number.isSafeInteger(capacityBytes) || capacityBytes < (browser ? 1 : policy.min))
       throw Error("Enter a capacity of at least 16 GB");
-    const capped = Math.min(capacityBytes, policy.limit);
-    const headroom = Math.max(policy.minimum_margin, Math.floor(capacityBytes / policy.margin_divisor));
-    const discovery = Math.min(policy.discovery_max, policy.discovery_base + headroom - policy.minimum_margin,
-      Math.max(policy.discovery, Math.floor(capped / policy.discovery_divisor)));
+    const reduced = capacityBytes < policy.min;
+    const capped = Math.max(policy.min, Math.min(capacityBytes, policy.limit));
+    const margin = reduced ? Math.floor(policy.minimum_margin * (capacityBytes / policy.min)) : policy.minimum_margin;
+    const headroom = Math.max(margin, Math.floor(capacityBytes / policy.margin_divisor));
+    const discovery = reduced ? Math.max(OVERHEAD, Math.floor(policy.discovery * (capacityBytes / policy.min))) :
+      Math.min(policy.discovery_max, policy.discovery_base + headroom - policy.minimum_margin,
+        Math.max(policy.discovery, Math.floor(capped / policy.discovery_divisor)));
     const extraSearch = Math.max(0, discovery - policy.discovery_base);
     const editions = {[READERS]: "published"};
     for (const [threshold, resource, edition] of policy.transitions) {
@@ -364,15 +392,15 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
       preset_resource_ids:defaults, default_resources:defaults,
       default_editions:Object.fromEntries(defaults.filter(rid => editions[rid] !== "published").map(rid => [rid, editions[rid]]))};
   }
-  function preset(model, id, capacityBytes) {
-    const profile = profileFor(model, id, capacityBytes), defaults = new Set(profile.preset_resource_ids);
-    return {profile: id, capacityBytes, allowIncomplete: false, atlas: model.atlas_available !== false,
+  function preset(model, id, capacityBytes, options) {
+    const profile = profileFor(model, id, capacityBytes, options), defaults = new Set(profile.preset_resource_ids);
+    return {profile: id, capacityBytes, browser: options?.browser, allowIncomplete: false, atlas: model.atlas_available !== false,
       items: Object.fromEntries(model.resources.map(row =>
       [row.id, {included: defaults.has(row.id), edition: !profile.default_resources && defaults.has(row.id) ? "preset" :
         (profile.default_editions?.[row.id] || "published")}]))};
   }
   function selectionArgs(model, state) {
-    const profile = profileFor(model, state.profile, state.capacityBytes), defaults = new Set(profile.preset_resource_ids);
+    const profile = profileFor(model, state.profile, state.capacityBytes, state), defaults = new Set(profile.preset_resource_ids);
     const include = [], exclude = [], editions = {}, resourceAssets={};
     for (const row of model.resources) {
       const item = state.items[row.id];
@@ -393,12 +421,13 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
   const isDirect = asset => isDocument(asset) && DIRECT.has(asset.format.toLowerCase()) && !asset.reader_required &&
     !["SOFTWARE", "ZIM"].includes(asset.destination.split("/")[0]) && !isSoftware(asset);
 
-    const profile = profileFor(model, state.profile, state.capacityBytes), resources = mapById(model.resources), assets = mapById(model.assets);
+    const profile = profileFor(model, state.profile, state.capacityBytes, state), resources = mapById(model.resources), assets = mapById(model.assets);
     const args = selectionArgs(model, state), selected = new Set(profile.default_resources || []);
     const errors = [], warnings = [], overrides = profile.resource_overrides || {};
     args.include.forEach(id => selected.add(id)); args.exclude.forEach(id => selected.delete(id));
-    const fixedRead = readersFixed(resources[READERS]);
+    const fixedRead = !state.browser && readersFixed(resources[READERS]);
     if (fixedRead) selected.add(READERS);
+    if (state.browser) selected.delete(READERS);
     const variants = {}, members = {}, credits = {}, replaced = new Set();
     for (const id of selected) {
       const resource = resources[id], mode = args.editions[id] || profile.default_editions?.[id] || "published";
@@ -444,7 +473,7 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
     const needsReaders = [...candidateIds].some(id => assets[id].status === "resolved" && assets[id].format.toLowerCase() === "zim");
     const autoIncluded = new Set(fixedRead ? [READERS] : []);
     if (needsReaders && !selected.has(READERS)) {
-      if (args.exclude.includes(READERS)) errors.push("Selected ZIM archives require bundled readers.");
+      if (!state.browser && args.exclude.includes(READERS)) errors.push("Selected ZIM archives require bundled readers.");
       if (!resources[READERS]) errors.push("The catalog has no bundled reader resource.");
       else {
         selected.add(READERS); autoIncluded.add(READERS); variants[READERS] = resources[READERS]; credits[READERS] = 0;
@@ -927,7 +956,7 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
     legend?.replaceChildren(...labels);
   }
 
-  function create(model, {browser = false, download = () => true, recommend = state => state,
+  function create(model, {browser = false, download = () => true, recommend = state => state, stops, useful,
       select, onChange = () => {}, onSize, onDiagnostics = () => byId("technical").showModal()} = {}) {
     const assetsById = new Map(model.assets.map(asset => [asset.id, asset]));
     select ??= (profile, _state, result) => {
@@ -950,18 +979,30 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
     const cards = new Map(), groupNodes = new Map(), open = new Set(), showFiles = new Set();
     let state, baseline, plan, capacity, choice, splitDefault, requiresSplit, chosenSize, enabled = false;
     let allowed = false, query = "", attention = [];
+    const slider = byId("manage-limit");
+    const edited = new Set();
+    let presetId, ceiling, limitStops = [], savedLimit, shrink, limitChanged = false;
 
     function members(resource, item) {
       return (resource.editions?.[item.edition] || resource).asset_ids;
     }
 
+    function selectionOf(candidate) {
+      const profile = root.OWLPlanner.profileFor(model, candidate.profile, candidate.capacityBytes, candidate);
+      const result = root.OWLPlanner.resolve(model, candidate, {ignoreNativeCapacity: browser});
+      return {...select(profile, candidate, result), result, profile};
+    }
+
+    function fits(candidate) {
+      const selection = selectionOf(candidate);
+      return !selection.over && !selection.errors.length && useful(selection);
+    }
+
     function measure() {
-      const profile = root.OWLPlanner.profileFor(model, state.profile, state.capacityBytes);
-      const result = root.OWLPlanner.resolve(model, state, {ignoreNativeCapacity: browser});
-      const selected = select(profile, state, result);
+      const selected = selectionOf(state);
       const theme = new Map();
       const selectedIds = new Set(selected.assets.map(asset => asset.id));
-      for (const row of result.rows) {
+      for (const row of selected.result.rows) {
         if (!row.included && !row.autoIncluded) continue;
         const resource = model.resources.find(resource => resource.id === row.id);
         if (resource.id === "archive-readers") continue;
@@ -969,7 +1010,7 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
           if (selectedIds.has(id) && !theme.has(id)) theme.set(id, themeOf(model, resource));
         }
       }
-      return {...selected, result, profile, theme, capacity, choice};
+      return {...selected, theme, capacity, budget: state.capacityBytes ?? capacity, choice};
     }
 
     function amounts(current, present = new Map()) {
@@ -985,6 +1026,7 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
     }
 
     function apply(resource, patch) {
+      edited.add(resource.id);
       const item = state.items[resource.id];
       Object.assign(item, patch);
       if (patch.edition !== undefined) {
@@ -994,6 +1036,7 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
     }
 
     function setFile(resource, id, included) {
+      edited.add(resource.id);
       const item = state.items[resource.id];
       const all = members(resource, item);
       const chosen = new Set(item.included ? item.assetIds || all : []);
@@ -1003,22 +1046,27 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
     }
 
     function readChoice() {
-      const edits = {};
+      const edits = {...choice.edits};
       for (const resource of resources) {
         const {id} = resource;
+        if (!edited.has(id)) continue;
+        delete edits[id];
         const item = state.items[id], expected = baseline.items[id];
-        const edit = {};
-        if (item.included !== expected.included) edit.included = item.included;
-        if (item.included && item.edition !== expected.edition) edit.edition = item.edition;
-        if (item.included && item.assetIds) {
-          const saved = new Set(item.assetIds);
-          const excluded = members(resource, item).filter(id => download(id) && !saved.has(id));
-          if (excluded.length) edit.excluded = excluded;
+        const chosen = new Set((item.assetIds || members(resource, item)).filter(download));
+        const defaults = (expected.assetIds || members(resource, expected)).filter(download);
+        if (item.included && (!expected.included || item.edition !== expected.edition ||
+            chosen.size !== defaults.length || defaults.some(id => !chosen.has(id)))) {
+          const excluded = members(resource, item).filter(id => download(id) && !chosen.has(id));
+          edits[id] = {included: true, edition: item.edition, ...(excluded.length ? {excluded} : {})};
+        } else if (!item.included && expected.included) {
+          edits[id] = {included: false};
         }
-        if (Object.keys(edit).length) edits[id] = edit;
       }
-      return Object.keys(edits).length || choice.split !== splitDefault ?
-        {kind: "custom", edits, split: choice.split} : {kind: "recommended", split: choice.split};
+      edited.clear();
+      const custom = Object.keys(edits).length || choice.split !== splitDefault;
+      const {split, limitBytes, retainedFiles} = choice;
+      return {kind: custom ? "custom" : "recommended", ...(custom ? {edits} : {}), split,
+        ...(limitBytes ? {limitBytes} : {}), ...(retainedFiles ? {retainedFiles} : {})};
     }
 
     function refresh({changed = false} = {}) {
@@ -1029,25 +1077,32 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
       return plan;
     }
 
-    function configure({capacityBytes, size, savedChoice, split = false, forceSplit = false}) {
-      capacity = capacityBytes;
-      chosenSize = size;
-      splitDefault = split;
-      requiresSplit = forceSplit;
-      const preset = model.capacity_policy ? model.profiles[0] : model.profiles.reduce((best, row) =>
-        Math.abs(profileCapacity(row) - capacity) < Math.abs(profileCapacity(best) - capacity) ? row : best);
-      baseline = recommend(root.OWLPlanner.preset(model, preset.id,
-        model.capacity_policy ? Math.max(model.capacity_policy.min, capacity) : undefined));
+    function recommended(budget, retainedFiles) {
+      return recommend(root.OWLPlanner.preset(model, presetId, model.capacity_policy ? Math.max(1, budget) : undefined,
+        {browser}), retainedFiles);
+    }
+
+    function currentBudget() {
+      return ceiling === undefined ? capacity : Math.min(choice.limitBytes || ceiling, ceiling);
+    }
+
+    function retainedAt(budget) {
+      if (budget === currentBudget()) return choice.retainedFiles;
+      if (budget === savedLimit.budget) return savedLimit.retainedFiles;
+      return budget < shrink?.budget ? shrink.files : undefined;
+    }
+
+    function restoreSelection() {
+      baseline = recommended(currentBudget(), choice.retainedFiles);
       state = structuredClone(baseline);
       state.allowIncomplete = allowed;
-      choice = savedChoice || {kind: "recommended", split};
-      if (requiresSplit) choice = {...choice, split: true};
       if (choice.kind === "custom") {
         for (const resource of resources) {
           const edit = choice.edits?.[resource.id];
           if (!edit) continue;
           const item = state.items[resource.id];
           if (typeof edit.included === "boolean") item.included = edit.included;
+          else if (edit.edition || edit.excluded?.length) item.included = true;
           if (edit.edition === "published" || resource.editions?.[edit.edition]) {
             item.edition = edit.edition;
             delete item.assetIds;
@@ -1064,10 +1119,55 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
           item.included = Boolean(ids.length);
           item.edition = edition;
           item.assetIds = ids;
+          edited.add(resource.id);
         }
         choice = readChoice();
       }
+    }
+
+    function configure({capacityBytes, size, savedChoice, split = false, forceSplit = false, connected = false,
+        installed}) {
+      capacity = capacityBytes;
+      chosenSize = size;
+      splitDefault = split;
+      requiresSplit = forceSplit;
+      ceiling = connected && model.capacity_policy ? Math.min(capacity, model.capacity_policy.limit) : undefined;
+      const preset = model.capacity_policy ? model.profiles[0] : model.profiles.reduce((best, row) =>
+        Math.abs(profileCapacity(row) - capacity) < Math.abs(profileCapacity(best) - capacity) ? row : best);
+      presetId = preset.id;
+      choice = savedChoice || {kind: "recommended", split};
+      if (requiresSplit) choice = {...choice, split: true};
+      savedLimit = {budget: currentBudget(), limitBytes: choice.limitBytes, retainedFiles: choice.retainedFiles};
+      shrink = installed;
+      limitChanged = false;
+      edited.clear();
+      restoreSelection();
+      limitStops = ceiling === undefined ? [] : stops(ceiling, budget => budget > 0 &&
+        fits(budget === currentBudget() ? baseline : recommended(budget, retainedAt(budget))));
       return refresh();
+    }
+
+    function changeLimit(budget) {
+      if (budget === currentBudget() && (budget !== ceiling || !choice.limitBytes)) {
+        slider.value = String(budget);
+        return;
+      }
+      const retainedFiles = budget === ceiling ? undefined : retainedAt(budget);
+      const limitBytes = budget === ceiling ? undefined :
+        budget === savedLimit.budget ? savedLimit.limitBytes : budget;
+      const {kind, edits, split} = choice;
+      choice = {kind, ...(edits ? {edits} : {}), split,
+        ...(limitBytes ? {limitBytes} : {}), ...(retainedFiles ? {retainedFiles} : {})};
+      restoreSelection();
+      refresh();
+      limitChanged = true;
+      onChange(plan, {live: true});
+    }
+
+    function commitLimit() {
+      if (!limitChanged) return;
+      limitChanged = false;
+      onChange(plan);
     }
 
     function matching(resource) {
@@ -1174,8 +1274,34 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
 
     function render() {
       const solid = new Map(plan.assets.map(asset => [asset.id, asset.size_bytes]));
-      meter(byId("manage-track"), null, groups, amounts(plan, solid), capacity, plan.over);
-      const used = bytes(plan.used), available = bytes(capacity);
+      const parts = amounts(plan, solid);
+      const limited = limitStops.length > 0;
+      byId("manage-track").hidden = limited;
+      if (slider) {
+        byId("manage-limit-control").hidden = !limited;
+        const kept = byId("manage-kept-free");
+        kept.hidden = !limited || plan.budget >= capacity;
+        if (limited) {
+          const budget = currentBudget();
+          const all = budget === ceiling;
+          const track = byId("manage-limit-budget");
+          meter(track, null, groups, parts, budget, plan.over);
+          track.style.width = (100 * budget / capacity) + "%";
+          byId("manage-limit-kept").hidden = budget === capacity;
+          slider.max = String(capacity);
+          slider.value = String(budget);
+          slider.setAttribute("aria-valuetext", all && budget === capacity ? "All " + bytes(budget) :
+            bytes(budget) + " of " + bytes(capacity));
+          byId("manage-limit-value").value = (all ? "All " : "") + bytes(budget);
+          byId("manage-use-all").hidden = all || !limitStops.includes(ceiling);
+          byId("manage-all").textContent = "Use all " + bytes(ceiling);
+          byId("manage-limit-min").textContent = bytes(limitStops[0]);
+          byId("manage-limit-max").textContent = bytes(capacity) + " free on this drive";
+          kept.textContent = bytes(capacity - budget) + " stays free";
+        }
+      }
+      if (!limited) meter(byId("manage-track"), null, groups, parts, capacity, plan.over);
+      const used = bytes(plan.used), available = bytes(limited ? plan.budget : capacity);
       const unit = available.split(" ").at(-1);
       const total = byId("manage-total");
       total.replaceChildren(element("b", "", used.endsWith(" " + unit) ? used.slice(0, -unit.length - 1) : used),
@@ -1298,9 +1424,43 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
       event.preventDefault();
       state = structuredClone(baseline);
       state.allowIncomplete = allowed;
-      choice = {kind: "recommended", split: splitDefault};
+      const {limitBytes, retainedFiles} = choice;
+      choice = {kind: "recommended", split: splitDefault,
+        ...(limitBytes ? {limitBytes} : {}), ...(retainedFiles ? {retainedFiles} : {})};
       refresh({changed: true});
     });
+    if (slider) {
+      slider.addEventListener("input", () => {
+        const value = slider.valueAsNumber;
+        const nearest = limitStops.reduce((best, stop) => Math.abs(stop - value) < Math.abs(best - value) ? stop : best);
+        changeLimit(nearest);
+      });
+      slider.addEventListener("change", commitLimit);
+      slider.addEventListener("keydown", event => {
+        const steps = {ArrowLeft: -1, ArrowDown: -1, ArrowRight: 1, ArrowUp: 1, PageDown: -5, PageUp: 5};
+        const last = limitStops.length - 1;
+        const current = limitStops.indexOf(currentBudget());
+        let next = event.key === "Home" ? 0 : event.key === "End" ? last : undefined;
+        if (Object.hasOwn(steps, event.key)) {
+          if (current >= 0) next = current + steps[event.key];
+          else {
+            const higher = limitStops.findIndex(stop => stop > currentBudget());
+            const insertion = higher === -1 ? limitStops.length : higher;
+            next = insertion + steps[event.key] - Number(steps[event.key] > 0);
+          }
+        }
+        if (next === undefined) return;
+        event.preventDefault();
+        changeLimit(limitStops[Math.max(0, Math.min(last, next))]);
+        commitLimit();
+      });
+      byId("manage-all").addEventListener("click", event => {
+        event.preventDefault();
+        changeLimit(ceiling);
+        commitLimit();
+        slider.focus({preventScroll: true});
+      });
+    }
     byId("make-fit").addEventListener("click", fit);
     byId("include-filtered").addEventListener("click", () => bulk(true));
     byId("exclude-filtered").addEventListener("click", () => bulk(false));
@@ -1323,7 +1483,17 @@ if (!document.getElementById("owl-model")?.textContent.trim().startsWith("__")) 
       });
     }
 
-    return {configure, amounts, groups, get plan() { return plan; },
+    return {configure, amounts, groups, commitLimit,
+      get hasRecommendation() { return fits(baseline); },
+      minimumCapacity() {
+        let low = 1, high = model.capacity_policy.min;
+        while (low < high) {
+          const mid = Math.floor((low + high) / 2);
+          if (fits(recommended(mid))) high = mid;
+          else low = mid + 1;
+        }
+        return high;
+      },
       held(rows) { attention = rows; if (enabled) render(); },
       show({name, onBack, onDone, changes}) {
         enabled = true;

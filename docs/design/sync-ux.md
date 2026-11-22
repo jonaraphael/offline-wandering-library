@@ -183,6 +183,38 @@ screen.
 
 - **Summary, pinned to the top:** the storage bar, "*58.2* of *59.6 GB*",
   and "Reset to recommended" when the choice differs from the default.
+- **Space for the library**, when a drive is connected: a slider at the top
+  of the summary that sets how much of the drive OWL may use. The summary bar
+  spans the drive's available space and the slider's handle sits on it at the
+  limit. Left of the handle is the library by category, then any budget not
+  yet used; right of it is hatched and labelled "*831 GB* stays free".
+  - **Stops.** 1, 8, 16, 32 and 64 GB, then every 32 GB up to 992 GB, then
+    1 TB. Stops above the drive's available space are dropped and the last
+    stop is all of it (at most 1 TB). A stop the planner cannot fill is not
+    offered. The handle snaps to the nearest stop.
+  - **Live.** While the handle moves, the recommended library, the bar, the
+    totals line and every category's size update at each stop. Nothing is
+    read from the drive or the network during a drag.
+  - **Default** is all available space, shown as "All *59.6 GB*". When the
+    limit is lower, the value reads "*128 GB*" with a link "Use all *959 GB*".
+  - **Keyboard.** Left and Right move one stop, Page Up and Page Down five,
+    Home and End to the ends. The slider's value text is "*128 GB* of
+    *959 GB*".
+  - **Kept.** The limit is stored on the drive with the choice, so a later
+    sync on any computer keeps it. "Reset to recommended" restores the
+    default library for the current limit and leaves the limit alone.
+  - **With custom choices.** Switches the builder set stay as set when the
+    limit moves. If they no longer fit, the summary shows the overflow and
+    "Make it fit".
+  - **Lowering it below what the drive already holds** produces `behind`
+    with "Your changes: removes …" after Done, like any other change.
+  - **Below 16 GB** the library is the 16 GB library reduced in priority
+    order: the least essential items leave first and the essentials last.
+    Reader apps are included only when the library contains an encyclopedia
+    file.
+  - On the stage, a limited drive's status line reads "*959 GB* free, limited
+    to *128 GB*." before the description of the library, and the bar's total
+    stays the drive's available space.
 - **Search field:** "Find a collection". Typing filters the list and opens
   matching categories.
 - **Eight category rows:** colour dot, name, one-line description, size on
@@ -377,6 +409,14 @@ Automated, run by the chair with the harness in
     reader files for the same inventory.
 12. Screenshots of every state in both themes match the reference files in
     layout and wording.
+
+13. **Space for the library.** On a drive with 959 GB available the slider
+    offers 1, 8, 16, 32, 64, 96 … 928 GB and "All 959 GB"; on one with
+    59.6 GB it offers 1, 8, 16, 32 GB and "All 59.6 GB". Each stop yields a
+    library no larger than the stop. Dragging updates the bar, totals and
+    category sizes at every stop without a network or drive request. The
+    limit survives Done, Sync and reopening the page, and a lowered limit
+    syncs as removals only.
 
 By the owner, on real hardware: picking the top of a USB drive in the folder
 dialog; a full sync onto it; opening the drive on an Android phone and an

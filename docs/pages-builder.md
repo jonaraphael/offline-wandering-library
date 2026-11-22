@@ -14,15 +14,23 @@ the drive's record. If the connection drops, the page waits and continues
 when it returns. Keep the drive connected and the tab open during Sync. OWL
 requests Screen Wake Lock while the tab is visible.
 
-Choose **Manage what goes on it** to search eight categories, turn collections
-on or off, compare editions and choose individual files. **Reset to recommended**
-restores the default. **Make it fit** removes the lowest-priority selections
-when the choice exceeds the drive budget. Advanced holds the FAT32 option,
-bulk actions, storage accounting and diagnostics. **See what goes on a drive**
-opens the same view as a preview. The [standalone planner](../SELECT.html)
-also generates commands for a Python build.
+Choose **Manage what goes on it** and drag **Space for the library** to set
+how much space OWL may use, including search and the reader. The category
+sizes and bar update as you drag. The hatched portion stays free. The default
+uses all available space up to 1 TB. At 1 GB and 8 GB, OWL keeps as many
+higher-priority files from its 16 GB recommendation as fit. Reader apps are
+included when the library contains an encyclopedia file.
 
-The drive stores its choice and verified content. A later Sync applies that
+Search eight categories, turn collections on or off, compare editions and
+choose individual files. Your edits carry over when the limit moves.
+**Reset to recommended** restores the default for the current limit.
+**Make it fit** removes the lowest-priority selections when the choice
+exceeds the limit. Advanced holds the FAT32 option, bulk actions, storage
+accounting and diagnostics. **See what goes on a drive** opens a preview
+with drive size buttons. The [standalone planner](../SELECT.html) also
+generates commands for a Python build.
+
+The drive stores its choice, storage limit and verified content. A later Sync applies that
 choice to the latest available files. It verifies additions and replacements
 before removing dropped files recorded by OWL. A replacement that needs
 space beside the original waits for more room or an explicit **Replace in

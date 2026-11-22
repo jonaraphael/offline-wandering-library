@@ -100,6 +100,28 @@ test("capacity probe runs on macOS and Windows and leaves Linux to label confirm
   for (const platform of ["Linux x86_64", "Linux", "", undefined]) assert.equal(probesCapacity(platform), false, String(platform));
 });
 
+test("changing the saved storage limit replaces a pending sync's search budget", async () => {
+  const drive = new Directory();
+  const body = Buffer.from("verified knowledge file");
+  const doc = asset("doc", body);
+  const initial = {kind: "recommended", split: false, limitBytes: 8e9};
+  const options = {assets: [doc], capacityBytes: 59.6e9, catalogVersion: "one", singleArchives: true,
+    routes: {doc: ["https://example.test/doc"]}, fetchFile: async () => new Response(body)};
+  await assert.rejects(runBuild(drive, {...options, choice: initial, searchBudget: 100e6,
+    prepareSources: async () => { throw Error("Interrupted before downloading"); }}), /Interrupted/);
+  const pending = await readBuild(drive);
+  assert.equal(pending.pending, true);
+  assert.deepEqual(pending.choice, initial);
+
+  const reduced = {kind: "recommended", split: false, limitBytes: 1e9};
+  const result = await runBuild(drive, {...options, choice: reduced, searchBudget: 16 * MiB});
+  assert.equal(result.state.finished, true);
+  const saved = await readBuild(drive);
+  assert.deepEqual(saved.choice, reduced);
+  assert.equal(saved.capacityBytes, 59.6e9);
+  assert.equal(saved.searchBudget, 16 * MiB);
+});
+
 test("native allocation probe estimates to one MiB and removes the swap placeholder", async () => {
   for (const name of ["QuotaExceededError", "InvalidStateError"]) {
     const free = 26 * GiB + 12345;

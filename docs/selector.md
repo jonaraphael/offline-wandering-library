@@ -3,7 +3,8 @@
 Open [SELECT.html](../SELECT.html) in a browser with JavaScript enabled. The page
 contains its own catalog and planner. You can make a selection without internet
 access and copy commands for the Python builder. For a browser that writes
-straight to the drive, use the [Pages builder](pages-builder.md).
+straight to the drive, use the [Pages builder](pages-builder.md). Its connected
+Manage screen has a storage slider that saves a limit with the drive's choice.
 
 ## Choose a library
 
