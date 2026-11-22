@@ -31,7 +31,7 @@
   <ul class="legend"><li style="--c:var(--c-health)">Health 9 GB</li><li style="--c:var(--c-food)">Food and farming 6 GB</li><li style="--c:var(--c-shelter)">Water, shelter and safety 5 GB</li><li style="--c:var(--c-trades)">Repair and trades 4 GB</li><li style="--c:var(--c-school)">School 18 GB</li><li style="--c:var(--c-reference)">Encyclopedias and maps 12 GB</li><li style="--c:var(--c-advanced)">College and technical 3 GB</li><li style="--c:var(--c-culture)">Stories and culture 1.2 GB</li><li class="free">Free 1.4 GB</li></ul>
 </template>
 <template id="t-rail">
-  <ol class="rail"><li>Choose drive</li><li>Sync</li><li>Eject</li></ol>
+  <ol class="rail"><li>Choose drive</li><li>Sync</li><li>Read</li></ol>
 </template>
 
 <!-- data-step: which rail step is current (1 to 3). -->
@@ -113,10 +113,10 @@
 
 <div class="app" id="done" data-step="3"><main class="stage" data-state="done" style="--p:1">
   <h1 class="title">Ready</h1>
-  <p class="status">Eject OWL, then unplug it. In Finder, click ⏏ beside OWL.<span class="now">Open START_HERE on any computer or phone.</span></p>
+  <p class="status">Open your library on OWL.</p>
   <div class="meter"><div class="track"><i style="flex:9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i style="flex:18;--c:var(--c-school)"></i><i style="flex:12;--c:var(--c-reference)"></i><i style="flex:3;--c:var(--c-advanced)"></i><i style="flex:1.2;--c:var(--c-culture)"></i><i class="free" style="flex:1.4"></i></div></div>
-  <button class="primary quiet">Sync another drive</button>
-  <p class="secondary"><a href="#">Check every file</a></p>
+  <a class="primary" href="reader-reference.html" target="_blank" rel="noopener">Try it</a>
+  <p class="secondary"><a href="#">Check every file</a><a href="#empty">Sync another drive</a></p>
 </main></div>
 
 <div class="app" id="done-gaps" data-step="3"><main class="stage" data-state="done-gaps" style="--p:1">

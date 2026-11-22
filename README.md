@@ -21,8 +21,8 @@ drops, the download continues when it returns. After pausing or reopening
 the page, reconnect if asked and choose **Sync**. Later syncs use the saved
 choice, apply updates and verify new files before removing superseded copies.
 **Check every file** rereads and repairs the selected files. The iPhone card
-during Sync has a QR code for installing Kiwix while online. Eject the drive
-when Sync finishes, then open `START_HERE.html` from the drive.
+during Sync has a QR code for installing Kiwix while online. When Sync finishes,
+choose **Try it** to open `START_HERE.html` from the connected drive.
 
 [Browser build guide](docs/pages-builder.md) · [Device tests](docs/device-matrix.md) · [Documentation](docs/README.md)
 

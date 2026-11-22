@@ -4,6 +4,7 @@ import {readFileSync} from "node:fs";
 import {test} from "node:test";
 import {compareLibrary, MANIFEST, readBuild, reconcile} from "../web/builder.mjs";
 import {removeFile, writeFile} from "../web/drive.mjs";
+import {readPreviewFile} from "../web/reader-preview.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
 
 globalThis.crypto ||= webcrypto;
@@ -214,6 +215,24 @@ async function openGeneration(drive, book) {
   await text(drive, "LIBRARY/" + dataPath);
   return id;
 }
+
+test("Try it opens the published start page, reader scripts and books from the selected drive", async () => {
+  const drive = new Directory();
+  const preview = {drive, id: "this-sync"};
+  await reconcile(drive, {...generationOptions("guide").selection, onPublished: files => { preview.files = files; }});
+  const open = path => readPreviewFile(preview, preview.id, path);
+  const start = await open("START_HERE.html");
+  assert.match(start.headers.get("Content-Type"), /^text\/html/);
+  const script = /<script defer src="([^"]+)"/.exec(await start.text())[1];
+  assert.equal(await (await open(script)).text(), await text(drive, script));
+  const book = await open("LIBRARY/BOOKS/guide.pdf");
+  assert.equal(book.headers.get("Content-Type"), "application/pdf");
+  assert.equal(await book.text(), "guide content");
+  assert.equal((await open(MANIFEST)).status, 404);
+  assert.equal((await readPreviewFile(preview, "different-sync", "START_HERE.html")).status, 404);
+  await writeFile(drive, script, "// changed after the build");
+  assert.equal((await open(script)).status, 404);
+});
 
 test("reader generation stays consistent when interrupted at every assembly write", async () => {
   const old = generationOptions("original"), next = generationOptions("updated");

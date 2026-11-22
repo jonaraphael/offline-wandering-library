@@ -152,7 +152,7 @@ function readerFiles(config, inventory, phone, missing, indexed, shared, syncedA
   return pages;
 }
 
-export async function assembleLibrary(drive, {completed, missing, navigation, layouts, parts, signal, search, searchBudget, fetchFile, network, syncedAt}) {
+export async function assembleLibrary(drive, {completed, missing, navigation, layouts, parts, signal, search, searchBudget, fetchFile, network, syncedAt, onPublished}) {
   const {reader, verify, phone} = navigation;
   const phoneVolumes = [], phoneChecksums = [], phoneWarnings = [];
   let phoneBytes = 0;
@@ -217,5 +217,7 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
   checksums.push(hash(start) + "  START_HERE.html");
   await writeFile(drive, "LIBRARY/SHA256SUMS.txt", checksums.sort().join("\n") + "\n");
   await writeFile(drive, "START_HERE.html", start);
+  // SHA256SUMS lines contain a 64-character digest, two spaces and the full path.
+  onPublished?.(new Map(checksums.map(line => [line.slice(66), line.slice(0, 64)])));
   return [...phoneWarnings, ...indexed.warnings];
 }

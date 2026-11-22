@@ -787,7 +787,7 @@ function beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, si
 export async function reconcile(drive, {assets, excluded = [], routes = {}, published = {}, navigation = {}, search,
     partBytes = PART_BYTES, fetchFile = globalThis.fetch, signal, onProgress = () => {}, fullVerify = false,
     joinArchives = false, singleArchives = false, archiveSpace = 0, choice, catalogVersion,
-    freeBytes = Infinity, capacityBytes, replaceInPlace = [], searchBudget = 16 * 2 ** 20, prepareSources,
+    freeBytes = Infinity, capacityBytes, replaceInPlace = [], searchBudget = 16 * 2 ** 20, prepareSources, onPublished,
     network = createNetwork({fetchFile, signal, onWaiting: () => onProgress({kind: "waiting-network"})})}) {
   const inspection = await inspectDrive(drive), saved = inspection.state;
   if (!assets.some(isKnowledgeFile)) throw Error("Choose knowledge files with browser-accessible sources.");
@@ -928,7 +928,7 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
   }
   const syncedAt = new Date().toISOString();
   const searchWarnings = await assembleLibrary(guardReader(drive, state, legacy), {completed, missing, navigation, layouts,
-    parts: installedParts, search, searchBudget: state.searchBudget, fetchFile, signal, network, syncedAt});
+    parts: installedParts, search, searchBudget: state.searchBudget, fetchFile, signal, network, syncedAt, onPublished});
   // The start page now points to the new reader, and the checksum list includes reused shards.
   await retireReaderFiles(drive, state, signal);
   state.installed = Object.fromEntries(present);
