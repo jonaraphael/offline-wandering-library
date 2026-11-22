@@ -29,7 +29,7 @@ topics:
   status: partial
   atlas_topics: [clinical-medicine, medicines, infectious-disease, anatomy, nursing]
   intended: Trained health workers can find assessment, infection prevention, medicine references and escalation guidance; professional material remains clearly labelled.
-  resources: [msf-medical, who-emergency-care, wikimed, openstax-core, openstax-health, openstax-school-science, mdwiki, gutenberg-r, cdc-travelers-health, librepathology, medlineplus]
+  resources: [msf-medical, who-emergency-care, wikimed, openstax-core, openstax-health, openstax-health-science, openstax-school-science, mdwiki, gutenberg-r, cdc-travelers-health, librepathology, medlineplus]
   existing: MSF clinical and essential-drug manuals and outbreak guides provide a foundation. WikiMed and MDWiki broaden reference. MedlinePlus supports patient education, and CDC Travelers’ Health and Libre Pathology add specialized references.
   gaps: [An edition and audience review across overlapping clinical manuals, Coverage of chronic care and rehabilitation in low-resource settings, Reviewed task routes and a currency policy for medicine information]
   next: ["Audit the selected MSF editions before adding clinical sources. Check current editions and professional scope across MedlinePlus, CDC and Libre Pathology. Identify a current published chronic-care reference."]
@@ -269,11 +269,21 @@ topics:
   status: partial
   atlas_topics: [science, physics, chemistry, biology, astronomy]
   intended: A coherent school-level progression across life, physical and Earth/space science, including safe practical observations and explanations.
-  resources: [school-education, phet, wikipedia-en, openstax-core, openstax-school-science, openstax-school-math, libretexts-stem, crash-course, wikispecies, environment-encyclopedia, phet-archive, ncert-audiobooks, astronomy-picture]
-  existing: Siyavula natural/physical science books, OpenStax school physics and PhET. College textbooks and LibreTexts are optional supplements.
+  resources: [school-education, phet, wikipedia-en, openstax-core, openstax-school-science, openstax-school-math, openstax-foundational-science, libretexts-stem, crash-course, wikispecies, environment-encyclopedia, phet-archive, ncert-audiobooks, astronomy-picture]
+  existing: Siyavula natural/physical science books, OpenStax school physics and PhET. College textbooks and LibreTexts supplement the school-level sequence.
   gaps: [A stage-by-subject scope matrix, Early science and Earth/space progression, Safe practical activities with commonly available materials]
   next: ["Use the saved CKSci kindergarten–grade 8 component matrix to reconcile life, physical and Earth/space strands with the selected Siyavula books and PhET. Source PDF availability/signatures passed; full bodies and instructional coverage remain unreviewed.", "Review safe practical activities, required materials and teacher/student assessments. Acquire source hashes before admission; large supplementary science archives do not establish a school progression."]
   done_when: The declared school stages have learner and teacher materials, exercises and appropriate practical work across all intended science strands.
+- id: engineering-study
+  title: Engineering study
+  status: partial
+  atlas_topics: [engineering]
+  intended: Study the mathematics, physics and design principles behind machines, structures, water systems and power.
+  resources: [libretexts-engineering, openstax-engineering-math, openstax-university-physics]
+  existing: The 16 GB preset includes LibreTexts Engineering alongside OpenStax algebra, trigonometry, calculus and university physics.
+  gaps: [Verified course sequences and worked problems for mechanical and civil engineering]
+  next: [Inventory the offline archive by course and identify missing prerequisites or practice material.]
+  done_when: Each engineering sequence has accessible explanations, worked examples and practice problems.
 - id: school-humanities
   title: School history, geography and civics
   status: gap
@@ -309,7 +319,7 @@ topics:
   status: optional
   atlas_topics: [computing, manufacturing]
   intended: Provide basic computing and fabrication references with larger collections available for deeper study.
-  resources: [linux-programming-docs, computing-communities, openstax-core, openstax-computing, stack-overflow, mediawiki-docs, desktop-fabrication]
+  resources: [linux-programming-docs, computing-communities, openstax-core, openstax-computing, openstax-python, stack-overflow, mediawiki-docs, desktop-fabrication]
   existing: The sampler includes GNU, Git, Python and the 3D Printing Stack Exchange archive. Larger computing collections provide optional depth.
   gaps: [Finished SQLite and OpenSSH replacements, A bounded learning objective for each optional collection, Hardware and software prerequisites]
   next: [Keep the existing optional references; assess finished publisher SQLite/OpenSSH alternatives without reviving conversion pipelines.]
@@ -329,7 +339,7 @@ topics:
   status: optional
   atlas_topics: [social-sciences, anthropology, psychology, sociology]
   intended: Optional introductory college study with clear limits on applying general texts to personal or community decisions.
-  resources: [openstax-core, openstax-advanced-study, openstax-culture, wikiversity-en, gutenberg-h, gutenberg-j]
+  resources: [openstax-core, openstax-advanced-study, openstax-culture, openstax-psychology, wikiversity-en, gutenberg-h, gutenberg-j]
   existing: Optional OpenStax introductory social-science textbooks and Wikiversity archive.
   gaps: [Defined learner goals, Edition and exercise review, A chosen sequence rather than a count of textbooks]
   next: [Review existing book contents against a specific requested study sequence before selecting additions.]
@@ -339,7 +349,7 @@ topics:
   status: optional
   atlas_topics: [business, economics, accounting-finance, business-law-ethics, management-marketing]
   intended: Optional foundational study; distinguish durable accounting and organization concepts from changing law and market conditions.
-  resources: [openstax-core, openstax-advanced-study]
+  resources: [openstax-core, openstax-advanced-study, openstax-economics-accounting]
   existing: Optional college economics, accounting, business-law and management texts.
   gaps: [A defined study or small-enterprise purpose, Currency and jurisdiction limits, Worked practical recordkeeping exercises]
   next: ['If requested, evaluate a finished small-farm or cooperative recordkeeping workbook before adding further college titles.']

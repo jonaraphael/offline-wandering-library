@@ -1,5 +1,6 @@
 import {createNetwork, SourceError} from "./network.mjs";
 import {diag} from "./diagnostics.mjs";
+import {activateReaderPreview, publishReaderLink} from "./reader-preview.mjs";
 import {browserSelection, buildOrder, compareLibrary, inspectDrive, isKnowledgeFile, PART_BYTES, reconcile} from "./builder.mjs";
 import {getRememberedDrive, hasDrivePermission, keepScreenAwake, measureFreeSpace,
   pickDrive, rememberDrive, requestDrivePermission} from "./drive.mjs";
@@ -311,6 +312,9 @@ export function mount({catalog: supplied} = {}) {
   const stage = byId("sync-stage"), headline = byId("sync-title"), status = byId("sync-status");
   const announcement = byId("sync-announcement");
   const primary = byId("sync-primary"), secondary = byId("sync-secondary"), ring = byId("sync-ring");
+  const tryLink = element("a", "primary", "Try it");
+  tryLink.target = "_blank";
+  tryLink.rel = "noopener";
   const platform = navigator.userAgentData?.platform || navigator.platform || "";
   const agent = navigator.userAgent || "";
   const supported = typeof globalThis.showDirectoryPicker === "function" &&
@@ -493,15 +497,13 @@ export function mount({catalog: supplied} = {}) {
         Object.assign(item, {step: 2, fraction: readyFraction, title: "Paused at " + percent(readyFraction), action: syncButton,
           message: "Nothing is lost. Sync continues where it stopped.", links: [manageLink]});
         break;
-      case "done": {
-        const eject = /^mac/i.test(platform) ? "In Finder, click ⏏ beside " + name() + "." :
-          /^win/i.test(platform) ? "Click Safely Remove Hardware in the taskbar, then " + name() + "." : "Eject it in your file manager.";
-        Object.assign(item, {step: 3, fraction: 1, title: "Ready", action: ["Sync another drive", changeDrive, true],
-          message: "Eject " + name() + ", then unplug it. " + eject,
-          extra: ["Open START_HERE on any computer or phone.", completionState(result).extra].filter(Boolean).join(" "),
-          links: [checkLink, ...(result.keptInParts.length ? [["Show files kept in parts", showMissing]] : [])]});
+      case "done":
+        Object.assign(item, {step: 3, fraction: 1, title: "Ready",
+          message: tryLink.hasAttribute("href") ? "Open your library on " + name() + "." : "Open START_HERE.html on " + name() + ".",
+          extra: completionState(result).extra || undefined,
+          links: [checkLink, ...(result.keptInParts.length ? [["Show files kept in parts", showMissing]] : []),
+            ["Sync another drive", changeDrive]]});
         break;
-      }
       case "failed":
       case "done-gaps": {
         const outcome = completionState(result);
@@ -568,6 +570,8 @@ export function mount({catalog: supplied} = {}) {
         mode === "remembered" ? snapshot.capacity : plan.capacity, mode === "behind" ? plan.over : 0);
     }
     byId("drive-sizes").hidden = mode !== "needs-size";
+    if (mode === "done" && tryLink.hasAttribute("href")) primary.replaceWith(tryLink);
+    else tryLink.replaceWith(primary);
     primary.hidden = !item.action;
     primary.classList.toggle("quiet", Boolean(item.action?.[2]));
     primary.disabled = picker;
@@ -833,6 +837,10 @@ export function mount({catalog: supplied} = {}) {
     controller = new AbortController();
     const {signal} = controller;
     const release = keepScreenAwake();
+    // Load the worker while online so opening the completed library needs only the drive.
+    const previewError = error => { diag("reader-preview", {detail: error.message}); };
+    const readerScope = activateReaderPreview().catch(previewError);
+    tryLink.removeAttribute("href");
     opened = performance.now();
     transferStarted = rateStart = undefined;
     rate = 0;
@@ -858,17 +866,25 @@ export function mount({catalog: supplied} = {}) {
         ]);
         return {search, publisherPieces, unavailableSupport};
       };
+      let publishedFiles;
       result = await lockDrive(() => reconcile(drive, {...comparisonOptions(), excluded: plan.excluded,
         routes: catalog.routes, published: catalog.published, navigation: catalog.navigation,
         catalogAssets: catalog.planner.assets,
         searchBudget: plan.searchBudget, capacityBytes: capacity, capacityEstimated: measured === undefined,
-        replaceInPlace: [...selectedReplacement], fullVerify: fullCheck, prepareSources, signal, network, onProgress}));
+        replaceInPlace: [...selectedReplacement], fullVerify: fullCheck, prepareSources, signal, network, onProgress,
+        onPublished: files => { publishedFiles = files; }}));
       inspection = await inspectDrive(drive);
       dirty = false;
       driveChoice = JSON.stringify(plan.choice);
       selectedReplacement.clear();
       await updateComparison();
-      render(completionState(result).mode);
+      const outcome = completionState(result).mode;
+      if (outcome === "done") {
+        const scope = await readerScope;
+        const url = scope && await publishReaderLink(scope, drive, publishedFiles).catch(previewError);
+        if (url) tryLink.href = url;
+      }
+      render(outcome);
       storeSnapshot();
     } catch (error) {
       if (!signal.aborted) { showProblem(error); return; }

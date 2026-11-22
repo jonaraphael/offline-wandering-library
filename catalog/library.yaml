@@ -1056,9 +1056,8 @@ assets:
   - measurement
   - solutions
   - electrochemistry
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Provides chemistry and biology foundations for agriculture and technical trades.
   knowledge_domains:
   - chemistry
   - college-education
@@ -1162,9 +1161,8 @@ assets:
   - physiology
   - organs
   - human biology
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Provides the anatomy and physiology foundation for clinical study.
   knowledge_domains:
   - biology
   - college-education
@@ -1971,9 +1969,8 @@ assets:
   - https://ny.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_eng_2025-01.zim
   - https://wi.mirror.driftle.ss/kiwix/zim/libretexts/libretexts.org_en_eng_2025-01.zim
   - https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_eng_2025-01.zim
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Provides engineering references for infrastructure, machinery and power.
   knowledge_domains: *id003
   selection:
     domain: advanced-study
@@ -18654,9 +18651,8 @@ assets:
   tags:
   - textbook
   - Science
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Provides a foundation for understanding infections and sanitation.
   knowledge_domains:
   - biology
   - college-education
@@ -22840,9 +22836,8 @@ assets:
   - illustrated
   - Nursing
   - Fundamentals and Skills
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Supports nursing, maternal and newborn care, nutrition and public health.
   knowledge_domains:
   - clinical-medicine
   - health
@@ -23086,9 +23081,8 @@ assets:
   - illustrated
   - Science
   - Biology
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Provides chemistry and biology foundations for agriculture and technical trades.
   knowledge_domains:
   - biology
   - college-education
@@ -23285,9 +23279,8 @@ assets:
   - illustrated
   - Nursing
   - Fundamentals and Skills
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Supports nursing, maternal and newborn care, nutrition and public health.
   knowledge_domains:
   - clinical-medicine
   - health
@@ -23893,9 +23886,8 @@ assets:
   - illustrated
   - Nursing
   - Maternal-Newborn Nursing
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Supports nursing, maternal and newborn care, nutrition and public health.
   knowledge_domains:
   - clinical-medicine
   - health
@@ -23944,9 +23936,8 @@ assets:
   - illustrated
   - Nursing
   - Medical-Surgical Nursing
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Supports nursing, maternal and newborn care, nutrition and public health.
   knowledge_domains:
   - clinical-medicine
   - health
@@ -23995,9 +23986,8 @@ assets:
   - illustrated
   - Nursing
   - Nutrition and Pharmacology
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Supports nursing, maternal and newborn care, nutrition and public health.
   knowledge_domains:
   - clinical-medicine
   - health
@@ -24143,9 +24133,8 @@ assets:
   - illustrated
   - Nursing
   - Nutrition and Pharmacology
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Supports nursing, maternal and newborn care, nutrition and public health.
   knowledge_domains:
   - clinical-medicine
   - health
@@ -24194,9 +24183,8 @@ assets:
   - illustrated
   - Nursing
   - Population and Community Health
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Supports nursing, maternal and newborn care, nutrition and public health.
   knowledge_domains:
   - clinical-medicine
   - health
@@ -24293,9 +24281,8 @@ assets:
   - illustrated
   - Business
   - Accounting and Finance
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Supports bookkeeping and the study of trade and allocation.
   knowledge_domains:
   - business
   - college-education
@@ -24446,9 +24433,8 @@ assets:
   - Social Sciences
   - Business
   - Economics
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Supports bookkeeping and the study of trade and allocation.
   knowledge_domains:
   - business
   - college-education
@@ -24749,9 +24735,8 @@ assets:
   - illustrated
   - Nursing
   - Psychiatric-Mental Health Nursing
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Supports nursing, maternal and newborn care, nutrition and public health.
   knowledge_domains:
   - clinical-medicine
   - health
@@ -24800,9 +24785,8 @@ assets:
   - illustrated
   - Social Sciences
   - Psychology
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Supports the study of behavior, learning and mental health.
   knowledge_domains:
   - social-science
   - college-education

@@ -235,6 +235,10 @@ async function handleStore(mode, operation) {
 const driveKey = () => location.pathname.replace(/index\.html$/, "");
 export const getRememberedDrive = () => handleStore("readonly", store => store.get(driveKey()));
 export const rememberDrive = handle => handleStore("readwrite", store => store.put(handle, driveKey()));
+// Keep the latest published reader for each hosted builder. Its worker can
+// reopen the drive after the builder tab closes or the worker restarts.
+export const saveReaderPreview = (scope, preview) => handleStore("readwrite", store => store.put(preview, ["reader", scope]));
+export const getReaderPreview = scope => handleStore("readonly", store => store.get(["reader", scope]));
 export const requestDrivePermission = handle => handle.requestPermission(READ_WRITE);
 export const hasDrivePermission = async handle => (await handle.queryPermission(READ_WRITE)) === "granted";
 export const pickDrive = () => globalThis.showDirectoryPicker({id: "owl-drive", ...READ_WRITE});

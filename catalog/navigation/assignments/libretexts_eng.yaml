@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: libretexts_eng
+assignments:
+- topic_id: engineering
+  purpose: reference

@@ -65,6 +65,7 @@ default_resources:
 - juvenile-literature
 - khan-academy
 - librepathology
+- libretexts-engineering
 - libretexts-statistics
 - libretexts-stem
 - linux-programming-docs
@@ -82,9 +83,16 @@ default_resources:
 - openstax-advanced-study
 - openstax-computing
 - openstax-culture
+- openstax-economics-accounting
+- openstax-engineering-math
+- openstax-foundational-science
 - openstax-health
+- openstax-health-science
+- openstax-psychology
+- openstax-python
 - openstax-school-math
 - openstax-school-science
+- openstax-university-physics
 - osa-seed-saving-2010
 - osm-guides
 - outdoors-qa

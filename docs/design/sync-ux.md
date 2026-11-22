@@ -74,7 +74,7 @@ One screen, no page scroll at 1280 × 720 in any state except Manage.
 - **Stage**, centred: the drive inside a progress ring, a title, a status
   line, the storage bar with its legend, the primary button, one secondary
   link.
-- **Rail**, bottom: three steps, `Choose drive · Sync · Eject`, with the
+- **Rail**, bottom: three steps, `Choose drive · Sync · Read`, with the
   current step marked. It contains no controls.
 
 The ring, title, status line, bar and button are the same elements in every
@@ -95,7 +95,7 @@ state. Only their contents change, so the page never jumps.
 | `finishing` | Downloads done, index and reader being written | Full arc, pulsing | Finishing | Building the search index and the start page. | Solid | None | None |
 | `paused` | Paused, or the tab was reopened mid-sync | Arc stopped, amber | Paused at *42%* | Nothing is lost. Sync continues where it stopped. | As `behind` | **Sync** | Manage what goes on it |
 | `waiting` | Network dropped during sync | Arc stopped, amber | *42%* | Waiting for the internet. Sync continues by itself. | As `syncing` | **Pause** | None |
-| `done` | Sync finished | Full green ring, check mark | Ready | Eject *drive name*, then unplug it. *(one line of eject instructions for this operating system)* Open START_HERE on any computer or phone. | Solid | **Sync another drive** | Check every file |
+| `done` | Sync finished | Full green ring, check mark | Ready | Open your library on *drive name*. | Solid | **Try it** | Check every file · Show files kept in parts (when any) · Sync another drive |
 | `done-gaps` | At least one knowledge file arrived, with files still missing | Full amber ring | Ready, with *3* items missing | *409* files arrived. *1* essential file missing. | Solid, gap marked | **Try those again** | Show details · Check every file · Sync another drive |
 | `failed` | No knowledge files arrived | Red arc | Sync could not finish | *0* files arrived. *1* essential file missing. | Last known | **Try those again** | Show details · Check every file · Sync another drive |
 | `problem` | Drive unplugged, read-only, full, permission refused | Red arc | One plain sentence naming the problem | One sentence saying what to do. "Nothing is lost" when true. | Last known | The fix: **Reconnect**, **Choose another drive** or **Sync** | Technical details |
@@ -122,10 +122,8 @@ Notes on states:
 - While Sync is running, including while it waits for the internet and builds
   the start page, closing or reloading the tab brings up the browser’s
   confirmation.
-- **Eject instructions** are one line chosen by operating system. macOS: "In
-  Finder, click ⏏ beside *name*." Windows: "Click Safely Remove Hardware in
-  the taskbar, then *name*." Others: "Eject it in your file manager." The
-  page never says the drive is safe to unplug; it cannot know.
+- **Try it** opens the drive's `START_HERE.html` in a new tab. If the browser
+  cannot open the preview, the status gives the file name and drive.
 - **`current` has no primary button.** A disabled Sync button reads as a
   fault.
 - If measurement is unavailable, the stage says "This plan uses an estimate

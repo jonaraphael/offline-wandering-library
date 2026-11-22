@@ -39,9 +39,10 @@ place** choice in Manage. Files outside OWL's record stay on the drive.
 for failed checks.
 
 Sync writes the new reader and updates `START_HERE.html` before clearing the
-older reader files listed in the drive record. When Sync finishes, eject the
-drive through your operating system. Open `START_HERE.html` on the drive to read
-offline. The build report lists any files that could not be downloaded.
+older reader files listed in the drive record. When Sync finishes, choose **Try it**
+to open `START_HERE.html` in a new tab and read from the connected drive.
+On another device, open `START_HERE.html` directly from the drive.
+The build report lists any files that could not be downloaded.
 
 ## Drives and readers
 

@@ -911,7 +911,7 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
     partBytes = PART_BYTES, fetchFile = globalThis.fetch, signal, onProgress = () => {}, fullVerify = false,
     joinArchives = false, singleArchives = false, archiveSpace = Infinity, choice, catalogVersion, readerPublication,
     freeBytes = Infinity, capacityBytes, capacityEstimated, replaceInPlace = [], searchBudget = 16 * 2 ** 20,
-    catalogAssets = assets, prepareSources,
+    catalogAssets = assets, prepareSources, onPublished,
     network = createNetwork({fetchFile, signal, onWaiting: () => onProgress({kind: "waiting-network"})})}) {
   const inspection = await inspectDrive(drive), saved = inspection.state;
   if (!assets.some(isKnowledgeFile)) throw Error("Choose knowledge files with browser-accessible sources.");
@@ -1171,7 +1171,7 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
         selectedCount: assets.length + excluded.length, navigation, search: compact ? undefined : search,
         layouts: new Map([...present].map(([id, row]) => [id, row.layout])),
         parts: Object.fromEntries([...present].map(([id, row]) => [id, row.parts])),
-        searchBudget: state.searchBudget, fetchFile, signal, network, syncedAt}));
+        searchBudget: state.searchBudget, fetchFile, signal, network, syncedAt, onPublished}));
       break;
     } catch (error) {
       signal?.throwIfAborted();

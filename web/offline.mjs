@@ -190,7 +190,7 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
 
 export async function assembleLibrary(drive, {completed, missing, keptInParts = [], selectedCount = completed.length + missing.length,
     navigation, layouts, parts, signal, search, searchBudget, fetchFile, network, syncedAt, compact = false,
-    unavailableSupport = [], searchMissing = false}) {
+    unavailableSupport = [], searchMissing = false, onPublished}) {
   const {verify} = navigation;
   const {reader, phone} = compact ? {} : navigation;
   const phoneVolumes = [], phoneChecksums = [], supportMissing = [...unavailableSupport];
@@ -298,5 +298,7 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
   await writeFile(drive, "LIBRARY/SHA256SUMS.txt", checksums.sort().join("\n") + "\n");
   signal?.throwIfAborted();
   await writeFile(drive, "START_HERE.html", start);
+  // SHA256SUMS lines contain a 64-character digest, two spaces and the full path.
+  onPublished?.(new Map(checksums.map(line => [line.slice(66), line.slice(0, 64)])));
   return {supportMissing, warnings: supportMissing.map(({title, reason}) => title + " — " + reason)};
 }
