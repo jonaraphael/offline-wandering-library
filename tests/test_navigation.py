@@ -34,21 +34,27 @@ class StaticHTML(HTMLParser):
         self.static = False
         self.text = []
         self.interactive = []
+        self.folded = []
+        self.depth = 0
         self.feed(text)
 
     def handle_starttag(self, tag, attrs):
         if tag == 'main' and dict(attrs).get('class') == 'static':
             self.static = True
-        if self.static and tag in {'input', 'button', 'nav', 'details'}:
+        if self.static and tag in {'input', 'button', 'nav'}:
             self.interactive.append(tag)
+        if self.static and tag == 'details':
+            self.depth += 1
 
     def handle_endtag(self, tag):
         if tag == 'main':
             self.static = False
+        if self.static and tag == 'details':
+            self.depth -= 1
 
     def handle_data(self, data):
         if self.static:
-            self.text.append(data)
+            (self.folded if self.depth else self.text).append(data)
 
 
 class NavigationTests(unittest.TestCase):
@@ -77,14 +83,17 @@ class NavigationTests(unittest.TestCase):
         reader = StaticHTML(pages['START_HERE.html'])
         content = ''.join(reader.text)
         self.assertFalse(reader.interactive)
-        self.assertIn('Files on this drive are in the LIBRARY folder, grouped by subject.', content)
-        self.assertIn('Make drinking water saferLIBRARY/CRITICAL/WATER/water #1.pdf', content)
-        self.assertIn('Water & <Guide>', content)
+        self.assertIn('How to open a book', content)
+        self.assertIn('Make drinking water saferWater & <Guide>LIBRARY › CRITICAL › WATER › water #1.pdf', content)
+        self.assertIn('<a href="LIBRARY/CRITICAL/WATER/water%20%231.pdf">Make drinking water safer</a>', pages['START_HERE.html'])
         self.assertEqual(content.count('Field Guide'), 1)
-        self.assertIn('LIBRARY/BOOKS/GUIDE/', content)
-        self.assertNotIn('/10.pdf', content)
-        for device in ('iPhone', 'Android phone', 'Windows PC', 'Mac'):
-            self.assertIn(device, content)
+        self.assertIn('Book, 3 chaptersLIBRARY › BOOKS › GUIDE', content)
+        self.assertNotIn('10.pdf', content)
+        # Chapters are listed in reading order with their file names, folded away until asked for.
+        self.assertEqual(''.join(reader.folded), 'Show chapters2 Work2.pdf3 Work3.pdf10 Work10.pdf')
+        # Reader-app help appears only on a drive that holds an encyclopedia.
+        self.assertNotIn('Android phone', content)
+        self.assertNotIn('id="kiwix"', pages['START_HERE.html'])
         self.assertNotIn('Field Guide', script(pages, 'home.js'))
         book, = [row for row in reader_data(script(pages, 'c-other.js'), 'other') if row.get('chapters')]
         self.assertEqual(book['kind'], 'Book, 3 chapters')
@@ -100,9 +109,25 @@ class NavigationTests(unittest.TestCase):
         self.assertEqual(task['articles'], ['Burn'])
         self.assertEqual(task['format'], 'zim')
         self.assertIn('Look up Burn in Kiwix', pages['START_HERE.html'])
+        content = ''.join(StaticHTML(pages['START_HERE.html']).text)
+        self.assertIn('Care for burnsMedical encyclopedia · Look up Burn in KiwixLIBRARY › ZIM › medicine.zim', content)
+        for device in ('iPhone', 'Android phone', 'Windows PC', 'Mac', 'Linux computer'):
+            self.assertIn(device, content)
         self.assertEqual(len(home['tasks']), len(layout()['tasks']))
         self.assertTrue(all('path' not in task for task in
                             reader_data(script(self.generate([]), 'home.js'), 'home')['tasks']))
+
+    def test_urgent_row_names_the_page_and_tiles_link_to_their_category(self):
+        aid = self.asset('hesperian_en_wtnd_2025_10', 'First aid chapter', 'CRITICAL/MEDICAL/aid.pdf')
+        start = self.generate([aid])['START_HERE.html']
+        self.assertIn('<a href="LIBRARY/CRITICAL/MEDICAL/aid.pdf#page=6">Stop severe bleeding</a></b>'
+                      '<small>First aid chapter · page 6</small>', start)
+        self.assertIn('<a href="LIBRARY/CRITICAL/MEDICAL/aid.pdf">Care for burns</a></b><small>First aid chapter</small>', start)
+        self.assertIn('<b>Make drinking water safer</b><small>No guide on this drive.</small></div>', start)
+        tile = re.search(r'<a class="tile" href="#(c-[a-z]+)"', start)
+        self.assertIsNotNone(tile)
+        self.assertIn(f'<section class="shelf" id="{tile[1]}"', start)
+        self.assertIn('id="top"', start)
 
     def test_inventory_reports_missing_and_software_without_counting_software_as_documents(self):
         app = self.asset('kiwix_android', 'Kiwix', 'SOFTWARE/ANDROID/kiwix.apk', format='apk')

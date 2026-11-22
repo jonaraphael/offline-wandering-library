@@ -497,7 +497,7 @@ test("a corrupted search chunk leaves the catalog search and static pages usable
   assert.match(result.searchWarnings.join(" "), /SHA-256/);
   assert.equal(result.supportMissing[0].kind, "search");
   assert.doesNotMatch(await readReaderFile(drive, "manifest.js"), /"shards":true/);
-  assert.match(await (await (await drive.file("START_HERE.html")).getFile()).text(), /Files on this drive are in the LIBRARY folder/);
+  assert.match(await (await (await drive.file("START_HERE.html")).getFile()).text(), /<main class="static">[^]*How to open a book/);
 });
 
 test("large-file mode joins verified parts and keeps them if a second copy cannot fit", async () => {
@@ -546,13 +546,18 @@ test("published Metalink piece mismatch advances to the next source before commi
 test("the static reader lists completed urgent files and reports omissions", async () => {
   const body = Buffer.from("verified water guide");
   const water = asset("water", body, {title:"Water guide", critical:true});
+  const aid = asset("hesperian_en_wtnd_2025_10", body, {title:"First aid chapter", critical:true});
   const drive = new Directory();
-  await buildLibrary(drive, {assets:[water], routes:{water:["https://example.test/water"]},
+  await buildLibrary(drive, {assets:[water, aid], routes:{water:["https://example.test/water"], [aid.id]:["https://example.test/aid"]},
     excluded:[{id:"missing", title:"Unfinished guide", reason:"Source blocked"}],
-    navigation: readerNavigation({water:{category:"shelter"}}), fetchFile:async () => new Response(body)});
+    navigation: readerNavigation({water:{category:"shelter"}, [aid.id]:{category:"health"}}), fetchFile:async () => new Response(body)});
   const read = async path => (await (await drive.file(path)).getFile()).text();
   const start = await read("START_HERE.html");
-  assert.match(start, /Make drinking water safer.*LIBRARY\/BOOKS\/water.pdf/);
+  // The task links to the page inside the document and says which page that is.
+  assert.match(start, /<a href="LIBRARY\/BOOKS\/hesperian_en_wtnd_2025_10.pdf#page=6">Stop severe bleeding<\/a><\/b><small>First aid chapter · page 6<\/small>/);
+  assert.match(start, /<a class="tile" href="#c-health"[^>]*>.*Health<small>1 guide<\/small><\/a>/);
+  assert.match(start, /<section class="shelf" id="c-health"/);
+  assert.match(start, /<a href="LIBRARY\/BOOKS\/water.pdf">Make drinking water safer<\/a>.*Water guide.*LIBRARY › BOOKS › <b>water.pdf<\/b>/);
   assert.doesNotMatch(start, /Unfinished guide/);
   assert.match(await read("LIBRARY/BUILD_REPORT.html"), /Unfinished guide.*Source blocked/);
   const home = readerData(await readReaderFile(drive, "home.js"), "home");
@@ -666,7 +671,8 @@ test("emergency encyclopedia tasks carry their Kiwix article and file location",
     fetchFile: async () => new Response(body), navigation: readerNavigation({wikimed_en:{category:"health"}})});
   const start = await (await (await drive.file("START_HERE.html")).getFile()).text();
   const home = readerData(await readReaderFile(drive, "home.js"), "home");
-  assert.match(start, /Labor and birth.*Look up Childbirth in Kiwix.*LIBRARY\/ZIM\/medical.zim/);
+  assert.match(start, /<b>Labor and birth<\/b>.*Look up Childbirth in Kiwix.*LIBRARY › ZIM › <b>medical.zim<\/b>/);
+  assert.match(start, /id="kiwix".*class="device d-iphone"/);
   const route = home.tasks.find(task => task.task === "Labor and birth");
   assert.deepEqual(route.articles, ["Childbirth"]);
   assert.equal(route.format, "zim");
@@ -1000,8 +1006,11 @@ test("the reader folds chapter files and keeps the order within the book", async
   assert.deepEqual(rows[0].chapters.map(row => row.title), ["Front matter", "2 Bleeding", "10 Burns"]);
   const start = await read("START_HERE.html");
   assert.equal(start.match(/Field Guide/g).length, 1);
-  assert.match(start, /Book, 3 chapters.*LIBRARY\/CRITICAL\/GUIDE\//);
-  assert.doesNotMatch(start, /10 Burns|2 Bleeding/);
+  assert.match(start, /Book, 3 chapters.*LIBRARY › CRITICAL › <b>GUIDE<\/b>/);
+  // Chapters stay folded: listed once, in reading order, inside a closed disclosure.
+  assert.match(start, /<details><summary>Show chapters<\/summary><ul>.*Front matter.*2 Bleeding.*10 Burns.*<\/ul><\/details>/);
+  assert.equal(start.match(/10 Burns/g).length, 1);
+  assert.doesNotMatch(start, /id="kiwix"/);
   await assert.rejects(drive.file("LIBRARY/INDEX/categories.html"), {name:"NotFoundError"});
 });
 

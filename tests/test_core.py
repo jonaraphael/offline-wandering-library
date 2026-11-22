@@ -331,7 +331,10 @@ class BuildTests(Fixture):
         self.assertEqual(paths, [f"LIBRARY/ZIM/fixture.zima{letter}" for letter in "abcd"])
         self.assertEqual(b"".join((drive / name).read_bytes() for name in paths), self.data)
         self.assertFalse((library / "ZIM/fixture.zim").exists())
-        self.assertIn('ZIM/fixture.zimaa', (drive / "START_HERE.html").read_text(encoding="utf-8"))
+        start = (drive / "START_HERE.html").read_text(encoding="utf-8")
+        # The static page shows the first part's folder trail, for example "LIBRARY › ZIM › fixture.zimaa".
+        self.assertIn('fixture.zimaa', start)
+        self.assertIn('ZIM ›', start)
         data = library / info["search"]["manifest"]["path"]
         self.assertIn('"href":"ZIM/fixture.zimaa"', data.read_text(encoding="utf-8"))
         self.assertEqual(verify_main([str(drive), "--strict"]), 0)

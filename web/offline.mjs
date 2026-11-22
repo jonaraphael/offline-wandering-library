@@ -118,13 +118,23 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
       return row?.first_aid || row?.importance === 0 ? [[id, row.first_aid ? 2 : 1]] : [];
     })), ...(syncedAt ? {syncedAt} : {})};
   const pages = new Map([["LIBRARY/INDEX/reader.js", config.runtime], ["LIBRARY/README.txt", config.readme]]);
-  const section = (title, items) => render(layout.static_section, {title: escape(title), body: "<ul>" + items.join("") + "</ul>"});
-  const staticRow = (title, path, detail) => render(layout.static_row,
-    {title: escape(title), path: escape(path), detail: detail ? " · " + escape(detail) : ""});
-  const staticSections = [section("Urgent", tasks.map(row => row.path
-    ? staticRow(row.task, row.path, [row.hint, row.articles.length ? "Look up " + row.articles.join(" / ") + " in Kiwix" : ""]
-      .filter(Boolean).join(" · "))
-    : "<li><b>" + escape(row.task) + "</b> · No guide on this drive.</li>"))];
+  // The static page is all a phone's file preview shows: no scripts, and often no working links.
+  const link = (href, text) => render(layout.static_link, {href: escape(href), text: escape(text)});
+  const trail = path => {
+    const folders = path.split("/").filter(Boolean);
+    const name = folders.pop();
+    return render(layout.static_trail, {folders: escape(folders.map(folder => folder + " › ").join("")), name: escape(name)});
+  };
+  const amount = (value, unit) => String(value).replace(/\B(?=(\d{3})+$)/g, ",") + " " + unit + (value === 1 ? "" : "s");
+  const staticRow = (title, detail, path, chapters = "") => render(layout.static_row,
+    {title, detail: escape(detail), trail: path ? trail(path) : "", chapters});
+  const staticSections = [render(layout.static_urgent, {rows: tasks.map(row => {
+    if (!row.path) return staticRow(escape(row.task), "No guide on this drive.");
+    const page = /#page=(\d+)$/.exec(row.href)?.[1];
+    return staticRow(row.format === "zim" ? escape(row.task) : link(row.href, row.task), [row.title, page ? "page " + page : "",
+      row.hint, row.articles.length ? "Look up " + row.articles.join(" / ") + " in Kiwix" : ""].filter(Boolean).join(" · "), row.path);
+  }).join("")})];
+  const tiles = [], shelves = [];
   for (const category of categories) {
     const {id, name} = category;
     const members = documents.filter(row => (metadata[row.id]?.category || "other") === id);
@@ -132,24 +142,31 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
     const rows = grouped(members, metadata, id);
     home.categories.push({...category, count: rows.length});
     pages.set("LIBRARY/INDEX/c-" + id + ".js", data(id, rows));
-    if (rows.length) staticSections.push(section(name, rows.map(row =>
-      staticRow(row.title, row.path, row.format === "zim" ? "opens in the Kiwix app" : row.kind))));
+    if (!rows.length) continue;
+    const count = amount(rows.length, category.unit);
+    if (category.icon) tiles.push(render(layout.static_tile, {id, icon: escape(category.icon), name: escape(name), count}));
+    shelves.push(render(layout.static_section, {id, name: escape(name), count, blurb: escape(category.blurb),
+      rows: rows.map(row => staticRow(row.chapters || row.format === "zim" ? escape(row.title) : link(row.href, row.title),
+        row.kind === "PDF" ? "" : row.kind, row.path, row.chapters ? render(layout.static_chapters, {items: row.chapters.map(chapter =>
+          render(layout.static_chapter, {title: link(chapter.href, chapter.title),
+            name: escape(chapter.path.slice(chapter.path.lastIndexOf("/") + 1))})).join("")}) : "")).join("")}));
   }
-  const devices = ["iphone", "android", "windows", "mac", "linux"].map(device => {
-    const instructions = layout.devices[device];
-    const folder = device === "mac" ? "MACOS" : device.toUpperCase();
-    const install = device === "iphone" || readers.some(row => row.path.startsWith("LIBRARY/SOFTWARE/" + folder + "/"))
-      ? instructions.install : "Install Kiwix while you have internet.";
-    return render(layout.static_device, {name: escape(instructions.label), install: escape(install),
-      open: escape(instructions.open), pick: escape(instructions.pick)});
-  });
-  const software = readers.length ? "<ul>" + readers.map(row => staticRow(row.label, row.path, "")).join("") + "</ul>" : "";
-  staticSections.push(render(layout.static_section, {title: "Opening files",
-    body: "<p>Open books and guides in your device’s file viewer. If a link does not open, " +
-      "close this preview and follow its location in your file manager. Encyclopedias need " +
-      "the free Kiwix app. Keep split files together and open the first part.</p>" + devices.join("") + software}));
+  if (tiles.length) staticSections.push(render(layout.static_tiles, {tiles: tiles.join("")}));
+  staticSections.push(...shelves);
+  if (documents.some(row => row.format === "zim")) {
+    const devices = ["iphone", "android", "windows", "mac", "linux"].map(device => {
+      const instructions = layout.devices[device];
+      const folder = device === "mac" ? "MACOS" : device.toUpperCase();
+      const install = device === "iphone" || readers.some(row => row.path.startsWith("LIBRARY/SOFTWARE/" + folder + "/"))
+        ? instructions.install : "Install Kiwix while you have internet.";
+      return render(layout.static_device, {id: device, name: escape(instructions.label), install: escape(install),
+        open: escape(instructions.open), pick: escape(instructions.pick)});
+    });
+    staticSections.push(render(layout.static_archives, {devices: devices.join(""), software: readers.length
+      ? render(layout.static_software, {rows: readers.map(row => staticRow(link(row.href, row.label), "", row.path)).join("")}) : ""}));
+  }
   if (missing.length) {
-    staticSections.push('<p>This library is incomplete. See the <a href="LIBRARY/BUILD_REPORT.html">build report</a>.</p>');
+    staticSections.push('<p class="note">This library is incomplete. See the <a href="LIBRARY/BUILD_REPORT.html">build report</a>.</p>');
   }
   pages.set("LIBRARY/INDEX/home.js", data("home", home));
 

@@ -234,18 +234,31 @@ def _reader_files(assets, inventory, scripts, shared):
                       "missing": len(missing)}, "searchCount": len(documents), "categories": []}
     pages = {"INDEX/reader.js": config["runtime"], "README.txt": config["readme"]}
 
-    def section(title, items):
-        return render(markup["static_section"], title=_text(title), body="<ul>" + "".join(items) + "</ul>")
+    # The static page is all a phone's file preview shows: no scripts, and often no working links.
+    def link(href, text):
+        return render(markup["static_link"], href=_text(href), text=_text(text))
 
-    def row_html(title, path, detail):
-        return render(markup["static_row"], title=_text(title), path=_text(path),
-                      detail=" · " + _text(detail) if detail else "")
+    def trail(path):
+        *folders, name = [part for part in path.split("/") if part]
+        return render(markup["static_trail"], folders=_text("".join(folder + " › " for folder in folders)), name=_text(name))
 
-    static = [section("Urgent", [
-        row_html(row["task"], row["path"], " · ".join(filter(None, [
-            row.get("hint") or "", ("Look up " + " / ".join(row["articles"]) + " in Kiwix") if row["articles"] else ""])))
-        if "path" in row else "<li><b>" + _text(row["task"]) + "</b> · No guide on this drive.</li>"
-        for row in tasks])]
+    def amount(value, unit):
+        return f"{value:,} {unit}" + ("" if value == 1 else "s")
+
+    def static_row(title, detail, path="", chapters=""):
+        return render(markup["static_row"], title=title, detail=_text(detail), trail=trail(path) if path else "",
+                      chapters=chapters)
+
+    def urgent(row):
+        if "path" not in row:
+            return static_row(_text(row["task"]), "No guide on this drive.")
+        page = re.search(r"#page=(\d+)$", row["href"])
+        detail = " · ".join(filter(None, [row["title"], "page " + page[1] if page else "", row.get("hint") or "",
+                                          ("Look up " + " / ".join(row["articles"]) + " in Kiwix") if row["articles"] else ""]))
+        return static_row(_text(row["task"]) if row["format"] == "zim" else link(row["href"], row["task"]), detail, row["path"])
+
+    static = [render(markup["static_urgent"], rows="".join(urgent(row) for row in tasks))]
+    tiles, shelves = [], []
     for category in config["categories"]:
         identity = category["id"]
         members = [row for row in documents if meta[row["id"]]["category"] == identity]
@@ -254,26 +267,39 @@ def _reader_files(assets, inventory, scripts, shared):
         grouped = _grouped(members, meta, identity)
         home["categories"].append({**category, "count": len(grouped)})
         pages[f"INDEX/c-{identity}.js"] = _script("OWLReaderData", identity, grouped)
-        if grouped:
-            static.append(section(category["name"], [row_html(row["title"], row["path"],
-                "opens in the Kiwix app" if row.get("format") == "zim" else row["kind"]) for row in grouped]))
-    devices = []
-    for device in _DEVICES:
-        instructions = markup["devices"][device]
-        folder = "MACOS" if device == "mac" else device.upper()
-        install = instructions["install"]
-        if device != "iphone" and not any(row["path"].startswith(f"LIBRARY/SOFTWARE/{folder}/") for row in readers):
-            install = "Install Kiwix while you have internet."
-        devices.append(render(markup["static_device"], name=_text(instructions["label"]), install=_text(install),
-                              open=_text(instructions["open"]), pick=_text(instructions["pick"])))
-    software = "<ul>" + "".join(row_html(row["label"], row["path"], "") for row in readers) + "</ul>" if readers else ""
-    static.append(render(markup["static_section"], title="Opening files",
-                         body="<p>Open books and guides in your device’s file viewer. If a link does not open, "
-                         "close this preview and follow its location in your file manager. Encyclopedias need "
-                         "the free Kiwix app. Keep split files together and open the first part.</p>"
-                         + "".join(devices) + software))
+        if not grouped:
+            continue
+        count = amount(len(grouped), category["unit"])
+        if category.get("icon"):
+            tiles.append(render(markup["static_tile"], id=identity, icon=_text(category["icon"]),
+                                name=_text(category["name"]), count=count))
+        rows = []
+        for row in grouped:
+            chapters = render(markup["static_chapters"], items="".join(
+                render(markup["static_chapter"], title=link(chapter["href"], chapter["title"]),
+                       name=_text(chapter["path"].rsplit("/", 1)[-1])) for chapter in row["chapters"])) if row.get("chapters") else ""
+            title = _text(row["title"]) if row.get("chapters") or row.get("format") == "zim" else link(row["href"], row["title"])
+            rows.append(static_row(title, "" if row["kind"] == "PDF" else row["kind"], row["path"], chapters))
+        shelves.append(render(markup["static_section"], id=identity, name=_text(category["name"]), count=count,
+                              blurb=_text(category["blurb"]), rows="".join(rows)))
+    if tiles:
+        static.append(render(markup["static_tiles"], tiles="".join(tiles)))
+    static.extend(shelves)
+    if any(row["format"] == "zim" for row in documents):
+        devices = []
+        for device in _DEVICES:
+            instructions = markup["devices"][device]
+            folder = "MACOS" if device == "mac" else device.upper()
+            install = instructions["install"]
+            if device != "iphone" and not any(row["path"].startswith(f"LIBRARY/SOFTWARE/{folder}/") for row in readers):
+                install = "Install Kiwix while you have internet."
+            devices.append(render(markup["static_device"], id=device, name=_text(instructions["label"]),
+                                  install=_text(install), open=_text(instructions["open"]), pick=_text(instructions["pick"])))
+        software = render(markup["static_software"], rows="".join(
+            static_row(link(row["href"], row["label"]), "", row["path"]) for row in readers)) if readers else ""
+        static.append(render(markup["static_archives"], devices="".join(devices), software=software))
     if inventory.get("content_complete") is False:
-        static.append('<p>This library is incomplete. See the <a href="LIBRARY/BUILD_REPORT.html">build report</a>.</p>')
+        static.append('<p class="note">This library is incomplete. See the <a href="LIBRARY/BUILD_REPORT.html">build report</a>.</p>')
     home["search"] = "manifest.js" in scripts
     home["searchPriority"] = {identity: (2 if row["first_aid"] else 1) for identity, row in meta.items()
                               if row["first_aid"] or row["importance"] == 0}

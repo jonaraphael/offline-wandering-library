@@ -122,6 +122,10 @@ Notes on states:
 - While Sync is running, including while it waits for the internet and builds
   the start page, closing or reloading the tab brings up the browser’s
   confirmation.
+- **In `done`, `done-gaps` and `current`** a card below the stage reads
+  "Using it on a phone. A phone opens nothing by itself when the drive is
+  plugged in. Open the Files app, tap the drive's name (on an iPhone it is
+  under Browse), then tap START_HERE."
 - **Try it** opens the drive's `START_HERE.html` in a new tab. If the browser
   cannot open the preview, the status gives the file name and drive.
 - **`current` has no primary button.** A disabled Sync button reads as a
@@ -289,9 +293,12 @@ sections, the mobile summary bar. Their functions live in the states above.
 
 - The reader runs from `file://` with no server. `fetch` of local files does
   not work there; data loads through `<script>` files.
-- Some viewers show the HTML without running scripts or following links
-  (a phone's file preview). `docs/device-matrix.md` lists the iPhone test as
-  pending. The reader therefore has two layers: a static page that is
+- Some viewers show the HTML without running scripts or opening neighbouring
+  files. The iPhone and iPad Files app is one: it previews the page in Quick
+  Look, where styles written in the file apply, scripts do not run, and a
+  link to another file on the drive does nothing (owner's iPhone,
+  2026-11-22; `docs/device-matrix.md`). Nothing opens when a drive is plugged
+  into a phone. The reader therefore has two layers: a static page that is
   complete by itself, and the app, which appears only after its script has
   run from the drive (the existing `live` class).
 - Every generated file is produced identically by the browser builder and
@@ -354,13 +361,39 @@ make another drive.
 
 ### 5.3 The static page
 
-With scripts off, `START_HERE.html` shows, in order: the title; one
-sentence, "Files on this drive are in the LIBRARY folder, grouped by
-subject"; the urgent tasks, each with its file's location on the drive; the
-eight categories, each listing its books and documents with their locations
-(chapters of a book are not listed one by one); help for each kind of device.
-The tab bar, search field and stars are absent. When the app starts, the
-static page is replaced.
+The static page is what an iPhone shows, so it is designed as a page in its
+own right, with the app's cards, colours and icons, and no script.
+
+In order:
+
+1. **Cover:** the owl mark, "Library", "Works without internet".
+2. **How to open a book:** three numbered steps (find the book, close the
+   page, open `LIBRARY` and follow the folders). The line above the steps
+   reads "Tap its title. If nothing opens, you are looking at a preview";
+   on an iPhone or iPad it reads "On an iPhone or iPad this page is a list.
+   It cannot open the books by itself."
+3. **Urgent:** one row per task with the task as a link to its document,
+   the document's title and page, and the folder trail.
+4. **Everything on this drive:** the category tiles of the app's home
+   screen. A tile links to its category further down the page.
+5. **One section per category** that has items, under a heading that stays
+   at the top of the screen while its list scrolls. A row is a title (a
+   link to the file), its kind when it is not a plain PDF, and its trail. A
+   book published as chapter files is one row with a closed "Show chapters"
+   disclosure listing each chapter and its file name.
+6. **Opening an encyclopedia**, only on a drive that holds one: the Kiwix
+   steps for each device and the reader apps on the drive. An iPhone or iPad
+   shows its own steps alone.
+
+A **trail** is the item's location written as the folders to tap, with the
+file name in bold: "LIBRARY › CRITICAL › FIRST_AID › **CERT_2019.pdf**".
+
+The page improves with what the viewer allows and loses nothing where it
+does not. Where links within the page work, a tile shows its category alone
+and "Top" returns to the full page. Where links to files work, a title opens
+its document. The iPhone-only wording is chosen in CSS with
+`@supports (-webkit-touch-callout: none)`. The tab bar, search field and
+stars are absent. When the app starts, the static page is replaced.
 
 ### 5.4 Pages that go away
 
@@ -386,8 +419,8 @@ Reader apps and anything unassigned count toward the totals and are drawn in
 neutral grey. Free space is the track colour. The bar keeps a 2 px gap
 between segments and always has its legend; colour is never the only label.
 
-`src/owl/categories.json` holds the ids, names, descriptions, colours and icon
-paths; the builder and both reader generators read it. A collection's
+`src/owl/categories.json` holds the ids, names, counting units ("47
+guides"), descriptions, colours and icon paths; the builder and both reader generators read it. A collection's
 category is the builder's existing rule: the `theme` in
 `collection_copy.json` when present, otherwise the vertical of its primary
 topic in `topic_verticals.json`. The reader draws the `trades` and `school` icons in the darker tints
@@ -444,7 +477,8 @@ Automated, run by the chair with the harness in
    passage in the first three results; a star survives a reload; Back
    returns from a category to Home.
 10. **Static reader.** With scripts disabled the page shows the content of
-    5.3 and no app chrome.
+    5.3 and no app chrome, at 390 px wide without sideways scrolling, in
+    both themes.
 11. **Parity.** The Python builder and the browser builder produce the same
     reader files for the same inventory.
 12. Screenshots of every state in both themes match the reference files in

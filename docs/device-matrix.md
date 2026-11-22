@@ -19,8 +19,8 @@ copy the folder contents to the root of an existing exFAT USB-C drive.
 Use that option to test the packaged programs and the offline APK install.
 Both commands require a new output path.
 
-Open `START_HERE.html`. The HTML page prints paths and works with scripts
-disabled. Open `LIBRARY/BOOKS/phone-test.pdf` and read the fixture sentence.
+Open `START_HERE.html`. With scripts disabled the page lists every title
+with the folders that lead to it. Open `LIBRARY/BOOKS/phone-test.pdf` and read the fixture sentence.
 With this test fixture, open **Search** in the reader and enter **weather vane**.
 The expected first result is **Weather vane**, linked to
 the PDF’s first physical page. The bundled fixtures show the same marker
@@ -68,7 +68,7 @@ provisioning and in-place playback still depend on the individual device.
 | macOS | Open the bundled Kiwix DMG while offline, launch the app, and record any Gatekeeper message. Open the single ZIM and the first split part separately. Record whether the app reads the files in place and keeps bookmarks after unplug and reconnect. | Pending |
 | Linux x86-64 | Copy the AppImage to a filesystem where you can set the execute bit, run `chmod +x <file>`, then launch it. Keep the ZIMs on exFAT. Open the single ZIM and the first split part separately. If FUSE is unavailable as part of the tested system, record the alternate launch method used. | Pending |
 | Android with USB OTG | In airplane mode, connect the drive and open the standalone APK under `LIBRARY/SOFTWARE/ANDROID` in Files. Allow that app to install unknown apps if Android prompts. Open the standalone Kiwix build, choose its file picker, select the USB volume through the Storage Access Framework, and open the single ZIM. Repeat with both split parts beside each other. Verify the reported storage location stays on USB and confirm what happens after reconnect. | Pending |
-| USB-C iPhone, Files | In airplane mode, open Files → Browse → Locations and select the drive. Open `START_HERE.html` first, then the PDF path directly. Open a WikiMed PDF using the checklist below. Record whether Files follows sibling links. | Pending |
+| USB-C iPhone, Files | In airplane mode, open Files → Browse → Locations and select the drive. Open `START_HERE.html` first, then the PDF path directly. Open a WikiMed PDF using the checklist below. Record whether Files follows sibling links. | 2026-11-22, owner's iPhone, browser-built exFAT drive: nothing opened when the drive was plugged in; Files previewed `START_HERE.html` as the static page, a plain list of titles and paths, with the scripts not run. Links within the page, the chapter disclosure and PDFs: pending (see below). |
 | USB-C iPhone, native Kiwix | While online, scan the builder’s App Store QR code and install Kiwix. In airplane mode, try the Kiwix document picker with the USB single ZIM, then its split copy. Record in-place playback or any import and storage growth. | Pending |
 | USB-C iPhone, Kiwix JS PWA | In Safari while online, open the Kiwix PWA, add it to the Home Screen and wait for caching. Relaunch from the Home Screen in airplane mode. Use **Select Storage** or the file picker to open the USB ZIM. Record whether the app itself loads, USB appears, the marker renders, and the same steps work with split parts. | Pending |
 
@@ -90,6 +90,37 @@ that some external drives require a powered adapter. Check Kiwix's file
 picker separately from Files. [Apple external drives](https://support.apple.com/guide/iphone/external-storage-devices-iph95baac91f/ios)
 [Kiwix for iPhone](https://apps.apple.com/us/app/kiwix/id997079563)
 [Kiwix JS PWA](https://github.com/kiwix/kiwix-js-pwa)
+
+## START_HERE in the iPhone Files preview
+
+Files opens `START_HERE.html` in Quick Look. Scripts do not run there, styles
+written in the file apply, files beside the page do not load, and a link to
+another file on the drive asks to open and then opens nothing. Safari cannot
+open a local file, and iOS offers no built-in app that can. A link to an
+`https://` address opens Safari after a confirmation. Plugging the drive in
+triggers nothing: iOS has no autorun and no notification an app or a drive
+can use. Files shows a generic icon for an `.html` file and hides the
+extension, so the entry appears as `START_HERE` after `LIBRARY`.
+[Apple external storage](https://support.apple.com/guide/iphone/external-storage-devices-iph95baac91f/ios) ·
+[Quick Look link handling](https://developer.apple.com/documentation/quicklook/qlpreviewcontrollerdelegate/previewcontroller(_:shouldopen:for:)) ·
+[Local HTML in Files](https://developer.apple.com/forums/thread/710001)
+
+A web page cannot stand in for an app here. Safari's folder picker
+(`webkitdirectory`, iOS 18.4 and later) copies the whole chosen folder into
+the phone's temporary storage before the page sees a file, and iOS Safari has
+no `showDirectoryPicker`.
+[WebKit upload panel](https://github.com/WebKit/WebKit/blob/main/Source/WebKit/UIProcess/ios/forms/WKFileUploadPanel.mm) ·
+[Safari 18.4 notes](https://developer.apple.com/documentation/safari-release-notes/safari-18_4-release-notes)
+
+The static page is built for that preview: cover, three steps for opening a
+book, urgent tasks, category tiles, and one list per category with the
+folders that lead to each file. Three behaviours have no published test and
+need the phone:
+
+1. Tap a category tile. Record whether the page jumps to that category.
+2. Tap **Show chapters** under a book. Record whether the list opens.
+3. Open a PDF from `LIBRARY` and tap a link in its contents. Record whether
+   it jumps, and whether the PDF opened in Preview or Quick Look.
 
 ## WikiMed in Files
 

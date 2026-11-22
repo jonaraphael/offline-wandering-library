@@ -17,7 +17,8 @@ class DeviceTestKitTests(unittest.TestCase):
             create_fixtures(drive)
             start = (drive / "START_HERE.html").read_text(encoding="utf-8")
             self.assertIn('id="reader-view"', start)
-            self.assertIn("LIBRARY/ZIM/split-test.zimaa", start)
+            self.assertIn("split-test.zimaa", start)
+            self.assertIn("ZIM ›", start)
             library = drive / "LIBRARY"
             search = (library / "SEARCH.html").read_text(encoding="utf-8")
             self.assertIn("START_HERE.html#/search", search)

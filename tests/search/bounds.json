@@ -1,6 +1,6 @@
 {
   "16": {
-    "hit": 92,
+    "hit": 91,
     "zero": 0,
     "fable_hit": 39,
     "fable_zero": 0,
@@ -12,10 +12,12 @@
       "identify a stripped screw",
       "cut a dovetail joint",
       "insulate a drafty door",
-      "show hidden files in linux"
+      "show hidden files in linux",
+      "create a shell script"
     ],
     "body_misses": [
-      "silica gel"
+      "silica gel",
+      "dangling blob"
     ],
     "held_out_misses": [
       "My friend touched a live wire and fell to the floor",
@@ -39,7 +41,8 @@
       "show hidden files in linux"
     ],
     "body_misses": [
-      "silica gel"
+      "silica gel",
+      "mosquito larvae"
     ],
     "held_out_misses": [
       "My friend touched a live wire and fell to the floor",
@@ -48,7 +51,8 @@
       "Someone woke up with sudden chest pressure and pain down one arm",
       "The power has been out all night and the meat in the fridge feels warm",
       "We smell gas next to the stove and the burner is off",
-      "Floodwater is rising around the car and we cannot drive out"
+      "Floodwater is rising around the car and we cannot drive out",
+      "A swimmer was pulled from the water and is barely breathing"
     ]
   },
   "1000": {

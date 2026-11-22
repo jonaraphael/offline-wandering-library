@@ -176,27 +176,56 @@
   <a href="#help" data-tab="help"><svg class="icon"><use href="#i-help"/></svg>Help</a>
 </nav>
 
-<!-- Static page: what a viewer shows when scripts do not run. Reference state "static". -->
-<div class="static" id="static">
-  <h1>Library</h1>
-  <p>Files on this drive are in the LIBRARY folder, grouped by subject. Each item below gives its location.</p>
-  <h2>Urgent</h2>
-  <ul>
-    <li><b>Stop severe bleeding</b><span class="where">LIBRARY/medical/first-response/bleeding.pdf</span></li>
-    <li><b>Care for burns</b><span class="where">LIBRARY/medical/first-response/burns.pdf</span></li>
-    <li><b>Make drinking water safer</b><span class="where">LIBRARY/water/who-wash/household-water-treatment.pdf</span></li>
-  </ul>
-  <h2>Health</h2>
-  <ul>
-    <li><b>Where There Is No Doctor</b> · book, 30 chapters<span class="where">LIBRARY/medical/hesperian/where-there-is-no-doctor/</span></li>
-    <li><b>WHO Basic Emergency Care</b> · PDF<span class="where">LIBRARY/medical/who/basic-emergency-care.pdf</span></li>
-    <li><b>WikiMed medical encyclopedia</b> · opens in the Kiwix app<span class="where">LIBRARY/medical/wikimed/wikipedia_en_medicine_maxi.zim</span></li>
-  </ul>
-  <h2>Food and farming</h2>
-  <ul><li><b>USDA Complete Guide to Home Canning</b> · PDF<span class="where">LIBRARY/food/usda/home-canning.pdf</span></li></ul>
-  <h2>Opening files</h2>
-  <p>Books and guides are PDF files and open on any phone or computer. Encyclopedias need the free Kiwix app: on Android and computers it is in the SOFTWARE folder of this drive; on an iPhone, install it from the App Store.</p>
+<!-- Static page: all that shows where scripts do not run, such as a phone's file preview. Reference state "static". -->
+<main class="static" id="static">
+<header class="cover" id="top">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 12c0-5 4-8 10-8s10 3 10 8v6c0 6-4 10-10 10S6 24 6 18z" fill="#fff"/><circle cx="12" cy="14" r="3.7" fill="#0b4f8f"/><circle cx="20" cy="14" r="3.7" fill="#0b4f8f"/><circle cx="12" cy="14" r="1.6" fill="#fff"/><circle cx="20" cy="14" r="1.6" fill="#fff"/><path d="M14.4 18.6l1.6 2.6 1.6-2.6z" fill="#f2b33d"/></svg>
+  <div><h1>Library</h1><p>Works without internet</p></div>
+</header>
+<section class="panel guide">
+  <h2>How to open a book</h2>
+  <p class="links">Tap its title. If nothing opens, you are looking at a preview:</p>
+  <p class="preview">On an iPhone or iPad this page is a list. It cannot open the books by itself.</p>
+  <ol class="steps">
+    <li><span>Find the book below. The folders that lead to it are under its title.</span></li>
+    <li><span>Close this page.</span></li>
+    <li><span>Open the <b>LIBRARY</b> folder, then each folder in turn.</span></li>
+  </ol>
+</section>
+<h2 class="label urgent">Urgent</h2>
+<div class="list urgent">
+  <div class="row"><b><a href="#static">Stop severe bleeding</a></b><small>Where There Is No Doctor — 10 First aid · page 6</small><span class="trail">LIBRARY › medical › hesperian › where-there-is-no-doctor › <b>10-first-aid.pdf</b></span></div>
+  <div class="row"><b><a href="#static">Make drinking water safer</a></b><small>Household water treatment</small><span class="trail">LIBRARY › water › who-wash › <b>household-water-treatment.pdf</b></span></div>
+  <div class="row"><b>Labor and birth</b><small>WikiMed medical encyclopedia · Look up Childbirth in Kiwix</small><span class="trail">LIBRARY › medical › wikimed › <b>wikipedia_en_medicine_maxi.zim</b></span></div>
 </div>
+<h2 class="label">Everything on this drive</h2>
+<div class="tiles">
+  <a class="tile" href="#c-health" style="--c:var(--c-health)"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></svg>Health<small>3 guides</small></a>
+  <a class="tile" href="#c-food" style="--c:var(--c-food)"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19c0-9 5-14 14-14 0 9-5 14-14 14zm0 0l8-8"/></svg>Food and farming<small>1 guide</small></a>
+</div>
+<section class="shelf" id="c-health" style="--c:var(--c-health)">
+  <div class="shelf-head"><h2><span class="dot" aria-hidden="true"></span>Health</h2><a class="back" href="#top">Top</a></div>
+  <p class="sub">3 guides · First aid, medical references and community health care</p>
+  <div class="list">
+    <div class="row"><b>Where There Is No Doctor</b><small>Book, 30 chapters</small><span class="trail">LIBRARY › medical › hesperian › <b>where-there-is-no-doctor</b></span><details><summary>Show chapters</summary><ul><li><a href="#static">1 Home cures and popular beliefs</a><small>01-home-cures.pdf</small></li><li><a href="#static">10 First aid</a><small>10-first-aid.pdf</small></li></ul></details></div>
+    <div class="row"><b><a href="#static">WHO Basic Emergency Care</a></b><small></small><span class="trail">LIBRARY › medical › who › <b>basic-emergency-care.pdf</b></span></div>
+    <div class="row"><b>WikiMed medical encyclopedia</b><small>Encyclopedia, opens in Kiwix</small><span class="trail">LIBRARY › medical › wikimed › <b>wikipedia_en_medicine_maxi.zim</b></span></div>
+  </div>
+</section>
+<section class="shelf" id="c-food" style="--c:var(--c-food)">
+  <div class="shelf-head"><h2><span class="dot" aria-hidden="true"></span>Food and farming</h2><a class="back" href="#top">Top</a></div>
+  <p class="sub">1 guide · Growing, raising, cooking and preserving food</p>
+  <div class="list">
+    <div class="row"><b><a href="#static">USDA Complete Guide to Home Canning</a></b><small></small><span class="trail">LIBRARY › food › usda › <b>home-canning.pdf</b></span></div>
+  </div>
+</section>
+<section class="panel" id="kiwix">
+  <h2>Opening an encyclopedia</h2>
+  <p>Encyclopedias open in the free Kiwix app. Keep split files together and open the first part.</p>
+  <div class="device d-iphone"><h3>iPhone</h3><ol class="steps"><li><span>Install Kiwix from the App Store while you have internet.</span></li><li><span>In Kiwix, tap Open, then choose this drive.</span></li><li><span>Pick the encyclopedia. It stays in the list after that.</span></li></ol></div>
+  <div class="device d-android"><h3>Android phone</h3><ol class="steps"><li><span>Open Kiwix. If you need to install it, find the Android app in LIBRARY/SOFTWARE.</span></li><li><span>Tap Open file and choose this drive.</span></li><li><span>Pick the encyclopedia.</span></li></ol></div>
+</section>
+</main>
 
 <select id="ref" aria-label="Reference view"></select>
 <script>
@@ -210,13 +239,15 @@
   for (const name of [...views.map(view => view.id), "static"]) ref.add(new Option(name));
   function show() {
     const id = location.hash.slice(1) || "home";
-    document.documentElement.classList.toggle("live", id !== "static");
+    // Links inside the static page (#top, #c-health) stay in the static state.
+    const fixed = id === "static" || Boolean(document.getElementById(id)?.closest(".static"));
+    document.documentElement.classList.toggle("live", !fixed);
     const view = views.find(item => item.id === id);
     views.forEach(item => item.classList.toggle("show", item === view));
     document.querySelectorAll(".tabs a").forEach(tab => tab.toggleAttribute("aria-current", tab.dataset.tab === view?.dataset.tab));
-    ref.value = id;
+    ref.value = fixed ? "static" : id;
     if (new URLSearchParams(location.search).has("shot")) ref.hidden = true;
-    scrollTo(0, 0);
+    if (id === "static" || !fixed) scrollTo(0, 0);
   }
   ref.onchange = () => { location.hash = ref.value; };
   addEventListener("hashchange", show);
