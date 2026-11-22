@@ -38,6 +38,9 @@ ZIM_PART = ZIM_PART_BYTES
 RELAY_RANGE = 64 * 2**20
 BLOCK = 1024 * 1024
 KIWIX = "mirror.download.kiwix.org"
+# mirror.download.kiwix.org answers /release/ requests with a 301 to this host;
+# reader packages go there directly so the page CSP need not follow redirects.
+KIWIX_RELEASES = "master.download.kiwix.org"
 KIWIX_REDIRECTORS = {"download.kiwix.org", "lb.download.kiwix.org", KIWIX}
 READER_IDS = {"kiwix_windows", "kiwix_linux", "kiwix_macos", "kiwix_android"}
 TIER = {"CRITICAL": 0, "USEFUL": 1, "NONESSENTIAL": 2}
@@ -53,8 +56,11 @@ def browser_routes(asset: dict) -> list[str]:
     url = urlsplit(asset["source_url"])
     observed = asset.get("browser_fetch") or {}
     candidates = []
-    if ((url.hostname in KIWIX_REDIRECTORS and url.path.startswith("/zim/")) or
-            (asset["id"] in READER_IDS and url.path.removeprefix("/kiwix").startswith("/release/"))):
+    if asset["id"] in READER_IDS and url.path.removeprefix("/kiwix").startswith("/release/"):
+        path = url.path.removeprefix("/kiwix")
+        candidates += [urlunsplit(("https", KIWIX_RELEASES, path, url.query, "")),
+                       urlunsplit(("https", KIWIX, path, url.query, ""))]
+    elif url.hostname in KIWIX_REDIRECTORS and url.path.startswith("/zim/"):
         candidates.append(urlunsplit(("https", KIWIX, url.path.removeprefix("/kiwix"), url.query, "")))
     elif observed.get("cors") is True and (asset["format"] != "zim" or observed.get("range") is True):
         candidates.append(asset["source_url"])
