@@ -124,7 +124,7 @@ manifest from Pages and uses the workflow’s exact commit on Raw GitHub for the
 payload. A local Pages build can copy search assets into its output for testing.
 
 The search catalog is limited to 900 MB with files no larger than 50 MB.
-The default 16 GB plan reserves 160 MB for search. Larger plans can allocate up
+The default 16 GB plan reserves 200 MB for search and the WikiMed phone volumes. Larger plans can allocate up
 to 900 MB by assigning a portion of their on-drive reserve to search. The
 planner leaves at least 125 MB in that reserve. The
 benchmark checks chunk digests and runs the original 100 probes plus body-only

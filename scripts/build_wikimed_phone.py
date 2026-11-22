@@ -185,7 +185,11 @@ def render(file, title, entries, font):
         parts = []
         for text, raw in chunks:
             text = re.sub(r"\s+", " ", text)
-            parsed = urlsplit(raw)
+            try:
+                parsed = urlsplit(raw)
+            except ValueError:
+                parts.append(escape(text))
+                continue
             path = unquote(parsed.path).removeprefix("./").removeprefix("/wiki/").replace(" ", "_")
             dest = names.get(path) if not parsed.netloc and not parsed.scheme else None
             parts.append(linked(text, dest) if dest and dest != current else escape(text))
@@ -244,9 +248,16 @@ def main():
             parser.error("WikiMed ZIM differs from the April 2026 source pin")
     archive = Archive(args.zim)
     args.output.mkdir(parents=True, exist_ok=True)
+    curated = json.loads(Path(__file__).with_name("wikimed-phone-articles.json").read_text(encoding="utf-8"))
+    plan = {**{key: (title, paths.split()) for key, (title, paths) in VOLUMES.items()}, **curated}
     volumes = []
-    for volume, (title, paths) in VOLUMES.items():
-        entries = list(articles(archive, paths.split()))
+    seen = set()
+    for volume, (title, paths) in plan.items():
+        entries = list(articles(archive, paths))
+        repeated = seen.intersection(entry[1] for entry in entries)
+        if repeated:
+            raise ValueError(f"Articles listed in more than one WikiMed volume: {sorted(repeated)}")
+        seen.update(entry[1] for entry in entries)
         filename = f"wikimed-{volume}.pdf"
         path = args.output / filename
         render(path, title, entries, args.font)

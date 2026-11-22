@@ -22,6 +22,7 @@ MINIMUM_MARGIN = 125_000_000
 MARGIN_DIVISOR = 200
 READER_BUDGET = 500_000_000
 DISCOVERY_BUDGET = 16 * 1024 * 1024
+MIN_DISCOVERY_BUDGET = 200_000_000
 MAX_DISCOVERY_BUDGET = 900_000_000
 DISCOVERY_DIVISOR = 100
 METADATA_BUDGET = 16 * 1024 * 1024
@@ -41,7 +42,7 @@ def capacity_budget(capacity_bytes: int) -> dict[str, int]:
     discovery = min(
         MAX_DISCOVERY_BUDGET,
         BASE_LADDER_SEARCH_BUDGET + headroom - MINIMUM_MARGIN,
-        max(DISCOVERY_BUDGET, min(capacity_bytes, DEFAULT_LIMIT) // DISCOVERY_DIVISOR),
+        max(MIN_DISCOVERY_BUDGET, min(capacity_bytes, DEFAULT_LIMIT) // DISCOVERY_DIVISOR),
     )
     extra_search = max(0, discovery - BASE_LADDER_SEARCH_BUDGET)
     return {

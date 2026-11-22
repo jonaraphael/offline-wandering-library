@@ -106,11 +106,13 @@ picker separately from Files. [Apple external drives](https://support.apple.com/
    the iPhone model, iOS version, drive format, and which contents links,
    outline, and find controls worked while offline.
 
-The four volumes have selectable text, linked contents, article outlines, and
-Wikipedia revision links for attribution. The export omits illustrations,
+Twelve volumes cover emergencies, common symptoms, infections, chronic
+disease, pregnancy, childhood, mental health, medicines and prevention. Each
+has selectable text, linked contents, article outlines, and Wikipedia
+revision links for attribution. The export omits illustrations,
 infoboxes and reference lists. Each volume carries the CC BY-SA 4.0 notice.
-The browser builder streams the small prebuilt files from the same Pages
-origin and verifies each SHA-256 before publishing its shelf links.
+The browser builder downloads the 35.4 MB of prebuilt files from the same
+Pages origin and verifies each SHA-256 before publishing its shelf links.
 The Python builder installs the same volumes from the repository and can
 regenerate them from the catalog-pinned ZIM with libzim and ReportLab:
 

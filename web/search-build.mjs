@@ -13,9 +13,10 @@ const wrap = (name, value) => "globalThis." + name + "(" + canonical(value) + ")
 const locator = path => path.split("/").map(segment => encodeURIComponent(segment)
   .replace(/[!'()*]/g, char => "%" + char.charCodeAt(0).toString(16).toUpperCase())).join("/");
 
-export async function transfer(drive, base, path, pin, fetchFile, signal, network, destination = root + path) {
-  if (!dig.test(pin.sha256) || !Number.isInteger(pin.bytes) || pin.bytes < 1 || pin.bytes > 3_000_000) {
-    throw Error("Invalid precomputed search file pin");
+export async function transfer(drive, base, path, pin, fetchFile, signal, network,
+  destination = root + path, maxBytes = 3_000_000) {
+  if (!dig.test(pin.sha256) || !Number.isInteger(pin.bytes) || pin.bytes < 1 || pin.bytes > maxBytes) {
+    throw Error("Invalid precomputed file pin");
   }
   const relative = destination;
   const existing = await optional(async () => (await fileHandle(drive, relative)).getFile());

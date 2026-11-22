@@ -8,7 +8,8 @@ from .safety import SafetyError
 
 ROOT = Path(__file__).resolve().parents[2] / "catalog/wikimed-phone"
 DESTINATION = "CRITICAL/MEDICAL/WIKIMED-PHONE/"
-BUDGET = 4_000_000
+BUDGET = 45_000_000
+VOLUME_LIMIT = 8_000_000
 
 
 def manifest():
@@ -20,6 +21,8 @@ def manifest():
         raise SafetyError("WikiMed phone layer exceeds its generation budget")
     files = set()
     for row in data["volumes"]:
+        if not 0 < row["bytes"] <= VOLUME_LIMIT:
+            raise SafetyError("WikiMed phone volume exceeds its size limit")
         file = row["file"]
         if file in files or not re.fullmatch(r"wikimed-[a-z-]+\.pdf", file):
             raise SafetyError("Invalid WikiMed phone volume name")

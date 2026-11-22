@@ -177,8 +177,8 @@ the source page. ZIM results show the archive’s filename and internal path.
 Use an archive reader to open those entries. The topic atlas, sections index and
 critical phone shelf remain readable with JavaScript off.
 
-A drive with the April 2026 WikiMed archive includes four small, selectable-text
-PDFs under LIBRARY/CRITICAL/MEDICAL/WIKIMED-PHONE. Use the contents page
+A drive with the April 2026 WikiMed archive includes 12 selectable-text PDFs
+with 1,125 articles under `LIBRARY/CRITICAL/MEDICAL/WIKIMED-PHONE`. Use the contents page
 or the PDF outline to jump to a reference. The PDFs open in Files without
 Kiwix. Install Kiwix while online to read the complete archive.
 [WikiMed phone editions](docs/device-matrix.md#wikimed-in-files)

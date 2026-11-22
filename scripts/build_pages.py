@@ -267,7 +267,11 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
         search_base = ("https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/"
                        + search_commit + "/catalog/search/")
     elif search_index["sources"]:
-        shutil.copytree(SEARCH_ROOT, site / "search")
+        # These source indexes are already compiled into search-build.json.
+        # The local site only needs the pinned payloads they reference.
+        shutil.copytree(SEARCH_ROOT, site / "search",
+                        ignore=lambda directory, names: {"manifest.json", "routes.json"} & set(names)
+                        if Path(directory) == SEARCH_ROOT else set())
     templates = ROOT / "src/owl/templates"
     page = render_search_page()
     write_json(site / "search-build.json", {"plan": compile_search_plan(assets, search_index, load_routes(), load_impact(), load_transformer()), "base": search_base, "records": records,

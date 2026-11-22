@@ -5,6 +5,7 @@ import {createServer} from "node:http";
 import {once} from "node:events";
 import {test} from "node:test";
 import {archiveCheckpoints, browserSelection, buildLibrary as runBuild, partLayout, readBuild} from "../web/builder.mjs";
+import {assembleLibrary} from "../web/offline.mjs";
 import {measureFreeSpace} from "../web/drive.mjs";
 import {createNetwork} from "../web/network.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
@@ -509,6 +510,35 @@ test("emergency archive tasks link to named offline articles and their printed p
   assert.match(start, /LIBRARY\/INDEX\/sections.html#emergency-6">Childbirth<\/a>/);
   assert.match(entry, /id="emergency-6"/);
   assert.match(entry, /<code>Childbirth<\/code>/);
+});
+
+test("the browser installs the largest pinned phone PDF and indexes its checksum", async () => {
+  const folder = new URL("../catalog/wikimed-phone/", import.meta.url);
+  const pin = JSON.parse(readFileSync(new URL("manifest.json", folder)));
+  const volume = pin.volumes.reduce((largest, item) => largest.bytes > item.bytes ? largest : item);
+  const archive = {id: pin.source_id, sha256: pin.source_sha256, title: "WikiMed", size_bytes: 10,
+    format: "zim", critical: true, destination: "ZIM/medicine.zim"};
+  const destination = "CRITICAL/MEDICAL/WIKIMED-PHONE/";
+  const path = "LIBRARY/" + destination + volume.file;
+  const drive = new Directory();
+  const warnings = await assembleLibrary(drive, {
+    completed: [archive], missing: [],
+    navigation: {phone: {...pin, destination, base: "./phone/", volumes: [volume]}},
+    layouts: new Map([[archive.id, [{path: "LIBRARY/" + archive.destination, bytes: archive.size_bytes}]]]),
+    parts: {[archive.id]: [{sha256: archive.sha256}]}, searchBudget: 200_000_000,
+    network: {retry: task => task()},
+    async fetchFile(url) {
+      assert.equal(url, "./phone/" + volume.file);
+      return new Response(readFileSync(new URL(volume.file, folder)));
+    }
+  });
+  assert.deepEqual(warnings, []);
+  const contents = await (await drive.file(path)).getFile();
+  assert.equal(hash(Buffer.from(await contents.arrayBuffer())), volume.sha256);
+  const checksums = await (await (await drive.file("LIBRARY/SHA256SUMS.txt")).getFile()).text();
+  const shelf = await (await (await drive.file("LIBRARY/INDEX/phone.html")).getFile()).text();
+  assert.ok(checksums.includes(volume.sha256 + "  " + path));
+  assert.ok(shelf.includes(path));
 });
 
 const PIECE_BYTES = 4 * MiB;

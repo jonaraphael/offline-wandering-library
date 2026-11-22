@@ -12,7 +12,7 @@ Files are selected for substantial, diversified knowledge useful in a post-inter
 
 | Drive | Pinned files, GB | In-place planning peak, GB | Records |
 | --- | ---: | ---: | ---: |
-| flash-16gb | 15.145 | 15.507 | 461 |
+| flash-16gb | 15.145 | 15.547 | 461 |
 | critical-64gb | 61.609 | 62.506 | 513 |
 | compact-256gb | 252.072 | 253.929 | 563 |
 | standard-512gb | 505.386 | 508.523 | 558 |

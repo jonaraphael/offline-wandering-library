@@ -61,7 +61,7 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
       try {
         const path = "LIBRARY/" + phone.destination + volume.file;
         phoneBytes += volume.bytes;
-        const checksum = await transfer(drive, phone.base, volume.file, volume, fetchFile, signal, network, path);
+        const checksum = await transfer(drive, phone.base, volume.file, volume, fetchFile, signal, network, path, 8_000_000);
         phoneVolumes.push({path, title: volume.title, checksum});
       } catch (error) {
         signal?.throwIfAborted();
