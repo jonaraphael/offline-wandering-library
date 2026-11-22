@@ -36,7 +36,12 @@ const drive = {
       }, abort: () => stream.close()};
     }};
   },
-  removeEntry: name => unlink(join(volume, name))
+  // The browser reports a missing entry as NotFoundError, which the shared
+  // cleanup tolerates. Report Node's ENOENT the same way.
+  removeEntry: name => unlink(join(volume, name)).catch(error => {
+    if (error.code === "ENOENT") throw new DOMException(error.message, "NotFoundError");
+    throw error;
+  })
 };
 const before = await free();
 const start = performance.now();
