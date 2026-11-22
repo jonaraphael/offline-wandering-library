@@ -114,11 +114,11 @@ Selecting ZIMs automatically includes their reader packages. Optional additions 
 
 ## Use the completed SSD
 
-Open `START_HERE.html`. A fresh build puts exactly two items in the chosen outer directory: this entry page and a `LIBRARY` folder containing everything else. Keep them together when moving or copying the library. Home offers urgent guides, recently opened items, categories and an alphabetical list. Use Search to find a passage, Saved to return to items on this device, and Help for opening files, the build report and the inventory. If your device shows a file preview, the page prints each file’s location so you can open it through the file manager.
+Open `START_HERE.html`. A fresh build puts exactly two items in the chosen outer directory: this entry page and a `LIBRARY` folder containing everything else. Keep them together when moving or copying the library. Home offers urgent guides, recently opened items, categories and an alphabetical list. Use Search to find a passage, Saved to return to items on this device, and Help for opening files, the build report and the inventory. A phone opens nothing by itself when the drive is plugged in: open the Files app, tap the drive, then tap `START_HERE`. If your device shows the page as a file preview, each title carries the folders that lead to it (`LIBRARY › CRITICAL › FIRST_AID › CERT_2019.pdf`) so you can open it through the file manager.
 
 Python builds also write `CONTENT_SELECTION.json` and `LOCKED_CATALOG.yaml` for its rebuild workflow.
 
-The default children's books and Python manuals are PDFs, so reading them does not require an EPUB app. On iPhone or iPad, use Files to open the PDF directly and choose **Preview with Quick Look** if offered. If the start-page preview cannot follow links, use its printed `LIBRARY/...` paths to locate the files manually. Retained EPUBs under `LIBRARY/REFERENCE/SOURCE_PACKAGES/EPUB/` are excluded from the reading shelves and search.
+The default children's books and Python manuals are PDFs, so reading them does not require an EPUB app. On iPhone or iPad, use Files to open the PDF directly and choose **Preview with Quick Look** if offered. If the start-page preview cannot follow links, use the folder trail under each title to locate the file. Retained EPUBs under `LIBRARY/REFERENCE/SOURCE_PACKAGES/EPUB/` are excluded from the reading shelves and search.
 
 ```text
 EMERGENCY_LIBRARY/
@@ -199,10 +199,10 @@ Search depends on browser and file-manager capabilities:
 | --- | --- | --- | --- |
 | Windows, macOS, Linux | Compatible standard browser/viewer | Browser must permit local JavaScript and neighboring local script files; test the chosen browser | Use a compatible bundled or already installed reader |
 | Android / Pixel | File manager and compatible viewer | Browser launching, storage providers, and external-drive access vary; test the actual device | An appropriate APK may be installable offline if permitted |
-| iPhone / iPad | Files and compatible document previews | Files may block both search scripts and links to neighboring files. Read the catalog and printed paths on START_HERE, then open documents directly in Files | Do not assume a reader can be installed from the SSD offline |
+| iPhone / iPad | Files and compatible document previews | Files previews START_HERE without its scripts and cannot open a linked file. Read the list and the folder trail under each title, then open documents directly in Files | Do not assume a reader can be installed from the SSD offline |
 | Raspberry Pi | Compatible standard browser/viewer | Depends on the installed browser and available memory | Reader must match the Pi’s processor and operating system |
 
-See [device tests](docs/device-matrix.md) for evidence and checks that still need hardware. START_HERE includes the catalog and drive-relative file paths on the page itself, so reading it does not require following links to another HTML page. If a file preview refuses links, close it and use those paths to open PDFs or text files directly in the file manager. Search controls appear only after discovery data loads successfully. Adapters, USB power, supported filesystem access, existing viewers, and OS permissions still matter. **Test the finished SSD on the exact devices you intend to use before an emergency.**
+See [device tests](docs/device-matrix.md) for evidence and checks that still need hardware. START_HERE includes the catalog and each file's folder trail on the page itself, so reading it does not require following links to another HTML page. If a file preview refuses links, close it and follow the trail to open PDFs or text files directly in the file manager. Search controls appear only after discovery data loads successfully. Adapters, USB power, supported filesystem access, existing viewers, and OS permissions still matter. **Test the finished SSD on the exact devices you intend to use before an emergency.**
 
 ## Bundled readers
 

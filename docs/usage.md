@@ -188,7 +188,7 @@ Open PDFs to see diagrams, photographs, charts, and figures. Publisher PDFs reta
 
 Python's reading collection contains 37 original publisher PDFs for Python 3.14.0, dated October 7, 2025. The newer September 2026 EPUB is retained separately as a supporting source package; it is not the source of those older PDFs. See [PDF reading editions](pdf-editions.md) for exact edition and conversion details.
 
-On iPhone or iPad, open the PDFs directly in Files and choose **Preview with Quick Look** if offered. If an HTML preview refuses links, close it and navigate using the exact `LIBRARY/...` paths printed in the start page's inline catalog. Search covers titles, reviewed sections, topics and indexed text. Open the original source to read a scanned page or inspect an illustration. A diagram or scanned page can be useful even when its contents are absent from search results.
+On iPhone or iPad, open the PDFs directly in Files and choose **Preview with Quick Look** if offered. If an HTML preview refuses links, close it and follow the folder trail printed under each title in the start page. Search covers titles, reviewed sections, topics and indexed text. Open the original source to read a scanned page or inspect an illustration. A diagram or scanned page can be useful even when its contents are absent from search results.
 
 ## Add the topic atlas after downloading
 
@@ -242,10 +242,10 @@ Before storing the SSD, disconnect network access and try each intended device:
 
 1. Attach the SSD with the necessary adapter and power source; find it in the file manager.
 2. Open `START_HERE.html`, follow a category link, and open a critical PDF or text file.
-3. If HTML links do not work, use the catalog printed on START_HERE itself. Note a document's `LIBRARY/...` path, close the preview, and open that file through the file manager.
+3. If HTML links do not work, use the catalog printed on START_HERE itself. Read the folder trail under a document's title, close the preview, and open that file through the file manager.
 4. Open a textbook and an illustrated guide. Navigate between pages and zoom into a diagram.
 5. Use Search to find a passage and open the result. Star a guide and confirm it appears in Saved after reloading.
-6. Disable JavaScript and reopen `START_HERE.html`. Find the urgent paths, category listings and device instructions on the page. In the app, check Help for the file list and build report.
+6. Disable JavaScript and reopen `START_HERE.html`. Find the urgent tasks, the category tiles and lists, each title's folder trail and, on a drive with an encyclopedia, the Kiwix steps. In the app, check Help for the file list and build report.
 7. On platforms that permit offline installation, check that the matching bundled reader can open a ZIM. The builder does not install or run it for you.
 8. Safely eject the SSD before unplugging it.
 

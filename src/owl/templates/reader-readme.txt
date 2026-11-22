@@ -1,8 +1,8 @@
 Open START_HERE.html beside the LIBRARY folder. Keep them together.
 
 The Library page lists titles and their locations even when search and links
-are unavailable. In that case, note the LIBRARY/ path, close the preview,
-then follow the path in your device's file manager. Books and guides use
+are unavailable. In that case, read the folders listed under the title,
+close the preview, then open the same folders in your device's file manager. Books and guides use
 your device's compatible viewer. Encyclopedias open with Kiwix.
 
 Help in the Library page links to the file list and build report.

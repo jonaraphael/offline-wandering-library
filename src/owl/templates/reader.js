@@ -18,8 +18,6 @@
   };
   const details = row => [row.source, row.kind, row.bytes ? size(row.bytes) : ""].filter(Boolean).join(" · ");
   const allTitle = "Everything, A to Z";
-  const figures = {health: "guide", food: "guide", shelter: "guide", trades: "guide", school: "course",
-    reference: "collection", advanced: "book", culture: "book"};
   const loaded = new Map(), pending = new Map();
   const positions = new Map(), filters = new Map();
   let home, device, activeRoute, pageEpoch = 0;
@@ -114,7 +112,7 @@
     const tiles = home.categories.filter(cat => cat.count && cat.id !== "other").map(cat =>
       '<a class="tile" href="#/c/' + cat.id + '" style="--c:var(--c-' + cat.id + ')">' +
       '<svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><path d="' + escape(cat.icon) + '"/></svg>' +
-      escape(cat.name) + "<small>" + count(cat.count, figures[cat.id]) + "</small></a>").join("");
+      escape(cat.name) + "<small>" + count(cat.count, cat.unit) + "</small></a>").join("");
     return heading("Library", "Works without internet") +
       '<a class="search" id="home-search" href="#/search">' + icon("search") + "Search " +
       searchCount + "</a>" +
@@ -148,7 +146,7 @@
   function categoryView(cat, rows, filter) {
     const visible = filter ? rows.filter(row => row.topics.some(([id]) => id === filter)) : rows;
     return back("#/", "Library") + '<h2 tabindex="-1"><span class="dot" aria-hidden="true" style="--c:var(--c-' + cat.id + ')"></span>' +
-      escape(cat.name) + '</h2><p class="sub">' + count(rows.length, figures[cat.id]) + " · " +
+      escape(cat.name) + '</h2><p class="sub">' + count(rows.length, cat.unit) + " · " +
       escape(cat.blurb) + "</p>" + (rows.length > 30 ? subjectChips(rows, filter) : "") +
       (visible.length ? list(bookRoutes(visible, cat.id)) : '<p class="note">No items in this category.</p>');
   }

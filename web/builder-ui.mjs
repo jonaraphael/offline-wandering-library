@@ -507,8 +507,12 @@ export function mount({catalog: supplied} = {}) {
         return node;
       }));
     }
-    byId("sync-cards").hidden = mode !== "syncing";
+    // A phone does nothing when the drive is plugged in, so a finished drive says where to tap.
+    const finished = ["done", "done-gaps", "current"].includes(mode);
+    byId("sync-cards").hidden = mode !== "syncing" && !finished;
+    byId("keep-card").hidden = mode !== "syncing";
     byId("phone-card").hidden = mode !== "syncing" || performance.now() - opened < 20_000;
+    byId("open-card").hidden = !finished;
     [...byId("sync-rail").children].forEach((node, index) => {
       node.classList.toggle("past", index + 1 < item.step);
       if (index + 1 === item.step) node.setAttribute("aria-current", "step"); else node.removeAttribute("aria-current");
