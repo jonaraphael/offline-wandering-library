@@ -3,7 +3,7 @@ import {readFileSync} from "node:fs";
 import {join} from "node:path";
 import {test} from "node:test";
 import {browserSelection, isKnowledgeFile} from "../web/builder.mjs";
-import {recommendBrowser} from "../web/builder-ui.mjs";
+import {recommendBrowser, selectBrowser, storageStops} from "../web/builder-ui.mjs";
 import "../src/owl/templates/selector.js";
 
 const site = process.argv[2];
@@ -13,6 +13,65 @@ const priorities = [
   ["languages"], ["culture", "advanced-study", "computing"]
 ];
 const priority = new Map(priorities.flatMap((fields, rank) => fields.map(field => [field, rank])));
+
+function publishedCatalog() {
+  const {planner, routes, navigation} = JSON.parse(readFileSync(join(site, "catalog.json")));
+  const lock = JSON.parse(readFileSync(new URL("../web/pages-mirrors.json", import.meta.url)));
+  const published = {files: Object.fromEntries(Object.keys(lock).map(id => [id, [{}]]))};
+  const files = new Map(planner.assets.map(asset => [asset.id, asset]));
+  return {planner, routes, phone: navigation.phone, published, files};
+}
+
+test("storage limit stops end at the available space and omit unusable stops", () => {
+  const inGB = (capacity, eligible) => storageStops(capacity * 1e9, eligible).map(stop => stop / 1e9);
+  const oneTB = [1, 8, 16, 32, ...Array.from({length: 30}, (_, i) => 64 + 32 * i), 1000];
+  assert.deepEqual(inGB(59.6), [1, 8, 16, 32, 59.6]);
+  assert.deepEqual(inGB(959), [...oneTB.filter(stop => stop < 959), 959]);
+  assert.deepEqual(inGB(1000), oneTB);
+  assert.deepEqual(inGB(1500), oneTB);
+  assert.deepEqual(inGB(32, stop => stop >= 8e9), [8, 16, 32]);
+  assert.deepEqual(inGB(0.6), [0.6]);
+});
+
+test("the browser plan fits every storage stop, including reduced recommendations", {skip: !site}, t => {
+  const {planner, routes, phone, published, files} = publishedCatalog();
+  const options = retainedFiles => ({retainedFiles, phone});
+  function plan(capacity, retainedFiles) {
+    const profileId = planner.profiles[0].id;
+    const state = recommendBrowser(planner, OWLPlanner.preset(planner, profileId, capacity, {browser: true}),
+      routes, published, undefined, options(retainedFiles));
+    const resolved = OWLPlanner.resolve(planner, state, {ignoreNativeCapacity: true});
+    const profile = OWLPlanner.profileFor(planner, profileId, capacity, state);
+    const result = selectBrowser(profile, resolved, {files, routes, published, phone, kept: () => false,
+      minimum: planner.capacity_policy.min});
+    assert.deepEqual(result.errors, [], capacity + " B");
+    assert.deepEqual(result.excluded, [], capacity + " B");
+    assert.ok(result.assets.some(isKnowledgeFile), capacity + " B has a useful library");
+    assert.ok(result.used + result.reserve <= profile.capacity_bytes, capacity + " B includes search and reserve");
+    assert.equal(result.over, 0);
+    assert.equal(result.assets.some(asset => asset.destination.startsWith("SOFTWARE/")),
+      result.assets.some(asset => asset.format === "zim"), capacity + " B bundles apps for encyclopedia files");
+    return result.assets;
+  }
+  const standard = plan(16e9);
+  const standardIds = new Set(standard.map(asset => asset.id));
+  for (const stop of new Set([...storageStops(1e12), 59.6e9, 959e9])) {
+    const assets = plan(stop);
+    if (stop < 16e9) {
+      assert.ok(assets.every(asset => standardIds.has(asset.id)), stop + " B is a subset of 16 GB");
+      assert.ok(standard.filter(asset => asset.critical && asset.size_bytes < 10e6)
+        .every(asset => assets.includes(asset)), stop + " B retains the small essentials");
+      t.diagnostic(stop / 1e9 + " GB: " + assets.filter(isKnowledgeFile).length + " knowledge files, " +
+        assets.reduce((sum, asset) => sum + asset.size_bytes, 0) + " content bytes");
+    }
+  }
+  const installed = plan(128e9).map(asset => asset.id).sort();
+  for (const stop of [1, 8, 16, 32, 64, 96]) {
+    const retained = plan(stop * 1e9, installed);
+    assert.ok(retained.length < installed.length && retained.every(asset => installed.includes(asset.id)),
+      stop + " GB is removals only from 128 GB");
+  }
+});
 
 function attribution(assets) {
   const fields = new Map();
@@ -27,10 +86,7 @@ function attribution(assets) {
 }
 
 test("published browser defaults retain every field across the half-GB sweep", {skip: !site}, t => {
-  const {planner, routes} = JSON.parse(readFileSync(join(site, "catalog.json")));
-  const lock = JSON.parse(readFileSync(new URL("../web/pages-mirrors.json", import.meta.url)));
-  const published = {files: Object.fromEntries(Object.keys(lock).map(id => [id, [{}]]))};
-  const catalog = new Map(planner.assets.map(asset => [asset.id, asset]));
+  const {planner, routes, published, files: catalog} = publishedCatalog();
   const {field_core: core, protected_fields: protectedFields} = planner.capacity_policy;
   const coreFiles = browserSelection([...new Set(Object.values(core).flat())].map(id => catalog.get(id)), routes, published).assets;
   const peaks = new Map();
@@ -38,7 +94,7 @@ test("published browser defaults retain every field across the half-GB sweep", {
   for (let gb = 16; gb <= 1000; gb += 0.5) {
     const capacity = gb * 1e9;
     const profile = OWLPlanner.profileFor(planner, "flash-16gb", capacity);
-    const state = recommendBrowser(planner, OWLPlanner.preset(planner, profile.id, capacity), routes, published);
+    const state = recommendBrowser(planner, OWLPlanner.preset(planner, profile.id, capacity, {browser: true}), routes, published);
     const result = OWLPlanner.resolve(planner, state, {ignoreNativeCapacity: true});
     assert.deepEqual(result.errors, [], gb + " GB");
     const chosen = result.selectedAssetIds.map(id => catalog.get(id));

@@ -1,10 +1,12 @@
 import {createNetwork, SourceError} from "./network.mjs";
 import {diag} from "./diagnostics.mjs";
-import {browserSelection, compareLibrary, inspectDrive, isKnowledgeFile, PART_BYTES, reconcile} from "./builder.mjs";
+import {browserSelection, buildOrder, compareLibrary, inspectDrive, isKnowledgeFile, PART_BYTES, reconcile} from "./builder.mjs";
 import {getRememberedDrive, hasDrivePermission, keepScreenAwake, measureFreeSpace,
   pickDrive, rememberDrive, requestDrivePermission} from "./drive.mjs";
 
 const INDEX_ALLOWANCE = 16 * 2 ** 20;
+const GB = 1e9;
+const READERS = "archive-readers";
 const byId = id => document.getElementById(id);
 
 async function get(url, signal) {
@@ -75,7 +77,8 @@ function browserRetention(planner, routes, published) {
   };
   const rows = bounds.map(capacity => {
     const profile = profileAt(capacity);
-    const editions = new Map(profile.default_resources.map(id => [id, profile.default_editions[id] || "published"]));
+    const editions = new Map(profile.default_resources.filter(id => resources.has(id))
+      .map(id => [id, profile.default_editions[id] || "published"]));
     const ids = new Set([...editions].flatMap(([id, edition]) => members(id, edition)));
     return {capacity, editions, ids, used: sumBytes([...ids].map(id => assets.get(id))), advanced: new Set(), extraBytes: 0};
   });
@@ -127,14 +130,94 @@ function browserRetention(planner, routes, published) {
   return result;
 }
 
-export function recommendBrowser(planner, state, routes, published, kept = () => false) {
+const isEncyclopedia = asset => asset.format.toLowerCase() === "zim";
+const phoneSpace = (asset, phone) => asset.id === phone?.source_id && asset.sha256 === phone.source_sha256 ?
+  phone.volumes.reduce((total, volume) => total + volume.bytes, 0) : 0;
+
+export function selectBrowser(profile, resolved, {files, routes, published, kept, phone, minimum}) {
+  const selected = resolved.selectedAssetIds.map(id => files.get(id));
+  const {assets, excluded} = browserSelection(selected, routes, published);
+  // A verified copy can stay even after its download route disappears.
+  const keptIds = new Set(excluded.filter(row => kept(row.id)).map(row => row.id));
+  for (const asset of selected) if (keptIds.has(asset.id)) assets.push(asset);
+  const extraPhone = profile.nominal_capacity_bytes < minimum && phone ?
+    assets.reduce((sum, asset) => sum + phoneSpace(asset, phone), 0) : 0;
+  const searchBudget = profile.discovery_budget_bytes + extraPhone;
+  const reserve = Math.max(INDEX_ALLOWANCE, profile.reserve_bytes) + searchBudget;
+  const limit = planCeiling(profile) - extraPhone;
+  const used = sumBytes(assets);
+  return {assets, excluded: excluded.filter(row => !keptIds.has(row.id)), used, reserve, searchBudget,
+    limit, over: Math.max(0, used - limit), errors: resolved.errors};
+}
+
+export function storageStops(capacity, canPlan = () => true) {
+  const last = Math.min(capacity, 1000 * GB);
+  const regular = [1, 8, 16, 32, ...Array.from({length: 30}, (_, index) => 64 + 32 * index)];
+  return [...regular.map(gb => gb * GB).filter(stop => stop < last), last].filter(canPlan);
+}
+
+function reduceBrowser(planner, state, reachable, retained, phone) {
+  const assets = new Map(planner.assets.map(asset => [asset.id, asset]));
+  const available = id => assets.get(id)?.status === "resolved" && reachable(id) && (!retained || retained.has(id));
+  const profile = globalThis.OWLPlanner.profileFor(planner, state.profile, state.capacityBytes, state);
+  const room = planCeiling(profile);
+  const readerIds = planner.resources.find(resource => resource.id === READERS)?.asset_ids || [];
+  const readersAvailable = readerIds.length > 0 && readerIds.every(available);
+  const readersBytes = readersAvailable ? sumBytes(readerIds.map(id => assets.get(id))) : 0;
+  const collections = new Map();
+  for (const resource of planner.resources) {
+    if (resource.id === READERS) continue;
+    const item = state.items[resource.id];
+    if (!item.included && !retained) continue;
+    const variant = edition => (resource.editions?.[edition] || resource).asset_ids.filter(available);
+    let ids = variant(item.edition);
+    // A lower limit on a synced drive keeps the editions already present.
+    if (retained) for (const edition of ["published", ...Object.keys(resource.editions || {})]) {
+      const existing = variant(edition);
+      if (existing.length <= ids.length) continue;
+      ids = existing;
+      item.edition = edition;
+    }
+    collections.set(resource.id, ids);
+  }
+  const chosen = new Set();
+  const candidates = new Map([...new Set([...collections.values()].flat())].map(id => [id, assets.get(id)]));
+  let used = 0, needsReaders = false;
+  for (const asset of buildOrder(candidates.values())) {
+    if (chosen.has(asset.id) || asset.generation) continue;
+    const sourceId = asset.archive_member?.source_asset_id;
+    const source = candidates.get(sourceId);
+    if (sourceId && !source) continue;
+    // A dependent file pays for its ZIP source or reader apps on first use.
+    const encyclopedia = isEncyclopedia(asset);
+    const cost = asset.size_bytes + (encyclopedia && !needsReaders ? readersBytes : 0) +
+      (source && !chosen.has(source.id) ? source.size_bytes : 0) +
+      (state.capacityBytes < planner.capacity_policy.min ? phoneSpace(asset, phone) : 0);
+    if (used + cost > room || (encyclopedia && !readersAvailable)) continue;
+    chosen.add(asset.id);
+    if (source) chosen.add(source.id);
+    used += cost;
+    needsReaders ||= encyclopedia;
+  }
+  for (const [id, ids] of collections) {
+    const item = state.items[id];
+    item.assetIds = ids.filter(id => chosen.has(id));
+    item.included = item.assetIds.length > 0;
+  }
+  return state;
+}
+
+export function recommendBrowser(planner, state, routes, published, kept = () => false, {retainedFiles, phone} = {}) {
+  const reachable = id => hasRoute(id, routes, published) || kept(id);
+  if (state.browser && (retainedFiles || state.capacityBytes < planner.capacity_policy.min))
+    return reduceBrowser(planner, state, reachable, retainedFiles && new Set(retainedFiles), phone);
   for (const resource of planner.resources) {
     const item = state.items[resource.id];
     if (!item.included) continue;
     const members = (resource.editions?.[item.edition] || resource).asset_ids;
-    const reachable = members.filter(id => hasRoute(id, routes, published) || kept(id));
-    if (reachable.length === 0) item.included = false;
-    else if (reachable.length < members.length) item.assetIds = reachable;
+    const found = members.filter(reachable);
+    if (found.length === 0) item.included = false;
+    else if (found.length < members.length) item.assetIds = found;
   }
   const {advances} = browserRetention(planner, routes, published);
   const capacity = state.capacityBytes ??
@@ -203,28 +286,26 @@ export function mount({catalog: supplied} = {}) {
           }
         }
       }
-      const readers = planner.resources.find(row => row.id === "archive-readers")?.asset_ids || [];
       const kept = id => Boolean(inspection?.state?.installed[id] || inspection?.candidates?.has(id));
+      const phone = catalog.navigation?.phone;
+      const sources = {files, routes, published, kept, phone, minimum: planner.capacity_policy.min};
       manage = create(planner, {
         browser: true,
         download: id => hasRoute(id, routes, published) || kept(id),
-        recommend: state => recommendBrowser(planner, state, routes, published, kept),
-        select(profile, state, resolved) {
-          const all = [...new Set([...resolved.selectedAssetIds, ...readers])].map(id => files.get(id));
-          const selection = browserSelection(all, routes, published);
-          // The drive may already have verified files whose routes disappeared.
-          const keptIds = new Set(selection.excluded.filter(row => kept(row.id)).map(row => row.id));
-          for (const asset of all) if (keptIds.has(asset.id)) selection.assets.push(asset);
-          selection.excluded = selection.excluded.filter(row => !keptIds.has(row.id));
-          const reserve = Math.max(INDEX_ALLOWANCE, profile.reserve_bytes) + profile.discovery_budget_bytes;
-          const limit = Math.min(capacityForPlan(), profile.capacity_bytes) - reserve;
-          const used = sumBytes(selection.assets);
-          return {...selection, used, reserve, limit, over: Math.max(0, used - limit), errors: resolved.errors};
-        },
-        onChange(value) {
+        recommend: (state, retainedFiles) => recommendBrowser(planner, state, routes, published, kept, {retainedFiles, phone}),
+        stops: storageStops,
+        useful: selection => selection.assets.some(isKnowledgeFile),
+        select: (profile, _state, resolved) => selectBrowser(profile, resolved, sources),
+        onChange(value, {live = false} = {}) {
           if (preview) return;
           plan = value;
           dirty = JSON.stringify(value.choice) !== driveChoice;
+          if (live) {
+            ++operation;
+            pendingCompare = undefined;
+            byId("manage-changes").textContent = value.over ? bytes(value.over) + " over" : dirty ? "Your changes" : "No changes";
+            return;
+          }
           if (value.over) {
             ++operation;
             pendingCompare = undefined;
@@ -235,7 +316,7 @@ export function mount({catalog: supplied} = {}) {
           pendingCompare = pending;
           void pending.then(() => {
             if (pending !== pendingCompare) return;
-            byId("manage-changes").textContent = changeLine("Your changes");
+            byId("manage-changes").textContent = dirty ? changeLine("Your changes") : "No changes";
             showHeld();
           }).catch(showProblem);
         },
@@ -248,7 +329,7 @@ export function mount({catalog: supplied} = {}) {
   }
 
   const capacityForPlan = () => capacity ?? 64e9;
-  const effectiveFree = () => measured ?? Math.max(0, capacityForPlan() - (inspection?.heldBytes || 0));
+  const effectiveFree = () => Math.max(0, capacityForPlan() - (inspection?.heldBytes || 0));
   const catalogVersion = () => catalog.version || [catalog.planner.catalog_sha256, catalog.planner.resources_sha256].join(":");
   const name = () => driveName(drive || remembered);
   const available = () => plan && !plan.over && !plan.errors.length && plan.assets.some(isKnowledgeFile);
@@ -309,7 +390,7 @@ export function mount({catalog: supplied} = {}) {
         break;
       case "ready":
         Object.assign(item, {step: 2, action: syncButton, links: [manageLink],
-          message: (measured !== undefined ? bytes(measured) + " free. " : "") +
+          message: (measured !== undefined && plan.budget === plan.capacity ? bytes(effectiveFree()) + " free. " : "") +
             "The recommended library uses " + bytes(plan.used) + ": " +
             plan.assets.filter(isKnowledgeFile).length.toLocaleString() + " books, manuals and courses."});
         break;
@@ -375,6 +456,8 @@ export function mount({catalog: supplied} = {}) {
       item.message = plan.over ? bytes(plan.over) + " over. Make it fit in Manage before syncing." :
         plan.errors.length ? "Review the selection in Manage before syncing." : "Choose at least one available collection in Manage.";
     }
+    if (plan?.budget < plan?.capacity && ["ready", "behind", "current", "paused"].includes(mode))
+      item.message = bytes(plan.capacity) + " free, limited to " + bytes(plan.budget) + ". " + item.message;
     stage.dataset.state = mode;
     stage.style.setProperty("--p", String(item.fraction));
     if (headline.textContent !== item.title) {
@@ -475,8 +558,13 @@ export function mount({catalog: supplied} = {}) {
   }
 
   function configure(isPreview = false) {
-    const savedChoice = isPreview ? undefined : inspection?.state?.choice;
-    const current = manage.configure({capacityBytes: capacity, size, savedChoice, split: forceSplit, forceSplit});
+    const saved = isPreview ? undefined : inspection?.state;
+    const installed = saved?.syncedAt ? {
+      budget: Math.min(saved.choice?.limitBytes || Infinity, saved.capacityBytes || capacity, catalog.planner.capacity_policy.limit),
+      files: Object.keys(saved.installed).sort()
+    } : undefined;
+    const current = manage.configure({capacityBytes: capacity, size, savedChoice: saved?.choice,
+      split: forceSplit, forceSplit, connected: !isPreview, installed});
     if (!isPreview) {
       plan = current;
       driveChoice = JSON.stringify(plan.choice);
@@ -501,6 +589,11 @@ export function mount({catalog: supplied} = {}) {
     const handle = drive;
     capacity = value;
     configure();
+    if (value < catalog.planner.capacity_policy.min && !manage.hasRecommendation && !available()) {
+      minimum = manage.minimumCapacity();
+      render("too-small");
+      return;
+    }
     await updateComparison();
     if (handle !== drive) return;
     render(stageForDrive());
@@ -531,12 +624,6 @@ export function mount({catalog: supplied} = {}) {
       if (outcome.kind === "measured") {
         measured = outcome.bytes;
         const total = measured + inspection.heldBytes;
-        if (total < catalog.planner.capacity_policy.min) {
-          capacity = total;
-          configure();
-          minimum = plan.used + plan.reserve;
-          if (total < minimum) { render("too-small"); return; }
-        }
         await planDrive(total);
         return;
       }
@@ -598,6 +685,7 @@ export function mount({catalog: supplied} = {}) {
   }
 
   async function leaveManage() {
+    manage.commitLimit();
     await pendingCompare;
     manage.hide();
     stage.hidden = false;
@@ -666,7 +754,7 @@ export function mount({catalog: supplied} = {}) {
       };
       result = await lockDrive(() => reconcile(drive, {...comparisonOptions(), excluded: plan.excluded,
         routes: catalog.routes, published: catalog.published, navigation: catalog.navigation,
-        archiveSpace: plan.limit, searchBudget: plan.profile.discovery_budget_bytes, capacityBytes: capacity,
+        archiveSpace: plan.limit, searchBudget: plan.searchBudget, capacityBytes: capacity,
         replaceInPlace: [...selectedReplacement], fullVerify: fullCheck, prepareSources, signal, network, onProgress}));
       inspection = await inspectDrive(drive);
       dirty = false;

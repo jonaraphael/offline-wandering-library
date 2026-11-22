@@ -25,6 +25,11 @@ __OWL_BUILDER_CSS__
 .legend li.over::before { background: var(--bad); }
 .manage .sizes { justify-content: start; margin-bottom: 10px; }
 .summary-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.limit-budget { display: flex; min-width: 0; gap: min(2px, 2%); overflow: hidden; }
+.limit .track .limit-budget i { min-width: 0; }
+.limit .track { gap: 0; }
+.limit .track i.kept { flex: 1; min-width: 0; }
+@media (pointer: coarse) { .limit input[type="range"] { inset: -7px 0 auto; height: 44px; } }
 .editions { flex-wrap: wrap; }
 .editions button { padding: 5px 11px; border: 0; background: var(--surface); color: var(--ink); cursor: pointer; }
 .col .files { margin-left: 0; }
@@ -97,7 +102,23 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
     <div>
       <div class="summary">
         <div class="track" id="manage-track"></div>
+        <!-- PAGES -->
+        <div id="manage-limit-control" hidden>
+          <div class="limit-head">
+            <b id="manage-limit-label">Space for the library</b>
+            <span><output id="manage-limit-value" for="manage-limit" aria-live="off"></output><span id="manage-use-all" hidden> · <a id="manage-all" href="#"></a></span></span>
+          </div>
+          <div class="limit">
+            <div class="track" aria-hidden="true"><span id="manage-limit-budget" class="limit-budget"></span><i class="kept" id="manage-limit-kept"></i></div>
+            <input id="manage-limit" type="range" min="0" step="1" aria-labelledby="manage-limit-label">
+          </div>
+          <div class="limit-scale"><span id="manage-limit-min"></span><span id="manage-limit-max"></span></div>
+        </div>
+        <!-- /PAGES -->
         <div class="row"><span id="manage-total"></span><span class="summary-actions">
+          <!-- PAGES -->
+          <span id="manage-kept-free" hidden></span>
+          <!-- /PAGES -->
           <a id="reset-recommended" href="#" hidden>Reset to recommended</a>
           <button id="make-fit" type="button" hidden>Make it fit</button>
         </span></div>

@@ -13,7 +13,8 @@ in Chrome, Edge or Arc on a computer. Plug in and choose a drive. OWL
 recommends a library for the available space and asks for the label size if
 it cannot measure free space. Choose **Sync** to download and verify the
 recommendation directly on the drive. **Manage what goes on it** lets you
-change collections, editions and individual files before syncing.
+set **Space for the library** and change collections, editions and individual
+files before syncing. The limit is saved to the drive when you sync.
 
 Keep the tab open and the drive connected during Sync. If the connection
 drops, the download continues when it returns. After pausing or reopening

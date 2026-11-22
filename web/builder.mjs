@@ -794,8 +794,10 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
   choice ??= saved?.choice || {kind: "recommended", split: !singleArchives && !joinArchives};
   const comparison = await compareLibrary(drive, {assets, choice, catalogVersion, partBytes, singleArchives, joinArchives, fullVerify, signal,
     inspection, freeBytes});
+  const resuming = saved?.pending && !comparison.changedChoice && catalogVersion === saved.catalogVersion;
   const state = beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, singleArchives, archiveSpace,
-    capacityBytes: capacityBytes ?? saved?.capacityBytes, searchBudget: saved?.pending ? saved.searchBudget ?? searchBudget : searchBudget});
+    capacityBytes: capacityBytes ?? saved?.capacityBytes,
+    searchBudget: resuming ? Math.min(saved.searchBudget ?? searchBudget, searchBudget) : searchBudget});
   const {legacy} = inspection;
   state.adopting = comparison.adoption && legacy.size > 0;
   const held = new Set(comparison.held.filter(row => !replaceInPlace.includes(row.asset.id) || row.old.protected).map(row => row.asset.id));
