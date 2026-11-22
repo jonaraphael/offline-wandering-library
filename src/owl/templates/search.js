@@ -73,6 +73,7 @@
   const byId = id => document.getElementById(id);
   const status = byId('status'), results = byId('results'), button = byId('searchButton');
   const retry = byId('retryButton'), query = byId('query'), shelf = byId('shelf');
+  const searchMore = byId('searchMore');
   const prefix = form.dataset.libraryRoot || '';
   if (!['', 'LIBRARY/'].includes(prefix)) return;
   let prepared = [], rankReady, timer, loading = false, epoch = 0;
@@ -115,7 +116,26 @@
     root.OWLShardModel = value => { table = value; };
     try {
       await Promise.all([script('SEARCH/rank.js'), script('SEARCH/shards.js'), script('SEARCH/model.js')]);
-      return {rank: root.OWLShardRank.classic(script, selection, table)};
+      const indexed = root.OWLShardRank.classic(script, selection, table);
+      const mobile = navigator.userAgentData?.mobile ?? /Android|iPhone|iPad/i.test(navigator.userAgent);
+      if (!selection.reranker || mobile) return {rank: indexed, bounded: Boolean(selection.impact)};
+      let reranker;
+      async function rank(text, shelf, limit, cancelled, onProgress, exhaustive) {
+        const all = await indexed(text, shelf, Math.max(limit, 50), cancelled, hits => onProgress(hits.slice(0, limit)), exhaustive);
+        const initial = all.slice(0, limit);
+        if (cancelled() || initial.length < 2) return initial;
+        onProgress(initial);
+        try {
+          reranker ??= script('SEARCH/rerank.js').then(() => root.OWLReranker.create(script));
+          const rerank = await reranker;
+          const rescored = await rerank(text, all, cancelled);
+          return cancelled() ? [] : root.OWLShardRank.topResults(rescored, limit);
+        } catch (_) {
+          reranker = undefined;
+          return initial;
+        }
+      }
+      return {rank, bounded: Boolean(selection.impact)};
     } catch (_) {
       return {warning: 'The article and passage index could not load.'};
     } finally {
@@ -146,13 +166,16 @@
     const mine = ++epoch;
     const cancelled = () => mine !== epoch;
     const text = query.value, selectedShelf = shelf.value;
+    const exhaustive = event?.submitter === searchMore;
+    searchMore.hidden = true;
     try {
       const catalog = search(prepared, text, selectedShelf);
       render(catalog.slice(0, 40), 'catalog');
       let matches = catalog.slice(0, 40);
       let warning = '';
       if (rankReady && text.trim()) {
-        status.textContent = 'Searching indexed articles and passages…';
+        status.textContent = exhaustive ? 'Searching all indexed entries…' :
+          'Searching indexed articles and passages…';
         const showHits = (hits, scope) => {
           matches = mergeRanked(hits, catalog);
           render(matches, scope);
@@ -162,9 +185,10 @@
           if (cancelled()) return;
           warning = engine.warning || '';
           if (engine.rank) {
-            const hits = await engine.rank(text, selectedShelf, 30, cancelled, hits => showHits(hits, 'indexed'));
+            const hits = await engine.rank(text, selectedShelf, 30, cancelled, hits => showHits(hits, 'indexed'), exhaustive);
             if (cancelled()) return;
             showHits(hits, 'complete');
+            searchMore.hidden = exhaustive || !engine.bounded;
           }
         } catch (error) {
           if (cancelled()) return;
@@ -180,7 +204,7 @@
     }
   }
   form.addEventListener('submit', run);
-  query.addEventListener('input', () => { clearTimeout(timer); if (rankReady) ++epoch; else timer = setTimeout(run, 180); });
+  query.addEventListener('input', () => { searchMore.hidden = true; clearTimeout(timer); if (rankReady) ++epoch; else timer = setTimeout(run, 180); });
   shelf.addEventListener('change', run);
   retry.addEventListener('click', load);
   load();

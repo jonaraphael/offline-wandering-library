@@ -51,9 +51,14 @@ class Article(HTMLParser):
     VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link",
             "meta", "param", "source", "track", "wbr"}
 
-    def __init__(self, *, document=False):
+    ARCHIVE_DECORATION = {"infobox", "navbox", "sidebar", "reflist", "reference", "mw-editsection",
+                          "mw-references-wrap", "hatnote", "ambox", "metadata", "zim-footer",
+                          "footer", "site-footer", "navigation", "js-post-menu", "s-post-summary"}
+
+    def __init__(self, *, document=False, archive_body=False):
         super().__init__(convert_charrefs=True)
         self.document = document
+        self.archive_body = archive_body
         self.stack = []
         self.lead = []
         self.accepted = []
@@ -83,6 +88,7 @@ class Article(HTMLParser):
         parent = self.stack[-1][1:] if self.stack else (False, False, False, "")
         hidden = parent[0] or tag in self.SKIP or "hidden" in attributes
         classes = set((attributes.get("class") or "").split())
+        hidden = hidden or self.archive_body and bool(classes & self.ARCHIVE_DECORATION)
         accepted = parent[1] or bool(classes & {"accepted-answer", "answer-accepted", "accepted"})
         anchor = attributes.get("id") or attributes.get("name") or parent[3]
         self.stack.append((tag, hidden, accepted, parent[2] or tag == "p", anchor))
@@ -133,8 +139,9 @@ class Article(HTMLParser):
         if paragraph and self.lead_size < 800:
             self.lead.append(value[:800 - self.lead_size])
             self.lead_size += len(value) + 1
-        if accepted and self.accepted_size < 800:
-            self.accepted.append(value[:800 - self.accepted_size])
+        accepted_limit = 6_000 if self.archive_body else 800
+        if accepted and self.accepted_size < accepted_limit:
+            self.accepted.append(value[:accepted_limit - self.accepted_size])
             self.accepted_size += len(value) + 1
 
 

@@ -618,8 +618,12 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         atomic_write(state_path, _json(state))
         progress("Assembling selected precomputed search shards and catalog discovery.")
         readable_assets = document_assets(inventory_assets)
+        from .wikimed_phone import DESTINATION, manifest as phone_manifest, verified_volume, volumes
+        phone = volumes(readable_assets, phone_manifest())
+        phone_pages = {DESTINATION + row["file"]: verified_volume(row) for row in phone}
+        phone_bytes = sum(map(len, phone_pages.values()))
         discovery_pages, search_report = plan_discovery(readable_assets, navigation,
-                                                        budget=plan["discovery_budget_bytes"])
+                                                        budget=plan["discovery_budget_bytes"] - phone_bytes)
         from .atlas_build import plan_atlas, register_outputs, validate_links, write_outputs
         register_outputs(target, discovery_pages, state)
         write_outputs(target, discovery_pages)
@@ -632,16 +636,20 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                      "content_selection": selection, "content_complete": content_complete,
                      "learning_coverage": plan["learning_coverage"],
                      "unresolved": unresolved}
+        if phone:
+            inventory["phone_volumes"] = phone
         atlas_pages, atlas_report = plan_atlas(target, readable_assets, navigation, state,
                                               strict_coverage=strict_coverage)
         inventory["navigation"] = atlas_report
         navigation_pages = generate_navigation(target, readable_assets, inventory, search_report, write=False)
         navigation_pages.update(atlas_pages)
-        validate_links(target, {**dict.fromkeys(CORE_OUTPUTS, ""), **navigation_pages}, inventory_assets)
-        check_space(target, sum(len(text.encode("utf-8")) for text in navigation_pages.values()) + profile["reserve_bytes"])
-        register_outputs(target, navigation_pages, state)
+        validate_links(target, {**dict.fromkeys(CORE_OUTPUTS, ""), **phone_pages, **navigation_pages}, inventory_assets)
+        check_space(target, sum(len(text.encode("utf-8")) for text in navigation_pages.values())
+                    + phone_bytes + profile["reserve_bytes"])
+        nav_files = {**phone_pages, **navigation_pages}
+        register_outputs(target, nav_files, state)
+        write_outputs(target, phone_pages)
         write_outputs(target, navigation_pages)
-        nav_files = list(navigation_pages)
         atomic_write(safe_path(target, "INVENTORY.json"), _json(inventory))
         atomic_write(safe_path(target, "CONTENT_SELECTION.json"), _json({
             "schema_version": 1, "profile": profile_name, "content_complete": content_complete,

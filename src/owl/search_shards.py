@@ -199,8 +199,11 @@ def packed_part(source, number, records, model, *, title_paths=False, content_ad
         embedded += bool(vector)
         passages += bool(row.body and vector)
         compact.append([title, row.locator, excerpt, vector, int(row.redirect), int(title_only)])
-        if row.accepted_answer:
-            compact[-1].append(1)
+        passage_heading = row.heading if title_paths and row.body else ""
+        if row.accepted_answer or passage_heading:
+            compact[-1].append(int(row.accepted_answer))
+        if passage_heading:
+            compact[-1].append(passage_heading)
     route_terms.update(postings)
     message = encode({"records": compact, "postings": postings})
     encoded = base64.b64encode(compress(message, compresslevel=6, mtime=0)).decode("ascii")
@@ -303,7 +306,27 @@ def source_manifest(asset, shard, destination):
             "shelves": asset.get("shelves", []), "legacy": bool(asset.get("legacy"))}
 
 
-def compile_search_plan(assets, manifest, routes):
+def load_impact(folder=SEARCH_ROOT):
+    path = folder / "impact/manifest.json"
+    if not path.is_file():
+        return {}
+    data = json.loads(path.read_bytes())
+    if data.get("version") != 1 or any(not re.fullmatch(r"[a-f0-9]{2}\.js", name) for name in data["files"]):
+        raise ValueError("Invalid search impact index")
+    return data
+
+
+def load_transformer(folder=SEARCH_ROOT):
+    path = folder / "transformer/manifest.json"
+    if not path.is_file():
+        return {}
+    files = json.loads(path.read_bytes())
+    if any(not re.fullmatch(r"[a-zA-Z0-9.-]+\.(?:js|txt)", name) for name in files):
+        raise ValueError("Invalid local transformer asset name")
+    return files
+
+
+def compile_search_plan(assets, manifest, routes, impact=None, transformer=None):
     """Compile source order, destinations, physical files and ranker inputs once."""
     from .catalog import learning_shelves
 
@@ -311,6 +334,8 @@ def compile_search_plan(assets, manifest, routes):
     ordered = sorted(candidates, key=lambda pair: (not pair[0].get("critical"), pair[1]["records"], pair[0]["id"]))
     chunks = {}
     sources = []
+    impact = impact or {}
+    ids = impact.get("ids", {})
     for asset, shard in ordered:
         digest = asset["sha256"]
         row = source_manifest(asset, shard, asset["destination"])
@@ -325,6 +350,9 @@ def compile_search_plan(assets, manifest, routes):
                     if key in pin}
             if pin["sha256"] in routes:
                 rank.update(route=routes[pin["sha256"]], bytes=pin["bytes"])
+            rank["bytes"] = pin["bytes"]
+            if pin["sha256"] in ids:
+                rank["impact"] = ids[pin["sha256"]]
             if "path" in pin:
                 rank.update(path=path)
             else:
@@ -333,13 +361,14 @@ def compile_search_plan(assets, manifest, routes):
         sources.append({"row": row, "parts": paths, "sha256": shard["sha256"]})
     model = list(model_files(manifest)) if candidates else []
     return {"version": SCHEMA, "sources": sources, "chunks": chunks, "model": model,
-            "model_parts": len(manifest.get("model_parts", ())), "reserve": 64_000}
+            "model_parts": len(manifest.get("model_parts", ())), "reserve": 64_000,
+            "impact": impact.get("files", {}), "transformer": transformer or {}}
 
 
 def compose_shards(assets, budget, folder=SEARCH_ROOT):
     """Publish only whole source shards with a common runtime and pinned model."""
     manifest = load_manifest(folder)
-    plan = compile_search_plan(assets, manifest, load_routes(folder))
+    plan = compile_search_plan(assets, manifest, load_routes(folder), load_impact(folder), load_transformer(folder))
     if not plan["sources"]:
         return {}, []
     runtime = Path(__file__).with_name("templates").joinpath("rank.js").read_bytes()
@@ -371,8 +400,26 @@ def compose_shards(assets, budget, folder=SEARCH_ROOT):
         return {}, []
     for path, pin in model:
         read_file(folder, path, pin)
-    outputs[SELECTION_FILE] = script("OWLShardSelection", {
-        "version": plan["version"], "sources": rows, "model_parts": plan["model_parts"],
-    })
+    selection = {"version": plan["version"], "sources": rows, "model_parts": plan["model_parts"]}
+    impact = plan["impact"]
+    routed = any("impact" in part for row in rows for part in row["parts"])
+    if impact and routed and sum(pin["bytes"] + 20 for pin in impact.values()) <= remaining:
+        for name, pin in impact.items():
+            path = "impact/" + name
+            outputs["SEARCH/" + path] = ShardPart(folder, path, pin)
+            read_file(folder, path, pin)
+        selection["impact"] = {name: pin["bytes"] for name, pin in impact.items()}
+    if "impact" in selection:
+        remaining -= sum(pin["bytes"] + 20 for pin in impact.values())
+    transformer = plan["transformer"]
+    rerank = Path(__file__).with_name("templates").joinpath("rerank.js").read_bytes()
+    if transformer and sum(pin["bytes"] for pin in transformer.values()) + len(rerank) + 20 <= remaining:
+        for name, pin in transformer.items():
+            path = "transformer/" + name
+            outputs["SEARCH/" + path] = ShardPart(folder, path, pin)
+            read_file(folder, path, pin)
+        outputs["SEARCH/rerank.js"] = rerank
+        selection["reranker"] = True
+    outputs[SELECTION_FILE] = script("OWLShardSelection", selection)
     return outputs, [{"id": row["id"], "source_sha256": row["sha256"], "records": row["records"]}
                      for row in rows]

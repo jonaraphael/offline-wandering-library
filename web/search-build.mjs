@@ -13,11 +13,11 @@ const wrap = (name, value) => "globalThis." + name + "(" + canonical(value) + ")
 const locator = path => path.split("/").map(segment => encodeURIComponent(segment)
   .replace(/[!'()*]/g, char => "%" + char.charCodeAt(0).toString(16).toUpperCase())).join("/");
 
-async function transfer(drive, base, path, pin, fetchFile, signal, network) {
+export async function transfer(drive, base, path, pin, fetchFile, signal, network, destination = root + path) {
   if (!dig.test(pin.sha256) || !Number.isInteger(pin.bytes) || pin.bytes < 1 || pin.bytes > 3_000_000) {
     throw Error("Invalid precomputed search file pin");
   }
-  const relative = root + path;
+  const relative = destination;
   const existing = await optional(async () => (await fileHandle(drive, relative)).getFile());
   if (existing?.size === pin.bytes && bytesToHex(sha256(new Uint8Array(await existing.arrayBuffer()))) === pin.sha256) {
     return pin.sha256 + "  " + relative;
@@ -44,7 +44,7 @@ async function transfer(drive, base, path, pin, fetchFile, signal, network) {
 }
 
 export async function assembleSearch(drive, {completed, layouts, config, fetchFile, signal, budget, network}) {
-  const {plan, base, records, page, runtime, rankRuntime} = config;
+  const {plan, base, records, page, runtime, rankRuntime, rerankRuntime} = config;
   const warnings = [];
   const omittedForSpace = [];
   const selection = {version: plan.version, sources: [], model_parts: plan.model_parts};
@@ -117,6 +117,41 @@ export async function assembleSearch(drive, {completed, layouts, config, fetchFi
     } catch (error) {
       signal?.throwIfAborted();
       warnings.push(row.title + " search — " + error.message);
+    }
+  }
+  const impact = Object.entries(plan.impact || {});
+  const routed = selection.sources.some(source => source.parts.some(part => part.impact));
+  if (routed && impact.length &&
+      impact.reduce((sum, [, pin]) => sum + pin.bytes + 20, 0) <= remaining) {
+    try {
+      for (const [name, pin] of impact) {
+        if (!/^[a-f0-9]{2}\.js$/.test(name)) throw Error("Invalid term bucket name");
+        const path = "impact/" + name;
+        const line = await transfer(drive, base, path, pin, fetchFile, signal, network);
+        checksums.set(path, line);
+        remaining -= pin.bytes + 20;
+      }
+      selection.impact = Object.fromEntries(impact.map(([name, pin]) => [name, pin.bytes]));
+    } catch (error) {
+      signal?.throwIfAborted();
+      warnings.push("Term index — " + error.message);
+    }
+  }
+  const transformer = Object.entries(plan.transformer || {});
+  if (selection.sources.length && transformer.length &&
+      transformer.reduce((sum, [, pin]) => sum + pin.bytes, charge(rerankRuntime) + 20) <= remaining) {
+    try {
+      for (const [name, pin] of transformer) {
+        if (!/^[a-zA-Z0-9.-]+\.(?:js|txt)$/.test(name)) throw Error("Invalid local transformer asset name");
+        const path = "transformer/" + name;
+        const line = await transfer(drive, base, path, pin, fetchFile, signal, network);
+        checksums.set(path, line);
+      }
+      pages.set(root + "rerank.js", rerankRuntime);
+      selection.reranker = true;
+    } catch (error) {
+      signal?.throwIfAborted();
+      warnings.push("Search reranker — " + error.message);
     }
   }
   const format = "owl-discovery-v1";

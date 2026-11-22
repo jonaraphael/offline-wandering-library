@@ -1,0 +1,438 @@
+{
+  "source_sha256": "6f67340a7cd7665bb57c27d2bbff97e26f2037477c9ea597345a118286820331",
+  "source_id": "wikimed_en",
+  "volumes": [
+    {
+      "file": "wikimed-emergencies.pdf",
+      "title": "Emergencies and first aid",
+      "bytes": 834760,
+      "sha256": "5bc962ee1ec9f103bbe6ada8d49a876011dcd6158709763b40e133c3907cb24c",
+      "articles": [
+        {
+          "path": "First_aid",
+          "title": "First aid",
+          "revision": "https://en.wikipedia.org/wiki/?title=First_aid&oldid=1347720415"
+        },
+        {
+          "path": "Cardiopulmonary_resuscitation",
+          "title": "Cardiopulmonary resuscitation",
+          "revision": "https://en.wikipedia.org/wiki/?title=Cardiopulmonary_resuscitation&oldid=1345249913"
+        },
+        {
+          "path": "Choking",
+          "title": "Choking",
+          "revision": "https://en.wikipedia.org/wiki/?title=Choking&oldid=1341123783"
+        },
+        {
+          "path": "Drowning",
+          "title": "Drowning",
+          "revision": "https://en.wikipedia.org/wiki/?title=Drowning&oldid=1345514232"
+        },
+        {
+          "path": "Bleeding",
+          "title": "Bleeding",
+          "revision": "https://en.wikipedia.org/wiki/?title=Bleeding&oldid=1347456982"
+        },
+        {
+          "path": "Shock_(circulatory)",
+          "title": "Shock (circulatory)",
+          "revision": "https://en.wikipedia.org/wiki/?title=Shock_(circulatory)&oldid=1322691918"
+        },
+        {
+          "path": "Burn",
+          "title": "Burn",
+          "revision": "https://en.wikipedia.org/wiki/?title=Burn&oldid=1345921910"
+        },
+        {
+          "path": "Electrical_injury",
+          "title": "Electrical injury",
+          "revision": "https://en.wikipedia.org/wiki/?title=Electrical_injury&oldid=1347749539"
+        },
+        {
+          "path": "Carbon_monoxide_poisoning",
+          "title": "Carbon monoxide poisoning",
+          "revision": "https://en.wikipedia.org/wiki/?title=Carbon_monoxide_poisoning&oldid=1344093209"
+        },
+        {
+          "path": "Heat_stroke",
+          "title": "Heat stroke",
+          "revision": "https://en.wikipedia.org/wiki/?title=Heat_stroke&oldid=1345512902"
+        },
+        {
+          "path": "Hypothermia",
+          "title": "Hypothermia",
+          "revision": "https://en.wikipedia.org/wiki/?title=Hypothermia&oldid=1347464925"
+        },
+        {
+          "path": "Frostbite",
+          "title": "Frostbite",
+          "revision": "https://en.wikipedia.org/wiki/?title=Frostbite&oldid=1344509015"
+        },
+        {
+          "path": "Anaphylaxis",
+          "title": "Anaphylaxis",
+          "revision": "https://en.wikipedia.org/wiki/?title=Anaphylaxis&oldid=1343755172"
+        },
+        {
+          "path": "Seizure",
+          "title": "Seizure",
+          "revision": "https://en.wikipedia.org/wiki/?title=Seizure&oldid=1348278140"
+        },
+        {
+          "path": "Stroke",
+          "title": "Stroke",
+          "revision": "https://en.wikipedia.org/wiki/?title=Stroke&oldid=1348275084"
+        },
+        {
+          "path": "Myocardial_infarction",
+          "title": "Myocardial infarction",
+          "revision": "https://en.wikipedia.org/wiki/?title=Myocardial_infarction&oldid=1345938649"
+        },
+        {
+          "path": "Bone_fracture",
+          "title": "Bone fracture",
+          "revision": "https://en.wikipedia.org/wiki/?title=Bone_fracture&oldid=1314290276"
+        },
+        {
+          "path": "Concussion",
+          "title": "Concussion",
+          "revision": "https://en.wikipedia.org/wiki/?title=Concussion&oldid=1342152747"
+        },
+        {
+          "path": "Snakebite",
+          "title": "Snakebite",
+          "revision": "https://en.wikipedia.org/wiki/?title=Snakebite&oldid=1343548263"
+        },
+        {
+          "path": "Poisoning",
+          "title": "Poisoning",
+          "revision": "https://en.wikipedia.org/wiki/?title=Poisoning&oldid=1339652812"
+        },
+        {
+          "path": "Chemical_eye_injury",
+          "title": "Chemical eye injury",
+          "revision": "https://en.wikipedia.org/wiki/?title=Chemical_eye_injury&oldid=1324098380"
+        },
+        {
+          "path": "Spinal_cord_injury",
+          "title": "Spinal cord injury",
+          "revision": "https://en.wikipedia.org/wiki/?title=Spinal_cord_injury&oldid=1342222544"
+        }
+      ]
+    },
+    {
+      "file": "wikimed-illnesses.pdf",
+      "title": "Common illnesses and symptoms",
+      "bytes": 885313,
+      "sha256": "11980dcb2aaf35ddf5a9a5dfacb7f9746f91d847ba65e77bbee5343abd812cb0",
+      "articles": [
+        {
+          "path": "Fever",
+          "title": "Fever",
+          "revision": "https://en.wikipedia.org/wiki/?title=Fever&oldid=1347414526"
+        },
+        {
+          "path": "Dehydration",
+          "title": "Dehydration",
+          "revision": "https://en.wikipedia.org/wiki/?title=Dehydration&oldid=1347434612"
+        },
+        {
+          "path": "Diarrhea",
+          "title": "Diarrhea",
+          "revision": "https://en.wikipedia.org/wiki/?title=Diarrhea&oldid=1343442176"
+        },
+        {
+          "path": "Gastroenteritis",
+          "title": "Gastroenteritis",
+          "revision": "https://en.wikipedia.org/wiki/?title=Gastroenteritis&oldid=1341224896"
+        },
+        {
+          "path": "Influenza",
+          "title": "Influenza",
+          "revision": "https://en.wikipedia.org/wiki/?title=Influenza&oldid=1344979707"
+        },
+        {
+          "path": "Common_cold",
+          "title": "Common cold",
+          "revision": "https://en.wikipedia.org/wiki/?title=Common_cold&oldid=1348222933"
+        },
+        {
+          "path": "Pneumonia",
+          "title": "Pneumonia",
+          "revision": "https://en.wikipedia.org/wiki/?title=Pneumonia&oldid=1341003295"
+        },
+        {
+          "path": "Asthma",
+          "title": "Asthma",
+          "revision": "https://en.wikipedia.org/wiki/?title=Asthma&oldid=1341291068"
+        },
+        {
+          "path": "Otitis_media",
+          "title": "Otitis media",
+          "revision": "https://en.wikipedia.org/wiki/?title=Otitis_media&oldid=1342300787"
+        },
+        {
+          "path": "Urinary_tract_infection",
+          "title": "Urinary tract infection",
+          "revision": "https://en.wikipedia.org/wiki/?title=Urinary_tract_infection&oldid=1344029937"
+        },
+        {
+          "path": "Diabetes",
+          "title": "Diabetes",
+          "revision": "https://en.wikipedia.org/wiki/?title=Diabetes&oldid=1348016583"
+        },
+        {
+          "path": "Hypoglycemia",
+          "title": "Hypoglycemia",
+          "revision": "https://en.wikipedia.org/wiki/?title=Hypoglycemia&oldid=1335899926"
+        },
+        {
+          "path": "Headache",
+          "title": "Headache",
+          "revision": "https://en.wikipedia.org/wiki/?title=Headache&oldid=1344031550"
+        },
+        {
+          "path": "Hypertension",
+          "title": "Hypertension",
+          "revision": "https://en.wikipedia.org/wiki/?title=Hypertension&oldid=1345318747"
+        },
+        {
+          "path": "Anemia",
+          "title": "Anemia",
+          "revision": "https://en.wikipedia.org/wiki/?title=Anemia&oldid=1347638127"
+        },
+        {
+          "path": "Constipation",
+          "title": "Constipation",
+          "revision": "https://en.wikipedia.org/wiki/?title=Constipation&oldid=1348259453"
+        },
+        {
+          "path": "Abdominal_pain",
+          "title": "Abdominal pain",
+          "revision": "https://en.wikipedia.org/wiki/?title=Abdominal_pain&oldid=1346937879"
+        },
+        {
+          "path": "Streptococcal_pharyngitis",
+          "title": "Streptococcal pharyngitis",
+          "revision": "https://en.wikipedia.org/wiki/?title=Streptococcal_pharyngitis&oldid=1341835878"
+        },
+        {
+          "path": "Toothache",
+          "title": "Toothache",
+          "revision": "https://en.wikipedia.org/wiki/?title=Toothache&oldid=1341157032"
+        },
+        {
+          "path": "Cellulitis",
+          "title": "Cellulitis",
+          "revision": "https://en.wikipedia.org/wiki/?title=Cellulitis&oldid=1344803708"
+        },
+        {
+          "path": "Malaria",
+          "title": "Malaria",
+          "revision": "https://en.wikipedia.org/wiki/?title=Malaria&oldid=1346730267"
+        },
+        {
+          "path": "Dengue_fever",
+          "title": "Dengue fever",
+          "revision": "https://en.wikipedia.org/wiki/?title=Dengue_fever&oldid=1344737156"
+        },
+        {
+          "path": "Cholera",
+          "title": "Cholera",
+          "revision": "https://en.wikipedia.org/wiki/?title=Cholera&oldid=1347748735"
+        }
+      ]
+    },
+    {
+      "file": "wikimed-medicines.pdf",
+      "title": "Medicines and fluids",
+      "bytes": 538487,
+      "sha256": "fac07fde043fdc010aff6a43cc3e5435cb2dea71eb4bc8f964f4ef3d3d36f69d",
+      "articles": [
+        {
+          "path": "Oral_rehydration_therapy",
+          "title": "Oral rehydration therapy",
+          "revision": "https://en.wikipedia.org/wiki/?title=Oral_rehydration_therapy&oldid=1347115367"
+        },
+        {
+          "path": "Paracetamol",
+          "title": "Paracetamol",
+          "revision": "https://en.wikipedia.org/wiki/?title=Paracetamol&oldid=1347370776"
+        },
+        {
+          "path": "Ibuprofen",
+          "title": "Ibuprofen",
+          "revision": "https://en.wikipedia.org/wiki/?title=Ibuprofen&oldid=1347347905"
+        },
+        {
+          "path": "Aspirin",
+          "title": "Aspirin",
+          "revision": "https://en.wikipedia.org/wiki/?title=Aspirin&oldid=1347907584"
+        },
+        {
+          "path": "Amoxicillin",
+          "title": "Amoxicillin",
+          "revision": "https://en.wikipedia.org/wiki/?title=Amoxicillin&oldid=1341748936"
+        },
+        {
+          "path": "Doxycycline",
+          "title": "Doxycycline",
+          "revision": "https://en.wikipedia.org/wiki/?title=Doxycycline&oldid=1345162656"
+        },
+        {
+          "path": "Metronidazole",
+          "title": "Metronidazole",
+          "revision": "https://en.wikipedia.org/wiki/?title=Metronidazole&oldid=1343413626"
+        },
+        {
+          "path": "Cetirizine",
+          "title": "Cetirizine",
+          "revision": "https://en.wikipedia.org/wiki/?title=Cetirizine&oldid=1344266853"
+        },
+        {
+          "path": "Epinephrine_autoinjector",
+          "title": "Epinephrine autoinjector",
+          "revision": "https://en.wikipedia.org/wiki/?title=Epinephrine_autoinjector&oldid=1336160475"
+        },
+        {
+          "path": "Salbutamol",
+          "title": "Salbutamol",
+          "revision": "https://en.wikipedia.org/wiki/?title=Salbutamol&oldid=1346687625"
+        },
+        {
+          "path": "Insulin",
+          "title": "Insulin",
+          "revision": "https://en.wikipedia.org/wiki/?title=Insulin&oldid=1347359530"
+        },
+        {
+          "path": "Naloxone",
+          "title": "Naloxone",
+          "revision": "https://en.wikipedia.org/wiki/?title=Naloxone&oldid=1348190048"
+        },
+        {
+          "path": "Antibiotic",
+          "title": "Antibiotic",
+          "revision": "https://en.wikipedia.org/wiki/?title=Antibiotic&oldid=1347790793"
+        },
+        {
+          "path": "Antimicrobial_resistance",
+          "title": "Antimicrobial resistance",
+          "revision": "https://en.wikipedia.org/wiki/?title=Antimicrobial_resistance&oldid=1347842420"
+        },
+        {
+          "path": "Adverse_effect",
+          "title": "Adverse effect",
+          "revision": "https://en.wikipedia.org/wiki/?title=Adverse_effect&oldid=1341317707"
+        }
+      ]
+    },
+    {
+      "file": "wikimed-family-health.pdf",
+      "title": "Pregnancy, birth and child health",
+      "bytes": 763565,
+      "sha256": "3b570ef7e74a986aae4b1203d94d244272c26609719722461fecbb17cf6db4c6",
+      "articles": [
+        {
+          "path": "Pregnancy",
+          "title": "Pregnancy",
+          "revision": "https://en.wikipedia.org/wiki/?title=Pregnancy&oldid=1341924099"
+        },
+        {
+          "path": "Prenatal_care",
+          "title": "Prenatal care",
+          "revision": "https://en.wikipedia.org/wiki/?title=Prenatal_care&oldid=1347605855"
+        },
+        {
+          "path": "Childbirth",
+          "title": "Childbirth",
+          "revision": "https://en.wikipedia.org/wiki/?title=Childbirth&oldid=1348020761"
+        },
+        {
+          "path": "Midwifery",
+          "title": "Midwifery",
+          "revision": "https://en.wikipedia.org/wiki/?title=Midwifery&oldid=1340803762"
+        },
+        {
+          "path": "Umbilical_cord_prolapse",
+          "title": "Umbilical cord prolapse",
+          "revision": "https://en.wikipedia.org/wiki/?title=Umbilical_cord_prolapse&oldid=1341711026"
+        },
+        {
+          "path": "Pre-eclampsia",
+          "title": "Pre-eclampsia",
+          "revision": "https://en.wikipedia.org/wiki/?title=Pre-eclampsia&oldid=1347472440"
+        },
+        {
+          "path": "Ectopic_pregnancy",
+          "title": "Ectopic pregnancy",
+          "revision": "https://en.wikipedia.org/wiki/?title=Ectopic_pregnancy&oldid=1345646059"
+        },
+        {
+          "path": "Miscarriage",
+          "title": "Miscarriage",
+          "revision": "https://en.wikipedia.org/wiki/?title=Miscarriage&oldid=1347547134"
+        },
+        {
+          "path": "Postpartum_bleeding",
+          "title": "Postpartum bleeding",
+          "revision": "https://en.wikipedia.org/wiki/?title=Postpartum_bleeding&oldid=1343005045"
+        },
+        {
+          "path": "Postpartum_infections",
+          "title": "Postpartum infections",
+          "revision": "https://en.wikipedia.org/wiki/?title=Postpartum_infections&oldid=1348237524"
+        },
+        {
+          "path": "Breastfeeding",
+          "title": "Breastfeeding",
+          "revision": "https://en.wikipedia.org/wiki/?title=Breastfeeding&oldid=1347812085"
+        },
+        {
+          "path": "Mastitis",
+          "title": "Mastitis",
+          "revision": "https://en.wikipedia.org/wiki/?title=Mastitis&oldid=1334681842"
+        },
+        {
+          "path": "Newborn_care_and_safety",
+          "title": "Newborn care and safety",
+          "revision": "https://en.wikipedia.org/wiki/?title=Newborn_care_and_safety&oldid=1343705454"
+        },
+        {
+          "path": "Neonatal_jaundice",
+          "title": "Neonatal jaundice",
+          "revision": "https://en.wikipedia.org/wiki/?title=Neonatal_jaundice&oldid=1348248883"
+        },
+        {
+          "path": "Preterm_birth",
+          "title": "Preterm birth",
+          "revision": "https://en.wikipedia.org/wiki/?title=Preterm_birth&oldid=1344154686"
+        },
+        {
+          "path": "Febrile_seizure",
+          "title": "Febrile seizure",
+          "revision": "https://en.wikipedia.org/wiki/?title=Febrile_seizure&oldid=1331315275"
+        },
+        {
+          "path": "Croup",
+          "title": "Croup",
+          "revision": "https://en.wikipedia.org/wiki/?title=Croup&oldid=1338309752"
+        },
+        {
+          "path": "Bronchiolitis",
+          "title": "Bronchiolitis",
+          "revision": "https://en.wikipedia.org/wiki/?title=Bronchiolitis&oldid=1334893947"
+        },
+        {
+          "path": "Measles",
+          "title": "Measles",
+          "revision": "https://en.wikipedia.org/wiki/?title=Measles&oldid=1346409927"
+        },
+        {
+          "path": "Rotavirus",
+          "title": "Rotavirus",
+          "revision": "https://en.wikipedia.org/wiki/?title=Rotavirus&oldid=1334337087"
+        }
+      ]
+    }
+  ]
+}

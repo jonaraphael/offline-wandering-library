@@ -67,7 +67,7 @@ provisioning and in-place playback still depend on the individual device.
 | macOS | Open the bundled Kiwix DMG while offline, launch the app, and record any Gatekeeper message. Open the single ZIM and the first split part separately. Record whether the app reads the files in place and keeps bookmarks after unplug and reconnect. | Pending |
 | Linux x86-64 | Copy the AppImage to a filesystem where you can set the execute bit, run `chmod +x <file>`, then launch it. Keep the ZIMs on exFAT. Open the single ZIM and the first split part separately. If FUSE is unavailable as part of the tested system, record the alternate launch method used. | Pending |
 | Android with USB OTG | In airplane mode, connect the drive and open the standalone APK under `LIBRARY/SOFTWARE/ANDROID` in Files. Allow that app to install unknown apps if Android prompts. Open the standalone Kiwix build, choose its file picker, select the USB volume through the Storage Access Framework, and open the single ZIM. Repeat with both split parts beside each other. Verify the reported storage location stays on USB and confirm what happens after reconnect. | Pending |
-| USB-C iPhone, Files | In airplane mode, open Files → Browse → Locations and select the drive. Open `START_HERE.html` first, then the PDF path directly. Verify that the PDF text appears. Record whether Files follows sibling links. | Pending |
+| USB-C iPhone, Files | In airplane mode, open Files → Browse → Locations and select the drive. Open `START_HERE.html` first, then the PDF path directly. Open a WikiMed PDF using the checklist below. Record whether Files follows sibling links. | Pending |
 | USB-C iPhone, native Kiwix | While online, scan the builder’s App Store QR code and install Kiwix. In airplane mode, try the Kiwix document picker with the USB single ZIM, then its split copy. Record in-place playback or any import and storage growth. | Pending |
 | USB-C iPhone, Kiwix JS PWA | In Safari while online, open the Kiwix PWA, add it to the Home Screen and wait for caching. Relaunch from the Home Screen in airplane mode. Use **Select Storage** or the file picker to open the USB ZIM. Record whether the app itself loads, USB appears, the marker renders, and the same steps work with split parts. | Pending |
 
@@ -89,6 +89,37 @@ that some external drives require a powered adapter. Check Kiwix's file
 picker separately from Files. [Apple external drives](https://support.apple.com/guide/iphone/external-storage-devices-iph95baac91f/ios)
 [Kiwix for iPhone](https://apps.apple.com/us/app/kiwix/id997079563)
 [Kiwix JS PWA](https://github.com/kiwix/kiwix-js-pwa)
+
+## WikiMed in Files
+
+1. Use a drive build that includes the April 2026 WikiMed archive. Put the
+   iPhone in airplane mode. In Files, open **Browse** and select the drive
+   under **Locations**.
+2. Open **Critical files for phones** from `START_HERE.html`. If Files
+   restricts the link, browse directly to
+   `LIBRARY/CRITICAL/MEDICAL/WIKIMED-PHONE`.
+3. Open `wikimed-emergencies.pdf`. Tap **Choking** in the contents and check
+   that it jumps to the article. Open the viewer's outline if offered, then
+   look up “abdominal thrusts” with the viewer’s text search. Try selecting text.
+4. Open `wikimed-family-health.pdf` and find **Postpartum bleeding** in the
+   contents. Disconnect and reconnect the drive, then repeat one open. Record
+   the iPhone model, iOS version, drive format, and which contents links,
+   outline, and find controls worked while offline.
+
+The four volumes have selectable text, linked contents, article outlines, and
+Wikipedia revision links for attribution. The export omits illustrations,
+infoboxes and reference lists. Each volume carries the CC BY-SA 4.0 notice.
+The browser builder streams the small prebuilt files from the same Pages
+origin and verifies each SHA-256 before publishing its shelf links.
+The Python builder installs the same volumes from the repository and can
+regenerate them from the catalog-pinned ZIM with libzim and ReportLab:
+
+```sh
+python scripts/build_wikimed_phone.py /path/to/wikipedia_en_medicine_maxi_2026-04.zim OUTPUT
+```
+
+The volumes are sized within the drive's existing discovery allowance.
+The archive itself still uses Kiwix. [Apple Files and Quick Look](https://support.apple.com/guide/iphone/find-and-view-files-and-folders-iph4bff8827/ios)
 
 ## Local checks
 

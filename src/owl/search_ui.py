@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 SEARCH_CSP = (
-    "default-src 'none'; script-src 'self' file:; style-src 'unsafe-inline'; "
+    "default-src 'none'; script-src 'self' file: blob: 'wasm-unsafe-eval'; style-src 'unsafe-inline'; "
     "img-src 'self' file: data:; connect-src 'none'; object-src 'none'; "
     "base-uri 'none'; form-action 'none'"
 )

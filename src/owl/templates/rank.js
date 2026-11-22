@@ -106,6 +106,26 @@
       'darning|mending clothes|repair knitwear|clothing repair'],
     ['', /\b(?:wire .{0,14}broken .{0,18}meter|continuity test)\b/,
       'continuity test|multimeter|open circuit|electrical continuity'],
+    ['', /\b(?:sand (?:filter|filtration)|(?:filter|purify)\w* .{0,45}(?:sand|gravel))\b/,
+      'slow sand filter|sand filtration|biosand filter|sand water filter'],
+    ['', /\b(?:mosquito\w* .{0,25}(?:bit\w*|repell\w*|nets?)|repel\w* .{0,18}(?:mosquito\w*|insects?)|prevent\w* .{0,21}mosquito)\b/,
+      'mosquito bites|insect repellent|mosquito net|mosquito control|insect bites'],
+    ['', /\b(?:join\w* .{0,20}(?:wood|boards?)|wood (?:joinery|joints?)|(?:dovetail|mortise|tenon)\w*)\b/,
+      'wood joinery|wood joints|mortise and tenon|dovetail joint|woodworking joint'],
+    ['', /\b(?:dry toilets?|pit (?:privy|latrine)|(?:toilet|latrine) .{0,35}(?:no sewer|without (?:water|plumbing)|no running water))\b/,
+      'dry toilet|pit latrine|composting toilet|sanitation without sewer'],
+    ['', /\b(?:roof (?:pitch|slope|angle)|(?:pitch|slope|angle) .{0,12}roof)\b/,
+      'roof pitch|roof slope|setting rafters|rise and run|roof framing'],
+    ['', /\b(?:draft\w* .{0,14}(?:door|window)|(?:seal|insulat)\w* .{0,25}(?:door|window)|weather ?stripp\w*)\b/,
+      'weatherstripping|air sealing|draft proofing|door seal'],
+    ['', /\b(?:primary sources?|firsthand (?:account|evidence|record))\b/,
+      'primary source|firsthand account|historical sources'],
+    ['', /\b(?:loose stools|fluid loss .{0,12}(?:diarrh|vomit))\b/,
+      'oral rehydration|rehydration drink|dehydration|diarrhea|diarrhoea'],
+    ['', /\b(?:antibiotic\w* .{0,24}(?:dos\w*|course|prescri\w*)|(?:dos\w*|prescri\w*) .{0,18}antibiotic)\b/,
+      'antibiotic dosage|antibiotic therapy|antibiotic treatment|antimicrobial prescribing'],
+    ['', /\b(?:sharpen\w* .{0,24}(?:ax|axe|hatchet)|(?:ax|axe|hatchet) .{0,18}(?:sharpen|grind)\w*)\b/,
+      'sharpen an axe|axe sharpening|sharpen tools|grinding tools'],
   ].map(([domain, trigger, aliases]) => {
     const phrases = aliases.split('|');
     return {domain, trigger, canonical: phrases[0], evidence: phrases.map(terms)};
@@ -341,12 +361,15 @@
       for (const post of postings) {
         const index = post >>> 4, weight = post & 15;
         let stats = lexical.get(index);
-        if (!stats) lexical.set(index, stats = {hits: 0, strength: 0, body: false, leadHits: 0, weights: evidence.length || pediatricHealth ? new Map() : null});
+        if (!stats) lexical.set(index, stats = {hits: 0, strength: 0, body: false, bodyHits: 0, leadHits: 0, weights: evidence.length || pediatricHealth ? new Map() : null});
         stats.weights?.set(word, weight);
         if (original) {
           stats.hits++;
           stats.strength += weight;
-          if (weight <= 3) stats.body = true;
+          if (weight <= 3) {
+            stats.body = true;
+            stats.bodyHits++;
+          }
           if (weight === 3) stats.leadHits++;
         }
       }
@@ -373,7 +396,8 @@
       const lexicalScore = coverage ? 12 + 70 * coverage ** 2 + 6 * strength : 0;
       const question = discussion;
       const answer = question && row[6] && row[2] ? terms(row[2]) : [];
-      const answerHits = Math.max(stats?.leadHits || 0, answer.filter(word => primary.has(word)).length);
+      const answerHits = Math.max(stats?.leadHits || 0, answer.filter(word => primary.has(word)).length,
+        row[6] && row[7] === 'Accepted answer' && stats?.body ? stats.bodyHits : 0);
       const answerConcept = support && answer.length && evidence.some(words => words.every(word => answer.includes(word)));
       const matchedAnswer = row[6] && (answerConcept ||
         answerHits >= Math.min(2, query.length) && answerHits / query.length >= 0.4);
@@ -447,7 +471,7 @@
   }
 
   function result(asset, hit, part) {
-    const [rawTitle, locator, lead] = hit.row;
+    const [rawTitle, locator, lead, , , , , heading] = hit.row;
     const title = displayTitle(asset, rawTitle, locator);
     const archive = asset.format === 'zim';
     const destination = asset.destination;
@@ -457,15 +481,127 @@
     return {score: hit.score, rankTitle: rawTitle, fullMatch: hit.fullMatch, focused: hit.focused, indexed: true, record: {id: asset.id + ':' + part + ':' + hit.index,
       asset_id: asset.id, title, description: lead, source_title: asset.title, href, destination,
       kind: archive ? 'article' : 'section', reader_required: archive,
-      location: archive ? 'Archive path: ' + locator : asset.format === 'pdf' ? 'Page ' + locator :
+      location: archive ? 'Archive path: ' + locator + (heading ? ' · ' + heading : '') : asset.format === 'pdf' ? 'Page ' + locator :
         locator ? 'Section: ' + locator : 'HTML',
       license: asset.license, attribution: asset.attribution}};
   }
 
   const READ_BUDGET = 28_000_000;
+  const BOUNDED_BYTES = 39_700_000;
+  const TERM_BYTES = 4_000_000;
+
+  function impactBucket(word) {
+    return (hashTerm(word) >>> 24).toString(16).padStart(2, '0') + '.js';
+  }
+
+  async function impactBlock(packed) {
+    const stream = new Blob([bytes(packed)]).stream().pipeThrough(new DecompressionStream('gzip'));
+    const raw = new Uint8Array(await new Response(stream).arrayBuffer());
+    const decoder = new TextDecoder('utf-8', {fatal: true});
+    const dictionary = new Map();
+    const cursor = {offset: 0};
+    while (cursor.offset < raw.length) {
+      const length = unsigned(raw, cursor);
+      const posts = unsigned(raw, cursor);
+      const df = unsigned(raw, cursor);
+      const start = cursor.offset;
+      if (!length || !posts || !df || start + length + posts > raw.length) throw Error('Invalid term block');
+      const term = decoder.decode(raw.subarray(start, start + length));
+      cursor.offset = start + length + posts;
+      dictionary.set(term, {data: raw.subarray(start + length, cursor.offset), df});
+    }
+    return dictionary;
+  }
+
+  function unsigned(raw, cursor) {
+    let value = 0, shift = 0;
+    while (cursor.offset < raw.length && shift <= 28) {
+      const octet = raw[cursor.offset++];
+      value += (octet & 127) * 2 ** shift;
+      if (!(octet & 128)) return value;
+      shift += 7;
+    }
+    throw Error('Invalid impact integer');
+  }
+
+  function* impactPostings(raw) {
+    const cursor = {offset: 0};
+    let lastImpact = 16;
+    while (cursor.offset < raw.length) {
+      const impact = unsigned(raw, cursor);
+      const count = unsigned(raw, cursor);
+      if (!impact || impact >= lastImpact || !count || count > 32) throw Error('Invalid impact band');
+      lastImpact = impact;
+      let id = 0;
+      for (let i = 0; i < count; i++) {
+        const delta = unsigned(raw, cursor);
+        if (!delta) throw Error('Invalid impact part address');
+        id += delta;
+        yield [id, impact];
+      }
+    }
+  }
+
+  async function impactEvidence(query, files, read) {
+    const words = lookupTerms(query);
+    const grouped = new Map();
+    let remaining = TERM_BYTES;
+    for (const term of words) {
+      const bucket = impactBucket(term);
+      if (!Object.hasOwn(files, bucket)) continue;
+      if (!grouped.has(bucket)) {
+        const size = files[bucket];
+        if (size > remaining) continue;
+        remaining -= size;
+        grouped.set(bucket, []);
+      }
+      grouped.get(bucket).push(term);
+    }
+    const blocks = await Promise.all([...grouped].map(async ([bucket, terms]) =>
+      [terms, await read(bucket)]));
+    const hits = new Map(), weightByWord = new Map();
+    for (const [terms, block] of blocks) {
+      for (const term of terms) {
+        const row = block.get(term);
+        if (!row) continue;
+        // Part frequency is computed before truncating common term bands.
+        const rarity = 1 + Math.max(0, Math.log2(600 / (row.df + 1))) / 3;
+        weightByWord.set(term, rarity);
+        for (const [id, impact] of impactPostings(row.data)) {
+          const values = hits.get(id) || new Map();
+          values.set(term, impact);
+          hits.set(id, values);
+        }
+      }
+    }
+    return {hits, weightByWord, readBytes: TERM_BYTES - remaining};
+  }
+
+  function impactPriority(index, id, query) {
+    const terms = index?.hits.get(id);
+    if (!terms) return 0;
+    let total = 0, present = 0;
+    for (const term of query.query) {
+      const weight = terms.get(term);
+      if (weight) {
+        present++;
+        total += weight * index.weightByWord.get(term);
+      }
+    }
+    const support = query.evidence.reduce((best, phrase) => {
+      let score = 0;
+      for (const term of phrase) {
+        if (!terms.has(term)) return best;
+        score += terms.get(term);
+      }
+      return Math.max(best, score / phrase.length);
+    }, 0);
+    return (1.4 * total + 16 * present) / (6 + query.query.length) +
+      support * (query.emergency ? 1.4 : 0.65);
+  }
   const decoded = new WeakMap();
 
-  function rankedQueue(selection, query, shelf = 'all', budget = Infinity) {
+  function rankedQueue(selection, query, shelf = 'all', budget = Infinity, evidence) {
     const queue = [];
     const exact = [hashTerm('^' + query.phrase), hashTerm('^' + query.original)];
     const pairs = [];
@@ -487,7 +623,7 @@
           decoded.set(part, data);
         }
         const hits = routeHits(data.bloom, query.routing);
-        if (!hits && (!query.vector || query.emergency || discussion || !semanticPart(part))) continue;
+        if (!hits && !evidence?.hits.has(part.impact) && (!query.vector || query.emergency || discussion || !semanticPart(part))) continue;
         const priority = partPriority(asset, part, query);
         let score = priority + hits;
         if (data.lexical) {
@@ -508,7 +644,13 @@
             12 * Math.max(0, affinity - 0.17) + (asset.format === 'pdf' ? 3 : 0) +
             (asset.critical ? 1 : 0) + (small ? 1 : 0) - (discussion && semanticPart(part) ? 1 : discussion ? 4 : 0);
         }
-        sourceQueue.push({asset, number, hits, priority, score});
+        const heuristic = score;
+        if (evidence) {
+          const lexical = impactPriority(evidence, part.impact, query);
+          score = score * 0.65 + lexical;
+          if (!semanticPart(part) && asset.format === 'zim' && hits > 1) score += 0.7;
+        }
+        sourceQueue.push({asset, number, hits, priority, score, heuristic});
       }
       const ranked = [...sourceQueue].sort((a, b) => b.score - a.score || b.hits - a.hits);
       for (const [index, item] of ranked.entries()) {
@@ -518,6 +660,32 @@
     }
     if (!routed) return queue.sort((a, b) => b.priority - a.priority || b.hits - a.hits);
     queue.sort((a, b) => b.score - a.score || b.hits - a.hits);
+    if (evidence && Number.isFinite(budget)) {
+      // Share the read allowance between complementary signals. In particular,
+      // small chapters must compete with large encyclopedias for term density.
+      const selected = new Map();
+      function add(lane, allowance) {
+        for (const item of lane) {
+          const {asset, number} = item;
+          const key = partAddress(asset, number);
+          if (selected.has(key)) continue;
+          const size = asset.parts[number].bytes || 200_000;
+          if (size > allowance) continue;
+          selected.set(key, item);
+          allowance -= size;
+        }
+        return allowance;
+      }
+      const head = budget * 0.58;
+      let available = budget - head + add(queue, head);
+      const small = queue.filter(({asset, number}) =>
+        (asset.format !== 'zim' || asset.parts.length <= 4) && semanticPart(asset.parts[number]));
+      const reference = budget * 0.20;
+      available = available - reference + add(small, reference);
+      const fallback = [...queue].sort((a, b) => b.heuristic - a.heuristic || b.score - a.score);
+      add(fallback, available);
+      return queue.filter(({asset, number}) => selected.has(partAddress(asset, number)));
+    }
     const charged = new Set();
     let remaining = budget;
     return queue.filter(({asset, number}) => {
@@ -538,10 +706,12 @@
   }
 
   async function search(selection, encodeQuery, readPart, text, shelf = 'all', limit = 30,
-                        cancelled = () => false, onProgress, budget = Infinity) {
+                        cancelled = () => false, onProgress, budget = Infinity, readImpact) {
     const query = prepareQuery(text, encodeQuery);
     if (!query.query.length || cancelled()) return [];
-    const queue = rankedQueue(selection, query, shelf, budget);
+    const evidence = readImpact && selection.impact ? await impactEvidence(query, selection.impact, readImpact) : null;
+    if (cancelled()) return [];
+    const queue = rankedQueue(selection, query, shelf, budget - (evidence?.readBytes || 0), evidence);
     const multiple = new Map();
     for (const {asset, number} of queue) {
       const key = partAddress(asset, number);
@@ -670,12 +840,37 @@
       queue = task.catch(() => {});
       return task;
     };
-    return async (text, shelf, limit, cancelled, onProgress) =>
-      run(selection, await loadModel(), readPart, text, shelf, limit, cancelled, onProgress);
+    const cache = new Map();
+    function readImpact(path) {
+      if (!/^[a-f0-9]{2}\.js$/.test(path)) return Promise.reject(Error('Invalid term bucket'));
+      if (cache.has(path)) return cache.get(path);
+      const task = queue.then(async () => {
+        let data;
+        root.OWLImpactBlock = value => { data = value; };
+        try {
+          await script('SEARCH/impact/' + path);
+          if (typeof data !== 'string') throw Error('Term bucket could not load');
+          return await impactBlock(data);
+        } finally {
+          delete root.OWLImpactBlock;
+        }
+      });
+      queue = task.catch(() => {});
+      cache.set(path, task);
+      task.catch(() => { if (cache.get(path) === task) cache.delete(path); });
+      if (cache.size > 24) cache.delete(cache.keys().next().value);
+      return task;
+    }
+    return async (text, shelf, limit, cancelled, onProgress, exhaustive = false) =>
+      run(selection, await loadModel(), readPart, text, shelf, limit, cancelled, onProgress,
+        selection.impact && !exhaustive ? BOUNDED_BYTES : Infinity,
+        selection.impact && !exhaustive ? readImpact : undefined);
   }
 
   const api = {classic, model, binaryQuery, bytes, search, terms, prepareQuery, unpack, rankPart, normalize, result,
-    retainCandidates, topResults, lookupTerms, filter, vectorScore, placeholderTitle, displayTitle, hashTerm, pairHash, rankedQueue, readBudget: READ_BUDGET};
+    retainCandidates, topResults, lookupTerms, filter, vectorScore, placeholderTitle, displayTitle,
+    hashTerm, pairHash, rankedQueue, impactPostings, impactBlock, impactEvidence,
+    readBudget: READ_BUDGET, boundedBytes: BOUNDED_BYTES};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLShardRank = api;
 })(globalThis);

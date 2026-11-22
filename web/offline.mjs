@@ -1,7 +1,7 @@
 import {sha256} from "./vendor/noble-hashes/sha2.js";
 import {bytesToHex} from "./vendor/noble-hashes/utils.js";
 import {writeFile} from "./drive.mjs";
-import {assembleSearch} from "./search-build.mjs";
+import {assembleSearch, transfer} from "./search-build.mjs";
 
 const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
@@ -52,7 +52,23 @@ function assetList(assets, layouts, prefix) {
 
 export async function assembleLibrary(drive, {completed, missing, navigation, layouts, parts, signal, search, searchBudget, fetchFile, network}) {
   const {css = "", layout, groups = [], letters = [], collections = [], assets: metadata = {}, sections = {},
-    locators = {}, topics = {}, entrances = {}, assignments = [], input_hashes = {}, verify = ""} = navigation;
+    locators = {}, topics = {}, entrances = {}, assignments = [], input_hashes = {}, verify = "", phone} = navigation;
+  const phoneVolumes = [];
+  const phoneWarnings = [];
+  let phoneBytes = 0;
+  if (phone && completed.some(asset => asset.id === phone.source_id && asset.sha256 === phone.source_sha256)) {
+    for (const volume of phone.volumes) {
+      try {
+        const path = "LIBRARY/" + phone.destination + volume.file;
+        phoneBytes += volume.bytes;
+        const checksum = await transfer(drive, phone.base, volume.file, volume, fetchFile, signal, network, path);
+        phoneVolumes.push({path, title: volume.title, checksum});
+      } catch (error) {
+        signal?.throwIfAborted();
+        phoneWarnings.push("WikiMed phone volume " + volume.title + " — " + error.message);
+      }
+    }
+  }
   function document(title, body, prefix = "") {
     const policy = '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; base-uri \'none\'; form-action \'none\'">';
     const heading = "<h1>" + escape(title) + "</h1>";
@@ -84,7 +100,10 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
   for (const [id, title, assets] of shelves) {
     const path = index + id + ".html";
     if (assets.length) shelfLinks.push("<li>" + link(path, title + " (" + assets.length + ")") + "</li>");
-    pages.set(path, document(title, assetList(assets, layouts, "../../"), "../../"));
+    const wiki = id === "phone" && phoneVolumes.length ? '<h2>WikiMed PDFs</h2><ul class="assets">' +
+      phoneVolumes.map(({path, title}) => "<li>" + link("../../" + path, "WikiMed: " + title) +
+        "<br><code>" + escape(path) + "</code></li>").join("") + "</ul>" : "";
+    pages.set(path, document(title, wiki + assetList(assets, layouts, "../../"), "../../"));
   }
 
   const categories = groups.map(([id, title]) => '<section id="' + escape(id) + '"><h2>' + escape(title) +
@@ -140,7 +159,7 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
     content_complete:!missing.length, layout:{entry_page:"START_HERE.html", content_directory:"LIBRARY"}}, null, 2) + "\n");
 
   const indexed = search ? await assembleSearch(drive, {completed, layouts,
-    config: search, fetchFile, signal, network, budget: searchBudget}) : {pages: [], checksums: [], warnings: []};
+    config: search, fetchFile, signal, network, budget: searchBudget - phoneBytes}) : {pages: [], checksums: [], warnings: []};
   for (const [path, contents] of indexed.pages) pages.set(path, contents);
   const entrypoints = documents.flatMap(asset => {
     const source = locators[asset.id];
@@ -213,7 +232,7 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
     '<h2 id="file-catalog">All files (' + documents.length + ")</h2>" + assetList(documents, layouts, ""));
 
   const checksums = [...inventory.flatMap(file => file.parts.map(part => part.sha256 + "  " + part.path)),
-    ...indexed.checksums];
+    ...indexed.checksums, ...phoneVolumes.map(({checksum}) => checksum)];
   const encode = new TextEncoder();
   for (const [path, contents] of pages) {
     signal?.throwIfAborted();
@@ -223,5 +242,5 @@ export async function assembleLibrary(drive, {completed, missing, navigation, la
   checksums.push(bytesToHex(sha256(encode.encode(start))) + "  START_HERE.html");
   await writeFile(drive, "LIBRARY/SHA256SUMS.txt", checksums.sort().join("\n") + "\n");
   await writeFile(drive, "START_HERE.html", start);
-  return indexed.warnings;
+  return [...phoneWarnings, ...indexed.warnings];
 }

@@ -168,10 +168,18 @@ This checks metadata, source presence and sizes, and republishes search and atla
 ## Search without a server
 
 Open `START_HERE.html` or `LIBRARY/SEARCH.html` in a desktop browser.
-Search loads its model and index from files on the drive. PDF results link to
+Search loads its model and index from files on the drive. The term index
+focuses reads on likely matches. Desktop search can refine the first results
+with the bundled MiniLM model when the selected search allocation fits it. PDF results link to
 the source page. ZIM results show the archive’s filename and internal path.
 Use an archive reader to open those entries. The topic atlas, sections index and
 critical phone shelf remain readable with JavaScript off.
+
+A drive with the April 2026 WikiMed archive includes four small, selectable-text
+PDFs under LIBRARY/CRITICAL/MEDICAL/WIKIMED-PHONE. Use the contents page
+or the PDF outline to jump to a reference. The PDFs open in Files without
+Kiwix. Install Kiwix while online to read the complete archive.
+[WikiMed phone editions](docs/device-matrix.md#wikimed-in-files)
 
 Search coverage varies by source. The coverage file in `LIBRARY/SEARCH/` lists
 the indexed files. Keep that directory together when copying the drive.

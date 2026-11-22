@@ -200,16 +200,23 @@ def render_zim_coverage():
         'The first default size is the first sampled capacity on the desktop tool ladder. '
         'The three English Wikipedia editions share directory chunks. Indexed records include their additional lead entries.', '',
         'Whole-file extraction checks the catalog SHA-256. A ranged directory receipt checks byte count, a consistent ETag '
-        'and each range digest. Both builders verify the complete archive before attaching search.', '',
-        '| Archive ID | First sampled default, GB | Directory | Indexed records | Leads | Vector records | Accepted answers |',
-        '| --- | ---: | --- | ---: | ---: | ---: | ---: |',
+        'and each range digest. Supplemental body and lead extraction can use catalog-bound publisher pieces. '
+        'Both builders verify the complete archive before attaching search.', '',
+        'Supplemental body coverage reports the number of articles and passages produced from prioritized full-copy '
+        'or bounded range extraction. Existing leads and title coverage are counted separately.', '',
+        '| Archive ID | First sampled default, GB | Directory | Indexed records | Leads | Vector records | Body articles | Body passages | Accepted answers |',
+        '| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |',
     ]
     for gb, digest, shard in rows:
         vectors = sum(pin['vectors'] for _, _, pin in shard_chunks(manifest, digest, shard))
         status = shard.get('source_evidence', {}).get('directory_coverage', 'unknown')
+        body = shard.get('body_extraction', {})
+        answers = shard.get('extraction', {}).get('accepted_answers', 0)
+        if shard['asset_id'].startswith('stackexchange_') or shard['asset_id'] == 'seasoned_advice':
+            answers += body.get('articles_with_passages', 0)
         lines.append(f"| `{shard['asset_id']}` | {gb or '—'} | {status} | {shard['records']:,} | "
                      f"{shard.get('lead_records', 0):,} | {vectors:,} | "
-                     f"{shard.get('extraction', {}).get('accepted_answers', 0):,} |")
+                     f"{body.get('articles_with_passages', 0):,} | {body.get('passages', 0):,} | {answers:,} |")
     return '\n'.join(lines) + '\n'
 
 

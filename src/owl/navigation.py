@@ -13,6 +13,7 @@ from urllib.parse import quote
 from .catalog import is_document, learning_shelves
 from .layout import checksum_name, managed_path
 from .offline_layout import emergency_routes, render
+from .wikimed_phone import DESTINATION as PHONE_DESTINATION
 from .safety import atomic_write
 from .search_ui import SEARCH_CSP, render_search_widget
 
@@ -361,9 +362,18 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
                                                  lambda path: _href(path, inside))
     pages[inside] = _page("Sections and archive entry points", archive_tasks + "".join(routes) or
                           "<p>Browse the included files through the topic atlas or categories.</p>", inside)
+    phone = inventory.get("phone_volumes", [])
+    phone_index = ""
+    if phone:
+        links = []
+        for volume in phone:
+            path = PHONE_DESTINATION + volume["file"]
+            links.append(f'<li><a href="{_href(path, "INDEX/phone.html")}">'
+                         f'WikiMed: {_text(volume["title"])}</a><br><code>LIBRARY/{path}</code></li>')
+        phone_index = '<h2>WikiMed PDFs</h2><ul class="assets">' + "".join(links) + "</ul>"
     pages["INDEX/phone.html"] = _page("Critical files for phones",
         "<p>Open one of these files in your device’s file viewer. The listed paths start at the drive.</p>"
-        + _asset_list(static_phone, "INDEX/phone.html", show_paths=True), "INDEX/phone.html")
+        + phone_index + _asset_list(static_phone, "INDEX/phone.html", show_paths=True), "INDEX/phone.html")
     report_path = "INDEX/build-report.html"
     unresolved = inventory.get("unresolved") or []
     omitted = "".join(f'<li>{_text(item.get("title") or item.get("id"))}</li>' for item in unresolved)

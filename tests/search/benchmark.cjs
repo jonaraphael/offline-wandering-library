@@ -40,15 +40,36 @@ async function benchmark(planPath, sourceRoot) {
   if (extraIndex !== -1) tasks.push(...JSON.parse(await readFile(process.argv[extraIndex + 1], 'utf8')));
   const traceIndex = process.argv.indexOf('--task-depth');
   const taskDepth = traceIndex === -1 ? 3 : Number(process.argv[traceIndex + 1]);
+  const depth = Math.max(30, taskDepth);
   const prep = (text, target) => ({text, ...target, query: rank.prepareQuery(text, model), phrase: rank.normalize(text)});
   const probes = [...queries.map(([text, target]) => prep(text, {expected: new RegExp(target, 'iu')})),
     ...bodyQueries.map(([text, asset, pages]) => prep(text, {asset, pages: new Set(pages)})),
     ...tasks.map(task => prep(task.query, {task: task.id}))];
+  const bounded = process.argv.includes('--bounded');
   const budget = process.argv.includes('--quick') ? rank.readBudget : Infinity;
+  const impactManifest = bounded ? JSON.parse(await readFile(join(sourceRoot, 'impact/manifest.json'))) : null;
+  const impactCache = new Map();
+  const readImpact = async filename => {
+    if (!impactCache.has(filename)) {
+      const packed = payload((await pin(join(sourceRoot, 'impact', filename), impactManifest.files[filename])).toString(), 'OWLImpactBlock');
+      impactCache.set(filename, await rank.impactBlock(packed));
+    }
+    return impactCache.get(filename);
+  };
+  const evidence = [];
+  if (bounded) {
+    const sizes = Object.fromEntries(Object.entries(impactManifest.files).map(([name, pin]) => [name, pin.bytes]));
+    for (const {query} of probes) evidence.push(await rank.impactEvidence(query, sizes, readImpact));
+  }
   const scenarios = plans.map(plan => {
     const sources = new Map(plan.sources.filter(row => !row.legacy).map(row => [row.sha256, row]));
-    const routes = probes.map(({query}) => new Set(rank.rankedQueue(plan, query, 'all', budget)
-      .map(({asset, number}) => asset.sha256 + ':' + number)));
+    const indexed = bounded && plan.impact;
+    const routes = probes.map(({query}, i) => {
+      const route = indexed ? evidence[i] : undefined;
+      const allowance = route ? rank.boundedBytes - route.readBytes : budget;
+      return new Set(rank.rankedQueue(plan, query, 'all', allowance, route)
+        .map(({asset, number}) => asset.sha256 + ':' + number));
+    });
     return {...plan, sources, routes,
       hits: probes.map(() => []), catalogPrepared: catalog.prepare(plan.metadata)};
   });
@@ -96,13 +117,13 @@ async function benchmark(planPath, sourceRoot) {
       if (chunk.records.length !== part.records || chunk.vectors.length !== part.vectors) throw Error('Record count differs: ' + filename);
       for (const [number, query] of probes.entries()) {
         if (!selected[number]) continue;
-        const partHits = rank.rankPart(chunk, query.query, destinations[0].sources.get(digest), 30);
+        const partHits = rank.rankPart(chunk, query.query, destinations[0].sources.get(digest), probes[number].task ? depth : 30);
         if (!partHits.length) continue;
         for (const scenario of destinations) {
           if (!scenario.routes[number].has(address)) continue;
           const hits = scenario.hits[number];
           hits.push(...partHits.map(hit => rank.result(scenario.sources.get(digest), hit, index)));
-          rank.retainCandidates(hits, 120);
+          rank.retainCandidates(hits, probes[number].task ? depth * 4 : 120);
         }
       }
     }
@@ -120,13 +141,31 @@ async function benchmark(planPath, sourceRoot) {
   counts.largest = Math.max(counts.largest, routeBytes);
   counts.largest = Math.max(counts.largest, manifestBytes);
   counts.files++;
+  for (const directory of ['impact', 'transformer']) {
+    const path = join(sourceRoot, directory, 'manifest.json');
+    const raw = await readFile(path).catch(error => {
+      if (error.code !== 'ENOENT') throw error;
+      return null;
+    });
+    if (!raw) continue;
+    const manifest = JSON.parse(raw);
+    const files = directory === 'impact' ? manifest.files : manifest;
+    counts.files++;
+    counts.bytes += raw.length;
+    for (const [name, metadata] of Object.entries(files)) {
+      const asset = await pin(join(sourceRoot, directory, name), metadata);
+      counts.files++;
+      counts.bytes += asset.length;
+      counts.largest = Math.max(counts.largest, asset.length);
+    }
+  }
   if (counts.bytes > 900_000_000 || counts.largest > 50_000_000) throw Error('Repository search data exceeds its byte budgets');
   const results = scenarios.map(scenario => {
     const misses = [], zeros = [];
     const totals = {fable_hit: 0, fable_zero: 0, hit: 0, zero: 0, body_hit: 0, body_zero: 0};
     const body_misses = [], task_results = [];
     probes.forEach((query, number) => {
-      const hybrid = rank.topResults(scenario.hits[number], 30);
+      const hybrid = rank.topResults(scenario.hits[number], query.task ? depth : 30);
       const metadata = catalog.search(scenario.catalogPrepared, query.text, 'all');
       const results = catalog.mergeRanked(hybrid, metadata, 10);
       if (query.task) {
@@ -162,6 +201,7 @@ async function benchmark(planPath, sourceRoot) {
       shard_bytes: scenario.shard_bytes, zims: scenario.selected_zims, indexed_zims: scenario.indexed_zims,
       sampled_zims: scenario.sampled_zims, indexed_sources: scenario.sources.size, ...totals, miss_count: misses.length, misses, zeros, body_misses,
       query_count: queries.length, body_query_count: bodyQueries.length, ...(tasks.length && {task_results}),
+      bounded: Boolean(bounded && scenario.impact),
       all_hit: totals.hit + totals.body_hit, all_zero: totals.zero + totals.body_zero};
   });
   console.log(JSON.stringify({artifact: counts, scenarios: results}, null, 2));

@@ -21,7 +21,7 @@ from owl.navigation import CSS, GROUPS, LETTERS, READING_COLLECTIONS, navigation
 from owl.offline_layout import layout
 from owl.discovery import compile_records
 from owl.search_ui import render_search_page
-from owl.search_shards import SEARCH_ROOT, compile_search_plan, load_manifest, load_routes
+from owl.search_shards import SEARCH_ROOT, compile_search_plan, load_impact, load_manifest, load_routes, load_transformer
 from owl.selector import ROOT, make_model, render_selector
 
 
@@ -239,8 +239,9 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
         shutil.copytree(SEARCH_ROOT, site / "search")
     templates = ROOT / "src/owl/templates"
     page = render_search_page()
-    write_json(site / "search-build.json", {"plan": compile_search_plan(assets, search_index, load_routes()), "base": search_base, "records": records,
+    write_json(site / "search-build.json", {"plan": compile_search_plan(assets, search_index, load_routes(), load_impact(), load_transformer()), "base": search_base, "records": records,
         "page": page, "runtime": (templates / "search.js").read_text(encoding="utf-8"),
+        "rerankRuntime": (templates / "rerank.js").read_text(encoding="utf-8"),
         "rankRuntime": (templates / "rank.js").read_text(encoding="utf-8")})
     navigation = {key: navigation[key] for key in ("topics", "entrances", "assignments", "sections", "input_hashes")}
     resources_by_asset = {}
@@ -255,6 +256,15 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
                       verify=(ROOT / "src/owl/verify.py").read_text(encoding="utf-8"),
                       assets={asset["id"]: navigation_asset(asset, resources_by_asset.get(asset["id"], []))
                               for asset in assets})
+    from owl.wikimed_phone import DESTINATION, manifest as phone_manifest, verified_volume
+    phone = phone_manifest()
+    if phone and by_id[phone["source_id"]]["sha256"] != phone["source_sha256"]:
+        raise ValueError("The WikiMed phone layer needs rebuilding for this edition")
+    if phone:
+        (site / "wikimed-phone").mkdir()
+        for volume in phone["volumes"]:
+            (site / "wikimed-phone" / volume["file"]).write_bytes(verified_volume(volume))
+        navigation["phone"] = {**phone, "destination": DESTINATION, "base": "./wikimed-phone/"}
     write_json(site / "catalog.json", {"planner": model, "routes": routes, "navigation": navigation})
     (site / "index.html").write_text(render_selector(model, pages=True), encoding="utf-8")
     (site / "SELECT.html").write_bytes((ROOT / "SELECT.html").read_bytes())

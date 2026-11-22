@@ -25,8 +25,8 @@ shards index article titles and paths. For filename-like HTML titles, the
 extractor checks the HTML title and first usable heading. Existing CD3WD
 shards carry title overrides recovered from the pinned archive. When the
 source has no readable heading, the result uses the collection title and
-keeps the archive path visible. Selected archives also contribute lead
-paragraphs or accepted answers. Archive coverage varies by source. [ZIM coverage](zim-search-coverage.md)
+keeps the archive path visible. Selected archives also contribute lead paragraphs, body passages and
+accepted answers. Archive coverage varies by source. [ZIM coverage](zim-search-coverage.md)
 
 Editorial concept groups add common terms, spelling variants and question
 wording at indexing time. At search time, the ranker removes common question
@@ -58,9 +58,23 @@ and combines similarity, word matches and source priority. Emergency queries
 prefer matching critical sources. Childhood symptoms and childbirth receive
 different ranking treatment. Catalog results appear first. Precomputed
 token-pair filters and vector centroids order the chunks likely to yield
-relevant hits. The page displays early indexed hits as it goes and continues
-the ranking pass to retain recall. The length of a complete pass depends on
-the query and selected sources.
+relevant hits. The compact term dictionary adds weighted chunk candidates,
+using stronger field matches first. A query loads only its term buckets, then
+opens candidate chunks. A 39.7 MB per-query read allowance covers the term
+buckets and record chunks. Initial selection and model loading are separate.
+The page shows early indexed matches while the remaining candidates are scored.
+Choose **Search all indexed entries** to run a longer pass over the selected
+index when the first results do not answer your query.
+
+When the build fits the 46.6 MB MiniLM bundle in its search allocation,
+desktop search embeds the query and up to 50 shortlisted result titles and
+excerpts. The all-MiniLM-L6-v2 model runs through single-threaded ONNX Runtime
+Web WASM using local classic scripts. Potion and term postings supply the
+shortlist. The model reads only excerpts that the index already permits
+displaying. Its results follow the initial lexical and Potion matches. The
+base index remains available if MiniLM cannot load or the search budget
+prevents its installation. [MiniLM revision](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/tree/1110a243fdf4706b3f48f1d95db1a4f5529b4d41)
+[ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/env-flags-and-session-options.html)
 
 ## Precompute and verify
 
@@ -68,7 +82,9 @@ the query and selected sources.
 python scripts/build_search_shards.py --model-input "$MODEL_INPUT" \
   --cache "$VERIFIED_SOURCE_CACHE" --directories "$ZIM_RECEIPTS"
 node scripts/build_search_routes.cjs catalog/search catalog/search/routes.json
+node --max-old-space-size=7000 scripts/build_impact_routes.cjs catalog/search catalog/search/impact
 python scripts/search_benchmark.py --check
+python scripts/search_benchmark.py --bounded --tasks
 python scripts/search_benchmark.py --tasks > search-task-results.json
 ```
 
@@ -115,18 +131,28 @@ benchmark checks chunk digests and runs the original 100 probes plus body-only
 PDF queries with expected physical page locations. It reports the two query sets
 at 16 GB, 128 GB and 1 TB. The experimental `--quick` measurement evaluates
 just the first 28 MB of candidate chunks and can return fewer relevant hits.
-The offline UI continues past that budget. The optional task export records the first three
+The `--bounded` run measures the production candidate routing without MiniLM.
+The optional task export records the first three
 results for each natural-language task in `tests/search/task-queries.json`,
 with the title, source, locator and any displayable excerpt for grading.
 
-## Term-index experiment
+## Precomputed term index
 
-`node scripts/build_query_index.cjs DRIVE/LIBRARY/SEARCH/shards.js DRIVE/LIBRARY/SEARCH OUTPUT WORK`
-compiles an existing drive's selected chunks into an experimental lookup
-index in separate output and work directories. Its classic scripts contain
-sorted term dictionaries, delta-coded posting blocks and binary-code
-partitions. The reader locates terms without scanning other dictionaries and
-uses the selected posting and vector blocks to choose record chunks for the
-existing ranker. Both production builders currently use complete shard
-ranking. The experiment still needs to fit the allocated drive space, preserve
-recall with a bounded queue and decouple final record reads from shard chunks.
+Each term appears in one dictionary bucket shared by all selected resources.
+Its postings name the physical chunks where the term is likely to be useful.
+Score bands run from high to low. Within a band, ascending chunk identifiers
+use delta integers with variable-length encoding. The compiler bounds each
+band and the runtime limits term-bucket and candidate-chunk reads. Title
+postings, archive sections and detailed scores are recovered from the
+verified source chunks. The ranker also reserves part of the read allocation
+for shorter references and candidates from token-pair and vector routing.
+At smaller or unusual capacities the builders include the index when its
+complete payload fits after selected source shards.
+
+Append new edition-pinned body data with
+`python scripts/build_archive_passages.py --cache CACHE --directories RECEIPTS ASSET_ID`.
+This retains original title and lead rows and writes new content-addressed
+passage chunks. The build chooses article candidates by redirect popularity
+and deterministic sampling. Regenerate routing after appending chunks.
+For Stack Exchange, marked accepted answers supply the body text. Whole-file
+verification and publisher-piece samples have distinct coverage receipts.
