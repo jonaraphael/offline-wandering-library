@@ -1,5 +1,7 @@
 # 1 TB content-completion checkpoint
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 **Current selection and planning:** use [the topic-by-topic completion plan](full-1tb-coverage-plan.md)
 and [generated selection](content-selection.md). They supersede the historical
 byte-floor targets and conversion queues below. On 28 September, six finished

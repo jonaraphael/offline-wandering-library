@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: voa_learning_en_all_2025_01
+assignments:
+- topic_id: language-books
+  purpose: reference

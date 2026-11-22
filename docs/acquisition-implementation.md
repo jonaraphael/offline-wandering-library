@@ -1,5 +1,7 @@
 # Acquisition implementation and remaining content gaps
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 The reusable acquisition workflow is implemented. It closes the dated
 food-preservation snapshot gap, registers two preserved programming source
 companions, and adds the complete source-pinned OpenSSH portable edition. It does **not** make the three larger presets content-complete.

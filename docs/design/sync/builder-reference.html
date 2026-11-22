@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OWL builder: reference states</title>
+<link rel="stylesheet" href="builder.css">
+<style>
+  /* Reference page only: one state at a time, chosen by #name or the selector. */
+  .app { display: none; }
+  .app.show { display: grid; }
+  #ref { position: fixed; right: 10px; bottom: 54px; z-index: 9; font: 12px system-ui; opacity: .75; }
+  .qr { background: repeating-conic-gradient(#16191d 0 25%, #fff 0 50%) 0 0 / 12px 12px; border: 4px solid #fff; outline: 1px solid var(--line); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<template id="t-bar">
+  <header class="bar">
+    <span class="brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 12c0-5 4-8 10-8s10 3 10 8v6c0 6-4 10-10 10S6 24 6 18z" fill="currentColor"/><circle cx="12" cy="14" r="3.7" fill="#fff"/><circle cx="20" cy="14" r="3.7" fill="#fff"/><circle cx="12" cy="14" r="1.6" fill="#16191d"/><circle cx="20" cy="14" r="1.6" fill="#16191d"/><path d="M14.4 18.6l1.6 2.6 1.6-2.6z" fill="#f2b33d"/></svg>Offline Wandering Library</span>
+    <a href="#">How it works</a>
+  </header>
+</template>
+<template id="t-ring">
+  <div class="ringwrap" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+    <svg class="ring" viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="55"/><circle class="arc" cx="60" cy="60" r="55"/></svg>
+    <svg class="glyph" viewBox="0 0 120 120" aria-hidden="true"><rect class="plug" x="50" y="28" width="20" height="15" rx="2"/><rect class="body" x="41" y="41" width="38" height="50" rx="7"/><circle class="light" cx="60" cy="80" r="2.7"/><path class="check" d="M51 66l7 7 12-14"/></svg>
+  </div>
+</template>
+<template id="t-legend">
+  <ul class="legend"><li style="--c:var(--c-health)">Health 9 GB</li><li style="--c:var(--c-food)">Food and farming 6 GB</li><li style="--c:var(--c-shelter)">Water, shelter and safety 5 GB</li><li style="--c:var(--c-trades)">Repair and trades 4 GB</li><li style="--c:var(--c-school)">School 18 GB</li><li style="--c:var(--c-reference)">Encyclopedias and maps 12 GB</li><li style="--c:var(--c-advanced)">College and technical 3 GB</li><li style="--c:var(--c-culture)">Stories and culture 1.2 GB</li><li class="free">Free 1.4 GB</li></ul>
+</template>
+<template id="t-rail">
+  <ol class="rail"><li>Choose drive</li><li>Sync</li><li>Eject</li></ol>
+</template>
+
+<!-- data-step: which rail step is current (1 to 3). -->
+
+<div class="app" id="empty" data-step="1"><main class="stage" data-state="empty">
+  <h1 class="title">Plug in a drive</h1>
+  <p class="status">Any USB drive or SD card with 16 GB to 1 TB free. Files already on it stay.</p>
+  <button class="primary">Choose drive</button>
+  <p class="secondary"><a href="#manage">See what goes on a drive</a></p>
+</main></div>
+
+<div class="app" id="remembered" data-step="1"><main class="stage" data-state="remembered">
+  <h1 class="title">OWL</h1>
+  <p class="status">Last synced 14 March 2026.</p>
+  <div class="meter"><div class="track"><i style="flex:9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i style="flex:18;--c:var(--c-school)"></i><i style="flex:12;--c:var(--c-reference)"></i><i style="flex:3;--c:var(--c-advanced)"></i><i style="flex:1.2;--c:var(--c-culture)"></i><i class="free" style="flex:1.4"></i></div></div>
+  <button class="primary">Reconnect OWL</button>
+  <p class="secondary"><a href="#">Use a different drive</a></p>
+</main></div>
+
+<div class="app" id="measuring" data-step="1"><main class="stage" data-state="measuring">
+  <h1 class="title">OWL</h1>
+  <p class="status">Measuring free space…</p>
+  <div class="meter"><div class="track"></div></div>
+  <button class="primary" hidden>Sync</button>
+  <p class="secondary"><a href="#">Choose a different drive</a></p>
+</main></div>
+
+<div class="app" id="needs-size" data-step="1"><main class="stage" data-state="needs-size">
+  <h1 class="title">OWL</h1>
+  <p class="status">How much space does this drive have? Use the number printed on it.</p>
+  <div class="sizes"><button>16 GB</button><button>32 GB</button><button>64 GB</button><button>128 GB</button><button>256 GB</button><button>512 GB</button><button>1 TB</button></div>
+  <p class="secondary" style="margin-top:22px"><a href="#">Choose a different drive</a></p>
+</main></div>
+
+<div class="app" id="ready" data-step="2"><main class="stage" data-state="ready">
+  <h1 class="title">OWL</h1>
+  <p class="status">59.6 GB free. The recommended library uses 58.2 GB: 412 books, manuals and courses.</p>
+  <div class="meter"><div class="track"><i class="pending" style="flex:9;--c:var(--c-health)"></i><i class="pending" style="flex:6;--c:var(--c-food)"></i><i class="pending" style="flex:5;--c:var(--c-shelter)"></i><i class="pending" style="flex:4;--c:var(--c-trades)"></i><i class="pending" style="flex:18;--c:var(--c-school)"></i><i class="pending" style="flex:12;--c:var(--c-reference)"></i><i class="pending" style="flex:3;--c:var(--c-advanced)"></i><i class="pending" style="flex:1.2;--c:var(--c-culture)"></i><i class="free" style="flex:1.4"></i></div>
+  </div>
+  <button class="primary">Sync</button>
+  <p class="secondary"><a href="#manage">Manage what goes on it</a></p>
+</main></div>
+
+<div class="app" id="behind" data-step="2"><main class="stage" data-state="behind" style="--p:.98">
+  <h1 class="title">OWL</h1>
+  <p class="status">3 updates: adds 1.1 GB, removes 0.3 GB. Last synced 14 March 2026.</p>
+  <div class="meter"><div class="track"><i style="flex:8.6;--c:var(--c-health)"></i><i class="pending" style="flex:.9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i style="flex:18;--c:var(--c-school)"></i><i style="flex:12;--c:var(--c-reference)"></i><i style="flex:3;--c:var(--c-advanced)"></i><i style="flex:1.2;--c:var(--c-culture)"></i><i class="pending" style="flex:.2;--c:var(--c-culture)"></i><i class="free" style="flex:.6"></i></div>
+  </div>
+  <button class="primary">Sync</button>
+  <p class="secondary"><a href="#manage">Manage what goes on it</a></p>
+</main></div>
+
+<div class="app" id="current" data-step="3"><main class="stage" data-state="current" style="--p:1">
+  <h1 class="title">Up to date</h1>
+  <p class="status">Synced 14 March 2026. 412 items, 58.2 GB.</p>
+  <div class="meter"><div class="track"><i style="flex:9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i style="flex:18;--c:var(--c-school)"></i><i style="flex:12;--c:var(--c-reference)"></i><i style="flex:3;--c:var(--c-advanced)"></i><i style="flex:1.2;--c:var(--c-culture)"></i><i class="free" style="flex:1.4"></i></div></div>
+  <button class="primary" hidden>Sync</button>
+  <p class="secondary"><a href="#manage">Manage what goes on it</a><a href="#">Check every file</a></p>
+</main></div>
+
+<div class="app" id="syncing" data-step="2"><main class="stage" data-state="syncing" style="--p:.42">
+  <h1 class="title">42%</h1>
+  <p class="status">24.4 of 58.2 GB · about 1 h 10 min left<span class="now">Now: WikiMed medical encyclopedia</span></p>
+  <div class="meter"><div class="track"><i style="flex:9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i style="flex:.4;--c:var(--c-school)"></i><i class="pending" style="flex:17.6;--c:var(--c-school)"></i><i class="pending" style="flex:12;--c:var(--c-reference)"></i><i class="pending" style="flex:3;--c:var(--c-advanced)"></i><i class="pending" style="flex:1.2;--c:var(--c-culture)"></i><i class="free" style="flex:1.4"></i></div></div>
+  <button class="primary quiet">Pause</button>
+  <div class="cards">
+    <div class="card" style="grid-template-columns:1fr"><span>Keep this tab open and the drive plugged in. You can use the computer for other things.</span></div>
+    <div class="card"><div class="qr"></div><div><b>Reading on an iPhone?</b><span>Scan to install the free Kiwix app now, while you are online. On Android and computers the reader app is copied onto the drive.</span></div></div>
+  </div>
+</main></div>
+
+<div class="app" id="paused" data-step="2"><main class="stage" data-state="paused" style="--p:.42">
+  <h1 class="title">Paused at 42%</h1>
+  <p class="status">Nothing is lost. Sync continues where it stopped.</p>
+  <div class="meter"><div class="track"><i style="flex:9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i style="flex:.4;--c:var(--c-school)"></i><i class="pending" style="flex:17.6;--c:var(--c-school)"></i><i class="pending" style="flex:12;--c:var(--c-reference)"></i><i class="pending" style="flex:3;--c:var(--c-advanced)"></i><i class="pending" style="flex:1.2;--c:var(--c-culture)"></i><i class="free" style="flex:1.4"></i></div></div>
+  <button class="primary">Sync</button>
+  <p class="secondary"><a href="#manage">Manage what goes on it</a></p>
+</main></div>
+
+<div class="app" id="done" data-step="3"><main class="stage" data-state="done" style="--p:1">
+  <h1 class="title">Ready</h1>
+  <p class="status">Eject OWL, then unplug it. In Finder, click ⏏ beside OWL.<span class="now">Open START_HERE on any computer or phone.</span></p>
+  <div class="meter"><div class="track"><i style="flex:9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i style="flex:18;--c:var(--c-school)"></i><i style="flex:12;--c:var(--c-reference)"></i><i style="flex:3;--c:var(--c-advanced)"></i><i style="flex:1.2;--c:var(--c-culture)"></i><i class="free" style="flex:1.4"></i></div></div>
+  <button class="primary quiet">Sync another drive</button>
+  <p class="secondary"><a href="#">Check every file</a></p>
+</main></div>
+
+<div class="app" id="done-gaps" data-step="3"><main class="stage" data-state="done-gaps" style="--p:1">
+  <h1 class="title">Ready, with 3 items missing</h1>
+  <p class="status">The library works. 3 items could not be downloaded.</p>
+  <div class="meter"><div class="track"><i style="flex:9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i style="flex:18;--c:var(--c-school)"></i><i style="flex:12;--c:var(--c-reference)"></i><i style="flex:3;--c:var(--c-advanced)"></i><i class="pending" style="flex:1.2;--c:var(--c-culture)"></i><i class="free" style="flex:1.4"></i></div></div>
+  <button class="primary">Try those again</button>
+  <p class="secondary"><a href="#">Show the 3 items</a><a href="#">Sync another drive</a></p>
+</main></div>
+
+<div class="app" id="problem" data-step="2"><main class="stage" data-state="problem" style="--p:.42">
+  <h1 class="title">The drive was disconnected</h1>
+  <p class="status">Plug it back in and choose Reconnect. Nothing is lost.</p>
+  <div class="meter"><div class="track"><i style="flex:9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i class="pending" style="flex:18;--c:var(--c-school)"></i><i class="pending" style="flex:12;--c:var(--c-reference)"></i><i class="pending" style="flex:3;--c:var(--c-advanced)"></i><i class="pending" style="flex:1.2;--c:var(--c-culture)"></i><i class="free" style="flex:1.4"></i></div></div>
+  <button class="primary">Reconnect OWL</button>
+  <p class="secondary"><a href="#">Technical details</a></p>
+</main></div>
+
+<div class="app" id="unsupported" data-step="1"><main class="stage" data-state="unsupported">
+  <h1 class="title">Open this page in Chrome, Edge or Arc on a computer</h1>
+  <p class="status">Those browsers can write straight to a drive. This one cannot.</p>
+  <button class="primary">Copy link</button>
+  <p class="secondary"><a href="#manage">See what goes on a drive</a><a href="#">Build with the command line</a></p>
+</main></div>
+
+<div class="app" id="manage" data-manage="OWL">
+  <main class="manage">
+    <h1>What goes on OWL</h1>
+    <div class="summary">
+      <div class="track"><i style="flex:9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i style="flex:18;--c:var(--c-school)"></i><i style="flex:12;--c:var(--c-reference)"></i><i style="flex:3;--c:var(--c-advanced)"></i><i style="flex:1.2;--c:var(--c-culture)"></i><i class="free" style="flex:1.4"></i></div>
+      <div class="row"><span><b>58.2</b> of 59.6 GB · the recommended library</span></div>
+    </div>
+    <input class="find" type="search" placeholder="Find a collection" aria-label="Find a collection">
+    <details class="cat" open style="--c:var(--c-health)">
+      <summary><span class="dot"></span><span class="name"><b>Health</b><span>First aid, medical references and community health care</span></span><span class="size">9.0 GB · 14 of 19</span></summary>
+      <div class="col"><input class="switch" type="checkbox" checked aria-label="First-response essentials"><div><b>First-response essentials</b><span class="tag">Essential</span><p>Bleeding, breathing, burns, shock and safe water, as short printable guides.</p></div><span class="size">0.4 GB</span></div>
+      <div class="col"><input class="switch" type="checkbox" checked aria-label="Hesperian community health guides"><div><b>Hesperian community health guides</b><span class="tag">Essential</span><p>Where There Is No Doctor and its companion handbooks.</p><a class="files" style="margin-left:0" href="#">Choose files</a></div><span class="size">0.9 GB</span></div>
+      <div class="col"><input class="switch" type="checkbox" checked aria-label="WikiMed medical encyclopedia"><div><b>WikiMed medical encyclopedia</b><p>Wikipedia's medical articles, readable in Kiwix.</p><span class="editions"><label>Text only · 0.4 GB</label><label class="on">With pictures · 2.1 GB (recommended)</label></span></div><span class="size">2.1 GB</span></div>
+      <div class="col off"><input class="switch" type="checkbox" aria-label="MedlinePlus health encyclopedia"><div><b>MedlinePlus health encyclopedia</b><p>Plain-language pages on conditions, tests and medicines.</p></div><span class="size">1.8 GB</span></div>
+    </details>
+    <details class="cat" style="--c:var(--c-food)"><summary><span class="dot"></span><span class="name"><b>Food and farming</b><span>Growing, raising, cooking and preserving food</span></span><span class="size">6.0 GB · 9 of 16</span></summary></details>
+    <details class="cat" style="--c:var(--c-shelter)"><summary><span class="dot"></span><span class="name"><b>Water, shelter and safety</b><span>Safe water, sanitation, shelter and disaster readiness</span></span><span class="size">5.0 GB · 11 of 13</span></summary></details>
+    <details class="cat" style="--c:var(--c-trades)"><summary><span class="dot"></span><span class="name"><b>Repair and trades</b><span>Fixing, building and powering things</span></span><span class="size">4.0 GB · 6 of 21</span></summary></details>
+    <details class="cat" style="--c:var(--c-school)"><summary><span class="dot"></span><span class="name"><b>School</b><span>School subjects, from arithmetic to physics</span></span><span class="size">18.0 GB · 5 of 12</span></summary></details>
+    <details class="cat" style="--c:var(--c-reference)"><summary><span class="dot"></span><span class="name"><b>Encyclopedias and maps</b><span>Encyclopedias, dictionaries and maps</span></span><span class="size">12.0 GB · 4 of 22</span></summary></details>
+    <details class="cat" style="--c:var(--c-advanced)"><summary><span class="dot"></span><span class="name"><b>College and technical</b><span>College textbooks, programming and research</span></span><span class="size">3.0 GB · 3 of 18</span></summary></details>
+    <details class="cat" style="--c:var(--c-culture)"><summary><span class="dot"></span><span class="name"><b>Stories and culture</b><span>Stories, history, music and art</span></span><span class="size">1.2 GB · 2 of 14</span></summary></details>
+    <details class="advanced"><summary>Advanced</summary></details>
+  </main>
+  <div class="donebar"><span>No changes</span><button class="primary">Done</button></div>
+</div>
+
+<div class="app" id="manage-over" data-manage="OWL">
+  <main class="manage">
+    <h1>What goes on OWL</h1>
+    <div class="summary">
+      <div class="track"><i style="flex:9;--c:var(--c-health)"></i><i style="flex:6;--c:var(--c-food)"></i><i style="flex:5;--c:var(--c-shelter)"></i><i style="flex:4;--c:var(--c-trades)"></i><i style="flex:18;--c:var(--c-school)"></i><i style="flex:12;--c:var(--c-reference)"></i><i style="flex:3;--c:var(--c-advanced)"></i><i style="flex:2.6;--c:var(--c-culture)"></i><i class="over" style="flex:3.1"></i></div>
+      <div class="row"><span><b>62.7</b> of 59.6 GB · <span class="over">3.1 GB over</span></span><span><a href="#">Reset to recommended</a>&nbsp;&nbsp;<button>Make it fit</button></span></div>
+    </div>
+    <input class="find" type="search" placeholder="Find a collection" aria-label="Find a collection">
+    <details class="cat" open style="--c:var(--c-culture)">
+      <summary><span class="dot"></span><span class="name"><b>Stories and culture</b><span>Stories, history, music and art</span></span><span class="size">5.7 GB · 3 of 14</span></summary>
+      <div class="col"><input class="switch" type="checkbox" checked aria-label="Project Gutenberg practical library"><div><b>Project Gutenberg practical library</b><p>Classic how-to books, farming, cooking and household manuals.</p></div><span class="size">1.0 GB</span></div>
+      <div class="col"><input class="switch" type="checkbox" checked aria-label="Low-tech Magazine"><div><b>Low-tech Magazine</b><p>Articles on doing things with less energy.</p></div><span class="size">0.2 GB</span></div>
+      <div class="col"><input class="switch" type="checkbox" checked aria-label="Wikibooks"><div><b>Wikibooks</b><p>Open textbooks and manuals written by volunteers.</p></div><span class="size">4.5 GB</span></div>
+    </details>
+    <details class="cat" style="--c:var(--c-health)"><summary><span class="dot"></span><span class="name"><b>Health</b><span>First aid, medical references and community health care</span></span><span class="size">9.0 GB · 14 of 19</span></summary></details>
+  </main>
+  <div class="donebar"><span>Adds 4.5 GB compared with recommended</span><button class="primary">Done</button></div>
+</div>
+
+<select id="ref" aria-label="Reference state"></select>
+<script>
+  // Reference page only. Stamps the shared top bar, ring and rail into each state and shows one state.
+  const stamp = id => document.getElementById(id).content.cloneNode(true);
+  for (const app of document.querySelectorAll(".app")) {
+    app.prepend(stamp("t-bar"));
+    const stage = app.querySelector(".stage");
+    if (stage) {
+      stage.prepend(stamp("t-ring"));
+      const meter = stage.querySelector(".meter");
+      if (meter) {
+        meter.append(stamp("t-legend"));
+        const labels = meter.querySelectorAll(".legend li");
+        if (app.id === "measuring") meter.querySelector(".legend").replaceChildren();
+        if (app.id === "behind") {
+          labels[0].textContent = "Health 9.5 GB";
+          labels[7].textContent = "Stories and culture 1.4 GB";
+          labels[8].textContent = "Free 600 MB";
+        }
+      }
+      app.append(stamp("t-rail"));
+      [...app.querySelectorAll(".rail li")].forEach((step, index) => {
+        const current = Number(app.dataset.step) - 1;
+        if (index < current) step.className = "past";
+        if (index === current) step.setAttribute("aria-current", "step");
+      });
+    } else {
+      const link = app.querySelector(".bar a");
+      const brand = app.querySelector(".brand");
+      brand.outerHTML = '<a class="back" href="#ready">‹ ' + app.dataset.manage + "</a>";
+      link.textContent = "How it works";
+    }
+    ref.add(new Option(app.id));
+  }
+  function show() {
+    const id = location.hash.slice(1) || "ready";
+    document.querySelectorAll(".app").forEach(app => app.classList.toggle("show", app.id === id));
+    ref.value = id;
+    if (new URLSearchParams(location.search).has("shot")) ref.hidden = true;
+  }
+  ref.onchange = () => { location.hash = ref.value; };
+  addEventListener("hashchange", show);
+  show();
+</script>
+</body>
+</html>

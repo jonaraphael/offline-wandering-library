@@ -1,5 +1,7 @@
 # FAO practical agriculture: build-time catalog handoff
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Prepared 2026-09-18 local date (2026-09-19 UTC). **Metadata only:** this fragment changes no shared catalog, creates no SSD output and runs no library build. Temporary public publisher originals had already been acquired before the user clarified that downloads should occur only at build time. All further acquisition stopped; existing temporary files are preserved.
 
 Proposed result: `fao-agriculture` **ready**, covering all 17 declared topics with 16 complete PDFs. The nine additions provide 2,364 physical pages and 79,635,609 bytes; the full 16-file core is 173,363,756 bytes. The 500 MB figure is a planning budget, not a requirement to add filler. This is substantive full-manual coverage, not a sample or seed pilot.

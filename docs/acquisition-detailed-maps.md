@@ -1,5 +1,7 @@
 # Detailed New England maps for the 1 TB preset
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 The pending full-preset selection retains all 1,433 latest relevant US Topo 1:24,000 sheets, adds 14 explicitly historical 1:100,000 coastal supplements, and includes the all-50-state USGS national overview. The exact HEAD-verified download total is **72,124,080,891 bytes** within the new 80 GB allowance. The ordinary source-review capture reserves **72,164,924,091 bytes**, including metadata and receipts. PDFs are neither expanded nor duplicated in this accounting. Review images require a later separately reserved preview phase.
 
 `catalog/acquisition/regional-maps-detailed-1tb.yaml` is the standalone discovery recipe, mirrored in the default pending registry `catalog/acquisition/recipes.yaml`. Default audit/discovery selects it for `full-1tb`; the original coarse recipe is limited to compact/standard allowances. `regional-maps-detailed-selection.json` freezes sheet identifiers, publisher URLs, editions, scales, extents, exact lengths and required reviews. `regional-maps-detailed-acquisition.json` supplies 1,448 source records to the acquisition build workflow; it remains outside the active library catalog. The existing 75-sheet compact/standard proposal is unchanged.

@@ -1,5 +1,7 @@
 # Repeatable offline lesson browser check
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Run the real lesson renderer against a generated two-second silent audio file and one caption cue:
 
 ```sh

@@ -125,7 +125,8 @@ class AvailableDiscoveryTests(AtlasBuildFixture):
         self.later.unlink()
         inventory = self.assembled()
         self.assertNotIn('later-topic', inventory['navigation']['included_topic_ids'])
-        self.assertIn('Unavailable in this build', (self.library / 'INDEX/topics/later-topic.html').read_text())
+        self.assertNotIn('Later topic', next((self.library / 'INDEX').glob('*/c-other.js')).read_text())
+        self.assertFalse((self.library / 'INDEX/topics/later-topic.html').exists())
         self.assertNotIn(self.second['destination'], (self.library / 'SHA256SUMS.txt').read_text())
         self.assertEqual(verify_drive(self.drive, emit=lambda _: None)['MISSING'], 0)
 

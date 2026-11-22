@@ -1,5 +1,7 @@
 # Pinned local direct-reading candidates
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Four existing originals were read without modifying the library drive. Their whole-file sizes and SHA256 values match the active catalog: Appropedia February 2026, CD3WD November 2025, iFixit December 2025 and Low-tech Magazine January 2025. The reusable inventory does no networking, extraction, export or production-library writes.
 
 `catalog/acquisition/direct-local-selection-recipe.json` defines bounded English-oriented topic rules and complete captured book-directory expansion. `catalog/acquisition/direct-local-candidates.json` freezes exact entry IDs, titles, payload hashes, sizes, topic assignments and pending reviews. Redirect aliases are excluded. These are selection candidates, not accepted direct editions.

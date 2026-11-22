@@ -1,5 +1,7 @@
 # PhET: build-time source pins and desktop checks
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Fourteen additional original, regular English HTML5 simulations are pinned in
 [`catalog/acquisition/hour-phet.yaml`](../catalog/acquisition/hour-phet.yaml), bringing
 the collection to 16. Each has an exact-version HTTPS URL, whole-file SHA-256 and

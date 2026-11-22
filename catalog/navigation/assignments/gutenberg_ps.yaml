@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: gutenberg_ps
+assignments:
+- topic_id: humanities
+  purpose: reference

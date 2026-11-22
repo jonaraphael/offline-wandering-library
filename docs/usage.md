@@ -6,12 +6,20 @@ below take this outer directory; the verifier, inventories, indexes, content and
 private resume state live inside `LIBRARY`. Catalog destinations remain relative
 to `LIBRARY`, while the global checksum manifest records outer-directory paths.
 
-## Prepare
+## Build in Chrome or Edge
+
+The [Pages builder](https://jonaraphael.github.io/offline-wandering-library/) opens
+a folder on your external drive, recommends a selection and writes the verified
+files, search indexes, shelves and atlas to that drive. If access stops, reopen the site and choose
+**Resume**. The [browser build guide](pages-builder.md) covers size confirmation,
+source exclusions and reader compatibility.
+
+## Prepare for the Python build
 
 1. Use a dependable SSD and cable. Format it with your operating system’s ordinary disk tools if needed; OWL does not format drives. exFAT is the intended cross-platform filesystem.
 2. Identify the SSD’s mount location carefully. Use a dedicated `EMERGENCY_LIBRARY` directory so the library is easy to find.
 3. Install Python 3.11+ and OWL on the build computer. Install with `python -m pip install -e .` for normal builds. These dependencies are needed only while building.
-4. Review the resource registry, asset catalog, and source notes. The larger profiles describe planned selections with unresolved or partial collections; the small presets retain the verified directly readable collection. Use a profile that fits the actual available space. Reserve space for discovery, metadata, and downloads.
+4. Review the resource registry, asset catalog, and source notes. The default profiles select finished files with exact size and SHA-256 pins. Choose a capacity that fits the space on the drive. The planner budgets for discovery, metadata, readers and free space. For collections with ZIMs larger than 4 GiB, use exFAT with Python. The desktop browser builder writes large ZIMs in split parts.
 5. Run a plan and inspect its selected files, source sizes, and warnings.
 
 ```bash
@@ -25,29 +33,39 @@ Mount locations differ by operating system. Typical roots include `/Volumes/` on
 
 ## Choose what to include
 
-Open [`SELECT.html`](../SELECT.html) locally for the [offline selection tool](selector.md). Choose a 16 GB, 64 GB, 256 GB, 512 GB, or 1 TB preset, adjust inclusion controls, and inspect live totals. Enter the destination without adding shell quotes and choose POSIX shell or PowerShell. Copy the planning command and run it from the installed repository before running the build command. The browser page needs no installation or network; Python builds and fresh downloads still require their normal dependencies and internet access.
+Open [`SELECT.html`](../SELECT.html) for the [offline selection tool](selector.md).
+Choose one of the five common sizes or enter the drive capacity in decimal GB.
+Edit collections or individual files and inspect the live totals. Enter the
+destination directory and choose POSIX shell or PowerShell. Run the copied plan
+before starting the build. The selector runs locally. Python and internet access
+are required for the build.
 
-Small-preset rows marked **Preset files only** retain exact files from the preset. Selecting **Published collection** adds the full intended resource with `--include`; it can introduce unresolved scope and a much larger budget. Unchecking a selected row produces `--exclude`. Direct-readable and compact editions require registered alternatives. Larger profiles default to the verified compact Gutenberg/children editions; standard and full add compact practical Stack Exchange, and full adds compact science Stack Exchange. Other unavailable alternatives remain disabled. No compression ratio, conversion, or download is performed by the page.
+The recommendation includes the entire critical tier and preserves attributed
+bytes in health, water and sanitation, food preservation, agriculture, shelter,
+and navigation as capacity grows. World maps stay selected once they enter.
+The default includes English Wikipedia from 16 GB, with upgrades from top to
+mini, nopic, and illustrated maxi. A large, higher-priority archive can displace
+collections in the other fields.
+The 1 TB default applies on larger drives, with the extra capacity available
+for explicit additions. The [current selection table](content-selection.md) lists the pinned
+files and in-place planning peaks for the five common sizes.
 
-The bundled atlas is included automatically. **Build only currently verified files (partial library)** starts unchecked and adds `--allow-incomplete` only when explicitly checked. Storage estimates include a small discovery allowance, metadata and reserve. The CLI checks actual free space. Regenerate the selector with `python scripts/build_selector.py`; `--check` detects stale output.
-
-Current preset counts and planning peaks are generated in [content selection](content-selection.md). Each profile includes a 16 MiB discovery allowance, with no indexing scratch or cache. Source files, any acquisition workspace, metadata, and reserve are counted separately.
-
-`catalog/resources.yaml` describes the 46 numbered resources and five support collections: `owl-direct-core`, `archive-readers`, `direct-reading-expansion`, `books-culture-expansion`, and `complete-courses-expansion`. Actual downloadable files, licenses, sizes, and hashes live in `catalog/library.yaml`. A resource can be ready, partial, or unresolved. Review the plan's resource coverage as well as its byte totals; a plausible size estimate is not proof that the requested collection is available.
-
-The larger content targets are 190–210 GB for compact, 390–420 GB for standard, and 750–820 GB for full, before search, reader, and free-space budgets. All three select full English Wikipedia. Compact selects the 10 GB topographic-map allocation without North America OSM; standard adds North American coverage; full uses world maps in place of North America. OpenStax contributes 36 complete PDFs across all eight subject families in 16 GB; the 64 GB and larger sizes include all 73 current English PDF titles. The smaller selection preserves math/science foundations and adds nursing, business, humanities, social sciences, computing, and college success. Spanish Wikipedia requires explicit inclusion; compact science Stack Exchange defaults to full. Other languages and noncore Khan material are opt-in. All sizes retain the same acquired ordinary-format foundation, with additional archives chosen by available capacity.
-
-The full profile also allocates 60 GB of its planned content budget to `direct-reading-expansion`: additional ordinary HTML, PDFs, and images from selected Appropedia, CD3WD, iFixit, LibreTexts, and Wikibooks material, plus an expanded small directly readable Wikipedia subset. The [in-place exporter](direct-export.md) is implemented, but curated selections and complete reviewed output editions remain unresolved. It does not automatically turn the full Wikipedia archive into millions of local HTML pages. Preferences apply to selected resources, and any future exports require reviewed source selection, licensing, attribution, and verified files. To omit the allocation, add `--exclude direct-reading-expansion`.
-
-Use stable IDs or resource numbers from `--list-resources`. Both options can be repeated and accept comma-separated selections:
+Use collection IDs or numbers shown by `--list-resources`. To exchange the
+large Survivor Library archive for French Wikipedia and a set of USGS sheets on
+a 1 TB drive, plan with these options.
 
 ```bash
 python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
-    --profile full-1tb \
-    --include wikipedia-fr \
-    --exclude wikipedia-es,ted-ed \
+    --capacity-bytes 1000000000000 \
+    --exclude survivor-library \
+    --include wikipedia-fr,topo-usgs-northeast \
     --plan
 ```
+
+The CLI checks actual free bytes. Use `--edition wikipedia-en=top` for the
+50,000-article introduction collection or choose another pinned edition in the
+selector. The 1 TB recommendation has no automatic direct-reading export.
+See the [content ledger](content-ledger.md) for the selection and source totals.
 
 Selecting resolved ZIM assets automatically brings `archive-readers` into the plan. Explicitly excluding that reader collection while ZIM assets remain selected is an error. Review the resulting selection after adding or excluding resources; an archive cannot be made directly readable by removing its reader requirement. Source and licensing gaps still require resolution.
 
@@ -162,23 +180,19 @@ Custom recipes use `--catalog /path/to/catalog.yaml`, `--profiles-dir /path/to/p
 
 ## Find learning and reading collections
 
-`START_HERE.html` links directly to the textbook shelf and illustrated-guide shelf, showing each shelf’s total and critical-resource count. Both pages work without JavaScript. The textbook shelf contains ordinary, directly readable textbooks. The illustrated shelf includes illustrated textbooks and practical guides; reader-dependent archives, EPUBs, and software packages are excluded from these shelves.
+Open `START_HERE.html` and choose a category or **Everything, A to Z**. A book with chapter files opens into a list of its chapters. Use the subject chips in larger categories to narrow the list. **Saved** keeps starred items and recently opened files in this browser on this device.
 
-The critical-content index spans folders. A core textbook stored under `LIBRARY/BOOKS/TEXTBOOKS/` still appears in `LIBRARY/INDEX/critical.html` and carries a Critical label in the other indexes. You do not need to know its folder to find it. The inventory shows resource-type and illustration labels alongside source, license, integrity, and search-coverage information.
+For a partial build, open **Help** and follow the build report or inventory links to review missing files. The machine-readable inventory records available files and selection details.
 
-Project Gutenberg and Children's Library also have prominent landing-page entries and static pages at `LIBRARY/INDEX/gutenberg.html` and `LIBRARY/INDEX/children.html`. These pages list only selected assets actually on the drive, using their catalog resource IDs. Counts refer to files or collection archives, not individual books inside archives. Reader-dependent formats are labeled. With no available assets, the page says the collection is absent; the presence of a shelf page is not a claim that its planned collection was downloaded.
-
-In a partial build, consult the inventory's resource-selection table for missing or incomplete collections and their coverage notes. A successfully verified file set can still represent only part of the selected content plan.
-
-Open PDFs to see diagrams, photographs, charts, and figures. Publisher PDFs retain their original bytes. The 61 Book Dash editions are reviewed PDF conversions with original text, illustrations, language and credits retained; each story illustration starts a page with its following text. Their source EPUBs stay under `LIBRARY/REFERENCE/SOURCE_PACKAGES/EPUB/`, excluded from reading shelves and search. Ordinary PDF viewing does not require an EPUB reader.
+Open PDFs to see diagrams, photographs, charts, and figures. Publisher PDFs retain their original bytes. The 61 Book Dash editions are reviewed PDF conversions with original text, illustrations, language and credits retained; each story illustration starts a page with its following text. Their source EPUBs stay under `LIBRARY/REFERENCE/SOURCE_PACKAGES/EPUB/`, kept out of the reading lists and search. Ordinary PDF viewing does not require an EPUB reader.
 
 Python's reading collection contains 37 original publisher PDFs for Python 3.14.0, dated October 7, 2025. The newer September 2026 EPUB is retained separately as a supporting source package; it is not the source of those older PDFs. See [PDF reading editions](pdf-editions.md) for exact edition and conversion details.
 
-On iPhone or iPad, open the PDFs directly in Files and choose **Preview with Quick Look** if offered. If an HTML preview refuses links, close it and navigate using the exact `LIBRARY/...` paths printed in the start page's inline catalog. Search covers titles, approved sections and topics; it does not search bodies or interpret images. A diagram or scanned page can be useful even when its contents are absent from search results.
+On iPhone or iPad, open the PDFs directly in Files and choose **Preview with Quick Look** if offered. If an HTML preview refuses links, close it and navigate using the exact `LIBRARY/...` paths printed in the start page's inline catalog. Search covers titles, reviewed sections, topics and indexed text. Open the original source to read a scanned page or inspect an illustration. A diagram or scanned page can be useful even when its contents are absent from search results.
 
 ## Add the topic atlas after downloading
 
-The [topic atlas](topic-atlas.md) provides static subject, practical-task, and learning routes alongside the collection shelves. Shared topics can be reached through several broader subjects without duplicating source files. Topic aliases and book contents pages also work without JavaScript.
+The reader’s subject chips and topic search use the reviewed assignments in the topic atlas. Published topics reflect the sources on the drive.
 
 For a library that already has an inventory:
 
@@ -199,7 +213,7 @@ python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
     --profile critical-64gb --navigation-dir catalog/navigation
 ```
 
-Repeat `--navigation-dir` on later full builds that should generate the atlas. Normal content-selection and completeness rules still apply. After publication, start at `LIBRARY/INDEX/topics.html` or the topic-atlas link on `START_HERE.html`.
+Repeat `--navigation-dir` on later full builds that should generate the atlas. Normal content-selection and completeness rules still apply. After publication, use the category filters or search for a subject in `START_HERE.html`.
 
 Production routes use the approved topics and assignments in `catalog/navigation/`. Sources absent from the current drive and branches with no available material are omitted. The final include list, topic vocabulary, and deeper section curation remain editorial work. The atlas guide explains how to import publisher contents into drafts, review exact source locations, and use `--strict-coverage` to reject missing critical or textbook routes. Structural coverage does not establish the quality or completeness of the underlying guidance.
 
@@ -229,9 +243,9 @@ Before storing the SSD, disconnect network access and try each intended device:
 1. Attach the SSD with the necessary adapter and power source; find it in the file manager.
 2. Open `START_HERE.html`, follow a category link, and open a critical PDF or text file.
 3. If HTML links do not work, use the catalog printed on START_HERE itself. Note a document's `LIBRARY/...` path, close the preview, and open that file through the file manager.
-4. Open a core textbook and an illustrated guide from their dedicated shelves. Navigate between pages and zoom into a diagram to confirm it is readable on the device.
-5. In a compatible browser, search controls appear on `START_HERE.html` after discovery data loads. Enter known words, then try `LIBRARY/SEARCH.html` as well and open a result in a compatible document viewer. No index-file selection is needed. File previews may block both scripts and local links; the inline catalog and direct folder access remain the fallback.
-6. Open the textbook, illustrated-guide, Gutenberg, children's, category, critical, and alphabetical indexes with JavaScript disabled. If generated, try the atlas through subject, practical-task, and learning entrances, including recovery from a wrong turn. Confirm critical textbooks are reachable through the critical index even when their files are in `LIBRARY/BOOKS/`. Check that missing planned collections are clearly reported.
+4. Open a textbook and an illustrated guide. Navigate between pages and zoom into a diagram.
+5. Use Search to find a passage and open the result. Star a guide and confirm it appears in Saved after reloading.
+6. Disable JavaScript and reopen `START_HERE.html`. Find the urgent paths, category listings and device instructions on the page. In the app, check Help for the file list and build report.
 7. On platforms that permit offline installation, check that the matching bundled reader can open a ZIM. The builder does not install or run it for you.
 8. Safely eject the SSD before unplugging it.
 

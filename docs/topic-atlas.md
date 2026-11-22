@@ -1,21 +1,18 @@
-# Static topic atlas
+# Topic atlas
 
 The atlas adds subject, practical-task, and learning routes to an existing OWL
-library. A shared topic has one page even when several broader topics lead to it.
-Topic pages show narrower choices, selected source locations, alternate routes,
-and reader requirements. Topic A–Z includes aliases; an ambiguous label presents
-the matching topics as choices.
+library. The reader in `START_HERE.html` shows topics in Search and uses them to
+filter larger categories. A topic can group several books or locations within
+books.
 
-Every generated page works without JavaScript, a server, or network access. The
-existing critical-content, textbook, illustrated-guide, category, and title
-indexes remain available. Local-link support still depends on the device's file
-viewer. Filenames and human-readable locations provide a fallback when links or
-PDF page fragments do not work.
+The reader works offline. File viewers with scripting disabled show the
+static start page, with urgent guides, categories, file locations and device
+instructions. Use those locations when the viewer does not follow local links.
 
 The drive's outer directory contains `START_HERE.html` and `LIBRARY/`.
-The commands below take that outer directory. Atlas pages and reports are under
-`LIBRARY/INDEX/`; asset destinations in catalogs and inventories stay relative to
-the inner `LIBRARY/` directory.
+The commands below take that outer directory. The atlas report and reader data
+are under `LIBRARY/INDEX/`. Destinations in catalogs and inventories are
+relative to the inner `LIBRARY/` directory.
 
 ## Generate navigation from files already on a drive
 
@@ -28,7 +25,7 @@ python scripts/verify.py /media/SSD/EMERGENCY_LIBRARY
 ```
 
 This command uses the drive's existing inventory, verifies source integrity, and
-publishes static navigation and matching metadata search. It does not download missing collections, extract
+publishes the reader and matching metadata search. It does not download missing collections, extract
 document text, or change the selected content. Supply `--catalog` when
 using a different asset catalog. That catalog must contain every asset ID
 referenced by the navigation metadata, including currently excluded assets.
@@ -60,11 +57,9 @@ python scripts/build_drive.py /media/SSD/EMERGENCY_LIBRARY \
 For custom catalogs, repeat `--navigation-dir` on later builds. The same source selection and content-completeness rules still apply.
 
 The publisher locks the drive, checks output ownership and local links, records
-metadata hashes, and includes generated pages in the drive's checksums. A
-previously managed atlas page that no longer belongs to the selection becomes an
-unavailable-in-this-build notice with links to current navigation. Unrelated files
-are not deleted or overwritten. Interrupted publication can be retried with the
-same command; it must not conceal an interrupted full build.
+metadata hashes, and includes generated files in the drive's checksums. It
+publishes the new reader generation before updating `START_HERE.html`.
+Rerun the same command after an interrupted publication.
 
 ## What the starter metadata covers
 
@@ -264,16 +259,6 @@ Without `--strict-coverage`, the publisher reports gaps and writes the coverage
 report. Passing strict checks establishes structural coverage, not clinical
 quality, a finalized include list, or proof that a visitor can find every answer.
 
-Topic pages, imported source contents, and A–Z lists paginate. Resource lists
-contain at most 50 entries per page; topic-choice lists show at most 15 choices
-before an explicit continuation. The renderer enforces a 128 KiB UTF-8 HTML limit
-per page, splits lists when needed, and rejects an individual metadata entry too
-large to fit. Each shared topic has one canonical page; continuations add a fixed
-path component rather than reproducing every possible browsing route.
-
-Use the generated pages with JavaScript disabled. Try representative practical
-and learning tasks from several plausible entrances. Check that alternate routes
-recover from wrong turns, reader-only branches are identified before opening
-them, and page numbers remain usable when a viewer ignores fragments. Test the
-actual phones, adapters, file managers, and desktop viewers intended for the
-drive. Automated link and graph checks do not replace this finding-task review.
+Try representative searches and category filters. With JavaScript disabled,
+check that the static start page gives the locations you need. Test the phones,
+adapters, file managers, and desktop viewers intended for the drive.

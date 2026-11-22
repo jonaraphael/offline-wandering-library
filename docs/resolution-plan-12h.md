@@ -1,5 +1,7 @@
 # Twelve-hour asset resolution plan
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 The current editorial plan is [the full-1tb topic completion plan](full-1tb-coverage-plan.md).
 It tracks intended depth, selected sources, gaps and next candidates without GB
 quotas. The execution scope and schedules below are historical; active catalog

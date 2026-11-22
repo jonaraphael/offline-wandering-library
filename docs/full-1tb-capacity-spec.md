@@ -1,5 +1,10 @@
 # Near-full 1 TB capacity specification
 
+Historical evidence for the September 2026 acquisition snapshot. See the
+[current capacity table](content-selection.md) for build defaults.
+
+This September 2026 specification describes an acquisition plan and its baseline at that date. See the [current ledger](content-ledger.md) for subsequent admissions.
+
 [Near-full selections for every preset](preset-capacity-plans.md) reuse this shared inventory.
 
 Target **990 GB of library and support data** on a nominal **1,000 GB drive**. The current source inventory models **987.261 GB**, leaving **2.739 GB** for metadata growth, edition changes and later small reviewed gap manuals. The drive also retains **5 GB actually free** and a separate **5 GB filesystem/partition margin**.
@@ -79,7 +84,7 @@ The [Core Knowledge terms](https://www.coreknowledge.org/terms-of-use/) have ser
 
 ## Lightweight pseudoindexes and admission
 
-Each readable candidate has one saved assignment file under [the acquisition plan](../catalog/acquisition/full-1tb-capacity-20260928/pseudoindexes/), using the existing `schema_version: 1` navigation format. Canadian PDFs receive entries; retained ZIP/XML files do not. No internal section, page number or ZIM path is invented.
+Each readable candidate has a saved assignment record in [the acquisition plan](../catalog/acquisition/full-1tb-capacity-20260928/pseudoindexes.jsonl), using the existing `schema_version: 1` navigation format. Canadian PDFs receive entries; retained ZIP/XML files do not. No internal section, page number or ZIM path is invented.
 
 **Python** handles enumeration, typed metadata, deduplication, byte totals, format probes, member inventories, deterministic place/component aliases and schema validation. **AI/editorial work** chooses useful scope, evaluates audience and limitations, reconciles teaching requirements, reviews representative pages/playback and judges remaining task depth.
 

@@ -134,7 +134,7 @@ class EditionTests(unittest.TestCase):
                  ({"compact": {**original["editions"]["compact"], "asset_ids": ["critical"]}}, "ZIM"),
                  ({"compact": {**original["editions"]["compact"], "asset_ids": ["archive"]}}, "preserve critical"),
                  ({"direct": {**original["editions"]["direct"], "status": "partial", "reason": ""}}, "nonempty reason"),
-                 ({"published": original["editions"]["direct"]}, "only direct and compact")]
+                 ({"published": original["editions"]["direct"]}, "editions may define")]
         for editions, error in cases:
             self.resource = {**original, "editions": editions}
             with self.subTest(editions=editions), self.assertRaisesRegex(CatalogError, error):

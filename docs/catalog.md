@@ -1,8 +1,8 @@
 # Current admission and selection rules
 
-Every active file must pass `src/owl/content_policy.json`. Every asset and collection must declare `utility_tier`, `utility_reason` and `knowledge_domains`; defaults must pass `src/owl/utility_policy.json`. Run `python scripts/check_selection_policy.py` after catalog or profile edits and regenerate SELECT.html and the content-selection reference.
+Every active file must pass `src/owl/content_policy.json`. Every asset and collection must declare `utility_tier`, `utility_reason` and `knowledge_domains`; defaults must pass `src/owl/utility_policy.json`. After catalog edits, run `python scripts/build_capacity_ladder.py`, `python scripts/check_selection_policy.py`, `python scripts/build_selector.py` and `python scripts/build_content_docs.py`.
 
-Use finished publisher PDFs, whole ZIMs and verified self-contained files. Do not add build-time conversions, source-only manuscripts or unverified HTML bundles. Preserve full-file size/hash pins and notices. Prefer domain breadth and substantial complete works over object counts. Keep NONESSENTIAL fiction, college education and computing opt-in. New alternatives must record what coverage they do and do not replace.
+Use finished publisher PDFs, whole ZIMs and verified self-contained files. Do not add build-time conversions, source-only manuscripts or unverified HTML bundles. Preserve full-file size/hash pins and notices. Prefer domain breadth and substantial complete works over object counts. Assign deeper levels to enrichment. Use `opt_in: true` for regional topography and non-English Wikipedias. New alternatives must record what coverage they do and do not replace.
 
 `catalog/content-review.json` preserves the review of the prior catalog; acquisition recipe descriptions below are historical tooling details, not exemptions from these admission rules.
 
@@ -19,9 +19,23 @@ from the selected resources, not duplicated in each file's `profiles` list.
 The demo baseline uses asset `profiles` membership; all production presets use named collections.
 An empty asset `profiles` list means it is selected only through a named resource.
 
-Production profiles select ready named collections through `default_resources`. Every asset has a tier, explanation and topic-domain list. Defaults contain CRITICAL and USEFUL files and meet the domain coverage policy; optional exclusions may deliberately reduce coverage. There are no production file-count or byte quotas. The small `demo` fixture uses direct asset membership.
+The production profiles and `catalog/capacity-ladder.json` are generated from
+`catalog/capacity-order.yaml`. Review the order when changing default collections.
+The compiler derives the byte threshold for each addition and uses the asset's
+primary domain to check whether an indivisible archive can replace lower-priority
+material. Each asset records its primary planning `selection.domain`, `selection.level`,
+and `selection.rank`. For archives that span planning domains, give their
+shares as positive integer parts in `selection.domain_weights`. Include each
+weighted domain among the asset's `knowledge_domains` and explain the evidence
+or editorial estimate in `selection.weight_basis`. Use `selection.edition_group`
+for editions that substitute inside one collection. `browser_fetch` records
+CORS and range observations for the source. Add a mirror only after comparing
+the entire file to the pin. Record its URL-specific observations in
+`mirror_fetch`, using null for an unmeasured result. Record publisher SHA-256
+provenance in `digest_source` when applicable. See the
+[capacity design](design/target-architecture.md) and [ledger](content-ledger.md).
 
-Resources list actual finished files with exact summed sizes, source limitations and shared priority. Split different priorities into separate collections so NONESSENTIAL material can remain opt-in. `--include` and `--exclude` accept stable resource IDs or existing collection numbers. Never create empty wishlist entries to inflate available content.
+Resources list actual finished files with exact summed sizes, source limitations and shared priority. Split different priorities into separate collections. Assign `default_sampler: true` to a small finished NONESSENTIAL collection that belongs in every default. `--include` and `--exclude` accept stable resource IDs or existing collection numbers. Never create empty wishlist entries to inflate available content.
 
 Maintain [the editorial coverage plan](full-1tb-coverage-plan.md) in
 `catalog/coverage-plan.yaml` in the same change as new selections. Record intended
@@ -30,7 +44,7 @@ topic. The documentation generator checks references and includes every atlas
 topic; it never treats source counts, tags or completed downloads as proof of
 adequate depth. Unselected candidates belong in this plan, not in ready collections.
 
-A resource can optionally register `editions.direct` and `editions.compact`.
+A resource can register `direct`, `compact`, `top`, `mini`, or `nopic` under `editions`.
 Each edition requires exactly `asset_ids`, `target_bytes`, `status`, and `reason`;
 use the same types as the resource fields. Every referenced asset must already
 exist in the catalog, be resolved, and have a reviewed SHA-256. A direct edition
@@ -47,7 +61,7 @@ selects the original definition. Reader dependencies are recomputed from the
 resulting files. Editions and exact selected assets are recorded in locked build
 metadata. Explicit `--exclude RESOURCE` covers all of its registered editions.
 
-The production registry currently selects finished PDFs and ZIMs as published collections. Verified alternative editions may be added later only if their files independently pass the same policy. Regenerate SELECT.html after catalog, topic metadata or profile changes; CI checks freshness.
+Finished files in every registered edition must pass the same admission policy. Defaults choose at most one edition per collection.
 
 
 

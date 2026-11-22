@@ -1,5 +1,7 @@
 # Programming documentation: metadata handoff
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Prepared 2026-09-19 UTC. The user clarified that this pass should resolve links and
 catalog/build-time acquisition, not download library content yet. Temporary
 acquisitions had already occurred before that clarification. Acquisition stopped;

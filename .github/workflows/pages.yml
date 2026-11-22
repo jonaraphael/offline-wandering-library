@@ -1,0 +1,59 @@
+name: Pages
+on:
+  push:
+    branches:
+      - main
+      - t3/council-offline-library-audit
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/configure-pages@v5
+      - run: python -m pip install -e .
+      - run: python scripts/build_selector.py --check
+      - uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/owl-mirrors
+          key: owl-pages-mirrors-${{ hashFiles('web/pages-mirrors.json') }}
+          restore-keys: owl-pages-mirrors-
+      # OWL_RELAY_BASE (repository variable) is the owner-approved publisher relay
+      # origin; when unset the site is built without relay routes.
+      - env:
+          OWL_RELAY_BASE: ${{ vars.OWL_RELAY_BASE }}
+          OWL_ARCHIVE_RELAY: ${{ vars.OWL_ARCHIVE_RELAY }}
+        run: |
+          relay=()
+          if [[ -n "$OWL_RELAY_BASE" ]]; then
+            relay+=(--relay-base "$OWL_RELAY_BASE")
+            if [[ "$OWL_ARCHIVE_RELAY" == true ]]; then relay+=(--archive-relay); fi
+          fi
+          python scripts/build_pages.py "${{ runner.temp }}/owl-pages" --fetch-mirrors --cache "${{ runner.temp }}/owl-mirrors" --search-commit "${{ github.sha }}" "${relay[@]}"
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ runner.temp }}/owl-pages
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

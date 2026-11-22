@@ -93,6 +93,7 @@
         "general-reference",
         "language",
         "additional-language",
+        "languages",
         "geography"
       ],
       "x": 790,
@@ -108,6 +109,7 @@
         "advanced-science",
         "advanced-education",
         "advanced-reference",
+        "advanced-study",
         "archive-access",
         "business"
       ],
@@ -121,6 +123,7 @@
       "domains": [
         "stories",
         "literature",
+        "culture",
         "enrichment",
         "travel",
         "humanities",

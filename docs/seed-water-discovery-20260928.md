@@ -1,5 +1,7 @@
 # Seed and water selections — 28 September 2026
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Five complete publisher PDFs were selected for **full-1tb**, adding **33,435,040
 bytes (33.44 MB)**. Their five per-asset YAML pseudoindexes total **6,398 bytes**.
 The full selection now contains **433 assets / 274,518,976,082 bytes**; smaller

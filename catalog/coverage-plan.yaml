@@ -1,14 +1,14 @@
 schema_version: 1
-reviewed_on: '2026-09-29'
+reviewed_on: '2026-11-21'
 profile: full-1tb
 purpose: Practical household and community knowledge for prolonged loss of internet and limited electricity.
 completion_rule: Adequate means the stated learning and practical tasks are supported by reviewed, usable resources with their prerequisites, illustrations, limits and offline access. Tags, file counts, downloads and GB totals establish neither depth nor adequacy.
 maintenance_rule: Update the affected rows in the same change as each resource admission. Keep gaps and next selections explicit; only an editorial review with recorded evidence may mark a row adequate. Regenerate the documentation with scripts/build_content_docs.py.
 next_batch:
 - 'Initial literacy: all 366 selected Core Knowledge curriculum pages and 1,220 English PDFs are enumerated with a grade/component matrix. Review the 39 fully hashed kindergarten Skills PDFs alongside the six ancillary PDFs; complete dependencies and teaching-sequence review before admission.'
-- 'Seed independence: review the fully hashed OSA 2010 seed-saving PDF against existing processing/quality modules. Keep the 2026 revision and regional crop-diagnosis gaps explicit; defer the enterprise/business volume.'
+- 'Seed independence: review the selected OSA 2010 seed-saving PDF alongside the FAO processing and quality modules. Check the 2026 revision and identify regional crop-diagnosis guides.'
 - 'Water systems: review the selected rainwater, Afridev and groundwater sequence against freezing, local pump types and testing. The two new Penn State download URLs returned HTML and are excluded; identify working finished alternatives.'
-- 'Resilient shelter and storage: FEMA P-232 (2024) and UAF Root Cellars (2020 revision) are fully hashed candidates with rendered samples reviewed. Review task scope before admission; ordinary weatherproofing and repair remain gaps.'
+- 'Resilient shelter and storage: review the selected IFRC shelter guides and UAF Root Cellars PDF for the intended tasks. Find a reachable byte-identical source for FEMA P-232. Ordinary weatherproofing and repair remain gaps.'
 - 'Power, textiles and radio: review the hashed DOE Energy Saver, NMSU Sewing Shortcuts and historical ARRL ARES candidates. Select separate small-DC, stove/ventilation, beginner hand-mending and current novice-radio references; these supplements do not close those tasks.'
 - 'Local topography: 4,807 USGS PDFs and 1,051 Canadian ZIPs/PDFs passed bounded type/size checks, with complete ZIP-member accounting. Acquire and hash bodies, inspect readability and prove declared footprint coverage. Do not add the overlapping older New England subtotal.'
 - 'Capacity: 7,095 source downloads add 712.149 GB; existing files and modeled support total 987.261 GB, leaving 2.739 GB below the 990 GB ceiling plus separate free-space/filesystem margins. Forty-six small PDFs are fully hashed; all large-body and offline-reader admission gates remain explicit. See docs/full-1tb-source-verification.md.'
@@ -19,8 +19,8 @@ topics:
   status: partial
   atlas_topics: [health, first-aid, emergency-care]
   intended: A layperson can recognize danger, protect a scene, provide basic first response and arrange escalation; trained readers have a distinct emergency-care reference.
-  resources: [owl-direct-core, civilian-preparedness, who-emergency-care, wikem]
-  existing: CERT training, WHO Basic Emergency Care and job aids, FEMA preparedness and WikEM. Clinical material is not automatically suitable for an untrained reader.
+  resources: [owl-direct-core, civilian-preparedness, who-emergency-care]
+  existing: CERT training, WHO Basic Emergency Care and job aids, FEMA preparedness and WikiMed. Clinical material is not automatically suitable for an untrained reader.
   gaps: [A clearly separated layperson sequence, Current CPR and first-aid training materials with practical limits, A concise route from symptom or incident to the appropriate source]
   next: [Evaluate an official current layperson first-aid manual and illustrated skills reference; retain training requirements., Check the existing CERT and WHO contents against the layperson task list before adding duplicates.]
   done_when: A reviewed task matrix covers immediate common emergencies with an accessible first-response route and clear referral or training boundaries.
@@ -29,10 +29,10 @@ topics:
   status: partial
   atlas_topics: [clinical-medicine, medicines, infectious-disease, anatomy, nursing]
   intended: Trained health workers can find assessment, infection prevention, medicine references and escalation guidance; professional material remains clearly labelled.
-  resources: [msf-medical, who-emergency-care, wikimed, wikem, openstax-core]
-  existing: MSF clinical and essential-drug manuals and outbreak guides provide a foundation; WikiMed/WikEM broaden reference. College anatomy and nursing books are optional and do not count toward the default selection.
+  resources: [msf-medical, who-emergency-care, wikimed, openstax-core, openstax-health, openstax-school-science, mdwiki, gutenberg-r, cdc-travelers-health, librepathology, medlineplus]
+  existing: MSF clinical and essential-drug manuals and outbreak guides provide a foundation. WikiMed and MDWiki broaden reference. MedlinePlus supports patient education, and CDC Travelers’ Health and Libre Pathology add specialized references.
   gaps: [An edition and audience review across overlapping clinical manuals, Coverage of chronic care and rehabilitation in low-resource settings, Reviewed task routes and a currency policy for medicine information]
-  next: [Audit the selected MSF editions and their contents before adding clinical sources., Identify a current finished primary-care or chronic-care reference from an authoritative publisher., 'Review the planned MedlinePlus 2025-01 archive for patient education only; it is not admitted and does not replace a current clinical or medicine reference. See docs/full-1tb-capacity-spec.md.']
+  next: ["Audit the selected MSF editions before adding clinical sources. Check current editions and professional scope across MedlinePlus, CDC and Libre Pathology. Identify a current published chronic-care reference."]
   done_when: A qualified content review confirms the intended professional scope, current editions, practical limits and usable navigation for the agreed clinical task list.
 - id: maternal-child
   title: Maternal, newborn and women's health
@@ -69,7 +69,7 @@ topics:
   status: partial
   atlas_topics: [community-environment, health-worker-education, public-health-engineering, humanitarian-response]
   intended: Organize health education, prevention, community sanitation and equitable relief with realistic supply and staffing assumptions.
-  resources: [hesperian-health, sphere-handbook, msf-medical, who-wash, water-supply-maintenance]
+  resources: [hesperian-health, sphere-handbook, msf-medical, who-wash, water-supply-maintenance, medlineplus]
   existing: Hesperian community and health-worker material, Sphere standards, MSF public-health engineering and WHO WASH notes; SADC-GMI adds water-system operation, community management and maintenance exercises for trained staff.
   gaps: [A usable learning sequence through the overlapping references, Exercises or checklists for community organization, Applicability review outside formal humanitarian operations]
   next: [Create a contents-based starting route using existing sources, then select an official community training workbook only for uncovered tasks.]
@@ -79,7 +79,7 @@ topics:
   status: partial
   atlas_topics: [water-hygiene, drinking-water, water-supply]
   intended: Cover source selection, collection, protection, storage, treatment, testing and ongoing maintenance from source to household.
-  resources: [owl-direct-core, who-wash, msf-medical, survivor-tier-a, water-supply-maintenance]
+  resources: [owl-direct-core, who-wash, msf-medical, survivor-tier-a, water-supply-maintenance, usaid-archive, sustainable-living]
   existing: Emergency disinfection guidance, WHO wells and storage notes, MSF engineering and a historical water-supply manual. Newly selected CAWST rainwater (2011), RWSN Afridev (2007) and SADC-GMI groundwater maintenance (2020) add illustrated collection, equipment repair and operation references. Brief contents and page-sample review is recorded in catalog/acquisition/seed-water-discovery-20260928.json.
   gaps: [A reviewed source-to-use sequence for household readers rather than trained operators alone, Cold-climate rainwater and well-system applicability, Equipment guidance beyond the specified Afridev configurations, Accessible water-quality testing with interpretation and limits, Current site-specific construction and source-protection requirements]
   next: ["The Penn State private-water guide and well-maintenance download URLs returned HTML in the 2026-09-29 verification pass; they are rejected sources, not admitted PDFs. See catalog/acquisition/full-1tb-capacity-20260928/rejected-sources.json.", "Select a working finished cold-climate well/rainwater guide with locally relevant pumps and contamination testing; retain the existing CAWST/RWSN/SADC overlap review."]
@@ -89,30 +89,30 @@ topics:
   status: partial
   atlas_topics: [sanitation]
   intended: Household and community hygiene, excreta management, waste handling and safe operation of low-resource sanitation systems.
-  resources: [owl-direct-core, who-wash, msf-medical, sphere-handbook]
-  existing: WHO emergency sanitation notes, disaster hygiene guidance, MSF engineering and Sphere requirements.
+  resources: [owl-direct-core, who-wash, msf-medical, sphere-handbook, eawag-sanitation-compendium-2e]
+  existing: WHO emergency sanitation notes, MSF engineering and Sphere requirements cover immediate response. The Eawag compendium adds 57 illustrated technology sheets and system layouts.
   gaps: [Longer-term system selection and maintenance, Site and groundwater constraints, Accessible household designs beyond emergency notes]
-  next: ["Eawag sanitation compendium second edition is now a fully downloaded, SHA-256-pinned 180-page PDF candidate with a rendered sample inspected; see practical-manuals.json in the full-1tb capacity plan.", "Review siting, maintenance and cold-climate applicability before admission; the compendium compares systems and does not establish site-specific construction design."]
+  next: ["Review Eawag siting, maintenance and cold-climate applicability. Look for finished guidance for locally appropriate household installations."]
   done_when: Readers can compare appropriate systems and locate complete maintenance and siting guidance, with health and environmental limits intact.
 - id: food-preservation
   title: Food preservation and storage
   status: partial
   atlas_topics: [food-preservation, canning, canning-introduction, canning-fruit, canning-tomatoes, canning-vegetables, canning-meat, canning-pickles, canning-jams]
   intended: Tested canning, freezing, drying, fermentation and non-electric storage, including equipment and method limits.
-  resources: [food-preservation, fao-agriculture]
-  existing: USDA canning guide, NCHFP/extension PDFs, postharvest handling and FAO grain-silo guidance.
+  resources: [food-preservation, fao-agriculture, seasoned-advice, homebrewing-qa, uaf-root-cellars-hga00331]
+  existing: USDA canning, NCHFP and extension PDFs provide tested methods. UAF Root Cellars adds illustrated non-electric storage guidance. FAO covers postharvest handling and grain storage.
   gaps: [A food-by-method coverage matrix, Root-cellar and ambient storage depth, Clear distinction between tested preservation methods and unsupported historical recipes]
-  next: ["UAF Root Cellars, revised June 2020, is a fully downloaded and hashed four-page candidate; rendered storage tables and cellar diagram inspected. Admit after task/rights review.", "Reconcile the short cold-storage reference with existing freezing, drying and fermentation coverage; it is not a complete engineered cellar plan."]
+  next: ["Reconcile the root-cellar reference with existing freezing, drying and fermentation coverage. Review sources for ambient storage and tested methods by food type."]
   done_when: Each agreed food/method combination has a current tested source with operating limits, and unsupported combinations are labelled rather than inferred.
 - id: crops-seeds
   title: Gardening, crop production and seed independence
   status: partial
   atlas_topics: [food-growing, gardening, crop-production, seed-storage, seed-production]
   intended: Plan a growing season, establish crops, rotate beds, save or produce seed, process it and maintain viable storage.
-  resources: [owl-direct-core, fao-agriculture, sare-practical-farming, seed-processing-quality]
-  existing: Community Garden Guide, FAO production and seed-storage manuals, SARE crop rotation, and newly selected FAO Seeds Toolkit Modules 2 and 3 (2018) for processing and quality assurance. Brief contents and page-sample review is recorded in catalog/acquisition/seed-water-discovery-20260928.json; the enterprise-focused Module 1 was deferred.
+  resources: [owl-direct-core, fao-agriculture, sare-practical-farming, seed-processing-quality, gardenology, osa-seed-saving-2010]
+  existing: The Community Garden Guide, SARE crop rotation and FAO Seeds Toolkit cover production, processing, quality and storage. The 2010 Organic Seed Alliance guide adds crop-specific seed saving.
   gaps: ['Crop-specific seed selection, isolation, pollination and harvest instructions for home growers', Crop and climate coverage beyond the existing regional examples, An end-to-end beginner growing sequence, A checked distinction between accessible seed tests and laboratory methods]
-  next: ["The offered Organic Seed Alliance 2010 seed-saving PDF is now downloaded, hashed and sampled; it is distinct from the 2026 web revision. Review crop scope and older recommendations before admission.", "Seek a finished current edition and region-specific diagnosis sources. Check low-equipment seed processing, testing and storage against the existing references before marking the renewal sequence complete."]
+  next: ["Seek a finished current edition and region-specific diagnostics. Check home seed processing, testing and storage against the existing references."]
   done_when: A complete seasonal task sequence includes crop choice, propagation, cultivation, harvest and seed renewal for a declared climate scope.
 - id: soils
   title: Soil fertility, compost and cover crops
@@ -159,17 +159,17 @@ topics:
   status: partial
   atlas_topics: [shelter, storm-shelter, outdoor-shelter]
   intended: Temporary shelter, repair, weatherproofing, ventilation and hazard-aware permanent construction, with professional design boundaries.
-  resources: [owl-direct-core, civilian-preparedness, survivor-tier-a, stackexchange-practical]
-  existing: Storm-shelter and outdoor guides, FEMA preparedness, a historical foundations volume and Home Improvement archive.
+  resources: [owl-direct-core, civilian-preparedness, survivor-tier-a, stackexchange-practical, post-disaster, engineering-qa, ifrc-shelter-handbook, ifrc-shelter-projects]
+  existing: Storm-shelter references, FEMA preparedness, historical foundations and Home Improvement cover several practical needs. IFRC adds illustrated shelter guidance and 33 shelter and recovery case studies.
   gaps: [Current step-by-step repair and construction depth, Moisture and ventilation, Seismic and regional hazard guidance beyond storm shelters]
-  next: ["FEMA P-232 September 2024 is now fully downloaded and hashed: 43.171 MB, 266 pages; representative rendering passed. Review scope and construction prerequisites before admission.", "Select a current finished weatherproofing and ordinary home-repair manual; seismic design coverage does not close those gaps."]
+  next: ["Find a reachable byte-identical source for FEMA P-232, then review its construction prerequisites. Find finished guides for weatherproofing and ordinary repairs."]
   done_when: The agreed shelter and repair tasks have current diagrams and complete context; historical references and forum answers are not credited as a modern building standard.
 - id: hand-tools
   title: Hand tools and woodworking
   status: partial
   atlas_topics: [repair, repair-guides]
   intended: Select, maintain and safely use basic hand tools; sharpen cutting edges and perform useful wood joints and repairs.
-  resources: [hand-tools-repair, fao-agriculture, trail-maintenance, stackexchange-practical]
+  resources: [hand-tools-repair, fao-agriculture, trail-maintenance, stackexchange-practical, survivor-library]
   existing: Ax and crosscut manuals, FAO agricultural tools, trail techniques and Woodworking archive.
   gaps: ['Broader planes, chisels, boring and joinery coverage', Workholding and measuring, A current finished timber reference]
   next: [Select an illustrated hand-joinery and tool-maintenance manual., Revisit the Wood Handbook only through an offered usable edition; the earlier encrypted PDF remains deferred.]
@@ -189,7 +189,7 @@ topics:
   status: partial
   atlas_topics: [electricity, electric-circuits, dc-circuits, ac-circuits, appropriate-technology]
   intended: Understand electricity and provide practical low-energy lighting, battery care, small generation, cooking and heating references.
-  resources: [hand-tools-repair, low-tech-magazine, appropedia, cd3wd, stackexchange-practical]
+  resources: [hand-tools-repair, low-tech-magazine, appropedia, cd3wd, stackexchange-practical, energypedia]
   existing: AC/DC circuit textbooks and broad appropriate-technology and electrical archives.
   gaps: [Complete small-system construction and maintenance references, Batteries and fault finding, Stove and chimney operation, ventilation and combustion safety]
   next: ["DOE Energy Saver 2022 is a fully hashed 56-page candidate with rendered sample review; use for household efficiency/weatherization after admission review, not small-system wiring.", "The advertised NRCan 2002 wood-heating PDF returned HTML and is excluded. Find a working current stove/chimney/ventilation manual. Energypedia remains an unacquired supplementary ZIM candidate.", "Select a practical small-DC-system manual with batteries and fault finding."]
@@ -199,7 +199,7 @@ topics:
   status: gap
   atlas_topics: []
   intended: Mend and fit everyday clothing, sew useful household items and understand basic fabric, leather and storage care.
-  resources: [cd3wd, gutenberg-core]
+  resources: [cd3wd, gutenberg-core, gutenberg-trades]
   existing: Broad archives may contain relevant works, but no specific current finished manual is selected as a reviewed anchor.
   gaps: [An identified beginner sewing and mending sequence, Illustrated hand-stitching and repair, Explicit material and tool requirements]
   next: ["NMSU Sewing Shortcuts C-104, revised 2015, is a fully hashed 12-page candidate; illustrated seams, pockets and fasteners were sampled. It assumes machine-sewing skills and does not close the beginner hand-mending gap.", "Select a finished illustrated hand-stitching and mending sequence with tools, materials and complete beginner tasks."]
@@ -209,7 +209,7 @@ topics:
   status: partial
   atlas_topics: [navigation-maps, map-compass, regional-maps, world-maps]
   intended: Read terrain, orient with map and compass, plan local routes and retain a usable geographic overview.
-  resources: [owl-direct-core, world-maps, regional-maps]
+  resources: [owl-direct-core, world-maps, regional-maps, wikivoyage-en, world-factbook, osm-guides, gutenberg-g, topo-usgs-northeast, topo-usgs-mid-atlantic, topo-usgs-appalachian, topo-canada-nearby, outdoors-qa]
   existing: USGS map-and-compass guide and a world OSM archive. The North America alternative is not additionally selected by the full profile.
   gaps: [Contiguous topographic coverage for the confirmed northeastern US and nearby Canada scope, 'Map scale, contour and date review', Offline print/read usability for the actual sheets, Complete source/member integrity checks and reviewed geographic footprint gaps]
   next: ["All 4,807 dated USGS PDFs and 1,051 Canadian PDF ZIPs passed bounded availability/type/size checks; exact retained bytes and individual draft pseudoindexes are saved. Scope: northeastern US, adjoining MD/DE/DC/VA/WV, and the Canadian [-90,42,-59,50] envelope including the northern Great Lakes. See docs/full-1tb-source-verification.md.", "Acquire and hash full source bodies and Canadian extracted members; test actual readability. Compare footprints against authoritative boundaries and retain coastal/region gaps explicitly.", "The older New England candidate list overlaps this selection and must not be added twice; enumeration and valid PDF prefixes do not establish contiguous map coverage."]
@@ -229,7 +229,7 @@ topics:
   status: partial
   atlas_topics: [reference, preparedness, chemical-safety]
   intended: Household planning, supplies, evacuation, hazard recognition and appropriately scoped chemical reference.
-  resources: [civilian-preparedness, owl-direct-core, niosh-chemical-hazards, sphere-handbook]
+  resources: [civilian-preparedness, owl-direct-core, niosh-chemical-hazards, sphere-handbook, ready-gov]
   existing: FEMA Are You Ready, CERT, supply checklist and NIOSH Pocket Guide.
   gaps: [A local household and community scenario checklist, Chemical-reference currency and audience review, Clear use under loss of power and communications]
   next: [Compare existing official references against realistic household scenarios; add only identified gaps.]
@@ -249,7 +249,7 @@ topics:
   status: gap
   atlas_topics: [language-books, dictionaries, writing]
   intended: Teach reading, handwriting, comprehension and basic composition from the beginning, with teacher support and assessment.
-  resources: [wiktionary-en, wikibooks-en, childrens-library, openstax-core]
+  resources: [wiktionary-en, wikibooks-en, childrens-library, openstax-core, openstax-culture, voa-learning, bookdash-archive, gutenberg-p, gutenberg-pa, gutenberg-pb, gutenberg-pc, gutenberg-pd, gutenberg-pe, gutenberg-pf, gutenberg-pg, gutenberg-ph, gutenberg-pj, gutenberg-pk, gutenberg-pl, gutenberg-pm]
   existing: Dictionary and Wikibooks are selected; illustrated stories and college writing are optional. None establishes a beginning-reading curriculum.
   gaps: [A complete phonics and decodable-reader progression, Teacher instructions and answer/assessment materials, Learner practice and handwriting]
   next: ["The complete offered-file inventory now records 366 English curriculum pages and 1,220 distinct PDFs across CKLA/CKMath/CKSci/CKHG, with a grade/component matrix in catalog/acquisition/full-1tb-capacity-20260928/school-units.json.", "Thirty-nine kindergarten Skills unit PDFs are fully downloaded and hashed. Six additional Skills ancillary PDFs are enumerated but need full-body checks; reconcile these and the scope/sequence before calling the sequence ready.", "Review required readers, practice, assessments, materials and live/paid dependencies for the preschool–grade 8 CKLA progression; offered PDFs and video supplements alone do not establish adequate teaching depth."]
@@ -259,7 +259,7 @@ topics:
   status: partial
   atlas_topics: [learn-foundations, mathematics]
   intended: Progress from number sense and arithmetic through fractions, measurement, geometry, algebra and practical statistics, with worked problems and checks.
-  resources: [school-education, phet, wikibooks-en]
+  resources: [school-education, phet, wikibooks-en, khan-academy, oer4schools, mathoverflow]
   existing: Prealgebra, algebra, statistics and school materials; PhET adds selected interactive demonstrations.
   gaps: [Complete early-primary arithmetic progression, Grade-by-grade prerequisites and exercise/answer coverage, Reliable low-electricity teaching activities]
   next: ["Use the saved CKMath kindergarten–grade 8 unit/component matrix and exact PDF inventory to review learner books, teacher guidance, worked examples, independent practice and checks by stage.", "Acquire and hash the enumerated source bodies; check required materials, prerequisites and any online dependencies. Teacher-role flags on supplementary pages are review cues, not automatic completeness judgments.", "Keep Khan Academy and OER4Schools as supplementary ZIM candidates until their full hashes and offline exercises/media are tested."]
@@ -269,7 +269,7 @@ topics:
   status: partial
   atlas_topics: [science, physics, chemistry, biology, astronomy]
   intended: A coherent school-level progression across life, physical and Earth/space science, including safe practical observations and explanations.
-  resources: [school-education, phet, wikipedia-en, openstax-core, libretexts-stem]
+  resources: [school-education, phet, wikipedia-en, openstax-core, openstax-school-science, openstax-school-math, libretexts-stem, crash-course, wikispecies, environment-encyclopedia, phet-archive, ncert-audiobooks, astronomy-picture]
   existing: Siyavula natural/physical science books, OpenStax school physics and PhET. College textbooks and LibreTexts are optional supplements.
   gaps: [A stage-by-subject scope matrix, Early science and Earth/space progression, Safe practical activities with commonly available materials]
   next: ["Use the saved CKSci kindergarten–grade 8 component matrix to reconcile life, physical and Earth/space strands with the selected Siyavula books and PhET. Source PDF availability/signatures passed; full bodies and instructional coverage remain unreviewed.", "Review safe practical activities, required materials and teacher/student assessments. Acquire source hashes before admission; large supplementary science archives do not establish a school progression."]
@@ -279,7 +279,7 @@ topics:
   status: gap
   atlas_topics: [history, government-politics]
   intended: Age-appropriate chronological and geographic foundations, source interpretation and basic civics with multiple perspectives.
-  resources: [wikipedia-en, world-maps, openstax-core]
+  resources: [wikipedia-en, world-maps, openstax-core, openstax-culture, womens-history, gutenberg-cdef]
   existing: Encyclopedia and world map are selected; college history and government books remain optional and are not a school curriculum.
   gaps: [A sequenced school curriculum, Teacher guides and student work, Explicit geographic and cultural scope]
   next: ["CKHG kindergarten–grade 8 offered PDFs are now enumerated by unit and role in school-units.json. Review chronology, geographic/cultural perspective, student work, teacher materials and assessments before admission.", "Hash the complete PDF bodies and inspect dependencies; the publisher unit count, encyclopedia and Crash Course supplement do not establish adequate school coverage."]
@@ -289,7 +289,7 @@ topics:
   status: partial
   atlas_topics: [books, encyclopedias]
   intended: Broad lookup and contextual reading that supplements the practical spine without being mistaken for a reviewed task manual.
-  resources: [wikipedia-en, wikibooks-en, gutenberg-core, cd3wd]
+  resources: [wikipedia-en, wikibooks-en, gutenberg-core, gutenberg-science, gutenberg-trades, gutenberg-agriculture, gutenberg-education, cd3wd, wikiquote, gutenberg-a, gutenberg-k, gutenberg-z]
   existing: Whole Wikipedia/Wikibooks and subject-specific historical nonfiction archives.
   gaps: [A small set of useful starting routes, Edition and overlap limitations, Identification of historical or outdated technical guidance]
   next: [Add concise source-level aliases and selected contents routes from publisher metadata; avoid exhaustive archive indexing., 'The capacity plan saves a whole Survivor Library candidate and its draft pseudoindex. Review embedded PDFs, reader support, rights and overlap first. Keep historical limits visible; do not credit it as modern clinical, building or food-safety guidance.']
@@ -308,9 +308,9 @@ topics:
   title: Optional computing and digital fabrication
   status: optional
   atlas_topics: [computing, manufacturing]
-  intended: Preserve useful computing and fabrication references only when explicitly selected, after the practical default gaps.
-  resources: [linux-programming-docs, computing-communities, openstax-core]
-  existing: Optional GNU/Git/Python PDFs, computing communities and college fabrication/computing texts.
+  intended: Provide basic computing and fabrication references with larger collections available for deeper study.
+  resources: [linux-programming-docs, computing-communities, openstax-core, openstax-computing, stack-overflow, mediawiki-docs, desktop-fabrication]
+  existing: The sampler includes GNU, Git, Python and the 3D Printing Stack Exchange archive. Larger computing collections provide optional depth.
   gaps: [Finished SQLite and OpenSSH replacements, A bounded learning objective for each optional collection, Hardware and software prerequisites]
   next: [Keep the existing optional references; assess finished publisher SQLite/OpenSSH alternatives without reviving conversion pipelines.]
   done_when: Explicitly chosen optional objectives have complete usable references and dependencies; omission from defaults is intentional, not hidden completion.
@@ -319,7 +319,7 @@ topics:
   status: optional
   atlas_topics: [humanities, philosophy]
   intended: Enrichment and deeper critical reading separate from the missing school curriculum.
-  resources: [openstax-core, wikisource-en, juvenile-literature, childrens-library]
+  resources: [openstax-core, openstax-culture, wikisource-en, juvenile-literature, childrens-library, mutopia, folgerpedia, chopin-archive, celtic-scores, gutenberg-b, gutenberg-m, gutenberg-n, gutenberg-pn, gutenberg-pq, gutenberg-pr, gutenberg-ps, gutenberg-pt]
   existing: Optional college humanities and philosophy texts, literary archives and a small illustrated-story selection.
   gaps: [An explicit reading scope and audience, Balance and perspective review, Sequence and overlap review]
   next: [Select named works only against an agreed audience and reading purpose; do not expand archives to consume capacity.]
@@ -329,7 +329,7 @@ topics:
   status: optional
   atlas_topics: [social-sciences, anthropology, psychology, sociology]
   intended: Optional introductory college study with clear limits on applying general texts to personal or community decisions.
-  resources: [openstax-core, wikiversity-en]
+  resources: [openstax-core, openstax-advanced-study, openstax-culture, wikiversity-en, gutenberg-h, gutenberg-j]
   existing: Optional OpenStax introductory social-science textbooks and Wikiversity archive.
   gaps: [Defined learner goals, Edition and exercise review, A chosen sequence rather than a count of textbooks]
   next: [Review existing book contents against a specific requested study sequence before selecting additions.]
@@ -339,7 +339,7 @@ topics:
   status: optional
   atlas_topics: [business, economics, accounting-finance, business-law-ethics, management-marketing]
   intended: Optional foundational study; distinguish durable accounting and organization concepts from changing law and market conditions.
-  resources: [openstax-core]
+  resources: [openstax-core, openstax-advanced-study]
   existing: Optional college economics, accounting, business-law and management texts.
   gaps: [A defined study or small-enterprise purpose, Currency and jurisdiction limits, Worked practical recordkeeping exercises]
   next: ['If requested, evaluate a finished small-farm or cooperative recordkeeping workbook before adding further college titles.']
@@ -349,7 +349,7 @@ topics:
   status: optional
   atlas_topics: [statistics-data-science, college-success]
   intended: Optional study skills and introductory data reasoning beyond the practical school-math spine.
-  resources: [openstax-core, stackexchange-science, ted-ed]
+  resources: [openstax-core, openstax-advanced-study, openstax-school-math, stackexchange-science, ted-ed, milne-textbooks, libretexts-statistics]
   existing: Optional College Success, data-science and advanced science resources; school statistics is already selected separately.
   gaps: [Defined prerequisites and learner objectives, Exercise and software-dependency review, Duplication against school statistics]
   next: [Assess existing optional texts against an explicit learner sequence; preserve software-independent paths where possible.]

@@ -6,6 +6,8 @@ from unittest.mock import patch
 
 from owl.build import build
 from owl.catalog import capacity_plan, learning_coverage, load_catalog, load_profiles, resolve_content
+from owl.resources import load_resources
+from owl.selection import MIN_CAPACITY, ladder_choices, load_ladder
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -21,11 +23,11 @@ class FlashProfileTests(unittest.TestCase):
         return resolve_content(self.assets, profile or self.profile,
                                resources_path=ROOT / 'catalog/resources.yaml', **kwargs)
 
-    def test_small_presets_are_pinned_substantial_and_nested(self):
+    def test_small_presets_are_pinned_and_substantial(self):
         flash, unresolved, resources = self.selection()
         critical, _, _ = self.selection(self.profiles['critical-64gb'])
         self.assertGreaterEqual(len(flash), 400)
-        self.assertLess({a['id'] for a in flash}, {a['id'] for a in critical})
+        self.assertGreater(sum(a['size_bytes'] for a in critical), sum(a['size_bytes'] for a in flash))
         self.assertEqual(unresolved, [])
         self.assertFalse(resources["incomplete_resources"])
         for selected in (flash, critical):
@@ -47,8 +49,8 @@ class FlashProfileTests(unittest.TestCase):
         ids = {a['id'] for a in assets}
         self.assertTrue({'cert', 'medical_bec', 'water', 'sanitation', 'food', 'agriculture',
                          'electrical_dc', 'electrical_ac', 'mechanical', 'shelter',
-                         'survival_shelter', 'navigation', 'reference', 'wikem_en',
-                         'ifixit_en', 'appropedia_en', 'cd3wd_en', 'lowtech_magazine'} <= ids)
+                         'survival_shelter', 'navigation', 'reference', 'wikimed_en',
+                         'appropedia_en', 'lowtech_magazine'} <= ids)
         self.assertTrue({'kiwix_windows', 'kiwix_linux', 'kiwix_macos', 'kiwix_android'} <= ids)
         # Direct emergency documents precede specialized archives during acquisition.
         self.assertLess(max(i for i,a in enumerate(assets) if a.get('critical')),
@@ -63,24 +65,31 @@ class FlashProfileTests(unittest.TestCase):
             plan = capacity_plan(assets, profile, selection)
             peak = plan['in_place_peak_budget_bytes']
             self.assertLessEqual(peak, plan['capacity_bytes'])
-            self.assertEqual(plan['reserve_bytes'], margin_bytes)
+            # Search may borrow headroom above the 500 MB base allowance; the
+            # reserve keeps the rest and never drops below the 125 MB minimum.
+            extra_search = max(0, profile['discovery_budget_bytes'] - 500_000_000)
+            self.assertGreaterEqual(plan['reserve_bytes'], 125_000_000)
+            self.assertEqual(plan['reserve_bytes'] + extra_search, margin_bytes)
             self.assertEqual(plan['capacity_bytes'] + margin_bytes, nominal_bytes)
-            self.assertEqual(selection['readers_budget_bytes'], 1_000_000_000)
+            self.assertEqual(selection['readers_budget_bytes'], 500_000_000)
             self.assertEqual(plan['content_bytes'], sum(a['size_bytes'] for a in assets))
             self.assertNotIn('content_target_min_bytes', profile)
 
-    def test_every_size_retains_the_expanded_direct_foundation(self):
+    def test_every_size_retains_the_persistent_direct_foundation(self):
+        resources = load_resources(ROOT / 'catalog/resources.yaml', self.assets)
+        core, _ = ladder_choices(MIN_CAPACITY, load_ladder(ROOT / 'catalog/library.yaml'))
+        core_ids = {aid for rid in core for aid in resources[rid]['asset_ids']}
         flash, _, _ = self.selection()
-        direct_ids = {a['id'] for a in flash if a['format'] != 'zim' and not a['destination'].startswith('SOFTWARE/')}
+        direct_ids = {a['id'] for a in flash if a['id'] in core_ids and a['format'] != 'zim'}
+        self.assertTrue({'medical_bec', 'sanitation', 'openstax_physics', 'usfs_ax_manual'} <= direct_ids)
         for name in ('critical-64gb', 'compact-256gb', 'standard-512gb', 'full-1tb'):
             selected, _, _ = self.selection(self.profiles[name])
             self.assertTrue(direct_ids <= {a['id'] for a in selected}, name)
 
     def test_exclusions_still_allow_a_deliberately_smaller_custom_library(self):
         original, _, _ = self.selection()
-        selected, _, report = self.selection(exclude=['ifixit', 'school-education'])
+        selected, _, report = self.selection(exclude=['openstax-core', 'school-education'])
         self.assertTrue(report['customized'])
-        self.assertNotIn('ifixit_en', {a['id'] for a in selected})
         self.assertFalse(any(a['id'].startswith('openstax_') for a in selected))
         self.assertLess(sum(a['size_bytes'] for a in selected), sum(a['size_bytes'] for a in original))
 

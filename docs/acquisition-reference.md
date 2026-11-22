@@ -1,5 +1,7 @@
 # Programming references and Low-tech Magazine
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Verified on 2026-09-18. Exact file records and evidence are preserved in
 [`catalog/acquisition/reference.yaml`](../catalog/acquisition/reference.yaml)
 and incorporated into the active catalog. No downloaded content is in Git.

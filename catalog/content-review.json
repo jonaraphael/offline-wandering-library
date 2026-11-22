@@ -648,8 +648,8 @@
       ],
       "original_resource": "wikem",
       "policy_violations": [],
-      "action": "retained",
-      "coverage_limit": null
+      "action": "withdrawn",
+      "coverage_limit": "The July 2026 Kiwix WikEM pin and all listed mirrors returned HTTP 404 on 2026-11-21."
     },
     {
       "asset_id": "cd3wd_en",

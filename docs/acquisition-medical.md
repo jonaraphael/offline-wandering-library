@@ -1,5 +1,7 @@
 # Medical and emergency acquisition evidence
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 Verified on 2026-09-18. The acquisition fragment is
 [`catalog/acquisition/medical.yaml`](../catalog/acquisition/medical.yaml).
 It contains original publisher PDF download records, exact byte counts and

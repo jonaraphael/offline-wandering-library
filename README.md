@@ -2,13 +2,34 @@
 
 OWL builds an offline knowledge library directly on an external drive. This repository contains URLs, hashes, selection rules, build tools and small interface assets. Books, maps, encyclopedias and reader packages download during the build.
 
-The defaults prioritize substantial, diversified information useful in a post-internet, low-electronic life. **CRITICAL** covers survival, health, food, water and shelter. **USEFUL** covers practical trades, repair, appropriate technology and education through high school. **NONESSENTIAL** stories, college textbooks, computing and enrichment remain available as opt-in collections.
+The defaults prioritize knowledge for a post-internet, low-electronic life. **CRITICAL** covers survival, health, food, water and shelter. The Python default includes the entire critical tier. The browser plan shows which selected files it can fetch. **USEFUL** covers practical trades, repair, appropriate technology, general reference and education through high school. **NONESSENTIAL** covers stories, college textbooks, computing and enrichment. A small sampler preserves those subjects, while recommendations retain at least as much of the full USEFUL tier as of the full NONESSENTIAL tier.
 
-Every selectable asset passes the [machine-readable content-type policy](src/owl/content_policy.json). The [priority policy](src/owl/utility_policy.json) requires practical domain coverage in every default, without book-count or content-size quotas. PDFs and ZIMs download unchanged; the optional Python PDF ZIP is unpacked without altering its documents. No active selection requires EPUB conversion, HTML reconstruction or document rendering.
+Every selectable asset passes the [machine-readable content-type policy](src/owl/content_policy.json). The [priority policy](src/owl/utility_policy.json) requires practical domain coverage in every default, without book-count or content-size quotas. PDFs and ZIMs download unchanged; Python and Canadian map ZIPs are unpacked without altering the PDF files. No active selection requires EPUB conversion, HTML reconstruction or document rendering.
 
 ## Build a drive
 
-Connect an already formatted drive, clone this repo, and open [SELECT.html](SELECT.html). Pick a size, select or deselect collections, and copy the generated build command into your terminal. The page itself does not execute commands or download files.
+Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-library/)
+in Chrome, Edge or Arc on a computer. Plug in and choose a drive. OWL
+recommends a library for the available space and asks for the label size if
+it cannot measure free space. Choose **Sync** to download and verify the
+recommendation directly on the drive. **Manage what goes on it** lets you
+change collections, editions and individual files before syncing.
+
+Keep the tab open and the drive connected during Sync. If the connection
+drops, the download continues when it returns. After pausing or reopening
+the page, reconnect if asked and choose **Sync**. Later syncs use the saved
+choice, apply updates and verify new files before removing superseded copies.
+**Check every file** rereads and repairs the selected files. The iPhone card
+during Sync has a QR code for installing Kiwix while online. Eject the drive
+when Sync finishes, then open `START_HERE.html` from the drive.
+
+[Browser build guide](docs/pages-builder.md) · [Device tests](docs/device-matrix.md) · [Documentation](docs/README.md)
+
+### Build with Python
+
+Use Python for the full catalog or when your browser cannot write to the drive.
+Clone the repository and open [SELECT.html](SELECT.html) to choose a size, edit
+the recommendation, and copy the build command.
 
 ```bash
 git clone https://github.com/jonaraphael/offline-wandering-library.git
@@ -24,58 +45,67 @@ python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY --profile flash-16gb
 python scripts/verify.py /path/to/EMERGENCY_LIBRARY
 ```
 
-Python 3.11+ and internet access are needed to build. Reading ordinary PDFs does not require Python. ZIM archives need a compatible reader; packages for Windows, macOS, Linux and Android are included. The builder never formats the drive or executes downloaded software. Leave `--cache-dir` unset so original downloads and resumable partials stay exclusively on the selected drive.
+Python 3.11+ and internet access are needed to build. Reading ordinary PDFs does not require Python. ZIM archives need a compatible reader; packages for Windows, macOS, Linux and Android are included. The planner sets aside 500 MB for them. The builder never formats the drive or executes downloaded software. Leave `--cache-dir` unset so original downloads and resumable partials stay exclusively on the selected drive.
 
-Search and atlas now compile from titles, descriptions, aliases, topics, and reviewed section maps. Builds do not extract or index document bodies. Each profile reserves 16 MiB for discovery output; there is no indexing workspace or cache. Downloads and full integrity verification still read source bytes.
+Both builders use the same generated search plan to assemble precomputed shards
+for the selected files. Search
+covers catalog titles, PDF passages, HTML sections and indexed ZIM articles,
+with coverage varying by source. Search combines word matches and compact
+Potion retrieval embeddings for passages and article leads. It favors relevant
+critical references for emergency wording. Indexed results use readable source
+or section titles and keep the physical page or archive path visible.
+Catalog results appear while passage and
+article results load. The search model, indexes and static navigation travel
+on the drive.
+See the [offline search guide](docs/search.md).
 
-The selector's command uses `--detach` to start a saved background job. Inspect, cancel or resume it with `scripts/build_job.py`; see [unattended builds](docs/unattended-builds.md). For foreground builds, pause with Ctrl-C, wait for the prompt and rerun the command to resume. Keep the drive connected while the job is active.
+The standalone selector's command uses `--detach` to start a saved background job. Inspect, cancel or resume it with `scripts/build_job.py`; see [unattended builds](docs/unattended-builds.md). For foreground builds, pause with Ctrl-C, wait for the prompt and rerun the command to resume. Keep the drive connected while the job is active.
 
-## Profiles and content
+## Capacity and content
 
-| Drive preset | Pinned files, including readers | Default emphasis |
-| --- | ---: | --- |
-| 16 GB | 7.801 GB | Medical, food, water, shelter, hand tools, repair, school math/science and small practical archives |
-| 64 GB | 46.824 GB | Adds WikiMed, North America maps, Wikibooks and practical trade communities |
-| 256 GB | 219.440 GB | Adds English Wikipedia, Wiktionary and historical nonfiction |
-| 512 GB | 274.519 GB | Substitutes the world map for North America |
-| 1 TB | 274.519 GB | Same admitted foundation; near-full expansion adds detailed topography and further references |
+The default recommendation covers capacities from 16 GB. It accounts for
+filesystem headroom, free space to retain, readers and discovery files. The
+planner protects a core of essential or introductory references in all 15
+fields. Each field retains at least half its highest earlier attributed size. In the
+base ladder, health, water and sanitation, food preservation, agriculture, shelter and
+navigation retain their prior attributed size at every step. English Wikipedia
+starts with the top edition at 16 GB and upgrades through mini and nopic to
+the illustrated maxi edition. Each upgrade retains or increases attributed
+bytes in every field. World maps stay in the default once they enter.
+A higher-priority archive that takes at least 10% of the drive label can
+displace files in other fields.
+Above 1 TB, the recommendation starts with the 1 TB library and adds
+removable regional maps, additional Wikipedia languages and other pinned
+collections toward 90% of the label, as the catalog and available space permit.
+The browser advances a collection only when its files can carry through
+intervening recommendations. If a large edition is nearly within reach, the
+default can leave room for it. The Python builder checks actual free space.
 
-These are real pinned file sizes, not allocations for unavailable material. All five default plans fit their nominal drives with their configured discovery, metadata and reserve allowances. A 1 TB drive selection does **not** mean 1 TB of curated content is ready. [Generated content selection](docs/content-selection.md) contains the detailed current totals and collection scopes.
+For a 128 GB drive, use `--capacity-bytes 128000000000` or choose **128 GB** in the
+selector. The five common-size profiles use the same ladder. Selected content,
+planned storage and the current inventory are in the
+[generated capacity table](docs/content-selection.md) and
+[content ledger](docs/content-ledger.md).
 
-The [near-full expansion selections for every preset](docs/preset-capacity-plans.md)
-reach **15.738 / 63.303 / 253.422 / 506.812 / 987.261 GB**, including reader and
-metadata allowances. Their exact file lists are saved; source candidates awaiting
-hashes and review remain separate from the admitted defaults in the table above.
-
-The [topic-by-topic completion plan](docs/full-1tb-coverage-plan.md) records intended
-depth, existing resources, remaining gaps, next selections and adequacy criteria.
-Topic tags establish presence; editorial review establishes whether a subject is
-covered well enough. Update the plan alongside each resource admission.
-
-The [near-full capacity specification](docs/full-1tb-capacity-spec.md) targets
-**990 GB including library files, readers and discovery support** on a nominal
-1 TB drive. The profile allows 5 GB for filesystem/partition variation and retains
-5 GB actually free. Existing files plus **7,095 enumerated candidate downloads**
-total **986.668 GB**; modeled readers and metadata bring this to **987.261 GB**.
-All selected source checks passed, **46 small PDFs** were fully downloaded and hashed,
-and **7,095 piecewise pseudoindexes** are saved. [Verification details](docs/full-1tb-source-verification.md)
-distinguish those checks from the remaining full-body and editorial admission gates.
-These candidates are separate from the ready catalog.
-
-The direct foundation includes published medical and public-health chapters, canning/freezing/drying manuals, agriculture and beekeeping, shelter and navigation, illustrated ax and saw manuals, electrical/mechanical references, and complete school textbooks and teacher guides. PhET simulations have matching offline screen-test evidence. College textbooks, programming references, juvenile literature and additional languages are optional.
-
-Coverage remains incomplete in specific areas: local topographic maps, initial literacy and school humanities, missing Hesperian back matter, and finished SQLite/OpenSSH references. The [JSON review](catalog/content-review.json) records the disposition of every previous asset and distinguishes exact replacements from broader subject alternatives. Existing acquisition reports preserve research history; their old conversion recipes and planned byte targets do not authorize active content.
+The direct foundation includes published medical and public-health chapters,
+preservation and agriculture manuals, shelter and navigation references, and
+practical trades and school textbooks. Additional Wikipedia languages and
+detailed topographic sheet packs are optional at 1 TB and below. See the
+[topic-by-topic completion plan](docs/full-1tb-coverage-plan.md) for editorial
+coverage and [the target architecture](docs/design/target-architecture.md) for
+the selection model.
 
 ## Customize and validate
 
-Use the selector's priority filter and collection checkboxes, or its topic map to explore assets grouped by theme. Or use stable collection IDs:
+In Manage, search for a collection, compare editions and choose individual files. The command line accepts stable collection IDs.
 
 ```bash
 python scripts/build_drive.py --list-resources
 python scripts/build_drive.py /path/to/EMERGENCY_LIBRARY \
-    --profile critical-64gb --include childrens-library --exclude phet --plan
+    --capacity-bytes 64000000000 --include topo-usgs-northeast --exclude ifixit --plan
 python scripts/check_content_policy.py
 python scripts/check_selection_policy.py
+python scripts/build_capacity_ladder.py --check
 python scripts/build_selector.py --check
 ```
 
@@ -83,26 +113,28 @@ Selecting ZIMs automatically includes their reader packages. Optional additions 
 
 ## Use the completed SSD
 
-Open `START_HERE.html`. A fresh build puts exactly two items in the chosen outer directory: this entry page and a `LIBRARY` folder containing everything else. Keep them together when moving or copying the library. Its first shelves link to textbooks, illustrated guides, Project Gutenberg, and Children's Library, with counts of available files. It also provides topic links, search, and ordinary static indexes. You can navigate directly through `LIBRARY` with the device’s file manager.
+Open `START_HERE.html`. A fresh build puts exactly two items in the chosen outer directory: this entry page and a `LIBRARY` folder containing everything else. Keep them together when moving or copying the library. Home offers urgent guides, recently opened items, categories and an alphabetical list. Use Search to find a passage, Saved to return to items on this device, and Help for opening files, the build report and the inventory. If your device shows a file preview, the page prints each file’s location so you can open it through the file manager.
+
+Python builds also write `CONTENT_SELECTION.json` and `LOCKED_CATALOG.yaml` for its rebuild workflow.
 
 The default children's books and Python manuals are PDFs, so reading them does not require an EPUB app. On iPhone or iPad, use Files to open the PDF directly and choose **Preview with Quick Look** if offered. If the start-page preview cannot follow links, use its printed `LIBRARY/...` paths to locate the files manually. Retained EPUBs under `LIBRARY/REFERENCE/SOURCE_PACKAGES/EPUB/` are excluded from the reading shelves and search.
 
 ```text
 EMERGENCY_LIBRARY/
-├── START_HERE.html              # Open this first; static links work without JavaScript
+├── START_HERE.html              # Open this first; lists file locations without scripts
 └── LIBRARY/
-    ├── SEARCH.html             # Dedicated automatic offline search
+    ├── SEARCH.html             # Redirect to Search on START_HERE
     ├── README.txt / VERIFY.py / SOURCE_NOTES.txt
-    ├── INVENTORY.html / INVENTORY.json
-    ├── BUILD_INFO.json / CONTENT_SELECTION.json / SHA256SUMS.txt / LOCKED_CATALOG.yaml
+    ├── INVENTORY.html / INVENTORY.json / BUILD_REPORT.html
+    ├── BUILD_INFO.json / SHA256SUMS.txt
     ├── CRITICAL/               # Ordinary files grouped by emergency topic
     ├── REFERENCE/
     ├── BOOKS/TEXTBOOKS/         # Core directly readable textbooks
     ├── MAPS/
     ├── ZIM/                    # Large archives; a reader is required
     ├── SOFTWARE/               # Bundled readers for supported platforms
-    ├── SEARCH/                 # Small discovery catalog and coverage report
-    ├── INDEX/                  # Learning/reading shelves, critical, category, A–Z
+    ├── SEARCH/                 # Shared search data and coverage report
+    ├── INDEX/                  # Reader generations and topic coverage
     └── .owl/                   # Private build and resume state
 ```
 
@@ -113,9 +145,9 @@ such as `BOOKS/manual.pdf` is stored at `EMERGENCY_LIBRARY/LIBRARY/BOOKS/manual.
 The global `LIBRARY/SHA256SUMS.txt` instead records paths relative to the outer
 directory so it covers both `START_HERE.html` and files under `LIBRARY/`.
 
-The static indexes list catalog files, including titles, categories, textbook/illustrated labels, and archive-reader requirements. Dedicated `textbooks.html`, `illustrated-guides.html`, `gutenberg.html`, and `children.html` pages sit alongside `critical.html`, `categories.html`, and the alphabetical pages in `LIBRARY/INDEX/`. They work without JavaScript and contain ordinary relative links. They do not expand every article inside an archive into separate HTML files.
+The static page lists urgent tasks and file locations by category. A book published as chapter files appears once with the book folder’s location. In the reader, open the book to see its chapters.
 
-The [topic atlas](docs/topic-atlas.md) shares subject, practical-task, and learning routes with search. Normal builds with the bundled production catalog include it automatically; custom catalogs can supply `--navigation-dir`. Only topics with selected sources appear. Approved section maps must match the inventory's exact source edition.
+The reader uses the reviewed topic assignments to offer filters in larger categories and topic matches in search. Production builds include these assignments. Custom catalogs can supply `--navigation-dir`. Approved section maps apply to their pinned source editions.
 
 Reusable topic links and aliases are saved per asset in
 `catalog/navigation/assignments/`, alongside the shared topic tree and optional
@@ -138,17 +170,27 @@ python scripts/discovery.py build \
     --output /path/to/EMERGENCY_LIBRARY
 ```
 
-This checks metadata, source presence and sizes, and republishes search and atlas together. It records that source integrity was not reverified. Use `scripts/verify.py` when a full source audit is needed. See [the discovery workflow](docs/search.md) for preparing metadata, validating AI annotations, and reviewing source locations.
+This checks metadata, source presence and sizes, and republishes search and atlas together. It records that source integrity was not reverified. Use `scripts/verify.py` when a full source audit is needed. See [the discovery workflow](docs/search.md) for precomputing shards and reviewing source locations.
 
 ## Search without a server
 
-Open `START_HERE.html` and enter words in **Search titles, chapters, and topics**. Search loads automatically from neighboring files on the SSD; there is no index file to select. `LIBRARY/SEARCH.html` provides the same interface on a dedicated page. All processing stays on the device, without a server, account, CDN, or network connection.
+Open Search from `START_HERE.html` in a browser that can load local scripts.
+Search loads its model and index from files on the drive. The term index
+opens likely matches first, then checks the remaining eligible chunks in the
+background. When the selected allocation fits MiniLM, desktop search uses it
+to reorder additional indexed hits. An urgent guide appears first for a matching
+task. Direct results precede encyclopedia matches. PDF results link to the
+source page. For an encyclopedia match, the reader shows the article to find in
+Kiwix and where the encyclopedia file is stored.
 
-The browser loads one small metadata list and scans it locally. Exact title and alias matches rank first, followed by all-word and partial matches. Results show source descriptions, locations, attribution, and reader requirements. Reviewed chapters link to their source location and the whole document. Topic matches open static atlas pages.
+A drive with the April 2026 WikiMed archive includes 12 selectable-text PDFs
+with 1,125 articles under `LIBRARY/CRITICAL/MEDICAL/WIKIMED-PHONE`. Find them in Health or Help and use the PDF contents or outline to jump to an article. The PDFs open in Files without
+Kiwix. Install Kiwix while online to read the complete archive.
+[WikiMed phone editions](docs/device-matrix.md#wikimed-in-files)
 
-Search covers titles, chapters, topics, aliases, and catalog descriptions. It does not search body text or interpret images. No match does not establish that the information is absent: open a relevant document or use an archive's own reader search. Software and supporting source packages are excluded.
-
-Choose **All resources**, **Textbooks**, or **Illustrated guides** to narrow the results before ranking. Search data, runtime, manifest, and coverage live in `LIBRARY/SEARCH/`; keep that folder together. Coverage reports distinguish catalog results from sources with approved sections. See [search behavior and the Python/AI workflow](docs/search.md).
+Search coverage varies by source. The coverage file in `LIBRARY/SEARCH/` lists
+the indexed files. Keep that directory together when copying the drive.
+[Search guide](docs/search.md)
 
 Search depends on browser and file-manager capabilities:
 
@@ -159,7 +201,7 @@ Search depends on browser and file-manager capabilities:
 | iPhone / iPad | Files and compatible document previews | Files may block both search scripts and links to neighboring files. Read the catalog and printed paths on START_HERE, then open documents directly in Files | Do not assume a reader can be installed from the SSD offline |
 | Raspberry Pi | Compatible standard browser/viewer | Depends on the installed browser and available memory | Reader must match the Pi’s processor and operating system |
 
-This is a compatibility design, not a claim of hardware testing on every platform. START_HERE includes the catalog and drive-relative file paths on the page itself, so reading it does not require following links to another HTML page. If a file preview refuses links, close it and use those paths to open PDFs or text files directly in the file manager. Search controls appear only after discovery data loads successfully. Adapters, USB power, supported filesystem access, existing viewers, and OS permissions still matter. **Test the finished SSD on the exact devices you intend to use before an emergency.**
+See [device tests](docs/device-matrix.md) for evidence and checks that still need hardware. START_HERE includes the catalog and drive-relative file paths on the page itself, so reading it does not require following links to another HTML page. If a file preview refuses links, close it and use those paths to open PDFs or text files directly in the file manager. Search controls appear only after discovery data loads successfully. Adapters, USB power, supported filesystem access, existing viewers, and OS permissions still matter. **Test the finished SSD on the exact devices you intend to use before an emergency.**
 
 ## Bundled readers
 

@@ -1,0 +1,19 @@
+{
+  "libretexts_geo": {
+    "hashes": [
+      "5cd3d51d432ce0bb26c50dd16488c6d1aed6af4876c654091c504979fd2a9ad9",
+      "3fdf36ad72893e262789d0014e569fe6cfea1d799f578040193c70ca1ef533f6"
+    ],
+    "part_bytes": 1073741824,
+    "sha256": "ffceff9d0d14dbd2e154c6734658257daf301bde18962ee0d87aa1dd0d5cfaef"
+  },
+  "wikimed_en": {
+    "hashes": [
+      "0b45e81043b23d13f237ba32a781e17c6e53c9334819a5d0f195f9745dbc2a86",
+      "edc8a5e1be06bb6364a5f5b4d680547cad5c4134f6e7eb94d3cd267ad734745f",
+      "963a55966616b9d9ab098c3a9b6b7de1a3f50cc4a895bf93a83f3525354103b5"
+    ],
+    "part_bytes": 1073741824,
+    "sha256": "6f67340a7cd7665bb57c27d2bbff97e26f2037477c9ea597345a118286820331"
+  }
+}

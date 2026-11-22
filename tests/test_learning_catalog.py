@@ -25,28 +25,32 @@ class ProductionLearningCatalogTests(unittest.TestCase):
         with self.assertRaisesRegex(CatalogError,'utility_tier'):require_utility_policy(assets,self.resources,self.profiles,self.path)
         profiles=deepcopy(self.profiles);profiles['flash-16gb']['minimum_coverage']={'textbooks':62}
         with self.assertRaisesRegex(CatalogError,'quotas'):require_utility_policy(self.assets,self.resources,profiles,self.path)
-    def test_college_and_stories_are_opt_in_while_school_and_trades_are_default(self):
+    def test_practical_foundation_and_explicit_optional_collections(self):
         for name in self.profiles:
-            if name=='demo':continue
-            selected,unresolved,report=self.selection(name);ids={a['id'] for a in selected}
-            self.assertFalse(unresolved);self.assertFalse(report['incomplete_resources'])
-            self.assertFalse(any(a['utility_tier']=='NONESSENTIAL' for a in selected))
-            self.assertTrue({'openstax_physics','openstax_algebra_1','usfs_ax_manual','usfs_crosscut_manual','fao_beekeeping_visual','appropedia_en'}<=ids)
-            self.assertNotIn('openstax_calculus_volume_1',ids)
-        selected,_,_=self.selection('full-1tb',include=['openstax-core','childrens-library','linux-programming-docs'])
-        ids={a['id'] for a in selected};self.assertIn('openstax_calculus_volume_1',ids)
-        self.assertTrue({'bookdash_pdf_amazing_daisy','docs_bash_published_pdf'}<=ids)
+            if name == 'demo':
+                continue
+            selected, unresolved, report = self.selection(name)
+            ids = {a['id'] for a in selected}
+            self.assertFalse(unresolved)
+            self.assertFalse(report['incomplete_resources'])
+            self.assertTrue({'openstax_physics', 'openstax_algebra_1', 'usfs_ax_manual',
+                             'usfs_crosscut_manual', 'fao_beekeeping_visual', 'wikimed_en'} <= ids)
+            self.assertFalse(any(self.resources[rid].get('opt_in') for rid in report['selected_ids']))
+        selected, _, _ = self.selection('full-1tb', exclude=['survivor-library'],
+                                         include=['wikipedia-fr', 'topo-usgs-northeast'])
+        self.assertTrue({'wikipedia_fr', 'usgs_ne_30891_20240812'} <= {a['id'] for a in selected})
         self.assertTrue(audit_assets(selected)['compliant'])
+
     def test_map_packages_are_real_and_larger_sizes_do_not_invent_content(self):
-        for name in ['compact-256gb','standard-512gb','full-1tb']:
-            selected,_,report=self.selection(name);ids={a['id'] for a in selected}
-            self.assertEqual('map_osm_north_america' in ids,name=='compact-256gb')
-            self.assertEqual('map_osm_world' in ids,name!='compact-256gb')
-            self.assertNotIn('regional_topographic_maps',ids);self.assertIn('wikipedia_en',ids)
-            plan=capacity_plan(selected,self.profiles[name],report);self.assertTrue(plan['in_place_target_budget_fits'])
-        standard={a['id'] for a in self.selection('standard-512gb')[0]}
-        full={a['id']:a for a in self.selection('full-1tb')[0]}
-        self.assertTrue(standard <= full.keys())
+        for name in ['compact-256gb', 'standard-512gb', 'full-1tb']:
+            selected, _, report = self.selection(name)
+            ids = {a['id'] for a in selected}
+            self.assertNotIn('map_osm_north_america', ids)
+            if name == 'full-1tb':
+                self.assertIn('map_osm_world', ids)
+                self.assertIn('wikipedia_en', ids)
+            self.assertTrue(capacity_plan(selected, self.profiles[name], report)['in_place_target_budget_fits'])
+        full = {a['id']: a for a in self.selection('full-1tb')[0]}
         # The verified practical foundation now fits every size; it is not filler
         # reserved solely to make the largest profile larger.
         batch=json.loads((ROOT/'catalog/acquisition/practical-discovery-20260928.json').read_text())

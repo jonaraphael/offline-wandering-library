@@ -249,17 +249,17 @@ process.stdout.write(JSON.stringify(results));
         results = self.javascript([
             {"profile":"flash-16gb"},
             {"profile":"flash-16gb", "items":{"school-education":{"included":False}}},
-            {"profile":"flash-16gb", "items":{"openstax-core":{"included":True,"edition":"published"}}},
+            {"profile":"flash-16gb", "items":{"wikipedia-fr":{"included":True,"edition":"published"}}},
         ])
         for result in results:
             self.compare_to_python(result)
         self.assertLess(results[1]["report"]["estimates"]["knownBytes"], results[0]["report"]["estimates"]["knownBytes"])
-        self.assertIn("openstax-core", results[2]["report"]["selectionArgs"]["include"])
+        self.assertIn("wikipedia-fr", results[2]["report"]["selectionArgs"]["include"])
         self.assertGreaterEqual(results[2]["report"]["estimates"]["contentTargetBytes"], results[0]["report"]["estimates"]["contentTargetBytes"])
         self.assertEqual(bool(results[2]["build"]), results[2]["report"]["canBuild"])
 
     def test_missing_editions_never_invent_savings_or_emit_a_build(self):
-        result = self.javascript([{"profile":"compact-256gb", "items":{"wikipedia-en":{"edition":"direct"}}, "allowIncomplete":True}])[0]
+        result = self.javascript([{"profile":"compact-256gb", "items":{"wikipedia-en":{"included":True,"edition":"direct"}}, "allowIncomplete":True}])[0]
         self.assertFalse(result["build"])
         self.assertTrue(any("no verified direct edition" in message for message in result["report"]["errors"]))
         self.compare_to_python(result)
@@ -428,16 +428,18 @@ process.stdout.write(JSON.stringify(results));
         model = deepcopy(self.model)
         changes = {resource["id"]: {"included":False} for resource in model["resources"]}
         result = self.javascript([{"profile":"flash-16gb", "items":changes}])[0]
-        self.assertEqual(result["report"]["selectedAssetIds"], [])
+        self.assertEqual(set(result["report"]["selectedAssetIds"]),
+                         {"kiwix_windows", "kiwix_linux", "kiwix_macos", "kiwix_android"})
         self.assertFalse(result["build"])
 
     def test_rich_fixed_presets_cannot_drop_readers_while_keeping_archives(self):
         for result in self.javascript([{"profile":identity, "items":{"archive-readers":{"included":False}}}
                                        for identity in ("flash-16gb", "critical-64gb")]):
             self.compare_to_python(result)
-            self.assertFalse(result["build"])
-            self.assertTrue(any("reader" in error.lower() for error in result["report"]["errors"]))
-            self.assertGreater(result["report"]["coverage"]["softwareBytes"], 0)  # Required dependency remains represented; conflicting exclusion blocks the command.
+            self.assertTrue(result["build"])
+            self.assertFalse(result["report"]["errors"])
+            self.assertNotIn("--exclude archive-readers", result["build"])
+            self.assertGreater(result["report"]["coverage"]["softwareBytes"], 0)
             self.assertGreater(result["report"]["coverage"]["archiveCount"], 0)
 
     def test_default_coverage_floor_matches_cli_and_customization_can_remove_it(self):

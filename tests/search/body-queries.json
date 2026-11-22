@@ -1,0 +1,12 @@
+[
+  ["pin gauge", "usfs_crosscut_manual", [11, 17, 18, 29, 30]],
+  ["hickory handle", "usfs_ax_manual", [14, 26, 27, 33]],
+  ["silica gel", "fao_seed_storage", [65]],
+  ["equilibrium moisture", "fao_seed_storage", [7, 28, 39, 44, 45, 46, 103, 115]],
+  ["jar rack", "uga_using_pressure_canners", [4]],
+  ["dangling blob", "docs_progit", [449]],
+  ["mosquito larvae", "cawst_rainwater", [129]],
+  ["splash guard", "cawst_rainwater", [5, 103, 106]],
+  ["d arsonval", "electrical_dc", [248, 251, 266, 305, 550]],
+  ["intake opportunity time", "fao_surface_irrigation", [22, 29]]
+]

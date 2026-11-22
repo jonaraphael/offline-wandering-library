@@ -33,4 +33,4 @@ owl-check-content = "owl.content_policy:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-owl = ["templates/*.html", "templates/*.js", "templates/*.cjs", "content_policy.json", "utility_policy.json", "topic_verticals.json"]
+owl = ["templates/*.html", "templates/offline-layout.json", "templates/*.js", "templates/*.cjs", "templates/*.css", "templates/*.txt", "content_policy.json", "utility_policy.json", "topic_verticals.json", "collection_copy.json", "categories.json"]

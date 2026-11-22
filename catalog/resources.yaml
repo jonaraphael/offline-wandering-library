@@ -325,7 +325,7 @@ resources:
 - id: who-emergency-care
   title: WHO Basic Emergency Care and emergency clinical references
   number: 3
-  target_bytes: 21371023
+  target_bytes: 21350474
   status: ready
   reason: Finished published files covering the listed collection; downloaded unchanged.
     Ordinary PDF documents.
@@ -406,7 +406,7 @@ resources:
 - id: food-preservation
   title: USDA and NCHFP food preservation
   number: 6
-  target_bytes: 30919873
+  target_bytes: 30903025
   status: ready
   reason: Complete USDA canning guide and published extension PDFs on freezing, drying
     and preservation. Replaces snapshot assembly; does not reproduce the removed 2026
@@ -498,6 +498,7 @@ resources:
   number: 9
   target_bytes: 36041186827
   status: ready
+  opt_in: true
   reason: 'Four finished English nonfiction ZIM archives: agriculture, technology,
     science and education. Historical reference, not current clinical or safety guidance.'
   asset_ids:
@@ -518,6 +519,90 @@ resources:
   include:
   - 'Four finished English nonfiction ZIM archives: agriculture, technology, science
     and education. Historical reference, not current clinical or safety guidance.'
+- id: gutenberg-science
+  title: Project Gutenberg science
+  number: 43
+  target_bytes: 17724714270
+  status: ready
+  reason: Pinned English nonfiction ZIM archive. Historical reference.
+  asset_ids:
+  - gutenberg_en_lcc_q
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  preferred_formats:
+  - zim
+  knowledge_domains:
+  - advanced-study
+  - agriculture
+  - crafts
+  - education
+  - natural-science
+  - school-math
+  - school-science
+- id: gutenberg-trades
+  title: Project Gutenberg technology and trades
+  number: 44
+  target_bytes: 13154803470
+  status: ready
+  reason: Pinned English nonfiction ZIM archive. Historical reference.
+  asset_ids:
+  - gutenberg_en_lcc_t
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  preferred_formats:
+  - zim
+  knowledge_domains:
+  - advanced-study
+  - agriculture
+  - crafts
+  - education
+  - food-preservation
+  - hand-tools
+  - repair
+  - shelter
+  - water-sanitation
+- id: gutenberg-agriculture
+  title: Project Gutenberg agriculture
+  number: 45
+  target_bytes: 4532683039
+  status: ready
+  reason: Pinned English nonfiction ZIM archive. Historical reference.
+  asset_ids:
+  - gutenberg_en_lcc_s
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  preferred_formats:
+  - zim
+  knowledge_domains:
+  - agriculture
+  - crafts
+  - education
+  - food-preservation
+  - water-sanitation
+- id: gutenberg-education
+  title: Project Gutenberg education
+  number: 46
+  target_bytes: 628986048
+  status: ready
+  reason: Pinned English nonfiction ZIM archive. Historical reference.
+  asset_ids:
+  - gutenberg_en_lcc_l
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  preferred_formats:
+  - zim
+  knowledge_domains:
+  - advanced-study
+  - agriculture
+  - crafts
+  - culture
+  - education
+  - school-math
+  - school-science
 - id: childrens-library
   title: Illustrated children’s PDF stories (optional)
   number: 10
@@ -539,12 +624,12 @@ resources:
   - Finished illustrated Book Dash PDFs, unchanged with original credits. Optional
     stories; no fixed title quota and no EPUB conversion.
 - id: wikipedia-en
-  title: English Wikipedia, full
+  title: English Wikipedia
   number: 11
   target_bytes: 127418087648
   status: ready
-  reason: Finished published files covering the listed collection; downloaded unchanged.
-    ZIM archives use the bundled Kiwix reader.
+  reason: Illustrated English Wikipedia (maxi) with full articles and media.
+    This is the published edition of the collection.
   asset_ids:
   - wikipedia_en
   utility_tier: USEFUL
@@ -557,6 +642,28 @@ resources:
   include:
   - Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
+  editions:
+    top:
+      target_bytes: 296858160
+      status: ready
+      reason: Includes 50,000 selected article introductions. Article snapshots across
+        editions have different publication dates.
+      asset_ids:
+      - wikipedia_en_top
+    mini:
+      target_bytes: 14386799064
+      status: ready
+      reason: Includes article introductions across English Wikipedia. Article snapshots
+        across editions have different publication dates.
+      asset_ids:
+      - wikipedia_en_mini
+    nopic:
+      target_bytes: 52690706555
+      status: ready
+      reason: Includes full articles without illustrations. Article snapshots across
+        editions have different publication dates.
+      asset_ids:
+      - wikipedia_en_nopic
 - id: wikimed
   title: WikiMed / MDWiki
   number: 12
@@ -566,24 +673,6 @@ resources:
     ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - wikimed_en
-  utility_tier: CRITICAL
-  utility_reason: Protects life or supports food, water, shelter and household survival.
-  knowledge_domains:
-  - health
-  preferred_formats:
-  - zim
-  include:
-  - Finished published files covering the listed collection; downloaded unchanged.
-    ZIM archives use the bundled Kiwix reader.
-- id: wikem
-  title: WikEM
-  number: 13
-  target_bytes: 374632362
-  status: ready
-  reason: Finished published files covering the listed collection; downloaded unchanged.
-    ZIM archives use the bundled Kiwix reader.
-  asset_ids:
-  - wikem_en
   utility_tier: CRITICAL
   utility_reason: Protects life or supports food, water, shelter and household survival.
   knowledge_domains:
@@ -612,6 +701,7 @@ resources:
   include:
   - Finished North America OpenStreetMap ZIM. Does not supply local topographic maps
     or guarantee terrain/elevation detail.
+  opt_in: true
 - id: appropedia
   title: Appropedia
   number: 15
@@ -718,7 +808,7 @@ resources:
 - id: stackexchange-practical
   title: Practical Stack Exchange bundle
   number: 21
-  target_bytes: 7893948720
+  target_bytes: 7752540793
   status: ready
   reason: Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
@@ -728,7 +818,6 @@ resources:
   - stackexchange_gardening
   - stackexchange_ham
   - stackexchange_mechanics
-  - stackexchange_outdoors
   - stackexchange_sustainability
   - stackexchange_woodworking
   utility_tier: USEFUL
@@ -754,6 +843,7 @@ resources:
   number: 22
   target_bytes: 7301623553
   status: ready
+  opt_in: true
   reason: Finished published files covering the listed collection; downloaded unchanged.
     Ordinary PDF documents.
   asset_ids:
@@ -845,10 +935,172 @@ resources:
   include:
   - Finished published files covering the listed collection; downloaded unchanged.
     Ordinary PDF documents.
+- id: openstax-advanced-study
+  title: OpenStax advanced study
+  number: 47
+  target_bytes: 1092996285
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_additive_manufacturing_essentials
+  - openstax_business_ethics
+  - openstax_business_law_i_essentials_2e
+  - openstax_college_success
+  - openstax_college_success_concise
+  - openstax_entrepreneurship
+  - openstax_introduction_business_2e
+  - openstax_introduction_intellectual_property
+  - openstax_organizational_behavior
+  - openstax_preparing_for_college_success
+  - openstax_principles_financial_accounting
+  - openstax_principles_managerial_accounting
+  - openstax_principles_economics_3e
+  - openstax_principles_finance_2e
+  - openstax_principles_macroeconomics_3e
+  - openstax_principles_management
+  - openstax_principles_marketing
+  - openstax_principles_microeconomics_3e
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  preferred_formats:
+  - pdf
+  knowledge_domains:
+  - business
+  - college-education
+- id: openstax-computing
+  title: OpenStax computing
+  number: 48
+  target_bytes: 382108855
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_foundations_information_systems
+  - openstax_introduction_computer_science
+  - openstax_introduction_python_programming
+  - openstax_workplace_software_skills
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  preferred_formats:
+  - pdf
+  knowledge_domains:
+  - college-education
+  - computing
+- id: openstax-culture
+  title: OpenStax humanities
+  number: 49
+  target_bytes: 1022430818
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_american_government_4e
+  - openstax_introduction_anthropology
+  - openstax_introduction_philosophy
+  - openstax_introduction_political_science
+  - openstax_introduction_sociology_3e
+  - openstax_psychology_2e
+  - openstax_us_history
+  - openstax_world_history_volume_1
+  - openstax_world_history_volume_2
+  - openstax_writing_guide
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  preferred_formats:
+  - pdf
+  knowledge_domains:
+  - college-education
+  - humanities
+  - social-science
+- id: openstax-health
+  title: OpenStax health
+  number: 50
+  target_bytes: 494145224
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_clinical_nursing_skills
+  - openstax_fundamentals_nursing
+  - openstax_maternal_newborn_nursing
+  - openstax_medical_surgical_nursing
+  - openstax_nutrition
+  - openstax_pharmacology
+  - openstax_population_health
+  - openstax_psychiatric_mental_health
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  preferred_formats:
+  - pdf
+  knowledge_domains:
+  - clinical-medicine
+  - college-education
+  - health
+- id: openstax-school-math
+  title: OpenStax mathematics
+  number: 51
+  target_bytes: 775240550
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_algebra_and_trigonometry_2e
+  - openstax_calculus_volume_1
+  - openstax_calculus_volume_2
+  - openstax_calculus_volume_3
+  - openstax_college_algebra_2e
+  - openstax_college_algebra_corequisite_support_2e
+  - openstax_contemporary_mathematics
+  - openstax_introductory_business_statistics_2e
+  - openstax_introductory_statistics_2e
+  - openstax_precalculus_2e
+  - openstax_principles_data_science
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  preferred_formats:
+  - pdf
+  knowledge_domains:
+  - college-education
+  - mathematics
+- id: openstax-school-science
+  title: OpenStax science
+  number: 52
+  target_bytes: 3534701821
+  status: ready
+  reason: Pinned OpenStax textbooks in PDF format.
+  asset_ids:
+  - openstax_anatomy_and_physiology_2e
+  - openstax_astronomy_2e
+  - openstax_biology_2e
+  - openstax_biology_ap_courses
+  - openstax_chemistry_2e
+  - openstax_chemistry_atoms_first_2e
+  - openstax_college_physics_2e
+  - openstax_college_physics_ap_courses_2e
+  - openstax_concepts_biology
+  - openstax_introduction_behavioral_neuroscience
+  - openstax_lifespan_development
+  - openstax_microbiology
+  - openstax_organic_chemistry
+  - openstax_university_physics_volume_1
+  - openstax_university_physics_volume_2
+  - openstax_university_physics_volume_3
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  preferred_formats:
+  - pdf
+  knowledge_domains:
+  - astronomy
+  - biology
+  - chemistry
+  - college-education
+  - physics
 - id: libretexts-stem
   title: LibreTexts STEM and medicine
   number: 23
-  target_bytes: 9088921656
+  target_bytes: 8873142508
   status: ready
   reason: Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
@@ -860,7 +1112,6 @@ resources:
   - libretexts_math
   - libretexts_med
   - libretexts_phys
-  - libretexts_stats
   utility_tier: NONESSENTIAL
   utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
     life.
@@ -1011,9 +1262,8 @@ resources:
     ZIM archives use the bundled Kiwix reader.
   asset_ids:
   - world_factbook_en
-  utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_tier: USEFUL
+  utility_reason: Country profiles and maps provide geographic and civic reference.
   knowledge_domains:
   - geography
   preferred_formats:
@@ -1022,6 +1272,7 @@ resources:
   - Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
 - id: linux-programming-docs
+  default_sampler: true
   title: Programming and computer manuals (optional)
   number: 31
   target_bytes: 74787261
@@ -1173,6 +1424,7 @@ resources:
   include:
   - Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
+  opt_in: true
 - id: wikipedia-fr
   title: French Wikipedia
   number: 37
@@ -1193,6 +1445,7 @@ resources:
   include:
   - Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
+  opt_in: true
 - id: wikipedia-zh
   title: Chinese Wikipedia
   number: 38
@@ -1213,6 +1466,7 @@ resources:
   include:
   - Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
+  opt_in: true
 - id: wikipedia-ar
   title: Arabic Wikipedia
   number: 39
@@ -1233,6 +1487,7 @@ resources:
   include:
   - Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
+  opt_in: true
 - id: wikipedia-pt
   title: Portuguese Wikipedia
   number: 40
@@ -1253,6 +1508,7 @@ resources:
   include:
   - Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
+  opt_in: true
 - id: wikipedia-it
   title: Italian Wikipedia
   number: 41
@@ -1273,6 +1529,7 @@ resources:
   include:
   - Finished published files covering the listed collection; downloaded unchanged.
     ZIM archives use the bundled Kiwix reader.
+  opt_in: true
 - id: world-maps
   title: World maps (OpenStreetMap)
   number: 42
@@ -1425,12 +1682,11 @@ resources:
 - id: computing-communities
   title: Computing, GIS and 3D printing communities
   number: null
-  target_bytes: 7565811368
+  target_bytes: 7445673094
   status: ready
   reason: Finished community reference ZIMs; optional advanced computing and digital
     fabrication.
   asset_ids:
-  - stackexchange_3dprinting
   - stackexchange_gis
   - stackexchange_superuser
   - stackexchange_unix
@@ -1559,3 +1815,1144 @@ resources:
     and groundwater operation. Regional, equipment and professional-skill limits apply.
     CAWST permits attributed sharing; whole-document redistribution of the other two
     was not established.
+- id: khan-academy
+  title: Khan Academy English — March 2023
+  target_bytes: 180007047736
+  status: ready
+  reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  asset_ids:
+  - khanacademy_en_all_2023_03
+  utility_tier: USEFUL
+  utility_reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  knowledge_domains:
+  - school-math
+  - school-science
+  - education
+  preferred_formats:
+  - zim
+- id: survivor-library
+  title: Survivor Library — September 2026 archive
+  target_bytes: 220347600505
+  status: ready
+  reason: Published offline snapshot. Historical scans supplement current guidance.
+  asset_ids:
+  - survivorlibrary_com_en_all_2026_09
+  utility_tier: USEFUL
+  utility_reason: Published offline snapshot. Historical scans supplement current
+    guidance.
+  knowledge_domains:
+  - hand-tools
+  preferred_formats:
+  - zim
+- id: crash-course
+  title: Crash Course English — May 2026
+  target_bytes: 23035094957
+  status: ready
+  reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  asset_ids:
+  - crashcourse_en_all_2026_05
+  utility_tier: USEFUL
+  utility_reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  knowledge_domains:
+  - school-science
+  preferred_formats:
+  - zim
+- id: energypedia
+  title: Energypedia English — June 2026
+  target_bytes: 799712780
+  status: ready
+  reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  asset_ids:
+  - energypedia_en_all_maxi_2026_06
+  utility_tier: USEFUL
+  utility_reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  knowledge_domains:
+  - shelter
+  preferred_formats:
+  - zim
+- id: gardenology
+  title: Gardenology — September 2026
+  target_bytes: 112499438
+  status: ready
+  reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  asset_ids:
+  - gardenology_org_en_all_2026_09
+  utility_tier: USEFUL
+  utility_reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  knowledge_domains:
+  - agriculture
+  preferred_formats:
+  - zim
+- id: wikispecies
+  title: Wikispecies — July 2026
+  target_bytes: 3430544383
+  status: ready
+  reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  asset_ids:
+  - wikispecies_en_all_maxi_2026_07
+  utility_tier: USEFUL
+  utility_reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  knowledge_domains:
+  - school-science
+  preferred_formats:
+  - zim
+- id: medlineplus
+  title: MedlinePlus — January 2025
+  target_bytes: 1944841111
+  status: ready
+  reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  asset_ids:
+  - medlineplus_gov_en_all_2025_01
+  utility_tier: USEFUL
+  utility_reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  knowledge_domains:
+  - health
+  preferred_formats:
+  - zim
+- id: oer4schools
+  title: OER4Schools — October 2025
+  target_bytes: 1242107467
+  status: ready
+  reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  asset_ids:
+  - oer4schools_en_all_2025_10
+  utility_tier: USEFUL
+  utility_reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  knowledge_domains:
+  - school-math
+  preferred_formats:
+  - zim
+- id: voa-learning
+  title: VOA Learning English — January 2025
+  target_bytes: 7093966349
+  status: ready
+  reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  asset_ids:
+  - voa_learning_en_all_2025_01
+  utility_tier: USEFUL
+  utility_reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: environment-encyclopedia
+  title: Encyclopedia of the Environment — May 2026
+  target_bytes: 4117032628
+  status: ready
+  reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  asset_ids:
+  - encyclopedie_environnement_org_en_all_2026_05
+  utility_tier: USEFUL
+  utility_reason: Published offline snapshot. Archive-wide offline playback and completeness
+    remain untested.
+  knowledge_domains:
+  - school-science
+  preferred_formats:
+  - zim
+- id: stack-overflow
+  title: Stack Overflow
+  target_bytes: 114855633696
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - stack_overflow
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - computing
+  preferred_formats:
+  - zim
+- id: mdwiki
+  title: MDWiki Medical Encyclopedia
+  target_bytes: 10752256261
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - mdwiki
+  utility_tier: USEFUL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - health
+  preferred_formats:
+  - zim
+- id: phet-archive
+  title: PhET simulation archive
+  target_bytes: 108981169
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - phet_archive
+  utility_tier: USEFUL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - school-science
+  preferred_formats:
+  - zim
+- id: mutopia
+  title: Mutopia Project sheet music
+  target_bytes: 6632490059
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - mutopia
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: folgerpedia
+  title: Folgerpedia
+  target_bytes: 4201535155
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - folgerpedia
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: ncert-audiobooks
+  title: CIET / NCERT school audiobooks
+  target_bytes: 43611271940
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - ncert_audiobooks
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - school-science
+  preferred_formats:
+  - zim
+- id: astronomy-picture
+  title: Astronomy Picture of the Day
+  target_bytes: 16678603210
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - astronomy_picture
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - school-science
+  preferred_formats:
+  - zim
+- id: usaid-archive
+  title: USAID Development Experience Clearinghouse
+  target_bytes: 8606108536
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - usaid_archive
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - water-sanitation
+  preferred_formats:
+  - zim
+- id: bookdash-archive
+  title: Book Dash picture-book archive
+  target_bytes: 11704392203
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - bookdash_archive
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: chopin-archive
+  title: Chopin early editions
+  target_bytes: 8834035870
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - chopin_archive
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: celtic-scores
+  title: Celtic sheet music
+  target_bytes: 5669663444
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - celtic_scores
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: mediawiki-docs
+  title: MediaWiki documentation
+  target_bytes: 6830024342
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - mediawiki_docs
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - computing
+  preferred_formats:
+  - zim
+- id: osm-guides
+  title: OpenStreetMap Wiki
+  target_bytes: 1243501649
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - osm_guides
+  utility_tier: USEFUL
+  utility_reason: Published OpenStreetMap reference for understanding maps, routing and geographic data.
+  knowledge_domains:
+  - navigation
+  preferred_formats:
+  - zim
+- id: post-disaster
+  title: Post Disaster Resource Library
+  target_bytes: 644665513
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - post_disaster
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - shelter
+  preferred_formats:
+  - zim
+- id: milne-textbooks
+  title: Milne Open Textbooks
+  target_bytes: 1630353553
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - milne_textbooks
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - college-education
+  preferred_formats:
+  - zim
+- id: ready-gov
+  title: Ready.gov preparedness guides
+  target_bytes: 2063895408
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - ready_gov
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - shelter
+  preferred_formats:
+  - zim
+- id: womens-history
+  title: Smithsonian American Women’s History
+  target_bytes: 4960310792
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - womens_history
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: wikiquote
+  title: Wikiquote
+  target_bytes: 998873804
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - wikiquote
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - general-reference
+  preferred_formats:
+  - zim
+- id: mathoverflow
+  title: MathOverflow
+  target_bytes: 860907171
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - mathoverflow
+  utility_tier: NONESSENTIAL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - school-math
+  preferred_formats:
+  - zim
+- id: seasoned-advice
+  title: Seasoned Advice cooking Q&A
+  target_bytes: 238098128
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - seasoned_advice
+  utility_tier: USEFUL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - food-preservation
+  preferred_formats:
+  - zim
+- id: engineering-qa
+  title: Engineering Q&A
+  target_bytes: 258556632
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - engineering_qa
+  utility_tier: USEFUL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - shelter
+  preferred_formats:
+  - zim
+- id: sustainable-living
+  title: Sustainable Living Q&A
+  target_bytes: 27687333
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - sustainable_living
+  utility_tier: USEFUL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - water-sanitation
+  preferred_formats:
+  - zim
+- id: homebrewing-qa
+  title: Homebrewing Q&A
+  target_bytes: 37374625
+  status: ready
+  reason: Offline reference for this subject. Original publisher notices remain in
+    the archive.
+  asset_ids:
+  - homebrewing_qa
+  utility_tier: USEFUL
+  utility_reason: Offline reference for this subject. Original publisher notices remain
+    in the archive.
+  knowledge_domains:
+  - food-preservation
+  preferred_formats:
+  - zim
+- id: gutenberg-a
+  title: Project Gutenberg — General works
+  target_bytes: 9673134563
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_a
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - general-reference
+  preferred_formats:
+  - zim
+- id: gutenberg-b
+  title: Project Gutenberg — Philosophy, psychology and religion
+  target_bytes: 5416888340
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_b
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: gutenberg-cdef
+  title: Project Gutenberg — History
+  target_bytes: 46939635595
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_cdef
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: gutenberg-g
+  title: Project Gutenberg — Geography, anthropology and recreation
+  target_bytes: 6258952579
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_g
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - navigation
+  preferred_formats:
+  - zim
+- id: gutenberg-h
+  title: Project Gutenberg — Social sciences
+  target_bytes: 4062748745
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_h
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: gutenberg-j
+  title: Project Gutenberg — Political science
+  target_bytes: 478049660
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_j
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: gutenberg-k
+  title: Project Gutenberg — Law
+  target_bytes: 218299710
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_k
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - general-reference
+  preferred_formats:
+  - zim
+- id: gutenberg-m
+  title: Project Gutenberg — Music
+  target_bytes: 3688969272
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_m
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: gutenberg-n
+  title: Project Gutenberg — Fine arts
+  target_bytes: 16709753615
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_n
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: gutenberg-p
+  default_sampler: true
+  title: Project Gutenberg — General linguistics
+  target_bytes: 40686240
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_p
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-pa
+  title: Project Gutenberg — Classical languages and literatures
+  target_bytes: 503473926
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pa
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-pb
+  title: Project Gutenberg — Modern and Celtic languages
+  target_bytes: 61660865
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pb
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-pc
+  title: Project Gutenberg — Romance languages
+  target_bytes: 124630578
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pc
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-pd
+  title: Project Gutenberg — Germanic languages
+  target_bytes: 20763448
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pd
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-pe
+  title: Project Gutenberg — English language
+  target_bytes: 620290834
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pe
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-pf
+  title: Project Gutenberg — West Germanic languages
+  target_bytes: 21098055
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pf
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-pg
+  title: Project Gutenberg — Slavic languages and literatures
+  target_bytes: 222788687
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pg
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-ph
+  title: Project Gutenberg — Uralic and Basque languages
+  target_bytes: 49536387
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_ph
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-pj
+  title: Project Gutenberg — Near Eastern and North African languages
+  target_bytes: 210635632
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pj
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-pk
+  title: Project Gutenberg — Indo-Iranian languages
+  target_bytes: 77866500
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pk
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-pl
+  title: Project Gutenberg — Asian, African and Oceanian languages
+  target_bytes: 100069926
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pl
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-pm
+  title: Project Gutenberg — Indigenous American languages
+  target_bytes: 46120620
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pm
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - language
+  preferred_formats:
+  - zim
+- id: gutenberg-pn
+  title: Project Gutenberg — Literature and drama
+  target_bytes: 3056210576
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pn
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: gutenberg-pq
+  title: Project Gutenberg — Romance literatures
+  target_bytes: 2809448958
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pq
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: gutenberg-pr
+  title: Project Gutenberg — English literature
+  target_bytes: 12958725072
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pr
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: gutenberg-ps
+  title: Project Gutenberg — American literature
+  target_bytes: 11588011665
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_ps
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: gutenberg-pt
+  default_sampler: true
+  title: Project Gutenberg — Germanic literatures
+  target_bytes: 647007234
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_pt
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - literature
+  preferred_formats:
+  - zim
+- id: gutenberg-r
+  title: Project Gutenberg — Medicine
+  target_bytes: 1533201598
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_r
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - health
+  preferred_formats:
+  - zim
+- id: gutenberg-z
+  title: Project Gutenberg — Bibliography and library science
+  target_bytes: 2505925318
+  status: ready
+  reason: Historical publications by Library of Congress subject class. Upstream archive
+    includes item-specific notices.
+  asset_ids:
+  - gutenberg_z
+  utility_tier: NONESSENTIAL
+  utility_reason: Historical publications by Library of Congress subject class. Upstream
+    archive includes item-specific notices.
+  knowledge_domains:
+  - general-reference
+  preferred_formats:
+  - zim
+- id: topo-usgs-northeast
+  title: Northeastern US topographic sheet sample
+  target_bytes: 162869534
+  status: ready
+  reason: Selected sheets from the region. Coverage is limited to the named sheets.
+  asset_ids:
+  - usgs_ne_30891_20240812
+  - usgs_ne_4930_20240816
+  - usgs_ne_6275_20240415
+  utility_tier: USEFUL
+  utility_reason: Optional region-specific navigation detail.
+  knowledge_domains:
+  - navigation
+  preferred_formats:
+  - pdf
+  opt_in: true
+- id: topo-usgs-mid-atlantic
+  title: Mid-Atlantic US topographic sheet sample
+  target_bytes: 142619881
+  status: ready
+  reason: Selected sheets from the region. Coverage is limited to the named sheets.
+  asset_ids:
+  - usgs_ne_916_20230608
+  - usgs_ne_1074_20230608
+  - usgs_ne_2293_20230620
+  utility_tier: USEFUL
+  utility_reason: Optional region-specific navigation detail.
+  knowledge_domains:
+  - navigation
+  preferred_formats:
+  - pdf
+  opt_in: true
+- id: topo-usgs-appalachian
+  title: Appalachian US topographic sheet sample
+  target_bytes: 164707722
+  status: ready
+  reason: Selected sheets from the region. Coverage is limited to the named sheets.
+  asset_ids:
+  - usgs_ne_6289_20220927
+  - usgs_ne_8214_20230612
+  - usgs_ne_15101_20230602
+  utility_tier: USEFUL
+  utility_reason: Optional region-specific navigation detail.
+  knowledge_domains:
+  - navigation
+  preferred_formats:
+  - pdf
+  opt_in: true
+- id: topo-canada-nearby
+  title: Canada topographic sheet sample
+  target_bytes: 135183386
+  status: ready
+  reason: Selected sheets from the region. Coverage is limited to the named sheets.
+  asset_ids:
+  - nrcan_011f16_0700_cantopo_geopdf_zip
+  - nrcan_011f16_0700_cantopo_geo
+  - nrcan_031g05_1100_canmatrix_prtpdf_zip
+  - nrcan_031g05_1100_canmatrix_prt
+  - nrcan_021l14_0900_canmatrix_prtpdf_zip
+  - nrcan_021l14_0900_canmatrix_prt
+  utility_tier: USEFUL
+  utility_reason: Optional region-specific navigation detail.
+  knowledge_domains:
+  - navigation
+  preferred_formats:
+  - pdf
+  opt_in: true
+- id: uaf-root-cellars-hga00331
+  title: Root Cellars
+  target_bytes: 245339
+  status: ready
+  asset_ids:
+  - uaf_root_cellars_hga00331
+  utility_tier: USEFUL
+  utility_reason: Illustrated designs for small root cellars and storage conditions
+    for harvested produce.
+  knowledge_domains:
+  - food-preservation
+  preferred_formats:
+  - pdf
+  reason: Illustrated designs for small root cellars and storage conditions for harvested
+    produce.
+- id: ifrc-shelter-handbook
+  title: Shelter Safety Handbook
+  target_bytes: 1120602
+  status: ready
+  asset_ids:
+  - ifrc_shelter_handbook
+  utility_tier: USEFUL
+  utility_reason: Illustrated construction guidance for community shelters exposed
+    to wind, flood and earthquakes.
+  knowledge_domains:
+  - shelter
+  preferred_formats:
+  - pdf
+  reason: Illustrated construction guidance for community shelters exposed to wind,
+    flood and earthquakes.
+- id: ifrc-shelter-projects
+  title: Shelter Projects 2008–2023 — Red Cross Red Crescent edition
+  target_bytes: 132942602
+  status: ready
+  asset_ids:
+  - ifrc_shelter_projects
+  utility_tier: USEFUL
+  utility_reason: 33 case studies on shelter and recovery programmes worldwide.
+  knowledge_domains:
+  - shelter
+  preferred_formats:
+  - pdf
+  reason: 33 case studies on shelter and recovery programmes worldwide.
+- id: eawag-sanitation-compendium-2e
+  title: Compendium of Sanitation Systems and Technologies
+  target_bytes: 9483264
+  status: ready
+  asset_ids:
+  - eawag_sanitation_compendium_2e
+  utility_tier: USEFUL
+  utility_reason: Second edition with 57 illustrated technology sheets and system
+    layouts.
+  knowledge_domains:
+  - water-sanitation
+  preferred_formats:
+  - pdf
+  reason: Second edition with 57 illustrated technology sheets and system layouts.
+- id: osa-seed-saving-2010
+  title: A Seed Saving Guide for Gardeners and Farmers
+  target_bytes: 5463060
+  status: ready
+  asset_ids:
+  - osa_seed_saving_2010
+  utility_tier: USEFUL
+  utility_reason: Seed saving and storage for garden and farm crops.
+  knowledge_domains:
+  - agriculture
+  preferred_formats:
+  - pdf
+  reason: Seed saving and storage for garden and farm crops.
+- id: cdc-travelers-health
+  title: CDC Travelers’ Health
+  target_bytes: 178326622
+  status: ready
+  asset_ids:
+  - cdc_travelers_health
+  utility_tier: USEFUL
+  utility_reason: Archived CDC travel health site, with location-specific health information
+    and prevention references.
+  knowledge_domains:
+  - health
+  preferred_formats:
+  - zim
+  reason: Archived CDC travel health site, with location-specific health information
+    and prevention references.
+- id: librepathology
+  title: Libre Pathology
+  target_bytes: 95279611
+  status: ready
+  asset_ids:
+  - librepathology
+  utility_tier: USEFUL
+  utility_reason: Illustrated pathology reference for clinical and laboratory study.
+  knowledge_domains:
+  - health
+  preferred_formats:
+  - zim
+  reason: Illustrated pathology reference for clinical and laboratory study.
+- id: libretexts-statistics
+  title: LibreTexts Statistics
+  target_bytes: 215779148
+  status: ready
+  asset_ids:
+  - libretexts_stats
+  utility_tier: NONESSENTIAL
+  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
+    life.
+  knowledge_domains:
+  - advanced-study
+  preferred_formats:
+  - zim
+  reason: Published subject archive.
+  default_sampler: true
+- id: desktop-fabrication
+  title: 3D Printing Stack Exchange
+  target_bytes: 120138274
+  status: ready
+  asset_ids:
+  - stackexchange_3dprinting
+  utility_tier: NONESSENTIAL
+  utility_reason: Requires substantial computing infrastructure; optional in a low-electronic
+    library.
+  knowledge_domains:
+  - computing
+  preferred_formats:
+  - zim
+  reason: Published subject archive.
+  default_sampler: true
+- id: outdoors-qa
+  title: The Great Outdoors Stack Exchange
+  target_bytes: 141407927
+  status: ready
+  asset_ids:
+  - stackexchange_outdoors
+  utility_tier: USEFUL
+  utility_reason: Supports practical repair, trades, general reference or education
+    through high school.
+  knowledge_domains:
+  - navigation
+  preferred_formats:
+  - zim
+  reason: Published subject archive.

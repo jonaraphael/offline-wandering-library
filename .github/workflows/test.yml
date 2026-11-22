@@ -24,6 +24,7 @@ jobs:
       - run: python -m unittest discover -s tests -v
       - run: python scripts/validate_catalog.py
       - run: python scripts/validate_catalog.py catalog/demo.yaml --allow-local
+      - run: python scripts/build_capacity_ladder.py --check
       - run: python scripts/build_selector.py --check
       - run: python scripts/build_content_docs.py --check
       - run: python scripts/build_drive.py "${{ runner.temp }}/owl-demo" --catalog catalog/demo.yaml --profile demo --allow-local --navigation-dir catalog/demo-navigation --strict-coverage
@@ -44,3 +45,18 @@ jobs:
           node-version: '22'
       - run: python -m pip install -e '.[zim,pdf]'
       - run: python -m unittest discover -s tests -v
+  pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install -e .
+      - run: python scripts/build_pages.py "${{ runner.temp }}/owl-pages" --search-commit "${{ github.sha }}"
+      - run: node --test tests/browser-builder.test.mjs tests/sync-reconcile.test.mjs tests/relay.test.mjs tests/search/rank.test.cjs tests/search/impact.test.cjs
+      - run: node tests/browser-plan.test.mjs "${{ runner.temp }}/owl-pages"
+      - run: python scripts/search_benchmark.py --check

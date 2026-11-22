@@ -134,7 +134,8 @@ class ProductionAtlasCatalogTests(unittest.TestCase):
                 self.assertEqual("regional-maps" in report["included_topic_ids"],
                                  bool(ids & {"map_osm_north_america", "regional_topographic_maps"}))
                 self.assertEqual("world-maps" in report["included_topic_ids"], "map_osm_world" in ids)
-                self.assertTrue(pages)
+                self.assertEqual(pages, {})
+                self.assertEqual(set(report["reader_topics"]), expected)
 
     def test_acquired_publisher_documents_have_relevant_whole_file_routes(self):
         families = {
@@ -199,7 +200,7 @@ class ProductionAtlasCoverageTests(unittest.TestCase):
             "docs_binutils", "docs_ld", "docs_libc", "docs_python")})
         expected.update({"phet_ohms_law": "electric-circuits",
                          "phet_circuit_construction_kit_dc": "electric-circuits",
-                         "wikem_en": "emergency-care", "cd3wd_en": "appropriate-technology",
+                         "wikimed_en": "emergency-care", "cd3wd_en": "appropriate-technology",
                          "lowtech_magazine": "appropriate-technology"})
         routes = {(row["asset_id"], row["topic_id"], row.get("section_id"))
                   for row in self.navigation["assignments"]}

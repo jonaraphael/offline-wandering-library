@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: sustainable_living
+assignments:
+- topic_id: water-hygiene
+  purpose: reference

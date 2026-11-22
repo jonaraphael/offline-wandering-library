@@ -1,0 +1,916 @@
+{
+  "appropedia_en": {
+    "bytes": 581641351,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/appropedia_en_all_maxi_2026-02.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/other/appropedia_en_all_maxi_2026-02.zim"
+    },
+    "sha256": "dcf200ba723c27397e1c9a2e4891ff91fa13993df1fa285315190d8525a53469",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/other/appropedia_en_all_maxi_2026-02.zim"
+  },
+  "astronomy_picture": {
+    "bytes": 16678603210,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/apod.nasa.gov_en_all_2026-08.zim"
+    },
+    "sha256": "0715eb68ea8947d2b7d592a2e21b42ca4f8504fed5b887669e5d3602186fe00c",
+    "url": "https://ftp.fau.de/kiwix/zim/zimit/apod.nasa.gov_en_all_2026-08.zim"
+  },
+  "bookdash_archive": {
+    "bytes": 11704392203,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/booksdash_en_all_2024-06.zim"
+    },
+    "sha256": "9c427df19efd55c77c80cca7614e3f49e6a31305d7643f4e44d897730edee68e",
+    "url": "https://ftp.fau.de/kiwix/zim/zimit/booksdash_en_all_2024-06.zim"
+  },
+  "cd3wd_en": {
+    "bytes": 581165229,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/cd3wdproject.org_en_all_2025-11.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/zimit/cd3wdproject.org_en_all_2025-11.zim"
+    },
+    "sha256": "f79a27413af0bd17d14adb3a556d282515a8bc1e127d791a5961c93ea9167b92",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/zimit/cd3wdproject.org_en_all_2025-11.zim"
+  },
+  "cdc_travelers_health": {
+    "bytes": 178326622,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/wwwnc.cdc.gov_en_all_2024-11.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/zimit/wwwnc.cdc.gov_en_all_2024-11.zim"
+    },
+    "sha256": "45c1c8d79a38a814098be41044a42d4ac7cc3dfa5cdfe398e9974e08d80591dc",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/zimit/wwwnc.cdc.gov_en_all_2024-11.zim"
+  },
+  "celtic_scores": {
+    "bytes": 5669663444,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/celticscores.com_en_all_2026-02.zim"
+    },
+    "sha256": "8cb2e4c56bf9f47d51c487df415a27371979d0c922bee36a6406b45009e31932",
+    "url": "https://ftp.fau.de/kiwix/zim/zimit/celticscores.com_en_all_2026-02.zim"
+  },
+  "chopin_archive": {
+    "bytes": 8834035870,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/chopin.lib.uchicago.edu_en_all_2025-01.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/other/chopin.lib.uchicago.edu_en_all_2025-01.zim"
+    },
+    "sha256": "5400211e4f660d6fdbc6970b2bc466772b030acafbaa66678bac77246407136c",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/other/chopin.lib.uchicago.edu_en_all_2025-01.zim"
+  },
+  "crashcourse_en_all_2026_05": {
+    "bytes": 23035094957,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/crashcourse_en_all_2026-05.zim"
+    },
+    "sha256": "70e61e8ea1b1aa7f00d8c2a50ec8e84c22dfa27e9cb8823e7d9f691a1db67591",
+    "url": "https://ftp.fau.de/kiwix/zim/other/crashcourse_en_all_2026-05.zim"
+  },
+  "encyclopedie_environnement_org_en_all_2026_05": {
+    "bytes": 4117032628,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/encyclopedie-environnement.org_en_all_2026-05.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/zimit/encyclopedie-environnement.org_en_all_2026-05.zim"
+    },
+    "sha256": "864e2d76db4fdeba5c74e8c56a9e479cbe1e6aaf52c6074ccb434f1632569119",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/zimit/encyclopedie-environnement.org_en_all_2026-05.zim"
+  },
+  "energypedia_en_all_maxi_2026_06": {
+    "bytes": 799712780,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/energypedia_en_all_maxi_2026-06.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/other/energypedia_en_all_maxi_2026-06.zim"
+    },
+    "sha256": "c328df321497003e30f96af67340c04bff52e2831e09cf2b0c0fde52bba23bd0",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/other/energypedia_en_all_maxi_2026-06.zim"
+  },
+  "engineering_qa": {
+    "bytes": 258556632,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/engineering.stackexchange.com_en_all_2026-10.zim"
+    },
+    "sha256": "5c0e625750963139cd274c4d75f310ed742a5eaf305b790e0c619f80a9d572a1",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/engineering.stackexchange.com_en_all_2026-10.zim"
+  },
+  "folgerpedia": {
+    "bytes": 4201535155,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/folgerpedia.folger.edu_en_all_2026-03.zim"
+    },
+    "sha256": "d3ad4042e19948757166e8089b6ae925b3a677e6c086d36f91277dd7ae5948ae",
+    "url": "https://ftp.fau.de/kiwix/zim/other/folgerpedia.folger.edu_en_all_2026-03.zim"
+  },
+  "gardenology_org_en_all_2026_09": {
+    "bytes": 112499438,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/gardenology.org_en_all_2026-09.zim"
+    },
+    "sha256": "796c4930a18174ef39c2f7aa676d9773d4d9c0f7c9f0eeae9a9338889edfd6c9",
+    "url": "https://ftp.fau.de/kiwix/zim/other/gardenology.org_en_all_2026-09.zim"
+  },
+  "gutenberg_a": {
+    "bytes": 9673134563,
+    "sha256": "cd145818f81a57e45b0770a4a56e01d528eef755c92c20c6515dbba3b5c401a2",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-a_2026-11a.zim"
+  },
+  "gutenberg_b": {
+    "bytes": 5416888340,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-b_2026-11a.zim"
+    },
+    "sha256": "f8ba75544ad3f31ea0cfe82541683ea86d6b596da0e19eaf2329540a30b02163",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/books/gutenberg_en_lcc-b_2026-11a.zim"
+  },
+  "gutenberg_cdef": {
+    "bytes": 46939635595,
+    "sha256": "6077babf723e7d8964d64b9edd1b6afd6738dc8a882153891d2831987365de32",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-cdef_2026-11b.zim"
+  },
+  "gutenberg_en_lcc_l": {
+    "bytes": 628986048,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim"
+    },
+    "sha256": "689bbb2afc1977e855f48bf0557548f7aba46d6526ff596aba9571aaeeb40638",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-l_2026-03.zim"
+  },
+  "gutenberg_en_lcc_pz": {
+    "bytes": 19770263119,
+    "sha256": "0b3a0c46e80bf56064f85a7db993f183fa481b98686342890c6d4b2e8c071775",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/gutenberg/gutenberg_en_lcc-pz_2026-03.zim"
+  },
+  "gutenberg_en_lcc_q": {
+    "bytes": 17724714270,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim"
+    },
+    "sha256": "bf3ffab926136be517d3253addfbe20e0c90a840aefb8d1c5fbf76c58d85a9bf",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/gutenberg/gutenberg_en_lcc-q_2026-03.zim"
+  },
+  "gutenberg_en_lcc_s": {
+    "bytes": 4532683039,
+    "sha256": "3012dfb7936d5bc8a5c3bdd0c9f864cd81e9514c28c40afc548415fd95272fcc",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/gutenberg/gutenberg_en_lcc-s_2026-03.zim"
+  },
+  "gutenberg_en_lcc_t": {
+    "bytes": 13154803470,
+    "sha256": "362c9f07d79363802fe2b2e5e97c1b8e717d730bbcfaff478938652dbf12a2fd",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/gutenberg/gutenberg_en_lcc-t_2026-03.zim"
+  },
+  "gutenberg_g": {
+    "bytes": 6258952579,
+    "sha256": "e913593e20fd486102ae39fcf7911f8cb5eba5bb0e9708f97c7ceb2baa2d8469",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-g_2026-11a.zim"
+  },
+  "gutenberg_h": {
+    "bytes": 4062748745,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-h_2026-11a.zim"
+    },
+    "sha256": "53c018f6cfeef57ef64aedc3104ac9dabdfc2d43fe3f3e9e279121c7db0a2389",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/books/gutenberg_en_lcc-h_2026-11a.zim"
+  },
+  "gutenberg_j": {
+    "bytes": 478049660,
+    "sha256": "705fdd4419af038754697bb95e99b38b10b433892d9657f62300bc63d1908326",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-j_2026-11a.zim"
+  },
+  "gutenberg_k": {
+    "bytes": 218299710,
+    "sha256": "52a200a9b346e017911d4b4abcf9e8d57cdb6efda8a22f323e7e89182f11f219",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-k_2026-11a.zim"
+  },
+  "gutenberg_m": {
+    "bytes": 3688969272,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-m_2026-11a.zim"
+    },
+    "sha256": "0bdb045115f742b7b7139ae0f45cbee1239e39a150c3079b9737c47c0d5479ea",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/books/gutenberg_en_lcc-m_2026-11a.zim"
+  },
+  "gutenberg_n": {
+    "bytes": 16709753615,
+    "sha256": "d3639cf615ceb80e606a9582795aa3e9b554fdd2f99c7846a3b1733061d18df5",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-n_2026-11a.zim"
+  },
+  "gutenberg_p": {
+    "bytes": 40686240,
+    "sha256": "1549959feba3ecd22eadec90d4c015a24b831db61d1eb2b8964cdbc711d20bbf",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-p_2026-11a.zim"
+  },
+  "gutenberg_pa": {
+    "bytes": 503473926,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pa_2026-11a.zim"
+    },
+    "sha256": "738086b6e41fe0daf8582dd6332bfca8af5933e9a3bf3fe60d3e52bbae02009f",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/books/gutenberg_en_lcc-pa_2026-11a.zim"
+  },
+  "gutenberg_pb": {
+    "bytes": 61660865,
+    "sha256": "7af8aefea8de1a64330f098308e3d0475448f821d8addba55299453dd1027d7b",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pb_2026-11a.zim"
+  },
+  "gutenberg_pc": {
+    "bytes": 124630578,
+    "sha256": "38d3271805d2ff02c48b13a5b126302c3d26a5c87dc27b67fcfbd92a3b181339",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pc_2026-11a.zim"
+  },
+  "gutenberg_pd": {
+    "bytes": 20763448,
+    "sha256": "a73cd94bb78e65ceb49c6a99f11d0e959a9d8337c322e2622c3a991851f8d98d",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pd_2026-11a.zim"
+  },
+  "gutenberg_pe": {
+    "bytes": 620290834,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pe_2026-11a.zim"
+    },
+    "sha256": "f69b0f7ec9d63258dd1408c7d886c06bdb908240ce39f9240216bc27c5f304ff",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/books/gutenberg_en_lcc-pe_2026-11a.zim"
+  },
+  "gutenberg_pf": {
+    "bytes": 21098055,
+    "sha256": "1107b57bbb01b4b88029957d1448990d8df6e6106bf7734a826a98137f388d19",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pf_2026-11a.zim"
+  },
+  "gutenberg_pg": {
+    "bytes": 222788687,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pg_2026-11a.zim"
+    },
+    "sha256": "7c04fb87639b3a10327bb4203ea8c9d46a43e35a1d95a6f9a5aeaeac76f51e91",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/books/gutenberg_en_lcc-pg_2026-11a.zim"
+  },
+  "gutenberg_ph": {
+    "bytes": 49536387,
+    "sha256": "4cb7c24b8ebd65888f02560ac7f02724eaecf227d8dcf2b65318d866a146ac64",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-ph_2026-11a.zim"
+  },
+  "gutenberg_pj": {
+    "bytes": 210635632,
+    "sha256": "aff4453d4ae67fdb4bf028f79c09f42faf6483f527edf7e2bfee917fe006f52a",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pj_2026-11a.zim"
+  },
+  "gutenberg_pk": {
+    "bytes": 77866500,
+    "sha256": "55b525880a6048d5b2a45a276386843705aaddc024fb484ff98de37deb293c4c",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pk_2026-11a.zim"
+  },
+  "gutenberg_pl": {
+    "bytes": 100069926,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pl_2026-11a.zim"
+    },
+    "sha256": "0d671c7f4f415977fa9f6303c68f56c5089436a28ae022083c55828d2d9ffdf6",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/books/gutenberg_en_lcc-pl_2026-11a.zim"
+  },
+  "gutenberg_pm": {
+    "bytes": 46120620,
+    "sha256": "4468f89960ae61dc70b9eaed06ad4b85b05c3aee1f63c1c1855d1cd3ce2f206c",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pm_2026-11a.zim"
+  },
+  "gutenberg_pn": {
+    "bytes": 3056210576,
+    "sha256": "af75f908b5b711da77a8ae6e749e273a763bce84a76b29dd161e5ffc6d94b725",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pn_2026-11a.zim"
+  },
+  "gutenberg_pq": {
+    "bytes": 2809448958,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pq_2026-11a.zim"
+    },
+    "sha256": "3b875a9a03d8e82cf993a24b8ec95c0542949cb7de1ddb30ed7e2ee3b07a6792",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/books/gutenberg_en_lcc-pq_2026-11a.zim"
+  },
+  "gutenberg_pr": {
+    "bytes": 12958725072,
+    "sha256": "c46ee527e2b8115a8b459577a7daa3afcf824d90d7f0fa39995c12d07ff7c11f",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pr_2026-11a.zim"
+  },
+  "gutenberg_ps": {
+    "bytes": 11588011665,
+    "sha256": "ba1d0daf06b14bf8663c6eb3f693712ddf7da203bb2cedeb9ceb6d0f534a0771",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-ps_2026-11a.zim"
+  },
+  "gutenberg_pt": {
+    "bytes": 647007234,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-pt_2026-11a.zim"
+    },
+    "sha256": "8772ae51a2f8871f4a13f3550defe43c12bb7135718df6e4ac1e34cfc655dfcd",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/books/gutenberg_en_lcc-pt_2026-11a.zim"
+  },
+  "gutenberg_r": {
+    "bytes": 1533201598,
+    "sha256": "63ff0912fbdcc9f46d4b29513579cbb444e151abc2f46580085390444309434f",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-r_2026-11a.zim"
+  },
+  "gutenberg_z": {
+    "bytes": 2505925318,
+    "sha256": "101342da90ba102f66dad2d4bc82c581deb22bbdb498f3813f7beedaaa06e89a",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/books/gutenberg_en_lcc-z_2026-11a.zim"
+  },
+  "homebrewing_qa": {
+    "bytes": 37374625,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/homebrew.stackexchange.com_en_all_2026-10.zim"
+    },
+    "sha256": "d7598765626dd1f8c556173e76720aabbeecf2f2fbdf95f96ed78863032ea07c",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/homebrew.stackexchange.com_en_all_2026-10.zim"
+  },
+  "ifixit_en": {
+    "bytes": 3570695757,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/ifixit/ifixit_en_all_2025-12.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/ifixit/ifixit_en_all_2025-12.zim"
+    },
+    "sha256": "9bb5f3408707fd0300c6ef47a425c3217187f144cd9154a928183816aa72eead",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/ifixit/ifixit_en_all_2025-12.zim"
+  },
+  "khanacademy_en_all_2023_03": {
+    "bytes": 180007047736,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/khanacademy_en_all_2023-03.zim"
+    },
+    "sha256": "3b8f4d286c6206a1c00c2252ac33187d30d4e146b8666ae2039d00f0d91eee3a",
+    "url": "https://ftp.fau.de/kiwix/zim/other/khanacademy_en_all_2023-03.zim"
+  },
+  "librepathology": {
+    "bytes": 95279611,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/librepathology_en_all_maxi_2026-09.zim"
+    },
+    "sha256": "9474d11f9104e9e649ea09efefff943e10b3fcc0f3afc60d804eeb1b20bd3a3f",
+    "url": "https://ftp.fau.de/kiwix/zim/other/librepathology_en_all_maxi_2026-09.zim"
+  },
+  "libretexts_bio": {
+    "bytes": 2240946728,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/libretexts/libretexts.org_en_bio_2025-01.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/libretexts/libretexts.org_en_bio_2025-01.zim"
+    },
+    "sha256": "aa914c19a690429b5d41ccbc91ba8cf7bc2980211b998c8a4a82ef3a21375321",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_bio_2025-01.zim"
+  },
+  "libretexts_chem": {
+    "bytes": 2182916266,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/libretexts/libretexts.org_en_chem_2025-01.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/libretexts/libretexts.org_en_chem_2025-01.zim"
+    },
+    "sha256": "83ba2fbfe36d72abe919661de5548103bb6674749bc26531cd61f83d8a825764",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_chem_2025-01.zim"
+  },
+  "libretexts_eng": {
+    "bytes": 678394631,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/libretexts/libretexts.org_en_eng_2025-01.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/libretexts/libretexts.org_en_eng_2025-01.zim"
+    },
+    "sha256": "3d4b25d03082172f4793625163b366a7d21655a5f8868d0758a9c3649ce9d5c2",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_eng_2025-01.zim"
+  },
+  "libretexts_geo": {
+    "bytes": 1188116861,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/libretexts/libretexts.org_en_geo_2026-01.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/libretexts/libretexts.org_en_geo_2026-01.zim"
+    },
+    "sha256": "ffceff9d0d14dbd2e154c6734658257daf301bde18962ee0d87aa1dd0d5cfaef",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_geo_2026-01.zim"
+  },
+  "libretexts_math": {
+    "bytes": 830646230,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/libretexts/libretexts.org_en_math_2026-01.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/libretexts/libretexts.org_en_math_2026-01.zim"
+    },
+    "sha256": "7a07f9a4c7ad1ca51c300d573bc74df27a5556f7c4c6fe9407bc337ad9b7b4c8",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_math_2026-01.zim"
+  },
+  "libretexts_med": {
+    "bytes": 1192567339,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/libretexts/libretexts.org_en_med_2025-01.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/libretexts/libretexts.org_en_med_2025-01.zim"
+    },
+    "sha256": "1def4fb3c76d347cfd2af9eabd8f8edefd24086cc17b476130f710214a5bbc1e",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_med_2025-01.zim"
+  },
+  "libretexts_phys": {
+    "bytes": 559554453,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/libretexts/libretexts.org_en_phys_2026-01.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/libretexts/libretexts.org_en_phys_2026-01.zim"
+    },
+    "sha256": "ace498581e085093cc86383439342d9ff5a4604bd87f6b82448c019e1264830f",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_phys_2026-01.zim"
+  },
+  "libretexts_stats": {
+    "bytes": 215779148,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/libretexts/libretexts.org_en_stats_2026-01.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/libretexts/libretexts.org_en_stats_2026-01.zim"
+    },
+    "sha256": "39697d1ef60ee5ae24c5b54514e0e1b8f2255ed7d12ef273af825a7f2ed5c5e7",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/libretexts/libretexts.org_en_stats_2026-01.zim"
+  },
+  "lowtech_magazine": {
+    "bytes": 700555670,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim"
+    },
+    "sha256": "0a21bde8e3be3b80b8b7dea13118fb2190a60274f2341a5b72715f89fd049740",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/zimit/solar.lowtechmagazine.com_mul_all_2025-01.zim"
+  },
+  "map_osm_north_america": {
+    "bytes": 22652513201,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/maps/maps_en_north-america_2026-08.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/maps/maps_en_north-america_2026-08.zim"
+    },
+    "sha256": "5df0e47180e540473373f3cc82e4280dfd79f1f61327ca00399d4be6050afd0e",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/maps/maps_en_north-america_2026-08.zim"
+  },
+  "map_osm_world": {
+    "bytes": 77731456103,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/maps/maps_en_all_2026-06.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/maps/maps_en_all_2026-06.zim"
+    },
+    "sha256": "399cf845a889018607423562ab467b2ece55b5532af4f5e105a07093866f2655",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/maps/maps_en_all_2026-06.zim"
+  },
+  "mathoverflow": {
+    "bytes": 860907171,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/mathoverflow.net_en_all_2026-10.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/stack_exchange/mathoverflow.net_en_all_2026-10.zim"
+    },
+    "sha256": "281e5cdb2729a7d346ad155bcb0b5e7f59b81bc47ef910a1f66f324711504100",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/mathoverflow.net_en_all_2026-10.zim"
+  },
+  "mdwiki": {
+    "bytes": 10752256261,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/mdwiki_en_all_2025-11.zim"
+    },
+    "sha256": "1007195644faa4534c56d0d1838e46a71ae321484c3cae9d42d6782aade1a4b1",
+    "url": "https://ftp.fau.de/kiwix/zim/other/mdwiki_en_all_2025-11.zim"
+  },
+  "mediawiki_docs": {
+    "bytes": 6830024342,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/mediawiki_en_all_2023-07.zim"
+    },
+    "sha256": "6f890efec45ccbcdd951cd058e24e9177fcacdbc569c4dbf8144b4d65d8ef893",
+    "url": "https://ftp.fau.de/kiwix/zim/other/mediawiki_en_all_2023-07.zim"
+  },
+  "medlineplus_gov_en_all_2025_01": {
+    "bytes": 1944841111,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/medlineplus.gov_en_all_2025-01.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/zimit/medlineplus.gov_en_all_2025-01.zim"
+    },
+    "sha256": "3ce8933e8b249cf685f5f108e8f10d9a7e3becb2ee4e91f3aedb5b0cf4d2e596",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/zimit/medlineplus.gov_en_all_2025-01.zim"
+  },
+  "milne_textbooks": {
+    "bytes": 1630353553,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/milneopentextbooks.org_en_all_2026-11.zim"
+    },
+    "sha256": "035c3ca2c0763fe689e8e7b50c6aa833bff4a9877ecab81dd00ada3fa0703e09",
+    "url": "https://ftp.fau.de/kiwix/zim/zimit/milneopentextbooks.org_en_all_2026-11.zim"
+  },
+  "mutopia": {
+    "bytes": 6632490059,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/mutopiaproject.org_en_all_2026-11.zim"
+    },
+    "sha256": "ce5fd49f36657228bf329ba2b7408da235e9afa866b504f78f399a4e709826b1",
+    "url": "https://ftp.fau.de/kiwix/zim/zimit/mutopiaproject.org_en_all_2026-11.zim"
+  },
+  "ncert_audiobooks": {
+    "bytes": 43611271940,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/ncert-audiobooks_en_all_2026-10.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/zimit/ncert-audiobooks_en_all_2026-10.zim"
+    },
+    "sha256": "8aef0faeda93d656be5ef502a301f0854fb6b7d66c861925a2a836f7eb53e636",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/zimit/ncert-audiobooks_en_all_2026-10.zim"
+  },
+  "oer4schools_en_all_2025_10": {
+    "bytes": 1242107467,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/videos/oer4schools_en_all_2025-10.zim"
+    },
+    "sha256": "a029188a02fec2a83613343bd3c4a3261a56612de5e8832ab09909b62ec0484f",
+    "url": "https://ftp.fau.de/kiwix/zim/videos/oer4schools_en_all_2025-10.zim"
+  },
+  "osm_guides": {
+    "bytes": 1243501649,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/openstreetmap-wiki_en_all_maxi_2026-07.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/other/openstreetmap-wiki_en_all_maxi_2026-07.zim"
+    },
+    "sha256": "fd18d62041b5bc1b7c8d21d0b6f82af64d03386b31f1efa45541a139293633cc",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/other/openstreetmap-wiki_en_all_maxi_2026-07.zim"
+  },
+  "phet_archive": {
+    "bytes": 108981169,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/phet/phet_en_all_2026-08.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/phet/phet_en_all_2026-08.zim"
+    },
+    "sha256": "b102abf8af1c982c498c167efe6a9099e3cb543df184b93c99421b2fdef7e1a0",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/phet/phet_en_all_2026-08.zim"
+  },
+  "post_disaster": {
+    "bytes": 644665513,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/zimgit-post-disaster_en_2024-05.zim"
+    },
+    "sha256": "0ba9bb358b768b94eb0d7920752fe356bf097de514ee61843f3a4da6cce174f8",
+    "url": "https://ftp.fau.de/kiwix/zim/other/zimgit-post-disaster_en_2024-05.zim"
+  },
+  "ready_gov": {
+    "bytes": 2063895408,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/ready.gov_en_all_2026-10.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/zimit/ready.gov_en_all_2026-10.zim"
+    },
+    "sha256": "c88ce03db2a6dd855c1075d87abb6dceac678718e0dd3fa7912009469b9ca225",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/zimit/ready.gov_en_all_2026-10.zim"
+  },
+  "seasoned_advice": {
+    "bytes": 238098128,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/cooking.stackexchange.com_en_all_2026-10.zim"
+    },
+    "sha256": "b5dc3a79b681be1afea32dd65e837c604e7dd7072f51622414a7a1d61fc52541",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/cooking.stackexchange.com_en_all_2026-10.zim"
+  },
+  "stack_overflow": {
+    "bytes": 114855633696,
+    "peers": {
+      "fau": "https://ftp.fau.de/kiwix/zim/stack_exchange/stackoverflow.com_en_all_2026-07.zim"
+    },
+    "sha256": "2878fd0bbc4d0d7a05249bc04f45b71f183c09929a843308b923190f1d15436f",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/stackoverflow.com_en_all_2026-07.zim"
+  },
+  "stackexchange_3dprinting": {
+    "bytes": 120138274,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim"
+    },
+    "sha256": "c47a5b4d9fce51598f5008c2046eb9f42aa5194ec1b25592a6514efccec93561",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/3dprinting.stackexchange.com_en_all_2026-07a.zim"
+  },
+  "stackexchange_biology": {
+    "bytes": 422849825,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim"
+    },
+    "sha256": "e195995da99e219251316d7ca6ebc7698558032ed17f32de9cb95ea0a6e9ee68",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/biology.stackexchange.com_en_all_2026-07.zim"
+  },
+  "stackexchange_chemistry": {
+    "bytes": 417260049,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim"
+    },
+    "sha256": "bc99e888d3d9e02eddd470b9a00e351c00436c79b039ee6c4009905160f280dd",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/chemistry.stackexchange.com_en_all_2026-07.zim"
+  },
+  "stackexchange_diy": {
+    "bytes": 2062547155,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim"
+    },
+    "sha256": "94cbd4daeebe180bb8908b767d3c1477753049a29c2c092f6a752b6f691863da",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/diy.stackexchange.com_en_all_2026-08.zim"
+  },
+  "stackexchange_electronics": {
+    "bytes": 4214186044,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim"
+    },
+    "sha256": "5a23c08a3c1275128c247b0c67ec8ed03a953a504c6a23e2cd6a9ac5422b88c1",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/electronics.stackexchange.com_en_all_2026-08.zim"
+  },
+  "stackexchange_gardening": {
+    "bytes": 926805273,
+    "peers": {
+      "fau": "https://ftp.fau.de/kiwix/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim"
+    },
+    "sha256": "b8a3e0db65d8a678b47accefd8565f78af0caeb454672fe0d5f365336c71c25e",
+    "url": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/gardening.stackexchange.com_en_all_2026-08.zim"
+  },
+  "stackexchange_gis": {
+    "bytes": 2129919887,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim"
+    },
+    "sha256": "346102fc29c823f7c971811c7aedaf84db2dba735aa84c1bd369edf048b553e8",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/gis.stackexchange.com_en_all_2026-08.zim"
+  },
+  "stackexchange_ham": {
+    "bytes": 75931239,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim"
+    },
+    "sha256": "71480bd280ffaede3084fa2c9f47f87c3178f8ce8d67cdb19fb66a8025a7b93e",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/ham.stackexchange.com_en_all_2026-08.zim"
+  },
+  "stackexchange_math": {
+    "bytes": 7417271999,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim"
+    },
+    "sha256": "9b06975bba543aa5fd4a0ff82497349c061aacde394a0d2120c6898271063238",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/math.stackexchange.com_en_all_2026-08.zim"
+  },
+  "stackexchange_mechanics": {
+    "bytes": 339833641,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim"
+    },
+    "sha256": "20f1547c29c621b3d44ccdc46ac9047cfa99df75227cc68c5284ce7850eac864",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/mechanics.stackexchange.com_en_all_2026-08.zim"
+  },
+  "stackexchange_outdoors": {
+    "bytes": 141407927,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim"
+    },
+    "sha256": "78dccd2b5f784b17d1a22b1f65e64a74c53fa473e08f995440ff38bd8417cf1b",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/outdoors.stackexchange.com_en_all_2026-08.zim"
+  },
+  "stackexchange_physics": {
+    "bytes": 1827690763,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim"
+    },
+    "sha256": "440e50c991709012e7436e2a965566fee61f118ff9e98d1ce44961d162e1a753",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/physics.stackexchange.com_en_all_2026-08.zim"
+  },
+  "stackexchange_superuser": {
+    "bytes": 4003118644,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/superuser.com_en_all_2026-08.zim"
+    },
+    "sha256": "9bfddc8e569e0163ecc6facea4ec9dc347e6b2ace10e06745968559256b926d9",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/superuser.com_en_all_2026-08.zim"
+  },
+  "stackexchange_sustainability": {
+    "bytes": 27666982,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim"
+    },
+    "sha256": "e9a00e1d1032bc1a5859e1a7553e6b243fcecd0c82ba372548af517119ebd75d",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-08.zim"
+  },
+  "stackexchange_unix": {
+    "bytes": 1312634563,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim"
+    },
+    "sha256": "738326e81abe0f50edbaa3e4a002d0ca221e5dfb66e4954bb64e370756f602d3",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/unix.stackexchange.com_en_all_2026-08.zim"
+  },
+  "stackexchange_woodworking": {
+    "bytes": 105570459,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim"
+    },
+    "sha256": "a41140515d25c9906ceed8a818dd4a0645b7c040a9dc4a8419a2d729af7c3ccb",
+    "url": "https://ftp.fau.de/kiwix/zim/stack_exchange/woodworking.stackexchange.com_en_all_2026-08.zim"
+  },
+  "survivorlibrary_com_en_all_2026_09": {
+    "bytes": 220347600505,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/survivorlibrary.com_en_all_2026-09.zim"
+    },
+    "sha256": "cf0b00f1f5c0cc840046337ba2d1f9b866be1afb8d5a59c5bc3be31a0994cd25",
+    "url": "https://ftp.fau.de/kiwix/zim/zimit/survivorlibrary.com_en_all_2026-09.zim"
+  },
+  "sustainable_living": {
+    "bytes": 27687333,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-10.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-10.zim"
+    },
+    "sha256": "1516f252827b1409b7b55c1a44671e7e59b857bf2bb3732f3af62c996e40412f",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/stack_exchange/sustainability.stackexchange.com_en_all_2026-10.zim"
+  },
+  "ted_ed": {
+    "bytes": 6380955947,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/ted/ted_mul_ted-ed_2026-09.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/ted/ted_mul_ted-ed_2026-09.zim"
+    },
+    "sha256": "a049eda3db3ee0aacb8d5e3e0de9ee189a5ac1440fa938b5de2aaa6813c1a97b",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/ted/ted_mul_ted-ed_2026-09.zim"
+  },
+  "usaid_archive": {
+    "bytes": 8606108536,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/books/usaid-archive.aiddata.org_en_all_2026-11a.zim"
+    },
+    "sha256": "93cc08d1e2e61b57157d27850b6a3c788cf3410d08640c2922710b4f1a8d917b",
+    "url": "https://ftp.fau.de/kiwix/zim/books/usaid-archive.aiddata.org_en_all_2026-11a.zim"
+  },
+  "voa_learning_en_all_2025_01": {
+    "bytes": 7093966349,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/videos/voa_learning_en_all_2025-01.zim"
+    },
+    "sha256": "e97c3c3171dd3b09c87c711ed45969f6eccb68f84915434ee4918e6e1d4cc9e8",
+    "url": "https://ftp.fau.de/kiwix/zim/videos/voa_learning_en_all_2025-01.zim"
+  },
+  "wikibooks_en": {
+    "bytes": 6177865115,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikibooks/wikibooks_en_all_maxi_2026-04.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikibooks/wikibooks_en_all_maxi_2026-04.zim"
+    },
+    "sha256": "c2ded9afe4647c2b05aceb9d30260100369cbba22f3d00e467a634546da3f610",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikibooks/wikibooks_en_all_maxi_2026-04.zim"
+  },
+  "wikimed_en": {
+    "bytes": 2215520569,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikipedia/wikipedia_en_medicine_maxi_2026-04.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikipedia/wikipedia_en_medicine_maxi_2026-04.zim"
+    },
+    "sha256": "6f67340a7cd7665bb57c27d2bbff97e26f2037477c9ea597345a118286820331",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikipedia/wikipedia_en_medicine_maxi_2026-04.zim"
+  },
+  "wikipedia_ar": {
+    "bytes": 19095710684,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikipedia/wikipedia_ar_all_maxi_2026-05.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikipedia/wikipedia_ar_all_maxi_2026-05.zim"
+    },
+    "sha256": "4c9d0e0e80523ba04f33381ec9f3cd954009f6a0bda7f02da6f1a20fb0ea363f",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikipedia/wikipedia_ar_all_maxi_2026-05.zim"
+  },
+  "wikipedia_en": {
+    "bytes": 127418087648,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikipedia/wikipedia_en_all_maxi_2026-08.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikipedia/wikipedia_en_all_maxi_2026-08.zim"
+    },
+    "sha256": "34162d18b9f96f494eac48a73a309c72e0bc95d85f76be405d0f5de795854aa6",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikipedia/wikipedia_en_all_maxi_2026-08.zim"
+  },
+  "wikipedia_en_mini": {
+    "bytes": 14386799064,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikipedia/wikipedia_en_all_mini_2026-09.zim"
+    },
+    "sha256": "350d8956ee3d7abe2839c464c3a983f93d6934a16c7f04b10715b49439dfd349",
+    "url": "https://ftp.fau.de/kiwix/zim/wikipedia/wikipedia_en_all_mini_2026-09.zim"
+  },
+  "wikipedia_en_nopic": {
+    "bytes": 52690706555,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikipedia/wikipedia_en_all_nopic_2026-06.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikipedia/wikipedia_en_all_nopic_2026-06.zim"
+    },
+    "sha256": "441a56d9e05b2d98f8ae9acb7986a513ed47904d73852c92dc6b7d50baa122e5",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikipedia/wikipedia_en_all_nopic_2026-06.zim"
+  },
+  "wikipedia_en_top": {
+    "bytes": 296858160,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikipedia/wikipedia_en_top_mini_2026-09.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikipedia/wikipedia_en_top_mini_2026-09.zim"
+    },
+    "sha256": "9e75b5f03b4ff61864772d811bd9715c9cdc27a429229abb779aaa3cc3aa8e05",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikipedia/wikipedia_en_top_mini_2026-09.zim"
+  },
+  "wikipedia_es": {
+    "bytes": 40766243832,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikipedia/wikipedia_es_all_maxi_2026-05.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikipedia/wikipedia_es_all_maxi_2026-05.zim"
+    },
+    "sha256": "30c00ca0609861154098944092b40a3116545e4e51bf7eaa521946bb91fa0c19",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikipedia/wikipedia_es_all_maxi_2026-05.zim"
+  },
+  "wikipedia_fr": {
+    "bytes": 55438794004,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikipedia/wikipedia_fr_all_maxi_2026-05.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikipedia/wikipedia_fr_all_maxi_2026-05.zim"
+    },
+    "sha256": "61401b1b3618afe736450a868c7205f572f590db310e044a9c72b51fbfcfb431",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikipedia/wikipedia_fr_all_maxi_2026-05.zim"
+  },
+  "wikipedia_it": {
+    "bytes": 31788251774,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikipedia/wikipedia_it_all_maxi_2026-08.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikipedia/wikipedia_it_all_maxi_2026-08.zim"
+    },
+    "sha256": "b317f189c7bb363f246070ec3bf18794cf4f624b400c6203f155664aa471a898",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikipedia/wikipedia_it_all_maxi_2026-08.zim"
+  },
+  "wikipedia_pt": {
+    "bytes": 20641394954,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikipedia/wikipedia_pt_all_maxi_2026-05.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikipedia/wikipedia_pt_all_maxi_2026-05.zim"
+    },
+    "sha256": "7958dc5c24a2b188ae0123d602a929030a235835883b5ac05c9fbc0076b2921f",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikipedia/wikipedia_pt_all_maxi_2026-05.zim"
+  },
+  "wikipedia_zh": {
+    "bytes": 26601056121,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikipedia/wikipedia_zh_all_maxi_2026-08.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikipedia/wikipedia_zh_all_maxi_2026-08.zim"
+    },
+    "sha256": "704b43f43d2e8026990cc5577cf7571c25ab2ca5d4e4f2624a182b5f0fe57c10",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikipedia/wikipedia_zh_all_maxi_2026-08.zim"
+  },
+  "wikiquote": {
+    "bytes": 998873804,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikiquote/wikiquote_en_all_maxi_2026-10.zim"
+    },
+    "sha256": "082488969439c5b172d90f38f8a27ca8e8d49b63a415d7bf242fab0a1fc7c58b",
+    "url": "https://ftp.fau.de/kiwix/zim/wikiquote/wikiquote_en_all_maxi_2026-10.zim"
+  },
+  "wikisource_en": {
+    "bytes": 19663666206,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikisource/wikisource_en_all_maxi_2026-05.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikisource/wikisource_en_all_maxi_2026-05.zim"
+    },
+    "sha256": "380e1bf94f26c69717ddfb2dea1accc9cb6e7184d03a51bf6f8a990e256571fe",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikisource/wikisource_en_all_maxi_2026-05.zim"
+  },
+  "wikispecies_en_all_maxi_2026_07": {
+    "bytes": 3430544383,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/wikispecies_en_all_maxi_2026-07.zim"
+    },
+    "sha256": "714142b1627845bafea2a5bcbf46fef0d447eb60a1984013486e185cd351962d",
+    "url": "https://ftp.fau.de/kiwix/zim/other/wikispecies_en_all_maxi_2026-07.zim"
+  },
+  "wikiversity_en": {
+    "bytes": 2459209431,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikiversity/wikiversity_en_all_maxi_2026-05.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikiversity/wikiversity_en_all_maxi_2026-05.zim"
+    },
+    "sha256": "f2667509251c1784270c8c8dd0cd8a79d438a5c4940a6cc70653a6f77318a421",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikiversity/wikiversity_en_all_maxi_2026-05.zim"
+  },
+  "wikivoyage_en": {
+    "bytes": 1071168673,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wikivoyage/wikivoyage_en_all_maxi_2026-09.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wikivoyage/wikivoyage_en_all_maxi_2026-09.zim"
+    },
+    "sha256": "ebaf235b4f95aa7f8666e0a613578577569eb6c81562ebcf397a7ba52173c848",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wikivoyage/wikivoyage_en_all_maxi_2026-09.zim"
+  },
+  "wiktionary_en": {
+    "bytes": 9156425592,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/wiktionary/wiktionary_en_all_nopic_2026-08.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/wiktionary/wiktionary_en_all_nopic_2026-08.zim"
+    },
+    "sha256": "5276f63a2e451518ec5b7c4452ca9a4f72fae48991da3fe7ebc47df74bae760a",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/wiktionary/wiktionary_en_all_nopic_2026-08.zim"
+  },
+  "womens_history": {
+    "bytes": 4960310792,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/zimit/womenshistory.si.edu_en_all_2025-03.zim"
+    },
+    "sha256": "588ec9b4e2b5ca6e8c8f58d32b5dac2dc0df3f1b0f38c06ddb647edbc521d437",
+    "url": "https://ftp.fau.de/kiwix/zim/zimit/womenshistory.si.edu_en_all_2025-03.zim"
+  },
+  "world_factbook_en": {
+    "bytes": 407350139,
+    "peers": {
+      "dotsrc": "https://mirrors.dotsrc.org/kiwix/zim/other/theworldfactbook_en_all_2026-02.zim",
+      "fau": "https://ftp.fau.de/kiwix/zim/other/theworldfactbook_en_all_2026-02.zim"
+    },
+    "sha256": "61d559d4e4e62f667697f38223f38e1e6a58a881c824733f71e924233d7ce76f",
+    "url": "https://ftp.nluug.nl/pub/kiwix/zim/other/theworldfactbook_en_all_2026-02.zim"
+  }
+}

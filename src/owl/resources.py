@@ -17,7 +17,8 @@ from .catalog import CatalogError, DIRECT, read_yaml
 RESOURCE_ID = re.compile(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*")
 STATUSES = {"ready", "partial", "unresolved"}
 READERS = "archive-readers"
-EDITIONS = {"published", "direct", "compact"}
+FIXED_READERS = frozenset({"kiwix_windows", "kiwix_linux", "kiwix_macos", "kiwix_android"})
+EDITIONS = {"published", "direct", "compact", "top", "mini", "nopic"}
 
 
 def _integer(value: object, name: str, minimum: int = 0) -> int:
@@ -76,6 +77,12 @@ def load_resources(path: Path, assets: list[dict]) -> dict[str, dict]:
         if not isinstance(reason, str) or (row["status"] != "ready" and not reason.strip()):
             raise CatalogError(f"{identity}: incomplete resources require a nonempty reason")
         row["reason"] = reason
+        if "opt_in" in row and type(row["opt_in"]) is not bool:
+            raise CatalogError(f"{identity}: opt_in must be boolean")
+        if "default_sampler" in row and (type(row["default_sampler"]) is not bool or
+                row["default_sampler"] and (row.get("opt_in") or row["status"] != "ready" or
+                                            row.get("utility_tier") != "NONESSENTIAL" or row.get("editions"))):
+            raise CatalogError(f"{identity}: a default sampler must be one ready NONESSENTIAL collection")
         device = row.get("device_validation")
         if device is not None:
             if (not isinstance(device, dict) or
@@ -100,8 +107,8 @@ def load_resources(path: Path, assets: list[dict]) -> dict[str, dict]:
             if any(asset_map[member].get("status", "resolved") != "resolved" for member in members):
                 raise CatalogError(f"{identity}: a ready resource contains unresolved source assets")
         editions = row.setdefault("editions", {})
-        if not isinstance(editions, dict) or set(editions) - {"direct", "compact"}:
-            raise CatalogError(f"{identity}: editions may define only direct and compact")
+        if not isinstance(editions, dict) or set(editions) - (EDITIONS - {"published"}):
+            raise CatalogError(f"{identity}: editions may define direct, compact, top, mini, or nopic")
         critical = {member for member in members if asset_map[member].get("critical")}
         for name, edition in editions.items():
             label = f"{identity} edition {name}"
@@ -195,10 +202,10 @@ def _edition_selections(values: Iterable[str] | str, resources: dict[str, dict])
     chosen = {}
     for value in values:
         if not isinstance(value, str):
-            raise CatalogError("edition: use RESOURCE=direct|compact|published")
+            raise CatalogError("edition: use RESOURCE=EDITION")
         for token in value.split(","):
             if token.count("=") != 1:
-                raise CatalogError("edition: use RESOURCE=direct|compact|published")
+                raise CatalogError("edition: use RESOURCE=EDITION")
             resource, edition = (part.strip() for part in token.split("="))
             identity = _selections([resource], resources, "edition")[0]
             if edition not in EDITIONS:
@@ -243,7 +250,12 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
     collisions = set(explicit_include) & set(explicit_exclude)
     if collisions:
         raise CatalogError(f"Resources both included and excluded: {', '.join(sorted(collisions))}")
+    fixed_readers = READERS in resources and FIXED_READERS <= set(resources[READERS]["asset_ids"])
+    if fixed_readers and READERS in explicit_exclude:
+        raise CatalogError("The bundled readers are part of every library")
     selected = (set(defaults) | set(explicit_include)) - set(explicit_exclude)
+    if fixed_readers:
+        selected.add(READERS)
     effective_editions = {identity: edition for identity, edition in
                           {**default_editions, **explicit_editions}.items() if identity in selected}
     for identity in explicit_editions:
@@ -320,6 +332,8 @@ def resolve_resources(assets: list[dict], profile: dict, resources: dict[str, di
         if not changed:
             break
     selected_assets = {member for group in memberships.values() for member in group}
+    if fixed_readers and not FIXED_READERS <= set(memberships[READERS]):
+        raise CatalogError("Keep all four bundled readers in the library")
     needs_readers = any(asset_map[member].get("status", "resolved") == "resolved" and
                         str(asset_map[member].get("format", "")).lower() == "zim"
                         for member in selected_assets)

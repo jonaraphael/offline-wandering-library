@@ -1,0 +1,257 @@
+{
+  "tasks": [
+    [
+      "Stop severe bleeding",
+      ["bleeding", "bleed", "blood", "cut", "cuts", "wound", "wounds", "hemorrhage", "haemorrhage"],
+      [
+        [
+          "hesperian_en_wtnd_2025_10",
+          "#page=6"
+        ],
+        [
+          "cert",
+          "#page=101",
+          "Controlling Bleeding"
+        ],
+        [
+          "medical_bec"
+        ],
+        [
+          "wikimed_en",
+          "",
+          "",
+          [
+            [
+              "Bleeding",
+              "Bleeding"
+            ]
+          ]
+        ]
+      ]
+    ],
+    [
+      "Care for burns",
+      ["burn", "burns", "burned", "scald", "scalds", "scalded"],
+      [
+        [
+          "hesperian_en_wtnd_2025_10"
+        ],
+        [
+          "cert",
+          "#page=107",
+          "Treating Burns"
+        ],
+        [
+          "medical_bec"
+        ],
+        [
+          "wikimed_en",
+          "",
+          "",
+          [
+            [
+              "Burn",
+              "Burn"
+            ]
+          ]
+        ]
+      ]
+    ],
+    [
+      "Make drinking water safer",
+      ["drinking water", "safe water", "water safe", "purify water", "water purification", "disinfect water", "boil water"],
+      [
+        [
+          "water"
+        ],
+        [
+          "appropedia_en",
+          "",
+          "",
+          [
+            [
+              "Water purification",
+              "Water_purification"
+            ]
+          ]
+        ]
+      ]
+    ],
+    [
+      "Fever or diarrhea",
+      ["fever", "fevers", "diarrhea", "diarrhoea", "dehydration", "oral rehydration", "watery stools"],
+      [
+        [
+          "hesperian_en_wtnd_2025_13"
+        ],
+        [
+          "wikimed_en",
+          "",
+          "",
+          [
+            [
+              "Fever",
+              "Fever"
+            ],
+            [
+              "Diarrhea",
+              "Diarrhea"
+            ]
+          ]
+        ],
+        [
+          "sanitation",
+          "",
+          "Diarrhea prevention"
+        ]
+      ]
+    ],
+    [
+      "Labor and birth",
+      ["childbirth", "birth", "giving birth", "labor and delivery", "labour", "deliver a baby", "delivery complications"],
+      [
+        [
+          "hesperian_en_midw_2026_10"
+        ],
+        [
+          "hesperian_en_wwhnd_2024_06"
+        ],
+        [
+          "wikimed_en",
+          "",
+          "",
+          [
+            [
+              "Childbirth",
+              "Childbirth"
+            ]
+          ]
+        ]
+      ]
+    ],
+    [
+      "Find or build shelter",
+      ["shelter", "sheltering", "sleep outside", "stay warm outdoors"],
+      [
+        [
+          "survival_shelter"
+        ],
+        [
+          "cert",
+          "#page=32",
+          "Sheltering"
+        ],
+        [
+          "shelter"
+        ]
+      ]
+    ],
+    [
+      "Preserve food safely",
+      ["canning", "can tomatoes", "can vegetables", "food preservation", "preserve food", "store food in jars", "food in jars"],
+      [
+        [
+          "food"
+        ],
+        [
+          "canning_00"
+        ],
+        [
+          "appropedia_en",
+          "",
+          "",
+          [
+            [
+              "Food preservation",
+              "Food_preservation"
+            ]
+          ]
+        ]
+      ]
+    ],
+    [
+      "Map and compass",
+      ["compass", "orienteering", "map reading", "read a map", "take a bearing"],
+      [
+        [
+          "navigation"
+        ],
+        [
+          "osm_guides",
+          "",
+          "",
+          [
+            [
+              "Orienteering",
+              "Orienteering"
+            ],
+            [
+              "Navigation",
+              "Navigation"
+            ]
+          ]
+        ]
+      ]
+    ]
+  ],
+  "readers": [
+    [
+      "SOFTWARE/WINDOWS/",
+      "Kiwix for Windows",
+      "desktop"
+    ],
+    [
+      "SOFTWARE/MACOS/",
+      "Kiwix for Mac",
+      "desktop"
+    ],
+    [
+      "SOFTWARE/LINUX/",
+      "Kiwix for Linux",
+      "desktop"
+    ],
+    [
+      "SOFTWARE/ANDROID/",
+      "Kiwix for Android",
+      "android"
+    ]
+  ],
+  "devices": {
+    "iphone": {
+      "label": "iPhone",
+      "install": "Install Kiwix from the App Store while you have internet.",
+      "open": "In Kiwix, tap Open, then choose this drive.",
+      "pick": "Pick the encyclopedia. It stays in the list after that."
+    },
+    "android": {
+      "label": "Android phone",
+      "install": "Open Kiwix. If you need to install it, find the Android app in LIBRARY/SOFTWARE.",
+      "open": "Tap Open file and choose this drive.",
+      "pick": "Pick the encyclopedia."
+    },
+    "windows": {
+      "label": "Windows PC",
+      "install": "Open Kiwix. If you need to install it, find the Windows app in LIBRARY/SOFTWARE.",
+      "open": "Choose File, then Open, and find this drive.",
+      "pick": "Pick the encyclopedia."
+    },
+    "mac": {
+      "label": "Mac",
+      "install": "Open Kiwix. If you need to install it, find the Mac app in LIBRARY/SOFTWARE.",
+      "open": "Choose File, then Open, and find this drive.",
+      "pick": "Pick the encyclopedia."
+    },
+    "linux": {
+      "label": "Linux computer",
+      "install": "Open Kiwix. If you need to install it, find the Linux app in LIBRARY/SOFTWARE.",
+      "open": "Choose File, then Open, and find this drive.",
+      "pick": "Pick the encyclopedia."
+    }
+  },
+  "static_row": "<li><b>{{title}}</b>{{detail}}<span class=\"where\">{{path}}</span></li>",
+  "static_section": "<section><h2>{{title}}</h2>{{body}}</section>",
+  "static_device": "<h3>{{name}}</h3><p>{{install}}</p><ol><li>{{open}}</li><li>{{pick}}</li></ol>",
+  "location_link": "<a href=\"{{href}}\">{{text}}</a>",
+  "inventory_row": "<li>{{link}}<span class=\"where\">{{path}}</span>{{detail}}</li>",
+  "report_row": "<li><b>{{title}}</b>{{detail}}</li>"
+}

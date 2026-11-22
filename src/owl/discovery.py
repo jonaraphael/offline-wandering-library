@@ -1,4 +1,4 @@
-"""Compile small search/atlas metadata without reading source document bodies."""
+"""Compile catalog metadata and compose pinned search data without reading source bodies."""
 from __future__ import annotations
 
 import argparse
@@ -129,8 +129,9 @@ def compile_records(assets: list[dict], navigation: dict | None = None) -> tuple
 
 
 def plan_discovery(assets, navigation=None, *, budget=DEFAULT_BUDGET):
-    """Return complete small outputs for the caller's locked, owned publication."""
+    """Plan catalog metadata and verified file references for locked publication."""
     from .search_ui import render_search_page
+    from .search_shards import compose_shards, output_info, output_size
     if type(budget) is not int or budget <= 0:
         raise SafetyError('Discovery budget must be a positive integer')
     records, coverage = compile_records(assets, navigation)
@@ -143,15 +144,24 @@ def plan_discovery(assets, navigation=None, *, budget=DEFAULT_BUDGET):
                'SEARCH/manifest.js': b'globalThis.OWLDiscoveryManifest(' + encode(manifest).rstrip() + b');\n',
                'SEARCH/search.js': Path(__file__).with_name('templates').joinpath('search.js').read_bytes(),
                'SEARCH.html': render_search_page().encode()}
+    if sum(map(len, outputs.values())) > budget:
+        raise SafetyError(f'Discovery output exceeds its {budget:,}-byte allowance')
+    shards, indexed = compose_shards(discovery_assets(assets), budget - sum(map(len, outputs.values())))
+    if indexed:
+        manifest['shards'] = True
+        outputs['SEARCH/manifest.js'] = b'globalThis.OWLDiscoveryManifest(' + encode(manifest).rstrip() + b');\n'
+        outputs.update(shards)
     report = {'format': FORMAT, 'status': 'ready', 'records': len(records), 'assets': coverage,
               'manifest': manifest, 'source_body_bytes_read': 0,
               'generated_files': sorted([*outputs, 'SEARCH/coverage.json']),
-              'file_integrity': {name: {'size_bytes': len(value), 'sha256': hashlib.sha256(value).hexdigest()}
-                                 for name, value in outputs.items()}}
+              'file_integrity': {name: output_info(value) for name, value in outputs.items()}}
+    if indexed:
+        report['shards'] = indexed
     outputs['SEARCH/coverage.json'] = encode(report)
-    if sum(map(len, outputs.values())) > budget:
+    if sum(map(output_size, outputs.values())) > budget:
         raise SafetyError(f'Discovery output exceeds its {budget:,}-byte allowance; shorten metadata or increase discovery_budget_bytes')
-    return {name: value.decode('utf-8') for name, value in outputs.items()}, report
+    return {name: value.decode('utf-8') if isinstance(value, bytes) else value
+            for name, value in outputs.items()}, report
 
 
 @dataclass(frozen=True)

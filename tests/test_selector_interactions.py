@@ -1,4 +1,4 @@
-"""Selection UI integration: real handlers, offline DOM double, no downloads."""
+"""Exercise the generated standalone Manage page and its selection handlers."""
 import shutil
 import subprocess
 import unittest
@@ -6,83 +6,82 @@ from pathlib import Path
 from owl.selector import make_model, render_selector
 
 ROOT = Path(__file__).resolve().parents[1]
-
-@unittest.skipUnless(shutil.which('node'), 'Node required for selector UI checks')
-class SelectorInteractionTests(unittest.TestCase):
-    def test_drilldown_pseudoindex_search_and_filtered_bulk_selection(self):
-        model = make_model(ROOT/'catalog/library.yaml', ROOT/'profiles', ROOT/'catalog/resources.yaml')
-        code = r'''
-const fs=require('fs'),html=fs.readFileSync(0,'utf8'),nodes=new Map();
-function node(){return {children:[],dataset:{},style:{},attributes:{},handlers:{},value:'',hidden:false,disabled:false,
- classList:{toggle(){}},append(...items){this.children.push(...items);},replaceChildren(...items){this.children=items;},
- setAttribute(k,v){this.attributes[k]=v;},addEventListener(k,v){this.handlers[k]=v;}};}
+DOM = r"""
+const fs=require('fs'), html=fs.readFileSync(0,'utf8'), nodes=new Map();
+const assert=(value,message)=>{if(!value)throw Error(message);};
+function node() {
+  return {children:[],dataset:{},style:{setProperty(){}},attributes:{},handlers:{},value:'',hidden:false,disabled:false,
+    classList:{toggle(){}},append(...children){this.children.push(...children);},replaceChildren(...children){this.children=children;},
+    setAttribute(k,v){this.attributes[k]=v;},addEventListener(k,v){this.handlers[k]=v;},contains(){return false;},
+    querySelectorAll(){return [];},focus(){}};
+}
 for(const match of html.matchAll(/<[^>]+\bid="([^"]+)"[^>]*>/g)) {
- const item=node();item.hidden=/\bhidden\b/.test(match[0]);item.value=(match[0].match(/\bvalue="([^"]*)"/)||[])[1]||'';nodes.set(match[1],item);
+  const item=node(); item.hidden=/\bhidden\b/.test(match[0]); item.value=(match[0].match(/\bvalue="([^"]*)"/)||[])[1]||''; nodes.set(match[1],item);
 }
-const get=id=>nodes.get(id),assert=(v,msg)=>{if(!v)throw Error(msg);};
+const get=id=>nodes.get(id), click=id=>get(id).handlers.click({preventDefault(){}});
 get('owl-model').textContent=html.match(/<script id="owl-model"[^>]*>([\s\S]*?)<\/script>/)[1];
-get('shell').value='posix';
-globalThis.document={getElementById:get,createElement:node,createElementNS:node,createTextNode:text=>({textContent:text})};
-for(const script of html.matchAll(/<script>([\s\S]*?)<\/script>/g)) {
- eval(script[1]);
- if(globalThis.OWLPlanner&&!globalThis.savedResolve){globalThis.savedResolve=OWLPlanner.resolve;OWLPlanner.resolve=(...args)=>{globalThis.lastReport=savedResolve(...args);return lastReport;};}
-}
-assert(get('fatal').hidden,get('fatal').textContent);
-const cards=()=>get('resources').children,shown=()=>cards().filter(c=>!c.hidden);
-const checked=c=>c.children[0].children[0].checked;
-const selections=()=>Object.fromEntries(cards().map(c=>[c.dataset.resourceId,checked(c)]));
-const click=id=>get(id).handlers.click(), search=value=>{get('resource-filter').value=value;get('resource-filter').handlers.input();};
-const svgItems=()=>get('topic-map').children[0].children;
-const clearFilters=()=>{search('');get('priority-filter').value='';get('priority-filter').handlers.change();get('selected-only').checked=false;get('selected-only').handlers.change();if(!get('topic-breadcrumbs').hidden)get('topic-breadcrumbs').children[0].handlers.click();};
-const drill=(attr,value,key)=>{const n=svgItems().find(n=>n.attributes[attr]===value);assert(n,'Missing '+value);key?n.handlers.keydown({key,preventDefault(){}}):n.handlers.click();};
-// Establish a partial-selection scenario independently of preset membership.
-search('seed-processing-quality');click('exclude-shown');
-const before=new Set(lastReport.selectedAssetIds);
+if(get('shell'))get('shell').value='posix';
+const body=node();
+globalThis.document={body,activeElement:body,getElementById:get,createElement:node,querySelector:node};
+for(const script of html.matchAll(/<script>([\s\S]*?)<\/script>/g))eval(script[1]);
+"""
+NODE = shutil.which("node")
+
+
+def run_script(html, script):
+    return subprocess.run([NODE, "-e", DOM + script], input=html, text=True, capture_output=True, timeout=60)
+
+
+@unittest.skipUnless(NODE, "Node required for selector UI checks")
+class SelectorInteractionTests(unittest.TestCase):
+    def test_opening_source_template_links_to_generated_selector(self):
+        result = run_script((ROOT / "src/owl/templates/selector.html").read_text(), r"""
+const notice=get('fatal');
+assert(!notice.hidden&&notice.children[1].href==='../../../SELECT.html','Generated planner link missing');
+assert(!globalThis.OWLPlanner,'The unbuilt engine ran');
+""")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_manage_search_files_editions_reset_and_cli(self):
+        model = make_model(ROOT / "catalog/library.yaml", ROOT / "profiles", ROOT / "catalog/resources.yaml")
+        result = run_script(render_selector(model), r"""
+const categories=get('categories').children;
+const cards=categories.flatMap(category=>category.children.slice(1));
+const card=id=>cards.find(row=>row.dataset.resourceId===id);
+const search=value=>get('collection-search').handlers.input({target:{value}});
+assert(!get('manage').hidden&&get('manage-done').hidden,'Standalone Manage did not open');
+assert(categories.length===8,'Expected eight categories');
+assert(get('preview-sizes').children.find(chip=>chip.dataset.size===64).attributes['aria-pressed']==='true','Default size is 64 GB');
+assert(get('plan-command').value.includes('--capacity-bytes 64000000000'),'Command does not use preview size');
+assert(get('reset-recommended').hidden,'Reset visible on fresh preview');
+search('seed-processing-quality');
+click('exclude-filtered');
 search('seed drying');
-assert(shown().length===1&&shown()[0].dataset.resourceId==='seed-processing-quality','Pseudoindex alias failed');
-click('include-shown');
-let after=new Set(lastReport.selectedAssetIds);
-assert(after.has('fao_seed_processing')&&!after.has('fao_seed_quality'),'Search included an unmatched file');
-for(const id of before)assert(after.has(id),'Search removed an unrelated file');
-assert(get('build-command').value.includes('--resource-assets seed-processing-quality=fao_seed_processing'),'Exact file selection absent from command');
-clearFilters();drill('data-map-theme','school','Enter');
-const geometry=()=>svgItems().filter(n=>n.attributes['data-map-subtopic']).map(n=>[n.attributes['data-map-subtopic'],n.children[0].attributes]);
-const positions=JSON.stringify(geometry());
-drill('data-map-subtopic','topic:mathematics',' ');
-assert(JSON.stringify(geometry())===positions,'Subtopic changed geometry');
-assert(svgItems().find(n=>n.attributes['data-map-subtopic']==='topic:mathematics').attributes['aria-pressed']==='true','Subtopic not highlighted');
-const storageSegments=()=>get('topic-storage-bars').children.flatMap(row=>row.children[1].children[0].children);
-assert(get('topic-storage-bars').children.length===1,'Leaf storage chart leaked another subtopic');
-const segment=storageSegments()[0];
-assert(segment&&segment.handlers.click,'Leaf segments are not interactive');
-segment.handlers.click();
-const selectedFile=JSON.parse(get('owl-model').textContent).assets.find(a=>a.id===segment.dataset.storageAsset);
-assert(get('map-info').children[0].textContent===selectedFile.title,'Segment did not inspect its file');
-assert(get('topic-storage-files').children.length===storageSegments().length,'Tiny files inaccessible through key');
-search('biology');assert(shown().length===0&&get('include-shown').disabled,'Math topic leaked biology search');
-assert(get('topic-storage-bars').children.length===0&&!get('topic-storage-empty').hidden,'Storage ignored empty intersection');
-assert(get('visible-count').textContent.startsWith('0 assets'),'Map and list filters disagree');
-search('');get('priority-filter').value='USEFUL';get('priority-filter').handlers.change();
-get('selected-only').checked=true;get('selected-only').handlers.change();
-const previous=new Set(lastReport.selectedAssetIds);
-const targets=new Set(shown().flatMap(c=>c.children[1].children.find(n=>n.dataset.role==='matching-assets').children.map(n=>n.dataset.assetId)));
-assert(targets.size>0,'No filtered math targets');
-click('exclude-shown');after=new Set(lastReport.selectedAssetIds);
-for(const id of previous)assert(after.has(id)===!targets.has(id),'Filtered exclusion changed unrelated file '+id);
-assert(shown().length===0&&get('include-shown').disabled,'Selected-only snapshot failed');
-assert(!get('topic-storage-empty').hidden,'Exclusion left selected data in chart');
-get('selected-only').checked=false;get('selected-only').handlers.change();
-click('include-shown');after=new Set(lastReport.selectedAssetIds);
-for(const id of previous)assert(after.has(id),'Reinclude lost original file '+id);
-drill('data-map-subtopic','topic:mathematics');
-assert(JSON.stringify(geometry())===positions,'Clearing subtopic changed geometry');
-assert(svgItems().find(n=>n.attributes['data-map-subtopic']==='topic:mathematics').attributes['aria-pressed']==='false','Subtopic toggle did not clear');
-clearFilters();search('archive-readers');click('exclude-shown');
-assert(shown()[0].children[0].children[0].checked&&get('bulk-feedback').textContent.includes('required'),'Required reader removed');
-clearFilters();click('exclude-shown');assert(lastReport.selectedAssetIds.length===0,'Unfiltered exclude failed');
-click('include-shown');assert(cards().every(checked),'Unfiltered include failed');
-search('does-not-match-anything-xyz');assert(shown().length===0&&get('include-shown').disabled,'Empty search failed');
-assert(get('fatal').hidden,get('fatal').textContent);
-'''
-        result = subprocess.run([shutil.which('node'), '-e', code], input=render_selector(model), encoding='utf-8', capture_output=True, timeout=30)
+const seeds=card('seed-processing-quality');
+assert(!seeds.hidden&&cards.filter(row=>!row.hidden).length===1,'File alias did not find the collection');
+assert(categories.find(category=>category.children.includes(seeds)).open,'Search did not open the category');
+click('exclude-filtered');
+click('include-filtered');
+assert(get('plan-command').value.includes('seed-processing-quality=fao_seed_processing'),'Bulk choice did not use the matched file');
+
+search('');
+const details=seeds.children[1];
+details.children.find(node=>node.textContent==='Choose files').handlers.click({preventDefault(){}});
+const fileList=details.children.find(node=>node.className==='file-list');
+assert(!fileList.hidden&&fileList.children.length===2,'Choose files did not open both files');
+const quality=fileList.children.flatMap(li=>li.children.flatMap(label=>label.children)).find(input=>input.dataset.file==='fao_seed_quality');
+quality.checked=true;
+quality.handlers.change();
+assert(get('plan-command').value.includes('fao_seed_quality')||!get('plan-command').value.includes('--resource-assets seed-processing-quality='),'File checkbox did not include the selected file');
+const wikipedia=card('wikipedia-en');
+const editions=wikipedia.children[1].children.find(node=>node.className==='editions');
+assert(editions.children.some(option=>option.textContent.endsWith('(recommended)')),'Recommended edition missing');
+editions.children.find(option=>option.dataset.edition==='nopic').handlers.click();
+assert(get('plan-command').value.includes('--edition wikipedia-en=nopic'),'Edition absent from command');
+assert(!get('reset-recommended').hidden,'Reset unavailable after changing editions');
+click('reset-recommended');
+assert(get('reset-recommended').hidden,'Default library was not restored');
+search('nothing-matches-here-xyz');
+assert(get('include-filtered').disabled&&!get('no-collections').hidden,'No results feedback is missing');
+""")
         self.assertEqual(result.returncode, 0, result.stderr)

@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: folgerpedia
+assignments:
+- topic_id: humanities
+  purpose: reference

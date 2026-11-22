@@ -1,165 +1,162 @@
-# Lightweight offline search
+# Offline search
 
-Search titles, approved chapters, topics, aliases, and catalog descriptions from
-`START_HERE.html` or `LIBRARY/SEARCH.html`. Results link to whole documents, reviewed
-sections, or static atlas pages. Body text is not searched: no match does not mean
-the library lacks the information. Search inside a relevant book or archive when
-more detail is needed.
+Open **Search** from `START_HERE.html`. Search shows one card per matching
+document, with the best passage and other matching locations when available.
+When the query matches an urgent task, its guide appears first. Documents
+that open directly appear before matches in encyclopedias. Use **Options** to
+search within a category. PDF matches open at the physical page. **How to
+open** on an encyclopedia match shows the article to find in Kiwix and the
+file's location on the drive. Search labels low-confidence suggestions.
 
-A normal build compiles existing metadata without opening source bodies. It does
-not extract PDF text, enumerate archive articles, run OCR, or build postings,
-embeddings, databases, or index caches. Downloading and full integrity verification
-still read source bytes. No AI runs during builds or queries.
+The static start page shows the urgent tasks, categories, file locations and
+device instructions. When a file preview withholds local links or scripts,
+use the printed paths in your file manager. [Device tests](device-matrix.md)
 
-## What is included
+## What the search covers
 
-Every selected readable asset receives a catalog result. Approved section maps
-add destinations only for the exact source hash in the inventory. Topics appear
-only if they lead to selected sources. Supporting packages and excluded assets
-are omitted. Source titles, rights, attribution, and reader requirements travel
-with the results. Descriptions are catalog/editorial text, not excerpts from
-unread documents.
+The catalog index includes every completed document, its reviewed topics and
+any reviewed chapter locations. Shards supply text fields, weighted stemmed
+postings, vectors and locators for the exact source edition. New PDF shards
+index passages on individual physical pages and carry forward outline headings.
+New HTML shards segment visible text by headings and use the source’s existing
+anchors where present. Sources with image-only pages still supply page locators.
+A restricted source’s text contributes word postings and vectors. Result
+titles use the book or source title for unnamed PDF pages, with the physical
+page shown separately. Restricted text excerpts are suppressed. New archive
+shards index article titles and paths. For filename-like HTML titles, the
+extractor checks the HTML title and first usable heading. Existing CD3WD
+shards carry title overrides recovered from the pinned archive. When the
+source has no readable heading, the result uses the collection title and
+keeps the archive path visible. Selected archives also contribute lead paragraphs, body passages and
+accepted answers. Archive coverage varies by source. [ZIM coverage](zim-search-coverage.md)
 
-The existing shelf filters apply before ranking. Exact titles and aliases rank
-first, then results containing all query words, then partial matches. Title and
-alias words rank above description words. Matching uses Unicode normalization and
-whole words, with up to 32 distinct query words and 50 results. There is no
-stemming, semantic model, phrase operator, or fuzzy matching.
+Editorial concept groups add common terms, spelling variants and question
+wording at indexing time. At search time, the ranker removes common question
+wrappers and handles audience phrases separately. It uses offline phrase groups
+to connect everyday wording with clinical and practical vocabulary. A relevant
+passage or article lead earns more than a title-only match. For health, water
+and survival intents, matching CRITICAL sources receive additional weight.
+Discussion results receive less weight unless a marked accepted-answer excerpt
+or its postings match. Older discussion shards lack per-record answer markers
+and receive the title penalty. The ranker also uses similarity to quantized
+vectors where present. The MIT-licensed Potion-retrieval-32M model uses its
+first 256 components, with signed 8-bit token weights and the pinned WordPiece
+vocabulary. Python and JavaScript use the same text normalization and token
+lookup. Each passage or lead code stores 256 sign bits in 32 bytes before
+script packaging. Its input combines the title, any displayable excerpt and
+terms from the passage or lead postings. This lets the catalog refresh derived
+vectors from preserved search data while keeping restricted excerpts redacted.
+Title-directory entries use word postings reconstructed from their titles.
+[Model revision](https://huggingface.co/minishlab/potion-retrieval-32M/tree/6fc8051fab2a1e0ee76689cf08c853792ac285e7)
 
-PDF section links use physical `#page=N` locations where supported. Other reviewed
-locations show a readable locator. A section result also links to the whole
-source. EPUB and ZIM entries require a compatible reader; their internal paths
-are guidance, not universal reader deep links.
+The same generated composition plan supplies source order, physical paths,
+pins and ranker metadata to both builders. The reader loads its own search
+manifest and shares content-addressed shards and model files across builds.
+The search page loads the weights on its first indexed query.
+It uses classic local scripts, DecompressionStream for compressed shards and a
+network-denying CSP. Word postings retrieve literal matches and Bloom filters
+route them to chunks. Hamming distance admits additional passage and lead
+candidates. The ranker compares each compact code with the full query vector
+and combines similarity, word matches and source priority. Emergency queries
+prefer matching critical sources. Childhood symptoms and childbirth receive
+different ranking treatment. Among similar matches in directly readable files,
+essential documents and first-aid chapters move up. Precomputed
+token-pair filters and vector centroids order the chunks likely to yield
+relevant hits. The compact term dictionary adds weighted chunk candidates,
+using stronger field matches first. A query loads only its term buckets, then
+opens candidate chunks. An approximately 40 MB read allowance covers the term
+buckets and chunks for the first pass. The page shows those preliminary hits,
+then automatically scores the remaining eligible chunks and refreshes the
+results. Larger drives can take longer to finish the second pass. Submitting
+a different query cancels the previous one between chunk reads.
 
-## Files and limits
+When the build fits the 46.6 MB MiniLM bundle in its search allocation,
+desktop search preserves the top three indexed hits and uses MiniLM to
+reorder subsequent results from the first 50 indexed hits. The all-MiniLM-L6-v2 model runs through single-threaded ONNX Runtime
+Web WASM using local classic scripts. Potion and term postings supply the
+shortlist. The model reads only excerpts that the index already permits
+displaying. Its results follow the initial lexical and Potion matches. The
+base index remains available if MiniLM cannot load or the search budget
+prevents its installation. [MiniLM revision](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/tree/1110a243fdf4706b3f48f1d95db1a4f5529b4d41)
+[ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/env-flags-and-session-options.html)
 
-```text
-LIBRARY/SEARCH/
-├── search.js                 # shared, small linear-scan runtime
-├── manifest.js               # identifies this generation
-├── coverage.json             # catalog/section coverage and file checksums
-└── data/<sha256>.js           # one flat metadata list
-```
-
-Both entry pages load neighboring classic scripts under `file://`, without
-`fetch`, a server, account, CDN, or network connection. Text is rendered with
-`textContent`, and links must be safe relative paths. The browser checks generation
-and record counts; the build and independent verifier check file hashes.
-
-Profiles allow 16 MiB of generated search output (`discovery_budget_bytes`),
-separate from navigation metadata, content, acquisition workspace, and free-space
-reserve. Compilation stops before publication if its complete output exceeds that
-allowance. There is no indexing scratch or retained index-cache allowance.
-
-`coverage.json` lists each selected source as `catalog` or `sections` and reports
-record counts and zero source-body bytes read by the compiler. These labels describe
-discovery metadata, not how much of a book's knowledge has been inspected.
-
-Keep `START_HERE.html` next to the entire `LIBRARY` folder. Some phone previews
-block local scripts or neighboring links. The inline file catalog, printed paths,
-and static atlas remain the fallback; test the intended browser and device.
-
-## AI judgment, Python execution
-
-Use the same small CLI for preparation, annotation checking, and publication:
-
-```sh
-python scripts/discovery.py prepare \
-    --inventory /path/to/DRIVE/LIBRARY/INVENTORY.json \
-    --asset electrical_dc --output /path/to/draft.json
-```
-
-By default this collects metadata only. Explicit `--outline` uses the existing
-PDF-bookmark importer against the exact source. This editorial operation can read
-and hash the PDF; it is separate from ordinary compilation. It does not read every
-page looking for text. The existing `scripts/import_sections.py` additionally
-supports HTML headings and produces reviewable section-map drafts.
-
-The agent reads the prepared evidence and writes a JSON object (or list):
-
-```json
-{
-  "asset_id": "electrical_dc",
-  "aliases": ["direct-current circuits"],
-  "topic_ids": ["dc-circuits"],
-  "basis": "Publisher title and contents in the prepared source summary."
-}
-```
-
-The IDs above are illustrative; use actual IDs from the inventory and topics.
-Python rejects unknown fields, wrong types, invalid references, and oversized
-strings. The agent launches validation instead of manually rewriting assignments:
+## Precompute and verify
 
 ```sh
-python scripts/discovery.py annotate \
-    --inventory /path/to/DRIVE/LIBRARY/INVENTORY.json \
-    --navigation-dir catalog/navigation --annotations /path/to/annotations.json \
-    --output /path/to/assignments-draft.yaml
+python scripts/build_search_shards.py --model-input "$MODEL_INPUT" \
+  --cache "$VERIFIED_SOURCE_CACHE" --directories "$ZIM_RECEIPTS"
+node scripts/build_search_routes.cjs catalog/search catalog/search/routes.json
+node --max-old-space-size=7000 scripts/build_impact_routes.cjs catalog/search catalog/search/impact
+python scripts/search_benchmark.py --check
+python scripts/search_benchmark.py --bounded --tasks
+python scripts/search_benchmark.py --tasks > search-task-results.json
 ```
 
-Each annotation run targets one asset. Review the draft diff and save accepted
-labels in `catalog/navigation/assignments/<asset-id>.yaml`. The command never
-silently replaces approved metadata. An evidence note is not proof that a
-semantic claim is correct. Section locations still use reviewed, source-pinned
-maps; the annotation input cannot invent paths or page numbers.
-Supply `--catalog` for custom catalogs. Python validates repository references
-against the full catalog even when the drive inventory contains only a subset.
+Store source files in the cache under their catalog SHA-256. The indexing
+command checks file length and hashes the complete source before inspection.
+It reuses the PDF outline importer and extracts PDF page text with PyMuPDF
+when available, with pypdf as its fallback. Indexing leads from local ZIMs
+requires the optional libzim package and a separate `--directories` path for
+extraction receipts. `--replace` updates a source’s existing shard. For an
+archive that needs a lead limit, `--lead-limit N` selects HTML entries with the
+most direct redirect aliases. Ties use archive directory order. The model input
+directory takes
+`potion-model.safetensors`, `potion-tokenizer.json` and `potion-license.txt`.
+Their digests are pinned in the conversion and build scripts. The
+`--packed-model catalog/search` option reuses the repository’s pinned model and
+license.
 
-## Assemble completed downloads
+Run one remote edition with `--range-zim --asset ASSET_ID` and a
+`--directories` path to create a reusable range receipt. The range path checks
+HTTP 206, exact Content-Range, unchanged ETag and catalog byte count. Each range
+has its own SHA-256 receipt. A range receipt identifies the observed edition
+through those checks. Whole-file SHA-256 verification applies when the full
+source is available and when the asset is built onto the drive.
 
-Reusable metadata lives in Git: shared `topics.yaml`, per-asset
-`assignments/<asset-id>.yaml`, and optional `sections/<asset-id>.yaml` under
-`catalog/navigation/`. An asset needs no assignment file to receive its baseline
-catalog search result. Python selects the relevant records at build time; there
-are no generated per-profile indexes to keep in Git.
+The manifest keys each logical shard by source SHA-256 and pins its schema,
+ordered chunks and aggregate digest. New chunks live under their own content
+SHA-256. The generator reuses an identical chunk and retires unreferenced
+paths after updating the manifest. Existing numbered chunks stay readable.
+Routing descriptions are keyed by chunk digest and reused on regeneration.
+English Wikipedia editions can refer to
+the same stored title chunks. Their logical shards refer to only the chunks
+that match each edition’s directory. A lead from the pinned mini edition can
+serve another edition when its title and internal path match exactly. Each builder selects shards after source
+verification. Python reads and copies one chunk at a time. The browser fetches
+and verifies only selected shard files. The Pages workflow serves its small
+manifest from Pages and uses the workflow’s exact commit on Raw GitHub for the
+payload. A local Pages build can copy search assets into its output for testing.
 
-When curl or another downloader has saved files at their catalog destinations
-under `DRIVE/LIBRARY/`, run:
+The search catalog is limited to 900 MB with files no larger than 50 MB.
+The default 16 GB plan reserves 200 MB for search and the WikiMed phone volumes. Larger plans can allocate up
+to 900 MB by assigning a portion of their on-drive reserve to search. The
+planner leaves at least 125 MB in that reserve. The
+benchmark checks chunk digests and runs the original 100 probes plus body-only
+PDF queries with expected physical page locations. It reports the two query sets
+at 16 GB, 128 GB and 1 TB. The experimental `--quick` measurement evaluates
+just the first 28 MB of candidate chunks and can return fewer relevant hits.
+The `--bounded` run measures the initial shortlist without completion or MiniLM.
+The optional task export records the first three
+results for each natural-language task in `tests/search/task-queries.json`,
+with the title, source, locator and any displayable excerpt for grading.
 
-```sh
-python scripts/discovery.py assemble \
-    --output /path/to/DRIVE --profile flash-16gb
-```
+## Precomputed term index
 
-This command needs no existing inventory and performs no downloads. It enforces
-the same content policy as a normal build, then checks selected files against
-catalog sizes and SHA-256 pins and publishes inventory,
-search, and atlas for the verified subset. Missing files, partial downloads, and
-size/checksum mismatches are excluded and recorded in `INVENTORY.json`. Empty
-topics disappear. A `.part` file does not count as the final catalog destination.
-Rerun the same command after another batch finishes to add those sources.
+Each term appears in one dictionary bucket shared by all selected resources.
+Its postings name the physical chunks where the term is likely to be useful.
+Score bands run from high to low. Within a band, ascending chunk identifiers
+use delta integers with variable-length encoding. The compiler bounds each
+band and the runtime limits term-bucket and candidate-chunk reads. Title
+postings, archive sections and detailed scores are recovered from the
+verified source chunks. The ranker also reserves part of the read allocation
+for shorter references and candidates from token-pair and vector routing.
+At smaller or unusual capacities the builders include the index when its
+complete payload fits after selected source shards.
 
-The inventory records `content_complete: false` while selected content is missing.
-An interrupted full build remains incomplete even though its atlas is usable.
-Files outside the profile and unverified files remain untouched; the full verifier
-may report them as unknown. If no selected files verify, assembly stops without
-publishing an empty library.
-
-Before marking publication complete, assembly checks the inventory, locked
-selection, learning coverage, search metadata, navigation links, and capacity
-together. Its postflight result is saved in `LIBRARY/.owl/state.json`.
-
-This initial admission reads source bytes to check integrity. Metadata compilation
-does not parse them. Normal drive builds already use their verified inventory and
-the same per-asset inputs automatically.
-
-## Refresh metadata
-
-Refresh a completed drive after accepting metadata:
-
-```sh
-python scripts/discovery.py build \
-    --inventory /path/to/DRIVE/LIBRARY/INVENTORY.json \
-    --navigation-dir catalog/navigation --output /path/to/DRIVE
-```
-
-Supply `--catalog` for a custom catalog. This refresh republishes search and atlas
-together under existing ownership and locking rules. It checks the recorded
-inventory, source pins, presence, and sizes, without rehashing or parsing sources.
-Build information explicitly records that source verification was not repeated.
-Same-size source corruption requires `python scripts/verify.py /path/to/DRIVE` to
-detect. Initial builds and the standalone verifier retain their full audit.
-
-Existing drives retain their bundled runtime until refreshed. Finish active saved
-jobs with their saved implementation. Old owned generations and unrelated files
-are preserved; the new build path never uses the retired full-text engine.
+Append new edition-pinned body data with
+`python scripts/build_archive_passages.py --cache CACHE --directories RECEIPTS ASSET_ID`.
+This retains original title and lead rows and writes new content-addressed
+passage chunks. The build chooses article candidates by redirect popularity
+and deterministic sampling. Regenerate routing after appending chunks.
+For Stack Exchange, marked accepted answers supply the body text. Whole-file
+verification and publisher-piece samples have distinct coverage receipts.

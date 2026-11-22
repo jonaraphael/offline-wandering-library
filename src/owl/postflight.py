@@ -175,6 +175,28 @@ def _audit(drive_root: Path, *, info, run_smoke) -> dict:
              'discovery selected sources differ')
     generated = set(coverage['generated_files'])
     expected = {'SEARCH/manifest.js', 'SEARCH/search.js', 'SEARCH/coverage.json', 'SEARCH.html', path}
+    if transport.get('shards'):
+        from .search_shards import LICENSE_FILE, MODEL_FILE, RUNTIME_FILE, SELECTION_FILE, part_path, MODEL_PART, payload
+        selection = payload(_read(safe_path(library, SELECTION_FILE), 70_000_000), 'OWLShardSelection')
+        _require(selection['version'] == 1, 'unsupported source shard selection schema')
+        selected_pins = {asset['id']: asset['sha256'] for asset in readable}
+        descriptors = selection['sources']
+        _require(coverage.get('shards') == [{'id': row['id'], 'source_sha256': row['sha256'], 'records': row['records']}
+                                            for row in descriptors], 'source shard coverage differs')
+        expected |= {RUNTIME_FILE, SELECTION_FILE, 'SEARCH/' + MODEL_FILE, 'SEARCH/' + LICENSE_FILE}
+        model_parts = selection.get('model_parts', 0)
+        _require(type(model_parts) is int and 0 <= model_parts <= 32, 'invalid search model part count')
+        expected.update('SEARCH/' + MODEL_PART.format(index) for index in range(model_parts))
+        for row in descriptors:
+            _require(selected_pins.get(row['id']) == row['sha256'], 'source shard pin differs')
+            for index, part in enumerate(row['parts']):
+                path = part.get('path')
+                if path:
+                    _require(re.fullmatch(r'chunks/[0-9a-f]{64}\.js', path) is not None
+                             and manifest.get('SEARCH/' + path) == path[7:-3], 'invalid search chunk pin')
+                else:
+                    path = part_path(part.get('pool', row['sha256']), part.get('number', index))
+                expected.add('SEARCH/' + path)
     _require(generated == expected and generated <= manifest.keys(), 'discovery output selection differs')
     for name, integrity in coverage["file_integrity"].items():
         _require(name in generated and sizes[name] == integrity["size_bytes"] and manifest[name] == integrity["sha256"],

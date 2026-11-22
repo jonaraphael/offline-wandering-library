@@ -23,6 +23,37 @@ def require_utility_policy(assets, resources, profiles, resources_path):
             if set(domains) - known_domains:
                 raise CatalogError(f"{kind} {row['id']}: unknown topic domains")
     by_id = {a['id']: a for a in assets}
+    ranking = set()
+    planning_domains = set(policy['required_default_domains']) | set(policy['additional_planning_domains'])
+    for a in assets:
+        data = a.get('selection', {})
+        domain, level, rank = (data.get(key) for key in ('domain', 'level', 'rank'))
+        if (domain not in planning_domains or type(level) is not int or not 0 <= level <= 4
+                or type(rank) is not int or rank < 1 or (domain, level, rank) in ranking
+                or (a['utility_tier'] == 'CRITICAL' and level != 0)):
+            raise CatalogError(f"{a['id']}: invalid or duplicate domain, level and rank")
+        ranking.add((domain, level, rank))
+        weights = data.get('domain_weights')
+        if weights is not None and (not isinstance(weights, dict) or not weights or
+                set(weights) - (planning_domains & set(a['knowledge_domains'])) or
+                any(type(weight) is not int or weight <= 0 for weight in weights.values()) or
+                not isinstance(data.get('weight_basis'), str) or not data['weight_basis'].strip()):
+            raise CatalogError(f"{a['id']}: domain weights require declared planning domains and a basis")
+        if a.get('digest_algorithm') != 'sha256':
+            raise CatalogError(f"{a['id']}: digest algorithm must be SHA-256")
+        browser = a.get('browser_fetch', {})
+        if browser.get('scope') not in {'url', 'unmeasured'} or any(
+            browser.get(field) not in (True, False, None) for field in ('cors', 'range')
+        ):
+            raise CatalogError(f"{a['id']}: invalid source browser metadata")
+        mirrors = a.get('mirror_fetch', {})
+        if not isinstance(mirrors, dict) or mirrors.keys() - set(a.get('mirrors', [])) or any(
+            not isinstance(evidence, dict) or evidence.get('sha256_verified') is not True or
+            any(evidence.get(field) is not None and type(evidence[field]) is not bool for field in ('cors', 'range')) or
+            any(not isinstance(evidence.get(field), str) or not evidence[field] for field in ('origin', 'checked_on'))
+            for evidence in mirrors.values()
+        ):
+            raise CatalogError(f"{a['id']}: invalid verified mirror browser metadata")
     mapped = set()
     for resource in resources.values():
         ids = set(resource['asset_ids']).union(*(e['asset_ids'] for e in resource.get('editions', {}).values()))
@@ -42,8 +73,11 @@ def require_utility_policy(assets, resources, profiles, resources_path):
         selected, unresolved, selection = resolve_content(assets, profile, resources_path=resources_path)
         if unresolved or (selection and selection['incomplete_resources']):
             raise CatalogError(f"{profile['id']}: default contains unavailable content")
-        if any(a['utility_tier'] not in policy['default_tiers'] for a in selected):
-            raise CatalogError(f"{profile['id']}: NONESSENTIAL content must be opt-in")
+        chosen = {a['id'] for a in selected}
+        if any(a['utility_tier'] == 'CRITICAL' and a['id'] not in chosen for a in assets):
+            raise CatalogError(f"{profile['id']}: a CRITICAL file is absent")
+        if selection and any(resources[rid].get('opt_in') for rid in selection['selected_ids']):
+            raise CatalogError(f"{profile['id']}: default contains an opt-in pack")
         domains = {d for a in selected for d in a['knowledge_domains']}
         missing = set(policy['required_default_domains']) - domains
         if missing:

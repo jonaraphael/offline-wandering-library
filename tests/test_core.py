@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import re
 from pathlib import Path
 import tempfile
 import unittest
@@ -363,7 +364,9 @@ class BuildTests(Fixture):
         self.assertEqual(content.stat().st_mtime_ns, mtime)
         self.assertEqual(sha256_file(drive / "LIBRARY/SEARCH/manifest.js"), initial)
         result = verify_drive(drive, emit=lambda _: None)
-        self.assertGreater(result["OK"], 30)
+        checksums = (drive / "LIBRARY/SHA256SUMS.txt").read_text().splitlines()
+        self.assertEqual(result["OK"], len(checksums))
+        self.assertTrue(any(re.search(r"  LIBRARY/INDEX/[a-f0-9]{12}/home\.js$", line) for line in checksums))
         self.assertEqual(result["UNKNOWN"], 1)
         self.assertEqual(result["FAILED"] + result["MISSING"], 0)
         self.assertTrue(json.loads((drive / "LIBRARY/.owl/state.json").read_text())["complete"])

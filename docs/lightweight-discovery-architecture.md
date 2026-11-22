@@ -1,5 +1,7 @@
 # Lightweight discovery: minimal architecture
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 **Status: implemented.** Replaces exhaustive full-text indexing with a small catalog of useful destinations shared by search and the existing atlas.
 
 **AI supplies creative judgment and starts Python work. Python loads, validates, and builds.** No AI runs during a user's drive build or search.

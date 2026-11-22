@@ -1,5 +1,7 @@
 # Source-pin discovery for the 1 TB plan
 
+> Historical write-up. See the [documentation index](README.md) for the current guides.
+
 `scripts/probe_source_pins.py` checks exact source identities using HEAD requests
 and explicitly declared checksum sidecars. It never reads a library file body,
 including error and redirect responses. HEAD remains HEAD across redirects;

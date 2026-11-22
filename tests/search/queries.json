@@ -1,0 +1,402 @@
+[
+  [
+    "purify water",
+    "water purification|water treatment|disinfect.*water"
+  ],
+  [
+    "water purification",
+    "water purification|water treatment|disinfect.*water"
+  ],
+  [
+    "make water safe to drink",
+    "water purification|water treatment|disinfect.*water|drinking water"
+  ],
+  [
+    "bleeding",
+    "bleeding|haemorrhag|hemorrhag"
+  ],
+  [
+    "bleed",
+    "bleeding|haemorrhag|hemorrhag"
+  ],
+  [
+    "stop bleeding",
+    "bleeding control|haemorrhag|hemorrhag|bleeding"
+  ],
+  [
+    "broken bone",
+    "bone fracture|fracture|splint"
+  ],
+  [
+    "fracture",
+    "fracture|broken bone"
+  ],
+  [
+    "snake bite",
+    "snakebite|snake bite|snake envenomation"
+  ],
+  [
+    "snakebite",
+    "snakebite|snake bite|snake envenomation"
+  ],
+  [
+    "fever",
+    "\\bfever\\b"
+  ],
+  [
+    "diarrhea",
+    "diarrh[o]?ea|oral rehydration"
+  ],
+  [
+    "diarrhoea",
+    "diarrh[o]?ea|oral rehydration"
+  ],
+  [
+    "childbirth",
+    "childbirth|midwi[fv]|labor and delivery"
+  ],
+  [
+    "deliver a baby",
+    "childbirth|midwi[fv]|labor and delivery|delivering babies"
+  ],
+  [
+    "tooth ache",
+    "toothache|tooth ache|dental pain"
+  ],
+  [
+    "toothache",
+    "toothache|tooth ache|dental pain"
+  ],
+  [
+    "grow potatoes",
+    "potato|potatoes"
+  ],
+  [
+    "potato",
+    "\\bpotato(es)?\\b"
+  ],
+  [
+    "canning tomatoes",
+    "canning tomatoes|tomato.*canning|tomato.*preserv|preserv.*tomat"
+  ],
+  [
+    "sharpen an axe",
+    "sharpen.*(ax\\b|axe|hatchet)|(ax\\b|axe|hatchet).*sharpen"
+  ],
+  [
+    "ax",
+    "\\b(ax|axe|axes|hatchet)\\b"
+  ],
+  [
+    "solar panel",
+    "solar panel|photovoltaic"
+  ],
+  [
+    "photosynthesis",
+    "photosynthesis"
+  ],
+  [
+    "pythagorean theorem",
+    "pythagorean theorem|pythagoras.*theorem"
+  ],
+  [
+    "quadratic equation",
+    "quadratic (equation|formula)"
+  ],
+  [
+    "insulin",
+    "\\binsulin\\b"
+  ],
+  [
+    "malaria",
+    "\\bmalaria\\b"
+  ],
+  [
+    "frostbite",
+    "frostbite|frost bite"
+  ],
+  [
+    "hypothermia",
+    "hypothermia"
+  ],
+  [
+    "how do I treat a burn",
+    "burns?|scald"
+  ],
+  [
+    "burns",
+    "\\b(burns?|scalds?)\\b"
+  ],
+  [
+    "compass",
+    "\\bcompass\\b|orienteering"
+  ],
+  [
+    "build a latrine",
+    "latrine|pit privy|pit toilet"
+  ],
+  [
+    "latrine",
+    "latrine|pit privy|pit toilet"
+  ],
+  [
+    "welding",
+    "weld"
+  ],
+  [
+    "antibiotic dosage",
+    "antibiotic.{0,50}dos|dos.{0,50}antibiotic|amoxicillin"
+  ],
+  [
+    "amoxicillin",
+    "amoxicillin|amoxycillin"
+  ],
+  [
+    "CPR",
+    "cardiopulmonary resuscitation|\\bcpr\\b"
+  ],
+  [
+    "tourniquet",
+    "tourniquet"
+  ],
+  [
+    "control blood loss",
+    "bleeding|haemorrhag|hemorrhag"
+  ],
+  [
+    "chest compressions",
+    "cardiopulmonary resuscitation|\\bcpr\\b|chest compressions"
+  ],
+  [
+    "frozen skin",
+    "frostbite|cold injury"
+  ],
+  [
+    "signs of dehydration",
+    "dehydration|oral rehydration"
+  ],
+  [
+    "renew fluids after loose stools",
+    "diarrh[o]?ea|oral rehydration"
+  ],
+  [
+    "identify a choking emergency",
+    "choking|foreign body airway"
+  ],
+  [
+    "how to treat a sprained ankle",
+    "ankle sprain|sprain.*ankle"
+  ],
+  [
+    "prevent mosquito bites",
+    "mosquito.*(bite|repellent)|insect repellent"
+  ],
+  [
+    "foodborne illness",
+    "foodborne illness|food poisoning"
+  ],
+  [
+    "dental abscess",
+    "dental abscess|tooth abscess|periapical abscess"
+  ],
+  [
+    "test water for coliform",
+    "coliform|water quality test"
+  ],
+  [
+    "how rain barrels collect water",
+    "rainwater harvesting|rain (water )?barrel"
+  ],
+  [
+    "sand filter for drinking water",
+    "slow sand filter|sand filtration"
+  ],
+  [
+    "make compost from kitchen waste",
+    "compost"
+  ],
+  [
+    "rotate garden crops",
+    "crop rotation"
+  ],
+  [
+    "start seedlings indoors",
+    "seedlings?|seed starting"
+  ],
+  [
+    "save seeds from tomatoes",
+    "tomato.*seed|seed.*tomato"
+  ],
+  [
+    "when to prune fruit trees",
+    "prune|pruning"
+  ],
+  [
+    "improve heavy clay garden soil",
+    "clay soil|soil amendment"
+  ],
+  [
+    "plant pollination",
+    "pollination"
+  ],
+  [
+    "dry herbs for storage",
+    "drying herbs|herbs.*dry|dehydrat.*herb"
+  ],
+  [
+    "pressure canning beans",
+    "cann.*beans?|beans?.*cann"
+  ],
+  [
+    "ferment cabbage",
+    "sauerkraut|ferment.*cabbage"
+  ],
+  [
+    "safe temperature for leftovers",
+    "food safet|leftovers|reheating"
+  ],
+  [
+    "whole grain bread baking",
+    "whole wheat bread|whole grain bread|bread.*baking"
+  ],
+  [
+    "electric potential difference",
+    "voltage|potential difference"
+  ],
+  [
+    "join wires with solder",
+    "solder"
+  ],
+  [
+    "read a resistor color code",
+    "resistor color|resistor colour|resistor.*code"
+  ],
+  [
+    "solar battery charge controller",
+    "charge controller|solar charger"
+  ],
+  [
+    "test a blown fuse",
+    "fuse"
+  ],
+  [
+    "patch a bike inner tube",
+    "inner tube|bicycle.*puncture|patch"
+  ],
+  [
+    "adjust bicycle brakes",
+    "bicycle.*brake|bike.*brake|brake.*bicycle"
+  ],
+  [
+    "identify a stripped screw",
+    "stripped screw|remove.*screw"
+  ],
+  [
+    "sharpen a kitchen knife",
+    "knife.*sharpen|sharpen.*knife|sharpening stone"
+  ],
+  [
+    "cut a dovetail joint",
+    "dovetail"
+  ],
+  [
+    "join wood without screws",
+    "wood joinery|woodworking joint|mortise and tenon"
+  ],
+  [
+    "ventilate a small shelter",
+    "ventilation|air exchange"
+  ],
+  [
+    "calculate roof pitch",
+    "roof pitch|roof.*slope|pitch.*roof"
+  ],
+  [
+    "insulate a drafty door",
+    "weatherstrip|draft.*door|door.*draft"
+  ],
+  [
+    "take a compass bearing",
+    "compass|bearing|orienteering"
+  ],
+  [
+    "interpret contour lines",
+    "contour line|topographic map"
+  ],
+  [
+    "convert latitude and longitude",
+    "latitude|longitude|geographic coordinate"
+  ],
+  [
+    "how water turns to vapor",
+    "evaporation|vaporization"
+  ],
+  [
+    "how plants make sugar",
+    "photosynthesis"
+  ],
+  [
+    "find a hypotenuse",
+    "pythagorean theorem|hypotenuse"
+  ],
+  [
+    "solve a second degree equation",
+    "quadratic (equation|formula)"
+  ],
+  [
+    "what is an acute angle",
+    "acute angle"
+  ],
+  [
+    "learn long division",
+    "long division"
+  ],
+  [
+    "simplify a fraction",
+    "fractions?|lowest terms"
+  ],
+  [
+    "what starts an earthquake",
+    "earthquake|seismic"
+  ],
+  [
+    "why salt dissolves in water",
+    "dissolution|solubility|salt.*dissolv"
+  ],
+  [
+    "what is a primary source in history",
+    "primary source"
+  ],
+  [
+    "ancient egyptian pyramids",
+    "egyptian pyramid|pyramids of giza|great pyramid"
+  ],
+  [
+    "the play about a prince of denmark",
+    "hamlet"
+  ],
+  [
+    "read the novel pride and prejudice",
+    "pride and prejudice"
+  ],
+  [
+    "what is a metrical foot in poetry",
+    "metrical foot|foot.*poetry|prosody"
+  ],
+  [
+    "track income and expenses",
+    "bookkeeping|accounting|income statement"
+  ],
+  [
+    "create a shell script",
+    "shell script|bash script"
+  ],
+  [
+    "sort a list in python",
+    "python|sorting"
+  ],
+  [
+    "show hidden files in linux",
+    "hidden files|dotfiles|ls command"
+  ]
+]

@@ -2,28 +2,60 @@
 (function (root) {
   "use strict";
   const READERS = "archive-readers", OVERHEAD = 16 * 1024 * 1024;
+  const readersFixed = resource => ["kiwix_windows", "kiwix_linux", "kiwix_macos", "kiwix_android"]
+    .every(id => resource?.asset_ids.includes(id));
   const isSoftware = asset => asset.destination.split("/")[0] === "SOFTWARE";
   const isDocument = asset => !asset.supporting_file && asset.archive_member?.document !== false;
   const mapById = rows => Object.fromEntries(rows.map(row => [row.id, row]));
   const sum = values => values.reduce((total, value) => total + value, 0);
-  function profileFor(model, id) {
+  function profileFor(model, id, capacityBytes) {
     const profile = model.profiles.find(row => row.id === id);
     if (!profile) throw Error("Unknown profile: " + id);
-    return profile;
+    if (capacityBytes === undefined) return profile;
+    const policy = model.capacity_policy;
+    if (!policy || !Number.isSafeInteger(capacityBytes) || capacityBytes < policy.min)
+      throw Error("Enter a capacity of at least 16 GB");
+    const capped = Math.min(capacityBytes, policy.limit);
+    const headroom = Math.max(policy.minimum_margin, Math.floor(capacityBytes / policy.margin_divisor));
+    const discovery = Math.min(policy.discovery_max, policy.discovery_base + headroom - policy.minimum_margin,
+      Math.max(policy.discovery, Math.floor(capped / policy.discovery_divisor)));
+    const extraSearch = Math.max(0, discovery - policy.discovery_base);
+    const editions = {[READERS]: "published"};
+    for (const [threshold, resource, edition] of policy.transitions) {
+      if (threshold > capped) break;
+      editions[resource] = edition;
+    }
+    let step = policy.fillers.length - 1;
+    while (policy.fillers[step][0] > capped) step--;
+    for (const index of policy.fillers[step][1]) {
+      const [resource, edition] = policy.filler_placements[index];
+      editions[resource] = edition;
+    }
+    for (const [threshold, resource] of policy.expansion || []) {
+      if (threshold > capacityBytes) break;
+      editions[resource] = "published";
+    }
+    const defaults = Object.keys(editions).sort();
+    return {...profile, nominal_capacity_bytes:capacityBytes, capacity_bytes:capacityBytes-headroom,
+      reserve_bytes:headroom-extraSearch, readers_budget_bytes:policy.readers,
+      discovery_budget_bytes:discovery,
+      preset_resource_ids:defaults, default_resources:defaults,
+      default_editions:Object.fromEntries(defaults.filter(rid => editions[rid] !== "published").map(rid => [rid, editions[rid]]))};
   }
-  function preset(model, id) {
-    const profile = profileFor(model, id), defaults = new Set(profile.preset_resource_ids);
-    return {profile: id, allowIncomplete: false, atlas: model.atlas_available !== false,
+  function preset(model, id, capacityBytes) {
+    const profile = profileFor(model, id, capacityBytes), defaults = new Set(profile.preset_resource_ids);
+    return {profile: id, capacityBytes, allowIncomplete: false, atlas: model.atlas_available !== false,
       items: Object.fromEntries(model.resources.map(row =>
       [row.id, {included: defaults.has(row.id), edition: !profile.default_resources && defaults.has(row.id) ? "preset" :
         (profile.default_editions?.[row.id] || "published")}]))};
   }
   function selectionArgs(model, state) {
-    const profile = profileFor(model, state.profile), defaults = new Set(profile.preset_resource_ids);
+    const profile = profileFor(model, state.profile, state.capacityBytes), defaults = new Set(profile.preset_resource_ids);
     const include = [], exclude = [], editions = {}, resourceAssets={};
     for (const row of model.resources) {
       const item = state.items[row.id];
       if (!item) throw Error("Missing resource selection: " + row.id);
+      if (row.id === READERS && readersFixed(row)) continue;
       if (!item.included && defaults.has(row.id)) exclude.push(row.id);
       if (item.included) {
         if(item.assetIds)resourceAssets[row.id]=item.assetIds;
@@ -34,15 +66,17 @@
     }
     return {include, exclude, editions, resourceAssets};
   }
-  function resolve(model, state) {
+  function resolve(model, state, {ignoreNativeCapacity = false} = {}) {
     const DIRECT = new Set(model.direct_reading_formats || []);
   const isDirect = asset => isDocument(asset) && DIRECT.has(asset.format.toLowerCase()) && !asset.reader_required &&
     !["SOFTWARE", "ZIM"].includes(asset.destination.split("/")[0]) && !isSoftware(asset);
 
-    const profile = profileFor(model, state.profile), resources = mapById(model.resources), assets = mapById(model.assets);
+    const profile = profileFor(model, state.profile, state.capacityBytes), resources = mapById(model.resources), assets = mapById(model.assets);
     const args = selectionArgs(model, state), selected = new Set(profile.default_resources || []);
     const errors = [], warnings = [], overrides = profile.resource_overrides || {};
     args.include.forEach(id => selected.add(id)); args.exclude.forEach(id => selected.delete(id));
+    const fixedRead = readersFixed(resources[READERS]);
+    if (fixedRead) selected.add(READERS);
     const variants = {}, members = {}, credits = {}, replaced = new Set();
     for (const id of selected) {
       const resource = resources[id], mode = args.editions[id] || profile.default_editions?.[id] || "published";
@@ -86,7 +120,7 @@
     }
     let candidateIds = new Set(Object.values(members).flat());
     const needsReaders = [...candidateIds].some(id => assets[id].status === "resolved" && assets[id].format.toLowerCase() === "zim");
-    const autoIncluded = new Set();
+    const autoIncluded = new Set(fixedRead ? [READERS] : []);
     if (needsReaders && !selected.has(READERS)) {
       if (args.exclude.includes(READERS)) errors.push("Selected ZIM archives require bundled readers.");
       if (!resources[READERS]) errors.push("The catalog has no bundled reader resource.");
@@ -183,9 +217,9 @@
     const phaseWorkingBytes = profile.discovery_budget_bytes;
     const peakBytes = intendedBytes + OVERHEAD + profile.reserve_bytes + Math.max(phaseWorkingBytes, buildInputWorkBytes) + acquisitionBytes;
     const actualPeakBytes = knownBytes + OVERHEAD + profile.reserve_bytes + Math.max(phaseWorkingBytes, buildInputWorkBytes) + acquisitionBytes;
-    if (finalBytes + profile.reserve_bytes > profile.capacity_bytes) errors.push("Selected content plus search and reserve exceeds this drive size.");
+    if (!ignoreNativeCapacity && finalBytes + profile.reserve_bytes > profile.capacity_bytes) errors.push("Selected content plus search and reserve exceeds this drive size.");
     if (!pinnedIds.length) errors.push("No verified downloadable files are selected.");
-    if (actualPeakBytes > profile.capacity_bytes) errors.push("Even the verified files exceed the conservative in-place build budget. Select less content or a larger drive.");
+    if (!ignoreNativeCapacity && actualPeakBytes > profile.capacity_bytes) errors.push("Even the verified files exceed the conservative in-place build budget. Select less content or a larger drive.");
     if (peakBytes > profile.capacity_bytes) warnings.push("The complete intended collection exceeds the in-place build budget, including discovery output. It does not fit as a complete in-place build at these allowances.");
     if (incomplete.length) warnings.push(incomplete.length + " selected collections need source selection, permissions, or verified files. A partial build contains only currently pinned files.");
     // Count actual cataloged files exactly once, independently of collection planning budgets.
@@ -247,6 +281,8 @@
       options.push({value:"published", label:"Published collection", available:true, reason:"Uses the catalog's published formats and collection scope."});
       for (const mode of ["direct", "compact"]) options.push({value:mode, label:mode === "direct" ? "Alternate direct-readable edition" : "Alternate compact archive edition",
         available:Boolean(resource.editions?.[mode]), reason:resource.editions?.[mode] ? "Verified catalog edition; original critical files are retained." : "No verified alternate edition and size are cataloged. No conversion or compression ratio is assumed."});
+      for (const [mode, label] of Object.entries({top:"50,000 article introductions", mini:"Full set of article introductions", nopic:"Full articles without illustrations"}))
+        if (resource.editions?.[mode]) options.push({value:mode, label, available:true, reason:resource.editions[mode].reason});
       const chosen = selected.has(resource.id), subsetOnly = !chosen && item.included && item.edition === "preset";
       const row = rowsById[resource.id] || (subsetOnly ? {knownBytes:sum(subset.map(id=>assets[id].size_bytes)), targetBytes:sum(subset.map(id=>assets[id].size_bytes)),
         assetCount:subset.length, status:"ready", reason:"Verified preset files only; the broader collection is not included."} :
@@ -258,7 +294,7 @@
         utilityTier:resource.utility_tier || "", utilityReason:resource.utility_reason || "", knowledgeDomains:resource.knowledge_domains || [],
         scope:subsetOnly ? "Preset subset" : "Published files", include:resource.include || [], preferredFormats:resource.preferred_formats || []};
     });
-    const canBuild = errors.length === 0 && (!incomplete.length || state.allowIncomplete);
+    const canBuild = knowledgeBytes > 0 && errors.length === 0 && (!incomplete.length || state.allowIncomplete);
     return {rows, estimates:{contentTargetBytes, knownBytes, downloadBytes, buildInputBytes, buildInputExpandedBytes, buildInputWorkBytes, archiveOutputBytes, generatedOutputBytes, acquisitionBytes, readerBytes, searchBytes:profile.discovery_budget_bytes, phaseWorkingBytes,
       metadataBytes:OVERHEAD, reserveBytes:profile.reserve_bytes, finalBytes, peakBytes, actualPeakBytes, capacityBytes:profile.capacity_bytes},
       coverage, errors, warnings, incomplete, canBuild, selectedAssetIds:pinnedIds.sort(), selectionArgs:args};
@@ -275,6 +311,7 @@
     if (!target.trim() || target.startsWith("-") || /[\x00-\x1f\x7f]/.test(target)) return "";
     if (!["posix", "powershell"].includes(options.shell)) throw Error("Choose POSIX or PowerShell");
     const args = ["python", "scripts/build_drive.py", target, "--profile", state.profile];
+    if (state.capacityBytes !== undefined) args.push("--capacity-bytes", String(state.capacityBytes));
     for (const [flag, value] of Object.entries(model.cli || {})) {
       args.push(flag); if (value !== null) args.push(value);
     }
@@ -289,5 +326,5 @@
     else args.push("--detach");
     return args.map(arg => arg.startsWith("--") && /^[a-z-]+$/.test(arg.slice(2)) ? arg : quote(arg, options.shell)).join(" ");
   }
-  root.OWLPlanner = {preset, resolve, command, selectionArgs};
+  root.OWLPlanner = {profileFor, preset, resolve, command, selectionArgs};
 })(globalThis);
