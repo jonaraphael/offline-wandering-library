@@ -3,7 +3,7 @@ import {createHash, webcrypto} from "node:crypto";
 import {readFileSync} from "node:fs";
 import {test} from "node:test";
 import {runInNewContext} from "node:vm";
-import {compareLibrary, DrivePathConflict, inspectDrive, MANIFEST, partLayout, readBuild, reconcile} from "../web/builder.mjs";
+import {compareLibrary, DrivePathConflict, inspectDrive, MANIFEST, partLayout, readBuild, reconcile, recordPause} from "../web/builder.mjs";
 import {completionState, prepareDownloadSources} from "../web/builder-ui.mjs";
 import {removeFile, writeFile} from "../web/drive.mjs";
 import {createNetwork, SourceError} from "../web/network.mjs";
@@ -82,6 +82,120 @@ test("the same operation persists a custom target and resumes after an interrupt
   }});
   assert.deepEqual((await readBuild(drive)).choice, choice);
   await assert.rejects(drive.file("LIBRARY/BOOKS/b.pdf"), {name: "NotFoundError"});
+});
+
+test("files finished before a pause stay recorded through a second pause of the first sync", async () => {
+  const drive = new Directory();
+  const first = options({a: "one", b: "two", c: "three", d: "four"}, {catalogVersion: "1"});
+  const pauseAt = id => {
+    const controller = new AbortController();
+    return {signal: controller.signal, onProgress(event) {
+      if (event.kind === "downloading" && event.asset.id === id) controller.abort();
+    }};
+  };
+  await assert.rejects(reconcile(drive, {...first, ...pauseAt("c")}), {name: "AbortError"});
+  assert.deepEqual((await compareLibrary(drive, first)).present.map(row => row.asset.id), ["a", "b"]);
+  await assert.rejects(reconcile(drive, {...first, ...pauseAt("d")}), {name: "AbortError"});
+  const comparison = await compareLibrary(drive, first);
+  assert.deepEqual(comparison.present.map(row => row.asset.id), ["a", "b", "c"]);
+  assert.deepEqual(comparison.adds.map(row => row.asset.id), ["d"]);
+  const fetched = [];
+  const fetch = first.fetchFile;
+  const done = await reconcile(drive, {...first, fetchFile: async url => { fetched.push(new URL(url).pathname); return fetch(url); }});
+  assert.equal(done.state.finished, true);
+  assert.deepEqual(fetched, ["/d"]);
+  for (const id of ["a", "b", "c", "d"]) assert.equal(done.state.installed[id].layout[0].path, "LIBRARY/BOOKS/" + id + ".pdf");
+});
+
+test("a pause right after a resumed sync starts keeps the files finished earlier", async () => {
+  const drive = new Directory();
+  const first = options({a: "one", b: "two", c: "three"}, {catalogVersion: "1"});
+  let controller = new AbortController();
+  await assert.rejects(reconcile(drive, {...first, signal: controller.signal, onProgress(event) {
+    if (event.kind === "downloading" && event.asset.id === "c") controller.abort();
+  }}), {name: "AbortError"});
+  controller = new AbortController();
+  await assert.rejects(reconcile(drive, {...first, signal: controller.signal, prepareSources: async () => {
+    controller.abort();
+    controller.signal.throwIfAborted();
+  }}), {name: "AbortError"});
+  assert.deepEqual((await compareLibrary(drive, first)).present.map(row => row.asset.id), ["a", "b"]);
+});
+
+test("files OWL wrote stay usable when the drive record lost their verified marks", async () => {
+  const drive = new Directory();
+  const first = options({a: "one", b: "two", c: "three"}, {catalogVersion: "1"});
+  const controller = new AbortController();
+  await assert.rejects(reconcile(drive, {...first, signal: controller.signal, onProgress(event) {
+    if (event.kind === "downloading" && event.asset.id === "c") controller.abort();
+  }}), {name: "AbortError"});
+  const record = await readBuild(drive);
+  // The record a builder from before this fix left on a real 1 TB drive:
+  // only the download in progress kept its entries.
+  record.verified = {};
+  record.working = {c: record.working.c};
+  record.parts = {c: record.parts.c ?? []};
+  await writeFile(drive, MANIFEST, JSON.stringify(record) + "\n");
+  await writeFile(drive, "LIBRARY/BOOKS/b.pdf", "tampered");
+  const comparison = await compareLibrary(drive, first);
+  assert.deepEqual(comparison.present.map(row => row.asset.id), ["a"]);
+  assert.deepEqual(comparison.adds.map(row => row.asset.id), ["b", "c"]);
+  const fetched = [];
+  const fetch = first.fetchFile;
+  const done = await reconcile(drive, {...first, fetchFile: async url => { fetched.push(new URL(url).pathname); return fetch(url); }});
+  assert.equal(done.state.finished, true);
+  assert.deepEqual(fetched.sort(), ["/b", "/c"]);
+  assert.equal(done.state.installed.a.layout[0].path, "LIBRARY/BOOKS/a.pdf");
+  assert.equal(await text(drive, done.state.installed.b.layout[0].path), "two");
+});
+
+test("a file the lost record began to download again under a new name is found at its first path", async () => {
+  const drive = new Directory();
+  const first = options({a: "one", b: "two"}, {catalogVersion: "1"});
+  const controller = new AbortController();
+  await assert.rejects(reconcile(drive, {...first, signal: controller.signal, onProgress(event) {
+    if (event.kind === "downloading" && event.asset.id === "b") controller.abort();
+  }}), {name: "AbortError"});
+  const record = await readBuild(drive);
+  record.verified = {};
+  record.parts = {};
+  record.working = {a: "BOOKS/a-0123456789ab.pdf"};
+  record.owned.push("LIBRARY/BOOKS/a-0123456789ab.pdf");
+  await writeFile(drive, "LIBRARY/BOOKS/a-0123456789ab.pdf", "");
+  await writeFile(drive, MANIFEST, JSON.stringify(record) + "\n");
+  const comparison = await compareLibrary(drive, first);
+  assert.deepEqual(comparison.present.map(row => [row.asset.id, row.layout[0].path]), [["a", "LIBRARY/BOOKS/a.pdf"]]);
+  const fetched = [];
+  const fetch = first.fetchFile;
+  const done = await reconcile(drive, {...first, fetchFile: async url => { fetched.push(new URL(url).pathname); return fetch(url); }});
+  assert.deepEqual(fetched, ["/b"]);
+  assert.equal(done.state.installed.a.layout[0].path, "LIBRARY/BOOKS/a.pdf");
+});
+
+test("after Pause, looking at the drive does not reread finished files; after a cut-off sync it does", async () => {
+  const drive = new Directory();
+  const first = options({a: "one", b: "two"}, {catalogVersion: "1"});
+  const controller = new AbortController();
+  await assert.rejects(reconcile(drive, {...first, signal: controller.signal, onProgress(event) {
+    if (event.kind === "downloading" && event.asset.id === "b") controller.abort();
+  }}), {name: "AbortError"});
+  const handle = await drive.file("LIBRARY/BOOKS/a.pdf");
+  let reads = 0;
+  const getFile = handle.getFile.bind(handle);
+  handle.getFile = async () => {
+    const file = await getFile();
+    // A new modification time each read keeps the session cache from hiding a reread.
+    return {size: file.size, lastModified: file.lastModified + reads, stream: () => { reads++; return file.stream(); }};
+  };
+  assert.deepEqual((await compareLibrary(drive, first)).present.map(row => row.asset.id), ["a"]);
+  assert.equal(reads, 1, "a sync cut off without Pause rereads its finished files");
+  await recordPause(drive);
+  assert.equal((await readBuild(drive)).pausedCleanly, true);
+  assert.deepEqual((await compareLibrary(drive, first)).present.map(row => row.asset.id), ["a"]);
+  assert.equal(reads, 1, "after Pause the record is trusted");
+  const done = await reconcile(drive, first);
+  assert.equal(done.state.finished, true);
+  assert.equal((await readBuild(drive)).pausedCleanly, undefined);
 });
 
 test("a replacement that does not fit is held until explicitly approved", async () => {
