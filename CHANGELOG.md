@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Offer **Choose a different drive** on the ready, up-to-date, paused and problem screens, including after the page reopens a remembered drive.
+
 ## 0.2.0 (2026-11-22)
 
 - Identify Pages mirror downloads with the project name and repository URL, as Wikimedia requires.
