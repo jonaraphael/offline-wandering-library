@@ -139,8 +139,16 @@ with the affected URLs or catalog IDs.
 
 ## Cloudflare plan and publisher terms
 
-Assume Workers Free until the owner confirms the account plan. Free allows
-100,000 requests per day across the account and 10 ms of CPU per invocation.
+The relay runs on Workers Free (confirmed by the owner, 2026-11-22). Free
+allows 100,000 requests per day across the account and 10 ms of CPU per
+invocation.
+
+Archive relay is off (`OWL_ARCHIVE_RELAY=false`, set 2026-11-22). Kiwix
+archives download from `mirror.download.kiwix.org` directly, and the relay
+carries only the whole-file publisher routes. A 16 GB browser build then
+sends about 320 relay requests, so Free covers roughly 300 such builds a
+day. The owner will revisit the plan and the archive flag when the number
+of users grows well beyond a handful.
 For an archive transfer entirely through the relay, divide decimal bytes by
 4,194,304 (4 MiB) and round up.
 

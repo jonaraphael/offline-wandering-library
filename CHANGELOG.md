@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 (unreleased)
+## 0.2.0 (2026-11-22)
 
 - Retry job status reads during Windows file sharing conflicts.
 - Count damaged critical files in browser builds and report checksum failures in reader and search support.
