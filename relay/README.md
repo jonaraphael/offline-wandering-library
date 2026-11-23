@@ -143,12 +143,16 @@ The relay runs on Workers Free (confirmed by the owner, 2026-11-22). Free
 allows 100,000 requests per day across the account and 10 ms of CPU per
 invocation.
 
-Archive relay is off (`OWL_ARCHIVE_RELAY=false`, set 2026-11-22). Kiwix
-archives download from `mirror.download.kiwix.org` directly, and the relay
-carries only the whole-file publisher routes. A 16 GB browser build then
-sends about 320 relay requests, so Free covers roughly 300 such builds a
-day. The owner will revisit the plan and the archive flag when the number
-of users grows well beyond a handful.
+Archive relay is on (`OWL_ARCHIVE_RELAY=true`, set by the owner on
+2026-11-22). Each Kiwix archive starts on `mirror.download.kiwix.org` and
+switches to a relayed FAU or Dotsrc peer when that peer is at least 25%
+faster. On 2026-11-22, one 4 MiB range of `wikipedia_en_top` took 8.3 s
+from the Kiwix mirror and 1.4 s through the FAU relay route, measured from
+the owner's Mac. A 16 GB build that relays every archive byte sends about
+3,800 requests, so Free covers about 26 such builds a day. Past the daily
+cap, Cloudflare answers without CORS, relayed requests fail, and each
+archive piece falls through to the direct mirror. The owner will move to Workers Paid when the
+number of users grows well beyond a handful.
 For an archive transfer entirely through the relay, divide decimal bytes by
 4,194,304 (4 MiB) and round up.
 
