@@ -4,6 +4,7 @@ import {readFileSync} from "node:fs";
 import {test} from "node:test";
 import {compareLibrary, DrivePathConflict, inspectDrive, MANIFEST, partLayout, readBuild, reconcile} from "../web/builder.mjs";
 import {removeFile, writeFile} from "../web/drive.mjs";
+import {createNetwork} from "../web/network.mjs";
 import {readPreviewFile} from "../web/reader-preview.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
 
@@ -301,6 +302,109 @@ function generationOptions(id) {
   selection.fetchFile = async url => url.endsWith(chunk) ? new Response(data) : fetch(url);
   return {selection, shared: "LIBRARY/SEARCH/" + chunk};
 }
+
+test("a completed reader and its search and checksums stay active through a deferred update and pause", async () => {
+  const {selection, shared} = generationOptions("original");
+  const drive = new Directory();
+  const added = Object.fromEntries(["a-relay", "b-relay", "c-relay", "x-direct", "z-direct"].map(id => [id, id]));
+  const update = options(added);
+  const relay = "https://relay.test/assets/";
+  for (const id of Object.keys(added).filter(id => id.endsWith("-relay"))) update.routes[id] = [relay + id];
+  const probeURL = "https://example.test/.nojekyll";
+  let down = true, repeated = 0;
+  const fetchFile = async (url, request = {}) => {
+    if (url.startsWith(relay)) {
+      if (down) throw new TypeError("Unavailable relay response without CORS");
+      return new Response(url.split("/").at(-1));
+    }
+    if (request.method === "HEAD") return new Response(null, {status: 204});
+    if (url.endsWith("/x-direct")) repeated++;
+    return Object.keys(added).some(id => url.endsWith("/" + id)) ? update.fetchFile(url) : selection.fetchFile(url);
+  };
+  const original = await reconcile(drive, selection);
+  const published = new Map(await Promise.all(original.state.generated.map(async path => [path, await text(drive, path)])));
+  const controller = new AbortController();
+  const updating = {...selection, assets: [...selection.assets, ...update.assets], catalogVersion: "new",
+    routes: {...selection.routes, ...update.routes}, fetchFile};
+  await assert.rejects(reconcile(drive, {...updating, signal: controller.signal,
+    network: createNetwork({fetchFile, probeURL, signal: controller.signal, retryMs: 0}),
+    onProgress(event) {
+      if (event.kind === "downloading" && event.asset.id === "z-direct") controller.abort();
+    }}), {name: "AbortError"});
+  const saved = await readBuild(drive);
+  assert.equal(saved.pending, true);
+  assert.deepEqual(saved.relayDeferred, ["a-relay", "b-relay", "c-relay"]);
+  assert.deepEqual(Object.keys(saved.installed), Object.keys(original.state.installed));
+  assert.equal(saved.verified["x-direct"], true);
+  assert.ok(published.has(shared));
+  for (const [path, contents] of published) assert.equal(await text(drive, path), contents, path);
+  await openGeneration(drive, "original");
+
+  const network = createNetwork({fetchFile, probeURL, retryMs: 0});
+  const resumed = await reconcile(drive, {...updating, network, onProgress(event) {
+    if (event.kind === "waiting-relay") {
+      // Let the next probe recover without changing the active generation.
+      down = false;
+      event.tryNow();
+    }
+  }});
+  assert.equal(resumed.state.finished, true);
+  assert.equal(repeated, 1, "the completed direct download survived the paused and deferred passes");
+  assert.equal(resumed.completed.length, updating.assets.length);
+});
+
+test("Check every file preserves changes across generated reports, inventory, reader, and search", async () => {
+  const {selection, shared} = generationOptions("generated");
+  selection.navigation.verify = "# OWL Verify fixture\n";
+  selection.navigation.atlas = true;
+  const model = "globalThis.OWLModel();\n";
+  const phone = "Fixture phone PDF";
+  const volume = "wikimed-fixture.pdf";
+  const phoneFolder = "CRITICAL/MEDICAL/WIKIMED-PHONE/";
+  selection.search.runtime = "globalThis.OWLSearch();\n";
+  selection.search.rankRuntime = "globalThis.OWLRank();\n";
+  selection.search.plan.model = [["model.js", {bytes: model.length, sha256: hash(model)}]];
+  selection.navigation.phone = {source_id: "generated", source_sha256: selection.assets[0].sha256,
+    base: "https://example.test/phone/", destination: phoneFolder,
+    volumes: [{file: volume, title: "Fixture", bytes: phone.length, sha256: hash(phone)}]};
+  const fetch = selection.fetchFile;
+  selection.fetchFile = async url => {
+    if (url.endsWith("/model.js")) return new Response(model);
+    if (url.endsWith("/" + volume)) return new Response(phone);
+    return fetch(url);
+  };
+  const drive = new Directory();
+  const first = await reconcile(drive, selection);
+  const paths = first.state.generated;
+  for (const required of ["LIBRARY/BUILD_INFO.json", "LIBRARY/INVENTORY.json", "LIBRARY/SOURCE_NOTES.txt",
+    "LIBRARY/VERIFY.py", "LIBRARY/INDEX/navigation-report.json", "LIBRARY/SEARCH/manifest.js", "LIBRARY/SHA256SUMS.txt",
+    "LIBRARY/SEARCH/shared/" + hash(model) + ".js", "LIBRARY/" + phoneFolder + volume, shared]) {
+    assert.ok(paths.includes(required), required);
+  }
+  const changed = new Map();
+  for (const path of paths) {
+    const contents = await text(drive, path);
+    // Keep the byte count when replacing the first ASCII character.
+    assert.match(contents, /^[\x00-\x7f]/);
+    const edit = "~" + contents.slice(1);
+    changed.set(path, edit);
+    await writeFile(drive, path, edit);
+  }
+  const result = await reconcile(drive, {...selection, fullVerify: true});
+  assert.equal(result.state.finished, true);
+  assert.deepEqual(result.repairedPages.map(row => row.path).sort(), [...paths].sort());
+  const checksums = (await text(drive, "LIBRARY/SHA256SUMS.txt")).trim().split("\n");
+  for (const {path, copy, retired} of result.repairedPages) {
+    assert.match(copy, /\.changed-/);
+    assert.equal(await text(drive, copy), changed.get(path));
+    if (retired) await assert.rejects(drive.file(path), {name: "NotFoundError"});
+  }
+  for (const line of checksums) {
+    const [digest, path] = line.split("  ");
+    assert.equal(hash(await text(drive, path)), digest, path);
+  }
+  await openGeneration(drive, "generated");
+});
 
 async function openGeneration(drive, book) {
   const start = await text(drive, "START_HERE.html");

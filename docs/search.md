@@ -11,13 +11,16 @@ repair-guide title matches lead ordinary search. Other documents that open
 directly appear before encyclopedia matches. Use **Options** to
 search within a category. PDF matches open at the physical page. **How to
 open** on an encyclopedia match shows the article to find in Kiwix and the
-file's location on the drive. If the query has no close match, the reader can
+file's location on the drive. Reviewed WikiMed matches appear with a readable
+PDF section when the 16 GB selection has a corresponding reference.
+If the query has no close match, the reader can
 try a word one edit away using the installed index vocabulary. When the
 retry finds results, the reader says “Showing results for …”. When the
 emergency is uncertain, search can
 show up to three related sections or passages under “No reviewed guide
-matched. These passages may help.” **Browse Home** opens the Urgent shelf
-and categories.
+matched. These passages may help.” When there are no matching passages, an
+injury or hazard search shows **Urgent guides** and the closest installed
+section where available. **Browse Home** opens the Urgent shelf and categories.
 
 The static start page shows the urgent tasks, categories, file locations and
 device instructions. When a file preview withholds local links or scripts,
@@ -158,19 +161,25 @@ PDF queries with expected physical page locations, and 10 held-out emergency
 queries. It grades the first ten results at 16 GB, 128 GB and 1 TB using the
 reader's chunk selection and base ranker. `--check` enforces the original probe
 totals at each capacity, a hit for “signs of dehydration” at all three, and
-retention of every previously passing probe. `--quick`, `--bounded`
-and `--exhaustive` compare a 28 MB heuristic route, a 39.7 MB term-index route,
-and all eligible chunks. Benchmark scoring stops at the base ranker.
+retention of every previously passing probe. Quick mode uses the shipped
+term-index route and caps the production allowance at 32 MB. The previous
+28 MB heuristic run missed “test water for coliform.” Use `--quick --check`
+to check recall at the reduced allowance, `--bounded` for a fixed 39.7 MB
+term-index comparison, and `--exhaustive` to score all eligible chunks.
+Benchmark scoring stops at the base ranker.
 The optional task export records the first three
 results for each natural-language task in `tests/search/task-queries.json`,
 with the title, source, locator and any displayable excerpt for grading.
 
 ## Reviewed emergency routes
 
-The section review covers **199 destinations in 146 situations** from the
+The section review verifies **224 destinations**, including the locations
+for 150 section routes and eight PDF companions to established WikiMed
+routes. It uses the
 default 16 GB editions of *Where There Is No Doctor*, *A Book for Midwives*,
 FEMA CERT, *Basic Emergency Care*, the MSF clinical and obstetric guides,
-FEMA *Are You Ready?*, WikiMed, the UC Davis postharvest manual, and the
+FEMA *Are You Ready?*, Hesperian's *A Community Guide to Environmental
+Health*, WikiMed, the UC Davis postharvest manual, and the
 FAO grain silo manual. The review records the edition digest,
 physical PDF page or WikiMed path, heading, and everyday terms for each
 situation.
@@ -182,8 +191,9 @@ section names and everyday synonyms. Descriptions that depend on several
 clues require each clue, such as a fall, hip pain, and the affected body
 part. Existing time-critical routes keep precedence where clues overlap.
 Matching sections open immediately from the installed catalog and respect
-the optional category filter. Multiple locations in the same book share a
-card. [Reader implementation](../src/owl/templates/search.js)
+the optional category filter. An installed PDF companion can also appear
+when the filter includes its WikiMed match. Multiple locations in the same
+book share a card. [Reader implementation](../src/owl/templates/search.js)
 
 The expanded review includes the following destinations in the standard
 16 GB selection.
@@ -195,16 +205,20 @@ The expanded review includes the following destinations in the standard
 | A blow or scratch to the eye | *Where There Is No Doctor*, chapter 16, p. 2 |
 | A child with fever and a seizure | MSF clinical guide, p. 23 |
 | Cold-water exposure and numb extremities | FEMA CERT, p. 114, and WikiMed’s *Non-freezing cold injury* |
-| Prolonged exposure in wet shoes | WikiMed’s *Trench foot* |
+| Prolonged exposure in wet shoes | WikiMed’s *Trench foot* and FEMA CERT cold-related injuries, p. 114 |
 | Penetrating injury or stab wound | *Where There Is No Doctor*, chapter 10, p. 16 |
 | A fall from height | *Basic Emergency Care*, p. 58 |
-| Mold in a flooded building | WikiMed’s *Mold health issues* |
+| Mold in a flooded building | WikiMed’s *Mold health issues* and *A Community Guide to Environmental Health*, chapter 17, ventilation and indoor mold, p. 5 |
 | House fire and indoor smoke | FEMA CERT, pp. 173 and 30 |
 | Evacuation as floodwaters rise | FEMA *Are You Ready?*, pp. 11 and 12 |
 | Crush injuries | *Basic Emergency Care*, p. 70, and WikiMed’s *Crush syndrome* |
+| Trapped under an object or in a crashed vehicle | FEMA CERT rescue scene safety, p. 192, and *Basic Emergency Care* crush injury assessment, p. 70 |
+| Fall through ice | FEMA CERT cold-related injuries, p. 114, WikiMed’s *Drowning*, and *Basic Emergency Care* breathing assessment, p. 89 |
 | Downed power lines | FEMA *Are You Ready?*, p. 11 |
 | Hot-liquid scalds | MSF clinical guide, p. 339 |
-| Found after a long time on the floor | *Basic Emergency Care*, p. 26 |
+| Sunburn | *Where There Is No Doctor*, chapter 10, minor burns, p. 22 |
+| Contaminated food | *Where There Is No Doctor*, chapter 12, food and drink cleanliness, p. 5 |
+| Found after a long time on the floor | *Basic Emergency Care*, pp. 26 and 70 |
 | Fishhooks and other embedded objects | FEMA CERT, p. 110, and *Where There Is No Doctor*, chapter 10, p. 15 |
 | Jellyfish stings | WikiMed’s *Jellyfish stings* |
 | Tourniquets for severe limb bleeding | *Basic Emergency Care*, p. 170, and WikiMed’s *Tourniquet* |
@@ -216,7 +230,7 @@ Each situation, including the 35 established routes, has three plain-language
 descriptions of symptoms, events, or hazards. Alternative locations for
 the same situation share those descriptions. The compiler encodes each
 description separately with the pinned 256-component Potion model and
-stores its normalized vector as 256 signed bytes. The **191,745-byte**
+stores its normalized vector as 256 signed bytes. The **195,973-byte**
 generated table ships inside `rank.js`, so it adds no separate request.
 Metadata-only builds omit the ranker. The reader uses the same locally
 installed model as passage ranking.
@@ -237,9 +251,8 @@ Calibration compared the new emergency descriptions with similar wording
 from ordinary searches. “Yellow marks on a spider plant” scored about 0.47
 against the spider-bite description, below the recognition floor. “Book
 about art and smoke” scored about 0.53 against indoor smoke and is handled
-by the reference filter. Flashes and a dark curtain in one eye scored
-about 0.43 against retinal detachment. The vision danger sign allows the
-section to appear as a related result at that score.
+by the reference filter. Flashes and a dark curtain in one eye also match a
+reviewed lexical route for retinal detachment.
 
 An emergency recognized from words or meaning gets an installed Urgent
 guide while the reader looks for passages. If no reviewed route qualifies,
@@ -247,9 +260,11 @@ the reader can show up to three related sections or passages from different
 documents. Nearby sections need a score of at least **0.42** and must be
 within **0.13** of the strongest match. The reader can fill open slots with
 matching body passages from up to 1.2 MB of existing index chunks in the
-applicable categories. If no passage qualifies, it keeps an installed
-urgent guide or offers **Browse Home** in the results. Ordinary searches
-continue through the catalog, term index, and base ranker.
+applicable categories. If no passage qualifies, the result shows **Urgent
+guides** and the closest installed section when available. An ordinary
+search continues through the catalog, term index, and base ranker. A query
+with injury, body, or hazard words that produces no result cards uses the
+same emergency fallback.
 
 For a new edition, start with the pinned PDFs on an installed default
 16 GB library and install the PDF extra. Candidate extraction verifies
@@ -284,17 +299,17 @@ selection contains every listed source.
 | Severe bleeding | Blood gushing or a wound that keeps bleeding | FEMA CERT, p. 101 |
 | Burns | Scalds, blisters after a spill, burned skin | MSF Clinical Guidelines, p. 339 |
 | Choking | Food stuck in the throat, inability to speak while eating | WHO/ICRC Basic Emergency Care, p. 155 |
-| CPR | No pulse, stopped breathing, gasping after collapse | WikiMed, Cardiopulmonary resuscitation |
+| CPR | No pulse, stopped breathing, gasping after collapse | WikiMed, Cardiopulmonary resuscitation, and WHO Medical Resuscitation Algorithm, p. 1 |
 | Unresponsive person | Fainted, passed out, won't wake or respond | Hesperian Where There Is No Doctor, chapter 10, p. 4 |
-| Drowning | Fell into a pool, river, or well, fell overboard, gasping after a rescue | WikiMed, Drowning |
-| Electric shock | Live wire, shock from a cord or socket | WikiMed, Electrical injury |
+| Drowning | Fell into a pool, river, or well, fell overboard, gasping after a rescue | WikiMed, Drowning, and WHO/ICRC Basic Emergency Care, p. 89 |
+| Electric shock | Shock from a cord, socket, fence or appliance | WikiMed, Electrical injury, and FEMA CERT, p. 175 |
 | Heart attack | Chest pressure, chest pain with arm or jaw pain | WHO/ICRC Basic Emergency Care, p. 203 |
 | Stroke | Facial droop, one-sided weakness, slurred speech | WHO/ICRC Basic Emergency Care, p. 139 |
 | Anaphylaxis | Tight throat after a sting, lip swelling after a meal | MSF Clinical Guidelines, p. 14 |
-| Poisoning | Swallowed cleaner, pills from an open bottle | WikiMed, Poisoning |
-| Swallowed objects | Gulped a coin, ate a battery, put missing magnets in the mouth | WikiMed, Foreign body |
-| Chemical eye injury | Cleaning fluid or battery liquid in an eye | WikiMed, Chemical eye injury |
-| Carbon monoxide | CO alarm, a generator indoors, exhaust and headache | WikiMed, Carbon monoxide poisoning |
+| Poisoning | Swallowed cleaner, pills from an open bottle | WikiMed, Poisoning, and Hesperian Where There Is No Doctor, chapter 10, p. 29 |
+| Swallowed objects | Gulped a coin, ate a battery, put missing magnets in the mouth | WikiMed, Foreign body, and WHO/ICRC Basic Emergency Care emergency assessment, p. 26 |
+| Chemical eye injury | Cleaning fluid or battery liquid in an eye | WikiMed, Chemical eye injury, and Hesperian Where There Is No Doctor, chapter 16, p. 3 |
+| Carbon monoxide | CO alarm, a generator indoors, exhaust and headache | WikiMed, Carbon monoxide poisoning, and FEMA CERT, p. 176 |
 | Gas leak | Smell of gas, hissing near a stove | FEMA CERT, p. 176 |
 | House fire | Smoke filling a hallway, fire in a home | FEMA CERT, p. 173 |
 | Electrical fire | Smoking plug, sparking socket | FEMA CERT, p. 175 |
@@ -306,16 +321,24 @@ selection contains every listed source.
 | Fractures | Crooked limb, exposed bone, broken wrist | FEMA CERT, p. 110 |
 | Puncture wounds | Stepped on a nail, a shard or wire went through the skin, tetanus booster | Hesperian Where There Is No Doctor, chapter 10, p. 15 |
 | Animal bites | A dog bite, a stray cat breaking the skin | MSF Clinical Guidelines, p. 258 |
-| Insect bites and stings | Wasps, bees, insect bites | WikiMed, Arthropod bites and stings |
+| Insect bites and stings | Wasps, bees, insect bites | WikiMed, Arthropod bites and stings, and FEMA CERT, p. 116 |
 | Snakebite | Fang marks or a snake slithering away | MSF Clinical Guidelines, p. 355 |
 | Newborn fever | A newborn with a temperature | MSF Essential Obstetric and Newborn Care, p. 221 |
 | Young infant fever | A young baby with fever or a high thermometer reading | MSF Clinical Guidelines, p. 35 |
 | Diarrhea and dehydration | Watery stools, reduced urination, inability to keep water down | Hesperian Where There Is No Doctor, chapter 13, p. 1 |
 | Childbirth | A baby coming before reaching the hospital | Hesperian A Book for Midwives, chapter 12, p. 14 |
 | Postpartum bleeding | Heavy bleeding after the baby is born | Hesperian A Book for Midwives, chapter 13, p. 3 |
-| Drinking water | Dirty tap water, disinfection, whether creek, lake, or rain water is safe to drink | EPA Emergency Disinfection of Drinking Water, pp. 1–2 |
-| Food in an outage | Warm refrigerator, thawed freezer, outage and meat | FEMA Are You Ready?, p. 26 |
+| Drinking water | Dirty tap water or water from a flooded well, treatment for cooking, drinking or other household use | EPA Emergency Disinfection of Drinking Water, pp. 1–2 |
+| Food in an outage | Warm refrigerator, thawed freezer, outage and meat | FEMA Are You Ready?, p. 13 |
 | Emergency sanitation | Toilets that will not flush, nowhere to dispose of human waste | Hesperian A Community Guide to Environmental Health, chapter 7, p. 2 |
+
+The review found 24 routes whose only destination was WikiMed before this
+pass. It added an installed PDF companion to 20. Four still use WikiMed
+alone after reviewing the 16 GB references: jellyfish stings, testicular
+torsion, high-altitude pulmonary edema, and sudden hearing loss. Some PDF
+companions cover initial assessment or a related hazard. For swallowed
+objects, the PDF covers emergency assessment and airway danger signs.
+[Coverage and exceptions](../catalog/emergency-sections.json)
 
 ## Held-out emergency queries
 
@@ -394,12 +417,36 @@ recall bounds, including “signs of dehydration” at all three library sizes.
 | 128 GB | 97/100 | 8/10 | 4/10 |
 | 1 TB | 97/100 | 8/10 | 5/10 |
 
+### Round 6 emergency search
+
+The 30 queries were fixed before modifying emergency search. A good result
+has a reviewed route for the intended situation among the first three
+cards and excludes any competing topic specified in the sample. The
+readability probes also require a PDF page for an intended topic among the
+first three. A matching route that misses another criterion, or a query
+that gets a nearby guide, is partial. Unmatched cards are poor. An empty
+query returns zero cards.
+[Frozen queries](../tests/search/round6-queries.json)
+
+| Queries | Before good / partial / poor / empty | After good / partial / poor / empty |
+| --- | --- | --- |
+| Crush, entrapment, and electric shock | 0 / 2 / 1 / 7 | 10 / 0 / 0 / 0 |
+| Similar situations | 6 / 1 / 1 / 2 | 10 / 0 / 0 / 0 |
+| Readable alternatives to WikiMed | 0 / 9 / 0 / 1 | 10 / 0 / 0 / 0 |
+| **Total** | **6 / 12 / 2 / 10** | **30 / 0 / 0 / 0** |
+
+CI requires at least 26 good and zero empty for this set. Every emergency
+reader set has a zero-empty floor. The standard and quick ranking checks
+both hit 92, 97, and 97 of the 100 original probes at 16 GB, 128 GB, and
+1 TB respectively.
+
 ## Offline timing and reads
 
 ```sh
 scratch=$(mktemp -d "${TMPDIR:-/tmp}/owl-search.XXXXXX")
 NODE_PATH=/path/to/node_modules PYTHONPATH=src python scripts/search_benchmark.py --assemble "$scratch/16" --check-reader
 NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --round5 --check
+NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --round6 --check
 NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --check
 ```
 

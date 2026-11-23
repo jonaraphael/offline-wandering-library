@@ -36,19 +36,22 @@ export function routeCooldowns(network) {
 
 export function createNetwork({fetchFile = globalThis.fetch, signal, probeURL, onWaiting = () => {}, onRestored = () => {},
     events = globalThis, online = () => globalThis.navigator?.onLine !== false, retryMs = 1_000} = {}) {
-  function delay(ms, wakeOnline = false) {
+  function delay(ms, wakeOnline = false, wakeSignal) {
     signal?.throwIfAborted();
+    if (wakeSignal?.aborted) return Promise.resolve();
     return new Promise((resolve, reject) => {
       const timer = setTimeout(wake, ms);
       function finish() {
         clearTimeout(timer);
         signal?.removeEventListener("abort", abort);
         if (wakeOnline) events.removeEventListener?.("online", wake);
+        wakeSignal?.removeEventListener("abort", wake);
       }
       function wake() { finish(); resolve(); }
       function abort() { finish(); reject(signal.reason); }
       signal?.addEventListener("abort", abort, {once: true});
       if (wakeOnline) events.addEventListener?.("online", wake, {once: true});
+      wakeSignal?.addEventListener("abort", wake, {once: true});
     });
   }
 
@@ -94,7 +97,8 @@ export function createNetwork({fetchFile = globalThis.fetch, signal, probeURL, o
     }
   }
 
-  return {reachable, waitForConnection, retry, delay: (ms = retryMs) => delay(ms), offline: () => !online()};
+  return {reachable, waitForConnection, retry, delay: (ms = retryMs, wakeSignal) => delay(ms, false, wakeSignal),
+    offline: () => !online()};
 }
 
 export async function receiveFile(url, {fetchFile, signal, headers = {}, check, onChunk}) {

@@ -121,7 +121,8 @@ Sources with recorded browser access go direct, including the Kiwix CORS mirror.
 Recorded byte-identical CORS alternates follow the direct route. A publisher
 relay can serve configured non-archive files. Archive relay sampling is
 separately opt-in. [Relay guide](../relay/README.md) The site can
-serve eligible redistributable files whose primary sources lack CORS. The build
+serve eligible redistributable files whose primary sources lack CORS or use
+mutable download URLs. The build
 verifies their size and whole-file SHA-256 before publishing them and preserves
 source credits. For selected ZIP members it verifies the ZIP source and each
 named member before publishing, so the browser writes the original member bytes.
@@ -139,8 +140,19 @@ node --test tests/browser-builder.test.mjs tests/sync-reconcile.test.mjs
 
 Use `--fetch-mirrors --cache /tmp/owl-mirror-cache` to publish the exact editions
 in [the Pages mirror lock](../web/pages-mirrors.json). Pages reuses verified
-cached bytes when available. If a required copy is unavailable or mismatched,
-the build fails before artifact upload and the current deployment stays live.
+cached bytes when available. With `--published-base`, it can recover a copy
+from the prior deployment after a publisher source fails. It verifies the
+reassembled SHA-256 before reusing the copy. If both routes and the cache lack
+the exact bytes, the build fails before artifact upload and the current
+deployment stays live.
+
+The lock includes the publisher PDFs for GNU Bash, Coreutils and Make, the
+Organic Seed Alliance seed-saving guide, and Siyavula’s grade 4–5 English
+Natural Sciences learner books and teacher guides. It also includes the Book
+Dash titles *Amazing Daisy* and *Come Back, Cat*. The grade 6 and grade
+10–12 Siyavula books and OpenStax PDFs still depend on their publisher URLs.
+The combined copies exceed the Pages artifact limit.
+
 Update the lock deliberately when changing published copies. The generator validates checked-in archive part pins
 against their catalog entries. To create a record from a downloaded split-bound
 ZIM, run `python scripts/build_pages.py --archive-pins ASSET_ID FILE`.

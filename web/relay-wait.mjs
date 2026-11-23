@@ -5,16 +5,14 @@ const PROBE_TIMEOUT = 5_000;
 const FAILED_FILES = 3;
 
 export const RELAY_WAIT_REASON = "waiting for the download relay";
+export const RELAY_WAIT_MESSAGE = "The download relay isn’t answering. It may have reached today’s free limit, " +
+  "which resets at midnight UTC. Sync keeps trying by itself every 15 minutes.";
 export const isSmallRelayRoute = (url, id) => new URL(url).pathname === "/assets/" + id;
 
 export function nextRelayProbe(now) {
   let resetProbe = Math.floor(now / DAY) * DAY + 5 * MINUTE;
   if (resetProbe <= now) resetProbe += DAY;
   return Math.min(now + PROBE_INTERVAL, resetProbe);
-}
-
-export function hoursUntilRelayReset(now) {
-  return Math.ceil((DAY - (now % DAY)) / (60 * MINUTE));
 }
 
 export function createRelayWait({routes, archives = {}, assets, fetchFile, network, signal}) {
@@ -77,7 +75,7 @@ export function createRelayWait({routes, archives = {}, assets, fetchFile, netwo
         cache: "no-store", mode: "cors", credentials: "omit", redirect: "error", referrerPolicy: "no-referrer",
         signal: signal ? AbortSignal.any([signal, timeout]) : timeout});
       void response.body?.cancel().catch(() => {});
-      if (response.type === "opaque") return;
+      if (response.type === "opaque" || !response.ok) return;
       unavailable = false;
       answered();
     } catch (_) {
@@ -95,9 +93,11 @@ export function createRelayWait({routes, archives = {}, assets, fetchFile, netwo
   async function wait(onWaiting) {
     while (unavailable) {
       const now = Date.now();
-      onWaiting({kind: "waiting-relay", hours: hoursUntilRelayReset(now)});
-      await network.delay(Math.max(0, nextRelayProbe(lastProbe ?? now) - now));
-      if (await network.waitForConnection()) onWaiting({kind: "waiting-relay", hours: hoursUntilRelayReset(Date.now())});
+      const wake = new AbortController();
+      const waiting = {kind: "waiting-relay", tryNow: () => wake.abort()};
+      onWaiting(waiting);
+      await network.delay(Math.max(0, nextRelayProbe(lastProbe ?? now) - now), wake.signal);
+      if (await network.waitForConnection()) onWaiting(waiting);
       await probe();
     }
   }

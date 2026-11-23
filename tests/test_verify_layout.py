@@ -46,13 +46,36 @@ class VerifyLayoutTests(unittest.TestCase):
         self.entries.append("LIBRARY/BUILD_INFO.json")
         self.write_manifest()
 
+    def inventory(self, *assets):
+        (self.library / "INVENTORY.json").write_text(json.dumps({"assets": assets}), encoding="utf-8")
+        self.entries.append(verify.INVENTORY)
+        self.write_manifest()
+
+    def test_selection_count_comes_from_verified_inventory_files(self):
+        self.inventory({"destination": "README.txt", "utility_tier": "CRITICAL"},
+                       {"destination": "guide.txt"})
+        guide = self.library / "guide.txt"
+        # Add the second managed file and rebuild the manifest as a builder would.
+        guide.write_bytes(b"pinned guide")
+        self.entries.append("LIBRARY/guide.txt")
+        self.record(content_complete=True, asset_count=2, knowledge_count=2, selected_count=2)
+        self.assertIn("COMPLETE: 2 of 2 selected files present", self.check()[1])
+        guide.write_bytes(b"damaged")
+        self.assertIn("INCOMPLETE: 1 of 2 selected files missing or damaged (0 critical)", self.check()[1])
+        guide.write_bytes(b"pinned guide")
+        (self.library / "README.txt").unlink()
+        self.assertIn("INCOMPLETE: 1 of 2 selected files missing (1 critical)", self.check()[1])
+        with patch("builtins.print"):
+            self.assertEqual(verify.main([str(self.root), "--strict"]), 1)
+
     def test_partial_selection_and_checksum_integrity_are_separate(self):
+        self.inventory()
         self.record(content_complete=False, asset_count=0, selected_count=1,
                     missing=[{"id": "guide", "utility_tier": "CRITICAL"}])
         messages = []
         status, lines = self.check()
         self.assertEqual(status["FAILED"], 0)
-        self.assertIn("Integrity: OK=4, MISSING=0, FAILED=0, UNKNOWN=0", lines)
+        self.assertIn("Integrity: OK=5, MISSING=0, FAILED=0, UNKNOWN=0", lines)
         self.assertIn("INCOMPLETE: 1 of 1 selected files missing (1 critical)", "\n".join(lines))
         with patch("builtins.print", side_effect=messages.append):
             self.assertEqual(verify.main([str(self.root)]), 0)
@@ -62,10 +85,23 @@ class VerifyLayoutTests(unittest.TestCase):
             self.assertEqual(verify.main([str(self.root), "--strict", "--accept-partial"]), 1)
 
     def test_split_archive_counts_as_present(self):
+        archive = b"archive"
+        parts = list(verify.zim_part_paths("archive.zim", len(archive), 4))
+        for part in parts:
+            data = archive[part["start"]:part["start"] + part["bytes"]]
+            (self.root / part["path"]).write_bytes(data)
+            self.entries.append(part["path"])
+            part["sha256"] = hashlib.sha256(data).hexdigest()
+        self.inventory({"destination": "archive.zimaa", "format": "zim", "bytes": len(archive),
+                        "sha256": hashlib.sha256(archive).hexdigest(), "parts": parts})
         self.record(content_complete=True, asset_count=1, selected_count=1,
                     kept_in_parts=[{"id": "archive", "parts": 2}])
         self.assertIn("COMPLETE: 1 of 1 selected files present", self.check()[1])
-        self.assertEqual(verify.main([str(self.root), "--strict"]), 0)
+        with patch("builtins.print"):
+            self.assertEqual(verify.main([str(self.root), "--strict"]), 0)
+            (self.root / parts[-1]["path"]).unlink()
+            self.assertEqual(verify.main([str(self.root), "--strict"]), 1)
+        self.assertIn("INCOMPLETE: 1 of 1 selected files missing (0 critical). Zero knowledge files present", self.check()[1])
 
     def test_strict_reports_declared_support_omissions_even_when_all_content_is_present(self):
         self.record(content_complete=True, asset_count=1, selected_count=1, support_complete=False,
@@ -100,11 +136,11 @@ class VerifyLayoutTests(unittest.TestCase):
 
     def test_legacy_metadata_and_software_only_inventory(self):
         self.record(content_complete=True, asset_count=1)
-        self.assertIn("COMPLETE: 1 files present", self.check()[1])
-        (self.library / "INVENTORY.json").write_text(json.dumps({"assets": [
-            {"destination": "SOFTWARE/reader.zip"}]}), encoding="utf-8")
-        self.entries.append("LIBRARY/INVENTORY.json")
-        self.write_manifest()
+        self.assertIn("COMPLETENESS UNKNOWN: no verified asset inventory on this drive", self.check()[1])
+        (self.library / "SOFTWARE").mkdir()
+        (self.library / "SOFTWARE/reader.zip").write_bytes(b"reader")
+        self.entries.append("LIBRARY/SOFTWARE/reader.zip")
+        self.inventory({"destination": "SOFTWARE/reader.zip"})
         self.assertEqual(verify.main([str(self.root), "--strict"]), 1)
         self.assertIn("INCOMPLETE: zero knowledge files present", self.check()[1])
 
@@ -156,7 +192,8 @@ class VerifyLayoutTests(unittest.TestCase):
             result, messages = self.check()
             self.assertEqual(result, {"OK": 3, "MISSING": 0, "FAILED": 0, "UNKNOWN": 1})
             self.assertTrue(any(line.startswith("UNKNOWN") and "personal.txt" in line for line in messages))
-            self.assertTrue(blocked.isdisjoint(attempted))
+            self.assertTrue(blocked.issubset(attempted))
+            self.assertIn("Ignored OS metadata files: 0 (4 protected metadata directories could not be counted)", messages)
             # Unreadable personal directories must still fail the verification.
             personal = self.root / "personal-directory"
             personal.mkdir()
@@ -165,21 +202,41 @@ class VerifyLayoutTests(unittest.TestCase):
             self.assertEqual(result["FAILED"], 1)
             self.assertTrue(any(line.startswith("FAILED") and "personal-directory" in line for line in messages))
 
-    def test_same_named_volume_metadata_inside_library_is_enumerated_and_verified(self):
-        for name in (".Trashes", ".Spotlight-V100", ".fseventsd", ".TemporaryItems"):
-            directory = self.library / name
-            directory.mkdir()
-            (directory / "personal.txt").write_text("Unknown nested file", encoding="utf-8")
+    def test_os_metadata_at_any_depth_is_ignored_but_managed_files_still_verified(self):
+        names = (".Trashes", ".Spotlight-V100", ".fseventsd", ".TemporaryItems",
+                 "System Volume Information", "$RECYCLE.BIN")
+        for name in names:
+            directory = self.library / name / "subdirectory"
+            directory.mkdir(parents=True)
+            (directory / "metadata.dat").touch()
+        for name in (".DS_Store", "._README.txt", "Thumbs.db", "desktop.ini"):
+            (self.root / name).touch()
+            (self.library / name).touch()
         managed = "LIBRARY/.Trashes/managed.txt"
         (self.root / managed).write_text("Known managed file", encoding="utf-8")
         self.write_manifest([*self.entries, managed])
         result, messages = self.check()
-        self.assertEqual(result, {"OK": 4, "MISSING": 0, "FAILED": 0, "UNKNOWN": 4})
-        self.assertTrue(any(line.startswith("UNKNOWN") and "LIBRARY/.Trashes/personal.txt" in line for line in messages))
+        self.assertEqual(result, {"OK": 4, "MISSING": 0, "FAILED": 0, "UNKNOWN": 0})
+        self.assertIn("Ignored OS metadata files: 14", messages)
+        with patch("builtins.print"):
+            self.assertEqual(verify.main([str(self.root), "--strict"]), 0)
         (self.root / managed).write_text("Changed managed file", encoding="utf-8")
         result, messages = self.check()
         self.assertEqual(result["FAILED"], 1)
         self.assertTrue(any(line.startswith("FAILED") and managed in line for line in messages))
+
+    def test_integrity_only_accepts_unrelated_files_and_fails_managed_errors(self):
+        (self.root / "personal.txt").touch()
+        with patch("builtins.print") as output:
+            self.assertEqual(verify.main([str(self.root)]), 0)
+            self.assertEqual(verify.main([str(self.root), "--strict"]), 1)
+            self.assertEqual(verify.main([str(self.root), "--strict", "--accept-partial"]), 1)
+            self.assertTrue(any(line.startswith("UNKNOWN") and line.endswith("personal.txt")
+                                for (line,), _ in output.call_args_list))
+            (self.library / "README.txt").write_bytes(b"damaged")
+            self.assertEqual(verify.main([str(self.root)]), 1)
+            (self.library / "README.txt").unlink()
+            self.assertEqual(verify.main([str(self.root)]), 1)
 
     def test_root_volume_metadata_symlinks_are_rejected_before_exclusion(self):
         outside = self.base / "outside-metadata"

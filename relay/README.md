@@ -53,6 +53,13 @@ route and switches when a peer is at least 25% faster or the direct sample
 fails. If a peer fails
 during transfer, the current archive returns to the direct route.
 
+For ordinary publisher files, a request for the full file (`bytes=0-` or a
+range covering the entire file) can receive HTTP 200 when the publisher
+ignores Range and declares the pinned length. For an ignored sub-range, the
+relay returns HTTP 416 and exposes `X-OWL-Reason: publisher-ignores-range`
+through CORS. Clients can retry with a whole-file GET without a Range header.
+Archive peers still require a bounded range and a matching HTTP 206 response.
+
 Generate a Pages artifact with relay routes using the corresponding origin.
 
 ```sh

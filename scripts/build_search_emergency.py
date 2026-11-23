@@ -28,7 +28,8 @@ SEMANTIC_END = "  // END GENERATED EMERGENCY VECTORS\n"
 SOURCE_IDS = {
     "cert", "medical_bec", "msf_guideline-170-en", "msf_guideline-449-en",
     "fema_are_you_ready_2020", "wikimed_en", "fao_family_metal_silos",
-    "ucdavis_smallscale_postharvest",
+    "ucdavis_smallscale_postharvest", "who_emergency_medical-algorithm",
+    "hesperian_en_cgeh_2012_17",
 }
 HESPERIAN_CHAPTER = re.compile(r"hesperian_en_(?:wtnd_2025|midw_2026)_\d{2}$")
 
@@ -124,27 +125,54 @@ def compile_routes(sources):
         source_formats[key] = asset["format"]
         source_locations[key] = set(indexed_locations(manifest, digest))
 
-    used, topics, destinations, lines = set(), set(), set(), []
+    used, topics, destinations, lines, archive_only = set(), set(), set(), [], set()
+
+    def compile_locations(topic, locations, title=None):
+        routes, seen = [], set()
+        for key, locator, heading in locations:
+            locator_type = int if source_formats[key] == "pdf" else str
+            destination = (source_ids[key], locator, heading)
+            if (type(locator) is not locator_type or locator not in source_locations[key]
+                    or not heading or destination in seen):
+                raise ValueError(f"Invalid destination for {topic}: {key}, {locator}")
+            used.add(key)
+            destinations.add(destination)
+            seen.add(destination)
+            routes.append([key, locator] if heading == title else [key, locator, heading])
+        return routes
+
     for topic, title, locations, aliases in review["situations"]:
         if not topic or topic in topics or not title or not locations:
             raise ValueError(f"Invalid or duplicate situation {topic!r}")
         topics.add(topic)
-        routes = []
-        for key, locator, heading in locations:
-            locator_type = int if source_formats[key] == "pdf" else str
-            if (type(locator) is not locator_type or locator not in source_locations[key]
-                    or not heading or [source_ids[key], locator, heading] in routes):
-                raise ValueError(f"Invalid destination for {topic}: {key}, {locator}")
-            used.add(key)
-            destinations.add((source_ids[key], locator, heading))
-            routes.append([source_ids[key], locator, heading])
+        if all(source_formats[key] == "zim" for key, _, _ in locations):
+            archive_only.add(topic)
+        routes = compile_locations(topic, locations, title)
         lines.append("    " + json.dumps([topic, title, routes, aliases], ensure_ascii=True, separators=(",", ":")) + ",\n")
-    if used != source_ids.keys():
-        raise ValueError("Review contains unused editions")
-    body = "  const sectionRoutes = compileSectionRoutes([\n" + "".join(lines) + "  ]);\n"
+    body = "  const sectionSources = " + json.dumps(source_ids, separators=(",", ":")) + ";\n"
+    body += "  const sectionRoutes = compileSectionRoutes([\n" + "".join(lines) + "  ]);\n"
     runtime = RUNTIME.read_text(encoding="utf-8")
     established_source = runtime.split("  const reviewedRoutes = [", 1)[1].split("  const routePhrase", 1)[0]
     established = set(re.findall(r"^    \['([a-z0-9-]+)',", established_source, re.MULTILINE))
+    established_archives = set(re.findall(r"^    \['([a-z0-9-]+)', '[^']+', 'wikimed_en',", established_source,
+                                         re.MULTILINE))
+    companions = review["companions"]
+    if companions.keys() - established_archives:
+        raise ValueError("PDF companions must belong to established WikiMed routes")
+    archive_only.update(established_archives - companions.keys())
+    exceptions = review["archiveOnly"]
+    if archive_only != exceptions.keys() or not all(exceptions.values()):
+        raise ValueError(f"Review and explain all routes without a PDF: {sorted(archive_only)}")
+    lines = []
+    for topic, locations in companions.items():
+        if not locations or any(source_formats[key] != "pdf" for key, _, _ in locations):
+            raise ValueError(f"{topic}: companions must be PDF sections")
+        routes = compile_locations(topic, locations)
+        lines.append("    " + json.dumps([topic, routes], ensure_ascii=True, separators=(",", ":")) + ",\n")
+    body += "  const reviewedCompanions = new Map([\n" + "".join(lines) + "  ].map(([topic, locations]) =>\n"
+    body += "    [topic, resolveSectionLocations(locations)]));\n"
+    if used != source_ids.keys():
+        raise ValueError("Review contains unused editions")
     vectors = compile_descriptions(manifest, topics, established)
     return body, vectors, len(destinations), len(topics)
 
@@ -177,6 +205,8 @@ def main():
     publish_table(RANK_RUNTIME, SEMANTIC_START, SEMANTIC_END, vectors, args.check)
     print(f"{destinations} reviewed section destinations across {situations} situations")
     print(f"{len(vectors.encode('ascii')):,} bytes of vectors in the indexed ranker")
+    archive_only = json.loads(DATA.read_text(encoding="utf-8"))["archiveOnly"]
+    print(f"{len(archive_only)} emergency situations with only WikiMed destinations")
 
 
 if __name__ == "__main__":

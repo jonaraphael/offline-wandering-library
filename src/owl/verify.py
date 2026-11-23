@@ -16,7 +16,9 @@ STATE = "LIBRARY/.owl/state.json"
 BUILD_INFO = "LIBRARY/BUILD_INFO.json"
 INVENTORY = "LIBRARY/INVENTORY.json"
 ZIM_PART_BYTES = 1 << 30
-VOLUME_METADATA_DIRS = {".Trashes", ".Spotlight-V100", ".fseventsd", ".TemporaryItems"}
+OS_METADATA_DIRS = {".trashes", ".spotlight-v100", ".fseventsd", ".temporaryitems",
+                    "system volume information", "$recycle.bin"}
+OS_METADATA_FILES = {".ds_store", "thumbs.db", "desktop.ini"}
 
 
 def _is_link(info: os.stat_result) -> bool:
@@ -197,41 +199,47 @@ def support_status(root: Path, info: dict | None) -> tuple[bool, str]:
     return False, "SUPPORT UNKNOWN: no support status in the build report"
 
 
-def _completeness(root: Path, info: dict | None) -> tuple[bool, str]:
+def _completeness(info: dict | None, assets, integrity) -> tuple[bool, str]:
     if info is None:
         return False, "COMPLETENESS UNKNOWN: no build report on this drive"
-    present = info.get("asset_count")
     selected = info.get("selected_count")
-    knowledge = info.get("knowledge_count")
     missing = info.get("missing", [])
     complete = info.get("content_complete")
-    for count in (present, selected, knowledge):
-        if count is not None and (type(count) is not int or count < 0):
-            raise ValueError("invalid completeness counts")
+    if selected is not None and (type(selected) is not int or selected < 0):
+        raise ValueError("invalid selected file count")
     if not isinstance(missing, list) or any(not isinstance(row, dict) for row in missing):
         raise ValueError("invalid missing-file list")
     if complete is not None and type(complete) is not bool:
         raise ValueError("invalid content_complete flag")
-    if knowledge is None and present:
-        # Older builds counted apps and supporting files as assets, too.
-        inventory = _record(root, "LIBRARY/INVENTORY.json") or {}
-        assets = inventory.get("assets")
-        if isinstance(assets, list) and len(assets) == present and all(
-                isinstance(asset, dict) and isinstance(asset.get("destination"), str) for asset in assets):
-            knowledge = 0
-            for asset in assets:
-                member = asset.get("archive_member") or {}
-                if not isinstance(member, dict):
-                    raise ValueError("invalid archive member in inventory")
-                knowledge += (not asset["destination"].startswith("SOFTWARE/") and
-                              not asset.get("supporting_file") and member.get("document", True) is not False)
-    # Both builders count verified split archives once, through asset_count.
-    absent = max(len(missing), selected - present if selected is not None and present is not None else 0)
+    if assets is None:
+        if complete is False or missing:
+            return True, "INCOMPLETE: the build report marks this selection incomplete"
+        return False, "COMPLETENESS UNKNOWN: no verified asset inventory on this drive"
+
+    present = knowledge = 0
+    damaged = False
+    missing = list(missing)
+    for asset, paths in assets:
+        statuses = {integrity.get(path) for path in paths}
+        if statuses != {"OK"}:
+            missing.append(asset)
+            damaged |= "FAILED" in statuses
+            continue
+        present += 1
+        member = asset.get("archive_member") or {}
+        if not isinstance(member, dict):
+            raise ValueError("invalid archive member in inventory")
+        knowledge += (not asset["destination"].startswith("SOFTWARE/") and
+                      not asset.get("supporting_file") and member.get("document", True) is not False)
+
+    absent = max(len(missing), selected - present if selected is not None else 0)
     empty = knowledge == 0 or present == 0
     if complete is False or absent or empty:
-        if absent and selected is not None:
+        if absent:
             critical = sum(row.get("utility_tier") == "CRITICAL" for row in missing)
-            detail = f"{absent} of {selected} selected files missing ({critical} critical)"
+            quantity = f"{absent} of {selected}" if selected is not None else str(absent)
+            condition = "missing or damaged" if damaged else "missing"
+            detail = f"{quantity} selected files {condition} ({critical} critical)"
         elif empty:
             detail = "zero knowledge files present"
         else:
@@ -239,16 +247,19 @@ def _completeness(root: Path, info: dict | None) -> tuple[bool, str]:
         if empty and absent and selected is not None:
             detail += ". Zero knowledge files present"
         return True, f"INCOMPLETE: {detail}"
-    if selected is not None and present is not None:
+    if selected is not None:
         return False, f"COMPLETE: {present} of {selected} selected files present"
     if complete is True:
-        return False, f"COMPLETE: {present} files present" if present is not None else "COMPLETE: build report confirms selection"
+        return False, f"COMPLETE: {present} files present"
     return False, "COMPLETENESS UNKNOWN: build report has no selection status"
 
 
 def verify_drive(target: Path, *, emit=print, allow_incomplete: bool = False) -> dict:
     root = target.resolve()
     counts = {"OK": 0, "MISSING": 0, "FAILED": 0, "UNKNOWN": 0}
+    integrity = {}
+    assets = None
+    ignored_files = unreadable_metadata = 0
     def report(status, path, detail=""):
         counts[status] += 1
         emit(f"{status:7} {path}" + (f" ({detail})" if detail else ""))
@@ -266,13 +277,17 @@ def verify_drive(target: Path, *, emit=print, allow_incomplete: bool = False) ->
     def summaries():
         try:
             info = _record(root, BUILD_INFO)
-            incomplete, detail = _completeness(root, info)
+            incomplete, detail = _completeness(info, assets if integrity.get(INVENTORY) == "OK" else None, integrity)
             support_incomplete, support = support_status(root, info)
         except (OSError, ValueError) as error:
             report("FAILED", BUILD_INFO, str(error))
             incomplete, detail = False, "COMPLETENESS UNKNOWN: build metadata could not be read"
             support_incomplete, support = False, "SUPPORT UNKNOWN: build metadata could not be read"
         emit("Integrity: " + ", ".join(f"{key}={value}" for key, value in counts.items()))
+        ignored = f"Ignored OS metadata files: {ignored_files}"
+        if unreadable_metadata:
+            ignored += f" ({unreadable_metadata} protected metadata directories could not be counted)"
+        emit(ignored)
         emit(detail)
         emit(support)
         if incomplete:
@@ -310,40 +325,61 @@ def verify_drive(target: Path, *, emit=print, allow_incomplete: bool = False) ->
     grouped = {}
     try:
         inventory = _record(root, INVENTORY) if INVENTORY in entries else None
-        for asset in (inventory or {}).get("assets", []):
-            if not isinstance(asset, dict):
-                raise ValueError("invalid inventory asset")
-            parts = split_inventory(asset)
-            if not parts:
-                continue
-            whole = hashlib.sha256()
-            for index, part in enumerate(parts):
-                name = part["path"]
-                if name in grouped or entries.get(name) != part["sha256"]:
-                    raise ValueError(f"split ZIM part differs from checksum manifest: {name}")
-                grouped[name] = whole, part["bytes"], asset["sha256"] if index == len(parts) - 1 else None
+        if inventory is not None:
+            rows = inventory.get("assets")
+            if not isinstance(rows, list):
+                raise ValueError("invalid inventory assets")
+            asset_paths = []
+            for asset in rows:
+                if not isinstance(asset, dict) or not isinstance(asset.get("destination"), str):
+                    raise ValueError("invalid inventory asset")
+                parts = split_inventory(asset)
+                paths = ["LIBRARY/" + asset["destination"]]
+                if not parts and paths[0] not in entries:
+                    raise ValueError(f"asset is absent from checksum manifest: {paths[0]}")
+                if parts:
+                    whole = hashlib.sha256()
+                    paths = [part["path"] for part in parts]
+                    for index, part in enumerate(parts):
+                        name = part["path"]
+                        if name in grouped or entries.get(name) != part["sha256"]:
+                            raise ValueError(f"split ZIM part differs from checksum manifest: {name}")
+                        grouped[name] = whole, part["bytes"], asset["sha256"] if index == len(parts) - 1 else None
+                asset_paths.append((asset, paths))
+            assets = asset_paths
     except (OSError, TypeError, ValueError) as error:
         report("FAILED", INVENTORY, str(error))
     for relative, expected in sorted(entries.items()):
+        detail = ""
         try:
             path = _path(root, relative)
             whole, size, final = grouped.get(relative, (None, None, None))
             if not path.exists():
-                report("MISSING", relative)
+                status = "MISSING"
             elif (not path.is_file() or (size is not None and path.stat().st_size != size) or
                   (file_hash(path, whole) if whole is not None else file_hash(path)) != expected):
-                report("FAILED", relative, "SHA-256 differs or not a regular file")
+                status, detail = "FAILED", "SHA-256 differs or not a regular file"
             elif final is not None and whole.hexdigest() != final:
-                report("FAILED", relative, "whole split ZIM SHA-256 differs")
+                status, detail = "FAILED", "whole split ZIM SHA-256 differs"
             else:
-                report("OK", relative)
+                status = "OK"
         except (OSError, ValueError) as error:
-            report("FAILED", relative, str(error))
+            status, detail = "FAILED", str(error)
+        integrity[relative] = status
+        report(status, relative, detail)
+
+    metadata_directories = set()
+
     def walk_error(error):
+        nonlocal unreadable_metadata
+        if isinstance(error, PermissionError) and error.filename and Path(error.filename) in metadata_directories:
+            unreadable_metadata += 1
+            return
         report("FAILED", os.fspath(error.filename or root), str(error))
 
     for directory, dirs, files in os.walk(root, followlinks=False, onerror=walk_error):
         base = Path(directory)
+        inside_metadata = base in metadata_directories
         for name in dirs[:]:
             path = base / name
             try:
@@ -355,18 +391,23 @@ def verify_drive(target: Path, *, emit=print, allow_incomplete: bool = False) ->
             if linked:
                 dirs.remove(name)
                 report("FAILED", path.relative_to(root).as_posix(), "symlink/junction/reparse point")
-        if base == root:
-            # macOS protects these volume directories. Reject links above before
-            # excluding their contents; the exemption never applies in LIBRARY.
-            dirs[:] = [d for d in dirs if d not in VOLUME_METADATA_DIRS]
-        elif base == root / "LIBRARY":
-            dirs[:] = [d for d in dirs if d != ".owl"]
+            elif base == root / "LIBRARY" and name == ".owl":
+                dirs.remove(name)
+            elif inside_metadata or name.casefold() in OS_METADATA_DIRS:
+                metadata_directories.add(path)
         for name in files:
             path = base / name
             relative = path.relative_to(root).as_posix()
             if relative not in entries and relative != MANIFEST:
                 try:
-                    report("FAILED" if _is_link(path.lstat()) else "UNKNOWN", relative)
+                    info = path.lstat()
+                    if _is_link(info):
+                        report("FAILED", relative, "symlink/junction/reparse point")
+                    elif stat.S_ISREG(info.st_mode) and (
+                            inside_metadata or name.casefold() in OS_METADATA_FILES or name.startswith("._")):
+                        ignored_files += 1
+                    else:
+                        report("UNKNOWN", relative)
                 except OSError as error:
                     report("FAILED", relative, str(error))
     return summaries()
@@ -376,10 +417,11 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("target", nargs="?", type=Path, default=Path(__file__).resolve().parent.parent,
                         help="outer drive folder containing START_HERE.html and LIBRARY/")
-    parser.add_argument("--strict", action="store_true", help="also fail on incomplete content or support and unrelated files")
+    parser.add_argument("--strict", action="store_true",
+                        help="also fail on incomplete content or support and unrelated files")
     parser.add_argument("--accept-partial", action="store_true", help="accept incomplete content and support with --strict")
     args = parser.parse_args(argv)
-    result = verify_drive(args.target)
+    result = verify_drive(args.target, emit=print)
     return int(bool(result["FAILED"] or result["MISSING"] or
                     args.strict and (result["UNKNOWN"] or
                                      (result.get("INCOMPLETE") or result.get("SUPPORT_INCOMPLETE")) and not args.accept_partial)))

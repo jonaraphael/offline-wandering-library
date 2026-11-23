@@ -1,10 +1,11 @@
 import {createNetwork, SourceError} from "./network.mjs";
 import {diag} from "./diagnostics.mjs";
 import {activateReaderPreview, publishReaderLink} from "./reader-preview.mjs";
-import {browserSelection, buildOrder, compareLibrary, DrivePathConflict, inspectDrive, isKnowledgeFile, PART_BYTES, reconcile} from "./builder.mjs";
+import {browserSelection, buildOrder, compareLibrary, DrivePathConflict, inspectDrive, isKnowledgeFile,
+  LARGE_FILE_MESSAGE, PART_BYTES, reconcile} from "./builder.mjs";
 import {getRememberedDrive, hasDrivePermission, keepScreenAwake, measureFreeSpace,
   pickDrive, rememberDrive, requestDrivePermission} from "./drive.mjs";
-import {isSmallRelayRoute, RELAY_WAIT_REASON} from "./relay-wait.mjs";
+import {isSmallRelayRoute, RELAY_WAIT_MESSAGE, RELAY_WAIT_REASON} from "./relay-wait.mjs";
 
 const INDEX_ALLOWANCE = 16 * 2 ** 20;
 const GB = 1e9;
@@ -31,6 +32,31 @@ async function get(url, signal) {
     throw error;
   }
 }
+
+export async function prepareDownloadSources(assets, {routes, published, network, signal, read = get}) {
+  const unavailableSupport = [];
+  const ranged = assets.filter(asset => asset.format === "zim" && asset.size_bytes > RELAY_PIECE_BYTES &&
+    routes[asset.id]?.length);
+  const archivesWithoutMetadata = new Set();
+  const [search, publisherPieces] = await Promise.all([
+    network.retry(() => read("./search-build.json", signal)).catch(error => {
+      signal?.throwIfAborted();
+      unavailableSupport.push({kind: "search", title: "Search index", reason: error.message});
+    }),
+    ranged.length && network.retry(() => read("./kiwix-pieces.json", signal)).catch(error => {
+      signal?.throwIfAborted();
+      for (const {id, size_bytes} of ranged) {
+        if (size_bytes > PART_BYTES && !published.chunks?.[id]) archivesWithoutMetadata.add(id);
+      }
+    })
+  ]);
+  return {search, publisherPieces: publisherPieces || undefined, unavailableSupport, archivesWithoutMetadata};
+}
+
+export const archiveDriveOptions = (driveFormat, split) => ({
+  singleArchives: driveFormat === "large" && !split,
+  fat32: driveFormat === "fat32" || driveFormat === "large" && split
+});
 
 export async function load() {
   const [catalog, published] = await Promise.all([get("./catalog.json"), get("./chunk-manifests.json")]);
@@ -325,9 +351,10 @@ export function completionState({state, completed, missing, searchWarnings, supp
     (deferred === 1 ? " is " : " are ") + RELAY_WAIT_REASON + "." : "";
   const support = appSupport + generalSupport + phoneSupport + relaySupport;
   if (!files) return {mode: "failed", title: "Sync could not finish", message: summary + support};
-  if (state.finished && !unavailable) return {mode: "done", extra: partsMessage(keptInParts)};
+  const splitMessage = state.largeFileLimited && keptInParts.length ? LARGE_FILE_MESSAGE : partsMessage(keptInParts);
+  if (state.finished && !unavailable) return {mode: "done", extra: splitMessage};
   return {mode: "done-gaps", title: unavailable ? "Ready, with " + countOf(unavailable, "item") + " missing" :
-    "Ready, with some files missing", message: [summary + support, partsMessage(keptInParts)].filter(Boolean).join(" ")};
+    "Ready, with some files missing", message: [summary + support, splitMessage].filter(Boolean).join(" ")};
 }
 
 const canTryLibrary = mode => mode === "done" || mode === "done-gaps";
@@ -343,6 +370,7 @@ export function mount({catalog: supplied} = {}) {
   const announcement = byId("sync-announcement");
   const primary = byId("sync-primary"), secondary = byId("sync-secondary"), ring = byId("sync-ring");
   const freeForm = byId("drive-free-form"), freeField = byId("drive-free-space"), freeUnit = byId("drive-free-unit");
+  const formatQuestion = byId("drive-format-question"), formatField = byId("drive-format");
   const tryLink = element("a", "primary", "Try it");
   tryLink.target = "_blank";
   tryLink.rel = "noopener";
@@ -358,10 +386,11 @@ export function mount({catalog: supplied} = {}) {
   essentialStatus.hidden = true;
   byId("collection-search").before(essentialStatus);
   let managePlan, manageBudget, manageEssentials;
-  let measured, reported = false, minimum, capacity, forceSplit = false, size, mode, previousMode, problem, result, controller, opened = 0;
+  let measured, reported = false, minimum, capacity, driveFormat = "unknown", detectedFormat, size, mode, previousMode, problem, result,
+    controller, opened = 0;
   let operation = 0, picker = false, preview = false, fullCheck = false, selectedReplacement = new Set();
   let active = new Map(), transferTotal = 0, transferStarted, rateStart, rateBytes, rate = 0, nowTitle = "", lastPaint = 0;
-  let dirty = false, finishing = false, driveChoice, relayHours, manageAfterPause = false;
+  let dirty = false, finishing = false, driveChoice, relayTryNow, manageAfterPause = false;
   how();
   try { snapshot = JSON.parse(localStorage.getItem(rememberedKey())); } catch {}
 
@@ -436,7 +465,7 @@ export function mount({catalog: supplied} = {}) {
   const available = () => plan && !plan.over && !plan.errors.length && plan.assets.some(isKnowledgeFile);
   const comparisonOptions = () => ({assets: plan.assets, choice: plan.choice, catalogVersion: catalogVersion(),
     navigation: catalog.navigation, readerPublication: READER_PUBLICATION,
-    singleArchives: !plan.choice.split, fat32: plan.choice.split, freeBytes: effectiveFree(), archiveSpace: plan.capacity - plan.reserve});
+    ...archiveDriveOptions(driveFormat, plan.choice.split), freeBytes: effectiveFree(), archiveSpace: plan.capacity - plan.reserve});
   const totalDone = () => [...active.values()].reduce((sum, count) => sum + count, 0);
   // A side with nothing to do is left out: "removes 3.57 GB", not "adds 0 B, removes 3.57 GB".
   const changeLine = prefix => {
@@ -478,6 +507,7 @@ export function mount({catalog: supplied} = {}) {
     }
     reported = true;
     size = undefined;
+    driveFormat = detectedFormat || formatField.value;
     render("measuring");
     void planDrive(value).catch(showProblem);
   };
@@ -551,10 +581,8 @@ export function mount({catalog: supplied} = {}) {
         break;
       case "waiting-relay":
         Object.assign(item, {step: 2, fraction: syncFraction, title: "Waiting for the download relay",
-          action: ["Pause", pause, true], links: [["Manage what goes on it", pauseToManage]],
-          message: "Today’s free downloads through the relay may be used up. Sync continues by itself when the relay answers. " +
-            "The daily limit resets at midnight UTC (in about " + countOf(relayHours, "hour") + "). " +
-            "Keep this tab open, or come back later and choose Sync."});
+          action: ["Pause", pause, true], links: [["Try now", () => relayTryNow?.()], ["Manage what goes on it", pauseToManage]],
+          message: RELAY_WAIT_MESSAGE});
         break;
       case "finishing":
         Object.assign(item, {step: 2, fraction: 1, title: "Finishing", message: "Building the search index and the start page."});
@@ -562,7 +590,7 @@ export function mount({catalog: supplied} = {}) {
       case "paused":
         Object.assign(item, {step: 2, fraction: readyFraction, title: "Paused at " + percent(readyFraction), action: syncButton,
           message: inspection?.state?.relayDeferred?.length ?
-            "Files are waiting for the download relay. The relay was busy. Choose Sync to continue." :
+            "Files are waiting for the download relay. Choose Sync to continue." :
             "Nothing is lost. Sync continues where it stopped.", links: [manageLink]});
         break;
       case "done":
@@ -623,7 +651,9 @@ export function mount({catalog: supplied} = {}) {
     }
     if (canTryLibrary(mode) && !tryLink.hasAttribute("href")) item.action = ["Try it", showOpenInstructions];
     if (canTryLibrary(mode) || mode === "failed") {
-      const repaired = result.repairedPages.map(({path, copy}) => "Rebuilt and checked " + path + ". The changed copy is at " + copy + ".");
+      const repaired = result.repairedPages.map(({path, copy, retired}) =>
+        (retired ? "Replaced " + path + " in the new library. " : "Rebuilt and checked " + path + ". ") +
+        "The changed copy is at " + copy + ".");
       item.extra = [item.extra, ...repaired].filter(Boolean).join(" ");
     }
     stage.dataset.state = mode;
@@ -655,6 +685,7 @@ export function mount({catalog: supplied} = {}) {
     }
     byId("drive-sizes").hidden = mode !== "needs-size";
     freeForm.hidden = mode !== "needs-free-space";
+    formatQuestion.hidden = !["needs-free-space", "needs-size"].includes(mode) || Boolean(detectedFormat);
     if (canTryLibrary(mode) && tryLink.hasAttribute("href")) primary.replaceWith(tryLink);
     else tryLink.replaceWith(primary);
     primary.hidden = !item.action;
@@ -740,7 +771,10 @@ export function mount({catalog: supplied} = {}) {
       budget: Math.min(saved.choice?.limitBytes || Infinity, saved.capacityBytes || capacity, catalog.planner.capacity_policy.limit),
       files: Object.keys(saved.installed).sort()
     } : undefined;
-    const current = manage.configure({capacityBytes: Math.max(1, capacity), size, savedChoice: saved?.choice,
+    const forceSplit = !isPreview && driveFormat !== "large";
+    const savedChoice = saved?.choice && driveFormat === "large" && saved.driveFormat && saved.driveFormat !== "large" ?
+      {...saved.choice, split: false} : saved?.choice;
+    const current = manage.configure({capacityBytes: Math.max(1, capacity), size, savedChoice,
       split: forceSplit, forceSplit, connected: !isPreview, installed});
     managePlan = current;
     if (!isPreview) {
@@ -787,10 +821,12 @@ export function mount({catalog: supplied} = {}) {
     freeField.value = "";
     freeField.setCustomValidity("");
     freeUnit.value = "GB";
+    driveFormat = formatField.value = "unknown";
+    detectedFormat = undefined;
     reported = false;
     active = new Map();
     transferTotal = 0;
-    dirty = forceSplit = false;
+    dirty = false;
     selectedReplacement.clear();
     render("measuring");
     const hasPermission = await hasDrivePermission(handle);
@@ -799,13 +835,15 @@ export function mount({catalog: supplied} = {}) {
     const inspected = await inspectDrive(handle);
     if (openedDrive !== operation) return;
     inspection = inspected;
+    driveFormat = formatField.value = inspected.state?.driveFormat || "unknown";
     await init();
     if (openedDrive !== operation) return;
     if (probesCapacity(platform, agent)) {
       const outcome = await lockDrive(() => measureFreeSpace(handle, {onAttempt: value => diag("capacity", value)}));
       if (openedDrive !== operation) return;
       diag("capacity-result", outcome);
-      forceSplit = Boolean(outcome.splitArchives);
+      detectedFormat = outcome.largeFiles ? "large" : outcome.splitArchives ? "fat32" : undefined;
+      if (detectedFormat) driveFormat = formatField.value = detectedFormat;
       if (outcome.kind === "measured") {
         measured = outcome.bytes;
         const total = measured + inspection.heldBytes;
@@ -816,6 +854,7 @@ export function mount({catalog: supplied} = {}) {
     sizesInto(byId("drive-sizes"), undefined, value => {
       reported = false;
       size = value;
+      driveFormat = detectedFormat || formatField.value;
       render("measuring");
       void planDrive(estimateLabelCapacity(value * GB)).catch(showProblem);
     });
@@ -901,7 +940,7 @@ export function mount({catalog: supplied} = {}) {
 
   function onProgress(event) {
     if (event.kind === "plan") {
-      relayHours = undefined;
+      relayTryNow = undefined;
       finishing = false;
       active = new Map(event.files.map(row => [row.id, row.done ? row.bytes : row.savedBytes || 0]));
       transferTotal = event.files.reduce((sum, row) => sum + row.bytes, 0);
@@ -910,7 +949,7 @@ export function mount({catalog: supplied} = {}) {
     }
     if (event.kind === "waiting-network") { render("waiting"); return; }
     if (event.kind === "waiting-relay") {
-      relayHours = event.hours;
+      relayTryNow = event.tryNow;
       render("waiting-relay");
       return;
     }
@@ -951,7 +990,7 @@ export function mount({catalog: supplied} = {}) {
     transferStarted = rateStart = undefined;
     rate = 0;
     finishing = false;
-    relayHours = undefined;
+    relayTryNow = undefined;
     nowTitle = "";
     active = savedAmounts();
     transferTotal = plan.used;
@@ -961,23 +1000,15 @@ export function mount({catalog: supplied} = {}) {
     try {
       if (await requestDrivePermission(drive) !== "granted") throw new DOMException("Permission was refused", "NotAllowedError");
       const network = createNetwork({signal, probeURL: "./.nojekyll", onWaiting: () => onProgress({kind: "waiting-network"}),
-        onRestored: () => render(relayHours !== undefined ? "waiting-relay" : finishing ? "finishing" : "syncing")});
-      const prepareSources = async () => {
-        const unavailableSupport = [];
-        const [search, publisherPieces] = await Promise.all([
-          network.retry(() => get("./search-build.json", signal)).catch(error => {
-            signal.throwIfAborted();
-            unavailableSupport.push({kind: "search", title: "Search index", reason: error.message});
-          }),
-          network.retry(() => get("./kiwix-pieces.json", signal))
-        ]);
-        return {search, publisherPieces, unavailableSupport};
-      };
+        onRestored: () => render(relayTryNow ? "waiting-relay" : finishing ? "finishing" : "syncing")});
+      const prepareSources = assets => prepareDownloadSources(assets, {
+        routes: catalog.routes, published: catalog.published, network, signal
+      });
       let publishedFiles;
       result = await lockDrive(() => reconcile(drive, {...comparisonOptions(), excluded: plan.excluded,
         routes: catalog.routes, published: catalog.published, navigation: catalog.navigation,
         catalogAssets: catalog.planner.assets,
-        searchBudget: plan.searchBudget, capacityBytes: capacity, capacityEstimated: measured === undefined,
+        searchBudget: plan.searchBudget, capacityBytes: capacity, capacityEstimated: measured === undefined, driveFormat,
         replaceInPlace: [...selectedReplacement], fullVerify: fullCheck, prepareSources, signal, network, onProgress,
         onPublished: files => { publishedFiles = files; }}));
       inspection = await inspectDrive(drive);

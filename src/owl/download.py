@@ -21,6 +21,8 @@ from .transfer import (ChecksumMismatchError, TransferError, _check_directory, _
                        _open_regular, durable_writer, resume_copy)
 
 USER_AGENT = f"Offline-Wandering-Library/{__version__} (+offline library builder)"
+BROWSER_USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                      "(KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36")
 
 
 class DownloadError(RuntimeError):

@@ -53,7 +53,7 @@ class FileHandle {
       },
       seek: async bytes => { offset = bytes; },
       truncate: async bytes => this.options.truncate?.(bytes),
-      close: async () => { this.bytes = swap; },
+      close: async () => { this.bytes = await this.options.beforeClose?.(this.name, swap) ?? swap; },
       abort: async () => { this.options.onAbort?.(); }
     };
   }

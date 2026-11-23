@@ -1,12 +1,17 @@
 """Exercise header probes, bounded streams and source fallback."""
+from datetime import date
 from io import BytesIO
 import json
 from pathlib import Path
+import shutil
+import subprocess
 from types import SimpleNamespace
 import sys
 import tempfile
 import unittest
 from unittest.mock import MagicMock, patch
+
+import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import check_links
@@ -67,18 +72,84 @@ class LinkChecksTests(unittest.TestCase):
         self.assertEqual(row["size_method"], "stream")
         stream.assert_called_once()
 
-    def test_known_checker_blocks_are_distinct_from_gone_sources(self):
-        cases = [("openknowledge.fao.org", 403, False, "blocked for this checker"),
-                 ("upload.wikimedia.org", 429, False, "blocked for this checker"),
-                 ("example.test", 403, True, "blocked for this checker"),
-                 ("example.test", 403, False, "unverified"),
-                 ("openknowledge.fao.org", 410, False, "gone")]
-        for host, code, browser, expected in cases:
-            with self.subTest(host=host, code=code, browser=browser), patch.object(
-                    check_links, "urlopen", return_value=self.response(code, {"Content-Length": "42"})):
-                row = check_links.probe(f"https://{host}/file", 42, None, 1, browser_expected=browser)
-            self.assertEqual(row["outcome"], expected)
-            self.assertFalse(row["ok"])
+    def test_checker_denials_require_a_matching_browser_probe_without_origin(self):
+        for status in (403, 429):
+            for browser_status, length, outcome in ((200, 42, "blocked_for_checker"), (200, 40, "size mismatch"),
+                                                     (403, 42, "unverified"), (410, 42, "gone")):
+                denied = self.response(status, {})
+                browser = self.response(browser_status, {"Content-Length": str(length)})
+                with self.subTest(status=status, outcome=outcome), patch.object(
+                        check_links, "urlopen", side_effect=[denied, denied, browser, browser]) as fetch:
+                    row = check_links.probe("https://publisher.test/file", 42, check_links.DEFAULT_ORIGIN, 1)
+                    self.assertEqual(row["outcome"], outcome)
+                    self.assertFalse(row["ok"])
+                    for call in fetch.call_args_list[2:]:
+                        request = call.args[0]
+                        self.assertIsNone(request.get_header("Origin"))
+                        self.assertEqual(request.get_header("User-agent"), check_links.BROWSER_USER_AGENT)
+
+    def test_blocked_only_is_green_and_inconclusive_sources_fail_on_third_distinct_week(self):
+        assets = [{"id": name, "source_url": f"https://publisher.test/{name}", "size_bytes": 42}
+                  for name in ("blocked", "pending")]
+        with (tempfile.TemporaryDirectory() as directory,
+              patch.object(check_links, "load_catalog", return_value=assets),
+              patch.object(check_links, "probe") as probe,
+              patch.object(check_links, "date") as clock,
+              patch("sys.stdout"), patch("sys.stderr")):
+            history = Path(directory) / "history.json"
+            report = Path(directory) / "report.json"
+            history.write_text("{}")
+            outcomes = {"blocked": "blocked_for_checker", "pending": "unverified"}
+            probe.side_effect = lambda url, *_a, **_k: {
+                "url": url, "outcome": outcomes[url.rsplit("/", 1)[1]],
+                "ok": outcomes[url.rsplit("/", 1)[1]] == "matching"}
+            for day, count in ((2, 1), (3, 1), (9, 2), (16, 3)):
+                with self.subTest(day=day):
+                    clock.today.return_value = date(2026, 11, day)
+                    status = check_links.main(["--history", str(history), "--output", str(report)])
+                    result = json.loads(report.read_bytes())
+                    self.assertEqual(status, int(count == 3))
+                    self.assertEqual(result["blocked_assets"], ["blocked"])
+                    self.assertEqual(result["failed_assets"], ["pending"] if count == 3 else [])
+                    self.assertEqual(result["inconclusive_weeks"]["pending"]["count"], count)
+                    history.write_text(json.dumps(result["inconclusive_weeks"]))
+            self.assertEqual(check_links.inconclusive_history(
+                ["pending"], result["inconclusive_weeks"], date(2026, 11, 30))["pending"]["count"], 1)
+            outcomes["pending"] = "matching"
+            self.assertEqual(check_links.main(["--history", str(history), "--output", str(report)]), 0)
+            self.assertEqual(json.loads(report.read_bytes())["inconclusive_weeks"], {})
+
+    @unittest.skipUnless(shutil.which("node"), "Node is required to exercise the GitHub Script step")
+    def test_workflow_closes_the_tracking_issue_with_checker_blocks_reported(self):
+        workflow = yaml.safe_load((check_links.ROOT / ".github/workflows/check-links.yml").read_text(encoding="utf-8"))
+        steps = workflow["jobs"]["check-links"]["steps"]
+        report_script = next(step["with"]["script"] for step in steps if step.get("name") == "Update source check issue")
+        harness = """
+const calls = [];
+const github = {rest: {issues: {update: async data => calls.push(data)}}};
+const context = {repo: {owner: 'owl', repo: 'library'}, serverUrl: 'https://github.test', runId: 123, sha: 'pin'};
+process.env.PROBE_OUTCOME = 'success';
+process.env.ISSUE_NUMBER = '7';
+(async () => {
+""" + report_script + """
+  console.log(JSON.stringify(calls));
+})().catch(error => { console.error(error); process.exitCode = 1; });
+"""
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "link-check-history.json").write_text("{}")
+            (root / "link-checks.json").write_text(json.dumps({
+                "failed_assets": [], "failed_routes": [], "blocked_assets": ["guide"], "blocked_routes": [],
+                "inconclusive_weeks": {"pending": {"week": "2026-11-16", "count": 2}}, "overdue_assets": [],
+            }))
+            result = subprocess.run(["node", "--input-type=commonjs"], input=harness, cwd=root,
+                                    capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+        [update] = json.loads(result.stdout)
+        self.assertEqual((update["issue_number"], update["state"], update["state_reason"]), (7, "closed", "completed"))
+        self.assertIn("## Blocked for this checker\n\n- guide", update["body"])
+        self.assertIn("- pending (2 weeks)", update["body"])
+        self.assertIn('<!-- owl-inconclusive-weeks: {"pending":{"week":"2026-11-16","count":2}} -->', update["body"])
 
     def test_head_success_can_use_a_full_get_when_range_request_fails(self):
         head = self.response(200, {"Content-Length": "42"})
@@ -156,7 +227,7 @@ class LinkChecksTests(unittest.TestCase):
                     redirected = origin and url == primary
                     code = status if redirected else 200
                     return {"url": url, "final_url": final_url if redirected else url, "ok": code == 200,
-                            "cors": code == 200, "outcome": "matching" if code == 200 else "blocked for this checker"}
+                            "cors": code == 200, "outcome": "matching" if code == 200 else "blocked_for_checker"}
 
                 with (tempfile.TemporaryDirectory() as directory,
                       patch.object(check_links, "load_catalog", return_value=assets),

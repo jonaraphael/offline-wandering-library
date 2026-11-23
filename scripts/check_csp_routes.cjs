@@ -54,6 +54,34 @@ async function serve(root, request, response) {
   await pipeline(createReadStream(file, ranged ? {end: bytes - 1} : {}), response);
 }
 
+async function probeBrowserRoutes(urls, fetchURL = fetch) {
+  return Promise.all(urls.map(async url => {
+    try {
+      const signal = AbortSignal.timeout(20_000);
+      let response = await fetchURL(url, {headers: {Range: "bytes=0-15"}, signal});
+      if (response.status === 416 && response.headers.get("X-OWL-Reason") === "publisher-ignores-range") {
+        await response.body?.cancel();
+        response = await fetchURL(url, {signal});
+      }
+      const range = response.headers.get("Content-Range");
+      const reader = response.body?.getReader();
+      // Read only a prefix so a route check never downloads an archive.
+      let bytes = 0;
+      if (response.ok && reader) {
+        while (bytes < 16) {
+          const {value, done} = await reader.read();
+          if (done) break;
+          bytes += value.byteLength;
+        }
+      }
+      await reader?.cancel();
+      return {ok: response.ok && bytes >= 16, detail: "HTTP " + response.status + (range ? " " + range : "")};
+    } catch (error) {
+      return {ok: false, detail: error.message};
+    }
+  }));
+}
+
 async function main(directory, chrome, playwright, siteURL) {
   if (!directory || !chrome || !playwright) {
     throw Error("Usage: node scripts/check_csp_routes.cjs <pages-dir> <chrome> <playwright-core> [published-site-url]");
@@ -92,29 +120,7 @@ async function main(directory, chrome, playwright, siteURL) {
     });
     const navigation = await page.goto(pageURL.href, {waitUntil: "domcontentloaded", timeout: 30_000});
     if (!navigation?.ok()) throw Error("Could not load the built Pages index");
-    const results = await page.evaluate(async urls => {
-      return Promise.all(urls.map(async url => {
-        try {
-          const response = await fetch(url, {headers: {Range: "bytes=0-15"}, signal: AbortSignal.timeout(20_000)});
-          const range = response.headers.get("Content-Range");
-          const reader = response.body?.getReader();
-          // Some publishers ignore Range. Read a prefix and cancel the stream
-          // as soon as we have it, so a route check never downloads an archive.
-          let bytes = 0;
-          if (response.ok && reader) {
-            while (bytes < 16) {
-              const {value, done} = await reader.read();
-              if (done) break;
-              bytes += value.byteLength;
-            }
-          }
-          await reader?.cancel();
-          return {ok: response.ok && bytes >= 16, detail: "HTTP " + response.status + (range ? " " + range : "")};
-        } catch (error) {
-          return {ok: false, detail: error.message};
-        }
-      }));
-    }, [...requests.keys()]);
+    const results = await page.evaluate(probeBrowserRoutes, [...requests.keys()]);
     let passed = 0;
     let index = 0;
     for (const [url, id] of requests) {
@@ -134,7 +140,11 @@ async function main(directory, chrome, playwright, siteURL) {
   }
 }
 
-main(...process.argv.slice(2)).catch(error => {
-  console.error(error);
-  process.exitCode = 1;
-});
+if (require.main === module) {
+  main(...process.argv.slice(2)).catch(error => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = {probeBrowserRoutes};

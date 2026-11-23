@@ -2,7 +2,6 @@
 const assert = require('node:assert/strict');
 const {test} = require('node:test');
 const rank = require('../../src/owl/templates/rank.js');
-const catalog = require('../../src/owl/templates/search.js');
 
 const noVector = () => null;
 const index = (rows) => {
@@ -87,8 +86,8 @@ test('focused indexed results are shown before exact catalog titles', () => {
   const exact = make('CATALOG.html', {score: 100000});
   const ordinary = make('ordinary.pdf', {});
   const focused = make('first-aid.pdf', {focused: true});
-  assert.equal(catalog.mergeRanked([ordinary], [exact])[0], exact);
-  assert.equal(catalog.mergeRanked([focused], [exact])[0], focused);
+  assert.equal(rank.mergeRanked([ordinary], [exact])[0], exact);
+  assert.equal(rank.mergeRanked([focused], [exact])[0], focused);
 });
 
 test('child symptoms favor pediatric references and childbirth still favors delivery guidance', () => {

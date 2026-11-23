@@ -97,6 +97,10 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
     <p class="status" id="sync-status">Any USB drive or SD card with 16 GB to 1 TB free. Files already on it stay.</p>
     <div class="sr-only" id="sync-announcement" aria-live="polite" aria-atomic="true"></div>
     <div class="meter" id="sync-meter" hidden><div class="track" id="sync-track"></div><ul class="legend" id="sync-legend"></ul></div>
+    <div id="drive-format-question" hidden>
+      <label for="drive-format">Is the drive formatted FAT32 (often shown as FAT or MS-DOS)?</label>
+      <select id="drive-format"><option value="unknown" selected>Not sure</option><option value="fat32">Yes</option><option value="large">No</option></select>
+    </div>
     <div class="sizes" id="drive-sizes" aria-label="Drive size" hidden></div>
     <form id="drive-free-form" aria-describedby="sync-status" hidden>
       <label for="drive-free-space">Free space</label>

@@ -2,6 +2,10 @@
 
 ## 0.2.0 (unreleased)
 
+- Count selected files from verified drive contents and report ignored OS metadata.
+- Confirm publisher denials with a browser probe, escalate inconclusive sources after three weeks, and close the tracking issue after a passing run.
+- Pass through pinned whole-file relay responses and return a readable range error when a publisher ignores a sub-range.
+- Lock Pages copies of the GNU Bash, Coreutils and Make manuals, the Organic Seed Alliance seed-saving guide, Siyavula grades 4–5 and two Book Dash titles. Recover matching copies from the prior deployment when publishers change their URLs or bytes.
 - Check browser routes against the Pages network policy and fetch representative routes in Chrome before publishing.
 - Publish a usable Python library when some downloads fail, resume FAT32 ZIM downloads at verified part boundaries, and print a smaller build command when the requested capacity exceeds available space.
 - Lower the publisher relay's per-IP limit and document its Workers Free request budget.

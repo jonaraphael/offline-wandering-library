@@ -13,7 +13,8 @@ from pathlib import Path
 import shutil
 import sys
 import tempfile
-from urllib.parse import urlsplit, urlunsplit
+from urllib.error import HTTPError
+from urllib.parse import urljoin, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 from zipfile import ZipFile
 
@@ -22,6 +23,7 @@ from owl.atlas_model import load_navigation
 from owl.catalog import load_catalog, load_profiles
 from owl.navigation import reader_payload
 from owl.discovery import compile_records
+from owl.download import BROWSER_USER_AGENT
 from owl.search_ui import render_search_page
 from owl.search_shards import SEARCH_ROOT, compile_search_plan, load_impact, load_manifest, load_routes, load_transformer
 from owl.selector import ROOT, make_model, render_selector
@@ -112,9 +114,7 @@ def mirror_candidates(assets: list[dict], routes: dict) -> list[dict]:
     return sorted(candidates, key=lambda asset: (TIER[asset["utility_tier"]], asset["selection"]["rank"], asset["id"]))
 
 
-def copy_pinned(stream, target, asset: dict) -> None:
-    digest = sha256()
-    remaining = asset["size_bytes"]
+def copy_exact(stream, target, remaining, digest) -> None:
     while remaining:
         data = stream.read(min(BLOCK, remaining))
         if not data:
@@ -122,7 +122,14 @@ def copy_pinned(stream, target, asset: dict) -> None:
         target.write(data)
         digest.update(data)
         remaining -= len(data)
-    if stream.read(1) or digest.hexdigest() != asset["sha256"]:
+    if stream.read(1):
+        raise ValueError("source was longer than the pinned byte count")
+
+
+def copy_pinned(stream, target, asset: dict) -> None:
+    digest = sha256()
+    copy_exact(stream, target, asset["size_bytes"], digest)
+    if digest.hexdigest() != asset["sha256"]:
         raise ValueError("source differs from its pinned byte count or SHA-256")
 
 
@@ -145,8 +152,15 @@ def verified_source(asset: dict, cache: Path) -> Path:
             continue
         temporary = path.with_suffix(".download")
         try:
-            request = Request(url, headers={"Accept-Encoding": "identity"})
-            with urlopen(request, timeout=25) as response, temporary.open("wb") as output:
+            headers = {"Accept-Encoding": "identity"}
+            try:
+                response = urlopen(Request(url, headers=headers), timeout=25)
+            except HTTPError as error:
+                if error.code not in {403, 429}:
+                    raise
+                error.close()
+                response = urlopen(Request(url, headers={**headers, "User-Agent": BROWSER_USER_AGENT}), timeout=25)
+            with response, temporary.open("wb") as output:
                 if response.status != 200 or urlsplit(response.url).scheme != "https":
                     raise ValueError("source did not return an HTTPS file")
                 copy_pinned(response, output, asset)
@@ -154,26 +168,59 @@ def verified_source(asset: dict, cache: Path) -> Path:
             return path
         except (OSError, ValueError) as error:
             last_error = str(error)
+            if isinstance(error, HTTPError):
+                error.close()
         finally:
             temporary.unlink(missing_ok=True)
     raise ValueError(last_error)
 
 
-def publish_asset(asset: dict, assets: dict, site: Path, cache: Path) -> list[dict]:
+def recover_published_mirror(asset: dict, cache: Path, published_base: str) -> Path:
+    """Reassemble the last deployed copy if its full pin still matches."""
+    path = cache / asset["sha256"]
+    temporary = path.with_suffix(".published")
+    digest = sha256()
+    try:
+        with temporary.open("wb") as output:
+            for index, offset in enumerate(range(0, asset["size_bytes"], PUBLISH_PART)):
+                filename = f"mirrors/{asset['id']}-{index}.bin"
+                request = Request(urljoin(published_base.rstrip("/") + "/", filename),
+                                  headers={"Accept-Encoding": "identity"})
+                with urlopen(request, timeout=25) as response:
+                    if response.status != 200 or urlsplit(response.url).scheme != "https":
+                        raise ValueError("published mirror did not return an HTTPS file")
+                    copy_exact(response, output, min(PUBLISH_PART, asset["size_bytes"] - offset), digest)
+        if digest.hexdigest() != asset["sha256"]:
+            raise ValueError("published mirror SHA-256 differs from the pin")
+        temporary.replace(path)
+    finally:
+        temporary.unlink(missing_ok=True)
+    return path
+
+
+def publish_asset(asset: dict, assets: dict, site: Path, cache: Path, published_base=None) -> list[dict]:
     member = asset.get("archive_member")
-    if member:
-        source = assets[member["source_asset_id"]]
-        if source["redistributable"] is not True:
-            raise ValueError("archive source does not permit redistribution")
-        path = cache / asset["sha256"]
-        try:
-            with ZipFile(verified_source(source, cache)) as archive, archive.open(member["path"]) as stream, path.open("wb") as output:
-                copy_pinned(stream, output, asset)
-        except Exception:
-            path.unlink(missing_ok=True)
+    if member and assets[member["source_asset_id"]]["redistributable"] is not True:
+        raise ValueError("archive source does not permit redistribution")
+    try:
+        if member:
+            source = assets[member["source_asset_id"]]
+            path = cache / asset["sha256"]
+            try:
+                with ZipFile(verified_source(source, cache)) as archive, archive.open(member["path"]) as stream, path.open("wb") as output:
+                    copy_pinned(stream, output, asset)
+            except Exception:
+                path.unlink(missing_ok=True)
+                raise
+        else:
+            path = verified_source(asset, cache)
+    except (OSError, ValueError, KeyError, RuntimeError) as error:
+        if published_base is None:
             raise
-    else:
-        path = verified_source(asset, cache)
+        try:
+            path = recover_published_mirror(asset, cache, published_base)
+        except (OSError, ValueError) as published_error:
+            raise ValueError(f"{error}; prior Pages copy: {published_error}") from published_error
 
     entries = []
     directory = site / "mirrors"
@@ -187,7 +234,7 @@ def publish_asset(asset: dict, assets: dict, site: Path, cache: Path) -> list[di
     return entries
 
 
-def publish_locked_mirrors(by_id, site, cache, used):
+def publish_locked_mirrors(by_id, site, cache, used, published_base=None):
     lock = json.loads((SOURCE / "pages-mirrors.json").read_text(encoding="utf-8"))
     for identity, digest in lock.items():
         asset = by_id.get(identity)
@@ -200,7 +247,7 @@ def publish_locked_mirrors(by_id, site, cache, used):
     files = {}
     for identity in lock:
         try:
-            files[identity] = publish_asset(by_id[identity], by_id, site, cache)
+            files[identity] = publish_asset(by_id[identity], by_id, site, cache, published_base)
         except (OSError, ValueError, KeyError, RuntimeError) as error:
             raise ValueError(f"Required Pages mirror {identity} is unavailable: {error}") from error
     return files
@@ -256,7 +303,8 @@ def connect_origins(urls):
     return tuple(sorted(origins))
 
 
-def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=None, relay_base=None, archive_relay=False) -> dict:
+def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=None, relay_base=None, archive_relay=False,
+               published_base=None) -> dict:
     if site.exists() and any(site.iterdir()):
         raise ValueError("Choose an empty output directory")
     site.mkdir(parents=True, exist_ok=True)
@@ -349,7 +397,7 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
             raise ValueError(f"Archive part manifest is stale: {asset_id}")
     used = sum(path.stat().st_size for path in site.rglob("*") if path.is_file())
     if fetch_mirrors:
-        manifest["files"] = publish_locked_mirrors(by_id, site, cache, used)
+        manifest["files"] = publish_locked_mirrors(by_id, site, cache, used, published_base)
     write_json(site / "chunk-manifests.json", manifest)
     (site / "mirror-credits.txt").write_text("Published source copies\n\n" + "\n\n".join(
         "\n".join((by_id[identity]["title"], by_id[identity]["license"],
@@ -374,12 +422,16 @@ def main() -> int:
     parser.add_argument("--relay-allowlist", type=Path, help="generate the relay's exact publisher URL mapping")
     parser.add_argument("--fetch-mirrors", action="store_true", help="include verified, redistributable source files")
     parser.add_argument("--cache", type=Path, help="external cache for verified mirror downloads")
+    parser.add_argument("--published-base", help="recover matching mirror pieces from this existing HTTPS Pages deployment")
     parser.add_argument("--archive-pins", nargs=2, metavar=("ASSET_ID", "FILE"),
                         help="emit pins for a local ZIM whose complete SHA-256 matches the catalog")
     parser.add_argument("--search-commit", help="serve search data from this full Git commit instead of copying it into Pages")
     args = parser.parse_args()
     if args.fetch_mirrors and not args.relay_base:
         parser.error("--fetch-mirrors requires --relay-base for a production Pages build")
+    if args.published_base and (not args.fetch_mirrors or urlsplit(args.published_base).scheme != "https"
+                                or not urlsplit(args.published_base).hostname):
+        parser.error("--published-base requires --fetch-mirrors and an HTTPS URL")
     if args.archive_pins:
         identity, path = args.archive_pins
         asset = next(asset for asset in load_catalog(CATALOG, load_profiles(PROFILES)) if asset["id"] == identity)
@@ -393,7 +445,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory(prefix="owl-pages-") as scratch:
         result = build_site(args.output, fetch_mirrors=args.fetch_mirrors, cache=args.cache or Path(scratch),
                             search_commit=args.search_commit, relay_base=args.relay_base,
-                            archive_relay=args.archive_relay)
+                            archive_relay=args.archive_relay, published_base=args.published_base)
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0
 

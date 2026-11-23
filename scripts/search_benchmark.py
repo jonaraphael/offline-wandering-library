@@ -42,7 +42,7 @@ def main():
     parser.add_argument("--check", action="store_true", help="enforce checked-in recall and empty-result bounds")
     parser.add_argument("--bounded", action="store_true", help="measure the 39.7 MB term-index allowance")
     parser.add_argument("--exhaustive", action="store_true", help="score all eligible chunks for comparison")
-    parser.add_argument("--quick", action="store_true", help="measure recall over the first 28 MB of ranked chunks")
+    parser.add_argument("--quick", action="store_true", help="cap the production search routing allowance at 32 MB")
     parser.add_argument("--tasks", action="store_true", help="export the three results per graded task query")
     parser.add_argument("--extra-tasks", type=Path, help="JSON list of additional task IDs and queries")
     parser.add_argument("--task-depth", type=int, choices=range(3, 51), metavar="3-50", default=3,

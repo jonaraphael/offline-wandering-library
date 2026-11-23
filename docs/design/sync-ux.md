@@ -96,7 +96,7 @@ state. Only their contents change, so the page never jumps.
 | `finishing` | Downloads done, index and reader being written | Full arc, pulsing | Finishing | Building the search index and the start page. | Solid | None | None |
 | `paused` | Paused, or the tab was reopened mid-sync | Arc stopped, amber | Paused at *42%* | Nothing is lost. Sync continues where it stopped. | As `behind` | **Sync** | Manage what goes on it |
 | `waiting` | Network dropped during sync | Arc stopped, amber | *42%* | Waiting for the internet. Sync continues by itself. | As `syncing` | **Pause** | None |
-| `waiting-relay` | Only files waiting for the download relay remain | Arc stopped, amber | Waiting for the download relay | Today’s free downloads through the relay may be used up. Sync continues by itself when the relay answers. The daily limit resets at midnight UTC (in about *N* hours). Keep this tab open, or come back later and choose Sync. | As `syncing` | **Pause** | Manage what goes on it |
+| `waiting-relay` | Only files waiting for the download relay remain | Arc stopped, amber | Waiting for the download relay | The download relay isn’t answering. It may have reached today’s free limit, which resets at midnight UTC. Sync keeps trying by itself every 15 minutes. | As `syncing` | **Pause** | Try now · Manage what goes on it |
 | `done` | Sync finished | Full green ring, check mark | Ready | Open your library on *drive name*. | Solid | **Try it** | Check every file · Show files kept in parts (when any) · Sync another drive |
 | `done-gaps` | At least one knowledge file arrived, with files still missing | Full amber ring | Ready, with *3* items missing | *409* files arrived. *1* essential file missing. | Solid, gap marked | **Try it** | Try those again · Show details · Check every file · Sync another drive |
 | `failed` | No knowledge files arrived | Red arc | Sync could not finish | *0* files arrived. *1* essential file missing. | Last known | **Try those again** | Show details · Check every file · Sync another drive |
@@ -143,6 +143,12 @@ Notes on states:
   the free space you entered." The plan uses that space plus the files OWL
   already holds. "Update free space" is available on an unmeasured drive
   after planning or if it fills up.
+- When the size or free-space screen appears and the drive format is
+  unknown, ask "Is the drive formatted FAT32 (often shown as FAT or
+  MS-DOS)?" Preselect "Not sure". The other answers are "Yes" and "No".
+- If a write fails at the 4 GiB file boundary, keep the verified parts and
+  say "This drive can’t hold files over 4 GB. OWL kept that encyclopedia
+  in parts."
 - Finished drives with verified split files say "*N* encyclopedias kept in
   parts." The finish screen links to "Show files kept in parts" and
   "Check every file." If joining is the only work left, the stage says
@@ -165,15 +171,24 @@ Notes on states:
   files, with the website and another host reachable, continue using any
   direct routes. Keep files whose remaining routes need the relay in the
   plan. An HTTP reply from the relay clears the connection-failure streak.
-- When only those files remain, publish what arrived and check the relay
-  with a one-byte range request every 15 minutes and at 00:05 UTC. Resume
-  automatically when the relay answers in the browser. Keep the computer
-  awake while waiting, as during Sync.
+- When only those files remain, check the relay with a one-byte range
+  request every 15 minutes and at 00:05 UTC. **Try now** makes the same
+  check immediately. Resume automatically after a successful response.
+  Keep the computer awake while waiting, as during Sync.
+- Publish what arrived on a fresh drive. When an existing reader is active,
+  keep it, its search index and its checksum list active through the relay
+  wait and Pause. Save the unfinished update in the drive record. Publish
+  the replacement once it is ready.
 - In the relay wait, “Manage what goes on it” pauses Sync before opening
   Manage. After Pause or reopening the tab, say “Files are waiting for the
-  download relay. The relay was busy. Choose Sync to continue.” The build
-  report records those files with reason “waiting for the download relay”.
+  download relay. Choose Sync to continue.” A build report published
+  during the wait records those files as “waiting for the download relay”.
   Choosing Sync checks the relay before downloading again.
+- Sync fetches the encyclopedia checksums when a selected encyclopedia
+  needs ranged downloads. If the checksums cannot be loaded, keep syncing
+  the other files. In Show details and the build report, name each
+  affected encyclopedia and say "Could not load the checksums for this
+  encyclopedia. Sync can try it again."
 - When JavaScript is disabled, show "This builder needs JavaScript" and
   "Turn on JavaScript in Chrome, Edge or Arc on a computer, then reload this
   page." Link to **Build with the command line**.
@@ -202,8 +217,11 @@ resume paths.
    simple start page on a new drive before downloading. Download and verify
    missing and changed items in priority order, essential files first.
    Within each priority, download the largest encyclopedias first so there
-   is room to verify the incoming pieces. Join them when the drive supports
-   the file size and there is room for both copies. A verified
+   is room to verify the incoming pieces. Close each new file or part,
+   read it from the drive and compare its SHA-256 before counting it as
+   verified. If the stored bytes differ, download it again. Join the parts
+   when the probe or the builder's answer establishes the supported file
+   size and there is room for both copies. A verified
    encyclopedia kept in parts counts as installed. A later Sync joins it
    when there is enough free space.
    A changed item's old copy stays until its
@@ -237,16 +255,17 @@ Safety rules:
 - Interrupted mid-update, the drive still opens: the reader on the drive
   describes the last finished sync until the next one finishes.
 - "Check every file" re-hashes every item and re-downloads the ones that
-  fail. If a start page or build report recorded by OWL has changed, it
-  saves a copy with `.changed-` in the name, rebuilds and checks the page,
-  and gives the copy's location in the result. A different file OWL never
-  wrote stays untouched.
+  fail. If a generated file recorded by OWL has changed, save a copy with
+  `.changed-` in the name and rebuild and check its replacement. Name the
+  affected file and give the copy's location with "The changed copy is at
+  *path*." Files outside OWL's ownership stay untouched.
 
 Space: the planner fills the available space, including the reserve for the
 index and readers. On FAT32, the probe measures free space across files
 smaller than 4 GiB. Encyclopedias up to 4 GiB minus one byte can be joined
-into one file when there is room. Larger ones stay in parts. The control
-sits in Manage under Advanced with the detected value preselected.
+into one file when there is room. Larger ones stay in parts. If the
+filesystem is unknown, keep split encyclopedias in parts. The control
+sits in Manage under Advanced with the detected or entered value selected.
 
 ### 4.4 Manage
 
@@ -394,7 +413,11 @@ is not choking") or places in the past ("had a stroke last year") does not
 pick the guide. When a search describes separate current situations, show
 their reviewed guides together, the most recent first. Show the source's
 credit and license beneath each excerpt. If a spelling retry finds results,
-show "Showing results for …" above the cards.
+show "Showing results for …" above the cards. Beside a reviewed WikiMed
+result, show a readable PDF companion when the drive has one, so phones
+without Kiwix can still open an answer. If nothing nearby qualifies for an
+injury or hazard, show the Urgent guides card and the closest installed
+guide.
 
 **Saved** (`#/saved`): starred items, then everything opened recently. The
 empty state shows a star and one sentence. Saved items are kept in the

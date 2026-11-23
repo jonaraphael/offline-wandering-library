@@ -7,6 +7,7 @@ const {resolve} = require('node:path');
 const {fileURLToPath, pathToFileURL} = require('node:url');
 const {chromium} = require('playwright-core');
 const round5 = require('../tests/search/round5-queries.json');
+const round6 = require('../tests/search/round6-queries.json');
 
 const emergencyFallback = "My neighbor is lying still on the floor and I can't tell if he's breathing";
 const semanticChecks = new Map([
@@ -87,6 +88,7 @@ async function measure(browser, url, query, {allowEmpty = false} = {}) {
         credit: card.querySelector('.attribution')?.textContent,
       })),
     }));
+    if (!allowEmpty && !cardCount) throw Error('Search finished without a result card for: ' + query);
     const correction = await page.locator('.search-correction:visible').allTextContents();
     const browse = await page.locator('#search-results > a.button:visible').evaluateAll(elements =>
       elements.map(link => [link.textContent, link.getAttribute('href')]));
@@ -131,6 +133,30 @@ async function measureRound5(browser, url) {
   return summary;
 }
 
+async function measureRound6(browser, url) {
+  const grades = {good: 0, partial: 0, poor: 0, empty: 0};
+  const groups = {};
+  for (const [group, samples] of Object.entries(round6)) {
+    const totals = groups[group] = {good: 0, partial: 0, poor: 0, empty: 0};
+    for (const sample of samples) {
+      const result = await measure(browser, url, sample.query, {allowEmpty: true});
+      const matching = result.cards.filter(card => sample.topics.includes(card.topic));
+      const excluded = result.cards.some(card => sample.excluded?.includes(card.topic));
+      const readable = matching.some(card => /\.pdf#page=\d+$/i.test(card.href));
+      const good = matching.length && !excluded && (group !== 'readable' || readable);
+      const rating = !result.cardCount ? 'empty' : good ? 'good' :
+        matching.length || result.cards.some(card => card.nearby) ? 'partial' : 'poor';
+      totals[rating]++;
+      grades[rating]++;
+      if (rating !== 'good') console.log(JSON.stringify({group, rating, ...result}));
+    }
+  }
+  console.log('Round 6 emergency top 3: ' + grades.good + ' good / ' + grades.partial + ' partial / ' +
+    grades.poor + ' poor / ' + grades.empty + ' empty (floors 26 good, 0 empty)');
+  console.log(JSON.stringify(groups));
+  return grades;
+}
+
 function searchUrl(startPage) {
   const url = pathToFileURL(resolve(startPage));
   url.hash = '/search';
@@ -141,15 +167,21 @@ async function main() {
   const {values, positionals} = parseArgs({allowPositionals: true, options: {
     check: {type: 'boolean'},
     round5: {type: 'boolean'},
+    round6: {type: 'boolean'},
     query: {type: 'string', multiple: true},
   }});
   if (positionals.length !== 1) {
-    throw Error('Usage: node scripts/search_timing.cjs START_HERE.html [--check] [--round5 | --query TEXT ...]');
+    throw Error('Usage: node scripts/search_timing.cjs START_HERE.html [--check] [--round5 | --round6 | --query TEXT ...]');
   }
   const url = searchUrl(positionals[0]);
   const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
   try {
     console.log(JSON.stringify({chromium: browser.version(), cpu_throttle: 4, offline: true}));
+    if (values.round6) {
+      const grades = await measureRound6(browser, url);
+      if (values.check && (grades.good < 26 || grades.empty)) process.exitCode = 1;
+      return;
+    }
     if (values.round5) {
       const summary = await measureRound5(browser, url);
       if (values.check && (summary.good < 34 || summary.emergency_empty || summary.negation_failures ||
@@ -181,5 +213,5 @@ async function main() {
   }
 }
 
-module.exports = {measure, searchUrl, emergencyFallback, semanticChecks, grade, measureRound5};
+module.exports = {measure, searchUrl, emergencyFallback, semanticChecks, grade, measureRound5, measureRound6};
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });

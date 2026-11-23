@@ -227,9 +227,12 @@ python scripts/verify.py /path/to/EMERGENCY_LIBRARY --strict
 python -I /path/to/EMERGENCY_LIBRARY/LIBRARY/VERIFY.py --strict
 ```
 
-It reports `OK` for matching files, `MISSING` for absent expected files, `FAILED` for mismatches or unsafe entries, and `UNKNOWN` for files outside the checksum manifest. Unknown personal files are not deleted. Checking a large drive reads its content and can take hours. A stored checksum detects accidental changes, but it is not a digital signature: retain a trusted independent copy of the checksum manifest to detect changes to both files and checksums.
+It reports `OK` for matching files, `MISSING` for absent expected files, `FAILED` for mismatches or unsafe entries, and `UNKNOWN` for unrelated files. It counts ignored OS metadata such as Finder’s `.DS_Store` and Windows thumbnails separately. Checking a large drive reads its content and can take hours. Retain a trusted independent copy of the checksum manifest to detect changes to both files and checksums.
 
-Strict verification also checks selection and support completeness. Use `--accept-partial` if you intend to accept missing content, reader files, search, or WikiMed phone volumes. Checksum errors still fail verification. On FAT32, the Python builder stores oversized ZIMs as 1 GiB parts. Keep the parts together and open the `.zimaa` file in a compatible reader.
+- Use `--strict` to check a dedicated library drive before relying on it. It also fails on incomplete selections, missing support, or unrelated files. Use `--strict --accept-partial` when you intended to accept content or support omissions recorded by the build.
+- Omit `--strict` for a routine integrity check on a drive that also holds personal files. Unrelated files are listed, and missing or damaged managed files still fail the check.
+
+Selection completeness counts inventory entries that pass the checksum check. On FAT32, the Python builder stores oversized ZIMs as 1 GiB parts. All parts must verify for that archive to count as present. Keep the parts together and open the `.zimaa` file in a compatible reader.
 
 A pinned source hash verifies against the catalog’s expected bytes. When an upstream source supplies no trusted SHA-256, OWL records an observed hash after download; that is a baseline for future integrity checks, not independent authentication of the original download. The generated `LIBRARY/LOCKED_CATALOG.yaml` captures measured hashes for repeat builds. Exact reproduction requires those bytes to remain available at the source or in your cache; timestamps and build metadata can differ.
 

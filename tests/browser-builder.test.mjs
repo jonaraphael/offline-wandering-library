@@ -4,13 +4,14 @@ import {createHash, webcrypto} from "node:crypto";
 import {createServer} from "node:http";
 import {once} from "node:events";
 import {test} from "node:test";
-import {browserSelection, buildLibrary as runBuild, partLayout, readBuild} from "../web/builder.mjs";
+import {archiveJoinLimitReached, browserSelection, buildLibrary as runBuild, partLayout, readBuild} from "../web/builder.mjs";
 import {assembleLibrary} from "../web/offline.mjs";
 import {measureFreeSpace, writeFile} from "../web/drive.mjs";
 import {createNetwork} from "../web/network.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
-import {completionState, estimateLabelCapacity, probesCapacity, relayLimitMessage, reportedDriveCapacity,
-  warnBeforeLeaving} from "../web/builder-ui.mjs";
+import {archiveDriveOptions, completionState, estimateLabelCapacity, prepareDownloadSources, probesCapacity, relayLimitMessage,
+  reportedDriveCapacity, warnBeforeLeaving} from "../web/builder-ui.mjs";
+import {RELAY_WAIT_MESSAGE} from "../web/relay-wait.mjs";
 
 globalThis.crypto ||= webcrypto;
 const MiB = 2 ** 20;
@@ -143,7 +144,7 @@ test("native allocation probe estimates to one MiB and removes the swap placehol
 });
 
 test("probe falls back for sparse files and when capped files never locate the volume boundary", async () => {
-  assert.deepEqual(await measureFreeSpace(new Directory()), {kind: "sparse-or-large"});
+  assert.deepEqual(await measureFreeSpace(new Directory()), {kind: "sparse-or-large", largeFiles: true});
   for (const error of [
     new DOMException("EFBIG", "InvalidStateError"),
     new DOMException("Cannot set length", "InvalidStateError")
@@ -236,6 +237,60 @@ test("same-origin parts are checked before closing a single ordinary file", asyn
   assert.equal(result.completed[0].id, "pdf");
   assert.equal(await (await (await drive.file("LIBRARY/BOOKS/pdf.pdf")).getFile()).text(), data.toString());
   assert.deepEqual(requests.map(row => row.path), ["/unavailable", "/a", "/b"]);
+});
+
+test("a same-length byte change at close is read back and the file is downloaded again before reporting verified", async () => {
+  const body = Buffer.from("pinned PDF");
+  const pdf = asset("book", body);
+  let writes = 0, requests = 0, verified = 0;
+  const drive = new Directory("drive", {async beforeClose(name, bytes) {
+    if (name === "book.pdf" && ++writes === 1) {
+      const changed = new Uint8Array(await bytes.arrayBuffer());
+      changed[0] ^= 1;
+      return new Blob([changed]);
+    }
+  }});
+  const result = await runBuild(drive, {assets: [pdf], routes: {book: ["https://example.test/book"]},
+    fetchFile: async () => { requests++; return new Response(body); },
+    onProgress(event) {
+      if (event.kind !== "verified") return;
+      assert.equal(requests, 2);
+      assert.equal(writes, 2);
+      verified++;
+    }});
+  assert.equal(verified, 1);
+  assert.equal(result.state.finished, true);
+  assert.equal(await (await (await drive.file("LIBRARY/BOOKS/book.pdf")).getFile()).text(), body.toString());
+});
+
+test("archive metadata is skipped for PDFs and a failed request only defers affected encyclopedias", async () => {
+  const body = Buffer.from("pinned PDF");
+  const book = asset("book", body);
+  const smallBody = Buffer.alloc(5 * MiB);
+  const small = asset("small", smallBody, {format: "zim", destination: "ZIM/small.zim"});
+  const archive = asset("wiki", body, {format: "zim", destination: "ZIM/wiki.zim", size_bytes: GiB + 1});
+  const routes = {book: ["https://example.test/book"], wiki: ["https://example.test/wiki.zim"],
+    small: ["https://example.test/small.zim"]};
+  const requested = [];
+  const network = createNetwork({retryMs: 0});
+  const read = async url => {
+    requested.push(url);
+    if (url === "./kiwix-pieces.json") throw Error("Network fixture");
+  };
+  const prepareSources = assets => prepareDownloadSources(assets, {routes, published: {}, network, read});
+  const fetchFile = async url => {
+    if (url === routes.small[0]) return new Response(smallBody);
+    assert.equal(url, routes.book[0]);
+    return new Response(body);
+  };
+  const pdfOnly = await runBuild(new Directory(), {assets: [book], routes, prepareSources, fetchFile});
+  assert.equal(pdfOnly.state.finished, true);
+  assert.deepEqual(requested.splice(0), ["./search-build.json"]);
+  const mixed = await runBuild(new Directory(), {assets: [book, archive, small], routes, prepareSources, fetchFile});
+  assert.deepEqual(requested, ["./search-build.json", "./kiwix-pieces.json"]);
+  assert.deepEqual(mixed.completed.map(file => file.id), ["small", "book"]);
+  assert.deepEqual(mixed.missing.map(file => file.title), [archive.title]);
+  assert.match(mixed.missing[0].reason, /Could not load the checksums for this encyclopedia/);
 });
 
 test("a mismatched source is reported and a full drive stops later downloads", async t => {
@@ -431,7 +486,7 @@ test("a CORS-less relay outage defers distinct files, downloads alternatives, an
   assert.deepEqual(delays, [15 * 60_000, 15 * 60_000, 6 * 60_000]);
   const waits = events.filter(row => row.kind === "waiting-relay");
   assert.equal(waits.length, 3);
-  assert.equal(waits[0].hours, 1);
+  assert.equal(typeof waits[0].tryNow, "function");
   assert.ok(events.findIndex(row => row.kind === "verified" && row.asset.id === "z-direct") < events.indexOf(waits[0]));
   assert.ok(!events.some(row => row.kind === "failed" || row.kind === "waiting-network"));
   const probes = fixture.requests.filter(row => row.range);
@@ -447,6 +502,25 @@ test("a CORS-less relay outage defers distinct files, downloads alternatives, an
   assert.equal(result.state.finished, true);
   assert.equal(result.completed.length, fixture.assets.length);
   assert.deepEqual((await fixture.info()).missing, []);
+});
+
+test("Try now immediately checks the relay and keeps waiting after a readable 429", {timeout: 2000}, async () => {
+  const fixture = relayFixture();
+  const controller = new AbortController();
+  let attempts = 0;
+  const result = await runBuild(fixture.drive, {...fixture, signal: controller.signal,
+    network: fixture.network({signal: controller.signal}), onProgress(event) {
+      if (event.kind !== "waiting-relay") return;
+      if (++attempts === 1) {
+        fixture.up();
+        fixture.throttle();
+      }
+      event.tryNow();
+    }});
+  assert.match(RELAY_WAIT_MESSAGE, /isn’t answering\. It may have reached today’s free limit/);
+  assert.equal(attempts, 2);
+  assert.equal(fixture.requests.filter(row => row.range === "bytes=0-0").length, 2);
+  assert.equal(result.state.finished, true);
 });
 
 test("a paused relay wait preserves the report and probes first when Sync is reopened", async () => {
@@ -718,6 +792,32 @@ test("FAT32 and large-file mode join verified parts and keep them if a second co
   }
 });
 
+test("an unknown filesystem keeps parts until answered and 4 GiB write errors have a separate message", async () => {
+  const body = Buffer.from("ABCDEFGHIJ");
+  const zim = asset("wiki", body, {format: "zim", destination: "ZIM/wiki.zim"});
+  const drive = new Directory();
+  const setup = {assets: [zim], routes: {wiki: ["https://example.test/wiki"]}, partBytes: 5,
+    fetchFile: async (_url, {headers}) => {
+      const [, start, end] = /^bytes=(\d+)-(\d+)$/.exec(headers.Range);
+      return new Response(body.subarray(Number(start), Number(end) + 1), {status: 206,
+        headers: {"Content-Range": "bytes " + start + "-" + end + "/" + body.length}});
+    }};
+  const unknown = await runBuild(drive, {...setup, ...archiveDriveOptions("unknown", true)});
+  assert.equal(unknown.keptInParts[0].parts, 2);
+  await assert.rejects(drive.file("LIBRARY/ZIM/wiki.zim"), {name: "NotFoundError"});
+  const answered = await runBuild(drive, {...setup, ...archiveDriveOptions("large", false),
+    fetchFile: () => assert.fail("the verified parts should be joined without downloading")});
+  assert.equal(answered.keptInParts.length, 0);
+  for (const name of ["InvalidStateError", "QuotaExceededError"]) {
+    const error = new DOMException("Write failed", name);
+    assert.equal(archiveJoinLimitReached(error, 4 * GiB - MiB, 4 * GiB), true);
+    assert.equal(archiveJoinLimitReached(error, 4 * GiB, 4 * GiB + MiB), true);
+    assert.equal(archiveJoinLimitReached(error, GiB, GiB + MiB), false);
+  }
+  assert.equal(completionState({...unknown, state: {...unknown.state, largeFileLimited: true}}).extra,
+    "This drive can’t hold files over 4 GB. OWL kept that encyclopedia in parts.");
+});
+
 test("readers alone cannot start a browser build", async () => {
   const reader = asset("reader", Buffer.from("reader"), {destination: "SOFTWARE/reader.zip"});
   await assert.rejects(buildLibrary(new Directory(), {assets: [reader], routes: {}}), /Choose knowledge files/);
@@ -955,6 +1055,30 @@ function rangedFixture(count, tail = 7) {
   }
   return {item, published, indexOf, response};
 }
+
+test("read-back corruption of a ranged archive part refetches the piece instead of using the journal", async () => {
+  const {item, published, indexOf, response} = rangedFixture(2);
+  const counts = new Map();
+  let corrupt = true;
+  const drive = new Directory("drive", {async beforeClose(name, bytes) {
+    if (corrupt && name === "parallel.zimaa") {
+      corrupt = false;
+      return new Blob([new Uint8Array([99]), bytes.slice(1)]);
+    }
+  }});
+  const result = await runBuild(drive, {assets: [item], published, partBytes: PIECE_BYTES,
+    routes: {[item.id]: ["https://example.test/wiki.zim"]},
+    fetchFile: async (_url, request) => {
+      const index = indexOf(request);
+      counts.set(index, (counts.get(index) || 0) + 1);
+      return response(index);
+    }});
+  assert.equal(result.state.finished, true);
+  assert.equal(counts.get(0), 2);
+  assert.equal(counts.get(1), 1);
+  const stored = await (await drive.file("LIBRARY/ZIM/parallel.zimaa")).getFile();
+  assert.equal(hash(Buffer.from(await stored.arrayBuffer())), result.state.parts[item.id][0].sha256);
+});
 
 test("an archive falls back to the mirror and counts once toward relay outage detection", async () => {
   const fixture = relayFixture();
