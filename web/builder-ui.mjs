@@ -550,13 +550,13 @@ export function mount({catalog: supplied} = {}) {
           chart: false, links: [["Use the printed drive size", () => render("needs-size")], different]});
         break;
       case "ready":
-        Object.assign(item, {step: 2, action: syncButton, links: [manageLink],
+        Object.assign(item, {step: 2, action: syncButton, links: [manageLink, different],
           message: (measured !== undefined && plan.budget === plan.capacity ? bytes(effectiveFree()) + " free. " : "") +
             "The recommended library uses " + bytes(plan.used) + ": " +
             plan.assets.filter(isKnowledgeFile).length.toLocaleString() + " books, manuals and courses."});
         break;
       case "behind":
-        Object.assign(item, {step: 2, fraction: readyFraction, action: syncButton, links: [manageLink],
+        Object.assign(item, {step: 2, fraction: readyFraction, action: syncButton, links: [manageLink, different],
           message: comparison?.adoption ? "A library is already on this drive. Sync keeps files that match." :
             comparison?.changedChoice || dirty ? changeLine("Your changes") :
             comparison?.state?.syncedAt ? (comparison.workCount ?
@@ -566,7 +566,7 @@ export function mount({catalog: supplied} = {}) {
             "Unfinished: " + bytes(comparison?.addBytes || 0) + " to go."});
         break;
       case "current":
-        Object.assign(item, {step: 3, fraction: 1, title: "Up to date", links: [manageLink, checkLink],
+        Object.assign(item, {step: 3, fraction: 1, title: "Up to date", links: [manageLink, checkLink, different],
           message: (lastDate ? "Synced " + lastDate + ". " : "") + countOf(plan.assets.length, "item") + ", " + bytes(plan.used) + ".",
           extra: partsMessage(inspection.state?.keptInParts)});
         break;
@@ -592,7 +592,7 @@ export function mount({catalog: supplied} = {}) {
         Object.assign(item, {step: 2, fraction: readyFraction, title: "Paused at " + percent(readyFraction), action: syncButton,
           message: inspection?.state?.relayDeferred?.length ?
             "Files are waiting for the download relay. Choose Sync to continue." :
-            "Nothing is lost. Sync continues where it stopped.", links: [manageLink]});
+            "Nothing is lost. Sync continues where it stopped.", links: [manageLink, different]});
         break;
       case "done":
         Object.assign(item, {step: 3, fraction: 1, title: "Ready",
@@ -615,7 +615,7 @@ export function mount({catalog: supplied} = {}) {
         Object.assign(item, {step: 2, fraction: syncFraction, title: problem.title, message: problem.message,
           chart: Boolean(plan), action: problem.action, links: [
             ...(problem.full && inspection && measured === undefined ? [["Update free space", enterFreeSpace]] : []),
-            ["Technical details", debug]]});
+            ...(problem.action?.[1] === changeDrive ? [] : [different]), ["Technical details", debug]]});
         break;
       case "too-small":
         Object.assign(item, {title: "Not enough room", chart: false, action: pick,
