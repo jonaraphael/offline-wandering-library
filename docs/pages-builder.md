@@ -37,6 +37,9 @@ space beside the original waits for more room or an explicit **Replace in
 place** choice in Manage. Files outside OWL's record stay on the drive.
 **Check every file** rereads the selected files and downloads replacements
 for failed checks.
+If the drive record lost files that OWL wrote, Sync finds them by their
+SHA-256 and keeps them. On a large drive the page shows **Checking the
+files already on the drive** while it reads them.
 
 Sync writes the new reader and updates `START_HERE.html` before clearing the
 older reader files listed in the drive record. When Sync finishes, choose **Try it**

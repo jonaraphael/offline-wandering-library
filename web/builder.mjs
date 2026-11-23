@@ -780,11 +780,23 @@ async function layoutExists(drive, layout) {
   return (await Promise.all(layout.map(async part => (await candidateFile(drive, part.path))?.size === part.bytes))).every(Boolean);
 }
 
-async function verifyLayout(drive, asset, layout, signal) {
-  const whole = sha256.create(), parts = [];
+// Successful checks in this page session, keyed by checksum, paths, sizes and
+// modification times. Opening a paused 1 TB drive and then choosing Sync
+// otherwise reads every finished file twice.
+const checkedLayouts = new Map();
+
+async function verifyLayout(drive, asset, layout, signal, {reread = false} = {}) {
+  const files = [];
   for (const part of layout) {
     const file = await candidateFile(drive, part.path);
     if (file?.size !== part.bytes) return null;
+    files.push(file);
+  }
+  const key = [asset.sha256, ...layout.map((part, index) => part.path + ":" + files[index].size + ":" + files[index].lastModified)].join("|");
+  if (!reread && checkedLayouts.has(key)) return checkedLayouts.get(key);
+  const whole = sha256.create(), parts = [];
+  for (const [index, part] of layout.entries()) {
+    const file = files[index];
     const hash = sha256.create();
     for await (const chunk of file.stream()) {
       signal?.throwIfAborted();
@@ -793,7 +805,18 @@ async function verifyLayout(drive, asset, layout, signal) {
     }
     parts.push({sha256: bytesToHex(hash.digest()), bytes: part.bytes});
   }
-  return bytesToHex(whole.digest()) === asset.sha256 ? parts : null;
+  if (bytesToHex(whole.digest()) !== asset.sha256) return null;
+  checkedLayouts.set(key, parts);
+  return parts;
+}
+
+// Pause aborts the sync in a live tab after its files were closed. Recording
+// that spares the next look at the drive from rereading every finished file.
+export async function recordPause(drive) {
+  const state = await readBuild(drive);
+  if (!state?.pending || state.pausedCleanly) return;
+  state.pausedCleanly = true;
+  await save(drive, state);
 }
 
 export async function inspectDrive(drive) {
@@ -897,21 +920,30 @@ export async function compareLibrary(drive, {assets, choice, catalogVersion, nav
         [{sha256: asset.sha256}] : state.parts[asset.id]};
     }
     if (installed && await layoutExists(drive, installed.layout)) {
-      const interruptedWrite = state?.pending && !state.relayWaiting &&
+      // A sync stopped by Pause closed its files; one cut off by a closed tab
+      // or an unplugged drive may not have, so its finished files are reread.
+      const interruptedWrite = state?.pending && !state.relayWaiting && !state.pausedCleanly &&
         (installed.layout.length > 1 || installed.layout !== old?.layout);
       const parts = fullVerify || interruptedWrite ?
-        await verifyLayout(drive, asset, installed.layout, signal) : installed.parts;
+        await verifyLayout(drive, asset, installed.layout, signal, {reread: fullVerify}) : installed.parts;
       if (parts?.length) { present.push({...installed, asset, parts}); continue; }
     }
-    if (!old && !working && !state?.owned.includes(joinedLayout(asset)[0].path)) {
+    // An earlier builder could drop finished files from an unfinished first
+    // sync's record. Files OWL wrote are found again by their checksum; a
+    // download in progress (saved parts or a staged archive) is left alone.
+    const inProgress = Boolean(working && (state.parts[asset.id]?.length || state.stagedArchives?.[asset.id] || state.prefixes?.[asset.id]));
+    const ownedPath = Boolean(state?.owned.includes(joinedLayout(asset)[0].path) ||
+      state?.owned.includes(layoutFor(asset, partBytes)[0].path));
+    if (!old && (!working && !ownedPath || ownedPath && !(working && state.verified[asset.id]) && !inProgress)) {
       const canonical = joinedLayout(asset);
       const split = layoutFor(asset, partBytes);
       const layouts = mustSplit ? [split] : canonical[0].path === split[0].path ? [canonical] : [canonical, split];
       for (const layout of layouts) {
         if (!await layoutExists(drive, layout)) continue;
-        const parts = await verifyLayout(drive, asset, layout, signal);
+        const parts = await verifyLayout(drive, asset, layout, signal, {reread: fullVerify});
         if (parts) {
-          const owned = layout.every((part, index) => legacy.get(part.path) === parts[index].sha256);
+          const owned = layout.every((part, index) => legacy.get(part.path) === parts[index].sha256 ||
+            state?.owned.includes(part.path));
           present.push({asset, pin: assetPin(asset), layout, parts, protected: !owned});
           installed = true;
           break;
@@ -1252,7 +1284,10 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
     const row = additions.get(asset.id);
     const installed = present.get(asset.id);
     const destination = saved?.working[asset.id];
-    const reusing = saved?.relayWaiting && destination && installed && installed.layout !== saved.installed[asset.id]?.layout &&
+    // Finished files of an unfinished sync keep their record from the first
+    // save on. Starting with an empty record lost them at the next pause.
+    const recorded = installed && installed.layout === saved?.installed[asset.id]?.layout;
+    const reusing = destination && installed && !recorded &&
       (installed.layout[0].path === "LIBRARY/" + destination ||
       installed.layout.length > 1 && installed.layout[0].path === "LIBRARY/" + destination + "aa");
     if (row?.working || reusing) {
@@ -1260,6 +1295,15 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
       for (const field of workingFields) {
         if (saved[field]?.[asset.id] !== undefined) state[field][asset.id] = saved[field][asset.id];
       }
+    } else if (installed && !recorded && !installed.protected) {
+      // Found again by checksum after the record lost it.
+      const path = installed.layout[0].path.slice("LIBRARY/".length);
+      state.working[asset.id] = installed.layout.length > 1 ? path.slice(0, -2) : path;
+      if (installed.layout.length === 1 && layoutFor(asset, partBytes).length > 1) state.joined[asset.id] = true;
+    }
+    if (installed && !recorded && state.working[asset.id]) {
+      state.verified[asset.id] = true;
+      state.parts[asset.id] = installed.parts;
     }
   }
   onProgress({kind: "plan", files: ordered.map(asset => ({id: asset.id, bytes: asset.size_bytes,

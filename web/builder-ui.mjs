@@ -2,7 +2,7 @@ import {createNetwork, SourceError} from "./network.mjs";
 import {diag} from "./diagnostics.mjs";
 import {activateReaderPreview, publishReaderLink} from "./reader-preview.mjs";
 import {browserSelection, buildOrder, compareLibrary, DrivePathConflict, inspectDrive, isKnowledgeFile,
-  LARGE_FILE_MESSAGE, PART_BYTES, reconcile} from "./builder.mjs";
+  LARGE_FILE_MESSAGE, PART_BYTES, reconcile, recordPause} from "./builder.mjs";
 import {getRememberedDrive, hasDrivePermission, keepScreenAwake, measureFreeSpace,
   pickDrive, rememberDrive, requestDrivePermission} from "./drive.mjs";
 import {isSmallRelayRoute, RELAY_WAIT_MESSAGE, RELAY_WAIT_REASON} from "./relay-wait.mjs";
@@ -390,6 +390,7 @@ export function mount({catalog: supplied} = {}) {
   let measured, reported = false, minimum, capacity, driveFormat = "unknown", detectedFormat, size, mode, previousMode, problem, result,
     controller, opened = 0;
   let operation = 0, picker = false, preview = false, fullCheck = false, selectedReplacement = new Set();
+  let slowCheck = false, slowTimer;
   let active = new Map(), transferTotal = 0, transferStarted, rateStart, rateBytes, rate = 0, nowTitle = "", lastPaint = 0;
   let dirty = false, finishing = false, driveChoice, relayTryNow, manageAfterPause = false;
   how();
@@ -520,6 +521,11 @@ export function mount({catalog: supplied} = {}) {
   }
 
   function render(next = mode) {
+    if (next === "measuring" && mode !== "measuring") {
+      clearTimeout(slowTimer);
+      slowCheck = false;
+      slowTimer = setTimeout(() => { if (mode === "measuring") { slowCheck = true; render(); } }, 8000);
+    } else if (next !== "measuring") clearTimeout(slowTimer);
     mode = next;
     const readyFraction = ratio(comparison?.presentBytes || 0, plan?.used || 0);
     const syncFraction = ratio(totalDone(), transferTotal) || (transferTotal ? 0 : readyFraction);
@@ -539,7 +545,8 @@ export function mount({catalog: supplied} = {}) {
           chart: Boolean(snapshot?.amounts), action: reconnectButton, links: [["Use a different drive", changeDrive]]});
         break;
       case "measuring":
-        Object.assign(item, {message: "Measuring free space…", links: [different]});
+        Object.assign(item, {message: slowCheck ? "Checking the files already on the drive…" : "Measuring free space…",
+          extra: slowCheck ? "A large drive can take several minutes. Nothing on it changes." : undefined, links: [different]});
         break;
       case "needs-size":
         Object.assign(item, {message: "For a new or empty drive, use the number printed on it.",
@@ -1028,6 +1035,7 @@ export function mount({catalog: supplied} = {}) {
     } catch (error) {
       if (!signal.aborted) { showProblem(error); return; }
       try {
+        await recordPause(drive).catch(pauseError => diag("record-pause", {detail: pauseError.message}));
         inspection = await inspectDrive(drive);
         await updateComparison();
         render("paused");
