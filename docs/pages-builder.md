@@ -14,6 +14,12 @@ the drive's record. If the connection drops, the page waits and continues
 when it returns. Keep the drive connected and the tab open during Sync. OWL
 requests Screen Wake Lock while the tab is visible.
 
+To build several drives at once, open the builder in a new window for each
+drive. Each window remembers its own drive. A folder syncs in one window at
+a time: another window that picks it shows **This drive is syncing in
+another window**. Libraries in two folders of the same drive each plan for
+the whole drive's free space, so give each library its own drive.
+
 Choose **Manage what goes on it** and drag **Space for the library** to set
 how much space OWL may use, including search and the reader. The category
 sizes and bar update as you drag. The hatched portion stays free. The default

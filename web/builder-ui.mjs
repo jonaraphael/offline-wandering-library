@@ -3,8 +3,8 @@ import {diag} from "./diagnostics.mjs";
 import {activateReaderPreview, publishReaderLink} from "./reader-preview.mjs";
 import {browserSelection, buildOrder, compareLibrary, DrivePathConflict, inspectDrive, isKnowledgeFile,
   LARGE_FILE_MESSAGE, PART_BYTES, reconcile, recordPause} from "./builder.mjs";
-import {getRememberedDrive, hasDrivePermission, keepScreenAwake, measureFreeSpace,
-  pickDrive, rememberDrive, requestDrivePermission} from "./drive.mjs";
+import {DriveBusy, driveBusyElsewhere, getRememberedDrive, hasDrivePermission, keepScreenAwake, lockDrive,
+  measureFreeSpace, pickDrive, rememberDrive, requestDrivePermission} from "./drive.mjs";
 import {isSmallRelayRoute, RELAY_WAIT_MESSAGE, RELAY_WAIT_REASON} from "./relay-wait.mjs";
 
 const INDEX_ALLOWANCE = 16 * 2 ** 20;
@@ -78,14 +78,6 @@ function textList(node, rows) {
     item.textContent = text;
     return item;
   }));
-}
-
-function lockDrive(operation) {
-  if (!navigator.locks) return operation();
-  return navigator.locks.request("offline-wandering-library-drive", {ifAvailable: true}, lock => {
-    if (!lock) throw Error("A library operation is already running in another tab.");
-    return operation();
-  });
 }
 
 const sumBytes = assets => assets.reduce((sum, asset) => sum + asset.size_bytes, 0);
@@ -744,7 +736,10 @@ export function mount({catalog: supplied} = {}) {
     const disconnected = /NotFoundError|disconnected|InvalidStateError/i.test(detail);
     const access = /NotAllowedError|SecurityError|NoModificationAllowedError|read.only/i.test(detail);
     const full = /QuotaExceededError|ENOSPC|no space|disk full/i.test(detail);
-    problem = error instanceof DrivePathConflict ? {title: "There’s already " + error.entry + " on this drive",
+    problem = error instanceof DriveBusy ? {title: "This drive is syncing in another window",
+      message: "Switch to that window to follow it, or choose a different drive or folder here.",
+      action: ["Choose another drive", changeDrive]} :
+      error instanceof DrivePathConflict ? {title: "There’s already " + error.entry + " on this drive",
       message: "Choose another drive or folder for your library.", action: ["Choose another drive", changeDrive]} :
       disconnected ? {title: "The drive was disconnected",
       message: remembered ? "Plug it back in and choose Reconnect. Nothing is lost." : "Plug it back in, then choose its folder again.",
@@ -847,7 +842,7 @@ export function mount({catalog: supplied} = {}) {
     await init();
     if (openedDrive !== operation) return;
     if (probesCapacity(platform, agent)) {
-      const outcome = await lockDrive(() => measureFreeSpace(handle, {onAttempt: value => diag("capacity", value)}));
+      const outcome = await lockDrive(handle, () => measureFreeSpace(handle, {onAttempt: value => diag("capacity", value)}));
       if (openedDrive !== operation) return;
       diag("capacity-result", outcome);
       detectedFormat = outcome.largeFiles ? "large" : outcome.splitArchives ? "fat32" : undefined;
@@ -882,6 +877,7 @@ export function mount({catalog: supplied} = {}) {
       const handle = await getHandle();
       picker = false;
       if (!handle) { render(); return; }
+      if (await driveBusyElsewhere(handle)) { showProblem(new DriveBusy()); return; }
       if (!remembered || !await handle.isSameEntry?.(remembered)) snapshot = null;
       void rememberDrive(handle).catch(() => {});
       await identify(handle);
@@ -1013,7 +1009,7 @@ export function mount({catalog: supplied} = {}) {
         routes: catalog.routes, published: catalog.published, network, signal
       });
       let publishedFiles;
-      result = await lockDrive(() => reconcile(drive, {...comparisonOptions(), excluded: plan.excluded,
+      result = await lockDrive(drive, () => reconcile(drive, {...comparisonOptions(), excluded: plan.excluded,
         routes: catalog.routes, published: catalog.published, navigation: catalog.navigation,
         catalogAssets: catalog.planner.assets,
         searchBudget: plan.searchBudget, capacityBytes: capacity, capacityEstimated: measured === undefined, driveFormat,
@@ -1055,6 +1051,8 @@ export function mount({catalog: supplied} = {}) {
   render(supported ? "empty" : "unsupported");
   if (supported) void getRememberedDrive().then(async handle => {
     if (!handle || picker || drive || mode !== "empty") return;
+    // Another window is syncing the drive chosen last; this window starts fresh.
+    if (await driveBusyElsewhere(handle)) return;
     remembered = handle;
     if (await hasDrivePermission(handle)) await identify(handle);
     else render("remembered");

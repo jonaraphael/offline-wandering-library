@@ -227,7 +227,7 @@ async function handleStore(mode, operation) {
     return await new Promise((resolve, reject) => {
       const transaction = db.transaction("drive", mode);
       const request = operation(transaction.objectStore("drive"));
-      transaction.oncomplete = () => resolve(request.result);
+      transaction.oncomplete = () => resolve(request?.result);
       transaction.onabort = () => reject(transaction.error);
     });
   } finally {
@@ -236,12 +236,89 @@ async function handleStore(mode, operation) {
 }
 
 const driveKey = () => location.pathname.replace(/index\.html$/, "");
-export const getRememberedDrive = () => handleStore("readonly", store => store.get(driveKey()));
-export const rememberDrive = handle => handleStore("readwrite", store => store.put(handle, driveKey()));
-// Keep the latest published reader for each hosted builder. Its worker can
-// reopen the drive after the builder tab closes or the worker restarts.
-export const saveReaderPreview = (scope, preview) => handleStore("readwrite", store => store.put(preview, ["reader", scope]));
-export const getReaderPreview = scope => handleStore("readonly", store => store.get(["reader", scope]));
+// Each window remembers its own drive, so a reload keeps the drive that
+// window was syncing. A new window starts from the drive chosen last.
+function windowKey() {
+  try {
+    let id = sessionStorage.getItem("owl-window");
+    if (!id) sessionStorage.setItem("owl-window", id = crypto.randomUUID());
+    return driveKey() + "#" + id;
+  } catch {
+    return null;
+  }
+}
+export async function getRememberedDrive() {
+  const key = windowKey();
+  return (key && await handleStore("readonly", store => store.get(key))) ||
+    handleStore("readonly", store => store.get(driveKey()));
+}
+export const rememberDrive = handle => handleStore("readwrite", store => {
+  const key = windowKey();
+  if (key) store.put(handle, key);
+  return store.put(handle, driveKey());
+});
+
+// Keep the last few published readers for each hosted builder, one per
+// finished drive, so every window's Try it link keeps working. The worker
+// can reopen a drive after the builder tab closes or the worker restarts.
+const READER_PREVIEWS = 8;
+export const saveReaderPreview = (scope, preview) => handleStore("readwrite", store => {
+  const request = store.put({...preview, savedAt: Date.now()}, ["reader", scope, preview.id]);
+  const older = store.getAll(IDBKeyRange.bound(["reader", scope, ""], ["reader", scope, "\uffff"]));
+  older.onsuccess = () => {
+    for (const old of older.result.sort((a, b) => b.savedAt - a.savedAt).slice(READER_PREVIEWS)) {
+      store.delete(["reader", scope, old.id]);
+    }
+  };
+  return request;
+});
+export const getReaderPreview = async (scope, id) =>
+  await handleStore("readonly", store => store.get(["reader", scope, String(id)])) ||
+  handleStore("readonly", store => store.get(["reader", scope]));
+
+// One sync or free-space check per folder across this browser's windows.
+// Each operation holds its own Web Lock and lists its folder in IndexedDB;
+// an entry whose lock is gone belongs to a closed tab and is ignored.
+const TAB = globalThis.crypto?.randomUUID?.() || String(Math.random()).slice(2);
+let lockSequence = 0;
+export class DriveBusy extends Error {
+  constructor() {
+    super("This folder is already syncing in another window.");
+    this.name = "DriveBusy";
+  }
+}
+async function liveDrives() {
+  const held = new Set(((await navigator.locks.query()).held || []).map(lock => lock.name));
+  return ((await handleStore("readonly", store => store.get("active-drives"))) || []).filter(entry => held.has(entry.lock));
+}
+const sameFolder = (entry, handle) => entry.handle.isSameEntry(handle).catch(() => false);
+export async function driveBusyElsewhere(handle) {
+  if (!globalThis.navigator?.locks || !handle) return false;
+  for (const entry of await liveDrives()) {
+    if (!entry.lock.startsWith("owl-drive-" + TAB + "-") && await sameFolder(entry, handle)) return true;
+  }
+  return false;
+}
+export function lockDrive(handle, operation) {
+  if (!globalThis.navigator?.locks) return operation();
+  const name = "owl-drive-" + TAB + "-" + ++lockSequence;
+  const registry = update => navigator.locks.request("owl-drive-registry", update);
+  return navigator.locks.request(name, async () => {
+    await registry(async () => {
+      const entries = await liveDrives();
+      for (const entry of entries) if (await sameFolder(entry, handle)) throw new DriveBusy();
+      await handleStore("readwrite", store => store.put([...entries, {lock: name, handle}], "active-drives"));
+    });
+    try {
+      return await operation();
+    } finally {
+      await registry(async () => {
+        const entries = (await liveDrives()).filter(entry => entry.lock !== name);
+        await handleStore("readwrite", store => store.put(entries, "active-drives"));
+      }).catch(() => {});
+    }
+  });
+}
 export const requestDrivePermission = handle => handle.requestPermission(READ_WRITE);
 export const hasDrivePermission = async handle => (await handle.queryPermission(READ_WRITE)) === "granted";
 export const pickDrive = () => globalThis.showDirectoryPicker({id: "owl-drive", ...READ_WRITE});

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Sync several drives at once, one per window. Each window remembers its own drive, a folder can sync in only one window at a time, and every finished drive keeps a working **Try it** link.
 - Keep files finished before a pause in the drive record when Sync resumes. A first sync paused twice forgot them, and the next Sync downloaded them again under new names. Sync now finds such files by checksum and keeps them. After **Pause**, opening the drive no longer rereads every finished file.
 - Offer **Choose a different drive** on the ready, up-to-date, paused and problem screens, including after the page reopens a remembered drive.
 

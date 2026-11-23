@@ -8,7 +8,7 @@ async function serve(url, scope) {
     const [id, ...parts] = relative.split("/");
     const path = parts.map(decodeURIComponent).join("/");
     // A search loads many shards. Read the drive handle and file list once per preview.
-    if (preview?.id !== id) preview = await getReaderPreview(scope);
+    if (preview?.id !== id) preview = await getReaderPreview(scope, id);
     return readPreviewFile(preview, id, path);
   } catch {
     return new Response("Open START_HERE.html on the connected drive.", {status: 404});
