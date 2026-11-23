@@ -783,7 +783,9 @@ async function layoutExists(drive, layout) {
 // Successful checks in this page session, keyed by checksum, paths, sizes and
 // modification times. Opening a paused 1 TB drive and then choosing Sync
 // otherwise reads every finished file twice.
-const checkedLayouts = new Map();
+// Per drive handle: a copy on another drive with the same names, sizes and
+// modification times is still read.
+const checkedLayouts = new WeakMap();
 
 // One hashing worker per page, shared by every check; null after it failed
 // to start, which leaves hashing on the page as in tests under Node.
@@ -863,7 +865,9 @@ async function verifyLayout(drive, asset, layout, signal, {reread = false, check
     files.push(file);
   }
   const key = [asset.sha256, ...layout.map((part, index) => part.path + ":" + files[index].size + ":" + files[index].lastModified)].join("|");
-  if (!reread && checkedLayouts.has(key)) return checkedLayouts.get(key);
+  if (!checkedLayouts.has(drive)) checkedLayouts.set(drive, new Map());
+  const checked = checkedLayouts.get(drive);
+  if (!reread && checked.has(key)) return checked.get(key);
   if (check?.sizing) {
     check.sizing.bytes += asset.size_bytes;
     return layout.map(part => ({sha256: "", bytes: part.bytes}));
@@ -878,7 +882,7 @@ async function verifyLayout(drive, asset, layout, signal, {reread = false, check
   }
   if (result.digest !== asset.sha256) return null;
   const parts = layout.map((part, index) => ({sha256: result.parts[index], bytes: part.bytes}));
-  checkedLayouts.set(key, parts);
+  checked.set(key, parts);
   return parts;
 }
 
