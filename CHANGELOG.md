@@ -2,6 +2,7 @@
 
 ## 0.2.0 (2026-11-22)
 
+- Identify Pages mirror downloads with the project name and repository URL, as Wikimedia requires.
 - Retry job status reads during Windows file sharing conflicts.
 - Count damaged critical files in browser builds and report checksum failures in reader and search support.
 - Direct Python builds to a new folder when the destination already contains a browser library.

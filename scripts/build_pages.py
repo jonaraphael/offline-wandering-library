@@ -23,7 +23,7 @@ from owl.atlas_model import load_navigation
 from owl.catalog import load_catalog, load_profiles
 from owl.navigation import reader_payload
 from owl.discovery import compile_records
-from owl.download import BROWSER_USER_AGENT
+from owl.download import BROWSER_USER_AGENT, USER_AGENT
 from owl.search_ui import render_search_page
 from owl.search_shards import SEARCH_ROOT, compile_search_plan, load_impact, load_manifest, load_routes, load_transformer
 from owl.selector import ROOT, make_model, render_selector
@@ -152,7 +152,7 @@ def verified_source(asset: dict, cache: Path) -> Path:
             continue
         temporary = path.with_suffix(".download")
         try:
-            headers = {"Accept-Encoding": "identity"}
+            headers = {"Accept-Encoding": "identity", "User-Agent": USER_AGENT}
             try:
                 response = urlopen(Request(url, headers=headers), timeout=25)
             except HTTPError as error:
