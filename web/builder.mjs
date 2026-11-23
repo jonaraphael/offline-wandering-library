@@ -785,7 +785,77 @@ async function layoutExists(drive, layout) {
 // otherwise reads every finished file twice.
 const checkedLayouts = new Map();
 
-async function verifyLayout(drive, asset, layout, signal, {reread = false} = {}) {
+// One hashing worker per page, shared by every check; null after it failed
+// to start, which leaves hashing on the page as in tests under Node.
+let hashWorker, nextHashJob = 0;
+const hashJobs = new Map();
+function startHashWorker() {
+  if (hashWorker !== undefined) return hashWorker;
+  hashWorker = null;
+  if (typeof Worker !== "function" || typeof document === "undefined") return null;
+  try {
+    const url = new URL("./hash-worker.mjs" + new URL(import.meta.url).search, import.meta.url);
+    hashWorker = new Worker(url, {type: "module"});
+  } catch {
+    return null;
+  }
+  hashWorker.onmessage = ({data}) => {
+    const job = hashJobs.get(data.id);
+    if (!job) return;
+    if (data.bytes) job.onBytes(data.bytes);
+    if (data.digest || data.error) {
+      hashJobs.delete(data.id);
+      job.done(data.error ? null : data);
+    }
+  };
+  hashWorker.onerror = () => {
+    for (const job of hashJobs.values()) job.done(null);
+    hashJobs.clear();
+    hashWorker.terminate();
+    hashWorker = null;
+  };
+  return hashWorker;
+}
+
+function hashInWorker(files, onBytes, signal) {
+  const worker = startHashWorker();
+  if (!worker) return null;
+  const id = ++nextHashJob;
+  return new Promise((resolve, reject) => {
+    const abort = () => {
+      hashJobs.delete(id);
+      worker.postMessage({cancel: id});
+      reject(signal.reason);
+    };
+    if (signal?.aborted) { abort(); return; }
+    signal?.addEventListener("abort", abort, {once: true});
+    hashJobs.set(id, {onBytes, done: result => {
+      signal?.removeEventListener("abort", abort);
+      resolve(result);
+    }});
+    worker.postMessage({id, files});
+  });
+}
+
+async function hashOnPage(files, onBytes, signal) {
+  const whole = sha256.create(), parts = [];
+  for (const file of files) {
+    const hash = files.length > 1 ? sha256.create() : whole;
+    for await (const chunk of file.stream()) {
+      signal?.throwIfAborted();
+      hash.update(chunk);
+      if (hash !== whole) whole.update(chunk);
+      onBytes(chunk.byteLength);
+    }
+    parts.push(hash === whole ? null : bytesToHex(hash.digest()));
+  }
+  const digest = bytesToHex(whole.digest());
+  return {digest, parts: parts.map(part => part ?? digest)};
+}
+
+// check.sizing: a dry pass that adds up the bytes a real check would read.
+// check.progress: called with the bytes read so far in the real check.
+async function verifyLayout(drive, asset, layout, signal, {reread = false, check} = {}) {
   const files = [];
   for (const part of layout) {
     const file = await candidateFile(drive, part.path);
@@ -794,18 +864,20 @@ async function verifyLayout(drive, asset, layout, signal, {reread = false} = {})
   }
   const key = [asset.sha256, ...layout.map((part, index) => part.path + ":" + files[index].size + ":" + files[index].lastModified)].join("|");
   if (!reread && checkedLayouts.has(key)) return checkedLayouts.get(key);
-  const whole = sha256.create(), parts = [];
-  for (const [index, part] of layout.entries()) {
-    const file = files[index];
-    const hash = sha256.create();
-    for await (const chunk of file.stream()) {
-      signal?.throwIfAborted();
-      hash.update(chunk);
-      whole.update(chunk);
-    }
-    parts.push({sha256: bytesToHex(hash.digest()), bytes: part.bytes});
+  if (check?.sizing) {
+    check.sizing.bytes += asset.size_bytes;
+    return layout.map(part => ({sha256: "", bytes: part.bytes}));
   }
-  if (bytesToHex(whole.digest()) !== asset.sha256) return null;
+  let read = 0;
+  const onBytes = bytes => { read += bytes; check?.progress?.(bytes, asset); };
+  let result = await hashInWorker(files, onBytes, signal);
+  if (!result) {
+    check?.progress?.(-read, asset);
+    read = 0;
+    result = await hashOnPage(files, onBytes, signal);
+  }
+  if (result.digest !== asset.sha256) return null;
+  const parts = layout.map((part, index) => ({sha256: result.parts[index], bytes: part.bytes}));
   checkedLayouts.set(key, parts);
   return parts;
 }
@@ -890,9 +962,30 @@ async function activeReaderExists(drive, state) {
   return (await Promise.all(state.generated.map(path => readerPath(path) && candidateFile(drive, path)))).every(Boolean);
 }
 
-export async function compareLibrary(drive, {assets, choice, catalogVersion, navigation = {}, search, readerPublication, partBytes = PART_BYTES,
+// onCheck({checked, total, asset}) reports a long check of files already on
+// the drive. A dry pass first adds up the bytes the check will read.
+export async function compareLibrary(drive, options = {}) {
+  const {onCheck: report, ...rest} = options;
+  if (!report) return compareOnce(drive, rest);
+  // A display error must not stop the check.
+  const onCheck = value => { try { report(value); } catch (error) { diag("check-progress", {detail: error.message}); } };
+  const inspection = rest.inspection || await inspectDrive(drive);
+  const sizing = {bytes: 0};
+  await compareOnce(drive, {...rest, inspection}, {sizing});
+  if (!sizing.bytes) return compareOnce(drive, {...rest, inspection});
+  let checked = 0, reported = 0;
+  onCheck({checked, total: sizing.bytes});
+  return compareOnce(drive, {...rest, inspection}, {progress(bytes, asset) {
+    checked = Math.max(0, checked + bytes);
+    if (checked - reported < 64 * 2 ** 20 && checked < sizing.bytes) return;
+    reported = checked;
+    onCheck({checked: Math.min(checked, sizing.bytes), total: sizing.bytes, asset});
+  }});
+}
+
+async function compareOnce(drive, {assets, choice, catalogVersion, navigation = {}, search, readerPublication, partBytes = PART_BYTES,
     singleArchives = false, joinArchives = false, fat32 = false, fullVerify = false, signal, inspection, freeBytes = Infinity,
-    archiveSpace = Infinity} = {}) {
+    archiveSpace = Infinity} = {}, check) {
   const {state, adoption, legacy} = inspection || await inspectDrive(drive);
   const limit = archiveFileLimit(fat32, singleArchives || joinArchives, state?.largeFileLimited);
   const sameParts = partBytes === state?.partBytes;
@@ -925,7 +1018,7 @@ export async function compareLibrary(drive, {assets, choice, catalogVersion, nav
       const interruptedWrite = state?.pending && !state.relayWaiting && !state.pausedCleanly &&
         (installed.layout.length > 1 || installed.layout !== old?.layout);
       const parts = fullVerify || interruptedWrite ?
-        await verifyLayout(drive, asset, installed.layout, signal, {reread: fullVerify}) : installed.parts;
+        await verifyLayout(drive, asset, installed.layout, signal, {reread: fullVerify, check}) : installed.parts;
       if (parts?.length) { present.push({...installed, asset, parts}); continue; }
     }
     // An earlier builder could drop finished files from an unfinished first
@@ -940,7 +1033,7 @@ export async function compareLibrary(drive, {assets, choice, catalogVersion, nav
       const layouts = mustSplit ? [split] : canonical[0].path === split[0].path ? [canonical] : [canonical, split];
       for (const layout of layouts) {
         if (!await layoutExists(drive, layout)) continue;
-        const parts = await verifyLayout(drive, asset, layout, signal, {reread: fullVerify});
+        const parts = await verifyLayout(drive, asset, layout, signal, {reread: fullVerify, check});
         if (parts) {
           const owned = layout.every((part, index) => legacy.get(part.path) === parts[index].sha256 ||
             state?.owned.includes(part.path));
@@ -1234,7 +1327,8 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
   choice ??= saved?.choice || {kind: "recommended", split: !singleArchives && !joinArchives};
   const revision = readerRevision(navigation, search, readerPublication);
   const comparison = await compareLibrary(drive, {assets, choice, catalogVersion, navigation, search, readerPublication,
-    partBytes, singleArchives, joinArchives, fat32, fullVerify, signal, inspection, freeBytes, archiveSpace});
+    partBytes, singleArchives, joinArchives, fat32, fullVerify, signal, inspection, freeBytes, archiveSpace,
+    onCheck: value => onProgress({kind: "checking", ...value})});
   const resuming = saved?.pending && !comparison.changedChoice && catalogVersion === saved.catalogVersion;
   const state = beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, singleArchives, fat32, archiveSpace, driveFormat,
     capacityBytes: capacityBytes ?? saved?.capacityBytes, capacityEstimated: capacityEstimated ?? saved?.capacityEstimated,

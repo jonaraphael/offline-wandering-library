@@ -382,7 +382,13 @@ export function mount({catalog: supplied} = {}) {
   let measured, reported = false, minimum, capacity, driveFormat = "unknown", detectedFormat, size, mode, previousMode, problem, result,
     controller, opened = 0;
   let operation = 0, picker = false, preview = false, fullCheck = false, selectedReplacement = new Set();
-  let slowCheck = false, slowTimer;
+  let slowCheck = false, slowTimer, checkProgress, checkStarted;
+  // Time left in a long check, from its average speed so far.
+  const checkLeft = () => {
+    const seconds = (performance.now() - checkStarted.at) / 1000;
+    const done = checkProgress.checked - checkStarted.checked;
+    return seconds > 10 && done > 0 ? duration((checkProgress.total - checkProgress.checked) / (done / seconds)) + " left" : "estimating time";
+  };
   let active = new Map(), transferTotal = 0, transferStarted, rateStart, rateBytes, rate = 0, nowTitle = "", lastPaint = 0;
   let dirty = false, finishing = false, driveChoice, relayTryNow, manageAfterPause = false;
   how();
@@ -537,8 +543,10 @@ export function mount({catalog: supplied} = {}) {
           chart: Boolean(snapshot?.amounts), action: reconnectButton, links: [["Use a different drive", changeDrive]]});
         break;
       case "measuring":
-        Object.assign(item, {message: slowCheck ? "Checking the files already on the drive…" : "Measuring free space…",
-          extra: slowCheck ? "A large drive can take several minutes. Nothing on it changes." : undefined, links: [different]});
+        Object.assign(item, {message: checkProgress || slowCheck ? "Checking the files already on the drive…" : "Measuring free space…",
+          extra: checkProgress ? "Checked " + bytes(checkProgress.checked) + " of " + bytes(checkProgress.total) +
+            (checkProgress.checked && checkStarted ? " · " + checkLeft() : "") + ". Nothing on the drive changes." :
+            slowCheck ? "A large drive can take several minutes. Nothing on it changes." : undefined, links: [different]});
         break;
       case "needs-size":
         Object.assign(item, {message: "For a new or empty drive, use the number printed on it.",
@@ -788,8 +796,15 @@ export function mount({catalog: supplied} = {}) {
 
   async function updateComparison() {
     const token = ++operation;
-    const value = await compareLibrary(drive, {...comparisonOptions(), inspection});
-    if (token === operation) comparison = value;
+    let painted = 0;
+    const value = await compareLibrary(drive, {...comparisonOptions(), inspection, onCheck: progress => {
+      if (token !== operation) return;
+      if (!checkProgress) checkStarted = {at: performance.now(), checked: progress.checked};
+      checkProgress = progress;
+      const now = performance.now();
+      if (mode === "measuring" && now - painted > 500) { painted = now; render(); }
+    }});
+    if (token === operation) { comparison = value; checkProgress = checkStarted = undefined; }
   }
 
   function stageForDrive() {
@@ -958,6 +973,11 @@ export function mount({catalog: supplied} = {}) {
       return;
     }
     if (event.kind === "assembling") { finishing = true; render("finishing"); return; }
+    if (event.kind === "checking") {
+      nowTitle = "checking files already on the drive, " + bytes(event.checked) + " of " + bytes(event.total);
+      render("syncing");
+      return;
+    }
     if (mode === "finishing" || !event.asset) return;
     if (event.kind === "downloading") {
       active.set(event.asset.id, Math.min(event.asset.size_bytes, event.index * PART_BYTES + event.received));

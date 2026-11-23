@@ -149,6 +149,27 @@ test("files OWL wrote stay usable when the drive record lost their verified mark
   assert.equal(await text(drive, done.state.installed.b.layout[0].path), "two");
 });
 
+test("a check of files already on the drive reports its total first and its progress to the end", async () => {
+  const drive = new Directory();
+  const first = options({a: "one", b: "two", c: "three"}, {catalogVersion: "1"});
+  const controller = new AbortController();
+  await assert.rejects(reconcile(drive, {...first, signal: controller.signal, onProgress(event) {
+    if (event.kind === "downloading" && event.asset.id === "c") controller.abort();
+  }}), {name: "AbortError"});
+  const record = await readBuild(drive);
+  record.verified = {};
+  record.working = {c: record.working.c};
+  record.parts = {c: record.parts.c ?? []};
+  await writeFile(drive, MANIFEST, JSON.stringify(record) + "\n");
+  const events = [];
+  const comparison = await compareLibrary(drive, {...first, onCheck: event => events.push(event)});
+  assert.deepEqual(comparison.present.map(row => row.asset.id), ["a", "b"]);
+  assert.deepEqual(events.map(({checked, total}) => [checked, total]), [[0, 6], [6, 6]]);
+  const syncEvents = [];
+  await reconcile(drive, {...first, onProgress: event => { if (event.kind === "checking") syncEvents.push(event.checked); }});
+  assert.deepEqual(syncEvents, [], "files checked when the drive was opened are not read again in the same session");
+});
+
 test("a file the lost record began to download again under a new name is found at its first path", async () => {
   const drive = new Directory();
   const first = options({a: "one", b: "two"}, {catalogVersion: "1"});
