@@ -90,6 +90,7 @@ class PagesMirrorTests(unittest.TestCase):
               patch.object(build_pages, "urlopen", side_effect=[HTTPError(url, 403, "Forbidden", {}, None), response]) as fetch):
             result = build_pages.verified_source(asset, Path(folder))
             self.assertEqual(result.read_bytes(), source)
-        request = fetch.call_args.args[0]
-        self.assertEqual(request.get_header("User-agent"), build_pages.BROWSER_USER_AGENT)
-        self.assertIsNone(request.get_header("Origin"))
+        first, retry = (call.args[0] for call in fetch.call_args_list)
+        self.assertEqual(first.get_header("User-agent"), build_pages.USER_AGENT)
+        self.assertEqual(retry.get_header("User-agent"), build_pages.BROWSER_USER_AGENT)
+        self.assertIsNone(retry.get_header("Origin"))
