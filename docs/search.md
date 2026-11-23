@@ -1,16 +1,29 @@
 # Offline search
 
 Open **Search** from `START_HERE.html`. Search shows one card per matching
-document, with the best passage and other matching locations when available.
+document, with the best passage, source credit and license where applicable,
+and other matching locations when available.
 When the query matches a reviewed emergency route, search shows an **Urgent**
-card for the guide. Documents that open directly appear
-before matches in encyclopedias in ordinary search. Use **Options** to
+card for the guide. Negated or historical symptoms are left out of emergency
+routing. When separate current events match reviewed guides, each event gets
+its own card, with the most recent event first. Exact titles and close
+repair-guide title matches lead ordinary search. Other documents that open
+directly appear before encyclopedia matches. Use **Options** to
 search within a category. PDF matches open at the physical page. **How to
 open** on an encyclopedia match shows the article to find in Kiwix and the
-file's location on the drive. When the emergency is uncertain, search can
+file's location on the drive. Reviewed WikiMed matches appear with a readable
+PDF section when the 16 GB selection has a corresponding reference.
+Before showing “No close match”, the reader checks the installed passages
+for the search terms in their indexed word forms. This can surface a PDF
+page even when the term falls outside the preview or the source restricts
+excerpts. The reader can also try a word one edit away using the installed
+index vocabulary. When the retry finds results, the reader says “Showing
+results for …”. When the
+emergency is uncertain, search can
 show up to three related sections or passages under “No reviewed guide
-matched. These passages may help.” **Browse Home** opens the Urgent shelf
-and categories.
+matched. These passages may help.” When there are no matching passages, an
+injury or hazard search shows **Urgent guides** and the closest installed
+section where available. **Browse Home** opens the Urgent shelf and categories.
 
 The static start page shows the urgent tasks, categories, file locations and
 device instructions. When a file preview withholds local links or scripts,
@@ -37,8 +50,8 @@ accepted answers. Archive coverage varies by source. [ZIM coverage](zim-search-c
 Editorial concept groups add common terms, spelling variants and question
 wording at indexing time. At search time, the ranker removes common question
 wrappers and handles audience phrases separately. It uses offline phrase groups
-to connect everyday wording with clinical and practical vocabulary. A relevant
-passage or article lead earns more than a title-only match. For health, water
+to connect everyday wording with clinical and practical vocabulary. Relevant
+passages and article leads earn additional ranking weight. For health, water
 and survival intents, matching CRITICAL sources receive additional weight.
 Discussion results receive less weight unless a marked accepted-answer excerpt
 or its postings match. Older discussion shards lack per-record answer markers
@@ -56,9 +69,9 @@ Title-directory entries use word postings reconstructed from their titles.
 The same generated composition plan supplies source order, physical paths,
 pins and ranker metadata to both builders. The reader loads its own search
 manifest and shares content-addressed shards and model files across builds.
-The search page loads the weights on its first query that needs semantic
-routing or indexed ranking. A reviewed lexical match can open without loading
-the weights.
+The search page loads the weights on the first query that needs semantic
+routing or ranking. Lexical matches and reviewed page links can appear
+before the weights load.
 It uses classic local scripts, DecompressionStream for compressed shards and a
 network-denying CSP. Word postings retrieve literal matches and Bloom filters
 route them to chunks. Hamming distance admits additional passage and lead
@@ -74,18 +87,25 @@ portions of the read allowance. The reader can show a lexical preview from
 up to 350 KB of record chunks while the model and relevant term buckets load.
 If final ranking opens a preview chunk, it reuses the parsed records.
 
-The base ranker uses a 16 MB allowance for emergency intents when running
-with the term index. The reader uses the smaller emergency fallback below
-for descriptions it classifies as health or safety. Libraries with
-up to 125 MB of record chunks use a 20 MB allowance for simple one- and
-two-term lookups. Other searches preview results within a 39.7 MB allowance,
-then score the remaining eligible chunks. That second pass can take longer,
-especially on large libraries. Submitting a different query cancels the
-previous one between chunk reads.
+The reader starts ordinary queries with a 12 MB allowance for term and
+record chunks. A spelling lookup and retry can add up to 1 MB and 6 MB,
+respectively. Each lexical preview has its own 350 KB cap. Title signatures
+from denser filters carry less weight when choosing chunks. If the main
+search and spelling retry leave the query unresolved, the reader checks
+eligible chunks whose Bloom filters could contain the query's terms or a
+recognized alternative phrase.
+Ordinary descriptions with no close lexical or exact result can fall back
+to Potion ranking using up to 20 MB of term and record chunks on selections
+with up to 125 MB of records, and up to 39.7 MB on larger selections.
+Emergency recognition and emergency passage fallback retain their own
+ranking and read limits. Submitting a different query cancels the previous
+search between chunk reads.
 
 When the build fits the 46.6 MB MiniLM bundle in its search allocation,
 desktop search preserves the top three indexed hits and uses MiniLM to
-reorder subsequent results from the first 50 indexed hits. The all-MiniLM-L6-v2 model runs through single-threaded ONNX Runtime
+reorder subsequent results from the first 50 indexed hits. It skips this
+step when a matching title leads the results. The all-MiniLM-L6-v2 model
+runs through single-threaded ONNX Runtime
 Web WASM using local classic scripts. Potion and term postings supply the
 shortlist. The model reads only excerpts that the index already permits
 displaying. Its results follow the initial lexical and Potion matches. The
@@ -100,6 +120,7 @@ python scripts/build_search_shards.py --model-input "$MODEL_INPUT" \
   --cache "$VERIFIED_SOURCE_CACHE" --directories "$ZIM_RECEIPTS"
 node scripts/build_search_routes.cjs catalog/search catalog/search/routes.json
 node --max-old-space-size=7000 scripts/build_impact_routes.cjs catalog/search catalog/search/impact
+python scripts/build_search_emergency.py --check
 python scripts/search_benchmark.py --check
 python scripts/search_benchmark.py --bounded --tasks
 python scripts/search_benchmark.py --tasks > search-task-results.json
@@ -149,19 +170,26 @@ PDF queries with expected physical page locations, and 10 held-out emergency
 queries. It grades the first ten results at 16 GB, 128 GB and 1 TB using the
 reader's chunk selection and base ranker. `--check` enforces the original probe
 totals at each capacity, a hit for “signs of dehydration” at all three, and
-retention of every previously passing probe. `--quick`, `--bounded`
-and `--exhaustive` compare a 28 MB heuristic route, a 39.7 MB term-index route,
-and all eligible chunks. Benchmark scoring stops at the base ranker.
+retention of every previously passing probe. Quick mode uses the shipped
+term-index route and caps the production allowance at 32 MB. The previous
+28 MB heuristic run missed “test water for coliform.” Use `--quick --check`
+to check recall at the reduced allowance, `--bounded` for a fixed 39.7 MB
+term-index comparison, and `--exhaustive` to score all eligible chunks.
+Benchmark scoring stops at the base ranker.
 The optional task export records the first three
 results for each natural-language task in `tests/search/task-queries.json`,
 with the title, source, locator and any displayable excerpt for grading.
 
 ## Reviewed emergency routes
 
-The section review covers **189 destinations in 137 situations** from the
+The section review verifies **224 destinations**, including the locations
+for 150 section routes and eight PDF companions to established WikiMed
+routes. It uses the
 default 16 GB editions of *Where There Is No Doctor*, *A Book for Midwives*,
 FEMA CERT, *Basic Emergency Care*, the MSF clinical and obstetric guides,
-FEMA *Are You Ready?*, and WikiMed. The review records the edition digest,
+FEMA *Are You Ready?*, Hesperian's *A Community Guide to Environmental
+Health*, WikiMed, the UC Davis postharvest manual, and the
+FAO grain silo manual. The review records the edition digest,
 physical PDF page or WikiMed path, heading, and everyday terms for each
 situation.
 [Section review](../catalog/emergency-sections.json)
@@ -172,8 +200,9 @@ section names and everyday synonyms. Descriptions that depend on several
 clues require each clue, such as a fall, hip pain, and the affected body
 part. Existing time-critical routes keep precedence where clues overlap.
 Matching sections open immediately from the installed catalog and respect
-the optional category filter. Multiple locations in the same book share a
-card. [Reader implementation](../src/owl/templates/search.js)
+the optional category filter. An installed PDF companion can also appear
+when the filter includes its WikiMed match. Multiple locations in the same
+book share a card. [Reader implementation](../src/owl/templates/search.js)
 
 The expanded review includes the following destinations in the standard
 16 GB selection.
@@ -185,12 +214,24 @@ The expanded review includes the following destinations in the standard
 | A blow or scratch to the eye | *Where There Is No Doctor*, chapter 16, p. 2 |
 | A child with fever and a seizure | MSF clinical guide, p. 23 |
 | Cold-water exposure and numb extremities | FEMA CERT, p. 114, and WikiMed’s *Non-freezing cold injury* |
-| Prolonged exposure in wet shoes | WikiMed’s *Trench foot* |
+| Prolonged exposure in wet shoes | WikiMed’s *Trench foot* and FEMA CERT cold-related injuries, p. 114 |
 | Penetrating injury or stab wound | *Where There Is No Doctor*, chapter 10, p. 16 |
 | A fall from height | *Basic Emergency Care*, p. 58 |
-| Mold in a flooded building | WikiMed’s *Mold health issues* |
+| Mold in a flooded building | WikiMed’s *Mold health issues* and *A Community Guide to Environmental Health*, chapter 17, ventilation and indoor mold, p. 5 |
 | House fire and indoor smoke | FEMA CERT, pp. 173 and 30 |
 | Evacuation as floodwaters rise | FEMA *Are You Ready?*, pp. 11 and 12 |
+| Crush injuries | *Basic Emergency Care*, p. 70, and WikiMed’s *Crush syndrome* |
+| Trapped under an object or in a crashed vehicle | FEMA CERT rescue scene safety, p. 192, and *Basic Emergency Care* crush injury assessment, p. 70 |
+| Fall through ice | FEMA CERT cold-related injuries, p. 114, WikiMed’s *Drowning*, and *Basic Emergency Care* breathing assessment, p. 89 |
+| Downed power lines | FEMA *Are You Ready?*, p. 11 |
+| Hot-liquid scalds | MSF clinical guide, p. 339 |
+| Sunburn | *Where There Is No Doctor*, chapter 10, minor burns, p. 22 |
+| Contaminated food | *Where There Is No Doctor*, chapter 12, food and drink cleanliness, p. 5 |
+| Found after a long time on the floor | *Basic Emergency Care*, pp. 26 and 70 |
+| Fishhooks and other embedded objects | FEMA CERT, p. 110, and *Where There Is No Doctor*, chapter 10, p. 15 |
+| Jellyfish stings | WikiMed’s *Jellyfish stings* |
+| Tourniquets for severe limb bleeding | *Basic Emergency Care*, p. 170, and WikiMed’s *Tourniquet* |
+| Root vegetable and grain storage | UC Davis postharvest manual, p. 147, and FAO grain silo manual, p. 94 |
 
 ### Semantic matching and emergency fallback
 
@@ -198,7 +239,7 @@ Each situation, including the 35 established routes, has three plain-language
 descriptions of symptoms, events, or hazards. Alternative locations for
 the same situation share those descriptions. The compiler encodes each
 description separately with the pinned 256-component Potion model and
-stores its normalized vector as 256 signed bytes. The **182,218-byte**
+stores its normalized vector as 256 signed bytes. The **195,973-byte**
 generated table ships inside `rank.js`, so it adds no separate request.
 Metadata-only builds omit the ranker. The reader uses the same locally
 installed model as passage ranking.
@@ -219,9 +260,8 @@ Calibration compared the new emergency descriptions with similar wording
 from ordinary searches. “Yellow marks on a spider plant” scored about 0.47
 against the spider-bite description, below the recognition floor. “Book
 about art and smoke” scored about 0.53 against indoor smoke and is handled
-by the reference filter. Flashes and a dark curtain in one eye scored
-about 0.43 against retinal detachment. The vision danger sign allows the
-section to appear as a related result at that score.
+by the reference filter. Flashes and a dark curtain in one eye also match a
+reviewed lexical route for retinal detachment.
 
 An emergency recognized from words or meaning gets an installed Urgent
 guide while the reader looks for passages. If no reviewed route qualifies,
@@ -229,9 +269,11 @@ the reader can show up to three related sections or passages from different
 documents. Nearby sections need a score of at least **0.42** and must be
 within **0.13** of the strongest match. The reader can fill open slots with
 matching body passages from up to 1.2 MB of existing index chunks in the
-applicable categories. If no passage qualifies, it keeps an installed
-urgent guide or offers **Browse Home** in the results. Ordinary searches
-continue through the catalog, term index, and base ranker.
+applicable categories. If no passage qualifies, the result shows **Urgent
+guides** and the closest installed section when available. An ordinary
+search continues through the catalog, term index, and base ranker. A query
+with injury, body, or hazard words that produces no result cards uses the
+same emergency fallback.
 
 For a new edition, start with the pinned PDFs on an installed default
 16 GB library and install the PDF extra. Candidate extraction verifies
@@ -266,17 +308,17 @@ selection contains every listed source.
 | Severe bleeding | Blood gushing or a wound that keeps bleeding | FEMA CERT, p. 101 |
 | Burns | Scalds, blisters after a spill, burned skin | MSF Clinical Guidelines, p. 339 |
 | Choking | Food stuck in the throat, inability to speak while eating | WHO/ICRC Basic Emergency Care, p. 155 |
-| CPR | No pulse, stopped breathing, gasping after collapse | WikiMed, Cardiopulmonary resuscitation |
+| CPR | No pulse, stopped breathing, gasping after collapse | WikiMed, Cardiopulmonary resuscitation, and WHO Medical Resuscitation Algorithm, p. 1 |
 | Unresponsive person | Fainted, passed out, won't wake or respond | Hesperian Where There Is No Doctor, chapter 10, p. 4 |
-| Drowning | Fell into a pool, river, or well, fell overboard, gasping after a rescue | WikiMed, Drowning |
-| Electric shock | Live wire, shock from a cord or socket | WikiMed, Electrical injury |
+| Drowning | Fell into a pool, river, or well, fell overboard, gasping after a rescue | WikiMed, Drowning, and WHO/ICRC Basic Emergency Care, p. 89 |
+| Electric shock | Shock from a cord, socket, fence or appliance | WikiMed, Electrical injury, and FEMA CERT, p. 175 |
 | Heart attack | Chest pressure, chest pain with arm or jaw pain | WHO/ICRC Basic Emergency Care, p. 203 |
 | Stroke | Facial droop, one-sided weakness, slurred speech | WHO/ICRC Basic Emergency Care, p. 139 |
 | Anaphylaxis | Tight throat after a sting, lip swelling after a meal | MSF Clinical Guidelines, p. 14 |
-| Poisoning | Swallowed cleaner, pills from an open bottle | WikiMed, Poisoning |
-| Swallowed objects | Gulped a coin, ate a battery, put missing magnets in the mouth | WikiMed, Foreign body |
-| Chemical eye injury | Cleaning fluid or battery liquid in an eye | WikiMed, Chemical eye injury |
-| Carbon monoxide | CO alarm, a generator indoors, exhaust and headache | WikiMed, Carbon monoxide poisoning |
+| Poisoning | Swallowed cleaner, pills from an open bottle | WikiMed, Poisoning, and Hesperian Where There Is No Doctor, chapter 10, p. 29 |
+| Swallowed objects | Gulped a coin, ate a battery, put missing magnets in the mouth | WikiMed, Foreign body, and WHO/ICRC Basic Emergency Care emergency assessment, p. 26 |
+| Chemical eye injury | Cleaning fluid or battery liquid in an eye | WikiMed, Chemical eye injury, and Hesperian Where There Is No Doctor, chapter 16, p. 3 |
+| Carbon monoxide | CO alarm, a generator indoors, exhaust and headache | WikiMed, Carbon monoxide poisoning, and FEMA CERT, p. 176 |
 | Gas leak | Smell of gas, hissing near a stove | FEMA CERT, p. 176 |
 | House fire | Smoke filling a hallway, fire in a home | FEMA CERT, p. 173 |
 | Electrical fire | Smoking plug, sparking socket | FEMA CERT, p. 175 |
@@ -288,16 +330,24 @@ selection contains every listed source.
 | Fractures | Crooked limb, exposed bone, broken wrist | FEMA CERT, p. 110 |
 | Puncture wounds | Stepped on a nail, a shard or wire went through the skin, tetanus booster | Hesperian Where There Is No Doctor, chapter 10, p. 15 |
 | Animal bites | A dog bite, a stray cat breaking the skin | MSF Clinical Guidelines, p. 258 |
-| Insect bites and stings | Wasps, bees, insect bites | WikiMed, Arthropod bites and stings |
+| Insect bites and stings | Wasps, bees, insect bites | WikiMed, Arthropod bites and stings, and FEMA CERT, p. 116 |
 | Snakebite | Fang marks or a snake slithering away | MSF Clinical Guidelines, p. 355 |
 | Newborn fever | A newborn with a temperature | MSF Essential Obstetric and Newborn Care, p. 221 |
 | Young infant fever | A young baby with fever or a high thermometer reading | MSF Clinical Guidelines, p. 35 |
 | Diarrhea and dehydration | Watery stools, reduced urination, inability to keep water down | Hesperian Where There Is No Doctor, chapter 13, p. 1 |
 | Childbirth | A baby coming before reaching the hospital | Hesperian A Book for Midwives, chapter 12, p. 14 |
 | Postpartum bleeding | Heavy bleeding after the baby is born | Hesperian A Book for Midwives, chapter 13, p. 3 |
-| Drinking water | Dirty tap water, disinfection, whether creek, lake, or rain water is safe to drink | EPA Emergency Disinfection of Drinking Water, pp. 1–2 |
-| Food in an outage | Warm refrigerator, thawed freezer, outage and meat | FEMA Are You Ready?, p. 26 |
+| Drinking water | Dirty tap water or water from a flooded well, treatment for cooking, drinking or other household use | EPA Emergency Disinfection of Drinking Water, pp. 1–2 |
+| Food in an outage | Warm refrigerator, thawed freezer, outage and meat | FEMA Are You Ready?, p. 13 |
 | Emergency sanitation | Toilets that will not flush, nowhere to dispose of human waste | Hesperian A Community Guide to Environmental Health, chapter 7, p. 2 |
+
+The review found 24 routes whose only destination was WikiMed before this
+pass. It added an installed PDF companion to 20. Four still use WikiMed
+alone after reviewing the 16 GB references: jellyfish stings, testicular
+torsion, high-altitude pulmonary edema, and sudden hearing loss. Some PDF
+companions cover initial assessment or a related hazard. For swallowed
+objects, the PDF covers emergency assessment and airway danger signs.
+[Coverage and exceptions](../catalog/emergency-sections.json)
 
 ## Held-out emergency queries
 
@@ -338,104 +388,152 @@ displayed cards, with **34 good** and **zero empty** required in CI.
 
 ## Measured relevance
 
-The 16 GB reader scored **10/10** on the original held-out set, **30/30** on
-the everyday set, and **15/15** first reviewed cards on the paraphrase set.
-The 40-query section benchmark used the same grading rules before and after
-the change.
+The [frozen 40-query set](../tests/search/round5-queries.json) contains 20
+emergency queries, including eight with negation or history, 10 practical
+queries and 10 misspelled queries. The grade checks the first three cards
+for the expected reviewed guide or a matching reference title. The
+negation and history checks also require the excluded situation to stay
+out of those results. The reader gate checks the first card for the two
+reported failures, their controls and the 10 additional negation or history
+queries.
 
-| Reader | Good in top three | Partial | Poor | Empty |
+| Query set | Good before | Good after | Empty before | Empty after |
 | --- | ---: | ---: | ---: | ---: |
-| At 772a1dba | 0 | 2 | 38 | 22 |
-| With section routes and emergency fallback | 37 | 2 | 1 | 0 |
+| Emergency | 4/20 | 20/20 | 5 | 0 |
+| Practical | 7/10 | 10/10 | 0 | 0 |
+| Misspelled | 1/10 | 10/10 | 8 | 0 |
+| All queries | 12/40 | 40/40 | 13 | 0 |
 
-The object-in-nose and object-in-ear cases still retrieve only adjacent
-topics. The jellyfish sting case shows the general emergency assessment
-guide.
+Negation or history failures fell from **5/8** to **0/8**. The gate requires at least 34 good results,
+zero empty emergency results and zero negation or history failures.
 
-The new 40-query set uses mutually exclusive grades. An empty result counts
-only as empty. A good result includes a section or article on the expected
-situation among the first three displayed cards. A partial result finds a
-related topic or a less specific reference.
+The same offline reader run checked the existing emergency sets.
 
-| Reader | Good in top three | Partial | Poor | Empty |
-| --- | ---: | ---: | ---: | ---: |
-| At `8e41895a` | 0 | 8 | 12 | 20 |
-| With lexical and semantic routing | 40 | 0 | 0 | 0 |
+| Query set | Current result |
+| --- | ---: |
+| Original held-out, top three | 10/10 |
+| Everyday emergency, top three | 30/30 |
+| Paraphrases, first reviewed card | 15/15 |
+| Section emergency, top three | 38 good, 2 partial, 0 poor, 0 empty |
+| Unseen emergency, top three | 40 good, 0 partial, 0 poor, 0 empty |
 
-The older browser floors still pass at 10/10 held out, 30/30 everyday,
-15/15 first-card paraphrases, and 37/40 section cases with zero empty.
-Separate timing probes exercise health and safety descriptions with no
-lexical trigger.
+The separate base-ranker benchmark retained all probes passing the checked-in
+recall bounds, including “signs of dehydration” at all three library sizes.
 
-The base-ranker benchmark retained all probes that passed
-at `fde71516`, including “signs of dehydration” at all three capacities.
-
-| Library size | Original probes, top ten | PDF body probes, top ten | Base ranker held-out probes, top ten |
+| Library size | Original probes, top ten | PDF body probes, top ten | Base-ranker held-out probes, top ten |
 | --- | ---: | ---: | ---: |
-| 16 GB | 92/100 | 9/10 | 3/10 |
-| 128 GB | 96/100 | 9/10 | 3/10 |
-| 1 TB | 96/100 | 8/10 | 2/10 |
+| 16 GB | 92/100 | 8/10 | 3/10 |
+| 128 GB | 97/100 | 8/10 | 4/10 |
+| 1 TB | 97/100 | 8/10 | 5/10 |
+
+### Round 6 emergency search
+
+The 30 queries were fixed before modifying emergency search. A good result
+has a reviewed route for the intended situation among the first three
+cards and excludes any competing topic specified in the sample. The
+readability probes also require a PDF page for an intended topic among the
+first three. A matching route that misses another criterion, or a query
+that gets a nearby guide, is partial. Unmatched cards are poor. An empty
+query returns zero cards.
+[Frozen queries](../tests/search/round6-queries.json)
+
+| Queries | Before good / partial / poor / empty | After good / partial / poor / empty |
+| --- | --- | --- |
+| Crush, entrapment, and electric shock | 0 / 2 / 1 / 7 | 10 / 0 / 0 / 0 |
+| Similar situations | 6 / 1 / 1 / 2 | 10 / 0 / 0 / 0 |
+| Readable alternatives to WikiMed | 0 / 9 / 0 / 1 | 10 / 0 / 0 / 0 |
+| **Total** | **6 / 12 / 2 / 10** | **30 / 0 / 0 / 0** |
+
+CI requires at least 26 good and zero empty for this set. Every emergency
+reader set has a zero-empty floor. The standard and quick ranking checks
+both hit 92, 97, and 97 of the 100 original probes at 16 GB, 128 GB, and
+1 TB respectively.
+
+### Round 7 exact terms and navigation
+
+The 15 queries were fixed before changing the reader. The five rare terms
+and the milk-storage question run on one-PDF selections. The other nine
+queries run on the standard 16 GB selection. A good result leads with a
+matching physical PDF page or a reviewed emergency card.
+[Frozen queries](../tests/search/round7-queries.json)
+
+| Query set | Good before | Good after | Empty before | Empty after |
+| --- | ---: | ---: | ---: | ---: |
+| Exact terms in PDFs | 0/5 | 5/5 | 5 | 0 |
+| Navigation and practical | 0/5 | 5/5 | 1 | 0 |
+| Emergency | 5/5 | 5/5 | 0 | 0 |
+| **Total** | **5/15** | **15/15** | **6** | **0** |
+
+| Query | First result before | First result after |
+| --- | --- | --- |
+| mastitis | No close match | *Guide to Good Dairy Farming Practice*, p. 27 |
+| teat | No close match | *Guide to Good Dairy Farming Practice*, p. 27 |
+| foremilk | No close match | *Guide to Good Dairy Farming Practice*, p. 27 |
+| colostrum | No close match | *Guide to Good Dairy Farming Practice*, p. 38 |
+| homogenization | No close match | *Small-scale Dairy Farming Manual*, vol. 1, p. 274 |
+| How do I find north when I cannot see the sun | Earth-motion lesson | *Survival: Field Shelter and Outdoor Skills*, using the stars, p. 165 |
+| How can I find my direction without a compass | *Survival*, compass use, p. 170 | *Survival*, shadow-tip method, p. 162 |
+| How do I set a bearing with a map and compass | *Finding Your Way With Map and Compass*, cover link | *Finding Your Way With Map and Compass*, p. 2 |
+| What do closely spaced contour lines on a map mean | MSF, basic topographic survey | *Finding Your Way With Map and Compass*, p. 1 |
+| How do I keep milk from spoiling | No close match | *Guide to Good Dairy Farming Practice*, milking hygiene and storage, p. 16 |
+| A fallen overhead wire is sparking across the road | Downed power lines | Downed power lines |
+| My child knocked a bowl of boiling broth onto her leg | First aid for burns and scalds | First aid for burns and scalds |
+| Water from the storm entered our drinking well. Is it safe to use? | Drinking water disinfection | Drinking water disinfection |
+| After a storm flood, black mold is growing on our damp drywall | Mold after flooding | Mold after flooding |
+| My little brother put a button battery in his mouth and swallowed it | Swallowed objects and foreign bodies | Swallowed objects and foreign bodies |
 
 ## Offline timing and reads
 
 ```sh
 scratch=$(mktemp -d "${TMPDIR:-/tmp}/owl-search.XXXXXX")
 NODE_PATH=/path/to/node_modules PYTHONPATH=src python scripts/search_benchmark.py --assemble "$scratch/16" --check-reader
-PYTHONPATH=src python scripts/search_benchmark.py --assemble "$scratch/1000" --capacity 1000
+NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --round5 --check
+NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --round6 --check
+NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --round7 --check
 NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --check
-NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/1000/START_HERE.html"
 ```
 
-The assembler uses only the checked-in search data and shipped reader files.
-The checks use `playwright-core` with an installed Chromium. The timing harness also
-accepts an existing `START_HERE.html`, repeated `--query` arguments, and
-`CHROMIUM_EXECUTABLE_PATH` for a browser outside Playwright's cache.
+The assembler uses the checked-in search data and shipped reader files.
+The browser checks use `playwright-core` and an installed Chromium.
+Set `CHROMIUM_EXECUTABLE_PATH` to use a browser outside Playwright's cache.
+The timing tool also accepts repeated `--query` arguments.
 
-Measurements used Chromium 145.0.7632.6 and an Apple M5 Pro local SSD. Each
-query opens a fresh browser context with 4× CPU throttling, offline network
-emulation and browser cache disabled. First-result time runs from form
-submission to the first reviewed, fallback or indexed result card. Complete time ends when
-the reader publishes its final results and status, including MiniLM where
-installed. Byte counts sum the sizes of local file requests during each
-query, including cold model and reranker loads. They exclude reader startup
-and in-memory scripts and measure requested file bytes on the SSD run.
+Chromium 158.0.8127.36 ran the 16 GB reader from a local SSD. Each query
+used a fresh offline context with the cache disabled and
+4× CPU throttling. Complete time runs from submitting the form to the final
+results and status. Requested bytes count local files read after submission,
+including the first load of ranking weights. USB and phone I/O were outside
+these measurements.
 
-| Query | 16 GB first card | 16 GB complete | 16 GB requested bytes |
-| --- | ---: | ---: | ---: |
-| Signs of dehydration | 21.2 ms | 21.2 ms | 0 |
-| Chest compressions | 23.3 ms | 23.3 ms | 0 |
-| Snake bite | 23.0 ms | 23.0 ms | 0 |
-| Make water safe to drink | 22.5 ms | 22.6 ms | 0 |
-| We are stuck outside overnight in heavy rain without a tent | 20.4 ms | 147.5 ms | 1,199,596 |
-| My neighbor is lying still on the floor and I can't tell if he's breathing | 23.2 ms | 213.3 ms | 1,199,798 |
+| Frozen round 5 query set | Slowest before | Slowest after | Most bytes before | Most bytes after | Most files before | Most files after |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Emergency | 28.4 ms | 27.5 ms | 0 | 0 | 0 | 0 |
+| Practical | 1,781.9 ms | 1,217.9 ms | 41,535,311 | 11,999,927 | 194 | 146 |
+| Misspelled | 2,383.8 ms | 1,432.6 ms | 49,709,579 | 18,162,621 | 471 | 110 |
 
-The 16 GB run passed the limits of 300 ms to the first card and 3 s to
-finish. The four reviewed routes requested zero additional file bytes.
-The last two queries both used the emergency fallback. The timing check
-requires the last query to read index chunks and show the fallback label.
-Ordinary searches can read more index chunks and take longer to complete.
-The selected 16 GB library contains 110.5 MB of record chunks and 155.9 MB
-of search files overall. At 1 TB, those figures are 723.9 MB and 853.5 MB.
-USB and phone I/O were outside these measurements.
+The gate limits practical and misspelled queries to 20 MB and 200 file
+reads each. In the same browser run it times a fixed scan that loads and
+unpacks 96 installed record chunks. The first card must appear within 1.75
+times the scan time and the final result within 2.5 times. Set
+`OWL_SEARCH_LOCAL_TIMING=1` when running the reader gate locally to enforce
+the absolute three-second completion target as well.
 
-With semantic routing, Chromium 158.0.8127.36 measured a maximum of
-**95.3 ms to the first card** and **289.9 ms to completion** across eight
-cold 16 GB queries at 4× CPU throttling. The two queries that had no
-lexical trigger but found a reviewed guide took 93.0 and 95.3 ms. Both
-read the existing 21.54 MB model and no record chunks. Lexical matches
-still requested zero additional bytes. Node measured about **0.21 ms per
-query** for embedding and scoring with the model already loaded, averaged
-over 4,000 queries without throttling.
+Across three local gate runs, the slowest practical query finished in
+1,104.7–1,217.9 ms and the slowest misspelled query finished in
+1,314.2–1,432.6 ms. The calibration scan took 944.1–1,115.0 ms.
 
-| Emergency fallback | Baseline first card | Current first card | Baseline complete | Current complete |
-| --- | ---: | ---: | ---: | ---: |
-| Stuck outside in heavy rain | 17.1 ms | 18.0 ms | 158.7 ms | 238.8 ms |
-| Lying still with uncertain breathing | 17.6 ms | 18.8 ms | 212.3 ms | 289.9 ms |
+The two separate practical regressions must lead with the matching
+physical recipe page or repair guide.
 
-The fallback draws its first guide before loading the model, then adds the
-nearby sections or indexed passages. On these cold runs the first-card time
-increased by 0.9 to 1.2 ms and completion time by 77.6 to 80.1 ms. No
-additional model reads are needed on subsequent queries in the same view.
+| Query | First result | Complete | Requested bytes | Requested files |
+| --- | --- | ---: | ---: | ---: |
+| how to can green beans | Snap and Italian Beans | 1,165.9 ms | 11,999,926 | 151 |
+| fix a bicycle inner tube | Bicycle Tire Inner Tube Replacement | 1,162.7 ms | 11,999,894 | 67 |
+
+The eight separate emergency timing probes took at most
+**107.5 ms to the first card** and **343.5 ms to completion**. The
+lexical routes needed no model or record reads. The probes also check two
+semantic routes and the indexed emergency fallback.
 
 ## Precomputed term index
 

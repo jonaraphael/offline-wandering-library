@@ -10,6 +10,7 @@ from pathlib import Path, PurePosixPath
 import re
 import stat
 import tempfile
+from time import sleep
 
 
 class SafetyError(ValueError):
@@ -17,6 +18,7 @@ class SafetyError(ValueError):
 
 
 _GUARDS = ContextVar("owl_directory_guards", default=())
+_IS_WINDOWS = os.name == "nt"
 
 
 def _check_guards(path: Path) -> None:
@@ -127,6 +129,19 @@ def mkdir_readable(path: Path) -> None:
                     raise
 
 
+def retry_windows_file_access(operation):
+    """Allow a short sharing conflict to clear before giving up."""
+    attempts = 14 if _IS_WINDOWS else 1
+    for attempt in range(attempts):
+        try:
+            return operation()
+        except PermissionError as error:
+            # Windows file opens through the C runtime can omit winerror.
+            if attempt + 1 == attempts or getattr(error, "winerror", None) not in {None, 5, 32}:
+                raise
+            sleep(min(0.01 * 2 ** attempt, 0.2))
+
+
 def atomic_write(path: Path, data: bytes) -> None:
     reject_symlinks(path)
     mkdir_readable(path.parent)
@@ -137,8 +152,13 @@ def atomic_write(path: Path, data: bytes) -> None:
             make_readable(handle.fileno())
             handle.flush()
             os.fsync(handle.fileno())
-        reject_symlinks(path)
-        os.replace(name, path)
+        # Windows can deny replacement while a reader has the old file open.
+        # Allow up to 1.91 seconds of backoff without rewriting the staged file.
+        def replace():
+            reject_symlinks(path)
+            os.replace(name, path)
+
+        retry_windows_file_access(replace)
     finally:
         try:
             _check_guards(Path(name))

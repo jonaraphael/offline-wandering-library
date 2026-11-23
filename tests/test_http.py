@@ -15,7 +15,9 @@ from unittest.mock import patch
 from urllib.error import URLError
 from urllib.request import ProxyHandler, build_opener
 
-from owl.download import DownloadError, download
+from owl import __version__
+from owl.download import DownloadError, TransientDownloadError, download, download_split_zim
+from owl.verify import zim_part_paths
 import owl.download as downloader
 
 
@@ -79,7 +81,7 @@ def loopback_server(payload: bytes, *, mode: str | dict[str, str] = "range"):
             if status == 206:
                 self.send_header("Content-Range", f"bytes {offset}-{len(body) - 1}/{len(body)}")
             self.end_headers()
-            if behavior == "truncate_first" and len(requests) == 1:
+            if behavior == "truncate" or (behavior == "truncate_first" and len(requests) == 1):
                 # Advertise the complete length but close after a known prefix.
                 # No sleeps, races, or time-dependent connection termination.
                 body = body[:cut]
@@ -113,6 +115,31 @@ class HTTPDownloadTests(unittest.TestCase):
         self.partial_metadata = self.root / "asset.part.json"
         self.payload = (bytes(range(256)) * (8192 + 1))[:2 * 1024 * 1024 + 127]
         self.digest = hashlib.sha256(self.payload).hexdigest()
+
+    def test_split_zim_resumes_after_an_interrupted_middle_part(self):
+        layout = list(zim_part_paths("ZIM/fixture.zim", len(self.payload), 1024 * 1024))
+        self.assertEqual(len(layout), 3)
+        staged = [self.root / f"{index}.part" for index in range(3)]
+        final = [self.root / Path(part["path"]).name for part in layout]
+        modes = {"/fixture": "truncate"}
+        with loopback_server(self.payload, mode=modes) as (url, requests, cut):
+            self.assertGreater(cut, layout[1]["start"])
+            asset = {"id": "split-fixture", "source_url": url, "size_bytes": len(self.payload), "sha256": self.digest}
+            with patch("owl.download.time.sleep"), self.assertRaises(TransientDownloadError):
+                download_split_zim(asset, layout, final, staged, repo_root=self.root, progress=lambda _: None)
+            self.assertIn("/" + __version__ + " ", requests[0]["user_agent"])
+            self.assertEqual(staged[0].read_bytes(), self.payload[:layout[1]["start"]])
+            self.assertFalse(any(path.exists() for path in final))
+            self.assertEqual(requests[-1]["range"], f"bytes={layout[1]['start']}-")
+            modes["/fixture"] = "range"
+            parts = download_split_zim(asset, layout, final, staged, repo_root=self.root, progress=lambda _: None)
+            self.assertEqual((requests[-1]["range"], requests[-1]["if_range"]),
+                             (f"bytes={layout[1]['start']}-", '"fixture-v1"'))
+        self.assertEqual(b"".join(path.read_bytes() for path in final), self.payload)
+        self.assertEqual([part["sha256"] for part in parts],
+                         [hashlib.sha256(path.read_bytes()).hexdigest() for path in final])
+        self.assertFalse(any(path.exists() for path in staged))
+        self.assertFalse(staged[0].with_suffix(".part.json").exists())
 
     def fetch(self, url, *, checksum="pinned", retries=1, mirrors=()):
         asset = {

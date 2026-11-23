@@ -1,0 +1,38 @@
+{
+  "injuries": [
+    {"query":"Her fingers were squashed between the rollers on the packaging machine","topics":["crush-injury"]},
+    {"query":"The garage door came down on his hand and it is badly swollen","topics":["crush-injury"]},
+    {"query":"A forklift ran over her foot and now it barely moves","topics":["crush-injury"]},
+    {"query":"His sleeve got pulled into the lathe and his arm is caught in the machine","topics":["crush-injury","entrapment"]},
+    {"query":"The ceiling collapsed and my brother is stuck beneath the rubble","topics":["entrapment","crush-injury"]},
+    {"query":"Our neighbour is trapped under a bookcase after it tipped onto her","topics":["entrapment","crush-injury"]},
+    {"query":"A passenger is stuck inside the overturned van and the doors will not open","topics":["entrapment"]},
+    {"query":"He brushed against the livestock fence and got a jolt through his arm","topics":["electric-shock","electric-injury"]},
+    {"query":"She grabbed the faulty toaster and felt current go up her arm","topics":["electric-shock","electric-injury"]},
+    {"query":"The broken blender zapped my dad when he picked it up","topics":["electric-shock","electric-injury"]}
+  ],
+  "confusions": [
+    {"query":"Storm runoff got into our well. Is the water okay for cooking after we boil it?","topics":["drinking-water"],"excluded":["drowning"]},
+    {"query":"Can we use water from the flooded well to rinse dishes?","topics":["drinking-water"],"excluded":["drowning"]},
+    {"query":"The reservoir is our only source. How do we purify it for drinking?","topics":["drinking-water"],"excluded":["drowning"]},
+    {"query":"The swimmer went under in the canal and was dragged out gasping for air","topics":["drowning"],"excluded":["drinking-water"]},
+    {"query":"A little girl slipped into an uncovered well and was pulled out limp","topics":["drowning"],"excluded":["drinking-water"]},
+    {"query":"Soup spilled across my wrist and the skin blistered","topics":["burn","scald"],"excluded":["sunburn","house-fire","fire-smoke"]},
+    {"query":"My back is red and painful after a whole afternoon in the sun","topics":["sunburn"],"excluded":["burn","scald","house-fire"]},
+    {"query":"The kitchen is filling with smoke and flames are blocking the hallway","topics":["house-fire","fire-smoke"],"excluded":["burn","scald","sunburn"]},
+    {"query":"My son took a mouthful of antifreeze from a cup left in the garage","topics":["ingestion","poison-ingestion"],"excluded":["food-outage","food-safety"]},
+    {"query":"Is the chicken safe to eat after the freezer thawed during the blackout?","topics":["food-outage","food-safety"],"excluded":["ingestion","poison-ingestion"]}
+  ],
+  "readable": [
+    {"query":"Our two year old took a swig of laundry bleach","topics":["ingestion","poison-ingestion"]},
+    {"query":"The pond ice gave way and my friend went into the freezing water","topics":["ice-breakthrough","cold-water-injury","drowning"]},
+    {"query":"My preschooler gulped down the tiny battery from a wristwatch","topics":["swallowed-object"]},
+    {"query":"The carbon monoxide detector is sounding beside the running generator","topics":["carbon-monoxide"]},
+    {"query":"Drain cleaner splashed into his left eye","topics":["chemical-eye"]},
+    {"query":"A wasp stung her wrist while she was gardening","topics":["insect-sting"]},
+    {"query":"He was pulled out of the pool and needs chest compressions","topics":["resuscitation","drowning"]},
+    {"query":"I see a dark curtain sliding across one eye and flashes of light","topics":["retinal-detachment"]},
+    {"query":"His calf is swollen and tender on one side after sitting on a plane all day","topics":["deep-vein-thrombosis"]},
+    {"query":"I feel desperate to pee but cannot pass any urine and my lower belly hurts","topics":["urinary-retention"]}
+  ]
+}

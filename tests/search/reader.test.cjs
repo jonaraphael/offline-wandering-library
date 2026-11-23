@@ -1,7 +1,7 @@
 'use strict';
 const {test} = require('node:test');
 const assert = require('node:assert/strict');
-const {reviewedGuide, emergencyDomain, emergencySource} = require('../../src/owl/templates/search.js');
+const {reviewedGuide, reviewedGuides, emergencyDomain, emergencySource} = require('../../src/owl/templates/search.js');
 const sections = require('../../catalog/emergency-sections.json');
 const wikiMed = require('../../catalog/wikimed-phone/manifest.json');
 const heldOut = require('./held-out-queries.json');
@@ -10,6 +10,9 @@ const paraphrases = require('./emergency-paraphrases.json');
 const original = require('./queries.json');
 const emergencySamples = require('./section-emergency-queries.json');
 const semanticSamples = require('./semantic-emergency-queries.json');
+const round5 = require('./round5-queries.json');
+const round6 = require('./round6-queries.json');
+const round7 = require('./round7-queries.json');
 
 test('reviewed routes distinguish similar emergencies and respect selected guide availability', () => {
   const documents = new Map([
@@ -114,6 +117,169 @@ test('reviewed gaps lead to the pinned condition or hazard page', () => {
 });
 
 const reader = process.env.OWL_SEARCH_READER;
+const negationCases = round5.emergency.filter(sample => sample.excluded);
+
+test('reviewed routes discard negated and historical clues and keep independent active situations', () => {
+  const documents = new Map(Object.values(sections.sources).map(([id]) => [id, {
+    id, href: id + (id === 'wikimed_en' ? '.zim' : '.pdf'),
+  }]));
+  const samples = [...round5.routingGate, ...round5.emergency];
+  for (const {query, topics, excluded = [], allTopics} of samples) {
+    const actual = reviewedGuides(documents, query).map(guide => guide.topic);
+    assert.ok(allTopics ? topics.every(topic => actual.includes(topic)) : topics.includes(actual[0]), query);
+    assert.ok(excluded.every(topic => !actual.includes(topic)), query);
+  }
+});
+
+test('round 6 routes distinguish contamination from drowning and keep readable emergency PDF companions', () => {
+  const documents = new Map([...Object.values(sections.sources).map(([id]) => id), 'water'].map(id => [id, {
+    id, href: id + (id === 'wikimed_en' ? '.zim' : '.pdf'),
+  }]));
+  for (const sample of round6.confusions) {
+    const guides = reviewedGuides(documents, sample.query);
+    assert.ok(sample.topics.includes(guides[0]?.topic), sample.query);
+    assert.ok(!guides.some(guide => sample.excluded.includes(guide.topic)), sample.query);
+  }
+  const well = reviewedGuides(documents, 'flood water got into the well, can we drink it if we boil it');
+  assert.deepEqual(well.map(guide => guide.topic), ['drinking-water']);
+  assert.equal(reviewedGuide(documents, 'flood water got into our well').topic, 'drinking-water');
+  assert.equal(reviewedGuide(documents, 'A child fell into the flooded well').topic, 'drowning');
+  assert.equal(reviewedGuide(documents, 'Can we boil water from the well?', new Set(['wikimed_en'])), undefined);
+  assert.equal(reviewedGuide(documents, 'My 82-year-old aunt was found on the ground after several hours').topic, 'long-lie');
+  for (const [query, archived, page] of [
+    ['toddler drank bleach', 'Poisoning', 'hesperian_en_wtnd_2025_10.pdf#page=29'],
+    ['fell through ice', 'Drowning', 'cert.pdf#page=114'],
+    ['swallowed a watch battery', 'Foreign_body', 'medical_bec.pdf#page=26'],
+  ]) {
+    const guides = reviewedGuides(documents, query);
+    if (archived) {
+      assert.ok(guides.some(guide => guide.location === 'Archive path: ' + archived), query);
+      const scoped = reviewedGuides(documents, query, new Set(['wikimed_en']));
+      assert.ok(scoped.some(guide => guide.href === page), query);
+    }
+    assert.ok(guides.some(guide => guide.href === page), query);
+  }
+  console.log('Round 6 routing: 10 confusion probes, long lie, and 3 reported readable routes passed.');
+});
+
+test('16 GB round 6 frozen emergency probes meet relevance and non-empty floors', {
+  skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
+}, async () => {
+  const {chromium} = require('playwright-core');
+  const {measureRound6, searchUrl} = require('../../scripts/search_timing.cjs');
+  const previous = [...heldOut, ...everyday, ...paraphrases, ...original, ...emergencySamples, ...semanticSamples]
+    .map(([query]) => query).concat(round5.emergency.map(({query}) => query));
+  const frozen = Object.values(round6).flat().map(({query}) => query);
+  assert.deepEqual(Object.values(round6).map(samples => samples.length), [10, 10, 10]);
+  assert.equal(new Set(frozen).size, 30);
+  assert.ok(frozen.every(query => !previous.includes(query)));
+  const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
+  try {
+    const grades = await measureRound6(browser, searchUrl(reader));
+    assert.ok(grades.good >= 26, JSON.stringify(grades));
+    assert.equal(grades.empty, 0);
+  } finally {
+    await browser.close();
+  }
+});
+
+test('16 GB reader keeps current guides, shows excerpt credit and corrects zero-hit spelling', {
+  skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
+}, async () => {
+  const {chromium} = require('playwright-core');
+  const {measure, searchUrl, grade} = require('../../scripts/search_timing.cjs');
+  const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
+  try {
+    const url = searchUrl(reader);
+    for (const sample of [...round5.routingGate, ...negationCases, ...round5.emergency.filter(row => row.allTopics)]) {
+      const result = await measure(browser, url, sample.query);
+      assert.ok(grade(sample, result).good, JSON.stringify(result));
+      assert.ok(result.emergency);
+      if (!sample.allTopics) assert.ok(sample.topics.includes(result.cards[0].topic), JSON.stringify(result));
+    }
+    console.log('Reader routing: both reported failures and controls, 10 new negation or history cases, and independent guides passed.');
+
+    const credited = await measure(browser, url, 'light dependent reactions of photosynthesis');
+    const passage = credited.cards.find(card => /OpenStax_concepts-biology\.pdf/i.test(card.href) && card.excerpt);
+    assert.ok(passage, JSON.stringify(credited));
+    assert.match(passage.credit, /Access for free at openstax\.org/i);
+    assert.match(passage.credit, /CC[- ]BY/i);
+    console.log('Reader attribution: visible OpenStax credit and license accompany the excerpt.');
+
+    const sample = round5.spellingGate;
+    const corrected = await measure(browser, url, sample.query);
+    assert.ok(grade(sample, corrected).good, JSON.stringify(corrected));
+    assert.equal(corrected.correction, 'Showing results for “diarrhea in children”.');
+    console.log('Reader spelling: ' + corrected.correction + ' ' + corrected.cards[0].title);
+  } finally {
+    await browser.close();
+  }
+});
+
+test('16 GB reader meets the frozen round 5 recall and practical-search timing floors', {
+  skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
+}, async () => {
+  const {chromium} = require('playwright-core');
+  const {measure, searchUrl, measureRound5, calibrate, checkTiming, timingBounds} = require('../../scripts/search_timing.cjs');
+  const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
+  try {
+    const url = searchUrl(reader);
+    assert.equal(round5.emergency.length, 20);
+    assert.equal(negationCases.length, 8);
+    assert.equal(round5.practical.length, 10);
+    assert.equal(round5.misspelled.length, 10);
+    const calibration = await calibrate(browser, url);
+    const summary = await measureRound5(browser, url);
+    assert.ok(summary.good >= 34);
+    assert.equal(summary.emergency_empty, 0);
+    assert.equal(summary.negation_failures, 0);
+    for (const group of [summary.practical, summary.misspelled]) {
+      assert.equal(group.good, 10, JSON.stringify(group));
+      checkTiming(group, calibration);
+    }
+    for (const {query, title} of round5.practicalGate) {
+      const result = await measure(browser, url, query);
+      assert.match(result.cards[0].title, new RegExp(title, 'iu'), JSON.stringify(result));
+      if (query === 'how to can green beans') {
+        assert.equal(result.cards[0].title, 'Snap and Italian Beans');
+        assert.match(result.cards[0].href, /USDA_Canning_04_Vegetables_2015\.pdf#page=9$/);
+      }
+      checkTiming(timingBounds(result), calibration);
+      console.log('Reader practical: ' + query + ' → ' + result.cards[0].title + ' (' +
+        result.complete_ms + ' ms, ' + result.bytes + ' bytes, ' + result.reads + ' files).');
+    }
+  } finally {
+    await browser.close();
+  }
+});
+
+test('reader finds exact passages on a one-book drive and opens reviewed navigation pages', {
+  skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
+}, async () => {
+  const {chromium} = require('playwright-core');
+  const {measureRound7, searchUrl} = require('../../scripts/search_timing.cjs');
+  assert.deepEqual(Object.values(round7).map(samples => samples.length), [5, 5, 5]);
+  const frozen = Object.values(round7).flat().map(({query}) => query.toLowerCase());
+  const previous = [...heldOut, ...everyday, ...paraphrases, ...original, ...emergencySamples, ...semanticSamples]
+    .map(([query]) => query.toLowerCase());
+  for (const group of [round5, round6]) {
+    previous.push(...Object.values(group).flat().map(({query}) => query.toLowerCase()));
+  }
+  assert.equal(new Set(frozen).size, 15);
+  assert.ok(frozen.every(query => !previous.includes(query)));
+  const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
+  try {
+    const summary = await measureRound7(browser, searchUrl(reader));
+    assert.deepEqual(summary, {
+      exact: {good: 5, empty: 0},
+      practical: {good: 5, empty: 0},
+      emergency: {good: 5, empty: 0},
+    });
+  } finally {
+    await browser.close();
+  }
+});
+
 test('16 GB offline reader meets the emergency recall floors and checks paraphrases in the first card', {
   skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
 }, async () => {
@@ -134,7 +300,8 @@ test('16 GB offline reader meets the emergency recall floors and checks paraphra
     ]) {
       const misses = [];
       for (const [query, expected] of samples) {
-        const {cards} = await measure(browser, url, query, {allowEmpty: true});
+        const {cards, cardCount} = await measure(browser, url, query, {allowEmpty: true});
+        assert.ok(cardCount > 0, name + ' returned no cards for ' + query);
         const pattern = new RegExp(expected, 'iu');
         const matches = firstReviewed
           ? cards[0]?.topic && pattern.test(cards[0].title)
@@ -159,7 +326,9 @@ test('16 GB offline reader meets the emergency recall floors and checks paraphra
     console.log('Smoking outlet and dog bite: both lead with the reviewed guide.');
 
     const immersion = await measure(browser, url, 'My friend fell into icy water and her hands are tingling');
-    assert.deepEqual(immersion.cards.map(card => card.topic), ['drowning', 'cold-water-injury']);
+    assert.deepEqual(immersion.cards.map(card => card.topic), ['drowning', 'cold-water-injury', 'drowning']);
+    assert.match(immersion.cards[1].href, /\/CERT_2019\.pdf#page=114$/);
+    assert.match(immersion.cards[2].href, /\.pdf#page=89$/);
 
     const documents = new Map(Object.values(sections.sources).map(([id]) => [id,
       {id, href: id + (id === 'wikimed_en' ? '.zim' : '.pdf')}]));
@@ -174,18 +343,22 @@ test('16 GB offline reader meets the emergency recall floors and checks paraphra
 
     const nearby = await measure(browser, url, emergencyFallback);
     assert.equal(nearby.emergency, true);
-    assert.ok(nearby.cardCount >= 1 && nearby.cardCount <= 3);
+    assert.ok(nearby.cardCount >= 1 && nearby.cardCount <= 4);
     assert.ok(nearby.cards.every(card => (card.indexed || card.nearby) && !card.topic));
     assert.ok(nearby.chunk_reads > 0, 'the emergency fallback must attempt an index read');
     assert.equal(nearby.status, 'No reviewed guide matched. These passages may help.');
-    assert.deepEqual(nearby.browse, [['Browse Home', '#/']]);
+    assert.ok(nearby.cards.some(card => card.nearby === 'urgent-guides') || nearby.browse.length === 1);
     console.log('Emergency fallback: ' + nearby.cardCount + ' cards, index reads, plain label, and Browse Home link.');
 
-    const fallback = await measure(browser, url, 'outlet left by the zephyric mailbox keeps flickering', {allowEmpty: true});
-    assert.deepEqual(fallback.cards, []);
-    assert.equal(fallback.status, 'No close match. Browse Urgent guides and categories on Home.');
-    assert.deepEqual(fallback.browse, [['Browse Home', '#/']]);
-    console.log('Weak-result fallback: no displayed cards and Browse Home link.');
+    const fallback = await measure(browser, url, 'outlet left by the zephyric mailbox keeps flickering');
+    assert.equal(fallback.cards[0]?.nearby, 'urgent-guides');
+    assert.equal(fallback.cards[0]?.href, '#/');
+    assert.match(fallback.cards[1]?.href, /\/CERT_2019\.pdf#page=175$/);
+    assert.equal(fallback.status, 'No reviewed guide matched. These passages may help.');
+    const neutral = await measure(browser, url, 'zxqv jsbix zephyric', {allowEmpty: true});
+    assert.equal(neutral.cardCount, 0);
+    assert.deepEqual(neutral.browse, [['Browse Home', '#/']]);
+    console.log('Weak-result fallback: Urgent guides and an electrical safety PDF for the hazard; neutral query can be empty.');
 
     for (const text of ['book about art and smoke', 'prevent mosquito bites', 'how rain barrels collect water']) {
       const reference = await measure(browser, url, text, {allowEmpty: true});

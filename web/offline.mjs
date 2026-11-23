@@ -1,6 +1,6 @@
 import {sha256} from "./vendor/noble-hashes/sha2.js";
 import {bytesToHex} from "./vendor/noble-hashes/utils.js";
-import {isNoSpace, writeFile} from "./drive.mjs";
+import {fileHandle, isNoSpace, optional, writeFile} from "./drive.mjs";
 import {assembleSearch, canonical, locator, shareSearchSupport, transfer} from "./search-build.mjs";
 
 const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({
@@ -207,7 +207,20 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
 
 export async function assembleLibrary(drive, {completed, missing, keptInParts = [], selectedCount = completed.length + missing.length,
     navigation, layouts, parts, signal, search, searchBudget, fetchFile, network, syncedAt, compact = false,
-    unavailableSupport = [], searchMissing = false, onPublished}) {
+    unavailableSupport = [], searchMissing = false, publishReplacement, onPublished}) {
+  // Prepare new files alongside the active reader. Defer changes to existing
+  // files, including fixed search model names, until assembly has succeeded.
+  const staged = new Map();
+  const output = publishReplacement ? {...drive,
+    stagedFile(path) {
+      if (staged.has(path)) return new Blob([staged.get(path)]);
+    },
+    async prepareWrite(path, contents) {
+      if (!await optional(() => fileHandle(drive, path))) return drive.prepareWrite?.(path, contents);
+      staged.set(path, contents);
+      return false;
+    }
+  } : drive;
   const {verify} = navigation;
   const {reader, phone} = compact ? {} : navigation;
   const phoneVolumes = [], phoneChecksums = [], supportMissing = [...unavailableSupport];
@@ -224,7 +237,7 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
       try {
         const path = "LIBRARY/" + phone.destination + volume.file;
         phoneBytes += volume.bytes;
-        phoneChecksums.push(await transfer(drive, phone.base, volume.file, volume, fetchFile, signal, network, path, 8_000_000));
+        phoneChecksums.push(await transfer(output, phone.base, volume.file, volume, fetchFile, signal, network, path, 8_000_000));
         phoneVolumes.push({path, id, title: "WikiMed: " + volume.title,
           href: locator(path), kind: "PDF", format: "pdf", bytes: volume.bytes});
       } catch (error) {
@@ -240,16 +253,17 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
       format: asset.format, license: asset.license, attribution: meta?.attribution ?? asset.attribution,
       publisher: meta?.publisher ?? asset.publisher, bytes: asset.size_bytes, sha256: asset.sha256,
       source_url: asset.source_url ?? null, version: asset.version ?? null, redistributable: asset.redistributable ?? null,
+      utility_tier: asset.utility_tier ?? null,
       parts: layouts.get(asset.id).map((part, index) => ({...part, sha256: parts[asset.id][index].sha256}))};
   });
   let indexed = {pages: new Map(), checksums: [], missing: []};
   let shared = {}, sharedChecksums = [];
   if (search) {
     try {
-      const result = await assembleSearch(drive, {completed, layouts, config: search, fetchFile, signal, network,
+      const result = await assembleSearch(output, {completed, layouts, config: search, fetchFile, signal, network,
         budget: searchBudget - phoneBytes, versioned: Boolean(reader)});
       if (reader && result.pages.has("LIBRARY/SEARCH/rank.js")) {
-        ({paths: shared, checksums: sharedChecksums} = await shareSearchSupport(drive, result.checksums, signal));
+        ({paths: shared, checksums: sharedChecksums} = await shareSearchSupport(output, result.checksums, signal));
       }
       indexed = result;
     } catch (error) {
@@ -265,17 +279,24 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
   if (searchMissing) supportMissing.push({kind: "search", title: "Search index", reason: "The drive ran out of space."});
   const omissions = missing.map(row => ({id: row.id || "", title: row.title || row.id || "",
     utility_tier: row.utility_tier ?? null, reason: row.reason || row.unresolved_reason || ""})).sort(order);
+  const reportOmissions = [...omissions, ...supportMissing].sort(order);
   let pages;
   if (reader) {
-    try { pages = readerFiles(reader, assets, phoneVolumes, omissions, keptInParts, indexed, shared, syncedAt); }
+    try { pages = readerFiles(reader, assets, phoneVolumes, reportOmissions, keptInParts, indexed, shared, syncedAt); }
     catch (error) {
-      supportMissing.push({kind: "reader", title: "Full reader", reason: error.message});
+      const issue = {kind: "reader", title: "Full reader", reason: error.message};
+      supportMissing.push(issue);
+      reportOmissions.push(issue);
     }
   }
+  const result = {supportMissing, warnings: supportMissing.map(({title, reason}) => title + " — " + reason)};
+  if (publishReplacement && supportMissing.some(row => row.kind === "reader" || row.kind === "search")) {
+    return {...result, keptPublished: true};
+  }
   pages ||= new Map([
-    ["START_HERE.html", startPage(assets, omissions)],
+    ["START_HERE.html", startPage(assets, reportOmissions)],
     ["LIBRARY/BUILD_REPORT.html", '<!doctype html><meta charset="utf-8"><title>Build report</title><h1>Build report</h1>' +
-      reportBody(omissions, keptInParts) + '<p><a href="INVENTORY.json">Every file, with its location</a></p>']
+      reportBody(reportOmissions, keptInParts) + '<p><a href="INVENTORY.json">Every file, with its location</a></p>']
   ]);
   const start = pages.get("START_HERE.html");
   pages.delete("START_HERE.html");
@@ -304,18 +325,20 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
     ...indexed.checksums, ...sharedChecksums, ...phoneChecksums];
   for (const [path, contents] of pages) {
     signal?.throwIfAborted();
-    await writeFile(drive, path, contents);
+    await writeFile(output, path, contents);
     checksums.push(hash(contents) + "  " + path);
   }
   checksums.push(hash(start) + "  START_HERE.html");
-  // Keep the previous reader openable until its complete replacement exists.
-  // Reconcile journals both versions of the affected files before each write
-  // so that a pending Sync can rebuild the list and start page together.
+  staged.set("LIBRARY/SHA256SUMS.txt", checksums.sort().join("\n") + "\n");
+  staged.set("START_HERE.html", start);
+  // Pause can stop preparation. Once publication begins, finish switching the reader.
   signal?.throwIfAborted();
-  await writeFile(drive, "LIBRARY/SHA256SUMS.txt", checksums.sort().join("\n") + "\n");
-  signal?.throwIfAborted();
-  await writeFile(drive, "START_HERE.html", start);
+  if (publishReplacement) await publishReplacement(staged);
+  else for (const [path, contents] of staged) {
+    signal?.throwIfAborted();
+    await writeFile(drive, path, contents);
+  }
   // SHA256SUMS lines contain a 64-character digest, two spaces and the full path.
   onPublished?.(new Map(checksums.map(line => [line.slice(66), line.slice(0, 64)])));
-  return {supportMissing, warnings: supportMissing.map(({title, reason}) => title + " — " + reason)};
+  return result;
 }

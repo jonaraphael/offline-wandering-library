@@ -47,6 +47,8 @@ export async function removeTree(parent, name) {
 }
 
 export async function fileHandle(root, path, create = false) {
+  const staged = !create && root.stagedFile?.(path);
+  if (staged) return {getFile: async () => staged};
   const {directory, name} = await parentOf(root, path, create);
   return directory.getFileHandle(name, {create});
 }
@@ -69,6 +71,7 @@ export async function writeFile(root, path, contents) {
     await writable.abort().catch(() => {});
     throw error;
   }
+  await root.verifyWrite?.(path, contents);
 }
 
 export function isNoSpace(error) {
@@ -185,15 +188,15 @@ export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolutio
     const largeFile = await attempt(FAT32_MAX + 1);
     if (largeFile.result !== "fits") return await measureSmallFiles();
     const ceiling = await attempt(upper);
-    if (ceiling.result === "fits") return {kind: "sparse-or-large"};
-    if (ceiling.result === "file-limit") return {kind: "manual"};
+    if (ceiling.result === "fits") return {kind: "sparse-or-large", largeFiles: true};
+    if (ceiling.result === "file-limit") return {kind: "manual", largeFiles: true};
 
     // Native truncate maps both ENOSPC and EFBIG to InvalidStateError, so the
     // result is an estimate.
     const first = await boundary(FAT32_MAX + 1, upper, resolution);
-    if (first === null) return {kind: "manual"};
+    if (first === null) return {kind: "manual", largeFiles: true};
     let total = await holdAt(first, FAT32_MAX + 1);
-    if (total === null) return {kind: "manual"};
+    if (total === null) return {kind: "manual", largeFiles: true};
     // Chromium refused to grow one file past 793.02 GB on a physical exFAT
     // partition with 959.05 GB free, while native truncate reached 959 GB. With
     // earlier files still allocated, measure what another file can take and add
@@ -206,7 +209,7 @@ export async function measureFreeSpace(drive, {upper = 2 * 1024 * GiB, resolutio
       if (kept === null) break;
       total += kept;
     }
-    return {kind: "measured", bytes: total, files: held.length};
+    return {kind: "measured", bytes: total, files: held.length, largeFiles: true};
   } finally {
     for (const writable of held) await writable.abort().catch(() => {});
     for (const name of created) await cleanup(name);

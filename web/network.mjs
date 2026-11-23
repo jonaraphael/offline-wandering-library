@@ -36,31 +36,35 @@ export function routeCooldowns(network) {
 
 export function createNetwork({fetchFile = globalThis.fetch, signal, probeURL, onWaiting = () => {}, onRestored = () => {},
     events = globalThis, online = () => globalThis.navigator?.onLine !== false, retryMs = 1_000} = {}) {
-  function delay(ms, wakeOnline = false) {
+  function delay(ms, wakeOnline = false, wakeSignal) {
     signal?.throwIfAborted();
+    if (wakeSignal?.aborted) return Promise.resolve();
     return new Promise((resolve, reject) => {
       const timer = setTimeout(wake, ms);
       function finish() {
         clearTimeout(timer);
         signal?.removeEventListener("abort", abort);
         if (wakeOnline) events.removeEventListener?.("online", wake);
+        wakeSignal?.removeEventListener("abort", wake);
       }
       function wake() { finish(); resolve(); }
       function abort() { finish(); reject(signal.reason); }
       signal?.addEventListener("abort", abort, {once: true});
       if (wakeOnline) events.addEventListener?.("online", wake, {once: true});
+      wakeSignal?.addEventListener("abort", wake, {once: true});
     });
   }
 
-  async function reachable() {
+  async function reachable(url = probeURL, {external = false} = {}) {
     if (!online()) return false;
-    if (!probeURL) return true;
+    if (!url) return true;
     try {
       const timeout = AbortSignal.timeout(PROBE_TIMEOUT_MS);
-      const response = await fetchFile(probeURL, {cache: "no-store", method: "HEAD",
+      const response = await fetchFile(url, {cache: "no-store", method: "HEAD",
+        ...(external ? {mode: "no-cors", credentials: "omit", referrerPolicy: "no-referrer"} : {}),
         signal: signal ? AbortSignal.any([signal, timeout]) : timeout});
       // A real HTTP response, even a 404 or 503, establishes connectivity.
-      return response.type !== "opaque";
+      return external || response.type !== "opaque";
     } catch (_) {
       signal?.throwIfAborted();
       return false;
@@ -93,24 +97,27 @@ export function createNetwork({fetchFile = globalThis.fetch, signal, probeURL, o
     }
   }
 
-  return {waitForConnection, retry, delay: (ms = retryMs) => delay(ms), offline: () => !online()};
+  return {reachable, waitForConnection, retry, delay: (ms = retryMs, wakeSignal) => delay(ms, false, wakeSignal),
+    offline: () => !online()};
 }
 
 export async function receiveFile(url, {fetchFile, signal, headers = {}, check, onChunk}) {
   const controller = new AbortController();
   const requestSignal = signal ? AbortSignal.any([signal, controller.signal]) : controller.signal;
-  async function receive(operation) {
+  async function receive(operation, beforeResponse = false) {
     const timer = setTimeout(() => controller.abort(), NETWORK_IDLE_MS);
     try { return await operation(); }
     catch (_) {
       signal?.throwIfAborted();
-      throw new SourceError(controller.signal.aborted ? "Source stopped sending data" :
+      const error = new SourceError(controller.signal.aborted ? "Source stopped sending data" :
         "Connection or browser access failed", {connection: true});
+      error.beforeResponse = beforeResponse;
+      throw error;
     } finally { clearTimeout(timer); }
   }
   const response = await receive(() => fetchFile(url, {
     headers, signal: requestSignal, cache: "no-store", credentials: "omit", referrerPolicy: "no-referrer"
-  }));
+  }), true);
   const reader = response.body?.getReader();
   try {
     check(response);

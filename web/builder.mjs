@@ -6,10 +6,12 @@ import {assembleLibrary, assemblyReserve, startPage} from "./offline.mjs";
 import {createNetwork, routeCooldowns, SourceError} from "./network.mjs";
 import {canonical} from "./search-build.mjs";
 import {archiveSession, checkAlignment, publisherPin, streamRequest} from "./archive-download.mjs";
+import {createRelayWait, RELAY_WAIT_REASON} from "./relay-wait.mjs";
 
 export const PART_BYTES = 2 ** 30;
 export const MANIFEST = "LIBRARY/.owl/browser-build.json";
 const FAT32_MAX = 2 ** 32 - 1;
+const START_PAGE = "START_HERE.html";
 const DIGEST = /^[0-9a-f]{64}$/;
 const encoder = new TextEncoder();
 const filePin = contents => {
@@ -17,23 +19,53 @@ const filePin = contents => {
   return {bytes: bytes.length, sha256: bytesToHex(sha256(bytes))};
 };
 const emptyPin = filePin("");
+const READBACK_BUFFER = 16 * 2 ** 20;
 const tier = ["CRITICAL", "USEFUL", "NONESSENTIAL"];
 const priority = asset => tier.includes(asset.utility_tier) ? tier.indexOf(asset.utility_tier) : tier.length;
 const noSpace = "Drive ran out of space";
+const isReaderApp = asset => asset.destination.startsWith("SOFTWARE/");
+export const LARGE_FILE_MESSAGE = "This drive can’t hold files over 4 GB. OWL kept that encyclopedia in parts.";
 
 export function isKnowledgeFile(asset) {
-  return !asset.destination.startsWith("SOFTWARE/") && !asset.supporting_file && asset.archive_member?.document !== false;
+  return !isReaderApp(asset) && !asset.supporting_file && asset.archive_member?.document !== false;
 }
 
-export function buildOrder(assets, {transfer = true} = {}) {
+const archiveFileLimit = (fat32, joining, limited) => fat32 || limited ? FAT32_MAX : joining ? Infinity : 0;
+
+export function archiveJoinLimitReached(error, written, next) {
+  if (next <= FAT32_MAX) return false;
+  if (error.code === "EFBIG" || /EFBIG|file too large/i.test(error.message)) return true;
+  return written <= FAT32_MAX + 1 && (error.name === "InvalidStateError" || isNoSpace(error));
+}
+
+export function buildOrder(assets, {transfer = true, archiveSpace = Infinity, partBytes = PART_BYTES} = {}) {
   // Give archive transfers their temporary workspace before other files fill
   // the drive, even if the final archive will be kept in parts.
   const archiveSize = asset => transfer && asset.format === "zim" ? asset.size_bytes : 0;
-  return [...assets].sort((a, b) => priority(a) - priority(b) ||
+  const ordered = [...assets].sort((a, b) => priority(a) - priority(b) ||
     archiveSize(b) - archiveSize(a) ||
     (a.selection?.level ?? Infinity) - (b.selection?.level ?? Infinity) ||
     (a.selection?.rank ?? Infinity) - (b.selection?.rank ?? Infinity) ||
     a.id.localeCompare(b.id));
+  if (!transfer) return ordered;
+  const moveEarly = asset => isReaderApp(asset) && priority(asset) > 0;
+  const readers = ordered.filter(moveEarly);
+  if (!readers.length) return ordered;
+  const content = ordered.filter(asset => !moveEarly(asset));
+  const readerBytes = readers.reduce((total, asset) => total + asset.size_bytes, 0);
+  let position = content.filter(asset => priority(asset) === 0).length;
+  let written = 0;
+  for (const [index, asset] of content.entries()) {
+    const part = Math.min(asset.size_bytes, partBytes ?? asset.size_bytes);
+    const remainder = asset.size_bytes % part;
+    // The archive writer holds the verified pieces and the part being written.
+    const scratch = Math.max(remainder, part - remainder);
+    if (asset.format === "zim" && written + asset.size_bytes + scratch + readerBytes > archiveSpace) {
+      position = Math.max(position, index + 1);
+    }
+    written += asset.size_bytes;
+  }
+  return [...content.slice(0, position), ...readers, ...content.slice(position)];
 }
 
 function assetPin(asset) {
@@ -97,8 +129,15 @@ function legacyRecord(record, modified) {
 export async function readBuild(drive) {
   const file = await fileAt(drive, MANIFEST);
   if (!file) return null;
-  const state = JSON.parse(await file.text());
-  if (![1, 2].includes(state.version) || !/^[a-z0-9-]+$/i.test(state.buildId || "") || !Array.isArray(state.plan) ||
+  const contents = await file.text();
+  let state;
+  try { state = JSON.parse(contents); }
+  catch (error) {
+    if (!(error instanceof SyntaxError)) throw error;
+    // Creating the first handle can leave an empty entry before the first close.
+    if (await matchesFile(await candidateFile(drive, START_PAGE), filePin(startPage()))) return null;
+  }
+  if (!state || ![1, 2].includes(state.version) || !/^[a-z0-9-]+$/i.test(state.buildId || "") || !Array.isArray(state.plan) ||
       !Array.isArray(state.excluded) || !state.parts || !state.verified || !state.dropped || !state.failures ||
       (state.version === 2 && (!state.installed || !state.working || !Array.isArray(state.owned) ||
        !Array.isArray(state.generated)))) {
@@ -123,6 +162,7 @@ async function assertDrive(drive, state) {
 
 async function save(drive, state) {
   await assertDrive(drive, state);
+  // createWritable publishes the complete swap file on close, keeping the old record until then.
   await writeFile(drive, MANIFEST, JSON.stringify(state) + "\n");
 }
 
@@ -147,9 +187,54 @@ async function readCheckpoint(file, digest, whole, signal) {
   return bytesToHex(current.digest()) === digest ? next : null;
 }
 
+async function storedDigest(file, signal) {
+  signal?.throwIfAborted();
+  // Web Crypto needs the entire input in memory. Stream large parts so
+  // read-back does not add an archive-sized allocation.
+  if (file.size <= READBACK_BUFFER && globalThis.crypto?.subtle) {
+    const bytes = await file.arrayBuffer();
+    signal?.throwIfAborted();
+    return bytesToHex(new Uint8Array(await globalThis.crypto.subtle.digest("SHA-256", bytes)));
+  }
+  const hash = sha256.create();
+  for await (const chunk of file.stream()) {
+    signal?.throwIfAborted();
+    hash.update(chunk);
+  }
+  return bytesToHex(hash.digest());
+}
+
 async function matchesFile(file, pin, signal) {
   return file && pin && file.size === pin.bytes && DIGEST.test(pin.sha256) &&
-    Boolean(await readCheckpoint(file, pin.sha256, sha256.create(), signal));
+    await storedDigest(file, signal) === pin.sha256;
+}
+
+class DriveWriteMismatch extends Error {
+  constructor(path, actual) {
+    super("The drive stored different data for " + path + ".");
+    this.actual = actual;
+  }
+}
+
+async function checkWrittenFile(handle, path, expected, signal) {
+  const start = performance.now();
+  const file = await handle.getFile();
+  const actual = {bytes: file.size, sha256: await storedDigest(file, signal)};
+  signal?.throwIfAborted();
+  diag("write-readback", {path, bytes: actual.bytes, ms: Math.round(performance.now() - start)});
+  if (actual.bytes !== expected.bytes || actual.sha256 !== expected.sha256) throw new DriveWriteMismatch(path, actual);
+}
+
+async function checkGeneratedWrite(drive, path, contents, signal) {
+  const pin = filePin(contents);
+  const handle = await fileHandle(drive, path);
+  try { await checkWrittenFile(handle, path, pin, signal); }
+  catch (error) {
+    if (!(error instanceof DriveWriteMismatch) || !await matchesFile(await handle.getFile(), error.actual, signal)) throw error;
+    await writeFile(drive, path, contents);
+    await checkWrittenFile(handle, path, pin, signal);
+  }
+  return pin;
 }
 
 async function removePinned(drive, path, pin, signal) {
@@ -186,12 +271,12 @@ function checkPublisherPieces(published, asset, part) {
 async function transferPart(asset, part, source, writable, options) {
   const {fetchFile, signal, whole, expectedHash, publisherPieces, last, range, onBytes} = options;
   const checkPiece = checkPublisherPieces(publisherPieces, asset, part);
-  const hash = sha256.create(), next = whole.clone();
+  const hash = part.start ? sha256.create() : null, next = whole.clone();
   let total = 0;
   for (const piece of source.pieces) {
     const pieceHash = piece.sha256 ? sha256.create() : null;
     await streamRequest(piece.url, range, piece.bytes ?? part.bytes, fetchFile, signal, async chunk => {
-      hash.update(chunk);
+      hash?.update(chunk);
       next.update(chunk);
       pieceHash?.update(chunk);
       if (checkPiece) await checkPiece(chunk);
@@ -201,9 +286,9 @@ async function transferPart(asset, part, source, writable, options) {
     });
     if (pieceHash && bytesToHex(pieceHash.digest()) !== piece.sha256) throw new SourceError("Published chunk SHA-256 mismatch");
   }
-  const digest = bytesToHex(hash.digest());
+  const digest = bytesToHex((hash || next.clone()).digest());
   if (total !== part.bytes || (expectedHash && digest !== expectedHash)) throw new SourceError("Part SHA-256 or size mismatch");
-  if (last && bytesToHex(next.clone().digest()) !== asset.sha256)
+  if (last && (hash ? bytesToHex(next.clone().digest()) : digest) !== asset.sha256)
     throw new SourceError("Whole-file SHA-256 mismatch", {whole: true});
   signal?.throwIfAborted();
   return {digest, next};
@@ -263,7 +348,7 @@ async function prunePieceJournal(drive, state, asset, pin, keep) {
 
 async function transferRangedPart(asset, part, writable, options) {
   const {whole, expectedHash, signal, last, onBytes, ranged, journal, writeOffset = 0} = options;
-  const hash = sha256.create(), next = whole.clone();
+  const hash = part.start ? sha256.create() : null, next = whole.clone();
   let total = 0, journalMs = 0, partMs = 0;
   await ranged(part, {
     restore: journal?.restore || (() => null),
@@ -279,34 +364,38 @@ async function transferRangedPart(asset, part, writable, options) {
       onBytes(total);
     },
     ordered(bytes) {
-      hash.update(bytes);
+      hash?.update(bytes);
       next.update(bytes);
     }
   });
-  const digest = bytesToHex(hash.digest());
+  const digest = bytesToHex((hash || next.clone()).digest());
   diag("part-writes", {asset: asset.id, start: part.start, mb: +(part.bytes / 1e6).toFixed(1),
     journalMs: Math.round(journalMs), partMs: Math.round(partMs)});
   if (total !== part.bytes || (expectedHash && digest !== expectedHash)) throw new SourceError("Part SHA-256 or size mismatch");
-  if (last && bytesToHex(next.clone().digest()) !== asset.sha256)
+  if (last && (hash ? bytesToHex(next.clone().digest()) : digest) !== asset.sha256)
     throw new SourceError("Whole-file SHA-256 mismatch", {whole: true});
   signal?.throwIfAborted();
   return {digest, next};
 }
 
 async function writePart(drive, asset, part, source, options) {
-  const writable = await (await fileHandle(drive, part.path, true)).createWritable({mode: "exclusive"});
+  options.signal?.throwIfAborted();
+  const handle = await fileHandle(drive, part.path, true);
+  const writable = await handle.createWritable({mode: "exclusive"});
+  let result;
   try {
-    const result = options.ranged ? await transferRangedPart(asset, part, writable, options) :
+    result = options.ranged ? await transferRangedPart(asset, part, writable, options) :
       await transferPart(asset, part, source, writable, options);
     const closing = performance.now();
     await writable.close();
     diag("part-close", {asset: asset.id, start: part.start, mb: +(part.bytes / 1e6).toFixed(1),
       ms: Math.round(performance.now() - closing)});
-    return result;
   } catch (error) {
     await writable.abort().catch(() => {});
     throw error;
   }
+  await checkWrittenFile(handle, part.path, {bytes: part.bytes, sha256: result.digest}, options.signal);
+  return result;
 }
 
 function routesFor(asset, routes, published) {
@@ -322,6 +411,7 @@ export function browserSelection(assets, routes, published) {
   for (const asset of buildOrder(assets)) {
     if (routesFor(asset, routes, published).length) available.push(asset);
     else excluded.push({id: asset.id, title: asset.title, utility_tier: asset.utility_tier ?? null,
+      ...(isReaderApp(asset) ? {kind: "app"} : {}),
       reason: asset.redistributable ? "No browser-accessible pinned copy is published." : "Publisher blocks browser downloads and this site cannot host a copy."});
   }
   return {assets: available, excluded};
@@ -338,7 +428,8 @@ async function forgetParts(drive, state, asset, layout, published, signal) {
   delete state.verified[asset.id];
 }
 
-async function buildAsset(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network}) {
+async function buildAsset(drive, state, asset, layout, options) {
+  const {published, signal, onProgress} = options;
   const pins = partPins(asset, layout, published, state.partBytes);
   const checkpoints = state.parts[asset.id] ||= [];
   let whole = sha256.create(), index = 0;
@@ -364,12 +455,24 @@ async function buildAsset(drive, state, asset, layout, {routes, published, fetch
   delete state.verified[asset.id];
   await save(drive, state);
 
-  const download = partDownloader(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network});
+  const download = partDownloader(drive, state, asset, layout, options);
   for (; index < layout.length; index++) {
     const part = layout[index];
     const existed = await candidateFile(drive, part.path);
     let downloaded;
-    try { downloaded = await download(index, whole, (source, options) => writePart(drive, asset, part, source, options)); }
+    try {
+      downloaded = await download(index, whole, async (source, writeOptions) => {
+        try { return await writePart(drive, asset, part, source, writeOptions); }
+        catch (error) {
+          if (!(error instanceof DriveWriteMismatch)) throw error;
+          onProgress({kind: "retrying", asset, index, count: layout.length, message: error.message});
+          writeOptions.onBytes(0);
+          // Fetch fresh pieces on retry. The journal serves interrupted writes.
+          const journal = writeOptions.journal && {persist: writeOptions.journal.persist};
+          return writePart(drive, asset, part, source, {...writeOptions, journal});
+        }
+      });
+    }
     catch (error) {
       if (!existed && (error instanceof SourceError || isNoSpace(error))) await removePinned(drive, part.path, emptyPin);
       throw error;
@@ -382,15 +485,32 @@ async function buildAsset(drive, state, asset, layout, {routes, published, fetch
   }
 }
 
-function partDownloader(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network}) {
+const relaySource = (relay, source) => source.pieces.some(piece => relay.isRelay(piece.url));
+const deferredRelayIds = state => Array.isArray(state?.relayDeferred) ? state.relayDeferred : [];
+
+function partDownloader(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network, relay}) {
   const pins = partPins(asset, layout, published, state.partBytes);
   const choices = routesFor(asset, routes, published);
   const cooldown = routeCooldowns(network);
   const sources = choices.flatMap(source => source.pieces.map(piece => piece.url));
   const pin = publisherPin(published.publisherPieces, asset);
-  const direct = routes[asset.id] || [];
+  const direct = (routes[asset.id] || []).filter(url => !relay.unavailable || !relay.isRelay(url));
+  const archiveRelays = published.archiveRelay?.[asset.id] || [];
+  let archiveRelayRejected = false;
+  async function fetchRange(url, options) {
+    if (!archiveRelays.includes(url)) return fetchFile(url, options);
+    try {
+      const response = await fetchFile(url, options);
+      archiveRelayRejected = false;
+      relay.answered();
+      return response;
+    } catch (error) {
+      if (!options.signal?.aborted) archiveRelayRejected = true;
+      throw error;
+    }
+  }
   const ranged = pin && direct.length && asset.size_bytes > pin.size ?
-    archiveSession(asset, pin, {direct, relay: published.archiveRelay?.[asset.id], fetchFile, signal, network}) : null;
+    archiveSession(asset, pin, {direct, relay: relay.unavailable ? [] : archiveRelays, fetchFile: fetchRange, signal, network}) : null;
   let preferred = (state.sourceOffsets?.[asset.id] || 0) % (choices.length || 1);
   return async (index, whole, write) => {
     signal?.throwIfAborted();
@@ -404,15 +524,32 @@ function partDownloader(drive, state, asset, layout, {routes, published, fetchFi
       const notify = received => onProgress({kind: "downloading", ...progress, received, bytes: part.bytes});
       notify(0);
       await assertDrive(drive, state);
-      return write(null, {ranged, journal, pieceSize: pin.size, whole, signal,
-        expectedHash: pins[index], last: index === layout.length - 1, onBytes: notify});
+      let result, failure;
+      try {
+        result = await write(null, {ranged, journal, pieceSize: pin.size, whole, signal,
+          expectedHash: pins[index], last: index === layout.length - 1, onBytes: notify});
+      } catch (error) {
+        if (!(error instanceof SourceError)) throw error;
+        failure = error;
+      }
+      // Check once per completed transfer, outside the parallel piece fetches.
+      const relayRejected = archiveRelayRejected && await relay.observeFailure(asset.id);
+      archiveRelayRejected = false;
+      if (failure) {
+        failure.relayCandidate = archiveRelays.length > 0 && (relay.unavailable || relayRejected);
+        throw failure;
+      }
+      return result;
     }
+    const waiting = new Set();
     let wholeMismatch = false, round = 0;
     while (choices.length && round < 2) {
       let connection = false;
       for (let offset = 0; offset < choices.length; offset++) {
         const sourceIndex = (preferred + offset) % choices.length;
         const source = choices[sourceIndex];
+        const throughRelay = relaySource(relay, source);
+        if (throughRelay && relay.unavailable) { waiting.add(sourceIndex); continue; }
         if (source.pieces.some(piece => cooldown.waiting(piece.url))) continue;
         const notify = received => onProgress({kind: "downloading", ...progress, received, bytes: part.bytes});
         notify(0);
@@ -421,10 +558,18 @@ function partDownloader(drive, state, asset, layout, {routes, published, fetchFi
           const result = await write(source, {fetchFile, signal, whole, range,
             expectedHash: pins[index], publisherPieces: published.publisherPieces, last: index === layout.length - 1,
             onBytes: notify});
+          if (throughRelay) relay.answered();
           preferred = sourceIndex;
           return result;
         } catch (error) {
           if (!(error instanceof SourceError)) throw error;
+          if (throughRelay) {
+            if (error.beforeResponse && await relay.observeFailure(asset.id)) waiting.add(sourceIndex);
+            else {
+              if (!error.beforeResponse) relay.answered();
+              waiting.delete(sourceIndex);
+            }
+          }
           for (const {url} of source.pieces) {
             cooldown.defer(url, error.retryAfterMs ?? (error.status === 429 ? 60_000 : 0));
           }
@@ -435,11 +580,18 @@ function partDownloader(drive, state, asset, layout, {routes, published, fetchFi
           onProgress({kind: "retrying", ...progress, message});
         }
       }
-      if ((connection || network.offline()) && await network.waitForConnection()) continue;
+      if ((connection || network.offline()) && await network.waitForConnection()) {
+        relay.answered();
+        if (!relay.unavailable) waiting.clear();
+        continue;
+      }
+      if (relay.unavailable && waiting.size === choices.length) break;
       if (++round < 2) await cooldown.delay(sources);
     }
     if (wholeMismatch && choices.length > 1) (state.sourceOffsets ||= {})[asset.id] = (preferred + 1) % choices.length;
-    throw new SourceError([...failures].join(". ") || "No browser source is available", {whole: wholeMismatch});
+    const error = new SourceError([...failures].join(". ") || "No browser source is available", {whole: wholeMismatch});
+    error.relayCandidate = waiting.size > 0;
+    throw error;
   };
 }
 
@@ -486,7 +638,8 @@ async function prepareSingleArchive(drive, state, asset, layout, {signal, onProg
       const whole = sha256.create();
       onProgress({kind: "checking", asset});
       for (const part of layout.slice(0, prefix.count)) {
-        const writer = await (await fileHandle(drive, part.path, true)).createWritable({mode: "exclusive"});
+        const handle = await fileHandle(drive, part.path, true);
+        const writer = await handle.createWritable({mode: "exclusive"});
         const digest = sha256.create();
         try {
           for await (const chunk of file.slice(part.start, part.start + part.bytes).stream()) {
@@ -502,6 +655,11 @@ async function prepareSingleArchive(drive, state, asset, layout, {signal, onProg
         }
         const sha = bytesToHex(digest.digest());
         if (pins[checkpoints.length] && pins[checkpoints.length] !== sha) break;
+        try { await checkWrittenFile(handle, part.path, {bytes: part.bytes, sha256: sha}, signal); }
+        catch (error) {
+          if (!(error instanceof DriveWriteMismatch)) throw error;
+          break;
+        }
         checkpoints.push({sha256: sha, bytes: part.bytes});
       }
       if (checkpoints.length === prefix.count && bytesToHex(whole.digest()) === prefix.sha256) {
@@ -528,10 +686,11 @@ async function joinParts(drive, state, asset, layout, {signal, onProgress}) {
     return;
   }
   if (existing?.size) return;
-  let writable;
+  let writable, written = 0, next = 0;
   const began = performance.now();
   try {
-    writable = await (await fileHandle(drive, path, true)).createWritable({mode: "exclusive"});
+    const handle = await fileHandle(drive, path, true);
+    writable = await handle.createWritable({mode: "exclusive"});
     const digest = sha256.create();
     for (const part of layout) {
       onProgress({kind: "joining", asset});
@@ -539,7 +698,9 @@ async function joinParts(drive, state, asset, layout, {signal, onProgress}) {
       for await (const chunk of file.stream()) {
         signal?.throwIfAborted();
         digest.update(chunk);
+        next = written + chunk.byteLength;
         await writable.write(chunk);
+        written = next;
       }
     }
     if (bytesToHex(digest.digest()) !== asset.sha256) throw new SourceError("Saved parts failed whole-file SHA-256", {whole: true});
@@ -547,10 +708,18 @@ async function joinParts(drive, state, asset, layout, {signal, onProgress}) {
     await writable.close();
     diag("join", {asset: asset.id, mb: +(asset.size_bytes / 1e6).toFixed(1),
       copyMs: Math.round(closing - began), closeMs: Math.round(performance.now() - closing)});
+    await checkWrittenFile(handle, path, {bytes: asset.size_bytes, sha256: asset.sha256}, signal);
   } catch (error) {
     await writable?.abort().catch(() => {});
-    if (!existing) await removePinned(drive, path, emptyPin);
+    if (!existing || error instanceof DriveWriteMismatch) {
+      await removePinned(drive, path, error instanceof DriveWriteMismatch ? error.actual : emptyPin);
+    }
     signal?.throwIfAborted();
+    if (archiveJoinLimitReached(error, written, next)) {
+      state.largeFileLimited = true;
+      return;
+    }
+    if (error instanceof DriveWriteMismatch) return;
     if (isNoSpace(error) || error.name === "InvalidStateError" || /EFBIG|file too large/i.test(error.message)) return;
     throw error;
   }
@@ -628,9 +797,17 @@ async function verifyLayout(drive, asset, layout, signal) {
 }
 
 export async function inspectDrive(drive) {
+  const library = await reservedEntry(() => drive.getDirectoryHandle("LIBRARY"), "a file named LIBRARY");
+  const start = await reservedEntry(() => fileAt(drive, START_PAGE), "a folder named " + START_PAGE);
   const state = await readBuild(drive);
-  const library = await optional(() => drive.getDirectoryHandle("LIBRARY"));
-  const adoption = Boolean(state?.adopting || !state && await candidateFile(drive, "START_HERE.html"));
+  const adoption = Boolean(state?.adopting || !state && start);
+  const starter = await matchesFile(start, filePin(startPage()));
+  let legacy = (adoption && !starter) || state?.migrated || (state && !state.generatedPins) ?
+    await previousReader(drive) : new Map();
+  if (start && !ownsGeneratedFile(state, START_PAGE) && !legacy.has(START_PAGE) && !starter) {
+    if (state && !legacy.size) legacy = await previousReader(drive);
+    if (!legacy.has(START_PAGE)) throw new DrivePathConflict("a different file named " + START_PAGE);
+  }
   const installedPaths = Object.values(state?.installed || {}).flatMap(row => row.layout.map(part => part.path));
   const paths = new Set([...(state?.owned || []), ...(state?.generated || []), ...installedPaths].filter(path =>
     safePath(path) && (managedContent(path) || readerPath(path) || path.startsWith("LIBRARY/.owl/download-pieces/") ||
@@ -646,7 +823,6 @@ export async function inspectDrive(drive) {
   }
   const availableInstalled = new Set(Object.values(state?.installed || {})
     .filter(row => row.layout.every(part => sizes.get(part.path) === part.bytes)).map(row => row.pin.id));
-  const legacy = adoption || state?.migrated || (state && !state.generatedPins) ? await previousReader(drive) : new Map();
   let candidates;
   if (adoption && legacy.size) {
     const inventory = await candidateFile(drive, "LIBRARY/INVENTORY.json");
@@ -668,6 +844,21 @@ export async function inspectDrive(drive) {
   return {state, hasLibrary: Boolean(library), adoption, heldBytes, candidates, legacy, availableInstalled};
 }
 
+export class DrivePathConflict extends Error {
+  constructor(entry) {
+    super("An existing file blocks the library. This drive already has " + entry + ".");
+    this.entry = entry;
+  }
+}
+
+async function reservedEntry(open, conflict) {
+  try { return await optional(open); }
+  catch (error) {
+    if (error.name === "TypeMismatchError") throw new DrivePathConflict(conflict);
+    throw error;
+  }
+}
+
 const readerRevision = (navigation, search, publication) => bytesToHex(sha256(new TextEncoder().encode(
   canonical([navigation, search, publication]))));
 
@@ -677,25 +868,28 @@ async function activeReaderExists(drive, state) {
 }
 
 export async function compareLibrary(drive, {assets, choice, catalogVersion, navigation = {}, search, readerPublication, partBytes = PART_BYTES,
-    singleArchives = false, joinArchives = false, fullVerify = false, signal, inspection, freeBytes = Infinity,
+    singleArchives = false, joinArchives = false, fat32 = false, fullVerify = false, signal, inspection, freeBytes = Infinity,
     archiveSpace = Infinity} = {}) {
   const {state, adoption, legacy} = inspection || await inspectDrive(drive);
-  const wantsSingle = singleArchives || joinArchives;
-  const sameOptions = !state || (partBytes === state.partBytes &&
-    wantsSingle === Boolean(state.singleArchives || state.joinArchives));
+  const limit = archiveFileLimit(fat32, singleArchives || joinArchives, state?.largeFileLimited);
+  const sameParts = partBytes === state?.partBytes;
+  const sameOptions = !state || (sameParts && limit === archiveFileLimit(
+    state.fat32, state.singleArchives || state.joinArchives, state.largeFileLimited));
   const adds = [], drops = [], present = [], held = [];
   const planned = new Map(state?.plan.map(pin => [pin.id, pin]));
   let room = freeBytes;
-  for (const asset of buildOrder(assets)) {
+  for (const asset of buildOrder(assets, {archiveSpace, partBytes})) {
     signal?.throwIfAborted();
     const old = state?.installed[asset.id];
     const previous = planned.get(asset.id);
     const split = layoutFor(asset, partBytes).length > 1;
-    const compatible = !split || sameOptions || (wantsSingle && partBytes === state?.partBytes);
+    const mustSplit = (fat32 || state?.largeFileLimited) && asset.format === "zim" && asset.size_bytes > limit;
+    const compatible = !split || sameParts;
     const destination = state?.working[asset.id];
-    const working = (sameOptions || !split) && matches(asset, previous) &&
+    const working = compatible && !(mustSplit && state?.joined?.[asset.id]) &&
+      matches(asset, previous) &&
       typeof destination === "string" && managedDestination(asset, destination, state.buildId) && destination;
-    let installed = compatible && matches(asset, old?.pin) ? old : null;
+    let installed = compatible && matches(asset, old?.pin) && !(mustSplit && old.layout.length === 1) ? old : null;
     if (working && state.verified[asset.id] && (!installed || state.pending && state.joined?.[asset.id])) {
       const file = diskAsset(asset, working);
       const layout = state.joined?.[asset.id] ? joinedLayout(file) : layoutFor(file, partBytes);
@@ -703,14 +897,17 @@ export async function compareLibrary(drive, {assets, choice, catalogVersion, nav
         [{sha256: asset.sha256}] : state.parts[asset.id]};
     }
     if (installed && await layoutExists(drive, installed.layout)) {
-      const parts = fullVerify || state?.pending && (installed.layout.length > 1 || installed.layout !== old?.layout) ?
+      const interruptedWrite = state?.pending && !state.relayWaiting &&
+        (installed.layout.length > 1 || installed.layout !== old?.layout);
+      const parts = fullVerify || interruptedWrite ?
         await verifyLayout(drive, asset, installed.layout, signal) : installed.parts;
       if (parts?.length) { present.push({...installed, asset, parts}); continue; }
     }
     if (!old && !working && !state?.owned.includes(joinedLayout(asset)[0].path)) {
       const canonical = joinedLayout(asset);
       const split = layoutFor(asset, partBytes);
-      for (const layout of canonical[0].path === split[0].path ? [canonical] : [canonical, split]) {
+      const layouts = mustSplit ? [split] : canonical[0].path === split[0].path ? [canonical] : [canonical, split];
+      for (const layout of layouts) {
         if (!await layoutExists(drive, layout)) continue;
         const parts = await verifyLayout(drive, asset, layout, signal);
         if (parts) {
@@ -738,8 +935,8 @@ export async function compareLibrary(drive, {assets, choice, catalogVersion, nav
   const removes = [...drops, ...adds.flatMap(row => row.old && !row.old.protected ? [row.old] : [])];
   const changedChoice = Boolean(state && choice && JSON.stringify(choice) !== JSON.stringify(state.choice));
   const presentBytes = bytesOf(present.map(row => row.pin)) + adds.reduce((sum, row) => sum + row.savedBytes, 0);
-  const joinRoom = Math.min(archiveSpace - presentBytes, freeBytes);
-  const joins = wantsSingle ? present.filter(row => !row.protected && row.layout.length > 1 && row.pin.bytes <= joinRoom) : [];
+  const joinRoom = Math.min(archiveSpace - presentBytes, freeBytes, limit);
+  const joins = present.filter(row => !row.protected && row.layout.length > 1 && row.pin.bytes <= joinRoom);
   const current = Boolean(state?.finished && sameOptions && !adds.length && !drops.length && !joins.length && !changedChoice && !state.migrated &&
     state.catalogVersion === catalogVersion && state.readerRevision === readerRevision(navigation, search, readerPublication) &&
     await activeReaderExists(drive, state));
@@ -779,7 +976,7 @@ const generationPath = /^LIBRARY\/INDEX\/([a-f0-9]{12})\//;
 const readerFiles = /^(?:reader|home|search|search-paths|manifest|rank|rerank|shards|c-(?:health|food|shelter|trades|school|reference|advanced|culture|other))\.js$/;
 function readerPath(path) {
   if (!safePath(path)) return false;
-  if (path === "START_HERE.html" || path === readerChecksums) return true;
+  if (path === START_PAGE || path === readerChecksums) return true;
   const generation = generationPath.exec(path);
   if (generation) return readerFiles.test(path.slice(generation[0].length));
   return /^LIBRARY\/(?:INVENTORY\.(?:html|json)|VERIFY\.py|README\.txt|BUILD_INFO\.json|BUILD_REPORT\.html|SOURCE_NOTES\.txt|SEARCH\.html|INDEX\/navigation-report\.json)$/.test(path) ||
@@ -811,7 +1008,36 @@ async function previousReader(drive) {
   return pins;
 }
 
-function guardReader(drive, state, legacy) {
+function ownsGeneratedFile(state, path) {
+  return readerPath(path) && state?.generated.includes(path) && Array.isArray(state.generatedPins?.[path]) &&
+    state.generatedPins[path].some(pin => Number.isSafeInteger(pin?.bytes) && pin.bytes >= 0 && DIGEST.test(pin.sha256));
+}
+
+async function preserveChangedFile(drive, state, path, file, signal) {
+  await assertDrive(drive, state);
+  const pin = {bytes: file.size, sha256: await storedDigest(file, signal)};
+  const extension = path.slice(path.lastIndexOf("."));
+  const stem = path.slice(0, -extension.length) + ".changed-" + new Date().toISOString().slice(0, 10) + "-" + pin.sha256.slice(0, 12);
+  let copy = stem + extension;
+  const existing = await fileAt(drive, copy).catch(error => {
+    if (error.name === "TypeMismatchError") return true;
+    throw error;
+  });
+  if (!await matchesFile(existing, pin, signal)) {
+    if (existing) {
+      copy = stem + "-" + globalThis.crypto.randomUUID() + extension;
+      if (await fileAt(drive, copy)) throw Error("An existing file blocks the copy of " + path + ".");
+    }
+    signal?.throwIfAborted();
+    await writeFile(drive, copy, file);
+    if (!await matchesFile(await fileAt(drive, copy), pin, signal)) throw Error("Could not verify the copy of " + path + ".");
+  }
+  if (!await matchesFile(await fileAt(drive, path), pin, signal)) throw Error("The file changed during repair: " + path);
+  state.pageRepairs[path] = copy;
+  return pin;
+}
+
+function guardReader(drive, state, legacy, {fullVerify, signal, beforeReplacing}) {
   return {
     getDirectoryHandle: drive.getDirectoryHandle.bind(drive),
     getFileHandle: drive.getFileHandle.bind(drive),
@@ -826,21 +1052,46 @@ function guardReader(drive, state, legacy) {
       if (file) {
         current = null;
         for (const pin of previous) {
-          if (await matchesFile(file, pin)) { current = pin; break; }
+          if (await matchesFile(file, pin, signal)) { current = pin; break; }
         }
-        if (!current) throw Error("An existing file blocks the start page or search index. Choose another library folder.");
+        if (!current && fullVerify && ownsGeneratedFile(state, path)) {
+          current = await preserveChangedFile(drive, state, path, file, signal);
+        }
+        if (!current) throw Error("An existing file blocks " + path + ". Choose another library folder.");
       }
       // An interrupted write can leave either the old file or the verified
       // replacement. Persist both pins before changing the published files.
       const known = state.generated.includes(path);
       const unchanged = Boolean(file && current.sha256 === next.sha256);
       if (unchanged && known && proofs.some(pin => pin?.sha256 === next.sha256 && pin.bytes === next.bytes)) return false;
+      if (file && !unchanged && beforeReplacing) await beforeReplacing(path, file, next);
       if (!known) state.generated.push(path);
       state.generatedPins[path] = current.sha256 === next.sha256 ? [next] : [current, next];
       await save(drive, state);
       return !unchanged;
+    },
+    async verifyWrite(path, contents) {
+      await assertDrive(drive, state);
+      state.generatedPins[path] = [await checkGeneratedWrite(drive, path, contents, signal)];
     }
   };
+}
+
+async function publishReplacement(drive, state, legacy, fullVerify, files) {
+  const previous = new Map();
+  const publishing = guardReader(drive, state, legacy, {fullVerify, async beforeReplacing(path, file, next) {
+    previous.set(path, {contents: new Uint8Array(await file.arrayBuffer()), next});
+  }});
+  try {
+    for (const [path, contents] of files) await writeFile(publishing, path, contents);
+  } catch (error) {
+    // Closing each file is atomic. Restore any changes committed before a later write failed.
+    const restoring = guardReader(drive, state, legacy, {fullVerify: false});
+    for (const [path, {contents, next}] of [...previous].reverse()) {
+      if (await matchesFile(await candidateFile(drive, path), next)) await writeFile(restoring, path, contents);
+    }
+    throw error;
+  }
 }
 
 async function recordAdoptedGeneration(drive, state, legacy, signal) {
@@ -868,7 +1119,7 @@ async function removeReaderFile(drive, state, path, signal) {
   return false;
 }
 
-async function retireReaderFiles(drive, state, signal) {
+async function retireReaderFiles(drive, state, signal, fullVerify) {
   signal?.throwIfAborted();
   const active = await checksumPins(await fileAt(drive, readerChecksums));
   active.set(readerChecksums, null);
@@ -876,7 +1127,17 @@ async function retireReaderFiles(drive, state, signal) {
   for (const path of state.generated) {
     if (active.has(path)) continue;
     signal?.throwIfAborted();
-    if (await removeReaderFile(drive, state, path, signal)) {
+    const repairable = fullVerify && ownsGeneratedFile(state, path);
+    let removed = await removeReaderFile(drive, state, path, signal);
+    if (!removed && repairable) {
+      const changed = await candidateFile(drive, path);
+      if (changed) {
+        const pin = await preserveChangedFile(drive, state, path, changed, signal);
+        await removePinned(drive, path, pin, signal);
+        removed = true;
+      }
+    }
+    if (removed) {
       const id = generationPath.exec(path)?.[1];
       if (id) generations.add(id);
     }
@@ -896,50 +1157,106 @@ async function retireReaderFiles(drive, state, signal) {
   state.generated = state.generated.filter(path => active.has(path));
 }
 
-function beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, singleArchives, archiveSpace, searchBudget,
-    capacityBytes, capacityEstimated}) {
+function beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, singleArchives, fat32, archiveSpace, searchBudget,
+    capacityBytes, capacityEstimated, driveFormat}) {
   return {version: 2, buildId: saved?.buildId || globalThis.crypto.randomUUID(), plan: [], excluded: [],
     installed: saved?.installed || map(), working: map(), owned: [...(saved?.owned || [])], generated: [...(saved?.generated || [])],
     generatedPins: Object.assign(map(), saved?.generatedPins), reservePin: saved?.reservePin,
+    pageRepairs: Object.assign(map(), saved?.pending ? saved.pageRepairs : undefined),
     parts: map(), verified: map(), joined: map(), prefixes: map(), stagedArchives: map(), sourceOffsets: map(),
-    dropped: map(), failures: map(), partBytes, joinArchives, singleArchives, archiveSpace,
-    choice, catalogVersion, searchBudget, capacityBytes, capacityEstimated, pending: true, finished: false, migrated: saved?.migrated,
-    syncedAt: saved?.syncedAt};
+    dropped: map(), failures: map(), partBytes, joinArchives, singleArchives, fat32, archiveSpace,
+    choice, catalogVersion, searchBudget, capacityBytes, capacityEstimated, driveFormat: driveFormat ?? saved?.driveFormat,
+    pending: true, finished: false, migrated: saved?.migrated,
+    syncedAt: saved?.syncedAt, readerRevision: saved?.readerRevision, largeFileLimited: saved?.largeFileLimited};
 }
 
-export async function reconcile(drive, {assets, excluded = [], routes = {}, published = {}, navigation = {}, search,
+export async function reconcile(drive, options) {
+  const {assets, routes = {}, published = {}, fetchFile = globalThis.fetch, signal, onProgress = () => {},
+    catalogAssets = assets, prepareSources, freeBytes = Infinity,
+    network = createNetwork({fetchFile, signal, onWaiting: () => onProgress({kind: "waiting-network"})})} = options;
+  let inspection = await inspectDrive(drive);
+  const relay = createRelayWait({routes, archives: published.archiveRelay, assets: catalogAssets, fetchFile, network, signal});
+  const target = new Set(assets.map(asset => asset.id));
+  if (deferredRelayIds(inspection.state).some(id => target.has(id))) await relay.resume();
+  const originalHeld = inspection.heldBytes;
+  let prepared, continuing = false;
+  for (;;) {
+    const result = await reconcilePass(drive, {...options, inspection, relay, continuing, network,
+      freeBytes: Math.max(0, freeBytes + originalHeld - inspection.heldBytes),
+      prepareSources: prepareSources && (assetsToFetch => prepared ??= prepareSources(assetsToFetch))});
+    signal?.throwIfAborted();
+    if (!result.state.relayDeferred?.length) return result;
+    await relay.wait(onProgress);
+    inspection = await inspectDrive(drive);
+    continuing = true;
+  }
+}
+
+async function reconcilePass(drive, {assets, excluded = [], routes = {}, published = {}, navigation = {}, search,
     partBytes = PART_BYTES, fetchFile = globalThis.fetch, signal, onProgress = () => {}, fullVerify = false,
-    joinArchives = false, singleArchives = false, archiveSpace = Infinity, choice, catalogVersion, readerPublication,
-    freeBytes = Infinity, capacityBytes, capacityEstimated, replaceInPlace = [], searchBudget = 16 * 2 ** 20,
-    catalogAssets = assets, prepareSources, onPublished,
-    network = createNetwork({fetchFile, signal, onWaiting: () => onProgress({kind: "waiting-network"})})}) {
-  const inspection = await inspectDrive(drive), saved = inspection.state;
+    joinArchives = false, singleArchives = false, fat32 = false, archiveSpace = Infinity, choice, catalogVersion, readerPublication,
+    freeBytes = Infinity, capacityBytes, capacityEstimated, driveFormat, replaceInPlace = [], searchBudget = 16 * 2 ** 20,
+    catalogAssets = assets, prepareSources, onPublished, inspection, relay, continuing, network}) {
+  const saved = inspection.state;
   if (!assets.some(isKnowledgeFile)) throw Error("Choose knowledge files with browser-accessible sources.");
   choice ??= saved?.choice || {kind: "recommended", split: !singleArchives && !joinArchives};
   const revision = readerRevision(navigation, search, readerPublication);
-  const joining = singleArchives || joinArchives;
   const comparison = await compareLibrary(drive, {assets, choice, catalogVersion, navigation, search, readerPublication,
-    partBytes, singleArchives, joinArchives, fullVerify, signal, inspection, freeBytes, archiveSpace});
+    partBytes, singleArchives, joinArchives, fat32, fullVerify, signal, inspection, freeBytes, archiveSpace});
   const resuming = saved?.pending && !comparison.changedChoice && catalogVersion === saved.catalogVersion;
-  const state = beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, singleArchives, archiveSpace,
+  const state = beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, singleArchives, fat32, archiveSpace, driveFormat,
     capacityBytes: capacityBytes ?? saved?.capacityBytes, capacityEstimated: capacityEstimated ?? saved?.capacityEstimated,
     searchBudget: resuming ? Math.min(saved.searchBudget ?? searchBudget, searchBudget) : searchBudget});
+  const fileLimit = () => archiveFileLimit(fat32, singleArchives || joinArchives, state.largeFileLimited);
   const {legacy} = inspection;
+  const guardedDrive = guardReader(drive, state, legacy, {fullVerify, signal});
   const previousPins = legacy.size ? legacy : saved ? await previousReader(drive) : new Map();
+  const keepPublished = Boolean(saved?.syncedAt || previousPins.has(START_PAGE));
   const catalogPaths = new Map(catalogAssets.map(asset => [asset.id, asset.destination]));
   const retirement = {catalogPaths, previousPins, signal};
   state.adopting = comparison.adoption && legacy.size > 0;
   const held = new Set(comparison.held.filter(row => !replaceInPlace.includes(row.asset.id) || row.old.protected).map(row => row.asset.id));
   const present = new Map(comparison.present.map(row => [row.pin.id, row]));
   const additions = new Map(comparison.adds.map(row => [row.asset.id, row]));
-  const ordered = buildOrder(assets);
+  const ordered = buildOrder(assets, {archiveSpace, partBytes});
   state.plan = ordered.map(assetPin);
   state.excluded = excluded;
+  if (continuing) {
+    Object.assign(state.failures, saved.failures);
+    Object.assign(state.dropped, saved.dropped);
+  }
+  const deferred = new Set(relay.unavailable ? deferredRelayIds(saved).filter(id => additions.has(id)) : []);
+  const relayCandidates = new Map();
+  const onlyRelay = asset => {
+    const sources = routesFor(asset, routes, published);
+    return sources.length && sources.every(source => relaySource(relay, source));
+  };
+  let relayConfirmed = false;
+  const recordDeferrals = () => {
+    if (relay.unavailable) {
+      if (!relayConfirmed) {
+        for (const {asset} of additions.values()) {
+          if (!present.has(asset.id) && !state.failures[asset.id] && !state.dropped[asset.id] && onlyRelay(asset)) {
+            deferred.add(asset.id);
+          }
+        }
+        relayConfirmed = true;
+      }
+      for (const id of relayCandidates.keys()) deferred.add(id);
+    }
+    state.relayDeferred = [...deferred];
+  };
+  recordDeferrals();
   const workingFields = ["parts", "verified", "joined", "prefixes", "stagedArchives", "sourceOffsets"];
   for (const asset of ordered) {
     const row = additions.get(asset.id);
-    if (row?.working) {
-      state.working[asset.id] = row.working;
+    const installed = present.get(asset.id);
+    const destination = saved?.working[asset.id];
+    const reusing = saved?.relayWaiting && destination && installed && installed.layout !== saved.installed[asset.id]?.layout &&
+      (installed.layout[0].path === "LIBRARY/" + destination ||
+      installed.layout.length > 1 && installed.layout[0].path === "LIBRARY/" + destination + "aa");
+    if (row?.working || reusing) {
+      state.working[asset.id] = row?.working || destination;
       for (const field of workingFields) {
         if (saved[field]?.[asset.id] !== undefined) state[field][asset.id] = saved[field][asset.id];
       }
@@ -955,27 +1272,26 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
   }
   if (saved) {
     await save(drive, state);
-    if (!start?.size) await writeFile(guardReader(drive, state, legacy), "START_HERE.html", starter);
+    if (!start?.size) await writeFile(guardedDrive, START_PAGE, starter);
   } else {
     if (await readBuild(drive)) throw Error("Another sync started on this drive.");
     if (!start) {
       await drive.getDirectoryHandle("LIBRARY", {create: true});
-      await writeFile(drive, "START_HERE.html", starter);
+      await writeFile(drive, START_PAGE, starter);
+      await checkGeneratedWrite(drive, START_PAGE, starter, signal);
       state.generated.push("START_HERE.html");
       state.generatedPins["START_HERE.html"] = [filePin(starter)];
     }
-    try { await writeFile(drive, MANIFEST, JSON.stringify(state) + "\n"); }
-    catch (error) {
-      if (isNoSpace(error) && (await fileAt(drive, MANIFEST))?.size === 0) await removeFile(drive, MANIFEST);
-      throw error;
-    }
+    await writeFile(drive, MANIFEST, JSON.stringify(state) + "\n");
   }
   let unavailableSupport = [];
+  let archivesWithoutMetadata = new Set();
   if (prepareSources) {
-    const support = await prepareSources();
+    const support = await prepareSources(comparison.adds.map(({asset}) => asset));
     search = support.search;
     unavailableSupport = support.unavailableSupport || [];
-    published = {...published, publisherPieces: support.publisherPieces};
+    archivesWithoutMetadata = support.archivesWithoutMetadata || archivesWithoutMetadata;
+    published = {...published, publisherPieces: support.publisherPieces ?? published.publisherPieces};
   }
   const reservePath = "LIBRARY/.owl/assembly-" + state.buildId + ".tmp";
   const releaseReserve = async () => {
@@ -1026,6 +1342,13 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
         continue;
       }
       used -= row.savedBytes;
+      deferred.delete(asset.id);
+      if (continuing && (state.failures[asset.id] || state.dropped[asset.id])) continue;
+      if (archivesWithoutMetadata.has(asset.id)) {
+        state.failures[asset.id] = "Could not load the checksums for this encyclopedia. Sync can try it again.";
+        report({kind: "failed", asset, message: state.failures[asset.id]});
+        continue;
+      }
       if (full && asset.utility_tier !== "CRITICAL") {
         state.dropped[asset.id] = noSpace;
         report({kind: "dropped", asset, message: noSpace});
@@ -1036,9 +1359,14 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
         report({kind: "failed", asset, message: state.failures[asset.id]});
         continue;
       }
+      if (relay.unavailable && onlyRelay(asset)) {
+        deferred.add(asset.id);
+        continue;
+      }
+      const joining = asset.format === "zim" && asset.size_bytes <= fileLimit();
       const file = row.working ? diskAsset(asset, row.working) : await reservePaths(drive, state, asset, partBytes, joining);
       const layout = layoutFor(file, partBytes);
-      const single = singleArchives && layout.length > 1;
+      const single = (singleArchives || fat32) && joining && layout.length > 1;
       if (joining && layout.length > 1) {
         const path = joinedLayout(file)[0].path;
         if (!state.owned.includes(path)) {
@@ -1047,7 +1375,7 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
         }
       }
       const replacement = replaceInPlace.includes(asset.id) && comparison.held.includes(row) && !row.old.protected;
-      const options = {routes, published, fetchFile, signal, onProgress: report, network};
+      const options = {routes, published, fetchFile, signal, onProgress: report, network, relay};
       const download = async () => {
         await save(drive, state);
         if (replacement && state.installed[asset.id]) {
@@ -1098,12 +1426,19 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
           incomplete.set(asset.id, {file, layout});
           state.dropped[asset.id] = noSpace;
           report({kind: "dropped", asset, message: state.dropped[asset.id]});
-        } else if (error instanceof SourceError) {
-          if (error.whole) await forgetParts(drive, state, file, layout, published, signal);
+        } else if (error instanceof DriveWriteMismatch) {
           state.failures[asset.id] = error.message;
           report({kind: "failed", asset, message: error.message});
+        } else if (error instanceof SourceError) {
+          if (error.whole) await forgetParts(drive, state, file, layout, published, signal);
+          if (error.relayCandidate) relayCandidates.set(asset.id, {asset, message: error.message, report});
+          else {
+            state.failures[asset.id] = error.message;
+            report({kind: "failed", asset, message: error.message});
+          }
         } else throw error;
       }
+      recordDeferrals();
       try { await save(drive, state); }
       catch (error) {
         if (!reserved || !isNoSpace(error)) throw error;
@@ -1113,13 +1448,29 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
         await save(drive, state);
       }
     }
+  } catch (error) {
+    recordDeferrals();
+    if (!signal?.aborted || !deferred.size) throw error;
   } finally { await releaseReserve(); }
-  signal?.throwIfAborted();
+  recordDeferrals();
+  let paused = Boolean(signal?.aborted && deferred.size);
+  if (!paused) signal?.throwIfAborted();
+  if (!relay.unavailable) for (const {asset, message, report} of relayCandidates.values()) {
+    state.failures[asset.id] = message;
+    report({kind: "failed", asset, message});
+  }
+  if (deferred.size) {
+    state.relayWaiting = true;
+    await save(drive, state);
+    // The working plan and its checkpoints live in the browser record.
+    // Leave the published reader and checksums alone while the relay is down.
+    if (keepPublished) return {state};
+  }
   // Leave the old parts available to the published reader until the new
   // start page and checksum list are in place.
-  if (joining && !full) for (const row of comparison.present) {
+  if (fileLimit() && !full && !deferred.size) for (const row of comparison.present) {
     if (row.protected || row.layout.length < 2 ||
-        row.pin.bytes > Math.min(archiveSpace - used, free)) continue;
+        row.pin.bytes > Math.min(archiveSpace - used, free, fileLimit())) continue;
     const file = diskAsset(row.asset, row.layout[0].path.slice("LIBRARY/".length, -2));
     const [{path}] = joinedLayout(file);
     const existing = await candidateFile(drive, path);
@@ -1143,43 +1494,62 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
     state.parts[file.id] = parts;
     present.set(file.id, {...row, layout: joinedLayout(file), parts});
   }
-  if (excluded.length || Object.keys(state.failures).length || Object.keys(state.dropped).length) {
+  if (excluded.length || deferred.size || Object.keys(state.failures).length || Object.keys(state.dropped).length) {
     for (const old of Object.values(state.installed)) {
       if (!present.has(old.pin.id) && !additions.get(old.pin.id)?.corrupt && await layoutExists(drive, old.layout)) present.set(old.pin.id, old);
     }
   }
   onProgress({kind: "assembling"});
-  if (legacy.size) {
+  if (legacy.size && !paused) {
     // Keep ownership available on retry even if assembly replaces the old checksum list.
     await recordAdoptedGeneration(drive, state, legacy, signal);
     await save(drive, state);
   }
   const syncedAt = new Date().toISOString();
-  let completed, missing, keptInParts, searchWarnings, supportMissing, compact = false;
+  const apps = new Set([...catalogAssets, ...assets].filter(isReaderApp).map(asset => asset.id));
+  const missingApp = row => row.kind === "app" || apps.has(row.id);
+  let completed, missing, keptInParts, searchWarnings, supportMissing, compact = paused, keptPublished;
+  const retainPublished = async () => {
+    state.updateSupportMissing = supportMissing;
+    await save(drive, state);
+    return {state, completed, missing, keptInParts, searchWarnings, supportMissing, keptPublished: true};
+  };
   for (;;) {
     completed = [...present.values()].map(row => row.asset);
-    missing = [...excluded, ...ordered.flatMap(asset => {
-      const reason = state.dropped[asset.id] || state.failures[asset.id];
+    const omissions = [...excluded, ...ordered.flatMap(asset => {
+      const reason = deferred.has(asset.id) ? RELAY_WAIT_REASON : state.dropped[asset.id] || state.failures[asset.id] ||
+        (paused && !present.has(asset.id) ? "Sync paused before this file arrived." : "");
       return reason ? [{id: asset.id, title: asset.title, utility_tier: asset.utility_tier ?? null, reason}] : [];
     })];
+    missing = omissions.filter(row => !missingApp(row));
+    const missingApps = omissions.filter(missingApp).map(({id, title, reason}) => ({kind: "app", id, title, reason}));
     keptInParts = [...present.values()].filter(row => row.layout.length > 1)
       .map(({asset, layout}) => ({id: asset.id, title: asset.title, parts: layout.length}));
     const before = new Set(state.generated);
+    const assemblySignal = paused ? undefined : signal;
+    const assemblyDrive = paused ? guardReader(drive, state, legacy, {fullVerify, signal: assemblySignal}) : guardedDrive;
     try {
-      ({warnings: searchWarnings, supportMissing} = await assembleLibrary(guardReader(drive, state, legacy),
-        {completed, missing, keptInParts, compact, unavailableSupport, searchMissing: compact && Boolean(search),
-        selectedCount: assets.length + excluded.length, navigation, search: compact ? undefined : search,
+      ({warnings: searchWarnings, supportMissing, keptPublished} = await assembleLibrary(assemblyDrive,
+        {completed, missing, keptInParts, compact, unavailableSupport: [...unavailableSupport, ...missingApps],
+        searchMissing: compact && Boolean(search),
+        selectedCount: assets.length + excluded.length - missingApps.length, navigation, search: compact ? undefined : search,
         layouts: new Map([...present].map(([id, row]) => [id, row.layout])),
         parts: Object.fromEntries([...present].map(([id, row]) => [id, row.parts])),
-        searchBudget: state.searchBudget, fetchFile, signal, network, syncedAt, onPublished}));
+        searchBudget: state.searchBudget, fetchFile, signal: assemblySignal, network, syncedAt, onPublished,
+        publishReplacement: keepPublished ? files => publishReplacement(drive, state, legacy, fullVerify, files) : undefined}));
+      if (keptPublished) return retainPublished();
       break;
     } catch (error) {
-      signal?.throwIfAborted();
+      if (!paused && signal?.aborted && deferred.size) {
+        paused = compact = true;
+        continue;
+      }
+      assemblySignal?.throwIfAborted();
       if (!isNoSpace(error)) throw error;
-      for (const path of state.generated) if (!before.has(path)) await removeReaderFile(drive, state, path, signal);
+      for (const path of state.generated) if (!before.has(path)) await removeReaderFile(drive, state, path, assemblySignal);
       state.generated = [...before];
       if (incomplete.size) {
-        for (const {file, layout} of incomplete.values()) await forgetParts(drive, state, file, layout, published, signal);
+        for (const {file, layout} of incomplete.values()) await forgetParts(drive, state, file, layout, published, assemblySignal);
         incomplete.clear();
         continue;
       }
@@ -1189,9 +1559,15 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
         compact = true;
         continue;
       }
-      if (!lowest) throw error;
+      if (!lowest) {
+        if (!keepPublished) throw error;
+        const issue = {kind: "reader", title: "Full reader", reason: "The drive ran out of space."};
+        supportMissing = [...unavailableSupport, ...missingApps, issue];
+        searchWarnings = supportMissing.map(({title, reason}) => title + " — " + reason);
+        return retainPublished();
+      }
       const {asset, layout} = lowest;
-      await forgetParts(drive, state, asset, layout, published, signal);
+      await forgetParts(drive, state, asset, layout, published, assemblySignal);
       delete state.joined[asset.id];
       downloaded.delete(asset.id);
       present.delete(asset.id);
@@ -1200,14 +1576,14 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
     }
   }
   // The start page now points to the new reader, and the checksum list includes reused shards.
-  await retireReaderFiles(drive, state, signal);
+  await retireReaderFiles(drive, state, deferred.size ? undefined : signal, fullVerify);
   const recorded = new Set(state.owned);
   for (const row of present.values()) {
     if (row.protected) continue;
     for (const part of row.layout) recorded.add(part.path);
   }
   state.owned = [...recorded];
-  const finished = !missing.length && completed.some(isKnowledgeFile) && !searchWarnings.length;
+  const finished = !deferred.size && !missing.length && completed.some(isKnowledgeFile) && !searchWarnings.length;
   state.syncedAt = syncedAt;
   state.readerRevision = revision;
   state.keptInParts = keptInParts;
@@ -1223,10 +1599,18 @@ export async function reconcile(drive, {assets, excluded = [], routes = {}, publ
     state.adopting = false;
   }
   state.installed = Object.fromEntries(present);
-  state.pending = false;
+  const repairedPages = Object.entries(state.pageRepairs)
+    .filter(([path, copy]) => readerPath(path) && safePath(copy))
+    .map(([path, copy]) => state.generated.includes(path) ? {path, copy} : {path, copy, retired: true});
+  if (!deferred.size) {
+    delete state.pageRepairs;
+    delete state.relayDeferred;
+  }
+  if (deferred.size) state.relayWaiting = true;
+  state.pending = deferred.size > 0;
   state.finished = finished;
   await save(drive, state);
-  return {state, completed, missing, keptInParts, searchWarnings, supportMissing};
+  return {state, completed, missing, keptInParts, searchWarnings, supportMissing, repairedPages};
 }
 
 export {reconcile as buildLibrary};

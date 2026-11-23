@@ -2,8 +2,11 @@ import assert from "node:assert/strict";
 import {createHash, webcrypto} from "node:crypto";
 import {readFileSync} from "node:fs";
 import {test} from "node:test";
-import {compareLibrary, MANIFEST, readBuild, reconcile} from "../web/builder.mjs";
+import {runInNewContext} from "node:vm";
+import {compareLibrary, DrivePathConflict, inspectDrive, MANIFEST, partLayout, readBuild, reconcile} from "../web/builder.mjs";
+import {completionState, prepareDownloadSources} from "../web/builder-ui.mjs";
 import {removeFile, writeFile} from "../web/drive.mjs";
+import {createNetwork, SourceError} from "../web/network.mjs";
 import {readPreviewFile} from "../web/reader-preview.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
 
@@ -165,11 +168,94 @@ test("retirement leaves paths outside the OWL layout and files whose recorded di
   assert.equal(await text(drive, "LIBRARY/BOOKS/old.pdf"), "new");
 });
 
-test("an unrelated start page is never overwritten", async () => {
+test("a personal start page is reported when choosing the drive, before any download or write", async () => {
   const drive = new Directory();
   await writeFile(drive, "START_HERE.html", "My homepage");
-  await assert.rejects(reconcile(drive, options({a: "bytes"})), /existing file blocks/);
+  const conflict = error => error instanceof DrivePathConflict && error.entry === "a different file named START_HERE.html";
+  await assert.rejects(inspectDrive(drive), conflict);
+  await assert.rejects(reconcile(drive, options({a: "bytes"}, {fullVerify: true,
+    prepareSources: () => assert.fail("source metadata must not be fetched"),
+    fetchFile: () => assert.fail("content must not be fetched")})), conflict);
+  assert.deepEqual([...drive.entries.keys()], ["START_HERE.html"]);
   assert.equal(await text(drive, "START_HERE.html"), "My homepage");
+});
+
+test("the reserved entry paths report a file named LIBRARY or a folder named START_HERE.html", async () => {
+  const file = new Directory(), folder = new Directory();
+  await writeFile(file, "LIBRARY", "personal");
+  await folder.getDirectoryHandle("START_HERE.html", {create: true});
+  await assert.rejects(inspectDrive(file), error => error instanceof DrivePathConflict && /file named LIBRARY/.test(error.message));
+  await assert.rejects(inspectDrive(folder), error => error instanceof DrivePathConflict && /folder named START_HERE.html/.test(error.message));
+});
+
+test("Check every file saves same-length changes and verifies the rebuilt start page and build report", async () => {
+  const drive = new Directory();
+  const selection = options({book: "verified content"});
+  await reconcile(drive, selection);
+  const pages = ["START_HERE.html", "LIBRARY/BUILD_REPORT.html"];
+  const originals = await Promise.all(pages.map(path => text(drive, path)));
+  const changes = originals.map(page => "!" + page.slice(1));
+  for (const [index, path] of pages.entries()) {
+    await writeFile(drive, path, changes[index]);
+    assert.equal(Buffer.byteLength(changes[index]), Buffer.byteLength(originals[index]));
+  }
+  const result = await reconcile(drive, {...selection, fullVerify: true,
+    fetchFile: () => assert.fail("the verified book must not be fetched again")});
+  assert.equal(result.state.finished, true);
+  assert.deepEqual(result.repairedPages.map(row => row.path).sort(), pages.toSorted());
+  const checksums = (await text(drive, "LIBRARY/SHA256SUMS.txt")).split("\n");
+  for (const {path, copy} of result.repairedPages) {
+    const index = pages.indexOf(path);
+    assert.match(copy, /\.changed-\d{4}-\d{2}-\d{2}-[a-f\d]+\.html$/);
+    assert.equal(await text(drive, copy), changes[index]);
+    assert.equal(await text(drive, path), originals[index]);
+    assert.ok(checksums.includes(hash(originals[index]) + "  " + path));
+    assert.ok(!checksums.some(line => line.endsWith("  " + copy)));
+  }
+});
+
+test("Check every file leaves a personal build report untouched even on an OWL drive", async () => {
+  const drive = new Directory();
+  const selection = options({book: "content"});
+  await reconcile(drive, selection);
+  const report = "LIBRARY/BUILD_REPORT.html";
+  const record = await readBuild(drive);
+  record.generated = record.generated.filter(path => path !== report);
+  delete record.generatedPins[report];
+  await writeFile(drive, MANIFEST, JSON.stringify(record));
+  await writeFile(drive, report, "personal report");
+  await assert.rejects(reconcile(drive, {...selection, fullVerify: true}), /existing file blocks/);
+  assert.equal(await text(drive, report), "personal report");
+  assert.ok(![...(await drive.getDirectoryHandle("LIBRARY")).entries.keys()].some(path => path.includes(".changed-")));
+});
+
+test("FAT32 migration can join a 2 GiB archive when there is room and keeps a 5 GiB archive in parts", async () => {
+  const GiB = 2 ** 30;
+  const drive = new Directory();
+  const archive = (id, size) => ({...item(id, id), format: "zim", destination: "ZIM/" + id + ".zim", size_bytes: size * GiB});
+  const assets = [archive("fits", 2), archive("split", 5)];
+  const installed = {};
+  for (const asset of assets) {
+    const layout = partLayout(asset);
+    for (const part of layout) {
+      await writeFile(drive, part.path, "");
+      // Only the file size is queried for an already verified, settled build.
+      (await drive.file(part.path)).bytes = {size: part.bytes};
+    }
+    installed[asset.id] = {asset, pin: pin(asset), layout, parts: layout.map(part => ({bytes: part.bytes, sha256: asset.sha256}))};
+  }
+  await writeFile(drive, MANIFEST, JSON.stringify({version: 2, buildId: "fat32", plan: assets.map(pin),
+    excluded: [], installed, working: {}, generated: [], owned: Object.values(installed).flatMap(row => row.layout.map(part => part.path)),
+    parts: {}, verified: {}, dropped: {}, failures: {}, partBytes: GiB, finished: true,
+    choice: {kind: "recommended", split: true}}));
+  const plan = {assets, fat32: true, archiveSpace: 16 * GiB};
+  const short = await compareLibrary(drive, {...plan, freeBytes: 2 * GiB - 1});
+  assert.deepEqual(short.joins, []);
+  const room = await compareLibrary(drive, {...plan, freeBytes: 8 * GiB});
+  assert.deepEqual(room.adds, []);
+  assert.deepEqual(room.joins.map(row => row.asset.id), ["fits"]);
+  assert.deepEqual(room.present.find(row => row.asset.id === "split").layout.map(part => part.path),
+    ["aa", "ab", "ac", "ad", "ae"].map(part => "LIBRARY/ZIM/split.zim" + part));
 });
 
 test("a sync records the choice before waiting for download metadata", async () => {
@@ -219,6 +305,179 @@ function generationOptions(id) {
   return {selection, shared: "LIBRARY/SEARCH/" + chunk};
 }
 
+test("a completed reader and its search and checksums stay active through a deferred update and pause", async () => {
+  const {selection, shared} = generationOptions("original");
+  const drive = new Directory();
+  const added = Object.fromEntries(["a-relay", "b-relay", "c-relay", "x-direct", "z-direct"].map(id => [id, id]));
+  const update = options(added);
+  const relay = "https://relay.test/assets/";
+  for (const id of Object.keys(added).filter(id => id.endsWith("-relay"))) update.routes[id] = [relay + id];
+  const probeURL = "https://example.test/.nojekyll";
+  let down = true, repeated = 0;
+  const fetchFile = async (url, request = {}) => {
+    if (url.startsWith(relay)) {
+      if (down) throw new TypeError("Unavailable relay response without CORS");
+      return new Response(url.split("/").at(-1));
+    }
+    if (request.method === "HEAD") return new Response(null, {status: 204});
+    if (url.endsWith("/x-direct")) repeated++;
+    return Object.keys(added).some(id => url.endsWith("/" + id)) ? update.fetchFile(url) : selection.fetchFile(url);
+  };
+  const original = await reconcile(drive, selection);
+  const published = new Map(await Promise.all(original.state.generated.map(async path => [path, await text(drive, path)])));
+  const controller = new AbortController();
+  const updating = {...selection, assets: [...selection.assets, ...update.assets], catalogVersion: "new",
+    routes: {...selection.routes, ...update.routes}, fetchFile};
+  await assert.rejects(reconcile(drive, {...updating, signal: controller.signal,
+    network: createNetwork({fetchFile, probeURL, signal: controller.signal, retryMs: 0}),
+    onProgress(event) {
+      if (event.kind === "downloading" && event.asset.id === "z-direct") controller.abort();
+    }}), {name: "AbortError"});
+  const saved = await readBuild(drive);
+  assert.equal(saved.pending, true);
+  assert.deepEqual(saved.relayDeferred, ["a-relay", "b-relay", "c-relay"]);
+  assert.deepEqual(Object.keys(saved.installed), Object.keys(original.state.installed));
+  assert.equal(saved.verified["x-direct"], true);
+  assert.ok(published.has(shared));
+  for (const [path, contents] of published) assert.equal(await text(drive, path), contents, path);
+  await openGeneration(drive, "original");
+
+  const network = createNetwork({fetchFile, probeURL, retryMs: 0});
+  const resumed = await reconcile(drive, {...updating, network, onProgress(event) {
+    if (event.kind === "waiting-relay") {
+      // Let the next probe recover without changing the active generation.
+      down = false;
+      event.tryNow();
+    }
+  }});
+  assert.equal(resumed.state.finished, true);
+  assert.equal(repeated, 1, "the completed direct download survived the paused and deferred passes");
+  assert.equal(resumed.completed.length, updating.assets.length);
+});
+
+test("Check every file preserves changes across generated reports, inventory, reader, and search", async () => {
+  const {selection, shared} = generationOptions("generated");
+  selection.navigation.verify = "# OWL Verify fixture\n";
+  selection.navigation.atlas = true;
+  const model = "globalThis.OWLModel();\n";
+  const phone = "Fixture phone PDF";
+  const volume = "wikimed-fixture.pdf";
+  const phoneFolder = "CRITICAL/MEDICAL/WIKIMED-PHONE/";
+  selection.search.runtime = "globalThis.OWLSearch();\n";
+  selection.search.rankRuntime = "globalThis.OWLRank();\n";
+  selection.search.plan.model = [["model.js", {bytes: model.length, sha256: hash(model)}]];
+  selection.navigation.phone = {source_id: "generated", source_sha256: selection.assets[0].sha256,
+    base: "https://example.test/phone/", destination: phoneFolder,
+    volumes: [{file: volume, title: "Fixture", bytes: phone.length, sha256: hash(phone)}]};
+  const fetch = selection.fetchFile;
+  selection.fetchFile = async url => {
+    if (url.endsWith("/model.js")) return new Response(model);
+    if (url.endsWith("/" + volume)) return new Response(phone);
+    return fetch(url);
+  };
+  const drive = new Directory();
+  const first = await reconcile(drive, selection);
+  const paths = first.state.generated;
+  for (const required of ["LIBRARY/BUILD_INFO.json", "LIBRARY/INVENTORY.json", "LIBRARY/SOURCE_NOTES.txt",
+    "LIBRARY/VERIFY.py", "LIBRARY/INDEX/navigation-report.json", "LIBRARY/SEARCH/manifest.js", "LIBRARY/SHA256SUMS.txt",
+    "LIBRARY/SEARCH/shared/" + hash(model) + ".js", "LIBRARY/" + phoneFolder + volume, shared]) {
+    assert.ok(paths.includes(required), required);
+  }
+  const changed = new Map();
+  for (const path of paths) {
+    const contents = await text(drive, path);
+    // Keep the byte count when replacing the first ASCII character.
+    assert.match(contents, /^[\x00-\x7f]/);
+    const edit = "~" + contents.slice(1);
+    changed.set(path, edit);
+    await writeFile(drive, path, edit);
+  }
+  const result = await reconcile(drive, {...selection, fullVerify: true});
+  assert.equal(result.state.finished, true);
+  assert.deepEqual(result.repairedPages.map(row => row.path).sort(), [...paths].sort());
+  const checksums = (await text(drive, "LIBRARY/SHA256SUMS.txt")).trim().split("\n");
+  for (const {path, copy, retired} of result.repairedPages) {
+    assert.match(copy, /\.changed-/);
+    assert.equal(await text(drive, copy), changed.get(path));
+    if (retired) await assert.rejects(drive.file(path), {name: "NotFoundError"});
+  }
+  for (const line of checksums) {
+    const [digest, path] = line.split("  ");
+    assert.equal(hash(await text(drive, path)), digest, path);
+  }
+  await openGeneration(drive, "generated");
+});
+
+test("Check every file keeps the original index answering a query after two search-build.json 503s", async () => {
+  const drive = new Directory();
+  const {selection} = generationOptions("guide");
+  selection.search.records = [{kind: "document", id: "doc-guide", asset_id: "guide",
+    title: "Emergency water treatment", href: "BOOKS/guide.pdf"}];
+  const preview = {drive, id: "original"};
+  const first = await reconcile(drive, {...selection, onPublished: files => { preview.files = files; }});
+  const firstGeneration = await openGeneration(drive, "guide");
+  const original = new Map(await Promise.all(first.state.generated.map(async path => [path, await text(drive, path)])));
+  let requests = 0;
+  const network = createNetwork({fetchFile: selection.fetchFile, retryMs: 0});
+  const result = await reconcile(drive, {...selection, fullVerify: true, network,
+    prepareSources: assets => prepareDownloadSources(assets, {routes: selection.routes, network,
+      async read(url) {
+        assert.equal(url, "./search-build.json");
+        requests++;
+        const response = new Response(null, {status: 503});
+        if (!response.ok) throw new SourceError("Could not load " + url, {status: response.status});
+      }}),
+    onPublished: () => assert.fail("the incomplete replacement must not be published")});
+  assert.equal(requests, 2);
+  assert.equal(result.state.finished, false);
+  assert.equal(result.state.pending, true);
+  assert.equal((await readBuild(drive)).updateSupportMissing[0].reason, "Could not load ./search-build.json");
+  assert.match(completionState(result).message, /The previous library is still on the drive/);
+  for (const [path, contents] of original) assert.equal(await text(drive, path), contents, path);
+  assert.equal(await openGeneration(drive, "guide"), firstGeneration);
+
+  const load = async path => (await readPreviewFile(preview, preview.id, path)).text();
+  const context = {};
+  context.OWLDiscoveryManifest = manifest => { context.manifest = manifest; };
+  context.OWLDiscoveryData = payload => { context.payload = payload; };
+  const index = "LIBRARY/INDEX/" + firstGeneration + "/";
+  runInNewContext(await load(index + "search.js"), context);
+  runInNewContext(await load(index + "manifest.js"), context);
+  runInNewContext(await load("LIBRARY/" + context.manifest.path), context);
+  const matches = context.OWLDiscovery.search(context.OWLDiscovery.prepare(context.payload.records), "water treatment");
+  assert.equal(matches[0].record.href, "BOOKS/guide.pdf");
+
+  const retry = await reconcile(drive, {...selection, fetchFile: () => assert.fail("reuse the verified files")});
+  assert.equal(retry.state.finished, true);
+  assert.equal((await readBuild(drive)).updateSupportMissing, undefined);
+});
+
+test("an incomplete search replacement keeps the existing fixed-name model and the published checksums", async () => {
+  const drive = new Directory();
+  const {selection} = generationOptions("original");
+  const model = "verified model";
+  const fetch = selection.fetchFile;
+  selection.search.plan.model = [["model.js", {bytes: model.length, sha256: hash(model)}]];
+  selection.fetchFile = async url => url.endsWith("/model.js") ? new Response(model) : fetch(url);
+  await reconcile(drive, selection);
+  const checksums = await text(drive, "LIBRARY/SHA256SUMS.txt");
+  const update = structuredClone(selection.search);
+  const replacement = "replacement model";
+  update.plan.model = [["model.js", {bytes: replacement.length, sha256: hash(replacement)}],
+    ["model-license.txt", {bytes: 1, sha256: hash("x")}]];
+  const requests = [];
+  const fetchFile = async url => {
+    requests.push(new URL(url).pathname);
+    return url.endsWith("/model.js") ? new Response(replacement) : new Response(null, {status: 503});
+  };
+  const result = await reconcile(drive, {...selection, search: update, fetchFile, network: createNetwork({fetchFile, retryMs: 0})});
+  assert.deepEqual(requests, ["/model.js", "/model-license.txt", "/model-license.txt"]);
+  assert.equal(result.keptPublished, true);
+  assert.equal(await text(drive, "LIBRARY/SHA256SUMS.txt"), checksums);
+  assert.equal(await text(drive, "LIBRARY/SEARCH/model.js"), model);
+  await openGeneration(drive, "original");
+});
+
 async function openGeneration(drive, book) {
   const start = await text(drive, "START_HERE.html");
   const [, id] = /<script defer src="LIBRARY\/INDEX\/([a-f0-9]{12})\/search\.js"/.exec(start) || [];
@@ -267,7 +526,7 @@ test("reader generation stays consistent when interrupted at every assembly writ
   async function fixture(beforeWrite) {
     const drive = new Directory("drive", {beforeWrite});
     await reconcile(drive, old.selection);
-    return {drive, oldId: await openGeneration(drive, "original")};
+    return {drive, oldId: await openGeneration(drive, "original"), oldChecksums: await text(drive, "LIBRARY/SHA256SUMS.txt")};
   }
   let assembling = false;
   const sample = await fixture(name => { if (assembling) writes.push(name); });
@@ -278,7 +537,7 @@ test("reader generation stays consistent when interrupted at every assembly writ
   for (const [stop, expected] of writes.entries()) {
     let position = 0;
     let assembling = false;
-    const {drive, oldId} = await fixture(name => {
+    const {drive, oldId, oldChecksums} = await fixture(name => {
       if (assembling && position++ === stop) {
         assert.equal(name, expected);
         throw new DOMException("Interrupted before " + name, "AbortError");
@@ -289,6 +548,7 @@ test("reader generation stays consistent when interrupted at every assembly writ
     assert.equal((await readBuild(drive)).pending, true);
     const openId = await openGeneration(drive, stop <= startWrite ? "original" : "updated");
     assert.equal(openId === oldId, stop <= startWrite, "which generation opens when interrupted before " + expected);
+    if (stop <= startWrite) assert.equal(await text(drive, "LIBRARY/SHA256SUMS.txt"), oldChecksums);
     assert.equal(await text(drive, next.shared), "globalThis.OWLTestShard();\n");
     assembling = false;
     const repaired = await reconcile(drive, {...update, fetchFile: () => assert.fail("the downloads were already committed")});
@@ -302,17 +562,17 @@ test("reader generation stays consistent when interrupted at every assembly writ
   }
 
   const controller = new AbortController();
-  let cutAfterStart = false;
-  const {drive, oldId} = await fixture(name => { if (cutAfterStart && name === "START_HERE.html") controller.abort(); });
+  let pauseDuringPublication = false;
+  const {drive, oldId} = await fixture(name => { if (pauseDuringPublication && name === "SHA256SUMS.txt") controller.abort(); });
   const oldPath = "LIBRARY/INDEX/" + oldId;
   await writeFile(drive, oldPath + "/owner-note.txt", "keep");
-  cutAfterStart = true;
+  pauseDuringPublication = true;
   await assert.rejects(reconcile(drive, {...update, signal: controller.signal}), {name: "AbortError"});
   assert.notEqual(await openGeneration(drive, "updated"), oldId);
   assert.equal((await readBuild(drive)).pending, true);
   assert.ok(await text(drive, oldPath + "/search.js"), "cleanup has not started");
   await writeFile(drive, oldPath + "/c-culture.js", "owner changed this file");
-  cutAfterStart = false;
+  pauseDuringPublication = false;
   const result = await reconcile(drive, {...update, fetchFile: () => assert.fail("all pinned files are already on the drive")});
   assert.equal(result.state.finished, true);
   await openGeneration(drive, "updated");

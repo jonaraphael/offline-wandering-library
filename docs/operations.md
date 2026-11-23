@@ -54,9 +54,12 @@ restored allowlist. The relay guide has the commands and probe. [Relay guide](..
 
 The weekly source check probes every publisher URL and samples browser direct
 and relay routes. It counts streamed bytes for small responses without a length.
-The report records FAO, WHO IRIS, and CAWST datacenter HTTP 403 responses and
-Wikimedia rate limits as checker blocks. HTTP 404 or 410, size drift, and other
-unresolved failures still appear in the failed-source report.
+After an HTTP 403 or 429 from a publisher, it retries without an Origin header
+and with a browser user agent. A retry that reports the pinned length is listed
+under **Blocked for this checker** in the tracking issue. HTTP 404 or 410 and
+size drift fail the check when every alternate is unavailable. An asset whose
+publisher URLs are all inconclusive fails on the third consecutive week. A
+passing run updates and closes the issue, retaining the counts for the next run.
 
 The November 2026 pins for PhET Forces and Motion: Basics, Build an Atom,
 and Area Builder use PhET's origin and alternate host. The principal PhET

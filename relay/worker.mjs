@@ -22,7 +22,7 @@ export function relay(allowed, fetchUpstream = fetch) {
     const reply = (status, text) => new Response(request.method === "HEAD" ? null : text, {status, headers});
     if (!env.ALLOWED_ORIGIN || origin !== env.ALLOWED_ORIGIN) return reply(403, "Origin denied");
     headers.set("Access-Control-Allow-Origin", origin);
-    headers.set("Access-Control-Expose-Headers", "Content-Length, Content-Range, Accept-Ranges, Retry-After");
+    headers.set("Access-Control-Expose-Headers", "Content-Length, Content-Range, Accept-Ranges, Retry-After, X-OWL-Reason");
     const url = new URL(request.url);
     const id = /^\/assets\/([a-z0-9_-]+)$/.exec(url.pathname)?.[1];
     if (url.search || !Object.hasOwn(allowed, id)) return reply(404, "Unknown asset");
@@ -64,14 +64,23 @@ export function relay(allowed, fetchUpstream = fetch) {
     }
     const length = upstream.headers.get("Content-Length");
     const encoding = upstream.headers.get("Content-Encoding");
-    if (upstream.status !== (range ? 206 : 200) ||
-        (length !== null && Number(length) !== span.size) || (encoding && encoding !== "identity") ||
-        (range && upstream.headers.get("Content-Range") !== span.expected)) {
+    const ignoredRange = range && upstream.status === 200;
+    if (ignoredRange && (maxRange || span.size !== bytes)) {
+      await upstream.body?.cancel();
+      headers.set("Content-Range", "bytes */" + bytes);
+      headers.set("X-OWL-Reason", "publisher-ignores-range");
+      return reply(416, "Publisher does not support this range");
+    }
+    const partial = range && !ignoredRange;
+    if (upstream.status !== (partial ? 206 : 200) ||
+        (ignoredRange && length === null) || (length !== null && Number(length) !== span.size) ||
+        (encoding && encoding !== "identity") ||
+        (partial && upstream.headers.get("Content-Range") !== span.expected)) {
       await upstream.body?.cancel();
       return reply(502, "Publisher response did not match the catalog");
     }
     headers.set("Content-Type", "application/octet-stream");
-    for (const name of ["Content-Length", "Content-Range", "Accept-Ranges"]) {
+    for (const name of partial ? ["Content-Range", "Accept-Ranges"] : ["Accept-Ranges"]) {
       if (upstream.headers.has(name)) headers.set(name, upstream.headers.get(name));
     }
     // Pass the publisher body straight through so the runtime streams it

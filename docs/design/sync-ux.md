@@ -87,7 +87,8 @@ state. Only their contents change, so the page never jumps.
 | `empty` | First visit, supported browser | Empty ring, drive outlined | Plug in a drive | Any USB drive or SD card with 16 GB to 1 TB free. Files already on it stay. | Hidden | **Choose drive** | See what goes on a drive |
 | `remembered` | A drive was used before in this browser | Empty ring, drive dimmed | *drive name* | Last synced *date*. | Last known bar, dimmed | **Reconnect** *drive name* | Use a different drive |
 | `measuring` | After a drive is picked | Rotating arc | *drive name* | Measuring free space… | Skeleton | None | Choose a different drive |
-| `needs-size` | Free space cannot be measured | Empty ring | *drive name* | How much space does this drive have? Use the number printed on it. | Size chips 16, 32, 64, 128, 256, 512 GB, 1 TB | None; choosing a chip continues | Choose a different drive |
+| `needs-size` | Free space cannot be measured | Empty ring | *drive name* | For a new or empty drive, use the number printed on it. | Size chips 16, 32, 64, 128, 256, 512 GB, 1 TB | None; choosing a chip continues | This drive already has files · Choose a different drive |
+| `needs-free-space` | The builder chooses to enter free space | Empty ring | *drive name* | In Files or Finder, select the drive and choose Get Info or Properties to see how much space is free. | Free space field in GB or GiB | **Use this space** | Use the printed drive size · Choose a different drive |
 | `ready` | New drive, plan computed | Ring track, green light | *drive name* | *59.6 GB free.* The recommended library uses *58.2 GB*: *412* books, manuals and courses. | Categories plus free | **Sync** | Manage what goes on it |
 | `behind` | OWL drive with work to do | Arc at the fraction already on the drive | *drive name* | One of: *Unfinished: 21 GB to go.* / *3 updates: adds 1.1 GB, removes 0.3 GB.* / *Your changes: adds 6.4 GB, removes 3.1 GB.* | On-drive part solid, pending part pale | **Sync** | Manage what goes on it |
 | `current` | OWL drive that matches its library | Full ring, check mark | Up to date | Synced *14 March 2026*. *412* items, *58.2 GB*. | Solid | None | Manage what goes on it · Check every file |
@@ -95,8 +96,9 @@ state. Only their contents change, so the page never jumps.
 | `finishing` | Downloads done, index and reader being written | Full arc, pulsing | Finishing | Building the search index and the start page. | Solid | None | None |
 | `paused` | Paused, or the tab was reopened mid-sync | Arc stopped, amber | Paused at *42%* | Nothing is lost. Sync continues where it stopped. | As `behind` | **Sync** | Manage what goes on it |
 | `waiting` | Network dropped during sync | Arc stopped, amber | *42%* | Waiting for the internet. Sync continues by itself. | As `syncing` | **Pause** | None |
+| `waiting-relay` | Only files waiting for the download relay remain | Arc stopped, amber | Waiting for the download relay | The download relay isn’t answering. It may have reached today’s free limit, which resets at midnight UTC. Sync keeps trying by itself every 15 minutes. | As `syncing` | **Pause** | Try now · Manage what goes on it |
 | `done` | Sync finished | Full green ring, check mark | Ready | Open your library on *drive name*. | Solid | **Try it** | Check every file · Show files kept in parts (when any) · Sync another drive |
-| `done-gaps` | At least one knowledge file arrived, with files still missing | Full amber ring | Ready, with *3* items missing | *409* files arrived. *1* essential file missing. | Solid, gap marked | **Try those again** | Show details · Check every file · Sync another drive |
+| `done-gaps` | At least one knowledge file arrived, with files still missing | Full amber ring | Ready, with *3* items missing | *409* files arrived. *1* essential file missing. | Solid, gap marked | **Try it** | Try those again · Show details · Check every file · Sync another drive |
 | `failed` | No knowledge files arrived | Red arc | Sync could not finish | *0* files arrived. *1* essential file missing. | Last known | **Try those again** | Show details · Check every file · Sync another drive |
 | `problem` | Drive unplugged, read-only, full, permission refused | Red arc | One plain sentence naming the problem | One sentence saying what to do. "Nothing is lost" when true. | Last known | The fix: **Reconnect**, **Choose another drive** or **Sync** | Technical details |
 | `too-small` | Free space below the smallest plan | Empty ring | Not enough room | OWL needs at least *N GB* free. This drive has *M GB*. | Hidden | **Choose another drive** | None |
@@ -112,6 +114,11 @@ Notes on states:
   `behind` or `current` when the browser still holds permission.
 - **Drive name** is the picked folder's name. When the browser reports an
   empty name the title is "Your drive".
+- When the drive is picked, check the names OWL needs before measuring
+  space or downloading. If a personal start page is already there, say
+  "There’s already a different file named START_HERE.html on this drive"
+  and offer **Choose another drive**. Also stop if a folder has the start
+  page's name or a file has the library folder's name.
 - **Time estimates** appear after 30 seconds of transfer and come from the
   measured rate. Before that the second half of the status line is absent.
 - **During `syncing`** a card below the stage reads "Keep this tab open and
@@ -119,29 +126,76 @@ Notes on states:
   20 seconds it is joined by the phone card: the Kiwix QR code for iPhone
   ("Install it now, while you are online") and one line for Android and
   computers ("The reader app is copied onto the drive").
-- While Sync is running, including while it waits for the internet and builds
-  the start page, closing or reloading the tab brings up the browser’s
-  confirmation.
+- While Sync is running, including while it waits for the internet or relay
+  and builds the start page, closing or reloading the tab brings up the
+  browser’s confirmation.
 - **In `done`, `done-gaps` and `current`** a card below the stage reads
   "Using it on a phone. A phone opens nothing by itself when the drive is
   plugged in. Open the Files app, tap the drive's name (on an iPhone it is
   under Browse), then tap START_HERE."
 - **Try it** opens the drive's `START_HERE.html` in a new tab. If the browser
-  cannot open the preview, the status gives the file name and drive.
+  cannot open the preview, **Try it** gives the file name and drive.
 - **`current` has no primary button.** A disabled Sync button reads as a
   fault.
-- If measurement is unavailable, the stage says "This plan uses an estimate
-  of *N GB* for the drive." The plan uses 90 percent of the printed size.
+- If measurement is unavailable, the printed-size plan says "This plan uses
+  an estimate of *N GB* for the drive." It uses 90 percent of the printed
+  size. When the builder enters free space, the stage says "This plan uses
+  the free space you entered." The plan uses that space plus the files OWL
+  already holds. "Update free space" is available on an unmeasured drive
+  after planning or if it fills up.
+- When the size or free-space screen appears and the drive format is
+  unknown, ask "Is the drive formatted FAT32 (often shown as FAT or
+  MS-DOS)?" Preselect "Not sure". The other answers are "Yes" and "No".
+- If a write fails at the 4 GiB file boundary, keep the verified parts and
+  say "This drive can’t hold files over 4 GB. OWL kept that encyclopedia
+  in parts."
 - Finished drives with verified split files say "*N* encyclopedias kept in
   parts." The finish screen links to "Show files kept in parts" and
   "Check every file." If joining is the only work left, the stage says
   "Sync joins the files kept in parts." If reader or search files are
   missing, the status also says "Some reader or search files are missing."
   If the phone PDFs are missing, it says "Some WikiMed phone files are missing."
+  If Kiwix apps are missing, say "Kiwix opens the encyclopedias on this
+  drive." Link "Install Kiwix while online" to kiwix.org.
 - If selected essential files have no browser download, the stage before
   Sync and the completion summary say "This browser can’t download *N*
   essential files. Use the Python builder to get them." An existing copy
-  on the drive can still be kept.
+  on the drive can still be kept. The Python builder runs in a new folder on
+  the drive; `docs/pages-builder.md` shows how to keep both libraries.
+- Before Sync, when the remaining download could take more than 80,000 relay
+  requests, say "Large libraries can take more than a day through the
+  download relay, and the command-line builder has no daily download limit."
+  Count one request per 4 MiB archive piece and one per smaller file with a
+  relay route. Sync remains available.
+- The relay’s daily limit is shared across everyone using the hosted
+  builder. After connection failures from the relay on three different
+  files, with the website and another host reachable, continue using any
+  direct routes. Keep files whose remaining routes need the relay in the
+  plan. An HTTP reply from the relay clears the connection-failure streak.
+- When only those files remain, check the relay with a HEAD request every
+  15 minutes and at 00:05 UTC. **Try now** makes the same check immediately.
+  Resume automatically when the relay returns a readable HTTP response.
+  Keep the computer awake while waiting, as during Sync.
+- Publish what arrived on a fresh drive. When an existing reader is active,
+  keep it, its search index and its checksum list active through Sync, Check
+  every file, Pause and the relay wait. Save the unfinished update in the
+  drive record. Publish the replacement once the reader and search files
+  are ready. Finish switching the reader if Pause arrives during publication.
+  If the replacement is incomplete, say "Some reader or search files are
+  missing from this update. The previous library is still on the drive."
+- In the relay wait, “Manage what goes on it” pauses Sync before opening
+  Manage. After Pause or reopening the tab, say “Files are waiting for the
+  download relay. Choose Sync to continue.” A build report published
+  during the wait records those files as “waiting for the download relay”.
+  Choosing Sync checks the relay before downloading again.
+- Sync fetches the encyclopedia checksums when a selected encyclopedia
+  needs ranged downloads. If the checksums cannot be loaded, keep syncing
+  the other files. In Show details and the build report, name each
+  affected encyclopedia and say "Could not load the checksums for this
+  encyclopedia. Sync can try it again."
+- When JavaScript is disabled, show "This builder needs JavaScript" and
+  "Turn on JavaScript in Chrome, Edge or Arc on a computer, then reload this
+  page." Link to **Build with the command line**.
 - The computer is kept awake during `syncing` where the browser allows it
   (the existing wake lock).
 
@@ -153,7 +207,10 @@ resume paths.
 1. **Read the drive.** No library: the drive is new. A browser build record
    (`LIBRARY/.owl/browser-build.json`, any earlier version): load it. A
    library with no browser record (made by the command-line builder): treat
-   its files as unverified candidates.
+   its files as unverified candidates. An empty or unreadable first record
+   beside OWL's verified starter page is an interrupted first Sync. Check
+   files against their published hashes and keep any files whose ownership
+   OWL cannot verify.
 2. **Decide the target.** The target is the builder's saved choice applied
    to today's published catalog and to the space available (free space plus
    the bytes OWL already holds). A new drive's choice is "recommended". The
@@ -166,9 +223,13 @@ resume paths.
 4. **Add first.** Reserve space for the reader, search and inventory. Put a
    simple start page on a new drive before downloading. Download and verify
    missing and changed items in priority order, essential files first.
-   Within each priority, download the largest encyclopedias first so there
-   is room to verify the incoming pieces. On drives that support single
-   files, join them when there is room for both copies. A verified
+   Download Kiwix apps first among the non-essential downloads, after any
+   encyclopedias that need the space to verify incoming pieces. Within each
+   priority, download the largest encyclopedias first. Close each new file or part,
+   read it from the drive and compare its SHA-256 before counting it as
+   verified. If the stored bytes differ, download it again. Join the parts
+   when the probe or the builder's answer establishes the supported file
+   size and there is room for both copies. A verified
    encyclopedia kept in parts counts as installed. A later Sync joins it
    when there is enough free space.
    A changed item's old copy stays until its
@@ -181,11 +242,14 @@ resume paths.
    If the drive runs out of space, stop adding lower-priority files. If
    finishing needs more room, remove the least essential files added by
    this sync. If the full reader still cannot fit beside the essential
-   files, write a simple start page that links directly to the files.
+   files on a fresh drive, write a simple start page that links directly to
+   the files. Keep the previous reader and index on an existing drive.
    Write the record: the choice, the catalog version, the date, every item
    with its hash, what is missing and which encyclopedias are kept in parts.
+   Commit the complete record at once so an interruption preserves the
+   previous record or the new one.
    The build report on the drive records any missing reader, search or
-   WikiMed phone files.
+   WikiMed phone files, including Kiwix apps.
    "Up to date" requires the current reader, navigation and search revision
    and the active reader files on the drive.
 
@@ -202,12 +266,17 @@ Safety rules:
 - Interrupted mid-update, the drive still opens: the reader on the drive
   describes the last finished sync until the next one finishes.
 - "Check every file" re-hashes every item and re-downloads the ones that
-  fail. It is reconcile with nothing trusted.
+  fail. If a generated file recorded by OWL has changed, save a copy with
+  `.changed-` in the name and rebuild and check its replacement. Name the
+  affected file and give the copy's location with "The changed copy is at
+  *path*." Files outside OWL's ownership stay untouched.
 
 Space: the planner fills the available space, including the reserve for the
 index and readers. On FAT32, the probe measures free space across files
-smaller than 4 GiB. Large files are written in parts. The control sits in
-Manage under Advanced with the detected value preselected.
+smaller than 4 GiB. Encyclopedias up to 4 GiB minus one byte can be joined
+into one file when there is room. Larger ones stay in parts. If the
+filesystem is unknown, keep split encyclopedias in parts. The control
+sits in Manage under Advanced with the detected or entered value selected.
 
 ### 4.4 Manage
 
@@ -349,6 +418,17 @@ matched. These passages may help." An emergency description never shows an
 empty page: if nothing on the drive relates to it, show the Urgent guides
 card with the single action "Browse Home". Other queries with no close match
 say "No close match. Browse Urgent guides and categories on Home."
+
+Search reads the whole description. A condition the person rules out ("he
+is not choking") or places in the past ("had a stroke last year") does not
+pick the guide. When a search describes separate current situations, show
+their reviewed guides together, the most recent first. Show the source's
+credit and license beneath each excerpt. If a spelling retry finds results,
+show "Showing results for …" above the cards. Beside a reviewed WikiMed
+result, show a readable PDF companion when the drive has one, so phones
+without Kiwix can still open an answer. If nothing nearby qualifies for an
+injury or hazard, show the Urgent guides card and the closest installed
+guide.
 
 **Saved** (`#/saved`): starred items, then everything opened recently. The
 empty state shows a star and one sentence. Saved items are kept in the

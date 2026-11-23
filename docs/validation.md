@@ -90,11 +90,17 @@ larger drives. `python scripts/build_capacity_ladder.py --check` and
 
 `python scripts/check_links.py` checks publisher sizes with the Python
 builder's user agent. `--pages-base` and `--relay-base` also check browser
-routes with the Pages origin. The scheduled job checks every locked Pages
-mirror part and a rotating sample of publishers, direct browser URLs and
-relay IDs with four workers. It uses response headers and one-byte ranges,
-with a regular GET opened and closed at the headers for ordinary relay files.
-It uploads the results and opens or updates a single issue on failure.
+routes with the Pages origin and report final URLs outside the page's
+`connect-src` policy. The scheduled job checks every publisher URL, locked
+Pages mirror part and Kiwix reader route, plus rotating samples of other
+direct browser URLs and relay IDs. It uses response headers and one-byte
+ranges, with a regular GET opened and closed at the headers for ordinary
+relay files. It uploads the results and opens or updates an issue on failure.
+
+Before uploading a new Pages artifact, CI serves the built files on
+`127.0.0.1` and opens the page in headless Chrome under its published origin.
+Chrome requests the first 16 bytes of a route per origin and every Kiwix
+reader route. A blocked or failed request stops publication.
 
 For a local diagnosis, `--stream-missing-size` can count a publisher response
 of up to 64 MiB when headers lack the size or a reviewed URL rejects ranges.

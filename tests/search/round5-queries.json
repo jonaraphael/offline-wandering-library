@@ -1,0 +1,62 @@
+{
+  "emergency": [
+    {"query": "She is not choking but she just swallowed a watch battery", "topics": ["swallowed-object"], "excluded": ["choking"]},
+    {"query": "There is no chest pain. Today a snake bit her ankle", "topics": ["snakebite"], "excluded": ["heart-attack", "chest-pain"]},
+    {"query": "He isn't having a seizure. He has just swallowed a button battery", "topics": ["swallowed-object"], "excluded": ["seizure"]},
+    {"query": "Without a fever, my daughter still has a nosebleed that started now", "topics": ["nosebleed"], "excluded": ["fever"]},
+    {"query": "She denies choking and now has a snake bite on her foot", "topics": ["snakebite"], "excluded": ["choking"]},
+    {"query": "He used to have seizures. Now food is stuck and he cannot speak", "topics": ["choking"], "excluded": ["seizure"]},
+    {"query": "She has a history of asthma, today she was bitten by a dog", "topics": ["animal-bite"], "excluded": ["asthma", "asthma-attack"]},
+    {"query": "He had a stroke seven years ago; he just got splashed with boiling water", "topics": ["burn", "scald"], "excluded": ["stroke"]},
+    {"query": "The jack slipped and a car pinned his leg against the pavement", "topics": ["crush-injury"]},
+    {"query": "A power cable fell across our driveway in the storm and is sparking", "topics": ["downed-power-line"]},
+    {"query": "A mug of hot tea fell onto my little boy's shoulder", "topics": ["burn", "scald"]},
+    {"query": "We found our elderly neighbor on the floor this morning; she may have been there all night", "topics": ["long-lie"]},
+    {"query": "The barb of a fishing hook is stuck in my brother's thumb", "topics": ["fishhook"]},
+    {"query": "A piece of glass is embedded in her forearm and won't come out", "topics": ["embedded-object"]},
+    {"query": "After wading at the beach a jellyfish left burning welts on his leg", "topics": ["jellyfish-sting"]},
+    {"query": "The bleeding from his leg keeps soaking through the dressing. Where does the tourniquet go?", "topics": ["tourniquet"]},
+    {"query": "We lost power and need somewhere to keep our potatoes and turnips through winter", "topics": ["root-vegetable-storage"]},
+    {"query": "After the storage shed flooded, where can we keep our dry wheat grain away from pests?", "topics": ["grain-storage"]},
+    {"query": "Someone just swallowed a coin and she is bleeding badly after giving birth", "topics": ["swallowed-object", "postpartum"], "allTopics": true},
+    {"query": "The carbon monoxide alarm just went off with the generator running in the garage", "topics": ["carbon-monoxide"]}
+  ],
+  "practical": [
+    {"query": "Pressure canning fresh green beans", "title": "green|snap|vegetable|pressure cann"},
+    {"query": "Replace a bicycle inner tube", "title": "bicycl.*inner tube|inner tube.*replac"},
+    {"query": "How to make sauerkraut", "title": "sauerkraut|ferment"},
+    {"query": "Dry apple slices at home", "title": "apples|drying fruit|drying foods"},
+    {"query": "How to build a compost pile", "title": "compost"},
+    {"query": "Read contour lines on a topographic map", "title": "topograph|map read|land navigation|contour"},
+    {"query": "Use a multimeter to check continuity", "title": "multimeter|continuity"},
+    {"query": "How to use the Pythagorean theorem", "title": "pythagor|right triangle"},
+    {"query": "Replace a zipper slider", "title": "zipper"},
+    {"query": "Harvest rainwater from a roof", "title": "rainwater|rain water|water harvesting|rain catch"}
+  ],
+  "misspelled": [
+    {"query": "diarhea in infants", "word": "diarrhea", "title": "diarrh|dehydrat|child.*sick"},
+    {"query": "sauerkraut recipes with cabage", "word": "cabbage", "title": "sauerkraut|ferment|cabbage"},
+    {"query": "hypotermia", "word": "hypothermia", "title": "hypothermia|cold"},
+    {"query": "frosbite", "word": "frostbite", "title": "frostbite|cold"},
+    {"query": "compsting", "word": "composting", "title": "compost"},
+    {"query": "anaphlaxis", "word": "anaphylaxis", "title": "anaphyl|allerg"},
+    {"query": "pythagoren theorem", "word": "pythagorean", "title": "pythagor|right triangle"},
+    {"query": "dehydraton signs", "word": "dehydration", "title": "dehydrat|diarrh|fluid"},
+    {"query": "multimter continuity", "word": "multimeter", "title": "multimeter|continuity"},
+    {"query": "photsynthesis", "word": "photosynthesis", "title": "photosynthe|biology"}
+  ],
+  "routingGate": [
+    {"query": "He swallowed a button battery.", "topics": ["swallowed-object"]},
+    {"query": "He is not choking. He swallowed a button battery.", "topics": ["swallowed-object"], "excluded": ["choking"]},
+    {"query": "Today she was bitten by a snake.", "topics": ["snakebite"]},
+    {"query": "My friend had a stroke last year. Today she was bitten by a snake.", "topics": ["snakebite"], "excluded": ["stroke"]},
+    {"query": "There was no choking or trouble breathing, but she stepped on a rusty nail", "topics": ["puncture-wound"], "excluded": ["choking", "breathing"]},
+    {"query": "He had a stroke five years ago and just swallowed a button battery", "topics": ["swallowed-object"], "excluded": ["stroke"]},
+    {"query": "She passed out and is not breathing", "topics": ["resuscitation"]}
+  ],
+  "practicalGate": [
+    {"query": "how to can green beans", "title": "green|snap|vegetable|pressure cann"},
+    {"query": "fix a bicycle inner tube", "title": "bicycl.*inner tube|inner tube.*replac"}
+  ],
+  "spellingGate": {"query": "diarhea in children", "word": "diarrhea", "title": "diarrh|dehydrat|child.*sick"}
+}

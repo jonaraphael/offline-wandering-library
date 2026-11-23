@@ -32,8 +32,9 @@ article in `LIBRARY/ZIM/reader-test.zim` and in the two split parts
 Browser downloads checkpoint in split parts. On drives that accept large
 files, the builder attempts an optional on-drive join. Check free space for
 the temporary second copy. If the join cannot fit, keep the split set
-together. Python writes a single file and rejects archives that exceed its
-detected FAT32 file limit.
+together. On detected FAT32 volumes, Python writes pinned ZIMs that exceed
+the single-file limit as verified 1 GiB parts. Keep the parts together and
+open the first one, ending in `.zimaa`, in a compatible reader.
 
 Windows and Linux Kiwix Desktop explicitly accepts `.zimaa`. Android
 external storage support depends on the reader variant and the file provider.

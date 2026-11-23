@@ -135,6 +135,19 @@ class AtlasBuildTests(AtlasBuildFixture):
         self.assertEqual((self.library / "SEARCH.html").read_bytes(), before)
         self.assertFalse((self.library / ".owl/atlas-job.json").exists())
 
+    def test_atlas_refresh_keeps_missing_reader_apps_in_support_report(self):
+        self.run_build(navigation_dir=self.nav)
+        path = self.library / "BUILD_INFO.json"
+        info = json.loads(path.read_bytes())
+        app = {"kind": "app", "id": "kiwix_windows", "title": "Kiwix for Windows", "reason": "HTTP 404"}
+        info.update(support_complete=False, support_missing=[app])
+        path.write_text(json.dumps(info), encoding="utf-8")
+        self.reseal_checksums()
+        self.atlas(metadata_only=True)
+        refreshed = json.loads(path.read_bytes())
+        self.assertFalse(refreshed["support_complete"])
+        self.assertEqual(refreshed["support_missing"], [app])
+
     def test_metadata_refresh_resume_keeps_verification_mode_and_publishes_matching_search(self):
         self.run_build(navigation_dir=self.nav)
         with patch('owl.atlas_build.write_outputs', side_effect=KeyboardInterrupt):

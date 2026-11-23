@@ -25,7 +25,8 @@ import time
 import uuid
 
 from .runtime import file_lock, interrupt_signals
-from .safety import SafetyError, atomic_write, guard_directory, reject_symlinks, safe_path, sha256_file
+from .safety import (SafetyError, atomic_write, guard_directory, reject_symlinks, retry_windows_file_access,
+                     safe_path, sha256_file)
 
 SCHEMA = 1
 HEARTBEAT_SECONDS = 2.0
@@ -76,10 +77,17 @@ def _path(path: Path) -> Path:
 
 
 def _read(path: Path, *, max_bytes=4 * 1024 * 1024):
-    reject_symlinks(path)
-    if not path.is_file() or path.stat().st_size > max_bytes:
+    def read_bytes():
+        reject_symlinks(path)
+        if not path.is_file():
+            raise SafetyError(f"Invalid job metadata: {path}")
+        with path.open("rb") as handle:
+            return handle.read(max_bytes + 1)
+
+    data = retry_windows_file_access(read_bytes)
+    if len(data) > max_bytes:
         raise SafetyError(f"Invalid job metadata: {path}")
-    return json.loads(path.read_text(encoding="utf-8"))
+    return json.loads(data.decode("utf-8"))
 
 
 def _owned(job_dir: Path) -> tuple[Path, dict]:

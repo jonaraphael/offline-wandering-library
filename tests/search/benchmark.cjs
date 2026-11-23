@@ -53,7 +53,8 @@ async function benchmark(planPath, sourceRoot) {
   const bounded = process.argv.includes('--bounded');
   const runtime = !quick && !bounded && !process.argv.includes('--exhaustive');
   const budget = quick ? rank.readBudget : Infinity;
-  const impactManifest = bounded || runtime ? JSON.parse(await readFile(join(sourceRoot, 'impact/manifest.json'))) : null;
+  const impactManifest = quick || bounded || runtime
+    ? JSON.parse(await readFile(join(sourceRoot, 'impact/manifest.json'))) : null;
   const impactCache = new Map();
   const readImpact = async filename => {
     if (!impactCache.has(filename)) {
@@ -70,7 +71,8 @@ async function benchmark(planPath, sourceRoot) {
   const scenarios = plans.map(plan => {
     const sources = new Map(plan.sources.filter(row => !row.legacy).map(row => [row.sha256, row]));
     const routes = probes.map(({query}, i) => {
-      const planned = bounded ? rank.boundedBytes : runtime ? rank.completionBudget(plan, query) : budget;
+      const planned = bounded ? rank.boundedBytes :
+        runtime || quick ? Math.min(budget, rank.completionBudget(plan, query)) : budget;
       const route = plan.impact && Number.isFinite(planned) ? evidence[i] : undefined;
       const allowance = planned - (route?.readBytes || 0);
       return new Set(rank.rankedQueue(plan, query, 'all', allowance, route)
@@ -173,9 +175,9 @@ async function benchmark(planPath, sourceRoot) {
     probes.forEach((query, number) => {
       const hybrid = rank.topResults(scenario.hits[number], query.task ? depth : 30);
       const metadata = catalog.search(scenario.catalogPrepared, query.text, 'all');
-      const results = catalog.mergeRanked(hybrid, metadata, 10);
+      const results = rank.mergeRanked(hybrid, metadata, 10);
       if (query.task) {
-        const taskHits = catalog.mergeRanked(hybrid, metadata, taskDepth);
+        const taskHits = rank.mergeRanked(hybrid, metadata, taskDepth);
         task_results.push({id: query.task, results: taskHits.map(({record, score, focused}) =>
           taskDepth === 3 ? record : {...record, score, focused})});
         return;

@@ -39,8 +39,12 @@
       'cardiopulmonary resuscitation|chest compressions|basic life support|rescue breathing|cardiac arrest|cpr'],
     ['health', /\b(?:choking|choke[ds]?|airway obstruction|heimlich|food (?:is )?stuck|something stuck .{0,12}throat)\b/,
       'choking|airway obstruction|abdominal thrusts|heimlich|blocked airway'],
-    ['health', /\b(?:anaphylax\w*|severe allergic reaction|throat .{0,12}swell\w*|epipen)\b/,
-      'anaphylaxis|anaphylactic shock|severe allergic reaction|epinephrine|adrenaline autoinjector'],
+    ['health', /\b(?:anaphylax\w*|severe allergic reaction|throat .{0,12}swell\w*|epipen|hives .{0,18}(?:cannot|can t) breathe)\b/,
+      'anaphylaxis|anaphylactic shock|severe allergic reaction|epinephrine|adrenaline autoinjector',
+      /\b(?:anaphylax\w*|anaphylactic shock|severe allergic reaction)\b/],
+    ['health', /\b(?:heart attack|myocardial infarction|chest (?:pain|pressure|tightness) .{0,40}(?:arm|jaw|sweat\w*))\b/,
+      'heart attack|myocardial infarction|acute coronary syndrome|chest pain',
+      /\b(?:heart attack|myocardial infarction|acute coronary syndrome)\b/],
     ['health', /\b(?:heat ?stroke|heat exhaustion|heat illness|hot and confused|overheat\w* .{0,22}confus\w*)\b/,
       'heat stroke|heatstroke|heat exhaustion|heat illness|hyperthermia'],
     ['health', /\b(?:hypothermia|stopped shivering|dangerously cold|cold exposure)\b/,
@@ -87,7 +91,7 @@
     ['', /\b(?:long subtraction|subtraction with borrowing)\b/,
       'subtraction with regrouping|subtraction with borrowing|subtraction|place value'],
     ['', /\b(?:bicycl\w*|bike)\b.*\b(?:puncture|flat|inner tube)\b|\b(?:puncture|flat|inner tube)\b.*\b(?:bicycl\w*|bike)\b/,
-      'bicycle puncture|bicycle flat tire|patch inner tube|inner tube repair|bicycle tire|bicycle maintenance|puncture repair kit',
+      'bicycle puncture|bicycle flat tire|bicycle tire inner tube replacement|patching a bicycle tire inner tube|patch inner tube|inner tube repair|bicycle tire|bicycle maintenance|puncture repair kit',
       /\b(?:bicycle|bike|cycling)\b.*\b(?:tires?|tyres?|tubes?|puncture|maintenance|repair)\b|\b(?:inner tube|puncture repair|bicycle tire)\b/],
     ['', /\b(?:(?:causes?|why (?:do|are|are there)|why we have) (?:\w+ ){0,5}seasons?|seasons? (?:change|happen|occur))\b/,
       'earth seasons|seasons|season|axial tilt|tilt of the earth|earth orbit|seasonal changes|solstice|equinox',
@@ -103,35 +107,53 @@
     ['', /\b(?:plants? .{0,20}grow\w* .{0,20}(?:light|window)|phototropism)\b/,
       'phototropism|plant tropisms|plant growth toward light'],
     ['', /\b(?:slanted side .{0,18}right triangle|hypotenuse|pythagorean)\b/,
-      'pythagorean theorem|hypotenuse|right triangle'],
+      'pythagorean theorem|hypotenuse|right triangle', /\b(?:pythagorean theorem|right triangle)\b/],
     ['', /\b(?:income and expenses|money (?:earned|spent)|bookkeeping)\b/,
       'bookkeeping|cash book|income and expenses|household budget'],
-    ['', /\b(?:contour lines?|contour spacing)\b/,
-      'contour lines|contour intervals|topographic maps'],
+    ['', /\b(?:contour lines?|contour spacing|topographic maps?)\b/,
+      'contour lines|contour intervals|topographic maps', /\b(?:topograph\w*|contour (?:lines?|intervals?)|map reading|land navigation)\b/],
     ['', /\b(?:count\w* .{0,18}steps|pace counting)\b/,
       'pace counting|land navigation|measure distance by pacing'],
     ['', /\b(?:ferment\w* .{0,30}cabbage|sauerkraut)\b/,
-      'sauerkraut|fermented cabbage|lactic acid fermentation'],
-    ['', /\b(?:cann\w* .{0,18}green beans|jars? of green beans|pressure canning)\b/,
-      'pressure canning|canning green beans|low acid vegetables'],
+      'sauerkraut|fermented cabbage|lactic acid fermentation', /\b(?:sauerkraut|fermented and pickled foods)\b/],
+    ['', /\bmilk .{0,22}spoil\w*\b/,
+      'cool milk storage|refrigerate milk storage|cool milk|milk preservation|milk storage'],
+    ['', /\b(?:can(?:n\w*)? .{0,18}(?:green|snap) beans|jars? of green beans|pressure canning)\b/,
+      'pressure canning|canning green beans|snap and italian beans|low acid vegetables|using pressure canners',
+      /\b(?:snap and italian beans|canning (?:green beans|04 vegetables)|pressure cann\w*)\b/],
+    ['', /\b(?:dry\w*|dehydrat\w*) .{0,22}(?:apple|fruit)\w*\b/,
+      'drying fruit|dehydrating apples|dried fruit|drying foods',
+      /\b(?:drying (?:fruit|apples|foods)|dried (?:apples|fruit)|dehydrating (?:apples|fruit))\b/],
+    ['', /\b(?:compost\w*|kitchen scraps .{0,25}(?:soil|pests))\b/,
+      'compost|composting|compost pile', /\bcompost\w*\b/],
+    ['', /\b(?:start\w*|sow\w*) .{0,18}(?:seedlings?|seeds) .{0,10}indoors\b/,
+      'starting seeds indoors|seed starting|raising seedlings|using egg cartons as seed starters',
+      /\b(?:start\w* .{0,16}seeds?|seed .{0,12}start\w*|seedlings? indoors)\b/],
+    ['', /\bwhole (?:wheat|grain) bread\b/,
+      'whole wheat bread|whole grain bread|baking bread|bread baking',
+      /\b(?:whole (?:wheat|grain) bread(?! teardown)|bread.{0,15}baking|baking.{0,15}bread)\b/],
+    ['', /\b(?:rainwater|rain water|rain catchment)\b/,
+      'rainwater harvesting|rainwater collection|rainwater catchment', /\b(?:rainwater|rain water|rain catchment)\b/],
     ['', /\b(?:hand sew\w*|(?:sew\w*|stitch\w*|join\w*) .{0,24}(?:cloth|fabric|seams?)|(?:cloth|fabric|seams?) .{0,18}by hand)\b/,
       'hand sewing|hand stitching|sewing stitches|sewing seams|sewing'],
     ['', /\b(?:darn\w*|(?:mend\w*|repair\w*|patch\w*) .{0,30}(?:garments?|knitwear|sweaters?|jumpers?|socks?|clothing))\b/,
       'darning|mending clothes|repair knitwear|clothing repair'],
-    ['', /\b(?:wire .{0,14}broken .{0,18}meter|continuity test)\b/,
-      'continuity test|multimeter|open circuit|electrical continuity'],
+    ['', /\b(?:wire .{0,14}broken .{0,18}meter|continuity test|multimeter.*continuity)\b/,
+      'continuity test|multimeter|open circuit|electrical continuity',
+      /\b(?:multimeter|continuity)\b/],
     ['', /\b(?:sand (?:filter|filtration)|(?:filter|purify)\w* .{0,45}(?:sand|gravel))\b/,
       'slow sand filter|sand filter|sand filtration|biosand filter|sand water filter',
       /\b(?:slow sand|bio ?sand|sand water) filter\w*\b|\bsand filtration\b/],
     ['', /\b(?:mosquito\w* .{0,25}(?:bit\w*|repell\w*|nets?)|repel\w* .{0,18}(?:mosquito\w*|insects?)|prevent\w* .{0,21}mosquito)\b/,
-      'mosquito bites|insect repellent|mosquito net|mosquito control|insect bites'],
+      'mosquito bites|mosquito bite prevention|preventing mosquito bites|mosquito repellent|insect repellent|mosquito net|mosquito control|insect bites',
+      /\b(?:mosquito(?:es)? .{0,24}(?:bites?|repell\w*)|insect repell\w*)\b/],
     ['', /\b(?:join\w* .{0,20}(?:wood|boards?)|wood (?:joinery|joints?)|(?:dovetail|mortise|tenon)\w*)\b/,
-      'wood joinery|wood joints|mortise and tenon|dovetail joint|dovetail|woodworking joint',
+      'wood joinery|wood joints|mortise and tenon|mortise and tenon joint|dovetail joint|dovetail|woodworking joint|woodworking joints',
       /\b(?:joinery|wood(?:working)? joints?|mortise and tenon|dovetail)\b/],
     ['', /\b(?:dry toilets?|pit (?:privy|latrine)|(?:toilet|latrine) .{0,35}(?:no sewer|without (?:water|plumbing)|no running water))\b/,
       'dry toilet|pit latrine|composting toilet|sanitation without sewer'],
     ['', /\b(?:roof (?:pitch|slope|angle)|(?:pitch|slope|angle) .{0,12}roof)\b/,
-      'roof pitch|roof slope|setting rafters|rise and run|roof framing'],
+      'roof pitch|roof slope|setting rafters|rise and run|roof framing', /\b(?:roof (?:pitch|slope)|pitch of (?:a |the )?roof)\b/],
     ['', /\b(?:draft\w* .{0,14}(?:door|window)|(?:seal|insulat)\w* .{0,25}(?:door|window)|weather ?stripp\w*)\b/,
       'weatherstripping|air sealing|draft proofing|door seal'],
     ['', /\b(?:ventilat\w*|air exchange|air circulation)\b.*\b(?:shelter|cabin|tent)\b|\b(?:shelter|cabin|tent)\b.*\b(?:ventilat\w*|air exchange|air circulation)\b/,
@@ -157,7 +179,7 @@
     return {domain, trigger, canonical: phrases[0], phrases, evidence: phrases.map(terms), titlePattern};
   });
 
-  const wrappers = /\b(?:getting started(?: with)?|how (?:to|do (?:i|we|you)|can (?:i|we|you))|what (?:can|should) (?:i|we) do|explain(?:ed)? (?:it )?simply|in (?:plain|simple) (?:english|words|terms)|step by step)\b/g;
+  const wrappers = /\b(?:getting started(?: with)?|how (?:to|do (?:i|we|you)|can (?:i|we|you))|what (?:can|should) (?:i|we) do|read (?:the )?(?:novel|book)|explain(?:ed)? (?:it )?simply|in (?:plain|simple) (?:english|words|terms)|step by step)\b/g;
   const child = /\b(?:bab(?:y|ies)|infants?|newborns?|toddlers?|children|child)\b/;
   const symptom = /\b(?:ill(?:ness)?|sick(?:ness(?:es)?)?|fever\w*|cough\w*|rash|vomit\w*|throw\w* up|chok\w*|dehydrat\w*|diarrh\w*|breathing|seizures?|letharg\w*|unresponsive|not eating)\b/;
   const maternity = /\b(?:childbirth|labou?r and (?:birth|delivery)|stages? (?:[1-4] )?of labou?r|birth of the placenta|obstetric delivery|pushing stage)\b/;
@@ -172,6 +194,8 @@
   const seedEvidence = ['seed saving', 'saving seed', 'seed collection', 'harvesting seeds', 'seed storage',
     'seed production', 'seed viability'].map(terms);
   const queryStop = new Set('about also am been being but can could did find get gives got have help here into just like make me my need now onto out people person please should show so some someone something take tell than that them then there these they this those through up us want was way we were which while who why will would'.split(' '));
+  const repairAction = /\b(?:fix(?:ing)?|patch(?:ing)?|repair(?:ing)?|replac(?:e|ing|ement))\b/g;
+  const repairObject = text => terms(text.replace(repairAction, ' '));
 
   function prepareQuery(text, encodeQuery = () => null) {
     const original = normalize(text);
@@ -180,6 +204,7 @@
     const audience = original.replace(audiences, '') !== original || /^getting started\b/.test(original);
     const cleaned = normalize(original.replace(wrappers, ' ').replace(audiences, ' '));
     const phrase = cleaned || original;
+    const repair = /^(?:fix|patch|repair|replace) /.test(phrase) ? repairObject(phrase) : [];
     const matching = rules.filter(rule => rule.trigger.test(phrase));
     const postpartum = matching.some(rule => rule.canonical === 'postpartum hemorrhage');
     const focused = postpartum ? matching.filter(rule => !maternity.test(rule.canonical)) : matching;
@@ -202,7 +227,7 @@
       seed ? 'seed saving ' + phrase : language ? language + ' phrasebook ' + phrase :
       titlePatterns.length ? focused.find(rule => rule.titlePattern).canonical : phrase;
     const vector = query.length && encodeQuery(vectorText);
-    return {original, phrase, query, primary, routing, focused, evidence, titlePatterns, emergency, deliveryQuery,
+    return {original, phrase, query, primary, routing, focused, evidence, titlePatterns, repair, emergency, deliveryQuery,
       postpartum, pediatricHealth, language, seed, audience, vector, vectorText};
   }
 
@@ -276,6 +301,16 @@
 
   // BEGIN GENERATED EMERGENCY VECTORS
   const semanticRoutes = [
+    ["downed-power-line","safety","8Q4NEQT9/PnyAfkN9QcRCgMCF/ACDwP4/gT8AQv87vv7/wD9/QP+/Pr2BiMA+f77//UICwEACAX6CfQF+P78BPf9DP/99vrz/Pv8AQz3DAjy9hAU/wP49QT9B/kFAv8A+Pv6C/8FAv0BARUQCfT4AQwLEfQCDQIJCf7w+vX4DvgEBAT8AP74+gj5Cfn3/f75BfwI+/4PBwILBPn1/vn/CQoABAYCAAH4APz9AAT7BwT8+gD9BQEFBQQJ/v8GCP8D+/sB/gEH/P/7Af76Dvv99wf//fb79vYE/wz+Bv0B/AYDCfwB+ff6APX19QQBAfr3/goJA/0E8/oE8wT8A/wED+8FBhrwD+7/9Pj8BwPu+wEIAgr5Bf8H9v8CEgUG/Pv6AQH4/BgD/xcUAwIZ/wH//gr4BAXqEgT/+f4AB/QADAT/EAoFC/X+/gLz+QgEAQ3+7/H/Dvf+/wX1Cvz4AQv7/vv9AwfyAwX2/QL6EgbxBAr6Bv4EDAMAAQX0/Qv8AgEN/ggA+/gIAAQTBgf5/AX/B/sCAfQCAQb8CQD8APz6+PoI/vsIAvj+CgcEAgD/9gH2Bvv/9AD0AAQGBAL9D/0AAv/4AwHv9gD+BAcFAQL4/wUBCAMGAPYEBAgDCwEEC/7+Df8BB/kB8f/89wEABgj9//8BAP/+B/0HCv3++wMD+f/xCA8KAP757ucH/wIG/wD2//0DAATy/gP98gD0A/37A//3/QEHAgMCEPQRAv//AfwJ+QoI/v8H+/r6+w73CPoE//0OAAXw5/0C+fv5DPwYBfcKFvoBCQP8/QH/CAwDAgr7Afz/BwH78QcHCwYHCfgBAAYL9AMA/gID7PwGAQUGC/z9BuoGAAb3D/oH/gH5AgD8/gH7CQUM/wP5B/Px//8IAAADBvf9BQQH8vkL/vj2//n1Bgb8Agn6/AcMAAL++wf8+Pr9BwYH/fwD+P0B/PIGBvz3AQD2AwsLGPoR+QII+PwO9wMF+/gNBQIHBgYDBvz//QAD+vr6/AD1AAcCDAv8"],
+    ["scald","health","6/n6Dfbt6xHsAPb2BAv9AAEO9Qr5Awv6DgwK+vQA9vnxAhD+/vT2Aur6Cw0E/AoK+/jw//f++gQVCw4HFAD1EAUABAvz+QXzDgPuAQUI9Ab3AwYDAQH59wT5EfIE/fwABgD47fUA+w78/e4F+wHw/PL4BwX/AQr/CwMB/wYH+gIF//zy+wYC/vr8/v/+/gkB+gH7AAH1CQb+BQX8CAf39vwC/gEM9v/+/QPw/wAF/fr9//0E+Aj/BPoBAPsB+wQE/vz7Bff8/fcA+/sB9wACAAIJ/PP2AAYCAvgAAQUE+AL/+wUCAwD+BwL6+f/08P75/gUC/AMBAgQEA/gD/vsA//D29A76B/kK9Qz48PoGAPwGBvYJAf4J9Pv/BvgC6P/9BfwD8en+Bfv1A/gI6QITCwT2/Pv25AX2Av8LBg3/AfsI/v4F+Or7A/8SBwDxCwb8/fD3Aw8H/wEH+Qbu/QEAAQ8BAvf2EvIF/v0HBfz8+/3+CwIMAgUFAvv39AQAAAgEAgH3+f4A/gMHAQT//QgI9gcEAgYN/wMFAvD9/AkA9QYACwQGBf4MABD8+gD8+P/0BPf9B/b+AgL19hEAAP4KC//6//0HCP/7+wT/+QIJEAcQ+wz3Bv//Cv/79QgEBPwDBQABBP339v76A/0H/PYA/Qb8BgH+/f4E+voABAH5/v/l8/4M9ub3/P708Pb8CfMIBhnx+vkJBQj8CgD3BAMHEgkJ/Pb8B/jw9ukACggBDAAM/foZ7PT9+hAOCwUHAvsDAPr7Cvz2/gD9BfEFBwf0AgL5CQ0F/gX8BwYFAAQD+AQJ//L98vv0C/oKAgX1+f4O9gcGDQQAAfv++Qfx/vn/9gQG/vcA/fwG+QHwCAMFBwb6AwYK+Qz9+fsBAwD+Be74//0DCAQD/A/9AvcEAAIF+/4C/wH6B/8DBAIE/QoEAA/+/fsEAgP7//n++PkH/gEBBgL6AgIC9g4GAAAM/wH3+f7//vf9//oECAkC/v759gT+AQL4/QT/+gYD+f0ECAD7"],
+    ["sunburn","health","BPEF8gP29QT69AEAEv//7/z2BfXyAAwG/v0TA/r2ChES/QH09vjy+fvr/wnz9AED9/P+Cvf+/fj+/wMD/wwFAP0Q8QME/vbv9/IECgv4AAYKCP8FEPf/BAD3Eff8BO34APvzCfQHAQfr9QIABgEUBPwLAAH4+/rsDgH/9xcC+/QE+gwI+f7//AL19Qr1+wAJ+wL6BQUCB/4EBQcHBgX+BP79+gkKA//2/f/9+gb5/wL+CwIFAwH+AwYF/PkE/v8HA/L/AP8EAgoMBf79Af38A/YB9//0AfT+9AQEAQgCBwUDAAAD+Pn7AwX6AA33BAQH9gUAAv77/vr/9Pf7+gT9/fXxCA8C6O/+APHs9wQJ9/MECwP07/cFBfoABAkJAA0VCAb78Qj2AvQF7/cE+vz0/A35Agn4Avb2EPv5/xIH+fcI9P8FAfUDCAb+AQ0E/PoBAPkCBQf7+wMFBf8EAQkJ+fzu9wT3BvYJ+gUB/RD/ExD/BwEMAgAC+/3w/fMBAAbvBAUI/v/8+P4E//n4/QP7A/r0/wkCAgP9/Av/DAj2+gz3AfwOCfwACvwG+AII+gj4APYD/PEA/QD7B/QBCgIA/v/4/gcB+/QL9wH7Cf3//PX+BgcH/f4CAggNBQUABwUMAQYC/vv9Agb5BQMFAwX5A/kBA/QS/PoE+v/6+gYP+wX78v4D+vP1+QjvAvP+AwHsCPcF/vEGBgPt9wj19vYHGQr8A/b9Bgz5++j8Fu0IBvb6/wwK6/30BA77Evz3DfcGAvj+AQgJBgf9+//9Buv0/AsO/gUNB/759wIDDPb9/fgC8/P6+wL8DPwBCAD6/woV9QkJBQH9+/n96v35Agb/BAEB//v8/vMH+P71BQIDAwn1AQIGAQr++/4K/QgCB/j7Bf73/wMG//36APn9/gYPBv8F//4G+vv8A/n8/AAE8/37AAkKAfj4AAny9A38//8EAPwEBgD++wb7BAUM/Pj8AAIJAgYA8/wP+gADAvYGAAX/AAAC//oAAgD6AP4DBAMA"],
+    ["long-lie","health","9wQCBPz57wPs//8DBfUC+/v6BfsEAfX78vn9CPj+CAf79RXt/gASCwj7BgQOAgYC/PsOAv4SDvgI9QAO9v4GDAj8BwH/BfvuChMEBvLz+wUOB/D4+/rw+Af6Avf2AvgADP/2/AUEAe4B+wkFCvz39/4EBgAC4/n2/AQF+QT2B/8HBP4DC/8N8v/3Agn+CwP3CAD29v0EBAMM8wUG/wACAvgI/AoC/fYBC/f8/AwDBAr8+QT9/P72BP8LBgP09v4I/AcRCAT6BAcJCfn59fgKCQAA9w8E+f36/goCA/f/Bf4EAQUKAP0A/v37APsA9P0BDQH8Bvn/DPwC+QoF+P78A/D8BgAD9Qf0+f7+//r8Bv0H9vv0+f/0BPXxAQP/9wIK9wIJ+goFEQUD+wb5AvHoBgT99hH1Bgv9Dg79DQEC9QP99wL+B/3/+QMO+An/AQUE9AL/8e0EAvP8AwgCCQXzCwT45wv6AQnuCQ0Q+wzxAQUJ+AcFAwH5Cw/1+/oF8Aj7Af/+9wwE+wL9+gj2/P0HDP34BQT7/AP7BQEH/vr5/AL5/PcC/gH9/w72BP/+Avz7/PsHCf4EAPL8CgQCCgYMDPoKDwwCAAUC+wAEB/Tx///1+/4IB//++gQPAwbxAvQF/v3/BgYD+/f3BgH9B/YA//z//wIF8gHzAQP/BwgD9Pvx+AvxAPj1BwD27/UH+An89PgBCPv/AAv57wgG/Qj7A/j/AP4EBwX9CAAJ/gH89Qb8/QYN9wn69PwB/hEFAAIIBQMD/wL+//oJBgcQ+/cHBv4D8fP9AfkC/P8H+QYG7P0GAwb3+AsK9vgB/wwJBgMEBAcH/wHqAQIM/fb2DQIB+gMB+AMJEAP6//UI/fwME/wG/vf5AwIBDQX99QMJAv4BAA/yFAAABgMF8P0K+fsBBg0ACQAH/f35/f8FCv4F/Qj4+gr3///8ChUMCPn2/woO9QYACvoB/AH4D/cC+f0C8gX4/xP19/z5C/v2AQn8CwQPCAEJAAj2AAn3/QUABPz3"],
+    ["fishhook","health","9e8EFvr39AcCAg8A+wr8/QEBB/cG+gMMDvcCCAT17wj9AAMB8/wJ+Pje9wz/CgT/7QcF//4EDvkF//n99fHp+vrzA/f97PgT+QQA+/j+DvEG8hcRBQEGDAIBCwf9AP0DBPr7AQoOBgH5AQP5+QUNCQcJEwYI/wAEAwATAf0B/v8SDPj9Bf8DBwn8BAEMCf/5/PwFE/0BB/gDB/n///rz/g4GAAT//QMFBv8IBgD+BwH89Af4/wL9/f3+BQAEBgj/AfX+CQYI/f77/v8ECPv+APgK/gEG+wb+/gAD+Pj6/AH7Af0C9gYJBvsBAQb4/fwA/wQECgb9/gAD8QIIAwH5BPMB6xH5BQYB5wMIBfAZ6QD8APoKCPMN9PIGCgn3+PkS+v/95Pf6Cfn0+QD67fb0CP79AgD5+Pz+EQn5CvPw+AP7+Pf09ggIA/0LCQr9BwL4+wIKAAD9AwH5CwQA/gb6Af0TBfMF8P/2AP70/e4AAgoA+gMBCQIDAugI/wD39O/2CQf+/P0C+vP89wv/BP0FAwYAAPn9/gn/Bwj8BQQCBP8B/wIGCPD+Cv3+CPgECQEE+AT6DQMIAAL6/gH9+vz+//77Afn+A/v/AgD9Bfr5+gX8AQQG/gH9/v8DA/4CAgIGA/b6BQAC/AH/CfwB/v75CgUIDvcIBf7yAQj9Awj+AQXx9/8V9v36/vr8E/rzEOz3AgQB+gf6/wX+/goKCuz3Cgf7/PTv/Azx9un5CfYA/wLuBgL09wQD9AoE/wf18PH9/vYD9QH0/ggE/gv8/vwQ8//0EQ32AQkMAQH9AQAF/wP59/3/BAH6AgH9AwH1AwoJ+v8YAgwD/gL8+hD8BAD2+hUQAv0J/gEGBQQFAAoE9/z59wYI+wEE//4H/QYGBPP6DgAEA/34BQ8B9gUAAQUK9Pr6Avn9A/f4//wE/wALCQIC7/r/Af39/vgC+f4G+vv9+w7+CwYBAAL7BAnz/AD8AAUC+AX2AQX/9v8CBAP49wf9AwgDDAb8BQHzAQgKAv8G"],
+    ["embedded-object","health","9Qr5DfX9+/D1BAr9//z1AQUPBvsEEQn3Av8BCAz0+g0OAPn7CQoD/gXv//Pz/vj89QEF/A72//UNDAcJ//n+BP75+ez19wD8Dv/2AO/++w8G/wP9DvUJDwAC+fP+/fQJAgABFP0JEPoBCQj7+f77EwkP/wT+/vTp/wgABBH8AP8K8/oE+wAAAwD5/A4KBgUCDPkE/wAI8AYEBAf8CA4D+wEN/AAC9woI8/v+/vwJAv71Afbz/v8CAvr8CPsLAQAIAP0A9vP++/H/DfH8CP0LAf0HA/j++QUN/AABAAf/BvoGCPwD/v0CBP8A/QL8+vYF+ggD/gv6+Ab8AgT9BwAJ/fQA/w78B/3vEvUI/BLzDQP8BQT9Cfr6BQkC+Pz9AQn8+vn+BQDyDQHzAvoUBAH9EP8DBgUH/v0TC/r8/Prw9Ab29uz9//r3+wD9/Q35/fgG//j6/fb9+RH37QXv/Az+7QQR9QHyAAb7AAoBB/j37fUCBQwPBgb+9Qr9AQn6A/L2/PX2AfsK9v76/fYB/A38AgsE+wAA+PULAgAK+Qr/+wID/PYLA/v59AkG/AL9B/j9/wj7Awj9+QQK+gYCAv/7BgcFAv0K+wP3DwQC/Pv//QX8AQPzA/v1/AIC/PP9Af8ACQb+DgICBAf8/f3/+fDy+fsLBgEL/wIBBwEG8Qj+AgHmB/gRAfkC7PH1Af3++wH5CAUHBfgGBgb99/z9Ce8I/QIBAekH+gYC8fYCCO4G8wT5A/73CQb/DBL/9wT0/f8CDvn9/gH5/P0I//oC/On7Ffz1CAICBQMA/f8F+AH8Bvv7A/sCBPwA9gECBgT+A/YGBQMGAfT+///yAAfuA/YI9gQEAfr8/vz/8Pf+DAQK+AYC/AYG+wP0AQf8+/0GAPsDBf36BQf7Awf+BAUDAQED/QMJ+vf8BPYI9vcGAgEI8wj4+fD1+P4B+AQF6fP1+foBBAQCAgAICgj/AAb+CQXyB/j39BQD/QEI9v/9AgL87Q38Cgr8BQf8C/j5CPwTBQv+"],
+    ["jellyfish-sting","health","9/0BAgH3+/z++vQH/wH5+wECFv4I+wcFAwT0CfT2/RgC8AriBPr8EPv2/+z6ABj3B/YJCPgE/vkEAfgEEQf1AQAE+QYO//oO9vn7/gwF+gAAAwEBGA/9AgEH+g8G/vb5/Pj2AwIS+wQBBRDr/fz9CQgQ+QcE/fMCAQH9APMCAwcHBwb7A/wAAPMJ/w4EBgMB+gH6Afr6AQIECAMFCvj78/z/+wYD/gYGBgn+B/kGCwHwBQL7+vwA+P8CAv0B8/4G+QT9AP31Bwj9/gwR+/j+/BH+/wP9+fr7Bf4GB/0CCfYBBf0D7wL8AwII9A75//0B9/0GAgT5Cvn4Cfn79gb9A+/t8gL18/ft/+7vC/8B+QID/Q0KB/4E/Pn4BQnzBgkJEQcD9fv4/wPs9Pj+/P4FC/btB/f/AvMFBRD6ARP59wIGBw0GAvry+BD0Bv76+vgA+PUNAQ4BAAsDDAj5AgwECP0G//8AAfwHAfP/8P4AABH/Aff/9vTuCvsC9v4C/vUBAQX8AAMJDP3++vkEB/3++wb3/Pj/AfgC9wgFBwr++vz9+wUI//QKEPn/BQcECf/5/QID9/b9Af35+wkGDPz7A/z0Df8N//UG/wsCBvr2/AH/9gv89gYAB/0K/QEBBgH4BgT6/wP8BQv7+wYM9QD6/vUN+v0G+/8HCf4G//oOBP7y8/QF9fIA+QDzEA37D/nzAQQZBAoACfoL/QMI8+72/xoGCgT47RL88Oj59/vwDAUB+gAB9fr//gQG+gIQ7/QC9wEK+wH58ef98gMJAfT29AL++gkVBv/++/wD9vYGDQIEDP37/w39+AX1APkCDPP6BwX9A/779/r8BAL++AP2Ag8G//0EBvwGAPkGAwsVCQcE//r9Bgb5/QEK+wEJBAPw/PYFAgL7/QL/AwT9A/8A/PsECPoDAf8IB/ME/gH5/QcF+AQE/f4A/gQT+wH8/gYDAAn/AAIF/P7+B/z9+gX//gEH/QUL+/oC/v8DCf39/PsACAEAAwEACAb++f8CAAgE"],
+    ["tourniquet","health","+vr4Awf0++/3AQgFAhgC8QACBfzs/A4ICfvpBwv09ev98fgKCO4D7wD/8vgF7BIM7RAM9wUB9/v5Bgv0+gb/+gL9//4JB+n68AEE9gUDEP8B9fcEBgMEDgAJ8fQE//r6BPoB/w///PIGCgj7A/37BAUDDP//7Qr5CAb9Bf/z9fME+QQIAAP5AQkGAAAKEgH+/QYEBvj8Af0F+wn+CgXx+v4G/vsM9v8C/wD+DPj7AQPwBAT+BAQGAv8GBAQH/v4C/gYH/gME/wgBBf74+fr8AQMKAgoEBwAA9PUI/vwDAv3/BPIC/P79BAb5/Pz9A//9A/sD+wEGA/8C/AD/BAQAAAIA/f8BBvj++AH+BAYRA+8B/AD7+Q0HAwkG7A4G9/X7APr2/PnyCvUEBuwBDP7+/uUS/gMB8fb67wEE6/799gMHA/UFBv7yAPwFFf0HDQYKCPj1AwENCAAJBfH5+f76/QT2Df0Q/v38Agf1+wv//fsHBgkCBfkE/AsI+wP8/PL0BfoH+gQFAwcPCPz9/woCAwj/Bgvz+QcAAgEA+QMF7ff++QEBBPr/+AkFAQwD+wYF9v8G+gH6B/oEBQELB/b//gUE/fwEDf4G+wH88/0BBPkEBPML/vv8B/jpCAYEBPr29wb7/QED+wQL+//++gjvBP36CfwC+xQHAv3+/QEL9/rzBwENBOL29vAD/gEHAAQCBv8TAOv/DQoB8fQMAvr79fr7+vcO//EC/vv6+gXzEQwBBAvzDPgH+AQPEv8BAv7wAvsI8woF/QD5De/3AgEADfkGBAYPCgEFBAL+CQQH+QIC+fMEBf/69wn8AwMBBQILAAT4B/71/QECDPv2+/QK9vz/CwcP//0A//QQBQELBQAH/wAL8gID+/8DDPz/CPcG8wIG/QP1+wwBAhIP+/j9Cfb5/fL7/wwBAQj3AQL+BwT+Bv3/BgX7AQEE+wH3+QoBDRAMBv0CBfv2+AEABAL8/wQLAvkK/AUD/AAC+fwIAgEABvcFAgj2+vn++e8BAQIC"],
+    ["root-vegetable-storage","safety","C/YECPkE9g4GCPTqCfr3F/gE/PXxCfoG7fb1+v8EBwYLA/j9AQf+Bv8I+uz4AvwJ/vPvEAr59/oHAwAQ9w/t/vXxBP/4/wf2AP33AQT2A/72Dvr79Qv/Avfw/AUG/fYNAQUIBgoC+BH79wAICv0G/wH++woIAfUJCf/0BQL5CQACA/YE/RAB+AAK+/QABP4H+gUF+vcP/v0CBgUC/fz8BAL+9/gH9fP+/ff88gb5/AAB9vz7BwYDBQwKCPMCBvv4BwP0BPwBBvj37AsECf/+9AD9+AD+/vb5BwEG/wT8/wX9CAP9APkJAfcACfj89f0DBAgH9wMHBwEAAwMO9wD5BAfqDwHgDPr/AgcL+AoI+hPz/vvjAv0LAQUAAQgT6/UA/f8F7/sF/woGBgoJ9Pb+E/z/Bff67g/0Aw8G/AEHAQv09ATq+gIHBP7+9gAH/QsJ+Ar0//z2BQEK9RL9Bv75DAkE/PkE/fgECfQDDAj6BQUA/f4S/voHAf/9/gcGBfYNBAMB/w0B/fX+DPUQ/fz2CPX5CP8AAgP8+AED//b7+gAGA/z8BQH4Af///gEL9vr9Afn6DAIAAQQJAgL2/AX6+P8D/P7+/Ar8+QAD/gEMA/n69gD9+/r7BwL2BP0ABwEEAfoB/P8A/wDzAf38/QAD9gH+A/b5BgD9+PQDAwD9/QkF/gYF/QsAAgcAB+0A7vYH8QH/8voA/wv4DPv6ABEC8///8BAL////DA4F/f8E/v8LCfkNBfoC8gAJCQn0De4B+vYN9/b6APf3A//+CwAI/u0A/QvsCgEGCf30CPwI+RL+/P0ID/f/BvbtBQ7/BgQOBQML/v4K/gQAAPsFBvj1/AL7+voFBwD6/f759/cGCQL7BwL7/wsG9//8/P4I//4DAQD7AAjv+gkD/QD8BvgBDAHz/vj6/AcGBxAH/P8E/vL39fL+/gIK9vT0A/cH9/n9BgL1BAXw7gMUBggDAAf9/P0A+QMF9gL8APoR+fr3A/v7CAv9/wMFBAD4BAUE+/wG"],
+    ["grain-storage","safety","CfoPDufv9wIDCP70Cv3/B/z1+PkICv35AQj/7Qj/+AYT/wX++wT+/fcQBgX8/vH+9AILCvcKBvwA9f/3BAcCD/74/ejy/PsECPvn+fr3D/r9AAkH+/L/+wnyBfzt/PwR/AYA9Abz/vwC+vf6AwkKBwPz+wn9+voBCAP2DQoEDvsO/vsMAgz4/vIBAgIAA/4E/AIFBv0X9/3y/gb6+gYIBPgK+f8D+PkDCQH8+vnxCQUE8/0BCQQEEwn9BPQCAAACCgH8CgD6BPn7AgP6BAf2+vYCAfz//PP9Cf0A//0A/gb3B/7+BvkK9vcFBQL9+/v/BP4G+PoDA/sB/P0AAv38A/kBCRHz7/D6/gDu+gn9/R34+PsDAfjq9QL/AfMB+vYOEAYB/v73/vrtEgXz+AHv9v8G/wf7CfcG/gH3//wDBwcF/+zlAPQDAv8L8vn9/QENCQD//Qb9/PgF8/789fruAe//9gAF//P8/P/3Awn6CRP4/AL2BwH6/wYJ/AkEBv0EEfP///UNCPz1Av0B+AH39gP/+/oAC/L5//gB9AEEAPz+AvoGAfQCAQv/9/0C8QsIAfP8AAL7/voJDAjvAf77CQwG+v4E9gEAAgcP/PcJ9f8DA/r4+gIDBfn5AgH8/QD7+f38AQP/Avj4CAQEBvn8AwAEA/8F/P/8Af4A/gADAwX/+PcR+Pv5AAUT+/QG8vYL7/v/Bg8D6fMIBvn2Ef3nEAv8/fnuA/7+BRQI/vYA9QEEA/wHCfz7BvH/BgD6AxEKCvPk8gzy/hQNBPP6+vUDAv4AAPX0+wb0BfAB/PwG7Qj5AAIC+Pjz/vb5+fz8//4BBfT8/wb//fj+APX8/Aj8+wX0CP75FPz58vgC9fgI+voE/AMA/AX4+fnx//32DPb89vYABgP8+/0IAQAG+/0ICPzu/Pz6+/39CAQD+/f5+/wBAQACBP8EAAH6Bfr6Dv4C/fv8+/wF/wX/+fz8/P7+/f0AAfj5//0D/wP9AAUABPoAAvb5BgP8//j+BP8J/QAA"],
     ["newborn-resuscitation","health","8//2Av/5+RH96uQCA/72/gIN9vwC/f8DAPQHBPAM9fb6CAsJDAD+EQAFAwkFCPcL+AL7AvgC/vrz+Ar0+gP+BAUJB/8F+Pf8C/7tDAD7/fsBAvz8AgAO9+0M/gv8/P3+D/3z+gv1Bwr79fkMBATx+/cHAPgCFAMIBgP3CP4KBPn2+fP8AAn9CwkDAQEMBwEA/ff5APr0/gn6//0B+QgIAgsDEfkE/wn6+fT3AwH/Bfz/AwUEARMBAv/1+wbzAfkD9vUIAQEDCQH6/gcQB/oIAwAM//4AAP8B8vny/fYB//oA/wfyCP0FAP8G/gL+DAH7Bf39FwoOAPsEAgIC9Pj+A/H28wX/7A8F+/ztBvr5CPkCDPz3B/r+Af7w/QrzDO/89AwHAw789hP57wPxA/b/DvIDCgL+/u4C/Ar56/72/f0J/Ab7C/XvBhAE9/0N//X5Bf4G9/7yBwL1Bvj0+fnx/AP87gQPAgMIAvX7BwH/+vsDDvz/Bgj5BfgF8P74A/0A/wz39QP6APwDCwP7CwL1B/368/cA/f/59QcEBgj8AwL5/wQHAAYDA/z0/fz+CwP5DAf+/QQH+A8KAfwEBwYACvzxBfkD+QQG9gcGDQUEAwMFCAX3/AUF/fb2/P7+AgL9APsGBQMICfv9//UDAwT8+AUDBg0BCvoDAwv/Avn4//7tBvgF7f7wEfro7fn//PD4/w78AQD0+wr69wUJ+gj08QsAAAYC9wAMAwb38wgG+AnzAgH1/gP+9/HzDOr9B/cJCAkN+f0E/gwA/vMHAQP0+fsG7wIB/wT0BwAACPUDAAAGBf/6GPf7+/v0/wgK+PX4+QLvAPkPAPYE/vgA/P8FAvb/++wEDgED/wb7Bg0I8/0A+AQB/fcCB/r+AgT5BAX3/AUR/QUEA/kD8voKBQkA+Pn9AwwCBwIFAAf9A/34+fv3AP3/9QEE9/0ABgUGAAkMCAP2+v35CAMA8wIG+A7++vwE+wAE/fz+AgP3+wMGBAQACf8OAgYC+/T9/QEF/AgI"],
     ["newborn-warmth","health","9v33CPf5AQH++OgDBgL++QQL9/n7BAEG//MP/gIA/gMIBg8IAP30EPYIAAIEAvEF9vL39Qb0Bf/6+/z9/wb6AAYGD/MD8fnxCgEBBgT7AAH6AQL59fwF/vYE+fsA/Pb5DwMB9hHzBQPw8gkKEv36BQQJB/kGCQH4Cvz9CfsFD/IBAP77/QwEBgUFA/oPC/b/+/X2BAUCBQbv/wgFCQXzDgv8B/YHAgUE9/P2CwT+APr/+/0C/AwCAwb//wsFCPMB+PQLC/sDAwwGAwUSDP4CCAP7AQgEAgX///vuAfYD9vT7Af31BvT9BQH9/fv4GQIA9wb/Bwn6Bvr9/Ab9/vP8+//2BBb79fUJAu779QILBwX2CfgC+wP59vLh8v/2APwIDg4N/wYH9gjxBv/99QD1/fXx/Av6Av779vz+/v4F+vkC9OrzEfP+BAcD7gQKBf0CAP0CDQf9CAAF9/0C/fT5Af32+/kHAA/+//kAAQf2Awz9/vX9/QcCAg38/AMB9/8HBwz27v4KBAf/+gT7AwX/9f78Afr6EAL8/O8EAv0N/v0FD/79BvwCAvvv+v4L+g0KCv38/wQK9wgICwDwBgP2CgL5+wL5BgQB7/sLDQEP/gcMA/wK+v0BBQH8+fz8CPr9///+BQT5AAH6AgP/+gD+/wcBAvT+AwT+/P4LCAH+9A7r+PYG+P0F/vv/8fz0Cfzw+Q3xAwINCgX88wcE9gYC+Q0TFfj9/voL7v8BBvwA8g7x7/j6//8FBAMPBQf8BPz/9v0P/gLx+O0DAfoNBOsA9v8L+/P6Agb4+Pr6+gn2+PUDCPr7BP7+CPjzDQAQ/wH/AP/7BQkNAvIJ/fwP+wb/BfwCAPT9DgwB+wUB/RP/+gT6AQIJAAcJBu/+BQgFCe4AFPwK/AEJBwAG+PcK/v//8QQF7wQJBwIDBQMDBwYJ+Aj+9wX9BAcECQb//AEFAAH5C/sN+gEHBgUH+gAC/AL5+vr+AQL9/v4ABPz6//8IAgT6BQAADwD/AwH6AfX6+fr/"],
     ["newborn-jaundice","health","+uT2/fPyB/0K+fn+BvkQ8wUGAQD6AwP+/esDCPsL+QwC//79BfUCBPTuAhP8+Pr87gH7AvX0/PsAAw/5/gICBwcNA/r9AQMBC/0I7gL0AfQJ+wQAAgQX9/oJ+gj3/vHv//wC9PkC7gDv+Pv2/voKBv0KBQcQBvr48Qbw8wID+AX/CfzxBwUCBQkK/QsGAP8TAwH8DvMCBP34AgH++QD2Cwz8CgH8CPf/+gD6AAMDAfkDBggE+wYHAAL9BgUHBPYL+AMLAv8JCg8G/v8F//0FA/wEBP3/Cf0G+wj8BQX+AwD8AQUABQkFDQIB/gMAEfb+AgMFCQIE//b++PsD9vXyBPX4+v0F/AYI/fj0+gMCCfL2Bf0H/PMHBfjuCAf8DfsNAwn4/wUG+gH69AMF/Pn7B/QCAwrwAALyAPwVAgcOBAoGBwP8+QMHBQP5BgkI7v0A/vb4+v8BEPUBCPkP+Qvt9xP8/+/2APsK9vP4Dv78BvwAAxL9+f32A/T58O8EBQH8CwP5/gIKA/wCCAIG/fsKCAb7+f4FBgP8/vz7BgELAgIHEf4BChT/APr69AMK+g31Av8FBQAMAf39AQAI9gPy//P5Bfr5Av0QDv8B/fcLCQgABPv/9g3+B/gJ9QP4+QLz/vP//gL+AgX/9fQH+AMB+w8D/wX6Bvz+//bzA/35BQD/6vEA7vQFCQr7+vsLChH2+BECAfzp9vUL8AEK9QT5+f36BgkPAf4S+/ABC/z9+/Tg/wz99Pn+AwT5D+8GDgcFBQPu+AID+v8D+Qr1DPoE+Qr9BAgD9gn5BQUBBfcF9vgP9Pr8APn8+vr5/QT19P0I/gILBQ4C8wH4Bvrz+vr3/vwCA+wCBwECCBABDv/6AwH+BPkCBAAP/fj1Bgb8+gL+BQEDAQkI/gD6//r/CwIF9gT/Bv36AAQCBgUA/QYB/AoI+woF+QkDDvcACAD5EQYJBQIC/f4I/gn9BwID+AAD+f77CPsABwcF+fUBAv4C+/sIAQMG+/wB/P/++gL79gME"],
@@ -301,7 +336,8 @@
     ["spinal-injury","health","5wT+CQHtAe7u/vcS+wH/+AL8BwbsCP7+/fQDFwEACQP++QTvCPoEBAQGBQz+/gMLC/oF/QL5+wMK++8F+gT7Aw3vFQ389u4A//8DAv/2Cv8BA/L49/36/f8EDesX+QUBAQL3BAUFCvP+BgoA+AbwCQMJCOv99foB9Qr+9wrwBvwEAgL5DQAE/P/++/4BAgL+Bfv6AfwJ//8A/AABC/r//QEFC/wC+gsA/hT9CALr9gf/BvQEBgj+//YAEPr+/QUH/vMC/QL9/QD/AfwI9wcLAwUG/wz2Bf79Bfj49wgBAAH89gAG/vwD9fz5/gL/BQABBfoDAwgDBv/58v7/+gX9CP35/Qbx8/7r8wAB+vj4/ugCGQ319AcHAf/9BAr48f79//j8/PgE+e8BCf8JAwX9FvMKB/0J9w39FgD1BPzw/fsI8A3x9vz8DQkBDfj5BQEA+Pz18vzy9QEEBAD5+wYG/wn69gwI/Qb89QETBw/5/f0HAA73B/0C/vb2+f8LCQL+CP8FAgsB9gD+BPT1+gL98/L+/AAF/QH7A/8GCwsJ+QUBBv0BBfsMCw0IBgMCAv8I+Pv4APv8/gb6BwQA/gn+CAX6/PwH+wQB/xf5B/7++f7/AQgBCAH89gABBvX9/fYE9f8B/gEC/QX39/kCA/n6+Pz9B/8L/fX6AvcGCP0GCwP3BQATAfn99PkK/RX9BfYE//z7Af/5+wTuDQYS9gT3/goNBPIF+Q0EBgTs/PMF/gcTBAUQ8/wGAAr19AgDAQkBAPkNA/r59A7yEPwK9vb9/PoB8/UGAvz5BAYE9gYE/wER/goLCQr9EA8HBwcOAfgF+PwB9wIB/vgA9fYOCPD3BPoBC/sHBPwE/w78/vf+CfgDAQj08wgDAwb7AAgLAQTw/AkH/Pv8Bf0IAPj1//T2A/rz7wQIAQb08fz79gUH/AD/+PoC/AAC/P/9CQv3/P4DDAIEAgD+9QT8APv5Av8B/AIB+PQBBwP+/BABBPn6//kGBP0AB/4A8gD18gf3A/4C"],
     ["head-injury","health","3AQCEADxAgT/B/0J+w/yBwQO+wAABgj/AwgICA34/gD49gUB9PEDBfrxBQ7y+O73BQfw/wsCBQYFAPT5AOz99goOB//y9wDzAwEACQb/AAQLAPr5+Q4JBwv39gH6BvYEBgD6+PH/CAD/BgACEQT3DQYD/Qf3A/gHAfbzAAQH/v8B/QABBP8JBv8RAQb1DP79+w0C/wIC8f8D8f73AwT3/QX7AAr4AgEHAwUA+fr6/gEA+QcEBf0F+PjxAfcH/AcD9wT8Df0HAP0B+AD8BAEM9/oI+vf9+//+BA3x9Pn/AfUB//UB/Qv/+/8O/PsHAvcHAf32AgsO9fYA7QP/+vj//+n2AQ3z9vz78PnwAe0QDPzzBv8K+/78/fP7BgD5D/z3BvwEAvj3DPz6AgMHAfYD/QoS+AcDAgz3Aez6/u8HGAAC+ggLAwUD7fwG+gUD/vgMCwHxBQADAQMD+/H4//4M+Qj88fsQAf749/r9+gYABgIN/voO9Pb7BAT3AgcB/wH3C/EK/AQKCQsJCff7APv8DAT6+vz+/Pn///MFBAL9/fv+/AX8/P0K+gT1Ae35Av0E8/4EAgf/D/vz/P7+BAj+/Pv/APcB+vf7BAUB/AMFBAf8Bf8IEwIAAfn/9QQEBfv9AAf7//4AAPQAGfr/AQz1/AkJAvf8BPn4/fP//wT9DAPi+QIN9/UWB//88gX+AAABAAkA+PD8A/sD7/8GAg7zAf0HA/T9/QUEAu0D+Ajz9O74DQACBQUD/BD3A/8G+P4HA/QA/AP5+/AC+vYDBQT3+xH2+vn4B/30Df38/vcO+vwFAf74CP/0BgD//wD+8fkZAgUFBv8F9QkK5wjv/Af/7gf9Cv0BEQkCEQj3AP3//gAE+AUIAPr4+gb9/gX2Avb+/gYK+woBA/gB/vYAAv749Pj5/w3//gYM+AIIAgAFAAf38woBAwUBAPv69+4BAQL6+Ar6/goF/gQCCf32BgP9/wH+AwcBBgH6/AsB8Qj1+AECAAX9+wcE+QQA+Qb++/f8"],
     ["amputation","health","9gz2FP/7Bfv/DwfrDAb5/fwSAgTzDAYJ8/j5Dv/09vMB+v7mCvkF+QH//QQJ9QAWAu0P+Av+/Pf/AgICBAME//7y+fr7Df/+//30/fr/+vcBEvn4EfIFAAEM9vj+DPgL7wkC/AgI+QMJAwQB/AIL/AAE8v/2/w4A+fz7CfUHAvUG/PkK9f748/8HBAMMBwz9BAgH/PoDBP/6AQ73BQ3+BQII+/f5/v0D/gX7/wcBAQDuBusH/v/5Dv4BCvgJ+vUECw0A+gT8AQD9+wH//gEG/AkHCvP/Bf8N+fr8+/7+Bv//BfsC/wkI/vz6AAT7AfwL+QP88//6+gH5Af37+QAO+/f+AwQA9f7vAwj8+wMC/wYIEgoC+wMJ/Av18w8E/gIE/wAD/fkK+/v2B/UE8vkNFAHxB+wFAPX/CgAGBQL/+AD6Af/o+wj19PH5Bv/6/gnvA/r2AAPw/gkG9vwE/AoPCfwMBPAL+PoACAYCBAP1B/oP9fsCCvb4Afz39wn3BQbv+f0FBvwE+AcHAAD8EA4L9/r5Bvr5BfkG9AQGBwkS/f0FCQcHAAEEDvb67gAP+wH47wH2A/8N/gb6/Az++wf1+/cJBgQCAQr9Bf/6AP7/BAoLAgz/BgEABfcEBv4CCAgDAgf9Avv4/QX19QoD+AP4BAAJ/foC+PD7/gcH+/36Bv7yBwMPD+4B6vP++Ab7AQgIBQUC/fAAAQYG+QIKC/j2B/sL/PYL9wH8/v779fTyCgT1/QTrBBP+Bxj+DgEKA///B/0C7QQBAP/3DfH1BPj7EvTz/fr/AAT7Cgn0+AX+8AYC+/r4/v/+9vcBDgn/+gD+EQAEB/33Aev8//70/vf98QMHBgQAAAf7/AIGCvsK/AQBBQIJBQ38AgICCfMLA/4D9/f9AQH/BwoKCQcH/gMCCPz9/gP8CPUECBH/Af8D/vr2BAL5/wECAP3///z2APUBCfgFDgv+CvL////2CwHqBwr8A/8I9gAE//cD/Pz2/woS/v75//38+wII/QD7+AUC"],
-    ["crush-injury","health","7AX/BQr8Af73CvgCAgD/Avr/Cfjw+Ar9/O/5Cf3yDA0D7AziBfz/AfcG/wEICQwGBRUN8RAABvz7AwQLBPj2+QbzB/gACAkJ9wr48AT8BwQAAgIKAwv+CPjxBgQNDfcB/fH+AwAEBfcF9QkGCAH3+AoM9gUL9fj7B/wHAPvxC/v4+wQADvYDBAD/Cf0CCv0BBP39C//3BPT+Aw4A+ff2AQH79wQG+wYQ/gACDvwB+P/2BAD1+/379Pj7Avz1/foMA/4DAfsH+/0A/v3+/vUG+gcGAv31/vz99P8EBwL3AvL6Afr/+Pj7/gL4/Aft+Pz/+wIDDQb+A/f2AfH8/fwK+ewHDhIL7f/y/gD5AhP4/gMJ/xgE/wfuCP3yBfwI/AIBAwwKAf/z/gEA/PoJ/voKEfEG+RIMBQMLBf/zAfP68gT//gf2Afv4BgcF/wcC8QMD9v32BP0F+QX99wn4AhYACP0Z+vH8Awf5CAn/DBL+9f0MBBEB/Pv6/gAB//0A9vD7/v0BAAULBAH9/AEGDwj8/w7/AQgCAAQD/gQN9/8P+PUEBgAIBgMOAvsI+AMC/fUH+w78AQkBAQf8/QoG9f/6+gUCAv8E/wD1DAL7A/cABwcMA/sLCQT8/gQE/fj5DfoD8v0GCwb49QMF/AYG/fr/APkDBPz++Aj3APoGAwwE+v71/fYNDfQB/ugC+wQD+wYJAQEVAQML+AYO6/8CAvX7CQ3tBfcH8PcA/wYHAvcIEA4MCf71EQgCBfwH+QQG+fYJ/fYHAg8G8vz8APH0/fH0Bv77APH2A/n4CAcB8O8JAfoLDg4J8QcGAQL//BD9BAAG+Pz6/vUF+f/4EP/6/vT79Pn4BwIMCAHz/v37DgP6//wJCv8I+QMD/AP4A/0JBQT8/gsC+/v++AD2AgP/CP8B+gAC+wQCAvv2BQQQ/QAFBwQD+fvyAwEM/AEJ+P0B+PMDBAkMAvwFDg39BQn5CAUH/AL+BAP5Af8CB/38A/4A9fj6+vT8CQ4ECfwGBP38/P8C"],
+    ["crush-injury","health","9Q4EHf7//Pf3BAj/Bf/zBv0BDRYDBvgC+uv8EPX47/wW/f39Afj/B+33/AsfDP0AA/0T8AwE+PgG+vb8BgT/AAP7/vsI/foE/PL39Pb0BQXuAwj5/v8DAwAACfsIBvj+/f//AwYMAP8J+P8MAfsFAfoC9QIG+vzw9vkN+gL4CfH//wIBCAUM/fP8/gv6AgMGBQX6CwT+BvD9AQoL/f7/Av8FAgoB+vwEAfoDBw37AAv7/vQG8//89/oEDvX58AAKBPrz9Qn5CQUCAfYD+wTzBgQLAvv9AwcAAfsCAP4CCPT+A/UD+AP//QcF/gUCAAL/+QP+BQIBAf/2+QD0AQIDAPEK+Ar3/P72/hD8BA3zAAT7ABEH9v8J+/z+APwH+gIBAQv+/A////r6+wEI/AL4BQEJCvgFAQUKEAYI+Qf0+vQN8Av+//37CQ/+BAX1+P/9+wsG+/z69/8AAALt/wz6Af4B/QQA/QTxEgbzBBb8/QAGCAPxDvAA9wfyBRQDBfv//QP4EwIC9xEF/QYGBgAN9QT1/P36/wb9/vcP/v8X/v34/wEHAvwWDQX9AQYMBuwEAgH8+f4HAAECAwcA//r5DfkDC/oC/fv5AQ37C/kEAQ36AwH4BgEEBfAB/wf/+Pv6/woEAgXy/f3+9vgEAf74APj8DAP9+PXw/f0JDAYBBv3n9gAD/vUJCfkGAAEC/Qb2ARENAPkGAvcC7vYR9v0L9v8GAwP67P33++78Bvr99/77+ggC/wQCCwUaAfv/+fwP/vkFBP3/8/sJBAUB/+7z9AYH/fMCCPzuAO//7+4G+vn5CAH78/3vCPf5AQ8G+g0Q+P8A/QEI9Pb89/gD9Pv+BQgDCvn5CAv89gAKDQcHAQMBAAn/+vgH/vQCFv8HCvb0/gwM/AL+A/X0/fX8AgMD+wEH9QIQ/wEFAQII+AMJAgcBBvr4+wAJBP4BAQUA/f8B/AwN9QoIBgcBAPz3/gf8Av8GB/4B+PT8/f4B9vn4AQH/AwEDAAkACQAC+fn/AQf4"],
+    ["entrapment","health","7QIPDxD3/er1+PECB/z3BRD+CggCCgAG8/cM+/0B+QUJEgv///UQ/wj3CAv4BAXy9v7vBQrx/gIGAvkG8f/1EQz/9wQI9gcA/Qz+9/3yAf8B+AH+5gz27voAB/H3BAD+AQMA8u/8AO76BwIJA/0DBg3/Bvn27fT99/3//gkAAfkCBAcABv0OAfMHAAn5BQP5B/oABvb6AP8E+gXz+wHy/wMF+gj5Ag37+wD5A/Tz/QYDAvYGBvv4BgICCf37CAb9Bf0H8wb+AQEM+fr9+gEEAgr+/gIG/AL7Bfn9+AQI/AH7A/4HAAT7+//4AAAL+QEG/Qr7AwUKAQYF7QD6BgH/Bu0DAAD/C/gB9wgI8wbu+voD/QP/9/v8BfnvAAr//hD8Cf4G8wX+AA/8C/YM/f8ACQIOCwIUCv4F//oI+wHx9P0L8f8A/BAFCe//BfD8CPoJBvj/CvsA+QXu9xr0AwwHBQ78A/kL+w7xBgD8B/348vT9B/gC//gE/Pf2BQAK8PTwAAUGBAr+/AMC+/z8DQEE+QQABQED+P3zBe4P+vQA+vsIAfUBBvz4DQP8/gD7APoI/gn1/wEE8gDuAQsE+vv3CQD69f8D/fz6AgL+/vn//vX8AAj+CfoBA+oH+gD//v/7Bff9/gT6/gIB/vn7//3+AgAMBQ4IAQP79gAN9Pr6BQXtCgoeDPL/7vnn9QD8+f8HBPsIBvIIAQMG+QQQAAEKBPwLC/QC8QIG/fwFDfcJ9Aj8A/74Dgv/DAMCAPL9BPgPB/YFCAT0/fwEAPf8+/YGEQHy+v3t9vjw//wD8gL+BQH3AAH+9/ny7QD+AwDx/fgLBP8EBAD1+fT2CAkCAu4C7foDA/YF/wb69gD3BQAJ8QkHAf4D/wAFBAD7/fYBAgEAAQMBAgABCQQECPj+AAH+Df8B8wICBvUB/g0JBPkDBQn49/4AA/IA9/UA9vTzDP4LCPj6CAH/AAMF/P34BQX/CQf8/w4F/P/6+PkCAAH5+wsFBQT6AgUCAvj//gkC+P72"],
     ["nosebleed","health","/+/9BvbsBgYK+PkIAQkA/fQF/fr69AX+//j4DhP09PcM/RAKBgcO8wH/9vYD+Pf0//v69PX//v/6A/4BBgP4+/EA8v0MAwz49/rx+/8I//XwAf8V8QwF6gcLAQMK+f/59P39+RL6AwoL/hD9/O0CAP0ECQz/CfYW+v4F+/oD+/QA/f8AAgP3/v8CAvcG/vkBBQEBBvgG8fH/BP0B8gAFBAL4BwMLAPgGC/0A/wYADP0K9P/89f/5//4IBPgCAfgGBvgEA/sACPgBBAHuBQP99wwEAAII9gP6Bw0Q+QD7Ag3+Av4CDfv4/wL/B/YCAQL5Av4C+v4CCQEH/AEGBAz0Afb2+wT98PwK/vwFAf8KBf4MD/sE7fUJAwbuBwgC//HyBgMOAv0BAvsJ8Af89vH8CfUF8P0BCPkDEA4a8QYFAvn//wD3A/oF+QYF7wQDBvr/9fYJAwEHEuoOCQH2/gf99wn7/fL29wIIAfcJBfv3CwT2CwoF+gD7Bfr2BPP4/AD1/QwIDAIFBP/+BQEABg74Afr2AQ71/fb1+gEEAfgE+wT2AAEGDfv+AgL4+wz9BQ31A/UD+wEGCAj6Bv8CAwUGCv76D/wAAQMB+wIA/Pv9/u4EDwwNCw0D+QIIA/wH//n/AQMD+QgBAAcC/gnxAf0B+AYABQD4BgX7CAL+DAAG8Pr07fsI9fEG/vz4/hAFDQDw+wn+CwD0EQoD+P0NEvX4+gH9BwkAC/0JA/b1Cf0G/gX9FvbnAgn8AQgKBPH4CgcJ8wP/B/sLCAH3C/4I7vv69vcKAQUI/Q/2DQD18foBBPkDBfT2/Pv+AgL9DvkA8Af1+gn8EPsOBQH8/gD67wkFAfoD+AL5AAj+/QL6/AsP9PoA+QcKAAL49vkBCBMCCgQA+QABBgwC8AQP/AUG/gYKAAT7DPAB/gQD+v4BAwH59QoC/wH6+P0H+QsK8/z6+PgAAAMJBwn/A/cMCQEEAf7//vv++vsA+v0FBgH5+/z//gMI/P7++gAC/Qb/AAQJDf8A"],
     ["object-in-eye","health","+Pj4CuwBDO7/7QD4BQb46Av8AwACBfX0/wAGEQkDBhMB9QDu/e4L/AL2+AkE7/UB7/cLAvj/7wgDAQT0FwEP9v0K7fQFAwvz/voHAfkD8/38+QH8/PwE9f8H9wL8Cvnq+v32DvsH/Qrx9gwCCfn8DQsEBfsABAD7/vYA9QEF++z9AAH6/fT/A/78CAMF/vgIBvj9CAQG+gT8BPr7Av71BQQB//QG8vz/A/kDCPb//PH7AQYG9gYJBf70+f4IAPsI/f0JAgr3+gIEAv0BAvr9AfgICAQH/v0GAwIH/f/4/AEACvUIAPj9Bf4A//kFAPoHA/4E/foHBv35AgkGAwb1AO4E8BL1DgXt+/L1B/8LFAUHBQT+/fr9DBP0BwX+AQsZEQED8/H0Evv/9wz7/gP1AvoB+PoIAAP/DP8CBRP2CfML/P0O8ggEAPX6Cf78+e4I8f4R9Pz7/fT+CvsG/Qn28wr6B/YGDfIIAQYD+P/1/BX8//36CwYF9/oD9voDAf//+fgA+A0A7wz9+g8EA/3++AP7AxD5A/8EAvsE/fwC9//++AD8DgP/Awf7AwAABAP5A/gKCvMFBP36+gf/CgELBvYCBwMI//v49wD5//39BfzwAP4DA/7+BvoI//z9/AAC///9CQAFBPv+AQP5Af71Bfv7/QX//gX//gYACf79+v33AfkW5gL19AP3/PQAAgv1BQf7BQED+gsC/AAW+vULBAQBAQj/+Ab+CgIKBgruBQj99wUDEe34AwL+Bf4O+AoJBgPw++sEAP4DFfny+wIBAAP2DQT9AwfuAPMEAu4EAfb5+gAC9gb1Cw/98/T++vgF9vL7+P0H8Pz8AwL4AgUFDP76C/kL/QUE+v0DCA0C/wH8AQUE+wH+CQsIDfv/9wMCAfoNC/v/9gz3+gMNCv0LBfwAAP8BBvnx/wEKAhL++QH9A/QA//cH9Qn9+Pj6AgoBCf0BBQIE/Ab//wH9BfvyAAT+/wkE/f4J+gAEBf34Ag0BAwD6/QcE9/EGCAsEAfcF"],
     ["injury-to-eye","health","7vnsCQD4Bfv5+fkI+f4M8wD7+gIGAwn6+/X+EgX6Bw4DBesB9fT0AAL88BT/9fEG7gIMAAQIDvII9QITEvwG/QEH+e/1CP8DCwcCEgQCCP0FBAn7Gf0MDv/48/D4Bvv5Dvn2BvwACAD59gkB+AIAEAASAgD+9/f99w0EBBH/DPP09v8BCP75BwYL/vn++/wBBwD0CAD+Afz8AAoB/wL1Avn9AAwB+fz99gYA/gL8AQH+DwX8/AYA+QcBA/cDAwD++/YI/P7+AQb8+vj3CgAEAfX9APv9+/0NAgYC+AEE+/wFBQQB/gb9+wINAAECB/sJ/wIJCQIH9/v8+QEADQX1/Pz++QQB/gnx+vcCCP0NCwQC/wMA9AEBAQXtBg3/B/8TBQP9/gLyGwYE8wsKCvntAfTy9Aj/8Ab2CgQDCBDyBP8DB/oB8P8AAQb1+wP5B/sEAPUM7PwB/+v9BPj7AhgB9goBBgn+BvsC/vUK//b9ARP9Aw34EPv6+wUC9/wJBQrzBQMH/wsC9RMAB//2+ff5AP75BQ//DgMHAv0MA/sH/QUC9wACAP8CBvkB/f3/AQL0//YICfUHDgH79/oFBAAGC//6BwwCBP/9+Pr2+wj/CfH3CPoBCf/4BvgJ+PQCBQEBAAX+Av4EAvv7AwH1Av79AwD8/f8ECwb7+gn7EgMA8gDxCPsH//YI6/v++QkJCRH6FQID/N0MB/0J+fkPDvz+BPf4+fr9BAj4B+/4//fzAwPoBQ36Evz+9CL9DfwM/xMHAAX+9PwQ/Pn8+/0H9g0EAgEBC/wACvv+//307P0KCv4LAfkBAAgABgD2BgT59gIT+wwH//8H+vr5/v7//f4K8wIBBPoEAAH9CwgFAAIE8AQDBPwI/AX5CAUGA/4EDP3+/vYG/QX6A/7+AfsCBfcCAAEICAH8DgUBBwP5CQH9Awb4AQL9Cvz8+/kE//gC+AMA//kJBQDz/P36A/X+Bfz5CwEGCQL//QMA8AYB/v0DCQgE//4C/fwAAvoH/QX/AQAK"],
@@ -367,6 +403,7 @@
     ["anaphylaxis-signs","health","7vfzA//uDAr68fQJ+RQF+BL6DPwLAvvg+/wKE/v2/AUKAvsC+voCAv8C+wP4+wsHFwTzBAT19fcBCwXzBvQADvj5/wYN9vTlBPkA/P4E7PsDBf8NCgH57gP6BAIGCAMABxMIBgj58wUCCAjpCwkP+/wJ+wD2BAf+/goB+/X/DPcPA/kGBPv7AP37Af75DgMJ+AH+A/kBAAIACAwBD/X6FAAF+Q0EBgIC+gH7/P8EAv0A+gQB//7/BQII//0DAQf/AfoA/gUBBv7+C/0C/v35APsACgED/wT/Awj7Bf0BDf/9/QUGCAD7AP7/+wQJCQYBAwD5/QICAvz//fn+AgYBCfLu/gTw6Q4FBe7k/P/+CPwC8AP7BgL8+/IS/AIKA/j7EfoH/wP0CQEIBAQHAQkEGAACAf4NBfQI9fwF9gH8/wULCgbxCBEBAPv36Qn6BeoB/wHtAgT/9vELCQ39DP8HB/8O/QT++wkCBP8GA/P9+wr2/fH48gAA//oF9wn/9fn6BAH8+AIGAf3vB/b+CwwCBPb5AAv7//39CQID+wf7AgH2BxH4AQEFBgj++gL+BfwAAAMDBwn7AQMA+AMF/gEA7gL/BwD8Awz18gMG/AH5AvsIBAQB/v//+f8E/vv5B//4AwIEBAkAAv30AA0FCgX+9/r3/AQHAwL9+vr4C/76AgT29uwR/Oz7Eer9/QYDCQT6/vEQ+QIH8u4NAA0P9PP5+PfxBQX7BP32/Av4/gD9DfwV/+wLDfz4AQsF7fH49Af99QAIBw0B9wEJAQT8+gTy+P8H/QrwCAAG+Qj78/7u+/wLDAAF//73DAAG+wX9BQ0BBwf36wAF/v/79/wF9AIC/wr/AA0EBPwF/gUBBAMDBgb+/v4ECgAGBvv5AwIFCgQAAvwF9wcDAwb0+wMD9AEI+PYD+wcM/QcC+f8G9wsB/v36/wMG/f0P/AYD+AQA/gYH/wkPBAP+B/8CAAH9BAUD/QMF+wMD9//1+/P6CQP8DAUB/vjwBwgBBgH6+/0B/fkM"],
     ["electric-injury","health","6gT/Ifr5AAv++gf9CP/+BwAFC/QGEvjw9/37+voT/fv4AO31BgACAPAECwoGA/gC+gLvCPn0Bw8FA/T/BQLxAA4ECAnxAQPvDAUA7O34CQnx8f73Bf0E+f/7+/4GBgcEBA/7+/j3CAAKBQcKCQAH9QUHBAME9AoBCPsHCAD9CfsG+wEC/gYEBw36B/r9Cwn1A/T98/77EgMIBf76AAL3AgAA/w35+QkH/ff/Af4A8f/+APkG8gAEAfr+B/4C/fYE+gUABv0B8wH6BPsF+AX+CgEF9gYJ+gb7/xD4BfkKAP/8AwMD+wMECQgEAgYI/voC+QMGAg/99f0EAAME/ggFEOgD/gYA9fr98Pb0Dfn/9PQCCgMA+REOEQf7AP74DPIA+/wOCQz/BhEM+eIB+gMN/vz1BgQA/PIKDAn5CQIA+wIG+Qb8A/j8BPr+Bgj79RL98AMC8vgCAAD5AwD7+wn6/f4LAgr3DQ4D/Bb+Bwj9/gH6AQ4DE/r/+/cJ/AX88/oNAgH+BfoLAAUF/v8E/xQG9vn9DfMJ/QwAAgX67vf98wQIBwQGAv0D/w34Cw32+QUDAPj9/QAJ+wQJ/g0IBfgEB/7/CgUC/vzyBAL4BPz8+AQJCQH8AvwDAgX7AAQD+Qr8AwH5APcF+wUC9v39+/r5AQYI9/8D/AAED/T8Awf+/v3oHQMTEf70APMFAgj//ggLEgwN7wYI+QT79wT7Bwj4/u7/DPf8+gECBwoEDAf7AQL99gIG//P8+wj/+g/y+/IGD//6/vr6+AMBAvX8D/kIBAAACAP1BwD5Bv4HBgkA8fv9CAcA7wEKAQ8LCwwIAP4MAfwI/P0A/v8FCfb58vYFCwgA+/8N9wD9+Aj2BAYAAfgCAQb49gL+/vz5BfX//voNB/8N/AQHCQL1AfcCCf4FDvj8//n8Af4E+QAKCP0E+/n8BAf8+/wD9P/+Avn+/wUDBgz9AgD5AvgJ/vX8+fz9/AwA/gb4+gMFAwUABwPzBgryCPkNDPwE9P3w/vwL+u4J"],
     ["poison-ingestion","health","3v7zCvPw7hQH+uv8/gr7EQgJBRD++gL6/wAB+wXz+wgIAgAC+wMXD/T3/PQL/P76Afb7/f/4/PAQEgT19v8B/AcL+wcB9vz/9////AYF9QUB9wYI/wsG/Qf3BfgN/f/9Dwj7+PsJAvn+/AIS+gny+/r9Bf8ABAjyC/n/+fv6Afz8Bv4J+gMF/fYBAwILAwP6/wv2CQr9/wr8/QILBv71CAcEBBL9/vr+BPf4BPf8BAIGAPoAAv72+gH5CvoN9fIM/f/5+wT//vv7EfrwAP0EAgj7DAQD+P8G+Qn+BfcFCPj7AAL2/gD+AwT/9Qf+9/X8/wQFCgMCCAME/AD0/Pj9AOv8+wXu8PsDAQgA7f0B8wr3BfX1AhEB8wj2AwXyA/v4AQ0E/P30Bvf5AAwD7v/2+PIF+wf5//MGAQ0N+f/y/QcFCvr3B/MD6RcI+f0AA/IH+fn+9PEVCQgECvcH//r2AQz5A/AF7gD69QT8BQr3+gkCBQT8AQL+/QH5/PUGAPL0/wAEAf0DAAT+BA3+A/8LDfT5EQcGAf34+/cE8/kI/fwABQQACP3/CfYCAf35/QHzAvn3BP/9/Aj9AAb+AwABDv38BAD/BvwF//QJ+v0FAPz5DQP7BP37BfoLB/0FCPoAAvH7AwMC/QcEBPrvBv8H/P/8BgUBCvn3Bfz3/f4C/fDx/PYD8eYEAAr/9/LsARAICf8G8fQBBQUDHgUB9//17Qr9CAHtAwkB+wQQCQMABQwDFvzyBPn/+QP/BwP19QP/AAgECAkDCgH8CPwJCf35/wn89wwGCAAIAgYB/gX+AP4QCAf3+/kE9fgH9/4EDwQH9QYL/vz9BwkC9fX6+wv9APv8BAYL+vIC/QASDAUDBQP3EgQJAA34B/797gEB/f4FAwcIC/wBBf7/FPUKAggHAwEABQMK+wIC9vn++/0HAwINDAcGAwL7Cfr//gIGCwMB/vX9BP8GAvn2/vkF+gD5/gIICAH48PsGAfwH/wgK/PYK+wQCBPr6AAQA+fr6+gcB"],
+    ["food-safety","safety","6/YPAPDyAAQH+fnn/vsICPr3+O0ADfj9Af74BAz8AgwT+w7/+Ab4DgwDA/71/u0F+fX7DgP3BwT9DfkDAPfyAQH39/r/AwP59A73/gYGBP4E+wQA+AfwEQb7CQUGCwYS+ALy+v7u/+74+QICBQIDDg0D9gv8APwBBfj0D/j9BgYAAf79+A/9CgMABQEI+wsC/OwOCf33//8FAwn+C//1+f0BBf4IBQEED/sD+/0DAPgDAQL1BAL/CQYB/fgH/f3++wYHBgf+A/oB/wQC/AUDBPP0Aw/59/T7Cw4AA/ID+gEB+QIDDvnz+vwABAAA+/kCAgL/9vz+BP77BA0BAAL5BPDyBwbz6AEL9Av28PwF7Af37Pj9+gz99gMNDQUI//sD/wD3/PkB+gr2AgwaAAj4/Qj3+QAA/AkO9AgD9f0F/vwTAvf7EQAB/QL8//cE/gMB9wv6CfkH/PwG9Qv9/vkJAAgH8vr09v39+fsIBfEA9v0U+gD/BQD59gIA/AP6+AP9AgHw/fUIBQT2BvsM/AMDAvT8AxEDBv71CgP9+wX8/wb+BBMG+fUF/P76/gb9++3+DP7//Qn8AwX++gAEAgP5Bv8D+g4J/vz3AQIB+P0CA//88AgJCQAE/QoMABDzBAj7BQUACAn++gEACf4CBv0E/ATx+wcC//74/f0CBwEUB/viAhQC8On2CgES7ewBA/kRAf708f4SAwcGDfb+CgL+Fgv/D/73FPkIBgj+DfMHAgD79gX9/QP+AP0JAgT9AfIFCgL8+gAMBv78//38B/T8/v4KAgL6A/kKFOwM/AQCCw//8/vvBfL7/Aj+8wL9APj/DPH8C/0G+/wAAvUM/P4D/wH/AAP2/QMG6P7++gACBPsB+Qz+BPn2+QMGBvcJ/ff6+AMGDAcG+ggF//0D/gX89woD+AAA/QYH/f0I/Qf6AAsNDP0FBPkD+QIA+/4BCf8E/PoCBP38BQQIBAsC8gH8AQMDBv4DAPwABgr+Bf3++/0AAPzyAv0HAPz+BQX+BAIF"],
     ["breathing-difficulty","health","AQ4BGf/1Bv8B5/AKARHt+vkJ+fsK//gMBAsMBPb0+gYF8/0EAf8H/wQYAPwCCgb//vUCCAsJA/349gPzBQsIB/8AAQED/Ab/+f7z/gkG6v/2Bv8G9RP7+QkA+QoP7gIDBPPsCg4ACvIE9A0HBvrxAe8I9ff3Av30/wcNAQf7BQj3CgT0BPn0BPUCAAMDBfv2BAMCAwMA9QL39AX69QcJAAMCBgD8/wz9APn8Bv0P9//7+/4DAP36BPzw/QX2+PsCBQoEAP37APsB/v/8APgDCwQIBgYLAQT6/AT+AwD3+AAD//gABQDx/AAB+QL2APr9AwABCQADBvwE+/YLBQkDCP4F8gEF8QQB/uzxAAUI9f4BCfoCBv35CQH5AwUDBvwHB/L2/gf2EA33FP79/Aj8/gr1AAH+Dvf8DAAU//gF/gQIBgMGCAH9/gkD8/79Avn8/xrvE/kF9gP9/ggHCPkKAAEB/PoK9f7y/wQMA/gFCPYM//AH+gYI+QQC/P0RAAH+9vUH8wUF+Qb0+gX/BAwK9/wFAfwE9/wMC/v59v4FCgsECgADBP4DAQn8AwoGCvH9//T6DAQKBf/39gYN7//1Av/4/Pv18v0I/v78/QD+/Q0N+AARBgUJBAD6+gwABfgAAwgBB/cI+wgN/wkD+/n/AgL8CQwH+v4D+/wMB/sP+Q7s8fH98/0I/wPu6vPzBwz1AQYKABD6/f8B/BAKAP39Afb+AAEQ/fwIBPTx9wH7+AkJBP0GBQQB/P8TDPYJ7gcAAP//+RHx9fwFBPz+BQnxAAgB+wTxBgTw9wv1+wr+/P0ABf4CDvfr//gA+uf2AA3zAwgC/hcA+wcGAvz5AAkH9AX99AAF//0H+Pv5/wL/+Q4FAfsJBAb8+wD8+/8F9wMKAgn9BfYMAwcHBwP/+Qb49wD+/PcBAAUT/f4FCQcGBgD/+wT/AP8B/gb7BAT/8AP6+wwCCPoB/v70CAEC+vsI/fgK/wQLCQL5/v3/AAP8CfkG/gH/AgUK8gkB+AcG/O8D"],
     ["altered-mental-status","health","7gv2/PX6DP8D9gH2Awb5/AP9APT/8QIM//wK/PML//70AAcS8wAM8gH5BAv++Qb9BwkJ8/4C9/UFBQAJCPgHBAoJ+wAL8v/0A//5Bf/5ARHr9fD/9fkF8/38//kG/wEBBAMA+ff6CAL4//v6Afr8Bgr09gH5+PYK9gX5CQ3///oG/ggDBhENDP/+BvkKA/wR8AD1/AL8AP8I9/kD/PwFBPv5+QX6/A/6+AT8+wMGCfQB/QkHAPYB+v4ECf39BQ8I+/v+5/7/A/fxCQgFDP8L+v8PCwr8Cf0E8fD//QD+9vQCCvr/8fwGBvj+/P4CA/XxA/v8/fb7BvX8AAL5/gj9B+gB8QABAwf5DvwQ//cLC+v9BfoAAxD5BAUBARD7+wgE9vvyBu34Awz/BPkK+w8G8wnx/fb0//UJAwf0+vMFBAb4/Pv2AAH8+wcFAvf39QL5/P8C/gIB8A77AvgJAwT8/vwA+P7++gEG/wH79/bz8/z2+Pz66wgI9vwKBPTzBusH/wcAB/z6Bf/5/gQHAgcPDPoA/AIEAQT7/vMG/AIACvwF8gHyDQr+DwT6BAAG/P38APoHAxL5/QMC//38APoR+/X2+/IK9QII/fUKBv/zC//7BwUD8wH99/f+Av4B//3/DPz19AIJ9wT7APwD+PgE/Pv8/f78Ev0BAgYE+PX/CAPwEP0DB/gTB/Pv8wbvCQX87/v+9wECBfXzAv0LBwL/Avn2CQYHAwkEDf0JAfz39Pz7E/sF9AcK/f3v9QMPB/4ABf78CPv0CvkFBRP///f6CgAFB/vs/QrzCggF+/wCAQYC9vUM+QEI//35/wb1Bf8SC/v5AQEG+RQBBAX8CQ779gv8+QAJ+QILAf32BwPy+gEJCv4A7wEABQD6FAgG/gT0BwT0AP7+CPX+9wb0Av4D9Af89v0DBf78BPUH//sDCAwD9QwB/PX4AAYG/AT79PwE/Qr6AgwG/f34AgP4AQcB+wMC+/IH/Ar8AP8BBAH2+/wB+QIEAwwC7xP++gMEAfkB"],
     ["smoke-inhalation","health","+foADfvtBAb9+fYIAhz0+v8I/QkLCfT6+PUFC/n+5QECAv0RAwoDChAS/QT6/QcA+PfyAv0TAPYKAgD4/QQAEPMG/QAB9/T6Cvj+CPwO9AP7DQMLAQn08AMBBQUM9wH0Dwjz/gz+Bfb++hX2DvsC+v0I/vj1Bg//BQr1+wAGBfH/A/8G/P3zBfUI9wH3C/j/+AQEDf76AP72BAL9+w0ICgD9CPv9BwX5/f78+v0K+vT+8wMCAgcHBff+/AP49AjzAQED/AP7Dvv6CAL+/P0D/gL8DQMDBQEE/P/+APkDCv7++gMFBgb0CvsE9QEEBv8D/wL3DQIDBfwDBfYA/AsHAwHrAQL/8Oz2BvUC/wYGCgIMC/gRG/cJBvMJ+fkK+P3xBfMIAPoFDQkK/QX/7B71BAIGAwoECAECBgIU8gwR+P/3//UID/79D//8+AMBD+z+B/f8/gf//uwCBP3+DwIE8Pz78/v2AAMB+woJ9gwMCP8ACP3+AwQG/f4J/f4C8gv4/ggDAgL+Bv/4BPYC+g3xBQQBDwT8//33+/j+APsJ/wP89gMI+wMDAwIN+goACAYJ/P3//f0FAwYHBPoC+vn/BPb6/gED+gQB+wD8AwYDAfgGAwMDAP799fYEAAf0AgL5BAT2Av78AQMLCvcC/v0GAv78A/f49QcC/gf/9QAL+gfq9P4M+ub+Afjw4v4CBwUB/xH8BAv9BQn7AgMECf///Arz7f8J+v7/EQv3+QAC9wwC9/wNBg/w9hH8CfwEBvsC+gMGBRD3/f4D/+4WBQnmBgUC9gMICffyCwcKBg3+BPwKCPP+EAL5BfwFDAUEAAr8+AD/9fYJCfUAC/L7AvgK7P0F/PwH/fQH9gD6A/4H+Qr7AwIQBgH5/v0A+QX6CwUM/P4IAwYCBQH5BvkBAgr59vz99vv+CwwF/fj7+/77APb9/vr6+AAAAv0B/AMD+AMBAg8H/gP//gX+AP37+wX+Av8KAgcADP8AAgb7/AABA///AP7+BQH+Bgf4+v8DB/sJ"],
@@ -394,7 +431,7 @@
     ["earthquake","safety","7QEQCPcA/O/+9vIP/gX79Qb/BAcQ/vMK+wP/8v/+BAPzBvr9/vX//AAAE/z7+v4H7QLv+AME+gQRAAMB/gP1+Qv8DgT2B/f0AQcC//z0Egfz9gPt8wUB+wbyA/cP9/cQAgf/BgLtB/8BBRELAvbw8wYGAfL8AQIMAQfyBAMC+ArsCwP+//kN7wMFBvr5BgQE+fz7AQT+CP/6/wX/CAUCB/3+AAD8AQ4HCgP/BPP9/gYA/v4JAfsH8/z3BgcJ8wYEAA8BAwsAAPkEC/gM/f/9A///7Qv9+gX2/wgCBv/6/P7///wABAT9CPv3A/gJAA0BAPv+Avn/BwIG+wsG+PoJ+vAEAvwACO//+QT7+Qf/9voACPcQCgbtDekG/A7yEgL8DAcGDfwB+xT0DPwIAP39A/YO9v4EFPb7Cv8TC/r6+AQGCwPzCAj68/IOBQP/D/0CAP7/APwAAgL3ARTw+/z0/g8OEv738QMAAwUDEPv88fL8BvkDAvgJ8v4F+AP+9/T78gMHBPz8/vYHAwPz/AEKA/4T/vYFBAH4+fADBAX1+vb+AQICAwD6/fz6AAD19vr6AQH7//YDBv7zAP/9Cf4EAP76/wL+CvgG/gcMAwD4/PoJBQMF9AD8Afz9BPwC/fwAAP/5AwAJBvYEAwT2/gEABAADBAP6BPsFDA4OBQIIBv/6Bv8C/AH49v3t6O4FBP38+gADEgkE7ffx/u8D8AsJDAUEBwv/BQD/AQv5EgD/9f3n//wDBQf9Cf/79gz2+gADEPz/9v379fADCP8J9wAAAO79CvT4CwUIDff/9voMAQnzBwMD9e37/vP6DQ4H+PcBAgL49fv89AEDC/n/Cfb9+Pn+/QkBAgf0+Pj1/O/+Bv4CBgIA/fwE9wD4BvoJ+QH2BQgF/f7/BvoGAQIF+PT8CBD6+wP3A/kRCQP/AQX8Av0DCPz7APUA+/wIBP0D/QUCB/v2EAHy+P8FEvkFAgPzAQQC9wMFA/gEC/r/Afz0AAT5AAb4/v0I/AT/BfkACAH+"],
     ["postpartum","health","AP/69f7u/wwR/fcLA/X9B/4H/ffv/AAI+vUGAQj76PT9AQIDAf3+A/3t7/IG7PsLAf4J7gcCB/z6CP/9CQfu/P77APwPCvoO8QP3/P0FAfYA/PEB//UEAwz++QzyCP8F//f6AwXwBgH0/wkH9u3+/P8C/BgDBQkJCfv99v398vsHBf4B/AT8/QIL9/0BCPIA9/kF+gMD/QcACwcG/f4B+f7/Ag8J//4CB/QJBQAFCQIA/wn//wDzBfwUAPv//v0F+QP///v9BPr/CAQG/wf4Fwr0BAIJ7w72+v8EA/gJ+gYB+QIK//n7+wUB+u8H+gEIE/8AAP8E/vn+Bwb+A/UHAPH09P71+PkEF/XrDAsB8gL8EO0ABPYIDQD9CQL7B/D7BQMCBPr8+wrv7QIJDwL8/vf4APQDBfH6/wQABQ358AoKBQb2AfgBBAEMAwb9ABD5AwH/+wD6DfwCCej/9gH2+gX6+/sF9wQH9PIAFQP+AQP/CwgJBgz1Cvz29gEGCfb1+/8A8/UBBv79Cf31Cgb+B/X4BwQKAv0L+An4CQAJ+wP+9AAHDwP1BAX5/Qb2CAD/AwD///4GBv/y/fsHCAD6Bf73CP77BAYKAvgJ+QUJ9gv//QkBBf8E//z/BgoFBAP5BPv3AP/1/P0D/gL//QkCDAz17QYA/v/7BgkB+vwBA/kFAvUEBO/3+vsA7gEQAP0GDQL0Ae73FAMD8gn/CQb18/r0/goMAPUQ+PgB+/zxBwj7EQnkAwcC8v8BEgIFCPkIDAIP8Q8CAvj/Cv/7AQT6/fUB9wn9+v8C8Pr5/PAH8AAR8vjtAvsG7vf4+AUAAfwGAQYKBf/3B/3/+fgL/vQI+/b4DQkD/PgFCP8JBQIM//b8/fj4+PgFA/gGCwH8Bf0P//sHAQz6/wYF9woL/gb4BwADCfb/CwX9Cg36C/8H+fz7BAUG//8C/v36Bwv/AQwCBgT/BAH3CwD7/fwAAv7/+/8BAPkG+wX//v399v4GBP38A/sHBAj78gD/BAQF/AP5"],
     ["chemical-eye","health","8fr1E/jtA+0M7PL3AQQIBg0eBQUP/QIC/AMA/AcCAgsB9vYABP0E/grkBAP/Bgz69wkQBw8G/f0O/wv7GQUBAfwC+w8ICfwGAAbz/xAL8gEO+AkAEf4E+wEB/wP+DAH/BPsD+vf/9wX9Bvb1+QwDFAYL+AUPB/j59Pn+/AX1APkDBgH4A/IHDwH9AQIL9wEG+gEGC/0F+wgFA/78+v72+gD0Ag8J//sE+gb9BAgCAwn6Av389QUCBf3//PoJ/QEI+vwDAQr7BAAD/f0D+wUC/Aj99PwD9/r8/AL/BfsBAvsCA/4Q+QII/QML+QH5+wMIAAIE+/gBDQH5Cfz8+Qn5B/D+/Rbu9/779O7x+PkBAQENDwcN/QIEBvf7BQYA+wATEBHz+vbrC/sC6wUCD/cJAfz/CgMRB/7+FwQD+Bf8DgkE/fgB/wQBAP0H9wj9APYIBAMSBQUGCv7++//99gT/AQX79wb/AAYF8/37B/kJAA/yCAH+/AP+9vIIAPsCABADAPkB+fv5Bv0IBf3/DwH9A/3//AH/CfAA+v0MEAwE+/oCAgcR/Pb8/PwBAgwKAPwI/Pr8AgAE/gX+//4CE/f8Bf77+/gAA/kE+wPt+gwAAfb7A/z8Cfv1//0H9P38/f0BA/sJBf8M/AH+BvsEDf72AQYJBQT5APkD9AME+wb/BAbpAfgK9gEO+wL27v7/AQsCBgAI9f0J/wD8+/kQCfYIB/kAAfsD+xQF7QoC/QL87wL/BfQB9/D+7hIXEAgC/AgIAwD9APICB+cJ/v78AQH//QD6Cvb5B/z3+Qf4B/YO+PYMAvwB+gj3EQb+/vX9/QoH/f4DCAICBQL5B/f9/Az//PkKAfMAAf0PCAMCAf4C+/8CAf0G+wD7+wkCBfkA+PUM+wEGCgUF+w7//AP6//gH7QD5AwzzAvv0/foL+g0JDAj7/gf8CPwGBPYA9/4I/QPz+QcH/QsH/gcAEPkDBQcD/QgA/w3+AAMJ/QcEAQQB9QUB+/8EEwwI+/wC/wb4Ae4H"],
-    ["electric-shock","health","5Qv/FAnrBP/2/vsX/AkFABQIBfkDBg8I9wD4AvgG8/4B+Ab/EQADBAD77hIH9wr98v8A+AT7AgoGFQEO8//pDP7yF/f9Avj6/wD2Avv1BQAA+A39/wP+AQD3CvP4+/v57Qv+CfoAAgP7CRIGBPUM/AkACwX6//f/+gP0+f33BgICAwj/AAACDAP4Bvz9AQb7BP8L+vgIDAb8/gXw9AYFCwICAwALBA8C/wMGAfT6CAT69AUGBgj7BQUGBwIG//0A+wAJ/AIGBvYABgMMC/76AQoBAvv9/vb/AAP4/wP6+fQBC/f9/QX5/v0B/QP//PIC/gsAAwj/+/sM+wEBAgEDAef/AQ/47P32+PoGAAf79vkHGAb/Bg4O+v0H+Qj/DPf98uYEAfL58fYMDe//+vwCEf31AQEB+gXzCgX8BQMK/QMC/Pz6Cvv37gP37QICCgL7AuP1+AHyCPcK9/gDCgcDBP8F/AL/AwMC8ggE/An8Dv0IAwP+DwICBAME+AwA9//uCgv9A/4C+f78/wQD9A0D9gX3A/MA+Qb7Afn8CQMH/AIH/AIJ/v0FB/4IAgIIBv0C9/4I/PIE/gEECwb8AwH9BPoF/QX5+PT39AL9CQIL+ggABQID/AQC/AEH+AP59wP3AAb2BAEF+wn3Cgb/AwL4BAICBf4K+vUCDgXz8gIA/v7pEgAGCfME/fQB+Qj38/EBA/0L+fQN+QsF/wj78wXz9fT7AQMS/AYT/fj3A/74AAL2/vYS+v4C+ggEBwsD+/wHCgIM/fj2+Pf5B/77BP0KCfL7CAP2/QAA/A75AQoQAwUDBPEF9PwB9gEA/w0DAwoIBgIW+gr7+/n/8Qz4CPkFAA/9Af7/Cv0FCfQD/gD4AAD5/QH5AwgL9QIFAvT8APsFEwr/CwEBAwEH/AEE/vj/AAPvBP36AwAD/gsNCAcA/gf8+v4QDAj4APIC9gD8AgUACwP4Dwf2/wACE/r7Bgr0BAUJBP/7Avn+Af0M/gv1+f0ACf7/B//++Qz/9RMN+f7/"],
+    ["electric-shock","health","5wcHBfv69gj5/AAF/ffq9gYAAQH8CAkPDP/1/vsB9gTz/BQBBQT8DQH08Av9AwP/+fn9+/f18v0OBgUQ8/T+/AL9/+0G//z09PkCAff8Bvn6+QD29/j2BvL59gH2APz++Qb9DP4DBAH8CP0LB/z6APn7EfwQ+wcB//v6CgD67QgEDwMNAAL+9woEAwgDEQL2/fUN/AHzCPYH/f/39wP8BQ0BBAn+AwMCCuwHBf72AgT19QUD9Q33DgT9DQIK/fsB/gEFAQIDAfYAAwAC+v33BQkS+/31//4A/AT7/AH9DQECDfb/+QL5//749QL5/vMACAn+CADzAwsNAPoLCwMMAfIA+RoE+Pf7//YPBgQA++wH/xT1CBgM7vj0+v8CDPj8+/X+Cvr6+Qn8/gANAvv6D/T3//v2BAAYBhLtBgr5+AnuAA39//0B9QL3CAbz7A8G8PME/wwBAgD09xECAAoHBvkI/wL8Af0JCgMJ/Qf/+gQMCwgDBAkI8A789/T9CP7/AQgC+/8J/fwD9QX6CQoBBQIABvUPAQMECAgF/QIJ/PsB+/r8Bv8EAQMLAwn+/vn5+Q/5/AUBEgX7+PwKAf72BAb7BgUBBf/9CQoDBvn6AQUFBf8F/Qb6BAEK//z/A/0F/AcCCfkD+/32+v4H+vz7/fz//f4N/v0DBAAC+wX/BgTqA/gT/O8EDv74/vUJAgACAQgEAQQOFPH5+v8C8RwA9gb5APwE9v/6+//8B/v89QD0+vwQCgED9/4S+gwU/v71BQL5CP30A/b7+/QG+//9BvP2A/r3/QP4B/gB+wcEAgf//fv2+gAFAPcKAQkH+AX4//4OBQT+A/70B/37//X48gYF+P72CwAG7/gC9QEMAPsN9f77Cv0O9QL4A/kDC/IC/f/8BQD+/gP7Cw0J9QoB9wAE+vv4+fkG+/4PCAgC+gb18/gM/P7r/PkF/Aj49vz5+gcICP8BBQYBCADz/fr0+QAG8wMFAgH/+fkH9QTw/wkC/Qf6DQEEAQgEAf0FAQP4"],
     ["drowning","health","6wQIDgLo9vv25+n9/gPwFP0MEAMFA/cCCvcR/PD67QMDCwT2BPgP/f0H/AD3CAQF+vYFBAD7+P8P/wT6/AHxAwgACRMC9QAHAvz5+QL57wQE/gkGAwb/AwEPBAMJ9gwFAw/28QkKB/b3/QAF+v/9BQMR/QMB+gD++QABAwr09AcF+/v7AgsEBQL/AP8IAwD4BP/8C/3/9gAL/QH3Cw0A+/0LDwsE9QcM+Pv4BfoDAP30Af//BQP7Afb9G/3z9gMC/vv6/wgB//4FC/oF9vgCAA4ICPwF/gn1BQD7+v8JAvj6/P7+BvX9BPgBAAX7+AP+AQ36BPwCBQAE/P0CAgr+APr3Bg4D+/j09/D6//T/AAsACgD9/fMHAwbvBwb9+fT/8w75+PkADf7q9wf5/gIB+xMC8gkB9gUJCPUH//Ty9A0T/vsO9v37//34Bu4C/PwHCQP6+fv8/v75BAIDAQn4AgwJ7wL//gH8AAf1+v8H+AoAAgEAC/n2C/X+/QQDCO/2CvgN+QAHBwAFDgP9BQH9/Qv4+v3/C/MIDwD2/gcCAPYDAwMAA+8CBf0CAwMGAvgC9/kAAQr1/fbyABMBAQME+vz5+QMF/PwAAPz9A/4MB/0ICPYLDv//8AYB+vT+AfzvDfIADPsCCQXvAQsKCfj2AP4G+Av+Bf/0AAD7A/f//QvxBAgT/uny/v3h9gH/FO4FAgwP9wkF9f8G9g8A7fTqBAERDgEC+AUE/fr46AH/CgLz9/399Qz5/fwH/P8H7/MR+AL+AwPt/AIJ8PsA8/zv+v4LAgwCB/v79wH7/ATzCwQBB/v9BP0D+fjw+P33Afr5CgL0/fv0AgD9/w4CAAj6AwsA+/oDCgEG/QT/CQIQ+f0BAvcI/w36/Qb5/fsCCAzzBwYJCf79BwQH/gUE+gIE/wAEBQf++wH7/f4ICAL4B/4FAwn5/f8G+/0DA/n8BQYACQUFBwQH/gEF/QL98AX++fj8BQAF9/oC/QMACQH+/gEEBwIH/AL/BAr+9gX++AQD"],
     ["anaphylaxis","health","8/X3EPfq+Qjx8fYEBggC8gf4EvoJCfgBBvMUBgfj+fsI+AcCAvEE/gT4+/cF+/0BAvn8AA/58wEKAvXn/fIEDvf6CQoJ+ff9A/gD+QMG6e75BPYNAwP99AcFCPoE/wMABQn7AQP/BgMC+fwEBQwC/fkJ+/PzB//v+AgEC/b9AQkIAQP4AQoEA/v7/hIEEP4G/P77BQMC//v9/wf2CgkG//0BD/sJAwT/AfcBA/j9+wD6/fwGDQUHA/r6/voE+////gEEAfcJBvb+DQAAAfsB/gQNDwIH+QEK/wQD+vQADAD7B/4EDfn6/vj3+v8D+gP6A/34//0OBAMD+f8BCgILBvLn9f7w5gUS/wTlAv78EvsE8wsCCwkC9v8BBgL+B/IGDPcB/Oz4BAoRAfoOAvoNCwMD9AwCCw4H9wYA6Qrz+gH8BPwCDv/3Awb7+QbzCPD+9wj3CP4SA+wFBgIGDwgG/gISDQAE+vcC+wT++wb+AwoBBvn6/AIMCv799QH/+AMABQH6APj9BAD0AvYC9gH9CAP1CgjwCPgBCAgC+Ar5/gf7CgkBCgAG+/v7/PkADPr9Bf4B/gX4BgQF+QABAQf/8wAD/wj/BAUAA/8CA/T0BvsDAQkCBQEA/AEIAAT6AQ0E9AIJCwX4/P4FBwj/AQYFAAX79vr9AgH9BgQCAvwGAP0D6vr/8OgICwP26QAHEBQDAPYIAg0E/e8ACfYICv4E+RP1/wjz/P3wAPz5/QX1DgYGBvH5Cg75/wQG//EH/gX7/Q0S+woF+/0B9/oE9gHv/wkB8QMQBAf3Bfj/7//7/foCBv78//vyFf0ABPwA+AoBAA/48v0IAgvz9PgK7/UC/wMCARAE/AT2/f4EAP8JCAT8//oI/AUJA/v4/AgNAvj+9wX//f8H/Aj3Bf8JBQQFBQUPAP4HAQf79/wK/P8E/P7+CQn//QMJ/wYH/gf5+voF/woK/QT/CgQAAfr5BP0JB/gCAv8B8gH9/PMGAgL+BfsA/vn0CQz8/wj/+AT9AwX/"],
     ["choking","health","7f/2C/Lj+wn1+vX98xDzAQDz9fkKDf33AP0HDgH77voB//3+BfcHBwcG9Qb6A/gR+wD0BwoHAvsE/Qb89PP+A/wDAP4C/fYACAPvAvX47/X8FvsH+Qr59QcFBggNBwIGFAz/AAf2Dfz+A/4C/P71+ggD8u3wAAb6+A/1Cfz6BwEPAvP8Awv3/fALBQQFCQUE+v4ICf4DAfr/+gD3Aw4GBQEDEvYBAv4FBQIBCv0K9f77/foCBgMIAvb59gz6/AH3//n4/QIJAvf3AP/7/PkN/g0LAv0AAf8D+v75+/sEAQT/AgP/Cv/4/vcGAQAEAQIBBP/7DwED/f37/PoK/AAECfX89hL0/wQCAP4D9vf2/+vtCQPxB/P09w32DAb5A+/17v4G/wQDCAj+7wL++fT7C/4P+g0NAPP+AQ7//wr1/wcL+gYHCff9BxD6/AEKA/X4B/sL/e4R/Pv+BgAEBAP3/Q0JAPoF+fYMCALyA/YG+QABDwgGC/z2Dgjs/wL0BAbyCPYB/wEE/ggBDAMDAQb/CQr7Cv0IAvv/+/n/+fUIAgL+AAn9BPsLBPv69v/y//jp/f77B/wJAg739wf/+wYPCQDwBwP9/AL5Afz8Bf/9/vsCDv38AQUE+/4JBAH8BwT59AEAAgoG/gP5/fL9/voA+wUFBgP+AgoDCQH4BP/9+vzy8vsI/QT8CfoKAPcBCf0EBf0BBQUM8/YMBQ8J+fLqB/0CCwEAEv4R8v/+FvX3DRAAAeQICPz8++8C/f786AMQ+PwABPcA/AYCAQUG8wD88AMM+wL4BQEG8AERBAf2/RH/+/j38fYK9/0P9wQI/AQD/v/3+fnxAAMLAfYOBvEB9wQB+gP5Ev389v3+9fz+DgAI/goBAf8E//kDBPT++f7/AfYK/vkEBAMC//v59fkA+P36+AEAAQEH/Pzz+P8D++/6Af0FAgwB/vcFAAH2/QcAAQMEBAgB+P39DvoE9w0A/fv6/AX+CwH+/Qb3AwX7CAIACPMB9QAA/foC/gIDBQYD"],
@@ -418,11 +455,12 @@
     ["bleeding","health","5PgEA+/o6f388/kXCwbzAPcM8f4F9AELBgQCABD/9/cG6QH5Agf9BAH3+wYE/g37+vYN/wYG/QIGAw8OEQb+APP88fkN/A4F7Azz+fYHAPMGAfoAAwYHAAwE8v/5B/f9+PYA//Xz+gAC/gj+6/8C//8K9wb8BP0JBfsA+f8H8gnx/AD+/AEL9QMOAvcI/vwH/v4C9wP39wkG/P4ABAD0AfwD9v0DAewOCPkBAPf++gYAA/kB/v0D9/0BDAIJ/wQEDP4CAP/6/wADAQLxBQH7DPz9/QYJ9wMACgYBAvMGAwAB+f8I/AL//fwBBv/+/QP+CgD2AwUA/gP3/v7/Av8G+fcS/xAD6vgEAA32Bw0FBgMPCfn8AfgIAQAGAQwO6+/1+/8G9gEVAvz7AvEIAgEJDAb0APYH8P0HAAgJE/UGAwMF//b9AQL8CO4K9fr9BAv++hMCBgXuBvgHB/v7/wwBAQUJAvsA9AYFEQQD/wEA//kDBPoL+Ar4B+79/gPx/fL4EAb9BPcD//sFEwj9DQL2+gMH+fb5C/EB+AcDAQAFBvEC/fz5B/72Df/4+vn+7wP/8g78B/sG+AT2Aw///wL8AQMD//0EAwMABvUA+v0HB/0P/f79AP79+gIC+wf5/AIDAPsF+Qb5CP8CAAkA+gv/AQj9+wT8A/YC9P78/vX/BAPwAwr6AO0HAAcB+RIG+wb+/QQE+/IHAQb7/v8GFe7w/gAHBAIKAAP3/fvsAPr6/vv1/QPuBwcC+wr+Af0DDvQHB/X8/g0G/QfoDO3x/AQECvv//wj6/wH8EPwG9fsD+wLx/wQB/fwE+vUNBwP/9QD8DAgADv36CQLz+fYD9/n48wQE+gMPCfv5BgECAQER///9AQMLBQL/AAYB++4FAQH6+/z6CAoDBf4FBP8O/PoEDfoAAfwE+fP6AggB/gbx9wX4A/3+/P3/7QoH8gIAEPUMBvYFBQrwCfb/BAcA/QXy/w0MBAD47wP5Af4H/Pv7//kMBPv2+vgHBgACCAECB/4M"],
     ["puncture-wound","health","6PwCDv36//bxD/f++P//BQYR+wr5+g8A9QX9/hoF9wgC+vz3CQcYAwby+Oz1/gz5/fsL7gEG+/wOCQUMA//z/Qf3Ae/9Bg3z+QUKBf0G+gX98AHyAAQD+Pn+/gMDAe4GAfAJBwoN/vsA/g38AwIKCQL0Bv4G+QYGC//+9Qv++/z5Bg70+v388/QNA/sB/AD5AvoBBvkB/PcEAQj6Bv35/vsFBwj9/QcIAgL0+wEKBPUB8P739AkBB/oG/f0HAQIBB/T7+f3//goBDP8A+ff5AwEEBQQH//sM+fwN+gj5/Qn/BwT39/v5CQABDPj+//gK/AP49wYMAwH0//8ABQQGAPH2/Rbw7APu9wUICfsK9wEDAQP79PsL6wIABQb59wQHCfn79Ab+CPQD9PQC+AsPAQME9PAEAf4NCw/5CvQE+v73/f/yAfn97Pr8+/0B+/sC8vwFCwb4Agb89gH+BgUDAvj4DAoKCP35/fkM/QD9/ggMCQMCBwf18gEE9fL/CPsABPwM8vv2AfL8/QH5DgX8/Pn7CAIB9u7+AQAC/AgKCu0CD/3+AgEGBfj68wj5CgoE9AD4Afj4/goD/wcABwL4/wb///8DAP/w/wj/BgX+CQwAAfb+/fb4DQb9BvsC/vYEB/788wAFBAMK+v0G+gn8AvkP//oMCfv+/voDBgsE9gr3AfYABOX8/PP/Bwv/EvzzCBfy+/MFE/P/+uIRB/wEAAbxAAYDAgz1+AD4BQP99gb1Af0CB/vx8gUAAgf18vsGAPr58/r2BvL6+vIG+v0D9P0E/AP57gf/A/H98P0UAgYB9gUOAPwFB/8KBfoI/voCDAUJ+/8F/Pz///b5/wEA+/78Cf8A//r6/QD4/AgW/vn6/gb+/QD8/wEDA/kEB/X9Cgz/AAXzAf8H/AL///0G9Pr3AgUDCfsE9/cF/AIF/hMA/An27/js//oE8P33AwMBAQsAAwT7AwT3BP0JB/wBAAUV/vf6+vwACAAB/AT3/QT4BQD+Bff9BP8HBQQBCv4E"],
     ["dehydration","health","9Pn/D+TuCRby7/fs8er4/fv/+wD47wn3CPX1A/sOBPwEEQf49Pb/DP/xCe4F6v/rAPr4A/T9+wYF/wYEBAD8BQ8H9vcF9wIIAQX29woL+QIBARb+/wYM+AcL/PzvBPb1A/8B///1Bgz/9Qf++wD9CfgHAPMCBPsGCPT++PcIAP8A+/7++AAN+/8E/v8H/v0C+fMB//n5+v7/CwD9+wYAAe8CB/4G+AUB/AP5BP4FDfAF//UJ9f78APIGB/wAAQgKAfkGAwj/AQAGA/8IAgD//f4A/wD8EPkLAwQIAAMF/gL9/AECBwIEAv0GA/wB9Pv/AwAB/fsGAAH2CAH//Ab89+n2Awv87Q/88AXt+e4K+wsE9AH88+/xAAoP/wj1BvoA/QcDAPL6CRLuAQUGDfAC7gb69Pn9AgAH/AQDDO8AAQEPDvkF/gXzCPgCAf8CBAADBvkA+/4O/fkDAPj2/P0J+hIA+vr9/fUJ//oKAvP9/AcM+/kB9fn0Affr8fcA+/f4AfsKBBH/C/sBEv8D/f4D+/sI+g70Cv3/Bvz+BA35/Qj7AQME/gj7Cf8I+v8JAAf4Af7/+wEBAvrx/AoG/wb3Bf4C/Pn/Agf7CwAD+vf/AgII9AQM/gT6AvgODP/+AvgAA/7//wb6AQUB/Pn+Dvz/BQb7/PgGEP76/f4A/vwCAgTtAAIQAPH5BgLx7gbw9QcJA/30/wL3A/sD8Q0DAAUFAPoDAwEC+REE/QEI+fcFAAAU+PwL+vf9BwsEAQkC+PoDEPv39wn+8QUHCwbw+wIQCP8MCfwF+gIA9wcKDwAH+P8CA/8H+PQQ/xIB9gD+EfwG8gP+Bf0H9xL4/fESBQX0BwQDBPj6Cg79BAgJ+/z5Bv4L+vL3+v/2CwUA+fwMAQT3/wcD/vf2/P31+gMH/gH8+wL99PwPBvnt9PYI+PsBBPj+8QT1AP0P/ff5Ag8BBv76Bv/4AQICAP0A9f37AgL99wv6AwL+/P0BAPwDDgD8+/UF+PoDAQgA+f8EAgv1+PUC"],
-    ["drinking-water","safety","+PYIF/n27foBA+L49gMEAewE/ggN6v78DwAE/Pjt+/v1D/YC/wAGCfQB/vn++hIGB/H6C/z0BQYO+gYB/fcDBAgI/v769fcQBQ39/vT/BQELAQ0A9AQH8vf+CAv3AQAI8Qb5+/j8Avby9/kD5wr6DvjxAf0JEQoF/wD1DfgNBgAFAwMB9wsD/AD+B/8C+ff0/Ab7+wYB/wMAAAYC/wIB9Af/AQj++v3+AgACCAL7BAUCAAX9Av8F9fz7Af8ABfkF+AD8AQL8/QAIAgHyBgUPARQB+Qf+/v4ADwMB9gcF//j/+AICB/gGA/wC/v7z//TyAgsC/AEIBAD+Bwb5+vsF//MBAQ8D+OYKDf/i9PQC/gz7AAEDCe8P/Q77BPoB+QQEBwoB/QMA/QrnAQb79gkOAAr3/fn5/PkRDf0LB/UE6wz3C/cB/QH6AAf6Cf4C+/8GBAAK/vv9DQEG9gEK/gz0Dg4M9f39BP7/8Pf5/PQN/A0D+/kBBfr+Dvz98gX7BQ0ABgj3AOsBBPX9/v4DBgUB8QAIAPgCAfX9+Q0C/AQDBf0EBwgOAO79/fgD+P7/BwT7//zy/fwG+fr8+Abx/AH8/wMH9/oB/g39+v77+wD/BPgFAgAGAvz1Bg0HBAMF9gECBf0D/wP9BQL7AAEC+vv2+v8RAPIBAgf7Bw0GAfkA/Pn+BgYO9/j2//fy6+f2Bg4L/AQMBgT3DAQC/AMEBwj/AwQE/gAOBhML8QAI8gP0//T77fQABO4C9gUHAvoD+/sS+f/39wjzAQII+fsDDADxDP7/D/8C9gP8C/gEBvoOAQv+BwT+BgQCCwUC/AH/AQAE+vwQ/QUH/wUPAPMD8xkCAgX8AgsG//wHAgX/8/z69fgF/wwA/AoEBQH8CfkKCQQJ/f7+BwT/9wn3/QQF/vv95vr1/wUAA/4B/v8G9wj+BgwC/vf3/vv7///9/QYECQkKCgP8DBMG/QoFAP/8DgAF+QIH+/4EAwAL+/EBBgDz+foM/wH6+RAEBP4E+woCBgUC"],
+    ["drinking-water","safety","8gQMDu728fcH9Oj6/QT9Ev4CAgEH6f0BDPoH/wPx9/4GEP0I9fX69+gB//oBAQP7BPz6/AX7AQX9Awb/AAb8DAMJ+/cB+P79/AwDCPoD9AwJ+QQGBgv++gL7BQr2A/UL9Avx9QD/9wP29vsG+hD4Eff+/fL/CQAK+PL6BfoIAQsO9vz/8ggE/PwGBv8L/f3yCgIE+wD++ggBBAj/CAH+6AQOABYD8v/8BQT6BQH9+wAF/v0A/QP79vkBB/UGBfb6BAz7/v0ABf8E//f0+AkJBA4A9f38//sMBwEDAfr++AMA+PkKCPwGAfwECf/5+foB+Qz9/QQCBvMEBwoF+AoIAvn9/Afy+usTDPnt6wIB8A/xEQAEC/QF+wcK8vkBAQP9AwT4AfkEAfzn/wQC/BELAPz39QoB+fsP/P8ECP8L9v0BAf0NBgH3BQH8+g7/Dvj5BAIPEfT+BAYP9v4NAgvzEv309vj/AgAD+AUL/vwB+gMC+fwM/wIBD/cC+QgF9gDzBAzzEfQOA/b4/QECBf0E+woBAQH9Bv77/v0D/ggD/f76CgYM+vX+//f8/gH1Avv7/vrwAAIB+/oG+wn2CAX/+/4O9wsDBQj4Af378QgACQsG/wIJBPny+/8DAQcGAAMG/P/+/fn6/QwEAAMA9/39+f4KBe38/wkBBgkJA/4EAAAB+v8W8PTg+Aby6/ns/P8P8gQO9wL2+vgUBgkFBO/7/AYE9wPu+QP37fUE/w0EBfcK+PkECv77Cwn5CQT1APwF/Qj6EfoBAAr5BAf4/gb6Cgf/BgMC+wUJ/gYDDQL+8Ar7CPjyAvr8Cfb2+vb+DPgI9/kH/wMCCgb89gD78AL7BgH7/vj0C/0AC/4M/Av//vkF/gP+AAADAwIDBwACCPPvAQYJDfr7/wH6/gUAAQID9fsG+vf//vj29wQO9QkCAQYBBv/9/wf9BAX5+O/6CAADCPr8APr3+QcN/QwCA/kG/wIE/wX8+woF/QQFAv79+Pv8CPkDAgcLAAAFCQL7AAz4"],
     ["food-outage","safety","8A0EEP/0AAgLBPf2/fwCBAH2+vQCAQEEAvrwCgL5B/n9/gMP/xb4BQcFAQjwFO0D/vf5EwT1/Pf7CPoJ8/z7BAMAA/vx/gfv+wD89w31Bf/4APkN+ff9BQT9/gP7BgIH+Qfv9gPt/gAEAPn8/Az1Bv37AwP4EAgA/Pv7BvkJ+P4C/gYC+Q8F/vcAAPoD+wsMEP0A/PoC+gAGBvz1//0G8/kDDP8DAPUG/QP4+Pj0/voMBf8BBv4NAvsFBwIJ+QjzAfMC+/sA//j2AQX89wQP+Av/9RH4/f4DBgEG9/X8+wENAf8B//MBBe8JAQf+AfkH+fPz/w4LCgEBAwYG6/v+CgUHCRn0AO8QCQLy9fj9+BL1APnvDgP9CfX79g4C9AINAPUP6AQR//35AREACAr3DALzAvkNAgEC8f4HBf/8BwH99/339AX9/vv+7f4C7/0GAgj9/fsB9Az6AQUDBv78EAj+/f4D+wQLBez8Cvj6/PT++vARBPnv9QQABgn7/AHyAPsAAQQKC/j1EwIHBf/5/QQBCfn6Bgb/AAYB+AQGAgkOCQX8Bfr3BgAAAPsF8/n0/gr9/Aj+B/sK+gEAA/8B9gMABBAA/Qb6/fkD6//++P4G9wcJBgT2BAUAAQL4/P798w3+BQL+AP3+/AMD/v0BAwYD/v/8/Az8+wADB/v//vv2DBUR+P70CwH26/D/BQcI9/8C8wIJ8PX17fr99QMNCwwKDv4HFPoABAcD+vUH8Q/5/PAACPz//P8I8BIHBP39A/X49gP5+/v+/fP/DPUGFgMD/gAG9/oJ9/EC/QUDAAsEAgAA+AsCBwPzCgkSBAb5B/39DAQOA/sN9fwR7/8D/gcA+gMFCwIM+wP1APoJ9wT8+P3xBgcAAQIBAPUE+AAB/AL4BAr//PoD/fD4CPkB+Qb+AfsFAgf2AQ0F9QD9+/cC/QYH8v8D+Pr+BAoDCQH6A+77BPkA/AMM+fwA9v33AAIG/gj7/PgA/P7/Afz7AAH8Awj4AQEG+vH/AwkBAfoD"],
     ["sanitation","safety","9gALEfr1/Qz09Pn4+vj9C+789RIA5w39+Aj7BwH6AQkHEwMDCwIL/v0F+fMH+g8DEwMABPcBCwj4D/sABQD6CwUE9QIRBgUB+PgO+PwNAPn0+QkJCfYABPkR/AL5BPX0/PwJ+wQGAP0DBAr28gv4AvcB+P78A/UP7gP8DvcI+wH6+v366v4FBPgACP0J7voBCAD5//0D9gAHBQgD+QcH+vcHCv0B7/QL/vL7BwAH/fv68fP4/AX2/Pn+B/f6AgMABv33+wEJCQX4AQICBPz9+AP89wD+BfzwAAAI/wIHA/4CA/35BAH+BvwDBAr/+fj2BAMF+v4ECQUGBfsB+wn6DvkPEg/+9Pj+C/Dt8wn5/A/6AP8MCAgKAvb7BgsH9/sKAw0ICP4FAO4BBQL0/Abx+vkIBgkC/wMJ//j3/fAC4gIUE/z1Cv/7B/kF/wYI9ggJ/PH2Afv9AAQD/gL/Af/9BgAE9fX87AL19gIICwkK+gAHDv73/wEEAP3q7gf8+QUBAQT7/Pj/A/jz//4CA/kDAgICBQX5/vwB8QYE9gAC+O3/BAgGCP4H+gcF/AkAAQkVA/n1AfcBAgX5CAr0+QP8BvcL+QQACf33/vr3+vgE+gP9APgD+fb+AAMDAfvyAfYG/PsABgvyAQH4Bf/8AvQGBfwEAfr/+Qr6CAAI+/79AAT7BBELAe33/PP4+OP1/PkQ/xAAEAn8FQT67wcIAAn6/wQWAAwHEP0IBAMH9wkJA/UHCgAL+gD/AO8M9f0BAvECBwX/+A4B/O8BBQACAAIAAvL3Awj7AQP/AQgACPUK/AD8AwYM/f4G+fj5BQ/4C/n+AwD2AvgC+hH//fb8+QoM+/f79gT7/QH4/wMKA/gAAwAID/0GAgT5BgABCPcG/P/9Aw0DCfnz+fb+//cBCPwJAwD18foC/f4A+wIE+O8G+QD69Pz5/gAR9Pn78f8I+/0C/wP5CP79+vkDCAD4AQz3/AAGBvYF+gb//PgC+v/7A/f9/xT59wEH+AQIB/v6CPsN"],
     ["febrile-seizure","health","6/b2Dvv0DBT+CvcE8gMA+vQIAAL6/wPs/v8KG+8B+/sR9g/3BP3wBfb8/P389v359QvxDe8A+wkK+vsKCAn97gr8CfcD+gby+v0FCgQF/fIK9AX6Av0R7wH9Bv4M8Pv89Qr8A/v99wsEA/sG/vsFAvgFB/H2Af0DA/AB/QL79gIH/gkF/f0LCgAQAv8K+/z9/PgGAfL7///0+gECAQb1+fkBCf8IAAv/+fj1+/kM+fAFA/8D+wIDCf0BBAEG/gMO/wIQAP8E/f//+wH+BAH99gABCfv+BQMJAg8H+gQJAfoAA/8C+/4CBfkEA/kG/gQC/v4GBgYCDPsICwEF/vXw+ffu/wvz/QD9/fP6/gL2BfYMBwH96g79+f7xCQQF//4JDPrz9//xCwr9AQb++gbyB/b9/Qr78woD7wX9+Q/79AEDDvkA/PT/Bw4P8wj7Df79C/sF/wYQEAAC+/cEBPoE+P8JDP/2C+0N+Pz+9Aj2B/j9AgIODwUA+Ab67AkNAv4AAP//9P7+ARH/AQAF/fv7Cfn6AwgGAv77+P8A/AAG8wP2/v0AA/4MB/v/9/v09vEE+AEDCfwK///vBgH8Avz4CAD5AvwMCQ4F/wAABQv9AwcL/RPzBAYF/AkGAvwMCQL+Af0DC/oI9AH/AwX/BAIDA/v+AwL//Pf2+fn5+vf77v3S9/oK/fgGAf4A6wP0+hH58QH4AfT+9/EH8gQQ7gf+ARIFDwH/9PkF8gQG/Qn3CgLzD/8H+wL7Avv4+ATkCgf2+wH+A/7z9+8BCQIBDvj7/AP6CvgB/AkA9vr89f/v+gH6BPX8DPYACfr2//P6/vgKAgb7CPr5+fsC9AUQCAL+BAH/BPsFAgoG/wUD/gL2+QoH/wP6/foLAPP4AwME+P33+AH/+wP9BvsE+fPz+QL+APwFAQT6CQj+A/8ICAsAAgj5/wX5AQH+/vwGCf4FAgQI/wAICAQIAwMFAAL7AQL1Av8I/gT/A/j6Bf4C+vgE+/gB/v0EAAkA/wUCA/D69wL3"],
     ["cold-water-injury","health","8v/2Cfn4/e768e0D8QL17e//DfYI8QEM/fj7CPz5/P8LAwjx9/QW+vsG+foGAAgBDvEG8v0CAggPEQkQCPwRBfMFBwQH+fb88PsM+wf3/QLq9gH29AP9AAcS/goN/QH6+AbzAwsB8gv79RUF+wj5CPX1AQME+f8B//kC9QADA/8GBgX4DAkU9PsLBgAIBPb9/gUB/vwG+wIGBgD/EAH0+goBAQAA/gUFDgQGAQH4BvYAAff9AwD7+/kGBgMEBgUFBPsD+/73AwkCCAkFB/z/+AIA/QgDA/8BBAMH+gcEAP3/CvkAAgH9B/39/gIC+wL/CP358QcJA/78A/wD/AEH9+T3AQr78vIC7fb5DPcT9gfuEg4F//oK8wz3AwPy6fUCAg0J9PACDf31/Pj7AQQBA/PxAv8E+gT0CwX89ff8+v/4+AMJ+uf+/v3pCgj69/j9/xP3/gb9+v8FCwIEAAT79vULAPv4DvoI8/gB/PwDBAsHBPj7B/L5+fb6Bg/9AusFCAMJ+PUNA/wBCQL+AQgD+/3+/gX8BvwB/QEB/xEH+AMECf4F/fQKAQH7AggIAwD6+wEB/wb79/3//hT5BgYAA//7/P7/+QYBBQgDBQEK/v8MAQn+BgIP/gj7+/n/BQL5AQYB/wH+BPv4+QAGAf4BAvwJAP4CAAQHAvv5+v4DAvj79/oH8Pj/6/L3Avr2Avnt+BMJ/v32BgID9wIIA/MCBAzyBPb5+wjx9//6AQH9AQ309gD1//0F/hkG/AoFAQX5//0P6QT5/QP7/BX5Af36AvX/+PL3AgD+/Av8BgUB/v0J+vcKDfj5DPr8EwYK/v0JCAIN7w8CDPkA+P3zA/8C/wgFCf0LB/j87wr7+vz7APr4/P7/BQH////+DQgKAukACQUF/Ab8CQkMCAkCA/sK+/H99/z2/QAB/QQL+wQL+gkE/AL++AEEAQIR+wQL+vf7BAQLBQsFAP8DBAr1//j/AfcP+gD9+wD9+fgF/gX1//4ACP/2CwUC9wT3AAMGBQH+"],
+    ["ice-breakthrough","health","6v0ECQf6/fz/+PkH+QEHDPsDGPT/AP4B/u8D8//uAA8ADP7tAPwTBfr1Afn/DBUFDPj9+Qrz/gwJBvz3+vP5BQECBgT/9gT//AQA+fv3+BH8/gD87AgB8wgBB/0QA/sEARb1BgEACQTx//8GAfgEAfz/+/3/8vj7BPX6//72+fcGAAH8AwcL9fkA/Q4CBv39//j7BQD+Aw0KCAj99gr5BAT/BA768QoGAQT9B//88fcAA/n89//5/gn/EPQJ+v8AAf/89P4A/v8HAQYB+/8C+xYIBgQV+gADDvz9+vUHAvf/BgsB/QMBDPn8CwgD/P37/g32BgL/BQQI7gL+/Pr+Avf7/xP//fX3BgLzA/AB/Q//ChPn/RL5/fvuC/8B8/wMDPoW7fb9Bv78/wMDAQX1CPr8BPUG8/8DBAQG/P/7A/n1BAUNAfgA9/T8+v/78gIR+/8CA/v5AA38AgP6Ev/9AAQL+vIR/QED+/X/DA8BBQT9+wL9CvQJ7wj3DRD9+fT2BAEE+QITCvz8Cf4ECgn1+/8B/wP8CAoAA/wN+QsD9gQMAw0GAQH+Bfz9+PwI+v/3/AX6AP4GBAABBxALAAcEBgD3A//+BwEGAQb6/Pj/+fcD/wYABf8CBgj9/v7xBfcC8wYB+wj9CP4ABQMCAQMK+wMM+v0H9A4J+PII/wz9+/npAgAR/f728v38+fnx/gID8/sa9gcH9wYH9AP5++0EBwIRD+YG/A/98vwE8/sJAwEE9vf7Afr4Bg0I/wj39gj9APsFDAH3/Qb3Af33/Oj6E/oJBgH8AgEG9wP7ARL3//kGEPADAQIFBPEC8gX6AgMK/vryCwX4AfH/+QMCAf35AQUJ+P0BDwv5/wP8AQUK+PYBA/oB/QYFBwwGBfYCAQAEEgUICv35B/4CAQgJ//j+7QL//QQGA/z+BPsVBwcA+wEC/f/3AAMBDQECCPn/B/b7Ef8L/AL8/AUK/fv/CAL5/foJBQD6AwYF+P4GAAP/B/0ABP7+B/8GBAHzAP8EAw0B"],
     ["immersion-foot","health","5vr7Cf30AgHv9vANBv8A8wUC/vv+9fsJBfbtDQkC9wQa/BD0Av0M8QX/+vT9/A8C/vb8Ag8A+wIPCgUKAQEKCvL9BfcU8/8A/P4E6wD18AXt9PLx9P398QIL8/3xAfv5+wABBAj++wb+9wYKDBEFCfDzCPb8//f2/wH/7ggKCv78CwH6CQAM+wEDAgb+/wP/Agb9CfkD9/4ECQgBEP38/vv///kL/fj+BAj//wQACPsC+fb/Av4B//0G+v0LBQIB+vsAAf/9CgoEBQcBAgL8/v0BAwf/AwIC+wcD9AwBBQYCBvb3AP4CBPz6BQX7+gcEAvby8/wAB/76BQEABAAB/fL/+hDq9Pr89v3rBPMDBfv+CPECAAIG9/f8DA4K+PgRCAIW/gn3CAAD9vfzBvr+AAb0+wYK/wD0FPn7DvvzC/kM9vvyCvEG+/z/+gYDAAMB+gYICf4J/vf9BAj2BAD3BwH5AQYBBvUE/PEPAQz+CAjzA/0BCAD38P/2AwEA+AUDCgQH+gcABfz8BP78BfwB8AH3+gT9BAAF9wEK/wT+/QUQ9Pj/Cf//EQX5Av4I/AT89vjw+PYD+fv/Ef/5CAEBBAPzEwT5/Af++REAAgD8/vUBAQMN+gb+/AMOCPv8AP8C+AP4AAYACP30/AkK/vD8CwAC+foFBgr3/P8EBgUJ/PXn6gAL5/D6A/Pv+QMB/AvqBQf6B/0BCA7+7PYDAfcDDBD9DwH9+gHz/vf6BwP6DPD8/PQN+AP5/BgF/wcEA/v++vsECBL5BPTyBvT2+vj1/vr/BgEJDQbsARD5//YF+/75/Pb9Af/5/gH+FPQJ9/kMAP4D/gsGAf0D9fn6CwgE/AYE+vkDBf8F+AQE+gwCEgcD9QT++fz6+gEEAQYDAvn5A/f1AgT2/gMBAv/7A/gA+Pn49Pj0BgH3/QIE9Av9/wz6+wQEAvX8CgYK/QQD/PoG/AsBAwMIBwMICQoCB/z7Cf/+AwQG+vsE/QILAwP/+w4BAgr6AP8BAP79/wQFAwD/"],
     ["fall-from-height","health","9gQPDQn8BPPvCQIQCfIF9AT7+w8PBPYP7fMA8f/79f70Bv/1AgwH/AYDBfcF/ggD9ggFBfP/+wUEAfEL9BXqABEI+vz5+wT7/gEH/fjr+wnr9wz2Avr+9fz7DvgIBfsLBvvx/AEDA+wHD/0GCvf9+/j8BO4L8f797vr+Bwb2Afr8+AUDBP8G/v39Cwb5AAQC+gMF/vwDA/7/+gT6+wUAAgwF9gv+AAMACgT8+//v/wQK+PkR9QEI/fz7CgH6//r+/f4DAQX+CAD/Av0K9AED/gT/AP8D+APw8/37Afb+AQQH/P77/f4JBPP9A/4EAgT3+f8HDAn2+PwCAwEEAQD/B+0DBA0LB+708wX2DwX7/vwP/w0FB/j+B/cB//r3+/wAAAoDBQX7+v4LAREA+Aj/7wb6/QsRBP0EEvv/B+8MAwAQ5wED9vUGDfUOAf/++AgG9gwP8/b1+fn8AQEB9/8G/vsD8wD/AQDq+Q4ACQ/rCAUD/wbuAPb/+/r++fQAAQP+/A0CBQUEB/H7BQ8E+gX8+AD6BAn7/gb7A/sI/gAK+gP6/vsKBQIUAQL59gX7Af0A+fT+EAgBAv76AQgD/Qj5CP0EEQD8AQgMCAMDFAQHCf8D/fgGBPYI+/4G/vwAA/8C/QcA/QoCAP/v+P8D/fr8/P0ABgX9A/r//PIHBvoBAvvlCAkIAO7+8+z88wP9+/0F/QkL/fAB/AD/+wsMAP0LC/sLAe4I+P73B/cA9AIA+gAF+wMEDvkDBQ7t9wn6A/YHFfUSDvH1+v4NEvoF+vcF+Qr68/wD+v8J/QIC8gQOAf0O+v35AwQF9AIG/wYCCwL9+woBBgL9/AIA8fH7BvoC+gLyCPoG/wMACAT1AP4JAP0DAPz+/AX3BQD6+wICBAcC+AH+AQT7BwD+CfULAvrzDv77/gj/AgP9/AcJ//wI/wj08AAB/P/0/vsO+vn0A/wI/Pn+BAAE+QQI9vP2+PwE/PUAAQgA/wr//fX2Bgz6//kA/gL/+u32+/nyAA73+goA"],
     ["flood-mold","safety","6OwCCu309gb9CP3z8f8FDv4GBQIK9vEE/PwRAPEMBP0aAgkGAvsTBf0H+PbxCADjB/f4A/fzAfz+BQEOARAEDP0G/fH9Chvx7PwL+/gABP75AP0J/P4MAgIO/QH+/wIHBwf/APsECwj98Af1/f0JAg3+/An+CAv+CgH69gb//AkF/wf36/0H/wv//v79BAAJ9wQB/vj9/QMD/gH9EgP3AQb89wEDAAz+9gr69gsEAPb//wf9Af77/v0B/gUF/QAIB//9+AEHAgv+BQEEAwkH9wv+/AQA+gX3AAUB/gD+BAX+/v8H/v8DCPgABAQC/vYB/Ar2/gj9+/4AB/oF9wMKB/f6BQnu7/Xt/wbt+QQMAwQVDQMIFP/27P/3//0ADvQNAAgMEQfy/v38/gD+//8P7v8J9QUNEf3/BAv39Pb8BgwFAPnsEf0MBAMF/wLy+fP6AgH+BfoN/AAH+QH96P70C/8OAvzv//X2/O76CQIEBAX0Bvb69Qb4+PAB9/4F/PoJDvwA/Af+AgL6DAP7BAEG/QEJ+Ab4+/sJAv37/gAD/foQ//r//gACBff++f/0+wX4+/f89AIGAQAD/gcJBQUECAz6CPv5+gMFAgv7+vwE+AARAgYF+wH8//QAA//9/f38C/v6AAADBP8D/wMJ/fwEBvkEBAIB/f8CAgUFAfgICv4D9gIV8u74+vr37/QAAgv2CPsFBw/9/wX99/Tw9QrqAQ3//ggKCf3z9PYOAvbsD+/2/vkOBAwP/ggN7/P+BQYI9fQB+Qn6CAL/9gX07+/7C/z1Exb2Afr2BQII+/L6Av3+Av39+gj8AP/5+v/7BfkQ+Pj78gYEAgcA+fz9/fv7DQUCC/oBABkA/v4DA/oG/e4A/fgC+AL8AxAA+/4BA/37Cfr9A/4CBQQD8vkM9QUO/QHz+f4CBAIB/P7+AAgCBA4E+QL3A/v/AAEB/f4FAv0CCP8H9wf4AAEF/QP6AQH8/gMG/fkAA/wGAfkCB/v8/AEFBQMAAAD+AfoE//38/wwF"],
@@ -587,7 +625,7 @@
     return query.pediatricHealth ? [...new Set([...query.routing, ...deliveryTerms])] : query.routing;
   }
 
-  function rankPart(part, prepared, asset, limit) {
+  function rankPart(part, prepared, asset, limit, exactPass = false) {
     const {query, primary, phrase, vector, focused, evidence, titlePatterns, emergency, deliveryQuery, postpartum, pediatricHealth, language, seed, audience} = prepared;
     const {domains, discussion} = sourcePolicy(asset);
     const trusted = asset.critical && focused.some(rule => domains.includes(rule.domain));
@@ -599,11 +637,13 @@
       const original = primary.has(word);
       for (const post of postings) {
         const index = post >>> 4, weight = post & 15;
+        if (exactPass && (weight === 5 || part.records[index][5] || part.records[index][4])) continue;
         let stats = lexical.get(index);
-        if (!stats) lexical.set(index, stats = {hits: 0, strength: 0, body: false, bodyHits: 0, leadHits: 0, weights: evidence.length || pediatricHealth ? new Map() : null});
+        if (!stats) lexical.set(index, stats = {hits: 0, literal: 0, strength: 0, body: false, bodyHits: 0, leadHits: 0, weights: evidence.length || pediatricHealth ? new Map() : null});
         stats.weights?.set(word, weight);
         if (original) {
           stats.hits++;
+          if (weight !== 5) stats.literal++;
           stats.strength += weight;
           if (weight <= 3) {
             stats.body = true;
@@ -620,6 +660,7 @@
       const row = part.records[index];
       const stats = lexical.get(index);
       const support = stats?.weights ? conceptScore(stats.weights, evidence) : 0;
+      if (exactPass && stats.literal !== query.length && !support) continue;
       if (stats && !stats.hits && !support) continue;
       let similarity = 0;
       if (vector && row[3] && !row[5]) {
@@ -628,17 +669,23 @@
       }
       if (!stats && similarity < 0.37) continue;
       row[0] = rowTitle(row);
-      const title = normalize(row[0]);
+      // Some preserved recipes have page numbers for headings. The time
+      // table names the exact recipe even when a page covers multiple foods.
+      const recipe = asset.format === 'pdf' && !asset.restricted && placeholderTitle(row[0]) &&
+        row[2]?.match(/^Recommended process time for (.{3,80}?) in (?:a|an) [^.!?]{1,48} canner\b/i)?.[1];
+      const title = normalize(recipe || row[0]);
       const archivePath = typeof row[1] === 'string' ? row[1] : '';
       const dictionary = /(?:^English-[^/]+\/|(?:^|\/)(?:vocabulary|dictionary|glossary)\/)/i.test(archivePath);
+      const sourceHeading = titlePatterns.length && !recipe && placeholderTitle(row[0]) ? normalize(asset.title) : '';
       const conceptTitle = !dictionary && !/\/[a-z]{2,3}$/i.test(row[0]) &&
-        titlePatterns.some(pattern => pattern.test(title));
+        titlePatterns.some(pattern => pattern.test(title) || support && pattern.test(sourceHeading));
       const deliverySection = deliveryQuery && trusted && asset.format === 'pdf' &&
         /\b(?:pushing|second stage|stage 2|giving good care during labor)\b/.test(title + ' ' + sourceTitle);
       const postpartumSection = postpartum &&
         /\b(?:postpartum (?:bleeding|ha?emorrhage)|birth of the placenta|bleeding after (?:birth|delivery))\b/
           .test(title + ' ' + sourceTitle);
-      const exact = title === phrase || title === prepared.original;
+      const exact = title === phrase || title === prepared.original ||
+        title.replace(/^(?:how to|how do i) | page \d+$/g, '') === phrase;
       const phraseHit = !exact && query.length > 1 && title.includes(phrase);
       const coverage = stats ? stats.hits / query.length : 0;
       const strength = stats ? stats.strength / query.length : 0;
@@ -650,6 +697,11 @@
       const answerConcept = support && answer.length && evidence.some(words => words.every(word => answer.includes(word)));
       const matchedAnswer = row[6] && (answerConcept ||
         answerHits >= Math.min(2, query.length) && answerHits / query.length >= 0.4);
+      const repairTitle = prepared.repair.length > 1 && title !== title.replace(repairAction, ' ') ? repairObject(title) : [];
+      const exactRepair = repairTitle.length > 0 &&
+        repairTitle.length >= prepared.repair.length && repairTitle.length <= prepared.repair.length + 1 &&
+        prepared.repair.every(word => repairTitle.includes(word));
+      const titleMatch = !emergency && !dictionary && (!question || matchedAnswer) ? exact ? 2 : exactRepair ? 1 : 0 : 0;
       const passage = !row[5] && (row[2] || stats?.body || row[3] && asset.format !== 'zim');
       const typedScore = question ? matchedAnswer ? 4 : -55 : passage ? 19 : row[5] ? -12 : 0;
       const reference = title + ' ' + sourceTitle;
@@ -662,7 +714,7 @@
       const advancedReference = audience && /\b(?:polynomial|graduate|abstract algebra|differential equations)\b/.test(reference) &&
         !/\b(?:polynomial|graduate|abstract algebra|differential equations)\b/.test(phrase);
 
-      const titleScore = exact && (!question || matchedAnswer) ? 145 : phraseHit ? 29 : 0;
+      const titleScore = titleMatch ? 125 + 20 * titleMatch : phraseHit ? 29 : 0;
       let score = titleScore + lexicalScore +
         (coverage ? 95 : 160) * Math.max(0, similarity - 0.24) + typedScore - (row[4] ? 19 : 0);
       if (emergency) {
@@ -676,7 +728,7 @@
       } else {
         score += 0.95 * support + (asset.critical && (stats?.body || similarity >= 0.43) ? 5 : 0) +
           (readyReference ? 18 : 0) - (advancedReference ? 22 : 0) +
-          (conceptTitle && (!question || answerConcept) ? 130 : titlePatterns.length ? -48 : 0);
+          (conceptTitle && (!question || answerConcept) ? 130 + Number(Boolean(recipe)) : titlePatterns.length ? -48 : 0);
         if (language && (' ' + reference + ' ').includes(' ' + language + ' ') && phraseReference.test(reference)) score += 90;
         if (seed && support) score += Math.min(36, support / 2) * (stats?.hits ? 1 : 0.5);
         if (pediatricHealth) {
@@ -685,10 +737,16 @@
         }
       }
       const matchedTerms = stats?.hits || 0;
-      found.push({row, index, score, matchedTerms, fullMatch: matchedTerms === query.length,
+      if (exactPass) {
+        const longest = evidence.reduce((length, phrase) => phrase.every(word => stats.weights.has(word))
+          ? Math.max(length, phrase.length) : length, 0);
+        score = stats.literal === query.length ? 1000 + score : 100 * longest + support;
+      }
+      found.push({row, index, score, recipe, titleMatch, matchedTerms, fullMatch: matchedTerms === query.length,
+        literalMatch: !row[5] && !row[4] && stats?.literal === query.length,
         bodyMatch: !row[5] && Boolean(stats?.body), focused: emergency && support > 0, trusted});
     }
-    return found.sort((a, b) => b.score - a.score || a.index - b.index).slice(0, limit);
+    return found.sort((a, b) => b.titleMatch - a.titleMatch || b.score - a.score || a.index - b.index).slice(0, limit);
   }
 
   function placeholderTitle(value) {
@@ -716,15 +774,15 @@
 
   function result(asset, hit, part) {
     const [rawTitle, locator, lead, , , , , heading] = hit.row;
-    const title = displayTitle(asset, rawTitle, locator);
+    const title = displayTitle(asset, hit.recipe || rawTitle, locator);
     const archive = asset.format === 'zim';
     const destination = asset.destination;
     const href = destination.split('/').map(encodeURIComponent).join('/') +
       (asset.format === 'pdf' ? '#page=' + locator :
         !archive && locator ? '#' + encodeURIComponent(locator) : '');
-    return {score: hit.score, rankTitle: rawTitle, matchedTerms: hit.matchedTerms, fullMatch: hit.fullMatch,
-      bodyMatch: hit.bodyMatch, focused: hit.focused, trusted: hit.trusted,
-      indexed: true, record: {id: asset.id + ':' + part + ':' + hit.index,
+    return {score: hit.score, titleMatch: hit.titleMatch, rankTitle: rawTitle, matchedTerms: hit.matchedTerms, fullMatch: hit.fullMatch,
+      literalMatch: hit.literalMatch, bodyMatch: hit.bodyMatch, focused: hit.focused, trusted: hit.trusted,
+      indexed: true, redirect: Boolean(hit.row[4]), record: {id: asset.id + ':' + part + ':' + hit.index,
       asset_id: asset.id, title, description: lead, source_title: asset.title, href, destination,
       kind: archive ? 'article' : 'section', reader_required: archive,
       location: archive ? 'Archive path: ' + locator + (heading ? ' · ' + heading : '') : asset.format === 'pdf' ? 'Page ' + locator :
@@ -732,16 +790,70 @@
       license: asset.license, attribution: asset.attribution}};
   }
 
-  const READ_BUDGET = 28_000_000;
+  const READ_BUDGET = 32_000_000;
   const BOUNDED_BYTES = 39_700_000;
   const EMERGENCY_BYTES = 16_000_000;
   const COMPACT_BYTES = 20_000_000;
   const COMPACT_INDEX = 125_000_000;
   const PREVIEW_BYTES = 350_000;
   const TERM_BYTES = 4_000_000;
+  const READER_BYTES = 12_000_000;
+  const SPELLING_RETRY_BYTES = 6_000_000;
+  const SPELLING_LOOKUP_BYTES = 1_000_000;
 
   function impactBucket(word) {
     return (hashTerm(word) >>> 24).toString(16).padStart(2, '0') + '.js';
+  }
+
+  function edits(word) {
+    const candidates = new Set();
+    for (let i = 0; i <= word.length; i++) {
+      const before = word.slice(0, i), after = word.slice(i);
+      if (after) candidates.add(before + after.slice(1));
+      for (const letter of 'abcdefghijklmnopqrstuvwxyz') {
+        candidates.add(before + letter + after);
+        if (after) candidates.add(before + letter + after.slice(1));
+      }
+      if (after.length > 1) candidates.add(before + after[1] + after[0] + after.slice(2));
+    }
+    candidates.delete(word);
+    return candidates;
+  }
+
+  async function correctSpelling(text, vocabulary, impact, read, cancelled) {
+    const replacements = new Map();
+    const unknown = [...new Set(words(text))].filter(word => /^[a-z]{4,32}$/.test(word) && !vocabulary.has(word));
+    // A correction is a fallback. Bound vocabulary and term-bucket reads for it
+    // independently of the ordinary candidate budget.
+    const blocks = new Map();
+    let remaining = SPELLING_LOOKUP_BYTES;
+    for (const word of unknown.slice(0, 4)) {
+      if (cancelled()) return;
+      const candidates = [...edits(word)].filter(candidate => vocabulary.has(candidate));
+      let best, confidence = 0;
+      for (const candidate of candidates) {
+        if (cancelled()) return;
+        const bucket = impactBucket(stem(candidate));
+        if (!Object.hasOwn(impact, bucket)) continue;
+        if (!blocks.has(bucket)) {
+          if (impact[bucket] > remaining) continue;
+          remaining -= impact[bucket];
+          blocks.set(bucket, await read(bucket));
+        }
+        const df = blocks.get(bucket).get(stem(candidate))?.df || 0;
+        // Missing, extra and swapped letters retain more evidence of the
+        // intended word than substitution. Use frequency within that tier.
+        const retainsLetters = candidate.length !== word.length ||
+          [...candidate].sort().join('') === [...word].sort().join('');
+        const score = df ? Number(retainsLetters) + df / (df + 1) : 0;
+        if (score > confidence) {
+          best = candidate;
+          confidence = score;
+        }
+      }
+      if (best) replacements.set(word, best);
+    }
+    if (replacements.size) return text.replace(/[\p{L}\p{N}]+/gu, word => replacements.get(fold(word)) || word);
   }
 
   async function impactBlock(packed) {
@@ -842,12 +954,12 @@
       let score = 0;
       for (const term of phrase) {
         if (!terms.has(term)) return best;
-        score += terms.get(term);
+        score += terms.get(term) * (phrase.length > 1 ? index.weightByWord.get(term) : 1);
       }
       return Math.max(best, score / phrase.length);
     }, 0);
     return (1.4 * total + 16 * present) / (6 + query.query.length) +
-      support * (query.emergency ? 1.4 : 0.65);
+      support * (query.emergency || query.titlePatterns.length ? 1.4 : 0.65);
   }
   const decoded = new WeakMap();
 
@@ -879,6 +991,10 @@
         if (!data) {
           data = {bloom: atob(part.bloom), lexical: part.route && bytes(part.route[0]),
             centroids: part.route?.[1] ? bytes(part.route[1]) : null};
+          if (data.lexical?.length) {
+            const filled = data.lexical.reduce((total, byte) => total + bitCount[byte], 0);
+            data.titleConfidence = 1 - (filled / (data.lexical.length * 8)) ** 2;
+          }
           decoded.set(part, data);
         }
         const hits = routeHits(data.bloom, routing);
@@ -902,7 +1018,7 @@
               conceptMatch = Math.max(conceptMatch, concept.specificity);
             }
           }
-          titlePriority = (exactMatch ? 3 : 0) + conceptMatch;
+          titlePriority = ((exactMatch ? 3 : 0) + conceptMatch) * data.titleConfidence;
           const pairStrength = pairs.filter(matches).length;
           let affinity = 0;
           if (query.vector && !query.emergency && !discussion && data.centroids)
@@ -981,28 +1097,47 @@
     return part.path || (part.pool || asset.sha256) + ':' + (part.number ?? number);
   }
 
+  const selectionBytes = new WeakMap();
   function completionBudget(selection, query) {
-    if (!selection.impact) return Infinity;
     if (query.emergency) return EMERGENCY_BYTES;
-    if (query.query.length > 2 || query.focused.length || query.language || query.seed || query.pediatricHealth)
-      return Infinity;
-    let bytes = 0;
-    const parts = new Set();
-    for (const asset of selection.sources) {
-      for (let number = 0; number < asset.parts.length; number++) {
-        const path = partAddress(asset, number);
-        if (parts.has(path)) continue;
-        parts.add(path);
-        bytes += asset.parts[number].bytes || 200_000;
-        if (bytes > COMPACT_INDEX) return Infinity;
-      }
+    let bytes = selectionBytes.get(selection.sources);
+    if (bytes === undefined) {
+      const parts = new Map();
+      for (const asset of selection.sources)
+        for (const [number, part] of asset.parts.entries())
+          parts.set(partAddress(asset, number), part.bytes || 200_000);
+      bytes = [...parts.values()].reduce((total, size) => total + size, 0);
+      selectionBytes.set(selection.sources, bytes);
     }
-    return COMPACT_BYTES;
+    return bytes > COMPACT_INDEX ? BOUNDED_BYTES : COMPACT_BYTES;
   }
 
   function readChunk(readPart, asset, number, queryTerms) {
     const part = asset.parts[number];
     return readPart(part.pool || asset.sha256, part.number ?? number, queryTerms, part.path);
+  }
+
+  async function exactPass(selection, readPart, text, ids, limit, cancelled, domain, emergencySource) {
+    const query = prepareQuery(text);
+    if (!query.query.length || cancelled()) return [];
+    const lookups = [query.query, ...query.evidence].map(phrase => phrase.map(hashTerm));
+    const queryTerms = lookupTerms(query);
+    const matches = [];
+    for (const asset of selection.sources) {
+      if (asset.legacy || ids && !ids.has(asset.id) || domain && !emergencySource(asset, domain)) continue;
+      for (const [number, part] of asset.parts.entries()) {
+        if (cancelled()) return [];
+        const bloom = atob(part.bloom);
+        if (!lookups.some(keys => routeHits(bloom, keys) === keys.length)) continue;
+        const chunk = await readChunk(readPart, asset, number, queryTerms);
+        if (cancelled()) return [];
+        const hits = rankPart(chunk, query, asset, limit, true);
+        if (!hits.length) continue;
+        matches.push(...hits.map(hit => result(asset, hit, number)));
+        retainCandidates(matches, limit * 4);
+      }
+    }
+    return topResults(matches, limit);
   }
 
   async function lexicalPreview(selection, query, shelf, limit, readPart, queryTerms, cached, cancelled, onProgress) {
@@ -1043,15 +1178,9 @@
     ]);
     if (cancelled()) return [];
     query.vector = encode(query.vectorText);
-    const finalBudget = complete && evidence ? completionBudget(selection, query) : Infinity;
+    const finalBudget = complete ? completionBudget(selection, query) : Infinity;
     const allowance = Math.min(budget, finalBudget);
     const queue = rankedQueue(selection, query, shelf, allowance - (evidence?.readBytes || 0), evidence);
-    const firstPass = queue.length;
-    if (complete && !Number.isFinite(finalBudget) && Number.isFinite(budget)) {
-      const identity = ({asset, number}) => `${asset.id}:${number}`;
-      const selected = new Set(queue.map(identity));
-      queue.push(...rankedQueue(selection, query, shelf).filter(item => !selected.has(identity(item))));
-    }
     const multiple = new Map();
     for (const {asset, number} of queue) {
       const key = partAddress(asset, number);
@@ -1059,8 +1188,7 @@
     }
     const matches = [];
     let updatedAt = -Infinity;
-    for (const [position, {asset, number}] of queue.entries()) {
-      if (position === firstPass) onProgress?.(topResults(matches, limit), 'refining');
+    for (const {asset, number} of queue) {
       if (cancelled()) return [];
       const address = partAddress(asset, number);
       const chunk = shared.get(address) ?? await readChunk(readPart, asset, number, queryTerms);
@@ -1073,7 +1201,7 @@
       if (!hits.length) continue;
       matches.push(...hits.map(hit => result(asset, hit, number)));
       retainCandidates(matches, limit * 4);
-      if (position < firstPass && onProgress && performance.now() - updatedAt >= 150) {
+      if (onProgress && performance.now() - updatedAt >= 150) {
         onProgress(topResults(matches, limit), 'indexed');
         updatedAt = performance.now();
       }
@@ -1081,7 +1209,8 @@
     return topResults(matches, limit);
   }
 
-  const order = (a, b) => b.score - a.score || (a.rankTitle || a.record.title).localeCompare(b.rankTitle || b.record.title, 'en') ||
+  const order = (a, b) => (b.titleMatch || 0) - (a.titleMatch || 0) || b.score - a.score ||
+    (a.rankTitle || a.record.title).localeCompare(b.rankTitle || b.record.title, 'en') ||
     a.record.id.localeCompare(b.record.id, 'en');
 
   const fullPassage = hit => hit.fullMatch && hit.record.kind === 'section';
@@ -1199,17 +1328,171 @@
       if (cache.size > 24) cache.delete(cache.keys().next().value);
       return task;
     }
-    const runQuery = (text, shelf, limit, cancelled, onProgress, lexicalOnly = false) =>
+    const runQuery = (text, shelf, limit, cancelled, onProgress, lexicalOnly = false, budget = BOUNDED_BYTES) =>
       run(selection, lexicalOnly ? () => null : loadModel(), readPart, text, shelf, limit, cancelled, onProgress,
-        selection.impact ? BOUNDED_BYTES : Infinity,
-        selection.impact ? readImpact : undefined, true);
-    return Object.assign(runQuery, {embed: async text => (await loadModel()).embed?.(text)});
+        budget, selection.impact ? readImpact : undefined, true);
+    let vocabulary;
+    const correct = selection.impact && ((text, cancelled) => {
+      vocabulary ??= new Set([...table.vocab, ...rules.flatMap(rule => rule.phrases.flatMap(words))]);
+      return correctSpelling(text, vocabulary, selection.impact, readImpact, cancelled);
+    });
+    return Object.assign(runQuery, {embed: async text => (await loadModel()).embed?.(text), correct,
+      exact: (...options) => exactPass(selection, readPart, ...options)});
   }
 
-  const api = {classic, model, binaryQuery, bytes, search, terms, prepareQuery, unpack, rankPart, normalize, result,
-    retainCandidates, topResults, lookupTerms, filter, vectorScore, placeholderTitle, displayTitle,
-    emergencyMatches,
-    hashTerm, pairHash, rankedQueue, impactPostings, impactBlock, impactEvidence,
+  function mergeRanked(indexed, metadata, limit = 40) {
+    const exact = metadata.filter(hit => hit.score >= 100000).slice(0, 2);
+    const full = metadata.filter(hit => hit.score >= 10000 && hit.score < 100000).slice(0, 2);
+    const seen = new Set();
+    const first = indexed.slice(0, 3);
+    const head = first[0]?.focused ? [...first, ...exact] : [...exact, ...first];
+    return [...head, ...full, ...indexed.slice(3), ...metadata].filter(({record}) => {
+      const key = record.href + '\0' + record.location;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).slice(0, limit);
+  }
+
+  function nearbyPassages(matches, strong, words, heading) {
+    const chosen = [];
+    const documents = new Set();
+    const minimum = Math.max(2, Math.ceil(words.length / 2));
+    for (const hit of matches) {
+      if (!hit.indexed) continue;
+      const {record} = hit;
+      const document = record.destination || record.href.split('#')[0];
+      if (documents.has(document)) continue;
+      if (!strong.has(hit)) {
+        const matched = hit.matchedTerms ?? 0;
+        if (hit.score < 55 || matched < minimum) continue;
+        const visible = new Set(terms(heading(record) + ' ' + (record.description || '')));
+        const visibleMatches = words.filter(word => visible.has(word)).length;
+        // Some indexed sources cannot show excerpts. Require stronger posting
+        // evidence when the heading and visible excerpt share fewer words.
+        if (visibleMatches < 2 &&
+            (record.description || hit.score < 80 || matched < Math.max(4, Math.ceil(words.length * 2 / 3)))) continue;
+      }
+      chosen.push(hit);
+      documents.add(document);
+      if (chosen.length === 3) break;
+    }
+    return chosen;
+  }
+
+  function readerSearch(script, selection, table, {categoryIds, emergencySource, mobile, loadReranker}) {
+    const run = classic(script, selection, table, async (index, encode, read, query, scope, ...options) => {
+      const {category, domain} = scope;
+      if (domain) {
+        const [limit, cancelled] = options;
+        const sources = index.sources.filter(source =>
+          (!scope.ids || scope.ids.has(source.id)) && emergencySource(source, domain));
+        return search({...index, sources}, encode, read, query, 'all', limit, cancelled, undefined, 1_200_000);
+      }
+      const ids = category && await categoryIds(category);
+      const scoped = ids ? {...index, sources: index.sources.filter(source => ids.has(source.id))} : index;
+      return search(scoped, encode, read, query, 'all', ...options);
+    });
+    const indexed = (text, category, limit, cancelled, onProgress, spellingRetry, semantic) =>
+      run(text, {category}, limit, cancelled, onProgress, !semantic,
+        semantic ? BOUNDED_BYTES : spellingRetry ? SPELLING_RETRY_BYTES : READER_BYTES);
+    const exact = (text, ids, limit, cancelled, domain) => run.exact(text, ids, limit, cancelled, domain, emergencySource);
+    async function emergency(text, {ids, domain, nearby, allowExact, cancelled, select}) {
+      const file = record => record.destination || record.href.split('#')[0];
+      const used = new Set(nearby.map(file));
+      if (used.size === 3) return [];
+      try {
+        const hits = await run(text, {ids, domain}, 18, cancelled, undefined, true);
+        if (cancelled()) return [];
+        const passages = select(hits.filter(hit => hit.bodyMatch), prepareQuery(text))
+          .filter(({record}) => !used.has(file(record))).slice(0, 3 - used.size);
+        return passages.length || used.size || !allowExact ? passages : await exact(text, ids, 3, cancelled, domain);
+      } catch (_) {
+        // Keep the installed guide available when the local index fails.
+        return [];
+      }
+    }
+    let reranker;
+    async function rank(text, category, limit, cancelled, onProgress, spellingRetry, semantic) {
+      if (!semantic || !selection.reranker || mobile) {
+        return indexed(text, category, limit, cancelled, onProgress, spellingRetry, semantic);
+      }
+      const all = await indexed(text, category, Math.max(limit, 50), cancelled,
+        (hits, scope) => onProgress(hits.slice(0, limit), scope), spellingRetry, semantic);
+      const initial = all.slice(0, limit);
+      if (cancelled() || initial.length < 2 || initial[0].titleMatch || spellingRetry) return initial;
+      onProgress(initial, 'ranked');
+      try {
+        reranker ??= loadReranker();
+        const rerank = await reranker;
+        const head = all.slice(0, 3);
+        const shortlist = all.slice(3, 53);
+        const rescored = await rerank(text, shortlist, cancelled);
+        const remaining = [...rescored, ...all.slice(head.length + shortlist.length)];
+        return cancelled() ? [] : [...head, ...topResults(remaining, limit - head.length)];
+      } catch (_) {
+        reranker = undefined;
+        return initial;
+      }
+    }
+    async function query(text, {category, ids, urgent, cancelled, spellingRetry, display, displayExact,
+      applyCorrection, tryEmergency}) {
+      const intent = prepareQuery(text);
+      let rankedText = text;
+      if (!intent.emergency && urgent?.keywords.includes('wound')) rankedText += ' wound care';
+      if (!intent.emergency && urgent?.keywords.includes('scald')) rankedText += ' burn treatment';
+      if (!intent.deliveryQuery && !intent.postpartum && urgent?.keywords.includes('childbirth')) rankedText += ' childbirth';
+      const progress = (hits, phase) => { if (!cancelled()) display(hits, intent, phase); };
+      const hits = await rank(rankedText, category, 85, cancelled, progress, spellingRetry);
+      if (cancelled()) return false;
+      const show = () => display(hits, intent) || displayExact(hits.filter(hit => hit.literalMatch));
+      let count = show();
+      const onlyRedirects = hits.length > 0 && hits.every(hit => hit.redirect || !hit.fullMatch);
+      if ((!count || onlyRedirects) && !spellingRetry && run.correct) {
+        const suggestion = await run.correct(text, cancelled);
+        if (cancelled()) return false;
+        if (suggestion && await applyCorrection(suggestion)) return true;
+        if (cancelled()) return false;
+        if (suggestion) count = show();
+      }
+      if (!count) {
+        const matches = await exact(text, ids, 85, cancelled);
+        if (cancelled()) return false;
+        count = displayExact(matches);
+      }
+      if (!count && tryEmergency && !spellingRetry) {
+        if (await tryEmergency()) return true;
+        if (cancelled()) return false;
+        const matches = await rank(rankedText, category, 85, cancelled, progress, false, true);
+        if (!cancelled()) display(matches, intent);
+      }
+      return false;
+    }
+    return {query, emergency, embed: run.embed, navigationLocations};
+  }
+
+  // BEGIN GENERATED NAVIGATION SECTIONS
+  const navigationSections = [
+    ["Finding direction by the stars",[["survival_shelter",165,"Finding direction by the stars"],["survival_shelter",166,"Finding south by the Southern Cross and making an improvised compass"]],[["north|cardinal directions?|which direction","(?:cant|cannot|without).{0,30}(?:sun|sunlight)|no sun|at night|after dark"]]],
+    ["Finding direction without a compass",[["survival_shelter",162,"Finding direction by the shadow-tip method"],["survival_shelter",165,"Finding direction by the stars"]],[["north|directions?|way|navigat\\w*","(?:without|dont have|do not have|no|lost (?:my|our|the)) (?:a |my |our )?compass"]]],
+    ["Taking a bearing with a map and compass",[["navigation",2,"Taking a bearing with a map and compass"]],["map and compass",["bearings?|azimuth|magnetic declination","maps?|compass|north"]]],
+    ["Reading contour lines on a topographic map",[["navigation",1,"Reading contour lines on a topographic map"]],[["contour (?:lines?|spacing)|contours","maps?|topographic|closely spaced|steep"]]],
+  ];
+  // END GENERATED NAVIGATION SECTIONS
+  const navigationRoutes = navigationSections.map(([title, locations, aliases]) => ({
+    name: normalize(title), locations, aliases: aliases.map(group => [group].flat()
+      .map(value => new RegExp('\\b(?:' + value + ')\\b', 'u'))),
+  }));
+
+  function navigationLocations(phrase) {
+    return navigationRoutes.filter(route => route.name === phrase ||
+      route.aliases.some(group => group.every(pattern => pattern.test(phrase)))).flatMap(route => route.locations);
+  }
+
+  const api = {classic, readerSearch, model, binaryQuery, bytes, search, terms, prepareQuery, unpack, rankPart, normalize, result,
+    retainCandidates, topResults, mergeRanked, nearbyPassages, lookupTerms, filter, vectorScore, placeholderTitle, displayTitle,
+    emergencyMatches, navigationLocations,
+    hashTerm, pairHash, rankedQueue, impactPostings, impactBlock, impactEvidence, correctSpelling,
     readBudget: READ_BUDGET, boundedBytes: BOUNDED_BYTES, completionBudget};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLShardRank = api;

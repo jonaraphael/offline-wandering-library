@@ -214,6 +214,12 @@ a:hover { text-decoration: underline; }
   .switch-label { min-height: 44px; cursor: pointer; }
 }
 [data-state="needs-size"] .secondary { margin-top: 22px; }
+[data-state="waiting-relay"] .ring .arc { stroke: var(--warn); }
+[data-state="waiting-relay"] .glyph .light { fill: var(--warn); }
+#drive-free-form { display: grid; justify-items: center; gap: 8px; margin-top: 16px; }
+#drive-free-form .primary { margin-top: 4px; }
+#drive-free-space { width: 7em; }
+#builder:has(#sync-noscript) :is(#sync-stage, #sync-rail, #how-link) { display: none; }
 .card:first-child, #open-card { grid-template-columns: 1fr; }
 .card svg { display: block; width: 64px; height: 64px; }
 .legend li.over::before { background: var(--bad); }
@@ -285,7 +291,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
       <details class="advanced" id="advanced">
         <summary>Advanced</summary>
         <label class="check-label"><input class="switch" type="checkbox" id="split-files" role="switch"> Split large files for FAT32</label>
-        <p id="split-note" hidden>The drive appears to require split files. Choose a different drive to save large files in one piece.</p>
+        <p id="split-note" hidden>Encyclopedias of 4 GiB or more stay in parts on this drive.</p>
         <div><button id="include-filtered" type="button">Include filtered files</button> <button id="exclude-filtered" type="button">Exclude filtered files</button></div>
         <p id="bulk-feedback"></p>
         <table id="storage-accounting"><caption>Storage accounting</caption><tbody id="storage-lines"></tbody></table>

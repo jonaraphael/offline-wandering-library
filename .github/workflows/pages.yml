@@ -22,7 +22,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - uses: actions/configure-pages@v5
+      - id: pages
+        uses: actions/configure-pages@v5
       - run: python -m pip install -e .
       - run: python scripts/build_selector.py --check
       - uses: actions/cache@v4
@@ -34,6 +35,7 @@ jobs:
       - env:
           OWL_RELAY_BASE: ${{ vars.OWL_RELAY_BASE }}
           OWL_ARCHIVE_RELAY: ${{ vars.OWL_ARCHIVE_RELAY }}
+          OWL_PUBLISHED_BASE: ${{ steps.pages.outputs.base_url }}
         run: |
           if [[ -z "$OWL_RELAY_BASE" ]]; then
             echo "::error::Set the OWL_RELAY_BASE repository variable before publishing Pages."
@@ -41,9 +43,17 @@ jobs:
           fi
           relay=(--relay-base "$OWL_RELAY_BASE")
           if [[ "$OWL_ARCHIVE_RELAY" == true ]]; then relay+=(--archive-relay); fi
-          python scripts/build_pages.py "${{ runner.temp }}/owl-pages" --fetch-mirrors --cache "${{ runner.temp }}/owl-mirrors" --search-commit "${{ github.sha }}" "${relay[@]}"
+          python scripts/build_pages.py "${{ runner.temp }}/owl-pages" --fetch-mirrors \
+            --cache "${{ runner.temp }}/owl-mirrors" --search-commit "${{ github.sha }}" \
+            --published-base "$OWL_PUBLISHED_BASE" "${relay[@]}"
       - run: node tests/browser-plan.test.mjs "${{ runner.temp }}/owl-pages"
       - run: python scripts/check_pages_profiles.py "${{ runner.temp }}/owl-pages"
+      - name: Check production routes in headless Chrome
+        run: |
+          npm install --prefix "${{ runner.temp }}/owl-browser" playwright-core@1.58.0
+          node scripts/check_csp_routes.cjs "${{ runner.temp }}/owl-pages" \
+            "$(command -v google-chrome)" "${{ runner.temp }}/owl-browser/node_modules/playwright-core" \
+            "${{ steps.pages.outputs.base_url }}/"
       - uses: actions/upload-pages-artifact@v4
         with:
           path: ${{ runner.temp }}/owl-pages

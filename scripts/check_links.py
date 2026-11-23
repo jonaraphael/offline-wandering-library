@@ -4,9 +4,10 @@ from __future__ import annotations
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor
-from datetime import date
+from datetime import date, timedelta
 from hashlib import sha256
 import http.client
+from itertools import chain
 import json
 from pathlib import Path
 import re
@@ -20,15 +21,9 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from owl.catalog import load_catalog
-from owl.download import USER_AGENT
+from owl.download import BROWSER_USER_AGENT, USER_AGENT
 
 DEFAULT_ORIGIN = "https://jonaraphael.github.io"
-CHECKER_BLOCKS = {
-    "openknowledge.fao.org": {403},
-    "iris.who.int": {403},
-    "cdn.sanity.io": {403},
-    "upload.wikimedia.org": {429},
-}
 STREAM_MAX_BYTES = 64 * 1024 * 1024
 STREAM_INTERVAL = 0.5
 STREAM_CHUNK_BYTES = 64 * 1024
@@ -63,9 +58,24 @@ class StreamSize:
 
 
 def probe(url: str, size: int, origin: str | None, timeout: float, *, stream_size=StreamSize(),
-          reviewed_mirror=False, whole_get=False, browser_expected=False) -> dict:
+          reviewed_mirror=False, whole_get=False, check_browser_block=True) -> dict:
+    """Check the requested route and corroborate publisher denials with browser headers."""
+    row = _probe(url, size, origin, timeout, stream_size, reviewed_mirror, whole_get, USER_AGENT)
+    if row["ok"] or row["get_status"] not in {403, 429} or not check_browser_block:
+        return row
+    browser = _probe(url, size, None, timeout, stream_size, reviewed_mirror, whole_get, BROWSER_USER_AGENT)
+    row["browser_probe"] = browser
+    if browser["ok"]:
+        row["outcome"] = "blocked_for_checker"
+        row["final_url"] = browser["final_url"]
+    elif browser["outcome"] in {"size mismatch", "gone"}:
+        row["outcome"] = browser["outcome"]
+    return row
+
+
+def _probe(url, size, origin, timeout, stream_size, reviewed_mirror, whole_get, agent):
     """Read response headers first, then count bytes for a small unknown length."""
-    headers = {"Accept-Encoding": "identity", "User-Agent": USER_AGENT}
+    headers = {"Accept-Encoding": "identity", "User-Agent": agent}
     if origin:
         headers["Origin"] = origin
 
@@ -73,18 +83,17 @@ def probe(url: str, size: int, origin: str | None, timeout: float, *, stream_siz
         req = Request(url, method=method, headers={**request_headers, **extra})
         try:
             with urlopen(req, timeout=timeout) as response:
-                return response.status, response.headers, response.url
+                return response.status or 0, response.headers, response.url
         except HTTPError as error:
             with error:
                 return error.code, error.headers, error.url
         except (OSError, http.client.HTTPException) as error:
             return 0, {}, str(error)
 
-    host = urlsplit(url).hostname
     head_status, head, _ = request("HEAD", {}, headers)
     range_headers = {} if whole_get else {"Range": "bytes=0-0"}
     status, ranged, final_url = request("GET", range_headers, headers)
-    if status == 403 and host not in CHECKER_BLOCKS and (whole_get or head_status != 200):
+    if status == 403 and agent == USER_AGENT and origin is None and (whole_get or head_status != 200):
         # The download CLI also falls back to urllib's standard identifier.
         standard = {name: value for name, value in headers.items() if name != "User-Agent"}
         fallback_status, fallback_headers, fallback_url = request("GET", range_headers, standard)
@@ -94,7 +103,7 @@ def probe(url: str, size: int, origin: str | None, timeout: float, *, stream_siz
     match = re.fullmatch(r"bytes 0-0/(\d+)", ranged.get("Content-Range", ""))
     range_supported = status == 206 and match is not None
     full_length = ranged.get("Content-Length") if status == 200 else (
-        head.get("Content-Length") if head_status == 200 else None)
+        head.get("Content-Length") if not 200 <= status < 300 and head_status == 200 else None)
     observed = int(match[1]) if range_supported else (
         int(full_length) if full_length and full_length.isascii() and full_length.isdigit() else None
     )
@@ -113,12 +122,10 @@ def probe(url: str, size: int, origin: str | None, timeout: float, *, stream_siz
             stream_error = str(error)
             if isinstance(error, HTTPError):
                 error.close()
-    reachable = streamed or 200 <= status < 300
+    reachable = streamed or status == 200 or range_supported
     ok = reachable and observed == size
-    blocked = not reachable and (status in CHECKER_BLOCKS.get(host, set()) or
-                                 (status == 403 and browser_expected))
-    outcome = ("matching" if ok else "blocked for this checker" if blocked else
-               "gone" if status in {404, 410} else "size mismatch" if reachable and observed is not None else
+    outcome = ("matching" if ok else "gone" if status in {404, 410} else
+               "size mismatch" if reachable and observed is not None else
                "unverified")
     cors = bool(origin and reachable and response_headers.get("Access-Control-Allow-Origin") in {"*", origin})
     exposed = {header.strip().lower() for header in response_headers.get("Access-Control-Expose-Headers", "").split(",")}
@@ -129,6 +136,22 @@ def probe(url: str, size: int, origin: str | None, timeout: float, *, stream_siz
         "size_method": size_method, "stream_error": stream_error,
         "ok": ok, "outcome": outcome,
     }
+
+
+def inconclusive_history(identities, previous, today):
+    """Count consecutive calendar weeks, including at most one observation per week."""
+    week = today - timedelta(days=today.weekday())
+    this_week = week.isoformat()
+    last_week = (week - timedelta(weeks=1)).isoformat()
+    history = {}
+    for identity in sorted(identities):
+        prior = previous.get(identity, {})
+        count = prior.get("count", 0)
+        if prior.get("week") == this_week:
+            history[identity] = prior
+        else:
+            history[identity] = {"week": this_week, "count": count + 1 if prior.get("week") == last_week else 1}
+    return history
 
 
 def sample(items, limit):
@@ -147,10 +170,15 @@ def sample(items, limit):
 
 def deployed_routes(assets, pages_base, relay_base, limit, *, archive_relay):
     """Use the checked-in mirror and relay pins for the browser's actual URLs."""
-    from build_pages import PUBLISH_PART, browser_routes
+    from build_pages import PUBLISH_PART, READER_IDS, browser_routes
 
-    for identity, metadata in sample([(a["id"], {"asset": a, "host": urlsplit(a["source_url"]).hostname})
-                                      for a in assets if browser_routes(a)], limit):
+    readers, direct = [], []
+    for asset in assets:
+        if browser_routes(asset):
+            identity = asset["id"]
+            (readers if identity in READER_IDS else direct).append(
+                (identity, {"asset": asset, "host": urlsplit(asset["source_url"]).hostname}))
+    for identity, metadata in chain(readers, sample(direct, limit)):
         asset = metadata["asset"]
         for url in browser_routes(asset):
             expected = {"cors", "range", "exposes_content_range"} if asset["format"] == "zim" else {"cors"}
@@ -189,6 +217,7 @@ def main(argv=None):
     parser.add_argument("--route-sample", type=int, help="override the sample for browser routes only")
     parser.add_argument("--stream-missing-size", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--output", type=Path, help="save every response as JSON")
+    parser.add_argument("--history", type=Path, help="read prior inconclusive-week counts from a JSON object")
     args = parser.parse_args(argv)
     route_sample = args.sample if args.route_sample is None else args.route_sample
     if args.workers < 1 or args.timeout <= 0 or min(args.sample, route_sample) < 0:
@@ -208,31 +237,41 @@ def main(argv=None):
                 continue
             expected = (asset.get("browser_fetch", {}) if url == asset["source_url"]
                         else asset.get("mirror_fetch", {}).get(url, {}))
-            metadata = sources.setdefault(url, {"size": asset["size_bytes"], "reviewed_mirror": False,
-                                                "browser_expected": False, "whole_get": False})
+            metadata = sources.setdefault(url, {"size": asset["size_bytes"], "reviewed_mirror": False, "whole_get": False})
             if metadata["size"] != asset["size_bytes"]:
                 parser.error(f"Conflicting pinned sizes for {url}")
             metadata["reviewed_mirror"] |= expected.get("sha256_verified") is True
-            metadata["browser_expected"] |= expected.get("cors") is True
             metadata["whole_get"] |= expected.get("range") is False and asset.get("format") != "zim"
             urls.append(url)
         if urls:
             asset_sources[asset["id"]] = urls
     stream_size = StreamSize()
+    allowed_origins = set()
+    if args.pages_base or args.relay_base:
+        from build_pages import SEARCH_PUBLISH_BASE, browser_routes, connect_origins
+        # Derive the policy from every deployed direct origin, even when only
+        # a subset of routes is probed. Pages mirrors use the page's own origin.
+        allowed_origins.update(connect_origins(chain(
+            (args.pages_base or args.origin, args.relay_base or "", SEARCH_PUBLISH_BASE),
+            *(browser_routes(asset) for asset in assets))))
     with ThreadPoolExecutor(max_workers=args.workers) as workers:
         def check(source):
             url, metadata = source
             row = probe(url, metadata["size"], None, args.timeout, stream_size=stream_size,
-                        reviewed_mirror=metadata["reviewed_mirror"], browser_expected=metadata["browser_expected"],
-                        whole_get=metadata["whole_get"])
+                        reviewed_mirror=metadata["reviewed_mirror"], whole_get=metadata["whole_get"])
             row.update(route="publisher", browser_drift=[])
             return row
         results = list(workers.map(check, sources.items()))
         def check_route(route):
             kind, identity, url, size, required, whole_get = route
             row = probe(url, size, args.origin, args.timeout, whole_get=whole_get, stream_size=stream_size,
-                        browser_expected=kind == "browser-direct")
+                        check_browser_block=kind == "browser-direct")
             row.update(route=kind, id=identity, browser_drift=sorted(field for field in required if not row[field]))
+            final_url = row.get("final_url", url)
+            if urlsplit(final_url).scheme in {"http", "https", "ftp"} and not allowed_origins.intersection(
+                    connect_origins((final_url,))):
+                row.update(ok=False, outcome="outside page CSP")
+                row["browser_drift"].append("connect-src")
             return row
         routes = list(workers.map(check_route, deployed_routes(
             assets, args.pages_base, args.relay_base, route_sample, archive_relay=args.archive_relay))) if (
@@ -240,16 +279,25 @@ def main(argv=None):
 
     by_url = {row["url"]: row for row in results}
     def blocked(row):
-        return row.get("outcome") == "blocked for this checker"
+        return row.get("outcome") == "blocked_for_checker"
 
     unmatched = {identity: urls for identity, urls in asset_sources.items() if not any(by_url[url]["ok"] for url in urls)}
-    blocked_assets = [identity for identity, urls in unmatched.items() if any(blocked(by_url[url]) for url in urls)]
-    failed_assets = sorted(set(unmatched) - set(blocked_assets))
+    blocked_assets = sorted(identity for identity, urls in unmatched.items() if any(blocked(by_url[url]) for url in urls))
+    unresolved = set(unmatched) - set(blocked_assets)
+    # A confirmed dead or changed URL is actionable when no alternate can be
+    # used. Allow a grace period when every source result is inconclusive.
+    inconclusive_assets = {identity for identity in unresolved
+                           if all(by_url[url].get("outcome") == "unverified" for url in unmatched[identity])}
+    previous = json.loads(args.history.read_text(encoding="utf-8")) if args.history else {}
+    history = inconclusive_history(inconclusive_assets, previous, date.today())
+    overdue_assets = sorted(identity for identity, row in history.items() if row["count"] >= 3)
+    failed_assets = sorted((unresolved - inconclusive_assets) | set(overdue_assets))
     blocked_routes = [row for row in routes if blocked(row)]
     failed_routes = [row for row in routes if not blocked(row) and (not row["ok"] or row["browser_drift"])]
     if args.output:
         args.output.write_text(json.dumps({"failed_assets": failed_assets, "failed_routes": failed_routes,
                                            "blocked_assets": blocked_assets, "blocked_routes": blocked_routes,
+                                           "inconclusive_weeks": history, "overdue_assets": overdue_assets,
                                            "responses": [*results, *routes]}, indent=2) + "\n", encoding="utf-8")
     for row in [*results, *routes]:
         if not row["ok"] or row["browser_drift"]:
@@ -261,7 +309,8 @@ def main(argv=None):
     print(f"{len(asset_sources) - len(unmatched)}/{len(asset_sources)} assets have a matching source "
           f"across {len(results)} publisher URLs. "
           f"{len(routes) - len(failed_routes) - len(blocked_routes)}/{len(routes)} browser routes passed. "
-          f"Blocked for this checker: {len(blocked_assets)} {asset_label}, {len(blocked_routes)} {route_label}.")
+          f"Blocked for this checker: {len(blocked_assets)} {asset_label}, {len(blocked_routes)} {route_label}. "
+          f"Inconclusive: {len(history)} assets, {len(overdue_assets)} for at least three consecutive weeks.")
     return int(bool(failed_assets or failed_routes))
 
 

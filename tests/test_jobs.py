@@ -1,6 +1,8 @@
 """Real detached-worker lifecycle tests against tiny deterministic build fixtures."""
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
+import errno
 import json
 import os
 from pathlib import Path
@@ -8,12 +10,13 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from threading import Event
 import time
 import unittest
 from unittest.mock import patch
 from urllib.error import HTTPError, URLError
 
-from owl import jobs
+from owl import jobs, safety
 from owl.download import DownloadError, TransientDownloadError, download
 from owl.safety import SafetyError
 from tests.process_fixtures import wait_for_windows_process_exit
@@ -83,9 +86,13 @@ class JobTests(unittest.TestCase):
     def wait_for(self, predicate, timeout=12):
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
-            state = jobs.status_job(self.job)
-            if predicate(state):
-                return state
+            state = jobs._read(self.job / "status.json")
+            # status_job probes worker.lock by briefly taking it. Give the
+            # starting worker time to acquire it before polling its liveness.
+            if state["state"] != "starting":
+                state = jobs.status_job(self.job)
+                if predicate(state):
+                    return state
             time.sleep(.04)
         self.fail(f"Worker did not reach expected state: {state}; {jobs.logs_job(self.job)}")
 
@@ -181,6 +188,92 @@ class JobTests(unittest.TestCase):
         self.start(retry_delay=.01, retry_deadline=1)
         state = self.wait_for(lambda s: s["state"] == "complete" and not s["worker_active"])
         self.assertEqual(state["attempt"], 2)
+
+    def test_worker_status_write_retries_until_reader_releases_file(self):
+        path = self.root / "status.json"
+        safety.atomic_write(path, jobs._json({"state": "running"}))
+        progress = jobs._Progress(self.root, {"state": "running"}, None)
+        blocked = Event()
+        replace = os.replace
+
+        def replace_status(source, destination):
+            try:
+                if os.name != "nt" and not reader.closed:
+                    error = PermissionError(errno.EACCES, "sharing violation")
+                    error.winerror = 32
+                    raise error
+                replace(source, destination)
+            except PermissionError:
+                blocked.set()
+                raise
+
+        with (patch.object(safety, "_IS_WINDOWS", True), patch.object(safety.os, "replace", side_effect=replace_status),
+              ThreadPoolExecutor(max_workers=1) as worker):
+            with path.open("rb") as reader:
+                result = worker.submit(progress.save, state="complete")
+                self.assertTrue(blocked.wait(3), "replacement was never blocked by the reader")
+                self.assertEqual(json.loads(reader.read())["state"], "running")
+                self.assertFalse(result.done())
+            result.result(timeout=3)
+        self.assertEqual(jobs._read(path)["state"], "complete")
+        self.assertEqual(list(self.root.glob(".owl-write-*")), [])
+
+    def test_worker_status_replace_retries_only_windows_contention_with_a_bound(self):
+        path = self.root / "status.json"
+        original = b'{"state":"running"}'
+        safety.atomic_write(path, original)
+        for windows, winerror, attempts in [(False, 5, 1), (True, 65, 1), (True, 5, 14)]:
+            with self.subTest(windows=windows, winerror=winerror):
+                error = PermissionError(errno.EACCES, "access denied")
+                error.winerror = winerror
+                with (patch.object(safety, "_IS_WINDOWS", windows),
+                      patch.object(safety.os, "replace", side_effect=error) as replace,
+                      patch.object(safety, "sleep") as sleep, self.assertRaises(PermissionError) as raised):
+                    safety.atomic_write(path, b'{"state":"complete"}')
+                self.assertIs(raised.exception, error)
+                self.assertEqual(replace.call_count, attempts)
+                self.assertEqual(sleep.call_count, attempts - 1)
+                self.assertLessEqual(sum(call.args[0] for call in sleep.call_args_list), 2)
+                self.assertEqual(path.read_bytes(), original)
+                self.assertEqual(list(self.root.glob(".owl-write-*")), [])
+
+    def test_status_read_retries_only_windows_contention_with_a_bound(self):
+        self.job.mkdir()
+        (self.job / "owner.json").write_text(json.dumps({"owner": "offline-wandering-library-job",
+                                                        "schema_version": jobs.SCHEMA}))
+        path = self.job / "status.json"
+        path.write_text('{"state":"complete"}')
+        open_file = Path.open
+        for winerror in (5, 32, None):
+            with self.subTest(winerror=winerror):
+                error = PermissionError(errno.EACCES, "sharing violation")
+                error.winerror = winerror
+                blocked = True
+
+                def open_after_contention(file, *args, **kwargs):
+                    nonlocal blocked
+                    if file == path and blocked:
+                        blocked = False
+                        raise error
+                    return open_file(file, *args, **kwargs)
+
+                with (patch.object(safety, "_IS_WINDOWS", True),
+                      patch.object(Path, "open", open_after_contention), patch.object(safety, "sleep") as sleep):
+                    self.assertEqual(jobs.status_job(self.job)["state"], "complete")
+                    sleep.assert_called_once_with(.01)
+
+        for windows, winerror, attempts in [(False, 32, 1), (True, 65, 1), (True, 32, 14)]:
+            with self.subTest(windows=windows, winerror=winerror):
+                error = PermissionError(errno.EACCES, "access denied")
+                error.winerror = winerror
+                with (patch.object(safety, "_IS_WINDOWS", windows),
+                      patch.object(Path, "open", side_effect=error) as attempt,
+                      patch.object(safety, "sleep") as sleep, self.assertRaises(PermissionError) as raised):
+                    jobs._read(path)
+                self.assertIs(raised.exception, error)
+                self.assertEqual(attempt.call_count, attempts)
+                self.assertEqual(sleep.call_count, attempts - 1)
+                self.assertLessEqual(sum(call.args[0] for call in sleep.call_args_list), 2)
 
     def test_startup_failure_gets_terminal_status(self):
         # Construct a real stopped job, then simulate an unsafe startup log.
