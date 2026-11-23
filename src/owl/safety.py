@@ -129,6 +129,19 @@ def mkdir_readable(path: Path) -> None:
                     raise
 
 
+def retry_windows_file_access(operation):
+    """Allow a short sharing conflict to clear before giving up."""
+    attempts = 14 if _IS_WINDOWS else 1
+    for attempt in range(attempts):
+        try:
+            return operation()
+        except PermissionError as error:
+            # Windows file opens through the C runtime can omit winerror.
+            if attempt + 1 == attempts or getattr(error, "winerror", None) not in {None, 5, 32}:
+                raise
+            sleep(min(0.01 * 2 ** attempt, 0.2))
+
+
 def atomic_write(path: Path, data: bytes) -> None:
     reject_symlinks(path)
     mkdir_readable(path.parent)
@@ -141,16 +154,11 @@ def atomic_write(path: Path, data: bytes) -> None:
             os.fsync(handle.fileno())
         # Windows can deny replacement while a reader has the old file open.
         # Allow up to 1.91 seconds of backoff without rewriting the staged file.
-        attempts = 14 if _IS_WINDOWS else 1
-        for attempt in range(attempts):
+        def replace():
             reject_symlinks(path)
-            try:
-                os.replace(name, path)
-                return
-            except PermissionError as error:
-                if attempt + 1 == attempts or getattr(error, "winerror", None) not in {None, 5, 32}:
-                    raise
-                sleep(min(0.01 * 2 ** attempt, 0.2))
+            os.replace(name, path)
+
+        retry_windows_file_access(replace)
     finally:
         try:
             _check_guards(Path(name))

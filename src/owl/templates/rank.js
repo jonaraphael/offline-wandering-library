@@ -116,6 +116,8 @@
       'pace counting|land navigation|measure distance by pacing'],
     ['', /\b(?:ferment\w* .{0,30}cabbage|sauerkraut)\b/,
       'sauerkraut|fermented cabbage|lactic acid fermentation', /\b(?:sauerkraut|fermented and pickled foods)\b/],
+    ['', /\bmilk .{0,22}spoil\w*\b/,
+      'cool milk storage|refrigerate milk storage|cool milk|milk preservation|milk storage'],
     ['', /\b(?:can(?:n\w*)? .{0,18}(?:green|snap) beans|jars? of green beans|pressure canning)\b/,
       'pressure canning|canning green beans|snap and italian beans|low acid vegetables|using pressure canners',
       /\b(?:snap and italian beans|canning (?:green beans|04 vegetables)|pressure cann\w*)\b/],
@@ -623,7 +625,7 @@
     return query.pediatricHealth ? [...new Set([...query.routing, ...deliveryTerms])] : query.routing;
   }
 
-  function rankPart(part, prepared, asset, limit) {
+  function rankPart(part, prepared, asset, limit, exactPass = false) {
     const {query, primary, phrase, vector, focused, evidence, titlePatterns, emergency, deliveryQuery, postpartum, pediatricHealth, language, seed, audience} = prepared;
     const {domains, discussion} = sourcePolicy(asset);
     const trusted = asset.critical && focused.some(rule => domains.includes(rule.domain));
@@ -635,11 +637,13 @@
       const original = primary.has(word);
       for (const post of postings) {
         const index = post >>> 4, weight = post & 15;
+        if (exactPass && (weight === 5 || part.records[index][5] || part.records[index][4])) continue;
         let stats = lexical.get(index);
-        if (!stats) lexical.set(index, stats = {hits: 0, strength: 0, body: false, bodyHits: 0, leadHits: 0, weights: evidence.length || pediatricHealth ? new Map() : null});
+        if (!stats) lexical.set(index, stats = {hits: 0, literal: 0, strength: 0, body: false, bodyHits: 0, leadHits: 0, weights: evidence.length || pediatricHealth ? new Map() : null});
         stats.weights?.set(word, weight);
         if (original) {
           stats.hits++;
+          if (weight !== 5) stats.literal++;
           stats.strength += weight;
           if (weight <= 3) {
             stats.body = true;
@@ -656,6 +660,7 @@
       const row = part.records[index];
       const stats = lexical.get(index);
       const support = stats?.weights ? conceptScore(stats.weights, evidence) : 0;
+      if (exactPass && stats.literal !== query.length && !support) continue;
       if (stats && !stats.hits && !support) continue;
       let similarity = 0;
       if (vector && row[3] && !row[5]) {
@@ -723,7 +728,7 @@
       } else {
         score += 0.95 * support + (asset.critical && (stats?.body || similarity >= 0.43) ? 5 : 0) +
           (readyReference ? 18 : 0) - (advancedReference ? 22 : 0) +
-          (conceptTitle && (!question || answerConcept) ? 130 : titlePatterns.length ? -48 : 0);
+          (conceptTitle && (!question || answerConcept) ? 130 + Number(Boolean(recipe)) : titlePatterns.length ? -48 : 0);
         if (language && (' ' + reference + ' ').includes(' ' + language + ' ') && phraseReference.test(reference)) score += 90;
         if (seed && support) score += Math.min(36, support / 2) * (stats?.hits ? 1 : 0.5);
         if (pediatricHealth) {
@@ -732,7 +737,13 @@
         }
       }
       const matchedTerms = stats?.hits || 0;
+      if (exactPass) {
+        const longest = evidence.reduce((length, phrase) => phrase.every(word => stats.weights.has(word))
+          ? Math.max(length, phrase.length) : length, 0);
+        score = stats.literal === query.length ? 1000 + score : 100 * longest + support;
+      }
       found.push({row, index, score, recipe, titleMatch, matchedTerms, fullMatch: matchedTerms === query.length,
+        literalMatch: !row[5] && !row[4] && stats?.literal === query.length,
         bodyMatch: !row[5] && Boolean(stats?.body), focused: emergency && support > 0, trusted});
     }
     return found.sort((a, b) => b.titleMatch - a.titleMatch || b.score - a.score || a.index - b.index).slice(0, limit);
@@ -770,7 +781,7 @@
       (asset.format === 'pdf' ? '#page=' + locator :
         !archive && locator ? '#' + encodeURIComponent(locator) : '');
     return {score: hit.score, titleMatch: hit.titleMatch, rankTitle: rawTitle, matchedTerms: hit.matchedTerms, fullMatch: hit.fullMatch,
-      bodyMatch: hit.bodyMatch, focused: hit.focused, trusted: hit.trusted,
+      literalMatch: hit.literalMatch, bodyMatch: hit.bodyMatch, focused: hit.focused, trusted: hit.trusted,
       indexed: true, redirect: Boolean(hit.row[4]), record: {id: asset.id + ':' + part + ':' + hit.index,
       asset_id: asset.id, title, description: lead, source_title: asset.title, href, destination,
       kind: archive ? 'article' : 'section', reader_required: archive,
@@ -786,7 +797,9 @@
   const COMPACT_INDEX = 125_000_000;
   const PREVIEW_BYTES = 350_000;
   const TERM_BYTES = 4_000_000;
-  const SPELLING_RETRY_BYTES = 8_000_000;
+  const READER_BYTES = 12_000_000;
+  const SPELLING_RETRY_BYTES = 6_000_000;
+  const SPELLING_LOOKUP_BYTES = 1_000_000;
 
   function impactBucket(word) {
     return (hashTerm(word) >>> 24).toString(16).padStart(2, '0') + '.js';
@@ -813,7 +826,7 @@
     // A correction is a fallback. Bound vocabulary and term-bucket reads for it
     // independently of the ordinary candidate budget.
     const blocks = new Map();
-    let remaining = TERM_BYTES;
+    let remaining = SPELLING_LOOKUP_BYTES;
     for (const word of unknown.slice(0, 4)) {
       if (cancelled()) return;
       const candidates = [...edits(word)].filter(candidate => vocabulary.has(candidate));
@@ -1104,6 +1117,29 @@
     return readPart(part.pool || asset.sha256, part.number ?? number, queryTerms, part.path);
   }
 
+  async function exactPass(selection, readPart, text, ids, limit, cancelled, domain, emergencySource) {
+    const query = prepareQuery(text);
+    if (!query.query.length || cancelled()) return [];
+    const lookups = [query.query, ...query.evidence].map(phrase => phrase.map(hashTerm));
+    const queryTerms = lookupTerms(query);
+    const matches = [];
+    for (const asset of selection.sources) {
+      if (asset.legacy || ids && !ids.has(asset.id) || domain && !emergencySource(asset, domain)) continue;
+      for (const [number, part] of asset.parts.entries()) {
+        if (cancelled()) return [];
+        const bloom = atob(part.bloom);
+        if (!lookups.some(keys => routeHits(bloom, keys) === keys.length)) continue;
+        const chunk = await readChunk(readPart, asset, number, queryTerms);
+        if (cancelled()) return [];
+        const hits = rankPart(chunk, query, asset, limit, true);
+        if (!hits.length) continue;
+        matches.push(...hits.map(hit => result(asset, hit, number)));
+        retainCandidates(matches, limit * 4);
+      }
+    }
+    return topResults(matches, limit);
+  }
+
   async function lexicalPreview(selection, query, shelf, limit, readPart, queryTerms, cached, cancelled, onProgress) {
     const queue = rankedQueue(selection, query, shelf, PREVIEW_BYTES);
     for (const {asset, number} of queue) {
@@ -1292,16 +1328,16 @@
       if (cache.size > 24) cache.delete(cache.keys().next().value);
       return task;
     }
-    const runQuery = (text, shelf, limit, cancelled, onProgress, lexicalOnly = false, spellingRetry = false) =>
+    const runQuery = (text, shelf, limit, cancelled, onProgress, lexicalOnly = false, budget = BOUNDED_BYTES) =>
       run(selection, lexicalOnly ? () => null : loadModel(), readPart, text, shelf, limit, cancelled, onProgress,
-        spellingRetry ? SPELLING_RETRY_BYTES : BOUNDED_BYTES,
-        selection.impact ? readImpact : undefined, true);
+        budget, selection.impact ? readImpact : undefined, true);
     let vocabulary;
     const correct = selection.impact && ((text, cancelled) => {
       vocabulary ??= new Set([...table.vocab, ...rules.flatMap(rule => rule.phrases.flatMap(words))]);
       return correctSpelling(text, vocabulary, selection.impact, readImpact, cancelled);
     });
-    return Object.assign(runQuery, {embed: async text => (await loadModel()).embed?.(text), correct});
+    return Object.assign(runQuery, {embed: async text => (await loadModel()).embed?.(text), correct,
+      exact: (...options) => exactPass(selection, readPart, ...options)});
   }
 
   function mergeRanked(indexed, metadata, limit = 40) {
@@ -1357,14 +1393,32 @@
       const scoped = ids ? {...index, sources: index.sources.filter(source => ids.has(source.id))} : index;
       return search(scoped, encode, read, query, 'all', ...options);
     });
-    const indexed = (text, category, limit, cancelled, onProgress, spellingRetry) =>
-      run(text, {category}, limit, cancelled, onProgress, false, spellingRetry);
-    const emergency = (text, scope, limit, cancelled) => run(text, scope, limit, cancelled, undefined, true);
-    if (!selection.reranker || mobile) return {rank: indexed, emergency, embed: run.embed, correct: run.correct};
+    const indexed = (text, category, limit, cancelled, onProgress, spellingRetry, semantic) =>
+      run(text, {category}, limit, cancelled, onProgress, !semantic,
+        semantic ? BOUNDED_BYTES : spellingRetry ? SPELLING_RETRY_BYTES : READER_BYTES);
+    const exact = (text, ids, limit, cancelled, domain) => run.exact(text, ids, limit, cancelled, domain, emergencySource);
+    async function emergency(text, {ids, domain, nearby, allowExact, cancelled, select}) {
+      const file = record => record.destination || record.href.split('#')[0];
+      const used = new Set(nearby.map(file));
+      if (used.size === 3) return [];
+      try {
+        const hits = await run(text, {ids, domain}, 18, cancelled, undefined, true);
+        if (cancelled()) return [];
+        const passages = select(hits.filter(hit => hit.bodyMatch), prepareQuery(text))
+          .filter(({record}) => !used.has(file(record))).slice(0, 3 - used.size);
+        return passages.length || used.size || !allowExact ? passages : await exact(text, ids, 3, cancelled, domain);
+      } catch (_) {
+        // Keep the installed guide available when the local index fails.
+        return [];
+      }
+    }
     let reranker;
-    async function rank(text, category, limit, cancelled, onProgress, spellingRetry) {
+    async function rank(text, category, limit, cancelled, onProgress, spellingRetry, semantic) {
+      if (!semantic || !selection.reranker || mobile) {
+        return indexed(text, category, limit, cancelled, onProgress, spellingRetry, semantic);
+      }
       const all = await indexed(text, category, Math.max(limit, 50), cancelled,
-        (hits, scope) => onProgress(hits.slice(0, limit), scope), spellingRetry);
+        (hits, scope) => onProgress(hits.slice(0, limit), scope), spellingRetry, semantic);
       const initial = all.slice(0, limit);
       if (cancelled() || initial.length < 2 || initial[0].titleMatch || spellingRetry) return initial;
       onProgress(initial, 'ranked');
@@ -1381,12 +1435,63 @@
         return initial;
       }
     }
-    return {rank, emergency, embed: run.embed, correct: run.correct};
+    async function query(text, {category, ids, urgent, cancelled, spellingRetry, display, displayExact,
+      applyCorrection, tryEmergency}) {
+      const intent = prepareQuery(text);
+      let rankedText = text;
+      if (!intent.emergency && urgent?.keywords.includes('wound')) rankedText += ' wound care';
+      if (!intent.emergency && urgent?.keywords.includes('scald')) rankedText += ' burn treatment';
+      if (!intent.deliveryQuery && !intent.postpartum && urgent?.keywords.includes('childbirth')) rankedText += ' childbirth';
+      const progress = (hits, phase) => { if (!cancelled()) display(hits, intent, phase); };
+      const hits = await rank(rankedText, category, 85, cancelled, progress, spellingRetry);
+      if (cancelled()) return false;
+      const show = () => display(hits, intent) || displayExact(hits.filter(hit => hit.literalMatch));
+      let count = show();
+      const onlyRedirects = hits.length > 0 && hits.every(hit => hit.redirect || !hit.fullMatch);
+      if ((!count || onlyRedirects) && !spellingRetry && run.correct) {
+        const suggestion = await run.correct(text, cancelled);
+        if (cancelled()) return false;
+        if (suggestion && await applyCorrection(suggestion)) return true;
+        if (cancelled()) return false;
+        if (suggestion) count = show();
+      }
+      if (!count) {
+        const matches = await exact(text, ids, 85, cancelled);
+        if (cancelled()) return false;
+        count = displayExact(matches);
+      }
+      if (!count && tryEmergency && !spellingRetry) {
+        if (await tryEmergency()) return true;
+        if (cancelled()) return false;
+        const matches = await rank(rankedText, category, 85, cancelled, progress, false, true);
+        if (!cancelled()) display(matches, intent);
+      }
+      return false;
+    }
+    return {query, emergency, embed: run.embed, navigationLocations};
+  }
+
+  // BEGIN GENERATED NAVIGATION SECTIONS
+  const navigationSections = [
+    ["Finding direction by the stars",[["survival_shelter",165,"Finding direction by the stars"],["survival_shelter",166,"Finding south by the Southern Cross and making an improvised compass"]],[["north|cardinal directions?|which direction","(?:cant|cannot|without).{0,30}(?:sun|sunlight)|no sun|at night|after dark"]]],
+    ["Finding direction without a compass",[["survival_shelter",162,"Finding direction by the shadow-tip method"],["survival_shelter",165,"Finding direction by the stars"]],[["north|directions?|way|navigat\\w*","(?:without|dont have|do not have|no|lost (?:my|our|the)) (?:a |my |our )?compass"]]],
+    ["Taking a bearing with a map and compass",[["navigation",2,"Taking a bearing with a map and compass"]],["map and compass",["bearings?|azimuth|magnetic declination","maps?|compass|north"]]],
+    ["Reading contour lines on a topographic map",[["navigation",1,"Reading contour lines on a topographic map"]],[["contour (?:lines?|spacing)|contours","maps?|topographic|closely spaced|steep"]]],
+  ];
+  // END GENERATED NAVIGATION SECTIONS
+  const navigationRoutes = navigationSections.map(([title, locations, aliases]) => ({
+    name: normalize(title), locations, aliases: aliases.map(group => [group].flat()
+      .map(value => new RegExp('\\b(?:' + value + ')\\b', 'u'))),
+  }));
+
+  function navigationLocations(phrase) {
+    return navigationRoutes.filter(route => route.name === phrase ||
+      route.aliases.some(group => group.every(pattern => pattern.test(phrase)))).flatMap(route => route.locations);
   }
 
   const api = {classic, readerSearch, model, binaryQuery, bytes, search, terms, prepareQuery, unpack, rankPart, normalize, result,
     retainCandidates, topResults, mergeRanked, nearbyPassages, lookupTerms, filter, vectorScore, placeholderTitle, displayTitle,
-    emergencyMatches,
+    emergencyMatches, navigationLocations,
     hashTerm, pairHash, rankedQueue, impactPostings, impactBlock, impactEvidence, correctSpelling,
     readBudget: READ_BUDGET, boundedBytes: BOUNDED_BYTES, completionBudget};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

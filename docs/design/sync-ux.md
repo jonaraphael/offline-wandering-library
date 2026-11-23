@@ -160,7 +160,8 @@ Notes on states:
 - If selected essential files have no browser download, the stage before
   Sync and the completion summary say "This browser can’t download *N*
   essential files. Use the Python builder to get them." An existing copy
-  on the drive can still be kept.
+  on the drive can still be kept. The Python builder runs in a new folder on
+  the drive; `docs/pages-builder.md` shows how to keep both libraries.
 - Before Sync, when the remaining download could take more than 80,000 relay
   requests, say "Large libraries can take more than a day through the
   download relay, and the command-line builder has no daily download limit."
@@ -171,14 +172,17 @@ Notes on states:
   files, with the website and another host reachable, continue using any
   direct routes. Keep files whose remaining routes need the relay in the
   plan. An HTTP reply from the relay clears the connection-failure streak.
-- When only those files remain, check the relay with a one-byte range
-  request every 15 minutes and at 00:05 UTC. **Try now** makes the same
-  check immediately. Resume automatically after a successful response.
+- When only those files remain, check the relay with a HEAD request every
+  15 minutes and at 00:05 UTC. **Try now** makes the same check immediately.
+  Resume automatically when the relay returns a readable HTTP response.
   Keep the computer awake while waiting, as during Sync.
 - Publish what arrived on a fresh drive. When an existing reader is active,
-  keep it, its search index and its checksum list active through the relay
-  wait and Pause. Save the unfinished update in the drive record. Publish
-  the replacement once it is ready.
+  keep it, its search index and its checksum list active through Sync, Check
+  every file, Pause and the relay wait. Save the unfinished update in the
+  drive record. Publish the replacement once the reader and search files
+  are ready. Finish switching the reader if Pause arrives during publication.
+  If the replacement is incomplete, say "Some reader or search files are
+  missing from this update. The previous library is still on the drive."
 - In the relay wait, “Manage what goes on it” pauses Sync before opening
   Manage. After Pause or reopening the tab, say “Files are waiting for the
   download relay. Choose Sync to continue.” A build report published
@@ -203,7 +207,10 @@ resume paths.
 1. **Read the drive.** No library: the drive is new. A browser build record
    (`LIBRARY/.owl/browser-build.json`, any earlier version): load it. A
    library with no browser record (made by the command-line builder): treat
-   its files as unverified candidates.
+   its files as unverified candidates. An empty or unreadable first record
+   beside OWL's verified starter page is an interrupted first Sync. Check
+   files against their published hashes and keep any files whose ownership
+   OWL cannot verify.
 2. **Decide the target.** The target is the builder's saved choice applied
    to today's published catalog and to the space available (free space plus
    the bytes OWL already holds). A new drive's choice is "recommended". The
@@ -216,8 +223,9 @@ resume paths.
 4. **Add first.** Reserve space for the reader, search and inventory. Put a
    simple start page on a new drive before downloading. Download and verify
    missing and changed items in priority order, essential files first.
-   Within each priority, download the largest encyclopedias first so there
-   is room to verify the incoming pieces. Close each new file or part,
+   Download Kiwix apps first among the non-essential downloads, after any
+   encyclopedias that need the space to verify incoming pieces. Within each
+   priority, download the largest encyclopedias first. Close each new file or part,
    read it from the drive and compare its SHA-256 before counting it as
    verified. If the stored bytes differ, download it again. Join the parts
    when the probe or the builder's answer establishes the supported file
@@ -234,9 +242,12 @@ resume paths.
    If the drive runs out of space, stop adding lower-priority files. If
    finishing needs more room, remove the least essential files added by
    this sync. If the full reader still cannot fit beside the essential
-   files, write a simple start page that links directly to the files.
+   files on a fresh drive, write a simple start page that links directly to
+   the files. Keep the previous reader and index on an existing drive.
    Write the record: the choice, the catalog version, the date, every item
    with its hash, what is missing and which encyclopedias are kept in parts.
+   Commit the complete record at once so an interruption preserves the
+   previous record or the new one.
    The build report on the drive records any missing reader, search or
    WikiMed phone files, including Kiwix apps.
    "Up to date" requires the current reader, navigation and search revision

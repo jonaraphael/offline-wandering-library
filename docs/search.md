@@ -13,9 +13,12 @@ search within a category. PDF matches open at the physical page. **How to
 open** on an encyclopedia match shows the article to find in Kiwix and the
 file's location on the drive. Reviewed WikiMed matches appear with a readable
 PDF section when the 16 GB selection has a corresponding reference.
-If the query has no close match, the reader can
-try a word one edit away using the installed index vocabulary. When the
-retry finds results, the reader says “Showing results for …”. When the
+Before showing “No close match”, the reader checks the installed passages
+for the search terms in their indexed word forms. This can surface a PDF
+page even when the term falls outside the preview or the source restricts
+excerpts. The reader can also try a word one edit away using the installed
+index vocabulary. When the retry finds results, the reader says “Showing
+results for …”. When the
 emergency is uncertain, search can
 show up to three related sections or passages under “No reviewed guide
 matched. These passages may help.” When there are no matching passages, an
@@ -66,9 +69,9 @@ Title-directory entries use word postings reconstructed from their titles.
 The same generated composition plan supplies source order, physical paths,
 pins and ranker metadata to both builders. The reader loads its own search
 manifest and shares content-addressed shards and model files across builds.
-The search page loads the weights on its first query that needs semantic
-routing or indexed ranking. A reviewed lexical match can open without loading
-the weights.
+The search page loads the weights on the first query that needs semantic
+routing or ranking. Lexical matches and reviewed page links can appear
+before the weights load.
 It uses classic local scripts, DecompressionStream for compressed shards and a
 network-denying CSP. Word postings retrieve literal matches and Bloom filters
 route them to chunks. Hamming distance admits additional passage and lead
@@ -84,14 +87,19 @@ portions of the read allowance. The reader can show a lexical preview from
 up to 350 KB of record chunks while the model and relevant term buckets load.
 If final ranking opens a preview chunk, it reuses the parsed records.
 
-The base ranker uses a 16 MB allowance for emergency intents. The reader
-uses the smaller emergency fallback below for descriptions it classifies as
-health or safety. Ordinary ranking reads up to 20 MB of term and record
-chunks on selections with up to 125 MB of records, and up to 39.7 MB on
-larger selections. The lexical preview has its own 350 KB cap. Title
-signatures from denser filters carry less weight when choosing which chunks
-to open. A spelling retry reads up to 8 MB of term and record chunks.
-Submitting a different query cancels the previous search between chunk reads.
+The reader starts ordinary queries with a 12 MB allowance for term and
+record chunks. A spelling lookup and retry can add up to 1 MB and 6 MB,
+respectively. Each lexical preview has its own 350 KB cap. Title signatures
+from denser filters carry less weight when choosing chunks. If the main
+search and spelling retry leave the query unresolved, the reader checks
+eligible chunks whose Bloom filters could contain the query's terms or a
+recognized alternative phrase.
+Ordinary descriptions with no close lexical or exact result can fall back
+to Potion ranking using up to 20 MB of term and record chunks on selections
+with up to 125 MB of records, and up to 39.7 MB on larger selections.
+Emergency recognition and emergency passage fallback retain their own
+ranking and read limits. Submitting a different query cancels the previous
+search between chunk reads.
 
 When the build fits the 46.6 MB MiniLM bundle in its search allocation,
 desktop search preserves the top three indexed hits and uses MiniLM to
@@ -112,6 +120,7 @@ python scripts/build_search_shards.py --model-input "$MODEL_INPUT" \
   --cache "$VERIFIED_SOURCE_CACHE" --directories "$ZIM_RECEIPTS"
 node scripts/build_search_routes.cjs catalog/search catalog/search/routes.json
 node --max-old-space-size=7000 scripts/build_impact_routes.cjs catalog/search catalog/search/impact
+python scripts/build_search_emergency.py --check
 python scripts/search_benchmark.py --check
 python scripts/search_benchmark.py --bounded --tasks
 python scripts/search_benchmark.py --tasks > search-task-results.json
@@ -440,6 +449,39 @@ reader set has a zero-empty floor. The standard and quick ranking checks
 both hit 92, 97, and 97 of the 100 original probes at 16 GB, 128 GB, and
 1 TB respectively.
 
+### Round 7 exact terms and navigation
+
+The 15 queries were fixed before changing the reader. The five rare terms
+and the milk-storage question run on one-PDF selections. The other nine
+queries run on the standard 16 GB selection. A good result leads with a
+matching physical PDF page or a reviewed emergency card.
+[Frozen queries](../tests/search/round7-queries.json)
+
+| Query set | Good before | Good after | Empty before | Empty after |
+| --- | ---: | ---: | ---: | ---: |
+| Exact terms in PDFs | 0/5 | 5/5 | 5 | 0 |
+| Navigation and practical | 0/5 | 5/5 | 1 | 0 |
+| Emergency | 5/5 | 5/5 | 0 | 0 |
+| **Total** | **5/15** | **15/15** | **6** | **0** |
+
+| Query | First result before | First result after |
+| --- | --- | --- |
+| mastitis | No close match | *Guide to Good Dairy Farming Practice*, p. 27 |
+| teat | No close match | *Guide to Good Dairy Farming Practice*, p. 27 |
+| foremilk | No close match | *Guide to Good Dairy Farming Practice*, p. 27 |
+| colostrum | No close match | *Guide to Good Dairy Farming Practice*, p. 38 |
+| homogenization | No close match | *Small-scale Dairy Farming Manual*, vol. 1, p. 274 |
+| How do I find north when I cannot see the sun | Earth-motion lesson | *Survival: Field Shelter and Outdoor Skills*, using the stars, p. 165 |
+| How can I find my direction without a compass | *Survival*, compass use, p. 170 | *Survival*, shadow-tip method, p. 162 |
+| How do I set a bearing with a map and compass | *Finding Your Way With Map and Compass*, cover link | *Finding Your Way With Map and Compass*, p. 2 |
+| What do closely spaced contour lines on a map mean | MSF, basic topographic survey | *Finding Your Way With Map and Compass*, p. 1 |
+| How do I keep milk from spoiling | No close match | *Guide to Good Dairy Farming Practice*, milking hygiene and storage, p. 16 |
+| A fallen overhead wire is sparking across the road | Downed power lines | Downed power lines |
+| My child knocked a bowl of boiling broth onto her leg | First aid for burns and scalds | First aid for burns and scalds |
+| Water from the storm entered our drinking well. Is it safe to use? | Drinking water disinfection | Drinking water disinfection |
+| After a storm flood, black mold is growing on our damp drywall | Mold after flooding | Mold after flooding |
+| My little brother put a button battery in his mouth and swallowed it | Swallowed objects and foreign bodies | Swallowed objects and foreign bodies |
+
 ## Offline timing and reads
 
 ```sh
@@ -447,6 +489,7 @@ scratch=$(mktemp -d "${TMPDIR:-/tmp}/owl-search.XXXXXX")
 NODE_PATH=/path/to/node_modules PYTHONPATH=src python scripts/search_benchmark.py --assemble "$scratch/16" --check-reader
 NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --round5 --check
 NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --round6 --check
+NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --round7 --check
 NODE_PATH=/path/to/node_modules node scripts/search_timing.cjs "$scratch/16/START_HERE.html" --check
 ```
 
@@ -462,19 +505,30 @@ results and status. Requested bytes count local files read after submission,
 including the first load of ranking weights. USB and phone I/O were outside
 these measurements.
 
-| Frozen query set | Slowest before | Slowest after | Most bytes before | Most bytes after |
-| --- | ---: | ---: | ---: | ---: |
-| Emergency | 9,406.8 ms | 27.3 ms | 133,206,163 | 0 |
-| Practical | 8,456.4 ms | 2,039.4 ms | 132,753,329 | 41,535,311 |
-| Misspelled | 7,075.4 ms | 2,560.6 ms | 130,005,690 | 49,709,579 |
+| Frozen round 5 query set | Slowest before | Slowest after | Most bytes before | Most bytes after | Most files before | Most files after |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Emergency | 28.4 ms | 27.5 ms | 0 | 0 | 0 | 0 |
+| Practical | 1,781.9 ms | 1,217.9 ms | 41,535,311 | 11,999,927 | 194 | 146 |
+| Misspelled | 2,383.8 ms | 1,432.6 ms | 49,709,579 | 18,162,621 | 471 | 110 |
 
-The practical checks also require the reported canning and bicycle searches
-to lead with the matching recipe or repair guide and finish within 3 seconds.
+The gate limits practical and misspelled queries to 20 MB and 200 file
+reads each. In the same browser run it times a fixed scan that loads and
+unpacks 96 installed record chunks. The first card must appear within 1.75
+times the scan time and the final result within 2.5 times. Set
+`OWL_SEARCH_LOCAL_TIMING=1` when running the reader gate locally to enforce
+the absolute three-second completion target as well.
 
-| Query | First result | Complete | Requested bytes |
-| --- | --- | ---: | ---: |
-| how to can green beans | Snap and Italian Beans | 1,932.2 ms | 41,535,269 |
-| fix a bicycle inner tube | Bicycle Tire Inner Tube Replacement | 1,756.9 ms | 41,535,272 |
+Across three local gate runs, the slowest practical query finished in
+1,104.7–1,217.9 ms and the slowest misspelled query finished in
+1,314.2–1,432.6 ms. The calibration scan took 944.1–1,115.0 ms.
+
+The two separate practical regressions must lead with the matching
+physical recipe page or repair guide.
+
+| Query | First result | Complete | Requested bytes | Requested files |
+| --- | --- | ---: | ---: | ---: |
+| how to can green beans | Snap and Italian Beans | 1,165.9 ms | 11,999,926 | 151 |
+| fix a bicycle inner tube | Bicycle Tire Inner Tube Replacement | 1,162.7 ms | 11,999,894 | 67 |
 
 The eight separate emergency timing probes took at most
 **107.5 ms to the first card** and **343.5 ms to completion**. The

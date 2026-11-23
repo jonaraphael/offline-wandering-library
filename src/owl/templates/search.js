@@ -989,6 +989,16 @@
       return semanticGuides(documents, vector, domain, ids, phrase);
     }
 
+    async function showSemanticEmergency(text, phrase, words, ids, cancelled, correctionText) {
+      const semantic = await routeByMeaning(text, phrase, '', ids);
+      if (cancelled() || !semantic.domain) return false;
+      if (correctionText) showCorrection(correctionText);
+      list.dataset.emergency = 'true';
+      if (semantic.guides.length) showGuides(semantic.guides);
+      else await runEmergency(text, phrase, words, ids, semantic.domain, cancelled, semantic);
+      return true;
+    }
+
     async function runEmergency(text, phrase, words, ids, domain, cancelled, routing) {
       const nearby = closestUrgent(documents, phrase, domain, ids);
       const initial = nearby ? [nearby] : [];
@@ -1000,36 +1010,23 @@
         showGuides(semantic.guides);
         return;
       }
-      let passages = [];
-      if (rankReady && words.length <= 32) {
-        try {
-          const engine = await rankReady;
-          if (cancelled()) return;
-          if (engine.emergency) {
-            const ranker = root.OWLShardRank;
-            const intent = ranker.prepareQuery(text);
-            const hits = await engine.emergency(text, {ids, domain}, 18, cancelled);
-            if (cancelled()) return;
-            const matches = orderedMatches(hits.filter(hit => hit.bodyMatch), [], priority,
-              intent.query, ranker.terms, undefined, intent.pediatricHealth);
-            const strong = new Set(matches.filter(hit => strongMatch(hit, intent.query, ranker.terms, intent.titlePatterns)));
-            passages = ranker.nearbyPassages(matches, strong, intent.query, heading);
-          }
-        } catch (_) {
-          // Keep the installed guide available when the local index fails.
-        }
-      }
+      const engine = words.length <= 32 && await rankReady;
       if (cancelled()) return;
-      // Keep available nearby sections ahead of general passages and avoid
-      // using multiple slots for different pages in the same document.
-      const file = record => record.destination || record.href.split('#')[0];
-      const used = new Set(semantic.nearby.map(file));
-      const indexed = passages.filter(({record}) => !used.has(file(record))).slice(0, 3 - used.size);
-      const hasPassages = indexed.length || used.size;
-      render(indexed, 'complete', words, hasPassages ? undefined : urgentShelf, [], hasPassages ? semantic.nearby : initial);
-      const browseOnly = !hasPassages && !initial.length;
-      if (hasPassages) appendBrowseHome();
-      message(browseOnly ? noMatch : passageNote);
+      const indexed = await engine?.emergency?.(text, {
+        ids, domain, nearby: semantic.nearby, allowExact: !initial.length, cancelled,
+        select(hits, intent) {
+          const {terms, nearbyPassages} = root.OWLShardRank;
+          const matches = orderedMatches(hits, [], priority, intent.query, terms, undefined, intent.pediatricHealth);
+          const strong = new Set(matches.filter(hit => strongMatch(hit, intent.query, terms, intent.titlePatterns)));
+          return nearbyPassages(matches, strong, intent.query, heading);
+        },
+      }) || [];
+      if (cancelled()) return;
+      const found = indexed.length || semantic.nearby.length;
+      render(indexed, 'complete', words, found ? undefined : urgentShelf, [],
+        found ? semantic.nearby : initial);
+      if (found) appendBrowseHome();
+      message(found || initial.length ? passageNote : noMatch);
     }
 
     function showGuides(guides) {
@@ -1073,77 +1070,70 @@
       if (guides.length) {
         if (isCorrection) showCorrection(text);
         showGuides(guides);
-        return;
+        return true;
       }
       const activeText = events.excluded ? phrase : text;
-      const routing = routeByMeaning(activeText, phrase, domain, ids);
+      const hint = emergencyHint(phrase);
       if (domain) {
         if (isCorrection) showCorrection(text);
-        await runEmergency(activeText, phrase, words, ids, domain, cancelled, routing);
-        return;
+        await runEmergency(activeText, phrase, words, ids, domain, cancelled, routeByMeaning(activeText, phrase, domain, ids));
+        return true;
       }
-      if (rankReady) message('Searching…');
-      const semantic = await routing;
+      const engine = await rankReady;
       if (cancelled()) return;
-      if (semantic.domain) {
-        if (isCorrection) showCorrection(text);
-        list.dataset.emergency = 'true';
-        if (semantic.guides.length) showGuides(semantic.guides);
-        else await runEmergency(activeText, phrase, words, ids, semantic.domain, cancelled, routing);
-        return;
+      const locations = engine?.navigationLocations?.(phrase) || [];
+      const navigation = locations.flatMap(([id, page, title]) => {
+        const record = guideAt(documents, ids, undefined, title, id, page);
+        return record ? [{record, indexed: true}] : [];
+      });
+      if (navigation.length) {
+        const count = render(navigation, 'complete', words);
+        message(count === 1 ? '1 result.' : count + ' results, best first.');
+        return true;
       }
-      const hint = emergencyHint(phrase);
+      if (hint) {
+        if (rankReady) message('Searching…');
+        if (await showSemanticEmergency(activeText, phrase, words, ids, cancelled, isCorrection && text)) return true;
+        if (cancelled()) return;
+      }
       if (words.length > 32) {
         if (!hint) throw Error('Use at most 32 different search words.');
         list.dataset.emergency = 'true';
         await runEmergency(activeText, phrase, words, ids, hint, cancelled, routeByMeaning(activeText, phrase, hint, ids));
-        return;
+        return true;
       }
       const scope = ids ? prepared.filter(({record}) => ids.has(record.asset_id) ||
         record.kind === 'topic' && record.source_ids.some(id => ids.has(id))) : prepared;
-      let terms = tokens, queryTerms = words, intent;
       const catalog = search(scope, text, 'all', 90);
       const urgent = findUrgent(ids ? tasks.filter(task => ids.has(task.id)) : tasks, activeText);
       let count, showingPassages = false, warning = '';
-      const showHits = (hits, phase) => {
+      const showHits = (hits, intent, progress) => {
+        const ranker = root.OWLShardRank;
+        const [queryTerms, terms] = intent ? [intent.query, ranker.terms] : [words, tokens];
         const matches = orderedMatches(hits, catalog, priority, queryTerms, terms, urgent, intent?.pediatricHealth);
         const strong = new Set(matches.filter(hit => strongMatch(hit, queryTerms, terms, intent?.titlePatterns || [])));
         const passages = hits.length && !urgent && (intent?.emergency || strong.size === 0)
-          ? root.OWLShardRank.nearbyPassages(matches, strong, queryTerms, heading) : [];
+          ? ranker.nearbyPassages(matches, strong, queryTerms, heading) : [];
         showingPassages = passages.length > 0;
-        count = render(showingPassages ? passages : [...strong].slice(0, 70), phase, words, urgent);
+        count = render(showingPassages ? passages : [...strong].slice(0, 70), intent ? 'indexed' : 'catalog', words, urgent);
+        if (progress) {
+          const status = progress === 'ranked' ? 'Still looking for better matches…' : 'Searching…';
+          message(showingPassages ? status + ' ' + passageNote : status);
+        }
+        return count;
       };
       if (rankReady) message('Searching…');
-      showHits([], 'catalog');
-      if (rankReady) {
+      showHits([]);
+      if (engine) {
         try {
-          const engine = await rankReady;
-          if (cancelled()) return;
           warning = engine.warning || '';
-          if (engine.rank) {
-            const ranker = root.OWLShardRank;
-            terms = ranker.terms;
-            intent = ranker.prepareQuery(text, () => null);
-            queryTerms = intent.query;
-            let rankedText = text;
-            if (!intent.emergency && urgent?.keywords.includes('wound')) rankedText += ' wound care';
-            if (!intent.emergency && urgent?.keywords.includes('scald')) rankedText += ' burn treatment';
-            if (!intent.deliveryQuery && !intent.postpartum && urgent?.keywords.includes('childbirth')) rankedText += ' childbirth';
-            const hits = await engine.rank(rankedText, selected, 85, cancelled, (hits, phase) => {
-              if (cancelled()) return;
-              showHits(hits, 'indexed');
-              const progress = phase === 'ranked' ? 'Still looking for better matches…' : 'Searching…';
-              message(showingPassages ? progress + ' ' + passageNote : progress);
-            }, isCorrection);
-            if (cancelled()) return;
-            showHits(hits, 'indexed');
-            const onlyRedirects = hits.length > 0 && hits.every(hit => hit.redirect || !hit.fullMatch);
-            if ((!count || onlyRedirects) && !isCorrection && engine.correct) {
-              const suggested = await engine.correct(text, cancelled);
-              if (cancelled()) return;
-              if (suggested) return searchText(suggested, selected, ids, cancelled, true);
-            }
-          }
+          if (await engine.query?.(text, {
+            category: selected, ids, urgent, cancelled, spellingRetry: isCorrection, display: showHits,
+            displayExact: hits => hits.length ? (count = render(hits, 'indexed', words)) : 0,
+            applyCorrection: suggestion => searchText(suggestion, selected, ids, cancelled, true),
+            tryEmergency: words.length > 1 && (() => showSemanticEmergency(activeText, phrase, words, ids, cancelled)),
+          })) return true;
+          if (cancelled()) return;
         } catch (error) {
           if (cancelled()) return;
           warning = error.message + ' Showing what was found.';
@@ -1152,15 +1142,19 @@
       if (hint && !list.querySelector('article.result')) {
         list.dataset.emergency = 'true';
         await runEmergency(activeText, phrase, words, ids, hint, cancelled, routeByMeaning(activeText, phrase, hint, ids));
-        return;
+        return true;
       }
-      if (isCorrection && count) showCorrection(text);
+      if (isCorrection) {
+        if (!count) return false;
+        showCorrection(text);
+      }
       list.dataset.searchScope = 'complete';
       if (!count || showingPassages) appendBrowseHome();
       let summary = noMatch;
       if (showingPassages) summary = passageNote;
       else if (count) summary = count + ' result' + (count === 1 ? '.' : 's, best first.');
       message([warning, summary].filter(Boolean).join(' '));
+      return Boolean(count);
     }
     function showCorrection(text) {
       correction.textContent = 'Showing results for “' + text + '”.';

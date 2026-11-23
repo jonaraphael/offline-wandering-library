@@ -86,7 +86,7 @@ class JobTests(unittest.TestCase):
     def wait_for(self, predicate, timeout=12):
         deadline = time.monotonic() + timeout
         while time.monotonic() < deadline:
-            state = json.loads((self.job / "status.json").read_bytes())
+            state = jobs._read(self.job / "status.json")
             # status_job probes worker.lock by briefly taking it. Give the
             # starting worker time to acquire it before polling its liveness.
             if state["state"] != "starting":
@@ -236,6 +236,44 @@ class JobTests(unittest.TestCase):
                 self.assertLessEqual(sum(call.args[0] for call in sleep.call_args_list), 2)
                 self.assertEqual(path.read_bytes(), original)
                 self.assertEqual(list(self.root.glob(".owl-write-*")), [])
+
+    def test_status_read_retries_only_windows_contention_with_a_bound(self):
+        self.job.mkdir()
+        (self.job / "owner.json").write_text(json.dumps({"owner": "offline-wandering-library-job",
+                                                        "schema_version": jobs.SCHEMA}))
+        path = self.job / "status.json"
+        path.write_text('{"state":"complete"}')
+        open_file = Path.open
+        for winerror in (5, 32, None):
+            with self.subTest(winerror=winerror):
+                error = PermissionError(errno.EACCES, "sharing violation")
+                error.winerror = winerror
+                blocked = True
+
+                def open_after_contention(file, *args, **kwargs):
+                    nonlocal blocked
+                    if file == path and blocked:
+                        blocked = False
+                        raise error
+                    return open_file(file, *args, **kwargs)
+
+                with (patch.object(safety, "_IS_WINDOWS", True),
+                      patch.object(Path, "open", open_after_contention), patch.object(safety, "sleep") as sleep):
+                    self.assertEqual(jobs.status_job(self.job)["state"], "complete")
+                    sleep.assert_called_once_with(.01)
+
+        for windows, winerror, attempts in [(False, 32, 1), (True, 65, 1), (True, 32, 14)]:
+            with self.subTest(windows=windows, winerror=winerror):
+                error = PermissionError(errno.EACCES, "access denied")
+                error.winerror = winerror
+                with (patch.object(safety, "_IS_WINDOWS", windows),
+                      patch.object(Path, "open", side_effect=error) as attempt,
+                      patch.object(safety, "sleep") as sleep, self.assertRaises(PermissionError) as raised):
+                    jobs._read(path)
+                self.assertIs(raised.exception, error)
+                self.assertEqual(attempt.call_count, attempts)
+                self.assertEqual(sleep.call_count, attempts - 1)
+                self.assertLessEqual(sum(call.args[0] for call in sleep.call_args_list), 2)
 
     def test_startup_failure_gets_terminal_status(self):
         # Construct a real stopped job, then simulate an unsafe startup log.

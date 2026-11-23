@@ -19,8 +19,16 @@
     "wiki": ["wikimed_en", "6f67340a7cd7665bb57c27d2bbff97e26f2037477c9ea597345a118286820331"],
     "w12": ["hesperian_en_wtnd_2025_12", "fe09cc357764787b11ccd64e830d8f4d9eba439d23a2e692017dd79ca698afbc"],
     "w18": ["hesperian_en_wtnd_2025_18", "1617a63465cd14052ad96a8fc0669e0cf3aa2c2c595fd8d18a393cd0f17d42b0"],
-    "who-cpr": ["who_emergency_medical-algorithm", "3c0eecb0bd76a14d2d8a1c865b790d4b71210ca5f6196a7ea9853e43b3b60261"]
+    "who-cpr": ["who_emergency_medical-algorithm", "3c0eecb0bd76a14d2d8a1c865b790d4b71210ca5f6196a7ea9853e43b3b60261"],
+    "usgs-map": ["navigation", "bc476fdc38e0949f18941cf361242bce8f0c18583111ce7e10b06eb3fc569922"],
+    "field-navigation": ["survival_shelter", "440035273e6e2ddab5f6ba8b79a4b0d5c901f3804538998381b343092512a813"]
   },
+  "navigation": [
+    ["north-without-sun", "Finding direction by the stars", [["field-navigation", 165, "Finding direction by the stars"], ["field-navigation", 166, "Finding south by the Southern Cross and making an improvised compass"]], [["north|cardinal directions?|which direction", "(?:cant|cannot|without).{0,30}(?:sun|sunlight)|no sun|at night|after dark"]]],
+    ["without-compass", "Finding direction without a compass", [["field-navigation", 162, "Finding direction by the shadow-tip method"], ["field-navigation", 165, "Finding direction by the stars"]], [["north|directions?|way|navigat\\w*", "(?:without|dont have|do not have|no|lost (?:my|our|the)) (?:a |my |our )?compass"]]],
+    ["map-compass", "Taking a bearing with a map and compass", [["usgs-map", 2, "Taking a bearing with a map and compass"]], ["map and compass", ["bearings?|azimuth|magnetic declination", "maps?|compass|north"]]],
+    ["contour-lines", "Reading contour lines on a topographic map", [["usgs-map", 1, "Reading contour lines on a topographic map"]], [["contour (?:lines?|spacing)|contours", "maps?|topographic|closely spaced|steep"]]]
+  ],
   "companions": {
     "carbon-monoxide": [["cert", 176, "Carbon monoxide hazards"]],
     "chemical-eye": [["w16", 3, "Chemical burns of the eye"]],

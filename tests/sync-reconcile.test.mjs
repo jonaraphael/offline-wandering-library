@@ -2,9 +2,11 @@ import assert from "node:assert/strict";
 import {createHash, webcrypto} from "node:crypto";
 import {readFileSync} from "node:fs";
 import {test} from "node:test";
+import {runInNewContext} from "node:vm";
 import {compareLibrary, DrivePathConflict, inspectDrive, MANIFEST, partLayout, readBuild, reconcile} from "../web/builder.mjs";
+import {completionState, prepareDownloadSources} from "../web/builder-ui.mjs";
 import {removeFile, writeFile} from "../web/drive.mjs";
-import {createNetwork} from "../web/network.mjs";
+import {createNetwork, SourceError} from "../web/network.mjs";
 import {readPreviewFile} from "../web/reader-preview.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
 
@@ -406,6 +408,76 @@ test("Check every file preserves changes across generated reports, inventory, re
   await openGeneration(drive, "generated");
 });
 
+test("Check every file keeps the original index answering a query after two search-build.json 503s", async () => {
+  const drive = new Directory();
+  const {selection} = generationOptions("guide");
+  selection.search.records = [{kind: "document", id: "doc-guide", asset_id: "guide",
+    title: "Emergency water treatment", href: "BOOKS/guide.pdf"}];
+  const preview = {drive, id: "original"};
+  const first = await reconcile(drive, {...selection, onPublished: files => { preview.files = files; }});
+  const firstGeneration = await openGeneration(drive, "guide");
+  const original = new Map(await Promise.all(first.state.generated.map(async path => [path, await text(drive, path)])));
+  let requests = 0;
+  const network = createNetwork({fetchFile: selection.fetchFile, retryMs: 0});
+  const result = await reconcile(drive, {...selection, fullVerify: true, network,
+    prepareSources: assets => prepareDownloadSources(assets, {routes: selection.routes, network,
+      async read(url) {
+        assert.equal(url, "./search-build.json");
+        requests++;
+        const response = new Response(null, {status: 503});
+        if (!response.ok) throw new SourceError("Could not load " + url, {status: response.status});
+      }}),
+    onPublished: () => assert.fail("the incomplete replacement must not be published")});
+  assert.equal(requests, 2);
+  assert.equal(result.state.finished, false);
+  assert.equal(result.state.pending, true);
+  assert.equal((await readBuild(drive)).updateSupportMissing[0].reason, "Could not load ./search-build.json");
+  assert.match(completionState(result).message, /The previous library is still on the drive/);
+  for (const [path, contents] of original) assert.equal(await text(drive, path), contents, path);
+  assert.equal(await openGeneration(drive, "guide"), firstGeneration);
+
+  const load = async path => (await readPreviewFile(preview, preview.id, path)).text();
+  const context = {};
+  context.OWLDiscoveryManifest = manifest => { context.manifest = manifest; };
+  context.OWLDiscoveryData = payload => { context.payload = payload; };
+  const index = "LIBRARY/INDEX/" + firstGeneration + "/";
+  runInNewContext(await load(index + "search.js"), context);
+  runInNewContext(await load(index + "manifest.js"), context);
+  runInNewContext(await load("LIBRARY/" + context.manifest.path), context);
+  const matches = context.OWLDiscovery.search(context.OWLDiscovery.prepare(context.payload.records), "water treatment");
+  assert.equal(matches[0].record.href, "BOOKS/guide.pdf");
+
+  const retry = await reconcile(drive, {...selection, fetchFile: () => assert.fail("reuse the verified files")});
+  assert.equal(retry.state.finished, true);
+  assert.equal((await readBuild(drive)).updateSupportMissing, undefined);
+});
+
+test("an incomplete search replacement keeps the existing fixed-name model and the published checksums", async () => {
+  const drive = new Directory();
+  const {selection} = generationOptions("original");
+  const model = "verified model";
+  const fetch = selection.fetchFile;
+  selection.search.plan.model = [["model.js", {bytes: model.length, sha256: hash(model)}]];
+  selection.fetchFile = async url => url.endsWith("/model.js") ? new Response(model) : fetch(url);
+  await reconcile(drive, selection);
+  const checksums = await text(drive, "LIBRARY/SHA256SUMS.txt");
+  const update = structuredClone(selection.search);
+  const replacement = "replacement model";
+  update.plan.model = [["model.js", {bytes: replacement.length, sha256: hash(replacement)}],
+    ["model-license.txt", {bytes: 1, sha256: hash("x")}]];
+  const requests = [];
+  const fetchFile = async url => {
+    requests.push(new URL(url).pathname);
+    return url.endsWith("/model.js") ? new Response(replacement) : new Response(null, {status: 503});
+  };
+  const result = await reconcile(drive, {...selection, search: update, fetchFile, network: createNetwork({fetchFile, retryMs: 0})});
+  assert.deepEqual(requests, ["/model.js", "/model-license.txt", "/model-license.txt"]);
+  assert.equal(result.keptPublished, true);
+  assert.equal(await text(drive, "LIBRARY/SHA256SUMS.txt"), checksums);
+  assert.equal(await text(drive, "LIBRARY/SEARCH/model.js"), model);
+  await openGeneration(drive, "original");
+});
+
 async function openGeneration(drive, book) {
   const start = await text(drive, "START_HERE.html");
   const [, id] = /<script defer src="LIBRARY\/INDEX\/([a-f0-9]{12})\/search\.js"/.exec(start) || [];
@@ -454,7 +526,7 @@ test("reader generation stays consistent when interrupted at every assembly writ
   async function fixture(beforeWrite) {
     const drive = new Directory("drive", {beforeWrite});
     await reconcile(drive, old.selection);
-    return {drive, oldId: await openGeneration(drive, "original")};
+    return {drive, oldId: await openGeneration(drive, "original"), oldChecksums: await text(drive, "LIBRARY/SHA256SUMS.txt")};
   }
   let assembling = false;
   const sample = await fixture(name => { if (assembling) writes.push(name); });
@@ -465,7 +537,7 @@ test("reader generation stays consistent when interrupted at every assembly writ
   for (const [stop, expected] of writes.entries()) {
     let position = 0;
     let assembling = false;
-    const {drive, oldId} = await fixture(name => {
+    const {drive, oldId, oldChecksums} = await fixture(name => {
       if (assembling && position++ === stop) {
         assert.equal(name, expected);
         throw new DOMException("Interrupted before " + name, "AbortError");
@@ -476,6 +548,7 @@ test("reader generation stays consistent when interrupted at every assembly writ
     assert.equal((await readBuild(drive)).pending, true);
     const openId = await openGeneration(drive, stop <= startWrite ? "original" : "updated");
     assert.equal(openId === oldId, stop <= startWrite, "which generation opens when interrupted before " + expected);
+    if (stop <= startWrite) assert.equal(await text(drive, "LIBRARY/SHA256SUMS.txt"), oldChecksums);
     assert.equal(await text(drive, next.shared), "globalThis.OWLTestShard();\n");
     assembling = false;
     const repaired = await reconcile(drive, {...update, fetchFile: () => assert.fail("the downloads were already committed")});
@@ -489,17 +562,17 @@ test("reader generation stays consistent when interrupted at every assembly writ
   }
 
   const controller = new AbortController();
-  let cutAfterStart = false;
-  const {drive, oldId} = await fixture(name => { if (cutAfterStart && name === "START_HERE.html") controller.abort(); });
+  let pauseDuringPublication = false;
+  const {drive, oldId} = await fixture(name => { if (pauseDuringPublication && name === "SHA256SUMS.txt") controller.abort(); });
   const oldPath = "LIBRARY/INDEX/" + oldId;
   await writeFile(drive, oldPath + "/owner-note.txt", "keep");
-  cutAfterStart = true;
+  pauseDuringPublication = true;
   await assert.rejects(reconcile(drive, {...update, signal: controller.signal}), {name: "AbortError"});
   assert.notEqual(await openGeneration(drive, "updated"), oldId);
   assert.equal((await readBuild(drive)).pending, true);
   assert.ok(await text(drive, oldPath + "/search.js"), "cleanup has not started");
   await writeFile(drive, oldPath + "/c-culture.js", "owner changed this file");
-  cutAfterStart = false;
+  pauseDuringPublication = false;
   const result = await reconcile(drive, {...update, fetchFile: () => assert.fail("all pinned files are already on the drive")});
   assert.equal(result.state.finished, true);
   await openGeneration(drive, "updated");

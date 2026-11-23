@@ -46,6 +46,9 @@ class OperationsTests(unittest.TestCase):
         for asset in load_catalog(ROOT / "catalog/library.yaml"):
             if not asset["redistributable"]:
                 self.assertIn(f"- {asset['publisher']}\n", relay_doc)
+        owner_decision = relay_doc.split("### Why the owner operates the relay\n", 1)[1].split("\n## ", 1)[0]
+        self.assertIn("(allowlist.json)", owner_decision)
+        self.assertIn("https://github.com/jonaraphael/offline-wandering-library/issues/new", owner_decision)
         for repository, release in (("desktop", "2.5.1"), ("apple", "3.14.0"), ("android", "3.14.0")):
             self.assertIn(f"https://github.com/kiwix/kiwix-{repository}/tree/{release}", reader_payload([])["readme"])
         package = tomllib.loads((ROOT / "pyproject.toml").read_text())

@@ -1,0 +1,23 @@
+{
+  "exact": [
+    {"query": "mastitis", "asset": "fao_good_dairy_practice", "pages": [27, 28]},
+    {"query": "teat", "asset": "fao_good_dairy_practice", "pages": [26, 27, 28, 37]},
+    {"query": "foremilk", "asset": "fao_good_dairy_practice", "pages": [24, 27]},
+    {"query": "colostrum", "asset": "fao_good_dairy_practice", "pages": [38]},
+    {"query": "homogenization", "asset": "fao_dairy_manual_vol1", "pages": [274, 275]}
+  ],
+  "practical": [
+    {"query": "How do I find north when I cannot see the sun", "asset": "survival_shelter", "pages": [165, 166]},
+    {"query": "How can I find my direction without a compass", "asset": "survival_shelter", "pages": [162]},
+    {"query": "How do I set a bearing with a map and compass", "asset": "navigation", "pages": [2]},
+    {"query": "What do closely spaced contour lines on a map mean", "asset": "navigation", "pages": [1]},
+    {"query": "How do I keep milk from spoiling", "asset": "fao_good_dairy_practice", "pages": [16, 17, 18, 19, 26, 30, 31], "single": true}
+  ],
+  "emergency": [
+    {"query": "A fallen overhead wire is sparking across the road", "topics": ["downed-power-line"]},
+    {"query": "My child knocked a bowl of boiling broth onto her leg", "topics": ["scald", "burn"]},
+    {"query": "Water from the storm entered our drinking well. Is it safe to use?", "topics": ["drinking-water"], "excluded": ["drowning"]},
+    {"query": "After a storm flood, black mold is growing on our damp drywall", "topics": ["flood-mold"]},
+    {"query": "My little brother put a button battery in his mouth and swallowed it", "topics": ["swallowed-object"]}
+  ]
+}

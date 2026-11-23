@@ -38,15 +38,34 @@ export function archiveJoinLimitReached(error, written, next) {
   return written <= FAT32_MAX + 1 && (error.name === "InvalidStateError" || isNoSpace(error));
 }
 
-export function buildOrder(assets, {transfer = true} = {}) {
+export function buildOrder(assets, {transfer = true, archiveSpace = Infinity, partBytes = PART_BYTES} = {}) {
   // Give archive transfers their temporary workspace before other files fill
   // the drive, even if the final archive will be kept in parts.
   const archiveSize = asset => transfer && asset.format === "zim" ? asset.size_bytes : 0;
-  return [...assets].sort((a, b) => priority(a) - priority(b) ||
+  const ordered = [...assets].sort((a, b) => priority(a) - priority(b) ||
     archiveSize(b) - archiveSize(a) ||
     (a.selection?.level ?? Infinity) - (b.selection?.level ?? Infinity) ||
     (a.selection?.rank ?? Infinity) - (b.selection?.rank ?? Infinity) ||
     a.id.localeCompare(b.id));
+  if (!transfer) return ordered;
+  const moveEarly = asset => isReaderApp(asset) && priority(asset) > 0;
+  const readers = ordered.filter(moveEarly);
+  if (!readers.length) return ordered;
+  const content = ordered.filter(asset => !moveEarly(asset));
+  const readerBytes = readers.reduce((total, asset) => total + asset.size_bytes, 0);
+  let position = content.filter(asset => priority(asset) === 0).length;
+  let written = 0;
+  for (const [index, asset] of content.entries()) {
+    const part = Math.min(asset.size_bytes, partBytes ?? asset.size_bytes);
+    const remainder = asset.size_bytes % part;
+    // The archive writer holds the verified pieces and the part being written.
+    const scratch = Math.max(remainder, part - remainder);
+    if (asset.format === "zim" && written + asset.size_bytes + scratch + readerBytes > archiveSpace) {
+      position = Math.max(position, index + 1);
+    }
+    written += asset.size_bytes;
+  }
+  return [...content.slice(0, position), ...readers, ...content.slice(position)];
 }
 
 function assetPin(asset) {
@@ -110,8 +129,15 @@ function legacyRecord(record, modified) {
 export async function readBuild(drive) {
   const file = await fileAt(drive, MANIFEST);
   if (!file) return null;
-  const state = JSON.parse(await file.text());
-  if (![1, 2].includes(state.version) || !/^[a-z0-9-]+$/i.test(state.buildId || "") || !Array.isArray(state.plan) ||
+  const contents = await file.text();
+  let state;
+  try { state = JSON.parse(contents); }
+  catch (error) {
+    if (!(error instanceof SyntaxError)) throw error;
+    // Creating the first handle can leave an empty entry before the first close.
+    if (await matchesFile(await candidateFile(drive, START_PAGE), filePin(startPage()))) return null;
+  }
+  if (!state || ![1, 2].includes(state.version) || !/^[a-z0-9-]+$/i.test(state.buildId || "") || !Array.isArray(state.plan) ||
       !Array.isArray(state.excluded) || !state.parts || !state.verified || !state.dropped || !state.failures ||
       (state.version === 2 && (!state.installed || !state.working || !Array.isArray(state.owned) ||
        !Array.isArray(state.generated)))) {
@@ -136,6 +162,7 @@ async function assertDrive(drive, state) {
 
 async function save(drive, state) {
   await assertDrive(drive, state);
+  // createWritable publishes the complete swap file on close, keeping the old record until then.
   await writeFile(drive, MANIFEST, JSON.stringify(state) + "\n");
 }
 
@@ -774,9 +801,10 @@ export async function inspectDrive(drive) {
   const start = await reservedEntry(() => fileAt(drive, START_PAGE), "a folder named " + START_PAGE);
   const state = await readBuild(drive);
   const adoption = Boolean(state?.adopting || !state && start);
-  let legacy = adoption || state?.migrated || (state && !state.generatedPins) ? await previousReader(drive) : new Map();
-  if (start && !ownsGeneratedFile(state, START_PAGE) && !legacy.has(START_PAGE) &&
-      !await matchesFile(start, filePin(startPage()))) {
+  const starter = await matchesFile(start, filePin(startPage()));
+  let legacy = (adoption && !starter) || state?.migrated || (state && !state.generatedPins) ?
+    await previousReader(drive) : new Map();
+  if (start && !ownsGeneratedFile(state, START_PAGE) && !legacy.has(START_PAGE) && !starter) {
     if (state && !legacy.size) legacy = await previousReader(drive);
     if (!legacy.has(START_PAGE)) throw new DrivePathConflict("a different file named " + START_PAGE);
   }
@@ -850,7 +878,7 @@ export async function compareLibrary(drive, {assets, choice, catalogVersion, nav
   const adds = [], drops = [], present = [], held = [];
   const planned = new Map(state?.plan.map(pin => [pin.id, pin]));
   let room = freeBytes;
-  for (const asset of buildOrder(assets)) {
+  for (const asset of buildOrder(assets, {archiveSpace, partBytes})) {
     signal?.throwIfAborted();
     const old = state?.installed[asset.id];
     const previous = planned.get(asset.id);
@@ -1009,7 +1037,7 @@ async function preserveChangedFile(drive, state, path, file, signal) {
   return pin;
 }
 
-function guardReader(drive, state, legacy, {fullVerify, signal}) {
+function guardReader(drive, state, legacy, {fullVerify, signal, beforeReplacing}) {
   return {
     getDirectoryHandle: drive.getDirectoryHandle.bind(drive),
     getFileHandle: drive.getFileHandle.bind(drive),
@@ -1036,6 +1064,7 @@ function guardReader(drive, state, legacy, {fullVerify, signal}) {
       const known = state.generated.includes(path);
       const unchanged = Boolean(file && current.sha256 === next.sha256);
       if (unchanged && known && proofs.some(pin => pin?.sha256 === next.sha256 && pin.bytes === next.bytes)) return false;
+      if (file && !unchanged && beforeReplacing) await beforeReplacing(path, file, next);
       if (!known) state.generated.push(path);
       state.generatedPins[path] = current.sha256 === next.sha256 ? [next] : [current, next];
       await save(drive, state);
@@ -1046,6 +1075,23 @@ function guardReader(drive, state, legacy, {fullVerify, signal}) {
       state.generatedPins[path] = [await checkGeneratedWrite(drive, path, contents, signal)];
     }
   };
+}
+
+async function publishReplacement(drive, state, legacy, fullVerify, files) {
+  const previous = new Map();
+  const publishing = guardReader(drive, state, legacy, {fullVerify, async beforeReplacing(path, file, next) {
+    previous.set(path, {contents: new Uint8Array(await file.arrayBuffer()), next});
+  }});
+  try {
+    for (const [path, contents] of files) await writeFile(publishing, path, contents);
+  } catch (error) {
+    // Closing each file is atomic. Restore any changes committed before a later write failed.
+    const restoring = guardReader(drive, state, legacy, {fullVerify: false});
+    for (const [path, {contents, next}] of [...previous].reverse()) {
+      if (await matchesFile(await candidateFile(drive, path), next)) await writeFile(restoring, path, contents);
+    }
+    throw error;
+  }
 }
 
 async function recordAdoptedGeneration(drive, state, legacy, signal) {
@@ -1121,7 +1167,7 @@ function beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, si
     dropped: map(), failures: map(), partBytes, joinArchives, singleArchives, fat32, archiveSpace,
     choice, catalogVersion, searchBudget, capacityBytes, capacityEstimated, driveFormat: driveFormat ?? saved?.driveFormat,
     pending: true, finished: false, migrated: saved?.migrated,
-    syncedAt: saved?.syncedAt, largeFileLimited: saved?.largeFileLimited};
+    syncedAt: saved?.syncedAt, readerRevision: saved?.readerRevision, largeFileLimited: saved?.largeFileLimited};
 }
 
 export async function reconcile(drive, options) {
@@ -1165,13 +1211,14 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
   const {legacy} = inspection;
   const guardedDrive = guardReader(drive, state, legacy, {fullVerify, signal});
   const previousPins = legacy.size ? legacy : saved ? await previousReader(drive) : new Map();
+  const keepPublished = Boolean(saved?.syncedAt || previousPins.has(START_PAGE));
   const catalogPaths = new Map(catalogAssets.map(asset => [asset.id, asset.destination]));
   const retirement = {catalogPaths, previousPins, signal};
   state.adopting = comparison.adoption && legacy.size > 0;
   const held = new Set(comparison.held.filter(row => !replaceInPlace.includes(row.asset.id) || row.old.protected).map(row => row.asset.id));
   const present = new Map(comparison.present.map(row => [row.pin.id, row]));
   const additions = new Map(comparison.adds.map(row => [row.asset.id, row]));
-  const ordered = buildOrder(assets);
+  const ordered = buildOrder(assets, {archiveSpace, partBytes});
   state.plan = ordered.map(assetPin);
   state.excluded = excluded;
   if (continuing) {
@@ -1235,11 +1282,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
       state.generated.push("START_HERE.html");
       state.generatedPins["START_HERE.html"] = [filePin(starter)];
     }
-    try { await writeFile(drive, MANIFEST, JSON.stringify(state) + "\n"); }
-    catch (error) {
-      if (isNoSpace(error) && (await fileAt(drive, MANIFEST))?.size === 0) await removeFile(drive, MANIFEST);
-      throw error;
-    }
+    await writeFile(drive, MANIFEST, JSON.stringify(state) + "\n");
   }
   let unavailableSupport = [];
   let archivesWithoutMetadata = new Set();
@@ -1421,7 +1464,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
     await save(drive, state);
     // The working plan and its checkpoints live in the browser record.
     // Leave the published reader and checksums alone while the relay is down.
-    if (saved?.syncedAt && await activeReaderExists(drive, saved)) return {state};
+    if (keepPublished) return {state};
   }
   // Leave the old parts available to the published reader until the new
   // start page and checksum list are in place.
@@ -1465,7 +1508,12 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
   const syncedAt = new Date().toISOString();
   const apps = new Set([...catalogAssets, ...assets].filter(isReaderApp).map(asset => asset.id));
   const missingApp = row => row.kind === "app" || apps.has(row.id);
-  let completed, missing, keptInParts, searchWarnings, supportMissing, compact = paused;
+  let completed, missing, keptInParts, searchWarnings, supportMissing, compact = paused, keptPublished;
+  const retainPublished = async () => {
+    state.updateSupportMissing = supportMissing;
+    await save(drive, state);
+    return {state, completed, missing, keptInParts, searchWarnings, supportMissing, keptPublished: true};
+  };
   for (;;) {
     completed = [...present.values()].map(row => row.asset);
     const omissions = [...excluded, ...ordered.flatMap(asset => {
@@ -1481,13 +1529,15 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
     const assemblySignal = paused ? undefined : signal;
     const assemblyDrive = paused ? guardReader(drive, state, legacy, {fullVerify, signal: assemblySignal}) : guardedDrive;
     try {
-      ({warnings: searchWarnings, supportMissing} = await assembleLibrary(assemblyDrive,
+      ({warnings: searchWarnings, supportMissing, keptPublished} = await assembleLibrary(assemblyDrive,
         {completed, missing, keptInParts, compact, unavailableSupport: [...unavailableSupport, ...missingApps],
         searchMissing: compact && Boolean(search),
         selectedCount: assets.length + excluded.length - missingApps.length, navigation, search: compact ? undefined : search,
         layouts: new Map([...present].map(([id, row]) => [id, row.layout])),
         parts: Object.fromEntries([...present].map(([id, row]) => [id, row.parts])),
-        searchBudget: state.searchBudget, fetchFile, signal: assemblySignal, network, syncedAt, onPublished}));
+        searchBudget: state.searchBudget, fetchFile, signal: assemblySignal, network, syncedAt, onPublished,
+        publishReplacement: keepPublished ? files => publishReplacement(drive, state, legacy, fullVerify, files) : undefined}));
+      if (keptPublished) return retainPublished();
       break;
     } catch (error) {
       if (!paused && signal?.aborted && deferred.size) {
@@ -1509,7 +1559,13 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
         compact = true;
         continue;
       }
-      if (!lowest) throw error;
+      if (!lowest) {
+        if (!keepPublished) throw error;
+        const issue = {kind: "reader", title: "Full reader", reason: "The drive ran out of space."};
+        supportMissing = [...unavailableSupport, ...missingApps, issue];
+        searchWarnings = supportMissing.map(({title, reason}) => title + " — " + reason);
+        return retainPublished();
+      }
       const {asset, layout} = lowest;
       await forgetParts(drive, state, asset, layout, published, assemblySignal);
       delete state.joined[asset.id];

@@ -71,11 +71,12 @@ export function createRelayWait({routes, archives = {}, assets, fetchFile, netwo
     lastProbe = Date.now();
     try {
       const timeout = AbortSignal.timeout(PROBE_TIMEOUT);
-      const response = await fetchFile(probeURL, {headers: {Range: "bytes=0-0"},
+      const response = await fetchFile(probeURL, {method: "HEAD",
         cache: "no-store", mode: "cors", credentials: "omit", redirect: "error", referrerPolicy: "no-referrer",
         signal: signal ? AbortSignal.any([signal, timeout]) : timeout});
       void response.body?.cancel().catch(() => {});
-      if (response.type === "opaque" || !response.ok) return;
+      // Any readable HTTP reply establishes that the Worker can answer.
+      if (!response.status) return;
       unavailable = false;
       answered();
     } catch (_) {

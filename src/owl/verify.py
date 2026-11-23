@@ -13,8 +13,13 @@ import stat
 
 MANIFEST = "LIBRARY/SHA256SUMS.txt"
 STATE = "LIBRARY/.owl/state.json"
+BROWSER_BUILD = "LIBRARY/.owl/browser-build.json"
 BUILD_INFO = "LIBRARY/BUILD_INFO.json"
 INVENTORY = "LIBRARY/INVENTORY.json"
+START_PAGE = "START_HERE.html"
+SEARCH_PAGE = "LIBRARY/SEARCH.html"
+SUPPORT_PREFIXES = ("LIBRARY/INDEX/", "LIBRARY/SEARCH/", "LIBRARY/SOFTWARE/",
+                    "LIBRARY/CRITICAL/MEDICAL/WIKIMED-PHONE/")
 ZIM_PART_BYTES = 1 << 30
 OS_METADATA_DIRS = {".trashes", ".spotlight-v100", ".fseventsd", ".temporaryitems",
                     "system volume information", "$recycle.bin"}
@@ -117,7 +122,7 @@ class _EntryScripts(HTMLParser):
             self.sources.append(source)
 
 
-def support_status(root: Path, info: dict | None) -> tuple[bool, str]:
+def support_status(root: Path, info: dict | None, integrity: dict) -> tuple[bool, str]:
     info = info or {}
     missing = info.get("support_missing", [])
     complete = info.get("support_complete")
@@ -129,11 +134,23 @@ def support_status(root: Path, info: dict | None) -> tuple[bool, str]:
         raise ValueError("invalid support_missing list")
     kinds = {row["kind"] for row in missing}
 
-    def exists(name):
-        return _path(root, name).is_file()
+    required = set()
+    unchecked = set()
+    identified_missing = set()
+
+    def present(name):
+        required.add(name)
+        status = integrity.get(name)
+        if status in {"OK", "FAILED"}:
+            return True
+        if status is None and _path(root, name).is_file():
+            unchecked.add(name)
+            return True
+        identified_missing.add(name)
+        return False
 
     def declaration(name, prefix):
-        if not exists(name):
+        if integrity.get(name) != "OK":
             return {}
         text = _path(root, name).read_text(encoding="utf-8").strip()
         if not text.startswith(prefix) or not text.endswith(");"):
@@ -144,22 +161,22 @@ def support_status(root: Path, info: dict | None) -> tuple[bool, str]:
         return data
 
     scripts = _EntryScripts()
-    if exists("START_HERE.html"):
-        scripts.feed(_path(root, "START_HERE.html").read_text(encoding="utf-8"))
+    if integrity.get(START_PAGE) == "OK":
+        scripts.feed(_path(root, START_PAGE).read_text(encoding="utf-8"))
     reader = next((match[1] for source in scripts.sources
                    if (match := re.fullmatch(r"(LIBRARY/INDEX/[0-9a-f]{12})/search\.js", source))), None)
     if reader or info.get("reader"):
-        if reader is None or any(not exists(f"{reader}/{name}")
-                                 for name in ("search.js", "reader.js", "home.js", "search-paths.js")):
+        if reader is None or not all([present(f"{reader}/{name}")
+                                     for name in ("search.js", "reader.js", "home.js", "search-paths.js")]):
             kinds.add("reader")
     home = declaration(f"{reader}/home.js", 'globalThis.OWLReaderData("home",') if reader else {}
     search = info.get("search")
+    manifest_path = "LIBRARY/SEARCH/manifest.js"
     declared_search = (search is True or isinstance(search, dict) or home.get("search") is True or
                        "LIBRARY/SEARCH/search.js" in scripts.sources or
-                       exists("LIBRARY/SEARCH/manifest.js"))
+                       manifest_path in integrity or _path(root, manifest_path).is_file())
     if declared_search:
-        manifest_path = "LIBRARY/SEARCH/manifest.js"
-        files = {"LIBRARY/SEARCH.html", "LIBRARY/SEARCH/search.js", manifest_path, "LIBRARY/SEARCH/coverage.json"}
+        files = {SEARCH_PAGE, "LIBRARY/SEARCH/search.js", manifest_path, "LIBRARY/SEARCH/coverage.json"}
         if reader:
             files.add(f"{reader}/manifest.js")
         manifest = declaration(manifest_path, "globalThis.OWLDiscoveryManifest(")
@@ -175,14 +192,15 @@ def support_status(root: Path, info: dict | None) -> tuple[bool, str]:
             if not isinstance(generated, list) or not all(isinstance(name, str) for name in generated):
                 raise ValueError("invalid generated search files")
             files.update("LIBRARY/" + name for name in generated)
-        if not isinstance(data_path, str) or any(not exists(name) for name in files):
+        if (not all([present(name) for name in files]) or
+                integrity.get(manifest_path) == "OK" and not isinstance(data_path, str)):
             kinds.add("search")
     phone_count = sum(row["kind"] == "phone" for row in missing)
     phone = home.get("phone", [])
     if not isinstance(phone, list) or any(not isinstance(row, dict) or not isinstance(row.get("path"), str)
                                           for row in phone):
         raise ValueError("invalid WikiMed phone volume declaration")
-    phone_count += sum(not exists(row["path"]) for row in phone)
+    phone_count += sum(not present(row["path"]) for row in phone)
     details = [label for kind, label in (("reader", "reader files missing"), ("search", "search index missing"))
                if kind in kinds]
     apps = [row for row in missing if row["kind"] == "app"]
@@ -192,6 +210,18 @@ def support_status(root: Path, info: dict | None) -> tuple[bool, str]:
         details.append(detail + (f" ({titles})" if titles else ""))
     if phone_count:
         details.append(f"{phone_count} phone volume{'s' if phone_count != 1 else ''} missing")
+    if (complete is True or reader or declared_search) and not present(START_PAGE):
+        details.append("start page missing")
+    support_files = {name: status for name, status in integrity.items()
+                     if name in required or name in {START_PAGE, SEARCH_PAGE} or name.startswith(SUPPORT_PREFIXES)}
+    for count, detail in (
+        (sum(status == "FAILED" for status in support_files.values()), "failed checksum verification"),
+        (sum(status == "MISSING" and name not in identified_missing
+             for name, status in support_files.items()), "missing"),
+        (len(unchecked), "missing from the checksum list"),
+    ):
+        if count:
+            details.append(f"{count} support file{'s' if count != 1 else ''} {detail}")
     if details or complete is False:
         return True, "SUPPORT INCOMPLETE: " + ("; ".join(details) or "the build report marks support incomplete")
     if complete is True or reader or declared_search:
@@ -199,7 +229,35 @@ def support_status(root: Path, info: dict | None) -> tuple[bool, str]:
     return False, "SUPPORT UNKNOWN: no support status in the build report"
 
 
-def _completeness(info: dict | None, assets, integrity) -> tuple[bool, str]:
+def _critical_count(root: Path, missing: list[dict]) -> int:
+    count = sum(asset.get("utility_tier") == "CRITICAL" for asset in missing)
+    legacy = [asset for asset in missing if "utility_tier" not in asset and
+              isinstance(asset.get("id"), str) and isinstance(asset.get("sha256"), str) and
+              isinstance(asset.get("destination"), str) and type(asset.get("bytes")) is int]
+    if not legacy:
+        return count
+    # Earlier browser inventories left the tier in the installed asset record.
+    try:
+        state = _record(root, BROWSER_BUILD) or {}
+    except (OSError, ValueError):
+        return count
+    installed = state.get("installed")
+    if state.get("version") != 2 or not isinstance(installed, dict):
+        return count
+    for asset in legacy:
+        saved = installed.get(asset["id"])
+        if not isinstance(saved, dict):
+            continue
+        saved_asset, layout = saved.get("asset"), saved.get("layout")
+        if (isinstance(saved_asset, dict) and saved_asset.get("id") == asset["id"] and
+                saved_asset.get("size_bytes") == asset["bytes"] and saved_asset.get("sha256") == asset["sha256"] and
+                isinstance(layout, list) and layout and isinstance(layout[0], dict) and
+                layout[0].get("path") == "LIBRARY/" + asset["destination"]):
+            count += saved_asset.get("utility_tier") == "CRITICAL"
+    return count
+
+
+def _completeness(root: Path, info: dict | None, assets, integrity) -> tuple[bool, str]:
     if info is None:
         return False, "COMPLETENESS UNKNOWN: no build report on this drive"
     selected = info.get("selected_count")
@@ -236,7 +294,7 @@ def _completeness(info: dict | None, assets, integrity) -> tuple[bool, str]:
     empty = knowledge == 0 or present == 0
     if complete is False or absent or empty:
         if absent:
-            critical = sum(row.get("utility_tier") == "CRITICAL" for row in missing)
+            critical = _critical_count(root, missing)
             quantity = f"{absent} of {selected}" if selected is not None else str(absent)
             condition = "missing or damaged" if damaged else "missing"
             detail = f"{quantity} selected files {condition} ({critical} critical)"
@@ -277,8 +335,8 @@ def verify_drive(target: Path, *, emit=print, allow_incomplete: bool = False) ->
     def summaries():
         try:
             info = _record(root, BUILD_INFO)
-            incomplete, detail = _completeness(info, assets if integrity.get(INVENTORY) == "OK" else None, integrity)
-            support_incomplete, support = support_status(root, info)
+            incomplete, detail = _completeness(root, info, assets if integrity.get(INVENTORY) == "OK" else None, integrity)
+            support_incomplete, support = support_status(root, info, integrity)
         except (OSError, ValueError) as error:
             report("FAILED", BUILD_INFO, str(error))
             incomplete, detail = False, "COMPLETENESS UNKNOWN: build metadata could not be read"

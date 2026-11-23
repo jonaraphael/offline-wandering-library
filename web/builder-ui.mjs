@@ -335,7 +335,7 @@ export function warnBeforeLeaving(target = globalThis) {
   return () => target.removeEventListener("beforeunload", warn);
 }
 
-export function completionState({state, completed, missing, searchWarnings, supportMissing, keptInParts}) {
+export function completionState({state, completed, missing, searchWarnings, supportMissing, keptInParts, keptPublished}) {
   const files = completed.filter(isKnowledgeFile).length;
   const apps = supportMissing?.filter(row => row.kind === "app").length || 0;
   const unavailable = missing.length + apps;
@@ -343,7 +343,8 @@ export function completionState({state, completed, missing, searchWarnings, supp
   const summary = [countOf(files, "file") + " arrived. " + countOf(essential, "essential file") + " missing.",
     essentialRouteMessage(state.excluded || [])].filter(Boolean).join(" ");
   const generalSupport = (supportMissing ? supportMissing.some(row => row.kind !== "phone" && row.kind !== "app") : searchWarnings.length) ?
-    " Some reader or search files are missing." : "";
+    keptPublished ? " Some reader or search files are missing from this update. The previous library is still on the drive." :
+      " Some reader or search files are missing." : "";
   const phoneSupport = supportMissing?.some(row => row.kind === "phone") ? " Some WikiMed phone files are missing." : "";
   const appSupport = apps ? " Kiwix opens the encyclopedias on this drive." : "";
   const deferred = state.relayDeferred?.length;
@@ -1017,7 +1018,7 @@ export function mount({catalog: supplied} = {}) {
       selectedReplacement.clear();
       await updateComparison();
       const outcome = completionState(result).mode;
-      if (canTryLibrary(outcome)) {
+      if (canTryLibrary(outcome) && publishedFiles) {
         const scope = await readerScope;
         const url = scope && await publishReaderLink(scope, drive, publishedFiles).catch(previewError);
         if (url) tryLink.href = url;

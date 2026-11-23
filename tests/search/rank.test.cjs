@@ -17,6 +17,18 @@ const index = (rows) => {
   return {records: rows, postings, vectors: []};
 };
 
+test('the exact pass uses indexed words even when excerpts are restricted and skips expansions and redirects', () => {
+  const query = rank.prepareQuery('foremilk');
+  const rows = [22, 24, 27, 31].map(page => ['Page ' + page, page, '', '', 0, 0]);
+  rows[3][4] = 1;
+  const part = {records: rows, postings: {foremilk: [5, 16 + 1, 32 + 8, 48 + 9]}};
+  const source = {title: 'Dairy guide', format: 'pdf', restricted: true};
+  const hits = rank.rankPart(part, query, source, 5, true);
+  assert.deepEqual(hits.map(hit => hit.row[1]), [27, 24]);
+  assert.ok(hits.every(hit => hit.literalMatch));
+  assert.equal(rank.result({...source, destination: 'Dairy.pdf'}, hits[0], 0).record.description, '');
+});
+
 test('intent wrappers remove filler while keeping the topic and audience preference', () => {
   const query = rank.prepareQuery('How can I use fractions for kids, explained simply?', noVector);
   assert.deepEqual(query.query, ['fraction']);

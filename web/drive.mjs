@@ -47,6 +47,8 @@ export async function removeTree(parent, name) {
 }
 
 export async function fileHandle(root, path, create = false) {
+  const staged = !create && root.stagedFile?.(path);
+  if (staged) return {getFile: async () => staged};
   const {directory, name} = await parentOf(root, path, create);
   return directory.getFileHandle(name, {create});
 }

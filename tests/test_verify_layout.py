@@ -68,6 +68,39 @@ class VerifyLayoutTests(unittest.TestCase):
         with patch("builtins.print"):
             self.assertEqual(verify.main([str(self.root), "--strict"]), 1)
 
+    def test_damaged_browser_file_uses_inventory_tier_or_matching_legacy_record(self):
+        original = b"critical guide"
+        guide = self.library / "guide.txt"
+        guide.write_bytes(original)
+        self.entries.append("LIBRARY/guide.txt")
+        pin = hashlib.sha256(original).hexdigest()
+        asset = {"id": "guide", "format": "txt", "bytes": len(original), "sha256": pin,
+                 "destination": "guide.txt", "parts": [{"path": "LIBRARY/guide.txt", "start": 0,
+                                                        "bytes": len(original), "sha256": pin}]}
+        self.record(content_complete=True, selected_count=1)
+        record = self.root / verify.BROWSER_BUILD
+        record.parent.mkdir()
+        saved = {"asset": {"id": "guide", "size_bytes": len(original), "sha256": pin,
+                           "utility_tier": "CRITICAL"}, "layout": asset["parts"]}
+        for inventory_tier, saved_tier, path, count in (
+            ({"utility_tier": "CRITICAL"}, "STANDARD", "LIBRARY/guide.txt", 1),
+            ({}, "CRITICAL", "LIBRARY/guide.txt", 1),
+            ({}, "CRITICAL", "LIBRARY/other.txt", 0),
+            ({"utility_tier": "STANDARD"}, "CRITICAL", "LIBRARY/guide.txt", 0),
+        ):
+            with self.subTest(inventory_tier=inventory_tier, saved_tier=saved_tier, path=path):
+                guide.write_bytes(original)
+                (self.root / verify.INVENTORY).write_text(json.dumps({"assets": [{**asset, **inventory_tier}]}))
+                self.write_manifest([*self.entries, verify.INVENTORY])
+                saved["asset"]["utility_tier"] = saved_tier
+                saved["layout"] = [{"path": path}]
+                record.write_text(json.dumps({"version": 2, "installed": {"guide": saved}}))
+                guide.write_bytes(b"truncated")
+                result, lines = self.check()
+                self.assertEqual(result["FAILED"], 1)
+                self.assertIn(f"INCOMPLETE: 1 of 1 selected files missing or damaged ({count} critical). "
+                              "Zero knowledge files present", lines)
+
     def test_partial_selection_and_checksum_integrity_are_separate(self):
         self.inventory()
         self.record(content_complete=False, asset_count=0, selected_count=1,
@@ -121,6 +154,43 @@ class VerifyLayoutTests(unittest.TestCase):
         self.record(content_complete=True, asset_count=1, selected_count=1, support_complete=True)
         self.assertIn("SUPPORT INCOMPLETE: reader files missing; search index missing", self.check()[1])
         self.assertEqual(verify.main([str(self.root), "--strict"]), 1)
+
+    def test_support_requires_intact_reader_files_and_search_shards(self):
+        reader = "LIBRARY/INDEX/0123456789ab"
+        search = "LIBRARY/SEARCH"
+        files = {
+            "START_HERE.html": f'<script defer src="{reader}/search.js"></script>',
+            f"{reader}/home.js": 'globalThis.OWLReaderData("home",{"search":true});',
+            f"{reader}/reader.js": "// reader",
+            f"{reader}/search.js": "// reader search",
+            f"{reader}/search-paths.js": "// search paths",
+            f"{reader}/manifest.js": "// reader search manifest",
+            "LIBRARY/SEARCH.html": "<h1>Search</h1>",
+            f"{search}/search.js": "// search",
+            f"{search}/manifest.js": 'globalThis.OWLDiscoveryManifest({"path":"SEARCH/data/index.js"});',
+            f"{search}/coverage.json": "{}",
+            f"{search}/data/index.js": "// index",
+            f"{search}/impact/00.js": "// impact shard",
+        }
+        for name, body in files.items():
+            path = self.root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(body, encoding="utf-8")
+        self.entries.extend(name for name in files if name != "START_HERE.html")
+        self.record(support_complete=True)
+        self.assertIn("SUPPORT COMPLETE", self.check()[1])
+        for name in (f"{reader}/home.js", f"{search}/manifest.js", f"{search}/impact/00.js"):
+            with self.subTest(damaged=name):
+                path = self.root / name
+                path.write_bytes(b"truncated")
+                result, lines = self.check()
+                self.assertEqual(result["FAILED"], 1)
+                self.assertEqual(result["SUPPORT_INCOMPLETE"], 1)
+                self.assertIn("SUPPORT INCOMPLETE: 1 support file failed checksum verification", lines)
+                self.assertNotIn("SUPPORT COMPLETE", lines)
+                path.write_text(files[name], encoding="utf-8")
+        self.write_manifest([name for name in self.entries if name != f"{reader}/search-paths.js"])
+        self.assertIn("SUPPORT INCOMPLETE: 1 support file missing from the checksum list", self.check()[1])
 
     def test_missing_reader_app_is_a_support_gap_with_intact_checksums(self):
         self.record(content_complete=True, asset_count=1, selected_count=1, support_complete=False,

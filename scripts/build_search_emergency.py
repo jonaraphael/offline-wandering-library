@@ -25,11 +25,13 @@ START = "  // BEGIN GENERATED EMERGENCY SECTIONS\n"
 END = "  // END GENERATED EMERGENCY SECTIONS\n"
 SEMANTIC_START = "  // BEGIN GENERATED EMERGENCY VECTORS\n"
 SEMANTIC_END = "  // END GENERATED EMERGENCY VECTORS\n"
+NAVIGATION_START = "  // BEGIN GENERATED NAVIGATION SECTIONS\n"
+NAVIGATION_END = "  // END GENERATED NAVIGATION SECTIONS\n"
 SOURCE_IDS = {
     "cert", "medical_bec", "msf_guideline-170-en", "msf_guideline-449-en",
     "fema_are_you_ready_2020", "wikimed_en", "fao_family_metal_silos",
     "ucdavis_smallscale_postharvest", "who_emergency_medical-algorithm",
-    "hesperian_en_cgeh_2012_17",
+    "hesperian_en_cgeh_2012_17", "navigation", "survival_shelter",
 }
 HESPERIAN_CHAPTER = re.compile(r"hesperian_en_(?:wtnd_2025|midw_2026)_\d{2}$")
 
@@ -113,7 +115,7 @@ def compile_descriptions(manifest, topics, established):
     return "  const semanticRoutes = [\n" + data + "  ];\n"
 
 
-def compile_routes(sources):
+def _compile_tables(sources):
     review = json.loads(DATA.read_text(encoding="utf-8"))
     manifest = load_manifest()
     source_ids, source_locations, source_formats = {}, {}, {}
@@ -149,8 +151,7 @@ def compile_routes(sources):
             archive_only.add(topic)
         routes = compile_locations(topic, locations, title)
         lines.append("    " + json.dumps([topic, title, routes, aliases], ensure_ascii=True, separators=(",", ":")) + ",\n")
-    body = "  const sectionSources = " + json.dumps(source_ids, separators=(",", ":")) + ";\n"
-    body += "  const sectionRoutes = compileSectionRoutes([\n" + "".join(lines) + "  ]);\n"
+    body = "  const sectionRoutes = compileSectionRoutes([\n" + "".join(lines) + "  ]);\n"
     runtime = RUNTIME.read_text(encoding="utf-8")
     established_source = runtime.split("  const reviewedRoutes = [", 1)[1].split("  const routePhrase", 1)[0]
     established = set(re.findall(r"^    \['([a-z0-9-]+)',", established_source, re.MULTILINE))
@@ -171,10 +172,29 @@ def compile_routes(sources):
         lines.append("    " + json.dumps([topic, routes], ensure_ascii=True, separators=(",", ":")) + ",\n")
     body += "  const reviewedCompanions = new Map([\n" + "".join(lines) + "  ].map(([topic, locations]) =>\n"
     body += "    [topic, resolveSectionLocations(locations)]));\n"
+    emergency_sources = {key: asset for key, asset in source_ids.items() if key in used}
+    body = "  const sectionSources = " + json.dumps(emergency_sources, separators=(",", ":")) + ";\n" + body
+    emergency_destinations = len(destinations)
+    lines = []
+    navigation_topics = set()
+    for topic, title, locations, aliases in review["navigation"]:
+        if (not topic or topic in topics or topic in navigation_topics or not title or not locations
+                or any(source_formats[key] != "pdf" for key, _, _ in locations)):
+            raise ValueError(f"Invalid or duplicate navigation route {topic!r}")
+        navigation_topics.add(topic)
+        compile_locations(topic, locations, title)
+        routes = [[source_ids[key], locator, heading] for key, locator, heading in locations]
+        lines.append("    " + json.dumps([title, routes, aliases], ensure_ascii=True, separators=(",", ":")) + ",\n")
+    navigation = "  const navigationSections = [\n" + "".join(lines) + "  ];\n"
     if used != source_ids.keys():
         raise ValueError("Review contains unused editions")
     vectors = compile_descriptions(manifest, topics, established)
-    return body, vectors, len(destinations), len(topics)
+    return body, vectors, navigation, emergency_destinations, len(topics)
+
+
+def compile_routes(sources):
+    body, vectors, _, destinations, situations = _compile_tables(sources)
+    return body, vectors, destinations, situations
 
 
 def publish_table(path, start, end, body, check):
@@ -200,9 +220,10 @@ def main():
     if args.candidates:
         collect_candidates(sources, args.candidates)
         return
-    body, vectors, destinations, situations = compile_routes(sources)
+    body, vectors, navigation, destinations, situations = _compile_tables(sources)
     publish_table(RUNTIME, START, END, body, args.check)
     publish_table(RANK_RUNTIME, SEMANTIC_START, SEMANTIC_END, vectors, args.check)
+    publish_table(RANK_RUNTIME, NAVIGATION_START, NAVIGATION_END, navigation, args.check)
     print(f"{destinations} reviewed section destinations across {situations} situations")
     print(f"{len(vectors.encode('ascii')):,} bytes of vectors in the indexed ranker")
     archive_only = json.loads(DATA.read_text(encoding="utf-8"))["archiveOnly"]

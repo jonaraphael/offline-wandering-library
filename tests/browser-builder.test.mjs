@@ -4,7 +4,7 @@ import {createHash, webcrypto} from "node:crypto";
 import {createServer} from "node:http";
 import {once} from "node:events";
 import {test} from "node:test";
-import {archiveJoinLimitReached, browserSelection, buildLibrary as runBuild, partLayout, readBuild} from "../web/builder.mjs";
+import {archiveJoinLimitReached, browserSelection, buildLibrary as runBuild, MANIFEST, partLayout, readBuild} from "../web/builder.mjs";
 import {assembleLibrary} from "../web/offline.mjs";
 import {measureFreeSpace, writeFile} from "../web/drive.mjs";
 import {createNetwork} from "../web/network.mjs";
@@ -342,6 +342,59 @@ test("a fresh start page survives a quota error on the first record and is adopt
   assert.equal((await buildLibrary(drive, options)).state.finished, true);
 });
 
+test("an interrupted first record is rebuilt beside OWL's starter without taking ownership of existing files", async () => {
+  let stop = true;
+  const drive = new Directory("drive", {beforeClose(name, swap) {
+    if (stop && name === "browser-build.json") throw new DOMException("Interrupted before close", "AbortError");
+    return swap;
+  }});
+  const pinned = Buffer.from("emergency guide");
+  const existing = asset("existing", pinned), blocked = asset("blocked", pinned);
+  const assets = [existing, blocked];
+  const routes = Object.fromEntries(assets.map(({id}) => [id, ["https://example.test/" + id]]));
+  const existingPath = "LIBRARY/" + existing.destination;
+  const blockedPath = "LIBRARY/" + blocked.destination;
+  await writeFile(drive, existingPath, pinned);
+  await writeFile(drive, blockedPath, "emergency Guide");
+  const requests = [];
+  const options = {assets, routes, async fetchFile(url) { requests.push(url); return new Response(pinned); }};
+  await assert.rejects(runBuild(drive, options), {name: "AbortError"});
+  assert.equal((await (await drive.file(MANIFEST)).getFile()).size, 0);
+  assert.equal(await readBuild(drive), null);
+  stop = false;
+  const first = await runBuild(drive, options);
+  assert.equal(first.state.finished, true);
+  assert.deepEqual(requests, routes.blocked, "verify the matching file by hash and redownload the same-size mismatch");
+  assert.equal(first.state.installed.existing.protected, true);
+  assert.ok(!first.state.owned.includes(existingPath));
+  assert.notEqual(first.state.installed.blocked.layout[0].path, blockedPath);
+  const committed = await (await drive.file(MANIFEST)).getFile();
+  stop = true;
+  await assert.rejects(runBuild(drive, options), {name: "AbortError"});
+  assert.equal(await (await (await drive.file(MANIFEST)).getFile()).text(), await committed.text());
+  stop = false;
+  await runBuild(drive, {...options, assets: [blocked]});
+  assert.equal(await (await (await drive.file(existingPath)).getFile()).text(), pinned.toString());
+  assert.equal(await (await (await drive.file(blockedPath)).getFile()).text(), "emergency Guide");
+});
+
+test("malformed first record recovery requires the exact OWL starter", async () => {
+  const drive = new Directory();
+  await writeFile(drive, MANIFEST, '{"version":');
+  await writeFile(drive, "START_HERE.html", "Offline Wandering Library notes");
+  await assert.rejects(readBuild(drive), /saved drive record is unreadable/);
+  const starterDrive = new Directory("drive", {beforeWrite(name) {
+    if (name === "browser-build.json") throw new DOMException("Interrupted", "AbortError");
+  }});
+  const guide = asset("guide", Buffer.from("guide"));
+  await assert.rejects(runBuild(starterDrive, {assets: [guide]}), {name: "AbortError"});
+  await writeFile(drive, "START_HERE.html", await (await starterDrive.file("START_HERE.html")).getFile());
+  assert.equal(await readBuild(drive), null);
+  const result = await runBuild(drive, {assets: [guide], routes: {guide: ["https://example.test/guide"]},
+    fetchFile: async () => new Response("guide")});
+  assert.equal(result.state.finished, true);
+});
+
 test("assembly quota recovery drops the least essential new file and writes the build report", async () => {
   const body = Buffer.from("emergency guide");
   const essential = asset("critical", body, {utility_tier: "CRITICAL", source_url: "https://example.test/guide",
@@ -429,7 +482,7 @@ test("the relay notice counts 4 MiB archive pieces and one request per smaller r
   assert.match(relayLimitMessage([row("large", "zim", 80_000 * 4 * MiB + 1)], routes, published), /no daily download limit/);
 });
 
-function relayFixture() {
+function relayFixture(rangeStatus = 502) {
   const body = Buffer.from("verified guide");
   const relay = "https://relay.test/assets/";
   const direct = "https://publisher.test/guide";
@@ -441,19 +494,22 @@ function relayFixture() {
   routes["z-direct"] = [direct];
   const drive = new Directory();
   const requests = [];
-  let down = true, offline = false, throttle = false;
+  let down = true, offline = false, throttle = false, headStatus = 200;
   async function fetchFile(url, {method, mode, headers} = {}) {
     requests.push({url, method, mode, range: headers?.Range});
     if (offline) throw new TypeError("The whole network is offline");
-    if (url === page || method === "HEAD") return new Response(null, {status: 204});
     if (url.startsWith(relay)) {
       if (down) throw new TypeError("The platform error page has no CORS header");
       if (throttle) {
         throttle = false;
         return new Response(null, {status: 429, headers: {"Retry-After": "7", "Access-Control-Allow-Origin": "https://pages.test"}});
       }
-      if (headers?.Range) return new Response(body.subarray(0, 1), {status: 206});
+      const responseHeaders = {"Access-Control-Allow-Origin": "https://pages.test",
+        ...(rangeStatus === 416 ? {"X-OWL-Reason": "publisher-ignores-range"} : {})};
+      if (headers?.Range) return new Response(null, {status: rangeStatus, headers: responseHeaders});
+      if (method === "HEAD") return new Response(null, {status: headStatus, headers: responseHeaders});
     }
+    if (url === page || method === "HEAD") return new Response(null, {status: 204});
     return new Response(body);
   }
   function network(options = {}) {
@@ -461,10 +517,10 @@ function relayFixture() {
   }
   const info = async () => JSON.parse(await (await (await drive.file("LIBRARY/BUILD_INFO.json")).getFile()).text());
   return {drive, assets, routes, fetchFile, network, info, requests, relay, direct, page,
-    up() { down = false; }, offline(value) { offline = value; }, throttle() { throttle = true; }};
+    up(status = 200) { down = false; headStatus = status; }, offline(value) { offline = value; }, throttle() { throttle = true; }};
 }
 
-test("a CORS-less relay outage defers distinct files, downloads alternatives, and probes until it can resume", async t => {
+test("automatic relay recovery uses HEAD when the deployed Worker rejects Range with 502", async t => {
   const fixture = relayFixture();
   let now = Date.parse("2026-11-22T23:29:00Z");
   t.mock.method(Date, "now", () => now);
@@ -489,9 +545,9 @@ test("a CORS-less relay outage defers distinct files, downloads alternatives, an
   assert.equal(typeof waits[0].tryNow, "function");
   assert.ok(events.findIndex(row => row.kind === "verified" && row.asset.id === "z-direct") < events.indexOf(waits[0]));
   assert.ok(!events.some(row => row.kind === "failed" || row.kind === "waiting-network"));
-  const probes = fixture.requests.filter(row => row.range);
+  const probes = fixture.requests.filter(row => row.method === "HEAD" && row.url.startsWith(fixture.relay));
   assert.equal(probes.length, 3);
-  assert.ok(probes.every(row => row.url === fixture.relay + "a-relay" && row.range === "bytes=0-0" && row.mode === "cors"));
+  assert.ok(probes.every(row => row.url === fixture.relay + "a-relay" && !row.range && row.mode === "cors"));
   const firstProbe = fixture.requests.indexOf(probes[0]);
   const beforeProbe = fixture.requests.slice(0, firstProbe);
   assert.deepEqual(new Set(beforeProbe.filter(row => row.url.startsWith(fixture.relay)).map(row => row.url)),
@@ -504,23 +560,22 @@ test("a CORS-less relay outage defers distinct files, downloads alternatives, an
   assert.deepEqual((await fixture.info()).missing, []);
 });
 
-test("Try now immediately checks the relay and keeps waiting after a readable 429", {timeout: 2000}, async () => {
-  const fixture = relayFixture();
-  const controller = new AbortController();
-  let attempts = 0;
-  const result = await runBuild(fixture.drive, {...fixture, signal: controller.signal,
-    network: fixture.network({signal: controller.signal}), onProgress(event) {
+test("Try now immediately recovers when the Worker rejects Range with 416", async t => {
+  for (const status of [200, 416, 429]) await t.test("readable HTTP " + status, {timeout: 2000}, async () => {
+    const fixture = relayFixture(416);
+    let attempts = 0;
+    const result = await runBuild(fixture.drive, {...fixture, network: fixture.network(), onProgress(event) {
       if (event.kind !== "waiting-relay") return;
-      if (++attempts === 1) {
-        fixture.up();
-        fixture.throttle();
-      }
+      attempts++;
+      fixture.up(status);
       event.tryNow();
     }});
-  assert.match(RELAY_WAIT_MESSAGE, /isn’t answering\. It may have reached today’s free limit/);
-  assert.equal(attempts, 2);
-  assert.equal(fixture.requests.filter(row => row.range === "bytes=0-0").length, 2);
-  assert.equal(result.state.finished, true);
+    assert.match(RELAY_WAIT_MESSAGE, /isn’t answering\. It may have reached today’s free limit/);
+    assert.equal(attempts, 1);
+    assert.deepEqual(fixture.requests.filter(row => row.method === "HEAD" && row.url.startsWith(fixture.relay)),
+      [{url: fixture.relay + "a-relay", method: "HEAD", mode: "cors", range: undefined}]);
+    assert.equal(result.state.finished, true);
+  });
 });
 
 test("a paused relay wait preserves the report and probes first when Sync is reopened", async () => {
@@ -541,7 +596,7 @@ test("a paused relay wait preserves the report and probes first when Sync is reo
   fixture.requests.length = 0;
   const result = await buildLibrary(fixture.drive, {...fixture, network: fixture.network()});
   assert.deepEqual(fixture.requests.slice(0, 2).map(row => [row.url, row.method, row.range]), [
-    [fixture.page, "HEAD", undefined], [fixture.relay + "a-relay", undefined, "bytes=0-0"]
+    [fixture.page, "HEAD", undefined], [fixture.relay + "a-relay", "HEAD", undefined]
   ]);
   assert.equal(result.state.pending, false);
   assert.equal(result.state.finished, true);

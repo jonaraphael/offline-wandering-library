@@ -2,6 +2,10 @@
 
 ## 0.2.0 (unreleased)
 
+- Retry job status reads during Windows file sharing conflicts.
+- Count damaged critical files in browser builds and report checksum failures in reader and search support.
+- Direct Python builds to a new folder when the destination already contains a browser library.
+- Document the publisher relay's purpose, the owner's decision and how to request removal.
 - Count selected files from verified drive contents and report ignored OS metadata.
 - Confirm publisher denials with a browser probe, escalate inconclusive sources after three weeks, and close the tracking issue after a passing run.
 - Pass through pinned whole-file relay responses and return a readable range error when a publisher ignores a sub-range.

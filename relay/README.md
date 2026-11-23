@@ -84,19 +84,25 @@ separate allowlist governs the exact routes it can serve.
 - Eawag / Sandec
 - Food and Agriculture Organization of the United Nations
 - Hesperian Health Guides
+  ([Open Copyright Policy](https://hesperian.org/open-copyright-policy/))
 - International Federation of Red Cross and Red Crescent Societies
 - John Wiley & Sons, Inc., New York / Chapman & Hall, Limited, London; scan hosted by Survivor Library
 - Kiwix / openZIM
 - Libre Pathology
+  ([copyright policy](https://librepathology.org/wiki/Libre_Pathology:Copyrights))
 - Low-tech Magazine; archived by Kiwix/openZIM
 - Medecins Sans Frontieres
+  ([medical guidelines disclaimer](https://medicalguidelines.msf.org/en/node/1338))
 - Montana State University Extension
 - National Center for Home Food Preservation / University of Georgia
 - North Central Food Safety Extension Network / NDSU Extension
 - Project Gutenberg contributors; Kiwix/openZIM
+  ([permissions](https://www.gutenberg.org/policy/permission) and
+  [license](https://www.gutenberg.org/policy/license))
 - Skat / Rural Water Supply Network (RWSN)
 - Southern African Development Community Groundwater Management Institute (SADC-GMI)
 - Sphere Association
+  ([intellectual property policy](https://spherestandards.org/intellectual-property/))
 - Sustainable Agriculture Research and Education (SARE)
 - University of Alaska Fairbanks Cooperative Extension
 - University of California, Davis, Postharvest Technology Research and Information Center
@@ -104,7 +110,32 @@ separate allowlist governs the exact routes it can serve.
 - University of Georgia Extension
 - University of Maryland Extension
 - World Health Organization
+  ([terms of use](https://www.who.int/about/policies/terms-of-use))
 - World Health Organization / WEDC
+
+For Kiwix archives, the catalog also records the original publishers' terms.
+[Wikimedia](https://foundation.wikimedia.org/wiki/Policy:Terms_of_Use) ·
+[Khan Academy](https://www.khanacademy.org/about/docs/khan-academy-terms-of-service) ·
+[Energypedia](https://energypedia.info/wiki/Energypedia:Copyrights) ·
+[Gardenology](https://gardenology.org/wiki/Gardenology.org:Copyrights) ·
+[MedlinePlus](https://medlineplus.gov/copyright.html) ·
+[Stack Overflow](https://stackoverflow.com/help/licensing) ·
+[PhET](https://phet.colorado.edu/en/licensing) ·
+[Mutopia](https://www.mutopiaproject.org/legal.html) ·
+[Folgerpedia](https://folgerpedia.folger.edu/Folgerpedia:Copyrights) ·
+[OpenStreetMap Wiki](https://wiki.openstreetmap.org/wiki/Wiki_content_license)
+
+### Why the owner operates the relay
+
+The owner runs the relay as a pass-through. When a user's browser asks for a
+file, the relay fetches the publisher's original for that user's personal
+offline copy. The relay stores and caches nothing and serves only the exact
+publisher URLs in its fixed [allowlist](allowlist.json).
+
+The owner accepts the remaining legal risk and will remove a publisher's
+routes on request. Publishers can request removal by opening a
+[GitHub issue](https://github.com/jonaraphael/offline-wandering-library/issues/new)
+with the affected URLs or catalog IDs.
 
 ## Cloudflare plan and publisher terms
 

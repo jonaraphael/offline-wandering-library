@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 import hashlib
 import io
 import json
@@ -562,6 +562,28 @@ class BuildTests(Fixture):
         with self.assertRaises(SafetyError):
             self.run_build()
         self.assertEqual((target / "START_HERE.html").read_text(), "personal")
+
+    def test_browser_build_redirects_python_to_a_new_folder(self):
+        drive = self.root / "browser"
+        marker = drive / "LIBRARY/.owl/browser-build.json"
+        marker.parent.mkdir(parents=True)
+        marker.write_text('{"version":2,"buildId":"browser-fixture"}\n', encoding="utf-8")
+        start = drive / "START_HERE.html"
+        start.write_bytes(b"Browser-built OWL library")
+        (drive / "personal.txt").write_bytes(b"Personal file")
+        original = {path: path.read_bytes() for path in drive.rglob("*") if path.is_file()}
+        args = ["--catalog", str(self.catalog), "--profiles-dir", str(self.profiles),
+                "--profile", "test", "--allow-local"]
+        for mode in ([], ["--plan"], ["--detach", "--job-dir", str(self.root / "job")]):
+            with self.subTest(mode=mode), redirect_stderr(io.StringIO()) as err:
+                self.assertEqual(build_main([str(drive), *args, *mode]), 1)
+                self.assertIn("Run the Python builder in a new folder on the drive.", err.getvalue())
+                self.assertIn("docs/pages-builder.md", err.getvalue())
+        self.assertEqual({path: path.read_bytes() for path in drive.rglob("*") if path.is_file()}, original)
+        self.assertFalse((self.root / "job").exists())
+        with redirect_stdout(io.StringIO()) as out:
+            self.assertEqual(build_main([str(self.root / "python"), *args, "--plan"]), 0)
+        self.assertIn("Plan only: no files created or downloaded.", out.getvalue())
 
     def test_plan_and_insufficient_space_write_nothing(self):
         self.run_build(plan_only=True)

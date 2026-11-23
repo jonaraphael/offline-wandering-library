@@ -27,7 +27,7 @@ from .layout import checksum_name, content_root, logical_name, managed_path
 from .runtime import file_lock as _lock, interrupt_signals
 from .safety import SafetyError, atomic_write, guard_directory, mkdir_readable, reject_symlinks, safe_path, sha256_file
 from .transfer import TransferError, resume_copy
-from .verify import ZIM_PART_BYTES, verify_drive, zim_part_paths
+from .verify import BROWSER_BUILD, ZIM_PART_BYTES, verify_drive, zim_part_paths
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LAYOUT = [f"CRITICAL/{name}" for name in ("FIRST_AID", "MEDICAL", "WATER_SANITATION", "FOOD", "AGRICULTURE", "ELECTRICAL", "MECHANICAL", "SHELTER")]
@@ -57,6 +57,15 @@ def _root(path: Path) -> Path:
     result = path.parent.resolve() / path.name
     reject_symlinks(result)
     return result
+
+
+def _build_roots(path: Path) -> tuple[Path, Path]:
+    drive = _root(path)
+    library = content_root(drive)
+    if safe_path(drive, BROWSER_BUILD).is_file():
+        raise SafetyError("This folder contains a browser-built library. Run the Python builder in a new folder "
+                          "on the drive. See docs/pages-builder.md for how to keep both libraries together.")
+    return drive, library
 
 
 def _owned_directory(path: Path) -> None:
@@ -239,6 +248,7 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     from .discovery import plan_discovery
 
     _event(progress, phase="preflight")
+    drive_root, target = _build_roots(target)
     profiles = load_profiles(profiles_dir)
     if profile_name not in profiles:
         raise CatalogError(f"Unknown profile {profile_name!r}; choose {', '.join(profiles)}")
@@ -317,8 +327,6 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
     if generation_budget != generation_allocation(recipes, assets):
         raise CatalogError("Generated workspace accounting differs from its pinned recipes")
     content_complete = plan["content_complete"]
-    drive_root = _root(target)
-    target = content_root(drive_root)
     for asset in assets:
         checksum_name(asset["destination"])  # Include LIBRARY/ in portable path limits before any writes.
     cache = _root(cache_dir) / "owl-v1" if cache_dir else None
@@ -936,6 +944,7 @@ def main(argv=None, *, raise_errors=False, progress=print) -> int:
         if args.detach:
             if args.plan or args.list_resources or args.target is None:
                 raise CatalogError("--detach requires a build target and cannot be combined with --plan or --list-resources")
+            _build_roots(args.target)
             from .jobs import start_job
             from uuid import uuid4
             job_dir = args.job_dir or Path.cwd() / ".owl/jobs" / (

@@ -44,6 +44,21 @@ to open `START_HERE.html` in a new tab and read from the connected drive.
 On another device, open `START_HERE.html` directly from the drive.
 The build report lists any files that could not be downloaded.
 
+### Add files with the Python builder
+
+If the browser cannot download files you selected, run the Python builder in
+a new folder on the same drive, such as `OWL Python`. Keep the two libraries
+in separate folders and open `START_HERE.html` in the one you want to read.
+If the browser library is at the top of the drive, close the builder and move
+its `START_HERE.html` and `LIBRARY` together into a folder such as `OWL Browser`.
+Choose that folder the next time you Sync.
+
+For a single combined library, select the files you want from both builds in
+the Python planner. To reuse a whole file you already downloaded, copy it to
+the matching catalog path under the new folder's `LIBRARY/` before building.
+Python checks the file's SHA-256 against the selected edition and creates a
+new start page and search index for the combined selection. [Python build instructions](../README.md#build-with-python)
+
 ## Drives and readers
 
 Use exFAT for a drive shared across Windows, macOS, Linux and phones. Android
@@ -74,7 +89,9 @@ the native-filesystem methodology, results, and Chromium call path.
 
 ### How files are written and verified
 
-Sync writes files in priority order with reader apps first. Verified archive
+Sync writes files in priority order: essential files first, then the Kiwix
+reader apps, then the rest. On a tight drive, an encyclopedia that needs room
+to verify its incoming pieces can come before the apps. Verified archive
 parts and pieces stay on the drive for the next Sync after a pause. When an
 ordinary file runs out of space, Sync can release the unfinished copy and
 try later files.

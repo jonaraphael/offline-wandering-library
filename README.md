@@ -49,6 +49,10 @@ python scripts/verify.py /path/to/EMERGENCY_LIBRARY --strict
 
 Python 3.11+ and internet access are needed to build. Reading ordinary PDFs does not require Python. ZIM archives need a compatible reader; packages for Windows, macOS, Linux and Android are included. The planner sets aside 500 MB for them. The builder never formats the drive or executes downloaded software. Leave `--cache-dir` unset so original downloads and resumable partials stay exclusively on the selected drive.
 
+If the browser could not download some files, run the Python builder in a new
+folder on the drive. Keep the two libraries side by side or choose the files
+from both in one Python build. [Browser-to-Python guide](docs/pages-builder.md#add-files-with-the-python-builder)
+
 Both builders use the same generated search plan to assemble precomputed shards
 for the selected files. Search
 covers catalog titles, PDF passages, HTML sections and indexed ZIM articles,

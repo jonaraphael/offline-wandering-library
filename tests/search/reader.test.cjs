@@ -12,6 +12,7 @@ const emergencySamples = require('./section-emergency-queries.json');
 const semanticSamples = require('./semantic-emergency-queries.json');
 const round5 = require('./round5-queries.json');
 const round6 = require('./round6-queries.json');
+const round7 = require('./round7-queries.json');
 
 test('reviewed routes distinguish similar emergencies and respect selected guide availability', () => {
   const documents = new Map([
@@ -219,7 +220,7 @@ test('16 GB reader meets the frozen round 5 recall and practical-search timing f
   skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
 }, async () => {
   const {chromium} = require('playwright-core');
-  const {measure, searchUrl, measureRound5} = require('../../scripts/search_timing.cjs');
+  const {measure, searchUrl, measureRound5, calibrate, checkTiming, timingBounds} = require('../../scripts/search_timing.cjs');
   const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
   try {
     const url = searchUrl(reader);
@@ -227,11 +228,15 @@ test('16 GB reader meets the frozen round 5 recall and practical-search timing f
     assert.equal(negationCases.length, 8);
     assert.equal(round5.practical.length, 10);
     assert.equal(round5.misspelled.length, 10);
+    const calibration = await calibrate(browser, url);
     const summary = await measureRound5(browser, url);
     assert.ok(summary.good >= 34);
     assert.equal(summary.emergency_empty, 0);
     assert.equal(summary.negation_failures, 0);
-    assert.ok(summary.practical.max_complete_ms <= 3000);
+    for (const group of [summary.practical, summary.misspelled]) {
+      assert.equal(group.good, 10, JSON.stringify(group));
+      checkTiming(group, calibration);
+    }
     for (const {query, title} of round5.practicalGate) {
       const result = await measure(browser, url, query);
       assert.match(result.cards[0].title, new RegExp(title, 'iu'), JSON.stringify(result));
@@ -239,10 +244,37 @@ test('16 GB reader meets the frozen round 5 recall and practical-search timing f
         assert.equal(result.cards[0].title, 'Snap and Italian Beans');
         assert.match(result.cards[0].href, /USDA_Canning_04_Vegetables_2015\.pdf#page=9$/);
       }
-      assert.ok(result.complete_ms <= 3000, JSON.stringify(result));
+      checkTiming(timingBounds(result), calibration);
       console.log('Reader practical: ' + query + ' → ' + result.cards[0].title + ' (' +
-        result.complete_ms + ' ms, ' + result.bytes + ' bytes).');
+        result.complete_ms + ' ms, ' + result.bytes + ' bytes, ' + result.reads + ' files).');
     }
+  } finally {
+    await browser.close();
+  }
+});
+
+test('reader finds exact passages on a one-book drive and opens reviewed navigation pages', {
+  skip: !reader && 'Run scripts/search_benchmark.py --check-reader with Chromium and playwright-core.',
+}, async () => {
+  const {chromium} = require('playwright-core');
+  const {measureRound7, searchUrl} = require('../../scripts/search_timing.cjs');
+  assert.deepEqual(Object.values(round7).map(samples => samples.length), [5, 5, 5]);
+  const frozen = Object.values(round7).flat().map(({query}) => query.toLowerCase());
+  const previous = [...heldOut, ...everyday, ...paraphrases, ...original, ...emergencySamples, ...semanticSamples]
+    .map(([query]) => query.toLowerCase());
+  for (const group of [round5, round6]) {
+    previous.push(...Object.values(group).flat().map(({query}) => query.toLowerCase()));
+  }
+  assert.equal(new Set(frozen).size, 15);
+  assert.ok(frozen.every(query => !previous.includes(query)));
+  const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
+  try {
+    const summary = await measureRound7(browser, searchUrl(reader));
+    assert.deepEqual(summary, {
+      exact: {good: 5, empty: 0},
+      practical: {good: 5, empty: 0},
+      emergency: {good: 5, empty: 0},
+    });
   } finally {
     await browser.close();
   }

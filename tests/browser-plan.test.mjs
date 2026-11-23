@@ -24,6 +24,30 @@ function publishedCatalog() {
   return {planner, routes, navigation, phone: navigation.phone, published, files};
 }
 
+test("the 16 GB browser preset transfers all four Kiwix packages before other non-essential downloads", {skip: !site}, () => {
+  const {planner, routes, phone, published, files} = publishedCatalog();
+  const state = recommendBrowser(planner, OWLPlanner.preset(planner, "flash-16gb", 16e9, {browser: true}), routes, published);
+  const plan = OWLPlanner.resolve(planner, state, {ignoreNativeCapacity: true});
+  const profile = OWLPlanner.profileFor(planner, "flash-16gb", 16e9, state);
+  const {assets, reserve} = selectBrowser(profile, plan, {files, routes, published, phone, kept: () => false,
+    minimum: planner.capacity_policy.min});
+  const ordered = buildOrder(assets, {archiveSpace: 16e9 - reserve});
+  assert.equal(ordered[0].format, "zim");
+  assert.equal(ordered[0].utility_tier, "CRITICAL");
+  const optional = ordered.filter(asset => asset.utility_tier !== "CRITICAL");
+  assert.deepEqual(new Set(optional.slice(0, 4).map(asset => asset.id)),
+    new Set(["kiwix_windows", "kiwix_linux", "kiwix_macos", "kiwix_android"]));
+  assert.ok(optional.slice(4).every(asset => !asset.destination.startsWith("SOFTWARE/")));
+});
+
+test("reader packages leave room for the archive's verified parts on a tight drive", () => {
+  const archive = {id: "archive", format: "zim", destination: "ZIM/archive.zim", utility_tier: "USEFUL", size_bytes: 80};
+  const reader = {id: "reader", format: "zip", destination: "SOFTWARE/reader.zip", utility_tier: "USEFUL", size_bytes: 30};
+  const files = [archive, reader];
+  assert.deepEqual(buildOrder(files, {archiveSpace: 120, partBytes: 40}), [archive, reader]);
+  assert.deepEqual(buildOrder(files, {archiveSpace: 150, partBytes: 40}), [reader, archive]);
+});
+
 test("storage limit stops end at the available space and omit unusable stops", () => {
   const inGB = (capacity, eligible) => storageStops(capacity * 1e9, eligible).map(stop => stop / 1e9);
   const oneTB = [1, 8, 16, 32, ...Array.from({length: 30}, (_, i) => 64 + 32 * i), 1000];
@@ -134,7 +158,7 @@ test("published browser defaults retain every field across the half-GB sweep", {
     const workspace = assemblyReserve({assets: selection.assets, excluded: [], navigation, search: true,
       searchBudget: profile.discovery_budget_bytes, partCount});
     let written = 0;
-    for (const asset of buildOrder(selection.assets)) {
+    for (const asset of buildOrder(selection.assets, {archiveSpace: capacity - workspace})) {
       if (pins.archives[asset.id] && asset.size_bytes > pins.piece_bytes) {
         for (let offset = 0; offset < asset.size_bytes; offset += PART_BYTES) {
           const bytes = Math.min(PART_BYTES, asset.size_bytes - offset);

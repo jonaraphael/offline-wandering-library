@@ -2,12 +2,14 @@
 /* Time the shipped reader from a local file in offline, CPU-throttled Chromium. */
 'use strict';
 const {parseArgs} = require('node:util');
-const {statSync} = require('node:fs');
-const {resolve} = require('node:path');
+const assert = require('node:assert/strict');
+const {readdirSync, statSync} = require('node:fs');
+const {dirname, join, resolve} = require('node:path');
 const {fileURLToPath, pathToFileURL} = require('node:url');
 const {chromium} = require('playwright-core');
 const round5 = require('../tests/search/round5-queries.json');
 const round6 = require('../tests/search/round6-queries.json');
+const round7 = require('../tests/search/round7-queries.json');
 
 const emergencyFallback = "My neighbor is lying still on the floor and I can't tell if he's breathing";
 const semanticChecks = new Map([
@@ -24,7 +26,7 @@ const emergencyQueries = [
   ...semanticChecks.keys(),
 ];
 
-async function measure(browser, url, query, {allowEmpty = false} = {}) {
+async function withOfflineReader(browser, url, run) {
   const context = await browser.newContext({offline: true});
   try {
     const page = await context.newPage();
@@ -35,7 +37,14 @@ async function measure(browser, url, query, {allowEmpty = false} = {}) {
     await page.goto(url);
     await page.waitForFunction(() => window.OWLShardRank && document.querySelector('#search-status')?.hidden &&
       !window.OWLShardSelection && !window.OWLShardModel);
+    return await run(page);
+  } finally {
+    await context.close();
+  }
+}
 
+async function measure(browser, url, query, {allowEmpty = false} = {}) {
+  return withOfflineReader(browser, url, async page => {
     const reads = [];
     const failures = [];
     page.on('request', request => reads.push(new URL(request.url())));
@@ -98,9 +107,55 @@ async function measure(browser, url, query, {allowEmpty = false} = {}) {
       bytes: paths.reduce((sum, path) => sum + statSync(path).size, 0), reads: paths.length,
       chunk_reads: paths.filter(path => /[\\/]SEARCH[\\/](?:chunks|sources)[\\/]/.test(path)).length,
       emergency, status, correction: correction[0], cards, cardCount, browse};
-  } finally {
-    await context.close();
+  });
+}
+
+async function calibrate(browser, url) {
+  // Read and unpack a fixed sample from the installed selection with the
+  // same file: loading, offline context and CPU throttle as each query.
+  const sourceRoot = join(dirname(fileURLToPath(url)), 'LIBRARY', 'SEARCH', 'sources');
+  const files = readdirSync(sourceRoot, {recursive: true}).filter(name => /^[a-f0-9]{64}[\\/]\d{5}\.js$/.test(name))
+    .sort().map(name => ({name, size: statSync(join(sourceRoot, name)).size}))
+    .filter(({size}) => size >= 80_000 && size <= 220_000).slice(0, 96);
+  assert.equal(files.length, 96, 'Expected 96 calibration chunks in the 16 GB selection');
+  const ms = await withOfflineReader(browser, url, page => page.evaluate(async paths => {
+    const terms = window.OWLShardRank.terms('contour lines on a topographic map');
+    const started = performance.now();
+    try {
+      for (const path of paths) {
+        let data;
+        window.OWLShardPart = part => { data = part[2]; };
+        await window.OWLDiscovery.script('SEARCH/sources/' + path);
+        await window.OWLShardRank.unpack(data, terms);
+      }
+    } finally {
+      delete window.OWLShardPart;
+    }
+    return performance.now() - started;
+  }, files.map(({name}) => name.replace(/\\/g, '/'))));
+  const msRounded = Math.round(ms * 10) / 10;
+  const calibration = {ms: msRounded, reads: files.length, bytes: files.reduce((total, {size}) => total + size, 0)};
+  console.log('Reader calibration: ' + JSON.stringify(calibration));
+  return calibration;
+}
+
+function checkTiming(result, calibration) {
+  assert.ok(result.max_bytes <= 20_000_000, JSON.stringify(result));
+  assert.ok(result.max_reads <= 200, JSON.stringify(result));
+  assert.ok(result.max_first_ms <= 1.75 * calibration.ms, JSON.stringify({result, calibration}));
+  assert.ok(result.max_complete_ms <= 2.5 * calibration.ms, JSON.stringify({result, calibration}));
+  if (process.env.OWL_SEARCH_LOCAL_TIMING === '1') {
+    assert.ok(result.max_complete_ms <= 3000, JSON.stringify(result));
   }
+}
+
+function timingBounds(result) {
+  return {
+    max_first_ms: result.first_ms ?? Infinity,
+    max_complete_ms: result.complete_ms,
+    max_bytes: result.bytes,
+    max_reads: result.reads,
+  };
 }
 
 function grade(sample, result) {
@@ -115,14 +170,14 @@ function grade(sample, result) {
 async function measureRound5(browser, url) {
   const summary = {good: 0, emergency_empty: 0, negation_failures: 0};
   for (const group of ['emergency', 'practical', 'misspelled']) {
-    const totals = summary[group] = {queries: round5[group].length, good: 0, empty: 0, max_complete_ms: 0, max_bytes: 0};
+    const totals = summary[group] = {queries: round5[group].length, good: 0, empty: 0,
+      max_first_ms: 0, max_complete_ms: 0, max_bytes: 0, max_reads: 0};
     for (const sample of round5[group]) {
       const result = await measure(browser, url, sample.query, {allowEmpty: true});
       const {good, negationFailure} = grade(sample, result);
       totals.good += Number(good);
       totals.empty += Number(!result.cardCount);
-      totals.max_complete_ms = Math.max(totals.max_complete_ms, result.complete_ms);
-      totals.max_bytes = Math.max(totals.max_bytes, result.bytes);
+      for (const [key, value] of Object.entries(timingBounds(result))) totals[key] = Math.max(totals[key], value);
       summary.negation_failures += Number(negationFailure);
       console.log(JSON.stringify({group, good, ...result}));
     }
@@ -157,6 +212,37 @@ async function measureRound6(browser, url) {
   return grades;
 }
 
+function round7Url(url, group, sample) {
+  return group === 'exact' || sample.single
+    ? searchUrl(join(dirname(fileURLToPath(url)), 'single', sample.asset, 'START_HERE.html')) : url;
+}
+
+async function measureRound7(browser, url) {
+  const files = {
+    fao_good_dairy_practice: 'fao_good_dairy_practice_2011.pdf',
+    fao_dairy_manual_vol1: 'fao_dairy_manual_vol1_1993.pdf',
+    survival_shelter: 'Army_Survival_ATP_3_50_21_2018.pdf',
+    navigation: 'USGS_Map_and_Compass.pdf',
+  };
+  const summary = {};
+  for (const [group, samples] of Object.entries(round7)) {
+    const totals = summary[group] = {good: 0, empty: 0};
+    for (const sample of samples) {
+      const result = await measure(browser, round7Url(url, group, sample), sample.query, {allowEmpty: true});
+      const first = result.cards[0];
+      const good = sample.topics
+        ? sample.topics.includes(first?.topic) && grade(sample, result).good
+        : !result.emergency && first?.indexed &&
+          sample.pages.some(page => first.href.endsWith('/' + files[sample.asset] + '#page=' + page));
+      totals.good += Number(Boolean(good));
+      totals.empty += Number(!result.cardCount);
+      console.log(JSON.stringify({group, good: Boolean(good), ...result}));
+    }
+  }
+  console.log('Round 7 reader: ' + JSON.stringify(summary));
+  return summary;
+}
+
 function searchUrl(startPage) {
   const url = pathToFileURL(resolve(startPage));
   url.hash = '/search';
@@ -168,10 +254,11 @@ async function main() {
     check: {type: 'boolean'},
     round5: {type: 'boolean'},
     round6: {type: 'boolean'},
+    round7: {type: 'boolean'},
     query: {type: 'string', multiple: true},
   }});
   if (positionals.length !== 1) {
-    throw Error('Usage: node scripts/search_timing.cjs START_HERE.html [--check] [--round5 | --round6 | --query TEXT ...]');
+    throw Error('Usage: node scripts/search_timing.cjs START_HERE.html [--check] [--round5 | --round6 | --round7 | --query TEXT ...]');
   }
   const url = searchUrl(positionals[0]);
   const browser = await chromium.launch({executablePath: process.env.CHROMIUM_EXECUTABLE_PATH});
@@ -182,10 +269,19 @@ async function main() {
       if (values.check && (grades.good < 26 || grades.empty)) process.exitCode = 1;
       return;
     }
+    if (values.round7) {
+      const summary = await measureRound7(browser, url);
+      if (values.check) assert.ok(Object.values(summary).every(group => group.good === 5 && !group.empty));
+      return;
+    }
     if (values.round5) {
+      const calibration = values.check && await calibrate(browser, url);
       const summary = await measureRound5(browser, url);
-      if (values.check && (summary.good < 34 || summary.emergency_empty || summary.negation_failures ||
-          summary.practical.max_complete_ms > 3000)) process.exitCode = 1;
+      if (values.check) {
+        assert.ok(summary.good >= 34 && !summary.emergency_empty && !summary.negation_failures);
+        checkTiming(summary.practical, calibration);
+        checkTiming(summary.misspelled, calibration);
+      }
       return;
     }
     const results = [];
@@ -207,11 +303,12 @@ async function main() {
     const withinTarget = first <= 300 && complete <= 3000;
     console.log(JSON.stringify({queries: results.length, max_first_ms: first, max_complete_ms: complete,
       within_16_gb_target: withinTarget}));
-    if (values.check && !withinTarget) process.exitCode = 1;
+    if (values.check && process.env.OWL_SEARCH_LOCAL_TIMING === '1' && !withinTarget) process.exitCode = 1;
   } finally {
     await browser.close();
   }
 }
 
-module.exports = {measure, searchUrl, emergencyFallback, semanticChecks, grade, measureRound5, measureRound6};
+module.exports = {measure, searchUrl, emergencyFallback, semanticChecks, grade, measureRound5, measureRound6,
+  measureRound7, calibrate, checkTiming, timingBounds};
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });
