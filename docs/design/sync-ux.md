@@ -92,7 +92,7 @@ state. Only their contents change, so the page never jumps.
 | `ready` | New drive, plan computed | Ring track, green light | *drive name* | *59.6 GB free.* The recommended library uses *58.2 GB*: *412* books, manuals and courses. | Categories plus free | **Sync** | Manage what goes on it · Choose a different drive |
 | `behind` | OWL drive with work to do | Arc at the fraction already on the drive | *drive name* | One of: *Unfinished: 21 GB to go.* / *3 updates: adds 1.1 GB, removes 0.3 GB.* / *Your changes: adds 6.4 GB, removes 3.1 GB.* | On-drive part solid, pending part pale | **Sync** | Manage what goes on it · Choose a different drive |
 | `current` | OWL drive that matches its library | Full ring, check mark | Up to date | Synced *14 March 2026*. *412* items, *58.2 GB*. | Solid | None | Manage what goes on it · Check every file · Choose a different drive |
-| `syncing` | Sync running | Arc = bytes written ÷ bytes planned; light pulses | *42%* | *24.4 of 58.2 GB · about 1 h 10 min left* then, on a second line, *Now: WikiMed medical encyclopedia* | Synced part solid, rest pale | **Pause** | None |
+| `syncing` | Sync running | Arc = bytes written ÷ bytes planned; light pulses | *42%* | *24.4 of 58.2 GB · about 1 h 10 min left · 9.8 MB/s* then, on a second line, *Now: WikiMed medical encyclopedia* and, for an archive with relay routes, a **Fast route** or **Slow route** badge | Synced part solid, rest pale | **Pause** | None |
 | `finishing` | Downloads done, index and reader being written | Full arc, pulsing | Finishing | Building the search index and the start page. | Solid | None | None |
 | `paused` | Paused, or the tab was reopened mid-sync | Arc stopped, amber | Paused at *42%* | Nothing is lost. Sync continues where it stopped. | As `behind` | **Sync** | Manage what goes on it · Choose a different drive |
 | `waiting` | Network dropped during sync | Arc stopped, amber | *42%* | Waiting for the internet. Sync continues by itself. | As `syncing` | **Pause** | None |
@@ -126,6 +126,15 @@ Notes on states:
   20 seconds it is joined by the phone card: the Kiwix QR code for iPhone
   ("Install it now, while you are online") and one line for Android and
   computers ("The reader app is copied onto the drive").
+- **Fast route** means the archive comes through the download relay, or
+  through the Kiwix mirror after the relay answered but sampled slower.
+  **Slow route** means the relay is failing and the archive comes from the
+  Kiwix mirror (measured 1.1 MB/s with 8 connections from the owner’s Mac,
+  against 11.2 MB/s from FAU). During **Slow route** a card reads
+  "Downloading on the slow route. The download relay isn’t answering,
+  possibly because it reached today’s free limit, which resets at *7:00 PM*.
+  Until it answers, archives come from the slower Kiwix mirror. Sync
+  switches back by itself." The reset is midnight UTC in local time.
 - While Sync is running, including while it waits for the internet or relay
   and builds the start page, closing or reloading the tab brings up the
   browser’s confirmation.
@@ -172,6 +181,11 @@ Notes on states:
   files, with the website and another host reachable, continue using any
   direct routes. Keep files whose remaining routes need the relay in the
   plan. An HTTP reply from the relay clears the connection-failure streak.
+- While an archive downloads, a 64 MiB window in which every relay request
+  failed moves that archive to the Kiwix mirror until its next sample, every
+  512 MiB. After the three-file streak, archives skip the relay; Sync checks
+  it with the same HEAD request every 15 minutes and at 00:05 UTC, and the
+  next window samples the relay again once it answers.
 - When only those files remain, check the relay with a HEAD request every
   15 minutes and at 00:05 UTC. **Try now** makes the same check immediately.
   Resume automatically when the relay returns a readable HTTP response.
