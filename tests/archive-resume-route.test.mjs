@@ -147,3 +147,65 @@ test("an unavailable relay leaves archives on the mirror until a recheck brings 
   assert.deepEqual(seen.filter(([url, piece]) => url === peer && piece < 32), []);
   assert.ok(seen.some(([url, piece]) => url === peer && piece >= 32));
 });
+
+test("a drained archive session journals the pieces in flight, starts no more and waits at the save point", async () => {
+  const {data, pin, respond, asset} = tinyArchive(64);
+  const drain = new AbortController();
+  const started = [], accepted = new Set();
+  let afterDrain = 0, atPause;
+  const run = archiveSession(asset, pin, {direct: ["https://mirror.example/archive.zim"], network: quietNetwork,
+    drain: drain.signal,
+    async atSavePoint() {
+      atPause = {accepted: accepted.size, inflight: run.inflight()};
+      throw new DOMException("Paused", "AbortError");
+    },
+    async fetchFile(_url, {headers}) {
+      const start = Number(/^bytes=(\d+)-/.exec(headers.Range)[1]);
+      if (drain.signal.aborted) afterDrain++;
+      started.push(start / 3);
+      await new Promise(resolve => setTimeout(resolve, 5));
+      return respond(start);
+    }});
+  await assert.rejects(run({start: 0, bytes: data.length}, {restore: async () => null,
+    accept: async (index, _bytes, persist) => {
+      assert.equal(persist, true);
+      accepted.add(index);
+      if (accepted.size === 10) drain.abort();
+    },
+    ordered: () => {}}), {name: "AbortError"});
+  // Every piece that started was received and handed to the journal before the pause.
+  assert.deepEqual([...accepted].sort((a, b) => a - b), [...new Set(started)].sort((a, b) => a - b));
+  assert.equal(atPause.accepted, accepted.size);
+  assert.deepEqual(atPause.inflight, {lost: 0, toSave: 0, seconds: 0});
+  assert.ok(afterDrain <= 8, afterDrain + " pieces started after the drain");
+  assert.ok(accepted.size < 64);
+});
+
+test("an archive session reports bytes still arriving before any piece finishes", async () => {
+  const {data, pin, asset} = tinyArchive(4);
+  const reports = [];
+  let release;
+  const gate = new Promise(resolve => { release = resolve; });
+  const run = archiveSession(asset, pin, {direct: ["https://mirror.example/archive.zim"], network: quietNetwork,
+    onInflight: () => reports.push(run.inflight()),
+    async fetchFile(_url, {headers}) {
+      const start = Number(/^bytes=(\d+)-/.exec(headers.Range)[1]);
+      // Two bytes arrive at once; the third waits until the test releases it.
+      return new Response(new ReadableStream({async start(stream) {
+        stream.enqueue(data.slice(start, start + 2));
+        await gate;
+        stream.enqueue(data.slice(start + 2, start + 3));
+        stream.close();
+      }}), {status: 206, headers: {"Content-Range": `bytes ${start}-${start + 2}/${data.length}`}});
+    }});
+  const finished = run({start: 0, bytes: data.length}, {restore: async () => null, accept: async () => {}, ordered: () => {}});
+  while (!reports.length) await new Promise(resolve => setTimeout(resolve, 1));
+  assert.ok(reports[0].lost >= 2 && reports[0].toSave >= 1, JSON.stringify(reports[0]));
+  // Each piece got 2 of 3 bytes in about 0.6 s, so the last byte needs about 0.3 s.
+  await new Promise(resolve => setTimeout(resolve, 600));
+  const {seconds} = run.inflight();
+  assert.ok(seconds >= 0.2 && seconds <= 0.6, "estimated " + seconds + " s");
+  release();
+  await finished;
+  assert.deepEqual(run.inflight(), {lost: 0, toSave: 0, seconds: 0});
+});

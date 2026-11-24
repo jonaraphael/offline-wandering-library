@@ -9,7 +9,7 @@ import {assembleLibrary} from "../web/offline.mjs";
 import {measureFreeSpace, writeFile} from "../web/drive.mjs";
 import {createNetwork} from "../web/network.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
-import {archiveDriveOptions, completionState, estimateLabelCapacity, prepareDownloadSources, probesCapacity, relayLimitMessage,
+import {archiveDriveOptions, clock, completionState, estimateLabelCapacity, prepareDownloadSources, probesCapacity, relayLimitMessage,
   reportedDriveCapacity, slowRouteMessage, warnBeforeLeaving} from "../web/builder-ui.mjs";
 import {createRelayWait, RELAY_WAIT_MESSAGE} from "../web/relay-wait.mjs";
 
@@ -1304,6 +1304,42 @@ test("an unavailable relay is rechecked 15 minutes after it failed and becomes a
   } finally {
     Date.now = realNow;
   }
+});
+
+test("a pause that waits for a save point finishes the file in progress and starts no other", async () => {
+  const bodies = {first: Buffer.alloc(3 * MiB, 1), second: Buffer.alloc(MiB, 2)};
+  const assets = Object.entries(bodies).map(([id, body]) => asset(id, body));
+  const routes = Object.fromEntries(Object.keys(bodies).map(id => [id, ["https://example.test/" + id]]));
+  const controller = new AbortController(), drain = new AbortController();
+  const drive = new Directory(), fetched = [], seen = [];
+  await assert.rejects(buildLibrary(drive, {assets, routes, signal: controller.signal, drain: drain.signal,
+    onProgress(event) {
+      if (event.kind === "downloading" && event.received > 0 && !drain.signal.aborted) {
+        seen.push(event);
+        drain.abort();
+      }
+      if (event.kind === "save-point") {
+        seen.push(event.kind);
+        controller.abort();
+      }
+    },
+    async fetchFile(url) {
+      const body = bodies[new URL(url).pathname.slice(1)];
+      fetched.push(new URL(url).pathname.slice(1));
+      return new Response(new ReadableStream({start(stream) {
+        for (let start = 0; start < body.length; start += MiB) stream.enqueue(body.subarray(start, start + MiB));
+        stream.close();
+      }}));
+    }}), {name: "AbortError"});
+  assert.equal(fetched.length, 1);
+  assert.equal(seen.at(-1), "save-point");
+  assert.equal(seen[0].lost, seen[0].received);
+  assert.equal(seen[0].lost + seen[0].toSave, seen[0].bytes);
+  assert.equal((await readBuild(drive)).verified[fetched[0]], true);
+});
+
+test("pause countdowns read as minutes and seconds", () => {
+  assert.deepEqual([clock(0.2), clock(42), clock(600), clock(3725)], ["0:01", "0:42", "10:00", "1:02:05"]);
 });
 
 test("the slow-route note gives the relay's midnight UTC reset in local time", () => {

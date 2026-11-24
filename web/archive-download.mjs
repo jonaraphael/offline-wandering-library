@@ -58,8 +58,12 @@ export function checkAlignment(pin, asset, part) {
 // daily limit). Pieces then use the direct mirror, refreshRelay() rechecks the
 // relay on its own schedule, and the session samples again once it answers.
 // onRoute({fast}) reports whether the relay or the fastest route is in use.
+// Once drain aborts, no new piece starts; after the pieces in flight are
+// journaled, atSavePoint() waits there for the pause. onInflight() reports
+// arriving bytes at most every 250 ms, between finished pieces.
 export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signal, network,
-    relayReady = () => true, refreshRelay = () => {}, onRoute = () => {}}) {
+    relayReady = () => true, refreshRelay = () => {}, onRoute = () => {}, drain, atSavePoint = async () => {},
+    onInflight = () => {}}) {
   let lanes = 6, previousRate = 0, growth = true, sampled = false, preferred = direct[0], windowsSinceSample = 0;
   const relayURLs = new Set(relay);
   const cooldown = routeCooldowns(network);
@@ -79,6 +83,11 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
   // requests. A capped relay fails before any bytes, so pieces fall through to
   // the direct mirror while the relay still counts as ready.
   let served = {relay: 0, direct: 0, misses: 0}, relayFailing = false, reported;
+  // Pieces in flight. Their received bytes are lost if the download stops
+  // before they are journaled.
+  const reading = new Set();
+  // Recent speed of one request, in bytes per ms, for pieces that just started.
+  let streamRate = 0, inflightReported = 0;
   function report(fast) {
     if (!relay.length || fast === reported) return;
     reported = fast;
@@ -100,10 +109,17 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
     const bytes = new Uint8Array(length);
     let cursor = 0;
     const began = performance.now();
+    const entry = {length, received: 0, began};
+    reading.add(entry);
     try {
       await streamRequest(url, range, length, fetchFile, requestSignal, chunk => {
         bytes.set(chunk, cursor);
         cursor += chunk.byteLength;
+        entry.received = cursor;
+        if (performance.now() - inflightReported >= 250) {
+          inflightReported = performance.now();
+          onInflight();
+        }
       });
       if (!await pin.matches(index, bytes)) throw new SourceError("Publisher piece SHA-1 mismatch");
     } catch (error) {
@@ -113,9 +129,12 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
         ms: Math.round(performance.now() - began), status: error.status, connection: Boolean(error.connection),
         error: error.name === "AbortError" ? "aborted" : error.message});
       throw error;
+    } finally {
+      reading.delete(entry);
     }
     const ms = performance.now() - began;
     served[relayURLs.has(url) ? "relay" : "direct"] += length;
+    if (ms > 0) streamRate = streamRate ? streamRate * 0.7 + length / ms * 0.3 : length / ms;
     diag("request", {asset: asset.id, piece: index, route: routeLabel(url), ok: true, bytes: length,
       ms: Math.round(ms), mbps: +(length / 1e6 / (ms / 1000)).toFixed(2)});
     return bytes;
@@ -171,7 +190,7 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
     return true;
   }
 
-  return async function transfer(part, {restore, accept, ordered}) {
+  async function transfer(part, {restore, accept, ordered}) {
     const first = part.start / pin.size;
     const limit = first + Math.ceil(part.bytes / pin.size);
     const controller = new AbortController();
@@ -182,6 +201,10 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
     try {
       for (let start = first; start < limit; start += WINDOW_PIECES) {
         requestSignal.throwIfAborted();
+        if (drain?.aborted) {
+          await pending;
+          await atSavePoint();
+        }
         const end = Math.min(start + WINDOW_PIECES, limit);
         const window = new Array(end - start);
         let committed = start, written = pending, transferred = 0, backoff = false, writeMs = 0;
@@ -238,7 +261,7 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
           let cursor = 0, fatal, throttled = false;
           const failed = [];
           async function lane() {
-            while (!throttled && cursor < remaining.length) {
+            while (!throttled && cursor < remaining.length && !drain?.aborted) {
               requestSignal.throwIfAborted();
               const index = remaining[cursor++];
               const length = lengthOf(index);
@@ -312,6 +335,11 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
             await written.catch(() => {});
             throw fatal;
           }
+          if (drain?.aborted && (failed.length || cursor < remaining.length)) {
+            // Every piece that arrived is journaled once its write finishes.
+            await written;
+            await atSavePoint();
+          }
           if (!failed.length) break;
           remaining = [...failed.map(({index}) => index), ...remaining.slice(cursor)];
           lanes = Math.max(MIN_LANES, Math.floor(lanes / 2));
@@ -366,5 +394,21 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
     } finally {
       controller.abort();
     }
+  }
+  // What stopping now would discard (lost), what is still to arrive (toSave),
+  // and the seconds until the slowest piece in flight is kept, from each
+  // request's own speed (servers often limit each connection).
+  transfer.inflight = () => {
+    let lost = 0, toSave = 0, ms = 0;
+    const now = performance.now();
+    for (const entry of reading) {
+      lost += entry.received;
+      toSave += entry.length - entry.received;
+      const elapsed = now - entry.began;
+      const speed = entry.received && elapsed >= 500 ? entry.received / elapsed : streamRate;
+      ms = Math.max(ms, speed ? (entry.length - entry.received) / speed : Infinity);
+    }
+    return {lost, toSave, seconds: Number.isFinite(ms) ? ms / 1000 : undefined};
   };
+  return transfer;
 }

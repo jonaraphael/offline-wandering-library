@@ -135,6 +135,19 @@ Notes on states:
   possibly because it reached today’s free limit, which resets at *7:00 PM*.
   Until it answers, archives come from the slower Kiwix mirror. Sync
   switches back by itself." The reset is midnight UTC in local time.
+- **Pause** stops new downloads at once and pauses at the next save point:
+  after the pieces still arriving for an encyclopedia or map are journaled,
+  or after the file or 1 GiB part in progress finishes for other downloads.
+  When nothing downloaded would be lost, it pauses at once. When the save
+  point is at most 5 seconds away, it waits for it: the button reads
+  **Pause now** and the status line "Pausing in about *0:04*, after saving
+  what has arrived." Otherwise the button reads **Save progress first ·
+  *0:42*** and the status line "Pausing in *5* s discards *312 MB* of
+  *World map*." With no click it pauses after 5 seconds. Choosing **Save
+  progress first** waits for the save point, with **Pause now** and the
+  countdown. **Pause now** pauses at once, as do Pause during the internet
+  or relay wait and "Manage what goes on it". If the downloads finish while
+  waiting, Sync finishes instead of pausing.
 - While Sync is running, including while it waits for the internet or relay
   and builds the start page, closing or reloading the tab brings up the
   browser’s confirmation.
