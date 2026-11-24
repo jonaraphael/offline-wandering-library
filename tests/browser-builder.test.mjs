@@ -10,8 +10,8 @@ import {measureFreeSpace, writeFile} from "../web/drive.mjs";
 import {createNetwork} from "../web/network.mjs";
 import {Directory} from "./browser-drive-fixture.mjs";
 import {archiveDriveOptions, completionState, estimateLabelCapacity, prepareDownloadSources, probesCapacity, relayLimitMessage,
-  reportedDriveCapacity, warnBeforeLeaving} from "../web/builder-ui.mjs";
-import {RELAY_WAIT_MESSAGE} from "../web/relay-wait.mjs";
+  reportedDriveCapacity, slowRouteMessage, warnBeforeLeaving} from "../web/builder-ui.mjs";
+import {createRelayWait, RELAY_WAIT_MESSAGE} from "../web/relay-wait.mjs";
 
 globalThis.crypto ||= webcrypto;
 const MiB = 2 ** 20;
@@ -1259,6 +1259,56 @@ test("a faster verified archive relay is tried and a limited peer falls back to 
   assert.equal(result.state.finished, true);
   assert.equal(seen.some(([url, index]) => url === peer && index === 1), true);
   assert.equal(seen.some(([url, index]) => url === direct && index === 1), true);
+});
+
+test("Sync reports whether an archive downloads on the fast or the slow route", async () => {
+  for (const relayAnswers of [true, false]) {
+    const {item, published, indexOf, response} = rangedFixture(3);
+    const direct = "https://example.test/archive.zim", peer = "https://relay.example.test/peer";
+    const flags = [];
+    const result = await buildLibrary(new Directory(), {assets: [item],
+      published: {...published, archiveRelay: {[item.id]: [peer]}}, routes: {[item.id]: [direct]},
+      onProgress: event => { if (event.kind === "route") flags.push([event.asset.id, event.fast]); },
+      async fetchFile(url, options) {
+        const index = indexOf(options);
+        if (url === direct) await new Promise(resolve => setTimeout(resolve, 40));
+        // A Worker past its daily limit answers without CORS, so fetch rejects.
+        if (url === peer && !relayAnswers) throw new TypeError("Failed to fetch");
+        return response(index);
+      }});
+    assert.equal(result.state.finished, true);
+    assert.deepEqual(flags, [[item.id, relayAnswers]]);
+  }
+});
+
+test("an unavailable relay is rechecked 15 minutes after it failed and becomes available again", async () => {
+  const relay = "https://relay.test/assets/small", calls = [];
+  const realNow = Date.now;
+  let now = Date.UTC(2026, 10, 23, 12);
+  Date.now = () => now;
+  try {
+    const wait = createRelayWait({routes: {small: [relay], other: ["https://direct.test/other.pdf"]},
+      assets: [{id: "small", format: "pdf", size_bytes: 10}],
+      fetchFile: async (url, options) => { calls.push([url, options.method]); return new Response(null, {status: 200}); },
+      network: {reachable: async () => true}});
+    for (const id of ["a", "b", "c"]) await wait.observeFailure(id);
+    assert.equal(wait.unavailable, true);
+    assert.equal(wait.refresh(), undefined);
+    now += 14 * 60_000;
+    assert.equal(wait.refresh(), undefined);
+    assert.deepEqual(calls, []);
+    now += 2 * 60_000;
+    await wait.refresh();
+    assert.deepEqual(calls, [[relay, "HEAD"]]);
+    assert.equal(wait.unavailable, false);
+  } finally {
+    Date.now = realNow;
+  }
+});
+
+test("the slow-route note gives the relay's midnight UTC reset in local time", () => {
+  const reset = new Date(Date.UTC(2026, 10, 24)).toLocaleTimeString([], {hour: "numeric", minute: "2-digit"});
+  assert.ok(slowRouteMessage(Date.UTC(2026, 10, 23, 15, 30)).includes("resets at " + reset + "."));
 });
 
 test("a relay 429 without Retry-After rotates to the direct route for later pieces", async () => {

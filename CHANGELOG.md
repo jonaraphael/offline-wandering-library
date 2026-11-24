@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Show whether archives download on the **Fast route** (the download relay) or the **Slow route** (the Kiwix mirror), with the download speed. When the relay stops answering, a card names the likely daily limit and its reset in local time. Sync returns to the relay by itself once it answers, and a relay that fails partway through an archive no longer costs every piece a failed request.
+- Show progress while checking files already on the drive ("Checked 92 GB of 181 GB · 25 min left"). Checksums run in a worker, once per file, so the check runs about twice as fast and leaves the page and other OWL windows responsive.
 - Sync several drives at once, one per window. Each window remembers its own drive, a folder can sync in only one window at a time, and every finished drive keeps a working **Try it** link.
 - Keep files finished before a pause in the drive record when Sync resumes. A first sync paused twice forgot them, and the next Sync downloaded them again under new names. Sync now finds such files by checksum and keeps them. After **Pause**, opening the drive no longer rereads every finished file.
 - Offer **Choose a different drive** on the ready, up-to-date, paused and problem screens, including after the page reopens a remembered drive.

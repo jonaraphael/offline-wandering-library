@@ -63,6 +63,15 @@ export async function load() {
   return {...catalog, published};
 }
 
+const DAY = 86_400_000;
+
+// The relay's free daily limit resets at midnight UTC; show that in local time.
+export function slowRouteMessage(now = Date.now()) {
+  const reset = new Date(Math.floor(now / DAY) * DAY + DAY).toLocaleTimeString([], {hour: "numeric", minute: "2-digit"});
+  return "The download relay isn’t answering, possibly because it reached today’s free limit, which resets at " + reset +
+    ". Until it answers, archives come from the slower Kiwix mirror. Sync switches back by itself.";
+}
+
 function duration(seconds) {
   if (seconds < 90) return "about a minute";
   const minutes = Math.round(seconds / 60);
@@ -382,9 +391,17 @@ export function mount({catalog: supplied} = {}) {
   let measured, reported = false, minimum, capacity, driveFormat = "unknown", detectedFormat, size, mode, previousMode, problem, result,
     controller, opened = 0;
   let operation = 0, picker = false, preview = false, fullCheck = false, selectedReplacement = new Set();
-  let slowCheck = false, slowTimer;
+  let slowCheck = false, slowTimer, checkProgress, checkStarted;
+  // Time left in a long check, from its average speed so far.
+  const checkLeft = () => {
+    const seconds = (performance.now() - checkStarted.at) / 1000;
+    const done = checkProgress.checked - checkStarted.checked;
+    return seconds > 10 && done > 0 ? duration((checkProgress.total - checkProgress.checked) / (done / seconds)) + " left" : "estimating time";
+  };
   let active = new Map(), transferTotal = 0, transferStarted, rateStart, rateBytes, rate = 0, nowTitle = "", lastPaint = 0;
   let dirty = false, finishing = false, driveChoice, relayTryNow, manageAfterPause = false;
+  // Archive id -> whether its pieces come through the relay or the fastest route.
+  let routeFast = new Map(), currentAsset;
   how();
   try { snapshot = JSON.parse(localStorage.getItem(rememberedKey())); } catch {}
 
@@ -537,8 +554,10 @@ export function mount({catalog: supplied} = {}) {
           chart: Boolean(snapshot?.amounts), action: reconnectButton, links: [["Use a different drive", changeDrive]]});
         break;
       case "measuring":
-        Object.assign(item, {message: slowCheck ? "Checking the files already on the drive…" : "Measuring free space…",
-          extra: slowCheck ? "A large drive can take several minutes. Nothing on it changes." : undefined, links: [different]});
+        Object.assign(item, {message: checkProgress || slowCheck ? "Checking the files already on the drive…" : "Measuring free space…",
+          extra: checkProgress ? "Checked " + bytes(checkProgress.checked) + " of " + bytes(checkProgress.total) +
+            (checkProgress.checked && checkStarted ? " · " + checkLeft() : "") + ". Nothing on the drive changes." :
+            slowCheck ? "A large drive can take several minutes. Nothing on it changes." : undefined, links: [different]});
         break;
       case "needs-size":
         Object.assign(item, {message: "For a new or empty drive, use the number printed on it.",
@@ -572,8 +591,9 @@ export function mount({catalog: supplied} = {}) {
       case "syncing":
         Object.assign(item, {step: 2, fraction: syncFraction, title: percent(syncFraction), action: ["Pause", pause, true],
           message: bytes(totalDone()) + " of " + bytes(transferTotal || plan.used) +
-            (rate && transferTotal > totalDone() ? " · " + duration((transferTotal - totalDone()) / rate) + " left" : ""),
-          extra: nowTitle && "Now: " + nowTitle});
+            (rate && transferTotal > totalDone() ? " · " + duration((transferTotal - totalDone()) / rate) + " left" : "") +
+            (rate ? " · " + bytes(rate) + "/s" : ""),
+          extra: nowTitle && "Now: " + nowTitle, route: currentAsset && routeFast.get(currentAsset)});
         break;
       case "waiting":
         Object.assign(item, {step: 2, fraction: syncFraction, title: percent(syncFraction), action: ["Pause", pause, true],
@@ -662,11 +682,15 @@ export function mount({catalog: supplied} = {}) {
       headline.textContent = item.title;
       headline.title = item.title;
     }
-    const messageKey = item.message + "\n" + (item.extra || "");
+    const route = typeof item.route === "boolean" ? item.route : undefined;
+    const messageKey = item.message + "\n" + (item.extra || "") + "\n" + route;
     if (status.dataset.message !== messageKey) {
       status.dataset.message = messageKey;
       const extra = item.extra ? element("span", "now", item.extra) : null;
       if (extra && mode === "syncing") extra.title = nowTitle;
+      if (extra && route !== undefined) {
+        extra.append(" ", element("span", route ? "route fast" : "route slow", route ? "Fast route" : "Slow route"));
+      }
       status.replaceChildren(item.message, ...(extra ? [extra] : []));
     }
     if (previousMode !== mode) announcement.textContent = [item.title, item.message, item.extra].filter(Boolean).join(" ");
@@ -709,6 +733,9 @@ export function mount({catalog: supplied} = {}) {
     const finished = ["done", "done-gaps", "current"].includes(mode);
     byId("sync-cards").hidden = mode !== "syncing" && !finished;
     byId("keep-card").hidden = mode !== "syncing";
+    const routeCard = byId("route-card");
+    routeCard.hidden = mode !== "syncing" || route !== false;
+    if (!routeCard.hidden) byId("route-detail").textContent = slowRouteMessage();
     byId("phone-card").hidden = mode !== "syncing" || performance.now() - opened < 20_000;
     byId("open-card").hidden = !finished;
     [...byId("sync-rail").children].forEach((node, index) => {
@@ -788,8 +815,15 @@ export function mount({catalog: supplied} = {}) {
 
   async function updateComparison() {
     const token = ++operation;
-    const value = await compareLibrary(drive, {...comparisonOptions(), inspection});
-    if (token === operation) comparison = value;
+    let painted = 0;
+    const value = await compareLibrary(drive, {...comparisonOptions(), inspection, onCheck: progress => {
+      if (token !== operation) return;
+      if (!checkProgress) checkStarted = {at: performance.now(), checked: progress.checked};
+      checkProgress = progress;
+      const now = performance.now();
+      if (mode === "measuring" && now - painted > 500) { painted = now; render(); }
+    }});
+    if (token === operation) { comparison = value; checkProgress = checkStarted = undefined; }
   }
 
   function stageForDrive() {
@@ -958,8 +992,22 @@ export function mount({catalog: supplied} = {}) {
       return;
     }
     if (event.kind === "assembling") { finishing = true; render("finishing"); return; }
+    if (event.kind === "route") {
+      const changed = routeFast.get(event.asset.id) !== event.fast;
+      routeFast.set(event.asset.id, event.fast);
+      if (changed && !event.fast) announcement.textContent = "Slow route. " + slowRouteMessage();
+      if (mode === "syncing" && event.asset.id === currentAsset) render("syncing");
+      return;
+    }
+    if (event.kind === "checking") {
+      currentAsset = undefined;
+      nowTitle = "checking files already on the drive, " + bytes(event.checked) + " of " + bytes(event.total);
+      render("syncing");
+      return;
+    }
     if (mode === "finishing" || !event.asset) return;
     if (event.kind === "downloading") {
+      currentAsset = event.asset.id;
       active.set(event.asset.id, Math.min(event.asset.size_bytes, event.index * PART_BYTES + event.received));
       const fileTitle = title(catalog.planner, event.asset);
       nowTitle = readerTitles.get(event.asset.id) || collectionTitles.get(event.asset.id) ||
@@ -996,6 +1044,8 @@ export function mount({catalog: supplied} = {}) {
     finishing = false;
     relayTryNow = undefined;
     nowTitle = "";
+    routeFast = new Map();
+    currentAsset = undefined;
     active = savedAmounts();
     transferTotal = plan.used;
     render("syncing");

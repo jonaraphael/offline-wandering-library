@@ -46,6 +46,10 @@ a:hover { text-decoration: underline; }
 .title { font-size: 30px; line-height: 1.15; font-weight: 680; letter-spacing: -.02em; margin: 12px 0 4px; max-width: 20em; text-wrap: balance; }
 .status { color: var(--muted); max-width: 33em; min-height: 2.9em; margin: 0; text-wrap: pretty; }
 .status .now { display: block; }
+.status .route { display: inline-block; margin-left: 4px; padding: 0 8px; border: 1px solid currentColor; border-radius: 999px;
+  font-size: 12.5px; line-height: 1.6; color: var(--ok); white-space: nowrap; }
+.status .route.slow { color: var(--warn); }
+#route-card { border-color: var(--warn); }
 .meter { width: min(760px, 100%); margin-top: 14px; }
 .meter .track { width: min(480px, 100%); margin-inline: auto; }
 .track { display: flex; gap: 2px; height: 14px; border-radius: 7px; overflow: hidden; background: var(--track); }
