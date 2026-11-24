@@ -72,6 +72,13 @@ export function slowRouteMessage(now = Date.now()) {
     ". Until it answers, archives come from the slower Kiwix mirror. Sync switches back by itself.";
 }
 
+// 42 -> "0:42", 3725 -> "1:02:05".
+export function clock(seconds) {
+  const total = Math.ceil(seconds), hours = Math.floor(total / 3600), minutes = Math.floor(total % 3600 / 60);
+  const pad = value => String(value).padStart(2, "0");
+  return (hours ? hours + ":" + pad(minutes) : minutes) + ":" + pad(total % 60);
+}
+
 function duration(seconds) {
   if (seconds < 90) return "about a minute";
   const minutes = Math.round(seconds / 60);
@@ -402,6 +409,11 @@ export function mount({catalog: supplied} = {}) {
   let dirty = false, finishing = false, driveChoice, relayTryNow, manageAfterPause = false;
   // Archive id -> whether its pieces come through the relay or the fastest route.
   let routeFast = new Map(), currentAsset;
+  // Pause stops new downloads at once (drain). Sync then pauses at the next
+  // save point; when that is more than 5 s away, the button first offers to
+  // wait for it and pauses after 5 s without a choice. "Pause now" stops at once.
+  // saving: what the download in progress would lose and still needs to arrive.
+  let drainController, pauseStep, pauseTimer, pauseTick, offerEnds, saving;
   how();
   try { snapshot = JSON.parse(localStorage.getItem(rememberedKey())); } catch {}
 
@@ -493,8 +505,49 @@ export function mount({catalog: supplied} = {}) {
   const openManage = () => void enterManage().catch(showProblem);
   const verify = () => void run(true);
   const sync = () => void run();
-  const pause = () => controller?.abort();
-  const pauseToManage = () => { manageAfterPause = true; pause(); };
+  function clearPause() {
+    clearTimeout(pauseTimer);
+    clearInterval(pauseTick);
+    pauseStep = pauseTimer = pauseTick = undefined;
+  }
+  const pauseNow = () => { clearPause(); controller?.abort(); };
+  // Seconds until the download in progress reaches a save point, from the
+  // builder's last estimate; undefined while its speed is unknown.
+  function secondsToSave() {
+    if (!saving?.toSave) return 0;
+    if (saving.seconds === undefined) return undefined;
+    return Math.max(0, saving.seconds - (performance.now() - saving.at) / 1000);
+  }
+  function pauseMessage() {
+    const seconds = secondsToSave();
+    if (pauseStep === "offer") {
+      return "Pausing in " + Math.max(1, Math.ceil((offerEnds - performance.now()) / 1000)) + " s discards " +
+        bytes(saving?.lost || 0) + (nowTitle ? " of " + nowTitle : "") + ".";
+    }
+    return "Pausing " + (seconds >= 1 ? "in about " + clock(seconds) + ", " : "") + "after saving what has arrived.";
+  }
+  function pause() {
+    if (!controller) return;
+    if (pauseStep === "waiting" || mode !== "syncing" || !saving?.lost) return pauseNow();
+    if (pauseStep === "offer") {
+      clearTimeout(pauseTimer);
+      pauseStep = "waiting";
+    } else {
+      drainController?.abort();
+      const seconds = secondsToSave();
+      if (seconds !== undefined && seconds <= 5) pauseStep = "waiting";
+      else {
+        pauseStep = "offer";
+        offerEnds = performance.now() + 5_000;
+        pauseTimer = setTimeout(pauseNow, 5_000);
+      }
+      pauseTick = setInterval(() => { if (mode === "syncing") render("syncing"); }, 500);
+    }
+    render("syncing");
+    announcement.textContent = pauseMessage();
+    diag("pause", {step: pauseStep, lost: saving?.lost, toSave: saving?.toSave, seconds: secondsToSave()});
+  }
+  const pauseToManage = () => { manageAfterPause = true; pauseNow(); };
   const enterFreeSpace = () => { render("needs-free-space"); freeField.focus(); };
   const showOpenInstructions = () => {
     byId("open-library-instructions").textContent = "In Files or Finder, open " + name() + ", then open START_HERE.html.";
@@ -588,13 +641,17 @@ export function mount({catalog: supplied} = {}) {
           message: (lastDate ? "Synced " + lastDate + ". " : "") + countOf(plan.assets.length, "item") + ", " + bytes(plan.used) + ".",
           extra: partsMessage(inspection.state?.keptInParts)});
         break;
-      case "syncing":
-        Object.assign(item, {step: 2, fraction: syncFraction, title: percent(syncFraction), action: ["Pause", pause, true],
-          message: bytes(totalDone()) + " of " + bytes(transferTotal || plan.used) +
+      case "syncing": {
+        const seconds = pauseStep === "offer" && secondsToSave();
+        Object.assign(item, {step: 2, fraction: syncFraction, title: percent(syncFraction),
+          action: pauseStep === "offer" ? ["Save progress first" + (seconds >= 1 ? " · " + clock(seconds) : ""), pause] :
+            pauseStep === "waiting" ? ["Pause now", pause, true] : ["Pause", pause, true],
+          message: pauseStep ? pauseMessage() : bytes(totalDone()) + " of " + bytes(transferTotal || plan.used) +
             (rate && transferTotal > totalDone() ? " · " + duration((transferTotal - totalDone()) / rate) + " left" : "") +
             (rate ? " · " + bytes(rate) + "/s" : ""),
           extra: nowTitle && "Now: " + nowTitle, route: currentAsset && routeFast.get(currentAsset)});
         break;
+      }
       case "waiting":
         Object.assign(item, {step: 2, fraction: syncFraction, title: percent(syncFraction), action: ["Pause", pause, true],
           message: "Waiting for the internet. Sync continues by itself."});
@@ -987,11 +1044,14 @@ export function mount({catalog: supplied} = {}) {
     }
     if (event.kind === "waiting-network") { render("waiting"); return; }
     if (event.kind === "waiting-relay") {
+      // Nothing downloads during the relay wait, so a requested pause happens now.
+      if (pauseStep) { pauseNow(); return; }
       relayTryNow = event.tryNow;
       render("waiting-relay");
       return;
     }
-    if (event.kind === "assembling") { finishing = true; render("finishing"); return; }
+    if (event.kind === "save-point") { pauseNow(); return; }
+    if (event.kind === "assembling") { clearPause(); finishing = true; render("finishing"); return; }
     if (event.kind === "route") {
       const changed = routeFast.get(event.asset.id) !== event.fast;
       routeFast.set(event.asset.id, event.fast);
@@ -1000,7 +1060,7 @@ export function mount({catalog: supplied} = {}) {
       return;
     }
     if (event.kind === "checking") {
-      currentAsset = undefined;
+      currentAsset = saving = undefined;
       nowTitle = "checking files already on the drive, " + bytes(event.checked) + " of " + bytes(event.total);
       render("syncing");
       return;
@@ -1008,6 +1068,7 @@ export function mount({catalog: supplied} = {}) {
     if (mode === "finishing" || !event.asset) return;
     if (event.kind === "downloading") {
       currentAsset = event.asset.id;
+      saving = {lost: event.lost || 0, toSave: event.toSave || 0, seconds: event.seconds, at: performance.now()};
       active.set(event.asset.id, Math.min(event.asset.size_bytes, event.index * PART_BYTES + event.received));
       const fileTitle = title(catalog.planner, event.asset);
       nowTitle = readerTitles.get(event.asset.id) || collectionTitles.get(event.asset.id) ||
@@ -1022,6 +1083,7 @@ export function mount({catalog: supplied} = {}) {
       if (mode === "syncing" && now - lastPaint < 150 && event.received < event.bytes) return;
       lastPaint = now;
     } else if (event.kind === "verified") {
+      if (event.asset.id === currentAsset) saving = undefined;
       active.set(event.asset.id, event.asset.size_bytes);
       return;
     }
@@ -1045,7 +1107,8 @@ export function mount({catalog: supplied} = {}) {
     relayTryNow = undefined;
     nowTitle = "";
     routeFast = new Map();
-    currentAsset = undefined;
+    currentAsset = saving = undefined;
+    drainController = new AbortController();
     active = savedAmounts();
     transferTotal = plan.used;
     render("syncing");
@@ -1064,6 +1127,7 @@ export function mount({catalog: supplied} = {}) {
         catalogAssets: catalog.planner.assets,
         searchBudget: plan.searchBudget, capacityBytes: capacity, capacityEstimated: measured === undefined, driveFormat,
         replaceInPlace: [...selectedReplacement], fullVerify: fullCheck, prepareSources, signal, network, onProgress,
+        drain: drainController.signal,
         onPublished: files => { publishedFiles = files; }}));
       inspection = await inspectDrive(drive);
       dirty = false;
@@ -1087,6 +1151,8 @@ export function mount({catalog: supplied} = {}) {
         render("paused");
       } catch (readError) { showProblem(readError); }
     } finally {
+      clearPause();
+      saving = undefined;
       unbindWarning();
       clearTimeout(phoneTimer);
       release();

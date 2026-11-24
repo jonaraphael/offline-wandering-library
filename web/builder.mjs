@@ -457,6 +457,7 @@ async function buildAsset(drive, state, asset, layout, options) {
 
   const download = partDownloader(drive, state, asset, layout, options);
   for (; index < layout.length; index++) {
+    await options.atSavePoint?.();
     const part = layout[index];
     const existed = await candidateFile(drive, part.path);
     let downloaded;
@@ -488,7 +489,8 @@ async function buildAsset(drive, state, asset, layout, options) {
 const relaySource = (relay, source) => source.pieces.some(piece => relay.isRelay(piece.url));
 const deferredRelayIds = state => Array.isArray(state?.relayDeferred) ? state.relayDeferred : [];
 
-function partDownloader(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network, relay}) {
+function partDownloader(drive, state, asset, layout, {routes, published, fetchFile, signal, onProgress, network, relay,
+    drain, atSavePoint}) {
   const pins = partPins(asset, layout, published, state.partBytes);
   const choices = routesFor(asset, routes, published);
   const cooldown = routeCooldowns(network);
@@ -512,8 +514,9 @@ function partDownloader(drive, state, asset, layout, {routes, published, fetchFi
   const ranged = pin && direct.length && asset.size_bytes > pin.size ?
     archiveSession(asset, pin, {direct, relay: archiveRelays, relayReady: () => !relay.unavailable,
       refreshRelay: () => relay.refresh?.(), onRoute: route => onProgress({kind: "route", asset, ...route}),
-      fetchFile: fetchRange, signal, network}) : null;
+      drain, atSavePoint, onInflight: () => reportInflight(), fetchFile: fetchRange, signal, network}) : null;
   let preferred = (state.sourceOffsets?.[asset.id] || 0) % (choices.length || 1);
+  let reportInflight = () => {};
   return async (index, whole, write) => {
     signal?.throwIfAborted();
     const part = layout[index];
@@ -523,7 +526,13 @@ function partDownloader(drive, state, asset, layout, {routes, published, fetchFi
     if (ranged) {
       checkAlignment(pin, asset, part);
       const journal = await pieceJournal(drive, state, asset, part, pin);
-      const notify = received => onProgress({kind: "downloading", ...progress, received, bytes: part.bytes});
+      // Journaled pieces survive a pause; only pieces still arriving are lost.
+      let accepted = 0;
+      const notify = received => {
+        accepted = received;
+        onProgress({kind: "downloading", ...progress, received, bytes: part.bytes, ...ranged.inflight()});
+      };
+      reportInflight = () => notify(accepted);
       notify(0);
       await assertDrive(drive, state);
       let result, failure;
@@ -553,7 +562,14 @@ function partDownloader(drive, state, asset, layout, {routes, published, fetchFi
         const throughRelay = relaySource(relay, source);
         if (throughRelay && relay.unavailable) { waiting.add(sourceIndex); continue; }
         if (source.pieces.some(piece => cooldown.waiting(piece.url))) continue;
-        const notify = received => onProgress({kind: "downloading", ...progress, received, bytes: part.bytes});
+        // A pause discards the unfinished part, so its received bytes are lost.
+        const began = performance.now();
+        const notify = received => {
+          const elapsed = performance.now() - began;
+          onProgress({kind: "downloading", ...progress, received, bytes: part.bytes, lost: received,
+            toSave: part.bytes - received,
+            seconds: received && elapsed >= 500 ? (part.bytes - received) / (received / elapsed) / 1000 : undefined});
+        };
         notify(0);
         try {
           await assertDrive(drive, state);
@@ -1302,7 +1318,7 @@ function beginRecord(saved, {choice, catalogVersion, partBytes, joinArchives, si
 }
 
 export async function reconcile(drive, options) {
-  const {assets, routes = {}, published = {}, fetchFile = globalThis.fetch, signal, onProgress = () => {},
+  const {assets, routes = {}, published = {}, fetchFile = globalThis.fetch, signal, onProgress = () => {}, drain,
     catalogAssets = assets, prepareSources, freeBytes = Infinity,
     network = createNetwork({fetchFile, signal, onWaiting: () => onProgress({kind: "waiting-network"})})} = options;
   let inspection = await inspectDrive(drive);
@@ -1310,9 +1326,18 @@ export async function reconcile(drive, options) {
   const target = new Set(assets.map(asset => asset.id));
   if (deferredRelayIds(inspection.state).some(id => target.has(id))) await relay.resume();
   const originalHeld = inspection.heldBytes;
+  // After Pause asks to keep the current download (drain), stop where nothing
+  // downloaded would be lost and wait there until the pause aborts the sync.
+  const atSavePoint = async () => {
+    if (!drain?.aborted || !signal) return;
+    diag("save-point");
+    onProgress({kind: "save-point"});
+    if (!signal.aborted) await new Promise(resolve => signal.addEventListener("abort", resolve, {once: true}));
+    signal.throwIfAborted();
+  };
   let prepared, continuing = false;
   for (;;) {
-    const result = await reconcilePass(drive, {...options, inspection, relay, continuing, network,
+    const result = await reconcilePass(drive, {...options, inspection, relay, continuing, network, atSavePoint,
       freeBytes: Math.max(0, freeBytes + originalHeld - inspection.heldBytes),
       prepareSources: prepareSources && (assetsToFetch => prepared ??= prepareSources(assetsToFetch))});
     signal?.throwIfAborted();
@@ -1327,7 +1352,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
     partBytes = PART_BYTES, fetchFile = globalThis.fetch, signal, onProgress = () => {}, fullVerify = false,
     joinArchives = false, singleArchives = false, fat32 = false, archiveSpace = Infinity, choice, catalogVersion, readerPublication,
     freeBytes = Infinity, capacityBytes, capacityEstimated, driveFormat, replaceInPlace = [], searchBudget = 16 * 2 ** 20,
-    catalogAssets = assets, prepareSources, onPublished, inspection, relay, continuing, network}) {
+    catalogAssets = assets, prepareSources, onPublished, inspection, relay, continuing, network, drain, atSavePoint}) {
   const saved = inspection.state;
   if (!assets.some(isKnowledgeFile)) throw Error("Choose knowledge files with browser-accessible sources.");
   choice ??= saved?.choice || {kind: "recommended", split: !singleArchives && !joinArchives};
@@ -1507,6 +1532,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
         deferred.add(asset.id);
         continue;
       }
+      await atSavePoint?.();
       const joining = asset.format === "zim" && asset.size_bytes <= fileLimit();
       const file = row.working ? diskAsset(asset, row.working) : await reservePaths(drive, state, asset, partBytes, joining);
       const layout = layoutFor(file, partBytes);
@@ -1519,7 +1545,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
         }
       }
       const replacement = replaceInPlace.includes(asset.id) && comparison.held.includes(row) && !row.old.protected;
-      const options = {routes, published, fetchFile, signal, onProgress: report, network, relay};
+      const options = {routes, published, fetchFile, signal, onProgress: report, network, relay, drain, atSavePoint};
       const download = async () => {
         await save(drive, state);
         if (replacement && state.installed[asset.id]) {
