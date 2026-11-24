@@ -54,7 +54,12 @@ export function checkAlignment(pin, asset, part) {
   }
 }
 
-export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signal, network}) {
+// relayReady() is false while the relay looks unavailable (often its free
+// daily limit). Pieces then use the direct mirror, refreshRelay() rechecks the
+// relay on its own schedule, and the session samples again once it answers.
+// onRoute({fast}) reports whether the relay or the fastest route is in use.
+export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signal, network,
+    relayReady = () => true, refreshRelay = () => {}, onRoute = () => {}}) {
   let lanes = 6, previousRate = 0, growth = true, sampled = false, preferred = direct[0], windowsSinceSample = 0;
   const relayURLs = new Set(relay);
   const cooldown = routeCooldowns(network);
@@ -65,7 +70,21 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
   let ranked = [...relay];
   const dropped = new Set();
   const liveRelays = () => ranked.filter(url => !dropped.has(url));
-  const routes = () => [...new Set([...(dropped.has(preferred) ? [] : [preferred]), ...liveRelays(), ...direct])];
+  const routes = () => {
+    const ready = relayReady();
+    return [...new Set([preferred, ...(ready ? liveRelays() : []), ...direct])]
+      .filter(url => !dropped.has(url) && (ready || !relayURLs.has(url)));
+  };
+  // Bytes each kind of route served in the current window, and failed relay
+  // requests. A capped relay fails before any bytes, so pieces fall through to
+  // the direct mirror while the relay still counts as ready.
+  let served = {relay: 0, direct: 0, misses: 0}, relayFailing = false, reported;
+  function report(fast) {
+    if (!relay.length || fast === reported) return;
+    reported = fast;
+    diag("route-flag", {asset: asset.id, fast});
+    onRoute({fast});
+  }
   function rotate(url) {
     const relays = liveRelays();
     if (!relays.length) return direct[0];
@@ -88,6 +107,7 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
       });
       if (!await pin.matches(index, bytes)) throw new SourceError("Publisher piece SHA-1 mismatch");
     } catch (error) {
+      if (relayURLs.has(url) && error.name !== "AbortError") served.misses++;
       cooldown.defer(url, error.retryAfterMs ?? (relayURLs.has(url) && error.status === 429 ? 60_000 : 0));
       diag("request", {asset: asset.id, piece: index, route: routeLabel(url), ok: false, got: cursor,
         ms: Math.round(performance.now() - began), status: error.status, connection: Boolean(error.connection),
@@ -95,6 +115,7 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
       throw error;
     }
     const ms = performance.now() - began;
+    served[relayURLs.has(url) ? "relay" : "direct"] += length;
     diag("request", {asset: asset.id, piece: index, route: routeLabel(url), ok: true, bytes: length,
       ms: Math.round(ms), mbps: +(length / 1e6 / (ms / 1000)).toFixed(2)});
     return bytes;
@@ -141,6 +162,9 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
       }))});
     if (fastest && (!baseline || fastest.elapsed * 1.25 < baseline.elapsed)) preferred = fastest.url;
     diag("route", {asset: asset.id, preferred: routeLabel(preferred), reason: "sampled"});
+    // A relay that answered but lost the sample leaves the faster direct route in use.
+    relayFailing = !fastest;
+    report(!relayFailing);
     const sample = baseline || fastest;
     if (!sample) return false;
     await accept(index, sample.bytes);
@@ -189,8 +213,17 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
         // Sample on the first window, and again every 8 windows (512 MiB) while
         // the default mirror is preferred, so a relay outage at the start of an
         // archive does not pin the whole archive to 0.46 MB/s.
+        const ready = relay.length > 0 && relayReady();
+        if (relay.length && !ready) {
+          if (relayURLs.has(preferred)) preferred = direct[0];
+          sampled = false;
+          relayFailing = true;
+          report(false);
+          void Promise.resolve(refreshRelay()).catch(() => {});
+        }
+        served = {relay: 0, direct: 0, misses: 0};
         const resample = sampled && !relayURLs.has(preferred) && ++windowsSinceSample >= 8;
-        let needSample = relay.length > 0 && (!sampled || resample), sampling = null;
+        let needSample = ready && (!sampled || resample), sampling = null;
         if (needSample && lengthOf(start) === pin.size) {
           const saved = await restore(start, lengthOf(start));
           if (saved) await write(start, saved, false);
@@ -306,6 +339,20 @@ export function archiveSession(asset, pin, {direct, relay = [], fetchFile, signa
         // never run more than one window ahead of the drive.
         await pending;
         pending = written;
+        if (served.relay) relayFailing = false;
+        else if (served.misses) {
+          // Every relay request in this window failed (a capped Worker answers
+          // without CORS). Try the direct mirror first until the next sample,
+          // so each piece stops paying for a failed request and a lane backoff.
+          relayFailing = true;
+          if (relayURLs.has(preferred)) {
+            preferred = direct[0];
+            diag("route", {asset: asset.id, preferred: routeLabel(preferred), reason: "relay failing"});
+          }
+        }
+        if (served.relay || served.direct) {
+          report(served.relay >= served.direct || !relayFailing && relayReady() && liveRelays().length > 0);
+        }
         const windowMs = performance.now() - began;
         diag("window", {asset: asset.id, pieces: start + "-" + (end - 1), mb: +(transferred / 1e6).toFixed(1),
           ms: Math.round(windowMs), mbps: +(transferred / 1e6 / Math.max(windowMs / 1000, 0.001)).toFixed(2),

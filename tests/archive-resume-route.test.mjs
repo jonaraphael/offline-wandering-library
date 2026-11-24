@@ -91,3 +91,59 @@ test("busy routes wait for readable Retry-After and older relays wait 60 seconds
     assert.deepEqual(accepted, [97]);
   }
 });
+
+function tinyArchive(pieces) {
+  const data = Uint8Array.from({length: pieces * 3}, (_, i) => (i * 7) % 251);
+  const pin = {size: 3, matches: async (index, bytes) => bytes.every((byte, i) => byte === data[index * 3 + i])};
+  const respond = start => new Response(data.slice(start, start + 3),
+    {status: 206, headers: {"Content-Range": `bytes ${start}-${start + 2}/${data.length}`}});
+  return {data, pin, respond, asset: {id: "tiny", size_bytes: data.length}};
+}
+const quietNetwork = {offline: () => false, waitForConnection: async () => false, delay: async () => {}};
+
+// Windows are 16 pieces. The relay serves windows 0-1, stops answering for
+// windows 2-9 (a Worker past its daily limit), and answers again from window 10,
+// where the 8-window resample finds it.
+test("a relay that stops answering mid-archive moves the archive to the mirror and back, reporting each route", async () => {
+  const {data, pin, respond, asset} = tinyArchive(16 * 12);
+  const direct = "https://mirror.example/archive.zim", peer = "https://relay.example/assets/tiny";
+  const seen = [], flags = [], ordered = [];
+  const run = archiveSession(asset, pin, {direct: [direct], relay: [peer], network: quietNetwork,
+    onRoute: ({fast}) => flags.push(fast),
+    async fetchFile(url, {headers}) {
+      const start = Number(/^bytes=(\d+)-/.exec(headers.Range)[1]), piece = start / 3;
+      seen.push([url, piece]);
+      if (url === direct) await new Promise(resolve => setTimeout(resolve, 5));
+      else if (piece >= 32 && piece < 160) throw new TypeError("Failed to fetch");
+      return respond(start);
+    }});
+  await run({start: 0, bytes: data.length}, {restore: async () => null, accept: async () => {},
+    ordered: bytes => ordered.push(...bytes)});
+  assert.deepEqual(ordered, [...data]);
+  assert.deepEqual(flags, [true, false, true]);
+  assert.deepEqual(seen.filter(([url, piece]) => url === peer && piece >= 48 && piece < 160), [],
+    "pieces kept trying the failing relay");
+  assert.ok(seen.filter(([, piece]) => piece >= 176).every(([url]) => url === peer));
+});
+
+test("an unavailable relay leaves archives on the mirror until a recheck brings it back", async () => {
+  const {data, pin, respond, asset} = tinyArchive(16 * 3);
+  const direct = "https://mirror.example/archive.zim", peer = "https://relay.example/assets/tiny";
+  const seen = [], flags = [];
+  let ready = false, refreshes = 0;
+  const run = archiveSession(asset, pin, {direct: [direct], relay: [peer], network: quietNetwork,
+    relayReady: () => ready,
+    refreshRelay: () => { if (++refreshes === 2) ready = true; },
+    onRoute: ({fast}) => flags.push(fast),
+    async fetchFile(url, {headers}) {
+      const start = Number(/^bytes=(\d+)-/.exec(headers.Range)[1]);
+      seen.push([url, start / 3]);
+      if (url === direct) await new Promise(resolve => setTimeout(resolve, 5));
+      return respond(start);
+    }});
+  await run({start: 0, bytes: data.length}, {restore: async () => null, accept: async () => {}, ordered: () => {}});
+  assert.equal(refreshes, 2);
+  assert.deepEqual(flags, [false, true]);
+  assert.deepEqual(seen.filter(([url, piece]) => url === peer && piece < 32), []);
+  assert.ok(seen.some(([url, piece]) => url === peer && piece >= 32));
+});

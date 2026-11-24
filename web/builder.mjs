@@ -510,7 +510,9 @@ function partDownloader(drive, state, asset, layout, {routes, published, fetchFi
     }
   }
   const ranged = pin && direct.length && asset.size_bytes > pin.size ?
-    archiveSession(asset, pin, {direct, relay: relay.unavailable ? [] : archiveRelays, fetchFile: fetchRange, signal, network}) : null;
+    archiveSession(asset, pin, {direct, relay: archiveRelays, relayReady: () => !relay.unavailable,
+      refreshRelay: () => relay.refresh?.(), onRoute: route => onProgress({kind: "route", asset, ...route}),
+      fetchFile: fetchRange, signal, network}) : null;
   let preferred = (state.sourceOffsets?.[asset.id] || 0) % (choices.length || 1);
   return async (index, whole, write) => {
     signal?.throwIfAborted();

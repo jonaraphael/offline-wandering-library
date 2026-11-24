@@ -29,7 +29,7 @@ export function createRelayWait({routes, archives = {}, assets, fetchFile, netwo
     }
   }
   const offlineEvidence = new Set();
-  let unavailable = false, lastProbe, provenHost;
+  let unavailable = false, lastProbe, provenHost, failedAt, refreshing;
   const directHosts = new Map();
   const pageOrigin = globalThis.location?.origin;
   for (const url of relayOrigins.size ? Object.values(routes).flat() : []) {
@@ -50,7 +50,10 @@ export function createRelayWait({routes, archives = {}, assets, fetchFile, netwo
       return false;
     }
     offlineEvidence.add(id);
-    if (offlineEvidence.size >= FAILED_FILES) unavailable = true;
+    if (offlineEvidence.size >= FAILED_FILES && !unavailable) {
+      unavailable = true;
+      failedAt = Date.now();
+    }
     return true;
   }
 
@@ -84,6 +87,16 @@ export function createRelayWait({routes, archives = {}, assets, fetchFile, netwo
     }
   }
 
+  // Archives keep downloading from the direct mirror while the relay is
+  // unavailable. Recheck it on the wait schedule (every 15 minutes and just
+  // after the midnight UTC reset) so Sync returns to the relay by itself.
+  function refresh() {
+    const since = Math.max(lastProbe ?? 0, failedAt ?? 0);
+    if (!unavailable || !probeURL || refreshing || Date.now() < nextRelayProbe(since)) return refreshing;
+    refreshing = probe().finally(() => { refreshing = undefined; });
+    return refreshing;
+  }
+
   async function resume() {
     if (!probeURL) return;
     unavailable = true;
@@ -103,6 +116,6 @@ export function createRelayWait({routes, archives = {}, assets, fetchFile, netwo
     }
   }
 
-  return {isRelay, observeFailure, answered, resume, wait,
+  return {isRelay, observeFailure, answered, refresh, resume, wait,
     get unavailable() { return unavailable; }};
 }

@@ -26,7 +26,7 @@ __OWL_BUILDER_CSS__
 #drive-free-form .primary { margin-top: 4px; }
 #drive-free-space { width: 7em; }
 #builder:has(#sync-noscript) :is(#sync-stage, #sync-rail, #how-link) { display: none; }
-.card:first-child, #open-card { grid-template-columns: 1fr; }
+.card:first-child, #open-card, #route-card { grid-template-columns: 1fr; }
 .card svg { display: block; width: 64px; height: 64px; }
 .legend li.over::before { background: var(--bad); }
 .manage .sizes { justify-content: start; margin-bottom: 10px; }
@@ -114,6 +114,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
     <p class="secondary" id="sync-secondary"><a href="#manage">See what goes on a drive</a></p>
     <div class="cards" id="sync-cards" hidden>
       <div class="card" id="keep-card"><span>Keep this tab open and the drive plugged in. You can use the computer for other things.</span></div>
+      <div class="card" id="route-card" hidden><div><b>Downloading on the slow route</b><span id="route-detail"></span></div></div>
       <div class="card" id="phone-card" hidden>
         <a href="https://apps.apple.com/us/app/kiwix/id997079563" aria-label="Kiwix on the App Store"><!-- OWL_KIWIX_QR --></a>
         <div><b>Reading on an iPhone?</b><span>Scan to install the free Kiwix app now, while you are online. On Android and computers the reader app is copied onto the drive.</span></div>

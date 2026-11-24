@@ -150,8 +150,10 @@ faster. On 2026-11-22, one 4 MiB range of `wikipedia_en_top` took 8.3 s
 from the Kiwix mirror and 1.4 s through the FAU relay route, measured from
 the owner's Mac. A 16 GB build that relays every archive byte sends about
 3,800 requests, so Free covers about 26 such builds a day. Past the daily
-cap, Cloudflare answers without CORS, relayed requests fail, and each
-archive piece falls through to the direct mirror. The owner will move to Workers Paid when the
+cap, Cloudflare answers without CORS and relayed requests fail. Sync moves
+the archive to the direct mirror, shows **Slow route** with the local reset
+time, rechecks the relay every 15 minutes and at 00:05 UTC, and returns to
+it when it answers. The owner will move to Workers Paid when the
 number of users grows well beyond a handful.
 For an archive transfer entirely through the relay, divide decimal bytes by
 4,194,304 (4 MiB) and round up.
