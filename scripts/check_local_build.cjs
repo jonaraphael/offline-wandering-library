@@ -33,9 +33,12 @@ async function check(site, scratch) {
         plan: {version: 1, sources: [], model: [], reserve: 0}, records: [], page: "", runtime: "", rankRuntime: ""
       }});
       return route.fulfill({path: path.join(site, name || "index.html"),
-        contentType: /\.m?js$/.test(name) ? "text/javascript" : "text/html"});
+        contentType: /\.m?js$/.test(name) ? "text/javascript" : name.endsWith(".css") ? "text/css" : "text/html"});
     });
+    await page.emulateMedia({reducedMotion: "reduce"});
     await page.goto(url);
+    await page.locator(".hero").getByRole("link", {name: "Build your library"}).click();
+    assert.equal(page.url(), url + "builder.html");
     const openLocal = () => page.getByRole("button", {name: "Open local builder"}).click();
     await openLocal();
     await page.getByRole("link", {name: "Manage what goes on it"}).click();
@@ -82,7 +85,7 @@ async function check(site, scratch) {
     assert.deepEqual(errors, []);
     console.log(engine + " built, reopened, exported, read and cleared the local library.");
   } catch (error) {
-    console.error(await page.locator("#sync-stage").innerText(), errors);
+    console.error(page.url(), await page.locator("#sync-stage").allTextContents(), errors);
     throw error;
   } finally { await context.close(); }
 }
