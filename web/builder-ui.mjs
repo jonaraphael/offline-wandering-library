@@ -1035,7 +1035,16 @@ export function mount({catalog: supplied} = {}) {
     preview = false;
   }
 
+  // A display error must not stop a sync; the event and error go to the diagnostics.
   function onProgress(event) {
+    try { showProgress(event); }
+    catch (error) {
+      diag("progress-display", {kind: event.kind, detail: error.name + ": " + error.message,
+        at: String(error.stack || "").split("\n").slice(1, 3).map(line => line.trim()).join(" < ")});
+    }
+  }
+
+  function showProgress(event) {
     if (event.kind === "plan") {
       relayTryNow = undefined;
       finishing = false;
@@ -1061,7 +1070,9 @@ export function mount({catalog: supplied} = {}) {
       if (mode === "syncing" && event.asset.id === currentAsset) render("syncing");
       return;
     }
-    if (event.kind === "checking") {
+    // The check of files already on the drive reports totals. A resumed
+    // download also reports "checking" while it rereads its saved parts.
+    if (event.kind === "checking" && event.total !== undefined) {
       currentAsset = saving = undefined;
       nowTitle = "checking files already on the drive, " + bytes(event.checked) + " of " + bytes(event.total);
       render("syncing");
