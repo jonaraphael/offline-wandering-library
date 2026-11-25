@@ -25,6 +25,20 @@ class OperationsTests(unittest.TestCase):
         for job in ("test", "zim"):
             self.assertEqual(tests["jobs"][job]["if"], "github.event_name == 'workflow_dispatch'")
         self.assertNotIn("if", tests["jobs"]["pages"])
+        steps = tests["jobs"]["pages"]["steps"]
+        scope = next(step for step in steps if step.get("id") == "scope")
+        no_search = re.compile(scope["env"]["NO_SEARCH"])
+        searched = [step for step in steps if "search_benchmark.py" in step.get("run", "")]
+        self.assertEqual(len(searched), 2)
+        for step in searched:
+            self.assertEqual(step["if"], "steps.scope.outputs.search == 'true'")
+        for path in ("web/builder.mjs", "docs/pages-builder.md", "relay/worker.mjs", "tests/sync-reconcile.test.mjs",
+                     "CHANGELOG.md", "SELECT.html"):
+            self.assertTrue(no_search.search(path), path)
+        for path in ("src/owl/search_shards.py", "src/owl/templates/search.js", "catalog/library.yaml",
+                     "profiles/16gb.yaml", "scripts/search_benchmark.py", "tests/search/reader.test.cjs",
+                     "tests/test_operations.py", ".github/workflows/test.yml", "catalog/notes.md"):
+            self.assertFalse(no_search.search(path), path)
         self.assertIn("github.ref == 'refs/heads/main'", publish["if"])
         self.assertEqual(publish["uses"], "./.github/workflows/pages.yml")
         runs = "\n".join(step.get("run", "") for step in tests["jobs"]["pages"]["steps"])
