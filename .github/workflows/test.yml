@@ -3,7 +3,9 @@ on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
 jobs:
+  # The Python jobs run only from Actions → tests → Run workflow.
   test:
+    if: github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
@@ -34,6 +36,7 @@ jobs:
       - run: python scripts/copy_drive.py "${{ runner.temp }}/owl-demo" "${{ runner.temp }}/owl-copy"
       - run: python scripts/verify.py "${{ runner.temp }}/owl-copy" --strict
   zim:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -72,8 +75,8 @@ jobs:
           CHROMIUM_EXECUTABLE_PATH="$(command -v google-chrome)" \
           python scripts/search_benchmark.py --assemble "${{ runner.temp }}/owl-search-reader" --check-reader
   publish:
+    # Starts at once: a change reaches main through a pull request that passed the pages job.
     if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-    needs: [test, zim, pages]
     permissions:
       contents: read
       pages: write
