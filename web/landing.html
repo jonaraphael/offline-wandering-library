@@ -6,6 +6,7 @@
 <title>OWL | Offline Wandering Library</title>
 <link rel="stylesheet" href="./landing.css">
 <script type="module" src="./landing.mjs"></script>
+<script type="module" src="./landing-devices.mjs"></script>
 </head>
 <body>
 <div class="w">
@@ -55,9 +56,153 @@
 <div><span>“He stepped on a rusty nail.”</span><small>Hesperian · Where There Is No Doctor · chapter 10</small></div>
 </div></section>
 
+<section id="devices"><h2>Works on what you have</h2>
+<div class="devices-panel" hidden><svg id="dv" viewBox="0 0 2080 1000" role="img" aria-label="The OWL drive plugs into a Mac, a Windows laptop, an iPhone and an Android phone in turn. Each time its light turns green and a guide opens on the screen.">
+<defs>
+<linearGradient id="dv-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d3035"/><stop offset="1" stop-color="#111315"/></linearGradient>
+<linearGradient id="dv-m" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3e5e8"/><stop offset="1" stop-color="#a4a8ad"/></linearGradient>
+<linearGradient id="dv-alu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2e4e7"/><stop offset="1" stop-color="#cdd0d4"/></linearGradient>
+<linearGradient id="dv-pc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3c41"/><stop offset="1" stop-color="#2b2d31"/></linearGradient>
+<linearGradient id="dv-mac" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c9d9f2"/><stop offset=".55" stop-color="#e6dff2"/><stop offset="1" stop-color="#f3d9d2"/></linearGradient>
+<linearGradient id="dv-win" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d6e8fb"/><stop offset="1" stop-color="#5e9be6"/></linearGradient>
+<linearGradient id="dv-ti" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dcd8d0"/><stop offset="1" stop-color="#a8a49b"/></linearGradient>
+<linearGradient id="dv-ios" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2f66d0"/><stop offset=".5" stop-color="#6c4fc4"/><stop offset="1" stop-color="#d9628f"/></linearGradient>
+<linearGradient id="dv-and" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#123c3a"/><stop offset="1" stop-color="#2c6e58"/></linearGradient>
+<pattern id="dv-dots" width="1.7" height="1.7" patternUnits="userSpaceOnUse"><circle cx=".85" cy=".85" r=".4" fill="#9a9da3"/></pattern>
+<filter id="dv-s" x="-20%" y="-200%" width="140%" height="500%"><feGaussianBlur stdDeviation="16"/></filter>
+<filter id="dv-gl" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="13"/></filter>
+<filter id="dv-ds" x="-15%" y="-15%" width="130%" height="130%"><feGaussianBlur stdDeviation="3.2"/></filter>
+<clipPath id="dv-c0"><rect width="303" height="196.5"/></clipPath><clipPath id="dv-c0m"><rect x="64" width="239" height="174.5"/></clipPath>
+<clipPath id="dv-c1"><rect width="344" height="193.5"/></clipPath><clipPath id="dv-c1m"><rect x="64" width="280" height="181.5"/></clipPath>
+<clipPath id="dv-c2"><rect x="2.3" y="2.3" width="67" height="143" rx="10.4"/></clipPath>
+<clipPath id="dv-c3"><rect x="2" y="2" width="66.8" height="146.5" rx="8.6"/></clipPath>
+</defs>
+
+<g id="dv-stick" transform="translate(138 366)">
+<ellipse cx="450" cy="252" rx="340" ry="14" fill="#000" opacity=".28" filter="url(#dv-s)"/>
+<rect x="716" y="104" width="92" height="60" rx="9" fill="url(#dv-m)"/><rect x="734" y="122" width="60" height="24" rx="5" fill="#5b5f65"/>
+<rect x="92" y="48" width="640" height="172" rx="28" fill="url(#dv-b)"/>
+<rect x="92.5" y="48.5" width="639" height="171" rx="27.5" fill="none" stroke="#fff" stroke-opacity=".12"/>
+<rect x="132" y="82" width="452" height="104" rx="10" fill="#f7f6f2"/>
+<text x="154" y="121" font-weight="700" font-size="24" letter-spacing="3" fill="#15171a">OWL</text>
+<text x="562" y="120" text-anchor="end" font-size="14" fill="#84898f">531 files · 60.8 GB</text>
+<g transform="translate(154 142)"><rect width="106" height="14" fill="#2a78d6" rx="3"/><rect x="108" width="7" height="14" fill="#eb6834"/><rect x="117" width="9" height="14" fill="#1baf7a"/><rect x="128" width="33" height="14" fill="#eda100"/><rect x="163" width="79" height="14" fill="#e87ba4"/><rect x="244" width="119" height="14" fill="#008300"/><rect x="365" width="31" height="14" fill="#6250d6"/><rect x="398" width="10" height="14" fill="#e34948" rx="3"/></g>
+<circle id="dv-halo" cx="668" cy="134" r="30" fill="#3ddc84" filter="url(#dv-gl)" opacity="0"/>
+<circle cx="668" cy="134" r="5.6" fill="#0c0d0f"/><circle id="dv-led" cx="668" cy="134" r="5" fill="#3ddc84" opacity=".2"/>
+</g>
+
+<!-- Each device is drawn in millimetres at 7.2 units per mm, the scale at which the stick's connector is a USB-C plug 8.3 mm wide. -->
+<!-- Mac: 312.6 x 221.2 mm base seen from above, lid open at 120 degrees so the screen shows at half height. -->
+<g id="dv-0" transform="translate(884 500)"><g transform="translate(0 -187.2) scale(7.2)">
+<rect x="1" y="-108" width="200" height="332" rx="9" fill="#000" opacity=".2" filter="url(#dv-ds)"/>
+<rect x=".6" y="-110.6" width="200" height="113" rx="3.5" fill="#1b1c1f"/>
+<g transform="translate(4.6 -101.05) scale(1 .5)" clip-path="url(#dv-c0)">
+<rect width="303" height="196.5" fill="url(#dv-mac)"/>
+<rect x="56" y="176.5" width="250" height="16" rx="4.5" fill="#fff" opacity=".45"/><g id="dv-dock"></g>
+<g id="dv-a0">
+<rect y="60" width="303" height="114.5" fill="#fbfaf7"/>
+<g clip-path="url(#dv-c0m)"><g id="dv-s0"></g></g>
+<rect y="60" width="62" height="114.5" fill="#f1efe9"/><g id="dv-side0"></g>
+</g></g>
+<rect width="200" height="221.2" rx="9" fill="url(#dv-alu)" stroke="#b4b7bc" stroke-width=".35"/>
+<rect x="28" y="-1.7" width="180" height="3.6" rx="1.8" fill="#2b2c2f"/>
+<rect x="5.6" y="15" width="10.2" height="112" fill="url(#dv-dots)"/>
+<rect x="20.5" y="13" width="185" height="116" rx="3" fill="#121315"/>
+<g id="dv-keys0"></g>
+</g></g>
+
+<!-- Windows laptop: 357 x 235 mm base, dark shell, two hinges, half-height function row, taskbar on screen. -->
+<g id="dv-1" transform="translate(884 500)"><g transform="translate(0 -187.2) scale(7.2)">
+<rect x="1" y="-114" width="200" height="352" rx="7" fill="#000" opacity=".22" filter="url(#dv-ds)"/>
+<rect x=".5" y="-117.5" width="200" height="120" rx="3" fill="#17181a"/>
+<g transform="translate(6.5 -102.75) scale(1 .5)" clip-path="url(#dv-c1)">
+<rect width="344" height="193.5" fill="url(#dv-win)"/>
+<g id="dv-a1">
+<rect y="60" width="344" height="121.5" fill="#fbfaf7"/>
+<g clip-path="url(#dv-c1m)"><g id="dv-s1"></g></g>
+<rect y="60" width="62" height="121.5" fill="#f1efe9"/><g id="dv-side1"></g>
+</g>
+<rect y="181.5" width="344" height="12" fill="#eef2f8"/>
+<circle cx="9" cy="187.5" r="2.7" fill="#f5b83d"/><text x="14" y="188.9" font-size="3.6" fill="#3a3d42">18°C</text>
+<g fill="#0a74d6"><rect x="118" y="183.6" width="3.6" height="3.6" rx=".4"/><rect x="122.2" y="183.6" width="3.6" height="3.6" rx=".4"/><rect x="118" y="187.8" width="3.6" height="3.6" rx=".4"/><rect x="122.2" y="187.8" width="3.6" height="3.6" rx=".4"/></g>
+<rect x="130.5" y="183.6" width="32" height="7.8" rx="3.9" fill="#fff" stroke="#d3d8e0" stroke-width=".4"/><circle cx="135" cy="187.3" r="1.5" fill="none" stroke="#5f6368" stroke-width=".5"/><text x="139" y="188.8" font-size="3.4" fill="#6b7078">Search</text>
+<g id="dv-task"></g>
+</g>
+<rect width="200" height="235" rx="6" fill="url(#dv-pc)" stroke="#1c1d20" stroke-width=".4"/>
+<rect x="24" y="-2.4" width="40" height="4.6" rx="1.6" fill="#141517"/>
+<g id="dv-keys1"></g>
+</g></g>
+
+<!-- iPhone: 71.6 x 147.6 mm, drawn upright and turned so its port faces the stick. -->
+<g id="dv-2" transform="translate(884 500)"><g transform="translate(1063 -257.8) rotate(90) scale(7.2)">
+<rect x="3" y="1" width="71.6" height="147.6" rx="12.6" fill="#000" opacity=".24" filter="url(#dv-ds)"/>
+<rect x="-.5" y="30.5" width="1" height="6" rx=".45" fill="#b4b0a7"/><rect x="-.5" y="43" width="1" height="10" rx=".45" fill="#b4b0a7"/><rect x="-.5" y="56.5" width="1" height="10" rx=".45" fill="#b4b0a7"/><rect x="71.1" y="47" width="1" height="15.5" rx=".45" fill="#b4b0a7"/>
+<rect width="71.6" height="147.6" rx="12.6" fill="url(#dv-ti)"/>
+<rect x=".85" y=".85" width="69.9" height="145.9" rx="11.8" fill="#060607"/>
+<g clip-path="url(#dv-c2)">
+<rect x="2.3" y="2.3" width="67" height="143" fill="url(#dv-ios)"/>
+<g id="dv-ios-i"></g>
+<rect x="27.3" y="116.4" width="17" height="5.6" rx="2.8" fill="#fff" opacity=".26"/>
+<rect x="4.4" y="125.4" width="62.8" height="17.8" rx="7.6" fill="#fff" opacity=".3"/><g id="dv-ios-d"></g>
+<g id="dv-a2">
+<rect x="2.3" y="2.3" width="67" height="143" fill="#fbfaf7"/>
+<g id="dv-s2">
+<rect x="7" y="34.5" width="43" height="6" rx="3" fill="#1baf7a"/><text x="28.5" y="38.7" font-size="2.9" font-weight="600" fill="#fff" text-anchor="middle">Water, shelter and safety</text>
+<text x="7" y="50.5" font-size="5.3" font-weight="700" fill="#15171a">Emergency Disinfection</text><text x="7" y="57.3" font-size="5.3" font-weight="700" fill="#15171a">of Drinking Water</text>
+<text x="7" y="63.6" font-size="3.1" fill="#84898f">EPA · page 1</text>
+<rect x="7" y="68" width="57.6" height="30" rx="3.5" fill="#e3f1ec"/><path d="M35.8 73.6c4 5.2 6 8.6 6 11.4a6 6 0 01-12 0c0-2.8 2-6.2 6-11.4z" fill="#2a78d6"/>
+<g id="dv-t2"></g>
+</g>
+<rect x="2.3" y="2.3" width="67" height="27" fill="#15171a"/>
+<g transform="translate(7 17.2) scale(.36)" fill="none" stroke="#fff" stroke-width="2.4"><circle cx="8" cy="11" r="6"/><circle cx="18" cy="11" r="6"/><circle cx="8" cy="11" r="1.6" fill="#fff"/><circle cx="18" cy="11" r="1.6" fill="#fff"/></g>
+<text x="18.5" y="23.6" font-size="4.4" font-weight="700" letter-spacing=".8" fill="#fff">OWL</text>
+<circle cx="60.6" cy="21.6" r="2.1" fill="none" stroke="#fff" stroke-width=".6"/><path d="M62.2 23.2l1.9 1.9" stroke="#fff" stroke-width=".6" stroke-linecap="round"/>
+<rect x="24.8" y="140.7" width="22" height="1.4" rx=".7" fill="#15171a" opacity=".85"/>
+</g></g>
+<text x="13" y="10.5" font-size="4.3" font-weight="600" fill="#fff" text-anchor="middle">9:41</text>
+<rect x="50.4" y="7.9" width="1" height="2.4" rx=".3" fill="#fff"/><rect x="51.9" y="7.1" width="1" height="3.2" rx=".3" fill="#fff"/><rect x="53.4" y="6.3" width="1" height="4" rx=".3" fill="#fff"/>
+<rect x="56.4" y="6.5" width="7.8" height="3.8" rx="1.2" fill="none" stroke="#fff" stroke-width=".35" opacity=".55"/><rect x="56.95" y="7.05" width="5.6" height="2.7" rx=".7" fill="#fff"/>
+<rect x="25.2" y="5.3" width="21.2" height="6.3" rx="3.15" fill="#000"/><circle cx="42.6" cy="8.45" r="1.1" fill="#101216"/>
+</g></g>
+
+<!-- Android phone: 70.8 x 150.5 mm, same treatment. -->
+<g id="dv-3" transform="translate(884 500)"><g transform="translate(1083.6 -254.9) rotate(90) scale(7.2)">
+<rect x="3" y="1" width="70.8" height="150.5" rx="10.4" fill="#000" opacity=".24" filter="url(#dv-ds)"/>
+<rect x="70.3" y="40" width="1" height="9" rx=".45" fill="#3b3d41"/><rect x="70.3" y="54" width="1" height="19" rx=".45" fill="#3b3d41"/>
+<rect width="70.8" height="150.5" rx="10.4" fill="#2a2c30"/>
+<rect x=".7" y=".7" width="69.4" height="149.1" rx="9.8" fill="#050506"/>
+<g clip-path="url(#dv-c3)">
+<rect x="2" y="2" width="66.8" height="146.5" fill="url(#dv-and)"/>
+<circle cx="52" cy="58" r="30" fill="#a9d6a0" opacity=".3"/><circle cx="14" cy="84" r="24" fill="#f1c27a" opacity=".28"/>
+<text x="6.2" y="25" font-size="5.4" fill="#fff">Wed 25 Nov</text><circle cx="8" cy="30.6" r="1.6" fill="#ffd45a"/><text x="11" y="31.9" font-size="3.6" fill="#fff" opacity=".9">18°</text>
+<g id="dv-and-i"></g>
+<rect x="5" y="126.4" width="60.8" height="11.4" rx="5.7" fill="#fff" opacity=".95"/><circle cx="12" cy="131.9" r="1.9" fill="none" stroke="#5f6368" stroke-width=".6"/><path d="M13.4 133.3l1.7 1.7" stroke="#5f6368" stroke-width=".6" stroke-linecap="round"/><rect x="57.2" y="129.6" width="2.2" height="3.9" rx="1.1" fill="#5f6368"/><path d="M56.2 132.6a2.1 2.1 0 004.2 0" fill="none" stroke="#5f6368" stroke-width=".5"/>
+<g id="dv-a3">
+<rect x="2" y="2" width="66.8" height="146.5" fill="#fbfaf7"/>
+<g id="dv-s3">
+<rect x="6.5" y="34.5" width="15" height="6" rx="3" fill="#2a78d6"/><text x="14" y="38.7" font-size="2.9" font-weight="600" fill="#fff" text-anchor="middle">Health</text>
+<text x="6.5" y="51" font-size="6.4" font-weight="700" fill="#15171a">First aid</text>
+<text x="6.5" y="57.4" font-size="3.1" fill="#84898f">Hesperian · chapter 10</text>
+<rect x="6.5" y="62" width="57.8" height="30" rx="3.5" fill="#e4edf9"/><rect x="25.4" y="67" width="20" height="20" rx="5" fill="#2a78d6"/><path d="M33.4 71h4v4h4v4h-4v4h-4v-4h-4v-4h4z" fill="#fff"/>
+<g id="dv-t3"></g>
+</g>
+<rect x="2" y="2" width="66.8" height="27.5" fill="#17463c"/>
+<path d="M7 19.4h5.4M7 21.9h5.4M7 24.4h5.4" stroke="#fff" stroke-width=".7" stroke-linecap="round"/>
+<text x="16" y="23.5" font-size="3.9" font-weight="600" fill="#fff">Where There Is No Doctor</text>
+<rect x="2" y="138.8" width="66.8" height="10" fill="#101112"/>
+</g></g>
+<text x="6" y="8" font-size="3.9" font-weight="500" fill="#fff">9:41</text>
+<path d="M52.6 8.6l3.1-3.8 3.1 3.8z" fill="#fff"/><rect x="60.6" y="4.5" width="2.5" height="4.3" rx=".6" fill="#fff"/>
+<path d="M19.4 141.7v3.8l-3.4-1.9z" fill="#fff" opacity=".9"/><circle cx="35.4" cy="143.6" r="1.9" fill="none" stroke="#fff" stroke-width=".55" opacity=".9"/><rect x="51.1" y="141.9" width="3.4" height="3.4" rx=".5" fill="none" stroke="#fff" stroke-width=".55" opacity=".9"/>
+<circle cx="35.4" cy="6.4" r="1.85" fill="#000"/>
+</g></g>
+</svg></div>
+<div class="devices-names" id="dv-n" aria-hidden="true" hidden><span>Mac</span><span>Windows</span><span>iPhone</span><span>Android</span></div>
+<p class="devices-note">Opens in a web browser and a PDF viewer on Windows, Mac, Linux and Android. The guides are ordinary PDFs, so phones open them too.</p>
+</section>
+
 <section><h2>Why it holds up</h2>
 <div class="facts">
-<div><h3>Works on what you have.</h3><p>Opens in a web browser and a PDF viewer on Windows, Mac, Linux and Android. The guides are ordinary PDFs, so phones open them too.</p></div>
 <div><h3>The real pages.</h3><p>Original documents from the WHO, Doctors Without Borders, Hesperian, FEMA and the USDA, diagrams included. Search results link to the source document or page.</p></div>
 <div><h3>The right things first.</h3><p>Medicine, water, food and shelter fill first. The builder adjusts what it recommends to the space available.</p></div>
 <div><h3>Checked to the last byte.</h3><p>Every file is verified by SHA-256 as it lands. Recheck the whole drive any time.</p></div>
