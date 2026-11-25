@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OWL | Offline Wandering Library</title>
+<link rel="stylesheet" href="./landing.css">
+<script type="module" src="./landing.mjs"></script>
+</head>
+<body>
+<div class="w">
+<nav><div class="logo"><svg width="26" height="26" viewBox="0 0 26 26"><circle cx="8" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="18" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="8" cy="11" r="2" fill="currentColor"/><circle cx="18" cy="11" r="2" fill="currentColor"/><path d="M13 16l-2.4 4h4.8z" fill="currentColor"/></svg>OWL</div><div class="nav-links"><a href="#how">How it works</a><a href="https://github.com/jonaraphael/offline-wandering-library">GitHub</a></div></nav>
+<section class="hero" aria-labelledby="headline">
+<h1 id="headline">A whole library<br>on one drive.</h1>
+<p class="sub late">Medical guides, farming and repair manuals, school textbooks, maps and Wikipedia, saved to a USB drive you own. It reads with no internet.</p>
+<a class="btn late" href="./builder.html">Build your library</a>
+<div class="micro late">Free. No account. Nothing to install.</div>
+<div class="slot"></div>
+<button id="animate-shelf" type="button" hidden>Watch the books load</button>
+<svg id="stage" viewBox="0 0 1280 540" aria-hidden="true">
+<defs><linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d3035"/><stop offset="1" stop-color="#111315"/></linearGradient>
+<linearGradient id="m" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3e5e8"/><stop offset="1" stop-color="#a4a8ad"/></linearGradient>
+<linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8b5e34"/><stop offset="1" stop-color="#6e4722"/></linearGradient>
+<linearGradient id="sp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".16" stop-color="#fff" stop-opacity="0"/><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient>
+<filter id="s" x="-20%" y="-200%" width="140%" height="500%"><feGaussianBlur stdDeviation="16"/></filter>
+<filter id="ps" x="-10%" y="-300%" width="120%" height="700%"><feGaussianBlur stdDeviation="9"/></filter></defs>
+<g id="shadow" transform="translate(190 250)"><ellipse cx="450" cy="252" rx="340" ry="14" fill="#000" opacity=".28" filter="url(#s)"/></g>
+<g id="plank"></g><g id="books"></g>
+<g id="drv" transform="translate(190 250)">
+<rect x="716" y="104" width="92" height="60" rx="9" fill="url(#m)"/><rect x="734" y="122" width="60" height="24" rx="5" fill="#5b5f65"/>
+<rect x="92" y="48" width="640" height="172" rx="28" fill="url(#b)"/>
+<rect x="92.5" y="48.5" width="639" height="171" rx="27.5" fill="none" stroke="#fff" stroke-opacity=".12"/>
+<rect x="132" y="82" width="452" height="104" rx="10" fill="#f7f6f2"/>
+<text x="154" y="121" font-family="Avenir Next,Helvetica Neue,sans-serif" font-weight="700" font-size="24" letter-spacing="3" fill="#15171a">OWL</text>
+<text id="cnt" x="562" y="120" text-anchor="end" font-family="Avenir Next,Helvetica Neue,sans-serif" font-size="14" fill="#84898f">531 files · 60.8 GB</text>
+<g transform="translate(154 142)"><rect id="trk" width="408" height="14" rx="3" fill="#e4e2db" opacity="0"/><g id="bar"><rect width="106" height="14" fill="#2a78d6" rx="3"/><rect x="108" width="7" height="14" fill="#eb6834"/><rect x="117" width="9" height="14" fill="#1baf7a"/><rect x="128" width="33" height="14" fill="#eda100"/><rect x="163" width="79" height="14" fill="#e87ba4"/><rect x="244" width="119" height="14" fill="#008300"/><rect x="365" width="31" height="14" fill="#6250d6"/><rect x="398" width="10" height="14" fill="#e34948" rx="3"/></g></g>
+<circle id="led" cx="668" cy="134" r="5" fill="#3ddc84"/>
+</g>
+</svg>
+</section>
+<section id="how" class="how">
+<h2>How it works</h2>
+<ol>
+<li><h3>Plug in a drive.</h3><p>Choose a USB drive or SD card in the library builder.</p></li>
+<li><h3>Press Sync.</h3><p>OWL selects files that fit, downloads them and verifies what it saves.</p></li>
+<li><h3>Take it offline.</h3><p>Open START_HERE from the drive to browse your library.</p></li>
+</ol>
+<a class="btn" href="./builder.html">Build your library</a>
+</section>
+</div>
+</body>
+</html>

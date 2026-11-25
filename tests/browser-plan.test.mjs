@@ -60,7 +60,7 @@ test("storage limit stops end at the available space and omit unusable stops", (
 });
 
 test("the hosted builder provides a no-script command-line route without changing its script policy", {skip: !site}, () => {
-  const html = readFileSync(join(site, "index.html"), "utf8");
+  const html = readFileSync(join(site, "builder.html"), "utf8");
   const noScript = html.match(/<noscript>([\s\S]*?)<\/noscript>/)?.[1];
   assert.match(noScript, /Turn on JavaScript in your desktop browser/);
   assert.match(noScript, /<a[^>]+href="https:\/\/github\.com\/[^"]+\/README\.md">Build with the command line<\/a>/);

@@ -96,7 +96,7 @@ async function main(directory, chrome, playwright, siteURL) {
     server.listen(0, "127.0.0.1");
     await once(server, "listening");
     const local = "http://127.0.0.1:" + server.address().port;
-    const pageURL = new URL("index.html", siteURL || local + "/");
+    const pageURL = new URL("builder.html", siteURL || local + "/");
     const requests = await routesToCheck(root, pageURL);
     browser = await chromium.launch({executablePath: chrome});
     const page = await browser.newPage();

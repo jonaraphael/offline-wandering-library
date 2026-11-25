@@ -321,7 +321,7 @@ export function relayLimitMessage(adds, routes, published) {
 }
 
 const WELCOME = "Any USB drive or SD card with 16 GB to 1 TB free. Files already on it stay.";
-const rememberedKey = () => "owl-last-sync:" + location.pathname.replace(/index\.html$/, "");
+const rememberedKey = () => "owl-last-sync:" + location.pathname.replace(/(?:index|builder)\.html$/, "");
 const driveName = handle => handle?.name || "Your drive";
 const dateOf = value => value ? new Date(value).toLocaleDateString("en-GB", {day: "numeric", month: "long", year: "numeric"}) : "";
 const countOf = (count, noun) => count.toLocaleString() + " " + noun + (count === 1 ? "" : "s");
