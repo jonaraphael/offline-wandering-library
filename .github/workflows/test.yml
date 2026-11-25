@@ -90,8 +90,14 @@ jobs:
       - name: Test disk-full handling in headless Chrome
         run: |
           mkdir -p "${{ runner.temp }}/owl-browser"
-          npm install --prefix "${{ runner.temp }}/owl-browser" playwright-core@1.58.0
+          npm install --prefix "${{ runner.temp }}/owl-browser" playwright-core@1.61.1
           node scripts/check_browser_resume.cjs "${{ runner.temp }}/owl-browser" "$(command -v google-chrome)" "${{ runner.temp }}/owl-browser/node_modules/playwright-core" disk-full
+      - name: Build locally in Firefox and open the extracted library
+        env:
+          NODE_PATH: ${{ runner.temp }}/owl-browser/node_modules
+        run: |
+          node "$NODE_PATH/playwright-core/cli.js" install --with-deps firefox
+          node scripts/check_local_build.cjs "${{ runner.temp }}/owl-pages"
       - name: Check emergency search in the offline reader
         if: steps.scope.outputs.search == 'true'
         env:

@@ -1,6 +1,7 @@
 import {createNetwork, SourceError} from "./network.mjs";
 import {diag} from "./diagnostics.mjs";
 import {activateReaderPreview, publishReaderLink} from "./reader-preview.mjs";
+import {libraryArchive, localLibrary, removeLocalLibrary, withLocalLibrary} from "./local-library.mjs";
 import {browserSelection, buildOrder, compareLibrary, DrivePathConflict, inspectDrive, isKnowledgeFile,
   LARGE_FILE_MESSAGE, PART_BYTES, reconcile, recordPause} from "./builder.mjs";
 import {DriveBusy, driveBusyElsewhere, getRememberedDrive, hasDrivePermission, keepScreenAwake, lockDrive,
@@ -389,9 +390,21 @@ export function mount({catalog: supplied} = {}) {
   byId("debug-corner")?.addEventListener("click", () => debug());
   const platform = navigator.userAgentData?.platform || navigator.platform || "";
   const agent = navigator.userAgent || "";
-  const supported = typeof globalThis.showDirectoryPicker === "function" &&
-    !/android|iphone|ipad|ipod|mobile|firefox|fxios/i.test(agent) &&
+  const desktop = !/android|iphone|ipad|ipod|mobile/i.test(agent) &&
     !(navigator.maxTouchPoints > 1 && /^mac/i.test(platform));
+  const direct = desktop && typeof globalThis.showDirectoryPicker === "function";
+  const local = desktop && !direct && typeof navigator.storage?.getDirectory === "function" &&
+    typeof navigator.storage.estimate === "function" && typeof navigator.locks?.request === "function" &&
+    typeof globalThis.FileSystemFileHandle?.prototype.createWritable === "function";
+  let exportFrom;
+  if (local) {
+    tryLink.textContent = "Download library (.tar)";
+    tryLink.download = "Offline Wandering Library.tar";
+    tryLink.removeAttribute("target");
+    byId("sync-rail").firstElementChild.textContent = "Build locally";
+    byId("sync-rail").lastElementChild.textContent = "Download";
+    byId("keep-card").textContent = "Keep this tab open while OWL saves files on this computer.";
+  }
   let catalog, manage, catalogRequest, drive, remembered, snapshot, inspection, comparison, plan, pendingCompare;
   const collectionTitles = new Map();
   const essentialStatus = element("p", "field-help");
@@ -491,7 +504,7 @@ export function mount({catalog: supplied} = {}) {
   const capacityForPlan = () => capacity ?? 64e9;
   const effectiveFree = () => Math.max(0, capacityForPlan() - (inspection?.heldBytes || 0));
   const catalogVersion = () => catalog.version || [catalog.planner.catalog_sha256, catalog.planner.resources_sha256].join(":");
-  const name = () => driveName(drive || remembered);
+  const name = () => local ? "Local library" : driveName(drive || remembered);
   const available = () => plan && !plan.over && !plan.errors.length && plan.assets.some(isKnowledgeFile);
   const comparisonOptions = () => ({assets: plan.assets, choice: plan.choice, catalogVersion: catalogVersion(),
     navigation: catalog.navigation, readerPublication: READER_PUBLICATION,
@@ -504,7 +517,7 @@ export function mount({catalog: supplied} = {}) {
     return prefix + ": " + (parts.join(", ") || "nothing to add or remove") + ".";
   };
   const percent = value => Math.floor(value * 100) + "%";
-  const changeDrive = () => void choose(pickDrive);
+  const changeDrive = local ? openLocal : () => void choose(pickDrive);
   const reconnect = () => void choose(async () => {
     if (await requestDrivePermission(remembered) !== "granted") throw new DOMException("Permission was refused", "NotAllowedError");
     return remembered;
@@ -562,6 +575,33 @@ export function mount({catalog: supplied} = {}) {
   const installKiwix = ["Install Kiwix while online", null, "https://kiwix.org/"];
   const freeSpaceLink = ["This drive already has files", enterFreeSpace];
 
+  function releaseArchive() {
+    if (local && tryLink.hasAttribute("href")) URL.revokeObjectURL(tryLink.href);
+    tryLink.removeAttribute("href");
+  }
+
+  async function prepareArchive() {
+    exportFrom = mode;
+    releaseArchive();
+    render("preparing-download");
+    try {
+      const archive = await withLocalLibrary(() => libraryArchive(drive));
+      tryLink.href = URL.createObjectURL(archive);
+      render("download");
+    } catch (error) { showProblem(error); }
+  }
+
+  async function clearLocal() {
+    if (!confirm("Delete the library stored in this browser, including any unfinished downloads?")) return;
+    render("clearing");
+    try {
+      await withLocalLibrary(() => removeLocalLibrary(drive));
+      releaseArchive();
+      drive = remembered = inspection = comparison = plan = result = snapshot = undefined;
+      render("empty");
+    } catch (error) { showProblem(error); }
+  }
+
   freeField.oninput = freeUnit.onchange = () => freeField.setCustomValidity("");
   freeForm.onsubmit = event => {
     event.preventDefault();
@@ -601,8 +641,11 @@ export function mount({catalog: supplied} = {}) {
     const syncButton = ["Sync", sync];
     switch (mode) {
       case "empty":
-        Object.assign(item, {title: "Plug in a drive", chart: false, action: ["Choose drive", changeDrive], links: [seeLink],
-          message: WELCOME + (picker ? " In the window that opens, click the drive’s name, then Open." : "")});
+        Object.assign(item, local ? {title: "Build a library on this computer", chart: false,
+          action: ["Open local builder", changeDrive], links: [seeLink, cli],
+          message: "Sync saves files in this browser. Download the finished library, then extract it onto your drive."} :
+          {title: "Plug in a drive", chart: false, action: ["Choose drive", changeDrive], links: [seeLink],
+            message: WELCOME + (picker ? " In the window that opens, click the drive’s name, then Open." : "")});
         break;
       case "remembered":
         Object.assign(item, {message: lastDate ? "Last synced " + lastDate + "." : "Reconnect to see what is on this drive.",
@@ -702,8 +745,19 @@ export function mount({catalog: supplied} = {}) {
               (reported ? "You entered " : "This plan estimates ") + bytes(effectiveFree()) + " free.")});
         break;
       case "unsupported":
-        Object.assign(item, {chart: false, title: "Open this page in Chrome, Edge or Arc on a computer",
-          message: "Those browsers can write straight to a drive. This one cannot.", action: ["Copy link", copyLink], links: [seeLink, cli]});
+        Object.assign(item, {chart: false, title: "Build your library on a computer",
+          message: "Use a desktop browser with writable storage, or build with the command line.",
+          action: ["Copy link", copyLink], links: [seeLink, cli]});
+        break;
+      case "preparing-download":
+      case "clearing":
+        Object.assign(item, {step: 3, chart: false,
+          title: mode === "clearing" ? "Clearing the local copy…" : "Preparing your download…"});
+        break;
+      case "download":
+        Object.assign(item, {step: 3, fraction: 1, chart: false, title: "Copy your library to a drive",
+          message: "Save the archive on your computer. Extract it into an empty folder on your drive, then open START_HERE.html.",
+          links: [["Back to library", () => { releaseArchive(); render(exportFrom); }]]});
         break;
     }
     if (["ready", "behind", "paused"].includes(mode) && !available()) {
@@ -728,12 +782,31 @@ export function mount({catalog: supplied} = {}) {
       const relay = relayLimitMessage(comparison?.adds || [], catalog.routes, catalog.published);
       item.extra = [essentialRouteMessage(plan.excluded), relay].filter(Boolean).join(" ");
     }
-    if (canTryLibrary(mode) && !tryLink.hasAttribute("href")) item.action = ["Try it", showOpenInstructions];
+    if (!local && canTryLibrary(mode) && !tryLink.hasAttribute("href")) item.action = ["Try it", showOpenInstructions];
     if (canTryLibrary(mode) || mode === "failed") {
       const repaired = result.repairedPages.map(({path, copy, retired}) =>
         (retired ? "Replaced " + path + " in the new library. " : "Rebuilt and checked " + path + ". ") +
         "The changed copy is at " + copy + ".");
       item.extra = [item.extra, ...repaired].filter(Boolean).join(" ");
+    }
+    if (local) {
+      item.links = item.links.filter(([, action]) => action !== changeDrive);
+      if (mode === "ready" && available()) item.message = "Sync will save about " + bytes(plan.used) + " in this browser. " +
+        "Allow the same space again for the download. You can change the size in Manage.";
+      if (mode === "problem") item.links.push(cli);
+      if (mode === "too-small") Object.assign(item, {action: ["Check available space", changeDrive],
+        message: "OWL needs at least " + bytes(minimum) + " of browser storage. Free space on your computer and try again."});
+      if (mode === "measuring") item.message = "Checking local storage…";
+      const canExport = (canTryLibrary(mode) && !result.state.pending) || mode === "current";
+      if (canExport) {
+        item.action = ["Prepare download", prepareArchive];
+        if (mode === "done") item.message = "Your library is ready to download and extract onto your drive.";
+      } else if (mode === "behind" && inspection?.state?.syncedAt && !inspection.state.pending) {
+        item.links.push(["Download last build", prepareArchive]);
+      }
+      if (drive && ["ready", "behind", "paused", "current", "done", "done-gaps", "download", "failed", "problem", "too-small"].includes(mode)) {
+        item.links.push(["Clear local copy", clearLocal]);
+      }
     }
     stage.dataset.state = mode;
     stage.style.setProperty("--p", String(item.fraction));
@@ -769,7 +842,7 @@ export function mount({catalog: supplied} = {}) {
     byId("drive-sizes").hidden = mode !== "needs-size";
     freeForm.hidden = mode !== "needs-free-space";
     formatQuestion.hidden = !["needs-free-space", "needs-size"].includes(mode) || Boolean(detectedFormat);
-    if (canTryLibrary(mode) && tryLink.hasAttribute("href")) primary.replaceWith(tryLink);
+    if ((local ? mode === "download" : canTryLibrary(mode)) && tryLink.hasAttribute("href")) primary.replaceWith(tryLink);
     else tryLink.replaceWith(primary);
     primary.hidden = !item.action;
     primary.classList.toggle("quiet", Boolean(item.action?.[2]));
@@ -799,7 +872,7 @@ export function mount({catalog: supplied} = {}) {
     routeCard.hidden = mode !== "syncing" || route !== false;
     if (!routeCard.hidden) byId("route-detail").textContent = slowRouteMessage();
     byId("phone-card").hidden = mode !== "syncing" || performance.now() - opened < 20_000;
-    byId("open-card").hidden = !finished;
+    byId("open-card").hidden = local || !finished;
     [...byId("sync-rail").children].forEach((node, index) => {
       node.classList.toggle("past", index + 1 < item.step);
       if (index + 1 === item.step) node.setAttribute("aria-current", "step"); else node.removeAttribute("aria-current");
@@ -814,7 +887,7 @@ export function mount({catalog: supplied} = {}) {
   }
 
   function storeSnapshot() {
-    if (!plan) return;
+    if (local || !plan) return;
     snapshot = {name: name(), capacity: plan.capacity, syncedAt: inspection.state?.syncedAt,
       groups: manage.groups, amounts: manage.amounts(plan, savedAmounts())};
     try { localStorage.setItem(rememberedKey(), JSON.stringify(snapshot)); } catch {}
@@ -825,7 +898,15 @@ export function mount({catalog: supplied} = {}) {
     const disconnected = /NotFoundError|disconnected|InvalidStateError/i.test(detail);
     const access = /NotAllowedError|SecurityError|NoModificationAllowedError|read.only/i.test(detail);
     const full = /QuotaExceededError|ENOSPC|no space|disk full/i.test(detail);
-    problem = error instanceof DriveBusy ? {title: "This drive is syncing in another window",
+    if (local) {
+      problem = {title: "Could not open the local library", message: "Allow site storage in a regular browser window and try again.",
+        action: ["Reopen local builder", changeDrive]};
+      if (error instanceof DriveBusy) Object.assign(problem, {title: "Local library in use",
+        message: "Another tab is using this local library. Try again when it finishes."});
+      else if (full) Object.assign(problem, {title: "Browser storage is full",
+        message: "Free space on your computer, then reopen the local builder and choose a smaller library in Manage."});
+      else if (!access && !disconnected) Object.assign(problem, {title: "Could not finish this step", message: error.message});
+    } else problem = error instanceof DriveBusy ? {title: "This drive is syncing in another window",
       message: "Switch to that window to follow it, or choose a different drive or folder here.",
       action: ["Choose another drive", changeDrive]} :
       error instanceof DrivePathConflict ? {title: "There’s already " + error.entry + " on this drive",
@@ -866,8 +947,9 @@ export function mount({catalog: supplied} = {}) {
     const forceSplit = !isPreview && driveFormat !== "large";
     const savedChoice = saved?.choice && driveFormat === "large" && saved.driveFormat && saved.driveFormat !== "large" ?
       {...saved.choice, split: false} : saved?.choice;
-    const current = manage.configure({capacityBytes: Math.max(1, capacity), size, savedChoice,
-      split: forceSplit, forceSplit, connected: !isPreview, installed});
+    const choice = savedChoice || (local && !isPreview ? {kind: "recommended", split: true, limitBytes: GB} : undefined);
+    const current = manage.configure({capacityBytes: Math.max(1, capacity), size, savedChoice: choice,
+      split: local || forceSplit, forceSplit, connected: !isPreview, installed});
     managePlan = current;
     if (!isPreview) {
       plan = current;
@@ -928,7 +1010,7 @@ export function mount({catalog: supplied} = {}) {
     dirty = false;
     selectedReplacement.clear();
     render("measuring");
-    const hasPermission = await hasDrivePermission(handle);
+    const hasPermission = local || await hasDrivePermission(handle);
     if (openedDrive !== operation) return;
     if (!hasPermission) { drive = null; render("remembered"); return; }
     const inspected = await inspectDrive(handle);
@@ -937,6 +1019,14 @@ export function mount({catalog: supplied} = {}) {
     driveFormat = formatField.value = inspected.state?.driveFormat || "unknown";
     await init();
     if (openedDrive !== operation) return;
+    if (local) {
+      const {quota, usage} = await navigator.storage.estimate();
+      if (!Number.isFinite(quota) || !Number.isFinite(usage)) throw Error("The browser could not estimate local storage.");
+      measured = Math.max(0, Math.floor(quota - usage));
+      driveFormat = "large";
+      await planDrive(measured + inspection.heldBytes);
+      return;
+    }
     if (probesCapacity(platform, agent)) {
       const outcome = await lockDrive(handle, () => measureFreeSpace(handle, {onAttempt: value => diag("capacity", value)}));
       if (openedDrive !== operation) return;
@@ -963,6 +1053,12 @@ export function mount({catalog: supplied} = {}) {
       return;
     }
     render("needs-size");
+  }
+
+  async function openLocal() {
+    render("measuring");
+    try { await withLocalLibrary(async () => identify(await localLibrary())); }
+    catch (error) { showProblem(error); }
   }
 
   async function choose(getHandle) {
@@ -1124,8 +1220,8 @@ export function mount({catalog: supplied} = {}) {
     const release = keepScreenAwake();
     // Load the worker while online so opening the completed library needs only the drive.
     const previewError = error => { diag("reader-preview", {detail: error.message}); };
-    const readerScope = activateReaderPreview().catch(previewError);
-    tryLink.removeAttribute("href");
+    const readerScope = local ? undefined : activateReaderPreview().catch(previewError);
+    releaseArchive();
     opened = performance.now();
     transferStarted = rateStart = undefined;
     rate = 0;
@@ -1142,14 +1238,15 @@ export function mount({catalog: supplied} = {}) {
     const phoneTimer = setTimeout(() => { if (mode === "syncing") render(); }, 20_000);
     const unbindWarning = warnBeforeLeaving();
     try {
-      if (await requestDrivePermission(drive) !== "granted") throw new DOMException("Permission was refused", "NotAllowedError");
+      if (!local && await requestDrivePermission(drive) !== "granted") throw new DOMException("Permission was refused", "NotAllowedError");
       const network = createNetwork({signal, probeURL: "./.nojekyll", onWaiting: () => onProgress({kind: "waiting-network"}),
         onRestored: () => render(relayTryNow ? "waiting-relay" : finishing ? "finishing" : "syncing")});
       const prepareSources = assets => prepareDownloadSources(assets, {
         routes: catalog.routes, published: catalog.published, network, signal
       });
       let publishedFiles;
-      result = await lockDrive(drive, () => reconcile(drive, {...comparisonOptions(), excluded: plan.excluded,
+      const lock = local ? withLocalLibrary : operation => lockDrive(drive, operation);
+      result = await lock(() => reconcile(drive, {...comparisonOptions(), excluded: plan.excluded,
         routes: catalog.routes, published: catalog.published, navigation: catalog.navigation,
         catalogAssets: catalog.planner.assets,
         searchBudget: plan.searchBudget, capacityBytes: capacity, capacityEstimated: measured === undefined, driveFormat,
@@ -1173,7 +1270,7 @@ export function mount({catalog: supplied} = {}) {
       selectedReplacement.clear();
       await updateComparison();
       const outcome = completionState(result).mode;
-      if (canTryLibrary(outcome) && publishedFiles) {
+      if (!local && canTryLibrary(outcome) && publishedFiles) {
         const scope = await readerScope;
         const url = scope && await publishReaderLink(scope, drive, publishedFiles).catch(previewError);
         if (url) tryLink.href = url;
@@ -1202,8 +1299,8 @@ export function mount({catalog: supplied} = {}) {
     }
   }
 
-  render(supported ? "empty" : "unsupported");
-  if (supported) void getRememberedDrive().then(async handle => {
+  render(direct || local ? "empty" : "unsupported");
+  if (direct) void getRememberedDrive().then(async handle => {
     if (!handle || picker || drive || mode !== "empty") return;
     // Another window is syncing the drive chosen last; this window starts fresh.
     if (await driveBusyElsewhere(handle)) return;

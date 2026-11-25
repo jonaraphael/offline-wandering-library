@@ -1,7 +1,25 @@
 # Build a library in your browser
 
-Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-library/)
-in Chrome, Edge or Arc on a computer. Plug in a USB drive or SD card and
+Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-library/) on a computer.
+
+### Build locally in Firefox
+
+Choose **Open local builder**. OWL starts with a 1 GB limit or the browser's
+available storage, whichever is smaller. In **Manage what goes on it**, choose
+a size that fits both your computer and your drive. Allow space on the computer
+for the local library and its downloaded archive. Choose **Sync**. To resume
+after closing the tab, open the local builder again in the same browser profile.
+
+Choose **Prepare download**, then **Download library (.tar)**. Extract the
+archive into an empty folder on your drive and open `START_HERE.html` there.
+Keep it together with the extracted `LIBRARY` folder. After checking the drive,
+**Clear local copy** releases the browser storage. You can also keep the local
+copy to update it and download it again. Other desktop browsers with writable
+browser storage offer the same local build when a drive picker is unavailable.
+
+### Sync directly to a drive
+
+In Chrome, Edge or Arc, plug in a USB drive or SD card and
 choose **Choose drive**. Select the drive's folder in the browser dialog.
 OWL measures free space where the filesystem allows it and asks for the
 label size when a measurement is unavailable. The category bar shows the
@@ -82,8 +100,7 @@ USB and filesystem access depend on the device and storage provider. Phones
 may have limited access to APFS or NTFS drives. Format drives with your
 operating system's disk tool if needed. The browser builder runs on desktop.
 Chromium uses the phone's app cache for Android content-URI writes, so those
-writes cannot meet the direct-to-drive requirement. Firefox and Safari users
-can use the Python build.
+writes cannot meet the direct-to-drive requirement.
 
 The browser copies the pinned Windows, Linux x86-64, macOS and Android Kiwix
 packages from the publisher. Set up a compatible iPhone reader while online and
@@ -212,7 +229,7 @@ file access and native ZIM reading on your devices.
 | --- | --- |
 | The drive is full | Free space or choose a larger drive. In **Manage what goes on it**, lower **Space for the library** and, if the selection still exceeds the limit, choose **Make it fit**. Then choose **Sync**. |
 | The browser refused folder permission | Choose **Reconnect** or **Choose drive**, pick the drive folder and grant access when the browser asks. If the browser refuses the root, choose a folder on the drive that your account can write to. |
-| The browser is unsupported | Open the builder in Chrome, Edge or Arc on a computer. You can also use the [Python builder](usage.md). |
+| The browser is unsupported | Open the builder in a desktop browser with writable local storage or a drive picker. You can also use the [Python builder](usage.md). |
 | OWL asks for the drive size on Linux or FAT32 | Choose the size printed on the drive. Reduce **Space for the library** if other files already use some of it. For FAT32, keep **Split large files for FAT32** on. |
 | An archive was kept in parts | Keep the parts together and open `.zimaa` in a compatible reader. On exFAT or NTFS, free room for a second copy and choose **Sync** to retry joining. |
 | Items are missing after Sync | Open **Show details** or the drive’s build report to see the source errors. Reconnect the drive, check free space and the connection, then choose **Try those again**. |

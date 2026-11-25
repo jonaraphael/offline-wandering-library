@@ -6,10 +6,12 @@ below take this outer directory; the verifier, inventories, indexes, content and
 private resume state live inside `LIBRARY`. Catalog destinations remain relative
 to `LIBRARY`, while the global checksum manifest records outer-directory paths.
 
-## Build in Chrome or Edge
+## Build in your browser
 
-The [Pages builder](https://jonaraphael.github.io/offline-wandering-library/) opens
-a folder on your external drive, recommends a selection and writes the verified
+In Firefox, open the [Pages builder](https://jonaraphael.github.io/offline-wandering-library/),
+choose **Open local builder** and **Sync**, then download and extract the finished
+library onto your drive. In Chrome or Edge, the builder opens a folder on your
+external drive, recommends a selection and writes the verified
 files, search indexes, shelves and atlas to that drive. If access stops, reopen the site, choose
 **Reconnect** if prompted, then choose **Sync**. The [browser build guide](pages-builder.md) covers size confirmation,
 source exclusions and reader compatibility.

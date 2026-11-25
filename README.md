@@ -8,8 +8,12 @@ Every selectable asset passes the [machine-readable content-type policy](src/owl
 
 ## Build a drive
 
-Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-library/)
-in Chrome, Edge or Arc on a computer. Plug in and choose a drive. OWL
+Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-library/) on a computer.
+In Firefox, choose **Open local builder**, review the size and choose **Sync**.
+When it finishes, choose **Prepare download**, save the archive, and extract it
+into an empty folder on your drive. Open `START_HERE.html` in that folder.
+
+In Chrome, Edge or Arc, plug in and choose a drive. OWL
 recommends a library for the available space and asks for the label size if
 it cannot measure free space. Choose **Sync** to download and verify the
 recommendation directly on the drive. **Manage what goes on it** lets you
