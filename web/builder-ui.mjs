@@ -413,11 +413,14 @@ export function mount({catalog: supplied} = {}) {
   let dirty = false, finishing = false, driveChoice, relayTryNow, manageAfterPause = false;
   // Archive id -> whether its pieces come through the relay or the fastest route.
   let routeFast = new Map(), currentAsset;
-  // Pause stops new downloads at once (drain). Sync then pauses at the next
-  // save point; when that is more than 5 s away, the button first offers to
-  // wait for it and pauses after 5 s without a choice. "Pause now" stops at once.
+  // Pause stops new downloads at once (drain) and pauses at the next save
+  // point, so nothing downloaded is lost. While it waits, the button fills as
+  // the download in progress is saved and reads "Pause immediately (lose …)",
+  // which stops at once.
   // saving: what the download in progress would lose and still needs to arrive.
-  let drainController, pauseStep, pauseTimer, pauseTick, offerEnds, saving;
+  // pauseBatch: its bytes when Pause was clicked; pauseFill: the share saved.
+  // discarded: the bytes "Pause immediately" threw away, for the paused message.
+  let drainController, pausing = false, pauseTick, pauseBatch, pauseFill = 0, saving, discarded = 0;
   how();
   try { snapshot = JSON.parse(localStorage.getItem(rememberedKey())); } catch {}
 
@@ -510,9 +513,10 @@ export function mount({catalog: supplied} = {}) {
   const verify = () => void run(true);
   const sync = () => void run();
   function clearPause() {
-    clearTimeout(pauseTimer);
     clearInterval(pauseTick);
-    pauseStep = pauseTimer = pauseTick = undefined;
+    pausing = false;
+    pauseTick = pauseBatch = undefined;
+    pauseFill = 0;
   }
   const pauseNow = () => { clearPause(); controller?.abort(); };
   // Seconds until the download in progress reaches a save point, from the
@@ -522,34 +526,28 @@ export function mount({catalog: supplied} = {}) {
     if (saving.seconds === undefined) return undefined;
     return Math.max(0, saving.seconds - (performance.now() - saving.at) / 1000);
   }
+  // Share of the download in progress at the Pause click that is saved. Once
+  // drained, its bytes still to arrive only shrink; the share never goes back.
+  function savedShare() {
+    if (saving && pauseBatch) pauseFill = Math.max(pauseFill, Math.min(1, 1 - saving.toSave / pauseBatch));
+    return pauseFill;
+  }
   function pauseMessage() {
     const seconds = secondsToSave();
-    if (pauseStep === "offer") {
-      return "Pausing in " + Math.max(1, Math.ceil((offerEnds - performance.now()) / 1000)) + " s discards " +
-        bytes(saving?.lost || 0) + (nowTitle ? " of " + nowTitle : "") + ".";
-    }
-    return "Pausing " + (seconds >= 1 ? "in about " + clock(seconds) + ", " : "") + "after saving what has arrived.";
+    return "Pausing " + (seconds >= 1 ? "in about " + clock(seconds) + ", " : "") + "once the download in progress is saved.";
   }
   function pause() {
     if (!controller) return;
-    if (pauseStep === "waiting" || mode !== "syncing" || !saving?.lost) return pauseNow();
-    if (pauseStep === "offer") {
-      clearTimeout(pauseTimer);
-      pauseStep = "waiting";
-    } else {
-      drainController?.abort();
-      const seconds = secondsToSave();
-      if (seconds !== undefined && seconds <= 5) pauseStep = "waiting";
-      else {
-        pauseStep = "offer";
-        offerEnds = performance.now() + 5_000;
-        pauseTimer = setTimeout(pauseNow, 5_000);
-      }
-      pauseTick = setInterval(() => { if (mode === "syncing") render("syncing"); }, 500);
-    }
+    if (pausing) discarded = saving?.lost || 0;
+    if (pausing || mode !== "syncing" || !saving?.lost) return pauseNow();
+    drainController?.abort();
+    pausing = true;
+    pauseBatch = saving.lost + saving.toSave;
+    pauseFill = 0;
+    pauseTick = setInterval(() => { if (mode === "syncing") render("syncing"); }, 500);
     render("syncing");
     announcement.textContent = pauseMessage();
-    diag("pause", {step: pauseStep, lost: saving?.lost, toSave: saving?.toSave, seconds: secondsToSave()});
+    diag("pause", {lost: saving.lost, toSave: saving.toSave, seconds: secondsToSave()});
   }
   const pauseToManage = () => { manageAfterPause = true; pauseNow(); };
   const enterFreeSpace = () => { render("needs-free-space"); freeField.focus(); };
@@ -646,11 +644,11 @@ export function mount({catalog: supplied} = {}) {
           extra: partsMessage(inspection.state?.keptInParts)});
         break;
       case "syncing": {
-        const seconds = pauseStep === "offer" && secondsToSave();
         Object.assign(item, {step: 2, fraction: syncFraction, title: percent(syncFraction),
-          action: pauseStep === "offer" ? ["Save progress first" + (seconds >= 1 ? " · " + clock(seconds) : ""), pause] :
-            pauseStep === "waiting" ? ["Pause now", pause, true] : ["Pause", pause, true],
-          message: pauseStep ? pauseMessage() : bytes(totalDone()) + " of " + bytes(transferTotal || plan.used) +
+          action: pausing ? ["Pause immediately" + (saving?.lost ? " (lose " + bytes(saving.lost) + " progress)" : ""), pause, true] :
+            ["Pause", pause, true],
+          fill: pausing ? savedShare() : undefined,
+          message: pausing ? pauseMessage() : bytes(totalDone()) + " of " + bytes(transferTotal || plan.used) +
             (rate && transferTotal > totalDone() ? " · " + duration((transferTotal - totalDone()) / rate) + " left" : "") +
             (rate ? " · " + bytes(rate) + "/s" : ""),
           extra: nowTitle && "Now: " + nowTitle, route: currentAsset && routeFast.get(currentAsset)});
@@ -672,7 +670,7 @@ export function mount({catalog: supplied} = {}) {
         Object.assign(item, {step: 2, fraction: readyFraction, title: "Paused at " + percent(readyFraction), action: syncButton,
           message: inspection?.state?.relayDeferred?.length ?
             "Files are waiting for the download relay. Choose Sync to continue." :
-            "Nothing is lost. Sync continues where it stopped.", links: [manageLink, different]});
+            discarded ? "Sync continues from the last saved point." : "Nothing is lost. Sync continues where it stopped.", links: [manageLink, different]});
         break;
       case "done":
         Object.assign(item, {step: 3, fraction: 1, title: "Ready",
@@ -775,6 +773,9 @@ export function mount({catalog: supplied} = {}) {
     else tryLink.replaceWith(primary);
     primary.hidden = !item.action;
     primary.classList.toggle("quiet", Boolean(item.action?.[2]));
+    primary.classList.toggle("pausing", item.fill !== undefined);
+    if (item.fill !== undefined) primary.style.setProperty("--done", item.fill.toFixed(4));
+    else primary.style.removeProperty("--done");
     primary.disabled = picker;
     if (item.action) {
       if (primary.textContent !== item.action[0]) primary.textContent = item.action[0];
@@ -1058,7 +1059,7 @@ export function mount({catalog: supplied} = {}) {
     if (event.kind === "waiting-network") { render("waiting"); return; }
     if (event.kind === "waiting-relay") {
       // Nothing downloads during the relay wait, so a requested pause happens now.
-      if (pauseStep) { pauseNow(); return; }
+      if (pausing) { pauseNow(); return; }
       relayTryNow = event.tryNow;
       render("waiting-relay");
       return;
@@ -1134,6 +1135,7 @@ export function mount({catalog: supplied} = {}) {
     routeFast = new Map();
     currentAsset = saving = undefined;
     drainController = new AbortController();
+    discarded = 0;
     active = savedAmounts();
     transferTotal = plan.used;
     render("syncing");

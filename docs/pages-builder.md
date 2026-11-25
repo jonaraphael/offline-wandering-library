@@ -8,7 +8,9 @@ label size when a measurement is unavailable. The category bar shows the
 recommended library and the space left.
 
 Choose **Sync** to download and verify files directly on the drive. **Pause**
-keeps completed files and verified archive pieces. Open the page again and
+waits until the download in progress is saved, then keeps completed files and
+verified archive pieces; **Pause immediately** stops at once and discards the
+unsaved part of that download. Open the page again and
 choose **Reconnect** if the browser needs permission. **Sync** continues from
 the drive's record. If the connection drops, the page waits and continues
 when it returns. Keep the drive connected and the tab open during Sync. OWL

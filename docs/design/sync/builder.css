@@ -4,6 +4,7 @@
   color-scheme: light dark;
   --bg1: #fbfbfd; --bg2: #eceef3; --surface: #fff; --ink: #16191d; --muted: #5a626d; --line: #dfe2e8; --track: #e1e4ea;
   --accent: #0b6bcb; --link: #0b6bcb; --ok: #1a8a4a; --warn: #a86400; --bad: #c0392b; --drive: #2b2f36; --plug: #aeb4be;
+  --pause-fill: #4da3ff; --pause-stripe: rgba(255, 255, 255, .3);
   --c-health: #2a78d6; --c-food: #eb6834; --c-shelter: #1baf7a; --c-trades: #eda100; --c-school: #e87ba4;
   --c-reference: #008300; --c-advanced: #6250d6; --c-culture: #e34948; --c-other: #9aa0aa;
   font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -12,6 +13,7 @@
   :root {
     --bg1: #17191d; --bg2: #0d0e10; --surface: #1d2025; --ink: #eef0f3; --muted: #a3abb6; --line: #2c3037; --track: #30343b;
     --link: #6cb4ff; --ok: #4cc27d; --warn: #e0a03a; --bad: #f0796b; --drive: #d9dde3; --plug: #7d8590;
+    --pause-fill: #0b6bcb; --pause-stripe: rgba(0, 0, 0, .2);
     --c-health: #3987e5; --c-food: #d95926; --c-shelter: #199e70; --c-trades: #c98500; --c-school: #d55181;
     --c-reference: #0ca30c; --c-advanced: #9085e9; --c-culture: #e66767; --c-other: #6f7782;
   }
@@ -69,6 +71,12 @@ a:hover { text-decoration: underline; }
 .primary { display: inline-flex; align-items: center; justify-content: center; min-width: 230px; height: 50px; padding: 0 30px;
   margin-top: 20px; border: 0; border-radius: 25px; background: var(--accent); color: #fff; font-size: 17px; font-weight: 650; cursor: pointer; }
 .primary.quiet { background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
+/* Pause waiting for a save point: the striped fill is the share of the download in progress already saved. */
+.primary.pausing { position: relative; isolation: isolate; overflow: hidden; max-width: 100%; height: auto; min-height: 50px;
+  padding: 6px 24px; font-size: 15px; line-height: 1.25; font-variant-numeric: tabular-nums; text-wrap: balance; }
+.primary.pausing::before { content: ""; position: absolute; inset: 0 auto 0 0; z-index: -1; width: calc(var(--done, 0) * 100%);
+  background-color: var(--pause-fill); background-size: 24px 24px; transition: width .5s linear; animation: owl-stripes .9s linear infinite;
+  background-image: linear-gradient(45deg, var(--pause-stripe) 25%, transparent 25% 50%, var(--pause-stripe) 50% 75%, transparent 75%); }
 .meter:not([hidden]) ~ .primary[hidden] { display: inline-flex !important; visibility: hidden; }
 .primary:disabled { cursor: default; opacity: .6; }
 .secondary { margin: 12px 0 0; font-size: 14.5px; min-height: 1.5em; }
@@ -99,7 +107,8 @@ a:hover { text-decoration: underline; }
 :is([data-state="problem"], [data-state="failed"]) .glyph .light { fill: var(--bad); }
 @keyframes owl-spin { to { transform: rotate(270deg); } }
 @keyframes owl-pulse { 50% { opacity: .45; } }
-@media (prefers-reduced-motion: reduce) { .ring .arc, .glyph .light, .track { animation: none !important; transition: none; } }
+@keyframes owl-stripes { to { background-position: 24px 0; } }
+@media (prefers-reduced-motion: reduce) { .ring .arc, .glyph .light, .track, .primary.pausing::before { animation: none !important; transition: none; } }
 
 /* Rail */
 .rail { display: flex; justify-content: center; gap: 34px; margin: 0; padding: 12px 16px 14px; list-style: none; font-size: 13px;
