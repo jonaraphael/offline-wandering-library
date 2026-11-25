@@ -4,7 +4,7 @@ import {createHash, webcrypto} from "node:crypto";
 import {createServer} from "node:http";
 import {once} from "node:events";
 import {test} from "node:test";
-import {archiveJoinLimitReached, browserSelection, buildLibrary as runBuild, MANIFEST, partLayout, readBuild} from "../web/builder.mjs";
+import {archiveJoinLimitReached, browserSelection, buildLibrary as runBuild, MANIFEST, partLayout, readBuild, recordPause} from "../web/builder.mjs";
 import {assembleLibrary} from "../web/offline.mjs";
 import {measureFreeSpace, writeFile} from "../web/drive.mjs";
 import {createNetwork} from "../web/network.mjs";
@@ -703,6 +703,98 @@ test("Pause preserves the first committed part for a later Resume", async t => {
   requests.length = 0;
   assert.equal((await buildLibrary(drive, {...options, resume: true})).completed.length, 1);
   assert.deepEqual(requests.map(row => row.range), ["bytes=5-9", "bytes=10-12"]);
+});
+
+// Counts reads of the given drive files; the count stops at the first download.
+async function countReads(drive, paths) {
+  const reads = new Map(paths.map(path => [path, 0]));
+  let counting = true;
+  for (const path of paths) {
+    const handle = await drive.file(path);
+    const getFile = handle.getFile.bind(handle);
+    handle.getFile = async () => {
+      const file = await getFile();
+      return {size: file.size, lastModified: file.lastModified, name: file.name, slice: (...args) => file.slice(...args),
+        arrayBuffer: () => file.arrayBuffer(), text: () => file.text(),
+        stream: () => { if (counting) reads.set(path, reads.get(path) + 1); return file.stream(); }};
+    };
+  }
+  return {reads, stop: () => { counting = false; }};
+}
+
+test("after Pause a split archive continues its saved hash without rereading saved parts", async t => {
+  const content = Buffer.from("ABCDEFGHIJKLMNOPQRSTUVW");
+  const zim = asset("wiki", content, {format: "zim", destination: "ZIM/wiki.zim"});
+  const {requests, url, fetchFile} = await httpFixture(t, (request, response) => sendRange(request, response, content));
+  const drive = new Directory(), controller = new AbortController();
+  const options = {assets: [zim], routes: {wiki: [url("/wiki")]}, fetchFile, partBytes: 5};
+  await assert.rejects(buildLibrary(drive, {...options, signal: controller.signal,
+    onProgress: event => { if (event.kind === "downloading" && event.index === 3) controller.abort(); }}), {name: "AbortError"});
+  assert.deepEqual((await readBuild(drive)).parts.wiki.map(part => Boolean(part.hash)), [false, false, true]);
+  await recordPause(drive);
+  const layout = partLayout(zim, 5);
+  const counter = await countReads(drive, layout.slice(0, 3).map(part => part.path));
+  const kinds = [];
+  requests.length = 0;
+  const result = await buildLibrary(drive, {...options, onProgress: event => {
+    kinds.push(event.kind);
+    if (event.kind === "downloading") counter.stop();
+  }});
+  assert.equal(result.completed.length, 1);
+  assert.deepEqual(requests.map(row => row.range), ["bytes=15-19", "bytes=20-22"]);
+  assert.deepEqual([...counter.reads.values()], [0, 0, 0]);
+  assert.ok(!kinds.includes("checking"));
+  assert.ok((await readBuild(drive)).installed.wiki.parts.every(part => !("hash" in part)));
+});
+
+test("after a cut-off sync a split archive rereads only parts saved in the ten minutes before its last save", async t => {
+  let clock = Date.UTC(2026, 10, 24, 16);
+  const content = Buffer.from("ABCDEFGHIJKLMNOPQRSTUVW");
+  const zim = asset("wiki", content, {format: "zim", destination: "ZIM/wiki.zim"});
+  const {requests, url, fetchFile} = await httpFixture(t, (request, response) => sendRange(request, response, content));
+  const drive = new Directory("drive", {now: () => clock}), controller = new AbortController();
+  const options = {assets: [zim], routes: {wiki: [url("/wiki")]}, fetchFile, partBytes: 5};
+  await assert.rejects(buildLibrary(drive, {...options, signal: controller.signal, onProgress: event => {
+    if (event.kind !== "downloading" || event.received) return;
+    if (event.index === 2) clock += 20 * 60_000;
+    if (event.index === 3) controller.abort();
+  }}), {name: "AbortError"});
+  const layout = partLayout(zim, 5);
+  const counter = await countReads(drive, layout.slice(0, 3).map(part => part.path));
+  const checks = [];
+  requests.length = 0;
+  const result = await buildLibrary(drive, {...options, onProgress: event => {
+    if (event.kind === "checking") checks.push(event.index);
+    if (event.kind === "downloading") counter.stop();
+  }});
+  assert.equal(result.completed.length, 1);
+  assert.deepEqual([...counter.reads.values()], [0, 0, 1]);
+  assert.deepEqual(checks, [2]);
+  assert.deepEqual(requests.map(row => row.range), ["bytes=15-19", "bytes=20-22"]);
+});
+
+test("a split archive with every part saved finishes without rereading or downloading", async t => {
+  const content = Buffer.from("ABCDEFGHIJKLM");
+  const zim = asset("wiki", content, {format: "zim", destination: "ZIM/wiki.zim"});
+  const {requests, url, fetchFile} = await httpFixture(t, (request, response) => sendRange(request, response, content));
+  const drive = new Directory();
+  const options = {assets: [zim], routes: {wiki: [url("/wiki")]}, fetchFile, partBytes: 5};
+  await buildLibrary(drive, options);
+  // The record of a sync stopped after the last part was saved and before the archive was marked verified.
+  const record = await readBuild(drive);
+  record.working.wiki = zim.destination;
+  record.parts.wiki = record.installed.wiki.parts;
+  delete record.installed.wiki;
+  record.verified = {};
+  Object.assign(record, {pending: true, finished: false, pausedCleanly: true});
+  await writeFile(drive, MANIFEST, JSON.stringify(record) + "\n");
+  const layout = partLayout(zim, 5);
+  const counter = await countReads(drive, layout.map(part => part.path));
+  requests.length = 0;
+  const result = await buildLibrary(drive, {...options, onProgress: event => { if (event.kind === "verified") counter.stop(); }});
+  assert.equal(result.completed.length, 1);
+  assert.deepEqual(requests, []);
+  assert.deepEqual([...counter.reads.values()], [0, 0, 0]);
 });
 
 test("resuming a split archive repairs a same-length change before publishing the archive", async () => {
