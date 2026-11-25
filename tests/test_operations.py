@@ -14,14 +14,17 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class OperationsTests(unittest.TestCase):
-    def test_pages_deploy_waits_for_same_workflows_test_jobs(self):
+    def test_pages_deploy_starts_at_once_and_python_jobs_run_on_request(self):
         workflows = ROOT / ".github/workflows"
         tests = yaml.load((workflows / "test.yml").read_text(), Loader=yaml.BaseLoader)
         pages = yaml.load((workflows / "pages.yml").read_text(), Loader=yaml.BaseLoader)
         publish = tests["jobs"]["publish"]
         self.assertIn("workflow_dispatch", tests["on"])
         self.assertEqual(set(pages["on"]), {"workflow_call"})
-        self.assertEqual(set(publish["needs"]), set(tests["jobs"]) - {"publish"})
+        self.assertNotIn("needs", publish)
+        for job in ("test", "zim"):
+            self.assertEqual(tests["jobs"][job]["if"], "github.event_name == 'workflow_dispatch'")
+        self.assertNotIn("if", tests["jobs"]["pages"])
         self.assertIn("github.ref == 'refs/heads/main'", publish["if"])
         self.assertEqual(publish["uses"], "./.github/workflows/pages.yml")
         runs = "\n".join(step.get("run", "") for step in tests["jobs"]["pages"]["steps"])

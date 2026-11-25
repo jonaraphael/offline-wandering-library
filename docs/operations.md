@@ -2,10 +2,12 @@
 
 ## GitHub Pages
 
-The `tests` workflow runs on pushes, pull requests and manual dispatches. A
-push to `main` or a manual run of **tests** with branch **main** publishes
-that commit after the Python matrix, optional-dependency tests and browser
-tests pass. Set the `OWL_RELAY_BASE` repository variable to the approved
+The `tests` workflow runs on pushes, pull requests and manual dispatches. Pushes
+and pull requests run the browser and site tests (the `pages` job), the only
+check required to merge. The Python matrix and optional-dependency tests run
+only from a manual run of **tests**. A push to `main` or a manual run of
+**tests** with branch **main** publishes that commit at once, in about 3
+minutes. Set the `OWL_RELAY_BASE` repository variable to the approved
 publisher relay before deploying. The Pages build verifies the locked mirrors
 and pins the search paths to the publishing commit. Before uploading the
 artifact, the build runs the browser plan suite against it and checks that both
@@ -72,7 +74,8 @@ the existing [PhET screen checks](../catalog/acquisition/phet-required-screen-ch
 
 1. Set matching versions in `pyproject.toml` and `src/owl/__init__.py` and date
    the release section in `CHANGELOG.md`. Merge the release changes to `main`.
-2. Wait for **tests** and the Pages deployment for the release commit. Check
+2. Run **tests** by hand on the release commit, which adds the Python matrix
+   and optional-dependency tests, and wait for the Pages deployment. Check
    that the live builder and relay routes work. Tag the reviewed commit.
 
    ```sh

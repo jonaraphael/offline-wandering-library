@@ -141,7 +141,8 @@ place on phones remains unverified.
 
 Under **Settings → Pages → Build and deployment → Source**, choose **GitHub
 Actions**. A push to `main` or a manual run of **tests** on `main` publishes
-only after the same commit passes the test jobs. Set the `github-pages`
+that commit without waiting for the test jobs; its pull request passed the
+`pages` job before the merge. Set the `github-pages`
 environment to allow deployments from `main` and set the `OWL_RELAY_BASE`
 repository variable to the approved publisher relay origin.
 The Pages build job generates `index.html`, `catalog.json`,
