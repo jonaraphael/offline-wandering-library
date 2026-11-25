@@ -52,6 +52,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # The two search checks read src/, catalog/, profiles/, scripts/ and
+      # tests/search/. A change only to the paths in NO_SEARCH skips them.
+      - id: scope
+        name: Decide whether the change can affect search
+        env:
+          EVENT: ${{ github.event_name }}
+          REF: ${{ github.ref }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          BEFORE: ${{ github.event.before }}
+          NO_SEARCH: '^(web/|docs/|relay/|tests/[^/]+\.mjs$|[^/]+\.md$|LICENSE$|SELECT\.html$)'
+        run: |
+          case "$EVENT" in
+            pull_request) base="$PR_BASE" ;;
+            push) if [[ "$REF" == refs/heads/main ]]; then base="$BEFORE"; else base=main; fi ;;
+            *) base= ;;
+          esac
+          search=true
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]] && git fetch --quiet --depth=1 origin "$base" &&
+             changed=$(git diff --name-only FETCH_HEAD HEAD) && ! grep -qvE "$NO_SEARCH" <<< "$changed"; then
+            search=false
+          fi
+          echo "search=$search" >> "$GITHUB_OUTPUT"
+          echo "Search checks: $search"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -63,12 +86,14 @@ jobs:
       - run: node --test tests/archive-resume-route.test.mjs tests/browser-builder.test.mjs tests/capacity-probe.test.mjs tests/diagnostics.test.mjs tests/relay.test.mjs relay/worker.test.mjs tests/remove-tree.test.mjs tests/sync-reconcile.test.mjs tests/search/*.test.cjs
       - run: node tests/browser-plan.test.mjs "${{ runner.temp }}/owl-pages"
       - run: python scripts/search_benchmark.py --check
+        if: steps.scope.outputs.search == 'true'
       - name: Test disk-full handling in headless Chrome
         run: |
           mkdir -p "${{ runner.temp }}/owl-browser"
           npm install --prefix "${{ runner.temp }}/owl-browser" playwright-core@1.58.0
           node scripts/check_browser_resume.cjs "${{ runner.temp }}/owl-browser" "$(command -v google-chrome)" "${{ runner.temp }}/owl-browser/node_modules/playwright-core" disk-full
       - name: Check emergency search in the offline reader
+        if: steps.scope.outputs.search == 'true'
         env:
           NODE_PATH: ${{ runner.temp }}/owl-browser/node_modules
         run: |
