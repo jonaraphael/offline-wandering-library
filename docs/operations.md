@@ -4,7 +4,11 @@
 
 The `tests` workflow runs on pushes, pull requests and manual dispatches. Pushes
 and pull requests run the browser and site tests (the `pages` job), the only
-check required to merge. The Python matrix and optional-dependency tests run
+check required to merge. Its two search checks, the search benchmark and
+emergency search in the offline reader, run only when a change touches a path
+outside `web/`, `docs/`, `relay/`, the JavaScript tests in `tests/`, root
+Markdown files and `SELECT.html`; without them the job takes about 1.5
+minutes instead of 7 to 11. The Python matrix and optional-dependency tests run
 only from a manual run of **tests**. A push to `main` or a manual run of
 **tests** with branch **main** publishes that commit at once, in about 3
 minutes. Set the `OWL_RELAY_BASE` repository variable to the approved
