@@ -13,7 +13,7 @@ nav{display:flex;justify-content:space-between;align-items:center;height:max(58p
 .hero .micro{font-size:14px;color:#84898f;margin-top:calc(16px*var(--u))}
 .slot{height:calc(290px*var(--u));margin-top:calc(30px*var(--u))}
 #stage{position:absolute;left:50%;bottom:0;width:calc(1280px*var(--u));height:calc(540px*var(--u));transform:translateX(-50%);overflow:visible;pointer-events:none}
-#stage .t{font:9.9px "Hoefler Text",Baskerville,"Iowan Old Style",Georgia,serif;font-variant:small-caps;letter-spacing:.04em;fill:#f4eee1;text-anchor:middle;dominant-baseline:central}
+#stage .t{font:9.3px "Hoefler Text",Baskerville,"Iowan Old Style",Georgia,serif;font-variant:small-caps;letter-spacing:.04em;fill:#f4eee1;text-anchor:middle;dominant-baseline:central}
 body{overflow-x:clip}
 .hero h1,.hero p{margin-block-end:0}
 .hero h1{margin-block-start:0}

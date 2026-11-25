@@ -8,8 +8,10 @@ fit();
 addEventListener("resize", fit);
 
 // Scene units are px at full size. The stage is 1280 x 540; the drive's final slot is its lower middle 900 x 290.
-const RAD=Math.PI/180,K=.68,S0=.18,TH=12*RAD,T0=.55,G=5400,H=1/240,
-SW=172*S0,SH=716*S0,M=14,PY=222,RX=82,RY=506.5,XL=112,MX=RX+352*S0,TS=.46,TZ=.95,
+// The stick ends up lying on the ground to the left of the shelf's low end, a tallest-book-length below it.
+const RAD=Math.PI/180,K=.64,S0=.2,TH=9*RAD,T0=.45,G=8000,GV=10000,H=1/240,NST=1080,
+SW=172*S0,SH=716*S0,M=24,GND=530.4,RY=GND-SW/2,TOP=GND-SW,EY=TOP-278*K-10,
+PF=260,LE=68,TS0=T0+.08,TSD=.42,TZ=.9,
 COL=["#27476e","#b5532f","#2f6f62","#c0902a","#b0607a","#2e5d34","#4b3f72","#8c2f2f"],
 B=[["Where There Is No Doctor",0,252,46],["A Book for Midwives",0,230,40],["Basic Emergency Care",0,264,38],["MSF Clinical Guidelines",0,244,44],["Where There Is No Dentist",0,238,34],
 ["Complete Guide to Home Canning",1,270,42],["FAO Farming Manuals",1,236,36],["A Seed Saving Guide",1,214,30],
@@ -18,59 +20,83 @@ B=[["Where There Is No Doctor",0,252,46],["A Book for Midwives",0,230,40],["Basi
 ["Biology",4,246,40],["Khan Academy",4,266,52],["Siyavula Mathematics",4,232,34],
 ["Wikipedia",5,278,66],["Maps of the World",5,254,48],["Wiktionary",5,228,38],
 ["University Physics",6,240,40],["Anatomy and Physiology",6,258,46],
-["Project Gutenberg",7,268,56],["Book Dash Stories",7,206,30]];
-const cl=x=>Math.max(0,Math.min(1,x)),ease=x=>x<.5?4*x*x*x:1-Math.pow(2-2*x,3)/2,f=n=>n.toFixed(2);
+["Project Gutenberg",7,268,56],["Book Dash Stories",7,206,30]],
+DEL=[-6,4,-9,7,-2,5,-8,2,7,-4,6,-10,3,-5,7,-1,-7,2,5,-9,4,-3,7,-6];
+const cl=x=>Math.max(0,Math.min(1,x)),ease=x=>x<.5?4*x*x*x:1-Math.pow(2-2*x,3)/2,eo=x=>1-Math.pow(1-x,3),sm=x=>x*x*(3-2*x),f=n=>n.toFixed(2),
+arr=()=>new Float32Array(NST+1),body=(o)=>Object.assign(o,{rho:Math.hypot(o.w/2,o.h/2),be:Math.atan2(o.w/2,o.h/2),m:0,F:0,X:arr(),Y:arr(),A:arr()});
 
-// Row layout, measured along the plank from its low (left) end: stick as bookend, then the books.
+// Row layout: p0 is each book's downhill bottom corner (its heel), measured up the plank from its low (left) end.
 let x=M+SW+10;
-const bk=B.map(([name,cat,h,w],i)=>{h*=K;w*=K;const lean=i==13?4:0,a=-lean*RAD,c=x+w/2;x+=w+2+(lean?5:0);
-return{name,cat,h,w,c,lean,ox:w/2-w/2*Math.cos(a)+h/2*Math.sin(a),oy:-w/2*Math.sin(a)-h/2*Math.cos(a)}});
-const L=x-2+M,PX=640+L/2,per=COL.map((_,i)=>bk.filter(b=>b.cat==i).length);
+const bk=B.map(([name,cat,h,w],i)=>{h*=K;w*=K;const l0=i==13?4:0;if(l0)x+=8;const p0=x;x+=w+2;return body({name,cat,h,w,p0,l0,s:p0,a:18+(i*7%5-2)*.6,ff:(169+DEL[i]*.6)*RAD})});
+const L=x-2+M,PX=640+L/2,PY=EY-L*Math.sin(TH),per=COL.map((_,i)=>bk.filter(b=>b.cat==i).length);
 
-// The plank swings about its high (right) end like a released spring-damped hinge.
-const tilt=t=>{t-=T0;if(t<=0)return 0;const z=.62,w=5.5,wd=w*Math.sqrt(1-z*z),e=Math.exp(-z*w*t);return TH*(1-e*(Math.cos(wd*t)+z*w/wd*Math.sin(wd*t)))};
-// Sliding with static and kinetic friction, integrated once: returns t -> [distance, speed].
-const sim=(mus,muk)=>{const D=[0],V=[0];let d=0,v=0,go=0;for(let i=1;i<=960;i++){const th=tilt(T0+i*H);if(!go&&Math.tan(th)>mus)go=1;if(go){v=Math.max(0,v+G*(Math.sin(th)-muk*Math.cos(th))*H);d+=v*H}D.push(d);V.push(v)}
-return t=>{const q=Math.min(959.999,Math.max(0,(t-T0)/H)),i=q|0,r=q-i;return[D[i]+(D[i+1]-D[i])*r,V[i]+(V[i+1]-V[i])*r]}};
-const train=sim(.13,.115),slip=sim(.07,.05),when=(fn,c)=>{let t=T0;while(fn(t)[0]<c&&t<T0+4)t+=H;return t};
-const world=(th,xl,yl)=>{const c=Math.cos(th),s=Math.sin(th);return[PX+xl*c+yl*s,PY-xl*s+yl*c]};
+// The plank swings about its high (right) end and settles without rebound.
+const tilt=t=>{t=(t-T0)*9;return t<=0?0:TH*(1-Math.exp(-t)*(1+t))},
+edge=t=>{const th=tilt(t);return[PX-L*Math.cos(th),PY+L*Math.sin(th),th]};
+// The row slides with friction and drag, integrated once.
+const tq=TS0+.22,V=[0];{let v=0;for(let k=1;k<=NST;k++){const t=T0+k*H,th=tilt(t);if(t>=tq+.1)v=Math.max(0,v+(G*(Math.sin(th)-.02*Math.cos(th))-2.5*v)*H);V.push(v)}}
+// Books lean together once the stick has tipped away, then fan: the nearer the end, the further over.
+const pack=t=>eo(cl((t-tq)/.4)),fanG=t=>sm(cl((t-tq-.2)/.6)),
+lean=(b,p,t)=>Math.max(b.l0,b.a*pack(t)+(LE-b.a)*Math.pow(1-cl(p/PF),1.7)*fanG(t));
 
-// Each book leaves the plank when its base passes the end, then follows a curve into the connector.
-for(const b of bk){b.te=when(train,b.c);const th=tilt(b.te),v=train(b.te)[1];b.tf=.46-.1*Math.min(1,v/900);b.ta=b.te+b.tf;b.r0=-th/RAD-b.lean;
-const p=world(th,-L+b.ox,b.oy);b.p=[p,[p[0]-v*Math.cos(th)*b.tf/3,p[1]+v*Math.sin(th)*b.tf/3],[MX+62,RY-26],[MX,RY]]}
-const st={c:M+SW/2};st.te=when(slip,st.c);{const th=tilt(st.te),v=slip(st.te)[1],p=world(th,-L,-SH/2);st.x0=p[0];st.y0=p[1];st.vx=-v*Math.cos(th);st.vy=v*Math.sin(th);st.r0=-90-th/RAD;st.tl=st.te+TS}
-const lastOut=bk[bk.length-1].te,lastIn=Math.max(...bk.map(b=>b.ta)),tz=lastIn+.14,tfade=tz+.3,TEND=Math.max(tz+TZ,tfade+.74)+.05;
+// A body pivots on its heel while the heel is on the plank. When the heel passes the end it is in free flight:
+// its centre keeps the velocity it left with and falls, and it turns only as fast as keeps its trailing end from rising.
+const rel=(o,ex,ey,th,v,F,om)=>{const c=Math.cos(F),s=Math.sin(F),rx=o.w/2*c-o.h/2*s,ry=-o.w/2*s-o.h/2*c;o.cx=ex+rx;o.cy=ey+ry;o.vx=-v*Math.cos(th)+om*ry;o.vy=v*Math.sin(th)-om*rx;o.F=F;o.m=1},
+fly=(o,cap,k)=>{o.vy+=GV*H;o.cx+=o.vx*H;o.cy+=o.vy*H;o.F=Math.min(o.ff,o.F+H*Math.max(0,Math.min(.96*o.vy/(o.rho*Math.max(Math.abs(Math.sin(o.F-o.be)),.25)),k*(o.ff-o.F)+1.5,cap)))},
+heel=o=>{const c=Math.cos(o.F),s=Math.sin(o.F);return[o.cx-o.w/2*c+o.h/2*s,o.cy+o.w/2*s+o.h/2*c]};
+for(let k=0;k<=NST;k++){const t=T0+k*H,[ex,ey,th]=edge(t);
+for(const b of bk){let X,Y;
+if(!b.m){if(k){const l1=lean(b,b.s,t-H);b.s-=V[k]*H;if(b.s<=0){const l2=lean(b,0,t);rel(b,ex,ey,th,V[k],th+l2*RAD,Math.max(0,(l2-l1)*RAD/H));b.tr=t}}
+if(!b.m){b.F=th+lean(b,b.s,t)*RAD;X=ex+b.s*Math.cos(th);Y=ey-b.s*Math.sin(th)}}
+else if(b.m==1)fly(b,17,200);
+else{b.sp=650+(b.sp-650)*Math.exp(-H/.08);b.cx-=Math.sin(b.F)*b.sp*H;b.cy-=Math.cos(b.F)*b.sp*H}
+if(b.m)[X,Y]=heel(b);
+b.X[k]=X;b.Y[k]=Y;b.A[k]=b.F;
+// It meets the stick's top edge head first and from then on moves only along its own length.
+const c=Math.cos(b.F),s=Math.sin(b.F),ty=Y-b.h*c;
+if(b.m==1&&Math.max(ty,ty-b.w*s)>TOP){b.m=2;b.ti=t;b.sp=Math.max(650,-b.vx*s-b.vy*c);b.xi=X-b.h*s+b.w*c/2;b.res=(b.ff-b.F)/RAD;b.mis=Math.atan2(-b.vx,b.vy)/RAD-(180-b.F/RAD)}
+if(b.m==2&&b.to==null&&Math.min(Y,Y-b.w*s)>TOP+2){b.to=t;b.xo=X+b.w*c/2}}}
 
-const plank=$("plank"),gB=$("books"),drv=$("drv"),shadow=$("shadow"),led=$("led"),cnt=$("cnt"),trk=$("trk"),
+// The stick tips off first, turns three quarters of the way round and lands on its side where the books will come down.
+const CB=bk.reduce((a,b)=>a+(b.xi+b.xo)/2,0)/bk.length,XF=CB+38*S0,st=body({w:SW,h:SH,ff:270*RAD,CX:arr(),CY:arr()});
+const drop=vx=>{st.m=0;for(let k=0;k<=NST;k++){const t=T0+k*H,[ex,ey,th]=edge(t),u=cl((t-TS0)/TSD);
+if(!st.m){if(u>=1){rel(st,ex,ey,th,M*6/TSD,th+LE*RAD,2*LE*RAD/TSD);st.tr=t;st.nx=st.vx;if(vx!=null)st.vx=vx;st.x0=st.cx}
+else{st.F=th+LE*u*u*RAD;const s=M*(1-Math.pow(u,6)),c=Math.cos(st.F),n=Math.sin(st.F);st.cx=ex+s*Math.cos(th)+st.w/2*c-st.h/2*n;st.cy=ey-s*Math.sin(th)-st.w/2*n-st.h/2*c}}
+else if(st.m==1){fly(st,22,1e9);if(st.cy+st.rho*Math.max(Math.abs(Math.cos(st.F-st.be)),Math.abs(Math.cos(st.F+st.be)))>=GND){st.m=3;st.td=t;st.c=[st.cx,st.cy,st.F]}}
+else{const u=sm(cl((t-st.td)/.07));st.cx=st.c[0]+(XF-st.c[0])*u;st.cy=st.c[1]+(RY-st.c[1])*u;st.F=st.c[2]+(st.ff-st.c[2])*u}
+st.CX[k]=st.cx;st.CY[k]=st.cy;st.A[k]=st.F}};
+drop();drop((XF-st.x0)/(st.td-st.tr));
+// Its hop: one bounce from landing, then a kick from each book that arrives while it is down.
+const tflat=st.td+.07,HB=arr();{let h=0,v=0,e=0,on=0;const ev=bk.map(b=>b.ti).sort((a,b)=>a-b);
+for(let k=0;k<=NST;k++){const t=T0+k*H;if(t<tflat)continue;if(!on){on=1;v=240}
+while(e<ev.length&&ev[e]<=t){if(h<1.5)v=Math.max(v,215);e++}
+v-=2600*H;h+=v*H;if(h<0){h=0;v=v<-60?-v*.42:0}HB[k]=h}}
+const tp=Math.max(...bk.map(b=>b.tr))+.1,lastIn=Math.max(...bk.map(b=>b.to)),tz=lastIn+.12,tfade=tz+.3,TEND=Math.max(tz+TZ,tfade+.74)+.05;
+
+const plank=$("plank"),gB=$("books"),cut=$("cutr"),drv=$("drv"),shadow=$("shadow"),led=$("led"),cnt=$("cnt"),trk=$("trk"),
 segs=[...$("bar").children].map(e=>[e,+e.getAttribute("width")]),late=[...document.querySelectorAll(".late")];
 plank.innerHTML=`<rect x="${f(-L)}" y="12" width="${f(L)}" height="14" fill="#3c230a" opacity=".3" filter="url(#ps)"/><rect x="${f(-L)}" width="${f(L)}" height="14" rx="2" fill="url(#wood)"/>`;
 for(const b of bk){const g=document.createElementNS(NS,"g"),l=f(-b.w/2),t=-b.h/2;
-g.innerHTML=`<rect x="${l}" y="${f(t)}" width="${f(b.w)}" height="${f(b.h)}" rx="2" fill="${COL[b.cat]}"/><rect x="${l}" y="${f(t)}" width="${f(b.w)}" height="${f(b.h)}" rx="2" fill="url(#sp)"/><path d="M${l} ${f(t+11)}h${f(b.w)}M${l} ${f(-t-11)}h${f(b.w)}" stroke="#f4eee1" stroke-opacity=".55" stroke-width="1.4"/><text class="t" transform="rotate(-90)">${b.name}</text>`;
+g.innerHTML=`<rect x="${l}" y="${f(t)}" width="${f(b.w)}" height="${f(b.h)}" rx="2" fill="${COL[b.cat]}"/><rect x="${l}" y="${f(t)}" width="${f(b.w)}" height="${f(b.h)}" rx="2" fill="url(#sp)"/><path d="M${l} ${f(t+10)}h${f(b.w)}M${l} ${f(-t-10)}h${f(b.w)}" stroke="#f4eee1" stroke-opacity=".55" stroke-width="1.3"/><text class="t" transform="rotate(-90)">${b.name}</text>`;
 gB.appendChild(g);b.el=g}
 
 function render(t){
-const th=tilt(t),deg=th/RAD,q=cl((t-lastOut-.12)/.45),D=train(t)[0];
-plank.setAttribute("transform",`translate(${f(PX)} ${f(PY+70*q*q)}) rotate(${f(-deg-14*q*q)})`);plank.setAttribute("opacity",f(1-q));
+const deg=tilt(t)/RAD,qk=Math.min(NST-.001,Math.max(0,(t-T0)/H)),k=qk|0,r=qk-k,at=A=>A[k]+(A[k+1]-A[k])*r,hop=at(HB),pq=cl((t-tp)/.45);
+plank.setAttribute("transform",`translate(${f(PX)} ${f(PY+70*pq*pq)}) rotate(${f(-deg-14*pq*pq)})`);plank.setAttribute("opacity",f(1-pq));
+// Books are cut off at the stick's top edge, so nothing shows in the gap under it when it hops.
+cut.setAttribute("height",f(TOP-hop+601));
 let last=-9,sum=0;const got=COL.map(()=>0);
 for(const b of bk){const e=b.el;
-if(t>=b.ta){e.setAttribute("display","none");const g=cl((t-b.ta)/.12);got[b.cat]+=g;sum+=g;last=Math.max(last,b.ta);continue}
-let X,Y,R,Z=1,O=1;
-if(t<b.te){[X,Y]=world(th,-L+b.c-D+b.ox,b.oy);R=-deg-b.lean}
-else{const u=(t-b.te)/b.tf,v=1-u,p=b.p,a=v*v*v,b1=3*v*v*u,c=3*v*u*u,d=u*u*u;
-X=a*p[0][0]+b1*p[1][0]+c*p[2][0]+d*p[3][0];Y=a*p[0][1]+b1*p[1][1]+c*p[2][1]+d*p[3][1];
-R=b.r0+(-110-b.r0)*Math.pow(u,1.4);Z=1-.95*Math.pow(u,1.9);O=Math.min(1,v/.08)}
-e.removeAttribute("display");e.setAttribute("opacity",f(O));e.setAttribute("transform",`translate(${f(X)} ${f(Y)}) rotate(${f(R)}) scale(${Z.toFixed(3)})`)}
-// The stick: bookend, then first off the end, then landing on its side with the connector toward the shelf.
-let X,Y,R=0,Z=S0,sh=0,z=0;
-if(t<st.te){[X,Y]=world(th,-L+st.c-slip(t)[0],-SH/2);R=-90-deg}
-else if(t<st.tl){const u=(t-st.te)/TS,u2=u*u,u3=u2*u;X=(2*u3-3*u2+1)*st.x0+(u3-2*u2+u)*st.vx*TS+(3*u2-2*u3)*XL+(u3-u2)*-260*TS;Y=st.y0+st.vy*TS*u+(RY-st.y0-st.vy*TS)*u2;R=st.r0*(1-u)}
-else{const p=t-st.tl,pulse=Math.exp(-(t-last)/.07);X=p<.2307?XL-(260*p-563.5*p*p):RX;
-Y=RY-(p<.16?28*(p/.16)*(1-p/.16):p<.26?10*((p-.16)/.1)*(1-(p-.16)/.1):0);sh=cl(p/.15);
-z=ease(cl((t-tz)/TZ));X+=(640-X)*z-2.5*pulse*(1-z);Y+=(384-Y)*z;Z=(S0+(1-S0)*z)*(1+.05*pulse*(1-z));led.setAttribute("opacity",f(z>0?.3+.7*z:.3+.7*pulse))}
-if(t<st.tl)led.setAttribute("opacity",".3");
+if(t>=b.ti){const g=cl((t-b.ti)/(b.to-b.ti));got[b.cat]+=g;sum+=g;last=Math.max(last,b.ti)}
+if(t>=b.to){e.setAttribute("display","none");continue}
+const X=at(b.X),Y=at(b.Y),F=at(b.A),c=Math.cos(F),s=Math.sin(F);
+e.removeAttribute("display");e.setAttribute("transform",`translate(${f(X+b.w/2*c-b.h/2*s)} ${f(Y-b.w/2*s-b.h/2*c)}) rotate(${f(-F/RAD)})`)}
+let X=at(st.CX),Y=at(st.CY),R=-90-at(st.A)/RAD,Z=S0,z=0,lo=.3,sh=cl((Y-RY+70)/70);
+if(t>=tflat){const kick=Math.exp(-(t-last)/.07);z=ease(cl((t-tz)/TZ));X=XF-2*kick*(1-z)+(640-XF)*z;Y=RY-hop*(1-z)+(384-RY)*z;R=0;Z=S0+(1-S0)*z;sh=1-.03*hop*(1-z);lo=z>0?.3+.7*z:.3+.7*kick}
+led.setAttribute("opacity",f(lo));
 drv.setAttribute("transform",`translate(${f(X)} ${f(Y)}) rotate(${f(R)}) scale(${Z.toFixed(4)}) translate(-450 -134)`);
-shadow.setAttribute("transform",`translate(${f(X)} ${f(Y)}) scale(${Z.toFixed(4)}) translate(-450 -134)`);shadow.setAttribute("opacity",f(sh));
-// The label fills as books arrive, one category at a time.
+shadow.setAttribute("transform",`translate(${f(X)} ${f(RY+(384-RY)*z)}) scale(${Z.toFixed(4)}) translate(-450 -134)`);shadow.setAttribute("opacity",f(sh));
+// The label fills as each book goes in, one category at a time.
 const F=sum/bk.length;cnt.textContent=Math.round(531*F)+" files · "+(60.8*F).toFixed(1)+" GB";trk.setAttribute("opacity",F<1?"1":"0");
 segs.forEach(([e,w],i)=>e.setAttribute("width",f(w*got[i]/per[i])));
 late.forEach((e,k)=>{const o=1-Math.pow(1-cl((t-tfade-.12*k)/.5),3);e.style.visibility=o>0?"visible":"hidden";e.style.opacity=f(o);e.style.transform=`translateY(${f((1-o)*12)}px)`});

@@ -24,9 +24,10 @@
 <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8b5e34"/><stop offset="1" stop-color="#6e4722"/></linearGradient>
 <linearGradient id="sp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".16" stop-color="#fff" stop-opacity="0"/><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient>
 <filter id="s" x="-20%" y="-200%" width="140%" height="500%"><feGaussianBlur stdDeviation="16"/></filter>
-<filter id="ps" x="-10%" y="-300%" width="120%" height="700%"><feGaussianBlur stdDeviation="9"/></filter></defs>
+<filter id="ps" x="-10%" y="-300%" width="120%" height="700%"><feGaussianBlur stdDeviation="9"/></filter>
+<clipPath id="cut"><rect id="cutr" x="-400" y="-600" width="2100" height="1200"/></clipPath></defs>
 <g id="shadow" transform="translate(190 250)"><ellipse cx="450" cy="252" rx="340" ry="14" fill="#000" opacity=".28" filter="url(#s)"/></g>
-<g id="plank"></g><g id="books"></g>
+<g id="plank"></g><g id="books" clip-path="url(#cut)"></g>
 <g id="drv" transform="translate(190 250)">
 <rect x="716" y="104" width="92" height="60" rx="9" fill="url(#m)"/><rect x="734" y="122" width="60" height="24" rx="5" fill="#5b5f65"/>
 <rect x="92" y="48" width="640" height="172" rx="28" fill="url(#b)"/>
