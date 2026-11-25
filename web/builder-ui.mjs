@@ -14,6 +14,8 @@ const RELAY_PIECE_BYTES = 4 * 2 ** 20;
 const RELAY_REQUEST_WARNING = 80_000;
 const READERS = "archive-readers";
 const READER_PUBLICATION = new URL(import.meta.url).searchParams.get("v");
+// Errors from the drive itself, after which recent writes may not have reached it.
+const DRIVE_FAULT = /NotFoundError|disconnected|InvalidStateError|NotReadableError|UnknownError/i;
 const byId = id => document.getElementById(id);
 
 async function get(url, signal) {
@@ -1095,6 +1097,7 @@ export function mount({catalog: supplied} = {}) {
     fullCheck = check || mode === "paused" && fullCheck;
     controller = new AbortController();
     const {signal} = controller;
+    let failure;
     const release = keepScreenAwake();
     // Load the worker while online so opening the completed library needs only the drive.
     const previewError = error => { diag("reader-preview", {detail: error.message}); };
@@ -1128,7 +1131,18 @@ export function mount({catalog: supplied} = {}) {
         searchBudget: plan.searchBudget, capacityBytes: capacity, capacityEstimated: measured === undefined, driveFormat,
         replaceInPlace: [...selectedReplacement], fullVerify: fullCheck, prepareSources, signal, network, onProgress,
         drain: drainController.signal,
-        onPublished: files => { publishedFiles = files; }}));
+        onPublished: files => { publishedFiles = files; }}).catch(async error => {
+        if (signal.aborted) throw error;
+        // Stop downloads still running and, unless the drive failed, record a
+        // clean stop so the next Sync starts without rereading files.
+        failure = error;
+        controller.abort();
+        const detail = error.name + ": " + error.message;
+        if (!DRIVE_FAULT.test(detail)) {
+          await recordPause(drive, detail).catch(pauseError => diag("record-pause", {detail: pauseError.message}));
+        }
+        throw error;
+      }));
       inspection = await inspectDrive(drive);
       dirty = false;
       driveChoice = JSON.stringify(plan.choice);
@@ -1143,7 +1157,7 @@ export function mount({catalog: supplied} = {}) {
       render(outcome);
       storeSnapshot();
     } catch (error) {
-      if (!signal.aborted) { showProblem(error); return; }
+      if (failure || !signal.aborted) { showProblem(failure || error); return; }
       try {
         await recordPause(drive).catch(pauseError => diag("record-pause", {detail: pauseError.message}));
         inspection = await inspectDrive(drive);

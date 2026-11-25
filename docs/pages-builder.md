@@ -46,6 +46,11 @@ for failed checks.
 If the drive record lost files that OWL wrote, Sync finds them by their
 SHA-256 and keeps them. On a large drive the page shows **Checking the
 files already on the drive** while it reads them.
+After **Pause**, or an error that leaves the drive connected, the next Sync
+trusts the drive record and starts at once. After a closed tab, a crash or an
+unplugged drive, it rereads only the files written in the 10 minutes before
+the sync last saved its record, since only those can have data the drive had
+not yet stored.
 
 Sync writes the new reader and updates `START_HERE.html` before clearing the
 older reader files listed in the drive record. When Sync finishes, choose **Try it**

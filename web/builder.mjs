@@ -890,26 +890,65 @@ async function verifyLayout(drive, asset, layout, signal, {reread = false, check
     check.sizing.bytes += asset.size_bytes;
     return layout.map(part => ({sha256: "", bytes: part.bytes}));
   }
-  let read = 0;
-  const onBytes = bytes => { read += bytes; check?.progress?.(bytes, asset); };
-  let result = await hashInWorker(files, onBytes, signal);
-  if (!result) {
-    check?.progress?.(-read, asset);
-    read = 0;
-    result = await hashOnPage(files, onBytes, signal);
-  }
+  const result = await hashFiles(files, asset, signal, check);
   if (result.digest !== asset.sha256) return null;
   const parts = layout.map((part, index) => ({sha256: result.parts[index], bytes: part.bytes}));
   checked.set(key, parts);
   return parts;
 }
 
-// Pause aborts the sync in a live tab after its files were closed. Recording
-// that spares the next look at the drive from rereading every finished file.
-export async function recordPause(drive) {
+async function hashFiles(files, asset, signal, check) {
+  let read = 0;
+  const onBytes = bytes => { read += bytes; check?.progress?.(bytes, asset); };
+  const result = await hashInWorker(files, onBytes, signal);
+  if (result) return result;
+  check?.progress?.(-read, asset);
+  return hashOnPage(files, onBytes, signal);
+}
+
+// A sync cut off without Pause (a closed tab, an unplugged drive, a crash)
+// can lose only data written shortly before it stopped, which the drive may
+// not have stored yet. Its last record save bounds that moment from below.
+export const RECENT_WRITES = 10 * 60_000;
+
+// Rereads the files of a finished row written within RECENT_WRITES of the
+// last record save, or later, and trusts the older ones by size.
+async function verifyRecent(drive, asset, installed, signal, {since, check}) {
+  const recent = [];
+  for (const [index, part] of installed.layout.entries()) {
+    const file = await candidateFile(drive, part.path);
+    if (file?.size !== part.bytes) return null;
+    // A missing modification time counts as recent.
+    if (!(file.lastModified < since)) recent.push({file, part, digest: installed.parts?.[index]?.sha256});
+  }
+  if (!recent.length) return installed.parts;
+  if (!recent.every(row => DIGEST.test(row.digest || ""))) {
+    return verifyLayout(drive, asset, installed.layout, signal, {check});
+  }
+  if (!checkedLayouts.has(drive)) checkedLayouts.set(drive, new Map());
+  const checked = checkedLayouts.get(drive);
+  for (const {file, part, digest} of recent) {
+    const key = digest + "|" + part.path + ":" + file.size + ":" + file.lastModified;
+    if (checked.has(key)) continue;
+    if (check?.sizing) {
+      check.sizing.bytes += file.size;
+      continue;
+    }
+    if ((await hashFiles([file], asset, signal, check)).digest !== digest) return null;
+    checked.set(key, true);
+  }
+  return installed.parts;
+}
+
+// Pause, or an error in a live tab while the drive still answers, stops the
+// sync after its files were closed or abandoned before publishing. Recording
+// that spares the next look at the drive from rereading recent files.
+// problem: the error text, kept in the record until the next save.
+export async function recordPause(drive, problem) {
   const state = await readBuild(drive);
-  if (!state?.pending || state.pausedCleanly) return;
+  if (!state?.pending || state.pausedCleanly && !problem) return;
   state.pausedCleanly = true;
+  if (problem) state.lastProblem = {at: new Date().toISOString(), detail: String(problem).slice(0, 2000)};
   await save(drive, state);
 }
 
@@ -917,6 +956,8 @@ export async function inspectDrive(drive) {
   const library = await reservedEntry(() => drive.getDirectoryHandle("LIBRARY"), "a file named LIBRARY");
   const start = await reservedEntry(() => fileAt(drive, START_PAGE), "a folder named " + START_PAGE);
   const state = await readBuild(drive);
+  // When the record was last saved; a sync cut off without Pause stopped after it.
+  const recordModified = state ? (await fileAt(drive, MANIFEST))?.lastModified : undefined;
   const adoption = Boolean(state?.adopting || !state && start);
   const starter = await matchesFile(start, filePin(startPage()));
   let legacy = (adoption && !starter) || state?.migrated || (state && !state.generatedPins) ?
@@ -958,7 +999,7 @@ export async function inspectDrive(drive) {
       }
     }
   }
-  return {state, hasLibrary: Boolean(library), adoption, heldBytes, candidates, legacy, availableInstalled};
+  return {state, recordModified, hasLibrary: Boolean(library), adoption, heldBytes, candidates, legacy, availableInstalled};
 }
 
 export class DrivePathConflict extends Error {
@@ -1008,7 +1049,10 @@ export async function compareLibrary(drive, options = {}) {
 async function compareOnce(drive, {assets, choice, catalogVersion, navigation = {}, search, readerPublication, partBytes = PART_BYTES,
     singleArchives = false, joinArchives = false, fat32 = false, fullVerify = false, signal, inspection, freeBytes = Infinity,
     archiveSpace = Infinity} = {}, check) {
-  const {state, adoption, legacy} = inspection || await inspectDrive(drive);
+  const {state, adoption, legacy, recordModified} = inspection || await inspectDrive(drive);
+  // A sync cut off without Pause has its recent files reread.
+  const interrupted = state?.pending && !state.relayWaiting && !state.pausedCleanly;
+  const since = Number.isFinite(recordModified) ? recordModified - RECENT_WRITES : Infinity;
   const limit = archiveFileLimit(fat32, singleArchives || joinArchives, state?.largeFileLimited);
   const sameParts = partBytes === state?.partBytes;
   const sameOptions = !state || (sameParts && limit === archiveFileLimit(
@@ -1035,12 +1079,8 @@ async function compareOnce(drive, {assets, choice, catalogVersion, navigation = 
         [{sha256: asset.sha256}] : state.parts[asset.id]};
     }
     if (installed && await layoutExists(drive, installed.layout)) {
-      // A sync stopped by Pause closed its files; one cut off by a closed tab
-      // or an unplugged drive may not have, so its finished files are reread.
-      const interruptedWrite = state?.pending && !state.relayWaiting && !state.pausedCleanly &&
-        (installed.layout.length > 1 || installed.layout !== old?.layout);
-      const parts = fullVerify || interruptedWrite ?
-        await verifyLayout(drive, asset, installed.layout, signal, {reread: fullVerify, check}) : installed.parts;
+      const parts = fullVerify ? await verifyLayout(drive, asset, installed.layout, signal, {reread: true, check}) :
+        interrupted ? await verifyRecent(drive, asset, installed, signal, {since, check}) : installed.parts;
       if (parts?.length) { present.push({...installed, asset, parts}); continue; }
     }
     // An earlier builder could drop finished files from an unfinished first

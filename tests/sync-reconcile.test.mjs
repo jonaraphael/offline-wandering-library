@@ -214,9 +214,45 @@ test("after Pause, looking at the drive does not reread finished files; after a 
   assert.equal((await readBuild(drive)).pausedCleanly, true);
   assert.deepEqual((await compareLibrary(drive, first)).present.map(row => row.asset.id), ["a"]);
   assert.equal(reads, 1, "after Pause the record is trusted");
+  // An error in a live tab records its text with the clean stop.
+  await recordPause(drive, "TypeError: Failed to fetch");
+  assert.equal((await readBuild(drive)).lastProblem.detail, "TypeError: Failed to fetch");
   const done = await reconcile(drive, first);
   assert.equal(done.state.finished, true);
   assert.equal((await readBuild(drive)).pausedCleanly, undefined);
+  assert.equal((await readBuild(drive)).lastProblem, undefined);
+});
+
+test("after a cut-off sync, only files written in the ten minutes before its last save are reread", async () => {
+  let clock = Date.UTC(2026, 10, 24, 16);
+  const drive = new Directory("drive", {now: () => clock});
+  const first = options({a: "one", b: "two", c: "three"}, {catalogVersion: "1"});
+  const controller = new AbortController();
+  await assert.rejects(reconcile(drive, {...first, signal: controller.signal, onProgress(event) {
+    if (event.kind !== "downloading" || event.received) return;
+    if (event.asset.id === "b") clock += 20 * 60_000;
+    if (event.asset.id === "c") controller.abort();
+  }}), {name: "AbortError"});
+  const reads = new Map();
+  for (const id of ["a", "b"]) {
+    const handle = await drive.file("LIBRARY/BOOKS/" + id + ".pdf");
+    const getFile = handle.getFile.bind(handle);
+    handle.getFile = async () => {
+      const file = await getFile();
+      return {size: file.size, lastModified: file.lastModified,
+        stream: () => { reads.set(id, (reads.get(id) || 0) + 1); return file.stream(); }};
+    };
+  }
+  const events = [];
+  const comparison = await compareLibrary(drive, {...first, onCheck: event => events.push(event)});
+  assert.deepEqual(comparison.present.map(row => row.asset.id), ["a", "b"]);
+  assert.deepEqual([...reads], [["b", 1]], "a, written 20 minutes before the last save, is trusted");
+  assert.deepEqual(events.map(({checked, total}) => [checked, total]), [[0, 3], [3, 3]]);
+  clock += 1;
+  await writeFile(drive, "LIBRARY/BOOKS/b.pdf", "TWO");
+  const damaged = await compareLibrary(drive, first);
+  assert.deepEqual(damaged.present.map(row => row.asset.id), ["a"]);
+  assert.ok(damaged.adds.some(row => row.asset.id === "b"));
 });
 
 test("a replacement that does not fit is held until explicitly approved", async () => {
