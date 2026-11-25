@@ -235,7 +235,7 @@ async function handleStore(mode, operation) {
   }
 }
 
-const driveKey = () => location.pathname.replace(/index\.html$/, "");
+const driveKey = () => location.pathname.replace(/(?:index|builder)\.html$/, "");
 // Each window remembers its own drive, so a reload keeps the drive that
 // window was syncing. A new window starts from the drive chosen last.
 function windowKey() {

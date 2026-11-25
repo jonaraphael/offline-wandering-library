@@ -363,8 +363,10 @@ def build_site(site: Path, *, fetch_mirrors: bool, cache: Path, search_commit=No
     write_json(site / "catalog.json", {"planner": model, "routes": routes, "navigation": navigation})
     version = search_commit[:12] if search_commit else None
     origins = connect_origins(chain.from_iterable((*routes.values(), *archive_routes.values(), (search_base,))))
-    (site / "index.html").write_text(render_selector(model, pages=True, connect_origins=origins, version=version),
+    (site / "builder.html").write_text(render_selector(model, pages=True, connect_origins=origins, version=version),
                                      encoding="utf-8")
+    shutil.copyfile(SOURCE / "landing.html", site / "index.html")
+    shutil.copyfile(SOURCE / "landing.css", site / "landing.css")
     (site / "SELECT.html").write_bytes((ROOT / "SELECT.html").read_bytes())
     (site / ".nojekyll").touch()
     hosted_scripts = [templates / name for name in ("pages-entry.mjs", "selector.js", "selector-map.js")]
