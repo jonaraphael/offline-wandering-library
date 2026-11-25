@@ -751,8 +751,8 @@ async function joinParts(drive, state, asset, layout, {signal, onProgress}) {
     const handle = await fileHandle(drive, path, true);
     writable = await handle.createWritable({mode: "exclusive"});
     const digest = sha256.create();
-    for (const part of layout) {
-      onProgress({kind: "joining", asset});
+    for (const [index, part] of layout.entries()) {
+      onProgress({kind: "joining", asset, index, count: layout.length});
       const file = await fileAt(drive, part.path);
       for await (const chunk of file.stream()) {
         signal?.throwIfAborted();
@@ -1577,7 +1577,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
   let used = comparison.presentBytes;
   let free = freeBytes;
   let full = false;
-  const downloaded = new Map(), incomplete = new Map();
+  const downloaded = new Map(), incomplete = new Map(), toJoin = [];
   try {
     for (const [position, asset] of ordered.entries()) {
       signal?.throwIfAborted();
@@ -1641,10 +1641,8 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
           if (state.joined[asset.id]) await removeSplitParts(drive, state, file, layout, signal);
           else {
             await buildAsset(drive, state, file, layout, options);
-            const joinRoom = Math.min(archiveSpace - used - asset.size_bytes, free - row.bytes - (reserved ? reserveBytes : 0));
-            if (joining && layout.length > 1 && joinRoom >= asset.size_bytes) {
-              await joinParts(drive, state, file, layout, options);
-            }
+            // Parts are combined after every download, in the pass before assembly.
+            if (joining && layout.length > 1) toJoin.push(asset.id);
           }
         }
         delete state.stagedArchives[asset.id];
@@ -1720,9 +1718,11 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
     // Leave the published reader and checksums alone while the relay is down.
     if (keepPublished) return {state};
   }
-  // Leave the old parts available to the published reader until the new
-  // start page and checksum list are in place.
-  if (fileLimit() && !full && !deferred.size) for (const row of comparison.present) {
+  // Combine split archives, those already on the drive and those this sync
+  // downloaded, once every download is done. Leave the old parts available to
+  // the published reader until the new start page and checksum list are in place.
+  const splitRows = [...comparison.present, ...toJoin.map(id => present.get(id)).filter(row => row?.layout.length > 1)];
+  if (fileLimit() && !full && !deferred.size) for (const row of splitRows) {
     if (row.protected || row.layout.length < 2 ||
         row.pin.bytes > Math.min(archiveSpace - used, free, fileLimit())) continue;
     const file = diskAsset(row.asset, row.layout[0].path.slice("LIBRARY/".length, -2));
@@ -1747,6 +1747,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
     const parts = [{sha256: row.pin.sha256, bytes: row.pin.bytes}];
     state.parts[file.id] = parts;
     present.set(file.id, {...row, layout: joinedLayout(file), parts});
+    if (downloaded.has(file.id)) downloaded.set(file.id, present.get(file.id));
   }
   if (excluded.length || deferred.size || Object.keys(state.failures).length || Object.keys(state.dropped).length) {
     for (const old of Object.values(state.installed)) {

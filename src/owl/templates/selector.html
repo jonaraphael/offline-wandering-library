@@ -25,7 +25,7 @@ __OWL_BUILDER_CSS__
 #drive-free-form { display: grid; justify-items: center; gap: 8px; margin-top: 16px; }
 #drive-free-form .primary { margin-top: 4px; }
 #drive-free-space { width: 7em; }
-#builder:has(#sync-noscript) :is(#sync-stage, #sync-rail, #how-link) { display: none; }
+#builder:has(#sync-noscript) :is(#sync-stage, #sync-rail, #how-link, #debug-corner) { display: none; }
 .card:first-child, #open-card, #route-card { grid-template-columns: 1fr; }
 .card svg { display: block; width: 64px; height: 64px; }
 .legend li.over::before { background: var(--bad); }
@@ -200,6 +200,7 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; }
   <div class="donebar" id="manage-done" hidden><span id="manage-changes">No changes</span><button type="button" class="primary" id="manage-return">Done</button></div>
   <!-- PAGES -->
   <ol class="rail" id="sync-rail" aria-label="Drive setup"><li aria-current="step">Choose drive</li><li>Sync</li><li>Read</li></ol>
+  <button class="debug-corner" id="debug-corner" type="button">Technical details</button>
   <dialog id="open-library" aria-labelledby="open-library-title">
     <h2 id="open-library-title">Open your library</h2>
     <p id="open-library-instructions"></p>

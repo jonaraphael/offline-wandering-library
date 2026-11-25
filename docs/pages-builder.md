@@ -122,9 +122,10 @@ files on the drive. [Transfer evidence](browser-delivery.md)
 
 On exFAT or NTFS, leave **Split large files for FAT32** off in Manage. OWL
 closes each verified 4 MiB piece on the drive, assembles it into a 1 GiB part,
-then joins the verified parts when there is temporary space for a second
-copy. Without room for the join, the split archive remains available in the
-library. A later **Sync** joins the existing parts once there is room for the
+then joins the verified parts after every download in the sync is done, when
+there is temporary space for a second copy. The page shows "combining *title*,
+*n* of *total* parts" while it copies. Without room for the join, the split
+archive remains available in the library. A later **Sync** joins the existing parts once there is room for the
 second copy, without downloading the archive again.
 
 Closing the tab can repeat at most the 64 MiB window being downloaded for a

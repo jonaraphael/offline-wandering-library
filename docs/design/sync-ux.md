@@ -76,6 +76,9 @@ One screen, no page scroll at 1280 × 720 in any state except Manage.
   link.
 - **Rail**, bottom: three steps, `Choose drive · Sync · Read`, with the
   current step marked. It contains no controls.
+- **Technical details**, bottom corner below the rail: a small muted link on
+  every screen, for debugging. It opens the error text, if any, and the
+  download diagnostics.
 
 The ring, title, status line, bar and button are the same elements in every
 state. Only their contents change, so the page never jumps.
@@ -100,7 +103,7 @@ state. Only their contents change, so the page never jumps.
 | `done` | Sync finished | Full green ring, check mark | Ready | Open your library on *drive name*. | Solid | **Try it** | Check every file · Show files kept in parts (when any) · Sync another drive |
 | `done-gaps` | At least one knowledge file arrived, with files still missing | Full amber ring | Ready, with *3* items missing | *409* files arrived. *1* essential file missing. | Solid, gap marked | **Try it** | Try those again · Show details · Check every file · Sync another drive |
 | `failed` | No knowledge files arrived | Red arc | Sync could not finish | *0* files arrived. *1* essential file missing. | Last known | **Try those again** | Show details · Check every file · Sync another drive |
-| `problem` | Drive unplugged, read-only, full, permission refused, or syncing in another window | Red arc | One plain sentence naming the problem | One sentence saying what to do. "Nothing is lost" when true. | Last known | The fix: **Reconnect**, **Choose another drive** or **Sync** | Choose a different drive (when the fix is not already that) · Technical details |
+| `problem` | Drive unplugged, read-only, full, permission refused, or syncing in another window | Red arc | One plain sentence naming the problem | One sentence saying what to do. "Nothing is lost" when true. | Last known | The fix: **Reconnect**, **Choose another drive** or **Sync** | Choose a different drive (when the fix is not already that) |
 | `too-small` | Free space below the smallest plan | Empty ring | Not enough room | OWL needs at least *N GB* free. This drive has *M GB*. | Hidden | **Choose another drive** | None |
 | `unsupported` | Safari, Firefox, any phone | Drive outlined | Open this page in Chrome, Edge or Arc on a computer | Those browsers can write straight to a drive. This one cannot. | Hidden | **Copy link** | See what goes on a drive · Build with the command line |
 
@@ -254,8 +257,8 @@ resume paths.
    encyclopedias that need the space to verify incoming pieces. Within each
    priority, download the largest encyclopedias first. Close each new file or part,
    read it from the drive and compare its SHA-256 before counting it as
-   verified. If the stored bytes differ, download it again. Join the parts
-   when the probe or the builder's answer establishes the supported file
+   verified. If the stored bytes differ, download it again. After every
+   download is done, join the parts when the probe or the builder's answer establishes the supported file
    size and there is room for both copies. A verified
    encyclopedia kept in parts counts as installed. A later Sync joins it
    when there is enough free space.

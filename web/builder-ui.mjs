@@ -385,6 +385,8 @@ export function mount({catalog: supplied} = {}) {
   const tryLink = element("a", "primary", "Try it");
   tryLink.target = "_blank";
   tryLink.rel = "noopener";
+  // Diagnostics for debugging, out of the way in the page's bottom corner.
+  byId("debug-corner")?.addEventListener("click", () => debug());
   const platform = navigator.userAgentData?.platform || navigator.platform || "";
   const agent = navigator.userAgent || "";
   const supported = typeof globalThis.showDirectoryPicker === "function" &&
@@ -693,7 +695,7 @@ export function mount({catalog: supplied} = {}) {
         Object.assign(item, {step: 2, fraction: syncFraction, title: problem.title, message: problem.message,
           chart: Boolean(plan), action: problem.action, links: [
             ...(problem.full && inspection && measured === undefined ? [["Update free space", enterFreeSpace]] : []),
-            ...(problem.action?.[1] === changeDrive ? [] : [different]), ["Technical details", debug]]});
+            ...(problem.action?.[1] === changeDrive ? [] : [different])]});
         break;
       case "too-small":
         Object.assign(item, {title: "Not enough room", chart: false, action: pick,
@@ -1086,6 +1088,10 @@ export function mount({catalog: supplied} = {}) {
       currentAsset = event.asset.id;
       saving = undefined;
       nowTitle = "checking saved parts of " + assetTitle + (event.count ? ", " + (event.index + 1) + " of " + event.count : "");
+    } else if (event.kind === "joining") {
+      currentAsset = event.asset.id;
+      saving = undefined;
+      nowTitle = "combining " + assetTitle + (event.count ? ", " + (event.index + 1) + " of " + event.count + " parts" : "");
     } else if (event.kind === "downloading") {
       currentAsset = event.asset.id;
       saving = {lost: event.lost || 0, toSave: event.toSave || 0, seconds: event.seconds, at: performance.now()};
