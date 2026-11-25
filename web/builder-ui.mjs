@@ -1079,13 +1079,18 @@ export function mount({catalog: supplied} = {}) {
       return;
     }
     if (mode === "finishing" || !event.asset) return;
-    if (event.kind === "downloading") {
+    const fileTitle = title(catalog.planner, event.asset);
+    const assetTitle = readerTitles.get(event.asset.id) || collectionTitles.get(event.asset.id) ||
+      (fileTitle !== event.asset.id ? fileTitle : "Library file");
+    if (event.kind === "checking") {
+      currentAsset = event.asset.id;
+      saving = undefined;
+      nowTitle = "checking saved parts of " + assetTitle + (event.count ? ", " + (event.index + 1) + " of " + event.count : "");
+    } else if (event.kind === "downloading") {
       currentAsset = event.asset.id;
       saving = {lost: event.lost || 0, toSave: event.toSave || 0, seconds: event.seconds, at: performance.now()};
       active.set(event.asset.id, Math.min(event.asset.size_bytes, event.index * PART_BYTES + event.received));
-      const fileTitle = title(catalog.planner, event.asset);
-      nowTitle = readerTitles.get(event.asset.id) || collectionTitles.get(event.asset.id) ||
-        (fileTitle !== event.asset.id ? fileTitle : "Library file");
+      nowTitle = assetTitle;
       const now = performance.now(), done = totalDone();
       transferStarted ??= now;
       if (rateStart === undefined || done < rateBytes) { rateStart = now; rateBytes = done; }

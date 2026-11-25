@@ -1,5 +1,5 @@
 import {sha256} from "./vendor/noble-hashes/sha2.js";
-import {bytesToHex} from "./vendor/noble-hashes/utils.js";
+import {bytesToHex, hexToBytes} from "./vendor/noble-hashes/utils.js";
 import {fileHandle, isNoSpace, optional, removeFile, writeFile} from "./drive.mjs";
 import {diag} from "./diagnostics.mjs";
 import {assembleLibrary, assemblyReserve, startPage} from "./offline.mjs";
@@ -175,6 +175,25 @@ function partPins(asset, layout, published, partBytes) {
     throw Error("Published chunk manifest does not match " + asset.title);
   }
   return record.hashes;
+}
+
+// The running whole-file hash after a saved part. A resumed download
+// continues from it instead of rereading every saved part.
+function hashState(hash) {
+  return {words: hash.get(), length: hash.length, tail: bytesToHex(hash.buffer.subarray(0, hash.pos))};
+}
+
+function restoreHash(saved, part) {
+  if (!Array.isArray(saved?.words) || saved.words.length !== 8 || !saved.words.every(Number.isInteger) ||
+      saved.length !== part.start + part.bytes || !/^(?:[0-9a-f]{2}){0,63}$/.test(saved.tail ?? "") ||
+      saved.tail.length / 2 !== saved.length % 64) return null;
+  const hash = sha256.create();
+  hash.set(...saved.words);
+  const tail = hexToBytes(saved.tail);
+  hash.buffer.set(tail);
+  hash.pos = tail.length;
+  hash.length = saved.length;
+  return hash;
 }
 
 async function readCheckpoint(file, digest, whole, signal) {
@@ -428,29 +447,48 @@ async function forgetParts(drive, state, asset, layout, published, signal) {
   delete state.verified[asset.id];
 }
 
+// recheckSince: after a sync cut off without Pause, saved parts written at or
+// after this time are reread; older ones are trusted by size.
 async function buildAsset(drive, state, asset, layout, options) {
-  const {published, signal, onProgress} = options;
+  const {published, signal, onProgress, recheckSince} = options;
   const pins = partPins(asset, layout, published, state.partBytes);
   const checkpoints = state.parts[asset.id] ||= [];
-  let whole = sha256.create(), index = 0;
+  const files = [];
   for (const [i, part] of layout.entries()) {
     signal?.throwIfAborted();
     const saved = checkpoints[i];
     if (!DIGEST.test(saved?.sha256) || saved.bytes !== part.bytes || (pins[i] && pins[i] !== saved.sha256)) break;
     const file = await fileAt(drive, part.path);
     if (file?.size !== part.bytes) break;
-    onProgress({kind: "checking", asset, index: i, count: layout.length});
-    const restored = await readCheckpoint(file, saved.sha256, whole, signal);
-    if (!restored) break;
-    whole = restored;
-    index++;
+    files.push(file);
+  }
+  let trusted = files.length;
+  if (recheckSince !== undefined) {
+    for (const [i, file] of files.entries()) {
+      if (file.lastModified < recheckSince) continue;
+      onProgress({kind: "checking", asset, index: i, count: layout.length});
+      if ((await hashFiles([file], asset, signal)).digest !== checkpoints[i].sha256) { trusted = i; break; }
+    }
+  }
+  let whole = sha256.create(), index = 0;
+  if (trusted === layout.length) {
+    // Saving the last part required the whole-file SHA-256 to match.
+    index = trusted;
+  } else if (trusted && (whole = restoreHash(checkpoints[trusted - 1].hash, layout[trusted - 1]))) {
+    index = trusted;
+  } else {
+    // Parts saved before the running hash was recorded: rebuild it by rereading them.
+    whole = sha256.create();
+    for (; index < trusted; index++) {
+      onProgress({kind: "checking", asset, index, count: layout.length});
+      const restored = await readCheckpoint(files[index], checkpoints[index].sha256, whole, signal);
+      if (!restored) break;
+      whole = restored;
+    }
   }
   const pin = publisherPin(published.publisherPieces, asset);
   await prunePieceJournal(drive, state, asset, pin, layout[index]?.start);
-  if (index === layout.length) {
-    if (bytesToHex(whole.digest()) === asset.sha256) return;
-    throw new SourceError("Saved parts failed whole-file SHA-256", {whole: true});
-  }
+  if (index === layout.length) return;
   checkpoints.length = index;
   delete state.verified[asset.id];
   await save(drive, state);
@@ -479,7 +517,10 @@ async function buildAsset(drive, state, asset, layout, options) {
       throw error;
     }
     whole = downloaded.next;
-    checkpoints.push({sha256: downloaded.digest, bytes: part.bytes});
+    // Only the newest part keeps the running hash; the last part needs none.
+    delete checkpoints.at(-1)?.hash;
+    checkpoints.push({sha256: downloaded.digest, bytes: part.bytes,
+      ...(index < layout.length - 1 && {hash: hashState(whole)})});
     await save(drive, state);
     // Release the verified part's temporary pieces before reserving the next part.
     await prunePieceJournal(drive, state, asset, pin, layout[index + 1]?.start);
@@ -1052,7 +1093,7 @@ async function compareOnce(drive, {assets, choice, catalogVersion, navigation = 
   const {state, adoption, legacy, recordModified} = inspection || await inspectDrive(drive);
   // A sync cut off without Pause has its recent files reread.
   const interrupted = state?.pending && !state.relayWaiting && !state.pausedCleanly;
-  const since = Number.isFinite(recordModified) ? recordModified - RECENT_WRITES : Infinity;
+  const since = Number.isFinite(recordModified) ? recordModified - RECENT_WRITES : -Infinity;
   const limit = archiveFileLimit(fat32, singleArchives || joinArchives, state?.largeFileLimited);
   const sameParts = partBytes === state?.partBytes;
   const sameOptions = !state || (sameParts && limit === archiveFileLimit(
@@ -1395,6 +1436,9 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
     catalogAssets = assets, prepareSources, onPublished, inspection, relay, continuing, network, drain, atSavePoint}) {
   const saved = inspection.state;
   if (!assets.some(isKnowledgeFile)) throw Error("Choose knowledge files with browser-accessible sources.");
+  // Saved parts to reread before resuming: all for Check every file, recent ones after a cut-off sync.
+  const recheckSince = fullVerify ? -Infinity : saved?.pending && !saved.relayWaiting && !saved.pausedCleanly ?
+    (Number.isFinite(inspection.recordModified) ? inspection.recordModified - RECENT_WRITES : -Infinity) : undefined;
   choice ??= saved?.choice || {kind: "recommended", split: !singleArchives && !joinArchives};
   const revision = readerRevision(navigation, search, readerPublication);
   const comparison = await compareLibrary(drive, {assets, choice, catalogVersion, navigation, search, readerPublication,
@@ -1585,7 +1629,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
         }
       }
       const replacement = replaceInPlace.includes(asset.id) && comparison.held.includes(row) && !row.old.protected;
-      const options = {routes, published, fetchFile, signal, onProgress: report, network, relay, drain, atSavePoint};
+      const options = {routes, published, fetchFile, signal, onProgress: report, network, relay, drain, atSavePoint, recheckSince};
       const download = async () => {
         await save(drive, state);
         if (replacement && state.installed[asset.id]) {

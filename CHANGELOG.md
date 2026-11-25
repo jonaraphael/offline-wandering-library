@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Resume a split archive without rereading its saved parts. Each saved part records the running whole-file hash, so Sync continues from the newest part. An archive with every part saved finishes at once: saving its last part already required the whole-file SHA-256 to match. After a closed tab or an unplugged drive, only parts saved in the 10 minutes before the last record save are reread. Before, resuming a 180 GB archive reread all 180 GB with no progress on screen. The page now shows "checking saved parts of *title*, *n* of *total*" while it rereads.
 - Fix Sync stopping with "OWL could not finish this step" when it resumes an archive with saved parts. The page's progress text expected totals that only the drive check sends. A display error no longer stops a sync; it goes to the diagnostics with its location.
 - Start Sync without rereading finished files after an error that leaves the drive connected, as after **Pause**. The drive record keeps the error text. After a closed tab, a crash or an unplugged drive, Sync rereads only files written in the 10 minutes before the last record save. Before, a 1 TB drive reread 384 GB, about 1 h 45 min, after any stop other than Pause.
 - **Pause** stops new downloads and pauses at the next save point. When that is more than 5 seconds away, the button offers **Save progress first** with the time it takes and pauses after 5 seconds without a choice. While waiting, **Pause now** stops at once, as Pause did before.
