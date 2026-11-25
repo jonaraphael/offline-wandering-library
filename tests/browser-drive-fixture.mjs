@@ -35,11 +35,16 @@ export class Directory {
 class FileHandle {
   kind = "file";
   bytes = new Blob([]);
+  modified = 0;
   constructor(name, options) {
     this.name = name;
     this.options = options;
   }
-  async getFile() { return this.bytes; }
+  // options.now: the clock that stamps each close, as a drive's modification time.
+  // A test may set bytes to a stand-in with only a size.
+  async getFile() {
+    return this.bytes instanceof Blob ? new File([this.bytes], this.name, {lastModified: this.modified}) : this.bytes;
+  }
   async createWritable({keepExistingData = false} = {}) {
     let swap = keepExistingData ? this.bytes : new Blob([]);
     let offset = 0;
@@ -53,7 +58,10 @@ class FileHandle {
       },
       seek: async bytes => { offset = bytes; },
       truncate: async bytes => this.options.truncate?.(bytes),
-      close: async () => { this.bytes = await this.options.beforeClose?.(this.name, swap) ?? swap; },
+      close: async () => {
+        this.bytes = await this.options.beforeClose?.(this.name, swap) ?? swap;
+        this.modified = this.options.now?.() ?? Date.now();
+      },
       abort: async () => { this.options.onAbort?.(); }
     };
   }

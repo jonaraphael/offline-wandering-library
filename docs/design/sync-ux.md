@@ -285,8 +285,10 @@ Safety rules:
 - Sync deletes a file only when its path belongs to the library layout and
   its size and checksum match the drive record or the published file.
 - Stopping at any moment (Pause, closed tab, pulled drive, lost network)
-  loses at most the piece being written. The next Sync checks committed
-  archive parts before continuing. It repairs any interrupted start page
+  loses at most the piece being written. After Pause or an error in a live
+  tab, the next Sync trusts the drive record. After a closed tab or a pulled
+  drive, it rereads files written in the 10 minutes before the record's last
+  save and trusts older ones by size. It repairs any interrupted start page
   and checksum publication.
 - A catalog change between two sessions never produces an error. Today's
   "pinned selection has changed" stop is replaced by step 3.

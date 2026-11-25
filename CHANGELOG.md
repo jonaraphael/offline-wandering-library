@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Start Sync without rereading finished files after an error that leaves the drive connected, as after **Pause**. The drive record keeps the error text. After a closed tab, a crash or an unplugged drive, Sync rereads only files written in the 10 minutes before the last record save. Before, a 1 TB drive reread 384 GB, about 1 h 45 min, after any stop other than Pause.
 - **Pause** stops new downloads and pauses at the next save point. When that is more than 5 seconds away, the button offers **Save progress first** with the time it takes and pauses after 5 seconds without a choice. While waiting, **Pause now** stops at once, as Pause did before.
 - Show whether archives download on the **Fast route** (the download relay) or the **Slow route** (the Kiwix mirror), with the download speed. When the relay stops answering, a card names the likely daily limit and its reset in local time. Sync returns to the relay by itself once it answers, and a relay that fails partway through an archive no longer costs every piece a failed request.
 - Show progress while checking files already on the drive ("Checked 92 GB of 181 GB · 25 min left"). Checksums run in a worker, once per file, so the check runs about twice as fast and leaves the page and other OWL windows responsive.
