@@ -1002,9 +1002,9 @@ export async function inspectDrive(drive) {
   const adoption = Boolean(state?.adopting || !state && start);
   const starter = await matchesFile(start, filePin(startPage()));
   let legacy = (adoption && !starter) || state?.migrated || (state && !state.generatedPins) ?
-    await previousReader(drive) : new Map();
+    await publishedReaderFiles(drive) : new Map();
   if (start && !ownsGeneratedFile(state, START_PAGE) && !legacy.has(START_PAGE) && !starter) {
-    if (state && !legacy.size) legacy = await previousReader(drive);
+    if (state && !legacy.size) legacy = await publishedReaderFiles(drive);
     if (!legacy.has(START_PAGE)) throw new DrivePathConflict("a different file named " + START_PAGE);
   }
   const installedPaths = Object.values(state?.installed || {}).flatMap(row => row.layout.map(part => part.path));
@@ -1224,7 +1224,7 @@ async function checksumPins(checksums) {
   return pins;
 }
 
-async function previousReader(drive) {
+export async function publishedReaderFiles(drive) {
   const checksums = await fileAt(drive, readerChecksums);
   if (!checksums || checksums.size > 16 * 2 ** 20) return new Map();
   const pins = await checksumPins(checksums);
@@ -1451,7 +1451,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
   const fileLimit = () => archiveFileLimit(fat32, singleArchives || joinArchives, state.largeFileLimited);
   const {legacy} = inspection;
   const guardedDrive = guardReader(drive, state, legacy, {fullVerify, signal});
-  const previousPins = legacy.size ? legacy : saved ? await previousReader(drive) : new Map();
+  const previousPins = legacy.size ? legacy : saved ? await publishedReaderFiles(drive) : new Map();
   const keepPublished = Boolean(saved?.syncedAt || previousPins.has(START_PAGE));
   const catalogPaths = new Map(catalogAssets.map(asset => [asset.id, asset.destination]));
   const retirement = {catalogPaths, previousPins, signal};
@@ -1767,7 +1767,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
   const retainPublished = async () => {
     state.updateSupportMissing = supportMissing;
     await save(drive, state);
-    return {state, completed, missing, keptInParts, searchWarnings, supportMissing, keptPublished: true};
+    return {state, completed, missing, keptInParts, searchWarnings, supportMissing, keptPublished: true, repairedPages: []};
   };
   for (;;) {
     completed = [...present.values()].map(row => row.asset);
