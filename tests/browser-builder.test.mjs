@@ -913,6 +913,28 @@ test("a corrupted search chunk leaves the catalog search and static pages usable
   assert.match(await (await (await drive.file("START_HERE.html")).getFile()).text(), /<main class="static">[^]*How to open a book/);
 });
 
+test("a split archive is combined into one file only after every download is done", async () => {
+  const content = Buffer.from("ABCDEFGHIJKLM"), book = Buffer.from("a small book");
+  const zim = asset("wiki", content, {format: "zim", destination: "ZIM/wiki.zim", utility_tier: "CRITICAL"});
+  const pdf = asset("book", book, {utility_tier: "USEFUL"});
+  const fetchFile = async (url, options = {}) => {
+    if (url.endsWith("/book")) return new Response(book);
+    const [, first, last] = /^bytes=(\d+)-(\d+)$/.exec(options.headers.Range);
+    return new Response(content.subarray(Number(first), Number(last) + 1), {status: 206,
+      headers: {"Content-Range": "bytes " + first + "-" + last + "/" + content.length}});
+  };
+  const events = [];
+  const result = await buildLibrary(new Directory(), {assets: [zim, pdf], fetchFile, partBytes: 5, joinArchives: true,
+    routes: {wiki: ["https://example.test/wiki"], book: ["https://example.test/book"]},
+    onProgress: event => { if (["downloading", "verified", "joining"].includes(event.kind)) events.push(event); }});
+  assert.equal(result.state.finished, true);
+  assert.equal(result.state.joined.wiki, true);
+  const order = events.map(event => event.kind + ":" + event.asset.id);
+  assert.ok(order.indexOf("verified:wiki") < order.indexOf("downloading:book"), "the archive's parts download first");
+  assert.ok(order.lastIndexOf("verified:book") < order.indexOf("joining:wiki"), "combining waits for the other download");
+  assert.deepEqual(events.filter(event => event.kind === "joining").map(event => [event.index, event.count]), [[0, 3], [1, 3], [2, 3]]);
+});
+
 test("FAT32 and large-file mode join verified parts and keep them if a second copy cannot fit", async () => {
   const content = Buffer.from("ABCDEFGHIJKLM");
   const zim = asset("wiki", content, {format: "zim", destination: "ZIM/wiki.zim"});

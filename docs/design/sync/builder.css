@@ -109,6 +109,9 @@ a:hover { text-decoration: underline; }
 .rail li.past::before { background: var(--ok); box-shadow: none; }
 .rail li[aria-current] { color: var(--ink); font-weight: 650; }
 .rail li[aria-current]::before { background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
+.debug-corner { display: block; margin: -4px 16px 8px auto; padding: 4px 0; border: 0; background: none; font: inherit; font-size: 11px;
+  color: var(--muted); opacity: .7; cursor: pointer; }
+.debug-corner:hover, .debug-corner:focus-visible { opacity: 1; text-decoration: underline; }
 
 /* Manage */
 .manage { width: min(720px, 100%); margin: 0 auto; padding: 0 16px 96px; }
