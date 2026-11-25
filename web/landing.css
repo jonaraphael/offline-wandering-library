@@ -67,6 +67,23 @@ main p { margin: 0; font-size: 18px; line-height: 1.5; color: #565b61; }
 }
 .faq h3 { font-size: 22px; }
 
+.devices-panel { background: #ecebe4; border-radius: clamp(14px, 2.7vw, 28px); overflow: hidden; line-height: 0; }
+.devices-panel svg { display: block; width: 100%; height: auto; font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; }
+.devices-names {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px clamp(16px, 4vw, 34px);
+  margin-top: 22px;
+  font-size: clamp(15px, 1.7vw, 17px);
+  font-weight: 600;
+  color: #9a9da2;
+}
+.devices-panel[hidden], .devices-names[hidden] { display: none; }
+.devices-names span { transition: color .25s; }
+.devices-names .on { color: #15171a; }
+.devices-note { max-width: 620px; margin: 18px auto 0; text-align: center; }
+
 .capacity-note { text-align: center; }
 .legend {
   display: flex;
