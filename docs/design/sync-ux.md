@@ -417,7 +417,7 @@ browser's Back button works and a view can be bookmarked.
 1. Title "Library", with "Works without internet" beneath it.
 2. Search field. Focusing it opens the Search tab.
 3. **Urgent:** the emergency tasks from `offline-layout.json` as red chips.
-   A chip opens its document directly.
+   A chip opens its document. An encyclopedia chip has an Open link.
 4. **Recently opened:** up to three items, shown once something has been
    opened on this device.
 5. **Categories:** eight tiles with icon, name and item count, in the
@@ -427,21 +427,25 @@ browser's Back button works and a view can be bookmarked.
 **Category** (`#/c/<id>`): back link, title, then one row per book or
 document. A book published as chapter files is one row that opens to its
 chapters (`book_chapters`). Each row has a title, a kind ("PDF", "Book, 30
-chapters", "Course", "Encyclopedia, opens in Kiwix"), a size and a star.
+chapters", "Course", "Encyclopedia"), a size and a star.
 Subject chips from the topic atlas filter the list when the category has
 more than 30 rows.
 
-**Opening things.** A document opens in the same tab; Back returns to the
-same place in the list. An encyclopedia file opens a sheet instead of a dead
-link: three numbered steps for this device (where the Kiwix app is, how to
-open the file with it) and the file's location on the drive.
+**Opening things.** Open an encyclopedia in the same tab, in a white article
+card that scrolls with the page. Back returns to the previous article or
+list. The first Open asks for read access to the drive. Chromium offers its
+folder picker and can remember the selection for this library. Safari and
+Firefox ask for the ZIM folder and keep access until the page is closed or
+reloaded. Keep split ZIM parts in the same folder. If an archive cannot be
+read or needs scripts, the page gives its file location and links the
+bundled Kiwix installer when available.
 
 **Search** (`#/search`): the existing search engine and index, in this
 view. Before a query: six example searches. Results: one card per document
 with the best passage, the searched words marked, other matching places in
-the same document, and "Open". A result inside an encyclopedia file says
-which article to look up in Kiwix. Options (limit to a category) sit behind
-"Options".
+the same document, and "Open". Encyclopedia results open the specific article
+and jump to its section when the index has one. Options (limit to a category)
+sit behind "Options".
 
 When the query describes an emergency that matches a reviewed guide on the
 drive, that guide's card comes first. A match can come from the words or
@@ -458,8 +462,9 @@ pick the guide. When a search describes separate current situations, show
 their reviewed guides together, the most recent first. Show the source's
 credit and license beneath each excerpt. If a spelling retry finds results,
 show "Showing results for …" above the cards. Beside a reviewed WikiMed
-result, show a readable PDF companion when the drive has one, so phones
-without Kiwix can still open an answer. If nothing nearby qualifies for an
+result, show a readable PDF companion when the drive has one. Until the
+browser has access to the drive, put the reviewed companion first for
+the same urgent task. If nothing nearby qualifies for an
 injury or hazard, show the Urgent guides card and the closest installed
 guide.
 
@@ -468,11 +473,11 @@ empty state shows a star and one sentence. Saved items are kept in the
 browser on this device, and the view says so. Where browser storage is
 unavailable the stars and this tab are absent.
 
-**Help** (`#/help`): "Opening files on this *iPhone / Android phone /
-Windows PC / Mac*", detected, with a way to switch device; the reader apps on
-the drive; "About this drive" (synced date, size, item count, items that
-could not be downloaded, link to the full file list and build report); how to
-make another drive.
+**Help** (`#/help`): "Books, guides and encyclopedias open right here." Show
+the reader apps on the drive and Kiwix instructions for phones, with a way
+to switch devices. "About this drive" shows the synced date, size, item
+count and missing items. Help also links to the full file list, the build
+report and the library builder.
 
 ### 5.3 The static page
 

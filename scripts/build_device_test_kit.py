@@ -86,7 +86,10 @@ def create_fixtures(drive, readers_from=None):
     archive = {"id": "reader-test", "title": "OWL reader fixture", "destination": "ZIM/reader-test.zim",
                "format": "zim", "category": "reference", "size_bytes": len(data), "sha256": sha256(data).hexdigest()}
     documents = [asset, archive, {**archive, "id": "split-test", "title": "OWL split reader fixture",
-                                  "destination": "ZIM/split-test.zimaa", "parts": ["split-test.zimaa", "split-test.zimab"]}]
+                                  "destination": "ZIM/split-test.zimaa", "parts": [
+                                      {"path": "LIBRARY/ZIM/split-test.zimaa", "bytes": mid},
+                                      {"path": "LIBRARY/ZIM/split-test.zimab", "bytes": len(data) - mid},
+                                  ]}]
     readers = [{"id": file.relative_to(library).as_posix(), "title": file.name,
                 "destination": file.relative_to(library).as_posix(), "format": file.suffix[1:],
                 "size_bytes": file.stat().st_size}

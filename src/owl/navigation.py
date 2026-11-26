@@ -31,10 +31,14 @@ _COPY = _package_json("collection_copy.json")["collections"]
 _READER_CSS = (TEMPLATES / "site.css").read_text(encoding="utf-8")
 _DEVICES = ("iphone", "android", "windows", "mac", "linux")
 _FORMATS = {"pdf": "PDF", "html": "Web page", "htm": "Web page", "epub": "EPUB book",
-            "zim": "Encyclopedia, opens in Kiwix", "txt": "Text", "zip": "ZIP"}
+            "zim": "Encyclopedia", "txt": "Text", "zip": "ZIP"}
 GENERATED_PATHS = ("START_HERE.html", "README.txt", "INVENTORY.html", "BUILD_REPORT.html")
 READER_GENERATION = re.compile(r"INDEX/[0-9a-f]{12}/")
 SHARED_SEARCH = re.compile(r"SEARCH/shared/[0-9a-f]{64}\.js\Z")
+ZIM_RUNTIME = ("fzstd.js", "zim.js", "zim-drive.js", "zim-article.js")
+# These archive versions need Kiwix to show their content.
+_KIWIX_KINDS = {"ZIM/phet_en_all_2026-08.zim": "Simulations",
+                "ZIM/oer4schools_en_all_2025-10.zim": "Teacher training"}
 SEARCH_SCRIPTS = ("manifest.js", "rank.js", "shards.js", "rerank.js")
 SEARCH_SUPPORT = re.compile(r"SEARCH/(?:model\.js|(?:model|impact|transformer)/[a-zA-Z0-9.-]+\.js)\Z")
 FIRST_RESPONSE = {"cert", "medical_bec"}
@@ -123,13 +127,15 @@ def navigation_assets(assets, collections=None, topics=None) -> dict:
         software = asset["destination"].startswith("SOFTWARE/") or asset.get("resource_type") == "software"
         category, owner, importance = ("other", "", 3) if software else owners.get(identity, ("other", "", 3))
         course = owner in {"khan-academy", "crash-course"} or asset.get("resource_type") == "course"
-        kind = ("Course, opens in Kiwix" if asset["format"] == "zim" else "Course") if course else None
+        kind = "Course" if course else None
         result[identity] = {"document": is_document(asset) and not software, "category": category,
                             "importance": importance,
                             "first_aid": (asset.get("category") == "first_aid" or identity in FIRST_RESPONSE or
                                           asset.get("title", "").lower().endswith(" first aid")),
                             "book": books.get(identity), "topics": (topics or {}).get(identity, []), "kind": kind,
                             "publisher": asset.get("publisher"), "attribution": asset.get("attribution")}
+        if asset["destination"] in _KIWIX_KINDS:
+            result[identity]["kiwixKind"] = _KIWIX_KINDS[asset["destination"]]
     return result
 
 
@@ -140,6 +146,7 @@ def reader_payload(assets, *, collections=None, topics=None) -> dict:
         "reader": (TEMPLATES / "reader.html").read_text(encoding="utf-8"),
         "document": (TEMPLATES / "reader-document.html").read_text(encoding="utf-8"),
         "runtime": (TEMPLATES / "reader.js").read_text(encoding="utf-8"),
+        "zim": {name: (TEMPLATES / name).read_text(encoding="utf-8") for name in ZIM_RUNTIME},
         "bootstrap": (TEMPLATES / "search.js").read_text(encoding="utf-8"),
         "readme": (TEMPLATES / "reader-readme.txt").read_text(encoding="utf-8"),
         "redirect": render_search_page(), "csp": SEARCH_CSP,
@@ -169,6 +176,8 @@ def _row(asset, data):
            "format": asset["format"], "bytes": asset.get("size_bytes", asset.get("bytes", 0))}
     if len(asset.get("parts") or ()) > 1:
         row["parts"] = len(asset["parts"])
+    if data.get("kiwixKind"):
+        row["kiwixKind"] = data["kiwixKind"]
     return row
 
 
@@ -232,7 +241,12 @@ def _reader_files(assets, inventory, scripts, shared):
     home = {"version": 1, "tasks": tasks, "readers": readers, "devices": markup["devices"], "phone": phone,
             "stats": {"count": len(actual), "bytes": sum(row.get("size_bytes", row.get("bytes", 0)) for row in actual),
                       "missing": len(missing)}, "searchCount": len(documents), "categories": []}
-    pages = {"INDEX/reader.js": config["runtime"], "README.txt": config["readme"]}
+    parts = {asset["id"]: asset.get("parts") for asset in actual}
+    home["archives"] = [{**row, "files": [{"path": part["path"], "bytes": part["bytes"]}
+                           for part in parts.get(row["id"]) or [{"path": row["path"], "bytes": row["bytes"]}]]}
+                        for row in documents if row["format"] == "zim"]
+    pages = {"INDEX/reader.js": config["runtime"], "README.txt": config["readme"],
+             **{f"INDEX/{name}": text for name, text in config["zim"].items()}}
 
     # The static page is all a phone's file preview shows: no scripts, and often no working links.
     def link(href, text):

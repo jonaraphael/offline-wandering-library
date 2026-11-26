@@ -300,7 +300,7 @@ test('16 GB offline reader meets the emergency recall floors and checks paraphra
     ]) {
       const misses = [];
       for (const [query, expected] of samples) {
-        const {cards, cardCount} = await measure(browser, url, query, {allowEmpty: true});
+        const {cards, cardCount} = await measure(browser, url, query, {allowEmpty: true, rankedReviewed: true});
         assert.ok(cardCount > 0, name + ' returned no cards for ' + query);
         const pattern = new RegExp(expected, 'iu');
         const matches = firstReviewed
@@ -325,7 +325,7 @@ test('16 GB offline reader meets the emergency recall floors and checks paraphra
     assert.match(animal.cards[0].href, /\/msf_guideline-170-en\.pdf#page=258$/);
     console.log('Smoking outlet and dog bite: both lead with the reviewed guide.');
 
-    const immersion = await measure(browser, url, 'My friend fell into icy water and her hands are tingling');
+    const immersion = await measure(browser, url, 'My friend fell into icy water and her hands are tingling', {rankedReviewed: true});
     assert.deepEqual(immersion.cards.map(card => card.topic), ['drowning', 'cold-water-injury', 'drowning']);
     assert.match(immersion.cards[1].href, /\/CERT_2019\.pdf#page=114$/);
     assert.match(immersion.cards[2].href, /\.pdf#page=89$/);
@@ -388,7 +388,7 @@ test('16 GB section emergency queries meet top-three and non-empty floors', {
   const empty = [], unclassified = [];
   try {
     for (const [query, situation, expected, nearby] of emergencySamples) {
-      const {cards, cardCount, emergency} = await measure(browser, searchUrl(reader), query, {allowEmpty: true});
+      const {cards, cardCount, emergency} = await measure(browser, searchUrl(reader), query, {allowEmpty: true, rankedReviewed: true});
       if (!emergency) unclassified.push(query);
       if (!cardCount) empty.push(query);
       const exact = new RegExp(expected, 'iu'), related = new RegExp(nearby, 'iu');
@@ -425,7 +425,7 @@ test('16 GB unseen emergency descriptions meet top-three and non-empty floors', 
   const unclassified = [];
   try {
     for (const [query, situation, expected, nearby] of semanticSamples) {
-      const {cards, emergency} = await measure(browser, searchUrl(reader), query, {allowEmpty: true});
+      const {cards, emergency} = await measure(browser, searchUrl(reader), query, {allowEmpty: true, rankedReviewed: true});
       if (!emergency) unclassified.push(query);
       const exact = new RegExp(expected, 'iu'), related = new RegExp(nearby, 'iu');
       const grade = !cards.length ? 'empty' : cards.some(card => exact.test(card.title) &&

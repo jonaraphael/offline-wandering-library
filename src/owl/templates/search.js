@@ -493,7 +493,7 @@
     }
     if (typeof locator === 'string' && id === 'wikimed_en' && isArchive(guide)) {
       return {...guide, topic, title, description: '', kind: 'article',
-        articleTitle: locator.replace(/_/g, ' '), location: 'Archive path: ' + locator};
+        archivePath: locator, articleTitle: locator.replace(/_/g, ' '), location: 'Archive path: ' + locator};
     }
   }
 
@@ -796,14 +796,27 @@
     return node;
   }
 
-  function mount(view, {open, openUrgent, tasks = [], priority = {}, categoryIds}) {
+  function displayGuides(groups, hasAccess) {
+    if (hasAccess) return groups;
+    const result = [...groups];
+    for (let index = 0; index < result.length; index++) {
+      const record = result[index][0].record;
+      if (!isArchive(record)) continue;
+      const companion = result.findIndex(([{record: other}], at) =>
+        at > index && other.topic === record.topic && !isArchive(other));
+      if (companion >= 0) [result[index], result[companion]] = [result[companion], result[index]];
+    }
+    return result;
+  }
+
+  function mount(view, {open, openUrgent, archiveHref, urgentHref, archiveAccess, archiveLabel, tasks = [], priority = {}, categoryIds}) {
     const form = view.querySelector('form'), status = view.querySelector('#search-status');
     const list = view.querySelector('#search-results'), query = form.querySelector('#query');
     const category = form.querySelector('#search-category'), examples = form.querySelector('#search-examples');
     const correction = element('p', '', 'note search-correction');
     correction.hidden = true;
     status.after(correction);
-    let timer, epoch = 0, prepared, documents, rankReady;
+    let timer, epoch = 0, prepared, documents, rankReady, lastRender, lastAccess;
     function message(text) {
       status.textContent = text;
       status.hidden = !text;
@@ -842,8 +855,7 @@
       const topic = record.kind === 'topic';
       const archive = isArchive(record);
       anchor.href = topic ? '#/topic/' + encodeURIComponent(record.id.slice('topic:'.length))
-        : archive ? '#open-encyclopedia' : 'LIBRARY/' + record.href;
-      if (archive) anchor.setAttribute('aria-haspopup', 'dialog');
+        : archive ? archiveHref(record, name) : 'LIBRARY/' + record.href;
       anchor.addEventListener('click', event => {
         if (event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
           open(record, name, event);
@@ -853,6 +865,8 @@
     }
     // One card per document, with its best match and a few distinct locations.
     function render(matches, scope, words = [], urgent, reviewed = [], nearby = []) {
+      lastRender = [matches, scope, words, urgent, reviewed, nearby];
+      lastAccess = archiveAccess?.();
       const preferred = new Map(), groups = [new Map(), new Map()], subjects = [];
       const preferredFiles = new Set(matches.filter(hit => hit.titleMatch)
         .map(({record}) => record.destination || record.href.split('#')[0]));
@@ -874,9 +888,10 @@
         else card.append(element('span', 'Urgent', 'label urgent'));
         card.append(element('h3', urgent.task));
         const archive = urgent.format === 'zim';
-        const link = element('a', browse ? 'Browse Home' : archive ? 'How to open' : 'Open', 'button');
-        link.href = archive ? '#open-encyclopedia' : urgent.href;
-        if (archive) link.setAttribute('aria-haspopup', 'dialog');
+        const byline = archive && archiveLabel?.(urgent.id);
+        if (byline) card.append(element('small', byline));
+        const link = element('a', browse ? 'Browse Home' : 'Open', 'button');
+        link.href = archive ? urgentHref(urgent) : urgent.href;
         link.addEventListener('click', event => {
           if (event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
             if (!browse) openUrgent(urgent, event);
@@ -885,21 +900,24 @@
         card.append(link);
         items.append(card);
       }
-      function resultCard([{record, indexed = false}, ...others], isReviewed = false) {
+      function resultCard([{record, indexed = false}, ...others], reviewRank) {
+        const isReviewed = reviewRank !== undefined;
         const card = element('article', '', isReviewed ? 'result urgent-result' : 'result');
         card.dataset.indexed = String(indexed);
         if (isReviewed) {
           card.dataset.reviewed = record.topic;
+          card.dataset.reviewRank = String(reviewRank);
           card.append(element('span', 'Urgent', 'label urgent'));
         }
         const archive = isArchive(record), name = heading(record);
-        const source = record.source_title !== name ? record.source_title : '';
-        const where = archive ? 'opens in Kiwix' : record.location;
-        const byline = [source, where].filter(Boolean).join(' · ');
-      if (byline) card.append(element('small', byline));
+        const {source_title: source, description} = record;
+        const kiwix = archive && archiveLabel?.(record.asset_id || record.id);
+        const byline = [source !== name && source, !archive && record.location].filter(Boolean).join(' · ');
+        if (byline) card.append(element('small', byline));
         card.append(element('h3', name));
-        if (record.description) {
-          card.append(passage(/[.!?…:]$/.test(record.description) ? record.description : record.description + '…', words));
+        if (kiwix) card.append(element('small', kiwix));
+        else if (description) {
+          card.append(passage(/[.!?…:]$/.test(description) ? description : description + '…', words));
           if (indexed) {
             const license = normalize(record.license).replace(/[-\s]+/g, ' ');
             const alreadyCredited = license && normalize(record.attribution).replace(/[-\s]+/g, ' ').includes(license);
@@ -922,15 +940,12 @@
           for (const {record: other} of places) {
             const item = element('li', '');
             const title = heading(other);
-            item.append(resultLink(other, title, title === name && other.location ? other.location : title));
+            item.append(resultLink(other, title, title === name && other.location ? isArchive(other) ? other.archiveSection || title : other.location : title));
             more.append(item);
           }
           card.append(more);
         }
-        if (archive && record.kind !== 'document') {
-          card.append(element('p', 'In Kiwix, look up “' + (record.articleTitle || name) + '”.', 'note'));
-        }
-        card.append(resultLink(record, name, archive ? 'How to open' : 'Open', 'button'));
+        card.append(resultLink(record, name, 'Open', 'button'));
         return card;
       }
       const guides = new Map(), firstForTopic = new Map(), archiveTopics = new Set();
@@ -947,7 +962,8 @@
         if (!guides.has(key)) guides.set(key, []);
         guides.get(key).push({record});
       }
-      for (const group of guides.values()) items.append(resultCard(group, true));
+      const ranked = [...guides.values()];
+      for (const group of displayGuides(ranked, lastAccess)) items.append(resultCard(group, ranked.indexOf(group)));
       for (const record of nearby) {
         const card = resultCard([{record}]);
         card.dataset.nearby = record.topic || record.id;
@@ -958,7 +974,7 @@
         if (!group.size) continue;
         const section = element('section', '', 'result-group');
         if (group === groups[1]) {
-          section.append(element('h2', 'In encyclopedias (open in Kiwix)', 'label encyclopedia-results'));
+          section.append(element('h2', 'In encyclopedias', 'label encyclopedia-results'));
         }
         for (const hits of group.values()) section.append(resultCard(hits));
         items.append(section);
@@ -1172,11 +1188,14 @@
       example.addEventListener('click', () => { query.value = example.dataset.query; query.focus(); run(); });
     }
     category.addEventListener('change', run);
+    return (force = false) => {
+      if (lastRender && (force || lastRender[4].length && lastAccess !== archiveAccess?.())) render(...lastRender);
+    };
   }
 
   const api = {normalize, tokens, prepare, search, safeHref, script, local, isArchive, mount,
     reviewedGuide, reviewedGuides: (documents, text, ids) => reviewedGuides(documents, currentEvents(text), ids),
-    semanticGuides, emergencyDomain: text => emergencyDomain(currentEvents(text).phrase), emergencySource, closestUrgent};
+    semanticGuides, displayGuides, emergencyDomain: text => emergencyDomain(currentEvents(text).phrase), emergencySource, closestUrgent};
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.OWLDiscovery = api;
   if (typeof document !== 'undefined' && document.querySelector('#reader-view')) {

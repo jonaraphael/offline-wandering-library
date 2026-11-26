@@ -29,6 +29,14 @@ article in `LIBRARY/ZIM/reader-test.zim` and in the two split parts
 
 ## Archive policy and reader support
 
+In a computer browser, choose **Open** on an encyclopedia in
+`START_HERE.html`. Chrome and Edge ask to read the drive and can remember
+the folder for later visits. In Firefox and Safari, select `LIBRARY/ZIM`
+and keep the page open to reuse the selection. Keep all parts of a split
+ZIM together. The reader shows an article in the page or offers the file
+location and the bundled Kiwix app when an archive cannot be displayed.
+
+
 Browser downloads checkpoint in split parts. On drives that accept large
 files, the builder attempts an optional on-drive join. Check free space for
 the temporary second copy. If the join cannot fit, keep the split set
@@ -154,7 +162,7 @@ python scripts/build_wikimed_phone.py /path/to/wikipedia_en_medicine_maxi_2026-0
 ```
 
 The volumes are sized within the drive's existing discovery allowance.
-The archive itself still uses Kiwix. [Apple Files and Quick Look](https://support.apple.com/guide/iphone/find-and-view-files-and-folders-iph4bff8827/ios)
+In iPhone Quick Look, use Kiwix for the encyclopedia archive. [Apple Files and Quick Look](https://support.apple.com/guide/iphone/find-and-view-files-and-folders-iph4bff8827/ios)
 
 ## Local checks
 
@@ -167,5 +175,4 @@ setting on this Mac, so the WebKit result records the engine fixture. The
 upstream Kiwix JS 4.4.0 bundle attempted
 to fetch local decompressor WebAssembly files in Chrome and failed to open
 both ZIM fixtures. Firefox also failed to display the fixture article with
-the upstream bundle. The native reader packages remain the path for ZIMs on
-finished libraries. [Kiwix JS documentation](https://github.com/kiwix/kiwix-js)
+the upstream bundle. These upstream checks predate the on-page OWL reader. [Kiwix JS documentation](https://github.com/kiwix/kiwix-js)

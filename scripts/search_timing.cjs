@@ -43,7 +43,7 @@ async function withOfflineReader(browser, url, run) {
   }
 }
 
-async function measure(browser, url, query, {allowEmpty = false} = {}) {
+async function measure(browser, url, query, {allowEmpty = false, rankedReviewed = false} = {}) {
   return withOfflineReader(browser, url, async page => {
     const reads = [];
     const failures = [];
@@ -84,9 +84,15 @@ async function measure(browser, url, query, {allowEmpty = false} = {}) {
     if (!allowEmpty && first === undefined) {
       throw Error('Search did not display an indexed or emergency guide result for: ' + query);
     }
-    const {cards, cardCount} = await page.locator('#search-results article.result:visible').evaluateAll(elements => ({
-      cardCount: elements.length,
-      cards: elements.slice(0, 3).map(card => ({
+    const {cards, cardCount} = await page.locator('#search-results article.result:visible').evaluateAll((elements, ranked) => {
+      if (ranked) {
+        // Grade the original reviewed-guide order even when Open requires folder access.
+        elements.sort((a, b) => {
+          if (a.dataset.reviewRank === undefined || b.dataset.reviewRank === undefined) return 0;
+          return Number(a.dataset.reviewRank) - Number(b.dataset.reviewRank);
+        });
+      }
+      return {cardCount: elements.length, cards: elements.slice(0, 3).map(card => ({
         title: card.querySelector('h3').textContent,
         topic: card.dataset.reviewed,
         nearby: card.dataset.nearby,
@@ -95,8 +101,8 @@ async function measure(browser, url, query, {allowEmpty = false} = {}) {
         locator: card.querySelector('small')?.textContent,
         excerpt: card.querySelector('.text')?.textContent,
         credit: card.querySelector('.attribution')?.textContent,
-      })),
-    }));
+      }))};
+    }, rankedReviewed);
     if (!allowEmpty && !cardCount) throw Error('Search finished without a result card for: ' + query);
     const correction = await page.locator('.search-correction:visible').allTextContents();
     const browse = await page.locator('#search-results > a.button:visible').evaluateAll(elements =>
