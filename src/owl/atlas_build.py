@@ -142,11 +142,21 @@ class _SourceAnchors(HTMLParser):
                 self.found.add(value)
 
 
+_APP_FRAME = re.compile(r"(?:LIBRARY/)?INDEX/[a-f0-9]{12}/zim-app\.html")
+
+
+def _app_frame_template() -> str:
+    return (Path(__file__).resolve().parent / "templates" / "zim-app.html").read_text(encoding="utf-8")
+
+
 def validate_links(target: Path, pages: dict[str, str], assets=(), *, inspect_sources: bool = False) -> None:
     """Check generated pages, including local HTML fragments, before writing."""
     parsed = {}
     encodings = {a["destination"]: a.get("text_encoding", "utf-8") for a in assets}
     for relative, text in pages.items():
+        if _APP_FRAME.fullmatch(relative) and text == _app_frame_template():
+            # The sandbox page for script-built archives carries its own inline runtime.
+            continue
         if relative.endswith(".html"):
             parsed[relative] = _Links()
             parsed[relative].feed(text)
@@ -180,6 +190,8 @@ def validate_links(target: Path, pages: dict[str, str], assets=(), *, inspect_so
                 raise SafetyError(f"Missing generated link in {relative}: {destination}")
             if link.fragment and destination.lower().endswith((".html", ".htm")):
                 fragment = unquote(link.fragment)
+                if destination == "START_HERE.html" and fragment.startswith("/read/"):
+                    continue  # A reader route, not an element.
                 if destination not in parsed:
                     requested.setdefault(destination, {}).setdefault(fragment, (relative, href))
                 elif fragment not in parsed[destination].ids:

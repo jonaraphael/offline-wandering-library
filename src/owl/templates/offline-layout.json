@@ -228,24 +228,6 @@
       "install": "Open Kiwix. If you need to install it, find the Android app in LIBRARY/SOFTWARE.",
       "open": "Tap Open file and choose this drive.",
       "pick": "Pick the encyclopedia."
-    },
-    "windows": {
-      "label": "Windows PC",
-      "install": "Open Kiwix. If you need to install it, find the Windows app in LIBRARY/SOFTWARE.",
-      "open": "Choose File, then Open, and find this drive.",
-      "pick": "Pick the encyclopedia."
-    },
-    "mac": {
-      "label": "Mac",
-      "install": "Open Kiwix. If you need to install it, find the Mac app in LIBRARY/SOFTWARE.",
-      "open": "Choose File, then Open, and find this drive.",
-      "pick": "Pick the encyclopedia."
-    },
-    "linux": {
-      "label": "Linux computer",
-      "install": "Open Kiwix. If you need to install it, find the Linux app in LIBRARY/SOFTWARE.",
-      "open": "Choose File, then Open, and find this drive.",
-      "pick": "Pick the encyclopedia."
     }
   },
   "static_link": "<a href=\"{{href}}\">{{text}}</a>",
@@ -257,7 +239,7 @@
   "static_tiles": "<h2 class=\"label\">Everything on this drive</h2><div class=\"tiles\">{{tiles}}</div>",
   "static_tile": "<a class=\"tile\" href=\"#c-{{id}}\" style=\"--c:var(--c-{{id}})\"><svg class=\"icon\" aria-hidden=\"true\" viewBox=\"0 0 24 24\"><path d=\"{{icon}}\"/></svg>{{name}}<small>{{count}}</small></a>",
   "static_section": "<section class=\"shelf\" id=\"c-{{id}}\" style=\"--c:var(--c-{{id}})\"><div class=\"shelf-head\"><h2><span class=\"dot\" aria-hidden=\"true\"></span>{{name}}</h2><a class=\"back\" href=\"#top\">Top</a></div><p class=\"sub\">{{count}} · {{blurb}}</p><div class=\"list\">{{rows}}</div></section>",
-  "static_archives": "<section class=\"panel\" id=\"kiwix\"><h2>Opening an encyclopedia</h2><p>Encyclopedias open in the free Kiwix app. Keep split files together and open the first part.</p>{{devices}}{{software}}</section>",
+  "static_archives": "<section class=\"panel\" id=\"kiwix\"><h2>Opening an encyclopedia</h2><p>On a computer, open START_HERE.html in a web browser. Encyclopedias open right on the page.</p><p>On a phone, use the free Kiwix app. Keep split files together and open the first part.</p>{{devices}}{{software}}</section>",
   "static_device": "<div class=\"device d-{{id}}\"><h3>{{name}}</h3><ol class=\"steps\"><li><span>{{install}}</span></li><li><span>{{open}}</span></li><li><span>{{pick}}</span></li></ol></div>",
   "static_software": "<div class=\"apps\"><h3>Reader apps on this drive</h3><div class=\"list\">{{rows}}</div></div>",
   "location_link": "<a href=\"{{href}}\">{{text}}</a>",

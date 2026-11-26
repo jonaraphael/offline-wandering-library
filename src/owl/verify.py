@@ -171,7 +171,7 @@ def support_status(root: Path, info: dict | None, integrity: dict) -> tuple[bool
             kinds.add("reader")
     home = declaration(f"{reader}/home.js", 'globalThis.OWLReaderData("home",') if reader else {}
     if home.get("archives") and not all(present(f"{reader}/{name}")
-                                       for name in ("fzstd.js", "zim.js", "zim-drive.js", "zim-article.js")):
+                                       for name in ("fzstd.js", "zim.js", "zim-drive.js", "zim-article.js", "zim-app.html")):
         kinds.add("reader")
     search = info.get("search")
     manifest_path = "LIBRARY/SEARCH/manifest.js"

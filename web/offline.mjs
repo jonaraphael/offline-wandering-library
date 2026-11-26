@@ -63,8 +63,10 @@ function grouped(rows, metadata, category) {
 export function startPage(assets = [], missing = []) {
   const links = assets.map(asset => {
     const path = asset.parts[0].path;
-    return '<li><a href="' + locator(path) + '">' + escape(asset.title) + "</a> · " + escape(path) +
-      (asset.parts.length > 1 ? " · Keep all parts together and open the first in Kiwix." : "") + "</li>";
+    // Without the reader, an encyclopedia needs the Kiwix app; a link would make the browser copy the file.
+    const title = asset.format === "zim" ? escape(asset.title) : '<a href="' + locator(path) + '">' + escape(asset.title) + "</a>";
+    return "<li>" + title + " · " + escape(path) + (asset.format === "zim" ? " · Opens in the Kiwix app" +
+      (asset.parts.length > 1 ? "; keep all parts together." : ".") : "") + "</li>";
   });
   return '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
     "<title>Library · Offline Wandering Library</title><h1>Library</h1>" +
@@ -106,7 +108,7 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
     return {id: asset.id, title: asset.title, path, href: locator(path), kind: metadata[asset.id]?.kind ||
       FORMATS[asset.format] || asset.format.toUpperCase(), format: asset.format, bytes: asset.bytes,
       ...(asset.parts.length > 1 ? {parts: asset.parts.length} : {}),
-      ...(metadata[asset.id]?.kiwixKind ? {kiwixKind: metadata[asset.id].kiwixKind} : {})};
+      ...(metadata[asset.id]?.archiveKind ? {archiveKind: metadata[asset.id].archiveKind} : {})};
   });
   const documents = files.filter(row => metadata[row.id]?.document !== false && !row.path.startsWith("LIBRARY/SOFTWARE/"));
   const readers = layout.readers.flatMap(([folder, label]) => [...files].sort(order)
@@ -160,7 +162,7 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
   if (tiles.length) staticSections.push(render(layout.static_tiles, {tiles: tiles.join("")}));
   staticSections.push(...shelves);
   if (documents.some(row => row.format === "zim")) {
-    const devices = ["iphone", "android", "windows", "mac", "linux"].map(device => {
+    const devices = ["iphone", "android"].map(device => {
       const instructions = layout.devices[device];
       const folder = device === "mac" ? "MACOS" : device.toUpperCase();
       const install = device === "iphone" || readers.some(row => row.path.startsWith("LIBRARY/SOFTWARE/" + folder + "/"))
@@ -179,9 +181,12 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
   const document = (title, body) => render(config.document, {title: escape(title), body, css, home: "../START_HERE.html"});
   const inventoryRows = [...inventory].sort(order).map(row => {
     const path = row.parts[0].path;
-    const link = render(layout.location_link, {href: escape(locator(path.slice("LIBRARY/".length))), text: escape(row.title)});
+    // An encyclopedia opens in the reader; linking the .zim would make the browser copy it.
+    const href = row.format === "zim" ? "../START_HERE.html#/read/" + encodeURIComponent(row.id) + "/%40main"
+      : locator(path.slice("LIBRARY/".length));
+    const link = render(layout.location_link, {href: escape(href), text: escape(row.title)});
     const detail = [row.license, row.attribution, row.parts.length > 1
-      ? row.parts.length + " parts. Keep them together and open the first." : ""].filter(Boolean).map(escape).join(" · ");
+      ? row.parts.length + " parts. Keep them together." : ""].filter(Boolean).map(escape).join(" · ");
     return render(layout.inventory_row, {link, path: escape(path), detail: detail ? "<small>" + detail + "</small>" : ""});
   });
   pages.set("LIBRARY/INVENTORY.html", document("Every file, with its location",

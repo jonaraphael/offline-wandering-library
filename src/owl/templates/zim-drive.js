@@ -6,7 +6,17 @@
   const relativeZim = "LIBRARY/ZIM/";
   const wrongFolder = () => Object.assign(new Error("Wrong library folder"), {code: "folder"});
   const disconnected = cause => Object.assign(new Error("Could not read the ZIM file", {cause}), {code: "disconnected"});
+  const missing = cause => Object.assign(new Error("A ZIM file is missing from the drive", {cause}), {code: "file"});
   const accessDenied = error => ["NotAllowedError", "SecurityError"].includes(error?.name);
+  // A folder that still lists its contents is connected; a missing file there was not copied.
+  const reachable = async handle => {
+    try {
+      for await (const _ of handle.keys()) break;
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
   const decoded = value => {
     try { return decodeURIComponent(value); } catch (_) { return value; }
   };
@@ -39,14 +49,14 @@
       try {
         if (!prefix) await file(startPage);
         await file(("LIBRARY/" + generation + "/home.js").slice(prefix.length));
-        return {get: async path => (await file(path.slice(prefix.length))).getFile()};
+        return {get: async path => (await file(path.slice(prefix.length))).getFile(), present: () => reachable(handle)};
       } catch (error) {
         if (accessDenied(error)) throw error;
         // The selected folder may be inside the drive.
       }
     }
     if (handle.name === "ZIM") {
-      const source = {get: async path => (await file(path.slice(relativeZim.length))).getFile()};
+      const source = {get: async path => (await file(path.slice(relativeZim.length))).getFile(), present: () => reachable(handle)};
       for (const row of rows) {
         try {
           await openParts(source, row, true);
@@ -90,9 +100,10 @@
       let file;
       try { file = await source.get(path); } catch (error) {
         if (accessDenied(error)) throw error;
-        throw disconnected(error);
+        throw source.present && await source.present() ? missing(error) : disconnected(error);
       }
-      if (!file) throw disconnected();
+      // A folder chosen with the file input lists exactly what was on the drive.
+      if (!file) throw source.present ? disconnected() : missing();
       if (file.size !== bytes) {
         if (choosing) throw wrongFolder();
         throw Object.assign(new Error("Changed ZIM part"), {code: "file"});

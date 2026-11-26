@@ -80,13 +80,25 @@ async function context(browser, name, {width = 1280, theme = 'light', folderInpu
     isMobile: name !== 'firefox' && width === 390, hasTouch: width === 390});
   await context.route(/^https?:/i, route => route.abort('internetdisconnected'));
   const page = await context.newPage();
-  const csp = [], errors = [], requests = [];
+  const csp = [], errors = [], requests = [], app = {csp: 0, errors: 0, requests: 0};
+  // Archive pages that run in the sandboxed zim-app.html frame may try the network or
+  // throw; their own policy blocks the first, and neither is the reader's fault.
+  const inApp = value => /zim-app\.html|^blob:/.test(value || '');
   page.setDefaultTimeout(20_000);
   page.on('console', message => {
-    if (/content security policy|violates.{0,60}directive/i.test(message.text())) csp.push(message.text());
+    if (!/content security policy|violates.{0,60}directive|blocked the loading of a resource/i.test(message.text())) return;
+    if (inApp(message.location().url) || /connect-src blob: data:/.test(message.text())) app.csp++;
+    else csp.push(message.text());
   });
-  page.on('pageerror', error => errors.push(error.message));
-  page.on('request', request => { if (/^https?:/i.test(request.url())) requests.push(request.url()); });
+  page.on('pageerror', error => {
+    if (inApp(error.stack)) app.errors++;
+    else errors.push(error.message);
+  });
+  page.on('request', request => {
+    if (!/^https?:/i.test(request.url())) return;
+    if (inApp(request.frame().url())) app.requests++;
+    else requests.push(request.url());
+  });
   await page.addInitScript(() => {
     window.archiveEvents = [];
     window.policyEvents = [];
@@ -153,7 +165,7 @@ async function context(browser, name, {width = 1280, theme = 'light', folderInpu
       };
     });
   }
-  return {context, page, csp, errors, requests};
+  return {context, page, csp, errors, requests, app};
 }
 
 async function seedChromium(page, drive, realZimFolder, selection = 'KINGSTON') {
@@ -314,22 +326,15 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
       await query(page, 'PhET simulation archive');
       const phet = page.locator('a.button[href*="phet_archive"]').first();
       await phet.waitFor();
+      assert.doesNotMatch(await phet.locator('..').innerText(), /Kiwix/);
       await query(page, 'OER4Schools');
       const oer = page.locator('a.button[href*="oer4schools"]').first();
       await oer.waitFor();
-      assert.equal(await oer.locator('..').locator('h3 + small').innerText(), 'Teacher training · Opens in the Kiwix app');
-      assert.equal(await oer.locator('..').locator('p.text').count(), 0);
-      await query(page, 'PhET simulation archive');
-      assert.equal(await phet.locator('..').locator('h3 + small').innerText(), 'Simulations · Opens in the Kiwix app');
-      assert.equal(await phet.locator('..').locator('p.text').count(), 0);
-      if (shot) await phet.locator('..').scrollIntoViewIfNeeded();
-      await snapshot('search-kiwix');
-      await phet.click();
-      await page.locator('.article-fallback[data-reason=scripts]').waitFor();
-      assert.deepEqual(await page.evaluate(() => accessEvents), []);
-      await route(page, '#/search');
-      await page.locator('#query').waitFor();
-      check.knownArchiveBeforeAccess = true;
+      assert.doesNotMatch(await oer.locator('..').innerText(), /Kiwix/);
+      if (shot) await oer.locator('..').scrollIntoViewIfNeeded();
+      await snapshot('search-app-archives');
+      await query(page, 'cpr');
+      check.appArchivesListedLikeOthers = true;
     }
     if (name === 'chromium') await seedChromium(page, drive, realZimFolder);
     await query(page);
@@ -491,8 +496,9 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     await page.locator('.archive-row').first().waitFor();
     if (realZimFolder) {
       const phet = page.locator('.archive-row').filter({hasText: 'PhET simulation archive'});
-      assert.match(await phet.innerText(), /Simulations · Opens in the Kiwix app/);
-      assert.match(await page.locator('.archive-row').filter({hasText: 'OER4Schools'}).innerText(), /Teacher training · Opens in the Kiwix app/);
+      assert.match(await phet.innerText(), /Simulations/);
+      assert.match(await page.locator('.archive-row').filter({hasText: 'OER4Schools'}).innerText(), /Teacher training/);
+      assert.doesNotMatch(await page.locator('.list').first().innerText(), /Kiwix/);
       await phet.scrollIntoViewIfNeeded();
     }
     await snapshot('all');
@@ -510,40 +516,33 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
       await link.click();
       const main = await archiveEvent(page, prior);
       output.mains.push(main);
-      if (main.reason === 'scripts') {
-        const fallback = page.locator('.article-fallback');
-        assert.match(await fallback.innerText(), /Open this file in the Kiwix app/);
-        assert.equal(await page.locator('dialog').evaluate(node => node.open), false);
-        assert.equal(await fallback.locator('.button').count(), 1);
-        const installer = fallback.locator('.button');
-        assert.match(await installer.getAttribute('href'), /^LIBRARY\/SOFTWARE\/MACOS\//);
-        assert.equal(await installer.getAttribute('download'), name === 'chromium' ? '' : null);
-        assert.equal(await fallback.getByText('Saves the installer to Downloads. Open it there to install Kiwix.', {exact: true}).count(),
-          name === 'chromium' ? 1 : 0);
-        if (name === 'chromium' && !realZimFolder) {
-          const [download] = await Promise.all([page.waitForEvent('download'), installer.click()]);
-          assert.equal(download.suggestedFilename(), 'kiwix.dmg');
-          assert.equal(await download.failure(), null);
-          check.localInstallerDownload = true;
-        }
-        assert.match(await fallback.locator('.trail').innerText(), /^LIBRARY › ZIM › .+\.zim$/);
-        assert.match(await fallback.locator('.sub').innerText(), realZimFolder ? /^(Simulations|Teacher training)$/ : /^Encyclopedia$/);
-        main.frameHeight = null;
-        main.firstText = (await fallback.innerText()).replace(/\s+/g, ' ').trim().slice(0, 80);
-        await snapshot('kiwix-' + main.id);
-        check.inlineKiwix = true;
-        await route(page, '#/all');
-        await link.waitFor();
-        assert.match(await link.innerText(), /Opens in the Kiwix app/);
+      if (main.mode === 'app') {
+        // A page drawn by scripts runs in the sandboxed frame, not a Kiwix hand-off.
+        const appFrame = page.locator('#article-paper.app-view iframe');
+        assert.equal(await appFrame.getAttribute('sandbox'), 'allow-scripts');
+        assert.match(await appFrame.getAttribute('src'), /^LIBRARY\/INDEX\/[0-9a-f]{12}\/zim-app\.html(#|$)/);
+        assert.equal(await page.locator('.article-problem').count(), 0);
+        const inner = page.frames().find(child => /zim-app\.html/.test(child.url()));
+        const expected = realZimFolder ? {phet_archive: /PhET Interactive Simulations/,
+          oer4schools_en_all_2025_10: /OER4Schools/}[main.id] : /Script-built page marker/;
+        assert.ok(expected, 'unexpected app archive ' + main.id);
+        await inner.waitForFunction(pattern => new RegExp(pattern).test(document.body.innerText), expected.source);
+        assert.equal(await inner.evaluate(() => self.origin), 'null');
+        const height = await appFrame.evaluate(node => node.getBoundingClientRect().height);
+        assert.ok(height >= 360, main.id + ' app height ' + height);
+        main.frameHeight = height;
+        main.firstText = (await inner.evaluate(() => document.body.innerText)).replace(/\s+/g, ' ').trim().slice(0, 80);
         if (!realZimFolder) {
-          assert.ok(main.bytes > 0);
-          const prior = await changeCount();
-          await link.click();
-          const repeated = await archiveEvent(page, prior);
-          assert.equal(repeated.reason, 'scripts');
-          assert.equal(repeated.bytes, undefined);
-          check.kiwixSession = true;
+          await inner.locator('#fetched', {hasText: 'Fetched from the archive'}).waitFor();
+          await inner.waitForFunction(() => document.querySelector('#drawn')?.naturalWidth > 0);
+          await inner.locator('#next').click();
+          await page.waitForFunction(() => /\/Second(\?|$)/.test(location.hash));
+          await page.locator('#article-paper[data-ready=true]').waitFor();
+          assert.match(await frame.locator('body').innerText(), /Second-page marker/);
+          check.appBridge = true;
         }
+        await snapshot('app-' + main.id);
+        check.inlineApp = true;
       } else {
         assert.ok(!main.reason, JSON.stringify(main));
         assert.equal(main.images, main.shown);
@@ -601,6 +600,7 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     assert.deepEqual(state.requests, []);
     check.csp = 0;
     check.networkRequests = 0;
+    output.sandboxedArchivePages = {...state.app};
     return output;
   } catch (error) {
     console.error(JSON.stringify({engine: output.engine, drive, check, csp: state.csp, errors: state.errors,
@@ -683,12 +683,22 @@ async function reconnect(browser, name, drive, {folderInput, stale, shot, width,
       restore = () => rename(path + '.away', path);
       await route(page, '#/read/wikimed_en/Second');
     } else {
-      await page.evaluate(name => testFolder.removeEntry(name), part);
+      // An unplugged drive stops listing its folders; a connected one with a lost file still lists them.
+      await page.evaluate(name => {
+        const keys = FileSystemDirectoryHandle.prototype.keys;
+        FileSystemDirectoryHandle.prototype.keys = function () {
+          if (window.unplugged) throw new DOMException('The drive is gone', 'NotFoundError');
+          return keys.call(this);
+        };
+        window.unplugged = true;
+        return testFolder.removeEntry(name);
+      }, part);
       const data = [...await readFile(path)];
       restore = () => page.evaluate(async ({part, data}) => {
         const writer = await (await testFolder.getFileHandle(part, {create: true})).createWritable();
         await writer.write(new Uint8Array(data));
         await writer.close();
+        window.unplugged = false;
       }, {part, data});
       await route(page, '#/all');
       await link.click();
@@ -725,6 +735,31 @@ async function reconnect(browser, name, drive, {folderInput, stale, shot, width,
     return folderInput ? 'reselected folder after file read failed' : 'reused handle after split part disappeared';
   } finally {
     try { await restore?.(); } finally { await state.context.close(); }
+  }
+}
+
+async function missingFile(browser, name, drive, {folderInput}) {
+  const state = await context(browser, name, {folderInput});
+  const {page} = state;
+  const folder = join(drive, 'LIBRARY/ZIM');
+  const path = join(folder, 'medical.zimab');
+  await rename(path, path + '.away');
+  try {
+    await page.goto(url(drive, '#/all'));
+    if (!folderInput) await seedChromium(page, drive, undefined, 'ZIM');
+    const link = page.locator('.archive-row > a').filter({hasText: 'WikiMed'});
+    await choose(page, link, folderInput, 'valid', folder);
+    const problem = page.locator('.article-problem[data-reason=file]');
+    await problem.waitFor();
+    assert.match(await problem.innerText(), /WikiMed did not copy completely to this drive\./);
+    const repair = problem.getByRole('link', {name: 'Repair this drive'});
+    assert.equal(await repair.getAttribute('href'), 'https://jonaraphael.com/offline-wandering-library/');
+    assert.equal(await page.locator('dialog[open]').count(), 0);
+    assert.doesNotMatch(await problem.innerText(), /Kiwix|not connected/);
+    return folderInput ? 'missing part with folder input' : 'missing part with directory handle';
+  } finally {
+    await rename(path + '.away', path);
+    await state.context.close();
   }
 }
 
@@ -938,6 +973,8 @@ async function main() {
         const record = {fixture: await flow(browser, name, drive, {wrong})};
         record.folders = await folderVariants(browser, name, drive, wrong, evidence);
         record.reconnect = [await reconnect(browser, name, drive, {folderInput: true})];
+        record.missing = [await missingFile(browser, name, drive, {folderInput: true})];
+        if (name === 'chromium') record.missing.push(await missingFile(browser, name, drive, {folderInput: false}));
         const stages = ['picker', 'article', 'images', 'denied'];
         if (name === 'chromium') {
           record.reconnect.push(await reconnect(browser, name, drive, {folderInput: false}));

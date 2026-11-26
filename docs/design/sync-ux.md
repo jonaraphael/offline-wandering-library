@@ -160,7 +160,8 @@ Notes on states:
   plugged in. Open the Files app, tap the drive's name (on an iPhone it is
   under Browse), then tap START_HERE."
 - **Try it** opens the drive's `START_HERE.html` in a new tab. If the browser
-  cannot open the preview, **Try it** gives the file name and drive.
+  cannot open the preview, there is no **Try it** button; the status line
+  already names the drive and `START_HERE.html`.
 - **`current` has no primary button.** A disabled Sync button reads as a
   fault.
 - If measurement is unavailable, the printed-size plan says "This plan uses

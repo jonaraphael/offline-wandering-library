@@ -111,8 +111,11 @@ class NavigationTests(unittest.TestCase):
         self.assertIn('Look up Burn in Kiwix', pages['START_HERE.html'])
         content = ''.join(StaticHTML(pages['START_HERE.html']).text)
         self.assertIn('Care for burnsMedical encyclopedia · Look up Burn in KiwixLIBRARY › ZIM › medicine.zim', content)
-        for device in ('iPhone', 'Android phone', 'Windows PC', 'Mac', 'Linux computer'):
+        for device in ('iPhone', 'Android phone'):
             self.assertIn(device, content)
+        # Computers read encyclopedias in the page; the static page sends them there.
+        self.assertNotIn('Windows PC', content)
+        self.assertIn('On a computer, open START_HERE.html in a web browser.', content)
         self.assertEqual(len(home['tasks']), len(layout()['tasks']))
         self.assertTrue(all('path' not in task for task in
                             reader_data(script(self.generate([]), 'home.js'), 'home')['tasks']))

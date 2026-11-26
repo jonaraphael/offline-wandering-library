@@ -357,7 +357,7 @@ export function completionState({state, completed, missing, searchWarnings, supp
     keptPublished ? " Some reader or search files are missing from this update. The previous library is still on the drive." :
       " Some reader or search files are missing." : "";
   const phoneSupport = supportMissing?.some(row => row.kind === "phone") ? " Some WikiMed phone files are missing." : "";
-  const appSupport = apps ? " Kiwix opens the encyclopedias on this drive." : "";
+  const appSupport = apps ? " Phones need the Kiwix app to open the encyclopedias; computers open them in START_HERE." : "";
   const deferred = state.relayDeferred?.length;
   const relaySupport = deferred ? " " + countOf(deferred, "file") +
     (deferred === 1 ? " is " : " are ") + RELAY_WAIT_REASON + "." : "";
@@ -564,15 +564,11 @@ export function mount({catalog: supplied} = {}) {
   }
   const pauseToManage = () => { manageAfterPause = true; pauseNow(); };
   const enterFreeSpace = () => { render("needs-free-space"); freeField.focus(); };
-  const showOpenInstructions = () => {
-    byId("open-library-instructions").textContent = "In Files or Finder, open " + name() + ", then open START_HERE.html.";
-    byId("open-library").showModal();
-  };
   const manageLink = ["Manage what goes on it", openManage];
   const checkLink = ["Check every file", verify];
   const seeLink = ["See what goes on a drive", openManage];
   const cli = ["Build with the command line", null, byId("how").querySelector("a").href];
-  const installKiwix = ["Install Kiwix while online", null, "https://kiwix.org/"];
+  const installKiwix = ["Get Kiwix for phones", null, "https://kiwix.org/en/applications/"];
   const freeSpaceLink = ["This drive already has files", enterFreeSpace];
 
   function releaseArchive() {
@@ -780,9 +776,11 @@ export function mount({catalog: supplied} = {}) {
     }
     if (["ready", "behind", "paused"].includes(mode)) {
       const relay = relayLimitMessage(comparison?.adds || [], catalog.routes, catalog.published);
-      item.extra = [essentialRouteMessage(plan.excluded), relay].filter(Boolean).join(" ");
+      const essential = essentialRouteMessage(plan.excluded);
+      item.extra = [essential, relay].filter(Boolean).join(" ");
+      // The message names the Python builder; give the way to it.
+      if (essential && !item.links.some(([label]) => label === cli[0])) item.links.push(cli);
     }
-    if (!local && canTryLibrary(mode) && !tryLink.hasAttribute("href")) item.action = ["Try it", showOpenInstructions];
     if (canTryLibrary(mode) || mode === "failed") {
       const repaired = result.repairedPages.map(({path, copy, retired}) =>
         (retired ? "Replaced " + path + " in the new library. " : "Rebuilt and checked " + path + ". ") +

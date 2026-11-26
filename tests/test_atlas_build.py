@@ -177,7 +177,7 @@ class AtlasBuildTests(AtlasBuildFixture):
         self.check_verified()
         self.run_build()
         self.assertNotIn("Shared topic", next((self.library / "INDEX").glob("*/c-other.js")).read_text(encoding="utf-8"))
-        self.assertFalse(list((self.library / "INDEX").rglob("*.html")))
+        self.assertEqual([path.name for path in (self.library / "INDEX").rglob("*.html")], ["zim-app.html"])
         self.check_verified()
 
     def test_removed_mapping_updates_data_and_preserves_unrelated_files(self):
@@ -190,7 +190,7 @@ class AtlasBuildTests(AtlasBuildFixture):
         report = self.atlas()
         self.assertIn("shared", report["omitted_topic_ids"])
         self.assertNotIn("Shared topic", next((self.library / "INDEX").glob("*/c-other.js")).read_text(encoding="utf-8"))
-        self.assertFalse(list((self.library / "INDEX").rglob("*.html")))
+        self.assertEqual([path.name for path in (self.library / "INDEX").rglob("*.html")], ["zim-app.html"])
         self.assertEqual(personal.read_text(encoding="utf-8"), "keep")
         counts = verify_drive(self.drive, emit=lambda _: None)
         self.assertEqual((counts["FAILED"], counts["MISSING"], counts["UNKNOWN"]), (0, 0, 1))
@@ -274,7 +274,7 @@ class AtlasBuildTests(AtlasBuildFixture):
         self.write_assignments()
         self.atlas()
         self.assertNotIn("Shared topic", next((self.library / "INDEX").glob("*/c-other.js")).read_text(encoding="utf-8"))
-        self.assertFalse(list((self.library / "INDEX").rglob("*.html")))
+        self.assertEqual([path.name for path in (self.library / "INDEX").rglob("*.html")], ["zim-app.html"])
         self.check_verified()
 
     def test_changed_source_and_stale_map_fail_before_publication(self):
