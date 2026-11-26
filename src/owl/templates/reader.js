@@ -282,7 +282,8 @@
       wrong: ["Choose the library folder", '<p>That folder is not this library.</p>' + caption],
       disconnected: ["Reconnect this drive", '<p class="picker-instruction">' + mark(folder) +
         ' is not connected. Plug it in, then click Try again.</p>'],
-      stalled: ["Drive access was denied", '<p role="status">This page couldn’t read ' + mark(folder) + '.</p>'],
+      stalled: ["Drive access was denied", '<p role="status">The browser blocked this page from reading ' + mark(folder) + "." +
+        (alternate ? " Choose the " + mark("ZIM") + " folder to open it another way." : "") + "</p>"],
     };
     const [title, body] = states[state];
     sheet.dataset.reason = state;
@@ -516,7 +517,10 @@
     // After a reload or a lost drive, name the article that Open will show.
     const {path, title} = drive.parseRoute(hash);
     const name = title || (path === "@main" ? "" : path.split("/").pop().replace(/_/g, " "));
+    // The browser needs a fresh click before a page may ask for the folder again.
+    const folder = escape(drive.folderName(location.pathname));
     return '<div class="panel article-start">' + (name ? "<p>" + escape(name) + "</p>" : "") +
+      '<p class="note">The browser needs one click to read <mark>' + folder + "</mark> again.</p>" +
       attachment({...row, route: hash}, "Open").replace("<a ", '<a class="button" ') + "</div>";
   }
 

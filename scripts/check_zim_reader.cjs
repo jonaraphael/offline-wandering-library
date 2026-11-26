@@ -447,6 +447,8 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
       const reopen = page.locator('.article-start').getByRole('link', {name: 'Open'});
       await reopen.waitFor();
       assert.equal(await reopen.count(), 1);
+      // A second Open must say why the browser needs it.
+      assert.match(await page.locator('.article-start').innerText(), /The browser needs one click to read KINGSTON again\./);
       await choose(page, reopen, folderInput, 'valid', folder);
       await page.locator('#article-paper[data-ready=true]').waitFor();
     }
@@ -904,7 +906,8 @@ async function stalledAccess(browser, name, drive, {stage = 'picker', width, the
       const sheet = page.locator('dialog[open][data-reason=stalled]');
       await sheet.waitFor();
       assert.equal(await sheet.getByRole('heading').innerText(), 'Drive access was denied');
-      assert.equal(await sheet.getByRole('status').innerText(), 'This page couldn’t read KINGSTON.');
+      assert.equal(await sheet.getByRole('status').innerText(), 'The browser blocked this page from reading KINGSTON.' +
+        (folderInput ? '' : ' Choose the ZIM folder to open it another way.'));
       assert.deepEqual(await sheet.getByRole('button').allTextContents(), [folderInput ? 'Try again' : 'Choose the ZIM folder']);
       await screenshot();
       await choose(page, sheet.getByRole('button'), true, 'valid', folder);
