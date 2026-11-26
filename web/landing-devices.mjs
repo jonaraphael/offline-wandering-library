@@ -113,11 +113,13 @@ $("dv-t3").innerHTML = guideParts(6.5, 101, ["Wounds", "Burns", "Broken bones", 
 
 // One turn per device: slide in until docked at IN, light on, guide opens from the drive's side and scrolls,
 // light off, slide away from OUT. HIDDEN is where each guide waits off screen; SCROLL is how far it scrolls.
+// ORDER lists the device groups in playing order: Mac (0), iPhone (2), Windows (1), Android (3).
 const TURN = 3.25, IN = .7, OUT = 2.75, AWAY = 1330;
-const HIDDEN = [[-310, 0], [-350, 0], [0, 146], [0, 150]];
-const SCROLL = [44, 44, 30, 30];
-const LOOP = HIDDEN.length * TURN;
-const devices = HIDDEN.map((_, i) => [$("dv-" + i), $("dv-a" + i), $("dv-s" + i)]);
+const ORDER = [0, 2, 1, 3];
+const HIDDEN = ORDER.map(i => [[-310, 0], [-350, 0], [0, 146], [0, 150]][i]);
+const SCROLL = ORDER.map(i => [44, 44, 30, 30][i]);
+const LOOP = ORDER.length * TURN;
+const devices = ORDER.map(i => [$("dv-" + i), $("dv-a" + i), $("dv-s" + i)]);
 const stick = $("dv-stick"), led = $("dv-led"), halo = $("dv-halo");
 const names = [...$("dv-n").children];
 let now = 0;
