@@ -159,7 +159,7 @@
             }
           }
         } catch (error) {
-          if (error.code === "disconnected") throw error;
+          if (["disconnected", "timeout"].includes(error.code)) throw error;
         }
         resources.set(key, url);
       }
@@ -185,7 +185,7 @@
                 imports.push(media ? "@media " + media + "{" + content + "}" : content);
               }
             } catch (error) {
-              if (error.code === "disconnected") throw error;
+              if (["disconnected", "timeout"].includes(error.code)) throw error;
             }
           }
           return "";
@@ -228,7 +228,7 @@
               node.replaceWith(style);
             }
           } catch (error) {
-            if (error.code === "disconnected") throw error;
+            if (["disconnected", "timeout"].includes(error.code)) throw error;
           }
         }
         node.remove();

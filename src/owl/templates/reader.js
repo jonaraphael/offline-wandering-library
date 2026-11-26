@@ -34,12 +34,14 @@
   picker.setAttribute("webkitdirectory", "");
   picker.hidden = true;
   const readOnly = {mode: "read"};
+  const clickProbe = 250;
   const chromiumPicker = typeof root.showDirectoryPicker === "function";
   const firefox = /Firefox\//.test(navigator.userAgent);
   const chromium = /(?:Chrome|Chromium)\//.test(navigator.userAgent);
   const webkit = /AppleWebKit\//.test(navigator.userAgent) && !chromium;
   let drive, archives = new Map(), folderStore, folderHandle, source;
-  let pickerChange, cachedZim, article, returnFocus;
+  let useFolderInput = !chromiumPicker;
+  let pickerResult, driveAccess, cachedZim, article, returnFocus;
   const scriptArchives = new Set();
   const needsKiwix = row => row.format === "zim" && (archives.get(row.id)?.kiwixKind || scriptArchives.has(row.id));
   const archiveKind = row => archives.get(row.id)?.kiwixKind || row.kind?.split(",")[0] || "Encyclopedia";
@@ -223,12 +225,12 @@
   function steps(texts) {
     return '<ol class="steps">' + texts.map(text => "<li><span>" + text + "</span></li>").join("") + "</ol>";
   }
-  function showSheet(title, body, action) {
+  function showSheet(title, body, action = "") {
     sheet.innerHTML = '<h2 id="sheet-title">' + title + "</h2>" + body + action;
     if (!sheet.open) {
       returnFocus = document.activeElement;
       sheet.showModal();
-    } else sheet.querySelector("button, a.button")?.focus();
+    } else (sheet.querySelector("button") || sheet).focus();
   }
 
   function kiwixView(row, reason) {
@@ -264,29 +266,29 @@
     content.dispatchEvent(new CustomEvent("owl:archive", {detail: {id: row.id, reason, ...stats}}));
   }
 
-  function accessSheet(state, retry) {
+  function accessSheet(state, {input = useFolderInput, retry, startIn, alternate = false} = {}) {
     const folder = escape(drive.folderName(location.pathname));
-    const key = value => "<mark>" + value + "</mark>";
-    const confirm = key(escape(drive.pickerLabel(detectedDevice(), chromiumPicker, firefox, chromium)));
-    const choose = "Choose " + folder;
-    const instruction = chromiumPicker ? "Click " + key(folder) + ", then " + confirm + "."
-      : "Open " + key(folder) + ", then " + key("LIBRARY") + ", then " + key("ZIM") + ". Click " + confirm + ".";
-    const permission = "If your browser asks for access, click " + key("Allow") + ".";
-    const reconnect = state === "disconnected";
-    const wrong = state === "wrong";
-    const copy = reconnect ? key(folder) + " is not connected. Plug it in, then click Try again." :
-      state === "permission" ? permission : instruction;
-    const upload = firefox ? 'In Firefox’s Confirm Upload window, click ' + key("Upload") + "." :
-      chromium ? 'If Chrome asks to upload files, click ' + key("Upload") + "." : "";
-    const extra = chromiumPicker && state !== "permission" ? '<p class="note">' + permission + '</p>' : "";
-    const note = !chromiumPicker && upload ? upload + " Nothing leaves this computer." :
-      "This page only reads the drive. Nothing is copied or sent.";
-    showSheet(reconnect ? "Reconnect this drive" : wrong ? "Choose the library folder" : "Open from this drive",
-      (wrong ? '<p>That folder is not this library.</p>' : "") + '<p class="picker-instruction">' + copy + '</p>' +
-      (reconnect ? "" : '<p class="note">' + note + '</p>' + extra),
-      '<button type="button" class="button">' + (reconnect ? "Try again" : choose) + "</button>");
+    const mark = value => "<mark>" + value + "</mark>";
+    const confirm = mark(escape(drive.pickerLabel(device, !input, firefox, chromium)));
+    const instruction = "In the folder window, " + (input ? "open " + mark(folder) + ", then " + mark("LIBRARY") +
+      ", then " + mark("ZIM") + ". Click " + confirm + "." : startIn ? "click " + confirm + " to use " +
+      mark(escape(startIn.name)) + "." : "click " + mark(folder) + ", then " + confirm + ".");
+    const note = input && firefox ? 'In Firefox’s Confirm Upload window, click ' + mark("Upload") + '. Nothing leaves this computer.' :
+      input && chromium ? 'If the browser asks to upload files, click ' + mark("Upload") + '. Nothing leaves this computer.' :
+        "This page only reads the drive. Nothing is copied or sent.";
+    const caption = '<p class="picker-instruction">' + instruction + '</p><p class="note">' + note + "</p>";
+    const states = {
+      picking: ["Open from this drive", caption],
+      wrong: ["Choose the library folder", '<p>That folder is not this library.</p>' + caption],
+      disconnected: ["Reconnect this drive", '<p class="picker-instruction">' + mark(folder) +
+        ' is not connected. Plug it in, then click Try again.</p>'],
+      stalled: ["Could not open from this drive", '<p role="status">The browser did not finish opening the library.</p>'],
+    };
+    const [title, body] = states[state];
     sheet.dataset.reason = state;
-    sheet.querySelector("button").onclick = retry;
+    const action = alternate ? "Choose the ZIM folder" : "Try again";
+    showSheet(title, body, retry ? '<button type="button" class="button">' + action + "</button>" : "");
+    if (retry) sheet.querySelector("button").onclick = retry;
   }
 
   function saveHandle(handle) {
@@ -300,7 +302,7 @@
 
   function reconnectSheet(row, hash, fromRoute) {
     source = cachedZim = null;
-    accessSheet("disconnected", () => readFromArchive(row, hash, fromRoute, false, true));
+    accessSheet("disconnected", {retry: () => readFromArchive(row, hash, fromRoute, {reconnecting: true})});
   }
 
   function readingState() {
@@ -308,100 +310,162 @@
     return {owlReadFrom: activeRoute, owlReadTab: origin};
   }
 
-  function readFromArchive(row, hash, fromRoute = false, forcePicker = false, reconnecting = false) {
-    const owner = pageEpoch;
-    const valid = () => pageEpoch === owner;
-    const retry = () => readFromArchive(row, hash, fromRoute, true);
+  function waitForPicker(open, signal, afterReturn) {
+    return new Promise((resolve, reject) => {
+      const listeners = new AbortController();
+      const options = {signal: listeners.signal};
+      let timeout, hint;
+      const away = () => {
+        clearTimeout(hint);
+        clearTimeout(timeout);
+        timeout = undefined;
+      };
+      const finish = (settle, value) => {
+        away();
+        listeners.abort();
+        settle(value);
+      };
+      const returned = () => {
+        if (!document.hidden && document.hasFocus() && timeout === undefined) {
+          timeout = setTimeout(() => finish(reject, new Error("Folder picker timed out")), root.OWLZim.readWait);
+          if (afterReturn) hint = setTimeout(afterReturn, 500);
+        }
+      };
+      // Native pickers can stay open indefinitely. Start the clock when the
+      // page becomes active again, or receives input if focus never changed.
+      root.addEventListener("blur", away, options);
+      root.addEventListener("focus", returned, options);
+      document.addEventListener("visibilitychange", () => document.hidden ? away() : returned(), options);
+      document.addEventListener("pointerdown", returned, options);
+      document.addEventListener("pointermove", returned, options);
+      document.addEventListener("keydown", returned, options);
+      signal.addEventListener("abort", () => finish(reject, signal.reason), options);
+      try { open().then(value => finish(resolve, value), error => finish(reject, error)); }
+      catch (error) { finish(reject, error); }
+    });
+  }
+
+  function stalledSheet(row, hash, fromRoute, input) {
+    const alternate = !input && "webkitdirectory" in picker;
+    accessSheet("stalled", {alternate, retry: () =>
+      readFromArchive(row, hash, fromRoute, {forcePicker: true, input: input || alternate})});
+  }
+
+  function dismissAccess() {
+    driveAccess?.abort();
+    sheet.close();
+  }
+
+  async function readFromArchive(row, hash, fromRoute = false,
+    {forcePicker = false, reconnecting = false, input = useFolderInput} = {}) {
+    const {waitForRead, readWait} = root.OWLZim;
+    driveAccess?.abort();
+    const attempt = driveAccess = new AbortController();
+    const valid = () => !attempt.signal.aborted;
+    const retry = () => readFromArchive(row, hash, fromRoute, {forcePicker: true, input});
     const done = (reason = "") => {
-      if (sheet.open) sheet.close();
       const state = {...(fromRoute ? history.state : readingState()), owlFallback: reason};
       if (fromRoute) {
         history.replaceState(state, "");
         render();
       } else navigate(hash, true, state);
     };
-    async function accept(candidate, handle, choosing) {
-      let parts;
-      try {
-        parts = await drive.openParts(candidate, row, choosing);
-      } catch (error) {
-        if (!valid()) return;
-        if (error.code === "disconnected") {
-          if (reconnecting && !choosing) await pick();
-          else reconnectSheet(row, hash, fromRoute);
-        } else if (error.code === "folder") accessSheet("wrong", retry);
-        else done("file");
-        return;
-      }
-      if (!valid()) return;
+    const accept = ({candidate, parts}, handle, choosing) => {
       if (choosing || !cachedZim || cachedZim.id !== row.id) cachedZim = {id: row.id, parts};
       source = candidate;
+      if (choosing) useFolderInput = input;
       if (handle && handle !== folderHandle) saveHandle(handle);
       done();
-    }
-    async function selected(files) {
+    };
+    const fromHandle = handle => drive.handleSource(handle, generation, archives.values());
+    async function inspect(candidate, choosing) {
+      const selected = await candidate;
       if (!valid()) return;
-      try {
-        await accept(drive.fileSource(files, generation, [...archives.values()]), null, true);
-      } catch (_) {
-        if (valid()) accessSheet("wrong", retry);
-      }
+      return {candidate: selected, parts: await drive.openParts(selected, row, choosing)};
     }
-    async function pick() {
+    function failed(error) {
       if (!valid()) return;
-      accessSheet("picking", retry);
-      if (chromiumPicker) {
+      if (error.code === "timeout" || drive.accessDenied(error)) {
+        attempt.abort();
+        stalledSheet(row, hash, fromRoute, input);
+      } else if (error.code === "folder") accessSheet("wrong", {input, retry});
+      else if (error.code === "disconnected") reconnectSheet(row, hash, fromRoute);
+      else done("file");
+    }
+
+    if (!forcePicker) {
+      const handle = input ? null : folderHandle;
+      // Bound the probe so a prompt, removed drive or stalled browser call
+      // still leaves the user's activation available for the folder picker.
+      const deadline = performance.now() + clickProbe;
+      const remaining = () => Math.max(0, deadline - performance.now());
+      let permission;
+      if (handle) {
         try {
-          const handle = await root.showDirectoryPicker({...readOnly, id: "owl-library"});
-          if (!valid()) return;
-          await accept(await drive.handleSource(handle, generation, archives.values()), handle, true);
+          permission = await waitForRead(handle.queryPermission(readOnly), remaining());
+        } catch (_) { /* Open the picker if permission cannot be checked. */ }
+      }
+      if (!valid()) return;
+      if (handle && permission !== "granted") source = cachedZim = null;
+      if (handle ? permission === "granted" : source) {
+        try {
+          const reopened = reconnecting || !source;
+          const selection = await waitForRead(inspect(source || fromHandle(handle), false), reopened ? remaining() : readWait);
+          if (valid()) accept(selection, null, false);
+          return;
         } catch (error) {
-          if (valid()) accessSheet(error.code === "folder" ? "wrong" : "cancel", retry);
-        }
-      } else if ("webkitdirectory" in picker) {
-        pickerChange = {selected, cancelled: () => {
-          if (valid()) accessSheet("cancel", retry);
-        }};
-        picker.value = "";
-        picker.click();
-      } else done("unsupported");
-    }
-    async function useHandle() {
-      const handle = folderHandle;
-      try {
-        if (await handle.queryPermission(readOnly) !== "granted") {
           if (!valid()) return;
-          accessSheet("permission", retry);
-          if (await handle.requestPermission(readOnly) !== "granted") {
-            if (valid()) accessSheet("cancel", retry);
+          if (!handle || !reconnecting && source) {
+            failed(error);
             return;
           }
+          // A granted handle can point to a drive at its old location.
         }
-        await accept(await drive.handleSource(handle, generation, archives.values()), handle, false);
-      } catch (_) {
-        if (!valid()) return;
-        if (source && !reconnecting) {
-          reconnectSheet(row, hash, fromRoute);
-          return;
-        }
-        source = cachedZim = null;
-        saveHandle(null);
-        await pick();
       }
     }
-    if (forcePicker) pick();
-    else if (folderHandle) useHandle();
-    else if (source) accept(source, null, false);
-    else pick();
+
+    if (input && !("webkitdirectory" in picker)) return done("unsupported");
+    const startIn = input ? null : folderHandle;
+    accessSheet("picking", {input, startIn});
+    const hint = input ? undefined : () => {
+      // Chromium can ask for read access after the folder panel closes.
+      sheet.querySelector(".picker-instruction").innerHTML =
+        'If you see “Allow this site to view and copy files?”, click <mark>Allow</mark>.';
+    };
+    let selection;
+    try {
+      selection = await waitForPicker(() => input ? new Promise(resolve => {
+        pickerResult = resolve;
+        picker.value = "";
+        picker.click();
+      }) : root.showDirectoryPicker({...readOnly, id: "owl-library", ...(startIn && {startIn})}), attempt.signal, hint);
+    } catch (error) {
+      if (!valid()) return;
+      if (error.name === "AbortError") dismissAccess();
+      else stalledSheet(row, hash, fromRoute, input);
+      return;
+    } finally {
+      if (driveAccess === attempt) pickerResult = null;
+    }
+    if (!valid()) return;
+    if (!selection) return dismissAccess();
+    try {
+      const candidate = input ? drive.fileSource(selection, generation, [...archives.values()]) : fromHandle(selection);
+      const parts = await waitForRead(inspect(candidate, true));
+      if (valid()) accept(parts, input ? null : selection, true);
+    } catch (error) {
+      failed(error);
+    }
   }
 
   async function restoreFolder() {
     if (!chromiumPicker) return;
+    const {waitForRead} = root.OWLZim;
     try {
-      folderStore = await drive.handleStore();
-      folderHandle = await folderStore(new URL(location.pathname, location.href).href);
-      if (folderHandle && await folderHandle.queryPermission(readOnly) === "granted") {
-        source = await drive.handleSource(folderHandle, generation, archives.values());
+      folderStore = await waitForRead(drive.handleStore(), 2 * clickProbe);
+      folderHandle = await waitForRead(folderStore(new URL(location.pathname, location.href).href), 2 * clickProbe);
+      if (folderHandle && await waitForRead(folderHandle.queryPermission(readOnly), clickProbe) === "granted") {
+        source = await waitForRead(drive.handleSource(folderHandle, generation, archives.values()), 2 * clickProbe);
       }
     } catch (_) {
       // A saved handle may have been revoked or the drive may have moved.
@@ -442,6 +506,7 @@
   }
 
   async function loadArticle(row, path, fragment, title, section, savedScroll, hash) {
+    const {waitForRead} = root.OWLZim;
     const controller = new AbortController();
     const current = article = {controller, urls: []};
     const active = () => article === current;
@@ -449,7 +514,7 @@
     let zim, initialBytes = 0;
     try {
       if (!cachedZim || cachedZim.id !== row.id) {
-        const parts = await drive.openParts(source, row);
+        const parts = await waitForRead(drive.openParts(source, row));
         if (!active()) return;
         cachedZim = {id: row.id, parts};
       }
@@ -477,10 +542,10 @@
       // The trusted srcdoc head applies script-src 'none' before the article markup.
       frame.setAttribute("sandbox", webkit ? "allow-same-origin allow-scripts" : "allow-same-origin");
       frame.setAttribute("scrolling", "no");
-      frame.onload = async () => {
+      const renderFrame = async () => {
         const doc = frame.contentDocument;
-        if (!active() || !doc?.body) return;
-        frame.onload = null;
+        if (!active()) return;
+        if (!doc?.body) throw Error("Could not open the article frame");
         if (isMain) root.OWLZimArticle.hideMainHeading(doc);
         function resize() {
           const height = Math.ceil(Math.max(doc.body.scrollHeight, doc.body.getBoundingClientRect().height));
@@ -524,7 +589,7 @@
         current.resize.observe(doc.body);
         status.remove();
         const images = [...doc.images].filter(img => img.hasAttribute("src") || img.hasAttribute("srcset"));
-        await Promise.all(images.map(img => img.decode().catch(() => {})));
+        await waitForRead(Promise.all(images.map(img => img.decode().catch(() => {}))));
         if (!active()) return;
         root.OWLZimArticle.recoverLayout(doc, page, resize);
         titleElement.textContent = displayTitle;
@@ -545,14 +610,25 @@
           shown: images.filter(image => image.naturalWidth > 0).length, resources: page.loaded,
           textLength: page.textLength, scripts: page.scripts, illustrations: page.illustrations}}));
       };
+      const frameLoaded = new Promise(resolve => { frame.onload = resolve; });
       frame.srcdoc = page.html;
       paper.hidden = false;
       paper.append(frame);
+      await waitForRead(frameLoaded);
+      frame.onload = null;
+      await renderFrame();
+      if (!active()) return;
       remember({...row, route: hash});
     } catch (error) {
       if (!active()) return;
       cachedZim = null;
       stopArticle();
+      if (error.code === "timeout" || drive.accessDenied(error)) {
+        source = null;
+        document.querySelector("#article-content").innerHTML = articleOpen(row, hash);
+        stalledSheet(row, hash, true, useFolderInput);
+        return;
+      }
       if (error.code === "disconnected" || ["NotFoundError", "NotReadableError"].includes(error.name)) {
         document.querySelector("#article-content").innerHTML = articleOpen(row, hash);
         reconnectSheet(row, hash, true);
@@ -692,7 +768,8 @@
 
   async function render({keepFocus = false} = {}) {
     const mine = ++pageEpoch;
-    pickerChange = null;
+    driveAccess?.abort();
+    pickerResult = null;
     stopArticle();
     if (sheet.open) sheet.close();
     const hash = location.hash || "#/";
@@ -818,20 +895,13 @@
       await restoreFolder();
     }
     if (drive) document.body.append(picker);
-    picker.addEventListener("change", () => {
-      const pending = pickerChange;
-      pickerChange = null;
-      if (picker.files.length) pending?.selected(picker.files);
-      else pending?.cancelled();
-    });
-    picker.addEventListener("cancel", () => {
-      pickerChange?.cancelled();
-      pickerChange = null;
-    });
+    picker.addEventListener("change", () => pickerResult?.(picker.files.length ? picker.files : null));
+    picker.addEventListener("cancel", () => pickerResult?.(null));
     sheet.addEventListener("click", event => {
       if (event.target === sheet && (event.offsetX < 0 || event.offsetY < 0 ||
-          event.offsetX > sheet.clientWidth || event.offsetY > sheet.clientHeight)) sheet.close();
+          event.offsetX > sheet.clientWidth || event.offsetY > sheet.clientHeight)) dismissAccess();
     });
+    sheet.addEventListener("cancel", () => driveAccess?.abort());
     sheet.addEventListener("close", () => {
       if (!sheet.open) returnFocus?.focus({preventScroll: true});
     });

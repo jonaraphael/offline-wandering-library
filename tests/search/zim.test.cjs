@@ -73,6 +73,10 @@ test('validates the current reader generation when choosing the drive, LIBRARY o
     markers('KINGSTON/LIBRARY/' + generation)];
   const library = [...files('LIBRARY', 'LIBRARY/'), markers('LIBRARY/' + generation)];
   const fallback = files('ZIM', 'LIBRARY/ZIM/');
+  const sidecar = {webkitRelativePath: 'ZIM/WIKI/._medical.zimaa', size: 3};
+  const withSidecar = drive.fileSource([...fallback, sidecar], generation, [row]);
+  assert.equal(withSidecar.get('LIBRARY/' + sidecar.webkitRelativePath), undefined);
+  assert.throws(() => drive.fileSource([sidecar, fallback[1]], generation, [row]), {code: 'folder'});
   for (const files of [root, library, fallback]) {
     assert.deepEqual((await drive.openParts(drive.fileSource(files, generation, [row]), row, true))
       .map(file => file.size), [3, 5]);

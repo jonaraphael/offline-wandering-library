@@ -8,17 +8,26 @@
   const maxCluster = 32 * 1024 * 1024;
   const cacheLimit = 2 * maxCluster;
   const absent = 0xffffffff;
+  const readWait = 4000;
   const check = (test, message = "Invalid ZIM data", code = "invalid") => {
     if (!test) throw Object.assign(new Error(message), {code});
   };
   const u64 = (view, at) => Number(view.getBigUint64(at, true));
   const viewOf = bytes => new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  function waitForRead(operation, delay = readWait) {
+    let timer;
+    const timeout = new Promise((_, reject) => {
+      timer = setTimeout(() => reject(Object.assign(new Error("Browser read timed out"), {code: "timeout"})), delay);
+    });
+    return Promise.race([operation, timeout]).finally(() => clearTimeout(timer));
+  }
   async function readBlob(blob, method) {
     try {
-      const value = await blob[method]();
+      const value = await waitForRead(blob[method]());
       if (method === "arrayBuffer" && value.byteLength !== blob.size) throw Error("Incomplete file read");
       return value;
     } catch (cause) {
+      if (cause?.code === "timeout") throw cause;
       throw Object.assign(new Error("Could not read the ZIM file", {cause}), {code: "disconnected"});
     }
   }
@@ -276,6 +285,7 @@
 
   }
 
-  if (typeof module !== "undefined" && module.exports) module.exports = {Zim, readBlob};
-  else root.OWLZim = {Zim, readBlob};
+  const api = {Zim, readBlob, readWait, waitForRead};
+  if (typeof module !== "undefined" && module.exports) module.exports = api;
+  else root.OWLZim = api;
 })(globalThis);

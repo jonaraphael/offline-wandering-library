@@ -6,6 +6,7 @@
   const relativeZim = "LIBRARY/ZIM/";
   const wrongFolder = () => Object.assign(new Error("Wrong library folder"), {code: "folder"});
   const disconnected = cause => Object.assign(new Error("Could not read the ZIM file", {cause}), {code: "disconnected"});
+  const accessDenied = error => ["NotAllowedError", "SecurityError"].includes(error?.name);
   const decoded = value => {
     try { return decodeURIComponent(value); } catch (_) { return value; }
   };
@@ -39,7 +40,10 @@
         if (!prefix) await file(startPage);
         await file(("LIBRARY/" + generation + "/home.js").slice(prefix.length));
         return {get: async path => (await file(path.slice(prefix.length))).getFile()};
-      } catch (_) { /* The selected folder may be inside the drive. */ }
+      } catch (error) {
+        if (accessDenied(error)) throw error;
+        // The selected folder may be inside the drive.
+      }
     }
     if (handle.name === "ZIM") {
       const source = {get: async path => (await file(path.slice(relativeZim.length))).getFile()};
@@ -47,7 +51,10 @@
         try {
           await openParts(source, row, true);
           return source;
-        } catch (_) { /* Look for a complete archive with the recorded sizes. */ }
+        } catch (error) {
+          if (accessDenied(error)) throw error;
+          // Look for a complete archive with the recorded sizes.
+        }
       }
     }
     throw wrongFolder();
@@ -60,9 +67,11 @@
       const path = file.webkitRelativePath;
       const slash = path.indexOf("/");
       if (slash < 0) continue;
+      const relative = path.slice(slash + 1);
+      if (relative.split("/").some(name => name.startsWith("._"))) continue;
       folder ??= path.slice(0, slash);
       if (folder !== path.slice(0, slash)) throw wrongFolder();
-      map.set(path.slice(slash + 1), file);
+      map.set(relative, file);
     }
     const prefix = folder === "ZIM" ? relativeZim : folder === "LIBRARY" ? "LIBRARY/" : "";
     const get = path => map.get(path.slice(prefix.length));
@@ -79,7 +88,10 @@
     const parts = [];
     for (const {path, bytes} of archiveParts(row)) {
       let file;
-      try { file = await source.get(path); } catch (error) { throw disconnected(error); }
+      try { file = await source.get(path); } catch (error) {
+        if (accessDenied(error)) throw error;
+        throw disconnected(error);
+      }
       if (!file) throw disconnected();
       if (file.size !== bytes) {
         if (choosing) throw wrongFolder();
@@ -125,7 +137,7 @@
     });
   }
 
-  const api = {folderName, pickerLabel, archiveParts, handleSource, fileSource, openParts, readRoute, parseRoute, handleStore};
+  const api = {folderName, pickerLabel, archiveParts, handleSource, fileSource, openParts, readRoute, parseRoute, handleStore, accessDenied};
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.OWLZimDrive = api;
 })(globalThis);
