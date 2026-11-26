@@ -44,6 +44,7 @@
   const needsKiwix = row => row.format === "zim" && (archives.get(row.id)?.kiwixKind || scriptArchives.has(row.id));
   const archiveKind = row => archives.get(row.id)?.kiwixKind || row.kind?.split(",")[0] || "Encyclopedia";
   const kiwixLabel = row => row && needsKiwix(row) ? archiveKind(row) + " · Opens in the Kiwix app" : "";
+  const archiveName = row => row.title.split(/: | — | \(/, 1)[0];
   const generation = engine.local("home.js").replace(/\/home\.js$/, "");
   const archiveRoute = (row, path, fragment, title, section) =>
     drive?.readRoute(row.id, path, fragment, title, section) || "#/read/" + encodeURIComponent(row.id) + "/@main";
@@ -232,10 +233,14 @@
 
   function kiwixView(row, reason) {
     const installer = bundledReader();
+    const downloadsInstaller = chromium && installer && device !== "android";
     const label = installer ? "Get " + installer.label : device === "iphone" ? "Get Kiwix for iPhone" : "";
     const action = installer || label ? '<a class="button" href="' +
-      escape(installer?.href || "https://apps.apple.com/us/app/kiwix/id997079563") + '">' + escape(label) + "</a>"
+      escape(installer?.href || "https://apps.apple.com/us/app/kiwix/id997079563") + '"' +
+      (downloadsInstaller ? " download" : "") + ">" + escape(label) + "</a>"
       : '<a class="button" href="https://kiwix.org/en/applications/">Get Kiwix</a>';
+    const downloadNote = downloadsInstaller ?
+      '<p class="note">Saves the installer to Downloads. Open it there to install Kiwix.</p>' : "";
     const [name, ...folders] = row.path.split("/").reverse();
     const trail = '<span class="trail">' + escape(folders.reverse().join(" › ")) + " › <b>" + escape(name) + "</b></span>";
     const message = reason === "scripts" ? "Open this file in the Kiwix app." :
@@ -243,7 +248,8 @@
     return '<div class="panel article-fallback" data-reason="' + escape(reason) + '"><p class="sub">' +
       escape(archiveKind(row)) + '</p><p>' + message + (reason === "scripts" ? "" : " Open it in the Kiwix app.") +
       '</p><p class="article-trail">' + trail + "</p>" +
-      (drive.archiveParts(row).length > 1 ? '<p class="note">Keep all parts together and open the first.</p>' : "") + action + "</div>";
+      (drive.archiveParts(row).length > 1 ? '<p class="note">Keep all parts together and open the first.</p>' : "") +
+      action + downloadNote + "</div>";
   }
 
   function showKiwix(row, hash, reason, stats = {}) {
@@ -267,16 +273,17 @@
       : "Open " + key(folder) + ", then " + key("LIBRARY") + ", then " + key("ZIM") + ". Click " + confirm + ".";
     const permission = "If your browser asks for access, click " + key("Allow") + ".";
     const reconnect = state === "disconnected";
-    const copy = state === "wrong" ? "That folder is not this library. " + choose + "." :
-      reconnect ? key(folder) + " is not connected. Plug it in, then click Try again." :
+    const wrong = state === "wrong";
+    const copy = reconnect ? key(folder) + " is not connected. Plug it in, then click Try again." :
       state === "permission" ? permission : instruction;
     const upload = firefox ? 'In Firefox’s Confirm Upload window, click ' + key("Upload") + "." :
       chromium ? 'If Chrome asks to upload files, click ' + key("Upload") + "." : "";
     const extra = chromiumPicker && state !== "permission" ? '<p class="note">' + permission + '</p>' : "";
     const note = !chromiumPicker && upload ? upload + " Nothing leaves this computer." :
       "This page only reads the drive. Nothing is copied or sent.";
-    showSheet(reconnect ? "Reconnect this drive" : state === "wrong" ? "Choose the library folder" : "Open from this drive",
-      '<p class="picker-instruction">' + copy + '</p>' + (reconnect ? "" : '<p class="note">' + note + '</p>' + extra),
+    showSheet(reconnect ? "Reconnect this drive" : wrong ? "Choose the library folder" : "Open from this drive",
+      (wrong ? '<p>That folder is not this library.</p>' : "") + '<p class="picker-instruction">' + copy + '</p>' +
+      (reconnect ? "" : '<p class="note">' + note + '</p>' + extra),
       '<button type="button" class="button">' + (reconnect ? "Try again" : choose) + "</button>");
     sheet.dataset.reason = state;
     sheet.querySelector("button").onclick = retry;
@@ -296,13 +303,18 @@
     accessSheet("disconnected", () => readFromArchive(row, hash, fromRoute, false, true));
   }
 
+  function readingState() {
+    const origin = activeRoute?.startsWith("#/read/") ? history.state?.owlReadTab || history.state?.owlReadFrom : activeRoute;
+    return {owlReadFrom: activeRoute, owlReadTab: origin};
+  }
+
   function readFromArchive(row, hash, fromRoute = false, forcePicker = false, reconnecting = false) {
     const owner = pageEpoch;
     const valid = () => pageEpoch === owner;
     const retry = () => readFromArchive(row, hash, fromRoute, true);
     const done = (reason = "") => {
       if (sheet.open) sheet.close();
-      const state = {...(fromRoute ? history.state : {owlReadFrom: activeRoute}), owlFallback: reason};
+      const state = {...(fromRoute ? history.state : readingState()), owlFallback: reason};
       if (fromRoute) {
         history.replaceState(state, "");
         render();
@@ -412,15 +424,16 @@
       attachment({...row, route: hash}, "Open").replace("<a ", '<a class="button" ') + "</div>";
   }
 
-  function articleView(row, hash) {
+  function articleView(row, hash, path) {
     const from = history.state?.owlReadFrom || "#/";
     const safeFrom = /^#\/(?:[a-zA-Z0-9_/%-]+)?$/.test(from) ? from : "#/";
     const title = from.startsWith("#/read/") ? "Previous article" :
       safeFrom === "#/search" ? "Search" : safeFrom === "#/saved" ? "Saved" :
       home.categories.find(cat => safeFrom === "#/c/" + cat.id)?.name || "Library";
     links.set(String(++linkNumber), {...row, route: hash});
+    const name = path === "@main" ? archiveName(row) : row.title;
     return '<div class="article-bar"><a class="back" data-read-back href="' + safeFrom + '">‹ ' + escape(title) +
-      '</a><div class="article-heading"><h1 id="article-title" tabindex="-1">' + escape(row.title) + '</h1>' +
+      '</a><div class="article-heading"><h1 id="article-title" tabindex="-1">' + escape(name) + '</h1>' +
       (storage ? button(String(linkNumber), row) : "") + '</div><p class="article-source" hidden>' +
       escape(row.title) + ' <span>· on this drive</span></p></div><div id="article-content">' +
       (needsKiwix(row) || history.state?.owlFallback ? "" : source ?
@@ -452,11 +465,13 @@
       const entry = await zim.get(namespaced ? path.slice(2) : path, {title, ns: namespaced ? path[0] : undefined});
       const page = await root.OWLZimArticle.prepare(zim, entry, current.urls, controller.signal);
       if (!active()) return;
+      const isMain = path === "@main";
+      const displayTitle = isMain ? archiveName(row) : page.title;
       const paper = document.querySelector("#article-paper");
       const status = document.querySelector("#article-status");
       const titleElement = document.querySelector("#article-title");
       const frame = document.createElement("iframe");
-      frame.title = page.title;
+      frame.title = displayTitle;
       frame.tabIndex = 0;
       // WebKit blocks the parent's event listeners in a script-sandboxed frame.
       // The trusted srcdoc head applies script-src 'none' before the article markup.
@@ -466,8 +481,11 @@
         const doc = frame.contentDocument;
         if (!active() || !doc?.body) return;
         frame.onload = null;
+        if (isMain) root.OWLZimArticle.hideMainHeading(doc);
         function resize() {
-          frame.style.height = Math.ceil(Math.max(doc.body.scrollHeight, doc.body.getBoundingClientRect().height)) + "px";
+          const height = Math.ceil(Math.max(doc.body.scrollHeight, doc.body.getBoundingClientRect().height));
+          frame.style.height = height + "px";
+          return height;
         }
         function jump(at, heading, focus = false) {
           const target = root.OWLZimArticle.targetElement(doc, at, heading);
@@ -495,7 +513,7 @@
           if (!next || next === entry.path && ns === entry.ns && at) jump(at, "", true);
           else {
             const fullPath = zim.minor === 0 ? ns + "/" + next : next;
-            navigate(archiveRoute(row, fullPath, at), true, {owlReadFrom: activeRoute});
+            navigate(archiveRoute(row, fullPath, at), true, readingState());
           }
         }
         doc.addEventListener("click", followLink);
@@ -505,21 +523,21 @@
         current.resize = new ResizeObserver(resize);
         current.resize.observe(doc.body);
         status.remove();
-        scrollTo(0, savedScroll);
         const images = [...doc.images].filter(img => img.hasAttribute("src") || img.hasAttribute("srcset"));
         await Promise.all(images.map(img => img.decode().catch(() => {})));
         if (!active()) return;
-        resize();
-        titleElement.textContent = page.title;
+        root.OWLZimArticle.recoverLayout(doc, page, resize);
+        titleElement.textContent = displayTitle;
         const sourceLabel = view.querySelector(".article-source");
-        if (page.title === row.title) sourceLabel.textContent = "On this drive";
+        if (isMain || displayTitle === row.title) sourceLabel.textContent = "On this drive";
         sourceLabel.hidden = false;
         // The article prints its own heading; keep this one for focus and screen readers only.
-        if (doc.querySelector("h1")) {
+        if (!isMain && doc.querySelector("h1")) {
           titleElement.classList.add("visually-hidden");
           titleElement.after(sourceLabel);
         }
         titleElement.focus({preventScroll: true});
+        scrollTo(0, savedScroll);
         if (fragment || section) jump(fragment, section);
         paper.dataset.ready = "true";
         paper.dispatchEvent(new CustomEvent("owl:archive", {detail: {id: row.id, path: entry.path,
@@ -625,7 +643,7 @@
   function openArchive(row, hash) {
     const target = archives.get(row.id);
     if (target && !needsKiwix(target)) readFromArchive(target, hash, activeRoute === hash);
-    else if (target) navigate(hash, true, {owlReadFrom: activeRoute});
+    else if (target) navigate(hash, true, readingState());
     else navigate(hash);
   }
 
@@ -646,7 +664,7 @@
   }
 
   function renderTabs() {
-    const route = activeRoute?.startsWith("#/read/") ? history.state?.owlReadFrom : activeRoute;
+    const route = activeRoute?.startsWith("#/read/") ? history.state?.owlReadTab || history.state?.owlReadFrom : activeRoute;
     const here = route?.split("/")[1];
     const current = here === "topic" ? "search" : ["search", "saved", "help"].includes(here) ? here : "home";
     tabs.innerHTML = [["home", "Home", "#/"], ["search", "Search", "#/search"], ["saved", "Saved", "#/saved"],
@@ -706,7 +724,7 @@
       } else if (name === "read" && drive) {
         reading = drive.parseRoute(hash);
         archive = archives.get(reading.id);
-        content = archive ? articleView(archive, hash) :
+        content = archive ? articleView(archive, hash, reading.path) :
           back("#/", "Library") + heading("This encyclopedia is unavailable on this drive.");
       } else if (useSearch) {
         searchMarkup ||= searchView();

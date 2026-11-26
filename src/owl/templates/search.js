@@ -910,13 +910,14 @@
           card.append(element('span', 'Urgent', 'label urgent'));
         }
         const archive = isArchive(record), name = heading(record);
-        const source = record.source_title !== name ? record.source_title : '';
-        const where = archive ? archiveLabel?.(record.asset_id || record.id) : record.location;
-        const byline = [source, where].filter(Boolean).join(' · ');
+        const {source_title: source, description} = record;
+        const kiwix = archive && archiveLabel?.(record.asset_id || record.id);
+        const byline = [source !== name && source, !archive && record.location].filter(Boolean).join(' · ');
         if (byline) card.append(element('small', byline));
         card.append(element('h3', name));
-        if (record.description) {
-          card.append(passage(/[.!?…:]$/.test(record.description) ? record.description : record.description + '…', words));
+        if (kiwix) card.append(element('small', kiwix));
+        else if (description) {
+          card.append(passage(/[.!?…:]$/.test(description) ? description : description + '…', words));
           if (indexed) {
             const license = normalize(record.license).replace(/[-\s]+/g, ' ');
             const alreadyCredited = license && normalize(record.attribution).replace(/[-\s]+/g, ' ').includes(license);

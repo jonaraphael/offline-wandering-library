@@ -10,6 +10,7 @@
   const internal = /^on|^data-owl-/;
   const htmlNamespace = "http://www.w3.org/1999/xhtml";
   const outsideHint = "Leaves the library (opens in a new tab)";
+  const archiveHeading = "h1, h2, h3, h4, h5, h6";
   const resourceType = /^(?:image|audio|video|font)\/|^application\/(?:font-|x-font-|vnd\.ms-fontobject|octet-stream)/i;
   const dataImage = /^data:image\/(?:png|gif|jpeg|webp|avif|svg\+xml);/i;
   const decode = value => {
@@ -91,6 +92,14 @@
   const paperMedia = value => value.replace(/\(\s*prefers-color-scheme\s*:\s*(dark|light)\s*\)/gi,
     (_, theme) => theme.toLowerCase() === "dark" ? "(max-width: 0px)" : "(min-width: 0px)");
 
+  function restoreMediaFallback(noscript, parsedAsText) {
+    const alternate = noscript.ownerDocument.createElement("template");
+    alternate.innerHTML = parsedAsText ? noscript.textContent : noscript.innerHTML;
+    for (const node of alternate.content.querySelectorAll(discarded + ", noscript")) node.remove();
+    if (alternate.content.querySelector("img, picture, video, source")) noscript.replaceWith(alternate.content);
+    else noscript.remove();
+  }
+
   async function prepare(zim, entry, urls, signal) {
     if (!/^text\/html\b|^application\/xhtml\+xml\b/i.test(entry?.mime)) throw Error("Entry is not an article");
     const content = await zim.blob(entry);
@@ -104,11 +113,13 @@
     const title = doc.querySelector("title")?.textContent.trim() || entry.title;
     // Template parsing keeps every archived resource inert, including the original head.
     for (const node of doc.querySelectorAll(discarded + ", title")) node.remove();
-    for (const noscript of doc.querySelectorAll("noscript")) {
-      const alternate = document.createElement("template");
-      alternate.innerHTML = noscript.textContent;
-      for (const node of alternate.content.querySelectorAll(discarded + ", noscript")) node.remove();
-      noscript.replaceWith(alternate.content);
+    const alternatives = doc.querySelectorAll("noscript");
+    if (alternatives.length) {
+      // Engines differ on whether a template parses noscript as raw text.
+      const sample = document.createElement("template");
+      sample.innerHTML = "<noscript><img></noscript>";
+      const parsedAsText = !sample.content.querySelector("img");
+      for (const noscript of alternatives) restoreMediaFallback(noscript, parsedAsText);
     }
 
     // A script-built shell can have a title and a short loading notice, but no
@@ -311,8 +322,70 @@
     if (fragment) return named(fragment) || named(fragment.replaceAll(" ", "_"));
     if (!section) return null;
     return named(section) || named(section.replaceAll(" ", "_")) ||
-      [...doc.querySelectorAll("h1, h2, h3, h4, h5, h6")].find(node => normalize(node.textContent) === normalize(section));
+      [...doc.querySelectorAll(archiveHeading)].find(node => normalize(node.textContent) === normalize(section));
   }
 
-  root.OWLZimArticle = {prepare, targetElement};
+  function hideMainHeading(doc) {
+    const heading = doc.querySelector(archiveHeading);
+    if (!heading) return;
+    const breadcrumb = heading.nextElementSibling;
+    heading.style.setProperty("display", "none", "important");
+    if (breadcrumb?.matches('.subpages, .breadcrumb, .breadcrumbs, [aria-label="breadcrumb" i]')) {
+      breadcrumb.style.setProperty("display", "none", "important");
+    }
+    // MediaWiki puts its subpage trail below the header inside the content wrapper.
+    doc.querySelector("#contentSub .subpages")?.style.setProperty("display", "none", "important");
+  }
+
+  function showLinkList(doc, links) {
+    const list = doc.createElement("ul");
+    for (const original of doc.body.querySelectorAll("a[data-owl-link], area[data-owl-link]")) {
+      const key = original.getAttribute("data-owl-link");
+      const destination = links.get(key);
+      if (!destination) continue;
+      const label = original.textContent.trim() || original.querySelector("img[alt]")?.getAttribute("alt")?.trim() ||
+        original.getAttribute("alt")?.trim() || (!destination.external && original.getAttribute("title")) ||
+        destination.path?.split("/").pop().replaceAll("_", " ") || destination.fragment || destination.external;
+      if (!label) continue;
+      const item = doc.createElement("li");
+      const link = doc.createElement("a");
+      link.textContent = label;
+      link.setAttribute("data-owl-link", key);
+      link.setAttribute("href", original.getAttribute("href"));
+      if (destination.external) {
+        link.setAttribute("title", outsideHint);
+        link.setAttribute("aria-label", label + " · " + outsideHint);
+      }
+      item.append(link);
+      list.append(item);
+    }
+    if (!list.childElementCount) return;
+    // The trusted defaults live in the head. Clear publisher CSS and wrappers.
+    for (const node of [doc.documentElement, doc.body]) {
+      for (const name of ["class", "id", "style"]) node.removeAttribute(name);
+    }
+    doc.body.replaceChildren(list);
+  }
+
+  function recoverLayout(doc, page, resize) {
+    const minimumHeight = 40;
+    if (resize() >= minimumHeight ||
+        !(page.textLength || doc.body.innerText.trim() || doc.body.querySelector("img, picture, video, svg image"))) return;
+    const positioned = [...doc.body.querySelectorAll("*")].filter(node =>
+      ["absolute", "fixed"].includes(doc.defaultView.getComputedStyle(node).position));
+    for (const node of new Set([...doc.body.children, ...positioned])) {
+      node.style.setProperty("position", "static", "important");
+      node.style.setProperty("height", "auto", "important");
+      node.style.setProperty("transform", "none", "important");
+    }
+    if (resize() < minimumHeight) {
+      showLinkList(doc, page.links);
+      resize();
+    }
+  }
+
+  root.OWLZimArticle = {prepare, targetElement, hideMainHeading, recoverLayout};
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = {restoreMediaFallback, hideMainHeading, recoverLayout};
+  }
 })(globalThis);

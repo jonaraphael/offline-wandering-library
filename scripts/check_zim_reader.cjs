@@ -98,7 +98,9 @@ async function context(browser, name, {width = 1280, theme = 'light', folderInpu
       if (!sheet) return;
       new MutationObserver(() => {
         if (sheet.open) accessEvents.push({state: sheet.dataset.reason, text: sheet.innerText,
-          keys: [...sheet.querySelectorAll('mark')].map(mark => mark.textContent)});
+          keys: [...sheet.querySelectorAll('mark')].map(mark => mark.textContent),
+          instruction: sheet.querySelector('.picker-instruction')?.innerHTML,
+          notes: [...sheet.querySelectorAll('.note')].map(note => note.innerHTML)});
       }).observe(sheet, {attributes: true, childList: true});
     });
   });
@@ -220,6 +222,20 @@ function checkPickerCopy(name, access, folderInput) {
   }
 }
 
+async function checkWrongFolder(page, name, folderInput) {
+  const sheet = page.locator('dialog[data-reason=wrong]');
+  await sheet.waitFor();
+  assert.equal(await sheet.locator('h2').innerText(), 'Choose the library folder');
+  assert.equal(await sheet.locator('p').first().innerText(), 'That folder is not this library.');
+  assert.equal(await sheet.getByRole('button', {name: 'Choose KINGSTON', exact: true}).count(), 1);
+  const [first, wrong] = await page.evaluate(() => [
+    accessEvents.find(event => event.state === 'picking'), accessEvents.findLast(event => event.state === 'wrong'),
+  ]);
+  checkPickerCopy(name, wrong, folderInput);
+  assert.equal(wrong.instruction, first.instruction);
+  assert.deepEqual(wrong.notes, first.notes);
+}
+
 async function checkExternalLink(state, link) {
   await link.waitFor();
   const href = await link.getAttribute('href');
@@ -238,7 +254,7 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
   const state = await context(browser, name, {width, theme});
   const {page} = state;
   const check = {};
-  const output = {engine: name + ' ' + browser.version(), check, articles: []};
+  const output = {engine: name + ' ' + browser.version(), check, articles: [], mains: []};
   const folderInput = name !== 'chromium';
   const folder = realZimFolder || join(drive, 'LIBRARY', 'ZIM');
   const changeCount = () => page.evaluate(() => archiveEvents.length);
@@ -253,7 +269,15 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
       await query(page, 'PhET simulation archive');
       const phet = page.locator('a.button[href*="phet_archive"]').first();
       await phet.waitFor();
-      assert.match(await phet.locator('..').innerText(), /Simulations · Opens in the Kiwix app/);
+      await query(page, 'OER4Schools');
+      const oer = page.locator('a.button[href*="oer4schools"]').first();
+      await oer.waitFor();
+      assert.equal(await oer.locator('..').locator('h3 + small').innerText(), 'Teacher training · Opens in the Kiwix app');
+      assert.equal(await oer.locator('..').locator('p.text').count(), 0);
+      await query(page, 'PhET simulation archive');
+      assert.equal(await phet.locator('..').locator('h3 + small').innerText(), 'Simulations · Opens in the Kiwix app');
+      assert.equal(await phet.locator('..').locator('p.text').count(), 0);
+      if (shot) await phet.locator('..').scrollIntoViewIfNeeded();
       await snapshot('search-kiwix');
       await phet.click();
       await page.locator('.article-fallback[data-reason=scripts]').waitFor();
@@ -273,8 +297,7 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     assert.match(await page.locator('dialog').innerText(), /KINGSTON/);
     await snapshot('cancel');
     await choose(page, retry, folderInput, 'wrong', wrong);
-    await page.locator('dialog[data-reason=wrong]').waitFor();
-    assert.match(await page.locator('dialog').innerText(), /That folder is not this library. Choose KINGSTON./);
+    await checkWrongFolder(page, name, folderInput);
     await snapshot('wrong-folder');
     // Keep the picker pending just long enough to capture the instruction sheet.
     if (shot && folderInput) {
@@ -293,6 +316,7 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     checkPickerCopy(name, await page.evaluate(() => accessEvents.findLast(event => event.state === 'picking')), folderInput);
     check.pickerCopy = true;
     assert.equal(await page.locator('#article-title').evaluate(node => document.activeElement === node), true);
+    assert.match(await page.locator('#article-title').getAttribute('class'), /visually-hidden/);
     assert.deepEqual(await page.locator('.article-bar, #article-content').evaluateAll(nodes =>
       nodes.flatMap(node => [...node.querySelectorAll('a.back, #article-title, button.star, iframe')]
         .map(element => [element.tagName, element.tabIndex]))), [['A', 0], ['H1', -1], ['BUTTON', 0], ['IFRAME', 0]]);
@@ -347,7 +371,10 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     await next.click();
     const linked = await archiveEvent(page, prior);
     assert.equal(linked.path, realZimFolder ? 'Cardiac_arrest' : 'Second');
+    assert.equal(await page.locator('.tabs a[aria-current=page]').innerText(), 'Search');
+    assert.match(await page.locator('[data-read-back]').innerText(), /Previous article/);
     check.internalLink = true;
+    check.originatingTab = true;
     await page.goBack();
     await page.locator('#article-paper[data-ready=true]').waitFor();
     assert.equal(await page.evaluate(() => location.hash), oldRoute);
@@ -419,21 +446,37 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     const ids = await page.locator('.archive-row > a[href^="#/read/"]').evaluateAll(links =>
       links.map(link => link.getAttribute('href')).filter(route => route.endsWith('/%40main')));
     assert.equal(ids.length, realZimFolder ? 9 : 2);
+    const plainTitles = {appropedia_en: 'Appropedia', cd3wd_en: 'CD3WD appropriate-development library',
+      lowtech_magazine: 'Low-tech Magazine', wikipedia_en_top: 'English Wikipedia',
+      world_factbook_en: 'The World Factbook', wikimed_en: 'WikiMed'};
     for (const hash of ids) {
       await route(page, '#/all');
       const link = page.locator('.archive-row > a[href=' + JSON.stringify(hash) + ']');
+      const archiveTitle = await link.locator('b').innerText();
       const prior = await changeCount();
       await link.click();
       const main = await archiveEvent(page, prior);
-      output.articles.push(main);
+      output.mains.push(main);
       if (main.reason === 'scripts') {
         const fallback = page.locator('.article-fallback');
         assert.match(await fallback.innerText(), /Open this file in the Kiwix app/);
         assert.equal(await page.locator('dialog').evaluate(node => node.open), false);
         assert.equal(await fallback.locator('.button').count(), 1);
-        assert.match(await fallback.locator('.button').getAttribute('href'), /^LIBRARY\/SOFTWARE\/MACOS\//);
+        const installer = fallback.locator('.button');
+        assert.match(await installer.getAttribute('href'), /^LIBRARY\/SOFTWARE\/MACOS\//);
+        assert.equal(await installer.getAttribute('download'), name === 'chromium' ? '' : null);
+        assert.equal(await fallback.getByText('Saves the installer to Downloads. Open it there to install Kiwix.', {exact: true}).count(),
+          name === 'chromium' ? 1 : 0);
+        if (name === 'chromium' && !realZimFolder) {
+          const [download] = await Promise.all([page.waitForEvent('download'), installer.click()]);
+          assert.equal(download.suggestedFilename(), 'kiwix.dmg');
+          assert.equal(await download.failure(), null);
+          check.localInstallerDownload = true;
+        }
         assert.match(await fallback.locator('.trail').innerText(), /^LIBRARY › ZIM › .+\.zim$/);
         assert.match(await fallback.locator('.sub').innerText(), realZimFolder ? /^(Simulations|Teacher training)$/ : /^Encyclopedia$/);
+        main.frameHeight = null;
+        main.firstText = (await fallback.innerText()).replace(/\s+/g, ' ').trim().slice(0, 80);
         await snapshot('kiwix-' + main.id);
         check.inlineKiwix = true;
         await route(page, '#/all');
@@ -451,6 +494,40 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
       } else {
         assert.ok(!main.reason, JSON.stringify(main));
         assert.equal(main.images, main.shown);
+        const title = page.locator('#article-title');
+        assert.equal(await title.innerText(), plainTitles[main.id] || archiveTitle);
+        assert.equal(await title.evaluate(node => node.classList.contains('visually-hidden')), false);
+        if (realZimFolder && main.id === 'wikimed_en') {
+          assert.equal(await frame.locator('#firstHeading').isVisible(), false);
+          assert.equal(await frame.locator('#contentSub .subpages').isVisible(), false);
+        }
+        const {height, first} = await page.locator('#article-paper iframe').evaluate(node => ({
+          height: node.getBoundingClientRect().height,
+          first: node.contentDocument.body.innerText.replace(/\s+/g, ' ').trim().slice(0, 300),
+        }));
+        main.frameHeight = height;
+        main.firstText = first.slice(0, 80);
+        if (realZimFolder) {
+          assert.ok(height > 200, main.id + ' frame height ' + height);
+          assert.ok(!(/javascript/i.test(first) && /enabl/i.test(first)), main.id + ': ' + first);
+        }
+        if (['wikipedia_en_top', 'world_factbook_en', 'wikimed_en'].includes(main.id)) {
+          await snapshot('main-' + main.id);
+        }
+        if (main.id === 'wikipedia_en_top' && !shot) {
+          const tile = frame.locator('a[data-owl-link]').nth(18);
+          await tile.scrollIntoViewIfNeeded();
+          assert.ok(await page.evaluate(() => scrollY) > 200);
+          await tile.click();
+          await page.waitForFunction(mainRoute => location.hash !== mainRoute, hash);
+          await page.locator('#article-paper[data-ready=true]').waitFor();
+          await page.goBack();
+          await page.locator('#article-paper[data-ready=true]').waitFor();
+          assert.equal(await page.evaluate(() => location.hash), hash);
+          const [restored, saved] = await page.evaluate(() => [scrollY, history.state.owlScroll]);
+          assert.ok(saved > 200 && Math.abs(restored - saved) <= 1, `Restored ${restored}px of ${saved}px`);
+          check.recoveredPageBack = true;
+        }
       }
     }
     await page.getByRole('link', {name: 'Help', exact: true}).last().click();
@@ -472,14 +549,15 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     check.networkRequests = 0;
     return output;
   } catch (error) {
-    console.error(JSON.stringify({engine: output.engine, drive, check, csp: state.csp, errors: state.errors, articles: output.articles}));
+    console.error(JSON.stringify({engine: output.engine, drive, check, csp: state.csp, errors: state.errors,
+      articles: output.articles, mains: output.mains}));
     throw error;
   } finally {
     await state.context.close();
   }
 }
 
-async function folderVariants(browser, name, drive, evidence) {
+async function folderVariants(browser, name, drive, wrong, evidence) {
   const variants = [];
   const modes = name === 'chromium' ? [false, true] : [true];
   const folders = {KINGSTON: drive, LIBRARY: join(drive, 'LIBRARY'), ZIM: join(drive, 'LIBRARY/ZIM')};
@@ -492,7 +570,12 @@ async function folderVariants(browser, name, drive, evidence) {
         await page.goto(url(drive, '#/all'));
         if (!folderInput) await seedChromium(page, drive, undefined, selection);
         const link = page.locator('.archive-row > a').filter({hasText: 'WikiMed'});
-        await choose(page, link, folderInput, 'valid', folder);
+        if (selection === 'KINGSTON') {
+          await choose(page, link, folderInput, 'wrong', wrong);
+          await checkWrongFolder(page, name, folderInput);
+        }
+        const open = selection === 'KINGSTON' ? page.getByRole('button', {name: 'Choose KINGSTON', exact: true}) : link;
+        await choose(page, open, folderInput, 'valid', folder);
         await page.locator('#article-paper[data-ready=true]').waitFor();
         const copy = await page.evaluate(() => accessEvents.find(event => event.state === 'picking'));
         checkPickerCopy(name, copy, folderInput);
@@ -509,12 +592,17 @@ async function folderVariants(browser, name, drive, evidence) {
           try {
             await page.goto(url(drive, '#/all'));
             const link = page.locator('.archive-row > a').filter({hasText: 'WikiMed'});
-            if (folderInput) await Promise.all([page.waitForEvent('filechooser'), link.click()]);
-            else await choose(page, link, false, 'pending');
+            const chooser = folderInput ? (await Promise.all([page.waitForEvent('filechooser'), link.click()]))[0] : null;
+            if (!folderInput) await choose(page, link, false, 'pending');
             const sheet = page.locator('dialog[data-reason=picking]');
             await sheet.waitFor();
             const label = name + (name === 'chromium' && folderInput ? '-input' : '');
             await page.screenshot({path: join(evidence, `${theme}-${width}-first-open-${label}.png`), animations: 'disabled'});
+            if (name === 'chromium' && chooser) {
+              await chooser.setFiles(wrong);
+              await checkWrongFolder(page, name, folderInput);
+              await page.screenshot({path: join(evidence, `${theme}-${width}-wrong-folder-${label}.png`), animations: 'disabled'});
+            }
           } finally {
             await ctx.close();
           }
@@ -595,7 +683,7 @@ async function main() {
       const browser = await runner.launch(name === "chromium" ? {args: ["--allow-file-access-from-files"]} : {});
       try {
         const record = {fixture: await flow(browser, name, drive, {wrong})};
-        record.folders = await folderVariants(browser, name, drive, evidence);
+        record.folders = await folderVariants(browser, name, drive, wrong, evidence);
         record.reconnect = [await reconnect(browser, name, drive, {folderInput: true})];
         if (name === 'chromium') {
           record.reconnect.push(await reconnect(browser, name, drive, {folderInput: false}));
@@ -604,12 +692,12 @@ async function main() {
         if (preview) record.real = await flow(browser, name, preview, {realZimFolder: zimFolder, wrong});
         reports.push(record);
         console.log(JSON.stringify(record));
-        if (evidence && name === 'webkit') {
+        if (evidence && (preview || name === 'webkit')) {
           for (const width of [1280, 390]) {
             for (const theme of ['light', 'dark']) {
-              await flow(browser, name, preview || drive, {realZimFolder: zimFolder, wrong, width, theme,
-                shot: join(evidence, theme + '-' + width)});
-              await reconnect(browser, name, drive, {folderInput: true, width, theme, shot: join(evidence, theme + '-' + width)});
+              const shot = join(evidence, `${name}-${width}-${theme}`);
+              await flow(browser, name, preview || drive, {realZimFolder: zimFolder, wrong, width, theme, shot});
+              if (name === 'webkit') await reconnect(browser, name, drive, {folderInput: true, width, theme, shot});
             }
           }
         }
