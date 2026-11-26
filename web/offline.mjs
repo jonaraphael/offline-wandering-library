@@ -105,7 +105,8 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
     const path = asset.parts[0].path;
     return {id: asset.id, title: asset.title, path, href: locator(path), kind: metadata[asset.id]?.kind ||
       FORMATS[asset.format] || asset.format.toUpperCase(), format: asset.format, bytes: asset.bytes,
-      ...(asset.parts.length > 1 ? {parts: asset.parts.length} : {})};
+      ...(asset.parts.length > 1 ? {parts: asset.parts.length} : {}),
+      ...(metadata[asset.id]?.kiwixKind ? {kiwixKind: metadata[asset.id].kiwixKind} : {})};
   });
   const documents = files.filter(row => metadata[row.id]?.document !== false && !row.path.startsWith("LIBRARY/SOFTWARE/"));
   const readers = layout.readers.flatMap(([folder, label]) => [...files].sort(order)

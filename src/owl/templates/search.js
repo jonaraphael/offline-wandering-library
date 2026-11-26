@@ -809,7 +809,7 @@
     return result;
   }
 
-  function mount(view, {open, openUrgent, archiveHref, urgentHref, archiveAccess, tasks = [], priority = {}, categoryIds}) {
+  function mount(view, {open, openUrgent, archiveHref, urgentHref, archiveAccess, archiveLabel, tasks = [], priority = {}, categoryIds}) {
     const form = view.querySelector('form'), status = view.querySelector('#search-status');
     const list = view.querySelector('#search-results'), query = form.querySelector('#query');
     const category = form.querySelector('#search-category'), examples = form.querySelector('#search-examples');
@@ -888,6 +888,8 @@
         else card.append(element('span', 'Urgent', 'label urgent'));
         card.append(element('h3', urgent.task));
         const archive = urgent.format === 'zim';
+        const byline = archive && archiveLabel?.(urgent.id);
+        if (byline) card.append(element('small', byline));
         const link = element('a', browse ? 'Browse Home' : 'Open', 'button');
         link.href = archive ? urgentHref(urgent) : urgent.href;
         link.addEventListener('click', event => {
@@ -909,7 +911,7 @@
         }
         const archive = isArchive(record), name = heading(record);
         const source = record.source_title !== name ? record.source_title : '';
-        const where = archive ? '' : record.location;
+        const where = archive ? archiveLabel?.(record.asset_id || record.id) : record.location;
         const byline = [source, where].filter(Boolean).join(' · ');
         if (byline) card.append(element('small', byline));
         card.append(element('h3', name));
@@ -1185,8 +1187,8 @@
       example.addEventListener('click', () => { query.value = example.dataset.query; query.focus(); run(); });
     }
     category.addEventListener('change', run);
-    return () => {
-      if (lastRender?.[4].length && lastAccess !== archiveAccess?.()) render(...lastRender);
+    return (force = false) => {
+      if (lastRender && (force || lastRender[4].length && lastAccess !== archiveAccess?.())) render(...lastRender);
     };
   }
 

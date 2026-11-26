@@ -13,6 +13,15 @@
   };
   const u64 = (view, at) => Number(view.getBigUint64(at, true));
   const viewOf = bytes => new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  async function readBlob(blob, method) {
+    try {
+      const value = await blob[method]();
+      if (method === "arrayBuffer" && value.byteLength !== blob.size) throw Error("Incomplete file read");
+      return value;
+    } catch (cause) {
+      throw Object.assign(new Error("Could not read the ZIM file", {cause}), {code: "disconnected"});
+    }
+  }
   const compare = (left, right) => {
     for (let i = 0; i < Math.min(left.length, right.length); i++) {
       if (left[i] !== right[i]) return left[i] - right[i];
@@ -92,7 +101,7 @@
       return slices.length === 1 ? slices[0] : new Blob(slices, {type});
     }
     async bytes(offset, length) {
-      return new Uint8Array(await this.slice(offset, length).arrayBuffer());
+      return new Uint8Array(await readBlob(this.slice(offset, length), "arrayBuffer"));
     }
     async view(offset, length) {
       return viewOf(await this.bytes(offset, length));
@@ -190,7 +199,7 @@
         const index = await this.blob(listing, false);
         check(index.size % 4 === 0);
         const match = await this.lookup(index.size / 4, async offset => {
-          const bytes = await index.slice(offset * 4, offset * 4 + 4).arrayBuffer();
+          const bytes = await readBlob(index.slice(offset * 4, offset * 4 + 4), "arrayBuffer");
           this.bytesRead += 4;
           return this.entry(new DataView(bytes).getUint32(0, true));
         }, entry => compare(entry.titleBytes, wanted));
@@ -264,8 +273,9 @@
       return data ? new Blob([data.subarray(first, last)], {type: entry.mime})
         : this.slice(base + first, last - first, entry.mime, account);
     }
+
   }
 
-  if (typeof module !== "undefined" && module.exports) module.exports = {Zim};
-  else root.OWLZim = {Zim};
+  if (typeof module !== "undefined" && module.exports) module.exports = {Zim, readBlob};
+  else root.OWLZim = {Zim, readBlob};
 })(globalThis);

@@ -5,6 +5,7 @@
   const startPage = "START_HERE.html";
   const relativeZim = "LIBRARY/ZIM/";
   const wrongFolder = () => Object.assign(new Error("Wrong library folder"), {code: "folder"});
+  const disconnected = cause => Object.assign(new Error("Could not read the ZIM file", {cause}), {code: "disconnected"});
   const decoded = value => {
     try { return decodeURIComponent(value); } catch (_) { return value; }
   };
@@ -15,17 +16,17 @@
     return /^[a-z]:$/i.test(name) ? "the " + name.toUpperCase() + " drive" : name || "the library folder";
   }
 
-  function pickerLabel(device, chromium, firefox) {
-    if (chromium) return device === "windows" ? "Select Folder" : device === "mac" ? "Select" : "Open";
+  function pickerLabel(device, handles, firefox, chromium) {
+    if (handles) return device === "windows" ? "Select Folder" : device === "mac" ? "Select" : "Open";
     if (firefox) return device === "windows" ? "Select Folder" : "Open";
-    return device === "mac" ? "Upload" : "Open";
+    return chromium || device === "mac" ? "Upload" : "Open";
   }
 
   function archiveParts(row) {
     return row.files || [{path: row.path, bytes: row.bytes}];
   }
 
-  async function handleSource(handle, generation) {
+  async function handleSource(handle, generation, rows) {
     async function file(path) {
       const parts = path.split("/");
       const name = parts.pop();
@@ -33,14 +34,23 @@
       for (const folder of parts) dir = await dir.getDirectoryHandle(folder);
       return dir.getFileHandle(name);
     }
-    const prefix = handle.name === "LIBRARY" ? "LIBRARY/" : "";
-    try {
-      if (!prefix) await file(startPage);
-      await file(("LIBRARY/" + generation + "/home.js").slice(prefix.length));
-    } catch (_) {
-      throw wrongFolder();
+    for (const prefix of ["", ...(handle.name === "LIBRARY" ? ["LIBRARY/"] : [])]) {
+      try {
+        if (!prefix) await file(startPage);
+        await file(("LIBRARY/" + generation + "/home.js").slice(prefix.length));
+        return {get: async path => (await file(path.slice(prefix.length))).getFile()};
+      } catch (_) { /* The selected folder may be inside the drive. */ }
     }
-    return {get: async path => (await file(path.slice(prefix.length))).getFile()};
+    if (handle.name === "ZIM") {
+      const source = {get: async path => (await file(path.slice(relativeZim.length))).getFile()};
+      for (const row of rows) {
+        try {
+          await openParts(source, row, true);
+          return source;
+        } catch (_) { /* Look for a complete archive with the recorded sizes. */ }
+      }
+    }
+    throw wrongFolder();
   }
 
   function fileSource(files, generation, rows) {
@@ -68,10 +78,12 @@
   async function openParts(source, row, choosing = false) {
     const parts = [];
     for (const {path, bytes} of archiveParts(row)) {
-      const file = await Promise.resolve().then(() => source.get(path)).catch(() => null);
-      if (!file || file.size !== bytes) {
-        if (choosing && file) throw wrongFolder();
-        throw Object.assign(new Error("Missing or changed ZIM part"), {code: "file"});
+      let file;
+      try { file = await source.get(path); } catch (error) { throw disconnected(error); }
+      if (!file) throw disconnected();
+      if (file.size !== bytes) {
+        if (choosing) throw wrongFolder();
+        throw Object.assign(new Error("Changed ZIM part"), {code: "file"});
       }
       parts.push(file);
     }

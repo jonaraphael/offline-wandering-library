@@ -36,6 +36,9 @@ GENERATED_PATHS = ("START_HERE.html", "README.txt", "INVENTORY.html", "BUILD_REP
 READER_GENERATION = re.compile(r"INDEX/[0-9a-f]{12}/")
 SHARED_SEARCH = re.compile(r"SEARCH/shared/[0-9a-f]{64}\.js\Z")
 ZIM_RUNTIME = ("fzstd.js", "zim.js", "zim-drive.js", "zim-article.js")
+# These archive versions need Kiwix to show their content.
+_KIWIX_KINDS = {"ZIM/phet_en_all_2026-08.zim": "Simulations",
+                "ZIM/oer4schools_en_all_2025-10.zim": "Teacher training"}
 SEARCH_SCRIPTS = ("manifest.js", "rank.js", "shards.js", "rerank.js")
 SEARCH_SUPPORT = re.compile(r"SEARCH/(?:model\.js|(?:model|impact|transformer)/[a-zA-Z0-9.-]+\.js)\Z")
 FIRST_RESPONSE = {"cert", "medical_bec"}
@@ -131,6 +134,8 @@ def navigation_assets(assets, collections=None, topics=None) -> dict:
                                           asset.get("title", "").lower().endswith(" first aid")),
                             "book": books.get(identity), "topics": (topics or {}).get(identity, []), "kind": kind,
                             "publisher": asset.get("publisher"), "attribution": asset.get("attribution")}
+        if asset["destination"] in _KIWIX_KINDS:
+            result[identity]["kiwixKind"] = _KIWIX_KINDS[asset["destination"]]
     return result
 
 
@@ -171,6 +176,8 @@ def _row(asset, data):
            "format": asset["format"], "bytes": asset.get("size_bytes", asset.get("bytes", 0))}
     if len(asset.get("parts") or ()) > 1:
         row["parts"] = len(asset["parts"])
+    if data.get("kiwixKind"):
+        row["kiwixKind"] = data["kiwixKind"]
     return row
 
 

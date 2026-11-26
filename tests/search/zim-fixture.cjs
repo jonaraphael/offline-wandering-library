@@ -12,6 +12,47 @@ const main = `<!doctype html><html lang="en"><head><title>Fixture CPR</title>
 <div style="height:1400px"></div><h2 id="target">Section target</h2><div style="height:600px"></div></body></html>`;
 const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="12"><rect width="28" height="12" fill="teal"/></svg>';
 
+// Inert markers make removal observable without executable test code.
+const markupCases = {
+  math: '<math><mtext><table><mglyph><style><img src=x onerror="/*owl-fixture*/"></style></mglyph></table></mtext></math>',
+  svg: '<svg><style><img onerror="/*owl-fixture*/"></style></svg>',
+  noscript: '<noscript><p title="</noscript><img onerror=\'/*owl-fixture*/\'>">',
+  href: '<a href="javascript:/*owl-fixture*/">Label</a>',
+  xlink: '<svg><a xlink:href="javascript:/*owl-fixture*/"><text>Label</text></a></svg>',
+  formaction: '<input formaction="javascript:/*owl-fixture*/">',
+  animation: '<svg><animate attributeName="href" values="javascript:/*owl-fixture*/"></animate></svg>',
+  toggle: '<details ontoggle="/*owl-fixture*/"><summary>Label</summary></details>',
+  media: '<video><source onerror="/*owl-fixture*/"></video>',
+};
+
+async function inspectMarkup(page, sandbox) {
+  return page.evaluate(async ({cases, sandbox}) => {
+    const results = {};
+    for (const [name, markup] of Object.entries(cases)) {
+      const html = '<h1>Clean control</h1><a href="Second">Keep this link</a>' + markup;
+      const zim = {minor: 1, get: async () => null, blob: async () => new Blob([html])};
+      const entry = {path: 'First', title: 'Fixture', mime: 'text/html'};
+      const prepared = await OWLZimArticle.prepare(zim, entry, [], new AbortController().signal);
+      const frame = document.createElement('iframe');
+      frame.sandbox = sandbox;
+      frame.hidden = true;
+      await new Promise(resolve => {
+        frame.onload = resolve;
+        frame.srcdoc = prepared.html;
+        document.body.append(frame);
+      });
+      const doc = frame.contentDocument;
+      const active = [...doc.querySelectorAll('*')].flatMap(node => [...node.attributes]
+        .filter(({name, value}) => /^on/i.test(name) || /javascript:/i.test(value) &&
+          /^(?:href|xlink:href|formaction|values)$/i.test(name)).map(({name}) => name));
+      results[name] = {active, discarded: doc.querySelectorAll('animate, noscript, script, input').length,
+        control: doc.querySelector('h1')?.textContent, link: doc.querySelector('a')?.getAttribute('href')};
+      frame.remove();
+    }
+    return results;
+  }, {cases: markupCases, sandbox});
+}
+
 // Generate a small range-readable archive, including header and index boundary cases.
 function makeZim({legacy = false, compression = 1, cycle = false, titleListing = !legacy, compactTitle = false,
   scripted = false, noMain = false, longPath = false, zstd = input => {
@@ -97,4 +138,4 @@ function makeZim({legacy = false, compression = 1, cycle = false, titleListing =
   return Buffer.concat([header, mimeTable, paths, titleTable, clusters, ...dirents, cluster, Buffer.alloc(16)]);
 }
 
-module.exports = {makeZim};
+module.exports = {makeZim, inspectMarkup, markupCases};

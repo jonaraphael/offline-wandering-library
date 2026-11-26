@@ -16,12 +16,14 @@
       bytes >= 1e3 ? [1e3, "kB"] : [1, "B"];
     return (bytes / scale).toLocaleString(undefined, {maximumFractionDigits: bytes / scale < 100 ? 1 : 0}) + " " + unit;
   };
-  const details = row => [row.source, row.format === "zim" ? row.kind?.split(",")[0] || "Encyclopedia" : row.kind,
-    row.bytes ? size(row.bytes) : ""].filter(Boolean).join(" · ");
+  function details(row) {
+    const kind = row.format === "zim" ? kiwixLabel(row) || archiveKind(row) : row.kind;
+    return [row.source, kind, row.bytes ? size(row.bytes) : ""].filter(Boolean).join(" · ");
+  }
   const allTitle = "Everything, A to Z";
   const loaded = new Map(), pending = new Map();
   const positions = new Map(), filters = new Map();
-  let home, device, activeRoute, pageEpoch = 0;
+  let home, device, helpPhone, activeRoute, pageEpoch = 0;
   let storage, libraryId, saved = [], recent = [];
   let links = new Map(), linkNumber = 0;
   let searchMarkup, searchCount, refreshSearch;
@@ -34,9 +36,14 @@
   const readOnly = {mode: "read"};
   const chromiumPicker = typeof root.showDirectoryPicker === "function";
   const firefox = /Firefox\//.test(navigator.userAgent);
-  const webkit = /AppleWebKit\//.test(navigator.userAgent) && !/(?:Chrome|Chromium)\//.test(navigator.userAgent);
+  const chromium = /(?:Chrome|Chromium)\//.test(navigator.userAgent);
+  const webkit = /AppleWebKit\//.test(navigator.userAgent) && !chromium;
   let drive, archives = new Map(), folderStore, folderHandle, source;
   let pickerChange, cachedZim, article, returnFocus;
+  const scriptArchives = new Set();
+  const needsKiwix = row => row.format === "zim" && (archives.get(row.id)?.kiwixKind || scriptArchives.has(row.id));
+  const archiveKind = row => archives.get(row.id)?.kiwixKind || row.kind?.split(",")[0] || "Encyclopedia";
+  const kiwixLabel = row => row && needsKiwix(row) ? archiveKind(row) + " · Opens in the Kiwix app" : "";
   const generation = engine.local("home.js").replace(/\/home\.js$/, "");
   const archiveRoute = (row, path, fragment, title, section) =>
     drive?.readRoute(row.id, path, fragment, title, section) || "#/read/" + encodeURIComponent(row.id) + "/@main";
@@ -104,12 +111,10 @@
 
   function list(rows, {go = false, stars = true} = {}) {
     return '<div class="list">' + rows.map(row => {
-      const description = row.summary || details(row);
+      const description = needsKiwix(row) ? details(row) : row.summary || details(row);
       const label = "<b>" + escape(row.title) + "</b>" + (description ? "<small>" + escape(description) + "</small>" : "");
       const archive = row.format === "zim";
-      const content = archive ? '<span class="row-title">' + label + "</span>" +
-        attachment(row, "Open") : attachment(row, label);
-      return '<div class="row' + (archive ? " archive-row" : go ? " go" : "") + '">' + content +
+      return '<div class="row' + (go ? " go" : "") + (archive ? " archive-row" : "") + '">' + attachment(row, label) +
         (storage && stars ? button(String(linkNumber), row) : "") + "</div>";
     }).join("") + "</div>";
   }
@@ -210,8 +215,8 @@
     if (/Win/i.test(platform)) return "windows";
     return /Mac/i.test(platform) ? "mac" : "linux";
   }
-  function bundledReader() {
-    const folder = device === "mac" ? "MACOS" : device.toUpperCase();
+  function bundledReader(platform = device) {
+    const folder = platform === "mac" ? "MACOS" : platform.toUpperCase();
     return home.readers.find(reader => reader.path.startsWith("LIBRARY/SOFTWARE/" + folder + "/"));
   }
   function steps(texts) {
@@ -225,33 +230,54 @@
     } else sheet.querySelector("button, a.button")?.focus();
   }
 
-  function kiwixSheet(row, reason, stats = {}) {
+  function kiwixView(row, reason) {
     const installer = bundledReader();
     const label = installer ? "Get " + installer.label : device === "iphone" ? "Get Kiwix for iPhone" : "";
     const action = installer || label ? '<a class="button" href="' +
       escape(installer?.href || "https://apps.apple.com/us/app/kiwix/id997079563") + '">' + escape(label) + "</a>"
-      : '<form method="dialog"><button class="button">Done</button></form>';
-    const message = reason === "scripts" ? "This encyclopedia needs features this page cannot run." :
+      : '<a class="button" href="https://kiwix.org/en/applications/">Get Kiwix</a>';
+    const [name, ...folders] = row.path.split("/").reverse();
+    const trail = '<span class="trail">' + escape(folders.reverse().join(" › ")) + " › <b>" + escape(name) + "</b></span>";
+    const message = reason === "scripts" ? "Open this file in the Kiwix app." :
       reason === "file" ? "This file is missing or has changed." : "This page could not open this file.";
-    showSheet(escape(row.title), "<p>" + message + " Open it in the Kiwix app.</p>" +
-      '<p class="where">' + escape(row.path) + "</p>" +
-      (drive.archiveParts(row).length > 1 ? '<p class="note">Keep all parts together and open the first.</p>' : ""), action);
-    sheet.dataset.reason = reason;
-    sheet.dispatchEvent(new CustomEvent("owl:archive", {detail: {reason, ...stats}}));
+    return '<div class="panel article-fallback" data-reason="' + escape(reason) + '"><p class="sub">' +
+      escape(archiveKind(row)) + '</p><p>' + message + (reason === "scripts" ? "" : " Open it in the Kiwix app.") +
+      '</p><p class="article-trail">' + trail + "</p>" +
+      (drive.archiveParts(row).length > 1 ? '<p class="note">Keep all parts together and open the first.</p>' : "") + action + "</div>";
+  }
+
+  function showKiwix(row, hash, reason, stats = {}) {
+    if (reason === "scripts" && !needsKiwix(row)) {
+      scriptArchives.add(row.id);
+      refreshSearch?.(true);
+    }
+    remember({...row, route: hash});
+    const content = document.querySelector("#article-content");
+    content.innerHTML = kiwixView(row, reason);
+    document.querySelector("#article-title").focus({preventScroll: true});
+    content.dispatchEvent(new CustomEvent("owl:archive", {detail: {id: row.id, reason, ...stats}}));
   }
 
   function accessSheet(state, retry) {
     const folder = escape(drive.folderName(location.pathname));
-    const confirm = escape(drive.pickerLabel(device, chromiumPicker, firefox));
+    const key = value => "<mark>" + value + "</mark>";
+    const confirm = key(escape(drive.pickerLabel(detectedDevice(), chromiumPicker, firefox, chromium)));
     const choose = "Choose " + folder;
-    const instruction = chromiumPicker ? "Click <b>" + folder + "</b>, then <b>" + confirm + "</b>."
-      : "Open <b>" + folder + "</b>, then <b>LIBRARY</b>, then <b>ZIM</b>. Click <b>" + confirm + "</b>.";
+    const instruction = chromiumPicker ? "Click " + key(folder) + ", then " + confirm + "."
+      : "Open " + key(folder) + ", then " + key("LIBRARY") + ", then " + key("ZIM") + ". Click " + confirm + ".";
+    const permission = "If your browser asks for access, click " + key("Allow") + ".";
+    const reconnect = state === "disconnected";
     const copy = state === "wrong" ? "That folder is not this library. " + choose + "." :
-      state === "permission" ? "If your browser asks for access, click <b>Allow</b>." : instruction;
-    const extra = state === "picking" && chromiumPicker ? '<p class="note">If your browser asks for access, click <b>Allow</b>.</p>' : "";
-    showSheet(state === "wrong" ? "Choose the library folder" : "Open from this drive",
-      '<p class="picker-instruction">' + copy + '</p><p class="note">This page only reads the drive. Nothing is copied or sent.</p>' + extra,
-      '<button type="button" class="button">' + choose + "</button>");
+      reconnect ? key(folder) + " is not connected. Plug it in, then click Try again." :
+      state === "permission" ? permission : instruction;
+    const upload = firefox ? 'In Firefox’s Confirm Upload window, click ' + key("Upload") + "." :
+      chromium ? 'If Chrome asks to upload files, click ' + key("Upload") + "." : "";
+    const extra = chromiumPicker && state !== "permission" ? '<p class="note">' + permission + '</p>' : "";
+    const note = !chromiumPicker && upload ? upload + " Nothing leaves this computer." :
+      "This page only reads the drive. Nothing is copied or sent.";
+    showSheet(reconnect ? "Reconnect this drive" : state === "wrong" ? "Choose the library folder" : "Open from this drive",
+      '<p class="picker-instruction">' + copy + '</p>' + (reconnect ? "" : '<p class="note">' + note + '</p>' + extra),
+      '<button type="button" class="button">' + (reconnect ? "Try again" : choose) + "</button>");
     sheet.dataset.reason = state;
     sheet.querySelector("button").onclick = retry;
   }
@@ -265,14 +291,22 @@
     return Boolean(source);
   }
 
-  function readFromArchive(row, hash, fromRoute = false, forcePicker = false) {
+  function reconnectSheet(row, hash, fromRoute) {
+    source = cachedZim = null;
+    accessSheet("disconnected", () => readFromArchive(row, hash, fromRoute, false, true));
+  }
+
+  function readFromArchive(row, hash, fromRoute = false, forcePicker = false, reconnecting = false) {
     const owner = pageEpoch;
     const valid = () => pageEpoch === owner;
     const retry = () => readFromArchive(row, hash, fromRoute, true);
-    const done = () => {
+    const done = (reason = "") => {
       if (sheet.open) sheet.close();
-      if (fromRoute) render();
-      else navigate(hash, true, {owlReadFrom: activeRoute});
+      const state = {...(fromRoute ? history.state : {owlReadFrom: activeRoute}), owlFallback: reason};
+      if (fromRoute) {
+        history.replaceState(state, "");
+        render();
+      } else navigate(hash, true, state);
     };
     async function accept(candidate, handle, choosing) {
       let parts;
@@ -280,8 +314,11 @@
         parts = await drive.openParts(candidate, row, choosing);
       } catch (error) {
         if (!valid()) return;
-        if (error.code === "folder") accessSheet("wrong", retry);
-        else kiwixSheet(row, "file");
+        if (error.code === "disconnected") {
+          if (reconnecting && !choosing) await pick();
+          else reconnectSheet(row, hash, fromRoute);
+        } else if (error.code === "folder") accessSheet("wrong", retry);
+        else done("file");
         return;
       }
       if (!valid()) return;
@@ -305,7 +342,7 @@
         try {
           const handle = await root.showDirectoryPicker({...readOnly, id: "owl-library"});
           if (!valid()) return;
-          await accept(await drive.handleSource(handle, generation), handle, true);
+          await accept(await drive.handleSource(handle, generation, archives.values()), handle, true);
         } catch (error) {
           if (valid()) accessSheet(error.code === "folder" ? "wrong" : "cancel", retry);
         }
@@ -315,7 +352,7 @@
         }};
         picker.value = "";
         picker.click();
-      } else kiwixSheet(row, "unsupported");
+      } else done("unsupported");
     }
     async function useHandle() {
       const handle = folderHandle;
@@ -328,9 +365,13 @@
             return;
           }
         }
-        await accept(await drive.handleSource(handle, generation), handle, false);
+        await accept(await drive.handleSource(handle, generation, archives.values()), handle, false);
       } catch (_) {
         if (!valid()) return;
+        if (source && !reconnecting) {
+          reconnectSheet(row, hash, fromRoute);
+          return;
+        }
         source = cachedZim = null;
         saveHandle(null);
         await pick();
@@ -348,7 +389,7 @@
       folderStore = await drive.handleStore();
       folderHandle = await folderStore(new URL(location.pathname, location.href).href);
       if (folderHandle && await folderHandle.queryPermission(readOnly) === "granted") {
-        source = await drive.handleSource(folderHandle, generation);
+        source = await drive.handleSource(folderHandle, generation, archives.values());
       }
     } catch (_) {
       // A saved handle may have been revoked or the drive may have moved.
@@ -363,6 +404,14 @@
     article = null;
   }
 
+  function articleOpen(row, hash) {
+    // After a reload or a lost drive, name the article that Open will show.
+    const {path, title} = drive.parseRoute(hash);
+    const name = title || (path === "@main" ? "" : path.split("/").pop().replace(/_/g, " "));
+    return '<div class="panel article-start">' + (name ? "<p>" + escape(name) + "</p>" : "") +
+      attachment({...row, route: hash}, "Open").replace("<a ", '<a class="button" ') + "</div>";
+  }
+
   function articleView(row, hash) {
     const from = history.state?.owlReadFrom || "#/";
     const safeFrom = /^#\/(?:[a-zA-Z0-9_/%-]+)?$/.test(from) ? from : "#/";
@@ -371,11 +420,12 @@
       home.categories.find(cat => safeFrom === "#/c/" + cat.id)?.name || "Library";
     links.set(String(++linkNumber), {...row, route: hash});
     return '<div class="article-bar"><a class="back" data-read-back href="' + safeFrom + '">‹ ' + escape(title) +
-      '</a><div class="article-source"><p>' + escape(row.title) + ' <span>· on this drive</span></p>' +
-      (storage ? button(String(linkNumber), row) : "") + '</div></div>' +
-      (source ? '<p class="note" id="article-status" role="status">Opening…</p>' :
-        '<div class="panel article-start">' + heading(row.title) + attachment({...row, route: hash}, "Open") + "</div>") +
-      '<div id="article-paper" class="article-paper" hidden></div>';
+      '</a><div class="article-heading"><h1 id="article-title" tabindex="-1">' + escape(row.title) + '</h1>' +
+      (storage ? button(String(linkNumber), row) : "") + '</div><p class="article-source" hidden>' +
+      escape(row.title) + ' <span>· on this drive</span></p></div><div id="article-content">' +
+      (needsKiwix(row) || history.state?.owlFallback ? "" : source ?
+        '<p class="note" id="article-status" role="status">Opening…</p><div id="article-paper" class="article-paper" hidden></div>' :
+        articleOpen(row, hash)) + '</div>';
   }
 
   async function loadArticle(row, path, fragment, title, section, savedScroll, hash) {
@@ -404,8 +454,10 @@
       if (!active()) return;
       const paper = document.querySelector("#article-paper");
       const status = document.querySelector("#article-status");
+      const titleElement = document.querySelector("#article-title");
       const frame = document.createElement("iframe");
       frame.title = page.title;
+      frame.tabIndex = 0;
       // WebKit blocks the parent's event listeners in a script-sandboxed frame.
       // The trusted srcdoc head applies script-src 'none' before the article markup.
       frame.setAttribute("sandbox", webkit ? "allow-same-origin allow-scripts" : "allow-same-origin");
@@ -417,28 +469,37 @@
         function resize() {
           frame.style.height = Math.ceil(Math.max(doc.body.scrollHeight, doc.body.getBoundingClientRect().height)) + "px";
         }
-        function jump(at, heading) {
+        function jump(at, heading, focus = false) {
           const target = root.OWLZimArticle.targetElement(doc, at, heading);
           if (!target) return;
           resize();
           const top = scrollY + frame.getBoundingClientRect().top + target.getBoundingClientRect().top;
           scrollTo(0, Math.max(0, top - (parseFloat(getComputedStyle(frame).getPropertyValue("--article-scroll-offset")) || 12)));
-          target.tabIndex = -1;
-          target.focus({preventScroll: true});
+          if (focus) {
+            target.tabIndex = -1;
+            target.focus({preventScroll: true});
+          }
         }
-        doc.addEventListener("click", event => {
+        function followLink(event) {
           const target = event.target.closest("[data-owl-link]");
           if (!target) return;
-          event.preventDefault();
           const destination = page.links.get(target.getAttribute("data-owl-link"));
           if (!destination) return;
+          event.preventDefault();
+          if (destination.external) {
+            if (event.button <= 1) root.open(destination.external, "_blank", "noopener");
+            return;
+          }
+          if (event.button !== 0) return;
           const {path: next, fragment: at, ns} = destination;
-          if (!next || next === entry.path && ns === entry.ns && at) jump(at);
+          if (!next || next === entry.path && ns === entry.ns && at) jump(at, "", true);
           else {
             const fullPath = zim.minor === 0 ? ns + "/" + next : next;
             navigate(archiveRoute(row, fullPath, at), true, {owlReadFrom: activeRoute});
           }
-        });
+        }
+        doc.addEventListener("click", followLink);
+        doc.addEventListener("auxclick", followLink);
         // Resize the frame to its content so the outer reader owns scrolling.
         resize();
         current.resize = new ResizeObserver(resize);
@@ -449,6 +510,16 @@
         await Promise.all(images.map(img => img.decode().catch(() => {})));
         if (!active()) return;
         resize();
+        titleElement.textContent = page.title;
+        const sourceLabel = view.querySelector(".article-source");
+        if (page.title === row.title) sourceLabel.textContent = "On this drive";
+        sourceLabel.hidden = false;
+        // The article prints its own heading; keep this one for focus and screen readers only.
+        if (doc.querySelector("h1")) {
+          titleElement.classList.add("visually-hidden");
+          titleElement.after(sourceLabel);
+        }
+        titleElement.focus({preventScroll: true});
         if (fragment || section) jump(fragment, section);
         paper.dataset.ready = "true";
         paper.dispatchEvent(new CustomEvent("owl:archive", {detail: {id: row.id, path: entry.path,
@@ -464,21 +535,24 @@
       if (!active()) return;
       cachedZim = null;
       stopArticle();
-      document.querySelector("#article-status")?.remove();
-      kiwixSheet(row, error.code || "unreadable", {id: row.id, path, ms: performance.now() - started,
+      if (error.code === "disconnected" || ["NotFoundError", "NotReadableError"].includes(error.name)) {
+        document.querySelector("#article-content").innerHTML = articleOpen(row, hash);
+        reconnectSheet(row, hash, true);
+        return;
+      }
+      const reason = ["scripts", "file", "unsupported"].includes(error.code) ? error.code : "unreadable";
+      showKiwix(row, hash, reason, {path, ms: performance.now() - started,
         bytes: (zim?.bytesRead || 0) - initialBytes, scripts: error.scripts, textLength: error.textLength,
         illustrations: error.illustrations});
     }
   }
 
   function helpView() {
-    const instructions = home.devices[device], reader = bundledReader();
-    const instructionsText = [device === "iphone" || reader ? instructions.install : "Install Kiwix while you have internet.",
+    const instructions = home.devices[helpPhone], reader = bundledReader(helpPhone);
+    const instructionsText = [helpPhone === "iphone" || reader ? instructions.install : "Install Kiwix while you have internet.",
       instructions.open, instructions.pick];
-    const choose = '<details class="device-choice"><summary>' +
-      (device === "iphone" ? "This is not an iPhone" : "Choose a different device") + '</summary><label>Device <select id="device">' +
-      ["iphone", "android", "windows", "mac", "linux"].map(id => '<option value="' + id + '"' +
-        (id === device ? " selected" : "") + ">" + escape(home.devices[id].label) + "</option>").join("") + "</select></label></details>";
+    const choose = '<label>Phone <select id="device">' + ["iphone", "android"].map(id => '<option value="' + id + '"' +
+      (id === helpPhone ? " selected" : "") + ">" + escape(home.devices[id].label) + "</option>").join("") + "</select></label>";
     const apps = home.readers.length ? '<div class="panel"><h3>Reader apps on this drive</h3><ul>' +
       home.readers.map(row => '<li><a href="' + escape(row.href) + '">' + escape(row.label) +
         '</a><span class="where">' + escape(row.path) + "</span></li>").join("") + "</ul></div>" : "";
@@ -489,10 +563,10 @@
     const stamp = fromRecord ? recorded : new Date(document.lastModified);
     const date = !Number.isNaN(stamp.getTime()) ? new Intl.DateTimeFormat("en-GB",
       {day: "numeric", month: "long", year: "numeric", ...(fromRecord ? {timeZone: "UTC"} : {})}).format(stamp) : "Unknown";
-    const phoneHelp = device === "iphone" || device === "android"
-      ? "<h3>Kiwix on this " + escape(instructions.label) + "</h3>" + steps(instructionsText.map(escape)) : "";
+    const phoneHelp = '<details class="device-choice"' + (device === "iphone" || device === "android" ? " open" : "") +
+      '><summary>Using this drive on a phone</summary>' + choose + steps(instructionsText.map(escape)) + "</details>";
     return heading("Help") + '<div class="panel"><p>Books, guides and encyclopedias open right here.</p>' +
-      phoneHelp + choose + "</div>" +
+      phoneHelp + "</div>" +
       '<div class="panel"><h3>About this drive</h3><dl class="facts">' +
       "<div><dt>Last synced</dt><dd>" + date + "</dd></div><div><dt>Holds</dt><dd>" +
       count(home.stats.count) + ", " + size(home.stats.bytes) + "</dd></div>" +
@@ -521,6 +595,7 @@
     if (home.search) {
       refreshSearch = engine.mount(container, {open: openResult, tasks: home.tasks, priority: home.searchPriority,
         archiveAccess, archiveHref: resultRoute, urgentHref: taskRoute,
+        archiveLabel: id => kiwixLabel(archives.get(id)),
         openUrgent: (task, event) => {
           if (task.format === "zim") {
             event.preventDefault();
@@ -549,7 +624,8 @@
 
   function openArchive(row, hash) {
     const target = archives.get(row.id);
-    if (target) readFromArchive(target, hash, activeRoute === hash);
+    if (target && !needsKiwix(target)) readFromArchive(target, hash, activeRoute === hash);
+    else if (target) navigate(hash, true, {owlReadFrom: activeRoute});
     else navigate(hash);
   }
 
@@ -651,8 +727,10 @@
     view.hidden = tabs.hidden = false;
     document.documentElement.classList.add("live");
     scrollTo(0, savedScroll);
-    if (archive && source) loadArticle(archive, reading.path, reading.fragment, reading.title, reading.section, savedScroll, hash);
-    if (focus && !keepFocus) {
+    const fallback = archive && (needsKiwix(archive) ? "scripts" : history.state?.owlFallback);
+    if (fallback) showKiwix(archive, hash, fallback, {path: reading.path});
+    else if (archive && source) loadArticle(archive, reading.path, reading.fragment, reading.title, reading.section, savedScroll, hash);
+    if (focus && !keepFocus && !(archive && (source || fallback))) {
       const target = view.querySelector(useSearch ? "#query:not([hidden])" : "h1, h2");
       if (target) {
         if (!useSearch) target.tabIndex = -1;
@@ -712,6 +790,7 @@
     if (result.version !== 1 || !Array.isArray(result.categories)) return;
     home = result;
     device = detectedDevice();
+    helpPhone = device === "android" ? "android" : "iphone";
     searchCount = home.searchCount.toLocaleString() + (home.searchCount === 1 ? " book or guide" : " books and guides");
     openStorage();
     if (home.archives?.length) {
@@ -746,7 +825,7 @@
     });
     view.addEventListener("change", async event => {
       if (event.target.id !== "device") return;
-      device = event.target.value;
+      helpPhone = event.target.value;
       position();
       await render();
       const select = view.querySelector("#device");

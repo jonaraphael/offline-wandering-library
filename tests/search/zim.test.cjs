@@ -1,6 +1,6 @@
 const {test} = require('node:test');
 const assert = require('node:assert/strict');
-const {Zim} = require('../../src/owl/templates/zim.js');
+const {Zim, readBlob} = require('../../src/owl/templates/zim.js');
 const drive = require('../../src/owl/templates/zim-drive.js');
 const {displayGuides} = require('../../src/owl/templates/search.js');
 const {makeZim} = require('./zim-fixture.cjs');
@@ -87,16 +87,31 @@ test('validates the current reader generation when choosing the drive, LIBRARY o
 });
 
 test('locates folder handles and reads the exact cases and sizes of split files', async () => {
-  const fake = name => ({name, async getDirectoryHandle(next) { return fake(name + '/' + next); },
+  const files = new Map([['START_HERE.html', 1], ['LIBRARY/' + generation + '/home.js', 1],
+    ...row.files.map(({path, bytes}) => [path, bytes])]);
+  const fake = (name, prefix = '') => ({name, async getDirectoryHandle(next) { return fake(next, prefix + next + '/'); },
     async getFileHandle(next) {
-      if (next === 'missing') throw Error('missing');
-      return {getFile: async () => ({name: name + '/' + next, size: next.endsWith('aa') ? 3 : 5})};
+      const path = prefix + next;
+      if (!files.has(path)) throw new DOMException('Missing', 'NotFoundError');
+      return {getFile: async () => ({name: path, size: files.get(path)})};
     }});
-  const source = await drive.handleSource(fake('KINGSTON'), generation);
-  for (const [index, file] of (await drive.openParts(source, row)).entries()) {
-    assert.equal(file.name, 'KINGSTON/' + row.files[index].path);
+  for (const [name, prefix] of [['KINGSTON', ''], ['LIBRARY', 'LIBRARY/'], ['ZIM', 'LIBRARY/ZIM/']]) {
+    const source = await drive.handleSource(fake(name, prefix), generation, [row]);
+    assert.deepEqual((await drive.openParts(source, row)).map(file => file.name), row.files.map(({path}) => path));
+    files.delete(row.files[1].path);
+    await assert.rejects(() => drive.openParts(source, row), {code: 'disconnected'});
+    if (name === 'ZIM') await assert.rejects(() => drive.handleSource(fake(name, prefix), generation, [row]), {code: 'folder'});
+    files.set(row.files[1].path, row.files[1].bytes);
   }
-  await assert.rejects(() => drive.openParts(source, {path: 'missing', bytes: 3}), {code: 'file'});
+});
+
+test('uses a stable disconnected error for failed and incomplete browser file reads', async () => {
+  for (const name of ['NotReadableError', 'NotFoundError', 'UnknownError']) {
+    const cause = new DOMException('File read failed', name);
+    await assert.rejects(() => readBlob({text: async () => { throw cause; }}, 'text'), {code: 'disconnected', cause});
+  }
+  await assert.rejects(() => readBlob({size: 2, arrayBuffer: async () => new ArrayBuffer(1)}, 'arrayBuffer'),
+    {code: 'disconnected'});
 });
 
 test('uses the page location for picker copy and round-trips archive routes and anchors', () => {
@@ -105,6 +120,12 @@ test('uses the page location for picker copy and round-trips archive routes and 
     ['/C:/My%20Library/START_HERE.html', 'My Library']]) assert.equal(drive.folderName(pathname), folder);
   assert.equal(drive.pickerLabel('mac', true), 'Select');
   assert.equal(drive.pickerLabel('windows', true), 'Select Folder');
+  assert.equal(drive.pickerLabel('linux', true), 'Open');
+  assert.equal(drive.pickerLabel('mac', false, true), 'Open');
+  assert.equal(drive.pickerLabel('windows', false, true), 'Select Folder');
+  for (const platform of ['mac', 'windows', 'linux']) assert.equal(drive.pickerLabel(platform, false, false, true), 'Upload');
+  assert.equal(drive.pickerLabel('mac', false), 'Upload');
+  assert.equal(drive.pickerLabel('iphone', false), 'Open');
   const route = drive.readRoute('archive/1', 'folder/Article #a?', 'frägment', 'A title', 'A section');
   assert.deepEqual(drive.parseRoute(route), {id: 'archive/1', path: 'folder/Article #a?', fragment: 'frägment',
     title: 'A title', section: 'A section'});

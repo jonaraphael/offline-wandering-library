@@ -6,6 +6,10 @@
   const maxMarkup = 8 * 1024 * 1024;
   const maxResources = 96 * 1024 * 1024;
   const discarded = "script, iframe, frame, frameset, object, embed, meta, base, form, input, select, textarea, button, template, portal, fencedframe, applet, foreignObject, animate, set, animateMotion, animateTransform";
+  const rewritten = /^(?:src|href|xlink:href|srcset|imagesrcset|srcdoc|poster|background|ping|target|action|formaction|cite|longdesc|archive|codebase|data|code|profile|dynsrc|lowsrc|manifest|attributionsrc|is)$/;
+  const internal = /^on|^data-owl-/;
+  const htmlNamespace = "http://www.w3.org/1999/xhtml";
+  const outsideHint = "Leaves the library (opens in a new tab)";
   const resourceType = /^(?:image|audio|video|font)\/|^application\/(?:font-|x-font-|vnd\.ms-fontobject|octet-stream)/i;
   const dataImage = /^data:image\/(?:png|gif|jpeg|webp|avif|svg\+xml);/i;
   const decode = value => {
@@ -36,6 +40,40 @@
     }
   }
 
+  function outsideLink(value) {
+    if (!/^(?:https?:)?\/\//i.test(value?.trim() || "")) return null;
+    try {
+      const url = new URL(value, "https://archive.invalid");
+      if (["http:", "https:"].includes(url.protocol)) return {external: url.href};
+    } catch (_) { /* Leave malformed URLs as text. */ }
+    return null;
+  }
+
+  function sanitizeSerialized(head, body, allowed, styles) {
+    // The frame parses a full HTML document. Check that its parse cannot turn
+    // text back into active markup or introduce attributes we did not rewrite.
+    const parser = new DOMParser();
+    for (let pass = 0; pass < 4; pass++) {
+      const {body: parsed} = parser.parseFromString(head + body + "</html>", "text/html");
+      for (const node of parsed.querySelectorAll(discarded + ", noscript, link, title")) node.remove();
+      for (const node of [parsed, ...parsed.querySelectorAll("*")]) {
+        if (node.localName === "style" && (node.namespaceURI !== htmlNamespace || !styles.has(node.textContent))) {
+          node.remove();
+          continue;
+        }
+        for (const attribute of [...node.attributes]) {
+          const name = attribute.name.toLowerCase();
+          if ((internal.test(name) || rewritten.test(name) || name === "style" || /url\s*\(/i.test(attribute.value)) &&
+              !allowed.get(name)?.has(attribute.value)) node.removeAttributeNode(attribute);
+        }
+      }
+      const clean = parsed.outerHTML;
+      if (body === clean) return head + clean + "</html>";
+      body = clean;
+    }
+    throw Error("Article markup did not stabilize");
+  }
+
   async function replaceAll(source, pattern, render) {
     let output = "", start = 0;
     for (const match of source.matchAll(pattern)) {
@@ -57,7 +95,8 @@
     if (!/^text\/html\b|^application\/xhtml\+xml\b/i.test(entry?.mime)) throw Error("Entry is not an article");
     const content = await zim.blob(entry);
     if (content.size > maxMarkup) throw Error("Article is too large");
-    const html = await content.text();
+    const readText = blob => root.OWLZim.readBlob(blob, "text");
+    const html = await readText(content);
     const template = document.createElement("template");
     template.innerHTML = html;
     const doc = template.content;
@@ -108,7 +147,9 @@
               loaded++;
             }
           }
-        } catch (_) { /* An unavailable illustration does not hide an article. */ }
+        } catch (error) {
+          if (error.code === "disconnected") throw error;
+        }
         resources.set(key, url);
       }
       const url = resources.get(key);
@@ -129,10 +170,12 @@
             try {
               const sheet = await find(target);
               if (sheet?.mime === "text/css") {
-                const content = await css(await (await zim.blob(sheet)).text(), sheet, depth + 1);
+                const content = await css(await readText(await zim.blob(sheet)), sheet, depth + 1);
                 imports.push(media ? "@media " + media + "{" + content + "}" : content);
               }
-            } catch (_) { /* Ignore missing optional stylesheets. */ }
+            } catch (error) {
+              if (error.code === "disconnected") throw error;
+            }
           }
           return "";
         });
@@ -143,7 +186,7 @@
         const url = await resource(cssUnescape(double ?? single ?? bare), from);
         return url ? 'url("' + url.replace(/["\\\n\r\f]/g, char => "\\" + char.codePointAt(0).toString(16) + " ") + '")' : "none";
       });
-      return [...imports, body.replace(/<\/style/gi, "\\3c /style")].join("\n");
+      return [...imports, body].join("\n").replace(/<\/style/gi, "\\3c /style");
     }
 
     async function srcset(value) {
@@ -170,24 +213,32 @@
             if (found?.mime === "text/css") {
               const style = document.createElement("style");
               if (node.media) style.media = paperMedia(node.media);
-              style.textContent = await css(await (await zim.blob(found)).text(), found);
+              style.textContent = await css(await readText(await zim.blob(found)), found);
               node.replaceWith(style);
             }
-          } catch (_) { /* Keep the article readable without an optional sheet. */ }
+          } catch (error) {
+            if (error.code === "disconnected") throw error;
+          }
         }
         node.remove();
         continue;
       }
       if (tag === "style") {
+        if (node.namespaceURI !== htmlNamespace) {
+          node.remove();
+          continue;
+        }
         node.textContent = await css(node.textContent, entry);
         if (node.media) node.media = paperMedia(node.media);
       }
-      const attributes = new Map([...node.attributes].map(attribute => [attribute.name.toLowerCase(), attribute.value]));
-      for (const name of attributes.keys()) {
-        if (/^on|^data-owl-/.test(name) || /^(?:src|href|xlink:href|srcset|imagesrcset|srcdoc|poster|background|ping|target|action|formaction|cite|longdesc|archive|codebase|data|code|profile|dynsrc|lowsrc|manifest|attributionsrc|is)$/.test(name)) {
-          node.removeAttribute(name);
-        } else if (name === "style" || /url\s*\(/i.test(attributes.get(name))) {
-          node.setAttribute(name, await css(attributes.get(name), entry));
+      const attributes = new Map();
+      for (const attribute of [...node.attributes]) {
+        const name = attribute.name.toLowerCase();
+        attributes.set(name, attribute.value);
+        if (internal.test(name) || rewritten.test(name)) {
+          node.removeAttributeNode(attribute);
+        } else if (name === "style" || /url\s*\(/i.test(attribute.value)) {
+          attribute.value = await css(attribute.value, entry);
         }
       }
       if (["img", "source", "audio", "video", "track"].includes(tag)) {
@@ -209,12 +260,18 @@
         if (url) node.setAttribute("href", url);
       }
       if (tag === "a" || tag === "area") {
-        const target = locate(attributes.get("href") || attributes.get("xlink:href"), entry, zim.minor === 0);
+        const href = attributes.get("href") || attributes.get("xlink:href");
+        const target = locate(href, entry, zim.minor === 0) || outsideLink(href);
         if (!target) continue;
         const key = String(links.size);
         links.set(key, target);
         node.setAttribute("data-owl-link", key);
-        node.setAttribute("href", "#" + encodeURIComponent(target.fragment || ""));
+        node.setAttribute("href", target.external || "#" + encodeURIComponent(target.fragment || ""));
+        if (target.external) {
+          const label = (node.getAttribute("aria-label") || node.textContent || node.getAttribute("alt") || "").trim();
+          node.setAttribute("aria-label", label ? label + " · " + outsideHint : outsideHint);
+          node.setAttribute("title", outsideHint);
+        }
       }
     }
 
@@ -230,12 +287,23 @@
     }
     const fallback = "html{color-scheme:light;background:#fff;color:#202122}body{margin:0;font:16px/1.55 system-ui,sans-serif}" +
       "img,video,canvas{max-width:100%;height:auto}pre{white-space:pre-wrap;overflow-wrap:anywhere}a:focus-visible{outline:2px solid #165da8}";
-    const fit = "html{color-scheme:light!important;min-width:0!important;height:auto!important;overflow:hidden!important}body{height:auto!important;min-height:0!important;display:flow-root;overflow-wrap:break-word}";
-    return {title, links, textLength, scripts, illustrations, loaded, html: "<!doctype html><html" + wrapper("html") +
+    const fit = "html{color-scheme:light!important;min-width:0!important;height:auto!important;overflow:hidden!important}body{height:auto!important;min-height:0!important;display:flow-root;overflow-wrap:break-word}" +
+      "a:not([href]){color:inherit!important;cursor:inherit!important;text-decoration:none!important}";
+    const allowed = new Map();
+    for (const node of doc.querySelectorAll("*")) {
+      for (const {name, value} of node.attributes) {
+        if (!internal.test(name) && !rewritten.test(name) && name !== "style" && !/url\s*\(/i.test(value)) continue;
+        if (!allowed.has(name)) allowed.set(name, new Set());
+        allowed.get(name).add(value);
+      }
+    }
+    const styles = new Set([fit, ...[...doc.querySelectorAll("style")].map(node => node.textContent)]);
+    const head = "<!doctype html><html" + wrapper("html") +
       '><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="' + attr(policy) +
       '"><meta name="viewport" content="width=device-width, initial-scale=1"><title>' + text(title) +
-      "</title><style>" + fallback + "</style></head><body" + wrapper("body") + ">" + template.innerHTML +
-      "<style>" + fit + "</style></body></html>"};
+      "</title><style>" + fallback + "</style></head>";
+    const body = "<body" + wrapper("body") + ">" + template.innerHTML + "<style>" + fit + "</style></body>";
+    return {title, links, textLength, scripts, illustrations, loaded, html: sanitizeSerialized(head, body, allowed, styles)};
   }
 
   function targetElement(doc, fragment, section) {
