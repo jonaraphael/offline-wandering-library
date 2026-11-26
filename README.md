@@ -8,7 +8,7 @@ Every selectable asset passes the [machine-readable content-type policy](src/owl
 
 ## Build a drive
 
-Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-library/) on a computer.
+Open the [OWL library builder](https://jonaraphael.com/offline-wandering-library/) on a computer.
 In Firefox, choose **Open local builder**, review the size and choose **Sync**.
 When it finishes, choose **Prepare download**, save the archive, and extract it
 into an empty folder on your drive. Open `START_HERE.html` in that folder.
@@ -104,7 +104,9 @@ planned storage and the current inventory are in the
 
 The direct foundation includes published medical and public-health chapters,
 preservation and agriculture manuals, shelter and navigation references, and
-practical trades and school textbooks. Additional Wikipedia languages and
+practical trades and school textbooks. Every preset also carries one story for
+each age from 1 to 18, from *The Real Mother Goose* to *The Odyssey*
+([the list](catalog/stories/ladder.yaml)). Additional Wikipedia languages and
 detailed topographic sheet packs are optional at 1 TB and below. See the
 [topic-by-topic completion plan](docs/full-1tb-coverage-plan.md) for editorial
 coverage and [the target architecture](docs/design/target-architecture.md) for
@@ -132,7 +134,7 @@ Open `START_HERE.html`. A fresh build puts exactly two items in the chosen outer
 
 Python builds also write `CONTENT_SELECTION.json` and `LOCKED_CATALOG.yaml` for its rebuild workflow.
 
-The default children's books and Python manuals are PDFs, so reading them does not require an EPUB app. On iPhone or iPad, use Files to open the PDF directly and choose **Preview with Quick Look** if offered. If the start-page preview cannot follow links, use the folder trail under each title to locate the file. Retained EPUBs under `LIBRARY/REFERENCE/SOURCE_PACKAGES/EPUB/` are excluded from the reading shelves and search.
+The default story books are PDFs, so reading them does not require an EPUB app. On iPhone or iPad, use Files to open the PDF directly and choose **Preview with Quick Look** if offered. If the start-page preview cannot follow links, use the folder trail under each title to locate the file. Retained EPUBs under `LIBRARY/REFERENCE/SOURCE_PACKAGES/EPUB/` are excluded from the reading shelves and search.
 
 ```text
 EMERGENCY_LIBRARY/

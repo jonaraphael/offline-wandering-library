@@ -563,12 +563,12 @@ assets:
     origin: https://jonaraphael.github.io
     checked_on: '2026-11-22'
   mirrors:
-  - https://jonaraphael.github.io/offline-wandering-library/mirrors/agriculture-0.bin
+  - https://jonaraphael.com/offline-wandering-library/mirrors/agriculture-0.bin
   mirror_fetch:
-    https://jonaraphael.github.io/offline-wandering-library/mirrors/agriculture-0.bin:
+    https://jonaraphael.com/offline-wandering-library/mirrors/agriculture-0.bin:
       cors: true
       range: null
-      origin: https://jonaraphael.github.io
+      origin: https://jonaraphael.com
       checked_on: '2026-11-22'
       sha256_verified: true
   digest_algorithm: sha256
@@ -25236,6 +25236,762 @@ assets:
     scope: url
     origin: https://example.github.io
     checked_on: '2026-11-21'
+  digest_algorithm: sha256
+- id: story_age01_the_real_mother_goose
+  title: The Real Mother Goose (age 1)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-01-the-real-mother-goose.pdf
+  destination: BOOKS/STORIES/age-01-the-real-mother-goose.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #10607'
+  size_bytes: 3431768
+  sha256: f83ef0e6dfb6dfcb74c20d40159cfc08e66e65128eb15822e1c55637e74799f5
+  license: Public domain in the United States (first published 1916); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/10607
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'The Real Mother Goose. Pictures by Blanche Fisher Wright. Transcription: Project
+    Gutenberg eBook #10607; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: true
+  description: Story ladder, age 1. Rhymes that grandparents still know by heart. Saying them
+    together trains the ear for reading. 207 pages, illustrated.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 11
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age02_the_tale_of_peter_rabbit
+  title: The Tale of Peter Rabbit (age 2)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-02-the-tale-of-peter-rabbit.pdf
+  destination: BOOKS/STORIES/age-02-the-tale-of-peter-rabbit.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #14838'
+  size_bytes: 1373038
+  sha256: 8542fa018e3c884466b24d44a35bbaa9b7f5d6b27c5fe1c8e2b926d8cb8a4ec4
+  license: Public domain in the United States (first published 1902); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/14838
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'The Tale of Peter Rabbit. By Beatrix Potter. Transcription: Project Gutenberg
+    eBook #14838; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: true
+  description: Story ladder, age 2. A first story with a real plot, a warning, a chase and
+    a safe return home. 44 pages, illustrated.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 12
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age03_the_golden_goose_book
+  title: The Golden Goose Book (age 3)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-03-the-golden-goose-book.pdf
+  destination: BOOKS/STORIES/age-03-the-golden-goose-book.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #15661'
+  size_bytes: 4209904
+  sha256: 189e0f64beb60ace7c793b3f1ab5bd193764faa8a8aac0011b63a5c2f2fc856c
+  license: Public domain in the United States (first published 1905); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/15661
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'The Golden Goose Book. Pictures by L. Leslie Brooke. Transcription: Project
+    Gutenberg eBook #15661; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: true
+  description: Story ladder, age 3. The Three Bears, the Three Little Pigs and Tom Thumb,
+    the tales every older child and adult already knows. 110 pages, illustrated.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 13
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age04_the_aesop_for_children
+  title: The Aesop for Children (age 4)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-04-the-aesop-for-children.pdf
+  destination: BOOKS/STORIES/age-04-the-aesop-for-children.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #19994'
+  size_bytes: 7063424
+  sha256: a8ad04c089de783c3bc6e40dc5b653ffb67c79e4ed8b2c9f31b44f8fb5a39755
+  license: Public domain in the United States (first published 1919); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/19994
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'The Aesop for Children. Pictures by Milo Winter. Transcription: Project Gutenberg
+    eBook #19994; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: true
+  description: Story ladder, age 4. Short fables whose lessons live on as sayings in many
+    languages, from sour grapes to crying wolf. 368 pages, illustrated.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 14
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age05_winnie_the_pooh
+  title: Winnie-the-Pooh (age 5)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-05-winnie-the-pooh.pdf
+  destination: BOOKS/STORIES/age-05-winnie-the-pooh.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #67098'
+  size_bytes: 4851724
+  sha256: c737fe8cecedb37233ad32517fd1a75844992046f51f670d91995c36e81fc0fc
+  license: Public domain in the United States (first published 1926); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/67098
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'Winnie-the-Pooh. By A. A. Milne, decorations by Ernest H. Shepard. Transcription:
+    Project Gutenberg eBook #67098; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: true
+  description: Story ladder, age 5. The first long book to share a chapter at a time, read
+    aloud for a hundred years. 236 pages, illustrated.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 15
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age06_the_blue_fairy_book
+  title: The Blue Fairy Book (age 6)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-06-the-blue-fairy-book.pdf
+  destination: BOOKS/STORIES/age-06-the-blue-fairy-book.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #503'
+  size_bytes: 3067453
+  sha256: 17d3822c305d412d9bfc21061140ba748d41a46a2f7333ee6aeb850a15902504
+  license: Public domain in the United States (first published 1889); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/503
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'The Blue Fairy Book. Edited by Andrew Lang. Transcription: Project Gutenberg
+    eBook #503; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: false
+  description: Story ladder, age 6. Cinderella, Sleeping Beauty, Hansel and Gretel and Beauty
+    and the Beast, the shared fairy tales of Europe in one book. 477 pages.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 16
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age07_the_wonderful_wizard_of_oz
+  title: The Wonderful Wizard of Oz (age 7)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-07-the-wonderful-wizard-of-oz.pdf
+  destination: BOOKS/STORIES/age-07-the-wonderful-wizard-of-oz.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #43936'
+  size_bytes: 9925621
+  sha256: 2abedcd7aac1798a4be2fbf4e5828e09e669a18a907c1c9a5f148655f77cff81
+  license: Public domain in the United States (first published 1900); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/43936
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'The Wonderful Wizard of Oz. By L. Frank Baum, pictures by W. W. Denslow. Transcription:
+    Project Gutenberg eBook #43936; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: true
+  description: Story ladder, age 7. The usual first novel a child reads alone, known to every
+    generation since 1900. 369 pages, illustrated.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 17
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age08_the_arabian_nights
+  title: The Arabian Nights (age 8)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-08-the-arabian-nights.pdf
+  destination: BOOKS/STORIES/age-08-the-arabian-nights.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #128'
+  size_bytes: 2697590
+  sha256: 3eac088f7f697c3cdc15fb7241292da5af2bacf3d2a8c905f1c0cb760f4be2ab
+  license: Public domain in the United States (first published 1898); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/128
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'The Arabian Nights. Selected and edited by Andrew Lang. Transcription: Project
+    Gutenberg eBook #128; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: false
+  description: Story ladder, age 8. Aladdin, Ali Baba and Sinbad, stories told from Morocco
+    to India for a thousand years. 453 pages.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 18
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age09_alices_adventures_in_wonderland
+  title: Alice's Adventures in Wonderland (age 9)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-09-alices-adventures-in-wonderland.pdf
+  destination: BOOKS/STORIES/age-09-alices-adventures-in-wonderland.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #28885'
+  size_bytes: 3093392
+  sha256: eef0f9398ff2ea27bed32fddc1ad36c8f288829ce241ff9b3dbf40df834657ce
+  license: Public domain in the United States (first published 1865; this edition 1907); copyright
+    terms differ in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/28885
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'Alice''s Adventures in Wonderland. By Lewis Carroll, pictures by Arthur Rackham.
+    Transcription: Project Gutenberg eBook #28885; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: true
+  description: Story ladder, age 9. Nonsense, wordplay and logic puzzles that writers and
+    scientists still quote. 148 pages, illustrated.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 19
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age10_a_wonder_book
+  title: A Wonder Book for Girls and Boys (age 10)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-10-a-wonder-book.pdf
+  destination: BOOKS/STORIES/age-10-a-wonder-book.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #32242'
+  size_bytes: 4486972
+  sha256: b37164bc9cd319021849fa17fe299bf8bd012365ff00cec43a5b62c4a6784858
+  license: Public domain in the United States (first published 1851; this edition 1892); copyright
+    terms differ in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/32242
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'A Wonder Book for Girls and Boys. By Nathaniel Hawthorne, pictures by Walter
+    Crane. Transcription: Project Gutenberg eBook #32242; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: true
+  description: Story ladder, age 10. Greek myths retold for children, Midas, Pandora, Perseus
+    and Hercules, the root of countless sayings. 234 pages, illustrated.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 20
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age11_anne_of_green_gables
+  title: Anne of Green Gables (age 11)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-11-anne-of-green-gables.pdf
+  destination: BOOKS/STORIES/age-11-anne-of-green-gables.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #45'
+  size_bytes: 2759500
+  sha256: 36a7215877a1635c15aad94d30eaf8ed9e04a1e2bd621d517f915662635de3b3
+  license: Public domain in the United States (first published 1908); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/45
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'Anne of Green Gables. By L. M. Montgomery. Transcription: Project Gutenberg
+    eBook #45; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: false
+  description: Story ladder, age 11. A girl who talks too much finds friendship, school and
+    a home. 379 pages.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 21
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age12_treasure_island
+  title: Treasure Island (age 12)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-12-treasure-island.pdf
+  destination: BOOKS/STORIES/age-12-treasure-island.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #27780'
+  size_bytes: 3001554
+  sha256: f0754c179abb24ea4d400f9c5da363de1f693eb02f4ab63b4aa34ca7ffd4576c
+  license: Public domain in the United States (first published 1883; this edition 1911); copyright
+    terms differ in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/27780
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'Treasure Island. By Robert Louis Stevenson, pictures by Milo Winter. Transcription:
+    Project Gutenberg eBook #27780; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: true
+  description: Story ladder, age 12. The pirate adventure that every later pirate story borrows
+    from. 266 pages, illustrated.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 22
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age13_the_adventures_of_sherlock_holmes
+  title: The Adventures of Sherlock Holmes (age 13)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-13-the-adventures-of-sherlock-holmes.pdf
+  destination: BOOKS/STORIES/age-13-the-adventures-of-sherlock-holmes.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #1661'
+  size_bytes: 2764963
+  sha256: 9f84da04d66d2528bc0418ece6c08ad4e2668f7e0873c29bcc23a34e5dd72169
+  license: Public domain in the United States (first published 1892); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/1661
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'The Adventures of Sherlock Holmes. By Arthur Conan Doyle. Transcription: Project
+    Gutenberg eBook #1661; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: false
+  description: Story ladder, age 13. Solving mysteries by reasoning from evidence, with a
+    detective known around the world. 376 pages.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 23
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age14_romeo_and_juliet
+  title: Romeo and Juliet (age 14)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-14-romeo-and-juliet.pdf
+  destination: BOOKS/STORIES/age-14-romeo-and-juliet.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #1513'
+  size_bytes: 1615302
+  sha256: 2566c1e955663444f6e7076edc0a27b462a631469735f91a6c0389f6237f137f
+  license: Public domain in the United States (first published about 1597); copyright terms
+    differ in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/1513
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'Romeo and Juliet. By William Shakespeare. Transcription: Project Gutenberg
+    eBook #1513; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: false
+  description: Story ladder, age 14. The play most students read first, and the source of
+    lines quoted everywhere. 153 pages.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 24
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age15_narrative_of_the_life_of_frederick_douglass
+  title: Narrative of the Life of Frederick Douglass, an American Slave (age 15)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-15-narrative-of-the-life-of-frederick-douglass.pdf
+  destination: BOOKS/STORIES/age-15-narrative-of-the-life-of-frederick-douglass.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #23'
+  size_bytes: 1255876
+  sha256: ee0d4a72f8840a4c457a3fd35d381e1a0f92198c027968f942bc4a268ed7fb4d
+  license: Public domain in the United States (first published 1845); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/23
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'Narrative of the Life of Frederick Douglass, an American Slave. Written by
+    himself. Transcription: Project Gutenberg eBook #23; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: false
+  description: Story ladder, age 15. A man who escaped slavery tells how learning to read
+    set him on the road to freedom. 142 pages.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 25
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age16_frankenstein
+  title: Frankenstein (age 16)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-16-frankenstein.pdf
+  destination: BOOKS/STORIES/age-16-frankenstein.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #84'
+  size_bytes: 1875661
+  sha256: 46a6834aa86476bb4f6c49d44da5af714fac70af760dc15a7e078610172436ea
+  license: Public domain in the United States (first published 1818); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/84
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'Frankenstein. By Mary Wollstonecraft Shelley. Transcription: Project Gutenberg
+    eBook #84; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: false
+  description: Story ladder, age 16. The first science-fiction novel, asking what a maker
+    owes what it makes. 273 pages.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 26
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age17_pride_and_prejudice
+  title: Pride and Prejudice (age 17)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-17-pride-and-prejudice.pdf
+  destination: BOOKS/STORIES/age-17-pride-and-prejudice.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #42671'
+  size_bytes: 3390498
+  sha256: 9fe7ca6b420e662023265af2f8240416e4e3f494f2672fd7a424bd6af6b28aa9
+  license: Public domain in the United States (first published 1813); copyright terms differ
+    in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/42671
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'Pride and Prejudice. By Jane Austen. Transcription: Project Gutenberg eBook
+    #42671; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: true
+  description: Story ladder, age 17. Irony, pride and first impressions in a courtship comedy
+    readers still argue about. 489 pages, illustrated.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 27
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
+  digest_algorithm: sha256
+- id: story_age18_the_odyssey
+  title: The Odyssey (age 18)
+  category: children
+  format: pdf
+  source_url: https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/194890d626cf72837dc39062e551b737fdd3f4fa/catalog/stories/age-18-the-odyssey.pdf
+  destination: BOOKS/STORIES/age-18-the-odyssey.pdf
+  version: 'OWL reading edition 2026-11-26 from Project Gutenberg eBook #1727'
+  size_bytes: 3213229
+  sha256: d5dddfbb8f40bfefcf812131c70306688b50eb2203d885e222e62dfdd4e6a69d
+  license: Public domain in the United States (first published translation 1900); copyright
+    terms differ in some other countries.
+  redistributable: true
+  required: false
+  profiles: []
+  critical: false
+  reader_required: false
+  publisher: Offline Wandering Library, from a Project Gutenberg volunteer transcription
+  source_page: https://www.gutenberg.org/ebooks/1727
+  language: en
+  snapshot_date: '2026-11-26'
+  attribution: 'The Odyssey. By Homer, translated by Samuel Butler. Transcription: Project
+    Gutenberg eBook #1727; the PDF''s last page lists the transcribers.'
+  resource_type: reference
+  illustrated: false
+  description: Story ladder, age 18. A long voyage home, the root story of Western literature.
+    436 pages.
+  utility_tier: NONESSENTIAL
+  utility_reason: Shared stories connect a child to other children, older generations and
+    other cultures, and build reading skill.
+  knowledge_domains:
+  - stories
+  selection:
+    domain: culture
+    level: 0
+    rank: 28
+  browser_fetch:
+    cors: true
+    range: true
+    scope: url
+    origin: https://jonaraphael.com
+    checked_on: '2026-11-26'
   digest_algorithm: sha256
 - id: docs_bash_published_pdf
   title: Bash Reference Manual (publisher PDF)

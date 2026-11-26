@@ -75,3 +75,15 @@ test("the production browser route check follows the relay's whole-file fallback
   assert.deepEqual(requested, ["bytes=0-15", undefined]);
   assert.deepEqual(results, [{ok: true, detail: "HTTP 200"}]);
 });
+
+test("every listed page origin is allowed and others are denied", async () => {
+  const worker = relay(allowed, () => new Response(bytes, {headers: {"Content-Length": "10"}}));
+  const listed = {...env, ALLOWED_ORIGIN: "https://example.com, https://example.github.io"};
+  for (const [from, status] of [["https://example.com", 200], ["https://example.github.io", 200],
+    ["https://other.example", 403], [null, 403]]) {
+    const headers = {"CF-Connecting-IP": "192.0.2.1", ...(from ? {Origin: from} : {})};
+    const response = await worker.fetch(new Request("https://relay.example/assets/reference", {headers}), listed);
+    assert.equal(response.status, status, String(from));
+    assert.equal(response.headers.get("Access-Control-Allow-Origin"), status === 200 ? from : null);
+  }
+});

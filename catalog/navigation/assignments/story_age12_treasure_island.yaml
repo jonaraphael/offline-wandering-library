@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: story_age12_treasure_island
+assignments:
+- topic_id: books
+  purpose: reference

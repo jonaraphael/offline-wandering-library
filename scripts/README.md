@@ -28,6 +28,7 @@ from the commit that produced the receipt.
 | `build_search_shards.py` | Precomputes search shards from local source files. | Search maintainers |
 | `build_search_transformer.py` | Packs pinned transformer inputs for the offline reader. | Search maintainers |
 | `build_selector.py` | Regenerates or checks standalone `SELECT.html`. | Catalog maintainers, CI |
+| `build_story_ladder.py` | Renders the story-ladder PDFs from pinned Gutenberg HTML and checks their catalog entries. | Catalog maintainers |
 | `build_wikimed_phone.py` | Builds the WikiMed volumes that phones can open as PDFs. | Catalog maintainers |
 | `check_browser_resume.cjs` | Exercises browser transfer resume and disk-full recovery. | Browser testers, CI |
 | `check_content_policy.py` | Checks the catalog against content type and admission rules. | Catalog maintainers, CI |

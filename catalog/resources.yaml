@@ -604,25 +604,57 @@ resources:
   - school-math
   - school-science
 - id: childrens-library
-  title: Illustrated children’s PDF stories (optional)
+  title: Stories for every age
   number: 10
-  target_bytes: 5579025
+  target_bytes: 64077469
   status: ready
-  reason: Finished illustrated Book Dash PDFs, unchanged with original credits. Optional
-    stories; no fixed title quota and no EPUB conversion.
+  reason: One public-domain touchstone book for each age from 1 to 18, chosen for what
+    it connects a child to. OWL renders each from a Project Gutenberg transcription
+    into a PDF that opens on any phone or computer.
   asset_ids:
-  - bookdash_pdf_amazing_daisy
-  - bookdash_pdf_come_back_cat_english
+  - story_age01_the_real_mother_goose
+  - story_age02_the_tale_of_peter_rabbit
+  - story_age03_the_golden_goose_book
+  - story_age04_the_aesop_for_children
+  - story_age05_winnie_the_pooh
+  - story_age06_the_blue_fairy_book
+  - story_age07_the_wonderful_wizard_of_oz
+  - story_age08_the_arabian_nights
+  - story_age09_alices_adventures_in_wonderland
+  - story_age10_a_wonder_book
+  - story_age11_anne_of_green_gables
+  - story_age12_treasure_island
+  - story_age13_the_adventures_of_sherlock_holmes
+  - story_age14_romeo_and_juliet
+  - story_age15_narrative_of_the_life_of_frederick_douglass
+  - story_age16_frankenstein
+  - story_age17_pride_and_prejudice
+  - story_age18_the_odyssey
   utility_tier: NONESSENTIAL
-  utility_reason: Optional enrichment or advanced study; lower priority for a low-electronic
-    life.
+  utility_reason: Shared stories connect a child to other children, older generations
+    and other cultures, and build reading skill.
   knowledge_domains: &id001
   - stories
   preferred_formats:
   - pdf
   include:
-  - Finished illustrated Book Dash PDFs, unchanged with original credits. Optional
-    stories; no fixed title quota and no EPUB conversion.
+  - The Real Mother Goose (age 1) through The Odyssey (age 18), as listed in catalog/stories/ladder.yaml.
+  - Picture books for ages 1 to 5 keep their original illustrations in large type.
+- id: bookdash-picture-books
+  title: Book Dash picture books (PDF)
+  target_bytes: 5579025
+  status: ready
+  reason: Two finished illustrated Book Dash PDFs, unchanged with original credits.
+  asset_ids:
+  - bookdash_pdf_amazing_daisy
+  - bookdash_pdf_come_back_cat_english
+  utility_tier: NONESSENTIAL
+  utility_reason: Contemporary South African picture books for the youngest readers.
+  knowledge_domains: *id001
+  preferred_formats:
+  - pdf
+  include:
+  - Amazing Daisy and Come Back, Cat, unchanged publisher PDFs with original credits.
 - id: wikipedia-en
   title: English Wikipedia
   number: 11

@@ -75,7 +75,8 @@
     "voa-learning": {"title": "VOA Learning English", "blurb": "News and lessons in slow, simple English for people learning the language."},
     "wikispecies": {"title": "Wikispecies", "blurb": "A directory of living things and how they are classified."},
 
-    "childrens-library": {"title": "Illustrated children's stories", "blurb": "Two Book Dash picture books as PDFs that open on any device."},
+    "childrens-library": {"title": "Stories for every age", "blurb": "One classic book for each age from 1 to 18, from Mother Goose to the Odyssey, as PDFs that open on any device."},
+    "bookdash-picture-books": {"title": "Book Dash picture books", "blurb": "Two South African picture books for the youngest readers, as PDFs."},
     "openstax-core": {"title": "OpenStax college textbooks (all)", "blurb": "Sixty-seven complete college textbooks across science, maths, business, nursing and the humanities."},
     "libretexts-stem": {"title": "LibreTexts science and medicine", "blurb": "Open college textbook libraries for biology, chemistry, physics, maths, engineering, geosciences and medicine."},
     "wikiversity-en": {"title": "Wikiversity", "blurb": "Free courses, lesson plans and research projects."},

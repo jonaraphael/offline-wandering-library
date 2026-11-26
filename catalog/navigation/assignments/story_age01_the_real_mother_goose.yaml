@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: story_age01_the_real_mother_goose
+assignments:
+- topic_id: books
+  purpose: reference

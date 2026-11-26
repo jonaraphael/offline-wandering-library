@@ -20,7 +20,9 @@ export function relay(allowed, fetchUpstream = fetch) {
     const headers = new Headers({"Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff",
       "Vary": "Origin"});
     const reply = (status, text) => new Response(request.method === "HEAD" ? null : text, {status, headers});
-    if (!env.ALLOWED_ORIGIN || origin !== env.ALLOWED_ORIGIN) return reply(403, "Origin denied");
+    // ALLOWED_ORIGIN lists every origin the builder page is served from, comma-separated.
+    const origins = String(env.ALLOWED_ORIGIN || "").split(",").map(value => value.trim()).filter(Boolean);
+    if (!origin || !origins.includes(origin)) return reply(403, "Origin denied");
     headers.set("Access-Control-Allow-Origin", origin);
     headers.set("Access-Control-Expose-Headers", "Content-Length, Content-Range, Accept-Ranges, Retry-After, X-OWL-Reason");
     const url = new URL(request.url);

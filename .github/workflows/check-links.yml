@@ -40,8 +40,8 @@ jobs:
         run: |
           archive=()
           if [[ "$OWL_ARCHIVE_RELAY" == true ]]; then archive+=(--archive-relay); fi
-          python scripts/check_links.py --origin https://jonaraphael.github.io \
-            --pages-base https://jonaraphael.github.io/offline-wandering-library/ \
+          python scripts/check_links.py --origin https://jonaraphael.com \
+            --pages-base https://jonaraphael.com/offline-wandering-library/ \
             --relay-base "$OWL_RELAY_BASE" --workers 8 --route-sample 48 \
             --history link-check-history.json --output link-checks.json "${archive[@]}"
       - uses: actions/upload-artifact@v4
