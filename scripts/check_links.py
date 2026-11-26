@@ -23,7 +23,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from owl.catalog import load_catalog
 from owl.download import BROWSER_USER_AGENT, USER_AGENT
 
-DEFAULT_ORIGIN = "https://jonaraphael.github.io"
+DEFAULT_ORIGIN = "https://jonaraphael.com"
 STREAM_MAX_BYTES = 64 * 1024 * 1024
 STREAM_INTERVAL = 0.5
 STREAM_CHUNK_BYTES = 64 * 1024

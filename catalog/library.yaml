@@ -563,12 +563,12 @@ assets:
     origin: https://jonaraphael.github.io
     checked_on: '2026-11-22'
   mirrors:
-  - https://jonaraphael.github.io/offline-wandering-library/mirrors/agriculture-0.bin
+  - https://jonaraphael.com/offline-wandering-library/mirrors/agriculture-0.bin
   mirror_fetch:
-    https://jonaraphael.github.io/offline-wandering-library/mirrors/agriculture-0.bin:
+    https://jonaraphael.com/offline-wandering-library/mirrors/agriculture-0.bin:
       cors: true
       range: null
-      origin: https://jonaraphael.github.io
+      origin: https://jonaraphael.com
       checked_on: '2026-11-22'
       sha256_verified: true
   digest_algorithm: sha256

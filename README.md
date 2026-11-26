@@ -8,7 +8,7 @@ Every selectable asset passes the [machine-readable content-type policy](src/owl
 
 ## Build a drive
 
-Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-library/) on a computer.
+Open the [OWL library builder](https://jonaraphael.com/offline-wandering-library/) on a computer.
 In Firefox, choose **Open local builder**, review the size and choose **Sync**.
 When it finishes, choose **Prepare download**, save the archive, and extract it
 into an empty folder on your drive. Open `START_HERE.html` in that folder.

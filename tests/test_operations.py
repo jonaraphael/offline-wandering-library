@@ -50,15 +50,15 @@ class OperationsTests(unittest.TestCase):
         check = yaml.load(path.read_text(), Loader=yaml.BaseLoader)
         self.assertEqual(check["permissions"]["issues"], "write")
         probe = next(step for step in check["jobs"]["check-links"]["steps"] if step.get("id") == "probe")
-        self.assertIn("--pages-base https://jonaraphael.github.io/offline-wandering-library/", probe["run"])
+        self.assertIn("--pages-base https://jonaraphael.com/offline-wandering-library/", probe["run"])
         self.assertIn("--relay-base", probe["run"])
-        self.assertIn("--origin https://jonaraphael.github.io", probe["run"])
+        self.assertIn("--origin https://jonaraphael.com", probe["run"])
 
     def test_relay_configuration_and_drive_source_notes(self):
         relay = tomllib.loads((ROOT / "relay/wrangler.toml").read_text())
         self.assertTrue(relay["workers_dev"])
         self.assertEqual(relay["name"], "owl-publisher-relay")
-        self.assertEqual(relay["vars"], {"ALLOWED_ORIGIN": "https://jonaraphael.github.io"})
+        self.assertEqual(relay["vars"], {"ALLOWED_ORIGIN": "https://jonaraphael.com,https://jonaraphael.github.io"})
         relay_doc = (ROOT / "relay/README.md").read_text(encoding="utf-8")
         for asset in load_catalog(ROOT / "catalog/library.yaml"):
             if not asset["redistributable"]:

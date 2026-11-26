@@ -1,6 +1,6 @@
 # Build a library in your browser
 
-Open the [OWL library builder](https://jonaraphael.github.io/offline-wandering-library/) on a computer.
+Open the [OWL library builder](https://jonaraphael.com/offline-wandering-library/) on a computer.
 
 ### Build locally in Firefox
 
