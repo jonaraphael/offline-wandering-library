@@ -150,11 +150,13 @@ def _snapshot(job_dir: Path, argv: list[str], *, scripts=False) -> dict:
     # Freeze runtime catalogs and their referenced acquisition evidence. Other
     # candidate histories are independent controls, supplied explicitly by their
     # jobs; growing discovery history must not fill every worker's snapshot.
+    # catalog/stories holds the story PDFs, which jobs download from their
+    # pinned URLs like any other catalog file.
     catalog = REPO_ROOT / "catalog"
     if catalog.exists():
         reject_symlinks(catalog)
         for source in sorted(catalog.iterdir()):
-            if source.name != "acquisition":
+            if source.name not in {"acquisition", "stories"}:
                 copy(source, snapshot / "catalog" / source.name)
         default_recipes = catalog / "acquisition/recipes.yaml"
         if default_recipes.exists():

@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: story_age08_the_arabian_nights
+assignments:
+- topic_id: books
+  purpose: reference

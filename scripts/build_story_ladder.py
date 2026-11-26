@@ -45,6 +45,8 @@ SOURCE = "https://aleph.pglaf.org/cache/epub/{id}/pg{id}-h.zip"
 EBOOK = "https://www.gutenberg.org/ebooks/{id}"
 REPOSITORY = "https://raw.githubusercontent.com/jonaraphael/offline-wandering-library/{commit}/catalog/stories/{file}"
 DESTINATION = "BOOKS/STORIES/{file}"
+BUILDER_ORIGIN = "https://jonaraphael.com"
+RANK_OFFSET = 10  # Culture level-0 ranks 1-10 are the OpenStax humanities books.
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 FONT_COMMIT = "d9ec0982cbe53f7b7bf4af3e6cdbda0dbd1dac10"
 FONT_URL = "https://raw.githubusercontent.com/google/fonts/" + FONT_COMMIT + "/ofl/{path}"
@@ -425,7 +427,7 @@ def render(args) -> int:
     return 0
 
 
-def entry(book: dict, row: dict, commit: str) -> dict:
+def entry(book: dict, row: dict, commit: str, checked_on: str = "") -> dict:
     illustrated = row["pictures"] > 1
     return {
         "id": book["id"],
@@ -458,16 +460,31 @@ def entry(book: dict, row: dict, commit: str) -> dict:
         "utility_reason": "Shared stories connect a child to other children, older generations and "
                           "other cultures, and build reading skill.",
         "knowledge_domains": ["stories"],
-        "selection": {"domain": "culture", "level": 0, "rank": book["age"]},
+        "selection": {"domain": "culture", "level": 0, "rank": RANK_OFFSET + book["age"]},
+        # --entries checks that each URL answers a cross-origin Range request.
+        "browser_fetch": {"cors": True, "range": True, "scope": "url", "origin": BUILDER_ORIGIN,
+                          "checked_on": checked_on},
         "digest_algorithm": "sha256",
     }
 
 
 def entries(commit: str) -> int:
+    """Print catalog entries after checking each committed URL from the builder's origin."""
     if not re.fullmatch(r"[0-9a-f]{40}", commit):
         raise SystemExit("--entries needs a full 40-character commit hash")
+    checked = date.today().isoformat()
+    for row in load_manifest()["books"]:
+        url = REPOSITORY.format(commit=commit, file=row["file"])
+        request = Request(url, headers={"User-Agent": USER_AGENT, "Origin": BUILDER_ORIGIN, "Range": "bytes=0-"})
+        with urlopen(request, timeout=120) as response:
+            data = response.read(PDF_LIMIT + 1)
+            allowed = response.headers.get("Access-Control-Allow-Origin")
+            ranged = response.status == 206
+        if (len(data) != row["bytes"] or sha256(data).hexdigest() != row["sha256"] or not ranged
+                or allowed not in {"*", BUILDER_ORIGIN}):
+            raise SystemExit(f"{url} does not serve the pinned file to {BUILDER_ORIGIN}; push the commit first")
     manifest = {row["age"]: row for row in load_manifest()["books"]}
-    rows = [entry(book, manifest[book["age"]], commit) for book in books()]
+    rows = [entry(book, manifest[book["age"]], commit, checked) for book in books()]
     print(yaml.safe_dump(rows, sort_keys=False, allow_unicode=True, width=88), end="")
     return 0
 
@@ -496,8 +513,22 @@ def check() -> int:
                 if not re.fullmatch(REPOSITORY.format(commit="[0-9a-f]{40}", file=re.escape(book["file"])),
                                     asset[key]):
                     problems.append(f"{book['id']}: source_url must name a commit and {book['file']}")
+            elif key == "browser_fetch":
+                if asset.get(key, {}).get("cors") is not True:
+                    problems.append(f"{book['id']}: browser_fetch must record CORS access")
             elif asset.get(key) != value:
                 problems.append(f"{book['id']}: {key} differs from the generated entry")
+    companions = yaml.safe_load(LADDER.read_text(encoding="utf-8")).get("companions", {})
+    if sorted(companions) != list(range(1, 19)):
+        problems.append("ladder.yaml companions need a list for each age from 1 to 18")
+    for age, entries_ in companions.items():
+        for row in entries_ or []:
+            source_keys = {"gutenberg", "asset"} & set(row)
+            if (len(source_keys) != 1 or set(row) - {"gutenberg", "asset", "title", "published", "note"}
+                    or any(not isinstance(row.get(key), str) or not row[key] for key in ("title", "published", "note"))
+                    or ("asset" in row and row["asset"] not in catalog)
+                    or ("gutenberg" in row and (type(row["gutenberg"]) is not int or row["gutenberg"] <= 0))):
+                problems.append(f"companion at age {age}: {row}")
     stray = sorted({path.name for path in STORIES.glob("*.pdf")} - {book["file"] for book in rows})
     problems += [f"{name}: not in ladder.yaml" for name in stray]
     if resources.get(RESOURCE, {}).get("asset_ids") != [book["id"] for book in rows]:

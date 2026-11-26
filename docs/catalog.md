@@ -4,6 +4,8 @@ Every active file must pass `src/owl/content_policy.json`. Every asset and colle
 
 Use finished publisher PDFs, whole ZIMs and verified self-contained files. Do not add build-time conversions, source-only manuscripts or unverified HTML bundles. Preserve full-file size/hash pins and notices. Prefer domain breadth and substantial complete works over object counts. Assign deeper levels to enrichment. Use `opt_in: true` for regional topography and non-English Wikipedias. New alternatives must record what coverage they do and do not replace.
 
+The story ladder is the one set of OWL-made reading editions. `scripts/build_story_ladder.py` renders each book in `catalog/stories/ladder.yaml` once from its pinned Project Gutenberg HTML package into a PDF committed under `catalog/stories/`, and the catalog pins those files at a commit URL like any other download. Builds never render them. Run `python scripts/build_story_ladder.py --check` after editing the ladder or its catalog entries.
+
 `catalog/content-review.json` preserves the review of the prior catalog; acquisition recipe descriptions below are historical tooling details, not exemptions from these admission rules.
 
 # Catalog maintenance

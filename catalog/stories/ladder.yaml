@@ -195,3 +195,118 @@ books:
   layout: novel
   breaks: div.chapter
   why: A long voyage home, the root story of Western literature.
+
+# Companions: proposed books to sit beside each rung, chosen by the same test.
+# They are not rendered or selected yet. Edit freely; the renderer can build
+# any entry with a gutenberg number the same way it builds the ladder.
+# `asset` names a finished file already in catalog/library.yaml.
+companions:
+  1:
+  - {gutenberg: 25609, title: "A Child's Garden of Verses", published: "1885", note: "Stevenson's poems, pictures by Jessie Willcox Smith (1905)"}
+  - {gutenberg: 20652, title: "Ring O' Roses", published: "1922", note: "Nursery rhymes pictured by L. Leslie Brooke"}
+  - {gutenberg: 23794, title: "Mother Goose or the Old Nursery Rhymes", published: "1881", note: "Kate Greenaway's pictures"}
+  - {gutenberg: 25418, title: "The Baby's Opera", published: "1877", note: "Nursery songs with their tunes, pictures by Walter Crane"}
+  - {gutenberg: 4901, title: "The Only True Mother Goose Melodies", published: "1833", note: "The oldest American Mother Goose"}
+  2:
+  - {gutenberg: 14407, title: "The Tale of Benjamin Bunny", published: "1904", note: "Beatrix Potter"}
+  - {gutenberg: 14872, title: "The Tale of Squirrel Nutkin", published: "1903", note: "Beatrix Potter"}
+  - {gutenberg: 14814, title: "The Tale of Jemima Puddle-Duck", published: "1908", note: "Beatrix Potter"}
+  - {gutenberg: 12103, title: "The Tale of Mrs. Tiggy-Winkle", published: "1905", note: "Beatrix Potter"}
+  - {gutenberg: 10469, title: "Johnny Crow's Garden", published: "1903", note: "L. Leslie Brooke"}
+  3:
+  - {gutenberg: 18735, title: "The Little Red Hen", published: "1918", note: "The folk tale about sharing the work"}
+  - {gutenberg: 11757, title: "The Velveteen Rabbit", published: "1922", note: "Margery Williams"}
+  - {gutenberg: 74181, title: "Millions of Cats", published: "1928", note: "Wanda Gág; the oldest American picture book still in print"}
+  - {asset: bookdash_pdf_come_back_cat_english, title: "Come Back, Cat", published: "2010s", note: "Book Dash, South Africa"}
+  - {asset: bookdash_pdf_amazing_daisy, title: "Amazing Daisy", published: "2010s", note: "Book Dash, South Africa"}
+  4:
+  - {gutenberg: 2781, title: "Just So Stories", published: "1902", note: "Kipling's how-the-animals-got-that-way tales"}
+  - {gutenberg: 62514, title: "Jataka Tales", published: "1912", note: "Buddhist animal fables from India"}
+  - {gutenberg: 66923, title: "West African Folk-Tales", published: "1917", note: "Anansi the spider and others from Ghana"}
+  - {gutenberg: 24714, title: "Fairy Tales from Brazil", published: "1917", note: "How-and-why tales from Brazilian folklore"}
+  - {gutenberg: 4018, title: "Japanese Fairy Tales", published: "1908", note: "Momotaro, Urashima Taro and others"}
+  5:
+  - {gutenberg: 73011, title: "The House at Pooh Corner", published: "1928", note: "The second Pooh book"}
+  - {gutenberg: 70271, title: "When We Were Very Young", published: "1924", note: "A. A. Milne's poems"}
+  - {gutenberg: 70516, title: "Now We Are Six", published: "1927", note: "A. A. Milne's poems"}
+  - {gutenberg: 7128, title: "Indian Fairy Tales", published: "1892", note: "Joseph Jacobs"}
+  - {gutenberg: 29939, title: "The Chinese Fairy Book", published: "1921", note: "Richard Wilhelm"}
+  6:
+  - {gutenberg: 2591, title: "Grimms' Fairy Tales", published: "1812", note: "The German household tales"}
+  - {gutenberg: 1597, title: "Andersen's Fairy Tales", published: "1835", note: "The Ugly Duckling, The Little Mermaid"}
+  - {gutenberg: 16981, title: "Old Peter's Russian Tales", published: "1916", note: "Arthur Ransome; Baba Yaga and the Firebird"}
+  - {gutenberg: 7439, title: "English Fairy Tales", published: "1890", note: "Jack and the Beanstalk, Tom Tit Tot"}
+  - {gutenberg: 57521, title: "The Junior Classics, Volume 2: Folk Tales and Myths", published: "1912", note: "Anthology from many countries"}
+  7:
+  - {gutenberg: 500, title: "The Adventures of Pinocchio", published: "1883", note: "Italy's best-known children's book"}
+  - {gutenberg: 26654, title: "Peter and Wendy", published: "1911", note: "Peter Pan"}
+  - {gutenberg: 1448, title: "Heidi", published: "1881", note: "Switzerland"}
+  - {gutenberg: 501, title: "The Story of Doctor Dolittle", published: "1920", note: "The doctor who talks to animals"}
+  - {gutenberg: 3152, title: "The Junior Classics, Volume 1: Fairy and Wonder Tales", published: "1912", note: "Anthology"}
+  8:
+  - {gutenberg: 338, title: "Old Indian Legends", published: "1901", note: "Dakota stories retold by Zitkala-Ša, a Dakota writer"}
+  - {gutenberg: 20916, title: "The Arabian Nights: Their Best-known Tales", published: "1909", note: "Pictures by Maxfield Parrish"}
+  - {gutenberg: 24737, title: "The Children of Odin", published: "1920", note: "Norse myths by Padraic Colum"}
+  - {gutenberg: 236, title: "The Jungle Book", published: "1894", note: "Mowgli and Rikki-Tikki-Tavi"}
+  - {gutenberg: 289, title: "The Wind in the Willows", published: "1908", note: "Kenneth Grahame"}
+  9:
+  - {gutenberg: 12, title: "Through the Looking-Glass", published: "1871", note: "The second Alice book"}
+  - {gutenberg: 113, title: "The Secret Garden", published: "1911", note: "Frances Hodgson Burnett"}
+  - {gutenberg: 271, title: "Black Beauty", published: "1877", note: "Kindness to animals, told by a horse"}
+  - {gutenberg: 1874, title: "The Railway Children", published: "1906", note: "E. Nesbit"}
+  - {gutenberg: 74, title: "The Adventures of Tom Sawyer", published: "1876", note: "Mark Twain"}
+  10:
+  - {gutenberg: 976, title: "Tanglewood Tales", published: "1853", note: "Hawthorne's second book of Greek myths"}
+  - {gutenberg: 16867, title: "The Adventures of Odysseus and the Tale of Troy", published: "1918", note: "Padraic Colum, pictures by Willy Pogány"}
+  - {gutenberg: 2395, title: "The Golden Fleece and the Heroes Who Lived Before Achilles", published: "1921", note: "Padraic Colum"}
+  - {gutenberg: 10148, title: "The Merry Adventures of Robin Hood", published: "1883", note: "Howard Pyle"}
+  - {gutenberg: 4265, title: "Heroes Every Child Should Know", published: "1905", note: "Anthology of hero tales"}
+  11:
+  - {gutenberg: 514, title: "Little Women", published: "1868", note: "Louisa May Alcott"}
+  - {gutenberg: 146, title: "A Little Princess", published: "1905", note: "Frances Hodgson Burnett"}
+  - {gutenberg: 1450, title: "Pollyanna", published: "1913", note: "Eleanor H. Porter"}
+  - {gutenberg: 498, title: "Rebecca of Sunnybrook Farm", published: "1903", note: "Kate Douglas Wiggin"}
+  - {gutenberg: 47, title: "Anne of Avonlea", published: "1909", note: "The second Anne book"}
+  12:
+  - {gutenberg: 521, title: "Robinson Crusoe", published: "1719", note: "Survival on an island"}
+  - {gutenberg: 421, title: "Kidnapped", published: "1886", note: "Robert Louis Stevenson"}
+  - {gutenberg: 103, title: "Around the World in Eighty Days", published: "1873", note: "Jules Verne"}
+  - {gutenberg: 215, title: "The Call of the Wild", published: "1903", note: "Jack London"}
+  - {gutenberg: 76, title: "Adventures of Huckleberry Finn", published: "1884", note: "Mark Twain"}
+  13:
+  - {gutenberg: 2852, title: "The Hound of the Baskervilles", published: "1902", note: "The best-known Holmes novel"}
+  - {gutenberg: 164, title: "Twenty Thousand Leagues under the Sea", published: "1870", note: "Jules Verne"}
+  - {gutenberg: 36, title: "The War of the Worlds", published: "1898", note: "H. G. Wells"}
+  - {gutenberg: 46, title: "A Christmas Carol", published: "1843", note: "Charles Dickens"}
+  - {gutenberg: 60, title: "The Scarlet Pimpernel", published: "1905", note: "Baroness Orczy; the first secret-identity hero"}
+  14:
+  - {gutenberg: 1514, title: "A Midsummer Night's Dream", published: "about 1596", note: "Shakespeare's comedy of lovers and fairies"}
+  - {gutenberg: 1522, title: "Julius Caesar", published: "1599", note: "Rhetoric and politics"}
+  - {gutenberg: 1533, title: "Macbeth", published: "about 1606", note: "Ambition"}
+  - {gutenberg: 573, title: "Tales from Shakespeare", published: "1807", note: "Charles and Mary Lamb's retellings of twenty plays"}
+  - {gutenberg: 100, title: "The Complete Works of William Shakespeare", published: "1623", note: "Every play and poem"}
+  15:
+  - {gutenberg: 408, title: "The Souls of Black Folk", published: "1903", note: "W. E. B. Du Bois"}
+  - {gutenberg: 2376, title: "Up from Slavery", published: "1901", note: "Booker T. Washington"}
+  - {gutenberg: 11030, title: "Incidents in the Life of a Slave Girl", published: "1861", note: "Harriet Jacobs"}
+  - {gutenberg: 1674, title: "The Narrative of Sojourner Truth", published: "1850", note: "Sojourner Truth"}
+  - {gutenberg: 147, title: "Common Sense", published: "1776", note: "Thomas Paine"}
+  16:
+  - {gutenberg: 43, title: "The Strange Case of Dr. Jekyll and Mr. Hyde", published: "1886", note: "Robert Louis Stevenson"}
+  - {gutenberg: 35, title: "The Time Machine", published: "1895", note: "H. G. Wells"}
+  - {gutenberg: 345, title: "Dracula", published: "1897", note: "Bram Stoker"}
+  - {gutenberg: 59112, title: "R.U.R.", published: "1920", note: "Karel Čapek's play that named the robot"}
+  - {gutenberg: 61963, title: "We", published: "1924", note: "Yevgeny Zamyatin's dystopia, before Brave New World and 1984"}
+  17:
+  - {gutenberg: 1260, title: "Jane Eyre", published: "1847", note: "Charlotte Brontë"}
+  - {gutenberg: 1400, title: "Great Expectations", published: "1861", note: "Charles Dickens"}
+  - {gutenberg: 64317, title: "The Great Gatsby", published: "1925", note: "F. Scott Fitzgerald"}
+  - {gutenberg: 2554, title: "Crime and Punishment", published: "1866", note: "Fyodor Dostoyevsky"}
+  - {gutenberg: 145, title: "Middlemarch", published: "1871", note: "George Eliot"}
+  18:
+  - {gutenberg: 2199, title: "The Iliad", published: "translation 1898", note: "Samuel Butler's prose, matching the Odyssey"}
+  - {gutenberg: 2388, title: "The Bhagavad-Gita", published: "translation 1885", note: "Edwin Arnold"}
+  - {gutenberg: 3330, title: "The Analects of Confucius", published: "translation 1861", note: "James Legge"}
+  - {gutenberg: 216, title: "The Tao Teh King", published: "translation 1891", note: "James Legge"}
+  - {gutenberg: 2680, title: "Meditations", published: "translation 1862", note: "Marcus Aurelius"}
+  - {gutenberg: 10, title: "The King James Bible", published: "1611", note: "The source of many English sayings"}

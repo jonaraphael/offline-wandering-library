@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: story_age04_the_aesop_for_children
+assignments:
+- topic_id: books
+  purpose: reference
