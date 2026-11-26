@@ -15,7 +15,7 @@ const hash = value => bytesToHex(sha256(encoder.encode(value)));
 const firstResponse = new Set(["cert", "medical_bec"]);
 const searchScripts = ["manifest.js", "rank.js", "shards.js", "rerank.js"];
 const FORMATS = {pdf: "PDF", html: "Web page", htm: "Web page", epub: "EPUB book",
-  zim: "Encyclopedia, opens in Kiwix", txt: "Text", zip: "ZIP"};
+  zim: "Encyclopedia", txt: "Text", zip: "ZIP"};
 
 function emergencyRoutes(tasks, documents) {
   const rows = new Map(documents.map(row => [row.id, row]));
@@ -79,7 +79,8 @@ export function assemblyReserve({assets, excluded, navigation, search, searchBud
   // Include the root page, both documents with embedded CSS, reader scripts,
   // inventory, checksums and the browser record's swap file.
   const fixed = reader ? 3 * size(reader.css) + size(reader.reader) + 2 * size(reader.document) +
-    2 * size(reader.bootstrap) + size(reader.runtime) + size(reader.readme) + size(reader.redirect) : 0;
+    2 * size(reader.bootstrap) + size(reader.runtime) + size(reader.readme) + size(reader.redirect) +
+    Object.values(reader.zim || {}).reduce((sum, script) => sum + size(script), 0) : 0;
   const metadata = assets.reduce((sum, asset) => sum + 1400 + 4 * size(JSON.stringify([
     asset.id, asset.title, asset.destination, asset.license, asset.attribution, asset.source_url, asset.version,
     reader?.assets?.[asset.id]?.topics
@@ -117,7 +118,11 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
       const row = metadata[id];
       return row?.first_aid || row?.importance === 0 ? [[id, row.first_aid ? 2 : 1]] : [];
     })), ...(syncedAt ? {syncedAt} : {})};
-  const pages = new Map([["LIBRARY/INDEX/reader.js", config.runtime], ["LIBRARY/README.txt", config.readme]]);
+  const parts = new Map(inventory.map(asset => [asset.id, asset.parts]));
+  home.archives = documents.filter(row => row.format === "zim").map(row => ({...row,
+    files: parts.get(row.id).map(({path, bytes}) => ({path, bytes}))}));
+  const pages = new Map([["LIBRARY/INDEX/reader.js", config.runtime], ["LIBRARY/README.txt", config.readme],
+    ...Object.entries(config.zim || {}).map(([name, text]) => ["LIBRARY/INDEX/" + name, text])]);
   // The static page is all a phone's file preview shows: no scripts, and often no working links.
   const link = (href, text) => render(layout.static_link, {href: escape(href), text: escape(text)});
   const trail = path => {

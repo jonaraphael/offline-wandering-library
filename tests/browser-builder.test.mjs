@@ -28,6 +28,7 @@ function readerNavigation(assets, extra = {}) {
   return {...extra, reader: {assets, categories: [...categories.categories, categories.other],
     layout: JSON.parse(template("offline-layout.json")), css: template("site.css"), reader: template("reader.html"),
     document: template("reader-document.html"), runtime: template("reader.js"), bootstrap: template("search.js"),
+    zim: Object.fromEntries(["fzstd.js", "zim.js", "zim-drive.js", "zim-article.js"].map(name => [name, template(name)])),
     readme: template("reader-readme.txt"), redirect: template("search.html"),
     csp: "default-src 'none'; script-src 'self' file:; style-src 'unsafe-inline'"}};
 }

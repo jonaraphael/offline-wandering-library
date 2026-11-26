@@ -785,6 +785,7 @@
       indexed: true, redirect: Boolean(hit.row[4]), record: {id: asset.id + ':' + part + ':' + hit.index,
       asset_id: asset.id, title, description: lead, source_title: asset.title, href, destination,
       kind: archive ? 'article' : 'section', reader_required: archive,
+      ...(archive ? {archivePath: locator, archiveSection: heading || ''} : {}),
       location: archive ? 'Archive path: ' + locator + (heading ? ' · ' + heading : '') : asset.format === 'pdf' ? 'Page ' + locator :
         locator ? 'Section: ' + locator : 'HTML',
       license: asset.license, attribution: asset.attribution}};
