@@ -728,7 +728,7 @@
       "<div><dt>Could not be downloaded</dt><dd>" + (home.stats.missing || "None") + "</dd></div></dl>" +
       '<p><a href="LIBRARY/INVENTORY.html">Every file, with its location</a> · <a href="LIBRARY/BUILD_REPORT.html">Build report</a></p></div>' +
       '<div class="panel"><h3>Make another drive</h3><p>On a computer with internet, open the library builder below.</p>' +
-      '<a class="where" href="https://jonaraphael.github.io/offline-wandering-library/">jonaraphael.github.io/offline-wandering-library</a></div>' +
+      '<a class="where" href="https://jonaraphael.com/offline-wandering-library/">jonaraphael.com/offline-wandering-library</a></div>' +
       apps + phone;
   }
 

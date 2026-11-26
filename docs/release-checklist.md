@@ -78,10 +78,10 @@ Use a local clone, Git, Python 3.11 or later and a current Node.js LTS with npm.
    Record the newly deployed Worker version and the Git commit. Probe the
    relay by requesting headers for a one-byte range. Expect HTTP `206`,
    a `Content-Range` starting with `bytes 0-0/` and
-   `Access-Control-Allow-Origin: https://jonaraphael.github.io`.
+   `Access-Control-Allow-Origin: https://jonaraphael.com`.
 
    ```sh
-   curl --fail --head -H 'Origin: https://jonaraphael.github.io' \
+   curl --fail --head -H 'Origin: https://jonaraphael.com' \
      -H 'Range: bytes=0-0' \
      https://owl-publisher-relay.snapandshop-jonaraphael.workers.dev/assets/wikipedia_en_top
    ```
@@ -107,7 +107,7 @@ Use a local clone, Git, Python 3.11 or later and a current Node.js LTS with npm.
 9. In the GitHub repository, click **Releases → Draft a new release**. Under
    **Choose a tag**, choose the existing `v0.2.0`. Use **OWL v0.2.0** as
    the title. Paste the dated `0.2.0` section from the changelog at the
-   tagged commit into the description. Add the [live builder](https://jonaraphael.github.io/offline-wandering-library/)
+   tagged commit into the description. Add the [live builder](https://jonaraphael.com/offline-wandering-library/)
    and [desktop build instructions](https://github.com/jonaraphael/offline-wandering-library/blob/v0.2.0/docs/usage.md).
    Review the preview, then click **Publish release**. Open the published
    release and check its tag and links.
