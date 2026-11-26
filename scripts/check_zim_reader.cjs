@@ -15,6 +15,7 @@ const {makeZim, inspectMarkup} = require('../tests/search/zim-fixture.cjs');
 const [site, preview, zimFolder, evidence] = process.argv.slice(2);
 const readName = 'Cardiopulmonary_resuscitation';
 const cpr = 'a[href*="' + readName + '"].button';
+const directoryHandle = name => name === 'chromium' && !process.env.OWL_CHROME;
 const hash = value => createHash('sha256').update(value).digest('hex');
 const url = (drive, route = '#/') => pathToFileURL(join(drive, 'START_HERE.html')).href + route;
 
@@ -75,19 +76,24 @@ async function fixture(output) {
   }
 }
 
-async function context(browser, name, {width = 1280, theme = 'light', folderInput = name !== 'chromium'} = {}) {
+async function context(browser, name, {width = 1280, theme = 'light', folderInput = !directoryHandle(name)} = {}) {
   const context = await browser.newContext({colorScheme: theme, viewport: {width, height: width === 390 ? 844 : 900},
     isMobile: name !== 'firefox' && width === 390, hasTouch: width === 390});
   await context.route(/^https?:/i, route => route.abort('internetdisconnected'));
   const page = await context.newPage();
-  const csp = [], errors = [], requests = [], app = {csp: 0, errors: 0, requests: 0};
+  const csp = [], errors = [], requests = [], inertInlineHandlers = new Set();
+  const app = {csp: 0, errors: 0, requests: 0};
   // Archive pages that run in the sandboxed zim-app.html frame may try the network or
   // throw; their own policy blocks the first, and neither is the reader's fault.
   const inApp = value => /zim-app\.html|^blob:/.test(value || '');
   page.setDefaultTimeout(20_000);
   page.on('console', message => {
     if (!/content security policy|violates.{0,60}directive|blocked the loading of a resource/i.test(message.text())) return;
-    if (inApp(message.location().url) || /connect-src blob: data:/.test(message.text())) app.csp++;
+    const {url, lineNumber} = message.location();
+    // Chrome can report a blocked archive handler when the inert parser reads it.
+    if (/\/zim-article\.js$/.test(url) && /^Executing inline event handler violates/.test(message.text())) {
+      inertInlineHandlers.add(lineNumber + 1);
+    } else if (inApp(url) || /connect-src blob: data:/.test(message.text())) app.csp++;
     else csp.push(message.text());
   });
   page.on('pageerror', error => {
@@ -104,7 +110,8 @@ async function context(browser, name, {width = 1280, theme = 'light', folderInpu
     window.policyEvents = [];
     window.accessEvents = [];
     document.addEventListener('owl:archive', event => archiveEvents.push(event.detail), true);
-    document.addEventListener('securitypolicyviolation', event => policyEvents.push([event.violatedDirective, event.blockedURI]));
+    document.addEventListener('securitypolicyviolation', event =>
+      policyEvents.push([event.violatedDirective, event.blockedURI, event.lineNumber]));
     document.addEventListener('DOMContentLoaded', () => {
       const sheet = document.querySelector('dialog.sheet');
       if (!sheet) return;
@@ -120,6 +127,10 @@ async function context(browser, name, {width = 1280, theme = 'light', folderInpu
   if (name === 'chromium' && folderInput) await page.addInitScript(() => { delete window.showDirectoryPicker; });
   await page.addInitScript(() => {
     window.inputActivations = [];
+    window.folderSelections = 0;
+    document.addEventListener('change', event => {
+      if (event.target.id === 'zim-folder') window.folderSelections++;
+    }, true);
     const click = HTMLInputElement.prototype.click;
     HTMLInputElement.prototype.click = function () {
       if (this.id === 'zim-folder') inputActivations.push(navigator.userActivation.isActive);
@@ -172,7 +183,7 @@ async function context(browser, name, {width = 1280, theme = 'light', folderInpu
       };
     });
   }
-  return {context, page, csp, errors, requests, app};
+  return {context, page, csp, errors, requests, app, inertInlineHandlers};
 }
 
 async function seedChromium(page, drive, realZimFolder, selection = 'KINGSTON') {
@@ -243,8 +254,18 @@ async function choose(page, button, folderInput, mode, folder) {
   if (mode === 'cancel') {
     // Playwright cannot press the native panel's Cancel button.
     await chooser.element().dispatchEvent('cancel');
-  } else if (mode !== 'pending') await chooser.setFiles(folder);
+  } else if (mode !== 'pending') await selectFolder(page, chooser, folder);
   return chooser;
+}
+
+async function selectFolder(page, chooser, folder) {
+  const previous = await page.evaluate(() => folderSelections);
+  // Some WebKit runs dispatch change before Playwright finishes waiting for input.
+  // The change event is what the reader actually uses.
+  await Promise.race([
+    chooser.setFiles(folder),
+    page.waitForFunction(count => folderSelections > count, previous),
+  ]);
 }
 
 async function archiveEvent(page, prior = 0) {
@@ -320,7 +341,7 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
   const {page} = state;
   const check = {};
   const output = {engine: name + ' ' + browser.version(), check, articles: [], mains: []};
-  const folderInput = name !== 'chromium';
+  const folderInput = !directoryHandle(name);
   const folder = realZimFolder || join(drive, 'LIBRARY', 'ZIM');
   const changeCount = () => page.evaluate(() => archiveEvents.length);
   const result = page.locator(cpr).first();
@@ -344,7 +365,7 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
       await query(page, 'cpr');
       check.appArchivesListedLikeOthers = true;
     }
-    if (name === 'chromium') await seedChromium(page, drive, realZimFolder);
+    if (!folderInput) await seedChromium(page, drive, realZimFolder);
     await query(page);
     await result.waitFor();
     if (!realZimFolder) assert.match(await page.locator('[data-reviewed]').first().innerText(), /Medical resuscitation algorithm/);
@@ -363,7 +384,7 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     const nextChooser = await choose(page, retry, folderInput, 'pending');
     await checkPicking(page);
     await snapshot('first-open');
-    if (nextChooser) await nextChooser.setFiles(folder);
+    if (nextChooser) await selectFolder(page, nextChooser, folder);
     else await page.evaluate(() => finishPicker());
 
     await page.locator('#article-paper[data-ready=true]').waitFor();
@@ -445,14 +466,14 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     await page.locator('[data-read-back]').click();
     await result.waitFor();
     check.back = true;
-    const calls = name === 'chromium' ? await page.evaluate(() => pickerCalls) : 0;
+    const calls = !folderInput ? await page.evaluate(() => pickerCalls) : 0;
     await result.click();
     await page.locator('#article-paper[data-ready=true]').waitFor();
     assert.equal(await page.locator('dialog').evaluate(node => node.open), false);
-    if (name === 'chromium') assert.equal(await page.evaluate(() => pickerCalls), calls);
+    if (!folderInput) assert.equal(await page.evaluate(() => pickerCalls), calls);
     check.secondOpen = true;
     await page.reload();
-    if (name === 'chromium') await seedChromium(page, drive, realZimFolder);
+    if (!folderInput) await seedChromium(page, drive, realZimFolder);
     const reopen = page.locator('.article-start').getByRole('link', {name: 'Open'});
     await reopen.waitFor();
     assert.equal(await reopen.count(), 1);
@@ -598,7 +619,11 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     await snapshot('help-phone');
     check.phoneHelp = true;
     const policies = await page.evaluate(() => policyEvents);
-    assert.deepEqual([...state.csp, ...policies], []);
+    const parserPolicies = policies.filter(([directive, uri, line]) =>
+      directive === 'script-src-attr' && uri === 'inline' && state.inertInlineHandlers.has(line));
+    assert.deepEqual([...state.csp, ...policies.filter(policy => !parserPolicies.includes(policy))], []);
+    assert.equal(await page.evaluate(() => window.unsafe), undefined);
+    if (parserPolicies.length) check.archivedInlineHandlersBlocked = parserPolicies.length;
     assert.deepEqual(state.errors, []);
     assert.deepEqual(state.requests, []);
     check.csp = 0;
@@ -616,7 +641,7 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
 
 async function folderVariants(browser, name, drive, wrong, evidence) {
   const variants = [];
-  const modes = name === 'chromium' ? [false, true] : [true];
+  const modes = directoryHandle(name) ? [false, true] : [true];
   const folders = {KINGSTON: drive, LIBRARY: join(drive, 'LIBRARY'), ZIM: join(drive, 'LIBRARY/ZIM')};
   for (const folderInput of modes) {
     const results = [];
@@ -654,7 +679,7 @@ async function folderVariants(browser, name, drive, wrong, evidence) {
             const label = name + (name === 'chromium' && folderInput ? '-input' : '');
             await page.screenshot({path: join(evidence, `${theme}-${width}-first-open-${label}.png`), animations: 'disabled'});
             if (name === 'chromium' && chooser) {
-              await chooser.setFiles(wrong);
+              await selectFolder(page, chooser, wrong);
               await checkWrongFolder(page, name, folderInput);
               await page.screenshot({path: join(evidence, `${theme}-${width}-wrong-folder-${label}.png`), animations: 'disabled'});
             }
@@ -887,7 +912,7 @@ async function unansweredPicker(browser, drive, {late, cancelFallback = false, r
     checkPickerCopy('chromium', await page.evaluate(() => accessEvents.at(-1)), true);
     assert.equal(await page.evaluate(() => pickerCalls), 0);
     if (shot) await page.screenshot({path: shot + '-preferred-folder-input.png', animations: 'disabled'});
-    await chooser.setFiles(folder);
+    await selectFolder(page, chooser, folder);
     await ready.waitFor();
     assert.equal(await dialog.count(), 0);
     return {delay, folderInputInSameClick: true, reopenedDirectlyAfterReload: true};
@@ -897,7 +922,7 @@ async function unansweredPicker(browser, drive, {late, cancelFallback = false, r
 }
 
 async function stalledAccess(browser, name, drive, {stage = 'picker', width, theme, shot} = {}) {
-  const folderInput = name !== 'chromium';
+  const folderInput = !directoryHandle(name);
   const {page, context: ctx} = await context(browser, name, {folderInput, width, theme});
   const folder = join(drive, 'LIBRARY/ZIM');
   const ready = page.locator('#article-paper[data-ready=true]');
@@ -1019,7 +1044,7 @@ async function stalledAccess(browser, name, drive, {stage = 'picker', width, the
         assert.equal(await ready.count(), 0);
         await choose(page, link, false, 'valid');
       } else {
-        if (chooser) await chooser.setFiles(folder);
+        if (chooser) await selectFolder(page, chooser, folder);
         else await page.evaluate(() => finishPicker());
       }
     }
@@ -1062,9 +1087,9 @@ async function main() {
         record.folders = await folderVariants(browser, name, drive, wrong, evidence);
         record.reconnect = [await reconnect(browser, name, drive, {folderInput: true})];
         record.missing = [await missingFile(browser, name, drive, {folderInput: true})];
-        if (name === 'chromium') record.missing.push(await missingFile(browser, name, drive, {folderInput: false}));
+        if (directoryHandle(name)) record.missing.push(await missingFile(browser, name, drive, {folderInput: false}));
         const stages = ['picker', 'article', 'images', 'denied'];
-        if (name === 'chromium') {
+        if (directoryHandle(name)) {
           record.reconnect.push(await reconnect(browser, name, drive, {folderInput: false}));
           record.reconnect.push(await reconnect(browser, name, drive, {folderInput: false, stale: true}));
           record.legacyFolderStorage = await legacyFolderStorage(browser, drive);
@@ -1081,7 +1106,7 @@ async function main() {
           for (const width of [1280, 390]) {
             for (const theme of ['light', 'dark']) {
               const shot = join(evidence, `${name}-${width}-${theme}`);
-              if (name === 'chromium') {
+              if (directoryHandle(name)) {
                 await unansweredPicker(browser, preview || drive, {realZimFolder: zimFolder, width, theme, shot});
               }
               await stalledAccess(browser, name, drive, {stage: 'article', width, theme, shot: shot + '-still-reading.png'});
@@ -1094,7 +1119,7 @@ async function main() {
             for (const theme of ['light', 'dark']) {
               const shot = join(evidence, `${name}-${width}-${theme}`);
               await flow(browser, name, preview || drive, {realZimFolder: zimFolder, wrong, width, theme, shot});
-              await reconnect(browser, name, drive, {folderInput: name !== 'chromium', width, theme, shot});
+              await reconnect(browser, name, drive, {folderInput: !directoryHandle(name), width, theme, shot});
             }
           }
         }

@@ -111,6 +111,7 @@
     const doc = template.content;
     const scripts = doc.querySelectorAll("script").length;
     const title = doc.querySelector("title")?.textContent.trim() || entry.title;
+    const simulation = doc.querySelector('meta[name="phet-sim-level"]');
     // Archives keep short pages that only forward to another page.
     const refresh = [...doc.querySelectorAll("meta[http-equiv]")]
       .find(node => node.getAttribute("http-equiv").trim().toLowerCase() === "refresh");
@@ -131,10 +132,12 @@
     // A script-built shell can have a title and a short loading notice, but no
     // readable content. CSS illustrations count alongside embedded images.
     const readable = doc.cloneNode(true);
+    const articleHeading = readable.querySelector("main > header > h1")?.textContent.trim();
     for (const node of readable.querySelectorAll("style, svg, header, nav, footer")) node.remove();
     const textLength = readable.textContent.replace(/\s+/g, " ").trim().length;
     const illustrations = readable.querySelectorAll("img, picture, video, [style*='url(']").length;
-    if (scripts && textLength < 120 && !illustrations) {
+    // A PhET splash image needs scripts. Short article indexes keep their own heading.
+    if (scripts && (simulation || textLength < 120 && !illustrations && !articleHeading)) {
       throw Object.assign(Error("Archive requires scripts"), {code: "scripts", app: true, textLength, scripts, illustrations});
     }
 

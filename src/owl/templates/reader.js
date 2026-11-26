@@ -619,7 +619,15 @@
         const clean = data.title.replace(/[\u200e\u200f\u202a-\u202e]/g, "").trim().slice(0, 200);
         if (clean) titleElement.textContent = frame.title = clean;
       } else if (data.type === "error" && errors.length < 20) {
-        errors.push(String(data.message).slice(0, 300));
+        const message = String(data.message).slice(0, 300);
+        errors.push(message);
+        paper.dispatchEvent(new CustomEvent("owl:archive-diagnostic", {detail: {
+          type: "error", message, source: String(data.source || "").slice(0, 500),
+        }}));
+      } else if (data.type === "csp") {
+        paper.dispatchEvent(new CustomEvent("owl:archive-diagnostic", {detail: {
+          type: "csp", directive: String(data.directive).slice(0, 60), blocked: String(data.blocked).slice(0, 500),
+        }}));
       } else if (data.type === "ready" && !current.ready) {
         articleReady(opened, {mode: "app", errors});
       } else if (data.type === "failed") {

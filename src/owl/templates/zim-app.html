@@ -16,7 +16,14 @@
 
   const origin = "https://archive.invalid";
   const files = new Map(), urls = new Map(), waiting = new Map();
+  const sources = new Map(), objectURLs = new Set();
   let port, current, number = 0;
+
+  function objectURL(blob) {
+    const url = URL.createObjectURL(blob);
+    objectURLs.add(url);
+    return url;
+  }
 
   function locate(value, base) {
     let url;
@@ -80,7 +87,9 @@
       urls.set(key, file(target).then(async blob => {
         if (!blob) return "";
         if (kind === "css") blob = new Blob([await sheet(await blob.text(), target.href)], {type: "text/css"});
-        return URL.createObjectURL(blob);
+        const url = objectURL(blob);
+        sources.set(url, target.path + target.query);
+        return url;
       }));
     }
     return urls.get(key).then(url => url && url + target.hash);
@@ -219,7 +228,7 @@
       deferred.delete(this);
       file(request.target).then(blob => {
         let url = "blob:missing";
-        if (blob) url = URL.createObjectURL(blob);
+        if (blob) url = objectURL(blob);
         open.call(this, request.method, url, true);
         for (const pair of request.headers) header.apply(this, pair);
         send.call(this, body);
@@ -280,6 +289,10 @@
 
   function leave(target) {
     if (target.path === current.path && target.query === current.query) {
+      if (target.hash.startsWith("#/") && target.hash !== location.hash) {
+        port.postMessage({type: "navigate", path: target.path, query: target.query, hash: target.hash});
+        return;
+      }
       if (target.hash) location.hash = target.hash;
       return;
     }
@@ -287,6 +300,11 @@
   }
 
   function watch() {
+    addEventListener("pagehide", () => {
+      for (const url of objectURLs) URL.revokeObjectURL(url);
+      objectURLs.clear();
+      port.close();
+    }, {once: true});
     let title = document.title;
     const report = () => {
       if (document.title !== title) port.postMessage({type: "title", title: title = document.title});
@@ -312,6 +330,17 @@
       report();
     }).observe(document, {subtree: true, childList: true, characterData: true, attributes: true,
       attributeFilter: ["src", "srcset", "poster", "href", "xlink:href", "style"]});
+    // A hash router handles these links before they bubble. Send them through the
+    // reader so the address and Back work even when the frame cannot change its URL.
+    addEventListener("click", event => {
+      if (event.button !== 0 || event.defaultPrevented) return;
+      const link = event.target.closest?.('a[href^="#/"]');
+      const target = link && locate(link.href);
+      if (!target || target.path !== current.path || target.hash === location.hash) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      leave(target);
+    }, true);
     addEventListener("click", event => {
       if (event.defaultPrevented || event.button > 1) return;
       const link = event.target.closest?.("a[href], area[href]");
@@ -334,7 +363,16 @@
       event.preventDefault();
       if (target) leave(target);
     });
-    addEventListener("error", event => port.postMessage({type: "error", message: String(event.message || "").slice(0, 300)}));
+    addEventListener("error", event => {
+      if (event.message) port.postMessage({type: "error", message: event.message, source: sources.get(event.filename) || event.filename});
+    });
+    addEventListener("unhandledrejection", event => {
+      const reason = event.reason;
+      port.postMessage({type: "error", message: String(reason?.message ?? reason), source: reason?.stack});
+    });
+    document.addEventListener("securitypolicyviolation", event => {
+      port.postMessage({type: "csp", directive: event.effectiveDirective, blocked: event.blockedURI});
+    });
     document.addEventListener("DOMContentLoaded", () => {
       report();
       const id = decodeURIComponent(current.hash.slice(1));
