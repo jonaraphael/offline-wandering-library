@@ -1054,7 +1054,9 @@ async function main() {
     await writeFile(join(wrong, 'unrelated.txt'), 'unrelated');
     for (const [name, runner] of Object.entries({chromium, firefox, webkit})) {
       if (process.env.OWL_ENGINE && name !== process.env.OWL_ENGINE) continue;
-      const browser = await runner.launch(name === "chromium" ? {args: ["--allow-file-access-from-files"]} : {});
+      // OWL_CHROME=/path/to/Google Chrome runs the Chromium checks in that browser, as a person opens the drive.
+      const browser = await runner.launch(name !== "chromium" ? {} : process.env.OWL_CHROME ?
+        {executablePath: process.env.OWL_CHROME} : {args: ["--allow-file-access-from-files"]});
       try {
         const record = {fixture: await flow(browser, name, drive, {wrong})};
         record.folders = await folderVariants(browser, name, drive, wrong, evidence);
