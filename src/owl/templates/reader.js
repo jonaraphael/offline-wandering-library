@@ -34,13 +34,13 @@
   picker.setAttribute("webkitdirectory", "");
   picker.hidden = true;
   const readOnly = {mode: "read"};
-  const clickProbe = 250;
-  const chromiumPicker = typeof root.showDirectoryPicker === "function";
+  const folderInputSupported = "webkitdirectory" in picker;
+  const folderInputPreference = "owl.reader.folder-input";
   const firefox = /Firefox\//.test(navigator.userAgent);
   const chromium = /(?:Chrome|Chromium)\//.test(navigator.userAgent);
   const webkit = /AppleWebKit\//.test(navigator.userAgent) && !chromium;
-  let drive, archives = new Map(), folderStore, folderHandle, source;
-  let useFolderInput = !chromiumPicker;
+  let drive, archives = new Map(), source, sourceFromInput;
+  let useFolderInput = typeof root.showDirectoryPicker !== "function";
   let pickerResult, driveAccess, cachedZim, article, returnFocus;
   const archiveKind = row => archives.get(row.id)?.archiveKind || row.kind?.split(",")[0] || "Encyclopedia";
   const builderHome = "https://jonaraphael.com/offline-wandering-library/";
@@ -272,13 +272,12 @@
     content.dispatchEvent(new CustomEvent("owl:archive", {detail: {id: row.id, reason, ...stats}}));
   }
 
-  function accessSheet(state, {input = useFolderInput, retry, startIn, alternate = false} = {}) {
+  function accessSheet(state, {input = useFolderInput, retry, alternate = false} = {}) {
     const folder = escape(drive.folderName(location.pathname));
     const mark = value => "<mark>" + value + "</mark>";
     const confirm = mark(escape(drive.pickerLabel(device, !input, firefox, chromium)));
     const instruction = "In the folder window, " + (input ? "open " + mark(folder) + ", then " + mark("LIBRARY") +
-      ", then " + mark("ZIM") + ". Click " + confirm + "." : startIn ? "click " + confirm + " to use " +
-      mark(escape(startIn.name)) + "." : "click " + mark(folder) + ", then " + confirm + ".");
+      ", then " + mark("ZIM") + ". Click " + confirm + "." : "click " + mark(folder) + ", then " + confirm + ".");
     const note = input && firefox ? 'In Firefox’s Confirm Upload window, click ' + mark("Upload") + '. Nothing leaves this computer.' :
       input && chromium ? 'If the browser asks to upload files, click ' + mark("Upload") + '. Nothing leaves this computer.' :
         "This page only reads the drive. Nothing is copied or sent.";
@@ -288,7 +287,10 @@
       wrong: ["Choose the library folder", '<p>That folder is not this library.</p>' + caption],
       disconnected: ["Reconnect this drive", '<p class="picker-instruction">' + mark(folder) +
         ' is not connected. Plug it in, then click Try again.</p>'],
-      stalled: ["Drive access was denied", '<p role="status">The browser blocked this page from reading ' + mark(folder) + "." +
+      unanswered: ["Open from this drive", '<p class="picker-instruction" role="status">The browser has not finished opening ' +
+        mark(folder) + ". If it shows a question, click " + mark("Allow") + ". If nothing appears, choose the " +
+        mark("ZIM") + " folder instead.</p>"],
+      denied: ["Drive access was denied", '<p role="status">The browser blocked this page from reading ' + mark(folder) + "." +
         (alternate ? " Choose the " + mark("ZIM") + " folder to open it another way." : "") + "</p>"],
     };
     const [title, body] = states[state];
@@ -298,18 +300,14 @@
     if (retry) sheet.querySelector("button").onclick = retry;
   }
 
-  function saveHandle(handle) {
-    folderHandle = handle;
-    folderStore?.(new URL(location.pathname, location.href).href, handle).catch(() => {});
-  }
-
   function archiveAccess() {
     return Boolean(source);
   }
 
   function reconnectSheet(row, hash, fromRoute) {
+    const reconnectSource = sourceFromInput ? null : source;
     source = cachedZim = null;
-    accessSheet("disconnected", {retry: () => readFromArchive(row, hash, fromRoute, {reconnecting: true})});
+    accessSheet("disconnected", {retry: () => readFromArchive(row, hash, fromRoute, {reconnectSource})});
   }
 
   function readingState() {
@@ -327,10 +325,10 @@
     return new Promise((resolve, reject) => {
       const listeners = new AbortController();
       const options = {signal: listeners.signal};
-      let hint;
+      let timer;
       const away = () => {
-        clearTimeout(hint);
-        hint = undefined;
+        clearTimeout(timer);
+        timer = undefined;
       };
       const finish = (settle, value) => {
         away();
@@ -338,8 +336,10 @@
         settle(value);
       };
       const returned = () => {
-        if (!document.hidden && document.hasFocus() && hint === undefined) {
-          hint = setTimeout(afterReturn, 1000);
+        if (!document.hidden && document.hasFocus() && timer === undefined) {
+          timer = setTimeout(() => {
+            if (!document.hidden && document.hasFocus()) afterReturn();
+          }, 1500);
         }
       };
       // Chromium can show a separate permission prompt when the folder window closes.
@@ -357,10 +357,10 @@
     });
   }
 
-  function stalledSheet(row, hash, fromRoute, input) {
-    const alternate = !input && "webkitdirectory" in picker;
-    accessSheet("stalled", {alternate, retry: () =>
-      readFromArchive(row, hash, fromRoute, {forcePicker: true, input: input || alternate})});
+  function deniedSheet(row, hash, fromRoute, input) {
+    const alternate = !input && folderInputSupported;
+    accessSheet("denied", {alternate, retry: () =>
+      readFromArchive(row, hash, fromRoute, {input: input || alternate})});
   }
 
   function dismissAccess() {
@@ -369,11 +369,10 @@
   }
 
   async function readFromArchive(row, hash, fromRoute = false,
-    {forcePicker = false, reconnecting = false, input = useFolderInput} = {}) {
+    {reconnectSource, input = useFolderInput} = {}) {
     driveAccess?.abort();
     const attempt = driveAccess = new AbortController();
     const valid = () => !attempt.signal.aborted;
-    const retry = () => readFromArchive(row, hash, fromRoute, {forcePicker: true, input});
     const done = (reason = "", options) => {
       const state = {...(fromRoute ? history.state : readingState()), owlFallback: reason};
       if (fromRoute) {
@@ -381,69 +380,43 @@
         render(options);
       } else navigate(hash, true, state, options);
     };
-    const accept = ({candidate, parts}, handle, choosing) => {
-      if (choosing || !cachedZim || cachedZim.id !== row.id) cachedZim = {id: row.id, parts};
+    const accept = (candidate, parts, fromInput) => {
+      cachedZim = {id: row.id, parts};
       source = candidate;
-      if (choosing) useFolderInput = input;
-      if (handle && handle !== folderHandle) saveHandle(handle);
+      sourceFromInput = fromInput;
+      if (fromInput) useFolderInput = true;
       done();
     };
-    const fromHandle = handle => drive.handleSource(handle, generation, archives.values());
-    async function inspect(candidate, choosing) {
-      const selected = await candidate;
-      if (!valid()) return;
-      return {candidate: selected, parts: await drive.openParts(selected, row, choosing)};
-    }
     function failed(error) {
       if (!valid()) return;
       if (drive.accessDenied(error)) {
         attempt.abort();
-        stalledSheet(row, hash, fromRoute, input);
-      } else if (error.code === "folder") accessSheet("wrong", {input, retry});
-      else if (error.code === "disconnected") reconnectSheet(row, hash, fromRoute);
+        deniedSheet(row, hash, fromRoute, input);
+      } else if (error.code === "folder") {
+        const retryInput = input || useFolderInput;
+        accessSheet("wrong", {input: retryInput, retry: () => readFromArchive(row, hash, fromRoute, {input: retryInput})});
+      } else if (error.code === "disconnected") reconnectSheet(row, hash, fromRoute);
       else done("file");
     }
 
-    if (!forcePicker) {
-      const handle = input ? null : folderHandle;
-      // Bound the probe so a prompt, removed drive or stalled browser call
-      // still leaves the user's activation available for the folder picker.
-      const deadline = performance.now() + clickProbe;
-      const remaining = () => Math.max(0, deadline - performance.now());
-      let permission;
-      if (handle) {
-        try {
-          permission = await withinProbe(handle.queryPermission(readOnly), remaining());
-        } catch (_) { /* Open the picker if permission cannot be checked. */ }
-      }
+    if (source) return done("", {checkParts: true});
+    if (reconnectSource) {
+      // Recheck the session's files briefly so Try again can still open the
+      // folder picker in the same click if the drive is unavailable.
+      try {
+        const parts = await withinProbe(drive.openParts(reconnectSource, row), 250);
+        if (valid() && parts) return accept(reconnectSource, parts, false);
+      } catch (_) { /* The folder may need to be picked again. */ }
       if (!valid()) return;
-      if (permission === "prompt" || permission === "denied") source = cachedZim = null;
-      if (handle ? permission === "granted" : source) {
-        if (source && !reconnecting) return done("", {checkParts: true});
-        try {
-          const selection = await withinProbe(inspect(source || fromHandle(handle), false), remaining());
-          if (valid() && selection) {
-            accept(selection, null, false);
-            return;
-          }
-        } catch (_) {
-          // A granted handle can point to a drive at its old location.
-        }
-        if (!valid()) return;
-      }
     }
 
-    if (input && !("webkitdirectory" in picker)) return done("unsupported");
-    const startIn = input ? null : folderHandle;
-    accessSheet("picking", {input, startIn});
-    let permissionHint;
-    const hint = chromium && !input ? () => {
-      if (permissionHint) return;
-      permissionHint = document.createElement("p");
-      permissionHint.className = "note";
-      permissionHint.setAttribute("role", "status");
-      permissionHint.innerHTML = 'If you see “Allow this site to view and copy files?”, click <mark>Allow</mark>.';
-      sheet.append(permissionHint);
+    if (input && !folderInputSupported) return done("unsupported");
+    accessSheet("picking", {input});
+    const unanswered = !input && folderInputSupported ? () => {
+      if (useFolderInput) return;
+      useFolderInput = true;
+      try { root.localStorage.setItem(folderInputPreference, "1"); } catch (_) { /* Keep the session preference. */ }
+      accessSheet("unanswered", {alternate: true, retry: () => readFromArchive(row, hash, fromRoute, {input: true})});
     } : undefined;
     let selection;
     try {
@@ -451,45 +424,31 @@
         pickerResult = resolve;
         picker.value = "";
         picker.click();
-      }) : root.showDirectoryPicker({...readOnly, id: "owl-library", ...(startIn && {startIn})}), attempt.signal, hint);
+      }) : root.showDirectoryPicker({...readOnly, id: "owl-library"}), attempt.signal, unanswered);
     } catch (error) {
       if (!valid()) return;
       if (error.name === "AbortError") dismissAccess();
       else if (drive.accessDenied(error)) failed(error);
       // An unexpected folder-window failure: offer the other way to choose the folder.
-      else if (!input && "webkitdirectory" in picker) stalledSheet(row, hash, fromRoute, input);
-      else done("unsupported");
+      else if (!input && folderInputSupported) {
+        useFolderInput = true;
+        try { root.localStorage.setItem(folderInputPreference, "1"); } catch (_) { /* Keep the session preference. */ }
+        accessSheet("unanswered", {alternate: true, retry: () => readFromArchive(row, hash, fromRoute, {input: true})});
+      } else done("unsupported");
       return;
     } finally {
-      permissionHint?.remove();
       if (driveAccess === attempt) pickerResult = null;
     }
     if (!valid()) return;
     if (!selection) return dismissAccess();
     try {
-      const candidate = input ? drive.fileSource(selection, generation, [...archives.values()]) : fromHandle(selection);
-      const inspected = await inspect(candidate, true);
-      if (valid()) accept(inspected, input ? null : selection, true);
+      const candidate = input ? drive.fileSource(selection, generation, [...archives.values()]) :
+        await drive.handleSource(selection, generation, archives.values());
+      if (!valid()) return;
+      const parts = await drive.openParts(candidate, row, true);
+      if (valid()) accept(candidate, parts, input);
     } catch (error) {
       failed(error);
-    }
-  }
-
-  async function restoreFolder() {
-    if (!chromiumPicker) return;
-    try {
-      folderStore = await drive.handleStore();
-      const handle = await folderStore(new URL(location.pathname, location.href).href);
-      if (folderHandle) return saveHandle(folderHandle);
-      folderHandle = handle;
-      if (!handle || driveAccess || await handle.queryPermission(readOnly) !== "granted") return;
-      const candidate = await drive.handleSource(handle, generation, archives.values());
-      if (driveAccess || source || handle !== folderHandle) return;
-      source = candidate;
-      if (activeRoute?.startsWith("#/read/")) render({keepFocus: true});
-      else refreshSearch?.(true);
-    } catch (_) {
-      // A saved handle may have been revoked or the drive may have moved.
     }
   }
 
@@ -835,7 +794,7 @@
       if (drive.accessDenied(error) || drive.accessDenied(error.cause)) {
         source = null;
         document.querySelector("#article-content").innerHTML = articleOpen(row, hash);
-        stalledSheet(row, hash, true, useFolderInput);
+        deniedSheet(row, hash, true, sourceFromInput);
         return;
       }
       if (error.code === "disconnected" || ["NotFoundError", "NotReadableError"].includes(error.name)) {
@@ -1106,12 +1065,15 @@
     helpPhone = device === "android" ? "android" : "iphone";
     searchCount = home.searchCount.toLocaleString() + (home.searchCount === 1 ? " book or guide" : " books and guides");
     openStorage();
+    try {
+      useFolderInput ||= folderInputSupported && root.localStorage.getItem(folderInputPreference) === "1";
+    } catch (_) { /* Folder input still works without storage. */ }
+    // Delete the retired database without loading its folder handles.
+    try { root.indexedDB.deleteDatabase("owl-reader"); } catch (_) { /* Storage can be unavailable on file URLs. */ }
     if (home.archives?.length) {
       archives = new Map(home.archives.map(row => [row.id, row]));
       await Promise.all(["fzstd.js", "zim.js", "zim-drive.js", "zim-article.js"].map(name => engine.script(engine.local(name))));
       drive = root.OWLZimDrive;
-      // Give a remembered handle a head start without delaying the library while a drive wakes up.
-      await withinProbe(restoreFolder(), 2 * clickProbe);
     }
     if (drive) document.body.append(picker);
     picker.addEventListener("change", () => pickerResult?.(picker.files.length ? picker.files : null));

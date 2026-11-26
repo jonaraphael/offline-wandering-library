@@ -109,7 +109,7 @@ async function context(browser, name, {width = 1280, theme = 'light', folderInpu
       const sheet = document.querySelector('dialog.sheet');
       if (!sheet) return;
       new MutationObserver(() => {
-        if (sheet.open) accessEvents.push({state: sheet.dataset.reason, text: sheet.innerText,
+        if (sheet.open) accessEvents.push({state: sheet.dataset.reason, text: sheet.innerText, time: performance.now(),
           keys: [...sheet.querySelectorAll('mark')].map(mark => mark.textContent),
           buttons: [...sheet.querySelectorAll('button')].map(button => button.textContent),
           instruction: sheet.querySelector('.picker-instruction')?.innerHTML,
@@ -133,20 +133,27 @@ async function context(browser, name, {width = 1280, theme = 'light', folderInpu
       window.pickerMode = 'valid';
       window.permissionChecks = [];
       window.permissionRequests = 0;
+      window.legacyHandleOperations = [];
+      for (const method of ['put', 'get']) {
+        const original = IDBObjectStore.prototype[method];
+        IDBObjectStore.prototype[method] = function (...args) {
+          if (this.transaction.db.name === 'owl-reader') legacyHandleOperations.push(method);
+          return original.apply(this, args);
+        };
+      }
       const prototype = FileSystemDirectoryHandle.prototype;
       prototype.queryPermission = ({mode}) => {
         permissionChecks.push(mode);
-        const result = sessionStorage.getItem('test-permission') || 'granted';
-        return result === 'pending' ? new Promise(() => {}) : Promise.resolve(result);
+        throw Error('The reader must never query folder permission');
       };
       prototype.requestPermission = () => {
         permissionRequests++;
         throw Error('The reader must never request permission');
       };
-      window.showDirectoryPicker = async ({mode, startIn}) => {
+      window.showDirectoryPicker = async options => {
         const active = navigator.userActivation.isActive;
-        pickerOptions.push({mode, active, startIn});
-        if (mode !== 'read' || !active) throw Error('Picker must run within a read-only click');
+        pickerOptions.push({options, active});
+        if (options.mode !== 'read' || !active) throw Error('Picker must run within a read-only click');
         pickerCalls++;
         if (pickerMode === 'cancel') throw new DOMException('Cancelled', 'AbortError');
         if (pickerMode === 'pending') return new Promise(resolve => { window.finishPicker = () => resolve(window.testFolder); });
@@ -214,7 +221,7 @@ async function seedChromium(page, drive, realZimFolder, selection = 'KINGSTON') 
         },
       });
       const opfs = window.testFolder;
-      window.testFolder = {name: opfs.name, queryPermission: async () => 'granted',
+      window.testFolder = {name: opfs.name,
         getFileHandle: name => opfs.getFileHandle(name),
         async getDirectoryHandle(name) {
           const dir = await opfs.getDirectoryHandle(name);
@@ -261,6 +268,7 @@ function checkPickerCopy(name, access, folderInput) {
   if (!folderInput) {
     assert.deepEqual(access.keys, ['KINGSTON', 'Select']);
     assert.match(access.text, /This page only reads the drive\. Nothing is copied or sent\./);
+    assert.doesNotMatch(access.text, /Allow/);
   } else if (name === 'firefox') {
     assert.deepEqual(access.keys, ['KINGSTON', 'LIBRARY', 'ZIM', 'Open', 'Upload']);
     assert.match(access.text, /Firefox’s Confirm Upload window, click Upload\. Nothing leaves this computer\./);
@@ -444,19 +452,14 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     if (name === 'chromium') assert.equal(await page.evaluate(() => pickerCalls), calls);
     check.secondOpen = true;
     await page.reload();
-    if (name === 'chromium' && !realZimFolder) {
-      await page.locator('#article-paper[data-ready=true]').waitFor();
-      assert.equal(await page.evaluate(() => pickerCalls), 0);
-    } else {
-      if (name === 'chromium') await seedChromium(page, drive, realZimFolder);
-      const reopen = page.locator('.article-start').getByRole('link', {name: 'Open'});
-      await reopen.waitFor();
-      assert.equal(await reopen.count(), 1);
-      // A second Open must say why the browser needs it.
-      assert.match(await page.locator('.article-start').innerText(), /The browser needs one click to read KINGSTON again\./);
-      await choose(page, reopen, folderInput, 'valid', folder);
-      await page.locator('#article-paper[data-ready=true]').waitFor();
-    }
+    if (name === 'chromium') await seedChromium(page, drive, realZimFolder);
+    const reopen = page.locator('.article-start').getByRole('link', {name: 'Open'});
+    await reopen.waitFor();
+    assert.equal(await reopen.count(), 1);
+    // A second Open must say why the browser needs it.
+    assert.match(await page.locator('.article-start').innerText(), /The browser needs one click to read KINGSTON again\./);
+    await choose(page, reopen, folderInput, 'valid', folder);
+    await page.locator('#article-paper[data-ready=true]').waitFor();
     assert.equal(await page.evaluate(() => location.hash), oldRoute);
     check.reload = true;
     await page.getByRole('button', {name: /Save WikiMed/}).click();
@@ -709,12 +712,13 @@ async function reconnect(browser, name, drive, {folderInput, stale, shot, width,
     assert.deepEqual(await sheet.getByRole('button').allTextContents(), ['Try again']);
     if (shot) await page.screenshot({path: shot + '-reconnect.png', animations: 'disabled'});
     const retry = sheet.getByRole('button', {name: 'Try again'});
-    const probes = folderInput ? 0 : await page.evaluate(() => permissionChecks.length);
     if (stale) {
       await choose(page, retry, false, 'pending');
       await page.waitForFunction(() => typeof window.finishPicker === 'function');
       await checkPicking(page);
-      assert.ok(await page.evaluate(() => pickerOptions.at(-1).startIn?.isSameEntry(testFolder)));
+      assert.deepEqual(await page.evaluate(() => pickerOptions.at(-1)), {
+        options: {mode: 'read', id: 'owl-library'}, active: true,
+      });
       await restore();
       await page.evaluate(() => finishPicker());
     } else {
@@ -728,11 +732,11 @@ async function reconnect(browser, name, drive, {folderInput, stale, shot, width,
     if (!folderInput) {
       const status = await page.evaluate(() => ({pickerCalls, permissionChecks, permissionRequests}));
       assert.equal(status.pickerCalls, stale ? 2 : 1);
-      assert.deepEqual(status.permissionChecks.slice(probes), ['read']);
+      assert.deepEqual(status.permissionChecks, []);
       assert.equal(status.permissionRequests, 0);
     }
-    if (stale) return 'reopened picker when the stored handle could not read the split part';
-    return folderInput ? 'reselected folder after file read failed' : 'reused handle after split part disappeared';
+    if (stale) return 'reopened picker when the session handle could not read the split part';
+    return folderInput ? 'reselected folder after file read failed' : 'reused session handle after split part disappeared';
   } finally {
     try { await restore?.(); } finally { await state.context.close(); }
   }
@@ -763,7 +767,7 @@ async function missingFile(browser, name, drive, {folderInput}) {
   }
 }
 
-async function rememberedPermission(browser, drive) {
+async function legacyFolderStorage(browser, drive) {
   const {page, context: ctx} = await context(browser, 'chromium');
   try {
     await page.goto(url(drive, '#/all'));
@@ -771,34 +775,122 @@ async function rememberedPermission(browser, drive) {
     const link = page.locator('.archive-row > a').filter({hasText: 'WikiMed'});
     await choose(page, link, false, 'valid');
     await page.locator('#article-paper[data-ready=true]').waitFor();
-    // Check that the read-only object really made it to IndexedDB before reload.
-    await page.evaluate(async () => {
-      const store = await OWLZimDrive.handleStore();
-      const stored = await store(new URL(location.pathname, location.href).href);
-      if (!await stored?.isSameEntry(testFolder)) throw Error('Missing remembered folder');
+    assert.deepEqual(await page.evaluate(() => legacyHandleOperations), []);
+    // Seed a real handle with the retired reader's schema, then reload with fresh spies.
+    await page.evaluate(() => new Promise((resolve, reject) => {
+      const request = indexedDB.open('owl-reader', 1);
+      request.onupgradeneeded = () => request.result.createObjectStore('folders');
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        const db = request.result;
+        const tx = db.transaction('folders', 'readwrite');
+        tx.objectStore('folders').put(testFolder, new URL(location.pathname, location.href).href);
+        tx.oncomplete = () => { db.close(); resolve(); };
+        tx.onabort = () => { db.close(); reject(tx.error); };
+      };
+    }));
+    assert.deepEqual(await page.evaluate(() => legacyHandleOperations), ['put']);
+    assert.ok(await page.evaluate(async () => (await indexedDB.databases()).some(db => db.name === 'owl-reader')));
+    await page.reload();
+    await seedChromium(page, drive);
+    await page.waitForFunction(async () => !(await indexedDB.databases()).some(db => db.name === 'owl-reader'));
+    const reopen = page.locator('.article-start').getByRole('link', {name: 'Open'});
+    await choose(page, reopen, false, 'pending');
+    await checkPicking(page);
+    await page.evaluate(() => finishPicker());
+    await page.locator('#article-paper[data-ready=true]').waitFor();
+    const access = await page.evaluate(async () => ({
+      pickerOptions, permissionChecks, permissionRequests, legacyHandleOperations,
+      legacyDatabase: (await indexedDB.databases()).some(db => db.name === 'owl-reader'),
+    }));
+    assert.deepEqual(access, {
+      pickerOptions: [{options: {mode: 'read', id: 'owl-library'}, active: true}],
+      permissionChecks: [], permissionRequests: 0, legacyHandleOperations: [], legacyDatabase: false,
     });
-    for (const permission of ['prompt', 'pending']) {
-      await page.evaluate(value => sessionStorage.setItem('test-permission', value), permission);
-      await page.reload();
-      await seedChromium(page, drive);
-      const reopen = page.locator('.article-start').getByRole('link', {name: 'Open'});
-      await reopen.waitFor();
-      assert.deepEqual(await page.evaluate(() => permissionChecks), ['read']);
-      await choose(page, reopen, false, 'pending');
-      await checkPicking(page);
-      const access = await page.evaluate(async () => ({
-        active: pickerOptions.at(-1).active,
-        remembered: await pickerOptions.at(-1).startIn?.isSameEntry(testFolder),
-        permissionChecks, permissionRequests,
-      }));
-      assert.deepEqual(access, {active: true, remembered: true, permissionChecks: ['read', 'read'], permissionRequests: 0});
-      const caption = await page.evaluate(() => accessEvents.at(-1));
-      assert.deepEqual(caption.keys, ['Select', 'KINGSTON']);
-      assert.match(caption.text, /In the folder window, click Select to use KINGSTON\./);
+    return access;
+  } finally {
+    await ctx.close();
+  }
+}
+
+async function unansweredPicker(browser, drive, {late, cancelFallback = false, realZimFolder, width, theme, shot} = {}) {
+  const {page, context: ctx} = await context(browser, 'chromium', {width, theme});
+  const folder = realZimFolder || join(drive, 'LIBRARY/ZIM');
+  const dialog = page.locator('dialog[open]');
+  const unanswered = page.locator('dialog[open][data-reason=unanswered]');
+  const ready = page.locator('#article-paper[data-ready=true]');
+  const link = page.locator(cpr).first();
+  const preference = 'owl.reader.folder-input';
+  try {
+    await page.goto(url(drive, '#/search'));
+    await query(page);
+    if (late === 'valid') await seedChromium(page, drive);
+    await choose(page, link, false, 'pending');
+    await checkPicking(page);
+    await page.evaluate(() => {
+      window.focusReturnedAt = performance.now();
+      dispatchEvent(new Event('focus'));
+    });
+    await unanswered.waitFor({timeout: 2000});
+    const delay = await page.evaluate(() => {
+      return accessEvents.find(event => event.state === 'unanswered').time - focusReturnedAt;
+    });
+    assert.ok(delay >= 1450 && delay < 2000, `Unanswered sheet appeared after ${delay} ms`);
+    assert.equal(await unanswered.getByRole('heading').innerText(), 'Open from this drive');
+    assert.equal(await unanswered.getByRole('status').innerText(), 'The browser has not finished opening KINGSTON. ' +
+      'If it shows a question, click Allow. If nothing appears, choose the ZIM folder instead.');
+    assert.deepEqual(await unanswered.locator('mark').allTextContents(), ['KINGSTON', 'Allow', 'ZIM']);
+    assert.deepEqual(await unanswered.getByRole('button').allTextContents(), ['Choose the ZIM folder']);
+    assert.equal(await page.evaluate(key => localStorage.getItem(key), preference), '1');
+    assert.equal(await page.evaluate(() => pickerCalls), 1);
+    if (shot) await page.screenshot({path: shot + '-unanswered-picker.png', animations: 'disabled'});
+    if (late === 'valid') {
       await page.evaluate(() => finishPicker());
-      await page.locator('#article-paper[data-ready=true]').waitFor();
+      await ready.waitFor();
+      assert.equal(await dialog.count(), 0);
+      assert.deepEqual(await page.evaluate(() => inputActivations), []);
+      return {delay, lateDirectoryPickOpenedArticle: true};
     }
-    return ['prompt', 'unanswered permission query'];
+    if (late === 'wrong') {
+      await page.evaluate(async () => {
+        const root = await navigator.storage.getDirectory();
+        window.testFolder = await root.getDirectoryHandle('wrong', {create: true});
+        finishPicker();
+      });
+      const wrong = page.locator('dialog[open][data-reason=wrong]');
+      await wrong.waitFor();
+      checkPickerCopy('chromium', await page.evaluate(() => accessEvents.at(-1)), true);
+      await choose(page, wrong.getByRole('button', {name: 'Try again'}), true, 'valid', folder);
+      await ready.waitFor();
+      assert.equal(await dialog.count(), 0);
+      assert.equal(await page.evaluate(() => pickerCalls), 1);
+      return {delay, lateWrongFolderRetriedWithFolderInput: true};
+    }
+
+    const fallback = unanswered.getByRole('button', {name: 'Choose the ZIM folder'});
+    if (cancelFallback) {
+      await choose(page, fallback, true, 'cancel');
+      await dialog.waitFor({state: 'hidden'});
+      await choose(page, link, true, 'valid', folder);
+    } else await choose(page, fallback, true, 'valid', folder);
+    assert.equal(await page.evaluate(() => pickerCalls), 1);
+    await ready.waitFor();
+    assert.equal(await dialog.count(), 0);
+    if (cancelFallback) return {delay, reopenedDirectlyInSession: true};
+
+    // Reload the page with the real preference set by the stalled picker.
+    await page.reload();
+    await route(page, '#/search');
+    await query(page);
+    const chooser = await choose(page, link, true, 'pending');
+    await checkPicking(page);
+    checkPickerCopy('chromium', await page.evaluate(() => accessEvents.at(-1)), true);
+    assert.equal(await page.evaluate(() => pickerCalls), 0);
+    if (shot) await page.screenshot({path: shot + '-preferred-folder-input.png', animations: 'disabled'});
+    await chooser.setFiles(folder);
+    await ready.waitFor();
+    assert.equal(await dialog.count(), 0);
+    return {delay, folderInputInSameClick: true, reopenedDirectlyAfterReload: true};
   } finally {
     await ctx.close();
   }
@@ -908,22 +1000,16 @@ async function stalledAccess(browser, name, drive, {stage = 'picker', width, the
       await checkPicking(page);
       const caption = dialog.locator('.picker-instruction');
       const instruction = await caption.innerText();
-      const hint = dialog.getByText('If you see “Allow this site to view and copy files?”, click Allow.');
+      // A pending chooser must stay on its instructions while the page is away.
       await page.evaluate(() => dispatchEvent(new Event('blur')));
       await page.clock.fastForward(5000);
       await checkPicking(page);
-      assert.equal(await hint.count(), 0);
       await page.evaluate(() => dispatchEvent(new Event('focus')));
       await page.clock.fastForward(750);
-      assert.equal(await hint.count(), 0);
-      await page.clock.fastForward(10_000);
+      if (folderInput) await page.clock.fastForward(10_000);
       await checkPicking(page);
       assert.equal(await caption.innerText(), instruction);
-      assert.equal(await hint.count(), folderInput ? 0 : 1);
-      if (!folderInput) {
-        assert.equal(await hint.locator('mark').innerText(), 'Allow');
-        assert.equal(await page.evaluate(() => permissionRequests), 0);
-      }
+      assert.doesNotMatch(await dialog.innerText(), /click Allow/);
       if (stage === 'dismissed picker') {
         const before = page.url();
         await page.keyboard.press('Escape');
@@ -938,7 +1024,7 @@ async function stalledAccess(browser, name, drive, {stage = 'picker', width, the
       }
     }
     if (stage === 'denied' || stage === 'picker denial') {
-      const sheet = page.locator('dialog[open][data-reason=stalled]');
+      const sheet = page.locator('dialog[open][data-reason=denied]');
       await sheet.waitFor();
       assert.equal(await sheet.getByRole('heading').innerText(), 'Drive access was denied');
       assert.equal(await sheet.getByRole('status').innerText(), 'The browser blocked this page from reading KINGSTON.' +
@@ -979,7 +1065,9 @@ async function main() {
         if (name === 'chromium') {
           record.reconnect.push(await reconnect(browser, name, drive, {folderInput: false}));
           record.reconnect.push(await reconnect(browser, name, drive, {folderInput: false, stale: true}));
-          record.rememberedPermission = await rememberedPermission(browser, drive);
+          record.legacyFolderStorage = await legacyFolderStorage(browser, drive);
+          record.unansweredPicker = [await unansweredPicker(browser, drive), await unansweredPicker(browser, drive, {late: 'valid'}),
+            await unansweredPicker(browser, drive, {late: 'wrong'}), await unansweredPicker(browser, drive, {cancelFallback: true})];
           stages.push('selection validation', 'granted parts', 'dismissed picker', 'picker denial');
         }
         record.slowAccess = [];
@@ -991,6 +1079,9 @@ async function main() {
           for (const width of [1280, 390]) {
             for (const theme of ['light', 'dark']) {
               const shot = join(evidence, `${name}-${width}-${theme}`);
+              if (name === 'chromium') {
+                await unansweredPicker(browser, preview || drive, {realZimFolder: zimFolder, width, theme, shot});
+              }
               await stalledAccess(browser, name, drive, {stage: 'article', width, theme, shot: shot + '-still-reading.png'});
               await stalledAccess(browser, name, drive, {stage: 'denied', width, theme, shot: shot + '-access-denied.png'});
             }

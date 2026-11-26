@@ -131,24 +131,7 @@
       fragment: options.get("at") || "", title: options.get("title") || "", section: options.get("section") || ""};
   }
 
-  async function handleStore() {
-    const db = await new Promise((resolve, reject) => {
-      const request = indexedDB.open("owl-reader", 1);
-      request.onupgradeneeded = () => request.result.createObjectStore("folders");
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-      request.onblocked = () => reject(new Error("Could not open folder storage"));
-    });
-    return (key, ...values) => new Promise((resolve, reject) => {
-      const tx = db.transaction("folders", values.length ? "readwrite" : "readonly");
-      const store = tx.objectStore("folders");
-      const request = !values.length ? store.get(key) : values[0] ? store.put(values[0], key) : store.delete(key);
-      tx.oncomplete = () => resolve(request.result);
-      tx.onabort = tx.onerror = () => reject(tx.error || request.error);
-    });
-  }
-
-  const api = {folderName, pickerLabel, archiveParts, handleSource, fileSource, openParts, readRoute, parseRoute, handleStore, accessDenied};
+  const api = {folderName, pickerLabel, archiveParts, handleSource, fileSource, openParts, readRoute, parseRoute, accessDenied};
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.OWLZimDrive = api;
 })(globalThis);
