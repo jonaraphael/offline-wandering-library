@@ -5,7 +5,7 @@ workers_dev = true
 preview_urls = false
 
 [vars]
-ALLOWED_ORIGIN = "https://jonaraphael.github.io"
+ALLOWED_ORIGIN = "https://jonaraphael.com,https://jonaraphael.github.io"
 
 [[ratelimits]]
 name = "REQUEST_LIMIT"

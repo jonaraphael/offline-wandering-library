@@ -8,7 +8,7 @@ to `LIBRARY`, while the global checksum manifest records outer-directory paths.
 
 ## Build in your browser
 
-In Firefox, open the [Pages builder](https://jonaraphael.github.io/offline-wandering-library/),
+In Firefox, open the [Pages builder](https://jonaraphael.com/offline-wandering-library/),
 choose **Open local builder** and **Sync**, then download and extract the finished
 library onto your drive. In Chrome or Edge, the builder opens a folder on your
 external drive, recommends a selection and writes the verified

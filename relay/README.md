@@ -2,7 +2,8 @@
 
 `owl-publisher-relay` runs at
 `https://owl-publisher-relay.snapandshop-jonaraphael.workers.dev` and allows
-requests from `https://jonaraphael.github.io`. It is a pass-through for a fixed
+requests from `https://jonaraphael.com` and `https://jonaraphael.github.io` (`ALLOWED_ORIGIN`,
+comma-separated). It is a pass-through for a fixed
 allowlist of catalog IDs and exact URLs. It stores nothing. The Worker
 validates ranges, declines publisher redirects, strips cookies and streams
 with caching disabled. Browser clients check the returned bytes against the
@@ -34,7 +35,7 @@ Check that the restored allowlist contains the IDs in the live Pages catalog.
 [Cloudflare rollback guide](https://developers.cloudflare.com/workers/versions-and-deployments/rollbacks/)
 
 ```sh
-curl --head -H 'Origin: https://jonaraphael.github.io' \
+curl --head -H 'Origin: https://jonaraphael.com' \
   -H 'Range: bytes=0-0' \
   https://owl-publisher-relay.snapandshop-jonaraphael.workers.dev/assets/wikipedia_en_top
 ```

@@ -44,7 +44,7 @@ class RangeSource:
             raise ValueError("ZIM range budget exceeded")
         end = start + length - 1
         headers = {"Range": f"bytes={start}-{end}", "Accept-Encoding": "identity",
-                   "Origin": "https://jonaraphael.github.io"}
+                   "Origin": "https://jonaraphael.com"}
         if self.etag is not None:
             headers["If-Match"] = self.etag
         self.budget -= length
