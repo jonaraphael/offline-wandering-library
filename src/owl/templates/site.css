@@ -226,5 +226,5 @@ h1[tabindex="-1"]:focus, h2[tabindex="-1"]:focus { outline: none; }
 .article-fallback .article-trail { margin: 14px 0; }
 .article-fallback .button { margin-top: 4px; }
 .picker-instruction { font-size: 18px; margin-bottom: 8px; }
-.sheet mark { padding: 0 .22em; border-radius: 4px; background: #ffe280; color: #272008; font-weight: 700; }
+.sheet mark, #article-status mark { padding: 0 .22em; border-radius: 4px; background: #ffe280; color: #272008; font-weight: 700; }
 @media (min-width: 720px) { .article-paper iframe { --article-scroll-offset: 74px; } }

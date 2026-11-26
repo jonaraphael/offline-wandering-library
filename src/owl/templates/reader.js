@@ -282,7 +282,7 @@
       wrong: ["Choose the library folder", '<p>That folder is not this library.</p>' + caption],
       disconnected: ["Reconnect this drive", '<p class="picker-instruction">' + mark(folder) +
         ' is not connected. Plug it in, then click Try again.</p>'],
-      stalled: ["Could not open from this drive", '<p role="status">The browser did not finish opening the library.</p>'],
+      stalled: ["Drive access was denied", '<p role="status">This page couldn’t read ' + mark(folder) + '.</p>'],
     };
     const [title, body] = states[state];
     sheet.dataset.reason = state;
@@ -310,15 +310,20 @@
     return {owlReadFrom: activeRoute, owlReadTab: origin};
   }
 
+  function withinProbe(operation, delay) {
+    let timer;
+    const limit = new Promise(resolve => { timer = setTimeout(resolve, delay); });
+    return Promise.race([operation, limit]).finally(() => clearTimeout(timer));
+  }
+
   function waitForPicker(open, signal, afterReturn) {
     return new Promise((resolve, reject) => {
       const listeners = new AbortController();
       const options = {signal: listeners.signal};
-      let timeout, hint;
+      let hint;
       const away = () => {
         clearTimeout(hint);
-        clearTimeout(timeout);
-        timeout = undefined;
+        hint = undefined;
       };
       const finish = (settle, value) => {
         away();
@@ -326,19 +331,19 @@
         settle(value);
       };
       const returned = () => {
-        if (!document.hidden && document.hasFocus() && timeout === undefined) {
-          timeout = setTimeout(() => finish(reject, new Error("Folder picker timed out")), root.OWLZim.readWait);
-          if (afterReturn) hint = setTimeout(afterReturn, 500);
+        if (!document.hidden && document.hasFocus() && hint === undefined) {
+          hint = setTimeout(afterReturn, 1000);
         }
       };
-      // Native pickers can stay open indefinitely. Start the clock when the
-      // page becomes active again, or receives input if focus never changed.
-      root.addEventListener("blur", away, options);
-      root.addEventListener("focus", returned, options);
-      document.addEventListener("visibilitychange", () => document.hidden ? away() : returned(), options);
-      document.addEventListener("pointerdown", returned, options);
-      document.addEventListener("pointermove", returned, options);
-      document.addEventListener("keydown", returned, options);
+      // Chromium can show a separate permission prompt when the folder window closes.
+      if (afterReturn) {
+        root.addEventListener("blur", away, options);
+        root.addEventListener("focus", returned, options);
+        document.addEventListener("visibilitychange", () => document.hidden ? away() : returned(), options);
+        document.addEventListener("pointerdown", returned, options);
+        document.addEventListener("pointermove", returned, options);
+        document.addEventListener("keydown", returned, options);
+      }
       signal.addEventListener("abort", () => finish(reject, signal.reason), options);
       try { open().then(value => finish(resolve, value), error => finish(reject, error)); }
       catch (error) { finish(reject, error); }
@@ -358,17 +363,16 @@
 
   async function readFromArchive(row, hash, fromRoute = false,
     {forcePicker = false, reconnecting = false, input = useFolderInput} = {}) {
-    const {waitForRead, readWait} = root.OWLZim;
     driveAccess?.abort();
     const attempt = driveAccess = new AbortController();
     const valid = () => !attempt.signal.aborted;
     const retry = () => readFromArchive(row, hash, fromRoute, {forcePicker: true, input});
-    const done = (reason = "") => {
+    const done = (reason = "", options) => {
       const state = {...(fromRoute ? history.state : readingState()), owlFallback: reason};
       if (fromRoute) {
         history.replaceState(state, "");
-        render();
-      } else navigate(hash, true, state);
+        render(options);
+      } else navigate(hash, true, state, options);
     };
     const accept = ({candidate, parts}, handle, choosing) => {
       if (choosing || !cachedZim || cachedZim.id !== row.id) cachedZim = {id: row.id, parts};
@@ -385,7 +389,7 @@
     }
     function failed(error) {
       if (!valid()) return;
-      if (error.code === "timeout" || drive.accessDenied(error)) {
+      if (drive.accessDenied(error)) {
         attempt.abort();
         stalledSheet(row, hash, fromRoute, input);
       } else if (error.code === "folder") accessSheet("wrong", {input, retry});
@@ -402,36 +406,38 @@
       let permission;
       if (handle) {
         try {
-          permission = await waitForRead(handle.queryPermission(readOnly), remaining());
+          permission = await withinProbe(handle.queryPermission(readOnly), remaining());
         } catch (_) { /* Open the picker if permission cannot be checked. */ }
       }
       if (!valid()) return;
-      if (handle && permission !== "granted") source = cachedZim = null;
+      if (permission === "prompt" || permission === "denied") source = cachedZim = null;
       if (handle ? permission === "granted" : source) {
+        if (source && !reconnecting) return done("", {checkParts: true});
         try {
-          const reopened = reconnecting || !source;
-          const selection = await waitForRead(inspect(source || fromHandle(handle), false), reopened ? remaining() : readWait);
-          if (valid()) accept(selection, null, false);
-          return;
-        } catch (error) {
-          if (!valid()) return;
-          if (!handle || !reconnecting && source) {
-            failed(error);
+          const selection = await withinProbe(inspect(source || fromHandle(handle), false), remaining());
+          if (valid() && selection) {
+            accept(selection, null, false);
             return;
           }
+        } catch (_) {
           // A granted handle can point to a drive at its old location.
         }
+        if (!valid()) return;
       }
     }
 
     if (input && !("webkitdirectory" in picker)) return done("unsupported");
     const startIn = input ? null : folderHandle;
     accessSheet("picking", {input, startIn});
-    const hint = input ? undefined : () => {
-      // Chromium can ask for read access after the folder panel closes.
-      sheet.querySelector(".picker-instruction").innerHTML =
-        'If you see “Allow this site to view and copy files?”, click <mark>Allow</mark>.';
-    };
+    let permissionHint;
+    const hint = chromium && !input ? () => {
+      if (permissionHint) return;
+      permissionHint = document.createElement("p");
+      permissionHint.className = "note";
+      permissionHint.setAttribute("role", "status");
+      permissionHint.innerHTML = 'If you see “Allow this site to view and copy files?”, click <mark>Allow</mark>.';
+      sheet.append(permissionHint);
+    } : undefined;
     let selection;
     try {
       selection = await waitForPicker(() => input ? new Promise(resolve => {
@@ -442,17 +448,19 @@
     } catch (error) {
       if (!valid()) return;
       if (error.name === "AbortError") dismissAccess();
-      else stalledSheet(row, hash, fromRoute, input);
+      else if (drive.accessDenied(error)) failed(error);
+      else done("unreadable");
       return;
     } finally {
+      permissionHint?.remove();
       if (driveAccess === attempt) pickerResult = null;
     }
     if (!valid()) return;
     if (!selection) return dismissAccess();
     try {
       const candidate = input ? drive.fileSource(selection, generation, [...archives.values()]) : fromHandle(selection);
-      const parts = await waitForRead(inspect(candidate, true));
-      if (valid()) accept(parts, input ? null : selection, true);
+      const inspected = await inspect(candidate, true);
+      if (valid()) accept(inspected, input ? null : selection, true);
     } catch (error) {
       failed(error);
     }
@@ -460,13 +468,17 @@
 
   async function restoreFolder() {
     if (!chromiumPicker) return;
-    const {waitForRead} = root.OWLZim;
     try {
-      folderStore = await waitForRead(drive.handleStore(), 2 * clickProbe);
-      folderHandle = await waitForRead(folderStore(new URL(location.pathname, location.href).href), 2 * clickProbe);
-      if (folderHandle && await waitForRead(folderHandle.queryPermission(readOnly), clickProbe) === "granted") {
-        source = await waitForRead(drive.handleSource(folderHandle, generation, archives.values()), 2 * clickProbe);
-      }
+      folderStore = await drive.handleStore();
+      const handle = await folderStore(new URL(location.pathname, location.href).href);
+      if (folderHandle) return saveHandle(folderHandle);
+      folderHandle = handle;
+      if (!handle || driveAccess || await handle.queryPermission(readOnly) !== "granted") return;
+      const candidate = await drive.handleSource(handle, generation, archives.values());
+      if (driveAccess || source || handle !== folderHandle) return;
+      source = candidate;
+      if (activeRoute?.startsWith("#/read/")) render({keepFocus: true});
+      else refreshSearch?.(true);
     } catch (_) {
       // A saved handle may have been revoked or the drive may have moved.
     }
@@ -478,6 +490,26 @@
     article.resize?.disconnect();
     for (const url of article.urls) URL.revokeObjectURL(url);
     article = null;
+  }
+
+  function parsedArticle(frame, signal) {
+    // The iframe's load event also waits for images and other resources.
+    return new Promise((resolve, reject) => {
+      let nextFrame;
+      const cancel = () => {
+        cancelAnimationFrame(nextFrame);
+        reject(signal.reason);
+      };
+      function check() {
+        const doc = frame.contentDocument;
+        if (doc?.URL === "about:srcdoc" && doc.readyState !== "loading") {
+          signal.removeEventListener("abort", cancel);
+          resolve(doc);
+        } else nextFrame = requestAnimationFrame(check);
+      }
+      signal.addEventListener("abort", cancel, {once: true});
+      check();
+    });
   }
 
   function articleOpen(row, hash) {
@@ -505,18 +537,22 @@
         articleOpen(row, hash)) + '</div>';
   }
 
-  async function loadArticle(row, path, fragment, title, section, savedScroll, hash) {
-    const {waitForRead} = root.OWLZim;
+  async function loadArticle(row, path, fragment, title, section, savedScroll, hash, checkParts) {
     const controller = new AbortController();
     const current = article = {controller, urls: []};
     const active = () => article === current;
     const started = performance.now();
+    const status = document.querySelector("#article-status");
+    const slow = setTimeout(() => {
+      status.innerHTML = "Still reading from <mark>" + escape(drive.folderName(location.pathname)) + "</mark>…";
+    }, 4000);
+    controller.signal.addEventListener("abort", () => clearTimeout(slow), {once: true});
     let zim, initialBytes = 0;
     try {
-      if (!cachedZim || cachedZim.id !== row.id) {
-        const parts = await waitForRead(drive.openParts(source, row));
+      if (checkParts || cachedZim?.id !== row.id) {
+        const parts = await drive.openParts(source, row);
         if (!active()) return;
-        cachedZim = {id: row.id, parts};
+        if (cachedZim?.id !== row.id) cachedZim = {id: row.id, parts};
       }
       const cache = cachedZim;
       if (!cache.reader) {
@@ -533,7 +569,6 @@
       const isMain = path === "@main";
       const displayTitle = isMain ? archiveName(row) : page.title;
       const paper = document.querySelector("#article-paper");
-      const status = document.querySelector("#article-status");
       const titleElement = document.querySelector("#article-title");
       const frame = document.createElement("iframe");
       frame.title = displayTitle;
@@ -542,88 +577,108 @@
       // The trusted srcdoc head applies script-src 'none' before the article markup.
       frame.setAttribute("sandbox", webkit ? "allow-same-origin allow-scripts" : "allow-same-origin");
       frame.setAttribute("scrolling", "no");
-      const renderFrame = async () => {
-        const doc = frame.contentDocument;
-        if (!active()) return;
-        if (!doc?.body) throw Error("Could not open the article frame");
-        if (isMain) root.OWLZimArticle.hideMainHeading(doc);
-        function resize() {
-          const height = Math.ceil(Math.max(doc.body.scrollHeight, doc.body.getBoundingClientRect().height));
-          frame.style.height = height + "px";
-          return height;
-        }
-        function jump(at, heading, focus = false) {
-          const target = root.OWLZimArticle.targetElement(doc, at, heading);
-          if (!target) return;
-          resize();
-          const top = scrollY + frame.getBoundingClientRect().top + target.getBoundingClientRect().top;
-          scrollTo(0, Math.max(0, top - (parseFloat(getComputedStyle(frame).getPropertyValue("--article-scroll-offset")) || 12)));
-          if (focus) {
-            target.tabIndex = -1;
-            target.focus({preventScroll: true});
-          }
-        }
-        function followLink(event) {
-          const target = event.target.closest("[data-owl-link]");
-          if (!target) return;
-          const destination = page.links.get(target.getAttribute("data-owl-link"));
-          if (!destination) return;
-          event.preventDefault();
-          if (destination.external) {
-            if (event.button <= 1) root.open(destination.external, "_blank", "noopener");
-            return;
-          }
-          if (event.button !== 0) return;
-          const {path: next, fragment: at, ns} = destination;
-          if (!next || next === entry.path && ns === entry.ns && at) jump(at, "", true);
-          else {
-            const fullPath = zim.minor === 0 ? ns + "/" + next : next;
-            navigate(archiveRoute(row, fullPath, at), true, readingState());
-          }
-        }
-        doc.addEventListener("click", followLink);
-        doc.addEventListener("auxclick", followLink);
-        // Resize the frame to its content so the outer reader owns scrolling.
-        resize();
-        current.resize = new ResizeObserver(resize);
-        current.resize.observe(doc.body);
-        status.remove();
-        const images = [...doc.images].filter(img => img.hasAttribute("src") || img.hasAttribute("srcset"));
-        await waitForRead(Promise.all(images.map(img => img.decode().catch(() => {}))));
-        if (!active()) return;
-        root.OWLZimArticle.recoverLayout(doc, page, resize);
-        titleElement.textContent = displayTitle;
-        const sourceLabel = view.querySelector(".article-source");
-        if (isMain || displayTitle === row.title) sourceLabel.textContent = "On this drive";
-        sourceLabel.hidden = false;
-        // The article prints its own heading; keep this one for focus and screen readers only.
-        if (!isMain && doc.querySelector("h1")) {
-          titleElement.classList.add("visually-hidden");
-          titleElement.after(sourceLabel);
-        }
-        titleElement.focus({preventScroll: true});
-        scrollTo(0, savedScroll);
-        if (fragment || section) jump(fragment, section);
-        paper.dataset.ready = "true";
-        paper.dispatchEvent(new CustomEvent("owl:archive", {detail: {id: row.id, path: entry.path,
-          ms: performance.now() - started, bytes: zim.bytesRead - initialBytes, images: images.length,
-          shown: images.filter(image => image.naturalWidth > 0).length, resources: page.loaded,
-          textLength: page.textLength, scripts: page.scripts, illustrations: page.illustrations}}));
-      };
-      const frameLoaded = new Promise(resolve => { frame.onload = resolve; });
       frame.srcdoc = page.html;
-      paper.hidden = false;
       paper.append(frame);
-      await waitForRead(frameLoaded);
-      frame.onload = null;
-      await renderFrame();
+      const doc = await parsedArticle(frame, controller.signal);
       if (!active()) return;
+      paper.hidden = false;
+      status.remove();
+      if (isMain) root.OWLZimArticle.hideMainHeading(doc);
+      function resize() {
+        const height = Math.ceil(Math.max(doc.body.scrollHeight, doc.body.getBoundingClientRect().height));
+        frame.style.height = height + "px";
+        return height;
+      }
+      function jump(at, heading, focus = false) {
+        const target = root.OWLZimArticle.targetElement(doc, at, heading);
+        if (!target) return;
+        resize();
+        const top = scrollY + frame.getBoundingClientRect().top + target.getBoundingClientRect().top;
+        scrollTo(0, Math.max(0, top - (parseFloat(getComputedStyle(frame).getPropertyValue("--article-scroll-offset")) || 12)));
+        if (focus) {
+          target.tabIndex = -1;
+          target.focus({preventScroll: true});
+        }
+      }
+      function followLink(event) {
+        const target = event.target.closest("[data-owl-link]");
+        if (!target) return;
+        const destination = page.links.get(target.getAttribute("data-owl-link"));
+        if (!destination) return;
+        event.preventDefault();
+        if (destination.external) {
+          if (event.button <= 1) root.open(destination.external, "_blank", "noopener");
+          return;
+        }
+        if (event.button !== 0) return;
+        const {path: next, fragment: at, ns} = destination;
+        if (!next || next === entry.path && ns === entry.ns && at) jump(at, "", true);
+        else {
+          const fullPath = zim.minor === 0 ? ns + "/" + next : next;
+          navigate(archiveRoute(row, fullPath, at), true, readingState());
+        }
+      }
+      doc.addEventListener("click", followLink);
+      doc.addEventListener("auxclick", followLink);
+      const images = [...doc.images].filter(img => img.hasAttribute("src") || img.hasAttribute("srcset"));
+      const recoverLayout = () => root.OWLZimArticle.recoverLayout(doc, page, resize);
+      const loadingImages = images.some(img => !img.complete);
+      if (loadingImages) resize();
+      else recoverLayout();
+      titleElement.textContent = displayTitle;
+      const sourceLabel = view.querySelector(".article-source");
+      if (isMain || displayTitle === row.title) sourceLabel.textContent = "On this drive";
+      sourceLabel.hidden = false;
+      // The article prints its own heading; keep this one for focus and screen readers only.
+      if (!isMain && doc.querySelector("h1")) {
+        titleElement.classList.add("visually-hidden");
+        titleElement.after(sourceLabel);
+      }
+      titleElement.focus({preventScroll: true});
+      const place = () => {
+        if (fragment || section) jump(fragment, section);
+        else scrollTo(0, savedScroll);
+      };
+      place();
+      // Pictures can change the height of a section or make a saved position reachable.
+      let restorePosition = Boolean(savedScroll || fragment || section);
+      const fit = () => {
+        resize();
+        if (restorePosition) place();
+      };
+      if (restorePosition) {
+        const leavePosition = () => { restorePosition = false; };
+        const options = {once: true, passive: true, signal: controller.signal};
+        for (const event of ["wheel", "touchstart", "pointerdown", "keydown"]) {
+          root.addEventListener(event, leavePosition, options);
+          doc.addEventListener(event, leavePosition, options);
+        }
+      }
+      // Resize the frame to its content so the outer reader owns scrolling.
+      current.resize = new ResizeObserver(fit);
+      current.resize.observe(doc.body);
+      if (loadingImages) frame.addEventListener("load", () => {
+        recoverLayout();
+        fit();
+      }, {once: true, signal: controller.signal});
+      paper.dataset.ready = "true";
       remember({...row, route: hash});
+      // Record image counts when decoding finishes, after the article is ready to read.
+      const metrics = {id: row.id, path: entry.path, ms: performance.now() - started, bytes: zim.bytesRead - initialBytes,
+        images: images.length, resources: page.loaded, textLength: page.textLength, scripts: page.scripts,
+        illustrations: page.illustrations};
+      Promise.all(images.map(img => img.decode().catch(() => {}))).then(() => {
+        if (!active()) return;
+        fit();
+        restorePosition = false;
+        paper.dispatchEvent(new CustomEvent("owl:archive", {detail: {...metrics,
+          shown: images.filter(image => image.naturalWidth > 0).length}}));
+      });
     } catch (error) {
       if (!active()) return;
       cachedZim = null;
       stopArticle();
-      if (error.code === "timeout" || drive.accessDenied(error)) {
+      if (drive.accessDenied(error) || drive.accessDenied(error.cause)) {
         source = null;
         document.querySelector("#article-content").innerHTML = articleOpen(row, hash);
         stalledSheet(row, hash, true, useFolderInput);
@@ -638,6 +693,8 @@
       showKiwix(row, hash, reason, {path, ms: performance.now() - started,
         bytes: (zim?.bytesRead || 0) - initialBytes, scripts: error.scripts, textLength: error.textLength,
         illustrations: error.illustrations});
+    } finally {
+      clearTimeout(slow);
     }
   }
 
@@ -755,18 +812,18 @@
     if (location.hash === activeRoute) history.replaceState({...history.state, owlScroll: scrollY}, "");
   }
 
-  function navigate(hash, focus = true, state = null) {
+  function navigate(hash, focus = true, state = null, options) {
     position();
     moveFocus = focus;
     if (location.hash === hash) {
-      render();
+      render(options);
       return;
     }
     history.pushState(state, "", hash);
-    render();
+    render(options);
   }
 
-  async function render({keepFocus = false} = {}) {
+  async function render({keepFocus = false, checkParts = false} = {}) {
     const mine = ++pageEpoch;
     driveAccess?.abort();
     pickerResult = null;
@@ -824,7 +881,9 @@
     scrollTo(0, savedScroll);
     const fallback = archive && (needsKiwix(archive) ? "scripts" : history.state?.owlFallback);
     if (fallback) showKiwix(archive, hash, fallback, {path: reading.path});
-    else if (archive && source) loadArticle(archive, reading.path, reading.fragment, reading.title, reading.section, savedScroll, hash);
+    else if (archive && source) {
+      loadArticle(archive, reading.path, reading.fragment, reading.title, reading.section, savedScroll, hash, checkParts);
+    }
     if (focus && !keepFocus && !(archive && (source || fallback))) {
       const target = view.querySelector(useSearch ? "#query:not([hidden])" : "h1, h2");
       if (target) {
@@ -892,7 +951,8 @@
       archives = new Map(home.archives.map(row => [row.id, row]));
       await Promise.all(["fzstd.js", "zim.js", "zim-drive.js", "zim-article.js"].map(name => engine.script(engine.local(name))));
       drive = root.OWLZimDrive;
-      await restoreFolder();
+      // Give a remembered handle a head start without delaying the library while a drive wakes up.
+      await withinProbe(restoreFolder(), 2 * clickProbe);
     }
     if (drive) document.body.append(picker);
     picker.addEventListener("change", () => pickerResult?.(picker.files.length ? picker.files : null));

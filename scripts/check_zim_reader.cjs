@@ -138,7 +138,13 @@ async function context(browser, name, {width = 1280, theme = 'light', folderInpu
         pickerCalls++;
         if (pickerMode === 'cancel') throw new DOMException('Cancelled', 'AbortError');
         if (pickerMode === 'pending') return new Promise(resolve => { window.finishPicker = () => resolve(window.testFolder); });
-        if (pickerMode === 'stalled-read') return {name: 'KINGSTON', getFileHandle: () => new Promise(() => {})};
+        if (pickerMode === 'slow-validation') return {
+          name: testFolder.name,
+          getFileHandle: name => new Promise((resolve, reject) => {
+            window.finishValidation = () => testFolder.getFileHandle(name).then(resolve, reject);
+          }),
+          getDirectoryHandle: name => testFolder.getDirectoryHandle(name),
+        };
         if (pickerMode === 'denied') return {name: 'KINGSTON', getFileHandle: async () => {
           throw new DOMException('Access denied', 'NotAllowedError');
         }};
@@ -569,6 +575,7 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
           await page.goBack();
           await page.locator('#article-paper[data-ready=true]').waitFor();
           assert.equal(await page.evaluate(() => location.hash), hash);
+          await page.waitForFunction(() => history.state.owlScroll > 200 && Math.abs(scrollY - history.state.owlScroll) <= 1);
           const [restored, saved] = await page.evaluate(() => [scrollY, history.state.owlScroll]);
           assert.ok(saved > 200 && Math.abs(restored - saved) <= 1, `Restored ${restored}px of ${saved}px`);
           check.recoveredPageBack = true;
@@ -760,54 +767,151 @@ async function rememberedPermission(browser, drive) {
   }
 }
 
-async function stalledAccess(browser, name, drive, {folderInput = name !== 'chromium', stage = 'picker'} = {}) {
-  const {page, context: ctx} = await context(browser, name, {folderInput});
+async function stalledAccess(browser, name, drive, {stage = 'picker', width, theme, shot} = {}) {
+  const folderInput = name !== 'chromium';
+  const {page, context: ctx} = await context(browser, name, {folderInput, width, theme});
   const folder = join(drive, 'LIBRARY/ZIM');
+  const ready = page.locator('#article-paper[data-ready=true]');
+  const status = page.locator('#article-status');
+  const dialog = page.locator('dialog[open]');
+  const screenshot = async () => {
+    if (shot) await page.screenshot({path: shot, animations: 'disabled'});
+  };
+  const checkSlowStatus = async () => {
+    assert.equal(await status.innerText(), 'Opening…');
+    await page.clock.fastForward(10_000);
+    assert.equal(await status.innerText(), 'Still reading from KINGSTON…');
+    assert.equal(await status.locator('mark').innerText(), 'KINGSTON');
+    assert.equal(await dialog.count(), 0);
+    assert.equal(await ready.count(), 0);
+    await screenshot();
+  };
   try {
     await page.clock.install();
     await page.goto(url(drive, '#/all'));
     if (!folderInput) await seedChromium(page, drive);
     const link = page.locator('.archive-row > a').filter({hasText: 'WikiMed'});
-    if (stage === 'article') {
-      await page.evaluate(() => {
+    if (stage === 'article' || stage === 'denied') {
+      await page.evaluate(deny => {
         const read = Blob.prototype.arrayBuffer;
         Blob.prototype.arrayBuffer = function () {
           Blob.prototype.arrayBuffer = read;
-          return new Promise(() => {});
+          if (deny) return Promise.reject(new DOMException('Access denied', 'NotAllowedError'));
+          return new Promise((resolve, reject) => {
+            window.finishRead = () => read.call(this).then(resolve, reject);
+          });
+        };
+      }, stage === 'denied');
+      await choose(page, link, folderInput, 'valid', folder);
+      if (stage === 'article') {
+        await page.waitForFunction(() => typeof window.finishRead === 'function');
+        await checkSlowStatus();
+        await page.evaluate(() => finishRead());
+      }
+    } else if (stage === 'granted parts') {
+      await choose(page, link, false, 'valid');
+      await ready.waitFor();
+      await route(page, '#/all');
+      await link.waitFor();
+      await page.evaluate(() => {
+        const getFile = FileSystemFileHandle.prototype.getFile;
+        FileSystemFileHandle.prototype.getFile = function () {
+          FileSystemFileHandle.prototype.getFile = getFile;
+          return new Promise((resolve, reject) => {
+            window.finishRead = () => getFile.call(this).then(resolve, reject);
+          });
         };
       });
+      await link.click();
+      await page.waitForFunction(() => typeof window.finishRead === 'function');
+      await checkSlowStatus();
+      await page.evaluate(() => finishRead());
+      assert.equal(await page.evaluate(() => pickerCalls), 1);
+    } else if (stage === 'images') {
+      await page.evaluate(() => {
+        const held = new Promise(resolve => { window.finishImages = resolve; });
+        const descriptor = Object.getOwnPropertyDescriptor(HTMLIFrameElement.prototype, 'contentDocument');
+        const instrumented = new WeakSet();
+        window.heldDecodes = 0;
+        Object.defineProperty(HTMLIFrameElement.prototype, 'contentDocument', {...descriptor, get() {
+          const doc = descriptor.get.call(this);
+          const prototype = doc?.URL === 'about:srcdoc' && doc.defaultView.HTMLImageElement.prototype;
+          if (prototype && !instrumented.has(prototype)) {
+            instrumented.add(prototype);
+            const decode = prototype.decode;
+            prototype.decode = function () {
+              window.heldDecodes++;
+              return held.then(() => decode.call(this));
+            };
+          }
+          return doc;
+        }});
+      });
       await choose(page, link, folderInput, 'valid', folder);
-      await page.locator('#article-status').waitFor();
-    } else if (stage === 'denied') await choose(page, link, folderInput, 'denied');
-    else {
-      await choose(page, link, folderInput, stage === 'picker' ? 'pending' : 'stalled-read');
+      await page.waitForFunction(() => heldDecodes > 0);
+      await page.clock.fastForward(10_000);
+      assert.equal(await ready.isVisible(), true);
+      assert.equal(await page.frameLocator('#article-paper iframe').getByRole('link', {name: 'Next article'}).isVisible(), true);
+      assert.equal(await status.count(), 0);
+      assert.equal(await dialog.count(), 0);
+      assert.equal(await page.evaluate(() => archiveEvents.length), 0);
+      await page.evaluate(() => { finishImages(); });
+      const result = await archiveEvent(page);
+      assert.ok(result.images > 0);
+      assert.equal(result.images, result.shown);
+    } else if (stage === 'selection validation') {
+      await choose(page, link, false, 'slow-validation');
+      await page.waitForFunction(() => typeof window.finishValidation === 'function');
+      await page.clock.fastForward(10_000);
       await checkPicking(page);
-    }
-    if (stage === 'picker') {
-      // Holding a native dialog open must not use up the timeout.
+      await page.evaluate(() => finishValidation());
+    } else if (stage === 'picker denial') await choose(page, link, false, 'denied');
+    else {
+      const chooser = await choose(page, link, folderInput, 'pending');
+      await checkPicking(page);
+      const caption = dialog.locator('.picker-instruction');
+      const instruction = await caption.innerText();
+      const hint = dialog.getByText('If you see “Allow this site to view and copy files?”, click Allow.');
       await page.evaluate(() => dispatchEvent(new Event('blur')));
       await page.clock.fastForward(5000);
       await checkPicking(page);
+      assert.equal(await hint.count(), 0);
       await page.evaluate(() => dispatchEvent(new Event('focus')));
+      await page.clock.fastForward(750);
+      assert.equal(await hint.count(), 0);
+      await page.clock.fastForward(10_000);
+      await checkPicking(page);
+      assert.equal(await caption.innerText(), instruction);
+      assert.equal(await hint.count(), folderInput ? 0 : 1);
       if (!folderInput) {
-        await page.clock.fastForward(600);
-        assert.match(await page.locator('dialog').innerText(), /If you see “Allow this site to view and copy files\?”, click Allow\./);
-        await checkPicking(page);
+        assert.equal(await hint.locator('mark').innerText(), 'Allow');
+        assert.equal(await page.evaluate(() => permissionRequests), 0);
+      }
+      if (stage === 'dismissed picker') {
+        const before = page.url();
+        await page.keyboard.press('Escape');
+        await dialog.waitFor({state: 'hidden'});
+        await page.evaluate(() => finishPicker());
+        assert.equal(page.url(), before);
+        assert.equal(await ready.count(), 0);
+        await choose(page, link, false, 'valid');
+      } else {
+        if (chooser) await chooser.setFiles(folder);
+        else await page.evaluate(() => finishPicker());
       }
     }
-    if (stage !== 'denied') await page.clock.fastForward(4500);
-    const sheet = page.locator('dialog[open][data-reason=stalled]');
-    await sheet.waitFor();
-    assert.match(await sheet.innerText(), /The browser did not finish opening the library\./);
-    assert.deepEqual(await sheet.getByRole('button').allTextContents(), [folderInput ? 'Try again' : 'Choose the ZIM folder']);
-    if (!folderInput && stage === 'picker') {
-      // A late picker result must not replace the recovery action.
-      await page.evaluate(() => finishPicker());
-      assert.equal(await sheet.isVisible(), true);
+    if (stage === 'denied' || stage === 'picker denial') {
+      const sheet = page.locator('dialog[open][data-reason=stalled]');
+      await sheet.waitFor();
+      assert.equal(await sheet.getByRole('heading').innerText(), 'Drive access was denied');
+      assert.equal(await sheet.getByRole('status').innerText(), 'This page couldn’t read KINGSTON.');
+      assert.deepEqual(await sheet.getByRole('button').allTextContents(), [folderInput ? 'Try again' : 'Choose the ZIM folder']);
+      await screenshot();
+      await choose(page, sheet.getByRole('button'), true, 'valid', folder);
     }
-    await choose(page, sheet.getByRole('button'), true, 'valid', folder);
-    await page.locator('#article-paper[data-ready=true]').waitFor();
-    assert.equal(await sheet.isVisible(), false);
+    await ready.waitFor();
+    assert.equal(await dialog.count(), 0);
+    assert.equal(await status.count(), 0);
     return stage;
   } finally {
     await ctx.close();
@@ -831,17 +935,27 @@ async function main() {
         const record = {fixture: await flow(browser, name, drive, {wrong})};
         record.folders = await folderVariants(browser, name, drive, wrong, evidence);
         record.reconnect = [await reconnect(browser, name, drive, {folderInput: true})];
-        record.stalled = [await stalledAccess(browser, name, drive), await stalledAccess(browser, name, drive, {stage: 'article'})];
+        const stages = ['picker', 'article', 'images', 'denied'];
         if (name === 'chromium') {
           record.reconnect.push(await reconnect(browser, name, drive, {folderInput: false}));
           record.reconnect.push(await reconnect(browser, name, drive, {folderInput: false, stale: true}));
           record.rememberedPermission = await rememberedPermission(browser, drive);
-          record.stalled.push(await stalledAccess(browser, name, drive, {stage: 'selection validation'}));
-          record.stalled.push(await stalledAccess(browser, name, drive, {stage: 'denied'}));
+          stages.push('selection validation', 'granted parts', 'dismissed picker', 'picker denial');
         }
+        record.slowAccess = [];
+        for (const stage of stages) record.slowAccess.push(await stalledAccess(browser, name, drive, {stage}));
         if (preview) record.real = await flow(browser, name, preview, {realZimFolder: zimFolder, wrong});
         reports.push(record);
         console.log(JSON.stringify(record));
+        if (evidence) {
+          for (const width of [1280, 390]) {
+            for (const theme of ['light', 'dark']) {
+              const shot = join(evidence, `${name}-${width}-${theme}`);
+              await stalledAccess(browser, name, drive, {stage: 'article', width, theme, shot: shot + '-still-reading.png'});
+              await stalledAccess(browser, name, drive, {stage: 'denied', width, theme, shot: shot + '-access-denied.png'});
+            }
+          }
+        }
         if (evidence && (preview || name === 'webkit')) {
           for (const width of [1280, 390]) {
             for (const theme of ['light', 'dark']) {

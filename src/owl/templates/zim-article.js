@@ -151,6 +151,7 @@
           const found = await find(target);
           if (resourceType.test(found?.mime || "")) {
             const blob = await zim.blob(found);
+            signal.throwIfAborted();
             if (resourceBytes + blob.size <= maxResources) {
               resourceBytes += blob.size;
               url = URL.createObjectURL(blob);
@@ -159,7 +160,8 @@
             }
           }
         } catch (error) {
-          if (["disconnected", "timeout"].includes(error.code)) throw error;
+          signal.throwIfAborted();
+          if (error.code === "disconnected") throw error;
         }
         resources.set(key, url);
       }
@@ -185,7 +187,7 @@
                 imports.push(media ? "@media " + media + "{" + content + "}" : content);
               }
             } catch (error) {
-              if (["disconnected", "timeout"].includes(error.code)) throw error;
+              if (error.code === "disconnected") throw error;
             }
           }
           return "";
@@ -228,7 +230,7 @@
               node.replaceWith(style);
             }
           } catch (error) {
-            if (["disconnected", "timeout"].includes(error.code)) throw error;
+            if (error.code === "disconnected") throw error;
           }
         }
         node.remove();
