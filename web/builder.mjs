@@ -1450,8 +1450,10 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
     searchBudget: resuming ? Math.min(saved.searchBudget ?? searchBudget, searchBudget) : searchBudget});
   const fileLimit = () => archiveFileLimit(fat32, singleArchives || joinArchives, state.largeFileLimited);
   const {legacy} = inspection;
-  const guardedDrive = guardReader(drive, state, legacy, {fullVerify, signal});
   const previousPins = legacy.size ? legacy : saved ? await publishedReaderFiles(drive) : new Map();
+  // Another OWL builder can rewrite reader files after this record was saved; the drive's
+  // checksum list vouches for those. Files a person changed match neither and still block.
+  const guardedDrive = guardReader(drive, state, previousPins, {fullVerify, signal});
   const keepPublished = Boolean(saved?.syncedAt || previousPins.has(START_PAGE));
   const catalogPaths = new Map(catalogAssets.map(asset => [asset.id, asset.destination]));
   const retirement = {catalogPaths, previousPins, signal};
@@ -1782,7 +1784,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
       .map(({asset, layout}) => ({id: asset.id, title: asset.title, parts: layout.length}));
     const before = new Set(state.generated);
     const assemblySignal = paused ? undefined : signal;
-    const assemblyDrive = paused ? guardReader(drive, state, legacy, {fullVerify, signal: assemblySignal}) : guardedDrive;
+    const assemblyDrive = paused ? guardReader(drive, state, previousPins, {fullVerify, signal: assemblySignal}) : guardedDrive;
     try {
       ({warnings: searchWarnings, supportMissing, keptPublished} = await assembleLibrary(assemblyDrive,
         {completed, missing, keptInParts, compact, unavailableSupport: [...unavailableSupport, ...missingApps],
@@ -1791,7 +1793,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
         layouts: new Map([...present].map(([id, row]) => [id, row.layout])),
         parts: Object.fromEntries([...present].map(([id, row]) => [id, row.parts])),
         searchBudget: state.searchBudget, fetchFile, signal: assemblySignal, network, syncedAt, onPublished, driveName: drive.name,
-        publishReplacement: keepPublished ? files => publishReplacement(drive, state, legacy, fullVerify, files) : undefined}));
+        publishReplacement: keepPublished ? files => publishReplacement(drive, state, previousPins, fullVerify, files) : undefined}));
       if (keptPublished) return retainPublished();
       break;
     } catch (error) {

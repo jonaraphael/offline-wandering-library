@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fix Sync stopping with "An existing file blocks LIBRARY/README.txt. Choose another library folder." after the Python builder or another OWL tool updated the drive's pages. Sync now replaces a page whose contents match the drive's `LIBRARY/SHA256SUMS.txt`. A page a person edited still stops Sync and stays untouched.
 - Combine a split archive's parts into one file after every download in the sync is done, with "combining *title*, *n* of *total* parts" on the page. Before, a 180 GB archive was copied right after its last part, with nothing on screen and no other download for about 2 hours. **Technical details** moves to a small link in the page's bottom corner, available on every screen.
 - Resume a split archive without rereading its saved parts. Each saved part records the running whole-file hash, so Sync continues from the newest part. An archive with every part saved finishes at once: saving its last part already required the whole-file SHA-256 to match. After a closed tab or an unplugged drive, only parts saved in the 10 minutes before the last record save are reread. Before, resuming a 180 GB archive reread all 180 GB with no progress on screen. The page now shows "checking saved parts of *title*, *n* of *total*" while it rereads.
 - Fix Sync stopping with "OWL could not finish this step" when it resumes an archive with saved parts. The page's progress text expected totals that only the drive check sends. A display error no longer stops a sync; it goes to the diagnostics with its location.
