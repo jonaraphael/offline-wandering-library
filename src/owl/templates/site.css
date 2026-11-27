@@ -196,7 +196,7 @@ html:not(.live) .view, html:not(.live) .tabs { display: none; }
 .category-filters { margin-bottom: 12px; }
 .all-items { margin-top: 10px; }
 .search-options { margin: 4px 0; }
-.search-options summary, .device-choice summary { cursor: pointer; min-height: 44px; align-content: center; color: var(--accent); }
+.search-options summary, .device-choice summary, .apps-choice summary { cursor: pointer; min-height: 44px; align-content: center; color: var(--accent); }
 .search-options select, .device-choice select { max-width: 100%; min-height: 44px; font: inherit; }
 .button { cursor: pointer; }
 .sheet { top: auto; width: 100%; max-height: calc(100% - 16px); overflow-y: auto; border: 0; color: var(--ink); }
@@ -227,8 +227,12 @@ h1[tabindex="-1"]:focus, h2[tabindex="-1"]:focus { outline: none; }
 .article-start p { margin: 0 0 12px; font-weight: 650; }
 .article-start p.note { margin-top: -6px; font-weight: 400; }
 .article-heading .article-source { margin: 0; }
-.article-fallback .article-trail { margin: 14px 0; }
-.article-fallback .button { margin-top: 4px; }
+.article-problem .article-trail { margin: 14px 0; }
+.article-problem .button { margin-top: 4px; }
+.article-paper.app-view { padding: 0; overflow: hidden; }
+.article-paper.file-view img, .article-paper.file-view video { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.article-paper.file-view iframe { height: 80vh; }
+.article-paper.file-view audio { display: block; width: 100%; }
 .picker-instruction { font-size: 18px; margin-bottom: 8px; }
 .sheet mark, #article-status mark, .article-start mark { padding: 0 .22em; border-radius: 4px; background: #ffe280; color: #272008; font-weight: 700; }
 @media (min-width: 720px) { .article-paper iframe { --article-scroll-offset: 74px; } }

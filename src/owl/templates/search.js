@@ -809,7 +809,7 @@
     return result;
   }
 
-  function mount(view, {open, openUrgent, archiveHref, urgentHref, archiveAccess, archiveLabel, tasks = [], priority = {}, categoryIds}) {
+  function mount(view, {open, openUrgent, archiveHref, urgentHref, archiveAccess, tasks = [], priority = {}, categoryIds}) {
     const form = view.querySelector('form'), status = view.querySelector('#search-status');
     const list = view.querySelector('#search-results'), query = form.querySelector('#query');
     const category = form.querySelector('#search-category'), examples = form.querySelector('#search-examples');
@@ -842,7 +842,8 @@
         if (manifest.shards) rankReady = loadRank(categoryIds);
         message('');
       } catch (error) {
-        message(error.message + ' Browse the books and guides from Home.');
+        message(error.message);
+        appendBrowseHome();
       } finally {
         delete root.OWLDiscoveryManifest;
         delete root.OWLDiscoveryData;
@@ -888,8 +889,6 @@
         else card.append(element('span', 'Urgent', 'label urgent'));
         card.append(element('h3', urgent.task));
         const archive = urgent.format === 'zim';
-        const byline = archive && archiveLabel?.(urgent.id);
-        if (byline) card.append(element('small', byline));
         const link = element('a', browse ? 'Browse Home' : 'Open', 'button');
         link.href = archive ? urgentHref(urgent) : urgent.href;
         link.addEventListener('click', event => {
@@ -911,12 +910,10 @@
         }
         const archive = isArchive(record), name = heading(record);
         const {source_title: source, description} = record;
-        const kiwix = archive && archiveLabel?.(record.asset_id || record.id);
         const byline = [source !== name && source, !archive && record.location].filter(Boolean).join(' · ');
         if (byline) card.append(element('small', byline));
         card.append(element('h3', name));
-        if (kiwix) card.append(element('small', kiwix));
-        else if (description) {
+        if (description) {
           card.append(passage(/[.!?…:]$/.test(description) ? description : description + '…', words));
           if (indexed) {
             const license = normalize(record.license).replace(/[-\s]+/g, ' ');

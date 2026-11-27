@@ -44,6 +44,21 @@ test('reads zstd and plain clusters across arbitrary split boundaries and reuses
   }
 });
 
+test('shares a compressed cluster when several resources request it before the first read finishes', async () => {
+  const zim = await read({compression: 5});
+  const [page, image] = await Promise.all([zim.get('Second'), zim.get('_assets/marker.svg')]);
+  const before = zim.bytesRead;
+  const [article, svg] = await Promise.all([zim.blob(page), zim.blob(image)]);
+  assert.match(await article.text(), /Second-page marker/);
+  assert.match(await svg.text(), /<svg/);
+  const serial = await read({compression: 5});
+  const entry = await serial.get('Second');
+  const serialBefore = serial.bytesRead;
+  await serial.blob(entry);
+  assert.equal(zim.bytesRead - before, serial.bytesRead - serialBefore);
+  assert.equal(zim.cachedBytes, zim.clusters.get(page.cluster).length);
+});
+
 test('rejects truncated headers, unsupported clusters, corrupt offsets and redirect cycles', async () => {
   const bytes = makeZim();
   await assert.rejects(() => new Zim(new Blob([bytes.subarray(0, 50)])).init(), /Invalid ZIM/);

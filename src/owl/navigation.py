@@ -30,16 +30,17 @@ CATEGORIES = [*_CATEGORY_DATA["categories"], _CATEGORY_DATA["other"]]
 _VERTICALS = _package_json("topic_verticals.json")["verticals"]
 _COPY = _package_json("collection_copy.json")["collections"]
 _READER_CSS = (TEMPLATES / "site.css").read_text(encoding="utf-8")
-_DEVICES = ("iphone", "android", "windows", "mac", "linux")
+_DEVICES = ("iphone", "android")
+_URI_SAFE = "!*'()"  # with quote's defaults, the characters encodeURIComponent keeps
 _FORMATS = {"pdf": "PDF", "html": "Web page", "htm": "Web page", "epub": "EPUB book",
             "zim": "Encyclopedia", "txt": "Text", "zip": "ZIP"}
 GENERATED_PATHS = ("START_HERE.html", PHONE_CATALOG, "README.txt", "INVENTORY.html", "BUILD_REPORT.html")
 READER_GENERATION = re.compile(r"INDEX/[0-9a-f]{12}/")
 SHARED_SEARCH = re.compile(r"SEARCH/shared/[0-9a-f]{64}\.js\Z")
-ZIM_RUNTIME = ("fzstd.js", "zim.js", "zim-drive.js", "zim-article.js")
+ZIM_RUNTIME = ("fzstd.js", "zim.js", "zim-drive.js", "zim-article.js", "zim-app.html")
 # These archive versions need Kiwix to show their content.
-_KIWIX_KINDS = {"ZIM/phet_en_all_2026-08.zim": "Simulations",
-                "ZIM/oer4schools_en_all_2025-10.zim": "Teacher training"}
+# Plain labels for archives that are not encyclopedias, by file-name prefix.
+_ARCHIVE_KINDS = {"phet_": "Simulations", "oer4schools_": "Teacher training"}
 SEARCH_SCRIPTS = ("manifest.js", "rank.js", "shards.js", "rerank.js")
 SEARCH_SUPPORT = re.compile(r"SEARCH/(?:model\.js|(?:model|impact|transformer)/[a-zA-Z0-9.-]+\.js)\Z")
 FIRST_RESPONSE = {"cert", "medical_bec"}
@@ -135,8 +136,10 @@ def navigation_assets(assets, collections=None, topics=None) -> dict:
                                           asset.get("title", "").lower().endswith(" first aid")),
                             "book": books.get(identity), "topics": (topics or {}).get(identity, []), "kind": kind,
                             "publisher": asset.get("publisher"), "attribution": asset.get("attribution")}
-        if asset["destination"] in _KIWIX_KINDS:
-            result[identity]["kiwixKind"] = _KIWIX_KINDS[asset["destination"]]
+        archive_kind = next((label for prefix, label in _ARCHIVE_KINDS.items()
+                             if asset.get("format") == "zim" and PurePosixPath(asset["destination"]).name.startswith(prefix)), None)
+        if archive_kind:
+            result[identity]["archiveKind"] = archive_kind
     return result
 
 
@@ -177,8 +180,8 @@ def _row(asset, data):
            "format": asset["format"], "bytes": asset.get("size_bytes", asset.get("bytes", 0))}
     if len(asset.get("parts") or ()) > 1:
         row["parts"] = len(asset["parts"])
-    if data.get("kiwixKind"):
-        row["kiwixKind"] = data["kiwixKind"]
+    if data.get("archiveKind"):
+        row["archiveKind"] = data["archiveKind"]
     return row
 
 
@@ -336,9 +339,12 @@ def _reader_files(assets, inventory, scripts, shared, drive=None):
         path = row["path"]
         detail = " · ".join(_text(asset.get(key)) for key in ("license", "attribution") if asset.get(key))
         if row.get("parts", 1) > 1:
-            detail = " · ".join(filter(None, [detail, f"{row['parts']} parts. Keep them together and open the first."]))
+            detail = " · ".join(filter(None, [detail, f"{row['parts']} parts. Keep them together."]))
+        # An encyclopedia opens in the reader; linking the .zim would make the browser copy it.
+        href = (f"../START_HERE.html#/read/{quote(row['id'], safe=_URI_SAFE)}/%40main" if row["format"] == "zim"
+                else row["href"].removeprefix("LIBRARY/"))
         inventory_rows.append(render(markup["inventory_row"], path=_text(path),
-                                     link=render(markup["location_link"], href=_text(row["href"].removeprefix("LIBRARY/")), text=label),
+                                     link=render(markup["location_link"], href=_text(href), text=label),
                                      detail="<small>" + detail + "</small>" if detail else ""))
     pages["INVENTORY.html"] = document("Every file, with its location",
         "<p>See <a href=\"INVENTORY.json\">file details, sources and checksums</a>.</p><ul>" + "".join(inventory_rows) + "</ul>")

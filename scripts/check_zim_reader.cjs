@@ -15,6 +15,7 @@ const {makeZim, inspectMarkup} = require('../tests/search/zim-fixture.cjs');
 const [site, preview, zimFolder, evidence] = process.argv.slice(2);
 const readName = 'Cardiopulmonary_resuscitation';
 const cpr = 'a[href*="' + readName + '"].button';
+const directoryHandle = name => name === 'chromium' && !process.env.OWL_CHROME;
 const hash = value => createHash('sha256').update(value).digest('hex');
 const url = (drive, route = '#/') => pathToFileURL(join(drive, 'START_HERE.html')).href + route;
 
@@ -75,29 +76,47 @@ async function fixture(output) {
   }
 }
 
-async function context(browser, name, {width = 1280, theme = 'light', folderInput = name !== 'chromium'} = {}) {
+async function context(browser, name, {width = 1280, theme = 'light', folderInput = !directoryHandle(name)} = {}) {
   const context = await browser.newContext({colorScheme: theme, viewport: {width, height: width === 390 ? 844 : 900},
     isMobile: name !== 'firefox' && width === 390, hasTouch: width === 390});
   await context.route(/^https?:/i, route => route.abort('internetdisconnected'));
   const page = await context.newPage();
-  const csp = [], errors = [], requests = [];
+  const csp = [], errors = [], requests = [], inertInlineHandlers = new Set();
+  const app = {csp: 0, errors: 0, requests: 0};
+  // Archive pages that run in the sandboxed zim-app.html frame may try the network or
+  // throw; their own policy blocks the first, and neither is the reader's fault.
+  const inApp = value => /zim-app\.html|^blob:/.test(value || '');
   page.setDefaultTimeout(20_000);
   page.on('console', message => {
-    if (/content security policy|violates.{0,60}directive/i.test(message.text())) csp.push(message.text());
+    if (!/content security policy|violates.{0,60}directive|blocked the loading of a resource/i.test(message.text())) return;
+    const {url, lineNumber} = message.location();
+    // Chrome can report a blocked archive handler when the inert parser reads it.
+    if (/\/zim-article\.js$/.test(url) && /^Executing inline event handler violates/.test(message.text())) {
+      inertInlineHandlers.add(lineNumber + 1);
+    } else if (inApp(url) || /connect-src blob: data:/.test(message.text())) app.csp++;
+    else csp.push(message.text());
   });
-  page.on('pageerror', error => errors.push(error.message));
-  page.on('request', request => { if (/^https?:/i.test(request.url())) requests.push(request.url()); });
+  page.on('pageerror', error => {
+    if (inApp(error.stack)) app.errors++;
+    else errors.push(error.message);
+  });
+  page.on('request', request => {
+    if (!/^https?:/i.test(request.url())) return;
+    if (inApp(request.frame().url())) app.requests++;
+    else requests.push(request.url());
+  });
   await page.addInitScript(() => {
     window.archiveEvents = [];
     window.policyEvents = [];
     window.accessEvents = [];
     document.addEventListener('owl:archive', event => archiveEvents.push(event.detail), true);
-    document.addEventListener('securitypolicyviolation', event => policyEvents.push([event.violatedDirective, event.blockedURI]));
+    document.addEventListener('securitypolicyviolation', event =>
+      policyEvents.push([event.violatedDirective, event.blockedURI, event.lineNumber]));
     document.addEventListener('DOMContentLoaded', () => {
       const sheet = document.querySelector('dialog.sheet');
       if (!sheet) return;
       new MutationObserver(() => {
-        if (sheet.open) accessEvents.push({state: sheet.dataset.reason, text: sheet.innerText,
+        if (sheet.open) accessEvents.push({state: sheet.dataset.reason, text: sheet.innerText, time: performance.now(),
           keys: [...sheet.querySelectorAll('mark')].map(mark => mark.textContent),
           buttons: [...sheet.querySelectorAll('button')].map(button => button.textContent),
           instruction: sheet.querySelector('.picker-instruction')?.innerHTML,
@@ -108,6 +127,10 @@ async function context(browser, name, {width = 1280, theme = 'light', folderInpu
   if (name === 'chromium' && folderInput) await page.addInitScript(() => { delete window.showDirectoryPicker; });
   await page.addInitScript(() => {
     window.inputActivations = [];
+    window.folderSelections = 0;
+    document.addEventListener('change', event => {
+      if (event.target.id === 'zim-folder') window.folderSelections++;
+    }, true);
     const click = HTMLInputElement.prototype.click;
     HTMLInputElement.prototype.click = function () {
       if (this.id === 'zim-folder') inputActivations.push(navigator.userActivation.isActive);
@@ -121,20 +144,27 @@ async function context(browser, name, {width = 1280, theme = 'light', folderInpu
       window.pickerMode = 'valid';
       window.permissionChecks = [];
       window.permissionRequests = 0;
+      window.legacyHandleOperations = [];
+      for (const method of ['put', 'get']) {
+        const original = IDBObjectStore.prototype[method];
+        IDBObjectStore.prototype[method] = function (...args) {
+          if (this.transaction.db.name === 'owl-reader') legacyHandleOperations.push(method);
+          return original.apply(this, args);
+        };
+      }
       const prototype = FileSystemDirectoryHandle.prototype;
       prototype.queryPermission = ({mode}) => {
         permissionChecks.push(mode);
-        const result = sessionStorage.getItem('test-permission') || 'granted';
-        return result === 'pending' ? new Promise(() => {}) : Promise.resolve(result);
+        throw Error('The reader must never query folder permission');
       };
       prototype.requestPermission = () => {
         permissionRequests++;
         throw Error('The reader must never request permission');
       };
-      window.showDirectoryPicker = async ({mode, startIn}) => {
+      window.showDirectoryPicker = async options => {
         const active = navigator.userActivation.isActive;
-        pickerOptions.push({mode, active, startIn});
-        if (mode !== 'read' || !active) throw Error('Picker must run within a read-only click');
+        pickerOptions.push({options, active});
+        if (options.mode !== 'read' || !active) throw Error('Picker must run within a read-only click');
         pickerCalls++;
         if (pickerMode === 'cancel') throw new DOMException('Cancelled', 'AbortError');
         if (pickerMode === 'pending') return new Promise(resolve => { window.finishPicker = () => resolve(window.testFolder); });
@@ -153,7 +183,7 @@ async function context(browser, name, {width = 1280, theme = 'light', folderInpu
       };
     });
   }
-  return {context, page, csp, errors, requests};
+  return {context, page, csp, errors, requests, app, inertInlineHandlers};
 }
 
 async function seedChromium(page, drive, realZimFolder, selection = 'KINGSTON') {
@@ -202,7 +232,7 @@ async function seedChromium(page, drive, realZimFolder, selection = 'KINGSTON') 
         },
       });
       const opfs = window.testFolder;
-      window.testFolder = {name: opfs.name, queryPermission: async () => 'granted',
+      window.testFolder = {name: opfs.name,
         getFileHandle: name => opfs.getFileHandle(name),
         async getDirectoryHandle(name) {
           const dir = await opfs.getDirectoryHandle(name);
@@ -224,8 +254,18 @@ async function choose(page, button, folderInput, mode, folder) {
   if (mode === 'cancel') {
     // Playwright cannot press the native panel's Cancel button.
     await chooser.element().dispatchEvent('cancel');
-  } else if (mode !== 'pending') await chooser.setFiles(folder);
+  } else if (mode !== 'pending') await selectFolder(page, chooser, folder);
   return chooser;
+}
+
+async function selectFolder(page, chooser, folder) {
+  const previous = await page.evaluate(() => folderSelections);
+  // Some WebKit runs dispatch change before Playwright finishes waiting for input.
+  // The change event is what the reader actually uses.
+  await Promise.race([
+    chooser.setFiles(folder),
+    page.waitForFunction(count => folderSelections > count, previous),
+  ]);
 }
 
 async function archiveEvent(page, prior = 0) {
@@ -249,6 +289,7 @@ function checkPickerCopy(name, access, folderInput) {
   if (!folderInput) {
     assert.deepEqual(access.keys, ['KINGSTON', 'Select']);
     assert.match(access.text, /This page only reads the drive\. Nothing is copied or sent\./);
+    assert.doesNotMatch(access.text, /Allow/);
   } else if (name === 'firefox') {
     assert.deepEqual(access.keys, ['KINGSTON', 'LIBRARY', 'ZIM', 'Open', 'Upload']);
     assert.match(access.text, /Firefox’s Confirm Upload window, click Upload\. Nothing leaves this computer\./);
@@ -300,7 +341,7 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
   const {page} = state;
   const check = {};
   const output = {engine: name + ' ' + browser.version(), check, articles: [], mains: []};
-  const folderInput = name !== 'chromium';
+  const folderInput = !directoryHandle(name);
   const folder = realZimFolder || join(drive, 'LIBRARY', 'ZIM');
   const changeCount = () => page.evaluate(() => archiveEvents.length);
   const result = page.locator(cpr).first();
@@ -314,24 +355,17 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
       await query(page, 'PhET simulation archive');
       const phet = page.locator('a.button[href*="phet_archive"]').first();
       await phet.waitFor();
+      assert.doesNotMatch(await phet.locator('..').innerText(), /Kiwix/);
       await query(page, 'OER4Schools');
       const oer = page.locator('a.button[href*="oer4schools"]').first();
       await oer.waitFor();
-      assert.equal(await oer.locator('..').locator('h3 + small').innerText(), 'Teacher training · Opens in the Kiwix app');
-      assert.equal(await oer.locator('..').locator('p.text').count(), 0);
-      await query(page, 'PhET simulation archive');
-      assert.equal(await phet.locator('..').locator('h3 + small').innerText(), 'Simulations · Opens in the Kiwix app');
-      assert.equal(await phet.locator('..').locator('p.text').count(), 0);
-      if (shot) await phet.locator('..').scrollIntoViewIfNeeded();
-      await snapshot('search-kiwix');
-      await phet.click();
-      await page.locator('.article-fallback[data-reason=scripts]').waitFor();
-      assert.deepEqual(await page.evaluate(() => accessEvents), []);
-      await route(page, '#/search');
-      await page.locator('#query').waitFor();
-      check.knownArchiveBeforeAccess = true;
+      assert.doesNotMatch(await oer.locator('..').innerText(), /Kiwix/);
+      if (shot) await oer.locator('..').scrollIntoViewIfNeeded();
+      await snapshot('search-app-archives');
+      await query(page, 'cpr');
+      check.appArchivesListedLikeOthers = true;
     }
-    if (name === 'chromium') await seedChromium(page, drive, realZimFolder);
+    if (!folderInput) await seedChromium(page, drive, realZimFolder);
     await query(page);
     await result.waitFor();
     if (!realZimFolder) assert.match(await page.locator('[data-reviewed]').first().innerText(), /Medical resuscitation algorithm/);
@@ -350,7 +384,7 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     const nextChooser = await choose(page, retry, folderInput, 'pending');
     await checkPicking(page);
     await snapshot('first-open');
-    if (nextChooser) await nextChooser.setFiles(folder);
+    if (nextChooser) await selectFolder(page, nextChooser, folder);
     else await page.evaluate(() => finishPicker());
 
     await page.locator('#article-paper[data-ready=true]').waitFor();
@@ -432,26 +466,21 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     await page.locator('[data-read-back]').click();
     await result.waitFor();
     check.back = true;
-    const calls = name === 'chromium' ? await page.evaluate(() => pickerCalls) : 0;
+    const calls = !folderInput ? await page.evaluate(() => pickerCalls) : 0;
     await result.click();
     await page.locator('#article-paper[data-ready=true]').waitFor();
     assert.equal(await page.locator('dialog').evaluate(node => node.open), false);
-    if (name === 'chromium') assert.equal(await page.evaluate(() => pickerCalls), calls);
+    if (!folderInput) assert.equal(await page.evaluate(() => pickerCalls), calls);
     check.secondOpen = true;
     await page.reload();
-    if (name === 'chromium' && !realZimFolder) {
-      await page.locator('#article-paper[data-ready=true]').waitFor();
-      assert.equal(await page.evaluate(() => pickerCalls), 0);
-    } else {
-      if (name === 'chromium') await seedChromium(page, drive, realZimFolder);
-      const reopen = page.locator('.article-start').getByRole('link', {name: 'Open'});
-      await reopen.waitFor();
-      assert.equal(await reopen.count(), 1);
-      // A second Open must say why the browser needs it.
-      assert.match(await page.locator('.article-start').innerText(), /The browser needs one click to read KINGSTON again\./);
-      await choose(page, reopen, folderInput, 'valid', folder);
-      await page.locator('#article-paper[data-ready=true]').waitFor();
-    }
+    if (!folderInput) await seedChromium(page, drive, realZimFolder);
+    const reopen = page.locator('.article-start').getByRole('link', {name: 'Open'});
+    await reopen.waitFor();
+    assert.equal(await reopen.count(), 1);
+    // A second Open must say why the browser needs it.
+    assert.match(await page.locator('.article-start').innerText(), /The browser needs one click to read KINGSTON again\./);
+    await choose(page, reopen, folderInput, 'valid', folder);
+    await page.locator('#article-paper[data-ready=true]').waitFor();
     assert.equal(await page.evaluate(() => location.hash), oldRoute);
     check.reload = true;
     await page.getByRole('button', {name: /Save WikiMed/}).click();
@@ -491,8 +520,9 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     await page.locator('.archive-row').first().waitFor();
     if (realZimFolder) {
       const phet = page.locator('.archive-row').filter({hasText: 'PhET simulation archive'});
-      assert.match(await phet.innerText(), /Simulations · Opens in the Kiwix app/);
-      assert.match(await page.locator('.archive-row').filter({hasText: 'OER4Schools'}).innerText(), /Teacher training · Opens in the Kiwix app/);
+      assert.match(await phet.innerText(), /Simulations/);
+      assert.match(await page.locator('.archive-row').filter({hasText: 'OER4Schools'}).innerText(), /Teacher training/);
+      assert.doesNotMatch(await page.locator('.list').first().innerText(), /Kiwix/);
       await phet.scrollIntoViewIfNeeded();
     }
     await snapshot('all');
@@ -510,40 +540,33 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
       await link.click();
       const main = await archiveEvent(page, prior);
       output.mains.push(main);
-      if (main.reason === 'scripts') {
-        const fallback = page.locator('.article-fallback');
-        assert.match(await fallback.innerText(), /Open this file in the Kiwix app/);
-        assert.equal(await page.locator('dialog').evaluate(node => node.open), false);
-        assert.equal(await fallback.locator('.button').count(), 1);
-        const installer = fallback.locator('.button');
-        assert.match(await installer.getAttribute('href'), /^LIBRARY\/SOFTWARE\/MACOS\//);
-        assert.equal(await installer.getAttribute('download'), name === 'chromium' ? '' : null);
-        assert.equal(await fallback.getByText('Saves the installer to Downloads. Open it there to install Kiwix.', {exact: true}).count(),
-          name === 'chromium' ? 1 : 0);
-        if (name === 'chromium' && !realZimFolder) {
-          const [download] = await Promise.all([page.waitForEvent('download'), installer.click()]);
-          assert.equal(download.suggestedFilename(), 'kiwix.dmg');
-          assert.equal(await download.failure(), null);
-          check.localInstallerDownload = true;
-        }
-        assert.match(await fallback.locator('.trail').innerText(), /^LIBRARY › ZIM › .+\.zim$/);
-        assert.match(await fallback.locator('.sub').innerText(), realZimFolder ? /^(Simulations|Teacher training)$/ : /^Encyclopedia$/);
-        main.frameHeight = null;
-        main.firstText = (await fallback.innerText()).replace(/\s+/g, ' ').trim().slice(0, 80);
-        await snapshot('kiwix-' + main.id);
-        check.inlineKiwix = true;
-        await route(page, '#/all');
-        await link.waitFor();
-        assert.match(await link.innerText(), /Opens in the Kiwix app/);
+      if (main.mode === 'app') {
+        // A page drawn by scripts runs in the sandboxed frame, not a Kiwix hand-off.
+        const appFrame = page.locator('#article-paper.app-view iframe');
+        assert.equal(await appFrame.getAttribute('sandbox'), 'allow-scripts');
+        assert.match(await appFrame.getAttribute('src'), /^LIBRARY\/INDEX\/[0-9a-f]{12}\/zim-app\.html(#|$)/);
+        assert.equal(await page.locator('.article-problem').count(), 0);
+        const inner = page.frames().find(child => /zim-app\.html/.test(child.url()));
+        const expected = realZimFolder ? {phet_archive: /PhET Interactive Simulations/,
+          oer4schools_en_all_2025_10: /OER4Schools/}[main.id] : /Script-built page marker/;
+        assert.ok(expected, 'unexpected app archive ' + main.id);
+        await inner.waitForFunction(pattern => new RegExp(pattern).test(document.body.innerText), expected.source);
+        assert.equal(await inner.evaluate(() => self.origin), 'null');
+        const height = await appFrame.evaluate(node => node.getBoundingClientRect().height);
+        assert.ok(height >= 360, main.id + ' app height ' + height);
+        main.frameHeight = height;
+        main.firstText = (await inner.evaluate(() => document.body.innerText)).replace(/\s+/g, ' ').trim().slice(0, 80);
         if (!realZimFolder) {
-          assert.ok(main.bytes > 0);
-          const prior = await changeCount();
-          await link.click();
-          const repeated = await archiveEvent(page, prior);
-          assert.equal(repeated.reason, 'scripts');
-          assert.equal(repeated.bytes, undefined);
-          check.kiwixSession = true;
+          await inner.locator('#fetched', {hasText: 'Fetched from the archive'}).waitFor();
+          await inner.waitForFunction(() => document.querySelector('#drawn')?.naturalWidth > 0);
+          await inner.locator('#next').click();
+          await page.waitForFunction(() => /\/Second(\?|$)/.test(location.hash));
+          await page.locator('#article-paper[data-ready=true]').waitFor();
+          assert.match(await frame.locator('body').innerText(), /Second-page marker/);
+          check.appBridge = true;
         }
+        await snapshot('app-' + main.id);
+        check.inlineApp = true;
       } else {
         assert.ok(!main.reason, JSON.stringify(main));
         assert.equal(main.images, main.shown);
@@ -596,11 +619,16 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
     await snapshot('help-phone');
     check.phoneHelp = true;
     const policies = await page.evaluate(() => policyEvents);
-    assert.deepEqual([...state.csp, ...policies], []);
+    const parserPolicies = policies.filter(([directive, uri, line]) =>
+      directive === 'script-src-attr' && uri === 'inline' && state.inertInlineHandlers.has(line));
+    assert.deepEqual([...state.csp, ...policies.filter(policy => !parserPolicies.includes(policy))], []);
+    assert.equal(await page.evaluate(() => window.unsafe), undefined);
+    if (parserPolicies.length) check.archivedInlineHandlersBlocked = parserPolicies.length;
     assert.deepEqual(state.errors, []);
     assert.deepEqual(state.requests, []);
     check.csp = 0;
     check.networkRequests = 0;
+    output.sandboxedArchivePages = {...state.app};
     return output;
   } catch (error) {
     console.error(JSON.stringify({engine: output.engine, drive, check, csp: state.csp, errors: state.errors,
@@ -613,7 +641,7 @@ async function flow(browser, name, drive, {realZimFolder, wrong, shot, width, th
 
 async function folderVariants(browser, name, drive, wrong, evidence) {
   const variants = [];
-  const modes = name === 'chromium' ? [false, true] : [true];
+  const modes = directoryHandle(name) ? [false, true] : [true];
   const folders = {KINGSTON: drive, LIBRARY: join(drive, 'LIBRARY'), ZIM: join(drive, 'LIBRARY/ZIM')};
   for (const folderInput of modes) {
     const results = [];
@@ -651,7 +679,7 @@ async function folderVariants(browser, name, drive, wrong, evidence) {
             const label = name + (name === 'chromium' && folderInput ? '-input' : '');
             await page.screenshot({path: join(evidence, `${theme}-${width}-first-open-${label}.png`), animations: 'disabled'});
             if (name === 'chromium' && chooser) {
-              await chooser.setFiles(wrong);
+              await selectFolder(page, chooser, wrong);
               await checkWrongFolder(page, name, folderInput);
               await page.screenshot({path: join(evidence, `${theme}-${width}-wrong-folder-${label}.png`), animations: 'disabled'});
             }
@@ -683,12 +711,22 @@ async function reconnect(browser, name, drive, {folderInput, stale, shot, width,
       restore = () => rename(path + '.away', path);
       await route(page, '#/read/wikimed_en/Second');
     } else {
-      await page.evaluate(name => testFolder.removeEntry(name), part);
+      // An unplugged drive stops listing its folders; a connected one with a lost file still lists them.
+      await page.evaluate(name => {
+        const keys = FileSystemDirectoryHandle.prototype.keys;
+        FileSystemDirectoryHandle.prototype.keys = function () {
+          if (window.unplugged) throw new DOMException('The drive is gone', 'NotFoundError');
+          return keys.call(this);
+        };
+        window.unplugged = true;
+        return testFolder.removeEntry(name);
+      }, part);
       const data = [...await readFile(path)];
       restore = () => page.evaluate(async ({part, data}) => {
         const writer = await (await testFolder.getFileHandle(part, {create: true})).createWritable();
         await writer.write(new Uint8Array(data));
         await writer.close();
+        window.unplugged = false;
       }, {part, data});
       await route(page, '#/all');
       await link.click();
@@ -699,12 +737,13 @@ async function reconnect(browser, name, drive, {folderInput, stale, shot, width,
     assert.deepEqual(await sheet.getByRole('button').allTextContents(), ['Try again']);
     if (shot) await page.screenshot({path: shot + '-reconnect.png', animations: 'disabled'});
     const retry = sheet.getByRole('button', {name: 'Try again'});
-    const probes = folderInput ? 0 : await page.evaluate(() => permissionChecks.length);
     if (stale) {
       await choose(page, retry, false, 'pending');
       await page.waitForFunction(() => typeof window.finishPicker === 'function');
       await checkPicking(page);
-      assert.ok(await page.evaluate(() => pickerOptions.at(-1).startIn?.isSameEntry(testFolder)));
+      assert.deepEqual(await page.evaluate(() => pickerOptions.at(-1)), {
+        options: {mode: 'read', id: 'owl-library'}, active: true,
+      });
       await restore();
       await page.evaluate(() => finishPicker());
     } else {
@@ -718,17 +757,42 @@ async function reconnect(browser, name, drive, {folderInput, stale, shot, width,
     if (!folderInput) {
       const status = await page.evaluate(() => ({pickerCalls, permissionChecks, permissionRequests}));
       assert.equal(status.pickerCalls, stale ? 2 : 1);
-      assert.deepEqual(status.permissionChecks.slice(probes), ['read']);
+      assert.deepEqual(status.permissionChecks, []);
       assert.equal(status.permissionRequests, 0);
     }
-    if (stale) return 'reopened picker when the stored handle could not read the split part';
-    return folderInput ? 'reselected folder after file read failed' : 'reused handle after split part disappeared';
+    if (stale) return 'reopened picker when the session handle could not read the split part';
+    return folderInput ? 'reselected folder after file read failed' : 'reused session handle after split part disappeared';
   } finally {
     try { await restore?.(); } finally { await state.context.close(); }
   }
 }
 
-async function rememberedPermission(browser, drive) {
+async function missingFile(browser, name, drive, {folderInput}) {
+  const state = await context(browser, name, {folderInput});
+  const {page} = state;
+  const folder = join(drive, 'LIBRARY/ZIM');
+  const path = join(folder, 'medical.zimab');
+  await rename(path, path + '.away');
+  try {
+    await page.goto(url(drive, '#/all'));
+    if (!folderInput) await seedChromium(page, drive, undefined, 'ZIM');
+    const link = page.locator('.archive-row > a').filter({hasText: 'WikiMed'});
+    await choose(page, link, folderInput, 'valid', folder);
+    const problem = page.locator('.article-problem[data-reason=file]');
+    await problem.waitFor();
+    assert.match(await problem.innerText(), /WikiMed did not copy completely to this drive\./);
+    const repair = problem.getByRole('link', {name: 'Repair this drive'});
+    assert.equal(await repair.getAttribute('href'), 'https://jonaraphael.com/offline-wandering-library/');
+    assert.equal(await page.locator('dialog[open]').count(), 0);
+    assert.doesNotMatch(await problem.innerText(), /Kiwix|not connected/);
+    return folderInput ? 'missing part with folder input' : 'missing part with directory handle';
+  } finally {
+    await rename(path + '.away', path);
+    await state.context.close();
+  }
+}
+
+async function legacyFolderStorage(browser, drive) {
   const {page, context: ctx} = await context(browser, 'chromium');
   try {
     await page.goto(url(drive, '#/all'));
@@ -736,41 +800,129 @@ async function rememberedPermission(browser, drive) {
     const link = page.locator('.archive-row > a').filter({hasText: 'WikiMed'});
     await choose(page, link, false, 'valid');
     await page.locator('#article-paper[data-ready=true]').waitFor();
-    // Check that the read-only object really made it to IndexedDB before reload.
-    await page.evaluate(async () => {
-      const store = await OWLZimDrive.handleStore();
-      const stored = await store(new URL(location.pathname, location.href).href);
-      if (!await stored?.isSameEntry(testFolder)) throw Error('Missing remembered folder');
+    assert.deepEqual(await page.evaluate(() => legacyHandleOperations), []);
+    // Seed a real handle with the retired reader's schema, then reload with fresh spies.
+    await page.evaluate(() => new Promise((resolve, reject) => {
+      const request = indexedDB.open('owl-reader', 1);
+      request.onupgradeneeded = () => request.result.createObjectStore('folders');
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        const db = request.result;
+        const tx = db.transaction('folders', 'readwrite');
+        tx.objectStore('folders').put(testFolder, new URL(location.pathname, location.href).href);
+        tx.oncomplete = () => { db.close(); resolve(); };
+        tx.onabort = () => { db.close(); reject(tx.error); };
+      };
+    }));
+    assert.deepEqual(await page.evaluate(() => legacyHandleOperations), ['put']);
+    assert.ok(await page.evaluate(async () => (await indexedDB.databases()).some(db => db.name === 'owl-reader')));
+    await page.reload();
+    await seedChromium(page, drive);
+    await page.waitForFunction(async () => !(await indexedDB.databases()).some(db => db.name === 'owl-reader'));
+    const reopen = page.locator('.article-start').getByRole('link', {name: 'Open'});
+    await choose(page, reopen, false, 'pending');
+    await checkPicking(page);
+    await page.evaluate(() => finishPicker());
+    await page.locator('#article-paper[data-ready=true]').waitFor();
+    const access = await page.evaluate(async () => ({
+      pickerOptions, permissionChecks, permissionRequests, legacyHandleOperations,
+      legacyDatabase: (await indexedDB.databases()).some(db => db.name === 'owl-reader'),
+    }));
+    assert.deepEqual(access, {
+      pickerOptions: [{options: {mode: 'read', id: 'owl-library'}, active: true}],
+      permissionChecks: [], permissionRequests: 0, legacyHandleOperations: [], legacyDatabase: false,
     });
-    for (const permission of ['prompt', 'pending']) {
-      await page.evaluate(value => sessionStorage.setItem('test-permission', value), permission);
-      await page.reload();
-      await seedChromium(page, drive);
-      const reopen = page.locator('.article-start').getByRole('link', {name: 'Open'});
-      await reopen.waitFor();
-      assert.deepEqual(await page.evaluate(() => permissionChecks), ['read']);
-      await choose(page, reopen, false, 'pending');
-      await checkPicking(page);
-      const access = await page.evaluate(async () => ({
-        active: pickerOptions.at(-1).active,
-        remembered: await pickerOptions.at(-1).startIn?.isSameEntry(testFolder),
-        permissionChecks, permissionRequests,
-      }));
-      assert.deepEqual(access, {active: true, remembered: true, permissionChecks: ['read', 'read'], permissionRequests: 0});
-      const caption = await page.evaluate(() => accessEvents.at(-1));
-      assert.deepEqual(caption.keys, ['Select', 'KINGSTON']);
-      assert.match(caption.text, /In the folder window, click Select to use KINGSTON\./);
+    return access;
+  } finally {
+    await ctx.close();
+  }
+}
+
+async function unansweredPicker(browser, drive, {late, cancelFallback = false, realZimFolder, width, theme, shot} = {}) {
+  const {page, context: ctx} = await context(browser, 'chromium', {width, theme});
+  const folder = realZimFolder || join(drive, 'LIBRARY/ZIM');
+  const dialog = page.locator('dialog[open]');
+  const unanswered = page.locator('dialog[open][data-reason=unanswered]');
+  const ready = page.locator('#article-paper[data-ready=true]');
+  const link = page.locator(cpr).first();
+  const preference = 'owl.reader.folder-input';
+  try {
+    await page.goto(url(drive, '#/search'));
+    await query(page);
+    if (late === 'valid') await seedChromium(page, drive);
+    await choose(page, link, false, 'pending');
+    await checkPicking(page);
+    await page.evaluate(() => {
+      window.focusReturnedAt = performance.now();
+      dispatchEvent(new Event('focus'));
+    });
+    await unanswered.waitFor({timeout: 2000});
+    const delay = await page.evaluate(() => {
+      return accessEvents.find(event => event.state === 'unanswered').time - focusReturnedAt;
+    });
+    assert.ok(delay >= 1450 && delay < 2000, `Unanswered sheet appeared after ${delay} ms`);
+    assert.equal(await unanswered.getByRole('heading').innerText(), 'Open from this drive');
+    assert.equal(await unanswered.getByRole('status').innerText(), 'The browser has not finished opening KINGSTON. ' +
+      'If it shows a question, click Allow. If nothing appears, choose the ZIM folder instead.');
+    assert.deepEqual(await unanswered.locator('mark').allTextContents(), ['KINGSTON', 'Allow', 'ZIM']);
+    assert.deepEqual(await unanswered.getByRole('button').allTextContents(), ['Choose the ZIM folder']);
+    assert.equal(await page.evaluate(key => localStorage.getItem(key), preference), '1');
+    assert.equal(await page.evaluate(() => pickerCalls), 1);
+    if (shot) await page.screenshot({path: shot + '-unanswered-picker.png', animations: 'disabled'});
+    if (late === 'valid') {
       await page.evaluate(() => finishPicker());
-      await page.locator('#article-paper[data-ready=true]').waitFor();
+      await ready.waitFor();
+      assert.equal(await dialog.count(), 0);
+      assert.deepEqual(await page.evaluate(() => inputActivations), []);
+      return {delay, lateDirectoryPickOpenedArticle: true};
     }
-    return ['prompt', 'unanswered permission query'];
+    if (late === 'wrong') {
+      await page.evaluate(async () => {
+        const root = await navigator.storage.getDirectory();
+        window.testFolder = await root.getDirectoryHandle('wrong', {create: true});
+        finishPicker();
+      });
+      const wrong = page.locator('dialog[open][data-reason=wrong]');
+      await wrong.waitFor();
+      checkPickerCopy('chromium', await page.evaluate(() => accessEvents.at(-1)), true);
+      await choose(page, wrong.getByRole('button', {name: 'Try again'}), true, 'valid', folder);
+      await ready.waitFor();
+      assert.equal(await dialog.count(), 0);
+      assert.equal(await page.evaluate(() => pickerCalls), 1);
+      return {delay, lateWrongFolderRetriedWithFolderInput: true};
+    }
+
+    const fallback = unanswered.getByRole('button', {name: 'Choose the ZIM folder'});
+    if (cancelFallback) {
+      await choose(page, fallback, true, 'cancel');
+      await dialog.waitFor({state: 'hidden'});
+      await choose(page, link, true, 'valid', folder);
+    } else await choose(page, fallback, true, 'valid', folder);
+    assert.equal(await page.evaluate(() => pickerCalls), 1);
+    await ready.waitFor();
+    assert.equal(await dialog.count(), 0);
+    if (cancelFallback) return {delay, reopenedDirectlyInSession: true};
+
+    // Reload the page with the real preference set by the stalled picker.
+    await page.reload();
+    await route(page, '#/search');
+    await query(page);
+    const chooser = await choose(page, link, true, 'pending');
+    await checkPicking(page);
+    checkPickerCopy('chromium', await page.evaluate(() => accessEvents.at(-1)), true);
+    assert.equal(await page.evaluate(() => pickerCalls), 0);
+    if (shot) await page.screenshot({path: shot + '-preferred-folder-input.png', animations: 'disabled'});
+    await selectFolder(page, chooser, folder);
+    await ready.waitFor();
+    assert.equal(await dialog.count(), 0);
+    return {delay, folderInputInSameClick: true, reopenedDirectlyAfterReload: true};
   } finally {
     await ctx.close();
   }
 }
 
 async function stalledAccess(browser, name, drive, {stage = 'picker', width, theme, shot} = {}) {
-  const folderInput = name !== 'chromium';
+  const folderInput = !directoryHandle(name);
   const {page, context: ctx} = await context(browser, name, {folderInput, width, theme});
   const folder = join(drive, 'LIBRARY/ZIM');
   const ready = page.locator('#article-paper[data-ready=true]');
@@ -873,22 +1025,16 @@ async function stalledAccess(browser, name, drive, {stage = 'picker', width, the
       await checkPicking(page);
       const caption = dialog.locator('.picker-instruction');
       const instruction = await caption.innerText();
-      const hint = dialog.getByText('If you see “Allow this site to view and copy files?”, click Allow.');
+      // A pending chooser must stay on its instructions while the page is away.
       await page.evaluate(() => dispatchEvent(new Event('blur')));
       await page.clock.fastForward(5000);
       await checkPicking(page);
-      assert.equal(await hint.count(), 0);
       await page.evaluate(() => dispatchEvent(new Event('focus')));
       await page.clock.fastForward(750);
-      assert.equal(await hint.count(), 0);
-      await page.clock.fastForward(10_000);
+      if (folderInput) await page.clock.fastForward(10_000);
       await checkPicking(page);
       assert.equal(await caption.innerText(), instruction);
-      assert.equal(await hint.count(), folderInput ? 0 : 1);
-      if (!folderInput) {
-        assert.equal(await hint.locator('mark').innerText(), 'Allow');
-        assert.equal(await page.evaluate(() => permissionRequests), 0);
-      }
+      assert.doesNotMatch(await dialog.innerText(), /click Allow/);
       if (stage === 'dismissed picker') {
         const before = page.url();
         await page.keyboard.press('Escape');
@@ -898,12 +1044,12 @@ async function stalledAccess(browser, name, drive, {stage = 'picker', width, the
         assert.equal(await ready.count(), 0);
         await choose(page, link, false, 'valid');
       } else {
-        if (chooser) await chooser.setFiles(folder);
+        if (chooser) await selectFolder(page, chooser, folder);
         else await page.evaluate(() => finishPicker());
       }
     }
     if (stage === 'denied' || stage === 'picker denial') {
-      const sheet = page.locator('dialog[open][data-reason=stalled]');
+      const sheet = page.locator('dialog[open][data-reason=denied]');
       await sheet.waitFor();
       assert.equal(await sheet.getByRole('heading').innerText(), 'Drive access was denied');
       assert.equal(await sheet.getByRole('status').innerText(), 'The browser blocked this page from reading KINGSTON.' +
@@ -933,16 +1079,22 @@ async function main() {
     await writeFile(join(wrong, 'unrelated.txt'), 'unrelated');
     for (const [name, runner] of Object.entries({chromium, firefox, webkit})) {
       if (process.env.OWL_ENGINE && name !== process.env.OWL_ENGINE) continue;
-      const browser = await runner.launch(name === "chromium" ? {args: ["--allow-file-access-from-files"]} : {});
+      // OWL_CHROME=/path/to/Google Chrome runs the Chromium checks in that browser, as a person opens the drive.
+      const browser = await runner.launch(name !== "chromium" ? {} : process.env.OWL_CHROME ?
+        {executablePath: process.env.OWL_CHROME} : {args: ["--allow-file-access-from-files"]});
       try {
         const record = {fixture: await flow(browser, name, drive, {wrong})};
         record.folders = await folderVariants(browser, name, drive, wrong, evidence);
         record.reconnect = [await reconnect(browser, name, drive, {folderInput: true})];
+        record.missing = [await missingFile(browser, name, drive, {folderInput: true})];
+        if (directoryHandle(name)) record.missing.push(await missingFile(browser, name, drive, {folderInput: false}));
         const stages = ['picker', 'article', 'images', 'denied'];
-        if (name === 'chromium') {
+        if (directoryHandle(name)) {
           record.reconnect.push(await reconnect(browser, name, drive, {folderInput: false}));
           record.reconnect.push(await reconnect(browser, name, drive, {folderInput: false, stale: true}));
-          record.rememberedPermission = await rememberedPermission(browser, drive);
+          record.legacyFolderStorage = await legacyFolderStorage(browser, drive);
+          record.unansweredPicker = [await unansweredPicker(browser, drive), await unansweredPicker(browser, drive, {late: 'valid'}),
+            await unansweredPicker(browser, drive, {late: 'wrong'}), await unansweredPicker(browser, drive, {cancelFallback: true})];
           stages.push('selection validation', 'granted parts', 'dismissed picker', 'picker denial');
         }
         record.slowAccess = [];
@@ -954,6 +1106,9 @@ async function main() {
           for (const width of [1280, 390]) {
             for (const theme of ['light', 'dark']) {
               const shot = join(evidence, `${name}-${width}-${theme}`);
+              if (directoryHandle(name)) {
+                await unansweredPicker(browser, preview || drive, {realZimFolder: zimFolder, width, theme, shot});
+              }
               await stalledAccess(browser, name, drive, {stage: 'article', width, theme, shot: shot + '-still-reading.png'});
               await stalledAccess(browser, name, drive, {stage: 'denied', width, theme, shot: shot + '-access-denied.png'});
             }
@@ -964,7 +1119,7 @@ async function main() {
             for (const theme of ['light', 'dark']) {
               const shot = join(evidence, `${name}-${width}-${theme}`);
               await flow(browser, name, preview || drive, {realZimFolder: zimFolder, wrong, width, theme, shot});
-              await reconnect(browser, name, drive, {folderInput: name !== 'chromium', width, theme, shot});
+              await reconnect(browser, name, drive, {folderInput: !directoryHandle(name), width, theme, shot});
             }
           }
         }

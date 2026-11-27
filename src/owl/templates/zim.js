@@ -78,6 +78,7 @@
       this.size = this.parts.reduce((offset, part) => offset + part.size, 0);
       this.bytesRead = 0;
       this.clusters = new Map();
+      this.pendingClusters = new Map();
       this.cachedBytes = 0;
     }
 
@@ -236,6 +237,15 @@
         this.clusters.set(number, cached);
         return cached;
       }
+      // A page can ask for several files in one cluster while it is still loading.
+      // Read it once and count its decompressed bytes once.
+      if (!this.pendingClusters.has(number)) {
+        this.pendingClusters.set(number, this.readCluster(number).finally(() => this.pendingClusters.delete(number)));
+      }
+      return this.pendingClusters.get(number);
+    }
+
+    async readCluster(number) {
       const hasNext = number + 1 < this.clusterCount;
       const pointers = await this.view(this.clusterPointers + 8 * number, hasNext ? 16 : 8);
       const start = u64(pointers, 0);
