@@ -250,7 +250,7 @@ topics:
   atlas_topics: [language-books, dictionaries, writing]
   intended: Teach reading, handwriting, comprehension and basic composition from the beginning, with teacher support and assessment.
   resources: [wiktionary-en, wikibooks-en, childrens-library, openstax-core, openstax-culture, voa-learning, bookdash-archive, gutenberg-p, gutenberg-pa, gutenberg-pb, gutenberg-pc, gutenberg-pd, gutenberg-pe, gutenberg-pf, gutenberg-pg, gutenberg-ph, gutenberg-pj, gutenberg-pk, gutenberg-pl, gutenberg-pm]
-  existing: Dictionary and Wikibooks are selected; illustrated stories and college writing are optional. None establishes a beginning-reading curriculum.
+  existing: Dictionary, Wikibooks and an 18-book story ladder (one book per age) are selected; college writing is optional. None establishes a beginning-reading curriculum.
   gaps: [A complete phonics and decodable-reader progression, Teacher instructions and answer/assessment materials, Learner practice and handwriting]
   next: ["The complete offered-file inventory now records 366 English curriculum pages and 1,220 distinct PDFs across CKLA/CKMath/CKSci/CKHG, with a grade/component matrix in catalog/acquisition/full-1tb-capacity-20260928/school-units.json.", "Thirty-nine kindergarten Skills unit PDFs are fully downloaded and hashed. Six additional Skills ancillary PDFs are enumerated but need full-body checks; reconcile these and the scope/sequence before calling the sequence ready.", "Review required readers, practice, assessments, materials and live/paid dependencies for the preschool–grade 8 CKLA progression; offered PDFs and video supplements alone do not establish adequate teaching depth."]
   done_when: A novice instructor has an age-appropriate end-to-end sequence, learner texts, practice and checks for the explicitly selected literacy stages.
@@ -330,10 +330,20 @@ topics:
   atlas_topics: [humanities, philosophy]
   intended: Enrichment and deeper critical reading separate from the missing school curriculum.
   resources: [openstax-core, openstax-culture, wikisource-en, juvenile-literature, childrens-library, mutopia, folgerpedia, chopin-archive, celtic-scores, gutenberg-b, gutenberg-m, gutenberg-n, gutenberg-pn, gutenberg-pq, gutenberg-pr, gutenberg-ps, gutenberg-pt]
-  existing: Optional college humanities and philosophy texts, literary archives and a small illustrated-story selection.
+  existing: Optional college humanities and philosophy texts and literary archives. Children's stories are planned separately under Stories for every age.
   gaps: [An explicit reading scope and audience, Balance and perspective review, Sequence and overlap review]
   next: [Select named works only against an agreed audience and reading purpose; do not expand archives to consume capacity.]
   done_when: The intentionally selected enrichment scope has a coherent reading route and stated limits; no default adequacy claim is implied.
+- id: stories-by-age
+  title: Stories for every age
+  status: partial
+  atlas_topics: [books]
+  intended: Every default holds one touchstone book for each age from 1 to 18, chosen for what knowing it connects a child to (peers, older generations, other cultures and the next level of reading).
+  resources: [childrens-library, bookdash-picture-books, juvenile-literature, bookdash-archive]
+  existing: The 18-book ladder in catalog/stories/ladder.yaml, from The Real Mother Goose to The Odyssey, as 64 MB of OWL-made PDFs rendered from Project Gutenberg transcriptions. The Gutenberg juvenile-literature and Book Dash picture-book archives are optional.
+  gaps: [Companion books beside each rung, "Stories from outside Britain and North America (13 of the 18 anchors originate there)", Read-aloud audio for ages 1 to 5, Classics published after 1930 that remain under US copyright]
+  next: ["Review the 91 companion candidates listed under each age in catalog/stories/ladder.yaml, then render the approved ones with scripts/build_story_ladder.py.", "Find a reproducible source for more Book Dash and African Storybook picture books; the Book Dash download endpoint returned HTTP 403 when last probed."]
+  done_when: Each age has its anchor plus companions that a parent or teacher has reviewed against the same four connections.
 - id: optional-social-science
   title: Optional social sciences
   status: optional

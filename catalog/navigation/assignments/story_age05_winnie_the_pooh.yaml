@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: story_age05_winnie_the_pooh
+assignments:
+- topic_id: books
+  purpose: reference

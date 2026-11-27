@@ -6,9 +6,9 @@ Practical household and community knowledge for prolonged loss of internet and l
 
 Adequate means the stated learning and practical tasks are supported by reviewed, usable resources with their prerequisites, illustrations, limits and offline access. Tags, file counts, downloads and GB totals establish neither depth nor adequacy.
 
-Current selection: 631 pinned files, 989.397 GB, including reader packages. The 35 editorial workstreams account for all 90 atlas topics, including optional study topics, and additional gaps without atlas tags.
+Current selection: 600 pinned files, 989.381 GB, including reader packages. The 36 editorial workstreams account for all 90 atlas topics, including optional study topics, and additional gaps without atlas tags.
 
-A selected collection establishes availability only. Broad archives are supplementary until specific task coverage is reviewed. Optional collections below do not count toward default depth. Editorial assessments: 0 adequate, 27 partial, 3 gap, 5 optional.
+A selected collection establishes availability only. Broad archives are supplementary until specific task coverage is reviewed. Optional collections below do not count toward default depth. Editorial assessments: 0 adequate, 28 partial, 3 gap, 5 optional.
 
 ## Next selection batch
 
@@ -349,9 +349,9 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Intended coverage:** Teach reading, handwriting, comprehension and basic composition from the beginning, with teacher support and assessment.
 
-**Existing resources:** Dictionary and Wikibooks are selected; illustrated stories and college writing are optional. None establishes a beginning-reading curriculum.
+**Existing resources:** Dictionary, Wikibooks and an 18-book story ladder (one book per age) are selected; college writing is optional. None establishes a beginning-reading curriculum.
 
-**Catalog collections:** English Wiktionary (selected); English Wikibooks (selected); Illustrated children’s PDF stories (optional) (selected); Additional college textbooks (optional) (selected); OpenStax humanities (selected); VOA Learning English — January 2025 (selected); Book Dash picture-book archive (optional; not selected); Project Gutenberg — General linguistics (selected); Project Gutenberg — Classical languages and literatures (selected); Project Gutenberg — Modern and Celtic languages (selected); Project Gutenberg — Romance languages (selected); Project Gutenberg — Germanic languages (selected); Project Gutenberg — English language (selected); Project Gutenberg — West Germanic languages (selected); Project Gutenberg — Slavic languages and literatures (selected); Project Gutenberg — Uralic and Basque languages (selected); Project Gutenberg — Near Eastern and North African languages (selected); Project Gutenberg — Indo-Iranian languages (selected); Project Gutenberg — Asian, African and Oceanian languages (selected); Project Gutenberg — Indigenous American languages (selected).
+**Catalog collections:** English Wiktionary (selected); English Wikibooks (selected); Stories for every age (selected); Additional college textbooks (optional) (selected); OpenStax humanities (selected); VOA Learning English — January 2025 (selected); Book Dash picture-book archive (optional; not selected); Project Gutenberg — General linguistics (selected); Project Gutenberg — Classical languages and literatures (selected); Project Gutenberg — Modern and Celtic languages (selected); Project Gutenberg — Romance languages (selected); Project Gutenberg — Germanic languages (selected); Project Gutenberg — English language (selected); Project Gutenberg — West Germanic languages (selected); Project Gutenberg — Slavic languages and literatures (selected); Project Gutenberg — Uralic and Basque languages (selected); Project Gutenberg — Near Eastern and North African languages (selected); Project Gutenberg — Indo-Iranian languages (selected); Project Gutenberg — Asian, African and Oceanian languages (selected); Project Gutenberg — Indigenous American languages (selected).
 
 **Remaining gaps:** A complete phonics and decodable-reader progression; Teacher instructions and answer/assessment materials; Learner practice and handwriting.
 
@@ -449,7 +449,7 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Existing resources:** The sampler includes GNU, Git, Python and the 3D Printing Stack Exchange archive. Larger computing collections provide optional depth.
 
-**Catalog collections:** Programming and computer manuals (optional) (selected); Computing, GIS and 3D printing communities (selected); Additional college textbooks (optional) (selected); OpenStax computing (selected); Introduction to Python programming (selected); Stack Overflow (optional; not selected); MediaWiki documentation (selected); 3D Printing Stack Exchange (selected).
+**Catalog collections:** Programming and computer manuals (optional) (optional; not selected); Computing, GIS and 3D printing communities (selected); Additional college textbooks (optional) (selected); OpenStax computing (selected); Introduction to Python programming (selected); Stack Overflow (optional; not selected); MediaWiki documentation (selected); 3D Printing Stack Exchange (selected).
 
 **Remaining gaps:** Finished SQLite and OpenSSH replacements; A bounded learning objective for each optional collection; Hardware and software prerequisites.
 
@@ -461,15 +461,29 @@ A selected collection establishes availability only. Broad archives are suppleme
 
 **Intended coverage:** Enrichment and deeper critical reading separate from the missing school curriculum.
 
-**Existing resources:** Optional college humanities and philosophy texts, literary archives and a small illustrated-story selection.
+**Existing resources:** Optional college humanities and philosophy texts and literary archives. Children's stories are planned separately under Stories for every age.
 
-**Catalog collections:** Additional college textbooks (optional) (selected); OpenStax humanities (selected); English Wikisource (selected); Juvenile literature archive (optional) (selected); Illustrated children’s PDF stories (optional) (selected); Mutopia Project sheet music (selected); Folgerpedia (selected); Chopin early editions (optional; not selected); Celtic sheet music (selected); Project Gutenberg — Philosophy, psychology and religion (selected); Project Gutenberg — Music (selected); Project Gutenberg — Fine arts (selected); Project Gutenberg — Literature and drama (optional; not selected); Project Gutenberg — Romance literatures (optional; not selected); Project Gutenberg — English literature (selected); Project Gutenberg — American literature (selected); Project Gutenberg — Germanic literatures (selected).
+**Catalog collections:** Additional college textbooks (optional) (selected); OpenStax humanities (selected); English Wikisource (selected); Juvenile literature archive (optional) (selected); Stories for every age (selected); Mutopia Project sheet music (selected); Folgerpedia (selected); Chopin early editions (optional; not selected); Celtic sheet music (selected); Project Gutenberg — Philosophy, psychology and religion (selected); Project Gutenberg — Music (selected); Project Gutenberg — Fine arts (selected); Project Gutenberg — Literature and drama (optional; not selected); Project Gutenberg — Romance literatures (optional; not selected); Project Gutenberg — English literature (selected); Project Gutenberg — American literature (selected); Project Gutenberg — Germanic literatures (selected).
 
 **Remaining gaps:** An explicit reading scope and audience; Balance and perspective review; Sequence and overlap review.
 
 **Next selections/review:** Select named works only against an agreed audience and reading purpose; do not expand archives to consume capacity.
 
 **Adequate when:** The intentionally selected enrichment scope has a coherent reading route and stated limits; no default adequacy claim is implied.
+
+### Stories for every age — partial
+
+**Intended coverage:** Every default holds one touchstone book for each age from 1 to 18, chosen for what knowing it connects a child to (peers, older generations, other cultures and the next level of reading).
+
+**Existing resources:** The 18-book ladder in catalog/stories/ladder.yaml, from The Real Mother Goose to The Odyssey, as 64 MB of OWL-made PDFs rendered from Project Gutenberg transcriptions. The Gutenberg juvenile-literature and Book Dash picture-book archives are optional.
+
+**Catalog collections:** Stories for every age (selected); Book Dash picture books (PDF) (optional; not selected); Juvenile literature archive (optional) (selected); Book Dash picture-book archive (optional; not selected).
+
+**Remaining gaps:** Companion books beside each rung; Stories from outside Britain and North America (13 of the 18 anchors originate there); Read-aloud audio for ages 1 to 5; Classics published after 1930 that remain under US copyright.
+
+**Next selections/review:** Review the 91 companion candidates listed under each age in catalog/stories/ladder.yaml, then render the approved ones with scripts/build_story_ladder.py. Find a reproducible source for more Book Dash and African Storybook picture books; the Book Dash download endpoint returned HTTP 403 when last probed.
+
+**Adequate when:** Each age has its anchor plus companions that a parent or teacher has reviewed against the same four connections.
 
 ### Optional social sciences — optional
 

@@ -1,0 +1,339 @@
+{
+  "schema_version": 1,
+  "renderer": "Google Chrome 158.0.8127.88",
+  "fonts": {
+    "andika/Andika-Regular.ttf": "202b96b1f174a4a43baefe885b40dacacb81786755efd08ed4b7704e79c45515",
+    "andika/Andika-Bold.ttf": "4361126189a2d0e0da66999352db58aaf1b4ca940faf8a8239d725f8303d890d",
+    "andika/Andika-Italic.ttf": "6a4a0dd26d28f577b51dd6afb5acf6fd91ab21694e25649c270a32179bb52a62",
+    "andika/Andika-BoldItalic.ttf": "2d000f8791a1827c0c4d411e9f4593c4fc2db0fdbb868bb1f863593b3d3968e6",
+    "literata/Literata%5Bopsz,wght%5D.ttf": "b41138c9373112f32abb589cc22e8674b06ed4048b0c513be922bdd26f274440",
+    "literata/Literata-Italic%5Bopsz,wght%5D.ttf": "d483dfaeba9cbf4ce71d32a52ee65df82f7e35b15fff8d1011cdb242d1fcd465"
+  },
+  "font_commit": "d9ec0982cbe53f7b7bf4af3e6cdbda0dbd1dac10",
+  "books": [
+    {
+      "age": 1,
+      "id": "story_age01_the_real_mother_goose",
+      "file": "age-01-the-real-mother-goose.pdf",
+      "title": "The Real Mother Goose",
+      "gutenberg": 10607,
+      "author": "Blanche Fisher Wright",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/10607/pg10607-h.zip",
+        "bytes": 15166850,
+        "sha256": "ff0ff493b3b63fc94ad5c512276a284afebe3c19bab5c26752c9eb786933304f"
+      },
+      "pictures": 171,
+      "pages": 207,
+      "bytes": 3431768,
+      "sha256": "f83ef0e6dfb6dfcb74c20d40159cfc08e66e65128eb15822e1c55637e74799f5",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 2,
+      "id": "story_age02_the_tale_of_peter_rabbit",
+      "file": "age-02-the-tale-of-peter-rabbit.pdf",
+      "title": "The Tale of Peter Rabbit",
+      "gutenberg": 14838,
+      "author": "Beatrix Potter",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/14838/pg14838-h.zip",
+        "bytes": 1472546,
+        "sha256": "f666808948c4d8693a77e547d7a58fc88d63e6f8cd7169df8e537efaf776a0b1"
+      },
+      "pictures": 28,
+      "pages": 44,
+      "bytes": 1373038,
+      "sha256": "8542fa018e3c884466b24d44a35bbaa9b7f5d6b27c5fe1c8e2b926d8cb8a4ec4",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 3,
+      "id": "story_age03_the_golden_goose_book",
+      "file": "age-03-the-golden-goose-book.pdf",
+      "title": "The Golden Goose Book",
+      "gutenberg": 15661,
+      "author": "L. Leslie Brooke",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/15661/pg15661-h.zip",
+        "bytes": 5165532,
+        "sha256": "eead806e541fb080d14ddc5d23db3e883ccaf5610806de63d5bee3255d72e1f7"
+      },
+      "pictures": 99,
+      "pages": 110,
+      "bytes": 4209904,
+      "sha256": "189e0f64beb60ace7c793b3f1ab5bd193764faa8a8aac0011b63a5c2f2fc856c",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 4,
+      "id": "story_age04_the_aesop_for_children",
+      "file": "age-04-the-aesop-for-children.pdf",
+      "title": "The Aesop for Children",
+      "gutenberg": 19994,
+      "author": "Aesop",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/19994/pg19994-h.zip",
+        "bytes": 9967462,
+        "sha256": "e4dbe5343a999a92c4039bdb169babeb4b040986e20c7332c5dd99578e8efcd0"
+      },
+      "pictures": 114,
+      "pages": 368,
+      "bytes": 7063424,
+      "sha256": "a8ad04c089de783c3bc6e40dc5b653ffb67c79e4ed8b2c9f31b44f8fb5a39755",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 5,
+      "id": "story_age05_winnie_the_pooh",
+      "file": "age-05-winnie-the-pooh.pdf",
+      "title": "Winnie-the-Pooh",
+      "gutenberg": 67098,
+      "author": "A. A. Milne",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/67098/pg67098-h.zip",
+        "bytes": 4526146,
+        "sha256": "e64a871d2355f4f6d59ab4b25e85092fbf04214b4c528116383b2800a7bf9129"
+      },
+      "pictures": 115,
+      "pages": 236,
+      "bytes": 4851724,
+      "sha256": "c737fe8cecedb37233ad32517fd1a75844992046f51f670d91995c36e81fc0fc",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 6,
+      "id": "story_age06_the_blue_fairy_book",
+      "file": "age-06-the-blue-fairy-book.pdf",
+      "title": "The Blue Fairy Book",
+      "gutenberg": 503,
+      "author": "Andrew Lang",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/503/pg503-h.zip",
+        "bytes": 538063,
+        "sha256": "5248a82f23b6e34ba461f9a91aa80853da56a0233116d33de3992da5257c7ed8"
+      },
+      "pictures": 0,
+      "pages": 477,
+      "bytes": 3067453,
+      "sha256": "17d3822c305d412d9bfc21061140ba748d41a46a2f7333ee6aeb850a15902504",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 7,
+      "id": "story_age07_the_wonderful_wizard_of_oz",
+      "file": "age-07-the-wonderful-wizard-of-oz.pdf",
+      "title": "The Wonderful Wizard of Oz",
+      "gutenberg": 43936,
+      "author": "L. Frank Baum",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/43936/pg43936-h.zip",
+        "bytes": 10445132,
+        "sha256": "1efdedfa3082ead0d89b241acd93fbdab2c6f011653214574b868f56dfafc11e"
+      },
+      "pictures": 148,
+      "pages": 369,
+      "bytes": 9925621,
+      "sha256": "2abedcd7aac1798a4be2fbf4e5828e09e669a18a907c1c9a5f148655f77cff81",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 8,
+      "id": "story_age08_the_arabian_nights",
+      "file": "age-08-the-arabian-nights.pdf",
+      "title": "The Arabian Nights",
+      "gutenberg": 128,
+      "author": "Andrew Lang",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/128/pg128-h.zip",
+        "bytes": 314676,
+        "sha256": "aede37f3271a3ce5a7609990dc0fc6abfa0caa50358002eb8187090d49061cdd"
+      },
+      "pictures": 0,
+      "pages": 453,
+      "bytes": 2697590,
+      "sha256": "3eac088f7f697c3cdc15fb7241292da5af2bacf3d2a8c905f1c0cb760f4be2ab",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 9,
+      "id": "story_age09_alices_adventures_in_wonderland",
+      "file": "age-09-alices-adventures-in-wonderland.pdf",
+      "title": "Alice's Adventures in Wonderland",
+      "gutenberg": 28885,
+      "author": "Lewis Carroll",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/28885/pg28885-h.zip",
+        "bytes": 1443322,
+        "sha256": "17f0bda7fb1abb75a7a2749b291d7526e69b0059675e03fb4b194134e51fc83a"
+      },
+      "pictures": 37,
+      "pages": 148,
+      "bytes": 3093392,
+      "sha256": "eef0f9398ff2ea27bed32fddc1ad36c8f288829ce241ff9b3dbf40df834657ce",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 10,
+      "id": "story_age10_a_wonder_book",
+      "file": "age-10-a-wonder-book.pdf",
+      "title": "A Wonder Book for Girls and Boys",
+      "gutenberg": 32242,
+      "author": "Nathaniel Hawthorne",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/32242/pg32242-h.zip",
+        "bytes": 4458698,
+        "sha256": "604d0638b413c91f9f0118e5db0ec4f948928de829116c39594d858c511f3bc6"
+      },
+      "pictures": 78,
+      "pages": 234,
+      "bytes": 4486972,
+      "sha256": "b37164bc9cd319021849fa17fe299bf8bd012365ff00cec43a5b62c4a6784858",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 11,
+      "id": "story_age11_anne_of_green_gables",
+      "file": "age-11-anne-of-green-gables.pdf",
+      "title": "Anne of Green Gables",
+      "gutenberg": 45,
+      "author": "L. M. Montgomery",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/45/pg45-h.zip",
+        "bytes": 780660,
+        "sha256": "eaf760d2ab4f729adce616126dc6fb9b4d58f98ca3a2a24fad8137a801adc6bb"
+      },
+      "pictures": 1,
+      "pages": 379,
+      "bytes": 2759500,
+      "sha256": "36a7215877a1635c15aad94d30eaf8ed9e04a1e2bd621d517f915662635de3b3",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 12,
+      "id": "story_age12_treasure_island",
+      "file": "age-12-treasure-island.pdf",
+      "title": "Treasure Island",
+      "gutenberg": 27780,
+      "author": "Robert Louis Stevenson",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/27780/pg27780-h.zip",
+        "bytes": 1173578,
+        "sha256": "a52c8994982e4457e525d7baff339f10361dd6a093ee1b5833285994ee03df09"
+      },
+      "pictures": 16,
+      "pages": 266,
+      "bytes": 3001554,
+      "sha256": "f0754c179abb24ea4d400f9c5da363de1f693eb02f4ab63b4aa34ca7ffd4576c",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 13,
+      "id": "story_age13_the_adventures_of_sherlock_holmes",
+      "file": "age-13-the-adventures-of-sherlock-holmes.pdf",
+      "title": "The Adventures of Sherlock Holmes",
+      "gutenberg": 1661,
+      "author": "Arthur Conan Doyle",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/1661/pg1661-h.zip",
+        "bytes": 363983,
+        "sha256": "05a8cea6451b6dd1ac50b78abe11f683a6c2b4d99c9a31940a7658db5ad402ce"
+      },
+      "pictures": 1,
+      "pages": 376,
+      "bytes": 2764963,
+      "sha256": "9f84da04d66d2528bc0418ece6c08ad4e2668f7e0873c29bcc23a34e5dd72169",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 14,
+      "id": "story_age14_romeo_and_juliet",
+      "file": "age-14-romeo-and-juliet.pdf",
+      "title": "Romeo and Juliet",
+      "gutenberg": 1513,
+      "author": "William Shakespeare",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/1513/pg1513-h.zip",
+        "bytes": 330591,
+        "sha256": "14fe846b8220cbd8a52a4a90c51058f8dad5bc092bd20895fe4275d5010ba930"
+      },
+      "pictures": 0,
+      "pages": 153,
+      "bytes": 1615302,
+      "sha256": "2566c1e955663444f6e7076edc0a27b462a631469735f91a6c0389f6237f137f",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 15,
+      "id": "story_age15_narrative_of_the_life_of_frederick_douglass",
+      "file": "age-15-narrative-of-the-life-of-frederick-douglass.pdf",
+      "title": "Narrative of the Life of Frederick Douglass, an American Slave",
+      "gutenberg": 23,
+      "author": "Frederick Douglass",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/23/pg23-h.zip",
+        "bytes": 355446,
+        "sha256": "a3e7dbd35c9810c53d551b20af37a789920352683bc85d50c3279866a12b7b84"
+      },
+      "pictures": 0,
+      "pages": 142,
+      "bytes": 1255876,
+      "sha256": "ee0d4a72f8840a4c457a3fd35d381e1a0f92198c027968f942bc4a268ed7fb4d",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 16,
+      "id": "story_age16_frankenstein",
+      "file": "age-16-frankenstein.pdf",
+      "title": "Frankenstein",
+      "gutenberg": 84,
+      "author": "Mary Wollstonecraft Shelley",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/84/pg84-h.zip",
+        "bytes": 384398,
+        "sha256": "c9a4db277bad41646d0611c11e052903e0cf2cf55aec5f596544bb6e5e054cc9"
+      },
+      "pictures": 0,
+      "pages": 273,
+      "bytes": 1875661,
+      "sha256": "46a6834aa86476bb4f6c49d44da5af714fac70af760dc15a7e078610172436ea",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 17,
+      "id": "story_age17_pride_and_prejudice",
+      "file": "age-17-pride-and-prejudice.pdf",
+      "title": "Pride and Prejudice",
+      "gutenberg": 42671,
+      "author": "Jane Austen",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/42671/pg42671-h.zip",
+        "bytes": 9450290,
+        "sha256": "4e3eddb13e0c8b677e6ca25740e08defe37ae7347a084ffaec33e8a453afea01"
+      },
+      "pictures": 5,
+      "pages": 489,
+      "bytes": 3390498,
+      "sha256": "9fe7ca6b420e662023265af2f8240416e4e3f494f2672fd7a424bd6af6b28aa9",
+      "made": "2026-11-26"
+    },
+    {
+      "age": 18,
+      "id": "story_age18_the_odyssey",
+      "file": "age-18-the-odyssey.pdf",
+      "title": "The Odyssey",
+      "gutenberg": 1727,
+      "author": "Homer",
+      "source": {
+        "url": "https://aleph.pglaf.org/cache/epub/1727/pg1727-h.zip",
+        "bytes": 559197,
+        "sha256": "ac8ac5c64b7134058dfadb9621e3551831082a32b3d1b57c64461fc6e231116d"
+      },
+      "pictures": 1,
+      "pages": 436,
+      "bytes": 3213229,
+      "sha256": "d5dddfbb8f40bfefcf812131c70306688b50eb2203d885e222e62dfdd4e6a69d",
+      "made": "2026-11-26"
+    }
+  ]
+}

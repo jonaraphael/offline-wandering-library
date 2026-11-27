@@ -12,7 +12,15 @@ core:
   school-math: [openstax_prealgebra_2e]
   school-science: [openstax_physics]
   languages: [gutenberg_p]
-  culture: [bookdash_pdf_amazing_daisy]
+  culture: [story_age01_the_real_mother_goose, story_age02_the_tale_of_peter_rabbit,
+    story_age03_the_golden_goose_book, story_age04_the_aesop_for_children,
+    story_age05_winnie_the_pooh, story_age06_the_blue_fairy_book,
+    story_age07_the_wonderful_wizard_of_oz, story_age08_the_arabian_nights,
+    story_age09_alices_adventures_in_wonderland, story_age10_a_wonder_book,
+    story_age11_anne_of_green_gables, story_age12_treasure_island,
+    story_age13_the_adventures_of_sherlock_holmes, story_age14_romeo_and_juliet,
+    story_age15_narrative_of_the_life_of_frederick_douglass, story_age16_frankenstein,
+    story_age17_pride_and_prejudice, story_age18_the_odyssey]
   advanced-study: [openstax_principles_economics_3e]
   computing: [openstax_introduction_python_programming]
 steps:
@@ -64,7 +72,6 @@ steps:
 - add: [phet-archive]
 - add: [openstax-computing]
 - add: [libretexts-statistics]
-- add: [linux-programming-docs]
 - add: [desktop-fabrication]
 - add: [gutenberg-pc]
 # Upgrade to the full set of Wikipedia introductions.

@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: story_age13_the_adventures_of_sherlock_holmes
+assignments:
+- topic_id: books
+  purpose: reference

@@ -1,0 +1,5 @@
+schema_version: 1
+asset_id: story_age07_the_wonderful_wizard_of_oz
+assignments:
+- topic_id: books
+  purpose: reference
