@@ -72,7 +72,7 @@
       if (body === clean) return head + clean + "</html>";
       body = clean;
     }
-    throw Error("Article markup did not stabilize");
+    throw Object.assign(Error("Article markup did not stabilize"), {app: true});
   }
 
   async function replaceAll(source, pattern, render) {
@@ -103,7 +103,7 @@
   async function prepare(zim, entry, urls, signal) {
     if (!/^text\/html\b|^application\/xhtml\+xml\b/i.test(entry?.mime)) throw Error("Entry is not an article");
     const content = await zim.blob(entry);
-    if (content.size > maxMarkup) throw Error("Article is too large");
+    if (content.size > maxMarkup) throw Object.assign(Error("Article is too large"), {app: true});
     const readText = blob => root.OWLZim.readBlob(blob, "text");
     const html = await readText(content);
     const template = document.createElement("template");
@@ -111,6 +111,13 @@
     const doc = template.content;
     const scripts = doc.querySelectorAll("script").length;
     const title = doc.querySelector("title")?.textContent.trim() || entry.title;
+    const simulation = doc.querySelector('meta[name="phet-sim-level"]');
+    // Archives keep short pages that only forward to another page.
+    const refresh = [...doc.querySelectorAll("meta[http-equiv]")]
+      .find(node => node.getAttribute("http-equiv").trim().toLowerCase() === "refresh");
+    const forward = refresh?.getAttribute("content")?.match(/url\s*=\s*['"]?([^'"]+)/i)?.[1];
+    const destination = forward && locate(forward.trim(), entry, zim.minor === 0);
+    if (destination?.path) throw Object.assign(Error("Archive page forwards"), {code: "redirect", target: destination});
     // Template parsing keeps every archived resource inert, including the original head.
     for (const node of doc.querySelectorAll(discarded + ", title")) node.remove();
     const alternatives = doc.querySelectorAll("noscript");
@@ -125,11 +132,13 @@
     // A script-built shell can have a title and a short loading notice, but no
     // readable content. CSS illustrations count alongside embedded images.
     const readable = doc.cloneNode(true);
+    const articleHeading = readable.querySelector("main > header > h1")?.textContent.trim();
     for (const node of readable.querySelectorAll("style, svg, header, nav, footer")) node.remove();
     const textLength = readable.textContent.replace(/\s+/g, " ").trim().length;
     const illustrations = readable.querySelectorAll("img, picture, video, [style*='url(']").length;
-    if (scripts && textLength < 120 && !illustrations) {
-      throw Object.assign(Error("Archive requires scripts"), {code: "scripts", textLength, scripts, illustrations});
+    // A PhET splash image needs scripts. Short article indexes keep their own heading.
+    if (scripts && (simulation || textLength < 120 && !illustrations && !articleHeading)) {
+      throw Object.assign(Error("Archive requires scripts"), {code: "scripts", app: true, textLength, scripts, illustrations});
     }
 
     const resources = new Map(), links = new Map();

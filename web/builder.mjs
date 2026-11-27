@@ -1201,7 +1201,7 @@ async function reservePaths(drive, state, asset, partBytes, joining) {
 
 const readerChecksums = "LIBRARY/SHA256SUMS.txt";
 const generationPath = /^LIBRARY\/INDEX\/([a-f0-9]{12})\//;
-const readerFiles = /^(?:reader|home|search|search-paths|manifest|rank|rerank|shards|fzstd|zim|zim-drive|zim-article|c-(?:health|food|shelter|trades|school|reference|advanced|culture|other))\.js$/;
+const readerFiles = /^(?:(?:reader|home|search|search-paths|manifest|rank|rerank|shards|fzstd|zim|zim-drive|zim-article|c-(?:health|food|shelter|trades|school|reference|advanced|culture|other))\.js|zim-app\.html)$/;
 function readerPath(path) {
   if (!safePath(path)) return false;
   if (path === START_PAGE || path === phoneCatalogName || path === readerChecksums) return true;

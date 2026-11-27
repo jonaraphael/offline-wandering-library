@@ -365,7 +365,7 @@ class CopyTests(unittest.TestCase):
                       profile_name="demo", allow_local=True, progress=lambda _: None)
                 reader = next((destination / "LIBRARY/INDEX").glob("*/c-other.js")).read_text()
                 self.assertNotIn("build-process", reader)
-                self.assertFalse(list((destination / "LIBRARY/INDEX").rglob("*.html")))
+                self.assertEqual([path.name for path in (destination / "LIBRARY/INDEX").rglob("*.html")], ["zim-app.html"])
                 checked = verify_drive(destination, emit=lambda _: None)
                 self.assertEqual((checked["FAILED"], checked["MISSING"], checked["UNKNOWN"]), (0, 0, 0))
 

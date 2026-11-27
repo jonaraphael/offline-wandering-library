@@ -65,7 +65,7 @@ function makeZim({legacy = false, compression = 1, cycle = false, titleListing =
     return Buffer.concat([header.subarray(0, 7), block, input]);
   }} = {}) {
   const ns = legacy ? 'A' : 'C';
-  const mimes = ['text/html', 'text/css', 'image/svg+xml', 'application/octet-stream'];
+  const mimes = ['text/html', 'text/css', 'image/svg+xml', 'application/octet-stream', 'application/javascript'];
   const mimeTable = Buffer.from(mimes.join('\0') + '\0\0');
   const page = scripted ? '<title>Script archive</title><script src="app.js"></script><div id="app"></div>' : main;
   const mainPath = 'Cardiopulmonary_resuscitation';
@@ -79,6 +79,16 @@ function makeZim({legacy = false, compression = 1, cycle = false, titleListing =
     {ns: img, path: '_assets/marker.svg', mime: 2, data: svg},
     {ns: 'W', path: 'mainPage', redirect: mainPath},
   ];
+  // A script-built page draws itself, asks the archive for another page and a picture, and links onward.
+  if (scripted) entries.push({ns, path: 'app.js', mime: 4, data: [
+    'addEventListener("DOMContentLoaded", () => {',
+    '  document.getElementById("app").textContent = "Script-built page marker";',
+    '  fetch("Second").then(r => r.text()).then(t => { const p = document.createElement("p"); p.id = "fetched";',
+    '    p.textContent = /Second-page marker/.test(t) ? "Fetched from the archive" : "Fetch failed"; document.body.append(p); });',
+    '  const img = new Image(); img.id = "drawn"; img.src = "_assets/marker.svg"; document.body.append(img);',
+    '  const a = document.createElement("a"); a.id = "next"; a.href = "Second"; a.textContent = "Second article"; document.body.append(a);',
+    '});',
+  ].join('\n')});
   if (longPath) entries.push({ns, path: 'a'.repeat(2200), title: 'Long path', mime: 0, data: page});
   if (titleListing) entries.push({ns: 'X', path: 'listing/titleOrdered/v1', mime: 3});
   entries.sort((a, b) => Buffer.compare(Buffer.from(a.ns + a.path), Buffer.from(b.ns + b.path)));

@@ -86,7 +86,7 @@ class BuilderParityTests(unittest.TestCase):
                 return {path.relative_to(root).as_posix() for path in (root / 'LIBRARY' / kind).rglob('*') if path.is_file()}
             self.assertEqual(tree(native, 'SEARCH'), tree(web, 'SEARCH'))
             self.assertEqual(tree(native, 'INDEX'), tree(web, 'INDEX'))
-            self.assertFalse(list((native / 'LIBRARY/INDEX').rglob('*.html')))
+            self.assertEqual([path.name for path in (native / 'LIBRARY/INDEX').rglob('*.html')], ['zim-app.html'])
             reader_paths = {checksum_name(path) for path in GENERATED_PATHS}
             reader_paths.update(path for path in tree(native, 'INDEX') if path.endswith('.js'))
             reader_paths.update(path for path in tree(native, 'SEARCH') if '/shared/' in path)

@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src blob: 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval'; style-src blob: 'unsafe-inline'; img-src blob: data:; media-src blob: data:; font-src blob: data:; connect-src blob: data:; worker-src blob:; base-uri https://archive.invalid; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archive page</title>
+<script>
+/* Runs one page of a script-built archive (simulations, video courses, apps) for
+   START_HERE. The reader embeds this file with sandbox="allow-scripts" and no
+   allow-same-origin, so the page gets an opaque origin: it cannot reach the
+   reader, the drive or browser storage. This file's policy allows no network.
+   Every file the page asks for is answered by the reader from the archive. */
+(function () {
+  "use strict";
+
+  const origin = "https://archive.invalid";
+  const files = new Map(), urls = new Map(), waiting = new Map();
+  const sources = new Map(), objectURLs = new Set();
+  let port, current, number = 0;
+
+  function objectURL(blob) {
+    const url = URL.createObjectURL(blob);
+    objectURLs.add(url);
+    return url;
+  }
+
+  function locate(value, base) {
+    let url;
+    try { url = new URL(String(value), base || document.baseURI); } catch (_) { return null; }
+    if (url.origin !== origin) return null;
+    let path = url.pathname.slice(1);
+    try { path = decodeURIComponent(path); } catch (_) { /* Keep the raw path. */ }
+    return {path, query: url.search, hash: url.hash, href: url.href};
+  }
+
+  function ask(message) {
+    return new Promise(resolve => {
+      const id = ++number;
+      waiting.set(id, resolve);
+      port.postMessage({...message, id});
+    });
+  }
+
+  function file(target) {
+    const key = target.path + target.query;
+    if (!files.has(key)) {
+      files.set(key, ask({type: "get", path: target.path, query: target.query}).then(reply =>
+        reply.blob instanceof Blob ? reply.blob : null));
+    }
+    return files.get(key);
+  }
+
+  async function replace(source, pattern, render) {
+    let output = "", start = 0;
+    for (const match of source.matchAll(pattern)) {
+      output += source.slice(start, match.index) + await render(...match);
+      start = match.index + match[0].length;
+    }
+    return output + source.slice(start);
+  }
+
+  const cssURL = /url\(\s*(?:"((?:\\.|[^"\\])*)"|'((?:\\.|[^'\\])*)'|((?:\\.|[^)\\\s"'])*))\s*\)/gi;
+  const cssImport = /@import\s+(?:url\(\s*)?(?:"([^"]*)"|'([^']*)'|([^\s;)]+))\s*\)?\s*([^;{}]*);/gi;
+
+  async function sheet(text, base, depth = 0) {
+    text = await replace(text, cssImport, async (whole, double, single, bare, media) => {
+      const target = locate(double ?? single ?? bare, base);
+      if (!target) return whole;
+      const blob = depth < 4 ? await file(target) : null;
+      if (!blob) return "";
+      const inner = await sheet(await blob.text(), target.href, depth + 1);
+      return media.trim() ? "@media " + media + "{" + inner + "}" : inner;
+    });
+    return replace(text, cssURL, async (whole, double, single, bare) => {
+      const url = await address(double ?? single ?? bare, base);
+      return url ? 'url("' + url + '")' : whole;
+    });
+  }
+
+  // A blob: URL for an archive file, or null when the value is not in the archive.
+  function address(value, base, kind = "") {
+    const target = locate(value, base);
+    if (!target) return Promise.resolve(null);
+    const key = kind + ":" + target.path + target.query;
+    if (!urls.has(key)) {
+      urls.set(key, file(target).then(async blob => {
+        if (!blob) return "";
+        if (kind === "css") blob = new Blob([await sheet(await blob.text(), target.href)], {type: "text/css"});
+        const url = objectURL(blob);
+        sources.set(url, target.path + target.query);
+        return url;
+      }));
+    }
+    return urls.get(key).then(url => url && url + target.hash);
+  }
+
+  async function candidates(value, base) {
+    const list = [];
+    for (const match of String(value).matchAll(/(?:^|[\s,])([^\s,][^\s]*?)(?:[\t\n\f\r ]+([\d.]+[wx]))?(?:\s*,\s*|\s*$)/g)) {
+      const url = locate(match[1], base) ? await address(match[1], base) : match[1];
+      if (url) list.push(url + (match[2] ? " " + match[2] : ""));
+    }
+    return list.join(", ");
+  }
+
+  // Which attribute of which element names a file to load (links are handled on click).
+  function fileAttribute(node, name) {
+    const tag = node.localName;
+    if (name === "src") return ["img", "script", "source", "video", "audio", "track", "input", "embed"].includes(tag);
+    if (name === "srcset") return tag === "img" || tag === "source";
+    if (name === "poster") return tag === "video";
+    if (name === "href" || name === "xlink:href") {
+      return tag === "image" || tag === "feImage" || tag === "link" && /\bstylesheet\b/i.test(node.getAttribute("rel") || "");
+    }
+    return false;
+  }
+
+  async function resolved(node, name, value, base) {
+    if (name === "srcset") return candidates(value, base);
+    if (name === "style") return sheet(value, base);
+    return address(value, base, node.localName === "link" ? "css" : "");
+  }
+
+  const setAttribute = Element.prototype.setAttribute;
+  const pendingValue = new WeakMap();
+
+  // Load archive files into an element after the reader answers.
+  function assign(node, name, value) {
+    let wanted = pendingValue.get(node);
+    if (!wanted) pendingValue.set(node, wanted = new Map());
+    wanted.set(name, value);
+    resolved(node, name, value).then(url => {
+      if (wanted.get(name) !== value) return;
+      wanted.delete(name);
+      setAttribute.call(node, name, url || "");
+      const media = node.localName === "source" && node.parentElement;
+      if (media instanceof HTMLMediaElement && !media.currentSrc) media.load();
+    });
+  }
+
+  function needsFile(node, name, value) {
+    if (typeof value !== "string" && !(value instanceof URL)) return false;
+    if (name === "style") return /url\(/i.test(value) && /url\(\s*["']?(?!blob:|data:|#)/i.test(value);
+    if (!fileAttribute(node, name)) return false;
+    if (name === "srcset") return String(value).split(",").some(part => locate(part.trim().split(/\s+/)[0]));
+    return Boolean(locate(value));
+  }
+
+  function hookProperty(type, property, name = property) {
+    const descriptor = type && Object.getOwnPropertyDescriptor(type.prototype, property);
+    if (!descriptor?.set) return;
+    Object.defineProperty(type.prototype, property, {...descriptor, set(value) {
+      if (needsFile(this, name, value)) assign(this, name, String(value));
+      else descriptor.set.call(this, value);
+    }});
+  }
+
+  function scan(root) {
+    const nodes = root.nodeType === 1 ? [root, ...root.querySelectorAll("*")] : [...root.querySelectorAll("*")];
+    for (const node of nodes) {
+      for (const name of ["src", "srcset", "poster", "href", "xlink:href", "style"]) {
+        const value = node.getAttribute(name);
+        if (value && needsFile(node, name, value)) assign(node, name, value);
+      }
+    }
+  }
+
+  function memoryStorage() {
+    const data = new Map();
+    return {
+      get length() { return data.size; },
+      key: index => [...data.keys()][index] ?? null,
+      getItem: key => data.has(String(key)) ? data.get(String(key)) : null,
+      setItem: (key, value) => void data.set(String(key), String(value)),
+      removeItem: key => void data.delete(String(key)),
+      clear: () => data.clear(),
+    };
+  }
+
+  // Pages often expect storage, which an opaque origin refuses. Keep it in memory.
+  function emulateStorage() {
+    for (const name of ["localStorage", "sessionStorage"]) {
+      try { void window[name].length; } catch (_) {
+        try { Object.defineProperty(window, name, {configurable: true, value: memoryStorage()}); } catch (_) { /* Leave it. */ }
+      }
+    }
+    try { void document.cookie; } catch (_) {
+      const jar = new Map();
+      try {
+        Object.defineProperty(document, "cookie", {configurable: true,
+          get: () => [...jar].map(([key, value]) => key + "=" + value).join("; "),
+          set: value => {
+            const [pair] = String(value).split(";");
+            const at = pair.indexOf("=");
+            if (at > 0) jar.set(pair.slice(0, at).trim(), pair.slice(at + 1).trim());
+          }});
+      } catch (_) { /* Leave it. */ }
+    }
+  }
+
+  function emulateRequests() {
+    const nativeFetch = window.fetch;
+    window.fetch = function (input, init) {
+      const target = locate(input instanceof Request ? input.url : input);
+      if (!target) return nativeFetch.apply(this, arguments);
+      return file(target).then(blob => blob ? new Response(blob, {status: 200, headers: {"Content-Type": blob.type ||
+        "application/octet-stream"}}) : new Response("", {status: 404, statusText: "Not Found"}));
+    };
+    const xhr = XMLHttpRequest.prototype, open = xhr.open, send = xhr.send, header = xhr.setRequestHeader;
+    const deferred = new WeakMap();
+    xhr.open = function (method, url) {
+      const target = locate(url);
+      if (!target) {
+        deferred.delete(this);
+        return open.apply(this, arguments);
+      }
+      deferred.set(this, {method, target, headers: []});
+      return open.call(this, method, "data:,", true);
+    };
+    xhr.setRequestHeader = function (name, value) {
+      deferred.get(this)?.headers.push([name, value]);
+      return header.apply(this, arguments);
+    };
+    xhr.send = function (body) {
+      const request = deferred.get(this);
+      if (!request) return send.apply(this, arguments);
+      deferred.delete(this);
+      file(request.target).then(blob => {
+        let url = "blob:missing";
+        if (blob) url = objectURL(blob);
+        open.call(this, request.method, url, true);
+        for (const pair of request.headers) header.apply(this, pair);
+        send.call(this, body);
+      });
+    };
+    const nativeOpen = window.open;
+    window.open = function (url) {
+      const target = url && locate(url);
+      let outside = null;
+      try { outside = !target && url ? new URL(url, document.baseURI) : null; } catch (_) { /* Not a URL. */ }
+      if (target) leave(target);
+      else if (/^https?:$/i.test(outside?.protocol || "")) port.postMessage({type: "external", href: outside.href});
+      else return nativeOpen.apply(this, arguments);
+      return null;
+    };
+  }
+
+  function emulateElements() {
+    for (const [type, property, name] of [
+      [window.HTMLScriptElement, "src"], [window.HTMLImageElement, "src"], [window.HTMLImageElement, "srcset"],
+      [window.HTMLSourceElement, "src"], [window.HTMLSourceElement, "srcset"], [window.HTMLMediaElement, "src"],
+      [window.HTMLVideoElement, "poster"], [window.HTMLTrackElement, "src"], [window.HTMLLinkElement, "href"],
+      [window.HTMLInputElement, "src"], [window.HTMLEmbedElement, "src"]]) hookProperty(type, property, name);
+    Element.prototype.setAttribute = function (name, value) {
+      const lower = String(name).toLowerCase();
+      if (needsFile(this, lower, value)) return assign(this, lower, String(value));
+      return setAttribute.apply(this, arguments);
+    };
+  }
+
+  // Relative history URLs resolve against the archive address; keep them on this document.
+  function emulateHistory() {
+    for (const name of ["pushState", "replaceState"]) {
+      const native = History.prototype[name];
+      History.prototype[name] = function (state, title, url) {
+        const target = url == null ? null : locate(url);
+        if (!target) return native.apply(this, arguments);
+        if (target.path !== current.path || target.query !== current.query) return native.call(this, state, title);
+        try {
+          return native.call(this, state, title, location.href.split("#")[0] + target.hash);
+        } catch (error) {
+          // Firefox lets a sandboxed file page keep its first address only.
+          if (error.name !== "SecurityError") throw error;
+          return native.call(this, state, title);
+        }
+      };
+    }
+  }
+
+  // Styles a page adds later may name archive files too.
+  function restyle(node) {
+    if (node.localName !== "style" || !/url\(|@import/i.test(node.textContent)) return;
+    const text = node.textContent;
+    sheet(text, document.baseURI).then(result => {
+      if (result !== text && node.textContent === text) node.textContent = result;
+    });
+  }
+
+  function leave(target) {
+    if (target.path === current.path && target.query === current.query) {
+      if (target.hash.startsWith("#/") && target.hash !== location.hash) {
+        port.postMessage({type: "navigate", path: target.path, query: target.query, hash: target.hash});
+        return;
+      }
+      if (target.hash) location.hash = target.hash;
+      return;
+    }
+    port.postMessage({type: "navigate", path: target.path, query: target.query, hash: target.hash});
+  }
+
+  function watch() {
+    addEventListener("pagehide", () => {
+      for (const url of objectURLs) URL.revokeObjectURL(url);
+      objectURLs.clear();
+      port.close();
+    }, {once: true});
+    let title = document.title;
+    const report = () => {
+      if (document.title !== title) port.postMessage({type: "title", title: title = document.title});
+    };
+    new MutationObserver(records => {
+      for (const record of records) {
+        if (record.type === "attributes") {
+          const value = record.target.getAttribute(record.attributeName);
+          if (value && needsFile(record.target, record.attributeName, value)) assign(record.target, record.attributeName, value);
+        } else if (record.type === "characterData") {
+          const style = record.target.parentNode;
+          if (style?.localName === "style") restyle(style);
+        } else {
+          for (const node of record.addedNodes) {
+            if (node.nodeType === 1) {
+              scan(node);
+              if (node.localName === "style") restyle(node);
+              else for (const style of node.querySelectorAll("style")) restyle(style);
+            } else if (record.target.localName === "style") restyle(record.target);
+          }
+        }
+      }
+      report();
+    }).observe(document, {subtree: true, childList: true, characterData: true, attributes: true,
+      attributeFilter: ["src", "srcset", "poster", "href", "xlink:href", "style"]});
+    // A hash router handles these links before they bubble. Send them through the
+    // reader so the address and Back work even when the frame cannot change its URL.
+    addEventListener("click", event => {
+      if (event.button !== 0 || event.defaultPrevented) return;
+      const link = event.target.closest?.('a[href^="#/"]');
+      const target = link && locate(link.href);
+      if (!target || target.path !== current.path || target.hash === location.hash) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      leave(target);
+    }, true);
+    addEventListener("click", event => {
+      if (event.defaultPrevented || event.button > 1) return;
+      const link = event.target.closest?.("a[href], area[href]");
+      if (!link) return;
+      const href = link.href?.baseVal ?? link.href;
+      const target = locate(href);
+      if (target) {
+        event.preventDefault();
+        leave(target);
+      } else if (/^https?:/i.test(href)) {
+        event.preventDefault();
+        port.postMessage({type: "external", href});
+      }
+    });
+    window.navigation?.addEventListener("navigate", event => {
+      const target = locate(event.destination.url);
+      const away = !target && !event.destination.sameDocument && /^https?:/i.test(event.destination.url);
+      if (!event.cancelable || !target && !away) return;
+      // The page stays on the drive: archive links go through the reader, others stop here.
+      event.preventDefault();
+      if (target) leave(target);
+    });
+    addEventListener("error", event => {
+      if (event.message) port.postMessage({type: "error", message: event.message, source: sources.get(event.filename) || event.filename});
+    });
+    addEventListener("unhandledrejection", event => {
+      const reason = event.reason;
+      port.postMessage({type: "error", message: String(reason?.message ?? reason), source: reason?.stack});
+    });
+    document.addEventListener("securitypolicyviolation", event => {
+      port.postMessage({type: "csp", directive: event.effectiveDirective, blocked: event.blockedURI});
+    });
+    document.addEventListener("DOMContentLoaded", () => {
+      report();
+      const id = decodeURIComponent(current.hash.slice(1));
+      if (id && !id.startsWith("/")) document.getElementById(id)?.scrollIntoView();
+      port.postMessage({type: "ready", title: document.title});
+    });
+  }
+
+  async function prepare(html, href) {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    let base = href;
+    const declared = doc.querySelector("base[href]");
+    if (declared && locate(declared.getAttribute("href"), href)) base = locate(declared.getAttribute("href"), href).href;
+    for (const node of doc.querySelectorAll("base, meta[http-equiv]")) {
+      const kind = node.getAttribute("http-equiv")?.toLowerCase();
+      if (kind === "refresh") {
+        const destination = (node.getAttribute("content") || "").match(/url\s*=\s*['"]?([^'"]+)/i)?.[1];
+        const target = destination && locate(destination.trim(), base);
+        if (target) return {redirect: target};
+      }
+      if (node.localName === "base" || kind === "refresh" || kind === "content-security-policy") node.remove();
+    }
+    // A page that ships an older script build for browsers without modules uses it
+    // here, because module imports cannot be served from blob: addresses.
+    const legacy = doc.querySelector("script[nomodule]");
+    const work = [];
+    for (const node of doc.querySelectorAll("*")) {
+      const tag = node.localName;
+      if (tag === "script" && node.hasAttribute("src")) {
+        if (legacy && node.type === "module") {
+          node.remove();
+          continue;
+        }
+        node.removeAttribute("integrity");
+        node.removeAttribute("crossorigin");
+      }
+      if (tag === "link") {
+        if (!/\bstylesheet\b/i.test(node.getAttribute("rel") || "")) {
+          node.remove();
+          continue;
+        }
+        node.removeAttribute("integrity");
+        node.removeAttribute("crossorigin");
+      }
+      if (tag === "style") work.push(sheet(node.textContent, base).then(text => { node.textContent = text; }));
+      for (const name of ["src", "srcset", "poster", "href", "xlink:href", "style"]) {
+        const value = node.getAttribute(name);
+        if (value && needsFileIn(node, name, value, base)) {
+          work.push(resolved(node, name, value, base).then(url => node.setAttribute(name, url || "")));
+        }
+      }
+    }
+    await Promise.all(work);
+    const head = doc.createElement("base");
+    head.setAttribute("href", base);
+    doc.head.prepend(head);
+    const doctype = doc.doctype ? "<!doctype " + doc.doctype.name + ">" : "";
+    return {markup: doctype + doc.documentElement.outerHTML};
+  }
+
+  function needsFileIn(node, name, value, base) {
+    if (name === "style") return /url\(/i.test(value);
+    if (!fileAttribute(node, name)) return false;
+    if (name === "srcset") return true;
+    return Boolean(locate(value, base));
+  }
+
+  // The reader puts the page's starting fragment in this frame's address, the one
+  // place every engine accepts it.
+  async function start({html, url}) {
+    current = locate(url.split("#")[0] + location.hash, origin);
+    const page = await prepare(html, url);
+    if (page.redirect) {
+      port.postMessage({type: "navigate", path: page.redirect.path, query: page.redirect.query, hash: page.redirect.hash,
+        replace: true});
+      return;
+    }
+    emulateStorage();
+    emulateRequests();
+    emulateElements();
+    emulateHistory();
+    document.open();
+    watch();
+    document.write(page.markup);
+    document.close();
+  }
+
+  addEventListener("message", function begin(event) {
+    const data = event.data;
+    if (event.source !== parent || data?.type !== "owl-open" || !event.ports[0] || typeof data.html !== "string") return;
+    removeEventListener("message", begin);
+    port = event.ports[0];
+    port.onmessage = ({data: reply}) => {
+      const resolve = waiting.get(reply?.id);
+      if (!resolve) return;
+      waiting.delete(reply.id);
+      resolve(reply);
+    };
+    start(data).catch(error => port.postMessage({type: "failed", message: String(error?.message || error)}));
+  });
+})();
+</script>
+</head>
+<body></body>
+</html>
