@@ -401,6 +401,36 @@ test("Check every file leaves a personal build report untouched even on an OWL d
   assert.ok(![...(await drive.getDirectoryHandle("LIBRARY")).entries.keys()].some(path => path.includes(".changed-")));
 });
 
+test("Sync replaces reader files that another OWL builder rewrote and listed in SHA256SUMS.txt", async () => {
+  const drive = new Directory();
+  const selection = options({book: "content"});
+  await reconcile(drive, selection);
+  const report = "LIBRARY/BUILD_REPORT.html", sums = "LIBRARY/SHA256SUMS.txt";
+  const original = await text(drive, report);
+  const rewritten = original + "<p>Rebuilt by the Python builder.</p>";
+  await writeFile(drive, report, rewritten);
+  const listed = (await text(drive, sums)).replace(hash(original) + "  " + report, hash(rewritten) + "  " + report);
+  assert.ok(listed.includes(hash(rewritten) + "  " + report));
+  await writeFile(drive, sums, listed);
+  // A catalog update rebuilds the pages, as a sync after another builder does.
+  const result = await reconcile(drive, options({book: "content", atlas: "new content"}));
+  assert.equal(result.state.finished, true);
+  assert.doesNotMatch(await text(drive, report), /Rebuilt by the Python builder/);
+  assert.ok((await text(drive, sums)).includes(hash(await text(drive, report)) + "  " + report));
+  assert.ok(![...(await drive.getDirectoryHandle("LIBRARY")).entries.keys()].some(path => path.includes(".changed-")));
+});
+
+test("Sync still stops at a reader file a person changed without updating SHA256SUMS.txt", async () => {
+  const drive = new Directory();
+  const selection = options({book: "content"});
+  await reconcile(drive, selection);
+  const report = "LIBRARY/BUILD_REPORT.html";
+  await writeFile(drive, report, "my own notes");
+  await assert.rejects(reconcile(drive, options({book: "content", atlas: "new content"})),
+    /existing file blocks LIBRARY\/BUILD_REPORT\.html/);
+  assert.equal(await text(drive, report), "my own notes");
+});
+
 test("FAT32 migration can join a 2 GiB archive when there is room and keeps a 5 GiB archive in parts", async () => {
   const GiB = 2 ** 30;
   const drive = new Directory();
