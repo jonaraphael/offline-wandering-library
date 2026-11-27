@@ -397,7 +397,7 @@ class BuildTests(Fixture):
         start = (drive / "START_HERE.html").read_text(encoding="utf-8")
         # The static page shows the first part's folder trail, for example "LIBRARY › ZIM › fixture.zimaa".
         self.assertIn('fixture.zimaa', start)
-        self.assertIn('ZIM ›', start)
+        self.assertIn('LIBRARY › ZIM</span><span class="filename">fixture.zimaa', start)
         data = library / info["search"]["manifest"]["path"]
         self.assertIn('"href":"ZIM/fixture.zimaa"', data.read_text(encoding="utf-8"))
         self.assertEqual(verify_main([str(drive), "--strict"]), 0)
@@ -521,7 +521,7 @@ class BuildTests(Fixture):
     def test_end_to_end_idempotent_and_independent_verification(self):
         self.run_build()
         drive = self.root / "drive"
-        self.assertEqual({p.name for p in drive.iterdir()}, {"START_HERE.html", "LIBRARY"})
+        self.assertEqual({p.name for p in drive.iterdir()}, {"START_HERE.html", "START_HERE_FOR_IPHONES.pdf", "LIBRARY"})
         initial = sha256_file(drive / "LIBRARY/SEARCH/manifest.js")
         content = drive / "LIBRARY" / self.asset["destination"]
         mtime = content.stat().st_mtime_ns

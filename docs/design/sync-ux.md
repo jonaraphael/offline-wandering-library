@@ -156,9 +156,7 @@ Notes on states:
   and builds the start page, closing or reloading the tab brings up the
   browser’s confirmation.
 - **In `done`, `done-gaps` and `current`** a card below the stage reads
-  "Using it on a phone. A phone opens nothing by itself when the drive is
-  plugged in. Open the Files app, tap the drive's name (on an iPhone it is
-  under Browse), then tap START_HERE."
+  “Using it on a phone” with directions to the drive in Files and the PDF catalog in Preview.
 - **Try it** opens the drive's `START_HERE.html` in a new tab. If the browser
   cannot open the preview, **Try it** gives the file name and drive.
 - **`current` has no primary button.** A disabled Sync button reads as a
@@ -484,36 +482,17 @@ report and the library builder.
 The static page is what an iPhone shows, so it is designed as a page in its
 own right, with the app's cards, colours and icons, and no script.
 
-In order:
+The cover and opening instructions lead into the urgent guides. Under
+**Everything on this drive**, each category is a native disclosure. Expanding
+it reveals the titles in place. Books with separate chapter files have a
+nested **Show chapters** disclosure. Each file has a folder trail and a
+separately selectable filename. Drives with encyclopedias also show Kiwix
+instructions. The reader replaces this page when its scripts load.
 
-1. **Cover:** the owl mark, "Library", "Works without internet".
-2. **How to open a book:** three numbered steps (find the book, close the
-   page, open `LIBRARY` and follow the folders). The line above the steps
-   reads "Tap its title. If nothing opens, you are looking at a preview";
-   on an iPhone or iPad it reads "On an iPhone or iPad this page is a list.
-   It cannot open the books by itself."
-3. **Urgent:** one row per task with the task as a link to its document,
-   the document's title and page, and the folder trail.
-4. **Everything on this drive:** the category tiles of the app's home
-   screen. A tile links to its category further down the page.
-5. **One section per category** that has items, under a heading that stays
-   at the top of the screen while its list scrolls. A row is a title (a
-   link to the file), its kind when it is not a plain PDF, and its trail. A
-   book published as chapter files is one row with a closed "Show chapters"
-   disclosure listing each chapter and its file name.
-6. **Opening an encyclopedia**, only on a drive that holds one: the Kiwix
-   steps for each device and the reader apps on the drive. An iPhone or iPad
-   shows its own steps alone.
-
-A **trail** is the item's location written as the folders to tap, with the
-file name in bold: "LIBRARY › CRITICAL › FIRST_AID › **CERT_2019.pdf**".
-
-The page improves with what the viewer allows and loses nothing where it
-does not. Where links within the page work, a tile shows its category alone
-and "Top" returns to the full page. Where links to files work, a title opens
-its document. The iPhone-only wording is chosen in CSS with
-`@supports (-webkit-touch-callout: none)`. The tab bar, search field and
-stars are absent. When the app starts, the static page is replaced.
+The companion `START_HERE_FOR_IPHONES.pdf` sits beside the HTML entry. Its
+contents links navigate inside the catalog, and its PDF titles use relative
+cross-document links. Preview can search the catalog's text independently of
+Files search. Both builders assemble it from their completed reading inventory.
 
 ### 5.4 Pages that go away
 

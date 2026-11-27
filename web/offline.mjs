@@ -1,7 +1,10 @@
 import {sha256} from "./vendor/noble-hashes/sha2.js";
 import {bytesToHex} from "./vendor/noble-hashes/utils.js";
+import {phoneCatalog, savedPhoneDrive} from "./phone-catalog.mjs";
 import {fileHandle, isNoSpace, optional, writeFile} from "./drive.mjs";
 import {assembleSearch, canonical, locator, shareSearchSupport, transfer} from "./search-build.mjs";
+
+export const phoneCatalogName = "START_HERE_FOR_IPHONES.pdf";
 
 const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
@@ -11,7 +14,7 @@ const order = (a, b) => compare(a.title.toLowerCase(), b.title.toLowerCase()) ||
 const encoder = new TextEncoder();
 const render = (template, values) => template.replace(/\{\{([a-z_]+)\}\}/g, (_, slot) => values[slot] ?? "");
 const data = (id, value) => "globalThis.OWLReaderData(" + canonical(id) + "," + canonical(value) + ");\n";
-const hash = value => bytesToHex(sha256(encoder.encode(value)));
+const hash = value => bytesToHex(sha256(typeof value === "string" ? encoder.encode(value) : value));
 const firstResponse = new Set(["cert", "medical_bec"]);
 const searchScripts = ["manifest.js", "rank.js", "shards.js", "rerank.js"];
 const FORMATS = {pdf: "PDF", html: "Web page", htm: "Web page", epub: "EPUB book",
@@ -88,7 +91,7 @@ export function assemblyReserve({assets, excluded, navigation, search, searchBud
   // The planner already accounts for the optional search payload. Limit
   // the on-drive placeholder so probing an estimated drive costs a small write.
   const searchReserve = search ? Math.min(searchBudget, 16 * 2 ** 20) : 0;
-  return fixed + metadata + size(verify) + 4096 + excluded.length * 512 + searchReserve;
+  return fixed + metadata + (reader ? 64 * 1024 + assets.length * 512 : 0) + size(verify) + 4096 + excluded.length * 512 + searchReserve;
 }
 
 function reportBody(missing, keptInParts) {
@@ -99,7 +102,7 @@ function reportBody(missing, keptInParts) {
     "<li>" + escape(row.title) + " · " + row.parts + " parts</li>").join("") + "</ul>" : "");
 }
 
-function readerFiles(config, inventory, phone, missing, keptInParts, indexed, shared, syncedAt) {
+async function readerFiles(config, inventory, phone, missing, keptInParts, indexed, shared, syncedAt, iphone) {
   const {layout, css, assets: metadata, categories} = config;
   const files = inventory.map(asset => {
     const path = asset.parts[0].path;
@@ -126,10 +129,11 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
     ...Object.entries(config.zim || {}).map(([name, text]) => ["LIBRARY/INDEX/" + name, text])]);
   // The static page is all a phone's file preview shows: no scripts, and often no working links.
   const link = (href, text) => render(layout.static_link, {href: escape(href), text: escape(text)});
+  const filename = path => render(layout.static_file, {name: escape(path.slice(path.lastIndexOf("/") + 1))});
   const trail = path => {
-    const folders = path.split("/").filter(Boolean);
-    const name = folders.pop();
-    return render(layout.static_trail, {folders: escape(folders.map(folder => folder + " › ").join("")), name: escape(name)});
+    const split = path.lastIndexOf("/");
+    return render(layout.static_trail, {folders: escape(path.slice(0, split).replaceAll("/", " › ")),
+      file: path.endsWith("/") ? "" : filename(path)});
   };
   const amount = (value, unit) => String(value).replace(/\B(?=(\d{3})+$)/g, ",") + " " + unit + (value === 1 ? "" : "s");
   const staticRow = (title, detail, path, chapters = "") => render(layout.static_row,
@@ -140,7 +144,7 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
     return staticRow(row.format === "zim" ? escape(row.task) : link(row.href, row.task), [row.title, page ? "page " + page : "",
       row.hint, row.articles.length ? "Look up " + row.articles.join(" / ") + " in Kiwix" : ""].filter(Boolean).join(" · "), row.path);
   }).join("")})];
-  const tiles = [], shelves = [];
+  const shelves = [], catalogGroups = [];
   for (const category of categories) {
     const {id, name} = category;
     const members = documents.filter(row => (metadata[row.id]?.category || "other") === id);
@@ -149,16 +153,17 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
     home.categories.push({...category, count: rows.length});
     pages.set("LIBRARY/INDEX/c-" + id + ".js", data(id, rows));
     if (!rows.length) continue;
+    catalogGroups.push({name, rows: members.sort(order)});
     const count = amount(rows.length, category.unit);
-    if (category.icon) tiles.push(render(layout.static_tile, {id, icon: escape(category.icon), name: escape(name), count}));
-    shelves.push(render(layout.static_section, {id, name: escape(name), count, blurb: escape(category.blurb),
+    const icon = category.icon ? render(layout.static_icon, {icon: escape(category.icon)}) : "";
+    shelves.push(render(layout.static_section, {id, icon, name: escape(name), count, blurb: escape(category.blurb),
       rows: rows.map(row => staticRow(row.chapters || row.format === "zim" ? escape(row.title) : link(row.href, row.title),
         row.kind === "PDF" ? "" : row.kind, row.path, row.chapters ? render(layout.static_chapters, {items: row.chapters.map(chapter =>
           render(layout.static_chapter, {title: link(chapter.href, chapter.title),
-            name: escape(chapter.path.slice(chapter.path.lastIndexOf("/") + 1))})).join("")}) : "")).join("")}));
+            file: filename(chapter.path)})).join("")}) : "")).join("")}));
   }
-  if (tiles.length) staticSections.push(render(layout.static_tiles, {tiles: tiles.join("")}));
-  staticSections.push(...shelves);
+  pages.set(phoneCatalogName, await phoneCatalog(catalogGroups, layout.phone_catalog, iphone?.path));
+  if (shelves.length) staticSections.push(render(layout.static_shelves, {shelves: shelves.join("")}));
   if (documents.some(row => row.format === "zim")) {
     const devices = ["iphone", "android", "windows", "mac", "linux"].map(device => {
       const instructions = layout.devices[device];
@@ -211,9 +216,19 @@ function readerFiles(config, inventory, phone, missing, keptInParts, indexed, sh
   return pages;
 }
 
+// Keep the iPhone location a previous build saved; see savedPhoneDrive. name: the picked folder's name.
+async function previousPhoneDrive(drive, name) {
+  try {
+    const file = await (await fileHandle(drive, "LIBRARY/BUILD_INFO.json")).getFile();
+    return file.size <= 4 * 2 ** 20 ? savedPhoneDrive(JSON.parse(await file.text()).iphone_drive, name) : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function assembleLibrary(drive, {completed, missing, keptInParts = [], selectedCount = completed.length + missing.length,
     navigation, layouts, parts, signal, search, searchBudget, fetchFile, network, syncedAt, compact = false,
-    unavailableSupport = [], searchMissing = false, publishReplacement, onPublished}) {
+    unavailableSupport = [], searchMissing = false, publishReplacement, onPublished, driveName = drive.name}) {
   // Prepare new files alongside the active reader. Defer changes to existing
   // files, including fixed search model names, until assembly has succeeded.
   const staged = new Map();
@@ -228,6 +243,7 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
     }
   } : drive;
   const {verify} = navigation;
+  const iphone = await previousPhoneDrive(drive, driveName);
   const {reader, phone} = compact ? {} : navigation;
   const phoneVolumes = [], phoneChecksums = [], supportMissing = [...unavailableSupport];
   let phoneBytes = 0;
@@ -288,7 +304,8 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
   const reportOmissions = [...omissions, ...supportMissing].sort(order);
   let pages;
   if (reader) {
-    try { pages = readerFiles(reader, assets, phoneVolumes, reportOmissions, keptInParts, indexed, shared, syncedAt); }
+    try { pages = await readerFiles(reader, assets, phoneVolumes, reportOmissions, keptInParts, indexed, shared, syncedAt,
+      iphone); }
     catch (error) {
       const issue = {kind: "reader", title: "Full reader", reason: error.message};
       supportMissing.push(issue);
@@ -325,7 +342,7 @@ export async function assembleLibrary(drive, {completed, missing, keptInParts = 
     selected_count: selectedCount, missing: omissions, kept_in_parts: keptInParts,
     content_complete: !missing.length && assets.length > 0,
     support_complete: supportMissing.length === 0, support_missing: supportMissing,
-    layout: {entry_page: "START_HERE.html", content_directory: "LIBRARY"}}, null, 2) + "\n");
+    layout: {entry_page: "START_HERE.html", content_directory: "LIBRARY"}, ...(iphone && {iphone_drive: iphone})}, null, 2) + "\n");
 
   const checksums = [...assets.flatMap(file => file.parts.map(part => part.sha256 + "  " + part.path)),
     ...indexed.checksums, ...sharedChecksums, ...phoneChecksums];

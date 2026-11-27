@@ -45,13 +45,13 @@ class AtlasBuildFixture(Fixture):
     def check_verified(self):
         counts = verify_drive(self.drive, emit=lambda _: None)
         self.assertEqual(counts["FAILED"] + counts["MISSING"] + counts["UNKNOWN"], 0, counts)
-        self.assertEqual({p.name for p in self.drive.iterdir()}, {"START_HERE.html", "LIBRARY"})
+        self.assertEqual({p.name for p in self.drive.iterdir()}, {"START_HERE.html", "START_HERE_FOR_IPHONES.pdf", "LIBRARY"})
         checksum_paths = [line.split("  ", 1)[1] for line in
                           (self.library / "SHA256SUMS.txt").read_text(encoding="utf-8").splitlines()]
         self.assertIn("START_HERE.html", checksum_paths)
         self.assertIn("LIBRARY/INVENTORY.json", checksum_paths)
         self.assertNotIn("LIBRARY/START_HERE.html", checksum_paths)
-        self.assertTrue(all(p == "START_HERE.html" or p.startswith("LIBRARY/") for p in checksum_paths))
+        self.assertTrue(all(p in {"START_HERE.html", "START_HERE_FOR_IPHONES.pdf"} or p.startswith("LIBRARY/") for p in checksum_paths))
 
     def put_downloaded_files(self):
         destination = self.library / self.asset["destination"]
@@ -147,6 +147,38 @@ class AtlasBuildTests(AtlasBuildFixture):
         refreshed = json.loads(path.read_bytes())
         self.assertFalse(refreshed["support_complete"])
         self.assertEqual(refreshed["support_missing"], [app])
+
+    def test_saved_iphone_drive_links_the_phone_catalog_while_the_folder_keeps_its_name(self):
+        from pypdf import PdfReader
+        self.run_build(navigation_dir=self.nav)
+        path = self.library / "BUILD_INFO.json"
+        volume = "D8CE3C96-2155-39B9-ACA4-EA1CF1876615"
+
+        def opens_books():
+            # The fixture is a text file, so the catalog's intro shows which link kind it would use.
+            text = PdfReader(self.drive / "START_HERE_FOR_IPHONES.pdf").pages[0].extract_text()
+            self.assertNotEqual("to read the book" in text, "to switch to Files" in text)
+            return "to read the book" in text
+
+        self.assertNotIn("iphone_drive", json.loads(path.read_bytes()))
+        self.assertFalse(opens_books())
+        for folder, kept in (("drive", True), ("OTHER", False)):
+            info = json.loads(path.read_bytes())
+            info["iphone_drive"] = {"path": volume, "folder": folder}
+            path.write_text(json.dumps(info), encoding="utf-8")
+            self.reseal_checksums()
+            self.atlas(metadata_only=True)
+            self.assertEqual(json.loads(path.read_bytes()).get("iphone_drive"), {"path": volume, "folder": folder} if kept else None)
+            self.assertEqual(opens_books(), kept)
+        # A full rebuild keeps a matching record too.
+        info = json.loads(path.read_bytes())
+        info["iphone_drive"] = {"path": volume, "folder": "drive"}
+        path.write_text(json.dumps(info), encoding="utf-8")
+        self.reseal_checksums()
+        self.run_build(navigation_dir=self.nav)
+        self.assertEqual(json.loads(path.read_bytes())["iphone_drive"], {"path": volume, "folder": "drive"})
+        self.assertTrue(opens_books())
+        self.check_verified()
 
     def test_metadata_refresh_resume_keeps_verification_mode_and_publishes_matching_search(self):
         self.run_build(navigation_dir=self.nav)

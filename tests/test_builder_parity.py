@@ -14,7 +14,7 @@ from owl.build import build
 from owl.catalog import load_catalog, load_profiles
 from owl.discovery import compile_records
 from owl.navigation import GENERATED_PATHS, collection_category, generate_navigation, reader_payload
-from owl.layout import checksum_name
+from owl.layout import PHONE_CATALOG, checksum_name
 from owl.selector import make_model
 from owl.search_shards import ROOT, Record, compile_search_plan, encode, info, load_manifest
 from owl.search_shards import packed_part, part_path, payload, read_file, script
@@ -91,6 +91,12 @@ class BuilderParityTests(unittest.TestCase):
             reader_paths.update(path for path in tree(native, 'INDEX') if path.endswith('.js'))
             reader_paths.update(path for path in tree(native, 'SEARCH') if '/shared/' in path)
             reader_paths.update({'LIBRARY/SEARCH.html', 'LIBRARY/SEARCH/search.js'})
+            # Different PDF writers serialize objects differently. Compare what a reader sees.
+            from pypdf import PdfReader
+            def catalog_text(root):
+                return [" ".join(page.extract_text().split()) for page in PdfReader(root / PHONE_CATALOG).pages]
+            self.assertEqual(catalog_text(native), catalog_text(web))
+            reader_paths.remove(PHONE_CATALOG)
             for key in sorted(reader_paths):
                 with self.subTest(reader_file=key):
                     self.assertEqual((native / key).read_bytes(), (web / key).read_bytes())

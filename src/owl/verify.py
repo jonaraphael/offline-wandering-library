@@ -17,6 +17,7 @@ BROWSER_BUILD = "LIBRARY/.owl/browser-build.json"
 BUILD_INFO = "LIBRARY/BUILD_INFO.json"
 INVENTORY = "LIBRARY/INVENTORY.json"
 START_PAGE = "START_HERE.html"
+PHONE_CATALOG = "START_HERE_FOR_IPHONES.pdf"
 SEARCH_PAGE = "LIBRARY/SEARCH.html"
 SUPPORT_PREFIXES = ("LIBRARY/INDEX/", "LIBRARY/SEARCH/", "LIBRARY/SOFTWARE/",
                     "LIBRARY/CRITICAL/MEDICAL/WIKIMED-PHONE/")
@@ -216,7 +217,7 @@ def support_status(root: Path, info: dict | None, integrity: dict) -> tuple[bool
     if (complete is True or reader or declared_search) and not present(START_PAGE):
         details.append("start page missing")
     support_files = {name: status for name, status in integrity.items()
-                     if name in required or name in {START_PAGE, SEARCH_PAGE} or name.startswith(SUPPORT_PREFIXES)}
+                     if name in required or name in {START_PAGE, PHONE_CATALOG, SEARCH_PAGE} or name.startswith(SUPPORT_PREFIXES)}
     for count, detail in (
         (sum(status == "FAILED" for status in support_files.values()), "failed checksum verification"),
         (sum(status == "MISSING" and name not in identified_missing
@@ -368,8 +369,8 @@ def verify_drive(target: Path, *, emit=print, allow_incomplete: bool = False) ->
             relative = match[2]
             folded = relative.casefold()
             _path(root, relative)
-            if (relative != "START_HERE.html" and not relative.startswith("LIBRARY/")):
-                raise ValueError("checksum paths must use the outer START_HERE.html and LIBRARY/ layout")
+            if (relative not in {START_PAGE, PHONE_CATALOG} and not relative.startswith("LIBRARY/")):
+                raise ValueError("checksum paths must use the outer reader files and LIBRARY/ layout")
             if (folded == MANIFEST.casefold() or folded == "library/.owl" or
                     folded.startswith("library/.owl/")):
                 raise ValueError("invalid checksum manifest self/internal entry")

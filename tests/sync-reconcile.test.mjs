@@ -15,6 +15,7 @@ const hash = body => createHash("sha256").update(body).digest("hex");
 const item = (id, body) => ({id, title: id, destination: "BOOKS/" + id + ".pdf", format: "pdf",
   size_bytes: Buffer.byteLength(body), sha256: hash(body), utility_tier: "USEFUL"});
 const path = file => "LIBRARY/" + file.destination;
+const bytes = async (drive, path) => new Uint8Array(await (await (await drive.file(path)).getFile()).arrayBuffer());
 const text = async (drive, path) => (await (await drive.file(path)).getFile()).text();
 const options = (files, other = {}) => ({
   assets: Object.entries(files).map(([id, body]) => item(id, body)),
@@ -549,17 +550,16 @@ test("Check every file preserves changes across generated reports, inventory, re
   const drive = new Directory();
   const first = await reconcile(drive, selection);
   const paths = first.state.generated;
-  for (const required of ["LIBRARY/BUILD_INFO.json", "LIBRARY/INVENTORY.json", "LIBRARY/SOURCE_NOTES.txt",
+  for (const required of ["START_HERE_FOR_IPHONES.pdf", "LIBRARY/BUILD_INFO.json", "LIBRARY/INVENTORY.json", "LIBRARY/SOURCE_NOTES.txt",
     "LIBRARY/VERIFY.py", "LIBRARY/INDEX/navigation-report.json", "LIBRARY/SEARCH/manifest.js", "LIBRARY/SHA256SUMS.txt",
     "LIBRARY/SEARCH/shared/" + hash(model) + ".js", "LIBRARY/" + phoneFolder + volume, shared]) {
     assert.ok(paths.includes(required), required);
   }
   const changed = new Map();
   for (const path of paths) {
-    const contents = await text(drive, path);
-    // Keep the byte count when replacing the first ASCII character.
-    assert.match(contents, /^[\x00-\x7f]/);
-    const edit = "~" + contents.slice(1);
+    const edit = await bytes(drive, path);
+    // Change one byte without altering the size of text or binary files.
+    edit[0] ^= 1;
     changed.set(path, edit);
     await writeFile(drive, path, edit);
   }
@@ -569,12 +569,12 @@ test("Check every file preserves changes across generated reports, inventory, re
   const checksums = (await text(drive, "LIBRARY/SHA256SUMS.txt")).trim().split("\n");
   for (const {path, copy, retired} of result.repairedPages) {
     assert.match(copy, /\.changed-/);
-    assert.equal(await text(drive, copy), changed.get(path));
+    assert.deepEqual(await bytes(drive, copy), changed.get(path));
     if (retired) await assert.rejects(drive.file(path), {name: "NotFoundError"});
   }
   for (const line of checksums) {
     const [digest, path] = line.split("  ");
-    assert.equal(hash(await text(drive, path)), digest, path);
+    assert.equal(hash(await bytes(drive, path)), digest, path);
   }
   await openGeneration(drive, "generated");
 });
@@ -728,7 +728,7 @@ test("reader generation stays consistent when interrupted at every assembly writ
     const checksums = await text(drive, "LIBRARY/SHA256SUMS.txt");
     for (const line of checksums.trim().split("\n")) {
       const [digest, path] = line.split("  ");
-      assert.equal(hash(await text(drive, path)), digest, "checksum after retry: " + path);
+      assert.equal(hash(await bytes(drive, path)), digest, "checksum after retry: " + path);
     }
   }
 
