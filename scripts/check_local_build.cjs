@@ -57,7 +57,7 @@ async function check(site, scratch) {
     const drive = path.join(scratch, "extracted");
     await mkdir(drive);
     execFileSync("tar", ["-xf", archive, "-C", drive]);
-    assert.deepEqual((await readdir(drive)).sort(), ["LIBRARY", "START_HERE.html"]);
+    assert.deepEqual((await readdir(drive)).sort(), ["LIBRARY", "START_HERE.html", "START_HERE_FOR_IPHONES.pdf"]);
     assert.ok(!(await readdir(path.join(drive, "LIBRARY"))).includes(".owl"));
     assert.equal(await readFile(path.join(drive, "LIBRARY", asset.destination), "utf8"), article);
     const offline = await context.newPage();

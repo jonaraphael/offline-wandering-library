@@ -2,7 +2,7 @@ import {sha256} from "./vendor/noble-hashes/sha2.js";
 import {bytesToHex, hexToBytes} from "./vendor/noble-hashes/utils.js";
 import {fileHandle, isNoSpace, optional, removeFile, writeFile} from "./drive.mjs";
 import {diag} from "./diagnostics.mjs";
-import {assembleLibrary, assemblyReserve, startPage} from "./offline.mjs";
+import {assembleLibrary, assemblyReserve, phoneCatalogName, startPage} from "./offline.mjs";
 import {createNetwork, routeCooldowns, SourceError} from "./network.mjs";
 import {canonical} from "./search-build.mjs";
 import {archiveSession, checkAlignment, publisherPin, streamRequest} from "./archive-download.mjs";
@@ -1204,7 +1204,7 @@ const generationPath = /^LIBRARY\/INDEX\/([a-f0-9]{12})\//;
 const readerFiles = /^(?:reader|home|search|search-paths|manifest|rank|rerank|shards|fzstd|zim|zim-drive|zim-article|c-(?:health|food|shelter|trades|school|reference|advanced|culture|other))\.js$/;
 function readerPath(path) {
   if (!safePath(path)) return false;
-  if (path === START_PAGE || path === readerChecksums) return true;
+  if (path === START_PAGE || path === phoneCatalogName || path === readerChecksums) return true;
   const generation = generationPath.exec(path);
   if (generation) return readerFiles.test(path.slice(generation[0].length));
   return /^LIBRARY\/(?:INVENTORY\.(?:html|json)|VERIFY\.py|README\.txt|BUILD_INFO\.json|BUILD_REPORT\.html|SOURCE_NOTES\.txt|SEARCH\.html|INDEX\/navigation-report\.json)$/.test(path) ||
@@ -1218,7 +1218,7 @@ async function checksumPins(checksums) {
     const match = /^([0-9a-f]{64})  (.+)$/.exec(line);
     if (!match) continue;
     const path = match[2] === "../START_HERE.html" || match[2] === "START_HERE.html" ? "START_HERE.html" :
-      match[2].startsWith("LIBRARY/") ? match[2] : "LIBRARY/" + match[2];
+      match[2] === phoneCatalogName || match[2].startsWith("LIBRARY/") ? match[2] : "LIBRARY/" + match[2];
     if (!path.split("/").some(piece => !piece || piece === "." || piece === "..")) pins.set(path, match[1]);
   }
   return pins;
@@ -1790,7 +1790,7 @@ async function reconcilePass(drive, {assets, excluded = [], routes = {}, publish
         selectedCount: assets.length + excluded.length - missingApps.length, navigation, search: compact ? undefined : search,
         layouts: new Map([...present].map(([id, row]) => [id, row.layout])),
         parts: Object.fromEntries([...present].map(([id, row]) => [id, row.parts])),
-        searchBudget: state.searchBudget, fetchFile, signal: assemblySignal, network, syncedAt, onPublished,
+        searchBudget: state.searchBudget, fetchFile, signal: assemblySignal, network, syncedAt, onPublished, driveName: drive.name,
         publishReplacement: keepPublished ? files => publishReplacement(drive, state, legacy, fullVerify, files) : undefined}));
       if (keptPublished) return retainPublished();
       break;

@@ -565,7 +565,7 @@ export function mount({catalog: supplied} = {}) {
   const pauseToManage = () => { manageAfterPause = true; pauseNow(); };
   const enterFreeSpace = () => { render("needs-free-space"); freeField.focus(); };
   const showOpenInstructions = () => {
-    byId("open-library-instructions").textContent = "In Files or Finder, open " + name() + ", then open START_HERE.html.";
+    byId("open-library-instructions").textContent = "In Files or Finder, open " + name() + ", then open START_HERE.html. On iPhone, open START_HERE_FOR_IPHONES.pdf in Preview if available.";
     byId("open-library").showModal();
   };
   const manageLink = ["Manage what goes on it", openManage];

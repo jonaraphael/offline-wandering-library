@@ -77,7 +77,7 @@ provisioning and in-place playback still depend on the individual device.
 | macOS | Open the bundled Kiwix DMG while offline, launch the app, and record any Gatekeeper message. Open the single ZIM and the first split part separately. Record whether the app reads the files in place and keeps bookmarks after unplug and reconnect. | Pending |
 | Linux x86-64 | Copy the AppImage to a filesystem where you can set the execute bit, run `chmod +x <file>`, then launch it. Keep the ZIMs on exFAT. Open the single ZIM and the first split part separately. If FUSE is unavailable as part of the tested system, record the alternate launch method used. | Pending |
 | Android with USB OTG | In airplane mode, connect the drive and open the standalone APK under `LIBRARY/SOFTWARE/ANDROID` in Files. Allow that app to install unknown apps if Android prompts. Open the standalone Kiwix build, choose its file picker, select the USB volume through the Storage Access Framework, and open the single ZIM. Repeat with both split parts beside each other. Verify the reported storage location stays on USB and confirm what happens after reconnect. | Pending |
-| USB-C iPhone, Files | In airplane mode, open Files → Browse → Locations and select the drive. Open `START_HERE.html` first, then the PDF path directly. Open a WikiMed PDF using the checklist below. Record whether Files follows sibling links. | 2026-11-22, owner's iPhone, browser-built exFAT drive: nothing opened when the drive was plugged in; Files previewed `START_HERE.html` as the static page, a plain list of titles and paths, with the scripts not run. Links within the page, the chapter disclosure and PDFs: pending (see below). |
+| USB-C iPhone, Files | In airplane mode, open Files → Browse → Locations and select the drive. Open `START_HERE.html` first, then the PDF path directly. Open a WikiMed PDF using the checklist below. Record whether Files follows sibling links. | 2026-11-22, owner's iPhone, browser-built exFAT drive: nothing opened when the drive was plugged in; Files previewed `START_HERE.html` as the static page, a plain list of titles and paths, with the scripts not run. On November 26 the category link prompted to leave Files and **Open** dismissed it. See the updated catalog checks below. |
 | USB-C iPhone, native Kiwix | While online, scan the builder’s App Store QR code and install Kiwix. In airplane mode, try the Kiwix document picker with the USB single ZIM, then its split copy. Record in-place playback or any import and storage growth. | Pending |
 | USB-C iPhone, Kiwix JS PWA | In Safari while online, open the Kiwix PWA, add it to the Home Screen and wait for caching. Relaunch from the Home Screen in airplane mode. Use **Select Storage** or the file picker to open the USB ZIM. Record whether the app itself loads, USB appears, the marker renders, and the same steps work with split parts. | Pending |
 
@@ -121,15 +121,59 @@ no `showDirectoryPicker`.
 [WebKit upload panel](https://github.com/WebKit/WebKit/blob/main/Source/WebKit/UIProcess/ios/forms/WKFileUploadPanel.mm) ·
 [Safari 18.4 notes](https://developer.apple.com/documentation/safari-release-notes/safari-18_4-release-notes)
 
-The static page is built for that preview: cover, three steps for opening a
-book, urgent tasks, category tiles, and one list per category with the
-folders that lead to each file. Three behaviours have no published test and
-need the phone:
+On the reported KINGSTON drive, even a same-page category link triggered the
+leave-Files prompt and **Open** dismissed it. Files also returned no matches for
+the exact WHO filename with KINGSTON selected. The screenshots establish the
+failed lookup. They do not identify how iOS indexed that USB volume.
 
-1. Tap a category tile. Record whether the page jumps to that category.
-2. Tap **Show chapters** under a book. Record whether the list opens.
-3. Open a PDF from `LIBRARY` and tap a link in its contents. Record whether
-   it jumps, and whether the PDF opened in Preview or Quick Look.
+After refreshing the indexes, test both entry files in airplane mode.
+
+1. In the HTML preview, expand **Health**, then expand a book with **Show chapters**.
+   Touch and hold a filename and copy it. Paste it into Files search and select
+   the drive scope. If it returns no matches, open the displayed folders.
+2. From Files, open **START_HERE_FOR_IPHONES.pdf** in Preview. Use **Search** to
+   find a title and a filename. This searches the PDF's text on the phone.
+3. Tap a category and **Contents** to test navigation inside the PDF. Tap a blue
+   title, then **Open** in "Leave Preview and open this link?". Record whether
+   the book opens in Preview. If the drive is missing in Preview's Browse
+   screen, start from Files using **Open With → Preview**. Record the OS, drive
+   format, and viewer for each result.
+
+Each blue title is a Files link:
+`shareddocuments:///private/var/mobile/Library/LiveFiles/com.apple.filesystems.userfsd/<volume UUID>/LIBRARY/…pdf?open`.
+With `?open`, Files hands the book to Preview to open in place. Preview does
+not follow a PDF link to another file (`GoToR`), and a relative link opens
+nothing after its prompt. In the iOS 27.2 simulator on 2026-11-26, the Files
+link opened the linked book in Preview after one confirmation. The `GoToR` link
+did nothing, and the relative link showed the prompt and then nothing.
+
+iOS names a USB drive's folder by its volume UUID, not its label. On
+2026-11-26 an iPhone running iOS 27 opened `OWL-link-test/1_Link_test.pdf` from
+the FAT32 drive KINGSTON. 3 of 3 links built on the UUID
+`D8CE3C96-2155-39B9-ACA4-EA1CF1876615` worked: the book with `?open` from
+`/private/var/…` and from `/var/…`, and the drive's top folder. 0 of 4 built on
+the label `KINGSTON` worked, including a `file://` link. A bare
+`shareddocuments://` link opened Files.
+macOS reports the same UUID as `VolumeUUID` in `diskutil info -plist`. For FAT,
+Apple derives it from the boot sector's volume ID and total sector count
+([msdosfs `generateVolumeUuid`](https://github.com/apple-oss-distributions/msdosfs/blob/main/msdos_appex/utils.m)),
+so renaming the drive keeps it and reformatting changes it.
+
+The Python builder reads the UUID with `diskutil` when it writes to a drive
+under `/Volumes`. A browser cannot read a volume UUID or a boot sector, and
+neither can the Python builder on Linux or Windows without raw device access.
+Both builders save the location in `LIBRARY/BUILD_INFO.json` as
+`iphone_drive: {"path": "<UUID>[/folders]", "folder": "<name of the folder holding LIBRARY>"}`
+and reuse it when they cannot read the UUID. A builder drops the saved location
+when the folder's name differs, so a library copied to a differently named
+drive stops linking to the original. A Windows drive root has no name to
+compare. A copy on a drive with the same name keeps the old UUID until the
+Python builder runs on a Mac. Without a location, each title links to a bare
+`shareddocuments://`, which switches to Files, and the intro says to follow the
+folders under the filename.
+[Preview search](https://support.apple.com/guide/iphone/iph7a0cdad0c/ios)
+· [PDFKit remote-open delegate](https://developer.apple.com/documentation/pdfkit/pdfviewdelegate/pdfviewopenpdf%28_%3Aforremotegotoaction%3A%29)
+· [Files search scopes](https://support.apple.com/guide/iphone/iphe4bff8827/ios)
 
 ## WikiMed in Files
 

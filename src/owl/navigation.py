@@ -12,7 +12,8 @@ import re
 from urllib.parse import quote
 
 from .catalog import is_document, read_yaml
-from .layout import checksum_name, managed_path, reader_destination
+from .phone_catalog import phone_catalog
+from .layout import PHONE_CATALOG, checksum_name, managed_path, reader_destination
 from .offline_layout import TEMPLATES, emergency_routes, layout, render
 from .resources import resource_asset_ids
 from .safety import atomic_write
@@ -32,7 +33,7 @@ _READER_CSS = (TEMPLATES / "site.css").read_text(encoding="utf-8")
 _DEVICES = ("iphone", "android", "windows", "mac", "linux")
 _FORMATS = {"pdf": "PDF", "html": "Web page", "htm": "Web page", "epub": "EPUB book",
             "zim": "Encyclopedia", "txt": "Text", "zip": "ZIP"}
-GENERATED_PATHS = ("START_HERE.html", "README.txt", "INVENTORY.html", "BUILD_REPORT.html")
+GENERATED_PATHS = ("START_HERE.html", PHONE_CATALOG, "README.txt", "INVENTORY.html", "BUILD_REPORT.html")
 READER_GENERATION = re.compile(r"INDEX/[0-9a-f]{12}/")
 SHARED_SEARCH = re.compile(r"SEARCH/shared/[0-9a-f]{64}\.js\Z")
 ZIM_RUNTIME = ("fzstd.js", "zim.js", "zim-drive.js", "zim-article.js")
@@ -217,7 +218,7 @@ def _grouped(rows, metadata, category):
     return sorted(output, key=lambda row: (first_response(row), importance(row), *_order(row)))
 
 
-def _reader_files(assets, inventory, scripts, shared):
+def _reader_files(assets, inventory, scripts, shared, drive=None):
     report = inventory.get("navigation") or {}
     config = reader_payload(assets, topics=report.get("reader_topics"))
     markup = config["layout"]
@@ -252,9 +253,13 @@ def _reader_files(assets, inventory, scripts, shared):
     def link(href, text):
         return render(markup["static_link"], href=_text(href), text=_text(text))
 
+    def filename(path):
+        return render(markup["static_file"], name=_text(path.rsplit("/", 1)[-1]))
+
     def trail(path):
-        *folders, name = [part for part in path.split("/") if part]
-        return render(markup["static_trail"], folders=_text("".join(folder + " › " for folder in folders)), name=_text(name))
+        folders, _, name = path.rpartition("/")
+        return render(markup["static_trail"], folders=_text(folders.replace("/", " › ")),
+                      file=filename(name) if name else "")
 
     def amount(value, unit):
         return f"{value:,} {unit}" + ("" if value == 1 else "s")
@@ -272,7 +277,7 @@ def _reader_files(assets, inventory, scripts, shared):
         return static_row(_text(row["task"]) if row["format"] == "zim" else link(row["href"], row["task"]), detail, row["path"])
 
     static = [render(markup["static_urgent"], rows="".join(urgent(row) for row in tasks))]
-    tiles, shelves = [], []
+    shelves, catalog_groups = [], []
     for category in config["categories"]:
         identity = category["id"]
         members = [row for row in documents if meta[row["id"]]["category"] == identity]
@@ -283,22 +288,21 @@ def _reader_files(assets, inventory, scripts, shared):
         pages[f"INDEX/c-{identity}.js"] = _script("OWLReaderData", identity, grouped)
         if not grouped:
             continue
+        catalog_groups.append((identity, category["name"], sorted(members, key=_order)))
         count = amount(len(grouped), category["unit"])
-        if category.get("icon"):
-            tiles.append(render(markup["static_tile"], id=identity, icon=_text(category["icon"]),
-                                name=_text(category["name"]), count=count))
+        icon = render(markup["static_icon"], icon=_text(category["icon"])) if category.get("icon") else ""
         rows = []
         for row in grouped:
             chapters = render(markup["static_chapters"], items="".join(
                 render(markup["static_chapter"], title=link(chapter["href"], chapter["title"]),
-                       name=_text(chapter["path"].rsplit("/", 1)[-1])) for chapter in row["chapters"])) if row.get("chapters") else ""
+                       file=filename(chapter["path"])) for chapter in row["chapters"])) if row.get("chapters") else ""
             title = _text(row["title"]) if row.get("chapters") or row.get("format") == "zim" else link(row["href"], row["title"])
             rows.append(static_row(title, "" if row["kind"] == "PDF" else row["kind"], row["path"], chapters))
-        shelves.append(render(markup["static_section"], id=identity, name=_text(category["name"]), count=count,
+        shelves.append(render(markup["static_section"], id=identity, icon=icon, name=_text(category["name"]), count=count,
                               blurb=_text(category["blurb"]), rows="".join(rows)))
-    if tiles:
-        static.append(render(markup["static_tiles"], tiles="".join(tiles)))
-    static.extend(shelves)
+    pages[PHONE_CATALOG] = phone_catalog(catalog_groups, drive)
+    if shelves:
+        static.append(render(markup["static_shelves"], shelves="".join(shelves)))
     if any(row["format"] == "zim" for row in documents):
         devices = []
         for device in _DEVICES:
@@ -358,8 +362,11 @@ def _reader_files(assets, inventory, scripts, shared):
 
 
 def generate_navigation(target: Path, assets: list[dict], inventory: dict, search_report: dict, *,
-                        write: bool = True, search_outputs=None):
-    """Return library-relative reader files, or publish them to the drive."""
+                        write: bool = True, search_outputs=None, drive=None):
+    """Return library-relative reader files, or publish them to the drive.
+
+    drive: the library root as an iPhone names it (see phone_catalog.phone_drive); None links titles to Files.
+    """
     from .search_shards import output_bytes
 
     search_files = search_report.get("file_integrity") or {}
@@ -381,10 +388,11 @@ def generate_navigation(target: Path, assets: list[dict], inventory: dict, searc
             alias = f"SEARCH/shared/{pin['sha256']}.js"
             shared[path] = alias
             objects[alias] = raw.decode("utf-8")
-    pages = {**objects, **_reader_files([asset for asset in assets if is_document(asset)], inventory, scripts, shared)}
+    pages = {**objects, **_reader_files([asset for asset in assets if is_document(asset)], inventory, scripts, shared,
+                                        drive)}
     if not write:
         return pages
     for relative, content in pages.items():
         destination = managed_path(target, relative)
-        atomic_write(destination, content.encode("utf-8"))
+        atomic_write(destination, output_bytes(content))
     return list(pages)

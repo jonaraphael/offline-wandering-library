@@ -244,7 +244,9 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
           extra_catalogs=(),
           allow_incomplete: bool = False, navigation_dir: Path | None = None,
           strict_coverage: bool = False, progress=print) -> dict:
+    from .search_shards import output_size
     from .navigation import GENERATED_PATHS, generate_navigation
+    from .phone_catalog import phone_drive, saved_phone_drive
     from .discovery import plan_discovery
 
     _event(progress, phase="preflight")
@@ -785,10 +787,12 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
         atlas_pages, atlas_report = plan_atlas(target, readable_assets, navigation, state,
                                               strict_coverage=strict_coverage and not failures)
         inventory["navigation"] = atlas_report
-        navigation_pages = generate_navigation(target, readable_assets, inventory, search_report, write=False)
+        iphone = phone_drive(target.parent, saved_phone_drive(target))
+        navigation_pages = generate_navigation(target, readable_assets, inventory, search_report, write=False,
+                                               drive=iphone and iphone["path"])
         navigation_pages.update(atlas_pages)
         validate_links(target, {**dict.fromkeys(CORE_OUTPUTS, ""), **phone_pages, **navigation_pages}, inventory_assets)
-        check_space(target, sum(len(text.encode("utf-8")) for text in navigation_pages.values())
+        check_space(target, sum(output_size(value) for value in navigation_pages.values())
                     + phone_bytes + profile["reserve_bytes"])
         nav_files = {**phone_pages, **navigation_pages}
         register_outputs(target, nav_files, state)
@@ -833,6 +837,8 @@ def build(target: Path, *, catalog: Path, profiles_dir: Path, profile_name: str,
                 "support_complete": not support_missing, "support_missing": support_missing,
                 "reader": True, "search": search_report, "navigation": atlas_report, "complete": not failures,
                 "integrity_note": "SHA-256 detects damage, not publisher identity. Save SHA256SUMS.txt separately."}
+        if iphone:
+            info["iphone_drive"] = iphone
         atomic_write(safe_path(target, "BUILD_INFO.json"), _json(info))
         # Preserve checksum coverage of previous owned search generations. A
         # changed selection never silently prunes files from an existing drive.
